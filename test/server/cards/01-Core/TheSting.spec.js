@@ -16,7 +16,7 @@ describe('The Sting', function() {
             });
 
             it('should skip the controllers key phase', function() {
-                this.player1.clickPrompt('Done');
+                this.player1.endTurn();
                 expect(this.player2.amber).toBe(6);
                 expect(this.player2.player.keys).toBe(0);
             });
@@ -30,7 +30,7 @@ describe('The Sting', function() {
             });
 
             it('should sacrifice when used', function() {
-                this.player1.clickPrompt('Done');
+                this.player1.endTurn();
                 this.player2.clickPrompt('shadows');
                 this.player2.clickCard(this.theSting);
                 expect(this.player2).toHavePrompt('The Sting');

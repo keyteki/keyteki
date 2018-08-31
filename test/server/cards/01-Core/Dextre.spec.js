@@ -22,7 +22,7 @@ describe('Dextre', function() {
             });
 
             it('should move to the top of the deck when it is destroyed', function() {
-                this.player1.clickPrompt('Done');
+                this.player1.endTurn();
                 this.player2.clickPrompt('brobnar');
                 this.player2.play(this.punch);
                 this.player2.clickCard(this.dextre);

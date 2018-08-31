@@ -121,9 +121,9 @@ global.integration = function(definitions) {
                 if(options.phase !== 'setup') {
                     // Choose a house
                     this.player1.clickPrompt(this.player1.currentButtons[0]);
-                    this.player1.clickPrompt('Done');
+                    this.player1.endTurn();
                     this.player2.clickPrompt(this.player2.currentButtons[0]);
-                    this.player2.clickPrompt('Done');
+                    this.player2.endTurn();
                     if(options.player1.house) {
                         this.player1.clickPrompt(options.player1.house);
                     }

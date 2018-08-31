@@ -140,7 +140,7 @@ class Player extends GameObject {
             this.moveCard(card, 'hand');
         }
 
-        if(remainingCards > 0) {
+        if(remainingCards > 0 && this.discard.length > 0) {
             this.deckRanOutOfCards();
             this.game.queueSimpleStep(() => this.drawCardsToHand(remainingCards));
         }

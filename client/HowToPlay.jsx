@@ -55,6 +55,10 @@ class HowToPlay extends React.Component {
                         <li>/cancel-prompt - Clear the current prompt and resume the game flow.  Use with caution and only when the prompt is 'stuck' and you are unable to continue</li>
                         <li>/discard x - Discards x cards randomly from your hand</li>
                         <li>/draw x - Draws x cards from your deck to your hand</li>
+                        <li>/forge - Forge a key</li>
+                        <li>/unforge - Unforge a key</li>
+                        <li>/active-house x - Change your active house to x</li>
+                        <li>/token x y - Choose a card and change the number of tokens of type x to y</li>
                         <li>/give-control - Give control of a card to your opponent.  Use with caution</li>
                         <li>/manual - Activate or deactivate manual mode (see above).</li>
                     </ul>

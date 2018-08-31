@@ -7,7 +7,7 @@ class ActionWindow extends UiPrompt {
 
     activePrompt() {
         let buttons = [
-            { text: 'Done', arg: 'done' }
+            { text: 'End Turn', arg: 'done' }
         ];
         /*
         if(this.game.manualMode) {
@@ -29,7 +29,7 @@ class ActionWindow extends UiPrompt {
         if(choice === 'manual') {
             this.game.promptForSelect(this.game.activePlayer, {
                 source: 'Manual Action',
-                activePrompt: 'Which ability are you using?',
+                activePromptTitle: 'Which ability are you using?',
                 location: 'any',
                 controller: 'self',
                 cardCondition: card => !card.facedown,
@@ -42,7 +42,20 @@ class ActionWindow extends UiPrompt {
         }
 
         if(choice === 'done') {
-            this.complete();
+            let cards = player.cardsInPlay.concat(player.hand);
+            if(cards.some(card => card.getLegalActions(player).length > 0)) {
+                this.game.promptWithHandlerMenu(player, {
+                    source: 'End Turn',
+                    activePromptTitle: 'Are you sure you want to end your turn?',
+                    choices: ['Yes', 'No'],
+                    handlers: [
+                        () => this.complete(),
+                        () => true
+                    ]
+                });
+            } else {
+                this.complete();
+            }
             return true;
         }
     }

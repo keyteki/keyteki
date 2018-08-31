@@ -31,9 +31,9 @@ describe('Soft Landing', function() {
             });
             */
             it('should not carry over to the following turn', function() {
-                this.player1.clickPrompt('Done');
+                this.player1.endTurn();
                 this.player2.clickPrompt('brobnar');
-                this.player2.clickPrompt('Done');
+                this.player2.endTurn();
                 this.player1.clickPrompt('mars');
                 this.player1.play(this.mindwarper);
                 expect(this.mindwarper.exhausted).toBe(true);

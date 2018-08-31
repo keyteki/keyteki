@@ -6,7 +6,7 @@ class CrazyKillingMachine extends Card {
             effect: 'discard the top card of each player\'s deck: {1}',
             effectArgs: () => [this.game.getPlayers().map(player => player.deck[0])],
             gameAction: ability.actions.discard(() => ({
-                target: this.game.getPlayers().map(player => player.deck[0]),
+                target: this.game.getPlayers().map(player => player.deck[0]).filter(card => !!card),
                 postHandler: (context, action) => {
                     let destroyThis = action.target.length < 2;
 

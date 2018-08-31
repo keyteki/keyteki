@@ -23,7 +23,7 @@ describe('Control the Weak', function() {
                 expect(this.player1).toHavePromptButton('logos');
                 expect(this.player1).toHavePromptButton('brobnar');
                 this.player1.clickPrompt('logos');
-                this.player1.clickPrompt('Done');
+                this.player1.endTurn();
                 expect(this.player2).toHavePrompt('House Choice');
                 expect(this.player2).not.toHavePromptButton('dis');
                 expect(this.player2).toHavePromptButton('logos');
@@ -37,7 +37,7 @@ describe('Control the Weak', function() {
                 expect(this.player1).toHavePromptButton('logos');
                 expect(this.player1).toHavePromptButton('brobnar');
                 this.player1.clickPrompt('logos');
-                this.player1.clickPrompt('Done');
+                this.player1.endTurn();
                 expect(this.player2).toHavePrompt('House Choice');
                 expect(this.player2).toHavePromptButton('dis');
                 expect(this.player2).toHavePromptButton('logos');

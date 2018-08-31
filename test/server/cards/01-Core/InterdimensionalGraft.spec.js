@@ -18,7 +18,7 @@ describe('Interdimensional Graft', function() {
 
             it('should trigger on forging a key in the key phase', function() {
                 this.player2.amber = 9;
-                this.player1.clickPrompt('Done');
+                this.player1.endTurn();
                 expect(this.player2.player.keys).toBe(1);
                 expect(this.player2.amber).toBe(0);
                 expect(this.player1.amber).toBe(4);
@@ -26,7 +26,7 @@ describe('Interdimensional Graft', function() {
 
             it('should trigger on forging a key using a card ability', function() {
                 expect(this.player1.amber).toBe(1);
-                this.player1.clickPrompt('Done');
+                this.player1.endTurn();
                 expect(this.player2.player.keys).toBe(0);
                 expect(this.player2.amber).toBe(5);
                 this.player2.clickPrompt('untamed');
@@ -44,13 +44,13 @@ describe('Interdimensional Graft', function() {
             });
 
             it('should not trigger on subsequent turns', function() {
-                this.player1.clickPrompt('Done');
+                this.player1.endTurn();
                 this.player2.clickPrompt('untamed');
                 this.player2.play(this.dustPixie);
                 expect(this.player2.amber).toBe(7);
-                this.player2.clickPrompt('Done');
+                this.player2.endTurn();
                 this.player1.clickPrompt('logos');
-                this.player1.clickPrompt('Done');
+                this.player1.endTurn();
                 expect(this.player2.player.keys).toBe(1);
                 expect(this.player1.amber).toBe(1);
                 expect(this.player1.amber).toBe(1);

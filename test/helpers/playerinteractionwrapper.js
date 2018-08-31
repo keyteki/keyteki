@@ -286,6 +286,16 @@ class PlayerInteractionWrapper {
         this.checkUnserializableGameState();
     }
 
+    endTurn() {
+        if(this.currentPrompt().menuTitle !== 'Choose a card to play, discard or use') {
+            throw new Error('Cannot end turn now');
+        }
+        this.clickPrompt('End Turn');
+        if(this.currentPrompt().menuTitle === 'Are you sure you want to end your turn?') {
+            this.clickPrompt('Yes');
+        }
+    }
+
     dragCard(card, targetLocation) {
         this.game.drop(this.player.name, card.uuid, card.location, targetLocation);
         this.game.continue();

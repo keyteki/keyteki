@@ -22,7 +22,7 @@ describe('Brain Eater', function() {
             });
 
             it('should draw a card when it is attacked and the attacker is destroyed', function() {
-                this.player1.clickPrompt('Done');
+                this.player1.endTurn();
                 this.player2.clickPrompt('logos');
                 let handSize = this.player1.hand.length;
                 this.player2.fightWith(this.docBookton, this.brainEater);

@@ -64,9 +64,9 @@ describe('Sample Collection', function() {
                 this.player1.play(this.sampleCollection);
                 this.player1.clickCard(this.troll);
                 this.player1.clickCard(this.bumpsy);
-                this.player1.clickPrompt('Done');
+                this.player1.endTurn();
                 this.player2.clickPrompt('brobnar');
-                this.player2.clickPrompt('Done');
+                this.player2.endTurn();
                 this.player1.clickPrompt('logos');
                 expect(this.player1).toHavePrompt('Access Archives');
                 this.player1.clickPrompt('Yes');

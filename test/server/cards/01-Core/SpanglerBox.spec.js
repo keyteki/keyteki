@@ -32,7 +32,7 @@ describe('Spangler Box', function() {
                 this.player1.clickCard(this.spanglerBox);
                 this.player1.clickPrompt('Use this card\'s Action ability');
                 this.player1.clickCard(this.silvertooth);
-                this.player1.clickPrompt('Done');
+                this.player1.endTurn();
                 expect(this.player2).toHavePromptButton('logos');
                 this.player2.clickPrompt('logos');
                 this.spanglerBox.ready();
@@ -79,7 +79,7 @@ describe('Spangler Box', function() {
                 this.player1.play(this.remoteAccess);
                 this.player1.clickCard(this.spanglerBox);
                 this.player1.clickCard(this.stealerOfSouls);
-                this.player1.clickPrompt('Done');
+                this.player1.endTurn();
                 expect(this.player2).toHavePromptButton('logos');
                 this.player2.clickPrompt('logos');
                 this.player2.clickCard(this.gormOfOmm);

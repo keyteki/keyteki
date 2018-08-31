@@ -36,7 +36,7 @@ describe('Loot the Bodies', function() {
             it('should not gain an amber for creatures killed on subsequent turns', function() {
                 this.player1.play(this.lootTheBodies);
                 expect(this.player1.amber).toBe(0);
-                this.player1.clickPrompt('Done');
+                this.player1.endTurn();
                 this.player2.clickPrompt('untamed');
                 this.player2.fightWith(this.inkaTheSpider, this.troll);
                 expect(this.player1.amber).toBe(0);

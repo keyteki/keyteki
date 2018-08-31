@@ -15,7 +15,7 @@ describe('key phase', function() {
 
         it('should forge a key at normal cost', function() {
             this.player1.clickPrompt('logos');
-            this.player1.clickPrompt('Done');
+            this.player1.endTurn();
             expect(this.player2.player.keys).toBe(1);
             expect(this.player2.amber).toBe(3);
         });
@@ -25,7 +25,7 @@ describe('key phase', function() {
             this.titanMechanic = this.player1.clickCard('titan-mechanic');
             this.player1.clickPrompt('Play this creature');
             expect(this.titanMechanic.location).toBe('play area');
-            this.player1.clickPrompt('Done');
+            this.player1.endTurn();
             expect(this.player2.player.keys).toBe(1);
             expect(this.player2.amber).toBe(4);
         });

@@ -156,10 +156,10 @@ describe('keywords', function() {
             });
 
             it('Elusive should work with Hazardous', function() {
-                this.player1.clickPrompt('Done');
+                this.player1.endTurn();
                 this.player2.clickPrompt('dis');
                 this.player2.playUpgrade(this.flameWreathed, this.urchin);
-                this.player2.clickPrompt('Done');
+                this.player2.endTurn();
                 this.player1.clickPrompt('untamed');
                 this.player1.fightWith(this.inkaTheSpider, this.urchin);
                 expect(this.inkaTheSpider.location).toBe('discard');

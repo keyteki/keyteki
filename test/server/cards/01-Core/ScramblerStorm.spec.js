@@ -15,7 +15,7 @@ describe('Scrambler Storm', function() {
 
             it('should stop the opponent playing actions, but let them play other cards', function() {
                 this.player1.play(this.scramblerStorm);
-                this.player1.clickPrompt('Done');
+                this.player1.endTurn();
                 this.player2.clickPrompt('sanctum');
                 expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
                 this.player2.clickCard(this.virtuousWorks);

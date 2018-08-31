@@ -42,6 +42,7 @@ class Card extends EffectSource {
 
         this.upgrades = [];
         this.parent = null;
+        this.childCards = [];
 
         this.printedPower = cardData.power;
         this.printedArmor = cardData.armor;
@@ -299,7 +300,7 @@ class Card extends EffectSource {
 
         this.location = targetLocation;
 
-        if(['play area', 'discard', 'hand'].includes(targetLocation)) {
+        if(['play area', 'discard', 'hand', 'purged'].includes(targetLocation)) {
             this.facedown = false;
         }
         if(originalLocation !== targetLocation) {
@@ -459,13 +460,8 @@ class Card extends EffectSource {
     }
 
     use(player, ignoreHouse = false) {
-        let actions = this.getActions();
+        let legalActions = this.getLegalActions(player, ignoreHouse);
 
-        let legalActions = actions.filter(action => {
-            let context = action.createContext(player);
-            context.ignoreHouse = ignoreHouse;
-            return !action.meetsRequirements(context);
-        });
         if(legalActions.length === 0) {
             return false;
         } else if(legalActions.length === 1) {
@@ -477,6 +473,7 @@ class Card extends EffectSource {
                 return true;
             }
         }
+
         let choices = legalActions.map(action => action.title);
         let handlers = legalActions.map(action => () => {
             let context = action.createContext(player);
@@ -487,13 +484,24 @@ class Card extends EffectSource {
             choices = choices.concat('Cancel');
             handlers = handlers.concat(() => true);
         }
+
         this.game.promptWithHandlerMenu(player, {
             activePromptTitle: (this.location === 'play area' ? 'Choose an ability:' : 'Play ' + this.name + ':'),
             source: this,
             choices: choices,
             handlers: handlers
         });
+
         return true;
+    }
+
+    getLegalActions(player, ignoreHouse = false) {
+        let actions = this.getActions();
+        return actions.filter(action => {
+            let context = action.createContext(player);
+            context.ignoreHouse = ignoreHouse;
+            return !action.meetsRequirements(context);
+        });
     }
 
     getActions(location = this.location) {
@@ -575,6 +583,7 @@ class Card extends EffectSource {
         let state = {
             id: this.cardData.id,
             cardback: this.owner.deckData.cardback,
+            childCards: this.childCards,
             controlled: this.owner !== this.controller,
             exhausted: this.exhausted,
             facedown: this.facedown,

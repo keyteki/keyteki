@@ -25,9 +25,9 @@ describe('Magda the Rat', function() {
                 this.player1.play(this.magdaTheRat);
                 expect(this.player2.amber).toBe(1);
                 expect(this.player1.amber).toBe(2);
-                this.player1.clickPrompt('Done');
+                this.player1.endTurn();
                 this.player2.clickPrompt('brobnar');
-                this.player2.clickPrompt('Done');
+                this.player2.endTurn();
                 this.player1.clickPrompt('shadows');
                 this.player1.fightWith(this.magdaTheRat, this.troll);
                 expect(this.magdaTheRat.location).toBe('discard');
@@ -39,7 +39,7 @@ describe('Magda the Rat', function() {
                 this.player1.play(this.magdaTheRat);
                 expect(this.player2.amber).toBe(1);
                 expect(this.player1.amber).toBe(2);
-                this.player1.clickPrompt('Done');
+                this.player1.endTurn();
                 this.player2.clickPrompt('brobnar');
                 this.player2.fightWith(this.bumpsy, this.magdaTheRat);
                 this.player2.fightWith(this.troll, this.magdaTheRat);

@@ -27,7 +27,7 @@ describe('Gabos Longarms', function() {
             });
 
             it('should not trigger when he is attacked', function() {
-                this.player1.clickPrompt('Done');
+                this.player1.endTurn();
                 this.player2.clickPrompt('sanctum');
                 this.player2.fightWith(this.championAnaphiel, this.gabosLongarms);
                 expect(this.gabosLongarms.location).toBe('discard');

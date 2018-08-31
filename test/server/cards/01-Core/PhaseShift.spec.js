@@ -35,9 +35,9 @@ describe('Phase Shift', function() {
             });
 
             it('should not carry over to the following turn', function() {
-                this.player1.clickPrompt('Done');
+                this.player1.endTurn();
                 this.player2.clickPrompt('logos');
-                this.player2.clickPrompt('Done');
+                this.player2.endTurn();
                 this.player1.clickPrompt('logos');
                 this.player1.clickCard(this.virtuousWorks);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');

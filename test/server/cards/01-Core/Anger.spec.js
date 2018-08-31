@@ -42,10 +42,10 @@ describe('Anger', function() {
             });
 
             it('should ready a target when it cannot fight', function() {
-                this.player1.clickPrompt('Done');
+                this.player1.endTurn();
                 this.player2.clickPrompt('logos');
                 this.player2.play(this.foggify);
-                this.player2.clickPrompt('Done');
+                this.player2.endTurn();
                 this.player1.clickPrompt('brobnar');
                 expect(this.player1.amber).toBe(0);
                 this.player1.reap(this.troll);

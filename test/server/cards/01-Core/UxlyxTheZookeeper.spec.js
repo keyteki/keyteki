@@ -37,9 +37,9 @@ describe('Uxlyx the Zookeeper', function() {
             it('should return creatures to their owner\'s hand', function() {
                 this.player1.reap(this.uxlyxTheZookeeper);
                 this.player1.clickCard(this.batdrone);
-                this.player1.clickPrompt('Done');
+                this.player1.endTurn();
                 this.player2.clickPrompt('logos');
-                this.player2.clickPrompt('Done');
+                this.player2.endTurn();
                 this.player1.clickPrompt('mars');
                 expect(this.player1).toHavePrompt('Access Archives');
                 this.player1.clickPrompt('Yes');

@@ -54,6 +54,7 @@ class GameAction {
         } else {
             this.target = [target];
         }
+        this.target = this.target.filter(target => !!target);
     }
 
     hasLegalTarget(context) {

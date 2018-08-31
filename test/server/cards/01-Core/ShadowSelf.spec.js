@@ -20,7 +20,7 @@ describe('Shadow Self', function() {
                 this.player1.fightWith(this.shadowSelf1, this.silvertooth);
                 expect(this.shadowSelf1.tokens.damage).toBe(2);
                 expect(this.silvertooth.hasToken('damage')).toBe(false);
-                this.player1.clickPrompt('Done');
+                this.player1.endTurn();
                 this.player2.clickPrompt('shadows');
                 this.player2.fightWith(this.silvertooth, this.shadowSelf1);
                 expect(this.shadowSelf1.tokens.damage).toBe(4);
@@ -36,7 +36,7 @@ describe('Shadow Self', function() {
             });
 
             it('should not take damage when an elusive neighboring creature is attacked', function() {
-                this.player1.clickPrompt('Done');
+                this.player1.endTurn();
                 this.player2.clickPrompt('shadows');
                 this.player2.fightWith(this.silvertooth, this.elusive);
                 expect(this.silvertooth.hasToken('damage')).toBe(false);

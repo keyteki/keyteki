@@ -51,7 +51,7 @@ describe('Ether Spider', function() {
             });
 
             it('should deal no damage when fighting', function() {
-                this.player1.clickPrompt('Done');
+                this.player1.endTurn();
                 this.player2.clickPrompt('mars');
                 this.player2.fightWith(this.etherSpider, this.sequis);
                 expect(this.sequis.hasToken('damage')).toBe(false);

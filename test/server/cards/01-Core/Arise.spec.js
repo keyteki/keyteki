@@ -41,7 +41,7 @@ describe('Arise!', function() {
                 expect(this.pitlord.location).toBe('discard');
                 expect(this.ancientBear.location).toBe('hand');
                 expect(this.player1.player.chains).toBe(1);
-                this.player1.clickPrompt('Done');
+                this.player1.endTurn();
                 expect(this.player1.hand.length).toBe(5);
                 expect(this.player1.player.chains).toBe(0);
             });

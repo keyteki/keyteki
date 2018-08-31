@@ -16,7 +16,7 @@ describe('Iron Obelisk', function() {
             });
 
             it('shouldn\'t affect key cost when no creatures are damaged', function() {
-                this.player1.clickPrompt('Done');
+                this.player1.endTurn();
                 expect(this.player2.amber).toBe(3);
                 expect(this.player2.player.keys).toBe(1);
             });
@@ -27,7 +27,7 @@ describe('Iron Obelisk', function() {
                 this.player1.clickCard(this.gangerChieftain);
                 expect(this.sequis.hasToken('damage')).toBe(true);
                 expect(this.gangerChieftain.hasToken('damage')).toBe(true);
-                this.player1.clickPrompt('Done');
+                this.player1.endTurn();
                 expect(this.player2.amber).toBe(3);
                 expect(this.player2.player.keys).toBe(1);
             });
@@ -35,7 +35,7 @@ describe('Iron Obelisk', function() {
             it('should reduce key cost by one if there is a single damaged friendly brobnar creature', function() {
                 this.player1.fightWith(this.valdr, this.dextre);
                 expect(this.valdr.hasToken('damage')).toBe(true);
-                this.player1.clickPrompt('Done');
+                this.player1.endTurn();
                 expect(this.player2.amber).toBe(2);
                 expect(this.player2.player.keys).toBe(1);
             });
@@ -50,7 +50,7 @@ describe('Iron Obelisk', function() {
                 this.player1.clickCard(this.hebeTheHuge);
                 this.player1.clickCard(this.docBookton);
                 expect(this.hebeTheHuge.hasToken('damage')).toBe(true);
-                this.player1.clickPrompt('Done');
+                this.player1.endTurn();
                 expect(this.player2.amber).toBe(9);
                 expect(this.player2.player.keys).toBe(0);
             });

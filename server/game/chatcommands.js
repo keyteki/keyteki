@@ -9,6 +9,9 @@ class ChatCommands {
             '/discard': this.discard,
             '/cancel-prompt': this.cancelPrompt,
             '/token': this.setToken,
+            '/forge': this.forge,
+            '/unforge': this.unforge,
+            '/active-house': this.activeHouse,
             '/stop-clocks': this.stopClocks,
             '/start-clocks': this.startClocks,
             '/modify-clock': this.modifyClock,
@@ -16,7 +19,20 @@ class ChatCommands {
             '/manual': this.manual
         };
         this.tokens = [
-            'fate'
+            'amber',
+            'damage',
+            'power',
+            'stun'
+        ];
+        this.houses = [
+            'brobnar',
+            'dis',
+            'logos',
+            'mars',
+            'sanctum',
+            'shadows',
+            'untamed',
+            'none'
         ];
     }
 
@@ -26,6 +42,32 @@ class ChatCommands {
         }
 
         return this.commands[command].call(this, player, args) !== false;
+    }
+
+    forge(player) {
+        this.game.addMessage('{0} uses the /forge command to forge a key', player);
+        player.keys += 1;
+    }
+
+    unforge(player) {
+        if(player.keys === 0) {
+            return;
+        }
+        this.game.addMessage('{0} uses the /unforge command to unforge a key', player);
+        player.keys -= 1;
+    }
+
+    activeHouse(player, args) {
+        let house = args[1];
+        if(!house) {
+            return;
+        } else if(!player.activeHouse) {
+            this.game.addMessage('{0} attempted to change their active house with /active-house, but they cannot have an active house currently', player, house);
+        } else if(!this.houses.includes(house.toLowerCase())) {
+            this.game.addMessage('{0} attempted to change their active house with /active-house, but {1} is not a valid house', player, house);
+        } else {
+            player.activeHouse = house.toLowerCase();
+        }
     }
 
     startClocks(player) {
@@ -50,90 +92,6 @@ class ChatCommands {
         this.game.addMessage('{0} uses the /draw command to draw {1} cards to their hand', player, num);
 
         player.drawCardsToHand(num);
-    }
-
-    claimFavor(player, args) {
-        let type = args[1] || 'military';
-        this.game.addMessage('{0} uses /claim-favor to claim the emperor\'s {1} favor', player, type);
-        player.claimImperialFavor(type);
-        let otherPlayer = this.game.getOtherPlayer(player);
-        if(otherPlayer) {
-            otherPlayer.loseImperialFavor();
-        }
-    }
-
-    honor(player) {
-        this.game.promptForSelect(player, {
-            activePromptTitle: 'Select a card to honor',
-            waitingPromptTitle: 'Waiting for opponent to honor',
-            cardCondition: card => card.location === 'play area' && card.controller === player,
-            onSelect: (p, card) => {
-                //honor card
-                card.honor();
-
-                this.game.addMessage('{0} uses the /honor command to honor {1}', p, card);
-                return true;
-            }
-        });
-    }
-
-    dishonor(player) {
-        this.game.promptForSelect(player, {
-            activePromptTitle: 'Select a card to dishonor',
-            waitingPromptTitle: 'Waiting for opponent to dishonor',
-            cardCondition: card => card.location === 'play area' && card.controller === player,
-            onSelect: (p, card) => {
-                //dishonor card
-                card.dishonor();
-
-                this.game.addMessage('{0} uses the /dishonor command to dishonor {1}', p, card);
-                return true;
-            }
-        });
-    }
-
-    moveToConflict(player) {
-        if(this.game.currentConflict) {
-            this.game.promptForSelect(player, {
-                activePromptTitle: 'Select cards to move into the conflict',
-                waitingPromptTitle: 'Waiting for opponent to choose cards to move',
-                cardCondition: card => card.location === 'play area' && card.controller === player && !card.inConflict,
-                cardType: 'character',
-                numCards: 0,
-                multiSelect: true,
-                onSelect: (p, cards) => {
-                    if(p.isAttackingPlayer()) {
-                        this.game.currentConflict.addAttackers(cards);
-                    } else {
-                        this.game.currentConflict.addDefenders(cards);
-                    }
-                    this.game.addMessage('{0} uses the /move-to-conflict command', p);
-                    return true;
-                }
-            });
-        } else {
-            this.game.addMessage('/move-to-conflict can only be used during a conflict');
-        }
-    }
-
-    sendHome(player) {
-        if(this.game.currentConflict) {
-            this.game.promptForSelect(player, {
-                activePromptTitle: 'Select a card to send home',
-                waitingPromptTitle: 'Waiting for opponent to send home',
-                cardCondition: card => card.location === 'play area' && card.controller === player && card.inConflict,
-                cardType: 'character',
-                onSelect: (p, card) => {
-                    //send home card
-                    this.game.currentConflict.removeFromConflict(card);
-
-                    this.game.addMessage('{0} uses the /send-home command to send {1} home', p, card);
-                    return true;
-                }
-            });
-        } else {
-            this.game.addMessage('/move-to-conflict can only be used during a conflict');
-        }
     }
 
     discard(player, args) {
@@ -185,127 +143,6 @@ class ChatCommands {
         });
     }
 
-    addFate(player, args) {
-        var num = this.getNumberOrDefault(args[1], 1);
-
-        this.game.promptForSelect(player, {
-            activePromptTitle: 'Select a card',
-            waitingPromptTitle: 'Waiting for opponent to set fate',
-            cardCondition: card => (card.location === 'play area') && card.controller === player,
-            onSelect: (p, card) => {
-
-                card.modifyFate(num);
-                this.game.addMessage('{0} uses the /add-fate command to set the fate count of {1} to {2}', p, card, card.getFate());
-
-                return true;
-            }
-        });
-    }
-
-    remFate(player, args) {
-        var num = this.getNumberOrDefault(args[1], 1);
-
-        this.game.promptForSelect(player, {
-            activePromptTitle: 'Select a card',
-            waitingPromptTitle: 'Waiting for opponent to set fate',
-            cardCondition: card => (card.location === 'play area') && card.controller === player,
-            onSelect: (p, card) => {
-
-                card.modifyFate(-num);
-                this.game.addMessage('{0} uses the /rem-fate command to set the fate count of {1} to {2}', p, card, card.getFate());
-
-                return true;
-            }
-        });
-    }
-
-    addRingFate(player, args) {
-        let ringElement = (args[1]);
-        let num = this.getNumberOrDefault(args[2], 1);
-
-        if(_.contains(['air','earth','fire','void','water'], ringElement)) {
-            let ring = this.game.rings[ringElement];
-
-            ring.modifyFate(num);
-            this.game.addMessage('{0} uses the /add-fate-ring command to set the fate count of the ring of {1} to {2}', player, ringElement, ring.getFate());
-        } else {
-            this.game.promptForRingSelect(player, {
-                onSelect: (player, ring) => {
-                    ring.modifyFate(num);
-                    this.game.addMessage('{0} uses the /add-fate-ring command to set the fate count of the ring of {1} to {2}', player, ring.element, ring.getFate());
-                    return true;
-                }
-            });
-        }
-
-        return true;
-    }
-
-    remRingFate(player, args) {
-        let ringElement = (args[1]);
-        let num = this.getNumberOrDefault(args[2], 1);
-
-        if(_.contains(['air','earth','fire','void','water'], ringElement)) {
-            let ring = this.game.rings[ringElement];
-
-            ring.modifyFate(-num);
-            this.game.addMessage('{0} uses the /rem-fate-ring command to set the fate count of the ring of {1} to {2}', player, ringElement, ring.getFate());
-        } else {
-            this.game.promptForRingSelect(player, {
-                onSelect: (player, ring) => {
-                    ring.modifyFate(-num);
-                    this.game.addMessage('{0} uses the /rem-fate-ring command to set the fate count of the ring of {1} to {2}', player, ring.element, ring.getFate());
-                    return true;
-                }
-            });
-        }
-
-        return true;
-    }
-
-    claimRing(player, args) {
-        let ringElement = (args[1]);
-
-        if(_.contains(['air','earth','fire','void','water'], ringElement)) {
-            let ring = this.game.rings[ringElement];
-
-            ring.claimRing(player);
-            this.game.addMessage('{0} uses the /claim-ring command to claim the ring of {1}', player, ringElement);
-        } else {
-            this.game.promptForRingSelect(player, {
-                onSelect: (player, ring) => {
-                    ring.claimRing(player);
-                    this.game.addMessage('{0} uses the /claim-ring command to claim the ring of {1}', player, ring.element);
-                    return true;
-                }
-            });
-        }
-
-        return true;
-    }
-
-    unclaimRing(player, args) {
-        let ringElement = (args[1]);
-
-        if(_.contains(['air','earth','fire','void','water'], ringElement)) {
-            let ring = this.game.rings[ringElement];
-
-            ring.resetRing();
-            this.game.addMessage('{0} uses the /unclaim-ring command to set the ring of {1} as unclaimed', player, ringElement);
-        } else {
-            this.game.promptForRingSelect(player, {
-                ringCondition: ring => ring.claimed,
-                onSelect: (player, ring) => {
-                    ring.resetRing();
-                    this.game.addMessage('{0} uses the /unclaim-ring command to set the ring of {1} as unclaimed', player, ring.element);
-                    return true;
-                }
-            });
-        }
-
-        return true;
-    }
-
     disconnectMe(player) {
         player.socket.disconnect();
     }
@@ -332,16 +169,6 @@ class ChatCommands {
         }
 
         return num;
-    }
-
-    isValidIcon(icon) {
-        if(!icon) {
-            return false;
-        }
-
-        var lowerIcon = icon.toLowerCase();
-
-        return lowerIcon === 'military' || lowerIcon === 'intrigue' || lowerIcon === 'power';
     }
 
     isValidToken(token) {
