@@ -21,7 +21,6 @@ for(const card of rawData.CardData.filter(card => card.name !== '')) {
 }
 let fetchCards = cardService.replaceCards(rawData.CardData);
 //let createDeck = deckService.findByUserName('public');
-
 let createDecks = [];
 /*
 createDecks.push(deckService.create({
@@ -60,7 +59,7 @@ createDecks.push(deckService.create({
         { id: 'mushroom-man', count: 2 },
         { id: 'witch-of-the-eye', count: 1 }
     ]
-}));*/
+}));
 createDecks.push(deckService.create({
     username: 'public',
     name: 'Flaregas, Spawn of Conflascoot',
@@ -341,7 +340,7 @@ createDecks.push(deckService.create({
         { id: 'magda-the-rat', count: 1 },
         { id: 'nexus', count: 1 }
     ]
-}));
+}));*/
 
 Promise.all([fetchCards, ...createDecks])
     .then(results => {

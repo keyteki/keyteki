@@ -3,7 +3,7 @@ const Card = require('../../Card.js');
 class Mothergun extends Card {
     setupCardAbilities(ability) { // eslint-disable-line no-unused-vars
         this.action({
-            target: {
+            targets: {
                 reveal: {
                     activePromptTitle: 'Choose which cards to reveal',
                     mode: 'unlimited',
@@ -15,7 +15,7 @@ class Mothergun extends Card {
                     dependsOn: 'reveal',
                     activePromptTitle: 'Choose a creature to damage',
                     gameAction: ability.actions.dealDamage(context => ({
-                        amount: context.targets.reveal ? context.targets.reveal.length : 0
+                        amount: context.targets.reveal ? (Array.isArray(context.targets.reveal) ? context.targets.reveal.length : 1) : 0
                     }))
                 }
             },

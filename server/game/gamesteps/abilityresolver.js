@@ -59,7 +59,7 @@ class AbilityResolver extends BaseStepWithPipeline {
         if(this.cancelled) {
             return;
         }
-        this.context.ability.resolveTargets(this.context);
+        this.targetResults = this.context.ability.resolveTargets(this.context);
         /*
         this.context.stage = 'target';
 
@@ -79,6 +79,9 @@ class AbilityResolver extends BaseStepWithPipeline {
 
     initiateAbility() {
         if(this.cancelled) {
+            return;
+        } else if(this.targetResults.cancelled) {
+            this.cancelled = true;
             return;
         }
         this.context.ability.displayMessage(this.context);

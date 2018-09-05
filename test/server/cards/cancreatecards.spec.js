@@ -3,17 +3,20 @@ const _ = require('underscore');
 const cards = require('../../../server/game/cards');
 const AbilityDsl = require('../../../server/game/abilitydsl');
 
+const card = { hasHouse: () => true };
 const mockContext = {
     event: {},
     game: {
         cardsUsed: [],
         cardsPlayed: []
     },
-    target: [],
+    house: {},
+    source: card,
+    target: [card],
     targets: {
-        reveal: []
+        reveal: [card]
     },
-    player: {}
+    player: { deck: [card] }
 };
 
 describe('All Cards:', function() {

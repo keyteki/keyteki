@@ -9,6 +9,7 @@
     top: 0;
     right: 0;
     z-index: 1030;
+    pointer-events: none;
 
     .card-large {
         position: relative;
@@ -29,6 +30,7 @@
     -webkit-transition: width 1s ease, right 0.5s ease;
     transition: width 1s ease, right 0.5s ease;
     overflow: hidden;
+    pointer-events: auto;
 
     &.collapsed {
         width: 0;
@@ -57,6 +59,7 @@
     padding: 5px;
     margin: 0;
     top: 0;
+    pointer-events: auto;
 
     .btn {
         position: relative;

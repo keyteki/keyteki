@@ -107,14 +107,16 @@ class BaseAbility {
      * @returns {Boolean}
      */
     canPayCosts(context) {
-        return this.cost.every(cost => cost.canPay(context));
+        let cost = this.cost.concat(context.player.getAdditionalCosts(context));
+        return cost.every(cost => cost.canPay(context));
     }
 
     /**
      * Pays all costs for the ability simultaneously.
      */
     payCosts(context) {
-        return this.cost.map(cost => cost.payEvent(context));
+        let cost = this.cost.concat(context.player.getAdditionalCosts(context));
+        return cost.map(cost => cost.payEvent(context));
     }
 
     /**
@@ -135,8 +137,12 @@ class BaseAbility {
             payCostsFirst: false,
             delayTargeting: null
         };
-        for(let target of this.targets.filter(target => target.hasLegalTarget(context))) {
-            context.game.queueSimpleStep(() => target.resolve(context, targetResults));
+        for(let target of this.targets) {
+            context.game.queueSimpleStep(() => {
+                if(target.hasLegalTarget(context)) {
+                    target.resolve(context, targetResults);
+                }
+            });
         }
         return targetResults;
     }

@@ -7,8 +7,8 @@ class Restringuntus extends Card {
                 mode: 'house'
             },
             gameAction: ability.actions.cardLastingEffect(context => ({
-                duration: 'lasting',
-                effect: ability.actions.customDetachedCard({
+                duration: 'lastingEffect',
+                effect: ability.effects.customDetachedCard({
                     apply: card => card.lastingEffect(ability => ({
                         targetController: 'opponent',
                         effect: ability.effects.stopHouseChoice(context.house)

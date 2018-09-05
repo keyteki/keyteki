@@ -220,6 +220,8 @@ class Player extends GameObject {
     getSourceList(source) {
         if(source === 'play area') {
             return this.cardsInPlay;
+        } else if(source === 'purged') {
+            return this.purged.concat(...this.cardsInPlay.map(card => card.childCards));
         }
         return this[source];
     }
@@ -289,7 +291,6 @@ class Player extends GameObject {
      * @param {Object} options
      */
     moveCard(card, targetLocation, options = {}) {
-        this.removeCardFromPile(card);
 
         if(targetLocation.endsWith(' bottom')) {
             options.bottom = true;
@@ -300,6 +301,15 @@ class Player extends GameObject {
 
         if(!this.isLegalLocationForCard(card, targetLocation) || targetPile && targetPile.includes(card)) {
             return;
+        } else if(card.parent) {
+            if(card.parent.upgrades.includes(card)) {
+                card.parent.upgrades = card.parent.upgrades.filter(c => c !== card);
+            } else if(card.parent.childCards.includes(card)) {
+                card.parent.childCards = card.parent.childCards.filter(c => c !== card);
+            }
+            card.parent = null;
+        } else {
+            this.removeCardFromPile(card);
         }
 
         let location = card.location;
@@ -310,8 +320,6 @@ class Player extends GameObject {
                 return;
             }
 
-            // In normal play, all attachments should already have been removed, but in manual play we may need to remove them.
-            // This is also used by Back-Alley Hideaway when it is sacrificed. This won't trigger any leaves play effects
             for(let upgrade of card.upgrades) {
                 upgrade.onLeavesPlay();
                 upgrade.owner.moveCard(upgrade, 'discard');
@@ -429,8 +437,9 @@ class Player extends GameObject {
             return houses;
         }, this.houses);
         if(this.anyEffect('restrictHouseChoice')) {
-            return [].concat(...this.getEffects('restrictHouseChoice'));
+            availableHouses = [].concat(...this.getEffects('restrictHouseChoice'));
         }
+        availableHouses = _.difference(availableHouses, this.getEffects('stopHouseChoice'));
         return availableHouses;
     }
 
@@ -453,6 +462,10 @@ class Player extends GameObject {
             this.mostRecentEffect('forgeAmberRecipient').modifyAmber(cost);
         }
         this.keys += 1;
+    }
+
+    getAdditionalCosts(context) {
+        return this.getEffects('additionalCost').reduce((array, costFactory) => array.concat(costFactory(context)), []).filter(cost => !!cost);
     }
 
     getStats() {

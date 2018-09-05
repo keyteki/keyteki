@@ -8,6 +8,8 @@ class ControlTheWeak extends Card {
                 mode: 'house',
                 houses: context => context.player.opponent.houses
             },
+            effect: 'force {1} to choose {2} as their active house on their next turn',
+            effectArgs: context => [context.player.opponent, context.house],
             gameAction: ability.actions.lastingEffect(context => ({
                 effect: ability.effects.restrictHouseChoice([context.house])
             }))

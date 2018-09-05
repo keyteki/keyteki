@@ -9,6 +9,9 @@ class SequentialForEachAction extends GameAction {
 
     setup() {
         super.setup();
+        if(!Array.isArray(this.forEach)) {
+            this.forEach = [this.forEach];
+        }
         this.effectMsg = 'do several things';
     }
 

@@ -8,6 +8,8 @@ import 'jquery-nearest';
 import CardMenu from './CardMenu.jsx';
 import CardCounters from './CardCounters.jsx';
 
+import SquishableCardPanel from './SquishableCardPanel.jsx';
+
 class Card extends React.Component {
     constructor() {
         super();
@@ -196,6 +198,29 @@ class Card extends React.Component {
         });
 
         return upgrades;
+    }
+
+    renderUnderneathCards() {
+        // TODO: Right now it is assumed that all cards in the childCards array
+        // are being placed underneath the current card. In the future there may
+        // be other types of cards in this array and it should be filtered.
+        let underneathCards = this.props.card.childCards;
+        if(!underneathCards || underneathCards.length === 0) {
+            return;
+        }
+
+        let maxCards = 1 + (underneathCards.length - 1) / 6;
+
+        return (
+            <SquishableCardPanel
+                cardSize={ this.props.size }
+                cards={ underneathCards }
+                className='underneath'
+                maxCards={ maxCards }
+                onCardClick={ this.props.onClick }
+                onMouseOut={ this.props.onMouseOut }
+                onMouseOver={ this.props.onMouseOver }
+                source='purged' />);
     }
 
     getCardOrder() {
@@ -427,6 +452,7 @@ class Card extends React.Component {
                 <div className={ 'card-wrapper ' + this.getWrapper() } style={ this.props.style }>
                     { this.getCard() }
                     { this.getAttachments() }
+                    { this.renderUnderneathCards() }
                 </div>);
         }
 
@@ -442,6 +468,7 @@ Card.propTypes = {
         baseMilitarySkill: PropTypes.number,
         basePoliticalSkill: PropTypes.number,
         cardback: PropTypes.string,
+        childCards: PropTypes.array,
         controlled: PropTypes.bool,
         controller: PropTypes.string,
         covert: PropTypes.bool,
@@ -492,7 +519,7 @@ Card.propTypes = {
     orientation: PropTypes.oneOf(['horizontal', 'bowed', 'vertical']),
     popupLocation: PropTypes.string,
     size: PropTypes.string,
-    source: PropTypes.oneOf(['archives', 'hand', 'discard', 'deck', 'purged', 'dynasty discard pile', 'conflict discard pile', 'play area', 'dynasty deck', 'conflict deck', 'province deck', 'province 1', 'province 2', 'province 3', 'province 4', 'upgrade', 'stronghold province', 'additional', 'role card']).isRequired,
+    source: PropTypes.oneOf(['archives', 'hand', 'discard', 'deck', 'purged', 'play area', 'upgrade']).isRequired,
     style: PropTypes.object,
     title: PropTypes.string,
     wrapped: PropTypes.bool

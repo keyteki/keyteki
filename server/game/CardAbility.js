@@ -66,10 +66,6 @@ class CardAbility extends ThenAbility {
         this.game.addMessage('{0}{1}{2}{3}{4}', ...messageArgs);
     }
 
-    isCardPlayed() {
-        return this.card.getType() === 'event';
-    }
-
     isTriggeredAbility() {
         return true;
     }

@@ -5,7 +5,7 @@ class WildWormhole extends Card {
         this.play({
             effect: 'play the top card of their deck',
             gameAction: ability.actions.playCard(context => ({ target: context.player.deck[0] }))
-        })
+        });
     }
 }
 

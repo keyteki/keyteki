@@ -8,7 +8,7 @@ class UseAction extends CardGameAction {
     }
 
     canAffect(card, context) {
-        return card.location === 'play area' && super.canAffect(card, context);
+        return card.location === 'play area' && super.canAffect(card, context) && card.getLegalActions(context.player, true).length > 0;
     }
 
     getEvent(card, context) {

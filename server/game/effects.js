@@ -63,6 +63,7 @@ const Effects = {
     }),
     transferDamage: (card) => EffectBuilder.card.static('transferDamage', card),
     // Player effects
+    additionalCost: (costFactory) => EffectBuilder.player.static('additionalCost', costFactory),
     canPlay: (match) => EffectBuilder.player.static('canPlay', match),
     canPlayFromOwn: (location) => EffectBuilder.player.detached('canPlayFromOwn', {
         apply: (player) => player.addPlayableLocation('play', player, location),
@@ -86,7 +87,7 @@ const Effects = {
     playerCannot: (type, condition) => EffectBuilder.player.static('abilityRestrictions', new CannotRestriction(type, condition)),
     redirectAmber: (recepient) => EffectBuilder.player.static('redirectAmber', recepient),
     restrictHouseChoice: (house) => EffectBuilder.player.static('restrictHouseChoice', house),
-    stopHouseChoice: (house) => EffectBuilder.player.state('stopHouseChoice', house),
+    stopHouseChoice: (house) => EffectBuilder.player.static('stopHouseChoice', house),
     showTopConflictCard: () => EffectBuilder.player.static('showTopConflictCard'),
     skipStep: (step) => EffectBuilder.player.static('skipStep', step)
 };

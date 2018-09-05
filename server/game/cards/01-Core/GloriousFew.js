@@ -7,8 +7,7 @@ class GloriousFew extends Card {
             gameAction: ability.actions.gainAmber(context => ({
                 amount: Math.max(
                     context.player.opponent.cardsInPlay.filter(card => card.type === 'creature').length -
-                    context.player.cardsInPlay.filter(card => card.type === 'creature').length,
-                    0
+                    context.player.cardsInPlay.filter(card => card.type === 'creature').length, 0
                 )
             }))
         });

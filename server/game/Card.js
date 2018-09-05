@@ -249,10 +249,6 @@ class Card extends EffectSource {
     }
 
     onLeavesPlay() {
-        if(this.parent && this.parent.upgrades) {
-            this.parent.removeUpgrade(this);
-            this.parent = null;
-        }
         if(this.hasToken('amber') && this.controller.opponent) {
             this.controller.opponent.modifyAmber(this.tokens.amber);
         }
@@ -525,15 +521,6 @@ class Card extends EffectSource {
         return actions.concat(this.abilities.actions.slice());
     }
 
-    /**
-     * This removes an upgrade from this card's upgrade Array.  It doesn't open any windows for
-     * game effects to respond to.
-     * @param {Card} upgrade
-     */
-    removeUpgrade(upgrade) {
-        this.upgrades = this.upgrades.filter(card => card.uuid !== upgrade.uuid);
-    }
-
     setDefaultController(player) {
         this.defaultController = player;
     }
@@ -583,7 +570,9 @@ class Card extends EffectSource {
         let state = {
             id: this.cardData.id,
             cardback: this.owner.deckData.cardback,
-            childCards: this.childCards,
+            childCards: this.childCards.map(card => {
+                return card.getSummary(activePlayer, hideWhenFaceup);
+            }),
             controlled: this.owner !== this.controller,
             exhausted: this.exhausted,
             facedown: this.facedown,

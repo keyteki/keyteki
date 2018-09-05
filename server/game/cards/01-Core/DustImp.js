@@ -3,7 +3,7 @@ const Card = require('../../Card.js');
 class DustImp extends Card {
     setupCardAbilities(ability) {
         this.destroyed({
-            gameAction: ability.actions.gainAmber({ amount: 2})
+            gameAction: ability.actions.gainAmber({ amount: 2 })
         });
     }
 }

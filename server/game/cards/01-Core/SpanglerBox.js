@@ -7,7 +7,7 @@ class SpanglerBox extends Card {
             target: {
                 cardType: 'creature',
                 gameAction: ability.actions.purge({
-                    postHandler: context => this.purgedCreatures.push(context.target)
+                    postHandler: context => this.game.actions.placeUnder({ parent: context.source}).resolve(context.target, context)
                 })
             },
             effect: 'purge a creature and give control to the other player',
@@ -21,10 +21,9 @@ class SpanglerBox extends Card {
         });
         this.leavesPlay({
             effect: 'returning to play all creatures purged by Spangler Box',
-            gameAction: ability.actions.putIntoPlay({ // TODO this needs to put creatures into play 1 at a time I think
-                target: this.purgedCreatures,
-                postHandler: () => this.purgedCreatures = []
-            })
+            gameAction: ability.actions.putIntoPlay(context => ({ // TODO this needs to put creatures into play 1 at a time I think
+                target: context.source.childCards
+            }))
         });
     }
 }

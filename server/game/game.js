@@ -822,6 +822,12 @@ class Game extends EventEmitter {
             if(creaturesToDestroy.length > 0) {
                 this.actions.destroy().resolve(creaturesToDestroy, this.getFrameworkContext());
             }
+            for(let card of this.creaturesInPlay) {
+                card.removeToken('armor');
+                if(card.armor - card.armorUsed > 0) {
+                    card.addToken('armor', card.armor - card.armorUsed);
+                }
+            }
             // any terminal conditions which have met their condition
             this.effectEngine.checkTerminalConditions();
         }

@@ -1,6 +1,6 @@
 const Card = require('../../Card.js');
 
-class OrbitalBombardmentpsychicNetwork extends Card {
+class OrbitalBombardment extends Card {
     setupCardAbilities(ability) {
         this.play({
             target: {
@@ -25,6 +25,6 @@ class OrbitalBombardmentpsychicNetwork extends Card {
     }
 }
 
-OrbitalBombardmentpsychicNetwork.id = 'orbital-bombardmentpsychic-network'; // This is a guess at what the id might be - please check it!!!
+OrbitalBombardment.id = 'orbital-bombardment'; // This is a guess at what the id might be - please check it!!!
 
-module.exports = OrbitalBombardmentpsychicNetwork;
+module.exports = OrbitalBombardment;

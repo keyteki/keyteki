@@ -47,8 +47,10 @@ class DelayedEffect {
         if(this.message) {
             this.game.addMessage(this.message, this.source, this.target);
         }
+        let context = this.context.copy();
+        context.event = event;
         if(this.gameAction) {
-            this.gameAction.resolve(this.target || event.card, this.context);
+            this.gameAction.resolve(this.target || event.card, context);
         }
     }
 

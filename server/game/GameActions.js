@@ -22,6 +22,7 @@ const ModifyAmberAction = require('./GameActions/ModifyAmberAction');
 const ModifyChainsActions = require('./GameActions/ModifyChainsAction');
 const MoveCardAction = require('./GameActions/MoveCardAction');
 const AddTokenAction = require('./GameActions/AddTokenAction');
+const PlaceUnderAction = require('./GameActions/PlaceUnderAction');
 const PlayCardAction = require('./GameActions/PlayCardAction');
 const PurgeAction = require('./GameActions/PurgeAction');
 const PutIntoPlayAction = require('./GameActions/PutIntoPlayAction');
@@ -55,6 +56,7 @@ const Actions = {
     heal: (propertyFactory) => new HealAction(propertyFactory),
     moveCard: (propertyFactory) => new MoveCardAction(propertyFactory), // destination, switch = false, shuffle = false
     placeAmber: (propertyFactory) => new AddTokenAction(propertyFactory, 'amber'), // amount = 1
+    placeUnder: (propertyFactory) => new PlaceUnderAction(propertyFactory), // parent
     playCard: (propertyFactory) => new PlayCardAction(propertyFactory), // resetOnCancel = false, postHandler
     purge: (propertyFactory) => new PurgeAction(propertyFactory),
     putIntoPlay: (propertyFactory) => new PutIntoPlayAction(propertyFactory),
