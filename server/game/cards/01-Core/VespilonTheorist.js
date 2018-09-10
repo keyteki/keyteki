@@ -3,6 +3,7 @@ const Card = require('../../Card.js');
 class VespilonTheorist extends Card {
     setupCardAbilities(ability) {
         this.reap({
+            condition: context => context.player.deck.length > 0,
             target: {
                 mode: 'house'
             },

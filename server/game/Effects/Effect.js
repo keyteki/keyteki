@@ -38,7 +38,7 @@ class Effect {
         this.location = properties.location || 'play area';
         this.effect = effect;
         this.targets = [];
-        this.effect.context = this.context = { game: game, source: source };
+        this.effect.context = this.context = properties.context || { game: game, player: source.controller, source: source };
         this.effect.duration = this.duration;
         this.effect.effect = this;
         this.effect.isConditional = !!properties.condition;

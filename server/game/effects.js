@@ -24,7 +24,7 @@ const Effects = {
             if(abilityType === 'action') {
                 ability = card.action(properties);
             } else {
-                if(['fight', 'reap', 'play'].includes(abilityType)) {
+                if(['fight', 'reap', 'play', 'destroyed'].includes(abilityType)) {
                     ability = card[abilityType](properties);
                 } else {
                     ability = card.triggeredAbility(abilityType, properties);

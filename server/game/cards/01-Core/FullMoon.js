@@ -8,6 +8,7 @@ class FullMoon extends Card {
                 when: {
                     onCardPlayed: event => event.player === context.player && event.card.type === 'creature'
                 },
+                message: '{0} gains 1 amber due to {1}\'s effect',
                 gameAction: ability.actions.gainAmber(context => ({ target: context.player }))
             }))
         });

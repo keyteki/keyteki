@@ -220,8 +220,6 @@ class Player extends GameObject {
     getSourceList(source) {
         if(source === 'play area') {
             return this.cardsInPlay;
-        } else if(source === 'purged') {
-            return this.purged.concat(...this.cardsInPlay.map(card => card.childCards));
         }
         return this[source];
     }
@@ -487,6 +485,7 @@ class Player extends GameObject {
      */
 
     getState(activePlayer) {
+        /*
         let isActivePlayer = activePlayer === this;
         let promptState = isActivePlayer ? this.promptState.getState() : {};
         let state = {
@@ -527,7 +526,6 @@ class Player extends GameObject {
             },
             showBid: 0,
             stats: this.getStats(),
-            timerSettings: {},
             strongholdProvince: this.getSummaryForCardList([], activePlayer),
             user: _.omit(this.user, ['password', 'email'])
         };
@@ -535,36 +533,47 @@ class Player extends GameObject {
         if(this.clock) {
             state.clock = this.clock.getState();
         }
+        */
 
-        if(isActivePlayer) {
-            state.cardPiles.conflictDiscardPile = this.getSummaryForCardList(this.archives, activePlayer);
-        }
-
-        /*
         let isActivePlayer = activePlayer === this;
         let promptState = isActivePlayer ? this.promptState.getState() : {};
         let state = {
             cardPiles: {
-                archives: this.getSummaryForCardList(this.archives, activePlayer),
                 cardsInPlay: this.getSummaryForCardList(this.cardsInPlay, activePlayer),
                 discard: this.getSummaryForCardList(this.discard, activePlayer),
                 hand: this.getSummaryForCardList(this.hand, activePlayer, true),
                 purged: this.getSummaryForCardList(this.purged, activePlayer)
             },
+            cardback: this.deckData.cardback,
             disconnected: this.disconnected,
             houses: this.houses,
             id: this.id,
             left: this.left,
             name: this.name,
             numDeckCards: this.deck.length,
+            numArchiveCards: this.archives.length,
             optionSettings: this.optionSettings,
             phase: this.game.currentPhase,
             stats: this.getStats(),
+            timerSettings: {},
             user: _.omit(this.user, ['password', 'email'])
         };
-        if(this.showDeck) {
-            state.showDeck = true;
-            state.cardPiles.deck = this.getSummaryForCardList(this.deck, activePlayer, true),
+
+        if(isActivePlayer) {
+            let sortedDeck = this.deck.sort((a, b) => {
+                if(a.printedHouse < b.printedHouse) {
+                    return -1;
+                } else if(a.printedHouse > b.printedHouse) {
+                    return 1;
+                } else if(a.id < b.id) {
+                    return -1;
+                } else if(a.id > b.id) {
+                    return 1;
+                }
+                return 0;
+            });
+            state.cardPiles.deck = this.getSummaryForCardList(sortedDeck, activePlayer, true),
+            state.cardPiles.archives = this.getSummaryForCardList(this.archives, activePlayer);
         }
 
         if(this.isTopCardShown()) {
@@ -574,7 +583,6 @@ class Player extends GameObject {
         if(this.clock) {
             state.clock = this.clock.getState();
         }
-        */
 
         return _.extend(state, promptState);
     }

@@ -8,6 +8,7 @@ class LibraryAccess extends Card {
                 when: {
                     onCardPlayed: event => event.player === context.player
                 },
+                message: '{0} draws a card due to {1}\'s effect',
                 gameAction: ability.actions.draw(context => ({ target: context.player }))
             }))
         });

@@ -11,9 +11,9 @@ class PlayerEffect extends Effect {
     }
 
     isValidTarget(target) {
-        if(this.targetController === 'current' && target === this.source.controller.opponent) {
+        if(this.targetController === 'current' && target === this.context.player.opponent) {
             return false;
-        } else if(this.targetController === 'opponent' && target === this.source.controller) {
+        } else if(this.targetController === 'opponent' && target === this.context.player) {
             return false;
         }
         return true;

@@ -23,6 +23,7 @@ class LastingEffectCardAction extends CardGameAction {
         }
         let effectProperties = {
             condition: this.condition,
+            context: context,
             duration: this.duration,
             targetLocation: this.targetLocation,
             until: this.until
@@ -44,6 +45,7 @@ class LastingEffectCardAction extends CardGameAction {
         let { effect } = this.propertyFactory(context);
         let properties = {
             condition: this.condition,
+            context: context,
             effect: effect,
             match: card,
             targetLocation: this.targetLocation,

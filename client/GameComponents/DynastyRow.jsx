@@ -234,7 +234,7 @@ class DynastyRow extends React.Component {
                     className='removed-from-game-pile discard'
                     title='Purged'
                     source='purged'
-                    cards={ this.props.removedFromGame }
+                    cards={ this.props.purged }
                     onMouseOver={ this.props.onMouseOver }
                     onMouseOut={ this.props.onMouseOut }
                     onCardClick={ this.props.onCardClick }
@@ -245,7 +245,7 @@ class DynastyRow extends React.Component {
                     className='dynasty discard pile'
                     title='Discard'
                     source='discard'
-                    cards={ this.props.dynastyDiscardPile }
+                    cards={ this.props.discard }
                     onMouseOver={ this.props.onMouseOver }
                     onMouseOut={ this.props.onMouseOut }
                     onCardClick={ this.props.onCardClick }
@@ -256,24 +256,22 @@ class DynastyRow extends React.Component {
                     className='dynasty draw'
                     title='Deck'
                     source='deck'
-                    cards={ this.props.dynastyDeck }
+                    cards={ this.props.deck }
                     onMouseOver={ this.props.onMouseOver }
                     onMouseOut={ this.props.onMouseOut }
                     onCardClick={ this.props.onCardClick }
                     popupLocation='top'
-                    disableMenu={ this.props.spectating || !this.props.isMe || !this.props.manualMode }
+                    disableMenu={ this.props.spectating || !this.props.isMe }
                     onDragDrop={ this.props.onDragDrop }
-                    menu={ dynastyDeckMenu }
                     hiddenTopCard
                     cardback={ this.props.cardback }
-                    cardCount={ this.props.numDynastyCards }
-                    popupMenu={ dynastyDeckPopupMenu }
+                    cardCount={ this.props.numDeckCards }
                     size={ this.props.cardSize } />
                 <CardPile
                     className='conflict discard pile'
                     title='Archives'
                     source='archives'
-                    cards={ this.props.conflictDiscardPile }
+                    cards={ this.props.archives }
                     onMouseOver={ this.props.onMouseOver }
                     onMouseOut={ this.props.onMouseOut }
                     onCardClick={ this.props.onCardClick }
@@ -281,7 +279,7 @@ class DynastyRow extends React.Component {
                     onDragDrop={ this.props.onDragDrop }
                     hiddenTopCard
                     cardback={ this.props.cardback }
-                    cardCount={ this.props.numConflictCards }
+                    cardCount={ this.props.numArchivesCards }
                     size={ this.props.cardSize } />
                 { this.getArtifactCards() }
             </div>
@@ -292,23 +290,18 @@ class DynastyRow extends React.Component {
 DynastyRow.displayName = 'DynastyRow';
 DynastyRow.propTypes = {
     additionalPiles: PropTypes.object,
+    archives: PropTypes.array,
     artifactCards: PropTypes.array,
     cardSize: PropTypes.string,
     cardback: PropTypes.string,
-    conflictDeck: PropTypes.array,
-    conflictDeckTopCard: PropTypes.object,
-    conflictDiscardPile: PropTypes.array,
-    dynastyDeck: PropTypes.array,
-    dynastyDiscardPile: PropTypes.array,
+    deck: PropTypes.array,
+    discard: PropTypes.array,
     hand: PropTypes.array,
-    honor: PropTypes.number,
     isMe: PropTypes.bool,
     manualMode: PropTypes.bool,
-    numConflictCards: PropTypes.number,
-    numDynastyCards: PropTypes.number,
+    numArchivesCards: PropTypes.number,
+    numDeckCards: PropTypes.number,
     onCardClick: PropTypes.func,
-    onConflictClick: PropTypes.func,
-    onConflictShuffleClick: PropTypes.func,
     onDiscardedCardClick: PropTypes.func,
     onDragDrop: PropTypes.func,
     onDynastyClick: PropTypes.func,
@@ -317,14 +310,7 @@ DynastyRow.propTypes = {
     onMouseOut: PropTypes.func,
     onMouseOver: PropTypes.func,
     otherPlayer: PropTypes.object,
-    province1Cards: PropTypes.array,
-    province2Cards: PropTypes.array,
-    province3Cards: PropTypes.array,
-    province4Cards: PropTypes.array,
-    provinceDeck: PropTypes.array,
-    removedFromGame: PropTypes.array,
-    showConflictDeck: PropTypes.bool,
-    showDynastyDeck: PropTypes.bool,
+    purged: PropTypes.array,
     spectating: PropTypes.bool
 };
 

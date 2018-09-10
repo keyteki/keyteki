@@ -20,7 +20,8 @@ class OrbitalBombardment extends Card {
                     })
                 }))
             },
-            effect: 'deal 2 damage to a creature for each ready Mars creature they control'
+            effect: 'revealing {0} to deal 2 damage to a creature {1} times',
+            effectArgs: context => Array.isArray(context.target) ? context.target.length : 1
         });
     }
 }

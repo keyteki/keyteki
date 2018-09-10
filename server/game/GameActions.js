@@ -81,6 +81,7 @@ const Actions = {
     gainChains: (propertyFactory) => new ModifyChainsActions(propertyFactory), // amount = 1
     lastingEffect: (propertyFactory) => new LastingEffectAction(propertyFactory),
     loseAmber: (propertyFactory) => new LoseAmberAction(propertyFactory),
+    search: (propertyFactory) => new DeckSearchAction(propertyFactory), // name
     steal: (propertyFactory) => new StealAction(propertyFactory), // amount = 1
     // meta actions
     changeEvent: (propertyFactory) => new ChangeEventAction(propertyFactory),

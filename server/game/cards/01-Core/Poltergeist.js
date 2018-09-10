@@ -5,13 +5,12 @@ class Poltergeist extends Card {
         this.play({
             target: {
                 cardType: 'artifact',
-                gameAction: ability.actions.use()
+                gameAction: [
+                    ability.actions.use(),
+                    ability.actions.destroy()
+                ]
             },
-            then: context => ({
-                gameAction: ability.actions.destroy({ target: context.target }),
-                message: '{1} destroys {3}',
-                messageArgs: context.target
-            })
+            effect: 'use {0} and destroy it'
         });
     }
 }

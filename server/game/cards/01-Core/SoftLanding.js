@@ -10,6 +10,7 @@ class SoftLanding extends Card {
                         (event.card.type === 'creature' || event.card.type === 'artifact') && context.player === event.player
                 },
                 multipleTrigger: false,
+                message: '{2} is readied due to {1}\'s effect',
                 gameAction: ability.actions.ready()
             }))
         });

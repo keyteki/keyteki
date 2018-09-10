@@ -41,6 +41,7 @@ class LastingEffectAction extends GameAction {
         }
         let properties = {
             condition: this.condition,
+            context: context,
             effect: this.effect,
             roundDuration: this.duration,
             targetController: this.targetController,

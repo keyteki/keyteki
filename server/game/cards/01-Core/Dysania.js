@@ -4,8 +4,8 @@ class Dysania extends Card {
     setupCardAbilities(ability) {
         this.play({
             condition: context => !!context.player.opponent,
-            effect: 'discard all cards in {1}\'s archives, and draw that many cards',
-            effectArgs: context => context.player.opponent,
+            effect: 'discard all cards in {1}\'s archives, and gain {2} amber',
+            effectArgs: context => [context.player.opponent, context.player.opponent.archives.length],
             gameAction: [
                 ability.actions.discard(context => ({
                     target: context.player.opponent.archives
