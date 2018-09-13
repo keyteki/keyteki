@@ -358,17 +358,18 @@ export class InnerGameBoard extends React.Component {
     }
 
     renderSidebar(thisPlayer, otherPlayer) {
+        let className = 'key-image ' + this.props.user.settings.cardSize;
         return (
             <div className='province-pane'>
                 <div className='key-pane'>
-                    <img className='key-image' src={ '/img/' + (otherPlayer && otherPlayer.stats.keys > 0 ? '' : 'un') + 'forgedkey.png' } title='Key' />
-                    <img className='key-image' src={ '/img/' + (otherPlayer && otherPlayer.stats.keys > 1 ? '' : 'un') + 'forgedkey.png' } title='Key' />
-                    <img className='key-image' src={ '/img/' + (otherPlayer && otherPlayer.stats.keys > 2 ? '' : 'un') + 'forgedkey.png' } title='Key' />
+                    <img className={ className } src={ '/img/' + (otherPlayer && otherPlayer.stats.keys > 0 ? '' : 'un') + 'forgedkey.png' } title='Key' />
+                    <img className={ className } src={ '/img/' + (otherPlayer && otherPlayer.stats.keys > 1 ? '' : 'un') + 'forgedkey.png' } title='Key' />
+                    <img className={ className } src={ '/img/' + (otherPlayer && otherPlayer.stats.keys > 2 ? '' : 'un') + 'forgedkey.png' } title='Key' />
                 </div>
                 <div className='key-pane'>
-                    <img className='key-image' src={ '/img/' + (thisPlayer.stats.keys > 2 ? '' : 'un') + 'forgedkey.png' } title='Key' />
-                    <img className='key-image' src={ '/img/' + (thisPlayer.stats.keys > 1 ? '' : 'un') + 'forgedkey.png' } title='Key' />
-                    <img className='key-image' src={ '/img/' + (thisPlayer.stats.keys > 0 ? '' : 'un') + 'forgedkey.png' } title='Key' />
+                    <img className={ className } src={ '/img/' + (thisPlayer.stats.keys > 2 ? '' : 'un') + 'forgedkey.png' } title='Key' />
+                    <img className={ className } src={ '/img/' + (thisPlayer.stats.keys > 1 ? '' : 'un') + 'forgedkey.png' } title='Key' />
+                    <img className={ className } src={ '/img/' + (thisPlayer.stats.keys > 0 ? '' : 'un') + 'forgedkey.png' } title='Key' />
                 </div>
             </div>
         );

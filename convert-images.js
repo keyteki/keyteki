@@ -1,7 +1,7 @@
 var Jimp = require('jimp');
 var fs = require('fs');
 var path = './public/img/';
-var cardpath = path + 'cards2808/';
+var cardpath = path + 'cardsResize/';
 
 Jimp.read(path + 'watermark.png').then(watermark => {
     var files = fs.readdirSync(cardpath);

@@ -38,6 +38,7 @@ const SequentialAction = require('./GameActions/SequentialAction');
 const SequentialForEachAction = require('./GameActions/SequentialForEachAction');
 const StealAction = require('./GameActions/StealAction');
 const StunAction = require('./GameActions/StunAction');
+const SwapAction = require('./GameActions/SwapAction');
 const UseAction = require('./GameActions/UseAction');
 
 const Actions = {
@@ -69,6 +70,7 @@ const Actions = {
     reveal: (propertyFactory) => new RevealAction(propertyFactory),
     sacrifice: (propertyFactory) => new DestroyAction(propertyFactory, true),
     stun: (propertyFactory) => new StunAction(propertyFactory),
+    swap: (propertyFactory) => new SwapAction(propertyFactory), // origin
     use: (propertyFactory) => new UseAction(propertyFactory),
     // player actions
     chosenDiscard: (propertyFactory) => new ChosenDiscardAction(propertyFactory), // amount = 1

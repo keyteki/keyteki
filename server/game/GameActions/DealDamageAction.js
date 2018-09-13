@@ -7,6 +7,7 @@ class DealDamageAction extends CardGameAction {
         this.fightEvent = null;
         this.damageSource = null;
         this.splash = 0;
+        this.purge = false;
     }
 
     setup() {
@@ -48,7 +49,11 @@ class DealDamageAction extends CardGameAction {
                 event.card.armorUsed += currentArmor;
                 event.card.addToken('damage', event.amount - currentArmor);
                 if(event.card.tokens.damage >= event.card.power || event.damageSource && event.damageSource.getKeywordValue('poison')) {
-                    context.game.actions.destroy({ inFight: !!event.fightEvent }).resolve(event.card, context.game.getFrameworkContext());
+                    if(this.purge) {
+                        context.game.actions.purge().resolve(event.card, context);
+                    } else {
+                        context.game.actions.destroy({ inFight: !!event.fightEvent }).resolve(event.card, context.game.getFrameworkContext());
+                    }
                     if(event.fightEvent) {
                         event.fightEvent.destroyed.push(event.card);
                     }

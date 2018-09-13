@@ -2,7 +2,7 @@ const Card = require('../../Card.js');
 
 class HuntingWitch extends Card {
     setupCardAbilities(ability) {
-        this.reaction({
+        this.constantReaction({
             when: {
                 onCardPlayed: (event, context) => event.card.type === 'creature' && event.player === context.player && event.card !== context.source
             },

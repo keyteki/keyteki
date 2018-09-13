@@ -12,7 +12,7 @@ class SpecialDelivery extends Card {
             effectArgs: context => context.source,
             gameAction: ability.actions.sacrifice(),
             then: context => ({
-                condition: context.target.location === 'discard',
+                condition: () => context.target.location === 'discard',
                 gameAction: ability.actions.purge({ target: context.target })
             })
         });

@@ -34,26 +34,28 @@ class ResolveFightAction extends CardGameAction {
             destroyed: []
         };
         return super.createEvent('onFight', params, event => {
+            let damageEvents = [];
+            let defenderParams = {
+                amount: event.card.power,
+                fightEvent: event,
+                damageSource: event.card
+            };
+            let attackerParams = {
+                amount: event.attacker.power + event.attacker.getBonusDamage(event.attackerTarget),
+                fightEvent: event,
+                damageSource: event.attacker
+            };
             if(!event.card.getKeywordValue('elusive') || event.card.elusiveUsed || event.attacker.ignores('elusive')) {
-                let damageEvents = [];
                 if((!event.attacker.getKeywordValue('skirmish') || event.defenderTarget !== event.attacker) && event.card.checkRestrictions('dealFightDamage')) {
-                    let defenderParams = {
-                        amount: event.card.power,
-                        fightEvent: event,
-                        damageSource: event.card
-                    };
                     damageEvents.push(context.game.actions.dealDamage(defenderParams).getEvent(event.defenderTarget, context));
                 }
                 if(event.attacker.checkRestrictions('dealFightDamage')) {
-                    let attackerParams = {
-                        amount: event.attacker.power + event.attacker.getBonusDamage(event.attackerTarget),
-                        fightEvent: event,
-                        damageSource: event.attacker
-                    };
                     damageEvents.push(context.game.actions.dealDamage(attackerParams).getEvent(event.attackerTarget, context));
                 }
-                context.game.openEventWindow(damageEvents);
+            } else if(event.attackerTarget !== event.card && event.attacker.checkRestrictions('dealFightDamage')) {
+                damageEvents.push(context.game.actions.dealDamage(attackerParams).getEvent(event.attackerTarget, context));
             }
+            context.game.openEventWindow(damageEvents);
             event.card.elusiveUsed = true;
         });
     }

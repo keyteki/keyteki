@@ -81,8 +81,8 @@ class EventWindow extends BaseStepWithPipeline {
             event.checkCondition();
             if(!event.cancelled) {
                 event.executeHandler();
-                this.game.emit(event.name, event);
             }
+            this.game.emit(event.name, event);
         });
     }
 

@@ -124,6 +124,10 @@ class Player extends GameObject {
         return _.any(this.playableLocations, location => location.playingType === playingType && location.contains(card));
     }
 
+    get creaturesInPlay() {
+        return this.cardsInPlay.filter(card => card.type === 'creature');
+    }
+
     /**
      * Draws the passed number of cards from the top of the deck into this players hand, shuffling if necessary
      * @param {number} numCards
@@ -560,7 +564,8 @@ class Player extends GameObject {
         };
 
         if(isActivePlayer) {
-            let sortedDeck = this.deck.sort((a, b) => {
+            let sortedDeck = this.deck.slice();
+            sortedDeck.sort((a, b) => {
                 if(a.printedHouse < b.printedHouse) {
                     return -1;
                 } else if(a.printedHouse > b.printedHouse) {

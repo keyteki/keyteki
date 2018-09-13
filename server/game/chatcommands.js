@@ -66,6 +66,7 @@ class ChatCommands {
         } else if(!this.houses.includes(house.toLowerCase())) {
             this.game.addMessage('{0} attempted to change their active house with /active-house, but {1} is not a valid house', player, house);
         } else {
+            this.game.addMessage('{0} manually changed their active house to {1}', player, house);
             player.activeHouse = house.toLowerCase();
         }
     }

@@ -26,7 +26,7 @@ class AbilityTargetCard {
                 contextCopy.target = card;
             }
             return (!properties.cardCondition || properties.cardCondition(card, contextCopy)) &&
-                   (!this.dependentTarget || this.dependentTarget.hasLegalTarget(contextCopy)) &&
+                   //(!this.dependentTarget || this.dependentTarget.hasLegalTarget(contextCopy)) &&
                    (properties.gameAction.length === 0 || properties.gameAction.some(gameAction => gameAction.hasLegalTarget(contextCopy)));
         };
         return CardSelector.for(Object.assign({}, properties, { cardCondition: cardCondition, targets: true }));

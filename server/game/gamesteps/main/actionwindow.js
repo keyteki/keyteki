@@ -2,7 +2,7 @@ const UiPrompt = require('../uiprompt.js');
 
 class ActionWindow extends UiPrompt {
     onCardClicked(player, card) {
-        return player === this.game.activePlayer && card.use(player);
+        return player === this.game.activePlayer && card.controller === player && card.use(player);
     }
 
     activePrompt() {

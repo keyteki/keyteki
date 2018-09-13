@@ -17,12 +17,17 @@ for(const card of rawData.CardData.filter(card => card.name !== '')) {
     card.traits = card.traits === '' ? [] : card.traits.split(', ').map(trait => trait.toLowerCase());
     card.keywords = card.keywords === '' ? [] : card.keywords.split(', ').map(keyword => keyword.toLowerCase());
 }
-let decks = [];
-let deckdata = [
+
+/*
     'Oneve Hava, The Lying and Havenesque	Shadows	Mars	Dis	054	058	058	067	067	069	070	075	083	094	101	102	161	169	172	173	174	177	177	187	195	196	199	204	267	270	270	275	276	281	282	282	283	291	305	310',
     'Sahl the Aegian	Shadows	Untamed	Sanctum	213	215	215	215	219	226	227	239	241	251	265	265	271	280	281	288	296	303	304	306	306	310	314	316	319	323	330	330	333	345	358	367	367	367	368	369',
     'Titanfang, Tower Fighter	Shadows	Brobnar	Dis	007	010	010	018	022	024	029	029	032	046	046	049	062	067	075	083	083	084	088	095	098	098	100	101	270	270	276	276	279	281	285	296	308	311	314	317',
     'W. Tioj, Spellview\'s Anxious Mentor	Mars	Logos	Untamed	110	115	116	117	124	129	140	144	145	151	154	155	163	169	169	174	177	187	192	196	200	204	204	207	323	325	327	330	332	346	347	349	358	361	367	368'
+*/
+
+let decks = [];
+let deckdata = [
+    'Lucretia, Priest of the Authentic State	Sanctum	Shadows	Brobnar	001	001	001	002	010	012	014	016	027	039	039	049	215	218	220	233	236	237	240	240	254	255	256	257	277	279	281	293	293	296	296	298	305	306	315	318'
 ];
 
 for(let data of deckdata) {
