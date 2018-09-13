@@ -28,5 +28,24 @@ describe('The Warchest', function() {
                 expect(this.player1.amber).toBe(3);
             });
         });
+
+        describe('Interaction with Coward\'s End', function() {
+            beforeEach(function() {
+                this.setupTest({
+                    player1: {
+                        house: 'brobnar',
+                        inPlay: ['dextre'],
+                        hand: ['coward-s-end']
+                    },
+                    player2: {
+                        inPlay: ['krump', 'the-warchest']
+                    }
+                });
+            });
+
+            it('should destroy both creatures', function() {
+                this.player1.play(this.cowardSEnd);
+            });
+        });
     });
 });

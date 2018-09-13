@@ -58,7 +58,11 @@ class EventWindow extends BaseStepWithPipeline {
     }
 
     checkEventCondition() {
-        _.each(this.events, event => event.checkCondition());
+        _.each(this.events, event => {
+            if(!event.checkCondition()) {
+                event.cancel();
+            }
+        });
     }
 
     openWindow(abilityType) {
@@ -78,8 +82,7 @@ class EventWindow extends BaseStepWithPipeline {
 
         _.each(this.events, event => {
             // need to checkCondition here to ensure the event won't fizzle due to another event's resolution (e.g. double honoring an ordinary character with YR etc.)
-            event.checkCondition();
-            if(!event.cancelled) {
+            if(event.checkCondition()) {
                 event.executeHandler();
             }
             this.game.emit(event.name, event);

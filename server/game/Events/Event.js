@@ -44,23 +44,23 @@ class Event {
     }
 
     checkCondition() {
-        if(this.cancelled || this.resolved || this.name === 'unnamedEvent') {
-            return;
+        if(this.resolved || this.name === 'unnamedEvent') {
+            return true;
         }
-        if(this.gameAction && !this.gameAction.checkEventCondition(this)) {
-            this.cancel();
-            return;
+        if(this.cancelled || this.gameAction && !this.gameAction.checkEventCondition(this)) {
+            return false;
         }
         if(!this.condition(this)) {
-            this.cancel();
+            return false;
         }
+        if(this.card) {
+            this.clone = this.card.createSnapshot();
+        }
+        return true;
     }
 
     executeHandler() {
         this.resolved = true;
-        if(this.card) {
-            this.clone = this.card.createSnapshot();
-        }
         if(this.handler) {
             this.handler(this);
         }

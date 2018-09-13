@@ -3,7 +3,7 @@ const Card = require('../../Card.js');
 class Barehanded extends Card {
     setupCardAbilities(ability) {
         this.play({
-            gameAction: ability.actions.returnToDeck(context => ({ target: context.game.cardsInPlay(card => card.type === 'artifact') }))
+            gameAction: ability.actions.returnToDeck(context => ({ target: context.game.cardsInPlay.filter(card => card.type === 'artifact') }))
         });
     }
 }
