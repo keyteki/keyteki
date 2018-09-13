@@ -5,8 +5,8 @@ class OneLastJob extends Card {
         this.play({
             effect: 'purge each friendly shadows creature and gain that much amber',
             gameAction: [
-                ability.actions.purge(context => ({ target: context.player.cardsInPlay(card => card.type === 'creature' && card.hasHouse('shadows')) })),
-                ability.actions.gainAmber(context => ({ amount: context.player.cardsInPlay(card => card.type === 'creature' && card.hasHouse('shadows')).length }))
+                ability.actions.purge(context => ({ target: context.player.creaturesInPlay.filter(card => card.hasHouse('shadows')) })),
+                ability.actions.gainAmber(context => ({ amount: context.player.creaturesInPlay.filter(card => card.hasHouse('shadows')).length }))
             ]
         });
     }

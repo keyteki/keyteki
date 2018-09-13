@@ -508,7 +508,7 @@ export class InnerGameBoard extends React.Component {
                                 discard={ otherPlayer ? otherPlayer.cardPiles.discard : [] }
                                 numArchivesCards={ otherPlayer ? otherPlayer.numArchivesCards : 0 }
                                 numDeckCards={ otherPlayer ? otherPlayer.numDeckCards : 0 }
-                                purged={ otherPlayer ? otherPlayer.purged : [] }
+                                purged={ otherPlayer ? otherPlayer.cardPiles.purged : [] }
                                 onCardClick={ this.onCardClick }
                                 onMouseOver={ this.onMouseOver }
                                 onMouseOut={ this.onMouseOut }
@@ -543,7 +543,7 @@ export class InnerGameBoard extends React.Component {
                                 numDeckCards={ thisPlayer.numDeckCards }
                                 onConflictShuffleClick={ this.onConflictShuffleClick }
                                 onDynastyShuffleClick={ this.onDynastyShuffleClick }
-                                purged={ thisPlayer.purged }
+                                purged={ thisPlayer.cardPiles.purged }
                                 onDragDrop={ this.onDragDrop }
                                 spectating={ this.state.spectating }
                                 onMenuItemClick={ this.onMenuItemClick }
