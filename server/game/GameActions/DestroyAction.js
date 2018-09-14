@@ -21,8 +21,11 @@ class DestroyAction extends CardGameAction {
 
     checkEventCondition(event) {
         // TODO This is an ugly hack....
-        event.card.moribund = true;
-        return super.checkEventCondition(event);
+        let result = super.checkEventCondition(event);
+        if(result) {
+            event.card.moribund = true;
+        }
+        return result;
     }
 
     getEvent(card, context) {
