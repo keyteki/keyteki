@@ -3,7 +3,7 @@ const Card = require('../../Card.js');
 class RedhotArmor extends Card {
     setupCardAbilities(ability) {
         this.play({
-            condtion: context => !!context.player.opponent,
+            condition: context => !!context.player.opponent,
             effect: 'remove enemy creatures\' armor and deal damage equal to the amount of armor removed',
             gameAction: ability.actions.dealDamage(context => ({
                 target: context.player.opponent.cardsInPlay.filter(card => card.hasToken('armor')),

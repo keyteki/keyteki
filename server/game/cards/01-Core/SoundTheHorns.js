@@ -5,14 +5,14 @@ class SoundTheHorns extends Card {
         this.play({
             gameAction: ability.actions.discard(context => {
                 let deck = context.player.deck;
-                let index = deck.findIndex(card => card.type === 'creature' && card.hasHouse('mars'));
+                let index = deck.findIndex(card => card.type === 'creature' && card.hasHouse('brobnar'));
                 if(index > -1) {
                     return { target: deck.slice(0, index + 1) };
                 }
                 return { target: deck };
             }),
             then: context => {
-                let card = context.player.deck.find(card => card.type === 'creature' && card.hasHouse('mars'));
+                let card = context.player.deck.find(card => card.type === 'creature' && card.hasHouse('brobnar'));
                 if(card) {
                     return {
                         message: '{0} takes {3} into their hand',
