@@ -15,7 +15,7 @@ xdescribe('the SelectCardPrompt', function() {
         this.game.getCurrentAbilityContext.and.returnValue({ source: 'framework', card: null, stage: 'framework' });
 
         this.player = jasmine.createSpyObj('player1', ['setPrompt', 'cancelPrompt', 'clearSelectableCards', 'clearSelectedCards', 'setSelectableCards', 'setSelectedCards', 'clearSelectableRings', 'startClock', 'stopClock']);
-        this.player.cardsInPlay = _([]);
+        this.player.cardsInPlay = [];
         this.otherPlayer = jasmine.createSpyObj('player2', ['setPrompt', 'cancelPrompt', 'clearSelectableCards', 'clearSelectedCards', 'setSelectableCards', 'setSelectedCards', 'startClock', 'stopClock']);
         this.card = createCardSpy({ controller: this.player });
 

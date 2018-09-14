@@ -20,7 +20,7 @@ class LostInTheWoods extends Card {
                 }
             },
             effects: 'shuffle {1} into their owner\'s deck',
-            effectsArg: context => Object.values(context.targets)
+            effectsArg: context => [Object.values(context.targets)]
         });
     }
 }

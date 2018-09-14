@@ -84,7 +84,7 @@ class Player extends GameObject {
     }
 
     /**
-     * Removes a card with the passed uuid from a list. Returns an _(Array)
+     * Removes a card with the passed uuid from a list. Returns an Array
      * @param list
      * @param {String} uuid
      */
@@ -327,6 +327,11 @@ class Player extends GameObject {
                 upgrade.owner.moveCard(upgrade, 'discard');
             }
 
+            for(let child of card.childCards) {
+                child.onLeavesPlay();
+                child.owner.moveCard(child, 'discard');
+            }
+
             card.onLeavesPlay();
             card.controller = this;
         } else if(targetLocation === 'play area') {
@@ -556,7 +561,7 @@ class Player extends GameObject {
             left: this.left,
             name: this.name,
             numDeckCards: this.deck.length,
-            numArchiveCards: this.archives.length,
+            numArchivesCards: this.archives.length,
             optionSettings: this.optionSettings,
             phase: this.game.currentPhase,
             stats: this.getStats(),

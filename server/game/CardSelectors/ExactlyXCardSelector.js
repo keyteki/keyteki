@@ -7,15 +7,23 @@ class ExactlyXCardSelector extends BaseCardSelector {
         this.numCards = numCards;
     }
 
-    defaultActivePromptTitle() {
-        if(this.cardType.length === 1) {
-            return this.numCards === 1 ? 'Choose a ' + this.cardType[0] : `Choose ${this.numCards} ${this.cardType[0]}s`;
+    getNumCards(context) {
+        if(typeof this.numCards === 'function') {
+            return this.numCards(context);
         }
-        return this.numCards === 1 ? 'Choose a card' : `Choose ${this.numCards} cards`;
+        return this.numCards;
     }
 
-    hasEnoughSelected(selectedCards) {
-        return selectedCards.length === this.numCards;
+    defaultActivePromptTitle(context) {
+        let numCards = this.getNumCards(context);
+        if(this.cardType.length === 1) {
+            return numCards === 1 ? 'Choose a ' + this.cardType[0] : `Choose ${numCards} ${this.cardType[0]}s`;
+        }
+        return numCards === 1 ? 'Choose a card' : `Choose ${numCards} cards`;
+    }
+
+    hasEnoughSelected(selectedCards, context) {
+        return selectedCards.length === this.getNumCards(context);
     }
     /*
     hasEnoughTargets(context) {
@@ -29,12 +37,12 @@ class ExactlyXCardSelector extends BaseCardSelector {
         return numMatchingCards >= this.numCards;
     }*/
 
-    hasReachedLimit(selectedCards) {
-        return selectedCards.length >= this.numCards;
+    hasReachedLimit(selectedCards, context) {
+        return selectedCards.length >= this.getNumCards(context);
     }
 
-    automaticFireOnSelect() {
-        return this.numCards === 1;
+    automaticFireOnSelect(context) {
+        return this.getNumCards(context) === 1;
     }
 }
 

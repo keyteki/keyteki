@@ -12,7 +12,7 @@ let data;
 deckService.findByUserName()
     .then(result => {
         console.log(result.length);
-        return deckService.delete(result[0]._id);
+        return deckService.delete(result[result.length - 1]._id);
     })
     .then(() => db.close())
     .catch(() => db.close());

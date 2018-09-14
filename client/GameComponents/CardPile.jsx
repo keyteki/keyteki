@@ -7,17 +7,28 @@ import Card from './Card.jsx';
 import { tryParseJSON } from '../util.js';
 
 class CardPile extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.onCollectionClick = this.onCollectionClick.bind(this);
         this.onDragDrop = this.onDragDrop.bind(this);
         this.onTopCardClick = this.onTopCardClick.bind(this);
 
         this.state = {
-            showPopup: false,
+            showPopup: props.cards && props.cards.some(card => card.selectable),
             showMenu: false
         };
+    }
+
+    componentWillReceiveProps(props) {
+        let hasNewSelectableCard = props.cards && props.cards.some(card => card.selectable);
+        let didHaveSelectableCard = this.props.cards && this.props.cards.some(card => card.selectable);
+
+        if(!didHaveSelectableCard && hasNewSelectableCard) {
+            this.setState({ showPopup: true });
+        } else if(didHaveSelectableCard && !hasNewSelectableCard) {
+            this.setState({ showPopup: false });
+        }
     }
 
     onCollectionClick(event) {

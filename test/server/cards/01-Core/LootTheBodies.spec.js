@@ -6,7 +6,7 @@ describe('Loot the Bodies', function() {
                     player1: {
                         house: 'brobnar',
                         inPlay: ['troll'],
-                        hand: ['loot-the-bodies', 'punch', 'hebe-the-huge']
+                        hand: ['loot-the-bodies', 'punch', 'hebe-the-huge', 'coward-s-end']
                     },
                     player2: {
                         inPlay: ['batdrone', 'ganymede-archivist', 'doc-bookton', 'inka-the-spider']
@@ -52,6 +52,12 @@ describe('Loot the Bodies', function() {
                 expect(this.troll.tokens.damage).toBe(3);
                 expect(this.ganymedeArchivist.location).toBe('discard');
                 expect(this.player1.amber).toBe(2);
+            });
+
+            it('should work with Coward\'s end', function() {
+                this.player1.play(this.lootTheBodies);
+                this.player1.play(this.cowardSEnd);
+                expect(this.player1.amber).toBe(4);
             });
         });
     });

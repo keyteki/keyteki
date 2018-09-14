@@ -14,6 +14,7 @@ class Charge extends Card {
                         },
                         target: {
                             cardType: 'creature',
+                            controller: 'opponent',
                             gameAction: ability.actions.dealDamage({ amount: 2 })
                         }
                     })

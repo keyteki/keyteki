@@ -17,7 +17,7 @@ class SequentialForEachAction extends GameAction {
 
     hasLegalTarget(context) {
         this.update(context);
-        return (this.num || this.forEach.length) && !!this.action;
+        return (this.num > 0 || this.forEach.length > 0) && !!this.action;
     }
 
     canAffect(target, context) {

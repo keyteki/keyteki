@@ -4,7 +4,6 @@ const CaptureAction = require('./GameActions/CaptureAction');
 const ChangeEventAction = require('./GameActions/ChangeEventAction');
 const ChooseGameAction = require('./GameActions/ChooseGameAction');
 const ChosenDiscardAction = require('./GameActions/ChosenDiscardAction');
-const DeckSearchAction = require('./GameActions/DeckSearchAction');
 const DealDamageAction = require('./GameActions/DealDamageAction');
 const DelayedEffectAction = require('./GameActions/DelayedEffectAction');
 const DestroyAction = require('./GameActions/DestroyAction');
@@ -34,6 +33,7 @@ const ReturnAmberAction = require('./GameActions/ReturnAmber');
 const ReturnToDeckAction = require('./GameActions/ReturnToDeckAction');
 const ReturnToHandAction = require('./GameActions/ReturnToHandAction');
 const RevealAction = require('./GameActions/RevealAction');
+const SearchAction = require('./GameActions/SearchAction');
 const SequentialAction = require('./GameActions/SequentialAction');
 const SequentialForEachAction = require('./GameActions/SequentialForEachAction');
 const StealAction = require('./GameActions/StealAction');
@@ -74,7 +74,6 @@ const Actions = {
     use: (propertyFactory) => new UseAction(propertyFactory),
     // player actions
     chosenDiscard: (propertyFactory) => new ChosenDiscardAction(propertyFactory), // amount = 1
-    deckSearch: (propertyFactory) => new DeckSearchAction(propertyFactory), // amount = -1, reveal = true, cardCondition = (card, context) => true
     discardAtRandom: (propertyFactory) => new RandomDiscardAction(propertyFactory), // amount = 1
     draw: (propertyFactory) => new DrawAction(propertyFactory), // amount = 1
     forgeKey: (propertyFactory) => new ForgeAction(propertyFactory), // modifier = 0
@@ -83,7 +82,7 @@ const Actions = {
     gainChains: (propertyFactory) => new ModifyChainsActions(propertyFactory), // amount = 1
     lastingEffect: (propertyFactory) => new LastingEffectAction(propertyFactory),
     loseAmber: (propertyFactory) => new LoseAmberAction(propertyFactory),
-    search: (propertyFactory) => new DeckSearchAction(propertyFactory), // name
+    search: (propertyFactory) => new SearchAction(propertyFactory), // name
     steal: (propertyFactory) => new StealAction(propertyFactory), // amount = 1
     // meta actions
     changeEvent: (propertyFactory) => new ChangeEventAction(propertyFactory),

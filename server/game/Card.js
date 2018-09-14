@@ -374,7 +374,7 @@ class Card extends EffectSource {
     createSnapshot() {
         let clone = new Card(this.owner, this.cardData);
 
-        clone.upgrades = _(this.upgrades.map(upgrade => upgrade.createSnapshot()));
+        clone.upgrades = this.upgrades.map(upgrade => upgrade.createSnapshot());
         clone.effects = _.clone(this.effects);
         clone.tokens = _.clone(this.tokens);
         clone.controller = this.controller;

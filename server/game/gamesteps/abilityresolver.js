@@ -19,7 +19,8 @@ class AbilityResolver extends BaseStepWithPipeline {
             new SimpleStep(this.game, () => this.payCosts()),
             new SimpleStep(this.game, () => this.resolveTargets()),
             new SimpleStep(this.game, () => this.initiateAbility()),
-            new SimpleStep(this.game, () => this.executeHandler())
+            new SimpleStep(this.game, () => this.executeHandler()),
+            new SimpleStep(this.game, () => this.raiseResolvedEvent())
         ]);
     }
 
@@ -93,6 +94,13 @@ class AbilityResolver extends BaseStepWithPipeline {
         }
         this.context.stage = 'effect';
         this.context.ability.executeHandler(this.context);
+    }
+
+    raiseResolvedEvent() {
+        if(this.cancelled) {
+            return;
+        }
+        this.game.raiseEvent('onAbilityResolved', { context: this.context });
     }
 }
 

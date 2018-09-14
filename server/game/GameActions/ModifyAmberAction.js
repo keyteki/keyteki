@@ -15,13 +15,6 @@ class ModifyAmberAction extends PlayerAction {
         return context.player;
     }
 
-    canAffect(player, context) {
-        if(this.amount === 0) {
-            return false;
-        }
-        return super.canAffect(player, context);
-    }
-
     getEvent(player, context) {
         return super.createEvent('onModifyAmber', { player: player, amount: this.amount, context: context }, () => {
             if(player.anyEffect('redirectAmber')) {

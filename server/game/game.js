@@ -554,9 +554,9 @@ class Game extends EventEmitter {
             player.initialise();
         }
 
-        this.allCards = _(_.reduce(this.getPlayers(), (cards, player) => {
+        this.allCards = _.reduce(this.getPlayers(), (cards, player) => {
             return cards.concat(player.deck);
-        }, []));
+        }, []);
 
         this.pipeline.initialise([
             new SetupPhase(this),

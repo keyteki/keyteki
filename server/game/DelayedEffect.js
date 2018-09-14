@@ -30,13 +30,16 @@ class DelayedEffect {
         if(matchingEvents.length > 0) {
             if(!this.multipleTrigger) {
                 this.game.effectEngine.removeDelayedEffect(this);
-            }
-            let event = matchingEvents.find(event => this.when[event.name](event));
-            if(event) {
-                this.executeHandler(event);
+                let event = matchingEvents.find(event => this.when[event.name](event));
+                if(event) {
+                    this.executeHandler(event);
+                }
+            } else {
+                for(let event of matchingEvents.filter(event => this.when[event.name](event))) {
+                    this.executeHandler(event);
+                }
             }
         }
-        return false;
     }
 
     executeHandler(event) {
@@ -45,7 +48,7 @@ class DelayedEffect {
             return;
         }
         if(this.message) {
-            this.game.addMessage(this.message, this.source, this.target || event.card);
+            this.game.addMessage(this.message, this.context.player, this.source, this.target || event.card);
         }
         let context = this.context.copy();
         context.event = event;

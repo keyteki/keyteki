@@ -3,7 +3,7 @@ const ActionWindow = require('./actionwindow.js');
 
 class MainPhase extends Phase {
     constructor(game) {
-        super(game, 'play');
+        super(game, 'main');
         this.initialise([
             new ActionWindow(game)
         ]);

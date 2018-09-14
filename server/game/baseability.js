@@ -92,13 +92,12 @@ class BaseAbility {
         if(!this.canPayCosts(context)) {
             return 'cost';
         }
-        if(this.targets.length === 0) {
-            if(this.gameAction.length > 0 && !this.gameAction.some(gameAction => gameAction.hasLegalTarget(context))) {
-                return 'condition';
-            }
+        if(this.gameAction.length > 0 && this.gameAction.some(gameAction => gameAction.hasLegalTarget(context))) {
             return '';
+        } else if(this.targets.length > 0) {
+            return this.canResolveTargets(context) ? '' : 'target';
         }
-        return this.canResolveTargets(context) ? '' : 'target';
+        return this.gameAction.length > 0 ? 'condition' : '';
     }
 
     /**

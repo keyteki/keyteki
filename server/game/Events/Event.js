@@ -47,10 +47,7 @@ class Event {
         if(this.resolved || this.name === 'unnamedEvent') {
             return true;
         }
-        if(this.cancelled || this.gameAction && !this.gameAction.checkEventCondition(this)) {
-            return false;
-        }
-        if(!this.condition(this)) {
+        if(this.cancelled || this.gameAction && !this.gameAction.checkEventCondition(this) || !this.condition(this)) {
             return false;
         }
         if(this.card) {
