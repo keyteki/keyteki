@@ -50,7 +50,6 @@ class SetupPhase extends Phase {
             condition: () => !!this.game.cardsUsed.length || !!this.game.cardsPlayed.length || !!this.game.cardsDiscarded.length,
             effect: [
                 Effects.playerCannot('play', context => context.ability.isAction() && !context.ignoreHouse),
-                Effects.playerCannot('use', context => context.ability.isAction() && !context.ignoreHouse),
                 Effects.playerCannot('discard', context => context.ability.isAction() && !context.ignoreHouse)
             ]
         }).resolve(this.game.activePlayer, this.game.getFrameworkContext());
