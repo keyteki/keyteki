@@ -10,7 +10,9 @@ class BearFlute extends Card {
             },
             effect: '{1}{0}',
             effectArgs: context => context.target ? 'heal ' : 'search their deck and discard for any Ancient Bears',
-            gameAction: ability.actions.search(context => !context.target ? { cardName: 'Ancient Bear' } : {})
+            gameAction: ability.actions.search(
+                context => !context.game.creaturesInPlay.some(card => card.name === 'Ancient Bear') ? { cardName: 'Ancient Bear' } : {}
+            )
         });
     }
 }

@@ -3,8 +3,10 @@ const Card = require('../../Card.js');
 class JammerPack extends Card {
     setupCardAbilities(ability) {
         this.whileAttached({
-            targetController: 'opponent',
-            effect: ability.effects.modifyKeyCost(2)
+            effect: ability.effects.gainAbility('persistentEffect', {
+                targetController: 'opponent',
+                effect: ability.effects.modifyKeyCost(2)
+            })
         });
     }
 }

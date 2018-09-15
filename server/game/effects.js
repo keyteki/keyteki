@@ -23,6 +23,9 @@ const Effects = {
             properties.printedAbility = false;
             if(abilityType === 'action') {
                 ability = card.action(properties);
+            } else if(abilityType === 'persistentEffect') {
+                ability = card.persistentEffect(properties);
+                ability.ref = card.addEffectToEngine(ability);
             } else {
                 if(['fight', 'reap', 'play', 'destroyed'].includes(abilityType)) {
                     ability = card[abilityType](properties);
@@ -43,6 +46,9 @@ const Effects = {
         unapply: (card, context, ability) => {
             if(abilityType === 'action') {
                 card.abilities.actions = card.abilities.actions.filter(a => a !== ability);
+            } else if(abilityType === 'persistentEffect') {
+                card.abilities.persistentEffects = card.abilities.persistentEffects.filter(a => a !== ability);
+                card.removeEffectFromEngine(ability.ref);
             } else {
                 card.abilities.reactions = card.abilities.reactions.filter(a => a !== ability);
                 ability.unregisterEvents();

@@ -2,8 +2,10 @@ const Card = require('../../Card.js');
 
 class MantleOfTheZealot extends Card {
     setupCardAbilities(ability) {
-        this.persistentEffect({
-            effect: ability.effects.canUse(card => card === this.parent)
+        this.whileAttached({
+            effect: ability.effects.gainAbility('persistentEffect', {
+                effect: ability.effects.canUse(card => card === this.parent)
+            })
         });
     }
 }

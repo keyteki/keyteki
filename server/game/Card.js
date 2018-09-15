@@ -218,8 +218,9 @@ class Card extends EffectSource {
         if(!allowedLocations.includes(location)) {
             throw new Error(`'${location}' is not a supported effect location.`);
         }
-
-        this.abilities.persistentEffects.push(_.extend({ duration: 'persistent', location: location }, properties));
+        let ability = _.extend({ duration: 'persistent', location: location }, properties);
+        this.abilities.persistentEffects.push(ability);
+        return ability;
     }
 
     hasTrait(trait) {

@@ -9,7 +9,7 @@ describe('Mantle of the Zealot', function() {
                         hand: ['mantle-of-the-zealot']
                     },
                     player2: {
-                        inPlay: []
+                        inPlay: ['troll']
                     }
                 });
             });
@@ -18,14 +18,9 @@ describe('Mantle of the Zealot', function() {
                 this.player1.playUpgrade(this.mantleOfTheZealot, this.grabberJammer);
                 this.player1.clickCard(this.grabberJammer);
                 expect(this.player1).toHavePrompt('Grabber Jammer');
-            });
-
-            it('should not trigger under ABC circumstances', function() {
-
-            });
-
-            it('should have DEF effect on GHI', function() {
-
+                this.player1.clickPrompt('Fight with this creature');
+                this.player1.clickCard(this.troll);
+                expect(this.grabberJammer.location).toBe('discard');
             });
         });
     });
