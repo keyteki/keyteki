@@ -10,7 +10,12 @@ class UnguardedCamp extends Card {
                     context.player.opponent.amber, context.player.creaturesInPlay.length - context.player.opponent.creaturesInPlay.length
                 ),
                 gameAction: ability.actions.capture()
-            }
+            },
+            effect: 'make {1} of their creatures capture an amber from {2}',
+            effectArgs: context => [
+                context.player.creaturesInPlay.length - context.player.opponent.creaturesInPlay.length,
+                context.player.opponent
+            ]
         });
     }
 }
