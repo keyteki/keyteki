@@ -39,6 +39,7 @@ class TriggeredAbility extends CardAbility {
         this.title = properties.title || 'Use this card\'s ' + (properties.name ? properties.name + ' ' : '') + 'ability';
         this.triggeredByOpponent = !!properties.triggeredByOpponent;
         this.abilityType = abilityType;
+        this.optional = !!properties.optional;
     }
 
     eventHandler(event, window) {

@@ -3,7 +3,7 @@ const Card = require('../../Card.js');
 class CooperativeHunting extends Card {
     setupCardAbilities(ability) {
         this.play({
-            effect: 'deal 2=1 damage to a creature for each creature they control',
+            effect: 'deal 1 damage to a creature for each creature they control',
             gameAction: ability.actions.sequentialForEach(context => ({
                 forEach: context.player.cardsInPlay.filter(card => card.type === 'creature'),
                 action: ability.actions.dealDamage({

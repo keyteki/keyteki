@@ -19,6 +19,7 @@ describe('Ganger Chieftain', function() {
                 expect(this.troll.exhausted).toBe(true);
                 expect(this.docBookton.location).toBe('discard');
                 this.player1.playCreature(this.gangerChieftain, true);
+                this.player1.clickCard(this.gangerChieftain);
                 expect(this.player1).toHavePrompt('Ganger Chieftain');
                 expect(this.player1).toBeAbleToSelect(this.troll);
                 expect(this.player1).not.toBeAbleToSelect(this.gangerChieftain);
@@ -35,6 +36,7 @@ describe('Ganger Chieftain', function() {
 
             it('should allow fighting with a non-house creature', function() {
                 this.player1.play(this.gangerChieftain);
+                this.player1.clickCard(this.gangerChieftain);
                 expect(this.player1).toHavePrompt('Ganger Chieftain');
                 expect(this.player1).not.toBeAbleToSelect(this.troll);
                 expect(this.player1).not.toBeAbleToSelect(this.gangerChieftain);
@@ -57,6 +59,7 @@ describe('Ganger Chieftain', function() {
                 this.player1.clickCard(this.batdrone);
                 expect(this.batdrone.location).toBe('discard');
                 this.player1.playCreature(this.gangerChieftain, true);
+                this.player1.clickCard(this.gangerChieftain);
                 expect(this.player1).toHavePrompt('Ganger Chieftain');
                 expect(this.player1).toBeAbleToSelect(this.troll);
                 expect(this.player1).not.toBeAbleToSelect(this.gangerChieftain);

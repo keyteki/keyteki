@@ -1,6 +1,6 @@
 const Card = require('../../Card.js');
 
-class HayyelTheMerchant extends Card {
+class HayellTheMerchant extends Card {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
@@ -11,6 +11,6 @@ class HayyelTheMerchant extends Card {
     }
 }
 
-HayyelTheMerchant.id = 'hayyel-the-merchant'; // This is a guess at what the id might be - please check it!!!
+HayellTheMerchant.id = 'hayell-the-merchant'; // This is a guess at what the id might be - please check it!!!
 
-module.exports = HayyelTheMerchant;
+module.exports = HayellTheMerchant;

@@ -39,8 +39,8 @@ class Event {
         return [];
     }
 
-    preResolutionEffect() {
-        return;
+    preResolutionEffect(game) {
+        game.emit(this.name + ':preResolution', this);
     }
 
     checkCondition() {

@@ -11,6 +11,10 @@ class ModifyAmberAction extends PlayerAction {
         this.effectMsg = (this.amount >= 0 ? 'gain ' : 'lose ') + this.amount.toString() + ' amber';
     }
 
+    canAffect(player, context) {
+        return this.amount !== 0 && super.canAffect(player, context);
+    }
+
     defaultTargets(context) {
         return context.player;
     }

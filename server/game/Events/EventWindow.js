@@ -74,7 +74,7 @@ class EventWindow extends BaseStepWithPipeline {
     }
 
     preResolutionEffects() {
-        _.each(this.events, event => event.preResolutionEffect());
+        _.each(this.events, event => event.preResolutionEffect(this.game));
     }
 
     executeHandler() {

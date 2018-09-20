@@ -235,7 +235,7 @@ class CardPile extends React.Component {
                 { topCard ? <Card card={ topCard } source={ this.props.source }
                     onMouseOver={ this.props.onMouseOver }
                     onMouseOut={ this.props.onMouseOut }
-                    disableMouseOver={ this.props.hiddenTopCard }
+                    //disableMouseOver={ this.props.hiddenTopCard }
                     onClick={ this.onTopCardClick }
                     onMenuItemClick={ this.props.onMenuItemClick }
                     onDragDrop={ this.props.onDragDrop }

@@ -31,19 +31,18 @@ for(const card of rawData.CardData.filter(card => card.name !== '')) {
 
 let decks = [];
 let deckdata = [
-    'Cartographer Ananta Sodtima/Dis Logos Brobnar 001 012 016 016 018 030 032 032 033 044 046 049 054 058 062 068 073 077 083 092 099 101 105 106 106 107 108 110 114 115 117 129 138 143 144 147 147'
+    'Cartographer Ananta Sodtima    Dis Logos   Brobnar 001 012 016 016 018 030 032 032 033 044 046 049 054 058 062 068 073 077 083 092 099 101 105 106 106 107 108 110 114 115 117 129 138 143 144 147 147'
 ];
 
 for(let data of deckdata) {
-    let nameSplit = data.split('/');
+    let split = data.split('	');
     let deck = { username: 'public' };
-    deck.name = nameSplit[0];
-    deck.identity = deck.name.toLowerCase().replace(/[,?.!"]/gi, '').replace(/[ ']/gi, '-');
+    deck.name = split[0];
+    deck.identity = split[0].toLowerCase().replace(/[,?.!"]/gi, '').replace(/[ ']/gi, '-');
     deck.cardback = deck.identity + '_back';
-    let split = nameSplit[1].split(' ');
-    deck.houses = split.slice(0, 3).map(house => house.toLowerCase());
+    deck.houses = split.slice(1, 4).map(house => house.toLowerCase());
     deck.cards = [];
-    for(let num of split.slice(3)) {
+    for(let num of split.slice(4)) {
         let cardData = rawData.CardData.find(card => parseInt(card.number) === parseInt(num));
         if(!cardData) {
             throw new Error('Can\'t find data for ' + num);

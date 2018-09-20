@@ -267,7 +267,7 @@ export class InnerGameBoard extends React.Component {
         _.each(cardsByType, cards => {
             let cardsInPlay = _.map(cards, card => {
                 return (<Card key={ card.uuid } source='play area' card={ card } disableMouseOver={ card.facedown && !card.code }
-                    onMenuItemClick={ this.onMenuItemClick } onMouseOver={ this.onMouseOver } onMouseOut={ this.onMouseOut }
+                    onMenuItemClick={ this.onMenuItemClick } onMouseOver={ this.onMouseOver } onMouseOut={ this.onMouseOut } isMe={ isMe }
                     onClick={ this.onCardClick } onDragDrop={ this.onDragDrop } size={ this.props.user.settings.cardSize } />);
             });
             cardsByLocation.push(cardsInPlay);
@@ -551,7 +551,7 @@ export class InnerGameBoard extends React.Component {
                         </div>
                     </div>
                     <div className='right-side'>
-                        <CardZoom imageUrl={ this.props.cardToZoom ? '/img/cards/' + this.props.cardToZoom.id + '.jpg' : '' }
+                        <CardZoom imageUrl={ this.props.cardToZoom ? '/img/' + (this.props.cardToZoom.facedown ? 'idbacks/' + this.props.cardToZoom.cardback : 'cards/' + this.props.cardToZoom.id) + '.jpg' : '' }
                             orientation={ this.props.cardToZoom ? this.props.cardToZoom.type === 'plot' ? 'horizontal' : 'vertical' : 'vertical' }
                             show={ !!this.props.cardToZoom } cardName={ this.props.cardToZoom ? this.props.cardToZoom.name : null } />
                         <Chat

@@ -701,9 +701,22 @@ class Game extends EventEmitter {
             return;
         }
         card.controller.removeCardFromPile(card);
-        player.cardsInPlay.push(card);
         card.controller = player;
-        this.checkGameState(true);
+        if(card.type === 'creature' && player.creaturesInPlay.length > 0) {
+            let handlers = [
+                () => player.cardsInPlay.unshift(card),
+                () => player.cardsInPlay.push(card)
+            ];
+            this.promptWithHandlerMenu(this.activePlayer, {
+                activePromptTitle: 'Choose which flank ' + card.name + ' should be placed on',
+                source: card,
+                choices: ['Left', 'Right'],
+                handlers: player === this.activePlayer ? handlers : handlers.reverse()
+            });
+        } else {
+            player.cardsInPlay.push(card);
+        }
+        this.queueSimpleStep(() => this.checkGameState(true));
     }
 
     watch(socketId, user) {

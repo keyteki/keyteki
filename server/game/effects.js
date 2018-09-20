@@ -85,7 +85,7 @@ const Effects = {
             properties.context = properties.context || context;
             return context.source.delayedEffect(() => properties);
         },
-        unapply: (card, context, effect) => context.game.effectEngine.removeDelayedEffect(effect)
+        unapply: (player, context, effect) => context.game.effectEngine.removeDelayedEffect(effect)
     }),
     forgeAmberRecipient: (player) => EffectBuilder.player.static('forgeAmberRecipient', player),
     modifyKeyCost: (amount) => EffectBuilder.player.flexible('modifyKeyCost', amount),

@@ -29,10 +29,8 @@ class DiscardAction extends BaseAbility {
     }
 
     executeHandler(context) {
-        context.game.cardsDiscarded.push(this.card);
-        context.player.moveCard(context.source, 'discard');
+        context.game.actions.discard().resolve(this.card, context);
         context.game.addMessage('{0} discards {1}', context.player, context.source);
-        context.game.checkGameState(true);
     }
 
     isAction() {
