@@ -303,13 +303,6 @@ class Player extends GameObject {
 
         if(!this.isLegalLocationForCard(card, targetLocation) || targetPile && targetPile.includes(card)) {
             return;
-        } else if(card.parent) {
-            if(card.parent.upgrades.includes(card)) {
-                card.parent.upgrades = card.parent.upgrades.filter(c => c !== card);
-            } else if(card.parent.childCards.includes(card)) {
-                card.parent.childCards = card.parent.childCards.filter(c => c !== card);
-            }
-            card.parent = null;
         } else {
             this.removeCardFromPile(card);
         }
@@ -366,6 +359,16 @@ class Player extends GameObject {
      * @param card
      */
     removeCardFromPile(card) {
+        if(card.parent) {
+            if(card.parent.upgrades.includes(card)) {
+                card.parent.upgrades = card.parent.upgrades.filter(c => c !== card);
+            } else if(card.parent.childCards.includes(card)) {
+                card.parent.childCards = card.parent.childCards.filter(c => c !== card);
+            }
+            card.parent = null;
+            return;
+        }
+
         if(card.controller !== this) {
             card.controller.removeCardFromPile(card);
             return;

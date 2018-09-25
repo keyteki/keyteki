@@ -4,7 +4,7 @@ class PsychicNetwork extends Card {
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.steal(context => ({
-                amount: context.player.cardsInPlay.filter(card => card.hasHouse('mars') && !card.exhausted).length
+                amount: context.player.creaturesInPlay.filter(card => card.hasHouse('mars') && !card.exhausted).length
             }))
         });
     }

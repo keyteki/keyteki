@@ -24,12 +24,18 @@ class GameChat {
             if(arg instanceof Player) {
                 argList.push(arg.name);
             } else {
+                if(Array.isArray(arg)) {
+                    for(let i = 0; i < arg.length; i++) {
+                        if(arg[i] instanceof Player) {
+                            arg[i] = arg[i].name;
+                        }
+                    }
+                }
                 argList.push(arg);
             }
 
             return argList;
         }, argList);
-
         return this.formatMessage(message, args);
     }
 
