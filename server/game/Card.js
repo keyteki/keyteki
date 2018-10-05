@@ -19,8 +19,7 @@ class Card extends EffectSource {
     constructor(owner, cardData) {
         super(owner.game);
         this.owner = owner;
-        this.controller = owner;
-        this.defaultController = owner;
+        this.setDefaultController(owner);
         this.cardData = cardData;
 
         this.id = cardData.id;
@@ -258,7 +257,7 @@ class Card extends EffectSource {
         this.moribund = false;
         this.new = false;
         this.tokens = {};
-        this.controller = this.owner;
+        this.setDefaultController(this.owner);
         this.endRound();
     }
 
@@ -524,6 +523,7 @@ class Card extends EffectSource {
 
     setDefaultController(player) {
         this.defaultController = player;
+        this.controller = player;
     }
 
     getModifiedController() {
@@ -570,6 +570,7 @@ class Card extends EffectSource {
 
         let state = {
             id: this.cardData.id,
+            image: this.cardData.image,
             cardback: this.owner.deckData.cardback,
             childCards: this.childCards.map(card => {
                 return card.getSummary(activePlayer, hideWhenFaceup);

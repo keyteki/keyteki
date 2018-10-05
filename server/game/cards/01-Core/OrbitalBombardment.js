@@ -10,7 +10,7 @@ class OrbitalBombardment extends Card {
                 location: 'hand',
                 cardCondition: card => card.hasHouse('mars'),
                 gameAction: ability.actions.sequentialForEach(context => ({
-                    forEach: context.target,
+                    num: context.target.length,
                     action: ability.actions.dealDamage({
                         amount: 2,
                         promptForSelect: {
@@ -20,8 +20,8 @@ class OrbitalBombardment extends Card {
                     })
                 }))
             },
-            effect: 'revealing {0} to deal 2 damage to a creature {1} times',
-            effectArgs: context => Array.isArray(context.target) ? context.target.length : 1
+            effect: 'reveal {0} and to deal 2 damage to a creature {1} times',
+            effectArgs: context => context.target.length
         });
     }
 }

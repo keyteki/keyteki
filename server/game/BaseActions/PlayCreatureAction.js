@@ -12,6 +12,7 @@ class PlayCreatureAction extends BasePlayAction {
             card: context.source,
             originalLocation: context.source.location
         });
+        context.source.setDefaultController(context.player);
         let action = context.game.actions.putIntoPlay();
         action.preEventHandler(context);
         context.game.openEventWindow([action.getEvent(context.source, context), cardPlayedEvent]);

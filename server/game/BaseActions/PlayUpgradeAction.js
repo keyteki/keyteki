@@ -27,6 +27,7 @@ class PlayUpgradeAction extends BasePlayAction {
             card: context.source,
             originalLocation: context.source.location
         });
+        context.source.setDefaultController(context.player);
         context.game.openEventWindow([new AttachAction({ upgrade: context.source }).getEvent(context.target, context), cardPlayedEvent]);
     }
 }

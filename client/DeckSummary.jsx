@@ -90,7 +90,7 @@ class DeckSummary extends React.Component {
 
         return (
             <div className='deck-summary col-xs-12'>
-                { this.state.cardToShow ? <img className='hover-image' src={ '/img/cards/' + this.state.cardToShow.id + '.jpg' } /> : null }
+                { this.state.cardToShow ? <img className='hover-image' src={ '/img/cards/' + this.state.cardToShow.image + '.jpg' } /> : null }
                 <div className='decklist'>
                     <div className='col-xs-2 col-sm-3 no-x-padding'><img className='deck-mon img-responsive' src={ '/img/idbacks/' + this.props.deck.identity + '.jpg' } /></div>
                     <div className='col-xs-8 col-sm-6'>

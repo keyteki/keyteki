@@ -473,7 +473,7 @@ class Game extends EventEmitter {
      * @param {Object} properties - see handlermenuprompt.js
      */
     promptWithHandlerMenu(player, properties) {
-        this.queueStep(new HandlerMenuPrompt(this, player, properties));
+        this.queueStep(new HandlerMenuPrompt(this, this.activePlayer || player, properties));
     }
 
     /**
@@ -482,7 +482,7 @@ class Game extends EventEmitter {
      * @param {Object} properties - see selectcardprompt.js
      */
     promptForSelect(player, properties) {
-        this.queueStep(new SelectCardPrompt(this, player, properties));
+        this.queueStep(new SelectCardPrompt(this, this.activePlayer, properties));
     }
 
     /**
@@ -491,7 +491,7 @@ class Game extends EventEmitter {
      * @param {Object} properties - see selecthouseprompt.js
      */
     promptForHouseSelect(player, properties) {
-        this.queueStep(new SelectHousePrompt(this, player, properties));
+        this.queueStep(new SelectHousePrompt(this, this.activePlayer, properties));
     }
 
     /**
@@ -692,7 +692,7 @@ class Game extends EventEmitter {
 
     /**
      * Changes the controller of a card in play to the passed player, and cleans
-     * all the related stuff up (swapping sides in a conflic)
+     * all the related stuff up
      * @param {Player} player
      * @param card
      */
@@ -716,6 +716,12 @@ class Game extends EventEmitter {
         } else {
             player.cardsInPlay.push(card);
         }
+        _.each(card.abilities.persistentEffects, effect => {
+            if(effect.location !== 'any') {
+                card.removeEffectFromEngine(effect.ref);
+                effect.ref = card.addEffectToEngine(effect);
+            }
+        });
         this.queueSimpleStep(() => this.checkGameState(true));
     }
 

@@ -303,10 +303,9 @@ class Player extends GameObject {
 
         if(!this.isLegalLocationForCard(card, targetLocation) || targetPile && targetPile.includes(card)) {
             return;
-        } else {
-            this.removeCardFromPile(card);
         }
 
+        this.removeCardFromPile(card);
         let location = card.location;
 
         if(location === 'play area') {
@@ -328,8 +327,6 @@ class Player extends GameObject {
             card.onLeavesPlay();
             card.controller = this;
         } else if(targetLocation === 'play area') {
-            card.setDefaultController(this);
-            card.controller = this;
             card.exhausted = true;
         } else if(card.owner !== this) {
             card.owner.moveCard(card, targetLocation, options);

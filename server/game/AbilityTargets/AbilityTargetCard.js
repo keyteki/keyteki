@@ -21,9 +21,9 @@ class AbilityTargetCard {
     getSelector(properties) {
         let cardCondition = (card, context) => {
             let contextCopy = context.copy();
-            contextCopy.targets[this.name] = card;
+            contextCopy.targets[this.name] = this.selector.formatSelectParam([card]);
             if(this.name === 'target') {
-                contextCopy.target = card;
+                contextCopy.target = contextCopy.targets[this.name];
             }
             return (!properties.cardCondition || properties.cardCondition(card, contextCopy)) &&
                    //(!this.dependentTarget || this.dependentTarget.hasLegalTarget(contextCopy)) &&

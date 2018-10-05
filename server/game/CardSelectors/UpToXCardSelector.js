@@ -19,6 +19,10 @@ class UpToXCardSelector extends BaseCardSelector {
     hasExceededLimit(selectedCards) {
         return selectedCards.length > this.numCards;
     }
+
+    hasEnoughTargets() {
+        return true;
+    }
 }
 
 module.exports = UpToXCardSelector;

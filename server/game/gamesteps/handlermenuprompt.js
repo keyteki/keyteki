@@ -23,7 +23,7 @@ class HandlerMenuPrompt extends UiPrompt {
         this.player = player;
         if(_.isString(properties.source)) {
             properties.source = new EffectSource(game, properties.source);
-        } else if(properties.context && properties.context.source) {
+        } else if(!properties.source && properties.context && properties.context.source) {
             properties.source = properties.context.source;
         }
         if(properties.source && !properties.waitingPromptTitle) {

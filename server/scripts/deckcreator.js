@@ -36,23 +36,28 @@ let deckdata = [
 
 for(let data of deckdata) {
     let nameSplit = data.split('/');
-    let deck = { username: 'public' };
+    let deck = { username: 'public', banned: false };
     deck.name = nameSplit[0];
     deck.identity = deck.name.toLowerCase().replace(/[,?.!"]/gi, '').replace(/[ ']/gi, '-');
     deck.cardback = deck.identity + '_back';
     let split = nameSplit[1].split(' ');
     deck.houses = split.slice(0, 3).map(house => house.toLowerCase());
     deck.cards = [];
-    for(let num of split.slice(3)) {
+    let mavCounter = 0;
+    for(let num of split.slice(3, 39)) {
         let cardData = rawData.CardData.find(card => parseInt(card.number) === parseInt(num));
-        if(!cardData) {
+        if(!deck.houses.includes(cardData.house)) {
+            deck.cards.push({ id: cardData.id, count: 1, maverick: split[39 + mavCounter] });
+            mavCounter++;
+        } else if(!cardData) {
             throw new Error('Can\'t find data for ' + num);
-        }
-        let card = deck.cards.find(card => card.id === cardData.id);
-        if(card) {
-            card.count += 1;
         } else {
-            deck.cards.push({ id: cardData.id, count: 1 });
+            let card = deck.cards.find(card => card.id === cardData.id);
+            if(card) {
+                card.count += 1;
+            } else {
+                deck.cards.push({ id: cardData.id, count: 1 });
+            }
         }
     }
     decks.push(deck);

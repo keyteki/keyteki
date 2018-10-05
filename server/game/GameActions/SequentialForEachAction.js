@@ -20,22 +20,26 @@ class SequentialForEachAction extends GameAction {
         return (this.num > 0 || this.forEach.length > 0) && !!this.action;
     }
 
-    canAffect(target, context) {
-        return this.action.canAffect(target, context);
+    canAffect() {
+        return true;
     }
 
     getEventArray(context) {
         return [super.createEvent('unnamedEvent', {}, () => {
-            let num = this.num || this.forEach.length;
-            for(let i = 0; i < num; i++) {
-                context.game.queueSimpleStep(() => this.action.preEventHandler(context));
-                context.game.queueSimpleStep(() => context.game.openEventWindow(this.action.getEventArray(context)));
+            if(this.forEach.length > 0) {
+                for(let card of this.forEach) {
+                    context.game.queueSimpleStep(() => {
+                        this.action.setDefaultTarget(() => card);
+                        this.action.preEventHandler(context);
+                    });
+                    context.game.queueSimpleStep(() => context.game.openEventWindow(this.action.getEventArray(context)));
+                }
+            } else {
+                for(let i = 0; i < this.num; i++) {
+                    context.game.queueSimpleStep(() => this.action.preEventHandler(context));
+                    context.game.queueSimpleStep(() => context.game.openEventWindow(this.action.getEventArray(context)));
+                }
             }
-            /*
-            for(let card of this.forEach) {
-                context.game.queueSimpleStep(() => this.action.preEventHandler(context));
-                context.game.queueSimpleStep(() => context.game.openEventWindow(this.action.getEventArray(context)));
-            }*/
         })];
     }
 }

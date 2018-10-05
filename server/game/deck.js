@@ -28,7 +28,8 @@ class Deck {
                 power: card.power === '' ? null : parseInt(card.power),
                 armor: card.type.toLowerCase() === 'creature' ? (card.armor !== '' ? parseInt(card.armor) : 0) : null,
                 traits: card.traits === '' ? [] : card.traits.split(', ').map(trait => trait.toLowerCase()),
-                keywords: keywords
+                keywords: keywords,
+                image: id
             };
         }
         let cards = data.cards;
@@ -69,10 +70,17 @@ class Deck {
         }
         this.data = {
             houses: houses,
-            cards: cards.map(card => ({
-                count: card.count,
-                card: cardData[card.id]
-            }))
+            cards: cards.map(card => {
+                let result = {
+                    count: card.count,
+                    card: cardData[card.id]
+                };
+                if(card.maverick) {
+                    result.card.house = card.maverick;
+                    result.card.image = card.id + '_' + card.maverick;
+                }
+                return result;
+            })
         };
     }
 
@@ -85,11 +93,6 @@ class Deck {
         result.houses = this.data.houses;
 
         this.eachRepeatedCard(this.data.cards, cardData => {
-            let splitId = cardData.id.split('_');
-            if(splitId.length > 1) {
-                cardData.house = splitId[1];
-                cardData.id = splitId[0];
-            }
             let card = this.createCard(Card, player, cardData);
             card.location = 'deck';
             result.cards.push(card);

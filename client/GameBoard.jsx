@@ -551,7 +551,7 @@ export class InnerGameBoard extends React.Component {
                         </div>
                     </div>
                     <div className='right-side'>
-                        <CardZoom imageUrl={ this.props.cardToZoom ? '/img/' + (this.props.cardToZoom.facedown ? 'idbacks/' + this.props.cardToZoom.cardback : 'cards/' + this.props.cardToZoom.id) + '.jpg' : '' }
+                        <CardZoom imageUrl={ this.props.cardToZoom ? '/img/' + (this.props.cardToZoom.facedown ? 'idbacks/' + this.props.cardToZoom.cardback : 'cards/' + this.props.cardToZoom.image) + '.jpg' : '' }
                             orientation={ this.props.cardToZoom ? this.props.cardToZoom.type === 'plot' ? 'horizontal' : 'vertical' : 'vertical' }
                             show={ !!this.props.cardToZoom } cardName={ this.props.cardToZoom ? this.props.cardToZoom.name : null } />
                         <Chat

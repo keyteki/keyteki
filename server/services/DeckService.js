@@ -24,6 +24,7 @@ class DeckService {
             identity: deck.identity,
             cardback: deck.cardback,
             name: deck.name,
+            banned: deck.banned,
             houses: deck.houses,
             cards: deck.cards,
             lastUpdated: new Date()

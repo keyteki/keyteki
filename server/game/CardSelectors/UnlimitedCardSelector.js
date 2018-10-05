@@ -8,6 +8,10 @@ class UnlimitedCardSelector extends BaseCardSelector {
     hasReachedLimit() {
         return false;
     }
+
+    hasEnoughTargets() {
+        return true;
+    }
 }
 
 module.exports = UnlimitedCardSelector;

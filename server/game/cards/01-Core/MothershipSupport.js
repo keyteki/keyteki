@@ -5,7 +5,7 @@ class MothershipSupport extends Card {
         this.play({
             effect: 'deal 2 damage to a creature for each ready Mars creature they control',
             gameAction: ability.actions.sequentialForEach(context => ({
-                forEach: context.player.cardsInPlay.filter(card => card.type === 'creature' && card.hasHouse('mars') && !card.exhausted),
+                num: context.player.cardsInPlay.filter(card => card.type === 'creature' && card.hasHouse('mars') && !card.exhausted).length,
                 action: ability.actions.dealDamage({
                     amount: 2,
                     promptForSelect: {

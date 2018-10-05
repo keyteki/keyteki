@@ -5,7 +5,7 @@ class Tentacus extends Card {
         this.persistentEffect({
             targetController: 'opponent',
             effect: ability.effects.additionalCost(context => {
-                if(context.source.type === 'artifact' && !context.ability.isCardPlayed()) {
+                if(context.source.type === 'artifact' && context.ability.isTriggeredAbility() && context.ability.isAction()) {
                     return ability.costs.payAmber();
                 }
             })
