@@ -28,7 +28,13 @@ function processDecks(decks, state) {
         }
         */
         deck.cards = _.map(deck.cards, card => {
-            return { count: card.count, card: state.cards[card.id], id: card.id };
+            let result = { count: card.count, card: state.cards[card.id], id: card.id, maverick: card.maverick };
+            result.card.image = card.id;
+            if(card.maverick) {
+                result.card.house = card.maverick;
+                result.card.image += '_' + card.maverick;
+            }
+            return result;
         });
 
         deck.status = {

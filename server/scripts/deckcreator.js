@@ -3,9 +3,6 @@ const monk = require('monk');
 //const CardService = require('../services/CardService.js');
 const DeckService = require('../services/DeckService.js');
 
-let db = monk('mongodb://127.0.0.1:27017/keyforge');
-let deckService = new DeckService(db);
-
 let rawData = require('./keyforge.json');
 for(const card of rawData.CardData.filter(card => card.name !== '')) {
     card.id = card.name.toLowerCase().replace(/[,?.!"]/gi, '').replace(/[ ']/gi, '-');
@@ -29,9 +26,14 @@ for(const card of rawData.CardData.filter(card => card.name !== '')) {
     'Birrit "Provost Jeeves" Aguda	Dis	Sanctum	Brobnar	001	005	015	017	018	025	033	036	039	049	051	052	055	058	067	067	067	073	075	083	085	099	102	106	216	226	228	230	234	239	252	258	258	259	259	260'
 */
 
+/*
+    'Cartographer Ananta Sodtima/Dis Logos Brobnar 001 012 016 016 018 030 032 032 033 044 046 049 054 058 062 068 073 077 083 092 099 101 105 106 106 107 108 110 114 115 117 129 138 143 144 147 147'
+*/
+
 let decks = [];
 let deckdata = [
-    'Cartographer Ananta Sodtima/Dis Logos Brobnar 001 012 016 016 018 030 032 032 033 044 046 049 054 058 062 068 073 077 083 092 099 101 105 106 106 107 108 110 114 115 117 129 138 143 144 147 147'
+    'Gregg, the Adjutant of Myths/Untamed Brobnar Logos 007 012 013 016 016 024 026 030 033 033 035 049 109 109 109 115 117 117 124 142 144 144 145 219 319 323 323 324 351 352 358 363 363 364 365 367 logos',
+    'Evellin O. Knottikeni, the Fifth/Shadows Dis Mars 059 067 075 083 084 092 092 092 095 098 102 106 161 161 173 178 180 187 187 189 199 199 203 207 275 279 296 301 307 311 311 311 314 314 314 315'
 ];
 
 for(let data of deckdata) {
@@ -62,6 +64,9 @@ for(let data of deckdata) {
     }
     decks.push(deck);
 }
+
+let db = monk('mongodb://127.0.0.1:27017/keyforge');
+let deckService = new DeckService(db);
 
 Promise.all(decks.map(deck => deckService.create(deck)))
     .then(results => {

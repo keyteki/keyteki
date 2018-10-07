@@ -14,7 +14,7 @@ class DeckService {
     }
 
     findByUserName(userName) {
-        let decks = this.decks.find({ username: 'public' }, { sort: { lastUpdated: -1 } });
+        let decks = this.decks.find({ username: 'public', banned: false }, { sort: { lastUpdated: -1 } });
         return decks;
     }
 
