@@ -49,11 +49,7 @@ class DealDamageAction extends CardGameAction {
                 event.card.armorUsed += currentArmor;
                 event.card.addToken('damage', event.amount - currentArmor);
                 if(!event.card.moribund && (event.card.tokens.damage >= event.card.power || event.damageSource && event.damageSource.getKeywordValue('poison'))) {
-                    if(this.purge) {
-                        context.game.actions.purge().resolve(event.card, context);
-                    } else {
-                        context.game.actions.destroy({ inFight: !!event.fightEvent }).resolve(event.card, context.game.getFrameworkContext());
-                    }
+                    context.game.actions.destroy({ inFight: !!event.fightEvent, purge: this.purge }).resolve(event.card, context.game.getFrameworkContext());
                     if(event.fightEvent) {
                         event.fightEvent.destroyed.push(event.card);
                     }

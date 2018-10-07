@@ -9,6 +9,7 @@ class DestroyAction extends CardGameAction {
 
     setDefaultProperties() {
         this.inFight = false;
+        this.purge = false;
     }
 
     setup() {
@@ -31,7 +32,9 @@ class DestroyAction extends CardGameAction {
     getEvent(card, context) {
         let inFight = this.inFight;
         return super.createEvent('onCardDestroyed', { card, context, inFight }, () => {
-            context.game.raiseEvent('onCardLeavesPlay', { card, context }, () => card.owner.moveCard(card, 'discard'));
+            context.game.raiseEvent('onCardLeavesPlay', { card, context }, () => {
+                card.owner.moveCard(card, this.purge ? 'purged' : 'discard');
+            });
         });
     }
 }
