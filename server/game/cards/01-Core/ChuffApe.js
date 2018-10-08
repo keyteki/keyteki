@@ -11,6 +11,7 @@ class ChuffApe extends Card {
         
         this.fight({
             reap: true,
+            optional: true,
             target: {
                 cardType: 'creature',
                 controller: 'self',

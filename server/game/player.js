@@ -29,6 +29,7 @@ class Player extends GameObject {
         this.takenMulligan = false;
 
         this.chains = 0;
+        this.keyForged = false;
 
         this.clock = ClockSelector.for(this, clockdetails);
         this.showDeck = false;
@@ -215,6 +216,9 @@ class Player extends GameObject {
             card.new = false;
         }
         this.turn += 1;
+        if(this.opponent) {
+            this.opponent.keyForged = false;
+        }
     }
 
     /**
@@ -469,6 +473,7 @@ class Player extends GameObject {
             this.mostRecentEffect('forgeAmberRecipient').modifyAmber(cost);
         }
         this.keys += 1;
+        this.keyForged = true;
     }
 
     getAdditionalCosts(context) {

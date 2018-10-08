@@ -535,7 +535,7 @@ class Card extends EffectSource {
     }
 
     isOnFlank() {
-        return this.neighbors.length < 2;
+        return this.anyEffect('consideredAsFlank') || this.neighbors.length < 2;
     }
 
     get neighbors() {

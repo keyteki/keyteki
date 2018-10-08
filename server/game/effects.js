@@ -15,6 +15,7 @@ const Effects = {
     blank: () => EffectBuilder.card.static('blank'),
     bonusDamage: (match) => EffectBuilder.card.static('bonusDamage', match),
     cardCannot: (type, condition) => EffectBuilder.card.static('abilityRestrictions', new CannotRestriction(type, condition)),
+    consideredAsFlank: () => EffectBuilder.card.static('consideredAsFlank'),
     customDetachedCard: (properties) => EffectBuilder.card.detached('customEffect', properties),
     doesNotReady: () => EffectBuilder.card.static('doesNotReady'),
     gainAbility: (abilityType, properties) => EffectBuilder.card.detached('gainAbility', {
