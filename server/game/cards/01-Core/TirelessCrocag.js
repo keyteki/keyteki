@@ -1,0 +1,25 @@
+const Card = require('../../Card.js');
+
+class TirelessCrocag extends Card {
+    setupCardAbilities(ability) {
+        this.persistentEffect({
+            match: this,
+            effect: [
+                ability.effects.cardCannot('reap'),
+                ability.effects.terminalCondition({
+                    condition:  () => !this.controller.opponent || this.controller.opponent.creaturesInPlay.length === 0,
+                    message: '{0} is destroyed as there are no opposing creatures',
+                    gameAction: ability.actions.destroy()
+                })
+            ]
+        });
+
+        this.persistentEffect({
+            effect: ability.effects.canUse(context => context.source === this)
+        });
+    }
+}
+
+TirelessCrocag.id = 'tireless-crocag'; // This is a guess at what the id might be - please check it!!!
+
+module.exports = TirelessCrocag;

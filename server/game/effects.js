@@ -70,6 +70,9 @@ const Effects = {
     transferDamage: (card) => EffectBuilder.card.static('transferDamage', card),
     // Player effects
     additionalCost: (costFactory) => EffectBuilder.player.static('additionalCost', costFactory),
+    canFight: (match) => EffectBuilder.player.static('canUse', context => (
+        context.ability.title === 'Fight with this creature' && match(context.source)
+    )),
     canPlay: (match) => EffectBuilder.player.static('canPlay', match),
     canPlayFromOwn: (location) => EffectBuilder.player.detached('canPlayFromOwn', {
         apply: (player) => player.addPlayableLocation('play', player, location),
@@ -77,7 +80,7 @@ const Effects = {
     }),
     canPlayHouse: (house) => EffectBuilder.player.static('canPlayHouse', house),
     canPlayNonHouse: (house) => EffectBuilder.player.static('canPlayNonHouse', house),
-    canUse: (match) => EffectBuilder.player.static('canUse', match),
+    canUse: (match) => EffectBuilder.player.static('canUse', context => match(context.source)),
     canUseHouse: (house) => EffectBuilder.player.static('canUseHouse', house),
     customDetachedPlayer: (properties) => EffectBuilder.player.detached('customEffect', properties),
     delayedEffect: (properties) => EffectBuilder.player.detached('delayedEffect', {

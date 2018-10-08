@@ -24,6 +24,7 @@ class Card extends EffectSource {
 
         this.id = cardData.id;
         this.name = cardData.name;
+        this.image = cardData.image;
 
         this.type = cardData.type;
 

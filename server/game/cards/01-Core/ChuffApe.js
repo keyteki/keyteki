@@ -2,6 +2,13 @@ const Card = require('../../Card.js');
 
 class ChuffApe extends Card {
     setupCardAbilities(ability) {
+        this.constantReaction({
+            when: {
+                onCardEntersPlay: (event, context) => event.card === context.source
+            },
+            gameAction: ability.actions.stun()
+        });
+        
         this.fight({
             reap: true,
             target: {

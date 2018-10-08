@@ -8,6 +8,7 @@ class GameObject {
         this.name = name;
         this.id = this.name;
         this.type = '';
+        this.image = '';
         this.facedown = false;
         this.uuid = uuid.v1();
         this.effects = [];
@@ -86,6 +87,7 @@ class GameObject {
     getShortSummary() {
         return {
             id: this.id,
+            image: this.image,
             label: this.name,
             name: this.name,
             facedown: this.facedown,
