@@ -251,7 +251,7 @@ class Card extends EffectSource {
 
     onLeavesPlay() {
         if(this.hasToken('amber') && this.controller.opponent) {
-            this.controller.opponent.modifyAmber(this.tokens.amber);
+            this.game.actions.gainAmber({ amount: this.tokens.amber }).resolve(this.controller.opponent, this.game.getFrameworkContext());
         }
         this.exhausted = false;
         this.stunned = false;

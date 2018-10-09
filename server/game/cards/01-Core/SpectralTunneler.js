@@ -7,7 +7,7 @@ class SpectralTunneler extends Card {
                 cardType: 'creature',
                 gameAction: ability.actions.cardLastingEffect({
                     effect: [
-                        ability.effects.considerAsFlank(),
+                        ability.effects.consideredAsFlank(),
                         ability.effects.gainAbility('reap', {
                             gameAction: ability.actions.draw()
                         })
