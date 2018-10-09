@@ -12,6 +12,7 @@ class TroopCall extends Card {
                     location: 'discard',
                     target: context.player.discard.filter(card => card.type === 'creature' && card.hasTrait('niffle'))
                 }))
+            ]
         });
     }
 }
