@@ -17,7 +17,9 @@ class RevealAction extends CardGameAction {
 
     getEvent(card, context) {
         return super.createEvent('onRevealCards', { card, context }, () => {
-            context.game.addMessage('{0} reveals {1}', context.source, card);
+            if(this.chatMessage) {
+                context.game.addMessage('{0} reveals {1}', context.source, card);
+            }
         });
     }
 }

@@ -459,7 +459,8 @@ class Player extends GameObject {
     }
 
     canForgeKey(modifier = 0) {
-        return this.amber >= this.getCurrentKeyCost() + modifier;
+        let alternativeSources = this.getEffects('keyAmber').reduce((total, source) => total + source.tokens.amber ? source.tokens.amber : 0, 0);
+        return this.amber + alternativeSources >= this.getCurrentKeyCost() + modifier;
     }
 
     getCurrentKeyCost() {
@@ -468,12 +469,33 @@ class Player extends GameObject {
 
     forgeKey(modifier) {
         let cost = Math.max(0, this.getCurrentKeyCost() + modifier);
-        this.modifyAmber(-cost);
-        if(this.anyEffect('forgeAmberRecipient')) {
-            this.mostRecentEffect('forgeAmberRecipient').modifyAmber(cost);
+        let modifiedCost = cost;
+        if(this.anyEffect('keyAmber')) {
+            let totalAvailable = this.getEffects('keyAmber').reduce((total, source) => total + source.tokens.amber ? source.tokens.amber : 0, 0);
+            for(let source of this.getEffects('keyAmber').filter(source => source.hasToken('amber'))) {
+                this.game.queueSimpleStep(() => {
+                    let max = Math.min(modifiedCost, source.tokens.amber);
+                    let min = Math.max(0, modifiedCost - this.amber - totalAvailable + source.tokens.amber)
+                    this.game.promptWithHandlerMenu(this, {
+                        activePromptTitle: 'How much amber do you want to use from ' + source.name,
+                        source: 'Forge a Key',
+                        choices: _.range(min, max + 1),
+                        choiceHandler: choice => {
+                            modifiedCost -= choice,
+                            source.removeToken('amber', choice);
+                        }
+                    });
+                });
+            }
         }
-        this.keys += 1;
-        this.keyForged = true;
+        this.game.queueSimpleStep(() => {
+            this.modifyAmber(-modifiedCost);
+            if(this.anyEffect('forgeAmberRecipient')) {
+                this.game.actions.gainAmber({ amount: cost }).resolve(this.mostRecentEffect('forgeAmberRecipient'), this.game.getFrameworkContext());
+            }
+            this.keys += 1;
+            this.keyForged = true;    
+        });
     }
 
     getAdditionalCosts(context) {

@@ -85,7 +85,7 @@ const Actions = {
     loseAmber: (propertyFactory) => new LoseAmberAction(propertyFactory),
     search: (propertyFactory) => new SearchAction(propertyFactory), // name
     steal: (propertyFactory) => new StealAction(propertyFactory), // amount = 1
-    unforge: (propertyFactory) => new UnforgeAction(propertyFactory),
+    unforgeKey: (propertyFactory) => new UnforgeAction(propertyFactory),
     // meta actions
     changeEvent: (propertyFactory) => new ChangeEventAction(propertyFactory),
     chooseAction: (propertyFactory) => new ChooseGameAction(propertyFactory), // choices, activePromptTitle = 'Select one'
