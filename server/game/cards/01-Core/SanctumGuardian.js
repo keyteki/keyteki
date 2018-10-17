@@ -7,6 +7,7 @@ class SanctumGuardian extends Card {
             target: {
                 cardType: 'creature',
                 controller: 'self',
+                cardCondition: (card, context) => card !== context.source,
                 gameAction: ability.actions.swap()
             }
         });
