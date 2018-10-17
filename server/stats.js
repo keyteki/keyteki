@@ -7,7 +7,8 @@ const GameService = require('./services/GameService.js');
 const config = require('config');
 
 const bannedDecks = [
-    'flaregas-spawn-of-conflascoot'
+    'flaregas-spawn-of-conflascoot',
+    'thomsen-of-trinitop'
 ];
 
 let db = monk(config.dbPath);

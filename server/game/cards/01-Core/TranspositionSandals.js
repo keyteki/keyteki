@@ -11,7 +11,7 @@ class TranspositionSandals extends Card {
                 },
                 effect: 'swap its position with {0}. You may use {0} this turn',
                 gameAction: ability.actions.forRemainderOfTurn(abilityContext => ({
-                    effect: ability.effects.canUse(context => context.source === abilityContext.target)
+                    effect: ability.effects.canUse(card => card === abilityContext.target)
                 }))
             })
         });

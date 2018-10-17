@@ -1,4 +1,4 @@
-fdescribe('Neutron Shark', function() {
+describe('Neutron Shark', function() {
     integration(function() {
         describe('Neutron Shark\'s ability', function() {
             beforeEach(function() {

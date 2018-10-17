@@ -3,7 +3,7 @@ const Card = require('../../Card.js');
 class MackTheKnife extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
-            effect: ability.effects.canUse(context => context.source === this)
+            effect: ability.effects.canUse(card => card === this)
         });
 
         this.action({

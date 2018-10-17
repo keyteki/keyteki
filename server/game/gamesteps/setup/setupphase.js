@@ -56,7 +56,13 @@ class SetupPhase extends Phase {
     }
 
     drawStartingHands() {
-        _.each(this.game.getPlayers(), player => player.drawCardsToHand(6));
+        _.each(this.game.getPlayers(), player => {
+            player.drawCardsToHand(player.maxHandSize);
+            if(player.chains > 0) {
+                player.modifyChains(-1);
+                this.game.addMessage('{0}\'s chains are reduced by 1 to {1}', player, player.chains);
+            }
+        });
     }
 
     startGame() {
