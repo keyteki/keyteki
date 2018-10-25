@@ -27,8 +27,12 @@ class HousePhase extends Phase {
                 source: 'House Choice',
                 choices: choices,
                 choiceHandler: house => {
-                    this.game.activePlayer.activeHouse = house;
                     this.game.addMessage('{0} chooses {1} as their active house this turn', this.game.activePlayer, house);
+                    this.game.raiseEvent(
+                        'onChooseActiveHouse', 
+                        { player: this.game.activePlayer, house: house }, 
+                        () => this.game.activePlayer.activeHouse = house
+                    );
                 }
             });
         } else {

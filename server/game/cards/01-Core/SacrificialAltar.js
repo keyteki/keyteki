@@ -6,6 +6,7 @@ class SacrificialAltar extends Card {
             target: {
                 cardType: 'creature',
                 controller: 'self',
+                cardCondition: card => card.hasTrait('human'),
                 gameAction: ability.actions.purge()
             },
             then: {

@@ -11,7 +11,6 @@ const PlayCreatureAction = require('./BaseActions/PlayCreatureAction');
 const PlayArtifactAction = require('./BaseActions/PlayArtifactAction');
 const PlayUpgradeAction = require('./BaseActions/PlayUpgradeAction');
 const ResolveFightAction = require('./GameActions/ResolveFightAction');
-//const FightAction = require('./BaseActions/FightAction');
 const ResolveReapAction = require('./GameActions/ResolveReapAction');
 const RemoveStun = require('./BaseActions/RemoveStun');
 
@@ -364,6 +363,10 @@ class Card extends EffectSource {
 
     isBlank() {
         return this.anyEffect('blank');
+    }
+
+    hasKeyword(keyword) {
+        return !!this.getKeywordValue(keyword);
     }
 
     getKeywordValue(keyword) {

@@ -1,0 +1,20 @@
+const Card = require('../../Card.js');
+
+class HorsemanOfWar extends Card {
+    setupCardAbilities(ability) {
+        this.play({
+            effect: 'allow all friendly creatures to only fight this turn',
+            gameAction: ability.actions.forRemainderOfTurn({
+                effect: [
+                    ability.effects.canUse(card => card.type === 'creature'),
+                    ability.effects.cardCannot('useAction'),
+                    ability.effects.cardCannot('reap')
+                ]
+            })
+        });
+    }
+}
+
+HorsemanOfWar.id = 'horseman-of-war'; // This is a guess at what the id might be - please check it!!!
+
+module.exports = HorsemanOfWar;

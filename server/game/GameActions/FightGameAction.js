@@ -14,11 +14,11 @@ class FightGameAction extends CardGameAction {
         if(!fightAction || fightAction.meetsRequirements(newContext, ['stunned'])) {
             return false;
         }
-        return super.canAffect(card, context);
+        return card.checkRestrictions('use', context) && super.canAffect(card, context);
     }
 
     getEvent(card, context) {
-        return super.createEvent('unnamedEvent', {card, context}, () => {
+        return super.createEvent('onInitiateFight', {card, context}, () => {
             let newContext;
             if(card.stunned) {
                 let removeStunAction = card.getActions().find(action => action.title === 'Remove this creature\'s stun');
