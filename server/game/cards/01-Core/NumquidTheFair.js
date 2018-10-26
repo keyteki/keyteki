@@ -7,7 +7,7 @@ class NumquidTheFair extends Card {
             target: {
                 cardType: 'creature',
                 controller: 'opponent',
-                gameAction: ability.actions.destroy
+                gameAction: ability.actions.destroy()
             },
             then: preThenContext => ({
                 condition: context => context.player.creaturesInPlay.length < context.player.opponent.creaturesInPlay.length,

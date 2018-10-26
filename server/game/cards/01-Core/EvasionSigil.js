@@ -11,7 +11,11 @@ class EvasionSigil extends Card {
                 let player = context.event.card.controller;
                 let topCard = player.deck.length ? player.deck[0] : '';
                 return [player, topCard, topCard ? context.event.card : '', topCard ? ' is exhausted without effect' : ''];
-            }
+            },
+            gameAction: ability.actions.changeEvent(context => ({
+                event: context.event,
+                cancel: true
+            }))
         });
     }
 }

@@ -17,23 +17,23 @@ class NeutronShark extends Card {
                     gameAction: ability.actions.destroy()
                 }
             },
-            effect: 'destroy {1}.{2}{3}{4}',
-            effectArgs: context => {
-                let result = [Object.values(context.targets)];
-                if(context.player.deck.length > 0) {
-                    result = result.concat([' Then, ', context.player.deck[0], ' is discarded from the top of their deck']);
-                }
-                return result;
-            },
-            gameAction: [
-                ability.actions.discard(context => ({
-                    target: context.player.deck.length > 0 ? context.player.deck[0] : []
-                })),
-                ability.actions.resolveAbility(context => ({
-                    target: context.player.deck.length && !context.player.deck[0].hasHouse('logos') ? context.source : [],
-                    ability: context.ability
-                }))
-            ]
+            effect: 'destroy {1}',
+            effectArgs: context => [Object.values(context.targets)],
+            then: context => ({
+                alwaysTriggers: true,
+                condition: context => context.player.deck.length > 0,
+                message: '{0} discards the top card of their deck due to {1}: {3}{4}',
+                messageArgs: [context.player.deck[0], context.player.deck[0].hasHouse('logos') ? '. {1}\'s ability resolves again' : ''],
+                gameAction: [
+                    ability.actions.discard({
+                        target: context.player.deck.length > 0 ? context.player.deck[0] : []
+                    }),
+                    ability.actions.resolveAbility({
+                        target: context.player.deck.length && !context.player.deck[0].hasHouse('logos') ? context.source : [],
+                        ability: context.ability
+                    })
+                ]
+            })
         });
     }
 }

@@ -5,7 +5,7 @@ class MartianHounds extends Card {
         this.play({
             target: {
                 cardType: 'creature',
-                gameAction: ability.actions.addPowerToken(context => ({
+                gameAction: ability.actions.addPowerCounter(context => ({
                     amount: context.game.creaturesInPlay.filter(card => card.hasToken('damage')).length
                 }))
             }

@@ -8,8 +8,9 @@ card.neighbors.push(card);
 card.neighbors.push(card);
 const player = { deck: [card], hand: [card], archives: [card], discard: [card], creaturesInPlay: [card] };
 player.opponent = player;
+card.controller = player;
 const mockContext = {
-    event: {},
+    event: { card: card },
     game: {
         cardsUsed: [],
         cardsPlayed: []

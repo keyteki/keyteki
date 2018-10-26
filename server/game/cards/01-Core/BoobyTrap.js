@@ -6,7 +6,7 @@ class BoobyTrap extends Card {
             target: {
                 cardType: 'creature',
                 cardCondition: card => !card.isOnFlank(),
-                gameAction: ability.actions.damage({ amount: 4, splash: 2 })
+                gameAction: ability.actions.dealDamage({ amount: 4, splash: 2 })
             }
         });
     }
