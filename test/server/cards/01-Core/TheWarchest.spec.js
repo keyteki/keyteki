@@ -47,5 +47,27 @@ describe('The Warchest', function() {
                 this.player1.play(this.cowardSEnd);
             });
         });
+
+        describe('When both creatures died in the fight', function() {
+            beforeEach(function() {
+                this.setupTest({
+                    player1: {
+                        house: 'brobnar',
+                        inPlay: ['valdr', 'the-warchest'],
+                        hand: ['loot-the-bodies']
+                    },
+                    player2: {
+                        inPlay: ['ganger-chieftain']
+                    }
+                });
+                this.valdr.tokens.damage = 4;
+            });
+
+            it('should trigger', function() {
+                this.player1.fightWith(this.valdr, this.gangerChieftain);
+                this.player1.clickCard(this.theWarchest);
+                expect(this.player1).toHavePrompt('The Warchest');
+            });
+        });
     });
 });
