@@ -16,7 +16,7 @@ class MightyLance extends Card {
                 }
             },
             effect: 'deal 3 damage to {1} and {2}',
-            effectArgs: context => [Object.values(context.targets)]
+            effectArgs: context => Object.values(context.targets)
         });
     }
 }
