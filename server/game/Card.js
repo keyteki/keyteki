@@ -374,6 +374,9 @@ class Card extends EffectSource {
 
     getKeywordValue(keyword) {
         keyword = keyword.toLowerCase();
+        if(this.getEffects('removeKeyword').includes(keyword)) {
+            return 0;
+        }
         let reduceFunc = (total, keywords) => total + (keywords[keyword] ? keywords[keyword] : 0);
         return this.getEffects('addKeyword').reduce(reduceFunc, reduceFunc(0, this.keywords));
     }

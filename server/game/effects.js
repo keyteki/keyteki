@@ -60,6 +60,7 @@ const Effects = {
     ignores: (trait) => EffectBuilder.card.static('ignores', trait),
     modifyArmor: (amount) => EffectBuilder.card.flexible('modifyArmor', amount),
     modifyPower: (amount) => EffectBuilder.card.flexible('modifyPower', amount),
+    removeKeyword: (keyword) => EffectBuilder.card.static('removeKeyword', keyword), 
     takeControl: (player) => EffectBuilder.card.static('takeControl', player),
     terminalCondition: (properties) => EffectBuilder.card.detached('terminalCondition', {
         apply: (card, context) => {

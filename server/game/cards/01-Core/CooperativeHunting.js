@@ -14,7 +14,6 @@ class CooperativeHunting extends Card {
                     }
                 })
             }))
-
         });
     }
 }

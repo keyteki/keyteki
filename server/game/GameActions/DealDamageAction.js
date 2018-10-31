@@ -8,6 +8,7 @@ class DealDamageAction extends CardGameAction {
         this.damageSource = null;
         this.splash = 0;
         this.purge = false;
+        this.ignoreArmor = false;
     }
 
     setup() {
@@ -42,7 +43,7 @@ class DealDamageAction extends CardGameAction {
             fightEvent: this.fightEvent
         };
         return super.createEvent('onDamageDealt', params, event => {
-            let currentArmor = event.card.armor - event.card.armorUsed;
+            let currentArmor = this.ignoreArmor ? 0 : (event.card.armor - event.card.armorUsed);
             if(event.amount <= currentArmor) {
                 event.card.armorUsed += event.amount;
             } else {
