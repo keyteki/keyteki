@@ -1,6 +1,6 @@
 const Card = require('../../Card.js');
 
-class HorsemanOfPestilience extends Card {
+class HorsemanOfPestilence extends Card {
     setupCardAbilities(ability) {
         this.play({
             fight: true,
@@ -14,6 +14,6 @@ class HorsemanOfPestilience extends Card {
     }
 }
 
-HorsemanOfPestilience.id = 'horseman-of-pestilience'; // This is a guess at what the id might be - please check it!!!
+HorsemanOfPestilence.id = 'horseman-of-pestilence'; // This is a guess at what the id might be - please check it!!!
 
-module.exports = HorsemanOfPestilience;
+module.exports = HorsemanOfPestilence;
