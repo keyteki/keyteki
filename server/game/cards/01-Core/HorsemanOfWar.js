@@ -7,7 +7,7 @@ class HorsemanOfWar extends Card {
             gameAction: ability.actions.forRemainderOfTurn({
                 effect: [
                     ability.effects.canUse(card => card.type === 'creature'),
-                    ability.effects.cardCannot('useAction'),
+                    ability.effects.cardCannot('useAction', context => context.source.type === 'creature' && context.ability.title !== 'Fight with this creature'),
                     ability.effects.cardCannot('reap')
                 ]
             })
