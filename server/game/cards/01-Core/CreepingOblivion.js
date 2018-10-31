@@ -15,7 +15,7 @@ class CreepingOblivion extends Card {
                 cards: {
                     dependsOn: 'select',
                     mode: 'upTo',
-                    num: 2,
+                    numCards: 2,
                     player: context => context.selects.select.choice === 'Mine' ? context.player : context.player.opponent,
                     location: 'discard',
                     gameAction: ability.actions.purge()
