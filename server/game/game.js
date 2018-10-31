@@ -629,7 +629,7 @@ class Game extends EventEmitter {
      * @returns {Event} - this allows the caller to track Event.resolved and
      * tell whether or not the handler resolved successfully
      */
-    raiseEvent(eventName, params = {}, handler) {
+    raiseEvent(eventName, params = {}, handler = () => true) {
         let event = this.getEvent(eventName, params, handler);
         this.openEventWindow([event]);
         return event;
@@ -700,6 +700,7 @@ class Game extends EventEmitter {
         if(card.controller === player || !card.allowGameAction('takeControl')) {
             return;
         }
+        this.raiseEvent('onTakeControl', { player, card });
         card.controller.removeCardFromPile(card);
         card.controller = player;
         if(card.type === 'creature' && player.creaturesInPlay.length > 0) {

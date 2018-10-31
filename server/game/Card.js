@@ -237,6 +237,9 @@ class Card extends EffectSource {
             return false;
         }
         house = house.toLowerCase();
+        if(this.anyEffect('changeHouse')) {
+            return this.getEffects('changeHouse').includes(house);
+        }
         return this.printedHouse === house || this.getEffects('addHouse').includes(house);
     }
 
