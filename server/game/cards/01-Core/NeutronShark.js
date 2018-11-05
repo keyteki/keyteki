@@ -22,8 +22,18 @@ class NeutronShark extends Card {
             then: context => ({
                 alwaysTriggers: true,
                 condition: context => context.player.deck.length > 0,
-                message: '{0} discards the top card of their deck due to {1}: {3}{4}',
-                messageArgs: [context.player.deck[0], context.player.deck[0].hasHouse('logos') ? '. {1}\'s ability resolves again' : ''],
+                message: '{0} discards the top card of their deck due to {1}: {3}{4}{5}{6}',
+                messageArgs: () => {
+                    let topCard = context.player.deck[0];
+                    if(topCard) {
+                        if(topCard.hasHouse('logos')) {
+                            return [topCard];
+                        } else {
+                            return [topCard, '. ', context.source, '\'s ability resolves again'];
+                        }
+                    }
+                    return [];
+                },
                 gameAction: [
                     ability.actions.discard({
                         target: context.player.deck.length > 0 ? context.player.deck[0] : []

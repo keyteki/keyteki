@@ -7,7 +7,7 @@ class HouseTargeting extends React.Component {
         event.stopPropagation();
 
         if(this.props.onButtonClick) {
-            this.props.onButtonClick(this.props.command, house, this.uuid);
+            this.props.onButtonClick(this.props.command, house, this.props.uuid);
         }
     }
 
