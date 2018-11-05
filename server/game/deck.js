@@ -8,7 +8,7 @@ class Deck {
     constructor(data) {
         let cardData = {};
         for(const card of rawData.CardData.filter(card => card.name !== '')) {
-            let id = card.name.toLowerCase().replace(/[".!]/gi, '').replace(/[ ']/gi, '-');
+            let id = card.name.toLowerCase().replace(/[,?".!]/gi, '').replace(/[ ']/gi, '-');
             let keywords = {};
             if(card.keywords) {
                 for(const keyword of card.keywords.split(', ')) {
