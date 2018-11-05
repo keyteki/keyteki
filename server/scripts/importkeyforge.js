@@ -10,7 +10,7 @@ let deckService = new DeckService(db);
 
 let rawData = require('./keyforge.json');
 for(const card of rawData.CardData.filter(card => card.name !== '')) {
-    card.id = card.name.toLowerCase().replace(/[?.!"]/gi, '').replace(/[ ']/gi, '-');
+    card.id = card.name.toLowerCase().replace(/[?.!",]/gi, '').replace(/[ ']/gi, '-');
     card.type = card.type.toLowerCase();
     card.house = card.house.toLowerCase();
     card.amber = card.amber === '' ? 0 : parseInt(card.amber);

@@ -49,12 +49,13 @@ for(const card of rawData.CardData.filter(card => card.name !== '')) {
 let decks = [];
 let deckdata = [
     'Khyrmn, Hierophant of the Nihilistic Haunt/Untamed Dis Shadows 059 060 068 068 077 083 086 087 092 092 096 099 267 268 269 281 281 290 296 305 306 308 310 316 329 331 332 338 338 351 358 363 367 368 369 369',
-    'Berger, the Caller of Beejungle/Untamed Shadow Mars 173 193 195 196 199 200 200 202 205 205 205 209 267 270 274 289 290 290 296 301 305 306 308 314 319 319 323 328 333 333 350 355 358 358 363 367',
+    'Berger, the Caller of Beejungle/Untamed Shadows Mars 173 193 195 196 199 200 200 202 205 205 205 209 267 270 274 289 290 290 296 301 305 306 308 314 319 319 323 328 333 333 350 355 358 358 363 367',
     'Vlaad, Firemoon Keep\'s Whale/Untamed Logos Mars 109 114 117 125 134 136 138 139 140 142 142 148 162 169 187 196 196 199 199 199 203 205 205 205 319 323 323 330 333 333 351 352 356 361 368 368',
-    'Iridaral Amethyst-Feldt, Despot/Logos Dis Brobnar 002 007 010 012 016 021 025 032 033 033 039 040 055 055 057 058 059 062 077 079 095 102 102 217 217 217 217 220 228 238 241 241 255 256 261',
+    'Iridaral Amethyst-Feldt, Despot/Sanctum Dis Brobnar 002 007 010 012 016 021 025 032 033 033 039 040 055 055 057 058 059 062 077 079 095 102 102 217 217 217 217 220 228 238 241 241 255 256 261',
     'Enveldson the Proportionate/Untamed Brobnar Sanctum 005 007 017 021 026 026 031 035 042 046 046 217 226 234 237 238 239 241 241 241 243 258 258 322 323 323 323 325 327 344 345 355 361 361 367',
     'Machiao, the Heretic of Daggers/Dis Logos Brobnar 001 012 013 016 016 030 033 033 035 038 048 049 058 059 062 065 066 073 073 073 081 087 099 100 110 110 116 119 124 125 136 138 138 140 152 154',
-    'Ms. Purebrow, the Fizzy Turncoat/Sanctum Logos Untamed 108 108 114 118 120 125 129 138 139 144 150 154 212 215 220 224 227 239 239 253 254 254 255 262 319 319 322 323 333 333 349 351 351 367 368 370'
+    'Ms. Purebrow, the Fizzy Turncoat/Sanctum Logos Untamed 108 108 114 118 120 125 129 138 139 144 150 154 212 215 220 224 227 239 239 253 254 254 255 262 319 319 322 323 333 333 349 351 351 367 368 370',
+    '"Baron" Malachi, Complex Spy/Logos Dis Sanctum 054 059 066 073 073 083 092 092 094 099 101 106 110 112 121 122 129 135 138 139 145 147 147 157 226 227 228 231 233 233 237 238 241 244 252 254'
 ];
 
 for(let data of deckdata) {
@@ -68,8 +69,10 @@ for(let data of deckdata) {
     deck.cards = [];
     let mavCounter = 0;
     for(let num of split.slice(3, 39)) {
+        console.log(num);
         let cardData = rawData.CardData.find(card => parseInt(card.number) === parseInt(num));
         if(!deck.houses.includes(cardData.house)) {
+            console.log('no matching house', cardData.id)
             deck.cards.push({ id: cardData.id, count: 1, maverick: split[39 + mavCounter] });
             mavCounter++;
         } else if(!cardData) {
@@ -85,7 +88,7 @@ for(let data of deckdata) {
     }
     decks.push(deck);
 }
-
+/*
 let db = monk('mongodb://127.0.0.1:27017/keyforge');
 let deckService = new DeckService(db);
 
@@ -95,3 +98,4 @@ Promise.all(decks.map(deck => deckService.create(deck)))
         db.close();
     })
     .catch(() => db.close());
+*/
