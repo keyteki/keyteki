@@ -2,7 +2,7 @@ const Card = require('../../Card.js');
 
 class RandomAccessArchives extends Card {
     setupCardAbilities(ability) {
-        this.action({
+        this.play({
             effect: 'archive the top card of their deck',
             gameAction: ability.actions.archive(context => ({
                 target: context.player.deck.length > 0 ? context.player.deck[0] : []

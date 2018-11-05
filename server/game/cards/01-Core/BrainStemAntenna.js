@@ -3,7 +3,7 @@ const Card = require('../../Card.js');
 class BrainStemAntenna extends Card {
     setupCardAbilities(ability) {
         this.whileAttached({
-            effect: ability.effects.gainAbility('constantReaction', {
+            effect: ability.effects.gainAbility('constant', {
                 when: {
                     onCardPlayed: (event, context) => event.card.hasHouse('mars') && event.card.type === 'creature' && event.player === context.player
                 },
