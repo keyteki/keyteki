@@ -7,10 +7,10 @@ class DeepProbe extends Card {
             target: {
                 mode: 'house'
             },
-            effect: 'discard all {1} cards from {2}\'s hand: {3}',
+            effect: 'discard all {1} creature cards from {2}\'s hand: {3}',
             effectArgs: context => [context.house, context.player.opponent, context.player.opponent.hand],
             gameAction: ability.actions.discard(context => ({
-                target: context.player.opponent.hand.filter(card => card.hasHouse(context.house))
+                target: context.player.opponent.hand.filter(card => card.type === 'creature' && card.hasHouse(context.house))
             }))
         });
     }

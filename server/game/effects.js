@@ -58,6 +58,7 @@ const Effects = {
         }
     }),
     ignores: (trait) => EffectBuilder.card.static('ignores', trait),
+    modifyAmberValue: (amount) => EffectBuilder.card.flexible('modifyAmberValue', amount),
     modifyArmor: (amount) => EffectBuilder.card.flexible('modifyArmor', amount),
     modifyPower: (amount) => EffectBuilder.card.flexible('modifyPower', amount),
     removeKeyword: (keyword) => EffectBuilder.card.static('removeKeyword', keyword), 

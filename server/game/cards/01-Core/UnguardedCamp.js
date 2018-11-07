@@ -6,6 +6,7 @@ class UnguardedCamp extends Card {
             condition: context => !!context.player.opponent && context.player.creaturesInPlay.length > context.player.opponent.creaturesInPlay.length,
             target: {
                 mode: 'exactly',
+                controller: 'self',
                 numCards: context => Math.min(
                     context.player.opponent.amber, context.player.creaturesInPlay.length - context.player.opponent.creaturesInPlay.length
                 ),

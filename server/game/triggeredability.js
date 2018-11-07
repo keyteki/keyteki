@@ -43,7 +43,7 @@ class TriggeredAbility extends CardAbility {
     }
 
     eventHandler(event, window) {
-        let player = event.player || this.card.controller;
+        let player = this.card.controller;
         if(this.triggeredByOpponent && player.opponent) {
             player = player.opponent;
         }
@@ -51,6 +51,7 @@ class TriggeredAbility extends CardAbility {
             return;
         }
         let context = this.createContext(player, event);
+        //console.log(event.name, this.card.name, this.isTriggeredByEvent(event, context), this.meetsRequirements(context));
         if(this.isTriggeredByEvent(event, context) && this.meetsRequirements(context) === '') {
             window.addChoice(context);
         }

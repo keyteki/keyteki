@@ -85,7 +85,7 @@ class AbilityResolver extends BaseStepWithPipeline {
             this.cancelled = true;
             return;
         }
-        this.context.ability.displayMessage(this.context);
+        this.game.raiseEvent('onAbilityInitiated', { context: this.context });
     }
 
     executeHandler() {
@@ -93,6 +93,7 @@ class AbilityResolver extends BaseStepWithPipeline {
             return;
         }
         this.context.stage = 'effect';
+        this.context.ability.displayMessage(this.context);
         this.context.ability.executeHandler(this.context);
     }
 

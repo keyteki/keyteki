@@ -2,7 +2,7 @@ const Card = require('../../Card.js');
 
 class BilgumAvalanche extends Card {
     setupCardAbilities(ability) {
-        this.constantReaction({
+        this.reaction({
             when: {
                 onForgeKey: (event, context) => event.player === context.player && !!context.player.opponent
             },

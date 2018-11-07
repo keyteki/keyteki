@@ -37,7 +37,6 @@ class Card extends EffectSource {
         }
 
         this.printedHouse = cardData.house;
-        this.printedAmber = cardData.amber;
 
         this.upgrades = [];
         this.parent = null;
@@ -392,6 +391,10 @@ class Card extends EffectSource {
         clone.location = this.location;
         clone.parent = this.parent;
         return clone;
+    }
+
+    get printedAmber() {
+        return this.cardData.amber + this.sumEffects('modifyAmberValue');
     }
 
     get power() {

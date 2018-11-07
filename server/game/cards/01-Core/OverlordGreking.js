@@ -6,10 +6,9 @@ class OverlordGreking extends Card {
             when: {
                 onDamageDealt: (event, context) => event.damageSource === context.source && event.destroyed
             },
-            gameAction: ability.actions.cardLastingEffect(context => ({
+            gameAction: ability.actions.putIntoPlay(context => ({
                 target: context.event.card,
-                duration: 'lastingEffect',
-                effect: ability.effects.takeControl(context.player)
+                takeControl: true
             }))
         });
     }
