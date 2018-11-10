@@ -8,7 +8,7 @@ describe('Overlord Greking', function() {
                         inPlay: ['overlord-greking', 'dominator-bauble']
                     },
                     player2: {
-                        inPlay: ['mother', 'troll']
+                        inPlay: ['mother', 'troll', 'dextre']
                     }
                 });
             });
@@ -43,6 +43,15 @@ describe('Overlord Greking', function() {
                 expect(this.mother.location).toBe('discard');
                 expect(this.mother.controller).toBe(this.player2.player);
                 expect(this.player2.player.discard).toContain(this.mother);
+            });
+
+            it('should not work on Dextre', function() {
+                this.player1.fightWith(this.overlordGreking, this.dextre);
+                expect(this.overlordGreking.tokens.damage).toBe(3);
+                expect(this.dextre.hasToken('damage')).toBe(false);
+                expect(this.dextre.location).toBe('deck');
+                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.dextre.controller).toBe(this.player2.player);
             });
         });
     });
