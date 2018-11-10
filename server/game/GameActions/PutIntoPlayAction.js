@@ -3,7 +3,7 @@ const CardGameAction = require('./CardGameAction');
 class PutIntoPlayAction extends CardGameAction {
     setDefaultProperties() {
         this.left = false;
-        this.takeControl = false;
+        this.myControl = false;
     }
 
     setup() {
@@ -26,10 +26,8 @@ class PutIntoPlayAction extends CardGameAction {
     preEventHandler(context) {
         super.preEventHandler(context);
         let card = this.target.length > 0 ? this.target[0] : context.source;
-        if(this.takeControl) {
-            card.setDefaultController(context.player);
-        }
-        if(card.controller.cardsInPlay.some(card => card.type === 'creature')) {
+        let player = this.myControl ? context.player : card.controller;
+        if(player.cardsInPlay.some(card => card.type === 'creature')) {
             context.game.promptWithHandlerMenu(context.player, {
                 activePromptTitle: 'Which flank do you want to place this creature on?',
                 context: context,
@@ -41,7 +39,10 @@ class PutIntoPlayAction extends CardGameAction {
     }
 
     getEvent(card, context) {
-        return super.createEvent('onCardEntersPlay', { card: card, context: context }, () => card.controller.moveCard(card, 'play area', { left: this.left }));
+        return super.createEvent('onCardEntersPlay', { card: card, context: context }, () => {
+            let player = this.myControl ? context.player : card.controller;
+            player.moveCard(card, 'play area', { left: this.left, myControl: this.myControl });
+        });
     }
 }
 

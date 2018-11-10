@@ -8,7 +8,7 @@ class OverlordGreking extends Card {
             },
             gameAction: ability.actions.putIntoPlay(context => ({
                 target: context.event.card,
-                takeControl: true
+                myControl: true
             }))
         });
     }
