@@ -8,7 +8,8 @@ const config = require('config');
 
 const bannedDecks = [
     'flaregas-spawn-of-conflascoot',
-    'thomsen-of-trinitop'
+    'thomsen-of-trinitop',
+    'khyrmn-hierophant-of-the-nihilistic-haunt'
 ];
 
 let db = monk(config.dbPath);
