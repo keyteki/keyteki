@@ -208,9 +208,6 @@ class Player extends GameObject {
         this.playableLocations = _.reject(this.playableLocations, l => l === location);
     }
 
-    /**
-     * Called at the start of the Dynasty Phase.  Resets a lot of the single round parameters
-     */
     endRound() {
         for(let card of this.cardsInPlay) {
             card.new = false;
