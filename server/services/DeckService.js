@@ -2,7 +2,7 @@ const logger = require('../log.js');
 
 class DeckService {
     constructor(db) {
-        this.decks = db.get('decks');
+        this.decks = db.get('vaultDecks');
     }
 
     getById(id) {
@@ -13,6 +13,14 @@ class DeckService {
             });
     }
 
+    getByUuid(uuid) {
+        return this.decks.findOne({ uuid: uuid })
+            .catch(err => {
+                logger.error('Unable to fetch deck', err);
+                throw new Error('Unable to fetch deck ' + id);
+            });        
+    }
+
     findByUserName(userName) {
         let decks = this.decks.find({ username: 'public', banned: false }, { sort: { lastUpdated: -1 } });
         return decks;
@@ -20,9 +28,10 @@ class DeckService {
 
     create(deck) {
         let properties = {
-            username: deck.username,
+            uuid: deck.uuid,
+            //username: deck.username,
             identity: deck.identity,
-            cardback: deck.cardback,
+            //cardback: deck.cardback,
             name: deck.name,
             banned: deck.banned,
             houses: deck.houses,

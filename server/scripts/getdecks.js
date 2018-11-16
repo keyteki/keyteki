@@ -1,4 +1,3 @@
-const MaxPage = 10;
 const request = require('request');
 const monk = require('monk');
 const DeckService = require('../services/DeckService.js');
@@ -33,41 +32,50 @@ let getDecks = [];
 let db = monk('mongodb://127.0.0.1:27017/keyforge');
 let deckService = new DeckService(db);
 
-for(let i = 1; i < 2; i++) {
+for(let i = 3400; i < 3600; i++) {
     let path = 'decks/?search=&page=' + i.toString();
     getDecks.push(apiRequest(path)
         .then(body => {
-            for(let deck of body.data) {
-                console.log(deck.name, deck.id);
-                apiRequest('decks/' + deck.id + '/?links=cards')
-                    .then(data => console.log(data._linked.cards.map(card => card.card_number)))
-                    .then(data => {
-                        let deckData = { username: 'public', banned: false };
-                        deckData.name = deck.name;
-                        deck.identity = deck.name.toLowerCase().replace(/[,?.!"]/gi, '').replace(/[ ']/gi, '-');
-                        //deck.cardback = deck.identity + '_back';
-                        deck.houses = deck._links.houses.map(house => house.toLowerCase());
-                        deck.cards = [];
-                        let mavCounter = 0;
-                        for(let num of split.slice(3, 39)) {
-                            let cardData = rawData.CardData.find(card => parseInt(card.number) === parseInt(num));
-                            if(!deck.houses.includes(cardData.house)) {
-                                deck.cards.push({ id: cardData.id, count: 1, maverick: split[39 + mavCounter] });
-                                mavCounter++;
-                            } else if(!cardData) {
-                                throw new Error('Can\'t find data for ' + num);
-                            } else {
-                                let card = deck.cards.find(card => card.id === cardData.id);
-                                if(card) {
-                                    card.count += 1;
-                                } else {
-                                    deck.cards.push({ id: cardData.id, count: 1 });
+            return body.data.map(deck => {
+                return deckService.getByUuid(deck.id)
+                    .then(storedDeck => {
+                        if(storedDeck) {
+                            return;
+                        }
+                        return apiRequest('decks/' + deck.id + '/?links=cards')
+                            .then(data => {
+                                let deckData = { banned: false };
+                                deckData.uuid = deck.id;
+                                deckData.name = deck.name;
+                                deckData.identity = deck.name.toLowerCase().replace(/[,?.!"]/gi, '').replace(/[ ']/gi, '-');
+                                //deck.cardback = deck.identity + '_back';
+                                deckData.houses = deck._links.houses.map(house => house.toLowerCase());
+                                if(data._linked.cards.some(card => card.is_maverick)) {
+                                    console.log(deck.name, 'has maverick');
+                                    return;
                                 }
-                            }
-                        }                                            
-                    })
-            }
-        })
+                                deckData.cards = [];
+                                let cardNumbers = data._linked.cards.map(card => card.card_number)
+                                for(let uuid of deck.cards) {
+                                    let num = data._linked.cards.find(card => card.id === uuid).card_number;
+                                    let cardData = rawData.CardData.find(card => parseInt(card.number) === num);
+                                    if(!cardData) {
+                                        throw new Error('Can\'t find data for ' + num);
+                                    } else {
+                                        let card = deckData.cards.find(card => card.id === cardData.id);
+                                        if(card) {
+                                            card.count += 1;
+                                        } else {
+                                            deckData.cards.push({ id: cardData.id, count: 1 });
+                                        }
+                                    }
+                                }
+                                console.log('creating record for ', deck.name);
+                                return deckService.create(deckData);
+                            });    
+                    });
+                })
+            })
         .catch(body => console.log('error', body))
     );
 }
