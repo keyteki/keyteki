@@ -3,7 +3,7 @@
     sentryDsn: 'https://sentry.io/169735',
     emailPath: 'smtp://localhost/?requireTLS=true&tls.rejectUnauthorized=false',
     hmacSecret: 'rWowmZwaQB7fNYqyfMII',
-    captchaKey: '6LdioDEUAAAAAArD45j9V10QeWK3FqYRrUAK7xxt',
+    captchaKey: '6Ldx1XsUAAAAAAEgOsjFgkwsJCRgtaj9ZXBBCLvJ',
 
     lobby: {
         port: 4000
