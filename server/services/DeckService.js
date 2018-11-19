@@ -2,7 +2,7 @@ const logger = require('../log.js');
 
 class DeckService {
     constructor(db) {
-        this.decks = db.get('vaultDecks');
+        this.decks = db.get('decks');
     }
 
     getById(id) {
