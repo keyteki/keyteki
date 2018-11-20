@@ -21,11 +21,10 @@ let deckService = new DeckService(db);
 
 deckService.decks.find({ banned: false })
     .then(decks => {
-        console.log(decks);
         for(let deck of decks) {
-            console.log('checking', deck.name);
             for(let card of deck.cards) {
-                if(!rawData.CardData.find(c => c.id === card.id)) {
+                if(!card.id || !rawData.CardData.find(c => c.id === card.id)) {
+                    console.log('checking', deck.name);
                     console.log(card.id);
                 }
             }
