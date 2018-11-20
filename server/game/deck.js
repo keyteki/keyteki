@@ -110,7 +110,7 @@ class Deck {
     }
 
     createCard(baseClass, player, cardData) {
-        if(!cardData && !cardData.id) {
+        if(!cardData || !cardData.id) {
             return new Card(player, cardData);
         }
         var cardClass = cards[cardData.id];
