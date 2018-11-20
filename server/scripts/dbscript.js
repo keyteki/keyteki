@@ -19,8 +19,9 @@ let db = monk('mongodb://127.0.0.1:27017/keyforge');
 let cardService = new CardService(db);
 let deckService = new DeckService(db);
 
-deckService.decks.find({ banned: false })
+deckService.decks.find({ banned: false } , { sort: { lastUpdated: -1 } })
     .then(decks => {
+        console.log(decks);
         for(let deck of decks) {
             console.log('checking', deck.name);
             for(let card of deck.cards) {
