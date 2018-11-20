@@ -22,7 +22,8 @@ let deckService = new DeckService(db);
 deckService.decks.find({ banned: false } , { sort: { lastUpdated: -1 } })
     .then(decks => {
         console.log(decks);
-        for(let deck of decks) {
+        for(let i = 0; i < decks.length; i++) {
+            let deck = decks[i];
             console.log('checking', deck.name);
             for(let card of deck.cards) {
                 if(!rawData.find(c => c.id === card.id)) {
