@@ -1,6 +1,6 @@
 const uuid = require('uuid');
 const _ = require('underscore');
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcrypt');
 
 const logger = require('./log.js');
 const GameChat = require('./game/gamechat.js');

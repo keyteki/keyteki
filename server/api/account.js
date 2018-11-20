@@ -1,5 +1,5 @@
 const logger = require('../log.js');
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcrypt');
 const passport = require('passport');
 const config = require('config');
 const jwt = require('jsonwebtoken');

@@ -1,5 +1,5 @@
 const EventEmitter = require('events');
-const zmq = require('zmq');
+const zmq = require('zeromq');
 const config = require('config');
 const logger = require('../log.js');
 

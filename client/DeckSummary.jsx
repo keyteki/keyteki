@@ -92,7 +92,7 @@ class DeckSummary extends React.Component {
             <div className='deck-summary col-xs-12'>
                 { this.state.cardToShow ? <img className='hover-image' src={ '/img/cards/' + this.state.cardToShow.image + '.jpg' } /> : null }
                 <div className='decklist'>
-                    <div className='col-xs-2 col-sm-3 no-x-padding'><img className='deck-mon img-responsive' src={ '/img/idbacks/' + this.props.deck.identity + '.jpg' } /></div>
+                    <div className='col-xs-2 col-sm-3 no-x-padding'><img className='deck-mon img-responsive' src={ '/img/idbacks/identity.jpg' } /></div>
                     <div className='col-xs-8 col-sm-6'>
                         <div className='info-row row'><img className='deck-med-house' src={ '/img/house/' + this.props.deck.houses[0] + '.png' } /><img className='deck-med-house' src={ '/img/house/' + this.props.deck.houses[1] + '.png' } /><img className='deck-med-house' src={ '/img/house/' + this.props.deck.houses[2] + '.png' } /></div>
                         <div className='info-row row' ref='alliance'><span>Actions:</span><span className='pull-right'>{ cardCounts.action } cards</span></div>

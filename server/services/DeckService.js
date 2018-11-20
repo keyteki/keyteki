@@ -1,4 +1,5 @@
 const logger = require('../log.js');
+const request = require('request');
 
 class DeckService {
     constructor(db) {
@@ -17,30 +18,41 @@ class DeckService {
         return this.decks.findOne({ uuid: uuid })
             .catch(err => {
                 logger.error('Unable to fetch deck', err);
-                throw new Error('Unable to fetch deck ' + id);
+                throw new Error('Unable to fetch deck ' + uuid);
             });        
     }
 
     findByUserName(userName) {
-        let decks = this.decks.find({ username: 'public', banned: false }, { sort: { lastUpdated: -1 } });
+        let decks = this.decks.find({ username: userName, banned: false }, { sort: { lastUpdated: -1 } });
         return decks;
     }
-
+ 
     create(deck) {
-        let properties = {
-            uuid: deck.uuid,
-            //username: deck.username,
-            identity: deck.identity,
-            //cardback: deck.cardback,
-            name: deck.name,
-            banned: deck.banned,
-            houses: deck.houses,
-            cards: deck.cards,
-            lastUpdated: new Date()
-        };
-
-        return this.decks.insert(properties);
+        return request.get('https://www.keyforgegame.com/api/decks/' + deck.uuid + '/?links=cards', (error, res, body) => {
+            if(error) {
+                throw new Error('url error');
+            }
+            let deckResponse = JSON.parse(body);
+            let cards = deckResponse._linked.cards.map(card => {
+                let id = card.card_title.toLowerCase().replace(/[,?.!"„“”]/gi, '').replace(/[ '’]/gi, '-');
+                if(card.is_maverick) {
+                    return { id: id, count: 1, maverick: card.house.toLowerCase() };
+                }
+                return { id: id, count: deckResponse.data._links.cards.filter(uuid => uuid === card.id).length };
+            });
+            return this.decks.insert({
+                username: deck.username,
+                uuid: deckResponse.data.id,
+                identity: deckResponse.data.name.toLowerCase().replace(/[,?.!"„“”]/gi, '').replace(/[ '’]/gi, '-'),
+                cardback: '',
+                name: deckResponse.data.name,
+                banned: false,
+                houses: deckResponse.data._links.houses.map(house => house.toLowerCase()),
+                cards: cards
+            });    
+        });
     }
+    
 
     update(deck) {
         let properties = {

@@ -155,11 +155,6 @@ class InnerLogin extends React.Component {
                     <form className='form form-horizontal'>
                         { fieldsToRender }
                         <div className='form-group'>
-                            <div className='col-sm-offset-2 col-sm-10'>
-                                <Link href='/forgot' >Forgot your password?</Link>
-                            </div>
-                        </div>
-                        <div className='form-group'>
                             <div className='col-sm-offset-2 col-sm-3'>
                                 <button ref='submit' type='submit' className='btn btn-primary' onClick={ this.onLogin }>Login</button>
                             </div>
