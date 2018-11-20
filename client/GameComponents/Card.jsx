@@ -330,7 +330,7 @@ class Card extends React.Component {
             cardClass += ' ' + this.props.className;
         }
 
-        cardBack = 'idbacks/' + this.props.card.cardback + '.jpg';
+        cardBack = 'idbacks/cardback.jpg';
 
         return (
             <div className='card-frame' ref='cardFrame'

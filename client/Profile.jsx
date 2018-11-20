@@ -329,21 +329,21 @@ class InnerProfile extends React.Component {
                                         <div className='card-settings' onClick={ () => this.onCardClick('normal') }>
                                             <div className={ 'card vertical' + (this.state.selectedCardSize === 'normal' ? ' selected' : '') }>
                                                 <img className='card vertical'
-                                                    src='img/cards/identity.jpg' />
+                                                    src='img/idbacks/identity.jpg' />
                                             </div>
                                             <span className='bg-label'>Normal</span>
                                         </div>
                                         <div className='card-settings' onClick={ () => this.onCardClick('large') }>
                                             <div className={ 'card vertical large' + (this.state.selectedCardSize === 'large' ? ' selected' : '') } >
                                                 <img className='card-image large vertical'
-                                                    src='/img/cards/identity.jpg' />
+                                                    src='/img/idbacks/identity.jpg' />
                                             </div>
                                             <span className='bg-label'>Large</span>
                                         </div>
                                         <div className='card-settings' onClick={ () => this.onCardClick('x-large') }>
                                             <div className={ 'card vertical x-large' + (this.state.selectedCardSize === 'x-large' ? ' selected' : '') }>
                                                 <img className='card-image x-large vertical'
-                                                    src='img/cards/identity.jpg' />
+                                                    src='img/idbacks/identity.jpg' />
                                             </div>
                                             <span className='bg-label'>Extra-Large</span>
                                         </div>
