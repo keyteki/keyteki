@@ -93,7 +93,7 @@ class Deck {
         result.houses = this.data.houses;
 
         this.eachRepeatedCard(this.data.cards, cardData => {
-            let card = this.createCard(Card, player, cardData);
+            let card = this.createCard(player, cardData);
             card.location = 'deck';
             result.cards.push(card);
         });
@@ -109,8 +109,10 @@ class Deck {
         });
     }
 
-    createCard(baseClass, player, cardData) {
-        if(!cardData || !cardData.id || !cards[cardData.id]) {
+    createCard(player, cardData) {
+        if(!cardData || !cardData.id) {
+            throw new Error('no cardData for ' + JSON.stringify(this.data))
+        } else if (!cards[cardData.id]) {
             return new Card(player, cardData);
         }
         var cardClass = cards[cardData.id];
