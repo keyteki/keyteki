@@ -19,14 +19,13 @@ let db = monk('mongodb://127.0.0.1:27017/keyforge');
 let cardService = new CardService(db);
 let deckService = new DeckService(db);
 
-deckService.decks.find({ banned: false } , { sort: { lastUpdated: -1 } })
+deckService.decks.find({ banned: false })
     .then(decks => {
         console.log(decks);
-        for(let i = 0; i < decks.length; i++) {
-            let deck = decks[i];
+        for(let deck of decks) {
             console.log('checking', deck.name);
             for(let card of deck.cards) {
-                if(!rawData.find(c => c.id === card.id)) {
+                if(!rawData.CardData.find(c => c.id === card.id)) {
                     console.log(card.id);
                 }
             }
