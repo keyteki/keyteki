@@ -22,6 +22,7 @@ let deckService = new DeckService(db);
 deckService.decks.find()
     .then(decks => {
         for(let deck of decks) {
+            console.log('checking', deck.name);
             for(let card of deck.cards) {
                 if(!rawData.find(c => c.id === card.id)) {
                     console.log(card.id);
