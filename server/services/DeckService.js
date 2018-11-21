@@ -1,5 +1,5 @@
 const logger = require('../log.js');
-const request = require('request');
+const util = require('../util.js');
 
 class DeckService {
     constructor(db) {
@@ -27,33 +27,43 @@ class DeckService {
         return decks;
     }
  
-    create(deck) {
-        return request.get('https://www.keyforgegame.com/api/decks/' + deck.uuid + '/?links=cards', (error, res, body) => {
-            if(error) {
-                throw new Error('url error');
+    async create(deck) {
+        process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0"
+        let deckResponse;
+
+        try {
+            let response = await util.httpRequest(`https://www.keyforgegame.com/api/decks/${deck.uuid}/?links=cards`);
+            deckResponse = JSON.parse(response);
+        }
+        catch(error) {
+            logger.error('Unable to import deck', error);
+
+            return undefined;
+        }
+
+           
+        if(!deckResponse || !deckResponse._linked || !deckResponse.data) {
+            return;
+        }
+
+        let cards = deckResponse._linked.cards.map(card => {
+            let id = card.card_title.toLowerCase().replace(/[,?.!"„“”]/gi, '').replace(/[ '’]/gi, '-');
+            if(card.is_maverick) {
+                return { id: id, count: 1, maverick: card.house.toLowerCase() };
             }
-            let deckResponse = JSON.parse(body);
-            if(!deckResponse || !deckResponse._linked || !deckResponse.data) {
-                return;
-            }
-            let cards = deckResponse._linked.cards.map(card => {
-                let id = card.card_title.toLowerCase().replace(/[,?.!"„“”]/gi, '').replace(/[ '’]/gi, '-');
-                if(card.is_maverick) {
-                    return { id: id, count: 1, maverick: card.house.toLowerCase() };
-                }
-                return { id: id, count: deckResponse.data._links.cards.filter(uuid => uuid === card.id).length };
-            });
-            return this.decks.insert({
-                username: deck.username,
-                uuid: deckResponse.data.id,
-                identity: deckResponse.data.name.toLowerCase().replace(/[,?.!"„“”]/gi, '').replace(/[ '’]/gi, '-'),
-                cardback: '',
-                name: deckResponse.data.name,
-                banned: false,
-                houses: deckResponse.data._links.houses.map(house => house.toLowerCase()),
-                cards: cards
-            });    
+            return { id: id, count: deckResponse.data._links.cards.filter(uuid => uuid === card.id).length };
         });
+
+        return await this.decks.insert({
+            username: deck.username,
+            uuid: deckResponse.data.id,
+            identity: deckResponse.data.name.toLowerCase().replace(/[,?.!"„“”]/gi, '').replace(/[ '’]/gi, '-'),
+            cardback: '',
+            name: deckResponse.data.name,
+            banned: false,
+            houses: deckResponse.data._links.houses.map(house => house.toLowerCase()),
+            cards: cards
+        });    
     }
     
 

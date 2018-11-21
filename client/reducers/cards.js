@@ -166,10 +166,14 @@ export default function(state = {}, action) {
 
             return newState;
         case 'DECK_SAVED':
+            var decks = state.decks;
+            decks.push(action.response.deck);
             newState = Object.assign({}, state, {
                 deckSaved: true,
-                decks: undefined
+                decks: decks
             });
+
+            processDecks(newState.decks, state);
 
             return newState;
         case 'DECK_DELETED':

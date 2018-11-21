@@ -66,8 +66,19 @@ module.exports.init = function(server) {
         }
 
         let deck = Object.assign(JSON.parse(req.body.data), { username: req.user.username });
-        await deckService.create(deck);
-        res.send({ success: true });
+
+        let savedDeck;
+        try {
+            savedDeck = await deckService.create(deck);
+        } catch (error) {
+            res.send({ success: false, message: "An error occurred importing your deck.  Please check the Url or try again later." });
+        }
+
+        if(!savedDeck) {
+            res.send({ success: false, message: "An error occurred importing your deck.  Please check the Url or try again later." });
+        }
+
+        res.send({ success: true, deck: savedDeck });
     }));
 
     server.delete('/api/decks/:id', wrapAsync(async function(req, res) {
