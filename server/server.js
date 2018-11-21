@@ -114,9 +114,14 @@ class Server {
         });
 
         // Define error middleware last
-        app.use(function(err, req, res, next) { // eslint-disable-line no-unused-vars
-            res.status(500).send({ success: false });
+        app.use(function (err, req, res, next) { // eslint-disable-line no-unused-vars
             logger.error(err);
+
+            if(!res.headersSent && req.xhr) {
+                return res.status(500).send({ success: false });
+            }
+
+            next(err);
         });
 
         return this.server;
@@ -143,7 +148,7 @@ class Server {
                     return Promise.reject('Failed auth');
                 }
 
-                bcrypt.compare(password, user.password, function(err, valid) {
+                bcrypt.compare(password, user.password, function (err, valid) {
                     if(err) {
                         logger.info(err.message);
 
