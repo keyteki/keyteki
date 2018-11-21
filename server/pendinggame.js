@@ -85,7 +85,7 @@ class PendingGame {
 
     hashPassword(password) {
         return new Promise((resolve, reject) => {
-            bcrypt.hash(password, 10, (err, hash) => {
+            bcrypt.hash(password, 2, (err, hash) => {
                 if(err) {
                     logger.info(err);
 
@@ -100,7 +100,7 @@ class PendingGame {
     async newGame(id, user, password) {
         if(password) {
             try {
-                this.password = await bcrypt.hash(password);
+                this.password = await this.hashPassword(password);
             } catch(err) {
                 return 'Failed to create game';
             }
