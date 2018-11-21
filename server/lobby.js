@@ -119,7 +119,7 @@ class Lobby {
     }
 
     getUserList() {
-        let userList = _.map(this.users, function(user) {
+        let userList = _.map(this.users, function (user) {
             return {
                 name: user.username,
                 emailHash: user.emailHash,
@@ -138,7 +138,7 @@ class Lobby {
         var versionInfo = undefined;
 
         if(socket.handshake.query.token && socket.handshake.query.token !== 'undefined') {
-            jwt.verify(socket.handshake.query.token, this.config.secret, function(err, user) {
+            jwt.verify(socket.handshake.query.token, this.config.secret, function (err, user) {
                 if(err) {
                     logger.info(err);
                     return;
@@ -356,9 +356,9 @@ class Lobby {
         }
 
         let game = new PendingGame(socket.user, gameDetails);
-        game.newGame(socket.id, socket.user, gameDetails.password, (err, message) => {
-            if(err) {
-                logger.info('game failed to create', err, message);
+        game.newGame(socket.id, socket.user, gameDetails.password).then(message => {
+            if(message) {
+                logger.info('game failed to create', message);
 
                 return;
             }
@@ -404,7 +404,7 @@ class Lobby {
             return;
         }
 
-        if(_.any(game.getPlayers(), function(player) {
+        if(_.any(game.getPlayers(), function (player) {
             return !player.deck;
         })) {
             return;

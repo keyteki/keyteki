@@ -83,27 +83,34 @@ class PendingGame {
         };
     }
 
-    newGame(id, user, password, callback) {
-        if(password) {
+    hashPassword(password) {
+        return new Promise((resolve, reject) => {
             bcrypt.hash(password, 10, (err, hash) => {
                 if(err) {
                     logger.info(err);
 
-                    callback(err);
-
-                    return;
+                    return reject(err);
                 }
 
-                this.password = hash;
-                this.addPlayer(id, user);
-
-                callback();
+                return resolve(hash);
             });
+        });
+    }
+
+    async newGame(id, user, password) {
+        if(password) {
+            try {
+                this.password = await bcrypt.hash(password);
+            } catch(err) {
+                return 'Failed to create game';
+            }
+
+            this.addPlayer(id, user);
         } else {
             this.addPlayer(id, user);
-
-            callback();
         }
+
+        return undefined;
     }
 
     isUserBlocked(user) {
