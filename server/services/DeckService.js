@@ -28,7 +28,6 @@ class DeckService {
     }
  
     async create(deck) {
-        process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0"
         let deckResponse;
 
         try {
