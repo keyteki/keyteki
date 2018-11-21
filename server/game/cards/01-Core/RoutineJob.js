@@ -5,6 +5,7 @@ class RoutineJob extends Card {
         this.play({
             gameAction: ability.actions.steal(),
             then: context => ({
+                message: '{0} steals an additional amber with {1}',
                 gameAction: ability.actions.steal({
                     amount: context.player.discard.filter(card => card.name === 'Routine Job').length
                 })
