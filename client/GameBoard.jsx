@@ -487,6 +487,7 @@ export class InnerGameBoard extends React.Component {
                         <PlayerStatsRow
                             activeHouse={ otherPlayer ? otherPlayer.activeHouse : '' }
                             clockState={ otherPlayer ? otherPlayer.clock : null }
+                            deckName= { otherPlayer ? otherPlayer.deckName : '' }
                             houses={ otherPlayer ? otherPlayer.houses : null }
                             stats={ otherPlayer ? otherPlayer.stats : null }
                             user={ otherPlayer ? otherPlayer.user : null }
@@ -578,6 +579,7 @@ export class InnerGameBoard extends React.Component {
                             { ...bindActionCreators(actions, this.props.dispatch) }
                             activeHouse={ thisPlayer.activeHouse }
                             clockState={ thisPlayer.clock }
+                            deckName= { thisPlayer.deckName }
                             houses={ thisPlayer.houses }
                             stats={ thisPlayer.stats }
                             showControls={ !this.state.spectating && manualMode }

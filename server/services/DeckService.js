@@ -33,6 +33,9 @@ class DeckService {
                 throw new Error('url error');
             }
             let deckResponse = JSON.parse(body);
+            if(!deckResponse || !deckResponse._linked || !deckResponse.data) {
+                return;
+            }
             let cards = deckResponse._linked.cards.map(card => {
                 let id = card.card_title.toLowerCase().replace(/[,?.!"„“”]/gi, '').replace(/[ '’]/gi, '-');
                 if(card.is_maverick) {

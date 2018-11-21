@@ -77,6 +77,11 @@ export class PlayerStatsRow extends React.Component {
                 { this.getButton('amber', 'Amber') }
                 { this.getButton('chains', 'Chains') }
                 { this.props.houses ? this.getHouses() : null }
+                { this.props.deckName &&
+                    <div className='state'>
+                        <div className='hand-size'> { this.props.deckName } </div>
+                    </div>
+                }
                 {
                     this.props.firstPlayer &&
                     <div className='state first-player-state'>
