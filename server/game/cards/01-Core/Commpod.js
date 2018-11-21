@@ -2,7 +2,7 @@ const Card = require('../../Card.js');
 
 class Commpod extends Card {
     setupCardAbilities(ability) {
-        this.play({
+        this.action({
             target: {
                 activePromptTitle: 'Choose which cards to reveal',
                 mode: 'unlimited',

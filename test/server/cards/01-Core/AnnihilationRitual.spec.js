@@ -5,7 +5,7 @@ describe('Annihilation Ritual', function() {
                 this.setupTest({
                     player1: {
                         house: 'dis',
-                        inPlay: ['annihilation-ritual', 'ember-imp', 'guardian-demon', 'the-terror'],
+                        inPlay: ['annihilation-ritual-', 'ember-imp', 'guardian-demon', 'the-terror'],
                         hand: ['hand-of-dis', 'pitlord']
                     },
                     player2: {

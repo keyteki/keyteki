@@ -1,6 +1,6 @@
 const ExactlyXCardSelector = require('./ExactlyXCardSelector');
 
-class ExactlyStatCardSelector extends ExactlyXCardSelector {
+class MostStatCardSelector extends ExactlyXCardSelector {
     constructor(properties) {
         super(properties.numCards, properties);
         this.cardStat = properties.cardStat;
@@ -13,11 +13,11 @@ class ExactlyStatCardSelector extends ExactlyXCardSelector {
     }
 
     getSortedCards(context) {
-        return this.findPossibleCards(context).filter(card => super.canTarget(card, context)).sort((a,b) => this.cardStat(b) - this.cardStat(a));
+        return this.findPossibleCards(context).filter(card => super.canTarget(card, context)).sort((a, b) => this.cardStat(b) - this.cardStat(a));
     }
 
     hasEnoughSelected(selectedCards, context) {
-        if(!super.hasEnoughSelected(selectedCards)) {
+        if (!super.hasEnoughSelected(selectedCards)) {
             return false;
         }
         let sorted = this.getSortedCards(context);
@@ -26,4 +26,4 @@ class ExactlyStatCardSelector extends ExactlyXCardSelector {
     }
 }
 
-module.exports = ExactlyStatCardSelector;
+module.exports = MostStatCardSelector;

@@ -10,7 +10,7 @@ describe('Spangler Box', function() {
                     },
                     player2: {
                         amber: 1,
-                        inPlay: ['silvertooth', 'gorm-of-omm', 'stealer-of-souls', 'annihilation-ritual', 'dust-imp']
+                        inPlay: ['silvertooth', 'gorm-of-omm', 'stealer-of-souls', 'annihilation-ritual-', 'dust-imp']
                     }
                 });
             });

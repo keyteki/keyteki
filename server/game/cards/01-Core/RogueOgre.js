@@ -4,8 +4,8 @@ class RogueOgre extends Card {
     setupCardAbilities(ability) {
         this.interrupt({
             when: {
-                onPhaseEnded: (event, context) => 
-                    event.phase === 'draw' && context.player === this.game.activePlayer &&
+                onRoundEnded: (event, context) => 
+                    context.player === this.game.activePlayer &&
                     this.game.cardsPlayed.length === 1
             },
             gameAction: [

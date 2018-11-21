@@ -5,7 +5,7 @@ describe('Hayell the Merchant', function() {
                 this.setupTest({
                     player1: {
                         house: 'sanctum',
-                        inPlay: ['hayell-the-merchant'],
+                        inPlay: ['hayyel-the-merchant'],
                         hand: ['hallowed-blaster']
                     },
                     player2: {

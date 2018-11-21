@@ -31,9 +31,9 @@ class DestroyAction extends CardGameAction {
 
     getEvent(card, context) {
         let inFight = this.inFight;
-        return super.createEvent('onCardDestroyed', { card, context, inFight }, () => {
-            context.game.raiseEvent('onCardLeavesPlay', { card, context }, () => {
-                card.owner.moveCard(card, this.purge ? 'purged' : 'discard');
+        return super.createEvent('onCardDestroyed', { card, context, inFight }, event => {
+            context.game.raiseEvent('onCardLeavesPlay', { card: event.card, context: event.context }, event => {
+                event.card.owner.moveCard(event.card, this.purge ? 'purged' : 'discard');
             });
         });
     }

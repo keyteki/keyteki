@@ -24,6 +24,7 @@ const mockContext = {
     },
     player: player
 };
+mockContext.event.context = mockContext;
 
 describe('All Cards:', function() {
     beforeEach(function() {

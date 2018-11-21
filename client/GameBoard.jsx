@@ -487,7 +487,8 @@ export class InnerGameBoard extends React.Component {
                         <PlayerStatsRow
                             activeHouse={ otherPlayer ? otherPlayer.activeHouse : '' }
                             clockState={ otherPlayer ? otherPlayer.clock : null }
-                            deckName= { otherPlayer ? otherPlayer.deckName : '' }
+                            deckName={ otherPlayer ? otherPlayer.deckName : '' }
+                            deckUuid={ otherPlayer ? otherPlayer.deckUuid : '' }
                             houses={ otherPlayer ? otherPlayer.houses : null }
                             stats={ otherPlayer ? otherPlayer.stats : null }
                             user={ otherPlayer ? otherPlayer.user : null }
@@ -554,7 +555,7 @@ export class InnerGameBoard extends React.Component {
                     <div className='right-side'>
                         <CardZoom imageUrl={ this.props.cardToZoom ? '/img/' + (this.props.cardToZoom.facedown ? 'idbacks/cardback' : 'cards/' + this.props.cardToZoom.image) + '.jpg' : '' }
                             orientation={ this.props.cardToZoom ? this.props.cardToZoom.type === 'plot' ? 'horizontal' : 'vertical' : 'vertical' }
-                            show={ !!this.props.cardToZoom } cardName={ this.props.cardToZoom ? this.props.cardToZoom.name : null } />
+                            show={ !!this.props.cardToZoom } cardHouse={ this.props.cardToZoom ? this.props.cardToZoom.printedHouse : null } cardName={ this.props.cardToZoom ? this.props.cardToZoom.name : null } />
                         <Chat
                             visible={ this.state.showChat }
                             messages={ this.props.currentGame.messages }
@@ -579,7 +580,8 @@ export class InnerGameBoard extends React.Component {
                             { ...bindActionCreators(actions, this.props.dispatch) }
                             activeHouse={ thisPlayer.activeHouse }
                             clockState={ thisPlayer.clock }
-                            deckName= { thisPlayer.deckName }
+                            deckName={ thisPlayer.deckName }
+                            deckUuid={ thisPlayer.deckUuid }
                             houses={ thisPlayer.houses }
                             stats={ thisPlayer.stats }
                             showControls={ !this.state.spectating && manualMode }

@@ -26,10 +26,10 @@ class DrawPhase extends Phase {
     roundEnded() {
         this.game.raiseEvent('onRoundEnded', {}, () => {
             this.game.activePlayer.activeHouse = null;
+            this.game.endRound();
             if(this.game.activePlayer.opponent) {
                 this.game.activePlayer = this.game.activePlayer.opponent;
             }
-            this.game.endRound();
         });
     }
 }

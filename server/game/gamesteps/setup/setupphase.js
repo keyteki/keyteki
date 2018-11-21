@@ -28,6 +28,9 @@ class SetupPhase extends Phase {
     setupBegin() {
         let allPlayersShuffled = _.shuffle(this.game.getPlayers());
         this.game.activePlayer = allPlayersShuffled.shift();
+        for(let card of this.game.allCards) {
+            card.applyAnyLocationPersistentEffects();
+        }
     }
 
     chooseFirstPlayer() {

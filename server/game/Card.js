@@ -595,6 +595,7 @@ class Card extends EffectSource {
             menu: this.getMenu(),
             name: this.cardData.name,
             new: this.new,
+            printedHouse: this.printedHouse,
             stunned: this.stunned,
             taunt: !!this.getKeywordValue('taunt'),
             tokens: this.tokens,

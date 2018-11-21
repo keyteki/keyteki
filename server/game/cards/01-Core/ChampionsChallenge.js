@@ -12,18 +12,20 @@ class ChampionsChallenge extends Card {
                     numCards: 1,
                     cardStat: card => card.power,
                     gameAction: ability.actions.destroy(context => ({
-                        target: context.player.opponent ? context.player.opponent.creaturesInPlay.filter(card => card !== context.target) : []
+                        target: context.player.opponent && context.targets.enemy ? context.player.opponent.creaturesInPlay.filter(card => 
+                            !context.targets.enemy.includes(card)) : []
                     }))
                 },
                 friendly: {
-                    activePromptTitle: 'Choose an friendly creature to not destroy',
+                    activePromptTitle: 'Choose a friendly creature to not destroy',
                     cardType: 'creature',
                     mode: 'mostStat',
                     controller: 'self',
                     numCards: 1,
                     cardStat: card => card.power,
                     gameAction: ability.actions.destroy(context => ({
-                        target: context.player.creaturesInPlay.filter(card => card !== context.target)
+                        target: context.targets.friendly ? context.player.creaturesInPlay.filter(card => 
+                            !context.targets.friendly.includes(card)) : []
                     }))
                 }
             },
@@ -36,7 +38,10 @@ class ChampionsChallenge extends Card {
                     activePromptTitle: 'Choose a creature to fight with',
                     cardType: 'creature',
                     controller: 'self',
-                    gameAction: ability.actions.fight()
+                    gameAction: ability.actions.sequential([
+                        ability.actions.ready(),
+                        ability.actions.fight()
+                    ])
                 }
             }
         });

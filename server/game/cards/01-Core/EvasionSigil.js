@@ -4,18 +4,36 @@ class EvasionSigil extends Card {
     setupCardAbilities(ability) {
         this.interrupt({
             when: {
-                onInitiateFight: () => true,
+                onResolveAbility: event => event.context.ability.title === 'Fight with this creature',
             },
-            effect: 'discard the top card of {1}\'s deck: {2}.{3}{4}',
+            effect: 'discard the top card of {1}\'s deck: {2}. {3}{4}',
             effectArgs: context => {
-                let player = context.event.card.controller;
+                let player = context.event.context.player;
                 let topCard = player.deck.length ? player.deck[0] : '';
-                return [player, topCard, topCard ? context.event.card : '', topCard ? ' is exhausted without effect' : ''];
+                let cancelFight = context.event.context.source.hasHouse(topCard.printedHouse);
+                return [player, topCard, cancelFight ? context.event.context.source : '', cancelFight ? ' is exhausted without effect' : ''];
             },
-            gameAction: ability.actions.changeEvent(context => ({
-                event: context.event,
-                cancel: true
-            }))
+            gameAction: [
+                ability.actions.exhaust(context => {
+                    let player = context.event.context.player;
+                    let topCard = player.deck.length ? player.deck[0] : '';
+                    let cancelFight = context.event.context.source.hasHouse(topCard.printedHouse);
+                    if(cancelFight) {
+                        return { target: context.event.context.source };
+                    }
+                    return { target: [] };
+                }),
+                ability.actions.changeEvent(context => {
+                    let player = context.event.context.player;
+                    let topCard = player.deck.length ? player.deck[0] : '';
+                    let cancelFight = context.event.context.source.hasHouse(topCard.printedHouse);
+                    return {
+                        event: context.event,
+                        cancel: cancelFight
+                    };
+                }),
+                ability.actions.discard(context => ({ target: context.event.context.player.deck[0] }))
+            ]
         });
     }
 }

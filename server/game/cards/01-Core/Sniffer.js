@@ -6,7 +6,7 @@ class Sniffer extends Card {
             effect: 'make each creature lose elusive',
             gameAction: ability.actions.forRemainderOfTurn(context => ({
                 target: context.game.getPlayers(),
-                effect: ability.effects.removeTrait('elusive')
+                effect: ability.effects.removeKeyword('elusive')
             }))
         });
     }

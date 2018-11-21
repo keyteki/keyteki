@@ -583,6 +583,7 @@ class Player extends GameObject {
             },
             cardback: 'cardback',
             deckName: this.deckData.name,
+            deckUuid: this.deckData,
             //cardback: this.deckData.cardback,
             disconnected: this.disconnected,
             houses: this.houses,

@@ -345,7 +345,7 @@ class Card extends React.Component {
                     onDragStart={ ev => this.onCardDragStart(ev, this.props.card, this.props.source) }
                     draggable>
                     <div>
-                        <span className='card-name'>{ this.props.card.name }</span>
+                        <span className='card-name'>{ this.props.card.name + ' (' + this.props.card.printedHouse + ')' }</span>
                         <img className={ imageClass } src={ '/img/' + (!this.isFacedown() && this.props.card.image ? ('cards/' + this.props.card.image + '.jpg') : cardBack) } />
                     </div>
                     { this.showCounters() ? <CardCounters counters={ this.getCountersForCard(this.props.card) } /> : null }
@@ -494,6 +494,7 @@ Card.propTypes = {
         politicalSkill: PropTypes.number,
         popupMenuText: PropTypes.string,
         power: PropTypes.number,
+        printedHouse: PropTypes.string,
         saved: PropTypes.bool,
         selectable: PropTypes.bool,
         selected: PropTypes.bool,
