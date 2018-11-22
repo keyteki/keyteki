@@ -17,17 +17,18 @@ class Mimicry extends Card {
             effect: 'to copy {0}',
             gameAction: ability.actions.cardLastingEffect(context => {
                 let card = context.target;
-                if(!card || !card.abilities.reactions.some(ability => ability.properties.name === 'Play')) {
-                    return { effect: [] }
+                let effects = [];
+                if(card) {
+                    effects.push(ability.effects.modifyAmberValue(card.printedAmber));
+                    if(card.abilities.reactions.some(ability => ability.properties.name === 'Play')) {
+                        effects.push(ability.effects.gainAbility('play',
+                            card.abilities.reactions.find(ability => ability.properties.name === 'Play').properties
+                        ));
+                    }
                 }
                 return {
                     targetLocation: 'hand', 
-                    effect: [
-                        ability.effects.modifyAmberValue(card.printedAmber),
-                        ability.effects.gainAbility('play',
-                            card.abilities.reactions.find(ability => ability.properties.name === 'Play').properties
-                        )
-                    ]
+                    effect: effects
                 };
             })
         });

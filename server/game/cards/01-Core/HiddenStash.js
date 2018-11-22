@@ -5,6 +5,7 @@ class HiddenStash extends Card {
         this.play({
             target: {
                 location: 'hand',
+                controller: 'self',
                 gameAction: ability.actions.archive()
             }
         });

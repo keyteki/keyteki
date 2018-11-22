@@ -5,6 +5,7 @@ class GanymedeArchivist extends Card {
         this.reap({
             target: {
                 location: 'hand',
+                controller: 'self',
                 gameAction: ability.actions.archive()
             }
         });

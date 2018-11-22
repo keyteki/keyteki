@@ -13,6 +13,6 @@ class IrradiatedAmber extends Card {
     }
 }
 
-IrradiatedAmber.id = 'irradiated-amber'; // This is a guess at what the id might be - please check it!!!
+IrradiatedAmber.id = 'irradiated-æmber'; // This is a guess at what the id might be - please check it!!!
 
 module.exports = IrradiatedAmber;

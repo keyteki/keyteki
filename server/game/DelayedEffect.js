@@ -29,9 +29,9 @@ class DelayedEffect {
         let matchingEvents = events.filter(event => this.when[event.name]);
         if(matchingEvents.length > 0) {
             if(!this.multipleTrigger) {
-                this.game.effectEngine.removeDelayedEffect(this);
                 let event = matchingEvents.find(event => this.when[event.name](event));
                 if(event) {
+                    this.game.effectEngine.removeDelayedEffect(this);
                     this.executeHandler(event);
                 }
             } else {
