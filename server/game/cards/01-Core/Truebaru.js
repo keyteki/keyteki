@@ -6,7 +6,7 @@ class Truebaru extends Card {
             targetController: 'any',
             location: 'any',
             effect: ability.effects.additionalCost(context => 
-                context.source === this && context.ability.isCardPlayed() && ability.costs.payAmber(3))
+                context.source === this && context.ability.isCardPlayed() && ability.costs.loseAmber(3))
         });
 
         this.destroyed({

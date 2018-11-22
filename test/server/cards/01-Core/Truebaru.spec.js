@@ -10,7 +10,7 @@ describe('Truebaru', function() {
                     },
                     player2: {
                         amber: 2,
-                        inPlay: []
+                        hand: ['fear']
                     }
                 });
             });
@@ -26,6 +26,19 @@ describe('Truebaru', function() {
                 expect(this.player1).toHavePrompt('Truebaru');
                 expect(this.player1).not.toHavePromptButton('Play this creature');
             });
+
+            it('should not give amber when Fear is played', function() {
+                this.player1.play(this.truebaru);
+                expect(this.player1.amber).toBe(0);
+                expect(this.player2.amber).toBe(2);
+                this.player1.endTurn();
+                this.player2.clickPrompt('dis');
+                this.player2.play(this.fear);
+                this.player2.clickCard(this.truebaru);
+                expect(this.player1.amber).toBe(0);
+                expect(this.player2.amber).toBe(2);
+                expect(this.truebaru.location).toBe('hand');
+            })
         });
     });
 });
