@@ -430,22 +430,21 @@ class Lobby {
             return;
         }
 
-        game.watch(socket.id, socket.user, password, (err, message) => {
-            if(err) {
-                socket.send('passworderror', message);
+        let message = game.watch(socket.id, socket.user, password);
+        if(message) {
+            socket.send('passworderror', message);
 
-                return;
-            }
+            return;
+        }
 
-            socket.joinChannel(game.id);
+        socket.joinChannel(game.id);
 
-            if(game.started) {
-                this.router.addSpectator(game, socket.user);
-                socket.send('handoff', { address: game.node.address, port: game.node.port, protocol: game.node.protocol, name: game.node.identity });
-            } else {
-                this.sendGameState(game);
-            }
-        });
+        if(game.started) {
+            this.router.addSpectator(game, socket.user);
+            socket.send('handoff', { address: game.node.address, port: game.node.port, protocol: game.node.protocol, name: game.node.identity });
+        } else {
+            this.sendGameState(game);
+        }
     }
 
     onLeaveGame(socket) {
