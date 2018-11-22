@@ -3,7 +3,7 @@ const Card = require('../../Card.js');
 class TakeThatSmartypants extends Card {
     setupCardAbilities(ability) {
         this.play({
-            conditon: context => 
+            condition: context => 
                 context.player.opponent && 
                 context.player.opponent.creaturesInPlay.filter(card => card.hasHouse('logos')).length >= 3,
             gameAction: ability.actions.steal({ amount: 2 })
