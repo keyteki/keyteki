@@ -1,8 +1,7 @@
 const uuid = require('uuid');
 const _ = require('underscore');
-const bcrypt = require('bcrypt');
+const crypto = require('crypto');
 
-const logger = require('./log.js');
 const GameChat = require('./game/gamechat.js');
 
 class PendingGame {
@@ -83,41 +82,19 @@ class PendingGame {
         };
     }
 
-    hashPassword(password) {
-        return new Promise((resolve, reject) => {
-            bcrypt.hash(password, 2, (err, hash) => {
-                if(err) {
-                    logger.info(err);
-
-                    return reject(err);
-                }
-
-                return resolve(hash);
-            });
-        });
-    }
-
-    async newGame(id, user, password) {
+    newGame(id, user, password) {
         if(password) {
-            try {
-                this.password = await this.hashPassword(password);
-            } catch(err) {
-                return 'Failed to create game';
-            }
-
-            this.addPlayer(id, user);
-        } else {
-            this.addPlayer(id, user);
+            this.password = crypto.createHash('md5').update(password).digest('hex');
         }
 
-        return undefined;
+        this.addPlayer(id, user);
     }
 
     isUserBlocked(user) {
         return _.contains(this.owner.blockList, user.username.toLowerCase());
     }
 
-    join(id, user, password, callback) {
+    join(id, user, password) {
         if(_.size(this.players) === 2 || this.started) {
             return;
         }
@@ -127,24 +104,12 @@ class PendingGame {
         }
 
         if(this.password) {
-            bcrypt.compare(password, this.password, (err, valid) => {
-                if(err) {
-                    return callback(new Error('Bad password'), 'Incorrect game password');
-                }
-
-                if(!valid) {
-                    return callback(new Error('Bad password'), 'Incorrect game password');
-                }
-
-                this.addPlayer(id, user);
-
-                callback();
-            });
-        } else {
-            this.addPlayer(id, user);
-
-            callback();
+            if(crypto.createHash('md5').update(password).digest('hex') !== this.password) {
+                return 'Incorrect game password';
+            }
         }
+
+        this.addPlayer(id, user);
     }
 
     watch(id, user, password, callback) {
