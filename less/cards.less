@@ -1,0 +1,552 @@
+.card-wrapper {
+  margin: 0px 0px 0px 0px;
+  vertical-align: middle;
+  display: inline-block;
+  position: relative;
+
+  &.mytaunt {
+    margin-top: -@upgrade-offset;
+  }
+
+  &.opptaunt {
+    margin-top: @upgrade-offset;
+  }
+
+  &.imperial-favor {
+    margin: 0 7px 10px;
+
+    &.small {
+      &.vertical {
+        height: @card-sm-height;
+        min-width: @card-sm-width;
+      }
+
+      &.horizontal {
+        height: @card-sm-width;
+        width: @card-sm-height;
+      }
+
+      &.mytaunt {
+        margin-top: -@upgrade-offset-sm;
+      }
+
+      &.opptaunt {
+        margin-top: @upgrade-offset-sm;
+      }
+    }
+
+    &.large {
+      &.vertical {
+        height: @card-lg-height;
+        min-width: @card-lg-width;
+      }
+
+      &.horizontal {
+        height: @card-lg-width;
+        width: @card-lg-height;
+      }
+
+      &.mytaunt {
+        margin-top: -@upgrade-offset-lg;
+      }
+
+      &.opptaunt {
+        margin-top: @upgrade-offset-lg;
+      }
+
+    }
+
+    &.x-large {
+      &.vertical {
+        height: @card-xl-height;
+        min-width: @card-xl-width;
+      }
+
+      &.horizontal {
+        height: @card-xl-width;
+        width: @card-xl-height;
+      }
+
+      &.mytaunt {
+        margin-top: -@upgrade-offset-xl;
+      }
+
+      &.opptaunt {
+        margin-top: @upgrade-offset-xl;
+      }
+
+    }
+  }
+}
+
+.generate-wrappers(@n, @i: 1) when (@i =< @n) {
+  .wrapper-@{i} {
+    height: @card-height+(@upgrade-offset)*@i;
+
+  &.small {
+      height: @card-sm-height+(@upgrade-offset)*@i;
+    }
+
+    &.large {
+      height: @card-lg-height+(@upgrade-offset)*@i;
+    }
+
+    &.x-large {
+      height: @card-lg-height+(@upgrade-offset)*@i;
+    }
+  }
+  .generate-wrappers(@n, (@i + 1));
+}
+
+.generate-wrappers(10, 1);
+
+.card-frame {
+  position: relative;
+}
+
+.card {
+  position: relative;
+  border-radius: 4px;
+  box-shadow: 0 0 12px rgba(0,0,0,0.4), inset 0 0 0 1px rgba(255,255,255,0.1);
+  overflow: hidden;
+  z-index: @layer-cards;
+
+  &.small {
+    &.vertical {
+      height: @card-sm-height;
+      width: @card-sm-width;
+
+    }
+
+    &.horizontal {
+      height: @card-sm-width;
+      width: @card-sm-height;
+
+    }
+  }
+
+  &.large {
+    &.vertical {
+      height: @card-lg-height;
+      width: @card-lg-width;
+
+    }
+
+    &.horizontal {
+      height: @card-lg-width;
+      width: @card-lg-height;
+
+    }
+  }
+
+  &.x-large {
+    &.vertical {
+      height: @card-xl-height;
+      width: @card-xl-width;
+
+    }
+
+    &.horizontal {
+      height: @card-xl-width;
+      width: @card-xl-height;
+
+    }
+  }
+
+  &.vertical {
+    height: @card-height;
+    width: @card-width;
+
+  }
+
+  &.horizontal {
+    height: @card-width;
+    width: @card-height;
+
+
+  }
+
+  &.selectable {
+    box-shadow: 0 0 10px 1px fadeout(lighten(@brand-primary, 60%), 10%);
+  }
+
+    &.unselectable {
+        filter: brightness(60%);
+
+        .card-image {
+            filter: grayscale(100%);
+        }
+    }
+
+  &.in-danger {
+    box-shadow: 0 0 1px 2px red;
+  }
+
+  &.selected {
+    box-shadow: 0 0 1px 4px @brand-tertiary;
+  }
+
+  &.new {
+    box-shadow: 0 0 1px 2px @brand-info;
+  }
+
+  &.controlled {
+    box-shadow: 0 0 1px 2px @brand-warning;
+  }
+
+  &.conflict {
+    box-shadow: 0 0 1px 3px @brand-danger;
+  }
+
+  &.covert {
+    box-shadow: 0 0 1px 2px #9900cc;
+  }
+}
+
+.card-image {
+  left: 0;
+  position: absolute;
+  top: 0;
+
+  &.small {
+    &.vertical {
+      height: @card-sm-height;
+      width: @card-sm-width;
+    }
+
+    &.horizontal {
+      height: @card-sm-width;
+      width: @card-sm-height;
+    }
+
+    &.bowed {
+      left: 8px;
+      top: -8px;
+    }
+  }
+
+  &.vertical {
+    height: @card-height;
+    width: @card-width;
+  }
+
+  &.horizontal {
+    height: @card-width;
+    width: @card-height;
+  }
+
+  &.large {
+    &.vertical {
+      height: @card-lg-height;
+      width: @card-lg-width;
+    }
+
+    &.horizontal {
+      height: @card-lg-width;
+      width: @card-lg-height;
+    }
+
+    &.bowed {
+      left: 14px;
+      top: -14px;
+    }
+  }
+
+  &.x-large {
+    &.vertical {
+      height: @card-xl-height;
+      width: @card-xl-width;
+    }
+
+    &.horizontal {
+      height: @card-xl-width;
+      width: @card-xl-height;
+    }
+
+    &.bowed {
+      left: 20px;
+      top: -21px;
+    }
+  }
+
+  &.bowed {
+    left: 9px;
+    top: -10px;
+    transform: rotate(90deg);
+
+  }
+
+  &.broken {
+      transform: rotate(180deg);
+  }
+}
+
+.card-order {
+  background: rgba(0, 0, 0, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.9);
+  border-radius: 4px;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  height: 26px;
+  left: 50%;
+  line-height: 24px;
+  margin: 0 0 0 -12px;
+  position: absolute;
+  text-align: center;
+  top: -28px;
+  width: 24px;
+  z-index: @layer-card-menu;
+}
+
+.card-name {
+  font-size: 10px;
+  line-height: 14px;
+}
+
+.custom-card:hover .card-name {
+  background: rgba(0, 0, 0, 0.8);
+  position: absolute;
+  z-index: @layer-card-menu;
+}
+
+.card-large {
+  width: 220px;
+  height: 307px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin-right: 5px;
+  margin-top: 5px;
+}
+
+.card-large-horizontal {
+  width: 307px;
+  height: 220px;
+  position: relative;
+  margin-right: 5px;
+  margin-top: 5px;
+}
+
+.card-zoomed {
+  width: 100%;
+  height: 100%;
+}
+
+.card-zoomed > img {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  height: 100%;
+  width: 100%;
+  border-radius: 12px;
+}
+
+
+.generate-upgrades(@n, @i: 1) when (@i =< @n) {
+  .upgrade-@{i} {
+    margin-top: -(@card-height)-(@upgrade-offset)*@i;
+    z-index: @layer-cards - @i;
+
+    &.small {
+      margin-top: -(@card-sm-height)-(@upgrade-offset-sm)*@i;
+    }
+
+    &.large {
+      margin-top: -(@card-lg-height)-(@upgrade-offset-lg)*@i;
+    }
+
+    &.x-large {
+      margin-top: -(@card-xl-height)-(@upgrade-offset-xl)*@i;
+    }
+  }
+  .generate-upgrades(@n, (@i + 1));
+}
+
+.generate-upgrades(10, 1);
+
+.squishable-card-panel {
+  
+  display: flex;
+  justify-content: flex-start;
+  margin: 0px 5px;
+  min-height: 0;
+  padding: 0px;
+
+  .card-wrapper {
+    margin: 0 5px 0 0;
+  }
+}
+
+.squishable-card-panel.squish .card-wrapper {
+  position: absolute;
+}
+
+.underneath {
+  margin-left: 0;
+  //margin-top: -@card-height + @upgrade-offset;
+  position: absolute;
+  left: 0;
+  top: @upgrade-offset;
+  z-index: @layer-cards - 1;
+
+  &.small {
+    top: @upgrade-offset-sm
+    //margin-top: -@card-sm-height + @upgrade-offset-sm;
+  }
+
+  &.large {
+    top: @upgrade-offset-lg
+    //margin-top: -@card-lg-height + @upgrade-offset-lg;
+  }
+
+  &.x-large {
+    top: @upgrade-offset-xl
+    //margin-top: -@card-xl-height + @upgrade-offset-xl;
+  }
+}
+
+.card-type-faction.horizontal {
+    margin: 10px 0 0 -10px;
+}
+
+.counters {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  justify-content: center;
+  display: flex;
+  align-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  z-index: @layer-cards + 1;
+}
+
+.card.vertical .counters {
+  flex-direction: column;
+
+  &.many-counters {
+    flex-direction: row;
+  }
+}
+
+.card.horizontal .counters {
+  flex-direction: row;
+
+  &.many-counters {
+    flex-direction: column;
+  }
+}
+
+.countertext {
+  position: relative;
+  left: 0px;
+  top: -95%;
+  text-align: center;
+  font-size: 14px;
+  color: white;
+  text-shadow:
+  -1px -1px 0 #000,
+  1px -1px 0 #000,
+  -1px 1px 0 #000,
+  1px 1px 0 #000;
+}
+
+.counterimage {
+  width: 25px;
+  height: 25px;  
+}
+
+.counter {
+  box-sizing: border-box;
+  width: 25px;
+  height: 25px;
+}
+/*
+.fatecounter {
+  box-sizing: border-box;
+  width: 25px;
+  height: 25px;
+}
+
+.honorcounter {
+  box-sizing: border-box;
+  width: 25px;
+  height: 25px;
+  position: absolute;
+  top: 0px;
+  left: 20px;
+
+}
+
+.honorstatuscounter {
+  box-sizing: border-box;
+  width: 25px;
+  height: 25px;
+}
+
+/* Don't think we actually need this
+.counter {
+  padding: 0;
+  font-size: 12px;
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+  text-align: center;
+  margin: 2px;
+  text-shadow: 1px 1px 2px #000;
+  border-radius: 4px;
+  color: white;
+
+  &.political {
+    span {
+      display: none;
+    }
+
+    font-family: 'fiveringsdb';
+
+    &:before {
+      content: "\e901";
+      color: @political-icon-color;
+    }
+
+    background-color: rgba(0, 0, 0, 0.85);
+  }
+
+  &.military {
+    span {
+      display: none;
+    }
+
+    font-family: 'fiveringsdb';
+
+    &:before {
+      content: "\e900";
+      color: @military-icon-color;
+    }
+
+    background-color: rgba(0, 0, 0, 0.85);
+  }
+
+  &.fade-out {
+    opacity: 0.4;
+  }
+
+  &.cancel {
+    position: relative;
+
+    &:after {
+      border-bottom: 0.17em solid @brand-danger;
+      content: "";
+      left: 0;
+      margin-top: calc(0.17em / 2 * -1);
+      position: absolute;
+      right: 0;
+      top: 50%;
+    }
+  }
+}
+
+*/

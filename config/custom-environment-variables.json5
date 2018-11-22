@@ -1,0 +1,17 @@
+{
+    env: 'NODE_ENV',
+    dbPath: 'DB_PATH',
+    mqUrl: 'ZMQ_URL',
+    domain: 'thecrucible.online',
+    https: 'false',
+
+    lobby: {
+        port: 'PORT'
+    },
+
+    gameNode: {
+        name: 'SERVER',
+        host: 'HOST',
+        socketioPort: 'PORT'
+    }
+}

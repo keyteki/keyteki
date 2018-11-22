@@ -1,0 +1,206 @@
+.popover.right {
+  .arrow {
+    &:after {
+      border-right-color: @background-color
+    }
+  }
+}
+
+.popover {
+  background-color: @background-color;
+  color: @foreground-color;
+  width: 300px;
+
+  ul {
+    padding: 0;
+  }
+
+  li {
+    list-style: none;
+    margin: 4px 0;
+  }
+}
+
+.right-pane {
+  margin-top: -20px;
+}
+
+.decklist {
+  height: 200px;
+}
+
+.decklist > img {
+  height: 100%;
+  padding-right: 10px;
+}
+
+.hover-image {
+  position: fixed;
+  height: 400px;
+  width: 304px;
+  left: 10px;
+  top: 180px;
+  z-index: @layer-top;
+}
+
+.cards-no-break {
+  break-inside: avoid;
+}
+
+.card-group {
+  position: relative;
+  background-color: fade(@brand-info, 5%);
+  margin: 5px 5px 5px 0;
+  padding: 10px;
+  border: 1px solid rgba(71, 58, 56, 0.65);
+}
+
+.card-group-title {
+  background-color: @header-background;
+  color: white;
+  margin: 5px 5px 0 0;
+  padding: 5px 1px;
+  border: 1px solid @header-border;
+  border-radius: 4px 4px 0 0;
+  border-bottom: none;
+  text-align: center;
+  position: relative;
+  top: 5px;
+}
+
+.cards {
+  column-count: 2;
+}
+
+@media (min-width: @screen-lg-min) {
+  .cards {
+    column-count: 3;
+  }
+}
+
+.deck-list {
+  position: absolute;
+  top: 55px;
+  bottom: 0px;
+  left: 10px;
+  right: 10px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.deck-row {
+  min-height: 50px;
+  border-radius: 4px;
+  border-width: 1px;
+  border-color: @brand-primary;
+  border-style: solid;
+  padding: 3px 5px;
+  margin-bottom: 5px;
+  text-overflow: ellipsis;
+}
+
+.deck-row > img {
+  height: 100%;
+  padding-right: 10px;
+}
+
+.deck-row:hover {
+  border-color: @brand-info;
+  background-color: fade(@brand-info, 40%);
+}
+
+.deck-row.active {
+  border-color: @brand-secondary;
+  background-color: fade(@brand-secondary, 60%);
+}
+
+.select-button {
+  margin-left: 10px;
+}
+
+.banner-list {
+  margin-bottom: 10px;
+}
+
+.deck-summary {
+  padding-top: 10px;
+}
+
+.deck-date {
+  padding-left: 0px;
+  font-size: smaller;
+}
+
+.deck-name {
+  padding-left: 5px;
+  padding-right: 0px;
+}
+
+.deck-status-label {
+  padding-right: 0px;
+  padding-left: 0px;
+}
+
+.deck-factionagenda {
+  padding-left: 5px;
+  padding-right: 0px;
+  font-size: smaller;
+}
+
+.deck-image {
+  padding-left: 0px;
+  padding-right: 0px;
+  min-width: 30px;
+}
+
+.deck-card-image {
+  width: 100%;
+}
+
+.deck-card {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+.info-row {
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+.deck-status-button {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.deck-list-container {
+  position: absolute;
+  top: 33px;
+  bottom: 0px;
+  left: 15px;
+  right: 15px;
+}
+
+.deck-mon {
+  max-width: 140px;
+  height: auto !important;
+  padding-right: 10px;
+}
+
+.deck-sm-mon {
+  max-width: 30px;
+}
+
+.deck-sm-house {
+  max-width: 20px;
+}
+
+.deck-med-house {
+  max-width: 50px;
+  padding-right: 10px;
+}
+
+.deck-alliance-mon {
+  max-width: 100px;
+  height: auto !important;
+  padding-right: 10px;
+}

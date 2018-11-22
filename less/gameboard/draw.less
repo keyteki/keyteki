@@ -1,0 +1,24 @@
+.draw {
+    .popup {
+        position: absolute;
+        left: 0;
+        bottom: 95px;
+
+        .inner {
+            width: @card-width * 7 + (7 * 5px) + @scrollbar-width;
+            min-height: @card-height;
+            max-height: @card-height * 4 + (4 * 5px);
+
+            overflow-y: auto;
+
+            .card-wrapper {
+                margin: 5px 5px 0 0;
+            }
+        }
+    }
+
+    .arrow {
+        bottom: -30px;
+        left: 10px;
+    }
+}

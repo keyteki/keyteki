@@ -1,0 +1,22 @@
+const Card = require('../../Card.js');
+
+class DoorstepToHeaven extends Card {
+    setupCardAbilities(ability) {
+        this.play({
+            effect: 'reduce both players to 5 amber',
+            gameAction: [
+                ability.actions.loseAmber(context => ({
+                    amount: context.player.opponent && context.player.opponent.amber > 5 ? context.player.opponent.amber - 5 : 0
+                })),
+                ability.actions.loseAmber(context => ({
+                    target: context.player,
+                    amount: context.player.amber > 5 ? context.player.amber - 5 : 0
+                }))
+            ]
+        });
+    }
+}
+
+DoorstepToHeaven.id = 'doorstep-to-heaven'; // This is a guess at what the id might be - please check it!!!
+
+module.exports = DoorstepToHeaven;

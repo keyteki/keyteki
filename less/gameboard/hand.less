@@ -1,0 +1,41 @@
+.hand-title-bar {
+    margin: 5px;
+    margin-bottom: 0;
+    padding: 5px 0;
+    border: 1px solid @header-border;
+    border-radius: 4px 4px 0 0;
+    border-bottom: none;
+    background: @header-background;
+    text-align: center;
+    text-transform: uppercase;
+    width: 480px !important;
+    position: relative;
+    font-weight: bold;
+}
+
+.hand {
+    .card-wrapper {
+        margin: 0 5px 0 0;
+    }
+
+    &.small {
+        height: @card-sm-height;
+    }
+
+    &.large {
+        height: @card-lg-height;
+    }
+
+    &.x-large {
+        height: @card-xl-height;
+    }
+
+    height: @card-height;
+    width:480px;
+    padding: 0px;
+    margin: 0px 5px;
+}
+
+.hand.squish .card-wrapper {
+    position: absolute;
+}
