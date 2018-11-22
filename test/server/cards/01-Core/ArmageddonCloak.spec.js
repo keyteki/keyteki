@@ -49,6 +49,7 @@ describe('Armageddon Cloak', function() {
                 expect(this.troll.tokens.damage).toBe(4);
                 expect(this.sequis.hasToken('damage')).toBe(false);
                 expect(this.sequis.location).toBe('play area');
+                expect(this.sequis.moribund).toBe(false);
                 expect(this.armageddonCloak.location).toBe('discard');
             });
         });
