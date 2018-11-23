@@ -26,7 +26,7 @@ class NeutronShark extends Card {
                 messageArgs: () => {
                     let topCard = context.player.deck[0];
                     if(topCard) {
-                        if(topCard.hasHouse('logos')) {
+                        if(topCard.hasHouse('logos') || context.source.location !== 'play area') {
                             return [topCard];
                         } else {
                             return [topCard, '. ', context.source, '\'s ability resolves again'];
@@ -39,7 +39,7 @@ class NeutronShark extends Card {
                         target: context.player.deck.length > 0 ? context.player.deck[0] : []
                     }),
                     ability.actions.resolveAbility({
-                        target: context.player.deck.length && !context.player.deck[0].hasHouse('logos') ? context.source : [],
+                        target: context.source.location === 'play area' && context.player.deck.length && !context.player.deck[0].hasHouse('logos') ? context.source : [],
                         ability: context.ability
                     })
                 ]
