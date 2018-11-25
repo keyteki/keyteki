@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Typeahead from '../Form/Typeahead';
+import TypeAhead from '../Form/TypeAhead';
 
 class CardNameLookup extends React.Component {
     constructor(props) {
@@ -26,7 +26,7 @@ class CardNameLookup extends React.Component {
     render() {
         return (
             <div>
-                <Typeahead labelKey={ 'label' } options={ [...new Set(Object.values(this.props.cards).map(card => card.name))] } dropup onChange={ this.onCardNameChange } />
+                <TypeAhead labelKey={ 'label' } options={ [...new Set(Object.values(this.props.cards).map(card => card.name))] } dropup onChange={ this.onCardNameChange } />
                 <button type='button' onClick={ this.onDoneClick } className='btn btn-primary'>Done</button>
             </div>);
     }

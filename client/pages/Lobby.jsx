@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import News from '../Components/News/News';
 import AlertPanel from '../Components/Site/AlertPanel';
 import Panel from '../Components/Site/Panel';
-import Typeahead from '../Components/Form/Typeahead';
+import TypeAhead from '../Components/Form/TypeAhead';
 import SideBar from '../Components/Lobby/SideBar';
 import UserList from '../Components/Lobby/UserList';
 import LobbyChat from '../Components/Lobby/LobbyChat';
@@ -98,7 +98,7 @@ class Lobby extends React.Component {
                     <form className='form form-hozitontal chat-box-container' onSubmit={ event => this.onSendClick(event) }>
                         <div className='form-group'>
                             <div className='chat-box'>
-                                <Typeahead disabled={ !isLoggedIn } ref='message' value={ this.state.message } placeholder={ placeholder }
+                                <TypeAhead disabled={ !isLoggedIn } ref='message' value={ this.state.message } placeholder={ placeholder }
                                     labelKey={ 'name' } onKeyDown={ this.onKeyPress }
                                     options={ this.props.users } onInputChange={ this.onChange } autoFocus
                                     dropup emptyLabel={ '' }
