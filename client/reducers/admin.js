@@ -1,4 +1,4 @@
-export default function(state = {}, action) {
+export default function (state = {}, action) {
     switch(action.type) {
         case 'RECEIVE_FINDUSER':
             return Object.assign({}, state, {
@@ -15,6 +15,10 @@ export default function(state = {}, action) {
         case 'CLEAR_USER_STATUS':
             return Object.assign({}, state, {
                 userSaved: false
+            });
+        case 'NODE_STATUS_RECEIVED':
+            return Object.assign({}, state, {
+                nodeStatus: action.status
             });
     }
 

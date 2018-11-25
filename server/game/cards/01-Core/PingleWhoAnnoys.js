@@ -8,7 +8,7 @@ class PingleWhoAnnoys extends Card {
             },
             gameAction: ability.actions.dealDamage(context => ({
                 amount: 1,
-                target: context.event.card 
+                target: context.event.card
             }))
         });
     }

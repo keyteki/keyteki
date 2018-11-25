@@ -63,7 +63,7 @@ class PlayerInteractionWrapper {
         return this.player.cardsInPlay;
     }
     /**
-     * List of objects describing characters in play and any attachments:
+     * List of objects describing characters in play and any upgrades:
      * Either as Object:
      * {
      *    card: String,
@@ -71,7 +71,7 @@ class PlayerInteractionWrapper {
      *    honor: 'honored' or 'dishonored',
      *    bowed: Boolean
      *    covert: Boolean,
-     *    attachments: String[]
+     *    upgrades: String[]
      *  }
      * or String containing name or id of the card
      * @param {(Object|String)[]} newState - list of cards in play and their states

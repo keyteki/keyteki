@@ -111,8 +111,8 @@ class Deck {
 
     createCard(player, cardData) {
         if(!cardData || !cardData.id) {
-            throw new Error('no cardData for ' + JSON.stringify(this.data))
-        } else if (!cards[cardData.id]) {
+            throw new Error('no cardData for ' + JSON.stringify(this.data));
+        } else if(!cards[cardData.id]) {
             return new Card(player, cardData);
         }
         var cardClass = cards[cardData.id];

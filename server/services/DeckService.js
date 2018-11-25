@@ -19,28 +19,27 @@ class DeckService {
             .catch(err => {
                 logger.error('Unable to fetch deck', err);
                 throw new Error('Unable to fetch deck ' + uuid);
-            });        
+            });
     }
 
     findByUserName(userName) {
         let decks = this.decks.find({ username: userName, banned: false }, { sort: { lastUpdated: -1 } });
         return decks;
     }
- 
+
     async create(deck) {
         let deckResponse;
 
         try {
             let response = await util.httpRequest(`https://www.keyforgegame.com/api/decks/${deck.uuid}/?links=cards`);
             deckResponse = JSON.parse(response);
-        }
-        catch(error) {
+        } catch(error) {
             logger.error('Unable to import deck', error);
 
             return undefined;
         }
 
-           
+
         if(!deckResponse || !deckResponse._linked || !deckResponse.data) {
             return;
         }
@@ -62,9 +61,9 @@ class DeckService {
             banned: false,
             houses: deckResponse.data._links.houses.map(house => house.toLowerCase()),
             cards: cards
-        });    
+        });
     }
-    
+
 
     update(deck) {
         let properties = {

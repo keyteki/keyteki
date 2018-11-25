@@ -1,13 +1,13 @@
-/*global user, authToken */
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import configureStore from './configureStore';
-import { navigate, login } from './actions';
-import DevTools from './DevTools';
+import { navigate } from './actions';
 import 'bootstrap/dist/js/bootstrap';
 import ReduxToastr from 'react-redux-toastr';
 import { AppContainer } from 'react-hot-loader';
+import { DragDropContext } from 'react-dnd';
+import { default as TouchBackend } from 'react-dnd-touch-backend';
 
 const store = configureStore();
 
@@ -17,13 +17,11 @@ window.onpopstate = function(e) {
     store.dispatch(navigate(e.target.location.pathname));
 };
 
-if(typeof user !== 'undefined') {
-    store.dispatch(login(user, authToken, user.admin));
-}
+const DnDContainer = DragDropContext(TouchBackend({ enableMouseEvents: true }))(AppContainer);
 
 const render = () => {
-    const Application = require('./Application.jsx').default;
-    ReactDOM.render(<AppContainer>
+    const Application = require('./Application').default;
+    ReactDOM.render(<DnDContainer>
         <Provider store={ store }>
             <div className='body'>
                 <ReduxToastr
@@ -34,14 +32,13 @@ const render = () => {
                     transitionIn='fadeIn'
                     transitionOut='fadeOut' />
                 <Application />
-                <DevTools />
             </div>
         </Provider>
-    </AppContainer>, document.getElementById('component'));
+    </DnDContainer>, document.getElementById('component'));
 };
 
 if(module.hot) {
-    module.hot.accept('./Application.jsx', () => {
+    module.hot.accept('./Application', () => {
         setTimeout(render);
     });
 }

@@ -1,9 +1,13 @@
+const EventEmitter = require('events');
 const logger = require('../log.js');
 
-class MessageService {
+class MessageService extends EventEmitter {
     constructor(db) {
+        super();
+
         this.messages = db.get('messages');
     }
+
     addMessage(message) {
         return this.messages.insert(message)
             .catch(err => {
@@ -13,7 +17,13 @@ class MessageService {
     }
 
     getLastMessages() {
-        return this.messages.find({}, { limit: 150, sort: { time: -1 } });
+        return this.messages.find({}, { limit: 100, sort: { time: -1 } });
+    }
+
+    removeMessage(messageId) {
+        return this.messages.remove({ _id: messageId }).then(() => {
+            this.emit('messageDeleted', messageId);
+        });
     }
 }
 

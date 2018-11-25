@@ -11,12 +11,16 @@
      */
 
     lobby: {
-        port: 4000
+        port: 4000,
+        appName: 'The Crucible Online',
+        emailFromAddress: 'noreply@thecrucible.online',
+        blockDisposableEmail: false,
+        hmacSecret: 'somethingevenmoresecret',
 
         /*
          * Other server configurations used, but not specified, include:
          *  - cookieLifetime
-         *  - emailPath
+         *  - emailKey
          *  - hmacSecret
          *  - captchaKey
          */
@@ -25,7 +29,7 @@
     gameNode: {
         name: 'test1',
         host: 'localhost',
-        socketioPort: 9500
+        socketioPort: 9500,
 
         /*
          * Other game node configurations used, but not specified, include:

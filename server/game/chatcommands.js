@@ -120,7 +120,7 @@ class ChatCommands {
         this.game.promptForSelect(player, {
             activePromptTitle: 'Select a card',
             waitingPromptTitle: 'Waiting for opponent to set token',
-            cardCondition: card => (card.location === 'play area' || card.location === 'plot') && card.controller === player,
+            cardCondition: card => (card.location === 'play area') && card.controller === player,
             onSelect: (p, card) => {
                 var numTokens = card.tokens[token] || 0;
 
@@ -151,10 +151,10 @@ class ChatCommands {
     manual(player) {
         if(this.game.manualMode) {
             this.game.manualMode = false;
-            this.game.addMessage('{0} switches manual mode off', player);
+            this.game.addAlert('danger', '{0} switches manual mode off', player);
         } else {
             this.game.manualMode = true;
-            this.game.addMessage('{0} switches manual mode on', player);
+            this.game.addAlert('danger', '{0} switches manual mode on', player);
         }
     }
 

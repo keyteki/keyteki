@@ -1,33 +1,26 @@
+const request = require('request');
+
 function escapeRegex(regex) {
     return regex.replace(/[-[\]/{}()*+?.\\^$|]/g, '\\$&');
 }
 
-function httpRequest(url) {
+function httpRequest(url, options = {}) {
     return new Promise((resolve, reject) => {
-        const lib = url.startsWith('https') ? require('https') : require('http');
-        const request = lib.get(url, response => {
-            if(response.statusCode < 200 || response.statusCode > 299) {
-                return reject(new Error('Failed to request, status code: ' + response.statusCode));
+        request(url, options, (err, res, body) => {
+            if(err) {
+                return reject(err);
             }
 
-            const body = [];
-
-            response.on('data', chunk => {
-                body.push(chunk);
-            });
-
-            response.on('end', () => {
-                resolve(body.join(''));
-            });
+            resolve(body);
         });
-
-        request.on('error', err => reject(err));
     });
 }
 
 function wrapAsync(fn) {
-    return function(req, res, next) {
-        fn(req, res, next).catch(next);
+    return function (req, res, next) {
+        fn(req, res, next).catch((error) => {
+            return next(error);
+        });
     };
 }
 

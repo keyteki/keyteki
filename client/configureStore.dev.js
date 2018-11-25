@@ -1,21 +1,15 @@
 import { applyMiddleware, createStore, compose } from 'redux';
-import { persistState } from 'redux-devtools';
 import thunkMiddleware from 'redux-thunk';
 import rootReducer from './reducers';
-import DevTools from './DevTools';
 
 import callAPIMiddleware from './middleware/api-middleware.js';
 
+const windowIfDefined = typeof window === 'undefined' ? null : window;
+const devToolsExtension = windowIfDefined && windowIfDefined.devToolsExtension;
 const enhancer = compose(
     applyMiddleware(thunkMiddleware, callAPIMiddleware),
-    DevTools.instrument(),
-    persistState(getDebugSessionKey())
+    devToolsExtension ? devToolsExtension() : (next) => next
 );
-
-function getDebugSessionKey() {
-    const matches = window.location.href.match(/[?&]debug_session=([^&]+)\b/);
-    return (matches && matches.length > 0) ? matches[1] : null;
-}
 
 export default function configureStore(initialState) {
     const store = createStore(rootReducer, initialState, enhancer);

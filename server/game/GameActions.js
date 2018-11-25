@@ -48,7 +48,7 @@ const Actions = {
     // card actions
     addPowerCounter: (propertyFactory) => new AddTokenAction(propertyFactory),
     archive: (propertyFactory) => new ArchiveAction(propertyFactory),
-    attach: (propertyFactory) => new AttachAction(propertyFactory), // attachment
+    attach: (propertyFactory) => new AttachAction(propertyFactory), // upgrade
     capture: (propertyFactory) => new CaptureAction(propertyFactory),
     cardLastingEffect: (propertyFactory) => new LastingEffectCardAction(propertyFactory), // duration = 'untilEndOfConflict', effect, targetLocation, condition, until
     dealDamage: (propertyFactory) => new DealDamageAction(propertyFactory),

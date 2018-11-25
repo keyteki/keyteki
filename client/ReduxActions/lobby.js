@@ -18,3 +18,15 @@ export function receiveLobbyMessages(messages) {
         messages: messages
     };
 }
+
+export function removeLobbyMessage(messageId) {
+    return {
+        types: ['REMOVE_MESSAGE', 'MESSAGE_REMOVED'],
+        shouldCallAPI: () => true,
+        APIParams: {
+            url: `/api/messages/${messageId}`,
+            cache: false,
+            type: 'DELETE'
+        }
+    };
+}

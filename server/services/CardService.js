@@ -25,7 +25,7 @@ class CardService {
 
                 _.each(result, card => {
                     if(options && options.shortForm) {
-                        cards[card.id] = _.pick(card, 'id', 'name', 'type', 'house', 'rarity', 'number');
+                        cards[card.id] = _.pick(card, 'id', 'name', 'type', 'house', 'rarity', 'number', 'image');
                     } else {
                         cards[card.id] = card;
                     }

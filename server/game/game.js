@@ -65,7 +65,7 @@ class Game extends EventEmitter {
         this.shortCardData = options.shortCardData || [];
 
         _.each(details.players, player => {
-            this.playersAndSpectators[player.user.username] = new Player(player.id, player.user, this.owner === player.user.username, this, details.clocks);
+            this.playersAndSpectators[player.user.username] = new Player(player.id, player.user, this.owner === player.user.username, this);
         });
 
         _.each(details.spectators, spectator => {
@@ -349,7 +349,7 @@ class Game extends EventEmitter {
             return;
         }
 
-        this.addMessage('{0} has won the game', winner);
+        this.addAlert('success', '{0} has won the game', winner);
 
         this.winner = winner;
         this.finishedAt = new Date();
@@ -565,6 +565,7 @@ class Game extends EventEmitter {
 
         this.playStarted = true;
         this.startedAt = new Date();
+        this.round = 1;
 
         this.continue();
     }
@@ -610,7 +611,7 @@ class Game extends EventEmitter {
     resolveAbility(context) {
         this.raiseEvent('onResolveAbility', { context }, () => {
             this.queueStep(new AbilityResolver(this, context));
-        })
+        });
     }
 
     openSimultaneousEffectWindow(choices) {
@@ -734,7 +735,7 @@ class Game extends EventEmitter {
         }
 
         this.playersAndSpectators[user.username] = new Spectator(socketId, user);
-        this.addMessage('{0} has joined the game as a spectator', user.username);
+        this.addAlert('info', '{0} has joined the game as a spectator', user.username);
 
         return true;
     }
@@ -780,7 +781,7 @@ class Game extends EventEmitter {
             return;
         }
 
-        this.addMessage('{0} has disconnected', player);
+        this.addAlert('info', '{0} has disconnected', player);
 
         if(this.isSpectator(player)) {
             delete this.playersAndSpectators[playerName];
@@ -821,7 +822,7 @@ class Game extends EventEmitter {
         player.socket = socket;
         player.disconnected = false;
 
-        this.addMessage('{0} has reconnected', player);
+        this.addAlert('info', '{0} has reconnected', player);
     }
 
     checkGameState(hasChanged = false, events = []) {
@@ -835,7 +836,7 @@ class Game extends EventEmitter {
                         // any card being controlled by the wrong player
                         this.takeControl(card.getModifiedController(), card);
                     }
-                    // any attachments which are illegally attached
+                    // any upgrades which are illegally attached
                     // card.checkForIllegalAttachments();
                 });
             }
@@ -865,9 +866,21 @@ class Game extends EventEmitter {
         this.cardsPlayed = [];
         this.cardsDiscarded = [];
         this.effectsUsed = [];
+
         for(let card of this.cardsInPlay) {
             card.endRound();
         }
+
+        let playerAmber = this.getPlayers().map(player => `${player.name}: ${player.amber} amber`).join(', ');
+
+        this.addAlert('endofround', `End of turn ${this.round}`);
+
+        if(!this.activePlayer.opponent || this.activePlayer.turn === this.activePlayer.opponent.turn) {
+            this.round++;
+        }
+
+        this.addMessage(playerAmber);
+        this.addAlert('startofround', `Turn ${this.round}`);
     }
 
     get cardsInPlay() {

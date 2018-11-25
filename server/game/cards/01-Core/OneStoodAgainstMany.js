@@ -37,7 +37,7 @@ class OneStoodAgainstMany extends Card {
                             cardCondition: card => !this.chosenTargets.includes(card)
                         }
                     }))
-               ])
+                ])
             }
         });
     }

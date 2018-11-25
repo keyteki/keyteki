@@ -1,22 +1,10 @@
-import $ from 'jquery';
-
 export function loadCards() {
     return {
         types: ['REQUEST_CARDS', 'RECEIVE_CARDS'],
         shouldCallAPI: (state) => {
             return !state.cards.cards;
         },
-        callAPI: () => $.ajax('/api/cards', { cache: false })
-    };
-}
-
-export function loadPacks() {
-    return {
-        types: ['REQUEST_PACKS', 'RECEIVE_PACKS'],
-        shouldCallAPI: (state) => {
-            return !state.cards.packs;
-        },
-        callAPI: () => $.ajax('/api/packs', { cache: false })
+        APIParams: { url: '/api/cards', cache: false }
     };
 }
 
@@ -26,6 +14,6 @@ export function loadFactions() {
         shouldCallAPI: (state) => {
             return !state.cards.factions;
         },
-        callAPI: () => $.ajax('/api/factions', { cache: false })
+        APIParams: { url: '/api/factions', cache: false }
     };
 }

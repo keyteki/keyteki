@@ -4,8 +4,8 @@ class Mimicry extends Card {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onAbilityInitiated: (event, context) => 
-                    event.context.source === context.source && 
+                onAbilityInitiated: (event, context) =>
+                    event.context.source === context.source &&
                     event.context.ability.title === 'Play this action'
             },
             location: 'hand',
@@ -27,7 +27,7 @@ class Mimicry extends Card {
                     }
                 }
                 return {
-                    targetLocation: 'hand', 
+                    targetLocation: 'hand',
                     effect: effects
                 };
             })

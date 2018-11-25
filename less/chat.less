@@ -1,14 +1,11 @@
 .messages {
-  flex: 1;
+  height: 100%;
   overflow: auto;
-  position: absolute;
-  top: 0;
-  bottom: 42px;
-  left: 0;
-  right: 4px;
   margin: 0;
   font-size: 12px;
   overflow-y: auto;
+  flex: 1;
+  display: flex;
 }
 
 .lobby-chat {
@@ -20,9 +17,9 @@
 }
 
 .message {
-  margin-bottom: 4px;
-  margin-top: 2px;
+  margin-bottom: 8px;
   word-wrap: break-word;
+  line-height: 1.2;
 }
 
 .lobby-message {
@@ -34,26 +31,24 @@
 
 .lobby-messages {
   position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  top: 45px;
+  bottom: 50px;
+  left: 20px;
+  right: 20px;
   font-size: 11px;
   overflow-y: auto;
 }
 
 .chat {
-  width: 307px;
-  position: absolute;
-  top: 317px;
-  bottom: 0px;
-}
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  flex: 1;
 
-.chat > form {
-  position: absolute;
-  bottom: 5px;
-  left: 0;
-  right: 4px;
+  .messages {
+    padding: 5px;
+  }
 }
 
 .chat > form input {
@@ -89,21 +84,63 @@
 
 .chat-container {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+
+  .panel {
+      flex: 1;
+      margin-bottom: 10px;
+  }
 }
 
 .chat-box-container {
   position: absolute;
-  bottom: 0px;
+  bottom: 0;
   left: 15px;
   right: 15px;
 }
 
-@media (max-width: 1366px) {
-  .chat {
-    > form {
-      > input {
-        margin: 0;
-      }
-    }
-  }
+.chatwrapper {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow-y: hidden;
+}
+
+.gamechat {
+  overflow-y: hidden;
+  position: relative;
+  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-form {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.chat-icon {
+  background: url('/img/messages.svg') no-repeat;
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  filter: invert(100%);
+}
+
+.chat-status {
+  position: absolute;
+  right: 10px;
+}
+
+.chat-badge {
+  margin-left: -10px;
+  margin-top: 0px;
+
+  z-index: @layer-top;
+}
+
+.chat-delete {
+  padding-left: 5px;
 }

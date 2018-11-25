@@ -99,8 +99,8 @@ describe('Masterplan', function() {
                 expect(this.player2).toHavePromptButton('Left');
                 this.player2.clickPrompt('Left');
                 expect(this.snufflegator.location).toBe('play area');
-                expect(this.player2.player.creaturesInPlay).toContain(this.snufflegator)
-                expect(this.player1.player.creaturesInPlay).not.toContain(this.snufflegator)
+                expect(this.player2.player.creaturesInPlay).toContain(this.snufflegator);
+                expect(this.player1.player.creaturesInPlay).not.toContain(this.snufflegator);
                 expect(this.masterplan.location).toBe('discard');
                 expect(this.masterplan.childCards).not.toContain(this.protectTheWeak);
                 expect(this.player1.amber).toBe(1);

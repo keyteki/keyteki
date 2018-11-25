@@ -40,7 +40,7 @@ describe('Champion\'s Challenge', function() {
                 expect(this.player1).toHavePrompt('Champion\'s Challenge');
                 expect(this.player1).toBeAbleToSelect(this.troll);
                 this.player1.clickCard(this.troll);
-                expect(this.player1).toHavePrompt('Choose a creature to attack')
+                expect(this.player1).toHavePrompt('Choose a creature to attack');
                 expect(this.player1).toBeAbleToSelect(this.dextre);
                 this.player1.clickCard(this.dextre);
                 expect(this.dextre.location).toBe('deck');

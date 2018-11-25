@@ -1,7 +1,6 @@
 const zmq = require('zeromq');
 const router = zmq.socket('router');
 const logger = require('./log.js');
-const _ = require('underscore');
 const monk = require('monk');
 const EventEmitter = require('events');
 const GameService = require('./services/GameService.js');
@@ -46,28 +45,33 @@ class GameRouter extends EventEmitter {
     }
 
     getNextAvailableGameNode() {
-        if(_.isEmpty(this.workers)) {
+        if(Object.values(this.workers).length === 0) {
             return undefined;
         }
 
         var returnedWorker = undefined;
 
-        _.each(this.workers, worker => {
-            if(worker.numGames >= worker.maxGames || worker.disabled) {
-                return;
+        for(const worker of Object.values(this.workers)) {
+            if(worker.numGames >= worker.maxGames || worker.disabled || worker.disconnected) {
+                continue;
             }
 
             if(!returnedWorker || returnedWorker.numGames > worker.numGames) {
                 returnedWorker = worker;
             }
-        });
+        }
 
         return returnedWorker;
     }
 
     getNodeStatus() {
-        return _.map(this.workers, worker => {
-            return { name: worker.identity, numGames: worker.numGames, status: worker.disabled ? 'disabled' : 'active' };
+        return Object.values(this.workers).map(worker => {
+            return {
+                name: worker.identity,
+                numGames: worker.numGames,
+                status: worker.disconnceted ? 'disconnected' : worker.disabled ? 'disabled' : 'active',
+                version: worker.version
+            };
         });
     }
 
@@ -89,6 +93,28 @@ class GameRouter extends EventEmitter {
         }
 
         worker.disabled = false;
+
+        return true;
+    }
+
+    toggleNode(nodeName) {
+        let worker = this.workers[nodeName];
+        if(!worker) {
+            return false;
+        }
+
+        worker.disabled = !worker.disabled;
+
+        return true;
+    }
+
+    restartNode(nodeName) {
+        let worker = this.workers[nodeName];
+        if(!worker) {
+            return false;
+        }
+
+        this.sendCommand(nodeName, 'RESTART', {});
 
         return true;
     }
@@ -124,22 +150,33 @@ class GameRouter extends EventEmitter {
             return;
         }
 
+        if(worker && worker.disconnected) {
+            logger.info(`Worker ${identityStr} came back`);
+            worker.disconnected = false;
+        }
+
         switch(message.command) {
             case 'HELLO':
                 this.emit('onWorkerStarted', identityStr);
+                if(this.workers[identityStr]) {
+                    logger.info(`Worker ${identityStr} was already known, presume reconnected`);
+                    this.workers[identityStr].disconnected = false;
+                }
+
                 this.workers[identityStr] = {
                     identity: identityStr,
                     maxGames: message.arg.maxGames,
                     numGames: 0,
                     address: message.arg.address,
                     port: message.arg.port,
-                    protocol: message.arg.protocol
+                    protocol: message.arg.protocol,
+                    version: message.arg.version
                 };
                 worker = this.workers[identityStr];
 
                 this.emit('onNodeReconnected', identityStr, message.arg.games);
 
-                worker.numGames = _.size(message.arg.games);
+                worker.numGames = message.arg.games.length;
 
                 break;
             case 'PONG':
@@ -186,10 +223,10 @@ class GameRouter extends EventEmitter {
         var currentTime = Date.now();
         const pingTimeout = 1 * 60 * 1000;
 
-        _.each(this.workers, worker => {
+        for(const worker of Object.values(this.workers)) {
             if(worker.pingSent && currentTime - worker.pingSent > pingTimeout) {
                 logger.info('worker', worker.identity + ' timed out');
-                delete this.workers[worker.identity];
+                this.workers[worker.identity].disconnected = true;
                 this.emit('onWorkerTimedOut', worker.identity);
             } else if(!worker.pingSent) {
                 if(currentTime - worker.lastMessage > pingTimeout) {
@@ -197,7 +234,7 @@ class GameRouter extends EventEmitter {
                     this.sendCommand(worker.identity, 'PING');
                 }
             }
-        });
+        }
     }
 }
 

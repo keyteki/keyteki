@@ -8,7 +8,7 @@ class RoundTable extends Card {
                 ability.effects.modifyPower(1),
                 ability.effects.addKeyword({ taunt: 1 })
             ]
-        })
+        });
     }
 }
 

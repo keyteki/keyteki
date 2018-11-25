@@ -1,62 +1,79 @@
 const monk = require('monk');
-const UserService = require('../services/UserService.js');
-const logger = require('../log.js');
-const config = require('config');
+const passport = require('passport');
 
-let db = monk(config.dbPath);
-let userService = new UserService(db);
+const UserService = require('../services/UserService.js');
+const ConfigService = require('../services/ConfigService.js');
+const { wrapAsync } = require('../util.js');
+const logger = require('../log.js');
+
+let configService = new ConfigService();
+
+let db = monk(configService.getValue('dbPath'));
+let userService = new UserService(db, configService);
 
 module.exports.init = function(server) {
-    server.get('/api/user/:username', function(req, res) {
-        if(!req.user) {
-            return res.status(401);
-        }
-
+    server.get('/api/user/:username', passport.authenticate('jwt', { session: false }), wrapAsync(async (req, res) => {
         if(!req.user.permissions || !req.user.permissions.canManageUsers) {
             return res.status(403);
         }
 
-        userService.getUserByUsername(req.params.username)
-            .then(user => {
-                if(!user) {
-                    res.status(404).send({ message: 'Not found'});
+        let user;
+        try {
+            user = await userService.getUserByUsername(req.params.username);
+        } catch(error) {
+            logger.error(error);
 
-                    return Promise.reject('User not found');
-                }
-
-                res.send({ success: true, user: user });
-            })
-            .catch(err => {
-                logger.error(err);
-            });
-    });
-
-    server.put('/api/user/:username', function(req, res) {
-        if(!req.user) {
-            return res.status(401);
+            return res.send({success: false, message: 'An error occurred searching the user.  Please try again later.'});
         }
 
+        if(!user) {
+            return res.status(404).send({ message: 'Not found' });
+        }
+
+        res.send({ success: true, user: user.getDetails() });
+    }));
+
+    server.put('/api/user/:username', passport.authenticate('jwt', { session: false }), wrapAsync(async (req, res) => {
         if(!req.user.permissions || !req.user.permissions.canManageUsers) {
             return res.status(403);
         }
 
-        let userToSet = JSON.parse(req.body.data);
+        if(!req.body.userToChange) {
+            return res.send({ success: false, message: 'You must specify the user data' });
+        }
 
-        userService.getUserByUsername(req.params.username)
-            .then(user => {
-                if(!user) {
-                    return res.status(404).send({ message: 'Not found'});
-                }
+        let userToSet = req.body.userToChange;
+        let dbUser;
 
-                user.permissions = userToSet.permissions;
+        try {
+            dbUser = await userService.getUserByUsername(req.params.username);
+        } catch(error) {
+            logger.error(error);
 
-                return userService.update(user);
-            })
-            .then(() => {
-                res.send({ success: true });
-            })
-            .catch(() => {
-                return res.send({ success: false, message: 'An error occured saving the user' });
-            });
-    });
+            return res.send({ success: false, message: 'An error occured saving the user.  Please try again later.' });
+        }
+
+        let user = dbUser.getDetails();
+
+        if(!user) {
+            return res.status(404).send({ message: 'Not found'});
+        }
+
+        if(req.user.permissions.canManagePermissions) {
+            user.permissions = userToSet.permissions;
+        }
+
+        user.verified = userToSet.verified;
+        user.disabled = userToSet.disabled;
+
+        try {
+            await userService.update(user);
+        } catch(error) {
+            logger.error(error);
+
+            return res.send({ success: false, message: 'An error occured saving the user.  Please try again later.' });
+        }
+
+        res.send({ success: true });
+    }));
 };

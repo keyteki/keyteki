@@ -28,9 +28,9 @@ class NeutronShark extends Card {
                     if(topCard) {
                         if(topCard.hasHouse('logos') || context.source.location !== 'play area') {
                             return [topCard];
-                        } else {
-                            return [topCard, '. ', context.source, '\'s ability resolves again'];
                         }
+                        return [topCard, '. ', context.source, '\'s ability resolves again'];
+
                     }
                     return [];
                 },

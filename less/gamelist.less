@@ -8,22 +8,17 @@
 }
 
 .game-list {
-  position: absolute;
-  top: 55px;
-  bottom: 0px;
-  left: 10px;
-  right: 10px;
-  overflow-y: auto;
+  margin-top: 15px;
+
+  hr {
+    border-top-color: @brand-primary;
+    margin: 0;
+  }
 }
 
 .game-row {
-  min-height: 70px;
-  border-radius: 4px;
-  border-width: 1px;
-  border-color: @brand-primary;
-  border-style: solid;
-  padding: 5px;
-  margin-bottom: 5px;
+  min-height: 130px;
+  padding: 10px 5px;
 }
 
 .player-name {
@@ -130,8 +125,11 @@
   padding-top: 1em;
 }
 
-.player-row {
+.gamelist-player-row {
   margin-bottom: 10px;
+  display: flex;
+  vertical-align: middle;
+  line-height: 33px;
 }
 
 .game-list-container {
@@ -142,24 +140,11 @@
   right: 15px;
 }
 
-.node-1 {
+.node1 {
   background-color: fade(@brand-warning, 20%);
 }
 
-.node-2 {
-  background-color: fade(@brand-danger, 20%);
-}
-
-.node-3 {
-  background-color: fade(@brand-info, 20%);
-}
-
-
-.dev-node-1 {
-  background-color: fade(@brand-warning, 20%);
-}
-
-.dev-node-2 {
+.node2 {
   background-color: fade(@brand-danger, 20%);
 }
 
@@ -173,22 +158,164 @@
   padding-right: 0;
 }
 
-.game-row-buttons {
-  padding-left: 0;
-  padding-right: 0;
-  margin-top: -13px;
-  min-width: 120px;
-}
-
 .game-title {
   padding-left: 0;
-  padding-right: 0;
+  margin-right: 5px;
   padding-bottom: 5px;
+  color: white;
 }
 
-.clock-icon
-{
+.game-list-icon {
     height: 1.5em;
     width: 1.5em;
     filter: invert(90%);
+}
+
+.players-block {
+  margin-top: 5px;
+}
+
+.gamelist-avatar {
+  margin-left: 5px;
+}
+
+.game-icons {
+  margin-left: 5px;
+}
+
+.password-game {
+  line-height: 21px;
+  vertical-align: middle;
+  margin-left: 3px;
+}
+
+.game-time {
+  margin-left: 5px;
+}
+
+.game-middle-row {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.gamelist-button {
+  margin-left: 5px;
+  margin-top: 5px;
+}
+
+.first-player {
+  .game-player-name {
+    margin-right: 5px;
+  }
+
+  .faction-mini {
+    margin-left: 10px;
+  }
+}
+
+.other-player {
+  .faction-mini {
+    margin-right: 10px;
+  }
+
+  .game-player-name {
+    margin-left: 5px;
+  }
+}
+
+.faction-mini {
+  width: 48px;
+  border-radius: 5px;
+}
+
+.agenda-mini {
+  width: 32px;
+
+  img {
+    border-radius: 5px;
+  }
+}
+
+.game-player-row {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+
+  &.first-player {
+    margin-right: 10px;
+    align-items: flex-end;
+  }
+
+  &.other-player {
+    margin-left: 10px;
+    align-items: flex-start;
+  }
+}
+
+.game-faction-row {
+  display: flex;
+  align-items: center;
+  flex: 1;
+
+  .gamelist-button {
+    height: 34px;
+    width: 122px;
+  }
+
+  img {
+    height: 20px;
+  }
+}
+
+.game-header-row {
+  text-align: center;
+  font-size: 1em;
+}
+
+.game-row-buttons {
+  text-align: center;
+}
+
+.game-player-name {
+  font-size: 1.1em;
+}
+
+.game-header {
+  padding: 5px;
+  text-align: center;
+  text-transform: capitalize;
+}
+
+.game-filter {
+  .checkbox {
+    margin-top: 0;
+  }
+
+  .checkbox + .checkbox {
+    margin-top: 0;
+  }
+}
+
+.player-row {
+  min-height: 35px;
+}
+
+@media (min-width: @screen-md-min) {
+  .game-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    button:first-of-type {
+      margin-bottom: 10px;
+    }
+  }
+}
+
+.join-buttons {
+  display: flex;
+  flex-direction: column;
 }

@@ -10,7 +10,7 @@ class CustomVirus extends Card {
                 gameAction: [
                     ability.actions.purge(),
                     ability.actions.destroy(context => ({
-                        target: context.game.creaturesInPlay.filter(card => 
+                        target: context.game.creaturesInPlay.filter(card =>
                             card.getTraits().some(trait => context.target.hasTrait(trait))
                         )
                     }))

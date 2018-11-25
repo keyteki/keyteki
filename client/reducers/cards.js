@@ -1,5 +1,4 @@
 import _ from 'underscore';
-import validateDeck from '../deck-validator.js';
 
 function selectDeck(state, deck) {
     if(state.decks && state.decks.length !== 0) {
@@ -17,16 +16,7 @@ function processDecks(decks, state) {
             deck.status = {};
             return;
         }
-        /*
-        deck.faction = state.factions[deck.faction.value];
-        if(deck.alliance) {
-            if(deck.alliance.value === '') {
-                deck.alliance = { name: '', value: '' };
-            } else {
-                deck.alliance = state.factions[deck.alliance.value];
-            }
-        }
-        */
+
         deck.cards = _.map(deck.cards, card => {
             let result = { count: card.count, card: Object.assign({}, state.cards[card.id]), id: card.id, maverick: card.maverick };
             result.card.image = card.id;
@@ -48,23 +38,19 @@ function processDecks(decks, state) {
     });
 }
 
-export default function(state = {}, action) {
+export default function (state = { decks: [] }, action) {
     let newState;
     switch(action.type) {
         case 'RECEIVE_CARDS':
             return Object.assign({}, state, {
                 cards: action.response.cards
             });
-        case 'RECEIVE_PACKS':
-            return Object.assign({}, state, {
-                packs: action.response.packs
-            });
         case 'RECEIVE_FACTIONS':
             var factions = {};
 
-            _.each(action.response.factions, faction => {
+            for(const faction of action.response.factions) {
                 factions[faction.value] = faction;
-            });
+            }
 
             return Object.assign({}, state, {
                 factions: factions
@@ -99,7 +85,7 @@ export default function(state = {}, action) {
             });
 
             if(newState.selectedDeck && !newState.selectedDeck._id) {
-                if(_.size(newState.decks) > 0) {
+                if(newState.decks.length !== 0) {
                     newState.selectedDeck = newState.decks[0];
                 }
             }
@@ -111,15 +97,11 @@ export default function(state = {}, action) {
                 deckSaved: false
             });
 
-            processDecks([action.response.deck], state);
-
-            if(!_.any(newState.decks, deck => {
-                return deck._id === action.response.deck._id;
-            })) {
-                newState.decks.push(action.response.deck);
+            if(!newState.decks.some(deck => deck._id === action.response.deck._id)) {
+                newState.decks.push(processDecks([action.response.deck], state));
             }
 
-            var selected = _.find(newState.decks, deck => {
+            var selected = newState.decks.find(deck => {
                 return deck._id === action.response.deck._id;
             });
 
@@ -181,11 +163,11 @@ export default function(state = {}, action) {
                 deckDeleted: true
             });
 
-            newState.decks = _.reject(newState.decks, deck => {
-                return deck._id === action.response.deckId;
+            newState.decks = newState.decks.filter(deck => {
+                return deck._id !== action.response.deckId;
             });
 
-            newState.selectedDeck = _.first(newState.decks);
+            newState.selectedDeck = newState.decks[0];
 
             return newState;
         case 'CLEAR_DECK_STATUS':

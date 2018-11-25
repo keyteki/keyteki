@@ -12,7 +12,7 @@ class ChampionsChallenge extends Card {
                     numCards: 1,
                     cardStat: card => card.power,
                     gameAction: ability.actions.destroy(context => ({
-                        target: context.player.opponent && context.targets.enemy ? context.player.opponent.creaturesInPlay.filter(card => 
+                        target: context.player.opponent && context.targets.enemy ? context.player.opponent.creaturesInPlay.filter(card =>
                             !context.targets.enemy.includes(card)) : []
                     }))
                 },
@@ -24,7 +24,7 @@ class ChampionsChallenge extends Card {
                     numCards: 1,
                     cardStat: card => card.power,
                     gameAction: ability.actions.destroy(context => ({
-                        target: context.targets.friendly ? context.player.creaturesInPlay.filter(card => 
+                        target: context.targets.friendly ? context.player.creaturesInPlay.filter(card =>
                             !context.targets.friendly.includes(card)) : []
                     }))
                 }

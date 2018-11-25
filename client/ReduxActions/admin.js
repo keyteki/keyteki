@@ -1,10 +1,20 @@
-import $ from 'jquery';
-
 export function findUser(username) {
     return {
         types: ['REQUEST_FINDUSER', 'RECEIVE_FINDUSER'],
         shouldCallAPI: () => true,
-        callAPI: () => $.ajax('/api/user/' + username, { cache: false })
+        APIParams: { url: `/api/user/${username}`, cache: false }
+    };
+}
+
+export function clearUserSessions(username) {
+    return (dispatch, getState) => {
+        var socket = getState().lobby.socket;
+
+        if(!socket) {
+            return;
+        }
+
+        socket.emit('clearsessions', username);
     };
 }
 
@@ -12,11 +22,12 @@ export function saveUser(user) {
     return {
         types: ['SAVE_USER', 'USER_SAVED'],
         shouldCallAPI: () => true,
-        callAPI: () => $.ajax('/api/user/' + user.username, {
+        APIParams: {
+            url: `/api/user/${user.username}`,
             cache: false,
             type: 'PUT',
-            data: { data: JSON.stringify(user) }
-        })
+            data: JSON.stringify({ userToChange: user })
+        }
     };
 }
 

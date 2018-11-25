@@ -43,7 +43,7 @@ class CardAction extends CardAbility {
         if(!this.card.checkRestrictions('useAction', context) || !context.player.checkRestrictions('useAction', context)) {
             return 'cannotTrigger';
         } else if(!this.card.checkRestrictions('use', context) || !context.player.checkRestrictions('use', context)) {
-                return 'cannotTrigger';
+            return 'cannotTrigger';
         } else if(!ignoredRequirements.includes('location') && !this.isInValidLocation(context)) {
             return 'location';
         } else if(!ignoredRequirements.includes('condition') && this.condition && !this.condition(context)) {

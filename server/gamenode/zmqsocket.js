@@ -1,5 +1,7 @@
 const EventEmitter = require('events');
+const { spawnSync } = require('child_process');
 const zmq = require('zeromq');
+
 const config = require('config');
 const logger = require('../log.js');
 
@@ -11,7 +13,7 @@ class ZmqSocket extends EventEmitter {
         this.protocol = protocol;
 
         this.socket = zmq.socket('dealer');
-        this.socket.identity = config.gameNode.name;
+        this.socket.identity = process.env.SERVER || config.gameNode.name;
         this.socket.monitor(500, 0);
 
         this.socket.connect(config.mqUrl, err => {
@@ -33,21 +35,13 @@ class ZmqSocket extends EventEmitter {
     }
 
     onGameSync(games) {
-        if(config.gameNode.proxyPort) {
-            this.send('HELLO', {
-                maxGames: config.maxGames,
-                address: this.listenAddress,
-                port: config.gameNode.proxyPort,
-                protocol: this.protocol,
-                games: games });
-        } else {
-            this.send('HELLO', {
-                maxGames: config.maxGames,
-                address: this.listenAddress,
-                port: config.gameNode.socketioPort,
-                protocol: this.protocol,
-                games: games });
-        }
+        this.send('HELLO', {
+            maxGames: config.maxGames,
+            version: this.version,
+            address: this.listenAddress,
+            port: process.env.NODE_ENV === 'production' ? 80 : (process.env.PORT || config.gameNode.socketioPort),
+            protocol: this.protocol,
+            games: games });
     }
 
     onMessage(x, msg) {
@@ -78,6 +72,10 @@ class ZmqSocket extends EventEmitter {
                 break;
             case 'CARDDATA':
                 this.emit('onCardData', message.arg);
+                break;
+            case 'RESTART':
+                logger.error('Got told to restart, executing pm2 restart..');
+                spawnSync('pm2', ['restart', this.socket.identity]);
                 break;
         }
     }

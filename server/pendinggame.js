@@ -3,6 +3,7 @@ const _ = require('underscore');
 const crypto = require('crypto');
 
 const GameChat = require('./game/gamechat.js');
+const logger = require('./log');
 
 class PendingGame {
     constructor(owner, details) {
@@ -12,9 +13,10 @@ class PendingGame {
         this.id = uuid.v1();
         this.name = details.name;
         this.allowSpectators = details.spectators;
-        this.spectatorSquelch = details.spectatorSquelch;
+        this.muteSpectators = details.muteSpectators;
         this.gameType = details.gameType;
-        this.clocks = details.clocks;
+        this.started = false;
+        this.node = {};
         this.createdAt = new Date();
         this.gameChat = new GameChat();
     }
@@ -64,11 +66,15 @@ class PendingGame {
     }
 
     addPlayer(id, user) {
+        if(!user) {
+            logger.error('Tried to add a player to a game that did not have a user object');
+            return;
+        }
+
         this.players[user.username] = {
             id: id,
             name: user.username,
             user: user,
-            emailHash: user.emailHash,
             owner: this.owner.username === user.username
         };
     }
@@ -109,7 +115,7 @@ class PendingGame {
             }
         }
 
-        this.addMessage('{0} has joined the game as a spectator', user.username);
+        this.addMessage('{0} has joined the game', user.username);
         this.addPlayer(id, user);
 
         return undefined;
@@ -184,6 +190,8 @@ class PendingGame {
             return;
         }
 
+        player.argType = 'player';
+
         this.addMessage('{0} {1}', player, message);
     }
 
@@ -239,37 +247,32 @@ class PendingGame {
             }
 
             playerSummaries[player.name] = {
-                agenda: this.started && player.agenda ? player.agenda.cardData.code : undefined,
+                houses: this.started && player.deck ? player.deck.houses : [],
                 deck: activePlayer ? deck : {},
-                emailHash: player.emailHash,
-                faction: this.started && player.faction ? player.faction.value : undefined,
                 id: player.id,
                 left: player.left,
                 name: player.name,
-                owner: player.owner,
-                settings: player.user ? player.user.settings : {}
+                owner: player.owner
             };
         });
 
         return {
             allowSpectators: this.allowSpectators,
-            clocks: this.clocks,
             createdAt: this.createdAt,
             gameType: this.gameType,
             id: this.id,
             messages: activePlayer ? this.gameChat.messages : undefined,
+            muteSpectators: this.muteSpectators,
             name: this.name,
             needsPassword: !!this.password,
             node: this.node ? this.node.identity : undefined,
             owner: this.owner.username,
             players: playerSummaries,
-            spectatorSquelch: this.spectatorSquelch,
             started: this.started,
             spectators: _.map(this.spectators, spectator => {
                 return {
                     id: spectator.id,
                     name: spectator.name,
-                    emailHash: spectator.emailHash,
                     settings: spectator.settings
                 };
             })

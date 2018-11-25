@@ -1,39 +1,40 @@
-export default function(state = {}, action) {
+export default function (state = {}, action) {
     switch(action.type) {
-        case 'AUTH_REGISTER':
-            var retState = Object.assign({}, state, {
-                user: action.user,
-                username: action.user.username,
-                token: action.token,
-                loggedIn: true
+        case 'PROFILE_SAVED':
+            return Object.assign({}, state, {
+                token: action.response.token
             });
+        case 'BLOCKLIST_ADDED':
+        case 'BLOCKLIST_DELETED':
+            return Object.assign({}, state, {
+                user: action.response.user,
+                username: action.response.user.username
+            });
+        case 'ACCOUNT_LOGGEDIN':
+            localStorage.setItem('token', action.response.token);
+            localStorage.setItem('refreshToken', JSON.stringify(action.response.refreshToken));
 
-            if(!retState.user.permissions) {
-                retState.user.permissions = {};
+            return Object.assign({}, state, {
+                token: action.response.token,
+                refreshToken: action.response.refreshToken
+            });
+        case 'ACCOUNT_LOGGEDOUT':
+            localStorage.removeItem('token');
+            localStorage.removeItem('refreshToken');
+
+            return Object.assign({}, state, {
+                token: undefined,
+                refreshToken: undefined
+            });
+        case 'SET_AUTH_TOKENS':
+            localStorage.setItem('token', action.token);
+            if(action.refreshToken) {
+                localStorage.setItem('refreshToken', JSON.stringify(action.refreshToken));
             }
 
-            return retState;
-        case 'AUTH_LOGIN':
             return Object.assign({}, state, {
-                user: action.user,
-                username: action.user.username,
                 token: action.token,
-                isAdmin: action.isAdmin,
-                loggedIn: true
-            });
-        case 'AUTH_LOGOUT':
-            return Object.assign({}, state, {
-                user: undefined,
-                username: undefined,
-                token: undefined,
-                isAdmin: false,
-                loggedIn: false
-            });
-        case 'REFRESH_USER':
-            return Object.assign({}, state, {
-                user: action.user,
-                username: action.user.username,
-                token: action.token
+                refreshToken: action.refreshToken
             });
     }
 

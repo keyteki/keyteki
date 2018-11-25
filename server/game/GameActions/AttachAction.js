@@ -18,7 +18,7 @@ class AttachAction extends CardGameAction {
     canAffect(card, context) {
         if(!context || !context.player || !card || card.location !== 'play area') {
             return false;
-        } else if(this.attachmentChosenOnResolution) {
+        } else if(this.upgradeChosenOnResolution) {
             return super.canAffect(card, context);
         }
         if(!this.upgrade || !this.upgrade.canAttach(card, context)) {
@@ -32,7 +32,7 @@ class AttachAction extends CardGameAction {
     }
 
     getEventArray(context) {
-        this.attachmentChosenOnResolution = false;
+        this.upgradeChosenOnResolution = false;
         return super.getEventArray(context);
     }
 

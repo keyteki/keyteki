@@ -5,7 +5,7 @@ class SafePlace extends Card {
         this.persistentEffect({
             effect: ability.effects.keyAmber(this)
         });
-        
+
         this.action({
             cost: ability.costs.loseAmber(),
             gameAction: ability.actions.placeAmber()

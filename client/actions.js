@@ -1,4 +1,3 @@
-export * from './ReduxActions/auth';
 export * from './ReduxActions/cards';
 export * from './ReduxActions/game';
 export * from './ReduxActions/lobby';
@@ -8,3 +7,4 @@ export * from './ReduxActions/socket';
 export * from './ReduxActions/deck';
 export * from './ReduxActions/admin';
 export * from './ReduxActions/user';
+export * from './ReduxActions/account';

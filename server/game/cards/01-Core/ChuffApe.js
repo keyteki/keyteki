@@ -8,14 +8,14 @@ class ChuffApe extends Card {
             },
             gameAction: ability.actions.stun()
         });
-        
+
         this.fight({
             reap: true,
             optional: true,
             target: {
                 cardType: 'creature',
                 controller: 'self',
-                cardCondition: (card, context) =>  card !== context.source,
+                cardCondition: (card, context) => card !== context.source,
                 gameAction: ability.actions.sacrifice()
             },
             effect: 'sacrifice {0} and fully heal itself',

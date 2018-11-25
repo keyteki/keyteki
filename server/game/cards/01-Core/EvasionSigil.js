@@ -4,7 +4,7 @@ class EvasionSigil extends Card {
     setupCardAbilities(ability) {
         this.interrupt({
             when: {
-                onResolveAbility: event => event.context.ability.title === 'Fight with this creature',
+                onResolveAbility: event => event.context.ability.title === 'Fight with this creature'
             },
             effect: 'discard the top card of {1}\'s deck: {2}. {3}{4}',
             effectArgs: context => {

@@ -55,7 +55,7 @@ for(let i = 3400; i < 3600; i++) {
                                     return;
                                 }
                                 deckData.cards = [];
-                                let cardNumbers = data._linked.cards.map(card => card.card_number)
+                                let cardNumbers = data._linked.cards.map(card => card.card_number);
                                 for(let uuid of deck.cards) {
                                     let num = data._linked.cards.find(card => card.id === uuid).card_number;
                                     let cardData = rawData.CardData.find(card => parseInt(card.number) === num);
@@ -72,10 +72,10 @@ for(let i = 3400; i < 3600; i++) {
                                 }
                                 console.log('creating record for ', deck.name);
                                 return deckService.create(deckData);
-                            });    
+                            });
                     });
-                })
-            })
+            });
+        })
         .catch(body => console.log('error', body))
     );
 }

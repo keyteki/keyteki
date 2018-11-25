@@ -39,7 +39,7 @@ class ThenAbility extends BaseAbility {
     getGameActions(context) {
         // if there are any targets, look for gameActions attached to them
         let actions = this.targets.reduce((array, target) => array.concat(target.getGameAction(context)), []);
-        // look for a gameAction on the ability itself, on an attachment execute that action on its parent, otherwise on the card itself
+        // look for a gameAction on the ability itself, on an upgrade execute that action on its parent, otherwise on the card itself
         return actions.concat(this.gameAction);
     }
 

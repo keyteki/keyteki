@@ -16,7 +16,7 @@ Cards are organized under the `/server/game/cards` directory by grouping them by
 
 #### 2. Create a class for the card and export it.
 
-Character, holding, event and attachment cards should be derived from the `DrawCard` class.
+Character, holding, event and upgrade cards should be derived from the `DrawCard` class.
 
 Province cards should be derived from the `ProvinceCard` class.
 
@@ -52,9 +52,9 @@ class CloudTheMind extends DrawCard {
 
 Keywords are automatically parsed from the card text. It isn't necessary to explicitly implement them unless they are provided by a conditional persistent effect.
 
-### Static bonuses from attachments
+### Static bonuses from upgrades
 
-Static attachment bonuses are automatically included in skill calculation.  They don't need to be implemented unless they are dynamic (e.g. Born in War)
+Static upgrade bonuses are automatically included in skill calculation.  They don't need to be implemented unless they are dynamic (e.g. Born in War)
 
 ### Persistent effects
 
@@ -90,11 +90,11 @@ this.persistentEffect({
 Some effects have a 'when', 'while' or 'if' clause within their text. These cards can be implemented by passing a `condition` function into the persistent effect declaration. The effect will only be applied when the function returns `true`. If the function returns `false` later on, the effect will be automatically unapplied from the cards it matched.
 
 ```javascript
-// During a conflict in which this character is participating, each other participating Lion 
+// During a conflict in which this character is participating, each other participating Lion
 // character you control gets +1M.
 this.persistentEffect({
     condition: () => this.isParticipating(),
-    match: card => card.getType() === 'character' && card.isParticipating() && 
+    match: card => card.getType() === 'character' && card.isParticipating() &&
                    card.isFaction('lion') && card !== this,
     effect: ability.effects.modifyMilitarySkill(1)
 });
@@ -142,7 +142,7 @@ this.persistentEffect({
 
 #### Attachment-based effects
 
-A `whileAttached` method is provided to define persistent effects that are applied to the card an attachment is attached. These effects remain as long as the card is attached to its parent and the attachment has not been blanked.
+A `whileAttached` method is provided to define persistent effects that are applied to the card an upgrade is attached. These effects remain as long as the card is attached to its parent and the upgrade has not been blanked.
 
 ```javascript
 // Attached character gains Pride.
@@ -220,7 +220,7 @@ Actions are abilities provided by the card text that players may trigger during 
 
 #### Declaring an action
 
-When declaring an action, use the `action` method and provide it with a `title` property. The title is what will be displayed in the menu players see when clicking on the card. 
+When declaring an action, use the `action` method and provide it with a `title` property. The title is what will be displayed in the menu players see when clicking on the card.
 
 ```javascript
 class BorderRider extends DrawCard {
@@ -326,9 +326,9 @@ this.action({
 
 ```javascript
 this.action({
-    title: 'Sacrifice to discard an attachment'
+    title: 'Sacrifice to discard an upgrade'
     target: {
-        cardType: 'attachment',
+        cardType: 'upgrade',
         gameAction: ability.actions.discardFromPlay()
     },
     // ...
@@ -339,7 +339,7 @@ this.action({
 Some card abilities require multiple targets. These may be specified using the `targets` property. Each sub key under `targets` is the name that will be given to the chosen card, and the value is the prompt properties.
 
 ```javascript
-// Action: While this character is participating in a conflict, choose a ready non-participating character with printed 
+// Action: While this character is participating in a conflict, choose a ready non-participating character with printed
 // cost 2 or lower controller by each player – move each chosen character to the conflict
 this.action({
     title: 'Move characters into conflict',
@@ -355,7 +355,7 @@ this.action({
             cardType: 'character',
             controller: 'opponent',
             cardCondition: card => !card.bowed && card.getCost() <= 2,
-            gameAction: ability.actions.moveToConflict()                    
+            gameAction: ability.actions.moveToConflict()
         }
     }
 });
@@ -368,7 +368,7 @@ Once all targets are chosen, they will be set using their specified name under t
 Rings are targeted in almost the same way as cards.  For abilities which target rings, set the `mode` property to `'ring'`, and use `ringCondition` instead of `cardCondition`. Most of the ring selection prompt properties are valid here also, see `/server/game/gamesteps/selectringprompt.js` for more details. the chosen ring is stored in `context.ring` (or `context.rings[targetName]` where an ability has multiple targets).
 
 ```javascript
-// Action: Choose a ring and an opponent – that player cannot declare conflicts 
+// Action: Choose a ring and an opponent – that player cannot declare conflicts
 // of that ring's element this phase. (Max 1 per phase.)
 this.action({
     title: 'Prevent an opponent contesting a ring',
@@ -386,7 +386,7 @@ this.action({
 Some abilities require the player (or their opponent) to choose between multiple options.  This is done in the same way as targets above, but by using the `mode` property set to `'select'`.  In addition, a `choices` object should be included, which contains key:value pairs where the key is the option to display to the player, and the value is either a function which takes the `context` object and returns a boolean indicating whether this option is legal, or a game action which will be evaluated on the basis of the specified target (or default as detailed below) to determine whether the choice is legal.  The selected option is stored in `context.select.choice` (or `context.selects[targetName].choice` for an ability with multiple targets).
 
 ```javascript
-// Action: During a conflict at this province, select one – switch the contested ring with an unclaimed 
+// Action: During a conflict at this province, select one – switch the contested ring with an unclaimed
 // ring, or switch the conflict type.
 this.action({
     title: 'Switch the conflict type or ring',
@@ -404,7 +404,7 @@ this.action({
 ```
 
 ```javascript
-// Action: If an opponent has declared 2 or more conflicts against you this phase, select one – 
+// Action: If an opponent has declared 2 or more conflicts against you this phase, select one –
 // take 1 fate or 1 honor from that opponent.
 this.action({
     title: 'Take 1 fate or 1 honor',
@@ -430,7 +430,7 @@ In general, the effects of an ability should be implemented using Game Actions.
 Actions (and other triggered abilities) often use game actions.  Available game actions can be found in `/server/game/GameActions/GameActions.js`, along with any parameters and their defaults.  Game actions as properties in the main ability section default to targetomg the card generating the ability (for cards), the opponent (for players) and the contested ring (for rings). Game actions included in `target` (or in one of `targets`) will default to the that target. You can change the target of a game action or the parameters by passing either an object with the properties you want, or a function which takes `context` and returns those properties.
 
 ```javascript
-// Action: During a conflict, bow this attachment – move attached character to the conflict.
+// Action: During a conflict, bow this upgrade – move attached character to the conflict.
 this.action({
     title: 'Move this character into the conflict',
     cost: ability.costs.bowSelf(),
@@ -453,7 +453,7 @@ Once costs have been paid and targets chosen (but before the ability resolves), 
 
 ```javascript
 this.action({
-    // Action: Return this attachment to your hand and dishonor attached character.
+    // Action: Return this upgrade to your hand and dishonor attached character.
     title: 'Return court mask to hand',
     effect: 'return {0} to hand, dishonoring {1}',
     effectArgs: context => context.source.parent,
@@ -483,7 +483,7 @@ this.action({
 Unlike persistent effects, lasting effects are typically applied during an action, reaction or interrupt and expire after a specified period of time.  Lasting effect use the same properties as persistent effects, above.  Lasting effects are applied using the `cardLastingEffect`, `ringLastingEffect` or `playerLastingEffect`, depending on what they affect.  They take a `duration:` property which is one of `untilEndOfConflict` (default), `untilEndOfPhase` or `untilEndOfRound`.
 
 ```javascript
-// Action: During a conflict, bow this character. Choose another [crane] character – that character 
+// Action: During a conflict, bow this character. Choose another [crane] character – that character
 // gets +3 [political] until the end of the conflict.
 this.action({
     title: 'Give a character +0/+3',
@@ -541,11 +541,11 @@ Some actions are limited to a specific phase by their card text. You can pass an
 
 ```javascript
 this.action({
-    title: 'Sacrifice to discard an attachment',
+    title: 'Sacrifice to discard an upgrade',
     cost: ability.costs.sacrificeSelf(),
     phase: 'conflict',
     target: {
-        cardType: 'attachment',
+        cardType: 'upgrade',
         gameAction: ability.actions.discardFromPlay()
     }
 });
@@ -616,12 +616,12 @@ To declare a forced reaction, use the `forcedReaction` method:
 this.forcedReaction({
     title: 'Can\'t be discarded or remove fate',
     when: {
-        onPhaseStarted: (event, context) => event.phase === 'fate' && context.player.opponent && 
+        onPhaseStarted: (event, context) => event.phase === 'fate' && context.player.opponent &&
                                             context.player.honor >= context.player.opponent.honor + 5
     },
     effect: 'stop him being discarded or losing fate in this phase',
     gameAction: ability.actions.cardLastingEffect({
-        duration: 'untilEndOfPhase',    
+        duration: 'untilEndOfPhase',
         effect: [
             ability.effects.cardCannot('removeFate'),
             ability.effects.cardCannot('discardFromPlay')
@@ -733,4 +733,4 @@ As valid selections are already presented to the user via visual clues, targetin
 * **Bad**: Choose a card from your discard pile
 * **Good**: Choose a card
 
-* **Good**: Choose an attachment or location
+* **Good**: Choose an upgrade or location

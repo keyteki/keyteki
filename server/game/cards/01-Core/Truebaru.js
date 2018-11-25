@@ -5,7 +5,7 @@ class Truebaru extends Card {
         this.persistentEffect({
             targetController: 'any',
             location: 'any',
-            effect: ability.effects.additionalCost(context => 
+            effect: ability.effects.additionalCost(context =>
                 context.source === this && context.ability.isCardPlayed() && ability.costs.loseAmber(3))
         });
 

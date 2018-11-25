@@ -1,3 +1,5 @@
+const logger = require('../log.js');
+
 class NewsService {
     constructor(db) {
         this.news = db.get('news');
@@ -15,7 +17,39 @@ class NewsService {
     }
 
     addNews(news) {
-        return this.news.insert(news);
+        return this.news.insert(news)
+            .then(result => {
+                return result;
+            })
+            .catch(err => {
+                logger.error('Error adding news item', err);
+
+                throw new Error('Error occured adding news item');
+            });
+    }
+
+    editNews(id, text) {
+        return this.news.update({ _id: id }, { '$set': { text: text } })
+            .then(() => {
+                return true;
+            })
+            .catch(err => {
+                logger.error('Error saving news item', err);
+
+                throw new Error('Error occured saving news item');
+            });
+    }
+
+    deleteNews(id) {
+        return this.news.remove({ _id: id })
+            .then(() => {
+                return true;
+            })
+            .catch(err => {
+                logger.error('Error deleting news item', err, id);
+
+                throw new Error('Error occured deleting news item');
+            });
     }
 }
 

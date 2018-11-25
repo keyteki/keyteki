@@ -4,7 +4,7 @@ class Tocsin extends Card {
     setupCardAbilities(ability) {
         this.reap({
             gameAction: ability.actions.discardAtRandom()
-        })
+        });
     }
 }
 

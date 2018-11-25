@@ -4,7 +4,7 @@ class BrothersInBattle extends Card {
     setupCardAbilities(ability) {
         this.play({
             target: {
-                mode: 'house',                
+                mode: 'house'
             },
             effect: 'allow creatures from {1} to fight this turn',
             effectArgs: context => context.house,

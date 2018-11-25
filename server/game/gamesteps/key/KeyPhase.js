@@ -14,7 +14,7 @@ class KeyPhase extends Phase {
             this.game.addMessage('{0} forges a key, paying {1} amber', this.game.activePlayer, this.game.activePlayer.getCurrentKeyCost());
             this.game.actions.forgeKey().resolve(this.game.activePlayer, this.game.getFrameworkContext(this.game.activePlayer));
         } else {
-            this.game.addMessage('{0} does not have enough amber({1}) to forge a key (current cost:{2})', this.game.activePlayer, this.game.activePlayer.amber, this.game.activePlayer.getCurrentKeyCost());
+            this.game.addMessage('{0} does not forge a key {1} amber - current cost:{2} amber ', this.game.activePlayer, this.game.activePlayer.amber, this.game.activePlayer.getCurrentKeyCost());
         }
     }
 }

@@ -5,7 +5,7 @@ class Grommid extends Card {
         this.persistentEffect({
             effect: ability.effects.playerCannot('play', context => context.source.type === 'creature')
         });
-        
+
         this.reaction({
             when: {
                 onDamageDealt: (event, context) => event.damageSource === context.source && event.destroyed

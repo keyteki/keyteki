@@ -1,104 +1,8 @@
 .card-wrapper {
-  margin: 0px 0px 0px 0px;
+  margin: 0;
   vertical-align: middle;
   display: inline-block;
-  position: relative;
-
-  &.mytaunt {
-    margin-top: -@upgrade-offset;
-  }
-
-  &.opptaunt {
-    margin-top: @upgrade-offset;
-  }
-
-  &.imperial-favor {
-    margin: 0 7px 10px;
-
-    &.small {
-      &.vertical {
-        height: @card-sm-height;
-        min-width: @card-sm-width;
-      }
-
-      &.horizontal {
-        height: @card-sm-width;
-        width: @card-sm-height;
-      }
-
-      &.mytaunt {
-        margin-top: -@upgrade-offset-sm;
-      }
-
-      &.opptaunt {
-        margin-top: @upgrade-offset-sm;
-      }
-    }
-
-    &.large {
-      &.vertical {
-        height: @card-lg-height;
-        min-width: @card-lg-width;
-      }
-
-      &.horizontal {
-        height: @card-lg-width;
-        width: @card-lg-height;
-      }
-
-      &.mytaunt {
-        margin-top: -@upgrade-offset-lg;
-      }
-
-      &.opptaunt {
-        margin-top: @upgrade-offset-lg;
-      }
-
-    }
-
-    &.x-large {
-      &.vertical {
-        height: @card-xl-height;
-        min-width: @card-xl-width;
-      }
-
-      &.horizontal {
-        height: @card-xl-width;
-        width: @card-xl-height;
-      }
-
-      &.mytaunt {
-        margin-top: -@upgrade-offset-xl;
-      }
-
-      &.opptaunt {
-        margin-top: @upgrade-offset-xl;
-      }
-
-    }
-  }
 }
-
-.generate-wrappers(@n, @i: 1) when (@i =< @n) {
-  .wrapper-@{i} {
-    height: @card-height+(@upgrade-offset)*@i;
-
-  &.small {
-      height: @card-sm-height+(@upgrade-offset)*@i;
-    }
-
-    &.large {
-      height: @card-lg-height+(@upgrade-offset)*@i;
-    }
-
-    &.x-large {
-      height: @card-lg-height+(@upgrade-offset)*@i;
-    }
-  }
-  .generate-wrappers(@n, (@i + 1));
-}
-
-.generate-wrappers(10, 1);
 
 .card-frame {
   position: relative;
@@ -115,13 +19,11 @@
     &.vertical {
       height: @card-sm-height;
       width: @card-sm-width;
-
     }
 
     &.horizontal {
       height: @card-sm-width;
       width: @card-sm-height;
-
     }
   }
 
@@ -129,13 +31,11 @@
     &.vertical {
       height: @card-lg-height;
       width: @card-lg-width;
-
     }
 
     &.horizontal {
       height: @card-lg-width;
       width: @card-lg-height;
-
     }
   }
 
@@ -143,47 +43,41 @@
     &.vertical {
       height: @card-xl-height;
       width: @card-xl-width;
-
     }
 
     &.horizontal {
       height: @card-xl-width;
       width: @card-xl-height;
-
-    }
-  }
+    }}
 
   &.vertical {
     height: @card-height;
     width: @card-width;
-
   }
 
   &.horizontal {
     height: @card-width;
     width: @card-height;
-
-
   }
 
   &.selectable {
     box-shadow: 0 0 10px 1px fadeout(lighten(@brand-primary, 60%), 10%);
   }
 
-    &.unselectable {
-        filter: brightness(60%);
-
-        .card-image {
-            filter: grayscale(100%);
-        }
-    }
+  &.unselectable {
+    filter: grayscale(100%) brightness(60%);
+  }
 
   &.in-danger {
     box-shadow: 0 0 1px 2px red;
   }
 
+  &.saved {
+    box-shadow: 0 0 1px 2px green;
+  }
+
   &.selected {
-    box-shadow: 0 0 1px 4px @brand-tertiary;
+    box-shadow: 0 0 1px 4px @brand-secondary;
   }
 
   &.new {
@@ -194,12 +88,12 @@
     box-shadow: 0 0 1px 2px @brand-warning;
   }
 
-  &.conflict {
-    box-shadow: 0 0 1px 3px @brand-danger;
+  &.challenge {
+    box-shadow: 0 0 1px 2px @brand-danger;
   }
 
-  &.covert {
-    box-shadow: 0 0 1px 2px #9900cc;
+  &.stealth {
+    box-shadow: 0 0 1px 2px #c14e15;
   }
 }
 
@@ -207,6 +101,7 @@
   left: 0;
   position: absolute;
   top: 0;
+  pointer-events: none;
 
   &.small {
     &.vertical {
@@ -218,21 +113,6 @@
       height: @card-sm-width;
       width: @card-sm-height;
     }
-
-    &.bowed {
-      left: 8px;
-      top: -8px;
-    }
-  }
-
-  &.vertical {
-    height: @card-height;
-    width: @card-width;
-  }
-
-  &.horizontal {
-    height: @card-width;
-    width: @card-height;
   }
 
   &.large {
@@ -246,9 +126,9 @@
       width: @card-lg-height;
     }
 
-    &.bowed {
-      left: 14px;
-      top: -14px;
+    &.exhausted {
+      left: 19px;
+      top: -20px;
     }
   }
 
@@ -263,21 +143,26 @@
       width: @card-xl-height;
     }
 
-    &.bowed {
-      left: 20px;
-      top: -21px;
+    &.exhausted {
+      left: 24px;
+      top: -26px;
     }
   }
 
-  &.bowed {
-    left: 9px;
-    top: -10px;
-    transform: rotate(90deg);
-
+  &.vertical {
+    height: @card-height;
+    width: @card-width;
   }
 
-  &.broken {
-      transform: rotate(180deg);
+  &.horizontal {
+    height: @card-width;
+    width: @card-height;
+  }
+
+  &.exhausted {
+    left: 11px;
+    top: -14px;
+    transform: rotate(90deg);
   }
 }
 
@@ -311,21 +196,21 @@
 }
 
 .card-large {
-  width: 220px;
-  height: 307px;
+  right: 5px;
+  top: 5px;
   position: absolute;
-  top: 0;
-  right: 0;
-  margin-right: 5px;
-  margin-top: 5px;
-}
+  z-index: @layer-top;
+  pointer-events: none;
 
-.card-large-horizontal {
-  width: 307px;
-  height: 220px;
-  position: relative;
-  margin-right: 5px;
-  margin-top: 5px;
+  &.vertical {
+      width: @card-width * 4;
+      height: @card-height * 4;
+    }
+
+    &.horizontal {
+      width: @card-height * 4;
+      height: @card-width * 4;
+    }
 }
 
 .card-zoomed {
@@ -333,84 +218,80 @@
   height: 100%;
 }
 
-.card-zoomed > img {
+.image-large {
   position: absolute;
-  top: 0px;
-  left: 0px;
-  height: 100%;
-  width: 100%;
+  top: 0;
+  left: 0;
   border-radius: 12px;
+  z-index: @layer-top;
+  height: @card-height * 4;
 }
 
+.upgrade {
+  margin-top: -@upgrade-offset - @card-height;
+
+  &.small {
+    margin-top: -@upgrade-offset - @card-sm-height;
+  }
+
+  &.large {
+    margin-top: -@upgrade-offset-lg - @card-lg-height;
+  }
+
+  &.x-large {
+    margin-top: -@upgrade-offset-xl - @card-xl-height;
+  }
+}
 
 .generate-upgrades(@n, @i: 1) when (@i =< @n) {
   .upgrade-@{i} {
-    margin-top: -(@card-height)-(@upgrade-offset)*@i;
     z-index: @layer-cards - @i;
-
-    &.small {
-      margin-top: -(@card-sm-height)-(@upgrade-offset-sm)*@i;
-    }
-
-    &.large {
-      margin-top: -(@card-lg-height)-(@upgrade-offset-lg)*@i;
-    }
-
-    &.x-large {
-      margin-top: -(@card-xl-height)-(@upgrade-offset-xl)*@i;
-    }
   }
   .generate-upgrades(@n, (@i + 1));
 }
 
 .generate-upgrades(10, 1);
 
-.squishable-card-panel {
-  
-  display: flex;
-  justify-content: flex-start;
-  margin: 0px 5px;
-  min-height: 0;
-  padding: 0px;
-
-  .card-wrapper {
-    margin: 0 5px 0 0;
-  }
-}
-
-.squishable-card-panel.squish .card-wrapper {
-  position: absolute;
-}
-
-.underneath {
-  margin-left: 0;
-  //margin-top: -@card-height + @upgrade-offset;
-  position: absolute;
-  left: 0;
-  top: @upgrade-offset;
-  z-index: @layer-cards - 1;
+.card-dupe {
+  margin-bottom: @upgrade-offset;
+  margin-top: -(@upgrade-offset + @card-height);
 
   &.small {
-    top: @upgrade-offset-sm
-    //margin-top: -@card-sm-height + @upgrade-offset-sm;
+    margin-top: -(@upgrade-offset + @card-sm-height);
   }
 
   &.large {
-    top: @upgrade-offset-lg
-    //margin-top: -@card-lg-height + @upgrade-offset-lg;
+    margin-top: -(@upgrade-offset-lg + @card-lg-height);
   }
 
   &.x-large {
-    top: @upgrade-offset-xl
-    //margin-top: -@card-xl-height + @upgrade-offset-xl;
+    margin-top: -(@upgrade-offset-xl + @card-xl-height);
   }
 }
 
+.generate-card-dupes(@n, @i: 1) when (@i =< @n) {
+  .card-dupe-@{i} {
+    z-index: @layer-cards - @i;
+    top: -((@i - 1) * @upgrade-offset);
+
+    &.large {
+      top: -((@i - 1) * @upgrade-offset-lg);
+    }
+
+    &.x-large {
+      top: -((@i - 1) * @upgrade-offset-xl);
+    }
+  }
+  .generate-card-dupes(@n, (@i + 1));
+}
+.generate-card-dupes(5, 1);
+
 .card-type-faction.horizontal {
-    margin: 10px 0 0 -10px;
+    margin: 10px 0 0 0;
 }
 
 .counters {
+  color: white;
   position: absolute;
   top: 0;
   bottom: 0;
@@ -440,54 +321,6 @@
   }
 }
 
-.countertext {
-  position: relative;
-  left: 0px;
-  top: -95%;
-  text-align: center;
-  font-size: 14px;
-  color: white;
-  text-shadow:
-  -1px -1px 0 #000,
-  1px -1px 0 #000,
-  -1px 1px 0 #000,
-  1px 1px 0 #000;
-}
-
-.counterimage {
-  width: 25px;
-  height: 25px;  
-}
-
-.counter {
-  box-sizing: border-box;
-  width: 25px;
-  height: 25px;
-}
-/*
-.fatecounter {
-  box-sizing: border-box;
-  width: 25px;
-  height: 25px;
-}
-
-.honorcounter {
-  box-sizing: border-box;
-  width: 25px;
-  height: 25px;
-  position: absolute;
-  top: 0px;
-  left: 20px;
-
-}
-
-.honorstatuscounter {
-  box-sizing: border-box;
-  width: 25px;
-  height: 25px;
-}
-
-/* Don't think we actually need this
 .counter {
   padding: 0;
   font-size: 12px;
@@ -498,37 +331,10 @@
   margin: 2px;
   text-shadow: 1px 1px 2px #000;
   border-radius: 4px;
-  color: white;
 
-  &.political {
-    span {
-      display: none;
-    }
-
-    font-family: 'fiveringsdb';
-
-    &:before {
-      content: "\e901";
-      color: @political-icon-color;
-    }
-
-    background-color: rgba(0, 0, 0, 0.85);
-  }
-
-  &.military {
-    span {
-      display: none;
-    }
-
-    font-family: 'fiveringsdb';
-
-    &:before {
-      content: "\e900";
-      color: @military-icon-color;
-    }
-
-    background-color: rgba(0, 0, 0, 0.85);
-  }
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 
   &.fade-out {
     opacity: 0.4;
@@ -549,4 +355,273 @@
   }
 }
 
-*/
+.upgrade-power {
+  background-color: fade(@power-color, 50%);
+}
+
+.strength {
+  background-color: @strength-color;
+}
+
+.damage {
+  background-image: url("/img/damage.png");
+}
+
+.amber {
+  background-image: url("/img/amber.png");
+}
+
+.armor {
+  background-image: url("/img/armor.png");
+}
+
+.power {
+  background-image: url("/img/power.png");
+}
+
+.stun {
+  background-image: url("/img/stun.png");
+  color: transparent;
+}
+
+.card-small {
+  max-width: 30px;
+}
+
+.drag-preview {
+  pointer-events: none;
+  position: fixed;
+
+  opacity: 0.5;
+  z-index: @layer-top;
+}
+
+.relative {
+  position: relative;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: @layer-top;
+  opacity: 0.5;
+
+  pointer-events: none;
+
+  &.drop-ok {
+    background-color: @brand-success
+  }
+
+  &.can-drop {
+    background-color: @brand-warning
+  }
+
+  &.no-drop {
+    background-color: @brand-danger
+  }
+}
+
+.drop-target {
+  display: inline-block;
+  position: relative;
+}
+
+.hover-card {
+  position: fixed;
+  top: 60px;
+  left: 10px;
+  z-index: @layer-top;
+  min-width: @card-width * 4;
+  min-height: @card-height * 4;
+
+  &.horizontal {
+    min-height: @card-width * 4;
+    min-width: @card-height * 4;
+  }
+}
+
+.card-cost {
+  background: url('/img/Gold.png') no-repeat;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 25px;
+  background-size: cover;
+  color: white;
+  font-family: 'thronesdb';
+}
+
+.card-cost-number {
+  font-size: 2em;
+}
+
+.card-alt {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 10px;
+  background-color: black;
+  opacity: 0.8;
+  z-index: @layer-bottom;
+}
+
+.card-top-row {
+  display: flex;
+}
+
+.card-text {
+  font-size: 0.8em;
+  font-family: 'thronesdb';
+  margin-left: 30px;
+  margin-right: 30px;
+  display: flex;
+  flex-direction: column;
+
+  .text-inner {
+    min-height: 80px;
+  }
+
+  .card-name {
+    line-height: initial;
+  }
+}
+
+.card-type {
+  line-height: initial;
+}
+
+.card-icons {
+  margin-left: 5px;
+  margin-top: 15px;
+
+  &.upgrade {
+    min-height: 170px;
+  }
+}
+
+.challenge-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 25px;
+  text-align: center;
+  font-size: 1.8em;
+  line-height: 35px;
+  color: white;
+  margin-top: 10px;
+}
+
+.card-name-row {
+  display: flex;
+
+  &.vertical {
+    width: 50px;
+    height: 185px;
+    flex-direction: column;
+    margin-bottom: 10px;
+
+    .card-name {
+      text-orientation: sideways;
+      writing-mode: vertical-lr;
+      transform: rotate(180deg);
+    }
+  }
+}
+
+.card-strength {
+  background: url('/img/shield.png') no-repeat;
+  background-size: cover;
+  width: 30px;
+  height: 35px;
+  margin-left: 10px;
+  margin-top: 5px;
+  text-align: center;
+  line-height: 35px;
+  font-size: 1.8em;
+}
+
+.card-name {
+  font-size: 0.8em;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  text-transform: uppercase;
+  text-align: center;
+  flex: 1;
+  line-height: 65px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.card-unique {
+  font-family: thronesdb;
+
+  &:before {
+    content: "\e60b";
+  }
+}
+
+.card-faction {
+  width: 40px;
+  height: 40px;
+  border-radius: 25px;
+  font-size: 2.6em;
+  text-align: center;
+  line-height: 40px;
+  margin-right: 10px;
+  margin-top: 10px;
+
+  // Reduce the font size slightly for specific factions so that the larger icon
+  // glyphs will fit
+  &.thronesicon-greyjoy,
+  &.thronesicon-lannister,
+  &.thronesicon-targaryen,
+  &.thronesicon-thenightswatch {
+    font-size: 2em;
+  }
+}
+
+.card-traits {
+  font-style: italic;
+  font-weight: bold;
+  text-align: center;
+  color: white;
+
+  margin-top: -15px;
+  min-height: 20px;
+}
+
+.hover-image {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: @layer-top;
+}
+
+.underneath {
+  margin-left: 0;
+  position: relative;
+  z-index: @layer-cards - 1;
+
+  margin-top: @underneath-offset - @card-height;
+
+  &.small {
+    margin-top: @underneath-offset - @card-sm-height;
+  }
+
+  &.large {
+    margin-top: @underneath-offset-lg - @card-lg-height;
+  }
+
+  &.x-large {
+    margin-top: @underneath-offset-xl - @card-xl-height;
+  }
+}

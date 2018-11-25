@@ -1,0 +1,288 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
+import AlertPanel from '../Components/Site/AlertPanel';
+import Panel from '../Components/Site/Panel';
+import Input from '../Components/Form/Input';
+import Checkbox from '../Components/Form/Checkbox';
+import CardSizeOption from '../Components/Profile/CardSizeOption';
+import GameBackgroundOption from '../Components/Profile/GameBackgroundOption';
+import Avatar from '../Components/Site/Avatar';
+
+import * as actions from '../actions';
+
+class Profile extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.handleSelectBackground = this.handleSelectBackground.bind(this);
+        this.handleSelectCardSize = this.handleSelectCardSize.bind(this);
+        this.onUpdateAvatarClick = this.onUpdateAvatarClick.bind(this);
+
+        this.state = {
+            newPassword: '',
+            newPasswordAgain: '',
+            validation: {}
+        };
+
+        this.backgrounds = [
+            { name: 'none', label: 'None', imageUrl: 'img/bgs/blank.png' },
+            { name: 'Brobnar', label: 'Brobnar', imageUrl: 'img/bgs/brobnar.png' },
+            { name: 'Dis', label: 'Dis', imageUrl: 'img/bgs/dis.png' },
+            { name: 'Logos', label: 'Logos', imageUrl: 'img/bgs/logos.png' },
+            { name: 'Mars', label: 'Mars', imageUrl: 'img/bgs/mars.png' },
+            { name: 'Sanctum', label: 'Sanctum', imageUrl: 'img/bgs/sanctum.png' },
+            { name: 'Shadows', label: 'Shadows', imageUrl: 'img/bgs/shadows.png' },
+            { name: 'Untamed', label: 'Untamed', imageUrl: 'img/bgs/untamed.png' }
+        ];
+
+        this.cardSizes = [
+            { name: 'small', label: 'Small' },
+            { name: 'normal', label: 'Normal' },
+            { name: 'large', label: 'Large' },
+            { name: 'x-large', label: 'Extra-Large' }
+        ];
+    }
+
+    componentDidMount() {
+        this.updateProfile(this.props);
+    }
+
+    componentWillReceiveProps(props) {
+        if(!props.user) {
+            return;
+        }
+
+        // If we haven't previously got any user details, then the api probably just returned now, so set the initial user details
+        if(!this.state.promptedActionWindows) {
+            this.updateProfile(props);
+        }
+
+        if(props.profileSaved) {
+            this.setState({
+                successMessage: 'Profile saved successfully.  Please note settings changed here may only apply at the start of your next game.'
+            });
+
+            this.updateProfile(props);
+
+            setTimeout(() => {
+                this.setState({ successMessage: undefined });
+            }, 5000);
+        }
+    }
+
+    updateProfile(props) {
+        if(!props.user) {
+            return;
+        }
+
+        this.setState({
+            email: props.user.email,
+            enableGravatar: props.user.enableGravatar,
+            selectedBackground: props.user.settings.background,
+            selectedCardSize: props.user.settings.cardSize
+        });
+    }
+
+    onChange(field, event) {
+        var newState = {};
+
+        newState[field] = event.target.value;
+        this.setState(newState);
+    }
+
+    onToggle(field, event) {
+        var newState = {};
+
+        newState[field] = event.target.checked;
+        this.setState(newState);
+    }
+
+    onSaveClick(event) {
+        event.preventDefault();
+
+        this.setState({ errorMessage: undefined, successMessage: undefined });
+
+        this.verifyEmail();
+        this.verifyPassword(true);
+
+        document.getElementsByClassName('wrapper')[0].scrollTop = 0;
+
+        if(Object.values(this.state.validation).some(message => {
+            return message && message !== '';
+        })) {
+            this.setState({ errorMessage: 'There was an error in one or more fields, please see below, correct the error and try again' });
+            return;
+        }
+
+        this.props.saveProfile(this.props.user.username, {
+            email: this.state.email,
+            password: this.state.newPassword,
+            enableGravatar: this.state.enableGravatar,
+            settings: {
+                background: this.state.selectedBackground,
+                cardSize: this.state.selectedCardSize
+            }
+        });
+    }
+
+    verifyPassword(isSubmitting) {
+        var validation = this.state.validation;
+
+        delete validation['password'];
+
+        if(!this.state.newPassword && !this.state.newPasswordAgain) {
+            return;
+        }
+
+        if(this.state.newPassword.length < 6) {
+            validation['password'] = 'The password you specify must be at least 6 characters long';
+        }
+
+        if(isSubmitting && !this.state.newPasswordAgain) {
+            validation['password'] = 'Please enter your password again';
+        }
+
+        if(this.state.newPassword && this.state.newPasswordAgain && this.state.newPassword !== this.state.newPasswordAgain) {
+            validation['password'] = 'The passwords you have specified do not match';
+        }
+
+        this.setState({ validation: validation });
+    }
+
+    verifyEmail() {
+        var validation = this.state.validation;
+
+        delete validation['email'];
+
+        if(!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(this.state.email)) {
+            validation['email'] = 'Please enter a valid email address';
+        }
+
+        this.setState({ validation: validation });
+    }
+
+    handleSelectBackground(background) {
+        this.setState({ selectedBackground: background });
+    }
+
+    handleSelectCardSize(size) {
+        this.setState({ selectedCardSize: size });
+    }
+
+    onUpdateAvatarClick(event) {
+        event.preventDefault();
+
+        this.props.updateAvatar(this.props.user.username);
+    }
+
+    render() {
+        if(!this.props.user) {
+            return <AlertPanel type='error' message='You must be logged in to update your profile' />;
+        }
+
+        let successBar;
+        if(this.props.profileSaved) {
+            setTimeout(() => {
+                this.props.clearProfileStatus();
+            }, 5000);
+            successBar = <AlertPanel type='success' message='Profile saved successfully.  Please note settings changed here may only apply at the start of your next game.' />;
+        }
+
+        let errorBar = this.props.apiSuccess === false ? <AlertPanel type='error' message={ this.props.apiMessage } /> : null;
+
+        return (
+            <div className='col-sm-8 col-sm-offset-2 profile full-height'>
+                <div className='about-container'>
+                    { errorBar }
+                    { successBar }
+                    <form className='form form-horizontal'>
+                        <Panel title='Profile'>
+                            <Input name='email' label='Email Address' labelClass='col-sm-4' fieldClass='col-sm-8' placeholder='Enter email address'
+                                type='text' onChange={ this.onChange.bind(this, 'email') } value={ this.state.email }
+                                onBlur={ this.verifyEmail.bind(this) } validationMessage={ this.state.validation['email'] } />
+                            <Input name='newPassword' label='New Password' labelClass='col-sm-4' fieldClass='col-sm-8' placeholder='Enter new password'
+                                type='password' onChange={ this.onChange.bind(this, 'newPassword') } value={ this.state.newPassword }
+                                onBlur={ this.verifyPassword.bind(this, false) } validationMessage={ this.state.validation['password'] } />
+                            <Input name='newPasswordAgain' label='New Password (again)' labelClass='col-sm-4' fieldClass='col-sm-8' placeholder='Enter new password (again)'
+                                type='password' onChange={ this.onChange.bind(this, 'newPasswordAgain') } value={ this.state.newPasswordAgain }
+                                onBlur={ this.verifyPassword.bind(this, false) } validationMessage={ this.state.validation['password1'] } />
+                            <span className='col-sm-3 text-center'><Avatar username={ this.props.user.username } /></span>
+                            <Checkbox name='enableGravatar' label='Enable Gravatar integration' fieldClass='col-sm-offset-1 col-sm-7'
+                                onChange={ e => this.setState({ enableGravatar: e.target.checked }) } checked={ this.state.enableGravatar } />
+                            <div className='col-sm-3 text-center'>Current profile picture</div>
+                            <button type='button' className='btn btn-default col-sm-offset-1 col-sm-4' onClick={ this.onUpdateAvatarClick }>Update avatar</button>
+                        </Panel>
+                        <div>
+                            <Panel title='Game Board Background'>
+                                <div className='row'>
+                                    {
+                                        this.backgrounds.map(background => (
+                                            <GameBackgroundOption
+                                                imageUrl={ background.imageUrl }
+                                                key={ background.name }
+                                                label={ background.label }
+                                                name={ background.name }
+                                                onSelect={ this.handleSelectBackground }
+                                                selected={ this.state.selectedBackground === background.name } />
+                                        ))
+                                    }
+                                </div>
+                            </Panel>
+                        </div>
+                        <div>
+                            <Panel title='Card Image Size'>
+                                <div className='row'>
+                                    <div className='col-xs-12'>
+                                        {
+                                            this.cardSizes.map(cardSize => (
+                                                <CardSizeOption
+                                                    key={ cardSize.name }
+                                                    label={ cardSize.label }
+                                                    name={ cardSize.name }
+                                                    onSelect={ this.handleSelectCardSize }
+                                                    selected={ this.state.selectedCardSize === cardSize.name } />
+                                            ))
+                                        }
+                                    </div>
+                                </div>
+                            </Panel>
+                        </div>
+                        <div className='col-sm-offset-10 col-sm-2'>
+                            <button className='btn btn-primary' type='button' disabled={ this.props.apiLoading } onClick={ this.onSaveClick.bind(this) }>
+                                Save{ this.props.apiLoading ? <span className='spinner button-spinner' /> : null }
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>);
+    }
+}
+
+Profile.displayName = 'Profile';
+Profile.propTypes = {
+    apiLoading: PropTypes.bool,
+    apiMessage: PropTypes.string,
+    apiSuccess: PropTypes.bool,
+    clearProfileStatus: PropTypes.func,
+    profileSaved: PropTypes.bool,
+    refreshUser: PropTypes.func,
+    saveProfile: PropTypes.func,
+    socket: PropTypes.object,
+    updateAvatar: PropTypes.func,
+    user: PropTypes.object
+};
+
+function mapStateToProps(state) {
+    return {
+        apiLoading: state.api.SAVE_PROFILE ? state.api.SAVE_PROFILE.loading : undefined,
+        apiMessage: state.api.SAVE_PROFILE ? state.api.SAVE_PROFILE.message : undefined,
+        apiSuccess: state.api.SAVE_PROFILE ? state.api.SAVE_PROFILE.success : undefined,
+        profileSaved: state.user.profileSaved,
+        socket: state.lobby.socket,
+        user: state.account.user
+    };
+}
+
+export default connect(mapStateToProps, actions)(Profile);

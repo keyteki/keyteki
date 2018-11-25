@@ -1,10 +1,14 @@
+import $ from 'jquery';
+import { navigate, setAuthTokens, authenticateSocket } from '../actions';
+
 export default function callAPIMiddleware({ dispatch, getState }) {
-    return next => action => {
+    return next => async action => {
         const {
             types,
-            callAPI,
+            APIParams,
             shouldCallAPI = () => true,
-            payload = {}
+            payload = {},
+            skipAuth = false
         } = action;
 
         if(!types) {
@@ -13,10 +17,6 @@ export default function callAPIMiddleware({ dispatch, getState }) {
 
         if(!Array.isArray(types) || types.length !== 2 || !types.every(type => typeof type === 'string')) {
             throw new Error('Expected an array of two string types.');
-        }
-
-        if(typeof callAPI !== 'function') {
-            throw new Error('Expected callAPI to be a function.');
         }
 
         const [requestType, successType] = types;
@@ -30,44 +30,93 @@ export default function callAPIMiddleware({ dispatch, getState }) {
         }
 
         dispatch(Object.assign({}, payload, {
-            type: 'API_LOADING'
+            type: 'API_LOADING',
+            request: requestType
         }));
 
-        return callAPI().then(
-            response => {
-                if(!response.success) {
-                    return dispatch(Object.assign({}, payload, {
-                        status: 200,
-                        message: response.message,
-                        type: 'API_FAILURE'
-                    }));
+        let apiParams = APIParams || {};
+        apiParams.contentType = 'application/json';
+        if(!skipAuth) {
+            apiParams.headers = {
+                Authorization: `Bearer ${getState().auth.token}`
+            };
+        }
+
+        let response;
+        let errorStatus = 200;
+
+        try {
+            response = await $.ajax(apiParams.url, apiParams);
+        } catch(error) {
+            if(error.status === 401) {
+                let state = getState();
+                let authResponse = await $.ajax('/api/account/token', {
+                    contentType: 'application/json',
+                    type: 'POST',
+                    data: JSON.stringify({ token: state.auth.refreshToken })
+                });
+
+                if(!authResponse.success) {
+                    dispatch(navigate('/login'));
+
+                    return;
                 }
 
-                let ret = dispatch(Object.assign({}, payload, {
-                    response,
-                    type: successType
-                }));
+                dispatch(setAuthTokens(authResponse.token, state.auth.refreshToken));
+                dispatch(authenticateSocket());
 
-                dispatch(Object.assign({}, payload, {
-                    type: 'API_LOADED'
-                }));
+                apiParams.headers = {
+                    Authorization: `Bearer ${authResponse.token}`
+                };
 
-                return ret;
-            },
-            error => {
-                dispatch(Object.assign({}, payload, {
-                    status: error.status,
-                    message: 'An error occured communicating with the server.  Please try again later.',
-                    type: 'API_LOADED'
-                }));
-
-                dispatch(Object.assign({}, payload, {
-                    status: error.status,
-                    message: 'An error occured communicating with the server.  Please try again later.',
-                    type: 'API_FAILURE'
-                }));
+                try {
+                    response = await $.ajax(apiParams.url, apiParams);
+                } catch(innerError) {
+                    errorStatus = innerError.status;
+                }
+            } else {
+                errorStatus = error.status;
             }
-        );
+        }
+
+        if(!response) {
+            dispatch(Object.assign({}, payload, {
+                status: errorStatus,
+                message: 'An error occured communicating with the server.  Please try again later.',
+                type: 'API_LOADED',
+                request: requestType
+            }));
+
+            dispatch(Object.assign({}, payload, {
+                status: errorStatus,
+                message: 'An error occured communicating with the server.  Please try again later.',
+                type: 'API_FAILURE',
+                request: requestType
+            }));
+
+            return;
+        }
+
+        if(!response.success) {
+            dispatch(Object.assign({}, payload, {
+                status: 200,
+                message: response.message,
+                type: 'API_FAILURE',
+                request: requestType
+            }));
+
+            return;
+        }
+
+        dispatch(Object.assign({}, payload, {
+            response,
+            type: successType
+        }));
+
+        dispatch(Object.assign({}, payload, {
+            type: 'API_LOADED',
+            request: requestType
+        }));
     };
 }
 

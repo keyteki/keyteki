@@ -8,11 +8,10 @@ const logger = require('./log.js');
 const version = moment(require('../version.js'));
 const PendingGame = require('./pendinggame.js');
 const GameRouter = require('./gamerouter.js');
-const MessageService = require('./services/MessageService.js');
+const ServiceFactory = require('./services/ServiceFactory');
 const DeckService = require('./services/DeckService.js');
 const CardService = require('./services/CardService.js');
-const validateDeck = require('../client/deck-validator.js'); // XXX Move this to a common location
-const Settings = require('./settings.js');
+const UserService = require('./services/UserService.js');
 
 class Lobby {
     constructor(server, options = {}) {
@@ -20,9 +19,10 @@ class Lobby {
         this.users = {};
         this.games = {};
         this.config = options.config;
-        this.messageService = options.messageService || new MessageService(options.db);
+        this.messageService = options.messageService || ServiceFactory.messageService(options.db);
         this.deckService = options.deckService || new DeckService(options.db);
         this.cardService = options.cardService || new CardService(options.db);
+        this.userService = options.userService || new UserService(options.db);
         this.router = options.router || new GameRouter(this.config);
 
         this.router.on('onGameClosed', this.onGameClosed.bind(this));
@@ -38,13 +38,11 @@ class Lobby {
 
         this.lastUserBroadcast = moment();
 
-        this.loadCardData();
+        this.messageService.on('messageDeleted', messageId => {
+            this.io.emit('removemessage', messageId);
+        });
 
-        setInterval(() => this.clearStaleGames(), 60 * 1000);
-    }
-
-    async loadCardData() {
-        this.shortCardData = await this.cardService.getAllCards({ shortForm: true });
+        setInterval(() => this.clearStalePendingGames(), 60 * 1000);
     }
 
     // External methods
@@ -119,12 +117,8 @@ class Lobby {
     }
 
     getUserList() {
-        let userList = _.map(this.users, function (user) {
-            return {
-                name: user.username,
-                emailHash: user.emailHash,
-                noAvatar: user.settings.disableGravatar
-            };
+        let userList = Object.values(this.users).map(user => {
+            return user.getShortSummary();
         });
 
         userList = _.sortBy(userList, user => {
@@ -134,26 +128,39 @@ class Lobby {
         return userList;
     }
 
-    handshake(socket, next) {
+    handshake(ioSocket, next) {
         var versionInfo = undefined;
 
-        if(socket.handshake.query.token && socket.handshake.query.token !== 'undefined') {
-            jwt.verify(socket.handshake.query.token, this.config.secret, function (err, user) {
+        if(ioSocket.handshake.query.token && ioSocket.handshake.query.token !== 'undefined') {
+            jwt.verify(ioSocket.handshake.query.token, this.config.secret, (err, user) => {
                 if(err) {
-                    logger.info(err);
+                    ioSocket.emit('authfailed');
                     return;
                 }
 
-                socket.request.user = user;
+                this.userService.getUserById(user._id).then(dbUser => {
+                    var socket = this.sockets[ioSocket.id];
+                    if(!socket) {
+                        logger.error('Tried to authenticate socket but could not find it', dbUser.username);
+                        return;
+                    }
+
+                    ioSocket.request.user = dbUser.getWireSafeDetails();
+                    socket.user = dbUser;
+
+                    this.doPostAuth(socket);
+                }).catch(err => {
+                    logger.error(err);
+                });
             });
         }
 
-        if(socket.handshake.query.version) {
-            versionInfo = moment(socket.handshake.query.version);
+        if(ioSocket.handshake.query.version) {
+            versionInfo = moment(ioSocket.handshake.query.version);
         }
 
         if(!versionInfo || versionInfo < version) {
-            socket.emit('banner', 'Your client version is out of date, please refresh or clear your cache to get the latest version');
+            ioSocket.emit('banner', 'Your client version is out of date, please refresh or clear your cache to get the latest version');
         }
 
         next();
@@ -243,27 +250,34 @@ class Lobby {
         this.broadcastGameList();
     }
 
-    clearStaleGames() {
-        let now = Date.now();
-        const timeout = 60 * 60 * 1000;
-        let stalePendingGames = _.filter(this.games, game => !game.started && now - game.createdAt > timeout);
-        let emptyGames = _.filter(this.games, game =>
-            game.started && now - game.createdAt > timeout && _.isEmpty(game.getPlayers()));
-
-        _.each(stalePendingGames, game => {
+    clearStalePendingGames() {
+        const timeout = 15 * 60 * 1000;
+        let staleGames = _.filter(this.games, game => !game.started && Date.now() - game.createdAt > timeout);
+        for(let game of staleGames) {
             logger.info('closed pending game', game.id, 'due to inactivity');
             delete this.games[game.id];
-        });
+        }
 
-        _.each(emptyGames, game => {
-            logger.info('closed started game', game.id, 'due to no active players');
-            delete this.games[game.id];
-            this.router.closeGame(game);
-        });
-
-        if(emptyGames.length > 0 || stalePendingGames.length > 0) {
+        if(staleGames.length > 0) {
             this.broadcastGameList();
         }
+    }
+
+    sendFilteredMessages(socket) {
+        this.messageService.getLastMessages().then(messages => {
+            let messagesToSend = this.filterMessages(messages, socket);
+            socket.send('lobbymessages', messagesToSend.reverse());
+        });
+    }
+
+    filterMessages(messages, socket) {
+        if(!socket.user) {
+            return messages;
+        }
+
+        return messages.filter(message => {
+            return !_.contains(socket.user.blockList, message.user.username.toLowerCase());
+        });
     }
 
     // Events
@@ -280,6 +294,10 @@ class Lobby {
         socket.registerEvent('selectdeck', this.onSelectDeck.bind(this));
         socket.registerEvent('connectfailed', this.onConnectFailed.bind(this));
         socket.registerEvent('removegame', this.onRemoveGame.bind(this));
+        socket.registerEvent('clearsessions', this.onClearSessions.bind(this));
+        socket.registerEvent('getnodestatus', this.onGetNodeStatus.bind(this));
+        socket.registerEvent('togglenode', this.onToggleNode.bind(this));
+        socket.registerEvent('restartnode', this.onRestartNode.bind(this));
 
         socket.on('authenticate', this.onAuthenticated.bind(this));
         socket.on('disconnect', this.onSocketDisconnected.bind(this));
@@ -287,18 +305,14 @@ class Lobby {
         this.sockets[ioSocket.id] = socket;
 
         if(socket.user) {
-            this.users[socket.user.username] = Settings.getUserWithDefaultsSet(socket.user);
+            this.users[socket.user.username] = socket.user;
 
             this.broadcastUserList();
         }
 
         // Force user list send for the newly connected socket, bypassing the throttle
         this.sendUserListFilteredWithBlockList(socket, this.getUserList());
-
-        this.messageService.getLastMessages().then(messages => {
-            socket.send('lobbymessages', messages.reverse());
-        });
-
+        this.sendFilteredMessages(socket);
         this.broadcastGameList(socket);
 
         if(!socket.user) {
@@ -307,15 +321,37 @@ class Lobby {
 
         var game = this.findGameForUser(socket.user.username);
         if(game && game.started) {
-            socket.send('handoff', { address: game.node.address, port: game.node.port, protocol: game.node.protocol, name: game.node.identity, gameId: game.id });
+            this.sendHandoff(socket, game.node, game.id);
+        }
+    }
+
+    doPostAuth(socket) {
+        let user = socket.user;
+
+        if(!user) {
+            return;
+        }
+
+        this.broadcastUserList();
+        this.sendFilteredMessages(socket);
+        // Force user list send for the newly autnenticated socket, bypassing the throttle
+        this.sendUserListFilteredWithBlockList(socket, this.getUserList());
+
+        var game = this.findGameForUser(user.username);
+        if(game && game.started) {
+            this.sendHandoff(socket, game.node, game.id);
         }
     }
 
     onAuthenticated(socket, user) {
-        let userWithDefaults = Settings.getUserWithDefaultsSet(user);
-        this.users[user.username] = userWithDefaults;
+        this.userService.getUserById(user._id).then(dbUser => {
+            this.users[dbUser.username] = dbUser;
+            socket.user = dbUser;
 
-        this.broadcastUserList();
+            this.doPostAuth(socket);
+        }).catch(err => {
+            logger.error(err);
+        });
     }
 
     onSocketDisconnected(socket, reason) {
@@ -355,8 +391,29 @@ class Lobby {
             return;
         }
 
-        let game = new PendingGame(socket.user, gameDetails);
-        game.newGame(socket.id, socket.user, gameDetails.password);
+        if(gameDetails.quickJoin) {
+            let sortedGames = _.sortBy(this.games, 'createdAt');
+            let gameToJoin = sortedGames.find(game => !game.started && game.gameType === gameDetails.gameType && _.size(game.players) < 2 && !game.password);
+
+            if(gameToJoin) {
+                let message = gameToJoin.join(socket.id, socket.user.getDetails());
+                if(message) {
+                    socket.send('passworderror', message);
+
+                    return;
+                }
+
+                socket.joinChannel(gameToJoin.id);
+
+                this.sendGameState(gameToJoin);
+                this.broadcastGameList();
+
+                return;
+            }
+        }
+
+        let game = new PendingGame(socket.user.getDetails(), gameDetails);
+        game.newGame(socket.id, socket.user.getDetails(), gameDetails.password);
 
         socket.joinChannel(game.id);
         this.sendGameState(game);
@@ -376,7 +433,7 @@ class Lobby {
             return;
         }
 
-        let message = game.join(socket.id, socket.user, password);
+        let message = game.join(socket.id, socket.user.getDetails(), password);
         if(message) {
             socket.send('passworderror', message);
 
@@ -416,7 +473,29 @@ class Lobby {
 
         this.broadcastGameList();
 
-        this.io.to(game.id).emit('handoff', { address: gameNode.address, port: gameNode.port, protocol: game.node.protocol, name: game.node.identity });
+        _.each(game.getPlayersAndSpectators(), player => {
+            let socket = this.sockets[player.id];
+
+            if(!socket || !socket.user) {
+                logger.error(`Wanted to handoff to ${player.name}, but couldn't find a socket`);
+                return;
+            }
+
+            this.sendHandoff(socket, gameNode, game.id);
+        });
+    }
+
+    sendHandoff(socket, gameNode, gameId) {
+        let authToken = jwt.sign(socket.user.getWireSafeDetails(), this.config.secret, { expiresIn: '5m' });
+
+        socket.send('handoff', {
+            address: gameNode.address,
+            port: gameNode.port,
+            protocol: gameNode.protocol,
+            name: gameNode.identity,
+            authToken: authToken,
+            gameId: gameId
+        });
     }
 
     onWatchGame(socket, gameId, password) {
@@ -430,7 +509,7 @@ class Lobby {
             return;
         }
 
-        let message = game.watch(socket.id, socket.user, password);
+        let message = game.watch(socket.id, socket.user.getDetails(), password);
         if(message) {
             socket.send('passworderror', message);
 
@@ -440,8 +519,8 @@ class Lobby {
         socket.joinChannel(game.id);
 
         if(game.started) {
-            this.router.addSpectator(game, socket.user);
-            socket.send('handoff', { address: game.node.address, port: game.node.port, protocol: game.node.protocol, name: game.node.identity });
+            this.router.addSpectator(game, socket.user.getDetails());
+            this.sendHandoff(socket, game.node, game.id);
         } else {
             this.sendGameState(game);
         }
@@ -477,7 +556,7 @@ class Lobby {
     }
 
     onLobbyChat(socket, message) {
-        var chatMessage = { user: { username: socket.user.username, emailHash: socket.user.emailHash, noAvatar: socket.user.settings.disableGravatar }, message: message, time: new Date() };
+        var chatMessage = { user: socket.user.getShortSummary(), message: message, time: new Date() };
 
         _.each(this.sockets, s => {
             if(s.user && _.contains(s.user.blockList, chatMessage.user.username.toLowerCase())) {
@@ -500,9 +579,9 @@ class Lobby {
             return;
         }
 
-        Promise.all([this.cardService.getAllCards(), this.cardService.getAllPacks(), this.deckService.getById(deckId)])
+        Promise.all([this.cardService.getAllCards(), this.deckService.getById(deckId)])
             .then(results => {
-                let [cards, packs, deck] = results;
+                let [cards, deck] = results;
 
                 _.each(deck.cards, card => {
                     card.card = cards[card.id];
@@ -556,6 +635,34 @@ class Lobby {
         }
     }
 
+    onGetNodeStatus(socket) {
+        if(!socket.user.permissions.canManageNodes) {
+            return;
+        }
+
+        socket.send('nodestatus', this.router.getNodeStatus());
+    }
+
+    onToggleNode(socket, node) {
+        if(!socket.user.permissions.canManageNodes) {
+            return;
+        }
+
+        this.router.toggleNode(node);
+
+        socket.send('nodestatus', this.router.getNodeStatus());
+    }
+
+    onRestartNode(socket, node) {
+        if(!socket.user.permissions.canManageNodes) {
+            return;
+        }
+
+        this.router.restartNode(node);
+
+        socket.send('nodestatus', this.router.getNodeStatus());
+    }
+
     // router Events
     onGameClosed(gameId) {
         var game = this.games[gameId];
@@ -590,12 +697,52 @@ class Lobby {
     }
 
     onWorkerStarted(nodeName) {
-        this.router.sendCommand(nodeName, 'CARDDATA', { titleCardData: this.titleCardData, shortCardData: this.shortCardData });
+        Promise.all([this.cardService.getAllCards()])
+            .then(results => {
+                let [cards] = results;
+                this.router.sendCommand(nodeName, 'CARDDATA', { ardData: cards });
+            });
+    }
+
+    onClearSessions(socket, username) {
+        this.userService.clearUserSessions(username).then(success => {
+            if(!success) {
+                logger.error(`Failed to clear sessions for user ${username}`, username);
+                return;
+            }
+
+            let game = this.findGameForUser(username);
+
+            if(game) {
+                logger.info('closed game', game.id, '(' + game.name + ') forcefully due to clear session on', username);
+
+                if(!game.started) {
+                    delete this.games[game.id];
+                } else {
+                    this.router.closeGame(game);
+                }
+            }
+
+            let socket = _.find(this.sockets, socket => {
+                return socket.user && socket.user.username === username;
+            });
+
+            if(socket) {
+                socket.disconnect();
+            }
+        });
     }
 
     onNodeReconnected(nodeName, games) {
         _.each(games, game => {
-            let syncGame = new PendingGame({ username: game.owner }, { spectators: game.allowSpectators, name: game.name });
+            let owner = game.players[game.owner];
+
+            if(!owner) {
+                logger.error('Got a game where the owner wasn\'t a player', game.owner);
+                return;
+            }
+
+            let syncGame = new PendingGame(owner.user, { spectators: game.allowSpectators, name: game.name });
             syncGame.id = game.id;
             syncGame.node = this.router.workers[nodeName];
             syncGame.createdAt = game.startedAt;
@@ -607,9 +754,9 @@ class Lobby {
                 syncGame.players[player.name] = {
                     id: player.id,
                     name: player.name,
-                    emailHash: player.emailHash,
                     owner: game.owner === player.name,
-                    faction: { cardData: { code: player.faction } }
+                    faction: { cardData: { code: player.faction } },
+                    user: player.user
                 };
             });
 
@@ -617,7 +764,7 @@ class Lobby {
                 syncGame.spectators[player.name] = {
                     id: player.id,
                     name: player.name,
-                    emailHash: player.emailHash
+                    user: player.user
                 };
             });
 

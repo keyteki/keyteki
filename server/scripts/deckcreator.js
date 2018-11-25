@@ -55,7 +55,7 @@ for(const card of rawData.CardData.filter(card => card.name !== '')) {
 
 let decks = [];
 let deckdata = [
-    'Vlaad, Firemoon Keep\'s Whale/Untamed Logos Mars 109 114 117 125 134 136 138 139 140 142 142 148 162 169 187 196 196 199 199 199 203 205 205 205 319 323 323 330 333 333 351 352 356 361 368 368',
+    'Vlaad, Firemoon Keep\'s Whale/Untamed Logos Mars 109 114 117 125 134 136 138 139 140 142 142 148 162 169 187 196 196 199 199 199 203 205 205 205 319 323 323 330 333 333 351 352 356 361 368 368'
 ];
 
 for(let data of deckdata) {

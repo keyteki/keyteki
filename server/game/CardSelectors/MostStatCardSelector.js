@@ -17,7 +17,7 @@ class MostStatCardSelector extends ExactlyXCardSelector {
     }
 
     hasEnoughSelected(selectedCards, context) {
-        if (!super.hasEnoughSelected(selectedCards)) {
+        if(!super.hasEnoughSelected(selectedCards)) {
             return false;
         }
         let sorted = this.getSortedCards(context);

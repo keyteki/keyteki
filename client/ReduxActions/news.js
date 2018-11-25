@@ -1,5 +1,4 @@
 import $ from 'jquery';
-import _ from 'underscore';
 
 export function fetchNews() {
     return dispatch => {
@@ -26,20 +25,18 @@ export function receiveNews(news) {
 }
 
 export function loadNews(options) {
+    let params = {};
+
+    if(options && options.limit) {
+        params.limit = options.limit;
+    }
+
     return {
         types: ['REQUEST_NEWS', 'RECEIVE_NEWS'],
         shouldCallAPI: (state) => {
-            return _.size(state.news.news) === 0 || (options && !!options.forceLoad);
+            return state.news.news.length === 0 || (options && !!options.forceLoad);
         },
-        callAPI: () => {
-            let params = {};
-
-            if(options && options.limit) {
-                params.limit = options.limit;
-            }
-
-            return $.ajax('/api/news/', { cache: false, data: params });
-        }
+        APIParams: { url: '/api/news/', cache: false, data: params }
     };
 }
 
@@ -49,10 +46,34 @@ export function addNews(newsText) {
         shouldCallAPI: (state) => {
             return state.news.news;
         },
-        callAPI: () => $.ajax('/api/news', {
+        APIParams: {
+            url: '/api/news',
+            type: 'POST',
+            data: JSON.stringify({ text: newsText })
+        }
+    };
+}
+
+export function saveNews(id, text) {
+    return {
+        types: ['SAVE_NEWS', 'NEWS_SAVED'],
+        shouldCallAPI: () => true,
+        APIParams: {
+            url: `/api/news/${id}`,
             type: 'PUT',
-            data: { text: newsText }
-        })
+            data: { text: text }
+        }
+    };
+}
+
+export function deleteNews(id) {
+    return {
+        types: ['DELETE_NEWS', 'NEWS_DELETED'],
+        shouldCallAPI: () => true,
+        APIParams: {
+            url: `/api/news/${id}`,
+            type: 'DELETE'
+        }
     };
 }
 

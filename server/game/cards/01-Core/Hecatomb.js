@@ -5,7 +5,7 @@ class Hecatomb extends Card {
         this.play({
             effect: 'destroy all dis creatures and each player gains amber equal to the number of their creatures destroyed',
             gameAction: [
-                ability.actions.destroy(context => ({ 
+                ability.actions.destroy(context => ({
                     target: context.game.creaturesInPlay.filter(card => card.hasHouse('dis'))
                 })),
                 ability.actions.gainAmber(context => ({

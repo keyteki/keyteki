@@ -42,6 +42,10 @@ class Player extends GameObject {
         this.promptState = new PlayerPromptState(this);
     }
 
+    isSpectator() {
+        return false;
+    }
+
     startClock() {
         this.clock.start();
         if(this.opponent) {
@@ -95,7 +99,7 @@ class Player extends GameObject {
     }
 
     /**
-     * Returns an Array of all characters and attachments matching the predicate controlled by this player
+     * Returns an Array of all characters and upgrades matching the predicate controlled by this player
      * @param {Function} predicate  - DrawCard => Boolean
      */
     filterCardsInPlay(predicate) {
@@ -103,7 +107,7 @@ class Player extends GameObject {
     }
 
     /**
-     * Returns the total number of characters and attachments controlled by this player which match the passed predicate
+     * Returns the total number of characters and upgrades controlled by this player which match the passed predicate
      * @param {Function} predicate - DrawCard => Int
      */
     getNumberOfCardsInPlay(predicate) {
@@ -475,7 +479,7 @@ class Player extends GameObject {
             for(let source of this.getEffects('keyAmber').filter(source => source.hasToken('amber'))) {
                 this.game.queueSimpleStep(() => {
                     let max = Math.min(modifiedCost, source.tokens.amber);
-                    let min = Math.max(0, modifiedCost - this.amber - totalAvailable + source.tokens.amber)
+                    let min = Math.max(0, modifiedCost - this.amber - totalAvailable + source.tokens.amber);
                     this.game.promptWithHandlerMenu(this, {
                         activePromptTitle: 'How much amber do you want to use from ' + source.name,
                         source: 'Forge a Key',
@@ -494,7 +498,7 @@ class Player extends GameObject {
                 this.game.actions.gainAmber({ amount: cost }).resolve(this.mostRecentEffect('forgeAmberRecipient'), this.game.getFrameworkContext());
             }
             this.keys += 1;
-            this.keyForged = true;    
+            this.keyForged = true;
         });
     }
 
@@ -592,7 +596,7 @@ class Player extends GameObject {
             name: this.name,
             numDeckCards: this.deck.length,
             numArchivesCards: this.archives.length,
-            optionSettings: this.optionSettings,
+            //optionSettings: this.optionSettings,
             phase: this.game.currentPhase,
             stats: this.getStats(),
             timerSettings: {},

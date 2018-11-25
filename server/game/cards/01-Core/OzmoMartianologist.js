@@ -9,7 +9,7 @@ class OzmoMartianologist extends Card {
                     mode: 'select',
                     choices: {
                         'Heal a Mars creature': () => true,
-                        'Stun a Mars creature': () => true 
+                        'Stun a Mars creature': () => true
                     }
                 },
                 creature: {
@@ -25,8 +25,8 @@ class OzmoMartianologist extends Card {
                             target: context.selects.action === 'Stun a Mars creature' ? context.targets.creature : []
                         }))
                     ]
-                },
-            },
+                }
+            }
         });
     }
 }

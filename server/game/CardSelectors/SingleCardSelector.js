@@ -9,8 +9,8 @@ class SingleCardSelector extends BaseCardSelector {
 
     defaultActivePromptTitle() {
         if(this.cardType.length === 1) {
-            if(this.cardType[0] === 'attachment') {
-                return 'Choose an attachment';
+            if(this.cardType[0] === 'upgrade') {
+                return 'Choose an upgrade';
             }
             return 'Choose a ' + this.cardType[0];
         }
