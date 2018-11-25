@@ -871,7 +871,7 @@ class Game extends EventEmitter {
             card.endRound();
         }
 
-        let playerAmber = this.getPlayers().map(player => `${player.name}: ${player.amber} amber`).join(', ');
+        let playerAmber = this.getPlayers().map(player => `${player.name}: ${player.amber} amber`).join(' ');
 
         this.addAlert('endofround', `End of turn ${this.round}`);
 
