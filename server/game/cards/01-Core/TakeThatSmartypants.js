@@ -5,7 +5,8 @@ class TakeThatSmartypants extends Card {
         this.play({
             condition: context => 
                 context.player.opponent && 
-                context.player.opponent.creaturesInPlay.filter(card => card.hasHouse('logos')).length >= 3,
+                context.player.opponent.cardsInPlay.reduce((total, card) => 
+                    total + card.upgrades.concat(card).filter(c => c.hasHouse('logos')).length, 0) >= 3,
             gameAction: ability.actions.steal({ amount: 2 })
         });
     }
