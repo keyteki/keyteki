@@ -1,7 +1,7 @@
 const monk = require('monk');
 const passport = require('passport');
 
-const ConfigService = require('../services/configService');
+const ConfigService = require('../services/ConfigSevice');
 const DeckService = require('../services/DeckService.js');
 const { wrapAsync } = require('../util.js');
 
