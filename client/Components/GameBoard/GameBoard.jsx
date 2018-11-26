@@ -19,10 +19,9 @@ import * as actions from '../../actions';
 const placeholderPlayer = {
     cardPiles: {
         cardsInPlay: [],
-        conclavePile: [],
         discard: [],
         hand: [],
-        purgedPile: []
+        purged: []
     },
     faction: null,
     firstPlayer: false,
