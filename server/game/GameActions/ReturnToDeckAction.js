@@ -16,14 +16,14 @@ class ReturnToDeckAction extends CardGameAction {
         if(card.location === 'play area') {
             return super.createEvent('onCardLeavesPlay', { card, context }, () => {
                 card.owner.moveCard(card, 'deck', { bottom: this.bottom });
-                if(this.shuffle && (this.target.length === 0 || this.target.find(card) === this.target.length - 1)) {
+                if(this.shuffle && (this.target.findIndex(c => c === card) === this.target.length - 1)) {
                     card.owner.shuffleDeck();
                 }
             });
         }
         return super.createEvent('onMoveCard', { card: card, context: context }, () => {
             card.owner.moveCard(card, 'deck', { bottom: this.bottom });
-            if(this.shuffle && (this.target.length === 0 || this.target.find(card) === this.target.length - 1)) {
+            if(this.shuffle && (this.target.findIndex(c => c === card) === this.target.length - 1)) {
                 card.owner.shuffleDeck();
             }
         });
