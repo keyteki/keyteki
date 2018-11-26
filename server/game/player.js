@@ -618,7 +618,7 @@ class Player extends GameObject {
                 }
                 return 0;
             });
-            state.cardPiles.deck = this.getSummaryForCardList(sortedDeck, activePlayer, true),
+            state.cardPiles.deck = this.getSummaryForCardList(sortedDeck, activePlayer, true);
         }
 
         if(this.isTopCardShown()) {
