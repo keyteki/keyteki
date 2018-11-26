@@ -267,14 +267,15 @@ export class GameBoard extends React.Component {
                 <div className='player-home-row'>
                     <PlayerRow
                         faction={ otherPlayer.faction }
+                        archives={ otherPlayer.cardPiles.archives }
                         hand={ otherPlayer.cardPiles.hand } isMe={ false }
                         numDeckCards={ otherPlayer.numDeckCards }
                         discard={ otherPlayer.cardPiles.discard }
-                        drawDeck={ otherPlayer.cardPiles.drawDeck }
+                        drawDeck={ otherPlayer.cardPiles.deck }
                         onCardClick={ this.onCardClick }
                         onMouseOver={ this.onMouseOver }
                         onMouseOut={ this.onMouseOut }
-                        purgedPile={ otherPlayer.cardPiles.purgedPile }
+                        purgedPile={ otherPlayer.cardPiles.purged }
                         numKeys={ otherPlayer.stats.keys }
                         spectating={ this.state.spectating }
                         title={ otherPlayer.title }
@@ -330,8 +331,8 @@ export class GameBoard extends React.Component {
                         numKeys={ thisPlayer.stats.keys }
                         onDrawPopupChange={ this.handleDrawPopupChange }
                         onShuffleClick={ this.onShuffleClick }
-                        purgedPile={ thisPlayer.cardPiles.purgedPile }
-                        drawDeck={ thisPlayer.cardPiles.drawDeck }
+                        purgedPile={ thisPlayer.cardPiles.purged }
+                        drawDeck={ thisPlayer.cardPiles.deck }
                         onDragDrop={ this.onDragDrop }
                         discard={ thisPlayer.cardPiles.discard }
                         showDeck={ thisPlayer.showDeck }

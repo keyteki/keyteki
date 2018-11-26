@@ -580,6 +580,7 @@ class Player extends GameObject {
         let state = {
             activeHouse: this.activeHouse,
             cardPiles: {
+                archives: this.getSummaryForCardList(this.archives, activePlayer, true),
                 cardsInPlay: this.getSummaryForCardList(this.cardsInPlay, activePlayer),
                 discard: this.getSummaryForCardList(this.discard, activePlayer),
                 hand: this.getSummaryForCardList(this.hand, activePlayer, true),
@@ -618,7 +619,6 @@ class Player extends GameObject {
                 return 0;
             });
             state.cardPiles.deck = this.getSummaryForCardList(sortedDeck, activePlayer, true),
-            state.cardPiles.archives = this.getSummaryForCardList(this.archives, activePlayer);
         }
 
         if(this.isTopCardShown()) {

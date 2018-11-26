@@ -23,7 +23,7 @@ class MoveCardAction extends CardGameAction {
     getEvent(card, context) {
         return super.createEvent('onMoveCard', { card: card, context: context }, () => {
             context.player.moveCard(card, this.destination);
-            if(this.shuffle) {
+            if(this.shuffle && (this.target.length === 0 || this.target.find(card) === this.target.length - 1)) {
                 if(this.destination === 'deck') {
                     context.player.shuffleDeck();
                 }
