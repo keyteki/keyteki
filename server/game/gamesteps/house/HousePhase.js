@@ -19,7 +19,9 @@ class HousePhase extends Phase {
             onSelect: house => this.game.activePlayer.activeHouse = house
         });
         */
-        let choices = this.game.activePlayer.getAvailableHouses();
+        let choices = this.game.activePlayer.getAvailableHouses().map(house => {
+            return { text: house, icon: house };
+        });
         if(choices.length > 0) {
             this.game.promptWithHandlerMenu(this.game.activePlayer, {
                 promptTitle: 'Choose Active House',
@@ -27,11 +29,11 @@ class HousePhase extends Phase {
                 source: 'House Choice',
                 choices: choices,
                 choiceHandler: house => {
-                    this.game.addMessage('{0} chooses {1} as their active house this turn', this.game.activePlayer, house);
+                    this.game.addMessage('{0} chooses {1} as their active house this turn', this.game.activePlayer, house.text);
                     this.game.raiseEvent(
                         'onChooseActiveHouse',
-                        { player: this.game.activePlayer, house: house },
-                        () => this.game.activePlayer.activeHouse = house
+                        { player: this.game.activePlayer, house: house.text },
+                        () => this.game.activePlayer.activeHouse = house.text
                     );
                 }
             });

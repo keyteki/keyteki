@@ -14,11 +14,25 @@ class Messages extends React.Component {
             message: ''
         };
 
+        var houses = [
+            'brobnar',
+            'logos',
+            'dis',
+            'sanctum',
+            'untamed',
+            'shadows',
+            'mars'
+        ];
+
         this.tokens = {
             amber: { className: 'icon-amber', imageSrc: '/img/amber.png' },
             card: { className: 'icon-card', imageSrc: '/img/idbacks/cardback.jpg' },
             cards: { className: 'icon-card', imageSrc: '/img/idbacks/cardback.jpg' }
         };
+
+        for(let house of houses) {
+            this.tokens[house] = { className: `chat-house-icon icon-${house}`, imageSrc: `/img/house/${house}.png` };
+        }
 
         this.formatMessageText = this.formatMessageText.bind(this);
     }

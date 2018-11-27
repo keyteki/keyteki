@@ -13,10 +13,10 @@ class MulliganPrompt extends AllPlayerPrompt {
 
     activePrompt() {
         return {
-            menuTitle: 'Do you wish to mulligan your hand?',
+            menuTitle: 'Keep Starting Hand?',
             buttons: [
-                { text: 'Yes', arg: 'yes' },
-                { text: 'No', arg: 'no' }
+                { arg: 'yes', text: 'Keep Hand' },
+                { arg: 'no', text: 'Mulligan' }
             ],
             promptTitle: 'Mulligan'
         };
@@ -32,19 +32,24 @@ class MulliganPrompt extends AllPlayerPrompt {
         if(this.takenMulligan[player.uuid]) {
             return false;
         }
+
         if(arg === 'yes') {
             let size = player.hand.length;
+
             for(let card of player.hand) {
                 player.moveCard(card, 'deck');
             }
+
             player.shuffleDeck();
             player.drawCardsToHand(size - 1);
             this.takenMulligan[player.uuid] = true;
+
             return true;
         } else if(arg === 'no') {
             this.takenMulligan[player.uuid] = true;
             return true;
         }
+
         return false;
     }
 }

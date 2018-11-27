@@ -60,6 +60,10 @@ class HandlerMenuPrompt extends UiPrompt {
             });
         }
         buttons = buttons.concat(_.map(this.properties.choices, (choice, index) => {
+            if(_.isObject(choice)) {
+                return { text: choice.text, icon: choice.icon, arg: index };
+            }
+
             return { text: choice, arg: index };
         }));
         return {
