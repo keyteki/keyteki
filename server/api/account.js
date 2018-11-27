@@ -338,9 +338,9 @@ module.exports.init = function (server) {
             return res.send({ success: false, message: 'Invalid username/password' });
         }
 
-        if(!user.verified) {
-            return res.send({ success: false, message: 'You must verifiy your account before trying to log in' });
-        }
+        // if(!user.verified) {
+        //     return res.send({ success: false, message: 'You must verifiy your account before trying to log in' });
+        // }
 
         let userObj = user.getWireSafeDetails();
 
