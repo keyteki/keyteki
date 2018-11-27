@@ -201,12 +201,20 @@ class Lobby {
     }
 
     broadcastGameList(socket) {
+        var now = moment();
+
+        if((now - this.lastGameStateBroadcast) < 750) {
+            return;
+        }
+
         let sockets = socket ? [socket] : this.sockets;
         _.each(sockets, socket => {
             let filteredGames = this.filterGameListWithBlockList(socket.user);
             let gameSummaries = this.mapGamesToGameSummaries(filteredGames);
             socket.send('games', gameSummaries);
         });
+
+        this.lastGameStateBroadcast = moment();
     }
 
     broadcastUserList() {
