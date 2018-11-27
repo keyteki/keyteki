@@ -77,8 +77,7 @@ class GameList extends React.Component {
         }
 
         return (<div className='game-faction-row other-player'>
-            <div className='faction-mini'>{ <img className='img-responsive' src={ `/img/cards/${player.faction || 'cardback'}.png` } /> }</div>
-            <div className='agenda-mini'>{ <img className='img-responsive' src={ `/img/cards/${player.agenda || 'cardback'}.png` } /> }</div>
+            { houses }
             { this.getPlayerNameAndAvatar(player, firstPlayer) }
         </div>);
     }
