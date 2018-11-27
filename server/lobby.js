@@ -750,7 +750,7 @@ class Lobby {
                 return;
             }
 
-            let syncGame = new PendingGame(owner.user, { spectators: game.allowSpectators, name: game.name });
+            let syncGame = new PendingGame({ username: owner.user }, { spectators: game.allowSpectators, name: game.name });
             syncGame.id = game.id;
             syncGame.node = this.router.workers[nodeName];
             syncGame.createdAt = game.startedAt;

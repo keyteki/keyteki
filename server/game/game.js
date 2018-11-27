@@ -42,7 +42,7 @@ class Game extends EventEmitter {
         this.name = details.name;
         this.allowSpectators = details.allowSpectators;
         this.spectatorSquelch = details.spectatorSquelch;
-        this.owner = details.owner;
+        this.owner = details.owner.username;
         this.started = false;
         this.playStarted = false;
         this.createdAt = new Date();
@@ -996,7 +996,7 @@ class Game extends EventEmitter {
             manualMode: this.manualMode,
             messages: this.gameChat.messages,
             name: this.name,
-            owner: _.omit(this.owner, ['blocklist', 'email', 'emailHash', 'promptedActionWindows', 'settings']),
+            owner: this.owner,
             players: playerSummaries,
             started: this.started,
             startedAt: this.startedAt,
