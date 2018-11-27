@@ -29,19 +29,6 @@ export function selectDeck(deck) {
     };
 }
 
-export function addDeck() {
-    return {
-        type: 'ADD_DECK'
-    };
-}
-
-export function updateDeck(deck) {
-    return {
-        type: 'UPDATE_DECK',
-        deck: deck
-    };
-}
-
 export function deleteDeck(deck) {
     return {
         types: ['DELETE_DECK', 'DECK_DELETED'],
