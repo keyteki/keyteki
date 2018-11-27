@@ -41,8 +41,8 @@ class GameFlowWrapper {
      */
     keepCards() {
         this.guardCurrentPhase('setup');
-        this.player1.clickPrompt('No');
-        this.player2.clickPrompt('No');
+        this.player1.clickPrompt('Keep Hand');
+        this.player2.clickPrompt('Keep Hand');
     }
     /**
      * Asserts that the game is in the expected phase

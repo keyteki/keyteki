@@ -13,6 +13,7 @@ class MatingSeason extends Card {
                     amount: context.player.opponent.creaturesInPlay.filter(card => card.hasHouse('mars')).length
                 })),
                 ability.actions.returnToDeck(context => ({
+                    shuffle: true,
                     target: context.game.creaturesInPlay.filter(card => card.hasHouse('mars'))
                 }))
             ]
