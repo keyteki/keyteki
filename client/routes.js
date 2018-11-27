@@ -21,6 +21,7 @@ import GameBoard from './Components/GameBoard/GameBoard.jsx';
 import BlockList from './pages/BlockList';
 import NodesAdmin from './pages/NodesAdmin';
 import Privacy from './pages/Privacy';
+import Community from './pages/Community';
 
 const routes = [
     { path: '/', action: () => <Lobby key='lobby' /> },
@@ -41,7 +42,8 @@ const routes = [
     { path: '/security', action: () => <Security key='security' /> },
     { path: '/users', action: () => <UserAdmin key='useradmin' />, permission: 'canManageUsers' },
     { path: '/nodes', action: () => <NodesAdmin key='nodesadmin' />, permission: 'canManageNodes' },
-    { path: '/privacy', action: () => <Privacy key='privacy' /> }
+    { path: '/privacy', action: () => <Privacy key='privacy' /> },
+    { path: '/community', action: () => <Community key='community' /> }
 ];
 
 export default routes;
