@@ -56,7 +56,11 @@ class GameLobby extends React.Component {
         if(window.Notification && Notification.permission !== 'granted') {
             Notification.requestPermission((status) => {
                 if(Notification.permission !== status) {
-                    Notification.permission = status;
+                    try {
+                        Notification.permission = status;
+                    } catch(err) {
+                        // Some browsers don't allow updating it this way
+                    }
                 }
             });
         }
