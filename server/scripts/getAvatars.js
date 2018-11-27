@@ -2,7 +2,6 @@
 const monk = require('monk');
 const _ = require('underscore');
 const fs = require('fs');
-const { exec } = require('child_process');
 const request = require('request');
 const crypto = require('crypto');
 
@@ -22,12 +21,6 @@ function writeFile(path, data, opts = 'utf8') {
     });
 }
 
-async function downloadAvatar() {
-    let emailHash = crypto.randomBytes(32).toString('hex');
-    let avatar = await httpRequest(`https://www.gravatar.com/avatar/${emailHash}?d=identicon&s=24`, { encoding: null });
-    await writeFile('default.png', avatar, 'binary');
-}
-
 function httpRequest(url, options = {}) {
     return new Promise((resolve, reject) => {
         request(url, options, (err, res, body) => {
@@ -41,18 +34,18 @@ function httpRequest(url, options = {}) {
 }
 
 const getProfilePics = async () => {
-    await downloadAvatar();
-
     let count = await dbUsers.count({});
     console.info(count, 'users to process');
     let numberProcessed = 0;
     let chunkSize = 5000;
 
     while(numberProcessed < count) {
-        let users = await dbUsers.find({}, { limit: chunkSize, skip: numberProcessed });
+        let users = await dbUsers.find({ enableGravatar: { $ne: true } }, { limit: chunkSize, skip: numberProcessed });
         console.info('loaded', _.size(users), 'users');
         for(let user of users) {
-            exec(`cp default.png ${user.username}.png`);
+            let emailHash = crypto.randomBytes(32).toString('hex');
+            let avatar = await httpRequest(`https://www.gravatar.com/avatar/${emailHash}?d=identicon&s=24`, { encoding: null });
+            await writeFile(`${user.username}.png`, avatar, 'binary');
         }
 
         numberProcessed += _.size(users);
