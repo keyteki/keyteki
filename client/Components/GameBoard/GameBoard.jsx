@@ -323,6 +323,8 @@ export class GameBoard extends React.Component {
                         archives={ thisPlayer.cardPiles.archives }
                         faction={ thisPlayer.faction }
                         hand={ thisPlayer.cardPiles.hand }
+                        houses={ thisPlayer.houses }
+                        deckName={ thisPlayer.deckName }
                         onCardClick={ this.onCardClick }
                         onMouseOver={ this.onMouseOver }
                         onMouseOut={ this.onMouseOut }
@@ -379,6 +381,13 @@ export class GameBoard extends React.Component {
         });
 
         let manualMode = this.props.currentGame.manualMode;
+        let cardToZoom;
+
+        if(this.props.cardToZoom && this.props.cards[this.props.cardToZoom.code]) {
+            cardToZoom = this.props.cards[this.props.cardToZoom.code];
+        } else if(this.props.cardToZoom) {
+            cardToZoom = this.props.cardToZoom;
+        }
 
         return (
             <div className={ boardClass }>
@@ -396,9 +405,9 @@ export class GameBoard extends React.Component {
                 </div>
                 <div className='main-window'>
                     { this.renderBoard(thisPlayer, otherPlayer) }
-                    <CardZoom imageUrl={ this.props.cardToZoom ? `/img/cards/${this.props.cardToZoom.image}.jpg` : '' }
-                        show={ !!this.props.cardToZoom } cardName={ this.props.cardToZoom ? this.props.cardToZoom.name : null }
-                        card={ this.props.cardToZoom ? this.props.cards[this.props.cardToZoom.code] : null } />
+                    <CardZoom imageUrl={ cardToZoom ? `/img/cards/${cardToZoom.image}.jpg` : '' }
+                        show={ !!cardToZoom } cardName={ cardToZoom ? cardToZoom.name : null }
+                        card={ cardToZoom } />
                     { this.state.showMessages && <div className='right-side'>
                         <div className='gamechat'>
                             <GameChat key='gamechat'
