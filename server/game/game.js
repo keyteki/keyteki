@@ -965,7 +965,7 @@ class Game extends EventEmitter {
         for(const player of this.getPlayers()) {
             var deck = undefined;
             if(player.left) {
-                return;
+                continue;
             }
 
             if(activePlayerName === player.name && player.deck) {
