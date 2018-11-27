@@ -55,10 +55,11 @@ class AbilityTargetHouse {
             player = player.opponent;
         }
         let promptTitle = this.properties.activePromptTitle || 'Choose a house';
-        let choices = this.getHouses(context).map(house => {
+        let houses = this.getHouses(context);
+        let choices = houses.map(house => {
             return { text: house, icon: house };
         });
-        let handlers = choices.map(choice => {
+        let handlers = houses.map(choice => {
             return (() => {
                 context.houses[this.name] = new SelectChoice(choice);
                 if(this.name === 'target') {
