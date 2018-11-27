@@ -33,7 +33,7 @@ class MulliganPrompt extends AllPlayerPrompt {
             return false;
         }
 
-        if(arg === 'yes') {
+        if(arg === 'no') {
             let size = player.hand.length;
 
             for(let card of player.hand) {
@@ -45,7 +45,7 @@ class MulliganPrompt extends AllPlayerPrompt {
             this.takenMulligan[player.uuid] = true;
 
             return true;
-        } else if(arg === 'no') {
+        } else if(arg === 'yes') {
             this.takenMulligan[player.uuid] = true;
             return true;
         }
