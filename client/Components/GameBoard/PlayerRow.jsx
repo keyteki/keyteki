@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import CardPile from './CardPile';
 import SquishableCardPanel from './SquishableCardPanel';
 import DrawDeck from './DrawDeck';
-import IdentityCard from './IdentityCard';
 import Droppable from './Droppable';
 
 class PlayerRow extends React.Component {
@@ -96,17 +95,14 @@ class PlayerRow extends React.Component {
         let discard = (<CardPile className='discard' title='Discard' source='discard' cards={ this.props.discard }
             { ...cardPileProps } />);
 
-        let identity = (<IdentityCard className='identity' identity={ this.props.deckName } size={ this.props.cardSize } houses={ this.props.houses }
-            onMouseOut={ this.props.onMouseOut } onMouseOver={ this.props.onMouseOver } />);
-
         return (
             <div className='player-home-row-container'>
                 { this.renderKeys() }
                 { this.renderDroppablePile('hand', hand) }
                 { this.renderDroppablePile('archives', archives) }
-                { identity }
                 { this.renderDroppablePile('deck', drawDeck) }
                 { this.renderDroppablePile('discard', discard) }
+
                 { this.getPurgedPile() }
             </div>
         );
@@ -122,7 +118,6 @@ PlayerRow.propTypes = {
     drawDeck: PropTypes.array,
     faction: PropTypes.object,
     hand: PropTypes.array,
-    houses: PropTypes.array,
     isMe: PropTypes.bool,
     isMelee: PropTypes.bool,
     numDeckCards: PropTypes.number,
