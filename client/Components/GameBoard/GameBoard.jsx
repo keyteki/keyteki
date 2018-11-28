@@ -29,6 +29,7 @@ const placeholderPlayer = {
     stats: {
         keys: 0
     },
+    houses: [],
     title: null,
     user: null
 };
@@ -268,6 +269,8 @@ export class GameBoard extends React.Component {
                         faction={ otherPlayer.faction }
                         archives={ otherPlayer.cardPiles.archives }
                         hand={ otherPlayer.cardPiles.hand } isMe={ false }
+                        deckName={ otherPlayer.deckName }
+                        houses={ otherPlayer.houses }
                         numDeckCards={ otherPlayer.numDeckCards }
                         discard={ otherPlayer.cardPiles.discard }
                         drawDeck={ otherPlayer.cardPiles.deck }
