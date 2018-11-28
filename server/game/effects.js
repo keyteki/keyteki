@@ -75,7 +75,9 @@ const Effects = {
     // Player effects
     additionalCost: (costFactory) => EffectBuilder.player.static('additionalCost', costFactory),
     canFight: (match) => EffectBuilder.player.static('canUse', context => (
-        context.ability.title === 'Fight with this creature' && match(context.source)
+        (context.ability.title === 'Fight with this creature' || 
+        context.ability.title === 'Remove this creature\'s stun') && 
+        match(context.source)
     )),
     canPlay: (match) => EffectBuilder.player.static('canPlay', match),
     canPlayFromOwn: (location) => EffectBuilder.player.detached('canPlayFromOwn', {

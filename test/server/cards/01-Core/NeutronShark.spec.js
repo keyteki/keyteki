@@ -103,6 +103,18 @@ describe('Neutron Shark', function() {
                 expect(this.nexus.location).toBe('discard');
                 expect(this.player1).toHavePrompt('Neutron Shark');
             });
+
+            it('should not repeat if Neutron Shark was destroyed', function() {
+                this.player1.moveCard(this.umbra, 'deck');
+                expect(this.umbra.location).toBe('deck');
+                this.player1.play(this.neutronShark);
+                this.player1.clickCard(this.emberImp);
+                this.player1.clickCard(this.neutronShark);
+                expect(this.emberImp.location).toBe('discard');
+                expect(this.neutronShark.location).toBe('discard');
+                expect(this.umbra.location).toBe('discard');
+                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            });
         });
     });
 });

@@ -135,6 +135,8 @@ global.integration = function(definitions) {
                 this.player1.chains = options.player1.chains;
                 this.player2.chains = options.player2.chains;
                 //Field
+                this.player1.hand = [];
+                this.player2.hand = [];
                 this.player1.inPlay = options.player1.inPlay;
                 this.player2.inPlay = options.player2.inPlay;
                 //Conflict deck related

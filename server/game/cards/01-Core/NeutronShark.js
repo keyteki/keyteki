@@ -38,10 +38,10 @@ class NeutronShark extends Card {
                     ability.actions.discard({
                         target: context.player.deck.length > 0 ? context.player.deck[0] : []
                     }),
-                    ability.actions.resolveAbility({
+                    ability.actions.resolveAbility(() => ({
                         target: context.source.location === 'play area' && context.player.deck.length && !context.player.deck[0].hasHouse('logos') ? context.source : [],
                         ability: context.ability
-                    })
+                    }))
                 ]
             })
         });

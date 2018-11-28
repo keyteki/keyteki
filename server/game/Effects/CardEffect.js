@@ -13,8 +13,8 @@ class CardEffect extends Effect {
         }
         return (
             target.allowGameAction('applyEffect', this.context) &&
-            (this.targetController !== 'current' || target.controller === this.source.controller) &&
-            (this.targetController !== 'opponent' || target.controller !== this.source.controller)
+            (this.targetController !== 'current' || target.controller === this.context.player) &&
+            (this.targetController !== 'opponent' || target.controller !== this.context.player)
         );
     }
 

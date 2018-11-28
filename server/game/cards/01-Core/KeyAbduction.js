@@ -9,6 +9,7 @@ class KeyAbduction extends Card {
             })),
             then: {
                 may: 'forge a key',
+                alwaysTriggers: true,
                 gameAction: ability.actions.forgeKey(context => ({
                     modifier: 9 - context.player.hand.length
                 }))

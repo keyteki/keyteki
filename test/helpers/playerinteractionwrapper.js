@@ -84,7 +84,7 @@ class PlayerInteractionWrapper {
         // Set up each of the cards
         _.each(newState, card => {
             if(_.isString(card)) {
-                card = this.findCardByName(card);
+                card = this.findCardByName(card, 'deck');
             }
             this.moveCard(card, 'play area');
             card.exhausted = false;
