@@ -67,7 +67,11 @@ const Costs = {
     }),
     payAmber: (amount = 1) => ({
         canPay: context => context.player.amber >= amount,
-        payEvent: context => context.game.actions.steal({ amount: amount }).getEvent(context.player, context)
+        payEvent: context => {
+            let action = context.game.actions.steal({ amount: amount });
+            action.name = 'pay';
+            return action.getEvent(context.player, context);
+        }
     }),
     loseAmber: (amount = 1) => ({
         canPay: context => context.player.amber >= amount,

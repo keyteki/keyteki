@@ -6,7 +6,7 @@ describe('Customs Office', function() {
                     player1: {
                         house: 'logos',
                         inPlay: ['chaos-portal'],
-                        hand: ['spangler-box'],
+                        hand: ['spangler-box', 'phase-shift', 'the-vaultkeeper'],
                         discard: ['dominator-bauble']
                     },
                     player2: {
@@ -43,6 +43,17 @@ describe('Customs Office', function() {
                 expect(this.player1.amber).toBe(0);
                 expect(this.player2.amber).toBe(2);
             });
+
+            it('should pay an amber when The Vaultkeeper is in play', function() {
+                this.player1.amber = 2;
+                this.player1.play(this.phaseShift);
+                this.player1.play(this.theVaultkeeper);
+                expect(this.theVaultkeeper.location).toBe('play area');
+                this.player1.play(this.spanglerBox);
+                expect(this.player1.amber).toBe(1);
+                expect(this.player2.amber).toBe(1);
+
+            })
         });
     });
 });
