@@ -167,25 +167,16 @@ class Lobby {
     }
 
     // Actions
-    filterGameListWithBlockList(user) {
+    filterGameListWithBlockList(user, games) {
         if(!user) {
-            return this.games;
+            return games;
         }
 
-        return _.filter(this.games, game => {
-            let userBlockedByOwner = game.isUserBlocked(user);
-            let userHasBlockedPlayer = _.any(game.players, player => _.contains(user.blockList, player.name.toLowerCase()));
+        return _.filter(games, game => {
+            let userBlockedByOwner = this.games[game.id].isUserBlocked(user);
+            let userHasBlockedPlayer = _.any(this.games[game.id].players, player => _.contains(user.blockList, player.name.toLowerCase()));
             return !userBlockedByOwner && !userHasBlockedPlayer;
         });
-    }
-
-    mapGamesToGameSummaries(games) {
-        return _.chain(games)
-            .map(game => game.getSummary())
-            .sortBy('createdAt')
-            .sortBy('started')
-            .reverse()
-            .value();
     }
 
     sendUserListFilteredWithBlockList(socket, userList) {
@@ -200,18 +191,28 @@ class Lobby {
         socket.send('users', filteredUsers);
     }
 
-    broadcastGameList(socket) {
+    sortGameSummaries(gameSummaries) {
+        return _.chain(gameSummaries)
+            .sortBy(game => game.createdAt.toString() + game.started ? 1 : 0)
+            .reverse()
+            .value();
+    }
+
+    broadcastGameList(socket, options = { force: false }) {
         var now = moment();
 
-        if((now - this.lastGameStateBroadcast) < 750) {
+        if((now - this.lastGameStateBroadcast) < 750 && !options.force) {
             return;
         }
 
+        const gameSummaries = _.map(this.games, game => game.getSummary());
+
         let sockets = socket ? [socket] : this.sockets;
         _.each(sockets, socket => {
-            let filteredGames = this.filterGameListWithBlockList(socket.user);
-            let gameSummaries = this.mapGamesToGameSummaries(filteredGames);
-            socket.send('games', gameSummaries);
+            let filteredGames = this.filterGameListWithBlockList(socket.user, gameSummaries);
+            let sortedGames = this.sortGameSummaries(filteredGames);
+
+            socket.send('games', sortedGames);
         });
 
         this.lastGameStateBroadcast = moment();
@@ -321,7 +322,7 @@ class Lobby {
         // Force user list send for the newly connected socket, bypassing the throttle
         this.sendUserListFilteredWithBlockList(socket, this.getUserList());
         this.sendFilteredMessages(socket);
-        this.broadcastGameList(socket);
+        this.broadcastGameList(socket, { force: true });
 
         if(!socket.user) {
             return;
@@ -344,6 +345,8 @@ class Lobby {
         this.sendFilteredMessages(socket);
         // Force user list send for the newly autnenticated socket, bypassing the throttle
         this.sendUserListFilteredWithBlockList(socket, this.getUserList());
+
+        this.broadcastGameList(socket, { force: true });
 
         var game = this.findGameForUser(user.username);
         if(game && game.started) {
