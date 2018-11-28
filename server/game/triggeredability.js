@@ -46,7 +46,7 @@ class TriggeredAbility extends CardAbility {
         let player = this.card.controller;
         if(event.name === 'onCardPlayed' && this.card.type === 'action') {
             player = event.player;
-        } else if(this.triggeredByOpponent && player.opponent) {
+        } else if(this.triggeredByOpponent) {
             player = player.opponent;
         }
         if(!player) {

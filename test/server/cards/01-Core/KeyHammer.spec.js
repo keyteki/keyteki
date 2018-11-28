@@ -40,7 +40,7 @@ describe('Key Hammer', function() {
                 this.player1.clickPrompt('dis');
                 this.player1.play(this.keyHammer);
                 expect(this.player2.player.keys).toBe(1);
-                expect(this.player2.amber).toBe(0);
+                expect(this.player2.amber).toBe(6);
             });
         });
     });

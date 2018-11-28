@@ -3,6 +3,7 @@ const PlayerAction = require('./PlayerAction');
 class SearchAction extends PlayerAction {
     setDefaultProperties() {
         this.cardName = '';
+        this.amount = null;
     }
 
     setup() {
@@ -25,8 +26,9 @@ class SearchAction extends PlayerAction {
                 location: ['deck', 'discard'],
                 controller: 'self',
                 context: context,
+                numCards: this.amount,
                 cardCondition: card => card.name === this.cardName,
-                mode: 'unlimited',
+                mode: this.amount ? 'upTo' : 'unlimited',
                 onSelect: (player, cards) => {
                     if(cards.length > 0) {
                         context.game.addMessage('{0} takes {1} into their hand', player, cards);

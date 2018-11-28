@@ -3,7 +3,10 @@ const Card = require('../../Card.js');
 class HelpFromFutureSelf extends Card {
     setupCardAbilities(ability) {
         this.play({
-            gameAction: ability.actions.search({ cardName: 'Timetraveller' })
+            gameAction: ability.actions.search({ 
+                cardName: 'Timetraveller',
+                amount: 1
+            })
         });
     }
 }
