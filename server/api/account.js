@@ -487,7 +487,7 @@ module.exports.init = function (server) {
         resetToken = hmac.update(`RESET ${user.username} ${formattedExpiration}`).digest('hex');
 
         await userService.setResetToken(user, resetToken, formattedExpiration);
-        let url = `https://theironthrone.net/reset-password?id=${user._id}&token=${resetToken}`;
+        let url = `${req.protocol}://${req.get('host')}/reset-password?id=${user._id}&token=${resetToken}`;
         let emailText = `Hi,\n\nSomeone, hopefully you, has requested their password on ${appName} (${req.protocol}://${req.get('host')}) to be reset.  If this was you, click this link ${url} to complete the process.\n\n` +
             'If you did not request this reset, do not worry, your account has not been affected and your password has not been changed, just ignore this email.\n' +
             'Kind regards,\n\n' +
