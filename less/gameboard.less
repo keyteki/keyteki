@@ -787,24 +787,27 @@ hr.phasestart {
   display: flex;
   flex-direction: column;
   max-height: @card-height;
+  max-width: @card-height / 3;
   margin-left: 5px;
   margin-top: 5px;
 
   &.small {
     max-height: @card-sm-height;
+    max-width: @card-sm-height / 3;
   }
-  
+
   &.large {
     max-height: @card-lg-height;
+    max-width: @card-lg-height / 3;
   }
-  
+
   &.x-large {
     max-height: @card-xl-height;
+    max-width: @card-xl-height / 3;
   }
 
   img {
     max-height: 33%;
-    width: auto;
   }
 }
 
