@@ -625,3 +625,176 @@
     margin-top: @underneath-offset-xl - @card-xl-height;
   }
 }
+
+.identity {
+  &.small {
+    .house {
+      width: 14px;
+      height: 14px;
+    }
+
+    .id-house-1 {
+      top: 38px;
+      left: 1px;
+    }
+
+    .id-house-2 {
+      top: 41px;
+      left: 12px;
+    }
+
+    .id-house-3 {
+      top: 38px;
+      left: 25px;
+    }
+
+    .identity-text {
+      font-size: 2px;
+      left: 20px;
+      top: 5px;
+    }
+  }
+
+  &.large {
+    .house {
+      width: 28px;
+      height: 28px;
+    }
+
+    .id-house-1 {
+      top: 85px;
+      left: 5px;
+    }
+
+    .id-house-2 {
+      top: 97px;
+      left: 29px;
+    }
+
+    .id-house-3 {
+      top: 87px;
+      left: 58px;
+    }
+
+    .identity-text {
+      left: 47px;
+      top: 10px;
+      font-size: 4.5px;
+    }
+  }
+
+  &.x-large {
+    .house {
+      height: 36px;
+      width: 36px;
+    }
+
+    .id-house-1 {
+      top: 125px;
+      left: 6px;
+    }
+
+    .id-house-2 {
+      top: 141px;
+      left: 44px;
+    }
+
+    .id-house-3 {
+      top: 129px;
+      left: 83px;
+    }
+
+    .identity-text {
+      font-size: 7px;
+      left: 65px;
+      top: 14px;
+    }
+  }
+
+  .house {
+    width: 18px;
+    height: 18px;
+    position: absolute;
+  }
+
+  .id-house-1 {
+    top: 63px;
+    left: 3px;
+  }
+
+  .id-house-2 {
+    top: 68px;
+    left: 22px;
+  }
+
+  .id-house-3 {
+    top: 63px;
+    left: 42px;
+  }
+}
+
+.identity-icons {
+  position: relative;
+
+  z-index: @layer-cards + 1;
+}
+
+.id-zoom-container {
+  position: relative;
+
+  z-index: @layer-top + 1;
+
+  .identity-text {
+    font-size: 14.5px;
+    left: 135px;
+    top: 28px;
+  }
+
+  .house {
+    width: 72px;
+    height: 72px;
+    position: absolute;
+  }
+
+  .id-house-1 {
+    top: 250px;
+    left: 17px;
+  }
+
+  .id-house-2 {
+    top: 270px;
+    left: 90px;
+  }
+
+  .id-house-3 {
+    top: 260px;
+    left: 168px;
+  }
+}
+
+@font-face {
+  font-family: 'TeutonNormal';
+  src: url('/fonts/TeutonNormal.eot');
+  src: url('/fonts/TeutonNormal.woff2') format('woff2'),
+       url('/fonts/TeutonNormal.woff') format('woff'),
+       url('/fonts/TeutonNormal.ttf') format('truetype'),
+       url('/fonts/TeutonNormal.svg#TeutonNormal') format('svg'),
+       url('/fonts/TeutonNormal.eot?#iefix') format('embedded-opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.identity-text {
+  font-family: 'TeutonNormal';
+  color: white;
+  position: absolute;
+  font-size: 3.5px;
+  left: 33px;
+  top: 8px;
+}
+
+.identity {
+  .card-wrapper {
+    position: absolute;
+  }
+}
