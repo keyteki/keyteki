@@ -61,7 +61,7 @@ class SquishableCardPanel extends React.Component {
     getCardSizeMultiplier() {
         switch(this.props.cardSize) {
             case 'small':
-                return 0.8;
+                return 0.6;
             case 'large':
                 return 1.4;
             case 'x-large':

@@ -785,11 +785,26 @@ hr.phasestart {
 
 .keys {
   display: flex;
-  vertical-align: middle;
-  align-items: center;
+  flex-direction: column;
+  max-height: @card-height;
+  margin-left: 5px;
+  margin-top: 5px;
+
+  &.small {
+    max-height: @card-sm-height;
+  }
+  
+  &.large {
+    max-height: @card-lg-height;
+  }
+  
+  &.x-large {
+    max-height: @card-xl-height;
+  }
 
   img {
-    max-height: 90px;
+    max-height: 33%;
+    width: auto;
   }
 }
 
