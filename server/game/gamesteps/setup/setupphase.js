@@ -2,6 +2,7 @@ const _ = require('underscore');
 const Phase = require('../phase.js');
 const SimpleStep = require('../simplestep.js');
 const MulliganPrompt = require('./mulliganprompt.js');
+const GameStartPrompt = require('./GameStartPrompt');
 const Effects = require('../../effects.js');
 
 class SetupPhase extends Phase {
@@ -9,7 +10,7 @@ class SetupPhase extends Phase {
         super(game, 'setup');
         this.initialise([
             new SimpleStep(game, () => this.setupBegin()),
-            new SimpleStep(game, () => this.chooseFirstPlayer()),
+            new GameStartPrompt(game),
             new SimpleStep(game, () => this.firstPlayerEffects()),
             new SimpleStep(game, () => this.drawStartingHands()),
             new MulliganPrompt(game),
@@ -30,20 +31,6 @@ class SetupPhase extends Phase {
         this.game.activePlayer = allPlayersShuffled.shift();
         for(let card of this.game.allCards) {
             card.applyAnyLocationPersistentEffects();
-        }
-    }
-
-    chooseFirstPlayer() {
-        if(this.game.activePlayer.opponent) {
-            this.game.promptWithHandlerMenu(this.game.activePlayer, {
-                activePromptTitle: 'You won the flip. Do you want to be:',
-                source: 'Choose First Player',
-                choices: ['First Player', 'Second Player'],
-                handlers: [
-                    () => true,
-                    () => this.game.activePlayer = this.game.activePlayer.opponent
-                ]
-            });
         }
     }
 

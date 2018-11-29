@@ -52,7 +52,7 @@ class DeckService {
             return { id: id, count: deckResponse.data._links.cards.filter(uuid => uuid === card.id).length };
         });
         
-        let illegalCard = cards.find(card => !card.id.split('').every(char => 'abcdefghijklmnopqrstuvwxyz0123456789-'.includes(char)));
+        let illegalCard = cards.find(card => !card.id.split('').every(char => 'æabcdefghijklmnopqrstuvwxyz0123456789-'.includes(char)));
         if(!illegalCard) {
             return await this.decks.insert({
                 username: deck.username,
