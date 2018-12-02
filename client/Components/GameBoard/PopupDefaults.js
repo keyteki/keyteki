@@ -14,11 +14,11 @@ export default {
     'archives-top': {
         top: '185px'
     },
-    'out of game-top': {
+    'purged-top': {
         top: '155px',
         left: '20px'
     },
-    'out of game-bottom': {
+    'purged-bottom': {
         bottom: '155px',
         right: '0'
     }

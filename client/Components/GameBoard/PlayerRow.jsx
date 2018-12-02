@@ -17,20 +17,18 @@ class PlayerRow extends React.Component {
 
         let purgedPile = (<CardPile
             cards={ pile }
-            className='additional-cards'
             onCardClick={ this.props.onCardClick }
             onDragDrop={ this.props.onDragDrop }
             onMenuItemClick={ this.props.onMenuItemClick }
             onMouseOut={ this.props.onMouseOut }
             onMouseOver={ this.props.onMouseOver }
-            orientation='exhausted'
             popupLocation={ this.props.side }
-            source='out of game'
-            title='Out of Game'
+            source='purged'
+            title='Purged'
             size={ this.props.cardSize } />);
 
         if(this.props.isMe) {
-            return (<Droppable onDragDrop={ this.props.onDragDrop } source='out of game'>
+            return (<Droppable onDragDrop={ this.props.onDragDrop } source='purged'>
                 { purgedPile }
             </Droppable>);
         }
