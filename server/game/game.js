@@ -379,7 +379,7 @@ class Game extends EventEmitter {
         if(target[stat] < 0) {
             target[stat] = 0;
         } else {
-            this.addMessage('{0} sets {1} to {2} ({3})', player, stat, target[stat], (value > 0 ? '+' : '') + value);
+            this.addAlert('danger', '{0} sets {1} to {2} ({3})', player, stat, target[stat], (value > 0 ? '+' : '') + value);
         }
     }
 
@@ -429,7 +429,7 @@ class Game extends EventEmitter {
             return;
         }
 
-        this.addMessage('{0} concedes', player);
+        this.addAlert('info', '{0} concedes', player);
 
         var otherPlayer = this.getOtherPlayer(player);
 
@@ -761,7 +761,7 @@ class Game extends EventEmitter {
             return;
         }
 
-        this.addMessage('{0} has left the game', player);
+        this.addAlert('info', '{0} has left the game', player);
 
         if(this.isSpectator(player) || !this.started) {
             delete this.playersAndSpectators[playerName];
@@ -802,7 +802,7 @@ class Game extends EventEmitter {
         if(this.isSpectator(player) || !this.started) {
             delete this.playersAndSpectators[playerName];
         } else {
-            this.addMessage('{0} has failed to connect to the game', player);
+            this.addAlert('warning', '{0} has failed to connect to the game', player);
 
             player.disconnected = true;
 
