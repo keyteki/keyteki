@@ -98,7 +98,7 @@ export class PlayerStats extends React.Component {
                         </div>
                         <div onClick={ this.props.onMessagesClick }>
                             <button className='btn btn-transparent'>
-                                <span className='chat-icon' />
+                                <span className='glyphicon glyphicon-envelope' />
                                 <span className='chat-badge badge progress-bar-danger'>{ this.props.numMessages || null }</span>
                             </button>
                         </div>
