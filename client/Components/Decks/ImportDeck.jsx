@@ -43,41 +43,34 @@ export class ImportDeck extends React.Component {
     }
 
     render() {
-        let content;
-
-        if(this.props.loading) {
-            content = <div>Loading decks from the server...</div>;
-        } else if(this.props.apiError) {
-            content = <AlertPanel type='error' message={ this.props.apiError } />;
-        } else {
-            content = (
-                <div>
-                    <div className='col-md-8 col-md-offset-2 profile full-height'>
-                        { this.state.error && <AlertPanel type='error' message={ this.state.error } /> }
-                        <Panel title='Import Deck'>
-                            <p>
+        return (
+            <div>
+                <div className='col-md-8 col-md-offset-2 profile full-height'>
+                    { this.state.error && <AlertPanel type='error' message={ this.state.error } /> }
+                    { !this.props.apiSuccess && <AlertPanel type='error' message={ this.props.apiMessage } /> }
+                    <Panel title='Import Deck'>
+                        <p>
                                 Enter the deck link from the <a href='https://keyforgegame.com' target='_blank'>keyforge website.</a>
-                            </p>
-                            <p>Either search for a deck, or find one from the "My Decks" section of the website.  Find the URL of the deck and paste it in to the box below.</p>
-                            <p>The URL looks like this: </p>
-                            <p><code>https://www.keyforgegame.com/deck-details/00000000-0000-0000-0000-000000000000</code></p>
-                            <Input name='importUrl' fieldClass='col-xs-9' placeholder='link' type='text' onChange={ this.onDeckStringChange } value={ this.state.deckString } >
-                                <div className='col-xs-1'>
-                                    <button className='btn btn-default' onClick={ this.onImportDeck }>Import</button>
-                                </div>
-                            </Input>
-                        </Panel>
-                    </div>
-                </div>);
-        }
-
-        return content;
+                        </p>
+                        <p>Either search for a deck, or find one from the "My Decks" section of the website.  Find the URL of the deck and paste it in to the box below.</p>
+                        <p>The URL looks like this: </p>
+                        <p><code>https://www.keyforgegame.com/deck-details/00000000-0000-0000-0000-000000000000</code></p>
+                        <Input name='importUrl' fieldClass='col-xs-9' placeholder='link' type='text' onChange={ this.onDeckStringChange } value={ this.state.deckString } >
+                            <div className='col-xs-1'>
+                                <button className='btn btn-default' onClick={ this.onImportDeck }>Import { this.props.apiLoading && <span className='spinner button-spinner' /> }</button>
+                            </div>
+                        </Input>
+                    </Panel>
+                </div>
+            </div>);
     }
 }
 
 ImportDeck.displayName = 'ImportDeck';
 ImportDeck.propTypes = {
-    apiError: PropTypes.string,
+    apiLoading: PropTypes.bool,
+    apiMessage: PropTypes.string,
+    apiSuccess: PropTypes.bool,
     deckSaved: PropTypes.bool,
     loading: PropTypes.bool,
     navigate: PropTypes.func,
@@ -86,7 +79,9 @@ ImportDeck.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        apiError: state.api.message,
+        apiLoading: state.api.SAVE_DECK ? state.api.SAVE_DECK.loading : undefined,
+        apiMessage: state.api.SAVE_DECK ? state.api.SAVE_DECK.message : undefined,
+        apiSuccess: state.api.SAVE_DECK ? state.api.SAVE_DECK.success : undefined,
         deckSaved: state.cards.deckSaved,
         loading: state.api.loading,
         socket: state.lobby.socket
