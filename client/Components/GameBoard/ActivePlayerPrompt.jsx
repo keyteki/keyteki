@@ -86,6 +86,18 @@ class ActivePlayerPrompt extends React.Component {
 
         let timer = null;
 
+        let promptText = [];
+
+        if(this.props.promptText.includes('\n')) {
+            let split = this.props.promptText.split('\n');
+            for(let token of split) {
+                promptText.push(token);
+                promptText.push(<br />);
+            }
+        } else {
+            promptText.push(this.props.promptText);
+        }
+
         return (<div>
             { timer }
             <div className={ 'phase-indicator ' + this.props.phase } onClick={ this.props.onTitleClick }>
@@ -94,7 +106,7 @@ class ActivePlayerPrompt extends React.Component {
             { promptTitle }
             <div className='menu-pane'>
                 <div className='panel'>
-                    <h4>{ this.props.title }</h4>
+                    <h4>{ promptText }</h4>
                     { this.getControls() }
                     { this.getButtons() }
                 </div>
@@ -113,9 +125,9 @@ ActivePlayerPrompt.propTypes = {
     onMouseOver: PropTypes.func,
     onTitleClick: PropTypes.func,
     phase: PropTypes.string,
+    promptText: PropTypes.string,
     promptTitle: PropTypes.string,
     socket: PropTypes.object,
-    title: PropTypes.string,
     user: PropTypes.object
 };
 

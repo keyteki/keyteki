@@ -288,10 +288,11 @@ export class GameBoard extends React.Component {
                 <div className='board-inner'>
                     <div className='prompt-area'>
                         <div className='inset-pane'>
-                            <ActivePlayerPrompt title={ thisPlayer.menuTitle }
+                            <ActivePlayerPrompt
                                 cards={ this.props.cards }
                                 buttons={ thisPlayer.buttons }
                                 controls={ thisPlayer.controls }
+                                promptText={ thisPlayer.menuTitle }
                                 promptTitle={ thisPlayer.promptTitle }
                                 onButtonClick={ this.onCommand }
                                 onMouseOver={ this.onMouseOver }
