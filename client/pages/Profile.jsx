@@ -24,7 +24,7 @@ class Profile extends React.Component {
             newPassword: '',
             newPasswordAgain: '',
             validation: {},
-            optionsSettings: {}
+            optionSettings: {}
         };
 
         this.backgrounds = [
