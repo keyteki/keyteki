@@ -88,7 +88,7 @@ class ActivePlayerPrompt extends React.Component {
 
         let promptText = [];
 
-        if(this.props.promptText.includes('\n')) {
+        if(this.props.promptText && this.props.promptText.includes('\n')) {
             let split = this.props.promptText.split('\n');
             for(let token of split) {
                 promptText.push(token);
