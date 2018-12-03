@@ -45,11 +45,6 @@ class DrawDeck extends React.Component {
     }
 
     render() {
-        let drawDeckMenu = this.props.isMe && !this.props.spectating ? [
-            { text: 'Show', handler: this.handleShowDeckClick, showPopup: true },
-            { text: 'Shuffle', handler: this.handleShuffleClick }
-        ] : null;
-
         let drawDeckPopupMenu = this.props.showDeck ? [
             { text: 'Close and Shuffle', handler: this.handleShuffleClick }
         ] : null;
@@ -61,7 +56,6 @@ class DrawDeck extends React.Component {
             cards={ this.props.cards }
             disablePopup={ !hasCards && (this.props.spectating || !this.props.isMe) }
             hiddenTopCard
-            menu={ drawDeckMenu }
             onCardClick={ this.props.onCardClick }
             onDragDrop={ this.props.onDragDrop }
             onMouseOut={ this.props.onMouseOut }

@@ -235,7 +235,8 @@ class InnerCard extends React.Component {
             'horizontal': this.props.orientation !== 'vertical' || this.props.card.exhausted,
             'vertical': this.props.orientation === 'vertical' && !this.props.card.exhausted,
             'unselectable': this.props.card.unselectable,
-            'dragging': this.props.isDragging
+            'dragging': this.props.isDragging,
+            'taunt': this.props.card.taunt && this.props.source === 'play area'
         });
         let imageClass = classNames('card-image vertical', this.sizeClass, {
             'exhausted': (this.props.orientation === 'exhausted' || this.props.card.exhausted || this.props.orientation === 'horizontal')
@@ -292,10 +293,6 @@ class InnerCard extends React.Component {
             return 'in-danger';
         } else if(this.props.card.saved) {
             return 'saved';
-        } else if(this.props.card.inChallenge) {
-            return 'challenge';
-        } else if(this.props.card.stealth) {
-            return 'stealth';
         } else if(this.props.card.controlled) {
             return 'controlled';
         } else if(this.props.card.new) {
@@ -338,8 +335,8 @@ InnerCard.propTypes = {
         saved: PropTypes.bool,
         selectable: PropTypes.bool,
         selected: PropTypes.bool,
-        stealth: PropTypes.bool,
         strength: PropTypes.number,
+        taunt: PropTypes.bool,
         tokens: PropTypes.object,
         type: PropTypes.string,
         unselectable: PropTypes.bool,

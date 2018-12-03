@@ -23,7 +23,8 @@ class Profile extends React.Component {
         this.state = {
             newPassword: '',
             newPasswordAgain: '',
-            validation: {}
+            validation: {},
+            optionsSettings: {}
         };
 
         this.backgrounds = [
@@ -81,21 +82,31 @@ class Profile extends React.Component {
             email: props.user.email,
             enableGravatar: props.user.enableGravatar,
             selectedBackground: props.user.settings.background,
-            selectedCardSize: props.user.settings.cardSize
+            selectedCardSize: props.user.settings.cardSize,
+            optionSettings: props.user.settings.optionSettings
         });
     }
 
     onChange(field, event) {
-        var newState = {};
+        let newState = {};
 
         newState[field] = event.target.value;
         this.setState(newState);
     }
 
     onToggle(field, event) {
-        var newState = {};
+        let newState = {};
 
         newState[field] = event.target.checked;
+        this.setState(newState);
+    }
+
+    onOptionSettingToggle(field, event) {
+        let newState = {};
+
+        newState.optionSettings = this.state.optionSettings;
+        newState.optionSettings[field] = event.target.checked;
+
         this.setState(newState);
     }
 
@@ -122,13 +133,14 @@ class Profile extends React.Component {
             enableGravatar: this.state.enableGravatar,
             settings: {
                 background: this.state.selectedBackground,
-                cardSize: this.state.selectedCardSize
+                cardSize: this.state.selectedCardSize,
+                optionSettings: this.state.optionSettings
             }
         });
     }
 
     verifyPassword(isSubmitting) {
-        var validation = this.state.validation;
+        let validation = this.state.validation;
 
         delete validation['password'];
 
@@ -152,7 +164,7 @@ class Profile extends React.Component {
     }
 
     verifyEmail() {
-        var validation = this.state.validation;
+        let validation = this.state.validation;
 
         delete validation['email'];
 
@@ -247,6 +259,24 @@ class Profile extends React.Component {
                                         }
                                     </div>
                                 </div>
+                            </Panel>
+                        </div>
+                        <div>
+                            <Panel title='Game Settings'>
+                                <Checkbox
+                                    name='optionSettings.orderForcedAbilities'
+                                    noGroup
+                                    label={ 'Prompt to order simultaneous abilities' }
+                                    fieldClass='col-sm-6'
+                                    onChange={ this.onOptionSettingToggle.bind(this, 'orderForcedAbilities') }
+                                    checked={ this.state.optionSettings.orderForcedAbilities } />
+                                <Checkbox
+                                    name='optionSettings.confirmOneClick'
+                                    noGroup
+                                    label={ 'Show a prompt when initating 1-click abilities' }
+                                    fieldClass='col-sm-6'
+                                    onChange={ this.onOptionSettingToggle.bind(this, 'confirmOneClick') }
+                                    checked={ this.state.optionSettings.confirmOneClick } />
                             </Panel>
                         </div>
                         <div className='col-sm-offset-10 col-sm-2'>

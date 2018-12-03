@@ -12,11 +12,34 @@ class GameConfiguration extends React.Component {
         };
     }
 
+    onOptionSettingToggle(option, event) {
+        if(this.props.onOptionSettingToggle) {
+            this.props.onOptionSettingToggle(option, event.target.checked);
+        }
+    }
+
     render() {
         return (
             <div>
                 <form className='form form-horizontal'>
-                    <Panel title='Other Settings' />
+                    <Panel title='Game Settings'>
+                        <div className='form-group'>
+                            <Checkbox
+                                name='optionSettings.orderForcedAbilities'
+                                noGroup
+                                label={ 'Prompt to order simultaneous abilities' }
+                                fieldClass='col-sm-6'
+                                onChange={ this.onOptionSettingToggle.bind(this, 'orderForcedAbilities') }
+                                checked={ this.props.optionSettings.orderForcedAbilities } />
+                            <Checkbox
+                                name='optionSettings.confirmOneClick'
+                                noGroup
+                                label={ 'Show a prompt when initating 1-click abilities' }
+                                fieldClass='col-sm-6'
+                                onChange={ this.onOptionSettingToggle.bind(this, 'confirmOneClick') }
+                                checked={ this.props.optionSettings.confirmOneClick } />
+                        </div>
+                    </Panel>
                 </form>
             </div>
         );
@@ -25,6 +48,8 @@ class GameConfiguration extends React.Component {
 
 GameConfiguration.displayName = 'GameConfiguration';
 GameConfiguration.propTypes = {
+    onOptionSettingToggle: PropTypes.func,
+    optionSettings: PropTypes.object
 };
 
 export default GameConfiguration;

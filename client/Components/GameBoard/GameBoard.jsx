@@ -24,7 +24,7 @@ const placeholderPlayer = {
         purged: []
     },
     faction: null,
-    firstPlayer: false,
+    activePlayer: false,
     numDeckCards: 0,
     stats: {
         keys: 0
@@ -217,17 +217,8 @@ export class GameBoard extends React.Component {
         this.props.sendGameMessage('menuItemClick', card.uuid, menuItem);
     }
 
-    onPromptDupesToggle(value) {
-        this.props.sendGameMessage('toggleDupes', value);
-    }
-
-    onPromptedActionWindowToggle(option, value) {
-        this.props.sendGameMessage('togglePromptedActionWindow', option, value);
-    }
-
-
-    onKeywordSettingToggle(option, value) {
-        this.props.sendGameMessage('toggleKeywordSetting', option, value);
+    onOptionSettingToggle(option, value) {
+        this.props.sendGameMessage('toggleOptionSetting', option, value);
     }
 
     onSettingsClick() {
@@ -396,16 +387,12 @@ export class GameBoard extends React.Component {
         return (
             <div className={ boardClass }>
                 <GameConfigurationModal
-                    id='settings-modal'
-                    keywordSettings={ thisPlayer.keywordSettings }
-                    onKeywordSettingToggle={ this.onKeywordSettingToggle.bind(this) }
-                    onPromptDupesToggle={ this.onPromptDupesToggle.bind(this) }
-                    onPromptedActionWindowToggle={ this.onPromptedActionWindowToggle.bind(this) }
-                    promptDupes={ thisPlayer.promptDupes }
-                    promptedActionWindows={ thisPlayer.promptedActionWindows } />
+                    optionSettings={ thisPlayer.optionSettings }
+                    onOptionSettingToggle={ this.onOptionSettingToggle.bind(this) }
+                    id='settings-modal' />
                 <div className='player-stats-row'>
                     <PlayerStats stats={ otherPlayer.stats } houses={ otherPlayer.houses } activeHouse={ otherPlayer.activeHouse }
-                        user={ otherPlayer.user } firstPlayer={ otherPlayer.firstPlayer } />
+                        user={ otherPlayer.user } activePlayer={ otherPlayer.activePlayer } />
                 </div>
                 <div className='main-window'>
                     { this.renderBoard(thisPlayer, otherPlayer) }
@@ -425,7 +412,7 @@ export class GameBoard extends React.Component {
                 </div>
                 <div className='player-stats-row'>
                     <PlayerStats { ...boundActionCreators } stats={ thisPlayer.stats } showControls={ !this.state.spectating && manualMode } user={ thisPlayer.user }
-                        firstPlayer={ thisPlayer.firstPlayer } onSettingsClick={ this.onSettingsClick } showMessages
+                        activePlayer={ thisPlayer.activePlayer } onSettingsClick={ this.onSettingsClick } showMessages
                         onMessagesClick={ this.onMessagesClick } numMessages={ this.state.newMessages } houses={ thisPlayer.houses } onManualModeClick={ this.onManualModeClick }
                         activeHouse={ thisPlayer.activeHouse } manualModeEnabled={ manualMode } showManualMode={ !this.state.spectating } />
                 </div>

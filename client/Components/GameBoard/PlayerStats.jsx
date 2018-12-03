@@ -70,13 +70,16 @@ export class PlayerStats extends React.Component {
 
                 { this.props.houses ? this.getHouses() : null }
 
-                { this.props.firstPlayer ? <div className='state'><div className='first-player'>First player</div></div> : null }
-
-                {
-                    this.props.activeHouse &&
+                { this.props.activeHouse &&
                     <div className='state'>
                         <div className='hand-size'>Active House: </div>
                         <img className='house-image' src={ `/img/house/${this.props.activeHouse}.png` } title={ this.props.activeHouse } />
+                    </div>
+                }
+
+                { this.props.activePlayer &&
+                    <div className='state first-player-state'>
+                        Active Player
                     </div>
                 }
 
@@ -112,7 +115,7 @@ export class PlayerStats extends React.Component {
 PlayerStats.displayName = 'PlayerStats';
 PlayerStats.propTypes = {
     activeHouse: PropTypes.string,
-    firstPlayer: PropTypes.bool,
+    activePlayer: PropTypes.bool,
     houses: PropTypes.array,
     manualModeEnabled: PropTypes.bool,
     numMessages: PropTypes.number,
