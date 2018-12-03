@@ -66,6 +66,13 @@ class StaticEffect {
         return false;
     }
 
+    setContext(context) {
+        this.context = context;
+        if(typeof this.value === 'object') {
+            this.value.context = context;
+        }
+    }
+
     canBeApplied(target) {
         if(hasDash[this.type] && hasDash[this.type](target, this.value)) {
             return false;

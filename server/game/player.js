@@ -494,8 +494,8 @@ class Player extends GameObject {
         }
         this.game.queueSimpleStep(() => {
             this.modifyAmber(-modifiedCost);
-            if(this.anyEffect('forgeAmberRecipient')) {
-                this.game.actions.gainAmber({ amount: cost }).resolve(this.mostRecentEffect('forgeAmberRecipient'), this.game.getFrameworkContext());
+            if(this.anyEffect('forgeAmberGainedByOpponent')) {
+                this.game.actions.gainAmber({ amount: cost }).resolve(this.opponent, this.game.getFrameworkContext());
             }
             this.keys += 1;
             this.keyForged = true;

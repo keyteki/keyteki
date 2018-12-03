@@ -214,7 +214,7 @@ module.exports.init = function (server) {
             'Kind regards,\n\n' +
             `${appName} team`;
 
-        await sendEmail(user.email, `${appName} - Account activation`, emailText);
+        // await sendEmail(user.email, `${appName} - Account activation`, emailText);
 
         res.send({ success: true });
 

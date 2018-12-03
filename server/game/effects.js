@@ -96,7 +96,7 @@ const Effects = {
         },
         unapply: (player, context, effect) => context.game.effectEngine.removeDelayedEffect(effect)
     }),
-    forgeAmberRecipient: (player) => EffectBuilder.player.static('forgeAmberRecipient', player),
+    forgeAmberGainedByOpponent: () => EffectBuilder.player.static('forgeAmberGainedByOpponent'),
     keyAmber: (source) => EffectBuilder.player.static('keyAmber', source),
     modifyKeyCost: (amount) => EffectBuilder.player.flexible('modifyKeyCost', amount),
     modifyHandSize: (amount) => EffectBuilder.player.flexible('modifyHandSize', amount),

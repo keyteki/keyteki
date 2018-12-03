@@ -55,10 +55,9 @@ describe('Sneklifter', function() {
                 expect(this.player1.hand.length).toBe(3);
             });
 
-            fit('should cause The Sting to work correctly', function() {
+            it('should cause The Sting to work correctly', function() {
                 this.player1.play(this.sneklifter);
                 this.player1.clickCard(this.theSting);
-                console.log(this.game.effectEngine.getDebugInfo())
                 expect(this.player1.player.cardsInPlay).toContain(this.theSting);
                 expect(this.theSting.controller).toBe(this.player1.player);
                 this.player1.endTurn();

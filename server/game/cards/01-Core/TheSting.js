@@ -8,7 +8,7 @@ class TheSting extends Card {
 
         this.persistentEffect({
             targetController: 'opponent',
-            effect: ability.effects.forgeAmberRecipient(this.controller)
+            effect: ability.effects.forgeAmberGainedByOpponent()
         });
 
         this.action({
