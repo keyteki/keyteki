@@ -7,7 +7,7 @@ class SoulSnatcher extends Card {
                 onCardDestroyed: event => event.card.type === 'creature'
             },
             gameAction: ability.actions.gainAmber(context => ({
-                target: context.event.clone.controller
+                target: context.event.card.owner
             }))
         });
     }

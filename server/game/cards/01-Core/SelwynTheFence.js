@@ -10,7 +10,9 @@ class SelwynTheFence extends Card {
                 gameAction: ability.actions.removeAmber()
             },
             effect: 'move 1 amber from {0} to their pool',
-            gameAction: ability.actions.gainAmber()
+            then:{
+                gameAction: ability.actions.gainAmber()
+            }
         });
     }
 }

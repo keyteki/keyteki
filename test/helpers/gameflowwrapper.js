@@ -34,6 +34,9 @@ class GameFlowWrapper {
 
     startGame() {
         this.game.initialise();
+        this.game.activePlayer = this.player1.player;
+        this.player1.clickPrompt('Start the Game');
+        this.player2.clickPrompt('Start the Game');
     }
 
     /**
@@ -50,15 +53,6 @@ class GameFlowWrapper {
     guardCurrentPhase(phase) {
         if(this.game.currentPhase !== phase) {
             throw new Error(`Expected to be in the ${phase} phase but actually was ${this.game.currentPhase}`);
-        }
-    }
-
-    selectFirstPlayer(player) {
-        var promptedPlayer = this.allPlayers.find(p => p.hasPrompt('You won the flip. Do you want to be:'));
-        if(player === promptedPlayer) {
-            promptedPlayer.clickPrompt('First Player');
-        } else {
-            promptedPlayer.clickPrompt('Second Player');
         }
     }
 

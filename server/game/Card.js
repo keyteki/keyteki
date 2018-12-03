@@ -279,7 +279,7 @@ class Card extends EffectSource {
     }
 
     updateEffects(from = '', to = '') {
-        if(from === 'play area') {
+        if(from === 'play area' || from === 'being played') {
             this.removeLastingEffects();
         }
         _.each(this.abilities.persistentEffects, effect => {

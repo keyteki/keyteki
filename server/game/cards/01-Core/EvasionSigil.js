@@ -10,14 +10,14 @@ class EvasionSigil extends Card {
             effectArgs: context => {
                 let player = context.event.context.player;
                 let topCard = player.deck.length ? player.deck[0] : '';
-                let cancelFight = topCard && topCard.hasHouse(context.player.activeHouse);
+                let cancelFight = topCard && topCard.hasHouse(context.game.activePlayer.activeHouse);
                 return [player, topCard, cancelFight ? context.event.context.source : '', cancelFight ? ' is exhausted without effect' : ''];
             },
             gameAction: [
                 ability.actions.exhaust(context => {
                     let player = context.event.context.player;
                     let topCard = player.deck.length ? player.deck[0] : '';
-                    let cancelFight = context.event.context.source.hasHouse(topCard.printedHouse);
+                    let cancelFight = topCard && topCard.hasHouse(context.game.activePlayer.activeHouse);
                     if(cancelFight) {
                         return { target: context.event.context.source };
                     }
@@ -26,7 +26,7 @@ class EvasionSigil extends Card {
                 ability.actions.changeEvent(context => {
                     let player = context.event.context.player;
                     let topCard = player.deck.length ? player.deck[0] : '';
-                    let cancelFight = context.event.context.source.hasHouse(topCard.printedHouse);
+                    let cancelFight = topCard && topCard.hasHouse(context.game.activePlayer.activeHouse);
                     return {
                         event: context.event,
                         cancel: cancelFight

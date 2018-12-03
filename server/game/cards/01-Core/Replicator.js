@@ -5,9 +5,10 @@ class Replicator extends Card {
         this.reap({
             target: {
                 cardType: 'creature',
-                cardCondition: card => card.abilities.reactions.some(ability =>
-                    Object.keys(ability.when).some(key => key === 'onReap')
-                ),
+                cardCondition: (card, context) =>
+                    card !== context.source && card.abilities.reactions.some(ability =>
+                        Object.keys(ability.when).some(key => key === 'onReap')
+                    ),
                 gameAction: ability.actions.resolveAbility(context => ({
                     ability: context.target.abilities.reactions.find(ability =>
                         Object.keys(ability.when).some(key => key === 'onReap')

@@ -15,6 +15,7 @@ class EventWindow extends BaseStepWithPipeline {
                 this.addEvent(event);
             }
         });
+        this.checkState = true;
 
         this.initialise();
     }
@@ -90,7 +91,9 @@ class EventWindow extends BaseStepWithPipeline {
     }
 
     checkGameState() {
-        this.game.checkGameState(_.any(this.events, event => event.handler), this.events);
+        if(this.checkState) {
+            this.game.checkGameState(_.any(this.events, event => event.handler), this.events);
+        }
     }
 
     checkThenAbilities() {

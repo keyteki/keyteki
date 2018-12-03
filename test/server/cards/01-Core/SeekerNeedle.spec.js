@@ -5,10 +5,11 @@ describe('Seeker Needle', function() {
                 this.setupTest({
                     player1: {
                         house: 'shadows',
-                        inPlay: ['seeker-needle', 'silvertooth']
+                        inPlay: ['seeker-needle', 'silvertooth', 'bad-penny']
                     },
                     player2: {
-                        inPlay: ['urchin']
+                        inPlay: ['urchin'],
+                        hand: ['poltergeist']
                     }
                 });
                 this.player1.clickCard(this.seekerNeedle);
@@ -29,6 +30,24 @@ describe('Seeker Needle', function() {
                 expect(this.silvertooth.tokens.damage).toBe(1);
                 expect(this.player1.amber).toBe(0);
             });
+
+            it('should work with Bad Penny', function() {
+                this.player1.clickCard(this.badPenny);
+                expect(this.badPenny.location).toBe('hand');
+                expect(this.player1.amber).toBe(1);
+            });
+
+            it('should work with Poltergeist', function() {
+                this.player1.clickCard(this.badPenny);
+                this.player1.play(this.badPenny);
+                this.player1.endTurn();
+                this.player2.clickPrompt('dis');
+                this.player2.play(this.poltergeist);
+                this.player2.clickCard(this.seekerNeedle);
+                this.player2.clickCard(this.urchin);
+                expect(this.player2.amber).toBe(2);
+                expect(this.seekerNeedle.location).toBe('discard');
+            })
         });
     });
 });

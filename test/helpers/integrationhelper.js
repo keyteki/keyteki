@@ -116,7 +116,6 @@ global.integration = function(definitions) {
                 this.startGame();
                 //Setup phase
 
-                this.selectFirstPlayer(this.player1);
                 this.keepCards();
                 if(options.phase !== 'setup') {
                     // Choose a house
