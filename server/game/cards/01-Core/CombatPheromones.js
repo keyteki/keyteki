@@ -3,13 +3,16 @@ const Card = require('../../Card.js');
 class CombatPheromones extends Card {
     setupCardAbilities(ability) {
         this.omni({
-            effect: 'sacrifice {0} and allow them to use 2 Mars cards this turn',
-            gameAction: [
-                ability.actions.sacrifice(),
-                ability.actions.forRemainderOfTurn({
-                    effect: [ability.effects.canUseHouse('mars'), ability.effects.canUseHouse('mars')]
-                })
-            ]
+            target: {
+                mode: 'upTo',
+                controller: 'self',
+                cardCondition: card => card.hasHouse('mars'),
+                gameAction: ability.actions.forRemainderOfTurn(context => ({
+                    effect: ability.effects.canUse(card => context.target.includes(card))
+                }))
+            },
+            effect: 'sacrifice {0} and allow them to use {0} this turn',
+            gameAction: ability.actions.sacrifice()
         });
     }
 }
