@@ -73,7 +73,7 @@ class Deck {
             cards: cards.map(card => {
                 let result = {
                     count: card.count,
-                    card: cardData[card.id]
+                    card: Object.assign({}, cardData[card.id])
                 };
                 if(card.maverick) {
                     result.card.house = card.maverick;
