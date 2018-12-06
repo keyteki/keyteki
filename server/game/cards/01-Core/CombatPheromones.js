@@ -5,6 +5,7 @@ class CombatPheromones extends Card {
         this.omni({
             target: {
                 mode: 'upTo',
+                numCards: 2,
                 controller: 'self',
                 cardCondition: card => card.hasHouse('mars'),
                 gameAction: ability.actions.forRemainderOfTurn(context => ({
