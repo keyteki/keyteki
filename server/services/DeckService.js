@@ -1,5 +1,6 @@
 const logger = require('../log.js');
 const util = require('../util.js');
+const _ = require('underscore');
 
 class DeckService {
     constructor(db) {
@@ -51,16 +52,25 @@ class DeckService {
             }
             return { id: id, count: deckResponse.data._links.cards.filter(uuid => uuid === card.id).length };
         });
-        
+        let uuid = deckResponse.data.id;
+
         let illegalCard = cards.find(card => !card.id.split('').every(char => 'æabcdefghijklmnopqrstuvwxyz0123456789-'.includes(char)));
         if(!illegalCard) {
+            let otherDecks = await this.decks.find({ uuid: uuid });
+            otherDecks = _.uniq(otherDecks, deck => deck.username);
+            console.log(otherDecks);
+            if(otherDecks.length >= 3) {
+                await this.decks.update({ uuid: uuid }, { '$set': { flagged: true } }, { multi: true });
+            }
             return await this.decks.insert({
                 username: deck.username,
-                uuid: deckResponse.data.id,
+                uuid: uuid,
                 identity: deckResponse.data.name.toLowerCase().replace(/[,?.!"„“”]/gi, '').replace(/[ '’]/gi, '-'),
                 cardback: '',
                 name: deckResponse.data.name,
                 banned: false,
+                flagged: otherDecks.length >= 3,
+                verified: false,
                 houses: deckResponse.data._links.houses.map(house => house.toLowerCase()),
                 cards: cards,
                 lastUpdated: new Date()

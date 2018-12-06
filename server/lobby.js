@@ -599,6 +599,8 @@ class Lobby {
                 });
                 deck.status = {
                     basicRules: true,
+                    flagged: !!deck.flagged,
+                    verified: !!deck.verified,
                     noUnreleasedCards: true,
                     officialRole: true,
                     faqRestrictedList: true,

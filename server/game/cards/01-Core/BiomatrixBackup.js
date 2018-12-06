@@ -5,7 +5,7 @@ class BiomatrixBackup extends Card {
         this.whileAttached({
             effect: ability.effects.gainAbility('destroyed', {
                 optional: true,
-                gameAction: ability.actions.archive()
+                gameAction: ability.actions.archive({ owner: true })
             })
         });
     }

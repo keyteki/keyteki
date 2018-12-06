@@ -16,8 +16,8 @@ class DeckRow extends React.Component {
     }
 
     getStatusName(status) {
-        if(!status.basicRules) {
-            return 'Invalid';
+        if(status.flagged && !status.verified) {
+            return 'Needs Verification';
         } else if(!status.officialRole || !status.noUnreleasedCards || !status.faqRestrictedList) {
             return 'Casual';
         }

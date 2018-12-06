@@ -114,6 +114,10 @@ class DeckSummary extends React.Component {
                         <div className='info-row row'><span>Validity:</span>
                             <DeckStatus className='pull-right' status={ this.props.deck.status } />
                         </div>
+                        { this.props.deck.flagged && !this.props.deck.verified ?
+                            <div className='info-row row'>This deck has been flagged as requiring verification. Please email a photo of the decklist with your username written on a piece of paper to: thecrucible.deckcheck@gmail.com
+                            </div> : null
+                        }
                     </div>
                     <div className='col-xs-2 col-sm-3 no-x-padding'>{ this.props.deck.agenda && this.props.deck.agenda.code ? <img className='img-responsive' src={ '/img/cards/' + this.props.deck.agenda.code + '.png' } /> : null }</div>
                 </div>

@@ -32,7 +32,7 @@ class PositronBolt extends Card {
                 } else if(neighbor.neighbors.length < 2) {
                     return [' and 2 damage to ', neighbor];
                 }
-                return [', 2 damange to ', neighbor, ' and 1 damage to ', neighbor.neighbors.find(card => card !== context.target)];
+                return [', 2 damage to ', neighbor, ' and 1 damage to ', neighbor.neighbors.find(card => card !== context.target)];
             }
         });
     }
