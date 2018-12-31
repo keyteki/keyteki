@@ -532,7 +532,12 @@ class Game extends EventEmitter {
     }
 
     toggleManualMode(playerName) {
-        this.chatCommands.manual(playerName);
+        var player = this.getPlayerByName(playerName);
+        if(!player) {
+            return;
+        }
+
+        this.chatCommands.manual(player);
     }
 
     /*

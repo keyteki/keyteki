@@ -1,5 +1,6 @@
 const _ = require('underscore');
 const GameActions = require('./GameActions');
+const ManualModePrompt = require('./gamesteps/ManualModePrompt');
 
 class ChatCommands {
     constructor(game) {
@@ -153,8 +154,8 @@ class ChatCommands {
             this.game.manualMode = false;
             this.game.addAlert('danger', '{0} switches manual mode off', player);
         } else {
-            this.game.manualMode = true;
-            this.game.addAlert('danger', '{0} switches manual mode on', player);
+            this.game.addAlert('danger', '{0} is attempting to switch manual mode on', player);
+            this.game.queueStep(new ManualModePrompt(this.game, player));
         }
     }
 

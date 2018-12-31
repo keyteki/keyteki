@@ -55,6 +55,7 @@ class UiPrompt extends BaseStep {
 
         if(completed) {
             this.clearPrompts();
+            this.onCompleted();
         } else {
             this.setPrompt();
         }
@@ -78,6 +79,12 @@ class UiPrompt extends BaseStep {
 
     menuCommand(player, arg, method) { // eslint-disable-line no-unused-vars
         return true;
+    }
+
+    /**
+     * Handler that will be called once isComplete() returns true.
+     */
+    onCompleted() {
     }
 }
 
