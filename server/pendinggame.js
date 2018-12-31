@@ -13,6 +13,7 @@ class PendingGame {
         this.id = uuid.v1();
         this.name = details.name;
         this.allowSpectators = details.spectators;
+        this.showHand = details.showHand;
         this.muteSpectators = details.muteSpectators;
         this.gameType = details.gameType;
         this.started = false;
@@ -181,7 +182,7 @@ class PendingGame {
             if(!this.started) {
                 this.removeAndResetOwner(playerName);
 
-                delete this.players[playerName];              
+                delete this.players[playerName];
             }
         } else {
             delete this.spectators[playerName];
@@ -283,6 +284,7 @@ class PendingGame {
             node: this.node ? this.node.identity : undefined,
             owner: this.owner.username,
             players: playerSummaries,
+            showHand: this.showHand,
             started: this.started,
             spectators: _.map(this.spectators, spectator => {
                 return {

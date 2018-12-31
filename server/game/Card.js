@@ -571,7 +571,7 @@ class Card extends EffectSource {
         let isActivePlayer = activePlayer === this.owner;
         let selectionState = activePlayer.getCardSelectionState(this);
 
-        if(!isActivePlayer && (this.facedown || hideWhenFaceup)) {
+        if(!isActivePlayer && (this.facedown || hideWhenFaceup) && !(this.game.showHand && activePlayer.isSpectator() && this.location === 'hand')) {
             let state = {
                 cardback: this.owner.deckData.cardback,
                 controller: this.controller.name,

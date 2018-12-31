@@ -41,6 +41,7 @@ class Game extends EventEmitter {
         this.id = details.id;
         this.name = details.name;
         this.allowSpectators = details.allowSpectators;
+        this.showHand = details.showHand;
         this.spectatorSquelch = details.spectatorSquelch;
         this.owner = details.owner.username;
         this.started = false;
@@ -926,7 +927,6 @@ class Game extends EventEmitter {
     getState(activePlayerName) {
         let activePlayer = this.playersAndSpectators[activePlayerName] || new AnonymousSpectator();
         let playerState = {};
-        let ringState = {};
 
         if(this.started) {
             for(const player of this.getPlayers()) {
@@ -940,6 +940,7 @@ class Game extends EventEmitter {
                 owner: this.owner,
                 players: playerState,
                 messages: this.gameChat.messages,
+                showHand: this.showHand,
                 spectators: this.getSpectators().map(spectator => {
                     return {
                         id: spectator.id,
@@ -1000,6 +1001,7 @@ class Game extends EventEmitter {
             players: playerSummaries,
             started: this.started,
             startedAt: this.startedAt,
+            showHand: this.showHand,
             spectators: this.getSpectators().map(spectator => {
                 return {
                     id: spectator.id,
