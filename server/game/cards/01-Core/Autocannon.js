@@ -2,7 +2,7 @@ const Card = require('../../Card.js');
 
 class Autocannon extends Card {
     setupCardAbilities(ability) {
-        this.constantReaction({
+        this.reaction({
             when: {
                 onCardEntersPlay: event => event.card.type === 'creature'
             },

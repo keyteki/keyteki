@@ -2,7 +2,7 @@ const Card = require('../../Card.js');
 
 class PingleWhoAnnoys extends Card {
     setupCardAbilities(ability) {
-        this.constantReaction({
+        this.reaction({
             when: {
                 onCardEntersPlay: (event, context) => event.card.type === 'creature' && event.context.player !== context.player
             },

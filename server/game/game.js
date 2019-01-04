@@ -847,7 +847,8 @@ class Game extends EventEmitter {
                 });
             }
             // destroy any creatures who have damage greater than equal to their power
-            let creaturesToDestroy = this.creaturesInPlay.filter(card => card.type === 'creature' && card.tokens.damage >= card.power && !card.moribund);
+            let creaturesToDestroy = this.creaturesInPlay.filter(card =>
+                card.type === 'creature' && (card.power <= 0 || card.tokens.damage >= card.power) && !card.moribund);
             if(creaturesToDestroy.length > 0) {
                 this.actions.destroy().resolve(creaturesToDestroy, this.getFrameworkContext());
             }

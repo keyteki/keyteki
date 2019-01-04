@@ -547,6 +547,9 @@ class Card extends EffectSource {
     }
 
     isOnFlank() {
+        if(this.type !== 'creature') {
+            return false;
+        }
         return this.anyEffect('consideredAsFlank') || this.neighbors.length < 2;
     }
 
