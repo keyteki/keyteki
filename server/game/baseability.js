@@ -26,6 +26,7 @@ class BaseAbility {
      */
     constructor(properties) {
         this.gameAction = properties.gameAction || [];
+        this.abilityType = '';
         if(!Array.isArray(this.gameAction)) {
             this.gameAction = [this.gameAction];
         }
@@ -91,7 +92,7 @@ class BaseAbility {
         }
         if(!this.canPayCosts(context)) {
             return 'cost';
-        } else if(this.checkThenAbilities()) {
+        } else if(this.checkThenAbilities() || this.abilityType && this.abilityType === 'action') {
             return '';
         } else if(this.gameAction.length > 0 && this.gameAction.some(gameAction => gameAction.hasLegalTarget(context))) {
             return '';
