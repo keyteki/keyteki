@@ -108,7 +108,7 @@ class Card extends EffectSource {
         // Fight
         this.action({
             title: 'Fight with this creature',
-            printedAbiliy: false,
+            printedAbility: false,
             target: {
                 activePromptTitle: 'Choose a creature to attack',
                 cardType: 'creature',
@@ -120,7 +120,7 @@ class Card extends EffectSource {
         // Reap
         this.action({
             title: 'Reap with this creature',
-            printedAbiliy: false,
+            printedAbility: false,
             gameAction: new ResolveReapAction()
         });
     }
