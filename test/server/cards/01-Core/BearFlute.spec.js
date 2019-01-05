@@ -50,6 +50,8 @@ describe('Bear Flute', function() {
                 this.player1.play(this.ancientBear);
                 expect(this.ancientBear.location).toBe('play area');
                 this.player1.clickCard(this.bearFlute);
+                expect(this.player1).toHavePrompt('Bear Flute');
+                this.player1.clickPrompt('Use this card\'s Action ability');
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
         });

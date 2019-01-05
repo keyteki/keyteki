@@ -6,7 +6,7 @@ const AbilityDsl = require('../../../server/game/abilitydsl');
 const card = { hasHouse: () => true, neighbors: [] };
 card.neighbors.push(card);
 card.neighbors.push(card);
-const player = { deck: [card], hand: [card], archives: [card], discard: [card], creaturesInPlay: [card], cardsInPlay: [card], activeHouse: 'brobnar' };
+const player = { deck: [card], hand: [card], archives: [card], discard: [card], creaturesInPlay: [card], cardsInPlay: [card], activeHouse: 'brobnar', checkRestrictions: () => true };
 player.opponent = player;
 card.controller = player;
 const mockContext = {
@@ -14,7 +14,8 @@ const mockContext = {
     game: {
         cardsUsed: [],
         cardsPlayed: [],
-        activePlayer: player
+        activePlayer: player,
+        getFrameworkContext: () => {}
     },
     house: {},
     source: card,

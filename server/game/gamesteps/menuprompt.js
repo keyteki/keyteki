@@ -19,7 +19,7 @@ class MenuPrompt extends UiPrompt {
         this.player = player;
         this.context = context;
         if(properties.source && !properties.waitingPromptTitle) {
-            properties.waitingPromptTitle = 'Waiting for opponent to use ' + properties.source.name;
+            properties.waitingPromptTitle = 'Waiting for opponent';
         }
         this.properties = properties;
     }

@@ -6,7 +6,8 @@ describe('The Sting', function() {
                     player1: {
                         house: 'untamed',
                         amber: 8,
-                        hand: ['key-charge']
+                        hand: ['key-charge'],
+                        inPlay: ['nexus']
                     },
                     player2: {
                         amber: 6,
@@ -36,6 +37,20 @@ describe('The Sting', function() {
                 expect(this.player2).toHavePrompt('The Sting');
                 this.player2.clickPrompt('Use this card\'s Action ability');
                 expect(this.theSting.location).toBe('discard');
+            });
+
+            it('should sacrifice when used with Nexus', function() {
+                this.player1.endTurn();
+                this.player2.clickPrompt('shadows');
+                this.player2.endTurn();
+                expect(this.player2.amber).toBe(12);
+                this.player1.clickPrompt('shadows');
+                expect(this.theSting.location).toBe('play area');
+                this.player1.reap(this.nexus);
+                this.player1.clickCard(this.theSting);
+                expect(this.theSting.location).toBe('discard');
+                this.player1.endTurn();
+                expect(this.player2.amber).toBe(6);
             });
         });
     });

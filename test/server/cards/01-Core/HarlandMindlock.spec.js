@@ -5,11 +5,11 @@ describe('Harland Mindlock', function() {
                 this.setupTest({
                     player1: {
                         house: 'logos',
-                        inPlay: ['dextre', 'dust-imp'],
-                        hand: ['harland-mindlock', 'phase-shift', 'sergeant-zakiel']
+                        inPlay: ['dextre', 'sequis'],
+                        hand: ['harland-mindlock', 'phase-shift', 'sergeant-zakiel', 'ammonia-clouds']
                     },
                     player2: {
-                        inPlay: ['troll', 'valdr']
+                        inPlay: ['troll', 'valdr', 'dust-imp']
                     }
                 });
             });
@@ -43,6 +43,17 @@ describe('Harland Mindlock', function() {
                 this.player2.clickPrompt('brobnar');
                 this.player2.endTurn();
                 expect(this.player1).toHavePromptButton('brobnar');
+            });
+
+            it('should trigger Destroyed abilities on controlled characters correctly', function() {
+                this.player1.play(this.harlandMindlock);
+                this.player1.clickCard(this.dustImp);
+                this.player1.clickPrompt('Left');
+                this.player1.play(this.phaseShift);
+                this.player1.play(this.ammoniaClouds);
+                expect(this.player1.amber).toBe(2);
+                expect(this.player2.amber).toBe(0);
+                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
         });
     });

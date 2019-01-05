@@ -84,6 +84,8 @@ describe('keywords', function() {
             it('should trigger at the same time as before fight actions', function() {
                 this.player1.clickCard(this.combatPheromones);
                 this.player1.clickPrompt('Use this card\'s Omni ability');
+                this.player1.clickCard(this.zorg);
+                this.player1.clickPrompt('Done');
                 expect(this.combatPheromones.location).toBe('discard');
                 this.player1.fightWith(this.zorg, this.briarGrubbling);
                 expect(this.player1).toHavePrompt('Any Interrupts?');

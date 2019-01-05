@@ -33,30 +33,32 @@ class DealDamageAction extends CardGameAction {
         return super.getEventArray(context);
     }
 
-    getEvent(card, context, amount) {
+    getEvent(card, context, amount = this.amount || this.amountForCard(card, context)) {
+        let currentArmor = this.ignoreArmor ? 0 : (card.armor - card.armorUsed);
+        if(amount <= currentArmor) {
+            card.armorUsed += amount;
+            amount = 0;
+        } else {
+            card.armorUsed += currentArmor;
+            amount -= currentArmor;
+        }
         let params = {
-            amount: amount || this.amount || this.amountForCard(card, context),
             card: card,
             context: context,
+            amount: amount,
             damageSource: this.damageSource,
             destroyed: false,
             fightEvent: this.fightEvent
         };
         return super.createEvent('onDamageDealt', params, event => {
-            let currentArmor = this.ignoreArmor ? 0 : (event.card.armor - event.card.armorUsed);
-            if(event.amount <= currentArmor) {
-                event.card.armorUsed += event.amount;
-            } else {
-                event.card.armorUsed += currentArmor;
-                event.card.addToken('damage', event.amount - currentArmor);
-                if(!event.card.moribund && (event.card.tokens.damage >= event.card.power || event.damageSource && event.damageSource.getKeywordValue('poison'))) {
-                    event.card.moribund = true;
-                    context.game.actions.destroy({ inFight: !!event.fightEvent, purge: this.purge }).resolve(event.card, context.game.getFrameworkContext());
-                    if(event.fightEvent) {
-                        event.fightEvent.destroyed.push(event.card);
-                    }
-                    event.destroyed = true;
+            event.card.addToken('damage', event.amount);
+            if(!event.card.moribund && (event.card.tokens.damage >= event.card.power || event.damageSource && event.damageSource.getKeywordValue('poison'))) {
+                event.card.moribund = true;
+                context.game.actions.destroy({ inFight: !!event.fightEvent, purge: this.purge }).resolve(event.card, context.game.getFrameworkContext());
+                if(event.fightEvent) {
+                    event.fightEvent.destroyed.push(event.card);
                 }
+                event.destroyed = true;
             }
         });
     }

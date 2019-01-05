@@ -57,7 +57,7 @@ class SelectCardPrompt extends UiPrompt {
             properties.source = properties.context.source;
         }
         if(properties.source && !properties.waitingPromptTitle) {
-            properties.waitingPromptTitle = 'Waiting for opponent to use ' + properties.source.name;
+            properties.waitingPromptTitle = 'Waiting for opponent';
         }
         if(!properties.source) {
             properties.source = new EffectSource(game);

@@ -9,6 +9,7 @@ describe('Blinding Light', function() {
                         inPlay: ['ancient-bear', 'sequis']
                     },
                     player2: {
+                        hand: ['rocket-boots'],
                         inPlay: ['mindwarper', 'zorg', 'champion-anaphiel']
                     }
                 });
@@ -64,6 +65,17 @@ describe('Blinding Light', function() {
                 expect(this.championAnaphiel.stunned).not.toBe(true);
                 expect(this.ancientBear.stunned).not.toBe(true);
                 expect(this.sequis.stunned).not.toBe(true);
+            });
+
+            it('should not stun creatures with an upgrade which matches the chosen house', function() {
+                this.player1.endTurn();
+                this.player2.clickPrompt('logos');
+                this.player2.playUpgrade(this.rocketBoots, this.championAnaphiel);
+                this.player2.endTurn();
+                this.player1.clickPrompt('sanctum');
+                this.player1.play(this.blindingLight);
+                this.player1.clickPrompt('logos');
+                expect(this.championAnaphiel.stunned).toBe(false);
             });
         });
     });
