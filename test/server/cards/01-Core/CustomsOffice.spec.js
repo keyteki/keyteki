@@ -27,6 +27,8 @@ describe('Customs Office', function() {
                 expect(this.player1).toHavePrompt('Chaos Portal');
                 this.player1.clickPrompt('dis');
                 expect(this.dominatorBauble.location).toBe('deck');
+                this.player1.clickCard(this.spanglerBox);
+                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
             it('should pay an amber to the opponent when they play an artifact', function() {
@@ -52,8 +54,7 @@ describe('Customs Office', function() {
                 this.player1.play(this.spanglerBox);
                 expect(this.player1.amber).toBe(1);
                 expect(this.player2.amber).toBe(1);
-
-            })
+            });
         });
     });
 });

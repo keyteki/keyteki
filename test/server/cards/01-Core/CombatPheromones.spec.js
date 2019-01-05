@@ -1,4 +1,4 @@
-fdescribe('Combat Pheromones', function() {
+describe('Combat Pheromones', function() {
     integration(function() {
         describe('Combat Pheromones\'s ability', function() {
             beforeEach(function() {

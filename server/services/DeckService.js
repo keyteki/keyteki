@@ -58,7 +58,6 @@ class DeckService {
         if(!illegalCard) {
             let otherDecks = await this.decks.find({ uuid: uuid });
             otherDecks = _.uniq(otherDecks, deck => deck.username);
-            console.log(otherDecks);
             if(otherDecks.length >= 3) {
                 await this.decks.update({ uuid: uuid }, { '$set': { flagged: true } }, { multi: true });
             }
@@ -74,8 +73,8 @@ class DeckService {
                 houses: deckResponse.data._links.houses.map(house => house.toLowerCase()),
                 cards: cards,
                 lastUpdated: new Date()
-            });    
-        } 
+            });
+        }
         console.log(illegalCard.id.split('').map(char => char.charCodeAt(0)));
     }
 
