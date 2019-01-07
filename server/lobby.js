@@ -301,6 +301,7 @@ class Lobby {
         socket.registerEvent('startgame', this.onStartGame.bind(this));
         socket.registerEvent('chat', this.onPendingGameChat.bind(this));
         socket.registerEvent('selectdeck', this.onSelectDeck.bind(this));
+        socket.registerEvent('getsealeddeck', this.onGetSealedDeck.bind(this));
         socket.registerEvent('connectfailed', this.onConnectFailed.bind(this));
         socket.registerEvent('removegame', this.onRemoveGame.bind(this));
         socket.registerEvent('clearsessions', this.onClearSessions.bind(this));
@@ -578,6 +579,43 @@ class Lobby {
         });
 
         this.messageService.addMessage(chatMessage);
+    }
+
+    onGetSealedDeck(socket, gameId) {
+        let game = this.games[gameId];
+        if(!game) {
+            return;
+        }
+
+        Promise.all([this.cardService.getAllCards(), this.deckService.getSealedDeck()])
+            .then(results => {
+                console.log(results);
+                let [cards, deckArray] = results;
+                let deck = deckArray[0];
+
+                _.each(deck.cards, card => {
+                    card.card = cards[card.id];
+                });
+                deck.status = {
+                    basicRules: true,
+                    flagged: !!deck.flagged,
+                    verified: !!deck.verified,
+                    noUnreleasedCards: true,
+                    officialRole: true,
+                    faqRestrictedList: true,
+                    faqVersion: 'v1.0',
+                    extendedStatus: []
+                };
+
+                game.selectDeck(socket.user.username, deck);
+
+                this.sendGameState(game);
+            })
+            .catch(err => {
+                logger.info(err);
+
+                return;
+            });
     }
 
     onSelectDeck(socket, gameId, deckId) {

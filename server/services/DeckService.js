@@ -15,6 +15,10 @@ class DeckService {
             });
     }
 
+    getSealedDeck() {
+        return this.decks.aggregate([{ $match: { includeInSealed: true } }, { $sample: { size: 1 } }]);
+    }
+
     getByUuid(uuid) {
         return this.decks.findOne({ uuid: uuid })
             .catch(err => {

@@ -34,6 +34,7 @@ class Deck {
         }
         let cards = data.cards;
         let houses = data.houses;
+        let uuid = data.uuid;
         if(!houses) {
             cards = [
                 { id: 'arise', count: 1 },
@@ -69,6 +70,7 @@ class Deck {
             houses = ['dis', 'sanctum', 'untamed'];
         }
         this.data = {
+            uuid: uuid,
             houses: houses,
             cards: cards.map(card => {
                 let result = {
@@ -96,7 +98,7 @@ class Deck {
             let card = this.createCard(player, cardData);
             if(card) {
                 card.location = 'deck';
-                result.cards.push(card);    
+                result.cards.push(card);
             }
         });
 

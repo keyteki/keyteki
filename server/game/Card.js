@@ -333,6 +333,9 @@ class Card extends EffectSource {
 
 
     addToken(type, number = 1) {
+        if(!number || !Number.isInteger(number)) {
+            return;
+        }
         if(_.isUndefined(this.tokens[type])) {
             this.tokens[type] = 0;
         }

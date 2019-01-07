@@ -191,6 +191,9 @@ class GameList extends React.Component {
             case 'competitive':
                 gameHeaderClass += ' label-danger';
                 break;
+            case 'sealed':
+                gameHeaderClass += ' label-warning';
+                break;
         }
 
         return (
@@ -214,7 +217,7 @@ class GameList extends React.Component {
 
         let gameList = [];
 
-        for(const gameType of ['beginner', 'casual', 'competitive']) {
+        for(const gameType of ['beginner', 'casual', 'competitive', 'sealed']) {
             if(this.props.gameFilter[gameType] && groupedGames[gameType]) {
                 gameList.push(this.getGamesForType(gameType, groupedGames[gameType]));
             }

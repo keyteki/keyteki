@@ -32,6 +32,13 @@ class SetupPhase extends Phase {
         for(let card of this.game.allCards) {
             card.applyAnyLocationPersistentEffects();
         }
+        for(const player of this.game.getPlayers()) {
+            let link = {
+                link: 'https://www.keyforgegame.com/deck-details/' + player.deckData.uuid,
+                label: player.deckData.name
+            };
+            this.game.addMessage('{0} is playing as the Archon: {1}', player, link);
+        }
     }
 
     firstPlayerEffects() {

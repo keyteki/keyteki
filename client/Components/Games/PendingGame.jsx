@@ -90,6 +90,10 @@ class PendingGame extends React.Component {
     }
 
     onSelectDeckClick() {
+        if(this.props.currentGame.gameType === 'sealed') {
+            this.props.socket.emit('getsealeddeck', this.props.currentGame.id);
+            return;
+        }
         $('#decks-modal').modal('show');
     }
 
@@ -110,7 +114,9 @@ class PendingGame extends React.Component {
         let selectLink = null;
         let status = null;
 
-        if(player && player.deck && player.deck.selected) {
+        if(player && player.deck && player.deck.selected && this.props.currentGame.gameType === 'sealed') {
+            deck = <span className='deck-selection'>Sealed Deck Selected</span>;
+        } else if(player && player.deck && player.deck.selected) {
             if(playerIsMe) {
                 deck = <span className='deck-selection clickable' onClick={ this.onSelectDeckClick }>{ player.deck.name }</span>;
             } else {
