@@ -74,6 +74,7 @@ class DeckService {
                 banned: false,
                 flagged: otherDecks.length >= 3,
                 verified: false,
+                includeInSealed: false,
                 houses: deckResponse.data._links.houses.map(house => house.toLowerCase()),
                 cards: cards,
                 lastUpdated: new Date()
