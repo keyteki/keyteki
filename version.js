@@ -1,1 +1,1 @@
-module.exports = '2018-01-07b';
+module.exports = '2018-01-08';
