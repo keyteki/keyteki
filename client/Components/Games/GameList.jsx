@@ -139,6 +139,10 @@ class GameList extends React.Component {
                 continue;
             }
 
+            if(!this.props.gameFilter[game.gameFormat]) {
+                continue;
+            }
+
             let players = this.getPlayers(game);
 
             let isAdmin = this.props.user && this.props.user.permissions.canManageGames;
@@ -163,8 +167,9 @@ class GameList extends React.Component {
                             </span>
                             <span className='game-time'>{ `[${formattedTime}]` }</span>
                             <span className='game-icons'>
-                                { game.showHand && <img src='/img/ShowHandIcon.png' className='game-list-icon' alt='Show hands to spectators' /> }
+                                { game.showHand && <img src='/img/ShowHandIcon.png' className='game-list-icon' alt='Show hands to spectators' title='Show hands to spectators' /> }
                                 { game.needsPassword && <span className='password-game glyphicon glyphicon-lock' /> }
+                                { game.gameFormat === 'sealed' && <img src='/img/sealed.png' className='game-list-icon' alt='Sealed game format' title='Sealed game format' /> }
                             </span>
                         </div>
                         <div className='game-middle-row'>
@@ -191,9 +196,6 @@ class GameList extends React.Component {
             case 'competitive':
                 gameHeaderClass += ' label-danger';
                 break;
-            case 'sealed':
-                gameHeaderClass += ' label-warning';
-                break;
         }
 
         return (
@@ -217,7 +219,7 @@ class GameList extends React.Component {
 
         let gameList = [];
 
-        for(const gameType of ['beginner', 'casual', 'competitive', 'sealed']) {
+        for(const gameType of ['beginner', 'casual', 'competitive']) {
             if(this.props.gameFilter[gameType] && groupedGames[gameType]) {
                 gameList.push(this.getGamesForType(gameType, groupedGames[gameType]));
             }

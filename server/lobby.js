@@ -405,7 +405,7 @@ class Lobby {
 
         if(gameDetails.quickJoin) {
             let sortedGames = _.sortBy(this.games, 'createdAt');
-            let gameToJoin = sortedGames.find(game => !game.started && game.gameType === gameDetails.gameType && _.size(game.players) < 2 && !game.password);
+            let gameToJoin = sortedGames.find(game => !game.started && game.gameType === gameDetails.gameType && game.gameFormat === gameDetails.gameFormat && _.size(game.players) < 2 && !game.password);
 
             if(gameToJoin) {
                 let message = gameToJoin.join(socket.id, socket.user.getDetails());
@@ -589,7 +589,6 @@ class Lobby {
 
         Promise.all([this.cardService.getAllCards(), this.deckService.getSealedDeck()])
             .then(results => {
-                console.log(results);
                 let [cards, deckArray] = results;
                 let deck = deckArray[0];
 
@@ -598,8 +597,8 @@ class Lobby {
                 });
                 deck.status = {
                     basicRules: true,
-                    flagged: !!deck.flagged,
-                    verified: !!deck.verified,
+                    flagged: false,
+                    verified: true,
                     noUnreleasedCards: true,
                     officialRole: true,
                     faqRestrictedList: true,

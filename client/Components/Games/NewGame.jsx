@@ -26,6 +26,7 @@ class NewGame extends React.Component {
             showHand: false,
             muteSpectators: false,
             selectedGameType: 'casual',
+            selectedGameFormat: 'normal',
             password: ''
         };
     }
@@ -68,17 +69,26 @@ class NewGame extends React.Component {
             spectators: this.state.spectators,
             showHand: this.state.showHand,
             gameType: this.state.selectedGameType,
+            gameFormat: this.state.selectedGameFormat,
             password: this.state.password,
             quickJoin: this.props.quickJoin
         });
     }
 
-    onRadioChange(gameType) {
+    onGameTypeChange(gameType) {
         this.setState({ selectedGameType: gameType });
+    }
+
+    onGameFormatChange(gameFormat) {
+        this.setState({ selectedGameFormat: gameFormat });
     }
 
     isGameTypeSelected(gameType) {
         return this.state.selectedGameType === gameType;
+    }
+
+    isGameFormatSelected(gameFormat) {
+        return this.state.selectedGameFormat === gameFormat;
     }
 
     getOptions() {
@@ -93,28 +103,48 @@ class NewGame extends React.Component {
     }
 
     getGameTypeOptions() {
+        let gameTypes = [
+            { name: 'beginner', label: 'Beginner' },
+            { name: 'casual', label: 'Casual' },
+            { name: 'competitive', label: 'Competitive' }
+        ];
+
         return (
-            <div className='row'>
+            <div className='row game-type'>
                 <div className='col-sm-12'>
                     <b>Game Type</b>
                 </div>
                 <div className='col-sm-10'>
-                    <label className='radio-inline'>
-                        <input type='radio' onChange={ this.onRadioChange.bind(this, 'beginner') } checked={ this.isGameTypeSelected('beginner') } />
-                        Beginner
-                    </label>
-                    <label className='radio-inline'>
-                        <input type='radio' onChange={ this.onRadioChange.bind(this, 'casual') } checked={ this.isGameTypeSelected('casual') } />
-                        Casual
-                    </label>
-                    <label className='radio-inline'>
-                        <input type='radio' onChange={ this.onRadioChange.bind(this, 'competitive') } checked={ this.isGameTypeSelected('competitive') } />
-                        Competitive
-                    </label>
-                    <label className='radio-inline'>
-                        <input type='radio' onChange={ this.onRadioChange.bind(this, 'sealed') } checked={ this.isGameTypeSelected('sealed') } />
-                        Sealed
-                    </label>
+                    { gameTypes.map(gameType => {
+                        return (<label key={ gameType.name } className='radio-inline'>
+                            <input type='radio' onChange={ this.onGameTypeChange.bind(this, gameType.name) } checked={ this.isGameTypeSelected(gameType.name) } />
+                            { gameType.label }
+                        </label>);
+
+                    }) }
+                </div>
+            </div>);
+    }
+
+    getGameFormatOptions() {
+        let gameFormats = [
+            { name: 'normal', label: 'Normal' },
+            { name: 'sealed', label: 'Sealed' }
+        ];
+
+        return (
+            <div className='row'>
+                <div className='col-sm-12'>
+                    <b>Game Format</b>
+                </div>
+                <div className='col-sm-10'>
+                    { gameFormats.map(gameFormat => {
+                        return (<label key={ gameFormat.name } className='radio-inline'>
+                            <input type='radio' onChange={ this.onGameFormatChange.bind(this, gameFormat.name) } checked={ this.isGameFormatSelected(gameFormat.name) } />
+                            { gameFormat.label }
+                        </label>);
+
+                    }) }
                 </div>
             </div>);
     }
@@ -127,6 +157,7 @@ class NewGame extends React.Component {
             content =
                 (<div>
                     <AlertPanel type='info' message="Select the type of game you'd like to play and either you'll join the next one available, or one will be created for you with default options." />
+                    { this.getGameFormatOptions() }
                     { this.getGameTypeOptions() }
                 </div>);
         } else {
@@ -139,6 +170,7 @@ class NewGame extends React.Component {
                     </div>
                 </div>
                 { this.getOptions() }
+                { this.getGameFormatOptions() }
                 { this.getGameTypeOptions() }
                 <div className='row game-password'>
                     <div className='col-sm-8'>

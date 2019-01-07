@@ -16,6 +16,7 @@ class PendingGame {
         this.showHand = details.showHand;
         this.muteSpectators = details.muteSpectators;
         this.gameType = details.gameType;
+        this.gameFormat = details.gameFormat;
         this.started = false;
         this.node = {};
         this.createdAt = new Date();
@@ -50,6 +51,7 @@ class PendingGame {
         return {
             gameId: this.id,
             gameType: this.gameType,
+            gameFormat: this.gameFormat,
             players: players,
             startedAt: this.createdAt
         };
@@ -254,7 +256,7 @@ class PendingGame {
         _.each(playersInGame, player => {
             var deck = undefined;
 
-            if(activePlayer === player.name && player.deck) {
+            if(activePlayer === player.name && player.deck && this.gameFormat !== 'sealed') {
                 deck = { name: player.deck.name, selected: player.deck.selected, status: player.deck.status };
             } else if(player.deck) {
                 deck = { selected: player.deck.selected, status: player.deck.status };
@@ -276,6 +278,7 @@ class PendingGame {
             allowSpectators: this.allowSpectators,
             createdAt: this.createdAt,
             gameType: this.gameType,
+            gameFormat: this.gameFormat,
             id: this.id,
             messages: activePlayer ? this.gameChat.messages : undefined,
             muteSpectators: this.muteSpectators,

@@ -37,6 +37,10 @@ class PendingGame extends React.Component {
 
     componentDidMount() {
         this.props.loadDecks();
+
+        if(this.props.currentGame && this.props.currentGame.gameFormat === 'sealed') {
+            this.props.socket.emit('getsealeddeck', this.props.currentGame.id);
+        }
     }
 
     componentWillReceiveProps(props) {
@@ -90,10 +94,6 @@ class PendingGame extends React.Component {
     }
 
     onSelectDeckClick() {
-        if(this.props.currentGame.gameType === 'sealed') {
-            this.props.socket.emit('getsealeddeck', this.props.currentGame.id);
-            return;
-        }
         $('#decks-modal').modal('show');
     }
 
@@ -113,8 +113,9 @@ class PendingGame extends React.Component {
         let deck = null;
         let selectLink = null;
         let status = null;
+        let isSealed = this.props.currentGame.gameFormat === 'sealed';
 
-        if(player && player.deck && player.deck.selected && this.props.currentGame.gameType === 'sealed') {
+        if(player && player.deck && player.deck.selected && isSealed) {
             deck = <span className='deck-selection'>Sealed Deck Selected</span>;
         } else if(player && player.deck && player.deck.selected) {
             if(playerIsMe) {
@@ -124,8 +125,10 @@ class PendingGame extends React.Component {
             }
 
             status = <DeckStatus status={ player.deck.status } />;
-        } else if(player && playerIsMe) {
+        } else if(player && playerIsMe && !isSealed) {
             selectLink = <span className='card-link' onClick={ this.onSelectDeckClick }>Select deck...</span>;
+        } else if(isSealed) {
+            selectLink = <span>Sealed deck loading...</span>;
         }
 
         return (
