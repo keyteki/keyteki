@@ -173,6 +173,10 @@ class Lobby {
         }
 
         return _.filter(games, game => {
+            if(!this.games[game.id]) {
+                return false;
+            }
+
             let userBlockedByOwner = this.games[game.id].isUserBlocked(user);
             let userHasBlockedPlayer = _.any(this.games[game.id].players, player => _.contains(user.blockList, player.name.toLowerCase()));
             return !userBlockedByOwner && !userHasBlockedPlayer;
@@ -209,6 +213,10 @@ class Lobby {
 
         let sockets = socket ? [socket] : this.sockets;
         _.each(sockets, socket => {
+            if(!socket) {
+                return;
+            }
+
             let filteredGames = this.filterGameListWithBlockList(socket.user, gameSummaries);
             let sortedGames = this.sortGameSummaries(filteredGames);
 

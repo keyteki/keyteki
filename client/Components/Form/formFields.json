@@ -96,14 +96,14 @@
     "forgotpassword": [
       {
         "name": "username",
-        "label": "Username",
-        "placeholder": "Enter a username",
+        "label": "Username/Email",
+        "placeholder": "Enter a username or email address",
         "inputType": "text",
         "validationProperties": {
           "data-val": true,
-          "data-val-required": "Please enter your username"
+          "data-val-required": "Please enter your username or email address"
         },
-        "labelClass": "col-sm-2",
+        "labelClass": "col-sm-4",
         "fieldClass": "col-sm-8"
       }
     ],

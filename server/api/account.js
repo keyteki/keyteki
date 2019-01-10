@@ -475,9 +475,13 @@ module.exports.init = function (server) {
 
         let user = await userService.getUserByUsername(req.body.username);
         if(!user) {
-            logger.error('Username not found for password reset', req.body.username);
+            let user = await userService.getUserByEmail(req.body.username);
 
-            return;
+            if(!user) {
+                logger.info('Username not found for password reset', req.body.username);
+
+                return;
+            }
         }
 
         let expiration = moment().add(4, 'hours');

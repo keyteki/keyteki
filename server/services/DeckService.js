@@ -37,13 +37,19 @@ class DeckService {
 
         try {
             let response = await util.httpRequest(`https://www.keyforgegame.com/api/decks/${deck.uuid}/?links=cards`);
+
+            if(response[0] === '<') {
+                logger.error('Deck failed to import', deck.uuid, response);
+
+                return;
+            }
+
             deckResponse = JSON.parse(response);
         } catch(error) {
-            logger.error('Unable to import deck', error);
+            logger.error('Unable to import deck', deck.uuid, error);
 
-            return undefined;
+            return;
         }
-
 
         if(!deckResponse || !deckResponse._linked || !deckResponse.data) {
             return;
@@ -82,7 +88,6 @@ class DeckService {
         }
         console.log(illegalCard.id.split('').map(char => char.charCodeAt(0)));
     }
-
 
     update(deck) {
         let properties = {

@@ -40,11 +40,11 @@ class ForgotPassword extends React.Component {
             <div>
                 <div className='col-sm-6 col-sm-offset-3'>
                     { errorBar }
-                    { this.props.apiSuccess === false ? null : <AlertPanel type='info' message='To start the password recovery process, please enter your username and click the submit button.' /> }
+                    { this.props.apiSuccess === false ? null : <AlertPanel type='info' message='To start the password recovery process, please enter your username or email address and click the submit button.' /> }
                     <Panel title='Forgot password'>
                         <Form name='forgotpassword' buttonText='Submit' onSubmit={ this.onSubmit } apiLoading={ this.props.apiLoading }>
                             <div className='form-group'>
-                                <div className='col-sm-offset-2 col-sm-3'>
+                                <div className='col-sm-offset-4 col-sm-3'>
                                     <ReCAPTCHA ref='recaptcha' sitekey='6Ldx1XsUAAAAAAEgOsjFgkwsJCRgtaj9ZXBBCLvJ' theme='dark' onChange={ this.onCaptchaChange.bind(this) } />
                                 </div>
                             </div>

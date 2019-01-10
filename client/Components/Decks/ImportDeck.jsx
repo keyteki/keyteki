@@ -47,7 +47,7 @@ export class ImportDeck extends React.Component {
             <div>
                 <div className='col-md-8 col-md-offset-2 profile full-height'>
                     { this.state.error && <AlertPanel type='error' message={ this.state.error } /> }
-                    { !this.props.apiSuccess && <AlertPanel type='error' message={ this.props.apiMessage } /> }
+                    { this.props.apiSuccess === false && <AlertPanel type='error' message={ this.props.apiMessage } /> }
                     <Panel title='Import Deck'>
                         <p>
                                 Enter the deck link from the <a href='https://keyforgegame.com' target='_blank'>keyforge website.</a>
