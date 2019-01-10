@@ -51,6 +51,9 @@ class DealDamageAction extends CardGameAction {
             fightEvent: this.fightEvent
         };
         return super.createEvent('onDamageDealt', params, event => {
+            if(event.amount === 0) {
+                return;
+            }
             event.card.addToken('damage', event.amount);
             if(!event.card.moribund && (event.card.tokens.damage >= event.card.power || event.damageSource && event.damageSource.getKeywordValue('poison'))) {
                 event.card.moribund = true;
