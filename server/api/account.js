@@ -475,7 +475,7 @@ module.exports.init = function (server) {
 
         let user = await userService.getUserByUsername(req.body.username);
         if(!user) {
-            let user = await userService.getUserByEmail(req.body.username);
+            user = await userService.getUserByEmail(req.body.username);
 
             if(!user) {
                 logger.info('Username not found for password reset', req.body.username);
