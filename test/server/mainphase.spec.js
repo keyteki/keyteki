@@ -135,7 +135,7 @@ describe('main phase', function() {
                 expect(this.player1).toBeAbleToSelect(this.witchOfTheEye);
                 expect(this.player1).toBeAbleToSelect(this.batdrone);
                 expect(this.player1).toBeAbleToSelect(this.inkaTheSpider);
-                expect(this.player1).not.toBeAbleToSelect(this.championAnaphiel);
+                expect(this.player1).toBeAbleToSelect(this.championAnaphiel);
                 this.player1.clickCard(this.batdrone);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
                 expect(this.batdrone.stunned).toBe(true);

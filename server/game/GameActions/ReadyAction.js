@@ -8,10 +8,7 @@ class ReadyAction extends CardGameAction {
     }
 
     canAffect(card, context) {
-        if(card.location !== 'play area' || !card.exhausted) {
-            return false;
-        }
-        return super.canAffect(card, context);
+        return card.location === 'play area' && super.canAffect(card, context);
     }
 
     getEvent(card, context) {

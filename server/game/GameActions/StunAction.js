@@ -8,7 +8,7 @@ class StunAction extends CardGameAction {
     }
 
     canAffect(card, context) {
-        return card.location === 'play area' && !card.stunned && super.canAffect(card, context);
+        return card.location === 'play area' && super.canAffect(card, context);
     }
 
     getEvent(card, context) {

@@ -3,13 +3,19 @@ const Card = require('../../Card.js');
 class CleansingWave extends Card {
     setupCardAbilities(ability) {
         this.play({
+            effect: 'heal 1 damage from all creatures',
             gameAction: ability.actions.heal(context => ({
                 amount: 1,
                 target: context.game.creaturesInPlay
             })),
             then: {
+                message: '{1} heals {3}, gaining {0} {4} amber',
+                messageArgs: context => {
+                    let successfulEvents = context.preThenEvents.filter(event => !event.cancelled && event.amount > 0);
+                    return [successfulEvents.map(event => event.card), successfulEvents.length];
+                },
                 gameAction: ability.actions.gainAmber(context => ({
-                    amount: context.preThenEvents.filter(event => !event.cancelled).length
+                    amount: context.preThenEvents.filter(event => !event.cancelled && event.amount > 0).length
                 }))
             }
         });

@@ -22,12 +22,17 @@ describe('Guardian Demon', function() {
                 expect(this.player1).toHavePrompt('Guardian Demon');
                 expect(this.player1).toBeAbleToSelect(this.theTerror);
                 expect(this.player1).toBeAbleToSelect(this.sequis);
-                expect(this.player1).not.toBeAbleToSelect(this.guardianDemon);
-                expect(this.player1).not.toBeAbleToSelect(this.restringuntus);
-                expect(this.player1).not.toBeAbleToSelect(this.emberImp);
-                expect(this.player1).not.toBeAbleToSelect(this.commanderRemiel);
+                expect(this.player1).toBeAbleToSelect(this.guardianDemon);
+                expect(this.player1).toBeAbleToSelect(this.restringuntus);
+                expect(this.player1).toBeAbleToSelect(this.emberImp);
+                expect(this.player1).toBeAbleToSelect(this.commanderRemiel);
                 expect(this.player1).toHavePromptButton('Done');
                 this.player1.clickCard(this.theTerror);
+                expect(this.player1).toHavePrompt('Guardian Demon');
+                expect(this.player1).toHavePromptButton('0');
+                expect(this.player1).toHavePromptButton('1');
+                expect(this.player1).toHavePromptButton('2');
+                this.player1.clickPrompt('2');
                 expect(this.player1).toHavePrompt('Guardian Demon');
                 expect(this.player1).not.toBeAbleToSelect(this.theTerror);
                 expect(this.player1).toBeAbleToSelect(this.sequis);
@@ -52,8 +57,13 @@ describe('Guardian Demon', function() {
                 expect(this.player1).toBeAbleToSelect(this.theTerror);
                 expect(this.player1).toBeAbleToSelect(this.sequis);
                 expect(this.player1).toBeAbleToSelect(this.guardianDemon);
-                expect(this.player1).not.toBeAbleToSelect(this.restringuntus);
+                expect(this.player1).toBeAbleToSelect(this.restringuntus);
                 this.player1.clickCard(this.guardianDemon);
+                expect(this.player1).toHavePrompt('Guardian Demon');
+                expect(this.player1).toHavePromptButton('0');
+                expect(this.player1).toHavePromptButton('1');
+                expect(this.player1).toHavePromptButton('2');
+                this.player1.clickPrompt('2');
                 expect(this.player1).toHavePrompt('Guardian Demon');
                 expect(this.player1).toBeAbleToSelect(this.theTerror);
                 expect(this.player1).toBeAbleToSelect(this.sequis);
@@ -72,6 +82,18 @@ describe('Guardian Demon', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
+            it('should not prompt to target a second creature if the first was not healed',function() {
+                this.player1.fightWith(this.restringuntus, this.emberImp);
+                expect(this.emberImp.tokens.damage).toBe(1);
+                this.player1.play(this.guardianDemon);
+                expect(this.player1).toHavePrompt('Guardian Demon');
+                expect(this.player1).toBeAbleToSelect(this.emberImp);
+                expect(this.player1).toBeAbleToSelect(this.guardianDemon);
+                expect(this.player1).toHavePromptButton('Done');
+                this.player1.clickCard(this.guardianDemon);
+                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            });
+
             it('should deal 1 damage when only 1 damage is healed', function() {
                 this.player1.fightWith(this.restringuntus, this.emberImp);
                 expect(this.emberImp.tokens.damage).toBe(1);
@@ -80,6 +102,11 @@ describe('Guardian Demon', function() {
                 expect(this.player1).toBeAbleToSelect(this.emberImp);
                 expect(this.player1).toHavePromptButton('Done');
                 this.player1.clickCard(this.emberImp);
+                expect(this.player1).toHavePrompt('Guardian Demon');
+                expect(this.player1).toHavePromptButton('0');
+                expect(this.player1).toHavePromptButton('1');
+                expect(this.player1).not.toHavePromptButton('2');
+                this.player1.clickPrompt('1');
                 expect(this.player1).toHavePrompt('Guardian Demon');
                 this.player1.clickCard(this.theTerror);
                 expect(this.theTerror.tokens.damage).toBe(1);

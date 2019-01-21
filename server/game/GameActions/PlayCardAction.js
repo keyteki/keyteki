@@ -42,7 +42,7 @@ class PlayCardAction extends CardGameAction {
             return false;
         }
         let actions = card.getActions(this.location).filter(action => action.title.includes('Play'));
-        return actions.find(action => {
+        return !!actions.find(action => {
             let actionContext = action.createContext(context.player);
             actionContext.ignoreHouse = true;
             return !action.meetsRequirements(actionContext, ['location']);

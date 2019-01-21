@@ -8,7 +8,7 @@ class ReadyAction extends CardGameAction {
     }
 
     canAffect(card, context) {
-        if(card.location !== 'play area' || !card.stunned) {
+        if(card.location !== 'play area') {
             return false;
         }
         return super.canAffect(card, context);

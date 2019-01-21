@@ -35,14 +35,16 @@ class SequentialForEachAction extends GameAction {
                     context.game.queueSimpleStep(() => {
                         let eventWindow = context.game.openEventWindow(this.action.getEventArray(context));
                         eventWindow.checkState = false;
-                    });                }
+                    });
+                }
             } else {
                 for(let i = 0; i < this.num; i++) {
                     context.game.queueSimpleStep(() => this.action.preEventHandler(context));
                     context.game.queueSimpleStep(() => {
                         let eventWindow = context.game.openEventWindow(this.action.getEventArray(context));
                         eventWindow.checkState = false;
-                    });                }
+                    });
+                }
             }
         })];
     }

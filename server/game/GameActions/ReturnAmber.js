@@ -14,7 +14,7 @@ class ReturnAmber extends CardGameAction {
     }
 
     canAffect(card, context) {
-        if(card.location !== 'play area' || !card.hasToken('amber') || this.amount === 0) {
+        if(card.location !== 'play area' || this.amount === 0) {
             return false;
         }
         return super.canAffect(card, context);

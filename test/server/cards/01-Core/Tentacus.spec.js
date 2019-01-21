@@ -21,6 +21,10 @@ describe('Tentacus', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
                 this.player1.play(this.remoteAccess);
                 expect(this.etherSpider.tokens.amber).toBe(1);
+                expect(this.player1).toHavePrompt('Remote Access');
+                expect(this.player1).toBeAbleToSelect(this.dominatorBauble);
+                this.player1.clickCard(this.dominatorBauble);
+                expect(this.dominatorBauble.exhausted).toBe(false);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
