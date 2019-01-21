@@ -75,8 +75,8 @@ const Effects = {
     // Player effects
     additionalCost: (costFactory) => EffectBuilder.player.static('additionalCost', costFactory),
     canFight: (match) => EffectBuilder.player.static('canUse', context => (
-        (context.ability.title === 'Fight with this creature' || 
-        context.ability.title === 'Remove this creature\'s stun') && 
+        (context.ability.title === 'Fight with this creature' ||
+        context.ability.title === 'Remove this creature\'s stun') &&
         match(context.source)
     )),
     canPlay: (match) => EffectBuilder.player.static('canPlay', match),
@@ -100,6 +100,7 @@ const Effects = {
     keyAmber: (source) => EffectBuilder.player.static('keyAmber', source),
     modifyKeyCost: (amount) => EffectBuilder.player.flexible('modifyKeyCost', amount),
     modifyHandSize: (amount) => EffectBuilder.player.flexible('modifyHandSize', amount),
+    noActiveHouseForPlay: () => EffectBuilder.player.static('noActiveHouseForPlay'),
     playerCannot: (type, condition) => EffectBuilder.player.static('abilityRestrictions', new CannotRestriction(type, condition)),
     redirectAmber: (recepient) => EffectBuilder.player.static('redirectAmber', recepient),
     restrictHouseChoice: (house) => EffectBuilder.player.static('restrictHouseChoice', house),

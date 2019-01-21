@@ -451,10 +451,12 @@ class Player extends GameObject {
             }
             return houses;
         }, this.houses);
-        if(this.anyEffect('restrictHouseChoice')) {
-            availableHouses = [].concat(...this.getEffects('restrictHouseChoice'));
+        let stopHouseChoice = this.getEffects('stopHouseChoice');
+        let restrictHouseChoice = _.flatten(this.getEffects('restrictHouseChoice')).filter(house => !stopHouseChoice.includes(house));
+        if(restrictHouseChoice.length > 0) {
+            availableHouses = restrictHouseChoice;
         }
-        availableHouses = _.difference(availableHouses, this.getEffects('stopHouseChoice'));
+        availableHouses = _.difference(_.uniq(availableHouses), this.getEffects('stopHouseChoice'));
         return availableHouses;
     }
 

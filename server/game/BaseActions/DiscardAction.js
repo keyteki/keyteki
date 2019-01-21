@@ -18,7 +18,7 @@ class DiscardAction extends BaseAbility {
     }
 
     meetsRequirements(context = this.createContext(), ignoredRequirements = []) {
-        if(!context.ignoreHouse && !this.card.hasHouse(context.player.activeHouse)) {
+        if(!context.ignoreHouse && (!this.card.hasHouse(context.player.activeHouse) || context.player.anyEffect('noActiveHouseForPlay'))) {
             return 'house';
         } else if(!this.card.checkRestrictions('discard', context) || !context.player.checkRestrictions('discard', context)) {
             return 'cannotTrigger';

@@ -43,12 +43,13 @@ describe('Restringuntus', function() {
 
             });
 
-            it('should force a no house pick if dis is picked and pitlord is in play', function() {
+            it('should override pitlord if it is in play', function() {
                 this.player2.moveCard(this.pitlord, 'play area');
                 this.player1.clickPrompt('dis');
                 this.player1.endTurn();
-                expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
-                expect(this.player2.activeHouse).toBe(undefined);
+                expect(this.player2).toHavePromptButton('sanctum');
+                expect(this.player2).not.toHavePromptButton('dis');
+                expect(this.player2).toHavePromptButton('brobnar');
             });
         });
     });

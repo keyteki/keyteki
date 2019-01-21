@@ -35,7 +35,7 @@ const Costs = {
         canPay: context => {
             if(context.game.cardsUsed.concat(context.game.cardsPlayed).filter(card => card.name === context.source.name).length >= 6) {
                 return false;
-            } else if(context.source.hasHouse(context.player.activeHouse)) {
+            } else if(context.source.hasHouse(context.player.activeHouse) && !context.player.anyEffect('noActiveHouseForPlay')) {
                 return true;
             } else if(context.ignoreHouse || context.player.getEffects('canPlay').some(match => match(context.source))) {
                 return true;
