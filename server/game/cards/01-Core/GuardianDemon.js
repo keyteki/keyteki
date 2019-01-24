@@ -7,12 +7,14 @@ class GuardianDemon extends Card {
             reap: true,
             condition: context => context.game.creaturesInPlay.some(card => card.hasToken('damage')),
             target: {
+                activePromptTitle: 'Choose a creature to heal',
                 optional: true,
                 cardType: 'creature',
                 gameAction: ability.actions.heal({ amount: 2, upTo: true })
             },
             then: context => ({
                 target: {
+                    activePromptTitle: 'Choose a creature to deal damage to',
                     cardType: 'creature',
                     cardCondition: card => card !== context.target,
                     gameAction: ability.actions.dealDamage(context => ({ amount: context.preThenEvent.amount }))

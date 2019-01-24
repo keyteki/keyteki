@@ -31,8 +31,9 @@ class HealAction extends CardGameAction {
                     context: context,
                     choices: Array.from(Array(event.amount + 1), (x, i) => i.toString()),
                     choiceHandler: choice => {
+                        event.amount = parseInt(choice);
                         context.game.addMessage('{0} heals {1} for {2} damage using {3}\'s ability', context.player, event.card, choice, context.source);
-                        card.removeToken('damage', parseInt(choice));
+                        card.removeToken('damage', event.amount);
                     }
                 });
             } else {
