@@ -31,6 +31,30 @@ export function saveUser(user) {
     };
 }
 
+export function verifyDeck(deckId) {
+    return {
+        types: ['VERIFY_DECK', 'DECK_VERIFIED'],
+        shouldCallAPI: () => true,
+        APIParams: {
+            url: `/api/decks/${deckId}/verify`,
+            cache: false,
+            type: 'POST'
+        }
+    };
+}
+
+export function verifyAllDecks(username) {
+    return {
+        types: ['VERIFY_DECKS', 'DECKS_VERIFIED'],
+        shouldCallAPI: () => true,
+        APIParams: {
+            url: `/api/user/${username}/verifyDecks`,
+            cache: false,
+            type: 'POST'
+        }
+    };
+}
+
 export function clearUserStatus() {
     return {
         type: 'CLEAR_USER_STATUS'

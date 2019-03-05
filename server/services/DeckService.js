@@ -86,15 +86,13 @@ class DeckService {
                 lastUpdated: new Date()
             });
         }
-        console.log(illegalCard.id.split('').map(char => char.charCodeAt(0)));
+
+        logger.error(`DECK IMPORT ERROR: ${illegalCard.id.split('').map(char => char.charCodeAt(0))}`);
     }
 
     update(deck) {
         let properties = {
-            username: deck.username,
-            name: deck.deckName,
-            houses: deck.houses,
-            cards: deck.cards,
+            verified: deck.verified,
             lastUpdated: new Date()
         };
 
@@ -103,6 +101,14 @@ class DeckService {
 
     delete(id) {
         return this.decks.remove({ _id: id });
+    }
+
+    async getFlaggedUnverifiedDecksForUser(username) {
+        return await this.decks.find({ username: username, verified: false, flagged: true });
+    }
+
+    async verifyDecksForUser(username) {
+        return await this.decks.update({username: username, verified: false, flagged: true}, {$set: { verified: true }}, { multi: true });
     }
 }
 

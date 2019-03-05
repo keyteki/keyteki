@@ -34,24 +34,6 @@ module.exports.init = function (server) {
         res.send({ success: true, decks: decks });
     }));
 
-    server.put('/api/decks/:id', passport.authenticate('jwt', { session: false }), wrapAsync(async function (req, res) {
-        let deck = await deckService.getById(req.params.id);
-
-        if(!deck) {
-            return res.status(404).send({ message: 'No such deck' });
-        }
-
-        if(deck.username !== req.user.username) {
-            return res.status(401).send({ message: 'Unauthorized' });
-        }
-
-        let data = Object.assign({ id: req.params.id }, req.body.deck);
-
-        deckService.update(data);
-
-        res.send({ success: true, message: 'Saved' });
-    }));
-
     server.post('/api/decks', passport.authenticate('jwt', { session: false }), wrapAsync(async function (req, res) {
         if(!req.body.uuid) {
             return res.send({ success: false, message: 'uuid must be specified' });
@@ -88,5 +70,25 @@ module.exports.init = function (server) {
 
         await deckService.delete(id);
         res.send({ success: true, message: 'Deck deleted successfully', deckId: id });
+    }));
+
+    server.post('/api/decks/:id/verify', passport.authenticate('jwt', { session: false }), wrapAsync(async function (req, res) {
+        if(!req.user.permissions || !req.user.permissions.canVerifyDecks) {
+            return res.status(403);
+        }
+
+        let id = req.params.id;
+
+        let deck = await deckService.getById(id);
+
+        if(!deck) {
+            return res.status(404).send({ success: false, message: 'No such deck' });
+        }
+
+        deck.verified = true;
+        deck.id = id;
+
+        await deckService.update(deck);
+        res.send({ success: true, message: 'Deck verified successfully', deckId: id });
     }));
 };
