@@ -64,6 +64,9 @@ export function logout() {
 }
 
 export function forgotPassword(details) {
+    localStorage.removeItem('token');
+    localStorage.removeItem('refreshToken');
+
     return {
         types: ['FORGOTPASSWORD_ACCOUNT', 'ACCOUNT_FORGOTPASSWORD'],
         shouldCallAPI: () => true,
