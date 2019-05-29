@@ -397,21 +397,11 @@ class Game extends EventEmitter {
             return;
         }
 
-        if(!this.isSpectator(player)) {
+        if(!this.isSpectator(player) && this.manualMode) {
             if(this.chatCommands.executeCommand(player, args[0], args)) {
                 this.checkGameState(true);
                 return;
             }
-            /*
-            let card = _.find(this.shortCardData, c => {
-                return c.name.toLowerCase() === message.toLowerCase() || c.id.toLowerCase() === message.toLowerCase();
-            });
-
-            if(card) {
-                this.gameChat.addChatMessage('{0} {1}', player, card);
-
-                return;
-            }*/
         }
 
         if(!this.isSpectator(player) || !this.spectatorSquelch) {
