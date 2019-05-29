@@ -52,6 +52,7 @@ export class GameBoard extends React.Component {
         this.onSettingsClick = this.onSettingsClick.bind(this);
         this.onMessagesClick = this.onMessagesClick.bind(this);
         this.onManualModeClick = this.onManualModeClick.bind(this);
+        this.onMuteClick = this.onMuteClick.bind(this);
 
         this.state = {
             cardToZoom: undefined,
@@ -219,6 +220,10 @@ export class GameBoard extends React.Component {
 
     onOptionSettingToggle(option, value) {
         this.props.sendGameMessage('toggleOptionSetting', option, value);
+    }
+
+    onMuteClick() {
+        this.props.sendGameMessage('toggleMuteSpectators');
     }
 
     onSettingsClick() {
@@ -407,7 +412,8 @@ export class GameBoard extends React.Component {
                                 messages={ this.props.currentGame.messages }
                                 onCardMouseOut={ this.onMouseOut }
                                 onCardMouseOver={ this.onMouseOver }
-                                onSendChat={ this.sendChatMessage } />
+                                onSendChat={ this.sendChatMessage }
+                                muted={ this.state.spectating && this.props.currentGame.muteSpectators } />
                         </div>
                         }
                     </div>
@@ -416,7 +422,8 @@ export class GameBoard extends React.Component {
                     <PlayerStats { ...boundActionCreators } stats={ thisPlayer.stats } showControls={ !this.state.spectating && manualMode } user={ thisPlayer.user }
                         activePlayer={ thisPlayer.activePlayer } onSettingsClick={ this.onSettingsClick } showMessages
                         onMessagesClick={ this.onMessagesClick } numMessages={ this.state.newMessages } houses={ thisPlayer.houses } onManualModeClick={ this.onManualModeClick }
-                        activeHouse={ thisPlayer.activeHouse } manualModeEnabled={ manualMode } showManualMode={ !this.state.spectating } />
+                        activeHouse={ thisPlayer.activeHouse } manualModeEnabled={ manualMode } showManualMode={ !this.state.spectating }
+                        muteSpectators={ this.props.currentGame.muteSpectators } onMuteClick={ this.onMuteClick } />
                 </div>
             </div >);
     }

@@ -71,7 +71,8 @@ class NewGame extends React.Component {
             gameType: this.state.selectedGameType,
             gameFormat: this.state.selectedGameFormat,
             password: this.state.password,
-            quickJoin: this.props.quickJoin
+            quickJoin: this.props.quickJoin,
+            muteSpectators: this.state.muteSpectators
         });
     }
 
