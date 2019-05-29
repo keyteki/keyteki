@@ -16,6 +16,9 @@ const cardSource = {
             card: props.card,
             source: props.source
         };
+    },
+    canDrag(props) {
+        return props.canDrag || (!props.card.unselectable && props.card.canPlay);
     }
 };
 
@@ -234,7 +237,7 @@ class InnerCard extends React.Component {
             'custom-card': this.props.card.code && this.props.card.code.startsWith('custom'),
             'horizontal': this.props.orientation !== 'vertical' || this.props.card.exhausted,
             'vertical': this.props.orientation === 'vertical' && !this.props.card.exhausted,
-            'unselectable': this.props.card.unselectable,
+            'unselectable': this.props.card.unselectable || !this.props.card.canPlay,
             'dragging': this.props.isDragging,
             'taunt': this.props.card.taunt && this.props.source === 'play area'
         });
@@ -316,10 +319,12 @@ class InnerCard extends React.Component {
 
 InnerCard.displayName = 'Card';
 InnerCard.propTypes = {
+    canDrag: PropTypes.bool,
     card: PropTypes.shape({
         attached: PropTypes.bool,
         baseStrength: PropTypes.number,
         childCards: PropTypes.array,
+        canPlay: PropTypes.bool,
         code: PropTypes.string,
         controlled: PropTypes.bool,
         facedown: PropTypes.bool,

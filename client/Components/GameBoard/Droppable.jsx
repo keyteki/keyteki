@@ -54,7 +54,15 @@ const dropTarget = {
     canDrop(props, monitor) {
         let item = monitor.getItem();
 
-        return validTargets[item.source] && validTargets[item.source].some(target => target === props.source);
+        if(props.manualMode) {
+            return validTargets[item.source] && validTargets[item.source].some(target => target === props.source);
+        }
+
+        if(item.source === 'hand' && props.source === 'play area' || item.source === 'hand' && props.source === 'discard') {
+            return item.card.canPlay;
+        }
+
+        return false;
     },
     drop(props, monitor) {
         let item = monitor.getItem();
@@ -98,6 +106,7 @@ Droppable.propTypes = {
     connectDropTarget: PropTypes.func,
     isOver: PropTypes.bool,
     itemSource: PropTypes.string,
+    manualMode: PropTypes.bool,
     onDragDrop: PropTypes.func,
     source: PropTypes.string.isRequired
 };

@@ -123,6 +123,7 @@ class CardPile extends React.Component {
 
         let listProps = {
             disableMouseOver: this.props.disableMouseOver,
+            manualMode: this.props.manualMode,
             onCardClick: this.onCardClick.bind(this),
             onCardMouseOut: this.props.onMouseOut,
             onCardMouseOver: this.props.onMouseOver,
@@ -165,7 +166,7 @@ class CardPile extends React.Component {
 
         popup = (
             <MovablePanel title={ this.props.title } name={ this.props.source } onCloseClick={ this.onCloseClick } side={ this.props.popupLocation }>
-                <Droppable onDragDrop={ this.props.onDragDrop } source={ this.props.source }>
+                <Droppable onDragDrop={ this.props.onDragDrop } source={ this.props.source } manualMode={ this.props.manualMode }>
                     <div className={ popupClass } onClick={ event => event.stopPropagation() }>
                         { popupMenu }
                         <div className={ innerClass }>
@@ -205,7 +206,7 @@ class CardPile extends React.Component {
         let cardOrientation = this.props.orientation === 'horizontal' && topCard && topCard.facedown ? 'exhausted' : this.props.orientation;
 
         if(this.props.hiddenTopCard && !this.props.topCard) {
-            topCard = { facedown: true };
+            topCard = { facedown: true, canPlay: true };
         }
 
         return (
@@ -213,7 +214,10 @@ class CardPile extends React.Component {
                 <div className='panel-header'>
                     { headerText }
                 </div>
-                { topCard ? <Card card={ topCard } source={ this.props.source }
+                { topCard ? <Card
+                    canDrag={ this.props.manualMode }
+                    card={ topCard }
+                    source={ this.props.source }
                     onMouseOver={ this.props.onMouseOver }
                     onMouseOut={ this.props.onMouseOut }
                     disableMouseOver={ this.props.hiddenTopCard }
@@ -236,6 +240,7 @@ CardPile.propTypes = {
     disableMouseOver: PropTypes.bool,
     disablePopup: PropTypes.bool,
     hiddenTopCard: PropTypes.bool,
+    manualMode: PropTypes.bool,
     menu: PropTypes.array,
     onCardClick: PropTypes.func,
     onDragDrop: PropTypes.func,

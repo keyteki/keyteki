@@ -9,11 +9,7 @@ class ActionWindow extends UiPrompt {
         let buttons = [
             { text: 'End Turn', arg: 'done' }
         ];
-        /*
-        if(this.game.manualMode) {
-            buttons.unshift({ text: 'Manual Action', arg: 'manual'});
-        }
-        */
+
         return {
             menuTitle: 'Choose a card to play, discard or use',
             buttons: buttons,

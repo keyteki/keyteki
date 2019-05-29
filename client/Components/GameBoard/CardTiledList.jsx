@@ -6,6 +6,7 @@ import Card from './Card';
 function CardTiledList(props) {
     let cardList = props.cards && props.cards.map((card, index) => {
         return (<Card
+            canDrag={ props.manualMode }
             card={ card }
             disableMouseOver={ props.disableMouseOver }
             key={ index }
@@ -34,6 +35,7 @@ function CardTiledList(props) {
 CardTiledList.propTypes = {
     cards: PropTypes.array,
     disableMouseOver: PropTypes.bool,
+    manualMode: PropTypes.bool,
     onCardClick: PropTypes.func,
     onCardMouseOut: PropTypes.func,
     onCardMouseOver: PropTypes.func,

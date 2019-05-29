@@ -49,7 +49,9 @@ class PlayerBoard extends React.Component {
 
     renderRow(row) {
         return row.map(card => (
-            <Card key={ card.uuid }
+            <Card
+                key={ card.uuid }
+                canDrag={ this.props.manualMode }
                 card={ card }
                 disableMouseOver={ card.facedown && !card.code }
                 onClick={ this.props.onCardClick }
@@ -78,6 +80,7 @@ class PlayerBoard extends React.Component {
 PlayerBoard.displayName = 'PlayerBoard';
 PlayerBoard.propTypes = {
     cardsInPlay: PropTypes.array,
+    manualMode: PropTypes.bool,
     onCardClick: PropTypes.func,
     onMenuItemClick: PropTypes.func,
     onMouseOut: PropTypes.func,
