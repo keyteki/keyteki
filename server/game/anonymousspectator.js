@@ -7,6 +7,10 @@ class AnonymousSpectator {
         this.menuTitle = 'Spectator mode';
     }
 
+    isSpectator() {
+        return true;
+    }
+
     getCardSelectionState() {
         return {};
     }
