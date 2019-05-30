@@ -15,7 +15,7 @@ class ChatCommands {
             '/forge': this.forge,
             '/manual': this.manual,
             '/modify-clock': this.modifyClock,
-            '/mute-spectators': this.muteSpectators
+            '/mute-spectators': this.muteSpectators,
             '/rematch': this.rematch,
             '/stop-clocks': this.stopClocks,
             '/start-clocks': this.startClocks,
