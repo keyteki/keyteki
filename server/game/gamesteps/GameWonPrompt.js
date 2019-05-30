@@ -1,4 +1,5 @@
 const AllPlayerPrompt = require('./allplayerprompt');
+const RematchPrompt = require('./RematchPrompt');
 
 class GameWonPrompt extends AllPlayerPrompt {
     constructor(game, winner) {
@@ -15,7 +16,10 @@ class GameWonPrompt extends AllPlayerPrompt {
         return {
             promptTitle: 'Game Won',
             menuTitle: this.winner.name + ' has won the game!',
-            buttons: [{ text: 'Continue Playing' }]
+            buttons: [
+                { arg: 'continue', text: 'Continue Playing' },
+                { arg: 'rematch', text: 'Rematch' }
+            ]
         };
     }
 
@@ -23,10 +27,17 @@ class GameWonPrompt extends AllPlayerPrompt {
         return { menuTitle: 'Waiting for opponent to choose to continue' };
     }
 
-    menuCommand(player) {
-        this.game.addMessage('{0} wants to continue', player);
+    menuCommand(player, arg) {
+        let message = arg === 'continue' ? 'to continue' : 'a rematch';
+        this.game.addMessage('{0} would like {1}', player, message);
 
         this.clickedButton[player.name] = true;
+
+        if(arg === 'rematch') {
+            this.game.queueStep(new RematchPrompt(this.game, player));
+
+            return true;
+        }
 
         return true;
     }

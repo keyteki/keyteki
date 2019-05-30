@@ -194,16 +194,35 @@ class GameServer {
         this.zmqSocket.send('GAMEWIN', { game: game.getSaveState(), winner: winner.name, reason: reason });
     }
 
+    rematch(game) {
+        this.zmqSocket.send('REMATCH', { game: game.getSaveState() });
+
+        for(let player of Object.values(game.getPlayersAndSpectators())) {
+            if(player.left || player.disconnected || !player.socket) {
+                continue;
+            }
+
+            player.socket.send('cleargamestate');
+            player.socket.leaveChannel(game.id);
+            player.left = true; // So they don't get game state sent after the /rematch command is issued
+        }
+
+        delete this.games[game.id];
+    }
+
     onStartGame(pendingGame) {
         let game = new Game(pendingGame, { router: this, cardData: this.cardData });
         this.games[pendingGame.id] = game;
 
         game.started = true;
-        _.each(pendingGame.players, player => {
+        for(let player of Object.values(pendingGame.players)) {
             game.selectDeck(player.name, player.deck);
-        });
+        }
 
         game.initialise();
+        if(pendingGame.rematch) {
+            game.addAlert('info', 'The rematch is ready');
+        }
     }
 
     onSpectator(pendingGame, user) {
@@ -248,9 +267,14 @@ class GameServer {
     }
 
     onCloseGame(gameId) {
-        var game = this.games[gameId];
+        let game = this.games[gameId];
         if(!game) {
             return;
+        }
+
+        for(let player of Object.values(game.getPlayersAndSpectators())) {
+            player.socket.send('cleargamestate');
+            player.socket.leaveChannel(game.id);
         }
 
         delete this.games[gameId];
@@ -306,7 +330,7 @@ class GameServer {
     }
 
     onSocketDisconnected(socket, reason) {
-        var game = this.findGameForUser(socket.user.username);
+        let game = this.findGameForUser(socket.user.username);
         if(!game) {
             return;
         }
@@ -314,6 +338,10 @@ class GameServer {
         logger.info('user \'%s\' disconnected from a game: %s', socket.user.username, reason);
 
         let player = game.playersAndSpectators[socket.user.username];
+        if(player.id !== socket.id) {
+            return;
+        }
+
         let isSpectator = player && player.isSpectator();
 
         game.disconnect(socket.user.username);

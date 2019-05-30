@@ -25,7 +25,7 @@ class GameRouter extends EventEmitter {
 
     // External methods
     startGame(game) {
-        var node = this.getNextAvailableGameNode();
+        let node = this.getNextAvailableGameNode();
 
         if(!node) {
             logger.error('Could not find new node for game');
@@ -189,6 +189,18 @@ class GameRouter extends EventEmitter {
             case 'GAMEWIN':
                 this.gameService.update(message.arg.game);
                 break;
+            case 'REMATCH':
+                this.gameService.update(message.arg.game);
+
+                if(worker) {
+                    worker.numGames--;
+                } else {
+                    logger.error('Got close game for non existant worker', identity);
+                }
+
+                this.emit('onGameRematch', message.arg.game);
+
+                break;
             case 'GAMECLOSED':
                 if(worker) {
                     worker.numGames--;
@@ -224,9 +236,13 @@ class GameRouter extends EventEmitter {
         const pingTimeout = 1 * 60 * 1000;
 
         for(const worker of Object.values(this.workers)) {
+            if(worker.disconnceted) {
+                continue;
+            }
+
             if(worker.pingSent && currentTime - worker.pingSent > pingTimeout) {
                 logger.info('worker', worker.identity + ' timed out');
-                this.workers[worker.identity].disconnected = true;
+                worker.disconnected = true;
                 this.emit('onWorkerTimedOut', worker.identity);
             } else if(!worker.pingSent) {
                 if(currentTime - worker.lastMessage > pingTimeout) {

@@ -1,24 +1,26 @@
 const _ = require('underscore');
 const GameActions = require('./GameActions');
 const ManualModePrompt = require('./gamesteps/ManualModePrompt');
+const RematchPrompt = require('./gamesteps/RematchPrompt');
 
 class ChatCommands {
     constructor(game) {
         this.game = game;
         this.commands = {
+            '/active-house': this.activeHouse,
+            '/cancel-prompt': this.cancelPrompt,
+            '/disconnectme': this.disconnectMe,
             '/draw': this.draw,
             '/discard': this.discard,
-            '/cancel-prompt': this.cancelPrompt,
-            '/token': this.setToken,
             '/forge': this.forge,
-            '/unforge': this.unforge,
-            '/active-house': this.activeHouse,
+            '/manual': this.manual,
+            '/modify-clock': this.modifyClock,
+            '/mute-spectators': this.muteSpectators
+            '/rematch': this.rematch,
             '/stop-clocks': this.stopClocks,
             '/start-clocks': this.startClocks,
-            '/modify-clock': this.modifyClock,
-            '/disconnectme': this.disconnectMe,
-            '/manual': this.manual,
-            '/mute-spectators': this.muteSpectators
+            '/token': this.setToken,
+            '/unforge': this.unforge
         };
         this.tokens = [
             'amber',
@@ -188,6 +190,16 @@ class ChatCommands {
         var lowerToken = token.toLowerCase();
 
         return _.contains(this.tokens, lowerToken);
+    }
+
+    rematch(player) {
+        if(this.game.finishedAt) {
+            this.game.addAlert('info', '{0} is requesting a rematch', player);
+        } else {
+            this.game.addAlert('danger', '{0} is requesting a rematch.  The current game is not finished', player);
+        }
+
+        this.game.queueStep(new RematchPrompt(this.game, player));
     }
 }
 

@@ -760,7 +760,7 @@ class Game extends EventEmitter {
     }
 
     leave(playerName) {
-        var player = this.playersAndSpectators[playerName];
+        let player = this.playersAndSpectators[playerName];
 
         if(!player) {
             return;
@@ -795,6 +795,15 @@ class Game extends EventEmitter {
         }
 
         player.socket = undefined;
+    }
+
+    rematch() {
+        if(!this.finishedAt) {
+            this.finishedAt = new Date();
+            this.winReason = 'rematch';
+        }
+
+        this.router.rematch(this);
     }
 
     failedConnect(playerName) {
