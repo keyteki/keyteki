@@ -77,6 +77,7 @@ describe('Wild Wormhole', function() {
                 this.player1.moveCard(this.wayOfTheBear, 'deck');
                 this.player1.moveCard(this.dextre, 'deck');
                 this.player1.play(this.libraryAccess);
+                expect(this.libraryAccess.location).toBe('purged');
                 this.player1.play(this.wildWormhole);
                 expect(this.dextre.location).toBe('hand');
                 expect(this.gauntletOfCommand.location).toBe('deck');
