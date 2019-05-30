@@ -7,7 +7,7 @@ class BaitAndSwitch extends Card {
             gameAction: ability.actions.steal(),
             then: context => ({
                 condition: () => context.player.amber < context.player.opponent.amber,
-                gameAction: ability.actions.resolveAbility({ ability: context.ability })
+                gameAction: ability.actions.steal()
             })
         });
     }
