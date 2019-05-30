@@ -9,6 +9,21 @@
   position: relative;
 }
 
+@keyframes glowing {
+  from { 
+    background-color: #749a02; 
+    box-shadow: 0 0 9px #333; 
+  }
+  50% { 
+    background-color: #91bd09; 
+    box-shadow: 0 0 18px #91bd09; 
+  }
+  to { 
+    background-color: #749a02; 
+    box-shadow: 0 0 9px #333; 
+  }
+}
+
 .card {
   position: relative;
   border-radius: 4px;
@@ -67,6 +82,10 @@
 
   &.unselectable {
     filter: grayscale(100%) brightness(60%);
+  }
+
+  &.can-play {
+    animation: glowing 2000ms infinite;
   }
 
   &.in-danger {

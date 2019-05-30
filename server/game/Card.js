@@ -590,6 +590,7 @@ class Card extends EffectSource {
         let state = {
             id: this.cardData.id,
             image: this.cardData.image,
+            canPlay: isActivePlayer && this.getLegalActions(activePlayer, false).length > 0,
             cardback: this.owner.deckData.cardback,
             childCards: this.childCards.map(card => {
                 return card.getSummary(activePlayer, hideWhenFaceup);
@@ -609,8 +610,7 @@ class Card extends EffectSource {
             upgrades: this.upgrades.map(upgrade => {
                 return upgrade.getSummary(activePlayer, hideWhenFaceup);
             }),
-            uuid: this.uuid,
-            canPlay: !isActivePlayer || this.getLegalActions(activePlayer, false).length > 0
+            uuid: this.uuid
         };
 
         return Object.assign(state, selectionState);
