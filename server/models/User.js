@@ -3,6 +3,7 @@ const Settings = require('../settings');
 class User {
     constructor(userData) {
         this.userData = userData;
+        this.invalidDecks = undefined;
     }
 
     get _id() {
@@ -86,7 +87,7 @@ class User {
     }
 
     getDetails() {
-        let user = Object.assign({}, this.userData);
+        let user = Object.assign({ invalidDecks: this.invalidDecks }, this.userData);
 
         delete user.password;
         delete user.tokens;

@@ -52,6 +52,7 @@ export class GameBoard extends React.Component {
         this.onSettingsClick = this.onSettingsClick.bind(this);
         this.onMessagesClick = this.onMessagesClick.bind(this);
         this.onManualModeClick = this.onManualModeClick.bind(this);
+        this.onMuteClick = this.onMuteClick.bind(this);
 
         this.state = {
             cardToZoom: undefined,
@@ -221,6 +222,10 @@ export class GameBoard extends React.Component {
         this.props.sendGameMessage('toggleOptionSetting', option, value);
     }
 
+    onMuteClick() {
+        this.props.sendGameMessage('toggleMuteSpectators');
+    }
+
     onSettingsClick() {
         $('#settings-modal').modal('show');
     }
@@ -277,21 +282,6 @@ export class GameBoard extends React.Component {
                         cardSize={ this.props.user.settings.cardSize } />
                 </div>
                 <div className='board-inner'>
-                    <div className='prompt-area'>
-                        <div className='inset-pane'>
-                            <ActivePlayerPrompt
-                                cards={ this.props.cards }
-                                buttons={ thisPlayer.buttons }
-                                controls={ thisPlayer.controls }
-                                promptText={ thisPlayer.menuTitle }
-                                promptTitle={ thisPlayer.promptTitle }
-                                onButtonClick={ this.onCommand }
-                                onMouseOver={ this.onMouseOver }
-                                onMouseOut={ this.onMouseOut }
-                                user={ this.props.user }
-                                phase={ thisPlayer.phase } />
-                        </div>
-                    </div>
                     <div className='play-area'>
                         <PlayerBoard
                             cardsInPlay={ otherPlayer.cardPiles.cardsInPlay }
@@ -301,9 +291,10 @@ export class GameBoard extends React.Component {
                             onMouseOver={ this.onMouseOver }
                             rowDirection='reverse'
                             user={ this.props.user } />
-                        <Droppable onDragDrop={ this.onDragDrop } source='play area'>
+                        <Droppable onDragDrop={ this.onDragDrop } source='play area' manualMode={ this.props.currentGame.manualMode }>
                             <PlayerBoard
                                 cardsInPlay={ thisPlayer.cardPiles.cardsInPlay }
+                                manualMode={ this.props.currentGame.manualMode }
                                 onCardClick={ this.onCardClick }
                                 onMenuItemClick={ this.onMenuItemClick }
                                 onMouseOut={ this.onMouseOut }
@@ -336,6 +327,7 @@ export class GameBoard extends React.Component {
                         title={ thisPlayer.title }
                         onMenuItemClick={ this.onMenuItemClick }
                         cardSize={ this.props.user.settings.cardSize }
+                        manualMode={ this.props.currentGame.manualMode }
                         side='bottom' />
                 </div>
             </div>
@@ -399,22 +391,39 @@ export class GameBoard extends React.Component {
                     <CardZoom imageUrl={ cardToZoom ? `/img/cards/${cardToZoom.image}.jpg` : '' }
                         show={ !!cardToZoom } cardName={ cardToZoom ? cardToZoom.name : null }
                         card={ cardToZoom } />
-                    { this.state.showMessages && <div className='right-side'>
-                        <div className='gamechat'>
+                    <div className='right-side'>
+                        <div className='prompt-area'>
+                            <div className='inset-pane'>
+                                <ActivePlayerPrompt
+                                    cards={ this.props.cards }
+                                    buttons={ thisPlayer.buttons }
+                                    controls={ thisPlayer.controls }
+                                    promptText={ thisPlayer.menuTitle }
+                                    promptTitle={ thisPlayer.promptTitle }
+                                    onButtonClick={ this.onCommand }
+                                    onMouseOver={ this.onMouseOver }
+                                    onMouseOut={ this.onMouseOut }
+                                    user={ this.props.user }
+                                    phase={ thisPlayer.phase } />
+                            </div>
+                        </div>
+                        { this.state.showMessages && <div className='gamechat'>
                             <GameChat key='gamechat'
                                 messages={ this.props.currentGame.messages }
                                 onCardMouseOut={ this.onMouseOut }
                                 onCardMouseOver={ this.onMouseOver }
-                                onSendChat={ this.sendChatMessage } />
+                                onSendChat={ this.sendChatMessage }
+                                muted={ this.state.spectating && this.props.currentGame.muteSpectators } />
                         </div>
+                        }
                     </div>
-                    }
                 </div>
                 <div className='player-stats-row'>
                     <PlayerStats { ...boundActionCreators } stats={ thisPlayer.stats } showControls={ !this.state.spectating && manualMode } user={ thisPlayer.user }
                         activePlayer={ thisPlayer.activePlayer } onSettingsClick={ this.onSettingsClick } showMessages
                         onMessagesClick={ this.onMessagesClick } numMessages={ this.state.newMessages } houses={ thisPlayer.houses } onManualModeClick={ this.onManualModeClick }
-                        activeHouse={ thisPlayer.activeHouse } manualModeEnabled={ manualMode } showManualMode={ !this.state.spectating } />
+                        activeHouse={ thisPlayer.activeHouse } manualModeEnabled={ manualMode } showManualMode={ !this.state.spectating }
+                        muteSpectators={ this.props.currentGame.muteSpectators } onMuteClick={ this.onMuteClick } />
                 </div>
             </div >);
     }

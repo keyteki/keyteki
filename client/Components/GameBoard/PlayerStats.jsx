@@ -55,11 +55,12 @@ export class PlayerStats extends React.Component {
     }
 
     render() {
-        var playerAvatar = (
+        let playerAvatar = (
             <div className='player-avatar'>
                 <Avatar username={ this.props.user ? this.props.user.username : undefined } />
                 <b>{ this.props.user ? this.props.user.username : 'Noone' }</b>
             </div>);
+        let muteClass = this.props.muteSpectators ? 'glyphicon-eye-close' : 'glyphicon-eye-open';
 
         return (
             <div className='panel player-stats'>
@@ -85,6 +86,11 @@ export class PlayerStats extends React.Component {
 
                 { this.props.showMessages &&
                     <div className='state chat-status'>
+                        <div className='state'>
+                            <button className='btn btn-transparent' onClick={ this.props.onMuteClick }>
+                                <span className={ `glyphicon ${muteClass}` } />
+                            </button>
+                        </div>
                         {
                             this.props.showManualMode &&
                             <div className='state'>
@@ -92,15 +98,15 @@ export class PlayerStats extends React.Component {
                                     className={ 'btn btn-transparent ' + (this.props.manualModeEnabled ? 'manual' : 'auto') }
                                     onClick={ this.props.onManualModeClick } >
                                     <span className='glyphicon glyphicon-wrench' />
-                                    <span>{ ' Manual Mode ' + (this.props.manualModeEnabled ? ' Enabled' : 'Disabled') }</span>
+                                    <span>{ 'Manual Mode' }</span>
                                 </button>
                             </div>
                         }
                         <div className='state'>
                             <button className='btn btn-transparent' onClick={ this.onSettingsClick.bind(this) }><span className='glyphicon glyphicon-cog' />Settings</button>
                         </div>
-                        <div onClick={ this.props.onMessagesClick }>
-                            <button className='btn btn-transparent'>
+                        <div>
+                            <button className='btn btn-transparent' onClick={ this.props.onMessagesClick } >
                                 <span className='glyphicon glyphicon-envelope' />
                                 <span className='chat-badge badge progress-bar-danger'>{ this.props.numMessages || null }</span>
                             </button>
@@ -118,9 +124,11 @@ PlayerStats.propTypes = {
     activePlayer: PropTypes.bool,
     houses: PropTypes.array,
     manualModeEnabled: PropTypes.bool,
+    muteSpectators: PropTypes.bool,
     numMessages: PropTypes.number,
     onManualModeClick: PropTypes.func,
     onMessagesClick: PropTypes.func,
+    onMuteClick: PropTypes.func,
     onSettingsClick: PropTypes.func,
     playerName: PropTypes.string,
     sendGameMessage: PropTypes.func,

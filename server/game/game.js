@@ -42,7 +42,7 @@ class Game extends EventEmitter {
         this.name = details.name;
         this.allowSpectators = details.allowSpectators;
         this.showHand = details.showHand;
-        this.spectatorSquelch = details.spectatorSquelch;
+        this.muteSpectators = details.muteSpectators;
         this.owner = details.owner.username;
         this.started = false;
         this.playStarted = false;
@@ -397,24 +397,14 @@ class Game extends EventEmitter {
             return;
         }
 
-        if(!this.isSpectator(player)) {
+        if(!this.isSpectator(player) && this.manualMode) {
             if(this.chatCommands.executeCommand(player, args[0], args)) {
                 this.checkGameState(true);
                 return;
             }
-            /*
-            let card = _.find(this.shortCardData, c => {
-                return c.name.toLowerCase() === message.toLowerCase() || c.id.toLowerCase() === message.toLowerCase();
-            });
-
-            if(card) {
-                this.gameChat.addChatMessage('{0} {1}', player, card);
-
-                return;
-            }*/
         }
 
-        if(!this.isSpectator(player) || !this.spectatorSquelch) {
+        if(!this.isSpectator(player) || !this.muteSpectators) {
             this.gameChat.addChatMessage('{0} {1}', player, message);
         }
     }
@@ -532,12 +522,21 @@ class Game extends EventEmitter {
     }
 
     toggleManualMode(playerName) {
-        var player = this.getPlayerByName(playerName);
+        let player = this.getPlayerByName(playerName);
         if(!player) {
             return;
         }
 
         this.chatCommands.manual(player);
+    }
+
+    toggleMuteSpectators(playerName) {
+        let player = this.getPlayerByName(playerName);
+        if(!player) {
+            return;
+        }
+
+        this.chatCommands.muteSpectators(player);
     }
 
     /*
@@ -946,6 +945,7 @@ class Game extends EventEmitter {
                 owner: this.owner,
                 players: playerState,
                 messages: this.gameChat.messages,
+                muteSpectators: this.muteSpectators,
                 showHand: this.showHand,
                 spectators: this.getSpectators().map(spectator => {
                     return {
@@ -966,8 +966,7 @@ class Game extends EventEmitter {
      * This is used for debugging?
      */
     getSummary(activePlayerName) {
-        var playerSummaries = {};
-        // let activePlayer = this.getPlayerByName(activePlayerName);
+        let playerSummaries = {};
 
         for(const player of this.getPlayers()) {
             var deck = undefined;
@@ -1014,7 +1013,8 @@ class Game extends EventEmitter {
                     lobbyId: spectator.lobbyId,
                     name: spectator.name
                 };
-            })
+            }),
+            muteSpectators: this.muteSpectators
         };
     }
 }

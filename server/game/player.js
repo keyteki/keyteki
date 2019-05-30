@@ -1,10 +1,14 @@
 const _ = require('underscore');
 
 const GameObject = require('./GameObject');
-const Deck = require('./deck.js');
+const Deck = require('./deck');
 const ClockSelector = require('./Clocks/ClockSelector');
-const PlayableLocation = require('./playablelocation.js');
-const PlayerPromptState = require('./playerpromptstate.js');
+const PlayableLocation = require('./playablelocation');
+const PlayerPromptState = require('./playerpromptstate');
+const DiscardAction = require('./BaseActions/DiscardAction');
+const PlayAction = require('./BaseActions/PlayAction');
+const PlayCreatureAction = require('./BaseActions/PlayCreatureAction');
+const PlayArtifactAction = require('./BaseActions/PlayArtifactAction');
 
 class Player extends GameObject {
     constructor(id, user, owner, game, clockdetails) {
@@ -240,10 +244,41 @@ class Player extends GameObject {
      * @param {String} target
      */
     drop(cardId, source, target) {
-        var sourceList = this.getSourceList(source);
-        var card = sourceList.find(card => card.uuid === cardId);
+        let sourceList = this.getSourceList(source);
+        let card = sourceList.find(card => card.uuid === cardId);
 
-        // Dragging is only legal in manual mode, when the card is currently in source, when the source and target are different and when the target is a legal location
+        if(!card) {
+            return;
+        }
+
+        // First, handle legal cases of drag/drop
+        if(!this.game.manualMode) {
+            let action;
+
+            if(source === 'hand' && target === 'discard') {
+                action = new DiscardAction(card);
+            } else if(source === 'hand' && target === 'play area') {
+                switch(card.type) {
+                    case 'action':
+                        action = new PlayAction(card);
+                        break;
+                    case 'creature':
+                        action = new PlayCreatureAction(card);
+                        break;
+                    case 'artifact':
+                        action = new PlayArtifactAction(card);
+                        break;
+                }
+            }
+
+            if(action && action.meetsRequirements() === '') {
+                this.game.resolveAbility(action.createContext());
+
+                return true;
+            }
+        }
+
+        // Any other dragging is only legal in manual mode, when the card is currently in source, when the source and target are different and when the target is a legal location
         if(!this.game.manualMode || source === target || !this.isLegalLocationForCard(card, target) || card.location !== source) {
             return;
         }
@@ -253,7 +288,7 @@ class Player extends GameObject {
             display = card;
         }
 
-        this.game.addMessage('{0} manually moves {1} from their {2} to their {3}', this, display, source, target);
+        this.game.addAlert('danger', '{0} manually moves {1} from their {2} to their {3}', this, display, source, target);
         this.moveCard(card, target);
         this.game.checkGameState(true);
     }
@@ -527,56 +562,6 @@ class Player extends GameObject {
      */
 
     getState(activePlayer) {
-        /*
-        let isActivePlayer = activePlayer === this;
-        let promptState = isActivePlayer ? this.promptState.getState() : {};
-        let state = {
-            activeHouse: this.activeHouse,
-            cardback: this.deckData.cardback,
-            cardPiles: {
-                cardsInPlay: this.getSummaryForCardList(this.cardsInPlay, activePlayer),
-                dynastyDiscardPile: this.getSummaryForCardList(this.discard, activePlayer),
-                hand: this.getSummaryForCardList(this.hand, activePlayer, true),
-                removedFromGame: this.getSummaryForCardList(this.purged, activePlayer)
-            },
-            disconnected: this.disconnected,
-            faction: '',
-            firstPlayer: false,
-            houses: this.houses,
-            hideProvinceDeck: true,
-            id: this.id,
-            imperialFavor: '',
-            left: this.left,
-            name: this.name,
-            numConflictCards: this.archives.length,
-            numDynastyCards: this.deck.length,
-            optionSettings: this.optionSettings,
-            phase: this.game.currentPhase,
-            promptedActionWindows: { // these flags represent phase settings
-                dynasty: true,
-                draw: true,
-                preConflict: true,
-                conflict: true,
-                fate: true,
-                regroup: true
-            },
-            provinces: {
-                one: this.getSummaryForCardList([], activePlayer, !this.readyToStart),
-                two: this.getSummaryForCardList([], activePlayer, !this.readyToStart),
-                three: this.getSummaryForCardList([], activePlayer, !this.readyToStart),
-                four: this.getSummaryForCardList([], activePlayer, !this.readyToStart)
-            },
-            showBid: 0,
-            stats: this.getStats(),
-            strongholdProvince: this.getSummaryForCardList([], activePlayer),
-            user: _.omit(this.user, ['password', 'email'])
-        };
-
-        if(this.clock) {
-            state.clock = this.clock.getState();
-        }
-        */
-
         let isActivePlayer = activePlayer === this;
         let promptState = isActivePlayer ? this.promptState.getState() : {};
         let state = {
@@ -591,7 +576,6 @@ class Player extends GameObject {
             cardback: 'cardback',
             deckName: this.deckData.name,
             deckUuid: this.deckData,
-            //cardback: this.deckData.cardback,
             disconnected: this.disconnected,
             activePlayer: this.game.activePlayer === this,
             houses: this.houses,

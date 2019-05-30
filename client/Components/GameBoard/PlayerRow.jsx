@@ -28,7 +28,7 @@ class PlayerRow extends React.Component {
             size={ this.props.cardSize } />);
 
         if(this.props.isMe) {
-            return (<Droppable onDragDrop={ this.props.onDragDrop } source='purged'>
+            return (<Droppable onDragDrop={ this.props.onDragDrop } source='purged' manualMode={ this.props.manualMode }>
                 { purgedPile }
             </Droppable>);
         }
@@ -37,7 +37,7 @@ class PlayerRow extends React.Component {
     }
 
     renderDroppablePile(source, child) {
-        return this.props.isMe ? <Droppable onDragDrop={ this.props.onDragDrop } source={ source }>{ child }</Droppable> : child;
+        return this.props.isMe ? <Droppable onDragDrop={ this.props.onDragDrop } source={ source } manualMode={ this.props.manualMode }>{ child }</Droppable> : child;
     }
 
     renderKeys() {
@@ -56,6 +56,7 @@ class PlayerRow extends React.Component {
 
     render() {
         let cardPileProps = {
+            manualMode: this.props.manualMode,
             onCardClick: this.props.onCardClick,
             onDragDrop: this.props.onDragDrop,
             onMouseOut: this.props.onMouseOut,
@@ -64,11 +65,22 @@ class PlayerRow extends React.Component {
             size: this.props.cardSize
         };
 
+        let sortedHand = this.props.hand.sort((a, b) => {
+            if(a.printedHouse < b.printedHouse) {
+                return -1;
+            } else if(a.printedHouse > b.printedHouse) {
+                return 1;
+            }
+
+            return 0;
+        });
+
         let hand = (<SquishableCardPanel
-            cards={ this.props.hand }
+            cards={ sortedHand }
             className='panel hand'
             groupVisibleCards
             username={ this.props.username }
+            manualMode={ this.props.manualMode }
             maxCards={ 5 }
             onCardClick={ this.props.onCardClick }
             onMouseOut={ this.props.onMouseOut }
@@ -81,6 +93,7 @@ class PlayerRow extends React.Component {
             cardCount={ this.props.numDeckCards }
             cards={ this.props.drawDeck }
             isMe={ this.props.isMe }
+            manualMode={ this.props.manualMode }
             numDeckCards={ this.props.numDeckCards }
             onPopupChange={ this.props.onDrawPopupChange }
             onShuffleClick={ this.props.onShuffleClick }
@@ -123,6 +136,7 @@ PlayerRow.propTypes = {
     houses: PropTypes.array,
     isMe: PropTypes.bool,
     isMelee: PropTypes.bool,
+    manualMode: PropTypes.bool,
     numDeckCards: PropTypes.number,
     numKeys: PropTypes.number,
     onCardClick: PropTypes.func,

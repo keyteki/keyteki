@@ -609,7 +609,8 @@ class Card extends EffectSource {
             upgrades: this.upgrades.map(upgrade => {
                 return upgrade.getSummary(activePlayer, hideWhenFaceup);
             }),
-            uuid: this.uuid
+            uuid: this.uuid,
+            canPlay: this.getLegalActions(activePlayer, false).length > 0
         };
 
         return Object.assign(state, selectionState);

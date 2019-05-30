@@ -20,7 +20,8 @@ class UserAdmin extends React.Component {
             canManagePermissions: false,
             canManageGames: false,
             canManageNodes: false,
-            canModerateChat: false
+            canModerateChat: false,
+            canVerifyDecks: false
         };
 
         this.state = {
@@ -36,11 +37,14 @@ class UserAdmin extends React.Component {
             { name: 'canManagePermissions', label: 'Permissions Manager' },
             { name: 'canManageGames', label: 'Games Manager' },
             { name: 'canManageNodes', label: 'Node Manager' },
-            { name: 'canModerateChat', label: 'Chat Moderator' }
+            { name: 'canModerateChat', label: 'Chat Moderator' },
+            { name: 'canVerifyDecks', label: 'Deck Verifier' }
         ];
 
         this.onDisabledChanged = this.onDisabledChanged.bind(this);
         this.onVerifiedChanged = this.onVerifiedChanged.bind(this);
+        this.onVerifyClick = this.onVerifyClick.bind(this);
+        this.onVerifyAllClick = this.onVerifyAllClick.bind(this);
     }
 
     componentWillReceiveProps(props) {
@@ -77,6 +81,18 @@ class UserAdmin extends React.Component {
         this.props.clearUserSessions(this.props.currentUser.username);
     }
 
+    onVerifyClick(event, deckId) {
+        event.preventDefault();
+
+        this.props.verifyDeck(deckId);
+    }
+
+    onVerifyAllClick(event) {
+        event.preventDefault();
+
+        this.props.verifyAllDecks(this.props.currentUser.username);
+    }
+
     onPermissionToggle(field, event) {
         var newState = {};
         newState.permissions = this.state.permissions;
@@ -93,6 +109,10 @@ class UserAdmin extends React.Component {
         this.setState({ verified: event.target.checked });
     }
 
+    showDeckVerification() {
+        return this.props.user && this.props.user.permissions.canVerifyDecks && this.props.currentUser.invalidDecks && this.props.currentUser.invalidDecks.length > 0;
+    }
+
     render() {
         let content = null;
         let successPanel = null;
@@ -103,6 +123,28 @@ class UserAdmin extends React.Component {
             }, 5000);
             successPanel = (
                 <AlertPanel message='User saved successfully' type={ 'success' } />
+            );
+        }
+
+        if(this.props.deckVerified) {
+            this.props.currentUser.invalidDecks = this.props.currentUser.invalidDecks.filter(d => d._id !== this.props.deckVerified);
+
+            setTimeout(() => {
+                this.props.clearUserStatus();
+            }, 5000);
+            successPanel = (
+                <AlertPanel message='Deck verified successfully' type={ 'success' } />
+            );
+        }
+
+        if(this.props.decksVerified) {
+            this.props.currentUser.invalidDecks = [];
+
+            setTimeout(() => {
+                this.props.clearUserStatus();
+            }, 5000);
+            successPanel = (
+                <AlertPanel message='Decks verified successfully' type={ 'success' } />
             );
         }
 
@@ -137,6 +179,34 @@ class UserAdmin extends React.Component {
                                     { permissions }
                                 </div>
                             </Panel> : null }
+
+                        { this.showDeckVerification() &&
+                            <div>
+                                <Panel title='Unverified Decks'>
+                                    <table className='table table-striped'>
+                                        <thead>
+                                            <tr>
+                                                <th>Uuid</th>
+                                                <th>Deck Name</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            { this.props.currentUser.invalidDecks.map(deck => {
+                                                return (
+                                                    <tr>
+                                                        <td>{ deck.uuid }</td>
+                                                        <td>{ deck.name }</td>
+                                                        <td><button className='btn btn-default' onClick={ event => this.onVerifyClick(event, deck._id) }>Verify</button></td>
+                                                    </tr>
+                                                );
+                                            }) }
+                                        </tbody>
+                                    </table>
+                                    <button className='btn btn-primary' onClick={ this.onVerifyAllClick }>Verify All</button>
+                                </Panel>
+                            </div>
+                        }
                         <div className='col-xs-12' />
                         <button type='button' className='btn btn-primary col-xs-3' onClick={ this.onClearClick.bind(this) }>Clear sessions</button>
                         <div className='col-xs-12' />
@@ -176,11 +246,15 @@ UserAdmin.propTypes = {
     clearUserSessions: PropTypes.func,
     clearUserStatus: PropTypes.func,
     currentUser: PropTypes.object,
+    deckVerified: PropTypes.string,
+    decksVerified: PropTypes.bool,
     findUser: PropTypes.func,
     loading: PropTypes.bool,
     saveUser: PropTypes.func,
     user: PropTypes.object,
-    userSaved: PropTypes.bool
+    userSaved: PropTypes.bool,
+    verifyAllDecks: PropTypes.func,
+    verifyDeck: PropTypes.func
 };
 
 function mapStateToProps(state) {
@@ -188,6 +262,8 @@ function mapStateToProps(state) {
         apiError: state.api.message,
         apiStatus: state.api.status,
         currentUser: state.admin.currentUser,
+        deckVerified: state.admin.deckVerified,
+        decksVerified: state.admin.decksVerified,
         loading: state.api.loading,
         user: state.account.user,
         userSaved: state.admin.userSaved

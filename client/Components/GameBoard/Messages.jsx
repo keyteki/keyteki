@@ -51,8 +51,16 @@ class Messages extends React.Component {
         let i = 0;
 
         for(let token of message.split(' ')) {
-            if(this.tokens[token]) {
-                let tokenEntry = this.tokens[token];
+            let lowerToken = token.toLowerCase();
+
+            if(this.tokens[lowerToken]) {
+                let tokenEntry = this.tokens[lowerToken];
+
+                if(token === 'amber') {
+                    token = 'Æmber';
+                }
+
+                messages.push(` ${token} `);
                 messages.push(<img key={ `${token}-${i++}` } className={ tokenEntry.className } src={ tokenEntry.imageSrc } />);
                 messages.push(' ');
             } else {

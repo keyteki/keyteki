@@ -17,7 +17,8 @@ class ChatCommands {
             '/start-clocks': this.startClocks,
             '/modify-clock': this.modifyClock,
             '/disconnectme': this.disconnectMe,
-            '/manual': this.manual
+            '/manual': this.manual,
+            '/mute-spectators': this.muteSpectators
         };
         this.tokens = [
             'amber',
@@ -157,6 +158,12 @@ class ChatCommands {
             this.game.addAlert('danger', '{0} is attempting to switch manual mode on', player);
             this.game.queueStep(new ManualModePrompt(this.game, player));
         }
+    }
+
+    muteSpectators(player) {
+        this.game.muteSpectators = !this.game.muteSpectators;
+
+        this.game.addAlert('warning', '{0} {1}mutes spectators', player, this.game.muteSpectators ? '' : 'un');
     }
 
     getNumberOrDefault(string, defaultNumber) {
