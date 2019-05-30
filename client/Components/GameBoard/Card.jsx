@@ -237,7 +237,7 @@ class InnerCard extends React.Component {
             'custom-card': this.props.card.code && this.props.card.code.startsWith('custom'),
             'horizontal': this.props.orientation !== 'vertical' || this.props.card.exhausted,
             'vertical': this.props.orientation === 'vertical' && !this.props.card.exhausted,
-            'can-play': this.props.card.canPlay,
+            'can-play': this.statusClass !== 'selectable' && !this.props.card.unselectable && this.props.card.canPlay,
             'unselectable': this.props.card.unselectable,
             'dragging': this.props.isDragging,
             'taunt': this.props.card.taunt && this.props.source === 'play area'
