@@ -169,17 +169,13 @@ class Lobby {
     }
 
     // Actions
-    filterGameListWithBlockList(user, games) {
+    filterGameListWithBlockList(user) {
         if(!user) {
-            return games;
+            return Object.values(this.games);
         }
 
         return Object.values(this.games).filter(game => {
-            if(!this.games[game.id]) {
-                return false;
-            }
-
-            let userBlockedByOwner = this.games[game.id].isUserBlocked(user);
+            let userBlockedByOwner = game.isUserBlocked(user);
             let userHasBlockedPlayer = Object.values(game.players).some(player => user.blocklist && user.blocklist.includes(player.name.toLowerCase()));
 
             return !userBlockedByOwner && !userHasBlockedPlayer;
@@ -198,9 +194,11 @@ class Lobby {
         socket.send('users', filteredUsers);
     }
 
-    sortGameSummaries(gameSummaries) {
-        return _.chain(gameSummaries)
-            .sortBy(game => game.createdAt.toString() + game.started ? 1 : 0)
+    mapGamesToGameSummaries(games) {
+        return _.chain(games)
+            .map(game => game.getSummary())
+            .sortBy('createdAt')
+            .sortBy('started')
             .reverse()
             .value();
     }
@@ -211,8 +209,6 @@ class Lobby {
         if((now - this.lastGameStateBroadcast) < 750 && !options.force) {
             return;
         }
-
-        const gameSummaries = Object.values(this.games).map(game => game.getSummary());
 
         let sockets = {};
 
@@ -227,10 +223,10 @@ class Lobby {
                 continue;
             }
 
-            let filteredGames = this.filterGameListWithBlockList(socket.user, gameSummaries);
-            let sortedGames = this.sortGameSummaries(filteredGames);
+            let filteredGames = this.filterGameListWithBlockList(socket.user);
+            let gameSummaries = this.mapGamesToGameSummaries(filteredGames);
 
-            socket.send('games', sortedGames);
+            socket.send('games', gameSummaries);
         }
 
         this.lastGameStateBroadcast = moment();
