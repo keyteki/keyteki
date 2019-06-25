@@ -757,9 +757,15 @@ class Lobby {
         });
         newGame.rematch = true;
 
-        let socket = this.sockets[game.getPlayerOrSpectator(game.owner.username).id];
+        let owner = game.getPlayerOrSpectator(game.owner.username);
+        if(!owner) {
+            logger.error('Tried to rematch but the owner wasn\'t in the game');
+            return;
+        }
+
+        let socket = this.sockets[owner.id];
         if(!socket) {
-            logger.error('Tried to rematch but the owner socket has gone away');
+            logger.error('Tried to rematch but the owner\'s socket has gone away');
             return;
         }
 
@@ -769,16 +775,28 @@ class Lobby {
         socket.joinChannel(newGame.id);
         this.sendGameState(newGame);
 
-        let promises = [this.onSelectDeck(socket, newGame.id, game.getPlayers()[newGame.owner.username].deck._id)];
+        let promises = [this.onSelectDeck(socket, newGame.id, owner.deck._id)];
 
         for(let player of Object.values(game.getPlayers()).filter(player => player.name !== newGame.owner.username)) {
             let socket = this.sockets[player.id];
+
+            if(!socket) {
+                logger.warn(`Tried to add ${player.name} to a rematch but couldn't find their socket`);
+                continue;
+            }
+
             newGame.join(socket.id, player.user);
             promises.push(this.onSelectDeck(socket, newGame.id, player.deck._id));
         }
 
         for(let spectator of game.getSpectators()) {
             let socket = this.sockets[spectator.id];
+
+            if(!socket) {
+                logger.warn(`Tried to add ${spectator.name} to spectate a rematch but couldn't find their socket`);
+                continue;
+            }
+
             newGame.watch(socket.id, spectator.user);
         }
 
