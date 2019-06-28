@@ -8,6 +8,14 @@ function httpRequest(url, options = {}) {
     return new Promise((resolve, reject) => {
         request(url, options, (err, res, body) => {
             if(err) {
+                err.statusCode = res.statusCode;
+                return reject(err);
+            }
+
+            if(res.statusCode !== 200) {
+                let err = new Error('Request failed');
+                err.statusCode = res.statusCode;
+
                 return reject(err);
             }
 

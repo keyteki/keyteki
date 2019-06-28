@@ -100,7 +100,7 @@ class DeckSummary extends React.Component {
             <div className='deck-summary col-xs-12 no-x-padding'>
                 { this.state.cardToShow ?
                     <div className='hover-card'>
-                        <img className='hover-image' src={ `/img/cards/${this.state.cardToShow.card.image}.jpg` } />
+                        <img className='hover-image' src={ `/img/cards/${this.state.cardToShow.card.image}.png` } />
                         <AltCard card={ this.state.cardToShow } />
                     </div> : null }
                 <div className='decklist'>

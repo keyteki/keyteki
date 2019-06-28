@@ -388,7 +388,7 @@ export class GameBoard extends React.Component {
                 </div>
                 <div className='main-window'>
                     { this.renderBoard(thisPlayer, otherPlayer) }
-                    <CardZoom imageUrl={ cardToZoom ? `/img/cards/${cardToZoom.image}.jpg` : '' }
+                    <CardZoom imageUrl={ cardToZoom ? `/img/cards/${cardToZoom.image}.png` : '' }
                         show={ !!cardToZoom } cardName={ cardToZoom ? cardToZoom.name : null }
                         card={ cardToZoom } />
                     <div className='right-side'>

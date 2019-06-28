@@ -272,7 +272,7 @@ class InnerCard extends React.Component {
         let image = '/img/idbacks/cardback.jpg';
 
         if(!this.isFacedown()) {
-            image = `/img/cards/${this.props.card.image}.jpg`;
+            image = `/img/cards/${this.props.card.image}.png`;
         }
 
         return image;
