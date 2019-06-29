@@ -19,6 +19,6 @@ class OneTwoPunch extends Card {
     }
 }
 
-OneTwoPunch.id = '1-2-punch'; // This is a guess at what the id might be - please check it!!!
+OneTwoPunch.id = '1-2-punch';
 
 module.exports = OneTwoPunch;
