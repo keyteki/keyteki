@@ -29,7 +29,7 @@ class CardImport {
         let cards = await this.dataSource.getCards();
 
         for(let card of cards) {
-            card.id = card.name.toLowerCase().replace(/[?.!",]/gi, '').replace(/[ ']/gi, '-');
+            card.id = card.name.toLowerCase().replace(/[?.!",]/gi, '').replace(/[ '’]/gi, '-');
             card.type = card.type.toLowerCase();
             card.house = card.house.toLowerCase();
             card.amber = card.amber === '' ? 0 : parseInt(card.amber);

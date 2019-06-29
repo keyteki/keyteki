@@ -7,7 +7,9 @@ const ValidKeywords = [
     'taunt',
     'deploy',
     'alpha',
-    'omega'
+    'omega',
+    'hazardous',
+    'assault'
 ];
 
 class JsonCardSource {

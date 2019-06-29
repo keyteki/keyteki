@@ -12,7 +12,7 @@ class Deck {
                 card: card.card
             };
             if(!result.card) {
-                logger.error('Corrupt deck', card.id);
+                logger.error('Corrupt deck', card.id, card);
                 return result;
             }
             if(card.maverick) {

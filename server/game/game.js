@@ -906,6 +906,10 @@ class Game extends EventEmitter {
         return this.cardsInPlay.filter(card => card.type === 'creature');
     }
 
+    firstThingThisTurn() {
+        return this.cardsDiscarded.length === 0 && this.cardsUsed.length === 0 && this.cardsPlayed.length === 0 && this.effectsUsed.length === 0;
+    }
+
     continue() {
         this.pipeline.continue();
     }
