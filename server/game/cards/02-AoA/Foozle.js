@@ -1,14 +1,15 @@
 const Card = require('../../Card.js');
 const EventRegistrar = require('../../eventregistrar.js');
 
-class TheWarchest extends Card {
+class Foozle extends Card {
     setupCardAbilities(ability) {
         this.creaturesDestroyed = [];
         this.tracker = new EventRegistrar(this.game, this);
         this.tracker.register(['onCardDestroyed', 'onRoundEnded']);
 
-        this.action({
-            gameAction: ability.actions.gainAmber(context => ({ amount: this.creaturesDestroyed.filter(card => card.controller !== context.player).length }))
+        this.reap({
+            condition: context => this.creaturesDestroyed.filter(card => card.controller !== context.player.controller).length > 0,
+            gameAction: ability.actions.gainAmber()
         });
     }
 
@@ -23,6 +24,6 @@ class TheWarchest extends Card {
     }
 }
 
-TheWarchest.id = 'the-warchest';
+Foozle.id = 'foozle';
 
-module.exports = TheWarchest;
+module.exports = Foozle;
