@@ -10,6 +10,6 @@ class IronObelisk extends Card {
     }
 }
 
-IronObelisk.id = 'iron-obelisk'; // This is a guess at what the id might be - please check it!!!
+IronObelisk.id = 'iron-obelisk';
 
 module.exports = IronObelisk;
