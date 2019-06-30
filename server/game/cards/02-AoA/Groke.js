@@ -1,13 +1,13 @@
 const Card = require('../../Card.js');
 
-class Bumpsy extends Card {
+class Groke extends Card {
     setupCardAbilities(ability) {
-        this.play({
+        this.fight({
             gameAction: ability.actions.loseAmber()
         });
     }
 }
 
-Bumpsy.id = 'bumpsy';
+Groke.id = 'groke';
 
-module.exports = Bumpsy;
+module.exports = Groke;
