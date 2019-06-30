@@ -1,19 +1,19 @@
 const Card = require('../../Card.js');
 
-class LavaBall extends Card {
+class Pound extends Card {
     setupCardAbilities(ability) {
         this.play({
             target: {
                 cardType: 'creature',
                 gameAction: ability.actions.dealDamage({
-                    amount: 4,
-                    splash: 2
+                    amount: 2,
+                    splash: 1
                 })
             }
         });
     }
 }
 
-LavaBall.id = 'lava-ball';
+Pound.id = 'pound';
 
-module.exports = LavaBall;
+module.exports = Pound;
