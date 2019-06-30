@@ -12,6 +12,6 @@ class HebeTheHuge extends Card {
     }
 }
 
-HebeTheHuge.id = 'hebe-the-huge'; // This is a guess at what the id might be - please check it!!!
+HebeTheHuge.id = 'hebe-the-huge';
 
 module.exports = HebeTheHuge;

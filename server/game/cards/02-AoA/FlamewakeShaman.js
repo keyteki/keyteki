@@ -1,16 +1,16 @@
 const Card = require('../../Card.js');
 
-class Punch extends Card {
+class FlamewakeShaman extends Card {
     setupCardAbilities(ability) {
         this.play({
             target: {
                 cardType: 'creature',
-                gameAction: ability.actions.dealDamage({ amount: 3 })
+                gameAction: ability.actions.dealDamage({ amount: 2 })
             }
         });
     }
 }
 
-Punch.id = 'punch';
+FlamewakeShaman.id = 'flamewake-shaman';
 
-module.exports = Punch;
+module.exports = FlamewakeShaman;
