@@ -46,7 +46,7 @@ class ResolveFightAction extends CardGameAction {
                 damageSource: event.attacker
             };
             if(!event.card.getKeywordValue('elusive') || event.card.elusiveUsed || event.attacker.ignores('elusive')) {
-                if((!event.attacker.getKeywordValue('skirmish') || event.defenderTarget !== event.attacker) && event.card.checkRestrictions('dealFightDamage')) {
+                if((!event.attacker.getKeywordValue('skirmish') || event.defenderTarget !== event.attacker) && event.card.checkRestrictions('dealFightDamage') && event.attackerTarget.checkRestrictions('dealFightDamageWhenDefending')) {
                     damageEvents.push(context.game.actions.dealDamage(defenderParams).getEvent(event.defenderTarget, context));
                 }
                 if(event.attacker.checkRestrictions('dealFightDamage')) {
