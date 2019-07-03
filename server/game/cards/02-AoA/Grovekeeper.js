@@ -1,16 +1,16 @@
 const Card = require('../../Card.js');
 
-class Shaffles extends Card {
+class Grovekeeper extends Card {
     setupCardAbilities(ability) {
         this.interrupt({
             when: {
                 onPhaseEnded: (event, context) => event.phase === 'draw' && context.player.opponent === this.game.activePlayer
             },
-            gameAction: ability.actions.loseAmber()
+            gameAction: ability.actions.addPowerCounter(() => ({ target: this.neighbors }))
         });
     }
 }
 
-Shaffles.id = 'shaffles';
+Grovekeeper.id = 'grovekeeper';
 
-module.exports = Shaffles;
+module.exports = Grovekeeper;
