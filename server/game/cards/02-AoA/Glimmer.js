@@ -1,10 +1,9 @@
 const Card = require('../../Card.js');
 
-class Regrowth extends Card {
+class Glimmer extends Card {
     setupCardAbilities(ability) {
         this.play({
             target: {
-                cardType: 'creature',
                 location: 'discard',
                 controller: 'self',
                 gameAction: ability.actions.returnToHand({ location: 'discard' })
@@ -13,6 +12,6 @@ class Regrowth extends Card {
     }
 }
 
-Regrowth.id = 'regrowth';
+Glimmer.id = 'glimmer';
 
-module.exports = Regrowth;
+module.exports = Glimmer;
