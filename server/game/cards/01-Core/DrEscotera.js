@@ -10,6 +10,6 @@ class DrEscotera extends Card {
     }
 }
 
-DrEscotera.id = 'dr-escotera'; // This is a guess at what the id might be - please check it!!!
+DrEscotera.id = 'dr-escotera';
 
 module.exports = DrEscotera;
