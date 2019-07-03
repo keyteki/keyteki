@@ -26,6 +26,6 @@ class ChuffApe extends Card {
     }
 }
 
-ChuffApe.id = 'chuff-ape'; // This is a guess at what the id might be - please check it!!!
+ChuffApe.id = 'chuff-ape';
 
 module.exports = ChuffApe;

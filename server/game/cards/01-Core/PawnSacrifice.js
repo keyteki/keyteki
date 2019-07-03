@@ -21,6 +21,6 @@ class PawnSacrifice extends Card {
     }
 }
 
-PawnSacrifice.id = 'pawn-sacrifice'; // This is a guess at what the id might be - please check it!!!
+PawnSacrifice.id = 'pawn-sacrifice';
 
 module.exports = PawnSacrifice;

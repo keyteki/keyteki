@@ -14,6 +14,6 @@ class GormOfOmm extends Card {
     }
 }
 
-GormOfOmm.id = 'gorm-of-omm'; // This is a guess at what the id might be - please check it!!!
+GormOfOmm.id = 'gorm-of-omm';
 
 module.exports = GormOfOmm;

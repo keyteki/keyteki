@@ -15,6 +15,6 @@ class IncubationChamber extends Card {
     }
 }
 
-IncubationChamber.id = 'incubation-chamber'; // This is a guess at what the id might be - please check it!!!
+IncubationChamber.id = 'incubation-chamber';
 
 module.exports = IncubationChamber;
