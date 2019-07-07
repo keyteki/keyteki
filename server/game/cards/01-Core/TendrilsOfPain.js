@@ -13,6 +13,6 @@ class TendrilsOfPain extends Card {
     }
 }
 
-TendrilsOfPain.id = 'tendrils-of-pain'; // This is a guess at what the id might be - please check it!!!
+TendrilsOfPain.id = 'tendrils-of-pain';
 
 module.exports = TendrilsOfPain;
