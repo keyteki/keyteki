@@ -8,6 +8,6 @@ class KeyOfDarkness extends Card {
     }
 }
 
-KeyOfDarkness.id = 'key-of-darkness'; // This is a guess at what the id might be - please check it!!!
+KeyOfDarkness.id = 'key-of-darkness';
 
 module.exports = KeyOfDarkness;
