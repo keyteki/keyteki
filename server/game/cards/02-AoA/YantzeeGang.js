@@ -1,13 +1,13 @@
 const Card = require('../../Card.js');
 
-class Umbra extends Card {
+class YantzeeGang extends Card {
     setupCardAbilities(ability) {
-        this.fight({
+        this.action({
             gameAction: ability.actions.steal()
         });
     }
 }
 
-Umbra.id = 'umbra';
+YantzeeGang.id = 'yantzee-gang';
 
-module.exports = Umbra;
+module.exports = YantzeeGang;
