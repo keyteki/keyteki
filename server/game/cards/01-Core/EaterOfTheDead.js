@@ -16,6 +16,6 @@ class EaterOfTheDead extends Card {
     }
 }
 
-EaterOfTheDead.id = 'eater-of-the-dead'; // This is a guess at what the id might be - please check it!!!
+EaterOfTheDead.id = 'eater-of-the-dead';
 
 module.exports = EaterOfTheDead;
