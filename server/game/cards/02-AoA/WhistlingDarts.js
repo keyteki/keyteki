@@ -1,11 +1,8 @@
 const Card = require('../../Card.js');
 
-class Firespitter extends Card {
+class WhistlingDarts extends Card {
     setupCardAbilities(ability) {
-        this.interrupt({
-            when: {
-                onFight: (event, context) => event.attacker === context.source
-            },
+        this.play({
             effect: 'deal 1 damage to each enemy creature',
             gameAction: ability.actions.dealDamage(context => ({
                 amount: 1,
@@ -15,6 +12,6 @@ class Firespitter extends Card {
     }
 }
 
-Firespitter.id = 'firespitter';
+WhistlingDarts.id = 'whistling-darts';
 
-module.exports = Firespitter;
+module.exports = WhistlingDarts;
