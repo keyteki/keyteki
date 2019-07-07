@@ -8,6 +8,6 @@ class Tocsin extends Card {
     }
 }
 
-Tocsin.id = 'tocsin'; // This is a guess at what the id might be - please check it!!!
+Tocsin.id = 'tocsin';
 
 module.exports = Tocsin;
