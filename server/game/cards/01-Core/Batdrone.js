@@ -8,6 +8,6 @@ class Batdrone extends Card {
     }
 }
 
-Batdrone.id = 'batdrone'; // This is a guess at what the id might be - please check it!!!
+Batdrone.id = 'batdrone';
 
 module.exports = Batdrone;
