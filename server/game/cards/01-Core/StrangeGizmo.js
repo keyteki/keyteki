@@ -12,6 +12,6 @@ class StrangeGizmo extends Card {
     }
 }
 
-StrangeGizmo.id = 'strange-gizmo'; // This is a guess at what the id might be - please check it!!!
+StrangeGizmo.id = 'strange-gizmo';
 
 module.exports = StrangeGizmo;
