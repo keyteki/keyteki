@@ -8,6 +8,6 @@ class DustImp extends Card {
     }
 }
 
-DustImp.id = 'dust-imp'; // This is a guess at what the id might be - please check it!!!
+DustImp.id = 'dust-imp';
 
 module.exports = DustImp;
