@@ -1,8 +1,8 @@
 const Card = require('../../Card.js');
 
-class Restringuntus extends Card {
+class Tezmal extends Card {
     setupCardAbilities(ability) {
-        this.play({
+        this.reap({
             condition: context => !!context.player.opponent,
             target: {
                 mode: 'house'
@@ -16,13 +16,13 @@ class Restringuntus extends Card {
                         targetController: 'opponent',
                         effect: ability.effects.stopHouseChoice(context.house)
                     })),
-                    unapply: (card, context, effect) => card.removeEffectFromEngine(effect)
+                    unapply: (card, _, effect) => card.removeEffectFromEngine(effect)
                 })
             }))
         });
     }
 }
 
-Restringuntus.id = 'restringuntus';
+Tezmal.id = 'tezmal';
 
-module.exports = Restringuntus;
+module.exports = Tezmal;
