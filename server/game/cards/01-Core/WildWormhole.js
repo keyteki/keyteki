@@ -16,6 +16,6 @@ class WildWormhole extends Card {
     }
 }
 
-WildWormhole.id = 'wild-wormhole'; // This is a guess at what the id might be - please check it!!!
+WildWormhole.id = 'wild-wormhole';
 
 module.exports = WildWormhole;

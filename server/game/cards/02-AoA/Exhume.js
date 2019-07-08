@@ -1,17 +1,18 @@
 const Card = require('../../Card.js');
 
-class NovuArcheologist extends Card {
+class Exhume extends Card {
     setupCardAbilities(ability) {
-        this.action({
+        this.play({
             target: {
                 controller: 'self',
                 location: 'discard',
-                gameAction: ability.actions.archive()
+                cardType: 'creature',
+                gameAction: ability.actions.playCard()
             }
         });
     }
 }
 
-NovuArcheologist.id = 'novu-archaeologist';
+Exhume.id = 'exhume';
 
-module.exports = NovuArcheologist;
+module.exports = Exhume;
