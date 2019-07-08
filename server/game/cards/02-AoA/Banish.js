@@ -1,17 +1,17 @@
 const Card = require('../../Card.js');
 
-class Fear extends Card {
+class Banish extends Card {
     setupCardAbilities(ability) {
         this.play({
             target: {
                 cardType: 'creature',
                 controller: 'opponent',
-                gameAction: ability.actions.returnToHand()
+                gameAction: ability.actions.archive({ owner: true })
             }
         });
     }
 }
 
-Fear.id = 'fear';
+Banish.id = 'banish';
 
-module.exports = Fear;
+module.exports = Banish;

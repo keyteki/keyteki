@@ -10,6 +10,6 @@ class BiomatrixBackup extends Card {
     }
 }
 
-BiomatrixBackup.id = 'biomatrix-backup'; // This is a guess at what the id might be - please check it!!!
+BiomatrixBackup.id = 'biomatrix-backup';
 
 module.exports = BiomatrixBackup;

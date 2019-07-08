@@ -12,6 +12,6 @@ class UxlyxTheZookeeper extends Card {
     }
 }
 
-UxlyxTheZookeeper.id = 'uxlyx-the-zookeeper'; // This is a guess at what the id might be - please check it!!!
+UxlyxTheZookeeper.id = 'uxlyx-the-zookeeper';
 
 module.exports = UxlyxTheZookeeper;
