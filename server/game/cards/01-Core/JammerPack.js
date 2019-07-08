@@ -11,6 +11,6 @@ class JammerPack extends Card {
     }
 }
 
-JammerPack.id = 'jammer-pack'; // This is a guess at what the id might be - please check it!!!
+JammerPack.id = 'jammer-pack';
 
 module.exports = JammerPack;
