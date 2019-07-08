@@ -1,10 +1,8 @@
 const Card = require('../../Card.js');
 
-class HorsemanOfFamine extends Card {
+class CullTheWeak extends Card {
     setupCardAbilities(ability) {
         this.play({
-            fight: true,
-            reap: true,
             target: {
                 mode: 'mostStat',
                 cardType: 'creature',
@@ -16,6 +14,6 @@ class HorsemanOfFamine extends Card {
     }
 }
 
-HorsemanOfFamine.id = 'horseman-of-famine';
+CullTheWeak.id = 'cull-the-weak';
 
-module.exports = HorsemanOfFamine;
+module.exports = CullTheWeak;
