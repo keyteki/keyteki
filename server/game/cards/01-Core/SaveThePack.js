@@ -12,6 +12,6 @@ class SaveThePack extends Card {
     }
 }
 
-SaveThePack.id = 'save-the-pack'; // This is a guess at what the id might be - please check it!!!
+SaveThePack.id = 'save-the-pack';
 
 module.exports = SaveThePack;
