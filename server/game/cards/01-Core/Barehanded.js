@@ -8,6 +8,6 @@ class Barehanded extends Card {
     }
 }
 
-Barehanded.id = 'barehanded'; // This is a guess at what the id might be - please check it!!!
+Barehanded.id = 'barehanded';
 
 module.exports = Barehanded;

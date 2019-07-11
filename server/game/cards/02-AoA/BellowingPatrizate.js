@@ -1,10 +1,10 @@
 const Card = require('../../Card.js');
 
-class Autocannon extends Card {
+class BellowingPatrizate extends Card {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onCardEntersPlay: event => event.card.type === 'creature'
+                onCardEntersPlay: event => event.card.type === 'creature' && !this.exhausted
             },
             gameAction: ability.actions.dealDamage(context => ({
                 amount: 1,
@@ -14,6 +14,6 @@ class Autocannon extends Card {
     }
 }
 
-Autocannon.id = 'autocannon';
+BellowingPatrizate.id = 'bellowing-patrizate';
 
-module.exports = Autocannon;
+module.exports = BellowingPatrizate;
