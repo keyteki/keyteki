@@ -14,6 +14,6 @@ class Screechbomb extends Card {
     }
 }
 
-Screechbomb.id = 'screechbomb'; // This is a guess at what the id might be - please check it!!!
+Screechbomb.id = 'screechbomb';
 
 module.exports = Screechbomb;

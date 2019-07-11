@@ -9,6 +9,6 @@ class BurnTheStockpile extends Card {
     }
 }
 
-BurnTheStockpile.id = 'burn-the-stockpile'; // This is a guess at what the id might be - please check it!!!
+BurnTheStockpile.id = 'burn-the-stockpile';
 
 module.exports = BurnTheStockpile;

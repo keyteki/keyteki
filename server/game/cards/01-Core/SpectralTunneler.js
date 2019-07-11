@@ -19,6 +19,6 @@ class SpectralTunneler extends Card {
     }
 }
 
-SpectralTunneler.id = 'spectral-tunneler'; // This is a guess at what the id might be - please check it!!!
+SpectralTunneler.id = 'spectral-tunneler';
 
 module.exports = SpectralTunneler;

@@ -1,30 +1,4 @@
 const CardGameAction = require('./CardGameAction');
-//const AbilityResolver = require('../gamesteps/abilityresolver');
-
-/*
-class PlayCardResolver extends AbilityResolver {
-    constructor(game, context, playGameAction, gameActionContext) {
-        super(game, context);
-        this.playGameAction = playGameAction;
-        this.gameActionContext = gameActionContext;
-        this.cancelPressed = false;
-    }
-
-    payCosts() {
-        if((this.cancelled || this.canPayResults.cancelled) && this.playGameAction.resetOnCancel) {
-            this.playGameAction.cancelAction(this.gameActionContext);
-            this.cancelPressed = true;
-        }
-        super.payCosts();
-    }
-
-    initiateAbility() {
-        super.initiateAbility();
-        if(!this.cancelPressed) {
-            this.game.queueSimpleStep(() => this.playGameAction.postHandler(this.context.source));
-        }
-    }
-}*/
 
 class PlayCardAction extends CardGameAction {
     setDefaultProperties() {

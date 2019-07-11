@@ -18,6 +18,6 @@ class Dysania extends Card {
     }
 }
 
-Dysania.id = 'dysania'; // This is a guess at what the id might be - please check it!!!
+Dysania.id = 'dysania';
 
 module.exports = Dysania;

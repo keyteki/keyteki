@@ -13,6 +13,6 @@ class Tremor extends Card {
     }
 }
 
-Tremor.id = 'tremor'; // This is a guess at what the id might be - please check it!!!
+Tremor.id = 'tremor';
 
 module.exports = Tremor;

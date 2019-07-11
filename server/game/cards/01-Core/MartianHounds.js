@@ -13,6 +13,6 @@ class MartianHounds extends Card {
     }
 }
 
-MartianHounds.id = 'martian-hounds'; // This is a guess at what the id might be - please check it!!!
+MartianHounds.id = 'martian-hounds';
 
 module.exports = MartianHounds;
