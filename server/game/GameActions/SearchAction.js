@@ -4,6 +4,7 @@ class SearchAction extends PlayerAction {
     setDefaultProperties() {
         this.cardName = '';
         this.amount = null;
+        this.discardToDeck = false;
     }
 
     setup() {
@@ -42,10 +43,13 @@ class SearchAction extends PlayerAction {
                 }
             });
             context.game.queueSimpleStep(() => {
-                context.game.addMessage('{0} shuffles their discard into their deck', player);
-                for(let card of player.discard) {
-                    player.moveCard(card, 'deck');
+                if(this.discardToDeck) {
+                    context.game.addMessage('{0} shuffles their discard into their deck', player);
+                    for(let card of player.discard) {
+                        player.moveCard(card, 'deck');
+                    }
                 }
+
                 player.shuffleDeck();
             });
         });

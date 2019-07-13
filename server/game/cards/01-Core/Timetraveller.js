@@ -12,6 +12,6 @@ class Timetraveller extends Card {
     }
 }
 
-Timetraveller.id = 'timetraveller'; // This is a guess at what the id might be - please check it!!!
+Timetraveller.id = 'timetraveller';
 
 module.exports = Timetraveller;

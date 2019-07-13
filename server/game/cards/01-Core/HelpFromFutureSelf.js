@@ -3,14 +3,15 @@ const Card = require('../../Card.js');
 class HelpFromFutureSelf extends Card {
     setupCardAbilities(ability) {
         this.play({
-            gameAction: ability.actions.search({ 
+            gameAction: ability.actions.search({
                 cardName: 'Timetraveller',
-                amount: 1
+                amount: 1,
+                discardToDeck: true
             })
         });
     }
 }
 
-HelpFromFutureSelf.id = 'help-from-future-self'; // This is a guess at what the id might be - please check it!!!
+HelpFromFutureSelf.id = 'help-from-future-self';
 
 module.exports = HelpFromFutureSelf;

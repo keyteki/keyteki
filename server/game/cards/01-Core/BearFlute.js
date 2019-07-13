@@ -11,12 +11,12 @@ class BearFlute extends Card {
             effect: '{1}{2}',
             effectArgs: context => context.target ? ['heal ', context.target] : ['search their deck and discard for any Ancient Bears'],
             gameAction: ability.actions.search(
-                context => !context.game.creaturesInPlay.some(card => card.name === 'Ancient Bear') ? { cardName: 'Ancient Bear' } : {}
+                context => !context.game.creaturesInPlay.some(card => card.name === 'Ancient Bear') ? { cardName: 'Ancient Bear', discardToDeck: true } : {}
             )
         });
     }
 }
 
-BearFlute.id = 'bear-flute'; // This is a guess at what the id might be - please check it!!!
+BearFlute.id = 'bear-flute';
 
 module.exports = BearFlute;
