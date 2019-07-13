@@ -48,6 +48,6 @@ class ChampionsChallenge extends Card {
     }
 }
 
-ChampionsChallenge.id = 'champion-s-challenge'; // This is a guess at what the id might be - please check it!!!
+ChampionsChallenge.id = 'champion-s-challenge';
 
 module.exports = ChampionsChallenge;

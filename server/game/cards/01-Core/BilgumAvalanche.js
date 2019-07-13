@@ -14,6 +14,6 @@ class BilgumAvalanche extends Card {
     }
 }
 
-BilgumAvalanche.id = 'bilgum-avalanche'; // This is a guess at what the id might be - please check it!!!
+BilgumAvalanche.id = 'bilgum-avalanche';
 
 module.exports = BilgumAvalanche;
