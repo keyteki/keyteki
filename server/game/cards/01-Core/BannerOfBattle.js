@@ -9,6 +9,6 @@ class BannerOfBattle extends Card {
     }
 }
 
-BannerOfBattle.id = 'banner-of-battle'; // This is a guess at what the id might be - please check it!!!
+BannerOfBattle.id = 'banner-of-battle';
 
 module.exports = BannerOfBattle;
