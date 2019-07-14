@@ -13,6 +13,6 @@ class NepentheSeed extends Card {
     }
 }
 
-NepentheSeed.id = 'nepenthe-seed'; // This is a guess at what the id might be - please check it!!!
+NepentheSeed.id = 'nepenthe-seed';
 
 module.exports = NepentheSeed;
