@@ -11,6 +11,6 @@ class KeyToDis extends Card {
     }
 }
 
-KeyToDis.id = 'key-to-dis'; // This is a guess at what the id might be - please check it!!!
+KeyToDis.id = 'key-to-dis';
 
 module.exports = KeyToDis;

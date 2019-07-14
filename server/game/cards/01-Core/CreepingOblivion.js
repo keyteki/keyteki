@@ -25,6 +25,6 @@ class CreepingOblivion extends Card {
     }
 }
 
-CreepingOblivion.id = 'creeping-oblivion'; // This is a guess at what the id might be - please check it!!!
+CreepingOblivion.id = 'creeping-oblivion';
 
 module.exports = CreepingOblivion;

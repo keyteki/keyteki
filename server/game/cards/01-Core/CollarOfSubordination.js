@@ -8,6 +8,6 @@ class CollarOfSubordination extends Card {
     }
 }
 
-CollarOfSubordination.id = 'collar-of-subordination'; // This is a guess at what the id might be - please check it!!!
+CollarOfSubordination.id = 'collar-of-subordination';
 
 module.exports = CollarOfSubordination;
