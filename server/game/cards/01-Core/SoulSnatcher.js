@@ -13,6 +13,6 @@ class SoulSnatcher extends Card {
     }
 }
 
-SoulSnatcher.id = 'soul-snatcher'; // This is a guess at what the id might be - please check it!!!
+SoulSnatcher.id = 'soul-snatcher';
 
 module.exports = SoulSnatcher;

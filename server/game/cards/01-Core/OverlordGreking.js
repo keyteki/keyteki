@@ -15,6 +15,6 @@ class OverlordGreking extends Card {
     }
 }
 
-OverlordGreking.id = 'overlord-greking'; // This is a guess at what the id might be - please check it!!!
+OverlordGreking.id = 'overlord-greking';
 
 module.exports = OverlordGreking;
