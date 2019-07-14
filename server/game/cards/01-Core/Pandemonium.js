@@ -41,6 +41,6 @@ class Pandemonium extends Card {
     }
 }
 
-Pandemonium.id = 'pandemonium'; // This is a guess at what the id might be - please check it!!!
+Pandemonium.id = 'pandemonium';
 
 module.exports = Pandemonium;

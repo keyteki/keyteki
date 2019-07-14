@@ -15,6 +15,6 @@ class Poltergeist extends Card {
     }
 }
 
-Poltergeist.id = 'poltergeist'; // This is a guess at what the id might be - please check it!!!
+Poltergeist.id = 'poltergeist';
 
 module.exports = Poltergeist;
