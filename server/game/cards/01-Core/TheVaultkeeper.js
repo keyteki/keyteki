@@ -8,6 +8,6 @@ class TheVaultkeeper extends Card {
     }
 }
 
-TheVaultkeeper.id = 'the-vaultkeeper'; // This is a guess at what the id might be - please check it!!!
+TheVaultkeeper.id = 'the-vaultkeeper';
 
 module.exports = TheVaultkeeper;

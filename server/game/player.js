@@ -500,6 +500,10 @@ class Player extends GameObject {
     }
 
     canForgeKey(modifier = 0) {
+        if(!this.checkRestrictions('forge', this.game.getFrameworkContext(this))) {
+            return false;
+        }
+
         let alternativeSources = this.getEffects('keyAmber').reduce((total, source) => total + source.tokens.amber ? source.tokens.amber : 0, 0);
         return this.amber + alternativeSources >= this.getCurrentKeyCost() + modifier;
     }

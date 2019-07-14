@@ -14,6 +14,6 @@ class Miasma extends Card {
     }
 }
 
-Miasma.id = 'miasma'; // This is a guess at what the id might be - please check it!!!
+Miasma.id = 'miasma';
 
 module.exports = Miasma;
