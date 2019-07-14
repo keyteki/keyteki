@@ -1,21 +1,17 @@
 const Card = require('../../Card.js');
 
-class FeedingPit extends Card {
+class Yurk extends Card {
     setupCardAbilities(ability) {
-        this.action({
+        this.play({
             target: {
-                cardType: 'creature',
                 controller: 'self',
                 location: 'hand',
                 gameAction: ability.actions.discard()
-            },
-            then: {
-                gameAction: ability.actions.gainAmber()
             }
         });
     }
 }
 
-FeedingPit.id = 'feeding-pit';
+Yurk.id = 'yurk';
 
-module.exports = FeedingPit;
+module.exports = Yurk;
