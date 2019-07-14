@@ -1,23 +1,23 @@
 const Card = require('../../Card.js');
 
-class GangerChieftain extends Card {
+class WarGrumpus extends Card {
     setupCardAbilities(ability) {
         this.play({
             optional: true,
             target: {
                 cardType: 'creature',
                 controller: 'self',
-                cardCondition: (card, context) => context.source.neighbors.includes(card),
+                cardCondition: (card, context) => context.source.neighbors.includes(card) && card.hasTrait('giant'),
                 gameAction: ability.actions.sequential([
                     ability.actions.ready(),
                     ability.actions.fight()
                 ])
             },
-            effect: 'ready and fight with a neighboring creature'
+            effect: 'ready and fight with a neighboring giant'
         });
     }
 }
 
-GangerChieftain.id = 'ganger-chieftain';
+WarGrumpus.id = 'war-grumpus';
 
-module.exports = GangerChieftain;
+module.exports = WarGrumpus;
