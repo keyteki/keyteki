@@ -1,15 +1,15 @@
 const Card = require('../../Card.js');
 
-class Earthshaker extends Card {
+class OnyxKnight extends Card {
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.destroy(context => ({
-                target: context.game.creaturesInPlay.filter(card => card.power <= 3)
+                target: context.game.creaturesInPlay.filter(card => card.power % 2 !== 0)
             }))
         });
     }
 }
 
-Earthshaker.id = 'earthshaker';
+OnyxKnight.id = 'onyx-knight';
 
-module.exports = Earthshaker;
+module.exports = OnyxKnight;
