@@ -35,7 +35,7 @@ class CardImport {
             card.amber = card.amber === '' ? 0 : parseInt(card.amber);
             card.power = card.power === '' ? null : parseInt(card.power);
             card.armor = card.type === 'creature' ? (card.armor !== '' ? parseInt(card.armor) : 0) : null;
-            card.traits = !card.traits ? [] : card.traits.split(', ').map(trait => trait.toLowerCase());
+            card.traits = !card.traits ? [] : card.traits.split(' • ').map(trait => trait.toLowerCase());
         }
 
         await this.cardService.replaceCards(cards);

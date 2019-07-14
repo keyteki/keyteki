@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class GauntletOfCommand extends Card {
-    setupCardAbilities(ability) { // eslint-disable-line no-unused-vars
+    setupCardAbilities(ability) {
         this.action({
             target: {
                 cardType: 'creature',
@@ -16,6 +16,6 @@ class GauntletOfCommand extends Card {
     }
 }
 
-GauntletOfCommand.id = 'gauntlet-of-command'; // This is a guess at what the id might be - please check it!!!
+GauntletOfCommand.id = 'gauntlet-of-command';
 
 module.exports = GauntletOfCommand;
