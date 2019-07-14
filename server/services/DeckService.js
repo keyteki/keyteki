@@ -64,7 +64,7 @@ class DeckService {
         });
         let uuid = deckResponse.data.id;
 
-        let illegalCard = cards.find(card => !card.id.split('').every(char => 'æabcdefghijklmnopqrstuvwxyz0123456789-'.includes(char)));
+        let illegalCard = cards.find(card => !card.id.split('').every(char => 'æabcdefghijklmnopqrstuvwxyz0123456789-[]'.includes(char)));
         if(!illegalCard) {
             let otherDecks = await this.decks.find({ uuid: uuid });
             otherDecks = _.uniq(otherDecks, deck => deck.username);

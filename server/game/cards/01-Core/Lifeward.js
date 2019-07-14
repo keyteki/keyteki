@@ -17,6 +17,6 @@ class Lifeward extends Card {
     }
 }
 
-Lifeward.id = 'lifeward'; // This is a guess at what the id might be - please check it!!!
+Lifeward.id = 'lifeward';
 
 module.exports = Lifeward;

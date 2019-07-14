@@ -9,6 +9,6 @@ class Hysteria extends Card {
     }
 }
 
-Hysteria.id = 'hysteria'; // This is a guess at what the id might be - please check it!!!
+Hysteria.id = 'hysteria';
 
 module.exports = Hysteria;

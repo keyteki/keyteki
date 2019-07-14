@@ -1,17 +1,18 @@
 const Card = require('../../Card.js');
 
-class LibraryOfTheDamned extends Card {
+class OldYurk extends Card {
     setupCardAbilities(ability) {
-        this.action({
+        this.play({
             target: {
                 controller: 'self',
                 location: 'hand',
-                gameAction: ability.actions.archive()
+                numCards: 2,
+                gameAction: ability.actions.discard()
             }
         });
     }
 }
 
-LibraryOfTheDamned.id = 'library-of-the-damned';
+OldYurk.id = 'old-yurk';
 
-module.exports = LibraryOfTheDamned;
+module.exports = OldYurk;
