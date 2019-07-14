@@ -1,17 +1,17 @@
 const Card = require('../../Card.js');
 
-class TermsOfRedress extends Card {
+class OrtannusBinding extends Card {
     setupCardAbilities(ability) {
         this.play({
             target: {
                 cardType: 'creature',
                 controller: 'self',
-                gameAction: ability.actions.capture({ amount: 2 })
+                gameAction: ability.actions.dealDamage({ amount: 2 })
             }
         });
     }
 }
 
-TermsOfRedress.id = 'terms-of-redress';
+OrtannusBinding.id = 'ortannu-s-binding';
 
-module.exports = TermsOfRedress;
+module.exports = OrtannusBinding;
