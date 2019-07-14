@@ -41,6 +41,6 @@ class AFairGame extends Card {
     }
 }
 
-AFairGame.id = 'a-fair-game'; // This is a guess at what the id might be - please check it!!!
+AFairGame.id = 'a-fair-game';
 
 module.exports = AFairGame;
