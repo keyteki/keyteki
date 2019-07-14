@@ -21,6 +21,6 @@ class Bigtwig extends Card {
     }
 }
 
-Bigtwig.id = 'bigtwig'; // This is a guess at what the id might be - please check it!!!
+Bigtwig.id = 'bigtwig';
 
 module.exports = Bigtwig;
