@@ -15,6 +15,6 @@ class CrystalHive extends Card {
     }
 }
 
-CrystalHive.id = 'crystal-hive'; // This is a guess at what the id might be - please check it!!!
+CrystalHive.id = 'crystal-hive';
 
 module.exports = CrystalHive;
