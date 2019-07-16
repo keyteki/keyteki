@@ -7,7 +7,7 @@ Web based implementation of Keyforge: the Unique Deck Game
 
 ### What is it?
 
-This is the respository for the code internally known as keyteki which is running on [thecrucible.online](https://thecrucible.online/) allowing people to play L5R LCG online using only their browser
+This is the respository for the code internally known as keyteki which is running on [thecrucible.online](https://thecrucible.online/) allowing people to play KeyForge online using only their browser
 
 ### Does't this look a lot like Jinteki/Throneteki? The Android netrunner/AGOT online experience?
 
@@ -21,7 +21,7 @@ Sure!  The code is written in node.js(server) and react.js(client).  Feel free t
 
 If you are going to contribute code, try and follow the style of the existing code as much as possible and talk to me before engaging in any big refactors.  Also bear in mind there is an .eslintrc file in the project so try to follow those rules.
 
-[Documentation for implementing cards](https://github.com/gryffon/ringteki/blob/master/docs/implementing-cards.md)
+[Documentation for implementing cards](https://github.com/keyteki/keyteki/blob/master/docs/implementing-cards.md)
 
 There is also a list of events raised by the code [here](https://docs.google.com/spreadsheets/d/1gJEGGwZcbVoUZnuc0zkKNblleVP0qoMWUQOvI_8G3mQ/edit?usp=sharing). If you're writing abilities which listen for these events, it tells you what parameters the event has and whether it has a handler.  If you're writing code which calls any of these events, please make sure you pass the same parameters.
 
