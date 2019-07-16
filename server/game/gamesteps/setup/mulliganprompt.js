@@ -1,4 +1,3 @@
-const _ = require('underscore');
 const AllPlayerPrompt = require('../allplayerprompt.js');
 
 class MulliganPrompt extends AllPlayerPrompt {

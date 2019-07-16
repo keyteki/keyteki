@@ -28,7 +28,7 @@ describe('Key Abduction', function() {
             it('should prompt to forge a key if the player has enough amber', function() {
                 this.player1.amber = 8;
                 this.player1.play(this.keyAbduction);
-                expect(this.player1).toHavePrompt('Do you wish to forge a key?')
+                expect(this.player1).toHavePrompt('Do you wish to forge a key?');
                 this.player1.clickPrompt('Yes');
                 expect(this.player1.amber).toBe(1);
                 expect(this.player1.player.keys).toBe(1);
@@ -43,12 +43,12 @@ describe('Key Abduction', function() {
                 expect(this.blypyp.location).toBe('discard');
                 expect(this.zorg.location).toBe('discard');
                 this.player1.play(this.keyAbduction);
-                expect(this.player1).toHavePrompt('Do you wish to forge a key?')
+                expect(this.player1).toHavePrompt('Do you wish to forge a key?');
                 this.player1.clickPrompt('Yes');
                 expect(this.player1.amber).toBe(0);
                 expect(this.player1.player.keys).toBe(1);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
-            })
+            });
         });
     });
 });

@@ -47,7 +47,7 @@ describe('Seeker Needle', function() {
                 this.player2.clickCard(this.urchin);
                 expect(this.player2.amber).toBe(2);
                 expect(this.seekerNeedle.location).toBe('discard');
-            })
+            });
         });
     });
 });

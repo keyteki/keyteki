@@ -1,3 +1,4 @@
+/*eslint no-console:0 */
 const _ = require('underscore');
 
 const { matchCardByNameAndPack } = require('./cardutil.js');

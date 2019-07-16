@@ -1,3 +1,4 @@
+/*eslint no-console:0 */
 const request = require('request');
 const monk = require('monk');
 const DeckService = require('../services/DeckService.js');
@@ -55,7 +56,6 @@ for(let i = 3400; i < 3600; i++) {
                                     return;
                                 }
                                 deckData.cards = [];
-                                let cardNumbers = data._linked.cards.map(card => card.card_number);
                                 for(let uuid of deck.cards) {
                                     let num = data._linked.cards.find(card => card.id === uuid).card_number;
                                     let cardData = rawData.CardData.find(card => parseInt(card.number) === num);

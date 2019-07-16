@@ -22,7 +22,7 @@ class GameObject {
         this.effects = this.effects.filter(e => e !== effect);
     }
 
-    getEffects(type, predicate = effect => true) {
+    getEffects(type, predicate = () => true) {
         let filteredEffects = this.effects.filter(effect => effect.type === type && predicate(effect));
         return filteredEffects.map(effect => effect.getValue(this));
     }

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 class DeckStatusSummary extends React.Component {
     render() {
         let { flagged, verified, noUnreleasedCards } = this.props.status;
-        let items = [ { title: 'Only released cards', value: noUnreleasedCards } ];
+        let items = [{ title: 'Only released cards', value: noUnreleasedCards }];
         if(verified) {
             items.push({ title: 'Deck verified', value: true });
         } else if(flagged) {

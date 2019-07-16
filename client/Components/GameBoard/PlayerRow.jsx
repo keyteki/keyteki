@@ -129,6 +129,7 @@ PlayerRow.propTypes = {
     archives: PropTypes.array,
     cardSize: PropTypes.string,
     conclavePile: PropTypes.array,
+    deckName: PropTypes.string,
     discard: PropTypes.array,
     drawDeck: PropTypes.array,
     faction: PropTypes.object,
