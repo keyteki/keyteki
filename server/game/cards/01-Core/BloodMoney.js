@@ -12,6 +12,6 @@ class BloodMoney extends Card {
     }
 }
 
-BloodMoney.id = 'blood-money'; // This is a guess at what the id might be - please check it!!!
+BloodMoney.id = 'blood-money';
 
 module.exports = BloodMoney;

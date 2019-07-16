@@ -22,6 +22,6 @@ class SacrificialAltar extends Card {
     }
 }
 
-SacrificialAltar.id = 'sacrificial-altar'; // This is a guess at what the id might be - please check it!!!
+SacrificialAltar.id = 'sacrificial-altar';
 
 module.exports = SacrificialAltar;

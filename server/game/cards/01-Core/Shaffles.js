@@ -11,6 +11,6 @@ class Shaffles extends Card {
     }
 }
 
-Shaffles.id = 'shaffles'; // This is a guess at what the id might be - please check it!!!
+Shaffles.id = 'shaffles';
 
 module.exports = Shaffles;

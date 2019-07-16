@@ -10,6 +10,6 @@ class KingOfTheCrag extends Card {
     }
 }
 
-KingOfTheCrag.id = 'king-of-the-crag'; // This is a guess at what the id might be - please check it!!!
+KingOfTheCrag.id = 'king-of-the-crag';
 
 module.exports = KingOfTheCrag;

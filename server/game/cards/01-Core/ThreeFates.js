@@ -14,6 +14,6 @@ class ThreeFates extends Card {
     }
 }
 
-ThreeFates.id = 'three-fates'; // This is a guess at what the id might be - please check it!!!
+ThreeFates.id = 'three-fates';
 
 module.exports = ThreeFates;

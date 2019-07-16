@@ -16,6 +16,6 @@ class Vigor extends Card {
     }
 }
 
-Vigor.id = 'vigor'; // This is a guess at what the id might be - please check it!!!
+Vigor.id = 'vigor';
 
 module.exports = Vigor;

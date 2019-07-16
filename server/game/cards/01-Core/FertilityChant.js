@@ -14,6 +14,6 @@ class FertilityChant extends Card {
     }
 }
 
-FertilityChant.id = 'fertility-chant'; // This is a guess at what the id might be - please check it!!!
+FertilityChant.id = 'fertility-chant';
 
 module.exports = FertilityChant;

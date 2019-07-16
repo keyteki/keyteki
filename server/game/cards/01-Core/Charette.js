@@ -8,6 +8,6 @@ class Charette extends Card {
     }
 }
 
-Charette.id = 'charette'; // This is a guess at what the id might be - please check it!!!
+Charette.id = 'charette';
 
 module.exports = Charette;

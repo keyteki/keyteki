@@ -8,6 +8,6 @@ class BloodOfTitans extends Card {
     }
 }
 
-BloodOfTitans.id = 'blood-of-titans'; // This is a guess at what the id might be - please check it!!!
+BloodOfTitans.id = 'blood-of-titans';
 
 module.exports = BloodOfTitans;

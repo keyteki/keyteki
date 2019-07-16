@@ -25,6 +25,6 @@ class LostInTheWoods extends Card {
     }
 }
 
-LostInTheWoods.id = 'lost-in-the-woods'; // This is a guess at what the id might be - please check it!!!
+LostInTheWoods.id = 'lost-in-the-woods';
 
 module.exports = LostInTheWoods;

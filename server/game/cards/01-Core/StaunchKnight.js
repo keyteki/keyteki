@@ -10,6 +10,6 @@ class StaunchKnight extends Card {
     }
 }
 
-StaunchKnight.id = 'staunch-knight'; // This is a guess at what the id might be - please check it!!!
+StaunchKnight.id = 'staunch-knight';
 
 module.exports = StaunchKnight;

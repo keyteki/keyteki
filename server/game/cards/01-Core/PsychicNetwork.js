@@ -10,6 +10,6 @@ class PsychicNetwork extends Card {
     }
 }
 
-PsychicNetwork.id = 'psychic-network'; // This is a guess at what the id might be - please check it!!!
+PsychicNetwork.id = 'psychic-network';
 
 module.exports = PsychicNetwork;

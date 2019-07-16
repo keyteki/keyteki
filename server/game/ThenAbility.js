@@ -86,7 +86,7 @@ class ThenAbility extends BaseAbility {
                 window.addThenAbility(events, new ThenAbility(this.game, this.card, then), context);
             }
         } else if(then && then.alwaysTriggers) {
-             let thenAbility = new ThenAbility(this.game, this.card, then);
+            let thenAbility = new ThenAbility(this.game, this.card, then);
             let thenContext = thenAbility.createContext(context.player);
             if(!thenAbility.meetsRequirements(thenContext) && thenAbility.condition(thenContext)) {
                 this.game.resolveAbility(thenContext);

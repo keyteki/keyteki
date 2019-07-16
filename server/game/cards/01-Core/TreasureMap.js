@@ -17,6 +17,6 @@ class TreasureMap extends Card {
     }
 }
 
-TreasureMap.id = 'treasure-map'; // This is a guess at what the id might be - please check it!!!
+TreasureMap.id = 'treasure-map';
 
 module.exports = TreasureMap;

@@ -18,6 +18,6 @@ class GangerChieftain extends Card {
     }
 }
 
-GangerChieftain.id = 'ganger-chieftain'; // This is a guess at what the id might be - please check it!!!
+GangerChieftain.id = 'ganger-chieftain';
 
 module.exports = GangerChieftain;

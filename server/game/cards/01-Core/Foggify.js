@@ -14,6 +14,6 @@ class Foggify extends Card {
     }
 }
 
-Foggify.id = 'foggify'; // This is a guess at what the id might be - please check it!!!
+Foggify.id = 'foggify';
 
 module.exports = Foggify;

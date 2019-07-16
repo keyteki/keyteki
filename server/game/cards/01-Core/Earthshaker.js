@@ -10,6 +10,6 @@ class Earthshaker extends Card {
     }
 }
 
-Earthshaker.id = 'earthshaker'; // This is a guess at what the id might be - please check it!!!
+Earthshaker.id = 'earthshaker';
 
 module.exports = Earthshaker;

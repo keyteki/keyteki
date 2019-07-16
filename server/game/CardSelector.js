@@ -1,5 +1,6 @@
 const ExactlyXCardSelector = require('./CardSelectors/ExactlyXCardSelector');
 const MaxStatCardSelector = require('./CardSelectors/MaxStatCardSelector');
+const MinStatCardSelector = require('./CardSelectors/MinStatCardSelector');
 const MostStatCardSelector = require('./CardSelectors/MostStatCardSelector');
 const SingleCardSelector = require('./CardSelectors/SingleCardSelector');
 const UnlimitedCardSelector = require('./CardSelectors/UnlimitedCardSelector');
@@ -15,6 +16,7 @@ const defaultProperties = {
 const ModeToSelector = {
     ability: p => new SingleCardSelector(p),
     exactly: p => new ExactlyXCardSelector(p.numCards, p),
+    minStat: p => new MinStatCardSelector(p),
     maxStat: p => new MaxStatCardSelector(p),
     mostStat: p => new MostStatCardSelector(p),
     single: p => new SingleCardSelector(p),
@@ -43,6 +45,8 @@ class CardSelector {
 
         if(properties.maxStat) {
             properties.mode = 'maxStat';
+        } else if(properties.minStat) {
+            properties.mode = 'minStat';
         } else if(properties.numCards === 1 && !properties.multiSelect) {
             properties.mode = 'single';
         } else if(properties.numCards === 0) {

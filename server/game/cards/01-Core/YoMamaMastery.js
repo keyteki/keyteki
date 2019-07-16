@@ -15,6 +15,6 @@ class YoMamaMastery extends Card {
     }
 }
 
-YoMamaMastery.id = 'yo-mama-mastery'; // This is a guess at what the id might be - please check it!!!
+YoMamaMastery.id = 'yo-mama-mastery';
 
 module.exports = YoMamaMastery;

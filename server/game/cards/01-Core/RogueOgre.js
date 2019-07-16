@@ -9,13 +9,13 @@ class RogueOgre extends Card {
                     this.game.cardsPlayed.length === 1
             },
             gameAction: [
-                ability.actions.heal({ amount: 2}),
+                ability.actions.heal({ amount: 2 }),
                 ability.actions.capture()
             ]
         });
     }
 }
 
-RogueOgre.id = 'rogue-ogre'; // This is a guess at what the id might be - please check it!!!
+RogueOgre.id = 'rogue-ogre';
 
 module.exports = RogueOgre;

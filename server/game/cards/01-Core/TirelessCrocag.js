@@ -20,6 +20,6 @@ class TirelessCrocag extends Card {
     }
 }
 
-TirelessCrocag.id = 'tireless-crocag'; // This is a guess at what the id might be - please check it!!!
+TirelessCrocag.id = 'tireless-crocag';
 
 module.exports = TirelessCrocag;

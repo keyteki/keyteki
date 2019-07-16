@@ -21,6 +21,6 @@ class MatingSeason extends Card {
     }
 }
 
-MatingSeason.id = 'mating-season'; // This is a guess at what the id might be - please check it!!!
+MatingSeason.id = 'mating-season';
 
 module.exports = MatingSeason;

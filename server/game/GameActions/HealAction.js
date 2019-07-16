@@ -24,6 +24,7 @@ class HealAction extends CardGameAction {
         let amount = Math.min(card.tokens.damage || 0, this.amount);
         return super.createEvent('onHeal', { amount, card, context }, event => {
             if(this.fully) {
+                event.amount = card.tokens.damage;
                 card.removeToken('damage');
             } else if(this.upTo && event.amount > 0) {
                 context.game.promptWithHandlerMenu(context.player, {

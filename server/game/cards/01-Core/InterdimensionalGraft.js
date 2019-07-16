@@ -19,6 +19,6 @@ class InterdimensionalGraft extends Card {
     }
 }
 
-InterdimensionalGraft.id = 'interdimensional-graft'; // This is a guess at what the id might be - please check it!!!
+InterdimensionalGraft.id = 'interdimensional-graft';
 
 module.exports = InterdimensionalGraft;

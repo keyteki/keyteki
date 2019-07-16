@@ -9,6 +9,6 @@ class Halacor extends Card {
     }
 }
 
-Halacor.id = 'halacor'; // This is a guess at what the id might be - please check it!!!
+Halacor.id = 'halacor';
 
 module.exports = Halacor;

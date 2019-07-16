@@ -14,6 +14,6 @@ class ExperimentalTherapy extends Card {
     }
 }
 
-ExperimentalTherapy.id = 'experimental-therapy'; // This is a guess at what the id might be - please check it!!!
+ExperimentalTherapy.id = 'experimental-therapy';
 
 module.exports = ExperimentalTherapy;

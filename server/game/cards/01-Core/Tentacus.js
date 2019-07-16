@@ -13,6 +13,6 @@ class Tentacus extends Card {
     }
 }
 
-Tentacus.id = 'tentacus'; // This is a guess at what the id might be - please check it!!!
+Tentacus.id = 'tentacus';
 
 module.exports = Tentacus;

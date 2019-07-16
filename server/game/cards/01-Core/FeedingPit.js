@@ -16,6 +16,6 @@ class FeedingPit extends Card {
     }
 }
 
-FeedingPit.id = 'feeding-pit'; // This is a guess at what the id might be - please check it!!!
+FeedingPit.id = 'feeding-pit';
 
 module.exports = FeedingPit;

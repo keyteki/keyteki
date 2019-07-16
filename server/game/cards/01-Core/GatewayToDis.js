@@ -12,6 +12,6 @@ class GatewayToDis extends Card {
     }
 }
 
-GatewayToDis.id = 'gateway-to-dis'; // This is a guess at what the id might be - please check it!!!
+GatewayToDis.id = 'gateway-to-dis';
 
 module.exports = GatewayToDis;

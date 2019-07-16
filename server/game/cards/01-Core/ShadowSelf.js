@@ -22,6 +22,6 @@ class ShadowSelf extends Card {
     }
 }
 
-ShadowSelf.id = 'shadow-self'; // This is a guess at what the id might be - please check it!!!
+ShadowSelf.id = 'shadow-self';
 
 module.exports = ShadowSelf;

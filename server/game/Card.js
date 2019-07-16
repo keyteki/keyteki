@@ -32,9 +32,21 @@ class Card extends EffectSource {
         this.abilities = { actions: [], reactions: [], persistentEffects: [] };
         this.traits = cardData.traits || [];
         this.setupCardAbilities(AbilityDsl);
+        this.keywords = {};
+        for(let keyword of cardData.keywords || []) {
+            this.keywords[keyword] = 1;
+        }
+
         if(this.type === 'creature') {
             this.setupKeywordAbilities(AbilityDsl);
         }
+
+        this.persistentEffect({
+            location: 'any',
+            condition: () => !!this.getKeywordValue('alpha'),
+            match: this,
+            effect: AbilityDsl.effects.cardCannot('play', () => !this.game.firstThingThisTurn())
+        });
 
         this.printedHouse = cardData.house;
 
@@ -49,7 +61,6 @@ class Card extends EffectSource {
         this.stunned = false;
         this.moribund = false;
 
-        this.keywords = cardData.keywords;
 
         this.menu = [
             { command: 'exhaust', text: 'Exhaust/Ready' },

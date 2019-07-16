@@ -19,6 +19,6 @@ class YxiliMarauder extends Card {
     }
 }
 
-YxiliMarauder.id = 'yxili-marauder'; // This is a guess at what the id might be - please check it!!!
+YxiliMarauder.id = 'yxili-marauder';
 
 module.exports = YxiliMarauder;

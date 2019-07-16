@@ -14,6 +14,6 @@ class Autocannon extends Card {
     }
 }
 
-Autocannon.id = 'autocannon'; // This is a guess at what the id might be - please check it!!!
+Autocannon.id = 'autocannon';
 
 module.exports = Autocannon;

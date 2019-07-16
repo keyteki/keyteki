@@ -9,6 +9,6 @@ class Shooler extends Card {
     }
 }
 
-Shooler.id = 'shooler'; // This is a guess at what the id might be - please check it!!!
+Shooler.id = 'shooler';
 
 module.exports = Shooler;

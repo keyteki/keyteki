@@ -15,6 +15,6 @@ class Gongoozle extends Card {
     }
 }
 
-Gongoozle.id = 'gongoozle'; // This is a guess at what the id might be - please check it!!!
+Gongoozle.id = 'gongoozle';
 
 module.exports = Gongoozle;

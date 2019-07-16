@@ -14,6 +14,6 @@ class CowardsEnd extends Card {
     }
 }
 
-CowardsEnd.id = 'coward-s-end'; // This is a guess at what the id might be - please check it!!!
+CowardsEnd.id = 'coward-s-end';
 
 module.exports = CowardsEnd;

@@ -21,6 +21,6 @@ class RelentlessAssault extends Card {
     }
 }
 
-RelentlessAssault.id = 'relentless-assault'; // This is a guess at what the id might be - please check it!!!
+RelentlessAssault.id = 'relentless-assault';
 
 module.exports = RelentlessAssault;

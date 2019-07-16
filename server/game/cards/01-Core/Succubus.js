@@ -9,6 +9,6 @@ class Succubus extends Card {
     }
 }
 
-Succubus.id = 'succubus'; // This is a guess at what the id might be - please check it!!!
+Succubus.id = 'succubus';
 
 module.exports = Succubus;

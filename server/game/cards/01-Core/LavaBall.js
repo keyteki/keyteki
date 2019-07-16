@@ -14,6 +14,6 @@ class LavaBall extends Card {
     }
 }
 
-LavaBall.id = 'lava-ball'; // This is a guess at what the id might be - please check it!!!
+LavaBall.id = 'lava-ball';
 
 module.exports = LavaBall;

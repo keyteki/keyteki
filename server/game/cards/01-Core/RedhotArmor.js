@@ -13,6 +13,6 @@ class RedhotArmor extends Card {
     }
 }
 
-RedhotArmor.id = 'red-hot-armor'; // This is a guess at what the id might be - please check it!!!
+RedhotArmor.id = 'red-hot-armor';
 
 module.exports = RedhotArmor;

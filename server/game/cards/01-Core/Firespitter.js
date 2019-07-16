@@ -15,6 +15,6 @@ class Firespitter extends Card {
     }
 }
 
-Firespitter.id = 'firespitter'; // This is a guess at what the id might be - please check it!!!
+Firespitter.id = 'firespitter';
 
 module.exports = Firespitter;

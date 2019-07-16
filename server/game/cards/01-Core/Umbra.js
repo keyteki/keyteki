@@ -8,6 +8,6 @@ class Umbra extends Card {
     }
 }
 
-Umbra.id = 'umbra'; // This is a guess at what the id might be - please check it!!!
+Umbra.id = 'umbra';
 
 module.exports = Umbra;

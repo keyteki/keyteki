@@ -12,6 +12,6 @@ class NovuArcheologist extends Card {
     }
 }
 
-NovuArcheologist.id = 'novu-archaeologist'; // This is a guess at what the id might be - please check it!!!
+NovuArcheologist.id = 'novu-archaeologist';
 
 module.exports = NovuArcheologist;

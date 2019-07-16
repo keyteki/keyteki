@@ -12,6 +12,6 @@ class LibraryOfTheDamned extends Card {
     }
 }
 
-LibraryOfTheDamned.id = 'library-of-the-damned'; // This is a guess at what the id might be - please check it!!!
+LibraryOfTheDamned.id = 'library-of-the-damned';
 
 module.exports = LibraryOfTheDamned;

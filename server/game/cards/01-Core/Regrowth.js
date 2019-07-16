@@ -13,6 +13,6 @@ class Regrowth extends Card {
     }
 }
 
-Regrowth.id = 'regrowth'; // This is a guess at what the id might be - please check it!!!
+Regrowth.id = 'regrowth';
 
 module.exports = Regrowth;

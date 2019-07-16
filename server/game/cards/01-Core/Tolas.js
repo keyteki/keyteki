@@ -13,6 +13,6 @@ class Tolas extends Card {
     }
 }
 
-Tolas.id = 'tolas'; // This is a guess at what the id might be - please check it!!!
+Tolas.id = 'tolas';
 
 module.exports = Tolas;

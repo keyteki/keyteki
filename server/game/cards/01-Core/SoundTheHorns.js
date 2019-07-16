@@ -25,6 +25,6 @@ class SoundTheHorns extends Card {
     }
 }
 
-SoundTheHorns.id = 'sound-the-horns'; // This is a guess at what the id might be - please check it!!!
+SoundTheHorns.id = 'sound-the-horns';
 
 module.exports = SoundTheHorns;

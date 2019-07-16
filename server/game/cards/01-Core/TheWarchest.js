@@ -23,6 +23,6 @@ class TheWarchest extends Card {
     }
 }
 
-TheWarchest.id = 'the-warchest'; // This is a guess at what the id might be - please check it!!!
+TheWarchest.id = 'the-warchest';
 
 module.exports = TheWarchest;

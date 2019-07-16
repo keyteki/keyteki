@@ -9,6 +9,6 @@ class Valdr extends Card {
     }
 }
 
-Valdr.id = 'valdr'; // This is a guess at what the id might be - please check it!!!
+Valdr.id = 'valdr';
 
 module.exports = Valdr;

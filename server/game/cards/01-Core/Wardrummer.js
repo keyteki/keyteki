@@ -11,6 +11,6 @@ class Wardrummer extends Card {
     }
 }
 
-Wardrummer.id = 'wardrummer'; // This is a guess at what the id might be - please check it!!!
+Wardrummer.id = 'wardrummer';
 
 module.exports = Wardrummer;

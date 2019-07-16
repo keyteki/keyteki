@@ -10,6 +10,6 @@ class TitanMechanic extends Card {
     }
 }
 
-TitanMechanic.id = 'titan-mechanic'; // This is a guess at what the id might be - please check it!!!
+TitanMechanic.id = 'titan-mechanic';
 
 module.exports = TitanMechanic;

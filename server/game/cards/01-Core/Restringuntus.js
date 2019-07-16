@@ -23,6 +23,6 @@ class Restringuntus extends Card {
     }
 }
 
-Restringuntus.id = 'restringuntus'; // This is a guess at what the id might be - please check it!!!
+Restringuntus.id = 'restringuntus';
 
 module.exports = Restringuntus;

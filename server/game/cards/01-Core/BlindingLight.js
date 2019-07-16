@@ -11,6 +11,6 @@ class BlindingLight extends Card {
     }
 }
 
-BlindingLight.id = 'blinding-light'; // This is a guess at what the id might be - please check it!!!
+BlindingLight.id = 'blinding-light';
 
 module.exports = BlindingLight;

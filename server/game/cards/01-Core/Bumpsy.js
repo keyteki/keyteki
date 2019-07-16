@@ -8,6 +8,6 @@ class Bumpsy extends Card {
     }
 }
 
-Bumpsy.id = 'bumpsy'; // This is a guess at what the id might be - please check it!!!
+Bumpsy.id = 'bumpsy';
 
 module.exports = Bumpsy;

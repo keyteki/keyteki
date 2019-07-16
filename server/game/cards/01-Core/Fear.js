@@ -12,6 +12,6 @@ class Fear extends Card {
     }
 }
 
-Fear.id = 'fear'; // This is a guess at what the id might be - please check it!!!
+Fear.id = 'fear';
 
 module.exports = Fear;

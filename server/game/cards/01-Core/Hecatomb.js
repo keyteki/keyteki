@@ -20,6 +20,6 @@ class Hecatomb extends Card {
     }
 }
 
-Hecatomb.id = 'hecatomb'; // This is a guess at what the id might be - please check it!!!
+Hecatomb.id = 'hecatomb';
 
 module.exports = Hecatomb;

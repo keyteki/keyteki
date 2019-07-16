@@ -13,6 +13,6 @@ class LashOfBrokenDreams extends Card {
     }
 }
 
-LashOfBrokenDreams.id = 'lash-of-broken-dreams'; // This is a guess at what the id might be - please check it!!!
+LashOfBrokenDreams.id = 'lash-of-broken-dreams';
 
 module.exports = LashOfBrokenDreams;
