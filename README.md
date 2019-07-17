@@ -94,5 +94,4 @@ npm test
 If you are making any game engine changes, these will not be accepted without unit tests to cover them.
 
 ### Discord Discusson
-[Ringteki Discord Server](https://discord.gg/tMzhyND)
-
+[Keyteki Discord Server](https://discord.gg/NncEXAs)
