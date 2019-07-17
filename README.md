@@ -1,4 +1,4 @@
-# Ringteki
+# Keyteki
 
 
 Web based implementation of Keyforge: the Unique Deck Game
@@ -93,14 +93,6 @@ npm test
 
 If you are making any game engine changes, these will not be accepted without unit tests to cover them.
 
-### Sentry.io Project
-[Sentry.io - RingTeki](https://sentry.io/ringteki-team/ringteki/)
-
-### Build Status
-[![Travis Build](https://travis-ci.org/gryffon/ringteki.svg?branch=master)](https://travis-ci.org/gryffon/ringteki)
-
 ### Discord Discusson
 [Ringteki Discord Server](https://discord.gg/tMzhyND)
 
-### Coveralls.io
-[![Coverage Status](https://coveralls.io/repos/github/gryffon/ringteki/badge.svg?branch=develop)](https://coveralls.io/github/gryffon/ringteki?branch=develop)
