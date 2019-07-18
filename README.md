@@ -53,6 +53,7 @@ git submodule update
 npm install # See https://github.com/JustinTulloss/zeromq.node/issues/283 for zmq errors on OS X
 mkdir server/logs
 node server/scripts/fetchdata.js
+npm run build-vendor-dev
 node .
 node server/gamenode
 ```
@@ -62,6 +63,7 @@ There are two exectuable components and you'll need to configure/run both to run
 For production:
 
 ```
+npm run build-vendor
 npm run build
 NODE_ENV=production PORT=4000 node .
 ```
