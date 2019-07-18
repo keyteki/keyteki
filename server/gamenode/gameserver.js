@@ -49,7 +49,7 @@ class GameServer {
             server = https.createServer({ key: privateKey, cert: certificate });
         }
 
-        server.listen(process.env.PORT || config.gameNode.socketioPort, '127.0.0.1');
+        server.listen(process.env.PORT || config.gameNode.socketioPort, process.env.HOST || config.gameNode.host || '127.0.0.1');
 
         var options = {
             perMessageDeflate: false
@@ -178,7 +178,7 @@ class GameServer {
 
     handshake(socket, next) {
         if(socket.handshake.query.token && socket.handshake.query.token !== 'undefined') {
-            jwt.verify(socket.handshake.query.token, config.secret, function (err, user) {
+            jwt.verify(socket.handshake.query.token, config.secret, function(err, user) {
                 if(err) {
                     return;
                 }

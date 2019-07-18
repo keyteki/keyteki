@@ -16,7 +16,7 @@ describe('Champion\'s Challenge', function() {
 
             it('should destroy all but one of the enemy creatures if I have none in play', function() {
                 this.player1.play(this.championSChallenge);
-                expect(this.player1).toHavePrompt('Champion\'s Challenge');
+                expect(this.player1).toHavePrompt('Champion’s Challenge');
                 expect(this.player1).toBeAbleToSelect(this.dextre);
                 expect(this.player1).toBeAbleToSelect(this.ganymedeArchivist);
                 this.player1.clickCard(this.dextre);
@@ -29,7 +29,7 @@ describe('Champion\'s Challenge', function() {
                 this.player1.play(this.troll);
                 expect(this.troll.exhausted).toBe(true);
                 this.player1.play(this.championSChallenge);
-                expect(this.player1).toHavePrompt('Champion\'s Challenge');
+                expect(this.player1).toHavePrompt('Champion’s Challenge');
                 expect(this.player1).toBeAbleToSelect(this.dextre);
                 expect(this.player1).toBeAbleToSelect(this.ganymedeArchivist);
                 this.player1.clickCard(this.dextre);
@@ -37,7 +37,7 @@ describe('Champion\'s Challenge', function() {
                 expect(this.troll.location).toBe('play area');
                 expect(this.batdrone.location).toBe('discard');
                 expect(this.ganymedeArchivist.location).toBe('discard');
-                expect(this.player1).toHavePrompt('Champion\'s Challenge');
+                expect(this.player1).toHavePrompt('Champion’s Challenge');
                 expect(this.player1).toBeAbleToSelect(this.troll);
                 this.player1.clickCard(this.troll);
                 expect(this.player1).toHavePrompt('Choose a creature to attack');

@@ -2,7 +2,6 @@ const PlayerAction = require('./PlayerAction');
 
 class SearchAction extends PlayerAction {
     setDefaultProperties() {
-        this.cardName = '';
         this.amount = null;
         this.discardToDeck = false;
     }
