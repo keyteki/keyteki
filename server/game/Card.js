@@ -34,7 +34,12 @@ class Card extends EffectSource {
         this.setupCardAbilities(AbilityDsl);
         this.keywords = {};
         for(let keyword of cardData.keywords || []) {
-            this.keywords[keyword] = 1;
+            let split = keyword.split(':');
+            if(split.length === 1) {
+                this.keywords[keyword] = 1;
+            } else {
+                this.keywords[split[0]] = split[1];
+            }
         }
 
         if(this.type === 'creature') {

@@ -68,7 +68,7 @@
     "raven-js": "^3.24.0",
     "react": "^16.0.0",
     "react-async-script": "^0.9.1",
-    "react-bootstrap-slider": "^2.0.1",
+    "react-bootstrap-slider": "^1.1.7",
     "react-bootstrap-typeahead": "^2.0.0-alpha.3",
     "react-dnd": "^6.0.0",
     "react-dnd-touch-backend": "^0.6.0",
