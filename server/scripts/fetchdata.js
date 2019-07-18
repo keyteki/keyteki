@@ -5,11 +5,12 @@ const path = require('path');
 
 const CardImport = require('./fetchdata/CardImport.js');
 const KeyforgeImageSource = require('./fetchdata/KeyforgeImageSource.js');
-const KeyforgeCardSource = require('./fetchdata/KeyforgeCardSource.js');
+const JsonCardSource = require('./fetchdata/JsonCardSource.js');
 const NoImageSource = require('./fetchdata/NoImageSource.js');
 
 const optionsDefinition = [
-    { name: 'card-source', type: String, defaultValue: 'keyforge' },
+    { name: 'card-source', type: String, defaultValue: 'json' },
+    { name: 'card-dir', type: String, defaultValue: path.join(__dirname, '..', '..', 'keyteki-json-data') },
     { name: 'image-source', type: String, defaultValue: 'keyforge' },
     { name: 'image-dir', type: String, defaultValue: path.join(__dirname, '..', '..', 'public', 'img', 'cards') },
     { name: 'no-images', type: Boolean, defaultValue: false }
@@ -17,8 +18,8 @@ const optionsDefinition = [
 
 function createDataSource(options) {
     switch(options['card-source']) {
-        case 'keyforge':
-            return new KeyforgeCardSource();
+        case 'json':
+            return new JsonCardSource(options['card-dir']);
     }
 
     throw new Error(`Unknown card source '${options['card-source']}'`);

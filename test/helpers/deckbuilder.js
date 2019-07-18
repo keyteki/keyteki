@@ -1,9 +1,10 @@
+const fs = require('fs');
 const path = require('path');
 const _ = require('underscore');
 
 const {matchCardByNameAndPack} = require('./cardutil.js');
 
-const pathToJson = path.join(__dirname, '../../server/scripts/keyforge.json');
+const PathToSubModulePacks = path.join(__dirname, '../../keyteki-json-data/packs');
 
 const defaultFiller = {
     brobnar: 'anger',
@@ -19,17 +20,22 @@ const fillerHouses = ['untamed', 'sanctum', 'shadows'];
 
 class DeckBuilder {
     constructor() {
-        this.cards = this.loadCards(pathToJson);
+        this.cardsByCode = this.loadCards(PathToSubModulePacks);
+        this.cards = Object.values(this.cardsByCode);
     }
 
-    loadCards(pathToJson) {
+    loadCards(directory) {
         let cards = {};
-        let jsonCards = require(pathToJson);
 
-        _.each(jsonCards.CardData, card => {
-            let id = card.name.toLowerCase().replace(/[".!]/gi, '').replace(/[ ']/gi, '-');
-            cards[id] = Object.assign({ id: id }, card);
-        });
+        let jsonPacks = fs.readdirSync(directory).filter(file => file.endsWith('.json'));
+
+        for(let file of jsonPacks) {
+            let pack = require(path.join(directory, file));
+
+            for(let card of pack.cards) {
+                cards[card.id] = card;
+            }
+        }
 
         return cards;
     }
@@ -77,6 +83,7 @@ class DeckBuilder {
             } else {
                 cardCounts[cardData.id] = {
                     count: 1,
+                    card: cardData,
                     id: cardData.id
                 };
             }

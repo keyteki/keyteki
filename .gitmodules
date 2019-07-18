@@ -1,3 +1,6 @@
 [submodule "fiveringsdb-data"]
 	path = fiveringsdb-data
 	url = https://github.com/ringteki/fiveringsdb-data
+[submodule "keyteki-json-data"]
+	path = keyteki-json-data
+	url = git@github.com:keyteki/keyteki-json-data.git
