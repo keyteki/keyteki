@@ -1,5 +1,5 @@
 /* global describe, beforeEach, jasmine */
-/* eslint camelcase: 0, `no`-invalid-this: 0 */
+/* eslint camelcase: 0, no-invalid-this: 0 */
 
 const _ = require('underscore');
 
