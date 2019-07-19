@@ -17,6 +17,6 @@ class PhoenixHeart extends Card {
     }
 }
 
-PhoenixHeart.id = 'phoenix-heart'; // This is a guess at what the id might be - please check it!!!
+PhoenixHeart.id = 'phoenix-heart';
 
 module.exports = PhoenixHeart;
