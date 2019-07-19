@@ -834,7 +834,7 @@ class Lobby {
         Promise.all([this.cardService.getAllCards()])
             .then(results => {
                 let [cards] = results;
-                this.router.sendCommand(nodeName, 'CARDDATA', { ardData: cards });
+                this.router.sendCommand(nodeName, 'CARDDATA', { cardData: cards });
             });
     }
 

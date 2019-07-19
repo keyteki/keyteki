@@ -6,6 +6,10 @@ const logger = require('../log.js');
 
 class Deck {
     constructor(data) {
+        if(!data) {
+            return;
+        }
+
         data.cards = data.cards.map(card => {
             let result = {
                 count: card.count,
@@ -15,12 +19,7 @@ class Deck {
                 logger.error('Corrupt deck', card.id, card);
                 return result;
             }
-            if(card.maverick) {
-                result.card.house = card.maverick;
-                result.card.image = card.id + '_' + card.maverick;
-            } else {
-                result.card.image = card.id;
-            }
+
             return result;
         });
 
@@ -58,10 +57,20 @@ class Deck {
         if(!cardData || !cardData.id) {
             logger.error('no cardData for ' + JSON.stringify(this.data));
             return;
-        } else if(!cards[cardData.id]) {
+        }
+
+        if(cardData.maverick) {
+            cardData.house = cardData.maverick;
+            cardData.image = cardData.id + '_' + cardData.maverick;
+        } else {
+            cardData.image = cardData.id;
+        }
+
+        if(!cards[cardData.id]) {
             return new Card(player, cardData);
         }
-        var cardClass = cards[cardData.id];
+
+        let cardClass = cards[cardData.id];
         return new cardClass(player, cardData);
     }
 }
