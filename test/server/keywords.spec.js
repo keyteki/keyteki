@@ -92,7 +92,7 @@ describe('keywords', function() {
                 this.player1.clickCard(this.zorg);
                 expect(this.inkaTheSpider.stunned).toBe(true);
                 expect(this.briarGrubbling.location).toBe('discard');
-                expect(this.zorg.tokens.damage).toBe(6);
+                expect(this.zorg.location).toBe('discard');
             });
         });
 

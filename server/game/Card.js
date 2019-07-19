@@ -38,7 +38,7 @@ class Card extends EffectSource {
             if(split.length === 1) {
                 this.keywords[keyword] = 1;
             } else {
-                this.keywords[split[0]] = split[1];
+                this.keywords[split[0]] = parseInt(split[1]);
             }
         }
 
