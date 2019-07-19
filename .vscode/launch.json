@@ -33,8 +33,7 @@
                 "NODE_ENV": "development"
             },
             "console": "internalConsole",
-            "sourceMaps": false,
-            "outDir": null
+            "sourceMaps": false
         },
         {
             "name": "Launch (Game Server)",
@@ -53,8 +52,7 @@
                 "NODE_ENV": "development"
             },
             "console": "internalConsole",
-            "sourceMaps": false,
-            "outDir": null
+            "sourceMaps": false
         },
         {
             "name": "Attach",
@@ -64,7 +62,6 @@
             "address": "localhost",
             "restart": false,
             "sourceMaps": false,
-            "outDir": null,
             "localRoot": "${workspaceRoot}",
             "remoteRoot": null
         },
