@@ -1,7 +1,7 @@
 const _ = require('underscore');
 const GameActions = require('./GameActions');
 const ManualModePrompt = require('./gamesteps/ManualModePrompt');
-const Deck = require('./Deck');
+const Deck = require('./deck');
 const RematchPrompt = require('./gamesteps/RematchPrompt');
 
 class ChatCommands {
