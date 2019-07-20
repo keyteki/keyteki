@@ -1,13 +1,13 @@
 const Card = require('../../Card.js');
 
-class SelwynTheFence extends Card {
+class MotherNorthelle extends Card {
     setupCardAbilities(ability) {
-        this.fight({
-            reap: true,
+        this.reap({
             target: {
                 activePromptTitle: 'Choose a captured aember to move to your pool.',
-                cardCondition: card => card.hasToken('amber'),
+                cardType: 'creature',
                 controller: 'self',
+                cardCondition: card => card.hasToken('amber'),
                 gameAction: ability.actions.removeAmber()
             },
             effect: 'move 1 amber from {0} to their pool',
@@ -18,6 +18,6 @@ class SelwynTheFence extends Card {
     }
 }
 
-SelwynTheFence.id = 'selwyn-the-fence'; // This is a guess at what the id might be - please check it!!!
+MotherNorthelle.id = 'mother-northelle';
 
-module.exports = SelwynTheFence;
+module.exports = MotherNorthelle;

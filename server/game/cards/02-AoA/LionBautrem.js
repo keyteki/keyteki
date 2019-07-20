@@ -9,6 +9,6 @@ class LionBautrem extends Card {
     }
 }
 
-LionBautrem.id = 'lion-bautrem'; // This is a guess at what the id might be - please check it!!!
+LionBautrem.id = 'lion-bautrem';
 
 module.exports = LionBautrem;

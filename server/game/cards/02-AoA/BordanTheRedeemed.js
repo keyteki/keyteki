@@ -8,6 +8,6 @@ class BordanTheRedeemed extends Card {
     }
 }
 
-BordanTheRedeemed.id = 'bordan-the-redeemed'; // This is a guess at what the id might be - please check it!!!
+BordanTheRedeemed.id = 'bordan-the-redeemed';
 
 module.exports = BordanTheRedeemed;
