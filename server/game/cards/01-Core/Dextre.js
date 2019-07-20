@@ -12,6 +12,6 @@ class Dextre extends Card {
     }
 }
 
-Dextre.id = 'dextre'; // This is a guess at what the id might be - please check it!!!
+Dextre.id = 'dextre';
 
 module.exports = Dextre;

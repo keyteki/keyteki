@@ -63,7 +63,7 @@ class Game extends EventEmitter {
         this.effectsUsed = [];
         this.activePlayer = null;
 
-        this.shortCardData = options.shortCardData || [];
+        this.cardData = options.cardData || [];
 
         _.each(details.players, player => {
             this.playersAndSpectators[player.user.username] = new Player(player.id, player.user, this.owner === player.user.username, this);

@@ -14,6 +14,6 @@ class Begone extends Card {
     }
 }
 
-Begone.id = 'begone'; // This is a guess at what the id might be - please check it!!!
+Begone.id = 'begone';
 
 module.exports = Begone;
