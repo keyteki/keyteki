@@ -13,6 +13,6 @@ class SafePlace extends Card {
     }
 }
 
-SafePlace.id = 'safe-place'; // This is a guess at what the id might be - please check it!!!
+SafePlace.id = 'safe-place';
 
 module.exports = SafePlace;

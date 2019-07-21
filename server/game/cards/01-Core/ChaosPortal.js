@@ -15,6 +15,6 @@ class ChaosPortal extends Card {
     }
 }
 
-ChaosPortal.id = 'chaos-portal'; // This is a guess at what the id might be - please check it!!!
+ChaosPortal.id = 'chaos-portal';
 
 module.exports = ChaosPortal;
