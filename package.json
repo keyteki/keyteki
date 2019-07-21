@@ -4,6 +4,9 @@
   "description": "A Keyforge Card Game Server",
   "main": "index.js",
   "scripts": {
+    "start": "node .",
+    "fetchdata": "node server/scripts/fetchdata",
+    "game": "node server/gamenode",
     "test": "cross-env JASMINE_CONFIG_PATH=./jasmine.json jasmine",
     "lint": "eslint --ext=js --ext=jsx client/ server/ test/",
     "build-vendor": "webpack -p --config webpack.config.vendor.js --env.prod",

@@ -11,12 +11,13 @@ class ZmqSocket extends EventEmitter {
 
         this.listenAddress = listenAddress;
         this.protocol = protocol;
+        this.version = '';
 
         this.socket = zmq.socket('dealer');
         this.socket.identity = process.env.SERVER || config.gameNode.name;
         this.socket.monitor(500, 0);
 
-        this.socket.connect(config.mqUrl, err => {
+        this.socket.connect(`tcp://${config.mqHost}:${config.mqPort}`, err => {
             if(err) {
                 logger.info(err);
             }
