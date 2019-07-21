@@ -20,7 +20,7 @@ class JsonCardSource {
     parseKeywords(text) {
         let allKeywords = [];
         let lines = text.split('\r') || '';
-        for (let line of lines) {
+        for(let line of lines) {
             let potentialKeywords = line.split('.').map(k => k.toLowerCase().trim());
 
             let printedKeywords = potentialKeywords.filter(potentialKeyword => {
