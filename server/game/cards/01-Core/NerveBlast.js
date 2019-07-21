@@ -14,6 +14,6 @@ class NerveBlast extends Card {
     }
 }
 
-NerveBlast.id = 'nerve-blast'; // This is a guess at what the id might be - please check it!!!
+NerveBlast.id = 'nerve-blast';
 
 module.exports = NerveBlast;
