@@ -14,6 +14,6 @@ class HallowedShield extends Card {
     }
 }
 
-HallowedShield.id = 'hallowed-shield'; // This is a guess at what the id might be - please check it!!!
+HallowedShield.id = 'hallowed-shield';
 
 module.exports = HallowedShield;
