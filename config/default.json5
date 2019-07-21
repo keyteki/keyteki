@@ -2,8 +2,9 @@
     env: 'development',
 
     secret: 'somethingverysecret',
-    dbPath: 'mongodb://127.0.0.1:27017/keyforge',
-    mqUrl: 'tcp://127.0.0.1:6000',
+    dbPath: 'mongodb://mongo:27017/keyforge',
+    mqHost: 'lobby',
+    mqPort: 6000,
 
     /*
      * Other global configurations used, but not specified, include:
