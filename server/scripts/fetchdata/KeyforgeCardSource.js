@@ -18,18 +18,18 @@ class JsonCardSource {
     }
 
     parseKeywords(text) {
-        let allKeywords = [];
-        let lines = text.split('\r') || '';
-        for(let line of lines) {
-            let potentialKeywords = line.split('.').map(k => k.toLowerCase().trim());
+        let lines = text.split('\r');
+        let potentialKeywords = [];
 
-            let printedKeywords = potentialKeywords.filter(potentialKeyword => {
-                return ValidKeywords.some(keyword => potentialKeyword.indexOf(keyword) === 0);
-            });
-            allKeywords = allKeywords.concat(printedKeywords);
+        for(let line of lines) {
+            potentialKeywords = potentialKeywords.concat(line.split('.').map(k => k.toLowerCase().trim().replace(' ', ':')));
         }
 
-        return allKeywords;
+        let printedKeywords = potentialKeywords.filter(potentialKeyword => {
+            return ValidKeywords.some(keyword => potentialKeyword.indexOf(keyword) === 0);
+        });
+
+        return printedKeywords;
     }
 
     async getCards() {
