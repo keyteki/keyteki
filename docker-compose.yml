@@ -1,0 +1,28 @@
+version: "2"
+services:
+  lobby:
+    restart: always
+    build: .
+    ports:
+      - "4000:4000"
+    volumes:
+      - .:/usr/src/lobby
+      - node_modules:/usr/src/lobby/node_modules
+    links:
+      - mongo
+    depends_on:
+      - mongo
+  node:
+    restart: always
+    build:
+      context: .
+      dockerfile: ./server/gamenode/Dockerfile
+    volumes:
+      - .:/usr/src/node
+      - node_modules:/usr/src/node/node_modules    
+    ports:
+      - "9500:9500"        
+  mongo:
+    image: mongo
+volumes:
+  node_modules:
