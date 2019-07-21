@@ -25,6 +25,7 @@ const PlaceUnderAction = require('./GameActions/PlaceUnderAction');
 const PlayCardAction = require('./GameActions/PlayCardAction');
 const PurgeAction = require('./GameActions/PurgeAction');
 const PutIntoPlayAction = require('./GameActions/PutIntoPlayAction');
+const RandomArchiveAction = require('./GameActions/RandomArchiveAction');
 const RandomDiscardAction = require('./GameActions/RandomDiscardAction');
 const ReadyAction = require('./GameActions/ReadyAction');
 const RemoveStunAction = require('./GameActions/RemoveStunAction');
@@ -79,6 +80,7 @@ const Actions = {
     swap: (propertyFactory) => new SwapAction(propertyFactory), // origin
     use: (propertyFactory) => new UseAction(propertyFactory),
     // player actions
+    archiveAtRandom: (propertyFactory) => new RandomArchiveAction(propertyFactory), // amount = 1
     chosenDiscard: (propertyFactory) => new ChosenDiscardAction(propertyFactory), // amount = 1
     discardAtRandom: (propertyFactory) => new RandomDiscardAction(propertyFactory), // amount = 1
     draw: (propertyFactory) => new DrawAction(propertyFactory), // amount = 1
