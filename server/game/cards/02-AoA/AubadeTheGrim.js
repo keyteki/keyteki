@@ -8,13 +8,9 @@ class AubadeTheGrim extends Card {
         this.reap({
             condition: context => context.source.hasToken('amber'),
             effect: 'move 1 amber from Aubade the Grim to the pool',
-            then:{
-                gameAction: ability.actions.removeAmber({
-                    // AUGH WHY DOESNT THIS WORK
-                    target: this,
-                    amount: 1
-                })
-            }
+            gameAction: ability.actions.removeAmber({
+                amount: 1
+            })
         });
     }
 }
