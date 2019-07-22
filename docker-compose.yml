@@ -24,5 +24,8 @@ services:
       - "9500:9500"        
   mongo:
     image: mongo
+    volumes:
+      - ./mongodb:/data/db
 volumes:
   node_modules:
+
