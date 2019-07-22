@@ -2,7 +2,13 @@ const UiPrompt = require('../uiprompt.js');
 
 class ActionWindow extends UiPrompt {
     onCardClicked(player, card) {
-        return player === this.game.activePlayer && card.controller === player && card.use(player);
+        if(player === this.game.activePlayer && card.controller === player && card.use(player)) {
+            if(card.hasKeywordValue('omega')) {
+                this.complete();
+            }
+            return true;
+        }
+        return false;
     }
 
     activePrompt() {
