@@ -48,7 +48,7 @@ Clone the repository
 docker-compose up
 
 (in another terminal)
-docker-compose exec app bash
+docker-compose exec lobby bash
 node server/scripts/fetchdata
 ```
 
