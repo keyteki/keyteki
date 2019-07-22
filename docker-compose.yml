@@ -1,13 +1,15 @@
-version: "2"
+version: "3.3"
 services:
   lobby:
     restart: always
-    build: .
+    build:
+      context: .
+    image: keyteki:lobby
     ports:
       - "4000:4000"
     volumes:
-      - .:/usr/src/lobby
       - node_modules:/usr/src/lobby/node_modules
+      - img:/usr/src/lobby/public/img
     links:
       - mongo
     depends_on:
@@ -17,15 +19,16 @@ services:
     build:
       context: .
       dockerfile: ./server/gamenode/Dockerfile
-    volumes:
-      - .:/usr/src/node
-      - node_modules:/usr/src/node/node_modules    
+    image: keyteki:node
     ports:
-      - "9500:9500"        
+      - "9500:9500"
+    volumes:
+      - node_modules:/usr/src/node/node_modules
+      - img:/usr/src/node/public/img
   mongo:
     image: mongo
     volumes:
       - ./mongodb:/data/db
 volumes:
   node_modules:
-
+  img:
