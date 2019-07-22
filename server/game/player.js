@@ -6,9 +6,6 @@ const ClockSelector = require('./Clocks/ClockSelector');
 const PlayableLocation = require('./playablelocation');
 const PlayerPromptState = require('./playerpromptstate');
 const DiscardAction = require('./BaseActions/DiscardAction');
-const PlayAction = require('./BaseActions/PlayAction');
-const PlayCreatureAction = require('./BaseActions/PlayCreatureAction');
-const PlayArtifactAction = require('./BaseActions/PlayArtifactAction');
 
 class Player extends GameObject {
     constructor(id, user, owner, game, clockdetails) {
