@@ -257,24 +257,12 @@ class Player extends GameObject {
 
             if(source === 'hand' && target === 'discard') {
                 action = new DiscardAction(card);
-            } else if(source === 'hand' && target === 'play area') {
-                switch(card.type) {
-                    case 'action':
-                        action = new PlayAction(card);
-                        break;
-                    case 'creature':
-                        action = new PlayCreatureAction(card);
-                        break;
-                    case 'artifact':
-                        action = new PlayArtifactAction(card);
-                        break;
+                if(action && action.meetsRequirements() === '') {
+                    this.game.resolveAbility(action.createContext());
+                    return true;
                 }
-            }
-
-            if(action && action.meetsRequirements() === '') {
-                this.game.resolveAbility(action.createContext());
-
-                return true;
+            } else if(source === 'hand' && target === 'play area') {
+                this.game.pipeline.handleCardClicked(this, card);
             }
         }
 
