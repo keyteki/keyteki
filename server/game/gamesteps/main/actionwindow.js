@@ -3,9 +3,11 @@ const UiPrompt = require('../uiprompt.js');
 class ActionWindow extends UiPrompt {
     onCardClicked(player, card) {
         if(player === this.game.activePlayer && card.controller === player && card.use(player)) {
-            if(card.hasKeyword('omega')) {
-                this.complete();
-            }
+            this.game.queueSimpleStep(() => {
+                if(card.hasKeyword('omega') && this.game.cardsPlayed.includes(card)) {
+                    this.complete();
+                }
+            });
             return true;
         }
         return false;
