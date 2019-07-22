@@ -24,6 +24,8 @@ class DiscardAction extends BaseAbility {
             return 'cannotTrigger';
         } else if(!ignoredRequirements.includes('location') && !context.player.isCardInPlayableLocation(context.source, 'play')) {
             return 'location';
+        } else if(context.game.currentPhase !== 'main') {
+            return 'phase';
         }
         return super.meetsRequirements(context);
     }

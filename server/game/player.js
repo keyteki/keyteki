@@ -6,9 +6,6 @@ const ClockSelector = require('./Clocks/ClockSelector');
 const PlayableLocation = require('./playablelocation');
 const PlayerPromptState = require('./playerpromptstate');
 const DiscardAction = require('./BaseActions/DiscardAction');
-const PlayAction = require('./BaseActions/PlayAction');
-const PlayCreatureAction = require('./BaseActions/PlayCreatureAction');
-const PlayArtifactAction = require('./BaseActions/PlayArtifactAction');
 
 class Player extends GameObject {
     constructor(id, user, owner, game, clockdetails) {
@@ -257,24 +254,12 @@ class Player extends GameObject {
 
             if(source === 'hand' && target === 'discard') {
                 action = new DiscardAction(card);
-            } else if(source === 'hand' && target === 'play area') {
-                switch(card.type) {
-                    case 'action':
-                        action = new PlayAction(card);
-                        break;
-                    case 'creature':
-                        action = new PlayCreatureAction(card);
-                        break;
-                    case 'artifact':
-                        action = new PlayArtifactAction(card);
-                        break;
+                if(action && action.meetsRequirements() === '') {
+                    this.game.resolveAbility(action.createContext());
+                    return true;
                 }
-            }
-
-            if(action && action.meetsRequirements() === '') {
-                this.game.resolveAbility(action.createContext());
-
-                return true;
+            } else if(source === 'hand' && target === 'play area') {
+                this.game.pipeline.handleCardClicked(this, card);
             }
         }
 
