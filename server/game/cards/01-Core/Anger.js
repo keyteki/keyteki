@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class Anger extends Card {
-    setupCardAbilities(ability) { // eslint-disable-line no-unused-vars
+    setupCardAbilities(ability) {
         this.play({
             target: {
                 cardType: 'creature',
@@ -16,6 +16,6 @@ class Anger extends Card {
     }
 }
 
-Anger.id = 'anger'; // This is a guess at what the id might be - please check it!!!
+Anger.id = 'anger';
 
 module.exports = Anger;
