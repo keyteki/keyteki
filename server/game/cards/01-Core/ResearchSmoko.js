@@ -11,6 +11,6 @@ class ResearchSmoko extends Card {
     }
 }
 
-ResearchSmoko.id = 'research-smoko'; // This is a guess at what the id might be - please check it!!!
+ResearchSmoko.id = 'research-smoko';
 
 module.exports = ResearchSmoko;

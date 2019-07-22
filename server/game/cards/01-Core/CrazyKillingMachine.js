@@ -42,6 +42,6 @@ class CrazyKillingMachine extends Card {
     }
 }
 
-CrazyKillingMachine.id = 'crazy-killing-machine'; // This is a guess at what the id might be - please check it!!!
+CrazyKillingMachine.id = 'crazy-killing-machine';
 
 module.exports = CrazyKillingMachine;

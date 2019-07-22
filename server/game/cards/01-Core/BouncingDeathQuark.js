@@ -30,6 +30,6 @@ class BouncingDeathquark extends Card {
     }
 }
 
-BouncingDeathquark.id = 'bouncing-deathquark'; // This is a guess at what the id might be - please check it!!!
+BouncingDeathquark.id = 'bouncing-deathquark';
 
 module.exports = BouncingDeathquark;

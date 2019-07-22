@@ -11,6 +11,6 @@ class BrainEater extends Card {
     }
 }
 
-BrainEater.id = 'brain-eater'; // This is a guess at what the id might be - please check it!!!
+BrainEater.id = 'brain-eater';
 
 module.exports = BrainEater;

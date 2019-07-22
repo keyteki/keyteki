@@ -11,6 +11,6 @@ class JehuTheBureaucrat extends Card {
     }
 }
 
-JehuTheBureaucrat.id = 'jehu-the-bureaucrat'; // This is a guess at what the id might be - please check it!!!
+JehuTheBureaucrat.id = 'jehu-the-bureaucrat';
 
 module.exports = JehuTheBureaucrat;

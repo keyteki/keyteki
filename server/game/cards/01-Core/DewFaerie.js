@@ -8,6 +8,6 @@ class DewFaerie extends Card {
     }
 }
 
-DewFaerie.id = 'dew-faerie'; // This is a guess at what the id might be - please check it!!!
+DewFaerie.id = 'dew-faerie';
 
 module.exports = DewFaerie;
