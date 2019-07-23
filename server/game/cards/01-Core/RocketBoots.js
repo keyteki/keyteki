@@ -17,6 +17,6 @@ class RocketBoots extends Card {
     }
 }
 
-RocketBoots.id = 'rocket-boots'; // This is a guess at what the id might be - please check it!!!
+RocketBoots.id = 'rocket-boots';
 
 module.exports = RocketBoots;

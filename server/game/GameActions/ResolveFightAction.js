@@ -1,10 +1,6 @@
 const CardGameAction = require('./CardGameAction');
 
 class ResolveFightAction extends CardGameAction {
-    setDefaultProperties () {
-        this.attacker = null;
-    }
-
     setup() {
         this.name = 'attack';
         this.targetType = ['creature'];
@@ -35,13 +31,21 @@ class ResolveFightAction extends CardGameAction {
         };
         return super.createEvent('onFight', params, event => {
             let damageEvents = [];
+            let defenderAmount = event.card.power;
+            if(event.card.anyEffect('limitFightDamage')) {
+                defenderAmount = Math.min(defenderAmount, ...event.card.getEffects('limitFightDamage'));
+            }
             let defenderParams = {
-                amount: event.card.power,
+                amount: defenderAmount,
                 fightEvent: event,
                 damageSource: event.card
             };
+            let attackerAmount = event.attacker.power + event.attacker.getBonusDamage(event.attackerTarget);
+            if(event.attacker.anyEffect('limitFightDamage')) {
+                attackerAmount = Math.min(attackerAmount, ...event.attacker.getEffects('limitFightDamage'));
+            }
             let attackerParams = {
-                amount: event.attacker.power + event.attacker.getBonusDamage(event.attackerTarget),
+                amount: attackerAmount,
                 fightEvent: event,
                 damageSource: event.attacker
             };

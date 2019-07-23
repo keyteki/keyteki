@@ -3,10 +3,13 @@ const commandLineArgs = require('command-line-args');
 const monk = require('monk');
 const path = require('path');
 
-const CardImport = require('./fetchdata/CardImport.js');
-const KeyforgeImageSource = require('./fetchdata/KeyforgeImageSource.js');
-const JsonCardSource = require('./fetchdata/JsonCardSource.js');
-const NoImageSource = require('./fetchdata/NoImageSource.js');
+const ConfigService = require('../services/ConfigService');
+const CardImport = require('./fetchdata/CardImport');
+const KeyforgeImageSource = require('./fetchdata/KeyforgeImageSource');
+const JsonCardSource = require('./fetchdata/JsonCardSource');
+const NoImageSource = require('./fetchdata/NoImageSource');
+
+let configService = new ConfigService();
 
 const optionsDefinition = [
     { name: 'card-source', type: String, defaultValue: 'json' },
@@ -42,7 +45,7 @@ function createImageSource(options) {
 
 let options = commandLineArgs(optionsDefinition);
 
-let db = monk('mongodb://127.0.0.1:27017/keyforge');
+let db = monk(configService.getValue('dbPath'));
 let dataSource = createDataSource(options);
 let imageSource = createImageSource(options);
 

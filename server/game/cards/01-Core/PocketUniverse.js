@@ -13,6 +13,6 @@ class PocketUniverse extends Card {
     }
 }
 
-PocketUniverse.id = 'pocket-universe'; // This is a guess at what the id might be - please check it!!!
+PocketUniverse.id = 'pocket-universe';
 
 module.exports = PocketUniverse;

@@ -48,6 +48,6 @@ class NeutronShark extends Card {
     }
 }
 
-NeutronShark.id = 'neutron-shark'; // This is a guess at what the id might be - please check it!!!
+NeutronShark.id = 'neutron-shark';
 
 module.exports = NeutronShark;

@@ -19,6 +19,7 @@ const Effects = {
     consideredAsFlank: () => EffectBuilder.card.static('consideredAsFlank'),
     customDetachedCard: (properties) => EffectBuilder.card.detached('customEffect', properties),
     doesNotReady: () => EffectBuilder.card.static('doesNotReady'),
+    limitFightDamage: (amount) => EffectBuilder.card.flexible('limitFightDamage', amount),
     gainAbility: (abilityType, properties) => EffectBuilder.card.detached('gainAbility', {
         apply: (card, context) => {
             let ability;

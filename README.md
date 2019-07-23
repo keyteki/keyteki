@@ -40,6 +40,19 @@ Check out the [About page](https://thecrucible.online/about) of Keyteki live dep
 
 ## Development
 
+### Docker
+If you have docker installed, you can use the containerised version of the site.
+
+```
+Clone the repository
+docker-compose up
+
+(in another terminal)
+docker-compose exec lobby bash
+node server/scripts/fetchdata
+```
+
+### Non Docker
 #### Required Software
 * Git
 * Node.js 8

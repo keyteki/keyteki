@@ -13,6 +13,6 @@ class NaturesCall extends Card {
     }
 }
 
-NaturesCall.id = 'nature-s-call'; // This is a guess at what the id might be - please check it!!!
+NaturesCall.id = 'nature-s-call';
 
 module.exports = NaturesCall;

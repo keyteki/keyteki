@@ -12,7 +12,7 @@ class GameRouter extends EventEmitter {
         this.workers = {};
         this.gameService = new GameService(monk(config.dbPath));
 
-        router.bind(config.mqUrl, err => {
+        router.bind(`tcp://0.0.0.0:${config.mqPort}`, err => {
             if(err) {
                 logger.info(err);
             }

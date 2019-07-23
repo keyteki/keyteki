@@ -15,6 +15,6 @@ class BrothersInBattle extends Card {
     }
 }
 
-BrothersInBattle.id = 'brothers-in-battle'; // This is a guess at what the id might be - please check it!!!
+BrothersInBattle.id = 'brothers-in-battle';
 
 module.exports = BrothersInBattle;
