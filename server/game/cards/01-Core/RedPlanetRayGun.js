@@ -15,6 +15,6 @@ class RedPlanetRayGun extends Card {
     }
 }
 
-RedPlanetRayGun.id = 'red-planet-ray-gun'; // This is a guess at what the id might be - please check it!!!
+RedPlanetRayGun.id = 'red-planet-ray-gun';
 
 module.exports = RedPlanetRayGun;
