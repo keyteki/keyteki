@@ -9,7 +9,6 @@ services:
       - "4000:4000"
     volumes:
       - node_modules:/usr/src/lobby/node_modules
-      - img:/usr/src/lobby/public/img
     links:
       - mongo
     depends_on:
@@ -24,11 +23,9 @@ services:
       - "9500:9500"
     volumes:
       - node_modules:/usr/src/node/node_modules
-      - img:/usr/src/node/public/img
   mongo:
     image: mongo
     volumes:
       - ./mongodb:/data/db
 volumes:
   node_modules:
-  img:
