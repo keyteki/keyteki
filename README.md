@@ -47,11 +47,11 @@ If you have docker installed, you can use the containerised version of the site.
 Clone the repository
 git submodule init
 git submodule update
+npm install
 docker-compose up
 
 (in another terminal)
-docker-compose exec lobby bash
-node server/scripts/fetchdata
+docker-compose exec lobby node server/scripts/fetchdata
 ```
 
 ### Non Docker
