@@ -87,6 +87,24 @@ Then for each game node (typically one per CPU/core):
 PORT={port} SERVER={node-name} node server/gamenode
 ```
 
+### Running and Testing
+
+The game server should be accessible by browsing to localhost:4000. 
+
+You can register 2 or more users, to play against yourself. 
+They can have fake email addresses. 
+You can login as both users either from 2 different browsers, or by 
+using an incognito window. 
+
+There is no concept of an 'admin' user.
+
+If you implement or make changes to a card, you can use manual mode 
+to add it to a deck from within a game. Use manual mode, and the command:
+```
+/add-card <card name>
+```
+
+
 ### Coding Guidelines
 
 All JavaScript code included in Ringteki should pass (no errors, no warnings)
@@ -107,6 +125,9 @@ npm test
 ```
 
 If you are making any game engine changes, these will not be accepted without unit tests to cover them.
+
+### Testing
+
 
 ### Discord Discusson
 [Keyteki Discord Server](https://discord.gg/NncEXAs)
