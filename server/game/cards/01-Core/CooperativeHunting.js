@@ -8,6 +8,7 @@ class CooperativeHunting extends Card {
                 num: context.player.cardsInPlay.filter(card => card.type === 'creature').length,
                 action: ability.actions.dealDamage({
                     amount: 1,
+                    noGameStateCheck: true,
                     promptForSelect: {
                         activePromptTitle: 'Choose a creature to deal 1 damage to',
                         cardType: 'creature'
@@ -18,6 +19,6 @@ class CooperativeHunting extends Card {
     }
 }
 
-CooperativeHunting.id = 'cooperative-hunting'; // This is a guess at what the id might be - please check it!!!
+CooperativeHunting.id = 'cooperative-hunting';
 
 module.exports = CooperativeHunting;
