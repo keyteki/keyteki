@@ -10,7 +10,6 @@ class ScowlyCaper extends Card {
             when: {
                 onCardEntersPlay: (event, context) => event.card === context.source
             },
-            //gameAction: ability.actions.ready()
             gameAction: ability.actions.cardLastingEffect(context => ({
                 duration: 'lastingEffect',
                 effect: ability.effects.takeControl(context.player.opponent)
