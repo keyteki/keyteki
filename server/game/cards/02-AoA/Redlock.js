@@ -1,17 +1,13 @@
 const Card = require('../../Card.js');
-const EventRegistrar = require('../../eventregistrar.js');
 
 class Redlock extends Card {
     setupCardAbilities(ability) {
-        this.creaturesPlayed = {};
-        this.tracker = new EventRegistrar(this.game, this);
-        this.tracker.register(['onCardPlayed', 'onPhaseStarted']);
-
         this.interrupt({
             when: {
-                onPhaseEnded: (event, context) => event.phase === 'draw' && context.player.opponent === this.game.activePlayer
+                onRoundEnded: (event, context) =>
+                    context.player === this.game.activePlayer &&
+                    this.game.cardsPlayed.filter(card => card.type === 'creature').length === 0
             },
-            condition: context => this.creaturesPlayed[context.player.uuid].length <= 0,
             gameAction: ability.actions.gainAmber()
         });
     }
