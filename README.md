@@ -104,6 +104,16 @@ to add it to a deck from within a game. Use manual mode, and the command:
 /add-card <card name>
 ```
 
+The unit tests require cross-env to be installed:
+```
+npm install cross-env
+```
+
+Then to run the tests:
+```
+npm test
+```
+
 
 ### Coding Guidelines
 
