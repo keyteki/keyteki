@@ -4,7 +4,8 @@ class Shaffles extends Card {
     setupCardAbilities(ability) {
         this.interrupt({
             when: {
-                onPhaseEnded: (event, context) => event.phase === 'draw' && context.player.opponent === this.game.activePlayer
+                onRoundEnded: (event, context) =>
+                    context.player === this.game.activePlayer
             },
             gameAction: ability.actions.loseAmber()
         });

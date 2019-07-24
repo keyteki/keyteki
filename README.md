@@ -45,6 +45,8 @@ If you have docker installed, you can use the containerised version of the site.
 
 ```
 Clone the repository
+git submodule init
+git submodule update
 docker-compose up
 
 (in another terminal)

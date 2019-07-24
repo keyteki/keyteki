@@ -32,18 +32,12 @@ class SequentialForEachAction extends GameAction {
                         this.action.setDefaultTarget(() => card);
                         this.action.preEventHandler(context);
                     });
-                    context.game.queueSimpleStep(() => {
-                        let eventWindow = context.game.openEventWindow(this.action.getEventArray(context));
-                        eventWindow.checkState = false;
-                    });
+                    context.game.queueSimpleStep(() => context.game.openEventWindow(this.action.getEventArray(context)));
                 }
             } else {
                 for(let i = 0; i < this.num; i++) {
                     context.game.queueSimpleStep(() => this.action.preEventHandler(context));
-                    context.game.queueSimpleStep(() => {
-                        let eventWindow = context.game.openEventWindow(this.action.getEventArray(context));
-                        eventWindow.checkState = false;
-                    });
+                    context.game.queueSimpleStep(() => context.game.openEventWindow(this.action.getEventArray(context)));
                 }
             }
         })];
