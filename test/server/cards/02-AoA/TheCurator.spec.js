@@ -34,7 +34,7 @@ describe('The Curator', function() {
                     player2: {
                         amber: 1,
                         house: 'shadows',
-                        hand: ['seeker-needle', 'skeleton-key', 'subtle-maul'],
+                        hand: ['seeker-needle', 'skeleton-key', 'subtle-maul']
                     }
                 });
             });

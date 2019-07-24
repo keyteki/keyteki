@@ -34,7 +34,7 @@ describe('Duskwitch', function() {
                     player2: {
                         amber: 1,
                         house: 'untamed',
-                        hand: ['hunting-witch', 'dust-pixie'],
+                        hand: ['hunting-witch', 'dust-pixie']
                     }
                 });
             });
