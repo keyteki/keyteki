@@ -45,11 +45,13 @@ If you have docker installed, you can use the containerised version of the site.
 
 ```
 Clone the repository
+git submodule init
+git submodule update
+npm install
 docker-compose up
 
 (in another terminal)
-docker-compose exec lobby bash
-node server/scripts/fetchdata
+docker-compose exec lobby node server/scripts/fetchdata
 ```
 
 ### Non Docker
@@ -86,6 +88,36 @@ Then for each game node (typically one per CPU/core):
 ```
 PORT={port} SERVER={node-name} node server/gamenode
 ```
+
+### Running and Testing
+
+The game server should be accessible by browsing to localhost:4000. 
+
+You can register 2 or more users, to play against yourself. 
+They can have fake email addresses. 
+You can login as both users either from 2 different browsers, or by 
+using an incognito window. 
+
+These users will be normal (non-admin) users. To escalate a user to 
+the admin role requires manual edits to the Mongo database, but that 
+is not required for testing in-game functionality. 
+
+If you implement or make changes to a card, you can use manual mode 
+to add it to a deck from within a game. Use manual mode, and the command:
+```
+/add-card <card name>
+```
+
+Before you run the unit tests, be sure all the necessary dependencies are installed
+```
+npm install
+```
+
+Then, to run the tests:
+```
+npm test
+```
+
 
 ### Coding Guidelines
 

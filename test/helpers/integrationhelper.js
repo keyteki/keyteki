@@ -131,6 +131,8 @@ global.integration = function(definitions) {
                 //Player stats
                 this.player1.amber = options.player1.amber;
                 this.player2.amber = options.player2.amber;
+                this.player1.keys = options.player1.keys;
+                this.player2.keys = options.player2.keys;
                 this.player1.chains = options.player1.chains;
                 this.player2.chains = options.player2.chains;
                 //Field

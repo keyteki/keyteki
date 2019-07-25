@@ -36,6 +36,7 @@ services:
   mongo:
     image: mongo
     volumes:
-      - ./mongodb:/data/db
+      - mongodb:/data/db
 volumes:
+  mongodb:
   node_modules:

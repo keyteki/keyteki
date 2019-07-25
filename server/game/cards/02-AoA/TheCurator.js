@@ -1,16 +1,16 @@
 const Card = require('../../Card.js');
 
-class Duskwitch extends Card {
+class TheCurator extends Card {
     setupCardAbilities(ability) {
         this.constantReaction({
             when: {
-                onCardPlayed: (event, context) => event.card.type === 'creature' && event.card.controller === context.player
+                onCardPlayed: (event, context) => event.card.type === 'artifact' && event.card.controller === context.player
             },
             gameAction: ability.actions.ready(context => ({ target: context.event.card }))
         });
     }
 }
 
-Duskwitch.id = 'duskwitch';
+TheCurator.id = 'the-curator';
 
-module.exports = Duskwitch;
+module.exports = TheCurator;

@@ -11,6 +11,6 @@ class Francus extends Card {
     }
 }
 
-Francus.id = 'francus'; // This is a guess at what the id might be - please check it!!!
+Francus.id = 'francus';
 
 module.exports = Francus;

@@ -35,27 +35,35 @@ class DealDamageAction extends CardGameAction {
 
     getEvent(card, context, amount = this.amount || this.amountForCard(card, context)) {
         let currentArmor = this.ignoreArmor ? 0 : (card.armor - card.armorUsed);
+        let damagePrevented = 0;
+
         if(amount <= currentArmor) {
             card.armorUsed += amount;
+            damagePrevented = amount;
             amount = 0;
         } else {
+            damagePrevented = currentArmor;
             card.armorUsed += currentArmor;
+            damagePrevented = amount - currentArmor;
             amount -= currentArmor;
         }
+
         let params = {
             card: card,
             context: context,
             amount: amount,
             damageSource: this.damageSource,
             destroyed: false,
-            fightEvent: this.fightEvent
+            fightEvent: this.fightEvent,
+            damagePrevented: damagePrevented
         };
         return super.createEvent('onDamageDealt', params, event => {
             if(event.amount === 0) {
                 return;
             }
+
             event.card.addToken('damage', event.amount);
-            if(!event.card.moribund && (event.card.tokens.damage >= event.card.power || event.damageSource && event.damageSource.getKeywordValue('poison'))) {
+            if(!event.card.moribund && !this.noGameStateCheck && (event.card.tokens.damage >= event.card.power || event.damageSource && event.damageSource.getKeywordValue('poison'))) {
                 event.card.moribund = true;
                 context.game.actions.destroy({ inFight: !!event.fightEvent, purge: this.purge }).resolve(event.card, context.game.getFrameworkContext());
                 if(event.fightEvent) {
