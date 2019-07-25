@@ -5,7 +5,6 @@ class SackOfCoins extends Card {
         this.play({
             target: {
                 cardType: 'creature',
-                controller: 'opponent',
                 gameAction: ability.actions.dealDamage(
                     context => ({
                         amount: context.player.amber
