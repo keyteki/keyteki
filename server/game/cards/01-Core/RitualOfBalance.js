@@ -6,9 +6,13 @@ class RitualOfBalance extends Card {
             condition: context => context.player.opponent && context.player.opponent.amber >= 6,
             gameAction: ability.actions.steal()
         });
+        this.action({
+            condition: context => context.player.opponent && context.player.opponent.amber < 6,
+            gameAction: ability.actions.exhaust()
+        });
     }
 }
 
-RitualOfBalance.id = 'ritual-of-balance'; // This is a guess at what the id might be - please check it!!!
+RitualOfBalance.id = 'ritual-of-balance';
 
 module.exports = RitualOfBalance;
