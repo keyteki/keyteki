@@ -5,6 +5,7 @@ import 'jquery-validation';
 import 'jquery-validation-unobtrusive';
 import 'react-redux-toastr/src/styles/index.scss';
 import 'babel-polyfill';
+import '../less/site.less';
 
 $.validator.setDefaults({
     highlight: function (element) {
@@ -15,8 +16,12 @@ $.validator.setDefaults({
     }
 });
 
+let index;
+
 if(process.env.NODE_ENV === 'production') {
-    module.exports = require('./index.prod.jsx');
+    index = require('./index.prod');
 } else {
-    module.exports = require('./index.dev.jsx');
+    index = require('./index.dev');
 }
+
+export default index;

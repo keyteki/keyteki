@@ -11,7 +11,7 @@ const Raven = require('raven');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 const webpack = require('webpack');
-const webpackConfig = require('../webpack.config.js')();
+const webpackConfig = require('../webpack.dev.js');
 const monk = require('monk');
 const passportJwt = require('passport-jwt');
 const JwtStrategy = passportJwt.Strategy;
@@ -27,11 +27,6 @@ class Server {
         this.userService = new UserService(db);
         this.isDeveloping = isDeveloping;
         this.server = http.Server(app);
-
-        this.vendorAssets = require('../vendor-assets.json');
-        if(!this.isDeveloping) {
-            this.assets = require('../assets.json');
-        }
     }
 
     init() {
@@ -95,8 +90,7 @@ class Server {
 
         app.get('*', (req, res) => {
             res.render('index', {
-                basedir: path.join(__dirname, '..', 'views'),
-                vendorAssets: this.vendorAssets, assets: this.assets
+                basedir: path.join(__dirname, '..', 'views')
             });
         });
 
