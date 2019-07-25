@@ -38,9 +38,6 @@ class About extends React.Component {
                     <h3>Special Thanks</h3>
                     <p>I'd like to thank gyffon, cryogen, and the throneteki and ringteki teams as without their help and support this site would never have happened.</p>
 
-                    <h3>Additional Icons</h3>
-                    <p>Some icons were included from game-icons.net: Death Note by lorc.</p>
-
                     <h3>Additional Notes</h3>
                     <p>The Keyforge Unique Deck Game, the artwork and many other things are all copyright Fantasy Flight Games and I make no claims of ownership or otherwise of any of the
                     artwork or trademarks.  This site exists for passionate fans to play a game they enjoy and augment, rather than replace, the in person LCG.  FFG does not endorse, support, and is not
