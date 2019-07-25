@@ -48,6 +48,7 @@ const UseAction = require('./GameActions/UseAction');
 const Actions = {
     // card actions
     addPowerCounter: (propertyFactory) => new AddTokenAction(propertyFactory),
+    addDoomCounter: (propertyFactory) => new AddTokenAction(propertyFactory, 'doom'),
     archive: (propertyFactory) => new ArchiveAction(propertyFactory),
     attach: (propertyFactory) => new AttachAction(propertyFactory), // upgrade
     capture: (propertyFactory) => new CaptureAction(propertyFactory),
