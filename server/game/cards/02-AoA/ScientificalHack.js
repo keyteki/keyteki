@@ -1,18 +1,18 @@
 const Card = require('../../Card.js');
 
-class SigilOfBrotherhood extends Card {
+class ScientificalHack extends Card {
     setupCardAbilities(ability) {
         this.omni({
             gameAction: [
                 ability.actions.sacrifice(),
                 ability.actions.forRemainderOfTurn({
-                    effect: ability.effects.canUse(card => card.hasHouse('sanctum') && card.type === 'creature')
+                    effect: ability.effects.canUse(card => card.type === 'artifact')
                 })
             ]
         });
     }
 }
 
-SigilOfBrotherhood.id = 'sigil-of-brotherhood';
+ScientificalHack.id = 'scientifical-hack';
 
-module.exports = SigilOfBrotherhood;
+module.exports = ScientificalHack;
