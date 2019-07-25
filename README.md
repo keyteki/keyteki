@@ -98,7 +98,9 @@ They can have fake email addresses.
 You can login as both users either from 2 different browsers, or by 
 using an incognito window. 
 
-There is no concept of an 'admin' user.
+These users will be normal (non-admin) users. To escalate a user to 
+the admin role requires manual edits to the Mongo database, but that 
+is not required for testing in-game functionality. 
 
 If you implement or make changes to a card, you can use manual mode 
 to add it to a deck from within a game. Use manual mode, and the command:
@@ -106,12 +108,12 @@ to add it to a deck from within a game. Use manual mode, and the command:
 /add-card <card name>
 ```
 
-The unit tests require cross-env to be installed:
+Before you run the unit tests, be sure all the necessary dependencies are installed
 ```
-npm install cross-env
+npm install
 ```
 
-Then to run the tests:
+Then, to run the tests:
 ```
 npm test
 ```
