@@ -8,9 +8,12 @@ class MobiusScroll extends Card {
                 location: 'hand',
                 mode: 'upTo',
                 numCards: 2,
-                gameAction: ability.actions.archive(context => ({
-                    target: [context.source].concat(context.target)
-                }))
+                gameAction: [
+                    ability.actions.archive(context => ({
+                        target: context.target
+                    })),
+                    ability.actions.archive({ owner: true })
+                ]
             }
         });
     }
