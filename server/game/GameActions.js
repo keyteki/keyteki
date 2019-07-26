@@ -89,6 +89,7 @@ const Actions = {
     draw: (propertyFactory) => new DrawAction(propertyFactory), // amount = 1
     forgeKey: (propertyFactory) => new ForgeAction(propertyFactory), // modifier = 0
     forRemainderOfTurn: (propertyFactory) => new LastingEffectAction(propertyFactory, 1),
+    untilNextTurn: (propertyFactory) => new LastingEffectAction(propertyFactory, 2),
     gainAmber: (propertyFactory) => new ModifyAmberAction(propertyFactory), // amount = 1
     gainChains: (propertyFactory) => new ModifyChainsActions(propertyFactory), // amount = 1
     lastingEffect: (propertyFactory) => new LastingEffectAction(propertyFactory),
