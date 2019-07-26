@@ -16,7 +16,8 @@
         appName: 'The Crucible Online',
         emailFromAddress: 'noreply@thecrucible.online',
         blockDisposableEmail: false,
-        hmacSecret: 'somethingevenmoresecret',
+        requireActivation: false,
+        hmacSecret: 'somethingevenmoresecret', 
 
         /*
          * Other server configurations used, but not specified, include:

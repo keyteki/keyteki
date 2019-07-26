@@ -189,32 +189,40 @@ module.exports.init = function (server) {
             res.send({ success: false, message: 'An error occurred registering your account, please try again later.' });
         }
 
-        let expiration = moment().add(7, 'days');
-        let formattedExpiration = expiration.format('YYYYMMDD-HH:mm:ss');
-        let hmac = crypto.createHmac('sha512', configService.getValueForSection('lobby', 'hmacSecret'));
-
-        let activationToken = hmac.update(`ACTIVATE ${req.body.username} ${formattedExpiration}`).digest('hex');
-
         let newUser = {
             password: passwordHash,
             registered: new Date(),
             username: req.body.username,
             email: req.body.email,
             enableGravatar: req.body.enableGravatar,
-            verified: false,
-            activationToken: activationToken,
-            activationTokenExpiry: formattedExpiration,
             registerIp: req.get('x-real-ip')
         };
 
-        user = await userService.addUser(newUser);
-        let url = `${req.protocol}://${req.get('host')}/activation?id=${user._id}&token=${activationToken}`;
-        let emailText = `Hi,\n\nSomeone, hopefully you, has requested an account to be created on ${appName} (${req.protocol}://${req.get('host')}).  If this was you, click this link ${url} to complete the process.\n\n` +
-            'If you did not request this please disregard this email.\n' +
-            'Kind regards,\n\n' +
-            `${appName} team`;
+        if(configService.getValueForSection('lobby', 'requireActivation')) {
+            let expiration = moment().add(7, 'days');
+            let formattedExpiration = expiration.format('YYYYMMDD-HH:mm:ss');
+            let hmac = crypto.createHmac('sha512', configService.getValueForSection('lobby', 'hmacSecret'));
 
-        await sendEmail(user.email, `${appName} - Account activation`, emailText);
+            let activationToken = hmac.update(`ACTIVATE ${req.body.username} ${formattedExpiration}`).digest('hex');
+
+            newUser.verified = false;
+            newUser.activationToken = activationToken;
+            newUser.activationTokenExpiry = formattedExpiration;
+        } else {
+            newUser.verified = true;
+        }
+
+        user = await userService.addUser(newUser);
+
+        if(configService.getValueForSection('lobby', 'requireActivation')) {
+            let url = `${req.protocol}://${req.get('host')}/activation?id=${user._id}&token=${newUser.activationToken}`;
+            let emailText = `Hi,\n\nSomeone, hopefully you, has requested an account to be created on ${appName} (${req.protocol}://${req.get('host')}).  If this was you, click this link ${url} to complete the process.\n\n` +
+                'If you did not request this please disregard this email.\n' +
+                'Kind regards,\n\n' +
+                `${appName} team`;
+
+            await sendEmail(user.email, `${appName} - Account activation`, emailText);
+        }
 
         res.send({ success: true });
 
