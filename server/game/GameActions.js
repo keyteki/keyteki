@@ -5,6 +5,7 @@ const ChangeEventAction = require('./GameActions/ChangeEventAction');
 const ChooseGameAction = require('./GameActions/ChooseGameAction');
 const ChosenDiscardAction = require('./GameActions/ChosenDiscardAction');
 const DealDamageAction = require('./GameActions/DealDamageAction');
+const DeckSearchAction = require('./GameActions/DeckSearchAction');
 const DelayedEffectAction = require('./GameActions/DelayedEffectAction');
 const DestroyAction = require('./GameActions/DestroyAction');
 const DiscardCardAction = require('./GameActions/DiscardCardAction');
@@ -54,6 +55,7 @@ const Actions = {
     capture: (propertyFactory) => new CaptureAction(propertyFactory),
     cardLastingEffect: (propertyFactory) => new LastingEffectCardAction(propertyFactory), // duration = 'untilEndOfConflict', effect, targetLocation, condition, until
     dealDamage: (propertyFactory) => new DealDamageAction(propertyFactory),
+    deckSearch: (propertyFactory) => new DeckSearchAction(propertyFactory), // amount = -1, reveal = true, cardCondition = (card, context) => true
     delayedEffect: (propertyFactory) => new DelayedEffectAction(propertyFactory), // when, message, gameAction, handler
     discard: (propertyFactory) => new DiscardCardAction(propertyFactory),
     destroy: (propertyFactory) => new DestroyAction(propertyFactory),

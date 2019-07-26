@@ -18,7 +18,7 @@ class DeckSearchAction extends PlayerAction {
     }
 
     canAffect(player, context) {
-        return this.amount !== 0 && player.conflictDeck.size() > 0 && super.canAffect(player, context);
+        return this.amount !== 0 && player.deck.length > 0 && super.canAffect(player, context);
     }
 
     defaultTargets(context) {
@@ -27,16 +27,13 @@ class DeckSearchAction extends PlayerAction {
 
     getEvent(player, context) {
         return super.createEvent('onDeckSearch', { player: player, amount: this.amount, context: context }, () => {
-            let amount = this.amount > -1 ? this.amount : player.conflictDeck.size();
+            let amount = this.amount > -1 ? this.amount : player.deck.length;
             context.game.promptWithHandlerMenu(player, {
                 activePromptTitle: 'Select a card to ' + (this.reveal ? 'reveal and ' : '') + 'put in your hand',
                 context: context,
-                cards: player.conflictDeck.first(amount).filter(card => this.cardCondition(card, context)),
-                choices: ['Take nothing'],
-                handlers: [() => {
-                    context.game.addMessage('{0} takes nothing', player);
-                    player.shuffleConflictDeck();
-                }],
+                cards: player.deck.slice(0, amount).filter(card => this.cardCondition(card, context)),
+                choices: [],
+                handlers: [],
                 cardHandler: card => {
                     if(this.reveal) {
                         context.game.addMessage('{0} takes {1} and adds it to their hand', player, card);
@@ -44,7 +41,6 @@ class DeckSearchAction extends PlayerAction {
                         context.game.addMessage('{0} takes a card into their hand', player);
                     }
                     player.moveCard(card, 'hand');
-                    player.shuffleConflictDeck();
                 }
             });
         });
