@@ -62,6 +62,10 @@ class User {
         return this.userData.verified;
     }
 
+    get registered() {
+        return this.userData.registered;
+    }
+
     getWireSafeDetails() {
         let user = {
             _id: this.userData._id,

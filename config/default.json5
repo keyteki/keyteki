@@ -5,7 +5,7 @@
     dbPath: 'mongodb://mongo:27017/keyforge',
     mqHost: 'lobby',
     mqPort: 6000,
-
+    minLobbyChatTime: 0, // The time (in seconds) an account has to be registered before it can chat in the lobby
     /*
      * Other global configurations used, but not specified, include:
      *  - sentryDsn (for production only)

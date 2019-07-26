@@ -208,13 +208,13 @@ module.exports.init = function (server) {
         };
 
         user = await userService.addUser(newUser);
-        // let url = `${req.protocol}://${req.get('host')}/activation?id=${user._id}&token=${activationToken}`;
-        // let emailText = `Hi,\n\nSomeone, hopefully you, has requested an account to be created on ${appName} (${req.protocol}://${req.get('host')}).  If this was you, click this link ${url} to complete the process.\n\n` +
-        //     'If you did not request this please disregard this email.\n' +
-        //     'Kind regards,\n\n' +
-        //     `${appName} team`;
+        let url = `${req.protocol}://${req.get('host')}/activation?id=${user._id}&token=${activationToken}`;
+        let emailText = `Hi,\n\nSomeone, hopefully you, has requested an account to be created on ${appName} (${req.protocol}://${req.get('host')}).  If this was you, click this link ${url} to complete the process.\n\n` +
+            'If you did not request this please disregard this email.\n' +
+            'Kind regards,\n\n' +
+            `${appName} team`;
 
-        // await sendEmail(user.email, `${appName} - Account activation`, emailText);
+        await sendEmail(user.email, `${appName} - Account activation`, emailText);
 
         res.send({ success: true });
 
@@ -338,9 +338,9 @@ module.exports.init = function (server) {
             return res.send({ success: false, message: 'Invalid username/password' });
         }
 
-        // if(!user.verified) {
-        //     return res.send({ success: false, message: 'You must verifiy your account before trying to log in' });
-        // }
+        if(!user.verified) {
+            return res.send({ success: false, message: 'You must verifiy your account before trying to log in' });
+        }
 
         let userObj = user.getWireSafeDetails();
 

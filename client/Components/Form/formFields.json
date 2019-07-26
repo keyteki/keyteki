@@ -178,5 +178,19 @@
         "labelClass": "col-sm-4",
         "fieldClass": "col-sm-7"
       }
+    ],
+    "userAdmin": [
+      {
+        "name": "username",
+        "label": "Search for a user",
+        "placeholder": "Enter a username",
+        "inputType": "text",
+        "validationProperties": {
+          "data-val": true,
+          "data-val-required": "Please enter a username"
+        },
+        "labelClass": "col-sm-4",
+        "fieldClass": "col-sm-6"
+      }
     ]
   }

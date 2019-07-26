@@ -20,6 +20,7 @@ module.exports.init = function(server) {
         }
 
         let user;
+        let linkedAccounts;
         try {
             user = await userService.getUserByUsername(req.params.username);
 
@@ -32,13 +33,15 @@ module.exports.init = function(server) {
                     return { _id: deck._id, uuid: deck.uuid, name: deck.name };
                 });
             }
+
+            linkedAccounts = await userService.getPossiblyLinkedAccounts(user);
         } catch(error) {
             logger.error(error);
 
             return res.send({success: false, message: 'An error occurred searching the user.  Please try again later.'});
         }
 
-        res.send({ success: true, user: user.getDetails() });
+        res.send({ success: true, user: user.getDetails(), linkedAccounts: linkedAccounts && linkedAccounts.map(account => account.username).filter(name => name !== user.username) });
     }));
 
     server.put('/api/user/:username', passport.authenticate('jwt', { session: false }), wrapAsync(async (req, res) => {
