@@ -160,6 +160,10 @@ export function connectLobby() {
             dispatch(lobbyMessageReceived('lobbychat', message));
         });
 
+        socket.on('nochat', messages => {
+            dispatch(lobbyMessageReceived('nochat', messages));
+        });
+
         socket.on('lobbymessages', messages => {
             dispatch(lobbyMessageReceived('lobbymessages', messages));
         });

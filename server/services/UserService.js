@@ -49,6 +49,18 @@ class UserService {
             });
     }
 
+    async getPossiblyLinkedAccounts(user) {
+        if(!user.tokens) {
+            return [];
+        }
+
+        let ips = [...new Set(user.tokens.map(token => token.ip).filter(ip => ip))];
+
+        return this.users.find({'tokens.ip': {'$in': ips}}).catch(err => {
+            logger.error('Error finding related ips', err, user.username);
+        });
+    }
+
     addUser(user) {
         return this.users.insert(user)
             .then(() => {

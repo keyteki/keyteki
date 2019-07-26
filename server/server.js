@@ -89,11 +89,11 @@ class Server {
                 heartbeat: 2000
             }));
 
-            app.get('*', (req, res) => {
-                res.render('index', {
-                    basedir: path.join(__dirname, '..', 'views')
-                });
-            });
+            // app.get('*', (req, res) => {
+            //     res.render('index', {
+            //         basedir: path.join(__dirname, '..', 'views')
+            //     });
+            // });
         } else {
             app.get('*', (req, res) => {
                 res.sendFile(path.join(__dirname, '..', 'dist', 'index.html'));

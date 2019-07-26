@@ -8,7 +8,10 @@ function httpRequest(url, options = {}) {
     return new Promise((resolve, reject) => {
         request(url, options, (err, res, body) => {
             if(err) {
-                err.statusCode = res.statusCode;
+                if(res) {
+                    err.statusCode = res.statusCode;
+                }
+
                 return reject(err);
             }
 

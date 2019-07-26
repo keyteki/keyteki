@@ -147,6 +147,11 @@ class Lobby {
                         return;
                     }
 
+                    if(dbUser.disabled) {
+                        ioSocket.disconnect();
+                        return;
+                    }
+
                     ioSocket.request.user = dbUser.getWireSafeDetails();
                     socket.user = dbUser;
 
@@ -582,18 +587,22 @@ class Lobby {
         this.sendGameState(game);
     }
 
-    onLobbyChat(socket, message) {
+    async onLobbyChat(socket, message) {
+        if(Date.now() - socket.user.registered < this.config.minLobbyChatTime * 1000) {
+            socket.send('nochat');
+            return;
+        }
+
         let chatMessage = { user: socket.user.getShortSummary(), message: message, time: new Date() };
+        let newMessage = await this.messageService.addMessage(chatMessage);
 
         for(let s of Object.values(this.sockets)) {
             if(s.user && s.user.blockList.includes(chatMessage.user.username.toLowerCase())) {
                 continue;
             }
 
-            s.send('lobbychat', chatMessage);
+            s.send('lobbychat', newMessage);
         }
-
-        this.messageService.addMessage(chatMessage);
     }
 
     onGetSealedDeck(socket, gameId) {
