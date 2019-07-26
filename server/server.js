@@ -11,7 +11,7 @@ const Raven = require('raven');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 const webpack = require('webpack');
-const webpackConfig = require('../webpack.config.js')();
+const webpackConfig = require('../webpack.dev.js');
 const monk = require('monk');
 const passportJwt = require('passport-jwt');
 const JwtStrategy = passportJwt.Strategy;
@@ -27,11 +27,6 @@ class Server {
         this.userService = new UserService(db);
         this.isDeveloping = isDeveloping;
         this.server = http.Server(app);
-
-        this.vendorAssets = require('../vendor-assets.json');
-        if(!this.isDeveloping) {
-            this.assets = require('../assets.json');
-        }
     }
 
     init() {
@@ -65,8 +60,7 @@ class Server {
         api.init(app);
 
         app.use(express.static(__dirname + '/../public'));
-        app.set('view engine', 'pug');
-        app.set('views', path.join(__dirname, '..', 'views'));
+        app.use(express.static(__dirname + '/../dist'));
 
         if(this.isDeveloping) {
             const compiler = webpack(webpackConfig);
@@ -85,20 +79,26 @@ class Server {
                 historyApiFallback: true
             });
 
+            app.set('view engine', 'pug');
+            app.set('views', path.join(__dirname, '..', 'views'));
+
             app.use(middleware);
             app.use(webpackHotMiddleware(compiler, {
                 log: false,
                 path: '/__webpack_hmr',
                 heartbeat: 2000
             }));
-        }
 
-        app.get('*', (req, res) => {
-            res.render('index', {
-                basedir: path.join(__dirname, '..', 'views'),
-                vendorAssets: this.vendorAssets, assets: this.assets
+            app.get('*', (req, res) => {
+                res.render('index', {
+                    basedir: path.join(__dirname, '..', 'views')
+                });
             });
-        });
+        } else {
+            app.get('*', (req, res) => {
+                res.sendFile(path.join(__dirname, '..', 'dist', 'index.html'));
+            });
+        }
 
         // Define error middleware last
         app.use(function (err, req, res, next) {
