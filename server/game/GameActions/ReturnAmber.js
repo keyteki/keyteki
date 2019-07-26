@@ -29,7 +29,10 @@ class ReturnAmber extends CardGameAction {
         };
         return super.createEvent('onReturnAmber', params, event => {
             event.card.removeToken('amber');
-            context.game.actions.gainAmber({ amount: event.amount }).resolve(context.player, context);
+            context.game.actions.gainAmber({
+                amount: event.amount,
+                target: this.recipient || card.controller.opponent
+            }).resolve(context.player, context);
         });
     }
 }
