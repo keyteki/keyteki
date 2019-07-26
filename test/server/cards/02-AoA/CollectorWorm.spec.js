@@ -1,4 +1,4 @@
-fdescribe('Collector Worm', function() {
+describe('Collector Worm', function() {
     integration(function() {
         describe('Collector Worm\'s ability', function() {
             beforeEach(function() {
