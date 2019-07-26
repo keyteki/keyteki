@@ -7,6 +7,7 @@ class Soulkeeper extends Card {
                 target: {
                     mode: 'mostStat',
                     cardType: 'creature',
+                    controller: 'opponent',
                     numCards: 1,
                     cardStat: card => card.power,
                     gameAction: ability.actions.destroy()
