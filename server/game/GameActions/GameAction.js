@@ -113,6 +113,9 @@ class GameAction {
     }
 
     createEvent(name, params, handler) {
+        if(this.noGameStateCheck) {
+            params.noGameStateCheck = true;
+        }
         let event = new Event(name, params, handler, this);
         return event;
     }

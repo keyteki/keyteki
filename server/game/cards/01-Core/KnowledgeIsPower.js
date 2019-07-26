@@ -19,6 +19,6 @@ class KnowledgeIsPower extends Card {
     }
 }
 
-KnowledgeIsPower.id = 'knowledge-is-power'; // This is a guess at what the id might be - please check it!!!
+KnowledgeIsPower.id = 'knowledge-is-power';
 
 module.exports = KnowledgeIsPower;

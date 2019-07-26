@@ -8,6 +8,6 @@ class MindBarb extends Card {
     }
 }
 
-MindBarb.id = 'mind-barb'; // This is a guess at what the id might be - please check it!!!
+MindBarb.id = 'mind-barb';
 
 module.exports = MindBarb;

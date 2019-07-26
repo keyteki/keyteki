@@ -31,6 +31,6 @@ class OzmoMartianologist extends Card {
     }
 }
 
-OzmoMartianologist.id = 'ozmo-martianologist'; // This is a guess at what the id might be - please check it!!!
+OzmoMartianologist.id = 'ozmo-martianologist';
 
 module.exports = OzmoMartianologist;

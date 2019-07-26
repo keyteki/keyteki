@@ -12,3 +12,5 @@ server/logs/*.gz
 build/
 !tsconfig.json
 data
+mongodb
+

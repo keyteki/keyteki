@@ -8,6 +8,6 @@ class BadPenny extends Card {
     }
 }
 
-BadPenny.id = 'bad-penny'; // This is a guess at what the id might be - please check it!!!
+BadPenny.id = 'bad-penny';
 
 module.exports = BadPenny;

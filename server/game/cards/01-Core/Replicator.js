@@ -21,6 +21,6 @@ class Replicator extends Card {
     }
 }
 
-Replicator.id = 'replicator'; // This is a guess at what the id might be - please check it!!!
+Replicator.id = 'replicator';
 
 module.exports = Replicator;

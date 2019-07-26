@@ -11,6 +11,6 @@ class SpeedSigil extends Card {
     }
 }
 
-SpeedSigil.id = 'speed-sigil'; // This is a guess at what the id might be - please check it!!!
+SpeedSigil.id = 'speed-sigil';
 
 module.exports = SpeedSigil;

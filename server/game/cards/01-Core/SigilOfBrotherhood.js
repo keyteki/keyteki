@@ -13,6 +13,6 @@ class SigilOfBrotherhood extends Card {
     }
 }
 
-SigilOfBrotherhood.id = 'sigil-of-brotherhood'; // This is a guess at what the id might be - please check it!!!
+SigilOfBrotherhood.id = 'sigil-of-brotherhood';
 
 module.exports = SigilOfBrotherhood;

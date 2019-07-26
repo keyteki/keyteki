@@ -19,6 +19,7 @@ const Effects = {
     consideredAsFlank: () => EffectBuilder.card.static('consideredAsFlank'),
     customDetachedCard: (properties) => EffectBuilder.card.detached('customEffect', properties),
     doesNotReady: () => EffectBuilder.card.static('doesNotReady'),
+    limitFightDamage: (amount) => EffectBuilder.card.flexible('limitFightDamage', amount),
     gainAbility: (abilityType, properties) => EffectBuilder.card.detached('gainAbility', {
         apply: (card, context) => {
             let ability;
@@ -104,6 +105,8 @@ const Effects = {
     playerCannot: (type, condition) => EffectBuilder.player.static('abilityRestrictions', new CannotRestriction(type, condition)),
     redirectAmber: (recepient) => EffectBuilder.player.static('redirectAmber', recepient),
     restrictHouseChoice: (house) => EffectBuilder.player.static('restrictHouseChoice', house),
+    stealFromPool: () => EffectBuilder.player.static('stealFromPool'),
+    captureFromPool: () => EffectBuilder.player.static('captureFromPool'),
     stopHouseChoice: (house) => EffectBuilder.player.static('stopHouseChoice', house),
     showTopConflictCard: () => EffectBuilder.player.static('showTopConflictCard'),
     skipStep: (step) => EffectBuilder.player.static('skipStep', step)

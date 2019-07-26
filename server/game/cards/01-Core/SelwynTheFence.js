@@ -5,7 +5,8 @@ class SelwynTheFence extends Card {
         this.fight({
             reap: true,
             target: {
-                cardType: 'creature',
+                activePromptTitle: 'Choose a captured amber to move to your pool.',
+                cardCondition: card => card.hasToken('amber'),
                 controller: 'self',
                 gameAction: ability.actions.removeAmber()
             },

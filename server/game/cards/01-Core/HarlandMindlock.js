@@ -24,6 +24,6 @@ class HarlandMindlock extends Card {
     }
 }
 
-HarlandMindlock.id = 'harland-mindlock'; // This is a guess at what the id might be - please check it!!!
+HarlandMindlock.id = 'harland-mindlock';
 
 module.exports = HarlandMindlock;

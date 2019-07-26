@@ -12,6 +12,6 @@ class ChotaHazri extends Card {
     }
 }
 
-ChotaHazri.id = 'chota-hazri'; // This is a guess at what the id might be - please check it!!!
+ChotaHazri.id = 'chota-hazri';
 
 module.exports = ChotaHazri;

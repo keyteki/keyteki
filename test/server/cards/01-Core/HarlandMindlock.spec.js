@@ -28,7 +28,7 @@ describe('Harland Mindlock', function() {
                 this.player1.clickCard(this.valdr);
                 expect(this.harlandMindlock.location).toBe('discard');
                 expect(this.player1).toHavePrompt('Troll');
-                this.player1.clickPrompt('Right');
+                this.player1.clickPrompt('Left');
                 expect(this.player2.player.cardsInPlay[0]).toBe(this.troll);
             });
 

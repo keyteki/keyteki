@@ -17,6 +17,6 @@ class DoorstepToHeaven extends Card {
     }
 }
 
-DoorstepToHeaven.id = 'doorstep-to-heaven'; // This is a guess at what the id might be - please check it!!!
+DoorstepToHeaven.id = 'doorstep-to-heaven';
 
 module.exports = DoorstepToHeaven;
