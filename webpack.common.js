@@ -40,7 +40,7 @@ module.exports = {
             { test: /\.css$/, use: ['style-loader', 'css-loader'] },
             { test: /\.less$/, use: ['style-loader', 'css-loader', 'less-loader'] },
             { test: /\.scss$/, use: ['style-loader', 'css-loader', 'sass-loader'] },
-            { test: /\.json/, type: 'javascript/auto', use: [require.resolve('json-loader')] },
+            { test: /\.json/, exclude: /node_modules/, type: 'javascript/auto', use: [require.resolve('json-loader')] },
             { test: /\.pug$/, include: path.join(__dirname, 'views'), loaders: ['pug-loader'] }
         ]
     }
