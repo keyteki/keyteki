@@ -6,10 +6,6 @@ class RitualOfBalance extends Card {
             condition: context => context.player.opponent && context.player.opponent.amber >= 6,
             gameAction: ability.actions.steal()
         });
-        this.action({
-            condition: context => context.player.opponent && context.player.opponent.amber < 6,
-            gameAction: ability.actions.exhaust()
-        });
     }
 }
 
