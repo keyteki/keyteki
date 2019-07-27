@@ -425,7 +425,8 @@ class Lobby {
 
         if(gameDetails.quickJoin) {
             let sortedGames = sortBy(Object.values(this.games), game => game.createdAt);
-            let gameToJoin = sortedGames.find(game => !game.started && game.gameType === gameDetails.gameType && Object.values(game.players).length < 2 && !game.password);
+            let gameToJoin = sortedGames.find(game => !game.started && game.gameType === gameDetails.gameType &&
+                game.gameFormat === gameDetails.gameFormat && Object.values(game.players).length < 2 && !game.password);
 
             if(gameToJoin) {
                 let message = gameToJoin.join(socket.id, socket.user.getDetails());
