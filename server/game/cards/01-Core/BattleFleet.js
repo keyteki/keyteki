@@ -20,6 +20,6 @@ class BattleFleet extends Card {
     }
 }
 
-BattleFleet.id = 'battle-fleet'; // This is a guess at what the id might be - please check it!!!
+BattleFleet.id = 'battle-fleet';
 
 module.exports = BattleFleet;
