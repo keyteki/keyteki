@@ -23,7 +23,7 @@ class MoveToFlankAction extends CardGameAction {
 
     preEventHandler(context) {
         super.preEventHandler(context);
-        
+
         let card = this.target.length > 0 ? this.target[0] : context.source;
         let player = this.myControl ? context.player : card.controller;
 
@@ -44,8 +44,7 @@ class MoveToFlankAction extends CardGameAction {
             if(this.left) {
                 this.origin.controller.cardsInPlay.splice(cardIndex, 1);
                 this.origin.controller.cardsInPlay.unshift(card);
-            }
-            else{
+            } else {
                 this.origin.controller.cardsInPlay.splice(cardIndex, 1);
                 this.origin.controller.cardsInPlay.push(card);
             }
