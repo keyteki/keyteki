@@ -69,20 +69,12 @@ AbilityLimit.repeatable = function(max, eventName) {
     return new RepeatableAbilityLimit(max, eventName);
 };
 
-AbilityLimit.perConflict = function(max) {
-    return new RepeatableAbilityLimit(max, 'onConflictFinished');
-};
-
 AbilityLimit.perPhase = function(max) {
     return new RepeatableAbilityLimit(max, 'onPhaseEnded');
 };
 
 AbilityLimit.perRound = function(max) {
     return new RepeatableAbilityLimit(max, 'onRoundEnded');
-};
-
-AbilityLimit.unlimitedPerConflict = function() {
-    return new RepeatableAbilityLimit(Infinity, 'onConflictFinished');
 };
 
 module.exports = AbilityLimit;

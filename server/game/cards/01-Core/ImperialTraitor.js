@@ -18,6 +18,6 @@ class ImperialTraitor extends Card {
     }
 }
 
-ImperialTraitor.id = 'imperial-traitor'; // This is a guess at what the id might be - please check it!!!
+ImperialTraitor.id = 'imperial-traitor';
 
 module.exports = ImperialTraitor;
