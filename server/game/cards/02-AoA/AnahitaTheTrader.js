@@ -10,7 +10,7 @@ class AnahitaTheTrader extends Card {
                 gameAction: ability.actions.cardLastingEffect(context => ({
                     duration: 'lastingEffect',
                     effect: ability.effects.takeControl(context.player.opponent)
-                })),
+                }))
             },
             then: {
                 gameAction: ability.actions.steal({ amount: 2 })

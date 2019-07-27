@@ -59,12 +59,12 @@ class PutIntoPlayAction extends CardGameAction {
                         case 'Deploy Left':
                             flank = 'left';
                             deploy = true;
-    
+
                             break;
                         case 'Deploy Right':
                             flank = 'right';
                             deploy = true;
-    
+
                             break;
                     }
 
@@ -85,7 +85,7 @@ class PutIntoPlayAction extends CardGameAction {
                             }
                         });
                     } else {
-                        this.left = flank === 'left'
+                        this.left = flank === 'left';
                     }
                 }
             });

@@ -12,7 +12,7 @@ describe('AmberConductionUnit', function() {
                     player2: {
                         amber: 0,
                         inPlay: ['troll', 'grenade-snib'],
-                        hand: ['bulwark'],
+                        hand: ['bulwark']
                     }
                 });
             });
