@@ -16,15 +16,22 @@ class About extends React.Component {
                     <h3>That's pretty cool!  But how does any of this work?</h3>
                     <p>Head on over to the <Link href='/how-to-play'>How To Play guide</Link> for a thorough explanation.</p>
 
-
                     <h3>Everyone has a shiny avatar, how do I get one?</h3>
                     <p>This is handled by the good people at <a href='http://gravatar.com' target='_blank'>Gravatar</a>.  Sign up there with the same email address you did there and it should appear on the site after a short while.
                 It will also use the avatar on any site that uses gravatar.  Examples include github and jinteki.</p>
 
-                    <h3>This looks a lot like Ringteki and Throneteki... But where's the source code?</h3>
-                    <p>Keyteki (the codebase which runs this website) was forked from the Ringteki code, and I owe a huge debt to all the people who contributed to it.</p>
-                    <p>However, unlike Throneteki and Ringteki, Keyteki is not Open Source.  The reason for this is that it seems very likely that FFG will produce their own Keyforge digital implementation in the future, and I have no intention to compete with an official platform, or to support anyone else doing that</p>
-                    <p>For this reason, I've decided not to make the source code publically available.  If at any point FFG decides they want this website removed, they just need to ask.</p>
+                    <h3>Why do my best cards always get discarded? / Why do I/my opponent draw 6 brobnar cards every turn?</h3>
+                    <p>This is question that gets asked a lot (usually less politely!).  The shuffle code is fine.  It uses a Fisher-Yates algorithm which is the best card shuffling algorithm available.  Real randomness can be quite jarring when you're used to imperfect human shuffling.  But why believe me? Believe the numbers:</p>
+                    <p>The discard random card code has been run through a test routine 1 million times, here are the results for a hand size of 6:</p>
+                    <pre>
+                        1: 166,840<br />
+                        2: 166,344<br />
+                        3: 166,767<br />
+                        4: 166,594<br />
+                        5: 166,546<br />
+                        6: 166,908<br />
+                    </pre>
+                    <p>That said, if you can prove there is a bug, please do raise an issue on GitHub!</p>
 
                     <h3>Donations</h3>
                     <p>Since I've been asked a few times about where people can donate to the project, I thought I'd put up a small section about it here.</p>
@@ -48,7 +55,7 @@ class About extends React.Component {
                     involved with, this site in any way.
                     </p>
                 </Panel>
-            </div>
+            </div >
         );
     }
 }
