@@ -26,6 +26,15 @@ describe('AmberConductionUnit', function() {
                 expect(this.grenadeSnib.stunned).toBe(true);
             });
 
+            it('stuns a creature with an onReap', function() {
+                this.player1.endTurn();
+
+                this.player2.clickPrompt('brobnar');
+                this.player2.reap(this.troll);
+
+                expect(this.troll.stunned).toBe(true);
+            });
+
             it('does not stun the second creature to reap', function() {
                 this.player1.endTurn();
 
