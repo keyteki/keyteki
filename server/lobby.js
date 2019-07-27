@@ -4,14 +4,15 @@ const jwt = require('jsonwebtoken');
 const _ = require('underscore');
 const moment = require('moment');
 
-const logger = require('./log.js');
-const version = moment(require('../version.js'));
-const PendingGame = require('./pendinggame.js');
-const GameRouter = require('./gamerouter.js');
+const logger = require('./log');
+const version = moment(require('../version'));
+const PendingGame = require('./pendinggame');
+const GameRouter = require('./gamerouter');
 const ServiceFactory = require('./services/ServiceFactory');
-const DeckService = require('./services/DeckService.js');
-const CardService = require('./services/CardService.js');
-const UserService = require('./services/UserService.js');
+const DeckService = require('./services/DeckService');
+const CardService = require('./services/CardService');
+const UserService = require('./services/UserService');
+const ConfigService = require('./services/ConfigService');
 const { sortBy } = require('./Array');
 
 class Lobby {
@@ -24,6 +25,7 @@ class Lobby {
         this.deckService = options.deckService || new DeckService(options.db);
         this.cardService = options.cardService || new CardService(options.db);
         this.userService = options.userService || new UserService(options.db);
+        this.configService = options.configService || new ConfigService();
         this.router = options.router || new GameRouter(this.config);
 
         this.router.on('onGameClosed', this.onGameClosed.bind(this));
@@ -622,6 +624,7 @@ class Lobby {
                 }
 
                 deck.status = {
+                    usageLevel: 0,
                     basicRules: true,
                     flagged: false,
                     verified: true,
@@ -657,9 +660,22 @@ class Lobby {
                     card.card = cards[card.id];
                 }
 
+                let deckUsageLevel = 0;
+                if(deck.usageCount > this.configService.getValueForSection('lobby', 'lowerDeckThreshold')) {
+                    deckUsageLevel = 1;
+                }
+
+                if(deck.usageCount > this.configService.getValueForSection('lobby', 'middleDeckThreshold')) {
+                    deckUsageLevel = 2;
+                }
+
+                if(deck.usageCount > this.configService.getValueForSection('lobby', 'upperDeckThreshold')) {
+                    deckUsageLevel = 3;
+                }
+
                 deck.status = {
+                    usageLevel: deckUsageLevel,
                     basicRules: true,
-                    flagged: !!deck.flagged,
                     verified: !!deck.verified,
                     noUnreleasedCards: true,
                     officialRole: true,
@@ -667,6 +683,8 @@ class Lobby {
                     faqVersion: 'v1.0',
                     extendedStatus: []
                 };
+
+                deck.usageCount = 0;
 
                 game.selectDeck(socket.user.username, deck);
 
