@@ -6,7 +6,6 @@ class MoveToFlankAction extends CardGameAction {
         this.myControl = false;
     }
 
-
     update(context) {
         this.applyProperties(Object.assign({ target: this.getDefaultTargets(context), origin: context.source }, this.propertyFactory(context)));
     }
