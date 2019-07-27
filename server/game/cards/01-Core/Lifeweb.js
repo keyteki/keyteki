@@ -26,6 +26,6 @@ class Lifeweb extends Card {
     }
 }
 
-Lifeweb.id = 'lifeweb'; // This is a guess at what the id might be - please check it!!!
+Lifeweb.id = 'lifeweb';
 
 module.exports = Lifeweb;
