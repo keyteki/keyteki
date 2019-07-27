@@ -10,6 +10,7 @@ const http = require('http');
 const Raven = require('raven');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
+const historyApiFallback = require('connect-history-api-fallback');
 const webpack = require('webpack');
 const webpackConfig = require('../webpack.dev.js');
 const monk = require('monk');
@@ -67,7 +68,7 @@ class Server {
             const middleware = webpackDevMiddleware(compiler, {
                 hot: true,
                 contentBase: 'client',
-                publicPath: webpackConfig.output.publicPath,
+                publicPath: '/',
                 stats: {
                     colors: true,
                     hash: false,
@@ -88,12 +89,8 @@ class Server {
                 path: '/__webpack_hmr',
                 heartbeat: 2000
             }));
-
-            // app.get('*', (req, res) => {
-            //     res.render('index', {
-            //         basedir: path.join(__dirname, '..', 'views')
-            //     });
-            // });
+            app.use(historyApiFallback());
+            app.use(middleware);
         } else {
             app.get('*', (req, res) => {
                 res.sendFile(path.join(__dirname, '..', 'dist', 'index.html'));
@@ -101,7 +98,7 @@ class Server {
         }
 
         // Define error middleware last
-        app.use(function (err, req, res, next) {
+        app.use(function(err, req, res, next) {
             logger.error(err);
 
             if(!res.headersSent && req.xhr) {

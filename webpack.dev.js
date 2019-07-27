@@ -14,7 +14,9 @@ module.exports = merge(common, {
     devServer: {
         contentBase: './dist',
         hot: true,
-        inline: true
+        inline: true,
+        historyApiFallback: true,
+        publicPath: '/'
     },
     plugins: [
         new webpack.HotModuleReplacementPlugin()
