@@ -40,7 +40,7 @@ class About extends React.Component {
 
                     <h3>Additional Icons</h3>
                     <p>Some icons were included from game-icons.net:
-                    Death Note by <a target='_blank' href="http://lorcblog.blogspot.com/">lorc</a>. <a target='_blank' href="https://creativecommons.org/licenses/by/3.0/">CC-BY 3.0</a></p>
+                    Death Note by <a target='_blank' href='http://lorcblog.blogspot.com/'>lorc</a>. <a target='_blank' href='https://creativecommons.org/licenses/by/3.0/'>CC-BY 3.0</a></p>
 
                     <h3>Additional Notes</h3>
                     <p>The Keyforge Unique Deck Game, the artwork and many other things are all copyright Fantasy Flight Games and I make no claims of ownership or otherwise of any of the
