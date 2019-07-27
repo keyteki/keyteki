@@ -21,6 +21,7 @@ const LoseAmberAction = require('./GameActions/LoseAmberAction');
 const ModifyAmberAction = require('./GameActions/ModifyAmberAction');
 const ModifyChainsActions = require('./GameActions/ModifyChainsAction');
 const MoveCardAction = require('./GameActions/MoveCardAction');
+const MoveToFlankAction = require('./GameActions/MoveToFlankAction');
 const AddTokenAction = require('./GameActions/AddTokenAction');
 const PlaceUnderAction = require('./GameActions/PlaceUnderAction');
 const PlayCardAction = require('./GameActions/PlayCardAction');
@@ -63,6 +64,7 @@ const Actions = {
     fight: (propertyFactory) => new FightGameAction(propertyFactory),
     heal: (propertyFactory) => new HealAction(propertyFactory),
     moveCard: (propertyFactory) => new MoveCardAction(propertyFactory), // destination, switch = false, shuffle = false
+    moveToFlank: (propertyFactory) => new MoveToFlankAction(propertyFactory),
     placeAmber: (propertyFactory) => new AddTokenAction(propertyFactory, 'amber'), // amount = 1
     placeUnder: (propertyFactory) => new PlaceUnderAction(propertyFactory), // parent
     playCard: (propertyFactory) => new PlayCardAction(propertyFactory), // resetOnCancel = false, postHandler

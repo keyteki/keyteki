@@ -3,6 +3,7 @@ const CardGameAction = require('./CardGameAction');
 class PutIntoPlayAction extends CardGameAction {
     setDefaultProperties() {
         this.left = false;
+        this.deployIndex = undefined;
         this.myControl = false;
     }
 
@@ -28,12 +29,65 @@ class PutIntoPlayAction extends CardGameAction {
         let card = this.target.length > 0 ? this.target[0] : context.source;
         let player = this.myControl ? context.player : card.controller;
         if(player.cardsInPlay.some(card => card.type === 'creature')) {
+            let choices = ['Left', 'Right'];
+
+            if(card.hasKeyword('deploy') && player.creaturesInPlay.length > 1) {
+                choices.push('Deploy Left');
+                choices.push('Deploy Right');
+            }
+
             context.game.promptWithHandlerMenu(context.player, {
                 activePromptTitle: 'Which flank do you want to place this creature on?',
                 context: context,
                 source: this.target.length > 0 ? this.target[0] : context.source,
-                choices: ['Left', 'Right'],
-                choiceHandler: choice => this.left = choice === 'Left'
+                choices: choices,
+                choiceHandler: choice => {
+                    let deploy;
+                    let flank;
+
+                    switch(choice) {
+                        case 'Left':
+                            flank = 'left';
+                            deploy = false;
+
+                            break;
+                        case 'Right':
+                            flank = 'right';
+                            deploy = false;
+
+                            break;
+                        case 'Deploy Left':
+                            flank = 'left';
+                            deploy = true;
+
+                            break;
+                        case 'Deploy Right':
+                            flank = 'right';
+                            deploy = true;
+
+                            break;
+                    }
+
+                    if(deploy) {
+                        context.game.promptForSelect(player, {
+                            source: card,
+                            activePromptTitle: `Select a card to deploy to the ${flank} of`,
+                            cardCondition: card => (card.location === 'play area') && card.controller === player && card.type === 'creature',
+                            onSelect: (p, card) => {
+                                this.deployIndex = card.controller.creaturesInPlay.indexOf(card);
+                                if(flank === 'left' && this.deployIndex > 0) {
+                                    this.deployIndex--;
+                                }
+
+                                this.left = flank === 'left';
+
+                                return true;
+                            }
+                        });
+                    } else {
+                        this.left = flank === 'left';
+                    }
+                }
             });
         }
     }
@@ -41,7 +95,7 @@ class PutIntoPlayAction extends CardGameAction {
     getEvent(card, context) {
         return super.createEvent('onCardEntersPlay', { card: card, context: context }, () => {
             let player = this.myControl ? context.player : card.controller;
-            player.moveCard(card, 'play area', { left: this.left, myControl: this.myControl });
+            player.moveCard(card, 'play area', { left: this.left, deployIndex: this.deployIndex, myControl: this.myControl });
         });
     }
 }

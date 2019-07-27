@@ -19,6 +19,6 @@ class DanceOfDoom extends Card {
     }
 }
 
-DanceOfDoom.id = 'dance-of-doom'; // This is a guess at what the id might be - please check it!!!
+DanceOfDoom.id = 'dance-of-doom';
 
 module.exports = DanceOfDoom;

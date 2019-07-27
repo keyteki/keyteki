@@ -720,8 +720,6 @@ class Game extends EventEmitter {
                 activePromptTitle: 'Choose which flank ' + card.name + ' should be placed on',
                 source: card,
                 choices: ['Left', 'Right'],
-                // Don't need to reverse this as the opponent's flank is not reversed
-                // handlers: player === this.activePlayer ? handlers : handlers.reverse()
                 handlers: handlers
             });
         } else {
