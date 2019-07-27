@@ -17,8 +17,6 @@ class DeckStatus extends React.Component {
             'valid': (status.usageLevel === 0 || status.verified) && status.basicRules && status.noUnreleasedCards
         });
 
-        console.info(className);
-
         if(status.usageLevel === 1 && !status.verified) {
             statusName = 'Used';
         } else if(status.usageLevel === 2 && !status.verified) {
