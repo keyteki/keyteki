@@ -31,6 +31,7 @@ describe('AmberConductionUnit', function() {
 
                 this.player2.clickPrompt('brobnar');
                 this.player2.reap(this.troll);
+                this.player2.clickCard(this.troll);
 
                 expect(this.troll.stunned).toBe(true);
             });
