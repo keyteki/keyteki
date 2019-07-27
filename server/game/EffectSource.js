@@ -28,6 +28,11 @@ class EffectSource extends GameObject {
         return this.addEffectToEngine(Object.assign({ duration: 'untilEndOfRound', location: 'any' }, properties));
     }
 
+    untilNextTurn(propertyFactory) {
+        let properties = propertyFactory(AbilityDsl);
+        return this.addEffectToEngine(Object.assign({ duration: 'untilNextTurn', location: 'any', roundDuration: 2 }, properties));
+    }
+
     /**
      * Applies a lasting effect which lasts until an event contained in the
      * `until` property for the effect has occurred.
