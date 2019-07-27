@@ -16,6 +16,6 @@ class Blypyp extends Card {
     }
 }
 
-Blypyp.id = 'blypyp'; // This is a guess at what the id might be - please check it!!!
+Blypyp.id = 'blypyp';
 
 module.exports = Blypyp;
