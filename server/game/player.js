@@ -318,13 +318,12 @@ class Player extends GameObject {
      * @param {Object} options
      */
     moveCard(card, targetLocation, options = {}) {
-
         if(targetLocation.endsWith(' bottom')) {
             options.bottom = true;
             targetLocation = targetLocation.replace(' bottom', '');
         }
 
-        var targetPile = this.getSourceList(targetLocation);
+        let targetPile = this.getSourceList(targetLocation);
 
         if(!this.isLegalLocationForCard(card, targetLocation) || targetPile && targetPile.includes(card)) {
             return;
@@ -370,6 +369,8 @@ class Player extends GameObject {
         } else if(['discard', 'purged'].includes(targetLocation)) {
             // new cards go on the top of the discard pile
             targetPile.unshift(card);
+        } else if(targetLocation === 'play area' && options.deployIndex !== undefined) {
+            targetPile.splice(options.deployIndex + 1, 0, card);
         } else if(targetLocation === 'play area' && options.left) {
             targetPile.unshift(card);
         } else if(targetPile) {
