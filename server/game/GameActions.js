@@ -49,6 +49,7 @@ const UseAction = require('./GameActions/UseAction');
 const Actions = {
     // card actions
     addPowerCounter: (propertyFactory) => new AddTokenAction(propertyFactory),
+    addDamageToken: (propertyFactory) => new AddTokenAction(propertyFactory, 'damage'),
     addDoomCounter: (propertyFactory) => new AddTokenAction(propertyFactory, 'doom'),
     archive: (propertyFactory) => new ArchiveAction(propertyFactory),
     attach: (propertyFactory) => new AttachAction(propertyFactory), // upgrade
@@ -70,6 +71,7 @@ const Actions = {
     putIntoPlay: (propertyFactory) => new PutIntoPlayAction(propertyFactory),
     ready: (propertyFactory) => new ReadyAction(propertyFactory),
     removeAmber: (propertyFactory) => new RemoveTokenAction(propertyFactory, 'amber'),
+    removeDamage: (propertyFactory) => new RemoveTokenAction(propertyFactory, 'damage'),
     removePowerCounter: (propertyFactory) => new RemoveTokenAction(propertyFactory),
     removeStun: (propertyFactory) => new RemoveStunAction(propertyFactory),
     resolveAbility: (propertyFactory) => new ResolveAbilityAction(propertyFactory), // ability

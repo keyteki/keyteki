@@ -25,7 +25,13 @@ class RemoveTokenAction extends CardGameAction {
     }
 
     getEvent(card, context) {
-        return super.createEvent('onRemoveToken', { card: card, context: context, amount: this.amount }, () => card.removeToken(this.type, this.amount));
+        return super.createEvent('onRemoveToken', { card: card, context: context, amount: this.amount }, event => {
+            if(this.all) {
+                event.amount = card.tokens[this.type] || 0;
+                card.removeToken(this.type);
+            }
+            card.removeToken(this.type, event.amount);
+        });
     }
 }
 
