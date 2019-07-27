@@ -16,8 +16,12 @@ class DeckRow extends React.Component {
     }
 
     getStatusName(status) {
-        if(status.flagged && !status.verified) {
-            return 'Needs Verification';
+        if(status.usageLevel === 1 && !status.verified) {
+            return 'Used';
+        } else if(status.usageLevel === 2 && !status.verified) {
+            return 'Popular';
+        } else if(status.usageLevel === 3 && !status.verified) {
+            return 'Notorious';
         } else if(!status.officialRole || !status.noUnreleasedCards || !status.faqRestrictedList) {
             return 'Casual';
         }

@@ -17,7 +17,10 @@
         emailFromAddress: 'noreply@thecrucible.online',
         blockDisposableEmail: false,
         requireActivation: false,
-        hmacSecret: 'somethingevenmoresecret', 
+        hmacSecret: 'somethingevenmoresecret',
+        lowerDeckThreshold: 1,
+        middleDeckThreshold: 2,
+        upperDeckThreshold: 3
 
         /*
          * Other server configurations used, but not specified, include:

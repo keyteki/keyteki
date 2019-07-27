@@ -10,13 +10,21 @@ class DeckStatus extends React.Component {
         let { status } = this.props;
         let statusName;
         let className = classNames('deck-status', this.props.className, {
-            'invalid': status.flagged && !status.verified,
+            'used': status.usageLevel === 1 && !status.verified,
+            'popular': status.usageLevel === 2 && !status.verified,
+            'notorious': status.usageLevel === 3 && !status.verified,
             'casual-play': status.basicRules && !status.noUnreleasedCards,
-            'valid': status.basicRules && status.noUnreleasedCards
+            'valid': (status.usageLevel === 0 || status.verified) && status.basicRules && status.noUnreleasedCards
         });
 
-        if(status.flagged && !status.verified) {
-            statusName = 'Invalid';
+        console.info(className);
+
+        if(status.usageLevel === 1 && !status.verified) {
+            statusName = 'Used';
+        } else if(status.usageLevel === 2 && !status.verified) {
+            statusName = 'Popular';
+        } else if(status.usageLevel === 3 && !status.verified) {
+            statusName = 'Notorious';
         } else if(!status.noUnreleasedCards) {
             statusName = 'Casual play only';
         } else {

@@ -7,12 +7,18 @@ class DeckService {
         this.decks = db.get('decks');
     }
 
-    getById(id) {
-        return this.decks.findOne({ _id: id })
-            .catch(err => {
-                logger.error('Unable to fetch deck', err);
-                throw new Error('Unable to fetch deck ' + id);
-            });
+    async getById(id) {
+        let deck;
+
+        try {
+            deck = await this.decks.findOne({ _id: id });
+            deck.usageCount = await this.decks.count({ name: deck.name });
+        } catch(err) {
+            logger.error('Unable to fetch deck', err);
+            throw new Error('Unable to fetch deck ' + id);
+        }
+
+        return deck;
     }
 
     getSealedDeck() {
@@ -27,8 +33,13 @@ class DeckService {
             });
     }
 
-    findByUserName(userName) {
-        let decks = this.decks.find({ username: userName, banned: false }, { sort: { lastUpdated: -1 } });
+    async findByUserName(userName) {
+        let decks = await this.decks.find({ username: userName, banned: false }, { sort: { lastUpdated: -1 } });
+
+        for(let deck of decks) {
+            deck.usageCount = await this.decks.count({ name: deck.name });
+        }
+
         return decks;
     }
 
@@ -108,7 +119,7 @@ class DeckService {
     }
 
     async verifyDecksForUser(username) {
-        return await this.decks.update({username: username, verified: false, flagged: true}, {$set: { verified: true }}, { multi: true });
+        return await this.decks.update({ username: username, verified: false, flagged: true }, { $set: { verified: true } }, { multi: true });
     }
 }
 

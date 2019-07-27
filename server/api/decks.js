@@ -10,8 +10,8 @@ const configService = new ConfigService();
 let db = monk(configService.getValue('dbPath'));
 let deckService = new DeckService(db);
 
-module.exports.init = function (server) {
-    server.get('/api/decks/:id', passport.authenticate('jwt', { session: false }), wrapAsync(async function (req, res) {
+module.exports.init = function(server) {
+    server.get('/api/decks/:id', passport.authenticate('jwt', { session: false }), wrapAsync(async function(req, res) {
         if(!req.params.id || req.params.id === '') {
             return res.status(404).send({ message: 'No such deck' });
         }
@@ -29,12 +29,30 @@ module.exports.init = function (server) {
         res.send({ success: true, deck: deck });
     }));
 
-    server.get('/api/decks', passport.authenticate('jwt', { session: false }), wrapAsync(async function (req, res) {
-        let decks = await deckService.findByUserName(req.user.username);
+    server.get('/api/decks', passport.authenticate('jwt', { session: false }), wrapAsync(async function(req, res) {
+        let decks = (await deckService.findByUserName(req.user.username)).map(deck => {
+            let deckUsageLevel = 0;
+            if(deck.usageCount > configService.getValueForSection('lobby', 'lowerDeckThreshold')) {
+                deckUsageLevel = 1;
+            }
+
+            if(deck.usageCount > configService.getValueForSection('lobby', 'middleDeckThreshold')) {
+                deckUsageLevel = 2;
+            }
+
+            if(deck.usageCount > configService.getValueForSection('lobby', 'upperDeckThreshold')) {
+                deckUsageLevel = 3;
+            }
+
+            deck.usageLevel = deckUsageLevel;
+            deck.usageCount = undefined;
+
+            return deck;
+        });
         res.send({ success: true, decks: decks });
     }));
 
-    server.post('/api/decks', passport.authenticate('jwt', { session: false }), wrapAsync(async function (req, res) {
+    server.post('/api/decks', passport.authenticate('jwt', { session: false }), wrapAsync(async function(req, res) {
         if(!req.body.uuid) {
             return res.send({ success: false, message: 'uuid must be specified' });
         }
@@ -55,7 +73,7 @@ module.exports.init = function (server) {
         res.send({ success: true, deck: savedDeck });
     }));
 
-    server.delete('/api/decks/:id', passport.authenticate('jwt', { session: false }), wrapAsync(async function (req, res) {
+    server.delete('/api/decks/:id', passport.authenticate('jwt', { session: false }), wrapAsync(async function(req, res) {
         let id = req.params.id;
 
         let deck = await deckService.getById(id);
@@ -72,7 +90,7 @@ module.exports.init = function (server) {
         res.send({ success: true, message: 'Deck deleted successfully', deckId: id });
     }));
 
-    server.post('/api/decks/:id/verify', passport.authenticate('jwt', { session: false }), wrapAsync(async function (req, res) {
+    server.post('/api/decks/:id/verify', passport.authenticate('jwt', { session: false }), wrapAsync(async function(req, res) {
         if(!req.user.permissions || !req.user.permissions.canVerifyDecks) {
             return res.status(403);
         }
