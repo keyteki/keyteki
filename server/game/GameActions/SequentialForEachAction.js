@@ -4,7 +4,6 @@ class SequentialForEachAction extends GameAction {
     setDefaultProperties() {
         this.num = 0;
         this.forEach = [];
-        this.action = null;
     }
 
     setup() {
