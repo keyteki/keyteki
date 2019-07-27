@@ -28,11 +28,15 @@ class SequentialForEachAction extends GameAction {
         return [super.createEvent('unnamedEvent', {}, () => {
             if(this.forEach.length > 0) {
                 for(let card of this.forEach) {
+                    let action = this.action;
+                    if(typeof action === 'function') {
+                        action = action(card);
+                    }
                     context.game.queueSimpleStep(() => {
-                        this.action.setDefaultTarget(() => card);
-                        this.action.preEventHandler(context);
+                        action.setDefaultTarget(() => card);
+                        action.preEventHandler(context);
                     });
-                    context.game.queueSimpleStep(() => context.game.openEventWindow(this.action.getEventArray(context)));
+                    context.game.queueSimpleStep(() => context.game.openEventWindow(action.getEventArray(context)));
                 }
             } else {
                 for(let i = 0; i < this.num; i++) {
