@@ -77,19 +77,14 @@ class DeckService {
 
         let illegalCard = cards.find(card => !card.id.split('').every(char => 'æabcdefghijklmnopqrstuvwxyz0123456789-[]'.includes(char)));
         if(!illegalCard) {
-            let otherDecks = await this.decks.find({ uuid: uuid });
-            otherDecks = _.uniq(otherDecks, deck => deck.username);
-            if(otherDecks.length >= 3) {
-                await this.decks.update({ uuid: uuid }, { '$set': { flagged: true } }, { multi: true });
-            }
             return await this.decks.insert({
+                expansion: deckResponse.data.expansion,
                 username: deck.username,
                 uuid: uuid,
                 identity: deckResponse.data.name.toLowerCase().replace(/[,?.!"„“”]/gi, '').replace(/[ '’]/gi, '-'),
                 cardback: '',
                 name: deckResponse.data.name,
                 banned: false,
-                flagged: otherDecks.length >= 3,
                 verified: false,
                 includeInSealed: false,
                 houses: deckResponse.data._links.houses.map(house => house.toLowerCase()),
