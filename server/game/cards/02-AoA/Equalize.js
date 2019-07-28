@@ -4,34 +4,31 @@ class Equalize extends Card {
     setupCardAbilities(ability) {
         this.play({
             condition: context => !!context.player.opponent,
-            gameAction: ability.actions.returnAmber(context => ({
-                target: context.game.creaturesInPlay.filter(card => card.type === 'creature'),
+            gameAction: ability.actions.removeAmber(context => ({
+                target: context.game.creaturesInPlay,
+                noGameStateCheck: true,
                 all: true
             })),
             then: {
                 gameAction: [
                     ability.actions.sequentialForEach(context => ({
-                        num: context.preThenEvents.filter(event => !event.cancelled && event.recipient === context.player && event.amount > 0).reduce((total, event) => total + event.amount, 0),
-                        action: ability.actions.capture(context => {
-                            if(!context.player.opponent) {
-                                return { target: [] };
+                        num: context.preThenEvents.filter(event => !event.cancelled && event.card.controller === context.player.opponent && event.amount > 0).reduce((total, event) => total + event.amount, 0),
+                        action: ability.actions.placeAmber({
+                            noGameStateCheck: true,
+                            promptForSelect: {
+                                cardType: 'creature',
+                                controller: 'opponent'
                             }
-
-                            return {
-                                promptForSelect: {
-                                    cardCondition: card => context.player.opponent.creaturesInPlay.includes(card)
-                                }
-                            };
                         })
                     })),
                     ability.actions.sequentialForEach(context => ({
-                        num: context.preThenEvents.filter(event => !event.cancelled && event.recipient === context.player.opponent && event.amount > 0).reduce((total, event) => total + event.amount, 0),
-                        action: ability.actions.capture(context => {
-                            return {
-                                promptForSelect: {
-                                    cardCondition: card => context.player.creaturesInPlay.includes(card)
-                                }
-                            };
+                        num: context.preThenEvents.filter(event => !event.cancelled && event.card.controller === context.player && event.amount > 0).reduce((total, event) => total + event.amount, 0),
+                        action: ability.actions.placeAmber({
+                            noGameStateCheck: true,
+                            promptForSelect: {
+                                cardType: 'creature',
+                                controller: 'self'
+                            }
                         })
                     }))
                 ]
