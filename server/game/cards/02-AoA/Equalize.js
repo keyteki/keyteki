@@ -4,6 +4,7 @@ class Equalize extends Card {
     setupCardAbilities(ability) {
         this.play({
             condition: context => !!context.player.opponent,
+            effect: 'redistribute the amber on both player\'s creatures',
             gameAction: ability.actions.removeAmber(context => ({
                 target: context.game.creaturesInPlay,
                 noGameStateCheck: true,
