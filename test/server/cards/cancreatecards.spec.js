@@ -3,9 +3,10 @@ const _ = require('underscore');
 const cards = require('../../../server/game/cards');
 const AbilityDsl = require('../../../server/game/abilitydsl');
 
-const card = { hasHouse: () => true, neighbors: [], hasTrait: () => false };
+const card = { hasHouse: () => true, neighbors: [], childCards: [], hasTrait: () => false };
 card.neighbors.push(card);
 card.neighbors.push(card);
+card.childCards.push(card);
 const player = { deck: [card], hand: [card], archives: [card], discard: [card], creaturesInPlay: [card], cardsInPlay: [card], activeHouse: 'brobnar', checkRestrictions: () => true };
 player.opponent = player;
 card.controller = player;
