@@ -12,6 +12,6 @@ class Oubliette extends Card {
     }
 }
 
-Oubliette.id = 'oubliette'; // This is a guess at what the id might be - please check it!!!
+Oubliette.id = 'oubliette';
 
 module.exports = Oubliette;

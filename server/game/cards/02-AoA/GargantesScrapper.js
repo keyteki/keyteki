@@ -4,10 +4,11 @@ class GargantesScrapper extends Card {
     setupCardAbilities(ability) {
         this.play({
             condition: context => context.player.amber >= 3,
-            gameAction: ability.actions.dealDamage(context => ({
-                amount: 3,
-                target: context.game.creaturesInPlay.filter(card => card.controller !== context.player)
-            }))
+            target: {
+                cardType: 'creature',
+                controller: 'opponent',
+                gameAction: ability.actions.dealDamage({ amount: 3 })
+            }
         });
     }
 }
