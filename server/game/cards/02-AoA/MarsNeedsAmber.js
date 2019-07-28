@@ -3,6 +3,7 @@ const Card = require('../../Card.js');
 class MarsNeedsAmber extends Card {
     setupCardAbilities(ability) {
         this.play({
+            condition: context => !!context.player.opponent,
             effect: 'make each damaged enemy non-mars creature capture 1 amber from their side',
             gameAction: ability.actions.capture(context => {
                 let damagedNonMarsCreatures = context.player.opponent.creaturesInPlay.filter(card => card.hasToken('damage') && !card.hasHouse('mars'));
