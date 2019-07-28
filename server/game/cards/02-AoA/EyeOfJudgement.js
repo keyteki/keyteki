@@ -26,6 +26,6 @@ class EyeOfJudgement extends Card {
     }
 }
 
-EyeOfJudgement.id = 'eye-of-judgement';
+EyeOfJudgement.id = 'eye-of-judgment';
 
 module.exports = EyeOfJudgement;
