@@ -20,6 +20,12 @@ class Deck {
                 return result;
             }
 
+            if(card.maverick) {
+                result.card.house = card.maverick;
+                result.card.image = card.id + '_' + card.maverick;
+                result.card.maverick = card.maverick;
+            }
+
             return result;
         });
 
