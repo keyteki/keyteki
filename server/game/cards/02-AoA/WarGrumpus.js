@@ -2,8 +2,8 @@ const Card = require('../../Card.js');
 
 class WarGrumpus extends Card {
     setupCardAbilities(ability) {
-        this.play({
-            optional: true,
+        this.fight({
+            reap: true,
             target: {
                 cardType: 'creature',
                 controller: 'self',
