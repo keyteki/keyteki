@@ -61,6 +61,11 @@ describe('Equalize', function() {
                 this.player2.play(this.aubadeTheGrim);
                 this.player2.play(this.equalize);
                 expect(this.player2).toHavePrompt('Equalize');
+                expect(this.player2).not.toBeAbleToSelect(this.charette);
+                expect(this.player2).toBeAbleToSelect(this.bulwark);
+                this.player2.clickCard(this.bulwark);
+                this.player2.clickCard(this.bulwark);
+                this.player2.clickCard(this.sequis);
                 expect(this.player2).not.toBeAbleToSelect(this.bulwark);
                 expect(this.player2).toBeAbleToSelect(this.drumble);
                 expect(this.player2).toBeAbleToSelect(this.charette);
@@ -80,11 +85,6 @@ describe('Equalize', function() {
                 this.player2.clickCard(this.drumble);
                 this.player2.clickCard(this.tentacus);
                 this.player2.clickCard(this.charette);
-                expect(this.player2).not.toBeAbleToSelect(this.charette);
-                expect(this.player2).toBeAbleToSelect(this.bulwark);
-                this.player2.clickCard(this.bulwark);
-                this.player2.clickCard(this.bulwark);
-                this.player2.clickCard(this.sequis);
                 expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
                 expect(this.drumble.tokens.amber).toBe(10);
                 expect(this.tentacus.tokens.amber).toBe(1);

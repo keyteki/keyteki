@@ -575,18 +575,26 @@ class Card extends EffectSource {
     }
 
     get neighbors() {
-        if(this.clonedNeighbors) {
+        if(this.type !== 'creature') {
+            return [];
+        } else if(this.clonedNeighbors) {
             return this.clonedNeighbors;
         }
+
         let creatures = this.controller.cardsInPlay.filter(card => card.type === 'creature');
         let index = creatures.indexOf(this);
         let neighbors = [];
-        if(index > 0) {
+
+        if(index < 0) {
+            return neighbors;
+        } else if(index > 0) {
             neighbors.push(creatures[index - 1]);
         }
+
         if(index < creatures.length - 1) {
             neighbors.push(creatures[index + 1]);
         }
+
         return neighbors;
     }
 

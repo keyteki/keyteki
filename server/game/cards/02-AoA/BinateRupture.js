@@ -6,6 +6,7 @@ class BinateRupture extends Card {
             effect: 'make both players gain amber equal to the amber in their pool',
             gameAction: [
                 ability.actions.gainAmber(context => ({
+                    target: context.player.opponent,
                     amount: context.player.opponent ? context.player.opponent.amber : 0
                 })),
                 ability.actions.gainAmber(context => ({
