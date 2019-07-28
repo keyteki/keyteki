@@ -3,38 +3,44 @@ const Card = require('../../Card.js');
 class Equalize extends Card {
     setupCardAbilities(ability) {
         this.play({
-            condition: context => !!context.player.opponent,
-            gameAction: ability.actions.returnAmber(context => ({
-                target: context.game.creaturesInPlay.filter(card => card.type === 'creature'),
+            effect: 'redistribute the amber on both player\'s creatures',
+            gameAction: ability.actions.removeAmber(context => ({
+                target: context.player.creaturesInPlay,
+                noGameStateCheck: true,
                 all: true
             })),
             then: {
-                gameAction: [
-                    ability.actions.sequentialForEach(context => ({
-                        num: context.preThenEvents.filter(event => !event.cancelled && event.recipient === context.player && event.amount > 0).reduce((total, event) => total + event.amount, 0),
-                        action: ability.actions.capture(context => {
-                            if(!context.player.opponent) {
-                                return { target: [] };
-                            }
-
-                            return {
-                                promptForSelect: {
-                                    cardCondition: card => context.player.opponent.creaturesInPlay.includes(card)
-                                }
-                            };
-                        })
+                alwaysTriggers: true,
+                gameAction: ability.actions.sequentialForEach(context => ({
+                    num: context.preThenEvents.filter(event => !event.cancelled).reduce((total, event) => total + event.amount, 0),
+                    action: ability.actions.placeAmber({
+                        noGameStateCheck: true,
+                        promptForSelect: {
+                            cardType: 'creature',
+                            controller: 'self'
+                        }
+                    })
+                })),
+                then: {
+                    alwaysTriggers: true,
+                    gameAction: ability.actions.removeAmber(context => ({
+                        target: context.player.opponent && context.player.opponent.creaturesInPlay,
+                        noGameStateCheck: true,
+                        all: true
                     })),
-                    ability.actions.sequentialForEach(context => ({
-                        num: context.preThenEvents.filter(event => !event.cancelled && event.recipient === context.player.opponent && event.amount > 0).reduce((total, event) => total + event.amount, 0),
-                        action: ability.actions.capture(context => {
-                            return {
+                    then: {
+                        gameAction: ability.actions.sequentialForEach(context => ({
+                            num: context.preThenEvents.filter(event => !event.cancelled).reduce((total, event) => total + event.amount, 0),
+                            action: ability.actions.placeAmber({
+                                noGameStateCheck: true,
                                 promptForSelect: {
-                                    cardCondition: card => context.player.creaturesInPlay.includes(card)
+                                    cardType: 'creature',
+                                    controller: 'opponent'
                                 }
-                            };
-                        })
-                    }))
-                ]
+                            })
+                        }))
+                    }
+                }
             }
         });
     }
