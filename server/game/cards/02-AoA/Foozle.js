@@ -3,24 +3,24 @@ const EventRegistrar = require('../../eventregistrar.js');
 
 class Foozle extends Card {
     setupCardAbilities(ability) {
-        this.creaturesDestroyed = [];
+        this.creatureDestroyedControllerUuid = {};
         this.tracker = new EventRegistrar(this.game, this);
         this.tracker.register(['onCardDestroyed', 'onRoundEnded']);
 
         this.reap({
-            condition: context => this.creaturesDestroyed.filter(card => card.controller !== context.player.controller).length > 0,
+            condition: context => this.creatureDestroyedControllerUuid[context.player.uuid],
             gameAction: ability.actions.gainAmber()
         });
     }
 
     onCardDestroyed(event) {
-        if(event.clone.type === 'creature' && event.inFight) {
-            this.creaturesDestroyed.push(event.clone);
+        if(event.clone.type === 'creature') {
+            this.creatureDestroyedControllerUuid[event.clone.controller.uuid] = true;
         }
     }
 
     onRoundEnded() {
-        this.creaturesDestroyed = [];
+        this.creatureDestroyedControllerUuid = {};
     }
 }
 
