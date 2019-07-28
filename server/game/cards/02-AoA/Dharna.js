@@ -10,6 +10,7 @@ class Dharna extends Card {
         this.reap({
             target: {
                 cardType: 'creature',
+                controller: 'self',
                 gameAction: ability.actions.heal({ amount: 2 })
             }
         });
