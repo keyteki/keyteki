@@ -1,6 +1,5 @@
 const logger = require('../log.js');
 const util = require('../util.js');
-const _ = require('underscore');
 
 class DeckService {
     constructor(db) {
