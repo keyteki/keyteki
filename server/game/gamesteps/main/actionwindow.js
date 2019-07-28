@@ -4,7 +4,7 @@ class ActionWindow extends UiPrompt {
     onCardClicked(player, card) {
         if(player === this.game.activePlayer && card.controller === player && card.use(player)) {
             this.game.queueSimpleStep(() => {
-                if(card.hasKeyword('omega') && this.game.cardsPlayed.includes(card)) {
+                if(this.game.cardsPlayed.some(card => card.hasKeyword('omega'))) {
                     this.complete();
                 }
             });
