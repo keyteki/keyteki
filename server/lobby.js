@@ -5,7 +5,7 @@ const _ = require('underscore');
 const moment = require('moment');
 
 const logger = require('./log');
-const version = moment(require('../version'));
+const version = moment(require('../version').releaseDate);
 const PendingGame = require('./pendinggame');
 const GameRouter = require('./gamerouter');
 const ServiceFactory = require('./services/ServiceFactory');
@@ -649,7 +649,7 @@ class Lobby {
     onSelectDeck(socket, gameId, deckId) {
         let game = this.games[gameId];
         if(!game) {
-            return Promise.reject('Game not found');
+            return;
         }
 
         return Promise.all([this.cardService.getAllCards(), this.deckService.getById(deckId)])
