@@ -9,10 +9,11 @@ class SignalFire extends Card {
                 ability.actions.forRemainderOfTurn({
                     effect: [
                         ability.effects.canUse(card => card.type === 'creature' && card.hasHouse('brobnar')),
-                        ability.effects.cardCannot('useAction', context => context.source.type === 'creature' && context.ability.title !== 'Fight with this creature'),
-                        ability.effects.cardCannot('reap')
+                        ability.effects.cardCannot('useAction', context => context.source.type === 'creature' && context.source.hasHouse('brobnar') && context.ability.title !== 'Fight with this creature'),
+                        ability.effects.cardCannot('reap', context => context.source.hasHouse('brobnar'))
                     ]
-                })]
+                })
+            ]
         });
     }
 }

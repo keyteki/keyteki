@@ -12,7 +12,7 @@ class Equalize extends Card {
             then: {
                 alwaysTriggers: true,
                 gameAction: ability.actions.sequentialForEach(context => ({
-                    num: context.preThenEvents.filter(event => !event.cancelled).reduce((total, event) => total + event.amount, 0),
+                    num: context.preThenEvents ? context.preThenEvents.filter(event => !event.cancelled).reduce((total, event) => total + event.amount, 0) : 0,
                     action: ability.actions.placeAmber({
                         noGameStateCheck: true,
                         promptForSelect: {

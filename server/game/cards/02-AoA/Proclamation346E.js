@@ -4,6 +4,9 @@ class Proclamation346E extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
             condition: () => {
+                if(!this.controller.opponent) {
+                    return false;
+                }
                 let houseCount = 0;
                 houseCount += this.controller.opponent.cardsInPlay.filter(card => card.type === 'creature' && card.hasHouse('brobnar')).length > 0 ? 1 : 0;
                 houseCount += this.controller.opponent.cardsInPlay.filter(card => card.type === 'creature' && card.hasHouse('sanctum')).length > 0 ? 1 : 0;

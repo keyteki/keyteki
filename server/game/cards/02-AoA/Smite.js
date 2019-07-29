@@ -18,10 +18,16 @@ class SmiteAbilityResolver extends AbilityResolver {
     }
 
     getNeighbors() {
+        if(this.cancelled) {
+            return;
+        }
         this.neighbors = this.context.target.neighbors;
     }
 
     damageNeighbors() {
+        if(this.cancelled) {
+            return;
+        }
         this.game.actions.dealDamage({ amount: 2 }).resolve(this.neighbors, this.context);
     }
 }
