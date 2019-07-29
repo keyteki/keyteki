@@ -2,8 +2,8 @@ const Card = require('../../Card.js');
 
 class UntamedAmbassador extends Card {
     setupCardAbilities(ability) {
-        this.reap({
-            fight: true,
+        this.fight({
+            reap: true,
             effect: 'allow them to play or use one Untamed card this turn',
             target: {
                 mode: 'select',
