@@ -5,11 +5,11 @@ describe('Plague Rat', function() {
                 this.setupTest({
                     player1: {
                         house: 'shadows',
-                        inPlay: ['mighty-tiger', 'dextre' ],
+                        inPlay: ['mighty-tiger', 'dextre'],
                         hand: ['plague-rat', 'plague-rat']
                     },
                     player2: {
-                        inPlay: ['horseman-of-famine', 'horseman-of-death' ]
+                        inPlay: ['horseman-of-famine', 'horseman-of-death']
                     }
                 });
             });
@@ -30,7 +30,7 @@ describe('Plague Rat', function() {
                 this.player1.play(this.plagueRat2);
 
                 expect(this.mightyTiger.tokens.damage).toBe(3);
-                expect(this.player1.player.deck[0]).toBe(this.dextre);    // Dextre's behaviour when destroyed.
+                expect(this.player1.player.deck[0]).toBe(this.dextre); // Dextre's behaviour when destroyed.
                 expect(this.plagueRat.hasToken('damage')).toBe(false);
                 expect(this.horsemanOfFamine.tokens.damage).toBe(3);
                 expect(this.horsemanOfDeath.tokens.damage).toBe(3);
