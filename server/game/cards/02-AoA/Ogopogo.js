@@ -4,7 +4,7 @@ class Ogopogo extends Card {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onDamageDealt: (event, context) => event.damageSource === context.source && event.fightEvent.attacker === this && event.destroyed
+                onDamageDealt: (event, context) => event.fightEvent && event.fightEvent.attacker === context.source && event.destroyed
             },
             optional: true,
             target: {
