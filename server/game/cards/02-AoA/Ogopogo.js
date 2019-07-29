@@ -3,9 +3,8 @@ const Card = require('../../Card.js');
 class Ogopogo extends Card {
     setupCardAbilities(ability) {
         this.reaction({
-            condition: () => this.controller.opponent.creaturesInPlay.length > 0,
             when: {
-                onDamageDealt: (event, context) => event.damageSource === context.source && event.fightEvent.attacker === this && event.destroyed && context.player.opponent.creaturesInPlay.length > 0
+                onDamageDealt: (event, context) => event.damageSource === context.source && event.fightEvent.attacker === this && event.destroyed
             },
             optional: true,
             target: {

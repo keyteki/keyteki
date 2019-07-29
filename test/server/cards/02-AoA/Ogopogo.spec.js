@@ -36,17 +36,6 @@ describe('Ogopogo', function() {
                 expect(this.gamgee.location).toBe('discard');
                 expect(this.ogopogo.tokens.damage).toBe(2);
             });
-
-            it('should not prompt to deal damage when the opponent has no creatures in play', function() {
-                this.player1.fightWith(this.bumpsy,this.gamgee);
-                this.player1.fightWith(this.culfTheQuiet,this.gamgee);
-                this.player1.fightWith(this.ogopogo, this.umbra);
-                expect(this.player1).not.toHavePrompt('Triggered Abilities');
-                expect(this.gamgee.location).toBe('discard');
-                expect(this.umbra.location).toBe('discard');
-                expect(this.culfTheQuiet.tokens.damage).toBe(2);
-                expect(this.ogopogo.tokens.damage).toBe(2);
-            });
         });
     });
 });
