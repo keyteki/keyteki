@@ -5,7 +5,6 @@ const Deck = require('./deck');
 const ClockSelector = require('./Clocks/ClockSelector');
 const PlayableLocation = require('./playablelocation');
 const PlayerPromptState = require('./playerpromptstate');
-const DiscardAction = require('./BaseActions/DiscardAction');
 
 class Player extends GameObject {
     constructor(id, user, owner, game, clockdetails) {
