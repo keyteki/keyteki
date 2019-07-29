@@ -71,10 +71,10 @@ class GamePipeline {
         return false;
     }
 
-    handleRingClicked(player, ring) {
+    handleCardDragged(player, card, from, to) {
         if(this.pipeline.length > 0) {
             var step = this.getCurrentStep();
-            if(step.onRingClicked(player, ring) !== false) {
+            if(step.onCardDragged(player, card, from ,to) !== false) {
                 return true;
             }
         }
