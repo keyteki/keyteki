@@ -5,6 +5,7 @@ class TheFlex extends Card {
         this.play({
             target: {
                 cardType: 'creature',
+                controller: 'self',
                 cardCondition: card => card.hasHouse('brobnar') && !card.exhausted,
                 gameAction: [
                     ability.actions.exhaust(),
