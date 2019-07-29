@@ -5,7 +5,6 @@ const Deck = require('./deck');
 const ClockSelector = require('./Clocks/ClockSelector');
 const PlayableLocation = require('./playablelocation');
 const PlayerPromptState = require('./playerpromptstate');
-const DiscardAction = require('./BaseActions/DiscardAction');
 
 class Player extends GameObject {
     constructor(id, user, owner, game, clockdetails) {
@@ -250,17 +249,7 @@ class Player extends GameObject {
 
         // First, handle legal cases of drag/drop
         if(!this.game.manualMode) {
-            let action;
-
-            if(source === 'hand' && target === 'discard') {
-                action = new DiscardAction(card);
-                if(action && action.meetsRequirements() === '') {
-                    this.game.resolveAbility(action.createContext());
-                    return true;
-                }
-            } else if(source === 'hand' && target === 'play area') {
-                this.game.pipeline.handleCardClicked(this, card);
-            }
+            this.game.pipeline.handleCardDragged(this, card, source, target);
         }
 
         // Any other dragging is only legal in manual mode, when the card is currently in source, when the source and target are different and when the target is a legal location

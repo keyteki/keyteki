@@ -20,8 +20,8 @@ class BaseStepWithPipeline extends BaseStep {
         return this.pipeline.handleCardClicked(player, card);
     }
 
-    onRingClicked(player, ring) {
-        return this.pipeline.handleRingClicked(player, ring);
+    onCardDragged(player, card, from, to) {
+        return this.pipeline.handleCardDragged(player, card, from, to);
     }
 
     onMenuCommand(player, arg, uuid, method) {

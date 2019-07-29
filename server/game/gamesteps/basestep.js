@@ -10,7 +10,7 @@ class BaseStep {
         return false;
     }
 
-    onRingClicked() {
+    onCardDragged() {
         return false;
     }
 

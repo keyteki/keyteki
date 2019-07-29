@@ -1,18 +1,43 @@
 const UiPrompt = require('../uiprompt.js');
+const DiscardAction = require('../../BaseActions/DiscardAction');
 
 class ActionWindow extends UiPrompt {
     onCardClicked(player, card) {
         if(player === this.game.activePlayer && card.controller === player && card.use(player)) {
-            this.game.queueSimpleStep(() => {
-                let omegaCard = this.game.cardsPlayed.find(card => card.hasKeyword('omega'));
-                if(omegaCard) {
-                    this.game.addMessage('{0} played {1} which has Omega, ending this step', this.game.activePlayer, omegaCard);
-                    this.complete();
-                }
-            });
+            this.game.queueSimpleStep(() => this.checkForOmega());
             return true;
         }
         return false;
+    }
+
+    onCardDragged(player, card, from, to) {
+        if(player === this.game.activePlayer && card.controller === player && from === 'hand') {
+            if(to === 'play area') {
+                let playAction = card.getLegalActions(player).find(action => action.title.includes('Play'));
+                if(playAction) {
+                    this.game.resolveAbility(playAction.createContext(player));
+                }
+            } else if(to === 'discard') {
+                let discardAction = new DiscardAction(card);
+                let context = discardAction.createContext(player);
+                if(!discardAction.meetsRequirements(context)) {
+                    this.game.resolveAbility(context);
+                }
+            } else {
+                return false;
+            }
+            this.game.queueSimpleStep(() => this.checkForOmega());
+            return true;
+        }
+        return false;
+    }
+
+    checkForOmega() {
+        let omegaCard = this.game.cardsPlayed.find(card => card.hasKeyword('omega'));
+        if(omegaCard) {
+            this.game.addMessage('{0} played {1} which has Omega, ending this step', this.game.activePlayer, omegaCard);
+            this.complete();
+        }
     }
 
     activePrompt() {
