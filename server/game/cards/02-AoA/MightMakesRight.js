@@ -4,9 +4,9 @@ class MightMakesRight extends Card {
     setupCardAbilities(ability) {
         this.play({
             target: {
+                optional: true,
                 mode: 'minStat',
                 cardType: 'creature',
-                controller: 'self',
                 minStat: () => 25,
                 cardStat: card => card.power,
                 gameAction: ability.actions.sacrifice()
