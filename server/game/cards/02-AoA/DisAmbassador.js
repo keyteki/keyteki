@@ -2,8 +2,8 @@ const Card = require('../../Card.js');
 
 class DisAmbassador extends Card {
     setupCardAbilities(ability) {
-        this.reap({
-            fight: true,
+        this.fight({
+            reap: true,
             effect: 'allow them to play or use one Dis card this turn',
             target: {
                 mode: 'select',
