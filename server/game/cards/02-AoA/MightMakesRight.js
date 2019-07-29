@@ -6,6 +6,7 @@ class MightMakesRight extends Card {
             target: {
                 optional: true,
                 mode: 'minStat',
+                controller: 'self',
                 cardType: 'creature',
                 minStat: () => 25,
                 cardStat: card => card.power,
