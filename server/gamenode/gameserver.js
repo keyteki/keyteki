@@ -15,7 +15,7 @@ const Socket = require('../socket.js');
 const version = require('../../version.js');
 
 if(config.sentryDsn) {
-    Raven.config(config.sentryDsn, { sendTimeout: 5, release: version }).install();
+    Raven.config(config.sentryDsn, { sendTimeout: 5, release: version.build }).install();
 }
 
 class GameServer {
@@ -33,7 +33,7 @@ class GameServer {
 
         this.host = config.gameNode.host;
 
-        this.zmqSocket = new ZmqSocket(this.host, this.protocol);
+        this.zmqSocket = new ZmqSocket(this.host, this.protocol, version.build);
         this.zmqSocket.on('onStartGame', this.onStartGame.bind(this));
         this.zmqSocket.on('onSpectator', this.onSpectator.bind(this));
         this.zmqSocket.on('onGameSync', this.onGameSync.bind(this));

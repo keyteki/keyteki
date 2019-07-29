@@ -5,7 +5,7 @@ const _ = require('underscore');
 const moment = require('moment');
 
 const logger = require('./log');
-const version = moment(require('../version'));
+const version = moment(require('../version').releaseDate);
 const PendingGame = require('./pendinggame');
 const GameRouter = require('./gamerouter');
 const ServiceFactory = require('./services/ServiceFactory');

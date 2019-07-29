@@ -32,7 +32,7 @@ class Server {
 
     init() {
         if(!this.isDeveloping) {
-            Raven.config(this.configService.getValue('sentryDsn'), { release: version }).install();
+            Raven.config(this.configService.getValue('sentryDsn'), { release: version.build }).install();
 
             app.use(Raven.requestHandler());
             app.use(Raven.errorHandler());

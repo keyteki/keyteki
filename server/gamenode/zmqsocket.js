@@ -6,12 +6,12 @@ const config = require('config');
 const logger = require('../log.js');
 
 class ZmqSocket extends EventEmitter {
-    constructor(listenAddress, protocol) {
+    constructor(listenAddress, protocol, version) {
         super();
 
         this.listenAddress = listenAddress;
         this.protocol = protocol;
-        this.version = '';
+        this.version = version;
 
         this.socket = zmq.socket('dealer');
         this.socket.identity = process.env.SERVER || config.gameNode.name;
