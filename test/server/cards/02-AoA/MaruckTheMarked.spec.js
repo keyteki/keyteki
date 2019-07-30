@@ -12,7 +12,7 @@ describe('MaruckTheMarked', function() {
                     player2: {
                         amber: 0,
                         inPlay: ['maruck-the-marked'],
-                        hand: ['bulwark']
+                        hand: ['bulwark', 'red-hot-armor']
                     }
                 });
             });
@@ -48,6 +48,19 @@ describe('MaruckTheMarked', function() {
                 this.player2.fightWith(this.maruckTheMarked, this.professorSutterkin);
 
                 expect(this.player1.player.amber).toBe(1);
+            });
+
+            fit('does not capture amber when Redhot Armor is played', function () {
+                this.player1.endTurn();
+
+                this.player2.clickPrompt('dis');
+                this.player2.play(this.redHotArmor);
+
+                expect(this.maruckTheMarked.armor).toBe(0);
+                expect(this.maruckTheMarked.armorUsed).toBe(0);
+
+                expect(this.maruckTheMarked.hasToken('damage')).toBe(true);
+                expect(this.maruckTheMarked.hasToken('amber')).toBe(false);
             });
         });
     });
