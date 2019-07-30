@@ -7,12 +7,12 @@ class NocturnalManeuver extends Card {
                 mode: 'upTo',
                 numCards: 3,
                 cardType: 'creature',
-                gameAction: ability.actions.exhaust()
+                gameAction: ability.actions.exhaust({used: false})
             }
         });
     }
 }
 
-NocturnalManeuver.id = 'nocturnal-maneuver'; // This is a guess at what the id might be - please check it!!!
+NocturnalManeuver.id = 'nocturnal-maneuver';
 
 module.exports = NocturnalManeuver;

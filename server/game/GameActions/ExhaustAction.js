@@ -1,6 +1,10 @@
 const CardGameAction = require('./CardGameAction');
 
 class ExhaustAction extends CardGameAction {
+    setDefaultProperties() {
+        this.used = true;
+    }
+
     setup() {
         this.name = 'exhaust';
         this.targetType = ['creature', 'artifact'];
@@ -15,7 +19,11 @@ class ExhaustAction extends CardGameAction {
     }
 
     getEvent(card, context) {
-        return super.createEvent('onCardExhausted', { card: card, context: context }, () => card.exhaust());
+        let eventName = 'onCardExhausted';
+        if(!this.used) {
+            eventName = 'onCardExhaustedWithoutUse';
+        }
+        return super.createEvent(eventName, { card: card, context: context }, () => card.exhaust());
     }
 }
 

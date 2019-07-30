@@ -8,7 +8,7 @@ class TheFlex extends Card {
                 controller: 'self',
                 cardCondition: card => card.hasHouse('brobnar') && !card.exhausted,
                 gameAction: [
-                    ability.actions.exhaust(),
+                    ability.actions.exhaust({used: false}),
                     ability.actions.gainAmber(context => ({
                         target: context.player,
                         amount: Math.floor(context.target.power / 2)

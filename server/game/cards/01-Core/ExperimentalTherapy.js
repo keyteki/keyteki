@@ -7,7 +7,9 @@ class ExperimentalTherapy extends Card {
         });
         this.play({
             gameAction: [
-                ability.actions.exhaust(context => ({ target: context.source.parent })),
+                ability.actions.exhaust(context => ({
+                    target: context.source.parent,
+                    used: false })),
                 ability.actions.stun(context => ({ target: context.source.parent }))
             ]
         });

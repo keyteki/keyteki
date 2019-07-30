@@ -13,7 +13,7 @@ class Bigtwig extends Card {
                 cardType: 'creature',
                 gameAction: [
                     ability.actions.stun(),
-                    ability.actions.exhaust()
+                    ability.actions.exhaust({used: false})
                 ]
             },
             effect: 'stun and exhaust {0}'

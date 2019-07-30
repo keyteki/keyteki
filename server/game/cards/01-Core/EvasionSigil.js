@@ -19,7 +19,7 @@ class EvasionSigil extends Card {
                     let topCard = player.deck.length ? player.deck[0] : '';
                     let cancelFight = topCard && topCard.hasHouse(context.game.activePlayer.activeHouse);
                     if(cancelFight) {
-                        return { target: context.event.context.source };
+                        return {target: context.event.context.source, used: false};
                     }
                     return { target: [] };
                 }),
