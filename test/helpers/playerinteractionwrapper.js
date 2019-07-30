@@ -356,6 +356,14 @@ class PlayerInteractionWrapper {
         this.clickPrompt('Reap with this creature');
     }
 
+    useAction(card) {
+        if(card.type !== 'creature' && card.type !== 'artifact') {
+            throw new Error(`${card.name} cannot act`);
+        }
+        this.clickCard(card);
+        this.clickPrompt('Use this card\'s Action ability');
+    }
+
     play(card) {
         if(card.type === 'creature') {
             this.playCreature(card);
