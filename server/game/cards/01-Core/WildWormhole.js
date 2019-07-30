@@ -8,7 +8,8 @@ class WildWormhole extends Card {
                 [': ', context.player.deck[0]] : [],
             gameAction: [
                 ability.actions.reveal(context => ({
-                    target: context.player.checkRestrictions('play', context.game.getFrameworkContext()) ? context.player.deck[0] : []
+                    target: (context.player.deck.length && context.player.deck[0].hasKeyword('alpha') ||
+                        context.player.checkRestrictions('play', context.game.getFrameworkContext())) ? context.player.deck[0] : []
                 })),
                 ability.actions.playCard(context => ({ target: context.player.deck[0] }))
             ]

@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
-import AlertPanel from '../Components/Site/AlertPanel';
-import Input from '../Components/Form/Input';
+import Form from '../Components/Form/Form';
 import Checkbox from '../Components/Form/Checkbox';
 import Panel from '../Components/Site/Panel';
+import ApiStatus from '../Components/Site/ApiStatus';
 
 import * as actions from '../actions';
 
@@ -45,6 +45,7 @@ class UserAdmin extends React.Component {
         this.onVerifiedChanged = this.onVerifiedChanged.bind(this);
         this.onVerifyClick = this.onVerifyClick.bind(this);
         this.onVerifyAllClick = this.onVerifyAllClick.bind(this);
+        this.onFindClick = this.onFindClick.bind(this);
     }
 
     componentWillReceiveProps(props) {
@@ -53,16 +54,30 @@ class UserAdmin extends React.Component {
             disabled: props.currentUser ? props.currentUser.disabled : false,
             verified: props.currentUser ? props.currentUser.verified : false
         });
+
+        if(props.userSaved) {
+            setTimeout(() => {
+                props.clearUserStatus();
+            }, 5000);
+            this.setState({ successMessage: 'User saved successfully.' });
+        } else if(props.deckVerified) {
+            props.currentUser.invalidDecks = props.currentUser.invalidDecks.filter(d => d._id !== props.deckVerified);
+
+            setTimeout(() => {
+                props.clearUserStatus();
+                this.setState({ successMessage: 'User saved successfully.' });
+            }, 5000);
+        } else {
+            this.setState({ successMessage: undefined });
+        }
     }
 
     onUsernameChange(event) {
         this.setState({ username: event.target.value });
     }
 
-    onFindClick(event) {
-        event.preventDefault();
-
-        this.props.findUser(this.state.username);
+    onFindClick(state) {
+        this.props.findUser(state.username);
     }
 
     onSaveClick(event) {
@@ -113,43 +128,13 @@ class UserAdmin extends React.Component {
         return this.props.user && this.props.user.permissions.canVerifyDecks && this.props.currentUser.invalidDecks && this.props.currentUser.invalidDecks.length > 0;
     }
 
+    onLinkedUserClick(name) {
+        this.setState({ username: name });
+
+        this.props.findUser(name);
+    }
+
     render() {
-        let content = null;
-        let successPanel = null;
-
-        if(this.props.userSaved) {
-            setTimeout(() => {
-                this.props.clearUserStatus();
-            }, 5000);
-            successPanel = (
-                <AlertPanel message='User saved successfully' type={ 'success' } />
-            );
-        }
-
-        if(this.props.deckVerified) {
-            this.props.currentUser.invalidDecks = this.props.currentUser.invalidDecks.filter(d => d._id !== this.props.deckVerified);
-
-            setTimeout(() => {
-                this.props.clearUserStatus();
-            }, 5000);
-            successPanel = (
-                <AlertPanel message='Deck verified successfully' type={ 'success' } />
-            );
-        }
-
-        if(this.props.decksVerified) {
-            this.props.currentUser.invalidDecks = [];
-
-            setTimeout(() => {
-                this.props.clearUserStatus();
-            }, 5000);
-            successPanel = (
-                <AlertPanel message='Decks verified successfully' type={ 'success' } />
-            );
-        }
-
-        let notFoundMessage = this.props.apiStatus === 404 ? <AlertPanel type='warning' message='No users found' /> : null;
-
         let renderedUser = null;
 
         if(this.props.currentUser) {
@@ -173,6 +158,15 @@ class UserAdmin extends React.Component {
                             <Checkbox name={ 'verified' } label='Verified' fieldClass='col-xs-4' type='checkbox'
                                 onChange={ this.onVerifiedChanged } checked={ this.state.verified } />
                         </Panel>
+                        { this.props.currentUser && this.props.currentUser.linkedAccounts &&
+                            <Panel title='Possibly linked accounts'>
+                                <ul className='list'>
+                                    { this.props.currentUser.linkedAccounts.map(name => {
+                                        return <li key={ name }><a href='javascript:void(0)' onClick={ () => this.onLinkedUserClick(name) }>{ name }</a></li>;
+                                    }) }
+                                </ul>
+                            </Panel>
+                        }
                         { this.props.user && this.props.user.permissions.canManagePermissions ?
                             <Panel title='Permissions'>
                                 <div>
@@ -210,39 +204,30 @@ class UserAdmin extends React.Component {
                         <div className='col-xs-12' />
                         <button type='button' className='btn btn-primary col-xs-3' onClick={ this.onClearClick.bind(this) }>Clear sessions</button>
                         <div className='col-xs-12' />
-                        <button type='button' className='btn btn-primary col-xs-2' onClick={ this.onSaveClick.bind(this) }>Save</button>
+                        <button type='button' className='btn btn-primary col-xs-3' onClick={ this.onSaveClick.bind(this) }>Save { this.props.apiSaveState && this.props.apiSaveState.loading && <span className='spinner button-spinner' /> }</button>
                     </form>
                 </div>
             );
         }
 
-        if(this.props.loading) {
-            content = <div>Searching for user...</div>;
-        } else if(this.props.apiError && this.props.apiStatus !== 404) {
-            content = <AlertPanel type='error' message={ this.props.apiError } />;
-        } else {
-            content = (
-                <div className='col-sm-offset-2 col-sm-8'>
-                    { notFoundMessage }
-                    { successPanel }
-                    <Panel title='User administration'>
-                        <form className='form'>
-                            <Input name='username' fieldClass='user-search' label={ 'Search for a user' } value={ this.state.username } onChange={ this.onUsernameChange.bind(this) } placeholder={ 'Enter username' } />
-                            <button type='submit' className='btn btn-primary' onClick={ this.onFindClick.bind(this) }>Find</button>
-                        </form>
-                    </Panel>
-                    { renderedUser }
-                </div>);
+        if(this.props.apiState && this.props.apiState.status === 404) {
+            this.props.apiState.message = 'User was not found.';
         }
 
-        return content;
+        return (<div className='col-sm-offset-2 col-sm-8'>
+            <ApiStatus apiState={ this.props.apiState } successMessage={ this.state.successMessage } />
+            <Panel title='User administration'>
+                <Form name='userAdmin' apiLoading={ this.props.apiState && this.props.apiState.loading } buttonClass='col-sm-offset-4 col-sm-3' buttonText='Search' onSubmit={ this.onFindClick } />
+            </Panel>
+            { renderedUser }
+        </div>);
     }
 }
 
 UserAdmin.displayName = 'UserAdmin';
 UserAdmin.propTypes = {
-    apiError: PropTypes.string,
-    apiStatus: PropTypes.number,
+    apiSaveState: PropTypes.object,
+    apiState: PropTypes.object,
     clearUserSessions: PropTypes.func,
     clearUserStatus: PropTypes.func,
     currentUser: PropTypes.object,
@@ -259,8 +244,8 @@ UserAdmin.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        apiError: state.api.message,
-        apiStatus: state.api.status,
+        apiSaveState: state.api.SAVE_USER,
+        apiState: state.api.REQUEST_FINDUSER,
         currentUser: state.admin.currentUser,
         deckVerified: state.admin.deckVerified,
         decksVerified: state.admin.decksVerified,

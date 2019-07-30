@@ -1,6 +1,7 @@
 bower_components
 node_modules
 public
+dist
 typings
 coverage
 *.log

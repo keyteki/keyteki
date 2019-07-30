@@ -5,7 +5,7 @@
     dbPath: 'mongodb://mongo:27017/keyforge',
     mqHost: 'lobby',
     mqPort: 6000,
-
+    minLobbyChatTime: 0, // The time (in seconds) an account has to be registered before it can chat in the lobby
     /*
      * Other global configurations used, but not specified, include:
      *  - sentryDsn (for production only)
@@ -16,7 +16,11 @@
         appName: 'The Crucible Online',
         emailFromAddress: 'noreply@thecrucible.online',
         blockDisposableEmail: false,
+        requireActivation: false,
         hmacSecret: 'somethingevenmoresecret',
+        lowerDeckThreshold: 1,
+        middleDeckThreshold: 2,
+        upperDeckThreshold: 3
 
         /*
          * Other server configurations used, but not specified, include:

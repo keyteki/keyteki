@@ -67,8 +67,22 @@ git submodule init
 git submodule update
 npm install # See https://github.com/JustinTulloss/zeromq.node/issues/283 for zmq errors on OS X
 mkdir server/logs
+```
+Create config/local.json and put the following in it:
+```
+{
+    dbPath: 'mongodb://localhost:27017/keyforge',
+    mqHost: 'localhost',
+
+    lobby: {
+        port: 4000
+    },
+
+    gameNode: {
+        hostname: 'localhost'
+    }
+}
 node server/scripts/fetchdata.js
-npm run build-vendor-dev
 node .
 node server/gamenode
 ```

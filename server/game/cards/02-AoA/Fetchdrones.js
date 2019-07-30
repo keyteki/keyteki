@@ -14,7 +14,7 @@ class Fetchdrones extends Card {
                         mode: 'exactly',
                         controller: 'self',
                         numCards: () => cards.filter(card => card.hasHouse('logos')).length,
-                        gameAction: ability.actions.capture()
+                        gameAction: ability.actions.capture({ amount: 2})
                     }
                 };
             }

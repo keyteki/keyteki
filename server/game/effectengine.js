@@ -79,10 +79,6 @@ class EffectEngine {
         return stateChanged;
     }
 
-    onConflictFinished() {
-        this.newEffect = this.unapplyAndRemove(effect => effect.duration === 'untilEndOfConflict');
-    }
-
     onPhaseEnded() {
         this.newEffect = this.unapplyAndRemove(effect => effect.duration === 'untilEndOfPhase');
     }

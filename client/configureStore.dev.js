@@ -4,11 +4,9 @@ import rootReducer from './reducers';
 
 import callAPIMiddleware from './middleware/api-middleware.js';
 
-const windowIfDefined = typeof window === 'undefined' ? null : window;
-const devToolsExtension = windowIfDefined && windowIfDefined.devToolsExtension;
-const enhancer = compose(
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const enhancer = composeEnhancers(
     applyMiddleware(thunkMiddleware, callAPIMiddleware),
-    devToolsExtension ? devToolsExtension() : (next) => next
 );
 
 export default function configureStore(initialState) {

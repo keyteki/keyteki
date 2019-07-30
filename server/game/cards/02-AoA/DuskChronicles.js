@@ -8,7 +8,7 @@ class DuskChronicles extends Card {
         });
 
         this.play({
-            condition: context => context.player.opponent && context.player.amber >= context.player.opponent.amber,
+            condition: context => context.player.opponent && context.player.amber > context.player.opponent.amber,
             target: {
                 location: 'hand',
                 controller: 'self',

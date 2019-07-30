@@ -8,6 +8,6 @@ class RingOfInvisibility extends Card {
     }
 }
 
-RingOfInvisibility.id = 'ring-of-invisibility'; // This is a guess at what the id might be - please check it!!!
+RingOfInvisibility.id = 'ring-of-invisibility';
 
 module.exports = RingOfInvisibility;

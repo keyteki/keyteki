@@ -5,6 +5,7 @@ class OldYurk extends Card {
         this.play({
             target: {
                 controller: 'self',
+                mode: 'exactly',
                 location: 'hand',
                 numCards: 2,
                 gameAction: ability.actions.discard()

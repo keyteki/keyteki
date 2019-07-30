@@ -2,8 +2,8 @@ const Card = require('../../Card.js');
 
 class ProjectZYX extends Card {
     setupCardAbilities(ability) {
-        this.reap({
-            fight: true,
+        this.fight({
+            reap: true,
             target: {
                 controller: 'self',
                 location: 'archives',

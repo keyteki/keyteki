@@ -8,8 +8,6 @@ services:
     ports:
       - "4000:4000"
       - "9229:9229"
-    volumes:
-      - node_modules:/usr/src/lobby/node_modules
     links:
       - mongo
     depends_on:
@@ -27,8 +25,6 @@ services:
     ports:
       - "9500:9500"
       - "9339:9339"
-    volumes:
-      - node_modules:/usr/src/node/node_modules
     command:
       - node
       - "--inspect=0.0.0.0:9339"

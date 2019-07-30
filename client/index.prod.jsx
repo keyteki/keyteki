@@ -58,7 +58,7 @@ const ravenOptions = {
     release: version
 };
 
-Raven.config('https://a58875107284492dafce641d2d9f85c5@sentry.io/1268981', ravenOptions)
+Raven.config('https://8e2615acba9548ba8d83fa2735de2bd2@sentry.io/1515148', ravenOptions)
     .install();
 
 const store = configureStore();

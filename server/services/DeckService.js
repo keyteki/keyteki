@@ -1,18 +1,23 @@
 const logger = require('../log.js');
 const util = require('../util.js');
-const _ = require('underscore');
 
 class DeckService {
     constructor(db) {
         this.decks = db.get('decks');
     }
 
-    getById(id) {
-        return this.decks.findOne({ _id: id })
-            .catch(err => {
-                logger.error('Unable to fetch deck', err);
-                throw new Error('Unable to fetch deck ' + id);
-            });
+    async getById(id) {
+        let deck;
+
+        try {
+            deck = await this.decks.findOne({ _id: id });
+            deck.usageCount = await this.decks.count({ name: deck.name });
+        } catch(err) {
+            logger.error('Unable to fetch deck', err);
+            throw new Error('Unable to fetch deck ' + id);
+        }
+
+        return deck;
     }
 
     getSealedDeck() {
@@ -27,8 +32,13 @@ class DeckService {
             });
     }
 
-    findByUserName(userName) {
-        let decks = this.decks.find({ username: userName, banned: false }, { sort: { lastUpdated: -1 } });
+    async findByUserName(userName) {
+        let decks = await this.decks.find({ username: userName, banned: false }, { sort: { lastUpdated: -1 } });
+
+        for(let deck of decks) {
+            deck.usageCount = await this.decks.count({ name: deck.name });
+        }
+
         return decks;
     }
 
@@ -66,19 +76,14 @@ class DeckService {
 
         let illegalCard = cards.find(card => !card.id.split('').every(char => 'æabcdefghijklmnopqrstuvwxyz0123456789-[]'.includes(char)));
         if(!illegalCard) {
-            let otherDecks = await this.decks.find({ uuid: uuid });
-            otherDecks = _.uniq(otherDecks, deck => deck.username);
-            if(otherDecks.length >= 3) {
-                await this.decks.update({ uuid: uuid }, { '$set': { flagged: true } }, { multi: true });
-            }
             return await this.decks.insert({
+                expansion: deckResponse.data.expansion,
                 username: deck.username,
                 uuid: uuid,
                 identity: deckResponse.data.name.toLowerCase().replace(/[,?.!"„“”]/gi, '').replace(/[ '’]/gi, '-'),
                 cardback: '',
                 name: deckResponse.data.name,
                 banned: false,
-                flagged: otherDecks.length >= 3,
                 verified: false,
                 includeInSealed: false,
                 houses: deckResponse.data._links.houses.map(house => house.toLowerCase()),
@@ -108,7 +113,7 @@ class DeckService {
     }
 
     async verifyDecksForUser(username) {
-        return await this.decks.update({username: username, verified: false, flagged: true}, {$set: { verified: true }}, { multi: true });
+        return await this.decks.update({ username: username, verified: false, flagged: true }, { $set: { verified: true } }, { multi: true });
     }
 }
 

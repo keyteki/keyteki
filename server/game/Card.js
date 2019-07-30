@@ -58,6 +58,7 @@ class Card extends EffectSource {
         this.upgrades = [];
         this.parent = null;
         this.childCards = [];
+        this.clonedNeighbors = null;
 
         this.printedPower = cardData.power;
         this.printedArmor = cardData.armor;
@@ -409,6 +410,7 @@ class Card extends EffectSource {
         clone.exhausted = this.exhausted;
         clone.location = this.location;
         clone.parent = this.parent;
+        clone.clonedNeighbors = this.neighbors;
         return clone;
     }
 
@@ -573,15 +575,26 @@ class Card extends EffectSource {
     }
 
     get neighbors() {
+        if(this.type !== 'creature') {
+            return [];
+        } else if(this.clonedNeighbors) {
+            return this.clonedNeighbors;
+        }
+
         let creatures = this.controller.cardsInPlay.filter(card => card.type === 'creature');
         let index = creatures.indexOf(this);
         let neighbors = [];
-        if(index > 0) {
+
+        if(index < 0) {
+            return neighbors;
+        } else if(index > 0) {
             neighbors.push(creatures[index - 1]);
         }
+
         if(index < creatures.length - 1) {
             neighbors.push(creatures[index + 1]);
         }
+
         return neighbors;
     }
 

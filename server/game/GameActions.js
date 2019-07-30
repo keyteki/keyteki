@@ -5,6 +5,7 @@ const ChangeEventAction = require('./GameActions/ChangeEventAction');
 const ChooseGameAction = require('./GameActions/ChooseGameAction');
 const ChosenDiscardAction = require('./GameActions/ChosenDiscardAction');
 const DealDamageAction = require('./GameActions/DealDamageAction');
+const DeckSearchAction = require('./GameActions/DeckSearchAction');
 const DelayedEffectAction = require('./GameActions/DelayedEffectAction');
 const DestroyAction = require('./GameActions/DestroyAction');
 const DiscardCardAction = require('./GameActions/DiscardCardAction');
@@ -20,6 +21,7 @@ const LoseAmberAction = require('./GameActions/LoseAmberAction');
 const ModifyAmberAction = require('./GameActions/ModifyAmberAction');
 const ModifyChainsActions = require('./GameActions/ModifyChainsAction');
 const MoveCardAction = require('./GameActions/MoveCardAction');
+const MoveToFlankAction = require('./GameActions/MoveToFlankAction');
 const AddTokenAction = require('./GameActions/AddTokenAction');
 const PlaceUnderAction = require('./GameActions/PlaceUnderAction');
 const PlayCardAction = require('./GameActions/PlayCardAction');
@@ -48,12 +50,14 @@ const UseAction = require('./GameActions/UseAction');
 const Actions = {
     // card actions
     addPowerCounter: (propertyFactory) => new AddTokenAction(propertyFactory),
+    addDamageToken: (propertyFactory) => new AddTokenAction(propertyFactory, 'damage'),
     addDoomCounter: (propertyFactory) => new AddTokenAction(propertyFactory, 'doom'),
     archive: (propertyFactory) => new ArchiveAction(propertyFactory),
     attach: (propertyFactory) => new AttachAction(propertyFactory), // upgrade
     capture: (propertyFactory) => new CaptureAction(propertyFactory),
     cardLastingEffect: (propertyFactory) => new LastingEffectCardAction(propertyFactory), // duration = 'untilEndOfConflict', effect, targetLocation, condition, until
     dealDamage: (propertyFactory) => new DealDamageAction(propertyFactory),
+    deckSearch: (propertyFactory) => new DeckSearchAction(propertyFactory), // amount = -1, reveal = true, cardCondition = (card, context) => true
     delayedEffect: (propertyFactory) => new DelayedEffectAction(propertyFactory), // when, message, gameAction, handler
     discard: (propertyFactory) => new DiscardCardAction(propertyFactory),
     destroy: (propertyFactory) => new DestroyAction(propertyFactory),
@@ -61,6 +65,7 @@ const Actions = {
     fight: (propertyFactory) => new FightGameAction(propertyFactory),
     heal: (propertyFactory) => new HealAction(propertyFactory),
     moveCard: (propertyFactory) => new MoveCardAction(propertyFactory), // destination, switch = false, shuffle = false
+    moveToFlank: (propertyFactory) => new MoveToFlankAction(propertyFactory),
     placeAmber: (propertyFactory) => new AddTokenAction(propertyFactory, 'amber'), // amount = 1
     placeUnder: (propertyFactory) => new PlaceUnderAction(propertyFactory), // parent
     playCard: (propertyFactory) => new PlayCardAction(propertyFactory), // resetOnCancel = false, postHandler
@@ -68,6 +73,7 @@ const Actions = {
     putIntoPlay: (propertyFactory) => new PutIntoPlayAction(propertyFactory),
     ready: (propertyFactory) => new ReadyAction(propertyFactory),
     removeAmber: (propertyFactory) => new RemoveTokenAction(propertyFactory, 'amber'),
+    removeDamage: (propertyFactory) => new RemoveTokenAction(propertyFactory, 'damage'),
     removePowerCounter: (propertyFactory) => new RemoveTokenAction(propertyFactory),
     removeStun: (propertyFactory) => new RemoveStunAction(propertyFactory),
     resolveAbility: (propertyFactory) => new ResolveAbilityAction(propertyFactory), // ability
@@ -87,6 +93,7 @@ const Actions = {
     draw: (propertyFactory) => new DrawAction(propertyFactory), // amount = 1
     forgeKey: (propertyFactory) => new ForgeAction(propertyFactory), // modifier = 0
     forRemainderOfTurn: (propertyFactory) => new LastingEffectAction(propertyFactory, 1),
+    untilNextTurn: (propertyFactory) => new LastingEffectAction(propertyFactory, 2),
     gainAmber: (propertyFactory) => new ModifyAmberAction(propertyFactory), // amount = 1
     gainChains: (propertyFactory) => new ModifyChainsActions(propertyFactory), // amount = 1
     lastingEffect: (propertyFactory) => new LastingEffectAction(propertyFactory),

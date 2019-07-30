@@ -116,7 +116,7 @@ export function connectLobby() {
     return (dispatch, getState) => {
         let state = getState();
         let queryString = state.auth.token ? 'token=' + state.auth.token + '&' : '';
-        queryString += 'version=' + version;
+        queryString += 'version=' + version.releaseDate;
 
         let socket = io.connect(window.location.origin, {
             reconnection: true,
@@ -158,6 +158,10 @@ export function connectLobby() {
 
         socket.on('lobbychat', message => {
             dispatch(lobbyMessageReceived('lobbychat', message));
+        });
+
+        socket.on('nochat', messages => {
+            dispatch(lobbyMessageReceived('nochat', messages));
         });
 
         socket.on('lobbymessages', messages => {

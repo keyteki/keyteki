@@ -15,6 +15,6 @@ class DeipnoSpymaster extends Card {
     }
 }
 
-DeipnoSpymaster.id = 'deipno-spymaster'; // This is a guess at what the id might be - please check it!!!
+DeipnoSpymaster.id = 'deipno-spymaster';
 
 module.exports = DeipnoSpymaster;

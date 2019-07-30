@@ -33,6 +33,7 @@ function processDecks(decks, state) {
             basicRules: true,
             flagged: !!deck.flagged,
             verified: !!deck.verified,
+            usageLevel: deck.usageLevel,
             noUnreleasedCards: true,
             officialRole: true,
             faqRestrictedList: true,
@@ -42,7 +43,7 @@ function processDecks(decks, state) {
     });
 }
 
-export default function (state = { decks: [] }, action) {
+export default function(state = { decks: [] }, action) {
     let newState;
     switch(action.type) {
         case 'RECEIVE_CARDS':

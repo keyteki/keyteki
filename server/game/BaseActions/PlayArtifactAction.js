@@ -12,8 +12,7 @@ class PlayAction extends BasePlayAction {
             card: context.source,
             originalLocation: context.source.location
         });
-        context.source.setDefaultController(context.player);
-        context.game.openEventWindow([context.game.actions.putIntoPlay().getEvent(context.source, context), cardPlayedEvent]);
+        context.game.openEventWindow([context.game.actions.putIntoPlay({ myControl: true }).getEvent(context.source, context), cardPlayedEvent]);
     }
 }
 

@@ -4,14 +4,15 @@ const jwt = require('jsonwebtoken');
 const _ = require('underscore');
 const moment = require('moment');
 
-const logger = require('./log.js');
-const version = moment(require('../version.js'));
-const PendingGame = require('./pendinggame.js');
-const GameRouter = require('./gamerouter.js');
+const logger = require('./log');
+const version = moment(require('../version').releaseDate);
+const PendingGame = require('./pendinggame');
+const GameRouter = require('./gamerouter');
 const ServiceFactory = require('./services/ServiceFactory');
-const DeckService = require('./services/DeckService.js');
-const CardService = require('./services/CardService.js');
-const UserService = require('./services/UserService.js');
+const DeckService = require('./services/DeckService');
+const CardService = require('./services/CardService');
+const UserService = require('./services/UserService');
+const ConfigService = require('./services/ConfigService');
 const { sortBy } = require('./Array');
 
 class Lobby {
@@ -24,6 +25,7 @@ class Lobby {
         this.deckService = options.deckService || new DeckService(options.db);
         this.cardService = options.cardService || new CardService(options.db);
         this.userService = options.userService || new UserService(options.db);
+        this.configService = options.configService || new ConfigService();
         this.router = options.router || new GameRouter(this.config);
 
         this.router.on('onGameClosed', this.onGameClosed.bind(this));
@@ -144,6 +146,11 @@ class Lobby {
                     let socket = this.sockets[ioSocket.id];
                     if(!socket) {
                         logger.error('Tried to authenticate socket but could not find it', dbUser.username);
+                        return;
+                    }
+
+                    if(dbUser.disabled) {
+                        ioSocket.disconnect();
                         return;
                     }
 
@@ -420,7 +427,8 @@ class Lobby {
 
         if(gameDetails.quickJoin) {
             let sortedGames = sortBy(Object.values(this.games), game => game.createdAt);
-            let gameToJoin = sortedGames.find(game => !game.started && game.gameType === gameDetails.gameType && Object.values(game.players).length < 2 && !game.password);
+            let gameToJoin = sortedGames.find(game => !game.started && game.gameType === gameDetails.gameType &&
+                game.gameFormat === gameDetails.gameFormat && Object.values(game.players).length < 2 && !game.password);
 
             if(gameToJoin) {
                 let message = gameToJoin.join(socket.id, socket.user.getDetails());
@@ -582,18 +590,22 @@ class Lobby {
         this.sendGameState(game);
     }
 
-    onLobbyChat(socket, message) {
+    async onLobbyChat(socket, message) {
+        if(Date.now() - socket.user.registered < this.config.minLobbyChatTime * 1000) {
+            socket.send('nochat');
+            return;
+        }
+
         let chatMessage = { user: socket.user.getShortSummary(), message: message, time: new Date() };
+        let newMessage = await this.messageService.addMessage(chatMessage);
 
         for(let s of Object.values(this.sockets)) {
             if(s.user && s.user.blockList.includes(chatMessage.user.username.toLowerCase())) {
                 continue;
             }
 
-            s.send('lobbychat', chatMessage);
+            s.send('lobbychat', newMessage);
         }
-
-        this.messageService.addMessage(chatMessage);
     }
 
     onGetSealedDeck(socket, gameId) {
@@ -612,6 +624,7 @@ class Lobby {
                 }
 
                 deck.status = {
+                    usageLevel: 0,
                     basicRules: true,
                     flagged: false,
                     verified: true,
@@ -636,7 +649,7 @@ class Lobby {
     onSelectDeck(socket, gameId, deckId) {
         let game = this.games[gameId];
         if(!game) {
-            return Promise.reject('Game not found');
+            return;
         }
 
         return Promise.all([this.cardService.getAllCards(), this.deckService.getById(deckId)])
@@ -647,9 +660,22 @@ class Lobby {
                     card.card = cards[card.id];
                 }
 
+                let deckUsageLevel = 0;
+                if(deck.usageCount > this.configService.getValueForSection('lobby', 'lowerDeckThreshold')) {
+                    deckUsageLevel = 1;
+                }
+
+                if(deck.usageCount > this.configService.getValueForSection('lobby', 'middleDeckThreshold')) {
+                    deckUsageLevel = 2;
+                }
+
+                if(deck.usageCount > this.configService.getValueForSection('lobby', 'upperDeckThreshold')) {
+                    deckUsageLevel = 3;
+                }
+
                 deck.status = {
+                    usageLevel: deckUsageLevel,
                     basicRules: true,
-                    flagged: !!deck.flagged,
                     verified: !!deck.verified,
                     noUnreleasedCards: true,
                     officialRole: true,
@@ -657,6 +683,8 @@ class Lobby {
                     faqVersion: 'v1.0',
                     extendedStatus: []
                 };
+
+                deck.usageCount = 0;
 
                 game.selectDeck(socket.user.username, deck);
 

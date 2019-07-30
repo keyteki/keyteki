@@ -1,8 +1,13 @@
 export default function (state = {}, action) {
     switch(action.type) {
         case 'RECEIVE_FINDUSER':
+            var user = action.response.user;
+            if(user) {
+                user.linkedAccounts = action.response.linkedAccounts;
+            }
+
             return Object.assign({}, state, {
-                currentUser: action.response.user
+                currentUser: user
             });
         case 'SAVE_USER':
             return Object.assign({}, state, {

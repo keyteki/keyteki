@@ -44,7 +44,6 @@ class DealDamageAction extends CardGameAction {
         } else {
             damagePrevented = currentArmor;
             card.armorUsed += currentArmor;
-            damagePrevented = amount - currentArmor;
             amount -= currentArmor;
         }
 

@@ -60,6 +60,10 @@ export default function (state = defaultState, action) {
             return Object.assign({}, state, {
                 newGame: false
             });
+        case 'CLEAR_CHAT_STATUS':
+            return Object.assign({}, state, {
+                lobbyError: false
+            });
     }
 
     return state;
@@ -140,6 +144,12 @@ function handleMessage(action, state) {
                 messages: [
                     ...state.messages, action.args[0]
                 ]
+            });
+
+            break;
+        case 'nochat':
+            newState = Object.assign({}, state, {
+                lobbyError: true
             });
 
             break;

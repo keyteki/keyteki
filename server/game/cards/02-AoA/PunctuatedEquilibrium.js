@@ -3,7 +3,8 @@ const Card = require('../../Card.js');
 class PunctuatedEquilibrium extends Card {
     setupCardAbilities(ability) {
         this.play({
-            effect: 'discard all cards from both players\' hands and refill them as if it were the end of the turn.',
+            condition: context => !!context.player.opponent,
+            effect: 'discard all cards from both players\' hands and refill them as if it were the end of the turn',
             gameAction: [
                 ability.actions.discard(context => ({
                     target: context.player.hand
