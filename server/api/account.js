@@ -28,7 +28,7 @@ if(configService.getValueForSection('lobby', 'emailKey')) {
 
 function verifyPassword(password, dbPassword) {
     return new Promise((resolve, reject) => {
-        bcrypt.compare(password, dbPassword, function (err, valid) {
+        bcrypt.compare(password, dbPassword, function(err, valid) {
             if(err) {
                 return reject(err);
             }
@@ -122,7 +122,7 @@ async function downloadAvatar(user) {
     await writeFile(`public/img/avatar/${user.username}.png`, avatar, 'binary');
 }
 
-module.exports.init = function (server) {
+module.exports.init = function(server) {
     server.post('/api/account/register', wrapAsync(async (req, res, next) => {
         let message = validateUserName(req.body.username);
         if(message) {
@@ -299,13 +299,13 @@ module.exports.init = function (server) {
         return res.send({ success: true });
     }));
 
-    server.post('/api/account/logout', function (req, res) {
+    server.post('/api/account/logout', function(req, res) {
         req.logout();
 
         res.send({ success: true });
     });
 
-    server.post('/api/account/checkauth', passport.authenticate('jwt', { session: false }), function (req, res) {
+    server.post('/api/account/checkauth', passport.authenticate('jwt', { session: false }), function(req, res) {
         let user = new User(req.user).getWireSafeDetails();
 
         res.send({ success: true, user: user });
@@ -399,6 +399,12 @@ module.exports.init = function (server) {
         }
 
         if(!userService.verifyRefreshToken(user.username, refreshToken)) {
+            res.send({ success: false, message: 'Invalid refresh token' });
+
+            return next();
+        }
+
+        if(user.disabled) {
             res.send({ success: false, message: 'Invalid refresh token' });
 
             return next();
