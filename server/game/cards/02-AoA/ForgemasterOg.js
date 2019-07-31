@@ -7,8 +7,8 @@ class ForgemasterOg extends Card {
                 onForgeKey: () => true
             },
             gameAction: ability.actions.loseAmber(context => ({
-                target: context.player,
-                amount: context.player.amber
+                target: context.event.player,
+                amount: context.event.player.amber
             }))
         });
     }
