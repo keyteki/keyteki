@@ -10,12 +10,20 @@ class PunctuatedEquilibrium extends Card {
                     target: context.player.hand
                 })),
                 ability.actions.draw(context => ({ amount: context.player.maxHandSize })),
+                ability.actions.gainChains(context => ({
+                    target: context.player,
+                    amount: -1
+                })),
                 ability.actions.discard(context => ({
                     target: context.player.opponent.hand
                 })),
                 ability.actions.draw(context => ({
                     target: context.player.opponent,
                     amount: context.player.opponent.maxHandSize
+                })),
+                ability.actions.gainChains(context => ({
+                    target: context.player.opponent,
+                    amount: -1
                 }))
             ]
         });
