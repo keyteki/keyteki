@@ -247,10 +247,10 @@ class InnerCard extends React.Component {
             'exhausted': (this.props.orientation === 'exhausted' || this.props.card.exhausted || this.props.orientation === 'horizontal')
         });
 
-        let image = <CardImage className={ imageClass } 
-                               img={this.imageUrl} 
-                               maverick={!this.isFacedown() ? this.props.card.maverick : null} 
-                               amber={!this.isFacedown() ? this.props.card.cardPrintedAmber : 0}/> 
+        let image = (<CardImage className={ imageClass }
+            img={ this.imageUrl }
+            maverick={ !this.isFacedown() ? this.props.card.maverick : null }
+            amber={ !this.isFacedown() ? this.props.card.cardPrintedAmber : 0 }/>);
 
         let content = this.props.connectDragSource(
             <div className='card-frame'>
@@ -350,7 +350,9 @@ InnerCard.propTypes = {
         tokens: PropTypes.object,
         type: PropTypes.string,
         unselectable: PropTypes.bool,
-        upgrades: PropTypes.array
+        upgrades: PropTypes.array,
+        maverick: PropTypes.string,
+        cardPrintedAmber: PropTypes.number
     }).isRequired,
     className: PropTypes.string,
     connectDragPreview: PropTypes.func,
