@@ -54,6 +54,8 @@ class Card extends EffectSource {
         });
 
         this.printedHouse = cardData.house;
+        this.cardPrintedAmber = cardData.amber;
+        this.maverick = cardData.maverick;
 
         this.upgrades = [];
         this.parent = null;
@@ -632,6 +634,8 @@ class Card extends EffectSource {
             name: this.cardData.name,
             new: this.new,
             printedHouse: this.printedHouse,
+            maverick: this.maverick,
+            cardPrintedAmber: this.cardPrintedAmber,
             stunned: this.stunned,
             taunt: !!this.getKeywordValue('taunt'),
             tokens: this.tokens,
