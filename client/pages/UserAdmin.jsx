@@ -167,6 +167,25 @@ class UserAdmin extends React.Component {
                                 </ul>
                             </Panel>
                         }
+                        { this.props.currentUser && this.props.currentUser.tokens &&
+                            <Panel title='Sessions'>
+                                <table className='table table-striped'>
+                                    <thead>
+                                        <tr>
+                                            <th>IP Address</th>
+                                            <th>Last Used</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        { this.props.currentUser.tokens.map(token => {
+                                            return (<tr>
+                                                <td>{ token.ip }</td>
+                                                <td>{ moment(token.lastUsed).format('YYYY-MM-DD HH:MM') }</td>
+                                            </tr>);
+                                        }) }
+                                    </tbody>
+                                </table>
+                            </Panel> }
                         { this.props.user && this.props.user.permissions.canManagePermissions ?
                             <Panel title='Permissions'>
                                 <div>
