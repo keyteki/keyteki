@@ -22,7 +22,7 @@ class Deck {
 
             if(card.maverick) {
                 result.card.house = card.maverick;
-                result.card.image = card.id + '_' + card.maverick;
+                //result.card.image = card.id + '_' + card.maverick;
                 result.card.maverick = card.maverick;
             }
 
@@ -65,11 +65,12 @@ class Deck {
             return;
         }
 
+        cardData.image = cardData.id;
         if(cardData.maverick) {
             cardData.house = cardData.maverick;
-            cardData.image = cardData.id + '_' + cardData.maverick;
-        } else {
-            cardData.image = cardData.id;
+        //    cardData.image = cardData.id + '_' + cardData.maverick;
+        //} else {
+        //    cardData.image = cardData.id;
         }
 
         if(!cards[cardData.id]) {

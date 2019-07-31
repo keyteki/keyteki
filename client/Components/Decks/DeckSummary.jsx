@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import DeckStatus from './DeckStatus';
 import AltCard from '../GameBoard/AltCard';
+import CardImage from '../GameBoard/CardImage';
 
 class DeckSummary extends React.Component {
     constructor() {
@@ -22,10 +23,11 @@ class DeckSummary extends React.Component {
 
     onCardMouseOver(event) {
         let cardToDisplay = Object.values(this.props.deck.cards).filter(card => {
-            return event.target.innerText === card.card.name;
+            let house = event.target.parentElement.className;
+            return (house == card.card.house) && (event.target.innerText === card.card.name);
         });
-
-        this.setState({ cardToShow: cardToDisplay[0] });
+        
+        this.setState({ cardToShow: cardToDisplay[0] });        
     }
 
     onCardMouseOut() {
@@ -56,7 +58,8 @@ class DeckSummary extends React.Component {
             let count = 0;
 
             for(const card of cardList) {
-                cards.push(<div key={ card.id }><span>{ card.count + 'x ' }</span><span className='card-link' onMouseOver={ this.onCardMouseOver } onMouseOut={ this.onCardMouseOut }>{ card.card.name }</span></div>);
+                cards.push(<div className={ card.card.house } key={ card.id }><span>{ card.count + 'x ' }</span><span className='card-link' onMouseOver={ this.onCardMouseOver } onMouseOut={ this.onCardMouseOut }>{ card.card.name }</span>
+                { card.maverick ? <img className='small-maverick' src='/img/maverick.png' width="12px" height="12px"/> : null }</div>);
                 count += parseInt(card.count);
             }
 
@@ -95,13 +98,16 @@ class DeckSummary extends React.Component {
         }
 
         let cardsToRender = this.getCardsToRender();
-
+        
         return (
             <div className='deck-summary col-xs-12 no-x-padding'>
                 { this.state.cardToShow ?
-                    <div className='hover-card'>
-                        <img className='hover-image' src={ `/img/cards/${this.state.cardToShow.card.image}.png` } />
-                        <AltCard card={ this.state.cardToShow } />
+                    <div className='hover-card'>                                                
+                        <CardImage className='hover-image' 
+                                   img={ `/img/cards/${this.state.cardToShow.card.image}.png` } 
+                                   maverick={this.state.cardToShow.maverick} 
+                                   amber={this.state.cardToShow.card.amber}/>
+                        <AltCard card={ this.state.cardToShow } />                        
                     </div> : null }
                 <div className='decklist'>
                     <div className='col-xs-2 col-sm-3 no-x-padding'><img className='img-responsive' src={ '/img/idbacks/identity.jpg' } /></div>

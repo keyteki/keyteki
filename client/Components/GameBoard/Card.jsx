@@ -6,6 +6,7 @@ import { DragSource } from 'react-dnd';
 
 import CardMenu from './CardMenu';
 import CardCounters from './CardCounters';
+import CardImage from './CardImage';
 import { ItemTypes } from '../../constants';
 
 import SquishableCardPanel from './SquishableCardPanel';
@@ -246,7 +247,10 @@ class InnerCard extends React.Component {
             'exhausted': (this.props.orientation === 'exhausted' || this.props.card.exhausted || this.props.orientation === 'horizontal')
         });
 
-        let image = <img className={ imageClass } src={ this.imageUrl } />;
+        let image = <CardImage className={ imageClass } 
+                               img={this.imageUrl} 
+                               maverick={!this.isFacedown() ? this.props.card.maverick : null} 
+                               amber={!this.isFacedown() ? this.props.card.cardPrintedAmber : 0}/> 
 
         let content = this.props.connectDragSource(
             <div className='card-frame'>

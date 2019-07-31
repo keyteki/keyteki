@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import CircleType from 'circletype';
 
 import AltCard from './AltCard';
+import CardImage from './CardImage';
 
 class CardZoom extends React.Component {
     componentDidMount() {
@@ -23,7 +24,10 @@ class CardZoom extends React.Component {
                 <div className='card-zoomed shadow'>
                     { this.props.card.identity }
                     <span className='card-name'>{ this.props.cardName }</span>
-                    <img className='image-large img-responsive' src={ this.props.imageUrl } />
+                    <CardImage className='image-large img-responsive' 
+                               img={this.props.imageUrl} 
+                               maverick={this.props.card.maverick} 
+                               amber={this.props.card.cardPrintedAmber}/>                    
                     { this.props.card && <AltCard card={ this.props.card } /> }
                 </div>
                 : null }
