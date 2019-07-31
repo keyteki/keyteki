@@ -31,7 +31,7 @@ class ResolveAbilityAction extends CardAction {
         return this.ability && super.canAffect(card, context);
     }
 
-    getEvent(card, context) { 
+    getEvent(card, context) {
         return super.createEvent('unnamedEvent', { card: card, context: context }, () => {
             let newContext = Object.assign(this.ability.createContext(context.player), {
                 isResolveAbility: true,
