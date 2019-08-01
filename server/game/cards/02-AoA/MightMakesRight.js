@@ -12,7 +12,6 @@ class MightMakesRight extends Card {
                 cardType: 'creature',
                 minStat: () => 25,
                 cardStat: card => card.power,
-                condition: context => context.target.minStat(),
                 gameAction: ability.actions.sacrifice()
             },
             then: {
