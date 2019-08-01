@@ -38,7 +38,8 @@ class UserAdmin extends React.Component {
             { name: 'canManageGames', label: 'Games Manager' },
             { name: 'canManageNodes', label: 'Node Manager' },
             { name: 'canModerateChat', label: 'Chat Moderator' },
-            { name: 'canVerifyDecks', label: 'Deck Verifier' }
+            { name: 'canVerifyDecks', label: 'Deck Verifier' },
+            { name: 'canManageBanlist', label: 'Banlist Manager' }
         ];
 
         this.onDisabledChanged = this.onDisabledChanged.bind(this);

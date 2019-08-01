@@ -22,6 +22,7 @@ import BlockList from './pages/BlockList';
 import NodesAdmin from './pages/NodesAdmin';
 import Privacy from './pages/Privacy';
 import Community from './pages/Community';
+import BanlistAdmin from './pages/BanlistAdmin';
 
 const routes = [
     { path: '/', action: () => <Lobby key='lobby' /> },
@@ -43,7 +44,8 @@ const routes = [
     { path: '/users', action: () => <UserAdmin key='useradmin' />, permission: 'canManageUsers' },
     { path: '/nodes', action: () => <NodesAdmin key='nodesadmin' />, permission: 'canManageNodes' },
     { path: '/privacy', action: () => <Privacy key='privacy' /> },
-    { path: '/community', action: () => <Community key='community' /> }
+    { path: '/community', action: () => <Community key='community' /> },
+    { path: '/banlist', action: () => <BanlistAdmin key='banlist' permission='canManageBanlist' /> }
 ];
 
 export default routes;

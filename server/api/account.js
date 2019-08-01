@@ -10,8 +10,9 @@ const fs = require('fs');
 
 const logger = require('../log.js');
 const { wrapAsync } = require('../util.js');
-const UserService = require('../services/UserService.js');
-const ConfigService = require('../services/ConfigService.js');
+const UserService = require('../services/UserService');
+const ConfigService = require('../services/ConfigService');
+const BanlistService = require('../services/BanlistService');
 const util = require('../util.js');
 const User = require('../models/User');
 
@@ -19,6 +20,7 @@ let configService = new ConfigService();
 
 let db = monk(configService.getValue('dbPath'));
 let userService = new UserService(db, configService);
+let banlistService = new BanlistService(db, configService);
 
 const appName = configService.getValueForSection('lobby', 'appName');
 
@@ -189,13 +191,28 @@ module.exports.init = function(server) {
             res.send({ success: false, message: 'An error occurred registering your account, please try again later.' });
         }
 
+        let ip = req.get('x-real-ip');
+        if(!ip) {
+            ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+        }
+        try {
+            let lookup = await banlistService.getEntryByIp(ip);
+            if(lookup) {
+                return res.send({ success: false, message: 'An error occurred registering your account, please try again later.' });
+            }
+        } catch(err) {
+            logger.error(err);
+
+            return res.send({ success: false, message: 'An error occurred registering your account, please try again later.' });
+        }
+
         let newUser = {
             password: passwordHash,
             registered: new Date(),
             username: req.body.username,
             email: req.body.email,
             enableGravatar: req.body.enableGravatar,
-            registerIp: req.get('x-real-ip')
+            registerIp: ip
         };
 
         if(configService.getValueForSection('lobby', 'requireActivation')) {

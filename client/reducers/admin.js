@@ -1,4 +1,4 @@
-export default function (state = {}, action) {
+export default function(state = { banlist: [] }, action) {
     switch(action.type) {
         case 'RECEIVE_FINDUSER':
             var user = action.response.user;
@@ -34,6 +34,39 @@ export default function (state = {}, action) {
         case 'NODE_STATUS_RECEIVED':
             return Object.assign({}, state, {
                 nodeStatus: action.status
+            });
+        case 'REQUEST_BANLIST':
+            return Object.assign({}, state, {
+            });
+        case 'RECEIVE_BANLIST':
+            return Object.assign({}, state, {
+                banlist: action.response.banlist
+            });
+        case 'ADD_BANLIST':
+            return Object.assign({}, state, {
+                banlistAdded: false
+            });
+        case 'BANLIST_ADDED':
+            return Object.assign({}, state, {
+                banlistAdded: true,
+                banlist: [action.response.entry, ...state.banlist]
+            });
+        case 'DELETE_BANLIST':
+            return Object.assign({}, state, {
+                banlistDeleted: false
+            });
+        case 'BANLIST_DELETED':
+            return Object.assign({}, state, {
+                banlistDeleted: true,
+                banlist: state.banlist.filter(entry => {
+                    return entry._id !== action.response.id;
+                })
+            });
+        case 'CLEAR_BANLIST_STATUS':
+            return Object.assign({}, state, {
+                banlistAdded: false,
+                banlistSaved: false,
+                banlistDeleted: false
             });
     }
 
