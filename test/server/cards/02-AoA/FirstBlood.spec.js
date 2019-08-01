@@ -1,4 +1,4 @@
-fdescribe('First Blood', function() {
+describe('First Blood', function() {
     integration(function() {
         describe('First Blood\'s ability', function() {
             beforeEach(function() {
