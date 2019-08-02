@@ -614,7 +614,7 @@ class Lobby {
             return;
         }
 
-        Promise.all([this.cardService.getAllCards(), this.deckService.getSealedDeck()])
+        Promise.all([this.cardService.getAllCards(), this.deckService.getSealedDeck(game.expansions)])
             .then(results => {
                 let [cards, deckArray] = results;
                 let deck = deckArray[0];
@@ -708,7 +708,7 @@ class Lobby {
     }
 
     onRemoveGame(socket, gameId) {
-        if(!socket.user.admin) {
+        if(!socket.user.permissions.canMangeGames) {
             return;
         }
 
@@ -910,6 +910,7 @@ class Lobby {
             syncGame.createdAt = game.startedAt;
             syncGame.started = game.started;
             syncGame.gameType = game.gameType;
+            syncGame.gameFormat = game.gameFormat;
             syncGame.password = game.password;
 
             for(let player of Object.values(game.players)) {

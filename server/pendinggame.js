@@ -17,6 +17,7 @@ class PendingGame {
         this.muteSpectators = details.muteSpectators;
         this.gameType = details.gameType;
         this.gameFormat = details.gameFormat;
+        this.expansions = details.expansions;
         this.started = false;
         this.node = {};
         this.createdAt = new Date();
@@ -56,6 +57,7 @@ class PendingGame {
             gameId: this.id,
             gameType: this.gameType,
             gameFormat: this.gameFormat,
+            expansions: this.expansions,
             players: players,
             startedAt: this.createdAt
         };
