@@ -92,7 +92,7 @@ class HandlerMenuPrompt extends UiPrompt {
         }
         return [{
             type: 'targeting',
-            source: this.context.source.getShortSummary(),
+            source: this.properties.source.getShortSummary(),
             targets: targets.map(target => target.getShortSummary())
         }];
     }
