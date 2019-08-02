@@ -33,15 +33,6 @@ class About extends React.Component {
                     </pre>
                     <p>That said, if you can prove there is a bug, please do raise an issue on GitHub!</p>
 
-                    <h3>Donations</h3>
-                    <p>Since I've been asked a few times about where people can donate to the project, I thought I'd put up a small section about it here.</p>
-                    <p>You can use this link: <a target='_blank' href='https://paypal.me/keyteki'>Paypal</a> to donate to the project. Note: The account uses my name, but is completely separate from my personal Paypal account.</p>
-
-                    <p>Just to make things clear, I'm not doing this for any personal gain whatsoever, any money raised via this link will be used towards paying the hosting fees for the server and related services such as error tracking. All money in this account will only go towards these expenses.</p>
-                    <p>Also, this is not required to continue to use and enjoy the site and will not give anything of substance in return. I will also create an expense report that I will publish, so that you know where your donations are going.</p>
-
-                    <p>If you wish to reward the devs in particular, feel free to thank them when you see them out at events. Sharing a cold beverage is always appreciated!</p>
-
                     <h3>Special Thanks</h3>
                     <p>I'd like to thank gyffon, cryogen, and the throneteki and ringteki teams as without their help and support this site would never have happened.</p>
 
