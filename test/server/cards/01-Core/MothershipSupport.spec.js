@@ -1,4 +1,4 @@
-fdescribe('Mothership Support', function() {
+describe('Mothership Support', function() {
     integration(function() {
         describe('Mothership Support\'s ability', function() {
             beforeEach(function() {
