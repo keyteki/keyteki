@@ -21,7 +21,7 @@ describe('Protectrix', function() {
                 expect(this.player1).toBeAbleToSelect(this.protectrix);
                 expect(this.player1).not.toBeAbleToSelect(this.dextre);
                 this.player1.clickCard(this.commanderRemiel);
-                expect(this.commanderRemiel.tokens.damage).toBe(1)
+                expect(this.commanderRemiel.tokens.damage).toBe(1);
                 this.player1.endTurn();
                 this.player2.clickPrompt('sanctum');
                 this.player2.reap(this.protectrix);
