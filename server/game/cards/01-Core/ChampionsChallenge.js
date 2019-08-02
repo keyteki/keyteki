@@ -33,7 +33,7 @@ class ChampionsChallenge extends Card {
             effectArgs: context => [context.targets.enemy, context.targets.friendly ? ' and all friendly creatures except ' : '', context.targets.friendly],
             then: {
                 alwaysTriggers: true,
-                condition: context => context.player.creaturesInPlay.length && context.player.opponent && context.player.opponent.creaturesInPlay.length,
+                condition: context => context.player.creaturesInPlay.length,
                 target: {
                     activePromptTitle: 'Choose a creature to fight with',
                     cardType: 'creature',
