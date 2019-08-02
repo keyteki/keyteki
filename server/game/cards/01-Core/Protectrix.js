@@ -6,9 +6,11 @@ class Protectrix extends Card {
             target: {
                 optional: true,
                 cardType: 'creature',
+                cardCondition: card => card.hasToken('damage'),
                 gameAction: ability.actions.heal({ fully: true })
             },
             then: context => ({
+                condition: context => context.preThenEvent.amount >= 1,
                 gameAction: ability.actions.cardLastingEffect({
                     target: context.target,
                     effect: ability.effects.cardCannot('damage')
@@ -18,6 +20,6 @@ class Protectrix extends Card {
     }
 }
 
-Protectrix.id = 'protectrix'; // This is a guess at what the id might be - please check it!!!
+Protectrix.id = 'protectrix';
 
 module.exports = Protectrix;
