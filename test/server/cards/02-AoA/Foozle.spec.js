@@ -36,9 +36,14 @@ describe('Foozle', function() {
                 this.player1.play(this.firstBlood);
                 this.player1.clickCard(this.selwynTheFence);
                 this.player1.clickCard(this.selwynTheFence);
+                this.player1.clickCard(this.selwynTheFence);
                 this.player1.clickCard(this.foozleone);
+                this.player1.clickCard(this.bumpsy);
+                this.player1.clickCard(this.bumpsy);
+
                 this.player1.reap(this.foozleone);
                 this.player1.reap(this.foozletwo);
+
                 expect(this.player1.amber).toBe(5);
             });
         });
