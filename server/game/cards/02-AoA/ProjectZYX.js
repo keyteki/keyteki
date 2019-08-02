@@ -5,6 +5,7 @@ class ProjectZYX extends Card {
         this.fight({
             reap: true,
             target: {
+                optional: true,
                 controller: 'self',
                 location: 'archives',
                 gameAction: ability.actions.playCard()
