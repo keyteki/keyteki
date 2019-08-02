@@ -8,7 +8,7 @@ class About extends React.Component {
         return (
             <div className='col-xs-12 full-height'>
                 <Panel title='About The Crucible Online - Help and information'>
-                    <a className='btn btn-danger btn-lg pull-right' target='_blank' href='https://github.com/jeremylarner/keyteki/issues'>Report Problems</a>
+                    <a className='btn btn-danger btn-lg pull-right' target='_blank' href='https://github.com/keyteki/keyteki/issues'>Report Problems</a>
                     <h3>What is this?</h3>
 
                     <p>This site was setup to allow you to play Keyforge, a Unique Deck Game from Fantasy Flight Games (FFG) in your browser.</p>
