@@ -1,4 +1,4 @@
-describe('Mothership Support', function() {
+fdescribe('Mothership Support', function() {
     integration(function() {
         describe('Mothership Support\'s ability', function() {
             beforeEach(function() {
@@ -41,15 +41,16 @@ describe('Mothership Support', function() {
                 expect(this.player1).toBeAbleToSelect(this.troll);
                 expect(this.player1).toBeAbleToSelect(this.bumpsy);
                 this.player1.clickCard(this.mindwarper);
-                expect(this.mindwarper.location).toBe('discard');
+                expect(this.mindwarper.tokens.damage).toBe(2);
                 expect(this.player1).toHavePrompt('Mothership Support');
-                expect(this.player1).not.toBeAbleToSelect(this.mindwarper);
+                expect(this.player1).toBeAbleToSelect(this.mindwarper);
                 expect(this.player1).toBeAbleToSelect(this.johnSmyth);
                 expect(this.player1).toBeAbleToSelect(this.ulyqMegamouth);
                 expect(this.player1).toBeAbleToSelect(this.troll);
                 expect(this.player1).toBeAbleToSelect(this.bumpsy);
                 this.player1.clickCard(this.troll);
                 expect(this.troll.tokens.damage).toBe(4);
+                expect(this.mindwarper.location).toBe('discard');
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
         });
