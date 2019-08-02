@@ -3,6 +3,8 @@ const Card = require('../../Card.js');
 class MightMakesRight extends Card {
     setupCardAbilities(ability) {
         this.play({
+            condition: context =>
+                context.player.creaturesInPlay.reduce((total, c) => total + c.power, 0) >= 25,
             target: {
                 optional: true,
                 mode: 'minStat',
@@ -13,6 +15,7 @@ class MightMakesRight extends Card {
                 gameAction: ability.actions.sacrifice()
             },
             then: {
+                condition: context => context.preThenEvents && context.preThenEvents.filter(event => !event.cancelled).reduce((total, event) => total + event.card.power, 0) > 25 ? 1 : 0,
                 gameAction: ability.actions.forgeKey(context => ({
                     modifier: -context.player.getCurrentKeyCost()
                 }))
