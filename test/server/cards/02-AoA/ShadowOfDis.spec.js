@@ -1,4 +1,4 @@
-fdescribe('Shadow of Dis', function() {
+describe('Shadow of Dis', function() {
     integration(function() {
         describe('Shadow of Dis\' ability', function() {
             beforeEach(function() {
