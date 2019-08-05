@@ -5,7 +5,7 @@ describe('Neffru', function() {
                 this.setupTest({
                     player1: {
                         house: 'Brobnar',
-                        inPlay: ['krump', 'culf-the-quiet', 'neffru', 'forgemaster-og' ]
+                        inPlay: ['krump', 'culf-the-quiet', 'neffru', 'forgemaster-og']
                     },
                     player2: {
                         amber: 3,
@@ -21,7 +21,6 @@ describe('Neffru', function() {
                 expect(this.player1.amber).toBe(0);
                 expect(this.player2.amber).toBe(4);
             });
-            
             it('should cause the controller of a destroyed creature (self) to gain an amber', function() {
                 this.player1.fightWith(this.forgemasterOg, this.docBookton);
                 expect(this.forgemasterOg.location).toBe('discard');
@@ -48,7 +47,6 @@ describe('Neffru', function() {
                 expect(this.dysania.location).toBe('discard');
                 expect(this.player1.amber).toBe(0);
                 expect(this.player2.amber).toBe(3);
-                
             });
             it('should cause the owner of a destroyed creature to gain an amber when it attacks and kills it', function() {
                 this.player1.endTurn();
