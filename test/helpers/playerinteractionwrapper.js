@@ -356,9 +356,17 @@ class PlayerInteractionWrapper {
         this.clickPrompt('Reap with this creature');
     }
 
-    play(card, left = false, deploy = false) {
+    useAction(card) {
+        if(card.type !== 'creature' && card.type !== 'artifact') {
+            throw new Error(`${card.name} cannot act`);
+        }
+        this.clickCard(card);
+        this.clickPrompt('Use this card\'s Action ability');
+    }
+
+    play(card) {
         if(card.type === 'creature') {
-            this.playCreature(card, left, deploy);
+            this.playCreature(card);
         } else if(card.type === 'artifact') {
             this.clickCard(card);
             this.clickPrompt('Play this artifact');
@@ -375,19 +383,15 @@ class PlayerInteractionWrapper {
         return card;
     }
 
-    playCreature(card, left = false, deploy = false) {
+    playCreature(card, left = false) {
         if(_.isString(card)) {
             card = this.findCardByName(card, 'hand');
         }
         this.clickCard(card, 'hand');
         this.clickPrompt('Play this creature');
         if(this.hasPrompt('Which flank do you want to place this creature on?')) {
-            if(left && deploy) {
-                this.clickPrompt('Deploy Left');
-            } else if(left && !deploy) {
+            if(left) {
                 this.clickPrompt('Left');
-            } else if(!left && deploy) {
-                this.clickPrompt('Deploy Right');
             } else {
                 this.clickPrompt('Right');
             }
