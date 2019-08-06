@@ -141,7 +141,7 @@ linting by [ESLint](http://eslint.org/), according to the rules defined in
 case install ESLint and run
 
 ```
-eslint client/ server/ test/
+npm run lint
 ```
 
 from repository's root.

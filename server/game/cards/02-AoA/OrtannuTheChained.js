@@ -15,6 +15,7 @@ class OrtannuTheChained extends Card {
                     gameAction: ability.actions.sequentialForEach(() => ({
                         num: amount,
                         action: ability.actions.dealDamage({
+                            noGameStateCheck: true,
                             amount: 2,
                             splash: 2,
                             promptForSelect: {

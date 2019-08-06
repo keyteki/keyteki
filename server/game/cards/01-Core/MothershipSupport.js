@@ -7,6 +7,7 @@ class MothershipSupport extends Card {
             gameAction: ability.actions.sequentialForEach(context => ({
                 num: context.player.cardsInPlay.filter(card => card.type === 'creature' && card.hasHouse('mars') && !card.exhausted).length,
                 action: ability.actions.dealDamage({
+                    noGameStateCheck: true,
                     amount: 2,
                     promptForSelect: {
                         activePromptTitle: 'Choose a creature to deal 2 damage to',

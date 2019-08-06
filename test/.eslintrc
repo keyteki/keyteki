@@ -1,0 +1,10 @@
+{
+    "env": {
+      "jasmine": true,
+      "es6": true
+    },
+    "plugins": ["jasmine"],
+    "rules": {
+        "jasmine/no-focused-tests": 2
+    }
+}

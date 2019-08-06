@@ -90,6 +90,16 @@ class User {
         };
     }
 
+    getFullDetails() {
+        let user = Object.assign({ invalidDecks: this.invalidDecks }, this.userData);
+
+        delete user.password;
+
+        user = Settings.getUserWithDefaultsSet(user);
+
+        return user;
+    }
+
     getDetails() {
         let user = Object.assign({ invalidDecks: this.invalidDecks }, this.userData);
 

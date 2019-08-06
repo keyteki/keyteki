@@ -27,6 +27,7 @@ class NewGame extends React.Component {
             muteSpectators: false,
             selectedGameType: 'casual',
             selectedGameFormat: 'normal',
+            expansions: { cota: false, aoa: true },
             password: ''
         };
     }
@@ -72,7 +73,8 @@ class NewGame extends React.Component {
             gameFormat: this.state.selectedGameFormat,
             password: this.state.password,
             quickJoin: this.props.quickJoin,
-            muteSpectators: this.state.muteSpectators
+            muteSpectators: this.state.muteSpectators,
+            expansions: this.state.expansions
         });
     }
 
@@ -82,6 +84,14 @@ class NewGame extends React.Component {
 
     onGameFormatChange(gameFormat) {
         this.setState({ selectedGameFormat: gameFormat });
+    }
+
+    gameExpansionCheckChange(expansion) {
+        let expansions = this.state.expansions;
+
+        expansions[expansion] = !expansions[expansion];
+
+        this.setState({ expansions: expansions });
     }
 
     isGameTypeSelected(gameType) {
@@ -133,6 +143,11 @@ class NewGame extends React.Component {
             { name: 'sealed', label: 'Sealed' }
         ];
 
+        let expansions = [
+            { name: 'cota', label: 'Call of the Archons'},
+            { name: 'aoa', label: 'Age of Ascension'}
+        ];
+
         return (
             <div className='row'>
                 <div className='col-sm-12'>
@@ -144,9 +159,20 @@ class NewGame extends React.Component {
                             <input type='radio' onChange={ this.onGameFormatChange.bind(this, gameFormat.name) } checked={ this.isGameFormatSelected(gameFormat.name) } />
                             { gameFormat.label }
                         </label>);
-
                     }) }
                 </div>
+                { this.state.selectedGameFormat === 'sealed' && !this.props.quickJoin &&
+                    <div className='col-sm-12'>
+                        {
+                            expansions.map(expansion => {
+                                return (
+                                    <label key={ expansion.name } className='checkbox-inline'><input type='checkbox' onChange={ this.gameExpansionCheckChange.bind(this, expansion.name) } checked={ this.state.expansions[expansion.name] } />
+                                        { expansion.label }
+                                    </label>);
+                            })
+                        }
+                    </div>
+                }
             </div>);
     }
 

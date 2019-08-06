@@ -49,6 +49,7 @@ class Game extends EventEmitter {
         this.createdAt = new Date();
         this.savedGameId = details.savedGameId;
         this.gameType = details.gameType;
+        this.gameFormat = details.gameFormat;
         this.currentAbilityWindow = null;
         this.currentActionWindow = null;
         this.currentEventWindow = null;
@@ -933,6 +934,8 @@ class Game extends EventEmitter {
             gameId: this.id,
             startedAt: this.startedAt,
             players: players,
+            gameType: this.gameType,
+            gameFormat: this.gameFormat,
             winner: this.winner ? this.winner.name : undefined,
             winReason: this.winReason,
             finishedAt: this.finishedAt
@@ -1011,6 +1014,7 @@ class Game extends EventEmitter {
             allowSpectators: this.allowSpectators,
             createdAt: this.createdAt,
             gameType: this.gameType,
+            gameFormat: this.gameFormat,
             id: this.id,
             manualMode: this.manualMode,
             messages: this.gameChat.messages,

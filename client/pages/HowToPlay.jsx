@@ -8,7 +8,7 @@ class HowToPlay extends React.Component {
         return (
             <div className='col-xs-12 full-height'>
                 <Panel title='How To Play on The Crucible Online'>
-                    <a className='btn btn-danger btn-lg pull-right' target='_blank' href='https://github.com/jeremylarner/keyteki/issues'>Report Problems</a>
+                    <a className='btn btn-danger btn-lg pull-right' target='_blank' href='https://github.com/keyteki/keyteki/issues'>Report Problems</a>
 
                     <p>This guide is aimed at players familiar with Keyforge: the Unique Deck Game who want to start playing online using the The Crucible Online platform. If you are new to this cardgame in general, there is a <a href='https://www.youtube.com/watch?v=D7qt2H9Im2Q' target='_blank'>helpful tutorial video</a>, a <a href='https://images-cdn.fantasyflightgames.com/filer_public/99/15/99157338-aa49-47b1-9ab9-90e99ba1db51/kf_quickstart_web_good.pdf' target='_blank'>Quickstart guide</a>, and a <a href='https://images-cdn.fantasyflightgames.com/filer_public/45/78/4578fac4-728a-4e3e-9160-40b5af5ac3f9/keyforge_rulebook_web_good.pdf' target='_blank'>Rulebook</a> to help you out.</p>
 
@@ -30,7 +30,7 @@ class HowToPlay extends React.Component {
                     <p>Clicking your <Link href='/profile'>Profile</Link> at the top right of the page allows you to tailor certain aspects of gameplay to your wishes.</p>
 
                     <h3 id='bugs'>Bugs and automation</h3>
-                    <p>The Crucible Online is currently in beta and still a work in progress. If you happen upon a card that you believe is not working as it should, it would help immensely if you would submit an issue on <a target='_blank' href='https://github.com/jeremylarner/keyteki/issues'>GitHub</a>. Other comments and/or feedback can be left on GitHub as well.</p>
+                    <p>The Crucible Online is currently in beta and still a work in progress. If you happen upon a card that you believe is not working as it should, it would help immensely if you would submit an issue on <a target='_blank' href='https://github.com/keyteki/keyteki/issues'>GitHub</a>. Other comments and/or feedback can be left on GitHub as well.</p>
 
                     <h3 id='mmode'>Manual Mode</h3>
                     <p>Most of the cards should be implemented, but if things go wrong, or someone misclicks, or you really hate automation, you can switch on
