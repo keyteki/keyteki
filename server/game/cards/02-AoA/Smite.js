@@ -21,7 +21,7 @@ class SmiteAbilityResolver extends AbilityResolver {
         if(this.cancelled) {
             return;
         }
-        if (!this.context.target) {
+        if(!this.context.target) {
             return;
         }
         this.neighbors = this.context.target.neighbors;
