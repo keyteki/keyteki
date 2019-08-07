@@ -44,6 +44,7 @@ const SequentialForEachAction = require('./GameActions/SequentialForEachAction')
 const StealAction = require('./GameActions/StealAction');
 const StunAction = require('./GameActions/StunAction');
 const SwapAction = require('./GameActions/SwapAction');
+const TransferAmberAction = require('./GameActions/TransferAmberAction');
 const UnforgeAction = require('./GameActions/UnforgeAction');
 const UseAction = require('./GameActions/UseAction');
 
@@ -100,6 +101,7 @@ const Actions = {
     loseAmber: (propertyFactory) => new LoseAmberAction(propertyFactory),
     search: (propertyFactory) => new SearchAction(propertyFactory), // name
     steal: (propertyFactory) => new StealAction(propertyFactory), // amount = 1
+    transferAmber: (propertyFactory) => new TransferAmberAction(propertyFactory), // amount = 1
     unforgeKey: (propertyFactory) => new UnforgeAction(propertyFactory),
     // meta actions
     changeEvent: (propertyFactory) => new ChangeEventAction(propertyFactory),
