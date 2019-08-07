@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import CardImage from './CardImage';
 
 class AbilityTargeting extends React.Component {
     onMouseOver(event, card) {
@@ -19,9 +20,12 @@ class AbilityTargeting extends React.Component {
             <div className='target-card vertical'
                 onMouseOut={ event => this.onMouseOut(event, card) }
                 onMouseOver={ event => this.onMouseOver(event, card) }>
-                <img className='target-card-image vertical'
+                <CardImage className='target-card-image vertical'
                     alt={ card.name }
-                    src={ !card.facedown ? (`/img/cards/${card.image}.png`) : '/img/idbacks/cardback.jpg' } />
+                    img={ !card.facedown ? (`/img/cards/${card.image}.png`) : '/img/idbacks/cardback.jpg' }
+                    maverick={ card.maverick }
+                    amber={ card.amber }/>
+
             </div>);
     }
 
