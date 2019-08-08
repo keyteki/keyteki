@@ -89,6 +89,19 @@ node server/gamenode
 
 There are two exectuable components and you'll need to configure/run both to run a local server.  First is the lobby server and then there are game nodes. The default configurations assume you are running mongo locally on the default port. If you need to change any configurations, edit `config/default.json5` or create a `config/local.json5` configuration that overrides any desired settings.   
 
+To download all supported languages (not needed if you're running just a test / dev server):
+```
+node server/scripts/fetchdata.js --language=en
+node server/scripts/fetchdata.js --language=es
+node server/scripts/fetchdata.js --language=de
+node server/scripts/fetchdata.js --language=fr
+node server/scripts/fetchdata.js --language=it
+node server/scripts/fetchdata.js --language=pl
+node server/scripts/fetchdata.js --language=pt
+node server/scripts/fetchdata.js --language=zh-hans
+node server/scripts/fetchdata.js --language=zh-hant
+```
+
 For production:
 
 ```
