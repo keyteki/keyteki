@@ -43,7 +43,7 @@ class CardImport {
             // Keep english images at the current folder
             imageLangDir = this.imageDir;
         } else {
-            imageLangDir = path.join(this.imageDir, this.language);
+            imageLangDir = path.join(this.imageDir, this.language.replace('-',''));
         }
 
         mkdirp(imageLangDir);
