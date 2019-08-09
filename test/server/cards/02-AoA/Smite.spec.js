@@ -25,6 +25,16 @@ describe('Smite', function() {
                 expect(this.murmook.tokens.damage).toBe(2);
                 expect(this.troll.tokens.damage).toBe(2);
             });
+
+            it('should remove creature\'s stun', function() {
+                this.sequis.stunned = true;
+                this.player1.play(this.smite);
+                expect(this.player1).toHavePrompt('Smite');
+                this.player1.clickCard(this.sequis);
+                expect(this.sequis.stunned).toBe(false);
+                expect(this.player1).not.toHavePrompt('Sequis');
+            });
+
         });
     });
 });
