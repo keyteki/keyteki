@@ -51,6 +51,7 @@ class Card extends EffectSource {
 
         this.persistentEffect({
             location: 'any',
+            printedAbility: false,
             condition: () => !!this.getKeywordValue('alpha'),
             match: this,
             effect: AbilityDsl.effects.cardCannot('play', () => !this.game.firstThingThisTurn())
@@ -123,6 +124,7 @@ class Card extends EffectSource {
         // Taunt
         this.persistentEffect({
             condition: () => !!this.getKeywordValue('taunt'),
+            printedAbility: false,
             match: card => this.neighbors.includes(card) && !card.getKeywordValue('taunt'),
             effect: ability.effects.cardCannot('attackDueToTaunt')
         });
