@@ -75,7 +75,7 @@ class PutIntoPlayAction extends CardGameAction {
                             cardCondition: card => (card.location === 'play area') && card.controller === player && card.type === 'creature',
                             onSelect: (p, card) => {
                                 this.deployIndex = card.controller.creaturesInPlay.indexOf(card);
-                                if(flank === 'left' && this.deployIndex > 0) {
+                                if(flank === 'left' && this.deployIndex >= 0) {
                                     this.deployIndex--;
                                 }
 

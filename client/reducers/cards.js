@@ -24,7 +24,6 @@ function processDecks(decks, state) {
             result.card.image = card.id;
             if(card.maverick) {
                 result.card.house = card.maverick;
-                result.card.image += '_' + card.maverick;
             }
             return result;
         });

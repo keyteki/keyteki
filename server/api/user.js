@@ -38,10 +38,10 @@ module.exports.init = function(server) {
         } catch(error) {
             logger.error(error);
 
-            return res.send({success: false, message: 'An error occurred searching the user.  Please try again later.'});
+            return res.send({ success: false, message: 'An error occurred searching the user.  Please try again later.' });
         }
 
-        res.send({ success: true, user: user.getDetails(), linkedAccounts: linkedAccounts && linkedAccounts.map(account => account.username).filter(name => name !== user.username) });
+        res.send({ success: true, user: user.getFullDetails(), linkedAccounts: linkedAccounts && linkedAccounts.map(account => account.username).filter(name => name !== user.username) });
     }));
 
     server.put('/api/user/:username', passport.authenticate('jwt', { session: false }), wrapAsync(async (req, res) => {
@@ -67,7 +67,7 @@ module.exports.init = function(server) {
         let user = dbUser.getDetails();
 
         if(!user) {
-            return res.status(404).send({ message: 'Not found'});
+            return res.status(404).send({ message: 'Not found' });
         }
 
         if(req.user.permissions.canManagePermissions) {
@@ -105,7 +105,7 @@ module.exports.init = function(server) {
         } catch(error) {
             logger.error(error);
 
-            return res.send({success: false, message: 'An error occurred verifying decks.  Please try again later.'});
+            return res.send({ success: false, message: 'An error occurred verifying decks.  Please try again later.' });
         }
 
         res.send({ success: true });
