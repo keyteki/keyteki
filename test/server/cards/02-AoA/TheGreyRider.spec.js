@@ -81,7 +81,6 @@ describe('The Grey Rider', function() {
                 });
             });
             it('on play, it should let you reap with an in house card when there\'s no opponents to fight', function() {
-                
                 this.player1.clickCard(this.sequis);
                 this.player1.clickPrompt('Reap with this creature');
                 expect(this.sequis.exhausted).toBe(true);
