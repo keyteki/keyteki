@@ -36,6 +36,7 @@ class Effect {
         this.until = properties.until || {};
         this.condition = properties.condition || (() => true);
         this.location = properties.location || 'play area';
+        this.printedAbility = properties.printedAbility !== false;
         this.effect = effect;
         this.targets = [];
         this.effect.context = this.context = properties.context || { game: game, player: source.controller, source: source };
@@ -80,7 +81,7 @@ class Effect {
     }
 
     checkCondition(stateChanged) {
-        if(!this.condition() || (this.duration === 'persistent' && (this.source.isBlank() || this.source.facedown))) {
+        if(!this.condition() || (this.duration === 'persistent' && (this.printedAbility && this.source.isBlank() || this.source.facedown))) {
             stateChanged = this.targets.length > 0 || stateChanged;
             this.cancel();
             return stateChanged;
