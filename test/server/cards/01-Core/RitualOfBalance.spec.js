@@ -1,4 +1,4 @@
-fdescribe('Ritual of Balance', function() {
+xdescribe('Ritual of Balance', function() {
     integration(function() {
         describe('Ritual of Balance\'s ability', function() {
             beforeEach(function() {
