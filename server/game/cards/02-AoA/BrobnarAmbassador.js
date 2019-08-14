@@ -5,25 +5,9 @@ class BrobnarAmbassador extends Card {
         this.fight({
             reap: true,
             effect: 'allow them to play or use one Brobnar card this turn',
-            target: {
-                mode: 'select',
-                choices: {
-                    'Use a Brobnar Card': ability.actions.use({
-                        promptForSelect: {
-                            location: 'play area',
-                            controller: 'self',
-                            cardCondition: card => card.hasHouse('brobnar')
-                        }
-                    }),
-                    'Play a Brobnar Card': ability.actions.playCard({
-                        promptForSelect: {
-                            location: 'hand',
-                            controller: 'self',
-                            cardCondition: card => card.hasHouse('brobnar')
-                        }
-                    })
-                }
-            }
+            gameAction: ability.actions.forRemainderOfTurn({
+                effect: ability.effects.canPlayOrUseHouse('brobnar')
+            })
         });
     }
 }
