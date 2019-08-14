@@ -32,14 +32,17 @@ class Card extends EffectSource {
         this.abilities = { actions: [], reactions: [], persistentEffects: [] };
         this.traits = cardData.traits || [];
         this.setupCardAbilities(AbilityDsl);
-        this.keywords = {};
         for(let keyword of cardData.keywords || []) {
             let split = keyword.split(':');
-            if(split.length === 1) {
-                this.keywords[keyword] = 1;
-            } else {
-                this.keywords[split[0]] = parseInt(split[1]);
+            let value = 1;
+            if(split.length > 1) {
+                value = parseInt(split[1]);
             }
+            this.persistentEffect({
+                location: 'any',
+                match: this,
+                effect: AbilityDsl.effects.addKeyword({ [split[0]]: value })
+            });
         }
 
         if(this.type === 'creature') {
@@ -48,6 +51,7 @@ class Card extends EffectSource {
 
         this.persistentEffect({
             location: 'any',
+            printedAbility: false,
             condition: () => !!this.getKeywordValue('alpha'),
             match: this,
             effect: AbilityDsl.effects.cardCannot('play', () => !this.game.firstThingThisTurn())
@@ -120,6 +124,7 @@ class Card extends EffectSource {
         // Taunt
         this.persistentEffect({
             condition: () => !!this.getKeywordValue('taunt'),
+            printedAbility: false,
             match: card => this.neighbors.includes(card) && !card.getKeywordValue('taunt'),
             effect: ability.effects.cardCannot('attackDueToTaunt')
         });
@@ -398,8 +403,7 @@ class Card extends EffectSource {
         if(this.getEffects('removeKeyword').includes(keyword)) {
             return 0;
         }
-        let reduceFunc = (total, keywords) => total + (keywords[keyword] ? keywords[keyword] : 0);
-        return this.getEffects('addKeyword').reduce(reduceFunc, reduceFunc(0, this.keywords));
+        return this.getEffects('addKeyword').reduce((total, keywords) => total + (keywords[keyword] ? keywords[keyword] : 0), 0);
     }
 
     createSnapshot() {
@@ -602,6 +606,15 @@ class Card extends EffectSource {
 
     ignores(trait) {
         return this.getEffects('ignores').includes(trait);
+    }
+
+    getShortSummary() {
+        let result = super.getShortSummary();
+
+        // Include card specific information useful for UI rendering
+        result.maverick = this.maverick;
+        result.cardPrintedAmber = this.cardPrintedAmber;
+        return result;
     }
 
     getSummary(activePlayer, hideWhenFaceup) {

@@ -37,7 +37,7 @@ class CardImage extends Component {
     render() {
         return (
             <Fragment>
-                <img src={ this.state.src } className={ this.props.className } />
+                <img src={ this.state.src } alt={ this.props.alt } className={ this.props.className } />
                 { this.state.err && <p>{ this.state.err } </p> }
             </Fragment>
         );
@@ -45,6 +45,7 @@ class CardImage extends Component {
 }
 
 CardImage.propTypes = {
+    alt: PropTypes.string,
     amber: PropTypes.number,
     className: PropTypes.string,
     img: PropTypes.string.isRequired,

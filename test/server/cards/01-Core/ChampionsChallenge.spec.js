@@ -63,5 +63,28 @@ describe('Champion\'s Challenge', function() {
                 expect(this.firespitter.tokens.damage).toBe(2);
             });
         });
+        describe('Champion\'s Challenge\'s ability', function() {
+            beforeEach(function() {
+                this.setupTest({
+                    player1: {
+                        house: 'brobnar',
+                        hand: ['punch', 'champion-s-challenge', 'troll', 'bumpsy', 'firespitter', 'troll'],
+                    },
+                    player2: {
+                        amber: 1,
+                    }
+                });
+            });
+
+            it('should allow me to reap with the remaning creature I have if my opponent\'s board is empty', function() {
+                this.player1.play(this.troll);
+                expect(this.troll.exhausted).toBe(true);
+                this.player1.play(this.championSChallenge);
+                expect(this.player1).toHavePrompt('Champion’s Challenge');
+                this.player1.clickCard(this.troll);
+                this.player1.reap(this.troll);
+                expect(this.player1.amber).toBe(1);
+            });
+        });
     });
 });
