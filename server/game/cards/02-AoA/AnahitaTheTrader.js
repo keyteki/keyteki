@@ -13,7 +13,7 @@ class AnahitaTheTrader extends Card {
                 }))
             },
             then: {
-                gameAction: ability.actions.steal({ amount: 2 })
+                gameAction: ability.actions.transferAmber({ amount: 2 })
             },
             effect: 'give control of {0} to {1} and take 2 amber from them',
             effectArgs: context => context.player.opponent

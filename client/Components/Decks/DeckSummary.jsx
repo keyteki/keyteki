@@ -23,8 +23,10 @@ class DeckSummary extends React.Component {
 
     onCardMouseOver(event) {
         let cardToDisplay = Object.values(this.props.deck.cards).filter(card => {
-            let house = event.target.parentElement.className;
-            return (house === card.card.house) && (event.target.innerText === card.card.name);
+            let house = event.target.dataset.card_house;
+            let cardId = event.target.dataset.card_id;
+
+            return (house === card.card.house) && (cardId === card.card.id);
         });
 
         this.setState({ cardToShow: cardToDisplay[0] });
@@ -37,30 +39,53 @@ class DeckSummary extends React.Component {
     getCardsToRender() {
         let cardsToRender = [];
         let groupedCards = {};
+        let countCards = {};
+        let maxCountCards = 0;
 
         for(const card of this.props.deck.cards) {
-            let houseCode = card.card.house;
-            if(!houseCode) {
+            let house = card.card.house;
+            if(!house) {
                 continue;
             }
 
-            let house = houseCode[0].toUpperCase() + houseCode.slice(1);
-
             if(!groupedCards[house]) {
                 groupedCards[house] = [card];
+                countCards[house] = 1;
+                maxCountCards = Math.max(maxCountCards, countCards[house]);
             } else {
                 groupedCards[house].push(card);
+                countCards[house] = countCards[house] + 1;
             }
+
+            maxCountCards = Math.max(maxCountCards, countCards[house]);
         }
 
-        for(const [key, cardList] of Object.entries(groupedCards)) {
+        // Traverse props.deck.houses to guarantee the card boxes will have the same order as the house icons
+        for(const house of this.props.deck.houses) {
+            let key = house[0].toUpperCase() + house.slice(1);
+
+            let cardList = groupedCards[house];
             let cards = [];
             let count = 0;
+            let i = 0;
 
             for(const card of cardList) {
-                cards.push(<div className={ card.card.house } key={ card.id }><span>{ card.count + 'x ' }</span><span className='card-link' onMouseOver={ this.onCardMouseOver } onMouseOut={ this.onCardMouseOut }>{ card.card.name }</span>
-                    { card.maverick ? <img className='small-maverick' src='/img/maverick.png' width='12px' height='12px' /> : null }</div>);
+                let cardToRender = (<div key={ card.id }>
+                    <span>{ card.count + 'x ' }</span>
+                    <span className='card-link' onMouseOver={ this.onCardMouseOver } onMouseOut={ this.onCardMouseOut }
+                        data-card_id={ card.card.id } data-card_house={ house }>
+                        { card.card.name }
+                    </span>
+                    { card.maverick ? <img className='small-maverick' src='/img/maverick.png' width='12px' height='12px' /> : null }
+                </div>);
+
+                cards.push(cardToRender);
                 count += parseInt(card.count);
+                i++;
+            }
+
+            while(i++ < maxCountCards) {
+                cards.push(<div className='cards-no-break' key={ key + '-' + i }>&nbsp;</div>);
             }
 
             cardsToRender.push(

@@ -1,11 +1,21 @@
 const UiPrompt = require('../uiprompt.js');
 const DiscardAction = require('../../BaseActions/DiscardAction');
+const UseAction = require('../../GameActions/UseAction');
 
 class ActionWindow extends UiPrompt {
     onCardClicked(player, card) {
-        if(player === this.game.activePlayer && card.controller === player && card.use(player)) {
-            this.game.queueSimpleStep(() => this.checkForOmega());
-            return true;
+        if(player === this.game.activePlayer && card.controller === player) {
+            if(card.location === 'play area') {
+                let useAction = new UseAction({ ignoreHouse: false });
+                let context = this.game.getFrameworkContext(player);
+                if(useAction.canAffect(card, context)) {
+                    useAction.resolve(card, context);
+                    return true;
+                }
+            } else if(card.use(player)) {
+                this.game.queueSimpleStep(() => this.checkForOmega());
+                return true;
+            }
         }
         return false;
     }

@@ -1,6 +1,10 @@
 const CardGameAction = require('./CardGameAction');
 
 class UseAction extends CardGameAction {
+    setDefaultProperties() {
+        this.ignoreHouse = true;
+    }
+
     setup() {
         this.name = 'use';
         this.targetType = ['creature', 'artifact'];
@@ -8,11 +12,14 @@ class UseAction extends CardGameAction {
     }
 
     canAffect(card, context) {
-        return card !== context.source && card.location === 'play area' && super.canAffect(card, context);
+        return card !== context.source && card.location === 'play area' &&
+            super.canAffect(card, context);
     }
 
+
     getEvent(card, context) {
-        return super.createEvent('onUseCard', { card: card, context: context }, () => card.use(context.player, true));
+        return super.createEvent('onUseCard', { card: card, context: context, ignoreHouse: this.ignoreHouse }, event =>
+            card.use(context.player, event.ignoreHouse));
     }
 }
 
