@@ -6,7 +6,7 @@ class HallowedShield extends Card {
             target: {
                 optional: true,
                 cardType: 'creature',
-                gameAction: ability.actions.forRemainderOfTurn({
+                gameAction: ability.actions.cardLastingEffect({
                     effect: ability.effects.cardCannot('damage')
                 })
             }
