@@ -68,10 +68,10 @@ describe('Champion\'s Challenge', function() {
                 this.setupTest({
                     player1: {
                         house: 'brobnar',
-                        hand: ['punch', 'champion-s-challenge', 'troll', 'bumpsy', 'firespitter', 'troll'],
+                        hand: ['punch', 'champion-s-challenge', 'troll', 'bumpsy', 'firespitter', 'troll']
                     },
                     player2: {
-                        amber: 1,
+                        amber: 1
                     }
                 });
             });
