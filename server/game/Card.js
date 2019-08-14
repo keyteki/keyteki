@@ -604,6 +604,15 @@ class Card extends EffectSource {
         return this.getEffects('ignores').includes(trait);
     }
 
+    getShortSummary() {
+        let result = super.getShortSummary();
+
+        // Include card specific information useful for UI rendering
+        result.maverick = this.maverick;
+        result.cardPrintedAmber = this.cardPrintedAmber;
+        return result;
+    }
+
     getSummary(activePlayer, hideWhenFaceup) {
         let isActivePlayer = activePlayer === this.owner;
         let selectionState = activePlayer.getCardSelectionState(this);
