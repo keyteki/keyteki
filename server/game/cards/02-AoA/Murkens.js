@@ -11,6 +11,8 @@ class Murkens extends Card {
                 choices: {
                     'Top of deck': [
                         ability.actions.reveal(context => ({
+                            location: 'deck',
+                            chatMessage: true,
                             target: context.player.checkRestrictions('play', context.game.getFrameworkContext()) ? context.player.opponent.deck[0] : []
                         })),
                         ability.actions.playCard(context => ({ target: context.player.opponent.deck[0] }))
