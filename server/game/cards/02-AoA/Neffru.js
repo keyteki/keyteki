@@ -7,7 +7,7 @@ class Neffru extends Card {
                 onCardDestroyed: (event) => event.clone.type === 'creature' && !(this.tokens.damage >= this.getPower())
             },
             gameAction: ability.actions.gainAmber(context => ({ target: context.event.card.controller })),
-            effect: 'make {1} gain 1 amber.',
+            effect: 'make {1} gain 1 amber',
             effectArgs:  context=> context.event.card.controller
         });
     }
