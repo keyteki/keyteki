@@ -1,4 +1,4 @@
-describe('Punctuated Equilibrium', function() {
+xdescribe('Punctuated Equilibrium', function() {
     integration(function() {
         describe('Punctuated Equilibrium\'s ability', function() {
             beforeEach(function() {
