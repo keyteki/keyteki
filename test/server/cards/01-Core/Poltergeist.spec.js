@@ -9,7 +9,7 @@ describe('Poltergeist\'s', function() {
                         discard: ['tocsin', 'batdrone']
                     },
                     player2: {
-                        inPlay: ['cannon', 'bumpsy'],
+                        inPlay: ['cannon', 'bumpsy']
                     }
                 });
             });
@@ -37,11 +37,11 @@ describe('Poltergeist\'s', function() {
                         house: 'dis',
                         hand: ['poltergeist'],
                         inPlay: ['tentacus'],
-                        discard: ['tocsin', 'batdrone'],
+                        discard: ['tocsin', 'batdrone']
                     },
                     player2: {
                         inPlay: ['cannon', 'bumpsy'],
-                        amber: 1,
+                        amber: 1
                     }
                 });
             });
@@ -69,11 +69,11 @@ describe('Poltergeist\'s', function() {
                     player1: {
                         house: 'dis',
                         hand: ['poltergeist'],
-                        discard: ['tocsin', 'batdrone'],
+                        discard: ['tocsin', 'batdrone']
                     },
                     player2: {
                         inPlay: ['cannon', 'bumpsy', 'tentacus'],
-                        amber: 1,
+                        amber: 1
                     }
                 });
             });
