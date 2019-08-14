@@ -6,7 +6,7 @@ describe('Shadow of Dis', function() {
                     player1: {
                         house: 'untamed',
                         inPlay: ['autocannon', 'hunting-witch', 'hideaway-hole', 'kindrith-longshot'],
-                        hand: ['bumpsy', 'valdr', 'dew-faerie',  'halacor', 'snufflegator', 'inka-the-spider', 'tantadlin']
+                        hand: ['bumpsy', 'valdr', 'dew-faerie', 'halacor', 'snufflegator', 'inka-the-spider', 'tantadlin']
                     },
                     player2: {
                         inPlay: ['tezmal'],
