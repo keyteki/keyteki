@@ -347,6 +347,10 @@ class Player extends GameObject {
         } else if(card.owner !== this) {
             card.owner.moveCard(card, targetLocation, options);
             return;
+        } else if(card.location === 'archives' && card.controller !== card.owner) {
+            card.controller = card.owner;
+            targetLocation = 'hand';
+            targetPile = this.getSourceList(targetLocation);
         } else {
             card.controller = card.owner;
         }
