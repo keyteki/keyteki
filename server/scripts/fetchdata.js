@@ -16,7 +16,8 @@ const optionsDefinition = [
     { name: 'card-dir', type: String, defaultValue: path.join(__dirname, '..', '..', 'keyteki-json-data') },
     { name: 'image-source', type: String, defaultValue: 'keyforge' },
     { name: 'image-dir', type: String, defaultValue: path.join(__dirname, '..', '..', 'public', 'img', 'cards') },
-    { name: 'no-images', type: Boolean, defaultValue: false }
+    { name: 'no-images', type: Boolean, defaultValue: false },
+    { name: 'language', type: String, defaultValue: 'en' }
 ];
 
 function createDataSource(options) {
@@ -49,7 +50,6 @@ let db = monk(configService.getValue('dbPath'));
 let dataSource = createDataSource(options);
 let imageSource = createImageSource(options);
 
-let cardImport = new CardImport(db, dataSource, imageSource, options['image-dir']);
+let cardImport = new CardImport(db, dataSource, imageSource, options['image-dir'], options['language']);
 
 cardImport.import();
-
