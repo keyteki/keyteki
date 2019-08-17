@@ -368,6 +368,14 @@ class PlayerInteractionWrapper {
         }
     }
 
+    useAction(card) {
+        if(card.type !== 'creature' && card.type !== 'artifact') {
+            throw new Error(`${card.name} cannot act`);
+        }
+        this.clickCard(card);
+        this.clickPrompt('Use this card\'s Action ability');
+    }
+
     playUpgrade(upgrade, target) {
         let card = this.clickCard(upgrade, 'hand');
         this.clickPrompt('Play this upgrade');
