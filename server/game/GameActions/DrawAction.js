@@ -3,6 +3,7 @@ const PlayerAction = require('./PlayerAction');
 class DrawAction extends PlayerAction {
     setDefaultProperties() {
         this.amount = 1;
+        this.shedChains = false;
     }
 
     setup() {
@@ -24,7 +25,15 @@ class DrawAction extends PlayerAction {
             player: player,
             amount: this.amount,
             context: context
-        }, () => player.drawCardsToHand(this.amount));
+        }, () => {
+            player.drawCardsToHand(this.amount);
+            if(this.shedChains) {
+                if(this.amount >= 0 && player.chains > 0) {
+                    player.modifyChains(-1);
+                    context.game.addMessage('{0}\'s chains are reduced by 1 to {1}', player, player.chains);
+                }
+            }
+        });
     }
 }
 
