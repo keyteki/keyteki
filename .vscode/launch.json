@@ -30,7 +30,7 @@
             "address": "127.0.0.1",
             "port": 9229,
             "localRoot": "${workspaceFolder}",
-            "remoteRoot": "/home/jdl/keyteki"
+            "remoteRoot": "/home/keyteki/keyteki-lobby"
         },
         {
             "name": "Launch (Lobby Server)",
