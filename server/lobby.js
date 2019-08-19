@@ -589,7 +589,6 @@ class Lobby {
     }
 
     async onLobbyChat(socket, message) {
-        console.info('foo', message);
         if(Date.now() - socket.user.registered < this.configService.getValue('minLobbyChatTime') * 1000) {
             socket.send('nochat');
             return;
