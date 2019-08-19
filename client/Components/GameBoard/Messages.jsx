@@ -142,16 +142,20 @@ class Messages extends React.Component {
                     </span>
                 );
             } else if(fragment.name && fragment.argType === 'player') {
+                let userClass = 'username' + (fragment.role ? ` ${fragment.role}-role` : '');
+
                 messages.push(
                     <div key={ index++ } className='message-chat'>
                         <Avatar username={ fragment.name } float />
-                        <span key={ index++ }>
-                            <b>{ fragment.name }</b>
+                        <span key={ index++ } className={ userClass }>
+                            { fragment.name }
                         </span>
                     </div>
                 );
             } else if(fragment.argType === 'nonAvatarPlayer') {
-                messages.push(<span className='bold'>{ fragment.name }</span>);
+                let userClass = 'username' + (fragment.role ? ` ${fragment.role}-role` : '');
+
+                messages.push(<span key={ index++ } className={ userClass }>{ fragment.name }</span>);
             } else {
                 let messageFragment = this.processKeywords(fragment.toString());
                 messages.push(messageFragment);

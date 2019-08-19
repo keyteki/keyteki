@@ -16,6 +16,7 @@ import ResetPassword from './pages/ResetPassword';
 import UserAdmin from './pages/UserAdmin';
 import Profile from './pages/Profile';
 import NewsAdmin from './pages/NewsAdmin';
+import MotdAdmin from './pages/MotdAdmin';
 import GameLobby from './Components/Games/GameLobby';
 import GameBoard from './Components/GameBoard/GameBoard.jsx';
 import BlockList from './pages/BlockList';
@@ -45,7 +46,8 @@ const routes = [
     { path: '/nodes', action: () => <NodesAdmin key='nodesadmin' />, permission: 'canManageNodes' },
     { path: '/privacy', action: () => <Privacy key='privacy' /> },
     { path: '/community', action: () => <Community key='community' /> },
-    { path: '/banlist', action: () => <BanlistAdmin key='banlist' permission='canManageBanlist' /> }
+    { path: '/banlist', action: () => <BanlistAdmin key='banlist' permission='canManageBanlist' /> },
+    { path: '/admin/motd', action: () => <MotdAdmin key='motdadmin' />, permission: 'canManageMotd' }
 ];
 
 export default routes;

@@ -106,10 +106,12 @@ class LobbyChat extends React.Component {
                 </div>);
             });
 
+            let userClass = 'username' + (firstMessage.user.role ? ` ${firstMessage.user.role}-role` : '');
+
             return (
                 <div key={ timestamp + firstMessage.user.username + (index++).toString() }>
                     <Avatar username={ firstMessage.user.username } float />
-                    <span className='username'>{ firstMessage.user.username }</span>
+                    <span className={ userClass }>{ firstMessage.user.username }</span>
                     <span>{ timestamp }</span>
                     { renderedMessages }
                 </div>

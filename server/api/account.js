@@ -3,7 +3,6 @@ const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const moment = require('moment');
-const monk = require('monk');
 const _ = require('underscore');
 const sendgrid = require('@sendgrid/mail');
 const fs = require('fs');
@@ -17,16 +16,10 @@ const util = require('../util.js');
 const User = require('../models/User');
 
 let configService = new ConfigService();
-
-let db = monk(configService.getValue('dbPath'));
-let userService = new UserService(db, configService);
-let banlistService = new BanlistService(db, configService);
+let userService;
+let banlistService;
 
 const appName = configService.getValueForSection('lobby', 'appName');
-
-if(configService.getValueForSection('lobby', 'emailKey')) {
-    sendgrid.setApiKey(configService.getValueForSection('lobby', 'emailKey'));
-}
 
 function verifyPassword(password, dbPassword) {
     return new Promise((resolve, reject) => {
@@ -124,7 +117,14 @@ async function downloadAvatar(user) {
     await writeFile(`public/img/avatar/${user.username}.png`, avatar, 'binary');
 }
 
-module.exports.init = function(server) {
+module.exports.init = function (server, options) {
+    userService = options.userService || new UserService(options.db, options.configService);
+    banlistService = new BanlistService(options.db, configService);
+    let emailKey = configService.getValueForSection('lobby', 'emailKey');
+    if(emailKey) {
+        sendgrid.setApiKey(emailKey);
+    }
+
     server.post('/api/account/register', wrapAsync(async (req, res, next) => {
         let message = validateUserName(req.body.username);
         if(message) {

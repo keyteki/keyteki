@@ -11,7 +11,7 @@ class Socket extends EventEmitter {
 
         this.socket = socket;
         this.user = socket.request.user && new User(socket.request.user);
-        this.config = options.config;
+        this.configService = options.configService;
 
         socket.on('error', this.onError.bind(this));
         socket.on('authenticate', this.onAuthenticate.bind(this));
@@ -58,7 +58,7 @@ class Socket extends EventEmitter {
     }
 
     onAuthenticate(token) {
-        jwt.verify(token, this.config.secret, (err, user) => {
+        jwt.verify(token, this.configService.getValue('secret'), (err, user) => {
             if(err) {
                 return;
             }
