@@ -10,6 +10,7 @@ import TypeAhead from '../Components/Form/TypeAhead';
 import SideBar from '../Components/Lobby/SideBar';
 import UserList from '../Components/Lobby/UserList';
 import LobbyChat from '../Components/Lobby/LobbyChat';
+import { getMessageWithLinks } from '../util';
 
 import * as actions from '../actions';
 
@@ -95,6 +96,13 @@ class Lobby extends React.Component {
                         <span className='text-center'><h1>Keyforge</h1></span>
                     </div>
                 </div>
+                { this.props.motd && this.props.motd.message &&
+                    <div className='col-sm-offset-1 col-sm-10 banner'>
+                        <AlertPanel type={ this.props.motd.motdType }>
+                            { getMessageWithLinks(this.props.motd.message) }
+                        </AlertPanel>
+                    </div>
+                }
                 { this.props.bannerNotice ? <div className='col-sm-offset-1 col-sm-10 announcement'>
                     <AlertPanel message={ this.props.bannerNotice } type='error' />
                 </div> : null }
@@ -137,6 +145,7 @@ Lobby.propTypes = {
     loading: PropTypes.bool,
     lobbyError: PropTypes.string,
     messages: PropTypes.array,
+    motd: PropTypes.object,
     news: PropTypes.array,
     removeLobbyMessage: PropTypes.func,
     socket: PropTypes.object,
@@ -150,6 +159,7 @@ function mapStateToProps(state) {
         loading: state.api.loading,
         lobbyError: state.lobby.lobbyError,
         messages: state.lobby.messages,
+        motd: state.lobby.motd,
         news: state.news.news,
         newsLoading: state.news.newsLoading,
         socket: state.lobby.socket,

@@ -42,15 +42,16 @@ class HowToPlay extends React.Component {
                     <p>The following manual commands have been implemented in order to allow for a smoother gameplay experience:
                     </p>
                     <ul>
+                        <li>/active-house x - Change your active house to x</li>
                         <li>/cancel-prompt - Clear the current prompt and resume the game flow.  Use with caution and only when the prompt is 'stuck' and you are unable to continue</li>
                         <li>/discard x - Discards x cards randomly from your hand</li>
                         <li>/draw x - Draws x cards from your deck to your hand</li>
                         <li>/forge - Forge a key</li>
-                        <li>/unforge - Unforge a key</li>
-                        <li>/active-house x - Change your active house to x</li>
-                        <li>/token x y - Choose a card and change the number of tokens of type x to y</li>
                         <li>/give-control - Give control of a card to your opponent.  Use with caution</li>
                         <li>/manual - Activate or deactivate manual mode (see above).</li>
+                        <li>/rematch - Start over a new game with the current opponent.</li>
+                        <li>/token x y - Choose a card and change the number of tokens of type x to y</li>
+                        <li>/unforge - Unforge a key</li>
                     </ul>
 
                     <h3 id='conceding'>About Stats, Conceding, and Leaving Games</h3>

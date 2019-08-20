@@ -42,6 +42,10 @@ class User {
         return this.userData.blockList || [];
     }
 
+    set blockList(value) {
+        this.userData.blockList = value;
+    }
+
     get password() {
         return this.userData.password;
     }
@@ -66,6 +70,43 @@ class User {
         return this.userData.registered;
     }
 
+    get isAdmin() {
+        return this.userData.permissions && this.userData.permissions.isAdmin;
+    }
+
+    get isContributor() {
+        return this.userData.permissions && this.userData.permissions.isContributor;
+    }
+
+    get isSupporter() {
+        return this.userData.permissions && this.userData.permissions.isSupporter;
+    }
+
+    get role() {
+        if(this.isAdmin) {
+            return 'admin';
+        }
+
+        if(this.isContributor) {
+            return 'contributor';
+        }
+
+        if(this.isSupporter) {
+            return 'supporter';
+        }
+
+        return 'user';
+    }
+
+    block(otherUser) {
+        this.userData.blockList = this.userData.blockList || [];
+        this.userData.blockList.push(otherUser.username.toLowerCase());
+    }
+
+    hasUserBlocked(otherUser) {
+        return this.blockList.includes(otherUser.username.toLowerCase());
+    }
+
     getWireSafeDetails() {
         let user = {
             _id: this.userData._id,
@@ -86,7 +127,8 @@ class User {
     getShortSummary() {
         return {
             username: this.username,
-            name: this.username
+            name: this.username,
+            role: this.role
         };
     }
 
@@ -107,6 +149,7 @@ class User {
         delete user.tokens;
 
         user = Settings.getUserWithDefaultsSet(user);
+        user.role = this.role;
 
         return user;
     }

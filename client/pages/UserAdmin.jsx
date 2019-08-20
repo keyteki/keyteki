@@ -21,7 +21,12 @@ class UserAdmin extends React.Component {
             canManageGames: false,
             canManageNodes: false,
             canModerateChat: false,
-            canVerifyDecks: false
+            canVerifyDecks: false,
+            canManageBanlist: false,
+            canManageMotd: false,
+            isAdmin: false,
+            isContributor: false,
+            isSupporter: false
         };
 
         this.state = {
@@ -39,7 +44,11 @@ class UserAdmin extends React.Component {
             { name: 'canManageNodes', label: 'Node Manager' },
             { name: 'canModerateChat', label: 'Chat Moderator' },
             { name: 'canVerifyDecks', label: 'Deck Verifier' },
-            { name: 'canManageBanlist', label: 'Banlist Manager' }
+            { name: 'canManageBanlist', label: 'Banlist Manager' },
+            { name: 'canManageMotd', label: 'Motd Manager' },
+            { name: 'isAdmin', label: 'Site Admin' },
+            { name: 'isContributor', label: 'Contributor' },
+            { name: 'isSupporter', label: 'Supporter' }
         ];
 
         this.onDisabledChanged = this.onDisabledChanged.bind(this);
@@ -221,9 +230,7 @@ class UserAdmin extends React.Component {
                                 </Panel>
                             </div>
                         }
-                        <div className='col-xs-12' />
                         <button type='button' className='btn btn-primary col-xs-3' onClick={ this.onClearClick.bind(this) }>Clear sessions</button>
-                        <div className='col-xs-12' />
                         <button type='button' className='btn btn-primary col-xs-3' onClick={ this.onSaveClick.bind(this) }>Save { this.props.apiSaveState && this.props.apiSaveState.loading && <span className='spinner button-spinner' /> }</button>
                     </form>
                 </div>

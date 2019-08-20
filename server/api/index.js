@@ -6,8 +6,8 @@ const user = require('./user');
 const messages = require('./messages');
 const banlist = require('./banlist');
 
-module.exports.init = function(server) {
-    account.init(server);
+module.exports.init = function(server, options) {
+    account.init(server, options);
     decks.init(server);
     cards.init(server);
     news.init(server);

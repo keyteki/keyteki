@@ -30,7 +30,7 @@ class Server {
         this.server = http.Server(app);
     }
 
-    init() {
+    init(options) {
         if(!this.isDeveloping) {
             Raven.config(this.configService.getValue('sentryDsn'), { release: version.build }).install();
 
@@ -58,7 +58,7 @@ class Server {
         app.use(bodyParser.json());
         app.use(bodyParser.urlencoded({ extended: false }));
 
-        api.init(app);
+        api.init(app, options);
 
         app.use(express.static(__dirname + '/../public'));
         app.use(express.static(__dirname + '/../dist'));
