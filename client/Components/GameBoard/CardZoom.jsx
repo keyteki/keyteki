@@ -37,7 +37,7 @@ class CardZoom extends React.Component {
     getIdentityCardZoom() {
         let index = 1;
         let houses = this.props.card.houses && this.props.card.houses.map(house => {
-            return <div className={ `house id-house-${index++}` }><img key={ house } className='img-responsive' src={ `/img/house/${house}.png` } /></div >;
+            return <div key={ `id-house-${index++}` } className={ `house id-house-${index++}` }><img key={ house } className='img-responsive' src={ `/img/house/${house}.png` } /></div >;
         });
 
         return (<div className='card-large vertical'>

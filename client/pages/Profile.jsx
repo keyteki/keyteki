@@ -21,6 +21,7 @@ class Profile extends React.Component {
         this.onUpdateAvatarClick = this.onUpdateAvatarClick.bind(this);
 
         this.state = {
+            email: '',
             newPassword: '',
             newPasswordAgain: '',
             validation: {},

@@ -124,6 +124,12 @@ class DeckSummary extends React.Component {
 
         let cardsToRender = this.getCardsToRender();
 
+        let divStyle = {
+            clear: 'both',
+            overflow: 'hidden',
+            height: '1%'
+        };
+
         return (
             <div className='deck-summary col-xs-12 no-x-padding'>
                 { this.state.cardToShow ?
@@ -157,6 +163,7 @@ class DeckSummary extends React.Component {
                         { cardsToRender }
                     </div>
                 </div>
+                <div style={ divStyle } />
             </div>);
     }
 }
