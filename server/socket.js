@@ -1,7 +1,7 @@
 const logger = require('./log.js');
 const EventEmitter = require('events');
 const jwt = require('jsonwebtoken');
-const Raven = require('raven');
+const Sentry = require('@sentry/node');
 
 const User = require('./models/User');
 
@@ -53,7 +53,10 @@ class Socket extends EventEmitter {
             callback(this, ...args);
         } catch(err) {
             logger.info(err);
-            Raven.captureException(err, { extra: args });
+            Sentry.configureScope((scope) => {
+                scope.setExtra('extra', args);
+            });
+            Sentry.captureException(err);
         }
     }
 

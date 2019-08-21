@@ -6,39 +6,16 @@ import configureStore from './configureStore';
 import { navigate } from './actions';
 import 'bootstrap/dist/js/bootstrap';
 import ReduxToastr from 'react-redux-toastr';
-import Raven from 'raven-js';
+import * as Sentry from '@sentry/browser';
 import { DragDropContext } from 'react-dnd';
 import { default as TouchBackend } from 'react-dnd-touch-backend';
 
 import version from '../version';
 import ErrorBoundary from './Components/Site/ErrorBoundary';
 
-const ravenOptions = {
-    ignoreErrors: [
-        // Random plugins/extensions
-        'top.GLOBALS',
-        // See: http://blog.errorception.com/2012/03/tale-of-unfindable-js-error. html
-        'originalCreateNotification',
-        'canvas.contentDocument',
-        'MyApp_RemoveAllHighlights',
-        'http://tt.epicplay.com',
-        'Can\'t find variable: ZiteReader',
-        'jigsaw is not defined',
-        'ComboSearch is not defined',
-        'http://loading.retry.widdit.com/',
-        'atomicFindClose',
-        // Facebook borked
-        'fb_xd_fragment',
-        // ISP "optimizing" proxy - `Cache-Control: no-transform` seems to
-        // reduce this. (thanks @acdha)
-        // See http://stackoverflow.com/questions/4113268
-        'bmi_SafeAddOnload',
-        'EBCallBackMessageReceived',
-        // See http://toolbar.conduit.com/Developer/HtmlAndGadget/Methods/JSInjection.aspx
-        'conduitPage',
-        'YoukuAntiAds.eval'
-    ],
-    ignoreUrls: [
+const sentryOptions = {
+    dsn: 'https://8e2615acba9548ba8d83fa2735de2bd2@sentry.io/1515148',
+    blacklistUrls: [
         // Facebook flakiness
         /graph\.facebook\.com/i,
         // Facebook blocked
@@ -58,8 +35,7 @@ const ravenOptions = {
     release: version
 };
 
-Raven.config('https://8e2615acba9548ba8d83fa2735de2bd2@sentry.io/1515148', ravenOptions)
-    .install();
+Sentry.init(sentryOptions);
 
 const store = configureStore();
 
