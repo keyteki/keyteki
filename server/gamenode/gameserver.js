@@ -238,7 +238,7 @@ class GameServer {
 
     onGameSync(callback) {
         var gameSummaries = _.map(this.games, game => {
-            var retGame = game.getSummary();
+            var retGame = game.getSummary(undefined, { fullData: true });
             retGame.password = game.password;
 
             return retGame;

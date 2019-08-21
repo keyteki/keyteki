@@ -13,6 +13,7 @@ const DeckService = require('./services/DeckService');
 const CardService = require('./services/CardService');
 const UserService = require('./services/UserService');
 const ConfigService = require('./services/ConfigService');
+const User = require('./models/User');
 const { sortBy } = require('./Array');
 
 class Lobby {
@@ -932,7 +933,7 @@ class Lobby {
                 continue;
             }
 
-            let syncGame = new PendingGame({ username: owner.user }, { spectators: game.allowSpectators, name: game.name });
+            let syncGame = new PendingGame(new User(owner.user), { spectators: game.allowSpectators, name: game.name });
             syncGame.id = game.id;
             syncGame.node = this.router.workers[nodeName];
             syncGame.createdAt = game.startedAt;
@@ -947,7 +948,7 @@ class Lobby {
                     name: player.name,
                     owner: game.owner === player.name,
                     faction: { cardData: { code: player.faction } },
-                    user: player.user
+                    user: new User(player.user)
                 };
             }
 
@@ -955,7 +956,7 @@ class Lobby {
                 syncGame.spectators[player.name] = {
                     id: player.id,
                     name: player.name,
-                    user: player.user
+                    user: new User(player.user)
                 };
             }
 
@@ -972,7 +973,7 @@ class Lobby {
             }
         }
 
-        this.broadcastGameList();
+        this.broadcastGameList(undefined, { force: true });
     }
 }
 

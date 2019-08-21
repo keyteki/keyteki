@@ -981,7 +981,7 @@ class Game extends EventEmitter {
     /*
      * This is used for debugging?
      */
-    getSummary(activePlayerName) {
+    getSummary(activePlayerName, options = {}) {
         let playerSummaries = {};
 
         for(const player of this.getPlayers()) {
@@ -1006,7 +1006,8 @@ class Game extends EventEmitter {
                 lobbyId: player.lobbyId,
                 left: player.left,
                 name: player.name,
-                owner: player.owner
+                owner: player.owner,
+                user: options.fullData && player.user
             };
         }
 
