@@ -13,7 +13,7 @@ class DrawAction extends PlayerAction {
     }
 
     canAffect(player, context) {
-        return this.amount !== 0 && super.canAffect(player, context);
+        return (this.amount !== 0 || this.shedChains) && super.canAffect(player, context);
     }
 
     defaultTargets(context) {
@@ -26,7 +26,10 @@ class DrawAction extends PlayerAction {
             amount: this.amount,
             context: context
         }, () => {
-            player.drawCardsToHand(this.amount);
+            if(this.amount > 0) {
+                player.drawCardsToHand(this.amount);
+            }
+
             if(this.shedChains) {
                 if(this.amount >= 0 && player.chains > 0) {
                     player.modifyChains(-1);
