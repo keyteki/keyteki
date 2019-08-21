@@ -4,7 +4,7 @@ class DirectorOfZyx extends Card {
     setupCardAbilities(ability) {
         this.interrupt({
             when: {
-                onPhaseStarted: (event, context) => event.phase === 'key' && context.player === this.game.activePlayer
+                onPhaseStarted: (event, context) => event.phase === 'main' && context.player === this.game.activePlayer
             },
             gameAction: ability.actions.archive(context => ({
                 target: context.player.deck[0]
