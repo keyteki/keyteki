@@ -9,6 +9,7 @@ const Spectator = require('./spectator.js');
 const AnonymousSpectator = require('./anonymousspectator.js');
 const GamePipeline = require('./gamepipeline.js');
 const SetupPhase = require('./gamesteps/setup/setupphase');
+const preKeyPhase = require('./gamesteps/prekey/preKeyPhase');
 const KeyPhase = require('./gamesteps/key/KeyPhase');
 const HousePhase = require('./gamesteps/house/HousePhase');
 const MainPhase = require('./gamesteps/main/MainPhase');
@@ -582,6 +583,7 @@ class Game extends EventEmitter {
      */
     beginRound() {
         this.raiseEvent('onBeginRound');
+        this.queueStep(new preKeyPhase(this));
         this.queueStep(new KeyPhase(this));
         this.queueStep(new HousePhase(this));
         this.queueStep(new MainPhase(this));
