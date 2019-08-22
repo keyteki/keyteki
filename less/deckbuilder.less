@@ -26,7 +26,7 @@
 }
 
 .decklist {
-  height: 200px;
+  height: 220px;
 }
 
 .decklist > img {
@@ -35,7 +35,8 @@
 }
 
 .cards-no-break {
-  break-inside: avoid;
+  display: table-cell;
+  width: 33.3333%;
 }
 
 .card-group {
@@ -49,14 +50,23 @@
 .card-group-title {
   background-color: @header-background;
   color: white;
-  margin: 5px 5px 0 0;
+  margin: 0px 5px 0 0;
   padding: 5px 1px;
   border: 1px solid @header-border;
   border-radius: 4px 4px 0 0;
   border-bottom: none;
   text-align: center;
   position: relative;
-  top: 5px;
+  top: 0px;
+  display: table-cell;
+  width: 33.3333%;
+}
+
+.card-group-cards {
+  column-count: 2;
+  border-spacing: 10px 0px;
+  display: table;
+  width: 100%;
 }
 
 .cards {

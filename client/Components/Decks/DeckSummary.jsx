@@ -37,10 +37,9 @@ class DeckSummary extends React.Component {
     }
 
     getCardsToRender() {
+        let titlesToRender = [];
         let cardsToRender = [];
         let groupedCards = {};
-        let countCards = {};
-        let maxCountCards = 0;
 
         for(const card of this.props.deck.cards) {
             let house = card.card.house;
@@ -50,14 +49,9 @@ class DeckSummary extends React.Component {
 
             if(!groupedCards[house]) {
                 groupedCards[house] = [card];
-                countCards[house] = 1;
-                maxCountCards = Math.max(maxCountCards, countCards[house]);
             } else {
                 groupedCards[house].push(card);
-                countCards[house] = countCards[house] + 1;
             }
-
-            maxCountCards = Math.max(maxCountCards, countCards[house]);
         }
 
         // Traverse props.deck.houses to guarantee the card boxes will have the same order as the house icons
@@ -67,35 +61,33 @@ class DeckSummary extends React.Component {
             let cardList = groupedCards[house];
             let cards = [];
             let count = 0;
-            let i = 0;
 
-            for(const card of cardList) {
-                let cardToRender = (<div key={ card.id }>
-                    <span>{ card.count + 'x ' }</span>
-                    <span className='card-link' onMouseOver={ this.onCardMouseOver } onMouseOut={ this.onCardMouseOut }
-                        data-card_id={ card.card.id } data-card_house={ house }>
-                        { card.card.name }
-                    </span>
-                    { card.maverick ? <img className='small-maverick' src='/img/maverick.png' width='12px' height='12px' /> : null }
-                </div>);
+            if(cardList) {
+                for(const card of cardList) {
+                    let cardToRender = (<div key={ card.id }>
+                        <span>{ card.count + 'x ' }</span>
+                        <span className='card-link' onMouseOver={ this.onCardMouseOver } onMouseOut={ this.onCardMouseOut }
+                            data-card_id={ card.card.id } data-card_house={ house }>
+                            { card.card.name }
+                        </span>
+                        { card.maverick ? <img className='small-maverick' src='/img/maverick.png' width='12px' height='12px' /> : null }
+                    </div>);
 
-                cards.push(cardToRender);
-                count += parseInt(card.count);
-                i++;
-            }
+                    cards.push(cardToRender);
+                    count += parseInt(card.count);
+                }
 
-            while(i++ < maxCountCards) {
-                cards.push(<div className='cards-no-break' key={ key + '-' + i }>&nbsp;</div>);
-            }
-
-            cardsToRender.push(
-                <div className='cards-no-break' key={ key }>
+                titlesToRender.push(
                     <div className='card-group-title'>{ key + ' (' + count.toString() + ')' }</div>
-                    <div key={ key } className='card-group'>{ cards }</div>
-                </div>);
+                );
+
+                cardsToRender.push(
+                    <div key={ key } className='card-group cards-no-break'>{ cards }</div>
+                );
+            }
         }
 
-        return cardsToRender;
+        return [titlesToRender, cardsToRender];
     }
 
     isNumeric(n) {
@@ -123,12 +115,6 @@ class DeckSummary extends React.Component {
         }
 
         let cardsToRender = this.getCardsToRender();
-
-        let divStyle = {
-            clear: 'both',
-            overflow: 'hidden',
-            height: '1%'
-        };
 
         return (
             <div className='deck-summary col-xs-12 no-x-padding'>
@@ -159,11 +145,13 @@ class DeckSummary extends React.Component {
                     <div className='col-xs-2 col-sm-3 no-x-padding'>{ this.props.deck.agenda && this.props.deck.agenda.code ? <img className='img-responsive' src={ '/img/cards/' + this.props.deck.agenda.code + '.png' } /> : null }</div>
                 </div>
                 <div className='col-xs-12 no-x-padding'>
-                    <div className='cards'>
-                        { cardsToRender }
+                    <div className='card-group-cards'>
+                        { cardsToRender[0] }
+                    </div>
+                    <div className='card-group-cards'>
+                        { cardsToRender[1] }
                     </div>
                 </div>
-                <div style={ divStyle } />
             </div>);
     }
 }
