@@ -461,9 +461,16 @@ class Player extends GameObject {
 
     getAvailableHouses() {
         let availableHouses = this.cardsInPlay.reduce((houses, card) => {
-            if(!houses.includes(card.printedHouse)) {
-                return houses.concat(card.printedHouse);
+            let cardHouse = card.printedHouse;
+
+            if(card.anyEffect('changeHouse')) {
+                cardHouse = this.getEffects('changeHouse');
             }
+
+            if(!houses.includes(cardHouse)) {
+                return houses.concat(cardHouse);
+            }
+
             return houses;
         }, this.houses);
         let stopHouseChoice = this.getEffects('stopHouseChoice');
