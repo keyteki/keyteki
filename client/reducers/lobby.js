@@ -104,7 +104,7 @@ function handleGameState(action, state) {
         delete retState.passwordError;
     }
 
-    if(!retState.currentGame.started) {
+    if(retState.currentGame && !retState.currentGame.started) {
         retState.newGame = true;
     }
 

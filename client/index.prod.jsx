@@ -32,7 +32,17 @@ const sentryOptions = {
         /metrics\.itunes\.apple\.com\.edgesuite\.net\//i,
         /YoukuAntiAds\.eval/i
     ],
-    release: version
+    beforeSend(event, hint) {
+        if(event.message.startsWith('Non-Error exception captured') && hint.originalException.error) {
+            Sentry.withScope((scope) => {
+                scope.setExtra('nonErrorException', true);
+                Sentry.captureException(hint.originalException.error);
+            });
+            return null;
+        }
+        return event;
+    },
+    release: version.build
 };
 
 Sentry.init(sentryOptions);
