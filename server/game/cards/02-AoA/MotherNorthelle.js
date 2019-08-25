@@ -4,7 +4,7 @@ class MotherNorthelle extends Card {
     setupCardAbilities(ability) {
         this.reap({
             target: {
-                activePromptTitle: 'Choose a captured aember to move to your pool.',
+                activePromptTitle: 'Choose a captured amber to move to your pool.',
                 cardType: 'creature',
                 controller: 'self',
                 cardCondition: card => card.hasToken('amber'),
