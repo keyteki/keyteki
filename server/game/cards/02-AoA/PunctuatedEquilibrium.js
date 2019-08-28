@@ -9,13 +9,14 @@ class PunctuatedEquilibrium extends Card {
                 ability.actions.discard(context => ({
                     target: context.player.hand
                 })),
-                ability.actions.draw(context => ({ amount: context.player.maxHandSize })),
+                ability.actions.draw(context => ({ amount: context.player.maxHandSize, shedChains: true })),
                 ability.actions.discard(context => ({
                     target: context.player.opponent.hand
                 })),
                 ability.actions.draw(context => ({
                     target: context.player.opponent,
-                    amount: context.player.opponent.maxHandSize
+                    amount: context.player.opponent.maxHandSize,
+                    shedChains: true
                 }))
             ]
         });
