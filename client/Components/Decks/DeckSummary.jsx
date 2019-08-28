@@ -37,7 +37,6 @@ class DeckSummary extends React.Component {
     }
 
     getCardsToRender() {
-        let titlesToRender = [];
         let cardsToRender = [];
         let groupedCards = {};
 
@@ -76,18 +75,16 @@ class DeckSummary extends React.Component {
                     cards.push(cardToRender);
                     count += parseInt(card.count);
                 }
-
-                titlesToRender.push(
-                    <div key={ `${key}-title` } className='card-group-title'>{ key + ' (' + count.toString() + ')' }</div>
-                );
+            }
 
                 cardsToRender.push(
-                    <div key={ key } className='card-group cards-no-break'>{ cards }</div>
-                );
-            }
+            	<div className='cards-no-break' key={ key }>
+                    <div className='card-group-title'>{ key + ' (' + count.toString() + ')' }</div>
+                    <div key={ key } className='card-group'>{ cards }</div>
+                </div>);
         }
 
-        return [titlesToRender, cardsToRender];
+        return cardsToRender;
     }
 
     isNumeric(n) {
@@ -145,11 +142,8 @@ class DeckSummary extends React.Component {
                     <div className='col-xs-2 col-sm-3 no-x-padding'>{ this.props.deck.agenda && this.props.deck.agenda.code ? <img className='img-responsive' src={ '/img/cards/' + this.props.deck.agenda.code + '.png' } /> : null }</div>
                 </div>
                 <div className='col-xs-12 no-x-padding'>
-                    <div className='card-group-cards'>
-                        { cardsToRender[0] }
-                    </div>
-                    <div className='card-group-cards'>
-                        { cardsToRender[1] }
+                    <div className='cards'>
+                        { cardsToRender }
                     </div>
                 </div>
             </div>);
