@@ -28,7 +28,7 @@ class SmiteAbilityResolver extends AbilityResolver {
     }
 
     damageNeighbors() {
-        if(this.cancelled) {
+        if(this.cancelled || !this.neighbors) {
             return;
         }
         this.game.actions.dealDamage({ amount: 2 }).resolve(this.neighbors, this.context);
