@@ -77,8 +77,8 @@ class DeckSummary extends React.Component {
                 }
             }
 
-                cardsToRender.push(
-            	<div className='cards-no-break' key={ key }>
+            cardsToRender.push(
+                <div className='cards-no-break' key={ key }>
                     <div className='card-group-title'>{ key + ' (' + count.toString() + ')' }</div>
                     <div key={ key } className='card-group'>{ cards }</div>
                 </div>);
