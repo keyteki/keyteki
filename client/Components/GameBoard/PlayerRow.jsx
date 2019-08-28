@@ -94,7 +94,7 @@ class PlayerRow extends React.Component {
                 { identity }
                 { this.renderDroppablePile('deck', drawDeck) }
                 { this.renderDroppablePile('discard', discard) }
-                { this.renderDroppablePile('purged', purged) }
+                { ((this.props.purgedPile.length > 0) || this.props.manualMode) ? this.renderDroppablePile('purged', purged) : null }
             </div>
         );
     }
