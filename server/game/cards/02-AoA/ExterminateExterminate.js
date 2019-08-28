@@ -12,11 +12,8 @@ class ExterminateExterminate extends Card {
                         cardType: 'creature',
                         cardCondition: c => !c.hasHouse('mars') && c.power < card.power,
                         context: context,
-                        onSelect: (player, c) => {
-                            this.game.addMessage('{0} chooses to destroy {1} with less power than {2}', player, c, card);
-                            this.game.actions.destroy().resolve(c, context);
-                            return true;
-                        }
+                        effect: '{0} chooses to destroy {1} with less power than {2}',
+                        effectArgs: context => [context.card, card]]
                     }
                 })
             }))
