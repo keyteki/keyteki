@@ -74,7 +74,7 @@ class PutIntoPlayAction extends CardGameAction {
                             activePromptTitle: `Select a card to deploy to the ${flank} of`,
                             cardCondition: card => (card.location === 'play area') && card.controller === player && card.type === 'creature',
                             onSelect: (p, card) => {
-                                this.deployIndex = card.controller.creaturesInPlay.indexOf(card);
+                                this.deployIndex = card.controller.cardsInPlay.indexOf(card);
                                 if(flank === 'left' && this.deployIndex >= 0) {
                                     this.deployIndex--;
                                 }
