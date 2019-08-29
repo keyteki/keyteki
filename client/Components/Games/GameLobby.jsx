@@ -89,7 +89,7 @@ class GameLobby extends React.Component {
             $('#pendingGameModal').modal('show');
         }
 
-        if(props.currentGame && !this.props.currentGame) {
+        if(props.currentGame && !this.props.currentGame && !props.currentGame.started) {
             // Joining a game
             $('#pendingGameModal').modal('show');
             this.setState({ gameState: GameState.PendingGame });

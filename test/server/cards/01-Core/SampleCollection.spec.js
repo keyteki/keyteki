@@ -9,7 +9,7 @@ describe('Sample Collection', function() {
                         hand: ['sample-collection', 'phase-shift', 'labwork', 'wild-wormhole']
                     },
                     player2: {
-                        inPlay: ['troll', 'bumpsy', 'hebe-the-huge']
+                        inPlay: ['troll', 'bumpsy', 'hebe-the-huge', 'tantadlin']
                     }
                 });
                 this.player1.play(this.phaseShift);
@@ -58,8 +58,7 @@ describe('Sample Collection', function() {
                 expect(this.player1.archives).toContain(this.bumpsy);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
-
-            it('should return creatures to the opponents hand when removed from archives', function() {
+            it('should return creatures to the opponents hand when you pick up your archives', function() {
                 this.player2.player.keys = 2;
                 this.player1.play(this.sampleCollection);
                 this.player1.clickCard(this.troll);
@@ -76,6 +75,30 @@ describe('Sample Collection', function() {
                 expect(this.player2.hand).toContain(this.troll);
                 expect(this.wildWormhole.location).toBe('hand');
                 expect(this.player1.hand).toContain(this.wildWormhole);
+            });
+        });
+        describe('Sample Collection\'s ability', function() {
+            beforeEach(function() {
+                this.setupTest({
+                    player1: {
+                        house: 'mars',
+                        hand: ['sample-collection'],
+                        inPlay: ['batdrone']
+                    },
+                    player2: {
+                        inPlay: ['troll', 'bumpsy', 'hebe-the-huge', 'tantadlin']
+                    }
+                });
+            });
+            it('should return creatures to the opponents hand when removed from archives by tantadlin', function() {
+                this.player2.player.keys = 1;
+                this.player1.play(this.sampleCollection);
+                this.player1.clickCard(this.troll);
+                this.player1.endTurn();
+                expect(this.troll.location).toBe('archives');
+                this.player2.clickPrompt('untamed');
+                this.player2.fightWith(this.tantadlin, this.batdrone);
+                expect(this.player2.hand).toContain(this.troll);
             });
         });
     });

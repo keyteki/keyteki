@@ -3,6 +3,7 @@ const CardGameAction = require('./CardGameAction');
 class RevealAction extends CardGameAction {
     setDefaultProperties() {
         this.chatMessage = false;
+        this.location = 'hand';
     }
 
     setup() {
@@ -12,7 +13,7 @@ class RevealAction extends CardGameAction {
     }
 
     canAffect(card, context) {
-        return card.location === 'hand' && super.canAffect(card, context);
+        return card.location === this.location && super.canAffect(card, context);
     }
 
     getEvent(card, context) {

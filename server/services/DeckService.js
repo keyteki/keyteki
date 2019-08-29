@@ -20,8 +20,18 @@ class DeckService {
         return deck;
     }
 
-    getSealedDeck() {
-        return this.decks.aggregate([{ $match: { includeInSealed: true } }, { $sample: { size: 1 } }]);
+    async getSealedDeck(expansions) {
+        let dbExpansions = [];
+
+        if(expansions.aoa) {
+            dbExpansions.push(435);
+        }
+
+        if(expansions.cota) {
+            dbExpansions.push(341);
+        }
+
+        return await this.decks.aggregate([{ $match: { includeInSealed: true, expansion: { $in: dbExpansions } } }, { $sample: { size: 1 } }]);
     }
 
     getByUuid(uuid) {

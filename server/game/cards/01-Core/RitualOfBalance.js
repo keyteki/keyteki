@@ -9,6 +9,6 @@ class RitualOfBalance extends Card {
     }
 }
 
-RitualOfBalance.id = 'ritual-of-balance'; // This is a guess at what the id might be - please check it!!!
+RitualOfBalance.id = 'ritual-of-balance';
 
 module.exports = RitualOfBalance;

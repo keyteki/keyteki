@@ -17,6 +17,7 @@ class PendingGame {
         this.muteSpectators = details.muteSpectators;
         this.gameType = details.gameType;
         this.gameFormat = details.gameFormat;
+        this.expansions = details.expansions;
         this.started = false;
         this.node = {};
         this.createdAt = new Date();
@@ -56,6 +57,7 @@ class PendingGame {
             gameId: this.id,
             gameType: this.gameType,
             gameFormat: this.gameFormat,
+            expansions: this.expansions,
             players: players,
             startedAt: this.createdAt
         };
@@ -252,6 +254,15 @@ class PendingGame {
         return this.players[playerName] && !this.players[playerName].left && !this.players[playerName].disconnected || this.spectators[playerName];
     }
 
+    isVisibleFor(user) {
+        if(!user) {
+            return true;
+        }
+
+        let players = Object.values(this.players);
+        return !this.owner.hasUserBlocked(user) && !user.hasUserBlocked(this.owner) && players.every(player => !player.user.hasUserBlocked(user));
+    }
+
     // Summary
     getSummary(activePlayer) {
         var playerSummaries = {};
@@ -274,7 +285,8 @@ class PendingGame {
                 id: player.id,
                 left: player.left,
                 name: player.name,
-                owner: player.owner
+                owner: player.owner,
+                role: player.user.role
             };
         });
 
@@ -300,6 +312,45 @@ class PendingGame {
                     settings: spectator.settings
                 };
             })
+        };
+    }
+
+    getStartGameDetails() {
+        const players = {};
+
+        for(let playerDetails of Object.values(this.players)) {
+            const {name, user, ...rest} = playerDetails;
+            players[name] = {
+                name,
+                user: user.getDetails(),
+                ...rest
+            };
+        }
+
+        const spectators = {};
+        for(let spectatorDetails of Object.values(this.spectators)) {
+            const {name, user, ...rest} = spectatorDetails;
+            spectators[name] = {
+                name,
+                user: user.getDetails(),
+                ...rest
+            };
+        }
+
+        return {
+            allowSpectators: this.allowSpectators,
+            createdAt: this.createdAt,
+            gameType: this.gameType,
+            gameFormat: this.gameFormat,
+            id: this.id,
+            muteSpectators: this.muteSpectators,
+            name: this.name,
+            needsPassword: !!this.password,
+            owner: this.owner.getDetails(),
+            players,
+            showHand: this.showHand,
+            started: this.started,
+            spectators
         };
     }
 }

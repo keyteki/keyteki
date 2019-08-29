@@ -3,14 +3,15 @@ const jimp = require('jimp');
 const request = require('request');
 
 class KeyforgeImageSource {
-    fetchImage(card, imagePath) {
-        request({ url: card.image, encoding: null }, function(err, response, body) {
+
+    fetchImage(card, imageUrl, imagePath) {
+        request({ url: imageUrl, encoding: null }, function(err, response, body) {
             if(err || response.statusCode !== 200) {
-                console.log(`Unable to fetch image for ${card.name} from ${card.image}`);
+                console.log(`Unable to fetch image for ${card.name} from ${imageUrl}`);
                 return;
             }
 
-            console.log('Downloading image for ' + card.name);
+            console.log('Downloading image for ' + card.name + ' from ' + imageUrl);
             jimp.read(body).then(lenna => {
                 lenna.write(imagePath);
             }).catch(err => {

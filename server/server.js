@@ -7,7 +7,6 @@ const logger = require('./log.js');
 const api = require('./api');
 const path = require('path');
 const http = require('http');
-const Raven = require('raven');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 const historyApiFallback = require('connect-history-api-fallback');
@@ -15,6 +14,8 @@ const webpack = require('webpack');
 const webpackConfig = require('../webpack.dev.js');
 const monk = require('monk');
 const passportJwt = require('passport-jwt');
+const Sentry = require('@sentry/node');
+
 const JwtStrategy = passportJwt.Strategy;
 const ExtractJwt = passportJwt.ExtractJwt;
 
@@ -30,12 +31,11 @@ class Server {
         this.server = http.Server(app);
     }
 
-    init() {
+    init(options) {
         if(!this.isDeveloping) {
-            Raven.config(this.configService.getValue('sentryDsn'), { release: version.build }).install();
-
-            app.use(Raven.requestHandler());
-            app.use(Raven.errorHandler());
+            Sentry.init({ dsn: this.configService.getValue('sentryDsn'), release: version.build });
+            app.use(Sentry.Handlers.requestHandler());
+            app.use(Sentry.Handlers.errorHandler());
         }
 
         var opts = {};
@@ -58,7 +58,7 @@ class Server {
         app.use(bodyParser.json());
         app.use(bodyParser.urlencoded({ extended: false }));
 
-        api.init(app);
+        api.init(app, options);
 
         app.use(express.static(__dirname + '/../public'));
         app.use(express.static(__dirname + '/../dist'));

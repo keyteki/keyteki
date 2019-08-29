@@ -9,7 +9,11 @@ class ReturnToDeckAction extends CardGameAction {
     setup() {
         super.setup();
         this.name = 'returnToDeck';
-        this.effectMsg = 'return {0} to the ' + (this.bottom ? 'bottom' : 'top') + ' of their deck';
+        if(this.shuffle) {
+            this.effectMsg = 'return {0} to their deck';
+        } else {
+            this.effectMsg = 'return {0} to the ' + (this.bottom ? 'bottom' : 'top') + ' of their deck';
+        }
     }
 
     getEvent(card, context) {

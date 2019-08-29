@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Raven from 'raven-js';
+import * as Sentry from '@sentry/browser';
 
 class ErrorBoundary extends React.Component {
     constructor(props) {
@@ -20,10 +20,14 @@ class ErrorBoundary extends React.Component {
         }
     }
 
-    componentDidCatch(error, info) {
+    componentDidCatch(error, errorInfo) {
         this.setState({ error });
 
-        Raven.captureException(error, { extra: info });
+        Sentry.withScope(scope => {
+            scope.setExtras(errorInfo);
+            const eventId = Sentry.captureException(error);
+            this.setState({eventId});
+        });
     }
 
     onReturnClick(event) {
@@ -38,7 +42,7 @@ class ErrorBoundary extends React.Component {
         if(this.state.error) {
             return (<div
                 className='alert alert-danger'
-                onClick={ () => Raven.lastEventId() && Raven.showReportDialog() }>
+                onClick={ () => Sentry.showReportDialog({ eventId: this.state.eventId }) }>
                 <p>{ this.props.message }</p>
                 <p>There error has been logged, please click anywhere in this red box to fill out a more detailed report.</p>
 

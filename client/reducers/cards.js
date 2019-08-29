@@ -24,7 +24,6 @@ function processDecks(decks, state) {
             result.card.image = card.id;
             if(card.maverick) {
                 result.card.house = card.maverick;
-                result.card.image += '_' + card.maverick;
             }
             return result;
         });
@@ -126,9 +125,10 @@ export default function(state = { decks: [] }, action) {
             return newState;
         case 'DECK_SAVED':
             var decks = state.decks;
-            decks.push(action.response.deck);
+            decks.unshift(action.response.deck);
             newState = Object.assign({}, state, {
                 deckSaved: true,
+                selectedDeck: action.response.deck,
                 decks: decks
             });
 

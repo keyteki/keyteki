@@ -3,32 +3,27 @@ const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const moment = require('moment');
-const monk = require('monk');
 const _ = require('underscore');
 const sendgrid = require('@sendgrid/mail');
 const fs = require('fs');
 
 const logger = require('../log.js');
 const { wrapAsync } = require('../util.js');
-const UserService = require('../services/UserService.js');
-const ConfigService = require('../services/ConfigService.js');
+const UserService = require('../services/UserService');
+const ConfigService = require('../services/ConfigService');
+const BanlistService = require('../services/BanlistService');
 const util = require('../util.js');
 const User = require('../models/User');
 
 let configService = new ConfigService();
-
-let db = monk(configService.getValue('dbPath'));
-let userService = new UserService(db, configService);
+let userService;
+let banlistService;
 
 const appName = configService.getValueForSection('lobby', 'appName');
 
-if(configService.getValueForSection('lobby', 'emailKey')) {
-    sendgrid.setApiKey(configService.getValueForSection('lobby', 'emailKey'));
-}
-
 function verifyPassword(password, dbPassword) {
     return new Promise((resolve, reject) => {
-        bcrypt.compare(password, dbPassword, function (err, valid) {
+        bcrypt.compare(password, dbPassword, function(err, valid) {
             if(err) {
                 return reject(err);
             }
@@ -122,7 +117,14 @@ async function downloadAvatar(user) {
     await writeFile(`public/img/avatar/${user.username}.png`, avatar, 'binary');
 }
 
-module.exports.init = function (server) {
+module.exports.init = function (server, options) {
+    userService = options.userService || new UserService(options.db, options.configService);
+    banlistService = new BanlistService(options.db, configService);
+    let emailKey = configService.getValueForSection('lobby', 'emailKey');
+    if(emailKey) {
+        sendgrid.setApiKey(emailKey);
+    }
+
     server.post('/api/account/register', wrapAsync(async (req, res, next) => {
         let message = validateUserName(req.body.username);
         if(message) {
@@ -189,13 +191,28 @@ module.exports.init = function (server) {
             res.send({ success: false, message: 'An error occurred registering your account, please try again later.' });
         }
 
+        let ip = req.get('x-real-ip');
+        if(!ip) {
+            ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+        }
+        try {
+            let lookup = await banlistService.getEntryByIp(ip);
+            if(lookup) {
+                return res.send({ success: false, message: 'An error occurred registering your account, please try again later.' });
+            }
+        } catch(err) {
+            logger.error(err);
+
+            return res.send({ success: false, message: 'An error occurred registering your account, please try again later.' });
+        }
+
         let newUser = {
             password: passwordHash,
             registered: new Date(),
             username: req.body.username,
             email: req.body.email,
             enableGravatar: req.body.enableGravatar,
-            registerIp: req.get('x-real-ip')
+            registerIp: ip
         };
 
         if(configService.getValueForSection('lobby', 'requireActivation')) {
@@ -299,13 +316,13 @@ module.exports.init = function (server) {
         return res.send({ success: true });
     }));
 
-    server.post('/api/account/logout', function (req, res) {
+    server.post('/api/account/logout', function(req, res) {
         req.logout();
 
         res.send({ success: true });
     });
 
-    server.post('/api/account/checkauth', passport.authenticate('jwt', { session: false }), function (req, res) {
+    server.post('/api/account/checkauth', passport.authenticate('jwt', { session: false }), function(req, res) {
         let user = new User(req.user).getWireSafeDetails();
 
         res.send({ success: true, user: user });
@@ -399,6 +416,12 @@ module.exports.init = function (server) {
         }
 
         if(!userService.verifyRefreshToken(user.username, refreshToken)) {
+            res.send({ success: false, message: 'Invalid refresh token' });
+
+            return next();
+        }
+
+        if(user.disabled) {
             res.send({ success: false, message: 'Invalid refresh token' });
 
             return next();

@@ -5,25 +5,9 @@ class DisAmbassador extends Card {
         this.fight({
             reap: true,
             effect: 'allow them to play or use one Dis card this turn',
-            target: {
-                mode: 'select',
-                choices: {
-                    'Use a Dis Card': ability.actions.use({
-                        promptForSelect: {
-                            location: 'play area',
-                            controller: 'self',
-                            cardCondition: card => card.hasHouse('dis')
-                        }
-                    }),
-                    'Play a Dis Card': ability.actions.playCard({
-                        promptForSelect: {
-                            location: 'hand',
-                            controller: 'self',
-                            cardCondition: card => card.hasHouse('dis')
-                        }
-                    })
-                }
-            }
+            gameAction: ability.actions.forRemainderOfTurn({
+                effect: ability.effects.canPlayOrUseHouse('dis')
+            })
         });
     }
 }

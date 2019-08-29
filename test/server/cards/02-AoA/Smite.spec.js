@@ -6,7 +6,7 @@ describe('Smite', function() {
                     player1: {
                         house: 'sanctum',
                         hand: ['smite'],
-                        inPlay: ['sequis']
+                        inPlay: ['sequis', 'helper-bot']
                     },
                     player2: {
                         inPlay: ['murmook', 'mighty-tiger', 'troll']
@@ -25,6 +25,27 @@ describe('Smite', function() {
                 expect(this.murmook.tokens.damage).toBe(2);
                 expect(this.troll.tokens.damage).toBe(2);
             });
+
+            it('should remove creature\'s stun', function() {
+                this.sequis.stunned = true;
+                this.player1.play(this.smite);
+                expect(this.player1).toHavePrompt('Smite');
+                this.player1.clickCard(this.sequis);
+                expect(this.sequis.stunned).toBe(false);
+                expect(this.player1).not.toHavePrompt('Sequis');
+            });
+
+            it('should remove creature\'s stun and not damage it', function() {
+                this.helperBot.stunned = true;
+                this.player1.play(this.smite);
+                expect(this.player1).toHavePrompt('Smite');
+                this.player1.clickCard(this.helperBot);
+                expect(this.helperBot.stunned).toBe(false);
+                expect(this.player1).not.toHavePrompt('Helper Bot');
+                expect(this.helperBot.location).toBe('play area');
+                expect(this.helperBot.hasToken('damage')).toBe(false);
+            });
+
         });
     });
 });

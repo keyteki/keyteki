@@ -29,7 +29,9 @@ const menus = [
         childItems: [
             { path: '/news', title: 'News', permission: 'canEditNews' },
             { path: '/users', title: 'Users', permission: 'canManageUsers' },
-            { path: '/nodes', title: 'Nodes', permission: 'canManageNodes' }
+            { path: '/nodes', title: 'Nodes', permission: 'canManageNodes' },
+            { path: '/banlist', title: 'Ban List', permission: 'canManageBanlist' },
+            { path: '/admin/motd', title: 'Motd', permission: 'canManageMotd' }
         ], position: 'left'
     }
 ];

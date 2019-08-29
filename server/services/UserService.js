@@ -1,13 +1,16 @@
 const monk = require('monk');
 const moment = require('moment');
 const crypto = require('crypto');
+const EventEmitter = require('events');
 
 const escapeRegex = require('../util').escapeRegex;
 const logger = require('../log');
 const User = require('../models/User');
 
-class UserService {
+class UserService extends EventEmitter {
     constructor(db, configService) {
+        super();
+
         this.users = db.get('users');
         this.sessions = db.get('sessions');
         this.configService = configService;
@@ -100,6 +103,8 @@ class UserService {
             '$set': {
                 blockList: user.blockList
             }
+        }).then(() => {
+            this.emit('onBlocklistChanged', user);
         }).catch(err => {
             logger.error(err);
 

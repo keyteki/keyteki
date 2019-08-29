@@ -37,7 +37,9 @@ class SetupPhase extends Phase {
                 link: 'https://www.keyforgegame.com/deck-details/' + player.deckData.uuid,
                 label: player.deckData.name
             };
-            this.game.addMessage('{0} is playing as the Archon: {1}', player, link);
+            if(this.game.gameFormat !== 'sealed') {
+                this.game.addMessage('{0} is playing as the Archon: {1}', player, link);
+            }
         }
     }
 

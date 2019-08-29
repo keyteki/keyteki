@@ -17,7 +17,7 @@ class DestructiveAnalysis extends Card {
                         ability.actions.purge(),
                         ability.actions.dealDamage(context => ({
                             target: preThenContext.target,
-                            amount: context.target.length * 2
+                            amount: context.target.filter(card => card.owner === card.controller).length * 2
                         }))
                     ]
                 }

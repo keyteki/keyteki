@@ -10,7 +10,7 @@ class GameChat {
 
     addChatMessage(format, player, message) {
         let args = [
-            { name: player.name, argType: 'player' },
+            { name: player.name, argType: 'player', role: player.user && player.user.role },
             message
         ];
         let formattedMessage = this.formatMessage(format, args);
@@ -22,9 +22,9 @@ class GameChat {
         let args = Array.from(arguments).slice(1);
         let argList = args.map(arg => {
             if(arg instanceof Spectator) {
-                return { name: arg.name, argType: 'nonAvatarPlayer' };
+                return { name: arg.name, argType: 'nonAvatarPlayer', role: arg.role };
             } else if(arg && arg.name && arg.argType === 'player') {
-                return { name: arg.name, argType: arg.argType };
+                return { name: arg.name, argType: arg.argType, role: arg.role };
             }
 
             return arg;
@@ -61,7 +61,8 @@ class GameChat {
                     if(Array.isArray(arg)) {
                         returnedFraments.push(this.formatArray(arg));
                     } else if(arg instanceof Card) {
-                        returnedFraments.push({ name: arg.name, image: arg.image, label: arg.name, type: arg.getType(), argType: 'card' });
+                        returnedFraments.push({ name: arg.name, image: arg.image, label: arg.name, type: arg.getType(),
+                            maverick: arg.maverick, cardPrintedAmber: arg.cardPrintedAmber, argType: 'card' });
                     } else if(arg instanceof Spectator || arg instanceof Player) {
                         returnedFraments.push({ name: arg.user.username, argType: 'nonAvatarPlayer' });
                     } else {
