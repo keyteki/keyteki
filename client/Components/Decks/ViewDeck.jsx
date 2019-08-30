@@ -5,6 +5,8 @@ import ConfirmedButton from '../Form/ConfirmedButton';
 import DeckSummary from './DeckSummary';
 import Panel from '../Site/Panel';
 
+import { withTranslation, Trans } from 'react-i18next';
+
 class ViewDeck extends React.Component {
     constructor() {
         super();
@@ -24,7 +26,7 @@ class ViewDeck extends React.Component {
             <div className='col-md-7'>
                 <Panel title={ deck.name }>
                     <div className='btn-group col-xs-12'>
-                        <ConfirmedButton onClick={ this.handleDeleteClick }>Delete</ConfirmedButton>
+                        <ConfirmedButton onClick={ this.handleDeleteClick }><Trans>Delete</Trans></ConfirmedButton>
                     </div>
                     <DeckSummary deck={ deck } cards={ cards } />
                 </Panel>
@@ -35,7 +37,9 @@ class ViewDeck extends React.Component {
 ViewDeck.propTypes = {
     cards: PropTypes.object,
     deck: PropTypes.object.isRequired,
-    onDeleteDeck: PropTypes.func.isRequired
+    i18n: PropTypes.object,
+    onDeleteDeck: PropTypes.func.isRequired,
+    t: PropTypes.func
 };
 
-export default ViewDeck;
+export default withTranslation()(ViewDeck);

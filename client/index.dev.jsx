@@ -9,6 +9,8 @@ import { AppContainer } from 'react-hot-loader';
 import { DragDropContext } from 'react-dnd';
 import { default as TouchBackend } from 'react-dnd-touch-backend';
 
+import './i18n';
+
 const store = configureStore();
 
 store.dispatch(navigate(window.location.pathname, window.location.search));
@@ -31,7 +33,7 @@ const render = () => {
                     position='top-right'
                     transitionIn='fadeIn'
                     transitionOut='fadeOut' />
-                <Application />
+                <React.Suspense fallback='loading...'><Application /></React.Suspense>
             </div>
         </Provider>
     </DnDContainer>, document.getElementById('component'));

@@ -5,9 +5,11 @@ import classNames from 'classnames';
 import DeckStatusSummary from './DeckStatusSummary';
 import StatusPopOver from './StatusPopOver';
 
+import { withTranslation } from 'react-i18next';
+
 class DeckStatus extends React.Component {
     render() {
-        let { status } = this.props;
+        let { status, t } = this.props;
         let statusName;
         let className = classNames('deck-status', this.props.className, {
             'used': status.usageLevel === 1 && !status.verified,
@@ -31,7 +33,7 @@ class DeckStatus extends React.Component {
 
         return (
             <span className={ className }>
-                <StatusPopOver status={ statusName } show>
+                <StatusPopOver status={ t(statusName) } show>
                     <div>
                         <DeckStatusSummary status={ status } />
                         { status.extendedStatus && status.extendedStatus.length !== 0 &&
@@ -47,7 +49,9 @@ class DeckStatus extends React.Component {
 
 DeckStatus.propTypes = {
     className: PropTypes.string,
-    status: PropTypes.object.isRequired
+    i18n: PropTypes.object,
+    status: PropTypes.object.isRequired,
+    t: PropTypes.func
 };
 
-export default DeckStatus;
+export default withTranslation()(DeckStatus);

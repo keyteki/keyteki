@@ -68,7 +68,7 @@ render(
                 transitionIn='fadeIn'
                 transitionOut='fadeOut' />
             <ErrorBoundary message={ 'We\'re sorry, a critical error has occured in the client and we\'re unable to show you anything.  Please try refreshing your browser after filling out a report.' }>
-                <DnDContainer />
+                <React.Suspense fallback='loading...'><DnDContainer /></React.Suspense>
             </ErrorBoundary>
         </div>
     </Provider>, document.getElementById('component'));
