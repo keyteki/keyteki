@@ -33,7 +33,7 @@ const render = () => {
                     position='top-right'
                     transitionIn='fadeIn'
                     transitionOut='fadeOut' />
-                <React.Suspense fallback='loading...'><Application /></React.Suspense>
+                <Application />
             </div>
         </Provider>
     </DnDContainer>, document.getElementById('component'));
