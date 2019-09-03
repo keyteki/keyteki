@@ -28,7 +28,7 @@ class InnerLink extends React.Component {
 
 InnerLink.displayName = 'Link';
 InnerLink.propTypes = {
-    children: PropTypes.any,
+    children: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
     className: PropTypes.string,
     href: PropTypes.string,
     navigate: PropTypes.func
