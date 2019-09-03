@@ -20,20 +20,20 @@ class DeckStatus extends React.Component {
         });
 
         if(status.usageLevel === 1 && !status.verified) {
-            statusName = 'Used';
+            statusName = t('Used');
         } else if(status.usageLevel === 2 && !status.verified) {
-            statusName = 'Popular';
+            statusName = t('Popular');
         } else if(status.usageLevel === 3 && !status.verified) {
-            statusName = 'Notorious';
+            statusName = t('Notorious');
         } else if(!status.noUnreleasedCards) {
-            statusName = 'Casual play only';
+            statusName = t('Casual play only');
         } else {
-            statusName = 'Valid';
+            statusName = t('Valid');
         }
 
         return (
             <span className={ className }>
-                <StatusPopOver status={ t(statusName) } show>
+                <StatusPopOver status={ statusName } show>
                     <div>
                         <DeckStatusSummary status={ status } />
                         { status.extendedStatus && status.extendedStatus.length !== 0 &&
