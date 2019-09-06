@@ -57,17 +57,11 @@ class NavBar extends React.Component {
             }
         ];
 
-        this.state = {
-            currentLang: 'en'
-        };
-
         this.onLanguageClick = this.onLanguageClick.bind(this);
     }
 
     componentDidMount() {
         let lang = this.normalizedLanguage();
-
-        this.setState({ currentLang: lang });
 
         i18n.changeLanguage(lang);
     }
@@ -85,26 +79,34 @@ class NavBar extends React.Component {
     }
 
     onLanguageClick(lang) {
-        this.setState({ currentLang: lang.value });
-
         i18n.changeLanguage(lang.value);
     }
 
     normalizedLanguage() {
         let lang = i18n.language.replace('-', '').toLowerCase();
-        const option = this.options.find((option) => {
+        let option = this.options.find((option) => {
             return option.value === lang;
         });
 
         if(!option) {
             let idx = i18n.language.indexOf('-');
             if(idx !== -1) {
-                return i18n.language.substring(0, idx).toLowerCase();
+                lang = i18n.language.substring(0, idx).toLowerCase();
             }
         }
 
         if(lang === 'zh') {
             lang = 'zhhant';
+        } else {
+            // Try to find again without the '-'
+            option = this.options.find((option) => {
+                return option.value === lang;
+            });
+
+            if(!option) {
+                // fallback to english
+                lang = 'en';
+            }
         }
 
         return lang;
@@ -178,7 +180,7 @@ class NavBar extends React.Component {
         let rightMenuToRender = rightMenu.map(this.renderMenuItem.bind(this));
 
         let languageDropdown = (<li className='dropdown'>
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{ this.state.currentLang }<span class="caret"></span></a>
+            <a href='#' className='dropdown-toggle' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'>{ i18n.language }<span className='caret'/></a>
             <ul className='dropdown-menu'>
                 { this.options.map(item => (<li key={ item.value }><a href='#' onClick={ () => this.onLanguageClick(item) }>{ item.name }</a></li>)) }
             </ul>
