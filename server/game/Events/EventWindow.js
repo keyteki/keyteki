@@ -2,6 +2,7 @@ const _ = require('underscore');
 
 const BaseStepWithPipeline = require('../gamesteps/basestepwithpipeline.js');
 const ForcedTriggeredAbilityWindow = require('../gamesteps/forcedtriggeredabilitywindow.js');
+const DestroyedAbilityWindow = require('../gamesteps/DestroyedAbilityWindow.js');
 const SimpleStep = require('../gamesteps/simplestep.js');
 
 class EventWindow extends BaseStepWithPipeline {
@@ -70,7 +71,11 @@ class EventWindow extends BaseStepWithPipeline {
             return;
         }
 
-        this.queueStep(new ForcedTriggeredAbilityWindow(this.game, abilityType, this));
+        if(abilityType === 'interrupt' && this.events.some(event => event.name === 'onCardDestroyed')) {
+            this.queueStep(new DestroyedAbilityWindow(this.game, abilityType, this));
+        } else {
+            this.queueStep(new ForcedTriggeredAbilityWindow(this.game, abilityType, this));
+        }
     }
 
     preResolutionEffects() {

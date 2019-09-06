@@ -96,11 +96,11 @@ describe('Might Makes Right', function() {
                 expect(this.player1).toHavePrompt('Any Interrupts?');
                 this.player1.clickCard(this.hebeTheHuge);
                 this.player1.clickCard(this.groke);
-                expect(this.groke.location).toBe('archives');
+                expect(this.groke.location).toBe('discard');
                 expect(this.hebeTheHuge.location).toBe('archives');
                 expect(this.gangerChieftain.location).toBe('archives');
-                expect(this.bellowingPatrizate.location).toBe('archives');
-                expect(this.kingOfTheCrag.location).toBe('archives');
+                expect(this.bellowingPatrizate.location).toBe('discard');
+                expect(this.kingOfTheCrag.location).toBe('discard');
             });
 
         });
