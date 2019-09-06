@@ -33,7 +33,7 @@ const sentryOptions = {
         /YoukuAntiAds\.eval/i
     ],
     beforeSend(event, hint) {
-        if(event.message.startsWith('Non-Error exception captured') && hint.originalException.error) {
+        if(event.message && event.message.startsWith('Non-Error exception captured') && hint.originalException.error) {
             Sentry.withScope((scope) => {
                 scope.setExtra('nonErrorException', true);
                 Sentry.captureException(hint.originalException.error);
