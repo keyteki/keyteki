@@ -73,6 +73,7 @@ class Card extends EffectSource {
         this.stunned = false;
         this.moribund = false;
 
+        this.locale = cardData.locale;
 
         this.menu = [
             { command: 'exhaust', text: 'Exhaust/Ready' },
@@ -614,6 +615,7 @@ class Card extends EffectSource {
         // Include card specific information useful for UI rendering
         result.maverick = this.maverick;
         result.cardPrintedAmber = this.cardPrintedAmber;
+        result.locale = this.locale;
         return result;
     }
 

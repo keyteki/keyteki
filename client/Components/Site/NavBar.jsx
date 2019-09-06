@@ -7,11 +7,61 @@ import Avatar from './Avatar';
 import * as actions from '../../actions';
 import menus from '../../menus';
 
+import i18n from '../../i18n';
+import { withTranslation, Trans } from 'react-i18next';
+
 class NavBar extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = {};
+        this.state = {
+            options: [
+                {
+                    name: 'English',
+                    value: 'en'
+                },
+                {
+                    name: 'Español',
+                    value: 'es'
+                },
+                {
+                    name: 'Deutsch',
+                    value: 'de'
+                },
+                {
+                    name: 'Português',
+                    value: 'pt'
+                },
+                {
+                    name: 'Italiano',
+                    value: 'it'
+                },
+                {
+                    name: 'Français',
+                    value: 'fr'
+                },
+                {
+                    name: 'Polski',
+                    value: 'pl'
+                },
+                {
+                    name: 'ไทย',
+                    value: 'th'
+                },
+                {
+                    name: '简体中文',
+                    value: 'zhhans'
+                },
+                {
+                    name: '繁體中文',
+                    value: 'zhhant'
+                }
+            ]
+        };
+    }
+
+    componentDidMount() {
+        i18n.changeLanguage(this.normalizedLanguage());
     }
 
     onMenuItemMouseOver(menuItem) {
@@ -26,7 +76,33 @@ class NavBar extends React.Component {
         });
     }
 
+    onLanguageSelectChange(event) {
+        i18n.changeLanguage(event.target.value);
+    }
+
+    normalizedLanguage() {
+        let lang = i18n.language.replace('-', '').toLowerCase();
+        const option = this.state.options.find((option) => {
+            return option.value === lang;
+        });
+
+        if(!option) {
+            let idx = i18n.language.indexOf('-');
+            if(idx !== -1) {
+                return i18n.language.substring(0, idx).toLowerCase();
+            }
+        }
+
+        if(lang === 'zh') {
+            lang = 'zhhant';
+        }
+
+        return lang;
+    }
+
     renderMenuItem(menuItem) {
+
+        let t = this.props.t;
         let active = menuItem.path === this.props.path ? 'active' : '';
 
         if(menuItem.showOnlyWhenLoggedOut && this.props.user) {
@@ -55,7 +131,7 @@ class NavBar extends React.Component {
                     return items;
                 }
 
-                return items.concat(<li key={ item.title }><Link href={ item.path }>{ item.title }</Link></li>);
+                return items.concat(<li key={ item.title }><Link href={ item.path }>{ t(item.title) }</Link></li>);
             }, []);
 
             if(childItems.length === 0) {
@@ -68,7 +144,7 @@ class NavBar extends React.Component {
                         { menuItem.showProfilePicture && this.props.user ?
                             <Avatar username={ this.props.user.username } /> :
                             null }
-                        { menuItem.showProfilePicture && this.props.user ? this.props.user.username : menuItem.title }<span className='caret' />
+                        { menuItem.showProfilePicture && this.props.user ? this.props.user.username : t(menuItem.title) }<span className='caret' />
                     </a>
                     <ul className='dropdown-menu'>
                         { childItems }
@@ -76,10 +152,13 @@ class NavBar extends React.Component {
                 </li>);
         }
 
-        return <li key={ menuItem.title } className={ active }><Link href={ menuItem.path }>{ menuItem.title }</Link></li>;
+        return <li key={ menuItem.title } className={ active }><Link href={ menuItem.path }>{ t(menuItem.title) }</Link></li>;
     }
 
     render() {
+        const { options } = this.state;
+        let t = this.props.t;
+
         let leftMenu = menus.filter(menu => {
             return menu.position === 'left';
         });
@@ -90,7 +169,12 @@ class NavBar extends React.Component {
         let leftMenuToRender = leftMenu.map(this.renderMenuItem.bind(this));
         let rightMenuToRender = rightMenu.map(this.renderMenuItem.bind(this));
 
-        let numGames = this.props.games ? <li><span>{ `${this.props.games.length} Games` }</span></li> : null;
+        let languageDropdown = (<li><span><Trans i18nKey='navbar.language'>Language:</Trans>&nbsp;
+            <select value={ i18n.language } onChange={ this.onLanguageSelectChange.bind(this) } style={ { color: '#666666' } }>
+                { options.map(item => (<option key={ item.value } value={ item.value }>{ item.name }</option>)) }
+            </select></span></li>);
+
+        let numGames = this.props.games ? <li><span>{ t('{{gameLength}} Games', { gameLength: this.props.games.length }) }</span></li> : null;
 
         let contextMenu = this.props.context && this.props.context.map(menuItem => {
             return (
@@ -99,7 +183,7 @@ class NavBar extends React.Component {
                     onClick={ menuItem.onClick ? event => {
                         event.preventDefault();
                         menuItem.onClick();
-                    } : null }>{ menuItem.text }</a>{ (this.state.showPopup === menuItem) ? this.state.showPopup.popup : null }</li>
+                    } : null }>{ t(menuItem.text, menuItem.values) }</a>{ (this.state.showPopup === menuItem) ? this.state.showPopup.popup : null }</li>
             );
         });
 
@@ -119,7 +203,7 @@ class NavBar extends React.Component {
 
         let lobbyStatus = (
             <li>
-                <span className={ className } title={ toolTip } />
+                <span className={ className } title={ t(toolTip) } />
             </li>);
 
         className = 'glyphicon glyphicon-signal';
@@ -141,7 +225,7 @@ class NavBar extends React.Component {
 
         let gameStatus = (
             <li>
-                <span className={ className } title={ toolTip } />
+                <span className={ className } title={ t(toolTip) } />
             </li>);
 
         return (
@@ -159,6 +243,7 @@ class NavBar extends React.Component {
                     <div id='navbar' className='collapse navbar-collapse'>
                         <ul className='nav navbar-nav'>
                             { leftMenuToRender }
+                            { languageDropdown }
                         </ul>
                         <ul className='nav navbar-nav navbar-right'>
                             { contextMenu }
@@ -180,9 +265,11 @@ NavBar.propTypes = {
     gameConnected: PropTypes.bool,
     gameConnecting: PropTypes.bool,
     games: PropTypes.array,
+    i18n: PropTypes.object,
     lobbySocketConnected: PropTypes.bool,
     lobbySocketConnecting: PropTypes.bool,
     path: PropTypes.string,
+    t: PropTypes.func,
     title: PropTypes.string,
     user: PropTypes.object
 };
@@ -201,4 +288,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps, actions)(NavBar);
+export default withTranslation()(connect(mapStateToProps, actions)(NavBar));
