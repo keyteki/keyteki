@@ -8,60 +8,68 @@ import * as actions from '../../actions';
 import menus from '../../menus';
 
 import i18n from '../../i18n';
-import { withTranslation, Trans } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 
 class NavBar extends React.Component {
     constructor(props) {
         super(props);
 
+        this.options = [
+            {
+                name: 'English',
+                value: 'en'
+            },
+            {
+                name: 'Español',
+                value: 'es'
+            },
+            {
+                name: 'Deutsch',
+                value: 'de'
+            },
+            {
+                name: 'Português',
+                value: 'pt'
+            },
+            {
+                name: 'Italiano',
+                value: 'it'
+            },
+            {
+                name: 'Français',
+                value: 'fr'
+            },
+            {
+                name: 'Polski',
+                value: 'pl'
+            },
+            {
+                name: 'ไทย',
+                value: 'th'
+            },
+            {
+                name: '简体中文',
+                value: 'zhhans'
+            },
+            {
+                name: '繁體中文',
+                value: 'zhhant'
+            }
+        ];
+
         this.state = {
-            options: [
-                {
-                    name: 'English',
-                    value: 'en'
-                },
-                {
-                    name: 'Español',
-                    value: 'es'
-                },
-                {
-                    name: 'Deutsch',
-                    value: 'de'
-                },
-                {
-                    name: 'Português',
-                    value: 'pt'
-                },
-                {
-                    name: 'Italiano',
-                    value: 'it'
-                },
-                {
-                    name: 'Français',
-                    value: 'fr'
-                },
-                {
-                    name: 'Polski',
-                    value: 'pl'
-                },
-                {
-                    name: 'ไทย',
-                    value: 'th'
-                },
-                {
-                    name: '简体中文',
-                    value: 'zhhans'
-                },
-                {
-                    name: '繁體中文',
-                    value: 'zhhant'
-                }
-            ]
+            currentLang: 'en'
         };
+
+        this.onLanguageClick = this.onLanguageClick.bind(this);
     }
 
     componentDidMount() {
-        i18n.changeLanguage(this.normalizedLanguage());
+        let lang = this.normalizedLanguage();
+
+        this.setState({ currentLang: lang });
+
+        i18n.changeLanguage(lang);
     }
 
     onMenuItemMouseOver(menuItem) {
@@ -76,13 +84,15 @@ class NavBar extends React.Component {
         });
     }
 
-    onLanguageSelectChange(event) {
-        i18n.changeLanguage(event.target.value);
+    onLanguageClick(lang) {
+        this.setState({ currentLang: lang.value });
+
+        i18n.changeLanguage(lang.value);
     }
 
     normalizedLanguage() {
         let lang = i18n.language.replace('-', '').toLowerCase();
-        const option = this.state.options.find((option) => {
+        const option = this.options.find((option) => {
             return option.value === lang;
         });
 
@@ -101,7 +111,6 @@ class NavBar extends React.Component {
     }
 
     renderMenuItem(menuItem) {
-
         let t = this.props.t;
         let active = menuItem.path === this.props.path ? 'active' : '';
 
@@ -156,7 +165,6 @@ class NavBar extends React.Component {
     }
 
     render() {
-        const { options } = this.state;
         let t = this.props.t;
 
         let leftMenu = menus.filter(menu => {
@@ -169,10 +177,12 @@ class NavBar extends React.Component {
         let leftMenuToRender = leftMenu.map(this.renderMenuItem.bind(this));
         let rightMenuToRender = rightMenu.map(this.renderMenuItem.bind(this));
 
-        let languageDropdown = (<li><span><Trans i18nKey='navbar.language'>Language:</Trans>&nbsp;
-            <select value={ i18n.language } onChange={ this.onLanguageSelectChange.bind(this) } style={ { color: '#666666' } }>
-                { options.map(item => (<option key={ item.value } value={ item.value }>{ item.name }</option>)) }
-            </select></span></li>);
+        let languageDropdown = (<li className='dropdown'>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{ this.state.currentLang }<span class="caret"></span></a>
+            <ul className='dropdown-menu'>
+                { this.options.map(item => (<li key={ item.value }><a href='#' onClick={ () => this.onLanguageClick(item) }>{ item.name }</a></li>)) }
+            </ul>
+        </li>);
 
         let numGames = this.props.games ? <li><span>{ t('{{gameLength}} Games', { gameLength: this.props.games.length }) }</span></li> : null;
 
@@ -243,7 +253,6 @@ class NavBar extends React.Component {
                     <div id='navbar' className='collapse navbar-collapse'>
                         <ul className='nav navbar-nav'>
                             { leftMenuToRender }
-                            { languageDropdown }
                         </ul>
                         <ul className='nav navbar-nav navbar-right'>
                             { contextMenu }
@@ -251,6 +260,7 @@ class NavBar extends React.Component {
                             { lobbyStatus }
                             { gameStatus }
                             { rightMenuToRender }
+                            { languageDropdown }
                         </ul>
                     </div>
                 </div>
