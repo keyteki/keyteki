@@ -418,6 +418,7 @@ class Card extends EffectSource {
         clone.location = this.location;
         clone.parent = this.parent;
         clone.clonedNeighbors = this.neighbors;
+        clone.modifiedPower = this.getPower();
         return clone;
     }
 
