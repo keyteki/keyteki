@@ -57,6 +57,8 @@ class NavBar extends React.Component {
             }
         ];
 
+        this.state = {};
+
         this.onLanguageClick = this.onLanguageClick.bind(this);
     }
 
