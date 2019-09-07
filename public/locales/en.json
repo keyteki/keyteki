@@ -384,6 +384,28 @@
     "about.addicons": "<0>Additional Icons</0><1>Some icons were included from game-icons.net: Death Note by <1>lorc</1>. <3>CC-BY 3.0</3></1>",
     "about.addnotes": "<0>Additional Notes</0><p>The Keyforge Unique Deck Game, the artwork and many other things are all copyright Fantasy Flight Games and I make no claims of ownership or otherwise of any of the artwork or trademarks.  This site exists for passionate fans to play a game they enjoy and augment, rather than replace, the in person LCG.  FFG does not endorse, support, and is not involved with, this site in any way.</p>",
 
+    "What is this page?": "What is this page?",
+    "community.whatisthis": "This page is a shoutout to other works/resources in the KeyForge community.",
+    "community.discord": "<0>Link: <1>Keyforge Discord</1></0><p>Discord is a text and voice communicaton application. Created by members of the Keyforge community, it's a robust community of LCG/CCG/RPG players.</p>",
+    "UNDER CONSTRUCTION": "UNDER CONSTRUCTION",
+    
+    "Background": "Background",
+    "privacy.background": "Even though this is only a site to play a card game online, we still take your privacy and the security of your data seriously.  This policy outlines what data we store about you, why we store it and what we do with it.",
+    "What data we store": "What data we store",
+    "privacy.whatwestore": "<p>When you sign up for the site (which is required to play or spectate on games), we collect a username, your email address, a password and the IP address of the computer you're using when you sign up.</p><p>When you play games on the site, we collect information about the games you play(what faction/agenda you're using, the deck you are using to play with - but not its contents, who you are playing against and the outcome of the game).</p><p>If you chat in the lobby, your messages are stored.</p>",
+    "Why we collect it": "Why we collect it",
+    "privacy.why": "We collect a username to identify you on the site and so that people know who they are playing against.",
+    "privacy.whyemail": "Your email address is used",
+    "privacy.whyemail.1": "in order to verify that you are a real person and not an automated program(or 'bot').",
+    "privacy.whyemail.2": "to enchance the security and general environment of the site by allowing us to restrict people to one account per email address, or to prevent a user using the site.",
+    "privacy.whyemail.3": "to provide your avatar picture via a service called Gravatar.  Your email address is cryptographically hashed and sent to Gravatar's servers for them to provide your profile image or a default placeholder.",
+    "privacy.whyemail.4": "to allow you to reset your password if you forget it",
+    "privacy.whyemail.5": "to send you critical updates about the site from time to time (We have to date never sent one of these)",
+    "privacy.ipaddress": "The IP address of the computer you use is collected in order to protect the security and integrity of the site and allow us to prevent abuse of the site.",
+    "privacy.lobby": "Your lobby messages are stored so that we can display them to other users of the site and to detect patterns of abusive behaviour.  Your messages may also be moderated to remove offensive content, or deleted altogether at our discretion.",
+
+    "Create": "Create",
+    
     "Call of the Archons": "Call of the Archons",
     "Age of Ascension": "Age of Ascension"
 }
