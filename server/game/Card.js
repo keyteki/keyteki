@@ -621,10 +621,10 @@ class Card extends EffectSource {
     }
 
     getSummary(activePlayer, hideWhenFaceup) {
-        let isActivePlayer = activePlayer === this.controller;
+        let isController = activePlayer === this.controller;
         let selectionState = activePlayer.getCardSelectionState(this);
 
-        if(!isActivePlayer && (this.facedown || hideWhenFaceup) && !(this.game.showHand && activePlayer.isSpectator() && this.location === 'hand')) {
+        if(!isController && (this.facedown || hideWhenFaceup) && !(this.game.showHand && activePlayer.isSpectator() && this.location === 'hand')) {
             let state = {
                 cardback: this.owner.deckData.cardback,
                 controller: this.controller.name,
@@ -637,7 +637,8 @@ class Card extends EffectSource {
         let state = {
             id: this.cardData.id,
             image: this.cardData.image,
-            canPlay: (activePlayer === this.game.activePlayer) && isActivePlayer && this.getLegalActions(activePlayer, false).length > 0,
+            canPlay: (activePlayer === this.game.activePlayer) && this.game.activePlayer.activeHouse &&
+                      isController && (this.getLegalActions(activePlayer, false).length > 0),
             cardback: this.owner.deckData.cardback,
             childCards: this.childCards.map(card => {
                 return card.getSummary(activePlayer, hideWhenFaceup);
