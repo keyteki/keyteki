@@ -4,7 +4,8 @@ class Redlock extends Card {
     setupCardAbilities(ability) {
         this.interrupt({
             when: {
-                onRoundEnded: (event, context) =>
+                onPhaseEnded: (event, context) =>
+                    event.phase === 'main' &&
                     context.player === this.game.activePlayer &&
                     this.game.cardsPlayed.filter(card => card.type === 'creature').length === 0
             },
