@@ -5,13 +5,13 @@ class Dysania extends Card {
         this.play({
             condition: context => !!context.player.opponent,
             effect: 'discard all cards in {1}\'s archives, and gain {2} amber',
-            effectArgs: context => [context.player.opponent, context.player.opponent.archives.filter(card => card.owner === context.player).length],
+            effectArgs: context => [context.player.opponent, context.player.opponent.archives.filter(card => card.owner === context.player.opponent).length],
             gameAction: [
                 ability.actions.discard(context => ({
                     target: context.player.opponent.archives
                 })),
                 ability.actions.gainAmber(context => ({
-                    amount: context.player.opponent.archives.filter(card => card.owner === context.player).length
+                    amount: context.player.opponent.archives.filter(card => card.owner === context.player.opponent).length
                 }))
             ]
         });
