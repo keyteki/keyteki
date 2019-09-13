@@ -74,7 +74,10 @@ class PlayerRow extends React.Component {
             spectating={ this.props.spectating }
             { ...cardPileProps } />);
 
+        let hasArchivedCards = !!this.props.archives && (this.props.archives.length > 0);
+
         let archives = (<CardPile className='archives' title='Archives' source='archives' cards={ this.props.archives }
+            hiddenTopCard={ hasArchivedCards && !this.props.isMe } disablePopup={ !this.props.isMe }
             { ...cardPileProps } />);
 
         let discard = (<CardPile className='discard' title='Discard' source='discard' cards={ this.props.discard }
