@@ -877,6 +877,10 @@ class Game extends EventEmitter {
     }
 
     endRound() {
+        if(this.activePlayer.canForgeKey()) {
+            this.addAlert('success', '{0} declares Check!', this.activePlayer);
+        }
+
         this.activePlayer.endRound();
         this.cardsUsed = [];
         this.cardsPlayed = [];
@@ -885,6 +889,12 @@ class Game extends EventEmitter {
 
         for(let card of this.cardsInPlay) {
             card.endRound();
+        }
+
+        this.activePlayer.activeHouse = null;
+
+        if(this.activePlayer.opponent) {
+            this.activePlayer = this.activePlayer.opponent;
         }
 
         let playerAmber = this.getPlayers().map(player => `${player.name}: ${player.amber} amber`).join(' ');
