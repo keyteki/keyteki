@@ -7,6 +7,8 @@ import Checkbox from './Checkbox.jsx';
 
 import formFields from './formFields.json';
 
+import { withTranslation } from 'react-i18next';
+
 class Form extends React.Component {
     constructor(props) {
         super(props);
@@ -52,15 +54,35 @@ class Form extends React.Component {
         }
     }
 
+    translateValidationProps(field) {
+        let t = this.props.t;
+        let validationAttributes = {};
+
+        if(field.validationProperties) {
+            for(let key of Object.keys(field.validationProperties)) {
+
+                if((key === 'data-val-required') || (key === 'data-val-length') || (key === 'data-val-equalto') || (key === 'data-val-regex')) {
+                    validationAttributes[key] = t(field.validationProperties[key]);
+                } else {
+                    validationAttributes[key] = field.validationProperties[key];
+                }
+            }
+        }
+
+        return validationAttributes;
+    }
+
     render() {
+        let t = this.props.t;
+
         const fieldsToRender = formFields[this.props.name].map(field => {
             switch(field.inputType) {
                 case 'checkbox':
-                    return (<Checkbox key={ field.name } name={ field.name } label={ field.label } fieldClass={ field.fieldClass }
+                    return (<Checkbox key={ field.name } name={ field.name } label={ t(field.label) } fieldClass={ field.fieldClass }
                         onChange={ this.onCheckboxChange.bind(this, field.name) } checked={ this.state[field.name] } />);
                 default:
-                    return (<Input key={ field.name } name={ field.name } label={ field.label } placeholder={ field.placeholder }
-                        validationAttributes={ field.validationProperties } fieldClass={ field.fieldClass } labelClass={ field.labelClass }
+                    return (<Input key={ field.name } name={ field.name } label={ t(field.label) } placeholder={ t(field.placeholder) }
+                        validationAttributes={ this.translateValidationProps(field) } fieldClass={ field.fieldClass } labelClass={ field.labelClass }
                         type={ field.inputType } onChange={ this.onChange.bind(this, field.name) } value={ this.state[field.name] } />);
             }
         });
@@ -71,7 +93,7 @@ class Form extends React.Component {
             <div className='form-group'>
                 <div className={ this.props.buttonClass || 'col-sm-offset-4 col-sm-3' }>
                     <button ref='submit' type='submit' className='btn btn-primary' disabled={ this.props.apiLoading }>
-                        { this.props.buttonText || 'Submit' } { this.props.apiLoading ? <span className='spinner button-spinner' /> : null }
+                        { t(this.props.buttonText) || t('Submit') } { this.props.apiLoading ? <span className='spinner button-spinner' /> : null }
                     </button>
                 </div>
             </div>
@@ -85,8 +107,10 @@ Form.propTypes = {
     buttonClass: PropTypes.string,
     buttonText: PropTypes.string,
     children: PropTypes.node,
+    i18n: PropTypes.object,
     name: PropTypes.string.isRequired,
-    onSubmit: PropTypes.func
+    onSubmit: PropTypes.func,
+    t: PropTypes.func
 };
 
-export default Form;
+export default withTranslation()(Form);

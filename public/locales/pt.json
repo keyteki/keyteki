@@ -384,6 +384,28 @@
     "about.addicons": "<0>Ícones Adicionais</0><1>Alguns ícones foram incluídos a partir de game-icons.net: Death Note por <1>lorc</1>. <3>CC-BY 3.0</3></1>",
     "about.addnotes": "<0>Observações Adicionais</0><p>O Keyforge Jogo de Decks Únicos, sua arte e muitas outras coisas são copyright de Fantasy Flight Games e eu não faço nenhuma afirmação de posse de conteúdo de imagens ou qualquer outro conteúdo.  Esse site existe para que fãs apaixonados pelo jogo possam jogar um jogo que eles gostam e aumentar, ao invés de substituir, o jogo LCG entre pessoas.  FFG não endorsa, suporta, e não está envolvida, nesse site de maneira alguma.</p>",
     
+    "What is this page?": "O que é essa página?",
+    "community.whatisthis": "Essa página é de divulgação de outros trabalhos e recursos da comunidade de Keyforge.",
+    "community.discord": "<0>Link: <1>Keyforge Discord</1></0><p>Discord é uma aplicação de comunicação em voz e texto. Criada por membros da comunidade Keyforge, é uma comunidade robusta de jogadores LCG/CCG/RPG.</p>",
+    "UNDER CONSTRUCTION": "EM CONSTRUÇÃO",
+
+    "Background": "Background",
+    "privacy.background": "Ainda que esse seja apenas um site para se jogar online, levamos a sua privacidade e a segurança dos seus dados a sério.  Essa política explica que dados armazenamos sobre você, porque armazenamos e o que fazemos com eles.",
+    "What data we store": "Que dados armazenamos",
+    "privacy.whatwestore": "<p>Quando você se registra no site (que é necessário para jogar ou observar as partidas), nós coletamos um nome de usuário, seu endereço de e-mail, uma senha e o endereço IP do computador que você usou para se registrar.</p><p>Quando você participa de partidas no site, nós coletamos informações sobre a partida(qual facção/time você está usando, o deck que você usou para jogar - mas não o seu conteúdo, com quem você está jogando e o resultado da partida).</p><p>Se você envia mensagens no lobby, suas mensagens são armazenadas.</p>",
+    "Why we collect it": "Porque coletamos",
+    "privacy.why": "Nós coletamos um nome de usuário para identificar você no site e para que as pessoas saibam com quem estão jogando.",
+    "privacy.whyemail": "Seu email é utilizado",
+    "privacy.whyemail.1": "para verificar se você é uma pessoa real e não um programa autômato(um 'bot').",
+    "privacy.whyemail.2": "para melhorar a segurança e o ambiente de maneira geral do site permitindo que o registro seja apenas um por email, ou evitar que outro usuário utilize o site.",
+    "privacy.whyemail.3": "para fornecer uma imagem avatar através do serviço Gravatar.  Seu email é criptografado e enviado para o servidor da Gravatar para receber de volta uma imagem avatar ou uma imagem genérica.",
+    "privacy.whyemail.4": "para permitir que você reset sua senha caso a esqueça",
+    "privacy.whyemail.5": "para enviar atualizações críticas sobre o site de tempos em tempos (Até hoje não foi necessário enviar nenhum tipo de informação crítica)",
+    "privacy.ipaddress": "O endereço IP do computador é coletado para proteger a segurança e integridade do site e permitir que evitemos o abuso do site.",
+    "privacy.lobby": "Suas mensagens do lobby são armazenadas para que possamos mostrar para outros usuários do site e detectar padrões de comportamento abusivo.  Suas mensagens podem ser moderadas para remoção de conteúdo abusivo, ou removidas completamente a nosso critério.",
+    
+    "Create": "Criar",
+
     "Call of the Archons": "Chamado dos Arcontes",   
     "Age of Ascension": "Era da Ascensão"
 }

@@ -7,6 +7,8 @@ import Checkbox from '../Form/Checkbox';
 import AlertPanel from '../Site/AlertPanel';
 import * as actions from '../../actions';
 
+import { withTranslation, Trans } from 'react-i18next';
+
 const GameNameMaxLength = 64;
 
 class NewGame extends React.Component {
@@ -103,27 +105,31 @@ class NewGame extends React.Component {
     }
 
     getOptions() {
+        let t = this.props.t;
+
         return (<div className='row'>
-            <Checkbox name='allowSpectators' noGroup label={ 'Allow spectators' } fieldClass='col-sm-8'
+            <Checkbox name='allowSpectators' noGroup label={ t('Allow spectators') } fieldClass='col-sm-8'
                 onChange={ this.onSpectatorsClick } checked={ this.state.spectators } />
-            <Checkbox name='showHands' noGroup label={ 'Show hands to spectators' } fieldClass='col-sm-8'
+            <Checkbox name='showHands' noGroup label={ t('Show hands to spectators') } fieldClass='col-sm-8'
                 onChange={ this.onShowHandClick } checked={ this.state.showHand } />
-            <Checkbox name='muteSpectators' noGroup label={ 'Mute spectators' } fieldClass='col-sm-8'
+            <Checkbox name='muteSpectators' noGroup label={ t('Mute spectators') } fieldClass='col-sm-8'
                 onChange={ this.onMuteSpectatorsClick } checked={ this.state.muteSpectators } />
         </div>);
     }
 
     getGameTypeOptions() {
+        let t = this.props.t;
+
         let gameTypes = [
-            { name: 'beginner', label: 'Beginner' },
-            { name: 'casual', label: 'Casual' },
-            { name: 'competitive', label: 'Competitive' }
+            { name: 'beginner', label: t('Beginner') },
+            { name: 'casual', label: t('Casual') },
+            { name: 'competitive', label: t('Competitive') }
         ];
 
         return (
             <div className='row game-type'>
                 <div className='col-sm-12'>
-                    <b>Game Type</b>
+                    <b><Trans>Game Type</Trans></b>
                 </div>
                 <div className='col-sm-10'>
                     { gameTypes.map(gameType => {
@@ -138,20 +144,22 @@ class NewGame extends React.Component {
     }
 
     getGameFormatOptions() {
+        let t = this.props.t;
+
         let gameFormats = [
-            { name: 'normal', label: 'Normal' },
-            { name: 'sealed', label: 'Sealed' }
+            { name: 'normal', label: t('Normal') },
+            { name: 'sealed', label: t('Sealed') }
         ];
 
         let expansions = [
-            { name: 'cota', label: 'Call of the Archons'},
-            { name: 'aoa', label: 'Age of Ascension'}
+            { name: 'cota', label: t('Call of the Archons') },
+            { name: 'aoa', label: t('Age of Ascension') }
         ];
 
         return (
             <div className='row'>
                 <div className='col-sm-12'>
-                    <b>Game Format</b>
+                    <b><Trans>Game Format</Trans></b>
                 </div>
                 <div className='col-sm-10'>
                     { gameFormats.map(gameFormat => {
@@ -179,11 +187,12 @@ class NewGame extends React.Component {
     render() {
         let charsLeft = GameNameMaxLength - this.state.gameName.length;
         let content = [];
+        let t = this.props.t;
 
         if(this.props.quickJoin) {
             content =
                 (<div>
-                    <AlertPanel type='info' message="Select the type of game you'd like to play and either you'll join the next one available, or one will be created for you with default options." />
+                    <AlertPanel type='info' message={ t('Select the type of game you\'d like to play and either you\'ll join the next one available, or one will be created for you with default options.') } />
                     { this.getGameFormatOptions() }
                     { this.getGameTypeOptions() }
                 </div>);
@@ -191,9 +200,9 @@ class NewGame extends React.Component {
             content = (<div>
                 <div className='row'>
                     <div className='col-sm-8'>
-                        <label htmlFor='gameName'>Name</label>
+                        <label htmlFor='gameName'><Trans>Name</Trans></label>
                         <label className='game-name-char-limit'>{ charsLeft >= 0 ? charsLeft : 0 }</label>
-                        <input className='form-control' placeholder='Game Name' type='text' onChange={ this.onNameChange } value={ this.state.gameName } maxLength={ GameNameMaxLength } />
+                        <input className='form-control' placeholder={ t('Game Name') } type='text' onChange={ this.onNameChange } value={ this.state.gameName } maxLength={ GameNameMaxLength } />
                     </div>
                 </div>
                 { this.getOptions() }
@@ -201,7 +210,7 @@ class NewGame extends React.Component {
                 { this.getGameTypeOptions() }
                 <div className='row game-password'>
                     <div className='col-sm-8'>
-                        <label>Password</label>
+                        <label><Trans>Password</Trans></label>
                         <input className='form-control' type='password' onChange={ this.onPasswordChange } value={ this.state.password } />
                     </div>
                 </div>
@@ -210,18 +219,18 @@ class NewGame extends React.Component {
 
         return this.props.socket ? (
             <div>
-                <Panel title={ this.props.quickJoin ? 'Join Existing or Start New Game' : 'New game' }>
+                <Panel title={ t(this.props.quickJoin ? 'Join Existing or Start New Game' : 'New game') }>
                     <form className='form'>
                         { content }
                         <div className='button-row'>
-                            <button className='btn btn-primary' onClick={ this.onSubmitClick }>Start</button>
-                            <button className='btn btn-primary' onClick={ this.onCancelClick }>Cancel</button>
+                            <button className='btn btn-primary' onClick={ this.onSubmitClick }><Trans>Start</Trans></button>
+                            <button className='btn btn-primary' onClick={ this.onCancelClick }><Trans>Cancel</Trans></button>
                         </div>
                     </form>
                 </Panel >
             </div >) : (
             <div>
-                    Connecting to the server, please wait...
+                <Trans>Connecting to the server, please wait...</Trans>
             </div>
         );
     }
@@ -232,8 +241,10 @@ NewGame.propTypes = {
     allowMelee: PropTypes.bool,
     cancelNewGame: PropTypes.func,
     defaultGameName: PropTypes.string,
+    i18n: PropTypes.object,
     quickJoin: PropTypes.bool,
-    socket: PropTypes.object
+    socket: PropTypes.object,
+    t: PropTypes.func
 };
 
 function mapStateToProps(state) {
@@ -243,4 +254,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps, actions)(NewGame);
+export default withTranslation()(connect(mapStateToProps, actions)(NewGame));
