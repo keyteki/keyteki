@@ -3,11 +3,18 @@ const Lobby = require('./lobby.js');
 const pmx = require('pmx');
 const monk = require('monk');
 const config = require('config');
+const UserService = require('./services/UserService');
+const ConfigService = require('./services/ConfigService');
+const configService = new ConfigService();
 
 function runServer() {
-    var server = new Server(process.env.NODE_ENV !== 'production');
-    var httpServer = server.init();
-    var lobby = new Lobby(httpServer, { config: config, db: monk(config.dbPath) });
+    let options = { configService: configService, db: monk(config.dbPath) };
+
+    options.userService = new UserService(options.db, options.configService);
+
+    let server = new Server(process.env.NODE_ENV !== 'production');
+    let httpServer = server.init(options);
+    let lobby = new Lobby(httpServer, options);
 
     pmx.action('status', reply => {
         var status = lobby.getStatus();

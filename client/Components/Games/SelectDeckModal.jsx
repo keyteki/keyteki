@@ -5,12 +5,15 @@ import AlertPanel from '../Site/AlertPanel';
 import DeckList from '../Decks/DeckList.jsx';
 import Modal from '../Site/Modal';
 
+import { withTranslation, Trans } from 'react-i18next';
+
 class SelectDeckModal extends React.Component {
     render() {
+        let t = this.props.t;
         let decks = null;
 
         if(this.props.loading) {
-            decks = <div>Loading decks from the server...</div>;
+            decks = <div><Trans>Loading decks from the server...</Trans></div>;
         } else if(this.props.apiError) {
             decks = <AlertPanel type='error' message={ this.props.apiError } />;
         } else {
@@ -19,7 +22,7 @@ class SelectDeckModal extends React.Component {
                     <DeckList className='deck-list-popup' decks={ this.props.decks } onSelectDeck={ this.props.onDeckSelected } />
                     { this.props.standaloneDecks && this.props.standaloneDecks.length !== 0 && (
                         <div>
-                            <h3 className='deck-list-header'>Or choose a standalone deck:</h3>
+                            <h3 className='deck-list-header'><Trans>Or choose a standalone deck</Trans>:</h3>
                             <DeckList className='deck-list-popup' decks={ this.props.standaloneDecks } onSelectDeck={ this.props.onDeckSelected } />
                         </div>)
                     }
@@ -28,7 +31,7 @@ class SelectDeckModal extends React.Component {
         }
 
         return (
-            <Modal id={ this.props.id } className='deck-popup' title='Select Deck'>
+            <Modal id={ this.props.id } className='deck-popup' title={ t('Select Deck') }>
                 { decks }
             </Modal>);
     }
@@ -38,10 +41,12 @@ SelectDeckModal.displayName = 'SelectDeckModal';
 SelectDeckModal.propTypes = {
     apiError: PropTypes.string,
     decks: PropTypes.array,
+    i18n: PropTypes.object,
     id: PropTypes.string,
     loading: PropTypes.bool,
     onDeckSelected: PropTypes.func,
-    standaloneDecks: PropTypes.array
+    standaloneDecks: PropTypes.array,
+    t: PropTypes.func
 };
 
-export default SelectDeckModal;
+export default withTranslation()(SelectDeckModal);

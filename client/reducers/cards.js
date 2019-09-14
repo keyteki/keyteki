@@ -125,9 +125,10 @@ export default function(state = { decks: [] }, action) {
             return newState;
         case 'DECK_SAVED':
             var decks = state.decks;
-            decks.push(action.response.deck);
+            decks.unshift(action.response.deck);
             newState = Object.assign({}, state, {
                 deckSaved: true,
+                selectedDeck: action.response.deck,
                 decks: decks
             });
 

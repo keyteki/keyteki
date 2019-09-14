@@ -5,6 +5,8 @@ import DeckStatus from './DeckStatus';
 import AltCard from '../GameBoard/AltCard';
 import CardImage from '../GameBoard/CardImage';
 
+import { withTranslation, Trans } from 'react-i18next';
+
 class DeckSummary extends React.Component {
     constructor() {
         super();
@@ -37,10 +39,9 @@ class DeckSummary extends React.Component {
     }
 
     getCardsToRender() {
+        let { i18n, t } = this.props;
         let cardsToRender = [];
         let groupedCards = {};
-        let countCards = {};
-        let maxCountCards = 0;
 
         for(const card of this.props.deck.cards) {
             let house = card.card.house;
@@ -50,47 +51,40 @@ class DeckSummary extends React.Component {
 
             if(!groupedCards[house]) {
                 groupedCards[house] = [card];
-                countCards[house] = 1;
-                maxCountCards = Math.max(maxCountCards, countCards[house]);
             } else {
                 groupedCards[house].push(card);
-                countCards[house] = countCards[house] + 1;
             }
-
-            maxCountCards = Math.max(maxCountCards, countCards[house]);
         }
 
         // Traverse props.deck.houses to guarantee the card boxes will have the same order as the house icons
         for(const house of this.props.deck.houses) {
-            let key = house[0].toUpperCase() + house.slice(1);
+            let key = house;
+            let houseTitleLocale = t(house);
+            let houseTitle = houseTitleLocale[0].toUpperCase() + houseTitleLocale.slice(1);
 
             let cardList = groupedCards[house];
             let cards = [];
             let count = 0;
-            let i = 0;
 
-            for(const card of cardList) {
-                let cardToRender = (<div key={ card.id }>
-                    <span>{ card.count + 'x ' }</span>
-                    <span className='card-link' onMouseOver={ this.onCardMouseOver } onMouseOut={ this.onCardMouseOut }
-                        data-card_id={ card.card.id } data-card_house={ house }>
-                        { card.card.name }
-                    </span>
-                    { card.maverick ? <img className='small-maverick' src='/img/maverick.png' width='12px' height='12px' /> : null }
-                </div>);
+            if(cardList) {
+                for(const card of cardList) {
+                    let cardToRender = (<div key={ card.id }>
+                        <span>{ card.count + 'x ' }</span>
+                        <span className='card-link' onMouseOver={ this.onCardMouseOver } onMouseOut={ this.onCardMouseOut }
+                            data-card_id={ card.card.id } data-card_house={ house }>
+                            { (card.card.locale && card.card.locale[i18n.language]) ? card.card.locale[i18n.language].name : card.card.name }
+                        </span>
+                        { card.maverick ? <img className='small-maverick' src='/img/maverick.png' width='12px' height='12px' /> : null }
+                    </div>);
 
-                cards.push(cardToRender);
-                count += parseInt(card.count);
-                i++;
-            }
-
-            while(i++ < maxCountCards) {
-                cards.push(<div className='cards-no-break' key={ key + '-' + i }>&nbsp;</div>);
+                    cards.push(cardToRender);
+                    count += parseInt(card.count);
+                }
             }
 
             cardsToRender.push(
                 <div className='cards-no-break' key={ key }>
-                    <div className='card-group-title'>{ key + ' (' + count.toString() + ')' }</div>
+                    <div className='card-group-title'>{ houseTitle + ' (' + count.toString() + ')' }</div>
                     <div key={ key } className='card-group'>{ cards }</div>
                 </div>);
         }
@@ -104,7 +98,7 @@ class DeckSummary extends React.Component {
 
     render() {
         if(!this.props.deck || !this.props.cards) {
-            return <div>Waiting for selected deck...</div>;
+            return <div><Trans>Waiting for selected deck...</Trans></div>;
         }
 
         let cardCounts = {
@@ -138,15 +132,15 @@ class DeckSummary extends React.Component {
                     <div className='col-xs-2 col-sm-3 no-x-padding'><img className='img-responsive' src={ '/img/idbacks/identity.jpg' } /></div>
                     <div className='col-xs-8 col-sm-6'>
                         <div className='info-row row'><img className='deck-med-house' src={ '/img/house/' + this.props.deck.houses[0] + '.png' } /><img className='deck-med-house' src={ '/img/house/' + this.props.deck.houses[1] + '.png' } /><img className='deck-med-house' src={ '/img/house/' + this.props.deck.houses[2] + '.png' } /></div>
-                        <div className='info-row row'><span>Actions:</span><span className='pull-right'>{ cardCounts.action } cards</span></div>
-                        <div className='info-row row'><span>Artifacts:</span><span className='pull-right'>{ cardCounts.artifact } cards</span></div>
-                        <div className='info-row row'><span>Creatures:</span><span className='pull-right'>{ cardCounts.creature } cards</span></div>
-                        <div className='info-row row'><span>Upgrades:</span><span className='pull-right'>{ cardCounts.upgrade } cards</span></div>
-                        <div className='info-row row'><span>Validity:</span>
+                        <div className='info-row row'><span><Trans>Actions</Trans>:</span><span className='pull-right'>{ cardCounts.action } <Trans>cards</Trans></span></div>
+                        <div className='info-row row'><span><Trans>Artifacts</Trans>:</span><span className='pull-right'>{ cardCounts.artifact } <Trans>cards</Trans></span></div>
+                        <div className='info-row row'><span><Trans>Creatures</Trans>:</span><span className='pull-right'>{ cardCounts.creature } <Trans>cards</Trans></span></div>
+                        <div className='info-row row'><span><Trans>Upgrades</Trans>:</span><span className='pull-right'>{ cardCounts.upgrade } <Trans>cards</Trans></span></div>
+                        <div className='info-row row'><span><Trans>Validity</Trans>:</span>
                             <DeckStatus className='pull-right' status={ this.props.deck.status } />
                         </div>
                         { this.props.deck.usageLevel > 0 && !this.props.deck.verified ?
-                            <div className='info-row row'>This deck has been flagged as requiring verification. Please email a photo of the decklist with your username written on a piece of paper to: thecrucible.deckcheck@gmail.com
+                            <div className='info-row row'><Trans i18nKey='decksummary.toverify'>This deck has been flagged as requiring verification. Please email a photo of the decklist with your username written on a piece of paper to</Trans>: thecrucible.deckcheck@gmail.com
                             </div> : null
                         }
                     </div>
@@ -164,7 +158,9 @@ class DeckSummary extends React.Component {
 DeckSummary.displayName = 'DeckSummary';
 DeckSummary.propTypes = {
     cards: PropTypes.object,
-    deck: PropTypes.object
+    deck: PropTypes.object,
+    i18n: PropTypes.object,
+    t: PropTypes.func
 };
 
-export default DeckSummary;
+export default withTranslation()(DeckSummary);

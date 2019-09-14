@@ -1,7 +1,7 @@
 const logger = require('./log.js');
 const EventEmitter = require('events');
 const jwt = require('jsonwebtoken');
-const Raven = require('raven');
+const Sentry = require('@sentry/node');
 
 const User = require('./models/User');
 
@@ -11,7 +11,7 @@ class Socket extends EventEmitter {
 
         this.socket = socket;
         this.user = socket.request.user && new User(socket.request.user);
-        this.config = options.config;
+        this.configService = options.configService;
 
         socket.on('error', this.onError.bind(this));
         socket.on('authenticate', this.onAuthenticate.bind(this));
@@ -53,12 +53,15 @@ class Socket extends EventEmitter {
             callback(this, ...args);
         } catch(err) {
             logger.info(err);
-            Raven.captureException(err, { extra: args });
+            Sentry.configureScope((scope) => {
+                scope.setExtra('extra', args);
+            });
+            Sentry.captureException(err);
         }
     }
 
     onAuthenticate(token) {
-        jwt.verify(token, this.config.secret, (err, user) => {
+        jwt.verify(token, this.configService.getValue('secret'), (err, user) => {
             if(err) {
                 return;
             }

@@ -17,13 +17,30 @@ class MessageService extends EventEmitter {
     }
 
     getLastMessages() {
-        return this.messages.find({}, { limit: 100, sort: { time: -1 } });
+        return this.messages.find({ type: { $ne: 'motd' } }, { limit: 100, sort: { time: -1 } });
     }
 
     removeMessage(messageId) {
         return this.messages.remove({ _id: messageId }).then(() => {
             this.emit('messageDeleted', messageId);
         });
+    }
+
+    getMotdMessage() {
+        return this.messages.find({ type: 'motd' });
+    }
+
+    setMotdMessage(message) {
+        return this.messages.findOneAndUpdate({ type: 'motd' },
+            {
+                '$set': {
+                    message: message.message,
+                    user: message.user,
+                    time: message.time,
+                    motdType: message.motdType
+                }
+            },
+            { upsert: true, new: true });
     }
 }
 

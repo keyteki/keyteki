@@ -15,26 +15,14 @@ class DrawPhase extends Phase {
         let amount = player.maxHandSize - player.hand.length;
         if(amount > 0) {
             this.game.addMessage('{0} draws {1} cards up to their maximum hand size of {2}', player, amount, player.maxHandSize);
-            this.game.actions.draw({ amount: amount }).resolve(player, this.game.getFrameworkContext());
         }
 
-        if(amount >= 0 && player.chains > 0) {
-            player.modifyChains(-1);
-            this.game.addMessage('{0}\'s chains are reduced by 1 to {1}', player, player.chains);
-        }
-
-        if(player.canForgeKey()) {
-            this.game.addAlert('success', '{0} declares Check!', player);
-        }
+        this.game.actions.draw({ amount: amount, shedChains: true }).resolve(player, this.game.getFrameworkContext());
     }
 
     roundEnded() {
         this.game.raiseEvent('onRoundEnded', {}, () => {
-            this.game.activePlayer.activeHouse = null;
             this.game.endRound();
-            if(this.game.activePlayer.opponent) {
-                this.game.activePlayer = this.game.activePlayer.opponent;
-            }
         });
     }
 }

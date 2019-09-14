@@ -335,7 +335,7 @@ export class GameBoard extends React.Component {
     }
 
     render() {
-        if(!this.props.currentGame || !this.props.cards) {
+        if(!this.props.currentGame || !this.props.cards || !this.props.currentGame.started) {
             return <div>Waiting for server...</div>;
         }
 

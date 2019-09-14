@@ -41,16 +41,13 @@ class SearchAction extends PlayerAction {
                     return true;
                 }
             });
-            context.game.queueSimpleStep(() => {
-                if(this.discardToDeck) {
-                    context.game.addMessage('{0} shuffles their discard into their deck', player);
-                    for(let card of player.discard) {
-                        player.moveCard(card, 'deck');
-                    }
+            if(this.discardToDeck) {
+                context.game.addMessage('{0} shuffles their discard into their deck', player);
+                for(let card of player.discard) {
+                    player.moveCard(card, 'deck');
                 }
-
                 player.shuffleDeck();
-            });
+            }
         });
     }
 }

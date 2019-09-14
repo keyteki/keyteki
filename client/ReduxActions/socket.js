@@ -177,6 +177,10 @@ export function connectLobby() {
             dispatch(lobbyMessageReceived('gamestate', game, state.account.user ? state.account.user.username : undefined));
         });
 
+        socket.on('motd', motd => {
+            dispatch(lobbyMessageReceived('motd', motd));
+        });
+
         socket.on('cleargamestate', () => {
             dispatch(lobbyMessageReceived('cleargamestate'));
         });

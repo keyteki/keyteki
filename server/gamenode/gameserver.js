@@ -1,7 +1,7 @@
 const _ = require('underscore');
 const socketio = require('socket.io');
 const jwt = require('jsonwebtoken');
-const Raven = require('raven');
+const Sentry = require('@sentry/node');
 const http = require('http');
 const https = require('https');
 const fs = require('fs');
@@ -15,7 +15,7 @@ const Socket = require('../socket.js');
 const version = require('../../version.js');
 
 if(config.sentryDsn) {
-    Raven.config(config.sentryDsn, { sendTimeout: 5, release: version.build }).install();
+    Sentry.init({ dsn: config.sentryDsn, release: version.build });
 }
 
 class GameServer {
@@ -119,8 +119,10 @@ class GameServer {
             });
         }
 
-        Raven.captureException(e, { extra: debugData });
-
+        Sentry.configureScope((scope) => {
+            scope.setExtra('extra', debugData);
+        });
+        Sentry.captureException(e);
         if(game) {
             game.addMessage('A Server error has occured processing your game state, apologies.  Your game may now be in an inconsistent state, or you may be able to continue.  The error has been logged.');
         }
@@ -238,7 +240,7 @@ class GameServer {
 
     onGameSync(callback) {
         var gameSummaries = _.map(this.games, game => {
-            var retGame = game.getSummary();
+            var retGame = game.getSummary(undefined, { fullData: true });
             retGame.password = game.password;
 
             return retGame;

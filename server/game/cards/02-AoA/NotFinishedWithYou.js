@@ -4,7 +4,7 @@ class NotFinishedWithYou extends Card {
     setupCardAbilities(ability) {
         this.play({
             target: {
-                activePromptTitle: 'Choose which creatres to return',
+                activePromptTitle: 'Choose which creatures to return',
                 mode: 'unlimited',
                 controller: 'self',
                 cardType: 'creature',

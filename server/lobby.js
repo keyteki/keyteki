@@ -13,6 +13,7 @@ const DeckService = require('./services/DeckService');
 const CardService = require('./services/CardService');
 const UserService = require('./services/UserService');
 const ConfigService = require('./services/ConfigService');
+const User = require('./models/User');
 const { sortBy } = require('./Array');
 
 class Lobby {
@@ -20,13 +21,12 @@ class Lobby {
         this.sockets = {};
         this.users = {};
         this.games = {};
-        this.config = options.config;
         this.messageService = options.messageService || ServiceFactory.messageService(options.db);
         this.deckService = options.deckService || new DeckService(options.db);
         this.cardService = options.cardService || new CardService(options.db);
-        this.userService = options.userService || new UserService(options.db);
+        this.userService = options.userService || new UserService(options.db, options.configService);
         this.configService = options.configService || new ConfigService();
-        this.router = options.router || new GameRouter(this.config);
+        this.router = options.router || new GameRouter(this.configService);
 
         this.router.on('onGameClosed', this.onGameClosed.bind(this));
         this.router.on('onGameRematch', this.onGameRematch.bind(this));
@@ -34,6 +34,8 @@ class Lobby {
         this.router.on('onWorkerTimedOut', this.onWorkerTimedOut.bind(this));
         this.router.on('onNodeReconnected', this.onNodeReconnected.bind(this));
         this.router.on('onWorkerStarted', this.onWorkerStarted.bind(this));
+
+        this.userService.on('onBlocklistChanged', this.onBlocklistChanged.bind(this));
 
         this.io = options.io || socketio(server, { perMessageDeflate: false });
         this.io.set('heartbeat timeout', 30000);
@@ -136,7 +138,7 @@ class Lobby {
         let versionInfo = undefined;
 
         if(ioSocket.handshake.query.token && ioSocket.handshake.query.token !== 'undefined') {
-            jwt.verify(ioSocket.handshake.query.token, this.config.secret, (err, user) => {
+            jwt.verify(ioSocket.handshake.query.token, this.configService.getValue('secret'), (err, user) => {
                 if(err) {
                     ioSocket.emit('authfailed');
                     return;
@@ -156,6 +158,7 @@ class Lobby {
 
                     ioSocket.request.user = dbUser.getWireSafeDetails();
                     socket.user = dbUser;
+                    this.users[dbUser.username] = socket.user;
 
                     this.doPostAuth(socket);
                 }).catch(err => {
@@ -176,25 +179,12 @@ class Lobby {
     }
 
     // Actions
-    filterGameListWithBlockList(user) {
-        if(!user) {
-            return Object.values(this.games);
-        }
-
-        return Object.values(this.games).filter(game => {
-            let userBlockedByOwner = game.isUserBlocked(user);
-            let userHasBlockedPlayer = Object.values(game.players).some(player => user.blocklist && user.blocklist.includes(player.name.toLowerCase()));
-
-            return !userBlockedByOwner && !userHasBlockedPlayer;
-        });
-    }
-
     sendUserListFilteredWithBlockList(socket, userList) {
         let filteredUsers = userList;
 
         if(socket.user) {
             filteredUsers = userList.filter(user => {
-                return !socket.user.blockList.includes(user.name.toLowerCase());
+                return !socket.user.hasUserBlocked(user);
             });
         }
 
@@ -230,7 +220,7 @@ class Lobby {
                 continue;
             }
 
-            let filteredGames = this.filterGameListWithBlockList(socket.user);
+            let filteredGames = Object.values(this.games).filter(game => game.isVisibleFor(socket.user));
             let gameSummaries = this.mapGamesToGameSummaries(filteredGames);
 
             socket.send('games', gameSummaries);
@@ -307,13 +297,13 @@ class Lobby {
         }
 
         return messages.filter(message => {
-            return !socket.user.blockList.includes(message.user.username.toLowerCase());
+            return !socket.user.hasUserBlocked(message.user);
         });
     }
 
     // Events
     onConnection(ioSocket) {
-        let socket = new Socket(ioSocket, { config: this.config });
+        let socket = new Socket(ioSocket, { configService: this.configService });
 
         socket.registerEvent('lobbychat', this.onLobbyChat.bind(this));
         socket.registerEvent('newgame', this.onNewGame.bind(this));
@@ -330,6 +320,7 @@ class Lobby {
         socket.registerEvent('getnodestatus', this.onGetNodeStatus.bind(this));
         socket.registerEvent('togglenode', this.onToggleNode.bind(this));
         socket.registerEvent('restartnode', this.onRestartNode.bind(this));
+        socket.registerEvent('motd', this.onMotdChange.bind(this));
 
         socket.on('authenticate', this.onAuthenticated.bind(this));
         socket.on('disconnect', this.onSocketDisconnected.bind(this));
@@ -346,6 +337,14 @@ class Lobby {
         this.sendUserListFilteredWithBlockList(socket, this.getUserList());
         this.sendFilteredMessages(socket);
         this.broadcastGameList(socket, { force: true });
+
+        this.messageService.getMotdMessage().then(message => {
+            if(message) {
+                socket.send('motd', message[0]);
+            }
+        }).catch(err => {
+            logger.error(err);
+        });
 
         if(!socket.user) {
             return;
@@ -431,7 +430,7 @@ class Lobby {
                 game.gameFormat === gameDetails.gameFormat && Object.values(game.players).length < 2 && !game.password);
 
             if(gameToJoin) {
-                let message = gameToJoin.join(socket.id, socket.user.getDetails());
+                let message = gameToJoin.join(socket.id, socket.user);
                 if(message) {
                     socket.send('passworderror', message);
 
@@ -447,8 +446,8 @@ class Lobby {
             }
         }
 
-        let game = new PendingGame(socket.user.getDetails(), gameDetails);
-        game.newGame(socket.id, socket.user.getDetails(), gameDetails.password);
+        let game = new PendingGame(socket.user, gameDetails);
+        game.newGame(socket.id, socket.user, gameDetails.password);
 
         socket.joinChannel(game.id);
         this.sendGameState(game);
@@ -468,7 +467,7 @@ class Lobby {
             return;
         }
 
-        let message = game.join(socket.id, socket.user.getDetails(), password);
+        let message = game.join(socket.id, socket.user, password);
         if(message) {
             socket.send('passworderror', message);
 
@@ -521,7 +520,7 @@ class Lobby {
     }
 
     sendHandoff(socket, gameNode, gameId) {
-        let authToken = jwt.sign(socket.user.getWireSafeDetails(), this.config.secret, { expiresIn: '5m' });
+        let authToken = jwt.sign(socket.user.getWireSafeDetails(), this.configService.getValue('secret'), { expiresIn: '5m' });
 
         socket.send('handoff', {
             address: gameNode.address,
@@ -544,7 +543,7 @@ class Lobby {
             return;
         }
 
-        let message = game.watch(socket.id, socket.user.getDetails(), password);
+        let message = game.watch(socket.id, socket.user, password);
         if(message) {
             socket.send('passworderror', message);
 
@@ -591,7 +590,7 @@ class Lobby {
     }
 
     async onLobbyChat(socket, message) {
-        if(Date.now() - socket.user.registered < this.config.minLobbyChatTime * 1000) {
+        if(Date.now() - socket.user.registered < this.configService.getValue('minLobbyChatTime') * 1000) {
             socket.send('nochat');
             return;
         }
@@ -600,7 +599,7 @@ class Lobby {
         let newMessage = await this.messageService.addMessage(chatMessage);
 
         for(let s of Object.values(this.sockets)) {
-            if(s.user && s.user.blockList.includes(chatMessage.user.username.toLowerCase())) {
+            if(s.user && s.user.hasUserBlocked(socket.user)) {
                 continue;
             }
 
@@ -754,6 +753,26 @@ class Lobby {
         socket.send('nodestatus', this.router.getNodeStatus());
     }
 
+    onMotdChange(socket, motd) {
+        if(!socket.user.permissions.canManageMotd) {
+            return;
+        }
+
+        let newMotd = motd && motd.message ? {
+            message: motd.message,
+            motdType: motd.motdType,
+            type: 'motd',
+            user: socket.user.getShortSummary(),
+            time: new Date()
+        } : {};
+
+        this.messageService.setMotdMessage(newMotd).then(() => {
+            this.io.emit('motd', { message: newMotd.message, motdType: newMotd.motdType });
+        }).catch(err => {
+            logger.error(err);
+        });
+    }
+
     // router Events
     onGameClosed(gameId) {
         let game = this.games[gameId];
@@ -798,7 +817,7 @@ class Lobby {
         }
 
         this.games[newGame.id] = newGame;
-        newGame.newGame(socket.id, socket.user.getDetails());
+        newGame.newGame(socket.id, socket.user);
 
         socket.joinChannel(newGame.id);
         this.sendGameState(newGame);
@@ -854,6 +873,16 @@ class Lobby {
         this.broadcastGameList();
     }
 
+    onBlocklistChanged(user) {
+        let updatedUser = this.users[user.username];
+
+        if(!updatedUser) {
+            return;
+        }
+
+        updatedUser.blockList = user.blockList;
+    }
+
     onWorkerTimedOut(nodeName) {
         this.clearGamesForNode(nodeName);
     }
@@ -904,7 +933,7 @@ class Lobby {
                 continue;
             }
 
-            let syncGame = new PendingGame({ username: owner.user }, { spectators: game.allowSpectators, name: game.name });
+            let syncGame = new PendingGame(new User(owner.user), { spectators: game.allowSpectators, name: game.name });
             syncGame.id = game.id;
             syncGame.node = this.router.workers[nodeName];
             syncGame.createdAt = game.startedAt;
@@ -919,7 +948,7 @@ class Lobby {
                     name: player.name,
                     owner: game.owner === player.name,
                     faction: { cardData: { code: player.faction } },
-                    user: player.user
+                    user: new User(player.user)
                 };
             }
 
@@ -927,7 +956,7 @@ class Lobby {
                 syncGame.spectators[player.name] = {
                     id: player.id,
                     name: player.name,
-                    user: player.user
+                    user: new User(player.user)
                 };
             }
 
@@ -944,7 +973,7 @@ class Lobby {
             }
         }
 
-        this.broadcastGameList();
+        this.broadcastGameList(undefined, { force: true });
     }
 }
 

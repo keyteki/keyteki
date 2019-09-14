@@ -6,13 +6,13 @@ const EventEmitter = require('events');
 const GameService = require('./services/GameService.js');
 
 class GameRouter extends EventEmitter {
-    constructor(config) {
+    constructor(configService) {
         super();
 
         this.workers = {};
-        this.gameService = new GameService(monk(config.dbPath));
+        this.gameService = new GameService(monk(configService.getValue('dbPath')));
 
-        router.bind(`tcp://0.0.0.0:${config.mqPort}`, err => {
+        router.bind(`tcp://0.0.0.0:${configService.getValue('mqPort')}`, err => {
             if(err) {
                 logger.info(err);
             }
@@ -36,7 +36,8 @@ class GameRouter extends EventEmitter {
 
         node.numGames++;
 
-        this.sendCommand(node.identity, 'STARTGAME', game);
+        this.sendCommand(node.identity, 'STARTGAME', game.getStartGameDetails());
+
         return node;
     }
 

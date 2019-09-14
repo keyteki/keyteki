@@ -8,33 +8,6 @@ import IdentityCard from './IdentityCard';
 import Droppable from './Droppable';
 
 class PlayerRow extends React.Component {
-    getPurgedPile() {
-        let pile = this.props.purgedPile;
-
-        if(pile.length === 0) {
-            return;
-        }
-
-        let purgedPile = (<CardPile
-            cards={ pile }
-            onCardClick={ this.props.onCardClick }
-            onDragDrop={ this.props.onDragDrop }
-            onMenuItemClick={ this.props.onMenuItemClick }
-            onMouseOut={ this.props.onMouseOut }
-            onMouseOver={ this.props.onMouseOver }
-            popupLocation={ this.props.side }
-            source='purged'
-            title='Purged'
-            size={ this.props.cardSize } />);
-
-        if(this.props.isMe) {
-            return (<Droppable onDragDrop={ this.props.onDragDrop } source='purged' manualMode={ this.props.manualMode }>
-                { purgedPile }
-            </Droppable>);
-        }
-
-        return purgedPile;
-    }
 
     renderDroppablePile(source, child) {
         return this.props.isMe ? <Droppable onDragDrop={ this.props.onDragDrop } source={ source } manualMode={ this.props.manualMode }>{ child }</Droppable> : child;
@@ -101,10 +74,16 @@ class PlayerRow extends React.Component {
             spectating={ this.props.spectating }
             { ...cardPileProps } />);
 
+        let hasArchivedCards = !!this.props.archives && (this.props.archives.length > 0);
+
         let archives = (<CardPile className='archives' title='Archives' source='archives' cards={ this.props.archives }
+            hiddenTopCard={ hasArchivedCards && !this.props.isMe } disablePopup={ !this.props.isMe }
             { ...cardPileProps } />);
 
         let discard = (<CardPile className='discard' title='Discard' source='discard' cards={ this.props.discard }
+            { ...cardPileProps } />);
+
+        let purged = (<CardPile className='purged' title='Purged' source='purged' cards={ this.props.purgedPile }
             { ...cardPileProps } />);
 
         let identity = (<IdentityCard className='identity' identity={ this.props.deckName } size={ this.props.cardSize } houses={ this.props.houses }
@@ -118,7 +97,7 @@ class PlayerRow extends React.Component {
                 { identity }
                 { this.renderDroppablePile('deck', drawDeck) }
                 { this.renderDroppablePile('discard', discard) }
-                { this.getPurgedPile() }
+                { ((this.props.purgedPile.length > 0) || this.props.manualMode) ? this.renderDroppablePile('purged', purged) : null }
             </div>
         );
     }
