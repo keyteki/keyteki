@@ -9,6 +9,8 @@ import Link from '../Components/Site/Link.jsx';
 
 import * as actions from '../actions';
 
+import { withTranslation, Trans } from 'react-i18next';
+
 export class Register extends React.Component {
     constructor() {
         super();
@@ -22,9 +24,11 @@ export class Register extends React.Component {
     }
 
     componentWillReceiveProps(props) {
+        let t = this.props.t;
+
         if(props.accountRegistered) {
             // this.setState({ successMessage: 'Your account was successfully registered.  Please verify your account using the link in the email sent to the address you have provided.' });
-            this.setState({ successMessage: 'Your account was successfully registered.  You can now process to login.' });
+            this.setState({ successMessage: t('Your account was successfully registered.  You can now process to login.') });
             setTimeout(() => {
             //    this.props.navigate('/');
                 this.props.navigate('/login');
@@ -41,15 +45,17 @@ export class Register extends React.Component {
     }
 
     render() {
-        let errorBar = this.props.apiSuccess === false ? <AlertPanel type='error' message={ this.props.apiMessage } /> : null;
-        let successBar = this.state.successMessage ? <AlertPanel type='success' message={ this.state.successMessage } /> : null;
+        let t = this.props.t;
+
+        let errorBar = this.props.apiSuccess === false ? <AlertPanel type='error' message={ t(this.props.apiMessage) } /> : null;
+        let successBar = this.state.successMessage ? <AlertPanel type='success' message={ t(this.state.successMessage) } /> : null;
 
         return (
             <div className='col-md-8 col-md-offset-2'>
                 { errorBar }
                 { successBar }
-                <Panel title='Register an account'>
-                    <p>We require information from you in order to service your access to the site.  Please see the <Link href='/privacy'>privacy policy</Link> for details on why we need this information and what we do with it.  Please pay particular attention to the section on avatars.</p>
+                <Panel title={ t('Register an account') }>
+                    <Trans i18nKey='register.disclosure'><p>We require information from you in order to service your access to the site.  Please see the <Link href='/privacy'>privacy policy</Link> for details on why we need this information and what we do with it.  Please pay particular attention to the section on avatars.</p></Trans>
 
                     <Form name='register' apiLoading={ this.props.apiLoading } buttonText='Register' onSubmit={ this.onRegister } />
                 </Panel>
@@ -63,12 +69,14 @@ Register.propTypes = {
     apiLoading: PropTypes.bool,
     apiMessage: PropTypes.string,
     apiSuccess: PropTypes.bool,
+    i18n: PropTypes.object,
     navigate: PropTypes.func,
     register: PropTypes.func,
     registerAccount: PropTypes.func,
     registeredToken: PropTypes.string,
     registeredUser: PropTypes.object,
-    socket: PropTypes.object
+    socket: PropTypes.object,
+    t: PropTypes.func
 };
 
 function mapStateToProps(state) {
@@ -81,4 +89,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps, actions)(Register);
+export default withTranslation()(connect(mapStateToProps, actions)(Register));

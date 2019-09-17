@@ -14,6 +14,8 @@ import Checkbox from '../Form/Checkbox';
 
 import * as actions from '../../actions';
 
+import { withTranslation, Trans } from 'react-i18next';
+
 const GameState = Object.freeze({
     None: 0,
     NewGame: 1,
@@ -197,6 +199,8 @@ class GameLobby extends React.Component {
     }
 
     render() {
+        let t = this.props.t;
+
         let modalProps = {
             id: 'pendingGameModal',
             className: 'settings-popup row',
@@ -210,8 +214,8 @@ class GameLobby extends React.Component {
             default:
                 break;
             case GameState.NewGame:
-                modalProps.title = 'Game Options';
-                modalProps.okButton = 'Create';
+                modalProps.title = t('Game Options');
+                modalProps.okButton = t('Create');
                 modalBody = <NewGame defaultGameName={ this.props.user.username + '\'s game' } quickJoin={ this.state.quickJoin } />;
                 break;
             case GameState.PendingGame:
@@ -219,36 +223,36 @@ class GameLobby extends React.Component {
                 modalBody = this.props.currentGame ? <PendingGame /> : null;
                 break;
             case GameState.PasswordedGame:
-                modalProps.title = 'Password Required';
+                modalProps.title = t('Password Required');
                 modalBody = <PasswordGame />;
                 break;
         }
 
         return (
             <div className='full-height'>
-                { this.props.bannerNotice ? <AlertPanel type='error' message={ this.props.bannerNotice } /> : null }
-                { this.state.errorMessage ? <AlertPanel type='error' message={ this.state.errorMessage } /> : null }
+                { this.props.bannerNotice ? <AlertPanel type='error' message={ t(this.props.bannerNotice) } /> : null }
+                { this.state.errorMessage ? <AlertPanel type='error' message={ t(this.state.errorMessage) } /> : null }
 
                 <div className='col-md-offset-2 col-md-8 full-height'>
-                    <Panel title='Current Games'>
+                    <Panel title={ t('Current Games') }>
                         <div className='col-xs-12 game-controls'>
                             <div className='col-sm-3 join-buttons'>
-                                <button className='btn btn-primary' onClick={ this.onNewGameClick } disabled={ !!this.props.currentGame }>New Game</button>
-                                <button className='btn btn-primary' onClick={ this.onQuickJoinClick } disabled={ !!this.props.currentGame }>Quick Join</button>
+                                <button className='btn btn-primary' onClick={ this.onNewGameClick } disabled={ !!this.props.currentGame }><Trans>New Game</Trans></button>
+                                <button className='btn btn-primary' onClick={ this.onQuickJoinClick } disabled={ !!this.props.currentGame }><Trans>Quick Join</Trans></button>
                             </div>
                             <div className='col-sm-9 game-filter'>
                                 <Panel type='tertiary'>
-                                    <Checkbox name='beginner' label='Beginner' fieldClass='col-sm-4' noGroup onChange={ this.onCheckboxChange.bind(this, 'beginner') } checked={ this.state.filter['beginner'] } />
-                                    <Checkbox name='casual' label='Casual' fieldClass='col-sm-4' noGroup onChange={ this.onCheckboxChange.bind(this, 'casual') } checked={ this.state.filter['casual'] } />
-                                    <Checkbox name='competitive' label='Competitive' fieldClass='col-sm-4' noGroup onChange={ this.onCheckboxChange.bind(this, 'competitive') } checked={ this.state.filter['competitive'] } />
-                                    <Checkbox name='normal' label='Normal' fieldClass='col-sm-4' noGroup onChange={ this.onCheckboxChange.bind(this, 'normal') } checked={ this.state.filter['normal'] } />
-                                    <Checkbox name='sealed' label='Sealed' fieldClass='col-sm-4' noGroup onChange={ this.onCheckboxChange.bind(this, 'sealed') } checked={ this.state.filter['sealed'] } />
-                                    <Checkbox name='showOnlyNewGames' label='Only show new games' fieldClass='col-sm-6' noGroup onChange={ this.onCheckboxChange.bind(this, 'showOnlyNewGames') } checked={ this.state.filter['showOnlyNewGames'] } />
+                                    <Checkbox name='beginner' label={ t('Beginner') } fieldClass='col-sm-4' noGroup onChange={ this.onCheckboxChange.bind(this, 'beginner') } checked={ this.state.filter['beginner'] } />
+                                    <Checkbox name='casual' label={ t('Casual') } fieldClass='col-sm-4' noGroup onChange={ this.onCheckboxChange.bind(this, 'casual') } checked={ this.state.filter['casual'] } />
+                                    <Checkbox name='competitive' label={ t('Competitive') } fieldClass='col-sm-4' noGroup onChange={ this.onCheckboxChange.bind(this, 'competitive') } checked={ this.state.filter['competitive'] } />
+                                    <Checkbox name='normal' label={ t('Normal') } fieldClass='col-sm-4' noGroup onChange={ this.onCheckboxChange.bind(this, 'normal') } checked={ this.state.filter['normal'] } />
+                                    <Checkbox name='sealed' label={ t('Sealed') } fieldClass='col-sm-4' noGroup onChange={ this.onCheckboxChange.bind(this, 'sealed') } checked={ this.state.filter['sealed'] } />
+                                    <Checkbox name='showOnlyNewGames' label={ t('Only show new games') } fieldClass='col-sm-6' noGroup onChange={ this.onCheckboxChange.bind(this, 'showOnlyNewGames') } checked={ this.state.filter['showOnlyNewGames'] } />
                                 </Panel>
                             </div>
                         </div>
                         <div className='col-xs-12'>
-                            { this.props.games.length === 0 ? <AlertPanel type='info' message='No games are currently in progress.' /> : <GameList games={ this.props.games } gameFilter={ this.state.filter } /> }
+                            { this.props.games.length === 0 ? <AlertPanel type='info' message={ t('No games are currently in progress.') } /> : <GameList games={ this.props.games } gameFilter={ this.state.filter } /> }
                         </div>
                     </Panel>
                 </div>
@@ -266,11 +270,13 @@ GameLobby.propTypes = {
     cancelPasswordJoin: PropTypes.func,
     currentGame: PropTypes.object,
     games: PropTypes.array,
+    i18n: PropTypes.object,
     leaveGame: PropTypes.func,
     newGame: PropTypes.bool,
     passwordGame: PropTypes.object,
     setContextMenu: PropTypes.func,
     startNewGame: PropTypes.func,
+    t: PropTypes.func,
     user: PropTypes.object
 };
 
@@ -286,5 +292,5 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps, actions)(GameLobby);
+export default withTranslation()(connect(mapStateToProps, actions)(GameLobby));
 

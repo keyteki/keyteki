@@ -10,6 +10,8 @@ import SelectDeckModal from './SelectDeckModal';
 import DeckStatus from '../Decks/DeckStatus';
 import * as actions from '../../actions';
 
+import { withTranslation, Trans } from 'react-i18next';
+
 class PendingGame extends React.Component {
     constructor() {
         super();
@@ -121,14 +123,14 @@ class PendingGame extends React.Component {
             if(playerIsMe) {
                 deck = <span className='deck-selection clickable' onClick={ this.onSelectDeckClick }>{ player.deck.name }</span>;
             } else {
-                deck = <span className='deck-selection'>Deck Selected</span>;
+                deck = <span className='deck-selection'><Trans>Deck Selected</Trans></span>;
             }
 
             status = <DeckStatus status={ player.deck.status } />;
         } else if(player && playerIsMe && !isSealed) {
-            selectLink = <span className='card-link' onClick={ this.onSelectDeckClick }>Select deck...</span>;
+            selectLink = <span className='card-link' onClick={ this.onSelectDeckClick }><Trans>Select deck...</Trans></span>;
         } else if(isSealed) {
-            selectLink = <span>Sealed deck loading...</span>;
+            selectLink = <span><Trans>Sealed deck loading...</Trans></span>;
         }
 
         return (
@@ -138,29 +140,32 @@ class PendingGame extends React.Component {
     }
 
     getGameStatus() {
+        let t = this.props.t;
+
+
         if(this.props.connecting) {
-            return 'Connecting to game server: ' + this.props.host;
+            return t('Connecting to game server {{host}}', { host: this.props.host});
         }
 
         if(this.state.waiting) {
-            return 'Waiting for lobby server...';
+            return t('Waiting for lobby server...');
         }
 
         if(this.getNumberOfPlayers(this.props) < 2) {
-            return 'Waiting for players...';
+            return t('Waiting for players...');
         }
 
         if(!Object.values(this.props.currentGame.players).every(player => {
             return !!player.deck.selected;
         })) {
-            return 'Waiting for players to select decks';
+            return t('Waiting for players to select decks');
         }
 
         if(this.props.currentGame.owner === this.props.user.username) {
-            return 'Ready to begin, click start to begin the game';
+            return t('Ready to begin, click start to begin the game');
         }
 
-        return 'Ready to begin, waiting for opponent to start the game';
+        return t('Ready to begin, waiting for opponent to start the game');
     }
 
     onLeaveClick(event) {
@@ -210,14 +215,16 @@ class PendingGame extends React.Component {
     }
 
     render() {
+        let t = this.props.t;
+
         if(this.props.currentGame && this.props.currentGame.started) {
-            return <div>Loading game in progress, please wait...</div>;
+            return <div><Trans>Loading game in progress, please wait...</Trans></div>;
         }
 
         if(!this.props.user) {
             this.props.navigate('/');
 
-            return <div>You must be logged in to play, redirecting...</div>;
+            return <div><Trans>You must be logged in to play, redirecting...</Trans></div>;
         }
 
         return (
@@ -228,30 +235,30 @@ class PendingGame extends React.Component {
                 </audio>
                 <Panel title={ this.props.currentGame.name }>
                     <div className='btn-group'>
-                        <button className='btn btn-primary' disabled={ !this.isGameReady() || this.props.connecting || this.state.waiting } onClick={ this.onStartClick }>Start</button>
-                        <button className='btn btn-primary' onClick={ this.onLeaveClick }>Leave</button>
+                        <button className='btn btn-primary' disabled={ !this.isGameReady() || this.props.connecting || this.state.waiting } onClick={ this.onStartClick }><Trans>Start</Trans></button>
+                        <button className='btn btn-primary' onClick={ this.onLeaveClick }><Trans>Leave</Trans></button>
                     </div>
                     <div className='game-status'>{ this.getGameStatus() }</div>
                 </Panel>
-                <Panel title='Players'>
+                <Panel title={ t('Players') }>
                     {
                         Object.values(this.props.currentGame.players).map(player => {
                             return this.getPlayerStatus(player, this.props.user.username);
                         })
                     }
                 </Panel>
-                <Panel title={ `Spectators(${this.props.currentGame.spectators.length})` }>
+                <Panel title={ t('Spectators({{users}})', { users : this.props.currentGame.spectators.length}) }>
                     { this.props.currentGame.spectators.map(spectator => {
                         return <div key={ spectator.name }>{ spectator.name }</div>;
                     }) }
                 </Panel>
-                <Panel title='Chat'>
+                <Panel title={ t('Chat') }>
                     <div className='message-list'>
                         <Messages messages={ this.props.currentGame.messages } onCardMouseOver={ this.onMouseOver } onCardMouseOut={ this.onMouseOut } />
                     </div>
                     <form className='form form-hozitontal'>
                         <div className='form-group'>
-                            <input className='form-control' type='text' placeholder='Enter a message...' value={ this.state.message }
+                            <input className='form-control' type='text' placeholder={ t('Enter a message...') } value={ this.state.message }
                                 onKeyPress={ this.onKeyPress } onChange={ this.onChange } />
                         </div>
                     </form>
@@ -275,6 +282,7 @@ PendingGame.propTypes = {
     decks: PropTypes.array,
     gameSocketClose: PropTypes.func,
     host: PropTypes.string,
+    i18n: PropTypes.object,
     leaveGame: PropTypes.func,
     loadDecks: PropTypes.func,
     loadStandaloneDecks: PropTypes.func,
@@ -284,6 +292,7 @@ PendingGame.propTypes = {
     socket: PropTypes.object,
     standaloneDecks: PropTypes.array,
     startGame: PropTypes.func,
+    t: PropTypes.func,
     user: PropTypes.object,
     zoomCard: PropTypes.func
 };
@@ -302,4 +311,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps, actions)(PendingGame);
+export default withTranslation()(connect(mapStateToProps, actions)(PendingGame));
