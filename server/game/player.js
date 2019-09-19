@@ -530,6 +530,10 @@ class Player extends GameObject {
         });
     }
 
+    isHaunted() {
+        return this.discard.length >= 10;
+    }
+
     getAdditionalCosts(context) {
         return this.getEffects('additionalCost').reduce((array, costFactory) => array.concat(costFactory(context)), []).filter(cost => !!cost);
     }
