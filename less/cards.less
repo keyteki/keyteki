@@ -1,3 +1,5 @@
+@controlledBox: 0 0 1px 2px @controlled-border-color;
+
 .card-wrapper {
   margin: 0;
   vertical-align: middle;
@@ -78,6 +80,10 @@
 
   &.selectable {
     box-shadow: 0 0 10px 1px fadeout(lighten(@brand-primary, 60%), 10%);
+    
+    &.controlled {
+        box-shadow: @controlledBox, 0 0 10px 1px fadeout(lighten(@brand-primary, 60%), 10%);
+    }
   }
 
   &.unselectable {
@@ -86,6 +92,10 @@
 
   &.can-play {
     animation: glowing 2000ms infinite;
+
+    &.controlled {
+        box-shadow: @controlledBox, 0 0 10px 1px fadeout(lighten(@brand-primary, 60%), 10%);
+    }
   }
 
   &.in-danger {
@@ -98,6 +108,10 @@
 
   &.selected {
     box-shadow: 0 0 1px 4px @brand-secondary;
+
+    &.controlled {
+        box-shadow: @controlledBox, 0 0 1px 4px @brand-secondary;
+    }
   }
 
   &.new {
@@ -105,7 +119,7 @@
   }
 
   &.controlled {
-    box-shadow: 0 0 1px 2px @brand-warning;
+    box-shadow: @controlledBox;
   }
 
   &.challenge {
