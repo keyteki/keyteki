@@ -582,6 +582,7 @@ class Game extends EventEmitter {
      */
     beginRound() {
         this.raiseEvent('onBeginRound');
+        this.activePlayer.beginRound();
         this.queueStep(new KeyPhase(this));
         this.queueStep(new HousePhase(this));
         this.queueStep(new MainPhase(this));

@@ -30,6 +30,7 @@ class Player extends GameObject {
 
         this.chains = 0;
         this.keyForged = false;
+        this.creatureFought = false;
 
         this.clock = ClockSelector.for(this, clockdetails);
         this.showDeck = false;
@@ -213,14 +214,16 @@ class Player extends GameObject {
         this.playableLocations = _.reject(this.playableLocations, l => l === location);
     }
 
+    beginRound() {
+        this.keyForged = false;
+        this.creatureFought = false;
+    }
+
     endRound() {
         for(let card of this.cardsInPlay) {
             card.new = false;
         }
         this.turn += 1;
-        if(this.opponent) {
-            this.opponent.keyForged = false;
-        }
     }
 
     /**
@@ -455,6 +458,10 @@ class Player extends GameObject {
         this.chains = Math.max(this.chains + amount, 0);
     }
 
+    isHaunted() {
+        return this.discard.length >= 10;
+    }
+
     get maxHandSize() {
         return 6 + this.sumEffects('modifyHandSize') - Math.floor((this.chains + 5) / 6);
     }
@@ -528,10 +535,6 @@ class Player extends GameObject {
             this.keys += 1;
             this.keyForged = true;
         });
-    }
-
-    isHaunted() {
-        return this.discard.length >= 10;
     }
 
     getAdditionalCosts(context) {
