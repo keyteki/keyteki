@@ -241,6 +241,7 @@ class InnerCard extends React.Component {
             'can-play': this.statusClass !== 'selectable' && !this.props.card.unselectable && this.props.card.canPlay,
             'unselectable': this.props.card.unselectable,
             'dragging': this.props.isDragging,
+            'controlled': this.props.card.controlled,
             'taunt': this.props.card.taunt && this.props.source === 'play area'
         });
         let imageClass = classNames('card-image vertical', this.sizeClass, {
@@ -301,8 +302,6 @@ class InnerCard extends React.Component {
             return 'in-danger';
         } else if(this.props.card.saved) {
             return 'saved';
-        } else if(this.props.card.controlled) {
-            return 'controlled';
         } else if(this.props.card.new) {
             return 'new';
         }
