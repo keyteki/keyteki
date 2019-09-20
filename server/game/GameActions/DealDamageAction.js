@@ -56,6 +56,15 @@ class DealDamageAction extends CardGameAction {
             fightEvent: this.fightEvent,
             damagePrevented: damagePrevented
         };
+
+        // Update armor token
+        if(this.noGameStateCheck) {
+            card.removeToken('armor');
+            if(card.armor - card.armorUsed > 0) {
+                card.addToken('armor', card.armor - card.armorUsed);
+            }
+        }
+
         return super.createEvent('onDamageDealt', params, event => {
             if(event.amount === 0) {
                 return;
