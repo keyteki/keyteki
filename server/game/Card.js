@@ -12,6 +12,7 @@ const PlayArtifactAction = require('./BaseActions/PlayArtifactAction');
 const PlayUpgradeAction = require('./BaseActions/PlayUpgradeAction');
 const ResolveFightAction = require('./GameActions/ResolveFightAction');
 const ResolveReapAction = require('./GameActions/ResolveReapAction');
+const GameActions = require('./GameActions');
 const RemoveStun = require('./BaseActions/RemoveStun');
 
 class Card extends EffectSource {
@@ -49,12 +50,35 @@ class Card extends EffectSource {
             this.setupKeywordAbilities(AbilityDsl);
         }
 
+        // alpha
         this.persistentEffect({
             location: 'any',
             printedAbility: false,
             condition: () => !!this.getKeywordValue('alpha'),
             match: this,
             effect: AbilityDsl.effects.cardCannot('play', () => !this.game.firstThingThisTurn())
+        });
+
+        // enraged
+        this.persistentEffect({
+            location: 'any',
+            printedAbility: false,
+            condition: () => {
+                return this.tokens.enrage >= 1;
+            },
+            match: this,
+            effect: AbilityDsl.effects.mustFightIfAble()
+        });
+
+        this.reaction({
+            title: 'remove enraged',
+            printedAbiliy: false,
+            when: {
+                onFight: (event, context) => {
+                    return event.attacker === context.source && this.tokens.enrage >= 1;
+                }
+            },
+            gameAction: GameActions.unenrage()
         });
 
         this.printedHouse = cardData.house;
@@ -69,6 +93,7 @@ class Card extends EffectSource {
         this.printedPower = cardData.power;
         this.printedArmor = cardData.armor;
         this.armorUsed = 0;
+        this.enraged = false;
         this.exhausted = false;
         this.stunned = false;
         this.moribund = false;
@@ -76,6 +101,7 @@ class Card extends EffectSource {
         this.locale = cardData.locale;
 
         this.menu = [
+            { command: 'enrage', text: 'Enrage' },
             { command: 'exhaust', text: 'Exhaust/Ready' },
             { command: 'addDamage', text: 'Add 1 damage' },
             { command: 'remDamage', text: 'Remove 1 damage' },
@@ -457,6 +483,20 @@ class Card extends EffectSource {
         return this.hasToken('amber') ? this.tokens.amber : 0;
     }
 
+    enrage() {
+        this.addToken('enrage', 1);
+        if(this.tokens.enrage > 1) {
+            this.tokens.enrage = 1
+        }
+    }
+
+    unenrage() {
+        this.addToken('enrage', -1);
+        if(this.tokens.enrage < 0) {
+            this.tokens.enrage = 0
+        }
+    }
+
     stun() {
         this.stunned = true;
     }
@@ -535,11 +575,16 @@ class Card extends EffectSource {
 
     getLegalActions(player, ignoreHouse = false) {
         let actions = this.getActions();
-        return actions.filter(action => {
+        actions = actions.filter(action => {
             let context = action.createContext(player);
             context.ignoreHouse = ignoreHouse;
             return !action.meetsRequirements(context);
         });
+        let canFight = actions.findIndex(action=>action.title === 'Fight with this creature') >= 0;
+        if(this.getEffects('mustFightIfAble').length > 0 && canFight) {
+            actions = actions.filter(action => action.title === 'Fight with this creature');
+        }
+        return actions;
     }
 
     getActions(location = this.location) {

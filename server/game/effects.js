@@ -80,6 +80,7 @@ const Effects = {
         context.ability.title === 'Remove this creature\'s stun') &&
         match(context.source)
     )),
+    mustFightIfAble: () => EffectBuilder.card.static('mustFightIfAble'),
     canPlay: (match) => EffectBuilder.player.static('canPlay', match),
     canPlayFromOwn: (location) => EffectBuilder.player.detached('canPlayFromOwn', {
         apply: (player) => player.addPlayableLocation('play', player, location),

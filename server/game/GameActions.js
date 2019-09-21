@@ -10,6 +10,8 @@ const DelayedEffectAction = require('./GameActions/DelayedEffectAction');
 const DestroyAction = require('./GameActions/DestroyAction');
 const DiscardCardAction = require('./GameActions/DiscardCardAction');
 const DrawAction = require('./GameActions/DrawAction');
+const EnrageAction = require('./GameActions/EnrageAction');
+const UnenrageAction = require('./GameActions/UnenrageAction');
 const ExhaustAction = require('./GameActions/ExhaustAction');
 const FightGameAction = require('./GameActions/FightGameAction');
 const ForgeAction = require('./GameActions/ForgeAction');
@@ -50,7 +52,7 @@ const UseAction = require('./GameActions/UseAction');
 
 const Actions = {
     // card actions
-    addPowerCounter: (propertyFactory) => new AddTokenAction(propertyFactory),
+    addPowerCounter: (propertyFactory) => new AddTokenAction(propertyFactory, 'power'),
     addDamageToken: (propertyFactory) => new AddTokenAction(propertyFactory, 'damage'),
     addDoomCounter: (propertyFactory) => new AddTokenAction(propertyFactory, 'doom'),
     archive: (propertyFactory) => new ArchiveAction(propertyFactory),
@@ -62,6 +64,8 @@ const Actions = {
     delayedEffect: (propertyFactory) => new DelayedEffectAction(propertyFactory), // when, message, gameAction, handler
     discard: (propertyFactory) => new DiscardCardAction(propertyFactory),
     destroy: (propertyFactory) => new DestroyAction(propertyFactory),
+    enrage: (propertyFactory) => new EnrageAction(propertyFactory),
+    unenrage: (propertyFactory) => new UnenrageAction(propertyFactory),
     exhaust: (propertyFactory) => new ExhaustAction(propertyFactory),
     fight: (propertyFactory) => new FightGameAction(propertyFactory),
     heal: (propertyFactory) => new HealAction(propertyFactory),
