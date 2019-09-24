@@ -524,7 +524,8 @@ class Card extends EffectSource {
         }
 
         this.game.promptWithHandlerMenu(player, {
-            activePromptTitle: (this.location === 'play area' ? 'Choose an ability:' : 'Play ' + this.name + ':'),
+            activePromptTitle: (this.location === 'play area' ? 'Choose an ability:' :
+                { text: 'Play {{card}}:', values: { card: this.name } }),
             source: this,
             choices: choices,
             handlers: handlers

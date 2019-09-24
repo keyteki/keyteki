@@ -88,7 +88,8 @@
     "Choose a creature to attack": "Escolha uma criatura para atacar",
     "Choose a creature to sacrifice": "Escolha uma criatura para sacrificar",
     "Choose a captured amber to move to your pool.": "Escolha um amber capturado para mover para sua reserva.",
-    "Choose a card to discard": "Escolha uma carta para descartar",
+    "Choose a card to discard": "Escolha uma carta para descartar",    
+    "Choose {{amount}} cards to discard": "Escolha {{amount}} cartas para descartar",
     "Choose a creature to archive": "Escolha uma criatura para arquivar",
     "Choose a creature to capture 1 amber from its controller": "Escolha uma criatura para capturar 1 amber do seu dono",
     "Choose a creature to damage": "Escolha uma criatura para sofrer dano",
@@ -331,26 +332,26 @@
     "errorboundary.clearerror": "Clique <1>aqui</1> para limpar o error e retornar a página inicial",
     "Play {{card}}:": "Jogar {{card}}:",
     "Any reactions to {{card}} being played?": "Alguma reação à carta {{card}} sendo jogada?",
-    "Choose an ability:": "Escolha uma habilidade:",
-    "Select 3 characters": "Selecione 3 criaturas",
+    "Choose an ability:": "Escolha uma habilidade:",   
+    "Select a character": "Escolha uma criatura",
+    "Select {{amount}} characters": "Escolha {{amount}} criaturas",
     "Choose which flank {{card}} should be placed on": "Escolha em qual flanco {{card}} deve ser posicionado",
     "Discard pile": "Descarte",
     "Select a card to put in your hand": "Selecione uma carta para pôr na sua mão",
     "Please login before trying to join a game": "Por favor, faça login antes de tentar entrar em uma partida",
     "Any reactions?": "Alguma reação?",
-
+    
     "You have no decks, try adding one": "Você não possui decks, tente adicionar um",
     "Enter the password": "Entre com a senha",
     "Password Required": "Senha Obrigatória",
     "Incorrect game password": "Senha da partida incorreta",
     "Select Deck": "Selecione um deck",
     "Or choose a standalone deck": "Ou selecione um deck solitário",
-
-    "Do you wish to repeat this effect?": "Deseja repetir esse efeito?",
+    
+    "Do you wish to repeat this effect?": "Deseja repetir esse efeito?",        
     "Mine": "Minha",
-    "Opponent's": "Oponente",
-    "Select 2 characters": "Escolha 2 criaturas",
-
+    "Opponent's": "Oponente",    
+    
     "Topics": "Tópicos",
     "Profile Options": "Opções de Perfil",
     "Bugs and Automation": "Bugs e Automação",
@@ -383,7 +384,7 @@
     "about.thanks": "<0>Agradecimento Especial</0><p>Gostaria de agradecer gyffon, cryogen, e ao time throneteki e ringteki pois sem sua ajuda e suporte esse site jamais teria acontecido.</p>",
     "about.addicons": "<0>Ícones Adicionais</0><1>Alguns ícones foram incluídos a partir de game-icons.net: Death Note por <1>lorc</1>. <3>CC-BY 3.0</3></1>",
     "about.addnotes": "<0>Observações Adicionais</0><p>O Keyforge Jogo de Decks Únicos, sua arte e muitas outras coisas são copyright de Fantasy Flight Games e eu não faço nenhuma afirmação de posse de conteúdo de imagens ou qualquer outro conteúdo.  Esse site existe para que fãs apaixonados pelo jogo possam jogar um jogo que eles gostam e aumentar, ao invés de substituir, o jogo LCG entre pessoas.  FFG não endorsa, suporta, e não está envolvida, nesse site de maneira alguma.</p>",
-
+    
     "What is this page?": "O que é essa página?",
     "community.whatisthis": "Essa página é de divulgação de outros trabalhos e recursos da comunidade de Keyforge.",
     "community.discord": "<0>Link: <1>Keyforge Discord</1></0><p>Discord é uma aplicação de comunicação em voz e texto. Criada por membros da comunidade Keyforge, é uma comunidade robusta de jogadores LCG/CCG/RPG.</p>",
@@ -403,9 +404,20 @@
     "privacy.whyemail.5": "para enviar atualizações críticas sobre o site de tempos em tempos (Até hoje não foi necessário enviar nenhum tipo de informação crítica)",
     "privacy.ipaddress": "O endereço IP do computador é coletado para proteger a segurança e integridade do site e permitir que evitemos o abuso do site.",
     "privacy.lobby": "Suas mensagens do lobby são armazenadas para que possamos mostrar para outros usuários do site e detectar padrões de comportamento abusivo.  Suas mensagens podem ser moderadas para remoção de conteúdo abusivo, ou removidas completamente a nosso critério.",
-
+    
     "Create": "Criar",
+    
+    "{{card}}": "{{card}}",
+    "{{card}} ({{quantity}})": "{{card}} ({{quantity}})",
+    "How much amber do you want to use from {{card}}": "Quanto amber você deseja usar de {{card}}",    
+    "Do you wish to repeat this effect?": "Você deseja repetir esse efeito?",
+    "Do you wish to forge a key?": "Você deseja forjar uma chave?",
+    "Do you wish to purge a sanctum card?": "Você deseja expurgar uma carta santuário?",
+    "Do you wish to destroy all Mars creatures?": "Você deseja destruir todas as criaturas de Marte?",
+    "Do you wish to archive a friendly creature or artifact?": "Você deseja arquivar uma criatura ou artefato amigo?",    
+    "Select a card to deploy to the left of": "Selecione uma carta para posicioná-lo à esquerda dela",
+    "Select a card to deploy to the right of": "Selecione uma carta para posicioná-lo à direita dela",
 
-    "Call of the Archons": "Chamado dos Arcontes",
+    "Call of the Archons": "Chamado dos Arcontes",   
     "Age of Ascension": "Era da Ascensão"
 }

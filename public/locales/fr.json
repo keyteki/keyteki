@@ -89,6 +89,7 @@
     "Choose a creature to sacrifice": "Choisir une créature à sacrifier",
     "Choose a captured amber to move to your pool.": "Choisir une aombre à placer dans votre réserve.",
     "Choose a card to discard": "Choisir une carte à défausser",
+    "Choose {{amount}} cards to discard": "Choisir {{amount}} cartes à défausser", 
     "Choose a creature to archive": "Choisir une créature à archiver",
     "Choose a creature to capture 1 amber from its controller": "Choisir une créature qui capture une aombre à son propriétaire ",
     "Choose a creature to damage": "Choisir une créature à endommager",
@@ -332,7 +333,8 @@
     "Play {{card}}:": "Jouer {{card}}:",
     "Any reactions to {{card}} being played?": "Toutes les réactions de {{card}} ont-elles été jouées ?",
     "Choose an ability:": "Choisir une capacité:",
-    "Select 3 characters": "Choisir 3 personnages",
+    "Select a character": "Choisir un créature",
+    "Select {{amount}} characters": "Choisir {{amount}} créatures",    
     "Choose which flank {{card}} should be placed on": "Choisir sur quel flanc {{card}} doit être placé(e)",
     "Discard pile": "Défausse",
     "Select a card to put in your hand": "Choisir une carte à mettre dans votre main",
@@ -349,7 +351,6 @@
     "Do you wish to repeat this effect?": "Voulez-vous répéter cet effet?",
     "Mine": "Ma pile",
     "Opponent's": "De l'adversaire",
-    "Select 2 characters": "Sélectionnez 2 créatures",
 
     "Topics": "Sujets",
     "Profile Options": "Options du Profil",
@@ -406,6 +407,17 @@
 
     "Create": "Créer",
 
-    "Call of the Archons": "L'Appel des Archontes",
+    "{{card}}": "{{card}}",
+    "{{card}} ({{quantity}})": "{{card}} ({{quantity}})",
+    "How much amber do you want to use from {{card}}": "How much amber do you want to use from {{card}}",    
+    "Do you wish to repeat this effect?": "Do you wish to repeat this effect?",
+    "Do you wish to forge a key?": "Do you wish to forge a key?",
+    "Do you wish to purge a sanctum card?": "Do you wish to purge a sanctum card?",
+    "Do you wish to destroy all Mars creatures?": "Do you wish to destroy all Mars creatures?",
+    "Do you wish to archive a friendly creature or artifact?": "Do you wish to archive a friendly creature or artifact?",
+    "Select a card to deploy to the left of": "Select a card to deploy to the left of",
+    "Select a card to deploy to the right of": "Select a card to deploy to the right of", 
+
+   "Call of the Archons": "L'Appel des Archontes",
     "Age of Ascension": "L'Âge de l'Ascension"
 }
