@@ -14,6 +14,6 @@ class TheGrimReaper extends Card {
     }
 }
 
-TheGrimReaper.id = 'the-grim-reaper'; // This is a guess at what the id might be - please check it!!!
+TheGrimReaper.id = 'the-grim-reaper';
 
 module.exports = TheGrimReaper;

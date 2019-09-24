@@ -12,7 +12,6 @@ const PlayArtifactAction = require('./BaseActions/PlayArtifactAction');
 const PlayUpgradeAction = require('./BaseActions/PlayUpgradeAction');
 const ResolveFightAction = require('./GameActions/ResolveFightAction');
 const ResolveReapAction = require('./GameActions/ResolveReapAction');
-const GameActions = require('./GameActions');
 const RemoveStun = require('./BaseActions/RemoveStun');
 
 class Card extends EffectSource {
@@ -70,17 +69,6 @@ class Card extends EffectSource {
             effect: AbilityDsl.effects.mustFightIfAble()
         });
 
-        this.reaction({
-            title: 'remove enraged',
-            printedAbiliy: false,
-            when: {
-                onFight: (event, context) => {
-                    return event.attacker === context.source && this.tokens.enrage >= 1;
-                }
-            },
-            gameAction: GameActions.unenrage()
-        });
-
         this.printedHouse = cardData.house;
         this.cardPrintedAmber = cardData.amber;
         this.maverick = cardData.maverick;
@@ -93,7 +81,6 @@ class Card extends EffectSource {
         this.printedPower = cardData.power;
         this.printedArmor = cardData.armor;
         this.armorUsed = 0;
-        this.enraged = false;
         this.exhausted = false;
         this.stunned = false;
         this.moribund = false;
@@ -484,17 +471,17 @@ class Card extends EffectSource {
     }
 
     enrage() {
-        this.addToken('enrage', 1);
-        if(this.tokens.enrage > 1) {
-            this.tokens.enrage = 1
+        if(this.tokens.enrage > 0) {
+            return;
         }
+        this.addToken('enrage', 1);
     }
 
     unenrage() {
-        this.addToken('enrage', -1);
-        if(this.tokens.enrage < 0) {
-            this.tokens.enrage = 0
+        if(this.tokens.enrage <= 0) {
+            return;
         }
+        this.addToken('enrage', -1);
     }
 
     stun() {
