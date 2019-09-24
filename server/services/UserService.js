@@ -59,7 +59,7 @@ class UserService extends EventEmitter {
 
         let ips = [...new Set(user.tokens.map(token => token.ip).filter(ip => ip))];
 
-        return this.users.find({'tokens.ip': {'$in': ips}}).catch(err => {
+        return this.users.find({ 'tokens.ip': { '$in': ips } }).catch(err => {
             logger.error('Error finding related ips', err, user.username);
         });
     }
@@ -84,7 +84,8 @@ class UserService extends EventEmitter {
             promptedActionWindows: user.promptedActionWindows,
             permissions: user.permissions,
             verified: user.verified,
-            disabled: user.disabled
+            disabled: user.disabled,
+            patreon: user.patreon
         };
 
         if(user.password && user.password !== '') {
@@ -229,6 +230,10 @@ class UserService extends EventEmitter {
         return this.users.update({ username: username }, { '$pull': { tokens: { _id: tokenId } } }).catch(err => {
             logger.error(err);
         });
+    }
+
+    setSupporterStatus(username, isSupporter) {
+        return this.users.update({ username: username }, { '$set': { 'permissions.isSupporter': isSupporter } });
     }
 }
 
