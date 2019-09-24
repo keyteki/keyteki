@@ -73,6 +73,7 @@ class Card extends EffectSource {
         this.stunned = false;
         this.moribund = false;
 
+        this.locale = cardData.locale;
 
         this.menu = [
             { command: 'exhaust', text: 'Exhaust/Ready' },
@@ -417,6 +418,7 @@ class Card extends EffectSource {
         clone.location = this.location;
         clone.parent = this.parent;
         clone.clonedNeighbors = this.neighbors;
+        clone.modifiedPower = this.getPower();
         return clone;
     }
 
@@ -614,11 +616,12 @@ class Card extends EffectSource {
         // Include card specific information useful for UI rendering
         result.maverick = this.maverick;
         result.cardPrintedAmber = this.cardPrintedAmber;
+        result.locale = this.locale;
         return result;
     }
 
     getSummary(activePlayer, hideWhenFaceup) {
-        let isActivePlayer = activePlayer === this.owner;
+        let isActivePlayer = activePlayer === this.controller;
         let selectionState = activePlayer.getCardSelectionState(this);
 
         if(!isActivePlayer && (this.facedown || hideWhenFaceup) && !(this.game.showHand && activePlayer.isSpectator() && this.location === 'hand')) {
@@ -634,7 +637,7 @@ class Card extends EffectSource {
         let state = {
             id: this.cardData.id,
             image: this.cardData.image,
-            canPlay: isActivePlayer && this.getLegalActions(activePlayer, false).length > 0,
+            canPlay: (activePlayer === this.game.activePlayer) && isActivePlayer && this.getLegalActions(activePlayer, false).length > 0,
             cardback: this.owner.deckData.cardback,
             childCards: this.childCards.map(card => {
                 return card.getSummary(activePlayer, hideWhenFaceup);

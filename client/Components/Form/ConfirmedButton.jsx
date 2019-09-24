@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { withTranslation, Trans } from 'react-i18next';
+
 class ConfirmedButton extends React.Component {
     constructor() {
         super();
@@ -28,7 +30,7 @@ class ConfirmedButton extends React.Component {
             <span>
                 <button className='btn btn-primary' onClick={ this.handleInitialClick }>{ this.props.children }</button>
                 { this.state.showConfirm &&
-                    <button className='btn btn-danger' onClick={ this.handleConfirmClick }>Confirm</button>
+                    <button className='btn btn-danger' onClick={ this.handleConfirmClick }><Trans>Confirm</Trans></button>
                 }
             </span>);
     }
@@ -39,4 +41,4 @@ ConfirmedButton.propTypes = {
     onClick: PropTypes.func
 };
 
-export default ConfirmedButton;
+export default withTranslation()(ConfirmedButton);

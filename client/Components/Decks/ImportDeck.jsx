@@ -7,6 +7,8 @@ import Panel from '../Site/Panel';
 import Input from '../Form/Input';
 import * as actions from '../../actions';
 
+import { withTranslation, Trans } from 'react-i18next';
+
 export class ImportDeck extends React.Component {
     constructor(props) {
         super(props);
@@ -43,21 +45,25 @@ export class ImportDeck extends React.Component {
     }
 
     render() {
+        let t = this.props.t;
+
         return (
             <div>
                 <div className='col-md-8 col-md-offset-2 profile full-height'>
-                    { this.state.error && <AlertPanel type='error' message={ this.state.error } /> }
-                    { this.props.apiSuccess === false && <AlertPanel type='error' message={ this.props.apiMessage } /> }
-                    <Panel title='Import Deck'>
-                        <p>
+                    { this.state.error && <AlertPanel type='error' message={ t(this.state.error) } /> }
+                    { this.props.apiSuccess === false && <AlertPanel type='error' message={ t(this.props.apiMessage) } /> }
+                    <Panel title={ t('Import Deck') }>
+                        <Trans i18nKey='importdeck.enterlink'>
+                            <p>
                                 Enter the deck link from the <a href='https://keyforgegame.com' target='_blank'>keyforge website.</a>
-                        </p>
-                        <p>Either search for a deck, or find one from the "My Decks" section of the website.  Find the URL of the deck and paste it in to the box below.</p>
-                        <p>The URL looks like this: </p>
+                            </p>
+                            <p>Either search for a deck, or find one from the "My Decks" section of the website.  Find the URL of the deck and paste it in to the box below.</p>
+                            <p>The URL looks like this: </p>
+                        </Trans>
                         <p><code>https://www.keyforgegame.com/deck-details/00000000-0000-0000-0000-000000000000</code></p>
-                        <Input name='importUrl' fieldClass='col-xs-9' placeholder='link' type='text' onChange={ this.onDeckStringChange } value={ this.state.deckString } >
+                        <Input name='importUrl' fieldClass='col-xs-9' placeholder={ t('link') } type='text' onChange={ this.onDeckStringChange } value={ this.state.deckString } >
                             <div className='col-xs-1'>
-                                <button className='btn btn-default' onClick={ this.onImportDeck }>Import { this.props.apiLoading && <span className='spinner button-spinner' /> }</button>
+                                <button className='btn btn-default' onClick={ this.onImportDeck }>{ t('Import') } { this.props.apiLoading && <span className='spinner button-spinner' /> }</button>
                             </div>
                         </Input>
                     </Panel>
@@ -72,9 +78,11 @@ ImportDeck.propTypes = {
     apiMessage: PropTypes.string,
     apiSuccess: PropTypes.bool,
     deckSaved: PropTypes.bool,
+    i18n: PropTypes.object,
     loading: PropTypes.bool,
     navigate: PropTypes.func,
-    saveDeck: PropTypes.func
+    saveDeck: PropTypes.func,
+    t: PropTypes.func
 };
 
 function mapStateToProps(state) {
@@ -88,4 +96,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps, actions)(ImportDeck);
+export default withTranslation()(connect(mapStateToProps, actions)(ImportDeck));

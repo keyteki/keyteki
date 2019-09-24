@@ -7,7 +7,7 @@ describe('Bear Flute', function() {
                         house: 'untamed',
                         inPlay: ['bear-flute'],
                         hand: ['cooperative-hunting', 'regrowth'],
-                        discard: ['ancient-bear']
+                        discard: ['ancient-bear', 'halacor']
                     },
                     player2: {
                         inPlay: []
@@ -23,6 +23,17 @@ describe('Bear Flute', function() {
                 this.player1.clickCard(this.ancientBear);
                 this.player1.clickPrompt('Done');
                 expect(this.ancientBear.location).toBe('hand');
+            });
+
+            it('should shuffle the discard pile into the deck when it searches for a bear', function() {
+                this.player1.clickCard(this.bearFlute);
+                this.player1.clickPrompt('Use this card\'s Action ability');
+                expect(this.player1).toHavePrompt('Bear Flute');
+                expect(this.player1).toBeAbleToSelect(this.ancientBear);
+                this.player1.clickCard(this.ancientBear);
+                this.player1.clickPrompt('Done');
+                expect(this.ancientBear.location).toBe('hand');
+                expect(this.halacor.location).toBe('deck');
             });
 
             it('should heal a bear when there is one in play', function() {
