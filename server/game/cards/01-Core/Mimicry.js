@@ -8,7 +8,7 @@ class Mimicry extends Card {
                     event.context.source === context.source &&
                     event.context.ability.title === 'Play this action'
             },
-            location: 'hand',
+            location: ['hand', 'deck', 'purged', 'archives'],
             target: {
                 cardType: 'action',
                 controller: 'opponent',
