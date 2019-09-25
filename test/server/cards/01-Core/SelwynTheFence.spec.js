@@ -5,7 +5,7 @@ describe('Selwyn The Fence', function() {
                 this.setupTest({
                     player1: {
                         house: 'shadows',
-                        inPlay: ['selwyn-the-fence', 'bad-penny'],
+                        inPlay: ['selwyn-the-fence'],
                         hand: ['old-bruno']
                     },
                     player2: {
@@ -18,6 +18,7 @@ describe('Selwyn The Fence', function() {
             it('should move captured Aember to pool when reaping.', function() {
                 this.player1.play(this.oldBruno);
                 this.player1.reap(this.selwynTheFence);
+                expect(this.player1).toHavePrompt('Choose a captured amber to move to your pool.');
                 this.player1.clickCard(this.oldBruno);
                 expect(this.oldBruno.tokens.amber).toBe(2);
                 expect(this.player1.amber).toBe(2);
@@ -26,6 +27,7 @@ describe('Selwyn The Fence', function() {
             it('should move captured Aember to pool when fighting.', function() {
                 this.player1.play(this.oldBruno);
                 this.player1.fightWith(this.selwynTheFence, this.urchin);
+                expect(this.player1).toHavePrompt('Choose a captured amber to move to your pool.');
                 this.player1.clickCard(this.oldBruno);
                 expect(this.oldBruno.tokens.amber).toBe(2);
                 expect(this.player1.amber).toBe(1);
@@ -33,13 +35,13 @@ describe('Selwyn The Fence', function() {
 
             it('should not add Aember to pool when reaping if none is captured.', function() {
                 this.player1.reap(this.selwynTheFence);
-                this.player1.clickCard(this.badPenny);
+                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
                 expect(this.player1.amber).toBe(1);
             });
 
             it('should not add Aember to pool when fighting if none is captured.', function() {
                 this.player1.fightWith(this.selwynTheFence, this.urchin);
-                this.player1.clickCard(this.badPenny);
+                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
                 expect(this.player1.amber).toBe(0);
             });
         });
