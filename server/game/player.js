@@ -560,6 +560,7 @@ class Player extends GameObject {
             cardPiles: {
                 archives: this.getSummaryForCardList(this.archives, activePlayer, true),
                 cardsInPlay: this.getSummaryForCardList(this.cardsInPlay, activePlayer),
+                deck: this.getSummaryForCardList(this.deck, activePlayer),
                 discard: this.getSummaryForCardList(this.discard, activePlayer),
                 hand: this.getSummaryForCardList(this.hand, activePlayer, true),
                 purged: this.getSummaryForCardList(this.purged, activePlayer)
@@ -581,23 +582,6 @@ class Player extends GameObject {
             timerSettings: {},
             user: _.omit(this.user, ['password', 'email'])
         };
-
-        if(isActivePlayer) {
-            let sortedDeck = this.deck.slice();
-            sortedDeck.sort((a, b) => {
-                if(a.printedHouse < b.printedHouse) {
-                    return -1;
-                } else if(a.printedHouse > b.printedHouse) {
-                    return 1;
-                } else if(a.id < b.id) {
-                    return -1;
-                } else if(a.id > b.id) {
-                    return 1;
-                }
-                return 0;
-            });
-            state.cardPiles.deck = this.getSummaryForCardList(sortedDeck, activePlayer, true);
-        }
 
         if(this.isTopCardShown()) {
             state.deckTopCard = this.deck[0].getSummary(activePlayer);

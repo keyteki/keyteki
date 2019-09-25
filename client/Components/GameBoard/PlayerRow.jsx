@@ -86,8 +86,9 @@ class PlayerRow extends React.Component {
         let purged = (<CardPile className='purged' title='Purged' source='purged' cards={ this.props.purgedPile }
             { ...cardPileProps } />);
 
-        let identity = (<IdentityCard className='identity' identity={ this.props.deckName } size={ this.props.cardSize } houses={ this.props.houses }
-            onMouseOut={ this.props.onMouseOut } onMouseOver={ this.props.onMouseOver } />);
+        let identity = (<IdentityCard className='identity' identity={ this.props.deckName } deckUuid = { this.props.deckUuid }
+            cards= { this.props.cards } deck = { this.props.drawDeck } size={ this.props.cardSize } houses={ this.props.houses }
+            onMouseOut={ this.props.onMouseOut } onMouseOver={ this.props.onMouseOver } gameFormat={ this.props.gameFormat }/>);
 
         return (
             <div className='player-home-row-container'>
@@ -107,11 +108,14 @@ PlayerRow.displayName = 'PlayerRow';
 PlayerRow.propTypes = {
     archives: PropTypes.array,
     cardSize: PropTypes.string,
+    cards: PropTypes.object,
     conclavePile: PropTypes.array,
     deckName: PropTypes.string,
+    deckUuid: PropTypes.string,
     discard: PropTypes.array,
     drawDeck: PropTypes.array,
     faction: PropTypes.object,
+    gameFormat: PropTypes.string,
     hand: PropTypes.array,
     houses: PropTypes.array,
     isMe: PropTypes.bool,

@@ -4,6 +4,7 @@
   "description": "A Keyforge Card Game Server",
   "main": "index.js",
   "scripts": {
+    "mongod": "mongod --dbpath=/data --port 27017\n",
     "start": "node .",
     "fetchdata": "node server/scripts/fetchdata",
     "game": "node server/gamenode",
@@ -43,6 +44,7 @@
     "assets-webpack-plugin": "^3.9.7",
     "bcrypt": "^3.0.2",
     "bootstrap": "^3.3.7",
+    "canvas": "^2.6.0",
     "circletype": "^2.3.0",
     "clean-webpack-plugin": "^3.0.0",
     "config": "^1.26.2",
@@ -79,6 +81,7 @@
     "path-to-regexp": "^2.4.0",
     "pmx": "^1.5.4",
     "prop-types": "^15.6.0",
+    "qrcode": "^1.4.2",
     "query-string": "^6.2.0",
     "react": "^16.8.6",
     "react-async-script": "^0.9.1",

@@ -966,6 +966,7 @@ class Game extends EventEmitter {
 
             return {
                 id: this.id,
+                gameFormat: this.gameFormat,
                 manualMode: this.manualMode,
                 name: this.name,
                 owner: this.owner,
