@@ -144,3 +144,34 @@ export function updateAvatar(user) {
         }
     };
 }
+
+export function linkPatreon(code) {
+    return {
+        types: ['ACCOUNT_LINK_REQUEST', 'ACCOUNT_LINK_RESPONSE'],
+        shouldCallAPI: () => true,
+        APIParams: {
+            url: '/api/account/linkPatreon',
+            type: 'POST',
+            data: JSON.stringify({ code: code }),
+            contentType: 'application/json'
+        }
+    };
+}
+
+export function unlinkPatreon() {
+    return {
+        types: ['UNLINK_ACCOUNT', 'ACCOUNT_UNLINKED'],
+        shouldCallAPI: () => true,
+        APIParams: {
+            url: '/api/account/unlinkPatreon',
+            type: 'POST',
+            contentType: 'application/json'
+        }
+    };
+}
+
+export function clearLinkStatus() {
+    return {
+        type: 'CLEAR_LINK_STATUS'
+    };
+}

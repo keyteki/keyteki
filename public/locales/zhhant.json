@@ -1,8 +1,8 @@
 {
     "navbar.language": "語言:",
-  
+
     "decksummary.toverify": "此牌組已標記為需要認證，請透過電子郵件寄出卡牌列表與使用者名稱照片供認證",
-  
+
     "Actions": "行動",
     "Archives": "封存",
     "Artifacts": "神器",
@@ -43,7 +43,7 @@
     "Used": "使用",
     "Valid": "有效",
     "Validity": "狀態",
-  
+
     "Decks": "牌組",
     "Play": "遊戲",
     "Help": "幫助",
@@ -83,7 +83,7 @@
     "Yes": "是",
     "No": "否",
     "Are you sure you want to end your turn?": "是否確定結束回合?",
-  
+
     "Choose a creature": "選擇生物",
     "Choose a creature to attack": "選擇生物進行攻擊",
     "Choose a creature to sacrifice": "選擇犧牲生物",
@@ -122,7 +122,7 @@
     "Choose a sanctum card to destroy": "選擇一張要摧毀的聖堂卡",
     "Choose a shadows card to destroy": "選擇一張要摧毀的暗影卡",
     "Choose a untamed card to destroy": "選擇一張要摧毀的狂獸卡",
-  
+
     "Reap with this creature": "收穫",
     "Fight with this creature": "戰鬥",
     "Waiting for opponent to approve entering manual mode": "等待對手同意進入手動模式",
@@ -136,7 +136,7 @@
     "Access Archives": "取得封存",
     "Do you wish to take all the cards in archives into your hand?": "是否取回封存?",
     "Choose a creature to attach this upgrade to": "選擇升級對象生物",
-  
+
     "draw phase": "抽牌階段",
     "Cancel Prompt": "取消提示",
     "Current Games": "進行中遊戲",
@@ -169,7 +169,7 @@
     "Name": "名稱",
     "Password": "密碼",
     "Game Name": "遊戲名稱",
-  
+
     "Loading game in progress, please wait...": "遊戲讀取中, 請稍候...",
     "You must be logged in to play, redirecting...": "必須登入後才能進行遊戲, 導頁中...",
     "Players": "玩家",
@@ -194,7 +194,7 @@
     "Show hands to spectators": "對觀戰者顯示手牌",
     "Sealed game format": "現開賽類型",
     "There are no games matching the filters you have selected": "目前沒有符合遊戲",
-  
+
     "Select one": "請選擇",
     "Import Deck": "輸入牌組",
     "Your decks": "你的牌組",
@@ -211,7 +211,7 @@
     "The URL you entered is invalid.  Please check it and try again.": "網址錯誤, 請確認內容後重試.",
     "link": "牌組連結",
     "importdeck.enterlink": "<0>輸入 <1>Keyforge 官網</1> 牌組連結.</0><p>從網站中或是從 \"我的牌組\" 中搜尋牌組, 複製牌組網址並貼在下方輸入框.</p><p>連結網址內容格式如下: </p>",
-  
+
     "Forgot your password?": "忘記密碼",
     "Log In": "登入",
     "Login": "登入",
@@ -240,7 +240,7 @@
     "An account with that name already exists, please choose another": "使用者名稱已存在, 請使用其他名稱註冊",
     "Register an account": "註冊帳號",
     "register.disclosure": "<0>使用網站服務請輸入下列資料.  需要的欄位與使用相關資訊可參考 <1>隱私政策</1> .  請特別注意有關頭像部分規定.</0>",
-  
+
     "Settings": "設定",
     "Prompt to order simultaneous abilities": "同時生效屬性提示",
     "Show a prompt when initating 1-click abilities": "單點屬性啟動提示",
@@ -280,7 +280,7 @@
     "Last Used": "使用時間",
     "security.note": "下方將會顯示你在網站上使用過的連線. 如果你看到任何部屬於你的連線, 刪除它並考慮修改密碼.",
     "Session removed successfully": "連線移除成功",
-  
+
     "Deploy Left": "Deploy Left",
     "Deploy Right": "Deploy Right",
     "Remove this creature's stun": "移除擊暈狀態",
@@ -322,7 +322,7 @@
     "Loading session details from the server...": "連線資訊讀取中...",
     "Purged": "已清除",
     "Your game is not finished, are you sure you want to leave?": "遊戲尚未結束, 是否確定離開?",
-  
+
     "Triggered Abilities": "觸發能力",
     "Done": "完成",
     "Waiting for opponent to take an action or pass": "等待敵方行動",
@@ -338,74 +338,74 @@
     "Select a card to put in your hand": "選擇一張卡牌加入手牌",
     "Please login before trying to join a game": "在加入遊戲前請先登入",
     "Any reactions?": "採取任何應對?",
-  
+
     "You have no decks, try adding one": "你尚未擁有任何牌組, 請嘗試新增",
     "Enter the password": "輸入密碼",
     "Password Required": "需要密碼",
     "Incorrect game password": "遊戲密碼錯誤",
     "Select Deck": "選擇牌組",
     "Or choose a standalone deck": "或選擇獨立牌組",
-  
+
     "Do you wish to repeat this effect?": "是否重複效果?",
     "Mine": "我方",
     "Opponent's": "敵方",
     "Select 2 characters": "選擇 2 個角色",
-  
-    "Topics": "Tópicos",
-    "Profile Options": "Opções de Perfil",
-    "Bugs and Automation": "Bugs e Automação",
-    "Manual Commands": "Comandos Manuais",
-    "About Stats, Conceding and Leaving Games": "Sobre Estatísticas, Concessões e Abandono de Partidas",
-    "Adding Decks": "Adicionando Decks",
-    "howtoplay.thisguide": "Esse manual foi feito para jogadores familiarizados com o Keyforge: o Jogo de Decks Único que desejam começar a jogar online utilizando a plataforma The Crucible Online. Se você é novo nesse jogo de cartas, existe um <1>vídeo tutorial</1> muito útil, um <3>guia de Início Rápido</3>, e um <5>Livro de Regras</5> para ajudá-lo.",
-    "howtoplay.addingdecks": "Até que o jogo seja lançado oficialmente, não será possível jogar com seu próprio deck.  Há uma quantidade de decks disponíveis para todos os usuários, e você pode escolher jogar com qualquer um deles. Você está pronto para começar a jogar. Clique no link <1>Jogar</1> na barra de navegação para criar, entrar ou observar partidas.",
-    "howtoplay.profile": "Clicando no link <1>Perfil</1> no topo direito da página permite que você configure alguns aspectos de jogabilidade.",
-    "howtoplay.bugs": "The Crucible Online está atualmente em beta e é um projeto em construção. Se você encontrar uma carta que você acha que não está funcionando como deveria, será de imensa ajuda se você submeter um ticket (em inglês) em <1>GitHub</1>. Outros comentários e/ou feedbacks podem ser enviados também para Github.",
-    "howtoplay.manualmode1": "A maioria das cartas estão implementadas, mas se algo der errado, ou você clique ou faça alguma ação errada, ou se você realmente odeia automação, você pode mudar para Modo Manual clicando na ferramenta no lado direito abaixo da tela.",
-    "howtoplay.manualmode2": "No modo manual, clicando em cartas e anéis abrirá um menu que permitirá a uma fácil mudança do estado do jogo. A maioria das funções nesses menus equivalem aos Comandos Manuais listados abaixo, mas existem algumas ações que somente podem ser feitas pelos menus.",
-    "howtoplay.commands": "Os seguintes comandos manuais foram implementados para permitir uma experiência de jogo mais suave:",
-    "howtoplay.cmd.activehouse": "Trocar sua casa ativa para x",
-    "howtoplay.cmd.cancelprompt": "Limpar o prompt atual e continuar o fluxo do jogo. Use com cuidado e somente quando o prompt estiver 'travado' e você não estiver conseguindo continuar",
-    "howtoplay.cmd.discard": "Descartar x cartas aleatórias da sua mão",
-    "howtoplay.cmd.draw": "Comprar x cartas do seu deck para sua mão",
-    "howtoplay.cmd.forge": "Forjar uma chave",
-    "howtoplay.cmd.givecontrol": "Dar o controle de uma carta para o seu oponente. Use com cuidado",
-    "howtoplay.cmd.manual": "Ativar ou desativar o modo manual (ver acima).",
-    "howtoplay.cmd.rematch": "Começar um novo jogo com o mesmo oponente.",
-    "howtoplay.cmd.token": "Escolha uma carta e modifique o número de tokens do tipo x para y",
-    "howtoplay.cmd.unforge": "Desforjar uma chave",
-    "howtoplay.about": "The Crucible Online não mantém rank e/ou compara de maneira alguma jogadores por nível de habilidade. Existem três categorias (iniciante, casual and competitivo) para criar uma partida, o que dá uma indicação do que esperar, mas isso não força nada. Ainda que estatísticas pessoais não estejam sendo rastreadas, a maioria dos jogadores irá apreciar uma concessão formal através do botão `Conceder´ e o envio de um ‘gg’ (good game) antes de deixar a partida. A realidade dos jogos online rápidos e anônimos dita, no entanto, que isso não irá acontecer sempre, como evidenciado por reclamações contantes no lobby principal sobre pessoas desistindo sem conceder. Nosso conselho é seguir em frente para a próxima partida até o final. Conceder, ou não, não afeta o resultado. Bom jogo!",
 
-    "about.whatisthis": "<0>O que é isso?</0><p>Esse site foi feito para permitir que você jogue Keyforge, o Jogo de Decks Únicos da Fantasy Flight Games (FFG) em seu browser.</p>",
-    "about.cool": "<0>Isso é muito legal!  Mas como funciona?</0><1>Clique no link <1>Como Jogar</1> para uma explicação completa.</1>",
-    "about.avatar": "<0>Todo mundo tem um avatar maravilhoso, como que eu consigo um?</0><1>Isso é gerenciado pelo bom time da <1>Gravatar</1>.  Registre-se com o mesmo email que você utilizou lá e o seu avatar irá aparecer no site após um pequeno intervalo. Sua imagem irá aparecer também em outros sites que usem o gravatar.  Exemplos incluem o github e jinteki.</1>",
-    "about.whydiscarded": "<0>Por que minhas melhores cartas são sempre descartadas? / Por que eu ou meu oponent compramos 6 cartas brobnar a cada rodada?</0><p>Essa é uma questão que sempre é muito feita (usualmente, de forma menos educada!).  O código de embaralhar está correto.  Ele usa o algoritmo  Fisher-Yates que é o melhor algoritmo de embaralhamento de cartas disponível.  Aleatoridade real pode ser muito chocante quando estamos acostumados ao modo humano e imperfeito de embaralhar.  Mas, por que acreditar em mim? Acredite nos números:</p><p>O código de descartar uma carta aleatoriamente foi testado 1 milhão de vezes e aqui estão os resultados para uma mão com 6 cartas:</p><3>1: 166,840<br/>2: 166,344<br/>3: 166,767<br/>4: 166,594<br/>5: 166,546<br/>6: 166,908<br/></3><p>Dito isso, se você provar que há um bug, por favor, abra um ticket no GitHub!</p>",
-    "about.thanks": "<0>Agradecimento Especial</0><p>Gostaria de agradecer gyffon, cryogen, e ao time throneteki e ringteki pois sem sua ajuda e suporte esse site jamais teria acontecido.</p>",
-    "about.addicons": "<0>Ícones Adicionais</0><1>Alguns ícones foram incluídos a partir de game-icons.net: Death Note por <1>lorc</1>. <3>CC-BY 3.0</3></1>",
-    "about.addnotes": "<0>Observações Adicionais</0><p>O Keyforge Jogo de Decks Únicos, sua arte e muitas outras coisas são copyright de Fantasy Flight Games e eu não faço nenhuma afirmação de posse de conteúdo de imagens ou qualquer outro conteúdo.  Esse site existe para que fãs apaixonados pelo jogo possam jogar um jogo que eles gostam e aumentar, ao invés de substituir, o jogo LCG entre pessoas.  FFG não endorsa, suporta, e não está envolvida, nesse site de maneira alguma.</p>",
-    
-    "What is this page?": "O que é essa página?",
-    "community.whatisthis": "Essa página é de divulgação de outros trabalhos e recursos da comunidade de Keyforge.",
-    "community.discord": "<0>Link: <1>Keyforge Discord</1></0><p>Discord é uma aplicação de comunicação em voz e texto. Criada por membros da comunidade Keyforge, é uma comunidade robusta de jogadores LCG/CCG/RPG.</p>",
-    "UNDER CONSTRUCTION": "EM CONSTRUÇÃO",
+    "Topics": "Topics",
+    "Profile Options": "Profile Options",
+    "Bugs and Automation": "Bugs and Automation",
+    "Manual Commands": "Manual Commands",
+    "About Stats, Conceding and Leaving Games": "About Stats, Conceding and Leaving Games",
+    "Adding Decks": "Adding Decks",
+    "howtoplay.thisguide": "This guide is aimed at players familiar with Keyforge: the Unique Deck Game who want to start playing online using the The Crucible Online platform. If you are new to this cardgame in general, there is a <1>helpful tutorial video</1>, a <3>Quickstart guide</3>, and a <5>Rulebook</5> to help you out.",
+    "howtoplay.addingdecks": "Until the game officially launches, it will not be possible to play with your own deck.  There are a number of decks which are available to all players, and you can choose to play with any of those. You are now ready to start playing. Head over to the <1>Play</1> section to create, join or watch games.",
+    "howtoplay.profile": "Clicking your <1>Profile</1> at the top right of the page allows you to tailor certain aspects of gameplay to your wishes.",
+    "howtoplay.bugs": "The Crucible Online is currently in beta and still a work in progress. If you happen upon a card that you believe is not working as it should, it would help immensely if you would submit an issue on <1>GitHub</1>. Other comments and/or feedback can be left on GitHub as well.",
+    "howtoplay.manualmode1": "Most of the cards should be implemented, but if things go wrong, or someone misclicks, or you really hate automation, you can switch on Manual Mode by clicking the wrench in the bottom right.",
+    "howtoplay.manualmode2": "In manual mode, clicking cards and rings will bring up a menu which allows you to easily change the game state. Most of the functions in these menus mirror the Manual Commands listed below, but there are a couple of things which can only be done in menus.",
+    "howtoplay.commands": "The following manual commands have been implemented in order to allow for a smoother gameplay experience:",
+    "howtoplay.cmd.activehouse": "Change your active house to x",
+    "howtoplay.cmd.cancelprompt": "Clear the current prompt and resume the game flow. Use with caution and only when the prompt is 'stuck' and you are unable to continue",
+    "howtoplay.cmd.discard": "Discards x cards randomly from your hand",
+    "howtoplay.cmd.draw": "Draws x cards from your deck to your hand",
+    "howtoplay.cmd.forge": "Forge a key",
+    "howtoplay.cmd.givecontrol": "Give control of a card to your opponent. Use with caution",
+    "howtoplay.cmd.manual": "Activate or deactivate manual mode (see above).",
+    "howtoplay.cmd.rematch": "Start over a new game with the current opponent.",
+    "howtoplay.cmd.token": "Choose a card and change the number of tokens of type x to y",
+    "howtoplay.cmd.unforge": "Unforge a key",
+    "howtoplay.about": "The Crucible Online does not rank and/or match players by skill level in any way. There are three categories (beginner, casual and competitive) to be chosen when creating a game which gives an indication of what to expect, but it doesn't enforce anything. Even though personal stats are not being tracked, most players still very much appreciate a formal concede by clicking the ‘Concede’ button and typing ‘gg’ before leaving a game. The reality of quick and anonymous online games dictates this won’t always happen though, as evidenced by regular complaining in the main lobby about people leaving without conceding. Our advice is to just move on to the next game since in the end, conceding or not doesn’t really impact anything. Happy gaming!",
+
+    "about.whatisthis": "<0>What is this?</0><p>This site was setup to allow you to play Keyforge, a Unique Deck Game from Fantasy Flight Games (FFG) in your browser.</p>",
+    "about.cool": "<0>That's pretty cool!  But how does any of this work?</0><1>Head on over to the <1>How To Play guide</1> for a thorough explanation.</1>",
+    "about.avatar": "<0>Everyone has a shiny avatar, how do I get one?</0><1>This is handled by the good people at <1>Gravatar</1>.  Sign up there with the same email address you did there and it should appear on the site after a short while. It will also use the avatar on any site that uses gravatar.  Examples include github and jinteki.</1>",
+    "about.whydiscarded": "<0>Why do my best cards always get discarded? / Why do I/my opponent draw 6 brobnar cards every turn?</0><p>This is question that gets asked a lot (usually less politely!).  The shuffle code is fine.  It uses a Fisher-Yates algorithm which is the best card shuffling algorithm available.  Real randomness can be quite jarring when you're used to imperfect human shuffling.  But why believe me? Believe the numbers:</p><p>The discard random card code has been run through a test routine 1 million times, here are the results for a hand size of 6:</p><3>1: 166,840<br/>2: 166,344<br/>3: 166,767<br/>4: 166,594<br/>5: 166,546<br/>6: 166,908<br/></3><p>That said, if you can prove there is a bug, please do raise an issue on GitHub!</p>",
+    "about.thanks": "<0>Special Thanks</0><p>I'd like to thank gyffon, cryogen, and the throneteki and ringteki teams as without their help and support this site would never have happened.</p>",
+    "about.addicons": "<0>Additional Icons</0><1>Some icons were included from game-icons.net: Death Note by <1>lorc</1>. <3>CC-BY 3.0</3></1>",
+    "about.addnotes": "<0>Additional Notes</0><p>The Keyforge Unique Deck Game, the artwork and many other things are all copyright Fantasy Flight Games and I make no claims of ownership or otherwise of any of the artwork or trademarks.  This site exists for passionate fans to play a game they enjoy and augment, rather than replace, the in person LCG.  FFG does not endorse, support, and is not involved with, this site in any way.</p>",
+
+    "What is this page?": "What is this page?",
+    "community.whatisthis": "This page is a shoutout to other works/resources in the KeyForge community.",
+    "community.discord": "<0>Link: <1>Keyforge Discord</1></0><p>Discord is a text and voice communicaton application. Created by members of the Keyforge community, it's a robust community of LCG/CCG/RPG players.</p>",
+    "UNDER CONSTRUCTION": "UNDER CONSTRUCTION",
 
     "Background": "Background",
-    "privacy.background": "Ainda que esse seja apenas um site para se jogar online, levamos a sua privacidade e a segurança dos seus dados a sério.  Essa política explica que dados armazenamos sobre você, porque armazenamos e o que fazemos com eles.",
-    "What data we store": "Que dados armazenamos",
-    "privacy.whatwestore": "<p>Quando você se registra no site (que é necessário para jogar ou observar as partidas), nós coletamos um nome de usuário, seu endereço de e-mail, uma senha e o endereço IP do computador que você usou para se registrar.</p><p>Quando você participa de partidas no site, nós coletamos informações sobre a partida(qual facção/time você está usando, o deck que você usou para jogar - mas não o seu conteúdo, com quem você está jogando e o resultado da partida).</p><p>Se você envia mensagens no lobby, suas mensagens são armazenadas.</p>",
-    "Why we collect it": "Porque coletamos",
-    "privacy.why": "Nós coletamos um nome de usuário para identificar você no site e para que as pessoas saibam com quem estão jogando.",
-    "privacy.whyemail": "Seu email é utilizado",
-    "privacy.whyemail.1": "para verificar se você é uma pessoa real e não um programa autômato(um 'bot').",
-    "privacy.whyemail.2": "para melhorar a segurança e o ambiente de maneira geral do site permitindo que o registro seja apenas um por email, ou evitar que outro usuário utilize o site.",
-    "privacy.whyemail.3": "para fornecer uma imagem avatar através do serviço Gravatar.  Seu email é criptografado e enviado para o servidor da Gravatar para receber de volta uma imagem avatar ou uma imagem genérica.",
-    "privacy.whyemail.4": "para permitir que você reset sua senha caso a esqueça",
-    "privacy.whyemail.5": "para enviar atualizações críticas sobre o site de tempos em tempos (Até hoje não foi necessário enviar nenhum tipo de informação crítica)",
-    "privacy.ipaddress": "O endereço IP do computador é coletado para proteger a segurança e integridade do site e permitir que evitemos o abuso do site.",
-    "privacy.lobby": "Suas mensagens do lobby são armazenadas para que possamos mostrar para outros usuários do site e detectar padrões de comportamento abusivo.  Suas mensagens podem ser moderadas para remoção de conteúdo abusivo, ou removidas completamente a nosso critério.",
+    "privacy.background": "Even though this is only a site to play a card game online, we still take your privacy and the security of your data seriously.  This policy outlines what data we store about you, why we store it and what we do with it.",
+    "What data we store": "What data we store",
+    "privacy.whatwestore": "<p>When you sign up for the site (which is required to play or spectate on games), we collect a username, your email address, a password and the IP address of the computer you're using when you sign up.</p><p>When you play games on the site, we collect information about the games you play(what faction/agenda you're using, the deck you are using to play with - but not its contents, who you are playing against and the outcome of the game).</p><p>If you chat in the lobby, your messages are stored.</p>",
+    "Why we collect it": "Why we collect it",
+    "privacy.why": "We collect a username to identify you on the site and so that people know who they are playing against.",
+    "privacy.whyemail": "Your email address is used",
+    "privacy.whyemail.1": "in order to verify that you are a real person and not an automated program(or 'bot').",
+    "privacy.whyemail.2": "to enchance the security and general environment of the site by allowing us to restrict people to one account per email address, or to prevent a user using the site.",
+    "privacy.whyemail.3": "to provide your avatar picture via a service called Gravatar.  Your email address is cryptographically hashed and sent to Gravatar's servers for them to provide your profile image or a default placeholder.",
+    "privacy.whyemail.4": "to allow you to reset your password if you forget it",
+    "privacy.whyemail.5": "to send you critical updates about the site from time to time (We have to date never sent one of these)",
+    "privacy.ipaddress": "The IP address of the computer you use is collected in order to protect the security and integrity of the site and allow us to prevent abuse of the site.",
+    "privacy.lobby": "Your lobby messages are stored so that we can display them to other users of the site and to detect patterns of abusive behaviour.  Your messages may also be moderated to remove offensive content, or deleted altogether at our discretion.",
 
     "Create": "Create",
-    
+
     "Call of the Archons": "統御者的呼喚",
     "Age of Ascension": "耀升紀元"
 }

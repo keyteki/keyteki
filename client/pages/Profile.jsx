@@ -21,6 +21,7 @@ class Profile extends React.Component {
         this.handleSelectBackground = this.handleSelectBackground.bind(this);
         this.handleSelectCardSize = this.handleSelectCardSize.bind(this);
         this.onUpdateAvatarClick = this.onUpdateAvatarClick.bind(this);
+        this.onUnlinkClick = this.onUnlinkClick.bind(this);
 
         this.state = {
             email: '',
@@ -179,6 +180,14 @@ class Profile extends React.Component {
         this.props.updateAvatar(this.props.user.username);
     }
 
+    onUnlinkClick() {
+        this.props.unlinkPatreon();
+    }
+
+    isPatreonLinked() {
+        return ['linked', 'pledged'].includes(this.props.user.patreon);
+    }
+
     render() {
         let t = this.props.t;
 
@@ -214,6 +223,8 @@ class Profile extends React.Component {
             { name: 'x-large', label: this.translate('extra-large') }
         ];
 
+        let callbackUrl = process.env.NODE_ENV === 'production' ? 'https://thecrucible.online/patreon' : 'http://localhost:4000/patreon';
+
         return (
             <div className='col-sm-8 col-sm-offset-2 profile full-height'>
                 <div className='about-container'>
@@ -235,6 +246,8 @@ class Profile extends React.Component {
                                 onChange={ e => this.setState({ enableGravatar: e.target.checked }) } checked={ this.state.enableGravatar } />
                             <div className='col-sm-3 text-center'><Trans>Current profile picture</Trans></div>
                             <button type='button' className='btn btn-default col-sm-offset-1 col-sm-4' onClick={ this.onUpdateAvatarClick }><Trans>Update avatar</Trans></button>
+                            { !this.isPatreonLinked() && <a className='btn btn-default col-sm-offset-1 col-sm-3' href={ `https://www.patreon.com/oauth2/authorize?response_type=code&client_id=HjDP9KKd-HscTXXMs_2TNl2h_POjaEw7D-EkLv_ShRbarVO_WuKA0LWRBp9LRdLq&redirect_uri=${callbackUrl}` }><img src='/img/Patreon_Mark_Coral.jpg' style={ { height: '21px' } } />&nbsp;Link Patreon account</a> }
+                            { this.isPatreonLinked() && <button type='button' className='btn btn-default col-sm-offset-1 col-sm-3' onClick={ this.onUnlinkClick }>Unlink Patreon account</button> }
                         </Panel>
                         <div>
                             <Panel title={ t('Game Board Background') }>
