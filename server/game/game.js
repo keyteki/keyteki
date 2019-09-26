@@ -719,7 +719,7 @@ class Game extends EventEmitter {
                 () => player.cardsInPlay.push(card)
             ];
             this.promptWithHandlerMenu(this.activePlayer, {
-                activePromptTitle: 'Choose which flank ' + card.name + ' should be placed on',
+                activePromptTitle: { text: 'Choose which flank {{card}} should be placed on', values: { card: card.name } },
                 source: card,
                 choices: ['Left', 'Right'],
                 handlers: handlers

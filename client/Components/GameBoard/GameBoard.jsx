@@ -16,6 +16,8 @@ import GameConfigurationModal from './GameConfigurationModal';
 import Droppable from './Droppable';
 import * as actions from '../../actions';
 
+import { withTranslation, Trans } from 'react-i18next';
+
 const placeholderPlayer = {
     cardPiles: {
         cardsInPlay: [],
@@ -117,7 +119,7 @@ export class GameBoard extends React.Component {
                 </ul>
             );
 
-            menuOptions.unshift({ text: 'Spectators: ' + props.currentGame.spectators.length, popup: spectatorPopup });
+            menuOptions.unshift({ text: '{{users}} spectators', values: { users: props.currentGame.spectators.length }, popup: spectatorPopup });
 
             this.setContextMenu(menuOptions);
         } else {
@@ -165,8 +167,12 @@ export class GameBoard extends React.Component {
     }
 
     onLeaveClick() {
+        let t = this.props.t;
+
         if(!this.state.spectating && this.isGameActive()) {
-            toastr.confirm('Your game is not finished, are you sure you want to leave?', {
+            toastr.confirm(t('Your game is not finished, are you sure you want to leave?'), {
+                okText: t('Ok'),
+                cancelText: t('Cancel'),
                 onOk: () => {
                     this.props.sendGameMessage('leavegame');
                     this.props.closeGameSocket();
@@ -336,12 +342,12 @@ export class GameBoard extends React.Component {
 
     render() {
         if(!this.props.currentGame || !this.props.cards || !this.props.currentGame.started) {
-            return <div>Waiting for server...</div>;
+            return <div><Trans>Waiting for server...</Trans></div>;
         }
 
         if(!this.props.user) {
             this.props.navigate('/');
-            return <div>You are not logged in, redirecting...</div>;
+            return <div><Trans>You are not logged in, redirecting...</Trans></div>;
         }
 
         let thisPlayer = this.props.currentGame.players[this.props.user.username];
@@ -350,7 +356,7 @@ export class GameBoard extends React.Component {
         }
 
         if(!thisPlayer) {
-            return <div>Waiting for game to have players or close...</div>;
+            return <div><Trans>Waiting for game to have players or close...</Trans></div>;
         }
 
         let otherPlayer = Object.values(this.props.currentGame.players).find(player => {
@@ -437,12 +443,14 @@ GameBoard.propTypes = {
     closeGameSocket: PropTypes.func,
     currentGame: PropTypes.object,
     dispatch: PropTypes.func,
+    i18n: PropTypes.object,
     navigate: PropTypes.func,
     packs: PropTypes.array,
     restrictedList: PropTypes.array,
     sendGameMessage: PropTypes.func,
     setContextMenu: PropTypes.func,
     socket: PropTypes.object,
+    t: PropTypes.func,
     user: PropTypes.object,
     zoomCard: PropTypes.func
 };
@@ -466,5 +474,5 @@ function mapDispatchToProps(dispatch) {
     return boundActions;
 }
 
-export default connect(mapStateToProps, mapDispatchToProps, null, { withRef: true })(GameBoard);
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps, null, { withRef: true })(GameBoard));
 

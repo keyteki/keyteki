@@ -89,6 +89,7 @@
     "Choose a creature to sacrifice": "Wähle eine Kreatur zum Opfern",
     "Choose a captured amber to move to your pool.": "Wähle ein erbeutetes Æmber, um es in deinen Vorrat zu legen.",
     "Choose a card to discard": "Wähle eine Karte zum abwerfen",
+    "Choose {{amount}} cards to discard": "Choose {{amount}} Karten zum abwerfen",    
     "Choose a creature to archive": "Wähle eine Kreatur zum archivieren",
     "Choose a creature to capture 1 amber from its controller": "Wähle eine Kreatur, die 1 Æmber von ihrer eigenen Seite erbeutet",
     "Choose a creature to damage": "Wähle eine Kreatur für Schaden",
@@ -332,7 +333,8 @@
     "Play {{card}}:": "Spiele {{card}}:",
     "Any reactions to {{card}} being played?": "Darauf reagieren, dass {{card}} gespielt wurde?",
     "Choose an ability:": "Wähle eine Fähigkeit:",
-    "Select 3 characters": "Wähle 3 Charaktere",
+    "Select a character": "Wähle eine Charakter",
+    "Select {{amount}} characters": "Wähle {{amount}} Charaktere",
     "Choose which flank {{card}} should be placed on": "Wähle, an welcher Flanke {{card}} angelegt werden soll",
     "Discard pile": "Abwurfstapel",
     "Select a card to put in your hand": "Wähle eine Karte, um sie auf die Hand zu nehmen",
@@ -349,7 +351,6 @@
     "Do you wish to repeat this effect?": "Do you wish to repeat this effect?",
     "Mine": "Mine",
     "Opponent's": "Opponent's",
-    "Select 2 characters": "Select 2 characters",
 
     "Topics": "Topics",
     "Profile Options": "Profile Options",
@@ -405,6 +406,17 @@
     "privacy.lobby": "Your lobby messages are stored so that we can display them to other users of the site and to detect patterns of abusive behaviour.  Your messages may also be moderated to remove offensive content, or deleted altogether at our discretion.",
 
     "Create": "Create",
+
+    "{{card}}": "{{card}}",
+    "{{card}} ({{quantity}})": "{{card}} ({{quantity}})",
+    "How much amber do you want to use from {{card}}": "How much amber do you want to use from {{card}}",    
+    "Do you wish to repeat this effect?": "Do you wish to repeat this effect?",
+    "Do you wish to forge a key?": "Do you wish to forge a key?",
+    "Do you wish to purge a sanctum card?": "Do you wish to purge a sanctum card?",
+    "Do you wish to destroy all Mars creatures?": "Do you wish to destroy all Mars creatures?",
+    "Do you wish to archive a friendly creature or artifact?": "Do you wish to archive a friendly creature or artifact?",
+    "Select a card to deploy to the left of": "Select a card to deploy to the left of",
+    "Select a card to deploy to the right of": "Select a card to deploy to the right of", 
 
     "Call of the Archons": "Ruf der Archonten",
     "Age of Ascension": "Zeitalter des Aufstiegs"

@@ -516,8 +516,8 @@ class Player extends GameObject {
                     let max = Math.min(modifiedCost, source.tokens.amber);
                     let min = Math.max(0, modifiedCost - this.amber - totalAvailable + source.tokens.amber);
                     this.game.promptWithHandlerMenu(this, {
-                        activePromptTitle: 'How much amber do you want to use from ' + source.name,
-                        source: 'Forge a Key',
+                        activePromptTitle: { text: 'How much amber do you want to use from {{card}}', values: { card: source.name } },
+                        source: source,
                         choices: _.range(min, max + 1),
                         choiceHandler: choice => {
                             modifiedCost -= choice,

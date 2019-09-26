@@ -88,7 +88,8 @@
     "Choose a creature to attack": "選擇生物進行攻擊",
     "Choose a creature to sacrifice": "選擇犧牲生物",
     "Choose a captured amber to move to your pool.": "選擇一個搶佔的琥魄移入你的琥魄池",
-    "Choose a card to discard": "選擇一張要丟棄的卡牌",
+    "Choose a card to discard": "選擇一張要丟棄的卡牌",    
+    "Choose {{amount}} cards to discard": "選擇 {{amount}} 張要丟棄的卡牌", 
     "Choose a creature to archive": "選擇一張要封存的生物",
     "Choose a creature to capture 1 amber from its controller": "選擇一張生物搶佔一個其控制者的琥魄",
     "Choose a creature to damage": "選擇一張要傷害的生物",
@@ -332,7 +333,8 @@
     "Play {{card}}:": "打出 {{card}}:",
     "Any reactions to {{card}} being played?": "是否針對 {{card}} 打出進行應對?",
     "Choose an ability:": "選擇一個能力:",
-    "Select 3 characters": "選擇 3 個角色",
+    "Select a character": "選擇一個角色",
+    "Select {{amount}} characters": "選擇 {{amount}} 個角色",
     "Choose which flank {{card}} should be placed on": "選擇 {{card}} 放置的側翼",
     "Discard pile": "棄牌區",
     "Select a card to put in your hand": "選擇一張卡牌加入手牌",
@@ -349,7 +351,6 @@
     "Do you wish to repeat this effect?": "是否重複效果?",
     "Mine": "我方",
     "Opponent's": "敵方",
-    "Select 2 characters": "選擇 2 個角色",
 
     "Topics": "Topics",
     "Profile Options": "Profile Options",
@@ -405,6 +406,17 @@
     "privacy.lobby": "Your lobby messages are stored so that we can display them to other users of the site and to detect patterns of abusive behaviour.  Your messages may also be moderated to remove offensive content, or deleted altogether at our discretion.",
 
     "Create": "Create",
+
+    "{{card}}": "{{card}}",
+    "{{card}} ({{quantity}})": "{{card}} ({{quantity}})",
+    "How much amber do you want to use from {{card}}": "How much amber do you want to use from {{card}}",    
+    "Do you wish to repeat this effect?": "Do you wish to repeat this effect?",
+    "Do you wish to forge a key?": "Do you wish to forge a key?",
+    "Do you wish to purge a sanctum card?": "Do you wish to purge a sanctum card?",
+    "Do you wish to destroy all Mars creatures?": "Do you wish to destroy all Mars creatures?",
+    "Do you wish to archive a friendly creature or artifact?": "Do you wish to archive a friendly creature or artifact?",
+    "Select a card to deploy to the left of": "Select a card to deploy to the left of",
+    "Select a card to deploy to the right of": "Select a card to deploy to the right of", 
 
     "Call of the Archons": "統御者的呼喚",
     "Age of Ascension": "耀升紀元"

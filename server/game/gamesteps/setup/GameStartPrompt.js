@@ -13,7 +13,7 @@ class GameStartPrompt extends AllPlayerPrompt {
     activePrompt() {
         return {
             promptTitle: 'Start Game',
-            menuTitle: this.game.activePlayer.name + ' won the flip and is first player.',
+            menuTitle: { text: '{{player}} won the flip and is first player.', values: { player: this.game.activePlayer.name } },
             buttons: [{ text: 'Start the Game' }]
         };
     }
