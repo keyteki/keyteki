@@ -4,7 +4,7 @@ class DealDamageAction extends CardGameAction {
     setDefaultProperties() {
         this.amount = null;
         this.amountForCard = () => 1;
-        this.reduceArmorBy = () => 0;
+        this.reduceArmorBy = null;
         this.fightEvent = null;
         this.damageSource = null;
         this.splash = 0;
