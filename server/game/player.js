@@ -17,7 +17,9 @@ class Player extends GameObject {
 
         this.hand = [];
         this.cardsInPlay = []; // This stores references to all creatures and artifacts in play.  Upgrades are not stored here.
-        this.deck = [];
+        this.deckName = '';
+        this.deckCards = [];
+        this.deckUuid = '';
         this.discard = [];
         this.purged = [];
         this.archives = [];
@@ -552,7 +554,7 @@ class Player extends GameObject {
      * @param {Player} activePlayer
      */
 
-    getState(activePlayer) {
+    getState(activePlayer, gameFormat) {
         let isActivePlayer = activePlayer === this;
         let promptState = isActivePlayer ? this.promptState.getState() : {};
         let state = {
@@ -560,14 +562,12 @@ class Player extends GameObject {
             cardPiles: {
                 archives: this.getSummaryForCardList(this.archives, activePlayer, true),
                 cardsInPlay: this.getSummaryForCardList(this.cardsInPlay, activePlayer),
-                deck: this.getSummaryForCardList(this.deck, activePlayer),
                 discard: this.getSummaryForCardList(this.discard, activePlayer),
                 hand: this.getSummaryForCardList(this.hand, activePlayer, true),
                 purged: this.getSummaryForCardList(this.purged, activePlayer)
             },
             cardback: 'cardback',
             deckName: this.deckData.name,
-            deckUuid: this.deckData,
             disconnected: this.disconnected,
             activePlayer: this.game.activePlayer === this,
             houses: this.houses,
@@ -580,8 +580,15 @@ class Player extends GameObject {
             phase: this.game.currentPhase,
             stats: this.getStats(),
             timerSettings: {},
-            user: _.omit(this.user, ['password', 'email'])
+            user: _.omit(this.user, ['password', 'email']),
+            deckUuid: this.deckData.uuid,
+            deckCards: []
         };
+        if(isActivePlayer) {
+            state.deckCards = this.getSummaryForCardList(this.deck, activePlayer);
+        } else if(gameFormat === 'normal') {
+            state.deckCards = this.getSummaryForCardList(this.deck, activePlayer);
+        }
 
         if(this.isTopCardShown()) {
             state.deckTopCard = this.deck[0].getSummary(activePlayer);

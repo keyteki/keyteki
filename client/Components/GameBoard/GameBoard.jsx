@@ -31,6 +31,9 @@ const placeholderPlayer = {
         keys: 0
     },
     houses: [],
+    deckName: '',
+    deckUuid: '',
+    deckCards:[],
     title: null,
     user: null
 };
@@ -267,12 +270,13 @@ export class GameBoard extends React.Component {
                         faction={ otherPlayer.faction }
                         archives={ otherPlayer.cardPiles.archives }
                         hand={ otherPlayer.cardPiles.hand } isMe={ false }
-                        deckName={ otherPlayer.deckName }
-                        deckUuid={ otherPlayer.deckUuid ? otherPlayer.deckUuid.uuid : '' }
-                        houses={ otherPlayer.houses }
+                        deckCards = { otherPlayer.deckCards }
+                        deckName = { otherPlayer.deckName }
+                        deckUuid = { otherPlayer.deckUuid }
+                        drawDeck = { otherPlayer.cardPiles.deck }
+                        houses = { otherPlayer.houses }
                         numDeckCards={ otherPlayer.numDeckCards }
                         discard={ otherPlayer.cardPiles.discard }
-                        drawDeck={ otherPlayer.cardPiles.deck }
                         onCardClick={ this.onCardClick }
                         onMouseOver={ this.onMouseOver }
                         onMouseOut={ this.onMouseOut }
@@ -282,7 +286,6 @@ export class GameBoard extends React.Component {
                         title={ otherPlayer.title }
                         side='top'
                         username={ this.props.user.username }
-                        gameFormat={ this.props.currentGame.gameFormat }
                         cardSize={ this.props.user.settings.cardSize } />
                 </div>
                 <div className='board-inner'>
@@ -312,11 +315,13 @@ export class GameBoard extends React.Component {
                     <PlayerRow isMe={ !this.state.spectating }
                         archives={ thisPlayer.cardPiles.archives }
                         cards={ this.props.cards }
+                        deckCards = { thisPlayer.deckCards }
+                        deckName = { thisPlayer.deckName }
+                        deckUuid = { thisPlayer.deckUuid }
+                        drawDeck = { thisPlayer.cardPiles.deck }
+                        houses = { thisPlayer.houses }
                         faction={ thisPlayer.faction }
                         hand={ thisPlayer.cardPiles.hand }
-                        houses={ thisPlayer.houses }
-                        deckName={ thisPlayer.deckName }
-                        deckUuid={ thisPlayer.deckUuid ? thisPlayer.deckUuid.uuid : '' }
                         onCardClick={ this.onCardClick }
                         onMouseOver={ this.onMouseOver }
                         onMouseOut={ this.onMouseOut }
@@ -325,7 +330,6 @@ export class GameBoard extends React.Component {
                         onDrawPopupChange={ this.handleDrawPopupChange }
                         onShuffleClick={ this.onShuffleClick }
                         purgedPile={ thisPlayer.cardPiles.purged }
-                        drawDeck={ thisPlayer.cardPiles.deck }
                         onDragDrop={ this.onDragDrop }
                         discard={ thisPlayer.cardPiles.discard }
                         showDeck={ thisPlayer.showDeck }
@@ -334,7 +338,6 @@ export class GameBoard extends React.Component {
                         onMenuItemClick={ this.onMenuItemClick }
                         cardSize={ this.props.user.settings.cardSize }
                         manualMode={ this.props.currentGame.manualMode }
-                        gameFormat={ this.props.currentGame.gameFormat }
                         side='bottom' />
                 </div>
             </div>

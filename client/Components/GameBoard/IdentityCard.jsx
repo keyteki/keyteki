@@ -4,7 +4,6 @@ import classNames from 'classnames';
 import { createCanvas, loadImage } from 'canvas';
 import QRCode from 'qrcode';
 
-
 class IdentityCard extends React.Component {
     constructor(props) {
         super(props);
@@ -14,8 +13,8 @@ class IdentityCard extends React.Component {
     }
 
     componentDidMount() {
-        if(this.props.cards && this.props.deck) {
-            if(this.props.gameFormat === 'normal') {
+        if(this.props.cards && this.props.deckCards) {
+            if(this.props.deckCards.length > 0) {
                 this.buildDeckList();
             } else {
                 this.buildArchon();
@@ -44,7 +43,7 @@ class IdentityCard extends React.Component {
             start: {x: 60, y: 185}
         };
         const qrCode = new Promise(resolve => {
-            QRCode.toDataURL(`https://www.keyforgegame.com/${ this.props.deckUuid.length > 0 ? 'deck-details/' + this.props.deckUuid : ''}`, {margin: 0})
+            QRCode.toDataURL(`https://www.keyforgegame.com/${ this.props.deckUuid.length > 0 ? 'deck-details/' + this.props.deckUuid : '' }`, {margin: 0})
                 .then(async url => {
                     loadImage(url).then(image => {
                         resolve(image);
@@ -71,7 +70,7 @@ class IdentityCard extends React.Component {
 
                 });
                 let order = ['action', 'artifact', 'creature', 'upgrade'];
-                let cardList = this.props.deck.map(card => {
+                let cardList = this.props.deckCards.map(card => {
                     return {
                         ...this.props.cards[card.id],
                         is_maverick: !!card.maverick,
@@ -113,7 +112,7 @@ class IdentityCard extends React.Component {
                         res2();
                     });
                 });
-                ctx.drawImage((this.getCircularText(this.props.identity, 2000, 0)), -700, 30);
+                ctx.drawImage((this.getCircularText(this.props.deckName, 2000, 0)), -700, 30);
                 Promise.all([...houseProm, ...cardProm]).then(() => {
                     this.setState({imageUrl: canvas.toDataURL()});
                 });
@@ -124,16 +123,16 @@ class IdentityCard extends React.Component {
         const houseNames = [{x: 120, y: 750}, {x: 300, y: 800}, {x: 480, y: 750}];
         const canvas = createCanvas(600, 840);
         const ctx = canvas.getContext('2d');
-        const cardBack = loadImage('/img/idbacks/archon.png');
-        const house1 = loadImage(`/img/idbacks/archon_houses/${this.props.houses[0]}.png`);
-        const house2 = loadImage(`/img/idbacks/archon_houses/${this.props.houses[1]}.png`);
-        const house3 = loadImage(`/img/idbacks/archon_houses/${this.props.houses[2]}.png`);
+        const cardBack = loadImage(`/img/idbacks/archons/archon_${ Math.floor(Math.random() * 7) + 1 }.png`);
+        const house1 = loadImage(`/img/idbacks/archon_houses/${ this.props.houses[0] }.png`);
+        const house2 = loadImage(`/img/idbacks/archon_houses/${ this.props.houses[1] }.png`);
+        const house3 = loadImage(`/img/idbacks/archon_houses/${ this.props.houses[2] }.png`);
         Promise.all([cardBack, house1, house2, house3]).then(([cardBack, house1, house2, house3]) => {
             ctx.drawImage(cardBack, 0, 0);
             ctx.drawImage(house1, 45, 590, 150, 150);
             ctx.drawImage(house2, 225, 640, 150, 150);
             ctx.drawImage(house3, 405, 590, 150, 150);
-            ctx.drawImage((this.getCircularText(this.props.identity, 700, 0)), -50, 60);
+            ctx.drawImage((this.getCircularText(this.props.deckName, 700, 0)), -50, 60);
             ctx.fillStyle = 'white';
             ctx.strokeStyle = 'grey';
             ctx.textAlign = 'center';
@@ -222,12 +221,11 @@ IdentityCard.propTypes = {
     card: PropTypes.object,
     cards: PropTypes.object,
     className: PropTypes.string,
-    deck: PropTypes.array,
+    deckCards: PropTypes.array,
+    deckName: PropTypes.string,
     deckUuid: PropTypes.string,
-    gameFormat: PropTypes.string,
     houses: PropTypes.array,
     i18n: PropTypes.object,
-    identity: PropTypes.string,
     onMouseOut: PropTypes.func,
     onMouseOver: PropTypes.func,
     size: PropTypes.string

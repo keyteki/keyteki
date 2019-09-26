@@ -86,9 +86,10 @@ class PlayerRow extends React.Component {
         let purged = (<CardPile className='purged' title='Purged' source='purged' cards={ this.props.purgedPile }
             { ...cardPileProps } />);
 
-        let identity = (<IdentityCard className='identity' identity={ this.props.deckName } deckUuid = { this.props.deckUuid }
-            cards= { this.props.cards } deck = { this.props.drawDeck } size={ this.props.cardSize } houses={ this.props.houses }
-            onMouseOut={ this.props.onMouseOut } onMouseOver={ this.props.onMouseOver } gameFormat={ this.props.gameFormat }/>);
+        let identity = (<IdentityCard className='identity' deckCards={ this.props.deckCards }
+            houses={ this.props.houses } deckUuid={ this.props.deckUuid } deckName={ this.props.deckName }
+            cards= { this.props.cards } size={ this.props.cardSize } onMouseOut={ this.props.onMouseOut }
+            onMouseOver={ this.props.onMouseOver } />);
 
         return (
             <div className='player-home-row-container'>
@@ -110,12 +111,12 @@ PlayerRow.propTypes = {
     cardSize: PropTypes.string,
     cards: PropTypes.object,
     conclavePile: PropTypes.array,
+    deckCards: PropTypes.array,
     deckName: PropTypes.string,
     deckUuid: PropTypes.string,
     discard: PropTypes.array,
     drawDeck: PropTypes.array,
     faction: PropTypes.object,
-    gameFormat: PropTypes.string,
     hand: PropTypes.array,
     houses: PropTypes.array,
     isMe: PropTypes.bool,

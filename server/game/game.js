@@ -961,7 +961,7 @@ class Game extends EventEmitter {
 
         if(this.started) {
             for(const player of this.getPlayers()) {
-                playerState[player.name] = player.getState(activePlayer);
+                playerState[player.name] = player.getState(activePlayer, this.gameFormat);
             }
 
             return {
