@@ -5,9 +5,9 @@ describe('Mimicry', function() {
                 this.setupTest({
                     player1: {
                         house: 'untamed',
-                        hand: ['mimicry'],
+                        hand: [],
                         inPlay: ['batdrone'],
-                        discard: ['snufflegator']
+                        discard: ['snufflegator', 'mimicry']
                     },
                     player2: {
                         amber: 5,
@@ -15,6 +15,7 @@ describe('Mimicry', function() {
                     }
                 });
                 this.player1.moveCard(this.snufflegator, 'deck');
+                this.player1.moveCard(this.mimicry, 'hand');
             });
 
             it('should work correctly with Neuro Syphon', function() {

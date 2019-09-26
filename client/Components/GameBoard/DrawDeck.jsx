@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import CardPile from './CardPile';
 import Droppable from './Droppable';
 
+import { withTranslation } from 'react-i18next';
+
 class DrawDeck extends React.Component {
     constructor() {
         super();
@@ -45,6 +47,8 @@ class DrawDeck extends React.Component {
     }
 
     render() {
+        let t = this.props.t;
+
         let drawDeckPopupMenu = this.props.showDeck ? [
             { text: 'Close and Shuffle', handler: this.handleShuffleClick }
         ] : null;
@@ -66,7 +70,7 @@ class DrawDeck extends React.Component {
             popupMenu={ drawDeckPopupMenu }
             size={ this.props.size }
             source='deck'
-            title='Draw' />);
+            title={ t('Draw') } />);
 
         return this.renderDroppablePile('deck', drawDeck);
     }
@@ -75,6 +79,7 @@ class DrawDeck extends React.Component {
 DrawDeck.propTypes = {
     cardCount: PropTypes.number,
     cards: PropTypes.array,
+    i18n: PropTypes.object,
     isMe: PropTypes.bool,
     manualMode: PropTypes.bool,
     onCardClick: PropTypes.func,
@@ -87,7 +92,8 @@ DrawDeck.propTypes = {
     popupLocation: PropTypes.oneOf(['top', 'bottom']),
     showDeck: PropTypes.bool,
     size: PropTypes.string,
-    spectating: PropTypes.bool
+    spectating: PropTypes.bool,
+    t: PropTypes.func
 };
 
-export default DrawDeck;
+export default withTranslation()(DrawDeck);

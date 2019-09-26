@@ -4,6 +4,8 @@ import classNames from 'classnames';
 
 import Card from './Card';
 
+import { withTranslation } from 'react-i18next';
+
 class SquishableCardPanel extends React.Component {
     getCards(needsSquish) {
         let overallDimensions = this.getOverallDimensions();
@@ -41,6 +43,7 @@ class SquishableCardPanel extends React.Component {
                 onMouseOut={ this.props.onMouseOut }
                 size={ this.props.cardSize }
                 style={ style }
+                language={ this.props.i18n.language }
                 source={ this.props.source } />);
         });
 
@@ -115,14 +118,16 @@ SquishableCardPanel.propTypes = {
     cards: PropTypes.array,
     className: PropTypes.string,
     groupVisibleCards: PropTypes.bool,
+    i18n: PropTypes.object,
     manualMode: PropTypes.bool,
     maxCards: PropTypes.number,
     onCardClick: PropTypes.func,
     onMouseOut: PropTypes.func,
     onMouseOver: PropTypes.func,
     source: PropTypes.string,
+    t: PropTypes.func,
     title: PropTypes.string,
     username: PropTypes.string
 };
 
-export default SquishableCardPanel;
+export default withTranslation()(SquishableCardPanel);

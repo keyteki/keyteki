@@ -89,6 +89,7 @@
     "Choose a creature to sacrifice": "Choose a creature to sacrifice",
     "Choose a captured amber to move to your pool.": "Choose a captured amber to move to your pool.",
     "Choose a card to discard": "Choose a card to discard",
+    "Choose {{amount}} cards to discard": "Choose {{amount}} cards to discard",
     "Choose a creature to archive": "Choose a creature to archive",
     "Choose a creature to capture 1 amber from its controller": "Choose a creature to capture 1 amber from its controller",
     "Choose a creature to damage": "Choose a creature to damage",
@@ -332,7 +333,8 @@
     "Play {{card}}:": "Play {{card}}:",
     "Any reactions to {{card}} being played?": "Any reactions to {{card}} being played?",
     "Choose an ability:": "Choose an ability:",
-    "Select 3 characters": "Select 3 characters",
+    "Select a character": "Select a character",
+    "Select {{amount}} characters": "Select {{amount}} characters",
     "Choose which flank {{card}} should be placed on": "Choose which flank {{card}} should be placed on",
     "Discard pile": "Discard pile",
     "Select a card to put in your hand": "Select a card to put in your hand",
@@ -349,7 +351,6 @@
     "Do you wish to repeat this effect?": "Do you wish to repeat this effect?",    
     "Mine": "Mine",
     "Opponent's": "Opponent's",
-    "Select 2 characters": "Select 2 characters",
     
     "Topics": "Topics",
     "Profile Options": "Profile Options",
@@ -405,6 +406,17 @@
     "privacy.lobby": "Your lobby messages are stored so that we can display them to other users of the site and to detect patterns of abusive behaviour.  Your messages may also be moderated to remove offensive content, or deleted altogether at our discretion.",
 
     "Create": "Create",
+    
+    "{{card}}": "{{card}}",
+    "{{card}} ({{quantity}})": "{{card}} ({{quantity}})",
+    "How much amber do you want to use from {{card}}": "How much amber do you want to use from {{card}}",    
+    "Do you wish to repeat this effect?": "Do you wish to repeat this effect?",
+    "Do you wish to forge a key?": "Do you wish to forge a key?",
+    "Do you wish to purge a sanctum card?": "Do you wish to purge a sanctum card?",
+    "Do you wish to destroy all Mars creatures?": "Do you wish to destroy all Mars creatures?",
+    "Do you wish to archive a friendly creature or artifact?": "Do you wish to archive a friendly creature or artifact?",
+    "Select a card to deploy to the left of": "Select a card to deploy to the left of",
+    "Select a card to deploy to the right of": "Select a card to deploy to the right of",    
     
     "Call of the Archons": "Call of the Archons",
     "Age of Ascension": "Age of Ascension"
