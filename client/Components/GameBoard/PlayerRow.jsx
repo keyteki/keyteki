@@ -92,7 +92,7 @@ class PlayerRow extends React.Component {
         let purged = (<CardPile className='purged' title={ t('Purged') } source='purged' cards={ this.props.purgedPile }
             { ...cardPileProps } />);
 
-        let identity = (<IdentityCard className='identity' deckCards={ this.props.deckCards }
+        let identity = (<IdentityCard className='identity' deckCards={ this.props.deckCards } language={ this.props.i18n.language }
             houses={ this.props.houses } deckUuid={ this.props.deckUuid } deckName={ this.props.deckName }
             cards= { this.props.cards } size={ this.props.cardSize } onMouseOut={ this.props.onMouseOut }
             onMouseOver={ this.props.onMouseOver } />);
