@@ -21,11 +21,11 @@ class PlayerRow extends React.Component {
         let keys = [];
 
         for(let i = 0; i < this.props.numKeys; i++) {
-            keys.push(<img key={ `key ${i}` } src={ `/img/forgedkey${i}.png` } title='Forged Key' />);
+            keys.push(<img key={ `key ${i}` } src={ `/img/forgedkey${i}.png` } title={ t('Forged Key') } />);
         }
 
         for(let i = this.props.numKeys; i < 3; i++) {
-            keys.push(<img key={ `key ${i}` } src={ `/img/unforgedkey${i}.png` } title='Unforged Key' />);
+            keys.push(<img key={ `key ${i}` } src={ `/img/unforgedkey${i}.png` } title={ t('Unforged Key') } />);
         }
 
         return <div className={ `keys ${this.props.cardSize}` }>{ keys }</div>;
