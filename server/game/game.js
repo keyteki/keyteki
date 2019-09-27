@@ -962,11 +962,12 @@ class Game extends EventEmitter {
 
         if(this.started) {
             for(const player of this.getPlayers()) {
-                playerState[player.name] = player.getState(activePlayer);
+                playerState[player.name] = player.getState(activePlayer, this.gameFormat);
             }
 
             return {
                 id: this.id,
+                gameFormat: this.gameFormat,
                 manualMode: this.manualMode,
                 name: this.name,
                 owner: this.owner,
