@@ -61,6 +61,8 @@ class ResolveFightAction extends CardGameAction {
             }
             context.game.openEventWindow(damageEvents);
             event.card.elusiveUsed = true;
+            context.player.creatureFought = true;
+            event.attacker.unenrage();
         });
     }
 }

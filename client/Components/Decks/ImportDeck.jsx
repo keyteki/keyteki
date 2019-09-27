@@ -32,9 +32,10 @@ export class ImportDeck extends React.Component {
 
     onImportDeck() {
         this.setState({ error: '' });
-        let split = String(this.state.deckString).split('/');
-        if(split[2] === 'www.keyforgegame.com' && split[3] === 'deck-details') {
-            this.props.saveDeck({ uuid: split[4] });
+        const regex = /[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}/;
+        let uuid = this.state.deckString.match(regex);
+        if(uuid && uuid[0] !== '00000000-0000-0000-0000-000000000000') {
+            this.props.saveDeck({ uuid: uuid[0] });
         } else {
             this.setState({ error: 'The URL you entered is invalid.  Please check it and try again.' });
         }

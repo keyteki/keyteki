@@ -89,6 +89,7 @@
     "Choose a creature to sacrifice": "Choose a creature to sacrifice",
     "Choose a captured amber to move to your pool.": "Choose a captured amber to move to your pool.",
     "Choose a card to discard": "Choose a card to discard",
+    "Choose {{amount}} cards to discard": "Choose {{amount}} cards to discard",
     "Choose a creature to archive": "Choose a creature to archive",
     "Choose a creature to capture 1 amber from its controller": "Choose a creature to capture 1 amber from its controller",
     "Choose a creature to damage": "Choose a creature to damage",
@@ -315,16 +316,16 @@
     "Profile saved successfully.  Please note settings changed here may only apply at the start of your next game.": "Profile saved successfully.  Please note settings changed here may only apply at the start of your next game.",
     "Invalid username/password": "Invalid username/password",
     "Waiting for selected deck...": "Waiting for selected deck...",
-    "Waiting for server...": "Waiting for server...",
+    "Waiting for server...": "Waiting for server...",    
     "You are not logged in, redirecting...": "You are not logged in, redirecting...",
     "Waiting for game to have players or close...": "Waiting for game to have players or close...",
     "Loading block list from the server...": "Loading block list from the server...",
     "Loading session details from the server...": "Loading session details from the server...",
     "Purged": "Purged",
     "Your game is not finished, are you sure you want to leave?": "Your game is not finished, are you sure you want to leave?",
-
+    
     "Triggered Abilities": "Triggered Abilities",
-    "Done": "Done",
+    "Done": "Done",    
     "Waiting for opponent to take an action or pass": "Waiting for opponent to take an action or pass",
     "We're sorry - something's gone wrong.": "We're sorry - something's gone wrong.",
     "There error has been logged, please click anywhere in this red box to fill out a more detailed report.": "There error has been logged, please click anywhere in this red box to fill out a more detailed report.",
@@ -332,7 +333,8 @@
     "Play {{card}}:": "Play {{card}}:",
     "Any reactions to {{card}} being played?": "Any reactions to {{card}} being played?",
     "Choose an ability:": "Choose an ability:",
-    "Select 3 characters": "Select 3 characters",
+    "Select a character": "Select a character",
+    "Select {{amount}} characters": "Select {{amount}} characters",
     "Choose which flank {{card}} should be placed on": "Choose which flank {{card}} should be placed on",
     "Discard pile": "Discard pile",
     "Select a card to put in your hand": "Select a card to put in your hand",
@@ -346,11 +348,10 @@
     "Select Deck": "Select Deck",
     "Or choose a standalone deck": "Or choose a standalone deck",
 
-    "Do you wish to repeat this effect?": "Do you wish to repeat this effect?",
+    "Do you wish to repeat this effect?": "Do you wish to repeat this effect?",    
     "Mine": "Mine",
     "Opponent's": "Opponent's",
-    "Select 2 characters": "Select 2 characters",
-
+    
     "Topics": "Topics",
     "Profile Options": "Profile Options",
     "Bugs and Automation": "Bugs and Automation",
@@ -388,7 +389,7 @@
     "community.whatisthis": "This page is a shoutout to other works/resources in the KeyForge community.",
     "community.discord": "<0>Link: <1>Keyforge Discord</1></0><p>Discord is a text and voice communicaton application. Created by members of the Keyforge community, it's a robust community of LCG/CCG/RPG players.</p>",
     "UNDER CONSTRUCTION": "UNDER CONSTRUCTION",
-
+    
     "Background": "Background",
     "privacy.background": "Even though this is only a site to play a card game online, we still take your privacy and the security of your data seriously.  This policy outlines what data we store about you, why we store it and what we do with it.",
     "What data we store": "What data we store",
@@ -405,7 +406,18 @@
     "privacy.lobby": "Your lobby messages are stored so that we can display them to other users of the site and to detect patterns of abusive behaviour.  Your messages may also be moderated to remove offensive content, or deleted altogether at our discretion.",
 
     "Create": "Create",
-
+    
+    "{{card}}": "{{card}}",
+    "{{card}} ({{quantity}})": "{{card}} ({{quantity}})",
+    "How much amber do you want to use from {{card}}": "How much amber do you want to use from {{card}}",    
+    "Do you wish to repeat this effect?": "Do you wish to repeat this effect?",
+    "Do you wish to forge a key?": "Do you wish to forge a key?",
+    "Do you wish to purge a sanctum card?": "Do you wish to purge a sanctum card?",
+    "Do you wish to destroy all Mars creatures?": "Do you wish to destroy all Mars creatures?",
+    "Do you wish to archive a friendly creature or artifact?": "Do you wish to archive a friendly creature or artifact?",
+    "Select a card to deploy to the left of": "Select a card to deploy to the left of",
+    "Select a card to deploy to the right of": "Select a card to deploy to the right of",
+    
     "Call of the Archons": "Call of the Archons",
     "Age of Ascension": "Age of Ascension"
 }

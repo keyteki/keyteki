@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 
 import Avatar from '../Site/Avatar';
 
+import { withTranslation, Trans } from 'react-i18next';
+
 export class PlayerStats extends React.Component {
     constructor() {
         super();
@@ -49,16 +51,17 @@ export class PlayerStats extends React.Component {
     getHouses() {
         return (
             <div className='state'>
-                { this.props.houses.map(house => (<img className='img-responsive' src={ `/img/house/${house}.png` } title={ house } />)) }
+                { this.props.houses.map(house => (<img className='img-responsive' src={ `/img/house/${house}.png` } title={ this.props.t(house) } />)) }
             </div>
         );
     }
 
     render() {
+        let t = this.props.t;
         let playerAvatar = (
             <div className='player-avatar'>
                 <Avatar username={ this.props.user ? this.props.user.username : undefined } />
-                <b>{ this.props.user ? this.props.user.username : 'Noone' }</b>
+                <b>{ this.props.user ? this.props.user.username : t('Noone') }</b>
             </div>);
         let muteClass = this.props.muteSpectators ? 'glyphicon-eye-close' : 'glyphicon-eye-open';
 
@@ -73,14 +76,14 @@ export class PlayerStats extends React.Component {
 
                 { this.props.activeHouse &&
                     <div className='state'>
-                        <div className='hand-size'>Active House: </div>
+                        <div className='hand-size'><Trans>Active House</Trans>: </div>
                         <img className='house-image' src={ `/img/house/${this.props.activeHouse}.png` } title={ this.props.activeHouse } />
                     </div>
                 }
 
                 { this.props.activePlayer &&
                     <div className='state first-player-state'>
-                        Active Player
+                        <Trans>Active Player</Trans>
                     </div>
                 }
 
@@ -98,12 +101,12 @@ export class PlayerStats extends React.Component {
                                     className={ 'btn btn-transparent ' + (this.props.manualModeEnabled ? 'manual' : 'auto') }
                                     onClick={ this.props.onManualModeClick } >
                                     <span className='glyphicon glyphicon-wrench' />
-                                    <span>{ 'Manual Mode' }</span>
+                                    <span><Trans>Manual Mode</Trans></span>
                                 </button>
                             </div>
                         }
                         <div className='state'>
-                            <button className='btn btn-transparent' onClick={ this.onSettingsClick.bind(this) }><span className='glyphicon glyphicon-cog' />Settings</button>
+                            <button className='btn btn-transparent' onClick={ this.onSettingsClick.bind(this) }><span className='glyphicon glyphicon-cog' /><Trans>Settings</Trans></button>
                         </div>
                         <div>
                             <button className='btn btn-transparent' onClick={ this.props.onMessagesClick } >
@@ -123,6 +126,7 @@ PlayerStats.propTypes = {
     activeHouse: PropTypes.string,
     activePlayer: PropTypes.bool,
     houses: PropTypes.array,
+    i18n: PropTypes.object,
     manualModeEnabled: PropTypes.bool,
     muteSpectators: PropTypes.bool,
     numMessages: PropTypes.number,
@@ -136,7 +140,8 @@ PlayerStats.propTypes = {
     showManualMode: PropTypes.bool,
     showMessages: PropTypes.bool,
     stats: PropTypes.object,
+    t: PropTypes.func,
     user: PropTypes.object
 };
 
-export default PlayerStats;
+export default withTranslation()(PlayerStats);

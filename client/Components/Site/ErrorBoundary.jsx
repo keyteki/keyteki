@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import * as Sentry from '@sentry/browser';
 
+import { withTranslation, Trans } from 'react-i18next';
+
 class ErrorBoundary extends React.Component {
     constructor(props) {
         super(props);
@@ -43,11 +45,11 @@ class ErrorBoundary extends React.Component {
             return (<div
                 className='alert alert-danger'
                 onClick={ () => Sentry.showReportDialog({ eventId: this.state.eventId }) }>
-                <p>{ this.props.message }</p>
-                <p>There error has been logged, please click anywhere in this red box to fill out a more detailed report.</p>
+                <p>{ this.props.t(this.props.message) }</p>
+                <p><Trans>There error has been logged, please click anywhere in this red box to fill out a more detailed report.</Trans></p>
 
                 { this.props.navigate &&
-                    <p>Click <a href='#' onClick={ this.onReturnClick }>here</a> to clear the error and return to the home page</p> }
+                    <p><Trans i18nKey='errorboundary.clearerror'>Click <a href='#' onClick={ this.onReturnClick }>here</a> to clear the error and return to the home page</Trans></p> }
             </div>);
         }
 
@@ -59,8 +61,10 @@ ErrorBoundary.displayName = 'ErrorBoundary';
 ErrorBoundary.propTypes = {
     children: PropTypes.node,
     errorPath: PropTypes.string,
+    i18n: PropTypes.object,
     message: PropTypes.string,
-    navigate: PropTypes.func
+    navigate: PropTypes.func,
+    t: PropTypes.func
 };
 
-export default ErrorBoundary;
+export default withTranslation()(ErrorBoundary);

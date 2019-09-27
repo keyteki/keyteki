@@ -582,6 +582,7 @@ class Game extends EventEmitter {
      */
     beginRound() {
         this.raiseEvent('onBeginRound');
+        this.activePlayer.beginRound();
         this.queueStep(new KeyPhase(this));
         this.queueStep(new HousePhase(this));
         this.queueStep(new MainPhase(this));
@@ -718,7 +719,7 @@ class Game extends EventEmitter {
                 () => player.cardsInPlay.push(card)
             ];
             this.promptWithHandlerMenu(this.activePlayer, {
-                activePromptTitle: 'Choose which flank ' + card.name + ' should be placed on',
+                activePromptTitle: { text: 'Choose which flank {{card}} should be placed on', values: { card: card.name } },
                 source: card,
                 choices: ['Left', 'Right'],
                 handlers: handlers
@@ -961,11 +962,12 @@ class Game extends EventEmitter {
 
         if(this.started) {
             for(const player of this.getPlayers()) {
-                playerState[player.name] = player.getState(activePlayer);
+                playerState[player.name] = player.getState(activePlayer, this.gameFormat);
             }
 
             return {
                 id: this.id,
+                gameFormat: this.gameFormat,
                 manualMode: this.manualMode,
                 name: this.name,
                 owner: this.owner,

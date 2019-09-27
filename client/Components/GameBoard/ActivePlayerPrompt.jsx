@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import AbilityTargeting from './AbilityTargeting';
 import CardNameLookup from './CardNameLookup';
 
+import { withTranslation, Trans } from 'react-i18next';
+
 class ActivePlayerPrompt extends React.Component {
     onButtonClick(event, command, arg, uuid, method) {
         event.preventDefault();
@@ -25,6 +27,40 @@ class ActivePlayerPrompt extends React.Component {
         }
     }
 
+    localizedText(source, text, values) {
+        let { t, i18n } = this.props;
+
+        if(!isNaN(text)) {
+            // text is just a plain number, avoid translation
+            return text;
+        }
+
+        if(!source || !source.locale) {
+            // If no source or source does not have locale, simply do the translation
+            return t(text, values);
+        }
+
+        if(values && values.card) {
+            // if there is a {{card}} property in the values, we should use locale, if present
+
+            let newValues = values;
+            if(source.locale[i18n.language]) {
+                newValues.card = source.locale[i18n.language].name;
+            }
+
+            return t(text, newValues);
+        }
+
+        if(!values && (source.name === text)) {
+            // Text is a card name alone, let's use locale if present
+            if(source.locale[i18n.language]) {
+                return source.locale[i18n.language].name;
+            }
+        }
+
+        return t(text, values);
+    }
+
     getButtons() {
         let buttonIndex = 0;
 
@@ -35,13 +71,16 @@ class ActivePlayerPrompt extends React.Component {
         }
 
         for(const button of this.props.buttons) {
+
+            let buttonText = this.localizedText(button.card, button.text, button.values);
+
             let option = (
                 <button key={ button.command + buttonIndex.toString() }
                     className='btn btn-default prompt-button'
                     onClick={ event => this.onButtonClick(event, button.command, button.arg, button.uuid, button.method) }
                     onMouseOver={ event => this.onMouseOver(event, button.card) }
                     onMouseOut={ event => this.onMouseOut(event, button.card) }
-                    disabled={ button.disabled }>{ button.text } { button.icon && <div className={ `button-icon icon-${button.icon}` } /> }</button>);
+                    disabled={ button.disabled }>{ buttonText } { button.icon && <div className={ `button-icon icon-${button.icon}` } /> }</button>);
 
             buttonIndex++;
 
@@ -78,35 +117,45 @@ class ActivePlayerPrompt extends React.Component {
     }
 
     render() {
+        let controlSource = null;
+        if(this.props.controls && (this.props.controls.length > 0) && this.props.controls[0].source) {
+            controlSource = this.props.controls[0].source;
+        }
+
         let promptTitle;
 
         if(this.props.promptTitle) {
-            promptTitle = (<div className='menu-pane-source'>{ this.props.promptTitle }</div>);
+            promptTitle = (<div className='menu-pane-source'>
+                { this.localizedText(controlSource, this.props.promptTitle.text || this.props.promptTitle, this.props.promptTitle.values) }
+            </div>);
         }
 
         let timer = null;
 
-        let promptText = [];
+        let promptText = this.props.promptText ? (this.props.promptText.text || this.props.promptText) : null;
+        let promptTexts = [];
 
-        if(this.props.promptText && this.props.promptText.includes('\n')) {
-            let split = this.props.promptText.split('\n');
-            for(let token of split) {
-                promptText.push(token);
-                promptText.push(<br />);
+        if(promptText) {
+            if(promptText.includes('\n')) {
+                let split = promptText.split('\n');
+                for(let token of split) {
+                    promptTexts.push(this.localizedText(controlSource, token, this.props.promptText.values));
+                    promptTexts.push(<br />);
+                }
+            } else {
+                promptTexts.push(this.localizedText(controlSource, promptText, this.props.promptText.values));
             }
-        } else {
-            promptText.push(this.props.promptText);
         }
 
         return (<div>
             { timer }
             <div className={ 'phase-indicator ' + this.props.phase } onClick={ this.props.onTitleClick }>
-                { this.props.phase } phase
+                <Trans>{ this.props.phase } phase</Trans>
             </div>
             { promptTitle }
             <div className='menu-pane'>
                 <div className='panel'>
-                    <h4>{ promptText }</h4>
+                    <h4>{ promptTexts }</h4>
                     { this.getControls() }
                     { this.getButtons() }
                 </div>
@@ -120,15 +169,17 @@ ActivePlayerPrompt.propTypes = {
     buttons: PropTypes.array,
     cards: PropTypes.object,
     controls: PropTypes.array,
+    i18n:  PropTypes.object,
     onButtonClick: PropTypes.func,
     onMouseOut: PropTypes.func,
     onMouseOver: PropTypes.func,
     onTitleClick: PropTypes.func,
     phase: PropTypes.string,
-    promptText: PropTypes.string,
-    promptTitle: PropTypes.string,
+    promptText: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+    promptTitle: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
     socket: PropTypes.object,
+    t:  PropTypes.func,
     user: PropTypes.object
 };
 
-export default ActivePlayerPrompt;
+export default withTranslation()(ActivePlayerPrompt);

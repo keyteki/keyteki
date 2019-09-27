@@ -5,12 +5,12 @@ describe('Spangler Box', function() {
                 this.setupTest({
                     player1: {
                         house: 'logos',
-                        inPlay: ['spangler-box', 'doc-bookton', 'dextre', 'batdrone'],
+                        inPlay: ['spangler-box', 'doc-bookton', 'dextre', 'lamindra', 'batdrone', 'timetraveller', 'dysania'],
                         hand: ['remote-access']
                     },
                     player2: {
                         amber: 1,
-                        inPlay: ['silvertooth', 'gorm-of-omm', 'stealer-of-souls', 'annihilation-ritual-', 'dust-imp']
+                        inPlay: ['silvertooth', 'gorm-of-omm', 'stealer-of-souls', 'annihilation-ritual-', 'dust-imp', 'gub', 'charette']
                     }
                 });
             });
@@ -86,30 +86,37 @@ describe('Spangler Box', function() {
                 this.spanglerBox.ready();
                 this.player2.clickCard(this.spanglerBox);
                 this.player2.clickPrompt('Use this card\'s Action ability');
-                this.player2.clickCard(this.dextre);
+                this.player2.clickCard(this.lamindra);
                 expect(this.silvertooth.location).toBe('purged');
                 expect(this.stealerOfSouls.location).toBe('purged');
-                expect(this.dextre.location).toBe('purged');
+                expect(this.lamindra.location).toBe('purged');
                 this.player2.clickCard(this.gormOfOmm);
                 this.player2.clickPrompt('Use this card\'s Omni ability');
                 this.player2.clickCard(this.spanglerBox);
+
                 expect(this.player2).toHavePrompt('Silvertooth');
                 this.player2.clickPrompt('Left');
                 expect(this.silvertooth.location).toBe('play area');
                 expect(this.player2.player.cardsInPlay).toContain(this.silvertooth);
                 expect(this.silvertooth.exhausted).toBe(false);
+
                 expect(this.player2).toHavePrompt('Stealer of Souls');
                 this.player2.clickPrompt('Left');
                 expect(this.stealerOfSouls.location).toBe('play area');
                 expect(this.player2.player.cardsInPlay).toContain(this.stealerOfSouls);
                 expect(this.stealerOfSouls.exhausted).toBe(true);
                 expect(this.stealerOfSouls.hasToken('damage')).toBe(false);
-                expect(this.player2).toHavePrompt('Dextre');
+
+                expect(this.player2).toHavePrompt('lamindra');
+                expect(this.player2).toHavePromptButton('Left');
+                expect(this.player2).toHavePromptButton('Right');
+                expect(this.player2).not.toHavePromptButton('Deploy Left');
+                expect(this.player2).not.toHavePromptButton('Deploy Right');
                 this.player2.clickPrompt('Left');
-                expect(this.dextre.location).toBe('play area');
-                expect(this.player1.player.cardsInPlay).toContain(this.dextre);
-                expect(this.dextre.hasToken('amber')).toBe(false);
-                expect(this.dextre.exhausted).toBe(true);
+                expect(this.lamindra.location).toBe('play area');
+                expect(this.player1.player.cardsInPlay).toContain(this.lamindra);
+                expect(this.lamindra.hasToken('amber')).toBe(false);
+                expect(this.lamindra.exhausted).toBe(true);
                 expect(this.spanglerBox.location).toBe('discard');
                 expect(this.docBookton.location).toBe('purged');
             });
