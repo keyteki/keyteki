@@ -27,7 +27,14 @@ class PutIntoPlayAction extends CardGameAction {
     preEventHandler(context) {
         super.preEventHandler(context);
         let card = this.target.length > 0 ? this.target[0] : context.source;
-        let player = this.myControl ? context.player : card.controller;
+        let player;
+
+        if(card.anyEffect('entersPlayUnderOpponentsControl') && card.owner.opponent) {
+            player = card.owner.opponent;
+        } else {
+            player = this.myControl ? context.player : card.controller;
+        }
+
         if(player.cardsInPlay.some(card => card.type === 'creature')) {
             let choices = ['Left', 'Right'];
 
@@ -94,7 +101,13 @@ class PutIntoPlayAction extends CardGameAction {
 
     getEvent(card, context) {
         return super.createEvent('onCardEntersPlay', { card: card, context: context }, () => {
-            let player = this.myControl ? context.player : card.controller;
+            let player;
+            if(card.anyEffect('entersPlayUnderOpponentsControl') && card.owner.opponent) {
+                player = card.owner.opponent;
+                //card.setDefaultController(player);
+            } else {
+                player = this.myControl ? context.player : card.controller;
+            }
             player.moveCard(card, 'play area', { left: this.left, deployIndex: this.deployIndex, myControl: this.myControl });
         });
     }

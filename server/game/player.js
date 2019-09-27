@@ -348,8 +348,14 @@ class Player extends GameObject {
         } else if(targetLocation === 'play area') {
             if(options.myControl) {
                 card.setDefaultController(this);
+            } else {
+                if(card.anyEffect('entersPlayUnderOpponentsControl') && card.owner.opponent) {
+                    card.setDefaultController(card.owner.opponent);
+                }
             }
+
             card.exhausted = true;
+
         } else if(card.owner !== this) {
             card.owner.moveCard(card, targetLocation, options);
             return;
