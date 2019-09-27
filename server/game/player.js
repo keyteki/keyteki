@@ -500,6 +500,10 @@ class Player extends GameObject {
             return false;
         }
 
+        if(this.keys >= 3) {
+            return false;
+        }
+
         let alternativeSources = this.getEffects('keyAmber').reduce((total, source) => total + source.tokens.amber ? source.tokens.amber : 0, 0);
         return this.amber + alternativeSources >= this.getCurrentKeyCost() + modifier;
     }
