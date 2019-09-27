@@ -4,6 +4,8 @@ import classNames from 'classnames';
 import { createCanvas, loadImage } from 'canvas';
 import QRCode from 'qrcode';
 
+import { withTranslation } from 'react-i18next';
+
 class IdentityCard extends React.Component {
     constructor(props) {
         super(props);
@@ -13,6 +15,16 @@ class IdentityCard extends React.Component {
     }
 
     componentDidMount() {
+        this.buildIdentityCard();
+    }
+
+    componentDidUpdate(prevProps) {
+        if(this.props.language !== prevProps.language) {
+            this.buildIdentityCard();
+        }
+    }
+
+    buildIdentityCard() {
         if(this.props.cards && this.props.deckCards) {
             if(this.props.deckCards.length > 0) {
                 this.buildDeckList();
@@ -51,6 +63,9 @@ class IdentityCard extends React.Component {
                 });
         });
 
+        let { language, t, i18n } = this.props;
+        let langToUse = language ? language : i18n.language;
+
         Promise.all([cardBack, maverick, legacy, Common, Uncommon, Rare, Special, qrCode])
             .then(([cardBack, maverick, legacy, Common, Uncommon, Rare, Special, qrCode]) => {
                 const Rarities = {Common, Uncommon, Rare, Special};
@@ -64,7 +79,7 @@ class IdentityCard extends React.Component {
                         ctx.fillStyle = 'black';
                         ctx.font = 'bold 25px TeutonNormal';
                         ctx.textAlign = 'left';
-                        ctx.fillText(house.toUpperCase(), houseData[index].x + 40, houseData[index].y + 28);
+                        ctx.fillText(t(house).toUpperCase(), houseData[index].x + 40, houseData[index].y + 28);
                         res1();
                     });
 
@@ -83,7 +98,9 @@ class IdentityCard extends React.Component {
                     .sort((a, b) => this.props.houses.indexOf(a.house) - this.props.houses.indexOf(b.house));
                 const cardProm = cardList.map((card, index) => {
                     return new Promise(async res2 => {
-                        const title = card.name;
+
+
+                        const title = (card.locale && card.locale[langToUse]) ? card.locale[langToUse].name : card.name;
                         let x = cardData.start.x,
                             y = cardData.start.y + (index * 28);
                         if(index > 11) {
@@ -226,9 +243,11 @@ IdentityCard.propTypes = {
     deckUuid: PropTypes.string,
     houses: PropTypes.array,
     i18n: PropTypes.object,
+    language: PropTypes.string,
     onMouseOut: PropTypes.func,
     onMouseOver: PropTypes.func,
-    size: PropTypes.string
+    size: PropTypes.string,
+    t: PropTypes.func
 };
 
-export default IdentityCard;
+export default withTranslation()(IdentityCard);
