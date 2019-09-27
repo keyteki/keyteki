@@ -13,6 +13,7 @@ class IdentityCard extends React.Component {
     }
 
     componentDidMount() {
+
         if(this.props.cards && this.props.deckCards) {
             if(this.props.deckCards.length > 0) {
                 this.buildDeckList();
@@ -62,7 +63,7 @@ class IdentityCard extends React.Component {
                         const img = await loadImage(`img/idbacks/decklist_houses/${ house }.png`);
                         ctx.drawImage(img, houseData[index].x, houseData[index].y, houseData.size, houseData.size);
                         ctx.fillStyle = 'black';
-                        ctx.font = 'bold 25px TeutonNormal';
+                        ctx.font = 'bold 25px Keyforge';
                         ctx.textAlign = 'left';
                         ctx.fillText(house.toUpperCase(), houseData[index].x + 40, houseData[index].y + 28);
                         res1();
@@ -98,10 +99,10 @@ class IdentityCard extends React.Component {
                         }
                         ctx.drawImage((Rarities[card.rarity === 'FIXED' || card.rarity === 'Variant' ? 'Special' : card.rarity]), x, y - 19, cardData.size, cardData.size);
                         ctx.fillStyle = 'black';
-                        ctx.font = 'bold 20px TeutonNormal';
+                        ctx.font = 'bold 20px Keyforge';
                         ctx.textAlign = 'left';
                         ctx.fillText(card.number, x + 22, y);
-                        ctx.font = '20px TeutonNormal';
+                        ctx.font = '20px Keyforge';
                         ctx.fillText(title, x + 60, y);
                         if(card.is_maverick) {
                             ctx.drawImage(maverick, x + ((title.length * 6) + 100), y - 18, cardData.size, cardData.size);
@@ -112,7 +113,7 @@ class IdentityCard extends React.Component {
                         res2();
                     });
                 });
-                ctx.drawImage((this.getCircularText(this.props.deckName, 2000, 0)), -700, 30);
+                ctx.drawImage((this.getCircularText(this.props.deckName, 1600, 0)), -500, 35);
                 Promise.all([...houseProm, ...cardProm]).then(() => {
                     this.setState({imageUrl: canvas.toDataURL()});
                 });
@@ -136,7 +137,7 @@ class IdentityCard extends React.Component {
             ctx.fillStyle = 'white';
             ctx.strokeStyle = 'grey';
             ctx.textAlign = 'center';
-            ctx.font = '30px TeutonNormal';
+            ctx.font = '30px Keyforge';
             this.props.houses.forEach((house, index) => {
                 ctx.fillText(house.toUpperCase(), houseNames[index].x, houseNames[index].y);
                 ctx.strokeText(house.toUpperCase(), houseNames[index].x, houseNames[index].y);
@@ -162,7 +163,7 @@ class IdentityCard extends React.Component {
         canvas.height = diameter;
         ctx.fillStyle = 'white';
         ctx.strokeStyle = 'grey';
-        ctx.font = `bold ${ this.getCurvedFontSize(text.length) }px TeutonNormal`;
+        ctx.font = `bold ${ this.getCurvedFontSize(text.length) }px Keyforge`;
 
         text = text.split('').reverse().join('');
 
