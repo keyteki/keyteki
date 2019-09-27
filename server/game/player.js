@@ -595,7 +595,22 @@ class Player extends GameObject {
             deckUuid: this.deckData.uuid,
             deckCards: []
         };
+
         if(isActivePlayer) {
+            let sortedDeck = this.deck.slice();
+            sortedDeck.sort((a, b) => {
+                if(a.printedHouse < b.printedHouse) {
+                    return -1;
+                } else if(a.printedHouse > b.printedHouse) {
+                    return 1;
+                } else if(a.id < b.id) {
+                    return -1;
+                } else if(a.id > b.id) {
+                    return 1;
+                }
+                return 0;
+            });
+            state.cardPiles.deck = this.getSummaryForCardList(sortedDeck, activePlayer, true);
             state.deckCards = this.getSummaryForCardList(this.deck, activePlayer);
         } else if(gameFormat === 'normal') {
             state.deckCards = this.getSummaryForCardList(this.deck, activePlayer);
