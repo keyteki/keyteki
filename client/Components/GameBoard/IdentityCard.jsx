@@ -98,8 +98,6 @@ class IdentityCard extends React.Component {
                     .sort((a, b) => this.props.houses.indexOf(a.house) - this.props.houses.indexOf(b.house));
                 const cardProm = cardList.map((card, index) => {
                     return new Promise(async res2 => {
-
-
                         const title = (card.locale && card.locale[langToUse]) ? card.locale[langToUse].name : card.name;
                         let x = cardData.start.x,
                             y = cardData.start.y + (index * 28);
