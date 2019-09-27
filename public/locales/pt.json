@@ -88,7 +88,8 @@
     "Choose a creature to attack": "Escolha uma criatura para atacar",
     "Choose a creature to sacrifice": "Escolha uma criatura para sacrificar",
     "Choose a captured amber to move to your pool.": "Escolha um amber capturado para mover para sua reserva.",
-    "Choose a card to discard": "Escolha uma carta para descartar",
+    "Choose a card to discard": "Escolha uma carta para descartar",    
+    "Choose {{amount}} cards to discard": "Escolha {{amount}} cartas para descartar",
     "Choose a creature to archive": "Escolha uma criatura para arquivar",
     "Choose a creature to capture 1 amber from its controller": "Escolha uma criatura para capturar 1 amber do seu dono",
     "Choose a creature to damage": "Escolha uma criatura para sofrer dano",
@@ -331,8 +332,9 @@
     "errorboundary.clearerror": "Clique <1>aqui</1> para limpar o error e retornar a página inicial",
     "Play {{card}}:": "Jogar {{card}}:",
     "Any reactions to {{card}} being played?": "Alguma reação à carta {{card}} sendo jogada?",
-    "Choose an ability:": "Escolha uma habilidade:",
-    "Select 3 characters": "Selecione 3 criaturas",
+    "Choose an ability:": "Escolha uma habilidade:",   
+    "Select a character": "Escolha uma criatura",
+    "Select {{amount}} characters": "Escolha {{amount}} criaturas",
     "Choose which flank {{card}} should be placed on": "Escolha em qual flanco {{card}} deve ser posicionado",
     "Discard pile": "Descarte",
     "Select a card to put in your hand": "Selecione uma carta para pôr na sua mão",
@@ -348,8 +350,7 @@
     
     "Do you wish to repeat this effect?": "Deseja repetir esse efeito?",        
     "Mine": "Minha",
-    "Opponent's": "Oponente",
-    "Select 2 characters": "Escolha 2 criaturas",
+    "Opponent's": "Oponente",    
     
     "Topics": "Tópicos",
     "Profile Options": "Opções de Perfil",
@@ -405,6 +406,17 @@
     "privacy.lobby": "Suas mensagens do lobby são armazenadas para que possamos mostrar para outros usuários do site e detectar padrões de comportamento abusivo.  Suas mensagens podem ser moderadas para remoção de conteúdo abusivo, ou removidas completamente a nosso critério.",
     
     "Create": "Criar",
+    
+    "{{card}}": "{{card}}",
+    "{{card}} ({{quantity}})": "{{card}} ({{quantity}})",
+    "How much amber do you want to use from {{card}}": "Quanto amber você deseja usar de {{card}}",    
+    "Do you wish to repeat this effect?": "Você deseja repetir esse efeito?",
+    "Do you wish to forge a key?": "Você deseja forjar uma chave?",
+    "Do you wish to purge a sanctum card?": "Você deseja expurgar uma carta santuário?",
+    "Do you wish to destroy all Mars creatures?": "Você deseja destruir todas as criaturas de Marte?",
+    "Do you wish to archive a friendly creature or artifact?": "Você deseja arquivar uma criatura ou artefato amigo?",    
+    "Select a card to deploy to the left of": "Selecione uma carta para posicioná-lo à esquerda dela",
+    "Select a card to deploy to the right of": "Selecione uma carta para posicioná-lo à direita dela",
 
     "Call of the Archons": "Chamado dos Arcontes",   
     "Age of Ascension": "Era da Ascensão"

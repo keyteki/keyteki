@@ -49,12 +49,24 @@ class Card extends EffectSource {
             this.setupKeywordAbilities(AbilityDsl);
         }
 
+        // alpha
         this.persistentEffect({
             location: 'any',
             printedAbility: false,
             condition: () => !!this.getKeywordValue('alpha'),
             match: this,
             effect: AbilityDsl.effects.cardCannot('play', () => !this.game.firstThingThisTurn())
+        });
+
+        // enraged
+        this.persistentEffect({
+            location: 'any',
+            printedAbility: false,
+            condition: () => {
+                return this.tokens.enrage >= 1;
+            },
+            match: this,
+            effect: AbilityDsl.effects.mustFightIfAble()
         });
 
         this.printedHouse = cardData.house;
@@ -76,6 +88,7 @@ class Card extends EffectSource {
         this.locale = cardData.locale;
 
         this.menu = [
+            { command: 'enrage', text: 'Enrage' },
             { command: 'exhaust', text: 'Exhaust/Ready' },
             { command: 'addDamage', text: 'Add 1 damage' },
             { command: 'remDamage', text: 'Remove 1 damage' },
@@ -457,6 +470,20 @@ class Card extends EffectSource {
         return this.hasToken('amber') ? this.tokens.amber : 0;
     }
 
+    enrage() {
+        if(this.tokens.enrage > 0) {
+            return;
+        }
+        this.addToken('enrage', 1);
+    }
+
+    unenrage() {
+        if(this.tokens.enrage <= 0) {
+            return;
+        }
+        this.addToken('enrage', -1);
+    }
+
     stun() {
         this.stunned = true;
     }
@@ -524,7 +551,8 @@ class Card extends EffectSource {
         }
 
         this.game.promptWithHandlerMenu(player, {
-            activePromptTitle: (this.location === 'play area' ? 'Choose an ability:' : 'Play ' + this.name + ':'),
+            activePromptTitle: (this.location === 'play area' ? 'Choose an ability:' :
+                { text: 'Play {{card}}:', values: { card: this.name } }),
             source: this,
             choices: choices,
             handlers: handlers
@@ -535,11 +563,16 @@ class Card extends EffectSource {
 
     getLegalActions(player, ignoreHouse = false) {
         let actions = this.getActions();
-        return actions.filter(action => {
+        actions = actions.filter(action => {
             let context = action.createContext(player);
             context.ignoreHouse = ignoreHouse;
             return !action.meetsRequirements(context);
         });
+        let canFight = actions.findIndex(action=>action.title === 'Fight with this creature') >= 0;
+        if(this.getEffects('mustFightIfAble').length > 0 && canFight) {
+            actions = actions.filter(action => action.title === 'Fight with this creature');
+        }
+        return actions;
     }
 
     getActions(location = this.location) {

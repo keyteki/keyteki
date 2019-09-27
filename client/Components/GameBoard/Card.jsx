@@ -11,6 +11,8 @@ import { ItemTypes } from '../../constants';
 
 import SquishableCardPanel from './SquishableCardPanel';
 
+import { withTranslation } from 'react-i18next';
+
 const cardSource = {
     beginDrag(props) {
         return {
@@ -250,6 +252,7 @@ class InnerCard extends React.Component {
 
         let image = (<CardImage className={ imageClass }
             img={ this.imageUrl }
+            language={ this.props.language }
             maverick={ !this.isFacedown() ? this.props.card.maverick : null }
             amber={ !this.isFacedown() ? this.props.card.cardPrintedAmber : 0 }/>);
 
@@ -359,6 +362,7 @@ InnerCard.propTypes = {
     disableMouseOver: PropTypes.bool,
     dragOffset: PropTypes.object,
     isDragging: PropTypes.bool,
+    language: PropTypes.string,
     onClick: PropTypes.func,
     onMenuItemClick: PropTypes.func,
     onMouseOut: PropTypes.func,
@@ -376,5 +380,5 @@ InnerCard.defaultProps = {
 
 const Card = DragSource(ItemTypes.CARD, cardSource, collect)(InnerCard);
 
-export default Card;
+export default withTranslation()(Card);
 
