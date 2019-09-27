@@ -68,7 +68,7 @@ describe('Scowly Caper', function() {
             it('should be archived in opponent\'s archive if next to archimedes', function() {
                 this.player1.playCreature(this.scowlyCaper, true);
                 this.player1.endTurn();
-                
+
                 expect(this.player2).toHavePromptButton('shadows');
                 this.player2.clickPrompt('shadows');
                 this.player2.play(this.relentlessWhispers);
@@ -76,10 +76,10 @@ describe('Scowly Caper', function() {
 
                 expect(this.player1.player.cardsInPlay).not.toContain(this.scowlyCaper);
                 expect(this.player2.player.cardsInPlay).not.toContain(this.scowlyCaper);
-                
+
                 expect(this.player1.player.cardsInHand).not.toContain(this.scowlyCaper);
                 expect(this.player2.player.cardsInHand).not.toContain(this.scowlyCaper);
-                
+
                 expect(this.scowlyCaper.location).toBe('archives');
                 expect(this.player1.archives).not.toContain(this.scowlyCaper);
                 expect(this.player2.archives).toContain(this.scowlyCaper);

@@ -102,13 +102,16 @@ class PutIntoPlayAction extends CardGameAction {
     getEvent(card, context) {
         return super.createEvent('onCardEntersPlay', { card: card, context: context }, () => {
             let player;
+            let control;
             if(card.anyEffect('entersPlayUnderOpponentsControl') && card.owner.opponent) {
                 player = card.owner.opponent;
-                //card.setDefaultController(player);
+                control = true;
             } else {
                 player = this.myControl ? context.player : card.controller;
+                control = this.myControl;
             }
-            player.moveCard(card, 'play area', { left: this.left, deployIndex: this.deployIndex, myControl: this.myControl });
+
+            player.moveCard(card, 'play area', { left: this.left, deployIndex: this.deployIndex, myControl: control });
         });
     }
 }
