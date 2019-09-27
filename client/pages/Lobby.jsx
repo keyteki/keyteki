@@ -14,6 +14,8 @@ import { getMessageWithLinks } from '../util';
 
 import * as actions from '../actions';
 
+import { withTranslation, Trans } from 'react-i18next';
+
 class Lobby extends React.Component {
     constructor() {
         super();
@@ -83,6 +85,7 @@ class Lobby extends React.Component {
     }
 
     render() {
+        let t = this.props.t;
         let isLoggedIn = !!this.props.user;
         let placeholder = isLoggedIn ? 'Enter a message...' : 'You must be logged in to send lobby chat messages';
 
@@ -107,13 +110,13 @@ class Lobby extends React.Component {
                     <AlertPanel message={ this.props.bannerNotice } type='error' />
                 </div> : null }
                 <div className='col-sm-offset-1 col-sm-10'>
-                    <Panel title='Latest site news'>
-                        { this.props.loading ? <div>News loading...</div> : null }
+                    <Panel title={ t('Latest site news') }>
+                        { this.props.loading ? <div><Trans>News loading...</Trans></div> : null }
                         <News news={ this.props.news } />
                     </Panel>
                 </div>
                 <div className='col-sm-offset-1 col-sm-10 chat-container'>
-                    <Panel title={ `Lobby Chat (${this.props.users.length} online)` }>
+                    <Panel title={ t('Lobby Chat ({{users}}) online', { users: this.props.users.length }) }>
                         <div>
                             <LobbyChat messages={ this.props.messages }
                                 isModerator={ this.props.user && this.props.user.permissions.canModerateChat }
@@ -123,7 +126,7 @@ class Lobby extends React.Component {
                     <form className='form form-hozitontal chat-box-container' onSubmit={ event => this.onSendClick(event) }>
                         <div className='form-group'>
                             <div className='chat-box'>
-                                <TypeAhead disabled={ !isLoggedIn } ref='message' value={ this.state.message } placeholder={ placeholder }
+                                <TypeAhead disabled={ !isLoggedIn } ref='message' value={ this.state.message } placeholder={ t(placeholder) }
                                     labelKey={ 'name' } onKeyDown={ this.onKeyPress }
                                     options={ this.props.users } onInputChange={ this.onChange } autoFocus
                                     dropup emptyLabel={ '' }
@@ -141,6 +144,7 @@ Lobby.propTypes = {
     bannerNotice: PropTypes.string,
     clearChatStatus: PropTypes.func,
     fetchNews: PropTypes.func,
+    i18n: PropTypes.object,
     loadNews: PropTypes.func,
     loading: PropTypes.bool,
     lobbyError: PropTypes.string,
@@ -149,6 +153,7 @@ Lobby.propTypes = {
     news: PropTypes.array,
     removeLobbyMessage: PropTypes.func,
     socket: PropTypes.object,
+    t: PropTypes.func,
     user: PropTypes.object,
     users: PropTypes.array
 };
@@ -168,4 +173,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps, actions, null)(Lobby);
+export default withTranslation()(connect(mapStateToProps, actions, null)(Lobby));

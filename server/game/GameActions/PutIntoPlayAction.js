@@ -31,7 +31,7 @@ class PutIntoPlayAction extends CardGameAction {
         if(player.cardsInPlay.some(card => card.type === 'creature')) {
             let choices = ['Left', 'Right'];
 
-            if(card.hasKeyword('deploy') && player.creaturesInPlay.length > 1) {
+            if(context.ability && context.ability.isCardPlayed() && card.hasKeyword('deploy') && player.creaturesInPlay.length > 1) {
                 choices.push('Deploy Left');
                 choices.push('Deploy Right');
             }

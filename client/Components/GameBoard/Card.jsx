@@ -11,6 +11,8 @@ import { ItemTypes } from '../../constants';
 
 import SquishableCardPanel from './SquishableCardPanel';
 
+import { withTranslation } from 'react-i18next';
+
 const cardSource = {
     beginDrag(props) {
         return {
@@ -241,6 +243,7 @@ class InnerCard extends React.Component {
             'can-play': this.statusClass !== 'selectable' && !this.props.card.unselectable && this.props.card.canPlay,
             'unselectable': this.props.card.unselectable,
             'dragging': this.props.isDragging,
+            'controlled': this.props.card.controlled,
             'taunt': this.props.card.taunt && this.props.source === 'play area'
         });
         let imageClass = classNames('card-image vertical', this.sizeClass, {
@@ -249,6 +252,7 @@ class InnerCard extends React.Component {
 
         let image = (<CardImage className={ imageClass }
             img={ this.imageUrl }
+            language={ this.props.language }
             maverick={ !this.isFacedown() ? this.props.card.maverick : null }
             amber={ !this.isFacedown() ? this.props.card.cardPrintedAmber : 0 }/>);
 
@@ -301,8 +305,6 @@ class InnerCard extends React.Component {
             return 'in-danger';
         } else if(this.props.card.saved) {
             return 'saved';
-        } else if(this.props.card.controlled) {
-            return 'controlled';
         } else if(this.props.card.new) {
             return 'new';
         }
@@ -360,6 +362,7 @@ InnerCard.propTypes = {
     disableMouseOver: PropTypes.bool,
     dragOffset: PropTypes.object,
     isDragging: PropTypes.bool,
+    language: PropTypes.string,
     onClick: PropTypes.func,
     onMenuItemClick: PropTypes.func,
     onMouseOut: PropTypes.func,
@@ -377,5 +380,5 @@ InnerCard.defaultProps = {
 
 const Card = DragSource(ItemTypes.CARD, cardSource, collect)(InnerCard);
 
-export default Card;
+export default withTranslation()(Card);
 

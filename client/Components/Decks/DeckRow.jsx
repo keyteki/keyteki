@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
+import { withTranslation } from 'react-i18next';
+
 class DeckRow extends React.Component {
     constructor() {
         super();
@@ -16,20 +18,25 @@ class DeckRow extends React.Component {
     }
 
     getStatusName(status) {
+        let t = this.props.t;
+
         if(status.usageLevel === 1 && !status.verified) {
-            return 'Used';
+            return t('Used');
         } else if(status.usageLevel === 2 && !status.verified) {
-            return 'Popular';
+            return t('Popular');
         } else if(status.usageLevel === 3 && !status.verified) {
-            return 'Notorious';
+            return t('Notorious');
         } else if(!status.officialRole || !status.noUnreleasedCards || !status.faqRestrictedList) {
-            return 'Casual';
+            return t('Casual');
         }
 
-        return 'Valid';
+        return t('Valid');
     }
 
     render() {
+        let language = this.props.i18n.language;
+        moment.locale((language === 'zhhans') || (language === 'zhhant') ? 'zh-cn' : language);
+
         return (
             <div className={ this.props.active ? 'deck-row active' : 'deck-row' } key={ this.props.deck.name } onClick={ this.handleDeckClick }>
                 <div className='col-xs-1 deck-image'>
@@ -48,7 +55,9 @@ DeckRow.displayName = 'DeckRow';
 DeckRow.propTypes = {
     active: PropTypes.bool,
     deck: PropTypes.object.isRequired,
-    onSelect: PropTypes.func
+    i18n: PropTypes.object,
+    onSelect: PropTypes.func,
+    t: PropTypes.func
 };
 
-export default DeckRow;
+export default withTranslation()(DeckRow);

@@ -12,12 +12,13 @@ const { wrapAsync } = require('../util.js');
 const UserService = require('../services/UserService');
 const ConfigService = require('../services/ConfigService');
 const BanlistService = require('../services/BanlistService');
+const PatreonService = require('../services/PatreonService');
 const util = require('../util.js');
-const User = require('../models/User');
 
 let configService = new ConfigService();
 let userService;
 let banlistService;
+let patreonService;
 
 const appName = configService.getValueForSection('lobby', 'appName');
 
@@ -117,9 +118,13 @@ async function downloadAvatar(user) {
     await writeFile(`public/img/avatar/${user.username}.png`, avatar, 'binary');
 }
 
-module.exports.init = function (server, options) {
+module.exports.init = function(server, options) {
     userService = options.userService || new UserService(options.db, options.configService);
     banlistService = new BanlistService(options.db, configService);
+    patreonService = new PatreonService(configService.getValueForSection('lobby', 'patreonClientId'),
+        configService.getValueForSection('lobby', 'patreonSecret'), userService,
+        configService.getValueForSection('lobby', 'patreonCallbackUrl'));
+
     let emailKey = configService.getValueForSection('lobby', 'emailKey');
     if(emailKey) {
         sendgrid.setApiKey(emailKey);
@@ -322,11 +327,43 @@ module.exports.init = function (server, options) {
         res.send({ success: true });
     });
 
-    server.post('/api/account/checkauth', passport.authenticate('jwt', { session: false }), function(req, res) {
-        let user = new User(req.user).getWireSafeDetails();
+    server.post('/api/account/checkauth', passport.authenticate('jwt', { session: false }), wrapAsync(async (req, res) => {
+        let user = await userService.getUserByUsername(req.user.username);
+        let userDetails = user.getWireSafeDetails();
 
-        res.send({ success: true, user: user });
-    });
+        if(!user.patreon) {
+            return res.send({ success: true, user: userDetails });
+        }
+
+        userDetails.patreon = await patreonService.getPatreonStatusForUser(user);
+
+        if(userDetails.patreon === 'none') {
+            delete (userDetails.patreon);
+
+            let ret = await patreonService.refreshTokenForUser(user);
+            if(!ret) {
+                return res.send({ success: true, user: userDetails });
+            }
+
+            userDetails.patreon = await patreonService.getPatreonStatusForUser(user);
+
+            if(userDetails.patreon === 'none') {
+                return res.send({ success: true, user: userDetails });
+            }
+        }
+
+        if(userDetails.patreon === 'pledged' && !userDetails.permissions.isSupporter) {
+            await userService.setSupporterStatus(user.username, true);
+            // eslint-disable-next-line require-atomic-updates
+            userDetails.permissions.isSupporter = req.user.permissions.isSupporter = true;
+        } else if(userDetails.patreon !== 'pledged' && userDetails.permissions.isSupporter) {
+            await userService.setSupporterStatus(user.username, false);
+            // eslint-disable-next-line require-atomic-updates
+            userDetails.permissions.isSupporter = req.user.permissions.isSupporter = false;
+        }
+
+        res.send({ success: true, user: userDetails });
+    }));
 
     server.post('/api/account/login', wrapAsync(async (req, res, next) => {
         if(!req.body.username) {
@@ -704,6 +741,56 @@ module.exports.init = function (server, options) {
 
         res.send({ success: true });
     }));
+
+    server.post('/api/account/linkPatreon', passport.authenticate('jwt', { session: false }), wrapAsync(async (req, res) => {
+        req.params.username = req.user ? req.user.username : undefined;
+
+        let user = await checkAuth(req, res);
+
+        if(!user) {
+            return;
+        }
+
+        if(!req.body.code) {
+            return res.send({ success: false, message: 'Code is required' });
+        }
+
+        user = await patreonService.linkAccount(req.params.username, req.body.code);
+        if(!user) {
+            return res.send({ success: false, message: 'An error occured syncing your patreon account.  Please try again later.' });
+        }
+
+        let status = await patreonService.getPatreonStatusForUser(user);
+
+        if(status === 'pledged' && !user.permissions.isSupporter) {
+            await userService.setSupporterStatus(user.username, true);
+            // eslint-disable-next-line require-atomic-updates
+            user.permissions.isSupporter = req.user.permissions.isSupporter = true;
+        } else if(status !== 'pledged' && user.permissions.isSupporter) {
+            await userService.setSupporterStatus(user.username, false);
+            // eslint-disable-next-line require-atomic-updates
+            user.permissions.isSupporter = req.user.permissions.isSupporter = false;
+        }
+
+        return res.send({ success: true });
+    }));
+
+    server.post('/api/account/unlinkPatreon', passport.authenticate('jwt', { session: false }), wrapAsync(async (req, res) => {
+        req.params.username = req.user ? req.user.username : undefined;
+
+        let user = await checkAuth(req, res);
+
+        if(!user) {
+            return;
+        }
+
+        let ret = await patreonService.unlinkAccount(req.params.username);
+        if(!ret) {
+            return res.send({ success: false, message: 'An error occured unlinking your patreon account.  Please try again later.' });
+        }
+
+        return res.send({ success: true });
+    }));
 };
 
 async function checkAuth(req, res) {
@@ -716,7 +803,7 @@ async function checkAuth(req, res) {
     }
 
     if(req.user.username !== req.params.username) {
-        res.status(403).send({ message: 'Unauthorized' });
+        res.status(403).send({ message: 'Forbidden' });
 
         return null;
     }

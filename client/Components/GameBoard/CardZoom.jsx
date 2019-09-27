@@ -24,35 +24,21 @@ class CardZoom extends React.Component {
                 <div className='card-zoomed shadow'>
                     { this.props.card.identity }
                     <span className='card-name'>{ this.props.cardName }</span>
-                    <CardImage className='image-large img-responsive'
-                        img={ this.props.imageUrl }
-                        maverick={ this.props.card.maverick }
-                        amber={ this.props.card.cardPrintedAmber }/>
-                    { this.props.card && <AltCard card={ this.props.card } /> }
+                    <CardImage className='image-large img-responsive' img={ this.props.imageUrl } maverick={ this.props.card.maverick } amber={ this.props.card.cardPrintedAmber }/>
+                    { this.props.card && <AltCard card={ this.props.card }/> }
                 </div>
                 : null }
         </div>);
     }
 
-    getIdentityCardZoom() {
-        let index = 1;
-        let houses = this.props.card.houses && this.props.card.houses.map(house => {
-            return <div className={ `house id-house-${index++}` }><img key={ house } className='img-responsive' src={ `/img/house/${house}.png` } /></div >;
-        });
-
+    getDecklistCardZoom() {
         return (<div className='card-large vertical'>
-            <div className='card-zoomed shadow'>
-                <div>
-                    <img className={ 'image-large img-responsive' } src='/img/idbacks/identity.jpg' title={ this.props.card.identity } />
+            { this.props.show ?
+                <div className='card-zoomed shadow'>
+                    <img className='image-large img-responsive' src={ this.props.card.imageUrl }/>
                 </div>
-                <div className='id-zoom-container'>
-                    <div className={ 'identity-text' } ref={ idText => this.idText = idText }>{ this.props.card.identity }</div>
-                    <div className='identity-icons'>
-                        { houses }
-                    </div>
-                </div>
-            </div>
-        </div >);
+                : null }
+        </div>);
     }
 
     render() {
@@ -60,8 +46,8 @@ class CardZoom extends React.Component {
             return null;
         }
 
-        if(this.props.card.identity) {
-            return this.getIdentityCardZoom();
+        if(this.props.card.decklist) {
+            return this.getDecklistCardZoom();
         }
 
         return this.getNormalCardZoom();

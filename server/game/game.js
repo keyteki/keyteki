@@ -582,6 +582,7 @@ class Game extends EventEmitter {
      */
     beginRound() {
         this.raiseEvent('onBeginRound');
+        this.activePlayer.beginRound();
         this.queueStep(new KeyPhase(this));
         this.queueStep(new HousePhase(this));
         this.queueStep(new MainPhase(this));
@@ -722,7 +723,7 @@ class Game extends EventEmitter {
                 () => player.cardsInPlay.push(card)
             ];
             this.promptWithHandlerMenu(this.activePlayer, {
-                activePromptTitle: 'Choose which flank ' + card.name + ' should be placed on',
+                activePromptTitle: { text: 'Choose which flank {{card}} should be placed on', values: { card: card.name } },
                 source: card,
                 choices: ['Left', 'Right'],
                 handlers: handlers
@@ -881,6 +882,10 @@ class Game extends EventEmitter {
     }
 
     endRound() {
+        if(this.activePlayer.canForgeKey()) {
+            this.addAlert('success', '{0} declares Check!', this.activePlayer);
+        }
+
         this.activePlayer.endRound();
         this.cardsUsed = [];
         this.cardsPlayed = [];
@@ -889,6 +894,12 @@ class Game extends EventEmitter {
 
         for(let card of this.cardsInPlay) {
             card.endRound();
+        }
+
+        this.activePlayer.activeHouse = null;
+
+        if(this.activePlayer.opponent) {
+            this.activePlayer = this.activePlayer.opponent;
         }
 
         let playerAmber = this.getPlayers().map(player => `${player.name}: ${player.amber} amber`).join(' ');
@@ -955,11 +966,12 @@ class Game extends EventEmitter {
 
         if(this.started) {
             for(const player of this.getPlayers()) {
-                playerState[player.name] = player.getState(activePlayer);
+                playerState[player.name] = player.getState(activePlayer, this.gameFormat);
             }
 
             return {
                 id: this.id,
+                gameFormat: this.gameFormat,
                 manualMode: this.manualMode,
                 name: this.name,
                 owner: this.owner,

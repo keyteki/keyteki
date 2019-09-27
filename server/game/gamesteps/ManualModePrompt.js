@@ -15,7 +15,7 @@ class ManualModePrompt extends AllPlayerPrompt {
 
     activePrompt() {
         return {
-            menuTitle: `${this.requestingPlayer.name} requests to enable manual mode. Allow?`,
+            menuTitle: {text: '{{player}} requests to enable manual mode. Allow?', values: { player: this.requestingPlayer.name } },
             buttons: [
                 { arg: 'yes', text: 'Yes' },
                 { arg: 'no', text: 'No' }

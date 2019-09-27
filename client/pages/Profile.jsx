@@ -12,6 +12,8 @@ import Avatar from '../Components/Site/Avatar';
 
 import * as actions from '../actions';
 
+import { withTranslation, Trans } from 'react-i18next';
+
 class Profile extends React.Component {
     constructor(props) {
         super(props);
@@ -19,31 +21,15 @@ class Profile extends React.Component {
         this.handleSelectBackground = this.handleSelectBackground.bind(this);
         this.handleSelectCardSize = this.handleSelectCardSize.bind(this);
         this.onUpdateAvatarClick = this.onUpdateAvatarClick.bind(this);
+        this.onUnlinkClick = this.onUnlinkClick.bind(this);
 
         this.state = {
+            email: '',
             newPassword: '',
             newPasswordAgain: '',
             validation: {},
             optionSettings: {}
         };
-
-        this.backgrounds = [
-            { name: 'none', label: 'None', imageUrl: 'img/bgs/blank.png' },
-            { name: 'Brobnar', label: 'Brobnar', imageUrl: 'img/bgs/brobnar.png' },
-            { name: 'Dis', label: 'Dis', imageUrl: 'img/bgs/dis.png' },
-            { name: 'Logos', label: 'Logos', imageUrl: 'img/bgs/logos.png' },
-            { name: 'Mars', label: 'Mars', imageUrl: 'img/bgs/mars.png' },
-            { name: 'Sanctum', label: 'Sanctum', imageUrl: 'img/bgs/sanctum.png' },
-            { name: 'Shadows', label: 'Shadows', imageUrl: 'img/bgs/shadows.png' },
-            { name: 'Untamed', label: 'Untamed', imageUrl: 'img/bgs/untamed.png' }
-        ];
-
-        this.cardSizes = [
-            { name: 'small', label: 'Small' },
-            { name: 'normal', label: 'Normal' },
-            { name: 'large', label: 'Large' },
-            { name: 'x-large', label: 'Extra-Large' }
-        ];
     }
 
     componentDidMount() {
@@ -71,6 +57,11 @@ class Profile extends React.Component {
                 this.setState({ successMessage: undefined });
             }, 5000);
         }
+    }
+
+    translate(label) {
+        let labelLocalized = this.props.t(label);
+        return labelLocalized[0].toUpperCase() + labelLocalized.slice(1);
     }
 
     updateProfile(props) {
@@ -189,9 +180,19 @@ class Profile extends React.Component {
         this.props.updateAvatar(this.props.user.username);
     }
 
+    onUnlinkClick() {
+        this.props.unlinkPatreon();
+    }
+
+    isPatreonLinked() {
+        return ['linked', 'pledged'].includes(this.props.user.patreon);
+    }
+
     render() {
+        let t = this.props.t;
+
         if(!this.props.user) {
-            return <AlertPanel type='error' message='You must be logged in to update your profile' />;
+            return <AlertPanel type='error' message={ t('You must be logged in to update your profile') } />;
         }
 
         let successBar;
@@ -199,10 +200,30 @@ class Profile extends React.Component {
             setTimeout(() => {
                 this.props.clearProfileStatus();
             }, 5000);
-            successBar = <AlertPanel type='success' message='Profile saved successfully.  Please note settings changed here may only apply at the start of your next game.' />;
+            successBar = <AlertPanel type='success' message={ t('Profile saved successfully.  Please note settings changed here may only apply at the start of your next game.') } />;
         }
 
-        let errorBar = this.props.apiSuccess === false ? <AlertPanel type='error' message={ this.props.apiMessage } /> : null;
+        let errorBar = this.props.apiSuccess === false ? <AlertPanel type='error' message={ t(this.props.apiMessage) } /> : null;
+
+        let backgrounds = [
+            { name: 'none', label: this.translate('none'), imageUrl: 'img/bgs/blank.png' },
+            { name: 'Brobnar', label: this.translate('brobnar'), imageUrl: 'img/bgs/brobnar.png' },
+            { name: 'Dis', label: this.translate('dis'), imageUrl: 'img/bgs/dis.png' },
+            { name: 'Logos', label: this.translate('logos'), imageUrl: 'img/bgs/logos.png' },
+            { name: 'Mars', label: this.translate('mars'), imageUrl: 'img/bgs/mars.png' },
+            { name: 'Sanctum', label: this.translate('sanctum'), imageUrl: 'img/bgs/sanctum.png' },
+            { name: 'Shadows', label: this.translate('shadows'), imageUrl: 'img/bgs/shadows.png' },
+            { name: 'Untamed', label: this.translate('untamed'), imageUrl: 'img/bgs/untamed.png' }
+        ];
+
+        let cardSizes = [
+            { name: 'small', label: this.translate('small') },
+            { name: 'normal', label: this.translate('normal') },
+            { name: 'large', label: this.translate('large') },
+            { name: 'x-large', label: this.translate('extra-large') }
+        ];
+
+        let callbackUrl = process.env.NODE_ENV === 'production' ? 'https://thecrucible.online/patreon' : 'http://localhost:4000/patreon';
 
         return (
             <div className='col-sm-8 col-sm-offset-2 profile full-height'>
@@ -210,27 +231,29 @@ class Profile extends React.Component {
                     { errorBar }
                     { successBar }
                     <form className='form form-horizontal'>
-                        <Panel title='Profile'>
-                            <Input name='email' label='Email Address' labelClass='col-sm-4' fieldClass='col-sm-8' placeholder='Enter email address'
+                        <Panel title={ t('Profile') }>
+                            <Input name='email' label={ t('Email Address') } labelClass='col-sm-4' fieldClass='col-sm-8' placeholder={ t('Enter email address') }
                                 type='text' onChange={ this.onChange.bind(this, 'email') } value={ this.state.email }
                                 onBlur={ this.verifyEmail.bind(this) } validationMessage={ this.state.validation['email'] } />
-                            <Input name='newPassword' label='New Password' labelClass='col-sm-4' fieldClass='col-sm-8' placeholder='Enter new password'
+                            <Input name='newPassword' label={ t('New Password') } labelClass='col-sm-4' fieldClass='col-sm-8' placeholder={ t('Enter new password') }
                                 type='password' onChange={ this.onChange.bind(this, 'newPassword') } value={ this.state.newPassword }
                                 onBlur={ this.verifyPassword.bind(this, false) } validationMessage={ this.state.validation['password'] } />
-                            <Input name='newPasswordAgain' label='New Password (again)' labelClass='col-sm-4' fieldClass='col-sm-8' placeholder='Enter new password (again)'
+                            <Input name='newPasswordAgain' label={ t('New Password (again)') } labelClass='col-sm-4' fieldClass='col-sm-8' placeholder={ t('Enter new password (again)') }
                                 type='password' onChange={ this.onChange.bind(this, 'newPasswordAgain') } value={ this.state.newPasswordAgain }
                                 onBlur={ this.verifyPassword.bind(this, false) } validationMessage={ this.state.validation['password1'] } />
                             <span className='col-sm-3 text-center'><Avatar username={ this.props.user.username } /></span>
-                            <Checkbox name='enableGravatar' label='Enable Gravatar integration' fieldClass='col-sm-offset-1 col-sm-7'
+                            <Checkbox name='enableGravatar' label={ t('Enable Gravatar integration') } fieldClass='col-sm-offset-1 col-sm-7'
                                 onChange={ e => this.setState({ enableGravatar: e.target.checked }) } checked={ this.state.enableGravatar } />
-                            <div className='col-sm-3 text-center'>Current profile picture</div>
-                            <button type='button' className='btn btn-default col-sm-offset-1 col-sm-4' onClick={ this.onUpdateAvatarClick }>Update avatar</button>
+                            <div className='col-sm-3 text-center'><Trans>Current profile picture</Trans></div>
+                            <button type='button' className='btn btn-default col-sm-offset-1 col-sm-4' onClick={ this.onUpdateAvatarClick }><Trans>Update avatar</Trans></button>
+                            { !this.isPatreonLinked() && <a className='btn btn-default col-sm-offset-1 col-sm-3' href={ `https://www.patreon.com/oauth2/authorize?response_type=code&client_id=HjDP9KKd-HscTXXMs_2TNl2h_POjaEw7D-EkLv_ShRbarVO_WuKA0LWRBp9LRdLq&redirect_uri=${callbackUrl}` }><img src='/img/Patreon_Mark_Coral.jpg' style={ { height: '21px' } } />&nbsp;Link Patreon account</a> }
+                            { this.isPatreonLinked() && <button type='button' className='btn btn-default col-sm-offset-1 col-sm-3' onClick={ this.onUnlinkClick }>Unlink Patreon account</button> }
                         </Panel>
                         <div>
-                            <Panel title='Game Board Background'>
+                            <Panel title={ t('Game Board Background') }>
                                 <div className='row'>
                                     {
-                                        this.backgrounds.map(background => (
+                                        backgrounds.map(background => (
                                             <GameBackgroundOption
                                                 imageUrl={ background.imageUrl }
                                                 key={ background.name }
@@ -244,11 +267,11 @@ class Profile extends React.Component {
                             </Panel>
                         </div>
                         <div>
-                            <Panel title='Card Image Size'>
+                            <Panel title={ t('Card Image Size') }>
                                 <div className='row'>
                                     <div className='col-xs-12'>
                                         {
-                                            this.cardSizes.map(cardSize => (
+                                            cardSizes.map(cardSize => (
                                                 <CardSizeOption
                                                     key={ cardSize.name }
                                                     label={ cardSize.label }
@@ -262,18 +285,18 @@ class Profile extends React.Component {
                             </Panel>
                         </div>
                         <div>
-                            <Panel title='Game Settings'>
+                            <Panel title={ t('Game Settings') }>
                                 <Checkbox
                                     name='optionSettings.orderForcedAbilities'
                                     noGroup
-                                    label={ 'Prompt to order simultaneous abilities' }
+                                    label={ t('Prompt to order simultaneous abilities') }
                                     fieldClass='col-sm-6'
                                     onChange={ this.onOptionSettingToggle.bind(this, 'orderForcedAbilities') }
                                     checked={ this.state.optionSettings.orderForcedAbilities } />
                                 <Checkbox
                                     name='optionSettings.confirmOneClick'
                                     noGroup
-                                    label={ 'Show a prompt when initating 1-click abilities' }
+                                    label={ t('Show a prompt when initating 1-click abilities') }
                                     fieldClass='col-sm-6'
                                     onChange={ this.onOptionSettingToggle.bind(this, 'confirmOneClick') }
                                     checked={ this.state.optionSettings.confirmOneClick } />
@@ -281,7 +304,7 @@ class Profile extends React.Component {
                         </div>
                         <div className='col-sm-offset-10 col-sm-2'>
                             <button className='btn btn-primary' type='button' disabled={ this.props.apiLoading } onClick={ this.onSaveClick.bind(this) }>
-                                Save{ this.props.apiLoading ? <span className='spinner button-spinner' /> : null }
+                                <Trans>Save</Trans>{ this.props.apiLoading ? <span className='spinner button-spinner' /> : null }
                             </button>
                         </div>
                     </form>
@@ -296,10 +319,13 @@ Profile.propTypes = {
     apiMessage: PropTypes.string,
     apiSuccess: PropTypes.bool,
     clearProfileStatus: PropTypes.func,
+    i18n: PropTypes.object,
     profileSaved: PropTypes.bool,
     refreshUser: PropTypes.func,
     saveProfile: PropTypes.func,
     socket: PropTypes.object,
+    t: PropTypes.func,
+    unlinkPatreon: PropTypes.func,
     updateAvatar: PropTypes.func,
     user: PropTypes.object
 };
@@ -315,4 +341,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps, actions)(Profile);
+export default withTranslation()(connect(mapStateToProps, actions)(Profile));

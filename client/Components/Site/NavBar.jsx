@@ -7,11 +7,65 @@ import Avatar from './Avatar';
 import * as actions from '../../actions';
 import menus from '../../menus';
 
+import i18n from '../../i18n';
+import { withTranslation } from 'react-i18next';
+
 class NavBar extends React.Component {
     constructor(props) {
         super(props);
 
+        this.options = [
+            {
+                name: 'English',
+                value: 'en'
+            },
+            {
+                name: 'Español',
+                value: 'es'
+            },
+            {
+                name: 'Deutsch',
+                value: 'de'
+            },
+            {
+                name: 'Português',
+                value: 'pt'
+            },
+            {
+                name: 'Italiano',
+                value: 'it'
+            },
+            {
+                name: 'Français',
+                value: 'fr'
+            },
+            {
+                name: 'Polski',
+                value: 'pl'
+            },
+            {
+                name: 'ไทย',
+                value: 'th'
+            },
+            {
+                name: '简体中文',
+                value: 'zhhans'
+            },
+            {
+                name: '繁體中文',
+                value: 'zhhant'
+            }
+        ];
+
         this.state = {};
+
+        this.onLanguageClick = this.onLanguageClick.bind(this);
+    }
+
+    componentDidMount() {
+        let lang = this.normalizedLanguage();
+
+        i18n.changeLanguage(lang);
     }
 
     onMenuItemMouseOver(menuItem) {
@@ -26,7 +80,42 @@ class NavBar extends React.Component {
         });
     }
 
+    onLanguageClick(lang) {
+        i18n.changeLanguage(lang.value);
+    }
+
+    normalizedLanguage() {
+        let lang = i18n.language.replace('-', '').toLowerCase();
+        let option = this.options.find((option) => {
+            return option.value === lang;
+        });
+
+        if(!option) {
+            let idx = i18n.language.indexOf('-');
+            if(idx !== -1) {
+                lang = i18n.language.substring(0, idx).toLowerCase();
+            }
+        }
+
+        if(lang === 'zh') {
+            lang = 'zhhant';
+        } else {
+            // Try to find again without the '-'
+            option = this.options.find((option) => {
+                return option.value === lang;
+            });
+
+            if(!option) {
+                // fallback to english
+                lang = 'en';
+            }
+        }
+
+        return lang;
+    }
+
     renderMenuItem(menuItem) {
+        let t = this.props.t;
         let active = menuItem.path === this.props.path ? 'active' : '';
 
         if(menuItem.showOnlyWhenLoggedOut && this.props.user) {
@@ -55,7 +144,7 @@ class NavBar extends React.Component {
                     return items;
                 }
 
-                return items.concat(<li key={ item.title }><Link href={ item.path }>{ item.title }</Link></li>);
+                return items.concat(<li key={ item.title }><Link href={ item.path }>{ t(item.title) }</Link></li>);
             }, []);
 
             if(childItems.length === 0) {
@@ -68,7 +157,7 @@ class NavBar extends React.Component {
                         { menuItem.showProfilePicture && this.props.user ?
                             <Avatar username={ this.props.user.username } /> :
                             null }
-                        { menuItem.showProfilePicture && this.props.user ? this.props.user.username : menuItem.title }<span className='caret' />
+                        { menuItem.showProfilePicture && this.props.user ? this.props.user.username : t(menuItem.title) }<span className='caret' />
                     </a>
                     <ul className='dropdown-menu'>
                         { childItems }
@@ -76,10 +165,12 @@ class NavBar extends React.Component {
                 </li>);
         }
 
-        return <li key={ menuItem.title } className={ active }><Link href={ menuItem.path }>{ menuItem.title }</Link></li>;
+        return <li key={ menuItem.title } className={ active }><Link href={ menuItem.path }>{ t(menuItem.title) }</Link></li>;
     }
 
     render() {
+        let t = this.props.t;
+
         let leftMenu = menus.filter(menu => {
             return menu.position === 'left';
         });
@@ -90,7 +181,14 @@ class NavBar extends React.Component {
         let leftMenuToRender = leftMenu.map(this.renderMenuItem.bind(this));
         let rightMenuToRender = rightMenu.map(this.renderMenuItem.bind(this));
 
-        let numGames = this.props.games ? <li><span>{ `${this.props.games.length} Games` }</span></li> : null;
+        let languageDropdown = (<li className='dropdown'>
+            <a href='#' className='dropdown-toggle' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'>{ i18n.language }<span className='caret'/></a>
+            <ul className='dropdown-menu'>
+                { this.options.map(item => (<li key={ item.value }><a href='#' onClick={ () => this.onLanguageClick(item) }>{ item.name }</a></li>)) }
+            </ul>
+        </li>);
+
+        let numGames = this.props.games ? <li><span>{ t('{{gameLength}} Games', { gameLength: this.props.games.length }) }</span></li> : null;
 
         let contextMenu = this.props.context && this.props.context.map(menuItem => {
             return (
@@ -99,7 +197,7 @@ class NavBar extends React.Component {
                     onClick={ menuItem.onClick ? event => {
                         event.preventDefault();
                         menuItem.onClick();
-                    } : null }>{ menuItem.text }</a>{ (this.state.showPopup === menuItem) ? this.state.showPopup.popup : null }</li>
+                    } : null }>{ t(menuItem.text, menuItem.values) }</a>{ (this.state.showPopup === menuItem) ? this.state.showPopup.popup : null }</li>
             );
         });
 
@@ -119,7 +217,7 @@ class NavBar extends React.Component {
 
         let lobbyStatus = (
             <li>
-                <span className={ className } title={ toolTip } />
+                <span className={ className } title={ t(toolTip) } />
             </li>);
 
         className = 'glyphicon glyphicon-signal';
@@ -141,7 +239,7 @@ class NavBar extends React.Component {
 
         let gameStatus = (
             <li>
-                <span className={ className } title={ toolTip } />
+                <span className={ className } title={ t(toolTip) } />
             </li>);
 
         return (
@@ -166,6 +264,7 @@ class NavBar extends React.Component {
                             { lobbyStatus }
                             { gameStatus }
                             { rightMenuToRender }
+                            { languageDropdown }
                         </ul>
                     </div>
                 </div>
@@ -180,9 +279,11 @@ NavBar.propTypes = {
     gameConnected: PropTypes.bool,
     gameConnecting: PropTypes.bool,
     games: PropTypes.array,
+    i18n: PropTypes.object,
     lobbySocketConnected: PropTypes.bool,
     lobbySocketConnecting: PropTypes.bool,
     path: PropTypes.string,
+    t: PropTypes.func,
     title: PropTypes.string,
     user: PropTypes.object
 };
@@ -201,4 +302,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps, actions)(NavBar);
+export default withTranslation()(connect(mapStateToProps, actions)(NavBar));
