@@ -63,9 +63,6 @@ class IdentityCard extends React.Component {
                 });
         });
 
-        let { language, t, i18n } = this.props;
-        let langToUse = language ? language : i18n.language;
-
         Promise.all([cardBack, maverick, legacy, Common, Uncommon, Rare, Special, qrCode])
             .then(([cardBack, maverick, legacy, Common, Uncommon, Rare, Special, qrCode]) => {
                 const Rarities = {Common, Uncommon, Rare, Special};
@@ -79,7 +76,7 @@ class IdentityCard extends React.Component {
                         ctx.fillStyle = 'black';
                         ctx.font = 'bold 25px Keyforge';
                         ctx.textAlign = 'left';
-                        ctx.fillText(t(house).toUpperCase(), houseData[index].x + 40, houseData[index].y + 28);
+                        ctx.fillText(this.props.t(house).toUpperCase(), houseData[index].x + 40, houseData[index].y + 28);
                         res1();
                     });
 
@@ -98,7 +95,8 @@ class IdentityCard extends React.Component {
                     .sort((a, b) => this.props.houses.indexOf(a.house) - this.props.houses.indexOf(b.house));
                 const cardProm = cardList.map((card, index) => {
                     return new Promise(async res2 => {
-                        const title = (card.locale && card.locale[langToUse]) ? card.locale[langToUse].name : card.name;
+                        const language = this.props.language ? this.props.language : this.props.i18n.language;
+                        const title = (card.locale && card.locale[language]) ? card.locale[language].name : card.name;
                         let x = cardData.start.x,
                             y = cardData.start.y + (index * 28);
                         if(index > 11) {
