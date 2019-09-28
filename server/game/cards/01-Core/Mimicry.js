@@ -8,11 +8,12 @@ class Mimicry extends Card {
                     event.context.source === context.source &&
                     event.context.ability.title === 'Play this action'
             },
-            location: ['hand', 'deck', 'purged', 'archives'],
+            location: 'any',
             target: {
                 cardType: 'action',
                 controller: 'opponent',
-                location: 'discard'
+                location: 'discard',
+                cardCondition: card => this.game.checkAlpha() || !card.hasKeyword('alpha')
             },
             effect: 'to copy {0}',
             gameAction: ability.actions.cardLastingEffect(context => {
