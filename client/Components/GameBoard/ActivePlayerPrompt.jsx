@@ -131,8 +131,8 @@ class ActivePlayerPrompt extends React.Component {
         }
 
         let timer = null;
-
-        let promptText = this.props.promptText ? (this.props.promptText.text || this.props.promptText) : null;
+        let promptText = (typeof this.props.promptText === 'object') ?
+            this.props.promptText.text : this.props.promptText;
         let promptTexts = [];
 
         if(promptText) {
