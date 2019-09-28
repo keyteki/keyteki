@@ -432,6 +432,18 @@ class Player extends GameObject {
         });
     }
 
+    getDeckCards(list) {
+        let final = [];
+        list.forEach(card =>{
+            let arr = [];
+            while(arr.length < card.count) {
+                arr = arr.concat(card.card);
+            }
+            final = final.concat(arr);
+        });
+        return final;
+    }
+
     getCardSelectionState(card) {
         return this.promptState.getCardSelectionState(card);
     }
@@ -611,9 +623,9 @@ class Player extends GameObject {
                 return 0;
             });
             state.cardPiles.deck = this.getSummaryForCardList(sortedDeck, activePlayer, true);
-            state.deckCards = this.getSummaryForCardList(this.deck, activePlayer);
+            state.deckCards = this.getDeckCards(this.deckData.cards);
         } else if(gameFormat === 'normal') {
-            state.deckCards = this.getSummaryForCardList(this.deck, activePlayer);
+            state.deckCards = this.getDeckCards(this.deckData.cards);
         }
 
         if(this.isTopCardShown()) {
