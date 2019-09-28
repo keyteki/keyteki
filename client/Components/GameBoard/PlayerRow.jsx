@@ -10,7 +10,6 @@ import Droppable from './Droppable';
 import { withTranslation } from 'react-i18next';
 
 class PlayerRow extends React.Component {
-
     renderDroppablePile(source, child) {
         return this.props.isMe ? <Droppable onDragDrop={ this.props.onDragDrop } source={ source } manualMode={ this.props.manualMode }>{ child }</Droppable> : child;
     }
