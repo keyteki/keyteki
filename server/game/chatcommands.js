@@ -75,6 +75,10 @@ class ChatCommands {
     }
 
     forge(player) {
+        if(player.keys === 3) {
+            return;
+        }
+
         this.game.addMessage('{0} uses the /forge command to forge a key', player);
         player.keys += 1;
     }

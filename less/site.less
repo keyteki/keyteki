@@ -12,8 +12,12 @@
 @import "cards";
 
 @font-face {
-  font-family: agot;
-  src: url('/fonts/agot.ttf');
+  font-family: 'Keyforge';
+  src: url('/fonts/Oswald-Regular.ttf') format('truetype'),
+  url('/fonts/Kanit-Regular.ttf') format('truetype'),
+  url('/fonts/ZCOOL-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
 
 *, *:before, *:after {
@@ -27,7 +31,7 @@ html {
 body {
   height: 100%;
   background-color: @background-color;
-  color: @foreground-color
+  color: @foreground-color;
 }
 
 pre {

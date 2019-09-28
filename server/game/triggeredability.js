@@ -40,6 +40,9 @@ class TriggeredAbility extends CardAbility {
         this.triggeredByOpponent = !!properties.triggeredByOpponent;
         this.abilityType = abilityType;
         this.optional = !!properties.optional;
+        if(properties.location === 'any') {
+            this.registerEvents();
+        }
     }
 
     eventHandler(event, window) {
