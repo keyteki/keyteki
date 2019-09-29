@@ -13,10 +13,10 @@ import './i18n';
 
 const store = configureStore();
 
-store.dispatch(navigate(window.location.pathname, window.location.search));
+store.dispatch(navigate(window.location.pathname, window.location.search, true));
 
 window.onpopstate = function(e) {
-    store.dispatch(navigate(e.target.location.pathname));
+    store.dispatch(navigate(e.target.location.pathname, null, true));
 };
 
 const DnDContainer = DragDropContext(TouchBackend({ enableMouseEvents: true }))(AppContainer);

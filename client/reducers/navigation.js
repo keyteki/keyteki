@@ -1,16 +1,19 @@
-function navigate(state, newPath, search) {
+function navigate(state, newPath, search, noHistory) {
     try {
-        window.history.pushState({}, '', newPath + (search || ''));
+        if(state.path !== newPath && !noHistory) {
+            window.history.pushState({}, '', newPath + (search || ''));
+        }
+
         return { path: newPath, search: search };
     } catch(err) {
         return {};
     }
 }
 
-export default function (state = {}, action) {
+export default function (state = { path: '/' }, action) {
     switch(action.type) {
         case 'NAVIGATE':
-            state = navigate(state, action.newPath, action.search);
+            state = navigate(state, action.newPath, action.search, action.noHistory);
             break;
         case 'SET_CONTEXT_MENU':
             state = Object.assign({}, state, {
