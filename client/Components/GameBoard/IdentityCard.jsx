@@ -7,8 +7,8 @@ import QRCode from 'qrcode';
 import { withTranslation } from 'react-i18next';
 
 class IdentityCard extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.onMouseOut = this.onMouseOut.bind(this);
         this.onMouseOver = this.onMouseOver.bind(this);
         this.state = { imageUrl: '' };
