@@ -6,14 +6,10 @@ class ScowlyCaper extends Card {
             effect: ability.effects.canUse(card => card === this)
         });
 
-        this.constantReaction({
-            when: {
-                onCardEntersPlay: (event, context) => event.card === context.source
-            },
-            gameAction: ability.actions.cardLastingEffect(context => ({
-                duration: 'lastingEffect',
-                effect: ability.effects.takeControl(context.player.opponent)
-            }))
+        this.persistentEffect({
+            location: 'any',
+            match: this,
+            effect: ability.effects.entersPlayUnderOpponentsControl()
         });
 
         this.interrupt({
