@@ -700,6 +700,10 @@ class Game extends EventEmitter {
         return new AbilityContext({ game: this, player: player });
     }
 
+    checkAlpha() {
+        return this.cardsPlayed.length === 0;
+    }
+
     /**
      * Changes the controller of a card in play to the passed player, and cleans
      * all the related stuff up

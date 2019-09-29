@@ -11,7 +11,7 @@ class IdentityCard extends React.Component {
         super();
         this.onMouseOut = this.onMouseOut.bind(this);
         this.onMouseOver = this.onMouseOver.bind(this);
-        this.state = {imageUrl: ''};
+        this.state = { imageUrl: '' };
     }
 
     componentDidMount() {
@@ -66,7 +66,7 @@ class IdentityCard extends React.Component {
                 });
         });
 
-        let {language, t, i18n} = this.props;
+        let { language, t, i18n } = this.props;
         let langToUse = language ? language : i18n.language;
 
         Promise.all([cardBack, maverick, legacy, Common, Uncommon, Rare, Special, qrCode])
@@ -80,9 +80,9 @@ class IdentityCard extends React.Component {
                         const img = await loadImage(`img/idbacks/decklist_houses/${ house }.png`);
                         ctx.drawImage(img, houseData[index].x, houseData[index].y, houseData.size, houseData.size);
                         ctx.fillStyle = 'black';
-                        ctx.font = 'bold 25px TeutonNormal';
+                        ctx.font = 'bold 25px Keyforge';
                         ctx.textAlign = 'left';
-                        ctx.fillText(t(house).toUpperCase(), houseData[index].x + 40, houseData[index].y + 28);
+                        ctx.fillText(this.props.t(house).toUpperCase(), houseData[index].x + 40, houseData[index].y + 28);
                         res1();
                     });
 
@@ -101,7 +101,8 @@ class IdentityCard extends React.Component {
                     .sort((a, b) => this.props.houses.indexOf(a.house) - this.props.houses.indexOf(b.house));
                 const cardProm = cardList.map((card, index) => {
                     return new Promise(async res2 => {
-                        const title = (card.locale && card.locale[langToUse]) ? card.locale[langToUse].name : card.name;
+                        const language = this.props.language ? this.props.language : this.props.i18n.language;
+                        const title = (card.locale && card.locale[language]) ? card.locale[language].name : card.name;
                         let x = cardData.start.x,
                             y = cardData.start.y + (index * 28);
                         if(index > 11) {
@@ -116,10 +117,10 @@ class IdentityCard extends React.Component {
                         }
                         ctx.drawImage((Rarities[card.rarity === 'FIXED' || card.rarity === 'Variant' ? 'Special' : card.rarity]), x, y - 19, cardData.size, cardData.size);
                         ctx.fillStyle = 'black';
-                        ctx.font = 'bold 20px TeutonNormal';
+                        ctx.font = 'bold 20px Keyforge';
                         ctx.textAlign = 'left';
                         ctx.fillText(card.number, x + 22, y);
-                        ctx.font = '20px TeutonNormal';
+                        ctx.font = '20px Keyforge';
                         ctx.fillText(title, x + 60, y);
                         if(card.is_maverick) {
                             ctx.drawImage(maverick, x + ((title.length * 6) + 100), y - 18, cardData.size, cardData.size);
@@ -130,37 +131,46 @@ class IdentityCard extends React.Component {
                         res2();
                     });
                 });
-                ctx.drawImage((this.getCircularText(this.props.deckName, 2000, 0)), -700, 30);
+                ctx.drawImage((this.getCircularText(this.props.deckName, 1600, 0)), -500, 35);
                 Promise.all([...houseProm, ...cardProm]).then(() => {
                     this.setState({imageUrl: canvas.toDataURL()});
+
+                    this.refs.dummy.parentElement.removeChild(this.refs.dummy);
                 });
             });
     }
 
     buildArchon() {
-        const number = this.findColor(this.props.deckName.length);
-        const houseNames = [{x: 120, y: 750}, {x: 300, y: 800}, {x: 480, y: 750}];
+        const houseNames = [{ x: 120, y: 750 }, { x: 300, y: 800 }, { x: 480, y: 750 }];
         const canvas = createCanvas(600, 840);
         const ctx = canvas.getContext('2d');
-        const cardBack = loadImage(`/img/idbacks/archons/archon_${ number }.png`);
-        const house1 = loadImage(`/img/idbacks/archon_houses/${ this.props.houses[0] }.png`);
-        const house2 = loadImage(`/img/idbacks/archon_houses/${ this.props.houses[1] }.png`);
-        const house3 = loadImage(`/img/idbacks/archon_houses/${ this.props.houses[2] }.png`);
-        Promise.all([cardBack, house1, house2, house3]).then(([cardBack, house1, house2, house3]) => {
+        let promises = [];
+
+        promises.push(loadImage(`/img/idbacks/archons/archon_${ Math.floor(Math.random() * 7) + 1 }.png`));
+        if(this.props.houses && this.props.houses.length > 0) {
+            promises.push(loadImage(`/img/idbacks/archon_houses/${ this.props.houses[0] }.png`));
+            promises.push(loadImage(`/img/idbacks/archon_houses/${ this.props.houses[1] }.png`));
+            promises.push(loadImage(`/img/idbacks/archon_houses/${ this.props.houses[2] }.png`));
+        }
+        Promise.all(promises).then(([cardBack, house1, house2, house3]) => {
             ctx.drawImage(cardBack, 0, 0);
-            ctx.drawImage(house1, 45, 590, 150, 150);
-            ctx.drawImage(house2, 225, 640, 150, 150);
-            ctx.drawImage(house3, 405, 590, 150, 150);
+            if(house1) {
+                ctx.drawImage(house1, 45, 590, 150, 150);
+                ctx.drawImage(house2, 225, 640, 150, 150);
+                ctx.drawImage(house3, 405, 590, 150, 150);
+            }
             ctx.drawImage((this.getCircularText(this.props.deckName, 700, 0)), -50, 60);
             ctx.fillStyle = 'white';
             ctx.strokeStyle = 'grey';
             ctx.textAlign = 'center';
-            ctx.font = '30px TeutonNormal';
+            ctx.font = '30px Keyforge';
             this.props.houses.forEach((house, index) => {
                 ctx.fillText(house.toUpperCase(), houseNames[index].x, houseNames[index].y);
                 ctx.strokeText(house.toUpperCase(), houseNames[index].x, houseNames[index].y);
             });
             this.setState({imageUrl: canvas.toDataURL()});
+
+            this.refs.dummy.parentElement.removeChild(this.refs.dummy);
         });
     }
 
@@ -197,7 +207,7 @@ class IdentityCard extends React.Component {
         canvas.height = diameter;
         ctx.fillStyle = 'white';
         ctx.strokeStyle = 'grey';
-        ctx.font = `bold ${ this.getCurvedFontSize(text.length) }px TeutonNormal`;
+        ctx.font = `bold ${ this.getCurvedFontSize(text.length) }px Keyforge`;
 
         text = text.split('').reverse().join('');
 
@@ -246,6 +256,7 @@ class IdentityCard extends React.Component {
         });
         return (
             <div className={ className } onMouseOver={ this.onMouseOver } onMouseOut={ this.onMouseOut }>
+                <div id='dummy' ref='dummy' className='keyforge-font'>.</div>
                 <div className='card-wrapper'>
                     <div className='card-frame'>
                         <img className={ `card-image vertical ${ this.props.size }` } src={ this.state.imageUrl }/>
