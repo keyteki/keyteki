@@ -7,8 +7,8 @@ import QRCode from 'qrcode';
 import { withTranslation } from 'react-i18next';
 
 class IdentityCard extends React.Component {
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
         this.onMouseOut = this.onMouseOut.bind(this);
         this.onMouseOver = this.onMouseOver.bind(this);
         this.state = {imageUrl: ''};
@@ -20,6 +20,9 @@ class IdentityCard extends React.Component {
 
     componentDidUpdate(prevProps) {
         if(this.props.language !== prevProps.language) {
+            this.buildIdentityCard();
+        }
+        if(this.props.deckName !== prevProps.deckName) {
             this.buildIdentityCard();
         }
     }
@@ -63,7 +66,7 @@ class IdentityCard extends React.Component {
                 });
         });
 
-        let { language, t, i18n } = this.props;
+        let {language, t, i18n} = this.props;
         let langToUse = language ? language : i18n.language;
 
         Promise.all([cardBack, maverick, legacy, Common, Uncommon, Rare, Special, qrCode])
@@ -135,10 +138,11 @@ class IdentityCard extends React.Component {
     }
 
     buildArchon() {
+        const number = this.findColor(this.props.deckName.length);
         const houseNames = [{x: 120, y: 750}, {x: 300, y: 800}, {x: 480, y: 750}];
         const canvas = createCanvas(600, 840);
         const ctx = canvas.getContext('2d');
-        const cardBack = loadImage(`/img/idbacks/archons/archon_${ Math.floor(Math.random() * 7) + 1 }.png`);
+        const cardBack = loadImage(`/img/idbacks/archons/archon_${ number }.png`);
         const house1 = loadImage(`/img/idbacks/archon_houses/${ this.props.houses[0] }.png`);
         const house2 = loadImage(`/img/idbacks/archon_houses/${ this.props.houses[1] }.png`);
         const house3 = loadImage(`/img/idbacks/archon_houses/${ this.props.houses[2] }.png`);
@@ -158,6 +162,22 @@ class IdentityCard extends React.Component {
             });
             this.setState({imageUrl: canvas.toDataURL()});
         });
+    }
+
+    findColor(number) {
+        number = (number * 76961).toString().slice(-3, -2);
+        switch(number) {
+            case '':
+                return '1';
+            case '0':
+                return '2';
+            case '8':
+                return '3';
+            case '9':
+                return '5';
+            default:
+                return number;
+        }
     }
 
     getCurvedFontSize(length) {
@@ -214,11 +234,16 @@ class IdentityCard extends React.Component {
     }
 
     render() {
+        if(this.props.image) {
+            return (
+                <img className={ `${ this.props.size }` } src={ this.state.imageUrl }
+                    onMouseOver={ this.onMouseOver } onMouseOut={ this.onMouseOut }/>
+            );
+        }
         let className = classNames('panel', 'card-pile', this.props.className, {
             [this.props.size]: this.props.size !== 'normal',
             'vertical': true
         });
-
         return (
             <div className={ className } onMouseOver={ this.onMouseOver } onMouseOut={ this.onMouseOut }>
                 <div className='card-wrapper'>
@@ -241,6 +266,7 @@ IdentityCard.propTypes = {
     deckUuid: PropTypes.string,
     houses: PropTypes.array,
     i18n: PropTypes.object,
+    image: PropTypes.bool,
     language: PropTypes.string,
     onMouseOut: PropTypes.func,
     onMouseOver: PropTypes.func,
