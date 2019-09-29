@@ -65,10 +65,6 @@ class IdentityCard extends React.Component {
                     });
                 });
         });
-
-        let { language, t, i18n } = this.props;
-        let langToUse = language ? language : i18n.language;
-
         Promise.all([cardBack, maverick, legacy, Common, Uncommon, Rare, Special, qrCode])
             .then(([cardBack, maverick, legacy, Common, Uncommon, Rare, Special, qrCode]) => {
                 const Rarities = {Common, Uncommon, Rare, Special};
@@ -134,8 +130,6 @@ class IdentityCard extends React.Component {
                 ctx.drawImage((this.getCircularText(this.props.deckName, 1600, 0)), -500, 35);
                 Promise.all([...houseProm, ...cardProm]).then(() => {
                     this.setState({imageUrl: canvas.toDataURL()});
-
-                    this.refs.dummy.parentElement.removeChild(this.refs.dummy);
                 });
             });
     }
@@ -166,12 +160,10 @@ class IdentityCard extends React.Component {
             ctx.textAlign = 'center';
             ctx.font = '30px Keyforge';
             this.props.houses.forEach((house, index) => {
-                ctx.fillText(house.toUpperCase(), houseNames[index].x, houseNames[index].y);
-                ctx.strokeText(house.toUpperCase(), houseNames[index].x, houseNames[index].y);
+                ctx.fillText(this.props.t(house).toUpperCase(), houseNames[index].x, houseNames[index].y);
+                ctx.strokeText(this.props.t(house).toUpperCase(), houseNames[index].x, houseNames[index].y);
             });
             this.setState({imageUrl: canvas.toDataURL()});
-
-            this.refs.dummy.parentElement.removeChild(this.refs.dummy);
         });
     }
 
@@ -257,7 +249,6 @@ class IdentityCard extends React.Component {
         });
         return (
             <div className={ className } onMouseOver={ this.onMouseOver } onMouseOut={ this.onMouseOut }>
-                <div id='dummy' ref='dummy' className='keyforge-font'>.</div>
                 <div className='card-wrapper'>
                     <div className='card-frame'>
                         <img className={ `card-image vertical ${ this.props.size }` } src={ this.state.imageUrl }/>
