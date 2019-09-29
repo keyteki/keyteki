@@ -20,7 +20,7 @@ class DeckRow extends React.Component {
     }
 
     onArchonMouseOver(data) {
-        this.setState({ imageUrl: data.imageUrl, X:data.X, Y: data.Y });
+        this.setState({ imageUrl: data.imageUrl, X: data.X, Y: data.Y });
     }
 
     onCardMouseOut() {
