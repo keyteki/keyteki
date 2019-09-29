@@ -11,7 +11,7 @@ class IdentityCard extends React.Component {
         super(props);
         this.onMouseOut = this.onMouseOut.bind(this);
         this.onMouseOver = this.onMouseOver.bind(this);
-        this.state = {imageUrl: ''};
+        this.state = { imageUrl: '' };
     }
 
     componentDidMount() {
@@ -63,9 +63,6 @@ class IdentityCard extends React.Component {
                 });
         });
 
-        let { language, t, i18n } = this.props;
-        let langToUse = language ? language : i18n.language;
-
         Promise.all([cardBack, maverick, legacy, Common, Uncommon, Rare, Special, qrCode])
             .then(([cardBack, maverick, legacy, Common, Uncommon, Rare, Special, qrCode]) => {
                 const Rarities = {Common, Uncommon, Rare, Special};
@@ -79,7 +76,7 @@ class IdentityCard extends React.Component {
                         ctx.fillStyle = 'black';
                         ctx.font = 'bold 25px Keyforge';
                         ctx.textAlign = 'left';
-                        ctx.fillText(t(house).toUpperCase(), houseData[index].x + 40, houseData[index].y + 28);
+                        ctx.fillText(this.props.t(house).toUpperCase(), houseData[index].x + 40, houseData[index].y + 28);
                         res1();
                     });
 
@@ -98,7 +95,8 @@ class IdentityCard extends React.Component {
                     .sort((a, b) => this.props.houses.indexOf(a.house) - this.props.houses.indexOf(b.house));
                 const cardProm = cardList.map((card, index) => {
                     return new Promise(async res2 => {
-                        const title = (card.locale && card.locale[langToUse]) ? card.locale[langToUse].name : card.name;
+                        const language = this.props.language ? this.props.language : this.props.i18n.language;
+                        const title = (card.locale && card.locale[language]) ? card.locale[language].name : card.name;
                         let x = cardData.start.x,
                             y = cardData.start.y + (index * 28);
                         if(index > 11) {
@@ -130,23 +128,31 @@ class IdentityCard extends React.Component {
                 ctx.drawImage((this.getCircularText(this.props.deckName, 1600, 0)), -500, 35);
                 Promise.all([...houseProm, ...cardProm]).then(() => {
                     this.setState({imageUrl: canvas.toDataURL()});
+
+                    this.refs.dummy.parentElement.removeChild(this.refs.dummy);
                 });
             });
     }
 
     buildArchon() {
-        const houseNames = [{x: 120, y: 750}, {x: 300, y: 800}, {x: 480, y: 750}];
+        const houseNames = [{ x: 120, y: 750 }, { x: 300, y: 800 }, { x: 480, y: 750 }];
         const canvas = createCanvas(600, 840);
         const ctx = canvas.getContext('2d');
-        const cardBack = loadImage(`/img/idbacks/archons/archon_${ Math.floor(Math.random() * 7) + 1 }.png`);
-        const house1 = loadImage(`/img/idbacks/archon_houses/${ this.props.houses[0] }.png`);
-        const house2 = loadImage(`/img/idbacks/archon_houses/${ this.props.houses[1] }.png`);
-        const house3 = loadImage(`/img/idbacks/archon_houses/${ this.props.houses[2] }.png`);
-        Promise.all([cardBack, house1, house2, house3]).then(([cardBack, house1, house2, house3]) => {
+        let promises = [];
+
+        promises.push(loadImage(`/img/idbacks/archons/archon_${ Math.floor(Math.random() * 7) + 1 }.png`));
+        if(this.props.houses && this.props.houses.length > 0) {
+            promises.push(loadImage(`/img/idbacks/archon_houses/${ this.props.houses[0] }.png`));
+            promises.push(loadImage(`/img/idbacks/archon_houses/${ this.props.houses[1] }.png`));
+            promises.push(loadImage(`/img/idbacks/archon_houses/${ this.props.houses[2] }.png`));
+        }
+        Promise.all(promises).then(([cardBack, house1, house2, house3]) => {
             ctx.drawImage(cardBack, 0, 0);
-            ctx.drawImage(house1, 45, 590, 150, 150);
-            ctx.drawImage(house2, 225, 640, 150, 150);
-            ctx.drawImage(house3, 405, 590, 150, 150);
+            if(house1) {
+                ctx.drawImage(house1, 45, 590, 150, 150);
+                ctx.drawImage(house2, 225, 640, 150, 150);
+                ctx.drawImage(house3, 405, 590, 150, 150);
+            }
             ctx.drawImage((this.getCircularText(this.props.deckName, 700, 0)), -50, 60);
             ctx.fillStyle = 'white';
             ctx.strokeStyle = 'grey';
@@ -157,6 +163,8 @@ class IdentityCard extends React.Component {
                 ctx.strokeText(house.toUpperCase(), houseNames[index].x, houseNames[index].y);
             });
             this.setState({imageUrl: canvas.toDataURL()});
+
+            this.refs.dummy.parentElement.removeChild(this.refs.dummy);
         });
     }
 
@@ -221,6 +229,7 @@ class IdentityCard extends React.Component {
 
         return (
             <div className={ className } onMouseOver={ this.onMouseOver } onMouseOut={ this.onMouseOut }>
+                <div id='dummy' ref='dummy' className='keyforge-font'>.</div>
                 <div className='card-wrapper'>
                     <div className='card-frame'>
                         <img className={ `card-image vertical ${ this.props.size }` } src={ this.state.imageUrl }/>
