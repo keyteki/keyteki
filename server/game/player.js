@@ -186,10 +186,11 @@ class Player extends GameObject {
      */
     prepareDecks() {
         let deck = new Deck(this.deckData);
-        var preparedDeck = deck.prepare(this);
+        let preparedDeck = deck.prepare(this);
         this.houses = preparedDeck.houses;
         this.deck = preparedDeck.cards;
         this.allCards = preparedDeck.cards;
+        this.deckCards = this.getDeckCards(this.deckData.cards);
     }
 
     /**
@@ -605,7 +606,7 @@ class Player extends GameObject {
             timerSettings: {},
             user: _.omit(this.user, ['password', 'email']),
             deckUuid: this.deckData.uuid,
-            deckCards: []
+            deckCards: this.deckCards
         };
 
         if(isActivePlayer) {
@@ -623,9 +624,8 @@ class Player extends GameObject {
                 return 0;
             });
             state.cardPiles.deck = this.getSummaryForCardList(sortedDeck, activePlayer, true);
-            state.deckCards = this.getDeckCards(this.deckData.cards);
-        } else if(gameFormat === 'normal') {
-            state.deckCards = this.getDeckCards(this.deckData.cards);
+        } else if(gameFormat === 'sealed') {
+            state.deckCards = [];
         }
 
         if(this.isTopCardShown()) {
