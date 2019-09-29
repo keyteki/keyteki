@@ -141,12 +141,13 @@ class IdentityCard extends React.Component {
     }
 
     buildArchon() {
+        const number = this.findColor(this.props.deckName.length);
         const houseNames = [{ x: 120, y: 750 }, { x: 300, y: 800 }, { x: 480, y: 750 }];
         const canvas = createCanvas(600, 840);
         const ctx = canvas.getContext('2d');
         let promises = [];
 
-        promises.push(loadImage(`/img/idbacks/archons/archon_${ Math.floor(Math.random() * 7) + 1 }.png`));
+        promises.push(loadImage(`/img/idbacks/archons/archon_${ number }.png`));
         if(this.props.houses && this.props.houses.length > 0) {
             promises.push(loadImage(`/img/idbacks/archon_houses/${ this.props.houses[0] }.png`));
             promises.push(loadImage(`/img/idbacks/archon_houses/${ this.props.houses[1] }.png`));
