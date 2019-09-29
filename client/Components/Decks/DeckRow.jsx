@@ -3,12 +3,28 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 
 import { withTranslation } from 'react-i18next';
+import IdentityCard from '../GameBoard/IdentityCard';
+import CardImage from '../GameBoard/CardImage';
 
 class DeckRow extends React.Component {
-    constructor() {
-        super();
-
+    constructor(props) {
+        super(props);
         this.handleDeckClick = this.handleDeckClick.bind(this);
+        this.onCardMouseOut = this.onCardMouseOut.bind(this);
+        this.onArchonMouseOver = this.onArchonMouseOver.bind(this);
+        this.state = {
+            imageUrl: false,
+            X: 0,
+            Y: 0
+        };
+    }
+
+    onArchonMouseOver(data) {
+        this.setState({ imageUrl: data.imageUrl, X:data.X, Y: data.Y });
+    }
+
+    onCardMouseOut() {
+        this.setState({ imageUrl: false });
     }
 
     handleDeckClick() {
@@ -39,8 +55,14 @@ class DeckRow extends React.Component {
 
         return (
             <div className={ this.props.active ? 'deck-row active' : 'deck-row' } key={ this.props.deck.name } onClick={ this.handleDeckClick }>
+                { this.state.imageUrl ?
+                    <div className='hover-card' style={ { left: 250 } }>
+                        <CardImage className='hover-image' img={ this.state.imageUrl }/>
+                    </div> : null }
                 <div className='col-xs-1 deck-image'>
-                    <img className='img-responsive' src={ '/img/idbacks/identity.jpg' } />
+                    <IdentityCard size={ 'img-responsive' } deckCards={ [] } cards={ {} } image language={ this.props.i18n.language }
+                        houses={ this.props.deck.houses } deckName={ this.props.deck.name } onMouseOut={ this.onCardMouseOut }
+                        deckUuid = { this.props.deck.uuid } onMouseOver={ this.onArchonMouseOver } />
                 </div>
                 <span className='col-xs-8 col-md-7 col-lg-9 deck-name'>{ this.props.deck.name }</span><span className='col-xs-2 col-md-3 col-lg-2 deck-status-label text-right pull-right'>{ this.getStatusName(this.props.deck.status) }</span>
                 <div className='row small'>
