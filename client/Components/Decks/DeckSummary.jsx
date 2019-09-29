@@ -146,7 +146,7 @@ class DeckSummary extends React.Component {
                     <div className='col-xs-2 col-sm-3 no-x-padding'>
                         <IdentityCard size={ 'img-responsive' } deckCards={ [] } cards={ {} } image
                             language={ this.props.i18n.language } houses={ this.props.deck.houses }
-                            deckName={ this.props.deck.name } onMouseOut={ this.onCardMouseOut }
+                            deckName={ this.props.deck.name } deckUuid = { this.props.deck.uuid } onMouseOut={ this.onCardMouseOut }
                             onMouseOver={ this.onArchonMouseOver } />
                     </div>
                     <div className='col-xs-8 col-sm-6'>

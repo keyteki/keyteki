@@ -7,11 +7,11 @@ import QRCode from 'qrcode';
 import { withTranslation } from 'react-i18next';
 
 class IdentityCard extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.onMouseOut = this.onMouseOut.bind(this);
         this.onMouseOver = this.onMouseOver.bind(this);
-        this.state = { imageUrl: '' };
+        this.state = {imageUrl: ''};
     }
 
     componentDidMount() {
@@ -136,7 +136,7 @@ class IdentityCard extends React.Component {
 
     buildArchon() {
         const number = this.findColor(this.props.deckName.length);
-        const houseNames = [{ x: 120, y: 750 }, { x: 300, y: 800 }, { x: 480, y: 750 }];
+        const houseNames = [{x: 120, y: 750}, {x: 300, y: 800}, {x: 480, y: 750}];
         const canvas = createCanvas(600, 840);
         const ctx = canvas.getContext('2d');
         let promises = [];
@@ -167,20 +167,11 @@ class IdentityCard extends React.Component {
         });
     }
 
-    findColor(number) {
-        number = (number * 76961).toString().slice(-3, -2);
-        switch(number) {
-            case '':
-                return '1';
-            case '0':
-                return '2';
-            case '8':
-                return '3';
-            case '9':
-                return '5';
-            default:
-                return number;
-        }
+    findColor() {
+        let archon = btoa(this.props.deckUuid)
+            .replace(/[\D+089]/g, '')
+            .slice(-1);
+        return archon === '' ? 1 : archon;
     }
 
     getCurvedFontSize(length) {
