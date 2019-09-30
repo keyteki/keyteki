@@ -25,9 +25,9 @@ class Card extends EffectSource {
         this.image = cardData.image;
         this.setDefaultController(owner);
 
-        this.originalType = cardData.type;
+        this.printedType = cardData.type;
         this.effectiveType = null;
-        this.canPlayAsUpgrade = this.originalType === 'upgrade';
+        this.canPlayAsUpgrade = this.printedType === 'upgrade';
 
         this.tokens = {};
 
@@ -107,11 +107,11 @@ class Card extends EffectSource {
         if(this.effectiveType !== null) {
             return this.effectiveType;
         }
-        return this.originalType;
+        return this.printedType;
     }
 
     set type(t) {
-        this.originalType = t;
+        this.printedType = t;
     }
 
     /**
