@@ -11,7 +11,7 @@ class IdentityCard extends React.Component {
         super(props);
         this.onMouseOut = this.onMouseOut.bind(this);
         this.onMouseOver = this.onMouseOver.bind(this);
-        this.state = { imageUrl: '' };
+        this.state = {imageUrl: ''};
     }
 
     componentDidMount() {
@@ -20,6 +20,9 @@ class IdentityCard extends React.Component {
 
     componentDidUpdate(prevProps) {
         if(this.props.language !== prevProps.language) {
+            this.buildIdentityCard();
+        }
+        if(this.props.deckName !== prevProps.deckName) {
             this.buildIdentityCard();
         }
     }
@@ -62,7 +65,6 @@ class IdentityCard extends React.Component {
                     });
                 });
         });
-
         Promise.all([cardBack, maverick, legacy, Common, Uncommon, Rare, Special, qrCode])
             .then(([cardBack, maverick, legacy, Common, Uncommon, Rare, Special, qrCode]) => {
                 const Rarities = {Common, Uncommon, Rare, Special};
@@ -128,19 +130,18 @@ class IdentityCard extends React.Component {
                 ctx.drawImage((this.getCircularText(this.props.deckName, 1600, 0)), -500, 35);
                 Promise.all([...houseProm, ...cardProm]).then(() => {
                     this.setState({imageUrl: canvas.toDataURL()});
-
-                    this.refs.dummy.parentElement.removeChild(this.refs.dummy);
                 });
             });
     }
 
     buildArchon() {
-        const houseNames = [{ x: 120, y: 750 }, { x: 300, y: 800 }, { x: 480, y: 750 }];
+        const number = this.findColor(this.props.deckName.length);
+        const houseNames = [{x: 120, y: 750}, {x: 300, y: 800}, {x: 480, y: 750}];
         const canvas = createCanvas(600, 840);
         const ctx = canvas.getContext('2d');
         let promises = [];
 
-        promises.push(loadImage(`/img/idbacks/archons/archon_${ Math.floor(Math.random() * 7) + 1 }.png`));
+        promises.push(loadImage(`/img/idbacks/archons/archon_${ number }.png`));
         if(this.props.houses && this.props.houses.length > 0) {
             promises.push(loadImage(`/img/idbacks/archon_houses/${ this.props.houses[0] }.png`));
             promises.push(loadImage(`/img/idbacks/archon_houses/${ this.props.houses[1] }.png`));
@@ -159,13 +160,18 @@ class IdentityCard extends React.Component {
             ctx.textAlign = 'center';
             ctx.font = '30px Keyforge';
             this.props.houses.forEach((house, index) => {
-                ctx.fillText(house.toUpperCase(), houseNames[index].x, houseNames[index].y);
-                ctx.strokeText(house.toUpperCase(), houseNames[index].x, houseNames[index].y);
+                ctx.fillText(this.props.t(house).toUpperCase(), houseNames[index].x, houseNames[index].y);
+                ctx.strokeText(this.props.t(house).toUpperCase(), houseNames[index].x, houseNames[index].y);
             });
             this.setState({imageUrl: canvas.toDataURL()});
-
-            this.refs.dummy.parentElement.removeChild(this.refs.dummy);
         });
+    }
+
+    findColor() {
+        let archon = btoa(this.props.deckUuid)
+            .replace(/[\D+089]/g, '')
+            .slice(-1);
+        return archon === '' ? 1 : archon;
     }
 
     getCurvedFontSize(length) {
@@ -222,14 +228,18 @@ class IdentityCard extends React.Component {
     }
 
     render() {
+        if(this.props.image) {
+            return (
+                <img className={ `${ this.props.size }` } src={ this.state.imageUrl }
+                    onMouseOver={ this.onMouseOver } onMouseOut={ this.onMouseOut }/>
+            );
+        }
         let className = classNames('panel', 'card-pile', this.props.className, {
             [this.props.size]: this.props.size !== 'normal',
             'vertical': true
         });
-
         return (
             <div className={ className } onMouseOver={ this.onMouseOver } onMouseOut={ this.onMouseOut }>
-                <div id='dummy' ref='dummy' className='keyforge-font'>.</div>
                 <div className='card-wrapper'>
                     <div className='card-frame'>
                         <img className={ `card-image vertical ${ this.props.size }` } src={ this.state.imageUrl }/>
@@ -250,6 +260,7 @@ IdentityCard.propTypes = {
     deckUuid: PropTypes.string,
     houses: PropTypes.array,
     i18n: PropTypes.object,
+    image: PropTypes.bool,
     language: PropTypes.string,
     onMouseOut: PropTypes.func,
     onMouseOver: PropTypes.func,
