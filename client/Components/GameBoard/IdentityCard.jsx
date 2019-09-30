@@ -129,13 +129,14 @@ class IdentityCard extends React.Component {
                 });
                 ctx.drawImage((this.getCircularText(this.props.deckName, 1600, 0)), -500, 35);
                 Promise.all([...houseProm, ...cardProm]).then(() => {
-                    this.setState({imageUrl: canvas.toDataURL()});
+                    const imageUrl = canvas.toDataURL();
+                    this.setState({ imageUrl });
                 });
             });
     }
 
     buildArchon() {
-        const number = this.findColor(this.props.deckName.length);
+        const number = this.findColor();
         const houseNames = [{x: 120, y: 750}, {x: 300, y: 800}, {x: 480, y: 750}];
         const canvas = createCanvas(600, 840);
         const ctx = canvas.getContext('2d');
@@ -163,7 +164,8 @@ class IdentityCard extends React.Component {
                 ctx.fillText(this.props.t(house).toUpperCase(), houseNames[index].x, houseNames[index].y);
                 ctx.strokeText(this.props.t(house).toUpperCase(), houseNames[index].x, houseNames[index].y);
             });
-            this.setState({imageUrl: canvas.toDataURL()});
+            const imageUrl = canvas.toDataURL();
+            this.setState({ imageUrl });
         });
     }
 
