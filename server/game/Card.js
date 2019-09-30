@@ -27,7 +27,6 @@ class Card extends EffectSource {
 
         this.printedType = cardData.type;
         this.effectiveType = null;
-        this.canPlayAsUpgrade = this.printedType === 'upgrade';
 
         this.tokens = {};
 
@@ -529,12 +528,16 @@ class Card extends EffectSource {
         });
     }
 
+    canPlayAsUpgrade() {
+        return this.effects.filter(effect => effect.type === 'canPlayAsUpgrade');
+    }
+
     /**
      * Checks whether the passed card meets the upgrade restrictions (e.g.
      * Opponent cards only, specific factions, etc) for this card.
      */
     canAttach(card, context) { // eslint-disable-line no-unused-vars
-        return card && card.getType() === 'creature' && this.canPlayAsUpgrade;
+        return card && card.getType() === 'creature' && card.canPlayAsUpgrade();
     }
 
     use(player, ignoreHouse = false) {
@@ -598,7 +601,7 @@ class Card extends EffectSource {
             } else if(this.type === 'action') {
                 actions.push(new PlayAction(this));
             }
-            if(this.canPlayAsUpgrade) {
+            if(this.canPlayAsUpgrade()) {
                 actions.push(new PlayUpgradeAction(this));
             }
             actions.push(new DiscardAction(this));

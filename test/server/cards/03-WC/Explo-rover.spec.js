@@ -14,7 +14,13 @@ describe('Explo-rover', function() {
                 });
             });
 
+            it('other creatures can\'t be played as upgrades', function() {
+                this.player1.clickCard(this.theGrimReaper);
+                expect(this.player1.currentButtons.includes('Play this upgrade')).toBe(false);
+            });
             it('is played as a creature that has skirmish', function() {
+                this.player1.clickCard(this.exploRover);
+                expect(this.player1.currentButtons.includes('Play this upgrade')).toBe(true);
                 this.player1.play(this.exploRover);
                 expect(this.exploRover.type).toBe('creature');
                 expect(this.exploRover.location).toBe('play area');

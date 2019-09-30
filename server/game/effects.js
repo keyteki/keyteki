@@ -14,6 +14,7 @@ const Effects = {
     addTrait: (trait) => EffectBuilder.card.static('addTrait', trait),
     blank: () => EffectBuilder.card.static('blank'),
     bonusDamage: (match) => EffectBuilder.card.static('bonusDamage', match),
+    canPlayAsUpgrade: () => EffectBuilder.card.static('canPlayAsUpgrade'),
     cardCannot: (type, condition) => EffectBuilder.card.static('abilityRestrictions', new CannotRestriction(type, condition)),
     changeHouse: (house) => EffectBuilder.card.static('changeHouse', house),
     consideredAsFlank: () => EffectBuilder.card.static('consideredAsFlank'),
