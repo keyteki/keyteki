@@ -41,5 +41,33 @@ describe('Mimicry', function() {
                 expect(this.player1.player.cardsInPlay).toContain(this.snufflegator);
             });
         });
+
+        describe('Mimicry/Wild Wormhole interaction', function() {
+            beforeEach(function() {
+                this.setupTest({
+                    player1: {
+                        house: 'logos',
+                        hand: ['wild-wormhole'],
+                        inPlay: ['batdrone'],
+                        discard: ['mimicry']
+                    },
+                    player2: {
+                        amber: 5,
+                        discard: ['neuro-syphon']
+                    }
+                });
+                this.player1.moveCard(this.mimicry, 'deck');
+            });
+
+            it('should work correctly', function() {
+                this.player1.play(this.wildWormhole);
+                expect(this.player1).toHavePrompt('Mimicry');
+                expect(this.player1).toBeAbleToSelect(this.neuroSyphon);
+                this.player1.clickCard(this.neuroSyphon);
+                expect(this.player1.amber).toBe(3);
+                expect(this.player2.amber).toBe(4);
+                expect(this.player1.hand.length).toBe(1);
+            });
+        });
     });
 });

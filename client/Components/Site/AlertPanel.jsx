@@ -29,7 +29,7 @@ class AlertPanel extends React.Component {
             { this.props.noIcon ? null : <span className={ icon } aria-hidden='true' /> }
             { this.props.title ? <span className='sr-only'>{ this.props.title }</span> : null }
             { this.props.message ? <span>&nbsp;{ this.props.message }</span> : null }
-            { this.props.children }
+            &nbsp;{ this.props.children }
         </div>);
     }
 }

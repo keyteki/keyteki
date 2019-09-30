@@ -18,12 +18,12 @@ class Card extends EffectSource {
     constructor(owner, cardData) {
         super(owner.game);
         this.owner = owner;
-        this.setDefaultController(owner);
         this.cardData = cardData;
 
         this.id = cardData.id;
         this.name = cardData.name;
         this.image = cardData.image;
+        this.setDefaultController(owner);
 
         this.type = cardData.type;
 

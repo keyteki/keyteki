@@ -481,6 +481,7 @@
   z-index: @layer-top;
   min-width: @card-width * 4;
   min-height: @card-height * 4;
+  pointer-events: none;
 
   &.horizontal {
     min-height: @card-width * 4;
@@ -799,27 +800,6 @@
     top: 260px;
     left: 168px;
   }
-}
-
-@font-face {
-  font-family: 'TeutonNormal';
-  src: url('/fonts/TeutonNormal.eot');
-  src: url('/fonts/TeutonNormal.woff2') format('woff2'),
-  url('/fonts/TeutonNormal.woff') format('woff'),
-  url('/fonts/TeutonNormal.ttf') format('truetype'),
-  url('/fonts/TeutonNormal.svg#TeutonNormal') format('svg'),
-  url('/fonts/TeutonNormal.eot?#iefix') format('embedded-opentype');
-  font-weight: normal;
-  font-style: normal;
-}
-
-.identity-text {
-  font-family: 'TeutonNormal';
-  color: white;
-  position: absolute;
-  font-size: 3.5px;
-  left: 33px;
-  top: 8px;
 }
 
 .identity {

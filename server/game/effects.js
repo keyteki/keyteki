@@ -64,6 +64,7 @@ const Effects = {
     modifyPower: (amount) => EffectBuilder.card.flexible('modifyPower', amount),
     removeKeyword: (keyword) => EffectBuilder.card.static('removeKeyword', keyword),
     takeControl: (player) => EffectBuilder.card.static('takeControl', player),
+    entersPlayUnderOpponentsControl: () => EffectBuilder.card.static('entersPlayUnderOpponentsControl'),
     terminalCondition: (properties) => EffectBuilder.card.detached('terminalCondition', {
         apply: (card, context) => {
             properties.target = card;
