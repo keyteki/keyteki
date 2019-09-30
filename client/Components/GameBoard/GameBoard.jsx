@@ -397,7 +397,7 @@ export class GameBoard extends React.Component {
                     optionSettings={ thisPlayer.optionSettings }
                     onOptionSettingToggle={ this.onOptionSettingToggle.bind(this) }
                     id='settings-modal' />
-                <div className='player-stats-row'>
+                <div className='player-stats-row stats-top'>
                     <PlayerStats stats={ otherPlayer.stats } houses={ otherPlayer.houses } activeHouse={ otherPlayer.activeHouse }
                         user={ otherPlayer.user } activePlayer={ otherPlayer.activePlayer } />
                 </div>
