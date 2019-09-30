@@ -1,4 +1,4 @@
-describe('Alaka', function() {
+describe('Alaka(WC)', function() {
     integration(function() {
         describe('Alaka constant ability', function() {
             beforeEach(function() {

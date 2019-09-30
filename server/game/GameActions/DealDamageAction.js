@@ -7,6 +7,7 @@ class DealDamageAction extends CardGameAction {
         this.reduceArmorBy = null;
         this.fightEvent = null;
         this.damageSource = null;
+        this.damageType = 'card effect';
         this.splash = 0;
         this.purge = false;
         this.ignoreArmor = false;
@@ -63,6 +64,7 @@ class DealDamageAction extends CardGameAction {
             context: context,
             amount: amount,
             damageSource: this.damageSource,
+            damageType: this.damageType,
             destroyed: false,
             fightEvent: this.fightEvent,
             damagePrevented: damagePrevented

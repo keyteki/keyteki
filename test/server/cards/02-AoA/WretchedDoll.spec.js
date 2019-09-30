@@ -25,7 +25,9 @@ describe('WretchedDoll', function() {
                 expect(this.player1).not.toBeAbleToSelect(this.badPenny);
                 expect(this.player1).toBeAbleToSelect(this.mightyTiger);
                 expect(this.player1).toBeAbleToSelect(this.huntingWitch);
+                expect(this.mightyTiger.hasToken('doom')).toBe(false);
                 this.player1.clickCard(this.mightyTiger);
+                expect(this.mightyTiger.tokens.doom).toBe(1);
                 this.player1.endTurn();
                 this.player2.clickPrompt('untamed');
                 this.player2.endTurn();

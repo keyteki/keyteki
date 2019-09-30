@@ -1,4 +1,4 @@
-describe('Berserker Slam', function() {
+describe('Berserker Slam(WC)', function() {
     integration(function() {
         describe('Play ability', function() {
             beforeEach(function() {

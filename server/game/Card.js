@@ -118,7 +118,9 @@ class Card extends EffectSource {
             },
             gameAction: ability.actions.dealDamage(context => ({
                 amount: context.source.getKeywordValue('assault'),
-                target: context.event.card
+                target: context.event.card,
+                damageSource: context.source,
+                damageType: 'assault'
             }))
         });
 
@@ -131,7 +133,9 @@ class Card extends EffectSource {
             },
             gameAction: ability.actions.dealDamage(context => ({
                 amount: context.source.getKeywordValue('hazardous'),
-                target: context.event.attacker
+                target: context.event.attacker,
+                damageSource: context.source,
+                damageType: 'hazardous'
             }))
         });
 

@@ -1,4 +1,4 @@
-describe('Irestaff', function() {
+describe('Irestaff(WC)', function() {
     integration(function() {
         describe('Play ability', function() {
             beforeEach(function() {
