@@ -108,10 +108,6 @@ class Card extends EffectSource {
         return this.printedType;
     }
 
-    set type(t) {
-        this.printedType = t;
-    }
-
     /**
      * Create card abilities by calling subsequent methods with appropriate properties
      * @param ability - object containing limits, costs, effects, and game actions
