@@ -31,23 +31,22 @@ class CardZoom extends React.Component {
         </div>);
     }
 
-    getDecklistCardZoom() {
-        return (<div className='card-large vertical'>
-            { this.props.show ?
-                <div className='card-zoomed shadow'>
-                    <img className='image-large img-responsive' src={ this.props.card.imageUrl }/>
-                </div>
-                : null }
-        </div>);
-    }
-
     render() {
         if(!this.props.card) {
             return null;
         }
 
-        if(this.props.card.decklist) {
-            return this.getDecklistCardZoom();
+        if(this.props.card.imageType) {
+            return (
+                <div className='card-large vertical'>
+                    { this.props.show &&
+                    <div className='card-zoomed shadow'>
+                        { this.props.card.imageType === 'archon' ? this.props.card :
+                            <img className='image-large img-responsive' src={ this.props.card.imageUrl }/>
+                        }
+                    </div>
+                    }
+                </div>);
         }
 
         return this.getNormalCardZoom();

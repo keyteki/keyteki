@@ -5,7 +5,7 @@ import DeckStatus from './DeckStatus';
 import AltCard from '../GameBoard/AltCard';
 import CardImage from '../GameBoard/CardImage';
 
-import { withTranslation, Trans } from 'react-i18next';
+import { Trans, withTranslation } from 'react-i18next';
 import IdentityCard from '../GameBoard/IdentityCard';
 
 class DeckSummary extends React.Component {
@@ -18,9 +18,7 @@ class DeckSummary extends React.Component {
 
         this.state = {
             cardToShow: '',
-            imageUrl: false,
-            X: 0,
-            Y: 0
+            card: false
         };
     }
 
@@ -36,19 +34,19 @@ class DeckSummary extends React.Component {
             return (house === card.card.house) && (cardId === card.card.id);
         });
 
-        this.setState({ cardToShow: cardToDisplay[0] });
+        this.setState({cardToShow: cardToDisplay[0]});
     }
 
-    onArchonMouseOver(data) {
-        this.setState({ imageUrl: data.imageUrl });
+    onArchonMouseOver(card) {
+        this.setState({card});
     }
 
     onCardMouseOut() {
-        this.setState({ cardToShow: false, imageUrl: false });
+        this.setState({cardToShow: false, card: false});
     }
 
     getCardsToRender() {
-        let { i18n, t } = this.props;
+        let {i18n, t} = this.props;
         let cardsToRender = [];
         let groupedCards = {};
 
@@ -79,11 +77,13 @@ class DeckSummary extends React.Component {
                 for(const card of cardList) {
                     let cardToRender = (<div key={ card.id }>
                         <span>{ card.count + 'x ' }</span>
-                        <span className='card-link' onMouseOver={ this.onCardMouseOver } onMouseOut={ this.onCardMouseOut }
+                        <span className='card-link' onMouseOver={ this.onCardMouseOver }
+                            onMouseOut={ this.onCardMouseOut }
                             data-card_id={ card.card.id } data-card_house={ house }>
                             { (card.card.locale && card.card.locale[i18n.language]) ? card.card.locale[i18n.language].name : card.card.name }
                         </span>
-                        { card.maverick ? <img className='small-maverick' src='/img/maverick.png' width='12px' height='12px' /> : null }
+                        { card.maverick ? <img className='small-maverick' src='/img/maverick.png' width='12px'
+                            height='12px'/> : null }
                     </div>);
 
                     cards.push(cardToRender);
@@ -132,37 +132,48 @@ class DeckSummary extends React.Component {
                 { this.state.cardToShow ?
                     <div className='hover-card'>
                         <CardImage className='hover-image'
-                            img={ `/img/cards/${this.state.cardToShow.card.image}.png` }
+                            img={ `/img/cards/${ this.state.cardToShow.card.image }.png` }
                             maverick={ this.state.cardToShow.maverick }
                             amber={ this.state.cardToShow.card.amber }/>
-                        <AltCard card={ this.state.cardToShow } />
+                        <AltCard card={ this.state.cardToShow }/>
                     </div> : null }
-                { this.state.imageUrl ?
+                { this.state.card ?
                     <div className='hover-card'>
-                        <CardImage className='hover-image'
-                            img={ this.state.imageUrl } />
+                        <div className='hover-image'>
+                            { this.state.card }
+                        </div>
                     </div> : null }
                 <div className='decklist'>
                     <div className='col-xs-2 col-sm-3 no-x-padding'>
                         <IdentityCard size={ 'img-responsive' } deckCards={ [] } cards={ {} } image
                             language={ this.props.i18n.language } houses={ this.props.deck.houses }
-                            deckName={ this.props.deck.name } deckUuid = { this.props.deck.uuid } onMouseOut={ this.onCardMouseOut }
-                            onMouseOver={ this.onArchonMouseOver } />
+                            deckName={ this.props.deck.name } deckUuid={ this.props.deck.uuid }
+                            onMouseOut={ this.onCardMouseOut }
+                            onMouseOver={ this.onArchonMouseOver }/>
                     </div>
                     <div className='col-xs-8 col-sm-6'>
-                        <div className='info-row row'><span><Trans>Actions</Trans>:</span><span className='pull-right'>{ cardCounts.action } <Trans>cards</Trans></span></div>
-                        <div className='info-row row'><span><Trans>Artifacts</Trans>:</span><span className='pull-right'>{ cardCounts.artifact } <Trans>cards</Trans></span></div>
-                        <div className='info-row row'><span><Trans>Creatures</Trans>:</span><span className='pull-right'>{ cardCounts.creature } <Trans>cards</Trans></span></div>
-                        <div className='info-row row'><span><Trans>Upgrades</Trans>:</span><span className='pull-right'>{ cardCounts.upgrade } <Trans>cards</Trans></span></div>
+                        <div className='info-row row'><span><Trans>Actions</Trans>:</span><span
+                            className='pull-right'>{ cardCounts.action } <Trans>cards</Trans></span></div>
+                        <div className='info-row row'><span><Trans>Artifacts</Trans>:</span><span
+                            className='pull-right'>{ cardCounts.artifact } <Trans>cards</Trans></span></div>
+                        <div className='info-row row'><span><Trans>Creatures</Trans>:</span><span
+                            className='pull-right'>{ cardCounts.creature } <Trans>cards</Trans></span></div>
+                        <div className='info-row row'><span><Trans>Upgrades</Trans>:</span><span
+                            className='pull-right'>{ cardCounts.upgrade } <Trans>cards</Trans></span></div>
                         <div className='info-row row'><span><Trans>Validity</Trans>:</span>
-                            <DeckStatus className='pull-right' status={ this.props.deck.status } />
+                            <DeckStatus className='pull-right' status={ this.props.deck.status }/>
                         </div>
                         { this.props.deck.usageLevel > 0 && !this.props.deck.verified ?
-                            <div className='info-row row'><Trans i18nKey='decksummary.toverify'>This deck has been flagged as requiring verification. Please email a photo of the decklist with your username written on a piece of paper to</Trans>: thecrucible.deckcheck@gmail.com
+                            <div className='info-row row'><Trans i18nKey='decksummary.toverify'>This deck has been
+                                flagged as requiring verification. Please email a photo of the decklist with your
+                                username written on a piece of paper to</Trans>: thecrucible.deckcheck@gmail.com
                             </div> : null
                         }
                     </div>
-                    <div className='col-xs-2 col-sm-3 no-x-padding'>{ this.props.deck.agenda && this.props.deck.agenda.code ? <img className='img-responsive' src={ '/img/cards/' + this.props.deck.agenda.code + '.png' } /> : null }</div>
+                    <div
+                        className='col-xs-2 col-sm-3 no-x-padding'>{ this.props.deck.agenda && this.props.deck.agenda.code ?
+                            <img className='img-responsive'
+                                src={ '/img/cards/' + this.props.deck.agenda.code + '.png' }/> : null }</div>
                 </div>
                 <div className='col-xs-12 no-x-padding'>
                     <div className='cards'>

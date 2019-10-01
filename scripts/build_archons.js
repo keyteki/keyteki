@@ -125,10 +125,10 @@ const buildArchon = (card) => new Promise(cardResolve => {
     const ctx = canvas.getContext('2d');
     let promises = [];
 
-    promises.push(loadImage(`./public/img/idbacks/archons/archon_${ number }.png`));
-    promises.push(loadImage(`./public/img/idbacks/archon_houses/${ card[0] }.png`));
-    promises.push(loadImage(`./public/img/idbacks/archon_houses/${ card[1] }.png`));
-    promises.push(loadImage(`./public/img/idbacks/archon_houses/${ card[2] }.png`));
+    promises.push(loadImage(Path.join(__dirname, `./archon_blanks/archon_${ number }.png`)));
+    promises.push(loadImage(Path.join(__dirname, `./archon_houses/${ card[0] }.png`)));
+    promises.push(loadImage(Path.join(__dirname, `./archon_houses/${ card[1] }.png`)));
+    promises.push(loadImage(Path.join(__dirname, `./archon_houses/${ card[2] }.png`)));
     Promise.all(promises).then(([cardBack, house1, house2, house3]) => {
         ctx.drawImage(cardBack, 0, 0);
         ctx.drawImage(house1, 45, 590, 150, 150);
@@ -167,7 +167,7 @@ const buildAllFiles = async () => {
     const cards = permute();
     for(let i = 0; i < cards.length; i++) {
         // eslint-disable-next-line no-console
-        console.log(`Building ${ i } ${ cards[i] }`);
+        console.log(`Building ${ i } ${ cards[i] }.  ${cards.length - i} cards to go!`);
         await buildArchon(cards[i]);
     }
 };

@@ -1,10 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-
 import { withTranslation } from 'react-i18next';
 import IdentityCard from '../GameBoard/IdentityCard';
-import CardImage from '../GameBoard/CardImage';
 
 class DeckRow extends React.Component {
     constructor(props) {
@@ -13,18 +11,16 @@ class DeckRow extends React.Component {
         this.onCardMouseOut = this.onCardMouseOut.bind(this);
         this.onArchonMouseOver = this.onArchonMouseOver.bind(this);
         this.state = {
-            imageUrl: false,
-            X: 0,
-            Y: 0
+            card: false
         };
     }
 
-    onArchonMouseOver(data) {
-        this.setState({ imageUrl: data.imageUrl, X: data.X, Y: data.Y });
+    onArchonMouseOver(card) {
+        this.setState({card});
     }
 
     onCardMouseOut() {
-        this.setState({ imageUrl: false });
+        this.setState({card: false});
     }
 
     handleDeckClick() {
@@ -55,9 +51,11 @@ class DeckRow extends React.Component {
 
         return (
             <div className={ this.props.active ? 'deck-row active' : 'deck-row' } key={ this.props.deck.name } onClick={ this.handleDeckClick }>
-                { this.state.imageUrl ?
-                    <div className='hover-card' style={ { left: 250 } }>
-                        <CardImage className='hover-image' img={ this.state.imageUrl }/>
+                { this.state.card ?
+                    <div className='hover-card' style={ { left: 200 } }>
+                        <div className='hover-image'>
+                            { this.state.card }
+                        </div>
                     </div> : null }
                 <div className='col-xs-1 deck-image'>
                     <IdentityCard size={ 'img-responsive' } deckCards={ [] } cards={ {} } image language={ this.props.i18n.language }
