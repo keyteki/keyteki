@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+
 import { withTranslation } from 'react-i18next';
 import IdentityCard from '../GameBoard/IdentityCard';
 
