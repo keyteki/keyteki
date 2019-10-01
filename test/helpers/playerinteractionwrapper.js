@@ -54,6 +54,23 @@ class PlayerInteractionWrapper {
     }
 
     /**
+     * Draws the passed number of cards from the top of the deck into this players hand
+     * @param {number} numCards
+     */
+    drawCardsToHand(numCards = 1) {
+        for(let card of this.deck.slice(0, numCards)) {
+            this.moveCard(card, 'hand');
+        }
+    }
+
+    /**
+     * Draws the cards from archives
+     */
+    drawCardsFromArchives() {
+        _.each(this.archives, card => this.moveCard(card, 'hand'));
+    }
+
+    /**
      * Gets all cards in play for a player
      * @return {DrawCard[]} - List of player's cards currently in play
      */

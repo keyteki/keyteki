@@ -38,6 +38,23 @@ describe('Murkens', function() {
 
                 expect([this.theWarchest, this.grenadeSnib].map(card => card.controller).some(c => c === this.player1.player)).toBe(true);
             });
+
+            it('when archives is empty, top card is played', function() {
+                this.player2.drawCardsFromArchives();
+                this.player1.play(this.murkens);
+
+                expect(this.troll.controller).toBe(this.player1.player);
+                this.player1.endTurn();
+                expect(this.player2).toHavePrompt('House Choice');
+                expect(this.troll.controller).toBe(this.player1.player);
+            });
+
+            it('when deck is empty, plays a random card from archives', function() {
+                this.player2.drawCardsToHand(10);
+                this.player1.play(this.murkens);
+
+                expect([this.theWarchest, this.grenadeSnib].map(card => card.controller).some(c => c === this.player1.player)).toBe(true);
+            });
         });
     });
 });
