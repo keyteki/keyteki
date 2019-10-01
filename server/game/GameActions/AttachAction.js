@@ -48,7 +48,6 @@ class AttachAction extends CardGameAction {
             event.parent.upgrades.push(event.card);
             event.card.parent = event.parent;
             event.card.controller = context.player;
-            event.card.effectiveType = 'upgrade';
         });
     }
 }

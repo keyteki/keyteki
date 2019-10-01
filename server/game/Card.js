@@ -26,7 +26,6 @@ class Card extends EffectSource {
         this.setDefaultController(owner);
 
         this.printedType = cardData.type;
-        this.effectiveType = null;
 
         this.tokens = {};
 
@@ -103,8 +102,8 @@ class Card extends EffectSource {
     }
 
     get type() {
-        if(this.effectiveType !== null) {
-            return this.effectiveType;
+        if(this.anyEffect('canPlayAsUpgrade') && this.parent !== null) {
+            return 'upgrade';
         }
         return this.printedType;
     }
@@ -529,7 +528,7 @@ class Card extends EffectSource {
     }
 
     canPlayAsUpgrade() {
-        return this.effects.filter(effect => effect.type === 'canPlayAsUpgrade');
+        return this.anyEffect('canPlayAsUpgrade') || this.type === 'upgrade';
     }
 
     /**
@@ -537,7 +536,7 @@ class Card extends EffectSource {
      * Opponent cards only, specific factions, etc) for this card.
      */
     canAttach(card, context) { // eslint-disable-line no-unused-vars
-        return card && card.getType() === 'creature' && card.canPlayAsUpgrade();
+        return card && card.getType() === 'creature';
     }
 
     use(player, ignoreHouse = false) {
