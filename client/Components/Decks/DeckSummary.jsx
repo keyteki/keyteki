@@ -170,10 +170,12 @@ class DeckSummary extends React.Component {
                             </div> : null
                         }
                     </div>
-                    <div
-                        className='col-xs-2 col-sm-3 no-x-padding'>{ this.props.deck.agenda && this.props.deck.agenda.code ?
-                            <img className='img-responsive'
-                                src={ '/img/cards/' + this.props.deck.agenda.code + '.png' }/> : null }</div>
+                    <div className='col-xs-2 col-sm-3 no-x-padding'>
+                        { this.props.deck.agenda && this.props.deck.agenda.code ?
+                            <img className='img-responsive' src={ '/img/cards/' + this.props.deck.agenda.code + '.png' }/>
+                            : null
+                        }
+                    </div>
                 </div>
                 <div className='col-xs-12 no-x-padding'>
                     <div className='cards'>
