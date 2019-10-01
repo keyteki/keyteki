@@ -1,6 +1,6 @@
 const CardGameAction = require('./CardGameAction');
 
-class ReadyAction extends CardGameAction {
+class RemoveStunAction extends CardGameAction {
     setup() {
         this.name = 'removeStun';
         this.targetType = ['creature'];
@@ -19,4 +19,4 @@ class ReadyAction extends CardGameAction {
     }
 }
 
-module.exports = ReadyAction;
+module.exports = RemoveStunAction;
