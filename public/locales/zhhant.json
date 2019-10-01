@@ -55,7 +55,6 @@
     "Concede": "投降",
     "Leave Game": "離開遊戲",
     "{{gameLength}} Games": "{{gameLength}} 場遊戲",
-    "Login": "登入",
     "Register": "註冊",
     "Profile": "個人資料",
     "Security": "安全性",
@@ -88,8 +87,8 @@
     "Choose a creature to attack": "選擇生物進行攻擊",
     "Choose a creature to sacrifice": "選擇犧牲生物",
     "Choose a captured amber to move to your pool.": "選擇一個搶佔的琥魄移入你的琥魄池",
-    "Choose a card to discard": "選擇一張要丟棄的卡牌",    
-    "Choose {{amount}} cards to discard": "選擇 {{amount}} 張要丟棄的卡牌", 
+    "Choose a card to discard": "選擇一張要丟棄的卡牌",
+    "Choose {{amount}} cards to discard": "選擇 {{amount}} 張要丟棄的卡牌",
     "Choose a creature to archive": "選擇一張要封存的生物",
     "Choose a creature to capture 1 amber from its controller": "選擇一張生物搶佔一個其控制者的琥魄",
     "Choose a creature to damage": "選擇一張要傷害的生物",
@@ -192,7 +191,6 @@
     "Join": "加入",
     "Please login before trying to watch a game": "在觀看遊戲前請先登入",
     "Please login before trying to start a new game": "在開始遊戲前請先登入",
-    "Show hands to spectators": "對觀戰者顯示手牌",
     "Sealed game format": "現開賽類型",
     "There are no games matching the filters you have selected": "目前沒有符合遊戲",
 
@@ -263,7 +261,6 @@
     "Update avatar": "更新頭像",
     "none": "無",
     "small": "小",
-    "normal": "一般",
     "large": "大",
     "extra-large": "超大",
     "Save": "儲存",
@@ -285,7 +282,6 @@
     "Deploy Left": "Deploy Left",
     "Deploy Right": "Deploy Right",
     "Remove this creature's stun": "移除擊暈狀態",
-    "Do you wish to archive a friendly creature or artifact?": "是否封存友方生物或神器?",
     "Lobby Chat ({{users}}) online": "聊天室大廳 ({{users}}) 上線中",
     "You must be logged in to send lobby chat messages": "必須登入後才能發送訊息.",
     "Latest site news": "最新消息",
@@ -348,7 +344,6 @@
     "Select Deck": "選擇牌組",
     "Or choose a standalone deck": "或選擇獨立牌組",
 
-    "Do you wish to repeat this effect?": "是否重複效果?",
     "Mine": "我方",
     "Opponent's": "敵方",
 
@@ -409,14 +404,14 @@
 
     "{{card}}": "{{card}}",
     "{{card}} ({{quantity}})": "{{card}} ({{quantity}})",
-    "How much amber do you want to use from {{card}}": "How much amber do you want to use from {{card}}",    
+    "How much amber do you want to use from {{card}}": "How much amber do you want to use from {{card}}",
     "Do you wish to repeat this effect?": "Do you wish to repeat this effect?",
     "Do you wish to forge a key?": "Do you wish to forge a key?",
     "Do you wish to purge a sanctum card?": "Do you wish to purge a sanctum card?",
     "Do you wish to destroy all Mars creatures?": "Do you wish to destroy all Mars creatures?",
     "Do you wish to archive a friendly creature or artifact?": "Do you wish to archive a friendly creature or artifact?",
     "Select a card to deploy to the left of": "Select a card to deploy to the left of",
-    "Select a card to deploy to the right of": "Select a card to deploy to the right of", 
+    "Select a card to deploy to the right of": "Select a card to deploy to the right of",
 
     "Call of the Archons": "統御者的呼喚",
     "Age of Ascension": "耀升紀元"

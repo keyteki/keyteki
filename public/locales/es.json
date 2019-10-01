@@ -55,7 +55,6 @@
     "Concede": "Conceder",
     "Leave Game": "Abandonar Partida",
     "{{gameLength}} Games": "{{gameLength}} Partidas",
-    "Login": "Iniciar Sesión",
     "Register": "Registrarse",
     "Profile": "Perfil",
     "Security": "Seguridad",
@@ -89,7 +88,7 @@
     "Choose a creature to sacrifice": "Elige una criatura a la que sacrificar",
     "Choose a captured amber to move to your pool.": "Elige un ámbar capturado para mover a tu reserva.",
     "Choose a card to discard": "Elige una carta para descartar",
-    "Choose {{amount}} cards to discard": "Elige {{amount}} cartas para descartar", 
+    "Choose {{amount}} cards to discard": "Elige {{amount}} cartas para descartar",
     "Choose a creature to archive": "Elige una criatura para archivar",
     "Choose a creature to capture 1 amber from its controller": "Elige una criatura para capturar 1 ámbar de su controlador",
     "Choose a creature to damage": "Elige una criatura para hacerle daño",
@@ -192,7 +191,6 @@
     "Join": "Unirse",
     "Please login before trying to watch a game": "Por favor inicia sesión antes de intentar ver una partida",
     "Please login before trying to start a new game": "Por favor inicia sesión antes de intentar empezar una nueva partida",
-    "Show hands to spectators": "Mostrar manos a los espectadores",
     "Sealed game format": "Sealed game format",
     "There are no games matching the filters you have selected": "No hay partidas que coincidan con los filtros que has seleccionado",
 
@@ -263,7 +261,6 @@
     "Update avatar": "Actualizar avatar",
     "none": "ninguno",
     "small": "pequeño",
-    "normal": "normal",
     "large": "grande",
     "extra-large": "extra-grande",
     "Save": "Guardar",
@@ -286,7 +283,6 @@
     "Deploy Left": "Despliegue a la izquierda",
     "Deploy Right": "Despliegue a la derecha",
     "Remove this creature's stun": "Quitar el aturdimiento de esta criatura",
-    "Do you wish to archive a friendly creature or artifact?": "¿Deseas archivar una criatura o artefacto aliados?",
     "Lobby Chat ({{users}}) online": "Chat de Inicio ({{users}}) conectados",
     "You must be logged in to send lobby chat messages": "Debes iniciar sesión para enviar mensajes en el chat de inicio",
     "Latest site news": "Últimas noticias del sitio",
@@ -349,7 +345,6 @@
     "Select Deck": "Seleccionar Mazo",
     "Or choose a standalone deck": "O elige un mazo independiente",
 
-    "Do you wish to repeat this effect?": "¿Deseas repetir este efecto?",
     "Mine": "Mío",
     "Opponent's": "Del oponente",
 
@@ -411,14 +406,14 @@
 
     "{{card}}": "{{card}}",
     "{{card}} ({{quantity}})": "{{card}} ({{quantity}})",
-    "How much amber do you want to use from {{card}}": "How much amber do you want to use from {{card}}",    
+    "How much amber do you want to use from {{card}}": "How much amber do you want to use from {{card}}",
     "Do you wish to repeat this effect?": "Do you wish to repeat this effect?",
     "Do you wish to forge a key?": "Do you wish to forge a key?",
     "Do you wish to purge a sanctum card?": "Do you wish to purge a sanctum card?",
     "Do you wish to destroy all Mars creatures?": "Do you wish to destroy all Mars creatures?",
     "Do you wish to archive a friendly creature or artifact?": "Do you wish to archive a friendly creature or artifact?",
     "Select a card to deploy to the left of": "Select a card to deploy to the left of",
-    "Select a card to deploy to the right of": "Select a card to deploy to the right of", 
+    "Select a card to deploy to the right of": "Select a card to deploy to the right of",
 
     "Call of the Archons": "La Llamada de los Arcontes",
     "Age of Ascension": "La Edad de la Ascensión"

@@ -55,7 +55,6 @@
     "Concede": "Aufgeben",
     "Leave Game": "Spiel verlassen",
     "{{gameLength}} Games": "{{gameLength}} Spiele",
-    "Login": "Anmelden",
     "Register": "Registrieren",
     "Profile": "Profil",
     "Security": "Sicherheit",
@@ -89,7 +88,7 @@
     "Choose a creature to sacrifice": "Wähle eine Kreatur zum Opfern",
     "Choose a captured amber to move to your pool.": "Wähle ein erbeutetes Æmber, um es in deinen Vorrat zu legen.",
     "Choose a card to discard": "Wähle eine Karte zum abwerfen",
-    "Choose {{amount}} cards to discard": "Choose {{amount}} Karten zum abwerfen",    
+    "Choose {{amount}} cards to discard": "Choose {{amount}} Karten zum abwerfen",
     "Choose a creature to archive": "Wähle eine Kreatur zum archivieren",
     "Choose a creature to capture 1 amber from its controller": "Wähle eine Kreatur, die 1 Æmber von ihrer eigenen Seite erbeutet",
     "Choose a creature to damage": "Wähle eine Kreatur für Schaden",
@@ -192,7 +191,6 @@
     "Join": "Beitreten",
     "Please login before trying to watch a game": "Bitte anmelden, um ein Spiel anzusehen",
     "Please login before trying to start a new game": "Bitte anmelden, um ein neues Spiel zu starten",
-    "Show hands to spectators": "Zeige den Zuschauern die Handkarten",
     "Sealed game format": "Sealed-Spielformat",
     "There are no games matching the filters you have selected": "Es gibt kein Spiel, dass den Filtern entspricht, die du gewählt hast.",
 
@@ -263,7 +261,6 @@
     "Update avatar": "Avatar aktualisieren",
     "none": "kein",
     "small": "klein",
-    "normal": "normal",
     "large": "groß",
     "extra-large": "riesig",
     "Save": "Abspeichern",
@@ -285,7 +282,6 @@
     "Deploy Left": "Stationiere links",
     "Deploy Right": "Stationiere rechts",
     "Remove this creature's stun": "Betäubung dieser Kreatur entfernen",
-    "Do you wish to archive a friendly creature or artifact?": "Möchtest du eine befreundete Kreatur oder Artefakt archivieren?",
     "Lobby Chat ({{users}}) online": "Lobby-Chat ({{users}}) online",
     "You must be logged in to send lobby chat messages": "Du musst angemeldet sein, um im Lobby-Chat Nachrichten zu versenden.",
     "Latest site news": "Neueste Nachrichten",
@@ -348,7 +344,6 @@
     "Select Deck": "Wähle ein Deck",
     "Or choose a standalone deck": "TODO Or choose a standalone deck",
 
-    "Do you wish to repeat this effect?": "Do you wish to repeat this effect?",
     "Mine": "Mine",
     "Opponent's": "Opponent's",
 
@@ -409,14 +404,14 @@
 
     "{{card}}": "{{card}}",
     "{{card}} ({{quantity}})": "{{card}} ({{quantity}})",
-    "How much amber do you want to use from {{card}}": "How much amber do you want to use from {{card}}",    
+    "How much amber do you want to use from {{card}}": "How much amber do you want to use from {{card}}",
     "Do you wish to repeat this effect?": "Do you wish to repeat this effect?",
     "Do you wish to forge a key?": "Do you wish to forge a key?",
     "Do you wish to purge a sanctum card?": "Do you wish to purge a sanctum card?",
     "Do you wish to destroy all Mars creatures?": "Do you wish to destroy all Mars creatures?",
     "Do you wish to archive a friendly creature or artifact?": "Do you wish to archive a friendly creature or artifact?",
     "Select a card to deploy to the left of": "Select a card to deploy to the left of",
-    "Select a card to deploy to the right of": "Select a card to deploy to the right of", 
+    "Select a card to deploy to the right of": "Select a card to deploy to the right of",
 
     "Call of the Archons": "Ruf der Archonten",
     "Age of Ascension": "Zeitalter des Aufstiegs"
