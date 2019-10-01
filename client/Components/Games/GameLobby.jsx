@@ -45,6 +45,7 @@ class GameLobby extends React.Component {
             competitive: true,
             normal: true,
             sealed: true,
+            reversal: true,
             showOnlyNewGames: false
         };
 
@@ -247,6 +248,7 @@ class GameLobby extends React.Component {
                                     <Checkbox name='competitive' label={ t('Competitive') } fieldClass='col-sm-4' noGroup onChange={ this.onCheckboxChange.bind(this, 'competitive') } checked={ this.state.filter['competitive'] } />
                                     <Checkbox name='normal' label={ t('Normal') } fieldClass='col-sm-4' noGroup onChange={ this.onCheckboxChange.bind(this, 'normal') } checked={ this.state.filter['normal'] } />
                                     <Checkbox name='sealed' label={ t('Sealed') } fieldClass='col-sm-4' noGroup onChange={ this.onCheckboxChange.bind(this, 'sealed') } checked={ this.state.filter['sealed'] } />
+                                    <Checkbox name='reversal' label={ t('Reversal') } fieldClass='col-sm-4' noGroup onChange={ this.onCheckboxChange.bind(this, 'reversal') } checked={ this.state.filter['reversal'] } />
                                     <Checkbox name='showOnlyNewGames' label={ t('Only show new games') } fieldClass='col-sm-6' noGroup onChange={ this.onCheckboxChange.bind(this, 'showOnlyNewGames') } checked={ this.state.filter['showOnlyNewGames'] } />
                                 </Panel>
                             </div>

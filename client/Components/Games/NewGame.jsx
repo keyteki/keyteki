@@ -148,7 +148,8 @@ class NewGame extends React.Component {
 
         let gameFormats = [
             { name: 'normal', label: t('Normal') },
-            { name: 'sealed', label: t('Sealed') }
+            { name: 'sealed', label: t('Sealed') },
+            { name: 'reversal', label: t('Reversal') }
         ];
 
         let expansions = [
