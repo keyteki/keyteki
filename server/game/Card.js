@@ -536,7 +536,7 @@ class Card extends EffectSource {
      * Opponent cards only, specific factions, etc) for this card.
      */
     canAttach(card, context) { // eslint-disable-line no-unused-vars
-        return card && card.getType() === 'creature';
+        return card && card.getType() === 'creature' && this.canPlayAsUpgrade();
     }
 
     use(player, ignoreHouse = false) {
