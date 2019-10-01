@@ -53,7 +53,7 @@ class DeckRow extends React.Component {
         return (
             <div className={ this.props.active ? 'deck-row active' : 'deck-row' } key={ this.props.deck.name } onClick={ this.handleDeckClick }>
                 { this.state.card ?
-                    <div className='hover-card' style={ { left: 200 } }>
+                    <div className='hover-card'>
                         <div className='hover-image'>
                             { this.state.card }
                         </div>
