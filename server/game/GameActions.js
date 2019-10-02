@@ -33,6 +33,7 @@ const RandomDiscardAction = require('./GameActions/RandomDiscardAction');
 const ReadyAction = require('./GameActions/ReadyAction');
 const RemoveStunAction = require('./GameActions/RemoveStunAction');
 const RemoveTokenAction = require('./GameActions/RemoveTokenAction');
+const RemoveWardAction = require('./GameActions/RemoveWardAction');
 const ResolveAbilityAction = require('./GameActions/ResolveAbilityAction');
 const ResolveFightAction = require('./GameActions/ResolveFightAction');
 const ReturnAmberAction = require('./GameActions/ReturnAmber');
@@ -48,6 +49,7 @@ const SwapAction = require('./GameActions/SwapAction');
 const TransferAmberAction = require('./GameActions/TransferAmberAction');
 const UnforgeAction = require('./GameActions/UnforgeAction');
 const UseAction = require('./GameActions/UseAction');
+const WardAction = require('./GameActions/WardAction');
 
 const Actions = {
     // card actions
@@ -79,6 +81,7 @@ const Actions = {
     removeDamage: (propertyFactory) => new RemoveTokenAction(propertyFactory, 'damage'),
     removePowerCounter: (propertyFactory) => new RemoveTokenAction(propertyFactory),
     removeStun: (propertyFactory) => new RemoveStunAction(propertyFactory),
+    removeWard: (propertyFactory) => new RemoveWardAction(propertyFactory),
     resolveAbility: (propertyFactory) => new ResolveAbilityAction(propertyFactory), // ability
     resolveFight: (propertyFactory) => new ResolveFightAction(propertyFactory), // this shouldn't normally be needed
     returnAmber: (propertyFactory) => new ReturnAmberAction(propertyFactory),
@@ -89,6 +92,7 @@ const Actions = {
     stun: (propertyFactory) => new StunAction(propertyFactory),
     swap: (propertyFactory) => new SwapAction(propertyFactory), // origin
     use: (propertyFactory) => new UseAction(propertyFactory),
+    ward: (propertyFactory) => new WardAction(propertyFactory),
     // player actions
     archiveAtRandom: (propertyFactory) => new RandomArchiveAction(propertyFactory), // amount = 1
     chosenDiscard: (propertyFactory) => new ChosenDiscardAction(propertyFactory), // amount = 1

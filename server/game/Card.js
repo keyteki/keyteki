@@ -83,18 +83,21 @@ class Card extends EffectSource {
         this.armorUsed = 0;
         this.exhausted = false;
         this.stunned = false;
+        this.warded = false;
         this.moribund = false;
 
         this.locale = cardData.locale;
 
         this.menu = [
-            { command: 'enrage', text: 'Enrage' },
             { command: 'exhaust', text: 'Exhaust/Ready' },
             { command: 'addDamage', text: 'Add 1 damage' },
             { command: 'remDamage', text: 'Remove 1 damage' },
             { command: 'addAmber', text: 'Add 1 amber' },
             { command: 'remAmber', text: 'Remove 1 amber' },
+            { command: 'addEnrage', text: 'Add 1 enrage' },
+            { command: 'remEnrage', text: 'Remove 1 enrage' },
             { command: 'stun', text: 'Stun/Remove Stun' },
+            { command: 'ward', text: 'Ward/Remove Ward' },
             { command: 'control', text: 'Give control' }
         ];
 
@@ -301,6 +304,7 @@ class Card extends EffectSource {
         }
         this.exhausted = false;
         this.stunned = false;
+        this.warded = false;
         this.moribund = false;
         this.new = false;
         this.tokens = {};
@@ -478,17 +482,11 @@ class Card extends EffectSource {
     }
 
     enrage() {
-        if(this.tokens.enrage > 0) {
-            return;
-        }
-        this.addToken('enrage', 1);
+        this.addToken('enrage');
     }
 
     unenrage() {
-        if(this.tokens.enrage <= 0) {
-            return;
-        }
-        this.addToken('enrage', -1);
+        this.removeToken('enrage');
     }
 
     stun() {
@@ -497,6 +495,14 @@ class Card extends EffectSource {
 
     unstun() {
         this.stunned = false;
+    }
+
+    ward() {
+        this.warded = true;
+    }
+
+    unward() {
+        this.warded = false;
     }
 
     exhaust() {
@@ -699,6 +705,7 @@ class Card extends EffectSource {
             maverick: this.maverick,
             cardPrintedAmber: this.cardPrintedAmber,
             stunned: this.stunned,
+            warded: this.warded,
             taunt: !!this.getKeywordValue('taunt'),
             tokens: this.tokens,
             type: this.getType(),

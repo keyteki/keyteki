@@ -29,10 +29,27 @@ class MenuCommands {
             case 'stun':
                 if(card.stunned) {
                     game.addAlert('danger', '{0} removes the stun from {1}', player, card);
-                    card.stunned = false;
+                    card.unstun();
                 } else {
                     game.addAlert('danger', '{0} stuns {1}', player, card);
                     card.stun();
+                }
+                break;
+            case 'addEnrage':
+                game.addAlert('danger', '{0} adds an enrage to {1}', player, card);
+                card.enrage();
+                break;
+            case 'remEnrage':
+                game.addAlert('danger', '{0} removes an enrage from {1}', player, card);
+                card.unenrage();
+                break;
+            case 'ward':
+                if(card.warded) {
+                    game.addAlert('danger', '{0} removes the ward from {1}', player, card);
+                    card.unward();
+                } else {
+                    game.addAlert('danger', '{0} wards {1}', player, card);
+                    card.ward();
                 }
                 break;
             case 'control':
