@@ -257,7 +257,6 @@ export class GameBoard extends React.Component {
 
     onManualModeClick(event) {
         event.preventDefault();
-
         this.props.sendGameMessage('toggleManualMode');
     }
 
