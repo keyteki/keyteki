@@ -24,6 +24,7 @@ import NodesAdmin from './pages/NodesAdmin';
 import Privacy from './pages/Privacy';
 import Community from './pages/Community';
 import BanlistAdmin from './pages/BanlistAdmin';
+import Patreon from './pages/Patreon';
 
 const routes = [
     { path: '/', action: () => <Lobby key='lobby' /> },
@@ -47,7 +48,8 @@ const routes = [
     { path: '/privacy', action: () => <Privacy key='privacy' /> },
     { path: '/community', action: () => <Community key='community' /> },
     { path: '/banlist', action: () => <BanlistAdmin key='banlist' permission='canManageBanlist' /> },
-    { path: '/admin/motd', action: () => <MotdAdmin key='motdadmin' />, permission: 'canManageMotd' }
+    { path: '/admin/motd', action: () => <MotdAdmin key='motdadmin' />, permission: 'canManageMotd' },
+    { path: '/patreon', action: context => <Patreon code={ context.params.code } /> }
 ];
 
 export default routes;

@@ -7,12 +7,12 @@ describe('MaruckTheMarked', function() {
                         house: 'logos',
                         amber: 2,
                         inPlay: ['professor-sutterkin', 'zyx-researcher'],
-                        hand: []
+                        hand: ['red-hot-armor']
                     },
                     player2: {
                         amber: 0,
                         inPlay: ['maruck-the-marked'],
-                        hand: ['bulwark', 'red-hot-armor']
+                        hand: ['bulwark']
                     }
                 });
             });
@@ -50,16 +50,21 @@ describe('MaruckTheMarked', function() {
                 expect(this.player1.player.amber).toBe(1);
             });
 
-            xit('does not capture amber when Redhot Armor is played', function () {
+            it('does not capture amber when Redhot Armor is played', function () {
                 this.player1.endTurn();
 
-                this.player2.clickPrompt('dis');
-                this.player2.play(this.redHotArmor);
+                this.player2.clickPrompt('sanctum');
+                this.player2.endTurn();
 
-                expect(this.maruckTheMarked.armor).toBe(0);
-                expect(this.maruckTheMarked.armorUsed).toBe(0);
+                expect(this.maruckTheMarked.hasToken('armor')).toBe(true);
 
-                expect(this.maruckTheMarked.hasToken('damage')).toBe(true);
+                this.player1.clickPrompt('dis');
+                this.player1.play(this.redHotArmor);
+
+                expect(this.maruckTheMarked.armor).toBe(1);
+                expect(this.maruckTheMarked.armorUsed).toBe(1);
+
+                expect(this.maruckTheMarked.tokens.damage).toBe(1);
                 expect(this.maruckTheMarked.hasToken('amber')).toBe(false);
             });
         });

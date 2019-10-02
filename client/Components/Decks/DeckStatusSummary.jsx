@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { withTranslation, Trans } from 'react-i18next';
+
 class DeckStatusSummary extends React.Component {
     render() {
         let { flagged, verified, noUnreleasedCards } = this.props.status;
@@ -15,8 +17,7 @@ class DeckStatusSummary extends React.Component {
             <ul className='deck-status-summary'>
                 { items.map((item, index) => (
                     <li className={ item.value ? 'valid' : 'invalid' } key={ index }>
-                        <span className={ item.value ? 'glyphicon glyphicon-ok' : 'glyphicon glyphicon-remove' } />
-                        { ` ${item.title}` }
+                        <span className={ item.value ? 'glyphicon glyphicon-ok' : 'glyphicon glyphicon-remove' } />&nbsp;<Trans>{ item.title }</Trans>
                     </li>
                 )) }
             </ul>);
@@ -27,4 +28,4 @@ DeckStatusSummary.propTypes = {
     status: PropTypes.object.isRequired
 };
 
-export default DeckStatusSummary;
+export default withTranslation()(DeckStatusSummary);

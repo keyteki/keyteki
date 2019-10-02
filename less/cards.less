@@ -1,3 +1,5 @@
+@controlledBox: 0 0 1px 2px @controlled-border-color;
+
 .card-wrapper {
   margin: 0;
   vertical-align: middle;
@@ -10,24 +12,24 @@
 }
 
 @keyframes glowing {
-  from { 
-    background-color: #749a02; 
-    box-shadow: 0 0 9px #333; 
+  from {
+    background-color: #749a02;
+    box-shadow: 0 0 9px #333;
   }
-  50% { 
-    background-color: #91bd09; 
-    box-shadow: 0 0 18px #91bd09; 
+  50% {
+    background-color: #91bd09;
+    box-shadow: 0 0 18px #91bd09;
   }
-  to { 
-    background-color: #749a02; 
-    box-shadow: 0 0 9px #333; 
+  to {
+    background-color: #749a02;
+    box-shadow: 0 0 9px #333;
   }
 }
 
 .card {
   position: relative;
   border-radius: 4px;
-  box-shadow: 0 0 12px rgba(0,0,0,0.4), inset 0 0 0 1px rgba(255,255,255,0.1);
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
   overflow: hidden;
   z-index: @layer-cards;
 
@@ -64,7 +66,8 @@
     &.horizontal {
       height: @card-xl-width;
       width: @card-xl-height;
-    }}
+    }
+  }
 
   &.vertical {
     height: @card-height;
@@ -78,6 +81,10 @@
 
   &.selectable {
     box-shadow: 0 0 10px 1px fadeout(lighten(@brand-primary, 60%), 10%);
+
+    &.controlled {
+      box-shadow: @controlledBox, 0 0 10px 1px fadeout(lighten(@brand-primary, 60%), 10%);
+    }
   }
 
   &.unselectable {
@@ -86,6 +93,10 @@
 
   &.can-play {
     animation: glowing 2000ms infinite;
+
+    &.controlled {
+      box-shadow: @controlledBox, 0 0 10px 1px fadeout(lighten(@brand-primary, 60%), 10%);
+    }
   }
 
   &.in-danger {
@@ -98,6 +109,10 @@
 
   &.selected {
     box-shadow: 0 0 1px 4px @brand-secondary;
+
+    &.controlled {
+      box-shadow: @controlledBox, 0 0 1px 4px @brand-secondary;
+    }
   }
 
   &.new {
@@ -105,7 +120,7 @@
   }
 
   &.controlled {
-    box-shadow: 0 0 1px 2px @brand-warning;
+    box-shadow: @controlledBox;
   }
 
   &.challenge {
@@ -223,14 +238,14 @@
   pointer-events: none;
 
   &.vertical {
-      width: @card-width * 4;
-      height: @card-height * 4;
-    }
+    width: @card-width * 4;
+    height: @card-height * 4;
+  }
 
-    &.horizontal {
-      width: @card-height * 4;
-      height: @card-width * 4;
-    }
+  &.horizontal {
+    width: @card-height * 4;
+    height: @card-width * 4;
+  }
 }
 
 .card-zoomed {
@@ -304,10 +319,11 @@
   }
   .generate-card-dupes(@n, (@i + 1));
 }
+
 .generate-card-dupes(5, 1);
 
 .card-type-faction.horizontal {
-    margin: 10px 0 0 0;
+  margin: 10px 0 0 0;
 }
 
 .counters {
@@ -343,15 +359,18 @@
 
 .counter {
   padding: 0;
-  font-size: 12px;
-  width: 24px;
-  height: 24px;
-  line-height: 24px;
+  font-size: 10px;
+  width: 25px;
+  height: 25px;
+  line-height: 26px;
   text-align: center;
   margin: 2px;
-  text-shadow: 1px 1px 2px #000;
+  text-shadow:
+    -0.5px -0.5px 2px #000,
+    0.5px -0.5px 2px #000,
+    -0.5px 0.5px 2px #000,
+    0.5px 0.5px 2px #000;
   border-radius: 4px;
-
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -401,10 +420,12 @@
 
 .power {
   background-image: url("/img/power.png");
+  padding-left: 3px;
 }
 
 .stun {
   background-image: url("/img/stun.png");
+  text-shadow: none;
   color: transparent;
 }
 
@@ -460,6 +481,7 @@
   z-index: @layer-top;
   min-width: @card-width * 4;
   min-height: @card-height * 4;
+  pointer-events: none;
 
   &.horizontal {
     min-height: @card-width * 4;
@@ -778,27 +800,6 @@
     top: 260px;
     left: 168px;
   }
-}
-
-@font-face {
-  font-family: 'TeutonNormal';
-  src: url('/fonts/TeutonNormal.eot');
-  src: url('/fonts/TeutonNormal.woff2') format('woff2'),
-       url('/fonts/TeutonNormal.woff') format('woff'),
-       url('/fonts/TeutonNormal.ttf') format('truetype'),
-       url('/fonts/TeutonNormal.svg#TeutonNormal') format('svg'),
-       url('/fonts/TeutonNormal.eot?#iefix') format('embedded-opentype');
-  font-weight: normal;
-  font-style: normal;
-}
-
-.identity-text {
-  font-family: 'TeutonNormal';
-  color: white;
-  position: absolute;
-  font-size: 3.5px;
-  left: 33px;
-  top: 8px;
 }
 
 .identity {

@@ -73,6 +73,32 @@ describe('Might Makes Right', function() {
                 this.setupTest({
                     player1: {
                         house: 'brobnar',
+                        amber: 1,
+                        inPlay: ['panpaca-anga', 'knoxx', 'lion-bautrem', 'marmo-swarm'],
+                        hand: ['might-makes-right']
+                    }
+                });
+            });
+
+            it('should allow key to be forged at zero cost if creatures of total power of 25 or more (including modifiers) are sacrificed', function() {
+                this.player1.play(this.mightMakesRight);
+                this.player1.clickCard(this.knoxx);
+                this.player1.clickCard(this.lionBautrem);
+                this.player1.clickCard(this.marmoSwarm);
+                this.player1.clickPrompt('Done');
+                expect(this.knoxx.location).toBe('discard');
+                expect(this.lionBautrem.location).toBe('discard');
+                expect(this.marmoSwarm.location).toBe('discard');
+                expect(this.player1.player.keys).toBe(1);
+                expect(this.player1.player.amber).toBe(2);
+            });
+        });
+
+        describe('Might Makes Right\'s ability', function() {
+            beforeEach(function() {
+                this.setupTest({
+                    player1: {
+                        house: 'brobnar',
                         amber: 2,
                         inPlay: ['groke', 'hebe-the-huge', 'archimedes', 'ganger-chieftain', 'bellowing-patrizate', 'king-of-the-crag'],
                         hand: ['might-makes-right']
@@ -96,11 +122,11 @@ describe('Might Makes Right', function() {
                 expect(this.player1).toHavePrompt('Any Interrupts?');
                 this.player1.clickCard(this.hebeTheHuge);
                 this.player1.clickCard(this.groke);
-                expect(this.groke.location).toBe('archives');
+                expect(this.groke.location).toBe('discard');
                 expect(this.hebeTheHuge.location).toBe('archives');
                 expect(this.gangerChieftain.location).toBe('archives');
-                expect(this.bellowingPatrizate.location).toBe('archives');
-                expect(this.kingOfTheCrag.location).toBe('archives');
+                expect(this.bellowingPatrizate.location).toBe('discard');
+                expect(this.kingOfTheCrag.location).toBe('discard');
             });
 
         });

@@ -1,8 +1,9 @@
-export function navigate(path, search) {
+export function navigate(path, search = '', noHistory = false) {
     return {
         type: 'NAVIGATE',
         newPath: path,
-        search: search
+        search: search,
+        noHistory: noHistory
     };
 }
 

@@ -33,7 +33,7 @@ const sentryOptions = {
         /YoukuAntiAds\.eval/i
     ],
     beforeSend(event, hint) {
-        if(event.message.startsWith('Non-Error exception captured') && hint.originalException.error) {
+        if(event.message && event.message.startsWith('Non-Error exception captured') && hint.originalException.error) {
             Sentry.withScope((scope) => {
                 scope.setExtra('nonErrorException', true);
                 Sentry.captureException(hint.originalException.error);
@@ -49,10 +49,10 @@ Sentry.init(sentryOptions);
 
 const store = configureStore();
 
-store.dispatch(navigate(window.location.pathname, window.location.search));
+store.dispatch(navigate(window.location.pathname, window.location.search, true));
 
 window.onpopstate = function(e) {
-    store.dispatch(navigate(e.target.location.pathname));
+    store.dispatch(navigate(e.target.location.pathname, null, true));
 };
 
 const DnDContainer = DragDropContext(TouchBackend({ enableMouseEvents: true }))(Application);

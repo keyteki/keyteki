@@ -8,6 +8,8 @@ import Panel from '../Components/Site/Panel';
 import Form from '../Components/Form/Form';
 import * as actions from '../actions';
 
+import { withTranslation, Trans } from 'react-i18next';
+
 class Login extends React.Component {
     constructor() {
         super();
@@ -30,16 +32,17 @@ class Login extends React.Component {
     }
 
     render() {
-        let errorBar = this.props.apiSuccess === false ? <AlertPanel type='error' message={ this.props.apiMessage } /> : null;
+        let t = this.props.t;
+        let errorBar = this.props.apiSuccess === false ? <AlertPanel type='error' message={ t(this.props.apiMessage) } /> : null;
 
         return (
             <div className='col-md-6 col-md-offset-3'>
                 { errorBar }
-                <Panel title='Login'>
-                    <Form name='login' apiLoading={ this.props.apiLoading } buttonText='Log In' onSubmit={ this.onLogin } buttonClass='col-sm-offset-2 col-sm-3'>
+                <Panel title={ t('Login') }>
+                    <Form name='login' apiLoading={ this.props.apiLoading } buttonText={ 'Log In' } onSubmit={ this.onLogin } buttonClass='col-sm-offset-2 col-sm-3'>
                         <div className='form-group'>
                             <div className='col-sm-offset-2 col-sm-10'>
-                                <Link href='/forgot'>Forgot your password?</Link>
+                                <Link href='/forgot'><Trans>Forgot your password?</Trans></Link>
                             </div>
                         </div>
                     </Form>
@@ -53,13 +56,15 @@ Login.propTypes = {
     apiLoading: PropTypes.bool,
     apiMessage: PropTypes.string,
     apiSuccess: PropTypes.bool,
+    i18n: PropTypes.object,
     loggedIn: PropTypes.bool,
     loggedInToken: PropTypes.string,
     loggedInUser: PropTypes.object,
     login: PropTypes.func,
     loginAccount: PropTypes.func,
     navigate: PropTypes.func,
-    socket: PropTypes.object
+    socket: PropTypes.object,
+    t: PropTypes.func
 };
 
 function mapStateToProps(state) {
@@ -75,4 +80,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps, actions)(Login);
+export default withTranslation()(connect(mapStateToProps, actions)(Login));

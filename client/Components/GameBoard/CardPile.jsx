@@ -253,7 +253,7 @@ CardPile.propTypes = {
     popupLocation: PropTypes.string,
     popupMenu: PropTypes.array,
     size: PropTypes.string,
-    source: PropTypes.oneOf(['hand', 'discard', 'play area', 'archives', 'deck', 'upgrade', 'faction', 'additional']).isRequired,
+    source: PropTypes.oneOf(['hand', 'discard', 'play area', 'archives', 'deck', 'upgrade', 'faction', 'additional', 'purged']).isRequired,
     title: PropTypes.string,
     topCard: PropTypes.object
 };

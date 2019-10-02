@@ -10,6 +10,8 @@ class ChatCommands {
         this.commands = {
             '/active-house': this.activeHouse,
             '/add-card': this.addCard,
+            '/add-to-deck': this.addCardDeck,
+            '/add-to-hand': this.addCardHand,
             '/cancel-prompt': this.cancelPrompt,
             '/disconnectme': this.disconnectMe,
             '/draw': this.draw,
@@ -38,6 +40,8 @@ class ChatCommands {
             'sanctum',
             'shadows',
             'untamed',
+            'staralliance',
+            'saurian',
             'none'
         ];
     }
@@ -50,7 +54,7 @@ class ChatCommands {
         return this.commands[command].call(this, player, args) !== false;
     }
 
-    addCard(player, args) {
+    addCard(player, args, location = 'deck') {
         let cardName = args.slice(1).join(' ');
         let card = Object.values(this.game.cardData).find(c => {
             return c.name.toLowerCase() === cardName.toLowerCase();
@@ -65,16 +69,28 @@ class ChatCommands {
 
         preparedCard.applyAnyLocationPersistentEffects();
 
-        player.moveCard(preparedCard, 'deck');
+        player.moveCard(preparedCard, location);
 
         this.game.allCards.push(preparedCard);
 
-        this.game.addAlert('danger', '{0} uses the /add-card command to add {1} to their deck', player, preparedCard);
+        this.game.addAlert('danger', '{0} uses the /add-card command to add {1} to their {2}', player, preparedCard, location);
 
         return true;
     }
 
+    addCardDeck(player, args) {
+        return this.addCard(player, args, 'deck');
+    }
+
+    addCardHand(player, args) {
+        return this.addCard(player, args, 'hand');
+    }
+
     forge(player) {
+        if(player.keys === 3) {
+            return;
+        }
+
         this.game.addMessage('{0} uses the /forge command to forge a key', player);
         player.keys += 1;
     }
