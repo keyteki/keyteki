@@ -1,3 +1,4 @@
+const AddEventToWindowAction = require('./GameActions/AddEventToWindowAction');
 const ArchiveAction = require('./GameActions/ArchiveAction');
 const AttachAction = require('./GameActions/AttachAction');
 const CaptureAction = require('./GameActions/CaptureAction');
@@ -104,6 +105,7 @@ const Actions = {
     transferAmber: (propertyFactory) => new TransferAmberAction(propertyFactory), // amount = 1
     unforgeKey: (propertyFactory) => new UnforgeAction(propertyFactory),
     // meta actions
+    addEventToWindow: (propertyFactory) => new AddEventToWindowAction(propertyFactory),
     changeEvent: (propertyFactory) => new ChangeEventAction(propertyFactory),
     chooseAction: (propertyFactory) => new ChooseGameAction(propertyFactory), // choices, activePromptTitle = 'Select one'
     jointAction: (gameActions) => new JointGameAction(gameActions), // takes an array of gameActions, not a propertyFactory

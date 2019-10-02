@@ -9,7 +9,7 @@ class Poke extends Card {
                 gameAction: ability.actions.dealDamage({ amount: 1 })
             },
             then: {
-                condition: context => context.preThenEvent.destroyed && !context.preThenEvent.redirectApplied,
+                condition: context => context.preThenEvent.destroyed,
                 gameAction: ability.actions.draw()
             }
         });
