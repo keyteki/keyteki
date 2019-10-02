@@ -2,6 +2,8 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import mergeImages from 'merge-images';
 
+import { withTranslation } from 'react-i18next';
+
 class CardImage extends Component {
     constructor() {
         super();
@@ -12,25 +14,29 @@ class CardImage extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if(this.props.img !== prevProps.img) {
+        if((this.props.img !== prevProps.img) || (this.props.language !== prevProps.language)) {
             this.updateImage();
         }
     }
 
     updateImage() {
-        let { img, maverick, amber } = this.props;
+        let { img, maverick, amber, i18n } = this.props;
+
+        let langToUse = this.props.language ? this.props.language : i18n.language;
+
+        let imgPath = (langToUse === 'en') ? img : img.replace('/cards/', '/cards/' + langToUse + '/');
 
         if(maverick) {
             let maverickHouseImg = '/img/maverick/maverick-' + maverick + (amber > 0 ? '-amber' : '') + '.png';
 
             mergeImages([
-                img,
+                imgPath,
                 { src: maverickHouseImg, x: 0, y: 0},
                 { src: '/img/maverick/maverick-corner.png', x: 210, y: 0}
             ]).then(src => this.setState({ src }))
                 .catch(err => this.setState({ err: err.toString() }));
         } else {
-            this.setState({src: img});
+            this.setState({src: imgPath});
         }
     }
 
@@ -48,8 +54,10 @@ CardImage.propTypes = {
     alt: PropTypes.string,
     amber: PropTypes.number,
     className: PropTypes.string,
+    i18n: PropTypes.object,
     img: PropTypes.string.isRequired,
+    language: PropTypes.string,
     maverick: PropTypes.string
 };
 
-export default CardImage;
+export default withTranslation()(CardImage);

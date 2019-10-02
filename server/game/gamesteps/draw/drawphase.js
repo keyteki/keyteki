@@ -18,19 +18,11 @@ class DrawPhase extends Phase {
         }
 
         this.game.actions.draw({ amount: amount, shedChains: true }).resolve(player, this.game.getFrameworkContext());
-
-        if(player.canForgeKey()) {
-            this.game.addAlert('success', '{0} declares Check!', player);
-        }
     }
 
     roundEnded() {
         this.game.raiseEvent('onRoundEnded', {}, () => {
-            this.game.activePlayer.activeHouse = null;
             this.game.endRound();
-            if(this.game.activePlayer.opponent) {
-                this.game.activePlayer = this.game.activePlayer.opponent;
-            }
         });
     }
 }

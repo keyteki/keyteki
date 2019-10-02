@@ -52,11 +52,15 @@ class HandlerMenuPrompt extends UiPrompt {
             });
             let cards = _.uniq(this.properties.cards, card => card.id);
             buttons = _.map(cards, card => {
-                let text = card.name;
+                let text = '{{card}}';
+                let values = {
+                    card: card.name
+                };
                 if(cardQuantities[card.id] > 1) {
-                    text = text + ' (' + cardQuantities[card.id].toString() + ')';
+                    values.quantity = cardQuantities[card.id].toString();
+                    text = text + ' ({{quantity}})';
                 }
-                return {text: text, arg: card.id, card: card};
+                return {text: text, arg: card.id, card: card, values: values};
             });
         }
         buttons = buttons.concat(_.map(this.properties.choices, (choice, index) => {

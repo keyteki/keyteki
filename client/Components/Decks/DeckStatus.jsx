@@ -5,9 +5,11 @@ import classNames from 'classnames';
 import DeckStatusSummary from './DeckStatusSummary';
 import StatusPopOver from './StatusPopOver';
 
+import { withTranslation } from 'react-i18next';
+
 class DeckStatus extends React.Component {
     render() {
-        let { status } = this.props;
+        let { status, t } = this.props;
         let statusName;
         let className = classNames('deck-status', this.props.className, {
             'used': status.usageLevel === 1 && !status.verified,
@@ -18,15 +20,15 @@ class DeckStatus extends React.Component {
         });
 
         if(status.usageLevel === 1 && !status.verified) {
-            statusName = 'Used';
+            statusName = t('Used');
         } else if(status.usageLevel === 2 && !status.verified) {
-            statusName = 'Popular';
+            statusName = t('Popular');
         } else if(status.usageLevel === 3 && !status.verified) {
-            statusName = 'Notorious';
+            statusName = t('Notorious');
         } else if(!status.noUnreleasedCards) {
-            statusName = 'Casual play only';
+            statusName = t('Casual play only');
         } else {
-            statusName = 'Valid';
+            statusName = t('Valid');
         }
 
         return (
@@ -47,7 +49,9 @@ class DeckStatus extends React.Component {
 
 DeckStatus.propTypes = {
     className: PropTypes.string,
-    status: PropTypes.object.isRequired
+    i18n: PropTypes.object,
+    status: PropTypes.object.isRequired,
+    t: PropTypes.func
 };
 
-export default DeckStatus;
+export default withTranslation()(DeckStatus);

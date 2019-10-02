@@ -25,7 +25,7 @@ class ChosenDiscardAction extends PlayerAction {
                 let amount = Math.min(player.hand.length, this.amount);
                 if(amount > 0) {
                     context.game.promptForSelect(player, {
-                        activePromptTitle: 'Choose ' + (amount === 1 ? 'a card' : (amount + ' cards')) + ' to discard',
+                        activePromptTitle: (amount === 1) ? 'Choose a card to discard' : { text: 'Choose {{amount}} cards to discard', values: { amount: amount } },
                         context: context,
                         mode: 'exactly',
                         numCards: amount,

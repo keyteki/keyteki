@@ -1,4 +1,4 @@
-export default function (state = {}, action) {
+export default function(state = {}, action) {
     switch(action.type) {
         case 'REGISTER_ACCOUNT':
             return Object.assign({}, state, {
@@ -47,6 +47,25 @@ export default function (state = {}, action) {
         case 'PROFILE_SAVED':
             return Object.assign({}, state, {
                 user: action.response.user
+            });
+        case 'ACCOUNT_LINK_RESPONSE':
+            return Object.assign({}, state, {
+                accountLinked: true
+            });
+        case 'CLEAR_LINK_STATUS':
+            return Object.assign({}, state, {
+                accountLinked: undefined
+            });
+        case 'ACCOUNT_UNLINKED':
+            var user = state.user;
+
+            if(user) {
+                user.patreon = undefined;
+            }
+
+            return Object.assign({}, state, {
+                accountLinked: undefined,
+                user: user
             });
     }
 

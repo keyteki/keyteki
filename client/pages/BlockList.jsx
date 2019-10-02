@@ -7,6 +7,8 @@ import Panel from '../Components/Site/Panel';
 import Input from '../Components/Form/Input';
 import * as actions from '../actions';
 
+import { withTranslation, Trans } from 'react-i18next';
+
 class BlockList extends React.Component {
     constructor(props) {
         super(props);
@@ -50,6 +52,8 @@ class BlockList extends React.Component {
     }
 
     render() {
+        let t = this.props.t;
+
         let successPanel;
 
         if(this.props.blockListAdded) {
@@ -57,7 +61,7 @@ class BlockList extends React.Component {
                 this.props.clearBlockListStatus();
             }, 5000);
             successPanel = (
-                <AlertPanel message='Block list entry added successfully' type={ 'success' } />
+                <AlertPanel message={ t('Block list entry added successfully') } type={ 'success' } />
             );
             this.props.socket.emit('authenticate', this.props.token);
         }
@@ -67,7 +71,7 @@ class BlockList extends React.Component {
                 this.props.clearBlockListStatus();
             }, 5000);
             successPanel = (
-                <AlertPanel message='Block list entry removed successfully' type={ 'success' } />
+                <AlertPanel message={ t('Block list entry removed successfully') } type={ 'success' } />
             );
             this.props.socket.emit('authenticate', this.props.token);
         }
@@ -82,12 +86,12 @@ class BlockList extends React.Component {
             );
         });
 
-        let table = (this.props.blockList && this.props.blockList.length === 0) ? <div>No users currently blocked</div> : (
+        let table = (this.props.blockList && this.props.blockList.length === 0) ? <div><Trans>No users currently blocked</Trans></div> : (
             <table className='table table-striped blocklist'>
                 <thead>
                     <tr>
-                        <th>Username</th>
-                        <th>Remove</th>
+                        <th><Trans>Username</Trans></th>
+                        <th><Trans>Remove</Trans></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -99,7 +103,7 @@ class BlockList extends React.Component {
         let errorBar = this.props.apiSuccess === false ? <AlertPanel type='error' message={ this.props.apiMessage } /> : null;
 
         if(this.props.apiLoading) {
-            content = <div>Loading block list from the server...</div>;
+            content = <div><Trans>Loading block list from the server...</Trans></div>;
         } else {
             content = (
                 <div className='col-sm-8 col-sm-offset-2 full-height'>
@@ -108,18 +112,18 @@ class BlockList extends React.Component {
                         { errorBar }
 
                         <form className='form form-horizontal'>
-                            <Panel title='Block list'>
-                                <p>It can sometimes become necessary to prevent someone joining your games, or stop seeing their messages, or both.
-                                Users on this list will not be able to join your games, and you will not see their chat messages or their games.
+                            <Panel title={ t('Block list') }>
+                                <p><Trans i18nKey='blocklist.explain'>It can sometimes become necessary to prevent someone joining your games, or stop seeing their messages, or both.
+                                Users on this list will not be able to join your games, and you will not see their chat messages or their games.</Trans>
                                 </p>
 
                                 <div className='form-group'>
-                                    <Input name='blockee' label='Username' labelClass='col-sm-4' fieldClass='col-sm-4' placeholder='Enter username to block'
+                                    <Input name='blockee' label={ t('Username') } labelClass='col-sm-4' fieldClass='col-sm-4' placeholder={ t('Enter username to block') }
                                         type='text' onChange={ this.onUsernameChange.bind(this) } value={ this.state.username } noGroup />
-                                    <button className='btn btn-primary col-sm-1' onClick={ this.onAddClick.bind(this) }>Add</button>
+                                    <button className='btn btn-primary' onClick={ this.onAddClick.bind(this) }><Trans>Add</Trans></button>
                                 </div>
 
-                                <h3>Users Blocked</h3>
+                                <h3><Trans>Users Blocked</Trans></h3>
                                 { table }
                             </Panel>
                         </form>
@@ -141,10 +145,12 @@ BlockList.propTypes = {
     blockListAdded: PropTypes.bool,
     blockListDeleted: PropTypes.bool,
     clearBlockListStatus: PropTypes.func,
+    i18n: PropTypes.object,
     loadBlockList: PropTypes.func,
     loading: PropTypes.bool,
     removeBlockListEntry: PropTypes.func,
     socket: PropTypes.object,
+    t: PropTypes.func,
     token: PropTypes.string,
     user: PropTypes.object
 };
@@ -163,4 +169,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps, actions)(BlockList);
+export default withTranslation()(connect(mapStateToProps, actions)(BlockList));
