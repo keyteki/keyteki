@@ -25,7 +25,7 @@ class Card extends EffectSource {
         this.image = cardData.image;
         this.setDefaultController(owner);
 
-        this.type = cardData.type;
+        this.printedType = cardData.type;
 
         this.tokens = {};
 
@@ -99,6 +99,13 @@ class Card extends EffectSource {
         ];
 
         this.endRound();
+    }
+
+    get type() {
+        if(this.anyEffect('canPlayAsUpgrade') && this.parent !== null) {
+            return 'upgrade';
+        }
+        return this.printedType;
     }
 
     /**
@@ -516,12 +523,16 @@ class Card extends EffectSource {
         });
     }
 
+    canPlayAsUpgrade() {
+        return this.anyEffect('canPlayAsUpgrade') || this.type === 'upgrade';
+    }
+
     /**
      * Checks whether the passed card meets the upgrade restrictions (e.g.
      * Opponent cards only, specific factions, etc) for this card.
      */
     canAttach(card, context) { // eslint-disable-line no-unused-vars
-        return card && card.getType() === 'creature' && this.getType() === 'upgrade';
+        return card && card.getType() === 'creature' && this.canPlayAsUpgrade();
     }
 
     use(player, ignoreHouse = false) {
@@ -578,14 +589,15 @@ class Card extends EffectSource {
     getActions(location = this.location) {
         let actions = [];
         if(location === 'hand') {
-            if(this.type === 'upgrade') {
-                actions.push(new PlayUpgradeAction(this));
-            } else if(this.type === 'creature') {
+            if(this.type === 'creature') {
                 actions.push(new PlayCreatureAction(this));
             } else if(this.type === 'artifact') {
                 actions.push(new PlayArtifactAction(this));
             } else if(this.type === 'action') {
                 actions.push(new PlayAction(this));
+            }
+            if(this.canPlayAsUpgrade()) {
+                actions.push(new PlayUpgradeAction(this));
             }
             actions.push(new DiscardAction(this));
         } else if(location === 'play area' && this.type === 'creature') {
