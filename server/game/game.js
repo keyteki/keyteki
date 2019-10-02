@@ -871,6 +871,10 @@ class Game extends EventEmitter {
                 if(card.armor - card.armorUsed > 0) {
                     card.addToken('armor', card.armor - card.armorUsed);
                 }
+                if(card.hasToken('wardHit')) {
+                    card.removeToken('wardHit');
+                    card.unward();
+                }
             }
             // any terminal conditions which have met their condition
             this.effectEngine.checkTerminalConditions();

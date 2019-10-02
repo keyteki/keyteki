@@ -81,12 +81,23 @@ class DealDamageAction extends CardGameAction {
                 return;
             }
 
-            event.card.addToken('damage', event.amount);
-            if(!event.card.moribund && !this.noGameStateCheck && (event.card.tokens.damage >= event.card.power || event.damageSource && event.damageSource.getKeywordValue('poison'))) {
-                event.card.moribund = true;
-                context.game.actions.destroy({ inFight: !!event.fightEvent, purge: this.purge }).resolve(event.card, context.game.getFrameworkContext());
+            let card = event.card;
+
+            if(card.warded) {
+                if(!this.noGameStateCheck) {
+                    card.unward();
+                } else {
+                    card.addToken('wardHit', event.amount);
+                }
+            } else {
+                card.addToken('damage', event.amount);
+            }
+
+            if(!card.moribund && !this.noGameStateCheck && (card.tokens.damage >= card.power || event.damageSource && event.damageSource.getKeywordValue('poison'))) {
+                card.moribund = true;
+                context.game.actions.destroy({ inFight: !!event.fightEvent, purge: this.purge }).resolve(card, context.game.getFrameworkContext());
                 if(event.fightEvent) {
-                    event.fightEvent.destroyed.push(event.card);
+                    event.fightEvent.destroyed.push(card);
                 }
                 event.destroyed = true;
             }
