@@ -13,7 +13,8 @@ const defaultFiller = {
     mars: 'ammonia-clouds',
     sanctum: 'champion-anaphiel',
     shadows: 'macis-asp',
-    untamed: 'ancient-bear'
+    untamed: 'ancient-bear',
+    staralliance: 'explo-rover'
 };
 const minDeck = 15;
 const fillerHouses = ['untamed', 'sanctum', 'shadows'];
