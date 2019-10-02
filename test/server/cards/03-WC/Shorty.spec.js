@@ -17,6 +17,7 @@ describe('Shorty(WC)', function() {
                 this.player1.clickCard(this.shorty);
                 this.player1.clickPrompt('Reap with this creature');
                 expect(this.shorty.tokens.enrage).toBe(1);
+                expect(this).toHaveRecentChatMessage('player1 uses Shorty to enrage Shorty');
                 this.player1.endTurn();
                 this.player2.clickPrompt('brobnar');
                 this.player2.endTurn();

@@ -23,6 +23,7 @@ describe('Irestaff(WC)', function() {
                 expect(this.troll.power).toBe(9);
                 expect(this.troll.tokens.power).toBe(1);
                 expect(this.troll.tokens.enrage).toBe(1);
+                expect(this).toHaveRecentChatMessage('player1 uses Irestaff to enrage and add a +1 power counter to Troll');
                 this.player1.clickCard(this.troll);
                 expect(this.player1).not.toHavePromptButton('Reap with this creature');
 

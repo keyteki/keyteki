@@ -24,6 +24,7 @@ describe('FyreBreath(WC)', function() {
                 expect(this.firespitter.tokens.damage).toBe(7);
                 expect(this.valdr.tokens.damage).toBe(3);
                 expect(this.nexus.location).toBe('discard');
+                expect(this).toHaveRecentChatMessage('player1 uses Fyre-Breath to deal 2 damage to the neighbors of Fyre-Breath');
             });
         });
     });

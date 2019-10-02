@@ -6,9 +6,11 @@ class Irestaff extends Card {
             target: {
                 cardType: 'creature'
             },
+            message: '{0} uses {1} to enrage and add a +1 power counter to {2}',
+            messageArgs: context => [context.player, context.source, context.target],
             gameAction: [
-                ability.actions.addPowerCounter(context => ({target: context.target})),
-                ability.actions.enrage(context => ({target: context.target}))
+                ability.actions.enrage(context => ({target: context.target})),
+                ability.actions.addPowerCounter(context => ({target: context.target}))
             ]
         });
     }

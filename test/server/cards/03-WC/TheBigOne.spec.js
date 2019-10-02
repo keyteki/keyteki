@@ -21,6 +21,7 @@ describe('TheBigOne(WC)', function() {
                 for(var i = 0; i < 6; i++) {
                     this.player1.playCreature('troll');
                 }
+                expect(this).toHaveRecentChatMessage('player1 uses The Big One to place 1 fuse on The Big One');
                 expect(theBigOne.tokens.fuse).toBe(6);
                 this.player1.endTurn();
                 this.player2.clickPrompt('shadows');
@@ -38,6 +39,7 @@ describe('TheBigOne(WC)', function() {
                 expect(this.theSting.location).toBe('play area');
                 expect(this.urchin.location).toBe('play area');
                 this.player1.playCreature('troll');
+                expect(this).toHaveRecentChatMessage('The Big One has 10 fuse counters and destroys all creatures and artifacts');
                 expect(theBigOne.location).toBe('discard');
                 expect(this.nexus.location).toBe('discard');
                 expect(this.spectralTunneler.location).toBe('discard');

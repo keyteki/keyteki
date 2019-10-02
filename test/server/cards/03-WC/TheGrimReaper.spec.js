@@ -28,6 +28,7 @@ describe('The Grim Reaper(WC)', function() {
                 expect(this.player1.player.isHaunted()).toBe(true);
                 this.player1.play(this.theGrimReaper);
                 expect(this.theGrimReaper.exhausted).toBe(false);
+                expect(this).toHaveRecentChatMessage('player1 uses The Grim Reaper to ready The Grim Reaper');
             });
         });
     });

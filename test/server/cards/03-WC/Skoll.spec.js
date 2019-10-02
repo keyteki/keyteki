@@ -18,6 +18,7 @@ describe('Skoll(WC)', function() {
                 this.player1.clickCard(this.troll);
                 expect(this.nexus.location).toBe('discard');
                 expect(this.troll.tokens.power).toBe(1);
+                expect(this).toHaveRecentChatMessage('player1 uses Skoll to place 1 +1 power counter on Troll');
             });
             it('doesn\'t place power on troll after killing valdr with power', function() {
                 this.player1.fightWith(this.skoll, this.valdr);
