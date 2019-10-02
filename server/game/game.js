@@ -573,7 +573,6 @@ class Game extends EventEmitter {
             player.initialise();
         }
 
-
         this.allCards = _.reduce(this.getPlayers(), (cards, player) => {
             return cards.concat(player.deck);
         }, []);
