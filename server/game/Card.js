@@ -93,9 +93,11 @@ class Card extends EffectSource {
             { command: 'remDamage', text: 'Remove 1 damage' },
             { command: 'addAmber', text: 'Add 1 amber' },
             { command: 'remAmber', text: 'Remove 1 amber' },
-            { command: 'enrage', text: 'Enrage/Remove Enrage' },
+            { command: 'addEnrage', text: 'Add 1 enrage' },
+            { command: 'remEnrage', text: 'Remove 1 enrage' },
             { command: 'stun', text: 'Stun/Remove Stun' },
-            { command: 'ward', text: 'Ward/Remove Ward' },
+            { command: 'addWard', text: 'Add 1 ward' },
+            { command: 'remWard', text: 'Remove 1 ward' },
             { command: 'control', text: 'Give control' }
         ];
 
@@ -408,6 +410,12 @@ class Card extends EffectSource {
         }
     }
 
+    clearToken(type) {
+        if(this.tokens[type]) {
+            delete this.tokens[type];
+        }
+    }
+
     readiesDuringReadyPhase() {
         return !this.anyEffect('doesNotReady');
     }
@@ -489,7 +497,7 @@ class Card extends EffectSource {
     }
 
     unenrage() {
-        this.removeToken('enrage');
+        this.clearToken('enrage');
     }
 
     stun() {
@@ -511,7 +519,7 @@ class Card extends EffectSource {
     }
 
     unward() {
-        this.removeToken('ward');
+        this.clearToken('ward');
     }
 
     exhaust() {

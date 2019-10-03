@@ -35,23 +35,21 @@ class MenuCommands {
                     card.stun();
                 }
                 break;
-            case 'enrage':
-                if(card.enraged) {
-                    game.addAlert('danger', '{0} removes the enrage from {1}', player, card);
-                    card.unenrage();
-                } else {
-                    game.addAlert('danger', '{0} enrages {1}', player, card);
-                    card.enrage();
-                }
+            case 'addEnrage':
+                game.addAlert('danger', '{0} adds an enrage to {1}', player, card);
+                card.addToken('enrage', 1);
                 break;
-            case 'ward':
-                if(card.warded) {
-                    game.addAlert('danger', '{0} removes the ward from {1}', player, card);
-                    card.unward();
-                } else {
-                    game.addAlert('danger', '{0} wards {1}', player, card);
-                    card.ward();
-                }
+            case 'remEnrage':
+                game.addAlert('danger', '{0} removes an enrage from {1}', player, card);
+                card.removeToken('enrage', 1);
+                break;
+            case 'addWard':
+                game.addAlert('danger', '{0} adds a ward to {1}', player, card);
+                card.addToken('ward', 1);
+                break;
+            case 'remWard':
+                game.addAlert('danger', '{0} removes a ward from {1}', player, card);
+                card.removeToken('ward', 1);
                 break;
             case 'control':
                 if(player.opponent) {

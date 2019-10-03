@@ -6,7 +6,8 @@ class Counter extends React.Component {
     render() {
         let className = classNames('counter', this.props.name, {
             'cancel': this.props.cancel,
-            'fade-out': this.props.fade
+            'fade-out': this.props.fade,
+            'single': (this.props.value === 1)
         });
 
         return (<div key={ this.props.name } className={ className }>
