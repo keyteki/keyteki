@@ -119,10 +119,6 @@ class InnerCard extends React.Component {
             counters.push({ name: 'stun', count: 1, shortName: '' });
         }
 
-        if(card.warded) {
-            counters.push({ name: 'ward', count: 1, shortName: '' });
-        }
-
         return counters.filter(counter => counter.count >= 0);
     }
 

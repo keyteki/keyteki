@@ -14,7 +14,8 @@ const defaultFiller = {
     sanctum: 'champion-anaphiel',
     shadows: 'macis-asp',
     untamed: 'ancient-bear',
-    staralliance: 'explo-rover'
+    staralliance: 'explo-rover',
+    saurian: 'tricerian-legionary'
 };
 const minDeck = 15;
 const fillerHouses = ['untamed', 'sanctum', 'shadows'];

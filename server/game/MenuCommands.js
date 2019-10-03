@@ -35,13 +35,14 @@ class MenuCommands {
                     card.stun();
                 }
                 break;
-            case 'addEnrage':
-                game.addAlert('danger', '{0} adds an enrage to {1}', player, card);
-                card.enrage();
-                break;
-            case 'remEnrage':
-                game.addAlert('danger', '{0} removes an enrage from {1}', player, card);
-                card.unenrage();
+            case 'enrage':
+                if(card.enraged) {
+                    game.addAlert('danger', '{0} removes the enrage from {1}', player, card);
+                    card.unenrage();
+                } else {
+                    game.addAlert('danger', '{0} enrages {1}', player, card);
+                    card.enrage();
+                }
                 break;
             case 'ward':
                 if(card.warded) {
