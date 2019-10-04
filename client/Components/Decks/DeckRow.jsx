@@ -2,11 +2,26 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
-class DeckRow extends React.Component {
-    constructor() {
-        super();
+import { withTranslation } from 'react-i18next';
+import IdentityCard from '../GameBoard/IdentityCard';
 
+class DeckRow extends React.Component {
+    constructor(props) {
+        super(props);
         this.handleDeckClick = this.handleDeckClick.bind(this);
+        this.onCardMouseOut = this.onCardMouseOut.bind(this);
+        this.onArchonMouseOver = this.onArchonMouseOver.bind(this);
+        this.state = {
+            card: false
+        };
+    }
+
+    onArchonMouseOver(card) {
+        this.setState({card});
+    }
+
+    onCardMouseOut() {
+        this.setState({card: false});
     }
 
     handleDeckClick() {
@@ -16,24 +31,37 @@ class DeckRow extends React.Component {
     }
 
     getStatusName(status) {
+        let t = this.props.t;
+
         if(status.usageLevel === 1 && !status.verified) {
-            return 'Used';
+            return t('Used');
         } else if(status.usageLevel === 2 && !status.verified) {
-            return 'Popular';
+            return t('Popular');
         } else if(status.usageLevel === 3 && !status.verified) {
-            return 'Notorious';
+            return t('Notorious');
         } else if(!status.officialRole || !status.noUnreleasedCards || !status.faqRestrictedList) {
-            return 'Casual';
+            return t('Casual');
         }
 
-        return 'Valid';
+        return t('Valid');
     }
 
     render() {
+        let language = this.props.i18n.language;
+        moment.locale((language === 'zhhans') || (language === 'zhhant') ? 'zh-cn' : language);
+
         return (
             <div className={ this.props.active ? 'deck-row active' : 'deck-row' } key={ this.props.deck.name } onClick={ this.handleDeckClick }>
+                { this.state.card ?
+                    <div className='hover-card'>
+                        <div className='hover-image'>
+                            { this.state.card }
+                        </div>
+                    </div> : null }
                 <div className='col-xs-1 deck-image'>
-                    <img className='img-responsive' src={ '/img/idbacks/identity.jpg' } />
+                    <IdentityCard size={ 'img-responsive' } deckCards={ [] } cards={ {} } image language={ this.props.i18n.language }
+                        houses={ this.props.deck.houses } deckName={ this.props.deck.name } onMouseOut={ this.onCardMouseOut }
+                        deckUuid = { this.props.deck.uuid } onMouseOver={ this.onArchonMouseOver } />
                 </div>
                 <span className='col-xs-8 col-md-7 col-lg-9 deck-name'>{ this.props.deck.name }</span><span className='col-xs-2 col-md-3 col-lg-2 deck-status-label text-right pull-right'>{ this.getStatusName(this.props.deck.status) }</span>
                 <div className='row small'>
@@ -48,7 +76,9 @@ DeckRow.displayName = 'DeckRow';
 DeckRow.propTypes = {
     active: PropTypes.bool,
     deck: PropTypes.object.isRequired,
-    onSelect: PropTypes.func
+    i18n: PropTypes.object,
+    onSelect: PropTypes.func,
+    t: PropTypes.func
 };
 
-export default DeckRow;
+export default withTranslation()(DeckRow);

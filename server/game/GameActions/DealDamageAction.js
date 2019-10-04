@@ -3,7 +3,7 @@ const CardGameAction = require('./CardGameAction');
 class DealDamageAction extends CardGameAction {
     setDefaultProperties() {
         this.amount = null;
-        this.amountForCard = (card, context) => 1; // eslint-disable-line no-unused-vars
+        this.amountForCard = () => 1;
         this.fightEvent = null;
         this.damageSource = null;
         this.splash = 0;
@@ -30,6 +30,7 @@ class DealDamageAction extends CardGameAction {
                 array.concat(this.getEvent(card, context), card.neighbors.map(neighbor => this.getEvent(neighbor, context, this.splash)))
             ), []);
         }
+
         return super.getEventArray(context);
     }
 
@@ -43,6 +44,15 @@ class DealDamageAction extends CardGameAction {
             fightEvent: this.fightEvent,
             ignoreArmor: this.ignoreArmor
         };
+
+        // Update armor token
+        if(this.noGameStateCheck) {
+            card.removeToken('armor');
+            if(card.armor - card.armorUsed > 0) {
+                card.addToken('armor', card.armor - card.armorUsed);
+            }
+        }
+
         return super.createEvent('onDamageDealt', params, event => {
             let amount = event.amount;
 

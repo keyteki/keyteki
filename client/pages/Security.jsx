@@ -8,6 +8,8 @@ import AlertPanel from '../Components/Site/AlertPanel';
 import Panel from '../Components/Site/Panel';
 import * as actions from '../actions';
 
+import { withTranslation, Trans } from 'react-i18next';
+
 class Security extends React.Component {
     constructor(props) {
         super(props);
@@ -34,13 +36,17 @@ class Security extends React.Component {
     }
 
     onRemoveClick(session, event) {
+        let t = this.props.t;
+
         event.preventDefault();
 
         if(!this.props.user) {
             return;
         }
 
-        toastr.confirm('Are you sure you want to remove this session?  It will be logged out and any games in progress may be abandonded.', {
+        toastr.confirm(t('Are you sure you want to remove this session?  It will be logged out and any games in progress may be abandonded.'), {
+            okText: t('Ok'),
+            cancelText: t('Cancel'),
             onOk: () => {
                 this.props.removeSession(this.props.user.username, session.id);
             }
@@ -48,6 +54,7 @@ class Security extends React.Component {
     }
 
     render() {
+        let t = this.props.t;
         let content;
         let successPanel;
 
@@ -56,7 +63,7 @@ class Security extends React.Component {
                 this.props.clearSessionStatus();
             }, 5000);
             successPanel = (
-                <AlertPanel message='Session removed successfully' type={ 'success' } />
+                <AlertPanel message={ t('Session removed successfully') } type={ 'success' } />
             );
         }
 
@@ -73,9 +80,9 @@ class Security extends React.Component {
             <table className='table table-striped'>
                 <thead>
                     <tr>
-                        <th>IP Address</th>
-                        <th>Last Used</th>
-                        <th>Remove</th>
+                        <th><Trans>IP Address</Trans></th>
+                        <th><Trans>Last Used</Trans></th>
+                        <th><Trans>Remove</Trans></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -85,17 +92,19 @@ class Security extends React.Component {
         );
 
         if(this.props.loading) {
-            content = <div>Loading session details from the server...</div>;
+            content = <div><Trans>Loading session details from the server...</Trans></div>;
         } else if(this.props.apiError) {
             content = <AlertPanel type='error' message={ this.props.apiError } />;
         } else {
             content = (
                 <div className='col-sm-8 col-sm-offset-2 profile full-height'>
                     { successPanel }
-                    <Panel title='Active Sessions'>
+                    <Panel title={ t('Active Sessions') }>
                         <p className='help-block'>
+                            <Trans i18nKey='security.note'>
                             Below you will see the active 'sessions' that you have on the website.
                             If you see any unexpected activity on your account, remove the session and consider changing your password.
+                            </Trans>
                         </p>
                         { table }
                     </Panel>
@@ -110,11 +119,13 @@ Security.displayName = 'Security';
 Security.propTypes = {
     apiError: PropTypes.string,
     clearSessionStatus: PropTypes.func,
+    i18n: PropTypes.object,
     loadActiveSessions: PropTypes.func,
     loading: PropTypes.bool,
     removeSession: PropTypes.func,
     sessionRemoved: PropTypes.bool,
     sessions: PropTypes.array,
+    t: PropTypes.func,
     user: PropTypes.object
 };
 
@@ -128,4 +139,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps, actions)(Security);
+export default withTranslation()(connect(mapStateToProps, actions)(Security));

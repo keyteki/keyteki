@@ -7,7 +7,6 @@ class GameObject {
         this.game = game;
         this.name = name;
         this.id = this.name;
-        this.type = '';
         this.image = '';
         this.facedown = false;
         this.uuid = uuid.v1();

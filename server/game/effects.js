@@ -14,6 +14,7 @@ const Effects = {
     addTrait: (trait) => EffectBuilder.card.static('addTrait', trait),
     blank: () => EffectBuilder.card.static('blank'),
     bonusDamage: (match) => EffectBuilder.card.static('bonusDamage', match),
+    canPlayAsUpgrade: () => EffectBuilder.card.static('canPlayAsUpgrade'),
     cardCannot: (type, condition) => EffectBuilder.card.static('abilityRestrictions', new CannotRestriction(type, condition)),
     changeHouse: (house) => EffectBuilder.card.static('changeHouse', house),
     consideredAsFlank: () => EffectBuilder.card.static('consideredAsFlank'),
@@ -64,6 +65,7 @@ const Effects = {
     modifyPower: (amount) => EffectBuilder.card.flexible('modifyPower', amount),
     removeKeyword: (keyword) => EffectBuilder.card.static('removeKeyword', keyword),
     takeControl: (player) => EffectBuilder.card.static('takeControl', player),
+    entersPlayUnderOpponentsControl: () => EffectBuilder.card.static('entersPlayUnderOpponentsControl'),
     terminalCondition: (properties) => EffectBuilder.card.detached('terminalCondition', {
         apply: (card, context) => {
             properties.target = card;
@@ -80,6 +82,7 @@ const Effects = {
         context.ability.title === 'Remove this creature\'s stun') &&
         match(context.source)
     )),
+    mustFightIfAble: () => EffectBuilder.card.static('mustFightIfAble'),
     canPlay: (match) => EffectBuilder.player.static('canPlay', match),
     canPlayFromOwn: (location) => EffectBuilder.player.detached('canPlayFromOwn', {
         apply: (player) => player.addPlayableLocation('play', player, location),

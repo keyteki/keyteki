@@ -14,7 +14,8 @@ class SirMarrows extends Card {
                     target: context.player.opponent,
                     amount: 1
                 }))
-            ])
+            ]),
+            effect: 'capture 1 amber'
         });
     }
 }

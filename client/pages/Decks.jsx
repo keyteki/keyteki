@@ -9,6 +9,8 @@ import DeckList from '../Components/Decks/DeckList';
 import ViewDeck from '../Components/Decks/ViewDeck';
 import * as actions from '../actions';
 
+import { withTranslation, Trans } from 'react-i18next';
+
 class Decks extends React.Component {
     constructor() {
         super();
@@ -25,6 +27,7 @@ class Decks extends React.Component {
     }
 
     render() {
+        let t = this.props.t;
         let content = null;
 
         let successPanel = null;
@@ -34,12 +37,12 @@ class Decks extends React.Component {
                 this.props.clearDeckStatus();
             }, 5000);
             successPanel = (
-                <AlertPanel message='Deck deleted successfully' type={ 'success' } />
+                <AlertPanel message={ t('Deck deleted successfully') } type={ 'success' } />
             );
         }
 
         if(this.props.apiLoading) {
-            content = <div>Loading decks from the server...</div>;
+            content = <div><Trans>Loading decks from the server...</Trans></div>;
         } else if(!this.props.apiSuccess) {
             content = <AlertPanel type='error' message={ this.props.apiMessage } />;
         } else {
@@ -49,8 +52,8 @@ class Decks extends React.Component {
                         { successPanel }
                     </div>
                     <div className='col-md-5 full-height'>
-                        <Panel title='Your decks'>
-                            <Link className='btn btn-primary' href='/decks/import'>Import Deck</Link>
+                        <Panel title={ t('Your decks') }>
+                            <Link className='btn btn-primary' href='/decks/import'><Trans>Import Deck</Trans></Link>
                             <DeckList className='deck-list' activeDeck={ this.props.selectedDeck } decks={ this.props.decks } onSelectDeck={ this.props.selectDeck } />
                         </Panel>
                     </div>
@@ -74,11 +77,13 @@ Decks.propTypes = {
     deckDeleted: PropTypes.bool,
     decks: PropTypes.array,
     deleteDeck: PropTypes.func,
+    i18n: PropTypes.object,
     loadDecks: PropTypes.func,
     loading: PropTypes.bool,
     navigate: PropTypes.func,
     selectDeck: PropTypes.func,
-    selectedDeck: PropTypes.object
+    selectedDeck: PropTypes.object,
+    t: PropTypes.func
 };
 
 function mapStateToProps(state) {
@@ -94,4 +99,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps, actions)(Decks);
+export default withTranslation()(connect(mapStateToProps, actions)(Decks));

@@ -17,7 +17,9 @@ class Player extends GameObject {
 
         this.hand = [];
         this.cardsInPlay = []; // This stores references to all creatures and artifacts in play.  Upgrades are not stored here.
-        this.deck = [];
+        this.deckName = '';
+        this.deckCards = [];
+        this.deckUuid = '';
         this.discard = [];
         this.purged = [];
         this.archives = [];
@@ -30,6 +32,7 @@ class Player extends GameObject {
 
         this.chains = 0;
         this.keyForged = false;
+        this.creatureFought = false;
 
         this.clock = ClockSelector.for(this, clockdetails);
         this.showDeck = false;
@@ -183,10 +186,11 @@ class Player extends GameObject {
      */
     prepareDecks() {
         let deck = new Deck(this.deckData);
-        var preparedDeck = deck.prepare(this);
+        let preparedDeck = deck.prepare(this);
         this.houses = preparedDeck.houses;
         this.deck = preparedDeck.cards;
         this.allCards = preparedDeck.cards;
+        this.deckCards = this.getDeckCards(this.deckData.cards);
     }
 
     /**
@@ -213,14 +217,16 @@ class Player extends GameObject {
         this.playableLocations = _.reject(this.playableLocations, l => l === location);
     }
 
+    beginRound() {
+        this.keyForged = false;
+        this.creatureFought = false;
+    }
+
     endRound() {
         for(let card of this.cardsInPlay) {
             card.new = false;
         }
         this.turn += 1;
-        if(this.opponent) {
-            this.opponent.keyForged = false;
-        }
     }
 
     /**
@@ -427,6 +433,18 @@ class Player extends GameObject {
         });
     }
 
+    getDeckCards(list) {
+        let final = [];
+        list.forEach(card =>{
+            let arr = [];
+            while(arr.length < card.count) {
+                arr = arr.concat(card.card);
+            }
+            final = final.concat(arr);
+        });
+        return final;
+    }
+
     getCardSelectionState(card) {
         return this.promptState.getCardSelectionState(card);
     }
@@ -453,6 +471,10 @@ class Player extends GameObject {
 
     modifyChains(amount) {
         this.chains = Math.max(this.chains + amount, 0);
+    }
+
+    isHaunted() {
+        return this.discard.length >= 10;
     }
 
     get maxHandSize() {
@@ -491,6 +513,10 @@ class Player extends GameObject {
             return false;
         }
 
+        if(this.keys >= 3) {
+            return false;
+        }
+
         let alternativeSources = this.getEffects('keyAmber').reduce((total, source) => total + source.tokens.amber ? source.tokens.amber : 0, 0);
         return this.amber + alternativeSources >= this.getCurrentKeyCost() + modifier;
     }
@@ -509,8 +535,8 @@ class Player extends GameObject {
                     let max = Math.min(modifiedCost, source.tokens.amber);
                     let min = Math.max(0, modifiedCost - this.amber - totalAvailable + source.tokens.amber);
                     this.game.promptWithHandlerMenu(this, {
-                        activePromptTitle: 'How much amber do you want to use from ' + source.name,
-                        source: 'Forge a Key',
+                        activePromptTitle: { text: 'How much amber do you want to use from {{card}}', values: { card: source.name } },
+                        source: source,
                         choices: _.range(min, max + 1),
                         choiceHandler: choice => {
                             modifiedCost -= choice,
@@ -552,7 +578,7 @@ class Player extends GameObject {
      * @param {Player} activePlayer
      */
 
-    getState(activePlayer) {
+    getState(activePlayer, gameFormat) {
         let isActivePlayer = activePlayer === this;
         let promptState = isActivePlayer ? this.promptState.getState() : {};
         let state = {
@@ -566,7 +592,6 @@ class Player extends GameObject {
             },
             cardback: 'cardback',
             deckName: this.deckData.name,
-            deckUuid: this.deckData,
             disconnected: this.disconnected,
             activePlayer: this.game.activePlayer === this,
             houses: this.houses,
@@ -579,7 +604,9 @@ class Player extends GameObject {
             phase: this.game.currentPhase,
             stats: this.getStats(),
             timerSettings: {},
-            user: _.omit(this.user, ['password', 'email'])
+            user: _.omit(this.user, ['password', 'email']),
+            deckUuid: this.deckData.uuid,
+            deckCards: this.deckCards
         };
 
         if(isActivePlayer) {
@@ -597,6 +624,8 @@ class Player extends GameObject {
                 return 0;
             });
             state.cardPiles.deck = this.getSummaryForCardList(sortedDeck, activePlayer, true);
+        } else if(gameFormat === 'sealed') {
+            state.deckCards = [];
         }
 
         if(this.isTopCardShown()) {

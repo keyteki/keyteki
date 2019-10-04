@@ -15,7 +15,7 @@ class RematchPrompt extends AllPlayerPrompt {
 
     activePrompt() {
         return {
-            menuTitle: `${this.requestingPlayer.name} would like a rematch. Allow?`,
+            menuTitle: {text: '{{player}} would like a rematch. Allow?', values: { player: this.requestingPlayer.name } },
             buttons: [
                 { arg: 'yes', text: 'Yes' },
                 { arg: 'no', text: 'No' }
