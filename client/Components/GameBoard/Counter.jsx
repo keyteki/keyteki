@@ -6,13 +6,12 @@ class Counter extends React.Component {
     render() {
         let className = classNames('counter', this.props.name, {
             'cancel': this.props.cancel,
-            'fade-out': this.props.fade,
-            'single': (this.props.value === 1)
+            'fade-out': this.props.fade
         });
 
         return (<div key={ this.props.name } className={ className }>
-            { this.props.shortName ? <span>{ this.props.shortName }</span> : null }
-            <span>{ this.props.value }</span>
+            { this.props.shortName && <span>{ this.props.shortName }</span> }
+            { this.props.showValue && <span>{ this.props.value }</span> }
         </div>);
     }
 }
@@ -24,6 +23,7 @@ Counter.propTypes = {
     icon: PropTypes.string,
     name: PropTypes.string.isRequired,
     shortName: PropTypes.string,
+    showValue: PropTypes.bool,
     value: PropTypes.number
 };
 

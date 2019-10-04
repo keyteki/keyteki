@@ -17,12 +17,13 @@ class CardCounters extends React.Component {
         let counterDivs = [];
 
         for(const [key, counter] of Object.entries(this.props.counters)) {
-            counterDivs.push(<Counter key={ key }
+            counterDivs.push(<Counter key = { key }
                 name={ counter.name }
                 icon={ counter.icon }
                 value={ counter.count }
                 fade={ counter.fade }
                 cancel={ counter.cancel }
+                showValue={ counter.showValue }
                 shortName={ counter.shortName } />);
         }
 
