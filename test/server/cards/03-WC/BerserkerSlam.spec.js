@@ -1,4 +1,4 @@
-describe('Berserker Slam', function() {
+describe('Berserker Slam(WC)', function() {
     integration(function() {
         describe('Play ability', function() {
             beforeEach(function() {
@@ -34,6 +34,7 @@ describe('Berserker Slam', function() {
                 expect(this.forgemasterOg.location).toBe('discard');
                 expect(this.player1.amber).toBe(3);
                 expect(this.player2.amber).toBe(4);
+                expect(this).toHaveRecentChatMessage('player1 uses Berserker Slam to cause player1 to lose 1 aember');
             });
             it('makes opponent lose 1 aember if destroy opponents flank creature', function() {
                 this.player1.play(this.berserkerSlam);
@@ -42,6 +43,7 @@ describe('Berserker Slam', function() {
                 expect(this.nexus.location).toBe('discard');
                 expect(this.player1.amber).toBe(4);
                 expect(this.player2.amber).toBe(3);
+                expect(this).toHaveRecentChatMessage('player1 uses Berserker Slam to cause player2 to lose 1 aember');
             });
             it('doesnt lose our aember if doesnt destroy our flank creature', function() {
                 this.player1.play(this.berserkerSlam);

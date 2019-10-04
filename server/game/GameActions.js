@@ -54,6 +54,7 @@ const Actions = {
     addPowerCounter: (propertyFactory) => new AddTokenAction(propertyFactory, 'power'),
     addDamageToken: (propertyFactory) => new AddTokenAction(propertyFactory, 'damage'),
     addDoomCounter: (propertyFactory) => new AddTokenAction(propertyFactory, 'doom'),
+    addFuseCounter: (propertyFactory) => new AddTokenAction(propertyFactory, 'fuse'),
     archive: (propertyFactory) => new ArchiveAction(propertyFactory),
     attach: (propertyFactory) => new AttachAction(propertyFactory), // upgrade
     capture: (propertyFactory) => new CaptureAction(propertyFactory),
