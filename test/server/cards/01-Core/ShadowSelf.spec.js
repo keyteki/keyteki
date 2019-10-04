@@ -6,7 +6,7 @@ describe('Shadow Self', function() {
                     player1: {
                         house: 'shadows',
                         inPlay: ['bad-penny', 'shadow-self', 'urchin'],
-                        hand: ['shadow-self']
+                        hand: ['shadow-self', 'abond-the-armorsmith']
                     },
                     player2: {
                         inPlay: ['silvertooth']
@@ -38,10 +38,46 @@ describe('Shadow Self', function() {
             it('should not take damage when an elusive neighboring creature is attacked', function() {
                 this.player1.endTurn();
                 this.player2.clickPrompt('shadows');
-                this.player2.fightWith(this.silvertooth, this.elusive);
+                this.player2.fightWith(this.silvertooth, this.urchin);
                 expect(this.silvertooth.hasToken('damage')).toBe(false);
                 expect(this.urchin.hasToken('damage')).toBe(false);
                 expect(this.shadowSelf1.hasToken('damage')).toBe(false);
+            });
+
+            it('should reduce its armor before taking the damage', function() {
+                this.player1.endTurn();
+                this.player2.clickPrompt('shadows');
+                this.player2.endTurn();
+                this.player1.clickPrompt('sanctum');
+                this.player1.playCreature(this.abondTheArmorsmith);
+                this.player1.endTurn();
+                expect(this.shadowSelf1.tokens.armor).toBe(1);
+                this.player2.clickPrompt('shadows');
+                this.player2.fightWith(this.silvertooth, this.shadowSelf1);
+                expect(this.silvertooth.hasToken('damage')).toBe(false);
+                expect(this.shadowSelf1.tokens.damage).toBe(1);
+                expect(this.shadowSelf1.hasToken('armor')).toBe(false);
+                expect(this.shadowSelf1.armorUsed).toBe(1);
+            });
+
+            it('should reduce its armor before taking the damage of neighbors', function() {
+                this.player1.endTurn();
+                this.player2.clickPrompt('shadows');
+                this.player2.endTurn();
+                this.player1.clickPrompt('sanctum');
+                this.player1.playCreature(this.abondTheArmorsmith);
+                this.player1.endTurn();
+                expect(this.shadowSelf1.tokens.armor).toBe(1);
+                expect(this.badPenny.tokens.armor).toBe(1);
+                this.player2.clickPrompt('shadows');
+                this.player2.fightWith(this.silvertooth, this.badPenny);
+                expect(this.silvertooth.tokens.damage).toBe(1);
+                expect(this.badPenny.hasToken('armor')).toBe(false);
+                expect(this.badPenny.armorUsed).toBe(1);
+                expect(this.badPenny.hasToken('damage')).toBe(false);
+                expect(this.badPenny.hasToken('damage')).toBe(false);
+                expect(this.shadowSelf1.hasToken('armor')).toBe(false);
+                expect(this.shadowSelf1.armorUsed).toBe(1);
             });
 
             it('should prompt the active player to choose which Shadow Self gets the damage if two can receive it', function() {
