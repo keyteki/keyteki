@@ -7,7 +7,7 @@ class TheFeatheredShaman extends Card {
             gameAction: ability.actions.ward(context => ({
                 target: context.source.neighbors
             })),
-            effect: 'ward neighbors'
+            effect: 'ward its neighbors'
         });
     }
 }

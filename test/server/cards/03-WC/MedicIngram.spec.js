@@ -1,6 +1,6 @@
-describe('Tricerian Legionary', function() {
+describe('Medic Ingram', function() {
     integration(function() {
-        describe('Tricerian Legionary\'s play/reap/fight ability', function() {
+        describe('Medic Ingram\'s play/reap/fight ability', function() {
             beforeEach(function() {
                 this.setupTest({
                     player1: {
