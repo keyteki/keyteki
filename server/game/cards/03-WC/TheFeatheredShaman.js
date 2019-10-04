@@ -12,6 +12,6 @@ class TheFeatheredShaman extends Card {
     }
 }
 
-TheFeatheredShaman.id = 'the-feathered-shaman'; // This is a guess at what the id might be - please check it!!!
+TheFeatheredShaman.id = 'the-feathered-shaman';
 
 module.exports = TheFeatheredShaman;

@@ -12,6 +12,6 @@ class TricerianLegionary extends Card {
     }
 }
 
-TricerianLegionary.id = 'tricerian-legionary'; // This is a guess at what the id might be - please check it!!!
+TricerianLegionary.id = 'tricerian-legionary';
 
 module.exports = TricerianLegionary;

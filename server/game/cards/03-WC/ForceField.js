@@ -10,6 +10,6 @@ class ForceField extends Card {
     }
 }
 
-ForceField.id = 'force-field'; // This is a guess at what the id might be - please check it!!!
+ForceField.id = 'force-field';
 
 module.exports = ForceField;
