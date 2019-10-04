@@ -16,7 +16,7 @@ class MightMakesRight extends Card {
             },
             then: {
                 condition: context => context.preThenEvents && context.preThenEvents.filter(event =>
-                    !event.cancelled && event.destroyEvent && !event.destroyEvent.cancelled).reduce((total, event) => total + event.destroyEvent.clone.power, 0) >= 25 ? 1 : 0,
+                    !event.cancelled && event.destroyEvent && !event.destroyEvent.cancelled).reduce((total, event) => total + event.clone.modifiedPower, 0) >= 25,
                 gameAction: ability.actions.forgeKey(context => ({
                     modifier: -context.player.getCurrentKeyCost()
                 }))
