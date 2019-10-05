@@ -235,7 +235,7 @@ class PendingGame extends React.Component {
                 </audio>
                 <Panel title={ this.props.currentGame.name }>
                     <div className='btn-group'>
-                        <button className='btn btn-primary' disabled={ !this.isGameReady() || this.props.connecting || this.state.waiting } onClick={ this.onStartClick }><Trans>Start</Trans></button>
+                        <button className='btn btn-success' disabled={ !this.isGameReady() || this.props.connecting || this.state.waiting } onClick={ this.onStartClick }><Trans>Start</Trans></button>
                         <button className='btn btn-primary' onClick={ this.onLeaveClick }><Trans>Leave</Trans></button>
                     </div>
                     <div className='game-status'>{ this.getGameStatus() }</div>

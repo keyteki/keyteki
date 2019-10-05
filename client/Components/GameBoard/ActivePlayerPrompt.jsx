@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { withTranslation } from 'react-i18next';
 
 import AbilityTargeting from './AbilityTargeting';
 import CardNameLookup from './CardNameLookup';
-
-import { withTranslation, Trans } from 'react-i18next';
+import Panel from '../Site/Panel';
 
 class ActivePlayerPrompt extends React.Component {
     onButtonClick(event, command, arg, uuid, method) {
@@ -81,7 +81,7 @@ class ActivePlayerPrompt extends React.Component {
 
             let option = (
                 <button key={ button.command + buttonIndex.toString() }
-                    className='btn btn-default prompt-button'
+                    className='btn btn-default prompt-button btn-stretch'
                     onClick={ event => this.onButtonClick(event, button.command, button.arg, button.uuid, button.method) }
                     onMouseOver={ event => this.onMouseOver(event, button.card) }
                     onMouseOut={ event => this.onMouseOut(event, button.card) }
@@ -160,20 +160,15 @@ class ActivePlayerPrompt extends React.Component {
             }
         }
 
-        return (<div>
+        return (<Panel title={ this.props.t(this.props.phase + ' phase') } titleClass='phase-indicator'>
             { timer }
-            <div className={ 'phase-indicator ' + this.props.phase } onClick={ this.props.onTitleClick }>
-                <Trans>{ this.props.phase } phase</Trans>
-            </div>
             { promptTitle }
             <div className='menu-pane'>
-                <div className='panel'>
-                    <h4>{ promptTexts }</h4>
-                    { this.getControls() }
-                    { this.getButtons() }
-                </div>
+                <h4>{ promptTexts }</h4>
+                { this.getControls() }
+                { this.getButtons() }
             </div>
-        </div>);
+        </Panel>);
     }
 }
 

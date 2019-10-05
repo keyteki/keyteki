@@ -20,7 +20,7 @@ class SideBar extends React.Component {
         let component = this.state.expanded ? (
             <div className='sidebar expanded' key='sidebar-expanded'>
                 <div>
-                    <a href='#' className='btn pull-right' onClick={ this.onBurgerClick }>
+                    <a href='#' className='btn btn-noimg pull-right' onClick={ this.onBurgerClick }>
                         <span className='glyphicon glyphicon-remove' />
                     </a>
                     { this.props.children }
@@ -28,7 +28,7 @@ class SideBar extends React.Component {
             </div>) :
             (<div className='sidebar collapsed' key='sidebar'>
                 <div>
-                    <a href='#' className='btn' onClick={ this.onBurgerClick }>
+                    <a href='#' className='btn btn-noimg' onClick={ this.onBurgerClick }>
                         <span className='glyphicon glyphicon-menu-hamburger' />
                     </a>
                 </div>

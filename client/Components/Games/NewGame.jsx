@@ -224,7 +224,7 @@ class NewGame extends React.Component {
                     <form className='form'>
                         { content }
                         <div className='button-row'>
-                            <button className='btn btn-primary' onClick={ this.onSubmitClick }><Trans>Start</Trans></button>
+                            <button className='btn btn-success' onClick={ this.onSubmitClick }><Trans>Start</Trans></button>
                             <button className='btn btn-primary' onClick={ this.onCancelClick }><Trans>Cancel</Trans></button>
                         </div>
                     </form>

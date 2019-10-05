@@ -242,7 +242,7 @@ class GameLobby extends React.Component {
                                 <button className='btn btn-primary' onClick={ this.onQuickJoinClick } disabled={ !!this.props.currentGame }><Trans>Quick Join</Trans></button>
                             </div>
                             <div className='col-sm-9 game-filter'>
-                                <Panel type='tertiary'>
+                                <Panel type='primary'>
                                     <Checkbox name='beginner' label={ t('Beginner') } fieldClass='col-sm-4' noGroup onChange={ this.onCheckboxChange.bind(this, 'beginner') } checked={ this.state.filter['beginner'] } />
                                     <Checkbox name='casual' label={ t('Casual') } fieldClass='col-sm-4' noGroup onChange={ this.onCheckboxChange.bind(this, 'casual') } checked={ this.state.filter['casual'] } />
                                     <Checkbox name='competitive' label={ t('Competitive') } fieldClass='col-sm-4' noGroup onChange={ this.onCheckboxChange.bind(this, 'competitive') } checked={ this.state.filter['competitive'] } />

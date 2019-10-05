@@ -100,7 +100,7 @@ class LobbyChat extends React.Component {
                 return (<div key={ message.user.username + i++ } className='lobby-message'>
                     { message.message }
                     { this.props.isModerator &&
-                        <a href='#' className='btn no-padding' onClick={ this.onRemoveMessageClick.bind(this, message._id) }>
+                        <a href='#' className='btn no-padding btn-noimg' onClick={ this.onRemoveMessageClick.bind(this, message._id) }>
                             <span className='chat-delete glyphicon glyphicon-remove' />
                         </a> }
                 </div>);

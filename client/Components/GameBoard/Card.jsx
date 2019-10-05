@@ -35,8 +35,8 @@ function collect(connect, monitor) {
 }
 
 class InnerCard extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.onMouseOver = this.onMouseOver.bind(this);
         this.onMouseOut = this.onMouseOut.bind(this);
@@ -124,14 +124,35 @@ class InnerCard extends React.Component {
         return counters.filter(counter => counter.count >= 0);
     }
 
+    getCardDimensions() {
+        let multiplier = this.getCardSizeMultiplier();
+        return {
+            width: 65 * multiplier,
+            height: 91 * multiplier
+        };
+    }
+
+    getCardSizeMultiplier() {
+        switch(this.props.size) {
+            case 'small':
+                return 0.6;
+            case 'large':
+                return 1.4;
+            case 'x-large':
+                return 2;
+        }
+
+        return 1;
+    }
+
     getupgrades() {
         if(!['full deck', 'play area'].includes(this.props.source)) {
             return null;
         }
 
-        var index = 1;
-        var upgrades = this.props.card.upgrades.map(upgrade => {
-            var returnedupgrade = (<Card key={ upgrade.uuid } source={ this.props.source } card={ upgrade }
+        let index = 1;
+        let upgrades = this.props.card.upgrades.map(upgrade => {
+            let returnedupgrade = (<Card key={ upgrade.uuid } source={ this.props.source } card={ upgrade }
                 className={ classNames('upgrade', `upgrade-${index}`) } wrapped={ false }
                 onMouseOver={ this.props.disableMouseOver ? null : this.onMouseOver.bind(this, upgrade) }
                 onMouseOut={ this.props.disableMouseOver ? null : this.onMouseOut }
@@ -313,9 +334,14 @@ class InnerCard extends React.Component {
     }
 
     render() {
+        let style = Object.assign({}, this.props.style);
+        if(this.props.card.upgrades) {
+            style.top = this.props.card.upgrades.length * (15 * this.getCardSizeMultiplier());
+        }
+
         if(this.props.wrapped) {
             return (
-                <div className='card-wrapper' style={ this.props.style }>
+                <div className='card-wrapper' style={ style }>
                     { this.getCard() }
                     { this.getupgrades() }
                     { this.renderUnderneathCards() }

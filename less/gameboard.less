@@ -17,7 +17,6 @@
     position: relative;
     margin: 5px;
     border: 1px solid rgba(71, 58, 56, 0.65);
-    border-radius: 0 0 5px 5px;
   }
 
   .menu {
@@ -108,29 +107,31 @@
     margin-top: auto;
 }
 
-.popup {
-  z-index: @layer-card-menu;
-  background-color: rgba(0, 0, 0, 0.85);
-  position: fixed;
-
-  a {
-    display: inline-block;
-    margin: 0 10px 8px 0;
-    text-decoration: none;
-
-    &:hover {
-      color: @brand-info;
-      cursor: pointer;
-    }
-  }
-
+.card-pile {
   .panel {
-    margin-bottom: 0;
-    padding: 5px;
-  }
+    z-index: @layer-card-menu;
+    background-color: rgba(0, 0, 0, 0.85);
+    position: fixed;
 
-  .panel-title {
-    margin: 5px 5px;
+    a {
+      display: inline-block;
+      margin: 0 10px 8px 0;
+      text-decoration: none;
+
+      &:hover {
+        color: @brand-info;
+        cursor: pointer;
+      }
+    }
+
+    .panel {
+      margin-bottom: 0;
+      padding: 5px;
+    }
+
+    .panel-title {
+      margin: 5px 5px;
+    }
   }
 }
 
@@ -138,11 +139,6 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-
-  .panel {
-    padding-left: 5px;
-    padding-right: 5px;
-  }
 }
 
 .player-info {
@@ -306,7 +302,7 @@
 }
 
 .additional-cards {
-  .popup {
+  .panel {
     .inner {
       .calculate-tiled-card-prop(min-height, 2, width);
       .calculate-tiled-card-prop(min-width, 2, height, @scrollbar-width);
@@ -315,7 +311,7 @@
 }
 
 .discard {
-  .popup {
+  .panel {
     min-height: 146px;
 
     .inner {
@@ -327,7 +323,7 @@
 }
 
 .archives {
-  .popup {
+  .panel {
     .inner {
       .calculate-tiled-card-prop(min-height, 1, height);
       .calculate-tiled-card-prop(width, 5, width, @scrollbar-width);
@@ -337,7 +333,7 @@
 }
 
 .purged {
-  .popup {
+  .panel {
     .inner {
       .calculate-tiled-card-prop(min-height, 1, height);
       .calculate-tiled-card-prop(width, 5, width, @scrollbar-width);
@@ -346,7 +342,7 @@
 }
 
 .draw {
-  .popup {
+  .panel {
     .inner {
       .calculate-tiled-card-prop(min-height, 1, height);
       .calculate-tiled-card-prop(width, 7, width, @scrollbar-width);
@@ -379,6 +375,7 @@
   flex-direction: column;
   width: 210px;
   justify-content: space-between;
+  margin-right: 5px;
 }
 
 .inset-pane > div {
@@ -388,13 +385,16 @@
 }
 
 .menu-pane-source {
-  background: rgba(0, 0, 0, 0.65);
-  border: 1px solid @header-border;
-  font-size: 14px;
-  font-weight: normal;
-  margin: 0 5px;
-  padding: 4px;
-  text-align: center;
+    margin-top: -15px;
+    margin-left: -16px;
+    margin-right: -16px;
+    background: @brand-primary;
+    border: 1px solid @header-border;
+    font-size: 14px;
+    font-weight: normal;
+    padding: 4px;
+    text-align: center;
+    border-top: none;
 }
 
 .menu-pane {
@@ -442,18 +442,8 @@
 }
 
 .phase-indicator {
-  margin: 5px;
-  margin-bottom: 0;
-  padding: 5px 0;
-  border: 1px solid @header-border;
-  border-radius: 4px 4px 0 0;
-  border-bottom: none;
-  background: @header-background;
   text-align: center;
   text-transform: uppercase;
-  width: 200px !important;
-  position: relative;
-  font-weight: bold;
 }
 
 span.up-arrow {
@@ -627,7 +617,8 @@ span.down-arrow {
   background: @background-color;
 
   .modal-header {
-    background: @brand-tertiary;
+    background: @brand-primary;
+    font-family: Keyforge;
   }
 }
 
@@ -855,13 +846,8 @@ hr.phasestart {
   line-height: 15px;
 }
 
-.auto {
-  .glyphicon {
-      color: @strength-color;
-  }
-}
-
 .prompt-button {
   display: flex;
   justify-content: center;
+  text-transform: capitalize;
 }
