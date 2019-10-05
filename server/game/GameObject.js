@@ -7,7 +7,6 @@ class GameObject {
         this.game = game;
         this.name = name;
         this.id = this.name;
-        this.objectType = '';
         this.image = '';
         this.facedown = false;
         this.uuid = uuid.v1();
@@ -53,14 +52,6 @@ class GameObject {
 
     isUnique() {
         return false;
-    }
-
-    get type() {
-        return this.objectType;
-    }
-
-    set type(type) {
-        this.objectType = type;
     }
 
     getType() {
