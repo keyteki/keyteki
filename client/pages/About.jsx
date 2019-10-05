@@ -44,7 +44,7 @@ class About extends React.Component {
                     </Trans>
                     <Trans i18nKey='about.thanks'>
                         <h3>Special Thanks</h3>
-                        <p>I'd like to thank gyffon, cryogen, and the throneteki and ringteki teams as without their help and support this site would never have happened.</p>
+                        <p>I'd like to thank Jadiel for starting this site and taking good care of it before I got involved!</p>
                     </Trans>
                     <Trans i18nKey='about.addicons'>
                         <h3>Additional Icons</h3>
