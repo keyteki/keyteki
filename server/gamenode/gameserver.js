@@ -214,6 +214,9 @@ class GameServer {
 
     onStartGame(pendingGame) {
         let game = new Game(pendingGame, { router: this, cardData: this.cardData });
+        game.on('onTimeExpired', () => {
+            this.sendGameState(game);
+        });
         this.games[pendingGame.id] = game;
 
         game.started = true;
