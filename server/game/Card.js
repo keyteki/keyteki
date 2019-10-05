@@ -373,7 +373,7 @@ class Card extends EffectSource {
     }
 
     checkRestrictions(actionType, context = null) {
-        return super.checkRestrictions(actionType, context) && this.controller.checkRestrictions(actionType, context);
+        return super.checkRestrictions(actionType, context) && (!context || !context.player || context.player.checkRestrictions(actionType, context));
     }
 
 
