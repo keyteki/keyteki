@@ -100,15 +100,17 @@ class InnerCard extends React.Component {
     }
 
     getCountersForCard(card) {
+        const singleValueCounters = ['ward', 'enrage'];
         let counters = [];
         let needsFade = card.type === 'upgrade' && !['full deck'].includes(this.props.source);
 
         if(card.type === 'creature' && card.baseStrength !== card.strength) {
-            counters.push({ name: 'strength', count: card.strength, fade: needsFade, shortName: 'S' });
+            counters.push({ name: 'strength', count: card.strength, fade: needsFade, shortName: 'S', showValue: true });
         }
 
         for(const [key, token] of Object.entries(card.tokens || {})) {
-            counters.push({ name: key, count: token, fade: needsFade, shortName: this.shortNames[key] });
+            counters.push({ name: key, count: token, fade: needsFade, shortName: this.shortNames[key],
+                showValue: ((token > 1) || !singleValueCounters.includes(key)) });
         }
 
         for(const upgrade of card.upgrades || []) {
@@ -116,7 +118,7 @@ class InnerCard extends React.Component {
         }
 
         if(card.stunned) {
-            counters.push({ name: 'stun', count: 1, shortName: '' });
+            counters.push({ name: 'stun', count: 1, shortName: '', showValue: false });
         }
 
         return counters.filter(counter => counter.count >= 0);

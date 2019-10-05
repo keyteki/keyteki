@@ -30,7 +30,7 @@ describe('Irestaff(WC)', function() {
                 // enrage goes away after a fight
                 this.player1.clickPrompt('Fight with this creature');
                 this.player1.clickCard(this.umbra);
-                expect(this.troll.tokens.enrage).toBe(0);
+                expect(this.troll.hasToken('enrage')).toBe(false);
                 this.player1.endTurn();
                 this.player2.clickPrompt('shadows');
                 this.player2.endTurn();

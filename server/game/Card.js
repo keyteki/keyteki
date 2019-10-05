@@ -88,13 +88,16 @@ class Card extends EffectSource {
         this.locale = cardData.locale;
 
         this.menu = [
-            { command: 'enrage', text: 'Enrage' },
             { command: 'exhaust', text: 'Exhaust/Ready' },
             { command: 'addDamage', text: 'Add 1 damage' },
             { command: 'remDamage', text: 'Remove 1 damage' },
             { command: 'addAmber', text: 'Add 1 amber' },
             { command: 'remAmber', text: 'Remove 1 amber' },
+            { command: 'addEnrage', text: 'Add 1 enrage' },
+            { command: 'remEnrage', text: 'Remove 1 enrage' },
             { command: 'stun', text: 'Stun/Remove Stun' },
+            { command: 'addWard', text: 'Add 1 ward' },
+            { command: 'remWard', text: 'Remove 1 ward' },
             { command: 'control', text: 'Give control' }
         ];
 
@@ -411,6 +414,12 @@ class Card extends EffectSource {
         }
     }
 
+    clearToken(type) {
+        if(this.tokens[type]) {
+            delete this.tokens[type];
+        }
+    }
+
     readiesDuringReadyPhase() {
         return !this.anyEffect('doesNotReady');
     }
@@ -481,18 +490,18 @@ class Card extends EffectSource {
         return this.hasToken('amber') ? this.tokens.amber : 0;
     }
 
+    get enraged() {
+        return this.hasToken('enrage');
+    }
+
     enrage() {
-        if(this.tokens.enrage > 0) {
-            return;
+        if(!this.hasToken('enrage')) {
+            this.addToken('enrage');
         }
-        this.addToken('enrage', 1);
     }
 
     unenrage() {
-        if(this.tokens.enrage <= 0) {
-            return;
-        }
-        this.addToken('enrage', -1);
+        this.clearToken('enrage');
     }
 
     stun() {
@@ -501,6 +510,20 @@ class Card extends EffectSource {
 
     unstun() {
         this.stunned = false;
+    }
+
+    get warded() {
+        return this.hasToken('ward');
+    }
+
+    ward() {
+        if(!this.hasToken('ward')) {
+            this.addToken('ward');
+        }
+    }
+
+    unward() {
+        this.clearToken('ward');
     }
 
     exhaust() {
