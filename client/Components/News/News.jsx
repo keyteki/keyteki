@@ -8,9 +8,9 @@ import { withTranslation, Trans } from 'react-i18next';
 class News extends React.Component {
     render() {
         let icons = [
-            'amber',
-            'power',
-            'armor'
+            'unforged-red',
+            'unforged-blue',
+            'unforged-yellow'
         ];
 
         let iconIndex = 0;
