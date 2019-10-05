@@ -50,6 +50,7 @@ class About extends React.Component {
                         <h3>Additional Icons</h3>
                         <p>Some icons were included from game-icons.net:
                         Death Note by <a target='_blank' href='http://lorcblog.blogspot.com/'>lorc</a>. <a target='_blank' href='https://creativecommons.org/licenses/by/3.0/'>CC-BY 3.0</a></p>
+                        <p>Time Limit icon made by <a href='https://www.flaticon.com/authors/minh-hoang' title='Minh Hoang'>Minh Hoang</a> from <a href='https://www.flaticon.com/' title='Flaticon'>www.flaticon.com</a> is licensed by <a href='http://creativecommons.org/licenses/by/3.0/' title='Creative Commons BY 3.0' target='_blank'>CC 3.0 BY</a></p>
                     </Trans>
                     <Trans i18nKey='about.addnotes'>
                         <h3>Additional Notes</h3>

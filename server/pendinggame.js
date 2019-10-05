@@ -22,6 +22,8 @@ class PendingGame {
         this.node = {};
         this.createdAt = new Date();
         this.gameChat = new GameChat();
+        this.useGameTimeLimit = details.useGameTimeLimit;
+        this.gameTimeLimit = details.gameTimeLimit;
     }
 
     // Getters
@@ -311,7 +313,9 @@ class PendingGame {
                     name: spectator.name,
                     settings: spectator.settings
                 };
-            })
+            }),
+            useGameTimeLimit: this.useGameTimeLimit,
+            gameTimeLimit: this.gameTimeLimit
         };
     }
 
@@ -350,7 +354,9 @@ class PendingGame {
             players,
             showHand: this.showHand,
             started: this.started,
-            spectators
+            spectators,
+            useGameTimeLimit: this.useGameTimeLimit,
+            gameTimeLimit: this.gameTimeLimit
         };
     }
 }

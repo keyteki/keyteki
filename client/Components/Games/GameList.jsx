@@ -176,6 +176,7 @@ class GameList extends React.Component {
                             <span className='game-icons'>
                                 { game.showHand && <img src='/img/ShowHandIcon.png' className='game-list-icon' alt={ t('Show hands to spectators') } title={ t('Show hands to spectators') } /> }
                                 { game.needsPassword && <span className='password-game glyphicon glyphicon-lock' /> }
+                                { game.useGameTimeLimit && <img src='/img/timelimit.png' className='game-list-icon' alt={ t('Time limit used') } /> }
                                 { game.gameFormat === 'sealed' && <img src='/img/sealed.png' className='game-list-icon' alt={ t('Sealed game format') } title={ t('Sealed game format') } /> }
                             </span>
                         </div>
