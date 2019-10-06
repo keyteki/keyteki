@@ -153,7 +153,7 @@ const buildArchon = (card) => new Promise(cardResolve => {
         card.slice(0, 3).forEach((house, index) => {
             ctx.drawImage((getCircularText(lanugageJSON[house][card[3]], 850, 0)), houseNames[index].x, houseNames[index].y);
         });
-        fs.writeFile(path, canvas.toBuffer(), () => cardResolve());
+        fs.writeFile(path, canvas.toBuffer('image/jpeg', { quality: 0.7 }), () => cardResolve());
     });
 });
 const permute = (languages) => {
