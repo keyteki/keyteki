@@ -1,6 +1,6 @@
 const Card = require('../../Card.js');
 
-class CAENDLEUnit extends Card {
+class CandleUnit extends Card {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
@@ -14,6 +14,6 @@ class CAENDLEUnit extends Card {
     }
 }
 
-CAENDLEUnit.id = 'caendle-unit';
+CandleUnit.id = 'caendle-unit';
 
-module.exports = CAENDLEUnit;
+module.exports = CandleUnit;
