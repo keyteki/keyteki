@@ -1,6 +1,6 @@
 const Card = require('../../Card.js');
 
-class EDAIEdie4x4 extends Card {
+class EdaiEdie4x4 extends Card {
     setupCardAbilities(ability) {
         this.play({
             target: {
@@ -16,6 +16,6 @@ class EDAIEdie4x4 extends Card {
     }
 }
 
-EDAIEdie4x4.id = 'edai-edie-4x4';
+EdaiEdie4x4.id = 'edai-edie-4x4';
 
-module.exports = EDAIEdie4x4;
+module.exports = EdaiEdie4x4;
