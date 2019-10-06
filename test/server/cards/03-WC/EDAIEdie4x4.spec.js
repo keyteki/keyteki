@@ -22,7 +22,6 @@ describe('EDAI Edie 4x4', function() {
                 this.player1.clickCard(this.archimedes);
                 expect(this.edaiEdie4x4.location).toBe('play area');
                 expect(this.archimedes.location).toBe('archives');
-                
             });
         });
         describe('EDAI Edie 4x4\'s ability', function() {
@@ -43,7 +42,6 @@ describe('EDAI Edie 4x4', function() {
             it('should increase the cost of opponent\'s keys by 1 for each archived card.', function() {
                 this.player1.endTurn();
                 expect(this.player2.player.amber).toBe(6);
-                
             });
         });
     });
