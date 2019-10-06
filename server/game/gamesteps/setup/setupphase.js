@@ -32,6 +32,7 @@ class SetupPhase extends Phase {
         for(let card of this.game.allCards) {
             card.applyAnyLocationPersistentEffects();
         }
+
         for(const player of this.game.getPlayers()) {
             let link = {
                 link: 'https://www.keyforgegame.com/deck-details/' + player.deckData.uuid,
@@ -65,6 +66,7 @@ class SetupPhase extends Phase {
         _.each(this.game.getPlayers(), player => {
             player.readyToStart = true;
         });
+        this.game.raiseEvent('onGameStarted');
     }
 }
 

@@ -73,10 +73,10 @@ class MovablePanel extends React.Component {
     render() {
         let style = this.state.position;
 
-        let content = (<div ref='popup' className='popup' style={ style }>
+        let content = (<div ref='popup' className='panel panel-primary' style={ style }>
             {
                 this.props.connectDragSource(
-                    <div className='panel-title' onClick={ event => event.stopPropagation() }>
+                    <div className='panel-heading' onClick={ event => event.stopPropagation() }>
                         <span className='text-center'>{ this.props.title }</span>
                         <span className='pull-right'>
                             <a className='close-button glyphicon glyphicon-remove' onClick={ this.props.onCloseClick } />

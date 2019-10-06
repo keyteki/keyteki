@@ -78,13 +78,13 @@ class GameList extends React.Component {
         if(firstPlayer) {
             return (<div className='game-faction-row first-player'>
                 { this.getPlayerNameAndAvatar(player, firstPlayer) }
-                { houses }
+                <div className='house-icons'>{ houses }</div>
             </div>);
         }
 
         return (<div className='game-faction-row other-player'>
-            { houses }
             { this.getPlayerNameAndAvatar(player, firstPlayer) }
+            <div className='house-icons'>{ houses }</div>
         </div>);
     }
 
@@ -126,7 +126,7 @@ class GameList extends React.Component {
                 players.push(
                     <div key={ players[0].name } className={ 'game-player-row other-player' }>
                         <div className='game-faction-row other-player'>
-                            <button className='btn btn-primary gamelist-button img-responsive' onClick={ event => this.joinGame(event, game) }><Trans>Join</Trans></button>
+                            <button className='btn btn-success gamelist-button img-responsive' onClick={ event => this.joinGame(event, game) }><Trans>Join</Trans></button>
                         </div>
                     </div>);
             } else {
@@ -176,6 +176,7 @@ class GameList extends React.Component {
                             <span className='game-icons'>
                                 { game.showHand && <img src='/img/ShowHandIcon.png' className='game-list-icon' alt={ t('Show hands to spectators') } title={ t('Show hands to spectators') } /> }
                                 { game.needsPassword && <span className='password-game glyphicon glyphicon-lock' /> }
+                                { game.useGameTimeLimit && <img src='/img/timelimit.png' className='game-list-icon' alt={ t('Time limit used') } /> }
                                 { game.gameFormat === 'sealed' && <img src='/img/sealed.png' className='game-list-icon' alt={ t('Sealed game format') } title={ t('Sealed game format') } /> }
                             </span>
                         </div>
@@ -185,14 +186,14 @@ class GameList extends React.Component {
                         <div className='game-row-buttons'>
                             { this.canWatch(game) &&
                                 <button className='btn btn-primary gamelist-button' onClick={ event => this.watchGame(event, game) }><Trans>Watch</Trans></button> }
-                            { isAdmin && <button className='btn btn-primary gamelist-button' onClick={ event => this.removeGame(event, game) }><Trans>Remove</Trans></button> }
+                            { isAdmin && <button className='btn btn-danger gamelist-button' onClick={ event => this.removeGame(event, game) }><Trans>Remove</Trans></button> }
                         </div>
                     </div>
                 </div>
             ));
         }
 
-        let gameHeaderClass = 'game-header bold';
+        let gameHeaderClass = 'game-header';
         switch(gameType) {
             case 'beginner':
                 gameHeaderClass += ' label-success';

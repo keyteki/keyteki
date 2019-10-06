@@ -7,7 +7,7 @@ class Panel extends React.Component {
         return (
             <div className={ classNames('panel', `panel-${this.props.type}`, this.props.className) }>
                 { this.props.title &&
-                    <div className='panel-heading'>
+                    <div className={ classNames('panel-heading', this.props.titleClass) }>
                         { this.props.title }
                     </div>
                 }
@@ -23,10 +23,11 @@ Panel.propTypes = {
     children: PropTypes.node,
     className: PropTypes.string,
     title: PropTypes.string,
-    type: PropTypes.oneOf(['danger', 'success', 'warning', 'info', 'default', 'primary', 'tertiary'])
+    titleClass: PropTypes.string,
+    type: PropTypes.oneOf(['danger', 'success', 'warning', 'info', 'default', 'primary'])
 };
 Panel.defaultProps = {
-    type: 'tertiary'
+    type: 'primary'
 };
 
 export default Panel;

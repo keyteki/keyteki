@@ -14,6 +14,7 @@ import PlayerBoard from './PlayerBoard';
 import GameChat from './GameChat';
 import GameConfigurationModal from './GameConfigurationModal';
 import Droppable from './Droppable';
+import TimeLimitClock from './TimeLimitClock';
 import * as actions from '../../actions';
 
 import { withTranslation, Trans } from 'react-i18next';
@@ -218,6 +219,18 @@ export class GameBoard extends React.Component {
         this.props.sendGameMessage('drop', card.uuid, source, target);
     }
 
+    getTimer() {
+        let timeLimitClock = null;
+        if(this.props.currentGame.useGameTimeLimit && this.props.currentGame.gameTimeLimitStarted) {
+            timeLimitClock = (<TimeLimitClock
+                timeLimitStarted={ this.props.currentGame.gameTimeLimitStarted }
+                timeLimitStartedAt={ this.props.currentGame.gameTimeLimitStartedAt }
+                timeLimit={ this.props.currentGame.gameTimeLimitTime } />);
+        }
+
+        return timeLimitClock;
+    }
+
     onCommand(command, arg, method) {
         let commandArg = arg;
 
@@ -316,6 +329,7 @@ export class GameBoard extends React.Component {
                         </Droppable>
                     </div>
                 </div>
+                { this.getTimer() }
                 <div className='player-home-row our-side'>
                     <PlayerRow isMe={ !this.state.spectating }
                         archives={ thisPlayer.cardPiles.archives }
@@ -397,7 +411,7 @@ export class GameBoard extends React.Component {
                     optionSettings={ thisPlayer.optionSettings }
                     onOptionSettingToggle={ this.onOptionSettingToggle.bind(this) }
                     id='settings-modal' />
-                <div className='player-stats-row'>
+                <div className='player-stats-row stats-top'>
                     <PlayerStats stats={ otherPlayer.stats } houses={ otherPlayer.houses } activeHouse={ otherPlayer.activeHouse }
                         user={ otherPlayer.user } activePlayer={ otherPlayer.activePlayer } />
                 </div>

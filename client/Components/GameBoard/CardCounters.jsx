@@ -23,6 +23,7 @@ class CardCounters extends React.Component {
                 value={ counter.count }
                 fade={ counter.fade }
                 cancel={ counter.cancel }
+                showValue={ counter.showValue }
                 shortName={ counter.shortName } />);
         }
 

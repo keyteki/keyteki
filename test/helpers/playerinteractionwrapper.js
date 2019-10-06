@@ -10,9 +10,6 @@ class PlayerInteractionWrapper {
         this.player = player;
 
         player.noTimer = true;
-        player.user = {
-            settings: {}
-        };
     }
 
     get name() {

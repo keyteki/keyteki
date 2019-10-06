@@ -28,6 +28,7 @@ const AbilityResolver = require('./gamesteps/abilityresolver.js');
 const SimultaneousEffectWindow = require('./gamesteps/SimultaneousEffectWindow');
 const AbilityContext = require('./AbilityContext.js');
 const MenuCommands = require('./MenuCommands');
+const TimeLimit = require('./TimeLimit.js');
 
 class Game extends EventEmitter {
     constructor(details, options = {}) {
@@ -57,6 +58,9 @@ class Game extends EventEmitter {
         this.cancelPromptUsed = false;
         this.currentPhase = '';
         this.password = details.password;
+        this.useGameTimeLimit = details.useGameTimeLimit;
+        this.gameTimeLimit = details.gameTimeLimit;
+        this.timeLimit = new TimeLimit(this);
 
         this.cardsUsed = [];
         this.cardsPlayed = [];
@@ -569,6 +573,12 @@ class Game extends EventEmitter {
 
         this.playersAndSpectators = players;
 
+        if(this.useGameTimeLimit) {
+            let timeLimitStartType = 'whenSetupFinished';
+            let timeLimitInMinutes = this.gameTimeLimit;
+            this.timeLimit.initialiseTimeLimit(timeLimitStartType, timeLimitInMinutes);
+        }
+
         for(let player of this.getPlayers()) {
             player.initialise();
         }
@@ -587,6 +597,13 @@ class Game extends EventEmitter {
         this.round = 1;
 
         this.continue();
+    }
+
+    checkForTimeExpired() {
+        if(this.timeLimit.isTimeLimitReached && !this.finishedAt) {
+            this.addAlert('success', 'The game has ended because the timer has expired.  Timed wins are not currently implemented');
+            this.finishedAt = new Date();
+        }
     }
 
     /*
@@ -825,6 +842,10 @@ class Game extends EventEmitter {
         this.router.rematch(this);
     }
 
+    timeExpired() {
+        this.emit('onTimeExpired');
+    }
+
     failedConnect(playerName) {
         let player = this.playersAndSpectators[playerName];
 
@@ -925,6 +946,7 @@ class Game extends EventEmitter {
 
         this.addMessage(playerAmber);
         this.addAlert('startofround', `Turn ${this.round}`);
+        this.checkForTimeExpired();
     }
 
     get cardsInPlay() {
@@ -982,6 +1004,8 @@ class Game extends EventEmitter {
                 playerState[player.name] = player.getState(activePlayer, this.gameFormat);
             }
 
+            this.timeLimit.checkForTimeLimitReached();
+
             return {
                 id: this.id,
                 gameFormat: this.gameFormat,
@@ -1000,7 +1024,11 @@ class Game extends EventEmitter {
                 }),
                 started: this.started,
                 winner: this.winner ? this.winner.name : undefined,
-                cancelPromptUsed: this.cancelPromptUsed
+                cancelPromptUsed: this.cancelPromptUsed,
+                useGameTimeLimit: this.useGameTimeLimit,
+                gameTimeLimitStarted: this.timeLimit.timeLimitStarted,
+                gameTimeLimitStartedAt: this.timeLimit.timeLimitStartedAt,
+                gameTimeLimitTime: this.timeLimit.timeLimitInMinutes
             };
         }
 

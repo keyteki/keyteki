@@ -70,6 +70,24 @@ var customMatchers = {
                 return result;
             }
         };
+    },
+    toHaveRecentChatMessage: function() {
+        return {
+            compare: function(game, msg, numBack = 1) {
+                let result = {};
+                let logs = game.getChatLogs(numBack);
+
+                result.pass = logs.filter(lastMsg => lastMsg.includes(msg)).length > 0;
+
+                if(result.pass) {
+                    result.message = `Expected ${msg} not to be in ${logs} but it was.`;
+                } else {
+                    result.message = `Expected '${msg}' to be in [${logs}] but it wasn't.`;
+                }
+
+                return result;
+            }
+        };
     }
 };
 

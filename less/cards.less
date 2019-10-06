@@ -5,6 +5,7 @@
   vertical-align: middle;
   display: inline-block;
   user-select: none;
+  position: relative;
 }
 
 .card-frame {
@@ -287,41 +288,6 @@
 
 .generate-upgrades(10, 1);
 
-.card-dupe {
-  margin-bottom: @upgrade-offset;
-  margin-top: -(@upgrade-offset + @card-height);
-
-  &.small {
-    margin-top: -(@upgrade-offset + @card-sm-height);
-  }
-
-  &.large {
-    margin-top: -(@upgrade-offset-lg + @card-lg-height);
-  }
-
-  &.x-large {
-    margin-top: -(@upgrade-offset-xl + @card-xl-height);
-  }
-}
-
-.generate-card-dupes(@n, @i: 1) when (@i =< @n) {
-  .card-dupe-@{i} {
-    z-index: @layer-cards - @i;
-    top: -((@i - 1) * @upgrade-offset);
-
-    &.large {
-      top: -((@i - 1) * @upgrade-offset-lg);
-    }
-
-    &.x-large {
-      top: -((@i - 1) * @upgrade-offset-xl);
-    }
-  }
-  .generate-card-dupes(@n, (@i + 1));
-}
-
-.generate-card-dupes(5, 1);
-
 .card-type-faction.horizontal {
   margin: 10px 0 0 0;
 }
@@ -384,7 +350,7 @@
 
     &:after {
       border-bottom: 0.17em solid @brand-danger;
-      content: "";
+      content: '';
       left: 0;
       margin-top: calc(0.17em / 2 * -1);
       position: absolute;
@@ -394,39 +360,51 @@
   }
 }
 
-.upgrade-power {
-  background-color: fade(@power-color, 50%);
-}
-
-.strength {
-  background-color: @strength-color;
-}
-
 .damage {
-  background-image: url("/img/damage.png");
+  background-image: url('/img/damage.png');
 }
 
 .doom {
-  background-image: url("/img/doom.png");
+  background-image: url('/img/doom.png');
 }
 
 .amber {
-  background-image: url("/img/amber.png");
+  background-image: url('/img/amber.png');
 }
 
 .armor {
-  background-image: url("/img/armor.png");
+  background-image: url('/img/armor.png');
 }
 
 .power {
-  background-image: url("/img/power.png");
+  background-image: url('/img/power.png');
   padding-left: 3px;
 }
 
 .stun {
   background-image: url("/img/stun.png");
-  text-shadow: none;
-  color: transparent;
+}
+
+.enrage {
+  background-image: url("/img/enrage.png");
+  line-height: 21px;
+}
+
+.ward {
+  background-image: url("/img/ward.png");
+  line-height: 21px;
+}
+
+.unforged-red {
+  background-image: url('/img/unforgedkey0.png');
+}
+
+.unforged-blue {
+  background-image: url('/img/unforgedkey1.png');
+}
+
+.unforged-yellow {
+  background-image: url('/img/unforgedkey2.png');
 }
 
 .card-small {
@@ -595,7 +573,7 @@
   font-family: thronesdb;
 
   &:before {
-    content: "\e60b";
+    content: '\e60b';
   }
 }
 

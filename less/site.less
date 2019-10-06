@@ -10,6 +10,8 @@
 @import 'gamelist';
 @import 'gameboard';
 @import 'cards';
+@import 'buttons';
+@import 'panels';
 
 @font-face {
   font-family: 'Keyforge';
@@ -65,7 +67,7 @@ h4 {
 
 .bg {
   padding-top: @navbar-height + 10px;
-  background-image: url('../public/img/bgs/keyforge.png');
+  background-image: url('../public/img/bgs/philophosaurus.png');
 
   height: 100%;
 
@@ -132,7 +134,7 @@ h4 {
 }
 
 a {
-  color: @brand-primary;
+  color: @brand-secondary;
 
   &:hover {
     color: @brand-info;
@@ -234,14 +236,6 @@ a {
 
 .text-left {
   text-align: left !important;
-}
-
-.panel-tertiary {
-  > .panel-heading {
-    background-color: @brand-tertiary;
-  }
-
-  border-color: @brand-tertiary;
 }
 
 .navbar-collapse {

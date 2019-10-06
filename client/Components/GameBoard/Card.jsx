@@ -35,8 +35,8 @@ function collect(connect, monitor) {
 }
 
 class InnerCard extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.onMouseOver = this.onMouseOver.bind(this);
         this.onMouseOut = this.onMouseOut.bind(this);
@@ -100,15 +100,17 @@ class InnerCard extends React.Component {
     }
 
     getCountersForCard(card) {
+        const singleValueCounters = ['ward', 'enrage'];
         let counters = [];
         let needsFade = card.type === 'upgrade' && !['full deck'].includes(this.props.source);
 
         if(card.type === 'creature' && card.baseStrength !== card.strength) {
-            counters.push({ name: 'strength', count: card.strength, fade: needsFade, shortName: 'S' });
+            counters.push({ name: 'strength', count: card.strength, fade: needsFade, shortName: 'S', showValue: true });
         }
 
         for(const [key, token] of Object.entries(card.tokens || {})) {
-            counters.push({ name: key, count: token, fade: needsFade, shortName: this.shortNames[key] });
+            counters.push({ name: key, count: token, fade: needsFade, shortName: this.shortNames[key],
+                showValue: ((token > 1) || !singleValueCounters.includes(key)) });
         }
 
         for(const upgrade of card.upgrades || []) {
@@ -116,10 +118,31 @@ class InnerCard extends React.Component {
         }
 
         if(card.stunned) {
-            counters.push({ name: 'stun', count: 1, shortName: '' });
+            counters.push({ name: 'stun', count: 1, shortName: '', showValue: false });
         }
 
         return counters.filter(counter => counter.count >= 0);
+    }
+
+    getCardDimensions() {
+        let multiplier = this.getCardSizeMultiplier();
+        return {
+            width: 65 * multiplier,
+            height: 91 * multiplier
+        };
+    }
+
+    getCardSizeMultiplier() {
+        switch(this.props.size) {
+            case 'small':
+                return 0.6;
+            case 'large':
+                return 1.4;
+            case 'x-large':
+                return 2;
+        }
+
+        return 1;
     }
 
     getupgrades() {
@@ -127,9 +150,9 @@ class InnerCard extends React.Component {
             return null;
         }
 
-        var index = 1;
-        var upgrades = this.props.card.upgrades.map(upgrade => {
-            var returnedupgrade = (<Card key={ upgrade.uuid } source={ this.props.source } card={ upgrade }
+        let index = 1;
+        let upgrades = this.props.card.upgrades.map(upgrade => {
+            let returnedupgrade = (<Card key={ upgrade.uuid } source={ this.props.source } card={ upgrade }
                 className={ classNames('upgrade', `upgrade-${index}`) } wrapped={ false }
                 onMouseOver={ this.props.disableMouseOver ? null : this.onMouseOver.bind(this, upgrade) }
                 onMouseOut={ this.props.disableMouseOver ? null : this.onMouseOut }
@@ -311,9 +334,14 @@ class InnerCard extends React.Component {
     }
 
     render() {
+        let style = Object.assign({}, this.props.style);
+        if(this.props.card.upgrades) {
+            style.top = this.props.card.upgrades.length * (15 * this.getCardSizeMultiplier());
+        }
+
         if(this.props.wrapped) {
             return (
-                <div className='card-wrapper' style={ this.props.style }>
+                <div className='card-wrapper' style={ style }>
                     { this.getCard() }
                     { this.getupgrades() }
                     { this.renderUnderneathCards() }
