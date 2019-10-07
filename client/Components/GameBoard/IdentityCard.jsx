@@ -91,7 +91,7 @@ class IdentityCard extends React.Component {
                         ...this.props.cards[card.id],
                         is_maverick: !!card.maverick,
                         is_legacy: !!card.legacy,
-                        house: card.printedHouse
+                        house: card.house
                     };
                 })
                     .sort((a, b) => +a.number - +b.number)
