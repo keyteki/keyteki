@@ -31,6 +31,7 @@ const PurgeAction = require('./GameActions/PurgeAction');
 const PutIntoPlayAction = require('./GameActions/PutIntoPlayAction');
 const RandomArchiveAction = require('./GameActions/RandomArchiveAction');
 const RandomDiscardAction = require('./GameActions/RandomDiscardAction');
+const RandomPurgeAction = require('./GameActions/RandomPurgeAction');
 const ReadyAction = require('./GameActions/ReadyAction');
 const ReduceArmorAction = require('./GameActions/ReduceArmorAction');
 const RemoveStunAction = require('./GameActions/RemoveStunAction');
@@ -101,6 +102,7 @@ const Actions = {
     archiveAtRandom: (propertyFactory) => new RandomArchiveAction(propertyFactory), // amount = 1
     chosenDiscard: (propertyFactory) => new ChosenDiscardAction(propertyFactory), // amount = 1
     discardAtRandom: (propertyFactory) => new RandomDiscardAction(propertyFactory), // amount = 1
+    purgeAtRandom: (propertyFactory) => new RandomPurgeAction(propertyFactory), // amount = 1
     draw: (propertyFactory) => new DrawAction(propertyFactory), // amount = 1
     forgeKey: (propertyFactory) => new ForgeAction(propertyFactory), // modifier = 0
     forRemainderOfTurn: (propertyFactory) => new LastingEffectAction(propertyFactory, 1),
