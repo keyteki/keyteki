@@ -4,7 +4,6 @@ class HuggerMugger extends Card {
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.capture({ amount: 1 }),
-
             then: {
                 condition: context => context.player.opponent && context.player.opponent.keys > context.player.keys,
                 effect: 'steal 1 amber',
