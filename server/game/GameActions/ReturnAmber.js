@@ -28,7 +28,7 @@ class ReturnAmber extends CardGameAction {
             recipient: this.recipient || card.controller.opponent
         };
         return super.createEvent('onReturnAmber', params, event => {
-            event.card.removeToken('amber');
+            event.card.removeToken('amber', event.amount);
             context.game.actions.gainAmber({
                 amount: event.amount,
                 target: this.recipient || card.controller.opponent

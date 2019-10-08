@@ -1,11 +1,11 @@
 const Card = require('../../Card.js');
 
-class RelentlessWhispers extends Card {
+class JVinda extends Card {
     setupCardAbilities(ability) {
-        this.play({
+        this.reap({
             target: {
                 cardType: 'creature',
-                gameAction: ability.actions.dealDamage({ amount: 2 })
+                gameAction: ability.actions.dealDamage({ amount: 1 })
             },
             then: {
                 condition: context => context.preThenEvent.destroyed,
@@ -15,6 +15,6 @@ class RelentlessWhispers extends Card {
     }
 }
 
-RelentlessWhispers.id = 'relentless-whispers'; // This is a guess at what the id might be - please check it!!!
+JVinda.id = 'j-vinda';
 
-module.exports = RelentlessWhispers;
+module.exports = JVinda;
