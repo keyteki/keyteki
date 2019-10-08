@@ -1,6 +1,6 @@
 const Card = require('../../Card.js');
 
-class SaurianPlan extends Card {
+class SaurianPlant extends Card {
     setupCardAbilities(ability) {
         this.constantReaction({
             when: {
@@ -11,6 +11,6 @@ class SaurianPlan extends Card {
     }
 }
 
-SaurianPlan.id = 'saurian-plant';
+SaurianPlant.id = 'saurian-plant';
 
-module.exports = SaurianPlan;
+module.exports = SaurianPlant;
