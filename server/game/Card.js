@@ -69,6 +69,22 @@ class Card extends EffectSource {
             effect: AbilityDsl.effects.mustFightIfAble()
         });
 
+        // warded
+        this.interrupt({
+            when: {
+                onCardMarkedForDestruction: (event, context) => event.card === context.source && context.source.warded,
+                onCardLeavesPlay: (event, context) => event.card === context.source && context.source.warded
+            },
+            effect: 'remove its ward token to prevent it from leaving play',
+            gameAction: [
+                AbilityDsl.actions.changeEvent(context => ({
+                    event: context.event,
+                    cancel: true
+                })),
+                AbilityDsl.actions.removeWard()
+            ]
+        });
+
         this.printedHouse = cardData.house;
         this.cardPrintedAmber = cardData.amber;
         this.maverick = cardData.maverick;
