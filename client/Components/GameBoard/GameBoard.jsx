@@ -31,7 +31,7 @@ const placeholderPlayer = {
     activePlayer: false,
     numDeckCards: 0,
     stats: {
-        keys: 0
+        keys: {red: false, blue: false, yellow: false}
     },
     houses: [],
     deckName: '',
@@ -299,7 +299,7 @@ export class GameBoard extends React.Component {
                         onMouseOver={ this.onMouseOver }
                         onMouseOut={ this.onMouseOut }
                         purgedPile={ otherPlayer.cardPiles.purged }
-                        numKeys={ otherPlayer.stats.keys }
+                        keys={ otherPlayer.stats.keys }
                         spectating={ this.state.spectating }
                         title={ otherPlayer.title }
                         side='top'
@@ -345,7 +345,7 @@ export class GameBoard extends React.Component {
                         onMouseOver={ this.onMouseOver }
                         onMouseOut={ this.onMouseOut }
                         numDeckCards={ thisPlayer.numDeckCards }
-                        numKeys={ thisPlayer.stats.keys }
+                        keys={ thisPlayer.stats.keys }
                         onDrawPopupChange={ this.handleDrawPopupChange }
                         onShuffleClick={ this.onShuffleClick }
                         purgedPile={ thisPlayer.cardPiles.purged }

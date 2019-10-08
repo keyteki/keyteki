@@ -200,7 +200,7 @@ class Player extends GameObject {
         this.prepareDecks();
         this.shuffleDeck();
 
-        this.keys = 0;
+        this.keys = {red: false, blue: false, yellow: false};
         this.amber = 0;
         this.turn = 1;
         this.readyToStart = false;
@@ -513,7 +513,7 @@ class Player extends GameObject {
             return false;
         }
 
-        if(this.keys >= 3) {
+        if(Object.values(this.keys).every(key => key)) {
             return false;
         }
 
@@ -528,6 +528,7 @@ class Player extends GameObject {
     forgeKey(modifier) {
         let cost = Math.max(0, this.getCurrentKeyCost() + modifier);
         let modifiedCost = cost;
+        let unforgedKeys = this.getUnforgedKeys();
         if(this.anyEffect('keyAmber')) {
             let totalAvailable = this.getEffects('keyAmber').reduce((total, source) => total + source.tokens.amber ? source.tokens.amber : 0, 0);
             for(let source of this.getEffects('keyAmber').filter(source => source.hasToken('amber'))) {
@@ -546,14 +547,34 @@ class Player extends GameObject {
                 });
             }
         }
-        this.game.queueSimpleStep(() => {
-            this.modifyAmber(-modifiedCost);
-            if(this.anyEffect('forgeAmberGainedByOpponent')) {
-                this.game.actions.gainAmber({ amount: cost }).resolve(this.opponent, this.game.getFrameworkContext());
-            }
-            this.keys += 1;
+        if(unforgedKeys.length > 1) {
+            this.game.promptWithHandlerMenu(this, {
+                activePromptTitle: {text: 'Which key would you like to forge?'},
+                source: 'Forge a key.',
+                choices: unforgedKeys,
+                choiceHandler: key => {
+                    this.game.queueSimpleStep(() => {
+                        this.modifyAmber(-modifiedCost);
+                        if(this.anyEffect('forgeAmberGainedByOpponent')) {
+                            this.game.actions.gainAmber({amount: cost}).resolve(this.opponent, this.game.getFrameworkContext());
+                        }
+                        this.keys[key.text.toLowerCase()] = true;
+                        this.keyForged = true;
+                        this.game.addMessage('{0} forges the {1}, paying {2} amber', this.game.activePlayer, `forgedkey${key.text.toLowerCase()}`, this.game.activePlayer.getCurrentKeyCost());
+                    });
+                }
+            });
+        } else {
+            let color = unforgedKeys.shift().text.toLowerCase();
+            this.keys[color] = true;
             this.keyForged = true;
-        });
+            this.game.addMessage('{0} forges the {1}, paying {2} amber', this.game.activePlayer, `forgedkey${color}`, this.game.activePlayer.getCurrentKeyCost());
+        }
+    }
+
+    getUnforgedKeys() {
+        return [{text: 'Red', icon: 'unforgedkeyred'}, {text: 'Blue', icon: 'unforgedkeyblue'}, {text: 'Yellow', icon: 'unforgedkeyyellow'}]
+            .filter(key => !this.keys[key.text.toLowerCase()]);
     }
 
     getAdditionalCosts(context) {
