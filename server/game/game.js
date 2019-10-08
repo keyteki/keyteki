@@ -900,6 +900,14 @@ class Game extends EventEmitter {
             if(creaturesToDestroy.length > 0) {
                 this.actions.destroy().resolve(creaturesToDestroy, this.getFrameworkContext());
             }
+            let creaturesToUnward = this.creaturesInPlay.filter(card => card.type === 'creature' && card.hasToken('wardHit'));
+            if(creaturesToUnward.length > 0) {
+                for(let card of this.creaturesToUnward) {
+                    card.removeToken('wardHit');
+                }
+                this.actions.removeWard().resolve(creaturesToUnward, this.getFrameworkContext());
+            }
+            
             for(let card of this.creaturesInPlay) {
                 card.removeToken('armor');
                 if(card.armor - card.armorUsed > 0) {
