@@ -59,10 +59,12 @@ const Actions = {
     addDamageToken: (propertyFactory) => new AddTokenAction(propertyFactory, 'damage'),
     addDoomCounter: (propertyFactory) => new AddTokenAction(propertyFactory, 'doom'),
     addFuseCounter: (propertyFactory) => new AddTokenAction(propertyFactory, 'fuse'),
+    addGrowthCounter: (propertyFactory) => new AddTokenAction(propertyFactory, 'growth'),
     archive: (propertyFactory) => new ArchiveAction(propertyFactory),
     attach: (propertyFactory) => new AttachAction(propertyFactory), // upgrade
     capture: (propertyFactory) => new CaptureAction(propertyFactory),
     cardLastingEffect: (propertyFactory) => new LastingEffectCardAction(propertyFactory), // duration = 'untilEndOfConflict', effect, targetLocation, condition, until
+    clearGrowthTokens: (propertyFactory) => new RemoveTokenAction(propertyFactory, 'growth'),
     dealDamage: (propertyFactory) => new DealDamageAction(propertyFactory),
     deckSearch: (propertyFactory) => new DeckSearchAction(propertyFactory), // amount = -1, reveal = true, cardCondition = (card, context) => true
     delayedEffect: (propertyFactory) => new DelayedEffectAction(propertyFactory), // when, message, gameAction, handler
