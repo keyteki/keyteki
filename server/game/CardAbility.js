@@ -21,6 +21,9 @@ class CardAbility extends ThenAbility {
     }
 
     displayMessage(context) {
+        if(this.properties.useActionPromptMessage) {
+            return;
+        }
         if(this.properties.message) {
             let messageArgs = this.properties.messageArgs;
             if(typeof messageArgs === 'function') {
