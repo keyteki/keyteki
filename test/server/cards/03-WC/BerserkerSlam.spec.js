@@ -1,4 +1,4 @@
-describe('Berserker Slam', function() {
+describe('Berserker Slam(WC)', function() {
     integration(function() {
         describe('Play ability', function() {
             beforeEach(function() {
@@ -32,22 +32,24 @@ describe('Berserker Slam', function() {
                 expect(this.player1).not.toBeAbleToSelect(this.urchin);
                 this.player1.clickCard(this.forgemasterOg);
                 expect(this.forgemasterOg.location).toBe('discard');
-                expect(this.player1.amber).toBe(3);
+                expect(this.player1.amber).toBe(4);
                 expect(this.player2.amber).toBe(4);
+                expect(this).toHaveRecentChatMessage('player1 uses Berserker Slam to cause player1 to lose 1 aember');
             });
             it('makes opponent lose 1 aember if destroy opponents flank creature', function() {
                 this.player1.play(this.berserkerSlam);
                 expect(this.player1).toBeAbleToSelect(this.nexus);
                 this.player1.clickCard(this.nexus);
                 expect(this.nexus.location).toBe('discard');
-                expect(this.player1.amber).toBe(4);
+                expect(this.player1.amber).toBe(5);
                 expect(this.player2.amber).toBe(3);
+                expect(this).toHaveRecentChatMessage('player1 uses Berserker Slam to cause player2 to lose 1 aember');
             });
             it('doesnt lose our aember if doesnt destroy our flank creature', function() {
                 this.player1.play(this.berserkerSlam);
                 expect(this.player1).toBeAbleToSelect(this.troll);
                 this.player1.clickCard(this.troll);
-                expect(this.player1.amber).toBe(4);
+                expect(this.player1.amber).toBe(5);
                 expect(this.player2.amber).toBe(4);
                 expect(this.troll.tokens.damage).toBe(4);
             });
@@ -55,7 +57,7 @@ describe('Berserker Slam', function() {
                 this.player1.play(this.berserkerSlam);
                 expect(this.player1).toBeAbleToSelect(this.dodger);
                 this.player1.clickCard(this.dodger);
-                expect(this.player1.amber).toBe(4);
+                expect(this.player1.amber).toBe(5);
                 expect(this.player2.amber).toBe(4);
                 expect(this.dodger.tokens.damage).toBe(4);
             });

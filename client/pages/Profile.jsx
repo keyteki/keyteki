@@ -246,8 +246,8 @@ class Profile extends React.Component {
                                 onChange={ e => this.setState({ enableGravatar: e.target.checked }) } checked={ this.state.enableGravatar } />
                             <div className='col-sm-3 text-center'><Trans>Current profile picture</Trans></div>
                             <button type='button' className='btn btn-default col-sm-offset-1 col-sm-4' onClick={ this.onUpdateAvatarClick }><Trans>Update avatar</Trans></button>
-                            { !this.isPatreonLinked() && <a className='btn btn-default col-sm-offset-1 col-sm-3' href={ `https://www.patreon.com/oauth2/authorize?response_type=code&client_id=HjDP9KKd-HscTXXMs_2TNl2h_POjaEw7D-EkLv_ShRbarVO_WuKA0LWRBp9LRdLq&redirect_uri=${callbackUrl}` }><img src='/img/Patreon_Mark_Coral.jpg' style={ { height: '21px' } } />&nbsp;Link Patreon account</a> }
-                            { this.isPatreonLinked() && <button type='button' className='btn btn-default col-sm-offset-1 col-sm-3' onClick={ this.onUnlinkClick }>Unlink Patreon account</button> }
+                            { !this.isPatreonLinked() && <a className='btn btn-default col-sm-offset-1 col-sm-3' href={ `https://www.patreon.com/oauth2/authorize?response_type=code&client_id=HjDP9KKd-HscTXXMs_2TNl2h_POjaEw7D-EkLv_ShRbarVO_WuKA0LWRBp9LRdLq&redirect_uri=${callbackUrl}` }><img src='/img/Patreon_Mark_Coral.jpg' style={ { height: '21px' } } />&nbsp;<Trans>Link Patreon account</Trans></a> }
+                            { this.isPatreonLinked() && <button type='button' className='btn btn-default col-sm-offset-1 col-sm-3' onClick={ this.onUnlinkClick }><Trans>Unlink Patreon account</Trans></button> }
                         </Panel>
                         <div>
                             <Panel title={ t('Game Board Background') }>

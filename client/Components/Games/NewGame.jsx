@@ -22,6 +22,8 @@ class NewGame extends React.Component {
         this.onMuteSpectatorsClick = this.onMuteSpectatorsClick.bind(this);
         this.onShowHandClick = this.onShowHandClick.bind(this);
         this.onPasswordChange = this.onPasswordChange.bind(this);
+        this.onUseGameTimeLimitClick = this.onUseGameTimeLimitClick.bind(this);
+        this.onGameTimeLimitChange = this.onGameTimeLimitChange.bind(this);
 
         this.state = {
             spectators: true,
@@ -30,7 +32,9 @@ class NewGame extends React.Component {
             selectedGameType: 'casual',
             selectedGameFormat: 'normal',
             expansions: { cota: false, aoa: true },
-            password: ''
+            password: '',
+            useGameTimeLimit: false,
+            gameTimeLimit: 35
         };
     }
 
@@ -76,7 +80,9 @@ class NewGame extends React.Component {
             password: this.state.password,
             quickJoin: this.props.quickJoin,
             muteSpectators: this.state.muteSpectators,
-            expansions: this.state.expansions
+            expansions: this.state.expansions,
+            useGameTimeLimit: this.state.useGameTimeLimit,
+            gameTimeLimit: this.state.gameTimeLimit
         });
     }
 
@@ -94,6 +100,14 @@ class NewGame extends React.Component {
         expansions[expansion] = !expansions[expansion];
 
         this.setState({ expansions: expansions });
+    }
+
+    onUseGameTimeLimitClick(event) {
+        this.setState({ useGameTimeLimit: event.target.checked });
+    }
+
+    onGameTimeLimitChange(event) {
+        this.setState({ gameTimeLimit: event.target.value });
     }
 
     isGameTypeSelected(gameType) {
@@ -114,6 +128,11 @@ class NewGame extends React.Component {
                 onChange={ this.onShowHandClick } checked={ this.state.showHand } />
             <Checkbox name='muteSpectators' noGroup label={ t('Mute spectators') } fieldClass='col-sm-8'
                 onChange={ this.onMuteSpectatorsClick } checked={ this.state.muteSpectators } />
+            <Checkbox name='timeLimit' noGroup label={ t('Use a time limit (in minutes)') } fieldClass='col-sm-12'
+                onChange={ this.onUseGameTimeLimitClick } checked={ this.state.useGameTimeLimit } />
+            { this.state.useGameTimeLimit && <div className='col-sm-4'>
+                <input className='form-control' type='number' onChange={ this.onGameTimeLimitChange } value={ this.state.gameTimeLimit } />
+            </div> }
         </div>);
     }
 
@@ -128,7 +147,7 @@ class NewGame extends React.Component {
 
         return (
             <div className='row game-type'>
-                <div className='col-sm-12'>
+                <div className='col-sm-12 game-type'>
                     <b><Trans>Game Type</Trans></b>
                 </div>
                 <div className='col-sm-10'>
@@ -148,7 +167,8 @@ class NewGame extends React.Component {
 
         let gameFormats = [
             { name: 'normal', label: t('Normal') },
-            { name: 'sealed', label: t('Sealed') }
+            { name: 'sealed', label: t('Sealed') },
+            { name: 'reversal', label: t('Reversal') }
         ];
 
         let expansions = [
@@ -158,7 +178,7 @@ class NewGame extends React.Component {
 
         return (
             <div className='row'>
-                <div className='col-sm-12'>
+                <div className='col-sm-12 game-format'>
                     <b><Trans>Game Format</Trans></b>
                 </div>
                 <div className='col-sm-10'>
@@ -223,7 +243,7 @@ class NewGame extends React.Component {
                     <form className='form'>
                         { content }
                         <div className='button-row'>
-                            <button className='btn btn-primary' onClick={ this.onSubmitClick }><Trans>Start</Trans></button>
+                            <button className='btn btn-success' onClick={ this.onSubmitClick }><Trans>Start</Trans></button>
                             <button className='btn btn-primary' onClick={ this.onCancelClick }><Trans>Cancel</Trans></button>
                         </div>
                     </form>

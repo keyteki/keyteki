@@ -1,21 +1,23 @@
-@import "~bootstrap/less/bootstrap";
-@import "~bootstrap-slider/src/less/variables";
-@import "~bootstrap-slider/src/less/rules";
-@import "variables";
-@import "icons";
-@import "application";
-@import "common";
-@import "chat";
-@import "deckbuilder";
-@import "gamelist";
-@import "gameboard";
-@import "cards";
+@import '~bootstrap/less/bootstrap';
+@import '~bootstrap-slider/src/less/variables';
+@import '~bootstrap-slider/src/less/rules';
+@import 'variables';
+@import 'icons';
+@import 'application';
+@import 'common';
+@import 'chat';
+@import 'deckbuilder';
+@import 'gamelist';
+@import 'gameboard';
+@import 'cards';
+@import 'buttons';
+@import 'panels';
 
 @font-face {
   font-family: 'Keyforge';
-  src: url('/fonts/Oswald-Regular.ttf') format('truetype'),
-  url('/fonts/Kanit-Regular.ttf') format('truetype'),
-  url('/fonts/ZCOOL-Regular.ttf') format('truetype');
+  src: url('../public/fonts/Oswald-Regular.ttf') format('truetype'),
+  url('../public/fonts/Kanit-Regular.ttf') format('truetype'),
+  url('../public/fonts/ZCOOL-Regular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
@@ -65,7 +67,7 @@ h4 {
 
 .bg {
   padding-top: @navbar-height + 10px;
-  background-image: url("/img/bgs/keyforge.png");
+  background-image: url('../public/img/bgs/philophosaurus.png');
 
   height: 100%;
 
@@ -75,31 +77,31 @@ h4 {
 }
 
 .bg-board-brobnar {
-  background-image: url("/img/bgs/brobnar.png");
+  background-image: url('../public/img/bgs/brobnar.png');
 }
 
 .bg-board-dis {
-  background-image: url("/img/bgs/dis.png");
+  background-image: url('../public/img/bgs/dis.png');
 }
 
 .bg-board-logos {
-  background-image: url("/img/bgs/logos.png");
+  background-image: url('../public/img/bgs/logos.png');
 }
 
 .bg-board-mars {
-  background-image: url("/img/bgs/mars.png");
+  background-image: url('../public/img/bgs/mars.png');
 }
 
 .bg-board-sanctum {
-  background-image: url("/img/bgs/sanctum.png");
+  background-image: url('../public/img/bgs/sanctum.png');
 }
 
 .bg-board-shadows {
-  background-image: url("/img/bgs/shadows.png");
+  background-image: url('../public/img/bgs/shadows.png');
 }
 
 .bg-board-untamed {
-  background-image: url("/img/bgs/untamed.png");
+  background-image: url('../public/img/bgs/untamed.png');
 }
 
 .flex-container {
@@ -132,7 +134,7 @@ h4 {
 }
 
 a {
-  color: @brand-primary;
+  color: @brand-secondary;
 
   &:hover {
     color: @brand-info;
@@ -234,14 +236,6 @@ a {
 
 .text-left {
   text-align: left !important;
-}
-
-.panel-tertiary {
-  > .panel-heading {
-    background-color: @brand-tertiary;
-  }
-
-  border-color: @brand-tertiary;
 }
 
 .navbar-collapse {

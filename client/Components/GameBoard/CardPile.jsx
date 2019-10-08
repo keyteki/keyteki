@@ -153,7 +153,7 @@ class CardPile extends React.Component {
             return null;
         }
 
-        let popupClass = classNames('panel', {
+        let popupClass = classNames('panel-body', {
             'our-side': this.props.popupLocation === 'bottom'
         });
 

@@ -43,5 +43,8 @@ Input.propTypes = {
     validationAttributes: PropTypes.object,
     value: PropTypes.string
 };
+Input.defaultProps = {
+    labelClass: ''
+};
 
 export default Input;

@@ -1,4 +1,4 @@
-describe('Mogghunter', function() {
+describe('Mogghunter(WC)', function() {
     integration(function() {
         describe('Mogghunter fight ability', function() {
             beforeEach(function() {
@@ -22,6 +22,7 @@ describe('Mogghunter', function() {
                 this.player1.clickCard(this.troll);
                 expect(this.nexus.hasToken('damage')).toBe(false);
                 expect(this.troll.tokens.damage).toBe(2);
+                expect(this).toHaveRecentChatMessage('player1 uses Mogghunter to deal 2 damage to Troll');
             });
         });
     });

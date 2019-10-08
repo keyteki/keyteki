@@ -90,7 +90,7 @@ export class PlayerStats extends React.Component {
                 { this.props.showMessages &&
                     <div className='state chat-status'>
                         <div className='state'>
-                            <button className='btn btn-transparent' onClick={ this.props.onMuteClick }>
+                            <button className='btn btn-transparent btn-noimg' onClick={ this.props.onMuteClick }>
                                 <span className={ `glyphicon ${muteClass}` } />
                             </button>
                         </div>
@@ -98,7 +98,7 @@ export class PlayerStats extends React.Component {
                             this.props.showManualMode &&
                             <div className='state'>
                                 <button
-                                    className={ 'btn btn-transparent ' + (this.props.manualModeEnabled ? 'manual' : 'auto') }
+                                    className={ 'btn btn-transparent btn-noimg ' + (this.props.manualModeEnabled ? 'manual' : 'auto') }
                                     onClick={ this.props.onManualModeClick } >
                                     <span className='glyphicon glyphicon-wrench' />
                                     <span><Trans>Manual Mode</Trans></span>
@@ -106,10 +106,10 @@ export class PlayerStats extends React.Component {
                             </div>
                         }
                         <div className='state'>
-                            <button className='btn btn-transparent' onClick={ this.onSettingsClick.bind(this) }><span className='glyphicon glyphicon-cog' /><Trans>Settings</Trans></button>
+                            <button className='btn btn-transparent btn-noimg' onClick={ this.onSettingsClick.bind(this) }><span className='glyphicon glyphicon-cog' /><Trans>Settings</Trans></button>
                         </div>
                         <div>
-                            <button className='btn btn-transparent' onClick={ this.props.onMessagesClick } >
+                            <button className='btn btn-transparent btn-noimg' onClick={ this.props.onMessagesClick } >
                                 <span className='glyphicon glyphicon-envelope' />
                                 <span className='chat-badge badge progress-bar-danger'>{ this.props.numMessages || null }</span>
                             </button>
