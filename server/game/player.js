@@ -525,6 +525,10 @@ class Player extends GameObject {
         return this.sumEffects('modifyKeyCost') + 6;
     }
 
+    getForgedKeys() {
+        return Math.max(0, Object.values(this.keys).filter(key=>key).length);
+    }
+
     forgeKey(modifier) {
         let cost = Math.max(0, this.getCurrentKeyCost() + modifier);
         let modifiedCost = cost;
@@ -559,7 +563,7 @@ class Player extends GameObject {
                             this.game.actions.gainAmber({amount: cost}).resolve(this.opponent, this.game.getFrameworkContext());
                         }
                         this.keys[key.text.toLowerCase()] = true;
-                        this.keyForged = true;
+                        this.keyForged = key.text.toLowerCase();
                         this.game.addMessage('{0} forges the {1}, paying {2} amber', this.game.activePlayer, `forgedkey${key.text.toLowerCase()}`, this.game.activePlayer.getCurrentKeyCost());
                     });
                 }
@@ -567,7 +571,7 @@ class Player extends GameObject {
         } else {
             let color = unforgedKeys.shift().text.toLowerCase();
             this.keys[color] = true;
-            this.keyForged = true;
+            this.keyForged = color;
             this.game.addMessage('{0} forges the {1}, paying {2} amber', this.game.activePlayer, `forgedkey${color}`, this.game.activePlayer.getCurrentKeyCost());
         }
     }

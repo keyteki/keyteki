@@ -8,7 +8,10 @@ class UnforgeAction extends PlayerAction {
     }
 
     getEvent(player, context) {
-        return super.createEvent('onUnforgeKey', { player, context }, () => player.keys--);
+        return super.createEvent('onUnforgeKey', { player, context }, () => {
+            let color = Object.keys(player.keys).find(key => player.keys[key]);
+            player.keys[color] = false;
+        });
     }
 }
 

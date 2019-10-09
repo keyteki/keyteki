@@ -16,7 +16,10 @@ describe('Strange Gizmo', function() {
 
             it('should trigger when a key is forged', function() {
                 this.player1.endTurn();
-                expect(this.player2.player.keys).toBe(1);
+                this.player2.forgeKey('Red');
+                expect(this.player2.player.keys.red).toBe(true);
+                expect(this.player2.player.keys.blue).toBe(false);
+                expect(this.player2.player.keys.yellow).toBe(false);
                 expect(this.stealerOfSouls.location).toBe('discard');
                 expect(this.screamingCave.location).toBe('discard');
                 expect(this.strangeGizmo.location).toBe('discard');

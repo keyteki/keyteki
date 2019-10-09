@@ -61,7 +61,10 @@ describe('Sneklifter', function() {
                 expect(this.player1.player.cardsInPlay).toContain(this.theSting);
                 expect(this.theSting.controller).toBe(this.player1.player);
                 this.player1.endTurn();
-                expect(this.player2.player.keys).toBe(1);
+                this.player2.forgeKey('Red');
+                expect(this.player2.player.keys.red).toBe(true);
+                expect(this.player2.player.keys.blue).toBe(false);
+                expect(this.player2.player.keys.yellow).toBe(false);
                 expect(this.player1.amber).toBe(9);
                 expect(this.player2.amber).toBe(6);
             });

@@ -461,6 +461,12 @@ class PlayerInteractionWrapper {
             throw new Error('Unable to serialize game state back to client:\n' + JSON.stringify(results));
         }
     }
+
+    forgeKey(color) {
+        if(this.hasPrompt('Which key would you like to forge?')) {
+            this.clickPrompt(color);
+        }
+    }
 }
 
 module.exports = PlayerInteractionWrapper;
