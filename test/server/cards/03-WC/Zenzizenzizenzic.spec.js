@@ -24,7 +24,7 @@ describe('Zenzizenzizenzic', function() {
             });
             it('draw +2 cards if in center [3]', function() {
                 this.player1.play(this.archimedes);
-                this.player1.play(this.hexpion, true)
+                this.player1.play(this.hexpion, true);
                 this.player1.endTurn();
                 expect(this.player1.hand.length).toBe(8);
             });
