@@ -1,6 +1,6 @@
-describe('Tricerian Legionary', function() {
+describe('Imperium', function() {
     integration(function() {
-        describe('Tricerian Legionary\'s play ability', function() {
+        describe('Imperium\'s play ability', function() {
             beforeEach(function() {
                 this.setupTest({
                     player1: {
