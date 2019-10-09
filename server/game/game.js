@@ -896,7 +896,7 @@ class Game extends EventEmitter {
             }
             // destroy any creatures who have damage greater than equal to their power
             let creaturesToDestroy = this.creaturesInPlay.filter((card.power <= 0 || card.tokens.damage >= card.power) && !card.moribund);
-            let creaturesToUnward = this.creaturesInPlay.filter(card.hasToken('ward_cancel'));
+            let creaturesToUnward = this.creaturesInPlay.filter(card => card.hasToken('ward_cancel'));
             creaturesToUnward.concat(creaturesToDestroy.filter(card => card.warded));
 
             if(creaturesToUnward.length > 0) {
