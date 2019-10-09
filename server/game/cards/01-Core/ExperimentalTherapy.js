@@ -1,9 +1,10 @@
+const Constants = require('../../../constants.js');
 const Card = require('../../Card.js');
 
 class ExperimentalTherapy extends Card {
     setupCardAbilities(ability) {
         this.whileAttached({
-            effect: ['brobnar', 'dis', 'logos', 'mars', 'sanctum', 'shadows', 'untamed'].map(house => ability.effects.addHouse(house))
+            effect: Constants.HOUSES.map(house => ability.effects.addHouse(house))
         });
         this.play({
             gameAction: [

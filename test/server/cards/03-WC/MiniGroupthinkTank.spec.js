@@ -1,6 +1,6 @@
 describe('Mini Groupthink Tank', function() {
     integration(function() {
-        describe('Mini Groupthink Tank\'s abilities', function() {
+        describe('Mini Groupthink Tank\'s play ability', function() {
             beforeEach(function() {
                 this.setupTest({
                     player1: {
@@ -80,16 +80,28 @@ describe('Mini Groupthink Tank', function() {
 
                 expect(this.dextre.location).toBe('deck');
             });
+        });
+
+        describe('Mini Groupthink Tank\'s reap ability', function() {
+            beforeEach(function() {
+                this.setupTest({
+                    player1: {
+                        house: 'logos',
+                        inPlay: ['lamindra', 'dextre', 'groupthink-tank', 'mini-groupthink-tank']
+                    },
+                    player2: {
+                        amber: 3,
+                        inPlay: ['spyyyder', 'shooler', 'gub', 'skullion', 'archimedes', 'zorg']
+                    }
+                });
+            });
 
             it('should reap and deal damage to a creature with 2 neighbors sharing the same house', function() {
-                this.player1.playCreature(this.miniGroupthinkTank);
-                this.player1.clickCard(this.groupthinkTank);
-
-                this.miniGroupthinkTank.ready();
                 this.player1.reap(this.miniGroupthinkTank);
 
                 expect(this.player1).toHavePrompt('Mini Groupthink Tank');
 
+                expect(this.player1).toBeAbleToSelect(this.groupthinkTank);
                 expect(this.player1).toBeAbleToSelect(this.shooler);
                 expect(this.player1).toBeAbleToSelect(this.gub);
 
@@ -105,16 +117,28 @@ describe('Mini Groupthink Tank', function() {
 
                 expect(this.gub.location).toBe('discard');
             });
+        });
+
+        describe('Mini Groupthink Tank\'s fight ability', function() {
+            beforeEach(function() {
+                this.setupTest({
+                    player1: {
+                        house: 'logos',
+                        inPlay: ['lamindra', 'dextre', 'groupthink-tank', 'mini-groupthink-tank']
+                    },
+                    player2: {
+                        amber: 3,
+                        inPlay: ['spyyyder', 'shooler', 'gub', 'skullion', 'archimedes', 'zorg']
+                    }
+                });
+            });
 
             it('should fight and deal damage to a creature with 2 neighbors sharing the same house', function() {
-                this.player1.playCreature(this.miniGroupthinkTank);
-                this.player1.clickCard(this.groupthinkTank);
-
-                this.miniGroupthinkTank.ready();
                 this.player1.fightWith(this.miniGroupthinkTank, this.archimedes);
 
                 expect(this.player1).toHavePrompt('Mini Groupthink Tank');
 
+                expect(this.player1).toBeAbleToSelect(this.groupthinkTank);
                 expect(this.player1).toBeAbleToSelect(this.shooler);
                 expect(this.player1).toBeAbleToSelect(this.gub);
 

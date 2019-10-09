@@ -1,6 +1,6 @@
 describe('Hyde', function() {
     integration(function() {
-        describe('Hyde\'s abilities', function() {
+        describe('Hyde\'s play ability', function() {
             beforeEach(function() {
                 this.setupTest({
                     player1: {
@@ -27,6 +27,22 @@ describe('Hyde', function() {
                 expect(this.player1.amber).toBe(1);
 
                 expect(this.player1.hand.length).toBe(7);
+            });
+
+        });
+
+        describe('Hyde\'s destroy ability', function() {
+            beforeEach(function() {
+                this.setupTest({
+                    player1: {
+                        house: 'logos',
+                        inPlay: ['hyde'],
+                        hand: ['velum', 'dextre', 'dextre', 'dextre', 'troll', 'krump']
+                    },
+                    player2: {
+                        inPlay: ['groggins']
+                    }
+                });
             });
 
             it('Should destroy Hyde since Velum is in hand', function() {

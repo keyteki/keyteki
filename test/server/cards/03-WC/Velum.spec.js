@@ -1,6 +1,6 @@
 describe('Velum', function() {
     integration(function() {
-        describe('Velum\'s abilities', function() {
+        describe('Velum\'s play ability', function() {
             beforeEach(function() {
                 this.setupTest({
                     player1: {
@@ -48,6 +48,22 @@ describe('Velum', function() {
                 expect(this.troll.location).toBe('archives');
                 expect(this.krump.location).toBe('archives');
                 expect(this.velum.location).toBe('play area');
+            });
+
+        });
+
+        describe('Velum\'s destroy ability', function() {
+            beforeEach(function() {
+                this.setupTest({
+                    player1: {
+                        house: 'logos',
+                        inPlay: ['velum'],
+                        hand: ['hyde', 'dextre', 'dextre', 'dextre', 'troll', 'krump']
+                    },
+                    player2: {
+                        inPlay: ['groggins']
+                    }
+                });
             });
 
             it('Should destroy Velum since Hyde is in hand', function() {

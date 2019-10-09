@@ -755,6 +755,4 @@ class Card extends EffectSource {
     }
 }
 
-Card.HOUSES = ['brobnar', 'dis', 'logos', 'mars', 'sanctum', 'saurian', 'shadows', 'staralliance', 'untamed'];
-
 module.exports = Card;

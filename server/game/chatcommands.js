@@ -1,4 +1,5 @@
 const _ = require('underscore');
+const Constants = require('../constants.js');
 const GameActions = require('./GameActions');
 const ManualModePrompt = require('./gamesteps/ManualModePrompt');
 const Deck = require('./deck');
@@ -29,21 +30,12 @@ class ChatCommands {
         this.tokens = [
             'amber',
             'damage',
+            'enrage',
             'power',
-            'stun'
+            'stun',
+            'ward'
         ];
-        this.houses = [
-            'brobnar',
-            'dis',
-            'logos',
-            'mars',
-            'sanctum',
-            'shadows',
-            'untamed',
-            'staralliance',
-            'saurian',
-            'none'
-        ];
+        this.houses = [...Constants.HOUSES, 'none'];
     }
 
     executeCommand(player, command, args) {

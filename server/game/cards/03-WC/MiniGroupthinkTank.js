@@ -1,3 +1,4 @@
+const Constants = require('../../../constants.js');
 const Card = require('../../Card.js');
 
 class MiniGroupthinkTank extends Card {
@@ -9,7 +10,7 @@ class MiniGroupthinkTank extends Card {
             target: {
                 cardType: 'creature',
                 cardCondition: card => card.neighbors.filter(neighbor =>
-                    Card.HOUSES.some(house => card.hasHouse(house) && neighbor.hasHouse(house))).length >= 2,
+                    Constants.HOUSES.some(house => card.hasHouse(house) && neighbor.hasHouse(house))).length >= 2,
                 gameAction: ability.actions.dealDamage({ amount: 8 })
             }
         });

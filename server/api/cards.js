@@ -1,5 +1,6 @@
 const monk = require('monk');
 const config = require('config');
+const Constants = require('../constants.js');
 const CardService = require('../services/CardService.js');
 
 let db = monk(config.dbPath);
@@ -27,15 +28,9 @@ module.exports.init = function(server) {
     });
 
     server.get('/api/factions', function(req, res) {
-        let factions = [
-            { name: 'Brobnar', value: 'brobnar' },
-            { name: 'Dis', value: 'dis' },
-            { name: 'Logos', value: 'logos' },
-            { name: 'Mars', value: 'mars' },
-            { name: 'Sanctum', value: 'sanctum' },
-            { name: 'Shadows', value: 'shadows' },
-            { name: 'Untamed', value: 'untamed' }
-        ];
+        let factions = Constants.HOUSES.map(function(house, i) {
+            return { name: Constants.HOUSES_NAME[i], value: house};
+        });
         res.send({ success: true, factions: factions });
     });
 };

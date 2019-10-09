@@ -3,6 +3,7 @@
 const _ = require('underscore');
 const monk = require('monk');
 
+const Constants = require('./constants.js');
 const GameService = require('./services/GameService.js');
 const config = require('config');
 
@@ -38,15 +39,10 @@ gameService.getAllGames(start, end).then(games => {
     let players = {};
     let decks = {};
     let fpWinRates = { first: 0, second: 0 };
-    let houses = {
-        brobnar: { name: 'brobnar', wins: 0, losses: 0 },
-        dis: { name: 'dis', wins: 0, losses: 0 },
-        logos: { name: 'logos', wins: 0, losses: 0 },
-        mars: { name: 'mars', wins: 0, losses: 0 },
-        sanctum: { name: 'sanctum', wins: 0, losses: 0 },
-        shadows: { name: 'shadows', wins: 0, losses: 0 },
-        untamed: { name: 'untamed', wins: 0, losses: 0 }
-    };
+    let houses = {};
+    for(let house of Constants.HOUSES) {
+        houses[house] = { name: house, wins: 0, losses: 0 };
+    }
 
     _.each(games, game => {
         if(_.size(game.players) !== 2) {
