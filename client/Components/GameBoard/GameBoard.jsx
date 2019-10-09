@@ -14,14 +14,18 @@ import PlayerBoard from './PlayerBoard';
 import GameChat from './GameChat';
 import GameConfigurationModal from './GameConfigurationModal';
 import Droppable from './Droppable';
+import TimeLimitClock from './TimeLimitClock';
 import * as actions from '../../actions';
+
+import { withTranslation, Trans } from 'react-i18next';
 
 const placeholderPlayer = {
     cardPiles: {
         cardsInPlay: [],
         discard: [],
         hand: [],
-        purged: []
+        purged: [],
+        deck:[]
     },
     faction: null,
     activePlayer: false,
@@ -30,6 +34,9 @@ const placeholderPlayer = {
         keys: 0
     },
     houses: [],
+    deckName: '',
+    deckUuid: '',
+    deckCards:[],
     title: null,
     user: null
 };
@@ -117,7 +124,7 @@ export class GameBoard extends React.Component {
                 </ul>
             );
 
-            menuOptions.unshift({ text: 'Spectators: ' + props.currentGame.spectators.length, popup: spectatorPopup });
+            menuOptions.unshift({ text: '{{users}} spectators', values: { users: props.currentGame.spectators.length }, popup: spectatorPopup });
 
             this.setContextMenu(menuOptions);
         } else {
@@ -165,8 +172,12 @@ export class GameBoard extends React.Component {
     }
 
     onLeaveClick() {
+        let t = this.props.t;
+
         if(!this.state.spectating && this.isGameActive()) {
-            toastr.confirm('Your game is not finished, are you sure you want to leave?', {
+            toastr.confirm(t('Your game is not finished, are you sure you want to leave?'), {
+                okText: t('Ok'),
+                cancelText: t('Cancel'),
                 onOk: () => {
                     this.props.sendGameMessage('leavegame');
                     this.props.closeGameSocket();
@@ -208,6 +219,18 @@ export class GameBoard extends React.Component {
         this.props.sendGameMessage('drop', card.uuid, source, target);
     }
 
+    getTimer() {
+        let timeLimitClock = null;
+        if(this.props.currentGame.useGameTimeLimit && this.props.currentGame.gameTimeLimitStarted) {
+            timeLimitClock = (<TimeLimitClock
+                timeLimitStarted={ this.props.currentGame.gameTimeLimitStarted }
+                timeLimitStartedAt={ this.props.currentGame.gameTimeLimitStartedAt }
+                timeLimit={ this.props.currentGame.gameTimeLimitTime } />);
+        }
+
+        return timeLimitClock;
+    }
+
     onCommand(command, arg, method) {
         let commandArg = arg;
 
@@ -247,7 +270,6 @@ export class GameBoard extends React.Component {
 
     onManualModeClick(event) {
         event.preventDefault();
-
         this.props.sendGameMessage('toggleManualMode');
     }
 
@@ -262,14 +284,17 @@ export class GameBoard extends React.Component {
             <div key='board-middle' className='board-middle'>
                 <div className='player-home-row'>
                     <PlayerRow
+                        cards={ this.props.cards }
                         faction={ otherPlayer.faction }
                         archives={ otherPlayer.cardPiles.archives }
                         hand={ otherPlayer.cardPiles.hand } isMe={ false }
-                        deckName={ otherPlayer.deckName }
-                        houses={ otherPlayer.houses }
+                        deckCards = { otherPlayer.deckCards }
+                        deckName = { otherPlayer.deckName }
+                        deckUuid = { otherPlayer.deckUuid }
+                        drawDeck = { otherPlayer.cardPiles.deck }
+                        houses = { otherPlayer.houses }
                         numDeckCards={ otherPlayer.numDeckCards }
                         discard={ otherPlayer.cardPiles.discard }
-                        drawDeck={ otherPlayer.cardPiles.deck }
                         onCardClick={ this.onCardClick }
                         onMouseOver={ this.onMouseOver }
                         onMouseOut={ this.onMouseOut }
@@ -304,13 +329,18 @@ export class GameBoard extends React.Component {
                         </Droppable>
                     </div>
                 </div>
+                { this.getTimer() }
                 <div className='player-home-row our-side'>
                     <PlayerRow isMe={ !this.state.spectating }
                         archives={ thisPlayer.cardPiles.archives }
+                        cards={ this.props.cards }
+                        deckCards = { thisPlayer.deckCards }
+                        deckName = { thisPlayer.deckName }
+                        deckUuid = { thisPlayer.deckUuid }
+                        drawDeck = { thisPlayer.cardPiles.deck }
+                        houses = { thisPlayer.houses }
                         faction={ thisPlayer.faction }
                         hand={ thisPlayer.cardPiles.hand }
-                        houses={ thisPlayer.houses }
-                        deckName={ thisPlayer.deckName }
                         onCardClick={ this.onCardClick }
                         onMouseOver={ this.onMouseOver }
                         onMouseOut={ this.onMouseOut }
@@ -319,7 +349,6 @@ export class GameBoard extends React.Component {
                         onDrawPopupChange={ this.handleDrawPopupChange }
                         onShuffleClick={ this.onShuffleClick }
                         purgedPile={ thisPlayer.cardPiles.purged }
-                        drawDeck={ thisPlayer.cardPiles.deck }
                         onDragDrop={ this.onDragDrop }
                         discard={ thisPlayer.cardPiles.discard }
                         showDeck={ thisPlayer.showDeck }
@@ -336,12 +365,12 @@ export class GameBoard extends React.Component {
 
     render() {
         if(!this.props.currentGame || !this.props.cards || !this.props.currentGame.started) {
-            return <div>Waiting for server...</div>;
+            return <div><Trans>Waiting for server...</Trans></div>;
         }
 
         if(!this.props.user) {
             this.props.navigate('/');
-            return <div>You are not logged in, redirecting...</div>;
+            return <div><Trans>You are not logged in, redirecting...</Trans></div>;
         }
 
         let thisPlayer = this.props.currentGame.players[this.props.user.username];
@@ -350,7 +379,7 @@ export class GameBoard extends React.Component {
         }
 
         if(!thisPlayer) {
-            return <div>Waiting for game to have players or close...</div>;
+            return <div><Trans>Waiting for game to have players or close...</Trans></div>;
         }
 
         let otherPlayer = Object.values(this.props.currentGame.players).find(player => {
@@ -382,7 +411,7 @@ export class GameBoard extends React.Component {
                     optionSettings={ thisPlayer.optionSettings }
                     onOptionSettingToggle={ this.onOptionSettingToggle.bind(this) }
                     id='settings-modal' />
-                <div className='player-stats-row'>
+                <div className='player-stats-row stats-top'>
                     <PlayerStats stats={ otherPlayer.stats } houses={ otherPlayer.houses } activeHouse={ otherPlayer.activeHouse }
                         user={ otherPlayer.user } activePlayer={ otherPlayer.activePlayer } />
                 </div>
@@ -437,12 +466,14 @@ GameBoard.propTypes = {
     closeGameSocket: PropTypes.func,
     currentGame: PropTypes.object,
     dispatch: PropTypes.func,
+    i18n: PropTypes.object,
     navigate: PropTypes.func,
     packs: PropTypes.array,
     restrictedList: PropTypes.array,
     sendGameMessage: PropTypes.func,
     setContextMenu: PropTypes.func,
     socket: PropTypes.object,
+    t: PropTypes.func,
     user: PropTypes.object,
     zoomCard: PropTypes.func
 };
@@ -466,5 +497,5 @@ function mapDispatchToProps(dispatch) {
     return boundActions;
 }
 
-export default connect(mapStateToProps, mapDispatchToProps, null, { withRef: true })(GameBoard);
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps, null, { withRef: true })(GameBoard));
 

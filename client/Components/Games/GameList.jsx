@@ -9,6 +9,8 @@ import Avatar from '../Site/Avatar';
 import AlertPanel from '../Site/AlertPanel';
 import * as actions from '../../actions';
 
+import { withTranslation, Trans } from 'react-i18next';
+
 class GameList extends React.Component {
     constructor() {
         super();
@@ -17,10 +19,12 @@ class GameList extends React.Component {
     }
 
     joinGame(event, game) {
+        let t = this.props.t;
+
         event.preventDefault();
 
         if(!this.props.user) {
-            toastr.error('Please login before trying to join a game');
+            toastr.error(t('Please login before trying to join a game'));
             return;
         }
 
@@ -36,10 +40,12 @@ class GameList extends React.Component {
     }
 
     watchGame(event, game) {
+        let t = this.props.t;
+
         event.preventDefault();
 
         if(!this.props.user) {
-            toastr.error('Please login before trying to watch a game');
+            toastr.error(t('Please login before trying to watch a game'));
             return;
         }
 
@@ -72,13 +78,13 @@ class GameList extends React.Component {
         if(firstPlayer) {
             return (<div className='game-faction-row first-player'>
                 { this.getPlayerNameAndAvatar(player, firstPlayer) }
-                { houses }
+                <div className='house-icons'>{ houses }</div>
             </div>);
         }
 
         return (<div className='game-faction-row other-player'>
-            { houses }
             { this.getPlayerNameAndAvatar(player, firstPlayer) }
+            <div className='house-icons'>{ houses }</div>
         </div>);
     }
 
@@ -120,7 +126,7 @@ class GameList extends React.Component {
                 players.push(
                     <div key={ players[0].name } className={ 'game-player-row other-player' }>
                         <div className='game-faction-row other-player'>
-                            <button className='btn btn-primary gamelist-button img-responsive' onClick={ event => this.joinGame(event, game) }>Join</button>
+                            <button className='btn btn-success gamelist-button img-responsive' onClick={ event => this.joinGame(event, game) }><Trans>Join</Trans></button>
                         </div>
                     </div>);
             } else {
@@ -133,6 +139,7 @@ class GameList extends React.Component {
 
     getGamesForType(gameType, games) {
         let gamesToReturn = [];
+        let t = this.props.t;
 
         for(const game of games) {
             if(this.props.gameFilter.showOnlyNewGames && game.started) {
@@ -167,9 +174,11 @@ class GameList extends React.Component {
                             </span>
                             <span className='game-time'>{ `[${formattedTime}]` }</span>
                             <span className='game-icons'>
-                                { game.showHand && <img src='/img/ShowHandIcon.png' className='game-list-icon' alt='Show hands to spectators' title='Show hands to spectators' /> }
+                                { game.showHand && <img src='/img/ShowHandIcon.png' className='game-list-icon' alt={ t('Show hands to spectators') } title={ t('Show hands to spectators') } /> }
                                 { game.needsPassword && <span className='password-game glyphicon glyphicon-lock' /> }
-                                { game.gameFormat === 'sealed' && <img src='/img/sealed.png' className='game-list-icon' alt='Sealed game format' title='Sealed game format' /> }
+                                { game.useGameTimeLimit && <img src='/img/timelimit.png' className='game-list-icon' alt={ t('Time limit used') } /> }
+                                { game.gameFormat === 'sealed' && <img src='/img/sealed.png' className='game-list-icon' alt={ t('Sealed game format') } title={ t('Sealed game format') } /> }
+                                { game.gameFormat === 'reversal' && <img src='/img/reversal.png' className='game-list-icon' alt={ t('Reversal game format') } title={ t('Reversal game format') } /> }
                             </span>
                         </div>
                         <div className='game-middle-row'>
@@ -177,15 +186,15 @@ class GameList extends React.Component {
                         </div>
                         <div className='game-row-buttons'>
                             { this.canWatch(game) &&
-                                <button className='btn btn-primary gamelist-button' onClick={ event => this.watchGame(event, game) }>Watch</button> }
-                            { isAdmin && <button className='btn btn-primary gamelist-button' onClick={ event => this.removeGame(event, game) }>Remove</button> }
+                                <button className='btn btn-primary gamelist-button' onClick={ event => this.watchGame(event, game) }><Trans>Watch</Trans></button> }
+                            { isAdmin && <button className='btn btn-danger gamelist-button' onClick={ event => this.removeGame(event, game) }><Trans>Remove</Trans></button> }
                         </div>
                     </div>
                 </div>
             ));
         }
 
-        let gameHeaderClass = 'game-header bold';
+        let gameHeaderClass = 'game-header';
         switch(gameType) {
             case 'beginner':
                 gameHeaderClass += ' label-success';
@@ -200,7 +209,7 @@ class GameList extends React.Component {
 
         return (
             <div>
-                <div className={ gameHeaderClass }>{ gameType } ({ gamesToReturn.length })
+                <div className={ gameHeaderClass }>{ t(gameType) } ({ gamesToReturn.length })
                 </div>
                 { gamesToReturn }
             </div>);
@@ -208,6 +217,7 @@ class GameList extends React.Component {
 
     render() {
         let groupedGames = {};
+        let t = this.props.t;
 
         for(const game of this.props.games) {
             if(!groupedGames[game.gameType]) {
@@ -227,7 +237,7 @@ class GameList extends React.Component {
 
         if(gameList.length === 0) {
             return (<div className='game-list col-xs-12'>
-                <AlertPanel type='info' message='There are no games matching the filters you have selected' />
+                <AlertPanel type='info' message={ t('There are no games matching the filters you have selected') } />
             </div>);
         }
 
@@ -243,9 +253,11 @@ GameList.propTypes = {
     currentGame: PropTypes.object,
     gameFilter: PropTypes.object,
     games: PropTypes.array,
+    i18n: PropTypes.object,
     joinPasswordGame: PropTypes.func,
     showNodes: PropTypes.bool,
     socket: PropTypes.object,
+    t: PropTypes.func,
     user: PropTypes.object
 };
 
@@ -257,4 +269,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps, actions)(GameList);
+export default withTranslation()(connect(mapStateToProps, actions)(GameList));

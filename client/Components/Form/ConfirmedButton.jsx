@@ -4,20 +4,20 @@ import PropTypes from 'prop-types';
 import { withTranslation, Trans } from 'react-i18next';
 
 class ConfirmedButton extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.state = {
             showConfirm: false
         };
 
-        this.handleInitialClick = this.handleInitialClick.bind(this);
+        this.handleClick = this.handleClick.bind(this);
         this.handleConfirmClick = this.handleConfirmClick.bind(this);
     }
 
-    handleInitialClick(event) {
+    handleClick(event) {
         event.preventDefault();
-        this.setState({ showConfirm: true });
+        this.setState({ showConfirm: !this.state.showConfirm });
     }
 
     handleConfirmClick(event) {
@@ -28,7 +28,7 @@ class ConfirmedButton extends React.Component {
     render() {
         return (
             <span>
-                <button className='btn btn-primary' onClick={ this.handleInitialClick }>{ this.props.children }</button>
+                <button className='btn btn-danger' onClick={ this.handleClick }>{ this.props.children }</button>
                 { this.state.showConfirm &&
                     <button className='btn btn-danger' onClick={ this.handleConfirmClick }><Trans>Confirm</Trans></button>
                 }

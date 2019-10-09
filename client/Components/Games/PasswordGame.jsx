@@ -6,6 +6,8 @@ import AlertPanel from '../Site/AlertPanel';
 import Panel from '../Site/Panel';
 import * as actions from '../../actions';
 
+import { withTranslation, Trans } from 'react-i18next';
+
 class PasswordGame extends React.Component {
     constructor() {
         super();
@@ -40,24 +42,26 @@ class PasswordGame extends React.Component {
             return null;
         }
 
+        let t = this.props.t;
+
         return (
             <div>
                 <Panel title={ this.props.passwordGame.name }>
                     <div>
-                        <h3>Enter the password</h3>
+                        <h3><Trans>Enter the password</Trans></h3>
                     </div>
                     <div className='game-password'>
                         <input className='form-control' type='password' onChange={ this.onPasswordChange.bind(this) } value={ this.state.password } />
                     </div>
                     { this.props.passwordError ?
                         <div>
-                            <AlertPanel type='error' message={ this.props.passwordError } />
+                            <AlertPanel type='error' message={ t(this.props.passwordError) } />
                         </div>
                         : null }
                     <div>
                         <div className='btn-group'>
-                            <button className='btn btn-primary' onClick={ this.onJoinClick.bind(this) }>{ this.props.passwordJoinType }</button>
-                            <button className='btn btn-primary' onClick={ this.onCancelClick.bind(this) }>Cancel</button>
+                            <button className='btn btn-primary' onClick={ this.onJoinClick.bind(this) }>{ t(this.props.passwordJoinType) }</button>
+                            <button className='btn btn-primary' onClick={ this.onCancelClick.bind(this) }><Trans>Cancel</Trans></button>
                         </div>
                     </div>
                 </Panel>
@@ -68,10 +72,12 @@ class PasswordGame extends React.Component {
 PasswordGame.displayName = 'PasswordGame';
 PasswordGame.propTypes = {
     cancelPasswordJoin: PropTypes.func,
+    i18n: PropTypes.object,
     passwordError: PropTypes.string,
     passwordGame: PropTypes.object,
     passwordJoinType: PropTypes.string,
-    socket: PropTypes.object
+    socket: PropTypes.object,
+    t: PropTypes.func
 };
 
 function mapStateToProps(state) {
@@ -83,5 +89,5 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps, actions)(PasswordGame);
+export default withTranslation()(connect(mapStateToProps, actions)(PasswordGame));
 

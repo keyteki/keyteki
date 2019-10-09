@@ -20,21 +20,22 @@ class DestroyAction extends CardGameAction {
         return card.location === 'play area' && super.canAffect(card, context);
     }
 
-    checkEventCondition(event) {
-        // TODO This is an ugly hack....
-        let result = super.checkEventCondition(event);
-        if(result) {
-            event.card.moribund = true;
-        }
-        return result;
+    getEventArray(context) {
+        const componentEvents = super.getEventArray(context);
+        return componentEvents.concat(super.createEvent('unnamedEvent', { componentEvents, inFight: this.inFight }, event => {
+            const componentEvents = event.componentEvents.filter(event => !event.cancelled);
+            context.game.openEventWindow(componentEvents.map(componentEvent => super.createEvent('onCardDestroyed', { card: componentEvent.card, context: context, inFight: event.inFight }, event => {
+                componentEvent.destroyEvent = event;
+                context.game.raiseEvent('onCardLeavesPlay', { card: event.card, context: event.context }, event => {
+                    event.card.owner.moveCard(event.card, this.purge ? 'purged' : 'discard');
+                });
+            })));
+        }));
     }
 
     getEvent(card, context) {
-        let inFight = this.inFight;
-        return super.createEvent('onCardDestroyed', { card, context, inFight }, event => {
-            context.game.raiseEvent('onCardLeavesPlay', { card: event.card, context: event.context }, event => {
-                event.card.owner.moveCard(event.card, this.purge ? 'purged' : 'discard');
-            });
+        return super.createEvent('onCardMarkedForDestruction', { card, context }, event => {
+            event.card.moribund = true;
         });
     }
 }

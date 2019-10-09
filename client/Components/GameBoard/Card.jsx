@@ -11,6 +11,8 @@ import { ItemTypes } from '../../constants';
 
 import SquishableCardPanel from './SquishableCardPanel';
 
+import { withTranslation } from 'react-i18next';
+
 const cardSource = {
     beginDrag(props) {
         return {
@@ -33,8 +35,8 @@ function collect(connect, monitor) {
 }
 
 class InnerCard extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.onMouseOver = this.onMouseOver.bind(this);
         this.onMouseOut = this.onMouseOut.bind(this);
@@ -98,15 +100,17 @@ class InnerCard extends React.Component {
     }
 
     getCountersForCard(card) {
+        const singleValueCounters = ['ward', 'enrage'];
         let counters = [];
         let needsFade = card.type === 'upgrade' && !['full deck'].includes(this.props.source);
 
         if(card.type === 'creature' && card.baseStrength !== card.strength) {
-            counters.push({ name: 'strength', count: card.strength, fade: needsFade, shortName: 'S' });
+            counters.push({ name: 'strength', count: card.strength, fade: needsFade, shortName: 'S', showValue: true });
         }
 
         for(const [key, token] of Object.entries(card.tokens || {})) {
-            counters.push({ name: key, count: token, fade: needsFade, shortName: this.shortNames[key] });
+            counters.push({ name: key, count: token, fade: needsFade, shortName: this.shortNames[key],
+                showValue: ((token > 1) || !singleValueCounters.includes(key)) });
         }
 
         for(const upgrade of card.upgrades || []) {
@@ -114,10 +118,31 @@ class InnerCard extends React.Component {
         }
 
         if(card.stunned) {
-            counters.push({ name: 'stun', count: 1, shortName: '' });
+            counters.push({ name: 'stun', count: 1, shortName: '', showValue: false });
         }
 
         return counters.filter(counter => counter.count >= 0);
+    }
+
+    getCardDimensions() {
+        let multiplier = this.getCardSizeMultiplier();
+        return {
+            width: 65 * multiplier,
+            height: 91 * multiplier
+        };
+    }
+
+    getCardSizeMultiplier() {
+        switch(this.props.size) {
+            case 'small':
+                return 0.6;
+            case 'large':
+                return 1.4;
+            case 'x-large':
+                return 2;
+        }
+
+        return 1;
     }
 
     getupgrades() {
@@ -125,9 +150,9 @@ class InnerCard extends React.Component {
             return null;
         }
 
-        var index = 1;
-        var upgrades = this.props.card.upgrades.map(upgrade => {
-            var returnedupgrade = (<Card key={ upgrade.uuid } source={ this.props.source } card={ upgrade }
+        let index = 1;
+        let upgrades = this.props.card.upgrades.map(upgrade => {
+            let returnedupgrade = (<Card key={ upgrade.uuid } source={ this.props.source } card={ upgrade }
                 className={ classNames('upgrade', `upgrade-${index}`) } wrapped={ false }
                 onMouseOver={ this.props.disableMouseOver ? null : this.onMouseOver.bind(this, upgrade) }
                 onMouseOut={ this.props.disableMouseOver ? null : this.onMouseOut }
@@ -241,6 +266,7 @@ class InnerCard extends React.Component {
             'can-play': this.statusClass !== 'selectable' && !this.props.card.unselectable && this.props.card.canPlay,
             'unselectable': this.props.card.unselectable,
             'dragging': this.props.isDragging,
+            'controlled': this.props.card.controlled,
             'taunt': this.props.card.taunt && this.props.source === 'play area'
         });
         let imageClass = classNames('card-image vertical', this.sizeClass, {
@@ -249,6 +275,7 @@ class InnerCard extends React.Component {
 
         let image = (<CardImage className={ imageClass }
             img={ this.imageUrl }
+            language={ this.props.language }
             maverick={ !this.isFacedown() ? this.props.card.maverick : null }
             amber={ !this.isFacedown() ? this.props.card.cardPrintedAmber : 0 }/>);
 
@@ -301,17 +328,20 @@ class InnerCard extends React.Component {
             return 'in-danger';
         } else if(this.props.card.saved) {
             return 'saved';
-        } else if(this.props.card.controlled) {
-            return 'controlled';
         } else if(this.props.card.new) {
             return 'new';
         }
     }
 
     render() {
+        let style = Object.assign({}, this.props.style);
+        if(this.props.card.upgrades) {
+            style.top = this.props.card.upgrades.length * (15 * this.getCardSizeMultiplier());
+        }
+
         if(this.props.wrapped) {
             return (
-                <div className='card-wrapper' style={ this.props.style }>
+                <div className='card-wrapper' style={ style }>
                     { this.getCard() }
                     { this.getupgrades() }
                     { this.renderUnderneathCards() }
@@ -360,6 +390,7 @@ InnerCard.propTypes = {
     disableMouseOver: PropTypes.bool,
     dragOffset: PropTypes.object,
     isDragging: PropTypes.bool,
+    language: PropTypes.string,
     onClick: PropTypes.func,
     onMenuItemClick: PropTypes.func,
     onMouseOut: PropTypes.func,
@@ -377,5 +408,5 @@ InnerCard.defaultProps = {
 
 const Card = DragSource(ItemTypes.CARD, cardSource, collect)(InnerCard);
 
-export default Card;
+export default withTranslation()(Card);
 

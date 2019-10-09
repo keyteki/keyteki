@@ -12,7 +12,8 @@ class CombatPheromones extends Card {
                     effect: ability.effects.canUse(card => context.target.includes(card))
                 }))
             },
-            effect: 'sacrifice {0} and allow them to use {0} this turn',
+            effect: 'sacrifice {1} and allow them to use {0} this turn',
+            effectArgs: context => context.source,
             gameAction: ability.actions.sacrifice()
         });
     }

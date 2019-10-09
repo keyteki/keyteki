@@ -3,9 +3,10 @@ const CardGameAction = require('./CardGameAction');
 class DealDamageAction extends CardGameAction {
     setDefaultProperties() {
         this.amount = null;
-        this.amountForCard = (card, context) => 1; // eslint-disable-line no-unused-vars
+        this.amountForCard = () => 1;
         this.fightEvent = null;
         this.damageSource = null;
+        this.damageType = 'card effect';
         this.splash = 0;
         this.purge = false;
         this.ignoreArmor = false;
@@ -30,38 +31,50 @@ class DealDamageAction extends CardGameAction {
                 array.concat(this.getEvent(card, context), card.neighbors.map(neighbor => this.getEvent(neighbor, context, this.splash)))
             ), []);
         }
+
         return super.getEventArray(context);
     }
 
     getEvent(card, context, amount = this.amount || this.amountForCard(card, context)) {
-        let currentArmor = this.ignoreArmor ? 0 : (card.armor - card.armorUsed);
-        let damagePrevented = 0;
-
-        if(amount <= currentArmor) {
-            card.armorUsed += amount;
-            damagePrevented = amount;
-            amount = 0;
-        } else {
-            damagePrevented = currentArmor;
-            card.armorUsed += currentArmor;
-            amount -= currentArmor;
-        }
-
-        let params = {
+        const params = {
             card: card,
             context: context,
             amount: amount,
             damageSource: this.damageSource,
+            damageType: this.damageType,
             destroyed: false,
             fightEvent: this.fightEvent,
-            damagePrevented: damagePrevented
+            ignoreArmor: this.ignoreArmor
         };
+
+        // Update armor token
+        if(this.noGameStateCheck) {
+            card.removeToken('armor');
+            if(card.armor - card.armorUsed > 0) {
+                card.addToken('armor', card.armor - card.armorUsed);
+            }
+        }
+
         return super.createEvent('onDamageDealt', params, event => {
-            if(event.amount === 0) {
+            let amount = event.amount;
+
+            if(amount === 0) {
                 return;
             }
 
-            event.card.addToken('damage', event.amount);
+            if(!event.ignoreArmor) {
+                const currentArmor = event.card.armor - event.card.armorUsed;
+                if(amount <= currentArmor) {
+                    card.armorUsed += event.amount;
+                    event.damagePrevented = amount;
+                    return;
+                }
+                event.damagePrevented = currentArmor;
+                card.armorUsed += currentArmor;
+                amount -= currentArmor;
+            }
+
+            event.card.addToken('damage', amount);
             if(!event.card.moribund && !this.noGameStateCheck && (event.card.tokens.damage >= event.card.power || event.damageSource && event.damageSource.getKeywordValue('poison'))) {
                 event.card.moribund = true;
                 context.game.actions.destroy({ inFight: !!event.fightEvent, purge: this.purge }).resolve(event.card, context.game.getFrameworkContext());

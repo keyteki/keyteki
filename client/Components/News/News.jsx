@@ -3,12 +3,14 @@ import PropTypes from 'prop-types';
 
 import NewsItem from './NewsItem';
 
+import { withTranslation, Trans } from 'react-i18next';
+
 class News extends React.Component {
     render() {
         let icons = [
-            'amber',
-            'power',
-            'armor'
+            'unforged-red',
+            'unforged-blue',
+            'unforged-yellow'
         ];
 
         let iconIndex = 0;
@@ -22,7 +24,7 @@ class News extends React.Component {
         });
 
         if(news.length === 0) {
-            news = <div className='military-container'>There is no site news at the moment</div>;
+            news = <div className='military-container'><Trans>There is no site news at the moment</Trans></div>;
         }
 
         return (
@@ -34,7 +36,9 @@ class News extends React.Component {
 
 News.displayName = 'News';
 News.propTypes = {
-    news: PropTypes.array
+    i18n: PropTypes.object,
+    news: PropTypes.array,
+    t: PropTypes.func
 };
 
-export default News;
+export default withTranslation()(News);

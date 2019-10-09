@@ -45,4 +45,3 @@ class CardService {
 }
 
 module.exports = CardService;
-

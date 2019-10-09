@@ -18,14 +18,14 @@ class Card extends EffectSource {
     constructor(owner, cardData) {
         super(owner.game);
         this.owner = owner;
-        this.setDefaultController(owner);
         this.cardData = cardData;
 
         this.id = cardData.id;
         this.name = cardData.name;
         this.image = cardData.image;
+        this.setDefaultController(owner);
 
-        this.type = cardData.type;
+        this.printedType = cardData.type;
 
         this.tokens = {};
 
@@ -49,12 +49,40 @@ class Card extends EffectSource {
             this.setupKeywordAbilities(AbilityDsl);
         }
 
+        // alpha
         this.persistentEffect({
             location: 'any',
             printedAbility: false,
             condition: () => !!this.getKeywordValue('alpha'),
             match: this,
             effect: AbilityDsl.effects.cardCannot('play', () => !this.game.firstThingThisTurn())
+        });
+
+        // enraged
+        this.persistentEffect({
+            location: 'any',
+            printedAbility: false,
+            condition: () => {
+                return this.tokens.enrage >= 1;
+            },
+            match: this,
+            effect: AbilityDsl.effects.mustFightIfAble()
+        });
+
+        // warded
+        this.interrupt({
+            when: {
+                onCardMarkedForDestruction: (event, context) => event.card === context.source && context.source.warded,
+                onCardLeavesPlay: (event, context) => event.card === context.source && context.source.warded
+            },
+            effect: 'remove its ward token to prevent it from leaving play',
+            gameAction: [
+                AbilityDsl.actions.changeEvent(context => ({
+                    event: context.event,
+                    cancel: true
+                })),
+                AbilityDsl.actions.removeWard()
+            ]
         });
 
         this.printedHouse = cardData.house;
@@ -81,11 +109,22 @@ class Card extends EffectSource {
             { command: 'remDamage', text: 'Remove 1 damage' },
             { command: 'addAmber', text: 'Add 1 amber' },
             { command: 'remAmber', text: 'Remove 1 amber' },
+            { command: 'addEnrage', text: 'Add 1 enrage' },
+            { command: 'remEnrage', text: 'Remove 1 enrage' },
             { command: 'stun', text: 'Stun/Remove Stun' },
+            { command: 'addWard', text: 'Add 1 ward' },
+            { command: 'remWard', text: 'Remove 1 ward' },
             { command: 'control', text: 'Give control' }
         ];
 
         this.endRound();
+    }
+
+    get type() {
+        if(this.anyEffect('canPlayAsUpgrade') && this.parent !== null) {
+            return 'upgrade';
+        }
+        return this.printedType;
     }
 
     /**
@@ -105,7 +144,9 @@ class Card extends EffectSource {
             },
             gameAction: ability.actions.dealDamage(context => ({
                 amount: context.source.getKeywordValue('assault'),
-                target: context.event.card
+                target: context.event.card,
+                damageSource: context.source,
+                damageType: 'assault'
             }))
         });
 
@@ -118,7 +159,9 @@ class Card extends EffectSource {
             },
             gameAction: ability.actions.dealDamage(context => ({
                 amount: context.source.getKeywordValue('hazardous'),
-                target: context.event.attacker
+                target: context.event.attacker,
+                damageSource: context.source,
+                damageType: 'hazardous'
             }))
         });
 
@@ -353,7 +396,7 @@ class Card extends EffectSource {
     }
 
     checkRestrictions(actionType, context = null) {
-        return super.checkRestrictions(actionType, context) && this.controller.checkRestrictions(actionType, context);
+        return super.checkRestrictions(actionType, context) && (!context || !context.player || context.player.checkRestrictions(actionType, context));
     }
 
 
@@ -383,6 +426,12 @@ class Card extends EffectSource {
         }
 
         if(this.tokens[type] === 0) {
+            delete this.tokens[type];
+        }
+    }
+
+    clearToken(type) {
+        if(this.tokens[type]) {
             delete this.tokens[type];
         }
     }
@@ -457,12 +506,40 @@ class Card extends EffectSource {
         return this.hasToken('amber') ? this.tokens.amber : 0;
     }
 
+    get enraged() {
+        return this.hasToken('enrage');
+    }
+
+    enrage() {
+        if(!this.hasToken('enrage')) {
+            this.addToken('enrage');
+        }
+    }
+
+    unenrage() {
+        this.clearToken('enrage');
+    }
+
     stun() {
         this.stunned = true;
     }
 
     unstun() {
         this.stunned = false;
+    }
+
+    get warded() {
+        return this.hasToken('ward');
+    }
+
+    ward() {
+        if(!this.hasToken('ward')) {
+            this.addToken('ward');
+        }
+    }
+
+    unward() {
+        this.clearToken('ward');
     }
 
     exhaust() {
@@ -489,12 +566,16 @@ class Card extends EffectSource {
         });
     }
 
+    canPlayAsUpgrade() {
+        return this.anyEffect('canPlayAsUpgrade') || this.type === 'upgrade';
+    }
+
     /**
      * Checks whether the passed card meets the upgrade restrictions (e.g.
      * Opponent cards only, specific factions, etc) for this card.
      */
     canAttach(card, context) { // eslint-disable-line no-unused-vars
-        return card && card.getType() === 'creature' && this.getType() === 'upgrade';
+        return card && card.getType() === 'creature' && this.canPlayAsUpgrade();
     }
 
     use(player, ignoreHouse = false) {
@@ -524,7 +605,8 @@ class Card extends EffectSource {
         }
 
         this.game.promptWithHandlerMenu(player, {
-            activePromptTitle: (this.location === 'play area' ? 'Choose an ability:' : 'Play ' + this.name + ':'),
+            activePromptTitle: (this.location === 'play area' ? 'Choose an ability:' :
+                { text: 'Play {{card}}:', values: { card: this.name } }),
             source: this,
             choices: choices,
             handlers: handlers
@@ -535,24 +617,30 @@ class Card extends EffectSource {
 
     getLegalActions(player, ignoreHouse = false) {
         let actions = this.getActions();
-        return actions.filter(action => {
+        actions = actions.filter(action => {
             let context = action.createContext(player);
             context.ignoreHouse = ignoreHouse;
             return !action.meetsRequirements(context);
         });
+        let canFight = actions.findIndex(action=>action.title === 'Fight with this creature') >= 0;
+        if(this.getEffects('mustFightIfAble').length > 0 && canFight) {
+            actions = actions.filter(action => action.title === 'Fight with this creature');
+        }
+        return actions;
     }
 
     getActions(location = this.location) {
         let actions = [];
         if(location === 'hand') {
-            if(this.type === 'upgrade') {
-                actions.push(new PlayUpgradeAction(this));
-            } else if(this.type === 'creature') {
+            if(this.type === 'creature') {
                 actions.push(new PlayCreatureAction(this));
             } else if(this.type === 'artifact') {
                 actions.push(new PlayArtifactAction(this));
             } else if(this.type === 'action') {
                 actions.push(new PlayAction(this));
+            }
+            if(this.canPlayAsUpgrade()) {
+                actions.push(new PlayUpgradeAction(this));
             }
             actions.push(new DiscardAction(this));
         } else if(location === 'play area' && this.type === 'creature') {
@@ -621,10 +709,10 @@ class Card extends EffectSource {
     }
 
     getSummary(activePlayer, hideWhenFaceup) {
-        let isActivePlayer = activePlayer === this.controller;
+        let isController = activePlayer === this.controller;
         let selectionState = activePlayer.getCardSelectionState(this);
 
-        if(!isActivePlayer && (this.facedown || hideWhenFaceup) && !(this.game.showHand && activePlayer.isSpectator() && this.location === 'hand')) {
+        if(!isController && (this.facedown || hideWhenFaceup) && !(this.game.showHand && activePlayer.isSpectator() && this.location === 'hand')) {
             let state = {
                 cardback: this.owner.deckData.cardback,
                 controller: this.controller.name,
@@ -637,7 +725,8 @@ class Card extends EffectSource {
         let state = {
             id: this.cardData.id,
             image: this.cardData.image,
-            canPlay: (activePlayer === this.game.activePlayer) && isActivePlayer && this.getLegalActions(activePlayer, false).length > 0,
+            canPlay: (activePlayer === this.game.activePlayer) && this.game.activePlayer.activeHouse &&
+                      isController && (this.getLegalActions(activePlayer, false).length > 0),
             cardback: this.owner.deckData.cardback,
             childCards: this.childCards.map(card => {
                 return card.getSummary(activePlayer, hideWhenFaceup);

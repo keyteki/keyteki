@@ -9,7 +9,7 @@ class UpToXCardSelector extends BaseCardSelector {
     }
 
     defaultActivePromptTitle() {
-        return this.numCards === 1 ? 'Select a character' : `Select ${this.numCards} characters`;
+        return this.numCards === 1 ? 'Select a character' : { text: 'Select {{amount}} characters', values: { amount: this.numCards } };
     }
 
     hasReachedLimit(selectedCards) {

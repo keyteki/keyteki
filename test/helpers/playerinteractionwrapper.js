@@ -10,9 +10,6 @@ class PlayerInteractionWrapper {
         this.player = player;
 
         player.noTimer = true;
-        player.user = {
-            settings: {}
-        };
     }
 
     get name() {
@@ -132,8 +129,36 @@ class PlayerInteractionWrapper {
         return this.player.opponent;
     }
 
+    replaceTitleVariables(title) {
+        if(!title) {
+            return null;
+        }
+
+        if(!title.text) {
+            return title;
+        }
+
+        let result = title.text;
+        if(title.values) {
+            for(var key in title.values) {
+                result = result.replace('{{' + key + '}}', title.values[key]);
+            }
+        }
+
+        return result;
+    }
+
     currentPrompt() {
-        return this.player.currentPrompt();
+        let currentPrompt = this.player.currentPrompt();
+
+        // Replace variable place holders
+        let menuTitle = this.replaceTitleVariables(currentPrompt.menuTitle);
+        let promptTitle = this.replaceTitleVariables(currentPrompt.promptTitle);
+
+        currentPrompt.menuTitle = menuTitle;
+        currentPrompt.promptTitle = promptTitle;
+
+        return currentPrompt;
     }
 
     get currentButtons() {
@@ -237,7 +262,7 @@ class PlayerInteractionWrapper {
     }
 
     hasPrompt(title) {
-        var currentPrompt = this.player.currentPrompt();
+        var currentPrompt = this.currentPrompt();
         return !!currentPrompt &&
         ((currentPrompt.menuTitle && currentPrompt.menuTitle.toLowerCase() === title.toLowerCase()) ||
         (currentPrompt.promptTitle && currentPrompt.promptTitle.toLowerCase() === title.toLowerCase()));

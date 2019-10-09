@@ -1,8 +1,11 @@
+@controlledBox: 0 0 1px 2px @controlled-border-color;
+
 .card-wrapper {
   margin: 0;
   vertical-align: middle;
   display: inline-block;
   user-select: none;
+  position: relative;
 }
 
 .card-frame {
@@ -10,24 +13,24 @@
 }
 
 @keyframes glowing {
-  from { 
-    background-color: #749a02; 
-    box-shadow: 0 0 9px #333; 
+  from {
+    background-color: #749a02;
+    box-shadow: 0 0 9px #333;
   }
-  50% { 
-    background-color: #91bd09; 
-    box-shadow: 0 0 18px #91bd09; 
+  50% {
+    background-color: #91bd09;
+    box-shadow: 0 0 18px #91bd09;
   }
-  to { 
-    background-color: #749a02; 
-    box-shadow: 0 0 9px #333; 
+  to {
+    background-color: #749a02;
+    box-shadow: 0 0 9px #333;
   }
 }
 
 .card {
   position: relative;
   border-radius: 4px;
-  box-shadow: 0 0 12px rgba(0,0,0,0.4), inset 0 0 0 1px rgba(255,255,255,0.1);
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
   overflow: hidden;
   z-index: @layer-cards;
 
@@ -64,7 +67,8 @@
     &.horizontal {
       height: @card-xl-width;
       width: @card-xl-height;
-    }}
+    }
+  }
 
   &.vertical {
     height: @card-height;
@@ -78,6 +82,10 @@
 
   &.selectable {
     box-shadow: 0 0 10px 1px fadeout(lighten(@brand-primary, 60%), 10%);
+
+    &.controlled {
+      box-shadow: @controlledBox, 0 0 10px 1px fadeout(lighten(@brand-primary, 60%), 10%);
+    }
   }
 
   &.unselectable {
@@ -86,6 +94,10 @@
 
   &.can-play {
     animation: glowing 2000ms infinite;
+
+    &.controlled {
+      box-shadow: @controlledBox, 0 0 10px 1px fadeout(lighten(@brand-primary, 60%), 10%);
+    }
   }
 
   &.in-danger {
@@ -98,6 +110,10 @@
 
   &.selected {
     box-shadow: 0 0 1px 4px @brand-secondary;
+
+    &.controlled {
+      box-shadow: @controlledBox, 0 0 1px 4px @brand-secondary;
+    }
   }
 
   &.new {
@@ -105,7 +121,7 @@
   }
 
   &.controlled {
-    box-shadow: 0 0 1px 2px @brand-warning;
+    box-shadow: @controlledBox;
   }
 
   &.challenge {
@@ -223,14 +239,14 @@
   pointer-events: none;
 
   &.vertical {
-      width: @card-width * 4;
-      height: @card-height * 4;
-    }
+    width: @card-width * 4;
+    height: @card-height * 4;
+  }
 
-    &.horizontal {
-      width: @card-height * 4;
-      height: @card-width * 4;
-    }
+  &.horizontal {
+    width: @card-height * 4;
+    height: @card-width * 4;
+  }
 }
 
 .card-zoomed {
@@ -272,42 +288,8 @@
 
 .generate-upgrades(10, 1);
 
-.card-dupe {
-  margin-bottom: @upgrade-offset;
-  margin-top: -(@upgrade-offset + @card-height);
-
-  &.small {
-    margin-top: -(@upgrade-offset + @card-sm-height);
-  }
-
-  &.large {
-    margin-top: -(@upgrade-offset-lg + @card-lg-height);
-  }
-
-  &.x-large {
-    margin-top: -(@upgrade-offset-xl + @card-xl-height);
-  }
-}
-
-.generate-card-dupes(@n, @i: 1) when (@i =< @n) {
-  .card-dupe-@{i} {
-    z-index: @layer-cards - @i;
-    top: -((@i - 1) * @upgrade-offset);
-
-    &.large {
-      top: -((@i - 1) * @upgrade-offset-lg);
-    }
-
-    &.x-large {
-      top: -((@i - 1) * @upgrade-offset-xl);
-    }
-  }
-  .generate-card-dupes(@n, (@i + 1));
-}
-.generate-card-dupes(5, 1);
-
 .card-type-faction.horizontal {
-    margin: 10px 0 0 0;
+  margin: 10px 0 0 0;
 }
 
 .counters {
@@ -343,15 +325,18 @@
 
 .counter {
   padding: 0;
-  font-size: 12px;
-  width: 24px;
-  height: 24px;
-  line-height: 24px;
+  font-size: 10px;
+  width: 25px;
+  height: 25px;
+  line-height: 26px;
   text-align: center;
   margin: 2px;
-  text-shadow: 1px 1px 2px #000;
+  text-shadow:
+    -0.5px -0.5px 2px #000,
+    0.5px -0.5px 2px #000,
+    -0.5px 0.5px 2px #000,
+    0.5px 0.5px 2px #000;
   border-radius: 4px;
-
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -365,7 +350,7 @@
 
     &:after {
       border-bottom: 0.17em solid @brand-danger;
-      content: "";
+      content: '';
       left: 0;
       margin-top: calc(0.17em / 2 * -1);
       position: absolute;
@@ -375,37 +360,51 @@
   }
 }
 
-.upgrade-power {
-  background-color: fade(@power-color, 50%);
-}
-
-.strength {
-  background-color: @strength-color;
-}
-
 .damage {
-  background-image: url("/img/damage.png");
+  background-image: url('/img/damage.png');
 }
 
 .doom {
-  background-image: url("/img/doom.png");
+  background-image: url('/img/doom.png');
 }
 
 .amber {
-  background-image: url("/img/amber.png");
+  background-image: url('/img/amber.png');
 }
 
 .armor {
-  background-image: url("/img/armor.png");
+  background-image: url('/img/armor.png');
 }
 
 .power {
-  background-image: url("/img/power.png");
+  background-image: url('/img/power.png');
+  padding-left: 3px;
 }
 
 .stun {
   background-image: url("/img/stun.png");
-  color: transparent;
+}
+
+.enrage {
+  background-image: url("/img/enrage.png");
+  line-height: 21px;
+}
+
+.ward {
+  background-image: url("/img/ward.png");
+  line-height: 21px;
+}
+
+.unforged-red {
+  background-image: url('/img/unforgedkey0.png');
+}
+
+.unforged-blue {
+  background-image: url('/img/unforgedkey1.png');
+}
+
+.unforged-yellow {
+  background-image: url('/img/unforgedkey2.png');
 }
 
 .card-small {
@@ -460,6 +459,7 @@
   z-index: @layer-top;
   min-width: @card-width * 4;
   min-height: @card-height * 4;
+  pointer-events: none;
 
   &.horizontal {
     min-height: @card-width * 4;
@@ -573,7 +573,7 @@
   font-family: thronesdb;
 
   &:before {
-    content: "\e60b";
+    content: '\e60b';
   }
 }
 
@@ -778,27 +778,6 @@
     top: 260px;
     left: 168px;
   }
-}
-
-@font-face {
-  font-family: 'TeutonNormal';
-  src: url('/fonts/TeutonNormal.eot');
-  src: url('/fonts/TeutonNormal.woff2') format('woff2'),
-       url('/fonts/TeutonNormal.woff') format('woff'),
-       url('/fonts/TeutonNormal.ttf') format('truetype'),
-       url('/fonts/TeutonNormal.svg#TeutonNormal') format('svg'),
-       url('/fonts/TeutonNormal.eot?#iefix') format('embedded-opentype');
-  font-weight: normal;
-  font-style: normal;
-}
-
-.identity-text {
-  font-family: 'TeutonNormal';
-  color: white;
-  position: absolute;
-  font-size: 3.5px;
-  left: 33px;
-  top: 8px;
 }
 
 .identity {
