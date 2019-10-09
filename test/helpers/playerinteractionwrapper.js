@@ -467,6 +467,12 @@ class PlayerInteractionWrapper {
             this.clickPrompt(color);
         }
     }
+
+    unforgeKey(color) {
+        if(this.hasPrompt('Which key would you like to unforge?')) {
+            this.clickPrompt(color);
+        }
+    }
 }
 
 module.exports = PlayerInteractionWrapper;

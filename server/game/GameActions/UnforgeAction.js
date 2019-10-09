@@ -1,17 +1,18 @@
 const PlayerAction = require('./PlayerAction');
 
 class UnforgeAction extends PlayerAction {
+    setDefaultProperties() {
+        this.choices = [];
+    }
+
     setup() {
         super.setup();
         this.name = 'unforgeKey';
-        this.effectMsg = 'unforge an opponent\'s key';
+        this.effectMsg = 'unforge an opponent\'s key.';
     }
 
     getEvent(player, context) {
-        return super.createEvent('onUnforgeKey', { player, context }, () => {
-            let color = Object.keys(player.keys).find(key => player.keys[key]);
-            player.keys[color] = false;
-        });
+        return super.createEvent('onUnforgeKey', { player, choices: this.choices, context }, () => player.unforgeKey(this.choices));
     }
 }
 
