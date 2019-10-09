@@ -22,7 +22,6 @@ describe('Free Markets', function() {
                 expect(this.player2.amber).toBe(5);
             });
 
-
             it('should gain 6 ambers with experimental therapy', function() {
                 this.player1.playUpgrade(this.experimentalTherapy, this.gub);
                 this.player1.endTurn();
