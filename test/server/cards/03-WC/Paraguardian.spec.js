@@ -1,4 +1,4 @@
-fdescribe('Paraguardian', function() {
+describe('Paraguardian', function() {
     integration(function() {
         describe('Paraguardian\'s reap ability', function() {
             beforeEach(function() {
