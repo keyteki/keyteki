@@ -85,6 +85,20 @@ class Card extends EffectSource {
             ]
         });
 
+        this.interrupt({
+            when: {
+                onDamageDealt: (event, context) => event.card === context.source && !context.event.noGameStateCheck && context.source.warded
+            },
+            effect: 'remove its ward token to prevent its damage',
+            gameAction: [
+                AbilityDsl.actions.changeEvent(context => ({
+                    event: context.event,
+                    cancel: true
+                })),
+                AbilityDsl.actions.removeWard()
+            ]
+        });
+
         this.printedHouse = cardData.house;
         this.cardPrintedAmber = cardData.amber;
         this.maverick = cardData.maverick;
@@ -540,6 +554,7 @@ class Card extends EffectSource {
 
     unward() {
         this.clearToken('ward');
+        this.clearToken('ward_cancel');
     }
 
     exhaust() {

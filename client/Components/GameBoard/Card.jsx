@@ -100,7 +100,7 @@ class InnerCard extends React.Component {
     }
 
     getCountersForCard(card) {
-        const singleValueCounters = ['ward', 'enrage'];
+        const hideWhenOneCounters = ['ward', 'enrage'];
         let counters = [];
         let needsFade = card.type === 'upgrade' && !['full deck'].includes(this.props.source);
 
@@ -109,8 +109,11 @@ class InnerCard extends React.Component {
         }
 
         for(const [key, token] of Object.entries(card.tokens || {})) {
-            counters.push({ name: key, count: token, fade: needsFade, shortName: this.shortNames[key],
-                showValue: ((token > 1) || !singleValueCounters.includes(key)) });
+            if(!key.endsWith('_cancel')) {
+                counters.push({ name: key, count: token, fade: needsFade, shortName: this.shortNames[key],
+                    cancel: !!card.tokens[key + '_cancel'],
+                    showValue: ((token > 1) || !hideWhenOneCounters.includes(key)) });
+            }
         }
 
         for(const upgrade of card.upgrades || []) {

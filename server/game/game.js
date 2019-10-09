@@ -895,11 +895,18 @@ class Game extends EventEmitter {
                 });
             }
             // destroy any creatures who have damage greater than equal to their power
-            let creaturesToDestroy = this.creaturesInPlay.filter(card =>
-                card.type === 'creature' && (card.power <= 0 || card.tokens.damage >= card.power) && !card.moribund);
+            let creaturesToDestroy = this.creaturesInPlay.filter((card.power <= 0 || card.tokens.damage >= card.power) && !card.moribund);
+            let creaturesToUnward = this.creaturesInPlay.filter(card.hasToken('ward_cancel'));
+            creaturesToUnward.concat(creaturesToDestroy.filter(card => card.warded));
+
+            if(creaturesToUnward.length > 0) {
+                this.actions.removeWard().resolve(creaturesToUnward, this.getFrameworkContext());
+            }
+
             if(creaturesToDestroy.length > 0) {
                 this.actions.destroy().resolve(creaturesToDestroy, this.getFrameworkContext());
             }
+
             for(let card of this.creaturesInPlay) {
                 card.removeToken('armor');
                 if(card.armor - card.armorUsed > 0) {

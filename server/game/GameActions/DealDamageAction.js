@@ -62,6 +62,13 @@ class DealDamageAction extends CardGameAction {
                 return;
             }
 
+            if(this.noGameStateCheck) {
+                if(event.card.warded) {
+                    event.card.addToken('ward_cancel');
+                    return;
+                }
+            }
+
             if(!event.ignoreArmor) {
                 const currentArmor = event.card.armor - event.card.armorUsed;
                 if(amount <= currentArmor) {
