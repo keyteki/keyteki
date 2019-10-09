@@ -13,6 +13,6 @@ class QuestorJarta extends Card {
     }
 }
 
-QuestorJarta.id = 'questor-jarta'; // This is a guess at what the id might be - please check it!!!
+QuestorJarta.id = 'questor-jarta';
 
 module.exports = QuestorJarta;

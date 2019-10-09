@@ -1,4 +1,4 @@
-describe('Medic Ingram', function() {
+describe('Questor Jarta', function() {
     integration(function() {
         describe('Questor Jarta\'s reap ability', function() {
             beforeEach(function() {
@@ -13,7 +13,7 @@ describe('Medic Ingram', function() {
                 });
             });
 
-            it('Should exalt questor jarta and gain 1 amber', function() {
+            it('should exalt Questor Jarta and gain 1 amber', function() {
                 this.player1.reap(this.questorJarta);
 
                 expect(this.player1).toHavePrompt('Any reactions?');
@@ -24,7 +24,7 @@ describe('Medic Ingram', function() {
                 expect(this.player1.amber).toBe(2);
             });
 
-            it('Should not gain amber if player does not exalt questor jarta', function() {
+            it('should not gain amber if player does not exalt Questor Jarta', function() {
                 this.player1.reap(this.questorJarta);
 
                 expect(this.player1).toHavePrompt('Any reactions?');

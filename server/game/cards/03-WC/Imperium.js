@@ -14,6 +14,6 @@ class Imperium extends Card {
     }
 }
 
-Imperium.id = 'imperium'; // This is a guess at what the id might be - please check it!!!
+Imperium.id = 'imperium';
 
 module.exports = Imperium;
