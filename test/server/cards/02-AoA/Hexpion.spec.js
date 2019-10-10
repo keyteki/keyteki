@@ -19,7 +19,7 @@ describe('Hexpion', function() {
                 this.player1.fightWith(this.hexpion, this.krump);
 
                 expect(this.hexpion.location).toBe('archives');
-                expect(this.player1.player.archives.includes(this.hexpion)).toBe(true);
+                expect(this.player1.archives).toContain(this.hexpion);
                 expect(this.player1.player.archives.length).toBe(2);
             });
 
@@ -36,9 +36,9 @@ describe('Hexpion', function() {
                 this.player1.fightWith(this.troll, this.hexpion);
 
                 expect(this.hexpion.location).toBe('archives');
-                expect(this.player1.player.archives.includes(this.hexpion)).toBe(true);
-                expect(this.player1.player.archives.length).toBe(1);
-                expect(this.player2.player.archives.length).toBe(1);
+                expect(this.player1.archives).toContain(this.hexpion);
+                expect(this.player1.archives.length).toBe(1);
+                expect(this.player2.archives.length).toBe(1);
             });
         });
     });

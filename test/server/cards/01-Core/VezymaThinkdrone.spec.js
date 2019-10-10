@@ -55,8 +55,8 @@ describe('Vezyma Thinkdrone', function() {
                 expect(this.gamgee.location).toBe('play area');
                 expect(this.ronnieWristclocks.location).toBe('play area');
 
-                expect(this.player1.player.archives.includes(this.scowlyCaper)).toBe(false);
-                expect(this.player2.player.archives.includes(this.scowlyCaper)).toBe(true);
+                expect(this.player1.archives).not.toContain(this.scowlyCaper);
+                expect(this.player2.archives).toContain(this.scowlyCaper);
             });
         });
     });

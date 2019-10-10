@@ -20,7 +20,7 @@ describe('Archimedes', function() {
                 this.player1.clickCard(this.streke);
 
                 expect(this.streke.location).toBe('archives');
-                expect(this.player1.player.archives.includes(this.streke)).toBe(true);
+                expect(this.player1.archives).toContain(this.streke);
             });
 
             it('should move only immediate neighbors to archive on a board wipe', function() {
@@ -34,11 +34,11 @@ describe('Archimedes', function() {
                 expect(this.krump.location).toBe('discard');
                 expect(this.archimedes.location).toBe('discard');
 
-                expect(this.player1.player.archives.includes(this.streke)).toBe(true);
-                expect(this.player1.player.archives.includes(this.gub)).toBe(true);
+                expect(this.player1.archives).toContain(this.streke);
+                expect(this.player1.archives).toContain(this.gub);
 
-                expect(this.player1.player.discard.includes(this.archimedes)).toBe(true);
-                expect(this.player1.player.discard.includes(this.krump)).toBe(true);
+                expect(this.player1.discard).toContain(this.archimedes);
+                expect(this.player1.discard).toContain(this.krump);
             });
 
             it('should move controlled neighbor to opponent\'s archive', function() {
@@ -58,7 +58,7 @@ describe('Archimedes', function() {
                 expect(this.collarOfSubordination.location).toBe('discard');
                 expect(this.lamindra.location).toBe('archives');
 
-                expect(this.player2.player.archives.includes(this.lamindra)).toBe(true);
+                expect(this.player2.archives).toContain(this.lamindra);
             });
         });
     });

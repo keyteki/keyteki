@@ -8,7 +8,7 @@ class VezymaThinkdrone extends Card {
                 optional: true,
                 cardType: ['creature', 'artifact'],
                 controller: 'self',
-                gameAction: ability.actions.archive({ owner: true })
+                gameAction: ability.actions.archive()
             }
         });
     }

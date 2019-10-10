@@ -2,7 +2,7 @@ const CardGameAction = require('./CardGameAction');
 
 class ArchiveAction extends CardGameAction {
     setDefaultProperties() {
-        this.owner = false;
+        this.owner = true;
     }
 
     setup() {

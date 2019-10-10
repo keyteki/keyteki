@@ -6,7 +6,7 @@ class Archimedes extends Card {
             match: card => this.neighbors.includes(card),
             effect: ability.effects.gainAbility('destroyed', {
                 effect: 'return {0} to their archives',
-                gameAction: ability.actions.archive({ owner: true })
+                gameAction: ability.actions.archive()
             })
         });
     }
