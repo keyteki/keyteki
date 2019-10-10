@@ -61,5 +61,49 @@ describe('Archimedes', function() {
                 expect(this.player2.archives).toContain(this.lamindra);
             });
         });
+
+        describe('Archimedes\' and Massive Damage', function() {
+            beforeEach(function() {
+                this.setupTest({
+                    player1: {
+                        house: 'shadows',
+                        inPlay: ['lamindra'],
+                        hand: ['whistling-darts', 'booby-trap']
+                    },
+                    player2: {
+                        inPlay: ['jargogle', 'tantadlin', 'helper-bot', 'archimedes', 'harland-mindlock', 'gub']
+                    }
+                });
+            });
+
+            xit('should archive only immediate neighbors', function() {
+
+                this.player1.play(this.whistlingDarts);
+
+                expect(this.jargogle.location).toBe('play area');
+                expect(this.tantadlin.location).toBe('play area');
+                expect(this.archimedes.location).toBe('play area');
+
+                expect(this.gub.location).toBe('discard');
+
+                expect(this.helperBot.location).toBe('archives');
+                expect(this.harlandMindlock.location).toBe('archives');
+            });
+
+            xit('should archive only immediate neighbors', function() {
+
+                this.player1.play(this.boobyTrap);
+                this.player1.clickCard(this.archimedes);
+
+                expect(this.jargogle.location).toBe('play area');
+                expect(this.tantadlin.location).toBe('play area');
+                expect(this.gub.location).toBe('play area');
+
+                expect(this.archimedes.location).toBe('discard');
+
+                expect(this.helperBot.location).toBe('archives');
+                expect(this.harlandMindlock.location).toBe('archives');
+            });
+        });
     });
 });
