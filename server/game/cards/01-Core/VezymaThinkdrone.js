@@ -8,12 +8,12 @@ class VezymaThinkdrone extends Card {
                 optional: true,
                 cardType: ['creature', 'artifact'],
                 controller: 'self',
-                gameAction: ability.actions.archive()
+                gameAction: ability.actions.archive({ owner: true })
             }
         });
     }
 }
 
-VezymaThinkdrone.id = 'vezyma-thinkdrone'; // This is a guess at what the id might be - please check it!!!
+VezymaThinkdrone.id = 'vezyma-thinkdrone';
 
 module.exports = VezymaThinkdrone;
