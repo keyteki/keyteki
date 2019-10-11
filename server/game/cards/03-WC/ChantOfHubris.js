@@ -1,0 +1,29 @@
+const Card = require('../../Card.js');
+
+class ChantOfHubris extends Card {
+    setupCardAbilities(ability) {
+        this.play({
+            condition: context => context.game.creaturesInPlay.length > 1 && context.game.creaturesInPlay.some(card => card.hasToken('amber')),
+            target: {
+                activePromptTitle: 'Choose a creature with amber',
+                cardType: 'creature',
+                cardCondition: card => card.hasToken('amber'),
+                gameAction: ability.actions.removeAmber()
+            },
+            then: preContext => ({
+                gameAction: ability.actions.placeAmber({
+                    promptForSelect: {
+                        message: '{0} uses {1} to place 1 amber on {2}',
+                        messageArgs: card => [preContext.player, preContext.source, card],
+                        activePromptTitle: 'Choose a creature to receive the amber',
+                        cardCondition: card => card !== preContext.event.card
+                    }
+                })
+            })
+        });
+    }
+}
+
+ChantOfHubris.id = 'chant-of-hubris';
+
+module.exports = ChantOfHubris;
