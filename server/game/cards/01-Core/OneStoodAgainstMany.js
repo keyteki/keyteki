@@ -9,6 +9,7 @@ class OneStoodAgainstMany extends Card {
                 cardType: 'creature',
                 controller: 'self',
                 gameAction: ability.actions.sequential([
+                    ability.actions.ready(),
                     ability.actions.resolveFight(context => ({
                         attacker: context.target,
                         promptForSelect: {
@@ -16,8 +17,14 @@ class OneStoodAgainstMany extends Card {
                             cardType: 'creature',
                             controller: 'opponent'
                         },
-                        postHandler: (context, action) => this.chosenTargets = action.target
+                        postHandler: (context, action) => {
+                            this.chosenTargets = this.chosenTargets.concat(action.target);
+                            if(action.target.length > 0) {
+                                context.target.exhaust();
+                            }
+                        }
                     })),
+                    ability.actions.ready(),
                     ability.actions.resolveFight(context => ({
                         attacker: context.target,
                         promptForSelect: {
@@ -26,8 +33,14 @@ class OneStoodAgainstMany extends Card {
                             controller: 'opponent',
                             cardCondition: card => !this.chosenTargets.includes(card)
                         },
-                        postHandler: (context, action) => this.chosenTargets = this.chosenTargets.concat(action.target)
+                        postHandler: (context, action) => {
+                            this.chosenTargets = this.chosenTargets.concat(action.target);
+                            if(action.target.length > 0) {
+                                context.target.exhaust();
+                            }
+                        }
                     })),
+                    ability.actions.ready(),
                     ability.actions.resolveFight(context => ({
                         attacker: context.target,
                         promptForSelect: {
@@ -35,6 +48,11 @@ class OneStoodAgainstMany extends Card {
                             cardType: 'creature',
                             controller: 'opponent',
                             cardCondition: card => !this.chosenTargets.includes(card)
+                        },
+                        postHandler: (context, action) => {
+                            if(action.target.length > 0) {
+                                context.target.exhaust();
+                            }
                         }
                     }))
                 ])
