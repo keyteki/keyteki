@@ -30,8 +30,11 @@ describe('Key Abduction', function() {
                 this.player1.play(this.keyAbduction);
                 expect(this.player1).toHavePrompt('Do you wish to forge a key?');
                 this.player1.clickPrompt('Yes');
+                this.player1.forgeKey('Red');
+                expect(this.player1.player.keys.red).toBe(true);
+                expect(this.player1.player.keys.blue).toBe(false);
+                expect(this.player1.player.keys.yellow).toBe(false);
                 expect(this.player1.amber).toBe(1);
-                expect(this.player1.player.keys).toBe(1);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
@@ -45,8 +48,11 @@ describe('Key Abduction', function() {
                 this.player1.play(this.keyAbduction);
                 expect(this.player1).toHavePrompt('Do you wish to forge a key?');
                 this.player1.clickPrompt('Yes');
+                this.player1.forgeKey('Red');
+                expect(this.player1.player.keys.red).toBe(true);
+                expect(this.player1.player.keys.blue).toBe(false);
+                expect(this.player1.player.keys.yellow).toBe(false);
                 expect(this.player1.amber).toBe(0);
-                expect(this.player1.player.keys).toBe(1);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
         });

@@ -18,13 +18,14 @@ describe('Sample Collection', function() {
             });
 
             it('should do nothing when the opponent has 0 keys', function() {
+                this.player2.player.keys = { red: false, blue: false, yellow: false };
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
                 this.player1.play(this.sampleCollection);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
             it('should prompt to choose a creature and archive it when the opponent has 1 key', function() {
-                this.player2.player.keys = 1;
+                this.player2.player.keys = { red: true, blue: false, yellow: false };
                 this.player1.play(this.sampleCollection);
                 expect(this.player1).toHavePrompt('Sample Collection');
                 expect(this.player1).toBeAbleToSelect(this.troll);
@@ -38,7 +39,7 @@ describe('Sample Collection', function() {
             });
 
             it('should prompt to choose two creatures and archive them sequentially when the opponent has 2 keys', function() {
-                this.player2.player.keys = 2;
+                this.player2.player.keys = { red: true, blue: true, yellow: false };
                 this.player1.play(this.sampleCollection);
                 expect(this.player1).toHavePrompt('Sample Collection');
                 expect(this.player1).toBeAbleToSelect(this.troll);
@@ -59,7 +60,7 @@ describe('Sample Collection', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
             it('should return creatures to the opponents hand when you pick up your archives', function() {
-                this.player2.player.keys = 2;
+                this.player2.player.keys = { red: true, blue: true, yellow: false };
                 this.player1.play(this.sampleCollection);
                 this.player1.clickCard(this.troll);
                 this.player1.clickCard(this.bumpsy);
@@ -91,7 +92,7 @@ describe('Sample Collection', function() {
                 });
             });
             it('should return creatures to the opponents hand when removed from archives by tantadlin', function() {
-                this.player2.player.keys = 1;
+                this.player2.player.keys = { red: true, blue: false, yellow: false };
                 this.player1.play(this.sampleCollection);
                 this.player1.clickCard(this.troll);
                 this.player1.endTurn();

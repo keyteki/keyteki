@@ -17,15 +17,11 @@ class PlayerRow extends React.Component {
     renderKeys() {
         let t = this.props.t;
 
-        let keys = [];
-
-        for(let i = 0; i < this.props.numKeys; i++) {
-            keys.push(<img key={ `key ${i}` } src={ `/img/forgedkey${i}.png` } title={ t('Forged Key') } />);
-        }
-
-        for(let i = this.props.numKeys; i < 3; i++) {
-            keys.push(<img key={ `key ${i}` } src={ `/img/unforgedkey${i}.png` } title={ t('Unforged Key') } />);
-        }
+        let keys = ['red', 'blue', 'yellow']
+            .sort(color => this.props.keys[color] ? -1 : 1)
+            .map(color => {
+                return <img key={ `key ${color}` } src={ `/img/${this.props.keys[color] ? 'forgedkey' : 'unforgedkey'}${color}.png` } title={ t('Forged Key') } />;
+            });
 
         return <div className={ `keys ${this.props.cardSize}` }>{ keys }</div>;
     }
@@ -127,9 +123,9 @@ PlayerRow.propTypes = {
     i18n: PropTypes.object,
     isMe: PropTypes.bool,
     isMelee: PropTypes.bool,
+    keys: PropTypes.object,
     manualMode: PropTypes.bool,
     numDeckCards: PropTypes.number,
-    numKeys: PropTypes.number,
     onCardClick: PropTypes.func,
     onDragDrop: PropTypes.func,
     onDrawPopupChange: PropTypes.func,

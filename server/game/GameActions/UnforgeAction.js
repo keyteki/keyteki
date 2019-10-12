@@ -1,6 +1,10 @@
 const PlayerAction = require('./PlayerAction');
 
 class UnforgeAction extends PlayerAction {
+    setDefaultProperties() {
+        this.choices = [];
+    }
+
     setup() {
         super.setup();
         this.name = 'unforgeKey';
@@ -8,7 +12,7 @@ class UnforgeAction extends PlayerAction {
     }
 
     getEvent(player, context) {
-        return super.createEvent('onUnforgeKey', { player, context }, () => player.keys--);
+        return super.createEvent('onUnforgeKey', { player, choices: this.choices, context }, () => player.unforgeKey(this.choices));
     }
 }
 
