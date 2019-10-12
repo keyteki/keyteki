@@ -200,7 +200,7 @@ class Player extends GameObject {
         this.prepareDecks();
         this.shuffleDeck();
 
-        this.keys = {red: false, blue: false, yellow: false};
+        this.keys = { red: false, blue: false, yellow: false };
         this.amber = 0;
         this.turn = 1;
         this.readyToStart = false;
