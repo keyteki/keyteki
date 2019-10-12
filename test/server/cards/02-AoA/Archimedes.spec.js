@@ -41,6 +41,20 @@ describe('Archimedes', function() {
                 expect(this.player1.discard).toContain(this.krump);
             });
 
+            it('should move only immediate neighbors to archive on a board wipe, even if Archimdes survives', function() {
+                this.archimedes.ward();
+                this.player1.play(this.gatewayToDis);
+
+                // an interrupt
+                this.player1.clickCard(this.gub);
+
+                expect(this.archimedes.location).toBe('play area');
+
+                expect(this.streke.location).toBe('archives');
+                expect(this.gub.location).toBe('archives');
+                expect(this.krump.location).toBe('discard');
+            });
+
             it('should move controlled neighbor to opponent\'s archive', function() {
 
                 this.player1.moveCard(this.gub, 'discard');
@@ -90,7 +104,7 @@ describe('Archimedes', function() {
                 expect(this.harlandMindlock.location).toBe('archives');
             });
 
-            xit('should archive only immediate neighbors', function() {
+            xit('should archive only immediate neighbors when archimedes dies', function() {
 
                 this.player1.play(this.boobyTrap);
                 this.player1.clickCard(this.archimedes);
