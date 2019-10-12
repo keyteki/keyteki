@@ -478,7 +478,7 @@ class Player extends GameObject {
     }
 
     get maxHandSize() {
-        return 6 + this.sumEffects('modifyHandSize') - Math.floor((this.chains + 5) / 6);
+        return 6 + this.sumEffects('modifyHandSize');
     }
 
     getAvailableHouses() {
