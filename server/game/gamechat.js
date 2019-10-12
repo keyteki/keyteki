@@ -35,7 +35,6 @@ class GameChat {
 
     addMessage(message, ...args) {
         let formattedMessage = this.getFormattedMessage(message, ...args);
-
         this.messages.push({ date: new Date(), message: formattedMessage });
     }
 

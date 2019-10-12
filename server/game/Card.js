@@ -73,9 +73,11 @@ class Card extends EffectSource {
         this.interrupt({
             when: {
                 onCardMarkedForDestruction: (event, context) => event.card === context.source && context.source.warded,
-                onCardLeavesPlay: (event, context) => event.card === context.source && context.source.warded
+                onCardLeavesPlay: (event, context) => event.card === context.source && context.source.warded,
+                onDamageDealt: (event, context) => event.card === context.source && !context.event.noGameStateCheck && context.source.warded
             },
-            effect: 'remove its ward token to prevent it from leaving play',
+            effect: 'remove its ward token to prevent it from {1}',
+            effectArgs: context => [context.event && context.event.name === 'onDamageDealt' ? 'being damaged' : 'leaving play'],
             gameAction: [
                 AbilityDsl.actions.changeEvent(context => ({
                     event: context.event,
@@ -668,6 +670,14 @@ class Card extends EffectSource {
             return false;
         }
         return this.anyEffect('consideredAsFlank') || this.neighbors.length < 2;
+    }
+
+    isInCenter() {
+        let creatures = this.controller.cardsInPlay.filter(card => card.type === 'creature');
+        let mid = Math.floor(creatures.length / 2);
+        let centerCreature = creatures[mid];
+
+        return (this === centerCreature);
     }
 
     get neighbors() {

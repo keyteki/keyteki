@@ -4,7 +4,7 @@ class BreakerHill extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
             match: card => this.neighbors.includes(card),
-            effect: ability.effects.gainAbility('reap', {
+            effect: ability.effects.gainAbility('action', {
                 gameAction: ability.actions.steal()
             })
         });
