@@ -16,7 +16,10 @@ describe('key phase', function() {
         it('should forge a key at normal cost', function() {
             this.player1.clickPrompt('logos');
             this.player1.endTurn();
-            expect(this.player2.player.keys).toBe(1);
+            this.player2.forgeKey('Red');
+            expect(this.player2.player.keys.red).toBe(true);
+            expect(this.player2.player.keys.blue).toBe(false);
+            expect(this.player2.player.keys.yellow).toBe(false);
             expect(this.player2.amber).toBe(3);
         });
 
@@ -26,7 +29,10 @@ describe('key phase', function() {
             this.player1.clickPrompt('Play this creature');
             expect(this.titanMechanic.location).toBe('play area');
             this.player1.endTurn();
-            expect(this.player2.player.keys).toBe(1);
+            this.player2.forgeKey('Red');
+            expect(this.player2.player.keys.red).toBe(true);
+            expect(this.player2.player.keys.blue).toBe(false);
+            expect(this.player2.player.keys.yellow).toBe(false);
             expect(this.player2.amber).toBe(4);
         });
     });
