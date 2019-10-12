@@ -56,7 +56,7 @@ describe('Library of Polliasaurus', function() {
             it('should allow picking from friendly creature', function() {
                 this.player1.useAction(this.libraryOfPolliasaurus);
 
-                expect(this.player1).toHavePrompt('Choose a friendly creature with amber');
+                expect(this.player1).toHavePrompt('Choose a creature');
                 expect(this.player1).toBeAbleToSelect(this.questorJarta);
                 expect(this.player1).not.toBeAbleToSelect(this.lamindra);
                 expect(this.player1).not.toBeAbleToSelect(this.gub);

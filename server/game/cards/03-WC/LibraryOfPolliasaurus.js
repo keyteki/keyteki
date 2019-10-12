@@ -4,7 +4,6 @@ class LibraryOfPolliasaurus extends Card {
     setupCardAbilities(ability) {
         this.action({
             target: {
-                activePromptTitle: 'Choose a friendly creature with amber',
                 cardType: 'creature',
                 controller: 'self',
                 cardCondition: card => card.hasToken('amber'),

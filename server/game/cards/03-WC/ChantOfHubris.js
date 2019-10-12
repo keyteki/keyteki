@@ -5,7 +5,6 @@ class ChantOfHubris extends Card {
         this.play({
             condition: context => context.game.creaturesInPlay.length > 1 && context.game.creaturesInPlay.some(card => card.hasToken('amber')),
             target: {
-                activePromptTitle: 'Choose a creature with amber',
                 cardType: 'creature',
                 cardCondition: card => card.hasToken('amber'),
                 gameAction: ability.actions.removeAmber()
@@ -15,7 +14,8 @@ class ChantOfHubris extends Card {
                     promptForSelect: {
                         message: '{0} uses {1} to place 1 amber on {2}',
                         messageArgs: card => [preContext.player, preContext.source, card],
-                        activePromptTitle: 'Choose a creature to receive the amber',
+                        cardType: 'creature',
+                        activePromptTitle: 'Choose another creature',
                         cardCondition: card => card !== preContext.event.card
                     }
                 })

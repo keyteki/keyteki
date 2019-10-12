@@ -58,13 +58,13 @@ describe('Chant of Hubris', function() {
                 this.player1.play(this.chantOfHubris);
                 expect(this.player1.amber).toBe(2);
 
-                expect(this.player1).toHavePrompt('Choose a creature with amber');
+                expect(this.player1).toHavePrompt('Choose a creature');
                 expect(this.player1).toBeAbleToSelect(this.archimedes);
                 expect(this.player1).toBeAbleToSelect(this.shooler);
 
                 this.player1.clickCard(this.archimedes);
 
-                expect(this.player1).toHavePrompt('Choose a creature to receive the amber');
+                expect(this.player1).toHavePrompt('Choose another creature');
 
                 expect(this.player1).toBeAbleToSelect(this.dextre);
                 expect(this.player1).toBeAbleToSelect(this.gub);
@@ -80,13 +80,13 @@ describe('Chant of Hubris', function() {
                 this.player1.play(this.chantOfHubris);
                 expect(this.player1.amber).toBe(2);
 
-                expect(this.player1).toHavePrompt('Choose a creature with amber');
+                expect(this.player1).toHavePrompt('Choose a creature');
                 expect(this.player1).toBeAbleToSelect(this.archimedes);
                 expect(this.player1).toBeAbleToSelect(this.shooler);
 
                 this.player1.clickCard(this.archimedes);
 
-                expect(this.player1).toHavePrompt('Choose a creature to receive the amber');
+                expect(this.player1).toHavePrompt('Choose another creature');
 
                 expect(this.player1).toBeAbleToSelect(this.dextre);
                 expect(this.player1).toBeAbleToSelect(this.gub);
@@ -102,13 +102,13 @@ describe('Chant of Hubris', function() {
                 this.player1.play(this.chantOfHubris);
                 expect(this.player1.amber).toBe(2);
 
-                expect(this.player1).toHavePrompt('Choose a creature with amber');
+                expect(this.player1).toHavePrompt('Choose a creature');
                 expect(this.player1).toBeAbleToSelect(this.archimedes);
                 expect(this.player1).toBeAbleToSelect(this.shooler);
 
                 this.player1.clickCard(this.shooler);
 
-                expect(this.player1).toHavePrompt('Choose a creature to receive the amber');
+                expect(this.player1).toHavePrompt('Choose another creature');
 
                 expect(this.player1).toBeAbleToSelect(this.dextre);
                 expect(this.player1).toBeAbleToSelect(this.gub);
@@ -124,13 +124,13 @@ describe('Chant of Hubris', function() {
                 this.player1.play(this.chantOfHubris);
                 expect(this.player1.amber).toBe(2);
 
-                expect(this.player1).toHavePrompt('Choose a creature with amber');
+                expect(this.player1).toHavePrompt('Choose a creature');
                 expect(this.player1).toBeAbleToSelect(this.archimedes);
                 expect(this.player1).toBeAbleToSelect(this.shooler);
 
                 this.player1.clickCard(this.shooler);
 
-                expect(this.player1).toHavePrompt('Choose a creature to receive the amber');
+                expect(this.player1).toHavePrompt('Choose another creature');
 
                 expect(this.player1).toBeAbleToSelect(this.dextre);
                 expect(this.player1).toBeAbleToSelect(this.gub);
