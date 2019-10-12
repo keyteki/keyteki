@@ -19,7 +19,10 @@ describe('Interdimensional Graft', function() {
             it('should trigger on forging a key in the key phase', function() {
                 this.player2.amber = 9;
                 this.player1.endTurn();
-                expect(this.player2.player.keys).toBe(1);
+                this.player2.forgeKey('Red');
+                expect(this.player2.player.keys.red).toBe(true);
+                expect(this.player2.player.keys.blue).toBe(false);
+                expect(this.player2.player.keys.yellow).toBe(false);
                 expect(this.player2.amber).toBe(0);
                 expect(this.player1.amber).toBe(4);
             });
@@ -27,7 +30,10 @@ describe('Interdimensional Graft', function() {
             it('should trigger on forging a key using a card ability', function() {
                 expect(this.player1.amber).toBe(1);
                 this.player1.endTurn();
-                expect(this.player2.player.keys).toBe(0);
+                this.player2.forgeKey('Red');
+                expect(this.player2.player.keys.red).toBe(false);
+                expect(this.player2.player.keys.blue).toBe(false);
+                expect(this.player2.player.keys.yellow).toBe(false);
                 expect(this.player2.amber).toBe(5);
                 this.player2.clickPrompt('untamed');
                 this.player2.play(this.huntingWitch);
@@ -37,9 +43,12 @@ describe('Interdimensional Graft', function() {
                 this.player2.play(this.keyCharge);
                 expect(this.player2.amber).toBe(8);
                 this.player2.clickPrompt('Yes');
+                this.player2.forgeKey('Red');
+                expect(this.player2.player.keys.red).toBe(true);
+                expect(this.player2.player.keys.blue).toBe(false);
+                expect(this.player2.player.keys.yellow).toBe(false);
                 expect(this.player2.amber).toBe(0);
                 expect(this.player1.amber).toBe(3);
-                expect(this.player2.player.keys).toBe(1);
                 expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
             });
 
@@ -51,7 +60,10 @@ describe('Interdimensional Graft', function() {
                 this.player2.endTurn();
                 this.player1.clickPrompt('logos');
                 this.player1.endTurn();
-                expect(this.player2.player.keys).toBe(1);
+                this.player2.forgeKey('Red');
+                expect(this.player2.player.keys.red).toBe(true);
+                expect(this.player2.player.keys.blue).toBe(false);
+                expect(this.player2.player.keys.yellow).toBe(false);
                 expect(this.player1.amber).toBe(1);
                 expect(this.player1.amber).toBe(1);
             });

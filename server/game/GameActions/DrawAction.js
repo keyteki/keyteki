@@ -3,7 +3,7 @@ const PlayerAction = require('./PlayerAction');
 class DrawAction extends PlayerAction {
     setDefaultProperties() {
         this.amount = 1;
-        this.shedChains = false;
+        this.refill = false;
     }
 
     setup() {
@@ -13,7 +13,7 @@ class DrawAction extends PlayerAction {
     }
 
     canAffect(player, context) {
-        return (this.amount !== 0 || this.shedChains) && super.canAffect(player, context);
+        return (this.amount !== 0 || this.refill) && super.canAffect(player, context);
     }
 
     defaultTargets(context) {
@@ -21,20 +21,31 @@ class DrawAction extends PlayerAction {
     }
 
     getEvent(player, context) {
+        let shedChains = false;
+        let amount = 0;
+        if(this.refill) {
+            if(player.maxHandSize > player.hand.length) {
+                amount = player.maxHandSize - player.hand.length - (Math.floor((player.chains + 5) / 6));
+                shedChains = player.chains > 0;
+            }
+        } else {
+            amount = this.amount;
+        }
+
         return super.createEvent('onDrawCards', {
             player: player,
-            amount: this.amount,
+            amount: amount,
+            shedChains: shedChains,
             context: context
-        }, () => {
-            if(this.amount > 0) {
-                player.drawCardsToHand(this.amount);
+        }, event => {
+            if(event.amount > 0) {
+                event.player.drawCardsToHand(amount);
+                context.game.addMessage('{0} draws {1} cards up to their maximum hand size of {2}', event.player, event.amount, event.player.maxHandSize);
             }
 
-            if(this.shedChains) {
-                if(this.amount >= 0 && player.chains > 0) {
-                    player.modifyChains(-1);
-                    context.game.addMessage('{0}\'s chains are reduced by 1 to {1}', player, player.chains);
-                }
+            if(shedChains) {
+                event.player.modifyChains(-1);
+                context.game.addMessage('{0}\'s chains are reduced by 1 to {1}', event.player, event.player.chains);
             }
         });
     }
