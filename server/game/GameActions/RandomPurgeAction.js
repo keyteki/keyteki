@@ -22,11 +22,9 @@ class RandomPurgeAction extends PlayerAction {
     getEvent(player, context) {
         return super.createEvent('unnamedEvent', {}, () => {
             let amount = Math.min(this.amount, player.hand.length);
-            if(this.location === 'archives') {
-                amount = Math.min(this.amount, player.archives.length);
-            }
             let cards = _.shuffle(player.hand).slice(0, amount);
             if(this.location === 'archives') {
+                amount = Math.min(this.amount, player.archives.length);
                 cards = _.shuffle(player.archives).slice(0,amount);
             }
             context.game.addMessage('{0} purges {1} at random', player, cards);
