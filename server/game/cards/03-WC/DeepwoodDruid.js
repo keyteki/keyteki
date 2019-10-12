@@ -6,7 +6,6 @@ class DeepwoodDruid extends Card {
             reap: true,
             target: {
                 cardType: 'creature',
-                optional: false,
                 numCards: 1,
                 controller: 'self',
                 cardCondition: (card, context) => context.source.neighbors.includes(card),

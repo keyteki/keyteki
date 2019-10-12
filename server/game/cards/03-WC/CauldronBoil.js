@@ -4,7 +4,7 @@ class CauldronBoil extends Card {
     setupCardAbilities(ability) {
         this.play({
             condition: context => !!context.player.opponent,
-            effect: 'deal damage to enemy creatures equal to their existing damage',
+            effect: 'deal damage to creatures equal to their existing damage',
             gameAction: ability.actions.dealDamage(context => ({
                 target: context.game.cardsInPlay.filter(card => card.type === 'creature' && card.hasToken('damage')),
                 amountForCard: card => card.tokens.damage
