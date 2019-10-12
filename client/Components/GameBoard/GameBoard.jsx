@@ -31,7 +31,7 @@ const placeholderPlayer = {
     activePlayer: false,
     numDeckCards: 0,
     stats: {
-        keys: {red: false, blue: false, yellow: false}
+        keys: { red: false, blue: false, yellow: false }
     },
     houses: [],
     deckName: '',
