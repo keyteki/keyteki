@@ -8,7 +8,7 @@ class UnforgeAction extends PlayerAction {
     setup() {
         super.setup();
         this.name = 'unforgeKey';
-        this.effectMsg = 'unforge an opponent\'s key.';
+        this.effectMsg = 'unforge an opponent\'s key';
     }
 
     getEvent(player, context) {
