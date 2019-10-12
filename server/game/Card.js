@@ -670,6 +670,14 @@ class Card extends EffectSource {
         return this.anyEffect('consideredAsFlank') || this.neighbors.length < 2;
     }
 
+    isInCenter() {
+        let creatures = this.controller.cardsInPlay.filter(card => card.type === 'creature');
+        let mid = Math.floor(creatures.length / 2);
+        let centerCreature = creatures[mid];
+
+        return (this === centerCreature);
+    }
+
     get neighbors() {
         if(this.type !== 'creature') {
             return [];
