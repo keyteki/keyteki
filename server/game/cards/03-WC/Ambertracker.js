@@ -1,6 +1,6 @@
 const Card = require('../../Card.js');
 
-class AEmbertracker extends Card {
+class Ambertracker extends Card {
     setupCardAbilities(ability) {
         this.play({
             condition: context => !!context.player.opponent,
@@ -14,6 +14,6 @@ class AEmbertracker extends Card {
     }
 }
 
-AEmbertracker.id = 'aembertracker';
+Ambertracker.id = 'æmbertracker';
 
-module.exports = AEmbertracker;
+module.exports = Ambertracker;
