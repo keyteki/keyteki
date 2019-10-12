@@ -672,8 +672,9 @@ class Card extends EffectSource {
 
     isInCenter() {
         let creatures = this.controller.cardsInPlay.filter(card => card.type === 'creature');
-        var mid = Math.floor(creatures.length / 2);
-        var centerCreature = creatures[mid];
+        let mid = Math.floor(creatures.length / 2);
+        let centerCreature = creatures[mid];
+        
         return (this === centerCreature);
     }
 
