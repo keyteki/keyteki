@@ -23,7 +23,7 @@ class Messages extends React.Component {
             forgedkeyred: { className: 'icon-forgedKey', imageSrc: '/img/forgedkeyred.png' }
         };
 
-        for(let house of Constants.HOUSES) {
+        for(let house of Constants.Houses) {
             this.tokens[house] = { className: `chat-house-icon icon-${house}`, imageSrc: `/img/house/${house}.png` };
         }
 

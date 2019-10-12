@@ -28,8 +28,8 @@ module.exports.init = function(server) {
     });
 
     server.get('/api/factions', function(req, res) {
-        let factions = Constants.HOUSES.map(function(house, i) {
-            return { name: Constants.HOUSES_NAME[i], value: house};
+        let factions = Constants.Houses.map(function(house, i) {
+            return { name: Constants.HousesNames[i], value: house};
         });
         res.send({ success: true, factions: factions });
     });

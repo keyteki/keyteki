@@ -40,7 +40,7 @@ gameService.getAllGames(start, end).then(games => {
     let decks = {};
     let fpWinRates = { first: 0, second: 0 };
     let houses = {};
-    for(let house of Constants.HOUSES) {
+    for(let house of Constants.Houses) {
         houses[house] = { name: house, wins: 0, losses: 0 };
     }
 

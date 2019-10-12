@@ -10,7 +10,7 @@ class MiniGroupthinkTank extends Card {
             target: {
                 cardType: 'creature',
                 cardCondition: card => card.neighbors.filter(neighbor =>
-                    Constants.HOUSES.some(house => card.hasHouse(house) && neighbor.hasHouse(house))).length >= 2,
+                    Constants.Houses.some(house => card.hasHouse(house) && neighbor.hasHouse(house))).length >= 2,
                 gameAction: ability.actions.dealDamage({ amount: 8 })
             }
         });

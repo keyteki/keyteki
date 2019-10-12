@@ -4,6 +4,6 @@ export const ItemTypes = {
 };
 
 export const Constants = {
-    HOUSES: ['brobnar', 'dis', 'logos', 'mars', 'sanctum', 'saurian', 'shadows', 'staralliance', 'untamed'],
-    HOUSES_NAME: ['Brobnar', 'Dis', 'Logos', 'Mars', 'Sanctum', 'Saurian', 'Shadows', 'Star Alliance', 'Untamed']
+    Houses: ['brobnar', 'dis', 'logos', 'mars', 'sanctum', 'saurian', 'shadows', 'staralliance', 'untamed'],
+    HousesNames: ['Brobnar', 'Dis', 'Logos', 'Mars', 'Sanctum', 'Saurian', 'Shadows', 'Star Alliance', 'Untamed']
 };

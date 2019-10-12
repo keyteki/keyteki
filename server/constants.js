@@ -1,7 +1,7 @@
 class Constants {}
 
-Constants.HOUSES = ['brobnar', 'dis', 'logos', 'mars', 'sanctum', 'saurian', 'shadows', 'staralliance', 'untamed'];
-Constants.HOUSES_NAME = ['Brobnar', 'Dis', 'Logos', 'Mars', 'Sanctum', 'Saurian', 'Shadows', 'Star Alliance', 'Untamed'];
+Constants.Houses = ['brobnar', 'dis', 'logos', 'mars', 'sanctum', 'saurian', 'shadows', 'staralliance', 'untamed'];
+Constants.HousesNames = ['Brobnar', 'Dis', 'Logos', 'Mars', 'Sanctum', 'Saurian', 'Shadows', 'Star Alliance', 'Untamed'];
 
 Object.freeze(Constants);
 

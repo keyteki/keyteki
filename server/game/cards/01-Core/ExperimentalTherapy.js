@@ -4,7 +4,7 @@ const Card = require('../../Card.js');
 class ExperimentalTherapy extends Card {
     setupCardAbilities(ability) {
         this.whileAttached({
-            effect: Constants.HOUSES.map(house => ability.effects.addHouse(house))
+            effect: Constants.Houses.map(house => ability.effects.addHouse(house))
         });
         this.play({
             gameAction: [

@@ -8,7 +8,7 @@ class GroupthinkTank extends Card {
             gameAction: ability.actions.dealDamage(context => ({
                 amount: 4,
                 target: context.game.creaturesInPlay.filter(card => card.neighbors.length > 0 &&
-                    Constants.HOUSES.some(house => card.hasHouse(house) && card.neighbors.some(neighbor => neighbor.hasHouse(house))))
+                    Constants.Houses.some(house => card.hasHouse(house) && card.neighbors.some(neighbor => neighbor.hasHouse(house))))
             }))
         });
     }

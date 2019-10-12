@@ -35,7 +35,7 @@ class ChatCommands {
             'stun',
             'ward'
         ];
-        this.houses = [...Constants.HOUSES, 'none'];
+        this.houses = [...Constants.Houses, 'none'];
     }
 
     executeCommand(player, command, args) {

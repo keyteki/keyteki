@@ -5,7 +5,7 @@ class AbilityTargetHouse {
     constructor(name, properties, ability) {
         this.name = name;
         this.properties = properties;
-        this.houses = properties.houses || Constants.HOUSES;
+        this.houses = properties.houses || Constants.Houses;
         this.dependentTarget = null;
         if(this.properties.dependsOn) {
             let dependsOnTarget = ability.targets.find(target => target.name === this.properties.dependsOn);
