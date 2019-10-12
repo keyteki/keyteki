@@ -17,7 +17,10 @@ class Messages extends React.Component {
         this.tokens = {
             amber: { className: 'icon-amber', imageSrc: '/img/amber.png' },
             card: { className: 'icon-card', imageSrc: '/img/idbacks/cardback.jpg' },
-            cards: { className: 'icon-card', imageSrc: '/img/idbacks/cardback.jpg' }
+            cards: { className: 'icon-card', imageSrc: '/img/idbacks/cardback.jpg' },
+            forgedkeyblue: { className: 'icon-forgedKey', imageSrc: '/img/forgedkeyblue.png' },
+            forgedkeyyellow: { className: 'icon-forgedKey', imageSrc: '/img/forgedkeyyellow.png' },
+            forgedkeyred: { className: 'icon-forgedKey', imageSrc: '/img/forgedkeyred.png' }
         };
 
         for(let house of Constants.HOUSES) {
@@ -46,8 +49,21 @@ class Messages extends React.Component {
             if(this.tokens[lowerToken]) {
                 let tokenEntry = this.tokens[lowerToken];
 
-                if(token === 'amber') {
-                    token = 'Æmber';
+                switch(token) {
+                    case 'amber':
+                        token = 'Æmber';
+                        break;
+                    case 'forgedkeyblue':
+                        token = 'blue key';
+                        break;
+                    case 'forgedkeyred':
+                        token = 'red key';
+                        break;
+                    case 'forgedkeyyellow':
+                        token = 'yellow key';
+                        break;
+                    default:
+                        break;
                 }
 
                 messages.push(` ${token} `);

@@ -33,9 +33,12 @@ describe('Safe Place', function() {
                 this.player2.clickPrompt('brobnar');
                 this.player2.endTurn();
                 this.player1.clickPrompt('1');
+                this.player1.forgeKey('Red');
                 expect(this.player1.amber).toBe(0);
                 expect(this.safePlace.hasToken('amber')).toBe(false);
-                expect(this.player1.player.keys).toBe(1);
+                expect(this.player1.player.keys.red).toBe(true);
+                expect(this.player1.player.keys.blue).toBe(false);
+                expect(this.player1.player.keys.yellow).toBe(false);
             });
         });
     });
