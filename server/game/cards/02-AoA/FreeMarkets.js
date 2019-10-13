@@ -6,8 +6,9 @@ class FreeMarkets extends Card {
         this.play({
             condition: context => !!context.player.opponent,
             gameAction: ability.actions.gainAmber(context => ({
-                amount: Math.min(Constants.Houses.filter(house =>
-                    house !== 'sanctum' && context.game.cardsInPlay.some(card => card.hasHouse(house))).length, 6)
+                amount: Math.min(6, Constants.Houses.filter(house => house !== 'sanctum' &&
+                    context.game.cardsInPlay.some(card => card.hasHouse(house) ||
+                        (card.upgrades && card.upgrades.some(upgrade => upgrade.hasHouse(house))))).length)
             }))
         });
     }
