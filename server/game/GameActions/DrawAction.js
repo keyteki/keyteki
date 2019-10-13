@@ -28,6 +28,10 @@ class DrawAction extends PlayerAction {
                 amount = player.maxHandSize - player.hand.length - (Math.floor((player.chains + 5) / 6));
                 shedChains = player.chains > 0;
             }
+
+            if(amount > 0) {
+                context.game.addMessage('{0} draws {1} cards up to their maximum hand size of {2}', player, amount, player.maxHandSize);
+            }
         } else {
             amount = this.amount;
         }
@@ -40,7 +44,6 @@ class DrawAction extends PlayerAction {
         }, event => {
             if(event.amount > 0) {
                 event.player.drawCardsToHand(amount);
-                context.game.addMessage('{0} draws {1} cards up to their maximum hand size of {2}', event.player, event.amount, event.player.maxHandSize);
             }
 
             if(shedChains) {
