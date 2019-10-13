@@ -1,8 +1,8 @@
 const Card = require('../../Card.js');
 
-class BorrNit extends Card {
+class BorrNitsTouch extends Card {
     setupCardAbilities(ability) {
-        this.reap({
+        this.play({
             target: {
                 mode: 'select',
                 activePromptTitle: 'Which player\'s deck',
@@ -28,6 +28,6 @@ class BorrNit extends Card {
     }
 }
 
-BorrNit.id = 'borr-nit';
+BorrNitsTouch.id = 'borrs-nits-touch';
 
-module.exports = BorrNit;
+module.exports = BorrNitsTouch;
