@@ -6,7 +6,6 @@ class RandomPurgeAction extends PlayerAction {
         this.amount = 1;
         // hand or archives
         this.location = 'hand';
-
     }
 
     setup() {
