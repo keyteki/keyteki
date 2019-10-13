@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import Avatar from '../Site/Avatar';
-//import { ThronesIcons } from '../../constants';
+import { Constants } from '../../constants';
 import * as actions from '../../actions';
 
 class Messages extends React.Component {
@@ -14,16 +14,6 @@ class Messages extends React.Component {
             message: ''
         };
 
-        var houses = [
-            'brobnar',
-            'logos',
-            'dis',
-            'sanctum',
-            'untamed',
-            'shadows',
-            'mars'
-        ];
-
         this.tokens = {
             amber: { className: 'icon-amber', imageSrc: '/img/amber.png' },
             card: { className: 'icon-card', imageSrc: '/img/idbacks/cardback.jpg' },
@@ -33,7 +23,7 @@ class Messages extends React.Component {
             forgedkeyred: { className: 'icon-forgedKey', imageSrc: '/img/forgedkeyred.png' }
         };
 
-        for(let house of houses) {
+        for(let house of Constants.Houses) {
             this.tokens[house] = { className: `chat-house-icon icon-${house}`, imageSrc: `/img/house/${house}.png` };
         }
 
