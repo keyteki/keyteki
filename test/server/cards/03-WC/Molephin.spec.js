@@ -29,6 +29,7 @@ describe('Molephin', function() {
                 this.player2.endTurn();
                 this.player1.clickPrompt('untamed');
                 this.player1.endTurn();
+                this.player2.forgeKey('Red');
                 this.player2.clickPrompt('shadows');
                 this.player2.play(this.swindle);
                 expect(this.brainEater.tokens.damage).toBe(4);

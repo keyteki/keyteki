@@ -16,7 +16,9 @@ describe('The Evil Eye', function() {
             it('should stop a key being forged', function() {
                 this.player1.play(this.theEvilEye);
                 this.player1.endTurn();
-                expect(this.player2.player.keys).toBe(0);
+                expect(this.player2.player.keys.red).toBe(false);
+                expect(this.player2.player.keys.blue).toBe(false);
+                expect(this.player2.player.keys.yellow).toBe(false);
                 expect(this.player2.player.amber).toBe(6);
             });
         });

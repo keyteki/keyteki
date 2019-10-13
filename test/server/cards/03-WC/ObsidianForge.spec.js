@@ -37,7 +37,11 @@ describe('Obsidian Forge', function() {
                 expect(this.brammo.location).toBe('discard');
                 expect(this.firespitter.location).toBe('discard');
                 expect(this.bingleBangbang.location).toBe('discard');
-                expect(this.player1.player.keys).toBe(1);
+
+                this.player1.forgeKey('Red');
+                expect(this.player1.player.keys.red).toBe(true);
+                expect(this.player1.player.keys.blue).toBe(false);
+                expect(this.player1.player.keys.yellow).toBe(false);
                 expect(this.player1.player.amber).toBe(2);
             });
             it('should allow key to be forged at [6] if 6 creatures are sacrificed', function() {
@@ -58,7 +62,11 @@ describe('Obsidian Forge', function() {
                 expect(this.bellowingPatrizate.location).toBe('discard');
                 expect(this.kingOfTheCrag.location).toBe('discard');
                 expect(this.brammo.location).toBe('discard');
-                expect(this.player1.player.keys).toBe(1);
+
+                this.player1.forgeKey('Red');
+                expect(this.player1.player.keys.red).toBe(true);
+                expect(this.player1.player.keys.blue).toBe(false);
+                expect(this.player1.player.keys.yellow).toBe(false);
                 expect(this.player1.player.amber).toBe(0);
             });
         });
