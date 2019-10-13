@@ -1,10 +1,11 @@
+const Constants = require('../../constants.js');
 const SelectChoice = require('./SelectChoice.js');
 
 class AbilityTargetHouse {
     constructor(name, properties, ability) {
         this.name = name;
         this.properties = properties;
-        this.houses = properties.houses || ['brobnar', 'dis', 'logos', 'mars', 'sanctum', 'shadows', 'untamed'];
+        this.houses = properties.houses || Constants.Houses;
         this.dependentTarget = null;
         if(this.properties.dependsOn) {
             let dependsOnTarget = ability.targets.find(target => target.name === this.properties.dependsOn);
