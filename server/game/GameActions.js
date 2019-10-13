@@ -32,6 +32,7 @@ const PurgeAction = require('./GameActions/PurgeAction');
 const PutIntoPlayAction = require('./GameActions/PutIntoPlayAction');
 const RandomArchiveAction = require('./GameActions/RandomArchiveAction');
 const RandomDiscardAction = require('./GameActions/RandomDiscardAction');
+const RandomPurgeAction = require('./GameActions/RandomPurgeAction');
 const ReadyAction = require('./GameActions/ReadyAction');
 const ReduceArmorAction = require('./GameActions/ReduceArmorAction');
 const RemoveStunAction = require('./GameActions/RemoveStunAction');
@@ -60,10 +61,12 @@ const Actions = {
     addDamageToken: (propertyFactory) => new AddTokenAction(propertyFactory, 'damage'),
     addDoomCounter: (propertyFactory) => new AddTokenAction(propertyFactory, 'doom'),
     addFuseCounter: (propertyFactory) => new AddTokenAction(propertyFactory, 'fuse'),
+    addGrowthCounter: (propertyFactory) => new AddTokenAction(propertyFactory, 'growth'),
     archive: (propertyFactory) => new ArchiveAction(propertyFactory),
     attach: (propertyFactory) => new AttachAction(propertyFactory), // upgrade
     capture: (propertyFactory) => new CaptureAction(propertyFactory),
     cardLastingEffect: (propertyFactory) => new LastingEffectCardAction(propertyFactory), // duration = 'untilEndOfConflict', effect, targetLocation, condition, until
+    clearGrowthTokens: (propertyFactory) => new RemoveTokenAction(propertyFactory, 'growth'),
     dealDamage: (propertyFactory) => new DealDamageAction(propertyFactory),
     deckSearch: (propertyFactory) => new DeckSearchAction(propertyFactory), // amount = -1, reveal = true, cardCondition = (card, context) => true
     delayedEffect: (propertyFactory) => new DelayedEffectAction(propertyFactory), // when, message, gameAction, handler
@@ -103,6 +106,7 @@ const Actions = {
     archiveAtRandom: (propertyFactory) => new RandomArchiveAction(propertyFactory), // amount = 1
     chosenDiscard: (propertyFactory) => new ChosenDiscardAction(propertyFactory), // amount = 1
     discardAtRandom: (propertyFactory) => new RandomDiscardAction(propertyFactory), // amount = 1
+    purgeAtRandom: (propertyFactory) => new RandomPurgeAction(propertyFactory), // amount = 1
     draw: (propertyFactory) => new DrawAction(propertyFactory), // amount = 1
     forgeKey: (propertyFactory) => new ForgeAction(propertyFactory), // modifier = 0
     forRemainderOfTurn: (propertyFactory) => new LastingEffectAction(propertyFactory, 1),

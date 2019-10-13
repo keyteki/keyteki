@@ -1,0 +1,29 @@
+describe('Imprinted Murmook', function() {
+    integration(function() {
+        describe('Imprinted Murmook\'s ability', function() {
+            beforeEach(function() {
+                this.setupTest({
+                    player1: {
+                        amber: 5,
+                        house: 'untamed',
+                        inPlay: ['imprinted-murmook']
+                    },
+                    player2: {
+                        amber: 5,
+                        inPlay: ['bad-penny']
+                    }
+                });
+            });
+
+            it('should reduce the controllers key cost by 1, but not the opponents', function() {
+                this.player1.endTurn();
+                expect(this.player2.player.keys).toBe(0);
+                expect(this.player2.amber).toBe(5);
+                this.player2.clickPrompt('shadows');
+                this.player2.endTurn();
+                expect(this.player1.player.keys).toBe(1);
+                expect(this.player1.amber).toBe(0);
+            });
+        });
+    });
+});
