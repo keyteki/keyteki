@@ -3,7 +3,7 @@ const Card = require('../../Card.js');
 class Velum extends Card {
     setupCardAbilities(ability) {
         this.reap({
-            useActionPromptMessage: true,
+            preferActionPromptMessage: true,
             gameAction: ability.actions.archive(context => ({
                 promptForSelect: {
                     location: 'hand',
