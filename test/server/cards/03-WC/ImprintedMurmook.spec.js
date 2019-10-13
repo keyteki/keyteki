@@ -17,11 +17,16 @@ describe('Imprinted Murmook', function() {
 
             it('should reduce the controllers key cost by 1, but not the opponents', function() {
                 this.player1.endTurn();
-                expect(this.player2.player.keys).toBe(0);
                 expect(this.player2.amber).toBe(5);
+                expect(this.player1.player.keys.red).toBe(false);
+                expect(this.player1.player.keys.blue).toBe(false);
+                expect(this.player1.player.keys.yellow).toBe(false);
                 this.player2.clickPrompt('shadows');
                 this.player2.endTurn();
-                expect(this.player1.player.keys).toBe(1);
+                this.player1.forgeKey('Red');
+                expect(this.player1.player.keys.red).toBe(true);
+                expect(this.player1.player.keys.blue).toBe(false);
+                expect(this.player1.player.keys.yellow).toBe(false);
                 expect(this.player1.amber).toBe(0);
             });
         });

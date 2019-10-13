@@ -37,11 +37,15 @@ describe('Musthic Murmook', function() {
                 expect(this.snufflegator.location).toBe('discard');
                 this.player1.endTurn();
                 this.player2.clickPrompt('sanctum');
-                expect(this.player2.player.keys).toBe(0);
+                expect(this.player2.player.keys.red).toBe(false);
+                expect(this.player2.player.keys.blue).toBe(false);
+                expect(this.player2.player.keys.yellow).toBe(false);
                 expect(this.player2.amber).toBe(6);
                 this.player2.endTurn();
                 this.player1.clickPrompt('untamed');
-                expect(this.player1.player.keys).toBe(0);
+                expect(this.player1.player.keys.red).toBe(false);
+                expect(this.player1.player.keys.blue).toBe(false);
+                expect(this.player1.player.keys.yellow).toBe(false);
                 expect(this.player1.amber).toBe(6);
             });
         });
