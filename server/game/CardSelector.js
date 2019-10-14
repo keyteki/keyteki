@@ -5,6 +5,7 @@ const MostStatCardSelector = require('./CardSelectors/MostStatCardSelector');
 const SingleCardSelector = require('./CardSelectors/SingleCardSelector');
 const UnlimitedCardSelector = require('./CardSelectors/UnlimitedCardSelector');
 const UpToXCardSelector = require('./CardSelectors/UpToXCardSelector');
+const MostHouseCardSelector = require('./CardSelectors/MostHouseCardSelector');
 
 const defaultProperties = {
     numCards: 1,
@@ -19,6 +20,7 @@ const ModeToSelector = {
     minStat: p => new MinStatCardSelector(p),
     maxStat: p => new MaxStatCardSelector(p),
     mostStat: p => new MostStatCardSelector(p),
+    mostHouse: p => new MostHouseCardSelector(p),
     single: p => new SingleCardSelector(p),
     unlimited: p => new UnlimitedCardSelector(p),
     upTo: p => new UpToXCardSelector(p.numCards, p)
