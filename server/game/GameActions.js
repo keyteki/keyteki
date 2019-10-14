@@ -12,6 +12,7 @@ const DestroyAction = require('./GameActions/DestroyAction');
 const DiscardCardAction = require('./GameActions/DiscardCardAction');
 const DrawAction = require('./GameActions/DrawAction');
 const EnrageAction = require('./GameActions/EnrageAction');
+const ExaltAction = require('./GameActions/ExaltAction');
 const ExhaustAction = require('./GameActions/ExhaustAction');
 const FightGameAction = require('./GameActions/FightGameAction');
 const ForgeAction = require('./GameActions/ForgeAction');
@@ -72,6 +73,7 @@ const Actions = {
     discard: (propertyFactory) => new DiscardCardAction(propertyFactory),
     destroy: (propertyFactory) => new DestroyAction(propertyFactory),
     enrage: (propertyFactory) => new EnrageAction(propertyFactory),
+    exalt: (propertyFactory) => new ExaltAction(propertyFactory), // amount = 1
     exhaust: (propertyFactory) => new ExhaustAction(propertyFactory),
     fight: (propertyFactory) => new FightGameAction(propertyFactory),
     heal: (propertyFactory) => new HealAction(propertyFactory),
