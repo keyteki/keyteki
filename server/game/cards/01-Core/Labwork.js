@@ -12,6 +12,6 @@ class Labwork extends Card {
     }
 }
 
-Labwork.id = 'labwork'; // This is a guess at what the id might be - please check it!!!
+Labwork.id = 'labwork';
 
 module.exports = Labwork;

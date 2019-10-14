@@ -9,6 +9,7 @@ class SampleCollection extends Card {
             gameAction: ability.actions.sequentialForEach(context => ({
                 num: context.player.opponent.getForgedKeys(),
                 action: ability.actions.archive({
+                    owner: false,
                     promptForSelect: {
                         activePromptTitle: 'Choose a creature to archive',
                         cardType: 'creature',
@@ -20,6 +21,6 @@ class SampleCollection extends Card {
     }
 }
 
-SampleCollection.id = 'sample-collection'; // This is a guess at what the id might be - please check it!!!
+SampleCollection.id = 'sample-collection';
 
 module.exports = SampleCollection;

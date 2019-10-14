@@ -26,7 +26,7 @@ describe('Explo-rover', function() {
             });
             it('other creatures can\'t be played as upgrades', function() {
                 this.player1.clickCard(this.niffleApe);
-                expect(this.player1.currentButtons.includes('Play this upgrade')).toBe(false);
+                expect(this.player1).not.toHavePromptButton('Play this upgrade');
             });
             it('becomes a creature again after playing as an upgade', function() {
                 this.player1.playUpgrade(this.exploRover, this.dustPixie);
@@ -41,7 +41,7 @@ describe('Explo-rover', function() {
             });
             it('is played as a creature that has skirmish', function() {
                 this.player1.clickCard(this.exploRover);
-                expect(this.player1.currentButtons.includes('Play this upgrade')).toBe(true);
+                expect(this.player1).toHavePromptButton('Play this upgrade');
                 this.player1.play(this.exploRover);
                 expect(this.exploRover.type).toBe('creature');
                 expect(this.exploRover.location).toBe('play area');

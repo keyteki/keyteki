@@ -65,7 +65,7 @@ describe('Scowly Caper', function() {
                 expect(this.player2.discard).not.toContain(this.scowlyCaper);
             });
 
-            it('should be archived in opponent\'s archive if next to archimedes', function() {
+            it('should be archived in owner\'s archive if next to archimedes', function() {
                 this.player1.playCreature(this.scowlyCaper, true);
                 this.player1.endTurn();
 
@@ -81,8 +81,8 @@ describe('Scowly Caper', function() {
                 expect(this.player2.player.cardsInHand).not.toContain(this.scowlyCaper);
 
                 expect(this.scowlyCaper.location).toBe('archives');
-                expect(this.player1.archives).not.toContain(this.scowlyCaper);
-                expect(this.player2.archives).toContain(this.scowlyCaper);
+                expect(this.player1.archives).toContain(this.scowlyCaper);
+                expect(this.player2.archives).not.toContain(this.scowlyCaper);
             });
 
             it('should return to its owner\'s opponent after Spangler is destroyed', function() {

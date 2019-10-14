@@ -9,14 +9,13 @@ class MobiusScroll extends Card {
                 mode: 'upTo',
                 numCards: 2,
                 gameAction: ability.actions.archive(context => ({
-                    target: [context.source].concat(context.target),
-                    owner: true
+                    target: [context.source].concat(context.target)
                 }))
             }
         });
     }
 }
 
-MobiusScroll.id = 'mobius-scroll'; // This is a guess at what the id might be - please check it!!!
+MobiusScroll.id = 'mobius-scroll';
 
 module.exports = MobiusScroll;
