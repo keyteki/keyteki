@@ -801,7 +801,8 @@ class Lobby {
             gameType: game.gameType,
             isMelee: game.isMelee,
             useGameTimeLimit: game.useGameTimeLimit,
-            gameTimeLimit: game.gameTimeLimit
+            gameTimeLimit: game.gameTimeLimit,
+            gameFormat: game.gameFormat
         });
         newGame.rematch = true;
 

@@ -393,12 +393,12 @@ class PlayerInteractionWrapper {
         }
     }
 
-    useAction(card) {
+    useAction(card, omni = false) {
         if(card.type !== 'creature' && card.type !== 'artifact') {
             throw new Error(`${card.name} cannot act`);
         }
         this.clickCard(card);
-        this.clickPrompt('Use this card\'s Action ability');
+        this.clickPrompt('Use this card\'s ' + (omni ? 'Omni' : 'Action') + ' ability');
     }
 
     playUpgrade(upgrade, target) {
@@ -459,6 +459,18 @@ class PlayerInteractionWrapper {
 
         if(results.length !== 0) {
             throw new Error('Unable to serialize game state back to client:\n' + JSON.stringify(results));
+        }
+    }
+
+    forgeKey(color) {
+        if(this.hasPrompt('Which key would you like to forge?')) {
+            this.clickPrompt(color);
+        }
+    }
+
+    unforgeKey(color) {
+        if(this.hasPrompt('Which key would you like to unforge?')) {
+            this.clickPrompt(color);
         }
     }
 }

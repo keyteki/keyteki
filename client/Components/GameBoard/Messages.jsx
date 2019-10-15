@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import Avatar from '../Site/Avatar';
-//import { ThronesIcons } from '../../constants';
+import { Constants } from '../../constants';
 import * as actions from '../../actions';
 
 class Messages extends React.Component {
@@ -14,23 +14,16 @@ class Messages extends React.Component {
             message: ''
         };
 
-        var houses = [
-            'brobnar',
-            'logos',
-            'dis',
-            'sanctum',
-            'untamed',
-            'shadows',
-            'mars'
-        ];
-
         this.tokens = {
             amber: { className: 'icon-amber', imageSrc: '/img/amber.png' },
             card: { className: 'icon-card', imageSrc: '/img/idbacks/cardback.jpg' },
-            cards: { className: 'icon-card', imageSrc: '/img/idbacks/cardback.jpg' }
+            cards: { className: 'icon-card', imageSrc: '/img/idbacks/cardback.jpg' },
+            forgedkeyblue: { className: 'icon-forgedKey', imageSrc: '/img/forgedkeyblue.png' },
+            forgedkeyyellow: { className: 'icon-forgedKey', imageSrc: '/img/forgedkeyyellow.png' },
+            forgedkeyred: { className: 'icon-forgedKey', imageSrc: '/img/forgedkeyred.png' }
         };
 
-        for(let house of houses) {
+        for(let house of Constants.Houses) {
             this.tokens[house] = { className: `chat-house-icon icon-${house}`, imageSrc: `/img/house/${house}.png` };
         }
 
@@ -56,8 +49,21 @@ class Messages extends React.Component {
             if(this.tokens[lowerToken]) {
                 let tokenEntry = this.tokens[lowerToken];
 
-                if(token === 'amber') {
-                    token = 'Æmber';
+                switch(token) {
+                    case 'amber':
+                        token = 'Æmber';
+                        break;
+                    case 'forgedkeyblue':
+                        token = 'blue key';
+                        break;
+                    case 'forgedkeyred':
+                        token = 'red key';
+                        break;
+                    case 'forgedkeyyellow':
+                        token = 'yellow key';
+                        break;
+                    default:
+                        break;
                 }
 
                 messages.push(` ${token} `);

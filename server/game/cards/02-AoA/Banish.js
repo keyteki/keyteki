@@ -6,7 +6,7 @@ class Banish extends Card {
             target: {
                 cardType: 'creature',
                 controller: 'opponent',
-                gameAction: ability.actions.archive({ owner: true })
+                gameAction: ability.actions.archive()
             }
         });
     }

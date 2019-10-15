@@ -1,3 +1,4 @@
+const Constants = require('../../constants.js');
 const UIPrompt = require('./uiprompt.js');
 
 class SelectHousePrompt extends UIPrompt {
@@ -25,7 +26,7 @@ class SelectHousePrompt extends UIPrompt {
             if(this.properties.onCancel) {
                 this.properties.onCancel(player);
             }
-        } else if(['brobnar', 'dis', 'logos', 'mars', 'sanctum', 'shadows', 'untamed'].includes(arg)) {
+        } else if(Constants.Houses.includes(arg)) {
             return this.properties.onSelect(player, arg);
         }
         return false;
