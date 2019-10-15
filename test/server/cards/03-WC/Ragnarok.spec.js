@@ -55,5 +55,29 @@ describe('Ragnarok', function() {
                 expect(this.dextre.location).toBe('play area');
             });
         });
+
+        describe('Ragnarok\'s play ability', function() {
+            beforeEach(function() {
+                this.setupTest({
+                    player1: {
+                        house: 'brobnar',
+                        inPlay: ['redlock'],
+                        hand: ['ragnarok']
+                    },
+                    player2: {
+                        amber: 4,
+                        inPlay: ['lamindra', 'shooler', 'helper-bot'],
+                        hand: ['dextre']
+                    }
+                });
+            });
+
+            it('should gain amber from Redlock if no creature was played', function() {
+                this.player1.play(this.ragnarok);
+                this.player1.endTurn();
+                expect(this.player1.amber).toBe(1);
+                expect(this.redlock.location).toBe('discard');
+            });
+        });
     });
 });
