@@ -1,8 +1,6 @@
 {
     "navbar.language": "ภาษา:",
-
     "decksummary.toverify": "This deck has been flagged as requiring verification. Please email a photo of the decklist with your username written on a piece of paper to",
-
     "Actions": "Actions",
     "Archives": "Archives",
     "Artifacts": "Artifacts",
@@ -43,7 +41,6 @@
     "Used": "Used",
     "Valid": "Valid",
     "Validity": "Validity",
-
     "Decks": "Decks",
     "Play": "Play",
     "Help": "Help",
@@ -82,7 +79,6 @@
     "Yes": "Yes",
     "No": "No",
     "Are you sure you want to end your turn?": "Are you sure you want to end your turn?",
-
     "Choose a creature": "Choose a creature",
     "Choose a creature to attack": "Choose a creature to attack",
     "Choose a creature to sacrifice": "Choose a creature to sacrifice",
@@ -122,7 +118,6 @@
     "Choose a sanctum card to destroy": "Choose a sanctum card to destroy",
     "Choose a shadows card to destroy": "Choose a shadows card to destroy",
     "Choose a untamed card to destroy": "Choose an untamed card to destroy",
-
     "Reap with this creature": "Reap with this creature",
     "Fight with this creature": "Fight with this creature",
     "Waiting for opponent to approve entering manual mode": "Waiting for opponent to approve entering manual mode",
@@ -136,7 +131,6 @@
     "Access Archives": "Access Archives",
     "Do you wish to take all the cards in archives into your hand?": "Do you wish to take all the cards in archives into your hand?",
     "Choose a creature to attach this upgrade to": "Choose a creature to attach this upgrade to",
-
     "draw phase": "draw phase",
     "Cancel Prompt": "Cancel Prompt",
     "Current Games": "Current Games",
@@ -169,7 +163,6 @@
     "Name": "Name",
     "Password": "Password",
     "Game Name": "Game Name",
-
     "Loading game in progress, please wait...": "Loading game in progress, please wait...",
     "You must be logged in to play, redirecting...": "You must be logged in to play, redirecting...",
     "Players": "Players",
@@ -193,7 +186,6 @@
     "Please login before trying to start a new game": "Please login before trying to start a new game",
     "Sealed game format": "Sealed game format",
     "There are no games matching the filters you have selected": "There are no games matching the filters you have selected",
-
     "Select one": "Select one",
     "Import Deck": "Import Deck",
     "Your decks": "Your decks",
@@ -210,7 +202,6 @@
     "The URL you entered is invalid.  Please check it and try again.": "The URL you entered is invalid. Please check it and try again.",
     "link": "link",
     "importdeck.enterlink": "<0>Enter the deck link from the <1>keyforge website.</1></0><p>Either search for a deck, or find one from the \"My Decks\" section of the website. Find the URL of the deck and paste it in to the box below.</p><p>The URL looks like this: </p>",
-
     "Forgot your password?": "Forgot your password?",
     "Log In": "Log In",
     "Login": "Login",
@@ -239,7 +230,6 @@
     "An account with that name already exists, please choose another": "An account with that name already exists, please choose another",
     "Register an account": "Register an account",
     "register.disclosure": "<0>We require information from you in order to service your access to the site.  Please see the <1>privacy policy</1> for details on why we need this information and what we do with it.  Please pay particular attention to the section on avatars.</0>",
-
     "Settings": "Settings",
     "Prompt to order simultaneous abilities": "Prompt to order simultaneous abilities",
     "Show a prompt when initating 1-click abilities": "Show a prompt when initating 1-click abilities",
@@ -280,7 +270,6 @@
     "Last Used": "Last Used",
     "security.note": "Below you will see the active 'sessions' that you have on the website. If you see any unexpected activity on your account, remove the session and consider changing your password.",
     "Session removed successfully": "Session removed successfully",
-
     "Deploy Left": "Deploy Left",
     "Deploy Right": "Deploy Right",
     "Remove this creature's stun": "Remove this creature's stun",
@@ -321,7 +310,6 @@
     "Loading session details from the server...": "Loading session details from the server...",
     "Purged": "Purged",
     "Your game is not finished, are you sure you want to leave?": "Your game is not finished, are you sure you want to leave?",
-
     "Triggered Abilities": "Triggered Abilities",
     "Done": "Done",
     "Waiting for opponent to take an action or pass": "Waiting for opponent to take an action or pass",
@@ -338,17 +326,14 @@
     "Select a card to put in your hand": "Select a card to put in your hand",
     "Please login before trying to join a game": "Please login before trying to join a game",
     "Any reactions?": "Any reactions?",
-
     "You have no decks, try adding one": "You have no decks, try adding one",
     "Enter the password": "Enter the password",
     "Password Required": "Password Required",
     "Incorrect game password": "Incorrect game password",
     "Select Deck": "Select Deck",
     "Or choose a standalone deck": "Or choose a standalone deck",
-
     "Mine": "Mine",
     "Opponent's": "Opponent's",
-
     "Topics": "Topics",
     "Profile Options": "Profile Options",
     "Bugs and Automation": "Bugs and Automation",
@@ -373,7 +358,6 @@
     "howtoplay.cmd.token": "Choose a card and change the number of tokens of type x to y",
     "howtoplay.cmd.unforge": "Unforge a key",
     "howtoplay.about": "The Crucible Online does not rank and/or match players by skill level in any way. There are three categories (beginner, casual and competitive) to be chosen when creating a game which gives an indication of what to expect, but it doesn't enforce anything. Even though personal stats are not being tracked, most players still very much appreciate a formal concede by clicking the ‘Concede’ button and typing ‘gg’ before leaving a game. The reality of quick and anonymous online games dictates this won’t always happen though, as evidenced by regular complaining in the main lobby about people leaving without conceding. Our advice is to just move on to the next game since in the end, conceding or not doesn’t really impact anything. Happy gaming!",
-
     "about.whatisthis": "<0>What is this?</0><p>This site was setup to allow you to play Keyforge, a Unique Deck Game from Fantasy Flight Games (FFG) in your browser.</p>",
     "about.cool": "<0>That's pretty cool!  But how does any of this work?</0><1>Head on over to the <1>How To Play guide</1> for a thorough explanation.</1>",
     "about.avatar": "<0>Everyone has a shiny avatar, how do I get one?</0><1>This is handled by the good people at <1>Gravatar</1>.  Sign up there with the same email address you did there and it should appear on the site after a short while. It will also use the avatar on any site that uses gravatar.  Examples include github and jinteki.</1>",
@@ -381,12 +365,10 @@
     "about.thanks": "<0>Special Thanks</0><p>I'd like to thank gyffon, cryogen, and the throneteki and ringteki teams as without their help and support this site would never have happened.</p>",
     "about.addicons": "<0>Additional Icons</0><1>Some icons were included from game-icons.net: Death Note by <1>lorc</1>. <3>CC-BY 3.0</3></1>",
     "about.addnotes": "<0>Additional Notes</0><p>The Keyforge Unique Deck Game, the artwork and many other things are all copyright Fantasy Flight Games and I make no claims of ownership or otherwise of any of the artwork or trademarks.  This site exists for passionate fans to play a game they enjoy and augment, rather than replace, the in person LCG.  FFG does not endorse, support, and is not involved with, this site in any way.</p>",
-
     "What is this page?": "What is this page?",
     "community.whatisthis": "This page is a shoutout to other works/resources in the KeyForge community.",
     "community.discord": "<0>Link: <1>Keyforge Discord</1></0><p>Discord is a text and voice communicaton application. Created by members of the Keyforge community, it's a robust community of LCG/CCG/RPG players.</p>",
     "UNDER CONSTRUCTION": "UNDER CONSTRUCTION",
-
     "Background": "Background",
     "privacy.background": "Even though this is only a site to play a card game online, we still take your privacy and the security of your data seriously.  This policy outlines what data we store about you, why we store it and what we do with it.",
     "What data we store": "What data we store",
@@ -401,9 +383,7 @@
     "privacy.whyemail.5": "to send you critical updates about the site from time to time (We have to date never sent one of these)",
     "privacy.ipaddress": "The IP address of the computer you use is collected in order to protect the security and integrity of the site and allow us to prevent abuse of the site.",
     "privacy.lobby": "Your lobby messages are stored so that we can display them to other users of the site and to detect patterns of abusive behaviour.  Your messages may also be moderated to remove offensive content, or deleted altogether at our discretion.",
-
     "Create": "Create",
-
     "{{card}}": "{{card}}",
     "{{card}} ({{quantity}})": "{{card}} ({{quantity}})",
     "How much amber do you want to use from {{card}}": "How much amber do you want to use from {{card}}",
@@ -414,7 +394,11 @@
     "Do you wish to archive a friendly creature or artifact?": "Do you wish to archive a friendly creature or artifact?",
     "Select a card to deploy to the left of": "Select a card to deploy to the left of",
     "Select a card to deploy to the right of": "Select a card to deploy to the right of",
-
     "Call of the Archons": "Call of the Archons",
-    "Age of Ascension": "Age of Ascension"
+    "Age of Ascension": "Age of Ascension",
+    "Choose a creature to ward": "Choose a creature to ward",
+    "Heal A Mars Creature": "Heal A Mars Creature",
+    "Stun A Mars Creature": "Stun A Mars Creature",
+    "Top Of Deck": "Top Of Deck",
+    "Random Card From Archives": "Random Card From Archives"
 }
