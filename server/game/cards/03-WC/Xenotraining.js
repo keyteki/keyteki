@@ -1,3 +1,4 @@
+const Constants = require('../../../constants.js');
 const Card = require('../../Card.js');
 
 class Xenotraining extends Card {
@@ -7,7 +8,7 @@ class Xenotraining extends Card {
             effect: 'capture 1 amber on a friendly creature for each house represented by friendly creatures',
             gameAction: ability.actions.sequentialForEach(context => ({
                 num: Math.min(
-                    context.player.opponent.amber, ['brobnar', 'dis', 'logos', 'mars', 'shadows', 'untamed', 'staralliance', 'sanctum', 'saurian'].filter(house => this.controller.creaturesInPlay.some(card => card.hasHouse(house))).length,
+                    context.player.opponent.amber, Constants.Houses.filter(house => this.controller.creaturesInPlay.some(card => card.hasHouse(house))).length,
                 ),
                 action: ability.actions.capture({
                     promptForSelect: {

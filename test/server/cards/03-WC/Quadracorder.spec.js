@@ -19,7 +19,7 @@ describe('Quadracorder', function() {
             it('should increase key cost by [1] when it is attached to a creature', function() {
                 this.player1.playUpgrade(this.quadracorder, this.lieutenantKhrkhar);
                 this.player1.endTurn();
-                expect(this.player2.player.keys).toBe(0);
+                expect(this.player2.player.getForgedKeys()).toBe(0);
                 expect(this.player2.player.amber).toBe(6);
             });
         });
@@ -42,7 +42,7 @@ describe('Quadracorder', function() {
             it('should increase key cost by [2] when it is attached to a creature', function() {
                 this.player1.playUpgrade(this.quadracorder, this.lieutenantKhrkhar);
                 this.player1.endTurn();
-                expect(this.player2.player.keys).toBe(0);
+                expect(this.player2.player.getForgedKeys()).toBe(0);
                 expect(this.player2.player.amber).toBe(7);
             });
         });
@@ -65,7 +65,7 @@ describe('Quadracorder', function() {
             it('should increase key cost by [3] when it is attached to a creature', function() {
                 this.player1.playUpgrade(this.quadracorder, this.lieutenantKhrkhar);
                 this.player1.endTurn();
-                expect(this.player2.player.keys).toBe(0);
+                expect(this.player2.player.getForgedKeys()).toBe(0);
                 expect(this.player2.player.amber).toBe(8);
             });
         });

@@ -14,7 +14,6 @@ describe('Forging An Alliance', function() {
                     }
                 });
             });
-
             it('should not prompt to forge when the player has insufficient amber', function() {
                 this.player1.play(this.forgingAnAlliance);
                 expect(this.player1.amber).toBe(5);
@@ -37,8 +36,9 @@ describe('Forging An Alliance', function() {
             });
             it('should forge a key when the player has sufficient amber [10]', function() {
                 this.player1.play(this.forgingAnAlliance);
+                this.player1.clickPrompt('Red');
                 expect(this.player1.amber).toBe(0);
-                expect(this.player1.player.keys).toBe(1);
+                expect(this.player1.player.getForgedKeys()).toBe(1);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
         });
@@ -58,8 +58,9 @@ describe('Forging An Alliance', function() {
             });
             it('should forge a key when the player has sufficient amber [7]', function() {
                 this.player1.play(this.forgingAnAlliance);
+                this.player1.clickPrompt('Red');
                 expect(this.player1.amber).toBe(0);
-                expect(this.player1.player.keys).toBe(1);
+                expect(this.player1.player.getForgedKeys()).toBe(1);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
         });
