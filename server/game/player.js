@@ -20,6 +20,7 @@ class Player extends GameObject {
         this.deckName = '';
         this.deckCards = [];
         this.deckUuid = '';
+        this.deckSet = '';
         this.discard = [];
         this.purged = [];
         this.archives = [];
@@ -657,6 +658,7 @@ class Player extends GameObject {
             timerSettings: {},
             user: _.omit(this.user, ['password', 'email']),
             deckUuid: this.deckData.uuid,
+            deckSet: this.deckData.expansion,
             deckCards: this.deckCards
         };
 

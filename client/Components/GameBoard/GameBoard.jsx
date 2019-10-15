@@ -36,6 +36,7 @@ const placeholderPlayer = {
     houses: [],
     deckName: '',
     deckUuid: '',
+    deckSet: '',
     deckCards:[],
     title: null,
     user: null
@@ -291,6 +292,7 @@ export class GameBoard extends React.Component {
                         deckCards = { otherPlayer.deckCards }
                         deckName = { otherPlayer.deckName }
                         deckUuid = { otherPlayer.deckUuid }
+                        deckSet = { otherPlayer.deckSet }
                         drawDeck = { otherPlayer.cardPiles.deck }
                         houses = { otherPlayer.houses }
                         numDeckCards={ otherPlayer.numDeckCards }
@@ -337,6 +339,7 @@ export class GameBoard extends React.Component {
                         deckCards = { thisPlayer.deckCards }
                         deckName = { thisPlayer.deckName }
                         deckUuid = { thisPlayer.deckUuid }
+                        deckSet = { thisPlayer.deckSet }
                         drawDeck = { thisPlayer.cardPiles.deck }
                         houses = { thisPlayer.houses }
                         faction={ thisPlayer.faction }

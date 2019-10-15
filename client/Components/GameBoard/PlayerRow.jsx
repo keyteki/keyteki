@@ -88,7 +88,7 @@ class PlayerRow extends React.Component {
             { ...cardPileProps } />);
 
         let identity = (<IdentityCard className='identity' deckCards={ this.props.deckCards } language={ this.props.i18n.language }
-            houses={ this.props.houses } deckUuid={ this.props.deckUuid } deckName={ this.props.deckName }
+            houses={ this.props.houses } deckUuid={ this.props.deckUuid } deckName={ this.props.deckName } deckSet={ this.props.deckSet }
             cards= { this.props.cards } size={ this.props.cardSize } onMouseOut={ this.props.onMouseOut }
             onMouseOver={ this.props.onMouseOver }/>);
 
@@ -114,6 +114,7 @@ PlayerRow.propTypes = {
     conclavePile: PropTypes.array,
     deckCards: PropTypes.array,
     deckName: PropTypes.string,
+    deckSet: PropTypes.string,
     deckUuid: PropTypes.string,
     discard: PropTypes.array,
     drawDeck: PropTypes.array,
