@@ -11,8 +11,6 @@ class ChatCommands {
         this.commands = {
             '/active-house': this.activeHouse,
             '/add-card': this.addCard,
-            '/add-to-deck': this.addCardDeck,
-            '/add-to-hand': this.addCardHand,
             '/cancel-prompt': this.cancelPrompt,
             '/disconnectme': this.disconnectMe,
             '/draw': this.draw,
@@ -46,7 +44,22 @@ class ChatCommands {
         return this.commands[command].call(this, player, args) !== false;
     }
 
-    addCard(player, args, location = 'deck') {
+    addCard(player, args) {
+        let location = 'hand';
+
+        switch(args[1]) {
+            case 'hand':
+                location = 'hand';
+                args = args.slice(1);
+
+                break;
+            case 'deck':
+                location = 'deck';
+                args = args.slice(1);
+
+                break;
+        }
+
         let cardName = args.slice(1).join(' ');
         let card = Object.values(this.game.cardData).find(c => {
             return c.name.toLowerCase() === cardName.toLowerCase();
@@ -68,14 +81,6 @@ class ChatCommands {
         this.game.addAlert('danger', '{0} uses the /add-card command to add {1} to their {2}', player, preparedCard, location);
 
         return true;
-    }
-
-    addCardDeck(player, args) {
-        return this.addCard(player, args, 'deck');
-    }
-
-    addCardHand(player, args) {
-        return this.addCard(player, args, 'hand');
     }
 
     forge(player, args) {
