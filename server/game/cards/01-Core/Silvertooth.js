@@ -11,6 +11,6 @@ class Silvertooth extends Card {
     }
 }
 
-Silvertooth.id = 'silvertooth'; // This is a guess at what the id might be - please check it!!!
+Silvertooth.id = 'silvertooth';
 
 module.exports = Silvertooth;

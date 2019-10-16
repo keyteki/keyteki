@@ -9,6 +9,6 @@ class WitchOfTheWilds extends Card {
     }
 }
 
-WitchOfTheWilds.id = 'witch-of-the-wilds'; // This is a guess at what the id might be - please check it!!!
+WitchOfTheWilds.id = 'witch-of-the-wilds';
 
 module.exports = WitchOfTheWilds;
