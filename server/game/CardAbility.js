@@ -20,6 +20,36 @@ class CardAbility extends ThenAbility {
         return this.card.type === 'event' ? context.player.isCardInPlayableLocation(context.source, 'play') : this.location.includes(this.card.location);
     }
 
+    addMessage(messageArgs) {
+        let message = '';
+        for(let i = 0; i < messageArgs.length; ++i) {
+            message += '{' + i + '}';
+        }
+        this.game.addMessage(message, ...messageArgs);
+    }
+
+    getMessageArgs(context, effectMessage = null, effectArgs = null, extraArgs = null, previousMessageArgs = null, last = false) {
+
+        let messageArgs = previousMessageArgs || [context.player, context.source.type === 'event' ? ' plays ' : ' uses ', context.source];
+
+        // effectMessage: Player1 plays Assassination
+        if(effectMessage) {
+            if(extraArgs) {
+                if(typeof extraArgs === 'function') {
+                    extraArgs = extraArgs(context);
+                }
+                effectArgs = effectArgs.concat(extraArgs);
+            }
+
+            // to
+            messageArgs.push(!previousMessageArgs ? ' to ' : (!last ? ', ' : ', and '));
+            // discard Stoic Gunso
+            messageArgs.push({ message: this.game.gameChat.getFormattedMessage(effectMessage, ...effectArgs) });
+        }
+
+        return messageArgs;
+    }
+
     displayMessage(context) {
         if(this.properties.preferActionPromptMessage) {
             return;
@@ -35,38 +65,31 @@ class CardAbility extends ThenAbility {
             this.game.addMessage(this.properties.message, ...messageArgs);
             return;
         }
-        // Player1 plays Assassination
-        let messageArgs = [context.player, context.source.type === 'event' ? ' plays ' : ' uses ', context.source];
-        let effectMessage = this.properties.effect;
-        let effectArgs = [];
-        let extraArgs = null;
-        if(!effectMessage) {
+        if(!this.properties.effect) {
             let gameActions = this.getGameActions(context).filter(gameAction => gameAction.hasLegalTarget(context));
-            if(gameActions.length > 0) {
-                // effects with multiple game actions really need their own effect message
-                effectMessage = gameActions[0].effectMsg;
-                effectArgs.push(gameActions[0].target);
-                extraArgs = gameActions[0].effectArgs;
+            if(!gameActions || gameActions.length === 0) {
+                this.addMessage(this.getMessageArgs(context));
+            } else {
+                let messageArgs = this.getMessageArgs(context, gameActions[0].effectMsg, [gameActions[0].target], gameActions[0].effectArgs);
+                if(this.properties.effectStyle === 'append') {
+                    for(let i = 1; i < gameActions.length; ++i) {
+                        let gameAction = gameActions[i];
+                        messageArgs = this.getMessageArgs(context, gameAction.effectMsg, [gameAction.target], gameAction.effectArgs,
+                            messageArgs, i === gameActions.length - 1);
+                    }
+                    this.addMessage(messageArgs);
+                } else if(this.properties.effectStyle === 'all') {
+                    gameActions.forEach(gameAction => {
+                        this.addMessage(this.getMessageArgs(context, gameAction.effectMsg, [gameAction.target], gameAction.effectArgs));
+                    });
+                } else {
+                    // effects with multiple game actions really need their own effect message
+                    this.addMessage(messageArgs);
+                }
             }
         } else {
-            effectArgs.push(context.target || context.source);
-            extraArgs = this.properties.effectArgs;
+            this.addMessage(this.getMessageArgs(context, this.properties.effect, [context.target || context.source], this.properties.effectArgs));
         }
-
-        if(extraArgs) {
-            if(typeof extraArgs === 'function') {
-                extraArgs = extraArgs(context);
-            }
-            effectArgs = effectArgs.concat(extraArgs);
-        }
-
-        if(effectMessage) {
-            // to
-            messageArgs.push(' to ');
-            // discard Stoic Gunso
-            messageArgs.push({ message: this.game.gameChat.getFormattedMessage(effectMessage, ...effectArgs) });
-        }
-        this.game.addMessage('{0}{1}{2}{3}{4}', ...messageArgs);
     }
 
     isTriggeredAbility() {

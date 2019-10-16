@@ -15,7 +15,7 @@ describe('Dis Plant', function() {
                 });
             });
 
-            it('Should get amber when selecting dis', function() {
+            it('should gain amber when selecting dis', function() {
                 expect(this.player1.amber).toBe(0);
                 expect(this.player2.amber).toBe(0);
 
@@ -38,7 +38,7 @@ describe('Dis Plant', function() {
                 this.player1.endTurn();
             });
 
-            it('Should not get amber when not selecting dis', function() {
+            it('should not gain amber when not selecting dis', function() {
                 expect(this.player1.amber).toBe(0);
                 expect(this.player2.amber).toBe(0);
 
@@ -61,7 +61,7 @@ describe('Dis Plant', function() {
                 this.player1.endTurn();
             });
 
-            it('Controller get amber after taking control', function() {
+            it('should gain amber after taking control', function() {
                 expect(this.player1.amber).toBe(0);
                 expect(this.player2.amber).toBe(0);
 
