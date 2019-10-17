@@ -8,7 +8,7 @@ class IgonTheGreen extends Card {
                 ability.actions.purge(),
                 ability.actions.returnToHand(context => ({
                     location: 'discard',
-                    target: context.player.discard.find(card => card.name === 'Igon the Terrible') || []
+                    target: context.player.discard.find(card => card.name === 'Igon the Terrible')
                 }))
             ]
         });
