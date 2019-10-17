@@ -23,7 +23,7 @@ class CardAbility extends ThenAbility {
     addMessage(messageArgs) {
         let message = '';
         for(let i = 0; i < messageArgs.length; ++i) {
-            message += '{' + i + '}';
+            message += `{${i}}`;
         }
         this.game.addMessage(message, ...messageArgs);
     }
@@ -42,7 +42,13 @@ class CardAbility extends ThenAbility {
             }
 
             // to
-            messageArgs.push(!previousMessageArgs ? ' to ' : (!last ? ', ' : ', and '));
+            if(!previousMessageArgs) {
+                messageArgs.push(' to ');
+            } else {
+                // appending a message
+                messageArgs.push(last ? ', and ' : ', ');
+            }
+
             // discard Stoic Gunso
             messageArgs.push({ message: this.game.gameChat.getFormattedMessage(effectMessage, ...effectArgs) });
         }
@@ -83,7 +89,6 @@ class CardAbility extends ThenAbility {
                         this.addMessage(this.getMessageArgs(context, gameAction.effectMsg, [gameAction.target], gameAction.effectArgs));
                     });
                 } else {
-                    // effects with multiple game actions really need their own effect message
                     this.addMessage(messageArgs);
                 }
             }
