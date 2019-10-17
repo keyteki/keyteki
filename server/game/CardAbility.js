@@ -46,7 +46,7 @@ class CardAbility extends ThenAbility {
                 messageArgs.push(' to ');
             } else {
                 // appending a message
-                messageArgs.push(last ? ', and ' : ', ');
+                messageArgs.push(last ? '; and ' : '; ');
             }
 
             // discard Stoic Gunso
