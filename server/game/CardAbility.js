@@ -42,7 +42,7 @@ class CardAbility extends ThenAbility {
             }
 
             // to
-            if(!previousMessageArgs) {
+            if(messageArgs.indexOf(' to ') === -1) {
                 messageArgs.push(' to ');
             } else {
                 // appending a message
