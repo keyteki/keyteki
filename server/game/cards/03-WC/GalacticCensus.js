@@ -1,11 +1,11 @@
-const Constants = require('../../../constants.js');
 const Card = require('../../Card.js');
 
 class GalacticCensus extends Card {
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.gainAmber(context => ({
-                amount: ((Constants.Houses.filter(house => context.game.cardsInPlay.some(card => card.hasHouse(house))).length === 3 || ['brobnar', 'dis', 'logos', 'mars', 'shadows', 'untamed', 'sanctum', 'staralliance', 'saurian'].filter(house => context.game.cardsInPlay.some(card => card.hasHouse(house))).length === 4) ? 1 : (['brobnar', 'dis', 'logos', 'mars', 'shadows', 'untamed', 'sanctum', 'staralliance', 'saurian'].filter(house => context.game.cardsInPlay.some(card => card.hasHouse(house))).length === 5) ? 2 : (['brobnar', 'dis', 'logos', 'mars', 'shadows', 'untamed', 'sanctum', 'staralliance', 'saurian'].filter(house => context.game.cardsInPlay.some(card => card.hasHouse(house))).length >= 6) ? 3 : 0)
+                amount: (context.game.getHousesInPlay({ cardType: 'creature' }).length === 3 || context.game.getHousesInPlay({ cardType: 'creature' }).length === 4) ? 1 :
+                    (context.game.getHousesInPlay({ cardType: 'creature' }).length === 5 ? 2 : (context.game.getHousesInPlay({ cardType: 'creature' }).length >= 6 ? 3 : 0))
             }))
         });
     }
