@@ -5,9 +5,7 @@ class Zap extends Card {
         this.play({
             condition: context => !!context.player.opponent,
             gameAction: ability.actions.sequentialForEach(context => ({
-                num: ['brobnar', 'dis', 'logos', 'mars', 'shadows', 'untamed', 'staralliance','saurian'].filter(house =>
-                    context.game.cardsInPlay.some(card => card.hasHouse(house))
-                ).length,
+                num: context.game.getHousesInPlay({ cardType: 'creature' }).length,
                 action: ability.actions.dealDamage({
                     noGameStateCheck: true,
                     amount: 1,
