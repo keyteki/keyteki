@@ -17,6 +17,6 @@ class ControlTheWeak extends Card {
     }
 }
 
-ControlTheWeak.id = 'control-the-weak'; // This is a guess at what the id might be - please check it!!!
+ControlTheWeak.id = 'control-the-weak';
 
 module.exports = ControlTheWeak;
