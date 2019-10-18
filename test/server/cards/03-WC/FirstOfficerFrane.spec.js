@@ -41,7 +41,7 @@ describe('First Officer Frane', function() {
                 this.setupTest({
                     player1: {
                         house: 'staralliance',
-                        inPlay: ['first-officer-frane', 'lieutenant-khrkhar'],
+                        inPlay: ['first-officer-frane', 'lieutenant-khrkhar']
                     },
                     player2: {
                         inPlay: ['dust-pixie'],
