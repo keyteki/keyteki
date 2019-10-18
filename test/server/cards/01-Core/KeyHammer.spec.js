@@ -25,7 +25,6 @@ describe('Key Hammer', function () {
                 this.player2.endTurn();
                 this.player1.clickPrompt('dis');
                 this.player1.play(this.keyHammer);
-                this.player1.unforgeKey('Red');
                 expect(this.player1.amber).toBe(1);
                 expect(this.player2.player.keys.red).toBe(false);
                 expect(this.player2.player.keys.blue).toBe(false);
@@ -48,7 +47,6 @@ describe('Key Hammer', function () {
                 this.player2.endTurn();
                 this.player1.clickPrompt('dis');
                 this.player1.play(this.keyHammer);
-                this.player1.unforgeKey('Red');
                 expect(this.player2.player.keys.red).toBe(true);
                 expect(this.player2.player.keys.blue).toBe(false);
                 expect(this.player2.player.keys.yellow).toBe(false);

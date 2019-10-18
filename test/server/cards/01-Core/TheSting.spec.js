@@ -18,7 +18,6 @@ describe('The Sting', function() {
 
             it('should skip the controllers key phase', function() {
                 this.player1.endTurn();
-                this.player2.forgeKey('Red');
                 expect(this.player2.amber).toBe(6);
                 expect(this.player2.player.keys.red).toBe(false);
                 expect(this.player2.player.keys.blue).toBe(false);

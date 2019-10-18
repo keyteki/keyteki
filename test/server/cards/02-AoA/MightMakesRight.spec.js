@@ -49,7 +49,6 @@ describe('Might Makes Right', function() {
                 this.player1.clickPrompt('Done');
                 expect(this.groke.location).toBe('play area');
                 expect(this.hebeTheHuge.location).toBe('play area');
-                this.player1.forgeKey('Red');
                 expect(this.player1.player.keys.red).toBe(false);
                 expect(this.player1.player.keys.blue).toBe(false);
                 expect(this.player1.player.keys.yellow).toBe(false);
