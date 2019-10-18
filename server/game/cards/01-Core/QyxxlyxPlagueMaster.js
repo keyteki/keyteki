@@ -13,6 +13,6 @@ class QyxxlyxPlagueMaster extends Card {
     }
 }
 
-QyxxlyxPlagueMaster.id = 'qyxxlyx-plague-master'; // This is a guess at what the id might be - please check it!!!
+QyxxlyxPlagueMaster.id = 'qyxxlyx-plague-master';
 
 module.exports = QyxxlyxPlagueMaster;

@@ -11,6 +11,6 @@ class FlameWreathed extends Card {
     }
 }
 
-FlameWreathed.id = 'flame-wreathed'; // This is a guess at what the id might be - please check it!!!
+FlameWreathed.id = 'flame-wreathed';
 
 module.exports = FlameWreathed;

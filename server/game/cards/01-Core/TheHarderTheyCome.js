@@ -12,6 +12,6 @@ class TheHarderTheyCome extends Card {
     }
 }
 
-TheHarderTheyCome.id = 'the-harder-they-come'; // This is a guess at what the id might be - please check it!!!
+TheHarderTheyCome.id = 'the-harder-they-come';
 
 module.exports = TheHarderTheyCome;

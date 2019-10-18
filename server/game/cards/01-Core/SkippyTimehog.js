@@ -14,6 +14,6 @@ class SkippyTimehog extends Card {
     }
 }
 
-SkippyTimehog.id = 'skippy-timehog'; // This is a guess at what the id might be - please check it!!!
+SkippyTimehog.id = 'skippy-timehog';
 
 module.exports = SkippyTimehog;

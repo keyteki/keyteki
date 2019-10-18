@@ -8,6 +8,6 @@ class DocBookton extends Card {
     }
 }
 
-DocBookton.id = 'doc-bookton'; // This is a guess at what the id might be - please check it!!!
+DocBookton.id = 'doc-bookton';
 
 module.exports = DocBookton;

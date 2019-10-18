@@ -9,6 +9,6 @@ class GuiltyHearts extends Card {
     }
 }
 
-GuiltyHearts.id = 'guilty-hearts'; // This is a guess at what the id might be - please check it!!!
+GuiltyHearts.id = 'guilty-hearts';
 
 module.exports = GuiltyHearts;

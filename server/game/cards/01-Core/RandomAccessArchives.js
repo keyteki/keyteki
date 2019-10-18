@@ -11,6 +11,6 @@ class RandomAccessArchives extends Card {
     }
 }
 
-RandomAccessArchives.id = 'random-access-archives'; // This is a guess at what the id might be - please check it!!!
+RandomAccessArchives.id = 'random-access-archives';
 
 module.exports = RandomAccessArchives;

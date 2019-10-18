@@ -9,6 +9,6 @@ class Murmook extends Card {
     }
 }
 
-Murmook.id = 'murmook'; // This is a guess at what the id might be - please check it!!!
+Murmook.id = 'murmook';
 
 module.exports = Murmook;

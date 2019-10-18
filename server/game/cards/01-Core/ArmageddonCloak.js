@@ -22,6 +22,6 @@ class ArmageddonCloak extends Card {
     }
 }
 
-ArmageddonCloak.id = 'armageddon-cloak'; // This is a guess at what the id might be - please check it!!!
+ArmageddonCloak.id = 'armageddon-cloak';
 
 module.exports = ArmageddonCloak;

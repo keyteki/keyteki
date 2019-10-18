@@ -14,6 +14,6 @@ class UlyqMegamouth extends Card {
     }
 }
 
-UlyqMegamouth.id = 'ulyq-megamouth'; // This is a guess at what the id might be - please check it!!!
+UlyqMegamouth.id = 'ulyq-megamouth';
 
 module.exports = UlyqMegamouth;

@@ -12,6 +12,6 @@ class RoundTable extends Card {
     }
 }
 
-RoundTable.id = 'round-table'; // This is a guess at what the id might be - please check it!!!
+RoundTable.id = 'round-table';
 
 module.exports = RoundTable;

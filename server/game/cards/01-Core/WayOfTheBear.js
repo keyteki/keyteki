@@ -8,6 +8,6 @@ class WayOfTheBear extends Card {
     }
 }
 
-WayOfTheBear.id = 'way-of-the-bear'; // This is a guess at what the id might be - please check it!!!
+WayOfTheBear.id = 'way-of-the-bear';
 
 module.exports = WayOfTheBear;

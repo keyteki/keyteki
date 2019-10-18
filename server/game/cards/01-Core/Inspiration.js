@@ -16,6 +16,6 @@ class Inspiration extends Card {
     }
 }
 
-Inspiration.id = 'inspiration'; // This is a guess at what the id might be - please check it!!!
+Inspiration.id = 'inspiration';
 
 module.exports = Inspiration;

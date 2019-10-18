@@ -14,6 +14,6 @@ class TakeHostages extends Card {
     }
 }
 
-TakeHostages.id = 'take-hostages'; // This is a guess at what the id might be - please check it!!!
+TakeHostages.id = 'take-hostages';
 
 module.exports = TakeHostages;

@@ -26,6 +26,6 @@ class Commpod extends Card {
     }
 }
 
-Commpod.id = 'commpod'; // This is a guess at what the id might be - please check it!!!
+Commpod.id = 'commpod';
 
 module.exports = Commpod;

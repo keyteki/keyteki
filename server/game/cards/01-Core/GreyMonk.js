@@ -14,6 +14,6 @@ class GreyMonk extends Card {
     }
 }
 
-GreyMonk.id = 'grey-monk'; // This is a guess at what the id might be - please check it!!!
+GreyMonk.id = 'grey-monk';
 
 module.exports = GreyMonk;

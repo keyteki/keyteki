@@ -9,6 +9,6 @@ class MushroomMan extends Card {
     }
 }
 
-MushroomMan.id = 'mushroom-man'; // This is a guess at what the id might be - please check it!!!
+MushroomMan.id = 'mushroom-man';
 
 module.exports = MushroomMan;

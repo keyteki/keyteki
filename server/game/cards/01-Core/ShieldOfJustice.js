@@ -11,6 +11,6 @@ class ShieldOfJustice extends Card {
     }
 }
 
-ShieldOfJustice.id = 'shield-of-justice'; // This is a guess at what the id might be - please check it!!!
+ShieldOfJustice.id = 'shield-of-justice';
 
 module.exports = ShieldOfJustice;

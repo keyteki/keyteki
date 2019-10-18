@@ -18,6 +18,6 @@ class SergeantZakiel extends Card {
     }
 }
 
-SergeantZakiel.id = 'sergeant-zakiel'; // This is a guess at what the id might be - please check it!!!
+SergeantZakiel.id = 'sergeant-zakiel';
 
 module.exports = SergeantZakiel;

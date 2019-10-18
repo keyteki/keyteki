@@ -29,6 +29,6 @@ class SpanglerBox extends Card {
     }
 }
 
-SpanglerBox.id = 'spangler-box'; // This is a guess at what the id might be - please check it!!!
+SpanglerBox.id = 'spangler-box';
 
 module.exports = SpanglerBox;

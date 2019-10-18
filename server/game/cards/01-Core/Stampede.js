@@ -9,6 +9,6 @@ class Stampede extends Card {
     }
 }
 
-Stampede.id = 'stampede'; // This is a guess at what the id might be - please check it!!!
+Stampede.id = 'stampede';
 
 module.exports = Stampede;
