@@ -1,11 +1,10 @@
-const Constants = require('../../../constants.js');
 const Card = require('../../Card.js');
 
 class TrustNoOne extends Card {
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.steal(context => ({
-                amount: context.player.creaturesInPlay.length !== 0 ? 1 : Math.min(3, Constants.Houses.filter(house => context.player.opponent.creaturesInPlay.some(card => card.hasHouse(house))).length)
+                amount: context.player.creaturesInPlay.length !== 0 ? 1 : Math.min(3, context.game.getHousesInPlay({ cards: context.player.opponent.creaturesInPlay }).length)
             }))
         });
     }

@@ -1,6 +1,7 @@
 const _ = require('underscore');
 const EventEmitter = require('events');
 
+const Constants = require('../Constants.js');
 const ChatCommands = require('./chatcommands.js');
 const GameChat = require('./gamechat.js');
 const EffectEngine = require('./effectengine.js');
@@ -955,6 +956,42 @@ class Game extends EventEmitter {
 
     get creaturesInPlay() {
         return this.cardsInPlay.filter(card => card.type === 'creature');
+    }
+
+    cardHasHouse(cardType, card, house) {
+        if(!cardType) {
+            return card.hasHouse(house) || (card.upgrades && card.upgrades.some(upgrade => upgrade.hasHouse(house)));
+        }
+        if(!_.isArray(cardType)) {
+            cardType = [cardType];
+        }
+
+        return (cardType.includes(card.type) && card.hasHouse(house)) ||
+            (cardType.includes('upgrade') && card.upgrade && card.upgrade.some(upgrade => upgrade.hasHouse(house)));
+    }
+
+    getHousesStatInPlay({cardType = null, filter = () => true, cards = this.cardsInPlay}) {
+        let countMap = {};
+        let maxCount = -1;
+
+        let houses = Constants.Houses.filter(house => {
+            if(!filter(house)) {
+                return false;
+            }
+
+            let cardsOfHouse = cards.filter(card => this.cardHasHouse(cardType, card, house));
+            countMap[house] = cardsOfHouse.length;
+            if(countMap[house] > maxCount) {
+                maxCount = countMap[house];
+            }
+
+            return cardsOfHouse.length > 0;
+        });
+        return { houses: houses, countMap: countMap, maxCount: maxCount };
+    }
+
+    getHousesInPlay({cardType = null, filter = () => true, cards = this.cardsInPlay}) {
+        return Constants.Houses.filter(house => filter(house) && cards.some(card => this.cardHasHouse(cardType, card, house)));
     }
 
     firstThingThisTurn() {

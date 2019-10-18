@@ -1,4 +1,3 @@
-const Constants = require('../../constants.js');
 const ExactlyXCardSelector = require('./ExactlyXCardSelector');
 
 class MostHouseCardSelector extends ExactlyXCardSelector {
@@ -11,22 +10,11 @@ class MostHouseCardSelector extends ExactlyXCardSelector {
     }
 
     getCardsFromMostHouseInPlay(context) {
-        let max = -1;
-        let houseMap = Constants.Houses.reduce((map, house) => {
-            for(let creature of context.game.creaturesInPlay) {
-                if(creature.hasHouse(house)) {
-                    map[house] = ++map[house] || 1;
-                    if(map[house] > max) {
-                        max = map[house];
-                    }
-                }
-            }
-            return map;
-        }, {});
+        let houseStats = context.game.getHousesStatInPlay({ cardType: 'creature' });
 
         let mostHouses = [];
-        for(let house in houseMap) {
-            if(max === houseMap[house]) {
+        for(let house in houseStats.countMap) {
+            if(houseStats.maxCount === houseStats.countMap[house]) {
                 mostHouses.push(house);
             }
         }
