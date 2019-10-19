@@ -1,4 +1,3 @@
-const Constants = require('../../../constants.js');
 const Card = require('../../Card.js');
 
 class ForgingAnAlliance extends Card {
@@ -6,8 +5,7 @@ class ForgingAnAlliance extends Card {
         this.play({
             effect: 'forge a key at +7 amber current cost, reduced by 1 amber for each house represented in play',
             gameAction: ability.actions.forgeKey(context => ({
-                modifier: 7 - Math.min(Constants.Houses.filter(house =>
-                    context.game.cardsInPlay.some(card => card.hasHouse(house))).length, 6)
+                modifier: 7 - Math.min(context.game.getHousesInPlay().length, 6)
             }))
         });
     }

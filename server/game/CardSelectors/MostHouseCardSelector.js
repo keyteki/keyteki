@@ -10,16 +10,27 @@ class MostHouseCardSelector extends ExactlyXCardSelector {
     }
 
     getCardsFromMostHouseInPlay(context) {
-        let houseStats = context.game.getHousesStatInPlay({ cardType: 'creature' });
-
-        let mostHouses = [];
-        for(let house in houseStats.countMap) {
-            if(houseStats.maxCount === houseStats.countMap[house]) {
-                mostHouses.push(house);
-            }
+        let possibleCards = this.findPossibleCards(context);
+        if(possibleCards.length === 0) {
+            return [];
         }
 
-        return this.findPossibleCards(context).filter(card => super.canTarget(card, context) && mostHouses.some(house => card.hasHouse(house)));
+        let houseStats = context.game.getHousesStatInPlay({ cardType: 'creature' });
+        let mostHouseCount = -1;
+        houseStats.forEach(entry => {
+            if(mostHouseCount < entry[1]) {
+                mostHouseCount = entry[1];
+            }
+        });
+
+        let mostHouses = [];
+        houseStats.forEach(entry => {
+            if(entry[1] === mostHouseCount) {
+                mostHouses.push(entry[0]);
+            }
+        });
+
+        return possibleCards.filter(card => super.canTarget(card, context) && mostHouses.some(house => card.hasHouse(house)));
     }
 
     hasEnoughSelected(selectedCards, context) {

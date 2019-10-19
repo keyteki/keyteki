@@ -4,21 +4,8 @@ class NoSafetyInNumbers extends Card {
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.dealDamage(context => {
-                let countMap = context.game.getHousesStatInPlay({ cardType: 'creature' }).countMap;
-
-                let filteredHouses = [];
-                for(let house in countMap) {
-                    if(countMap[house] > 2) {
-                        filteredHouses.push(house);
-                    }
-                }
-
-                let cards = [];
-                if(filteredHouses.length > 0) {
-                    cards = context.game.creaturesInPlay.filter(card => filteredHouses.some(house => card.hasHouse(house)));
-                }
-
-                return { amount: 3, target: cards };
+                let filteredHouses = context.game.getHousesStatInPlay({ cardType: 'creature' }).filter(entry => entry[1] > 2);
+                return { amount: 3, target: context.game.creaturesInPlay.filter(card => filteredHouses.some(entry => card.hasHouse(entry[0]))) };
             })
         });
     }

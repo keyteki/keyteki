@@ -970,27 +970,13 @@ class Game extends EventEmitter {
             (cardType.includes('upgrade') && card.upgrade && card.upgrade.some(upgrade => upgrade.hasHouse(house)));
     }
 
-    getHousesStatInPlay({ cardType = null, filter = () => true, cards = this.cardsInPlay }) {
+    getHousesStatInPlay({ cardType = null, filter = () => true, cards = this.cardsInPlay } = {}) {
         let countMap = {};
-        let maxCount = -1;
-
-        let houses = Constants.Houses.filter(house => {
-            if(!filter(house)) {
-                return false;
-            }
-
-            let cardsOfHouse = cards.filter(card => this.cardHasHouse(cardType, card, house));
-            countMap[house] = cardsOfHouse.length;
-            if(countMap[house] > maxCount) {
-                maxCount = countMap[house];
-            }
-
-            return cardsOfHouse.length > 0;
-        });
-        return { houses: houses, countMap: countMap, maxCount: maxCount };
+        Constants.Houses.forEach(house => countMap[house] = !filter(house) ? 0 : cards.filter(card => this.cardHasHouse(cardType, card, house)).length);
+        return Object.entries(countMap);
     }
 
-    getHousesInPlay({ cardType = null, filter = () => true, cards = this.cardsInPlay }) {
+    getHousesInPlay({ cardType = null, filter = () => true, cards = this.cardsInPlay } = {}) {
         return Constants.Houses.filter(house => filter(house) && cards.some(card => this.cardHasHouse(cardType, card, house)));
     }
 
