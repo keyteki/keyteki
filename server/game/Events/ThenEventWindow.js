@@ -11,6 +11,7 @@ class ThenEventWindow extends EventWindow {
         for(let event of this.events) {
             this.previousEventWindow.addEvent(event);
         }
+
         super.resetCurrentEventWindow();
     }
 }

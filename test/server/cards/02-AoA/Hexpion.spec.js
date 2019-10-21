@@ -24,7 +24,6 @@ describe('Hexpion', function() {
             });
 
             it('should move controlled hexpion to opponent\'s archive', function() {
-
                 this.player1.endTurn();
 
                 this.player2.clickPrompt('dis');

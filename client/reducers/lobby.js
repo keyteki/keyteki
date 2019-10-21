@@ -51,6 +51,7 @@ export default function (state = defaultState, action) {
             if(state.socket) {
                 state.socket.emit('authenticate', action.response.token);
             }
+
             break;
         case 'START_NEWGAME':
             return Object.assign({}, state, {
@@ -109,9 +110,7 @@ function handleGameState(action, state) {
     }
 
     return retState;
-}
-
-function handleMessage(action, state) {
+}function handleMessage(action, state) {
     let newState = state;
 
     switch(action.message) {

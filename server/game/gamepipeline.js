@@ -98,6 +98,7 @@ class GamePipeline {
             this.pipeline = this.queue.concat(this.pipeline);
             this.queue = [];
         }
+
         while(this.pipeline.length > 0) {
             var currentStep = this.getCurrentStep();
             // Explicitly check for a return of false - if no return values is
@@ -109,9 +110,11 @@ class GamePipeline {
             } else {
                 this.pipeline = _.rest(this.pipeline, 1);
             }
+
             this.pipeline = this.queue.concat(this.pipeline);
             this.queue = [];
         }
+
         return true;
     }
 

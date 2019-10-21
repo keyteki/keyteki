@@ -22,6 +22,7 @@ class DealDamageAction extends CardGameAction {
         if(this.amount === 0 || !this.amount && this.amountForCard(card, context) === 0) {
             return false;
         }
+
         return card.location === 'play area' && super.canAffect(card, context);
     }
 
@@ -69,6 +70,7 @@ class DealDamageAction extends CardGameAction {
                     event.damagePrevented = amount;
                     return;
                 }
+
                 event.damagePrevented = currentArmor;
                 card.armorUsed += currentArmor;
                 amount -= currentArmor;
@@ -81,6 +83,7 @@ class DealDamageAction extends CardGameAction {
                 if(event.fightEvent) {
                     event.fightEvent.destroyed.push(event.card);
                 }
+
                 event.destroyed = true;
             }
         });

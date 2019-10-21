@@ -188,7 +188,7 @@ class UserAdmin extends React.Component {
                                     </thead>
                                     <tbody>
                                         { this.props.currentUser.tokens.map(token => {
-                                            return (<tr>
+                                            return (<tr key={ token.ip }>
                                                 <td>{ token.ip }</td>
                                                 <td>{ moment(token.lastUsed).format('YYYY-MM-DD HH:MM') }</td>
                                             </tr>);
@@ -217,7 +217,7 @@ class UserAdmin extends React.Component {
                                         <tbody>
                                             { this.props.currentUser.invalidDecks.map(deck => {
                                                 return (
-                                                    <tr>
+                                                    <tr key={ deck.uuid }>
                                                         <td>{ deck.uuid }</td>
                                                         <td>{ deck.name }</td>
                                                         <td><button className='btn btn-default' onClick={ event => this.onVerifyClick(event, deck._id) }>Verify</button></td>

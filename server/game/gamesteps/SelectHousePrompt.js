@@ -29,6 +29,7 @@ class SelectHousePrompt extends UIPrompt {
         } else if(Constants.Houses.includes(arg)) {
             return this.properties.onSelect(player, arg);
         }
+
         return false;
     }
 

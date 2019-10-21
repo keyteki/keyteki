@@ -33,15 +33,15 @@ function FormatTitles(titles) {
         } else if(index === 1) {
             return title + ' or ' + string;
         }
+
         return title + ', ' + string;
     },'');
-}
-
-const AbilityWindowTitles = {
+}const AbilityWindowTitles = {
     getTitle: function(abilityType, events) {
         if(!_.isArray(events)) {
             events = [events];
         }
+
         let abilityWord = AbilityTypeToWord[abilityType] || abilityType;
         let titles = _.filter(_.map(events, event => {
             let func = EventToTitleFunc[event.name];
@@ -69,6 +69,7 @@ const AbilityWindowTitles = {
         if(func) {
             return func(event);
         }
+
         return event.name;
     }
 };

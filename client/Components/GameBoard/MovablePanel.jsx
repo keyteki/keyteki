@@ -32,7 +32,6 @@ function collect(connect, monitor) {
         dragOffset: monitor.getSourceClientOffset()
     };
 }
-
 class MovablePanel extends React.Component {
     constructor(props) {
         super(props);
@@ -54,7 +53,7 @@ class MovablePanel extends React.Component {
                 top: Math.max(props.dragOffset.y, 50)
             };
 
-            const popup = $(this.refs.popup);
+            const popup = $(this.popup);
 
             if(style.left + popup.width() > window.innerWidth) {
                 style.left = window.innerWidth - popup.width();
@@ -73,7 +72,7 @@ class MovablePanel extends React.Component {
     render() {
         let style = this.state.position;
 
-        let content = (<div ref='popup' className='panel panel-primary' style={ style }>
+        let content = (<div ref={ p => this.popup = p } className='panel panel-primary' style={ style }>
             {
                 this.props.connectDragSource(
                     <div className='panel-heading' onClick={ event => event.stopPropagation() }>

@@ -11,6 +11,7 @@ class CardEffect extends Effect {
         if(target === this.match) {
             return true;
         }
+
         return (
             target.allowGameAction('applyEffect', this.context) &&
             (this.targetController !== 'current' || target.controller === this.context.player) &&
@@ -28,6 +29,7 @@ class CardEffect extends Effect {
         } else if(this.targetLocation === 'play area') {
             return this.game.findAnyCardsInPlay(this.match);
         }
+
         return this.game.allCards.filter(card => this.match(card) && card.location === this.targetLocation);
     }
 }

@@ -26,6 +26,7 @@ class RandomPurgeAction extends PlayerAction {
                 amount = Math.min(this.amount, player.archives.length);
                 cards = _.shuffle(player.archives).slice(0,amount);
             }
+
             context.game.addMessage('{0} purges {1} at random', player, cards);
             context.game.actions.purge().resolve(cards, context);
         });

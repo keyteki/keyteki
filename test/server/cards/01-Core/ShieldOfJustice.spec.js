@@ -15,7 +15,6 @@ describe('Shield of Justice', function() {
             });
 
             it('should place the creature in archives', function() {
-
                 expect(this.bulwark.hasToken('damage')).toBe(false);
                 expect(this.sequis.hasToken('damage')).toBe(false);
 
@@ -42,7 +41,6 @@ describe('Shield of Justice', function() {
                 expect(this.sequis.armorUsed).toBe(2);
                 expect(this.sequis.hasToken('armor')).toBe(false);
                 expect(this.sequis.tokens.damage).toBe(2);
-
             });
         });
     });

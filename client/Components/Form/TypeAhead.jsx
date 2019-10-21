@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 class TypeAhead extends React.Component {
     clear() {
-        this.refs.typeahead.getInstance().clear();
+        this.typeahead.getInstance().clear();
     }
 
     render() {
@@ -13,7 +13,7 @@ class TypeAhead extends React.Component {
             <div>
                 { label }
                 <div className={ this.props.fieldClass }>
-                    <Typeahead ref='typeahead' options={ this.props.options } labelKey={ this.props.labelKey } emptyLabel={ this.props.emptyLabel }
+                    <Typeahead ref={ t => this.typeahead = t } options={ this.props.options } labelKey={ this.props.labelKey } emptyLabel={ this.props.emptyLabel }
                         onChange={ this.props.onChange } placeholder={ this.props.placeholder } autoFocus={ this.props.autoFocus } dropup={ this.props.dropup }
                         minLength={ this.props.minLength } onInputChange={ this.props.onInputChange }
                         submitFormOnEnter={ this.props.submitFormOnEnter } onKeyDown={ this.props.onKeyDown } disabled={ this.props.disabled }/>

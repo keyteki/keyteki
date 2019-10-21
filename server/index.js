@@ -24,7 +24,7 @@ function runServer() {
 
     pmx.action('disable', (param, reply) => {
         if(!param) {
-            reply({error: 'Need to specify node to disable'});
+            reply({ error: 'Need to specify node to disable' });
 
             return;
         }
@@ -34,7 +34,7 @@ function runServer() {
 
     pmx.action('enable', (param, reply) => {
         if(!param) {
-            reply({error: 'Need to specify node to enable'});
+            reply({ error: 'Need to specify node to enable' });
 
             return;
         }
@@ -47,6 +47,4 @@ function runServer() {
     });
 
     server.run();
-}
-
-module.exports = runServer;
+}module.exports = runServer;

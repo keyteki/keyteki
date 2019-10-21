@@ -40,6 +40,7 @@ class DeckSearchAction extends PlayerAction {
                     } else {
                         context.game.addMessage('{0} takes a card into their hand', player);
                     }
+
                     player.moveCard(card, 'hand');
                 }
             });

@@ -26,11 +26,13 @@ class HandlerMenuPrompt extends UiPrompt {
         } else if(!properties.source && properties.context && properties.context.source) {
             properties.source = properties.context.source;
         }
+
         if(properties.source && !properties.waitingPromptTitle) {
             properties.waitingPromptTitle = 'Waiting for opponent';
         } else if(!properties.source) {
             properties.source = new EffectSource(game);
         }
+
         this.properties = properties;
         this.context = properties.context || new AbilityContext({ game: game, player: player, source: properties.source });
     }
@@ -60,9 +62,11 @@ class HandlerMenuPrompt extends UiPrompt {
                     values.quantity = cardQuantities[card.id].toString();
                     text = text + ' ({{quantity}})';
                 }
-                return {text: text, arg: card.id, card: card, values: values};
+
+                return { text: text, arg: card.id, card: card, values: values };
             });
         }
+
         buttons = buttons.concat(_.map(this.properties.choices, (choice, index) => {
             if(_.isObject(choice)) {
                 return { text: choice.text, icon: choice.icon, arg: index };
@@ -86,14 +90,17 @@ class HandlerMenuPrompt extends UiPrompt {
                 targets: this.properties.controls.targets.map(target => target.getShortSummary())
             }];
         }
+
         if(!this.context.source.type) {
             return [];
         }
+
         let targets = this.context.targets ? Object.values(this.context.targets) : [];
         targets = targets.reduce((array, target) => array.concat(target), []);
         if(targets.length === 0 && this.context.event && this.context.event.card) {
             this.targets = [this.context.event.card];
         }
+
         return [{
             type: 'targeting',
             source: this.properties.source.getShortSummary(),
@@ -113,6 +120,7 @@ class HandlerMenuPrompt extends UiPrompt {
                 this.complete();
                 return true;
             }
+
             return false;
         }
 

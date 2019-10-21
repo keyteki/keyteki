@@ -29,6 +29,7 @@ class ReduceArmorAction extends CardGameAction {
                 if(amount > currentArmor) {
                     amount = currentArmor;
                 }
+
                 event.card.armorUsed += amount;
             }
         });

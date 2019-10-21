@@ -323,7 +323,7 @@ class PendingGame {
         const players = {};
 
         for(let playerDetails of Object.values(this.players)) {
-            const {name, user, ...rest} = playerDetails;
+            const { name, user, ...rest } = playerDetails;
             players[name] = {
                 name,
                 user: user.getDetails(),
@@ -333,7 +333,7 @@ class PendingGame {
 
         const spectators = {};
         for(let spectatorDetails of Object.values(this.spectators)) {
-            const {name, user, ...rest} = spectatorDetails;
+            const { name, user, ...rest } = spectatorDetails;
             spectators[name] = {
                 name,
                 user: user.getDetails(),

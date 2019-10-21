@@ -56,9 +56,11 @@ class SelectCardPrompt extends UiPrompt {
         } else if(properties.context && properties.context.source) {
             properties.source = properties.context.source;
         }
+
         if(properties.source && !properties.waitingPromptTitle) {
             properties.waitingPromptTitle = 'Waiting for opponent';
         }
+
         if(!properties.source) {
             properties.source = new EffectSource(game);
         }
@@ -70,10 +72,12 @@ class SelectCardPrompt extends UiPrompt {
             if(!Array.isArray(properties.gameAction)) {
                 this.properties.gameAction = [properties.gameAction];
             }
+
             let cardCondition = this.properties.cardCondition;
             this.properties.cardCondition = (card, context) =>
                 cardCondition(card, context) && this.properties.gameAction.some(gameAction => gameAction.canAffect(card, context));
         }
+
         this.selector = properties.selector || CardSelector.for(this.properties);
         this.selectedCards = [];
         this.savePreviouslySelectedCards();
@@ -97,6 +101,7 @@ class SelectCardPrompt extends UiPrompt {
         if(targets.length === 0 && this.context.event && this.context.event.card) {
             this.targets = [this.context.event.card];
         }
+
         return [{
             type: 'targeting',
             source: this.context.source.getShortSummary(),
@@ -132,9 +137,11 @@ class SelectCardPrompt extends UiPrompt {
                 buttons = [{ text: 'Done', arg: 'done' }].concat(buttons);
             }
         }
+
         if(this.game.manualMode && !_.any(buttons, button => button.arg === 'cancel')) {
             buttons = buttons.concat({ text: 'Cancel Prompt', arg: 'cancel' });
         }
+
         return {
             selectCard: this.properties.selectCard,
             selectRing: true,
@@ -195,6 +202,7 @@ class SelectCardPrompt extends UiPrompt {
         } else {
             this.selectedCards = _.reject(this.selectedCards, c => c === card);
         }
+
         this.choosingPlayer.setSelectedCards(this.selectedCards);
 
         if(this.properties.onCardToggle) {
@@ -210,6 +218,7 @@ class SelectCardPrompt extends UiPrompt {
             this.complete();
             return true;
         }
+
         this.clearSelection();
         return false;
     }
@@ -225,6 +234,7 @@ class SelectCardPrompt extends UiPrompt {
             this.complete();
             return true;
         }
+
         return false;
     }
 

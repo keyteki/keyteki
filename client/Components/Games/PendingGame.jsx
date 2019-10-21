@@ -67,7 +67,6 @@ class PendingGame extends React.Component {
 
                 setTimeout(() => windowNotification.close(), 5000);
             }
-
         }
 
         if(props.connecting) {
@@ -75,10 +74,6 @@ class PendingGame extends React.Component {
         }
 
         this.setState({ playerCount: players });
-    }
-
-    componentDidUpdate() {
-        $(this.refs.messagePanel).scrollTop(999999);
     }
 
     isGameReady() {
@@ -144,7 +139,7 @@ class PendingGame extends React.Component {
 
 
         if(this.props.connecting) {
-            return t('Connecting to game server {{host}}', { host: this.props.host});
+            return t('Connecting to game server {{host}}', { host: this.props.host });
         }
 
         if(this.state.waiting) {
@@ -247,7 +242,7 @@ class PendingGame extends React.Component {
                         })
                     }
                 </Panel>
-                <Panel title={ t('Spectators({{users}})', { users : this.props.currentGame.spectators.length}) }>
+                <Panel title={ t('Spectators({{users}})', { users : this.props.currentGame.spectators.length }) }>
                     { this.props.currentGame.spectators.map(spectator => {
                         return <div key={ spectator.name }>{ spectator.name }</div>;
                     }) }

@@ -136,7 +136,7 @@ class Messages extends React.Component {
                 messages.push(this.formatMessageText(fragment.message));
             } else if(fragment.link && fragment.label) {
                 messages.push(
-                    <a href={ fragment.link } target='_blank'>{ fragment.label }</a>
+                    <a href={ fragment.link } target='_blank' rel='noopener noreferrer'>{ fragment.label }</a>
                 );
             } else if(fragment.image && fragment.label) {
                 messages.push(

@@ -33,6 +33,7 @@ class TerminalCondition {
         if(this.message) {
             this.game.addMessage(this.message, this.source, this.target);
         }
+
         if(this.getEventFunc) {
             return this.getEventFunc();
         } else if(this.gameAction) {

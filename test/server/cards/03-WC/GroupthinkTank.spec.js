@@ -38,7 +38,6 @@ describe('Groupthink Tank', function() {
                 expect(this.gub.tokens.damage).toBe(4);
                 expect(this.skullion.tokens.damage).toBe(2);
             });
-
         });
     });
 });

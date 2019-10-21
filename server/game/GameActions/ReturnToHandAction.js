@@ -16,6 +16,7 @@ class ReturnToHandAction extends CardGameAction {
         if(card.location !== this.location) {
             return false;
         }
+
         return super.canAffect(card, context);
     }
 
@@ -23,6 +24,7 @@ class ReturnToHandAction extends CardGameAction {
         if(this.location === 'play area') {
             return super.createEvent('onCardLeavesPlay', { card: card, context: context }, () => card.owner.moveCard(card, 'hand'));
         }
+
         return super.createEvent('onMoveCard', { card: card, context: context }, () => card.owner.moveCard(card, 'hand'));
     }
 }

@@ -2,9 +2,7 @@ const request = require('request');
 
 function escapeRegex(regex) {
     return regex.replace(/[-[\]/{}()*+?.\\^$|]/g, '\\$&');
-}
-
-function httpRequest(url, options = {}) {
+}function httpRequest(url, options = {}) {
     return new Promise((resolve, reject) => {
         request(url, options, (err, res, body) => {
             if(err) {
@@ -25,17 +23,13 @@ function httpRequest(url, options = {}) {
             resolve(body);
         });
     });
-}
-
-function wrapAsync(fn) {
+}function wrapAsync(fn) {
     return function (req, res, next) {
         fn(req, res, next).catch((error) => {
             return next(error);
         });
     };
-}
-
-function detectBinary(state, path = '', results = []) {
+}function detectBinary(state, path = '', results = []) {
     const allowedTypes = ['Array', 'Boolean', 'Date', 'Number', 'Object', 'String'];
 
     if(!state) {
@@ -59,9 +53,7 @@ function detectBinary(state, path = '', results = []) {
     }
 
     return results;
-}
-
-module.exports = {
+}module.exports = {
     detectBinary: detectBinary,
     escapeRegex: escapeRegex,
     httpRequest: httpRequest,

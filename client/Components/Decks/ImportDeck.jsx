@@ -56,9 +56,9 @@ export class ImportDeck extends React.Component {
                     <Panel title={ t('Import Deck') }>
                         <Trans i18nKey='importdeck.enterlink'>
                             <p>
-                                Enter the deck link from the <a href='https://keyforgegame.com' target='_blank'>keyforge website.</a>
+                                Enter the deck link from the <a href='https://keyforgegame.com' target='_blank' rel='noopener noreferrer'>keyforge website.</a>
                             </p>
-                            <p>Either search for a deck, or find one from the "My Decks" section of the website.  Find the URL of the deck and paste it in to the box below.</p>
+                            <p>Either search for a deck, or find one from the &quot;My Decks&quot; section of the website.  Find the URL of the deck and paste it in to the box below.</p>
                             <p>The URL looks like this: </p>
                         </Trans>
                         <p><code>https://www.keyforgegame.com/deck-details/00000000-0000-0000-0000-000000000000</code></p>

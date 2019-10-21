@@ -71,7 +71,6 @@ describe('Might Makes Right', function() {
                 expect(this.bellowingPatrizate.location).toBe('discard');
                 expect(this.kingOfTheCrag.location).toBe('discard');
             });
-
         });
 
         describe('Might Makes Right\'s ability', function() {
@@ -137,7 +136,6 @@ describe('Might Makes Right', function() {
                 expect(this.bellowingPatrizate.location).toBe('discard');
                 expect(this.kingOfTheCrag.location).toBe('discard');
             });
-
         });
 
         describe('Might Makes Right\'s ability', function() {
@@ -161,8 +159,6 @@ describe('Might Makes Right', function() {
                 this.player1.play(this.mightMakesRight);
                 expect(this.player1.player.amber).toBe(3);
             });
-
         });
-
     });
 });

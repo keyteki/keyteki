@@ -36,8 +36,10 @@ const Effects = {
                 } else {
                     ability = card.triggeredAbility(abilityType, properties);
                 }
+
                 ability.registerEvents();
             }
+
             if(context.source.grantedAbilityLimits) {
                 if(context.source.grantedAbilityLimits[card.uuid]) {
                     ability.limit = context.source.grantedAbilityLimits[card.uuid];
@@ -45,6 +47,7 @@ const Effects = {
                     context.source.grantedAbilityLimits[card.uuid] = ability.limit;
                 }
             }
+
             return ability;
         },
         unapply: (card, context, ability) => {

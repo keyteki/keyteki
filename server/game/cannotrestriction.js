@@ -14,6 +14,7 @@ class CannotRestriction {
         } else if(!context) {
             return false;
         }
+
         return this.condition(context);
     }
 }

@@ -76,7 +76,6 @@ class ActivePlayerPrompt extends React.Component {
         }
 
         for(const button of this.props.buttons) {
-
             let buttonText = this.localizedText(button.card, button.text, button.values);
 
             let option = (
@@ -125,6 +124,7 @@ class ActivePlayerPrompt extends React.Component {
         if(promptObject) {
             return (typeof promptObject === 'string') ? promptObject : promptObject.text;
         }
+
         return null;
     }
 

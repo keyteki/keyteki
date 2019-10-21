@@ -72,7 +72,6 @@ class ConflictTracker {
         this.resetForType('fire');
         this.resetForType('water');
         this.resetForType('void');
-
     }
 
     resetForType(conflictType) {
@@ -125,6 +124,7 @@ class ConflictTracker {
         if(this.conflictTypes[conflictType] !== undefined) {
             this.conflictTypes[conflictType].performed++;
         }
+
         this.complete++;
         this.usedConflictOpportunity();
     }

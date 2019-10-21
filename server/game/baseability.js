@@ -31,6 +31,7 @@ class BaseAbility {
         if(!Array.isArray(this.gameAction)) {
             this.gameAction = [this.gameAction];
         }
+
         this.buildTargets(properties);
         this.cost = this.buildCost(properties.cost);
         this.nonDependentTargets = this.targets.filter(target => !target.properties.dependsOn);
@@ -67,6 +68,7 @@ class BaseAbility {
         } else {
             properties.gameAction = [];
         }
+
         if(properties.mode === 'select') {
             return new AbilityTargetSelect(name, properties, this);
         } else if(properties.mode === 'house') {
@@ -74,6 +76,7 @@ class BaseAbility {
         } else if(properties.mode === 'ability') {
             return new AbilityTargetAbility(name, properties, this);
         }
+
         return new AbilityTargetCard(name, properties, this);
     }
 
@@ -88,9 +91,11 @@ class BaseAbility {
         for(let target of this.targets) {
             target.resetGameActions();
         }
+
         for(let action of this.gameAction) {
             action.reset();
         }
+
         if(!this.canPayCosts(context)) {
             return 'cost';
         } else if(this.checkThenAbilities() || this.printedAbility && this.abilityType === 'action') {
@@ -100,6 +105,7 @@ class BaseAbility {
         } else if(this.targets.length > 0) {
             return this.canResolveTargets(context) ? '' : 'target';
         }
+
         return this.gameAction.length > 0 ? 'condition' : '';
     }
 
@@ -150,6 +156,7 @@ class BaseAbility {
                 }
             });
         }
+
         return targetResults;
     }
 

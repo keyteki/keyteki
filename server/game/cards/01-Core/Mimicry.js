@@ -27,6 +27,7 @@ class Mimicry extends Card {
                         ));
                     }
                 }
+
                 return {
                     targetLocation: 'hand',
                     effect: effects

@@ -40,7 +40,6 @@ describe('Restringuntus', function() {
                 expect(this.player2).toHavePromptButton('sanctum');
                 expect(this.player2).toHavePromptButton('dis');
                 expect(this.player2).toHavePromptButton('brobnar');
-
             });
 
             it('should override pitlord if it is in play', function() {

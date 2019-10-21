@@ -38,6 +38,7 @@ class SearchAction extends PlayerAction {
                     } else {
                         context.game.addMessage('{0} doesn\'t take anything', player);
                     }
+
                     return true;
                 }
             });
@@ -46,6 +47,7 @@ class SearchAction extends PlayerAction {
                 for(let card of player.discard) {
                     player.moveCard(card, 'deck');
                 }
+
                 player.shuffleDeck();
             }
         });

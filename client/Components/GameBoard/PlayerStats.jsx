@@ -51,7 +51,7 @@ export class PlayerStats extends React.Component {
     getHouses() {
         return (
             <div className='state'>
-                { this.props.houses.map(house => (<img className='img-responsive' src={ `/img/house/${house}.png` } title={ this.props.t(house) } />)) }
+                { this.props.houses.map(house => (<img key={ house } className='img-responsive' src={ `/img/house/${house}.png` } title={ this.props.t(house) } />)) }
             </div>
         );
     }

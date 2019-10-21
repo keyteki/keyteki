@@ -13,6 +13,7 @@ class Event {
         this.getResult = () => {
             return { resolved: this.resolved, cancelled: this.cancelled };
         };
+
         this.condition = (event) => true; // eslint-disable-line no-unused-vars
         this.order = 0;
         this.isContingent = false;
@@ -47,12 +48,15 @@ class Event {
         if(this.resolved || this.name === 'unnamedEvent') {
             return true;
         }
+
         if(this.cancelled || this.gameAction && !this.gameAction.checkEventCondition(this) || !this.condition(this)) {
             return false;
         }
+
         if(this.card) {
             this.clone = this.card.createSnapshot();
         }
+
         return true;
     }
 

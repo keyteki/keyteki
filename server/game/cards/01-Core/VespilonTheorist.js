@@ -14,6 +14,7 @@ class VespilonTheorist extends Card {
                 if(card.hasHouse(context.house)) {
                     return args.concat(', archive it', 'gain 1 amber');
                 }
+
                 return args.concat('', 'discard it');
             },
             gameAction: [

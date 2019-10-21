@@ -13,8 +13,8 @@ describe('Destructive Analysis', function() {
                         archives: ['raiding-knight']
                     }
                 });
-                this.player1.player.keys = { red: false, blue: false, yellow: false};
-                this.player2.player.keys = { red: true, blue: false, yellow: false};
+                this.player1.player.keys = { red: false, blue: false, yellow: false };
+                this.player2.player.keys = { red: true, blue: false, yellow: false };
                 this.player1.play(this.sampleCollection);
                 expect(this.player1).toHavePrompt('Sample Collection');
                 expect(this.player1).toBeAbleToSelect(this.troll);

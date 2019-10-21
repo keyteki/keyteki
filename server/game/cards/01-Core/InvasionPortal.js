@@ -9,6 +9,7 @@ class InvasionPortal extends Card {
                 if(index > -1) {
                     return { target: deck.slice(0, index + 1) };
                 }
+
                 return { target: deck };
             }),
             then: context => {

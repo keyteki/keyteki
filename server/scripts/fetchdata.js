@@ -27,9 +27,7 @@ function createDataSource(options) {
     }
 
     throw new Error(`Unknown card source '${options['card-source']}'`);
-}
-
-function createImageSource(options) {
+}function createImageSource(options) {
     if(options['no-images']) {
         return new NoImageSource();
     }
@@ -42,9 +40,7 @@ function createImageSource(options) {
     }
 
     throw new Error(`Unknown image source '${options['image-source']}'`);
-}
-
-let options = commandLineArgs(optionsDefinition);
+}let options = commandLineArgs(optionsDefinition);
 
 let db = monk(configService.getValue('dbPath'));
 let dataSource = createDataSource(options);

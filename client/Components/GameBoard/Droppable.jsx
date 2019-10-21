@@ -82,9 +82,7 @@ function collect(connect, monitor) {
         canDrop: monitor.canDrop(),
         itemSource: item && item.source
     };
-}
-
-class Droppable extends React.Component {
+}class Droppable extends React.Component {
     render() {
         let className = classNames('overlay', {
             'drop-ok': this.props.isOver && this.props.canDrop,

@@ -183,6 +183,7 @@ class GameLobby extends React.Component {
                 if(!this.props.currentGame.started) {
                     this.props.leaveGame(this.props.currentGame.id);
                 }
+
                 break;
         }
 

@@ -19,9 +19,7 @@ function CardSizeOption(props) {
             </div>
             <span className='bg-label'>{ label }</span>
         </div>);
-}
-
-CardSizeOption.propTypes = {
+}CardSizeOption.propTypes = {
     label: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     onSelect: PropTypes.func,

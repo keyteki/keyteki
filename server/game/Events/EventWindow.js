@@ -50,6 +50,7 @@ class EventWindow extends BaseStepWithPipeline {
         if(!Array.isArray(events)) {
             events = [events];
         }
+
         this.thenAbilities.push({ events: events, ability: ability, context: context });
     }
 
@@ -90,6 +91,7 @@ class EventWindow extends BaseStepWithPipeline {
             if(event.checkCondition()) {
                 event.executeHandler();
             }
+
             this.game.emit(event.name, event);
         });
     }

@@ -186,6 +186,7 @@ class GameRouter extends EventEmitter {
                 } else {
                     logger.error('PONG received for unknown worker');
                 }
+
                 break;
             case 'GAMEWIN':
                 this.gameService.update(message.arg.game);

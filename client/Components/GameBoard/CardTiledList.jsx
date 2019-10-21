@@ -30,9 +30,7 @@ function CardTiledList(props) {
                 { cardList }
             </div>
         </div>);
-}
-
-CardTiledList.propTypes = {
+}CardTiledList.propTypes = {
     cards: PropTypes.array,
     disableMouseOver: PropTypes.bool,
     manualMode: PropTypes.bool,

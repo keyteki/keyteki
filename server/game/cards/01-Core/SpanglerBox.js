@@ -7,7 +7,7 @@ class SpanglerBox extends Card {
             target: {
                 cardType: 'creature',
                 gameAction: ability.actions.purge({
-                    postHandler: context => this.game.actions.placeUnder({ parent: context.source}).resolve(context.target, context)
+                    postHandler: context => this.game.actions.placeUnder({ parent: context.source }).resolve(context.target, context)
                 })
             },
             effect: 'purge a creature and give control to the other player',

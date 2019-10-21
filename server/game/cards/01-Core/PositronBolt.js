@@ -17,6 +17,7 @@ class PositronBolt extends Card {
                         if(!neighbor || neighbor.neighbors.length < 2) {
                             return { amount: 0 };
                         }
+
                         return {
                             target: neighbor.neighbors.find(card => card !== context.target),
                             amount: 1
@@ -32,6 +33,7 @@ class PositronBolt extends Card {
                 } else if(neighbor.neighbors.length < 2) {
                     return [' and 2 damage to ', neighbor];
                 }
+
                 return [', 2 damage to ', neighbor, ' and 1 damage to ', neighbor.neighbors.find(card => card !== context.target)];
             }
         });
