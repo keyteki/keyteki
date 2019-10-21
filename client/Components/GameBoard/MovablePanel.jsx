@@ -32,6 +32,7 @@ function collect(connect, monitor) {
         dragOffset: monitor.getSourceClientOffset()
     };
 }
+
 class MovablePanel extends React.Component {
     constructor(props) {
         super(props);

@@ -32,7 +32,9 @@ function collect(connect, monitor) {
         isDragging: monitor.isDragging(),
         dragOffset: monitor.getSourceClientOffset()
     };
-}class InnerCard extends React.Component {
+}
+
+class InnerCard extends React.Component {
     constructor(props) {
         super(props);
 
