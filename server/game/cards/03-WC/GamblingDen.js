@@ -6,8 +6,8 @@ class GamblingDen extends Card {
             when: {
                 onPhaseStarted: (event, context) => event.phase === 'key' && context.game.activePlayer && context.game.activePlayer.deck.length > 0
             },
+            optional: true,
             target: {
-                optional: true,
                 mode: 'house',
                 activePromptTitle: 'Gamble For amber?'
             },

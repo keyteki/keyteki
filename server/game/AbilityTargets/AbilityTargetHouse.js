@@ -68,10 +68,6 @@ class AbilityTargetHouse {
                 }
             });
         });
-        if(this.properties.optional) {
-            choices.push('Done');
-            handlers.push(() => targetResults.cancelled = true);
-        }
         if(this.properties.player !== 'opponent' && context.stage === 'pretarget') {
             choices.push('Cancel');
             handlers.push(() => targetResults.cancelled = true);

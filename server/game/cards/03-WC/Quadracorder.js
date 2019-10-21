@@ -5,7 +5,7 @@ class Quadracorder extends Card {
         this.whileAttached({
             effect: ability.effects.gainAbility('persistentEffect', {
                 targetController: 'opponent',
-                effect: ability.effects.modifyKeyCost(() => this.game.getHousesInPlay({ cards: this.controller.creaturesInPlay }).length)
+                effect: ability.effects.modifyKeyCost(() => this.game.getHousesInPlay(this.controller.creaturesInPlay).length)
             })
         });
     }

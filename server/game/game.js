@@ -958,26 +958,15 @@ class Game extends EventEmitter {
         return this.cardsInPlay.filter(card => card.type === 'creature');
     }
 
-    cardHasHouse(cardType, card, house) {
-        if(!cardType) {
-            return card.hasHouse(house) || (card.upgrades && card.upgrades.some(upgrade => upgrade.hasHouse(house)));
-        }
-        if(!_.isArray(cardType)) {
-            cardType = [cardType];
-        }
-
-        return (cardType.includes(card.type) && card.hasHouse(house)) ||
-            (cardType.includes('upgrade') && card.upgrade && card.upgrade.some(upgrade => upgrade.hasHouse(house)));
-    }
-
-    getHousesStatInPlay({ cardType = null, filter = () => true, cards = this.cardsInPlay } = {}) {
-        let countMap = {};
-        Constants.Houses.forEach(house => countMap[house] = !filter(house) ? 0 : cards.filter(card => this.cardHasHouse(cardType, card, house)).length);
-        return Object.entries(countMap);
-    }
-
-    getHousesInPlay({ cardType = null, filter = () => true, cards = this.cardsInPlay } = {}) {
-        return Constants.Houses.filter(house => filter(house) && cards.some(card => this.cardHasHouse(cardType, card, house)));
+    /**
+     * Return all houses in play.
+     *
+     * @param {Array} cards - which cards to consider. Default are all cards.
+     * @param {bool} upgrade - if upgrades should be counted. Default is false.
+     */
+    getHousesInPlay(cards = this.cardsInPlay, upgrade = false) {
+        return Constants.Houses.filter(house => cards.some(card => card.hasHouse(house)
+            || (upgrade && card.upgrades && card.upgrades.some(upgrade => upgrade.hasHouse(house)))));
     }
 
     firstThingThisTurn() {

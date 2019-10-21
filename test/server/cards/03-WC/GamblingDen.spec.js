@@ -18,8 +18,11 @@ describe('Gambling Den', function() {
             it('should ask player2 to gamble for house and cancel', function() {
                 this.player2.moveCard(this.troll, 'deck');
                 this.player1.endTurn();
-                expect(this.player2).toHavePrompt('Gamble for amber?');
+                expect(this.player2).toHavePrompt('Any reactions to key phase starting?');
+                expect(this.player2).toHavePromptButton('Done');
+                expect(this.player2).toBeAbleToSelect(this.gamblingDen);
                 this.player2.clickPrompt('Done');
+                expect(this.player2).not.toHavePrompt('Gamble for amber?');
                 expect(this.player2.amber).toBe(6);
                 expect(this.player1.amber).toBe(5);
                 this.player2.forgeKey('Red');
@@ -29,6 +32,8 @@ describe('Gambling Den', function() {
             it('should ask player2 to gamble for house and gain 2 ambers', function() {
                 this.player2.moveCard(this.troll, 'deck');
                 this.player1.endTurn();
+                expect(this.player2).toBeAbleToSelect(this.gamblingDen);
+                this.player2.clickCard(this.gamblingDen);
                 expect(this.player2).toHavePrompt('Gamble for amber?');
                 this.player2.clickPrompt('brobnar');
                 expect(this.player2.amber).toBe(8);
@@ -40,6 +45,8 @@ describe('Gambling Den', function() {
             it('should ask player2 to gamble for house and lose 2 ambers', function() {
                 this.player2.moveCard(this.troll, 'deck');
                 this.player1.endTurn();
+                expect(this.player2).toBeAbleToSelect(this.gamblingDen);
+                this.player2.clickCard(this.gamblingDen);
                 expect(this.player2).toHavePrompt('Gamble for amber?');
                 this.player2.clickPrompt('saurian');
                 expect(this.player2.amber).toBe(4);
@@ -51,13 +58,15 @@ describe('Gambling Den', function() {
                 this.player1.moveCard(this.lamindra, 'deck');
                 this.player2.moveCard(this.troll, 'deck');
                 this.player1.endTurn();
-                expect(this.player2).toHavePrompt('Gamble for amber?');
                 this.player2.clickPrompt('Done');
                 this.player2.forgeKey('Red');
                 this.player2.clickPrompt('brobnar');
                 this.player2.endTurn();
 
-                expect(this.player1).toHavePrompt('Gamble for amber?');
+                expect(this.player1).toHavePrompt('Any reactions to key phase starting?');
+                expect(this.player1).toHavePromptButton('Done');
+                expect(this.player1).toBeAbleToSelect(this.gamblingDen);
+                expect(this.player1).not.toHavePrompt('Gamble for amber?');
                 this.player1.clickPrompt('Done');
                 expect(this.player2.amber).toBe(0);
                 expect(this.player1.amber).toBe(5);
@@ -66,12 +75,13 @@ describe('Gambling Den', function() {
                 this.player1.moveCard(this.lamindra, 'deck');
                 this.player2.moveCard(this.troll, 'deck');
                 this.player1.endTurn();
-                expect(this.player2).toHavePrompt('Gamble for amber?');
                 this.player2.clickPrompt('Done');
                 this.player2.forgeKey('Red');
                 this.player2.clickPrompt('brobnar');
                 this.player2.endTurn();
 
+                expect(this.player1).toBeAbleToSelect(this.gamblingDen);
+                this.player1.clickCard(this.gamblingDen);
                 expect(this.player1).toHavePrompt('Gamble for amber?');
                 this.player1.clickPrompt('shadows');
                 expect(this.player2.amber).toBe(0);
@@ -84,21 +94,23 @@ describe('Gambling Den', function() {
                 this.player1.moveCard(this.lamindra, 'deck');
                 this.player2.moveCard(this.troll, 'deck');
                 this.player1.endTurn();
-                expect(this.player2).toHavePrompt('Gamble for amber?');
                 this.player2.clickPrompt('Done');
                 this.player2.forgeKey('Red');
                 this.player2.clickPrompt('brobnar');
                 this.player2.endTurn();
 
+                expect(this.player1).toBeAbleToSelect(this.gamblingDen);
+                this.player1.clickCard(this.gamblingDen);
                 expect(this.player1).toHavePrompt('Gamble for amber?');
                 this.player1.clickPrompt('brobnar');
                 expect(this.player2.amber).toBe(0);
                 expect(this.player1.amber).toBe(3);
             });
+
             it('should not ask for gamble if empty deck', function() {
                 this.player2.player.deck = [];
                 this.player1.endTurn();
-                expect(this.player2).not.toHavePrompt('Gamble for amber?');
+                expect(this.player2).not.toHavePrompt('Any reactions to key phase starting?');
                 this.player2.forgeKey('Red');
                 expect(this.player2.player.getForgedKeys()).toBe(1);
             });
