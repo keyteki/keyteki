@@ -9,6 +9,6 @@ class LomirFlamefist extends Card {
     }
 }
 
-LomirFlamefist.id = 'lomir-flamefist'; // This is a guess at what the id might be - please check it!!!
+LomirFlamefist.id = 'lomir-flamefist';
 
 module.exports = LomirFlamefist;

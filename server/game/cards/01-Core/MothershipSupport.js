@@ -19,6 +19,6 @@ class MothershipSupport extends Card {
     }
 }
 
-MothershipSupport.id = 'mothership-support'; // This is a guess at what the id might be - please check it!!!
+MothershipSupport.id = 'mothership-support';
 
 module.exports = MothershipSupport;

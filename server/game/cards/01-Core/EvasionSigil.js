@@ -38,6 +38,6 @@ class EvasionSigil extends Card {
     }
 }
 
-EvasionSigil.id = 'evasion-sigil'; // This is a guess at what the id might be - please check it!!!
+EvasionSigil.id = 'evasion-sigil';
 
 module.exports = EvasionSigil;

@@ -8,6 +8,6 @@ class OldBruno extends Card {
     }
 }
 
-OldBruno.id = 'old-bruno'; // This is a guess at what the id might be - please check it!!!
+OldBruno.id = 'old-bruno';
 
 module.exports = OldBruno;

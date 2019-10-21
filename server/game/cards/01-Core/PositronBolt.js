@@ -38,6 +38,6 @@ class PositronBolt extends Card {
     }
 }
 
-PositronBolt.id = 'positron-bolt'; // This is a guess at what the id might be - please check it!!!
+PositronBolt.id = 'positron-bolt';
 
 module.exports = PositronBolt;

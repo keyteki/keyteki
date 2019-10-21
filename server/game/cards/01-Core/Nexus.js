@@ -12,6 +12,6 @@ class Nexus extends Card {
     }
 }
 
-Nexus.id = 'nexus'; // This is a guess at what the id might be - please check it!!!
+Nexus.id = 'nexus';
 
 module.exports = Nexus;

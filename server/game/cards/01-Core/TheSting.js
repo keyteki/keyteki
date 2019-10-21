@@ -17,6 +17,6 @@ class TheSting extends Card {
     }
 }
 
-TheSting.id = 'the-sting'; // This is a guess at what the id might be - please check it!!!
+TheSting.id = 'the-sting';
 
 module.exports = TheSting;

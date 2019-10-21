@@ -24,6 +24,6 @@ class Charge extends Card {
     }
 }
 
-Charge.id = 'charge'; // This is a guess at what the id might be - please check it!!!
+Charge.id = 'charge';
 
 module.exports = Charge;

@@ -22,6 +22,6 @@ class EpicQuest extends Card {
     }
 }
 
-EpicQuest.id = 'epic-quest'; // This is a guess at what the id might be - please check it!!!
+EpicQuest.id = 'epic-quest';
 
 module.exports = EpicQuest;

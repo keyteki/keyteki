@@ -11,6 +11,6 @@ class ProtectTheWeak extends Card {
     }
 }
 
-ProtectTheWeak.id = 'protect-the-weak'; // This is a guess at what the id might be - please check it!!!
+ProtectTheWeak.id = 'protect-the-weak';
 
 module.exports = ProtectTheWeak;

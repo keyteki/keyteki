@@ -12,6 +12,6 @@ class FuzzyGruen extends Card {
     }
 }
 
-FuzzyGruen.id = 'fuzzy-gruen'; // This is a guess at what the id might be - please check it!!!
+FuzzyGruen.id = 'fuzzy-gruen';
 
 module.exports = FuzzyGruen;

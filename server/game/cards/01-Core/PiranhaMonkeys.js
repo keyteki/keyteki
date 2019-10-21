@@ -13,6 +13,6 @@ class PiranhaMonkeys extends Card {
     }
 }
 
-PiranhaMonkeys.id = 'piranha-monkeys'; // This is a guess at what the id might be - please check it!!!
+PiranhaMonkeys.id = 'piranha-monkeys';
 
 module.exports = PiranhaMonkeys;

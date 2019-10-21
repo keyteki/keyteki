@@ -8,6 +8,6 @@ class WayOfTheWolf extends Card {
     }
 }
 
-WayOfTheWolf.id = 'way-of-the-wolf'; // This is a guess at what the id might be - please check it!!!
+WayOfTheWolf.id = 'way-of-the-wolf';
 
 module.exports = WayOfTheWolf;

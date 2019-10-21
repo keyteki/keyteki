@@ -19,6 +19,6 @@ class WordOfReturning extends Card {
     }
 }
 
-WordOfReturning.id = 'word-of-returning'; // This is a guess at what the id might be - please check it!!!
+WordOfReturning.id = 'word-of-returning';
 
 module.exports = WordOfReturning;

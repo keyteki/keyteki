@@ -14,6 +14,6 @@ class ScramblerStorm extends Card {
     }
 }
 
-ScramblerStorm.id = 'scrambler-storm'; // This is a guess at what the id might be - please check it!!!
+ScramblerStorm.id = 'scrambler-storm';
 
 module.exports = ScramblerStorm;

@@ -16,6 +16,6 @@ class YxiloBolter extends Card {
     }
 }
 
-YxiloBolter.id = 'yxilo-bolter'; // This is a guess at what the id might be - please check it!!!
+YxiloBolter.id = 'yxilo-bolter';
 
 module.exports = YxiloBolter;

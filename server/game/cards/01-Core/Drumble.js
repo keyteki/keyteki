@@ -11,6 +11,6 @@ class Drumble extends Card {
     }
 }
 
-Drumble.id = 'drumble'; // This is a guess at what the id might be - please check it!!!
+Drumble.id = 'drumble';
 
 module.exports = Drumble;

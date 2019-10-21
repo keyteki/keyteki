@@ -10,6 +10,6 @@ class HonorableClaim extends Card {
     }
 }
 
-HonorableClaim.id = 'honorable-claim'; // This is a guess at what the id might be - please check it!!!
+HonorableClaim.id = 'honorable-claim';
 
 module.exports = HonorableClaim;

@@ -18,6 +18,6 @@ class StealerOfSouls extends Card {
     }
 }
 
-StealerOfSouls.id = 'stealer-of-souls'; // This is a guess at what the id might be - please check it!!!
+StealerOfSouls.id = 'stealer-of-souls';
 
 module.exports = StealerOfSouls;

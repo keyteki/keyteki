@@ -15,6 +15,6 @@ class SpecialDelivery extends Card {
     }
 }
 
-SpecialDelivery.id = 'special-delivery'; // This is a guess at what the id might be - please check it!!!
+SpecialDelivery.id = 'special-delivery';
 
 module.exports = SpecialDelivery;

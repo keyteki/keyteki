@@ -14,6 +14,6 @@ class MightyJavelin extends Card {
     }
 }
 
-MightyJavelin.id = 'mighty-javelin'; // This is a guess at what the id might be - please check it!!!
+MightyJavelin.id = 'mighty-javelin';
 
 module.exports = MightyJavelin;

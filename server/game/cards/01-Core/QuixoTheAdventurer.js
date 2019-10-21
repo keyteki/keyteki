@@ -8,6 +8,6 @@ class QuixoTheAdventurer extends Card {
     }
 }
 
-QuixoTheAdventurer.id = 'quixo-the-adventurer'; // This is a guess at what the id might be - please check it!!!
+QuixoTheAdventurer.id = 'quixo-the-adventurer';
 
 module.exports = QuixoTheAdventurer;

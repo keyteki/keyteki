@@ -12,6 +12,6 @@ class PoisonWave extends Card {
     }
 }
 
-PoisonWave.id = 'poison-wave'; // This is a guess at what the id might be - please check it!!!
+PoisonWave.id = 'poison-wave';
 
 module.exports = PoisonWave;

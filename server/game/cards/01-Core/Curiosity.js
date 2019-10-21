@@ -11,6 +11,6 @@ class Curiosity extends Card {
     }
 }
 
-Curiosity.id = 'curiosity'; // This is a guess at what the id might be - please check it!!!
+Curiosity.id = 'curiosity';
 
 module.exports = Curiosity;

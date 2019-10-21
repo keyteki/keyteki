@@ -11,6 +11,6 @@ class HorsemanOfDeath extends Card {
     }
 }
 
-HorsemanOfDeath.id = 'horseman-of-death'; // This is a guess at what the id might be - please check it!!!
+HorsemanOfDeath.id = 'horseman-of-death';
 
 module.exports = HorsemanOfDeath;

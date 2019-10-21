@@ -27,6 +27,6 @@ class DimensionDoor extends Card {
     }
 }
 
-DimensionDoor.id = 'dimension-door'; // This is a guess at what the id might be - please check it!!!
+DimensionDoor.id = 'dimension-door';
 
 module.exports = DimensionDoor;

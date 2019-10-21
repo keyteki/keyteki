@@ -36,6 +36,6 @@ class Mimicry extends Card {
     }
 }
 
-Mimicry.id = 'mimicry'; // This is a guess at what the id might be - please check it!!!
+Mimicry.id = 'mimicry';
 
 module.exports = Mimicry;

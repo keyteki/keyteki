@@ -13,6 +13,6 @@ class NocturnalManeuver extends Card {
     }
 }
 
-NocturnalManeuver.id = 'nocturnal-maneuver'; // This is a guess at what the id might be - please check it!!!
+NocturnalManeuver.id = 'nocturnal-maneuver';
 
 module.exports = NocturnalManeuver;

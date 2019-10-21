@@ -17,6 +17,6 @@ class SoftLanding extends Card {
     }
 }
 
-SoftLanding.id = 'soft-landing'; // This is a guess at what the id might be - please check it!!!
+SoftLanding.id = 'soft-landing';
 
 module.exports = SoftLanding;

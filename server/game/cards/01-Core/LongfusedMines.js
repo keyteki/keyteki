@@ -15,6 +15,6 @@ class LongfusedMines extends Card {
     }
 }
 
-LongfusedMines.id = 'longfused-mines'; // This is a guess at what the id might be - please check it!!!
+LongfusedMines.id = 'longfused-mines';
 
 module.exports = LongfusedMines;

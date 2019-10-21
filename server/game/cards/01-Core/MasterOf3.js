@@ -13,6 +13,6 @@ class MasterOf3 extends Card {
     }
 }
 
-MasterOf3.id = 'master-of-3'; // This is a guess at what the id might be - please check it!!!
+MasterOf3.id = 'master-of-3';
 
 module.exports = MasterOf3;

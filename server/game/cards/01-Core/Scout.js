@@ -23,6 +23,6 @@ class Scout extends Card {
     }
 }
 
-Scout.id = 'scout'; // This is a guess at what the id might be - please check it!!!
+Scout.id = 'scout';
 
 module.exports = Scout;

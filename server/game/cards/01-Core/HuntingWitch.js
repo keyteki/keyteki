@@ -11,6 +11,6 @@ class HuntingWitch extends Card {
     }
 }
 
-HuntingWitch.id = 'hunting-witch'; // This is a guess at what the id might be - please check it!!!
+HuntingWitch.id = 'hunting-witch';
 
 module.exports = HuntingWitch;

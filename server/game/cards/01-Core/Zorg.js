@@ -18,6 +18,6 @@ class Zorg extends Card {
     }
 }
 
-Zorg.id = 'zorg'; // This is a guess at what the id might be - please check it!!!
+Zorg.id = 'zorg';
 
 module.exports = Zorg;

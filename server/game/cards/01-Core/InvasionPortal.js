@@ -25,6 +25,6 @@ class InvasionPortal extends Card {
     }
 }
 
-InvasionPortal.id = 'invasion-portal'; // This is a guess at what the id might be - please check it!!!
+InvasionPortal.id = 'invasion-portal';
 
 module.exports = InvasionPortal;

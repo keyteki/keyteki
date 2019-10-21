@@ -14,6 +14,6 @@ class BaitAndSwitch extends Card {
     }
 }
 
-BaitAndSwitch.id = 'bait-and-switch'; // This is a guess at what the id might be - please check it!!!
+BaitAndSwitch.id = 'bait-and-switch';
 
 module.exports = BaitAndSwitch;

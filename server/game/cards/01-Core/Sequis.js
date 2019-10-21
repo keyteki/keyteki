@@ -8,6 +8,6 @@ class Sequis extends Card {
     }
 }
 
-Sequis.id = 'sequis'; // This is a guess at what the id might be - please check it!!!
+Sequis.id = 'sequis';
 
 module.exports = Sequis;

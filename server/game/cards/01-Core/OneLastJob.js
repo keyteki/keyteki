@@ -13,6 +13,6 @@ class OneLastJob extends Card {
     }
 }
 
-OneLastJob.id = 'one-last-job'; // This is a guess at what the id might be - please check it!!!
+OneLastJob.id = 'one-last-job';
 
 module.exports = OneLastJob;

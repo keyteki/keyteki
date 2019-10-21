@@ -13,6 +13,6 @@ class WorldTree extends Card {
     }
 }
 
-WorldTree.id = 'world-tree'; // This is a guess at what the id might be - please check it!!!
+WorldTree.id = 'world-tree';
 
 module.exports = WorldTree;

@@ -19,6 +19,6 @@ class CombatPheromones extends Card {
     }
 }
 
-CombatPheromones.id = 'combat-pheromones'; // This is a guess at what the id might be - please check it!!!
+CombatPheromones.id = 'combat-pheromones';
 
 module.exports = CombatPheromones;

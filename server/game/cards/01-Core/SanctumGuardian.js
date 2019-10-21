@@ -14,6 +14,6 @@ class SanctumGuardian extends Card {
     }
 }
 
-SanctumGuardian.id = 'sanctum-guardian'; // This is a guess at what the id might be - please check it!!!
+SanctumGuardian.id = 'sanctum-guardian';
 
 module.exports = SanctumGuardian;

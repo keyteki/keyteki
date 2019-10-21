@@ -25,6 +25,6 @@ class VespilonTheorist extends Card {
     }
 }
 
-VespilonTheorist.id = 'vespilon-theorist'; // This is a guess at what the id might be - please check it!!!
+VespilonTheorist.id = 'vespilon-theorist';
 
 module.exports = VespilonTheorist;
