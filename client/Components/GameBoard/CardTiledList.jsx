@@ -31,6 +31,7 @@ function CardTiledList(props) {
             </div>
         </div>);
 }
+
 CardTiledList.propTypes = {
     cards: PropTypes.array,
     disableMouseOver: PropTypes.bool,

@@ -491,7 +491,9 @@ function mapStateToProps(state) {
         socket: state.lobby.socket,
         user: state.account.user
     };
-}function mapDispatchToProps(dispatch) {
+}
+
+function mapDispatchToProps(dispatch) {
     let boundActions = bindActionCreators(actions, dispatch);
     boundActions.dispatch = dispatch;
 

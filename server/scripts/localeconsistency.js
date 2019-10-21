@@ -72,4 +72,5 @@ function verifyLocale(localeDir, sourceLanguage, targetLanguage) {
             }
         }
     }
-}verifyLocale(options['locale-dir'], 'en', options['language']);
+}
+verifyLocale(options['locale-dir'], 'en', options['language']);

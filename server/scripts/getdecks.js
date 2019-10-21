@@ -15,7 +15,8 @@ function apiRequest(path) {
             resolve(JSON.parse(body));
         });
     });
-}let rawData = require('./keyforge.json');
+}
+let rawData = require('./keyforge.json');
 for(const card of rawData.CardData.filter(card => card.name !== '')) {
     card.id = card.name.toLowerCase().replace(/[,?.!"]/gi, '').replace(/[ ']/gi, '-');
     card.type = card.type.toLowerCase();

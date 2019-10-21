@@ -8,7 +8,8 @@ xdescribe('the SelectCardPrompt', function() {
         card.allowGameAction.and.returnValue(true);
         _.extend(card, properties);
         return card;
-    }    beforeEach(function() {
+    }
+    beforeEach(function() {
         this.game = jasmine.createSpyObj('game', ['getPlayers', 'getCurrentAbilityContext']);
         this.game.getCurrentAbilityContext.and.returnValue({ source: 'framework', card: null, stage: 'framework' });
 

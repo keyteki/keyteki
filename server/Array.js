@@ -6,9 +6,11 @@ function flatten(array) {
 
         return result.concat(element);
     }, []);
-}function flatMap(array, mapFunc) {
+}
+function flatMap(array, mapFunc) {
     return flatten(array.map(mapFunc));
-}function partition(array, filterFunc) {
+}
+function partition(array, filterFunc) {
     let matches = [];
     let remaining = [];
 
@@ -21,7 +23,8 @@ function flatten(array) {
     }
 
     return [matches, remaining];
-}function sortByComparison(transform) {
+}
+function sortByComparison(transform) {
     return function(a, b) {
         let aValue = transform(a);
         let bValue = transform(b);
@@ -36,9 +39,11 @@ function flatten(array) {
 
         return 0;
     };
-}function sortBy(array, transform) {
+}
+function sortBy(array, transform) {
     return [...array].sort(sortByComparison(transform));
-}module.exports = {
+}
+module.exports = {
     flatten,
     flatMap,
     partition,

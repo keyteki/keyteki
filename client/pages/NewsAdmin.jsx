@@ -154,7 +154,9 @@ function getApiLoadingStatus(state) {
     }
 
     return false;
-}function getApiMessage(state) {
+}
+
+function getApiMessage(state) {
     if(state.api.REQUEST_NEWS && state.api.REQUEST_NEWS.message) {
         return state.api.REQUEST_NEWS.message;
     }
@@ -168,7 +170,9 @@ function getApiLoadingStatus(state) {
     }
 
     return undefined;
-}function getApiSuccess(state) {
+}
+
+function getApiSuccess(state) {
     if(state.api.DELETE_NEWS && state.api.DELETE_NEWS.success) {
         return true;
     }
@@ -176,7 +180,9 @@ function getApiLoadingStatus(state) {
     if(state.api.SAVE_NEWS && state.api.SAVE_NEWS.success) {
         return true;
     }
-}function getSuccessMessage(state) {
+}
+
+function getSuccessMessage(state) {
     if(state.news.newsAdded) {
         return 'News item added successfully';
     }
@@ -190,7 +196,9 @@ function getApiLoadingStatus(state) {
     }
 
     return undefined;
-}function mapStateToProps(state) {
+}
+
+function mapStateToProps(state) {
     return {
         apiLoading: getApiLoadingStatus(state),
         apiMessage: getApiMessage(state),

@@ -8,7 +8,9 @@ function selectDeck(state, deck) {
     }
 
     return state;
-}function processDecks(decks, state) {
+}
+
+function processDecks(decks, state) {
     _.each(decks, deck => {
         if(!state.cards || !deck.houses) {
             deck.status = {};

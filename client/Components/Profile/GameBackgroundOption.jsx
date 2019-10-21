@@ -16,7 +16,8 @@ function GameBackgroundOption(props) {
             <img className={ classNames('img-responsive', { 'selected': selected }) } src={ imageUrl } />
             <span className='bg-label'>{ label }</span>
         </div>);
-}GameBackgroundOption.propTypes = {
+}
+GameBackgroundOption.propTypes = {
     imageUrl: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,

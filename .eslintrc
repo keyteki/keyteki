@@ -131,21 +131,6 @@
 				"blankLine": "always",
 				"prev": "block-like",
 				"next": "*"
-			},
-			{
-				"blankLine": "never",
-				"prev": "function",
-				"next": "*"
-			},
-			{
-				"blankLine": "always",
-				"prev": "function",
-				"next": "class"
-			},
-			{
-				"blankLine": "always",
-				"prev": "function",
-				"next": "export"
 			}
 		],
 		"lines-between-class-members": [

@@ -27,6 +27,7 @@ function getUserWithDefaultsSet(user) {
     }
 
     return userToReturn;
-}module.exports = {
+}
+module.exports = {
     getUserWithDefaultsSet: getUserWithDefaultsSet
 };

@@ -110,7 +110,8 @@ function handleGameState(action, state) {
     }
 
     return retState;
-}function handleMessage(action, state) {
+}
+function handleMessage(action, state) {
     let newState = state;
 
     switch(action.message) {

@@ -36,7 +36,8 @@ function FormatTitles(titles) {
 
         return title + ', ' + string;
     },'');
-}const AbilityWindowTitles = {
+}
+const AbilityWindowTitles = {
     getTitle: function(abilityType, events) {
         if(!_.isArray(events)) {
             events = [events];
