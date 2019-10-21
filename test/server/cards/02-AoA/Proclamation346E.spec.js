@@ -69,7 +69,6 @@ describe('Proclamation 346E', function() {
 
             it('shouldn\'t care about cards that are not creatures', function() {
                 this.player1.endTurn();
-                this.player2.forgeKey('Red');
                 expect(this.player2.player.keys.red).toBe(false);
                 expect(this.player2.player.keys.blue).toBe(false);
                 expect(this.player2.player.keys.yellow).toBe(false);

@@ -1,4 +1,4 @@
-const Constants = require('../../constants.js');
+const Constants = require('../../Constants.js');
 const ExactlyXCardSelector = require('./ExactlyXCardSelector');
 
 class MostHouseCardSelector extends ExactlyXCardSelector {
@@ -11,28 +11,23 @@ class MostHouseCardSelector extends ExactlyXCardSelector {
     }
 
     getCardsFromMostHouseInPlay(context) {
-        let max = -1;
-        let houseMap = Constants.Houses.reduce((map, house) => {
-            for(let creature of context.game.creaturesInPlay) {
-                if(creature.hasHouse(house)) {
-                    map[house] = ++map[house] || 1;
-                    if(map[house] > max) {
-                        max = map[house];
-                    }
-                }
-            }
-
-            return map;
-        }, {});
-
-        let mostHouses = [];
-        for(let house in houseMap) {
-            if(max === houseMap[house]) {
-                mostHouses.push(house);
-            }
+        let possibleCards = this.findPossibleCards(context);
+        if(possibleCards.length === 0) {
+            return [];
         }
 
-        return this.findPossibleCards(context).filter(card => super.canTarget(card, context) && mostHouses.some(house => card.hasHouse(house)));
+        let countMap = {};
+        Constants.Houses.forEach(house => countMap[house] = context.game.creaturesInPlay.filter(card => card.hasHouse(house)).length);
+        let houseStats = Object.entries(countMap);
+
+        let mostHouseCount = -1;
+        houseStats.forEach(entry => {
+            if(mostHouseCount < entry[1]) {
+                mostHouseCount = entry[1];
+            }
+        });
+
+        return possibleCards.filter(card => super.canTarget(card, context) && houseStats.some(entry => entry[1] === mostHouseCount && card.hasHouse(entry[0])));
     }
 
     hasEnoughSelected(selectedCards, context) {

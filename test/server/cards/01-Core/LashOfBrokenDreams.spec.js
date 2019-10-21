@@ -19,7 +19,6 @@ describe('Lash of Broken Dreams', function() {
                 this.player1.clickCard(this.lashOfBrokenDreams);
                 this.player1.clickPrompt('Use this card\'s Action ability');
                 this.player1.endTurn();
-                this.player2.forgeKey('Red');
                 expect(this.player1.player.keys.red).toBe(false);
                 expect(this.player1.player.keys.blue).toBe(false);
                 expect(this.player1.player.keys.yellow).toBe(false);
@@ -33,7 +32,6 @@ describe('Lash of Broken Dreams', function() {
                 this.player2.play(this.remoteAccess);
                 this.player2.clickCard(this.lashOfBrokenDreams);
                 this.player2.endTurn();
-                this.player1.forgeKey('Red');
                 expect(this.player1.player.keys.red).toBe(false);
                 expect(this.player1.player.keys.blue).toBe(false);
                 expect(this.player1.player.keys.yellow).toBe(false);

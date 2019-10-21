@@ -60,7 +60,6 @@ describe('Iron Obelisk', function() {
                 this.player1.clickCard(this.docBookton);
                 expect(this.hebeTheHuge.hasToken('damage')).toBe(true);
                 this.player1.endTurn();
-                this.player2.forgeKey('Red');
                 expect(this.player2.player.keys.red).toBe(false);
                 expect(this.player2.player.keys.blue).toBe(false);
                 expect(this.player2.player.keys.yellow).toBe(false);

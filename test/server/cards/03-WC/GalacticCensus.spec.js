@@ -31,7 +31,7 @@ describe('Galactic Census', function() {
                         inPlay: ['sequis']
                     },
                     player2: {
-                        inPlay: ['zorg','batdrone']
+                        inPlay: ['zorg', 'batdrone']
                     }
                 });
             });
@@ -48,10 +48,10 @@ describe('Galactic Census', function() {
                         amber: 3,
                         house: 'staralliance',
                         hand: ['galactic-census', 'virtuous-works'],
-                        inPlay: ['sequis','spyyyder']
+                        inPlay: ['sequis', 'spyyyder']
                     },
                     player2: {
-                        inPlay: ['zorg','batdrone']
+                        inPlay: ['zorg', 'batdrone']
                     }
                 });
             });
@@ -68,10 +68,10 @@ describe('Galactic Census', function() {
                         amber: 3,
                         house: 'staralliance',
                         hand: ['galactic-census', 'virtuous-works'],
-                        inPlay: ['sequis','lieutenant-khrkhar','knuckles-bolton']
+                        inPlay: ['sequis', 'lieutenant-khrkhar', 'knuckles-bolton']
                     },
                     player2: {
-                        inPlay: ['zorg','batdrone']
+                        inPlay: ['zorg', 'batdrone', 'lifeward']
                     }
                 });
             });
@@ -88,10 +88,10 @@ describe('Galactic Census', function() {
                         amber: 3,
                         house: 'staralliance',
                         hand: ['galactic-census', 'virtuous-works'],
-                        inPlay: ['sequis','lieutenant-khrkhar','knuckles-bolton']
+                        inPlay: ['sequis', 'lieutenant-khrkhar', 'knuckles-bolton']
                     },
                     player2: {
-                        inPlay: ['zorg','batdrone','rustgnawer']
+                        inPlay: ['zorg', 'batdrone', 'rustgnawer']
                     }
                 });
             });

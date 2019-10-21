@@ -1,6 +1,7 @@
 const _ = require('underscore');
 const EventEmitter = require('events');
 
+const Constants = require('../constants.js');
 const ChatCommands = require('./chatcommands.js');
 const GameChat = require('./gamechat.js');
 const EffectEngine = require('./effectengine.js');
@@ -969,6 +970,17 @@ class Game extends EventEmitter {
 
     get creaturesInPlay() {
         return this.cardsInPlay.filter(card => card.type === 'creature');
+    }
+
+    /**
+     * Return all houses in play.
+     *
+     * @param {Array} cards - which cards to consider. Default are all cards.
+     * @param {bool} upgrade - if upgrades should be counted. Default is false.
+     */
+    getHousesInPlay(cards = this.cardsInPlay, upgrade = false) {
+        return Constants.Houses.filter(house => cards.some(card => card.hasHouse(house)
+            || (upgrade && card.upgrades && card.upgrades.some(upgrade => upgrade.hasHouse(house)))));
     }
 
     firstThingThisTurn() {

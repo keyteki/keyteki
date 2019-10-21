@@ -483,12 +483,16 @@ class PlayerInteractionWrapper {
     forgeKey(color) {
         if(this.hasPrompt('Which key would you like to forge?')) {
             this.clickPrompt(color);
+        } else {
+            throw new Error(`${this.name} does not have a forge key prompt`);
         }
     }
 
     unforgeKey(color) {
         if(this.hasPrompt('Which key would you like to unforge?')) {
             this.clickPrompt(color);
+        } else {
+            throw new Error(`${this.name} does not have an unforge key prompt`);
         }
     }
 }
