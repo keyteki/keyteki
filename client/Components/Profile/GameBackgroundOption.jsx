@@ -17,8 +17,7 @@ function GameBackgroundOption(props) {
             <span className='bg-label'>{ label }</span>
         </div>);
 }
-
-GameBackgroundOption.propTypes = {
+GameBackgroundOption.propTypes = {
     imageUrl: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,

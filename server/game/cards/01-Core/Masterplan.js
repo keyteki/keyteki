@@ -24,6 +24,6 @@ class Masterplan extends Card {
     }
 }
 
-Masterplan.id = 'masterplan'; // This is a guess at what the id might be - please check it!!!
+Masterplan.id = 'masterplan';
 
 module.exports = Masterplan;

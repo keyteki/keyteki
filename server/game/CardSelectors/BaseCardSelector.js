@@ -17,10 +17,12 @@ class BaseCardSelector {
         if(!Array.isArray(location)) {
             location = [location];
         }
+
         let index = location.indexOf('province');
         if(index > -1) {
             location.splice(index, 1, 'province 1', 'province 2', 'province 3', 'province 4', 'stronghold province');
         }
+
         return location;
     }
 
@@ -31,12 +33,15 @@ class BaseCardSelector {
             } else if(this.controller === 'opponent') {
                 return context.game.allCards.filter(card => card.controller === context.player.opponent);
             }
+
             return context.game.allCards;
         }
+
         let upgrades = context.player.cardsInPlay.reduce((array, card) => array.concat(card.upgrades), []);
         if(context.player.opponent) {
             upgrades = upgrades.concat(...context.player.opponent.cardsInPlay.map(card => card.upgrades));
         }
+
         let possibleCards = [];
         if(this.controller !== 'opponent') {
             possibleCards = this.location.reduce((array, location) => {
@@ -44,18 +49,22 @@ class BaseCardSelector {
                 if(location === 'play area') {
                     return array.concat(cards, upgrades.filter(card => card.controller === context.player));
                 }
+
                 return array.concat(cards);
             }, possibleCards);
         }
+
         if(this.controller !== 'self' && context.player.opponent) {
             possibleCards = this.location.reduce((array, location) => {
                 let cards = context.player.opponent.getSourceList(location);
                 if(location === 'play area') {
                     return array.concat(cards, upgrades.filter(card => card.controller === context.player.opponent));
                 }
+
                 return array.concat(cards);
             }, possibleCards);
         }
+
         return possibleCards;
     }
 
@@ -63,18 +72,23 @@ class BaseCardSelector {
         if(!card) {
             return false;
         }
+
         if(this.checkTarget && !card.checkRestrictions('target', context)) {
             return false;
         }
+
         if(this.controller === 'self' && card.controller !== context.player) {
             return false;
         }
+
         if(this.controller === 'opponent' && card.controller !== context.player.opponent) {
             return false;
         }
+
         if(!this.location.includes('any') && !this.location.includes(card.location)) {
             return false;
         }
+
         return this.cardType.includes(card.getType()) && this.cardCondition(card, context);
     }
 

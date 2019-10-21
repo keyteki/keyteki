@@ -19,6 +19,7 @@ class EffectEngine {
         if(effect.duration === 'custom') {
             this.registerCustomDurationEvents(effect);
         }
+
         this.newEffect = true;
         return effect;
     }
@@ -67,6 +68,7 @@ class EffectEngine {
         if(!prevStateChanged && !this.newEffect) {
             return false;
         }
+
         let stateChanged = false;
         this.newEffect = false;
         // Check each effect's condition and find new targets
@@ -76,6 +78,7 @@ class EffectEngine {
         } else {
             this.checkEffects(stateChanged, loops + 1);
         }
+
         return stateChanged;
     }
 

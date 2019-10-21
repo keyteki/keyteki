@@ -17,6 +17,6 @@ class TroopCall extends Card {
     }
 }
 
-TroopCall.id = 'troop-call'; // This is a guess at what the id might be - please check it!!!
+TroopCall.id = 'troop-call';
 
 module.exports = TroopCall;

@@ -12,6 +12,6 @@ class InkaTheSpider extends Card {
     }
 }
 
-InkaTheSpider.id = 'inka-the-spider'; // This is a guess at what the id might be - please check it!!!
+InkaTheSpider.id = 'inka-the-spider';
 
 module.exports = InkaTheSpider;

@@ -14,6 +14,6 @@ class GloriousFew extends Card {
     }
 }
 
-GloriousFew.id = 'glorious-few'; // This is a guess at what the id might be - please check it!!!
+GloriousFew.id = 'glorious-few';
 
 module.exports = GloriousFew;

@@ -16,6 +16,6 @@ class LordGolgotha extends Card {
     }
 }
 
-LordGolgotha.id = 'lord-golgotha'; // This is a guess at what the id might be - please check it!!!
+LordGolgotha.id = 'lord-golgotha';
 
 module.exports = LordGolgotha;

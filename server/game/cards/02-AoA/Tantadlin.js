@@ -7,7 +7,7 @@ class Tantadlin extends Card {
             effect: ability.effects.limitFightDamage(2)
         });
         this.fight({
-            gameAction: ability.actions.discardAtRandom({ amount: 1, location: 'archives'})
+            gameAction: ability.actions.discardAtRandom({ amount: 1, location: 'archives' })
         });
     }
 }

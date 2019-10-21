@@ -29,7 +29,7 @@ class AlertPanel extends React.Component {
             alertClass += ' multiline';
         }
 
-        return (<div ref='alertPanel' className={ alertClass } role='alert'>
+        return (<div className={ alertClass } role='alert'>
             { !this.props.noIcon && <span id='alert-icon' className={ icon } aria-hidden='true' /> }
             { this.props.title && <span id='alert-title' className='sr-only'>{ this.props.title }</span> }
             { this.props.message && <span id='alert-message'>&nbsp;{ this.props.message }</span> }

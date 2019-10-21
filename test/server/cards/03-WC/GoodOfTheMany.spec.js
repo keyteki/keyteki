@@ -15,7 +15,6 @@ describe('Good of the Many', function() {
             });
 
             it('should destroy all creatures that do not share a trait with another creature in its battleline', function() {
-
                 this.player1.play(this.goodOfTheMany);
 
                 expect(this.mindwarper.location).toBe('play area');

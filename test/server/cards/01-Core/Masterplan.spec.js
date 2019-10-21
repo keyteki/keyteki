@@ -21,7 +21,6 @@ describe('Masterplan', function() {
                 this.player1.clickCard(this.virtuousWorks);
                 expect(this.virtuousWorks.location).toBe('purged');
                 expect(this.masterplan.childCards).toContain(this.virtuousWorks);
-
             });
 
             it('should play the card when clicked', function() {

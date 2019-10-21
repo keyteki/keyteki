@@ -8,6 +8,7 @@ class BasePlayAction extends BaseAbility {
         if(target) {
             properties.target = target;
         }
+
         super(properties);
         this.card = card;
         this.abilityType = 'action';
@@ -25,6 +26,7 @@ class BasePlayAction extends BaseAbility {
         } else if(!ignoredRequirements.includes('cannotTrigger') && (!context.player.checkRestrictions('play', context) || !context.source.checkRestrictions('play', context))) {
             return 'cannotTrigger';
         }
+
         return super.meetsRequirements(context);
     }
 

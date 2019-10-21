@@ -11,6 +11,6 @@ class CarloPhantom extends Card {
     }
 }
 
-CarloPhantom.id = 'carlo-phantom'; // This is a guess at what the id might be - please check it!!!
+CarloPhantom.id = 'carlo-phantom';
 
 module.exports = CarloPhantom;

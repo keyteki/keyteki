@@ -13,6 +13,6 @@ class CustomsOffice extends Card {
     }
 }
 
-CustomsOffice.id = 'customs-office'; // This is a guess at what the id might be - please check it!!!
+CustomsOffice.id = 'customs-office';
 
 module.exports = CustomsOffice;

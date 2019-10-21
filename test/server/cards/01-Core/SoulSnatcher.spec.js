@@ -32,8 +32,6 @@ describe('Soul Snatcher', function() {
                 expect(this.player1.player.amber).toBe(1);
                 expect(this.player2.player.amber).toBe(1);
             });
-
         });
-
     });
 });

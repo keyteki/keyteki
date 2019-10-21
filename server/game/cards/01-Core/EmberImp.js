@@ -10,6 +10,6 @@ class EmberImp extends Card {
     }
 }
 
-EmberImp.id = 'ember-imp'; // This is a guess at what the id might be - please check it!!!
+EmberImp.id = 'ember-imp';
 
 module.exports = EmberImp;

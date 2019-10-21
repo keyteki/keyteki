@@ -6,7 +6,7 @@
 // `node server/scripts/build_archons.js -l all`  to build all languages
 // the script will drop all the files into public/img/idbacks/archons and no further moving is necessary
 
-const {createCanvas, loadImage, registerFont} = require('canvas');
+const { createCanvas, loadImage, registerFont } = require('canvas');
 const fs = require('fs');
 const Path = require('path');
 const commandLineArgs = require('command-line-args');
@@ -136,7 +136,8 @@ const buildArchon = (card) => new Promise(cardResolve => {
         cardResolve();
         return;
     }
-    const houseNames = [{x: -305, y: 720}, {x: -125, y: 770}, {x: 55, y: 720}];
+
+    const houseNames = [{ x: -305, y: 720 }, { x: -125, y: 770 }, { x: 55, y: 720 }];
     const canvas = createCanvas(600, 840);
     const ctx = canvas.getContext('2d');
     let promises = [];
@@ -173,6 +174,7 @@ const permute = (languages) => {
             }
         }
     }
+
     return final;
 };
 
@@ -181,12 +183,14 @@ const buildAllFiles = async () => {
     if(!options.language) {
         options.language = ['en'];
     }
+
     if(options.language[0] === 'all') {
         options.language = allLanguages;
     }
-    new registerFont(Path.join(__dirname, '../../public/fonts/Oswald-Regular.ttf'), {family: 'Keyforge'});
-    new registerFont(Path.join(__dirname, '../../public/fonts/ZCOOL-Regular.ttf'), {family: 'Keyforge'});
-    new registerFont(Path.join(__dirname, '../../public/fonts/Kanit-Regular.ttf'), {family: 'Keyforge'});
+
+    new registerFont(Path.join(__dirname, '../../public/fonts/Oswald-Regular.ttf'), { family: 'Keyforge' });
+    new registerFont(Path.join(__dirname, '../../public/fonts/ZCOOL-Regular.ttf'), { family: 'Keyforge' });
+    new registerFont(Path.join(__dirname, '../../public/fonts/Kanit-Regular.ttf'), { family: 'Keyforge' });
     const cards = permute(options.language);
     for(let i = 0; i < cards.length; i++) {
         // eslint-disable-next-line no-console
@@ -225,6 +229,7 @@ const getCircularText = (text = '', diameter, kerning) => {
         ctx.fillText(text[j], 0, (0 - diameter / 2 + textHeight / 2));
         ctx.rotate((charWid / 2 + kerning) / (diameter / 2 - textHeight) * -1); // rotate half letter
     }
+
     return canvas;
 };
 

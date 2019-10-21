@@ -14,6 +14,6 @@ class Fogbank extends Card {
     }
 }
 
-Fogbank.id = 'fogbank'; // This is a guess at what the id might be - please check it!!!
+Fogbank.id = 'fogbank';
 
 module.exports = Fogbank;

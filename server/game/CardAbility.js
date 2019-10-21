@@ -25,11 +25,11 @@ class CardAbility extends ThenAbility {
         for(let i = 0; i < messageArgs.length; ++i) {
             message += `{${i}}`;
         }
+
         this.game.addMessage(message, ...messageArgs);
     }
 
     getMessageArgs(context, effectMessage = null, effectArgs = null, extraArgs = null, previousMessageArgs = null, last = false) {
-
         let messageArgs = previousMessageArgs || [context.player, context.source.type === 'event' ? ' plays ' : ' uses ', context.source];
 
         // effectMessage: Player1 plays Assassination
@@ -38,6 +38,7 @@ class CardAbility extends ThenAbility {
                 if(typeof extraArgs === 'function') {
                     extraArgs = extraArgs(context);
                 }
+
                 effectArgs = effectArgs.concat(extraArgs);
             }
 
@@ -60,17 +61,21 @@ class CardAbility extends ThenAbility {
         if(this.properties.preferActionPromptMessage) {
             return;
         }
+
         if(this.properties.message) {
             let messageArgs = this.properties.messageArgs;
             if(typeof messageArgs === 'function') {
                 messageArgs = messageArgs(context);
             }
+
             if(!Array.isArray(messageArgs)) {
                 messageArgs = [messageArgs];
             }
+
             this.game.addMessage(this.properties.message, ...messageArgs);
             return;
         }
+
         if(!this.properties.effect) {
             let gameActions = this.getGameActions(context).filter(gameAction => gameAction.hasLegalTarget(context));
             if(!gameActions || gameActions.length === 0) {
@@ -83,6 +88,7 @@ class CardAbility extends ThenAbility {
                         messageArgs = this.getMessageArgs(context, gameAction.effectMsg, [gameAction.target], gameAction.effectArgs,
                             messageArgs, i === gameActions.length - 1);
                     }
+
                     this.addMessage(messageArgs);
                 } else if(this.properties.effectStyle === 'all') {
                     gameActions.forEach(gameAction => {

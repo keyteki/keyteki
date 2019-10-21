@@ -20,18 +20,18 @@ class GameChat extends React.Component {
 
     componentDidMount() {
         if(this.state.canScroll) {
-            $(this.refs.messagePanel).scrollTop(999999);
+            $(this.messagePanel).scrollTop(999999);
         }
     }
 
     componentDidUpdate() {
         if(this.state.canScroll) {
-            $(this.refs.messagePanel).scrollTop(999999);
+            $(this.messagePanel).scrollTop(999999);
         }
     }
 
     onScroll() {
-        let messages = this.refs.messagePanel;
+        let messages = this.messagePanel;
 
         setTimeout(() => {
             if(messages.scrollTop >= messages.scrollHeight - messages.offsetHeight - 20) {
@@ -69,7 +69,7 @@ class GameChat extends React.Component {
 
         return (
             <div className='chat'>
-                <div className='messages panel' ref='messagePanel' onScroll={ this.onScroll }>
+                <div className='messages panel' ref={ m => this.messagePanel = m } onScroll={ this.onScroll }>
                     <Messages messages={ this.props.messages } onCardMouseOver={ this.props.onCardMouseOver } onCardMouseOut={ this.props.onCardMouseOut } />
                 </div>
                 <form className='form chat-form'>

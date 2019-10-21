@@ -12,6 +12,6 @@ class KeyCharge extends Card {
     }
 }
 
-KeyCharge.id = 'key-charge'; // This is a guess at what the id might be - please check it!!!
+KeyCharge.id = 'key-charge';
 
 module.exports = KeyCharge;

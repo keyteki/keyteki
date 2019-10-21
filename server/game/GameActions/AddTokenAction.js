@@ -17,6 +17,7 @@ class AddTokenAction extends CardGameAction {
         if(this.amount === 1) {
             token = '+1 power counter';
         }
+
         this.effectMsg = 'place ' + this.amount + ' ' + (this.type === 'power' ? token : this.type) + ' on {0}';
     }
 

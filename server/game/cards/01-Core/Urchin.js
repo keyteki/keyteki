@@ -8,6 +8,6 @@ class Urchin extends Card {
     }
 }
 
-Urchin.id = 'urchin'; // This is a guess at what the id might be - please check it!!!
+Urchin.id = 'urchin';
 
 module.exports = Urchin;

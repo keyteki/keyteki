@@ -14,6 +14,6 @@ class Mugwump extends Card {
     }
 }
 
-Mugwump.id = 'mugwump'; // This is a guess at what the id might be - please check it!!!
+Mugwump.id = 'mugwump';
 
 module.exports = Mugwump;

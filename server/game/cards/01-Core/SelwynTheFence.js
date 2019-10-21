@@ -18,6 +18,6 @@ class SelwynTheFence extends Card {
     }
 }
 
-SelwynTheFence.id = 'selwyn-the-fence'; // This is a guess at what the id might be - please check it!!!
+SelwynTheFence.id = 'selwyn-the-fence';
 
 module.exports = SelwynTheFence;

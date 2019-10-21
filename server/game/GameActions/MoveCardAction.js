@@ -17,6 +17,7 @@ class MoveCardAction extends CardGameAction {
         if(card.location === 'play area' || !card.controller.getSourceList(this.destination)) {
             return false;
         }
+
         return super.canAffect(card, context);
     }
 

@@ -27,6 +27,7 @@ class DiscardAction extends BaseAbility {
         } else if(context.game.currentPhase !== 'main') {
             return 'phase';
         }
+
         return super.meetsRequirements(context);
     }
 

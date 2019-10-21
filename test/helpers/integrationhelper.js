@@ -57,6 +57,7 @@ var customMatchers = {
                 if(_.isString(card)) {
                     card = player.findCardByName(card);
                 }
+
                 let result = {};
 
                 result.pass = player.currentActionTargets.includes(card);
@@ -123,6 +124,7 @@ global.integration = function(definitions) {
                 if(!options.player1) {
                     options.player1 = {};
                 }
+
                 if(!options.player2) {
                     options.player2 = {};
                 }
@@ -173,12 +175,14 @@ global.integration = function(definitions) {
                         for(let i = 1; i < split.length; i++) {
                             split[i] = split[i].slice(0, 1).toUpperCase() + split[i].slice(1);
                         }
+
                         let camel = split.join('');
                         if(!this[camel]) {
                             this[camel] = card;
                         }
                     }
                 }
+
                 this.game.checkGameState(true);
             };
         });

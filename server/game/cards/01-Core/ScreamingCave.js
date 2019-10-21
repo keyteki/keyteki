@@ -12,6 +12,6 @@ class ScreamingCave extends Card {
     }
 }
 
-ScreamingCave.id = 'screaming-cave'; // This is a guess at what the id might be - please check it!!!
+ScreamingCave.id = 'screaming-cave';
 
 module.exports = ScreamingCave;

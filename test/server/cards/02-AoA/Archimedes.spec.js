@@ -56,7 +56,6 @@ describe('Archimedes', function() {
             });
 
             it('should move controlled neighbor to opponent\'s archive', function() {
-
                 this.player1.moveCard(this.gub, 'discard');
                 expect(this.gub.location).toBe('discard');
 
@@ -91,7 +90,6 @@ describe('Archimedes', function() {
             });
 
             xit('should archive only immediate neighbors', function() {
-
                 this.player1.play(this.whistlingDarts);
 
                 expect(this.jargogle.location).toBe('play area');
@@ -105,7 +103,6 @@ describe('Archimedes', function() {
             });
 
             xit('should archive only immediate neighbors when archimedes dies', function() {
-
                 this.player1.play(this.boobyTrap);
                 this.player1.clickCard(this.archimedes);
 

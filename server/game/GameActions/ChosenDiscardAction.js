@@ -16,6 +16,7 @@ class ChosenDiscardAction extends PlayerAction {
         if(player.hand.length === 0 || this.amount === 0) {
             return false;
         }
+
         return super.canAffect(player, context);
     }
 

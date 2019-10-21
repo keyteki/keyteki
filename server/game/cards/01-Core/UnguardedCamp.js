@@ -21,6 +21,6 @@ class UnguardedCamp extends Card {
     }
 }
 
-UnguardedCamp.id = 'unguarded-camp'; // This is a guess at what the id might be - please check it!!!
+UnguardedCamp.id = 'unguarded-camp';
 
 module.exports = UnguardedCamp;

@@ -11,18 +11,21 @@ class FinchCloak extends Card {
                         this.triggerSteal = true;
                         return { amount: 1 };
                     }
+
                     return { amount: 0 };
                 }),
                 ability.actions.gainAmber(context => {
                     if(!this.triggerSteal) {
                         return { target: context.player, amount: 1 };
                     }
+
                     return { target: context.player, amount: 0 };
                 }),
                 ability.actions.gainAmber(context => {
                     if(!this.triggerSteal) {
                         return { target: context.player.opponent, amount: 1 };
                     }
+
                     return { target: context.player.opponent, amount: 0 };
                 })
             ]

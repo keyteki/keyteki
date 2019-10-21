@@ -8,8 +8,7 @@ function getDirectories(srcpath) {
         return fs.statSync(path.join(fullPath, file)).isDirectory();
     });
 }
-
-function loadFiles(directory) {
+function loadFiles(directory) {
     let fullPath = path.join(__dirname, directory);
     let files = fs.readdirSync(fullPath).filter(file => {
         return !fs.statSync(path.join(fullPath, file)).isDirectory();
@@ -21,8 +20,7 @@ function loadFiles(directory) {
         cards[card.id] = card;
     }
 }
-
-function loadCards(directory) {
+function loadCards(directory) {
     let cards = {};
 
     loadFiles(directory);
@@ -33,8 +31,7 @@ function loadCards(directory) {
 
     return cards;
 }
-
-let cards = {};
+let cards = {};
 let directories = getDirectories('.');
 
 for(let directory of directories) {

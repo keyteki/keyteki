@@ -20,7 +20,6 @@ describe('Bramble Lynx', function() {
             });
 
             it('should enter play read if a creature reaps', function() {
-
                 this.player1.reap(this.flaxia);
                 this.player1.playCreature(this.brambleLynx);
                 expect(this.brambleLynx.exhausted).toBe(false);
@@ -36,7 +35,6 @@ describe('Bramble Lynx', function() {
                 this.player1.playCreature(this.brambleLynx);
                 expect(this.brambleLynx.exhausted).toBe(true);
             });
-
         });
     });
 });

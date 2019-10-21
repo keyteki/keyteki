@@ -49,7 +49,6 @@ describe('Lamindra', function() {
                 expect(this.umbra.location).toBe('discard');
                 expect(this.redlock.getKeywordValue('elusive')).toBe(1);
             });
-
         });
     });
 });

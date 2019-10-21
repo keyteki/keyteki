@@ -39,6 +39,7 @@ class LastingEffectAction extends GameAction {
                 context: context
             })];
         }
+
         let properties = {
             condition: this.condition,
             context: context,

@@ -19,6 +19,6 @@ class HypnoticCommand extends Card {
     }
 }
 
-HypnoticCommand.id = 'hypnotic-command'; // This is a guess at what the id might be - please check it!!!
+HypnoticCommand.id = 'hypnotic-command';
 
 module.exports = HypnoticCommand;

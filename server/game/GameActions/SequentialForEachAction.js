@@ -11,6 +11,7 @@ class SequentialForEachAction extends GameAction {
         if(!Array.isArray(this.forEach)) {
             this.forEach = [this.forEach];
         }
+
         this.effectMsg = 'do several things';
     }
 
@@ -31,6 +32,7 @@ class SequentialForEachAction extends GameAction {
                     if(typeof action === 'function') {
                         action = action(card);
                     }
+
                     context.game.queueSimpleStep(() => {
                         action.setDefaultTarget(() => card);
                         action.preEventHandler(context);

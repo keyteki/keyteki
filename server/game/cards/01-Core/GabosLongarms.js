@@ -20,6 +20,6 @@ class GabosLongarms extends Card {
     }
 }
 
-GabosLongarms.id = 'gabos-longarms'; // This is a guess at what the id might be - please check it!!!
+GabosLongarms.id = 'gabos-longarms';
 
 module.exports = GabosLongarms;

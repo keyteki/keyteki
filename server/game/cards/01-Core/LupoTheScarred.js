@@ -12,6 +12,6 @@ class LupoTheScarred extends Card {
     }
 }
 
-LupoTheScarred.id = 'lupo-the-scarred'; // This is a guess at what the id might be - please check it!!!
+LupoTheScarred.id = 'lupo-the-scarred';
 
 module.exports = LupoTheScarred;

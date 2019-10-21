@@ -7,8 +7,9 @@ import { withTranslation } from 'react-i18next';
 class CardImage extends Component {
     constructor() {
         super();
-        this.state = { src: '', err: ''};
+        this.state = { src: '', err: '' };
     }
+
     componentDidMount() {
         this.updateImage();
     }
@@ -31,12 +32,12 @@ class CardImage extends Component {
 
             mergeImages([
                 imgPath,
-                { src: maverickHouseImg, x: 0, y: 0},
-                { src: '/img/maverick/maverick-corner.png', x: 210, y: 0}
+                { src: maverickHouseImg, x: 0, y: 0 },
+                { src: '/img/maverick/maverick-corner.png', x: 210, y: 0 }
             ]).then(src => this.setState({ src }))
                 .catch(err => this.setState({ err: err.toString() }));
         } else {
-            this.setState({src: imgPath});
+            this.setState({ src: imgPath });
         }
     }
 

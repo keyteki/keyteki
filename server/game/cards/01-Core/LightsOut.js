@@ -14,6 +14,6 @@ class LightsOut extends Card {
     }
 }
 
-LightsOut.id = 'lights-out'; // This is a guess at what the id might be - please check it!!!
+LightsOut.id = 'lights-out';
 
 module.exports = LightsOut;

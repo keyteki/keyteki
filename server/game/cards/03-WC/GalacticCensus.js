@@ -16,6 +16,7 @@ class GalacticCensus extends Card {
                 return 3;
         }
     }
+
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.gainAmber(context => ({

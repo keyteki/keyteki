@@ -25,6 +25,7 @@ class ReturnToDeckAction extends CardGameAction {
                 }
             });
         }
+
         return super.createEvent('onMoveCard', { card: card, context: context }, () => {
             card.owner.moveCard(card, 'deck', { bottom: this.bottom });
             if(this.shuffle && (this.target.findIndex(c => c === card) === this.target.length - 1)) {

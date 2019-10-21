@@ -15,6 +15,6 @@ class RelentlessWhispers extends Card {
     }
 }
 
-RelentlessWhispers.id = 'relentless-whispers'; // This is a guess at what the id might be - please check it!!!
+RelentlessWhispers.id = 'relentless-whispers';
 
 module.exports = RelentlessWhispers;

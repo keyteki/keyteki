@@ -16,6 +16,6 @@ class DeepProbe extends Card {
     }
 }
 
-DeepProbe.id = 'deep-probe'; // This is a guess at what the id might be - please check it!!!
+DeepProbe.id = 'deep-probe';
 
 module.exports = DeepProbe;

@@ -12,6 +12,6 @@ class PhylyxTheDisintegrator extends Card {
     }
 }
 
-PhylyxTheDisintegrator.id = 'phylyx-the-disintegrator'; // This is a guess at what the id might be - please check it!!!
+PhylyxTheDisintegrator.id = 'phylyx-the-disintegrator';
 
 module.exports = PhylyxTheDisintegrator;

@@ -12,6 +12,6 @@ class Snudge extends Card {
     }
 }
 
-Snudge.id = 'snudge'; // This is a guess at what the id might be - please check it!!!
+Snudge.id = 'snudge';
 
 module.exports = Snudge;

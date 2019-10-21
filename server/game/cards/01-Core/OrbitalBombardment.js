@@ -27,6 +27,6 @@ class OrbitalBombardment extends Card {
     }
 }
 
-OrbitalBombardment.id = 'orbital-bombardment'; // This is a guess at what the id might be - please check it!!!
+OrbitalBombardment.id = 'orbital-bombardment';
 
 module.exports = OrbitalBombardment;

@@ -9,6 +9,7 @@ class AbilityTargetCard {
         for(let gameAction of this.properties.gameAction) {
             gameAction.setDefaultTarget(context => context.targets[name]);
         }
+
         this.selector = this.getSelector(properties);
         this.dependentTarget = null;
         this.dependentCost = null;
@@ -25,10 +26,12 @@ class AbilityTargetCard {
             if(this.name === 'target') {
                 contextCopy.target = contextCopy.targets[this.name];
             }
+
             return (!properties.cardCondition || properties.cardCondition(card, contextCopy)) &&
                    //(!this.dependentTarget || this.dependentTarget.hasLegalTarget(contextCopy)) &&
                    (properties.gameAction.length === 0 || properties.gameAction.some(gameAction => gameAction.hasLegalTarget(contextCopy)));
         };
+
         return CardSelector.for(Object.assign({}, properties, { cardCondition: cardCondition, targets: true }));
     }
 
@@ -59,6 +62,7 @@ class AbilityTargetCard {
         if(targetResults.cancelled || targetResults.payCostsFirst) {
             return;
         }
+
         let otherProperties = _.omit(this.properties, 'cardCondition', 'player');
         /*
         let playerProp = this.properties.player;
@@ -80,6 +84,7 @@ class AbilityTargetCard {
             if(!targetResults.noCostsFirstButton) {
                 buttons.push({ text: 'Pay costs first', arg: 'costsFirst' });
             }
+
             buttons.push({ text: 'Cancel', arg: 'cancel' });
             if(context.ability.abilityType === 'action') {
                 waitingPromptTitle = 'Waiting for opponent to take an action or pass';
@@ -87,6 +92,7 @@ class AbilityTargetCard {
                 waitingPromptTitle = 'Waiting for opponent';
             }
         }
+
         let promptProperties = {
             waitingPromptTitle: waitingPromptTitle,
             context: context,
@@ -97,6 +103,7 @@ class AbilityTargetCard {
                 if(this.name === 'target') {
                     context.target = card;
                 }
+
                 return true;
             },
             onCancel: () => {
@@ -108,6 +115,7 @@ class AbilityTargetCard {
                     targetResults.costsFirst = true;
                     return true;
                 }
+
                 return true;
             }
         };
@@ -120,10 +128,12 @@ class AbilityTargetCard {
         } else if(!context.targets[this.name]) {
             return false;
         }
+
         let cards = context.targets[this.name];
         if(!Array.isArray(cards)) {
             cards = [cards];
         }
+
         return (cards.every(card => this.selector.canTarget(card, context)) &&
                 this.selector.hasEnoughSelected(cards, context) &&
                 !this.selector.hasExceededLimit(cards)) &&

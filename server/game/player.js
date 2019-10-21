@@ -168,6 +168,7 @@ class Player extends GameObject {
         for(let card of this.discard) {
             this.moveCard(card, 'deck');
         }
+
         this.shuffleDeck();
     }
 
@@ -178,6 +179,7 @@ class Player extends GameObject {
         if(this.name !== 'Dummy Player') {
             this.game.addMessage('{0} is shuffling their deck', this);
         }
+
         this.game.emitEvent('onDeckShuffled', { player: this });
         this.deck = _.shuffle(this.deck);
     }
@@ -227,6 +229,7 @@ class Player extends GameObject {
         for(let card of this.cardsInPlay) {
             card.new = false;
         }
+
         this.turn += 1;
     }
 
@@ -238,6 +241,7 @@ class Player extends GameObject {
         if(source === 'play area') {
             return this.cardsInPlay;
         }
+
         return this[source];
     }
 
@@ -351,6 +355,7 @@ class Player extends GameObject {
             if(options.myControl) {
                 card.setDefaultController(this);
             }
+
             card.exhausted = true;
         } else if(card.owner !== this) {
             card.owner.moveCard(card, targetLocation, options);
@@ -392,6 +397,7 @@ class Player extends GameObject {
             } else if(card.parent.childCards.includes(card)) {
                 card.parent.childCards = card.parent.childCards.filter(c => c !== card);
             }
+
             card.parent = null;
             return;
         }
@@ -441,6 +447,7 @@ class Player extends GameObject {
             while(arr.length < card.count) {
                 arr = arr.concat(card.card);
             }
+
             final = final.concat(arr);
         });
         return final;
@@ -501,6 +508,7 @@ class Player extends GameObject {
         if(restrictHouseChoice.length > 0) {
             availableHouses = restrictHouseChoice;
         }
+
         availableHouses = _.difference(_.uniq(availableHouses), this.getEffects('stopHouseChoice'));
         return availableHouses;
     }
@@ -552,17 +560,19 @@ class Player extends GameObject {
                 });
             }
         }
+
         if(unforgedKeys.length > 1) {
             this.game.promptWithHandlerMenu(this, {
-                activePromptTitle: {text: 'Which key would you like to forge?'},
+                activePromptTitle: { text: 'Which key would you like to forge?' },
                 source: 'Forge a key.',
                 choices: unforgedKeys,
                 choiceHandler: key => {
                     this.game.queueSimpleStep(() => {
                         this.modifyAmber(-modifiedCost);
                         if(this.anyEffect('forgeAmberGainedByOpponent')) {
-                            this.game.actions.gainAmber({amount: cost}).resolve(this.opponent, this.game.getFrameworkContext());
+                            this.game.actions.gainAmber({ amount: cost }).resolve(this.opponent, this.game.getFrameworkContext());
                         }
+
                         this.keys[key.text.toLowerCase()] = true;
                         this.keyForged.push(key.text.toLowerCase());
                         this.game.addMessage('{0} forges the {1}, paying {2} amber', this.game.activePlayer, `forgedkey${key.text.toLowerCase()}`, this.game.activePlayer.getCurrentKeyCost());
@@ -580,7 +590,7 @@ class Player extends GameObject {
     unforgeKey(choices) {
         if(this.keyForged.length > 1) {
             this.game.promptWithHandlerMenu(this, {
-                activePromptTitle: {text: 'Which key would you like to unforge?'},
+                activePromptTitle: { text: 'Which key would you like to unforge?' },
                 source: 'Unforge a key.',
                 choices: this.getKeyOptions(choices),
                 choiceHandler: key => {
@@ -599,12 +609,12 @@ class Player extends GameObject {
     }
 
     getUnforgedKeys() {
-        return [{text: 'Red', icon: 'unforgedkeyred'}, {text: 'Blue', icon: 'unforgedkeyblue'}, {text: 'Yellow', icon: 'unforgedkeyyellow'}]
+        return [{ text: 'Red', icon: 'unforgedkeyred' }, { text: 'Blue', icon: 'unforgedkeyblue' }, { text: 'Yellow', icon: 'unforgedkeyyellow' }]
             .filter(key => !this.keys[key.text.toLowerCase()]);
     }
 
     getKeyOptions(options) {
-        return [{text: 'Red', icon: 'forgedkeyred'}, {text: 'Blue', icon: 'forgedkeyblue'}, {text: 'Yellow', icon: 'forgedkeyyellow'}]
+        return [{ text: 'Red', icon: 'forgedkeyred' }, { text: 'Blue', icon: 'forgedkeyblue' }, { text: 'Yellow', icon: 'forgedkeyyellow' }]
             .filter(key => options.includes(key.text.toLowerCase()));
     }
 
@@ -674,6 +684,7 @@ class Player extends GameObject {
                 } else if(a.id > b.id) {
                     return 1;
                 }
+
                 return 0;
             });
             state.cardPiles.deck = this.getSummaryForCardList(sortedDeck, activePlayer, true);

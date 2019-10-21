@@ -52,7 +52,6 @@ describe('Hugger Mugger', function() {
                 expect(this.player1.amber).toBe(0);
                 expect(this.player2.amber).toBe(0);
             });
-
         });
     });
 });

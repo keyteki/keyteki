@@ -14,6 +14,7 @@ class DiscardCardAction extends CardGameAction {
             if(card.location === 'hand') {
                 context.game.cardsDiscarded.push(card);
             }
+
             card.owner.moveCard(card, 'discard');
         });
     }

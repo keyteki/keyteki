@@ -6,7 +6,7 @@ class MegaMogghunter extends Card {
             target: {
                 cardType: 'creature',
                 cardCondition: card => card.isOnFlank(),
-                gameAction: ability.actions.dealDamage({amount: 2})
+                gameAction: ability.actions.dealDamage({ amount: 2 })
             }
         });
     }

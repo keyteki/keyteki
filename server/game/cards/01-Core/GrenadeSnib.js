@@ -8,6 +8,6 @@ class GrenadeSnib extends Card {
     }
 }
 
-GrenadeSnib.id = 'grenade-snib'; // This is a guess at what the id might be - please check it!!!
+GrenadeSnib.id = 'grenade-snib';
 
 module.exports = GrenadeSnib;

@@ -16,6 +16,6 @@ class TotalRecall extends Card {
     }
 }
 
-TotalRecall.id = 'total-recall'; // This is a guess at what the id might be - please check it!!!
+TotalRecall.id = 'total-recall';
 
 module.exports = TotalRecall;

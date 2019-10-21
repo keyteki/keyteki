@@ -5,7 +5,7 @@ class GuardDisguise extends Card {
         this.action({
             condition: context => context.player.opponent && context.player.opponent.amber <= 3,
             gameAction: [
-                ability.actions.steal({ amount: 3}),
+                ability.actions.steal({ amount: 3 }),
                 ability.actions.sacrifice()
             ]
         });

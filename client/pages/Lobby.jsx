@@ -64,7 +64,7 @@ class Lobby extends React.Component {
         if(event.key === 'Enter') {
             this.sendMessage();
 
-            this.refs.message.clear();
+            this.message.clear();
 
             event.preventDefault();
         }
@@ -126,7 +126,7 @@ class Lobby extends React.Component {
                     <form className='form form-hozitontal chat-box-container' onSubmit={ event => this.onSendClick(event) }>
                         <div className='form-group'>
                             <div className='chat-box'>
-                                <TypeAhead disabled={ !isLoggedIn } ref='message' value={ this.state.message } placeholder={ t(placeholder) }
+                                <TypeAhead disabled={ !isLoggedIn } ref={ m => this.message = m } value={ this.state.message } placeholder={ t(placeholder) }
                                     labelKey={ 'name' } onKeyDown={ this.onKeyPress }
                                     options={ this.props.users } onInputChange={ this.onChange } autoFocus
                                     dropup emptyLabel={ '' }

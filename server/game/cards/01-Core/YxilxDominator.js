@@ -11,6 +11,6 @@ class YxilxDominator extends Card {
     }
 }
 
-YxilxDominator.id = 'yxilx-dominator'; // This is a guess at what the id might be - please check it!!!
+YxilxDominator.id = 'yxilx-dominator';
 
 module.exports = YxilxDominator;

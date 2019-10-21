@@ -15,6 +15,6 @@ class LadyMaxena extends Card {
     }
 }
 
-LadyMaxena.id = 'lady-maxena'; // This is a guess at what the id might be - please check it!!!
+LadyMaxena.id = 'lady-maxena';
 
 module.exports = LadyMaxena;

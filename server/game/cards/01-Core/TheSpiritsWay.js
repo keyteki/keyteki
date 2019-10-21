@@ -10,6 +10,6 @@ class TheSpiritsWay extends Card {
     }
 }
 
-TheSpiritsWay.id = 'the-spirit-s-way'; // This is a guess at what the id might be - please check it!!!
+TheSpiritsWay.id = 'the-spirit-s-way';
 
 module.exports = TheSpiritsWay;

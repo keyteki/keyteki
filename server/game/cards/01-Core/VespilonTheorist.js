@@ -14,6 +14,7 @@ class VespilonTheorist extends Card {
                 if(card.hasHouse(context.house)) {
                     return args.concat(', archive it', 'gain 1 amber');
                 }
+
                 return args.concat('', 'discard it');
             },
             gameAction: [
@@ -25,6 +26,6 @@ class VespilonTheorist extends Card {
     }
 }
 
-VespilonTheorist.id = 'vespilon-theorist'; // This is a guess at what the id might be - please check it!!!
+VespilonTheorist.id = 'vespilon-theorist';
 
 module.exports = VespilonTheorist;

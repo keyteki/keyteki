@@ -12,6 +12,6 @@ class Mindwarper extends Card {
     }
 }
 
-Mindwarper.id = 'mindwarper'; // This is a guess at what the id might be - please check it!!!
+Mindwarper.id = 'mindwarper';
 
 module.exports = Mindwarper;

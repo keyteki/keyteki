@@ -9,6 +9,6 @@ class Gatekeeper extends Card {
     }
 }
 
-Gatekeeper.id = 'gatekeeper'; // This is a guess at what the id might be - please check it!!!
+Gatekeeper.id = 'gatekeeper';
 
 module.exports = Gatekeeper;

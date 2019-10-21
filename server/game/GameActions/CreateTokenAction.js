@@ -13,6 +13,7 @@ class CreateTokenAction extends CardGameAction {
         } else if(!context.game.isDuringConflict('military')) {
             return false;
         }
+
         return super.canAffect(card, context);
     }
 
@@ -28,6 +29,7 @@ class CreateTokenAction extends CardGameAction {
             } else {
                 context.game.currentConflict.addDefender(token);
             }
+
             context.source.delayedEffect(() => ({
                 target: token,
                 context: context,

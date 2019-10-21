@@ -15,6 +15,6 @@ class FinishingBlow extends Card {
     }
 }
 
-FinishingBlow.id = 'finishing-blow'; // This is a guess at what the id might be - please check it!!!
+FinishingBlow.id = 'finishing-blow';
 
 module.exports = FinishingBlow;

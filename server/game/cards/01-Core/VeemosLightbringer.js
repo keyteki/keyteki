@@ -11,6 +11,6 @@ class VeemosLightbringer extends Card {
     }
 }
 
-VeemosLightbringer.id = 'veemos-lightbringer'; // This is a guess at what the id might be - please check it!!!
+VeemosLightbringer.id = 'veemos-lightbringer';
 
 module.exports = VeemosLightbringer;

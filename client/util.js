@@ -16,6 +16,7 @@ export function tryParseJSON(jsonString) {
     } catch(e) {
         return false;
     }
+
     return false;
 }
 
@@ -25,7 +26,7 @@ export function getMessageWithLinks(message) {
     let i = 0;
     let parts = tokens.map(token => {
         if(token.match(urlMatchingRegex)) {
-            return <a key={ `link-${i++}` } href={ token } target='_blank'>{ token }</a>;
+            return <a key={ `link-${i++}` } href={ token } target='_blank' rel='noopener noreferrer'>{ token }</a>;
         }
 
         return token + ' ';

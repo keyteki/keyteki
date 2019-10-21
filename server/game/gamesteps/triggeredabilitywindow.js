@@ -15,6 +15,7 @@ class TriggeredAbilityWindow extends ForcedTriggeredAbilityWindow {
         if(player.timerSettings.eventsInDeck && this.choices.some(context => context.player === player)) {
             return true;
         }
+
         // Show a bluff prompt if we're in Step 6, the player has the approriate setting, and there's an event for the other player
         return this.abilityType === 'cancelinterrupt' && player.timerSettings.events && _.any(this.events, event => (
             event.name === 'onCardAbilityInitiated' &&
@@ -44,6 +45,7 @@ class TriggeredAbilityWindow extends ForcedTriggeredAbilityWindow {
             player.noTimer = true;
             player.resetTimerAtEndOfRound = true;
         }
+
         if(this.prevPlayerPassed || !this.currentPlayer.opponent) {
             this.complete = true;
         } else {
@@ -59,6 +61,7 @@ class TriggeredAbilityWindow extends ForcedTriggeredAbilityWindow {
         if(this.complete) {
             return true;
         }
+
         // remove any choices which involve the current player canceling their own abilities
         if(this.abilityType === 'cancelinterrupt' && !this.currentPlayer.optionSettings.cancelOwnAbilities) {
             this.choices = this.choices.filter(context => !(
@@ -74,6 +77,7 @@ class TriggeredAbilityWindow extends ForcedTriggeredAbilityWindow {
                 this.promptWithBluffPrompt(this.currentPlayer);
                 return false;
             }
+
             // Otherwise pass
             this.pass();
             return this.filterChoices();
