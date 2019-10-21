@@ -1,4 +1,4 @@
-const Constants = require('../../../Constants.js');
+const Constants = require('../../../constants.js');
 const Card = require('../../Card.js');
 
 class NoSafetyInNumbers extends Card {

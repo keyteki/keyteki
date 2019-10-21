@@ -1,7 +1,7 @@
 const _ = require('underscore');
 const EventEmitter = require('events');
 
-const Constants = require('../Constants.js');
+const Constants = require('../constants.js');
 const ChatCommands = require('./chatcommands.js');
 const GameChat = require('./gamechat.js');
 const EffectEngine = require('./effectengine.js');
