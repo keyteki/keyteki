@@ -400,5 +400,8 @@
     "Heal A Mars Creature": "Cure Uma Criatura de Marte",
     "Stun A Mars Creature": "Atordoe Uma Criatura de Marte",
     "Top Of Deck": "Topo do Deck",
-    "Random Card From Archives": "Carta Aleatório do Arquivo"
+    "Random Card From Archives": "Carta Aleatório do Arquivo",
+    "Choose {{amount}} cards": "Escolha {{amount}} cartas",
+    "Choose {{amount}} creatures": "Escolha {{amount}} criaturas",
+    "Choose {{amount}} artifacts": "Escolha {{amount}} artefatos"
 }

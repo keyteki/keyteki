@@ -400,5 +400,8 @@
     "Heal A Mars Creature": "Heal A Mars Creature",
     "Stun A Mars Creature": "Stun A Mars Creature",
     "Top Of Deck": "Top Of Deck",
-    "Random Card From Archives": "Random Card From Archives"
+    "Random Card From Archives": "Random Card From Archives",
+    "Choose {{amount}} cards": "Choose {{amount}} cards",
+    "Choose {{amount}} creatures": "Choose {{amount}} creatures",
+    "Choose {{amount}} artifacts": "Choose {{amount}} artifacts"
 }
