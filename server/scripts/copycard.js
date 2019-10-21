@@ -50,6 +50,7 @@ function copyCard(cardsDir, source, target, tid, tpack) {
 
     return 0;
 }
-// example usage
+
+// example usage
 // node server/scripts/copycard.js --source=Rustgnawer --target=Hock --tid=hock
 copyCard(options['cards-dir'], options['source'], options['target'], options['tid'], options['tpack']);
