@@ -19,6 +19,6 @@ class KelifiDragon extends Card {
     }
 }
 
-KelifiDragon.id = 'kelifi-dragon'; // This is a guess at what the id might be - please check it!!!
+KelifiDragon.id = 'kelifi-dragon';
 
 module.exports = KelifiDragon;

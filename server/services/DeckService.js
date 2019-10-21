@@ -80,6 +80,7 @@ class DeckService {
             if(card.is_maverick) {
                 return { id: id, count: 1, maverick: card.house.toLowerCase() };
             }
+
             return { id: id, count: deckResponse.data._links.cards.filter(uuid => uuid === card.id).length };
         });
         let uuid = deckResponse.data.id;

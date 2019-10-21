@@ -9,6 +9,7 @@ class InvasionPortal extends Card {
                 if(index > -1) {
                     return { target: deck.slice(0, index + 1) };
                 }
+
                 return { target: deck };
             }),
             then: context => {
@@ -25,6 +26,6 @@ class InvasionPortal extends Card {
     }
 }
 
-InvasionPortal.id = 'invasion-portal'; // This is a guess at what the id might be - please check it!!!
+InvasionPortal.id = 'invasion-portal';
 
 module.exports = InvasionPortal;

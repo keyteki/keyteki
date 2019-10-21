@@ -11,6 +11,6 @@ class WhisperingReliquary extends Card {
     }
 }
 
-WhisperingReliquary.id = 'whispering-reliquary'; // This is a guess at what the id might be - please check it!!!
+WhisperingReliquary.id = 'whispering-reliquary';
 
 module.exports = WhisperingReliquary;

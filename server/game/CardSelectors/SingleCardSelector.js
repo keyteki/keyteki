@@ -12,8 +12,10 @@ class SingleCardSelector extends BaseCardSelector {
             if(this.cardType[0] === 'upgrade') {
                 return 'Choose an upgrade';
             }
+
             return 'Choose a ' + this.cardType[0];
         }
+
         return 'Choose a card';
     }
 

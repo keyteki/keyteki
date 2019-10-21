@@ -13,6 +13,6 @@ class Tunk extends Card {
     }
 }
 
-Tunk.id = 'tunk'; // This is a guess at what the id might be - please check it!!!
+Tunk.id = 'tunk';
 
 module.exports = Tunk;

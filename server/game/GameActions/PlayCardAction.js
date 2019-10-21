@@ -15,6 +15,7 @@ class PlayCardAction extends CardGameAction {
         if(!super.canAffect(card, context)) {
             return false;
         }
+
         let actions = card.getActions(this.location).filter(action => action.title.includes('Play'));
         return !!actions.find(action => {
             let actionContext = action.createContext(context.player);

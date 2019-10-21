@@ -21,6 +21,6 @@ class MightyLance extends Card {
     }
 }
 
-MightyLance.id = 'mighty-lance'; // This is a guess at what the id might be - please check it!!!
+MightyLance.id = 'mighty-lance';
 
 module.exports = MightyLance;

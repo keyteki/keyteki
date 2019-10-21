@@ -15,6 +15,7 @@ class MarsNeedsAmber extends Card {
                         ownController: true
                     };
                 }
+
                 return {
                     promptForSelect: {
                         cardCondition: card => damagedNonMarsCreatures.includes(card),

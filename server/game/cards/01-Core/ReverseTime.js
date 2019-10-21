@@ -19,6 +19,6 @@ class ReverseTime extends Card {
     }
 }
 
-ReverseTime.id = 'reverse-time'; // This is a guess at what the id might be - please check it!!!
+ReverseTime.id = 'reverse-time';
 
 module.exports = ReverseTime;

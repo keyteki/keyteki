@@ -17,6 +17,7 @@ class ReturnAmber extends CardGameAction {
         if(card.location !== 'play area' || this.amount === 0) {
             return false;
         }
+
         return super.canAffect(card, context);
     }
 

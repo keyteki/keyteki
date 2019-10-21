@@ -18,6 +18,6 @@ class TranspositionSandals extends Card {
     }
 }
 
-TranspositionSandals.id = 'transposition-sandals'; // This is a guess at what the id might be - please check it!!!
+TranspositionSandals.id = 'transposition-sandals';
 
 module.exports = TranspositionSandals;

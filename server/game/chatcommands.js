@@ -1,4 +1,5 @@
 const _ = require('underscore');
+const Constants = require('../constants.js');
 const GameActions = require('./GameActions');
 const ManualModePrompt = require('./gamesteps/ManualModePrompt');
 const Deck = require('./deck');
@@ -10,8 +11,6 @@ class ChatCommands {
         this.commands = {
             '/active-house': this.activeHouse,
             '/add-card': this.addCard,
-            '/add-to-deck': this.addCardDeck,
-            '/add-to-hand': this.addCardHand,
             '/cancel-prompt': this.cancelPrompt,
             '/disconnectme': this.disconnectMe,
             '/draw': this.draw,
@@ -29,21 +28,12 @@ class ChatCommands {
         this.tokens = [
             'amber',
             'damage',
+            'enrage',
             'power',
-            'stun'
+            'stun',
+            'ward'
         ];
-        this.houses = [
-            'brobnar',
-            'dis',
-            'logos',
-            'mars',
-            'sanctum',
-            'shadows',
-            'untamed',
-            'staralliance',
-            'saurian',
-            'none'
-        ];
+        this.houses = [...Constants.Houses, 'none'];
     }
 
     executeCommand(player, command, args) {
@@ -54,7 +44,22 @@ class ChatCommands {
         return this.commands[command].call(this, player, args) !== false;
     }
 
-    addCard(player, args, location = 'deck') {
+    addCard(player, args) {
+        let location = 'hand';
+
+        switch(args[1]) {
+            case 'hand':
+                location = 'hand';
+                args = args.slice(1);
+
+                break;
+            case 'deck':
+                location = 'deck';
+                args = args.slice(1);
+
+                break;
+        }
+
         let cardName = args.slice(1).join(' ');
         let card = Object.values(this.game.cardData).find(c => {
             return c.name.toLowerCase() === cardName.toLowerCase();
@@ -78,18 +83,11 @@ class ChatCommands {
         return true;
     }
 
-    addCardDeck(player, args) {
-        return this.addCard(player, args, 'deck');
-    }
-
-    addCardHand(player, args) {
-        return this.addCard(player, args, 'hand');
-    }
-
     forge(player, args) {
         if(Object.values(player.keys).every(key => key)) {
             return;
         }
+
         const color = args[1] ? args[1] : Object.keys(player.keys).filter(key => !player.keys[key])[0];
 
         this.game.addMessage('{0} uses the /forge command to forge the {1} key', player, color);
@@ -101,6 +99,7 @@ class ChatCommands {
         if(Object.values(player.keys).every(key => !key)) {
             return;
         }
+
         const color = args[1] ? args[1] : Object.keys(player.keys).filter(key => player.keys[key])[0];
         this.game.addMessage('{0} uses the /unforge command to unforge the {1} key', player, color);
         player.keys[color] = false;

@@ -9,7 +9,8 @@ describe('Vezyma Thinkdrone', function() {
                         inPlay: ['gamgee', 'ronnie-wristclocks', 'vezyma-thinkdrone']
                     },
                     player2: {
-                        inPlay: []
+                        inPlay: [],
+                        hand: ['scowly-caper']
                     }
                 });
             });
@@ -33,6 +34,30 @@ describe('Vezyma Thinkdrone', function() {
                 expect(this.player1.amber).toBe(2);
             });
 
+            it('should archive a controlled card to owner\'s archive', function() {
+                this.player1.endTurn();
+                this.player2.clickPrompt('shadows');
+                this.player2.playCreature(this.scowlyCaper);
+                this.player2.endTurn();
+
+                this.player1.clickPrompt('mars');
+                this.player1.reap(this.vezymaThinkdrone);
+                expect(this.player1).toHavePrompt('Choose a card');
+                expect(this.player1).toBeAbleToSelect(this.vezymaThinkdrone);
+                expect(this.player1).toBeAbleToSelect(this.ronnieWristclocks);
+                expect(this.player1).toBeAbleToSelect(this.gamgee);
+                expect(this.player1).toBeAbleToSelect(this.scowlyCaper);
+                this.player1.clickCard(this.scowlyCaper);
+                expect(this.player1).toHavePrompt('Do you wish to archive a friendly creature or artifact?');
+                this.player1.clickPrompt('Yes');
+                expect(this.scowlyCaper.location).toBe('archives');
+                expect(this.vezymaThinkdrone.location).toBe('play area');
+                expect(this.gamgee.location).toBe('play area');
+                expect(this.ronnieWristclocks.location).toBe('play area');
+
+                expect(this.player1.archives).not.toContain(this.scowlyCaper);
+                expect(this.player2.archives).toContain(this.scowlyCaper);
+            });
         });
     });
 });

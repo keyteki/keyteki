@@ -8,6 +8,6 @@ class PitDemon extends Card {
     }
 }
 
-PitDemon.id = 'pit-demon'; // This is a guess at what the id might be - please check it!!!
+PitDemon.id = 'pit-demon';
 
 module.exports = PitDemon;

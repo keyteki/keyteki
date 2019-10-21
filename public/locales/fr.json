@@ -1,8 +1,6 @@
 {
     "navbar.language": "Langue:",
-
     "decksummary.toverify": "Ce deck a été signalé, il requiert une vérification. Envoyez s'il vous plaît, par mail, une photo de votre deck avec un papier sur lequel apparaît votre pseudo.",
-
     "Actions": "Actions",
     "Archives": "Archives",
     "Artifacts": "Artéfacts",
@@ -43,7 +41,6 @@
     "Used": "Utilisé",
     "Valid": "Valide",
     "Validity": "Validité",
-
     "Decks": "Decks",
     "Play": "Jouer",
     "Help": "Aide",
@@ -82,7 +79,6 @@
     "Yes": "Oui",
     "No": "Non",
     "Are you sure you want to end your turn?": "Êtes-vous sûr(e) de vouloir finir votre tour ?",
-
     "Choose a creature": "Choisir une créature",
     "Choose a creature to attack": "Choisir une créature à attaquer",
     "Choose a creature to sacrifice": "Choisir une créature à sacrifier",
@@ -122,7 +118,6 @@
     "Choose a sanctum card to destroy": "Choisir quelle carte Sanctum détruire",
     "Choose a shadows card to destroy": "Choisir quelle carte Ombres détruire",
     "Choose a untamed card to destroy": "Choisir quelle carte Indomptés détruire",
-
     "Reap with this creature": "Moissonner avec cette créature",
     "Fight with this creature": "Combattre avec cette créature",
     "Waiting for opponent to approve entering manual mode": "Attendre que l'adversaire accepte le passage en mode manuel",
@@ -136,7 +131,6 @@
     "Access Archives": "Accéder aux archives",
     "Do you wish to take all the cards in archives into your hand?": "Voulez-vous prendre toutes les cartes de vos archives et les ajouter à votre main ?",
     "Choose a creature to attach this upgrade to": "Choisir une créature sur laquelle attacher cette amélioration",
-
     "draw phase": "Phase de pioche",
     "Cancel Prompt": "Annuler l'invitation de commande",
     "Current Games": "Parties en cours",
@@ -169,7 +163,6 @@
     "Name": "Nom",
     "Password": "Mot de passe",
     "Game Name": "Nom de la partie",
-
     "Loading game in progress, please wait...": "Merci d'attendre le chargement de la partie",
     "You must be logged in to play, redirecting...": "Vous devez être connecté pour jouer, redirection en cours...",
     "Players": "Joueurs",
@@ -193,7 +186,6 @@
     "Please login before trying to start a new game": "Merci de vous connecter à votre compte avant d'essayer de démarrer une nouvelle partie",
     "Sealed game format": "format de jeu scellé",
     "There are no games matching the filters you have selected": "Il n'y a pas de parties qui correspondent aux filtres que vous avez sélectionnés",
-
     "Select one": "Choisir un",
     "Import Deck": "Importer un deck",
     "Your decks": "Vos decks",
@@ -210,7 +202,6 @@
     "The URL you entered is invalid.  Please check it and try again.": "L'URL que vous avez renseignée n'est pas valide, merci de vérifier et d'essayer à nouveau.",
     "link": "lien",
     "importdeck.enterlink": "<0>Insérer le lien du deck à partir du site <1>keyforge master vault.</1></0><p>Cherchez un deck existant ou un de vos decks dans la section \"Mes decks\" de ce site. Trouvez l’URL du deck et copiez-le dans la zone ci-dessous.</p><p>L’URL doit ressembler à cela: </p>",
-
     "Forgot your password?": "Mot de passe oublié ?",
     "Log In": "Se connecter",
     "Login": "Identifiant",
@@ -239,7 +230,6 @@
     "An account with that name already exists, please choose another": "Un compte avec ce nom existe déjà, merci d'en choisir un autre.",
     "Register an account": "Créer un compte",
     "register.disclosure": "<0>We require information from you in order to service your access to the site.  Please see the <1>privacy policy</1> for details on why we need this information and what we do with it.  Please pay particular attention to the section on avatars.</0>",
-
     "Settings": "Paramètres",
     "Prompt to order simultaneous abilities": "Menu pour ordonner les capacités simultanées",
     "Show a prompt when initating 1-click abilities": "Afficher un menu lors du lancement des capacités nécessitant un seul clic.",
@@ -280,7 +270,6 @@
     "Last Used": "Dernière utilisation",
     "security.note": "Ci-dessous vous verrez les 'sessions' actives que vous avez sur le site. Si vous voyez une activité imprévue sur votre compte, supprimez la session et envisagez de modifier votre mot de passe.",
     "Session removed successfully": "Session supprimée avec succès",
-
     "Deploy Left": "Déploiement à gauche",
     "Deploy Right": "Déploiement à droite",
     "Remove this creature's stun": "Supprimer l'étourdissement",
@@ -321,7 +310,6 @@
     "Loading session details from the server...": "Chargement des détails de la session en cours depuis le serveur...",
     "Purged": "Purge",
     "Your game is not finished, are you sure you want to leave?": "Votre partie n'est pas terminée, voulez-vous vraiment quitter ?",
-
     "Triggered Abilities": "Capacités activées",
     "Done": "Appliquer",
     "Waiting for opponent to take an action or pass": "Attendre que l'adversaire fasse une action ou passe",
@@ -338,17 +326,14 @@
     "Select a card to put in your hand": "Choisir une carte à mettre dans votre main",
     "Please login before trying to join a game": "Veuillez saisir votre identifiant avant d'essayer de rejoindre une partie",
     "Any reactions?": "Des réactions ?",
-
     "You have no decks, try adding one": "Vous n'avez pas de deck, ajoutez un deck pour le voir apparaître ici",
     "Enter the password": "Entrer le mot de passe",
     "Password Required": "Mot de passe requis",
     "Incorrect game password": "Mot de passe incorrect",
     "Select Deck": "Choisir un deck",
     "Or choose a standalone deck": "Ou choisir un deck autonome",
-
     "Mine": "Ma pile",
     "Opponent's": "De l'adversaire",
-
     "Topics": "Sujets",
     "Profile Options": "Options du Profil",
     "Bugs and Automation": "Bogues et Automatisation",
@@ -373,7 +358,6 @@
     "howtoplay.cmd.token": "Choisissez une carte et changez le nombre de jetons de type x en y",
     "howtoplay.cmd.unforge": "Déforger une clé",
     "howtoplay.about": "The Crucible Online ne classe pas et/ou n'apparie pas les joueurs par niveau de compétence. Il y a trois catégories (débutant, décontractée et compétitive) à choisir lors de la création d'un jeu qui donne une indication mais cela n'implique rien. Même si les statistiques personnelles ne sont pas suivies, la plupart des joueurs apprécient encore beaucoup un concédé formel en cliquant sur le bouton 'Concèder' et en tapant 'gg' avant de quitter un jeu. La réalité des jeux en ligne rapides et anonymes montre que cela ne se produira pas toujours, comme en témoigne les plaintes régulières dans le chat room principal. Notre conseil est de passer au prochain match car finalement, concéder ou non n'a pas vraiment d'impact sur quoi que ce soit. Jouer heureux!",
-
     "about.whatisthis": "<0>Qu'est-ce que c est?</0><p>Ce site a été créé pour vous permettre de jouer à Keyforge, un jeu de deck unique de Fantasy Flight Games (FFG) dans votre navigateur.</p>",
     "about.cool": "<0>C'est plutôt cool !  Mais comment tout cela fonctionne-t-il?</0><1>Dirigez-vous vers le <1>guide Comment Jouer</1> pour une explication approfondie.</1>",
     "about.avatar": "<0>Tout le monde a un avatar brillant, comment puis-je en obtenir un?</0><1>Ceci est géré par les bonnes personnes à <1>Gravatar</1>.  Inscrivez-vous là avec la même adresse e-mail que vous avez fait là-bas et il devrait apparaître sur le site après un court moment. Il utilisera également l'avatar sur n'importe quel site qui utilise gravatar. Les exemples incluent github et jinteki.</1>",
@@ -381,12 +365,10 @@
     "about.thanks": "<0>Remerciement spécial</0><p>Je souhaite remercier gyffon, cryogen, et l'équipe throneteki et ringteki. Sans leur aide et leur soutien, ce site n'aurait jamais eu lieu.</p>",
     "about.addicons": "<0>Icônes supplémentaires</0><1>Quelques icônes ont été incluses dans game-icons.net: Death Note par <1>lorc</1>. <3>CC-BY 3.0</3></1>",
     "about.addnotes": "<0>Notes supplémentaires</0><p>Le jeu Keyforge de deck unique, les illustrations et bien d'autres choses sont tous des droits d'auteur Fantasy Flight Games et je ne fais aucune réclamation de propriété ou autre concernant l'une des illustrations ou des marques.  Ce site existe pour les fans passionnés jouant à un jeu qu'ils aiment et qu'il enrichisse, et ne remplacer le LCG en personne.  FFG n'approuve pas, ne soutient pas, et n'est pas impliqué avec, ce site en aucune façon.</p>",
-
     "What is this page?": "Qu'est-ce que cette page?",
     "community.whatisthis": "Cette page renvoie vers d'autres œuvres / ressources de la communauté KeyForge.",
     "community.discord": "<0>Lien: <1>Discord Keyforge</1></0><p>Discord est une application de communication de texte et de voix. Créé par des membres de la communauté Keyforge, il s'agit d'une communauté robuste de joueurs LCG/CCG/RPG.</p>",
     "UNDER CONSTRUCTION": "EN CONSTRUCTION",
-
     "Background": "Historique",
     "privacy.background": "Même si ce n'est qu'un site pour jouer à un jeu de cartes en ligne, nous prenons toujours votre vie privée et la sécurité de vos données au sérieux.  Cette politique décrit les données que nous stockons à votre sujet, pourquoi nous les stockons et ce que nous en faisons.",
     "What data we store": "Quelles données nous stockons",
@@ -401,9 +383,7 @@
     "privacy.whyemail.5": "pour vous envoyer des mises à jour critiques sur le site de temps en temps",
     "privacy.ipaddress": "L'adresse IP de l'ordinateur que vous utilisez est collectée afin de protéger la sécurité et l'intégrité du site et de nous permettre de prévenir les abus du site.",
     "privacy.lobby": "Vos messages du chat room sont stockés afin que nous puissions les afficher à d'autres utilisateurs du site et détecter les modèles de comportement abusif.  Vos messages peuvent également être modérés pour supprimer du contenu offensant, ou supprimés complètement à notre discrétion.",
-
     "Create": "Créer",
-
     "{{card}}": "{{card}}",
     "{{card}} ({{quantity}})": "{{card}} ({{quantity}})",
     "How much amber do you want to use from {{card}}": "Combien d’ambres voulez-vous utiliser  de {{card}}",
@@ -414,7 +394,11 @@
     "Do you wish to archive a friendly creature or artifact?": "Souhaitez-vous archiver une créature amicale ou un artéfact?",
     "Select a card to deploy to the left of": "Sélectionnez une carte à déployer à gauche de",
     "Select a card to deploy to the right of": "Sélectionnez une carte à déployer à droite de",
-
    "Call of the Archons": "L'Appel des Archontes",
-    "Age of Ascension": "L'Âge de l'Ascension"
+    "Age of Ascension": "L'Âge de l'Ascension",
+    "Choose a creature to ward": "Choose a creature to ward",
+    "Heal A Mars Creature": "Heal A Mars Creature",
+    "Stun A Mars Creature": "Stun A Mars Creature",
+    "Top Of Deck": "Top Of Deck",
+    "Random Card From Archives": "Random Card From Archives"
 }

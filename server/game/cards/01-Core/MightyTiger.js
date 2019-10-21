@@ -12,6 +12,6 @@ class MightyTiger extends Card {
     }
 }
 
-MightyTiger.id = 'mighty-tiger'; // This is a guess at what the id might be - please check it!!!
+MightyTiger.id = 'mighty-tiger';
 
 module.exports = MightyTiger;

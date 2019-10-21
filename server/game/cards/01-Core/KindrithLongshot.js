@@ -11,6 +11,6 @@ class KindrithLongshot extends Card {
     }
 }
 
-KindrithLongshot.id = 'kindrith-longshot'; // This is a guess at what the id might be - please check it!!!
+KindrithLongshot.id = 'kindrith-longshot';
 
 module.exports = KindrithLongshot;

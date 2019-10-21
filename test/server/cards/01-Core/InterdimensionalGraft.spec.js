@@ -30,7 +30,6 @@ describe('Interdimensional Graft', function() {
             it('should trigger on forging a key using a card ability', function() {
                 expect(this.player1.amber).toBe(1);
                 this.player1.endTurn();
-                this.player2.forgeKey('Red');
                 expect(this.player2.player.keys.red).toBe(false);
                 expect(this.player2.player.keys.blue).toBe(false);
                 expect(this.player2.player.keys.yellow).toBe(false);

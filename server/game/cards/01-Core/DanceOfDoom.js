@@ -8,6 +8,7 @@ class DanceOfDoom extends Card {
                 target: context.game.creaturesInPlay.filter(card => card.power === i)
             }));
         }
+
         this.play({
             target: {
                 mode: 'select',

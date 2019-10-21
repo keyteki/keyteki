@@ -19,6 +19,6 @@ class Arise extends Card {
     }
 }
 
-Arise.id = 'arise'; // This is a guess at what the id might be - please check it!!!
+Arise.id = 'arise';
 
 module.exports = Arise;

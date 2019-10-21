@@ -103,11 +103,13 @@ class Effect {
                 this.cancel();
                 return true;
             }
+
             return this.effect.recalculate(this.match) || stateChanged;
         } else if(!this.targets.includes(this.match) && this.isValidTarget(this.match)) {
             this.addTarget(this.match);
             return true;
         }
+
         return stateChanged;
     }
 

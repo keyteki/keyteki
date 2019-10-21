@@ -12,6 +12,6 @@ class Bulleteye extends Card {
     }
 }
 
-Bulleteye.id = 'bulleteye'; // This is a guess at what the id might be - please check it!!!
+Bulleteye.id = 'bulleteye';
 
 module.exports = Bulleteye;

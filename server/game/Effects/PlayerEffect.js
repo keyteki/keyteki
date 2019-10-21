@@ -7,7 +7,6 @@ class PlayerEffect extends Effect {
         if(typeof this.match !== 'function') {
             this.match = player => true; // eslint-disable-line no-unused-vars
         }
-
     }
 
     isValidTarget(target) {
@@ -16,6 +15,7 @@ class PlayerEffect extends Effect {
         } else if(this.targetController === 'opponent' && target === this.context.player) {
             return false;
         }
+
         return true;
     }
 

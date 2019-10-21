@@ -9,6 +9,6 @@ class GhostlyHand extends Card {
     }
 }
 
-GhostlyHand.id = 'ghostly-hand'; // This is a guess at what the id might be - please check it!!!
+GhostlyHand.id = 'ghostly-hand';
 
 module.exports = GhostlyHand;

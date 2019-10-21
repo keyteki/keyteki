@@ -12,6 +12,7 @@ class Pandemonium extends Card {
                     } else if(context.player.opponent.amber >= undamagedCreatures.length) {
                         return { target: undamagedCreatures };
                     }
+
                     return {
                         promptForSelect: {
                             cardCondition: card => undamagedCreatures.includes(card),
@@ -24,10 +25,12 @@ class Pandemonium extends Card {
                     if(!context.player.opponent || context.player.amber === 0) {
                         return { target: [] };
                     }
+
                     let undamagedCreatures = context.player.opponent.creaturesInPlay.filter(card => !card.hasToken('damage'));
                     if(context.player.amber >= undamagedCreatures.length) {
                         return { target: undamagedCreatures };
                     }
+
                     return {
                         promptForSelect: {
                             cardCondition: card => undamagedCreatures.includes(card),

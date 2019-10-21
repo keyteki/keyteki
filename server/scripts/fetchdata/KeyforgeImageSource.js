@@ -3,7 +3,6 @@ const jimp = require('jimp');
 const request = require('request');
 
 class KeyforgeImageSource {
-
     fetchImage(card, imageUrl, imagePath) {
         request({ url: imageUrl, encoding: null }, function(err, response, body) {
             if(err || response.statusCode !== 200) {

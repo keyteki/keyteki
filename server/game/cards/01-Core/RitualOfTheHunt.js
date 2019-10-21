@@ -13,6 +13,6 @@ class RitualOfTheHunt extends Card {
     }
 }
 
-RitualOfTheHunt.id = 'ritual-of-the-hunt'; // This is a guess at what the id might be - please check it!!!
+RitualOfTheHunt.id = 'ritual-of-the-hunt';
 
 module.exports = RitualOfTheHunt;

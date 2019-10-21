@@ -11,6 +11,6 @@ class RadiantTruth extends Card {
     }
 }
 
-RadiantTruth.id = 'radiant-truth'; // This is a guess at what the id might be - please check it!!!
+RadiantTruth.id = 'radiant-truth';
 
 module.exports = RadiantTruth;

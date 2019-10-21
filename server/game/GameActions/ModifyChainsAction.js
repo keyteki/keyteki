@@ -8,7 +8,7 @@ class ModifyChainsAction extends PlayerAction {
     setup() {
         super.setup();
         this.name = 'modifyChains';
-        this.effect = 'increase their chains by ' + this.amount;
+        this.effectMsg = 'increase their chains by ' + this.amount;
     }
 
     canAffect(player, context) {

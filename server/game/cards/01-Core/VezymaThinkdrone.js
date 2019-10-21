@@ -14,6 +14,6 @@ class VezymaThinkdrone extends Card {
     }
 }
 
-VezymaThinkdrone.id = 'vezyma-thinkdrone'; // This is a guess at what the id might be - please check it!!!
+VezymaThinkdrone.id = 'vezyma-thinkdrone';
 
 module.exports = VezymaThinkdrone;

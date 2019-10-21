@@ -47,6 +47,7 @@ class GameFlowWrapper {
         this.player1.clickPrompt('Keep Hand');
         this.player2.clickPrompt('Keep Hand');
     }
+
     /**
      * Asserts that the game is in the expected phase
      */
@@ -69,6 +70,7 @@ class GameFlowWrapper {
             for(let j = 0; j < chatMessage.message.length; j++) {
                 result += getChatString(chatMessage.message[j]);
             }
+
             results.push(result);
         }
 
@@ -84,6 +86,7 @@ class GameFlowWrapper {
                     return getChatString(item.message);
                 }
             }
+
             return item;
         }
     }

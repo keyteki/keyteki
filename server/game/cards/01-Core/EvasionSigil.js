@@ -21,6 +21,7 @@ class EvasionSigil extends Card {
                     if(cancelFight) {
                         return { target: context.event.context.source };
                     }
+
                     return { target: [] };
                 }),
                 ability.actions.changeEvent(context => {
@@ -38,6 +39,6 @@ class EvasionSigil extends Card {
     }
 }
 
-EvasionSigil.id = 'evasion-sigil'; // This is a guess at what the id might be - please check it!!!
+EvasionSigil.id = 'evasion-sigil';
 
 module.exports = EvasionSigil;

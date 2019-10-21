@@ -14,6 +14,6 @@ class PhosphorusStars extends Card {
     }
 }
 
-PhosphorusStars.id = 'phosphorus-stars'; // This is a guess at what the id might be - please check it!!!
+PhosphorusStars.id = 'phosphorus-stars';
 
 module.exports = PhosphorusStars;

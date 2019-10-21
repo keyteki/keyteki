@@ -52,9 +52,11 @@ class TriggeredAbility extends CardAbility {
         } else if(this.triggeredByOpponent) {
             player = player.opponent;
         }
+
         if(!player) {
             return;
         }
+
         let context = this.createContext(player, event);
         //console.log(event.name, this.card.name, this.isTriggeredByEvent(event, context), this.meetsRequirements(context));
         if(this.isTriggeredByEvent(event, context) && this.meetsRequirements(context) === '') {

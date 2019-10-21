@@ -8,6 +8,6 @@ class Mother extends Card {
     }
 }
 
-Mother.id = 'mother'; // This is a guess at what the id might be - please check it!!!
+Mother.id = 'mother';
 
 module.exports = Mother;

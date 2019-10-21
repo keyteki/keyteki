@@ -174,6 +174,7 @@ class GameServer {
             if(player.left || player.disconnected || !player.socket) {
                 return;
             }
+
             player.socket.send('gamestate', game.getState(player.name));
         });
     }

@@ -9,12 +9,12 @@ class MassAbduction extends Card {
                 cardType: 'creature',
                 controller: 'opponent',
                 cardCondition: card => card.hasToken('damage'),
-                gameAction: ability.actions.archive()
+                gameAction: ability.actions.archive({ owner: false })
             }
         });
     }
 }
 
-MassAbduction.id = 'mass-abduction'; // This is a guess at what the id might be - please check it!!!
+MassAbduction.id = 'mass-abduction';
 
 module.exports = MassAbduction;

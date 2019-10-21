@@ -8,6 +8,6 @@ class LibraryOfBabble extends Card {
     }
 }
 
-LibraryOfBabble.id = 'library-of-babble'; // This is a guess at what the id might be - please check it!!!
+LibraryOfBabble.id = 'library-of-babble';
 
 module.exports = LibraryOfBabble;

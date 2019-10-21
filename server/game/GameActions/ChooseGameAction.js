@@ -22,10 +22,12 @@ class ChooseGameAction extends GameAction {
                 this.choices[key] = [this.choices[key]];
             }
         }
+
         this.gameActions = Object.values(this.choices).reduce((array, actions) => array.concat(actions), []);
         for(let gameAction of this.gameActions) {
             gameAction.update(context);
         }
+
         this.setTarget(this.target);
     }
 
@@ -47,6 +49,7 @@ class ChooseGameAction extends GameAction {
                 if(this.messages[choice]) {
                     context.game.addMessage(this.messages[choice], context.player, this.target);
                 }
+
                 for(let gameAction of this.choices[choice]) {
                     context.game.queueSimpleStep(() => gameAction.preEventHandler(context));
                 }
@@ -68,6 +71,7 @@ class ChooseGameAction extends GameAction {
         if(!this.choice) {
             return [];
         }
+
         return this.choices[this.choice].reduce((array, action) => array.concat(action.getEventArray(context)), []);
     }
 }

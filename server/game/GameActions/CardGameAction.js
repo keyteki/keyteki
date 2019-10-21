@@ -23,6 +23,7 @@ class CardGameAction extends GameAction {
             contextCopy.stage = 'effect';
             return this.promptWithHandlerMenu.cards.some(card => this.canAffect(card, contextCopy));
         }
+
         return result;
     }
 
@@ -40,6 +41,7 @@ class CardGameAction extends GameAction {
             if(!selector.hasEnoughTargets(context)) {
                 return;
             }
+
             let defaultProperties = {
                 player: context.player,
                 context: context,
@@ -51,11 +53,14 @@ class CardGameAction extends GameAction {
                         if(typeof messageArgs === 'function') {
                             messageArgs = messageArgs(cards);
                         }
+
                         if(!Array.isArray(messageArgs)) {
                             messageArgs = [messageArgs];
                         }
+
                         context.game.addMessage(this.promptForSelect.message, ...messageArgs);
                     }
+
                     return true;
                 }
             };
@@ -67,15 +72,19 @@ class CardGameAction extends GameAction {
                 properties.cards = properties.cards.filter(card => this.canAffect(card, context));
                 this.target = [];
             }
+
             if(properties.cards.length === 0) {
                 return;
             }
+
             if(!properties.player) {
                 properties.player = context.player;
             }
+
             if(properties.customHandler) {
                 properties.cardHandler = card => properties.customHandler(card, this);
             }
+
             let defaultProperties = {
                 context: context,
                 cardHandler: card => {

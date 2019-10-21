@@ -28,7 +28,6 @@ describe('Discombobulator', function() {
             });
 
             it('should allow amber to be captured or lost', function() {
-
                 this.player1.playUpgrade(this.discombobulator, this.eyegor);
                 expect(this.player1.amber).toBe(1);
                 expect(this.player2.amber).toBe(4);

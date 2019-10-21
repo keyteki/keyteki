@@ -13,6 +13,6 @@ class TwinBoltEmission extends Card {
     }
 }
 
-TwinBoltEmission.id = 'twin-bolt-emission'; // This is a guess at what the id might be - please check it!!!
+TwinBoltEmission.id = 'twin-bolt-emission';
 
 module.exports = TwinBoltEmission;

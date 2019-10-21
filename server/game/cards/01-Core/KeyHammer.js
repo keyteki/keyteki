@@ -20,6 +20,6 @@ class KeyHammer extends Card {
     }
 }
 
-KeyHammer.id = 'key-hammer'; // This is a guess at what the id might be - please check it!!!
+KeyHammer.id = 'key-hammer';
 
 module.exports = KeyHammer;

@@ -17,6 +17,6 @@ class NumquidTheFair extends Card {
     }
 }
 
-NumquidTheFair.id = 'numquid-the-fair'; // This is a guess at what the id might be - please check it!!!
+NumquidTheFair.id = 'numquid-the-fair';
 
 module.exports = NumquidTheFair;
