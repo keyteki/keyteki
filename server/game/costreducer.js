@@ -27,6 +27,7 @@ class CostReducer {
         if(!this.targetCondition) {
             return true;
         }
+
         if(!target) {
             return false;
         }

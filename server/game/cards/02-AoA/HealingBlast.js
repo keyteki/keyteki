@@ -10,7 +10,7 @@ class HealingBlast extends Card {
             then: {
                 condition: context => context.preThenEvent.amount >= 4,
                 message: '{0} gains an additional 2 amber due to {1} healing 4 or more damage',
-                gameAction: ability.actions.gainAmber({ amount: 2})
+                gameAction: ability.actions.gainAmber({ amount: 2 })
             }
         });
     }

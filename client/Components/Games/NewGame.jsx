@@ -156,7 +156,6 @@ class NewGame extends React.Component {
                             <input type='radio' onChange={ this.onGameTypeChange.bind(this, gameType.name) } checked={ this.isGameTypeSelected(gameType.name) } />
                             { gameType.label }
                         </label>);
-
                     }) }
                 </div>
             </div>);

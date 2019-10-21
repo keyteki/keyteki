@@ -11,7 +11,7 @@ class NotFinishedWithYou extends Card {
                 location: 'discard',
                 gameAction: [
                     ability.actions.returnToDeck({ shuffle: true })
-                ]}
+                ] }
         });
     }
 }

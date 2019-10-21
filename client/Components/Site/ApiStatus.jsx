@@ -11,9 +11,11 @@ class ApiStatus extends React.Component {
 
         let error;
         if(typeof this.props.apiState.message === 'object') {
+            let i = 0;
+
             error = (<ul>
                 { Object.values(this.props.apiState.message).map(message => {
-                    return <li>{ message }</li>;
+                    return <li key={ `message-${i++}` }>{ message }</li>;
                 }) }
             </ul>);
         } else {

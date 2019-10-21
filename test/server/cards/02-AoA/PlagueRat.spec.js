@@ -35,7 +35,6 @@ describe('Plague Rat', function() {
                 expect(this.horsemanOfFamine.tokens.damage).toBe(3);
                 expect(this.horsemanOfDeath.tokens.damage).toBe(3);
             });
-
         });
     });
 });

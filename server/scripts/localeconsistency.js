@@ -12,7 +12,6 @@ const optionsDefinition = [
 let options = commandLineArgs(optionsDefinition);
 
 function verifyLocale(localeDir, sourceLanguage, targetLanguage) {
-
     let sourceLanguageFile = path.join(localeDir, sourceLanguage + '.json');
     let targetLanguageFile = path.join(localeDir, targetLanguage.replace('-', '') + '.json');
 
@@ -74,5 +73,4 @@ function verifyLocale(localeDir, sourceLanguage, targetLanguage) {
         }
     }
 }
-
-verifyLocale(options['locale-dir'], 'en', options['language']);
+verifyLocale(options['locale-dir'], 'en', options['language']);

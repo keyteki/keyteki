@@ -74,6 +74,7 @@ class EffectSource extends GameObject {
         if(Array.isArray(effect)) {
             return effect.map(factory => this.game.effectEngine.add(factory(this.game, this, properties)));
         }
+
         return [this.game.effectEngine.add(effect(this.game, this, properties))];
     }
 

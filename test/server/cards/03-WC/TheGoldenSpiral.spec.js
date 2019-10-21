@@ -14,7 +14,6 @@ describe('The Golden Spiral', function() {
             });
 
             it('Exalt, ready and reap with an exhausted friendly creature', function() {
-
                 this.player1.reap(this.brutodonAuxillary);
                 this.player1.useAction(this.theGoldenSpiral);
 
@@ -46,7 +45,6 @@ describe('The Golden Spiral', function() {
             });
 
             it('Exalt, ready and fight with an exhausted friendly creature', function() {
-
                 this.player1.reap(this.brutodonAuxillary);
                 this.player1.useAction(this.theGoldenSpiral);
 
@@ -78,7 +76,6 @@ describe('The Golden Spiral', function() {
             });
 
             it('Exalt, ready and use an action of an exhausted friendly creature', function() {
-
                 this.abondTheArmorsmith.exhausted = true;
                 this.player1.useAction(this.theGoldenSpiral);
 

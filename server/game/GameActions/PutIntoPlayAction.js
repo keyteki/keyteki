@@ -21,6 +21,7 @@ class PutIntoPlayAction extends CardGameAction {
         } else if(card.location === 'play area') {
             return false;
         }
+
         return true;
     }
 

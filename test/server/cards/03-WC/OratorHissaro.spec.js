@@ -17,7 +17,6 @@ describe('Orator Hissaro', function() {
             });
 
             it('should exalt his neighbors and they will be readied and belong to house saurian', function() {
-
                 this.player1.playCreature(this.oratorHissaro, true, true);
                 this.player1.clickCard(this.flaxia);
 
@@ -33,7 +32,6 @@ describe('Orator Hissaro', function() {
             });
 
             it('should belong to house saurian for a single turn', function() {
-
                 this.player1.playCreature(this.oratorHissaro, true, true);
                 this.player1.clickCard(this.flaxia);
                 expect(this.flaxia.hasHouse('saurian')).toBe(true);

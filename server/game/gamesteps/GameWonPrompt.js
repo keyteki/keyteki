@@ -15,7 +15,7 @@ class GameWonPrompt extends AllPlayerPrompt {
     activePrompt() {
         return {
             promptTitle: 'Game Won',
-            menuTitle: {text: '{{player}} has won the game!', values: { player: this.winner.name } },
+            menuTitle: { text: '{{player}} has won the game!', values: { player: this.winner.name } },
             buttons: [
                 { arg: 'continue', text: 'Continue Playing' },
                 { arg: 'rematch', text: 'Rematch' }

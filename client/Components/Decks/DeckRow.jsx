@@ -17,11 +17,11 @@ class DeckRow extends React.Component {
     }
 
     onArchonMouseOver(card) {
-        this.setState({card});
+        this.setState({ card });
     }
 
     onCardMouseOut() {
-        this.setState({card: false});
+        this.setState({ card: false });
     }
 
     handleDeckClick() {

@@ -9,6 +9,7 @@ class MenuCommands {
                     game.addAlert('danger', '{0} exhausts {1}', player, card);
                     card.exhaust();
                 }
+
                 break;
             case 'addDamage':
                 game.addAlert('danger', '{0} adds a damage to {1}', player, card);
@@ -34,6 +35,7 @@ class MenuCommands {
                     game.addAlert('danger', '{0} stuns {1}', player, card);
                     card.stun();
                 }
+
                 break;
             case 'addEnrage':
                 game.addAlert('danger', '{0} adds an enrage to {1}', player, card);
@@ -56,6 +58,7 @@ class MenuCommands {
                     game.addAlert('danger', '{0} gives {1} control of {2}', player, player.opponent, card);
                     card.setDefaultController(player.opponent);
                 }
+
                 break;
         }
     }

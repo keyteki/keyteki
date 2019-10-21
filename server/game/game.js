@@ -82,6 +82,7 @@ class Game extends EventEmitter {
 
         this.router = options.router;
     }
+
     /*
      * Reports errors from the game engine back to the router
      * @param {type} e
@@ -192,6 +193,7 @@ class Game extends EventEmitter {
             if(card) {
                 return card;
             }
+
             return player.cardsInPlay.find(card => card.uuid === cardId);
         }, null);
     }
@@ -258,10 +260,12 @@ class Game extends EventEmitter {
         if(!player || !controller) {
             return;
         }
+
         let list = controller.getSourceList(location);
         if(!list) {
             return;
         }
+
         let card = list.find(card => !isProvince === !card.isProvince);
         if(card) {
             return this.pipeline.handleCardClicked(player, card);
@@ -351,7 +355,6 @@ class Game extends EventEmitter {
      */
     recordWinner(winner, reason) {
         if(this.winner) {
-
             return;
         }
 
@@ -690,6 +693,7 @@ class Game extends EventEmitter {
         if(!_.isArray(events)) {
             events = [events];
         }
+
         return this.queueStep(new EventWindow(this, events));
     }
 
@@ -698,8 +702,10 @@ class Game extends EventEmitter {
             if(!_.isArray(events)) {
                 events = [events];
             }
+
             return this.queueStep(new ThenEventWindow(this, events));
         }
+
         return this.openEventWindow(events);
     }
 
@@ -714,6 +720,7 @@ class Game extends EventEmitter {
         if(!context) {
             context = this.getFrameworkContext();
         }
+
         let actionPairs = Object.entries(actions);
         let events = actionPairs.reduce((array, [action, cards]) => {
             let gameAction = GameActions[action]();
@@ -723,6 +730,7 @@ class Game extends EventEmitter {
         if(events.length > 0) {
             this.openEventWindow(events);
         }
+
         return events;
     }
 
@@ -744,6 +752,7 @@ class Game extends EventEmitter {
         if(card.controller === player || !card.allowGameAction('takeControl')) {
             return;
         }
+
         this.raiseEvent('onTakeControl', { player, card });
         card.controller.removeCardFromPile(card);
         card.controller = player;
@@ -761,6 +770,7 @@ class Game extends EventEmitter {
         } else {
             player.cardsInPlay.push(card);
         }
+
         _.each(card.abilities.persistentEffects, effect => {
             if(effect.location !== 'any') {
                 card.removeEffectFromEngine(effect.ref);
@@ -894,21 +904,25 @@ class Game extends EventEmitter {
                     // card.checkForIllegalAttachments();
                 });
             }
+
             // destroy any creatures who have damage greater than equal to their power
             let creaturesToDestroy = this.creaturesInPlay.filter(card =>
                 card.type === 'creature' && (card.power <= 0 || card.tokens.damage >= card.power) && !card.moribund);
             if(creaturesToDestroy.length > 0) {
                 this.actions.destroy().resolve(creaturesToDestroy, this.getFrameworkContext());
             }
+
             for(let card of this.creaturesInPlay) {
                 card.removeToken('armor');
                 if(card.armor - card.armorUsed > 0) {
                     card.addToken('armor', card.armor - card.armorUsed);
                 }
             }
+
             // any terminal conditions which have met their condition
             this.effectEngine.checkTerminalConditions();
         }
+
         if(events.length > 0) {
             // check for any delayed effects which need to fire
             this.effectEngine.checkDelayedEffects(events);

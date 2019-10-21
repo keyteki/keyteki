@@ -28,7 +28,6 @@ describe('Hyde', function() {
 
                 expect(this.player1.hand.length).toBe(7);
             });
-
         });
 
         describe('Hyde\'s destroy ability', function() {

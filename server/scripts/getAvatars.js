@@ -20,8 +20,7 @@ function writeFile(path, data, opts = 'utf8') {
         });
     });
 }
-
-function httpRequest(url, options = {}) {
+function httpRequest(url, options = {}) {
     return new Promise((resolve, reject) => {
         request(url, options, (err, res, body) => {
             if(err) {
@@ -32,8 +31,7 @@ function httpRequest(url, options = {}) {
         });
     });
 }
-
-const getProfilePics = async () => {
+const getProfilePics = async () => {
     let count = await dbUsers.count({});
     console.info(count, 'users to process');
     let numberProcessed = 0;

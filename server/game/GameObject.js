@@ -43,6 +43,7 @@ class GameObject {
         if(GameActions[actionType]) {
             return GameActions[actionType]().canAffect(this, context);
         }
+
         return this.checkRestrictions(actionType, context);
     }
 
@@ -92,7 +93,6 @@ class GameObject {
             type: this.getType()
         };
     }
-
 }
 
 module.exports = GameObject;

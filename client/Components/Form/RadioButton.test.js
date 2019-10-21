@@ -11,7 +11,6 @@ describe('The RadioButton component', () => {
     });
 
     describe('when the selected property is set', () => {
-
         beforeEach(() => {
             wrapper = shallow(<RadioButton selected />);
         });

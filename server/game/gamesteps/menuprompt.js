@@ -21,6 +21,7 @@ class MenuPrompt extends UiPrompt {
         if(properties.source && !properties.waitingPromptTitle) {
             properties.waitingPromptTitle = 'Waiting for opponent';
         }
+
         this.properties = properties;
     }
 

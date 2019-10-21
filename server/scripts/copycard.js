@@ -30,8 +30,7 @@ function findFile(dirPath, targetFile) {
 
     return null;
 }
-
-function verifyLocale(cardsDir, source, target, tid, tpack) {
+function verifyLocale(cardsDir, source, target, tid, tpack) {
     let sourceName = source + '.js';
     let card = findFile(cardsDir, sourceName);
 
@@ -50,7 +49,6 @@ function verifyLocale(cardsDir, source, target, tid, tpack) {
 
     return 0;
 }
-
-// example usage
+// example usage
 // node server/scripts/copycard.js --source=Rustgnawer --target=Hock --tid=hock
 verifyLocale(options['cards-dir'], options['source'], options['target'], options['tid'], options['tpack']);

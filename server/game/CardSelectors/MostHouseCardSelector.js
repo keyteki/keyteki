@@ -21,6 +21,7 @@ class MostHouseCardSelector extends ExactlyXCardSelector {
                     }
                 }
             }
+
             return map;
         }, {});
 
@@ -38,6 +39,7 @@ class MostHouseCardSelector extends ExactlyXCardSelector {
         if(!super.hasEnoughSelected(selectedCards)) {
             return false;
         }
+
         let allowedCards = this.getCardsFromMostHouseInPlay(context);
         return allowedCards.length <= this.numCards;
     }

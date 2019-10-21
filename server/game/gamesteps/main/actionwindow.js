@@ -17,6 +17,7 @@ class ActionWindow extends UiPrompt {
                 return true;
             }
         }
+
         return false;
     }
 
@@ -36,9 +37,11 @@ class ActionWindow extends UiPrompt {
             } else {
                 return false;
             }
+
             this.game.queueSimpleStep(() => this.checkForOmega());
             return true;
         }
+
         return false;
     }
 
@@ -97,6 +100,7 @@ class ActionWindow extends UiPrompt {
             } else {
                 this.complete();
             }
+
             return true;
         }
     }

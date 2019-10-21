@@ -21,6 +21,7 @@ class EvasionSigil extends Card {
                     if(cancelFight) {
                         return { target: context.event.context.source };
                     }
+
                     return { target: [] };
                 }),
                 ability.actions.changeEvent(context => {

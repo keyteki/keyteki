@@ -77,6 +77,7 @@ class StaticEffect {
         if(hasDash[this.type] && hasDash[this.type](target, this.value)) {
             return false;
         }
+
         return this.checkConflictingEffects(this.type, target);
     }
 
@@ -85,13 +86,16 @@ class StaticEffect {
             let matchingEffects = target.effects.filter(effect => effect.type === type);
             return matchingEffects.every(effect => this.hasLongerDuration(effect) || effect.isConditional);
         }
+
         if(conflictingEffects[type]) {
             let matchingEffects = conflictingEffects[type](target, this.value);
             return matchingEffects.every(effect => this.hasLongerDuration(effect) || effect.isConditional);
         }
+
         if(type === 'modifyBothSkills') {
             return this.checkConflictingEffects('modifyMilitarySkill', target) || this.checkConflictingEffects('modifyPoliticalSkill', target);
         }
+
         return true;
     }
 

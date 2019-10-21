@@ -11,6 +11,7 @@ class ExactlyXCardSelector extends BaseCardSelector {
         if(typeof this.numCards === 'function') {
             return this.numCards(context);
         }
+
         return this.numCards;
     }
 
@@ -19,6 +20,7 @@ class ExactlyXCardSelector extends BaseCardSelector {
         if(this.cardType.length === 1) {
             return numCards === 1 ? 'Choose a ' + this.cardType[0] : `Choose ${numCards} ${this.cardType[0]}s`;
         }
+
         return numCards === 1 ? 'Choose a card' : `Choose ${numCards} cards`;
     }
 

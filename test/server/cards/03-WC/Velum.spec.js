@@ -49,7 +49,6 @@ describe('Velum', function() {
                 expect(this.krump.location).toBe('archives');
                 expect(this.velum.location).toBe('play area');
             });
-
         });
 
         describe('Velum\'s destroy ability', function() {

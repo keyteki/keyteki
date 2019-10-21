@@ -34,19 +34,19 @@ class DeckSummary extends React.Component {
             return (house === card.card.house) && (cardId === card.card.id);
         });
 
-        this.setState({cardToShow: cardToDisplay[0]});
+        this.setState({ cardToShow: cardToDisplay[0] });
     }
 
     onArchonMouseOver(card) {
-        this.setState({card});
+        this.setState({ card });
     }
 
     onCardMouseOut() {
-        this.setState({cardToShow: false, card: false});
+        this.setState({ cardToShow: false, card: false });
     }
 
     getCardsToRender() {
-        let {i18n, t} = this.props;
+        let { i18n, t } = this.props;
         let cardsToRender = [];
         let groupedCards = {};
 

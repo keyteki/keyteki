@@ -21,6 +21,7 @@ describe('TheBigOne(WC)', function() {
                 for(var i = 0; i < 6; i++) {
                     this.player1.playCreature('troll');
                 }
+
                 expect(this).toHaveRecentChatMessage('player1 uses The Big One to place 1 fuse on The Big One');
                 expect(theBigOne.tokens.fuse).toBe(6);
                 this.player1.endTurn();
@@ -32,6 +33,7 @@ describe('TheBigOne(WC)', function() {
                 for(i = 0; i < 2; i++) {
                     this.player1.playCreature('troll');
                 }
+
                 expect(theBigOne.tokens.fuse).toBe(9);
                 expect(theBigOne.location).toBe('play area');
                 expect(this.nexus.location).toBe('play area');
