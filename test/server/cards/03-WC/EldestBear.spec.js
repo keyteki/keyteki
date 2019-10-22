@@ -17,14 +17,12 @@ describe('Eldest Bear', function() {
             it('have \'Before Fight: Gain 2A\' if in center [1]', function() {
                 this.player1.fightWith(this.eldestBear, this.troll);
                 this.player1.clickCard(this.eldestBear);
-                this.player1.clickPrompt('Use this card\'s ability');
                 expect(this.player1.amber).toBe(2);
                 expect(this.player2.amber).toBe(6);
             });
             it('not have \'Before Fight: Gain 2A\' if not in center [2]', function() {
                 this.player1.play(this.dustPixie);
                 this.player1.fightWith(this.eldestBear, this.troll);
-                this.player1.clickCard(this.eldestBear);
                 expect(this.player1.amber).toBe(2);
                 expect(this.player2.amber).toBe(6);
             });
@@ -33,7 +31,6 @@ describe('Eldest Bear', function() {
                 this.player1.play(this.dewFaerie, true);
                 this.player1.fightWith(this.eldestBear, this.troll);
                 this.player1.clickCard(this.eldestBear);
-                this.player1.clickPrompt('Use this card\'s ability');
                 expect(this.player1.amber).toBe(4);
                 expect(this.player2.amber).toBe(6);
             });
