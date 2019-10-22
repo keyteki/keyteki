@@ -11,18 +11,16 @@ class OldBoomy extends Card {
                 const topCard = thenContext.player.deck[0];
                 return {
                     gameAction: [
-                        ability.actions.dealDamage(context => ({
-                            amount: context.player.deck[0] && context.player.deck[0].hasHouse('brobnar') ? 2 : 0
-                        })),
-                        ability.actions.archive(context => ({ target: context.player.deck[0] }))
+                        ability.actions.dealDamage({ amount: topCard && topCard.hasHouse('brobnar') ? 2 : 0 }),
+                        ability.actions.archive({ target: topCard })
                     ],
                     then: {
-                        condition: () => !topCard.hasHouse('brobnar'),
+                        condition: () => topCard && !topCard.hasHouse('brobnar'),
                         target: {
                             player: 'self',
                             mode: 'select',
                             choices: {
-                                'Reveal top card': () => ability.actions.resolveAbility({ ability: thenContext.ability }),
+                                'Reveal top card': ability.actions.resolveAbility({ ability: thenContext.ability }),
                                 'Stop': () => true
                             }
                         }
