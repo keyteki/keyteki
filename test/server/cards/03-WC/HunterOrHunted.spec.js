@@ -13,7 +13,7 @@ describe('Hunter or Hunted?', function() {
                     }
                 });
             });
-            
+
             it('should allow warding a friendly creature', function() {
                 this.player1.play(this.hunterOrHunted);
                 expect(this.player1).toHavePrompt('Hunter or Hunted?');
@@ -24,7 +24,7 @@ describe('Hunter or Hunted?', function() {
                 this.player1.clickCard(this.lamindra);
                 expect(this.lamindra.tokens.ward).toBe(1);
             });
-            
+
             it('should allow warding an enemy creature', function() {
                 this.player1.play(this.hunterOrHunted);
                 expect(this.player1).toBeAbleToSelect(this.lamindra);
@@ -33,7 +33,7 @@ describe('Hunter or Hunted?', function() {
                 expect(this.troll.tokens.ward).toBe(1);
             });
         });
-        
+
         describe('Hunter or Hunted?\'s ability', function() {
             beforeEach(function() {
                 this.setupTest({
@@ -49,7 +49,7 @@ describe('Hunter or Hunted?', function() {
 
                 this.lamindra.tokens.ward = 1;
             });
-            
+
             it('should allow warding a warded creature', function() {
                 this.player1.play(this.hunterOrHunted);
                 expect(this.player1).toHavePrompt('Hunter or Hunted?');
@@ -60,7 +60,7 @@ describe('Hunter or Hunted?', function() {
                 expect(this.lamindra.tokens.ward).toBe(1);
             });
         });
-        
+
         describe('Hunter or Hunted?\'s ability', function() {
             beforeEach(function() {
                 this.setupTest({
@@ -76,7 +76,7 @@ describe('Hunter or Hunted?', function() {
                 this.lamindra.tokens.ward = 1;
                 this.troll.tokens.ward = 2;
             });
-            
+
             it('should have option to ward', function() {
                 this.player1.play(this.hunterOrHunted);
                 expect(this.player1).toHavePrompt('Hunter or Hunted?');
@@ -86,7 +86,7 @@ describe('Hunter or Hunted?', function() {
                 this.player1.clickCard(this.redlock);
                 expect(this.redlock.tokens.ward).toBe(1);
             });
-            
+
             it('should allow moving a token', function() {
                 this.player1.play(this.hunterOrHunted);
                 expect(this.player1).toHavePrompt('Hunter or Hunted?');
