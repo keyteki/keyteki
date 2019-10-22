@@ -24,7 +24,7 @@ describe('Transporter Platform', function() {
                 this.player1.clickCard(this.captainValJericho);
                 expect(this.captainValJericho.location).toBe('hand');
             });
-            
+
             it('should return creature and artifact to owner\'s hand', function() {
                 this.player1.playUpgrade(this.calv1n, this.captainValJericho);
                 this.player1.useAction(this.transporterPlatform);
