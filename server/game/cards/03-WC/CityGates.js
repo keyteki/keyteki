@@ -6,7 +6,7 @@ class CityGates extends Card {
             target: {
                 cardType: 'creature',
                 controller: 'self',
-                gameAction: ability.actions.capture({ amountForCard: (card) => card.getTraits().includes('dinosaur') ? 2 : 1 })
+                gameAction: ability.actions.capture(context => ({ amount: context.target && context.target.getTraits().includes('dinosaur') ? 2 : 1 }))
             }
         });
     }
