@@ -6,11 +6,13 @@ class Calv1N extends Card {
             reap: true,
             gameAction: ability.actions.draw()
         });
+        
         this.persistentEffect({
             match: this,
             location: 'any',
             effect: ability.effects.canPlayAsUpgrade()
         });
+        
         this.whileAttached({
             effect: [
                 ability.effects.gainAbility('reap', {
