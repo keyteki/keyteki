@@ -112,7 +112,15 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
     }
 
     promptBetweenAbilities(choices, addBackButton = true) {
-        let menuChoices = _.uniq(choices.map(context => context.ability.title));
+        const getSourceName = context => {
+            if(context.ability.printedAbility) {
+                return context.source.name;
+            }
+            const generatingEffect = this.game.effectEngine.effects.find(effect =>
+                effect.effect.state && effect.effect.state[context.source.uuid] === context.ability);
+            return generatingEffect.source.name;
+        };
+        let menuChoices = _.uniq(choices.map(context => getSourceName(context)));
         if(menuChoices.length === 1) {
             // this card has only one ability which can be triggered
             this.promptBetweenEventCards(choices, addBackButton);
@@ -120,7 +128,7 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
         }
 
         // This card has multiple abilities which can be used in this window - prompt the player to pick one
-        let handlers = menuChoices.map(title => (() => this.promptBetweenEventCards(choices.filter(context => context.ability.title === title))));
+        let handlers = menuChoices.map(name => (() => this.promptBetweenEventCards(choices.filter(context => getSourceName(context) === name))));
         if(addBackButton) {
             menuChoices.push('Back');
             handlers.push(() => this.promptBetweenSources(this.choices));
