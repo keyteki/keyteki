@@ -3,7 +3,6 @@ const CardGameAction = require('./CardGameAction');
 class ReturnToHandAction extends CardGameAction {
     setDefaultProperties() {
         this.location = 'play area';
-        this.includeUpgrades = false;
     }
 
     setup() {
@@ -24,7 +23,7 @@ class ReturnToHandAction extends CardGameAction {
     getEvent(card, context) {
         let eventName = (this.location === 'play area') ? 'onCardLeavesPlay' : 'onMoveCard';
 
-        return super.createEvent(eventName, { card: card, player: card.owner, context: context }, event => event.player.moveCard(event.card, 'hand', { includeUpgrades: this.includeUpgrades }));
+        return super.createEvent(eventName, { card: card, player: card.owner, context: context }, event => event.player.moveCard(event.card, 'hand'));
     }
 }
 

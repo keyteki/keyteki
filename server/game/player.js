@@ -341,7 +341,7 @@ class Player extends GameObject {
 
             for(let upgrade of card.upgrades) {
                 upgrade.onLeavesPlay();
-                upgrade.owner.moveCard(upgrade, options.includeUpgrades ? targetLocation : 'discard');
+                upgrade.owner.moveCard(upgrade, 'discard');
             }
 
             for(let child of card.childCards) {

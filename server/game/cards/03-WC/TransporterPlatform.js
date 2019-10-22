@@ -6,7 +6,7 @@ class TransporterPlatform extends Card {
             target: {
                 cardType: 'creature',
                 controller: 'self',
-                gameAction: ability.actions.returnToHand({ includeUpgrades: true })
+                gameAction: ability.actions.returnToHand(context => ({ target: context.target.upgrades.concat(context.target) }))
             }
         });
     }
