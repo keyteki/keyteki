@@ -20,6 +20,7 @@ describe('Operations Officer Yshi', function() {
                 expect(this.lieutenantKhrkhar.tokens.amber).toBe(1);
                 this.player1.reap(this.sensorChiefGarcia);
                 this.player1.clickCard(this.sensorChiefGarcia);
+                this.player1.clickPrompt('Sensor Chief Garcia');
                 expect(this.player1.amber).toBe(2);
                 expect(this.player2.amber).toBe(2);
                 expect(this.sensorChiefGarcia.tokens.amber).toBe(1);
