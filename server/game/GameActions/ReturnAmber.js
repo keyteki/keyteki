@@ -10,7 +10,7 @@ class ReturnAmber extends CardGameAction {
     setup() {
         this.name = 'removeAmber';
         this.targetType = ['creature'];
-        this.effectMsg = 'remove ' + this.all ? 'all' : this.amount + ' amber from {0}';
+        this.effectMsg = `return ${this.all ? 'all' : this.amount} amber from {0} to ${this.recipient ? this.recipient.name + '\'s' : 'their'} pool`;
     }
 
     canAffect(card, context) {
