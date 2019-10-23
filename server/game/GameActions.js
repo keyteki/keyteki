@@ -77,6 +77,7 @@ const Actions = {
     exalt: (propertyFactory) => new ExaltAction(propertyFactory), // amount = 1
     exhaust: (propertyFactory) => new ExhaustAction(propertyFactory),
     fight: (propertyFactory) => new FightGameAction(propertyFactory),
+    graft: (propertyFactory) => new PlaceUnderAction(propertyFactory, true),
     heal: (propertyFactory) => new HealAction(propertyFactory),
     moveCard: (propertyFactory) => new MoveCardAction(propertyFactory), // destination, switch = false, shuffle = false
     moveToFlank: (propertyFactory) => new MoveToFlankAction(propertyFactory),
