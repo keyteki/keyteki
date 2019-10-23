@@ -34,6 +34,7 @@ const RandomArchiveAction = require('./GameActions/RandomArchiveAction');
 const RandomDiscardAction = require('./GameActions/RandomDiscardAction');
 const RandomPurgeAction = require('./GameActions/RandomPurgeAction');
 const ReadyAction = require('./GameActions/ReadyAction');
+const ReapGameAction = require('./GameActions/ReapGameAction');
 const ReduceArmorAction = require('./GameActions/ReduceArmorAction');
 const RemoveStunAction = require('./GameActions/RemoveStunAction');
 const RemoveTokenAction = require('./GameActions/RemoveTokenAction');
@@ -77,6 +78,7 @@ const Actions = {
     exalt: (propertyFactory) => new ExaltAction(propertyFactory), // amount = 1
     exhaust: (propertyFactory) => new ExhaustAction(propertyFactory),
     fight: (propertyFactory) => new FightGameAction(propertyFactory),
+    graft: (propertyFactory) => new PlaceUnderAction(propertyFactory, true),
     heal: (propertyFactory) => new HealAction(propertyFactory),
     moveCard: (propertyFactory) => new MoveCardAction(propertyFactory), // destination, switch = false, shuffle = false
     moveToFlank: (propertyFactory) => new MoveToFlankAction(propertyFactory),
@@ -86,6 +88,7 @@ const Actions = {
     purge: (propertyFactory) => new PurgeAction(propertyFactory),
     putIntoPlay: (propertyFactory) => new PutIntoPlayAction(propertyFactory),
     ready: (propertyFactory) => new ReadyAction(propertyFactory),
+    reap: (propertyFactory) => new ReapGameAction(propertyFactory),
     reduceArmor: (propertyFactory) => new ReduceArmorAction(propertyFactory),
     removeAmber: (propertyFactory) => new RemoveTokenAction(propertyFactory, 'amber'),
     removeDamage: (propertyFactory) => new RemoveTokenAction(propertyFactory, 'damage'),

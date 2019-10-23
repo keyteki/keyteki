@@ -180,6 +180,7 @@ class Card extends EffectSource {
         // Fight
         this.action({
             title: 'Fight with this creature',
+            condition: context => this.checkRestrictions('fight', context),
             printedAbility: false,
             target: {
                 activePromptTitle: 'Choose a creature to attack',
@@ -192,8 +193,19 @@ class Card extends EffectSource {
         // Reap
         this.action({
             title: 'Reap with this creature',
+            condition: context => this.checkRestrictions('reap', context),
             printedAbility: false,
             gameAction: new ResolveReapAction()
+        });
+
+        // Invulnerable
+        this.persistentEffect({
+            condition: () => !!this.getKeywordValue('invulnerable'),
+            printedAbility: false,
+            effect: [
+                ability.effects.cardCannot('damage'),
+                ability.effects.cardCannot('destroy')
+            ]
         });
     }
 
