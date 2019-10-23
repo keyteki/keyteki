@@ -4,7 +4,7 @@ describe('Ghostform', function() {
             beforeEach(function() {
                 this.setupTest({
                     player1: {
-                        house: 'saurian',
+                        house: 'brobnar',
                         inPlay: ['urchin'],
                         hand: ['ghostform']
                     },
