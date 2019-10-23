@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import $ from 'jquery';
 import { connect } from 'react-redux';
 
+import { Constants } from './constants';
 import ErrorBoundary from './Components/Site/ErrorBoundary';
 import NavBar from './Components/Site/NavBar';
 import Router from './Router';
@@ -73,32 +74,13 @@ class Application extends React.Component {
         }
 
         let backgroundClass = 'bg';
+
         if(gameBoardVisible && this.props.user) {
-            switch(this.props.user.settings.background) {
-                case 'Brobnar':
-                    backgroundClass += ' bg-board-brobnar';
-                    break;
-                case 'Dis':
-                    backgroundClass += ' bg-board-dis';
-                    break;
-                case 'Logos':
-                    backgroundClass += ' bg-board-logos';
-                    break;
-                case 'Mars':
-                    backgroundClass += ' bg-board-mars';
-                    break;
-                case 'Sanctum':
-                    backgroundClass += ' bg-board-sanctum';
-                    break;
-                case 'Shadows':
-                    backgroundClass += ' bg-board-shadows';
-                    break;
-                case 'Untamed':
-                    backgroundClass += ' bg-board-untamed';
-                    break;
-                default:
-                    backgroundClass = '';
-                    break;
+            let houseIndex = Constants.HousesNames.indexOf(this.props.user.settings.background);
+            if(houseIndex === -1) {
+                backgroundClass = '';
+            } else {
+                backgroundClass += ` bg-board-${Constants.Houses[houseIndex]}`;
             }
         }
 
