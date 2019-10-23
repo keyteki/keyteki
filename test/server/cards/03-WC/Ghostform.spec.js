@@ -6,7 +6,7 @@ describe('Ghostform', function() {
                     player1: {
                         house: 'brobnar',
                         inPlay: ['urchin'],
-                        hand: ['ghostform'],
+                        hand: ['ghostform']
                     },
                     player2: {
                         inPlay: ['snufflegator', 'inka-the-spider'],

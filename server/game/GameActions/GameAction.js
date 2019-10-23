@@ -85,7 +85,7 @@ class GameAction {
         return eventWindow;
     }
 
-    canAffect(target, context) {
+    canAffect(target, context) { // eslint-disable-line no-unused-vars
         return this.targetType.includes(target.type);
     }
 
