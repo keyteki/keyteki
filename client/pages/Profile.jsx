@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import { Constants } from '../constants';
 import AlertPanel from '../Components/Site/AlertPanel';
 import Panel from '../Components/Site/Panel';
 import Input from '../Components/Form/Input';
@@ -206,15 +207,12 @@ class Profile extends React.Component {
         let errorBar = this.props.apiSuccess === false ? <AlertPanel type='error' message={ t(this.props.apiMessage) } /> : null;
 
         let backgrounds = [
-            { name: 'none', label: this.translate('none'), imageUrl: 'img/bgs/blank.png' },
-            { name: 'Brobnar', label: this.translate('brobnar'), imageUrl: 'img/bgs/brobnar.png' },
-            { name: 'Dis', label: this.translate('dis'), imageUrl: 'img/bgs/dis.png' },
-            { name: 'Logos', label: this.translate('logos'), imageUrl: 'img/bgs/logos.png' },
-            { name: 'Mars', label: this.translate('mars'), imageUrl: 'img/bgs/mars.png' },
-            { name: 'Sanctum', label: this.translate('sanctum'), imageUrl: 'img/bgs/sanctum.png' },
-            { name: 'Shadows', label: this.translate('shadows'), imageUrl: 'img/bgs/shadows.png' },
-            { name: 'Untamed', label: this.translate('untamed'), imageUrl: 'img/bgs/untamed.png' }
+            { name: 'none', label: this.translate('none'), imageUrl: 'img/bgs/blank.png' }
         ];
+
+        for(let i = 0; i < Constants.Houses.length; ++i) {
+            backgrounds.push({ name: Constants.HousesNames[i], label: this.translate(Constants.Houses[i]), imageUrl: `img/bgs/${Constants.Houses[i]}.png` });
+        }
 
         let cardSizes = [
             { name: 'small', label: this.translate('small') },
