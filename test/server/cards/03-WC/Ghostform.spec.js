@@ -1,4 +1,4 @@
-describe('Ghostform', function() {
+xdescribe('Ghostform', function() {
     integration(function() {
         describe('Ghostform\'s ability', function() {
             beforeEach(function() {

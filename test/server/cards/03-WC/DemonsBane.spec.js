@@ -17,7 +17,7 @@ describe('Demon\'s Bane', function() {
             });
             it('prompt for a demon creature to destroy', function() {
                 this.player1.play(this.demonsBane);
-                expect(this.player1).toHavePrompt('Demon\'s Bane');
+                expect(this.player1).toHavePrompt('Demons’ Bane');
                 expect(this.player1).toBeAbleToSelect(this.dendrix);
                 expect(this.player1).toBeAbleToSelect(this.etaromme);
                 expect(this.player1).not.toBeAbleToSelect(this.dustPixie);
