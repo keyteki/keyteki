@@ -1,12 +1,12 @@
 const Card = require('../../Card.js');
 
 class BlasterCard extends Card {
-    getAttachedAbility(ability, blasterName, officerName) {
+    getAttachedAbility(ability, creatureName) {
         let choices = {
-            'Deal 2 damages': () => true
+            'Deal 2 damage': () => true
         };
 
-        choices[`Move ${blasterName}`] = () => true;
+        choices[`Move ${this.name}`] = () => true;
 
         return {
             optional: true,
@@ -18,15 +18,15 @@ class BlasterCard extends Card {
                 creature: {
                     dependsOn: 'action',
                     cardType: 'creature',
-                    cardCondition: (card, context) => (context.selects.action.choice === 'Deal 2 damages') ? true : card.name === officerName && !card.upgrades.includes(this),
+                    cardCondition: (card, context) => (context.selects.action.choice === 'Deal 2 damage') ? true : card.name === creatureName && !card.upgrades.includes(this),
                     gameAction: [
                         ability.actions.dealDamage(context => ({
                             amount: 2,
-                            target: context.selects.action.choice === 'Deal 2 damages' ? context.targets.creature : []
+                            target: context.selects.action.choice === 'Deal 2 damage' ? context.targets.creature : []
                         })),
                         ability.actions.attach(context => ({
                             upgrade: this,
-                            target: context.selects.action.choice === 'Move ' + blasterName ? context.targets.creature : []
+                            target: context.selects.action.choice === `Move ${this.name}` ? context.targets.creature : []
                         }))
                     ]
                 }
@@ -34,11 +34,11 @@ class BlasterCard extends Card {
         };
     }
 
-    setupBlasterCardAbilities(ability, blasterName, officerName) {
+    setupBlasterCardAbilities(ability, creatureName) {
         this.whileAttached({
             effect: [
-                ability.effects.gainAbility('reap', this.getAttachedAbility(ability, blasterName, officerName)),
-                ability.effects.gainAbility('fight', this.getAttachedAbility(ability, blasterName, officerName))
+                ability.effects.gainAbility('reap', this.getAttachedAbility(ability, creatureName)),
+                ability.effects.gainAbility('fight', this.getAttachedAbility(ability, creatureName))
             ]
         });
     }

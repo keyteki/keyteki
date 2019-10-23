@@ -9,7 +9,7 @@ class KirbysBlaster extends BlasterCard {
             gameAction: ability.actions.draw({ amount: 2 })
         });
 
-        this.setupBlasterCardAbilities(ability, 'Kirby\'s Blaster', 'Com. Officer Kirby');
+        this.setupBlasterCardAbilities(ability, 'Com. Officer Kirby');
     }
 }
 

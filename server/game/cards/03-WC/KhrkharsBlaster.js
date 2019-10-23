@@ -9,7 +9,7 @@ class KhrkharsBlaster extends BlasterCard {
             gameAction: ability.actions.ward(context => ({ target: context.source.parent }))
         });
 
-        this.setupBlasterCardAbilities(ability, 'Khrkhar\'s Blaster', 'Lieutenant Khrkhar');
+        this.setupBlasterCardAbilities(ability, 'Lieutenant Khrkhar');
     }
 }
 

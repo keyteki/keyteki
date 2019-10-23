@@ -1,6 +1,6 @@
-describe('Frane\'s Blaster', function() {
+describe('Frane’s Blaster', function() {
     integration(function() {
-        describe('Frane\'s Blaster\'s attach ability', function() {
+        describe('Frane’s Blaster\'s attach ability', function() {
             beforeEach(function() {
                 this.setupTest({
                     player1: {
@@ -47,9 +47,9 @@ describe('Frane\'s Blaster', function() {
                 expect(this.player1).toBeAbleToSelect(this.techivorePulpate);
                 this.player1.clickCard(this.techivorePulpate);
                 expect(this.player1).toHavePrompt('Select one');
-                expect(this.player1).toHavePromptButton('Deal 2 damages');
-                expect(this.player1).toHavePromptButton('Move Frane\'s Blaster');
-                this.player1.clickPrompt('Deal 2 damages');
+                expect(this.player1).toHavePromptButton('Deal 2 damage');
+                expect(this.player1).toHavePromptButton('Move Frane’s Blaster');
+                this.player1.clickPrompt('Deal 2 damage');
                 expect(this.player1).toHavePrompt('Choose a creature');
                 expect(this.player1).toBeAbleToSelect(this.firstOfficerFrane);
                 expect(this.player1).toBeAbleToSelect(this.techivorePulpate);
@@ -67,9 +67,9 @@ describe('Frane\'s Blaster', function() {
                 expect(this.player1).toBeAbleToSelect(this.techivorePulpate);
                 this.player1.clickCard(this.techivorePulpate);
                 expect(this.player1).toHavePrompt('Select one');
-                expect(this.player1).toHavePromptButton('Deal 2 damages');
-                expect(this.player1).toHavePromptButton('Move Frane\'s Blaster');
-                this.player1.clickPrompt('Deal 2 damages');
+                expect(this.player1).toHavePromptButton('Deal 2 damage');
+                expect(this.player1).toHavePromptButton('Move Frane’s Blaster');
+                this.player1.clickPrompt('Deal 2 damage');
                 expect(this.player1).toHavePrompt('Choose a creature');
                 expect(this.player1).toBeAbleToSelect(this.firstOfficerFrane);
                 expect(this.player1).toBeAbleToSelect(this.techivorePulpate);
@@ -89,9 +89,9 @@ describe('Frane\'s Blaster', function() {
                 expect(this.player1).toBeAbleToSelect(this.techivorePulpate);
                 this.player1.clickCard(this.techivorePulpate);
                 expect(this.player1).toHavePrompt('Select one');
-                expect(this.player1).toHavePromptButton('Deal 2 damages');
-                expect(this.player1).toHavePromptButton('Move Frane\'s Blaster');
-                this.player1.clickPrompt('Move Frane\'s Blaster');
+                expect(this.player1).toHavePromptButton('Deal 2 damage');
+                expect(this.player1).toHavePromptButton('Move Frane’s Blaster');
+                this.player1.clickPrompt('Move Frane’s Blaster');
                 expect(this.player1).toHavePrompt('Choose a creature');
                 expect(this.player1).toBeAbleToSelect(this.firstOfficerFrane);
                 expect(this.player1).not.toBeAbleToSelect(this.techivorePulpate);
@@ -114,9 +114,9 @@ describe('Frane\'s Blaster', function() {
                 expect(this.player1).toBeAbleToSelect(this.techivorePulpate);
                 this.player1.clickCard(this.techivorePulpate);
                 expect(this.player1).toHavePrompt('Select one');
-                expect(this.player1).toHavePromptButton('Deal 2 damages');
-                expect(this.player1).toHavePromptButton('Move Frane\'s Blaster');
-                this.player1.clickPrompt('Move Frane\'s Blaster');
+                expect(this.player1).toHavePromptButton('Deal 2 damage');
+                expect(this.player1).toHavePromptButton('Move Frane’s Blaster');
+                this.player1.clickPrompt('Move Frane’s Blaster');
                 expect(this.player1).toHavePrompt('Choose a creature');
                 expect(this.player1).toBeAbleToSelect(this.firstOfficerFrane);
                 expect(this.player1).not.toBeAbleToSelect(this.techivorePulpate);
@@ -130,7 +130,7 @@ describe('Frane\'s Blaster', function() {
             });
         });
 
-        describe('Frane\'s Blaster\'s attach ability', function() {
+        describe('Frane’s Blaster\'s attach ability', function() {
             beforeEach(function() {
                 this.setupTest({
                     player1: {
@@ -172,7 +172,7 @@ describe('Frane\'s Blaster', function() {
             });
         });
 
-        describe('Frane\'s Blaster\'s attach ability', function() {
+        describe('Frane’s Blaster\'s attach ability', function() {
             beforeEach(function() {
                 this.setupTest({
                     player1: {
@@ -198,8 +198,8 @@ describe('Frane\'s Blaster', function() {
                 this.player1.reap(this.firstOfficerFrane1);
                 this.player1.clickCard(this.firstOfficerFrane1);
 
-                this.player1.clickPrompt('Frane\'s Blaster');
-                this.player1.clickPrompt('Move Frane\'s Blaster');
+                this.player1.clickPrompt('Frane’s Blaster');
+                this.player1.clickPrompt('Move Frane’s Blaster');
                 expect(this.player1).not.toBeAbleToSelect(this.firstOfficerFrane1);
                 expect(this.player1).toBeAbleToSelect(this.firstOfficerFrane2);
                 this.player1.clickCard(this.firstOfficerFrane2);

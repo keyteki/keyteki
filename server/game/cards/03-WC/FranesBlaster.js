@@ -9,7 +9,7 @@ class FranesBlaster extends BlasterCard {
             gameAction: ability.actions.returnAmber(context => ({ all: true, target: context.source.parent, recipient: context.game.activePlayer }))
         });
 
-        this.setupBlasterCardAbilities(ability, 'Frane\'s Blaster', 'First Officer Frane');
+        this.setupBlasterCardAbilities(ability, 'First Officer Frane');
     }
 }
 

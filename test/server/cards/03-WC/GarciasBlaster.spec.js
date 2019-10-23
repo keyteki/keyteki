@@ -1,6 +1,6 @@
-describe('Garcia\'s Blaster', function() {
+describe('Garcia’s Blaster', function() {
     integration(function() {
-        describe('Garcia\'s Blaster\'s attach ability', function() {
+        describe('Garcia’s Blaster\'s attach ability', function() {
             beforeEach(function() {
                 this.setupTest({
                     player1: {
@@ -46,9 +46,9 @@ describe('Garcia\'s Blaster', function() {
                 expect(this.player1).toBeAbleToSelect(this.techivorePulpate);
                 this.player1.clickCard(this.techivorePulpate);
                 expect(this.player1).toHavePrompt('Select one');
-                expect(this.player1).toHavePromptButton('Deal 2 damages');
-                expect(this.player1).toHavePromptButton('Move Garcia\'s Blaster');
-                this.player1.clickPrompt('Deal 2 damages');
+                expect(this.player1).toHavePromptButton('Deal 2 damage');
+                expect(this.player1).toHavePromptButton('Move Garcia’s Blaster');
+                this.player1.clickPrompt('Deal 2 damage');
                 expect(this.player1).toHavePrompt('Choose a creature');
                 expect(this.player1).toBeAbleToSelect(this.sensorChiefGarcia);
                 expect(this.player1).toBeAbleToSelect(this.techivorePulpate);
@@ -66,9 +66,9 @@ describe('Garcia\'s Blaster', function() {
                 expect(this.player1).toBeAbleToSelect(this.techivorePulpate);
                 this.player1.clickCard(this.techivorePulpate);
                 expect(this.player1).toHavePrompt('Select one');
-                expect(this.player1).toHavePromptButton('Deal 2 damages');
-                expect(this.player1).toHavePromptButton('Move Garcia\'s Blaster');
-                this.player1.clickPrompt('Deal 2 damages');
+                expect(this.player1).toHavePromptButton('Deal 2 damage');
+                expect(this.player1).toHavePromptButton('Move Garcia’s Blaster');
+                this.player1.clickPrompt('Deal 2 damage');
                 expect(this.player1).toHavePrompt('Choose a creature');
                 expect(this.player1).toBeAbleToSelect(this.sensorChiefGarcia);
                 expect(this.player1).toBeAbleToSelect(this.techivorePulpate);
@@ -86,9 +86,9 @@ describe('Garcia\'s Blaster', function() {
                 expect(this.player1).toBeAbleToSelect(this.techivorePulpate);
                 this.player1.clickCard(this.techivorePulpate);
                 expect(this.player1).toHavePrompt('Select one');
-                expect(this.player1).toHavePromptButton('Deal 2 damages');
-                expect(this.player1).toHavePromptButton('Move Garcia\'s Blaster');
-                this.player1.clickPrompt('Move Garcia\'s Blaster');
+                expect(this.player1).toHavePromptButton('Deal 2 damage');
+                expect(this.player1).toHavePromptButton('Move Garcia’s Blaster');
+                this.player1.clickPrompt('Move Garcia’s Blaster');
                 expect(this.player1).toHavePrompt('Choose a creature');
                 expect(this.player1).toBeAbleToSelect(this.sensorChiefGarcia);
                 expect(this.player1).not.toBeAbleToSelect(this.techivorePulpate);
@@ -109,9 +109,9 @@ describe('Garcia\'s Blaster', function() {
                 expect(this.player1).toBeAbleToSelect(this.techivorePulpate);
                 this.player1.clickCard(this.techivorePulpate);
                 expect(this.player1).toHavePrompt('Select one');
-                expect(this.player1).toHavePromptButton('Deal 2 damages');
-                expect(this.player1).toHavePromptButton('Move Garcia\'s Blaster');
-                this.player1.clickPrompt('Move Garcia\'s Blaster');
+                expect(this.player1).toHavePromptButton('Deal 2 damage');
+                expect(this.player1).toHavePromptButton('Move Garcia’s Blaster');
+                this.player1.clickPrompt('Move Garcia’s Blaster');
                 expect(this.player1).toHavePrompt('Choose a creature');
                 expect(this.player1).toBeAbleToSelect(this.sensorChiefGarcia);
                 expect(this.player1).not.toBeAbleToSelect(this.techivorePulpate);
@@ -125,7 +125,7 @@ describe('Garcia\'s Blaster', function() {
             });
         });
 
-        describe('Garcia\'s Blaster\'s attach ability', function() {
+        describe('Garcia’s Blaster\'s attach ability', function() {
             beforeEach(function() {
                 this.setupTest({
                     player1: {
@@ -167,7 +167,7 @@ describe('Garcia\'s Blaster', function() {
             });
         });
 
-        describe('Garcia\'s Blaster\'s attach ability', function() {
+        describe('Garcia’s Blaster\'s attach ability', function() {
             beforeEach(function() {
                 this.setupTest({
                     player1: {
@@ -190,8 +190,8 @@ describe('Garcia\'s Blaster', function() {
                 this.player1.reap(this.sensorChiefGarcia1);
                 this.player1.clickCard(this.sensorChiefGarcia1);
 
-                this.player1.clickPrompt('Garcia\'s Blaster');
-                this.player1.clickPrompt('Move Garcia\'s Blaster');
+                this.player1.clickPrompt('Garcia’s Blaster');
+                this.player1.clickPrompt('Move Garcia’s Blaster');
                 expect(this.player1).not.toBeAbleToSelect(this.sensorChiefGarcia1);
                 expect(this.player1).toBeAbleToSelect(this.sensorChiefGarcia2);
                 this.player1.clickCard(this.sensorChiefGarcia2);

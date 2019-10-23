@@ -9,7 +9,7 @@ class GarciasBlaster extends BlasterCard {
             gameAction: ability.actions.steal()
         });
 
-        this.setupBlasterCardAbilities(ability, 'Garcia\'s Blaster', 'Sensor Chief Garcia');
+        this.setupBlasterCardAbilities(ability, 'Sensor Chief Garcia');
     }
 }
 
