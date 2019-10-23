@@ -80,7 +80,7 @@ class Application extends React.Component {
             if(houseIndex === -1) {
                 backgroundClass = '';
             } else {
-                backgroundClass = ` bg-board-${Constants.Houses[houseIndex]}`;
+                backgroundClass += ` bg-board-${Constants.Houses[houseIndex]}`;
             }
         }
 
