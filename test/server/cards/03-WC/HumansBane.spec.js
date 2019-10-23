@@ -17,7 +17,7 @@ describe('Humans\' Bane', function() {
             });
             it('prompt for a human creature to destroy', function() {
                 this.player1.play(this.humansBane);
-                expect(this.player1).toHavePrompt('Humans\' Bane');
+                expect(this.player1).toHavePrompt('Humans’ Bane');
                 expect(this.player1).toBeAbleToSelect(this.manchego);
                 expect(this.player1).toBeAbleToSelect(this.chiefEngineerWalls);
                 expect(this.player1).not.toBeAbleToSelect(this.dustPixie);

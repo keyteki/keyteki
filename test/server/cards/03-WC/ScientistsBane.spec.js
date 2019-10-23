@@ -17,7 +17,7 @@ describe('Scientists\' Bane', function() {
             });
             it('prompt for a scientist creature to destroy', function() {
                 this.player1.play(this.scientistsBane);
-                expect(this.player1).toHavePrompt('Scientists\' Bane');
+                expect(this.player1).toHavePrompt('Scientists’ Bane');
                 expect(this.player1).toBeAbleToSelect(this.nogiSmartfist);
                 expect(this.player1).toBeAbleToSelect(this.oldBoomy);
                 expect(this.player1).not.toBeAbleToSelect(this.dustPixie);

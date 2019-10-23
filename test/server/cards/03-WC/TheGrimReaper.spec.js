@@ -1,4 +1,4 @@
-describe('The Grim Reaper(WC)', function() {
+xdescribe('The Grim Reaper(WC)', function() {
     integration(function() {
         describe('Playing the Grim Reaper:', function() {
             beforeEach(function() {

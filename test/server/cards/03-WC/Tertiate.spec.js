@@ -5,7 +5,7 @@ describe('Tertiate', function() {
                 this.setupTest({
                     player1: {
                         house: 'saurian',
-                        hand: ['tertiate', 'brutodon-auxillary']
+                        hand: ['tertiate', 'brutodon-auxiliary']
                     },
                     player2: {
                         hand: ['lamindra', 'redlock', 'gub', 'shooler', 'dextre', 'archimedes', 'helper-bot', 'spyyyder', 'skullion']
@@ -81,7 +81,7 @@ describe('Tertiate', function() {
                 this.setupTest({
                     player1: {
                         house: 'saurian',
-                        inPlay: ['brutodon-auxillary', 'krump', 'troll', 'groggins'],
+                        inPlay: ['brutodon-auxiliary', 'krump', 'troll', 'groggins'],
                         hand: ['tertiate']
                     },
                     player2: {
@@ -95,7 +95,7 @@ describe('Tertiate', function() {
 
                 expect(this.player1).toHavePrompt('Choose 3 creatures');
 
-                expect(this.player1).not.toBeAbleToSelect(this.brutodonAuxillary);
+                expect(this.player1).not.toBeAbleToSelect(this.brutodonAuxiliary);
                 expect(this.player1).not.toBeAbleToSelect(this.krump);
                 expect(this.player1).not.toBeAbleToSelect(this.troll);
                 expect(this.player1).not.toBeAbleToSelect(this.groggins);
@@ -119,7 +119,7 @@ describe('Tertiate', function() {
                 this.player1.clickPrompt('Done');
 
                 expect(this.player1).toHavePrompt('Choose 2 creatures');
-                expect(this.player1).toBeAbleToSelect(this.brutodonAuxillary);
+                expect(this.player1).toBeAbleToSelect(this.brutodonAuxiliary);
                 expect(this.player1).toBeAbleToSelect(this.krump);
                 expect(this.player1).toBeAbleToSelect(this.troll);
                 expect(this.player1).toBeAbleToSelect(this.groggins);

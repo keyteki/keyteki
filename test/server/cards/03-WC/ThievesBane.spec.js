@@ -17,7 +17,7 @@ describe('Thieves\' Bane', function() {
             });
             it('prompt for a thief creature to destroy', function() {
                 this.player1.play(this.thievesBane);
-                expect(this.player1).toHavePrompt('Thieves\' Bane');
+                expect(this.player1).toHavePrompt('Thieves’ Bane');
                 expect(this.player1).toBeAbleToSelect(this.aVinda);
                 expect(this.player1).toBeAbleToSelect(this.breakerHill);
                 expect(this.player1).not.toBeAbleToSelect(this.dustPixie);
