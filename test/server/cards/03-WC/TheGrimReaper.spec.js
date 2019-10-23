@@ -4,14 +4,14 @@ describe('The Grim Reaper(WC)', function() {
             beforeEach(function() {
                 this.setupTest({
                     player1: {
-                        house: 'untamed',
-                        hand: ['the-grim-reaper','anger'],
-                        discard: ['poke','poke','poke','poke','poke','poke','poke','poke','poke']
+                        house: 'brobnar',
+                        hand: ['the-grim-reaper', 'anger'],
+                        discard: ['poke', 'poke', 'poke', 'poke', 'poke', 'poke', 'poke', 'poke', 'poke']
                     },
                     player2: {
                         house: 'brobnar',
                         hand: ['poke'],
-                        discard: ['poke','poke','poke','poke','poke','poke','poke','poke','poke','poke']
+                        discard: ['poke', 'poke', 'poke', 'poke', 'poke', 'poke', 'poke', 'poke', 'poke', 'poke']
                     }
                 });
             });
