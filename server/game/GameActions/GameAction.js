@@ -86,7 +86,7 @@ class GameAction {
     }
 
     canAffect(target, context) {
-        return this.targetType.includes(target.type) && target.checkRestrictions(this.name, context);
+        return this.targetType.includes(target.type);
     }
 
     checkEventCondition(event) { // eslint-disable-line no-unused-vars
