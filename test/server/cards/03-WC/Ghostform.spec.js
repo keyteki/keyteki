@@ -1,10 +1,10 @@
-xdescribe('Ghostform', function() {
+describe('Ghostform', function() {
     integration(function() {
         describe('Ghostform\'s ability', function() {
             beforeEach(function() {
                 this.setupTest({
                     player1: {
-                        house: 'brobnar',
+                        house: 'saurian',
                         inPlay: ['urchin'],
                         hand: ['ghostform']
                     },
