@@ -1,10 +1,10 @@
-xdescribe('The Grim Reaper(WC)', function() {
+describe('The Grim Reaper(WC)', function() {
     integration(function() {
         describe('Playing the Grim Reaper:', function() {
             beforeEach(function() {
                 this.setupTest({
                     player1: {
-                        house: 'brobnar',
+                        house: 'untamed',
                         hand: ['the-grim-reaper','anger'],
                         discard: ['poke','poke','poke','poke','poke','poke','poke','poke','poke']
                     },

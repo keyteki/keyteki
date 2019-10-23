@@ -31,7 +31,7 @@ xdescribe('No Safety in Numbers', function() {
                 this.setupTest({
                     player1: {
                         house: 'shadows',
-                        inPlay: ['troll', 'krump', 'the-grim-reaper', 'shadow-self'],
+                        inPlay: ['troll', 'krump', 'krump', 'shadow-self'],
                         hand: ['no-safety-in-numbers']
                     },
                     player2: {
