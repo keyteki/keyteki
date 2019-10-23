@@ -17,7 +17,7 @@ class ResolveFightAction extends CardGameAction {
             return false;
         }
 
-        return super.canAffect(card, context);
+        return card.checkRestrictions(this.name, context) && super.canAffect(card, context);
     }
 
     getEvent(card, context) {
