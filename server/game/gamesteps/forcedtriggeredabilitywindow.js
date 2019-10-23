@@ -116,10 +116,12 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
             if(context.ability.printedAbility) {
                 return context.source.name;
             }
+
             const generatingEffect = this.game.effectEngine.effects.find(effect =>
                 effect.effect.state && effect.effect.state[context.source.uuid] === context.ability);
             return generatingEffect.source.name;
         };
+
         let menuChoices = _.uniq(choices.map(context => getSourceName(context)));
         if(menuChoices.length === 1) {
             // this card has only one ability which can be triggered
