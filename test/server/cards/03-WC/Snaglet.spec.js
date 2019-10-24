@@ -9,7 +9,7 @@ describe('Snaglet', function() {
                         inPlay: ['snaglet']
                     },
                     player2: {
-                        amber: 1,
+                        amber: 2,
                         inPlay: ['snufflegator', 'troll']
                     }
                 });
@@ -34,7 +34,7 @@ describe('Snaglet', function() {
                     });
 
                     it('should cause 1 amber to be stolen', function() {
-                        expect(this.player1.amber).toBe(5);
+                        expect(this.player1.amber).toBe(6);
                         expect(this.player2.amber).toBe(0);
                     });
                 });
@@ -49,7 +49,7 @@ describe('Snaglet', function() {
 
                     it('should cause 1 amber to be stolen', function() {
                         expect(this.player1.amber).toBe(4);
-                        expect(this.player2.amber).toBe(1);
+                        expect(this.player2.amber).toBe(2);
                     });
                 });
             });
