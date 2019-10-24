@@ -324,6 +324,22 @@ class Card extends EffectSource {
         return _.uniq(traits);
     }
 
+    getHouses() {
+        let combinedHouses = [];
+
+        if(this.anyEffect('changeHouse')) {
+            combinedHouses.push(this.getEffects('changeHouse'));
+        } else {
+            combinedHouses.push(this.printedHouse);
+        }
+
+        if(this.anyEffect('addHouse')) {
+            combinedHouses = combinedHouses.concat(this.getEffects('addHouse'));
+        }
+
+        return combinedHouses;
+    }
+
     hasHouse(house) {
         if(!house) {
             return false;
