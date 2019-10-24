@@ -30,7 +30,7 @@ describe('The Red Baron', function() {
                 expect(this.theRedBaron.location).toBe('discard');
             });
 
-            it('should gain elusive when opponent\'s forged a blue key', function() {
+            it('should not gain elusive when opponent\'s forged a blue key', function() {
                 this.player1.endTurn();
                 this.player2.clickPrompt('Blue');
                 this.player2.clickPrompt('brobnar');
@@ -41,7 +41,7 @@ describe('The Red Baron', function() {
                 expect(this.theRedBaron.location).toBe('discard');
             });
 
-            it('should gain elusive when opponent\'s forged a yellow key', function() {
+            it('should not gain elusive when opponent\'s forged a yellow key', function() {
                 this.player1.endTurn();
                 this.player2.clickPrompt('Yellow');
                 this.player2.clickPrompt('brobnar');
