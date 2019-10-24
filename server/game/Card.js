@@ -75,15 +75,25 @@ class Card extends EffectSource {
             when: {
                 onCardMarkedForDestruction: (event, context) => event.card === context.source && context.source.warded,
                 onCardLeavesPlay: (event, context) => event.card === context.source && context.source.warded,
+                onCardDestroyed: (event, context) => event.card === context.source && context.source.warded,
                 onDamageDealt: (event, context) => event.card === context.source && !context.event.noGameStateCheck && context.source.warded
             },
-            effect: 'remove its ward token to prevent it from {1}',
-            effectArgs: context => [context.event && context.event.name === 'onDamageDealt' ? 'being damaged' : 'leaving play'],
+            effect: 'remove its ward token',
             gameAction: [
-                AbilityDsl.actions.changeEvent(context => ({
-                    event: context.event,
-                    cancel: true
-                })),
+                AbilityDsl.actions.changeEvent(context => {
+                    let card = context.event.card;
+                    let cancel = true;
+
+                    if((card.power <= 0 || card.tokens.damage >= card.power) && !card.moribund) {
+                        context.event.card.unward();
+                        cancel = false;
+                    }
+
+                    return {
+                        event: context.event,
+                        cancel: cancel
+                    };
+                }),
                 AbilityDsl.actions.removeWard()
             ]
         });
