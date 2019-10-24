@@ -24,6 +24,7 @@ const LoseAmberAction = require('./GameActions/LoseAmberAction');
 const ModifyAmberAction = require('./GameActions/ModifyAmberAction');
 const ModifyChainsActions = require('./GameActions/ModifyChainsAction');
 const MoveCardAction = require('./GameActions/MoveCardAction');
+const MoveOnBattlelineAction = require('./GameActions/MoveOnBattlelineAction');
 const MoveToFlankAction = require('./GameActions/MoveToFlankAction');
 const AddTokenAction = require('./GameActions/AddTokenAction');
 const PlaceUnderAction = require('./GameActions/PlaceUnderAction');
@@ -81,6 +82,7 @@ const Actions = {
     graft: (propertyFactory) => new PlaceUnderAction(propertyFactory, true),
     heal: (propertyFactory) => new HealAction(propertyFactory),
     moveCard: (propertyFactory) => new MoveCardAction(propertyFactory), // destination, switch = false, shuffle = false
+    moveOnBattleline: (propertyFactory) => new MoveOnBattlelineAction(propertyFactory),
     moveToFlank: (propertyFactory) => new MoveToFlankAction(propertyFactory),
     placeAmber: (propertyFactory) => new AddTokenAction(propertyFactory, 'amber'), // amount = 1
     placeUnder: (propertyFactory) => new PlaceUnderAction(propertyFactory), // parent
