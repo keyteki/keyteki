@@ -328,7 +328,7 @@ class Card extends EffectSource {
         let combinedHouses = [];
 
         if(this.anyEffect('changeHouse')) {
-            combinedHouses.push(this.getEffects('changeHouse'));
+            combinedHouses = combinedHouses.concat((this.getEffects('changeHouse')));
         } else {
             combinedHouses.push(this.printedHouse);
         }
@@ -673,7 +673,7 @@ class Card extends EffectSource {
             context.ignoreHouse = ignoreHouse;
             return !action.meetsRequirements(context);
         });
-        let canFight = actions.findIndex(action=>action.title === 'Fight with this creature') >= 0;
+        let canFight = actions.findIndex(action => action.title === 'Fight with this creature') >= 0;
         if(this.getEffects('mustFightIfAble').length > 0 && canFight) {
             actions = actions.filter(action => action.title === 'Fight with this creature');
         }
@@ -791,7 +791,7 @@ class Card extends EffectSource {
             id: this.cardData.id,
             image: this.cardData.image,
             canPlay: (activePlayer === this.game.activePlayer) && this.game.activePlayer.activeHouse &&
-                      isController && (this.getLegalActions(activePlayer, false).length > 0),
+                isController && (this.getLegalActions(activePlayer, false).length > 0),
             cardback: this.owner.deckData.cardback,
             childCards: this.childCards.map(card => {
                 return card.getSummary(activePlayer, hideWhenFaceup);
