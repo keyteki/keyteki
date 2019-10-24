@@ -334,6 +334,22 @@ class Card extends EffectSource {
         return _.uniq(traits);
     }
 
+    getHouses() {
+        let combinedHouses = [];
+
+        if(this.anyEffect('changeHouse')) {
+            combinedHouses = combinedHouses.concat((this.getEffects('changeHouse')));
+        } else {
+            combinedHouses.push(this.printedHouse);
+        }
+
+        if(this.anyEffect('addHouse')) {
+            combinedHouses = combinedHouses.concat(this.getEffects('addHouse'));
+        }
+
+        return combinedHouses;
+    }
+
     hasHouse(house) {
         if(!house) {
             return false;
@@ -671,7 +687,7 @@ class Card extends EffectSource {
             context.ignoreHouse = ignoreHouse;
             return !action.meetsRequirements(context);
         });
-        let canFight = actions.findIndex(action=>action.title === 'Fight with this creature') >= 0;
+        let canFight = actions.findIndex(action => action.title === 'Fight with this creature') >= 0;
         if(this.getEffects('mustFightIfAble').length > 0 && canFight) {
             actions = actions.filter(action => action.title === 'Fight with this creature');
         }
@@ -717,9 +733,18 @@ class Card extends EffectSource {
         return this.owner;
     }
 
-    isOnFlank() {
+    isOnFlank(flank) {
         if(this.type !== 'creature') {
             return false;
+        }
+
+        let position = this.controller.cardsInPlay.indexOf(this);
+        if(flank === 'left') {
+            return (this.anyEffect('consideredAsFlank') || this.neighbors.length < 2) &&
+                position === 0;
+        } else if(flank === 'right') {
+            return (this.anyEffect('consideredAsFlank') || this.neighbors.length < 2) &&
+                position === this.controller.cardsInPlay.length - 1;
         }
 
         return this.anyEffect('consideredAsFlank') || this.neighbors.length < 2;
@@ -789,7 +814,7 @@ class Card extends EffectSource {
             id: this.cardData.id,
             image: this.cardData.image,
             canPlay: (activePlayer === this.game.activePlayer) && this.game.activePlayer.activeHouse &&
-                      isController && (this.getLegalActions(activePlayer, false).length > 0),
+                isController && (this.getLegalActions(activePlayer, false).length > 0),
             cardback: this.owner.deckData.cardback,
             childCards: this.childCards.map(card => {
                 return card.getSummary(activePlayer, hideWhenFaceup);
