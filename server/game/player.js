@@ -535,7 +535,7 @@ class Player extends GameObject {
     }
 
     getForgedKeys() {
-        return Math.max(0, Object.values(this.keys).filter(key=>key).length);
+        return Math.max(0, Object.values(this.keys).filter(key => key).length);
     }
 
     forgeKey(modifier) {
