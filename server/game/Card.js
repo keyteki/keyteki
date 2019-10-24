@@ -585,6 +585,10 @@ class Card extends EffectSource {
         this.exhausted = false;
     }
 
+    removeAttachment(card) {
+        this.upgrades = this.upgrades.filter(c => c !== card);
+    }
+
     /**
      * Applies an effect with the specified properties while the current card is
      * attached to another card. By default the effect will target the parent
