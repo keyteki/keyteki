@@ -42,7 +42,11 @@ class MoveOnBattlelineAction extends CardGameAction {
                         source: this.target.length > 0 ? this.target[0] : context.source,
                         choices: choices,
                         choiceHandler: choice => {
-                            this.left = choice === 'Left';
+                            if(choice === 'Right') {
+                                this.moveIndex++;
+                            }
+
+                            return true;
                         }
                     });
                     return true;
@@ -53,10 +57,11 @@ class MoveOnBattlelineAction extends CardGameAction {
 
     getEvent(card, context) {
         return super.createEvent('onCardMovedInBattleline', { card: card, context: context }, () => {
-            let player;
-            player = card.controller;
+            let player = card.controller;
+            let cardIndex = player.cardsInPlay.indexOf(card);
 
-            player.moveCard(card, 'play area', { left: this.left, deployIndex: this.moveIndex });
+            player.cardsInPlay.splice(cardIndex, 1);
+            player.cardsInPlay.splice(this.moveIndex, 0, card);
         });
     }
 }

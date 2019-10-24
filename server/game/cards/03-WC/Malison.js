@@ -7,7 +7,11 @@ class Malison extends Card {
                 cardType: 'creature',
                 controller: 'opponent',
                 gameAction: ability.actions.moveOnBattleline()
-            }
+            },
+            then: context => ({
+                condition: () => context.target.isOnFlank(),
+                gameAction: ability.actions.capture({ target: context.target, ownController: true })
+            })
         });
     }
 }
