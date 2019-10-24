@@ -976,7 +976,7 @@ class Game extends EventEmitter {
      * Return all houses in play.
      *
      * @param {Array} cards - which cards to consider. Default are all cards.
-     * @param {bool} upgrade - if upgrades should be counted. Default is false.
+     * @param {boolean} upgrade - if upgrades should be counted. Default is false.
      */
     getHousesInPlay(cards = this.cardsInPlay, upgrade = false) {
         return Constants.Houses.filter(house => cards.some(card => card.hasHouse(house)

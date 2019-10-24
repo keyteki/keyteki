@@ -1,4 +1,4 @@
-fdescribe('Snag', function() {
+describe('Snag', function() {
     integration(function() {
         describe('fight ability', function() {
             beforeEach(function() {

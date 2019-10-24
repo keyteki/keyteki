@@ -11,14 +11,6 @@ class HousePhase extends Phase {
     }
 
     chooseHouse() {
-        /*
-        this.game.promptForHouseSelect(this.game.activePlayer, {
-            promptTitle: 'Choose Active House',
-            activePromptTitle: 'Choose which house you want to activate this turn',
-            houses: this.game.activePlayer.getAvailableHouses(),
-            onSelect: house => this.game.activePlayer.activeHouse = house
-        });
-        */
         let choices = this.game.activePlayer.getAvailableHouses().map(house => {
             return { text: house, icon: house };
         });
