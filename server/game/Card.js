@@ -719,9 +719,18 @@ class Card extends EffectSource {
         return this.owner;
     }
 
-    isOnFlank() {
+    isOnFlank(flank) {
         if(this.type !== 'creature') {
             return false;
+        }
+
+        let position = this.controller.cardsInPlay.indexOf(this);
+        if(flank === 'left') {
+            return (this.anyEffect('consideredAsFlank') || this.neighbors.length < 2) &&
+                position === 0;
+        } else if(flank === 'right') {
+            return (this.anyEffect('consideredAsFlank') || this.neighbors.length < 2) &&
+                position === this.controller.cardsInPlay.length - 1;
         }
 
         return this.anyEffect('consideredAsFlank') || this.neighbors.length < 2;
