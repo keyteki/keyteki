@@ -232,10 +232,10 @@ export class GameBoard extends React.Component {
         return timeLimitClock;
     }
 
-    onCommand(command, arg, method) {
+    onCommand(command, arg, uuid, method) {
         let commandArg = arg;
 
-        this.props.sendGameMessage(command, commandArg, method);
+        this.props.sendGameMessage(command, commandArg, uuid, method);
     }
 
     onMenuItemClick(card, menuItem) {

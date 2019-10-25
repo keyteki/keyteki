@@ -4,6 +4,7 @@ import { withTranslation } from 'react-i18next';
 
 import AbilityTargeting from './AbilityTargeting';
 import CardNameLookup from './CardNameLookup';
+import TraitNameLookup from './TraitNameLookup';
 import Panel from '../Site/Panel';
 
 class ActivePlayerPrompt extends React.Component {
@@ -94,6 +95,12 @@ class ActivePlayerPrompt extends React.Component {
         return buttons;
     }
 
+    handleLookupValueSelected(command, uuid, method, cardName) {
+        if(this.props.onButtonClick) {
+            this.props.onButtonClick(command, cardName, uuid, method);
+        }
+    }
+
     onCardNameSelected(command, method, cardName) {
         if(this.props.onButtonClick) {
             this.props.onButtonClick(command, cardName, method);
@@ -116,6 +123,8 @@ class ActivePlayerPrompt extends React.Component {
                             targets={ control.targets } />);
                 case 'card-name':
                     return <CardNameLookup cards={ this.props.cards } onCardSelected={ this.onCardNameSelected.bind(this, control.command, control.method) } />;
+                case 'trait-name':
+                    return <TraitNameLookup cards={ this.props.cards } onValueSelected={ this.handleLookupValueSelected.bind(this, control.command, control.uuid, control.method) } />;
             }
         });
     }

@@ -325,6 +325,10 @@ class Card extends EffectSource {
     }
 
     hasTrait(trait) {
+        if(!trait) {
+            return false;
+        }
+
         trait = trait.toLowerCase();
         return this.traits.includes(trait) || this.getEffects('addTrait').includes(trait);
     }

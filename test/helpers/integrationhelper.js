@@ -99,7 +99,13 @@ beforeEach(function() {
 global.integration = function(definitions) {
     describe('integration', function() {
         beforeEach(function() {
-            this.flow = new GameFlowWrapper();
+            let cards = {};
+
+            for(let card of deckBuilder.cards) {
+                cards[card.id] = card;
+            }
+
+            this.flow = new GameFlowWrapper(cards);
 
             this.game = this.flow.game;
             this.player1Object = this.game.getPlayerByName('player1');
