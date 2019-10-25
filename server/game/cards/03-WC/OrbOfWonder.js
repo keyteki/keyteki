@@ -8,7 +8,8 @@ class OrbOfWonder extends Card {
                 message: '{0} uses {1} to move a card from their deck to their hand',
                 gameAction: ability.actions.search({
                     location: ['deck'],
-                    amount: 1
+                    amount: 1,
+                    reveal: false
                 })
             }
         });
