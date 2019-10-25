@@ -575,7 +575,7 @@ class Player extends GameObject {
 
                         this.keys[key.text.toLowerCase()] = true;
                         this.keyForged.push(key.text.toLowerCase());
-                        this.game.addMessage('{0} forges the {1}, paying {2} amber', this.game.activePlayer, `forgedkey${key.text.toLowerCase()}`, this.game.activePlayer.getCurrentKeyCost());
+                        this.game.addMessage('{0} forges the {1}, paying {2} amber', this.game.activePlayer, `forgedkey${key.text.toLowerCase()}`, modifiedCost);
                     });
                 }
             });
@@ -583,7 +583,7 @@ class Player extends GameObject {
             let color = unforgedKeys.shift().text.toLowerCase();
             this.keys[color] = true;
             this.keyForged.push(color);
-            this.game.addMessage('{0} forges the {1}, paying {2} amber', this.game.activePlayer, `forgedkey${color}`, this.game.activePlayer.getCurrentKeyCost());
+            this.game.addMessage('{0} forges the {1}, paying {2} amber', this.game.activePlayer, `forgedkey${color}`, modifiedCost);
         }
     }
 
