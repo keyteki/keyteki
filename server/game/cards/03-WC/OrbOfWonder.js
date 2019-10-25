@@ -6,14 +6,9 @@ class OrbOfWonder extends Card {
             gameAction: ability.actions.sacrifice(),
             then: {
                 message: '{0} uses {1} to move a card from their deck to their hand',
-                gameAction: ability.actions.moveCard({
-                    shuffle: true,
-                    reveal: true,
-                    destination: 'hand',
-                    promptForSelect: {
-                        controller: 'self',
-                        location: 'deck'
-                    }
+                gameAction: ability.actions.search({
+                    location: ['deck'],
+                    amount: 1
                 })
             }
         });

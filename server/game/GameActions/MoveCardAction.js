@@ -3,14 +3,14 @@ const CardGameAction = require('./CardGameAction');
 class MoveCardAction extends CardGameAction {
     setDefaultProperties() {
         this.destination = '';
-        this.reveal = false;
+        this.switch = false;
         this.shuffle = false;
     }
 
     setup() {
         super.setup();
         this.name = 'move';
-        this.effectMsg = `move ${this.reveal ? '{0}' : 'a card'} to their ${this.destination}`;
+        this.effectMsg = 'move {0}';
     }
 
     canAffect(card, context) {
@@ -22,10 +22,12 @@ class MoveCardAction extends CardGameAction {
     }
 
     getEvent(card, context) {
-        return super.createEvent('onMoveCard', { card: card, context: context }, event => {
-            context.player.moveCard(event.card, this.destination);
-            if(this.shuffle && (this.target.findIndex(c => c === event.card) === this.target.length - 1)) {
-                context.player.shuffleDeck();
+        return super.createEvent('onMoveCard', { card: card, context: context }, () => {
+            context.player.moveCard(card, this.destination);
+            if(this.shuffle && (this.target.findIndex(c => c === card) === this.target.length - 1)) {
+                if(this.destination === 'deck') {
+                    context.player.shuffleDeck();
+                }
             }
         });
     }

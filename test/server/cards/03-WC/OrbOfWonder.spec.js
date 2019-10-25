@@ -35,6 +35,7 @@ describe('Orb of Wonder', function() {
                 expect(this.player1).not.toBeAbleToSelect(this.shooler);
 
                 this.player1.clickCard(this.murkens);
+                this.player1.clickPrompt('Done');
                 expect(this.murkens.location).toBe('hand');
             });
         });
