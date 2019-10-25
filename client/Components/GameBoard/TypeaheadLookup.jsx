@@ -26,7 +26,6 @@ class TypeaheadLookup extends React.Component {
     }
 
     render() {
-        console.info(this.props.values);
         return (
             <div>
                 <Typeahead labelKey={ 'label' } options={ this.props.values } dropup onChange={ this.handleChange } />

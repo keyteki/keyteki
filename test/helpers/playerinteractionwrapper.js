@@ -320,6 +320,19 @@ class PlayerInteractionWrapper {
         this.checkUnserializableGameState();
     }
 
+    selectTrait(trait) {
+        let currentPrompt = this.player.currentPrompt();
+        let promptControl = currentPrompt.controls.find(control => control.type.toString().toLowerCase() === 'trait-name');
+
+        if(!promptControl) {
+            throw new Error(`Couldn't select a trait for ${this.player.name}. Current prompt is:\n${this.formatPrompt()}`);
+        }
+
+        this.game.menuButton(this.player.name, trait, promptControl.uuid, promptControl.method);
+        this.game.continue();
+        this.checkUnserializableGameState();
+    }
+
     endTurn() {
         if(this.currentPrompt().menuTitle !== 'Choose a card to play, discard or use') {
             throw new Error('Cannot end turn now');
