@@ -44,6 +44,12 @@ class UiPrompt extends BaseStep {
             });
         }
 
+        if(prompt.controls) {
+            for(let control of prompt.controls) {
+                control.uuid = this.uuid;
+            }
+        }
+
         return prompt;
     }
 
