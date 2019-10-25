@@ -15,7 +15,7 @@ describe('Reassembling Automaton', function() {
             });
 
             describe('when other creatures are in play', function() {
-                describe('and automaton is destoryed', function() {
+                describe('and automaton is destroyed', function() {
                     beforeEach(function() {
                         this.player1.fightWith(this.reassemblingAutomaton, this.troll);
                         this.player1.clickPrompt('right');
@@ -26,6 +26,19 @@ describe('Reassembling Automaton', function() {
                         expect(this.reassemblingAutomaton.location).toBe('play area');
                         expect(this.reassemblingAutomaton.exhausted).toBe(true);
                         expect(this.player1.player.cardsInPlay[1]).toBe(this.reassemblingAutomaton);
+                    });
+                });
+            });
+
+            describe('when no other creatures are in play', function() {
+                describe('and automaton is destroyed', function() {
+                    beforeEach(function() {
+                        this.player1.moveCard(this.pipPip, 'discard');
+                        this.player1.fightWith(this.reassemblingAutomaton, this.troll);
+                    });
+
+                    it('should not stop automaton from being destroyed', function() {
+                        expect(this.reassemblingAutomaton.location).toBe('discard');
                     });
                 });
             });

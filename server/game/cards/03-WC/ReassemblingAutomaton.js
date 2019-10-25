@@ -3,6 +3,7 @@ const Card = require('../../Card.js');
 class ReassemblingAutomaton extends Card {
     setupCardAbilities(ability) {
         this.destroyed({
+            condition: context => context.player.creaturesInPlay.length > 1,
             effect: 'heal all damage from {0}, exhaust it and move it to a flank',
             effectArgs: () => this,
             gameAction: [
