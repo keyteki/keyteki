@@ -51,6 +51,29 @@ var customMatchers = {
             }
         };
     },
+    toHavePromptCardButton: function(util, customEqualityMatchers) {
+        return {
+            compare: function(actual, card) {
+                var buttons = actual.currentPrompt().buttons;
+                var result = {};
+
+                if(_.isString(card)) {
+                    card = actual.findCardByName(card);
+                }
+
+                result.pass = _.any(buttons, button => util.equals(button.card ? button.card.id : '', card.id, customEqualityMatchers));
+
+                if(result.pass) {
+                    result.message = `Expected ${actual.name} not to have prompt button "${card.name}" but it did.`;
+                } else {
+                    var buttonText = _.map(buttons, button => '[' + (button.card ? button.card.name : '') + ']').join('\n');
+                    result.message = `Expected ${actual.name} to have prompt button "${card.name}" but it had buttons:\n${buttonText}`;
+                }
+
+                return result;
+            }
+        };
+    },
     toBeAbleToSelect: function() {
         return {
             compare: function(player, card) {

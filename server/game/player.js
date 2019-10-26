@@ -442,7 +442,7 @@ class Player extends GameObject {
 
     getDeckCards(list) {
         let final = [];
-        list.forEach(card =>{
+        list.forEach(card => {
             let arr = [];
             while(arr.length < card.count) {
                 arr = arr.concat(card.card);
@@ -526,7 +526,12 @@ class Player extends GameObject {
             return false;
         }
 
-        let alternativeSources = this.getEffects('keyAmber').reduce((total, source) => total + source.tokens.amber ? source.tokens.amber : 0, 0);
+        let alternativeSources = this.getEffects('keyAmber').reduce((total, source) => {
+            let card = _.isFunction(source) ? source() : source;
+
+            return total + card.tokens.amber ? card.tokens.amber : 0;
+        }, 0);
+
         return this.amber + alternativeSources >= this.getCurrentKeyCost() + modifier;
     }
 
@@ -543,8 +548,19 @@ class Player extends GameObject {
         let modifiedCost = cost;
         let unforgedKeys = this.getUnforgedKeys();
         if(this.anyEffect('keyAmber')) {
-            let totalAvailable = this.getEffects('keyAmber').reduce((total, source) => total + source.tokens.amber ? source.tokens.amber : 0, 0);
-            for(let source of this.getEffects('keyAmber').filter(source => source.hasToken('amber'))) {
+            let totalAvailable = this.getEffects('keyAmber').reduce((total, source) => {
+                let card = _.isFunction(source) ? source() : source;
+
+                return total + card.tokens.amber ? card.tokens.amber : 0;
+            }, 0);
+
+            for(let source of this.getEffects('keyAmber').filter(source => {
+                let card = _.isFunction(source) ? source() : source;
+
+                return card.hasToken('amber');
+            })) {
+                source = _.isFunction(source) ? source() : source;
+
                 this.game.queueSimpleStep(() => {
                     let max = Math.min(modifiedCost, source.tokens.amber);
                     let min = Math.max(0, modifiedCost - this.amber - totalAvailable + source.tokens.amber);
