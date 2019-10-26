@@ -6,7 +6,7 @@ class CincinnatusRex extends Card {
             condition: context => context.player.opponent.creaturesInPlay.length === 0,
             gameAction: ability.actions.destroy({ target: this })
         });
-        
+
         this.fight({
             optional: true,
             gameAction: ability.actions.exalt(),
@@ -16,7 +16,7 @@ class CincinnatusRex extends Card {
                 }))
             }
         });
-        
+
         this.reaction({
             when: {
                 onCardLeavesPlay: (event, context) => event.card.type === 'creature' && context.player.opponent &&
