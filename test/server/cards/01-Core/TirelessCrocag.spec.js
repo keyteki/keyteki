@@ -13,11 +13,13 @@ describe('Tireless Crocag', function() {
                     }
                 });
             });
+
             it('should be destroyed immediately after being played if opponent has no creatures', function() {
                 this.player1.play(this.tirelessCrocag);
                 expect(this.tirelessCrocag.location).toBe('discard');
             });
         });
+
         describe('Tireless Crocag\'s ability', function() {
             beforeEach(function() {
                 this.setupTest({
@@ -32,10 +34,12 @@ describe('Tireless Crocag', function() {
                     }
                 });
             });
+
             it('should stay in play if opponent has creatures on the board', function() {
                 this.player1.play(this.tirelessCrocag);
                 expect(this.tirelessCrocag.location).toBe('play area');
             });
+
             it('should destroy itself if opponent has no creatures on the board', function() {
                 this.player1.play(this.tirelessCrocag);
                 expect(this.tirelessCrocag.location).toBe('play area');
@@ -44,6 +48,7 @@ describe('Tireless Crocag', function() {
                 expect(this.bingleBangbang.location).toBe('discard');
                 expect(this.tirelessCrocag.location).toBe('discard');
             });
+
             it('should destroy itself if opponent has no creatures on the board and its their fault', function() {
                 this.player1.play(this.tirelessCrocag);
                 expect(this.tirelessCrocag.location).toBe('play area');
@@ -53,6 +58,7 @@ describe('Tireless Crocag', function() {
                 expect(this.bingleBangbang.location).toBe('discard');
                 expect(this.tirelessCrocag.location).toBe('discard');
             });
+
             it('should be unable to reap', function() {
                 this.player1.play(this.tirelessCrocag);
                 expect(this.tirelessCrocag.location).toBe('play area');
@@ -63,6 +69,7 @@ describe('Tireless Crocag', function() {
                 this.player1.clickCard(this.tirelessCrocag);
                 expect(this.player1).not.toHavePromptButton('Reap with this creature');
             });
+
             it('should be useable in any house', function() {
                 this.player1.play(this.tirelessCrocag);
                 expect(this.tirelessCrocag.location).toBe('play area');
