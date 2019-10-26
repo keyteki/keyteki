@@ -2,10 +2,7 @@ const Card = require('../../Card.js');
 
 class EldestBear extends Card {
     setupCardAbilities(ability) {
-        this.interrupt({
-            when: {
-                onFight: (event, context) => event.attacker === context.source
-            },
+        this.beforeFight({
             effect: 'gain 2 amber',
             gameAction: ability.actions.gainAmber(context => ({
                 amount: (context.source.isInCenter() ? 2 : 0),

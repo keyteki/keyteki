@@ -13,6 +13,7 @@ describe('Plasma Nozzle', function() {
                     }
                 });
             });
+
             it('should add \'before fight: deal 2 to the target with 2 splash\'', function() {
                 this.player1.playUpgrade(this.plasmaNozzle, this.lieutenantKhrkhar);
                 this.player1.fightWith(this.lieutenantKhrkhar, this.sequis);

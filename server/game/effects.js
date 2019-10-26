@@ -31,7 +31,7 @@ const Effects = {
                 ability = card.persistentEffect(properties);
                 ability.ref = card.addEffectToEngine(ability);
             } else {
-                if(['fight', 'reap', 'play', 'destroyed'].includes(abilityType)) {
+                if(['fight', 'reap', 'play', 'destroyed', 'beforeFight'].includes(abilityType)) {
                     ability = card[abilityType](properties);
                 } else {
                     ability = card.triggeredAbility(abilityType, properties);
@@ -82,7 +82,7 @@ const Effects = {
     additionalCost: (costFactory) => EffectBuilder.player.static('additionalCost', costFactory),
     canFight: (match) => EffectBuilder.player.static('canUse', context => (
         (context.ability.title === 'Fight with this creature' ||
-        context.ability.title === 'Remove this creature\'s stun') &&
+            context.ability.title === 'Remove this creature\'s stun') &&
         match(context.source)
     )),
     mustFightIfAble: () => EffectBuilder.card.static('mustFightIfAble'),

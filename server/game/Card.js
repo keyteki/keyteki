@@ -290,6 +290,15 @@ class Card extends EffectSource {
         return action;
     }
 
+    beforeFight(properties) {
+        properties.when = { onFight: (event, context) => event.attacker === context.source };
+        if(properties.condition) {
+            properties.when = { onFight: (event, context) => event.attacker === context.source && properties.condition(context) };
+        }
+
+        return this.interrupt(properties);
+    }
+
     triggeredAbility(abilityType, properties) {
         let reaction = new TriggeredAbility(this.game, this, abilityType, properties);
         this.abilities.reactions.push(reaction);

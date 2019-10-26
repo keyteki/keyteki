@@ -2,10 +2,7 @@ const Card = require('../../Card.js');
 
 class GabosLongarms extends Card {
     setupCardAbilities(ability) {
-        this.interrupt({
-            when: {
-                onFight: (event, context) => event.attacker === context.source
-            },
+        this.beforeFight({
             target: {
                 activePromptTitle: 'Choose a creature to deal damage to',
                 cardType: 'creature',
