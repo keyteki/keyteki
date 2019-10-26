@@ -61,12 +61,12 @@ var customMatchers = {
                     card = actual.findCardByName(card);
                 }
 
-                result.pass = _.any(buttons, button => util.equals(button.card.id, card.id, customEqualityMatchers));
+                result.pass = _.any(buttons, button => util.equals(button.card ? button.card.id : '', card.id, customEqualityMatchers));
 
                 if(result.pass) {
                     result.message = `Expected ${actual.name} not to have prompt button "${card.name}" but it did.`;
                 } else {
-                    var buttonText = _.map(buttons, button => '[' + button.card.name + ']').join('\n');
+                    var buttonText = _.map(buttons, button => '[' + (button.card ? button.card.name : '') + ']').join('\n');
                     result.message = `Expected ${actual.name} to have prompt button "${card.name}" but it had buttons:\n${buttonText}`;
                 }
 

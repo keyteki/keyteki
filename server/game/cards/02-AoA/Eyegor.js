@@ -6,7 +6,7 @@ class Eyegor extends Card {
             gameAction: ability.actions.moveCard(context => ({
                 destination: 'hand',
                 promptWithHandlerMenu: {
-                    activePromptTitle: 'Choose which card to add to hand',
+                    activePromptTitle: 'Choose a card to add to hand',
                     cards: context.player.deck.slice(0, 3),
                     message: '{0} chooses to add {2} to their hand'
                 }
