@@ -111,7 +111,7 @@ class GameServer {
             debugData.game = gameState;
             debugData.game.players = undefined;
 
-            debugData.messages = game.messages;
+            debugData.messages = game.getPlainTextLog();
             debugData.game.messages = undefined;
 
             _.each(game.getPlayers(), player => {
