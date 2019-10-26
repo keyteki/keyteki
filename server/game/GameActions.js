@@ -14,7 +14,6 @@ const Actions = {
     cardLastingEffect: (propertyFactory) => new GameActions.LastingEffectCardAction(propertyFactory), // duration = 'untilEndOfConflict', effect, targetLocation, condition, until
     clearGrowthTokens: (propertyFactory) => new GameActions.RemoveTokenAction(propertyFactory, 'growth'),
     dealDamage: (propertyFactory) => new GameActions.DealDamageAction(propertyFactory),
-    deckSearch: (propertyFactory) => new GameActions.DeckSearchAction(propertyFactory), // amount = -1, reveal = true, cardCondition = (card, context) => true
     delayedEffect: (propertyFactory) => new GameActions.DelayedEffectAction(propertyFactory), // when, message, gameAction, handler
     discard: (propertyFactory) => new GameActions.DiscardCardAction(propertyFactory),
     destroy: (propertyFactory) => new GameActions.DestroyAction(propertyFactory),

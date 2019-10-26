@@ -271,8 +271,8 @@ class PlayerInteractionWrapper {
     hasPrompt(title) {
         var currentPrompt = this.currentPrompt();
         return !!currentPrompt &&
-        ((currentPrompt.menuTitle && currentPrompt.menuTitle.toLowerCase() === title.toLowerCase()) ||
-        (currentPrompt.promptTitle && currentPrompt.promptTitle.toLowerCase() === title.toLowerCase()));
+            ((currentPrompt.menuTitle && currentPrompt.menuTitle.toLowerCase() === title.toLowerCase()) ||
+                (currentPrompt.promptTitle && currentPrompt.promptTitle.toLowerCase() === title.toLowerCase()));
     }
 
     selectDeck(deck) {
@@ -282,7 +282,10 @@ class PlayerInteractionWrapper {
     clickPrompt(text) {
         text = text.toString();
         var currentPrompt = this.player.currentPrompt();
-        var promptButton = _.find(currentPrompt.buttons, button => button.text.toString().toLowerCase() === text.toLowerCase());
+        var promptButton = _.find(currentPrompt.buttons, button => {
+            return button.card && button.card.name.toLowerCase() === text.toLowerCase() ||
+                button.text.toString().toLowerCase() === text.toLowerCase();
+        });
 
         if(!promptButton) {
             throw new Error(`Couldn't click on "${text}" for ${this.player.name}. Current prompt is:\n${this.formatPrompt()}`);
@@ -462,7 +465,7 @@ class PlayerInteractionWrapper {
             //Find only those cards that aren't already in the list
             var cardObject = this.filterCardsByName(card, locations).find(card => !_.contains(cardList, card));
             if(!cardObject) {
-                throw new Error (`Could not find card named ${card}`);
+                throw new Error(`Could not find card named ${card}`);
             }
 
             cardList.push(cardObject);
