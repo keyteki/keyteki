@@ -1,5 +1,36 @@
-xdescribe('Ritual of Balance', function() {
+describe('Ritual of Balance', function() {
     integration(function() {
+        describe('Ritual of Balance\'s ability', function() {
+            beforeEach(function() {
+                this.setupTest({
+                    player1: {
+                        house: 'untamed',
+                        amber: 3,
+                        inPlay: ['nexus', 'library-of-babble', 'ritual-of-balance']
+                    },
+                    player2: {
+                        amber: 8,
+                        inPlay: ['gauntlet-of-command']
+                    }
+                });
+            });
+
+            it('should steal 1 amber if opponent has less 6 or more amber', function() {
+                this.player1.useAction(this.ritualOfBalance);
+                expect(this.ritualOfBalance.exhausted).toBe(true);
+                expect(this.player1.amber).toBe(4);
+                expect(this.player2.amber).toBe(7);
+            });
+
+            it('should not steal 1 amber if opponent has less than 6', function() {
+                this.player2.amber = 5;
+                this.player1.useAction(this.ritualOfBalance);
+                expect(this.ritualOfBalance.exhausted).toBe(true);
+                expect(this.player1.amber).toBe(3);
+                expect(this.player2.amber).toBe(5);
+            });
+        });
+
         describe('Ritual of Balance\'s ability', function() {
             beforeEach(function() {
                 this.setupTest({
