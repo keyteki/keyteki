@@ -19,7 +19,6 @@ const SimpleStep = require('./gamesteps/simplestep.js');
 const MenuPrompt = require('./gamesteps/menuprompt.js');
 const HandlerMenuPrompt = require('./gamesteps/handlermenuprompt.js');
 const SelectCardPrompt = require('./gamesteps/selectcardprompt.js');
-const SelectHousePrompt = require('./gamesteps/SelectHousePrompt');
 const GameWonPrompt = require('./gamesteps/GameWonPrompt');
 const GameActions = require('./GameActions');
 const Event = require('./Events/Event');
@@ -489,15 +488,6 @@ class Game extends EventEmitter {
      */
     promptForSelect(player, properties) {
         this.queueStep(new SelectCardPrompt(this, this.activePlayer, properties));
-    }
-
-    /**
-     * Prompts a player to choose a house
-     * @param {Player} player
-     * @param {Object} properties - see selecthouseprompt.js
-     */
-    promptForHouseSelect(player, properties) {
-        this.queueStep(new SelectHousePrompt(this, this.activePlayer, properties));
     }
 
     /**
