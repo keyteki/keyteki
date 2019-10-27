@@ -47,6 +47,7 @@ const Costs = {
             let houseEffects = context.player.effects.filter(effect => effect.type === 'canPlayHouse' && !context.game.effectsUsed.includes(effect));
             let playOrUseEffects = context.player.effects.filter(effect => effect.type === 'canPlayOrUseHouse' && !context.game.effectsUsed.includes(effect));
             let nonHouseEffects = (context.player.effects.filter(effect => effect.type === 'canPlayNonHouse' && !context.game.effectsUsed.includes(effect)));
+
             return houseEffects.some(effect => context.source.hasHouse(effect.getValue(context.player))) ||
                    playOrUseEffects.some(effect => context.source.hasHouse(effect.getValue(context.player))) ||
                    nonHouseEffects.some(effect => !context.source.hasHouse(effect.getValue(context.player)));

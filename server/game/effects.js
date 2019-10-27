@@ -92,7 +92,7 @@ const Effects = {
         unapply: (player, context, location) => player.removePlayableLocation(location)
     }),
     canPlayHouse: (house) => EffectBuilder.player.static('canPlayHouse', house),
-    canPlayNonHouse: (house) => EffectBuilder.player.static('canPlayNonHouse', house),
+    canPlayNonHouse: (house) => EffectBuilder.player.flexible('canPlayNonHouse', house),
     canPlayOrUseHouse: (house) => EffectBuilder.player.static('canPlayOrUseHouse', house),
     canUse: (match) => EffectBuilder.player.static('canUse', context => match(context.source)),
     canUseHouse: (house) => EffectBuilder.player.static('canUseHouse', house),
@@ -115,7 +115,6 @@ const Effects = {
     stealFromPool: () => EffectBuilder.player.static('stealFromPool'),
     captureFromPool: () => EffectBuilder.player.static('captureFromPool'),
     stopHouseChoice: (house) => EffectBuilder.player.static('stopHouseChoice', house),
-    showTopConflictCard: () => EffectBuilder.player.static('showTopConflictCard'),
     skipStep: (step) => EffectBuilder.player.static('skipStep', step)
 };
 
