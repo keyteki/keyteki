@@ -216,6 +216,13 @@ global.integration = function(definitions) {
             };
         });
 
+        afterEach(function() {
+            if(process.env.DEBUG_TEST) {
+                // eslint-disable-next-line no-console
+                console.info(this.game.getPlainTextLog());
+            }
+        });
+
         definitions();
     });
 };

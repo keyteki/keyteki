@@ -30,6 +30,7 @@ const SimultaneousEffectWindow = require('./gamesteps/SimultaneousEffectWindow')
 const AbilityContext = require('./AbilityContext.js');
 const MenuCommands = require('./MenuCommands');
 const TimeLimit = require('./TimeLimit.js');
+const PlainTextGameChatFormatter = require('./PlainTextGameChatFormatter');
 
 class Game extends EventEmitter {
     constructor(details, options = {}) {
@@ -114,6 +115,11 @@ class Game extends EventEmitter {
 
     get messages() {
         return this.gameChat.messages;
+    }
+
+    getPlainTextLog() {
+        let formatter = new PlainTextGameChatFormatter(this.gameChat);
+        return formatter.format();
     }
 
     /**
