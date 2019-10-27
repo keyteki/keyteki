@@ -7,10 +7,7 @@ class TribunePompitus extends Card {
             effect: ability.effects.modifyPower(target => 2 * target.amber)
         });
 
-        this.interrupt({
-            when: {
-                onFight: (event, context) => event.attacker === context.source
-            },
+        this.beforeFight({
             optional: true,
             gameAction: ability.actions.exalt()
         });

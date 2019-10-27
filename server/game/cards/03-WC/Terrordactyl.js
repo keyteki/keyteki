@@ -14,10 +14,7 @@ class Terrordactyl extends Card {
             effect: ability.effects.limitFightDamage(4)
         });
 
-        this.interrupt({
-            when: {
-                onFight: (event, context) => event.attacker === context.source
-            },
+        this.beforeFight({
             effect: 'deal 4 damage to each neighbor of the creature being fought',
             gameAction: ability.actions.dealDamage(context => ({
                 amount: 4,
