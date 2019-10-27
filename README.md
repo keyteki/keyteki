@@ -43,14 +43,16 @@ Check out the [About page](https://thecrucible.online/about) of Keyteki live dep
 ### Docker
 If you have docker installed, you can use the containerised version of the site.
 
+Clone the repository, then run the following commands:
 ```
-Clone the repository
 git submodule init
 git submodule update
 npm install
 docker-compose up
+```
 
-(in another terminal)
+In another termainl, run the follwoing command:
+```
 docker-compose exec lobby node server/scripts/fetchdata
 ```
 
@@ -61,13 +63,14 @@ docker-compose exec lobby node server/scripts/fetchdata
 * MongoDB
 * ZeroMQ Libraries
 
+Clone the repository, then run the following commands:
 ```
-Clone the repository
 git submodule init
 git submodule update
 npm install # See https://github.com/JustinTulloss/zeromq.node/issues/283 for zmq errors on OS X
 mkdir server/logs
 ```
+
 Create config/local.json and put the following in it:
 ```
 {
@@ -82,6 +85,10 @@ Create config/local.json and put the following in it:
         hostname: 'localhost'
     }
 }
+```
+
+Run the following commands:
+```
 node server/scripts/fetchdata.js
 node .
 node server/gamenode
