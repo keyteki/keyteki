@@ -51,7 +51,7 @@ npm install
 docker-compose up
 ```
 
-In another termainl, run the follwoing command:
+In another terminal, run the following command:
 ```
 docker-compose exec lobby node server/scripts/fetchdata
 ```
