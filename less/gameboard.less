@@ -781,3 +781,25 @@ hr.phasestart {
   justify-content: center;
   text-transform: capitalize;
 }
+
+.house-icon-row {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 5px;
+
+  div {
+    cursor: pointer;
+
+    &:hover {
+      background-color: @brand-primary;
+    }
+
+    &.disabled {
+      opacity: 0.4;
+
+      &:hover {
+        background-color: initial;
+      }  
+    }
+  }
+}

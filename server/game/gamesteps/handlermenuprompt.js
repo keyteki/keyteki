@@ -83,22 +83,23 @@ class HandlerMenuPrompt extends UiPrompt {
     }
 
     getAdditionalPromptControls() {
+        if(this.properties.controls && this.properties.controls.type !== 'targeting') {
+            return this.properties.controls;
+        }
+
+        let targets;
         if(this.properties.controls && this.properties.controls.type === 'targeting') {
-            return [{
-                type: 'targeting',
-                source: this.properties.source.getShortSummary(),
-                targets: this.properties.controls.targets.map(target => target.getShortSummary())
-            }];
-        }
+            targets = this.properties.controls.targets;
+        } else {
+            if(!this.context.source.type) {
+                return [];
+            }
 
-        if(!this.context.source.type) {
-            return [];
-        }
-
-        let targets = this.context.targets ? Object.values(this.context.targets) : [];
-        targets = targets.reduce((array, target) => array.concat(target), []);
-        if(targets.length === 0 && this.context.event && this.context.event.card) {
-            this.targets = [this.context.event.card];
+            targets = this.context.targets ? Object.values(this.context.targets) : [];
+            targets = targets.reduce((array, target) => array.concat(target), []);
+            if(targets.length === 0 && this.context.event && this.context.event.card) {
+                this.targets = [this.context.event.card];
+            }
         }
 
         return [{

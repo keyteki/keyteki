@@ -28,7 +28,6 @@ class AbilityTargetCard {
             }
 
             return (!properties.cardCondition || properties.cardCondition(card, contextCopy)) &&
-                   //(!this.dependentTarget || this.dependentTarget.hasLegalTarget(contextCopy)) &&
                    (properties.gameAction.length === 0 || properties.gameAction.some(gameAction => gameAction.hasLegalTarget(contextCopy)));
         };
 
@@ -64,20 +63,7 @@ class AbilityTargetCard {
         }
 
         let otherProperties = _.omit(this.properties, 'cardCondition', 'player');
-        /*
-        let playerProp = this.properties.player;
-        if(typeof playerProp === 'function') {
-            playerProp = playerProp(context);
-        }
-        let player = context.player;
-        if(playerProp === 'opponent') {
-            if(context.stage === 'pretarget') {
-                targetResults.delayTargeting = this;
-                return;
-            }
-            player = player.opponent;
-        }
-        */
+
         let buttons = [];
         let waitingPromptTitle = '';
         if(context.stage === 'pretarget') {
