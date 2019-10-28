@@ -1,4 +1,4 @@
-fdescribe('Gebuk', function() {
+describe('Gebuk', function() {
     integration(function() {
         describe('when destroyed', function() {
             beforeEach(function() {
