@@ -16,7 +16,6 @@ class DiscardCardAction extends CardGameAction {
             }
 
             card.owner.moveCard(card, 'discard');
-            console.info(card.name, 'discarded');
         });
     }
 }
