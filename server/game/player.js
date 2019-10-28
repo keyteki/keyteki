@@ -670,7 +670,7 @@ class Player extends GameObject {
             },
             cardback: 'cardback',
             deckName: this.deckData.name,
-            disconnected: this.disconnected,
+            disconnected: !!this.disconnectedAt,
             activePlayer: this.game.activePlayer === this,
             houses: this.houses,
             id: this.id,
