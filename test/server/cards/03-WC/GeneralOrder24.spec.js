@@ -75,6 +75,5 @@ describe('General Order 24', function() {
                 expect(this.player2.inPlay.length).toBe(1);
             });
         });
-
     });
 });
