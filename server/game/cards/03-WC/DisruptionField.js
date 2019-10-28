@@ -7,11 +7,17 @@ class DisruptionField extends Card {
                 gameAction: ability.actions.addDisruptionCounter(context => ({ target: this }))
             })
         });
-        
+
         this.whileAttached({
             effect: ability.effects.gainAbility('fight', {
                 gameAction: ability.actions.addDisruptionCounter(context => ({ target: this }))
             })
+        });
+
+        this.persistentEffect({
+            condition: () => this.controller.opponent && this.hasToken('disruption'),
+            targetController: 'opponent',
+            effect: ability.effects.modifyKeyCost(() => this.tokens.disruption)
         });
     }
 }
