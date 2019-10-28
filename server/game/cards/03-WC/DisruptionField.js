@@ -4,13 +4,13 @@ class DisruptionField extends Card {
     setupCardAbilities(ability) {
         this.whileAttached({
             effect: ability.effects.gainAbility('reap', {
-                gameAction: ability.actions.addDisruptionCounter(context => ({ target: this }))
+                gameAction: ability.actions.addDisruptionCounter(() => ({ target: this }))
             })
         });
 
         this.whileAttached({
             effect: ability.effects.gainAbility('fight', {
-                gameAction: ability.actions.addDisruptionCounter(context => ({ target: this }))
+                gameAction: ability.actions.addDisruptionCounter(() => ({ target: this }))
             })
         });
 
