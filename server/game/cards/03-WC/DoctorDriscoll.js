@@ -4,8 +4,6 @@ class DoctorDriscoll extends Card {
     setupCardAbilities(ability) {
         this.action({
             target: {
-                activePromptTitle: 'Choose a creature to heal',
-                condition: context => context.game.creaturesInPlay.some(card => card.hasToken('damage')),
                 cardType: 'creature',
                 gameAction: ability.actions.heal({ amount: 2 })
             },
