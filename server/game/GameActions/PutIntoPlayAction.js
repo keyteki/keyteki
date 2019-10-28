@@ -30,7 +30,7 @@ class PutIntoPlayAction extends CardGameAction {
         let card = this.target.length > 0 ? this.target[0] : context.source;
         let player;
 
-        if(this.deployIndex) {
+        if(this.deployIndex !== undefined) {
             return;
         }
 
