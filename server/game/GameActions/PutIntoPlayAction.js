@@ -30,6 +30,10 @@ class PutIntoPlayAction extends CardGameAction {
         let card = this.target.length > 0 ? this.target[0] : context.source;
         let player;
 
+        if(this.deployIndex) {
+            return;
+        }
+
         if(card.anyEffect('entersPlayUnderOpponentsControl') && card.owner.opponent) {
             player = card.owner.opponent;
         } else {

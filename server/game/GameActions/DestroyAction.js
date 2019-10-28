@@ -27,6 +27,7 @@ class DestroyAction extends CardGameAction {
             context.game.openEventWindow(componentEvents.map(componentEvent => super.createEvent('onCardDestroyed', { card: componentEvent.card, context: context, inFight: event.inFight }, event => {
                 componentEvent.destroyEvent = event;
                 context.game.raiseEvent('onCardLeavesPlay', { card: event.card, context: event.context }, event => {
+                    console.info(event.card.name, 'leaving play');
                     event.card.owner.moveCard(event.card, this.purge ? 'purged' : 'discard');
                 });
             })));
