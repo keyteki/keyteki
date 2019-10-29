@@ -31,7 +31,7 @@ const Effects = {
                 ability = card.persistentEffect(properties);
                 ability.ref = card.addEffectToEngine(ability);
             } else {
-                if(['fight', 'reap', 'play', 'destroyed'].includes(abilityType)) {
+                if(['fight', 'reap', 'play', 'destroyed', 'beforeFight'].includes(abilityType)) {
                     ability = card[abilityType](properties);
                 } else {
                     ability = card.triggeredAbility(abilityType, properties);
@@ -82,7 +82,7 @@ const Effects = {
     additionalCost: (costFactory) => EffectBuilder.player.static('additionalCost', costFactory),
     canFight: (match) => EffectBuilder.player.static('canUse', context => (
         (context.ability.title === 'Fight with this creature' ||
-        context.ability.title === 'Remove this creature\'s stun') &&
+            context.ability.title === 'Remove this creature\'s stun') &&
         match(context.source)
     )),
     mustFightIfAble: () => EffectBuilder.card.static('mustFightIfAble'),
@@ -92,7 +92,7 @@ const Effects = {
         unapply: (player, context, location) => player.removePlayableLocation(location)
     }),
     canPlayHouse: (house) => EffectBuilder.player.static('canPlayHouse', house),
-    canPlayNonHouse: (house) => EffectBuilder.player.static('canPlayNonHouse', house),
+    canPlayNonHouse: (house) => EffectBuilder.player.flexible('canPlayNonHouse', house),
     canPlayOrUseHouse: (house) => EffectBuilder.player.static('canPlayOrUseHouse', house),
     canUse: (match) => EffectBuilder.player.static('canUse', context => match(context.source)),
     canUseHouse: (house) => EffectBuilder.player.static('canUseHouse', house),
@@ -115,7 +115,6 @@ const Effects = {
     stealFromPool: () => EffectBuilder.player.static('stealFromPool'),
     captureFromPool: () => EffectBuilder.player.static('captureFromPool'),
     stopHouseChoice: (house) => EffectBuilder.player.static('stopHouseChoice', house),
-    showTopConflictCard: () => EffectBuilder.player.static('showTopConflictCard'),
     skipStep: (step) => EffectBuilder.player.static('skipStep', step)
 };
 

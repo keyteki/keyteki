@@ -63,7 +63,7 @@ class AbilityTargetHouse {
         let promptTitle = this.properties.activePromptTitle || 'Choose a house';
         let houses = this.getHouses(context);
         let choices = houses.map(house => {
-            return { text: house, icon: house };
+            return { text: house };
         });
         let handlers = houses.map(choice => {
             return (() => {
@@ -96,7 +96,8 @@ class AbilityTargetHouse {
                 context: context,
                 source: this.properties.source || context.source,
                 choices: choices,
-                handlers: handlers
+                handlers: handlers,
+                controls: [{ type: 'house-select', houses: houses }]
             });
         }
     }

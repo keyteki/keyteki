@@ -8,8 +8,8 @@ class ForgeAction extends PlayerAction {
     setup() {
         super.setup();
         this.name = 'forgeKey';
-        this.effectMsg = 'forge a key, paying {1} amber';
-        this.effectArgs = context => context.player.getCurrentKeyCost() + this.modifier;
+        this.effectMsg = `forge a key at ${this.modifier ? '{1} amber' : ''} current cost`;
+        this.effectArgs = this.modifier;
     }
 
     canAffect(player, context) {

@@ -39,19 +39,19 @@ class MenuPrompt extends UiPrompt {
     }
 
     menuCommand(player, arg, method) {
-        if(!this.context[method] || !this.hasMethodButton(method)) {
+        if(!this.context[method] || !this.hasMethodButtonOrControl(method)) {
             return false;
         }
 
-        if(this.context[method](player, arg, method)) {
+        if(this.context[method](this.properties.activePrompt.context, player, arg, method)) {
             this.complete();
         }
 
         return true;
     }
 
-    hasMethodButton(method) {
-        return _.any(this.properties.activePrompt.buttons, button => button.method === method);
+    hasMethodButtonOrControl(method) {
+        return _.any(this.properties.activePrompt.buttons, button => button.method === method) || this.properties.activePrompt.controls.some(control => control.method === method);
     }
 }
 

@@ -1,5 +1,6 @@
 const _ = require('underscore');
 const EventEmitter = require('events');
+const moment = require('moment');
 
 const Constants = require('../constants.js');
 const ChatCommands = require('./chatcommands.js');
@@ -19,7 +20,6 @@ const SimpleStep = require('./gamesteps/simplestep.js');
 const MenuPrompt = require('./gamesteps/menuprompt.js');
 const HandlerMenuPrompt = require('./gamesteps/handlermenuprompt.js');
 const SelectCardPrompt = require('./gamesteps/selectcardprompt.js');
-const SelectHousePrompt = require('./gamesteps/SelectHousePrompt');
 const GameWonPrompt = require('./gamesteps/GameWonPrompt');
 const GameActions = require('./GameActions');
 const Event = require('./Events/Event');
@@ -30,6 +30,7 @@ const SimultaneousEffectWindow = require('./gamesteps/SimultaneousEffectWindow')
 const AbilityContext = require('./AbilityContext.js');
 const MenuCommands = require('./MenuCommands');
 const TimeLimit = require('./TimeLimit.js');
+const PlainTextGameChatFormatter = require('./PlainTextGameChatFormatter');
 
 class Game extends EventEmitter {
     constructor(details, options = {}) {
@@ -114,6 +115,11 @@ class Game extends EventEmitter {
 
     get messages() {
         return this.gameChat.messages;
+    }
+
+    getPlainTextLog() {
+        let formatter = new PlainTextGameChatFormatter(this.gameChat);
+        return formatter.format();
     }
 
     /**
@@ -486,15 +492,6 @@ class Game extends EventEmitter {
     }
 
     /**
-     * Prompts a player to choose a house
-     * @param {Player} player
-     * @param {Object} properties - see selecthouseprompt.js
-     */
-    promptForHouseSelect(player, properties) {
-        this.queueStep(new SelectHousePrompt(this, this.activePlayer, properties));
-    }
-
-    /**
      * This function is called by the client whenever a player clicks a button
      * in a prompt
      * @param {String} playerName
@@ -803,7 +800,19 @@ class Game extends EventEmitter {
     }
 
     isEmpty() {
-        return _.all(this.playersAndSpectators, player => player.disconnected || player.left || player.id === 'TBA');
+        return Object.values(this.playersAndSpectators).every(player => {
+            if(player.left || player.id === 'TBA') {
+                return true;
+            }
+
+            if(!player.disconnectedAt) {
+                return false;
+            }
+
+            let difference = moment().diff(moment(player.disconnectedAt), 'seconds');
+
+            return difference > 30;
+        });
     }
 
     leave(playerName) {
@@ -833,12 +842,12 @@ class Game extends EventEmitter {
             return;
         }
 
-        this.addAlert('info', '{0} has disconnected', player);
+        this.addAlert('info', '{0} has disconnected.  The game will wait up to 30 seconds for them to reconnect', player);
 
         if(this.isSpectator(player)) {
             delete this.playersAndSpectators[playerName];
         } else {
-            player.disconnected = true;
+            player.disconnectedAt = new Date();
         }
 
         player.socket = undefined;
@@ -869,7 +878,7 @@ class Game extends EventEmitter {
         } else {
             this.addAlert('warning', '{0} has failed to connect to the game', player);
 
-            player.disconnected = true;
+            player.disconnectedAt = new Date();
 
             if(!this.finishedAt) {
                 this.finishedAt = new Date();
@@ -885,7 +894,7 @@ class Game extends EventEmitter {
 
         player.id = socket.id;
         player.socket = socket;
-        player.disconnected = false;
+        player.disconnectedAt = undefined;
 
         this.addAlert('info', '{0} has reconnected', player);
     }
@@ -976,7 +985,7 @@ class Game extends EventEmitter {
      * Return all houses in play.
      *
      * @param {Array} cards - which cards to consider. Default are all cards.
-     * @param {bool} upgrade - if upgrades should be counted. Default is false.
+     * @param {boolean} upgrade - if upgrades should be counted. Default is false.
      */
     getHousesInPlay(cards = this.cardsInPlay, upgrade = false) {
         return Constants.Houses.filter(house => cards.some(card => card.hasHouse(house)

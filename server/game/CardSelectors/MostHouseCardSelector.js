@@ -1,4 +1,4 @@
-const Constants = require('../../Constants.js');
+const Constants = require('../../constants.js');
 const ExactlyXCardSelector = require('./ExactlyXCardSelector');
 
 class MostHouseCardSelector extends ExactlyXCardSelector {

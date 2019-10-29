@@ -53,9 +53,7 @@ class Lobby {
 
     // External methods
     getStatus() {
-        var nodeStatus = this.router.getNodeStatus();
-
-        return nodeStatus;
+        return this.router.getNodeStatus();
     }
 
     disableNode(nodeName) {

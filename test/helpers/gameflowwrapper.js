@@ -5,7 +5,7 @@ const PlayerInteractionWrapper = require('./playerinteractionwrapper.js');
 const Settings = require('../../server/settings.js');
 
 class GameFlowWrapper {
-    constructor() {
+    constructor(cards) {
         var gameRouter = jasmine.createSpyObj('gameRouter', ['gameWon', 'playerLeft', 'handleError']);
         gameRouter.handleError.and.callFake((game, error) => {
             throw error;
@@ -20,7 +20,7 @@ class GameFlowWrapper {
                 { id: '222', user: Settings.getUserWithDefaultsSet({ username: 'player2' }) }
             ]
         };
-        this.game = new Game(details, { router: gameRouter });
+        this.game = new Game(details, { router: gameRouter, cardData: cards });
         this.game.started = true;
 
         this.player1 = new PlayerInteractionWrapper(this.game, this.game.getPlayerByName('player1'));

@@ -8,15 +8,11 @@ class RemoveWardAction extends CardGameAction {
     }
 
     canAffect(card, context) {
-        if(card.location !== 'play area') {
-            return false;
-        }
-
-        return super.canAffect(card, context);
+        return (card.location === 'play area') && super.canAffect(card, context);
     }
 
     getEvent(card, context) {
-        return super.createEvent('onRemoveWard', { card: card, context: context }, () => card.unward());
+        return super.createEvent('onRemoveWard', { card: card, context: context }, event => event.card.unward());
     }
 }
 

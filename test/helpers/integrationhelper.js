@@ -51,6 +51,29 @@ var customMatchers = {
             }
         };
     },
+    toHavePromptCardButton: function(util, customEqualityMatchers) {
+        return {
+            compare: function(actual, card) {
+                var buttons = actual.currentPrompt().buttons;
+                var result = {};
+
+                if(_.isString(card)) {
+                    card = actual.findCardByName(card);
+                }
+
+                result.pass = _.any(buttons, button => util.equals(button.card ? button.card.id : '', card.id, customEqualityMatchers));
+
+                if(result.pass) {
+                    result.message = `Expected ${actual.name} not to have prompt button "${card.name}" but it did.`;
+                } else {
+                    var buttonText = _.map(buttons, button => '[' + (button.card ? button.card.name : '') + ']').join('\n');
+                    result.message = `Expected ${actual.name} to have prompt button "${card.name}" but it had buttons:\n${buttonText}`;
+                }
+
+                return result;
+            }
+        };
+    },
     toBeAbleToSelect: function() {
         return {
             compare: function(player, card) {
@@ -99,7 +122,13 @@ beforeEach(function() {
 global.integration = function(definitions) {
     describe('integration', function() {
         beforeEach(function() {
-            this.flow = new GameFlowWrapper();
+            let cards = {};
+
+            for(let card of deckBuilder.cards) {
+                cards[card.id] = card;
+            }
+
+            this.flow = new GameFlowWrapper(cards);
 
             this.game = this.flow.game;
             this.player1Object = this.game.getPlayerByName('player1');
@@ -185,6 +214,13 @@ global.integration = function(definitions) {
 
                 this.game.checkGameState(true);
             };
+        });
+
+        afterEach(function() {
+            if(process.env.DEBUG_TEST) {
+                // eslint-disable-next-line no-console
+                console.info(this.game.getPlainTextLog());
+            }
         });
 
         definitions();

@@ -271,8 +271,8 @@ class PlayerInteractionWrapper {
     hasPrompt(title) {
         var currentPrompt = this.currentPrompt();
         return !!currentPrompt &&
-        ((currentPrompt.menuTitle && currentPrompt.menuTitle.toLowerCase() === title.toLowerCase()) ||
-        (currentPrompt.promptTitle && currentPrompt.promptTitle.toLowerCase() === title.toLowerCase()));
+            ((currentPrompt.menuTitle && currentPrompt.menuTitle.toLowerCase() === title.toLowerCase()) ||
+                (currentPrompt.promptTitle && currentPrompt.promptTitle.toLowerCase() === title.toLowerCase()));
     }
 
     selectDeck(deck) {
@@ -282,7 +282,10 @@ class PlayerInteractionWrapper {
     clickPrompt(text) {
         text = text.toString();
         var currentPrompt = this.player.currentPrompt();
-        var promptButton = _.find(currentPrompt.buttons, button => button.text.toString().toLowerCase() === text.toLowerCase());
+        var promptButton = _.find(currentPrompt.buttons, button => {
+            return button.card && button.card.name.toLowerCase() === text.toLowerCase() ||
+                button.text.toString().toLowerCase() === text.toLowerCase();
+        });
 
         if(!promptButton) {
             throw new Error(`Couldn't click on "${text}" for ${this.player.name}. Current prompt is:\n${this.formatPrompt()}`);
@@ -316,6 +319,19 @@ class PlayerInteractionWrapper {
         }
 
         this.game.menuItemClick(this.player.name, card.uuid, items[0]);
+        this.game.continue();
+        this.checkUnserializableGameState();
+    }
+
+    selectTrait(trait) {
+        let currentPrompt = this.player.currentPrompt();
+        let promptControl = currentPrompt.controls.find(control => control.type.toString().toLowerCase() === 'trait-name');
+
+        if(!promptControl) {
+            throw new Error(`Couldn't select a trait for ${this.player.name}. Current prompt is:\n${this.formatPrompt()}`);
+        }
+
+        this.game.menuButton(this.player.name, trait, promptControl.uuid, promptControl.method);
         this.game.continue();
         this.checkUnserializableGameState();
     }
@@ -462,7 +478,7 @@ class PlayerInteractionWrapper {
             //Find only those cards that aren't already in the list
             var cardObject = this.filterCardsByName(card, locations).find(card => !_.contains(cardList, card));
             if(!cardObject) {
-                throw new Error (`Could not find card named ${card}`);
+                throw new Error(`Could not find card named ${card}`);
             }
 
             cardList.push(cardObject);

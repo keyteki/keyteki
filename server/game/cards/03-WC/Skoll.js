@@ -21,6 +21,6 @@ class Skoll extends Card {
     }
 }
 
-Skoll.id = 'skoll';
+Skoll.id = 'sköll';
 
 module.exports = Skoll;

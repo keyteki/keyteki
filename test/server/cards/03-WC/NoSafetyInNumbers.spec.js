@@ -31,7 +31,7 @@ describe('No Safety in Numbers', function() {
                 this.setupTest({
                     player1: {
                         house: 'shadows',
-                        inPlay: ['troll', 'krump', 'the-grim-reaper', 'shadow-self'],
+                        inPlay: ['troll', 'krump', 'groggins', 'dodger'],
                         hand: ['no-safety-in-numbers']
                     },
                     player2: {
@@ -42,13 +42,13 @@ describe('No Safety in Numbers', function() {
                 });
             });
 
-            it('should deal damage to Brobnar (3) and Shadows (4)', function() {
+            it('should deal 3 damage to Brobnar and Shadows', function() {
                 this.player1.play(this.noSafetyInNumbers);
 
                 expect(this.troll.tokens.damage).toBe(3);
                 expect(this.krump.tokens.damage).toBe(3);
-                expect(this.theGrimReaper.tokens.damage).toBe(3);
-                expect(this.shadowSelf.tokens.damage).toBe(3);
+                expect(this.groggins.tokens.damage).toBe(3);
+                expect(this.dodger.tokens.damage).toBe(3);
                 expect(this.lamindra.location).toBe('discard');
                 expect(this.redlock.location).toBe('discard');
                 expect(this.faygin.location).toBe('discard');

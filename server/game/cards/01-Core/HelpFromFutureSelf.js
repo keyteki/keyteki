@@ -3,11 +3,17 @@ const Card = require('../../Card.js');
 class HelpFromFutureSelf extends Card {
     setupCardAbilities(ability) {
         this.play({
-            gameAction: ability.actions.search({
-                cardName: 'Timetraveller',
-                amount: 1,
-                discardToDeck: true
-            })
+            effect: 'search for Timetraveller and shuffle discard into their deck',
+            gameAction: ability.actions.sequential([
+                ability.actions.search({
+                    cardName: 'Timetraveller',
+                    amount: 1
+                }),
+                ability.actions.returnToDeck(context => ({
+                    shuffle: true,
+                    target: context.player.discard
+                }))
+            ])
         });
     }
 }

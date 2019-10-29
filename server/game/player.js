@@ -442,7 +442,7 @@ class Player extends GameObject {
 
     getDeckCards(list) {
         let final = [];
-        list.forEach(card =>{
+        list.forEach(card => {
             let arr = [];
             while(arr.length < card.count) {
                 arr = arr.concat(card.card);
@@ -490,7 +490,7 @@ class Player extends GameObject {
     }
 
     getAvailableHouses() {
-        let availableHouses = this.cardsInPlay.reduce((houses, card) => {
+        let availableHouses = this.hand.concat(this.cardsInPlay).reduce((houses, card) => {
             let cardHouse = card.printedHouse;
 
             if(card.anyEffect('changeHouse')) {
@@ -526,7 +526,12 @@ class Player extends GameObject {
             return false;
         }
 
-        let alternativeSources = this.getEffects('keyAmber').reduce((total, source) => total + source.tokens.amber ? source.tokens.amber : 0, 0);
+        let alternativeSources = this.getEffects('keyAmber').reduce((total, source) => {
+            let card = _.isFunction(source) ? source() : source;
+
+            return total + card.tokens.amber ? card.tokens.amber : 0;
+        }, 0);
+
         return this.amber + alternativeSources >= this.getCurrentKeyCost() + modifier;
     }
 
@@ -535,7 +540,7 @@ class Player extends GameObject {
     }
 
     getForgedKeys() {
-        return Math.max(0, Object.values(this.keys).filter(key=>key).length);
+        return Math.max(0, Object.values(this.keys).filter(key => key).length);
     }
 
     forgeKey(modifier) {
@@ -543,8 +548,19 @@ class Player extends GameObject {
         let modifiedCost = cost;
         let unforgedKeys = this.getUnforgedKeys();
         if(this.anyEffect('keyAmber')) {
-            let totalAvailable = this.getEffects('keyAmber').reduce((total, source) => total + source.tokens.amber ? source.tokens.amber : 0, 0);
-            for(let source of this.getEffects('keyAmber').filter(source => source.hasToken('amber'))) {
+            let totalAvailable = this.getEffects('keyAmber').reduce((total, source) => {
+                let card = _.isFunction(source) ? source() : source;
+
+                return total + card.tokens.amber ? card.tokens.amber : 0;
+            }, 0);
+
+            for(let source of this.getEffects('keyAmber').filter(source => {
+                let card = _.isFunction(source) ? source() : source;
+
+                return card.hasToken('amber');
+            })) {
+                source = _.isFunction(source) ? source() : source;
+
                 this.game.queueSimpleStep(() => {
                     let max = Math.min(modifiedCost, source.tokens.amber);
                     let min = Math.max(0, modifiedCost - this.amber - totalAvailable + source.tokens.amber);
@@ -575,7 +591,7 @@ class Player extends GameObject {
 
                         this.keys[key.text.toLowerCase()] = true;
                         this.keyForged.push(key.text.toLowerCase());
-                        this.game.addMessage('{0} forges the {1}, paying {2} amber', this.game.activePlayer, `forgedkey${key.text.toLowerCase()}`, this.game.activePlayer.getCurrentKeyCost());
+                        this.game.addMessage('{0} forges the {1}, paying {2} amber', this.game.activePlayer, `forgedkey${key.text.toLowerCase()}`, modifiedCost);
                     });
                 }
             });
@@ -583,7 +599,7 @@ class Player extends GameObject {
             let color = unforgedKeys.shift().text.toLowerCase();
             this.keys[color] = true;
             this.keyForged.push(color);
-            this.game.addMessage('{0} forges the {1}, paying {2} amber', this.game.activePlayer, `forgedkey${color}`, this.game.activePlayer.getCurrentKeyCost());
+            this.game.addMessage('{0} forges the {1}, paying {2} amber', this.game.activePlayer, `forgedkey${color}`, modifiedCost);
         }
     }
 
@@ -654,7 +670,7 @@ class Player extends GameObject {
             },
             cardback: 'cardback',
             deckName: this.deckData.name,
-            disconnected: this.disconnected,
+            disconnected: !!this.disconnectedAt,
             activePlayer: this.game.activePlayer === this,
             houses: this.houses,
             id: this.id,
