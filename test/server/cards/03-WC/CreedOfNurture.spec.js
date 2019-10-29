@@ -39,7 +39,7 @@ describe('Creed of Nurture', function() {
                 expect(this.firespitter.getKeywordValue('assault')).toBe(3);
             });
 
-            fit('should resolve printed and gained before fight abilities correctly', function() {
+            it('should resolve printed and gained before fight abilities correctly', function() {
                 this.player1.clickCard(this.creedOfNurture);
                 this.player1.clickPrompt('Use this card\'s Omni ability');
                 this.player1.clickCard(this.eldestBear);
