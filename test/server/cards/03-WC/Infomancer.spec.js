@@ -35,7 +35,7 @@ describe('Infomancer', function() {
                 });
             });
 
-            it('playing infomancer should allow grafting an action card', function() {
+            it('should allow grafting an action card', function() {
                 this.player1.play(this.infomancer);
                 expect(this.player1).toHavePrompt('Infomancer');
                 expect(this.player1).toBeAbleToSelect(this.pound);
