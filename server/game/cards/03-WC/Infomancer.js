@@ -12,6 +12,7 @@ class Infomancer extends Card {
         });
 
         this.reap({
+            effect: 'trigger the play effect of {0}',
             target: {
                 location: 'any',
                 controller: 'self',

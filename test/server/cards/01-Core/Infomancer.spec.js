@@ -27,7 +27,7 @@ describe('Infomancer', function() {
                     player1: {
                         house: 'brobnar',
                         inPlay: ['krump', 'groggins'],
-                        hand: ['infomancer', 'pound', 'troll', 'anger', 'lava-ball', 'autocannon']
+                        hand: ['infomancer', 'pound', 'troll', 'anger', 'lava-ball', 'virtuous-works', 'autocannon']
                     },
                     player2: {
                         inPlay: ['panpaca-anga', 'flaxia', 'tantadlin', 'bigtwig']
@@ -41,6 +41,7 @@ describe('Infomancer', function() {
                 expect(this.player1).toBeAbleToSelect(this.pound);
                 expect(this.player1).toBeAbleToSelect(this.anger);
                 expect(this.player1).toBeAbleToSelect(this.lavaBall);
+                expect(this.player1).toBeAbleToSelect(this.virtuousWorks);
                 expect(this.player1).not.toBeAbleToSelect(this.troll);
                 expect(this.player1).not.toBeAbleToSelect(this.autocannon);
                 this.player1.clickCard(this.lavaBall);
@@ -62,6 +63,7 @@ describe('Infomancer', function() {
                 expect(this.player1).not.toBeAbleToSelect(this.lavaBall);
                 expect(this.player1).not.toBeAbleToSelect(this.troll);
                 expect(this.player1).not.toBeAbleToSelect(this.autocannon);
+                expect(this.player1).not.toBeAbleToSelect(this.virtuousWorks);
                 this.player1.clickCard(this.pound);
                 expect(this.pound.facedown).toBe(false);
                 expect(this.pound.parent).toBe(this.infomancer);
@@ -70,6 +72,18 @@ describe('Infomancer', function() {
                 expect(this.tantadlin.tokens.damage).toBe(2);
                 expect(this.bigtwig.tokens.damage).toBe(1);
                 expect(this.flaxia.tokens.damage).toBe(1);
+                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            });
+
+            it('should not activate anything if card has no play effect, not even amber', function() {
+                this.player1.play(this.infomancer);
+                this.player1.clickCard(this.virtuousWorks);
+                this.infomancer.exhausted = false;
+                this.player1.reap(this.infomancer);
+                expect(this.player1).toHavePrompt('Infomancer');
+                this.player1.clickCard(this.virtuousWorks);
+                expect(this.player1.amber).toBe(1);
+                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
         });
     });
