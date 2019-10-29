@@ -4,7 +4,7 @@ class GeneralOrder24 extends Card {
     setupCardAbilities(ability) {
         this.interrupt({
             when: {
-                onPhaseStarted: (event, context) => event.phase === 'key'
+                onPhaseStarted: event => event.phase === 'key'
             },
             gameAction: ability.actions.destroy(context => ({ target: context.player.creaturesInPlay.length === 0 ? context.source : [] })),
             target: {

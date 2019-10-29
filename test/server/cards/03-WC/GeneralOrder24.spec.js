@@ -26,9 +26,9 @@ describe('General Order 24', function() {
             });
 
             it('general order 24 is activated when opponent has no creatures, it gets destroyed', function() {
-                this.player1.play(this.generalOrder24)
-                this.player1.endTurn()
-                expect(this.player1.inPlay.length).toBe(0)
+                this.player1.play(this.generalOrder24);
+                this.player1.endTurn();
+                expect(this.player1.inPlay.length).toBe(0);
             });
 
             it('general order 24 is played when opponent has creatures, it forces the opponent to choose a creature', function() {
