@@ -10,14 +10,17 @@ class EpicQuest extends Card {
         });
 
         this.omni({
-            condition: context => context.game.cardsPlayed.filter(card => card.hasHouse('sanctum')).length > 6,
-            effect: 'sacrifice {0} and forge a key at no cost',
-            gameAction: [
-                ability.actions.sacrifice(),
-                ability.actions.forgeKey(context => ({
+            gameAction: ability.actions.destroy(context => ({
+                target: context.game.cardsPlayed.filter(card => card.hasHouse('sanctum')).length > 6 ? context.source : []
+            })),
+            then: {
+                condition: context => context.game.cardsPlayed.filter(card => card.hasHouse('sanctum')).length > 6,
+                message: '{0} uses {1} to sacrifice {1} and forge a key at no cost',
+                messageArgs: context => [context.player, context.source],
+                gameAction: ability.actions.forgeKey(context => ({
                     modifier: -context.player.getCurrentKeyCost()
                 }))
-            ]
+            }
         });
     }
 }
