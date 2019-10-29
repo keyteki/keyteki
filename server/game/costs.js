@@ -50,7 +50,16 @@ const Costs = {
 
             return houseEffects.some(effect => context.source.hasHouse(effect.getValue(context.player))) ||
                    playOrUseEffects.some(effect => context.source.hasHouse(effect.getValue(context.player))) ||
-                   nonHouseEffects.some(effect => !context.source.hasHouse(effect.getValue(context.player)));
+                   nonHouseEffects.some(effect => {
+                       let value = effect.getValue(context.player);
+                       if(value.condition && !value.condition(context.source)) {
+                           return false;
+                       } else if(value.house) {
+                           value = value.house;
+                       }
+
+                       return !context.source.hasHouse(value);
+                   });
         },
         payEvent: context => context.game.getEvent('unnamedEvent', {}, () => {
             context.game.cardsPlayed.push(context.source);
@@ -66,7 +75,16 @@ const Costs = {
             let effect = (
                 houseEffects.find(effect => context.source.hasHouse(effect.getValue(context.player))) ||
                 playOrUseEffects.find(effect => context.source.hasHouse(effect.getValue(context.player))) ||
-                nonHouseEffects.find(effect => !context.source.hasHouse(effect.getValue(context.player)))
+                nonHouseEffects.find(effect => {
+                    let value = effect.getValue(context.player);
+                    if(value.condition && !value.condition(context.source)) {
+                        return false;
+                    } else if(value.house) {
+                        value = value.house;
+                    }
+
+                    return !context.source.hasHouse(value);
+                })
             );
             if(effect) {
                 context.game.effectsUsed.push(effect);
