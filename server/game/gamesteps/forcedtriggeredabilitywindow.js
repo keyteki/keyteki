@@ -113,6 +113,10 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
 
     promptBetweenAbilities(choices, addBackButton = true) {
         const getSourceName = context => {
+            if(context.ability.title) {
+                return context.ability.title;
+            }
+
             if(context.ability.printedAbility) {
                 return context.source.name;
             }

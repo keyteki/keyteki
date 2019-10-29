@@ -32,6 +32,7 @@ class Card extends EffectSource {
         this.abilities = { actions: [], reactions: [], persistentEffects: [] };
         this.traits = cardData.traits || [];
         this.setupCardAbilities(AbilityDsl);
+        this.printedKeywords = {};
         for(let keyword of cardData.keywords || []) {
             let split = keyword.split(':');
             let value = 1;
@@ -39,6 +40,7 @@ class Card extends EffectSource {
                 value = parseInt(split[1]);
             }
 
+            this.printedKeywords[split[0]] = value;
             this.persistentEffect({
                 location: 'any',
                 match: this,
@@ -152,7 +154,7 @@ class Card extends EffectSource {
         // Assault
         this.interrupt({
             title: 'Assault',
-            printedAbiliy: false,
+            printedAbility: false,
             when: {
                 onFight: (event, context) => event.attacker === context.source
             },
@@ -167,7 +169,7 @@ class Card extends EffectSource {
         // Hazardous
         this.interrupt({
             title: 'Hazardous',
-            printedAbiliy: false,
+            printedAbility: false,
             when: {
                 onFight: (event, context) => event.card === context.source
             },
