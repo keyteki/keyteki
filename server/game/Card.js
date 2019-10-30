@@ -21,7 +21,7 @@ class Card extends EffectSource {
         this.cardData = cardData;
 
         this.id = cardData.id;
-        this.name = cardData.name;
+        this.printedName = cardData.name;
         this.image = cardData.image;
         this.setDefaultController(owner);
 
@@ -133,12 +133,13 @@ class Card extends EffectSource {
         this.endRound();
     }
 
-    get type() {
-        if(this.anyEffect('canPlayAsUpgrade') && this.parent !== null) {
-            return 'upgrade';
-        }
+    get name() {
+        const copyEffect = this.mostRecentEffect('copyCharacter');
+        return copyEffect ? copyEffect.printedName : this.printedName;
+    }
 
-        return this.printedType;
+    get type() {
+        return this.mostRecentEffect('changeType') || this.printedType;
     }
 
     /**
@@ -434,7 +435,7 @@ class Card extends EffectSource {
 
         this.location = targetLocation;
 
-        if(['play area', 'discard', 'hand', 'purged'].includes(targetLocation)) {
+        if(['play area', 'discard', 'hand', 'purged', 'grafted'].includes(targetLocation)) {
             this.facedown = false;
         }
 

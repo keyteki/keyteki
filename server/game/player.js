@@ -8,12 +8,11 @@ const PlayerPromptState = require('./playerpromptstate');
 
 class Player extends GameObject {
     constructor(id, user, owner, game, clockdetails) {
-        super(game, user.username);
+        super(game);
         this.user = user;
         this.emailHash = this.user.emailHash;
         this.id = id;
         this.owner = owner;
-        this.type = 'player';
 
         this.hand = [];
         this.cardsInPlay = []; // This stores references to all creatures and artifacts in play.  Upgrades are not stored here.
@@ -45,6 +44,14 @@ class Player extends GameObject {
         this.optionSettings = user.settings.optionSettings;
 
         this.promptState = new PlayerPromptState(this);
+    }
+
+    get name() {
+        return this.user.username;
+    }
+
+    get type() {
+        return 'player';
     }
 
     isSpectator() {

@@ -17,6 +17,7 @@ const Effects = {
     canPlayAsUpgrade: () => EffectBuilder.card.static('canPlayAsUpgrade'),
     cardCannot: (type, condition) => EffectBuilder.card.static('abilityRestrictions', new CannotRestriction(type, condition)),
     changeHouse: (house) => EffectBuilder.card.static('changeHouse', house),
+    changeType: (type) => EffectBuilder.card.static('changeType', type),
     consideredAsFlank: () => EffectBuilder.card.static('consideredAsFlank'),
     customDetachedCard: (properties) => EffectBuilder.card.detached('customEffect', properties),
     doesNotReady: () => EffectBuilder.card.static('doesNotReady'),
