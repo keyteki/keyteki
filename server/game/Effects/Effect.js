@@ -37,6 +37,7 @@ class Effect {
         this.condition = properties.condition || (() => true);
         this.location = properties.location || 'play area';
         this.printedAbility = properties.printedAbility !== false;
+        this.canChangeZoneOnce = !!properties.canChangeZoneOnce;
         this.effect = effect;
         this.targets = [];
         this.effect.context = this.context = properties.context || { game: game, player: source.controller, source: source };
