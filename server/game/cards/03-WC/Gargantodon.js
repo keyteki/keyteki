@@ -27,6 +27,7 @@ class Gargantodon extends Card {
                         cancel: true
                     })),
                     ability.actions.capture(context => ({
+                        controllerOpponent: true,
                         amount: context.event.amount,
                         target: context.target
                     }))
