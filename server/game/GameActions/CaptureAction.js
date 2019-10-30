@@ -15,8 +15,9 @@ class CaptureAction extends CardGameAction {
             if(this.ownController && context.target && context.target.length > 0) {
                 player = context.target[0].controller;
             }
+
             return player;
-        }
+        };
     }
 
     canAffect(card, context) {
