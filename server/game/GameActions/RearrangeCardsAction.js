@@ -1,6 +1,6 @@
 const CardGameAction = require('./CardGameAction');
 
-class RearrangeDeckAction extends CardGameAction {
+class RearrangeCardsAction extends CardGameAction {
     setDefaultProperties() {
     }
 
@@ -46,4 +46,4 @@ class RearrangeDeckAction extends CardGameAction {
     }
 }
 
-module.exports = RearrangeDeckAction;
+module.exports = RearrangeCardsAction;
