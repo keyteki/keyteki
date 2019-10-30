@@ -1,4 +1,4 @@
-describe('Navigator Ali', function() {
+describe('Lay of the land', function() {
     integration(function() {
         describe('when played', function() {
             beforeEach(function() {
@@ -6,7 +6,7 @@ describe('Navigator Ali', function() {
                     player1: {
                         house: 'staralliance',
                         inPlay: ['krump'],
-                        hand: ['navigator-ali', 'troll', 'bumpsy', 'titan-mechanic', 'brain-eater'],
+                        hand: ['lay-of-the-land', 'troll', 'bumpsy', 'titan-mechanic', 'brain-eater'],
                         amber: 4
                     },
                     player2: {
@@ -19,7 +19,7 @@ describe('Navigator Ali', function() {
                 this.player1.moveCard(this.bumpsy, 'deck');
                 this.player1.moveCard(this.troll, 'deck');
 
-                this.player1.play(this.navigatorAli);
+                this.player1.play(this.layOfTheLand);
             });
 
             it('should prompt the top 3 cards from the deck', function() {
@@ -43,10 +43,13 @@ describe('Navigator Ali', function() {
                         this.player1.clickPrompt('troll');
                     });
 
-                    it('should rearrange the cards in the deck', function() {
-                        expect(this.player1.deck[0]).toBe(this.titanMechanic);
-                        expect(this.player1.deck[1]).toBe(this.troll);
-                        expect(this.player1.deck[2]).toBe(this.bumpsy);
+                    it('should draw the top card of the deck', function() {
+                        expect(this.player1.hand).toContain(this.titanMechanic);
+                    });
+
+                    it('should rearrange the rest of the cards in the deck', function() {
+                        expect(this.player1.deck[0]).toBe(this.troll);
+                        expect(this.player1.deck[1]).toBe(this.bumpsy);
                     });
                 });
             });
