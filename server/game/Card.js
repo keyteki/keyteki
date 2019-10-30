@@ -21,7 +21,7 @@ class Card extends EffectSource {
         this.cardData = cardData;
 
         this.id = cardData.id;
-        this.name = cardData.name;
+        this.printedName = cardData.name;
         this.image = cardData.image;
         this.setDefaultController(owner);
 
@@ -32,6 +32,7 @@ class Card extends EffectSource {
         this.abilities = { actions: [], reactions: [], persistentEffects: [] };
         this.traits = cardData.traits || [];
         this.setupCardAbilities(AbilityDsl);
+        this.printedKeywords = {};
         for(let keyword of cardData.keywords || []) {
             let split = keyword.split(':');
             let value = 1;
@@ -39,6 +40,7 @@ class Card extends EffectSource {
                 value = parseInt(split[1]);
             }
 
+            this.printedKeywords[split[0]] = value;
             this.persistentEffect({
                 location: 'any',
                 match: this,
@@ -133,12 +135,13 @@ class Card extends EffectSource {
         this.endRound();
     }
 
-    get type() {
-        if(this.anyEffect('canPlayAsUpgrade') && this.parent !== null) {
-            return 'upgrade';
-        }
+    get name() {
+        const copyEffect = this.mostRecentEffect('copyCharacter');
+        return copyEffect ? copyEffect.printedName : this.printedName;
+    }
 
-        return this.printedType;
+    get type() {
+        return this.mostRecentEffect('changeType') || this.printedType;
     }
 
     /**
@@ -152,7 +155,7 @@ class Card extends EffectSource {
         // Assault
         this.interrupt({
             title: 'Assault',
-            printedAbiliy: false,
+            printedAbility: false,
             when: {
                 onFight: (event, context) => event.attacker === context.source
             },
@@ -167,7 +170,7 @@ class Card extends EffectSource {
         // Hazardous
         this.interrupt({
             title: 'Hazardous',
-            printedAbiliy: false,
+            printedAbility: false,
             when: {
                 onFight: (event, context) => event.card === context.source
             },
@@ -434,7 +437,7 @@ class Card extends EffectSource {
 
         this.location = targetLocation;
 
-        if(['play area', 'discard', 'hand', 'purged'].includes(targetLocation)) {
+        if(['play area', 'discard', 'hand', 'purged', 'grafted'].includes(targetLocation)) {
             this.facedown = false;
         }
 
