@@ -36,7 +36,7 @@ describe('Favor of Rex', function() {
                 });
             });
 
-            it('should have no effect if creature has no Play: ability', function() {
+            xit('should have no effect if creature has no Play: ability', function() {
                 expect(this.player1.amber).toBe(10);
                 this.player1.play(this.favorOfRex);
                 expect(this.player1).toHavePrompt('Choose a creature');
@@ -88,7 +88,7 @@ describe('Favor of Rex', function() {
                 expect(this.player2.amber).toBe(3);
             });
 
-            it('should apply opponent correctly when Play: has a condition', function() {
+            xit('should apply opponent correctly when Play: has a condition', function() {
                 this.player1.play(this.favorOfRex);
                 expect(this.player1).toHavePrompt('Choose a creature');
                 this.player1.clickCard(this.drumble);
