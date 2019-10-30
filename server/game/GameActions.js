@@ -13,7 +13,6 @@ const Actions = {
     capture: (propertyFactory) => new GameActions.CaptureAction(propertyFactory),
     cardLastingEffect: (propertyFactory) => new GameActions.LastingEffectCardAction(propertyFactory), // duration = 'untilEndOfConflict', effect, targetLocation, condition, until
     clearGrowthTokens: (propertyFactory) => new GameActions.RemoveTokenAction(propertyFactory, 'growth'),
-    conditional: (propertyFactory) => new GameActions.ConditionalAction(propertyFactory),
     dealDamage: (propertyFactory) => new GameActions.DealDamageAction(propertyFactory),
     delayedEffect: (propertyFactory) => new GameActions.DelayedEffectAction(propertyFactory), // when, message, gameAction, handler
     discard: (propertyFactory) => new GameActions.DiscardCardAction(propertyFactory),
@@ -74,6 +73,7 @@ const Actions = {
     addEventToWindow: (propertyFactory) => new GameActions.AddEventToWindowAction(propertyFactory),
     changeEvent: (propertyFactory) => new GameActions.ChangeEventAction(propertyFactory),
     chooseAction: (propertyFactory) => new GameActions.ChooseGameAction(propertyFactory), // choices, activePromptTitle = 'Select one'
+    conditional: (propertyFactory) => new GameActions.ConditionalAction(propertyFactory),
     jointAction: (gameActions) => new GameActions.JointGameAction(gameActions), // takes an array of gameActions, not a propertyFactory
     sequential: (gameActions) => new GameActions.SequentialAction(gameActions), // takes an array of gameActions, not a propertyFactory
     sequentialForEach: (propertyFactory) => new GameActions.SequentialForEachAction(propertyFactory)

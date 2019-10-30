@@ -3,7 +3,8 @@ const GameAction = require('./GameAction');
 class ConditionalAction extends GameAction {
     setup() {
         super.setup();
-        this.effectMsg = this.effect || 'conditionally do something';
+        this.effectMsg = this.message || 'conditionally do something';
+        this.effectArgs = this.messageArgs;
     }
 
     getGameAction(context) {

@@ -29,7 +29,7 @@ describe('Epic Quest', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should not forge a key if played 7', function() {
+            it('should forge a key if played 7', function() {
                 this.player1.play(this.sequis);
                 this.player1.play(this.clearMind);
                 this.player1.play(this.gloriousFew);
