@@ -289,7 +289,7 @@ class Player extends GameObject {
             return false;
         }
 
-        const cardLocations = ['hand', 'deck', 'discard', 'archives', 'purged'];
+        const cardLocations = ['hand', 'deck', 'discard', 'archives', 'purged', 'grafted'];
         const legalLocations = {
             artifact: [...cardLocations, 'play area'],
             action: [...cardLocations, 'being played'],
