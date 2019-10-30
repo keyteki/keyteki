@@ -15,7 +15,7 @@ describe('Epic Quest', function() {
                 });
             });
 
-            it('should not forge a key if played 6 or less', function() {
+            it('should not forge a key if played 6 or less sanctum cards', function() {
                 this.player1.play(this.sequis);
                 this.player1.play(this.clearMind);
                 this.player1.play(this.gloriousFew);
@@ -29,7 +29,7 @@ describe('Epic Quest', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should forge a key if played 7', function() {
+            it('should forge a key if played 7 sanctum cards', function() {
                 this.player1.play(this.sequis);
                 this.player1.play(this.clearMind);
                 this.player1.play(this.gloriousFew);
