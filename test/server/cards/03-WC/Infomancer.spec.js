@@ -14,7 +14,7 @@ describe('Infomancer', function() {
                 });
             });
 
-            it('playing infomancer should not graft anything if no action in hand', function() {
+            it('should not graft anything if no action in hand', function() {
                 this.player1.play(this.infomancer);
                 expect(this.player1).not.toHavePrompt('Infomancer');
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
