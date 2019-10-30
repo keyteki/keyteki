@@ -75,14 +75,11 @@ describe('Infomancer', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should not activate anything if card has no play effect, not even amber', function() {
+            it('should not activate anything if card has no play effect', function() {
                 this.player1.play(this.infomancer);
                 this.player1.clickCard(this.virtuousWorks);
                 this.infomancer.exhausted = false;
                 this.player1.reap(this.infomancer);
-                expect(this.player1).toHavePrompt('Infomancer');
-                this.player1.clickCard(this.virtuousWorks);
-                expect(this.player1.amber).toBe(1);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
         });

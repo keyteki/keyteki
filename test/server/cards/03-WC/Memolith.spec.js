@@ -6,7 +6,7 @@ describe('Memolith', function() {
                     player1: {
                         house: 'brobnar',
                         inPlay: ['memolith'],
-                        hand: ['memolith', 'troll', 'autocannon']
+                        hand: ['troll', 'autocannon']
                     },
                     player2: {
                         inPlay: ['panpaca-anga', 'flaxia', 'tantadlin', 'bigtwig']

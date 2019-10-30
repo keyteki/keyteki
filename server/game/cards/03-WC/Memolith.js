@@ -8,7 +8,7 @@ class Memolith extends Card {
                     mode: 'select',
                     choices: {
                         'Graft an action card': (context) => context.player.hand.filter(card => card.type === 'action'),
-                        'Trigger play effect': () => this.childCards.some(card => !card.facedown)
+                        'Trigger play effect': (context) => context.source.childCards.some(card => !card.facedown)
                     }
                 },
                 action: {
@@ -20,7 +20,7 @@ class Memolith extends Card {
                             || ((context.selects.graftOrTrigger.choice === 'Trigger play effect') && (card.parent === this) && (!card.facedown))),
                     gameAction: [
                         ability.actions.graft(context => ({
-                            parent: this,
+                            parent: context.source,
                             target: context.selects.graftOrTrigger && context.selects.graftOrTrigger.choice === 'Graft an action card' ? context.targets.action : []
                         })),
                         ability.actions.resolveAbility(context => ({
