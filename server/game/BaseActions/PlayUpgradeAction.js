@@ -1,5 +1,7 @@
 const BasePlayAction = require('./BasePlayAction');
 const AttachAction = require('../GameActions/AttachAction');
+const LastingEffectCardAction = require('../GameActions/LastingEffectCardAction');
+const Effects = require('../effects');
 
 class PlayUpgradeAction extends BasePlayAction {
     constructor(card) {
@@ -22,12 +24,19 @@ class PlayUpgradeAction extends BasePlayAction {
     }
 
     executeHandler(context) {
-        let cardPlayedEvent = context.game.getEvent('onCardPlayed', {
+        const events = [context.game.getEvent('onCardPlayed', {
             player: context.player,
             card: context.source,
             originalLocation: context.source.location
-        });
-        context.game.openEventWindow([new AttachAction({ upgrade: context.source }).getEvent(context.target, context), cardPlayedEvent]);
+        })];
+        events.push(new AttachAction({ upgrade: context.source }).getEvent(context.target, context));
+        if(context.source.type === 'creature') {
+            const changeTypeEvent = new LastingEffectCardAction({ effect: Effects.changeType('upgrade') }).getEvent(context.source, context);
+            changeTypeEvent.gameAction = null;
+            events.push(changeTypeEvent);
+        }
+
+        context.game.openEventWindow(events);
     }
 }
 

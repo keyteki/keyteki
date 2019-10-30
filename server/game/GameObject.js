@@ -3,14 +3,21 @@ const _ = require('underscore');
 const GameActions = require('./GameActions');
 
 class GameObject {
-    constructor(game, name) {
+    constructor(game) {
         this.game = game;
-        this.name = name;
-        this.id = this.name;
         this.image = '';
+        this.id = '';
         this.facedown = false;
         this.uuid = uuid.v1();
         this.effects = [];
+    }
+
+    get type() {
+        return '';
+    }
+
+    get name() {
+        return '';
     }
 
     addEffect(effect) {

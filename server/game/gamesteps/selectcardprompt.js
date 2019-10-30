@@ -51,22 +51,21 @@ class SelectCardPrompt extends UiPrompt {
         super(game);
 
         this.choosingPlayer = choosingPlayer;
-        if(_.isString(properties.source)) {
-            properties.source = new EffectSource(game, properties.source);
-        } else if(properties.context && properties.context.source) {
-            properties.source = properties.context.source;
+
+        if(properties.source) {
+            if(_.isString(properties.source)) {
+                this.promptTitle = properties.source;
+            } else {
+                this.source = properties.source;
+                this.promptTitle = properties.source.name;
+            }
         }
 
-        if(properties.source && !properties.waitingPromptTitle) {
-            properties.waitingPromptTitle = 'Waiting for opponent';
-        }
-
-        if(!properties.source) {
-            properties.source = new EffectSource(game);
-        }
+        this.source = this.source || properties.context && properties.context.source || new EffectSource(game);
+        this.promptTitle = this.promptTitle || this.source.name;
 
         this.properties = properties;
-        this.context = properties.context || new AbilityContext({ game: game, player: choosingPlayer, source: properties.source });
+        this.context = properties.context || new AbilityContext({ game: game, player: choosingPlayer, source: this.source });
         _.defaults(this.properties, this.defaultProperties());
         if(properties.gameAction) {
             if(!Array.isArray(properties.gameAction)) {
@@ -85,6 +84,7 @@ class SelectCardPrompt extends UiPrompt {
 
     defaultProperties() {
         return {
+            waitingPromptTitle: 'Waiting for opponent',
             buttons: [],
             controls: this.getDefaultControls(),
             selectCard: true,
@@ -104,7 +104,7 @@ class SelectCardPrompt extends UiPrompt {
 
         return [{
             type: 'targeting',
-            source: this.context.source.getShortSummary(),
+            source: this.source.getShortSummary(),
             targets: targets.map(target => target.getShortSummary())
         }];
     }
@@ -148,7 +148,7 @@ class SelectCardPrompt extends UiPrompt {
             selectOrder: this.properties.ordered,
             menuTitle: this.properties.activePromptTitle || this.selector.defaultActivePromptTitle(this.context),
             buttons: buttons,
-            promptTitle: this.properties.source ? this.properties.source.name : undefined,
+            promptTitle: this.promptTitle,
             controls: this.properties.controls
         };
     }
