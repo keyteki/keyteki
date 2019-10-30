@@ -56,7 +56,7 @@ const Costs = {
 
             return houseEffects.some(effect => context.source.hasHouse(effect.getValue(context.player))) ||
                    playOrUseEffects.some(effect => context.source.hasHouse(effect.getValue(context.player))) ||
-                   nonHousePlayOrUseEffects.some(effect => context.source.hasHouse(effect.getValue(context.player))) ||
+                   nonHousePlayOrUseEffects.some(effect => !context.source.hasHouse(effect.getValue(context.player))) ||
                    nonHouseEffects.some(effect => {
                        let value = effect.getValue(context.player);
                        if(value.condition && !value.condition(context.source)) {
@@ -83,7 +83,7 @@ const Costs = {
             let effect = (
                 houseEffects.find(effect => context.source.hasHouse(effect.getValue(context.player))) ||
                 playOrUseEffects.find(effect => context.source.hasHouse(effect.getValue(context.player))) ||
-                nonHousePlayOrUseEffects.find(effect => context.source.hasHouse(effect.getValue(context.player))) ||
+                nonHousePlayOrUseEffects.find(effect => !context.source.hasHouse(effect.getValue(context.player))) ||
                 nonHouseEffects.find(effect => {
                     let value = effect.getValue(context.player);
                     if(value.condition && !value.condition(context.source)) {

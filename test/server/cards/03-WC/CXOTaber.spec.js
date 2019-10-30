@@ -1,4 +1,4 @@
-fdescribe('CXO Taber', function() {
+describe('CXO Taber', function() {
     integration(function() {
         describe('when reaping', function() {
             beforeEach(function() {
@@ -22,12 +22,12 @@ fdescribe('CXO Taber', function() {
                 this.player1.reap(this.cxoTaber);
             });
 
-            fit('should allow a non star alliance action card to be played', function() {
+            it('should allow a non star alliance action card to be played', function() {
                 expect(this.player1).toBeAbleToPlay(this.wildWormhole);
             });
 
-            it('should not allow a non star alliance action creature to be played', function() {
-                expect(this.player1).not.toBeAbleToPlay(this.shadowSelf);
+            it('should allow a non star alliance action creature to be played', function() {
+                expect(this.player1).toBeAbleToPlay(this.shadowSelf);
             });
 
             it('should allow a non star alliance artifact card to be played', function() {
