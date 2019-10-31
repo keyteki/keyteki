@@ -16,7 +16,6 @@ describe('Universal Keylock', function() {
             });
             it('should increase key cost by 3 for either player and destroy itself when a key is forged.', function() {
                 this.player1.endTurn();
-                this.player2.forgeKey('Red');
                 expect(this.player2.player.keys.red).toBe(false);
                 expect(this.player2.player.keys.blue).toBe(false);
                 expect(this.player2.player.keys.yellow).toBe(false);

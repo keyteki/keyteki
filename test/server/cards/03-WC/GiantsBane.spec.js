@@ -17,7 +17,7 @@ describe('Giant\'s Bane', function() {
             });
             it('prompt for a giant creature to destroy', function() {
                 this.player1.play(this.giantsBane);
-                expect(this.player1).toHavePrompt('Giants\' Bane');
+                expect(this.player1).toHavePrompt('Giants’ Bane');
                 expect(this.player1).toBeAbleToSelect(this.brammo);
                 expect(this.player1).toBeAbleToSelect(this.drummernaut);
                 expect(this.player1).not.toBeAbleToSelect(this.dustPixie);

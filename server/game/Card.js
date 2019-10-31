@@ -21,7 +21,7 @@ class Card extends EffectSource {
         this.cardData = cardData;
 
         this.id = cardData.id;
-        this.name = cardData.name;
+        this.printedName = cardData.name;
         this.image = cardData.image;
         this.setDefaultController(owner);
 
@@ -32,12 +32,15 @@ class Card extends EffectSource {
         this.abilities = { actions: [], reactions: [], persistentEffects: [] };
         this.traits = cardData.traits || [];
         this.setupCardAbilities(AbilityDsl);
+        this.printedKeywords = {};
         for(let keyword of cardData.keywords || []) {
             let split = keyword.split(':');
             let value = 1;
             if(split.length > 1) {
                 value = parseInt(split[1]);
             }
+
+            this.printedKeywords[split[0]] = value;
             this.persistentEffect({
                 location: 'any',
                 match: this,
@@ -74,15 +77,25 @@ class Card extends EffectSource {
             when: {
                 onCardMarkedForDestruction: (event, context) => event.card === context.source && context.source.warded,
                 onCardLeavesPlay: (event, context) => event.card === context.source && context.source.warded,
+                onCardDestroyed: (event, context) => event.card === context.source && context.source.warded,
                 onDamageDealt: (event, context) => event.card === context.source && !context.event.noGameStateCheck && context.source.warded
             },
-            effect: 'remove its ward token to prevent it from {1}',
-            effectArgs: context => [context.event && context.event.name === 'onDamageDealt' ? 'being damaged' : 'leaving play'],
+            effect: 'remove its ward token',
             gameAction: [
-                AbilityDsl.actions.changeEvent(context => ({
-                    event: context.event,
-                    cancel: true
-                })),
+                AbilityDsl.actions.changeEvent(context => {
+                    let card = context.event.card;
+                    let cancel = true;
+
+                    if((card.power <= 0 || card.tokens.damage >= card.power) && !card.moribund) {
+                        context.event.card.unward();
+                        cancel = false;
+                    }
+
+                    return {
+                        event: context.event,
+                        cancel: cancel
+                    };
+                }),
                 AbilityDsl.actions.removeWard()
             ]
         });
@@ -122,11 +135,13 @@ class Card extends EffectSource {
         this.endRound();
     }
 
+    get name() {
+        const copyEffect = this.mostRecentEffect('copyCharacter');
+        return copyEffect ? copyEffect.printedName : this.printedName;
+    }
+
     get type() {
-        if(this.anyEffect('canPlayAsUpgrade') && this.parent !== null) {
-            return 'upgrade';
-        }
-        return this.printedType;
+        return this.mostRecentEffect('changeType') || this.printedType;
     }
 
     /**
@@ -140,7 +155,7 @@ class Card extends EffectSource {
         // Assault
         this.interrupt({
             title: 'Assault',
-            printedAbiliy: false,
+            printedAbility: false,
             when: {
                 onFight: (event, context) => event.attacker === context.source
             },
@@ -155,7 +170,7 @@ class Card extends EffectSource {
         // Hazardous
         this.interrupt({
             title: 'Hazardous',
-            printedAbiliy: false,
+            printedAbility: false,
             when: {
                 onFight: (event, context) => event.card === context.source
             },
@@ -178,6 +193,7 @@ class Card extends EffectSource {
         // Fight
         this.action({
             title: 'Fight with this creature',
+            condition: context => this.checkRestrictions('fight', context),
             printedAbility: false,
             target: {
                 activePromptTitle: 'Choose a creature to attack',
@@ -190,8 +206,19 @@ class Card extends EffectSource {
         // Reap
         this.action({
             title: 'Reap with this creature',
+            condition: context => this.checkRestrictions('reap', context),
             printedAbility: false,
             gameAction: new ResolveReapAction()
+        });
+
+        // Invulnerable
+        this.persistentEffect({
+            condition: () => !!this.getKeywordValue('invulnerable'),
+            printedAbility: false,
+            effect: [
+                ability.effects.cardCannot('damage'),
+                ability.effects.cardCannot('destroy')
+            ]
         });
     }
 
@@ -201,13 +228,16 @@ class Card extends EffectSource {
         } else if(properties.reap) {
             this.reap(_.omit(properties, 'reap'));
         }
+
         let when = { onCardPlayed: (event, context) => event.card === context.source };
         if(properties.condition) {
             when = { onCardPlayed: (event, context) => event.card === context.source && properties.condition(context) };
         }
+
         if(this.type === 'action') {
             properties.location = properties.location || 'being played';
         }
+
         return this.reaction(Object.assign({ when: when, name: 'Play' }, properties));
     }
 
@@ -215,10 +245,12 @@ class Card extends EffectSource {
         if(properties.reap) {
             this.reap(_.omit(properties, 'reap'));
         }
+
         let when = { onFight: (event, context) => event.attacker === context.source };
         if(properties.condition) {
             when = { onFight: (event, context) => event.attacker === context.source && properties.condition(context) };
         }
+
         return this.reaction(Object.assign({ when: when, name: 'Fight' }, properties));
     }
 
@@ -227,6 +259,7 @@ class Card extends EffectSource {
         if(properties.condition) {
             properties.when = { onReap: (event, context) => event.card === context.source && properties.condition(context) };
         }
+
         properties.name = 'Reap';
         return this.reaction(properties);
     }
@@ -236,6 +269,7 @@ class Card extends EffectSource {
         if(properties.condition) {
             properties.when = { onCardDestroyed: (event, context) => event.card === context.source && properties.condition(context) };
         }
+
         return this.interrupt(properties);
     }
 
@@ -244,6 +278,7 @@ class Card extends EffectSource {
         if(properties.condition) {
             properties.when = { onCardLeavesPlay: (event, context) => event.card === context.source && properties.condition(context) };
         }
+
         return this.interrupt(properties);
     }
 
@@ -256,6 +291,15 @@ class Card extends EffectSource {
         var action = new CardAction(this.game, this, properties);
         this.abilities.actions.push(action);
         return action;
+    }
+
+    beforeFight(properties) {
+        properties.when = { onFight: (event, context) => event.attacker === context.source };
+        if(properties.condition) {
+            properties.when = { onFight: (event, context) => event.attacker === context.source && properties.condition(context) };
+        }
+
+        return this.interrupt(properties);
     }
 
     triggeredAbility(abilityType, properties) {
@@ -286,12 +330,17 @@ class Card extends EffectSource {
         if(!allowedLocations.includes(location)) {
             throw new Error(`'${location}' is not a supported effect location.`);
         }
+
         let ability = _.extend({ duration: 'persistent', location: location }, properties);
         this.abilities.persistentEffects.push(ability);
         return ability;
     }
 
     hasTrait(trait) {
+        if(!trait) {
+            return false;
+        }
+
         trait = trait.toLowerCase();
         return this.traits.includes(trait) || this.getEffects('addTrait').includes(trait);
     }
@@ -301,14 +350,32 @@ class Card extends EffectSource {
         return _.uniq(traits);
     }
 
+    getHouses() {
+        let combinedHouses = [];
+
+        if(this.anyEffect('changeHouse')) {
+            combinedHouses = combinedHouses.concat((this.getEffects('changeHouse')));
+        } else {
+            combinedHouses.push(this.printedHouse);
+        }
+
+        if(this.anyEffect('addHouse')) {
+            combinedHouses = combinedHouses.concat(this.getEffects('addHouse'));
+        }
+
+        return combinedHouses;
+    }
+
     hasHouse(house) {
         if(!house) {
             return false;
         }
+
         house = house.toLowerCase();
         if(this.anyEffect('changeHouse')) {
             return this.getEffects('changeHouse').includes(house);
         }
+
         return this.printedHouse === house || this.getEffects('addHouse').includes(house);
     }
 
@@ -324,6 +391,7 @@ class Card extends EffectSource {
         if(this.type === 'creature' && this.hasToken('amber') && this.controller.opponent) {
             this.game.actions.gainAmber({ amount: this.tokens.amber }).resolve(this.controller.opponent, this.game.getFrameworkContext());
         }
+
         this.exhausted = false;
         this.stunned = false;
         this.moribund = false;
@@ -352,6 +420,7 @@ class Card extends EffectSource {
         if(from === 'play area' || from === 'being played') {
             this.removeLastingEffects();
         }
+
         _.each(this.abilities.persistentEffects, effect => {
             if(effect.location !== 'any') {
                 if(to === 'play area' && from !== 'play area') {
@@ -368,9 +437,10 @@ class Card extends EffectSource {
 
         this.location = targetLocation;
 
-        if(['play area', 'discard', 'hand', 'purged'].includes(targetLocation)) {
+        if(['play area', 'discard', 'hand', 'purged', 'grafted'].includes(targetLocation)) {
             this.facedown = false;
         }
+
         if(originalLocation !== targetLocation) {
             this.updateAbilityEvents(originalLocation, targetLocation);
             this.updateEffects(originalLocation, targetLocation);
@@ -406,6 +476,7 @@ class Card extends EffectSource {
         if(!number || !Number.isInteger(number)) {
             return;
         }
+
         if(_.isUndefined(this.tokens[type])) {
             this.tokens[type] = 0;
         }
@@ -421,6 +492,7 @@ class Card extends EffectSource {
         if(!this.tokens[type]) {
             return;
         }
+
         this.tokens[type] -= number;
 
         if(this.tokens[type] < 0) {
@@ -455,6 +527,7 @@ class Card extends EffectSource {
         if(this.getEffects('removeKeyword').includes(keyword)) {
             return 0;
         }
+
         return this.getEffects('addKeyword').reduce((total, keywords) => total + (keywords[keyword] ? keywords[keyword] : 0), 0);
     }
 
@@ -485,6 +558,7 @@ class Card extends EffectSource {
         if(printed) {
             return this.printedPower;
         }
+
         return this.sumEffects('modifyPower') + this.printedPower + (this.hasToken('power') ? this.tokens.power : 0);
     }
 
@@ -501,6 +575,7 @@ class Card extends EffectSource {
         if(printed) {
             return this.printedArmor;
         }
+
         return this.sumEffects('modifyArmor') + this.printedArmor;
     }
 
@@ -550,6 +625,10 @@ class Card extends EffectSource {
 
     ready() {
         this.exhausted = false;
+    }
+
+    removeAttachment(card) {
+        this.upgrades = this.upgrades.filter(c => c !== card);
     }
 
     /**
@@ -624,10 +703,11 @@ class Card extends EffectSource {
             context.ignoreHouse = ignoreHouse;
             return !action.meetsRequirements(context);
         });
-        let canFight = actions.findIndex(action=>action.title === 'Fight with this creature') >= 0;
+        let canFight = actions.findIndex(action => action.title === 'Fight with this creature') >= 0;
         if(this.getEffects('mustFightIfAble').length > 0 && canFight) {
             actions = actions.filter(action => action.title === 'Fight with this creature');
         }
+
         return actions;
     }
 
@@ -641,15 +721,18 @@ class Card extends EffectSource {
             } else if(this.type === 'action') {
                 actions.push(new PlayAction(this));
             }
+
             if(this.canPlayAsUpgrade()) {
                 actions.push(new PlayUpgradeAction(this));
             }
+
             actions.push(new DiscardAction(this));
         } else if(location === 'play area' && this.type === 'creature') {
             //actions.push(new FightAction(this));
             //actions.push(new ReapAction(this));
             actions.push(new RemoveStun(this));
         }
+
         return actions.concat(this.abilities.actions.slice());
     }
 
@@ -662,13 +745,24 @@ class Card extends EffectSource {
         if(this.location === 'play area') {
             return this.mostRecentEffect('takeControl') || this.defaultController;
         }
+
         return this.owner;
     }
 
-    isOnFlank() {
+    isOnFlank(flank) {
         if(this.type !== 'creature') {
             return false;
         }
+
+        let position = this.controller.cardsInPlay.indexOf(this);
+        if(flank === 'left') {
+            return (this.anyEffect('consideredAsFlank') || this.neighbors.length < 2) &&
+                position === 0;
+        } else if(flank === 'right') {
+            return (this.anyEffect('consideredAsFlank') || this.neighbors.length < 2) &&
+                position === this.controller.cardsInPlay.length - 1;
+        }
+
         return this.anyEffect('consideredAsFlank') || this.neighbors.length < 2;
     }
 
@@ -736,7 +830,7 @@ class Card extends EffectSource {
             id: this.cardData.id,
             image: this.cardData.image,
             canPlay: (activePlayer === this.game.activePlayer) && this.game.activePlayer.activeHouse &&
-                      isController && (this.getLegalActions(activePlayer, false).length > 0),
+                isController && (this.getLegalActions(activePlayer, false).length > 0),
             cardback: this.owner.deckData.cardback,
             childCards: this.childCards.map(card => {
                 return card.getSummary(activePlayer, hideWhenFaceup);
