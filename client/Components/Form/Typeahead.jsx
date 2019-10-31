@@ -2,9 +2,9 @@ import { Typeahead } from 'react-bootstrap-typeahead';
 import React from 'react';
 import PropTypes from 'prop-types';
 
-class TypeAhead extends React.Component {
+class InternalTypeahead extends React.Component {
     clear() {
-        this.refs.typeahead.getInstance().clear();
+        this.typeahead.getInstance().clear();
     }
 
     render() {
@@ -13,7 +13,7 @@ class TypeAhead extends React.Component {
             <div>
                 { label }
                 <div className={ this.props.fieldClass }>
-                    <Typeahead ref='typeahead' options={ this.props.options } labelKey={ this.props.labelKey } emptyLabel={ this.props.emptyLabel }
+                    <Typeahead ref={ t => this.typeahead = t } options={ this.props.options } labelKey={ this.props.labelKey } emptyLabel={ this.props.emptyLabel }
                         onChange={ this.props.onChange } placeholder={ this.props.placeholder } autoFocus={ this.props.autoFocus } dropup={ this.props.dropup }
                         minLength={ this.props.minLength } onInputChange={ this.props.onInputChange }
                         submitFormOnEnter={ this.props.submitFormOnEnter } onKeyDown={ this.props.onKeyDown } disabled={ this.props.disabled }/>
@@ -34,8 +34,8 @@ class TypeAhead extends React.Component {
     }
 }
 
-TypeAhead.displayName = 'TypeAhead';
-TypeAhead.propTypes = {
+InternalTypeahead.displayName = 'Typeahead';
+InternalTypeahead.propTypes = {
     autoFocus: PropTypes.bool,
     children: PropTypes.object,
     disabled: PropTypes.bool,
@@ -58,4 +58,4 @@ TypeAhead.propTypes = {
     value: PropTypes.string
 };
 
-export default TypeAhead;
+export default InternalTypeahead;

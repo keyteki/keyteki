@@ -7,7 +7,7 @@ class RadioGroup extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = { selectedButton: undefined};
+        this.state = { selectedButton: undefined };
     }
 
     onRadioButtonClick(button) {
