@@ -3,6 +3,7 @@ const Card = require('../../Card.js');
 class MagdaTheRat extends Card {
     setupCardAbilities(ability) {
         this.play({
+            effect: 'steal 2 amber',
             gameAction: [
                 ability.actions.steal({ amount: 2 }),
                 ability.actions.cardLastingEffect(context => ({
@@ -10,8 +11,7 @@ class MagdaTheRat extends Card {
                     effect: ability.effects.delayedEffect({
                         when: { onCardLeavesPlay: event => event.card === context.source },
                         gameAction: ability.actions.steal({ target: context.player, amount: 2 }),
-                        message: '{0} steals 2 amber from {1} due to {2} leaving play',
-                        messageArgs: [context.player.opponent, context.player, context.source]
+                        message: '{0} steals 2 amber due to {1} leaving play'
                     })
                 }))
             ]
