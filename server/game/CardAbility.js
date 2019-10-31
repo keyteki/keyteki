@@ -29,7 +29,7 @@ class CardAbility extends ThenAbility {
         this.game.addMessage(message, ...messageArgs);
     }
 
-    getMessageArgs(context, effectMessage = null, effectArgs = null, extraArgs = null, previousMessageArgs = null, last = false) {
+    getMessageArgs(context, effectMessage = null, effectArgs = [], extraArgs = null, previousMessageArgs = null, last = false) {
         let messageArgs = previousMessageArgs || [context.player, context.source.type === 'event' ? ' plays ' : ' uses ', context.source];
 
         // effectMessage: Player1 plays Assassination

@@ -6,6 +6,7 @@ module.exports = {
     ChangeEventAction: require('./ChangeEventAction'),
     ChooseGameAction: require('./ChooseGameAction'),
     ChosenDiscardAction: require('./ChosenDiscardAction'),
+    ConditionalAction: require('./ConditionalAction'),
     DealDamageAction: require('./DealDamageAction'),
     DelayedEffectAction: require('./DelayedEffectAction'),
     DestroyAction: require('./DestroyAction'),
