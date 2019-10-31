@@ -74,6 +74,7 @@ const Actions = {
     addEventToWindow: (propertyFactory) => new GameActions.AddEventToWindowAction(propertyFactory),
     changeEvent: (propertyFactory) => new GameActions.ChangeEventAction(propertyFactory),
     chooseAction: (propertyFactory) => new GameActions.ChooseGameAction(propertyFactory), // choices, activePromptTitle = 'Select one'
+    conditional: (propertyFactory) => new GameActions.ConditionalAction(propertyFactory),
     jointAction: (gameActions) => new GameActions.JointGameAction(gameActions), // takes an array of gameActions, not a propertyFactory
     sequential: (gameActions) => new GameActions.SequentialAction(gameActions), // takes an array of gameActions, not a propertyFactory
     sequentialForEach: (propertyFactory) => new GameActions.SequentialForEachAction(propertyFactory)
