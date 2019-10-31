@@ -46,7 +46,9 @@ class SearchAction extends PlayerAction {
                         context.game.addMessage('{0} doesn\'t take anything', player);
                     }
 
-                    player.shuffleDeck();
+                    if(this.location.includes('deck')) {
+                        player.shuffleDeck();
+                    }
 
                     return true;
                 }
