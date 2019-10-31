@@ -10,18 +10,15 @@ class EpicQuest extends Card {
         });
 
         this.omni({
+            effect: 'forge a key if played 6 or more sanctum cards',
             gameAction: ability.actions.conditional(({
                 condition: context => context.game.cardsPlayed.filter(card => card.hasHouse('sanctum')).length > 6,
-                trueAction: {
-                    message: 'sacrifice {1} and forge a key at no cost',
-                    messageArgs: context => [context.source],
-                    gameAction: ability.actions.sequential([
-                        ability.actions.sacrifice(),
-                        ability.actions.forgeKey(context => ({
-                            modifier: -context.player.getCurrentKeyCost()
-                        }))
-                    ])
-                }
+                trueGameAction: ability.actions.sequential([
+                    ability.actions.sacrifice(),
+                    ability.actions.forgeKey(context => ({
+                        modifier: -context.player.getCurrentKeyCost()
+                    }))
+                ])
             }))
         });
     }
