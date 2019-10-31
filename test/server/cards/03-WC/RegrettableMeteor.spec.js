@@ -15,7 +15,6 @@ describe('Regrettable Meteor', function() {
             });
 
             it('should destroy all Dinosaurs and creatures with power 6 or higher', function() {
-
                 this.player1.play(this.regrettableMeteor);
 
                 expect(this.troll.location).toBe('discard');

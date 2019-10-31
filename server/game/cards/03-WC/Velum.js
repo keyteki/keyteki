@@ -9,8 +9,8 @@ class Velum extends Card {
                     location: 'hand',
                     controller: 'self',
                     mode: 'exactly',
-                    message: '{0} uses {1} to archive {2} card{3}',
-                    messageArgs: cards => [context.player, context.source, cards.length, cards.length > 1 ? 's' : ''],
+                    message: '{0} uses {1} to archive {2} card',
+                    messageArgs: cards => [context.player, context.source, cards.length],
                     numCards: context.player.cardsInPlay.some(card => card.name === 'Hyde') ? 2 : 1
                 }
             }))

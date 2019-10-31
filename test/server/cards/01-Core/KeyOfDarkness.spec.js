@@ -38,7 +38,6 @@ describe('Key of Darkness', function() {
             it('should not forge a key if the player doesn\'t have sufficient amber', function() {
                 this.player1.amber = 9;
                 this.player1.play(this.keyOfDarkness);
-                this.player1.forgeKey('Red');
                 expect(this.player1.player.keys.red).toBe(false);
                 expect(this.player1.player.keys.blue).toBe(false);
                 expect(this.player1.player.keys.yellow).toBe(false);

@@ -141,7 +141,6 @@ describe('Chant of Hubris', function() {
                 expect(this.gub.tokens.amber).toBe(1);
                 expect(this.shooler.hasToken('amber')).toBe(false);
             });
-
         });
     });
 });

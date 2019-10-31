@@ -16,9 +16,10 @@ class RemoveTokenAction extends CardGameAction {
         this.targetType = ['artifact', 'creature'];
 
         let type = (this.type === 'power') ? 'power counter' : this.type;
-        if(this.all || this.amount > 1) {
+        if(!this.all && this.amount > 1) {
             type += 's';
         }
+
         this.effectMsg = `remove ${this.all ? 'all' : this.amount} ${type} from {0}`;
     }
 

@@ -87,6 +87,7 @@ class ChatCommands {
         if(Object.values(player.keys).every(key => key)) {
             return;
         }
+
         const color = args[1] ? args[1] : Object.keys(player.keys).filter(key => !player.keys[key])[0];
 
         this.game.addMessage('{0} uses the /forge command to forge the {1} key', player, color);
@@ -98,6 +99,7 @@ class ChatCommands {
         if(Object.values(player.keys).every(key => !key)) {
             return;
         }
+
         const color = args[1] ? args[1] : Object.keys(player.keys).filter(key => player.keys[key])[0];
         this.game.addMessage('{0} uses the /unforge command to unforge the {1} key', player, color);
         player.keys[color] = false;

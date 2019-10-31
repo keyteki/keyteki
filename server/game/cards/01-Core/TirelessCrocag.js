@@ -15,7 +15,8 @@ class TirelessCrocag extends Card {
         });
         this.reaction({
             when: {
-                onCardLeavesPlay: (event, context) => event.card.type === 'creature' && context.player.opponent.creaturesInPlay.length === 0
+                onCardLeavesPlay: (event, context) => event.card.type === 'creature' && context.player.opponent &&
+                    context.player.opponent.creaturesInPlay.length === 0
             },
             gameAction: ability.actions.destroy({ target: this })
         });

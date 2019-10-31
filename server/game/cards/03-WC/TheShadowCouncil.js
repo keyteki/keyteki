@@ -5,7 +5,7 @@ class TheShadowCouncil extends Card {
         this.persistentEffect({
             condition: () => this.isInCenter(),
             effect: ability.effects.gainAbility('action', {
-                gameAction: ability.actions.steal({ amount: 2})
+                gameAction: ability.actions.steal({ amount: 2 })
             })
         });
     }

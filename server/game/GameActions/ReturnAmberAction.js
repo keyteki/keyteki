@@ -1,6 +1,6 @@
 const CardGameAction = require('./CardGameAction');
 
-class ReturnAmber extends CardGameAction {
+class ReturnAmberAction extends CardGameAction {
     setDefaultProperties() {
         this.amount = 1;
         this.recipient = null;
@@ -10,13 +10,14 @@ class ReturnAmber extends CardGameAction {
     setup() {
         this.name = 'removeAmber';
         this.targetType = ['creature'];
-        this.effectMsg = 'remove ' + this.all ? 'all' : this.amount + ' amber from {0}';
+        this.effectMsg = `return ${this.all ? 'all' : this.amount} amber from {0} to ${this.recipient ? this.recipient.name + '\'s' : 'their'} pool`;
     }
 
     canAffect(card, context) {
         if(card.location !== 'play area' || this.amount === 0) {
             return false;
         }
+
         return super.canAffect(card, context);
     }
 
@@ -37,4 +38,4 @@ class ReturnAmber extends CardGameAction {
     }
 }
 
-module.exports = ReturnAmber;
+module.exports = ReturnAmberAction;
