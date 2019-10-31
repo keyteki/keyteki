@@ -18,10 +18,10 @@ class ExactlyXCardSelector extends BaseCardSelector {
     defaultActivePromptTitle(context) {
         let numCards = this.getNumCards(context);
         if(this.cardType.length === 1) {
-            return numCards === 1 ? 'Choose a ' + this.cardType[0] : `Choose ${numCards} ${this.cardType[0]}s`;
+            return numCards === 1 ? 'Choose a ' + this.cardType[0] : { text: `Choose {{amount}} ${this.cardType[0]}s`, values: { amount: numCards } };
         }
 
-        return numCards === 1 ? 'Choose a card' : `Choose ${numCards} cards`;
+        return numCards === 1 ? 'Choose a card' : { text: 'Choose {{amount}} cards', values: { amount: numCards } };
     }
 
     hasEnoughSelected(selectedCards, context) {

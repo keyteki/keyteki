@@ -4,9 +4,17 @@ import { withTranslation } from 'react-i18next';
 
 import AbilityTargeting from './AbilityTargeting';
 import CardNameLookup from './CardNameLookup';
+import TraitNameLookup from './TraitNameLookup';
+import HouseSelect from './HouseSelect';
 import Panel from '../Site/Panel';
 
 class ActivePlayerPrompt extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.onHouseSelected = this.onHouseSelected.bind(this);
+    }
+
     onButtonClick(event, command, arg, uuid, method) {
         event.preventDefault();
 
@@ -71,7 +79,7 @@ class ActivePlayerPrompt extends React.Component {
 
         let buttons = [];
 
-        if(!this.props.buttons) {
+        if(!this.props.buttons || this.props.controls.some(c => c.type === 'house-select')) {
             return null;
         }
 
@@ -94,9 +102,21 @@ class ActivePlayerPrompt extends React.Component {
         return buttons;
     }
 
+    handleLookupValueSelected(command, uuid, method, cardName) {
+        if(this.props.onButtonClick) {
+            this.props.onButtonClick(command, cardName, uuid, method);
+        }
+    }
+
     onCardNameSelected(command, method, cardName) {
         if(this.props.onButtonClick) {
             this.props.onButtonClick(command, cardName, method);
+        }
+    }
+
+    onHouseSelected(command, uuid, method, house) {
+        if(this.props.onButtonClick) {
+            this.props.onButtonClick(command, house, uuid, method);
         }
     }
 
@@ -116,6 +136,10 @@ class ActivePlayerPrompt extends React.Component {
                             targets={ control.targets } />);
                 case 'card-name':
                     return <CardNameLookup cards={ this.props.cards } onCardSelected={ this.onCardNameSelected.bind(this, control.command, control.method) } />;
+                case 'trait-name':
+                    return <TraitNameLookup cards={ this.props.cards } onValueSelected={ this.handleLookupValueSelected.bind(this, control.command, control.uuid, control.method) } />;
+                case 'house-select':
+                    return <HouseSelect buttons={ this.props.buttons } onHouseSelected={ this.onHouseSelected } />;
             }
         });
     }

@@ -207,7 +207,8 @@ class GameLobby extends React.Component {
             id: 'pendingGameModal',
             className: 'settings-popup row',
             bodyClassName: 'col-xs-12',
-            title: ''
+            title: '',
+            noClickToClose: true
         };
         let modalBody = null;
 

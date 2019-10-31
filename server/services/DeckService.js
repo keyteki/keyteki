@@ -85,7 +85,7 @@ class DeckService {
         });
         let uuid = deckResponse.data.id;
 
-        let illegalCard = cards.find(card => !card.id.split('').every(char => 'æabcdefghijklmnopqrstuvwxyz0123456789-[]'.includes(char)));
+        let illegalCard = cards.find(card => !card.id.split('').every(char => 'æabcdefghijklmnoöpqrstuvwxyz0123456789-[]'.includes(char)));
         if(!illegalCard) {
             return await this.decks.insert({
                 expansion: deckResponse.data.expansion,

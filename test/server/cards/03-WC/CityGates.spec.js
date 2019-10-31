@@ -5,7 +5,7 @@ describe('City Gates', function() {
                 this.setupTest({
                     player1: {
                         house: 'saurian',
-                        hand: ['brutodon-auxillary', 'legatus-raptor'],
+                        hand: ['brutodon-auxiliary', 'legatus-raptor'],
                         inPlay: ['city-gates']
                     },
                     player2: {
@@ -15,13 +15,13 @@ describe('City Gates', function() {
             });
 
             it('should capture 1 amber', function() {
-                this.player1.play(this.brutodonAuxillary);
+                this.player1.play(this.brutodonAuxiliary);
                 this.player1.useAction(this.cityGates);
                 expect(this.player1).toHavePrompt('Choose a creature');
-                this.player1.clickCard(this.brutodonAuxillary);
+                this.player1.clickCard(this.brutodonAuxiliary);
                 expect(this.player2.amber).toBe(1);
                 expect(this.player1.amber).toBe(0);
-                expect(this.brutodonAuxillary.tokens.amber).toBe(1);
+                expect(this.brutodonAuxiliary.tokens.amber).toBe(1);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
@@ -46,12 +46,12 @@ describe('City Gates', function() {
 
             it('should not capture an amber when the opponent has 0', function() {
                 this.player2.amber = 0;
-                this.player1.play(this.brutodonAuxillary);
+                this.player1.play(this.brutodonAuxiliary);
                 this.player1.useAction(this.cityGates);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
                 expect(this.player2.amber).toBe(0);
                 expect(this.player1.amber).toBe(0);
-                expect(this.brutodonAuxillary.hasToken('amber')).toBe(false);
+                expect(this.brutodonAuxiliary.hasToken('amber')).toBe(false);
             });
         });
     });

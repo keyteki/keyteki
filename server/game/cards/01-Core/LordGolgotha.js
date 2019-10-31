@@ -2,10 +2,7 @@ const Card = require('../../Card.js');
 
 class LordGolgotha extends Card {
     setupCardAbilities(ability) {
-        this.interrupt({
-            when: {
-                onFight: (event, context) => event.attacker === context.source
-            },
+        this.beforeFight({
             effect: 'deal 3 damage to each of {1}\'s neighbors',
             effectArgs: context => context.event.card,
             gameAction: ability.actions.dealDamage(context => ({

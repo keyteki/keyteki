@@ -16,12 +16,14 @@ describe('Ragwarg', function() {
                     }
                 });
             });
+
             it('stuns the first creature to reap', function() {
                 this.player1.endTurn();
                 this.player2.clickPrompt('brobnar');
                 this.player2.reap(this.grenadeSnib);
                 expect(this.grenadeSnib.location).toBe('discard');
             });
+
             it('stuns a creature with an onReap', function() {
                 this.player1.endTurn();
                 this.player2.clickPrompt('brobnar');

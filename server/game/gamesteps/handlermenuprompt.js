@@ -21,20 +21,23 @@ class HandlerMenuPrompt extends UiPrompt {
     constructor(game, player, properties) {
         super(game);
         this.player = player;
-        if(_.isString(properties.source)) {
-            properties.source = new EffectSource(game, properties.source);
-        } else if(!properties.source && properties.context && properties.context.source) {
-            properties.source = properties.context.source;
+        if(properties.source) {
+            if(_.isString(properties.source)) {
+                this.promptTitle = properties.source;
+            } else {
+                this.source = properties.source;
+            }
         }
 
-        if(properties.source && !properties.waitingPromptTitle) {
+        this.source = this.source || properties.context && properties.context.source || new EffectSource(game);
+        this.promptTitle = this.promptTitle || this.source.name;
+
+        if(!properties.waitingPromptTitle) {
             properties.waitingPromptTitle = 'Waiting for opponent';
-        } else if(!properties.source) {
-            properties.source = new EffectSource(game);
         }
 
         this.properties = properties;
-        this.context = properties.context || new AbilityContext({ game: game, player: player, source: properties.source });
+        this.context = properties.context || new AbilityContext({ game: game, player: player, source: this.source });
     }
 
     activeCondition(player) {
@@ -78,32 +81,33 @@ class HandlerMenuPrompt extends UiPrompt {
             menuTitle: this.properties.activePromptTitle || 'Select one',
             buttons: buttons,
             controls: this.getAdditionalPromptControls(),
-            promptTitle: this.properties.source.name
+            promptTitle: this.promptTitle
         };
     }
 
     getAdditionalPromptControls() {
+        if(this.properties.controls && this.properties.controls.type !== 'targeting') {
+            return this.properties.controls;
+        }
+
+        let targets;
         if(this.properties.controls && this.properties.controls.type === 'targeting') {
-            return [{
-                type: 'targeting',
-                source: this.properties.source.getShortSummary(),
-                targets: this.properties.controls.targets.map(target => target.getShortSummary())
-            }];
-        }
+            targets = this.properties.controls.targets;
+        } else {
+            if(!this.context.source.type) {
+                return [];
+            }
 
-        if(!this.context.source.type) {
-            return [];
-        }
-
-        let targets = this.context.targets ? Object.values(this.context.targets) : [];
-        targets = targets.reduce((array, target) => array.concat(target), []);
-        if(targets.length === 0 && this.context.event && this.context.event.card) {
-            this.targets = [this.context.event.card];
+            targets = this.context.targets ? Object.values(this.context.targets) : [];
+            targets = targets.reduce((array, target) => array.concat(target), []);
+            if(targets.length === 0 && this.context.event && this.context.event.card) {
+                this.targets = [this.context.event.card];
+            }
         }
 
         return [{
             type: 'targeting',
-            source: this.properties.source.getShortSummary(),
+            source: this.source.getShortSummary(),
             targets: targets.map(target => target.getShortSummary())
         }];
     }

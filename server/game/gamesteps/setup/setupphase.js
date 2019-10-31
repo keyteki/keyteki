@@ -36,6 +36,7 @@ class SetupPhase extends Phase {
         for(const player of this.game.getPlayers()) {
             let link = {
                 link: 'https://www.keyforgegame.com/deck-details/' + player.deckData.uuid,
+                argType: 'link',
                 label: player.deckData.name
             };
             if(this.game.gameFormat !== 'sealed') {

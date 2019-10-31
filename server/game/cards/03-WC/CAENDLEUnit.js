@@ -14,6 +14,6 @@ class CandleUnit extends Card {
     }
 }
 
-CandleUnit.id = 'caendle-unit';
+CandleUnit.id = 'cændle-unit';
 
 module.exports = CandleUnit;

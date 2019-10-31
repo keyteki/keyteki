@@ -69,7 +69,7 @@ class GameServer {
 
         this.io.on('connection', this.onConnection.bind(this));
 
-        setInterval(() => this.clearStaleFinishedGames(), 60 * 1000);
+        setInterval(() => this.clearStaleAndFinishedGames(), 30 * 1000);
     }
 
     debugDump() {
@@ -78,7 +78,7 @@ class GameServer {
                 return {
                     name: player.name,
                     left: player.left,
-                    disconnected: player.disconnected,
+                    disconnected: !!player.disconnectedAt,
                     id: player.id,
                     spectator: game.isSpectator(player)
                 };
@@ -111,7 +111,7 @@ class GameServer {
             debugData.game = gameState;
             debugData.game.players = undefined;
 
-            debugData.messages = game.messages;
+            debugData.messages = game.getPlainTextLog();
             debugData.game.messages = undefined;
 
             _.each(game.getPlayers(), player => {
@@ -128,22 +128,31 @@ class GameServer {
         }
     }
 
-    clearStaleFinishedGames() {
+    closeGame(game) {
+        for(let player of Object.values(game.getPlayersAndSpectators())) {
+            if(player.socket) {
+                player.socket.tIsClosing = true;
+                player.socket.disconnect();
+            }
+        }
+
+        delete this.games[game.id];
+        this.zmqSocket.send('GAMECLOSED', { game: game.id });
+    }
+
+    clearStaleAndFinishedGames() {
         const timeout = 20 * 60 * 1000;
 
-        let staleGames = _.filter(this.games, game => game.finishedAt && (Date.now() - game.finishedAt > timeout));
-
+        let staleGames = Object.values(this.games).filter(game => game.finishedAt && (Date.now() - game.finishedAt > timeout));
         for(let game of staleGames) {
             logger.info('closed finished game', game.id, 'due to inactivity');
-            for(let player of Object.values(game.getPlayersAndSpectators())) {
-                if(player.socket) {
-                    player.socket.tIsClosing = true;
-                    player.socket.disconnect();
-                }
-            }
+            this.closeGame(game);
+        }
 
-            delete this.games[game.id];
-            this.zmqSocket.send('GAMECLOSED', { game: game.id });
+        let emptyGames = Object.values(this.games).filter(game => game.isEmpty());
+        for(let game of emptyGames) {
+            logger.info('closed empty game', game.id);
+            this.closeGame(game);
         }
     }
 
@@ -171,7 +180,7 @@ class GameServer {
 
     sendGameState(game) {
         _.each(game.getPlayersAndSpectators(), player => {
-            if(player.left || player.disconnected || !player.socket) {
+            if(player.left || player.disconnectedAt || !player.socket) {
                 return;
             }
 
@@ -201,7 +210,7 @@ class GameServer {
         this.zmqSocket.send('REMATCH', { game: game.getSaveState() });
 
         for(let player of Object.values(game.getPlayersAndSpectators())) {
-            if(player.left || player.disconnected || !player.socket) {
+            if(player.left || player.disconnectedAt || !player.socket) {
                 continue;
             }
 
@@ -316,7 +325,7 @@ class GameServer {
         player.id = socket.id;
         player.connectionSucceeded = true;
 
-        if(player.disconnected) {
+        if(player.disconnectedAt) {
             logger.info('user \'%s\' reconnected to game', socket.user.username);
             game.reconnect(socket, player.name);
         }
@@ -325,7 +334,7 @@ class GameServer {
 
         player.socket = socket;
 
-        if(!game.isSpectator(player)) {
+        if(!game.isSpectator(player) && !player.disconnectedAt) {
             game.addAlert('info', '{0} has connected to the game server', player);
         }
 
