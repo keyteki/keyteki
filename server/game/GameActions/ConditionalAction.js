@@ -44,6 +44,7 @@ class ConditionalAction extends GameAction {
         if(this.target.length === 0) {
             return false;
         }
+
         let gameAction = this.getGameAction(context);
         return gameAction && gameAction.hasLegalTarget(context);
     }
