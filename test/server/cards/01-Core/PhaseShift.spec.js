@@ -16,19 +16,18 @@ describe('Phase Shift', function() {
 
             it('should allow playing a non-logos card', function() {
                 expect(this.player1.amber).toBe(0);
-                this.player1.clickCard(this.virtuousWorks);
-                this.player1.clickPrompt('Play this action');
+                expect(this.player1).toBeAbleToPlay(this.virtuousWorks);
+                this.player1.play(this.virtuousWorks);
                 expect(this.player1.amber).toBe(3);
-                this.player1.clickCard(this.punch);
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.player1).not.toBeAbleToPlay(this.punch);
             });
 
             it('should stack', function() {
                 this.player1.moveCard(this.phaseShift, 'hand');
                 this.player1.play(this.phaseShift);
                 expect(this.player1.amber).toBe(0);
-                this.player1.clickCard(this.virtuousWorks);
-                this.player1.clickPrompt('Play this action');
+                expect(this.player1).toBeAbleToPlay(this.virtuousWorks);
+                this.player1.play(this.virtuousWorks);
                 expect(this.player1.amber).toBe(3);
                 this.player1.play(this.punch);
                 expect(this.player1).toHavePrompt('Punch');
@@ -39,8 +38,7 @@ describe('Phase Shift', function() {
                 this.player2.clickPrompt('logos');
                 this.player2.endTurn();
                 this.player1.clickPrompt('logos');
-                this.player1.clickCard(this.virtuousWorks);
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.player1).not.toBeAbleToPlay(this.virtuousWorks);
                 expect(this.player1.amber).toBe(0);
             });
 
@@ -49,8 +47,7 @@ describe('Phase Shift', function() {
                 this.player1.play(this.wildWormhole);
                 expect(this.virtuousWorks.location).toBe('discard');
                 expect(this.player1.amber).toBe(4);
-                this.player1.play(this.punch);
-                expect(this.player1).toHavePrompt('Punch');
+                expect(this.player1).toBeAbleToPlay(this.punch);
             });
         });
     });

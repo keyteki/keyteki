@@ -66,6 +66,7 @@ const Actions = {
     gainChains: (propertyFactory) => new GameActions.ModifyChainsActions(propertyFactory), // amount = 1
     lastingEffect: (propertyFactory) => new GameActions.LastingEffectAction(propertyFactory),
     loseAmber: (propertyFactory) => new GameActions.LoseAmberAction(propertyFactory),
+    rearrangeCards: (propertFactory) => new GameActions.RearrangeCardsAction(propertFactory),
     search: (propertyFactory) => new GameActions.SearchAction(propertyFactory), // name
     steal: (propertyFactory) => new GameActions.StealAction(propertyFactory), // amount = 1
     transferAmber: (propertyFactory) => new GameActions.TransferAmberAction(propertyFactory), // amount = 1

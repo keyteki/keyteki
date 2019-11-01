@@ -10,7 +10,7 @@ class EpicQuest extends Card {
         });
 
         this.omni({
-            effect: 'forge a key if 6 or more sanctum cards were played this turn',
+            effect: 'forge a key if 7 or more sanctum cards were played this turn',
             gameAction: ability.actions.conditional(({
                 condition: context => context.game.cardsPlayed.filter(card => card.hasHouse('sanctum')).length > 6,
                 trueGameAction: ability.actions.sequential([

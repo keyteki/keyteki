@@ -23,7 +23,7 @@ describe('Crash Muldoon', function() {
                 this.setupTest({
                     player1: {
                         house: 'staralliance',
-                        inPlay: ['mother','crash-muldoon','lieutenant-khrkhar']
+                        inPlay: ['mother', 'crash-muldoon', 'lieutenant-khrkhar']
                     },
                     player2: {
                         inPlay: ['batdrone', 'dextre']
@@ -46,7 +46,7 @@ describe('Crash Muldoon', function() {
                 this.setupTest({
                     player1: {
                         house: 'staralliance',
-                        inPlay: ['crash-muldoon','lieutenant-khrkhar']
+                        inPlay: ['crash-muldoon', 'lieutenant-khrkhar']
                     },
                     player2: {
                         inPlay: ['batdrone', 'dextre']
