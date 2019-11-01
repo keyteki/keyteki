@@ -23,7 +23,8 @@ const mockContext = {
     target: card,
     targets: {
         reveal: [card],
-        two: [card]
+        two: [card],
+        flank: { hasHouse: () => true, neighbors: [], childCards: [], hasTrait: () => false }
     },
     player: player
 };

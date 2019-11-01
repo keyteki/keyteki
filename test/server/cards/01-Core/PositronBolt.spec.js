@@ -13,7 +13,7 @@ describe('Positron Bolt', function() {
                 });
             });
 
-            it('should not prompt for creature when tere are no creatures in play', function() {
+            it('should not prompt for creature when there are no creatures in play', function() {
                 this.player1.play(this.positronBolt);
                 expect(this.player1.amber).toBe(1);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
