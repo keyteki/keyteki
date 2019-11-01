@@ -81,6 +81,10 @@ class DeckService {
                 return { id: id, count: 1, maverick: card.house.replace(' ', '').toLowerCase() };
             }
 
+            if(card.is_anomaly) {
+                return { id: id, count: 1, anomaly: card.house.replace(' ', '').toLowerCase() };
+            }
+
             return { id: id, count: deckResponse.data._links.cards.filter(uuid => uuid === card.id).length };
         });
         let uuid = deckResponse.data.id;
