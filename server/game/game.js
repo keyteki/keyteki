@@ -2,34 +2,35 @@ const _ = require('underscore');
 const EventEmitter = require('events');
 const moment = require('moment');
 
-const Constants = require('../constants.js');
-const ChatCommands = require('./chatcommands.js');
-const GameChat = require('./gamechat.js');
-const EffectEngine = require('./effectengine.js');
-const Player = require('./player.js');
-const Spectator = require('./spectator.js');
-const AnonymousSpectator = require('./anonymousspectator.js');
-const GamePipeline = require('./gamepipeline.js');
+const Constants = require('../constants');
+const ChatCommands = require('./chatcommands');
+const GameChat = require('./gamechat');
+const EffectEngine = require('./effectengine');
+const Player = require('./player');
+const Spectator = require('./spectator');
+const AnonymousSpectator = require('./anonymousspectator');
+const GamePipeline = require('./gamepipeline');
 const SetupPhase = require('./gamesteps/setup/setupphase');
 const KeyPhase = require('./gamesteps/key/KeyPhase');
 const HousePhase = require('./gamesteps/house/HousePhase');
 const MainPhase = require('./gamesteps/main/MainPhase');
 const ReadyPhase = require('./gamesteps/ReadyPhase');
 const DrawPhase = require('./gamesteps/draw/drawphase');
-const SimpleStep = require('./gamesteps/simplestep.js');
-const MenuPrompt = require('./gamesteps/menuprompt.js');
-const HandlerMenuPrompt = require('./gamesteps/handlermenuprompt.js');
-const SelectCardPrompt = require('./gamesteps/selectcardprompt.js');
+const SimpleStep = require('./gamesteps/simplestep');
+const MenuPrompt = require('./gamesteps/menuprompt');
+const HandlerMenuPrompt = require('./gamesteps/handlermenuprompt');
+const SelectCardPrompt = require('./gamesteps/selectcardprompt');
+const OptionsMenuPrompt = require('./gamesteps/OptionsMenuPrompt');
 const GameWonPrompt = require('./gamesteps/GameWonPrompt');
 const GameActions = require('./GameActions');
 const Event = require('./Events/Event');
-const EventWindow = require('./Events/EventWindow.js');
+const EventWindow = require('./Events/EventWindow');
 const ThenEventWindow = require('./Events/ThenEventWindow');
-const AbilityResolver = require('./gamesteps/abilityresolver.js');
+const AbilityResolver = require('./gamesteps/abilityresolver');
 const SimultaneousEffectWindow = require('./gamesteps/SimultaneousEffectWindow');
-const AbilityContext = require('./AbilityContext.js');
+const AbilityContext = require('./AbilityContext');
 const MenuCommands = require('./MenuCommands');
-const TimeLimit = require('./TimeLimit.js');
+const TimeLimit = require('./TimeLimit');
 const PlainTextGameChatFormatter = require('./PlainTextGameChatFormatter');
 
 class Game extends EventEmitter {
@@ -467,7 +468,7 @@ class Game extends EventEmitter {
      * Prompts a player with a multiple choice menu
      * @param {Player} player
      * @param {Object} contextObj - the object which contains the methods that are referenced by the menubuttons
-     * @param {Object} properties - see menuprompt.js
+     * @param {Object} properties - see menuprompt
      */
     promptWithMenu(player, contextObj, properties) {
         this.queueStep(new MenuPrompt(this, player, contextObj, properties));
@@ -476,16 +477,25 @@ class Game extends EventEmitter {
     /**
      * Prompts a player with a multiple choice menu
      * @param {Player} player
-     * @param {Object} properties - see handlermenuprompt.js
+     * @param {Object} properties - see handlermenuprompt
      */
     promptWithHandlerMenu(player, properties) {
         this.queueStep(new HandlerMenuPrompt(this, this.activePlayer || player, properties));
     }
 
     /**
+     * Prompts a player with a dropdown options menu
+     * @param {Player} player
+     * @param {Object} properties - see handlermenuprompt
+     */
+    promptWithOptionsMenu(player, properties) {
+        this.queueStep(new OptionsMenuPrompt(this, this.activePlayer || player, properties));
+    }
+
+    /**
      * Prompts a player to click a card
      * @param {Player} player
-     * @param {Object} properties - see selectcardprompt.js
+     * @param {Object} properties - see selectcardprompt
      */
     promptForSelect(player, properties) {
         this.queueStep(new SelectCardPrompt(this, this.activePlayer, properties));
@@ -643,7 +653,7 @@ class Game extends EventEmitter {
 
     /*
      * Resolves a card ability or ring effect
-     * @param {AbilityContext} context - see AbilityContext.js
+     * @param {AbilityContext} context - see AbilityContext
      * @returns {undefined}
      */
     resolveAbility(context) {

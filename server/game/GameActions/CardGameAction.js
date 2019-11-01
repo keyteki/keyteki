@@ -6,6 +6,7 @@ class CardGameAction extends GameAction {
         super(propertyFactory);
         this.promptForSelect = null;
         this.promptWithHandlerMenu = null;
+        this.promptWithOptionsMenu = null;
     }
 
     setup() {
@@ -14,13 +15,11 @@ class CardGameAction extends GameAction {
 
     hasLegalTarget(context) {
         let result = super.hasLegalTarget(context);
+        let contextCopy = context.copy();
+        contextCopy.stage = 'effect';
         if(this.promptForSelect) {
-            let contextCopy = context.copy();
-            contextCopy.stage = 'effect';
             return this.getSelector().hasEnoughTargets(contextCopy);
         } else if(this.promptWithHandlerMenu && !this.promptWithHandlerMenu.customHandler) {
-            let contextCopy = context.copy();
-            contextCopy.stage = 'effect';
             return this.promptWithHandlerMenu.cards.some(card => this.canAffect(card, contextCopy));
         }
 
@@ -30,6 +29,7 @@ class CardGameAction extends GameAction {
     getSelector() {
         let condition = this.promptForSelect.cardCondition || (() => true);
         let cardCondition = (card, context) => this.canAffect(card, context) && condition(card, context);
+
         return CardSelector.for(Object.assign({}, this.promptForSelect, { cardCondition: cardCondition }));
     }
 
@@ -95,6 +95,31 @@ class CardGameAction extends GameAction {
                 }
             };
             context.game.promptWithHandlerMenu(properties.player, Object.assign(defaultProperties, properties));
+        } else if(this.promptWithOptionsMenu) {
+            let properties = this.promptWithOptionsMenu;
+
+            if(properties.options.length === 0) {
+                return;
+            }
+
+            if(!properties.player) {
+                properties.player = context.player;
+            }
+
+            if(properties.customHandler) {
+                properties.optionsHandler = option => properties.customHandler(option, this);
+            }
+
+            let defaultProperties = {
+                context: context,
+                optionHandler: option => {
+                    this.setTarget(option);
+                    if(properties.message) {
+                        context.game.addMessage(properties.message, properties.player, context.source, option.name);
+                    }
+                }
+            };
+            context.game.promptWithOptionsMenu(properties.player, Object.assign(defaultProperties, properties));
         }
     }
 
