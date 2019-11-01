@@ -21,8 +21,10 @@ class ConditionalAction extends GameAction {
         }
 
         let gameAction = condition ? this.trueGameAction : this.falseGameAction;
-        this.effectMsg = gameAction.effectMsg;
-        this.effectArgs = gameAction.effectArgs;
+        if(gameAction) {
+            this.effectMsg = gameAction.effectMsg;
+            this.effectArgs = gameAction.effectArgs;
+        }
 
         return gameAction;
     }
