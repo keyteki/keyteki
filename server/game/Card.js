@@ -103,6 +103,7 @@ class Card extends EffectSource {
         this.printedHouse = cardData.house;
         this.cardPrintedAmber = cardData.amber;
         this.maverick = cardData.maverick;
+        this.anomoly = cardData.anomoly;
 
         this.upgrades = [];
         this.parent = null;
@@ -807,6 +808,7 @@ class Card extends EffectSource {
 
         // Include card specific information useful for UI rendering
         result.maverick = this.maverick;
+        result.anomoly = this.anomoly;
         result.cardPrintedAmber = this.cardPrintedAmber;
         result.locale = this.locale;
         return result;
@@ -827,6 +829,7 @@ class Card extends EffectSource {
         }
 
         let state = {
+            anomoly: this.anomoly,
             id: this.cardData.id,
             image: this.cardData.image,
             canPlay: (activePlayer === this.game.activePlayer) && this.game.activePlayer.activeHouse &&
