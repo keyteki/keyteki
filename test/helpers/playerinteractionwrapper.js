@@ -338,7 +338,7 @@ class PlayerInteractionWrapper {
 
     selectOption(option) {
         let currentPrompt = this.player.currentPrompt();
-        let promptButton = currentPrompt.buttons.find(button => button.arg.toString().toLowerCase() === option);
+        let promptButton = currentPrompt.buttons.find(button => button.arg === option);
 
         if(!promptButton) {
             throw new Error(`Couldn't select an option for ${this.player.name}. Current prompt is:\n${this.formatPrompt()}`);

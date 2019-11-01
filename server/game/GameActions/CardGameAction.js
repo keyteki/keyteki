@@ -95,31 +95,6 @@ class CardGameAction extends GameAction {
                 }
             };
             context.game.promptWithHandlerMenu(properties.player, Object.assign(defaultProperties, properties));
-        } else if(this.promptWithOptionsMenu) {
-            let properties = this.promptWithOptionsMenu;
-
-            if(properties.options.length === 0) {
-                return;
-            }
-
-            if(!properties.player) {
-                properties.player = context.player;
-            }
-
-            if(properties.customHandler) {
-                properties.optionsHandler = option => properties.customHandler(option, this);
-            }
-
-            let defaultProperties = {
-                context: context,
-                optionHandler: option => {
-                    this.setTarget(option);
-                    if(properties.message) {
-                        context.game.addMessage(properties.message, properties.player, context.source, option.name);
-                    }
-                }
-            };
-            context.game.promptWithOptionsMenu(properties.player, Object.assign(defaultProperties, properties));
         }
     }
 

@@ -66,9 +66,9 @@ class OptionsMenuPrompt extends UiPrompt {
     }
 
     menuCommand(player, arg) {
-        let option = this.properties.options.find(option => '' + option.value === arg);
-        if(option && this.properties.optionHandler) {
-            this.properties.optionHandler(option);
+        let option = this.properties.options.find(option => option.value === arg);
+        if(option && this.properties.optionsHandler) {
+            this.properties.optionsHandler(option);
             this.complete();
             return true;
         }
