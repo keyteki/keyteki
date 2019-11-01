@@ -95,6 +95,7 @@ const Effects = {
     canPlayHouse: (house) => EffectBuilder.player.static('canPlayHouse', house),
     canPlayNonHouse: (house) => EffectBuilder.player.flexible('canPlayNonHouse', house),
     canPlayOrUseHouse: (house) => EffectBuilder.player.static('canPlayOrUseHouse', house),
+    canPlayOrUseNonHouse: (house) => EffectBuilder.player.static('canPlayOrUseNonHouse', house),
     canUse: (match) => EffectBuilder.player.static('canUse', context => match(context.source)),
     canUseHouse: (house) => EffectBuilder.player.static('canUseHouse', house),
     customDetachedPlayer: (properties) => EffectBuilder.player.detached('customEffect', properties),
