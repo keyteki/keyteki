@@ -23,6 +23,9 @@ class Deck {
             if(card.maverick) {
                 result.card.house = card.maverick;
                 result.card.maverick = card.maverick;
+            } else if(card.anomoly) {
+                result.card.house = card.anomoly;
+                result.card.anomoly = card.anomoly;
             }
 
             return result;
@@ -67,6 +70,8 @@ class Deck {
         cardData.image = cardData.id;
         if(cardData.maverick) {
             cardData.house = cardData.maverick;
+        } else if(cardData.anomoly) {
+            cardData.anomoly = cardData.anomoly;
         }
 
         if(!cards[cardData.id]) {
