@@ -60,7 +60,6 @@ class Form extends React.Component {
 
         if(field.validationProperties) {
             for(let key of Object.keys(field.validationProperties)) {
-
                 if((key === 'data-val-required') || (key === 'data-val-length') || (key === 'data-val-equalto') || (key === 'data-val-regex')) {
                     validationAttributes[key] = t(field.validationProperties[key]);
                 } else {
@@ -92,7 +91,7 @@ class Form extends React.Component {
             { this.props.children }
             <div className='form-group'>
                 <div className={ this.props.buttonClass || 'col-sm-offset-4 col-sm-3' }>
-                    <button ref='submit' type='submit' className='btn btn-primary' disabled={ this.props.apiLoading }>
+                    <button type='submit' className='btn btn-primary' disabled={ this.props.apiLoading }>
                         { t(this.props.buttonText) || t('Submit') } { this.props.apiLoading ? <span className='spinner button-spinner' /> : null }
                     </button>
                 </div>

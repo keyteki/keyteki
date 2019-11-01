@@ -43,6 +43,6 @@ class OneStoodAgainstMany extends Card {
     }
 }
 
-OneStoodAgainstMany.id = 'one-stood-against-many'; // This is a guess at what the id might be - please check it!!!
+OneStoodAgainstMany.id = 'one-stood-against-many';
 
 module.exports = OneStoodAgainstMany;

@@ -19,6 +19,6 @@ class MackTheKnife extends Card {
     }
 }
 
-MackTheKnife.id = 'mack-the-knife'; // This is a guess at what the id might be - please check it!!!
+MackTheKnife.id = 'mack-the-knife';
 
 module.exports = MackTheKnife;

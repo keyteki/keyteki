@@ -4,7 +4,7 @@ class YxiliMarauder extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
             match: this,
-            effect: ability.effects.modifyPower(() => this.getAmber())
+            effect: ability.effects.modifyPower(() => this.amber)
         });
 
         this.play({
@@ -12,10 +12,6 @@ class YxiliMarauder extends Card {
                 amount: context.player.creaturesInPlay.filter(card => card.hasHouse('mars') && !card.exhausted).length
             }))
         });
-    }
-
-    getAmber() {
-        return this.hasToken('amber') ? this.tokens.amber : 0;
     }
 }
 

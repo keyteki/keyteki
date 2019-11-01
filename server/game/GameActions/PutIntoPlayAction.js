@@ -21,6 +21,7 @@ class PutIntoPlayAction extends CardGameAction {
         } else if(card.location === 'play area') {
             return false;
         }
+
         return true;
     }
 
@@ -28,6 +29,10 @@ class PutIntoPlayAction extends CardGameAction {
         super.preEventHandler(context);
         let card = this.target.length > 0 ? this.target[0] : context.source;
         let player;
+
+        if(this.deployIndex !== undefined) {
+            return;
+        }
 
         if(card.anyEffect('entersPlayUnderOpponentsControl') && card.owner.opponent) {
             player = card.owner.opponent;

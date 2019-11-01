@@ -25,6 +25,7 @@ function processDecks(decks, state) {
             if(card.maverick) {
                 result.card.house = card.maverick;
             }
+
             return result;
         });
 

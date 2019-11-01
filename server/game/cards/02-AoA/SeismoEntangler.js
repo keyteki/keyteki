@@ -6,7 +6,7 @@ class SeismoEntangler extends Card {
             target: {
                 mode: 'house'
             },
-            effect: 'stop creatures from {1} creatures from reaping next turn',
+            effect: 'stop {1} creatures from reaping next turn',
             effectArgs: context => context.house,
             gameAction: ability.actions.lastingEffect(context => ({
                 targetController: 'opponent',

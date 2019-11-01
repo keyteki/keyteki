@@ -15,6 +15,6 @@ class RoutineJob extends Card {
     }
 }
 
-RoutineJob.id = 'routine-job'; // This is a guess at what the id might be - please check it!!!
+RoutineJob.id = 'routine-job';
 
 module.exports = RoutineJob;

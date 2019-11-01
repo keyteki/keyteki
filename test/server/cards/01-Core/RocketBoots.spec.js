@@ -32,6 +32,7 @@ describe('Rocket Boots', function() {
                 this.player1.fightWith(this.batdrone, this.snufflegator);
                 expect(this.snufflegator.tokens.damage).toBe(2);
                 this.player1.clickCard(this.batdrone);
+                this.player1.clickPrompt('Batdrone');
                 expect(this.player1.amber).toBe(1);
                 expect(this.player2.amber).toBe(1);
                 expect(this.batdrone.exhausted).toBe(false);

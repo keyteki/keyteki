@@ -11,6 +11,6 @@ class Teliga extends Card {
     }
 }
 
-Teliga.id = 'teliga'; // This is a guess at what the id might be - please check it!!!
+Teliga.id = 'teliga';
 
 module.exports = Teliga;

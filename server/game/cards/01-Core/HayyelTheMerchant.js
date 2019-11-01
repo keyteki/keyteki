@@ -11,6 +11,6 @@ class HayyelTheMerchant extends Card {
     }
 }
 
-HayyelTheMerchant.id = 'hayyel-the-merchant'; // This is a guess at what the id might be - please check it!!!
+HayyelTheMerchant.id = 'hayyel-the-merchant';
 
 module.exports = HayyelTheMerchant;

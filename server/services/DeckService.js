@@ -80,11 +80,12 @@ class DeckService {
             if(card.is_maverick) {
                 return { id: id, count: 1, maverick: card.house.toLowerCase() };
             }
+
             return { id: id, count: deckResponse.data._links.cards.filter(uuid => uuid === card.id).length };
         });
         let uuid = deckResponse.data.id;
 
-        let illegalCard = cards.find(card => !card.id.split('').every(char => 'æabcdefghijklmnopqrstuvwxyz0123456789-[]'.includes(char)));
+        let illegalCard = cards.find(card => !card.id.split('').every(char => 'æabcdefghijklmnoöpqrstuvwxyz0123456789-[]'.includes(char)));
         if(!illegalCard) {
             return await this.decks.insert({
                 expansion: deckResponse.data.expansion,

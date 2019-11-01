@@ -22,6 +22,6 @@ class CustomVirus extends Card {
     }
 }
 
-CustomVirus.id = 'custom-virus'; // This is a guess at what the id might be - please check it!!!
+CustomVirus.id = 'custom-virus';
 
 module.exports = CustomVirus;

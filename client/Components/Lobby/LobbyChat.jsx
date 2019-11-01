@@ -17,17 +17,17 @@ class LobbyChat extends React.Component {
     }
 
     componentDidMount() {
-        $(this.refs.messages).scrollTop(999999);
+        $(this.messages).scrollTop(999999);
     }
 
     componentDidUpdate() {
         if(this.state.canScroll) {
-            $(this.refs.messages).scrollTop(999999);
+            $(this.messages).scrollTop(999999);
         }
     }
 
     onScroll() {
-        let messages = this.refs.messages;
+        let messages = this.messages;
 
         setTimeout(() => {
             if(messages.scrollTop >= messages.scrollHeight - messages.offsetHeight - 20) {
@@ -120,7 +120,7 @@ class LobbyChat extends React.Component {
     }
 
     render() {
-        return (<div className='lobby-messages' ref='messages' onScroll={ this.onScroll }>
+        return (<div className='lobby-messages' ref={ m => this.messages = m }onScroll={ this.onScroll }>
             { this.getMessages() }
         </div>);
     }

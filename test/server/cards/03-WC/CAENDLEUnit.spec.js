@@ -8,7 +8,7 @@ describe('CAENDLE Unit', function() {
                         inPlay: ['dust-imp', 'stealer-of-souls', 'dominator-bauble']
                     },
                     player2: {
-                        inPlay: ['caendle-unit']
+                        inPlay: ['cændle-unit']
                     }
                 });
             });
@@ -30,7 +30,7 @@ describe('CAENDLE Unit', function() {
                 expect(this.player2.hand.length).toBe(2);
                 this.player1.endTurn();
                 this.player2.clickPrompt('logos');
-                this.player2.clickCard(this.caendleUnit);
+                this.player2.clickCard(this.cændleUnit);
                 this.player2.clickPrompt('Use this card\'s Action ability');
                 expect(this.player1.amber).toBe(1);
             });

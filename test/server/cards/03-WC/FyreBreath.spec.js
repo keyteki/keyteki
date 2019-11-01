@@ -19,12 +19,13 @@ describe('FyreBreath(WC)', function() {
                 expect(this.firespitter.power).toBe(8);
                 this.player1.fightWith(this.firespitter, this.troll);
                 this.player1.clickCard(this.firespitter);
+                this.player1.clickPrompt('firespitter');
+
                 expect(this.troll.location).toBe('discard');
                 expect(this.firespitter.location).toBe('play area');
                 expect(this.firespitter.tokens.damage).toBe(7);
                 expect(this.valdr.tokens.damage).toBe(3);
                 expect(this.nexus.location).toBe('discard');
-                expect(this).toHaveRecentChatMessage('player1 uses Fyre-Breath to deal 2 damage to the neighbors of Fyre-Breath');
             });
         });
     });

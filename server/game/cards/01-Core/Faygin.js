@@ -16,6 +16,6 @@ class Faygin extends Card {
     }
 }
 
-Faygin.id = 'faygin'; // This is a guess at what the id might be - please check it!!!
+Faygin.id = 'faygin';
 
 module.exports = Faygin;

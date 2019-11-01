@@ -14,6 +14,6 @@ class GiantSloth extends Card {
     }
 }
 
-GiantSloth.id = 'giant-sloth'; // This is a guess at what the id might be - please check it!!!
+GiantSloth.id = 'giant-sloth';
 
 module.exports = GiantSloth;

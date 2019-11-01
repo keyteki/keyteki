@@ -17,8 +17,8 @@ class Privacy extends React.Component {
 
                     <h3><Trans>What data we store</Trans></h3>
                     <Trans i18nKey='privacy.whatwestore'>
-                        <p>When you sign up for the site (which is required to play or spectate on games), we collect a username, your email address, a password and the IP address of the computer you're using when you sign up.</p>
-                        <p>When you play games on the site, we collect information about the games you play(what faction/agenda you're using, the deck you are using to play with - but not its contents, who you are playing against and the outcome of the game).</p>
+                        <p>When you sign up for the site (which is required to play or spectate on games), we collect a username, your email address, a password and the IP address of the computer you&quot;re using when you sign up.</p>
+                        <p>When you play games on the site, we collect information about the games you play(what faction/agenda you&quot;re using, the deck you are using to play with - but not its contents, who you are playing against and the outcome of the game).</p>
                         <p>If you chat in the lobby, your messages are stored.</p>
                     </Trans>
 
@@ -26,9 +26,9 @@ class Privacy extends React.Component {
                     <p><Trans i18nKey='privacy.why'>We collect a username to identify you on the site and so that people know who they are playing against.</Trans></p>
                     <p><Trans i18nKey='privacy.whyemail'>Your email address is used</Trans>:</p>
                     <ul>
-                        <li><Trans i18nKey='privacy.whyemail.1'>in order to verify that you are a real person and not an automated program(or 'bot').</Trans></li>
+                        <li><Trans i18nKey='privacy.whyemail.1'>in order to verify that you are a real person and not an automated program(or &quot;bot&quot;).</Trans></li>
                         <li><Trans i18nKey='privacy.whyemail.2'>to enchance the security and general environment of the site by allowing us to restrict people to one account per email address, or to prevent a user using the site.</Trans></li>
-                        <li><Trans i18nKey='privacy.whyemail.3'>to provide your avatar picture via a service called Gravatar.  Your email address is cryptographically hashed and sent to Gravatar's servers for them to provide your profile image or a default placeholder.</Trans></li>
+                        <li><Trans i18nKey='privacy.whyemail.3'>to provide your avatar picture via a service called Gravatar.  Your email address is cryptographically hashed and sent to Gravatar&quot;s servers for them to provide your profile image or a default placeholder.</Trans></li>
                         <li><Trans i18nKey='privacy.whyemail.4'>to allow you to reset your password if you forget it</Trans></li>
                         <li><Trans i18nKey='privacy.whyemail.5'>to send you critical updates about the site from time to time (We have to date never sent one of these)</Trans></li>
                     </ul>

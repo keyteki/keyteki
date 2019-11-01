@@ -10,6 +10,6 @@ class Duskrunner extends Card {
     }
 }
 
-Duskrunner.id = 'duskrunner'; // This is a guess at what the id might be - please check it!!!
+Duskrunner.id = 'duskrunner';
 
 module.exports = Duskrunner;

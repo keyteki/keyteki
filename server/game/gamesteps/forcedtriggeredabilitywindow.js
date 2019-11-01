@@ -40,11 +40,13 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
         if(this.choices.length === 0 || this.pressedDone) {
             return true;
         }
+
         this.noOptionalChoices = this.choices.every(context => !context.ability.optional);
         if(this.noOptionalChoices && (this.choices.length === 1 || this.currentPlayer.optionSettings.orderForcedAbilities)) {
             this.resolveAbility(this.choices[0]);
             return false;
         }
+
         // Choose an card to trigger
         this.promptBetweenSources(this.choices);
         return false;
@@ -97,9 +99,11 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
                 } else if(event.card) {
                     targets = targets.concat(event.card);
                 }
+
                 map.set(event.context.source, _.uniq(targets));
             }
         }
+
         return [...map.entries()].map(([source, targets]) => ({
             type: 'targeting',
             source: source.getShortSummary(),
@@ -108,18 +112,34 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
     }
 
     promptBetweenAbilities(choices, addBackButton = true) {
-        let menuChoices = _.uniq(choices.map(context => context.ability.title));
+        const getSourceName = context => {
+            if(context.ability.title) {
+                return context.ability.title;
+            }
+
+            if(context.ability.printedAbility) {
+                return context.source.name;
+            }
+
+            const generatingEffect = this.game.effectEngine.effects.find(effect =>
+                effect.effect.state && effect.effect.state[context.source.uuid] === context.ability);
+            return generatingEffect.source.name;
+        };
+
+        let menuChoices = _.uniq(choices.map(context => getSourceName(context)));
         if(menuChoices.length === 1) {
             // this card has only one ability which can be triggered
             this.promptBetweenEventCards(choices, addBackButton);
             return;
         }
+
         // This card has multiple abilities which can be used in this window - prompt the player to pick one
-        let handlers = menuChoices.map(title => (() => this.promptBetweenEventCards(choices.filter(context => context.ability.title === title))));
+        let handlers = menuChoices.map(name => (() => this.promptBetweenEventCards(choices.filter(context => getSourceName(context) === name))));
         if(addBackButton) {
             menuChoices.push('Back');
             handlers.push(() => this.promptBetweenSources(this.choices));
         }
+
         this.game.promptWithHandlerMenu(this.currentPlayer, _.extend(this.getPromptProperties(), {
             activePromptTitle: 'Which ability would you like to use?',
             choices: menuChoices,
@@ -133,6 +153,7 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
             this.promptBetweenEvents(choices, addBackButton);
             return;
         }
+
         // Several cards could be affected by this ability - prompt the player to choose which they want to affect
         this.game.promptForSelect(this.currentPlayer, _.extend(this.getPromptForSelectProperties(), {
             activePromptTitle: 'Select a card to affect',
@@ -158,6 +179,7 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
             this.resolveAbility(choices[0]);
             return;
         }
+
         // Several events affect this card and the chosen ability can respond to more than one of them - prompt player to pick one
         let menuChoices = choices.map(context => TriggeredAbilityWindowTitles.getAction(context.event));
         let handlers = choices.map(context => (() => this.resolveAbility(context)));
@@ -165,6 +187,7 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
             menuChoices.push('Back');
             handlers.push(() => this.promptBetweenSources(this.choices));
         }
+
         this.game.promptWithHandlerMenu(this.currentPlayer, _.extend(this.getPromptProperties(), {
             activePromptTitle: 'Choose an event to respond to',
             choices: menuChoices,

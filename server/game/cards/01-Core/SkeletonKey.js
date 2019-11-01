@@ -12,6 +12,6 @@ class SkeletonKey extends Card {
     }
 }
 
-SkeletonKey.id = 'skeleton-key'; // This is a guess at what the id might be - please check it!!!
+SkeletonKey.id = 'skeleton-key';
 
 module.exports = SkeletonKey;

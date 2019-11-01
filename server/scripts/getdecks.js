@@ -16,8 +16,7 @@ function apiRequest(path) {
         });
     });
 }
-
-let rawData = require('./keyforge.json');
+let rawData = require('./keyforge.json');
 for(const card of rawData.CardData.filter(card => card.name !== '')) {
     card.id = card.name.toLowerCase().replace(/[,?.!"]/gi, '').replace(/[ ']/gi, '-');
     card.type = card.type.toLowerCase();
@@ -43,6 +42,7 @@ for(let i = 3400; i < 3600; i++) {
                         if(storedDeck) {
                             return;
                         }
+
                         return apiRequest('decks/' + deck.id + '/?links=cards')
                             .then(data => {
                                 let deckData = { banned: false };
@@ -55,6 +55,7 @@ for(let i = 3400; i < 3600; i++) {
                                     console.log(deck.name, 'has maverick');
                                     return;
                                 }
+
                                 deckData.cards = [];
                                 for(let uuid of deck.cards) {
                                     let num = data._linked.cards.find(card => card.id === uuid).card_number;
@@ -70,6 +71,7 @@ for(let i = 3400; i < 3600; i++) {
                                         }
                                     }
                                 }
+
                                 console.log('creating record for ', deck.name);
                                 return deckService.create(deckData);
                             });

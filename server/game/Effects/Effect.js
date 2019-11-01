@@ -37,6 +37,7 @@ class Effect {
         this.condition = properties.condition || (() => true);
         this.location = properties.location || 'play area';
         this.printedAbility = properties.printedAbility !== false;
+        this.canChangeZoneOnce = !!properties.canChangeZoneOnce;
         this.effect = effect;
         this.targets = [];
         this.effect.context = this.context = properties.context || { game: game, player: source.controller, source: source };
@@ -103,11 +104,13 @@ class Effect {
                 this.cancel();
                 return true;
             }
+
             return this.effect.recalculate(this.match) || stateChanged;
         } else if(!this.targets.includes(this.match) && this.isValidTarget(this.match)) {
             this.addTarget(this.match);
             return true;
         }
+
         return stateChanged;
     }
 

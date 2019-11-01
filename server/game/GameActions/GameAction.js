@@ -11,6 +11,7 @@ class GameAction {
             this.applyProperties(propertyFactory);
             this.propertyFactory = context => propertyFactory; // eslint-disable-line no-unused-vars
         }
+
         this.getDefaultTargets = context => this.defaultTargets(context);
         this.setup();
     }
@@ -40,6 +41,7 @@ class GameAction {
                 this[key] = value;
             }
         }
+
         this.setTarget(this.target);
         this.setup();
     }
@@ -54,6 +56,7 @@ class GameAction {
         } else {
             this.target = [target];
         }
+
         this.target = this.target.filter(target => !!target);
     }
 
@@ -70,6 +73,7 @@ class GameAction {
         if(targets) {
             this.setDefaultTarget(() => targets);
         }
+
         this.preEventHandler(context);
         let eventWindow;
         context.game.queueSimpleStep(() => {
@@ -81,8 +85,8 @@ class GameAction {
         return eventWindow;
     }
 
-    canAffect(target, context) {
-        return this.targetType.includes(target.type) && target.checkRestrictions(this.name, context);
+    canAffect(target, context) { // eslint-disable-line no-unused-vars
+        return this.targetType.includes(target.type);
     }
 
     checkEventCondition(event) { // eslint-disable-line no-unused-vars
@@ -116,6 +120,7 @@ class GameAction {
         if(this.noGameStateCheck) {
             params.noGameStateCheck = true;
         }
+
         let event = new Event(name, params, handler, this);
         return event;
     }

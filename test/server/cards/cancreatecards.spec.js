@@ -63,8 +63,10 @@ describe('All Cards:', function() {
                         if(args.target.gameAction) {
                             return true;
                         }
+
                         return args.target.mode && args.target.mode === 'select' && Object.values(args.target.choices).every(choice => !_.isFunction(choice));
                     }
+
                     return args.targets && Object.values(args.targets).some(target => target.gameAction || (
                         target.mode && target.mode === 'select' && Object.values(target.choices).every(choice => !_.isFunction(choice))
                     ));
@@ -76,21 +78,25 @@ describe('All Cards:', function() {
                     if(_.isUndefined(args.effect)) {
                         return true;
                     }
+
                     let argCount = 0;
                     let effectArgs = args.effectArgs;
                     if(_.isFunction(effectArgs)) {
                         effectArgs = effectArgs(mockContext);
                     }
+
                     for(let i = 1; i < 10; i++) {
                         if(args.effect.includes('{' + i.toString() + '}')) {
                             argCount = i;
                         }
                     }
+
                     if(argCount === 0) {
                         return true;
                     } else if(argCount === 1 && !Array.isArray(effectArgs)) {
                         return true;
                     }
+
                     return argCount === effectArgs.length;
                 })).toBe(true);
             });
@@ -128,8 +134,10 @@ describe('All Cards:', function() {
                         if(args.target.gameAction) {
                             return true;
                         }
+
                         return args.target.mode && args.target.mode === 'select' && Object.values(args.target.choices).every(choice => !_.isFunction(choice));
                     }
+
                     return args.targets && Object.values(args.targets).some(target => target.gameAction || (
                         target.mode && target.mode === 'select' && Object.values(target.choices).every(choice => !_.isFunction(choice))
                     ));
@@ -141,21 +149,25 @@ describe('All Cards:', function() {
                     if(_.isUndefined(args.effect)) {
                         return true;
                     }
+
                     let argCount = 0;
                     let effectArgs = args.effectArgs;
                     if(_.isFunction(effectArgs)) {
                         effectArgs = effectArgs(mockContext);
                     }
+
                     for(let i = 1; i < 10; i++) {
                         if(args.effect.includes('{' + i.toString() + '}')) {
                             argCount = i;
                         }
                     }
+
                     if(argCount === 0) {
                         return true;
                     } else if(argCount === 1 && !Array.isArray(effectArgs)) {
                         return true;
                     }
+
                     return argCount === effectArgs.length;
                 })).toBe(true);
             });

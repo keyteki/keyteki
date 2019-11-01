@@ -12,6 +12,6 @@ class GanymedeArchivist extends Card {
     }
 }
 
-GanymedeArchivist.id = 'ganymede-archivist'; // This is a guess at what the id might be - please check it!!!
+GanymedeArchivist.id = 'ganymede-archivist';
 
 module.exports = GanymedeArchivist;

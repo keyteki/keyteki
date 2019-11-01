@@ -9,6 +9,6 @@ class TooMuchToProtect extends Card {
     }
 }
 
-TooMuchToProtect.id = 'too-much-to-protect'; // This is a guess at what the id might be - please check it!!!
+TooMuchToProtect.id = 'too-much-to-protect';
 
 module.exports = TooMuchToProtect;

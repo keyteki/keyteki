@@ -22,11 +22,13 @@ class AbilityTargetAbility {
                 if(context.stage === 'pretarget' && this.dependentCost && !this.dependentCost.canPay(contextCopy)) {
                     return false;
                 }
+
                 return properties.cardCondition(card, contextCopy) &&
                        (!this.dependentTarget || this.dependentTarget.hasLegalTarget(contextCopy)) &&
                        properties.gameAction.some(gameAction => gameAction.hasLegalTarget(contextCopy));
             });
         };
+
         return CardSelector.for(Object.assign({}, properties, { cardCondition: cardCondition, targets: false }));
     }
 
@@ -56,6 +58,7 @@ class AbilityTargetAbility {
         if(targetResults.cancelled || targetResults.payCostsFirst || targetResults.delayTargeting) {
             return;
         }
+
         let buttons = [];
         let waitingPromptTitle = '';
         if(context.stage === 'pretarget') {
@@ -66,6 +69,7 @@ class AbilityTargetAbility {
                 waitingPromptTitle = 'Waiting for opponent';
             }
         }
+
         let promptProperties = {
             waitingPromptTitle: waitingPromptTitle,
             buttons: buttons,
@@ -85,6 +89,7 @@ class AbilityTargetAbility {
                     targetResults.costsFirst = true;
                     return true;
                 }
+
                 return true;
             }
         };
@@ -95,6 +100,7 @@ class AbilityTargetAbility {
         if(!context.targetAbility) {
             return false;
         }
+
         return this.properties.cardType === context.targetAbility.card.type &&
                this.properties.cardCondition(context.targetAbility.card, context) &&
                (!this.dependentTarget || this.dependentTarget.checkTarget(context));

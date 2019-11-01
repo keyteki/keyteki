@@ -5,7 +5,7 @@ const PlayerInteractionWrapper = require('./playerinteractionwrapper.js');
 const Settings = require('../../server/settings.js');
 
 class GameFlowWrapper {
-    constructor() {
+    constructor(cards) {
         var gameRouter = jasmine.createSpyObj('gameRouter', ['gameWon', 'playerLeft', 'handleError']);
         gameRouter.handleError.and.callFake((game, error) => {
             throw error;
@@ -20,7 +20,7 @@ class GameFlowWrapper {
                 { id: '222', user: Settings.getUserWithDefaultsSet({ username: 'player2' }) }
             ]
         };
-        this.game = new Game(details, { router: gameRouter });
+        this.game = new Game(details, { router: gameRouter, cardData: cards });
         this.game.started = true;
 
         this.player1 = new PlayerInteractionWrapper(this.game, this.game.getPlayerByName('player1'));
@@ -47,6 +47,7 @@ class GameFlowWrapper {
         this.player1.clickPrompt('Keep Hand');
         this.player2.clickPrompt('Keep Hand');
     }
+
     /**
      * Asserts that the game is in the expected phase
      */
@@ -69,6 +70,7 @@ class GameFlowWrapper {
             for(let j = 0; j < chatMessage.message.length; j++) {
                 result += getChatString(chatMessage.message[j]);
             }
+
             results.push(result);
         }
 
@@ -84,6 +86,7 @@ class GameFlowWrapper {
                     return getChatString(item.message);
                 }
             }
+
             return item;
         }
     }

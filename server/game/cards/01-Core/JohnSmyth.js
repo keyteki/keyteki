@@ -13,6 +13,6 @@ class JohnSmyth extends Card {
     }
 }
 
-JohnSmyth.id = 'john-smyth'; // This is a guess at what the id might be - please check it!!!
+JohnSmyth.id = 'john-smyth';
 
 module.exports = JohnSmyth;

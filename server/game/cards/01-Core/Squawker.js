@@ -14,6 +14,6 @@ class Squawker extends Card {
     }
 }
 
-Squawker.id = 'squawker'; // This is a guess at what the id might be - please check it!!!
+Squawker.id = 'squawker';
 
 module.exports = Squawker;

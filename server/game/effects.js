@@ -17,6 +17,7 @@ const Effects = {
     canPlayAsUpgrade: () => EffectBuilder.card.static('canPlayAsUpgrade'),
     cardCannot: (type, condition) => EffectBuilder.card.static('abilityRestrictions', new CannotRestriction(type, condition)),
     changeHouse: (house) => EffectBuilder.card.static('changeHouse', house),
+    changeType: (type) => EffectBuilder.card.static('changeType', type),
     consideredAsFlank: () => EffectBuilder.card.static('consideredAsFlank'),
     customDetachedCard: (properties) => EffectBuilder.card.detached('customEffect', properties),
     doesNotReady: () => EffectBuilder.card.static('doesNotReady'),
@@ -31,13 +32,15 @@ const Effects = {
                 ability = card.persistentEffect(properties);
                 ability.ref = card.addEffectToEngine(ability);
             } else {
-                if(['fight', 'reap', 'play', 'destroyed'].includes(abilityType)) {
+                if(['fight', 'reap', 'play', 'destroyed', 'beforeFight'].includes(abilityType)) {
                     ability = card[abilityType](properties);
                 } else {
                     ability = card.triggeredAbility(abilityType, properties);
                 }
+
                 ability.registerEvents();
             }
+
             if(context.source.grantedAbilityLimits) {
                 if(context.source.grantedAbilityLimits[card.uuid]) {
                     ability.limit = context.source.grantedAbilityLimits[card.uuid];
@@ -45,6 +48,7 @@ const Effects = {
                     context.source.grantedAbilityLimits[card.uuid] = ability.limit;
                 }
             }
+
             return ability;
         },
         unapply: (card, context, ability) => {
@@ -79,7 +83,7 @@ const Effects = {
     additionalCost: (costFactory) => EffectBuilder.player.static('additionalCost', costFactory),
     canFight: (match) => EffectBuilder.player.static('canUse', context => (
         (context.ability.title === 'Fight with this creature' ||
-        context.ability.title === 'Remove this creature\'s stun') &&
+            context.ability.title === 'Remove this creature\'s stun') &&
         match(context.source)
     )),
     mustFightIfAble: () => EffectBuilder.card.static('mustFightIfAble'),
@@ -89,7 +93,7 @@ const Effects = {
         unapply: (player, context, location) => player.removePlayableLocation(location)
     }),
     canPlayHouse: (house) => EffectBuilder.player.static('canPlayHouse', house),
-    canPlayNonHouse: (house) => EffectBuilder.player.static('canPlayNonHouse', house),
+    canPlayNonHouse: (house) => EffectBuilder.player.flexible('canPlayNonHouse', house),
     canPlayOrUseHouse: (house) => EffectBuilder.player.static('canPlayOrUseHouse', house),
     canUse: (match) => EffectBuilder.player.static('canUse', context => match(context.source)),
     canUseHouse: (house) => EffectBuilder.player.static('canUseHouse', house),
@@ -112,7 +116,6 @@ const Effects = {
     stealFromPool: () => EffectBuilder.player.static('stealFromPool'),
     captureFromPool: () => EffectBuilder.player.static('captureFromPool'),
     stopHouseChoice: (house) => EffectBuilder.player.static('stopHouseChoice', house),
-    showTopConflictCard: () => EffectBuilder.player.static('showTopConflictCard'),
     skipStep: (step) => EffectBuilder.player.static('skipStep', step)
 };
 

@@ -12,6 +12,6 @@ class Sniffer extends Card {
     }
 }
 
-Sniffer.id = 'sniffer'; // This is a guess at what the id might be - please check it!!!
+Sniffer.id = 'sniffer';
 
 module.exports = Sniffer;

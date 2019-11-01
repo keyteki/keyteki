@@ -26,6 +26,6 @@ class GuardianDemon extends Card {
     }
 }
 
-GuardianDemon.id = 'guardian-demon'; // This is a guess at what the id might be - please check it!!!
+GuardianDemon.id = 'guardian-demon';
 
 module.exports = GuardianDemon;

@@ -24,6 +24,7 @@ class AFairGame extends Card {
                             amount: context.player.opponent.hand.filter(card => card.hasHouse(oppTop.printedHouse)).length
                         };
                     }
+
                     return { amount: 0 };
                 }),
                 ability.actions.gainAmber(context => {
@@ -34,6 +35,7 @@ class AFairGame extends Card {
                             amount: context.player.hand.filter(card => card.hasHouse(myTop.printedHouse)).length
                         };
                     }
+
                     return { amount: 0 };
                 })
             ]

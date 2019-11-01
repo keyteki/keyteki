@@ -16,6 +16,6 @@ class BrainStemAntenna extends Card {
     }
 }
 
-BrainStemAntenna.id = 'brain-stem-antenna'; // This is a guess at what the id might be - please check it!!!
+BrainStemAntenna.id = 'brain-stem-antenna';
 
 module.exports = BrainStemAntenna;

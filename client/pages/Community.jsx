@@ -16,8 +16,8 @@ class Community extends React.Component {
 
                     <h3>KeyForge Discord</h3>
                     <Trans i18nKey='community.discord'>
-                        <p>Link: <a href='https://discordapp.com/invite/PcTGhr9' target='_blank'>Keyforge Discord</a></p>
-                        <p>Discord is a text and voice communicaton application. Created by members of the Keyforge community, it's a robust community of LCG/CCG/RPG players.</p>
+                        <p>Link: <a href='https://discordapp.com/invite/PcTGhr9' target='_blank' rel='noopener noreferrer'>Keyforge Discord</a></p>
+                        <p>Discord is a text and voice communicaton application. Created by members of the Keyforge community, it&apos;s a robust community of LCG/CCG/RPG players.</p>
                     </Trans>
 
                     <h3><Trans>UNDER CONSTRUCTION</Trans></h3>

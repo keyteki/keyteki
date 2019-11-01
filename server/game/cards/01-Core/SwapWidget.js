@@ -26,6 +26,6 @@ class SwapWidget extends Card {
     }
 }
 
-SwapWidget.id = 'swap-widget'; // This is a guess at what the id might be - please check it!!!
+SwapWidget.id = 'swap-widget';
 
 module.exports = SwapWidget;

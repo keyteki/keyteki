@@ -14,6 +14,6 @@ class EtherSpider extends Card {
     }
 }
 
-EtherSpider.id = 'ether-spider'; // This is a guess at what the id might be - please check it!!!
+EtherSpider.id = 'ether-spider';
 
 module.exports = EtherSpider;

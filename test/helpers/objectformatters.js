@@ -15,8 +15,7 @@ function formatObject(...keys) {
         return this.constructor.name + '({ ' + formattedProperties.join(', ') + ' })';
     };
 }
-
-Card.prototype.toString = formatObject('name', 'location');
+Card.prototype.toString = formatObject('name', 'location');
 Player.prototype.toString = formatObject('name');
 
 Game.prototype.toString = function() {

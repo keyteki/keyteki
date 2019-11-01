@@ -13,6 +13,6 @@ class VeylanAnalyst extends Card {
     }
 }
 
-VeylanAnalyst.id = 'veylan-analyst'; // This is a guess at what the id might be - please check it!!!
+VeylanAnalyst.id = 'veylan-analyst';
 
 module.exports = VeylanAnalyst;

@@ -14,6 +14,6 @@ class GrabberJammer extends Card {
     }
 }
 
-GrabberJammer.id = 'grabber-jammer'; // This is a guess at what the id might be - please check it!!!
+GrabberJammer.id = 'grabber-jammer';
 
 module.exports = GrabberJammer;

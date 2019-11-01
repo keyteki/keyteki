@@ -15,6 +15,6 @@ class Warsong extends Card {
     }
 }
 
-Warsong.id = 'warsong'; // This is a guess at what the id might be - please check it!!!
+Warsong.id = 'warsong';
 
 module.exports = Warsong;

@@ -17,6 +17,6 @@ class OathOfPoverty extends Card {
     }
 }
 
-OathOfPoverty.id = 'oath-of-poverty'; // This is a guess at what the id might be - please check it!!!
+OathOfPoverty.id = 'oath-of-poverty';
 
 module.exports = OathOfPoverty;

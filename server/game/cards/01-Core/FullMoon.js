@@ -15,6 +15,6 @@ class FullMoon extends Card {
     }
 }
 
-FullMoon.id = 'full-moon'; // This is a guess at what the id might be - please check it!!!
+FullMoon.id = 'full-moon';
 
 module.exports = FullMoon;

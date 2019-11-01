@@ -16,6 +16,6 @@ class EmpBlast extends Card {
     }
 }
 
-EmpBlast.id = 'emp-blast'; // This is a guess at what the id might be - please check it!!!
+EmpBlast.id = 'emp-blast';
 
 module.exports = EmpBlast;

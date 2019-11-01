@@ -9,6 +9,6 @@ class SubtleMaul extends Card {
     }
 }
 
-SubtleMaul.id = 'subtle-maul'; // This is a guess at what the id might be - please check it!!!
+SubtleMaul.id = 'subtle-maul';
 
 module.exports = SubtleMaul;

@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const _ = require('underscore');
 
-const {matchCardByNameAndPack} = require('./cardutil.js');
+const { matchCardByNameAndPack } = require('./cardutil.js');
 
 const PathToSubModulePacks = path.join(__dirname, '../../keyteki-json-data/packs');
 

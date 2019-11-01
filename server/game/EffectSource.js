@@ -8,8 +8,8 @@ const TerminalCondition = require('./TerminalCondition.js');
 // This class is inherited by Ring and BaseCard and also represents Framework effects
 
 class EffectSource extends GameObject {
-    constructor(game, name = 'Framework effect') {
-        super(game, name);
+    get name() {
+        return 'Framework effect';
     }
 
     /**
@@ -74,6 +74,7 @@ class EffectSource extends GameObject {
         if(Array.isArray(effect)) {
             return effect.map(factory => this.game.effectEngine.add(factory(this.game, this, properties)));
         }
+
         return [this.game.effectEngine.add(effect(this.game, this, properties))];
     }
 

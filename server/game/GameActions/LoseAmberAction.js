@@ -16,7 +16,7 @@ class LoseAmberAction extends PlayerAction {
     }
 
     getEvent(player, context) {
-        return super.createEvent('onModifyAmber', { player: player, amount: this.amount, context: context }, event => player.modifyAmber(-event.amount));
+        return super.createEvent('onModifyAmber', { player: player, amount: this.amount, context: context }, event => event.player.modifyAmber(-event.amount));
     }
 }
 

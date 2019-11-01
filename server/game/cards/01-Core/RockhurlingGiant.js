@@ -17,6 +17,6 @@ class RockhurlingGiant extends Card {
     }
 }
 
-RockhurlingGiant.id = 'rock-hurling-giant'; // This is a guess at what the id might be - please check it!!!
+RockhurlingGiant.id = 'rock-hurling-giant';
 
 module.exports = RockhurlingGiant;

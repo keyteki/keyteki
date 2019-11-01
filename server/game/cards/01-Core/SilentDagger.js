@@ -14,6 +14,6 @@ class SilentDagger extends Card {
     }
 }
 
-SilentDagger.id = 'silent-dagger'; // This is a guess at what the id might be - please check it!!!
+SilentDagger.id = 'silent-dagger';
 
 module.exports = SilentDagger;

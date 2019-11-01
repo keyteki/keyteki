@@ -12,6 +12,6 @@ class BoobyTrap extends Card {
     }
 }
 
-BoobyTrap.id = 'booby-trap'; // This is a guess at what the id might be - please check it!!!
+BoobyTrap.id = 'booby-trap';
 
 module.exports = BoobyTrap;

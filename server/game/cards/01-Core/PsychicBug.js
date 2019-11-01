@@ -10,6 +10,6 @@ class PsychicBug extends Card {
     }
 }
 
-PsychicBug.id = 'psychic-bug'; // This is a guess at what the id might be - please check it!!!
+PsychicBug.id = 'psychic-bug';
 
 module.exports = PsychicBug;

@@ -9,6 +9,6 @@ class Bulwark extends Card {
     }
 }
 
-Bulwark.id = 'bulwark'; // This is a guess at what the id might be - please check it!!!
+Bulwark.id = 'bulwark';
 
 module.exports = Bulwark;

@@ -11,6 +11,7 @@ class EnrageAction extends CardGameAction {
         if(card.location !== 'play area') {
             return false;
         }
+
         return super.canAffect(card, context);
     }
 
