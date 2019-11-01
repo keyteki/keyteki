@@ -6,6 +6,7 @@ import AbilityTargeting from './AbilityTargeting';
 import CardNameLookup from './CardNameLookup';
 import TraitNameLookup from './TraitNameLookup';
 import HouseSelect from './HouseSelect';
+import OptionsSelect from './OptionsSelect';
 import Panel from '../Site/Panel';
 
 class ActivePlayerPrompt extends React.Component {
@@ -13,6 +14,7 @@ class ActivePlayerPrompt extends React.Component {
         super(props);
 
         this.onHouseSelected = this.onHouseSelected.bind(this);
+        this.onOptionSelected = this.onOptionSelected.bind(this);
     }
 
     onButtonClick(event, command, arg, uuid, method) {
@@ -79,7 +81,7 @@ class ActivePlayerPrompt extends React.Component {
 
         let buttons = [];
 
-        if(!this.props.buttons || this.props.controls.some(c => c.type === 'house-select')) {
+        if(!this.props.buttons || this.props.controls.some(c => ['house-select', 'options-select'].includes(c.type))) {
             return null;
         }
 
@@ -120,6 +122,13 @@ class ActivePlayerPrompt extends React.Component {
         }
     }
 
+    onOptionSelected(option) {
+        if(this.props.onButtonClick) {
+            let button = this.props.buttons.find(button => '' + button.arg === option);
+            this.props.onButtonClick(button.command, button.arg, button.uuid, button.method);
+        }
+    }
+
     getControls() {
         if(!this.props.controls) {
             return null;
@@ -140,6 +149,8 @@ class ActivePlayerPrompt extends React.Component {
                     return <TraitNameLookup cards={ this.props.cards } onValueSelected={ this.handleLookupValueSelected.bind(this, control.command, control.uuid, control.method) } />;
                 case 'house-select':
                     return <HouseSelect buttons={ this.props.buttons } onHouseSelected={ this.onHouseSelected } />;
+                case 'options-select':
+                    return <OptionsSelect options={ this.props.buttons } onOptionSelected={ this.onOptionSelected } />;
             }
         });
     }
@@ -201,7 +212,7 @@ ActivePlayerPrompt.propTypes = {
     buttons: PropTypes.array,
     cards: PropTypes.object,
     controls: PropTypes.array,
-    i18n:  PropTypes.object,
+    i18n: PropTypes.object,
     onButtonClick: PropTypes.func,
     onMouseOut: PropTypes.func,
     onMouseOver: PropTypes.func,
@@ -210,7 +221,7 @@ ActivePlayerPrompt.propTypes = {
     promptText: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
     promptTitle: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
     socket: PropTypes.object,
-    t:  PropTypes.func,
+    t: PropTypes.func,
     user: PropTypes.object
 };
 

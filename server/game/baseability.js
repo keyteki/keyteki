@@ -3,6 +3,8 @@ const AbilityTargetCard = require('./AbilityTargets/AbilityTargetCard');
 const AbilityTargetHouse = require('./AbilityTargets/AbilityTargetHouse');
 const AbilityTargetSelect = require('./AbilityTargets/AbilityTargetSelect');
 const AbilityTargetTrait = require('./AbilityTargets/AbilityTargetTrait');
+const AbilityTargetOptions = require('./AbilityTargets/AbilityTargetOptions');
+
 /**
  * Base class representing an ability that can be done by the player. This
  * includes card actions, reactions, interrupts, playing a card, marshaling a
@@ -78,6 +80,8 @@ class BaseAbility {
             return new AbilityTargetAbility(name, properties, this);
         } else if(properties.mode === 'trait') {
             return new AbilityTargetTrait(name, properties, this);
+        } else if(properties.mode === 'options') {
+            return new AbilityTargetOptions(name, properties, this);
         }
 
         return new AbilityTargetCard(name, properties, this);
