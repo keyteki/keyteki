@@ -5,13 +5,14 @@ class SciOfficerMorpheus extends Card {
         this.constantReaction({
             when: {
                 onCardPlayed: (event, context) => context.source.isInCenter() && event.card.type === 'creature' && event.player === context.player &&
-                    event.card.abilities.reactions.some(ability => ability.title === 'Use this card\'s Play ability' && Object.keys(ability.when).some(key => key === 'onCardPlayed'))
+                    event.card.abilities.reactions.some(ability => ability.properties.name === 'Play' && Object.keys(ability.when).some(key => key === 'onCardPlayed'))
+
 
             },
             effect: 'trigger the play effect of {1} an​ additional time',
             effectArgs: context => context.event.card,
             gameAction: ability.actions.resolveAbility(context => ({
-                ability: context.event.card.abilities.reactions.find(ability => ability.title === 'Use this card\'s Play ability' &&
+                ability: context.event.card.abilities.reactions.find(ability => ability.properties.name === 'Play' &&
                     Object.keys(ability.when).some(key => key === 'onCardPlayed'))
             }))
         });

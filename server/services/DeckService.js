@@ -78,7 +78,7 @@ class DeckService {
         let cards = deckResponse._linked.cards.map(card => {
             let id = card.card_title.toLowerCase().replace(/[,?.!"„“”]/gi, '').replace(/[ '’]/gi, '-');
             if(card.is_maverick) {
-                return { id: id, count: 1, maverick: card.house.toLowerCase() };
+                return { id: id, count: 1, maverick: card.house.replace(' ', '').toLowerCase() };
             }
 
             return { id: id, count: deckResponse.data._links.cards.filter(uuid => uuid === card.id).length };
@@ -97,7 +97,7 @@ class DeckService {
                 banned: false,
                 verified: false,
                 includeInSealed: false,
-                houses: deckResponse.data._links.houses.map(house => house.toLowerCase()),
+                houses: deckResponse.data._links.houses.map(house => house.replace(' ', '').toLowerCase()),
                 cards: cards,
                 lastUpdated: new Date()
             });
