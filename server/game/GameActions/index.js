@@ -3,6 +3,7 @@ module.exports = {
     ArchiveAction: require('./ArchiveAction'),
     AttachAction: require('./AttachAction'),
     CaptureAction: require('./CaptureAction'),
+    ChangeActiveHouseAction: require('./ChangeActiveHouse'),
     ChangeEventAction: require('./ChangeEventAction'),
     ChooseGameAction: require('./ChooseGameAction'),
     ChosenDiscardAction: require('./ChosenDiscardAction'),
