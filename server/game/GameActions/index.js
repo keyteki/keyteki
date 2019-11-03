@@ -37,6 +37,7 @@ module.exports = {
     RandomPurgeAction: require('./RandomPurgeAction'),
     ReadyAction: require('./ReadyAction'),
     ReapGameAction: require('./ReapGameAction'),
+    RearrangeBattlelineAction: require('./RearrangeBattlelineAction'),
     RearrangeCardsAction: require('./RearrangeCardsAction'),
     ReduceArmorAction: require('./ReduceArmorAction'),
     RemoveStunAction: require('./RemoveStunAction'),
