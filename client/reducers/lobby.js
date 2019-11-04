@@ -4,7 +4,7 @@ const defaultState = {
     messages: []
 };
 
-export default function (state = defaultState, action) {
+export default function(state = defaultState, action) {
     switch(action.type) {
         case 'LOBBY_CONNECTING':
             return Object.assign({}, state, {
@@ -111,7 +111,8 @@ function handleGameState(action, state) {
 
     return retState;
 }
-function handleMessage(action, state) {
+
+function handleMessage(action, state) {
     let newState = state;
 
     switch(action.message) {
@@ -132,6 +133,21 @@ function handleGameState(action, state) {
         case 'users':
             newState = Object.assign({}, state, {
                 users: action.args[0]
+            });
+
+            break;
+        case 'newuser':
+            newState = Object.assign({}, state, {
+                users: state.users
+            });
+
+            newState.users.push(action.args[0]);
+            newState.users = newState.users.sort((a, b) => a < b);
+
+            break;
+        case 'userleft':
+            newState = Object.assign({}, state, {
+                users: state.users.filter(u => u.username !== action.args[0].username)
             });
 
             break;

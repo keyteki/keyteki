@@ -42,8 +42,6 @@ class Lobby {
         this.io.use(this.handshake.bind(this));
         this.io.on('connection', this.onConnection.bind(this));
 
-        this.lastUserBroadcast = moment();
-
         this.messageService.on('messageDeleted', messageId => {
             this.io.emit('removemessage', messageId);
         });
@@ -177,18 +175,6 @@ class Lobby {
     }
 
     // Actions
-    sendUserListFilteredWithBlockList(socket, userList) {
-        let filteredUsers = userList;
-
-        if(socket.user) {
-            filteredUsers = userList.filter(user => {
-                return !socket.user.hasUserBlocked(user);
-            });
-        }
-
-        socket.send('users', filteredUsers);
-    }
-
     mapGamesToGameSummaries(games) {
         return _.chain(games)
             .map(game => game.getSummary())
@@ -227,19 +213,35 @@ class Lobby {
         this.lastGameStateBroadcast = moment();
     }
 
-    broadcastUserList() {
-        let now = moment();
+    sendUserListFilteredWithBlockList(socket, userList) {
+        let filteredUsers = userList;
 
-        if((now - this.lastUserBroadcast) / 1000 < 60) {
-            return;
+        if(socket.user) {
+            filteredUsers = userList.filter(user => {
+                return !socket.user.hasUserBlocked(user);
+            });
         }
 
-        this.lastUserBroadcast = moment();
+        socket.send('users', filteredUsers);
+    }
 
-        let users = this.getUserList();
-
+    broadcastNewUser(user) {
         for(let socket of Object.values(this.sockets)) {
-            this.sendUserListFilteredWithBlockList(socket, users);
+            if(socket.user === user || (socket.user && socket.user.hasUserBlocked(user))) {
+                continue;
+            }
+
+            socket.send('newuser', user.getShortSummary());
+        }
+    }
+
+    broadcastUserLeft(user) {
+        for(let socket of Object.values(this.sockets)) {
+            if(socket.user && socket.user.hasUserBlocked(user)) {
+                continue;
+            }
+
+            socket.send('userleft', user.getShortSummary());
         }
     }
 
@@ -328,7 +330,7 @@ class Lobby {
         if(socket.user) {
             this.users[socket.user.username] = socket.user;
 
-            this.broadcastUserList();
+            this.broadcastNewUser(socket.user);
         }
 
         // Force user list send for the newly connected socket, bypassing the throttle
@@ -361,9 +363,8 @@ class Lobby {
             return;
         }
 
-        this.broadcastUserList();
+        this.broadcastNewUser(user);
         this.sendFilteredMessages(socket);
-        // Force user list send for the newly autnenticated socket, bypassing the throttle
         this.sendUserListFilteredWithBlockList(socket, this.getUserList());
 
         this.broadcastGameList(socket, { force: true });
@@ -395,6 +396,8 @@ class Lobby {
         if(!socket.user) {
             return;
         }
+
+        this.broadcastUserLeft(socket.user);
 
         delete this.users[socket.user.username];
 

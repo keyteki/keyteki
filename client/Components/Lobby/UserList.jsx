@@ -7,6 +7,7 @@ import { withTranslation, Trans } from 'react-i18next';
 
 class UserList extends React.Component {
     render() {
+        console.info('userlist', this.props.users);
         if(!this.props.users) {
             return <div><Trans>Userlist loading...</Trans></div>;
         }

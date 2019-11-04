@@ -148,8 +148,16 @@ export function connectLobby() {
             dispatch(lobbyMessageReceived('users', users));
         });
 
+        socket.on('newuser', user => {
+            dispatch(lobbyMessageReceived('newuser', user));
+        });
+
+        socket.on('userleft', user => {
+            dispatch(lobbyMessageReceived('userleft', user));
+        });
+
         socket.on('newgame', game => {
-            dispatch(lobbyMessageReceived, 'newgame', game);
+            dispatch(lobbyMessageReceived('newgame', game);
         });
 
         socket.on('passworderror', message => {
