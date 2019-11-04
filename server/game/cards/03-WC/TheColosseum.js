@@ -2,7 +2,6 @@ const Card = require('../../Card.js');
 
 class TheColosseum extends Card {
     setupCardAbilities(ability) {
-        this.preDumpGlory = 0;
         this.constantReaction({
             when: {
                 onCardDestroyed: (event, context) =>
@@ -18,11 +17,9 @@ class TheColosseum extends Card {
             effect: '{1}',
             effectArgs: context => [(this.tokens.glory >= 6 && context.player.amber >= context.player.getCurrentKeyCost()) ? 'discard 6 glory counters and forge a key at current cost' : (this.tokens.glory >= 6 && context.player.amber < context.player.getCurrentKeyCost()) ? 'discard 6 glory counters' : 'do nothing'],
             gameAction: ability.actions.clearGloryCounters(() => {
-                this.preDumpGlory = this.tokens.glory;
                 return { amount: this.tokens.glory >= 6 ? 6 : 0 };
             }),
             then: {
-                condition: this.preDumpGlory >= 6,
                 gameAction: ability.actions.forgeKey()
             }
         });
