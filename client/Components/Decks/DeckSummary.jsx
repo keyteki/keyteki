@@ -134,6 +134,7 @@ class DeckSummary extends React.Component {
                         <CardImage className='hover-image'
                             img={ `/img/cards/${ this.state.cardToShow.card.image }.png` }
                             maverick={ this.state.cardToShow.maverick }
+                            anomaly={ this.state.cardToShow.anomaly }
                             amber={ this.state.cardToShow.card.amber }/>
                         <AltCard card={ this.state.cardToShow }/>
                     </div> : null }

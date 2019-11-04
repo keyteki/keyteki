@@ -23,7 +23,7 @@ class ResolveAbilityAction extends CardAction {
         super.setup();
         this.name = 'resolveAbility';
         if(this.ability) {
-            this.effectMsg = 'resolve {0}\'s ' + this.ability.title + ' ability';
+            this.effectMsg = `resolve {0}'s ${this.ability.title ? this.ability.title + ' ' : ''}ability`;
         }
     }
 
