@@ -11,7 +11,7 @@ class ReadyPhase extends Phase {
     }
 
     readyCards() {
-        this.game.addMessage('{0} readies all their cards', this.game.activePlayer);
+        this.game.addMessage('{0} readies all of their cards', this.game.activePlayer);
 
         this.game.actions.ready().resolve(this.game.activePlayer.cardsInPlay, this.game.getFrameworkContext());
     }

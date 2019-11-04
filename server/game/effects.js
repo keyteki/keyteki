@@ -21,7 +21,7 @@ const Effects = {
     consideredAsFlank: () => EffectBuilder.card.static('consideredAsFlank'),
     customDetachedCard: (properties) => EffectBuilder.card.detached('customEffect', properties),
     doesNotReady: () => EffectBuilder.card.static('doesNotReady'),
-    limitFightDamage: (amount) => EffectBuilder.card.flexible('limitFightDamage', amount),
+    fightAbilitiesAddReap: () => EffectBuilder.card.static('fightAbilitiesAddReap'),
     gainAbility: (abilityType, properties) => EffectBuilder.card.detached('gainAbility', {
         apply: (card, context) => {
             let ability;
@@ -64,9 +64,12 @@ const Effects = {
         }
     }),
     ignores: (trait) => EffectBuilder.card.static('ignores', trait),
+    limitFightDamage: (amount) => EffectBuilder.card.flexible('limitFightDamage', amount),
     modifyAmberValue: (amount) => EffectBuilder.card.flexible('modifyAmberValue', amount),
     modifyArmor: (amount) => EffectBuilder.card.flexible('modifyArmor', amount),
     modifyPower: (amount) => EffectBuilder.card.flexible('modifyPower', amount),
+    playAbilitiesAddReap: () => EffectBuilder.card.static('playAbilitiesAddReap'),
+    reapAbilitiesAddFight: () => EffectBuilder.card.static('reapAbilitiesAddFight'),
     removeKeyword: (keyword) => EffectBuilder.card.static('removeKeyword', keyword),
     takeControl: (player) => EffectBuilder.card.static('takeControl', player),
     entersPlayUnderOpponentsControl: () => EffectBuilder.card.static('entersPlayUnderOpponentsControl'),
