@@ -19,7 +19,9 @@ class BookOfLeQ extends Card {
                         ]
                     }),
                     postHandler: context => {
-                        context.game.endPhaseRightNow = context.player.deck.length > 0 && context.player.deck[0].printedHouse === 'staralliance';
+                        if(!context.game.endPhaseRightNow) {
+                            context.game.endPhaseRightNow = context.player.deck.length > 0 && context.player.deck[0].printedHouse === 'staralliance';
+                        }
                     }
                 }))
             ]
