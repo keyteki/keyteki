@@ -1,33 +1,53 @@
 const EffectValue = require('./EffectValue');
 
 class GainAbility extends EffectValue {
-    constructor(properties) {
+    constructor(type, properties) {
         super();
-        this.abilityType = properties.abilityType;
-        this.properties = properties;
+        this.type = type;
+        this.values = {};
         if(properties.properties) {
             this.properties = Object.assign({}, properties.properties, { printedAbility: false });
+        } else {
+            this.properties = Object.assign({}, properties, { printedAbility: false });
         }
+    }
+
+    getValue(target) {
+        return this.values[target.uuid];
     }
 
     apply(target) {
-        if(this.abilityType === 'persistent') {
-            this.value = this.properties;
-            return;
-        } else if(this.abilityType === 'action') {
-            this.value = target.createAction(this.properties);
+        if(this.type === 'constant') {
+            this.values[target.uuid] = target.constantReaction(this.properties);
         } else {
-            this.value = target.createTriggeredAbility(this.abilityType, this.properties);
-            this.value.registerEvents();
+            this.values[target.uuid] = target[this.type](this.properties);
         }
+
+        if(this.type === 'persistentEffect') {
+            const value = this.values[target.uuid];
+            if(value.location === 'any' || value.location === target.location) {
+                value.ref = target.addEffectToEngine(value);
+            }
+
+            return;
+        } else if(this.type === 'action') {
+            return;
+        }
+
+        this.values[target.uuid].registerEvents();
     }
 
-    unapply() {
-        if(this.abilityType === 'persistent' || this.abilityType === 'action') {
-            return;
+    unapply(target) {
+        if(this.type === 'persistentEffect') {
+            const value = this.values[target.uuid];
+            if(value.ref) {
+                target.removeEffectFromEngine(value.ref);
+            }
+        } else if(this.type !== 'action') {
+            this.values[target.uuid].unregisterEvents();
         }
 
-        this.value.unregisterEvents();
+        delete this.values[target.uuid];
     }
 }
 

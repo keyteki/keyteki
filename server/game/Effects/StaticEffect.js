@@ -35,8 +35,8 @@ class StaticEffect {
         this.value.unapply(target);
     }
 
-    getValue() {
-        return this.value.getValue();
+    getValue(target) {
+        return this.value.getValue(target);
     }
 
     recalculate() {

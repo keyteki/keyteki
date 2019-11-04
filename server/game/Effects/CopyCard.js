@@ -14,11 +14,11 @@ class CopyCard extends EffectValue {
         this.abilitiesForTargets[target.uuid] = {
             actions: this.actions.map(value => {
                 value.apply(target);
-                return value.getValue();
+                return value.getValue(target);
             }),
             reactions: this.reactions.map(value => {
                 value.apply(target);
-                return value.getValue();
+                return value.getValue(target);
             })
         };
         for(const effect of this.persistentEffects) {

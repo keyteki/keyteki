@@ -89,7 +89,7 @@ class Effect {
     }
 
     isEffectActive() {
-        if(this.duration !== 'persistent') {
+        if(this.duration !== 'persistentEffect') {
             return true;
         }
 
@@ -134,7 +134,7 @@ class Effect {
         return {
             source: this.source.name,
             targets: _.map(this.targets, target => target.name),
-            active: this.duration !== 'persistent' || !this.source.isBlank(),
+            active: this.duration !== 'persistentEffect' || !this.source.isBlank(),
             condition: this.condition(),
             effect: this.effect.getDebugInfo()
         };

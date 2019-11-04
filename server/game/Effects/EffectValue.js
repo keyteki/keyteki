@@ -14,7 +14,7 @@ class EffectValue {
         this.value = value;
     }
 
-    getValue() {
+    getValue(target) { // eslint-disable-line no-unused-vars
         return this.value;
     }
 

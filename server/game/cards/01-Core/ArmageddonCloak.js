@@ -5,8 +5,7 @@ class ArmageddonCloak extends Card {
         this.whileAttached({
             effect: [
                 ability.effects.addKeyword({ hazardous: 2 }),
-                ability.effects.gainAbility({
-                    abilityType: 'destroyed',
+                ability.effects.gainAbility('destroyed', {
                     effect: 'heal all damage from {0} and destroy {1} instead',
                     effectArgs: () => this,
                     gameAction: [

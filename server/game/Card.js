@@ -116,7 +116,7 @@ class Card extends EffectSource {
     }
 
     get persistentEffects() {
-        let gainedPersistentEffects = this.getEffects('gainAbility').filter(ability => ability.abilityType === 'persistent');
+        let gainedPersistentEffects = this.getEffects('gainAbility').filter(ability => ability.abilityType === 'persistentEffect');
         if(this.anyEffect('copyCard')) {
             let mostRecentEffect = _.last(this.effects.filter(effect => effect.type === 'copyCard'));
             return gainedPersistentEffects.concat(mostRecentEffect.value.getPersistentEffects());
@@ -139,7 +139,7 @@ class Card extends EffectSource {
 
     setupKeywordAbilities(ability) {
         // Assault
-        this.interrupt({
+        this.abilities.reactions.push(this.interrupt({
             title: 'Assault',
             printedAbility: false,
             when: {
@@ -151,10 +151,10 @@ class Card extends EffectSource {
                 damageSource: context.source,
                 damageType: 'assault'
             }))
-        });
+        }));
 
         // Hazardous
-        this.interrupt({
+        this.abilities.reactions.push(this.interrupt({
             title: 'Hazardous',
             printedAbility: false,
             when: {
@@ -166,18 +166,18 @@ class Card extends EffectSource {
                 damageSource: context.source,
                 damageType: 'hazardous'
             }))
-        });
+        }));
 
         // Taunt
-        this.persistentEffect({
+        this.abilities.persistentEffects.push(this.persistentEffect({
             condition: () => !!this.getKeywordValue('taunt') && this.type === 'creature',
             printedAbility: false,
             match: card => this.neighbors.includes(card) && !card.getKeywordValue('taunt'),
             effect: ability.effects.cardCannot('attackDueToTaunt')
-        });
+        }));
 
         // Fight
-        this.action({
+        this.abilities.actions.push(this.action({
             title: 'Fight with this creature',
             condition: context => this.checkRestrictions('fight', context) && this.type === 'creature',
             printedAbility: false,
@@ -187,30 +187,28 @@ class Card extends EffectSource {
                 controller: 'opponent',
                 gameAction: new ResolveFightAction({ attacker: this })
             }
-        });
+        }));
 
         // Reap
-        this.action({
+        this.abilities.actions.push(this.action({
             title: 'Reap with this creature',
             condition: context => this.checkRestrictions('reap', context) && this.type === 'creature',
             printedAbility: false,
             gameAction: new ResolveReapAction()
-        });
+        }));
 
         // enraged
-        this.persistentEffect({
-            location: 'any',
+        this.abilities.persistentEffects.push(this.persistentEffect({
             printedAbility: false,
             condition: () => {
                 return this.hasToken('enrage') && this.type === 'creature';
             },
             match: this,
             effect: AbilityDsl.effects.mustFightIfAble()
-        });
+        }));
 
         // warded
-        /*
-        this.interrupt({
+        this.abilities.reactions.push(this.interrupt({
             when: {
                 onCardMarkedForDestruction: (event, context) => event.card === context.source && context.source.warded,
                 onCardLeavesPlay: (event, context) => event.card === context.source && context.source.warded,
@@ -234,18 +232,17 @@ class Card extends EffectSource {
                 }),
                 AbilityDsl.actions.removeWard()
             ]
-        });
-        */
+        }));
 
         // Invulnerable
-        this.persistentEffect({
+        this.abilities.persistentEffects.push(this.persistentEffect({
             condition: () => !!this.getKeywordValue('invulnerable'),
             printedAbility: false,
             effect: [
                 ability.effects.cardCannot('damage'),
                 ability.effects.cardCannot('destroy')
             ]
-        });
+        }));
     }
 
     play(properties) {
@@ -265,21 +262,11 @@ class Card extends EffectSource {
     }
 
     destroyed(properties) {
-        properties.when = { onCardDestroyed: (event, context) => event.card === context.source };
-        if(properties.condition) {
-            properties.when = { onCardDestroyed: (event, context) => event.card === context.source && properties.condition(context) };
-        }
-
-        return this.interrupt(properties);
+        return this.interrupt(Object.assign({ when: { onCardDestroyed: (event, context) => event.card === context.source } }, properties));
     }
 
     leavesPlay(properties) {
-        properties.when = { onCardLeavesPlay: (event, context) => event.card === context.source };
-        if(properties.condition) {
-            properties.when = { onCardLeavesPlay: (event, context) => event.card === context.source && properties.condition(context) };
-        }
-
-        return this.interrupt(properties);
+        return this.interrupt(Object.assign({ when: { onCardLeavesPlay: (event, context) => event.card === context.source } }, properties));
     }
 
     omni(properties) {
@@ -288,28 +275,26 @@ class Card extends EffectSource {
     }
 
     action(properties) {
-        this.abilities.actions.push(this.createAction(properties));
-    }
-
-    createAction(properties) {
-        return new CardAction(this.game, this, properties);
-    }
-
-    beforeFight(properties) {
-        properties.when = { onFight: (event, context) => event.attacker === context.source };
-        if(properties.condition) {
-            properties.when = { onFight: (event, context) => event.attacker === context.source && properties.condition(context) };
+        const action = new CardAction(this.game, this, properties);
+        if(action.printedAbility) {
+            this.abilities.actions.push(action);
         }
 
-        return this.interrupt(properties);
+        return action;
+    }
+
+
+    beforeFight(properties) {
+        return this.interrupt(Object.assign({ when: { onFight: (event, context) => event.attacker === context.source } }, properties));
     }
 
     triggeredAbility(abilityType, properties) {
-        this.abilities.reactions.push(this.createTriggeredAbility(abilityType, properties));
-    }
+        const ability = new TriggeredAbility(this.game, this, abilityType, properties);
+        if(ability.printedAbility) {
+            this.abilities.reactions.push(ability);
+        }
 
-    createTriggeredAbility(abilityType, properties) {
-        return new TriggeredAbility(this.game, this, abilityType, properties);
+        return ability;
     }
 
     constantReaction(properties) {
@@ -343,8 +328,11 @@ class Card extends EffectSource {
             throw new Error(`'${location}' is not a supported effect location.`);
         }
 
-        let ability = _.extend({ duration: 'persistent', location: location }, properties);
-        this.abilities.persistentEffects.push(ability);
+        let ability = _.extend({ abilityType: 'persistentEffect', duration: 'persistentEffect', location: location, printedAbility: true }, properties);
+        if(ability.printedAbility) {
+            this.abilities.persistentEffects.push(ability);
+        }
+
         return ability;
     }
 

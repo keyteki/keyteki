@@ -26,7 +26,8 @@ describe('Archimedes', function() {
             it('should move only immediate neighbors to archive on a board wipe', function() {
                 this.player1.play(this.gatewayToDis);
 
-                // an interrupt
+                expect(this.player1).toHavePrompt('Triggered Abilities');
+                expect(this.player1).toBeAbleToSelect(this.gub);
                 this.player1.clickCard(this.gub);
 
                 expect(this.streke.location).toBe('archives');
