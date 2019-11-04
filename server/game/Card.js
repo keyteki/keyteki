@@ -224,45 +224,19 @@ class Card extends EffectSource {
     }
 
     play(properties) {
-        if(properties.fight) {
-            this.fight(_.omit(properties, 'fight'));
-        } else if(properties.reap) {
-            this.reap(_.omit(properties, 'reap'));
-        }
-
-        let when = { onCardPlayed: (event, context) => event.card === context.source };
-        if(properties.condition) {
-            when = { onCardPlayed: (event, context) => event.card === context.source && properties.condition(context) };
-        }
-
         if(this.type === 'action') {
             properties.location = properties.location || 'being played';
         }
 
-        return this.reaction(Object.assign({ when: when, name: 'Play' }, properties));
+        return this.reaction(Object.assign({ play: true, name: 'Play' }, properties));
     }
 
     fight(properties) {
-        if(properties.reap) {
-            this.reap(_.omit(properties, 'reap'));
-        }
-
-        let when = { onFight: (event, context) => event.attacker === context.source };
-        if(properties.condition) {
-            when = { onFight: (event, context) => event.attacker === context.source && properties.condition(context) };
-        }
-
-        return this.reaction(Object.assign({ when: when, name: 'Fight' }, properties));
+        return this.reaction(Object.assign({ fight: true, name: 'Fight' }, properties));
     }
 
     reap(properties) {
-        properties.when = { onReap: (event, context) => event.card === context.source };
-        if(properties.condition) {
-            properties.when = { onReap: (event, context) => event.card === context.source && properties.condition(context) };
-        }
-
-        properties.name = 'Reap';
-        return this.reaction(properties);
+        return this.reaction(Object.assign({ reap: true, name: 'Reap' }, properties));
     }
 
     destroyed(properties) {
@@ -314,6 +288,14 @@ class Card extends EffectSource {
     }
 
     reaction(properties) {
+        if(properties.play || properties.fight || properties.reap) {
+            properties.when = {
+                onCardPlayed: (event, context) => event.card === context.source,
+                onFight: (event, context) => event.attacker === context.source,
+                onReap: (event, context) => event.card === context.source
+            };
+        }
+
         return this.triggeredAbility('reaction', properties);
     }
 

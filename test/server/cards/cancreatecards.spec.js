@@ -173,8 +173,8 @@ describe('All Cards:', function() {
                 })).toBe(true);
             });
 
-            it('should have at least one when property', function() {
-                expect(_.all(this.calls, args => _.keys(args.when).length > 0)).toBe(true);
+            it('should have at least one when property (or a play, fight or reap property)', function() {
+                expect(_.all(this.calls, args => _.keys(args.when).length > 0 || args.play || args.fight || args.reap)).toBe(true);
             });
 
             it('should have a function as the value for its when properties', function() {
