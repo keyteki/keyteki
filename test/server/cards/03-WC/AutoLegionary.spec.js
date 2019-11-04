@@ -1,4 +1,4 @@
-fdescribe('Auto-Legionary', function() {
+describe('Auto-Legionary', function() {
     integration(function() {
         describe('when action ability is triggered', function() {
             beforeEach(function() {
@@ -25,7 +25,7 @@ fdescribe('Auto-Legionary', function() {
                     this.player1.clickPrompt('Left');
                 });
 
-                fit('should consider the artifact to be a creature', function() {
+                it('should consider the artifact to be a creature', function() {
                     expect(this.autoLegionary.type).toBe('creature');
                 });
 
