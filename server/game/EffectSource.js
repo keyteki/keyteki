@@ -71,11 +71,11 @@ class EffectSource extends GameObject {
     addEffectToEngine(properties) {
         let effect = properties.effect;
         properties = _.omit(properties, 'effect');
-        if(Array.isArray(effect)) {
-            return effect.map(factory => this.game.effectEngine.add(factory(this.game, this, properties)));
+        if(!Array.isArray(effect)) {
+            effect = [effect];
         }
 
-        return [this.game.effectEngine.add(effect(this.game, this, properties))];
+        return effect.map(factory => this.game.effectEngine.add(factory(this.game, this, properties)));
     }
 
     removeEffectFromEngine(effectArray) {
