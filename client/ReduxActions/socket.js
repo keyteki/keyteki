@@ -157,7 +157,7 @@ export function connectLobby() {
         });
 
         socket.on('newgame', game => {
-            dispatch(lobbyMessageReceived('newgame', game);
+            dispatch(lobbyMessageReceived('newgame', game));
         });
 
         socket.on('passworderror', message => {
