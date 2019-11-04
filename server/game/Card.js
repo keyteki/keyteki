@@ -116,6 +116,7 @@ class Card extends EffectSource {
         this.exhausted = false;
         this.stunned = false;
         this.moribund = false;
+        this.isFighting = false;
 
         this.locale = cardData.locale;
 
