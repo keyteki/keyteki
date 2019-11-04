@@ -36,7 +36,9 @@ const Costs = {
     }),
     play: () => ({
         canPay: context => {
-            if(context.game.cardsUsed.concat(context.game.cardsPlayed).filter(card => card.name === context.source.name).length >= 6) {
+            if(context.source.getKeywordValue('alpha') > 0 && !context.game.firstThingThisTurn()) {
+                return false;
+            } else if(context.game.cardsUsed.concat(context.game.cardsPlayed).filter(card => card.name === context.source.name).length >= 6) {
                 return false;
             } else if(context.source.hasHouse(context.player.activeHouse) && !context.player.anyEffect('noActiveHouseForPlay')) {
                 return true;

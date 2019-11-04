@@ -42,6 +42,7 @@ class Deck {
         this.eachRepeatedCard(this.data.cards, cardData => {
             let card = this.createCard(player, cardData);
             if(card) {
+                card.setupAbilities();
                 card.location = 'deck';
                 result.cards.push(card);
             }
