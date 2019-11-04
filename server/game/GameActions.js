@@ -14,6 +14,7 @@ const Actions = {
     capture: (propertyFactory) => new GameActions.CaptureAction(propertyFactory),
     cardLastingEffect: (propertyFactory) => new GameActions.LastingEffectCardAction(propertyFactory), // duration = 'untilEndOfConflict', effect, targetLocation, condition, until
     clearGrowthTokens: (propertyFactory) => new GameActions.RemoveTokenAction(propertyFactory, 'growth'),
+    changeActiveHouse: (propertyFactory) => new GameActions.ChangeActiveHouseAction(propertyFactory),
     dealDamage: (propertyFactory) => new GameActions.DealDamageAction(propertyFactory),
     delayedEffect: (propertyFactory) => new GameActions.DelayedEffectAction(propertyFactory), // when, message, gameAction, handler
     discard: (propertyFactory) => new GameActions.DiscardCardAction(propertyFactory),
