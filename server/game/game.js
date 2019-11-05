@@ -780,12 +780,7 @@ class Game extends EventEmitter {
             player.cardsInPlay.push(card);
         }
 
-        _.each(card.abilities.persistentEffects, effect => {
-            if(effect.location !== 'any') {
-                card.removeEffectFromEngine(effect.ref);
-                effect.ref = card.addEffectToEngine(effect);
-            }
-        });
+        card.updateEffectContexts();
         this.queueSimpleStep(() => this.checkGameState(true));
     }
 

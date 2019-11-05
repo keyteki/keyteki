@@ -50,7 +50,10 @@ class AttachAction extends CardGameAction {
 
             event.parent.upgrades.push(event.card);
             event.card.parent = event.parent;
-            event.card.controller = context.player;
+            if(event.card.controller !== event.context.player) {
+                event.card.controller = event.context.player;
+                event.card.updateEffectContexts();
+            }
         });
     }
 }

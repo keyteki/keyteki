@@ -8,7 +8,7 @@ class ReapGameAction extends CardGameAction {
     }
 
     canAffect(card, context) {
-        let reapAction = card.abilities.actions.find(action => action.title === 'Reap with this creature');
+        let reapAction = card.getReapAction();
         let newContext = reapAction.createContext(context.player);
         newContext.ignoreHouse = true;
         if(reapAction.meetsRequirements(newContext, ['stunned'])) {
@@ -25,7 +25,7 @@ class ReapGameAction extends CardGameAction {
                 let removeStunAction = card.getActions().find(action => action.title === 'Remove this creature\'s stun');
                 newContext = removeStunAction.createContext(context.player);
             } else {
-                let reapAction = card.abilities.actions.find(action => action.title === 'Reap with this creature');
+                let reapAction = card.getReapAction();
                 newContext = reapAction.createContext(context.player);
             }
 

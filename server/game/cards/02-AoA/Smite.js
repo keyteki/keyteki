@@ -46,7 +46,7 @@ class SmiteFightAction extends FightGameAction {
                 let removeStunAction = card.getActions().find(action => action.title === 'Remove this creature\'s stun');
                 newContext = removeStunAction.createContext(context.player);
             } else {
-                let fightAction = card.abilities.actions.find(action => action.title === 'Fight with this creature');
+                let fightAction = card.getFightAction();
                 newContext = fightAction.createContext(context.player);
             }
 

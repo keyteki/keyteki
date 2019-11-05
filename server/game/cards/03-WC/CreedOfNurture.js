@@ -23,7 +23,7 @@ class CreedOfNurture extends Card {
                             const printedAbilities = Object.values(context.targets.creatureInHand.abilities).reduce((result, array) =>
                                 result.concat(array.filter(ability => ability.printedAbility)), []);
                             for(const printedAbility of printedAbilities) {
-                                effects.push(ability.effects.gainAbility(printedAbility.abilityType, printedAbility.properties));
+                                effects.push(ability.effects.gainAbility(printedAbility.abilityType, printedAbility.properties ? printedAbility.properties : printedAbility));
                             }
 
                             return { effect: effects };

@@ -1,5 +1,7 @@
-const CannotRestriction = require('./cannotrestriction.js');
+const CannotRestriction = require('./Effects/cannotrestriction.js');
+const CopyCard = require('./Effects/CopyCard');
 const EffectBuilder = require('./Effects/EffectBuilder');
+const GainAbility = require('./Effects/GainAbility');
 
 /* Types of effect
     1. Static effects - do something for a period
@@ -19,50 +21,11 @@ const Effects = {
     changeHouse: (house) => EffectBuilder.card.static('changeHouse', house),
     changeType: (type) => EffectBuilder.card.static('changeType', type),
     consideredAsFlank: () => EffectBuilder.card.static('consideredAsFlank'),
+    copyCard: (card) => EffectBuilder.card.static('copyCard', new CopyCard(card)),
     customDetachedCard: (properties) => EffectBuilder.card.detached('customEffect', properties),
     doesNotReady: () => EffectBuilder.card.static('doesNotReady'),
+    gainAbility: (type, properties) => EffectBuilder.card.static('gainAbility', new GainAbility(type, properties)),
     fightAbilitiesAddReap: () => EffectBuilder.card.static('fightAbilitiesAddReap'),
-    gainAbility: (abilityType, properties) => EffectBuilder.card.detached('gainAbility', {
-        apply: (card, context) => {
-            let ability;
-            properties.printedAbility = false;
-            if(abilityType === 'action') {
-                ability = card.action(properties);
-            } else if(abilityType === 'persistentEffect') {
-                ability = card.persistentEffect(properties);
-                ability.ref = card.addEffectToEngine(ability);
-            } else {
-                if(['fight', 'reap', 'play', 'destroyed', 'beforeFight'].includes(abilityType)) {
-                    ability = card[abilityType](properties);
-                } else {
-                    ability = card.triggeredAbility(abilityType, properties);
-                }
-
-                ability.registerEvents();
-            }
-
-            if(context.source.grantedAbilityLimits) {
-                if(context.source.grantedAbilityLimits[card.uuid]) {
-                    ability.limit = context.source.grantedAbilityLimits[card.uuid];
-                } else {
-                    context.source.grantedAbilityLimits[card.uuid] = ability.limit;
-                }
-            }
-
-            return ability;
-        },
-        unapply: (card, context, ability) => {
-            if(abilityType === 'action') {
-                card.abilities.actions = card.abilities.actions.filter(a => a !== ability);
-            } else if(abilityType === 'persistentEffect') {
-                card.abilities.persistentEffects = card.abilities.persistentEffects.filter(a => a !== ability);
-                card.removeEffectFromEngine(ability.ref);
-            } else {
-                card.abilities.reactions = card.abilities.reactions.filter(a => a !== ability);
-                ability.unregisterEvents();
-            }
-        }
-    }),
     ignores: (trait) => EffectBuilder.card.static('ignores', trait),
     limitFightDamage: (amount) => EffectBuilder.card.flexible('limitFightDamage', amount),
     modifyAmberValue: (amount) => EffectBuilder.card.flexible('modifyAmberValue', amount),

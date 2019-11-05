@@ -58,8 +58,8 @@ class TriggeredAbility extends CardAbility {
         }
 
         let context = this.createContext(player, event);
-        //console.log(event.name, this.card.name, this.isTriggeredByEvent(event, context), this.meetsRequirements(context));
-        if(this.isTriggeredByEvent(event, context) && this.meetsRequirements(context) === '') {
+        //console.log(event.name, this.card.name, this.card.reactions.includes(this), this.isTriggeredByEvent(event, context), this.meetsRequirements(context));
+        if(this.card.reactions.includes(this) && this.isTriggeredByEvent(event, context) && this.meetsRequirements(context) === '') {
             window.addChoice(context);
         }
     }
