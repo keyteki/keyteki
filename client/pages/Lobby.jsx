@@ -173,4 +173,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default withTranslation()(connect(mapStateToProps, actions, null)(Lobby));
+export default withTranslation()(connect(mapStateToProps, actions)(Lobby));

@@ -140,6 +140,18 @@ export function connectLobby() {
             dispatch(lobbyReconnecting());
         });
 
+        socket.on('newgame', games => {
+            dispatch(lobbyMessageReceived('newgame', games));
+        });
+
+        socket.on('removegame', games => {
+            dispatch(lobbyMessageReceived('removegame', games));
+        });
+
+        socket.on('updategame', games => {
+            dispatch(lobbyMessageReceived('updategame', games));
+        });
+
         socket.on('games', games => {
             dispatch(lobbyMessageReceived('games', games));
         });
@@ -148,8 +160,12 @@ export function connectLobby() {
             dispatch(lobbyMessageReceived('users', users));
         });
 
-        socket.on('newgame', game => {
-            dispatch(lobbyMessageReceived, 'newgame', game);
+        socket.on('newuser', user => {
+            dispatch(lobbyMessageReceived('newuser', user));
+        });
+
+        socket.on('userleft', user => {
+            dispatch(lobbyMessageReceived('userleft', user));
         });
 
         socket.on('passworderror', message => {

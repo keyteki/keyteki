@@ -33,7 +33,8 @@ function verifyPassword(password, dbPassword) {
         });
     });
 }
-async function sendEmail(address, subject, email) {
+
+async function sendEmail(address, subject, email) {
     if(!configService.getValueForSection('lobby', 'emailKey')) {
         logger.info('Trying to send email, but email key not configured.', address, subject, email);
         return;
@@ -68,7 +69,8 @@ function validateUserName(username) {
 
     return undefined;
 }
-function validateEmail(email) {
+
+function validateEmail(email) {
     if(!email) {
         return 'You must specify an email address';
     }
@@ -79,7 +81,8 @@ function validateUserName(username) {
 
     return undefined;
 }
-function validatePassword(password) {
+
+function validatePassword(password) {
     if(!password) {
         return 'You must specify a password';
     }
@@ -90,7 +93,8 @@ function validateUserName(username) {
 
     return undefined;
 }
-function writeFile(path, data, opts = 'utf8') {
+
+function writeFile(path, data, opts = 'utf8') {
     return new Promise((resolve, reject) => {
         fs.writeFile(path, data, opts, (err) => {
             if(err) {
@@ -101,7 +105,8 @@ function validateUserName(username) {
         });
     });
 }
-async function downloadAvatar(user) {
+
+async function downloadAvatar(user) {
     let stringToHash = user.enableGravatar ? user.email : crypto.randomBytes(32).toString('hex');
     let emailHash = crypto.createHash('md5').update(stringToHash).digest('hex');
     let avatar = await util.httpRequest(`https://www.gravatar.com/avatar/${emailHash}?d=identicon&s=24`, { encoding: null });
@@ -327,7 +332,7 @@ module.exports.init = function(server, options) {
         let user = await userService.getUserByUsername(req.user.username);
         let userDetails = user.getWireSafeDetails();
 
-        if(!user.patreon) {
+        if(!user.patreon || !user.patreon.refresh_token) {
             return res.send({ success: true, user: userDetails });
         }
 
