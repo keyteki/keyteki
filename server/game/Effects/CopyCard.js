@@ -8,6 +8,7 @@ class CopyCard extends EffectValue {
         super(card);
         this.abilitiesForTargets = {};
         if(card.anyEffect('copyCard')) {
+            this.value = card.mostRecentEffect('copyCard');
             const copyEffect = _.last(card.effects.filter(effect => effect.type === 'copyCard'));
             this.actions = copyEffect.actions.map(action => new GainAbility('action', action, true));
             this.reactions = copyEffect.reactions.map(ability => new GainAbility(ability.abilityType, ability, true));
