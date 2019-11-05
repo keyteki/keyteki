@@ -1,3 +1,5 @@
+const _ = require('underscore');
+
 const defaultState = {
     games: [],
     users: [],
@@ -130,6 +132,31 @@ function handleMessage(action, state) {
             }
 
             break;
+        case 'newgame':
+            var games = [...action.args[0], ...state.games];
+
+            newState = Object.assign({}, state, {
+                games: games
+            });
+
+            break;
+        case 'removegame':
+            newState = Object.assign({}, state, {
+                games: state.games.filter(game => !action.args[0].some(g => g.id === game.id))
+            });
+            break;
+        case 'updategame':
+            var updatedGames = state.games.slice(0);
+            for(let game of action.args[0]) {
+                let index = _.findIndex(updatedGames, g => g.id === game.id);
+
+                updatedGames[index] = game;
+            }
+
+            newState = Object.assign({}, state, {
+                games: updatedGames
+            });
+            break;
         case 'users':
             newState = Object.assign({}, state, {
                 users: action.args[0]
@@ -137,24 +164,19 @@ function handleMessage(action, state) {
 
             break;
         case 'newuser':
-            newState = Object.assign({}, state, {
-                users: state.users
-            });
+            var users = state.users.slice(0);
 
-            newState.users.push(action.args[0]);
-            newState.users = newState.users.sort((a, b) => a < b);
+            users.push(action.args[0]);
+            users = users.sort((a, b) => a < b);
+
+            newState = Object.assign({}, state, {
+                users: users
+            });
 
             break;
         case 'userleft':
             newState = Object.assign({}, state, {
                 users: state.users.filter(u => u.username !== action.args[0].username)
-            });
-
-            break;
-        case 'newgame':
-            newState = Object.assign({}, state, {
-                currentGame: action.args[0],
-                newGame: false
             });
 
             break;

@@ -184,13 +184,24 @@ class Lobby {
             .value();
     }
 
-    broadcastGameList(socket, options = { force: false }) {
-        let now = moment();
-
-        if((now - this.lastGameStateBroadcast) < 750 && !options.force) {
-            return;
+    broadcastGameMessage(message, games) {
+        if(!Array.isArray(games)) {
+            games = [games];
         }
 
+        for(let socket of Object.values(this.sockets)) {
+            if(!socket) {
+                continue;
+            }
+
+            let filteredGames = Object.values(games).filter(game => game.isVisibleFor(socket.user));
+            let gameSummaries = filteredGames.map(game => game.getSummary());
+
+            socket.send(message, gameSummaries);
+        }
+    }
+
+    broadcastGameList(socket) {
         let sockets = {};
 
         if(socket) {
@@ -209,8 +220,6 @@ class Lobby {
 
             socket.send('games', gameSummaries);
         }
-
-        this.lastGameStateBroadcast = moment();
     }
 
     sendUserListFilteredWithBlockList(socket, userList) {
@@ -225,23 +234,13 @@ class Lobby {
         socket.send('users', filteredUsers);
     }
 
-    broadcastNewUser(user) {
+    broadcastUserMessage(user, message) {
         for(let socket of Object.values(this.sockets)) {
             if(socket.user === user || (socket.user && socket.user.hasUserBlocked(user))) {
                 continue;
             }
 
-            socket.send('newuser', user.getShortSummary());
-        }
-    }
-
-    broadcastUserLeft(user) {
-        for(let socket of Object.values(this.sockets)) {
-            if(socket.user && socket.user.hasUserBlocked(user)) {
-                continue;
-            }
-
-            socket.send('userleft', user.getShortSummary());
+            socket.send(message, user.getShortSummary());
         }
     }
 
@@ -280,7 +279,7 @@ class Lobby {
         }
 
         if(staleGames.length > 0) {
-            this.broadcastGameList();
+            this.broadcastGameMessage('removegame', staleGames);
         }
     }
 
@@ -330,13 +329,12 @@ class Lobby {
         if(socket.user) {
             this.users[socket.user.username] = socket.user;
 
-            this.broadcastNewUser(socket.user);
+            this.broadcastUserMessage(socket.user, 'newuser');
         }
 
-        // Force user list send for the newly connected socket, bypassing the throttle
         this.sendUserListFilteredWithBlockList(socket, this.getUserList());
         this.sendFilteredMessages(socket);
-        this.broadcastGameList(socket, { force: true });
+        this.broadcastGameList(socket);
 
         this.messageService.getMotdMessage().then(message => {
             if(message) {
@@ -363,11 +361,11 @@ class Lobby {
             return;
         }
 
-        this.broadcastNewUser(user);
+        this.broadcastUserMessage(user, 'newuser');
         this.sendFilteredMessages(socket);
         this.sendUserListFilteredWithBlockList(socket, this.getUserList());
 
-        this.broadcastGameList(socket, { force: true });
+        this.broadcastGameList(socket);
 
         let game = this.findGameForUser(user.username);
         if(game && game.started) {
@@ -376,6 +374,10 @@ class Lobby {
     }
 
     onAuthenticated(socket, user) {
+        if(socket.user) {
+            return;
+        }
+
         this.userService.getUserById(user._id).then(dbUser => {
             this.users[dbUser.username] = dbUser;
             socket.user = dbUser;
@@ -397,7 +399,7 @@ class Lobby {
             return;
         }
 
-        this.broadcastUserLeft(socket.user);
+        this.broadcastUserMessage(socket.user, 'userleft');
 
         delete this.users[socket.user.username];
 
@@ -411,12 +413,12 @@ class Lobby {
         game.disconnect(socket.user.username);
 
         if(game.isEmpty()) {
+            this.broadcastGameMessage('removegame', game);
             delete this.games[game.id];
         } else {
+            this.broadcastGameMessage('updategame', game);
             this.sendGameState(game);
         }
-
-        this.broadcastGameList();
     }
 
     onNewGame(socket, gameDetails) {
@@ -441,7 +443,7 @@ class Lobby {
                 socket.joinChannel(gameToJoin.id);
 
                 this.sendGameState(gameToJoin);
-                this.broadcastGameList();
+                this.broadcastGameMessage('updategame', gameToJoin);
 
                 return;
             }
@@ -454,7 +456,7 @@ class Lobby {
         this.sendGameState(game);
 
         this.games[game.id] = game;
-        this.broadcastGameList();
+        this.broadcastGameMessage('newgame', game);
     }
 
     onJoinGame(socket, gameId, password) {
@@ -478,7 +480,7 @@ class Lobby {
         socket.joinChannel(game.id);
 
         this.sendGameState(game);
-        this.broadcastGameList();
+        this.broadcastGameMessage('updategame', game);
     }
 
     onStartGame(socket, gameId) {
@@ -506,7 +508,7 @@ class Lobby {
         game.node = gameNode;
         game.started = true;
 
-        this.broadcastGameList();
+        this.broadcastGameMessage('updategame', game);
 
         for(let player of Object.values(game.getPlayersAndSpectators())) {
             let socket = this.sockets[player.id];
@@ -573,11 +575,11 @@ class Lobby {
 
         if(game.isEmpty()) {
             delete this.games[game.id];
+            this.broadcastGameMessage('removegame', game);
         } else {
             this.sendGameState(game);
+            this.broadcastGameMessage('updategame', game);
         }
-
-        this.broadcastGameList();
     }
 
     onPendingGameChat(socket, message) {
@@ -782,8 +784,8 @@ class Lobby {
             return;
         }
 
+        this.broadcastGameMessage('removegame', game);
         delete this.games[gameId];
-        this.broadcastGameList();
     }
 
     onGameRematch(oldGame) {
@@ -794,6 +796,7 @@ class Lobby {
             return;
         }
 
+        this.broadcastGameMessage('removegame', game);
         delete this.games[gameId];
 
         let newGame = new PendingGame(game.owner, {
@@ -824,6 +827,7 @@ class Lobby {
 
         socket.joinChannel(newGame.id);
         this.sendGameState(newGame);
+        this.broadcastGameMessage('newgame', newGame);
 
         let promises = [this.onSelectDeck(socket, newGame.id, owner.deck._id)];
 
@@ -856,8 +860,6 @@ class Lobby {
         Promise.all(promises).then(() => {
             this.onStartGame(socket, newGame.id);
         });
-
-        this.broadcastGameList();
     }
 
     onPlayerLeft(gameId, player) {
@@ -870,10 +872,11 @@ class Lobby {
         game.leave(player);
 
         if(game.isEmpty()) {
+            this.broadcastGameMessage('removegame', game);
             delete this.games[gameId];
+        } else {
+            this.broadcastGameMessage('updategame', game);
         }
-
-        this.broadcastGameList();
     }
 
     onBlocklistChanged(user) {
@@ -976,7 +979,7 @@ class Lobby {
             }
         }
 
-        this.broadcastGameList(undefined, { force: true });
+        this.broadcastGameList();
     }
 }
 
