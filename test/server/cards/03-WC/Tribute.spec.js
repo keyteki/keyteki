@@ -42,6 +42,7 @@ describe('Tribute', function() {
                 expect(this.player2.amber).toBe(10);
                 expect(this.player1).toHavePrompt('Do you wish to exhalt the creature?');
                 this.player1.clickPrompt('Yes');
+                expect(this.krump.amber).toBe(3);
                 expect(this.player1).toHavePrompt('Choose a creature');
                 expect(this.player1).toBeAbleToSelect(this.gub);
                 expect(this.player1).toBeAbleToSelect(this.krump);
@@ -51,6 +52,25 @@ describe('Tribute', function() {
                 expect(this.gub.amber).toBe(2);
                 expect(this.player2.amber).toBe(8);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            });
+
+            it('should allow multiple tribute plays', function() {
+                this.player1.play(this.tribute);
+                this.player1.clickCard(this.krump);
+                this.player1.clickPrompt('Yes');
+                this.player1.clickCard(this.krump);
+                expect(this.krump.amber).toBe(5);
+                expect(this.player2.amber).toBe(8);
+                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+
+                this.player1.moveCard(this.tribute, 'hand');
+
+                this.player1.play(this.tribute);
+                this.player1.clickCard(this.krump);
+                this.player1.clickPrompt('Yes');
+                this.player1.clickCard(this.krump);
+                expect(this.krump.amber).toBe(10);
+                expect(this.player2.amber).toBe(4);
             });
         });
     });
