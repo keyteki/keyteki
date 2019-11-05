@@ -6,8 +6,7 @@ describe('Harmonia', function() {
                     player1: {
                         amber: 2,
                         house: 'untamed',
-                        hand: ['rustgnawer', 'dust-pixie','dew-faerie', 'duskwitch', 'harmonia'],
-                        inPlay: []
+                        hand: ['rustgnawer', 'dust-pixie','dew-faerie', 'duskwitch', 'harmonia']
                     },
                     player2: {
                         amber: 2,
