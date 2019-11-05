@@ -1,0 +1,57 @@
+describe('Tribute', function() {
+    integration(function() {
+        describe('Tribute\'s ability', function() {
+            beforeEach(function() {
+                this.setupTest({
+                    player1: {
+                        amber: 1,
+                        house: 'saurian',
+                        hand: ['tribute'],
+                        inPlay: ['shooler', 'gub', 'krump']
+                    },
+                    player2: {
+                        amber: 12,
+                        inPlay: ['tunk']
+                    }
+                });
+            });
+
+            it('should prompt for most powerful creature to capture amber, and allow not to exalt', function() {
+                this.player1.play(this.tribute);
+                expect(this.player1).toHavePrompt('Choose a creature');
+                expect(this.player1).toBeAbleToSelect(this.gub);
+                expect(this.player1).toBeAbleToSelect(this.krump);
+                expect(this.player1).not.toBeAbleToSelect(this.shooler);
+                expect(this.player1).not.toBeAbleToSelect(this.tunk);
+                this.player1.clickCard(this.krump);
+                expect(this.krump.amber).toBe(2);
+                expect(this.player1).toHavePrompt('Do you wish to exhalt the creature?');
+                this.player1.clickPrompt('No');
+                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            });
+
+            it('should capture amber, and allow exalt, but just once', function() {
+                this.player1.play(this.tribute);
+                expect(this.player1).toHavePrompt('Choose a creature');
+                expect(this.player1).toBeAbleToSelect(this.gub);
+                expect(this.player1).toBeAbleToSelect(this.krump);
+                expect(this.player1).not.toBeAbleToSelect(this.shooler);
+                expect(this.player1).not.toBeAbleToSelect(this.tunk);
+                this.player1.clickCard(this.krump);
+                expect(this.krump.amber).toBe(2);
+                expect(this.player2.amber).toBe(10);
+                expect(this.player1).toHavePrompt('Do you wish to exhalt the creature?');
+                this.player1.clickPrompt('Yes');
+                expect(this.player1).toHavePrompt('Choose a creature');
+                expect(this.player1).toBeAbleToSelect(this.gub);
+                expect(this.player1).toBeAbleToSelect(this.krump);
+                expect(this.player1).not.toBeAbleToSelect(this.shooler);
+                expect(this.player1).not.toBeAbleToSelect(this.tunk);
+                this.player1.clickCard(this.gub);
+                expect(this.gub.amber).toBe(2);
+                expect(this.player2.amber).toBe(8);
+                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            });
+        });
+    });
+});

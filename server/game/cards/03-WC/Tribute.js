@@ -11,13 +11,17 @@ class Tribute extends Card {
                 cardStat: card => card.power,
                 gameAction: ability.actions.capture({ amount: 2 })
             },
-            then: context => ({
+            then: preThenContext => ({
+                condition: context => !preThenContext.secondResolution,
                 may: 'exhalt the creature',
-                gameAction: ability.actions.exalt({ target: context.target }),
+                gameAction: ability.actions.exalt({ target: preThenContext.target }),
                 then: {
-                    gameAction: ability.actions.resolveAbility({ ability: context.ability }),
+                    gameAction: ability.actions.resolveAbility({
+                        ability: preThenContext.ability,
+                        secondResolution: true
+                    }),
                     message: '{0} exalts {3} to repeat the effect of {1}',
-                    messageArgs: context.target
+                    messageArgs: preThenContext.target
                 }
             })
         });
