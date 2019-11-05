@@ -1,5 +1,3 @@
-const _ = require('underscore');
-
 class EffectValue {
     constructor(value) {
         this.value = value;
