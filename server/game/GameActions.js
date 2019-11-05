@@ -14,6 +14,7 @@ const Actions = {
     capture: (propertyFactory) => new GameActions.CaptureAction(propertyFactory),
     cardLastingEffect: (propertyFactory) => new GameActions.LastingEffectCardAction(propertyFactory), // duration = 'untilEndOfConflict', effect, targetLocation, condition, until
     clearGrowthTokens: (propertyFactory) => new GameActions.RemoveTokenAction(propertyFactory, 'growth'),
+    changeActiveHouse: (propertyFactory) => new GameActions.ChangeActiveHouseAction(propertyFactory),
     dealDamage: (propertyFactory) => new GameActions.DealDamageAction(propertyFactory),
     delayedEffect: (propertyFactory) => new GameActions.DelayedEffectAction(propertyFactory), // when, message, gameAction, handler
     discard: (propertyFactory) => new GameActions.DiscardCardAction(propertyFactory),
@@ -34,6 +35,7 @@ const Actions = {
     putIntoPlay: (propertyFactory) => new GameActions.PutIntoPlayAction(propertyFactory),
     ready: (propertyFactory) => new GameActions.ReadyAction(propertyFactory),
     reap: (propertyFactory) => new GameActions.ReapGameAction(propertyFactory),
+    rearrangeBattleline: (propertyFactory) => new GameActions.RearrangeBattlelineAction(propertyFactory),
     reduceArmor: (propertyFactory) => new GameActions.ReduceArmorAction(propertyFactory),
     removeAmber: (propertyFactory) => new GameActions.RemoveTokenAction(propertyFactory, 'amber'),
     removeDamage: (propertyFactory) => new GameActions.RemoveTokenAction(propertyFactory, 'damage'),
@@ -66,6 +68,7 @@ const Actions = {
     gainChains: (propertyFactory) => new GameActions.ModifyChainsActions(propertyFactory), // amount = 1
     lastingEffect: (propertyFactory) => new GameActions.LastingEffectAction(propertyFactory),
     loseAmber: (propertyFactory) => new GameActions.LoseAmberAction(propertyFactory),
+    rearrangeCards: (propertFactory) => new GameActions.RearrangeCardsAction(propertFactory),
     search: (propertyFactory) => new GameActions.SearchAction(propertyFactory), // name
     steal: (propertyFactory) => new GameActions.StealAction(propertyFactory), // amount = 1
     transferAmber: (propertyFactory) => new GameActions.TransferAmberAction(propertyFactory), // amount = 1

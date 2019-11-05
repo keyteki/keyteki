@@ -336,6 +336,19 @@ class PlayerInteractionWrapper {
         this.checkUnserializableGameState();
     }
 
+    selectOption(option) {
+        let currentPrompt = this.player.currentPrompt();
+        let promptButton = currentPrompt.buttons.find(button => button.arg === option);
+
+        if(!promptButton) {
+            throw new Error(`Couldn't select an option for ${this.player.name}. Current prompt is:\n${this.formatPrompt()}`);
+        }
+
+        this.game.menuButton(this.player.name, option, promptButton.uuid, promptButton.method);
+        this.game.continue();
+        this.checkUnserializableGameState();
+    }
+
     endTurn() {
         if(this.currentPrompt().menuTitle !== 'Choose a card to play, discard or use') {
             throw new Error('Cannot end turn now');

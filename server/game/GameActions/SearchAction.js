@@ -9,6 +9,7 @@ class SearchAction extends PlayerAction {
 
     setup() {
         super.setup();
+
         this.name = 'search';
         this.effectMsg = 'search their deck and discard for ' + this.cardName;
     }
@@ -28,7 +29,7 @@ class SearchAction extends PlayerAction {
                 controller: 'self',
                 context: context,
                 numCards: this.amount,
-                cardCondition: card => !this.cardName || card.name === this.cardName,
+                cardCondition: card => this.cardCondition ? this.cardCondition(card) : !this.cardName || card.name === this.cardName,
                 mode: this.amount > 0 ? 'upTo' : 'unlimited',
                 onSelect: (player, cards) => {
                     if(cards.length > 0) {
@@ -43,6 +44,10 @@ class SearchAction extends PlayerAction {
                         }
                     } else {
                         context.game.addMessage('{0} doesn\'t take anything', player);
+                    }
+
+                    if(this.location.includes('deck')) {
+                        player.shuffleDeck();
                     }
 
                     return true;

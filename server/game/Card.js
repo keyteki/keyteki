@@ -82,20 +82,10 @@ class Card extends EffectSource {
             },
             effect: 'remove its ward token',
             gameAction: [
-                AbilityDsl.actions.changeEvent(context => {
-                    let card = context.event.card;
-                    let cancel = true;
-
-                    if((card.power <= 0 || card.tokens.damage >= card.power) && !card.moribund) {
-                        context.event.card.unward();
-                        cancel = false;
-                    }
-
-                    return {
-                        event: context.event,
-                        cancel: cancel
-                    };
-                }),
+                AbilityDsl.actions.changeEvent(context => ({
+                    event: context.event,
+                    cancel: !((context.event.card.power <= 0 || context.event.card.tokens.damage >= context.event.card.power) && !context.event.card.moribund)
+                })),
                 AbilityDsl.actions.removeWard()
             ]
         });
@@ -103,6 +93,7 @@ class Card extends EffectSource {
         this.printedHouse = cardData.house;
         this.cardPrintedAmber = cardData.amber;
         this.maverick = cardData.maverick;
+        this.anomoly = cardData.anomoly;
 
         this.upgrades = [];
         this.parent = null;
@@ -223,45 +214,19 @@ class Card extends EffectSource {
     }
 
     play(properties) {
-        if(properties.fight) {
-            this.fight(_.omit(properties, 'fight'));
-        } else if(properties.reap) {
-            this.reap(_.omit(properties, 'reap'));
-        }
-
-        let when = { onCardPlayed: (event, context) => event.card === context.source };
-        if(properties.condition) {
-            when = { onCardPlayed: (event, context) => event.card === context.source && properties.condition(context) };
-        }
-
         if(this.type === 'action') {
             properties.location = properties.location || 'being played';
         }
 
-        return this.reaction(Object.assign({ when: when, name: 'Play' }, properties));
+        return this.reaction(Object.assign({ play: true, name: 'Play' }, properties));
     }
 
     fight(properties) {
-        if(properties.reap) {
-            this.reap(_.omit(properties, 'reap'));
-        }
-
-        let when = { onFight: (event, context) => event.attacker === context.source };
-        if(properties.condition) {
-            when = { onFight: (event, context) => event.attacker === context.source && properties.condition(context) };
-        }
-
-        return this.reaction(Object.assign({ when: when, name: 'Fight' }, properties));
+        return this.reaction(Object.assign({ fight: true, name: 'Fight' }, properties));
     }
 
     reap(properties) {
-        properties.when = { onReap: (event, context) => event.card === context.source };
-        if(properties.condition) {
-            properties.when = { onReap: (event, context) => event.card === context.source && properties.condition(context) };
-        }
-
-        properties.name = 'Reap';
-        return this.reaction(properties);
+        return this.reaction(Object.assign({ reap: true, name: 'Reap' }, properties));
     }
 
     destroyed(properties) {
@@ -313,6 +278,14 @@ class Card extends EffectSource {
     }
 
     reaction(properties) {
+        if(properties.play || properties.fight || properties.reap) {
+            properties.when = {
+                onCardPlayed: (event, context) => event.card === context.source,
+                onFight: (event, context) => event.attacker === context.source,
+                onReap: (event, context) => event.card === context.source
+            };
+        }
+
         return this.triggeredAbility('reaction', properties);
     }
 
@@ -807,6 +780,7 @@ class Card extends EffectSource {
 
         // Include card specific information useful for UI rendering
         result.maverick = this.maverick;
+        result.anomoly = this.anomoly;
         result.cardPrintedAmber = this.cardPrintedAmber;
         result.locale = this.locale;
         return result;
@@ -827,6 +801,7 @@ class Card extends EffectSource {
         }
 
         let state = {
+            anomoly: this.anomoly,
             id: this.cardData.id,
             image: this.cardData.image,
             canPlay: (activePlayer === this.game.activePlayer) && this.game.activePlayer.activeHouse &&

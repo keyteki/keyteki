@@ -185,6 +185,7 @@ describe('Kirby’s Blaster', function() {
                 this.player1.reap(this.comOfficerKirby1);
                 this.player1.clickCard(this.comOfficerKirby1);
 
+                this.player1.clickPrompt('Kirby’s Blaster');
                 this.player1.clickPrompt('Move Kirby’s Blaster');
                 expect(this.player1).not.toBeAbleToSelect(this.comOfficerKirby1);
                 expect(this.player1).toBeAbleToSelect(this.comOfficerKirby2);
