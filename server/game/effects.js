@@ -50,7 +50,7 @@ const Effects = {
     canFight: (match) => EffectBuilder.player.static('canUse', context => (
         (context.ability.title === 'Fight with this creature' ||
             context.ability.title === 'Remove this creature\'s stun') &&
-        match(context.source)
+        match(context.source, context)
     )),
     mustFightIfAble: () => EffectBuilder.card.static('mustFightIfAble'),
     canPlay: (match) => EffectBuilder.player.static('canPlay', match),
@@ -62,7 +62,7 @@ const Effects = {
     canPlayNonHouse: (house) => EffectBuilder.player.flexible('canPlayNonHouse', house),
     canPlayOrUseHouse: (house) => EffectBuilder.player.static('canPlayOrUseHouse', house),
     canPlayOrUseNonHouse: (house) => EffectBuilder.player.static('canPlayOrUseNonHouse', house),
-    canUse: (match) => EffectBuilder.player.static('canUse', context => match(context.source)),
+    canUse: (match) => EffectBuilder.player.static('canUse', context => match(context.source, context)),
     canUseHouse: (house) => EffectBuilder.player.static('canUseHouse', house),
     customDetachedPlayer: (properties) => EffectBuilder.player.detached('customEffect', properties),
     delayedEffect: (properties) => EffectBuilder.player.detached('delayedEffect', {

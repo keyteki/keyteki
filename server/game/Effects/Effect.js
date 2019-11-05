@@ -104,7 +104,7 @@ class Effect {
             return stateChanged;
         } else if(_.isFunction(this.match)) {
             // Get any targets which are no longer valid
-            let invalidTargets = _.filter(this.targets, target => !this.match(target) || !this.isValidTarget(target));
+            let invalidTargets = _.filter(this.targets, target => !this.match(target, this.context) || !this.isValidTarget(target));
             // Remove invalid targets
             this.removeTargets(invalidTargets);
             stateChanged = stateChanged || invalidTargets.length > 0;
@@ -132,7 +132,7 @@ class Effect {
 
     getDebugInfo() {
         return {
-            source: this.source.name,
+            source: this.source.printedName,
             targets: _.map(this.targets, target => target.name),
             active: this.duration !== 'persistentEffect' || !this.source.isBlank(),
             condition: this.condition(),

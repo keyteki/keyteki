@@ -138,7 +138,7 @@ class Card extends EffectSource {
         let persistentEffects = this.abilities.persistentEffects;
         if(this.anyEffect('copyCard')) {
             let mostRecentEffect = _.last(this.effects.filter(effect => effect.type === 'copyCard'));
-            persistentEffects = mostRecentEffect.value.getPersistentEffects();
+            persistentEffects = mostRecentEffect.value.getPersistentEffects(this);
         }
 
         let gainedPersistentEffects = this.getEffects('gainAbility').filter(ability => ability.abilityType === 'persistentEffect');
@@ -518,7 +518,7 @@ class Card extends EffectSource {
     }
 
     isBlank() {
-        return this.anyEffect('blank') || this.anyEffect('copyCard');
+        return this.anyEffect('blank');
     }
 
     hasKeyword(keyword) {

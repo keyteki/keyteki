@@ -1,13 +1,23 @@
+const _ = require('underscore');
+
 const EffectValue = require('./EffectValue');
 const GainAbility = require('./GainAbility');
 
 class CopyCard extends EffectValue {
     constructor(card) {
         super(card);
-        this.actions = card.abilities.actions.map(action => new GainAbility('action', action));
-        this.reactions = card.abilities.reactions.map(ability => new GainAbility(ability.abilityType, ability));
-        this.persistentEffects = card.abilities.persistentEffects.map(effect => Object.assign({}, effect));
         this.abilitiesForTargets = {};
+        if(card.anyEffect('copyCard')) {
+            this.value = card.mostRecentEffect('copyCard');
+            const copyEffect = _.last(card.effects.filter(effect => effect.type === 'copyCard'));
+            this.actions = copyEffect.actions.map(action => new GainAbility('action', action, true));
+            this.reactions = copyEffect.reactions.map(ability => new GainAbility(ability.abilityType, ability, true));
+            this.persistentEffects = copyEffect.persistentEffects.map(properties => new GainAbility('persistentEffect', properties));
+        } else {
+            this.actions = card.abilities.actions.map(action => new GainAbility('action', action, true));
+            this.reactions = card.abilities.reactions.map(ability => new GainAbility(ability.abilityType, ability, true));
+            this.persistentEffects = card.abilities.persistentEffects.map(properties => new GainAbility('persistentEffect', properties));
+        }
     }
 
     apply(target) {
@@ -19,13 +29,12 @@ class CopyCard extends EffectValue {
             reactions: this.reactions.map(value => {
                 value.apply(target);
                 return value.getValue(target);
+            }),
+            persistentEffects: this.persistentEffects.map(value => {
+                value.apply(target);
+                return value.getValue(target);
             })
         };
-        for(const effect of this.persistentEffects) {
-            if(effect.location === 'play area' || effect.location === 'any') {
-                effect.ref = target.addEffectToEngine(effect);
-            }
-        }
     }
 
     unapply(target) {
@@ -59,8 +68,12 @@ class CopyCard extends EffectValue {
         return [];
     }
 
-    getPersistentEffects() {
-        return this.persistentEffects;
+    getPersistentEffects(target) {
+        if(this.abilitiesForTargets[target.uuid]) {
+            return this.abilitiesForTargets[target.uuid].persistentEffects;
+        }
+
+        return [];
     }
 }
 
