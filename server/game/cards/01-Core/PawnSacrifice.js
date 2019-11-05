@@ -10,6 +10,7 @@ class PawnSacrifice extends Card {
                 gameAction: ability.actions.sacrifice()
             },
             then: {
+                message: '{0} uses {1} to deal 3 damage to {2}',
                 target: {
                     cardType: 'creature',
                     mode: 'exactly',
