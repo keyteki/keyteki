@@ -20,7 +20,7 @@ class RadioGroup extends React.Component {
 
     isButtonSelected(button) {
         if(!button || !this.state.selectedButton) {
-            return false;
+            return button.value === this.props.defaultValue;
         }
 
         return this.state.selectedButton.value === button.value;
@@ -40,6 +40,7 @@ class RadioGroup extends React.Component {
 RadioGroup.displayName = 'RadioGroup';
 RadioGroup.propTypes = {
     buttons: PropTypes.array.isRequired,
+    defaultValue: PropTypes.string,
     onValueSelected: PropTypes.func
 };
 

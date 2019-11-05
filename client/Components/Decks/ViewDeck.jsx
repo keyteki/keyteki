@@ -23,7 +23,7 @@ class ViewDeck extends React.Component {
         let { deck, cards } = this.props;
 
         return (
-            <div className='col-md-7'>
+            <div className='col-md-6'>
                 <Panel title={ deck.name }>
                     <div className='btn-group col-xs-12'>
                         <ConfirmedButton onClick={ this.handleDeleteClick }><Trans>Delete</Trans></ConfirmedButton>

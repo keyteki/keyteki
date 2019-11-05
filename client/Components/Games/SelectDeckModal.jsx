@@ -31,7 +31,7 @@ class SelectDeckModal extends React.Component {
         }
 
         return (
-            <Modal id={ this.props.id } className='deck-popup' title={ t('Select Deck') }>
+            <Modal id={ this.props.id } bodyClassName='col-xs-12 deck-body' className='deck-popup' title={ t('Select Deck') }>
                 { decks }
             </Modal>);
     }
