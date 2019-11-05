@@ -1,14 +1,14 @@
 const EffectValue = require('./EffectValue');
 
 class GainAbility extends EffectValue {
-    constructor(type, properties) {
+    constructor(type, properties, printedAbility = false) {
         super();
         this.type = type;
         this.values = {};
         if(properties.properties) {
-            this.properties = Object.assign({}, properties.properties, { printedAbility: false });
+            this.properties = Object.assign({}, properties.properties, { printedAbility });
         } else {
-            this.properties = Object.assign({}, properties, { printedAbility: false });
+            this.properties = Object.assign({}, properties, { printedAbility, ref: [] });
         }
     }
 

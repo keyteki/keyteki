@@ -47,7 +47,7 @@ const Costs = {
                 return false;
             } else if(context.source.hasHouse(context.player.activeHouse) && !context.player.anyEffect('noActiveHouseForPlay')) {
                 return true;
-            } else if(context.ignoreHouse || context.player.getEffects('canPlay').some(match => match(context.source))) {
+            } else if(context.ignoreHouse || context.player.getEffects('canPlay').some(match => match(context.source, context))) {
                 return true;
             }
 
@@ -72,7 +72,7 @@ const Costs = {
         },
         payEvent: context => context.game.getEvent('unnamedEvent', {}, () => {
             context.game.cardsPlayed.push(context.source);
-            if(context.ignoreHouse || context.player.getEffects('canPlay').some(match => match(context.source))) {
+            if(context.ignoreHouse || context.player.getEffects('canPlay').some(match => match(context.source, context))) {
                 return true;
             } else if(context.source.hasHouse(context.player.activeHouse)) {
                 return true;
