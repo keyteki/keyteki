@@ -8,14 +8,6 @@ class CardAbility extends ThenAbility {
         this.printedAbility = properties.printedAbility === false ? false : true;
     }
 
-    meetsRequirements(context) {
-        if(this.card.isBlank() && this.printedAbility) {
-            return 'blank';
-        }
-
-        return super.meetsRequirements(context);
-    }
-
     isInValidLocation(context) {
         return this.card.type === 'event' ? context.player.isCardInPlayableLocation(context.source, 'play') : this.location.includes(this.card.location);
     }

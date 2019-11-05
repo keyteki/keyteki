@@ -64,6 +64,14 @@ class TriggeredAbility extends CardAbility {
         }
     }
 
+    meetsRequirements(context) {
+        if(this.card.isBlank()) {
+            return 'blank';
+        }
+
+        return super.meetsRequirements(context);
+    }
+
     createContext(player = this.card.controller, event) {
         return new TriggeredAbilityContext({
             event: event,

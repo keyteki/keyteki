@@ -93,6 +93,10 @@ class Card extends EffectSource {
     }
 
     get actions() {
+        if(this.isBlank()) {
+            return [];
+        }
+
         let actions = this.abilities.actions;
         if(this.anyEffect('copyCard')) {
             let mostRecentEffect = _.last(this.effects.filter(effect => effect.type === 'copyCard'));
@@ -116,13 +120,17 @@ class Card extends EffectSource {
     }
 
     get persistentEffects() {
+        if(this.isBlank()) {
+            return [];
+        }
+
         let gainedPersistentEffects = this.getEffects('gainAbility').filter(ability => ability.abilityType === 'persistentEffect');
         if(this.anyEffect('copyCard')) {
             let mostRecentEffect = _.last(this.effects.filter(effect => effect.type === 'copyCard'));
             return gainedPersistentEffects.concat(mostRecentEffect.value.getPersistentEffects());
         }
 
-        return this.isBlank() ? gainedPersistentEffects : gainedPersistentEffects.concat(this.abilities.persistentEffects);
+        return gainedPersistentEffects.concat(this.abilities.persistentEffects);
     }
 
     setupAbilities() {
@@ -177,17 +185,7 @@ class Card extends EffectSource {
         }));
 
         // Fight
-        this.abilities.actions.push(this.action({
-            title: 'Fight with this creature',
-            condition: context => this.checkRestrictions('fight', context) && this.type === 'creature',
-            printedAbility: false,
-            target: {
-                activePromptTitle: 'Choose a creature to attack',
-                cardType: 'creature',
-                controller: 'opponent',
-                gameAction: new ResolveFightAction({ attacker: this })
-            }
-        }));
+        this.abilities.actions.push();
 
         // Reap
         this.abilities.actions.push(this.action({
@@ -730,6 +728,34 @@ class Card extends EffectSource {
         return actions;
     }
 
+    getFightAction() {
+        return this.action({
+            title: 'Fight with this creature',
+            condition: context => this.checkRestrictions('fight', context) && this.type === 'creature',
+            printedAbility: false,
+            target: {
+                activePromptTitle: 'Choose a creature to attack',
+                cardType: 'creature',
+                controller: 'opponent',
+                gameAction: new ResolveFightAction({ attacker: this })
+            }
+        });
+    }
+
+    getReapAction() {
+        return this.action({
+            title: 'Fight with this creature',
+            condition: context => this.checkRestrictions('fight', context) && this.type === 'creature',
+            printedAbility: false,
+            target: {
+                activePromptTitle: 'Choose a creature to attack',
+                cardType: 'creature',
+                controller: 'opponent',
+                gameAction: new ResolveFightAction({ attacker: this })
+            }
+        });
+    }
+
     getActions(location = this.location) {
         let actions = [];
         if(location === 'hand') {
@@ -747,8 +773,8 @@ class Card extends EffectSource {
 
             actions.push(new DiscardAction(this));
         } else if(location === 'play area' && this.type === 'creature') {
-            //actions.push(new FightAction(this));
-            //actions.push(new ReapAction(this));
+            actions.push(this.getFightAction());
+            actions.push(this.getReapAction());
             actions.push(new RemoveStun(this));
         }
 
