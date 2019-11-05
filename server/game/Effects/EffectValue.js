@@ -3,7 +3,7 @@ const _ = require('underscore');
 class EffectValue {
     constructor(value) {
         this.value = value;
-        if(_.isUndefined(value)) {
+        if(this.value === undefined) {
             this.value = true;
         }
 
