@@ -69,6 +69,7 @@ class Card extends EffectSource {
         this.exhausted = false;
         this.stunned = false;
         this.moribund = false;
+        this.isFighting = false;
 
         this.locale = cardData.locale;
 
@@ -214,20 +215,10 @@ class Card extends EffectSource {
             },
             effect: 'remove its ward token',
             gameAction: [
-                AbilityDsl.actions.changeEvent(context => {
-                    let card = context.event.card;
-                    let cancel = true;
-
-                    if((card.power <= 0 || card.tokens.damage >= card.power) && !card.moribund) {
-                        context.event.card.unward();
-                        cancel = false;
-                    }
-
-                    return {
-                        event: context.event,
-                        cancel: cancel
-                    };
-                }),
+                AbilityDsl.actions.changeEvent(context => ({
+                    event: context.event,
+                    cancel: !((context.event.card.power <= 0 || context.event.card.tokens.damage >= context.event.card.power) && !context.event.card.moribund)
+                })),
                 AbilityDsl.actions.removeWard()
             ]
         }));

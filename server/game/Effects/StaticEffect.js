@@ -63,8 +63,6 @@ class StaticEffect {
 
     hasLongerDuration(effect) {
         let durations = [
-            'untilEndOfDuel',
-            'untilEndOfConflict',
             'untilEndOfPhase',
             'untilEndOfRound'
         ];
