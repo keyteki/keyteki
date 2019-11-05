@@ -3,7 +3,7 @@ const Card = require('../../Card.js');
 class Halacor extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
-            match: card => card.controller === this.controller && card.isOnFlank(),
+            match: card => card.isOnFlank(),
             effect: ability.effects.addKeyword({ skirmish: 1 })
         });
     }
