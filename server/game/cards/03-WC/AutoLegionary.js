@@ -11,14 +11,14 @@ class AutoLegionary extends Card {
         effects = effects.concat(Constants.Houses.map(house => ability.effects.addHouse(house)));
 
         this.action({
-            gameAction: [
+            gameAction: ability.actions.sequential([
                 ability.actions.cardLastingEffect(context => ({
                     target: context.source,
                     duration: 'lastingEffect',
                     effect: effects
                 })),
                 ability.actions.moveToFlank()
-            ]
+            ])
         });
     }
 }
