@@ -1,4 +1,4 @@
-fdescribe('Entropic Manipulator', function() {
+describe('Entropic Manipulator', function() {
     integration(function() {
         describe('Entropic Manipulator\'s ability', function() {
             beforeEach(function() {
