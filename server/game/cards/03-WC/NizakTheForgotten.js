@@ -14,7 +14,7 @@ class NizakTheForgotten extends Card {
 
         this.persistentEffect({
             condition: context => context.source.isFighting,
-            effect: ability.effects.addKeyword('invulnerable')
+            effect: ability.effects.addKeyword({ invulnerable: 1 })
         });
     }
 }
