@@ -135,7 +135,7 @@ class Effect {
             source: this.source.printedName,
             targets: _.map(this.targets, target => target.name),
             active: this.duration !== 'persistentEffect' || !this.source.isBlank(),
-            condition: this.condition(),
+            condition: this.condition(this.context),
             effect: this.effect.getDebugInfo()
         };
     }

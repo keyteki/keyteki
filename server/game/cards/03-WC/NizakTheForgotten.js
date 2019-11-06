@@ -4,7 +4,7 @@ class NizakTheForgotten extends Card {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onDamageDealt: (event, context) =>event.damageSource === context.source && event.destroyed && event.card.location === 'discard'
+                onDamageDealt: (event, context) => event.damageSource === context.source && event.destroyed && event.card.location === 'discard'
             },
             gameAction: ability.actions.returnToHand(context => ({
                 location: 'discard',
@@ -14,7 +14,7 @@ class NizakTheForgotten extends Card {
 
         this.persistentEffect({
             condition: context => context.source.isFighting,
-            effect: ability.effects.addKeyword('invulnerable')
+            effect: ability.effects.addKeyword({ invulnerable: 1 })
         });
     }
 }
