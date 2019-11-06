@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'underscore';
+import { withTranslation, Trans } from 'react-i18next';
 
 import DeckRow from './DeckRow';
 import RadioGroup from '../Form/RadioGroup';
-import { withTranslation } from 'react-i18next';
 
 class DeckList extends React.Component {
     constructor(props) {
@@ -81,10 +81,10 @@ class DeckList extends React.Component {
         }
 
         let sortButtons = [
-            { value: 'datedesc', label: 'Date Desc' },
-            { value: 'dateasc', label: 'Date Asc' },
-            { value: 'nameasc', label: 'Name Asc' },
-            { value: 'namedesc', label: 'Name Desc' }
+            { value: 'datedesc', label: t('Date Desc') },
+            { value: 'dateasc', label: t('Date Asc') },
+            { value: 'nameasc', label: t('Name Asc') },
+            { value: 'namedesc', label: t('Name Desc') }
         ];
 
         let pager = [];
@@ -98,12 +98,12 @@ class DeckList extends React.Component {
                 <form className='form'>
                     <div className='col-md-8'>
                         <div className='form-group'>
-                            <label className='control-label'>Filter: </label><input className='form-control' placeholder='Search...' type='text' onChange={ e => this.changeFilter(e.target.value) }/>
+                            <label className='control-label'><Trans>Filter:</Trans></label><input className='form-control' placeholder='Search...' type='text' onChange={ e => this.changeFilter(e.target.value) }/>
                         </div>
                     </div>
                     <div className='col-md-4'>
                         <div className='form-group'>
-                            <label className='control-label'>Show:</label>
+                            <label className='control-label'><Trans>Show:</Trans></label>
                             <select className='form-control' onChange={ this.onPageSizeChanged }>
                                 <option>10</option>
                                 <option>25</option>
@@ -112,7 +112,7 @@ class DeckList extends React.Component {
                         </div>
 
                     </div>
-                    <div className='col-md-12'>Sort by: <RadioGroup buttons={ sortButtons } onValueSelected={ this.onSortChanged } defaultValue={ this.state.sortOrder } /></div>
+                    <div className='col-md-12'><Trans>Sort by:</Trans><RadioGroup buttons={ sortButtons } onValueSelected={ this.onSortChanged } defaultValue={ this.state.sortOrder } /></div>
                     <nav className='col-md-12' aria-label='Page navigation'>
                         <ul className='pagination'>
                             <li>
