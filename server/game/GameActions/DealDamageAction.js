@@ -19,7 +19,7 @@ class DealDamageAction extends CardGameAction {
     }
 
     canAffect(card, context) {
-        if(this.amount === 0 || !this.amount && this.amountForCard(card, context) === 0) {
+        if(this.amount === 0 || !this.amount && this.amountForCard(card, context) === 0 || !card.checkRestrictions('damage')) {
             return false;
         }
 
