@@ -4,7 +4,9 @@ class FranesBlaster extends BlasterCard {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onCardAttached: event => event.card === this && event.parent.name === 'First Officer Frane'
+                onCardAttached: (event, context) =>
+                    event.card === context.source && event.parent.name === 'First Officer Frane' &&
+                    event.context.player === event.card.controller
             },
             gameAction: ability.actions.returnAmber(context => ({ all: true, target: context.source.parent, recipient: context.game.activePlayer }))
         });

@@ -4,7 +4,9 @@ class WallsBlaster extends BlasterCard {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onCardAttached: event => event.card === this && event.parent.name === 'Chief Engineer Walls'
+                onCardAttached: (event, context) =>
+                    event.card === context.source && event.parent.name === 'Chief Engineer Walls' &&
+                    event.context.player === event.card.controller
             },
             gameAction: ability.actions.stun(context => ({
                 promptForSelect: {
