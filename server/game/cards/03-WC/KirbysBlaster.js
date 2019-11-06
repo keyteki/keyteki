@@ -4,7 +4,9 @@ class KirbysBlaster extends BlasterCard {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onCardAttached: event => event.card === this && event.parent.name === 'Com. Officer Kirby'
+                onCardAttached: (event, context) =>
+                    event.card === context.source && event.parent.name === 'Com. Officer Kirby' &&
+                    event.context.player === event.card.controller
             },
             gameAction: ability.actions.draw({ amount: 2 })
         });

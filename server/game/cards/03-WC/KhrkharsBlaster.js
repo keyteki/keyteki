@@ -4,7 +4,9 @@ class KhrkharsBlaster extends BlasterCard {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onCardAttached: event => event.card === this && event.parent.name === 'Lieutenant Khrkhar'
+                onCardAttached: (event, context) =>
+                    event.card === context.source && event.parent.name === 'Lieutenant Khrkhar' &&
+                    event.context.player === event.card.controller
             },
             gameAction: ability.actions.ward(context => ({ target: context.source.parent }))
         });

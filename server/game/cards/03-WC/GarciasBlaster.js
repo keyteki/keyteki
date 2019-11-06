@@ -4,7 +4,9 @@ class GarciasBlaster extends BlasterCard {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onCardAttached: event => event.card === this && event.parent.name === 'Sensor Chief Garcia'
+                onCardAttached: (event, context) =>
+                    event.card === context.source && event.parent.name === 'Sensor Chief Garcia' &&
+                    event.context.player === event.card.controller
             },
             gameAction: ability.actions.steal()
         });
