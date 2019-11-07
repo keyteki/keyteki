@@ -14,15 +14,15 @@ describe('Chaos Portal', function() {
             it('should prompt to choose a house', function() {
                 this.player1.useAction(this.chaosPortal);
                 expect(this.player1).toHavePrompt('Chaos Portal');
-                expect(this.player1.currentButtons).toContain('brobnar');
-                expect(this.player1.currentButtons).toContain('dis');
-                expect(this.player1.currentButtons).toContain('logos');
-                expect(this.player1.currentButtons).toContain('mars');
-                expect(this.player1.currentButtons).toContain('sanctum');
-                expect(this.player1.currentButtons).toContain('shadows');
-                expect(this.player1.currentButtons).toContain('untamed');
-                expect(this.player1.currentButtons).toContain('staralliance');
-                expect(this.player1.currentButtons).toContain('saurian');
+                expect(this.player1).toHavePromptButton('brobnar');
+                expect(this.player1).toHavePromptButton('dis');
+                expect(this.player1).toHavePromptButton('logos');
+                expect(this.player1).toHavePromptButton('mars');
+                expect(this.player1).toHavePromptButton('sanctum');
+                expect(this.player1).toHavePromptButton('shadows');
+                expect(this.player1).toHavePromptButton('untamed');
+                expect(this.player1).toHavePromptButton('staralliance');
+                expect(this.player1).toHavePromptButton('saurian');
             });
 
             it('should play the card if it is of the chosen house', function() {
