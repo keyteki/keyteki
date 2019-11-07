@@ -1,4 +1,4 @@
-describe('Cooperative Hunting', function() {
+fdescribe('Cooperative Hunting', function() {
     integration(function() {
         describe('Cooperative Hunting\'s ability', function() {
             beforeEach(function() {

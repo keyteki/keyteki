@@ -110,7 +110,11 @@ class InnerCard extends React.Component {
 
         for(const [key, token] of Object.entries(card.tokens || {})) {
             counters.push({ name: key, count: token, fade: needsFade, shortName: this.shortNames[key],
-                showValue: ((token > 1) || !singleValueCounters.includes(key)) });
+                showValue: ((token > 1) || !singleValueCounters.includes(key)), broken: key === 'ward' && card.wardBroken });
+        }
+
+        if(card.pseudoDamage) {
+            counters.push({ name: 'damage', count: card.pseudoDamage, fade: true, showValue: true });
         }
 
         for(const upgrade of card.upgrades || []) {
