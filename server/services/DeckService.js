@@ -49,7 +49,7 @@ class DeckService {
         for(let deck of decks) {
             deck.usageCount = await this.decks.count({ name: deck.name });
             deck.wins = await this.games.count({ 'players.deck': deck.identity, winner: username });
-            deck.losses = await this.games.count({ 'players.deck': deck.identity, winner: { $nin: [null, username] } });
+            deck.losses = await this.games.count({ 'players.deck': deck.identity, 'players.name': username, winner: { $nin: [null, username] } });
         }
 
         return decks;
