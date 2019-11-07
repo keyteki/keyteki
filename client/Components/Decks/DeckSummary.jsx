@@ -161,6 +161,10 @@ class DeckSummary extends React.Component {
                             className='pull-right'>{ cardCounts.creature } <Trans>cards</Trans></span></div>
                         <div className='info-row row'><span><Trans>Upgrades</Trans>:</span><span
                             className='pull-right'>{ cardCounts.upgrade } <Trans>cards</Trans></span></div>
+                        <div className='info-row row'><span><Trans>Wins</Trans>:</span><span
+                            className='pull-right'>{ this.props.deck.wins }</span></div>
+                        <div className='info-row row'><span><Trans>Losses</Trans>:</span><span
+                            className='pull-right'>{ this.props.deck.losses }</span></div>
                         <div className='info-row row'><span><Trans>Validity</Trans>:</span>
                             <DeckStatus className='pull-right' status={ this.props.deck.status }/>
                         </div>

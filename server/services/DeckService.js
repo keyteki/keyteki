@@ -4,6 +4,7 @@ const util = require('../util.js');
 class DeckService {
     constructor(db) {
         this.decks = db.get('decks');
+        this.games = db.get('games');
     }
 
     async getById(id) {
@@ -42,11 +43,13 @@ class DeckService {
             });
     }
 
-    async findByUserName(userName) {
-        let decks = await this.decks.find({ username: userName, banned: false }, { sort: { lastUpdated: -1 } });
+    async findByUserName(username) {
+        let decks = await this.decks.find({ username: username, banned: false }, { sort: { lastUpdated: -1 } });
 
         for(let deck of decks) {
             deck.usageCount = await this.decks.count({ name: deck.name });
+            deck.wins = await this.games.count({ 'players.deck': deck.identity, winner: username });
+            deck.losses = await this.games.count({ 'players.deck': deck.identity, 'players.name': username, winner: { $nin: [null, username] } });
         }
 
         return decks;
