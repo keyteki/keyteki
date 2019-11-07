@@ -65,7 +65,7 @@ class PlayerPromptState {
             selectable: selectable,
             unselectable: !selectable && this.selectCard,
             pseudoDamage: card.warded ? 0 : damage,
-            wardBroken: damage && card.warded
+            wardBroken: damage > 0 && card.warded
         };
     }
 
