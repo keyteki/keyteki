@@ -23,9 +23,9 @@ class Deck {
             if(card.maverick) {
                 result.card.house = card.maverick;
                 result.card.maverick = card.maverick;
-            } else if(card.anomoly) {
-                result.card.house = card.anomoly;
-                result.card.anomoly = card.anomoly;
+            } else if(card.anomaly) {
+                result.card.house = card.anomaly;
+                result.card.anomaly = card.anomaly;
             }
 
             return result;
