@@ -38,6 +38,7 @@ class TriggeredAbility extends CardAbility {
         this.when = properties.when;
         this.title = properties.title;
         this.triggeredByOpponent = !!properties.triggeredByOpponent;
+        this.autoResolve = !!properties.autoResolve;
         this.abilityType = abilityType;
         this.optional = !!properties.optional;
         if(properties.location === 'any') {

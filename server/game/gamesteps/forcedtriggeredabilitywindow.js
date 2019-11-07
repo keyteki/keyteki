@@ -41,6 +41,12 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
             return true;
         }
 
+        let autoResolveChoice = this.choices.find(context => context.ability.autoResolve);
+        if(autoResolveChoice) {
+            this.resolveAbility(autoResolveChoice);
+            return false;
+        }
+
         this.noOptionalChoices = this.choices.every(context => !context.ability.optional);
         if(this.noOptionalChoices && (this.choices.length === 1 || this.currentPlayer.optionSettings.orderForcedAbilities)) {
             this.resolveAbility(this.choices[0]);

@@ -213,11 +213,13 @@ class Card extends EffectSource {
                 onCardLeavesPlay: (event, context) => event.card === context.source && context.source.warded,
                 onDamageDealt: (event, context) => event.card === context.source && !context.event.noGameStateCheck && context.source.warded
             },
+            autoResolve: true,
             effect: 'remove its ward token',
             gameAction: [
                 AbilityDsl.actions.changeEvent(context => ({
                     event: context.event,
-                    cancel: !((context.event.card.power <= 0 || context.event.card.tokens.damage >= context.event.card.power) && !context.event.card.moribund)
+                    cancel: true,
+                    postHandler: context => context.event.card.moribund = false
                 })),
                 AbilityDsl.actions.removeWard()
             ]
