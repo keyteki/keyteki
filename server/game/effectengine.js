@@ -61,7 +61,7 @@ class EffectEngine {
     }
 
     removeLastingEffects(card) {
-        this.unapplyAndRemove(effect => effect.match === card && effect.duration !== 'persistent');
+        this.unapplyAndRemove(effect => effect.match === card && effect.duration !== 'persistentEffect');
     }
 
     checkEffects(prevStateChanged = false, loops = 0) {

@@ -629,6 +629,7 @@ class Game extends EventEmitter {
         this.queueStep(new MainPhase(this));
         this.queueStep(new ReadyPhase(this));
         this.queueStep(new DrawPhase(this));
+        this.queueStep(new SimpleStep(this, () => this.raiseEndRoundEvent())),
         this.queueStep(new SimpleStep(this, () => this.beginRound()));
     }
 
@@ -779,12 +780,7 @@ class Game extends EventEmitter {
             player.cardsInPlay.push(card);
         }
 
-        _.each(card.abilities.persistentEffects, effect => {
-            if(effect.location !== 'any') {
-                card.removeEffectFromEngine(effect.ref);
-                effect.ref = card.addEffectToEngine(effect);
-            }
-        });
+        card.updateEffectContexts();
         this.queueSimpleStep(() => this.checkGameState(true));
     }
 
@@ -947,6 +943,12 @@ class Game extends EventEmitter {
             // check for any delayed effects which need to fire
             this.effectEngine.checkDelayedEffects(events);
         }
+    }
+
+    raiseEndRoundEvent() {
+        this.raiseEvent('onRoundEnded', {}, () => {
+            this.endRound();
+        });
     }
 
     endRound() {

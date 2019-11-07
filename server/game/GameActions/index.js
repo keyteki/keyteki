@@ -1,8 +1,10 @@
 module.exports = {
     AddEventToWindowAction: require('./AddEventToWindowAction'),
+    AllocateDamageAction: require('./AllocateDamageAction'),
     ArchiveAction: require('./ArchiveAction'),
     AttachAction: require('./AttachAction'),
     CaptureAction: require('./CaptureAction'),
+    ChangeActiveHouseAction: require('./ChangeActiveHouse'),
     ChangeEventAction: require('./ChangeEventAction'),
     ChooseGameAction: require('./ChooseGameAction'),
     ChosenDiscardAction: require('./ChosenDiscardAction'),
@@ -37,6 +39,7 @@ module.exports = {
     RandomPurgeAction: require('./RandomPurgeAction'),
     ReadyAction: require('./ReadyAction'),
     ReapGameAction: require('./ReapGameAction'),
+    RearrangeBattlelineAction: require('./RearrangeBattlelineAction'),
     RearrangeCardsAction: require('./RearrangeCardsAction'),
     ReduceArmorAction: require('./ReduceArmorAction'),
     RemoveStunAction: require('./RemoveStunAction'),

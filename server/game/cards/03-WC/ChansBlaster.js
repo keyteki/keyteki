@@ -4,7 +4,9 @@ class ChansBlaster extends BlasterCard {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onCardAttached: event => event.card === this && event.parent.name === 'Commander Chan'
+                onCardAttached: (event, context) =>
+                    event.card === context.source && event.parent.name === 'Commander Chan' &&
+                    event.context.player === event.card.controller
             },
             gameAction: ability.actions.use({
                 promptForSelect: {

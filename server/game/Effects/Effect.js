@@ -39,11 +39,18 @@ class Effect {
         this.printedAbility = properties.printedAbility !== false;
         this.canChangeZoneOnce = !!properties.canChangeZoneOnce;
         this.effect = effect;
+        this.refreshContext();
         this.targets = [];
         this.effect.context = this.context = properties.context || { game: game, player: source.controller, source: source };
         this.effect.duration = this.duration;
         this.effect.effect = this;
         this.effect.isConditional = !!properties.condition;
+    }
+
+    refreshContext() {
+        this.context = this.game.getFrameworkContext(this.source.controller);
+        this.context.source = this.source;
+        this.effect.setContext(this.context);
     }
 
     isValidTarget(target) { // eslint-disable-line no-unused-vars
@@ -81,14 +88,23 @@ class Effect {
         this.targets = [];
     }
 
+    isEffectActive() {
+        if(this.duration !== 'persistentEffect') {
+            return true;
+        }
+
+        let effectOnSource = this.source.persistentEffects.some(effect => effect.ref && effect.ref.includes(this));
+        return !this.source.facedown && effectOnSource;
+    }
+
     checkCondition(stateChanged) {
-        if(!this.condition() || (this.duration === 'persistent' && (this.printedAbility && this.source.isBlank() || this.source.facedown))) {
+        if(!this.condition(this.context) || !this.isEffectActive()) {
             stateChanged = this.targets.length > 0 || stateChanged;
             this.cancel();
             return stateChanged;
         } else if(_.isFunction(this.match)) {
             // Get any targets which are no longer valid
-            let invalidTargets = _.filter(this.targets, target => !this.match(target) || !this.isValidTarget(target));
+            let invalidTargets = _.filter(this.targets, target => !this.match(target, this.context) || !this.isValidTarget(target));
             // Remove invalid targets
             this.removeTargets(invalidTargets);
             stateChanged = stateChanged || invalidTargets.length > 0;
@@ -116,10 +132,10 @@ class Effect {
 
     getDebugInfo() {
         return {
-            source: this.source.name,
+            source: this.source.printedName,
             targets: _.map(this.targets, target => target.name),
-            active: this.duration !== 'persistent' || !this.source.isBlank(),
-            condition: this.condition(),
+            active: this.duration !== 'persistentEffect' || !this.source.isBlank(),
+            condition: this.condition(this.context),
             effect: this.effect.getDebugInfo()
         };
     }

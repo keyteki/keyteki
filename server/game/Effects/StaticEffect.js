@@ -1,3 +1,5 @@
+const EffectValue = require('./EffectValue');
+
 const binaryCardEffects = [
     'blank',
     'canBeSeenWhenFacedown',
@@ -11,23 +13,30 @@ const binaryCardEffects = [
 ];
 
 class StaticEffect {
-    constructor(type = '', value = true) {
+    constructor(type = '', value) {
         this.type = type;
-        this.value = value;
+        if(value instanceof EffectValue) {
+            this.value = value;
+        } else {
+            this.value = new EffectValue(value);
+        }
+
         this.context = null;
         this.duration = '';
     }
 
     apply(target) {
         target.addEffect(this);
+        this.value.apply(target);
     }
 
     unapply(target) {
         target.removeEffect(this);
+        this.value.unapply(target);
     }
 
-    getValue() {
-        return this.value;
+    getValue(target) {
+        return this.value.getValue(target);
     }
 
     recalculate() {
@@ -36,9 +45,7 @@ class StaticEffect {
 
     setContext(context) {
         this.context = context;
-        if(typeof this.value === 'object') {
-            this.value.context = context;
-        }
+        this.value.setContext(context);
     }
 
     canBeApplied(target) {
@@ -56,8 +63,6 @@ class StaticEffect {
 
     hasLongerDuration(effect) {
         let durations = [
-            'untilEndOfDuel',
-            'untilEndOfConflict',
             'untilEndOfPhase',
             'untilEndOfRound'
         ];

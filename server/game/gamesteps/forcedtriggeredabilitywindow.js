@@ -122,7 +122,7 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
             }
 
             const generatingEffect = this.game.effectEngine.effects.find(effect =>
-                effect.effect.state && effect.effect.state[context.source.uuid] === context.ability);
+                effect.effect.getValue(context.source) === context.ability);
             return generatingEffect.source.name;
         };
 

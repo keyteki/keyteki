@@ -20,10 +20,12 @@ function processDecks(decks, state) {
         }
 
         deck.cards = _.map(deck.cards, card => {
-            let result = { count: card.count, card: Object.assign({}, state.cards[card.id]), id: card.id, maverick: card.maverick };
+            let result = { count: card.count, card: Object.assign({}, state.cards[card.id]), id: card.id, maverick: card.maverick, anomaly: card.anomaly };
             result.card.image = card.id;
             if(card.maverick) {
                 result.card.house = card.maverick;
+            } else if(card.anomaly) {
+                result.card.house = card.anomaly;
             }
 
             return result;
