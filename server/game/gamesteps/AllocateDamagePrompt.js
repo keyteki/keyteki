@@ -1,4 +1,3 @@
-const CardSelector = require('../CardSelector.js');
 const UiPrompt = require('./uiprompt.js');
 
 class AllocateDamagePrompt extends UiPrompt {
@@ -8,11 +7,7 @@ class AllocateDamagePrompt extends UiPrompt {
         this.choosingPlayer = game.activePlayer;
         this.properties = properties;
         this.context = properties.context;
-        this.selector = CardSelector.for({
-            cardType: 'creature',
-            cardCondition: properties.cardCondition,
-            controller: properties.controller
-        });
+        this.selector = properties.selector;
         this.cardDamage = {};
     }
 
@@ -43,12 +38,13 @@ class AllocateDamagePrompt extends UiPrompt {
             selectOrder: false,
             menuTitle: 'Choose a creature to deal ' + this.properties.damageStep.toString() + ' damage to',
             buttons: buttons,
-            promptTitle: this.context.souce.name,
+            promptTitle: this.context.source.name,
             cardDamage: this.cardDamage,
-            controls: {
+            controls: [{
                 type: 'targeting',
-                source: this.context.source.getShortSummary()
-            }
+                source: this.context.source.getShortSummary(),
+                targets: []
+            }]
         };
     }
 
@@ -69,7 +65,7 @@ class AllocateDamagePrompt extends UiPrompt {
             return false;
         }
 
-        if(Object.values(this.cardDamage).reduce((total, damage) => total + damage) > this.properties.damageStep * this.properties.numSteps) {
+        if(Object.values(this.cardDamage).reduce((total, damage) => total + damage) >= this.properties.damageStep * this.properties.numSteps) {
             this.properties.onSelect(this.cardDamage);
             this.complete();
         }

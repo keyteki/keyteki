@@ -5,7 +5,7 @@ class CooperativeHunting extends Card {
         this.play({
             effect: 'deal 1 damage to a creature for each creature they control',
             gameAction: ability.actions.allocateDamage(context => ({
-                numSteps: context.player.cardsInPlay.filter(card => card.type === 'creature').length
+                numSteps: context.player.creaturesInPlay.length
             }))
         });
     }
