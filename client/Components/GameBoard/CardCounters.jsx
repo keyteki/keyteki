@@ -18,6 +18,7 @@ class CardCounters extends React.Component {
 
         for(const [key, counter] of Object.entries(this.props.counters)) {
             counterDivs.push(<Counter key={ key }
+                broken={ counter.broken }
                 name={ counter.name }
                 icon={ counter.icon }
                 value={ counter.count }

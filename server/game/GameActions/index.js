@@ -1,5 +1,6 @@
 module.exports = {
     AddEventToWindowAction: require('./AddEventToWindowAction'),
+    AllocateDamageAction: require('./AllocateDamageAction'),
     ArchiveAction: require('./ArchiveAction'),
     AttachAction: require('./AttachAction'),
     CaptureAction: require('./CaptureAction'),

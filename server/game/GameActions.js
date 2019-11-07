@@ -77,6 +77,7 @@ const Actions = {
     unforgeKey: (propertyFactory) => new GameActions.UnforgeAction(propertyFactory),
     // meta actions
     addEventToWindow: (propertyFactory) => new GameActions.AddEventToWindowAction(propertyFactory),
+    allocateDamage: (propertyFactory) => new GameActions.AllocateDamageAction(propertyFactory),
     changeEvent: (propertyFactory) => new GameActions.ChangeEventAction(propertyFactory),
     chooseAction: (propertyFactory) => new GameActions.ChooseGameAction(propertyFactory), // choices, activePromptTitle = 'Select one'
     conditional: (propertyFactory) => new GameActions.ConditionalAction(propertyFactory),

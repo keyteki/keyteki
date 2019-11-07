@@ -654,10 +654,6 @@ class Player extends GameObject {
         };
     }
 
-    getRingSelectionState(ring) {
-        return this.promptState.getRingSelectionState(ring);
-    }
-
     /**
      * This information is passed to the UI
      * @param {Player} activePlayer

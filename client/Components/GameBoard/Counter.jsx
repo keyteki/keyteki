@@ -5,6 +5,7 @@ import classNames from 'classnames';
 class Counter extends React.Component {
     render() {
         let className = classNames('counter', this.props.name, {
+            'broken': this.props.broken,
             'cancel': this.props.cancel,
             'fade-out': this.props.fade
         });
@@ -18,6 +19,7 @@ class Counter extends React.Component {
 
 Counter.displayName = 'Counter';
 Counter.propTypes = {
+    broken: PropTypes.bool,
     cancel: PropTypes.bool,
     fade: PropTypes.bool,
     icon: PropTypes.string,
