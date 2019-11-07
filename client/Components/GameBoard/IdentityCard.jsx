@@ -50,6 +50,7 @@ class IdentityCard extends React.Component {
         const Special = loadImage('/img/idbacks/Special.png');
         const maverick = loadImage('/img/idbacks/Maverick.png');
         const legacy = loadImage('/img/idbacks/Legacy.png');
+        const anomaly = loadImage('/img/idbacks/Anomaly.png');
         const set = loadImage(`/img/idbacks/${ this.props.deckSet }.png`);
 
         const houseData = {
@@ -70,8 +71,8 @@ class IdentityCard extends React.Component {
                     });
                 });
         });
-        Promise.all([cardBack, maverick, legacy, Common, Uncommon, Rare, Special, qrCode, set])
-            .then(([cardBack, maverick, legacy, Common, Uncommon, Rare, Special, qrCode, set]) => {
+        Promise.all([cardBack, maverick, legacy, anomaly, Common, Uncommon, Rare, Special, qrCode, set])
+            .then(([cardBack, maverick, legacy, anomaly, Common, Uncommon, Rare, Special, qrCode, set]) => {
                 const Rarities = { Common, Uncommon, Rare, Special };
                 ctx.drawImage(cardBack, 0, 0);
                 ctx.drawImage(qrCode, 332, 612, 150, 150);
@@ -94,6 +95,7 @@ class IdentityCard extends React.Component {
                         ...this.props.cards[card.id],
                         is_maverick: !!card.maverick,
                         is_legacy: !!card.legacy,
+                        is_anomaly: !!card.anomaly,
                         house: card.house
                     };
                 })
@@ -132,6 +134,10 @@ class IdentityCard extends React.Component {
 
                         if(card.is_legacy) {
                             ctx.drawImage(legacy, x + ((title.length * 6) + 100) + (card.is_maverick ? 20 : 0), y - 18, cardData.size, cardData.size);
+                        }
+
+                        if(card.is_anomaly) {
+                            ctx.drawImage(anomaly, x + ((title.length * 6) + 100) + (card.is_maverick ? 20 : 0), y - 18, cardData.size, cardData.size);
                         }
 
                         res2();
