@@ -11,7 +11,7 @@ class ChiefEngineerWalls extends Card {
                 controller: 'self',
                 cardCondition: (card => card.hasTrait('robot') || card.type === 'upgrade'),
                 gameAction: ability.actions.returnToHand(context => ({
-                    location: context.target.location
+                    location: 'discard'
                 }))
             }
         });
