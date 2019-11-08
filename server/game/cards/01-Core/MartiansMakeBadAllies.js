@@ -13,6 +13,6 @@ class MartiansMakeBadAllies extends Card {
     }
 }
 
-MartiansMakeBadAllies.id = 'martians-make-bad-allies'; // This is a guess at what the id might be - please check it!!!
+MartiansMakeBadAllies.id = 'martians-make-bad-allies';
 
 module.exports = MartiansMakeBadAllies;

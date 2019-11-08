@@ -12,11 +12,12 @@ class AddTokenAction extends CardGameAction {
 
     setup() {
         this.name = 'addToken';
-        this.targetType = ['creature', 'artifact'];
+        this.targetType = ['creature', 'artifact', 'upgrade'];
         let token = '+1 power counters';
         if(this.amount === 1) {
             token = '+1 power counter';
         }
+
         this.effectMsg = 'place ' + this.amount + ' ' + (this.type === 'power' ? token : this.type) + ' on {0}';
     }
 

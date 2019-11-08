@@ -183,6 +183,7 @@ class GameLobby extends React.Component {
                 if(!this.props.currentGame.started) {
                     this.props.leaveGame(this.props.currentGame.id);
                 }
+
                 break;
         }
 
@@ -206,7 +207,8 @@ class GameLobby extends React.Component {
             id: 'pendingGameModal',
             className: 'settings-popup row',
             bodyClassName: 'col-xs-12',
-            title: ''
+            title: '',
+            noClickToClose: true
         };
         let modalBody = null;
 

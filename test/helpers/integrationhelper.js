@@ -51,12 +51,36 @@ var customMatchers = {
             }
         };
     },
+    toHavePromptCardButton: function(util, customEqualityMatchers) {
+        return {
+            compare: function(actual, card) {
+                var buttons = actual.currentPrompt().buttons;
+                var result = {};
+
+                if(_.isString(card)) {
+                    card = actual.findCardByName(card);
+                }
+
+                result.pass = _.any(buttons, button => util.equals(button.card ? button.card.id : '', card.id, customEqualityMatchers));
+
+                if(result.pass) {
+                    result.message = `Expected ${actual.name} not to have prompt button "${card.name}" but it did.`;
+                } else {
+                    var buttonText = _.map(buttons, button => '[' + (button.card ? button.card.name : '') + ']').join('\n');
+                    result.message = `Expected ${actual.name} to have prompt button "${card.name}" but it had buttons:\n${buttonText}`;
+                }
+
+                return result;
+            }
+        };
+    },
     toBeAbleToSelect: function() {
         return {
             compare: function(player, card) {
                 if(_.isString(card)) {
                     card = player.findCardByName(card);
                 }
+
                 let result = {};
 
                 result.pass = player.currentActionTargets.includes(card);
@@ -65,6 +89,27 @@ var customMatchers = {
                     result.message = `Expected ${card.name} not to be selectable by ${player.name} but it was.`;
                 } else {
                     result.message = `Expected ${card.name} to be selectable by ${player.name} but it wasn't.`;
+                }
+
+                return result;
+            }
+        };
+    },
+    toBeAbleToPlay: function() {
+        return {
+            compare: function(player, card) {
+                if(_.isString(card)) {
+                    card = player.findCardByName(card);
+                }
+
+                let result = {};
+
+                result.pass = card.getLegalActions(player.player, false).length > 0;
+
+                if(result.pass) {
+                    result.message = `Expected ${card.name} not to be playable by ${player.name} but it was.`;
+                } else {
+                    result.message = `Expected ${card.name} to be playable by ${player.name} but it wasn't.`;
                 }
 
                 return result;
@@ -98,7 +143,13 @@ beforeEach(function() {
 global.integration = function(definitions) {
     describe('integration', function() {
         beforeEach(function() {
-            this.flow = new GameFlowWrapper();
+            let cards = {};
+
+            for(let card of deckBuilder.cards) {
+                cards[card.id] = card;
+            }
+
+            this.flow = new GameFlowWrapper(cards);
 
             this.game = this.flow.game;
             this.player1Object = this.game.getPlayerByName('player1');
@@ -123,6 +174,7 @@ global.integration = function(definitions) {
                 if(!options.player1) {
                     options.player1 = {};
                 }
+
                 if(!options.player2) {
                     options.player2 = {};
                 }
@@ -173,14 +225,23 @@ global.integration = function(definitions) {
                         for(let i = 1; i < split.length; i++) {
                             split[i] = split[i].slice(0, 1).toUpperCase() + split[i].slice(1);
                         }
+
                         let camel = split.join('');
                         if(!this[camel]) {
                             this[camel] = card;
                         }
                     }
                 }
+
                 this.game.checkGameState(true);
             };
+        });
+
+        afterEach(function() {
+            if(process.env.DEBUG_TEST) {
+                // eslint-disable-next-line no-console
+                console.info(this.game.getPlainTextLog());
+            }
         });
 
         definitions();

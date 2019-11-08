@@ -16,6 +16,6 @@ class ShatterStorm extends Card {
     }
 }
 
-ShatterStorm.id = 'shatter-storm'; // This is a guess at what the id might be - please check it!!!
+ShatterStorm.id = 'shatter-storm';
 
 module.exports = ShatterStorm;

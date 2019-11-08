@@ -3,9 +3,7 @@ const Card = require('../../Card.js');
 class PrinceDerricUnifier extends Card {
     setupCardAbilities(ability) {
         this.play({
-            condition: context => ['brobnar', 'dis', 'logos', 'mars', 'sanctum', 'shadows', 'untamed'].filter(house =>
-                context.player.creaturesInPlay.some(card => card.hasHouse(house))
-            ).length > 2,
+            condition: context => context.game.getHousesInPlay(context.player.creaturesInPlay).length > 2,
             gameAction: ability.actions.gainAmber({ amount: 3 }),
             effect: 'gain 3 amber if you control creatures from 3 different houses.'
         });

@@ -34,8 +34,10 @@ class ThenAbility extends BaseAbility {
                 if(typeof args === 'function') {
                     args = args(context);
                 }
+
                 messageArgs = messageArgs.concat(args);
             }
+
             this.game.addMessage(this.properties.message, ...messageArgs);
         }
     }
@@ -61,6 +63,7 @@ class ThenAbility extends BaseAbility {
         } else {
             this.handler(context);
         }
+
         this.game.queueSimpleStep(() => this.game.checkGameState());
     }
 
@@ -69,6 +72,7 @@ class ThenAbility extends BaseAbility {
         for(const action of actions) {
             action.preEventHandler(context);
         }
+
         this.game.queueSimpleStep(() => this.executeGameActions(actions, context));
     }
 
@@ -80,6 +84,7 @@ class ThenAbility extends BaseAbility {
         if(then && typeof then === 'function') {
             then = then(context);
         }
+
         if(events.length > 0) {
             let window = this.game.openEventWindow(events);
             if(then) {
@@ -92,6 +97,7 @@ class ThenAbility extends BaseAbility {
                 this.game.resolveAbility(thenContext);
             }
         }
+
         for(let action of actions) {
             if(action.postHandler) {
                 action.postHandler(context, action);

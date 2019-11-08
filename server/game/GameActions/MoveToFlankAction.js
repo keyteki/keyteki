@@ -13,7 +13,7 @@ class MoveToFlankAction extends CardGameAction {
     setup() {
         this.name = 'moveToFlank';
         this.targetType = ['creature'];
-        this.effectMsg = 'moved {0} to flank';
+        this.effectMsg = 'move {0} to a flank';
     }
 
     canAffect(card, context) {

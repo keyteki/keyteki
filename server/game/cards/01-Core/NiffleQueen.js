@@ -14,6 +14,6 @@ class NiffleQueen extends Card {
     }
 }
 
-NiffleQueen.id = 'niffle-queen'; // This is a guess at what the id might be - please check it!!!
+NiffleQueen.id = 'niffle-queen';
 
 module.exports = NiffleQueen;

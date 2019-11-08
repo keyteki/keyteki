@@ -18,6 +18,6 @@ class TheCommonCold extends Card {
     }
 }
 
-TheCommonCold.id = 'the-common-cold'; // This is a guess at what the id might be - please check it!!!
+TheCommonCold.id = 'the-common-cold';
 
 module.exports = TheCommonCold;

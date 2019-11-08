@@ -15,6 +15,6 @@ class DumaTheMartyr extends Card {
     }
 }
 
-DumaTheMartyr.id = 'duma-the-martyr'; // This is a guess at what the id might be - please check it!!!
+DumaTheMartyr.id = 'duma-the-martyr';
 
 module.exports = DumaTheMartyr;

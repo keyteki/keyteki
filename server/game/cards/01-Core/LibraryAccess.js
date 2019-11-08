@@ -18,6 +18,6 @@ class LibraryAccess extends Card {
     }
 }
 
-LibraryAccess.id = 'library-access'; // This is a guess at what the id might be - please check it!!!
+LibraryAccess.id = 'library-access';
 
 module.exports = LibraryAccess;

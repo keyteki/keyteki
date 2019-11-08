@@ -11,6 +11,6 @@ class Hologrammophone extends Card {
     }
 }
 
-Hologrammophone.id = 'hologrammophone'; // This is a guess at what the id might be - please check it!!!
+Hologrammophone.id = 'hologrammophone';
 
 module.exports = Hologrammophone;

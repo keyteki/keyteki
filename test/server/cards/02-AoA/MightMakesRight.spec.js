@@ -30,12 +30,15 @@ describe('Might Makes Right', function() {
                 this.player1.clickCard(this.bellowingPatrizate);
                 this.player1.clickCard(this.kingOfTheCrag);
                 this.player1.clickPrompt('Done');
+                this.player1.forgeKey('Red');
                 expect(this.groke.location).toBe('discard');
                 expect(this.hebeTheHuge.location).toBe('discard');
                 expect(this.gangerChieftain.location).toBe('discard');
                 expect(this.bellowingPatrizate.location).toBe('discard');
                 expect(this.kingOfTheCrag.location).toBe('discard');
-                expect(this.player1.player.keys).toBe(1);
+                expect(this.player1.player.keys.red).toBe(true);
+                expect(this.player1.player.keys.blue).toBe(false);
+                expect(this.player1.player.keys.yellow).toBe(false);
                 expect(this.player1.player.amber).toBe(3);
             });
 
@@ -46,7 +49,9 @@ describe('Might Makes Right', function() {
                 this.player1.clickPrompt('Done');
                 expect(this.groke.location).toBe('play area');
                 expect(this.hebeTheHuge.location).toBe('play area');
-                expect(this.player1.player.keys).toBe(0);
+                expect(this.player1.player.keys.red).toBe(false);
+                expect(this.player1.player.keys.blue).toBe(false);
+                expect(this.player1.player.keys.yellow).toBe(false);
                 expect(this.player1.player.amber).toBe(3);
             });
 
@@ -65,7 +70,6 @@ describe('Might Makes Right', function() {
                 expect(this.bellowingPatrizate.location).toBe('discard');
                 expect(this.kingOfTheCrag.location).toBe('discard');
             });
-
         });
 
         describe('Might Makes Right\'s ability', function() {
@@ -89,7 +93,10 @@ describe('Might Makes Right', function() {
                 expect(this.knoxx.location).toBe('discard');
                 expect(this.lionBautrem.location).toBe('discard');
                 expect(this.marmoSwarm.location).toBe('discard');
-                expect(this.player1.player.keys).toBe(1);
+                this.player1.forgeKey('Red');
+                expect(this.player1.player.keys.red).toBe(true);
+                expect(this.player1.player.keys.blue).toBe(false);
+                expect(this.player1.player.keys.yellow).toBe(false);
                 expect(this.player1.player.amber).toBe(2);
             });
         });
@@ -128,7 +135,6 @@ describe('Might Makes Right', function() {
                 expect(this.bellowingPatrizate.location).toBe('discard');
                 expect(this.kingOfTheCrag.location).toBe('discard');
             });
-
         });
 
         describe('Might Makes Right\'s ability', function() {
@@ -152,8 +158,6 @@ describe('Might Makes Right', function() {
                 this.player1.play(this.mightMakesRight);
                 expect(this.player1.player.amber).toBe(3);
             });
-
         });
-
     });
 });

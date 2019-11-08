@@ -4,6 +4,7 @@ const util = require('../util.js');
 class DeckService {
     constructor(db) {
         this.decks = db.get('decks');
+        this.games = db.get('games');
     }
 
     async getById(id) {
@@ -42,11 +43,13 @@ class DeckService {
             });
     }
 
-    async findByUserName(userName) {
-        let decks = await this.decks.find({ username: userName, banned: false }, { sort: { lastUpdated: -1 } });
+    async findByUserName(username) {
+        let decks = await this.decks.find({ username: username, banned: false }, { sort: { lastUpdated: -1 } });
 
         for(let deck of decks) {
             deck.usageCount = await this.decks.count({ name: deck.name });
+            // deck.wins = await this.games.count({ 'players.deck': deck.identity, winner: username });
+            // deck.losses = await this.games.count({ 'players.deck': deck.identity, 'players.name': username, winner: { $nin: [null, username] } });
         }
 
         return decks;
@@ -78,13 +81,18 @@ class DeckService {
         let cards = deckResponse._linked.cards.map(card => {
             let id = card.card_title.toLowerCase().replace(/[,?.!"„“”]/gi, '').replace(/[ '’]/gi, '-');
             if(card.is_maverick) {
-                return { id: id, count: 1, maverick: card.house.toLowerCase() };
+                return { id: id, count: 1, maverick: card.house.replace(' ', '').toLowerCase() };
             }
+
+            if(card.is_anomaly) {
+                return { id: id, count: 1, anomaly: card.house.replace(' ', '').toLowerCase() };
+            }
+
             return { id: id, count: deckResponse.data._links.cards.filter(uuid => uuid === card.id).length };
         });
         let uuid = deckResponse.data.id;
 
-        let illegalCard = cards.find(card => !card.id.split('').every(char => 'æabcdefghijklmnopqrstuvwxyz0123456789-[]'.includes(char)));
+        let illegalCard = cards.find(card => !card.id.split('').every(char => 'æabcdefghijklmnoöpqrstuvwxyz0123456789-[]'.includes(char)));
         if(!illegalCard) {
             return await this.decks.insert({
                 expansion: deckResponse.data.expansion,
@@ -96,7 +104,7 @@ class DeckService {
                 banned: false,
                 verified: false,
                 includeInSealed: false,
-                houses: deckResponse.data._links.houses.map(house => house.toLowerCase()),
+                houses: deckResponse.data._links.houses.map(house => house.replace(' ', '').toLowerCase()),
                 cards: cards,
                 lastUpdated: new Date()
             });

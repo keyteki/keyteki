@@ -15,9 +15,11 @@ describe('Heart of the Forest', function() {
                 });
             });
             it('should stop a key being forged', function() {
-                this.player2.player.keys = 1;
+                this.player2.player.keys = { red: true, blue: false, yellow: false };
                 this.player1.endTurn();
-                expect(this.player2.player.keys).toBe(1);
+                expect(this.player2.player.keys.red).toBe(true);
+                expect(this.player2.player.keys.blue).toBe(false);
+                expect(this.player2.player.keys.yellow).toBe(false);
                 expect(this.player2.player.amber).toBe(6);
             });
         });
@@ -39,7 +41,10 @@ describe('Heart of the Forest', function() {
 
             it('should NOT stop a key being forged if the keys are equal', function() {
                 this.player1.endTurn();
-                expect(this.player2.player.keys).toBe(1);
+                this.player2.forgeKey('Red');
+                expect(this.player2.player.keys.red).toBe(true);
+                expect(this.player2.player.keys.blue).toBe(false);
+                expect(this.player2.player.keys.yellow).toBe(false);
                 expect(this.player2.player.amber).toBe(0);
             });
         });

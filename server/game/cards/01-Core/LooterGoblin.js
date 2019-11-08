@@ -15,6 +15,6 @@ class LooterGoblin extends Card {
     }
 }
 
-LooterGoblin.id = 'looter-goblin'; // This is a guess at what the id might be - please check it!!!
+LooterGoblin.id = 'looter-goblin';
 
 module.exports = LooterGoblin;

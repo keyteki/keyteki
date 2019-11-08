@@ -21,9 +21,11 @@ class AttachAction extends CardGameAction {
         } else if(this.upgradeChosenOnResolution) {
             return super.canAffect(card, context);
         }
+
         if(!this.upgrade || !this.upgrade.canAttach(card, context)) {
             return false;
         }
+
         return super.canAffect(card, context);
     }
 
@@ -45,9 +47,13 @@ class AttachAction extends CardGameAction {
                 event.card.new = true;
                 event.card.moveTo('play area');
             }
+
             event.parent.upgrades.push(event.card);
             event.card.parent = event.parent;
-            event.card.controller = context.player;
+            if(event.card.controller !== event.context.player) {
+                event.card.controller = event.context.player;
+                event.card.updateEffectContexts();
+            }
         });
     }
 }

@@ -14,6 +14,6 @@ class PingleWhoAnnoys extends Card {
     }
 }
 
-PingleWhoAnnoys.id = 'pingle-who-annoys'; // This is a guess at what the id might be - please check it!!!
+PingleWhoAnnoys.id = 'pingle-who-annoys';
 
 module.exports = PingleWhoAnnoys;

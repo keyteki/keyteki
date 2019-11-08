@@ -40,6 +40,7 @@ const sentryOptions = {
             });
             return null;
         }
+
         return event;
     },
     release: version.build

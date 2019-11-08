@@ -10,6 +10,6 @@ class MantleOfTheZealot extends Card {
     }
 }
 
-MantleOfTheZealot.id = 'mantle-of-the-zealot'; // This is a guess at what the id might be - please check it!!!
+MantleOfTheZealot.id = 'mantle-of-the-zealot';
 
 module.exports = MantleOfTheZealot;

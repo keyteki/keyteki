@@ -5,7 +5,7 @@ class Hexpion extends Card {
         this.destroyed({
             effect: 'archive {0} and the top card of their deck',
             gameAction: [
-                ability.actions.archive({ owner: true }),
+                ability.actions.archive(),
                 ability.actions.archive(context => ({
                     target: context.player.deck.length > 0 ? context.player.deck[0] : []
                 }))

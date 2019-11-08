@@ -18,6 +18,6 @@ class KeyAbduction extends Card {
     }
 }
 
-KeyAbduction.id = 'key-abduction'; // This is a guess at what the id might be - please check it!!!
+KeyAbduction.id = 'key-abduction';
 
 module.exports = KeyAbduction;

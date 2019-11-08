@@ -9,6 +9,6 @@ class TheHowlingPit extends Card {
     }
 }
 
-TheHowlingPit.id = 'the-howling-pit'; // This is a guess at what the id might be - please check it!!!
+TheHowlingPit.id = 'the-howling-pit';
 
 module.exports = TheHowlingPit;

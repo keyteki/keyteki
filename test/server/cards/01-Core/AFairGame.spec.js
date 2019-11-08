@@ -35,6 +35,7 @@ describe('A Fair Game', function() {
                 for(let card of this.player1.player.deck) {
                     this.player1.moveCard(card, 'discard');
                 }
+
                 this.player2.moveCard(this.flaxia, 'deck');
                 this.player1.play(this.aFairGame);
                 expect(this.player1.amber).toBe(3);

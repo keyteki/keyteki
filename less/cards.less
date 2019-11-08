@@ -342,7 +342,7 @@
   background-size: cover;
 
   &.fade-out {
-    opacity: 0.4;
+    opacity: 0.7;
   }
 
   &.cancel {
@@ -362,6 +362,10 @@
 
 .damage {
   background-image: url('/img/damage.png');
+}
+
+.disruption {
+  background-image: url('/img/disruption.png');
 }
 
 .doom {
@@ -393,6 +397,13 @@
 .ward {
   background-image: url("/img/ward.png");
   line-height: 21px;
+
+  &.broken {
+    content: "X";
+    color: red;
+    font-size: 28px;
+    padding-top: 2px;
+  }
 }
 
 .unforged-red {

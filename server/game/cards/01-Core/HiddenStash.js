@@ -12,6 +12,6 @@ class HiddenStash extends Card {
     }
 }
 
-HiddenStash.id = 'hidden-stash'; // This is a guess at what the id might be - please check it!!!
+HiddenStash.id = 'hidden-stash';
 
 module.exports = HiddenStash;

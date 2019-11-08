@@ -8,6 +8,6 @@ class Troll extends Card {
     }
 }
 
-Troll.id = 'troll'; // This is a guess at what the id might be - please check it!!!
+Troll.id = 'troll';
 
 module.exports = Troll;

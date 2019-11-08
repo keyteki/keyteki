@@ -22,6 +22,6 @@ class ZyzzixTheMany extends Card {
     }
 }
 
-ZyzzixTheMany.id = 'zyzzix-the-many'; // This is a guess at what the id might be - please check it!!!
+ZyzzixTheMany.id = 'zyzzix-the-many';
 
 module.exports = ZyzzixTheMany;

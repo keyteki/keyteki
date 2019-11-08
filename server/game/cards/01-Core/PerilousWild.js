@@ -11,6 +11,6 @@ class PerilousWild extends Card {
     }
 }
 
-PerilousWild.id = 'perilous-wild'; // This is a guess at what the id might be - please check it!!!
+PerilousWild.id = 'perilous-wild';
 
 module.exports = PerilousWild;

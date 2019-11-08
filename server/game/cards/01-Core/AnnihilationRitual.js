@@ -11,6 +11,6 @@ class AnnihilationRitual extends Card {
     }
 }
 
-AnnihilationRitual.id = 'annihilation-ritual-'; // This is a guess at what the id might be - please check it!!!
+AnnihilationRitual.id = 'annihilation-ritual-';
 
 module.exports = AnnihilationRitual;

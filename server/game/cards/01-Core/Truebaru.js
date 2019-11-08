@@ -15,6 +15,6 @@ class Truebaru extends Card {
     }
 }
 
-Truebaru.id = 'truebaru'; // This is a guess at what the id might be - please check it!!!
+Truebaru.id = 'truebaru';
 
 module.exports = Truebaru;

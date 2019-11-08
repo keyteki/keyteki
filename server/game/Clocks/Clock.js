@@ -52,6 +52,7 @@ class Clock {
         if(this.timeLeft === 0 || secs < 0) {
             return;
         }
+
         if(this.mode === 'down') {
             this.modify(-secs);
             if(this.timeLeft < 0) {

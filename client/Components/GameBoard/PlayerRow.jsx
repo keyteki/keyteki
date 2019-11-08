@@ -17,15 +17,11 @@ class PlayerRow extends React.Component {
     renderKeys() {
         let t = this.props.t;
 
-        let keys = [];
-
-        for(let i = 0; i < this.props.numKeys; i++) {
-            keys.push(<img key={ `key ${i}` } src={ `/img/forgedkey${i}.png` } title={ t('Forged Key') } />);
-        }
-
-        for(let i = this.props.numKeys; i < 3; i++) {
-            keys.push(<img key={ `key ${i}` } src={ `/img/unforgedkey${i}.png` } title={ t('Unforged Key') } />);
-        }
+        let keys = ['red', 'blue', 'yellow']
+            .sort(color => this.props.keys[color] ? -1 : 1)
+            .map(color => {
+                return <img key={ `key ${color}` } src={ `/img/${this.props.keys[color] ? 'forgedkey' : 'unforgedkey'}${color}.png` } title={ t('Forged Key') } />;
+            });
 
         return <div className={ `keys ${this.props.cardSize}` }>{ keys }</div>;
     }
@@ -92,7 +88,7 @@ class PlayerRow extends React.Component {
             { ...cardPileProps } />);
 
         let identity = (<IdentityCard className='identity' deckCards={ this.props.deckCards } language={ this.props.i18n.language }
-            houses={ this.props.houses } deckUuid={ this.props.deckUuid } deckName={ this.props.deckName }
+            houses={ this.props.houses } deckUuid={ this.props.deckUuid } deckName={ this.props.deckName } deckSet={ this.props.deckSet }
             cards= { this.props.cards } size={ this.props.cardSize } onMouseOut={ this.props.onMouseOut }
             onMouseOver={ this.props.onMouseOver }/>);
 
@@ -118,6 +114,7 @@ PlayerRow.propTypes = {
     conclavePile: PropTypes.array,
     deckCards: PropTypes.array,
     deckName: PropTypes.string,
+    deckSet: PropTypes.string,
     deckUuid: PropTypes.string,
     discard: PropTypes.array,
     drawDeck: PropTypes.array,
@@ -127,9 +124,9 @@ PlayerRow.propTypes = {
     i18n: PropTypes.object,
     isMe: PropTypes.bool,
     isMelee: PropTypes.bool,
+    keys: PropTypes.object,
     manualMode: PropTypes.bool,
     numDeckCards: PropTypes.number,
-    numKeys: PropTypes.number,
     onCardClick: PropTypes.func,
     onDragDrop: PropTypes.func,
     onDrawPopupChange: PropTypes.func,

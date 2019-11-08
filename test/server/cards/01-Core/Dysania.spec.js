@@ -25,7 +25,7 @@ describe('Dysania', function() {
             });
 
             it('should not consider own card in opponent\'s archives to gain amber', function() {
-                this.player1.player.keys = 1;
+                this.player1.player.keys = { red: true, blue: false, yellow: false };
                 this.player1.endTurn();
 
                 // Capture an opponent's card first

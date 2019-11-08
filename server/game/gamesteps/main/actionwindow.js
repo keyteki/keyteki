@@ -10,13 +10,15 @@ class ActionWindow extends UiPrompt {
                 let context = this.game.getFrameworkContext(player);
                 if(useAction.canAffect(card, context)) {
                     useAction.resolve(card, context);
+                    this.game.queueSimpleStep(() => this.checkForPhaseEnding());
                     return true;
                 }
             } else if(card.use(player)) {
-                this.game.queueSimpleStep(() => this.checkForOmega());
+                this.game.queueSimpleStep(() => this.checkForPhaseEnding());
                 return true;
             }
         }
+
         return false;
     }
 
@@ -36,13 +38,20 @@ class ActionWindow extends UiPrompt {
             } else {
                 return false;
             }
-            this.game.queueSimpleStep(() => this.checkForOmega());
+
+            this.game.queueSimpleStep(() => this.checkForPhaseEnding());
             return true;
         }
+
         return false;
     }
 
-    checkForOmega() {
+    checkForPhaseEnding() {
+        if(this.game.endPhaseRightNow) {
+            this.complete();
+            return;
+        }
+
         let omegaCard = this.game.cardsPlayed.find(card => card.hasKeyword('omega'));
         if(omegaCard) {
             this.game.addMessage('{0} played {1} which has Omega, ending this step', this.game.activePlayer, omegaCard);
@@ -97,6 +106,7 @@ class ActionWindow extends UiPrompt {
             } else {
                 this.complete();
             }
+
             return true;
         }
     }

@@ -93,7 +93,6 @@ describe('Bonerot Venom', function() {
                 expect(this.mackTheKnife.exhausted).toBe(true);
                 expect(this.mackTheKnife.tokens.damage).not.toBe(2);
             });
-
         });
     });
 });

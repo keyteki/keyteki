@@ -11,6 +11,6 @@ class Krump extends Card {
     }
 }
 
-Krump.id = 'krump'; // This is a guess at what the id might be - please check it!!!
+Krump.id = 'krump';
 
 module.exports = Krump;

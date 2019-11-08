@@ -8,6 +8,6 @@ class Dodger extends Card {
     }
 }
 
-Dodger.id = 'dodger'; // This is a guess at what the id might be - please check it!!!
+Dodger.id = 'dodger';
 
 module.exports = Dodger;

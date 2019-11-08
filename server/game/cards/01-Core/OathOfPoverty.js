@@ -3,7 +3,7 @@ const Card = require('../../Card.js');
 class OathOfPoverty extends Card {
     setupCardAbilities(ability) {
         this.play({
-            effect: 'destroy all their artifacts and gain {1} amber',
+            effect: 'destroy all of their artifacts and gain {1} amber',
             effectArgs: context => context.player.cardsInPlay.filter(card => card.type === 'artifact').length * 2,
             gameAction: [
                 ability.actions.gainAmber(context => ({
@@ -17,6 +17,6 @@ class OathOfPoverty extends Card {
     }
 }
 
-OathOfPoverty.id = 'oath-of-poverty'; // This is a guess at what the id might be - please check it!!!
+OathOfPoverty.id = 'oath-of-poverty';
 
 module.exports = OathOfPoverty;

@@ -12,6 +12,6 @@ class AmmoniaClouds extends Card {
     }
 }
 
-AmmoniaClouds.id = 'ammonia-clouds'; // This is a guess at what the id might be - please check it!!!
+AmmoniaClouds.id = 'ammonia-clouds';
 
 module.exports = AmmoniaClouds;

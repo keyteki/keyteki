@@ -35,7 +35,6 @@ class GameChat {
 
     addMessage(message, ...args) {
         let formattedMessage = this.getFormattedMessage(message, ...args);
-
         this.messages.push({ date: new Date(), message: formattedMessage });
     }
 
@@ -62,7 +61,7 @@ class GameChat {
                         returnedFraments.push(this.formatArray(arg));
                     } else if(arg instanceof Card) {
                         returnedFraments.push({ name: arg.name, image: arg.image, label: arg.name, type: arg.getType(),
-                            maverick: arg.maverick, cardPrintedAmber: arg.cardPrintedAmber, argType: 'card' });
+                            maverick: arg.maverick, anomoly: arg.anomoly, cardPrintedAmber: arg.cardPrintedAmber, argType: 'card' });
                     } else if(arg instanceof Spectator || arg instanceof Player) {
                         returnedFraments.push({ name: arg.user.username, argType: 'nonAvatarPlayer' });
                     } else {

@@ -96,7 +96,6 @@ describe('The Grey Rider', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
                 expect(this.player1.amber).toBe(2);
             });
-
         });
     });
 });

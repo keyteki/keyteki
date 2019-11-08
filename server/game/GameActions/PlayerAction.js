@@ -10,7 +10,7 @@ class PlayerAction extends GameAction {
     }
 
     checkEventCondition(event) {
-        return this.canAffect(event.player, event.context);
+        return this.canAffect(event.player, event.context) && event.player.checkRestrictions(this.name, event.context);
     }
 }
 

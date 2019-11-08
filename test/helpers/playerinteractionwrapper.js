@@ -60,6 +60,7 @@ class PlayerInteractionWrapper {
     get inPlay() {
         return this.player.cardsInPlay;
     }
+
     /**
      * List of objects describing characters in play and any upgrades:
      * Either as Object:
@@ -84,6 +85,7 @@ class PlayerInteractionWrapper {
             if(_.isString(card)) {
                 card = this.findCardByName(card, 'deck');
             }
+
             this.moveCard(card, 'play area');
             card.exhausted = false;
         });
@@ -220,11 +222,13 @@ class PlayerInteractionWrapper {
             }
             // 'provinces' = ['province 1', 'province 2', etc.]
         }
+
         try {
             var cards = this.filterCards(card => matchFunc(card.cardData) && (locations === 'any' || _.contains(locations, card.location)), side);
         } catch(e) {
             throw new Error(`Name: ${name}, Locations: ${locations}. Error thrown: ${e}`);
         }
+
         return cards;
     }
 
@@ -242,6 +246,7 @@ class PlayerInteractionWrapper {
         if(side === 'opponent') {
             player = this.opponent;
         }
+
         var cards = player.allCards.filter(condition);
         if(cards.length === 0) {
             throw new Error(`Could not find any matching cards for ${player.name}`);
@@ -254,9 +259,11 @@ class PlayerInteractionWrapper {
         if(_.isString(card)) {
             card = this.findCardByName(card);
         }
+
         if(card.location !== 'play area') {
             this.player.moveCard(card, 'play area');
         }
+
         card.facedown = false;
         return card;
     }
@@ -264,8 +271,8 @@ class PlayerInteractionWrapper {
     hasPrompt(title) {
         var currentPrompt = this.currentPrompt();
         return !!currentPrompt &&
-        ((currentPrompt.menuTitle && currentPrompt.menuTitle.toLowerCase() === title.toLowerCase()) ||
-        (currentPrompt.promptTitle && currentPrompt.promptTitle.toLowerCase() === title.toLowerCase()));
+            ((currentPrompt.menuTitle && currentPrompt.menuTitle.toLowerCase() === title.toLowerCase()) ||
+                (currentPrompt.promptTitle && currentPrompt.promptTitle.toLowerCase() === title.toLowerCase()));
     }
 
     selectDeck(deck) {
@@ -275,7 +282,10 @@ class PlayerInteractionWrapper {
     clickPrompt(text) {
         text = text.toString();
         var currentPrompt = this.player.currentPrompt();
-        var promptButton = _.find(currentPrompt.buttons, button => button.text.toString().toLowerCase() === text.toLowerCase());
+        var promptButton = _.find(currentPrompt.buttons, button => {
+            return button.card && button.card.name.toLowerCase() === text.toLowerCase() ||
+                button.text.toString().toLowerCase() === text.toLowerCase();
+        });
 
         if(!promptButton) {
             throw new Error(`Couldn't click on "${text}" for ${this.player.name}. Current prompt is:\n${this.formatPrompt()}`);
@@ -290,6 +300,7 @@ class PlayerInteractionWrapper {
         if(_.isString(card)) {
             card = this.findCardByName(card, location, side);
         }
+
         this.game.cardClicked(this.player.name, card.uuid);
         this.game.continue();
         this.checkUnserializableGameState();
@@ -312,10 +323,37 @@ class PlayerInteractionWrapper {
         this.checkUnserializableGameState();
     }
 
+    selectTrait(trait) {
+        let currentPrompt = this.player.currentPrompt();
+        let promptControl = currentPrompt.controls.find(control => control.type.toString().toLowerCase() === 'trait-name');
+
+        if(!promptControl) {
+            throw new Error(`Couldn't select a trait for ${this.player.name}. Current prompt is:\n${this.formatPrompt()}`);
+        }
+
+        this.game.menuButton(this.player.name, trait, promptControl.uuid, promptControl.method);
+        this.game.continue();
+        this.checkUnserializableGameState();
+    }
+
+    selectOption(option) {
+        let currentPrompt = this.player.currentPrompt();
+        let promptButton = currentPrompt.buttons.find(button => button.arg === option);
+
+        if(!promptButton) {
+            throw new Error(`Couldn't select an option for ${this.player.name}. Current prompt is:\n${this.formatPrompt()}`);
+        }
+
+        this.game.menuButton(this.player.name, option, promptButton.uuid, promptButton.method);
+        this.game.continue();
+        this.checkUnserializableGameState();
+    }
+
     endTurn() {
         if(this.currentPrompt().menuTitle !== 'Choose a card to play, discard or use') {
             throw new Error('Cannot end turn now');
         }
+
         this.clickPrompt('End Turn');
         if(this.currentPrompt().menuTitle === 'Are you sure you want to end your turn?') {
             this.clickPrompt('Yes');
@@ -339,6 +377,7 @@ class PlayerInteractionWrapper {
         if(_.isString(card)) {
             card = this.mixedListToCardList([card], searchLocations)[0];
         }
+
         this.player.moveCard(card, targetLocation);
         this.game.continue();
         return card;
@@ -355,6 +394,7 @@ class PlayerInteractionWrapper {
         if(!this.canAct) {
             throw new Error(`${this.name} can't pass, because they don't have priority`);
         }
+
         this.clickPrompt('Pass');
     }
 
@@ -366,6 +406,7 @@ class PlayerInteractionWrapper {
         if(creature.type !== 'creature' || !this.hasPrompt('Choose a card to play, discard or use')) {
             throw new Error(`${creature.name} cannot fight now`);
         }
+
         this.clickCard(creature);
         this.clickPrompt('Fight with this creature');
         if(target) {
@@ -377,6 +418,7 @@ class PlayerInteractionWrapper {
         if(creature.type !== 'creature' || !this.hasPrompt('Choose a card to play, discard or use')) {
             throw new Error(`${creature.name} cannot reap now`);
         }
+
         this.clickCard(creature);
         this.clickPrompt('Reap with this creature');
     }
@@ -393,12 +435,13 @@ class PlayerInteractionWrapper {
         }
     }
 
-    useAction(card) {
+    useAction(card, omni = false) {
         if(card.type !== 'creature' && card.type !== 'artifact') {
             throw new Error(`${card.name} cannot act`);
         }
+
         this.clickCard(card);
-        this.clickPrompt('Use this card\'s Action ability');
+        this.clickPrompt('Use this card\'s ' + (omni ? 'Omni' : 'Action') + ' ability');
     }
 
     playUpgrade(upgrade, target) {
@@ -412,6 +455,7 @@ class PlayerInteractionWrapper {
         if(_.isString(card)) {
             card = this.findCardByName(card, 'hand');
         }
+
         this.clickCard(card, 'hand');
         this.clickPrompt('Play this creature');
         if(this.hasPrompt('Which flank do you want to place this creature on?')) {
@@ -425,6 +469,7 @@ class PlayerInteractionWrapper {
                 this.clickPrompt('Right');
             }
         }
+
         return card;
     }
 
@@ -437,6 +482,7 @@ class PlayerInteractionWrapper {
         if(!mixed) {
             return [];
         }
+
         // Yank all the non-string cards
         var cardList = _.reject(mixed, card => _.isString(card));
         mixed = _.filter(mixed, card => _.isString(card));
@@ -445,8 +491,9 @@ class PlayerInteractionWrapper {
             //Find only those cards that aren't already in the list
             var cardObject = this.filterCardsByName(card, locations).find(card => !_.contains(cardList, card));
             if(!cardObject) {
-                throw new Error (`Could not find card named ${card}`);
+                throw new Error(`Could not find card named ${card}`);
             }
+
             cardList.push(cardObject);
         });
 
@@ -459,6 +506,22 @@ class PlayerInteractionWrapper {
 
         if(results.length !== 0) {
             throw new Error('Unable to serialize game state back to client:\n' + JSON.stringify(results));
+        }
+    }
+
+    forgeKey(color) {
+        if(this.hasPrompt('Which key would you like to forge?')) {
+            this.clickPrompt(color);
+        } else {
+            throw new Error(`${this.name} does not have a forge key prompt`);
+        }
+    }
+
+    unforgeKey(color) {
+        if(this.hasPrompt('Which key would you like to unforge?')) {
+            this.clickPrompt(color);
+        } else {
+            throw new Error(`${this.name} does not have an unforge key prompt`);
         }
     }
 }

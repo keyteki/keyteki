@@ -45,7 +45,6 @@ describe('Smite', function() {
                 expect(this.helperBot.location).toBe('play area');
                 expect(this.helperBot.hasToken('damage')).toBe(false);
             });
-
         });
     });
 });

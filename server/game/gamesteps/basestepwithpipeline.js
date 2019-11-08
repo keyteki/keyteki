@@ -5,7 +5,6 @@ class BaseStepWithPipeline extends BaseStep {
     constructor(game) {
         super(game);
         this.pipeline = new GamePipeline();
-
     }
 
     queueStep(step) {

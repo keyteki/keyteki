@@ -22,7 +22,7 @@ xdescribe('AbilityResolver', function() {
         this.ability.resolveTargets.and.returnValue({});
         this.source = jasmine.createSpyObj('source', ['createSnapshot', 'getType']);
         this.costEvent = jasmine.createSpyObj('costEvent', ['getResult']);
-        this.costEvent.getResult.and.returnValue({ resolved: true, cancelled: false});
+        this.costEvent.getResult.and.returnValue({ resolved: true, cancelled: false });
         this.ability.payCosts.and.returnValue([this.costEvent]);
         this.player = { player: 1 };
         this.game.getPlayers.and.returnValue([this.player]);

@@ -6,7 +6,6 @@ class RandomDiscardAction extends PlayerAction {
         this.amount = 1;
         // hand or archives
         this.location = 'hand';
-
     }
 
     setup() {
@@ -25,10 +24,12 @@ class RandomDiscardAction extends PlayerAction {
             if(this.location === 'archives') {
                 amount = Math.min(this.amount, player.archives.length);
             }
+
             let cards = _.shuffle(player.hand).slice(0, amount);
             if(this.location === 'archives') {
                 cards = _.shuffle(player.archives).slice(0,amount);
             }
+
             context.game.addMessage('{0} discards {1} at random', player, cards);
             context.game.actions.discard().resolve(cards, context);
         });

@@ -15,6 +15,6 @@ class Grommid extends Card {
     }
 }
 
-Grommid.id = 'grommid'; // This is a guess at what the id might be - please check it!!!
+Grommid.id = 'grommid';
 
 module.exports = Grommid;

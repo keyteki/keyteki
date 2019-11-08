@@ -12,6 +12,6 @@ class ShoulderArmor extends Card {
     }
 }
 
-ShoulderArmor.id = 'shoulder-armor'; // This is a guess at what the id might be - please check it!!!
+ShoulderArmor.id = 'shoulder-armor';
 
 module.exports = ShoulderArmor;

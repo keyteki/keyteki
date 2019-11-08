@@ -25,6 +25,6 @@ class Mothergun extends Card {
     }
 }
 
-Mothergun.id = 'mothergun'; // This is a guess at what the id might be - please check it!!!
+Mothergun.id = 'mothergun';
 
 module.exports = Mothergun;

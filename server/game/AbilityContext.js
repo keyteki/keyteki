@@ -18,6 +18,7 @@ class AbilityContext {
         for(const property of ['target', 'select', 'house', 'preThenEvent', 'preThenEvents']) {
             copy[property] = this[property];
         }
+
         return copy;
     }
 

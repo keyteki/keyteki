@@ -13,6 +13,6 @@ class CommanderRemiel extends Card {
     }
 }
 
-CommanderRemiel.id = 'commander-remiel'; // This is a guess at what the id might be - please check it!!!
+CommanderRemiel.id = 'commander-remiel';
 
 module.exports = CommanderRemiel;

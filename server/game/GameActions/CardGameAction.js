@@ -6,6 +6,7 @@ class CardGameAction extends GameAction {
         super(propertyFactory);
         this.promptForSelect = null;
         this.promptWithHandlerMenu = null;
+        this.promptWithOptionsMenu = null;
     }
 
     setup() {
@@ -14,21 +15,21 @@ class CardGameAction extends GameAction {
 
     hasLegalTarget(context) {
         let result = super.hasLegalTarget(context);
+        let contextCopy = context.copy();
+        contextCopy.stage = 'effect';
         if(this.promptForSelect) {
-            let contextCopy = context.copy();
-            contextCopy.stage = 'effect';
             return this.getSelector().hasEnoughTargets(contextCopy);
         } else if(this.promptWithHandlerMenu && !this.promptWithHandlerMenu.customHandler) {
-            let contextCopy = context.copy();
-            contextCopy.stage = 'effect';
             return this.promptWithHandlerMenu.cards.some(card => this.canAffect(card, contextCopy));
         }
+
         return result;
     }
 
     getSelector() {
         let condition = this.promptForSelect.cardCondition || (() => true);
         let cardCondition = (card, context) => this.canAffect(card, context) && condition(card, context);
+
         return CardSelector.for(Object.assign({}, this.promptForSelect, { cardCondition: cardCondition }));
     }
 
@@ -40,6 +41,7 @@ class CardGameAction extends GameAction {
             if(!selector.hasEnoughTargets(context)) {
                 return;
             }
+
             let defaultProperties = {
                 player: context.player,
                 context: context,
@@ -51,11 +53,14 @@ class CardGameAction extends GameAction {
                         if(typeof messageArgs === 'function') {
                             messageArgs = messageArgs(cards);
                         }
+
                         if(!Array.isArray(messageArgs)) {
                             messageArgs = [messageArgs];
                         }
+
                         context.game.addMessage(this.promptForSelect.message, ...messageArgs);
                     }
+
                     return true;
                 }
             };
@@ -67,15 +72,19 @@ class CardGameAction extends GameAction {
                 properties.cards = properties.cards.filter(card => this.canAffect(card, context));
                 this.target = [];
             }
+
             if(properties.cards.length === 0) {
                 return;
             }
+
             if(!properties.player) {
                 properties.player = context.player;
             }
+
             if(properties.customHandler) {
                 properties.cardHandler = card => properties.customHandler(card, this);
             }
+
             let defaultProperties = {
                 context: context,
                 cardHandler: card => {
@@ -94,7 +103,7 @@ class CardGameAction extends GameAction {
     }
 
     checkEventCondition(event) {
-        return this.canAffect(event.card, event.context);
+        return this.canAffect(event.card, event.context) && event.card.checkRestrictions(this.name, event.context);
     }
 }
 

@@ -8,6 +8,6 @@ class Headhunter extends Card {
     }
 }
 
-Headhunter.id = 'headhunter'; // This is a guess at what the id might be - please check it!!!
+Headhunter.id = 'headhunter';
 
 module.exports = Headhunter;

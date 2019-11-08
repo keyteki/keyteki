@@ -6,6 +6,28 @@ describe('Spike Trap', function() {
                     player1: {
                         house: 'dis',
                         amber: 1,
+                        inPlay: ['spike-trap'],
+                        hand: ['lifeward']
+                    },
+                    player2: {
+                        amber: 4,
+                        hand: ['brammo', 'gub', 'firespitter']
+                    }
+                });
+            });
+            it('should sacrifice the artifact', function() {
+                this.player1.useAction(this.spikeTrap, true);
+                expect(this.spikeTrap.location).toBe('discard');
+            });
+        });
+    });
+    integration(function() {
+        describe('Spike Trap\'s omni ability', function() {
+            beforeEach(function() {
+                this.setupTest({
+                    player1: {
+                        house: 'dis',
+                        amber: 1,
                         inPlay: ['flaxia', 'spike-trap'],
                         hand: ['lifeward']
                     },
@@ -15,10 +37,8 @@ describe('Spike Trap', function() {
                     }
                 });
             });
-
-            it('Sacrifice the artiface and deal 3 damages to flank creatures.', function() {
-                this.player1.clickCard(this.spikeTrap);
-                this.player1.clickPrompt('Use this card\'s Omni ability');
+            it('should sacrifice the artifact and deal 3 damages to flank creatures', function() {
+                this.player1.useAction(this.spikeTrap, true);
                 expect(this.spikeTrap.location).toBe('discard');
 
                 expect(this.flaxia.tokens.damage).toBe(3);

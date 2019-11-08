@@ -8,6 +8,6 @@ class Mooncurser extends Card {
     }
 }
 
-Mooncurser.id = 'mooncurser'; // This is a guess at what the id might be - please check it!!!
+Mooncurser.id = 'mooncurser';
 
 module.exports = Mooncurser;

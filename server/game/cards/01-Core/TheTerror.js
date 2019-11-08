@@ -9,6 +9,6 @@ class TheTerror extends Card {
     }
 }
 
-TheTerror.id = 'the-terror'; // This is a guess at what the id might be - please check it!!!
+TheTerror.id = 'the-terror';
 
 module.exports = TheTerror;

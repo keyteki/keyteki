@@ -17,11 +17,11 @@ class DeckRow extends React.Component {
     }
 
     onArchonMouseOver(card) {
-        this.setState({card});
+        this.setState({ card });
     }
 
     onCardMouseOut() {
-        this.setState({card: false});
+        this.setState({ card: false });
     }
 
     handleDeckClick() {
@@ -63,10 +63,22 @@ class DeckRow extends React.Component {
                         houses={ this.props.deck.houses } deckName={ this.props.deck.name } onMouseOut={ this.onCardMouseOut }
                         deckUuid = { this.props.deck.uuid } onMouseOver={ this.onArchonMouseOver } />
                 </div>
-                <span className='col-xs-8 col-md-7 col-lg-9 deck-name'>{ this.props.deck.name }</span><span className='col-xs-2 col-md-3 col-lg-2 deck-status-label text-right pull-right'>{ this.getStatusName(this.props.deck.status) }</span>
+                <span className='col-xs-8 col-md-7 col-lg-9 deck-name'>
+                    { this.props.deck.name }
+                </span>
+                <span className='col-xs-2 col-md-3 col-lg-2 deck-status-label text-right pull-right'>
+                    <img className='deck-expansion' src={ '/img/idbacks/' + this.props.deck.expansion + '.png' } />
+                    { this.getStatusName(this.props.deck.status) }
+                </span>
                 <div className='row small'>
-                    <span className='col-xs-8 col-md-7 col-lg-9 deck-house-icons'><img className='deck-sm-house' src={ '/img/house/' + this.props.deck.houses[0] + '.png' } />/<img className='deck-sm-house' src={ '/img/house/' + this.props.deck.houses[1] + '.png' } />/<img className='deck-sm-house' src={ '/img/house/' + this.props.deck.houses[2] + '.png' } /></span>
-                    <span className='col-xs-4 col-md-3 deck-date text-right pull-right'>{ moment(this.props.deck.lastUpdated).format('Do MMM YYYY') }</span>
+                    <span className='col-xs-8 col-md-7 col-lg-9 deck-house-icons'>
+                        <img className='deck-sm-house' src={ '/img/house/' + this.props.deck.houses[0] + '.png' } />
+                        <img className='deck-sm-house' src={ '/img/house/' + this.props.deck.houses[1] + '.png' } />
+                        <img className='deck-sm-house' src={ '/img/house/' + this.props.deck.houses[2] + '.png' } />
+                    </span>
+                    <span className='col-xs-4 col-md-3 deck-date text-right pull-right'>
+                        { moment(this.props.deck.lastUpdated).format('Do MMM YYYY') }
+                    </span>
                 </div>
             </div>);
     }

@@ -200,6 +200,7 @@ module.exports.init = function(server, options) {
         if(!ip) {
             ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
         }
+
         try {
             let lookup = await banlistService.getEntryByIp(ip);
             if(lookup) {
@@ -331,7 +332,7 @@ module.exports.init = function(server, options) {
         let user = await userService.getUserByUsername(req.user.username);
         let userDetails = user.getWireSafeDetails();
 
-        if(!user.patreon) {
+        if(!user.patreon || !user.patreon.refresh_token) {
             return res.send({ success: true, user: userDetails });
         }
 

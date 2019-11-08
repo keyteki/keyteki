@@ -17,8 +17,11 @@ describe('Iron Obelisk', function() {
 
             it('shouldn\'t affect key cost when no creatures are damaged', function() {
                 this.player1.endTurn();
+                this.player2.forgeKey('Red');
+                expect(this.player2.player.keys.red).toBe(true);
+                expect(this.player2.player.keys.blue).toBe(false);
+                expect(this.player2.player.keys.yellow).toBe(false);
                 expect(this.player2.amber).toBe(3);
-                expect(this.player2.player.keys).toBe(1);
             });
 
             it('shouldn\'t affect key cost when non-brobnar creatures or enemy brobnar creatures are damaged', function() {
@@ -28,16 +31,22 @@ describe('Iron Obelisk', function() {
                 expect(this.sequis.hasToken('damage')).toBe(true);
                 expect(this.gangerChieftain.hasToken('damage')).toBe(true);
                 this.player1.endTurn();
+                this.player2.forgeKey('Red');
+                expect(this.player2.player.keys.red).toBe(true);
+                expect(this.player2.player.keys.blue).toBe(false);
+                expect(this.player2.player.keys.yellow).toBe(false);
                 expect(this.player2.amber).toBe(3);
-                expect(this.player2.player.keys).toBe(1);
             });
 
             it('should reduce key cost by one if there is a single damaged friendly brobnar creature', function() {
                 this.player1.fightWith(this.valdr, this.dextre);
                 expect(this.valdr.hasToken('damage')).toBe(true);
                 this.player1.endTurn();
+                this.player2.forgeKey('Red');
+                expect(this.player2.player.keys.red).toBe(true);
+                expect(this.player2.player.keys.blue).toBe(false);
+                expect(this.player2.player.keys.yellow).toBe(false);
                 expect(this.player2.amber).toBe(2);
-                expect(this.player2.player.keys).toBe(1);
             });
 
             it('should prevent forging a key if the cost is high enough', function() {
@@ -51,8 +60,10 @@ describe('Iron Obelisk', function() {
                 this.player1.clickCard(this.docBookton);
                 expect(this.hebeTheHuge.hasToken('damage')).toBe(true);
                 this.player1.endTurn();
+                expect(this.player2.player.keys.red).toBe(false);
+                expect(this.player2.player.keys.blue).toBe(false);
+                expect(this.player2.player.keys.yellow).toBe(false);
                 expect(this.player2.amber).toBe(9);
-                expect(this.player2.player.keys).toBe(0);
             });
         });
     });

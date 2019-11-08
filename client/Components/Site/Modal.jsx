@@ -5,7 +5,7 @@ import classNames from 'classnames';
 class Modal extends React.Component {
     render() {
         return (
-            <div id={ this.props.id } className='modal fade' tabIndex='-1' role='dialog'>
+            <div id={ this.props.id } className='modal fade' data-backdrop={ this.props.noClickToClose ? 'static' : null } tabIndex='-1' role='dialog'>
                 <div className='modal-dialog' role='document'>
                     <div className={ classNames('modal-content', this.props.className) } onClick={ e => e.stopPropagation() }>
                         <div className='modal-header'>
@@ -27,6 +27,7 @@ Modal.propTypes = {
     children: PropTypes.node,
     className: PropTypes.string,
     id: PropTypes.string,
+    noClickToClose: PropTypes.bool,
     title: PropTypes.string
 };
 

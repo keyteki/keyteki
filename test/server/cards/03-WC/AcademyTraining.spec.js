@@ -10,7 +10,8 @@ describe('Academy Training', function() {
                     },
                     player2: {
                         amber: 4,
-                        hand: ['urchin', 'dextre']
+                        inPlay: ['archimedes'],
+                        hand: ['urchin', 'dextre', 'harland-mindlock']
                     }
                 });
             });
@@ -34,6 +35,17 @@ describe('Academy Training', function() {
                 this.player1.reap(this.rustgnawer);
                 expect(this.player1.amber).toBe(1);
                 expect(this.player1.hand.length).toBe(1);
+            });
+
+            it('should not be logos if opponent takes control', function() {
+                this.player1.playUpgrade(this.academyTraining, this.rustgnawer);
+                this.player1.endTurn();
+                this.player2.clickPrompt('logos');
+                this.player2.playCreature(this.harlandMindlock);
+                this.player2.clickCard(this.rustgnawer);
+                this.player2.clickPrompt('Left');
+                this.player2.clickCard(this.rustgnawer);
+                expect(this.player2).not.toHavePromptButton('Reap with this creature');
             });
         });
     });

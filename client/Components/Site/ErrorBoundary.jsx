@@ -28,7 +28,7 @@ class ErrorBoundary extends React.Component {
         Sentry.withScope(scope => {
             scope.setExtras(errorInfo);
             const eventId = Sentry.captureException(error);
-            this.setState({eventId});
+            this.setState({ eventId });
         });
     }
 
@@ -36,7 +36,7 @@ class ErrorBoundary extends React.Component {
         event.preventDefault();
         event.stopPropagation();
 
-        this.setState({error: null});
+        this.setState({ error: null });
         this.props.navigate('/');
     }
 

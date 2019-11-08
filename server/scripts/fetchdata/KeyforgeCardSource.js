@@ -36,11 +36,11 @@ class JsonCardSource {
         console.info('Fetching the deck list...');
 
         let response;
-        let cards = {341: {}, 435: {}};
+        let cards = { 341: {}, 435: {} };
         let pageErrors = [];
 
         try {
-            response = await util.httpRequest(apiUrl, {json: true});
+            response = await util.httpRequest(apiUrl, { json: true });
         } catch(err) {
             console.info(err);
 
@@ -54,7 +54,7 @@ class JsonCardSource {
 
         for(let i = 1; i < totalPages; i++) {
             try {
-                response = await util.httpRequest(`${apiUrl}/?page=${i}&links=cards&page_size=${pageSize}&ordering=-date`, {json: true});
+                response = await util.httpRequest(`${apiUrl}/?page=${i}&links=cards&page_size=${pageSize}&ordering=-date`, { json: true });
             } catch(err) {
                 if(err.statusCode === 429) {
                     await this.sleep(100);

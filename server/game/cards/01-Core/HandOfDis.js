@@ -12,6 +12,6 @@ class HandOfDis extends Card {
     }
 }
 
-HandOfDis.id = 'hand-of-dis'; // This is a guess at what the id might be - please check it!!!
+HandOfDis.id = 'hand-of-dis';
 
 module.exports = HandOfDis;

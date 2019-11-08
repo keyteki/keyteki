@@ -8,6 +8,6 @@ class ChampionTabris extends Card {
     }
 }
 
-ChampionTabris.id = 'champion-tabris'; // This is a guess at what the id might be - please check it!!!
+ChampionTabris.id = 'champion-tabris';
 
 module.exports = ChampionTabris;

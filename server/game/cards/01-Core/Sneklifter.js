@@ -27,6 +27,6 @@ class Sneklifter extends Card {
     }
 }
 
-Sneklifter.id = 'sneklifter'; // This is a guess at what the id might be - please check it!!!
+Sneklifter.id = 'sneklifter';
 
 module.exports = Sneklifter;

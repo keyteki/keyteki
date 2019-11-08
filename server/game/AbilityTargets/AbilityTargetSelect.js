@@ -10,6 +10,7 @@ class AbilityTargetSelect {
                 properties.choices[key] = [properties.choices[key]];
             }
         }
+
         this.dependentTarget = null;
         this.dependentCost = null;
         if(this.properties.dependsOn) {
@@ -39,16 +40,20 @@ class AbilityTargetSelect {
         if(this.name === 'target') {
             contextCopy.select = key;
         }
+
         if(context.stage === 'pretarget' && this.dependentCost && !this.dependentCost.canPay(contextCopy)) {
             return false;
         }
+
         if(this.dependentTarget && !this.dependentTarget.hasLegalTarget(contextCopy)) {
             return false;
         }
+
         let choice = this.properties.choices[key];
         if(typeof choice === 'function') {
             return choice(contextCopy);
         }
+
         return choice.some(gameAction => gameAction.hasLegalTarget(contextCopy));
     }
 
@@ -56,10 +61,12 @@ class AbilityTargetSelect {
         if(!context.selects[this.name]) {
             return [];
         }
+
         let choice = this.properties.choices[context.selects[this.name].choice];
         if(typeof choice !== 'function') {
             return choice.filter(gameAction => gameAction.hasLegalTarget(context));
         }
+
         return [];
     }
 
@@ -71,14 +78,17 @@ class AbilityTargetSelect {
         if(targetResults.cancelled || targetResults.payCostsFirst || targetResults.delayTargeting) {
             return;
         }
+
         let player = context.player;
         if(this.properties.player && this.properties.player === 'opponent') {
             if(context.stage === 'pretarget') {
                 targetResults.delayTargeting = this;
                 return;
             }
+
             player = player.opponent;
         }
+
         let promptTitle = this.properties.activePromptTitle || 'Select one';
         let choices = Object.keys(this.properties.choices).filter(key => (
             this.isChoiceLegal(key, context)
@@ -96,9 +106,11 @@ class AbilityTargetSelect {
                 choices.push('Pay costs first');
                 handlers.push(() => targetResults.payCostsFirst = true);
             }
+
             choices.push('Cancel');
             handlers.push(() => targetResults.cancelled = true);
         }
+
         if(handlers.length === 1) {
             handlers[0]();
         } else if(handlers.length > 1) {
@@ -110,6 +122,7 @@ class AbilityTargetSelect {
                     waitingPromptTitle = 'Waiting for opponent';
                 }
             }
+
             context.game.promptWithHandlerMenu(player, {
                 waitingPromptTitle: waitingPromptTitle,
                 activePromptTitle: promptTitle,

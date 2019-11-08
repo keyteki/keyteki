@@ -12,6 +12,6 @@ class Flaxia extends Card {
     }
 }
 
-Flaxia.id = 'flaxia'; // This is a guess at what the id might be - please check it!!!
+Flaxia.id = 'flaxia';
 
 module.exports = Flaxia;

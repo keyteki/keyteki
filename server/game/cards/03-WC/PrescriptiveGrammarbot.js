@@ -11,7 +11,7 @@ class PrescriptiveGrammarbot extends Card {
             message: '{0} uses {1} to enrage {2}',
             messageArgs: context => [context.player, context.source, context.target],
             gameAction: [
-                ability.actions.enrage(context => ({target: context.target}))
+                ability.actions.enrage(context => ({ target: context.target }))
             ]
         });
     }

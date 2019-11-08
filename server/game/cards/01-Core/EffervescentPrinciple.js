@@ -18,6 +18,6 @@ class EffervescentPrinciple extends Card {
     }
 }
 
-EffervescentPrinciple.id = 'effervescent-principle'; // This is a guess at what the id might be - please check it!!!
+EffervescentPrinciple.id = 'effervescent-principle';
 
 module.exports = EffervescentPrinciple;

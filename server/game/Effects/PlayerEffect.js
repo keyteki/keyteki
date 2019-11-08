@@ -5,9 +5,8 @@ class PlayerEffect extends Effect {
         super(game, source, properties, effect);
         this.targetController = properties.targetController || 'current';
         if(typeof this.match !== 'function') {
-            this.match = player => true; // eslint-disable-line no-unused-vars
+            this.match = (player, context) => true; // eslint-disable-line no-unused-vars
         }
-
     }
 
     isValidTarget(target) {
@@ -16,11 +15,12 @@ class PlayerEffect extends Effect {
         } else if(this.targetController === 'opponent' && target === this.context.player) {
             return false;
         }
+
         return true;
     }
 
     getTargets() {
-        return this.game.getPlayers().filter(player => this.match(player));
+        return this.game.getPlayers().filter(player => this.match(player, this.context));
     }
 }
 

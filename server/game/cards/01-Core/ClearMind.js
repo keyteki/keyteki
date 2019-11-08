@@ -8,6 +8,6 @@ class ClearMind extends Card {
     }
 }
 
-ClearMind.id = 'clear-mind'; // This is a guess at what the id might be - please check it!!!
+ClearMind.id = 'clear-mind';
 
 module.exports = ClearMind;

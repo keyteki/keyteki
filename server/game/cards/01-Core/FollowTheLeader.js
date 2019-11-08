@@ -11,6 +11,6 @@ class FollowTheLeader extends Card {
     }
 }
 
-FollowTheLeader.id = 'follow-the-leader'; // This is a guess at what the id might be - please check it!!!
+FollowTheLeader.id = 'follow-the-leader';
 
 module.exports = FollowTheLeader;

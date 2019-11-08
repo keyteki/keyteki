@@ -11,8 +11,8 @@ class SetupPhase extends Phase {
         this.initialise([
             new SimpleStep(game, () => this.setupBegin()),
             new GameStartPrompt(game),
-            new SimpleStep(game, () => this.firstPlayerEffects()),
             new SimpleStep(game, () => this.drawStartingHands()),
+            new SimpleStep(game, () => this.firstPlayerEffects()),
             new MulliganPrompt(game),
             new SimpleStep(game, () => this.startGame())
         ]);
@@ -36,6 +36,7 @@ class SetupPhase extends Phase {
         for(const player of this.game.getPlayers()) {
             let link = {
                 link: 'https://www.keyforgegame.com/deck-details/' + player.deckData.uuid,
+                argType: 'link',
                 label: player.deckData.name
             };
             if(this.game.gameFormat !== 'sealed') {
@@ -45,7 +46,7 @@ class SetupPhase extends Phase {
     }
 
     firstPlayerEffects() {
-        this.game.activePlayer.drawCardsToHand(1);
+        this.game.actions.draw({ amount: 1 }).resolve(this.game.activePlayer, this.game.getFrameworkContext());
         this.game.actions.forRemainderOfTurn({
             condition: () => !!this.game.cardsUsed.length || !!this.game.cardsPlayed.length || !!this.game.cardsDiscarded.length,
             effect: Effects.noActiveHouseForPlay()
@@ -54,11 +55,7 @@ class SetupPhase extends Phase {
 
     drawStartingHands() {
         _.each(this.game.getPlayers(), player => {
-            player.drawCardsToHand(player.maxHandSize);
-            if(player.chains > 0) {
-                player.modifyChains(-1);
-                this.game.addMessage('{0}\'s chains are reduced by 1 to {1}', player, player.chains);
-            }
+            this.game.actions.draw({ refill: true }).resolve(player, this.game.getFrameworkContext());
         });
     }
 

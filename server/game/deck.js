@@ -23,6 +23,9 @@ class Deck {
             if(card.maverick) {
                 result.card.house = card.maverick;
                 result.card.maverick = card.maverick;
+            } else if(card.anomaly) {
+                result.card.house = card.anomaly;
+                result.card.anomaly = card.anomaly;
             }
 
             return result;
@@ -42,6 +45,7 @@ class Deck {
         this.eachRepeatedCard(this.data.cards, cardData => {
             let card = this.createCard(player, cardData);
             if(card) {
+                card.setupAbilities();
                 card.location = 'deck';
                 result.cards.push(card);
             }
@@ -67,6 +71,8 @@ class Deck {
         cardData.image = cardData.id;
         if(cardData.maverick) {
             cardData.house = cardData.maverick;
+        } else if(cardData.anomoly) {
+            cardData.anomoly = cardData.anomoly;
         }
 
         if(!cards[cardData.id]) {

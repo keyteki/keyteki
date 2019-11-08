@@ -12,10 +12,8 @@ const optionsDefinition = [
 let options = commandLineArgs(optionsDefinition);
 
 function verifyLocale(localeDir, sourceLanguage, targetLanguage) {
-
     let sourceLanguageFile = path.join(localeDir, sourceLanguage + '.json');
     let targetLanguageFile = path.join(localeDir, targetLanguage.replace('-', '') + '.json');
-
 
     let sourceLocale = JSON.parse(fs.readFileSync(sourceLanguageFile));
     let targetLocale = JSON.parse(fs.readFileSync(targetLanguageFile));
@@ -25,6 +23,23 @@ function verifyLocale(localeDir, sourceLanguage, targetLanguage) {
 
     let sourceLocaleLength = sourceLocaleKeys.length;
     let targetLocaleLength = targetLocaleKeys.length;
+
+    let uniqueKeys = [];
+    let uniqueKeysLower = [];
+
+    for(let key of targetLocaleKeys) {
+        if(uniqueKeys.includes(key)) {
+            console.log(targetLanguage + ' locale contains duplicate key: ' + key);
+        }
+
+        uniqueKeys.push(key);
+
+        if(uniqueKeysLower.includes(key.toLowerCase())) {
+            console.log(targetLanguage + ' locale contains key with different case: ' + key);
+        }
+
+        uniqueKeysLower.push(key.toLowerCase());
+    }
 
     let consistent = true;
 
@@ -61,7 +76,6 @@ function verifyLocale(localeDir, sourceLanguage, targetLanguage) {
         consistent = false;
     }
 
-
     if(consistent) {
         console.log(sourceLanguage + ' and ' + targetLanguage + ' files are consistent.');
     }
@@ -74,5 +88,4 @@ function verifyLocale(localeDir, sourceLanguage, targetLanguage) {
         }
     }
 }
-
-verifyLocale(options['locale-dir'], 'en', options['language']);
+verifyLocale(options['locale-dir'], 'en', options['language']);

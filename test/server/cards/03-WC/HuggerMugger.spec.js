@@ -16,7 +16,7 @@ describe('Hugger Mugger', function() {
             });
 
             it('Capture 1 amber and steal 1 amber', function() {
-                this.player2.player.keys = 2;
+                this.player2.player.keys = { red: true, blue: true, yellow: false };
                 this.player1.play(this.huggerMugger);
 
                 expect(this.huggerMugger.tokens.amber).toBe(1);
@@ -25,8 +25,8 @@ describe('Hugger Mugger', function() {
             });
 
             it('Capture 1 amber and steal no amber because number of opponent\'s keys is not greater', function() {
-                this.player1.player.keys = 2;
-                this.player2.player.keys = 2;
+                this.player1.player.keys = { red: true, blue: true, yellow: false };
+                this.player2.player.keys = { red: true, blue: true, yellow: false };
                 this.player1.play(this.huggerMugger);
 
                 expect(this.huggerMugger.tokens.amber).toBe(1);
@@ -52,7 +52,6 @@ describe('Hugger Mugger', function() {
                 expect(this.player1.amber).toBe(0);
                 expect(this.player2.amber).toBe(0);
             });
-
         });
     });
 });

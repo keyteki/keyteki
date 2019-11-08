@@ -15,6 +15,6 @@ class LootTheBodies extends Card {
     }
 }
 
-LootTheBodies.id = 'loot-the-bodies'; // This is a guess at what the id might be - please check it!!!
+LootTheBodies.id = 'loot-the-bodies';
 
 module.exports = LootTheBodies;
