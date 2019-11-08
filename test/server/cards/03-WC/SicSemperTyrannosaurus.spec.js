@@ -1,4 +1,4 @@
-fdescribe('Sic Semper Tyrannosaurus', function() {
+describe('Sic Semper Tyrannosaurus', function() {
     integration(function() {
         describe('Sic Semper Tyrannosaurus\'s play ability', function() {
             beforeEach(function() {
