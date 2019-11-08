@@ -28,6 +28,6 @@ class BorrNitsTouch extends Card {
     }
 }
 
-BorrNitsTouch.id = 'borrs-nits-touch';
+BorrNitsTouch.id = 'borr-nit-s-touch';
 
 module.exports = BorrNitsTouch;
