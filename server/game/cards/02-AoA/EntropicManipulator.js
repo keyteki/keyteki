@@ -8,7 +8,7 @@ class EntropicManipulator extends Card {
                 activePromptTitle: 'Which player\'s creatures do you want to affect',
                 choices: {
                     Mine: () => true,
-                    'My opponent\'s': context => !!context.player.opponent
+                    'Opponent\'s': context => !!context.player.opponent
                 }
             },
             effect: 'redistribute the damage on {1}\'s creatures',

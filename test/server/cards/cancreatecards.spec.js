@@ -2,6 +2,7 @@ const _ = require('underscore');
 
 const cards = require('../../../server/game/cards');
 const AbilityDsl = require('../../../server/game/abilitydsl');
+const localeEn = require('../../../public/locales/en.json');
 
 const card = { hasHouse: () => true, neighbors: [], childCards: [], hasTrait: () => false };
 card.neighbors.push(card);
@@ -29,6 +30,71 @@ const mockContext = {
     player: player
 };
 mockContext.event.context = mockContext;
+
+function expectLocalizedString(str) {
+    if(isNaN(str)) {
+        expect(localeEn[str]).toBe(str);
+    }
+}
+
+function expectLocalizedPromptForSelect(gameAction) {
+    let gameActions = Array.isArray(gameAction) ? gameAction : [gameAction];
+    _.forEach(gameActions, ga => {
+        if(ga.promptForSelect && ga.promptForSelect.activePromptTitle) {
+            expectLocalizedPromptForSelect(ga.promptForSelect.activePromptTitle);
+        }
+
+        if(ga.promptWithHandlerMenu && ga.promptWithHandlerMenu.activePromptTitle) {
+            expectLocalizedString(ga.promptWithHandlerMenu.activePromptTitle);
+        }
+    });
+}
+
+function expectLocalizedTarget(target) {
+    if(target.activePromptTitle) {
+        expectLocalizedString(target.activePromptTitle);
+    }
+
+    if(target.gameAction) {
+        expectLocalizedPromptForSelect(target.gameAction);
+    }
+
+    if(target.choices) {
+        _.forEach(Object.keys(target.choices), choice => {
+            expectLocalizedString(choice, card);
+        });
+    }
+}
+
+function expectLocalizedPrompt(args) {
+    // This is not complete, but can get a good amount of localized strings
+    // What is missing:
+    // 1) then as a function
+    // 2) gameAction parameter as a function
+    // 3) gained abilities in upgrades, for example
+    // 4) sequential/conditional actions
+    if(args.may) {
+        expectLocalizedString('Do you wish to ' + args.may + '?');
+    }
+
+    if(args.gameAction) {
+        expectLocalizedPromptForSelect(args.gameAction);
+    }
+
+    if(args.target) {
+        expectLocalizedTarget(args.target);
+    }
+
+    if(args.targets) {
+        _.forEach(Object.keys(args.targets), target => {
+            expectLocalizedTarget(args.targets[target]);
+        });
+    }
+
+    if(args.then) {
+        expectLocalizedPrompt(args.then);
+    }
+}
 
 describe('All Cards:', function() {
     beforeEach(function() {
@@ -102,6 +168,12 @@ describe('All Cards:', function() {
                 })).toBe(true);
             });
 
+            it('should have localized strings', function() {
+                _.forEach(this.calls, args => {
+                    expectLocalizedPrompt(args);
+                });
+            });
+
             it('should have no condition or its condition should be a function', function() {
                 expect(_.all(this.calls, args => _.isUndefined(args.condition) || _.isFunction(args.condition))).toBe(true);
             });
@@ -143,6 +215,12 @@ describe('All Cards:', function() {
                         target.mode && target.mode === 'select' && Object.values(target.choices).every(choice => !_.isFunction(choice))
                     ));
                 })).toBe(true);
+            });
+
+            it('should have localized strings', function() {
+                _.forEach(this.calls, args => {
+                    expectLocalizedPrompt(args);
+                });
             });
 
             it('should have an effectArgs which matches effect', function() {

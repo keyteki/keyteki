@@ -3,7 +3,6 @@ const Card = require('../../Card.js');
 class Buzzle extends Card {
     setupCardAbilities(ability) {
         this.play({
-            may: 'purge one of Buzzle\'s neighbors',
             fight: true,
             target: {
                 cardType: 'creature',

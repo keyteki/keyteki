@@ -8,7 +8,7 @@ class BorrNit extends Card {
                 activePromptTitle: 'Which player\'s deck',
                 choices: {
                     Mine: () => true,
-                    'My opponent\'s': context => !!context.player.opponent
+                    'Opponent\'s': context => !!context.player.opponent
                 }
             },
             gameAction: ability.actions.reveal(context => ({
