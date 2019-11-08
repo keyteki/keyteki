@@ -41,7 +41,7 @@ function expectLocalizedPromptForSelect(gameAction) {
     let gameActions = Array.isArray(gameAction) ? gameAction : [gameAction];
     _.forEach(gameActions, ga => {
         if(ga.promptForSelect && ga.promptForSelect.activePromptTitle) {
-            expectLocalizedPromptForSelect(ga.promptForSelect.activePromptTitle);
+            expectLocalizedString(ga.promptForSelect.activePromptTitle);
         }
 
         if(ga.promptWithHandlerMenu && ga.promptWithHandlerMenu.activePromptTitle) {
