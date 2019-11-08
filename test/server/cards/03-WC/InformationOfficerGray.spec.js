@@ -27,6 +27,7 @@ describe('Information Officer Gray', function() {
                 this.player1.clickPrompt('Done');
                 expect(this.dextre.location).toBe('archives');
             });
+
             it('should allow the player to select 0 cards', function() {
                 this.player1.play(this.informationOfficerGray);
                 expect(this.player1).toHavePrompt('Information Officer Gray');
