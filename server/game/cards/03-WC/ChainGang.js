@@ -15,9 +15,15 @@ class ChainGang extends Card {
                 cardType: 'action',
                 location: ['discard'],
                 controller: 'self',
-                cardCondition: card => card.name === 'Subtle Chain',
-                gameAction: ability.actions.returnToDeck({ shuffle: true })
-            }
+                cardCondition: card => card.name === 'Subtle Chain'
+            },
+            gameAction: [
+                ability.actions.steal(),
+                ability.actions.returnToDeck(context => ({
+                    shuffle: true,
+                    target: context.target
+                }))
+            ]
         });
     }
 }
