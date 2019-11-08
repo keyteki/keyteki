@@ -19,7 +19,7 @@ describe('Tactical Officer Moon', function() {
             it('should prompt to pick a player', function() {
                 expect(this.player1).toHavePrompt('Which player\'s battleline do you want to rearrange');
                 expect(this.player1).toHavePromptButton('Mine');
-                expect(this.player1).toHavePromptButton('My opponent\'s');
+                expect(this.player1).toHavePromptButton('Opponent\'s');
             });
 
             describe('and my side is selected', function() {
@@ -68,7 +68,7 @@ describe('Tactical Officer Moon', function() {
 
             describe('and opponent side is selected', function() {
                 beforeEach(function() {
-                    this.player1.clickPrompt('My opponent\'s');
+                    this.player1.clickPrompt('Opponent\'s');
                 });
 
                 it('should allow creatures to be selected from my battleline', function() {

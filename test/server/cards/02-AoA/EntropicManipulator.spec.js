@@ -20,7 +20,7 @@ describe('Entropic Manipulator', function() {
             it('should not use up armor', function() {
                 this.player1.play(this.entropicManipulator);
                 expect(this.player1).toHavePrompt('Entropic Manipulator');
-                this.player1.clickPrompt('My opponent\'s');
+                this.player1.clickPrompt('Opponent\'s');
                 expect(this.player1).toHavePrompt('Entropic Manipulator');
                 expect(this.troll.tokens.damage).toBe(6);
                 expect(this.zorg.tokens.damage).toBeUndefined();

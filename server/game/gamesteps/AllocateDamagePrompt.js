@@ -36,9 +36,9 @@ class AllocateDamagePrompt extends UiPrompt {
         return {
             selectCard: true,
             selectOrder: false,
-            menuTitle: 'Choose a creature to deal ' + this.properties.damageStep.toString() + ' damage to',
+            menuTitle: { text: 'Choose a creature to deal {{damageStep}} damage to', values: { damageStep: this.properties.damageStep.toString() } },
             buttons: buttons,
-            promptTitle: this.context.source.name,
+            promptTitle: { text: '{{card}}', values: { card: this.context.source.name } },
             cardDamage: this.cardDamage,
             controls: [{
                 type: 'targeting',
