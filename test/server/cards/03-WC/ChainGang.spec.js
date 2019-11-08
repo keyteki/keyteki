@@ -15,6 +15,7 @@ describe('Chain Gang', function() {
                     }
                 });
             });
+
             it('ready itself when I play subtle chain, and prompt to shuffle subtle chain back into my deck on action use', function() {
                 this.player1.reap(this.chainGang);
                 expect(this.player1.amber).toBe(5);

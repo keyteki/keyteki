@@ -8,7 +8,7 @@ class TacticalOfficerMoon extends Card {
                 activePromptTitle: 'Which player\'s battleline do you want to rearrange',
                 choices: {
                     Mine: () => true,
-                    'My opponent\'s': context => !!context.player.opponent
+                    'Opponent\'s': context => !!context.player.opponent
                 }
             },
             gameAction: ability.actions.rearrangeBattleline(context => ({

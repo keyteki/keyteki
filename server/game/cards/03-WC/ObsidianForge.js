@@ -13,7 +13,7 @@ class ObsidianForge extends Card {
                 gameAction: ability.actions.sacrifice()
             },
             then: {
-                may: 'forge a key at +6 current cost, reduced by 1 amber for every destroyed creature',
+                may: 'forge a key',
                 condition: context => context.preThenEvents && context.preThenEvents.filter(event =>
                     !event.cancelled && event.destroyEvent && !event.destroyEvent.cancelled).length > 0,
                 gameAction: [

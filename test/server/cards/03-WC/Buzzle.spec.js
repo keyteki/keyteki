@@ -14,6 +14,7 @@ describe('Buzzle', function() {
                     }
                 });
             });
+
             it('should trigger when played', function() {
                 this.player1.play(this.buzzle);
                 expect(this.player1).toHavePrompt('Buzzle');
@@ -21,11 +22,21 @@ describe('Buzzle', function() {
                 expect(this.player1).not.toBeAbleToSelect(this.buzzle);
                 expect(this.player1).not.toBeAbleToSelect(this.batdrone);
                 this.player1.clickCard(this.dustImp);
-                this.player1.clickPrompt('Yes');
                 expect(this.dustImp.location).toBe('purged');
                 expect(this.buzzle.exhausted).toBe(false);
             });
+
+            it('should be able to not purge after play', function() {
+                this.player1.play(this.buzzle);
+                expect(this.player1).toHavePrompt('Buzzle');
+                expect(this.player1).toBeAbleToSelect(this.dustImp);
+                expect(this.player1).not.toBeAbleToSelect(this.buzzle);
+                expect(this.player1).not.toBeAbleToSelect(this.batdrone);
+                this.player1.clickPrompt('Done');
+                expect(this.buzzle.exhausted).toBe(true);
+            });
         });
+
         describe('Buzzle\'s ability', function() {
             beforeEach(function() {
                 this.setupTest({
@@ -39,6 +50,7 @@ describe('Buzzle', function() {
                     }
                 });
             });
+
             it('should trigger when fighting', function() {
                 this.player1.fightWith(this.buzzle, this.batdrone);
                 expect(this.player1).toHavePrompt('Buzzle');
@@ -47,10 +59,21 @@ describe('Buzzle', function() {
                 expect(this.player1).not.toBeAbleToSelect(this.buzzle);
                 expect(this.player1).not.toBeAbleToSelect(this.batdrone);
                 this.player1.clickCard(this.overlordGreking);
-                this.player1.clickPrompt('Yes');
                 expect(this.overlordGreking.location).toBe('purged');
                 expect(this.buzzle.exhausted).toBe(false);
                 expect(this.batdrone.location).toBe('discard');
+            });
+
+
+            it('should be able to not purge after fight', function() {
+                this.player1.fightWith(this.buzzle, this.batdrone);
+                expect(this.player1).toHavePrompt('Buzzle');
+                expect(this.player1).toBeAbleToSelect(this.dustImp);
+                expect(this.player1).toBeAbleToSelect(this.overlordGreking);
+                expect(this.player1).not.toBeAbleToSelect(this.buzzle);
+                expect(this.player1).not.toBeAbleToSelect(this.batdrone);
+                this.player1.clickPrompt('Done');
+                expect(this.buzzle.exhausted).toBe(true);
             });
         });
     });
