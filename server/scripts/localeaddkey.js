@@ -46,4 +46,5 @@ function addKey(localeDir, key, value) {
         });
     }
 }
-addKey(options['locale-dir'], options['key'], options['value']);
+
+addKey(options['locale-dir'], options['key'], options['value']);
