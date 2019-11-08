@@ -98,12 +98,12 @@ class DeckList extends React.Component {
                 <form className='form'>
                     <div className='col-md-8'>
                         <div className='form-group'>
-                            <label className='control-label'><Trans>Filter:</Trans></label><input className='form-control' placeholder='Search...' type='text' onChange={ e => this.changeFilter(e.target.value) }/>
+                            <label className='control-label'><Trans>Filter</Trans>:</label><input className='form-control' placeholder={ t('Search...') } type='text' onChange={ e => this.changeFilter(e.target.value) }/>
                         </div>
                     </div>
                     <div className='col-md-4'>
                         <div className='form-group'>
-                            <label className='control-label'><Trans>Show:</Trans></label>
+                            <label className='control-label'><Trans>Show</Trans>:</label>
                             <select className='form-control' onChange={ this.onPageSizeChanged }>
                                 <option>10</option>
                                 <option>25</option>
@@ -112,17 +112,17 @@ class DeckList extends React.Component {
                         </div>
 
                     </div>
-                    <div className='col-md-12'><Trans>Sort by:</Trans><RadioGroup buttons={ sortButtons } onValueSelected={ this.onSortChanged } defaultValue={ this.state.sortOrder } /></div>
-                    <nav className='col-md-12' aria-label='Page navigation'>
+                    <div className='col-md-12'><Trans>Sort by</Trans>:<RadioGroup buttons={ sortButtons } onValueSelected={ this.onSortChanged } defaultValue={ this.state.sortOrder } /></div>
+                    <nav className='col-md-12' aria-label={ t('Page navigation') } >
                         <ul className='pagination'>
                             <li>
-                                <a href='#' aria-label='Previous' onClick={ this.onPageChanged.bind(this, 0) }>
+                                <a href='#' aria-label={ t('Previous') } onClick={ this.onPageChanged.bind(this, 0) }>
                                     <span aria-hidden='true'>&laquo;</span>
                                 </a>
                             </li>
                             { pager }
                             <li>
-                                <a href='#' aria-label='Next' onClick={ this.onPageChanged.bind(this, pages.length - 1) }>
+                                <a href='#' aria-label={ t('Next') } onClick={ this.onPageChanged.bind(this, pages.length - 1) }>
                                     <span aria-hidden='true'>&raquo;</span>
                                 </a>
                             </li>

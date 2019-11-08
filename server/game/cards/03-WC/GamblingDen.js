@@ -9,7 +9,7 @@ class GamblingDen extends Card {
             optional: true,
             target: {
                 mode: 'house',
-                activePromptTitle: 'Gamble For amber?'
+                activePromptTitle: 'Gamble for amber?'
             },
             effect: 'choose a house',
             gameAction: ability.actions.reveal(context => ({
