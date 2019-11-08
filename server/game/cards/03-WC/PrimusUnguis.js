@@ -3,7 +3,6 @@ const Card = require('../../Card.js');
 class PrimusUnguis extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
-            match: this,
             effect: ability.effects.modifyPower(() => 2 * this.amber)
         });
 
