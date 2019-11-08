@@ -5,6 +5,7 @@ class Buzzle extends Card {
         this.play({
             fight: true,
             target: {
+                optional: true,
                 cardType: 'creature',
                 location: 'play area',
                 controller: 'self',
