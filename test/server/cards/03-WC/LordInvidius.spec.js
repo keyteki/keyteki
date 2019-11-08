@@ -5,7 +5,7 @@ describe('Lord Invidius', function() {
                 this.setupTest({
                     player1: {
                         house: 'dis',
-                        inPlay: ['lord-invidius', 'troll', 'marmo-swarm']
+                        inPlay: ['lord-invidius', 'troll', 'shooler']
                     },
                     player2: {
                         inPlay: ['urchin', 'seeker-needle', 'mighty-javelin', 'library-of-babble', 'the-sting']
@@ -25,7 +25,7 @@ describe('Lord Invidius', function() {
                 this.setupTest({
                     player1: {
                         house: 'dis',
-                        inPlay: ['troll', 'lord-invidius', 'marmo-swarm']
+                        inPlay: ['troll', 'lord-invidius', 'shooler']
                     },
                     player2: {
                         inPlay: ['urchin', 'bad-penny', 'knoxx']
@@ -46,7 +46,7 @@ describe('Lord Invidius', function() {
                     expect(this.player1).toBeAbleToSelect(this.urchin);
                     expect(this.player1).toBeAbleToSelect(this.knoxx);
                     expect(this.player1).not.toBeAbleToSelect(this.badPenny);
-                    expect(this.player1).not.toBeAbleToSelect(this.marmoSwarm);
+                    expect(this.player1).not.toBeAbleToSelect(this.shooler);
                 });
 
                 describe('and then selecting a flank creature', function() {
@@ -66,6 +66,16 @@ describe('Lord Invidius', function() {
                     it('should exhaust the creature', function() {
                         expect(this.urchin.exhausted).toBe(true);
                     });
+                });
+            });
+
+            describe('and reaping with another creature', function() {
+                beforeEach(function() {
+                    this.player1.reap(this.shooler);
+                });
+
+                it('should not grant the reap ability', function() {
+                    expect(this.player1).not.toHavePrompt('Choose a creature');
                 });
             });
         });

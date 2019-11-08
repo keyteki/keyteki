@@ -4,7 +4,7 @@ const Card = require('../../Card.js');
 
 class Fidgit extends Card {
     setupCardAbilities(ability) {
-        this.play({
+        this.reap({
             condition: context => !!context.player.opponent,
             target: {
                 mode: 'select',

@@ -4,6 +4,7 @@ class LordInvidius extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
             condition: () => this.isInCenter(),
+            match: this,
             targetController: 'current',
             effect: ability.effects.gainAbility('reap', {
                 target: {
