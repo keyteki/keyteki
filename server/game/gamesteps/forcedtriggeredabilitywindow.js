@@ -129,7 +129,11 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
 
             const generatingEffect = this.game.effectEngine.effects.find(effect =>
                 effect.effect.getValue(context.source) === context.ability);
-            return generatingEffect.source.name;
+            if(generatingEffect) {
+                return generatingEffect.source.name;
+            }
+
+            return context.source.name;
         };
 
         let menuChoices = _.uniq(choices.map(context => getSourceName(context)));

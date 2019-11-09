@@ -15,22 +15,18 @@ describe('Sci. Officer Qincan', function() {
                         hand: ['dextre', 'krump']
                     }
                 });
+
+                this.player1.play(this.sciOfficerQincan);
             });
 
             it('should steal an amber if player chooses a house not in play', function() {
-                this.player1.play(this.sciOfficerQincan);
-                expect(this.player1.amber).toBe(3);
-                expect(this.player2.amber).toBe(4);
                 this.player1.endTurn();
                 this.player2.clickPrompt('Logos');
-                expect(this.player1.amber).toBe(2);
-                expect(this.player2.amber).toBe(5);
+                expect(this.player1.amber).toBe(4);
+                expect(this.player2.amber).toBe(3);
             });
 
             it('should not steal an amber if player chooses a house in play', function() {
-                this.player1.play(this.sciOfficerQincan);
-                expect(this.player1.amber).toBe(3);
-                expect(this.player2.amber).toBe(4);
                 this.player1.endTurn();
                 this.player2.clickPrompt('untamed');
                 expect(this.player1.amber).toBe(3);
@@ -38,9 +34,11 @@ describe('Sci. Officer Qincan', function() {
             });
 
             it('should apply to both players', function() {
-                this.player1.play(this.sciOfficerQincan);
                 this.player1.endTurn();
                 this.player2.clickPrompt('untamed');
+                expect(this.player1.amber).toBe(3);
+                expect(this.player2.amber).toBe(4);
+
                 this.player2.endTurn();
                 this.player1.clickPrompt('brobnar');
                 expect(this.player1.amber).toBe(4);
@@ -48,7 +46,6 @@ describe('Sci. Officer Qincan', function() {
             });
 
             it('should consider upgrades', function() {
-                this.player1.play(this.sciOfficerQincan);
                 this.player1.endTurn();
                 this.player2.clickPrompt('untamed');
                 this.player2.endTurn();

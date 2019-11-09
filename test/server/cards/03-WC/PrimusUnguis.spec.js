@@ -32,7 +32,7 @@ describe('Primus Unguis', function() {
                 expect(this.primusUnguis.amber).toBe(4);
 
                 expect(this.primusUnguis.power).toBe(13);
-                expect(this.questorJarta.power).toBe(3);
+                expect(this.questorJarta.power).toBe(11);
                 expect(this.troll.power).toBe(8);
             });
         });

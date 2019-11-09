@@ -13,8 +13,8 @@ class InformationOfficerGray extends Card {
                 cardCondition: card => !card.hasHouse('staralliance'),
                 gameAction: ability.actions.archive()
             },
-            effect: 'reveal {1} from their hand, and archive it.',
-            effectArgs: context => [context.target.reveal]
+            effect: 'reveal {1}{2}',
+            effectArgs: context => [context.target.length > 0 ? context.target : undefined, context.target.length > 0 ? ' from their hand, and archive it' : 'no cards']
         });
     }
 }

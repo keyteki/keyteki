@@ -17,7 +17,8 @@ class ChainGang extends Card {
                 controller: 'self',
                 cardCondition: card => card.name === 'Subtle Chain',
                 gameAction: ability.actions.returnToDeck({ shuffle: true })
-            }
+            },
+            gameAction: ability.actions.steal()
         });
     }
 }
