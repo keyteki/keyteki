@@ -3,7 +3,7 @@ const Card = require('../../Card.js');
 class MoorWolf extends Card {
     setupCardAbilities(ability) {
         this.play({
-            effect: 'Ready each other Wolf creature.',
+            effect: 'ready each other Wolf creature.',
             gameAction: ability.actions.ready(context => ({
                 target: context.game.creaturesInPlay.filter(card => card.hasTrait('wolf') && card !== this)
             }))
