@@ -14,6 +14,7 @@ class Crassosaurus extends Card {
                 amount: context.option && context.option.value
             })),
             then: thenContext => ({
+                condition: () => thenContext.option.value < 10,
                 target: {
                     activePromptTitle: 'Choose how many to capture from own side',
                     mode: 'options',
