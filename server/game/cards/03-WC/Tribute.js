@@ -13,7 +13,7 @@ class Tribute extends Card {
             },
             then: context => ({
                 condition: () => !context.secondResolution,
-                may: 'exhalt the creature',
+                may: 'exalt the creature',
                 gameAction: ability.actions.exalt({ target: context.target }),
                 then: {
                     gameAction: ability.actions.resolveAbility({
