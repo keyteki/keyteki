@@ -50,6 +50,7 @@ describe('Armsmaster Molina', function() {
                 this.player1.clickCard(this.helperBot);
                 expect(this.helperBot.location).toBe('hand');
             });
+
             it('on fight, should allow you to select a creature:robot, or an upgrade from discard pile to return to hand', function() {
                 this.player1.fightWith(this.chiefEngineerWalls, this.dustPixie);
                 expect(this.player1).toHavePrompt('Chief Engineer Walls');

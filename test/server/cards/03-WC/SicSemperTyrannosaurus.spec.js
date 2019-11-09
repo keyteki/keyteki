@@ -50,6 +50,18 @@ describe('Sic Semper Tyrannosaurus', function() {
                 expect(this.brutodonAuxiliary.location).toBe('discard');
                 expect(this.player1.amber).toBe(8);
             });
+
+            it('should allow select most powerful creature, remove its ward and gain all amber on it', function() {
+                this.player1.playCreature(this.brutodonAuxiliary);
+                this.brutodonAuxiliary.tokens.amber = 8;
+                this.brutodonAuxiliary.ward();
+                this.player1.play(this.sicSemperTyrannosaurus);
+                expect(this.player1).toHavePrompt('Choose a creature');
+                this.player1.clickCard(this.brutodonAuxiliary);
+                expect(this.brutodonAuxiliary.warded).toBe(false);
+                expect(this.brutodonAuxiliary.amber).toBe(0);
+                expect(this.player1.amber).toBe(8);
+            });
         });
     });
 });
