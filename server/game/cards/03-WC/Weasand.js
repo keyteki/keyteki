@@ -12,9 +12,9 @@ class Weasand extends Card {
 
         this.reaction({
             when: {
-                onCardEntersPlay: (event, context) => event.card.type === 'creature' && this.isOnFlank(),
-                onCardMovedInBattleline: (event, context) => event.card.type === 'creature' && this.isOnFlank(),
-                onCardLeavesPlay: (event, context) => event.card.type === 'creature' && this.isOnFlank()
+                onCardEntersPlay: (event) => event.card.type === 'creature' && this.isOnFlank(),
+                onCardMovedInBattleline: (event) => event.card.type === 'creature' && this.isOnFlank(),
+                onCardLeavesPlay: (event) => event.card.type === 'creature' && this.isOnFlank()
             },
             gameAction: ability.actions.destroy({ target: this })
         });

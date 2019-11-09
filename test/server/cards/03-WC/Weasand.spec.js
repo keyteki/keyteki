@@ -50,7 +50,6 @@ describe('Weasand', function() {
                 expect(this.redlock.location).toBe('discard');
                 expect(this.weasand.location).toBe('discard');
             });
-
         });
     });
 });
