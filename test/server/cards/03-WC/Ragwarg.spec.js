@@ -1,4 +1,4 @@
-fdescribe('Ragwarg', function() {
+describe('Ragwarg', function() {
     integration(function() {
         describe('Ragwarg', function() {
             beforeEach(function() {
