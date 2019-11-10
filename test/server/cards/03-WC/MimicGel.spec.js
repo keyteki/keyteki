@@ -6,7 +6,7 @@ describe('Mimic Gel', function() {
                     player1: {
                         house: 'logos',
                         inPlay: ['batdrone', 'key-to-dis'],
-                        hand: ['mimic-gel', 'phase-shift']
+                        hand: ['mimic-gel', 'phase-shift', 'dextre']
                     },
                     player2: {
                         inPlay: ['panpaca-anga', 'flaxia', 'tantadlin', 'bigtwig']
@@ -25,6 +25,13 @@ describe('Mimic Gel', function() {
                 expect(this.player1).toHavePrompt('Mimic Gel');
                 expect(this.player1).toHavePromptButton('Discard this card');
                 expect(this.player1).not.toHavePromptButton('Play this creature');
+            });
+
+            it('should not stop non mimic gel cards from being played', function() {
+                this.player1.useAction(this.keyToDis, true);
+                this.player1.clickCard(this.dextre);
+
+                expect(this.player1).toHavePromptButton('Play this creature');
             });
 
             it('should prompt the player to pick a creature when played', function() {

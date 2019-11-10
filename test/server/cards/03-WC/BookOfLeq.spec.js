@@ -6,11 +6,12 @@ describe('Book of LeQ', function() {
                     player1: {
                         amber: 4,
                         house: 'staralliance',
-                        inPlay: ['book-of-leq'],
-                        hand: ['troll', 'armsmaster-molina']
+                        inPlay: ['book-of-leq', 'groggins'],
+                        hand: ['troll', 'armsmaster-molina', 'krump']
                     },
                     player2: {
-                        inPlay: ['dextre']
+                        inPlay: ['dextre'],
+                        hand: ['foggify', 'dimension-door', 'hexpion', 'fetchdrones', 'rocket-boots', 'backup-copy']
                     }
                 });
             });
@@ -27,6 +28,8 @@ describe('Book of LeQ', function() {
 
                 it('should set the active house to the house of the top card', function() {
                     expect(this.player1.player.activeHouse).toBe('brobnar');
+                    this.player1.play(this.krump);
+                    this.player1.reap(this.groggins);
                 });
             });
 
@@ -42,6 +45,16 @@ describe('Book of LeQ', function() {
 
                 it('should not ready cards', function() {
                     expect(this.bookOfLeq.exhausted).toBe(true);
+                });
+
+                it('should allow opponent play to proceed as normal', function() {
+                    this.player2.clickPrompt('logos');
+                    this.player2.play(this.foggify);
+                    this.player2.play(this.dimensionDoor);
+                    this.player2.play(this.hexpion);
+                    this.player2.play(this.fetchdrones);
+                    this.player2.playUpgrade(this.rocketBoots, this.hexpion);
+                    this.player2.playUpgrade(this.backupCopy, this.hexpion);
                 });
             });
         });
