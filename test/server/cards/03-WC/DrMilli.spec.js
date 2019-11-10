@@ -12,7 +12,6 @@ describe('Dr. Milli', function() {
                     }
                 });
             });
-            afterEach(function() {this.flow.getChatLogs(1000, false).filter(msg => !!msg).forEach(msg => console.log(msg)); console.log('****');});
             it('should cause the player not to get archive prompt as player and opponent have equal number of creatures not including Dr. Milli', function() {
                 this.player1.play(this.mother);
                 this.player1.play(this.docBookton);
@@ -76,7 +75,6 @@ describe('Dr. Milli', function() {
                     }
                 });
             });
-            afterEach(function() {this.flow.getChatLogs(1000, false).filter(msg => !!msg).forEach(msg => console.log(msg)); console.log('****');});
             it('should cause the player to archive 2 cards if the opponent has 4 creatures on the board, and dr milli is the only card in play', function() {
                 this.player1.play(this.drMilli);
                 expect(this.player1).toHavePrompt('Dr. Milli');
