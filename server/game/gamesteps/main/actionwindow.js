@@ -48,6 +48,7 @@ class ActionWindow extends UiPrompt {
 
     checkForPhaseEnding() {
         if(this.game.endPhaseRightNow) {
+            this.game.endPhaseRightNow = false;
             this.complete();
             return;
         }

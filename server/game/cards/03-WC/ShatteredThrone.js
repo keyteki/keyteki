@@ -2,14 +2,11 @@ const Card = require('../../Card.js');
 
 class ShatteredThrone extends Card {
     setupCardAbilities(ability) {
-        this.persistentEffect({
-            match: card => card.type === 'creature',
-            effect: ability.effects.gainAbility('reaction', {
-                when: {
-                    onDamageDealt: (event, context) => event.damageSource === context.source && event.destroyed
-                },
-                gameAction: ability.actions.capture()
-            })
+        this.reaction({
+            when: {
+                onFight: () => true
+            },
+            gameAction: ability.actions.capture(context => ({ target: context.event.attacker }))
         });
     }
 }

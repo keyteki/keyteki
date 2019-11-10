@@ -9,7 +9,7 @@ class Ragwarg extends Card {
 
         this.reaction({
             when: {
-                onReap: (event, context) => event.card.type === 'creature' && event.card.controller !== context.source.controller && this.creaturesReaped === 1
+                onReap: (event) => event.card.type === 'creature' && this.creaturesReaped === 1
             },
             gameAction: ability.actions.dealDamage(context => ({
                 amount: 2,
