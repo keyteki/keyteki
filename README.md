@@ -71,7 +71,7 @@ npm install # See https://github.com/JustinTulloss/zeromq.node/issues/283 for zm
 mkdir server/logs
 ```
 
-Create config/local.json and put the following in it:
+Create config/local.json5 and put the following in it:
 ```
 {
     dbPath: 'mongodb://localhost:27017/keyforge',
@@ -155,7 +155,7 @@ npm test
 
 ### Coding Guidelines
 
-All JavaScript code included in Ringteki should pass (no errors, no warnings)
+All JavaScript code included in Keyteki should pass (no errors, no warnings)
 linting by [ESLint](http://eslint.org/), according to the rules defined in
 `.eslintrc` at the root of this repo. To manually check that that is indeed the
 case install ESLint and run
