@@ -5,11 +5,12 @@ describe('Weasand', function() {
                 this.setupTest({
                     player1: {
                         house: 'shadows',
-                        inPlay: ['lamindra', 'redlock'],
+                        inPlay: ['dodger', 'redlock'],
                         hand: ['weasand']
                     },
                     player2: {
-                        inPlay: ['drummernaut']
+                        inPlay: ['drummernaut'],
+                        hand: ['thorium-plasmate']
                     }
                 });
             });
@@ -34,7 +35,6 @@ describe('Weasand', function() {
                 expect(this.player2.amber).toBe(0);
                 expect(this.player1.amber).toBe(2);
             });
-
 
             it('should not gain 2 amber after forging a key', function() {
                 this.player1.amber = 6;
@@ -68,12 +68,28 @@ describe('Weasand', function() {
             it('should be destroyed even if warded', function() {
                 this.player1.playCreature(this.weasand, true, true);
                 this.player1.clickCard(this.redlock);
-                expect(this.weasand.location).toBe('play area');
                 this.weasand.ward();
                 this.player1.endTurn();
                 this.player2.clickPrompt('brobnar');
                 this.player2.fightWith(this.drummernaut, this.redlock);
                 expect(this.redlock.location).toBe('discard');
+                expect(this.weasand.location).toBe('discard');
+            });
+
+            it('should be destroyed after moved in the battleline', function() {
+                this.player1.playCreature(this.weasand, true, true);
+                this.player1.clickCard(this.redlock);
+                this.player1.endTurn();
+                this.player2.clickPrompt('logos');
+                this.player2.play(this.thoriumPlasmate);
+                expect(this.player2).toHavePrompt('Choose a creature');
+                this.player2.clickCard(this.dodger);
+                expect(this.player2).toHavePrompt('Select a card to move this card next to');
+                this.player2.clickCard(this.weasand);
+                expect(this.player2).toHavePrompt('Which side to you want to move this card to?');
+                this.player2.clickPrompt('Left');
+                expect(this.dodger.tokens.damage).toBe(2);
+                expect(this.dodger.location).toBe('play area');
                 expect(this.weasand.location).toBe('discard');
             });
         });
