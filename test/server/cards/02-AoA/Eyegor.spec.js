@@ -1,4 +1,4 @@
-describe('Eyegor', function() {
+fdescribe('Eyegor', function() {
     integration(function() {
         describe('when played', function() {
             beforeEach(function() {
