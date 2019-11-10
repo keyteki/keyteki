@@ -24,5 +24,32 @@ describe('Harbinger of Doom', function() {
                 expect(this.mother.location).toBe('discard');
             });
         });
+
+        describe('2 Harbinger of Doom and a warded creature', function() {
+            beforeEach(function () {
+                this.setupTest({
+                    player1: {
+                        house: 'dis',
+                        inPlay: ['mindwarper'],
+                        hand: ['gateway-to-dis']
+                    },
+                    player2: {
+                        inPlay: ['harbinger-of-doom', 'harbinger-of-doom']
+                    }
+                });
+                this.mindwarper.ward();
+                this.game.checkGameState(true);
+                this.harbingerOfDoom2 = this.player2.inPlay[1];
+            });
+
+            it('should destroy all creatures', function() {
+                this.player1.play(this.gatewayToDis);
+                this.player1.clickCard(this.harbingerOfDoom);
+
+                expect(this.mindwarper.location).toBe('discard');
+                expect(this.harbingerOfDoom.location).toBe('discard');
+                expect(this.harbingerOfDoom2.location).toBe('discard');
+            });
+        });
     });
 });
