@@ -12,6 +12,7 @@ describe('Dr. Milli', function() {
                     }
                 });
             });
+            afterEach(function() {this.flow.getChatLogs(1000, false).filter(msg => !!msg).forEach(msg => console.log(msg)); console.log('****');});
             it('should cause the player not to get archive prompt as player and opponent have equal number of creatures not including Dr. Milli', function() {
                 this.player1.play(this.mother);
                 this.player1.play(this.docBookton);
@@ -61,6 +62,40 @@ describe('Dr. Milli', function() {
                 expect(this.eyegor.location).toBe('archives');
                 expect(this.docBookton.location).toBe('archives');
                 expect(this.brainEater.location).toBe('archives');
+            });
+        });
+        describe('Dr. Milli\'s ability with less cards in hand', function() {
+            beforeEach(function() {
+                this.setupTest({
+                    player1: {
+                        house: 'logos',
+                        hand: ['dr-milli', 'eyegor', 'mother']
+                    },
+                    player2: {
+                        inPlay: ['stealer-of-souls', 'overlord-greking', 'dust-imp', 'streke']
+                    }
+                });
+            });
+            afterEach(function() {this.flow.getChatLogs(1000, false).filter(msg => !!msg).forEach(msg => console.log(msg)); console.log('****');});
+            it('should cause the player to archive 2 cards if the opponent has 4 creatures on the board, and dr milli is the only card in play', function() {
+                this.player1.play(this.drMilli);
+                expect(this.player1).toHavePrompt('Dr. Milli');
+                expect(this.player1).toBeAbleToSelect(this.eyegor);
+                expect(this.player1).toBeAbleToSelect(this.mother);
+                this.player1.clickCard(this.eyegor);
+                this.player1.clickCard(this.mother);
+                this.player1.clickPrompt('Done');
+                expect(this.eyegor.location).toBe('archives');
+                expect(this.mother.location).toBe('archives');
+            });
+            it('should cause the player to archive 1 card if the opponent has 4 creatures on the board, dr milli is the second card in play', function() {
+                this.player1.play(this.mother);
+                this.player1.play(this.drMilli);
+                expect(this.player1).toHavePrompt('Dr. Milli');
+                expect(this.player1).toBeAbleToSelect(this.eyegor);
+                this.player1.clickCard(this.eyegor);
+                this.player1.clickPrompt('End Turn');
+                expect(this.eyegor.location).toBe('archives');
             });
         });
     });
