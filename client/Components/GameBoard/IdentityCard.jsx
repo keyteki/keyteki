@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { createCanvas, loadImage } from 'canvas';
 import QRCode from 'qrcode';
-import * as Images from '../Images/';
+import * as Images from '../../assets/img';
 
 import { withTranslation } from 'react-i18next';
 
