@@ -10,13 +10,14 @@ class Weasand extends Card {
             gameAction: ability.actions.gainAmber({ amount: 2 })
         });
 
-        this.reaction({
-            when: {
-                onCardEntersPlay: (event) => event.card.type === 'creature' && this.isOnFlank(),
-                onCardMovedInBattleline: (event) => event.card.type === 'creature' && this.isOnFlank(),
-                onCardLeavesPlay: (event) => event.card.type === 'creature' && this.isOnFlank()
-            },
-            gameAction: ability.actions.destroy({ target: this })
+        this.persistentEffect({
+            match: this,
+            effect: ability.effects.terminalCondition({
+                condition: () => this.isOnFlank(),
+                message: '{0} is destroyed because it is on a flank',
+                target: this,
+                gameAction: ability.actions.destroy({ ignoreWard: true })
+            })
         });
     }
 }

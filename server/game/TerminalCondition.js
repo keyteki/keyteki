@@ -11,7 +11,6 @@
  * getEvents        - an optional function which passes events which should be resolved when
  *                    the terminal condtion triggers
  */
-
 class TerminalCondition {
     constructor(game, source, properties) {
         this.game = game;
@@ -26,7 +25,7 @@ class TerminalCondition {
     }
 
     checkCondition() {
-        return this.condition() && (!this.event || this.event.cancelled);
+        return this.condition() && !this.event;
     }
 
     getEvent() {
@@ -37,7 +36,8 @@ class TerminalCondition {
         if(this.getEventFunc) {
             return this.getEventFunc();
         } else if(this.gameAction) {
-            this.event = this.gameAction.getEvent(this.target, this.context);
+            this.gameAction.setTarget(this.target);
+            this.event = this.gameAction.getEventArray(this.context);
             return this.event;
         }
     }

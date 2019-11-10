@@ -49,6 +49,15 @@ describe('Tireless Crocag', function() {
                 expect(this.tirelessCrocag.location).toBe('discard');
             });
 
+            it('should be destroyed even if warded', function() {
+                this.player1.play(this.tirelessCrocag);
+                this.tirelessCrocag.ward();
+                this.player1.play(this.punch);
+                this.player1.clickCard(this.bingleBangbang);
+                expect(this.bingleBangbang.location).toBe('discard');
+                expect(this.tirelessCrocag.location).toBe('discard');
+            });
+
             it('should destroy itself if opponent has no creatures on the board and its their fault', function() {
                 this.player1.play(this.tirelessCrocag);
                 expect(this.tirelessCrocag.location).toBe('play area');

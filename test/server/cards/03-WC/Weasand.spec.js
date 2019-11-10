@@ -35,6 +35,20 @@ describe('Weasand', function() {
                 expect(this.player1.amber).toBe(2);
             });
 
+
+            it('should not gain 2 amber after forging a key', function() {
+                this.player1.amber = 6;
+                this.player1.playCreature(this.weasand, true, true);
+                this.player1.clickCard(this.redlock);
+                this.player1.endTurn();
+                this.player2.clickPrompt('brobnar');
+                this.player2.endTurn();
+                this.player1.clickPrompt('Red');
+                this.player1.clickPrompt('shadows');
+                expect(this.player1.amber).toBe(0);
+                expect(this.player1.amber).toBe(0);
+            });
+
             it('should be destroyed if on a flank right after play', function() {
                 this.player1.playCreature(this.weasand);
                 expect(this.weasand.location).toBe('discard');
@@ -44,6 +58,18 @@ describe('Weasand', function() {
                 this.player1.playCreature(this.weasand, true, true);
                 this.player1.clickCard(this.redlock);
                 expect(this.weasand.location).toBe('play area');
+                this.player1.endTurn();
+                this.player2.clickPrompt('brobnar');
+                this.player2.fightWith(this.drummernaut, this.redlock);
+                expect(this.redlock.location).toBe('discard');
+                expect(this.weasand.location).toBe('discard');
+            });
+
+            it('should be destroyed even if warded', function() {
+                this.player1.playCreature(this.weasand, true, true);
+                this.player1.clickCard(this.redlock);
+                expect(this.weasand.location).toBe('play area');
+                this.weasand.ward();
                 this.player1.endTurn();
                 this.player2.clickPrompt('brobnar');
                 this.player2.fightWith(this.drummernaut, this.redlock);

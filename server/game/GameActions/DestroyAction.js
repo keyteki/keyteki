@@ -10,6 +10,7 @@ class DestroyAction extends CardGameAction {
     setDefaultProperties() {
         this.inFight = false;
         this.purge = false;
+        this.ignoreWard = false;
     }
 
     setup() {
@@ -28,13 +29,15 @@ class DestroyAction extends CardGameAction {
                 card: componentEvent.card,
                 context: context,
                 inFight: event.inFight,
+                ignoreWard: this.ignoreWard,
                 battlelineIndex: componentEvent.card.controller.creaturesInPlay.indexOf(componentEvent.card) - 1
             }, event => {
                 componentEvent.destroyEvent = event;
                 context.game.raiseEvent('onCardLeavesPlay', {
                     card: event.card,
                     context: event.context,
-                    battlelineIndex: event.card.controller.creaturesInPlay.indexOf(event.card) - 1
+                    battlelineIndex: event.card.controller.creaturesInPlay.indexOf(event.card) - 1,
+                    ignoreWard: this.ignoreWard
                 }, event => {
                     event.card.owner.moveCard(event.card, this.purge ? 'purged' : 'discard');
                 });
@@ -43,7 +46,7 @@ class DestroyAction extends CardGameAction {
     }
 
     getEvent(card, context) {
-        return super.createEvent('onCardMarkedForDestruction', { card, context }, event => {
+        return super.createEvent('onCardMarkedForDestruction', { card, context, ignoreWard: this.ignoreWard }, event => {
             event.card.moribund = true;
         });
     }

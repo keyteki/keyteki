@@ -10,6 +10,7 @@ class DealDamageAction extends CardGameAction {
         this.splash = 0;
         this.purge = false;
         this.ignoreArmor = false;
+        this.ignoreWard = false;
     }
 
     setup() {
