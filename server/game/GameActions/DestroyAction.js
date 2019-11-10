@@ -17,34 +17,28 @@ class DestroyAction extends CardGameAction {
     }
 
     canAffect(card, context) {
-        return card.location === 'play area' && super.canAffect(card, context);
+        return !card.moribund && card.location === 'play area' && super.canAffect(card, context);
     }
 
-    getEventArray(context) {
-        const componentEvents = super.getEventArray(context);
-        return componentEvents.concat(super.createEvent('unnamedEvent', { componentEvents, inFight: this.inFight }, event => {
-            const componentEvents = event.componentEvents.filter(event => !event.cancelled);
-            context.game.openEventWindow(componentEvents.map(componentEvent => super.createEvent('onCardDestroyed', {
-                card: componentEvent.card,
+    getEvent(card, context) {
+        return super.createEvent('onCardMarkedForDestruction', { card, context, inFight: this.inFight }, event => {
+            event.card.moribund = true;
+            event.destroyEvent = context.game.getEvent('onCardDestroyed', {
+                card: event.card,
                 context: context,
+                condition: event => event.card.location === 'play area',
                 inFight: event.inFight,
-                battlelineIndex: componentEvent.card.controller.creaturesInPlay.indexOf(componentEvent.card) - 1
+                battlelineIndex: event.card.controller.creaturesInPlay.indexOf(event.card) - 1
             }, event => {
-                componentEvent.destroyEvent = event;
-                context.game.raiseEvent('onCardLeavesPlay', {
+                event.addSubEvent(context.game.getEvent('onCardLeavesPlay', {
                     card: event.card,
                     context: event.context,
                     battlelineIndex: event.card.controller.creaturesInPlay.indexOf(event.card) - 1
                 }, event => {
                     event.card.owner.moveCard(event.card, this.purge ? 'purged' : 'discard');
-                });
-            })));
-        }));
-    }
-
-    getEvent(card, context) {
-        return super.createEvent('onCardMarkedForDestruction', { card, context }, event => {
-            event.card.moribund = true;
+                }));
+            });
+            event.addSubEvent(event.destroyEvent);
         });
     }
 }

@@ -36,7 +36,7 @@ describe('Soulkeeper', function() {
                         hand: ['soulkeeper']
                     },
                     player2: {
-                        inPlay: ['nexus', 'bilgum-avalanche', 'yantzee-gang']
+                        inPlay: ['nexus', 'bilgum-avalanche', 'yantzee-gang', 'dodger']
                     }
                 });
             });
@@ -47,7 +47,9 @@ describe('Soulkeeper', function() {
                 expect(this.player1).toHavePrompt('Old Yurk');
                 expect(this.player1).not.toBeAbleToSelect(this.nexus);
                 expect(this.player1).toBeAbleToSelect(this.yantzeeGang);
-                expect(this.player1).toBeAbleToSelect(this.bilgumAvalanche);
+                expect(this.player1).toBeAbleToSelect(this.dodger);
+                expect(this.player1).not.toBeAbleToSelect(this.bilgumAvalanche);
+                expect(this.bilgumAvalanche.location).toBe('play area');
                 this.player1.clickCard(this.yantzeeGang);
                 expect(this.oldYurk.location).toBe('discard');
                 expect(this.soulkeeper.location).toBe('discard');
