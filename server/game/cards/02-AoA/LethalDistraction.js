@@ -9,7 +9,7 @@ class LethalDistraction extends Card {
                     when: {
                         onDamageDealt: event => event.card === context.target
                     },
-=                    message: '{2} is dealt 2 damage due to {1}\'s effect',
+                    message: '{2} is dealt 2 damage due to {1}\'s effect',
                     gameAction: ability.actions.dealDamage({ amount: 2 })
                 }))
             },
