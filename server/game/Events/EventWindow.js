@@ -100,7 +100,6 @@ class EventWindow extends BaseStepWithPipeline {
     checkForSubEvents() {
         const subEvents = this.events.reduce((array, event) => array.concat(event.subEvents), []);
         if(subEvents.length > 0) {
-            //console.log(this.events.map(event => event.name), subEvents.map(event => event.name));
             this.game.openThenEventWindow(subEvents, false);
         }
     }
@@ -125,7 +124,6 @@ class EventWindow extends BaseStepWithPipeline {
     }
 
     triggerConstantReactions() {
-        //console.log('reaction', this.events.map(event => event.name));
         let reactionWindow = {
             addChoice: context => this.game.resolveAbility(context)
         };

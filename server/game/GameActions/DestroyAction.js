@@ -30,7 +30,6 @@ class DestroyAction extends CardGameAction {
                 inFight: event.inFight,
                 battlelineIndex: event.card.controller.creaturesInPlay.indexOf(event.card) - 1
             }, event => {
-                //console.log(componentEvent.card.name);
                 event.addSubEvent(context.game.getEvent('onCardLeavesPlay', {
                     card: event.card,
                     context: event.context,
