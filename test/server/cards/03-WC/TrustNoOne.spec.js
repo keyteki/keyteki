@@ -14,6 +14,7 @@ describe('Trust No One', function() {
                     }
                 });
             });
+
             it('should steal 1A when I have creatures in play.', function() {
                 this.player1.play(this.trustNoOne);
                 expect(this.player1.amber).toBe(5);
@@ -21,6 +22,7 @@ describe('Trust No One', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
         });
+
         describe('Trust No One\'s ability', function() {
             beforeEach(function() {
                 this.setupTest({
@@ -34,6 +36,7 @@ describe('Trust No One', function() {
                     }
                 });
             });
+
             it('should steal 1A for each house rep by opp when I have no creatures in play. [0]', function() {
                 this.player1.play(this.trustNoOne);
                 expect(this.player1.amber).toBe(4);
@@ -41,6 +44,7 @@ describe('Trust No One', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
         });
+
         describe('Trust No One\'s ability', function() {
             beforeEach(function() {
                 this.setupTest({
@@ -55,6 +59,7 @@ describe('Trust No One', function() {
                     }
                 });
             });
+
             it('should steal 1A for each house rep by opp when I have no creatures in play. [1]', function() {
                 this.player1.play(this.trustNoOne);
                 expect(this.player1.amber).toBe(5);
@@ -62,6 +67,7 @@ describe('Trust No One', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
         });
+
         describe('Trust No One\'s ability', function() {
             beforeEach(function() {
                 this.setupTest({
@@ -76,6 +82,7 @@ describe('Trust No One', function() {
                     }
                 });
             });
+
             it('should steal 1A for each house rep by opp when I have no creatures in play. [2]', function() {
                 this.player1.play(this.trustNoOne);
                 expect(this.player1.amber).toBe(6);
@@ -83,6 +90,7 @@ describe('Trust No One', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
         });
+
         describe('Trust No One\'s ability', function() {
             beforeEach(function() {
                 this.setupTest({
@@ -97,6 +105,7 @@ describe('Trust No One', function() {
                     }
                 });
             });
+
             it('should steal 1A (max 3) for each house rep by opp when I have no creatures in play. [3]', function() {
                 this.player1.play(this.trustNoOne);
                 expect(this.player1.amber).toBe(7);
@@ -104,6 +113,7 @@ describe('Trust No One', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
         });
+
         describe('Trust No One\'s ability', function() {
             beforeEach(function() {
                 this.setupTest({
@@ -119,7 +129,8 @@ describe('Trust No One', function() {
                     }
                 });
             });
-            it('should max out at 3A stolen even if there is more houses in play [3]', function() {
+
+            it('should max out at 3A stolen even if there are more houses in play [3]', function() {
                 this.player1.endTurn();
                 this.player2.clickPrompt('logos');
                 this.player2.playUpgrade(this.experimentalTherapy, this.mother);
