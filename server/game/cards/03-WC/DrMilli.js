@@ -12,11 +12,7 @@ class DrMilli extends Card {
                     context.player.hand.length, context.player.opponent.creaturesInPlay.length - (context.player.creaturesInPlay.length - 1)
                 ),
                 gameAction: ability.actions.archive()
-            },
-            effect: 'archive {1} cards',
-            effectArgs: context => [
-                context.player.opponent.creaturesInPlay.length - context.player.creaturesInPlay.length - 1
-            ]
+            }
         });
     }
 }
