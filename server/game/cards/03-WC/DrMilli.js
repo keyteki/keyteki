@@ -14,8 +14,8 @@ class DrMilli extends Card {
                 gameAction: ability.actions.archive()
             },
             effect: 'archive {1} cards',
-            effectArgs: context => [
-                context.player.opponent.creaturesInPlay.length - context.player.creaturesInPlay.length - 1
+            effectArgs: context => [ Math.max(
+                context.player.opponent.creaturesInPlay.length - (context.player.creaturesInPlay.length - 1), 0)
             ]
         });
     }

@@ -5,14 +5,33 @@ describe('Dr. Milli', function() {
                 this.setupTest({
                     player1: {
                         house: 'logos',
-                        hand: ['dr-milli', 'eyegor', 'doc-bookton', 'brain-eater', 'mother']
+                        hand: ['dr-milli', 'eyegor', 'doc-bookton', 'brain-eater', 'mother', 'babbling-bibliophile', 'groupthink-tank', 'jargogle']
                     },
                     player2: {
                         inPlay: ['stealer-of-souls', 'overlord-greking', 'dust-imp', 'streke']
                     }
                 });
             });
-
+            
+            it('should cause the player not to get archive prompt as player and opponent have equal number of creatures not including Dr. Milli', function() {
+                this.player1.play(this.mother);
+                this.player1.play(this.docBookton);
+                this.player1.play(this.brainEater);
+                this.player1.play(this.groupthinkTank);
+                this.player1.play(this.drMilli);
+                expect(this.player1).not.toHavePrompt('Dr. Milli');
+                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            });
+            it('should cause the player not to get archive prompt as player has more creatures than opponent not including Dr. Milli', function() {
+                this.player1.play(this.mother);
+                this.player1.play(this.docBookton);
+                this.player1.play(this.brainEater);
+                this.player1.play(this.groupthinkTank);
+                this.player1.play(this.babblingBibliophile);
+                this.player1.play(this.drMilli);
+                expect(this.player1).not.toHavePrompt('Dr. Milli');
+                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            });
             it('should cause the player to archive 4 cards if the opponent has 4 creatures on the board, and dr milli is the only card in play', function() {
                 this.player1.play(this.drMilli);
                 expect(this.player1).toHavePrompt('Dr. Milli');
