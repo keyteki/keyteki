@@ -33,17 +33,10 @@ class RearrangeCardsAction extends CardGameAction {
         super.preEventHandler(context);
 
         this.amount = Math.min(this.amount, context.player.deck.length);
-        this.orderedCards = [];
+        this.orderedCards = this.amount === 1 ? context.player.deck : [];
         this.remainingCards = context.player.deck.slice(0, this.amount);
 
-        if(this.amount === 1) {
-            this.orderedCards = context.player.deck;
-            this.remainingCards = [];
-        }
-
         if(this.amount > 1) {
-            this.orderedCards = [];
-            this.remainingCards = context.player.deck.slice(0, this.amount);
             this.promptForRemainingCards(context);
         }
     }
