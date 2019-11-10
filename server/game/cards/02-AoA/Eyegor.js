@@ -3,12 +3,13 @@ const Card = require('../../Card.js');
 class Eyegor extends Card {
     setupCardAbilities(ability) {
         this.play({
+            effect: 'to look at the top 3 cards of their deck',
             gameAction: ability.actions.moveCard(context => ({
                 destination: 'hand',
                 promptWithHandlerMenu: {
                     activePromptTitle: 'Choose a card to add to hand',
                     cards: context.player.deck.slice(0, 3),
-                    message: '{0} chooses to add a card to their hand'
+                    message: '{0} adds a card to their hand and discards the other 2'
                 }
             })),
             then: {
