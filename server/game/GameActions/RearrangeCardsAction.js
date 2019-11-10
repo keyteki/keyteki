@@ -8,7 +8,7 @@ class RearrangeCardsAction extends CardGameAction {
         super.setup();
         this.name = 'rearrangeDeck';
         this.amount = 3;
-        this.effectMsg = `look at the top ${ this.amount } cards of their deck and rearrange them in any order`;
+        this.effectMsg = `look at the top ${this.amount} cards of their deck and rearrange them in any order`;
     }
 
     promptForRemainingCards(context) {
