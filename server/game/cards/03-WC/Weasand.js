@@ -5,7 +5,7 @@ class Weasand extends Card {
         this.interrupt({
             condition: context => !!context.player.opponent,
             when: {
-                onForgeKey: (event, context) => event.player === context.player.opponent
+                onForgeKey: () => true,
             },
             gameAction: ability.actions.gainAmber({ amount: 2 })
         });

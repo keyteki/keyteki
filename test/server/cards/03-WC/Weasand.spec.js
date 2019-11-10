@@ -24,6 +24,18 @@ describe('Weasand', function() {
                 expect(this.player1.amber).toBe(0);
             });
 
+            it('should not gain amber if player does not forge a key', function() {
+                this.player1.playCreature(this.weasand, true, true);
+                this.player1.clickCard(this.redlock);
+                expect(this.weasand.location).toBe('play area');
+                this.player1.endTurn();
+                this.player2.clickPrompt('brobnar');
+                this.player2.endTurn();
+                this.player1.clickPrompt('shadows');
+                expect(this.player1.amber).toBe(0);
+                expect(this.player1.amber).toBe(0);
+            });
+
             it('should gain 2 amber if opponent forges a key', function() {
                 this.player2.amber = 6;
                 this.player1.playCreature(this.weasand, true, true);
@@ -32,11 +44,11 @@ describe('Weasand', function() {
                 this.player1.endTurn();
                 this.player2.clickPrompt('Red');
                 this.player2.clickPrompt('brobnar');
-                expect(this.player2.amber).toBe(0);
                 expect(this.player1.amber).toBe(2);
+                expect(this.player2.amber).toBe(0);
             });
 
-            it('should not gain 2 amber after forging a key', function() {
+            it('should gain 2 amber after forging a key', function() {
                 this.player1.amber = 6;
                 this.player1.playCreature(this.weasand, true, true);
                 this.player1.clickCard(this.redlock);
@@ -45,8 +57,8 @@ describe('Weasand', function() {
                 this.player2.endTurn();
                 this.player1.clickPrompt('Red');
                 this.player1.clickPrompt('shadows');
-                expect(this.player1.amber).toBe(0);
-                expect(this.player1.amber).toBe(0);
+                expect(this.player1.amber).toBe(2);
+                expect(this.player2.amber).toBe(0);
             });
 
             it('should be destroyed if on a flank right after play', function() {
