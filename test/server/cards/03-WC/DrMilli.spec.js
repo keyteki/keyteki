@@ -12,7 +12,6 @@ describe('Dr. Milli', function() {
                     }
                 });
             });
-            
             it('should cause the player not to get archive prompt as player and opponent have equal number of creatures not including Dr. Milli', function() {
                 this.player1.play(this.mother);
                 this.player1.play(this.docBookton);
