@@ -131,7 +131,7 @@ class PlayerInteractionWrapper {
         return this.player.opponent;
     }
 
-    replaceTitleVariables(title) {
+    replaceLocalizedValues(title) {
         if(!title) {
             return null;
         }
@@ -154,8 +154,8 @@ class PlayerInteractionWrapper {
         let currentPrompt = this.player.currentPrompt();
 
         // Replace variable place holders
-        let menuTitle = this.replaceTitleVariables(currentPrompt.menuTitle);
-        let promptTitle = this.replaceTitleVariables(currentPrompt.promptTitle);
+        let menuTitle = this.replaceLocalizedValues(currentPrompt.menuTitle);
+        let promptTitle = this.replaceLocalizedValues(currentPrompt.promptTitle);
 
         currentPrompt.menuTitle = menuTitle;
         currentPrompt.promptTitle = promptTitle;
@@ -165,7 +165,7 @@ class PlayerInteractionWrapper {
 
     get currentButtons() {
         var buttons = this.currentPrompt().buttons;
-        return _.map(buttons, button => button.text.toString());
+        return _.map(buttons, button => this.replaceLocalizedValues(button));
     }
 
     /**
@@ -200,7 +200,7 @@ class PlayerInteractionWrapper {
             return 'no prompt active';
         }
 
-        return prompt.menuTitle + '\n' + _.map(prompt.buttons, button => '[ ' + button.text + ' ]').join('\n') + '\n' + _.pluck(selectableCards, 'name').join('\n');
+        return prompt.menuTitle + '\n' + _.map(this.currentButtons, button => '[ ' + button + ' ]').join('\n') + '\n' + _.pluck(selectableCards, 'name').join('\n');
     }
 
     findCardByName(name, locations = 'any', side) {
