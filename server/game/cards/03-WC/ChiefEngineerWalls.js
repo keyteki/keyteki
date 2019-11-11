@@ -5,6 +5,7 @@ class ChiefEngineerWalls extends Card {
         this.play({
             fight: true,
             reap: true,
+            optional: true,
             target: {
                 cardType: ['creature', 'upgrade'],
                 location: ['discard'],
