@@ -39,7 +39,7 @@ describe('Com. Officer Kirby', function() {
             });
 
             it('should not allow a non star alliance card in play to be used', function () {
-                expect(this.player1).not.toBeAbleToPlay(this.urchin);
+                expect(this.player1).not.toBeAbleToSelect(this.urchin);
             });
         });
     });
