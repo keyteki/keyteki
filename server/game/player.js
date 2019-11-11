@@ -637,18 +637,12 @@ class Player extends GameObject {
     }
 
     getUnforgedKeys() {
-        return [{ text: 'Red', icon: 'unforgedkeyred' }, { text: 'Blue', icon: 'unforgedkeyblue' }, {
-            text: 'Yellow',
-            icon: 'unforgedkeyyellow'
-        }]
+        return [{ text: 'Red', icon: 'unforgedkeyred' }, { text: 'Blue', icon: 'unforgedkeyblue' }, { text: 'Yellow', icon: 'unforgedkeyyellow' }]
             .filter(key => !this.keys[key.text.toLowerCase()]);
     }
 
     getKeyOptions(options) {
-        return [{ text: 'Red', icon: 'forgedkeyred' }, { text: 'Blue', icon: 'forgedkeyblue' }, {
-            text: 'Yellow',
-            icon: 'forgedkeyyellow'
-        }]
+        return [{ text: 'Red', icon: 'forgedkeyred' }, { text: 'Blue', icon: 'forgedkeyblue' }, { text: 'Yellow', icon: 'forgedkeyyellow' }]
             .filter(key => options.includes(key.text.toLowerCase()));
     }
 
