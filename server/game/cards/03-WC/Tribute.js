@@ -17,9 +17,10 @@ class Tribute extends Card {
             }
         });
 
+        let amberAmount = 2;
         this.play({
-            effect: 'capture {1} amber',
-            effectArgs: context => [Math.min(context.player.opponent && context.player.opponent.amber || 0, 2)],
+            effect: 'capture ' + amberAmount + ' amber from {1}, placing it on {0}',
+            effectArgs: context => [context.player.opponent],
             target: {
                 mode: 'mostStat',
                 cardType: 'creature',
@@ -29,7 +30,7 @@ class Tribute extends Card {
             },
             then: context => ({
                 alwaysTriggers: true,
-                gameAction: ability.actions.capture({ target: context.target, amount: 2 }),
+                gameAction: ability.actions.capture({ target: context.target, amount: amberAmount }),
                 then: askForExalt(context)
             })
         });
