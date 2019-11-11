@@ -4,7 +4,7 @@ class CXOTaber extends Card {
     setupCardAbilities(ability) {
         this.fight({
             reap: true,
-            effect: 'allow them to play or use one non-Star Alliance card this turn',
+            effect: 'allow them to play or use one non staralliance card this turn',
             gameAction: ability.actions.forRemainderOfTurn({
                 effect: ability.effects.canPlayOrUseNonHouse('staralliance')
             })
