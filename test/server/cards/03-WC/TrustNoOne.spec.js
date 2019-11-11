@@ -142,5 +142,28 @@ describe('Trust No One', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
         });
+
+        describe('Trust No One\'s ability', function() {
+            beforeEach(function() {
+                this.setupTest({
+                    player1: {
+                        amber: 4,
+                        house: 'shadows',
+                        hand: ['trust-no-one', 'virtuous-works', 'chuff-ape']
+                    },
+                    player2: {
+                        amber: 5,
+                        hand: ['experimental-therapy'],
+                        inPlay: ['mother', 'the-vaultkeeper', 'rustgnawer']
+                    }
+                });
+            });
+
+            it('should not trigger if there\'s an effect preventing it', function() {
+                this.player1.play(this.trustNoOne);
+                expect(this.getChatLogs(5)).not.toContain('player1 uses Trust No One to steal 3 amber from player2');
+                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            });
+        });
     });
 });

@@ -62,7 +62,7 @@ class GameAction {
 
     hasLegalTarget(context) {
         this.update(context);
-        return this.target.some(target => this.canAffect(target, context));
+        return this.target.some(target => this.canAffect(target, context) && target.checkRestrictions(this.name, context));
     }
 
     preEventHandler(context) {
