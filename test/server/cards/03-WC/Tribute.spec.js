@@ -25,7 +25,7 @@ describe('Tribute', function() {
                 expect(this.player1).not.toBeAbleToSelect(this.tunk);
                 this.player1.clickCard(this.krump);
                 expect(this.krump.amber).toBe(2);
-                expect(this.player1).toHavePrompt('Do you wish to exhalt the creature?');
+                expect(this.player1).toHavePrompt('Do you wish to exalt the creature?');
                 this.player1.clickPrompt('No');
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
@@ -40,7 +40,7 @@ describe('Tribute', function() {
                 this.player1.clickCard(this.krump);
                 expect(this.krump.amber).toBe(2);
                 expect(this.player2.amber).toBe(10);
-                expect(this.player1).toHavePrompt('Do you wish to exhalt the creature?');
+                expect(this.player1).toHavePrompt('Do you wish to exalt the creature?');
                 this.player1.clickPrompt('Yes');
                 expect(this.krump.amber).toBe(3);
                 expect(this.player1).toHavePrompt('Choose a creature');

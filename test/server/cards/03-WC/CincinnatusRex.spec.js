@@ -76,7 +76,7 @@ describe('Cincinnatus Rex', function() {
             it('should have the option to exalt after fight and cancel', function() {
                 this.player1.fightWith(this.paraguardian, this.lamindra);
                 this.player1.fightWith(this.cincinnatusRex, this.lamindra);
-                expect(this.player1).toHavePrompt('Any reactions?');
+                expect(this.player1).toHavePrompt('Triggered Abilities');
                 this.player1.clickPrompt('Done');
                 expect(this.cincinnatusRex.exhausted).toBe(true);
                 expect(this.paraguardian.exhausted).toBe(true);
@@ -85,7 +85,7 @@ describe('Cincinnatus Rex', function() {
             it('should exalt after fight and ready friendly creatures', function() {
                 this.player1.fightWith(this.paraguardian, this.lamindra);
                 this.player1.fightWith(this.cincinnatusRex, this.lamindra);
-                expect(this.player1).toHavePrompt('Any reactions?');
+                expect(this.player1).toHavePrompt('Triggered Abilities');
                 this.player1.clickCard(this.cincinnatusRex);
                 expect(this.cincinnatusRex.exhausted).toBe(true);
                 expect(this.paraguardian.exhausted).toBe(false);

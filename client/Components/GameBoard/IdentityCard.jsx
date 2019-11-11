@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { createCanvas, loadImage } from 'canvas';
 import QRCode from 'qrcode';
+import * as Images from '../../assets/img';
 
 import { withTranslation } from 'react-i18next';
 
@@ -36,22 +37,22 @@ class IdentityCard extends React.Component {
                 this.buildArchon();
             }
         } else {
-            this.setState({ imageUrl: '/img/idbacks/cardback.jpg', imageType: 'blank' });
+            this.setState({ imageUrl: Images.cardback, imageType: 'blank' });
         }
     }
 
     buildDeckList() {
         const canvas = createCanvas(600, 840);
         const ctx = canvas.getContext('2d');
-        const cardBack = loadImage('/img/idbacks/decklist.png');
-        const Common = loadImage('/img/idbacks/Common.png');
-        const Uncommon = loadImage('/img/idbacks/Uncommon.png');
-        const Rare = loadImage('/img/idbacks/Rare.png');
-        const Special = loadImage('/img/idbacks/Special.png');
-        const maverick = loadImage('/img/idbacks/Maverick.png');
-        const legacy = loadImage('/img/idbacks/Legacy.png');
-        const anomaly = loadImage('/img/idbacks/Anomaly.png');
-        const set = loadImage(`/img/idbacks/${ this.props.deckSet }.png`);
+        const cardBack = loadImage(Images.decklist);
+        const Common = loadImage(Images.Common);
+        const Uncommon = loadImage(Images.Uncommon);
+        const Rare = loadImage(Images.Rare);
+        const Special = loadImage(Images.Special);
+        const maverick = loadImage(Images.Maverick);
+        const legacy = loadImage(Images.Legacy);
+        const anomaly = loadImage(Images.Anomaly);
+        const set = loadImage(Images[`icon${this.props.deckSet}`]);
 
         const houseData = {
             size: 35,
@@ -64,7 +65,7 @@ class IdentityCard extends React.Component {
             start: { x: 60, y: 185 }
         };
         const qrCode = new Promise(resolve => {
-            QRCode.toDataURL(`https://www.keyforgegame.com/${ this.props.deckUuid.length > 0 ? 'deck-details/' + this.props.deckUuid : '' }`, { margin: 0 })
+            QRCode.toDataURL(`https://www.keyforgegame.com/${this.props.deckUuid.length > 0 ? 'deck-details/' + this.props.deckUuid : ''}`, { margin: 0 })
                 .then(async url => {
                     loadImage(url).then(image => {
                         resolve(image);
@@ -80,7 +81,7 @@ class IdentityCard extends React.Component {
 
                 const houseProm = this.props.houses.map((house, index) => {
                     return new Promise(async res1 => {
-                        const img = await loadImage(`img/idbacks/decklist_houses/${ house }.png`);
+                        const img = await loadImage(Images[house]);
                         ctx.drawImage(img, houseData[index].x, houseData[index].y, houseData.size, houseData.size);
                         ctx.fillStyle = 'black';
                         ctx.font = 'bold 25px Keyforge';
@@ -162,8 +163,10 @@ class IdentityCard extends React.Component {
         const imageUrl = canvas.toDataURL();
         const card = (
             <div onMouseOver={ this.onMouseOver } onMouseOut={ this.onMouseOut }>
-                <img style={ { position: 'absolute', zIndex: 2, maxWidth:'100%' } } className={ `${ this.props.size }` } src={ imageUrl }/>
-                <img style={ { position: 'relative', zIndex: 1, maxWidth:'100%' } } className={ `${ this.props.size }` } src={ `/img/idbacks/archons/${ this.imageName() }.png` }/>
+                <img style={ { position: 'absolute', zIndex: 2, maxWidth: '100%' } } className={ `${this.props.size}` }
+                    src={ imageUrl }/>
+                <img style={ { position: 'relative', zIndex: 1, maxWidth: '100%' } } className={ `${this.props.size}` }
+                    src={ `/img/idbacks/archons/${this.imageName()}.png` }/>
             </div>);
         this.setState({ card, imageType: 'archon' });
     }
@@ -197,7 +200,7 @@ class IdentityCard extends React.Component {
         canvas.height = diameter;
         ctx.fillStyle = 'white';
         ctx.strokeStyle = 'grey';
-        ctx.font = `bold ${ this.getCurvedFontSize(text.length) }px Keyforge`;
+        ctx.font = `bold ${this.getCurvedFontSize(text.length)}px Keyforge`;
 
         text = text.split('').reverse().join('');
 
@@ -224,7 +227,10 @@ class IdentityCard extends React.Component {
 
     onMouseOver() {
         if(this.props.onMouseOver) {
-            this.props.onMouseOver({ imageType: this.state.imageType, imageUrl: this.state.imageUrl, ...this.state.card });
+            this.props.onMouseOver({
+                imageType: this.state.imageType,
+                imageUrl: this.state.imageUrl, ...this.state.card
+            });
         }
     }
 
@@ -248,7 +254,7 @@ class IdentityCard extends React.Component {
                 <div className='card-wrapper'>
                     <div className='card-frame'>
                         { this.state.imageType !== 'archon' ?
-                            <img className={ `card-image vertical ${ this.props.size }` }
+                            <img className={ `card-image vertical ${this.props.size}` }
                                 src={ this.state.imageUrl }/> : this.state.card
                         }
                     </div>

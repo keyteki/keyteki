@@ -51,10 +51,11 @@ describe('Centurion Stenopius', function() {
             it('should not increase power if no exalt', function() {
                 this.player1.reap(this.centurionStenopius);
 
-                expect(this.player1).toHavePrompt('Any reactions?');
+                expect(this.player1).toHavePrompt('Triggered Abilities');
                 expect(this.player1).toHavePromptButton('Done');
                 this.player1.clickPrompt('Done');
             });
+
             it('should increase power +6 after exalt', function() {
                 this.centurionStenopius.tokens.amber = 1;
 
@@ -85,7 +86,7 @@ describe('Centurion Stenopius', function() {
             it('should not increase power if no exalt', function() {
                 this.player1.fightWith(this.centurionStenopius, this.grovekeeper);
 
-                expect(this.player1).toHavePrompt('Any reactions?');
+                expect(this.player1).toHavePrompt('Triggered Abilities');
                 expect(this.player1).toHavePromptButton('Done');
                 this.player1.clickPrompt('Done');
             });

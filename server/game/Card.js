@@ -229,6 +229,7 @@ class Card extends EffectSource {
         this.abilities.keywordPersistentEffects.push(this.persistentEffect({
             condition: () => !!this.getKeywordValue('invulnerable'),
             printedAbility: false,
+            match: this,
             effect: [
                 ability.effects.cardCannot('damage'),
                 ability.effects.cardCannot('destroy')

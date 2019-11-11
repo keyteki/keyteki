@@ -10,10 +10,11 @@ class ThrowingStars extends Card {
                 gameAction: ability.actions.dealDamage({ amount: 1 })
             },
             then: context => ({
+                alwaysTriggers: true,
                 gameAction: ability.actions.gainAmber(() => ({
                     amount: context.targets.target.filter(target => target.location !== 'play area').length
                 })),
-                message: 'and gain amber for each creature destroyed this way'
+                message: '{0} gains amber for each creature destroyed this way'
             })
         });
     }
