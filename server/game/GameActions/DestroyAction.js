@@ -21,22 +21,30 @@ class DestroyAction extends CardGameAction {
     }
 
     getEvent(card, context) {
-        return super.createEvent('onCardMarkedForDestruction', { card, context, inFight: this.inFight }, event => {
+        const params = {
+            card: card,
+            context: context,
+            inFight: this.inFight,
+            isFullyResolved: event => !!event.destroyEvent && event.destroyEvent.isFullyResolved(event.destroyEvent)
+        };
+        return super.createEvent('onCardMarkedForDestruction', params, event => {
             event.card.moribund = true;
             event.destroyEvent = context.game.getEvent('onCardDestroyed', {
                 card: event.card,
                 context: context,
                 condition: event => event.card.location === 'play area',
+                isFullyResolved: event => !!event.leavesPlayEvent && event.leavesPlayEvent.isFullyResolved(event.leavesPlayEvent),
                 inFight: event.inFight,
                 battlelineIndex: event.card.controller.creaturesInPlay.indexOf(event.card) - 1
             }, event => {
-                event.addSubEvent(context.game.getEvent('onCardLeavesPlay', {
+                event.leavesPlayEvent = context.game.getEvent('onCardLeavesPlay', {
                     card: event.card,
                     context: event.context,
                     battlelineIndex: event.card.controller.creaturesInPlay.indexOf(event.card) - 1
                 }, event => {
                     event.card.owner.moveCard(event.card, this.purge ? 'purged' : 'discard');
-                }));
+                });
+                event.addSubEvent(event.leavesPlayEvent);
             });
             event.addSubEvent(event.destroyEvent);
         });

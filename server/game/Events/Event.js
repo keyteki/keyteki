@@ -10,14 +10,13 @@ class Event {
         this.card = null;
         this.context = null;
         this.window = null;
-        this.getResult = () => {
-            return { resolved: this.resolved, cancelled: this.cancelled };
-        };
-
         this.condition = (event) => true; // eslint-disable-line no-unused-vars
         this.order = 0;
         this.isContingent = false;
         this.subEvents = [];
+        this.isFullyResolved = event => {
+            return event.resolved;
+        };
 
         _.extend(this, params);
     }
