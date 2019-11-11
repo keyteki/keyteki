@@ -11,7 +11,7 @@ class Mug extends Card {
                     ability.actions.dealDamage({ amount: 2 })
                 ]
             },
-            effect: 'move 1 amber from {0} to their pool and deal 2 damages to it'
+            effect: 'move 1 amber from {0} to their pool and deal 2 damage to it'
         });
     }
 }
