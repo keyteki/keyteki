@@ -10,7 +10,6 @@ class DestroyAction extends CardGameAction {
     setDefaultProperties() {
         this.inFight = false;
         this.purge = false;
-        this.ignoreWard = false;
     }
 
     setup() {
