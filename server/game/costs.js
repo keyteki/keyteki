@@ -1,5 +1,7 @@
-const UseEffects = ['canUseHouse', 'canPlayOrUseHouse', 'canPlayOrUseNonHouse'];
-const PlayEffects = ['canPlayHouse', 'canPlayOrUseHouse', 'canPlayNonHouse', 'canPlayOrUseNonHouse'];
+const HouseUseEffects = ['canUseHouse', 'canPlayOrUseHouse'];
+const NonHouseUseEffects = ['canPlayOrUseNonHouse'];
+const HousePlayEffects = ['canPlayHouse', 'canPlayOrUseHouse'];
+const NonHousePlayEffects = ['canPlayNonHouse', 'canPlayOrUseNonHouse'];
 
 const Costs = {
     exhaust: () => ({
@@ -16,8 +18,8 @@ const Costs = {
                 return true;
             }
 
-            return context.player.effects.some(effect => UseEffects.includes(effect.type) &&
-                context.source.hasHouse(effect.getValue(context.player)) && !context.game.effectsUsed.includes(effect));
+            return context.player.effects.some(effect => (HouseUseEffects.includes(effect.type) && context.source.hasHouse(effect.getValue(context.player))) ||
+                (NonHouseUseEffects.includes(effect.type) && !context.source.hasHouse(effect.getValue(context.player))) && !context.game.effectsUsed.includes(effect));
         },
         payEvent: context => context.game.getEvent('unnamedEvent', {}, () => {
             context.game.cardsUsed.push(context.source);
@@ -27,9 +29,13 @@ const Costs = {
                 return true;
             }
 
-            let houseEffects = (context.player.effects.filter(effect => UseEffects.includes(effect.type) &&
+            let houseEffects = (context.player.effects.filter(effect => (HouseUseEffects.includes(effect.type) || NonHouseUseEffects.includes(effect.type)) &&
                 !context.game.effectsUsed.includes(effect)));
-            let effect = houseEffects.find(effect => context.source.hasHouse(effect.getValue(context.player)));
+            let effect = houseEffects.find(effect => {
+                (HouseUseEffects.includes(effect.type) && context.source.hasHouse(effect.getValue(context.player))) ||
+                (NonHouseUseEffects.includes(effect.type) && !context.source.hasHouse(effect.getValue(context.player)));
+            });
+
             if(effect) {
                 context.game.effectsUsed.push(effect);
                 return true;
@@ -50,7 +56,7 @@ const Costs = {
                 return true;
             }
 
-            let effects = context.player.effects.filter(effect => PlayEffects.includes(effect.type) &&
+            let effects = context.player.effects.filter(effect => (HousePlayEffects.includes(effect.type) || NonHousePlayEffects.includes(effect.type)) &&
                 !context.game.effectsUsed.includes(effect));
 
             return effects.some(effect => {
@@ -61,7 +67,8 @@ const Costs = {
                     value = value.house;
                 }
 
-                return effect.type.includes('Non') ? !context.source.hasHouse(value) : context.source.hasHouse(value);
+                return (HousePlayEffects.includes(effect.type) && context.source.hasHouse(value)) ||
+                (NonHousePlayEffects.includes(effect.type) && !context.source.hasHouse(value));
             });
         },
         payEvent: context => context.game.getEvent('unnamedEvent', {}, () => {
@@ -72,7 +79,7 @@ const Costs = {
                 return true;
             }
 
-            let effects = context.player.effects.filter(effect => PlayEffects.includes(effect.type) &&
+            let effects = context.player.effects.filter(effect => (HousePlayEffects.includes(effect.type) || NonHousePlayEffects.includes(effect.type)) &&
                 !context.game.effectsUsed.includes(effect));
 
             let effect = effects.find(effect => {
@@ -83,7 +90,8 @@ const Costs = {
                     value = value.house;
                 }
 
-                return effect.type.includes('Non') ? !context.source.hasHouse(value) : context.source.hasHouse(value);
+                return (HousePlayEffects.includes(effect.type) && context.source.hasHouse(value)) ||
+                (NonHousePlayEffects.includes(effect.type) && !context.source.hasHouse(value));
             });
 
             if(effect) {
