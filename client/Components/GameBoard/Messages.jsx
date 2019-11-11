@@ -20,7 +20,10 @@ class Messages extends React.Component {
             cards: { className: 'icon-card', imageSrc: '/img/idbacks/cardback.jpg' },
             forgedkeyblue: { className: 'icon-forgedKey', imageSrc: '/img/forgedkeyblue.png' },
             forgedkeyyellow: { className: 'icon-forgedKey', imageSrc: '/img/forgedkeyyellow.png' },
-            forgedkeyred: { className: 'icon-forgedKey', imageSrc: '/img/forgedkeyred.png' }
+            forgedkeyred: { className: 'icon-forgedKey', imageSrc: '/img/forgedkeyred.png' },
+            unforgedkeyblue: { className: 'icon-forgedKey', imageSrc: '/img/unforgedkeyblue.png' },
+            unforgedkeyyellow: { className: 'icon-forgedKey', imageSrc: '/img/unforgedkeyyellow.png' },
+            unforgedkeyred: { className: 'icon-forgedKey', imageSrc: '/img/unforgedkeyred.png' }
         };
 
         for(let house of Constants.Houses) {
@@ -56,6 +59,15 @@ class Messages extends React.Component {
                     case 'forgedkeyblue':
                         token = 'blue key';
                         break;
+                    case 'unforgedkeyblue':
+                        token = 'blue key';
+                        break;
+                    case 'unforgedkeyred':
+                        token = 'red key';
+                        break;
+                    case 'unforgedkeyyellow':
+                        token = 'yellow key';
+                        break;
                     case 'forgedkeyred':
                         token = 'red key';
                         break;
@@ -67,7 +79,8 @@ class Messages extends React.Component {
                 }
 
                 messages.push(` ${token} `);
-                messages.push(<img key={ `${token}-${i++}` } className={ tokenEntry.className } src={ tokenEntry.imageSrc } />);
+                messages.push(<img key={ `${token}-${i++}` } className={ tokenEntry.className }
+                    src={ tokenEntry.imageSrc }/>);
                 messages.push(' ');
             } else {
                 messages.push(token + ' ');
@@ -98,33 +111,33 @@ class Messages extends React.Component {
                     case 'startofround':
                         messages.push(
                             <div className={ 'bold seperator ' + fragment.type } key={ index++ }>
-                                <hr className={ fragment.type } />
+                                <hr className={ fragment.type }/>
                                 { message }
-                                { fragment.type === 'phasestart' && <hr /> }
+                                { fragment.type === 'phasestart' && <hr/> }
                             </div>
                         );
                         break;
                     case 'success':
                         messages.push(<div className='alert alert-success' key={ index++ }>
-                            <span className='glyphicon glyphicon-ok-sign' />&nbsp;
+                            <span className='glyphicon glyphicon-ok-sign'/>&nbsp;
                             { message }
                         </div>);
                         break;
                     case 'info':
                         messages.push(<div className='alert alert-info' key={ index++ }>
-                            <span className='glyphicon glyphicon-info-sign' />&nbsp;
+                            <span className='glyphicon glyphicon-info-sign'/>&nbsp;
                             { message }
                         </div>);
                         break;
                     case 'danger':
                         messages.push(<div className='alert alert-danger' key={ index++ }>
-                            <span className='glyphicon glyphicon-exclamation-sign' />&nbsp;
+                            <span className='glyphicon glyphicon-exclamation-sign'/>&nbsp;
                             { message }
                         </div>);
                         break;
                     case 'warning':
                         messages.push(<div className='alert alert-warning' key={ index++ }>
-                            <span className='glyphicon glyphicon-warning-sign' />&nbsp;
+                            <span className='glyphicon glyphicon-warning-sign'/>&nbsp;
                             { message }
                         </div>);
                         break;
@@ -152,7 +165,7 @@ class Messages extends React.Component {
 
                 messages.push(
                     <div key={ index++ } className='message-chat'>
-                        <Avatar username={ fragment.name } float />
+                        <Avatar username={ fragment.name } float/>
                         <span key={ index++ } className={ userClass }>
                             { fragment.name }
                         </span>
