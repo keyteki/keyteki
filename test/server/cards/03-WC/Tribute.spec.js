@@ -65,7 +65,7 @@ describe('Tribute', function() {
                 this.player1.clickCard(this.krump);
                 expect(this.krump.amber).toBe(0);
                 expect(this.player2.amber).toBe(0);
-                expect(this.player1).toHavePrompt('Do you wish to exhalt the creature?');
+                expect(this.player1).toHavePrompt('Do you wish to exalt the creature?');
                 this.player1.clickPrompt('Yes');
                 expect(this.krump.amber).toBe(1);
                 expect(this.player1).toHavePrompt('Choose a creature');

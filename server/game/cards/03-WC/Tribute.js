@@ -4,6 +4,7 @@ class Tribute extends Card {
     setupCardAbilities(ability) {
         let askForExalt = context => ({
             condition: () => !context.secondResolution,
+            alwaysTriggers: true,
             may: 'exalt the creature',
             gameAction: ability.actions.exalt({ target: context.target }),
             then: {
