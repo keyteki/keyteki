@@ -12,7 +12,7 @@ class CincinnatusRex extends Card {
             gameAction: ability.actions.exalt(),
             then: {
                 gameAction: ability.actions.ready(context => ({
-                    target: context.player.creaturesInPlay.filter(card => card !== this)
+                    target: context.player.cardsInPlay.filter(card => card !== this)
                 }))
             }
         });

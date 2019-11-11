@@ -20,10 +20,10 @@ class RearrangeCardsAction extends CardGameAction {
                 this.orderedCards.unshift(card);
                 this.remainingCards = this.remainingCards.filter(c => c !== card);
 
-                if(this.remainingCards.length > 1) {
-                    this.promptForRemainingCards(context);
-                } else if(this.remainingCards.length === 1) {
+                if(this.remainingCards.length === 1) {
                     this.orderedCards.unshift(this.remainingCards[0]);
+                } else {
+                    this.promptForRemainingCards(context);
                 }
             }
         });
@@ -33,17 +33,10 @@ class RearrangeCardsAction extends CardGameAction {
         super.preEventHandler(context);
 
         this.amount = Math.min(this.amount, context.player.deck.length);
-        this.orderedCards = [];
+        this.orderedCards = this.amount === 1 ? context.player.deck : [];
         this.remainingCards = context.player.deck.slice(0, this.amount);
 
-        if(this.amount === 1) {
-            this.orderedCards = context.player.deck;
-            this.remainingCards = [];
-        }
-
         if(this.amount > 1) {
-            this.orderedCards = [];
-            this.remainingCards = context.player.deck.slice(0, this.amount);
             this.promptForRemainingCards(context);
         }
     }
