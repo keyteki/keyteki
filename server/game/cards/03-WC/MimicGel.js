@@ -3,6 +3,7 @@ const Card = require('../../Card.js');
 class MimicGel extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
+            match: this,
             condition: () => this.game.creaturesInPlay.length === 0,
             location: 'any',
             targetLocation: 'any',

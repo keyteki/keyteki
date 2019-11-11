@@ -18,36 +18,28 @@ class DestroyAction extends CardGameAction {
     }
 
     canAffect(card, context) {
-        return card.location === 'play area' && super.canAffect(card, context);
-    }
-
-    getEventArray(context) {
-        const componentEvents = super.getEventArray(context);
-        return componentEvents.concat(super.createEvent('unnamedEvent', { componentEvents, inFight: this.inFight }, event => {
-            const componentEvents = event.componentEvents.filter(event => !event.cancelled);
-            context.game.openEventWindow(componentEvents.map(componentEvent => super.createEvent('onCardDestroyed', {
-                card: componentEvent.card,
-                context: context,
-                inFight: event.inFight,
-                ignoreWard: this.ignoreWard,
-                battlelineIndex: componentEvent.card.controller.creaturesInPlay.indexOf(componentEvent.card) - 1
-            }, event => {
-                componentEvent.destroyEvent = event;
-                context.game.raiseEvent('onCardLeavesPlay', {
-                    card: event.card,
-                    context: event.context,
-                    battlelineIndex: event.card.controller.creaturesInPlay.indexOf(event.card) - 1,
-                    ignoreWard: this.ignoreWard
-                }, event => {
-                    event.card.owner.moveCard(event.card, this.purge ? 'purged' : 'discard');
-                });
-            })));
-        }));
+        return !card.moribund && card.location === 'play area' && super.canAffect(card, context);
     }
 
     getEvent(card, context) {
-        return super.createEvent('onCardMarkedForDestruction', { card, context, ignoreWard: this.ignoreWard }, event => {
+        return super.createEvent('onCardMarkedForDestruction', { card, context, inFight: this.inFight }, event => {
             event.card.moribund = true;
+            event.destroyEvent = context.game.getEvent('onCardDestroyed', {
+                card: event.card,
+                context: context,
+                condition: event => event.card.location === 'play area',
+                inFight: event.inFight,
+                battlelineIndex: event.card.controller.creaturesInPlay.indexOf(event.card) - 1
+            }, event => {
+                event.addSubEvent(context.game.getEvent('onCardLeavesPlay', {
+                    card: event.card,
+                    context: event.context,
+                    battlelineIndex: event.card.controller.creaturesInPlay.indexOf(event.card) - 1
+                }, event => {
+                    event.card.owner.moveCard(event.card, this.purge ? 'purged' : 'discard');
+                }));
+            });
+            event.addSubEvent(event.destroyEvent);
         });
     }
 }

@@ -17,6 +17,7 @@ class Event {
         this.condition = (event) => true; // eslint-disable-line no-unused-vars
         this.order = 0;
         this.isContingent = false;
+        this.subEvents = [];
 
         _.extend(this, params);
     }
@@ -36,8 +37,8 @@ class Event {
         this.window = null;
     }
 
-    createContingentEvents() {
-        return [];
+    addSubEvent(event) {
+        this.subEvents = this.subEvents.concat(event);
     }
 
     preResolutionEffect(game) {

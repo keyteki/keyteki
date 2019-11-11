@@ -209,9 +209,9 @@ class Card extends EffectSource {
         // warded
         this.abilities.keywordReactions.push(this.interrupt({
             when: {
-                onCardMarkedForDestruction: (event, context) => event.card === context.source && context.source.warded && !event.ignoreWard,
-                onCardLeavesPlay: (event, context) => event.card === context.source && context.source.warded && !event.ignoreWard,
-                onDamageDealt: (event, context) => event.card === context.source && !context.event.noGameStateCheck && context.source.warded && !event.ignoreWard
+                onCardMarkedForDestruction: (event, context) => event.card === context.source && context.source.warded,
+                onCardLeavesPlay: (event, context) => event.card === context.source && context.source.warded,
+                onDamageDealt: (event, context) => event.card === context.source && !context.event.noGameStateCheck && context.source.warded
             },
             autoResolve: true,
             effect: 'remove its ward token',

@@ -27,6 +27,7 @@ class EventWindow extends BaseStepWithPipeline {
             new SimpleStep(this.game, () => this.openWindow('interrupt')),
             new SimpleStep(this.game, () => this.preResolutionEffects()),
             new SimpleStep(this.game, () => this.executeHandler()),
+            new SimpleStep(this.game, () => this.checkForSubEvents()),
             new SimpleStep(this.game, () => this.checkGameState()),
             new SimpleStep(this.game, () => this.checkThenAbilities()),
             new SimpleStep(this.game, () => this.triggerConstantReactions()),
@@ -94,6 +95,13 @@ class EventWindow extends BaseStepWithPipeline {
 
             this.game.emit(event.name, event);
         });
+    }
+
+    checkForSubEvents() {
+        const subEvents = this.events.reduce((array, event) => array.concat(event.subEvents), []);
+        if(subEvents.length > 0) {
+            this.game.openThenEventWindow(subEvents, false);
+        }
     }
 
     checkGameState() {

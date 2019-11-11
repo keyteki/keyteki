@@ -31,7 +31,10 @@ class PlayUpgradeAction extends BasePlayAction {
         })];
         events.push(new AttachAction({ upgrade: context.source }).getEvent(context.target, context));
         if(context.source.type === 'creature') {
-            const changeTypeEvent = new LastingEffectCardAction({ effect: Effects.changeType('upgrade') }).getEvent(context.source, context);
+            const changeTypeEvent = new LastingEffectCardAction({
+                duration: 'lastingEffect',
+                effect: Effects.changeType('upgrade')
+            }).getEvent(context.source, context);
             changeTypeEvent.gameAction = null;
             events.push(changeTypeEvent);
         }
