@@ -15,7 +15,7 @@ class TirelessCrocag extends Card {
                     condition: () => !this.controller.opponent || this.controller.opponent.creaturesInPlay.length === 0,
                     message: '{0} is destroyed as there are no opposing creatures',
                     target: this,
-                    gameAction: ability.actions.destroy({ ignoreWard: true })
+                    gameAction: ability.actions.destroy()
                 })
             ]
         });

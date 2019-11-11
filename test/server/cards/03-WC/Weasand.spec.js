@@ -105,5 +105,33 @@ describe('Weasand', function() {
                 expect(this.weasand.location).toBe('discard');
             });
         });
+
+        describe('Weasand\'s ability', function() {
+            beforeEach(function() {
+                this.setupTest({
+                    player1: {
+                        house: 'shadows',
+                        inPlay: ['lamindra', 'redlock'],
+                        hand: ['weasand']
+                    },
+                    player2: {
+                        inPlay: ['bulwark'],
+                        hand: ['armageddon-cloak']
+                    }
+                });
+            });
+
+            it('should be destroyed even with armageddon cloack', function() {
+                this.player1.playCreature(this.weasand, true, true);
+                this.player1.clickCard(this.redlock);
+                this.player1.endTurn();
+                this.player2.clickPrompt('sanctum');
+                this.player2.playUpgrade(this.armageddonCloak, this.weasand);
+                this.player2.fightWith(this.bulwark, this.redlock);
+                expect(this.redlock.location).toBe('discard');
+                expect(this.weasand.location).toBe('discard');
+                expect(this.armageddonCloak.location).toBe('discard');
+            });
+        });
     });
 });

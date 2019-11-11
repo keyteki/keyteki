@@ -93,5 +93,32 @@ describe('Tireless Crocag', function() {
                 this.player1.fightWith(this.tirelessCrocag, this.bingleBangbang);
             });
         });
+
+        describe('Weasand\'s ability', function() {
+            beforeEach(function() {
+                this.setupTest({
+                    player1: {
+                        house: 'brobnar',
+                        hand: ['tireless-crocag']
+                    },
+                    player2: {
+                        inPlay: ['bulwark'],
+                        hand: ['armageddon-cloak']
+                    }
+                });
+            });
+
+            it('should be destroyed even with armageddon cloack', function() {
+                this.player1.play(this.tirelessCrocag);
+                expect(this.tirelessCrocag.location).toBe('play area');
+                this.player1.endTurn();
+                this.player2.clickPrompt('sanctum');
+                this.player2.playUpgrade(this.armageddonCloak, this.tirelessCrocag);
+                this.player2.fightWith(this.bulwark, this.tirelessCrocag);
+                expect(this.bulwark.location).toBe('discard');
+                expect(this.tirelessCrocag.location).toBe('discard');
+                expect(this.armageddonCloak.location).toBe('discard');
+            });
+        });
     });
 });

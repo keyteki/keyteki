@@ -16,7 +16,7 @@ class Weasand extends Card {
                 condition: () => this.isOnFlank(),
                 message: '{0} is destroyed because it is on a flank',
                 target: this,
-                gameAction: ability.actions.destroy({ ignoreWard: true })
+                gameAction: ability.actions.destroy()
             })
         });
     }
