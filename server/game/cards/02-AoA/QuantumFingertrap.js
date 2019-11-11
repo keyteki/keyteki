@@ -6,13 +6,14 @@ class QuantumFingertrap extends Card {
             targets: {
                 first: {
                     cardType: 'creature',
-                    controller: 'any'
+                    controller: 'any',
+                    cardCondition: (card) => card.controller.creaturesInPlay.length > 1 || (card.controller.opponent && card.controller.opponent.creaturesInPlay.length > 1)
                 },
                 second: {
                     dependsOn: 'first',
                     cardType: 'creature',
-                    cardCondition: (card, context) => card !== context.targets.first && card.controller === context.targets.first.controller,
-                    gameAction: ability.actions.swap(context => ({ origin: context.targets.first, originIndex: context.targets.first.controller.cardsInPlay.indexOf(context.targets.first) }))
+                    cardCondition: (card, context) => context.targets.first && card !== context.targets.first && card.controller === context.targets.first.controller,
+                    gameAction: ability.actions.swap(context => ({ origin: context.targets.first }))
                 }
             }
         });
