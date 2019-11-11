@@ -13,11 +13,9 @@ const Costs = {
                 return true;
             }
 
-            let houseEffects = (context.player.effects.filter(effect => effect.type === 'canUseHouse' && !context.game.effectsUsed.includes(effect))) &&
-            (context.player.effects.filter(effect => effect.type === 'canPlayOrUseHouse' && !context.game.effectsUsed.includes(effect))) &&
-            (context.player.effects.filter(effect => effect.type === 'canPlayOrUseNonHouse' && !context.game.effectsUsed.includes(effect)));
-
-            return houseEffects.some(effect => context.source.hasHouse(effect.getValue(context.player)));
+            return context.player.effects.some(effect =>
+                (effect.type === 'canUseHouse' || effect.type === 'canPlayOrUseHouse' || effect.type === 'canPlayOrUseNonHouse') &&
+                !context.game.effectsUsed.includes(effect) && context.source.hasHouse(effect.getValue(context.player)));
         },
         payEvent: context => context.game.getEvent('unnamedEvent', {}, () => {
             context.game.cardsUsed.push(context.source);
@@ -27,12 +25,19 @@ const Costs = {
                 return true;
             }
 
-            let houseEffects = (context.player.effects.filter(effect => effect.type === 'canUseHouse' && !context.game.effectsUsed.includes(effect))) &&
-                (context.player.effects.filter(effect => effect.type === 'canPlayOrUseHouse' && !context.game.effectsUsed.includes(effect))) &&
-                (context.player.effects.filter(effect => effect.type === 'canPlayOrUseNonHouse' && !context.game.effectsUsed.includes(effect)));
-            let effect = houseEffects.find(effect => context.source.hasHouse(effect.getValue(context.player)));
+            let playerEffects = context.player.effects;
+            let effectsUsed = context.game.effectsUsed;
+
+            let houseEffects = playerEffects.filter(effect => effect.type === 'canUseHouse' && !effectsUsed.includes(effect));
+            let playOrUseEffects = playerEffects.filter(effect => effect.type === 'canPlayOrUseHouse' && !effectsUsed.includes(effect));
+            let nonHousePlayOrUseEffects = playerEffects.filter(effect => effect.type === 'canPlayOrUseNonHouse' && !effectsUsed.includes(effect));
+
+            let effect = houseEffects.find(effect => context.source.hasHouse(effect.getValue(context.player))) ||
+                playOrUseEffects.find(effect => context.source.hasHouse(effect.getValue(context.player))) ||
+                nonHousePlayOrUseEffects.find(effect => context.source.hasHouse(effect.getValue(context.player)));
+
             if(effect) {
-                context.game.effectsUsed.push(effect);
+                effectsUsed.push(effect);
                 return true;
             }
 
@@ -97,6 +102,7 @@ const Costs = {
                     return !context.source.hasHouse(value);
                 })
             );
+
             if(effect) {
                 context.game.effectsUsed.push(effect);
                 return true;
