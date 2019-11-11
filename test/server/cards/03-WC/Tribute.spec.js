@@ -54,6 +54,31 @@ describe('Tribute', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
+            it('should allow exalt even if no amber was captured', function() {
+                this.player2.amber = 0;
+                this.player1.play(this.tribute);
+                expect(this.player1).toHavePrompt('Choose a creature');
+                expect(this.player1).toBeAbleToSelect(this.gub);
+                expect(this.player1).toBeAbleToSelect(this.krump);
+                expect(this.player1).not.toBeAbleToSelect(this.shooler);
+                expect(this.player1).not.toBeAbleToSelect(this.tunk);
+                this.player1.clickCard(this.krump);
+                expect(this.krump.amber).toBe(0);
+                expect(this.player2.amber).toBe(0);
+                expect(this.player1).toHavePrompt('Do you wish to exhalt the creature?');
+                this.player1.clickPrompt('Yes');
+                expect(this.krump.amber).toBe(1);
+                expect(this.player1).toHavePrompt('Choose a creature');
+                expect(this.player1).toBeAbleToSelect(this.gub);
+                expect(this.player1).toBeAbleToSelect(this.krump);
+                expect(this.player1).not.toBeAbleToSelect(this.shooler);
+                expect(this.player1).not.toBeAbleToSelect(this.tunk);
+                this.player1.clickCard(this.gub);
+                expect(this.gub.amber).toBe(0);
+                expect(this.player2.amber).toBe(0);
+                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            });
+
             it('should allow multiple tribute plays', function() {
                 this.player1.play(this.tribute);
                 this.player1.clickCard(this.krump);
