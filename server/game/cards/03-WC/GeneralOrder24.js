@@ -8,7 +8,6 @@ class GeneralOrder24 extends Card {
             },
             gameAction: ability.actions.destroy(context => ({ target: context.game.activePlayer.creaturesInPlay.length === 0 ? context.source : [] })),
             target: {
-                condition: (context) => ontext.game.activePlayer.creaturesInPlay.length > 0,
                 activePromptTitle: 'Choose a creature to destroy',
                 cardType: 'creature',
                 cardCondition: (card, context) => context.game.activePlayer.creaturesInPlay.includes(card),
