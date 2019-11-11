@@ -603,6 +603,7 @@ class Player extends GameObject {
                 }
             });
         } else {
+            this.modifyAmber(-modifiedCost);
             let color = unforgedKeys.shift().text.toLowerCase();
             this.keys[color] = true;
             this.keyForged.push(color);
