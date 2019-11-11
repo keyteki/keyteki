@@ -7,7 +7,7 @@ class QuantumFingertrap extends Card {
                 first: {
                     cardType: 'creature',
                     controller: 'any',
-                    cardCondition: (card) => !(card.controller.creaturesInPlay.length < 2 && (card.controller.opponent && card.controller.opponent.creaturesInPlay.length < 2))
+                    cardCondition: (card) => card.controller.creaturesInPlay.length > 1 || (card.controller.opponent && card.controller.opponent.creaturesInPlay.length > 1)
                 },
                 second: {
                     dependsOn: 'first',
