@@ -18,6 +18,8 @@ class Tribute extends Card {
         });
 
         this.play({
+            effect: 'capture {1} amber',
+            effectArgs: context => [Math.min(context.player.opponent && context.player.opponent.amber || 0, 2)],
             target: {
                 mode: 'mostStat',
                 cardType: 'creature',
