@@ -8,8 +8,45 @@ import IdentityCard from './IdentityCard';
 import Droppable from './Droppable';
 
 import { withTranslation } from 'react-i18next';
+import { buildArchon, buildDeckList } from '../../archonMaker';
+import * as Images from '../../assets/img';
+
 
 class PlayerRow extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = { cardBackUrl: Images.cardback, deckListUrl: Images.cardback };
+    }
+
+    componentDidMount() {
+        const deck = {
+            name: this.props.deckName,
+            cards: this.props.deckCards,
+            houses: this.props.houses,
+            uuid: this.props.deckUuid,
+            expansion: this.props.deckSet
+        };
+        buildArchon(deck, this.props.language).then(cardBackUrl => this.setState({ cardBackUrl }));
+        buildDeckList(deck, this.props.language, this.props.t, this.props.cards).then(deckListUrl => this.setState({ deckListUrl }));
+    }
+
+    componentDidUpdate(prevProps) {
+        const deck = {
+            name: this.props.deckName,
+            cards: this.props.deckCards,
+            houses: this.props.houses,
+            uuid: this.props.deckUuid,
+            expansion: this.props.deckSet
+        };
+
+        if(this.props.language) {
+            if(this.props.language !== prevProps.language) {
+                buildArchon(deck, this.props.language).then(cardBackUrl => this.setState({ cardBackUrl }));
+                buildDeckList(deck, this.props.language, this.props.t, this.props.cards).then(deckListUrl => this.setState({ deckListUrl }));
+            }
+        }
+    }
+
     renderDroppablePile(source, child) {
         return this.props.isMe ? <Droppable onDragDrop={ this.props.onDragDrop } source={ source } manualMode={ this.props.manualMode }>{ child }</Droppable> : child;
     }
@@ -53,6 +90,7 @@ class PlayerRow extends React.Component {
             cards={ sortedHand }
             className='panel hand'
             groupVisibleCards
+            cardBackUrl={ this.state.cardBackUrl }
             username={ this.props.username }
             manualMode={ this.props.manualMode }
             maxCards={ 5 }
@@ -73,12 +111,13 @@ class PlayerRow extends React.Component {
             onShuffleClick={ this.props.onShuffleClick }
             showDeck={ this.props.showDeck }
             spectating={ this.props.spectating }
+            cardBackUrl={ this.state.cardBackUrl }
             { ...cardPileProps } />);
 
         let hasArchivedCards = !!this.props.archives && (this.props.archives.length > 0);
 
         let archives = (<CardPile className='archives' title={ t('Archives') } source='archives' cards={ this.props.archives }
-            hiddenTopCard={ hasArchivedCards && !this.props.isMe } disablePopup={ !this.props.isMe }
+            hiddenTopCard={ hasArchivedCards && !this.props.isMe } disablePopup={ !this.props.isMe } cardBackUrl={ this.state.cardBackUrl }
             { ...cardPileProps } />);
 
         let discard = (<CardPile className='discard' title={ t('Discard') } source='discard' cards={ this.props.discard }
@@ -87,10 +126,7 @@ class PlayerRow extends React.Component {
         let purged = (<CardPile className='purged' title={ t('Purged') } source='purged' cards={ this.props.purgedPile }
             { ...cardPileProps } />);
 
-        let identity = (<IdentityCard className='identity' deckCards={ this.props.deckCards } language={ this.props.i18n.language }
-            houses={ this.props.houses } deckUuid={ this.props.deckUuid } deckName={ this.props.deckName } deckSet={ this.props.deckSet }
-            cards= { this.props.cards } size={ this.props.cardSize } onMouseOut={ this.props.onMouseOut }
-            onMouseOver={ this.props.onMouseOver }/>);
+        let identity = <IdentityCard className='identity' deckListUrl={ this.state.deckListUrl } size={ this.props.cardSize } onMouseOut={ this.props.onMouseOut } onMouseOver={ this.props.onMouseOver }/>;
 
         return (
             <div className='player-home-row-container'>
@@ -114,7 +150,7 @@ PlayerRow.propTypes = {
     conclavePile: PropTypes.array,
     deckCards: PropTypes.array,
     deckName: PropTypes.string,
-    deckSet: PropTypes.string,
+    deckSet: PropTypes.number,
     deckUuid: PropTypes.string,
     discard: PropTypes.array,
     drawDeck: PropTypes.array,
@@ -125,6 +161,7 @@ PlayerRow.propTypes = {
     isMe: PropTypes.bool,
     isMelee: PropTypes.bool,
     keys: PropTypes.object,
+    language: PropTypes.string,
     manualMode: PropTypes.bool,
     numDeckCards: PropTypes.number,
     onCardClick: PropTypes.func,

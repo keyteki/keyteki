@@ -215,6 +215,7 @@ class CardPile extends React.Component {
                     { headerText }
                 </div>
                 { topCard ? <Card
+                    cardBackUrl={ this.props.cardBackUrl }
                     canDrag={ this.props.manualMode }
                     card={ topCard }
                     source={ this.props.source }
@@ -233,6 +234,7 @@ class CardPile extends React.Component {
 
 CardPile.displayName = 'CardPile';
 CardPile.propTypes = {
+    cardBackUrl: PropTypes.string,
     cardCount: PropTypes.number,
     cards: PropTypes.array,
     className: PropTypes.string,

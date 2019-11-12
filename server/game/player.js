@@ -19,7 +19,7 @@ class Player extends GameObject {
         this.deckName = '';
         this.deckCards = [];
         this.deckUuid = '';
-        this.deckSet = '';
+        this.deckSet = 0;
         this.discard = [];
         this.purged = [];
         this.archives = [];

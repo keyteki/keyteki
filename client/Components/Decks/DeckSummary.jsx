@@ -6,20 +6,33 @@ import AltCard from '../GameBoard/AltCard';
 import CardImage from '../GameBoard/CardImage';
 
 import { Trans, withTranslation } from 'react-i18next';
-import IdentityCard from '../GameBoard/IdentityCard';
+import { buildArchon } from '../../archonMaker';
 
 class DeckSummary extends React.Component {
     constructor(props) {
         super(props);
 
-        this.onCardMouseOut = this.onCardMouseOut.bind(this);
+        this.onMouseOut = this.onMouseOut.bind(this);
         this.onCardMouseOver = this.onCardMouseOver.bind(this);
-        this.onArchonMouseOver = this.onArchonMouseOver.bind(this);
+        this.onMouseOver = this.onMouseOver.bind(this);
 
         this.state = {
             cardToShow: '',
-            card: false
+            archonShow: false,
+            imageUrl: ''
         };
+    }
+
+    componentDidMount() {
+        buildArchon(this.props.deck, this.props.i18n.language)
+            .then(imageUrl => this.setState({ imageUrl }));
+    }
+
+    componentDidUpdate(prevProps) {
+        if(this.props.i18n.language !== prevProps.i18n.language) {
+            buildArchon(this.props.deck, this.props.i18n.language)
+                .then(imageUrl => this.setState({ imageUrl }));
+        }
     }
 
     hasTrait(card, trait) {
@@ -37,12 +50,12 @@ class DeckSummary extends React.Component {
         this.setState({ cardToShow: cardToDisplay[0] });
     }
 
-    onArchonMouseOver(card) {
-        this.setState({ card });
+    onMouseOver() {
+        this.setState({ archonShow: true });
     }
 
-    onCardMouseOut() {
-        this.setState({ cardToShow: false, card: false });
+    onMouseOut() {
+        this.setState({ cardToShow: false, archonShow: false });
     }
 
     getCardsToRender() {
@@ -78,7 +91,7 @@ class DeckSummary extends React.Component {
                     let cardToRender = (<div key={ card.id }>
                         <span>{ card.count + 'x ' }</span>
                         <span className='card-link' onMouseOver={ this.onCardMouseOver }
-                            onMouseOut={ this.onCardMouseOut }
+                            onMouseOut={ this.onMouseOut }
                             data-card_id={ card.card.id } data-card_house={ house }>
                             { (card.card.locale && card.card.locale[i18n.language]) ? card.card.locale[i18n.language].name : card.card.name }
                         </span>
@@ -129,7 +142,7 @@ class DeckSummary extends React.Component {
 
         return (
             <div className='deck-summary col-xs-12 no-x-padding'>
-                { this.state.cardToShow ?
+                { this.state.cardToShow &&
                     <div className='hover-card'>
                         <CardImage className='hover-image'
                             img={ `/img/cards/${ this.state.cardToShow.card.image }.png` }
@@ -137,20 +150,17 @@ class DeckSummary extends React.Component {
                             anomaly={ this.state.cardToShow.anomaly }
                             amber={ this.state.cardToShow.card.amber }/>
                         <AltCard card={ this.state.cardToShow }/>
-                    </div> : null }
-                { this.state.card ?
+                    </div> }
+                { this.state.archonShow &&
                     <div className='hover-card'>
                         <div className='hover-image'>
-                            { this.state.card }
+                            <img className={ 'img-responsive' } src={ this.state.imageUrl }/>
                         </div>
-                    </div> : null }
+                    </div>
+                }
                 <div className='decklist'>
                     <div className='col-xs-2 col-sm-3 no-x-padding'>
-                        <IdentityCard size={ 'img-responsive' } deckCards={ [] } cards={ {} } image
-                            language={ this.props.i18n.language } houses={ this.props.deck.houses }
-                            deckName={ this.props.deck.name } deckUuid={ this.props.deck.uuid }
-                            onMouseOut={ this.onCardMouseOut }
-                            onMouseOver={ this.onArchonMouseOver }/>
+                        <img className={ 'img-responsive' } src={ this.state.imageUrl } onMouseOut={ this.onMouseOut } onMouseOver={ this.onMouseOver }/>
                     </div>
                     <div className='col-xs-8 col-sm-6'>
                         <div className='info-row row'><span><Trans>Actions</Trans>:</span><span
