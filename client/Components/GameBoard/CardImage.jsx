@@ -23,6 +23,10 @@ class CardImage extends Component {
     updateImage() {
         let { img, maverick, anomaly, amber, i18n } = this.props;
 
+        if(!this.props.img) {
+            return;
+        }
+
         let langToUse = this.props.language ? this.props.language : i18n.language;
 
         let imgPath = (langToUse === 'en') ? img : img.replace('/cards/', '/cards/' + langToUse + '/');
