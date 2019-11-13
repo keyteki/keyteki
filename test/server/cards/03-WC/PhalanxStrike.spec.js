@@ -74,6 +74,19 @@ describe('Phalanx Strike', function() {
                 this.player1.clickPrompt('Done');
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
+
+            it('should prompt the player to repeat the ability if they exalt a friendly creature, even if first target was warded', function() {
+                this.mother.ward();
+                this.player1.play(this.phalanxStrike);
+                expect(this.player1).toHavePrompt('Phalanx Strike');
+                this.player1.clickCard(this.mother);
+                expect(this.player1).toHavePrompt('Phalanx Strike');
+                expect(this.player1).toBeAbleToSelect(this.mother);
+                expect(this.player1).toBeAbleToSelect(this.brainEater);
+                expect(this.player1).toHavePromptButton('Done');
+                this.player1.clickPrompt('Done');
+                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            });
         });
     });
 });
