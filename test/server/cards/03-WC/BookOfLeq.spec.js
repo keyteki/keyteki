@@ -39,7 +39,7 @@ describe('Book of LeQ', function() {
                     this.player1.useAction(this.bookOfLeq);
                 });
 
-                fit('should end the turn', function() {
+                it('should end the turn', function() {
                     expect(this.game.activePlayer).toBe(this.player2.player);
                 });
 
