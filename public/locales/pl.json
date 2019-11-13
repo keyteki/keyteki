@@ -433,5 +433,7 @@
     "Choose 3 friendly creatures": "Choose 3 friendly creatures",
     "Move a ward": "Move a ward",
     "Choose a card to archive": "Choose a card to archive",
-    "Ward a creature": "Ward a creature"
+    "Ward a creature": "Ward a creature",
+    "Choose an enemy creature to purge": "Choose an enemy creature to purge",
+    "Choose a friendly creature to purge": "Choose a friendly creature to purge"
 }

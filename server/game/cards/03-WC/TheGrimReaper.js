@@ -11,6 +11,25 @@ class TheGrimReaper extends Card {
             },
             gameAction: ability.actions.ready()
         });
+
+        this.reap({
+            targets: {
+                enemy: {
+                    activePromptTitle: 'Choose an enemy creature to purge',
+                    cardType: 'creature',
+                    controller: 'opponent',
+                    numCards: 1,
+                    gameAction: ability.actions.purge()
+                },
+                friendly: {
+                    activePromptTitle: 'Choose a friendly creature to purge',
+                    cardType: 'creature',
+                    controller: 'self',
+                    numCards: 1,
+                    gameAction: ability.actions.purge()
+                }
+            }
+        });
     }
 }
 
