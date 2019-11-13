@@ -40,6 +40,10 @@ class HandlerMenuPrompt extends UiPrompt {
         this.context = properties.context || new AbilityContext({ game: game, player: player, source: this.source });
     }
 
+    id(card) {
+        return card.id + '(' + card.printedHouse + ')';
+    }
+
     activeCondition(player) {
         return player === this.player;
     }
@@ -49,24 +53,28 @@ class HandlerMenuPrompt extends UiPrompt {
         if(this.properties.cards) {
             let cardQuantities = {};
             _.each(this.properties.cards, card => {
-                if(cardQuantities[card.id]) {
-                    cardQuantities[card.id] += 1;
+                let arg = this.id(card);
+                if(cardQuantities[arg]) {
+                    cardQuantities[arg] += 1;
                 } else {
-                    cardQuantities[card.id] = 1;
+                    cardQuantities[arg] = 1;
                 }
             });
-            let cards = _.uniq(this.properties.cards, card => card.id);
+
+            let cards = _.uniq(this.properties.cards, card => this.id(card));
             buttons = _.map(cards, card => {
                 let text = '{{card}}';
                 let values = {
                     card: card.name
                 };
-                if(cardQuantities[card.id] > 1) {
-                    values.quantity = cardQuantities[card.id].toString();
+
+                let arg = this.id(card);
+                if(cardQuantities[arg] > 1) {
+                    values.quantity = cardQuantities[arg].toString();
                     text = text + ' ({{quantity}})';
                 }
 
-                return { text: text, arg: card.id, card: card, values: values };
+                return { text: text, arg: arg, card: card, values: values };
             });
         }
 
@@ -77,6 +85,7 @@ class HandlerMenuPrompt extends UiPrompt {
 
             return { text: choice, arg: index };
         }));
+
         return {
             menuTitle: this.properties.activePromptTitle || 'Select one',
             buttons: buttons,
@@ -118,7 +127,7 @@ class HandlerMenuPrompt extends UiPrompt {
 
     menuCommand(player, arg) {
         if(_.isString(arg)) {
-            let card = _.find(this.properties.cards, card => card.id === arg);
+            let card = _.find(this.properties.cards, card => this.id(card) === arg);
             if(card && this.properties.cardHandler) {
                 this.properties.cardHandler(card);
                 this.complete();
