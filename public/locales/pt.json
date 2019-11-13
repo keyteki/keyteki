@@ -433,5 +433,7 @@
     "Choose 3 friendly creatures": "Escolha 3 criaturas amigas",
     "Move a ward": "Mover uma proteção",
     "Choose a card to archive": "Escolha uma carta para arquivar",
-    "Ward a creature": "Proteger uma criatura"
+    "Ward a creature": "Proteger uma criatura",
+    "Choose an enemy creature to purge": "Escolha uma criatura inimiga para expurgar",
+    "Choose a friendly creature to purge": "Escolha uma criatura amiga para expurgar"
 }

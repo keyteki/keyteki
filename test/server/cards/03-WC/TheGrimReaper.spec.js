@@ -32,4 +32,49 @@ describe('The Grim Reaper(WC)', function() {
             });
         });
     });
+
+    integration(function() {
+        describe('Playing the Grim Reaper:', function() {
+            beforeEach(function() {
+                this.setupTest({
+                    player1: {
+                        house: 'brobnar',
+                        inPlay: ['the-grim-reaper'],
+                        hand: ['troll']
+                    },
+                    player2: {
+                        house: 'brobnar',
+                        hand: ['krump', 'groggins']
+                    }
+                });
+            });
+
+            it('should ask to purge a friendly creature', function() {
+                this.player1.reap(this.theGrimReaper);
+                expect(this.player1).toHavePrompt('Choose a friendly creature to purge');
+                this.player1.clickCard(this.theGrimReaper);
+                expect(this.theGrimReaper.location).toBe('purged');
+                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            });
+
+            it('should ask to purge a friendly and an enemy creature', function() {
+                this.player1.moveCard(this.troll, 'play area');
+                this.player2.moveCard(this.krump, 'play area');
+                this.player2.moveCard(this.groggins, 'play area');
+
+                this.player1.reap(this.theGrimReaper);
+                expect(this.player1).toHavePrompt('Choose an enemy creature to purge');
+                expect(this.player1).toBeAbleToSelect(this.krump);
+                expect(this.player1).toBeAbleToSelect(this.groggins);
+                this.player1.clickCard(this.groggins);
+                expect(this.player1).toHavePrompt('Choose a friendly creature to purge');
+                expect(this.player1).toBeAbleToSelect(this.theGrimReaper);
+                expect(this.player1).toBeAbleToSelect(this.troll);
+                this.player1.clickCard(this.troll);
+                expect(this.groggins.location).toBe('purged');
+                expect(this.troll.location).toBe('purged');
+                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            });
+        });
+    });
 });
