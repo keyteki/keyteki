@@ -10,6 +10,7 @@ class PhalanxStrike extends Card {
             effect: 'deal {1} damage to {2}',
             effectArgs: context => [context.player.creaturesInPlay.length,context.target],
             then: {
+                alwaysTriggers: true,
                 target: {
                     optional: true,
                     cardType: 'creature',
