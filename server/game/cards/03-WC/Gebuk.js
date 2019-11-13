@@ -15,7 +15,7 @@ class Gebuk extends Card {
                             onCardLeavesPlay: event => event.card === thenContext.source
                         },
                         gameAction: ability.actions.putIntoPlay(context => ({
-                            target: context.preThenEvent.card,
+                            target: context.preThenEvent.card.type === 'creature' ? context.preThenEvent.card : [],
                             deployIndex: context.event.battlelineIndex
                         }))
                     })
