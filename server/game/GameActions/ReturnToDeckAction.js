@@ -18,11 +18,11 @@ class ReturnToDeckAction extends CardGameAction {
 
     getEvent(card, context) {
         let eventName = (card.location === 'play area') ? 'onCardLeavesPlay' : 'onMoveCard';
-        let readyToShuffle = this.shuffle && !this.target.slice(this.target.findIndex(c => c === card) + 1, this.target.length).some(c => c.owner === card.owner);
 
-        return super.createEvent(eventName, { card: card, context: context, shuffle: readyToShuffle }, event => {
+        return super.createEvent(eventName, { card: card, context: context }, () => {
             card.owner.moveCard(card, 'deck', { bottom: this.bottom });
-            if(event.shuffle) {
+            let cardsByOwner = this.target.filter(c => c.owner === card.owner);
+            if(this.shuffle && cardsByOwner.findIndex(c => c === card) === cardsByOwner.length - 1) {
                 card.owner.shuffleDeck();
             }
         });
