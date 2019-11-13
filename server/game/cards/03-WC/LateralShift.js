@@ -5,6 +5,7 @@ class LateralShift extends Card {
         this.play({
             target: {
                 controller: 'opponent',
+                revealTargets: true,
                 location: 'hand',
                 gameAction: ability.actions.playCard()
             }

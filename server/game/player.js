@@ -433,6 +433,10 @@ class Player extends GameObject {
         this.promptState.clearSelectedCards();
     }
 
+    getSelectableCards() {
+        return this.promptState.selectableCards;
+    }
+
     setSelectableCards(cards) {
         this.promptState.setSelectableCards(cards);
     }
