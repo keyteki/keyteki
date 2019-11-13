@@ -71,8 +71,8 @@ class Deck {
         cardData.image = cardData.id;
         if(cardData.maverick) {
             cardData.house = cardData.maverick;
-        } else if(cardData.anomoly) {
-            cardData.anomoly = cardData.anomoly;
+        } else if(cardData.anomaly) {
+            cardData.house = cardData.anomaly;
         }
 
         if(!cards[cardData.id]) {

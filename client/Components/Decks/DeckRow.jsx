@@ -3,25 +3,39 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 
 import { withTranslation } from 'react-i18next';
-import IdentityCard from '../GameBoard/IdentityCard';
+import { buildArchon } from '../../archonMaker';
 
 class DeckRow extends React.Component {
     constructor(props) {
         super(props);
         this.handleDeckClick = this.handleDeckClick.bind(this);
-        this.onCardMouseOut = this.onCardMouseOut.bind(this);
-        this.onArchonMouseOver = this.onArchonMouseOver.bind(this);
+        this.onMouseOut = this.onMouseOut.bind(this);
+        this.onMouseOver = this.onMouseOver.bind(this);
         this.state = {
-            card: false
+            imageUrl: '',
+            archonShow: false
         };
     }
 
-    onArchonMouseOver(card) {
-        this.setState({ card });
+    componentDidMount() {
+        buildArchon(this.props.deck, this.props.i18n.language)
+            .then(imageUrl => this.setState({ imageUrl }));
     }
 
-    onCardMouseOut() {
-        this.setState({ card: false });
+    componentDidUpdate(prevProps) {
+        if(this.props.i18n.language !== prevProps.i18n.language) {
+            buildArchon(this.props.deck, this.props.i18n.language)
+                .then(imageUrl => this.setState({ imageUrl }));
+        }
+    }
+
+    onMouseOver() {
+        this.setState({ archonShow: true });
+    }
+
+
+    onMouseOut() {
+        this.setState({ archonShow: false });
     }
 
     handleDeckClick() {
@@ -52,16 +66,15 @@ class DeckRow extends React.Component {
 
         return (
             <div className={ this.props.active ? 'deck-row active' : 'deck-row' } key={ this.props.deck.name } onClick={ this.handleDeckClick }>
-                { this.state.card ?
-                    <div className='hover-card'>
-                        <div className='hover-image'>
-                            { this.state.card }
-                        </div>
-                    </div> : null }
+                { this.state.archonShow &&
+                <div className='hover-card'>
+                    <div className='hover-image'>
+                        <img className={ 'img-responsive' } src={ this.state.imageUrl }/>
+                    </div>
+                </div>
+                }
                 <div className='col-xs-1 deck-image'>
-                    <IdentityCard size={ 'img-responsive' } deckCards={ [] } cards={ {} } image language={ this.props.i18n.language }
-                        houses={ this.props.deck.houses } deckName={ this.props.deck.name } onMouseOut={ this.onCardMouseOut }
-                        deckUuid = { this.props.deck.uuid } onMouseOver={ this.onArchonMouseOver } />
+                    <img className={ 'img-responsive' } src={ this.state.imageUrl } onMouseOut={ this.onMouseOut } onMouseOver={ this.onMouseOver }/>
                 </div>
                 <span className='col-xs-8 col-md-7 col-lg-9 deck-name'>
                     { this.props.deck.name }

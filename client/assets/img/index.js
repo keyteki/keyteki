@@ -14,6 +14,7 @@ export { default as brobnar } from './decklist_houses/brobnar.png';
 export { default as dis } from './decklist_houses/dis.png';
 export { default as logos } from './decklist_houses/logos.png';
 export { default as mars } from './decklist_houses/mars.png';
+export { default as saurian } from './decklist_houses/saurian.png';
 export { default as sanctum } from './decklist_houses/sanctum.png';
 export { default as shadows } from './decklist_houses/shadows.png';
 export { default as staralliance } from './decklist_houses/staralliance.png';

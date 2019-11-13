@@ -305,7 +305,7 @@ class InnerCard extends React.Component {
     }
 
     get imageUrl() {
-        let image = '/img/idbacks/cardback.jpg';
+        let image = this.props.cardBackUrl;
 
         if(!this.isFacedown()) {
             image = `/img/cards/${this.props.card.image}.png`;
@@ -390,6 +390,7 @@ InnerCard.propTypes = {
         maverick: PropTypes.string,
         cardPrintedAmber: PropTypes.number
     }).isRequired,
+    cardBackUrl: PropTypes.string,
     className: PropTypes.string,
     connectDragPreview: PropTypes.func,
     connectDragSource: PropTypes.func,
