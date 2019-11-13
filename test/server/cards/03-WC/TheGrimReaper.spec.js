@@ -57,7 +57,7 @@ describe('The Grim Reaper(WC)', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-             it('should ask to purge a friendly and an enemy creature', function() {
+            it('should ask to purge a friendly and an enemy creature', function() {
                 this.player1.moveCard(this.troll, 'play area');
                 this.player2.moveCard(this.krump, 'play area');
                 this.player2.moveCard(this.groggins, 'play area');
