@@ -1,9 +1,10 @@
 const Card = require('../../Card.js');
 
-class SanatorBracchus extends Card {
+class SenatorBracchus extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
-            effect: ability.effects.keyAmber(this)
+            match: card => card.type === 'creature',
+            effect: ability.effects.keyAmber()
         });
 
         this.fight({
@@ -13,6 +14,6 @@ class SanatorBracchus extends Card {
     }
 }
 
-SanatorBracchus.id = 'senator-bracchus';
+SenatorBracchus.id = 'senator-bracchus';
 
-module.exports = SanatorBracchus;
+module.exports = SenatorBracchus;
