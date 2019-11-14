@@ -6,10 +6,10 @@ describe('Quintrino Flux', function() {
                     player1: {
                         house: 'staralliance',
                         hand: ['quintrino-flux'],
-                        inPlay: ['navigator-ali', 'nurse-soto', 'lieutenant-khrkhar']
+                        inPlay: ['navigator-ali', 'nurse-soto', 'lieutenant-khrkhar'] //[3, 3, 5]
                     },
                     player2: {
-                        inPlay: ['gamgee', 'silvertooth', 'yantzee-gang']
+                        inPlay: ['gamgee', 'silvertooth', 'yantzee-gang'] //[2, 2, 5]
                     }
                 });
             });
@@ -38,6 +38,37 @@ describe('Quintrino Flux', function() {
                 expect(this.gamgee.location).toBe('discard');
                 expect(this.lieutenantKhrkhar.location).toBe('play area');
                 expect(this.yantzeeGang.location).toBe('play area');
+                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            });
+        });
+
+        describe('Quintrino Flux\'s ability', function() {
+            beforeEach(function() {
+                this.setupTest({
+                    player1: {
+                        house: 'staralliance',
+                        hand: ['quintrino-flux'],
+                        inPlay: ['thero-centurion', 'tricerian-legionary'] // [6, 5]
+                    },
+                    player2: {
+                        inPlay: ['mogghunter', 'ogopogo', 'kaloch-stonefather', 'cowfyne', 'alaka'] // [6, 6, 6, 5, 4]
+                    }
+                });
+            });
+
+            it('should work with warded creatures', function() {
+                this.theroCenturion.ward();
+                this.player1.play(this.quintrinoFlux);
+                this.player1.clickCard(this.theroCenturion);
+                this.player1.clickCard(this.alaka);
+                expect(this.theroCenturion.warded).toBe(false);
+                expect(this.theroCenturion.location).toBe('play area');
+                expect(this.tricerianLegionary.location).toBe('play area');
+                expect(this.mogghunter.location).toBe('discard');
+                expect(this.ogopogo.location).toBe('discard');
+                expect(this.kalochStonefather.location).toBe('discard');
+                expect(this.cowfyne.location).toBe('play area');
+                expect(this.alaka.location).toBe('discard');
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
         });
