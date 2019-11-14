@@ -45,20 +45,6 @@ class InnerCard extends React.Component {
         this.state = {
             showMenu: false
         };
-
-        this.shortNames = {
-            count: 'x',
-            stand: 'T',
-            poison: 'O',
-            gold: 'G',
-            valarmorghulis: 'V',
-            betrayal: 'B',
-            vengeance: 'N',
-            ear: 'E',
-            venom: 'M',
-            kiss: 'K',
-            bell: 'L'
-        };
     }
 
     onMouseOver(card) {
@@ -105,11 +91,11 @@ class InnerCard extends React.Component {
         let needsFade = card.type === 'upgrade' && !['full deck'].includes(this.props.source);
 
         if(card.type === 'creature' && card.baseStrength !== card.strength) {
-            counters.push({ name: 'strength', count: card.strength, fade: needsFade, shortName: 'S', showValue: true });
+            counters.push({ name: 'strength', count: card.strength, fade: needsFade, showValue: true });
         }
 
         for(const [key, token] of Object.entries(card.tokens || {})) {
-            counters.push({ name: key, count: token, fade: needsFade, shortName: this.shortNames[key],
+            counters.push({ name: key, count: token, fade: needsFade,
                 showValue: ((token > 1) || !singleValueCounters.includes(key)), broken: key === 'ward' && card.wardBroken });
         }
 
@@ -122,7 +108,7 @@ class InnerCard extends React.Component {
         }
 
         if(card.stunned) {
-            counters.push({ name: 'stun', count: 1, shortName: '', showValue: false });
+            counters.push({ name: 'stun', count: 1, showValue: false });
         }
 
         return counters.filter(counter => counter.count >= 0);
@@ -289,8 +275,8 @@ class InnerCard extends React.Component {
                 { this.getDragFrame(image) }
                 { this.getCardOrder() }
                 <div className={ cardClass }
-                    onMouseOver={ this.props.disableMouseOver ? null : this.onMouseOver.bind(this, this.props.card) }
-                    onMouseOut={ this.props.disableMouseOver ? null : this.onMouseOut }
+                    onMouseOver={ (this.props.disableMouseOver || this.isFacedown()) ? null : this.onMouseOver.bind(this, this.props.card) }
+                    onMouseOut={ (this.props.disableMouseOver || this.isFacedown()) ? null : this.onMouseOut }
                     onClick={ ev => this.onClick(ev, this.props.card) }>
                     <div>
                         <span className='card-name'>{ this.props.card.name }</span>

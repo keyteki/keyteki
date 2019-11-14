@@ -3,12 +3,12 @@ import { createCanvas, loadImage } from 'canvas';
 import QRCode from 'qrcode';
 
 export const buildDeckList = (deck, language, translate, AllCards) => new Promise(resolve => {
-    if(0 >= deck.uuid.length || 0 >= deck.houses.length) {
+    if(deck.uuid.length === 0 || deck.houses.length === 0) {
         resolve(Images.cardback);
         return;
     }
 
-    if(0 >= deck.cards.length) {
+    if(deck.cards.length === 0) {
         buildArchon(deck, language).then(imageUrl => resolve(imageUrl));
         return;
     }
@@ -118,7 +118,7 @@ export const buildDeckList = (deck, language, translate, AllCards) => new Promis
 });
 
 export const buildArchon = (deck, language) => new Promise(resolve => {
-    if(0 >= deck.uuid.length || 0 >= deck.houses.length) {
+    if(deck.uuid.length === 0 || deck.houses.length === 0) {
         resolve(Images.cardback);
         return;
     }
