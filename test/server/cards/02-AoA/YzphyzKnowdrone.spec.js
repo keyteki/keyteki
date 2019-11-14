@@ -87,7 +87,7 @@ describe('Yzphyz Knowdrone', function() {
                         expect(this.zorg.location).toBe('hand');
                     });
 
-                    it('should not allow a creature to be stunned', function() {
+                    xit('should not allow a creature to be stunned', function() {
                         expect(this.player1).not.toHavePrompt('Choose a creature to stun');
                     });
                 });
