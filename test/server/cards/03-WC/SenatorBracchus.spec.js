@@ -32,18 +32,8 @@ describe('Senator Bracchus', function() {
                         this.player2.endTurn();
                     });
 
-                    it('should prompt for spending amber on bracchus', function() {
-                        expect(this.player1).toHavePrompt('How much amber do you want to use from Senator Bracchus');
-                    });
-
-                    describe('and an option is selected', function() {
-                        beforeEach(function() {
-                            this.player1.clickPrompt('1');
-                        });
-
-                        it('should prompt the forge key prompt', function() {
-                            expect(this.player1).toHavePrompt('Which key would you like to forge?');
-                        });
+                    it('should prompt the forge key prompt', function() {
+                        expect(this.player1).toHavePrompt('Which key would you like to forge?');
                     });
                 });
             });
