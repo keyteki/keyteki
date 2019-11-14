@@ -3,7 +3,8 @@ const Card = require('../../Card.js');
 class PocketUniverse extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
-            effect: ability.effects.keyAmber(this)
+            match: this,
+            effect: ability.effects.keyAmber()
         });
 
         this.action({
