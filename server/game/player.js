@@ -481,7 +481,7 @@ class Player extends GameObject {
     }
 
     isTopCardShown() {
-        return this.anyEffect('showTopConflictCard');
+        return this.anyEffect('showTopCard');
     }
 
     modifyAmber(amount) {
@@ -540,7 +540,7 @@ class Player extends GameObject {
         let alternativeSources = this.getEffects('keyAmber').reduce((total, source) => {
             let card = _.isFunction(source) ? source() : source;
 
-            return total + card.tokens.amber ? card.tokens.amber : 0;
+            return total + (card.tokens.amber ? card.tokens.amber : 0);
         }, 0);
 
         return this.amber + alternativeSources >= this.getCurrentKeyCost() + modifier;
@@ -559,32 +559,31 @@ class Player extends GameObject {
         let modifiedCost = cost;
         let unforgedKeys = this.getUnforgedKeys();
         if(this.anyEffect('keyAmber')) {
-            let totalAvailable = this.getEffects('keyAmber').reduce((total, source) => {
-                let card = _.isFunction(source) ? source() : source;
+            let keyAmberCards = this.getEffects('keyAmber').map(source => _.isFunction(source) ? source() : source);
+            let totalAvailable = keyAmberCards.reduce((total, card) => total + (card.tokens.amber ? card.tokens.amber : 0), 0);
 
-                return total + card.tokens.amber ? card.tokens.amber : 0;
-            }, 0);
+            keyAmberCards = keyAmberCards.filter(card => card.hasToken('amber'));
 
-            for(let source of this.getEffects('keyAmber').filter(source => {
-                let card = _.isFunction(source) ? source() : source;
+            for(let card of keyAmberCards) {
+                if(totalAvailable + this.amber === modifiedCost) {
+                    card.removeToken('amber', card.tokens.amber);
 
-                return card.hasToken('amber');
-            })) {
-                source = _.isFunction(source) ? source() : source;
+                    continue;
+                }
 
                 this.game.queueSimpleStep(() => {
-                    let max = Math.min(modifiedCost, source.tokens.amber);
-                    let min = Math.max(0, modifiedCost - this.amber - totalAvailable + source.tokens.amber);
+                    let max = Math.min(modifiedCost, card.tokens.amber);
+                    let min = Math.max(0, modifiedCost - this.amber - totalAvailable + card.tokens.amber);
                     this.game.promptWithHandlerMenu(this, {
                         activePromptTitle: {
                             text: 'How much amber do you want to use from {{card}}',
-                            values: { card: source.name }
+                            values: { card: card.name }
                         },
-                        source: source,
+                        source: card,
                         choices: _.range(min, max + 1),
                         choiceHandler: choice => {
                             modifiedCost -= choice,
-                            source.removeToken('amber', choice);
+                            card.removeToken('amber', choice);
                         }
                     });
                 });

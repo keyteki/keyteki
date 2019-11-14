@@ -7,9 +7,8 @@ const binaryCardEffects = [
     'cannotParticipateAsDefender',
     'canPlayFromOwn',
     'abilityRestrictions',
-    'doesNotBow',
     'doesNotReady',
-    'showTopConflictCard'
+    'showTopCard'
 ];
 
 class StaticEffect {
