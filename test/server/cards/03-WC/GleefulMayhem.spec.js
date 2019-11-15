@@ -59,7 +59,7 @@ describe('Gleeful Mayhem', function() {
                     expect(this.player1).toBeAbleToSelect(this.shadowSelf);
                 });
 
-                it('sould deal damage to all creatures selected', function() {
+                it('should deal damage to all creatures selected', function() {
                     this.player1.clickCard(this.troll);
                     this.player1.clickCard(this.shadowSelf);
 
