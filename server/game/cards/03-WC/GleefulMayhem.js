@@ -3,19 +3,17 @@ const Houses = require('../../../constants').Houses;
 
 class GleefulMayhem extends Card {
     setupCardAbilities(ability) {
+        const targets = {};
+        Houses.forEach(house => targets[house] = {
+            cardType: 'creature',
+            cardCondition: card => card.hasHouse(house),
+            gameAction: ability.actions.dealDamage({ amount: 5 })
+        });
+
         this.play({
-            gameAction: ability.actions.sequentialForEach(({
-                forEach: Houses,
-                action: house => ability.actions.dealDamage(({
-                    amount: 5,
-                    noGameStateCheck: true,
-                    promptForSelect: {
-                        activePromptTitle: `Choose a creature of house ${house} to deal 5 damage to`,
-                        cardType: 'creature',
-                        cardCondition: card => card.hasHouse(house)
-                    }
-                }))
-            }))
+            targets: targets,
+            effect: 'deal 5 damage to {1}',
+            effectArgs: context => [Object.values(context.targets)]
         });
     }
 }
