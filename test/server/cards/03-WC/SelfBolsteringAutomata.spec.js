@@ -5,7 +5,8 @@ describe('Self-Bolstering Automata', function() {
                 this.setupTest({
                     player1: {
                         house: 'logos',
-                        inPlay: ['self-bolstering-automata', 'pip-pip']
+                        inPlay: ['self-bolstering-automata', 'pip-pip'],
+                        hand: ['bouncing-deathquark']
                     },
                     player2: {
                         amber: 1,
@@ -44,6 +45,24 @@ describe('Self-Bolstering Automata', function() {
                     it('should not stop automata from being destroyed', function() {
                         expect(this.selfBolsteringAutomata.location).toBe('discard');
                     });
+                });
+            });
+
+            describe('when destroyed without damage', function() {
+                beforeEach(function() {
+                    this.player1.play(this.bouncingDeathquark);
+                    this.player1.clickCard(this.troll);
+                    this.player1.clickCard(this.selfBolsteringAutomata);
+                });
+
+                it('should fully heal automata, not destroy it, exhaust it and move it to the right flank', function() {
+                    expect(this.player1).toHavePrompt('Self-Bolstering Automata');
+                    this.player1.clickPrompt('right');
+                    expect(this.selfBolsteringAutomata.tokens.damage).toBe(undefined);
+                    expect(this.selfBolsteringAutomata.location).toBe('play area');
+                    expect(this.selfBolsteringAutomata.exhausted).toBe(true);
+                    expect(this.player1.player.cardsInPlay[1]).toBe(this.selfBolsteringAutomata);
+                    expect(this.selfBolsteringAutomata.hasToken('power')).toBe(false);
                 });
             });
         });

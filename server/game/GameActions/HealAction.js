@@ -21,6 +21,10 @@ class HealAction extends CardGameAction {
         return super.canAffect(card, context);
     }
 
+    checkEventCondition(event) {
+        return event.card.hasToken('damage') && super.checkEventCondition(event);
+    }
+
     getEvent(card, context) {
         let amount = Math.min(card.tokens.damage || 0, this.amount);
         return super.createEvent('onHeal', { amount, card, context }, event => {
