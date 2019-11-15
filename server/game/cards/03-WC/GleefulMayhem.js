@@ -4,11 +4,13 @@ const Houses = require('../../../constants').Houses;
 class GleefulMayhem extends Card {
     setupCardAbilities(ability) {
         const targets = {};
-        Houses.forEach(house => targets[house] = {
-            cardType: 'creature',
-            cardCondition: card => card.hasHouse(house),
-            gameAction: ability.actions.dealDamage({ amount: 5 })
-        });
+        for(const house of Houses) {
+            targets[house] = {
+                cardType: 'creature',
+                cardCondition: card => card.hasHouse(house),
+                gameAction: ability.actions.dealDamage({ amount: 5 })
+            };
+        }
 
         this.play({
             targets: targets,
