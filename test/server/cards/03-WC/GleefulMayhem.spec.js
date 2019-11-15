@@ -52,12 +52,6 @@ describe('Gleeful Mayhem', function() {
                     expect(this.player1).not.toBeAbleToSelect(this.shadowSelf);
                 });
 
-                it('should deal damage to the first creature selected', function() {
-                    this.player1.clickCard(this.troll);
-
-                    expect(this.troll.tokens.damage).toBe(5);
-                });
-
                 it('should prompt to deal damage to shadows next', function() {
                     this.player1.clickCard(this.troll);
 
@@ -65,11 +59,12 @@ describe('Gleeful Mayhem', function() {
                     expect(this.player1).toBeAbleToSelect(this.shadowSelf);
                 });
 
-                it('sould deal damage to the second creature selected', function() {
+                it('should deal damage to all creatures selected', function() {
                     this.player1.clickCard(this.troll);
                     this.player1.clickCard(this.shadowSelf);
 
                     expect(this.shadowSelf.tokens.damage).toBe(5);
+                    expect(this.troll.tokens.damage).toBe(5);
                 });
             });
         });
