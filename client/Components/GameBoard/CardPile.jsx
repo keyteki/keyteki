@@ -122,6 +122,7 @@ class CardPile extends React.Component {
         let cardList = [];
 
         let listProps = {
+            cardBackUrl: this.props.cardBackUrl,
             disableMouseOver: this.props.disableMouseOver,
             manualMode: this.props.manualMode,
             onCardClick: this.onCardClick.bind(this),
