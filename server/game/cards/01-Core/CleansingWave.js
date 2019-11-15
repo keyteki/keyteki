@@ -6,7 +6,7 @@ class CleansingWave extends Card {
             effect: 'heal 1 damage from all creatures',
             gameAction: ability.actions.heal(context => ({
                 amount: 1,
-                target: context.game.creaturesInPlay
+                target: context.game.creaturesInPlay.filter(card => card.hasToken('damage'))
             })),
             then: {
                 message: '{1} heals {3}, gaining {0} {4} amber',
