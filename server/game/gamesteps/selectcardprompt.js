@@ -79,6 +79,8 @@ class SelectCardPrompt extends UiPrompt {
 
         this.selector = properties.selector || CardSelector.for(this.properties);
         this.selectedCards = [];
+        this.revealTargets = properties.revealTargets;
+        this.revealFunc = null;
         this.savePreviouslySelectedCards();
     }
 
@@ -123,7 +125,13 @@ class SelectCardPrompt extends UiPrompt {
     }
 
     highlightSelectableCards() {
+        let allCards = this.selector.findPossibleCards(this.context);
         this.choosingPlayer.setSelectableCards(this.selector.getAllLegalTargets(this.context));
+
+        if(this.revealTargets && !this.revealFunc) {
+            this.revealFunc = (card, player) => player === this.choosingPlayer && allCards.includes(card);
+            this.game.cardVisibility.addRule(this.revealFunc);
+        }
     }
 
     activeCondition(player) {
@@ -155,7 +163,7 @@ class SelectCardPrompt extends UiPrompt {
 
     hasEnoughSelected() {
         return this.selector.hasEnoughSelected(this.selectedCards, this.context) ||
-               this.selector.getAllLegalTargets(this.context).every(card => this.selectedCards.includes(card));
+           this.selector.getAllLegalTargets(this.context).every(card => this.selectedCards.includes(card));
     }
 
     waitingPrompt() {
@@ -250,6 +258,11 @@ class SelectCardPrompt extends UiPrompt {
 
         // Restore previous selections.
         this.choosingPlayer.setSelectedCards(this.previouslySelectedCards);
+
+        if(this.revealTargets && this.revealFunc) {
+            this.game.cardVisibility.removeRule(this.revealFunc);
+            this.revealFunc = null;
+        }
     }
 }
 

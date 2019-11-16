@@ -32,6 +32,7 @@ const AbilityContext = require('./AbilityContext');
 const MenuCommands = require('./MenuCommands');
 const TimeLimit = require('./TimeLimit');
 const PlainTextGameChatFormatter = require('./PlainTextGameChatFormatter');
+const CardVisibility = require('./CardVisibility');
 
 class Game extends EventEmitter {
     constructor(details, options = {}) {
@@ -72,6 +73,8 @@ class Game extends EventEmitter {
         this.activePlayer = null;
 
         this.cardData = options.cardData || [];
+
+        this.cardVisibility = new CardVisibility(this);
 
         _.each(details.players, player => {
             this.playersAndSpectators[player.user.username] = new Player(player.id, player.user, this.owner === player.user.username, this);
@@ -188,6 +191,15 @@ class Game extends EventEmitter {
         });
 
         return otherPlayer;
+    }
+
+    /**
+     * Returns the visitbility of the card for a given player.
+     * @param {Card} card
+     * @param {Player} player
+     */
+    isCardVisible(card, player) {
+        return this.cardVisibility.isVisible(card, player);
     }
 
     /**

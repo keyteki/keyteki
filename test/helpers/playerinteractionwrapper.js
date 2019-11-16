@@ -524,6 +524,10 @@ class PlayerInteractionWrapper {
             throw new Error(`${this.name} does not have an unforge key prompt`);
         }
     }
+
+    getForgedKeys() {
+        return this.player.getForgedKeys();
+    }
 }
 
 module.exports = PlayerInteractionWrapper;

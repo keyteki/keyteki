@@ -3,22 +3,18 @@ const Card = require('../../Card.js');
 class CreedOfNature extends Card {
     setupCardAbilities(ability) {
         this.omni({
-            target: {
-                optional: false,
-                cardType: 'creature',
-                gameAction: ability.actions.cardLastingEffect({
-                    effect: ability.effects.addKeyword('skirmish')
-                })
-            },
-            then: context => ({
-                gameAction: [
-                    ability.actions.cardLastingEffect({
-                        target: context.target,
-                        effect: ability.effects.addKeyword({ assault: 4 })
-                    }),
-                    ability.actions.sacrifice()
-                ]
-            })
+            gameAction: ability.actions.sacrifice(),
+            then: {
+                target: {
+                    cardType: 'creature',
+                    gameAction: ability.actions.cardLastingEffect(context => ({
+                        effect: ability.effects.addKeyword({
+                            skirmish: 1,
+                            assault: context.target.power
+                        })
+                    }))
+                }
+            }
         });
     }
 }

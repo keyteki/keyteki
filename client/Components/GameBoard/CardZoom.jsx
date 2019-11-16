@@ -18,38 +18,29 @@ class CardZoom extends React.Component {
         }
     }
 
-    getNormalCardZoom() {
-        return (<div className='card-large vertical'>
-            { this.props.show ?
-                <div className='card-zoomed shadow'>
-                    { this.props.card.identity }
-                    <span className='card-name'>{ this.props.cardName }</span>
-                    <CardImage className='image-large img-responsive' img={ this.props.imageUrl } maverick={ this.props.card.maverick } anomaly={ this.props.card.anomaly } amber={ this.props.card.cardPrintedAmber }/>
-                    { this.props.card && <AltCard card={ this.props.card }/> }
-                </div>
-                : null }
-        </div>);
-    }
-
     render() {
         if(!this.props.card) {
             return null;
         }
 
-        if(this.props.card.imageType) {
-            return (
-                <div className='card-large vertical'>
-                    { this.props.show &&
-                    <div className='card-zoomed shadow'>
-                        { this.props.card.imageType === 'archon' ? this.props.card :
+        return (
+            <div className='card-large vertical'>
+                { this.props.show &&
+                <div className='card-zoomed shadow'>
+                    { this.props.card.imageUrl ?
+                        <div className='card-zoomed shadow'>
                             <img className='image-large img-responsive' src={ this.props.card.imageUrl }/>
-                        }
-                    </div>
+                        </div>
+                        :
+                        <div className='card-zoomed shadow'>
+                            <span className='card-name'>{ this.props.cardName }</span>
+                            <CardImage className='image-large img-responsive' img={ this.props.imageUrl } maverick={ this.props.card.maverick } anomaly={ this.props.card.anomaly } amber={ this.props.card.cardPrintedAmber }/>
+                            { this.props.card && <AltCard card={ this.props.card }/> }
+                        </div>
                     }
-                </div>);
-        }
-
-        return this.getNormalCardZoom();
+                </div>
+                }
+            </div>);
     }
 }
 

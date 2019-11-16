@@ -14,7 +14,7 @@ class MedicIngram extends Card {
                     ability.actions.ward()
                 ])
             },
-            effect: 'heal 3 damages and ward {0}'
+            effect: 'heal 3 damage and ward {0}'
         });
     }
 }

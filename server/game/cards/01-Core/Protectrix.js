@@ -6,7 +6,6 @@ class Protectrix extends Card {
             target: {
                 optional: true,
                 cardType: 'creature',
-                cardCondition: card => card.hasToken('damage'),
                 gameAction: ability.actions.heal({ fully: true })
             },
             then: context => ({

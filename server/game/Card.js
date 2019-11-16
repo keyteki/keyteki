@@ -56,7 +56,7 @@ class Card extends EffectSource {
         this.printedHouse = cardData.house;
         this.cardPrintedAmber = cardData.amber;
         this.maverick = cardData.maverick;
-        this.anomoly = cardData.anomoly;
+        this.anomaly = cardData.anomaly;
 
         this.upgrades = [];
         this.parent = null;
@@ -849,7 +849,7 @@ class Card extends EffectSource {
 
         // Include card specific information useful for UI rendering
         result.maverick = this.maverick;
-        result.anomoly = this.anomoly;
+        result.anomaly = this.anomaly;
         result.cardPrintedAmber = this.cardPrintedAmber;
         result.locale = this.locale;
         return result;
@@ -859,18 +859,20 @@ class Card extends EffectSource {
         let isController = activePlayer === this.controller;
         let selectionState = activePlayer.getCardSelectionState(this);
 
-        if(!isController && (this.facedown || hideWhenFaceup) && !(this.game.showHand && activePlayer.isSpectator() && this.location === 'hand')) {
-            let state = {
+        if(!this.game.isCardVisible(this, activePlayer)) {
+            return {
                 cardback: this.owner.deckData.cardback,
                 controller: this.controller.name,
+                location: this.location,
                 facedown: true,
-                location: this.location
+                uuid: this.uuid,
+                tokens: this.tokens,
+                ...selectionState
             };
-            return Object.assign(state, selectionState);
         }
 
         let state = {
-            anomoly: this.anomoly,
+            anomaly: this.anomaly,
             id: this.cardData.id,
             image: this.cardData.image,
             canPlay: (activePlayer === this.game.activePlayer) && this.game.activePlayer.activeHouse &&

@@ -36,7 +36,7 @@ const placeholderPlayer = {
     houses: [],
     deckName: '',
     deckUuid: '',
-    deckSet: '',
+    deckSet: 0,
     deckCards:[],
     title: null,
     user: null
@@ -289,6 +289,7 @@ export class GameBoard extends React.Component {
                         faction={ otherPlayer.faction }
                         archives={ otherPlayer.cardPiles.archives }
                         hand={ otherPlayer.cardPiles.hand } isMe={ false }
+                        language={ this.props.i18n.language }
                         deckCards = { otherPlayer.deckCards }
                         deckName = { otherPlayer.deckName }
                         deckUuid = { otherPlayer.deckUuid }
@@ -336,6 +337,7 @@ export class GameBoard extends React.Component {
                     <PlayerRow isMe={ !this.state.spectating }
                         archives={ thisPlayer.cardPiles.archives }
                         cards={ this.props.cards }
+                        language={ this.props.i18n.language }
                         deckCards = { thisPlayer.deckCards }
                         deckName = { thisPlayer.deckName }
                         deckUuid = { thisPlayer.deckUuid }

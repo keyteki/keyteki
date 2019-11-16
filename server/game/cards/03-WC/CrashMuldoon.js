@@ -15,7 +15,7 @@ class CrashMuldoon extends Card {
                 cardCondition: (card, context) => context.source.neighbors.includes(card) && card.exhausted === false && !card.hasHouse('staralliance'),
                 gameAction: ability.actions.use()
             },
-            effect: 'use a neighboring non Star Alliance creature'
+            effect: 'use a neighboring non staralliance creature'
         });
     }
 }

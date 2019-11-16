@@ -34,12 +34,7 @@ class Messages extends React.Component {
     }
 
     getMessage() {
-        let index = 0;
-        let messages = this.props.messages.map(message => {
-            return <div key={ 'message' + index++ } className='message'>{ this.formatMessageText(message.message) }</div>;
-        });
-
-        return messages;
+        return this.props.messages.map((message, index) => <div key={ index } className='message'>{ this.formatMessageText(message.message) }</div>);
     }
 
     processKeywords(message) {
