@@ -113,7 +113,7 @@ export const buildDeckList = (deck, language, translate, AllCards) => new Promis
             });
             ctx.drawImage((getCircularText(deck.name, 1600, 0)), -500, 35);
 
-            Promise.all([...houseProm, ...cardProm]).then(() => resolve(canvas.toDataURL('image/jpeg', 0.75)));
+            Promise.all([...houseProm, ...cardProm]).then(() => resolve(canvas.toDataURL('image/jpeg')));
         });
 });
 
@@ -129,7 +129,7 @@ export const buildArchon = (deck, language) => new Promise(resolve => {
         .then(archon => {
             ctx.drawImage(archon, 0, 0);
             ctx.drawImage((getCircularText(deck.name, 700, 0)), -50, 70);
-            resolve(canvas.toDataURL('image/jpeg', 0.75));
+            resolve(canvas.toDataURL('image/jpeg'));
         });
 });
 
