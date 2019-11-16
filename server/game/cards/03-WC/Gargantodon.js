@@ -20,7 +20,7 @@ class Gargantodon extends Card {
             },
             target: {
                 cardType: 'creature',
-                cardCondition: (card, context) => card.controller !== context.player,
+                cardCondition: (card, context) => card.controller === context.player,
                 gameAction: [
                     ability.actions.changeEvent(context => ({
                         event: context.event,
