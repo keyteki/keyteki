@@ -88,6 +88,24 @@ describe('Brobnar Ambassador', function() {
                 this.player1.reap(this.cowfyne);
                 expect(this.player1.amber).toBe(2);
             });
+
+            it('should not allow play or use after first brobnar play', function() {
+                this.player1.reap(this.brobnarAmbassador);
+                this.player1.play(this.smith);
+                this.player1.clickCard(this.brammo);
+                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                this.player1.clickCard(this.cowfyne);
+                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            });
+
+            it('should not allow play or use after first brobnar use', function() {
+                this.player1.fightWith(this.brobnarAmbassador, this.lamindra);
+                this.player1.fightWith(this.cowfyne, this.lamindra);
+                this.player1.clickCard(this.brammo);
+                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                this.player1.clickCard(this.theWarchest);
+                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            });
         });
     });
 });
