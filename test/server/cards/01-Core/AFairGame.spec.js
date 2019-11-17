@@ -1,4 +1,4 @@
-describe('A Fair Game', function() {
+fdescribe('A Fair Game', function() {
     integration(function() {
         describe('A Fair Game\'s ability', function() {
             beforeEach(function() {

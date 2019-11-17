@@ -6,8 +6,6 @@ class Arise extends Card {
             target: {
                 mode: 'house'
             },
-            effect: 'return {1} to their hand',
-            effectArgs: context => [context.player.discard.filter(card => card.type === 'creature' && card.hasHouse(context.house))],
             gameAction: [
                 ability.actions.returnToHand(context => ({
                     location: 'discard',

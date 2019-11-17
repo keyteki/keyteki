@@ -8,7 +8,7 @@ class BaitAndSwitch extends Card {
             then: context => ({
                 condition: () => context.player.amber < context.player.opponent.amber,
                 gameAction: ability.actions.steal(),
-                message: '{0} uses {1} to steal an additional amber'
+                message: '{player} uses {source} to steal an additional amber'
             })
         });
     }

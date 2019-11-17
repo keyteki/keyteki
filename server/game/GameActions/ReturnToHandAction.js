@@ -8,7 +8,7 @@ class ReturnToHandAction extends CardGameAction {
     setup() {
         super.setup();
         this.name = 'returnToHand';
-        this.effectMsg = 'return {0} to their hand';
+        this.message = 'return {target} to their hand';
         this.cost = 'returning {0} to their owner\'s hand';
     }
 

@@ -4,6 +4,7 @@ const AbilityTargetHouse = require('./AbilityTargets/AbilityTargetHouse');
 const AbilityTargetSelect = require('./AbilityTargets/AbilityTargetSelect');
 const AbilityTargetTrait = require('./AbilityTargets/AbilityTargetTrait');
 const AbilityTargetOptions = require('./AbilityTargets/AbilityTargetOptions');
+const AbilityMessage = require('./AbilityMessage');
 
 /**
  * Base class representing an ability that can be done by the player. This
@@ -38,6 +39,7 @@ class BaseAbility {
         this.buildTargets(properties);
         this.cost = this.buildCost(properties.cost);
         this.nonDependentTargets = this.targets.filter(target => !target.properties.dependsOn);
+        this.message = AbilityMessage.create(properties.message);
     }
 
     buildCost(cost) {
@@ -182,7 +184,8 @@ class BaseAbility {
         return this.nonDependentTargets.every(target => target.checkTarget(context));
     }
 
-    displayMessage(context) { // eslint-disable-line no-unused-vars
+    displayMessage(context) {
+        this.message.output(context.game, context);
     }
 
     /**

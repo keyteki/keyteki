@@ -1,5 +1,5 @@
-const AbilityContext = require('./AbilityContext.js');
-const BaseAbility = require('./baseability.js');
+const AbilityContext = require('./AbilityContext');
+const BaseAbility = require('./baseability');
 
 class ThenAbility extends BaseAbility {
     constructor(game, card, properties) {
@@ -24,22 +24,6 @@ class ThenAbility extends BaseAbility {
 
     checkThenAbilities() {
         return this.properties.then && this.properties.then.alwaysTriggers;
-    }
-
-    displayMessage(context) {
-        if(this.properties.message) {
-            let messageArgs = [context.player, context.source, context.target];
-            if(this.properties.messageArgs) {
-                let args = this.properties.messageArgs;
-                if(typeof args === 'function') {
-                    args = args(context);
-                }
-
-                messageArgs = messageArgs.concat(args);
-            }
-
-            this.game.addMessage(this.properties.message, ...messageArgs);
-        }
     }
 
     getGameActions(context) {
