@@ -17,7 +17,7 @@ describe('Armsmaster Molina', function() {
 
             it('on play, should allow you to select a creature:robot, or an upgrade from discard pile to return to hand', function() {
                 this.player1.play(this.chiefEngineerWalls);
-                expect(this.player1).toHavePrompt('Chief Engineer Walls');
+                this.player1.clickCard(this.chiefEngineerWalls);
                 expect(this.player1).toBeAbleToSelect(this.helperBot);
                 expect(this.player1).toBeAbleToSelect(this.rocketBoots);
                 expect(this.player1).not.toBeAbleToSelect(this.badPenny);
@@ -43,7 +43,7 @@ describe('Armsmaster Molina', function() {
 
             it('on reap, should allow you to select a creature:robot, or an upgrade from discard pile to return to hand', function() {
                 this.player1.reap(this.chiefEngineerWalls);
-                expect(this.player1).toHavePrompt('Chief Engineer Walls');
+                this.player1.clickCard(this.chiefEngineerWalls);
                 expect(this.player1).toBeAbleToSelect(this.helperBot);
                 expect(this.player1).toBeAbleToSelect(this.rocketBoots);
                 expect(this.player1).not.toBeAbleToSelect(this.badPenny);
@@ -53,7 +53,7 @@ describe('Armsmaster Molina', function() {
 
             it('on fight, should allow you to select a creature:robot, or an upgrade from discard pile to return to hand', function() {
                 this.player1.fightWith(this.chiefEngineerWalls, this.dustPixie);
-                expect(this.player1).toHavePrompt('Chief Engineer Walls');
+                this.player1.clickCard(this.chiefEngineerWalls);
                 expect(this.player1).toBeAbleToSelect(this.helperBot);
                 expect(this.player1).toBeAbleToSelect(this.rocketBoots);
                 expect(this.player1).not.toBeAbleToSelect(this.badPenny);

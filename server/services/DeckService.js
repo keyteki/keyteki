@@ -32,6 +32,10 @@ class DeckService {
             dbExpansions.push(341);
         }
 
+        if(expansions.wc) {
+            dbExpansions.push(452);
+        }
+
         return await this.decks.aggregate([{ $match: { includeInSealed: true, expansion: { $in: dbExpansions } } }, { $sample: { size: 1 } }]);
     }
 

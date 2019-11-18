@@ -31,7 +31,7 @@ class NewGame extends React.Component {
             muteSpectators: false,
             selectedGameType: 'casual',
             selectedGameFormat: 'normal',
-            expansions: { cota: false, aoa: true },
+            expansions: { cota: false, aoa: false, wc: true },
             password: '',
             useGameTimeLimit: false,
             gameTimeLimit: 35
@@ -172,7 +172,8 @@ class NewGame extends React.Component {
 
         let expansions = [
             { name: 'cota', label: t('Call of the Archons') },
-            { name: 'aoa', label: t('Age of Ascension') }
+            { name: 'aoa', label: t('Age of Ascension') },
+            { name: 'wc', label: t('Worlds Collide') }
         ];
 
         return (

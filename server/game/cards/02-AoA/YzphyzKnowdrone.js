@@ -10,8 +10,8 @@ class YzphyzKnowdrone extends Card {
             },
             then: {
                 target: {
-                    mode: 'upTo',
-                    numCards: 1,
+                    optional: true,
+                    controller: 'any',
                     activePromptTitle: 'Choose which card to purge',
                     location: 'archives',
                     gameAction: ability.actions.purge()

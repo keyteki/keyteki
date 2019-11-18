@@ -26,6 +26,7 @@ describe('Spartasaur', function() {
             describe('and another friendly creature is destroyed', function() {
                 beforeEach(function() {
                     this.player1.fightWith(this.rhetorGallim, this.brainEater);
+                    this.player1.clickCard(this.spartasaur);
                     this.player1.clickCard(this.dextre);
                 });
 

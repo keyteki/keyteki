@@ -18,12 +18,16 @@ describe('Academy Training', function() {
 
             it('should treat the upgraded creature as Logos, but not its original house', function() {
                 this.player1.playUpgrade(this.academyTraining, this.rustgnawer);
+                expect(this.rustgnawer.hasHouse('logos')).toBe(true);
+                expect(this.rustgnawer.hasHouse('untamed')).toBe(false);
                 this.player1.reap(this.rustgnawer);
                 expect(this.player1.amber).toBe(1);
                 this.player1.endTurn();
                 this.player2.clickPrompt('shadows');
                 this.player2.endTurn();
                 this.player1.clickPrompt('untamed');
+                expect(this.rustgnawer.hasHouse('logos')).toBe(true);
+                expect(this.rustgnawer.hasHouse('untamed')).toBe(false);
                 this.player1.clickCard(this.rustgnawer);
                 expect(this.player1).not.toHavePromptButton('Reap with this creature');
                 expect(this.player1.amber).toBe(1);

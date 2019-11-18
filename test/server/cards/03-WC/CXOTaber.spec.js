@@ -39,7 +39,7 @@ describe('CXO Taber', function() {
             });
 
             it('should allow a non star alliance card in play to be used', function () {
-                expect(this.player1).not.toBeAbleToPlay(this.urchin);
+                expect(this.player1).toBeAbleToPlay(this.urchin);
             });
         });
     });
