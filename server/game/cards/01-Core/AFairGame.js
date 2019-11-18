@@ -5,7 +5,7 @@ class AFairGame extends Card {
         this.play({
             condition: context => !!context.player.opponent,
             message: {
-                format: 'discard the top card of {opponent}\'s deck:{oppTop} and reveal their hand: {oppHand}, gaining {myAmber} amber. Then {opponent} discards the top card of {player}\'s deck: {myTop} and reveals their hand:{myHand}, gaining {oppAmber} amber',
+                format: 'discard {oppTop} from the top card of {opponent}\'s deck and reveal their hand: {oppHand}, gaining {myAmber} amber. Then {opponent} discards {myTop} from the top card of {player}\'s deck and reveals their hand: {myHand} gaining {oppAmber} amber',
                 args: {
                     oppTop: context => context.player.opponent.deck.length > 0 ? context.player.opponent.deck[0] : '',
                     oppHand: context => context.player.opponent.hand.map(card => card).sort(),

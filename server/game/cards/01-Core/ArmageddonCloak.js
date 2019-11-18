@@ -6,8 +6,10 @@ class ArmageddonCloak extends Card {
             effect: [
                 ability.effects.addKeyword({ hazardous: 2 }),
                 ability.effects.gainAbility('destroyed', {
-                    effect: 'heal all damage from {0} and destroy {1} instead',
-                    effectArgs: () => this,
+                    message: {
+                        format: 'heal all damage from {source} and destroy {this} instead',
+                        args: { this: () => this }
+                    },
                     gameAction: [
                         ability.actions.heal({ fully: true }),
                         ability.actions.changeEvent(context => ({

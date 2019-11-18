@@ -4,7 +4,7 @@ class ResolveReapAction extends CardGameAction {
     setup() {
         this.name = 'reap';
         this.targetType = ['creature'];
-        this.effectMsg = 'reap with {0}';
+        this.message = 'reap with {target}';
     }
 
     canAffect(card, context) {

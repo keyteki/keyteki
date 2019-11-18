@@ -9,7 +9,6 @@ class ReturnToHandAction extends CardGameAction {
         super.setup();
         this.name = 'returnToHand';
         this.message = 'return {target} to their hand';
-        this.cost = 'returning {0} to their owner\'s hand';
     }
 
     canAffect(card, context) {

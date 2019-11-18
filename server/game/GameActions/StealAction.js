@@ -8,7 +8,7 @@ class StealAction extends PlayerAction {
     setup() {
         super.setup();
         this.name = 'steal';
-        this.effectMsg = 'steal ' + this.amount + ' amber from {0}';
+        this.message = `steal ${this.amount} amber from {target}`;
     }
 
     canAffect(player, context) {

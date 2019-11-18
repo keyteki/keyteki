@@ -15,7 +15,9 @@ class DealDamageAction extends CardGameAction {
     setup() {
         this.targetType = ['creature'];
         this.name = 'damage';
-        this.effectMsg = 'deal ' + (this.amount ? this.amount + ' ' : '') + 'damage to {0}' + (this.splash ? ' and ' + this.splash + ' to their neighbors' : '');
+        let amountText = (this.amount ? this.amount + ' ' : '');
+        let splashText = (this.splash ? ' with ' + this.splash + ' splash' : '');
+        this.message = `deal ${amountText}damage to {target} ${splashText}`;
     }
 
     canAffect(card, context) {

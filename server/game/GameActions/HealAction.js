@@ -10,7 +10,13 @@ class HealAction extends CardGameAction {
     setup() {
         this.name = 'heal';
         this.targetType = ['creature'];
-        this.effectMsg = 'heal {0} ' + (this.fully ? 'fully' : ('for ' + (this.upTo ? 'up to ' : '') + this.amount + ' damage'));
+        this.message = 'heal {target} ';
+
+        if(this.fully) {
+            this.message += 'fully';
+        } else {
+            this.message += `for${(this.upTo ? ' up to ' : '')} ${this.amount} damage`;
+        }
     }
 
     canAffect(card, context) {

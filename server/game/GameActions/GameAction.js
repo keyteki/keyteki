@@ -27,8 +27,7 @@ class GameAction {
     setup() {
         this.name = '';
         this.targetType = [];
-        this.effectMsg = '';
-        this.cost = '';
+        this.message = '';
     }
 
     update(context) {

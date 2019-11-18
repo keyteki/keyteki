@@ -4,7 +4,7 @@ class PurgeAction extends CardGameAction {
     setup() {
         super.setup();
         this.name = 'purge';
-        this.effectMsg = 'purge {0}';
+        this.message = 'purge {target}';
     }
 
     getEvent(card, context) {

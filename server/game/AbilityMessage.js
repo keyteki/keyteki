@@ -95,7 +95,7 @@ class AbilityMessage {
 
     getOptionalArgs(format) {
         const optionalArgTypes = [
-            { name: 'opponent', getValue: context => context.opponent },
+            { name: 'opponent', getValue: context => context.player.opponent },
             { name: 'chosenPlayer', getValue: context => context.chosenPlayer },
             { name: 'searchTarget', getValue: context => context.searchTarget }
         ];

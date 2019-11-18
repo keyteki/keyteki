@@ -21,7 +21,6 @@ describe('Anger', function() {
                 expect(this.player1).toHavePrompt('Anger');
                 this.player1.clickCard(this.troll);
                 expect(this.player1).toHavePrompt('Choose a creature to attack');
-                //expect(this.troll.exhausted).toBe(false);
                 this.player1.clickCard(this.huntingWitch);
                 expect(this.troll.exhausted).toBe(true);
                 expect(this.troll.location).toBe('play area');

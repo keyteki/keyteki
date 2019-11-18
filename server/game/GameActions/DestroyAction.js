@@ -4,7 +4,7 @@ class DestroyAction extends CardGameAction {
     constructor(propertyFactory, isSacrifice = false) {
         super(propertyFactory);
         this.name = isSacrifice ? 'sacrifice' : 'destroy';
-        this.effectMsg = isSacrifice ? 'sacrifice {0}' : 'destroy {0}';
+        this.message = isSacrifice ? 'sacrifice {target}' : 'destroy {target}';
     }
 
     setDefaultProperties() {

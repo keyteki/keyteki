@@ -11,7 +11,7 @@ class Anger extends Card {
                     ability.actions.fight()
                 ])
             },
-            effect: 'ready and fight with {0}'
+            message: 'ready and fight with {target}'
         });
     }
 }
