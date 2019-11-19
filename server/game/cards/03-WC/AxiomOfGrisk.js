@@ -6,13 +6,13 @@ class AxiomOfGrisk extends Card {
             target: {
                 activePromptTitle: 'Choose a creature to ward',
                 cardType: 'creature',
-                gameAction: ability.actions.ward()
+                gameAction: ability.actions.sequential([
+                    ability.actions.ward(),
+                    ability.actions.destroy(context => ({ target: context.game.creaturesInPlay.filter(card => !card.hasToken('amber')) }))
+                ])
             },
             effectStyle: 'append',
-            gameAction: [
-                ability.actions.destroy(context => ({ target: context.game.creaturesInPlay.filter(card => !card.hasToken('amber')) })),
-                ability.actions.gainChains({ amount: 2 })
-            ]
+            gameAction: ability.actions.gainChains({ amount: 2 })
         });
     }
 }
