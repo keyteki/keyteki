@@ -11,7 +11,8 @@ class AxiomOfGrisk extends Card {
                     ability.actions.destroy(context => ({ target: context.game.creaturesInPlay.filter(card => !card.hasToken('amber')) }))
                 ])
             },
-            effectStyle: 'append',
+            effect: 'ward {0}, destroy all creatures without amber and give {1} 2 chains',
+            effectArgs: context => context.player,
             gameAction: ability.actions.gainChains({ amount: 2 })
         });
     }
