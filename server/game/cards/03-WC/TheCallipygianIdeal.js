@@ -7,9 +7,7 @@ class TheCallipygianIdeal extends Card {
         });
 
         this.whileAttached({
-            effect: ability.effects.gainAbility('persistentEffect', {
-                effect: ability.effects.keyAmber()
-            })
+            effect: ability.effects.keyAmber()
         });
     }
 }

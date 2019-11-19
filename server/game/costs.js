@@ -18,8 +18,8 @@ const Costs = {
                 return true;
             }
 
-            return context.player.effects.some(effect => (HouseUseEffects.includes(effect.type) && context.source.hasHouse(effect.getValue(context.player))) ||
-                (NonHouseUseEffects.includes(effect.type) && !context.source.hasHouse(effect.getValue(context.player))) && !context.game.effectsUsed.includes(effect));
+            return context.player.effects.some(effect => ((HouseUseEffects.includes(effect.type) && context.source.hasHouse(effect.getValue(context.player))) ||
+                (NonHouseUseEffects.includes(effect.type) && !context.source.hasHouse(effect.getValue(context.player)))) && !context.game.effectsUsed.includes(effect));
         },
         payEvent: context => context.game.getEvent('unnamedEvent', {}, () => {
             context.game.cardsUsed.push(context.source);
@@ -31,10 +31,8 @@ const Costs = {
 
             let houseEffects = (context.player.effects.filter(effect => (HouseUseEffects.includes(effect.type) || NonHouseUseEffects.includes(effect.type)) &&
                 !context.game.effectsUsed.includes(effect)));
-            let effect = houseEffects.find(effect => {
-                (HouseUseEffects.includes(effect.type) && context.source.hasHouse(effect.getValue(context.player))) ||
-                (NonHouseUseEffects.includes(effect.type) && !context.source.hasHouse(effect.getValue(context.player)));
-            });
+            let effect = houseEffects.find(effect => (HouseUseEffects.includes(effect.type) && context.source.hasHouse(effect.getValue(context.player))) ||
+                (NonHouseUseEffects.includes(effect.type) && !context.source.hasHouse(effect.getValue(context.player))));
 
             if(effect) {
                 context.game.effectsUsed.push(effect);
@@ -68,7 +66,7 @@ const Costs = {
                 }
 
                 return (HousePlayEffects.includes(effect.type) && context.source.hasHouse(value)) ||
-                (NonHousePlayEffects.includes(effect.type) && !context.source.hasHouse(value));
+                    (NonHousePlayEffects.includes(effect.type) && !context.source.hasHouse(value));
             });
         },
         payEvent: context => context.game.getEvent('unnamedEvent', {}, () => {
@@ -91,7 +89,7 @@ const Costs = {
                 }
 
                 return (HousePlayEffects.includes(effect.type) && context.source.hasHouse(value)) ||
-                (NonHousePlayEffects.includes(effect.type) && !context.source.hasHouse(value));
+                    (NonHousePlayEffects.includes(effect.type) && !context.source.hasHouse(value));
             });
 
             if(effect) {

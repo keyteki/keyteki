@@ -2,7 +2,7 @@ const Card = require('../../Card.js');
 
 class ShatteredThrone extends Card {
     setupCardAbilities(ability) {
-        this.reaction({
+        this.interrupt({
             when: {
                 onFight: () => true
             },
