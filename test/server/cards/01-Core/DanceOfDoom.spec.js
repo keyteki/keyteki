@@ -61,7 +61,7 @@ describe('Dance of Doom', function() {
                     this.player1.selectOption(0);
                 });
 
-                it('it should not destroy any creatures', function() {
+                it('it should not destroy any creature', function() {
                     expect(this.gargantodon.location).toBe('play area');
                     expect(this.lionBautrem.location).toBe('play area');
                     expect(this.shooler.location).toBe('play area');
