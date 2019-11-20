@@ -1,5 +1,6 @@
 module.exports = {
     AddEventToWindowAction: require('./AddEventToWindowAction'),
+    AddTokenAction: require('./AddTokenAction'),
     AllocateDamageAction: require('./AllocateDamageAction'),
     ArchiveAction: require('./ArchiveAction'),
     AttachAction: require('./AttachAction'),
@@ -29,7 +30,6 @@ module.exports = {
     MoveCardAction: require('./MoveCardAction'),
     MoveOnBattlelineAction: require('./MoveOnBattlelineAction'),
     MoveToFlankAction: require('./MoveToFlankAction'),
-    AddTokenAction: require('./AddTokenAction'),
     PlaceUnderAction: require('./PlaceUnderAction'),
     PlayCardAction: require('./PlayCardAction'),
     PurgeAction: require('./PurgeAction'),
@@ -54,6 +54,7 @@ module.exports = {
     SearchAction: require('./SearchAction'),
     SequentialAction: require('./SequentialAction'),
     SequentialForEachAction: require('./SequentialForEachAction'),
+    ShuffleDeckAction: require('./ShuffleDeckAction'),
     StealAction: require('./StealAction'),
     StunAction: require('./StunAction'),
     SwapAction: require('./SwapAction'),
