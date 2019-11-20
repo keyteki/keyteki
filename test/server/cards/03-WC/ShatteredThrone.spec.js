@@ -10,7 +10,7 @@ describe('Shattered Throne', function() {
                     },
                     player2: {
                         amber: 3,
-                        inPlay: ['silvertooth', 'gamgee', 'krump']
+                        inPlay: ['silvertooth', 'gamgee', 'krump', 'troll']
                     }
                 });
             });
@@ -20,6 +20,12 @@ describe('Shattered Throne', function() {
                 expect(this.brammo.amber).toBe(1);
                 expect(this.silvertooth.amber).toBe(0);
                 expect(this.player2.amber).toBe(2);
+            });
+
+            it('should capture an amber after fight and return it if it does not survive', function() {
+                this.player1.fightWith(this.foozle, this.troll);
+                expect(this.foozle.hasToken('amber')).toBe(false);
+                expect(this.player2.amber).toBe(3);
             });
 
             it('should capture an amber after fighting an elusive', function() {
