@@ -20,10 +20,8 @@ class Infurnace extends Card {
                     location: 'discard',
                     gameAction: [
                         ability.actions.purge(),
-                        ability.actions.gainAmber(context => ({
-                            amount: -(context.targets.cards.reduce(function(acc, val) {
-                                return acc + val.printedAmber;
-                            }, 0)),
+                        ability.actions.loseAmber(context => ({
+                            amount: context.targets.cards.reduce((acc, val) => acc + val.printedAmber, 0),
                             target: context.player.opponent
                         }))
                     ]
