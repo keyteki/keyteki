@@ -2,20 +2,18 @@ const Card = require('../../Card.js');
 
 class DanceOfDoom extends Card {
     setupCardAbilities(ability) {
-        let choices = {};
-        for(let i = 1; i < 13; i++) {
-            choices[i.toString()] = ability.actions.destroy(context => ({
-                target: context.game.creaturesInPlay.filter(card => card.power === i)
-            }));
-        }
-
         this.play({
             target: {
-                mode: 'select',
-                choices: choices
+                activePromptTitle: 'Choose a number',
+                mode: 'options',
+                options: context => [... Array(Math.max.apply(Math, context.game.creaturesInPlay.map(function(card) { return card.power; })) + 1).keys()].
+                    map(option => ({ name: option, value: option })),
             },
+            gameAction: ability.actions.destroy(context => ({
+                target: context.option ? context.game.creaturesInPlay.filter(card => card.power === context.option.value) : []
+            })),
             effect: 'destroy all creatures with power {1}',
-            effectArgs: context => context.select
+            effectArgs: context => context.option && context.option.value
         });
     }
 }
