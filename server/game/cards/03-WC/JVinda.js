@@ -9,6 +9,8 @@ class JVinda extends Card {
             },
             then: {
                 condition: context => context.preThenEvent.destroyed,
+                message: '{0} uses {1} to steal 1 amber from {3}',
+                messageArgs: context => [context.player.opponent],
                 gameAction: ability.actions.steal()
             }
         });
