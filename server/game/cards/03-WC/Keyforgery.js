@@ -11,7 +11,7 @@ class Keyforgery extends Card {
             target: {
                 mode: 'house'
             },
-            effect: 'force {1} to choose a house and {1} selects house {2}',
+            effect: 'make {1} name house {2}',
             effectArgs: context => [context.player.opponent, context.house],
             gameAction: ability.actions.reveal(context => ({
                 location: 'hand',
@@ -21,7 +21,7 @@ class Keyforgery extends Card {
             then: preThenContext => ({
                 message: '{0} uses {1} to {3}',
                 messageArgs: context => [!context.preThenEvent.card.hasHouse(preThenContext.house) ?
-                    'destroy itself and skip the Forge Key step' : 'continue the Forge Key step'],
+                    'destroy itself and skip opponent\'s Forge Key step' : 'continue opponent\'s Forge Key step'],
                 gameAction: [
                     ability.actions.destroy(context => ({ target : !context.preThenEvent.card.hasHouse(preThenContext.house) ? context.source : [] })),
                     ability.actions.changeEvent(context => ({
