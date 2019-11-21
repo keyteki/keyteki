@@ -22,7 +22,18 @@ describe('Philophosaurus', function() {
                 this.player1.reap(this.philophosaurus);
             });
 
+            it('should be optional', function() {
+                expect(this.player1).toHavePromptButton('Done');
+                expect(this.player1).toBeAbleToSelect(this.philophosaurus);
+            });
+
+            it('should be able to cancel', function() {
+                this.player1.clickPrompt('Done');
+                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            });
+
             it('should prompt the top 3 cards from the deck', function() {
+                this.player1.clickCard(this.philophosaurus);
                 expect(this.player1).toHavePromptCardButton(this.shadowSelf);
                 expect(this.player1).toHavePromptCardButton(this.urchin);
                 expect(this.player1).toHavePromptCardButton(this.titanMechanic);
@@ -30,6 +41,7 @@ describe('Philophosaurus', function() {
 
             describe('and a card is selected', function() {
                 beforeEach(function() {
+                    this.player1.clickCard(this.philophosaurus);
                     this.player1.clickPrompt('urchin');
                 });
 
@@ -42,7 +54,7 @@ describe('Philophosaurus', function() {
                     expect(this.player1).toHavePromptCardButton(this.titanMechanic);
                 });
 
-                describe('and a card is selected', function() {
+                describe('and a second card is selected', function() {
                     beforeEach(function() {
                         this.player1.clickPrompt('shadow self');
                     });
