@@ -6,8 +6,8 @@ class DanceOfDoom extends Card {
             target: {
                 activePromptTitle: 'Choose a number',
                 mode: 'options',
-                options: context => [... Array(Math.max.apply(Math, context.game.creaturesInPlay.map(function(card) { return card.power; })) + 1).keys()].
-                    map(option => ({ name: option, value: option })),
+                options: context => [... Array(Math.max.apply(Math, context.game.creaturesInPlay.map(card => return card.power)) + 1).keys()].
+                    map(option => ({ name: option, value: option }))
             },
             gameAction: ability.actions.destroy(context => ({
                 target: context.option ? context.game.creaturesInPlay.filter(card => card.power === context.option.value) : []
