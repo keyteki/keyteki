@@ -1,10 +1,10 @@
-FROM node:latest
+FROM node:10
 RUN mkdir -p /usr/src/node
 WORKDIR /usr/src/node
 COPY package.json /usr/src/node/
 COPY package-lock.json /usr/src/node/
 
-RUN npm install
+RUN npm install --no-optional
 COPY . /usr/src/node
 EXPOSE 9500
 
