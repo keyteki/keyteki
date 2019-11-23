@@ -555,7 +555,7 @@ class Card extends EffectSource {
 
     get printedAmber() {
         const copyEffect = this.mostRecentEffect('copyCard');
-        return (copyEffect ? copyEffect.cardData.amber : this.cardData.amber) + this.sumEffects('modifyAmberValue');
+        return (copyEffect ? copyEffect.cardPrintedAmber : this.cardPrintedAmber) + this.sumEffects('modifyAmberValue');
     }
 
     get power() {

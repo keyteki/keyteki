@@ -20,7 +20,7 @@ describe('Tentacus', function() {
                 this.player1.clickCard(this.libraryOfBabble);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
                 this.player1.play(this.remoteAccess);
-                expect(this.etherSpider.tokens.amber).toBe(1);
+                expect(this.etherSpider.amber).toBe(1);
                 expect(this.player1).toHavePrompt('Remote Access');
                 expect(this.player1).toBeAbleToSelect(this.dominatorBauble);
                 this.player1.clickCard(this.dominatorBauble);
@@ -30,8 +30,7 @@ describe('Tentacus', function() {
 
             it('should pay an amber to the opponent when they use an artifact', function() {
                 this.player1.amber = 3;
-                this.player1.clickCard(this.libraryOfBabble);
-                this.player1.clickPrompt('Use this card\'s action ability');
+                this.player1.useAction(this.libraryOfBabble);
                 expect(this.player1.hand.length).toBe(3);
                 expect(this.player1.amber).toBe(2);
                 expect(this.player2.amber).toBe(1);
@@ -44,7 +43,31 @@ describe('Tentacus', function() {
                 this.player1.clickPrompt('Reap with this creature');
                 expect(this.player1.amber).toBe(1);
                 expect(this.player2.amber).toBe(2);
-                expect(this.etherSpider.tokens.amber).toBe(2);
+                expect(this.etherSpider.amber).toBe(2);
+            });
+        });
+
+        describe('Tentacus\'s ability', function() {
+            beforeEach(function() {
+                this.setupTest({
+                    player1: {
+                        house: 'logos',
+                        inPlay: ['library-of-babble', 'ether-spider'],
+                        hand: ['remote-access', 'anomaly-exploiter']
+                    },
+                    player2: {
+                        inPlay: ['tentacus', 'dominator-bauble']
+                    }
+                });
+            });
+
+            it('paid amount should be captured by Ether Spider', function() {
+                this.player1.amber = 3;
+                this.player1.useAction(this.libraryOfBabble);
+                expect(this.player1.hand.length).toBe(3);
+                expect(this.player1.amber).toBe(2);
+                expect(this.player2.amber).toBe(0);
+                expect(this.etherSpider.amber).toBe(1);
             });
         });
     });
