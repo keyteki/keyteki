@@ -14,7 +14,7 @@ services:
       - mongo
     command:
       - node
-      - "--inspect=0.0.0.0"
+      - "--inspect=0.0.0.0:9229"
       - "."
   node:
     restart: always
