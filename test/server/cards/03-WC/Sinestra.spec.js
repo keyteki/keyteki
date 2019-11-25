@@ -7,7 +7,7 @@ describe('Sinestra', function() {
                         house: 'dis',
                         amber: 3,
                         hand: ['dust-imp'],
-                        inPlay: ['krump', 'grabber-jammer']
+                        inPlay: ['lifeward', 'krump', 'grabber-jammer', 'lifeward']
                     },
                     player2: {
                         inPlay: ['sinestra', 'brain-eater']
@@ -25,6 +25,30 @@ describe('Sinestra', function() {
                 this.player1.play(this.dustImp);
 
                 expect(this.player1.amber).toBe(3);
+            });
+        });
+    });
+    
+    integration(function() {
+        describe('card ability', function() {
+            beforeEach(function() {
+                this.setupTest({
+                    player1: {
+                        house: 'dis',
+                        amber: 3,
+                        hand: ['dust-imp'],
+                        inPlay: ['lifeward', 'lifeward']
+                    },
+                    player2: {
+                        inPlay: ['sinestra', 'brain-eater']
+                    }
+                });
+            });
+
+            it('should cause the opponent to lose an amber when when first creature is played', function() {
+                this.player1.play(this.dustImp);
+
+                expect(this.player1.amber).toBe(2);
             });
         });
     });
