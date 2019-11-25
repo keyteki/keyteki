@@ -28,7 +28,7 @@ describe('Sinestra', function() {
             });
         });
     });
-    
+
     integration(function() {
         describe('card ability', function() {
             beforeEach(function() {

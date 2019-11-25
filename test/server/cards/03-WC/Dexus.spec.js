@@ -28,7 +28,7 @@ describe('Dexus', function() {
             });
         });
     });
-    
+
     integration(function() {
         describe('card ability', function() {
             beforeEach(function() {
