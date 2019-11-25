@@ -792,20 +792,20 @@ class Card extends EffectSource {
             return false;
         }
 
-        let position = this.controller.cardsInPlay.indexOf(this);
+        let position = this.controller.creaturesInPlay.indexOf(this);
         if(flank === 'left') {
             return (this.anyEffect('consideredAsFlank') || this.neighbors.length < 2) &&
                 position === 0;
         } else if(flank === 'right') {
             return (this.anyEffect('consideredAsFlank') || this.neighbors.length < 2) &&
-                position === this.controller.cardsInPlay.length - 1;
+                position === this.controller.creaturesInPlay.length - 1;
         }
 
         return this.anyEffect('consideredAsFlank') || this.neighbors.length < 2;
     }
 
     isInCenter() {
-        let creatures = this.controller.cardsInPlay.filter(card => card.type === 'creature');
+        let creatures = this.controller.creaturesInPlay;
         if(creatures.length % 2 === 0) {
             return false;
         }
@@ -823,7 +823,7 @@ class Card extends EffectSource {
             return this.clonedNeighbors;
         }
 
-        let creatures = this.controller.cardsInPlay.filter(card => card.type === 'creature');
+        let creatures = this.controller.creaturesInPlay;
         let index = creatures.indexOf(this);
         let neighbors = [];
 
