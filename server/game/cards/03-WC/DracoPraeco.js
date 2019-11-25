@@ -6,7 +6,7 @@ class DracoPraeco extends Card {
             optional: true,
             gameAction: ability.actions.exalt(),
             then: {
-                message: '{0} uses {1} to exalt {3}',
+                message: '{0} uses {1} to enrage {3}',
                 messageArgs: context => [context.game.creaturesInPlay.filter(card => card.hasHouse(context.house))],
                 target: {
                     mode: 'house'
