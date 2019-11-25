@@ -435,5 +435,10 @@
     "Choose a card to archive": "Escolha uma carta para arquivar",
     "Ward a creature": "Proteger uma criatura",
     "Choose an enemy creature to purge": "Escolha uma criatura inimiga para expurgar",
-    "Choose a friendly creature to purge": "Escolha uma criatura amiga para expurgar"
+    "Choose a friendly creature to purge": "Escolha uma criatura amiga para expurgar",
+    "Select two creatures to swap": "Escolha duas criaturas para trocar de lugar",
+    "Select a card to move this card next to": "Escolha uma carta para posicionar essa carta ao lado",
+    "Which side to you want to move this card to?": "Para qual lado você deseja mover essa carta?",
+    "Any reactions to key phase starting?": "Alguma reação ao início do passo de forja?",
+    "Any interrupts": "Alguma interrupção"
 }
