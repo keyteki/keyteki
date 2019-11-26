@@ -4,7 +4,7 @@ services:
     restart: always
     build:
       context: .
-    image: keyteki:lobby
+    image: keyteki-lobby
     ports:
       - "4000:4000"
       - "9229:9229"
@@ -14,14 +14,14 @@ services:
       - mongo
     command:
       - node
-      - "--inspect=0.0.0.0"
+      - "--inspect=0.0.0.0:9229"
       - "."
   node:
     restart: always
     build:
       context: .
       dockerfile: ./server/gamenode/Dockerfile
-    image: keyteki:node
+    image: keyteki-node
     ports:
       - "9500:9500"
       - "9339:9339"
@@ -31,6 +31,8 @@ services:
       - "server/gamenode"      
   mongo:
     image: mongo
+    ports:
+      - "27027:27017"
     volumes:
       - mongodb:/data/db
 volumes:
