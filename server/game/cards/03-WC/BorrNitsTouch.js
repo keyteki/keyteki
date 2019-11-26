@@ -16,13 +16,16 @@ class BorrNitsTouch extends Card {
                 target: (!context.select || context.select === 'Mine') ? context.player.deck.slice(0, 5) : context.player.opponent.deck.slice(0, 5)
             })),
             then: preThenContext => ({
-                gameAction: ability.actions.purge({
-                    promptWithHandlerMenu: {
-                        activePromptTitle: 'Choose which card to purge',
-                        cards: (!preThenContext.select || preThenContext.select === 'Mine') ? preThenContext.player.deck.slice(0, 5) : preThenContext.player.opponent.deck.slice(0, 5),
-                        message: '{0} chooses to purge {2}'
-                    }
-                })
+                gameAction: ability.actions.sequential([
+                    ability.actions.purge({
+                        promptWithHandlerMenu: {
+                            activePromptTitle: 'Choose which card to purge',
+                            cards: (!preThenContext.select || preThenContext.select === 'Mine') ? preThenContext.player.deck.slice(0, 5) : preThenContext.player.opponent.deck.slice(0, 5),
+                            message: '{0} chooses to purge {2}'
+                        }
+                    }),
+                    ability.actions.shuffleDeck(() => ({ target: (!preThenContext.select || preThenContext.select === 'Mine') ? preThenContext.player : preThenContext.player.opponent }))
+                ])
             })
         });
     }
