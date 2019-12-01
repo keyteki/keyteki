@@ -523,7 +523,8 @@ class Lobby {
     }
 
     sendHandoff(socket, gameNode, gameId) {
-        let authToken = jwt.sign(socket.user.getWireSafeDetails(), this.configService.getValue('secret'), { expiresIn: '5m' });
+        let user = socket.user.getWireSafeDetails();
+        let authToken = jwt.sign(user, this.configService.getValue('secret'), { expiresIn: '5m' });
 
         socket.send('handoff', {
             address: gameNode.address,
@@ -531,6 +532,7 @@ class Lobby {
             protocol: gameNode.protocol,
             name: gameNode.identity,
             authToken: authToken,
+            user: user,
             gameId: gameId
         });
     }
