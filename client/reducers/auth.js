@@ -34,7 +34,8 @@ export default function (state = {}, action) {
 
             return Object.assign({}, state, {
                 token: action.token,
-                refreshToken: action.refreshToken
+                refreshToken: action.refreshToken,
+                user: action.user || state.user
             });
     }
 
