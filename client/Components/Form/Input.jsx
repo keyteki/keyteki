@@ -2,12 +2,22 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 class Input extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.ref = React.createRef();
+    }
+
+    focus() {
+        this.ref.current.focus();
+    }
+
     render() {
         const inputControl = (
             <div>
                 <label htmlFor={ this.props.name } className={ this.props.labelClass + ' control-label' }>{ this.props.label }</label>
                 <div className={ this.props.fieldClass }>
-                    <input name={ this.props.name } type={ this.props.type } className='form-control' id={ this.props.name }
+                    <input name={ this.props.name } type={ this.props.type } className='form-control' id={ this.props.name } ref={ this.ref }
                         placeholder={ this.props.placeholder } value={ this.props.value } onChange={ this.props.onChange } onBlur={ this.props.onBlur }
                         { ...this.props.validationAttributes } />
                     <span className='text-danger' data-valmsg-replace='true' data-valmsg-for={ this.props.name } />

@@ -98,7 +98,7 @@ class DeckList extends React.Component {
                 <form className='form'>
                     <div className='col-md-8'>
                         <div className='form-group'>
-                            <label className='control-label'><Trans>Filter</Trans>:</label><input className='form-control' placeholder={ t('Search...') } type='text' onChange={ e => this.changeFilter(e.target.value) }/>
+                            <label className='control-label'><Trans>Filter</Trans>:</label><input autoFocus className='form-control' placeholder={ t('Search...') } type='text' onChange={ e => this.changeFilter(e.target.value) }/>
                         </div>
                     </div>
                     <div className='col-md-4'>
