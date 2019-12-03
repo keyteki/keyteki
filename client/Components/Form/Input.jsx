@@ -7,7 +7,7 @@ class Input extends React.Component {
             <div>
                 <label htmlFor={ this.props.name } className={ this.props.labelClass + ' control-label' }>{ this.props.label }</label>
                 <div className={ this.props.fieldClass }>
-                    <input name={ this.props.name } type={ this.props.type } className='form-control' id={ this.props.name } ref={ this.ref }
+                    <input name={ this.props.name } type={ this.props.type } className='form-control' id={ this.props.name }
                         placeholder={ this.props.placeholder } value={ this.props.value } onChange={ this.props.onChange } onBlur={ this.props.onBlur }
                         autoFocus={ this.props.autoFocus }
                         { ...this.props.validationAttributes } />
