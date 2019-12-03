@@ -1,10 +1,7 @@
-FROM node:latest
-RUN mkdir -p /usr/src/lobby
-WORKDIR /usr/src/lobby
-COPY package.json /usr/src/lobby/
-COPY package-lock.json /usr/src/lobby/
-RUN npm install
-COPY . /usr/src/lobby
-EXPOSE 4000
-
-CMD [ "npm", "start" ]
+FROM node:10
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+COPY package.json /usr/src/app
+COPY package-lock.json /usr/src/app
+RUN npm install --no-optional
+COPY . /usr/src/app

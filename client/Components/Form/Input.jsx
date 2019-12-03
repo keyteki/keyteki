@@ -9,6 +9,7 @@ class Input extends React.Component {
                 <div className={ this.props.fieldClass }>
                     <input name={ this.props.name } type={ this.props.type } className='form-control' id={ this.props.name }
                         placeholder={ this.props.placeholder } value={ this.props.value } onChange={ this.props.onChange } onBlur={ this.props.onBlur }
+                        autoFocus={ this.props.autoFocus }
                         { ...this.props.validationAttributes } />
                     <span className='text-danger' data-valmsg-replace='true' data-valmsg-for={ this.props.name } />
                 </div>
@@ -30,6 +31,7 @@ class Input extends React.Component {
 
 Input.displayName = 'Input';
 Input.propTypes = {
+    autoFocus: PropTypes.bool,
     children: PropTypes.object,
     fieldClass: PropTypes.string,
     label: PropTypes.string,

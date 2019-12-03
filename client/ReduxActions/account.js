@@ -105,11 +105,12 @@ export function activateAccount(details) {
     };
 }
 
-export function setAuthTokens(token, refreshToken) {
+export function setAuthTokens(token, refreshToken, user) {
     return {
         type: 'SET_AUTH_TOKENS',
         token: token,
-        refreshToken: refreshToken
+        refreshToken: refreshToken,
+        user: user
     };
 }
 
