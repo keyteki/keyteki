@@ -18,14 +18,8 @@ export class ImportDeck extends React.Component {
             deckString: ''
         };
 
-        this.importUrlInput = React.createRef();
-
         this.onImportDeck = this.onImportDeck.bind(this);
         this.onDeckStringChange = this.onDeckStringChange.bind(this);
-    }
-
-    componentDidMount() {
-        this.importUrlInput.current.focus();
     }
 
     componentWillUpdate(props) {
@@ -68,7 +62,7 @@ export class ImportDeck extends React.Component {
                             <p>The URL looks like this: </p>
                         </Trans>
                         <p><code>https://www.keyforgegame.com/deck-details/00000000-0000-0000-0000-000000000000</code></p>
-                        <Input name='importUrl' fieldClass='col-xs-9' placeholder={ t('link') } type='text' onChange={ this.onDeckStringChange } value={ this.state.deckString } ref={ this.importUrlInput } >
+                        <Input name='importUrl' fieldClass='col-xs-9' placeholder={ t('link') } type='text' onChange={ this.onDeckStringChange } value={ this.state.deckString } autoFocus >
                             <div className='col-xs-1'>
                                 <button className='btn btn-default' onClick={ this.onImportDeck }>{ t('Import') } { this.props.apiLoading && <span className='spinner button-spinner' /> }</button>
                             </div>
