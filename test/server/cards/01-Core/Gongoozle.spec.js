@@ -6,7 +6,7 @@ describe('Gongoozle', function() {
                     player1: {
                         house: 'dis',
                         inPlay: ['dodger', 'silvertooth'],
-                        hand: ['gongoozle', 'lamindra'],
+                        hand: ['gongoozle', 'lamindra']
                     },
                     player2: {
                         inPlay: ['urchin', 'sneklifter', 'shadow-self'],
@@ -30,7 +30,7 @@ describe('Gongoozle', function() {
                 expect(this.shooler.location).toBe('hand');
             });
 
-             it('if own creature is not destroyed, should discard own card', function() {
+            it('if own creature is not destroyed, should discard own card', function() {
                 this.player1.play(this.gongoozle);
                 this.player1.clickCard(this.dodger);
                 expect(this.dodger.tokens.damage).toBe(3);
