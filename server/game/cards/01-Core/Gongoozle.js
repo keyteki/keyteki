@@ -9,7 +9,7 @@ class Gongoozle extends Card {
                     ability.actions.dealDamage({ amount: 3 }),
                     ability.actions.conditional(context => ({
                         condition: () => context.target.location === 'play area',
-                        trueGameAction: ability.actions.discardAtRandom({ target: context.target.controller })
+                        trueGameAction: ability.actions.discardAtRandom({ target: context.target.owner })
                     }))
                 ])
             },
