@@ -10,6 +10,8 @@ class EeOnTheFringes extends Card {
             },
             target: {
                 location: 'discard',
+                mode: 'upTo',
+                numCards: 1,
                 cardCondition: card => card.hasHouse('dis'),
                 gameAction: ability.actions.purge({ location: 'discard' })
             },
