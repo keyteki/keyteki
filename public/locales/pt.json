@@ -419,9 +419,9 @@
     "Search...": "Buscar...",
     "Name a trait": "Escolha um atributo",
     "Choose a creature to deal {{damageStep}} damage to": "Escolha uma criatura para causar {{damageStep}} danos",
-    "saurian": "sauros",
+    "saurian": "sauro",
     "staralliance": "aliança Estelar",
-    "Worlds Collide": "Mundos Colidem",
+    "Worlds Collide": "Colisão entre Mundos",
     "Destroy each Dis creature": "Destruir cada criatura Dis",
     "Gain 1 amber": "Ganhar 1 amber",
     "Deck": "Deck",
@@ -443,5 +443,5 @@
     "Select a card to move this card next to": "Escolha uma carta para posicionar essa carta ao lado",
     "Which side to you want to move this card to?": "Para qual lado você deseja mover essa carta?",
     "Any reactions to key phase starting?": "Alguma reação ao início do passo de forja?",
-    "Any interrupts": "Alguma interrupção"
+    "Any interrupts?": "Alguma interrupção?"
 }
