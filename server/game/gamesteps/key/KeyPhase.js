@@ -13,7 +13,8 @@ class KeyPhase extends Phase {
         if(this.game.activePlayer.canForgeKey()) {
             this.game.actions.forgeKey().resolve(this.game.activePlayer, this.game.getFrameworkContext(this.game.activePlayer));
         } else {
-            this.game.addMessage('{0} does not forge a key.  They have {1} amber.  The current cost is {2} amber ', this.game.activePlayer, this.game.activePlayer.amber, this.game.activePlayer.getCurrentKeyCost());
+            this.game.addMessage('{0} does not forge a key.  They have {1} amber and {2} keys forged.  The current cost is {3} amber ',
+                this.game.activePlayer, this.game.activePlayer.keyForged.length, this.game.activePlayer.amber, this.game.activePlayer.getCurrentKeyCost());
         }
     }
 }
