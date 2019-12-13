@@ -983,9 +983,16 @@ class Game extends EventEmitter {
         if(this.activePlayer.opponent) {
             this.activePlayer = this.activePlayer.opponent;
         }
+
         function plural(numberOfKeys) {
-            if (numberOfKeys === 1) { return 'key'; } else { return 'keys' }
+            let key = 'keys';
+            if(numberOfKeys === 1) {
+                key = 'key';
+            }
+
+            return key;
         }
+
         let playerAmber = this.getPlayers().map(player => `${player.name}(${player.keyForged.length} ${plural(player.keyForged.length)}): ${player.amber} amber`).join(' ');
 
         this.addAlert('endofround', `End of turn ${this.round}`);
