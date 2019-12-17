@@ -16,8 +16,8 @@ class GameFlowWrapper {
             owner: 'player1',
             saveGameId: 12345,
             players: [
-                { id: '111', user: Settings.getUserWithDefaultsSet({ username: 'player1' }) },
-                { id: '222', user: Settings.getUserWithDefaultsSet({ username: 'player2' }) }
+                { id: '111', user: Settings.getUserWithDefaultsSet({ username: 'player1', settings: { optionSettings: { orderForcedAbilities: true } } }) },
+                { id: '222', user: Settings.getUserWithDefaultsSet({ username: 'player2', settings: { optionSettings: { orderForcedAbilities: true } } }) }
             ]
         };
         this.game = new Game(details, { router: gameRouter, cardData: cards });
