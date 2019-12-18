@@ -116,5 +116,23 @@ describe('Neutron Shark', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
         });
+
+        describe('Neutron Shark and Bellowing Patrizate interaction', function() {
+            beforeEach(function() {
+                this.setupTest({
+                    player1: {
+                        house: 'logos',
+                        hand: ['neutron-shark', 'twin-bolt-emission'],
+                        inPlay: ['bellowing-patrizate'],
+                        discard: ['dextre', 'urchin', 'umbra']
+                    }
+                });
+            });
+
+            it('should prompt the player to choose which to resolve first', function() {
+                this.player1.play(this.neutronShark);
+                expect(this.player1).toHavePrompt('Triggered Abilities');
+            });
+        });
     });
 });
