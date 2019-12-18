@@ -30,6 +30,15 @@ describe('Autocannon', function() {
                 expect(this.player1.amber).toBe(1);
                 expect(this.player2.amber).toBe(0);
             });
+
+            it('should trigger Autocannon first when automatically ordering triggers', function() {
+                this.player1.player.optionSettings.orderForcedAbilities = false;
+                this.player1.play(this.urchin);
+                expect(this.urchin.location).toBe('discard');
+                expect(this.player1.amber).toBe(0);
+                expect(this.player2.amber).toBe(1);
+                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            });
         });
     });
 });
