@@ -72,5 +72,32 @@ describe('Quadracorder', function() {
                 expect(this.player1.amber).toBe(0);
             });
         });
+
+        describe('when played with Auto Legionary', function() {
+            it('should not increase the cost of keys by more than [3]', function() {
+                this.setupTest({
+                    player1: {
+                        house: 'saurian',
+                        hand: ['quadracorder'],
+                        inPlay: ['auto-legionary', 'troll']
+                    },
+                    player2: {
+                        inPlay: ['bad-penny']
+                    }
+                });
+                this.player1.useAction(this.autoLegionary);
+                this.player1.clickPrompt('Left');
+                this.player1.endTurn();
+                this.player2.clickPrompt('shadows');
+                this.player2.endTurn();
+                this.player1.clickPrompt('staralliance');
+                this.player1.playUpgrade(this.quadracorder, this.autoLegionary);
+                this.player2.amber = 12;
+                this.player1.endTurn();
+                this.player2.forgeKey('Red');
+                expect(this.player2.getForgedKeys()).toBe(1);
+                expect(this.player2.amber).toBe(3);
+            });
+        });
     });
 });
