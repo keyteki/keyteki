@@ -7,6 +7,8 @@ class ImperialTraitor extends Card {
             target: {
                 controller: 'opponent',
                 revealTargets: true,
+                mode: 'upTo',
+                numCards: 1,
                 location: 'hand',
                 cardCondition: card => card.hasHouse('sanctum'),
                 gameAction: ability.actions.purge()
