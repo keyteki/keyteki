@@ -386,7 +386,7 @@
     "Create": "Crear",
     "{{card}}": "{{card}}",
     "{{card}} ({{quantity}})": "{{card}} ({{quantity}})",
-    "How much amber do you want to use from {{card}}": "¿Cuánto ámbar quieres usar de {{card}}",
+    "How much amber do you want to use from {{card}}?": "¿Cuánto ámbar quieres usar de {{card}}?",
     "Do you wish to repeat this effect?": "¿Quieres repetir este efecto?",
     "Do you wish to forge a key?": "¿Quieres forjar una llave?",
     "Do you wish to purge a sanctum card?": "¿Quieres purgar una carta de Sanctum?",
