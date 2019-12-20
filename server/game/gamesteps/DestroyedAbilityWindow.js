@@ -1,15 +1,20 @@
 const ForcedTriggeredAbilityWindow = require('./forcedtriggeredabilitywindow.js');
 
 class DestroyedTriggeredAbilityWindow extends ForcedTriggeredAbilityWindow {
-    emitEvents() {
-        if(this.resolvedAbilities.length === 0) {
-            super.emitEvents();
+    constructor(game, abilityType, window, eventsToExclude = []) {
+        super(game, abilityType, window, eventsToExclude);
+        this.previousChoices = [];
+    }
+
+    addChoice(context) {
+        if(this.previousChoices.length === 0 || this.previousChoices.some(c => c.ability === context.ability && c.event === context.event)) {
+            super.addChoice(context);
         }
     }
 
     resolveAbility(context) {
         super.resolveAbility(context);
-        this.choices = this.choices.filter(c => c !== context);
+        this.previousChoices = this.choices;
     }
 }
 
