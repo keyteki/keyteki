@@ -16,7 +16,7 @@ class Infurnace extends Card {
                     dependsOn: 'select',
                     mode: 'upTo',
                     numCards: 2,
-                    player: context => context.selects.select.choice === 'Mine' ? context.player : context.player.opponent,
+                    cardCondition: (card, context) => context.selects.select.choice === 'Mine' ? card.owner === context.player : card.owner === context.player.opponent,
                     location: 'discard',
                     gameAction: [
                         ability.actions.purge(),
