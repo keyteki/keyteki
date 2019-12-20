@@ -171,6 +171,7 @@ class InnerCard extends React.Component {
 
         return (
             <SquishableCardPanel
+                cardBackUrl = { this.props.cardBackUrl }
                 cardSize={ this.props.size }
                 cards={ underneathCards }
                 className='underneath'
@@ -354,6 +355,7 @@ InnerCard.propTypes = {
         factionStatus: PropTypes.array,
         image: PropTypes.string,
         exhausted: PropTypes.bool,
+        location: PropTypes.string,
         menu: PropTypes.array,
         name: PropTypes.string,
         new: PropTypes.bool,

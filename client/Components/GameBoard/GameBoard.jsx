@@ -285,7 +285,8 @@ export class GameBoard extends React.Component {
             <div key='board-middle' className='board-middle'>
                 <div className='player-home-row'>
                     <PlayerRow
-                        cards={ this.props.cards }
+                        player={ 2 }
+                        cardBackUrl={ this.props.player2CardBack }
                         faction={ otherPlayer.faction }
                         archives={ otherPlayer.cardPiles.archives }
                         hand={ otherPlayer.cardPiles.hand } isMe={ false }
@@ -312,6 +313,7 @@ export class GameBoard extends React.Component {
                 <div className='board-inner'>
                     <div className='play-area'>
                         <PlayerBoard
+                            cardBackUrl={ this.props.player2CardBack }
                             cardsInPlay={ otherPlayer.cardPiles.cardsInPlay }
                             onCardClick={ this.onCardClick }
                             onMenuItemClick={ this.onMenuItemClick }
@@ -321,6 +323,7 @@ export class GameBoard extends React.Component {
                             user={ this.props.user } />
                         <Droppable onDragDrop={ this.onDragDrop } source='play area' manualMode={ this.props.currentGame.manualMode }>
                             <PlayerBoard
+                                cardBackUrl={ this.props.player1CardBack }
                                 cardsInPlay={ thisPlayer.cardPiles.cardsInPlay }
                                 manualMode={ this.props.currentGame.manualMode }
                                 onCardClick={ this.onCardClick }
@@ -335,8 +338,9 @@ export class GameBoard extends React.Component {
                 { this.getTimer() }
                 <div className='player-home-row our-side'>
                     <PlayerRow isMe={ !this.state.spectating }
+                        player={ 1 }
+                        cardBackUrl={ this.props.player1CardBack }
                         archives={ thisPlayer.cardPiles.archives }
-                        cards={ this.props.cards }
                         language={ this.props.i18n.language }
                         deckCards = { thisPlayer.deckCards }
                         deckName = { thisPlayer.deckName }
@@ -474,6 +478,8 @@ GameBoard.propTypes = {
     i18n: PropTypes.object,
     navigate: PropTypes.func,
     packs: PropTypes.array,
+    player1CardBack: PropTypes.string,
+    player2CardBack: PropTypes.string,
     restrictedList: PropTypes.array,
     sendGameMessage: PropTypes.func,
     setContextMenu: PropTypes.func,
@@ -489,6 +495,8 @@ function mapStateToProps(state) {
         cards: state.cards.cards,
         currentGame: state.lobby.currentGame,
         packs: state.cards.packs,
+        player1CardBack: state.cards.player1CardBack,
+        player2CardBack: state.cards.player2CardBack,
         restrictedList: state.cards.restrictedList,
         socket: state.lobby.socket,
         user: state.account.user
