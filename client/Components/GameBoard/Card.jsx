@@ -253,7 +253,7 @@ class InnerCard extends React.Component {
             'custom-card': this.props.card.code && this.props.card.code.startsWith('custom'),
             'horizontal': this.props.orientation !== 'vertical' || this.props.card.exhausted,
             'vertical': this.props.orientation === 'vertical' && !this.props.card.exhausted,
-            'can-play': !this.statusClass && !this.props.card.unselectable && this.props.card.canPlay,
+            'can-play': this.statusClass !== 'selected' && this.statusClass !== 'selectable' && !this.props.card.unselectable && this.props.card.canPlay,
             'unselectable': this.props.card.unselectable,
             'dragging': this.props.isDragging,
             'controlled': this.props.card.controlled,
@@ -315,6 +315,8 @@ class InnerCard extends React.Component {
             return 'selected';
         } else if(this.props.card.selectable) {
             return 'selectable';
+        } else if(this.props.card.new) {
+            return 'new';
         }
     }
 
@@ -354,6 +356,7 @@ InnerCard.propTypes = {
         exhausted: PropTypes.bool,
         menu: PropTypes.array,
         name: PropTypes.string,
+        new: PropTypes.bool,
         order: PropTypes.number,
         power: PropTypes.number,
         selectable: PropTypes.bool,
