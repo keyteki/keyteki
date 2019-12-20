@@ -573,7 +573,7 @@ class Player extends GameObject {
 
                     this.game.promptWithHandlerMenu(this, {
                         activePromptTitle: {
-                            text: 'How much amber do you want to use from {{card}}',
+                            text: 'How much amber do you want to use from {{card}}?',
                             values: { card: source.name }
                         },
                         source: source,
@@ -600,7 +600,7 @@ class Player extends GameObject {
                 }
             });
         } else {
-            this.finalizeForge(unforgedKeys.shift().text.toLowerCase(), modifiedCost, cost);
+            this.game.queueSimpleStep(() => this.finalizeForge(unforgedKeys.shift().text.toLowerCase(), modifiedCost, cost));
         }
     }
 

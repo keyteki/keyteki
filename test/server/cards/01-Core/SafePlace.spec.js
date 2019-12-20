@@ -53,7 +53,7 @@ describe('Safe Place', function() {
                 });
 
                 it('should prompt how much amber to use', function() {
-                    expect(this.player1).toHavePrompt('How much amber do you want to use from Safe Place');
+                    expect(this.player1).toHavePrompt('How much amber do you want to use from Safe Place?');
                 });
 
                 describe('and an amount is selected', function() {
