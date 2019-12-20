@@ -5,12 +5,15 @@ class Gongoozle extends Card {
         this.play({
             target: {
                 cardType: 'creature',
-                gameAction: ability.actions.dealDamage({ amount: 3 })
+                gameAction: ability.actions.sequential([
+                    ability.actions.dealDamage({ amount: 3 }),
+                    ability.actions.conditional(context => ({
+                        condition: () => context.target.location === 'play area',
+                        trueGameAction: ability.actions.discardAtRandom({ target: context.target.owner })
+                    }))
+                ])
             },
-            then: context => ({
-                condition: () => context.target.location === 'play area',
-                gameAction: ability.actions.discardAtRandom({ target: context.target.controller })
-            })
+            effect: 'deal 3 damage to {0}'
         });
     }
 }

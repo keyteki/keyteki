@@ -29,7 +29,7 @@ class DeckSummary extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        if(this.props.i18n.language !== prevProps.i18n.language) {
+        if(this.props.i18n.language !== prevProps.i18n.language || this.props.deck !== prevProps.deck) {
             buildArchon(this.props.deck, this.props.i18n.language)
                 .then(imageUrl => this.setState({ imageUrl }));
         }

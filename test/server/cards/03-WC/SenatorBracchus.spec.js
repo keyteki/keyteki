@@ -53,9 +53,9 @@ describe('Senator Bracchus', function() {
                 it('should allow spending amber from both creatures', function() {
                     expect(this.grimlocusDux.tokens.amber).toBe(2);
                     expect(this.senatorBracchus.tokens.amber).toBe(1);
-                    expect(this.player1).toHavePrompt('How much amber do you want to use from Senator Bracchus');
+                    expect(this.player1).toHavePrompt('How much amber do you want to use from Senator Bracchus?');
                     this.player1.clickPrompt('1');
-                    expect(this.player1).toHavePrompt('How much amber do you want to use from Grimlocus Dux');
+                    expect(this.player1).toHavePrompt('How much amber do you want to use from Grimlocus Dux?');
                     this.player1.clickPrompt('1');
                     expect(this.player1).toHavePrompt('Which key would you like to forge?');
                     expect(this.grimlocusDux.tokens.amber).toBe(1);

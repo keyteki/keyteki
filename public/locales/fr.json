@@ -386,7 +386,7 @@
     "Create": "Créer",
     "{{card}}": "{{card}}",
     "{{card}} ({{quantity}})": "{{card}} ({{quantity}})",
-    "How much amber do you want to use from {{card}}": "Combien d’ambres voulez-vous utiliser  de {{card}}",
+    "How much amber do you want to use from {{card}}?": "Combien d’ambres voulez-vous utiliser  de {{card}}?",
     "Do you wish to repeat this effect?": "Souhaitez-vous répéter cet effet?",
     "Do you wish to forge a key?": "Souhaitez-vous forger une clé?",
     "Do you wish to purge a sanctum card?": "Souhaitez-vous purger une carte sanctum?",
@@ -443,5 +443,5 @@
     "Select a card to move this card next to": "Select a card to move this card next to",
     "Which side to you want to move this card to?": "Which side to you want to move this card to?",
     "Any reactions to key phase starting?": "Any reactions to key phase starting?",
-    "Any interrupts": "Any interrupts"
+    "Any interrupts?": "Any interrupts?"
 }
