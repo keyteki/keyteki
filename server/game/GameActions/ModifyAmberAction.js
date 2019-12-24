@@ -8,7 +8,7 @@ class ModifyAmberAction extends PlayerAction {
     setup() {
         super.setup();
         this.name = this.amount >= 0 ? 'gainAmber' : 'spendAmber';
-        this.effectMsg = (this.amount >= 0 ? 'gain ' : 'lose ') + this.amount.toString() + ' amber';
+        this.message = (this.amount >= 0 ? 'gain ' : 'lose ') + this.amount.toString() + ' amber';
     }
 
     canAffect(player, context) {

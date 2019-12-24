@@ -14,8 +14,10 @@ class BattleFleet extends Card {
                     amount: context.target.length
                 }))
             },
-            effect: 'reveal {0} from their hand, and draw {1} cards',
-            effectArgs: context => context.target.length ? context.target.length : 1
+            message: {
+                format: 'reveal {target} from their hand, and draw {numCards} cards',
+                args: { numCards: context => context.target.length ? context.target.length : 1 }
+            }
         });
     }
 }
