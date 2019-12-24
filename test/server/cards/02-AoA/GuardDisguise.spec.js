@@ -1,4 +1,4 @@
-fdescribe('Guard Disguise', function() {
+describe('Guard Disguise', function() {
     integration(function() {
         describe('Guard Disguise\'s ability', function() {
             beforeEach(function() {
