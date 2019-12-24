@@ -16,7 +16,7 @@ describe('Self-Bolstering Automata', function() {
             });
 
             describe('when other creatures are in play', function() {
-                describe('and automata is destroyed', function() {
+                describe('and automata is destroyed fighting', function() {
                     beforeEach(function() {
                         this.player1.fightWith(this.selfBolsteringAutomata, this.troll);
                         this.player1.clickPrompt('right');
@@ -26,6 +26,29 @@ describe('Self-Bolstering Automata', function() {
                         expect(this.selfBolsteringAutomata.tokens.damage).toBe(undefined);
                         expect(this.selfBolsteringAutomata.location).toBe('play area');
                         expect(this.selfBolsteringAutomata.exhausted).toBe(true);
+                        expect(this.player1.player.cardsInPlay[1]).toBe(this.selfBolsteringAutomata);
+                    });
+
+                    it('should NOT gain 2 +1 power counters (as it was exhausted from the fight)', function() {
+                        expect(this.selfBolsteringAutomata.tokens.power).toBe(undefined);
+                    });
+                });
+            });
+
+            describe('when other creatures are in play', function() {
+                describe('and automata is destroyed being attacked', function() {
+                    beforeEach(function() {
+                        this.player1.endTurn();
+                        this.player2.clickPrompt('brobnar');
+                        this.player2.fightWith(this.troll, this.selfBolsteringAutomata);
+                        this.player2.clickPrompt('right');
+                    });
+
+                    it('should fully heal automata, not destroy it, exhaust it and move it to the right flank', function() {
+                        expect(this.selfBolsteringAutomata.tokens.damage).toBe(undefined);
+                        expect(this.selfBolsteringAutomata.location).toBe('play area');
+                        expect(this.selfBolsteringAutomata.exhausted).toBe(true);
+                        expect(this.selfBolsteringAutomata.tokens.power).toBe(2);
                         expect(this.player1.player.cardsInPlay[1]).toBe(this.selfBolsteringAutomata);
                     });
 

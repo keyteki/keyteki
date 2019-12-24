@@ -6,7 +6,7 @@ class SelfBolsteringAutomata extends Card {
             condition: context => context.player.creaturesInPlay.length > 1,
             effect: 'heal all damage from {0}, exhaust it and move it to a flank',
             effectArgs: () => this,
-            gameAction: [
+            gameAction: ability.actions.sequential([
                 ability.actions.heal({ fully: true }),
                 ability.actions.exhaust(),
                 ability.actions.moveToFlank(),
@@ -15,8 +15,9 @@ class SelfBolsteringAutomata extends Card {
                     cancel: true,
                     postHandler: context => context.source.moribund = false
                 }))
-            ],
+            ]),
             then: context => ({
+                condition: context => context.preThenEvent.amount >= 1 && context.preThenEvent.card.exhausted,
                 gameAction: ability.actions.addPowerCounter({ target: context.source, amount: 2 })
             })
         });

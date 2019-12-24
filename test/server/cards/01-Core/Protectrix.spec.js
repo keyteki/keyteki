@@ -40,6 +40,26 @@ describe('Protectrix', function() {
                 expect(this.commanderRemiel.tokens.damage).toBe(undefined);
                 expect(this.titanMechanic.tokens.damage).toBe(3);
             });
+            it('should NOT make a creature invincible if it DOES NOT heals damage off it.', function() {
+                this.player1.play(this.poke);
+                expect(this.player1).toHavePrompt('Poke');
+                expect(this.player1).toBeAbleToSelect(this.commanderRemiel);
+                expect(this.player1).toBeAbleToSelect(this.protectrix);
+                expect(this.player1).not.toBeAbleToSelect(this.dextre);
+                this.player1.clickCard(this.protectrix);
+                expect(this.protectrix.tokens.damage).toBe(1);
+                this.player1.endTurn();
+                this.player2.clickPrompt('sanctum');
+                this.player2.reap(this.protectrix);
+                expect(this.player2).toHavePrompt('Choose a creature');
+                expect(this.player2).toBeAbleToSelect(this.commanderRemiel);
+                expect(this.player2).toBeAbleToSelect(this.protectrix);
+                this.player2.clickCard(this.commanderRemiel);
+                expect(this.commanderRemiel.tokens.damage).toBe(undefined);
+                this.player2.fightWith(this.commanderRemiel,this.dextre);
+                expect(this.dextre.location).toBe('deck');
+                expect(this.commanderRemiel.location).toBe('discard');
+            });
         });
     });
 });
