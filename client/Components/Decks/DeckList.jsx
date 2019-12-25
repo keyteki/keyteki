@@ -52,7 +52,7 @@ class DeckList extends React.Component {
 
         let deckRows = [];
 
-        if(!decks || decks.lenth === 0) {
+        if(!decks || decks.length === 0) {
             deckRows = t('You have no decks, try adding one');
         } else {
             let index = 0;
@@ -73,7 +73,11 @@ class DeckList extends React.Component {
                     break;
             }
 
-            for(let deck of sortedDecks.slice(this.state.currentPage * this.state.pageSize, (this.state.currentPage * this.state.pageSize) + this.state.pageSize)) {
+            if(!this.state.searchFilter) {
+                sortedDecks = sortedDecks.slice(this.state.currentPage * this.state.pageSize, (this.state.currentPage * this.state.pageSize) + this.state.pageSize);
+            }
+
+            for(let deck of sortedDecks) {
                 if(this.filterDeck(deck)) {
                     deckRows.push(<DeckRow active={ activeDeck && activeDeck._id === deck._id } deck={ deck } key={ index++ } onSelect={ onSelectDeck } />);
                 }
