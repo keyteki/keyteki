@@ -51,12 +51,13 @@ class DeckList extends React.Component {
         let { activeDeck, className, decks, onSelectDeck, t } = this.props;
 
         let deckRows = [];
+        let decksInSearch = 0;
 
         if(!decks || decks.length === 0) {
             deckRows = t('You have no decks, try adding one');
         } else {
             let index = 0;
-            let sortedDecks = decks.slice(0);
+            let sortedDecks = decks;
 
             switch(this.state.sortOrder) {
                 case 'dateasc':
@@ -74,13 +75,22 @@ class DeckList extends React.Component {
             }
 
             if(!this.state.searchFilter) {
+                // if there is NO search value, then use the regular pagination
                 sortedDecks = sortedDecks.slice(this.state.currentPage * this.state.pageSize, (this.state.currentPage * this.state.pageSize) + this.state.pageSize);
             }
 
             for(let deck of sortedDecks) {
                 if(this.filterDeck(deck)) {
                     deckRows.push(<DeckRow active={ activeDeck && activeDeck._id === deck._id } deck={ deck } key={ index++ } onSelect={ onSelectDeck } />);
+                    // keep track of the decks that passed the filter
+                    decksInSearch++;
                 }
+            }
+
+            if(!this.state.searchFilter) {
+                // if there is NO search value, then all of our decks are in the "results"
+                // not just limited to those on the page
+                decksInSearch = decks.length;
             }
         }
 
@@ -92,7 +102,7 @@ class DeckList extends React.Component {
         ];
 
         let pager = [];
-        let pages = _.range(0, Math.ceil(decks.length / this.state.pageSize));
+        let pages = _.range(0, Math.ceil(decksInSearch / this.state.pageSize));
         for(let page of pages) {
             pager.push(<li key={ page }><a href='#' className={ (page === this.state.currentPage ? 'active' : null) } onClick={ this.onPageChanged.bind(this, page) }>{ page + 1 }</a></li>);
         }
