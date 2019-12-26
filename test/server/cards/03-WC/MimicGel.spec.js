@@ -1,4 +1,4 @@
-describe('Mimic Gel', function() {
+fdescribe('Mimic Gel', function() {
     integration(function() {
         describe('Mimic Gel\'s ability', function() {
             beforeEach(function() {
@@ -60,6 +60,42 @@ describe('Mimic Gel', function() {
                 expect(this.mimicGel.power).toBe(5);
                 expect(this.mimicGel.name).toBe('Panpaca, Anga');
                 expect(this.batdrone.power).toBe(4);
+            });
+        });
+        describe('Mimic Gel\'s ability', function() {
+            beforeEach(function() {
+                this.setupTest({
+                    player1: {
+                        amber: 3,
+                        house: 'logos',
+                        inPlay: ['batdrone', 'key-to-dis'],
+                        hand: ['mimic-gel', 'phase-shift', 'dextre']
+                    },
+                    player2: {
+                        amber: 12,
+                        inPlay: ['edai-edie-4x4'],
+                        archives: ['archimedes', 'archimedes', 'archimedes', 'archimedes', 'archimedes', 'archimedes']
+                    }
+                });
+            });
+
+            it('should properly copy effects with different targets', function() {
+                this.player1.clickCard(this.mimicGel);
+                this.player1.clickPrompt('Play this creature');
+                this.player1.clickPrompt('Left');
+                expect(this.player1).toHavePrompt('Mimic Gel');
+                expect(this.player1).toBeAbleToSelect(this.edaiEdie4x4);
+                this.player1.clickCard(this.edaiEdie4x4);
+                expect(this.player1).toBeAbleToSelect(this.dextre);
+                this.player1.clickCard(this.dextre);
+                expect(this.mimicGel.location).toBe('play area');
+                expect(this.edaiEdie4x4.location).toBe('play area');
+                expect(this.dextre.location).toBe('archives');
+                this.player1.endTurn();
+                this.player2.clickPrompt('blue');
+                this.player2.clickPrompt('logos');
+                expect(this.player2.player.getForgedKeys()).toBe(1);
+                expect(this.player2.amber).toBe(5);
             });
         });
     });
