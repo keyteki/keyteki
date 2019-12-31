@@ -443,7 +443,7 @@ class Card extends EffectSource {
 
         this.location = targetLocation;
 
-        if(['play area', 'discard', 'hand', 'purged', 'grafted'].includes(targetLocation)) {
+        if(['play area', 'discard', 'hand', 'purged', 'grafted', 'archives'].includes(targetLocation)) {
             this.facedown = false;
         }
 

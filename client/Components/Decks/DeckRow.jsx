@@ -19,13 +19,17 @@ class DeckRow extends React.Component {
 
     componentDidMount() {
         buildArchon(this.props.deck, this.props.i18n.language)
-            .then(imageUrl => this.setState({ imageUrl }));
+            .then(imageUrl => {
+                this.setState({ imageUrl });
+            });
     }
 
     componentDidUpdate(prevProps) {
         if(this.props.i18n.language !== prevProps.i18n.language) {
             buildArchon(this.props.deck, this.props.i18n.language)
-                .then(imageUrl => this.setState({ imageUrl }));
+                .then(imageUrl => {
+                    this.setState({ imageUrl });
+                });
         }
     }
 

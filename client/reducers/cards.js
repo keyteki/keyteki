@@ -70,6 +70,14 @@ export default function(state = { decks: [] }, action) {
             return Object.assign({}, state, {
                 zoomCard: undefined
             });
+        case 'PLAYER1_CARDBACK':
+            return Object.assign({}, state, {
+                player1CardBack: action.url
+            });
+        case 'PLAYER2_CARDBACK':
+            return Object.assign({}, state, {
+                player2CardBack: action.url
+            });
         case 'RECEIVE_DECKS':
             processDecks(action.response.decks, state);
             newState = Object.assign({}, state, {

@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 import CardPile from './CardPile';
 import SquishableCardPanel from './SquishableCardPanel';
@@ -10,12 +12,12 @@ import Droppable from './Droppable';
 import { withTranslation } from 'react-i18next';
 import { buildArchon, buildDeckList } from '../../archonMaker';
 import * as Images from '../../assets/img';
-
+import * as actions from '../../ReduxActions/misc';
 
 class PlayerRow extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { cardBackUrl: Images.cardback, deckListUrl: Images.cardback };
+        this.state = { deckListUrl: Images.cardback };
     }
 
     componentDidMount() {
@@ -26,8 +28,18 @@ class PlayerRow extends React.Component {
             uuid: this.props.deckUuid,
             expansion: this.props.deckSet
         };
-        buildArchon(deck, this.props.language).then(cardBackUrl => this.setState({ cardBackUrl }));
-        buildDeckList(deck, this.props.language, this.props.t, this.props.cards).then(deckListUrl => this.setState({ deckListUrl }));
+        buildArchon(deck, this.props.language)
+            .then(cardBackUrl => {
+                if(this.props.player === 1) {
+                    this.props.setPlayer1CardBack(cardBackUrl);
+                } else {
+                    this.props.setPlayer2CardBack(cardBackUrl);
+                }
+            });
+        buildDeckList(deck, this.props.language, this.props.t, this.props.cards)
+            .then(deckListUrl => {
+                this.setState({ deckListUrl });
+            });
     }
 
     componentDidUpdate(prevProps) {
@@ -41,7 +53,14 @@ class PlayerRow extends React.Component {
 
         if(this.props.language) {
             if(this.props.language !== prevProps.language) {
-                buildArchon(deck, this.props.language).then(cardBackUrl => this.setState({ cardBackUrl }));
+                buildArchon(deck, this.props.language)
+                    .then(cardBackUrl => {
+                        if(this.props.player === 1) {
+                            this.props.setPlayer1CardBack(cardBackUrl);
+                        } else {
+                            this.props.setPlayer2CardBack(cardBackUrl);
+                        }
+                    });
                 buildDeckList(deck, this.props.language, this.props.t, this.props.cards).then(deckListUrl => this.setState({ deckListUrl }));
             }
         }
@@ -90,7 +109,7 @@ class PlayerRow extends React.Component {
             cards={ sortedHand }
             className='panel hand'
             groupVisibleCards
-            cardBackUrl={ this.state.cardBackUrl }
+            cardBackUrl={ this.props.cardBackUrl }
             username={ this.props.username }
             manualMode={ this.props.manualMode }
             maxCards={ 5 }
@@ -111,13 +130,13 @@ class PlayerRow extends React.Component {
             onShuffleClick={ this.props.onShuffleClick }
             showDeck={ this.props.showDeck }
             spectating={ this.props.spectating }
-            cardBackUrl={ this.state.cardBackUrl }
+            cardBackUrl={ this.props.cardBackUrl }
             { ...cardPileProps } />);
 
         let hasArchivedCards = !!this.props.archives && (this.props.archives.length > 0);
 
         let archives = (<CardPile className='archives' title={ t('Archives') } source='archives' cards={ this.props.archives }
-            hiddenTopCard={ hasArchivedCards && !this.props.isMe } cardBackUrl={ this.state.cardBackUrl }
+            hiddenTopCard={ hasArchivedCards && !this.props.isMe } cardBackUrl={ this.props.cardBackUrl }
             { ...cardPileProps } />);
 
         let discard = (<CardPile className='discard' title={ t('Discard') } source='discard' cards={ this.props.discard }
@@ -145,6 +164,7 @@ class PlayerRow extends React.Component {
 PlayerRow.displayName = 'PlayerRow';
 PlayerRow.propTypes = {
     archives: PropTypes.array,
+    cardBackUrl: PropTypes.string,
     cardSize: PropTypes.string,
     cards: PropTypes.object,
     conclavePile: PropTypes.array,
@@ -171,8 +191,11 @@ PlayerRow.propTypes = {
     onMouseOut: PropTypes.func,
     onMouseOver: PropTypes.func,
     onShuffleClick: PropTypes.func,
+    player: PropTypes.number,
     power: PropTypes.number,
     purgedPile: PropTypes.array,
+    setPlayer1CardBack: PropTypes.func,
+    setPlayer2CardBack: PropTypes.func,
     showDeck: PropTypes.bool,
     side: PropTypes.oneOf(['top', 'bottom']),
     spectating: PropTypes.bool,
@@ -181,4 +204,16 @@ PlayerRow.propTypes = {
     username: PropTypes.string
 };
 
-export default withTranslation()(PlayerRow);
+function mapStateToProps(state) {
+    return {
+        cards: state.cards.cards
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    let boundActions = bindActionCreators(actions, dispatch);
+    boundActions.dispatch = dispatch;
+    return boundActions;
+}
+
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps, null, { withRef: true })(PlayerRow));
