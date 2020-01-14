@@ -14,8 +14,8 @@ class ObsidianForge extends Card {
             },
             then: {
                 may: 'forge a key',
-                condition: context => context.preThenEvents && context.preThenEvents.filter(event =>
-                    !event.cancelled && event.destroyEvent && !event.destroyEvent.cancelled).length > 0,
+                condition: context => context.preThenEvents && context.preThenEvents.some(event =>
+                    !event.cancelled && event.destroyEvent && !event.destroyEvent.cancelled),
                 gameAction: [
                     ability.actions.forgeKey(context => ({
                         modifier: 6 - context.preThenEvents.filter(event =>

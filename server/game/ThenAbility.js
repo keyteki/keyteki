@@ -105,10 +105,6 @@ class ThenAbility extends BaseAbility {
         }
     }
 
-    openEventWindow(events) {
-        return this.game.openThenEventWindow(events);
-    }
-
     isCardAbility() {
         return true;
     }
