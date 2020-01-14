@@ -984,7 +984,7 @@ class Game extends EventEmitter {
             this.activePlayer = this.activePlayer.opponent;
         }
 
-        let playerAmber = this.getPlayers().map(player => `${player.name}: ${player.amber} amber`).join(' ');
+        let playerResources = this.getPlayers().map(player => `${player.name}: ${player.amber} amber (${this.playerKeys(player)})`).join(' ');
 
         this.addAlert('endofround', `End of turn ${this.round}`);
 
@@ -992,9 +992,14 @@ class Game extends EventEmitter {
             this.round++;
         }
 
-        this.addMessage(playerAmber);
+        this.addMessage(playerResources);
         this.addAlert('startofround', `Turn ${this.round}`);
         this.checkForTimeExpired();
+    }
+
+    playerKeys(player) {
+        const length = Object.values(player.keys).filter(forged => forged).length;
+        return length === 1 ? '1 key' : `${length} keys`;
     }
 
     get cardsInPlay() {
