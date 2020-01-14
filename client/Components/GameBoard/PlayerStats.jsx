@@ -57,6 +57,16 @@ export class PlayerStats extends React.Component {
         );
     }
 
+    writeChatToClipboard(event) {
+        event.preventDefault();
+        let messagePanel = document.getElementsByClassName('messages panel')[0];
+        if(messagePanel) {
+            navigator.clipboard.writeText(messagePanel.innerText)
+                .then(() => toastr.success('Copied game chat to clipboard'))
+                .catch((err) => toastr.error(`Could not copy game chat: ${err}`));
+        }
+    }
+
     render() {
         let t = this.props.t;
         let playerAvatar = (
@@ -97,7 +107,7 @@ export class PlayerStats extends React.Component {
                         </div>
                         <div className='state'>
                             <button className='btn btn-transparent btn-noimg' onClick={ this.writeChatToClipboard.bind(this) }>
-                                <span className='glyphicon glyphicon-copy'></span>
+                                <span className='glyphicon glyphicon-copy' />
                             </button>
                         </div>
                         {
@@ -124,16 +134,6 @@ export class PlayerStats extends React.Component {
                 }
             </div>
         );
-    }
-
-    writeChatToClipboard(event) {
-        event.preventDefault();
-        let messagePanel = document.getElementsByClassName('messages panel')[0];
-        if(!!messagePanel){
-            navigator.clipboard.writeText(messagePanel.innerText)
-                .then(() => toastr.success('Copied game chat to clipboard'))
-                .catch((err) => toastr.error(`Could not copy game chat: ${err}`));
-        }
     }
 }
 
