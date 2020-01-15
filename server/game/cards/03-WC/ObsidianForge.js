@@ -3,8 +3,6 @@ const Card = require('../../Card.js');
 class ObsidianForge extends Card {
     setupCardAbilities(ability) {
         this.action({
-            condition: context =>
-                context.player.creaturesInPlay.length > 0,
             target: {
                 optional: true,
                 mode: 'unlimited',
