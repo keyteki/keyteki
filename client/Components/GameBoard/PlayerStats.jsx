@@ -106,12 +106,23 @@ export class PlayerStats extends React.Component {
                             </div>
                         }
                         <div className='state'>
-                            <button className='btn btn-transparent btn-noimg' onClick={ this.onSettingsClick.bind(this) }><span className='glyphicon glyphicon-cog' /><Trans>Settings</Trans></button>
+                            <button className='btn btn-transparent btn-noimg'
+                                onClick={ this.onSettingsClick.bind(this) }>
+                                <span className='glyphicon glyphicon-cog' />
+                                <Trans>Settings</Trans></button>
                         </div>
+
                         <div>
-                            <button className='btn btn-transparent btn-noimg' onClick={ this.props.onMessagesClick } >
+                            <button className='btn btn-transparent btn-noimg'
+                                onClick={ this.props.onMessagesClick } >
                                 <span className='glyphicon glyphicon-envelope' />
                                 <span className='chat-badge badge progress-bar-danger'>{ this.props.numMessages || null }</span>
+                            </button>
+                        </div>
+                        <div>
+                            <button className='btn btn-transparent btn-noimg'
+                                onClick={ this.props.onCopyClick }>
+                                <span className='glyphicon glyphicon-copy' />
                             </button>
                         </div>
                     </div>
@@ -130,6 +141,7 @@ PlayerStats.propTypes = {
     manualModeEnabled: PropTypes.bool,
     muteSpectators: PropTypes.bool,
     numMessages: PropTypes.number,
+    onCopyClick: PropTypes.func,
     onManualModeClick: PropTypes.func,
     onMessagesClick: PropTypes.func,
     onMuteClick: PropTypes.func,

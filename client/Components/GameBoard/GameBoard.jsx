@@ -59,6 +59,7 @@ export class GameBoard extends React.Component {
         this.sendChatMessage = this.sendChatMessage.bind(this);
         this.onSettingsClick = this.onSettingsClick.bind(this);
         this.onMessagesClick = this.onMessagesClick.bind(this);
+        this.onCopyClick = this.onCopyClick.bind(this);
         this.onManualModeClick = this.onManualModeClick.bind(this);
         this.onMuteClick = this.onMuteClick.bind(this);
 
@@ -256,7 +257,6 @@ export class GameBoard extends React.Component {
 
     onMessagesClick() {
         const showState = !this.state.showMessages;
-
         let newState = {
             showMessages: showState
         };
@@ -267,6 +267,26 @@ export class GameBoard extends React.Component {
         }
 
         this.setState(newState);
+    }
+
+    onCopyClick() {
+        console.log('test');
+        const copyText = this.props.currentGame.messages;
+        console.log(copyText);
+        this.copyToClipboard(copyText);
+    }
+
+    copyToClipboard(text) {
+        var dummy = document.createElement('textarea');
+        // to avoid breaking orgain page when copying more words
+        // cant copy when adding below this code
+        // dummy.style.display = 'none'
+        document.body.appendChild(dummy);
+        //Be careful if you use texarea. setAttribute('value', value), which works with "input" does not work with "textarea". – Eduard
+        dummy.value = text;
+        dummy.select();
+        document.execCommand('copy');
+        document.body.removeChild(dummy);
     }
 
     onManualModeClick(event) {
@@ -455,7 +475,7 @@ export class GameBoard extends React.Component {
                 <div className='player-stats-row'>
                     <PlayerStats { ...boundActionCreators } stats={ thisPlayer.stats } showControls={ !this.state.spectating && manualMode } user={ thisPlayer.user }
                         activePlayer={ thisPlayer.activePlayer } onSettingsClick={ this.onSettingsClick } showMessages
-                        onMessagesClick={ this.onMessagesClick } numMessages={ this.state.newMessages } houses={ thisPlayer.houses } onManualModeClick={ this.onManualModeClick }
+                        onMessagesClick={ this.onMessagesClick } onCopyClick={ this.onCopyClick } numMessages={ this.state.newMessages } houses={ thisPlayer.houses } onManualModeClick={ this.onManualModeClick }
                         activeHouse={ thisPlayer.activeHouse } manualModeEnabled={ manualMode } showManualMode={ !this.state.spectating }
                         muteSpectators={ this.props.currentGame.muteSpectators } onMuteClick={ this.onMuteClick } />
                 </div>
