@@ -77,6 +77,35 @@ describe('Throium Plasmate', function() {
                 });
             });
         });
+
+        describe('when moving a card to the right of where it started', function() {
+            beforeEach(function() {
+                this.setupTest({
+                    player1: {
+                        house: 'logos',
+                        amber: 1,
+                        hand: ['thorium-plasmate'],
+                        inPlay: ['narp', 'brain-eater']
+                    },
+                    player2: {
+                        amber: 3,
+                        inPlay: ['little-niff', 'alaka', 'shorty', 'krump']
+                    }
+                });
+            });
+
+            it('should be able to correctly move cards in the battleline', function() {
+                this.player1.play(this.thoriumPlasmate);
+                this.player1.clickCard(this.alaka);
+                expect(this.player1).toHavePrompt('Select a card to move this card next to');
+                this.player1.clickCard(this.shorty);
+                expect(this.player1).toHavePrompt('Which side to you want to move this card to?');
+                this.player1.clickPrompt('Right');
+                expect(this.player2.player.creaturesInPlay.length).toBe(3);
+                expect(this.player2.player.cardsInPlay[0]).toBe(this.littleNiff);
+                expect(this.player2.player.cardsInPlay[1]).toBe(this.shorty);
+                expect(this.player2.player.cardsInPlay[2]).toBe(this.krump);
+            });
+        });
     });
 });
-
