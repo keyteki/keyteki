@@ -91,7 +91,7 @@ describe('Throium Plasmate', function() {
                 });
             });
 
-            it('should move correctly when aftifacts are played first', function() {
+            it('should move correctly when artifacts are played first', function() {
                 this.player1.play(this.chaosPortal);
                 this.player1.play(this.pocketUniverse);
                 this.player1.play(this.hexpion);
@@ -110,7 +110,7 @@ describe('Throium Plasmate', function() {
                 expect(this.player1.player.creaturesInPlay[2]).toBe(this.daughter);
             });
 
-            it('should move correctly when aftifacts are played between creatures', function() {
+            it('should move correctly when artifacts are played between creatures', function() {
                 this.player1.play(this.hexpion);
                 this.player1.play(this.chaosPortal);
                 this.player1.play(this.daughter);
@@ -129,7 +129,7 @@ describe('Throium Plasmate', function() {
                 expect(this.player1.player.creaturesInPlay[2]).toBe(this.daughter);
             });
 
-            it('should move correctly when aftifacts are played after creatures', function() {
+            it('should move correctly when artifacts are played after creatures', function() {
                 this.player1.play(this.hexpion);
                 this.player1.play(this.daughter);
                 this.player1.play(this.titanGuardian);
