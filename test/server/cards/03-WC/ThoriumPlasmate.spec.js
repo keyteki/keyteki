@@ -77,6 +77,77 @@ describe('Throium Plasmate', function() {
                 });
             });
         });
+
+        describe('with artifacts', function() {
+            beforeEach(function() {
+                this.setupTest({
+                    player1: {
+                        house: 'logos',
+                        hand: ['titan-guardian', 'daughter', 'hexpion', 'chaos-portal', 'pocket-universe']
+                    },
+                    player2: {
+                        hand: ['thorium-plasmate']
+                    }
+                });
+            });
+
+            it('should move correctly when aftifacts are played first', function() {
+                this.player1.play(this.chaosPortal);
+                this.player1.play(this.pocketUniverse);
+                this.player1.play(this.hexpion);
+                this.player1.play(this.daughter);
+                this.player1.play(this.titanGuardian);
+                this.player1.clickPrompt('End Turn');
+
+                this.player2.clickPrompt('logos');
+                this.player2.play(this.thoriumPlasmate);
+                this.player2.clickCard(this.titanGuardian);
+                this.player2.clickCard(this.hexpion);
+                this.player2.clickPrompt('left');
+
+                expect(this.player1.player.creaturesInPlay[0]).toBe(this.titanGuardian);
+                expect(this.player1.player.creaturesInPlay[1]).toBe(this.hexpion);
+                expect(this.player1.player.creaturesInPlay[2]).toBe(this.daughter);
+            });
+
+            it('should move correctly when aftifacts are played between creatures', function() {
+                this.player1.play(this.hexpion);
+                this.player1.play(this.chaosPortal);
+                this.player1.play(this.daughter);
+                this.player1.play(this.pocketUniverse);
+                this.player1.play(this.titanGuardian);
+                this.player1.clickPrompt('End Turn');
+
+                this.player2.clickPrompt('logos');
+                this.player2.play(this.thoriumPlasmate);
+                this.player2.clickCard(this.titanGuardian);
+                this.player2.clickCard(this.hexpion);
+                this.player2.clickPrompt('Left');
+
+                expect(this.player1.player.creaturesInPlay[0]).toBe(this.titanGuardian);
+                expect(this.player1.player.creaturesInPlay[1]).toBe(this.hexpion);
+                expect(this.player1.player.creaturesInPlay[2]).toBe(this.daughter);
+            });
+
+            it('should move correctly when aftifacts are played after creatures', function() {
+                this.player1.play(this.hexpion);
+                this.player1.play(this.daughter);
+                this.player1.play(this.titanGuardian);
+                this.player1.play(this.chaosPortal);
+                this.player1.play(this.pocketUniverse);
+                this.player1.clickPrompt('End Turn');
+
+                this.player2.clickPrompt('logos');
+                this.player2.play(this.thoriumPlasmate);
+                this.player2.clickCard(this.titanGuardian);
+                this.player2.clickCard(this.hexpion);
+                this.player2.clickPrompt('Left');
+
+                expect(this.player1.player.creaturesInPlay[0]).toBe(this.titanGuardian);
+                expect(this.player1.player.creaturesInPlay[1]).toBe(this.hexpion);
+                expect(this.player1.player.creaturesInPlay[2]).toBe(this.daughter);
+            });
+        });
     });
 });
 
