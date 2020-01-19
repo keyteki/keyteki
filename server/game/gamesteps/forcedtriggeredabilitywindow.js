@@ -70,7 +70,7 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
 
     getPromptForSelectProperties() {
         let properties = {
-            buttons: this.noOptionalChoices ? [] : [{ text: 'Done', arg: 'done' }],
+            buttons: this.choices.every(context => context.ability.optional) ? [{ text: 'Done', arg: 'done' }] : [],
             location: 'any',
             onMenuCommand: (player, arg) => {
                 if(arg === 'done') {
