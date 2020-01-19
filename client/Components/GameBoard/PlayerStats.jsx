@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Avatar from '../Site/Avatar';
 
 import { withTranslation, Trans } from 'react-i18next';
+import { toastr } from 'react-redux-toastr';
 
 export class PlayerStats extends React.Component {
     constructor() {
@@ -56,6 +57,16 @@ export class PlayerStats extends React.Component {
         );
     }
 
+    writeChatToClipboard(event) {
+        event.preventDefault();
+        let messagePanel = document.getElementsByClassName('messages panel')[0];
+        if(messagePanel) {
+            navigator.clipboard.writeText(messagePanel.innerText)
+                .then(() => toastr.success('Copied game chat to clipboard'))
+                .catch((err) => toastr.error(`Could not copy game chat: ${err}`));
+        }
+    }
+
     render() {
         let t = this.props.t;
         let playerAvatar = (
@@ -92,6 +103,11 @@ export class PlayerStats extends React.Component {
                         <div className='state'>
                             <button className='btn btn-transparent btn-noimg' onClick={ this.props.onMuteClick }>
                                 <span className={ `glyphicon ${muteClass}` } />
+                            </button>
+                        </div>
+                        <div className='state'>
+                            <button className='btn btn-transparent btn-noimg' onClick={ this.writeChatToClipboard.bind(this) }>
+                                <span className='glyphicon glyphicon-copy' />
                             </button>
                         </div>
                         {
