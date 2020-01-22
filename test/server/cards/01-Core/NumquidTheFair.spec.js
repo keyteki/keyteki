@@ -1,4 +1,4 @@
-fdescribe('Numquid the Fair', function() {
+describe('Numquid the Fair', function() {
     integration(function() {
         describe('Numquid the Fair\'s ability', function() {
             beforeEach(function() {
@@ -14,7 +14,7 @@ fdescribe('Numquid the Fair', function() {
             });
 
             it('should destroy enemy creatures until both players have the same number of creatures', function() {
-                this.player1.play(this.numquidTheFair)
+                this.player1.play(this.numquidTheFair);
                 expect(this.player1).toHavePrompt('Numquid the Fair');
                 expect(this.player1).toBeAbleToSelect(this.urchin);
                 expect(this.player1).toBeAbleToSelect(this.silvertooth);
@@ -30,8 +30,8 @@ fdescribe('Numquid the Fair', function() {
             });
 
             it('continue to destroy through warded creatures', function() {
-                this.urchin.ward()
-                this.player1.play(this.numquidTheFair)
+                this.urchin.ward();
+                this.player1.play(this.numquidTheFair);
                 this.player1.clickCard(this.urchin);
                 expect(this.player1).toBeAbleToSelect(this.urchin);
                 this.player1.clickCard(this.urchin);
