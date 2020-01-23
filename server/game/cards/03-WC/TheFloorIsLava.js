@@ -6,23 +6,20 @@ class TheFloorIsLava extends Card {
             when: {
                 onPhaseStarted: (event, context) => event.phase === 'main' && context.player === this.game.activePlayer
             },
-            gameAction:
-            [
-                ability.actions.dealDamage({
-                    amount: 1,
-                    promptForSelect: {
-                        cardType: 'creature',
-                        controller: 'self'
-                    }
-                }),
-                ability.actions.dealDamage({
-                    amount: 1,
-                    promptForSelect: {
-                        cardType: 'creature',
-                        controller: 'opponent'
-                    }
-                })
-            ]
+            targets: {
+                friendly: {
+                    cardType: 'creature',
+                    controller: 'self',
+                    gameAction: ability.actions.dealDamage({ amount : 1 })
+                },
+                enemy: {
+                    cardType: 'creature',
+                    controller: 'opponent',
+                    gameAction: ability.actions.dealDamage({ amount : 1 })
+                }
+            },
+            effect: 'deal 1 damage to {1}',
+            effectArgs: context => [Object.values(context.targets)]
         });
     }
 }

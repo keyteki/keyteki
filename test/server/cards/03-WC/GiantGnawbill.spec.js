@@ -22,6 +22,7 @@ describe('Giant Gnawbill', function() {
                 this.player2.clickPrompt('untamed');
                 expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
             });
+
             it('should prompt a player to destroy an artifact of the chosen house when a selection is made when there is one in play', function() {
                 this.player1.endTurn();
                 this.player2.clickPrompt('logos');
@@ -32,7 +33,8 @@ describe('Giant Gnawbill', function() {
                 this.player2.clickCard(this.quantumFingertrap);
                 expect(this.quantumFingertrap.location).toBe('discard');
             });
-            it('should prompt a player to destroy an artifact of the chosen house when a selection is made when there is one in play', function() {
+
+            it('should prompt a player to destroy an artifact of the chosen house when a selection is made when there is more than one in play', function() {
                 this.player1.play(this.nepentheSeed);
                 this.player1.play(this.heartOfTheForest);
                 this.player1.endTurn();

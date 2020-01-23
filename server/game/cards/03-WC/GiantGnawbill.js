@@ -6,13 +6,12 @@ class GiantGnawbill extends Card {
             when: {
                 onChooseActiveHouse: () => true
             },
-            gameAction: ability.actions.destroy({
-                promptForSelect: {
-                    cardType: 'artifact',
-                    controller: 'any',
-                    cardCondition: (card, context) => card.hasHouse(context.event.house)
-                }
-            })
+            target: {
+                cardType: 'artifact',
+                controller: 'any',
+                cardCondition: (card, context) => card.hasHouse(context.event.house),
+                gameAction: ability.actions.destroy()
+            }
         });
     }
 }
