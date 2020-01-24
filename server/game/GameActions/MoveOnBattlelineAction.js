@@ -59,9 +59,10 @@ class MoveOnBattlelineAction extends CardGameAction {
         return super.createEvent('onCardMovedInBattleline', { card: card, context: context }, () => {
             let player = card.controller;
             let cardIndex = player.cardsInPlay.indexOf(card);
+            let cardInsertionIndex = this.moveIndex > cardIndex ? this.moveIndex - 1 : this.moveIndex;
 
             player.cardsInPlay.splice(cardIndex, 1);
-            player.cardsInPlay.splice(this.moveIndex, 0, card);
+            player.cardsInPlay.splice(cardInsertionIndex, 0, card);
         });
     }
 }
