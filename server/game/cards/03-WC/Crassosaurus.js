@@ -26,6 +26,7 @@ class Crassosaurus extends Card {
                 })),
                 then: {
                     condition: context => context.source.tokens.amber < 10,
+                    alwaysTriggers: true,
                     gameAction: ability.actions.purge(),
                     message: 'purges {1} as it has less than 10 amber on it'
                 },

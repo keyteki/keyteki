@@ -94,5 +94,22 @@ describe('Crassosaurus', function() {
                 });
             });
         });
+
+        it('should purge when choosing to capture 0 from self and fewer than 10 total is caputured', function() {
+            this.setupTest({
+                player1: {
+                    amber: 0,
+                    house: 'saurian',
+                    hand: ['crassosaurus']
+                },
+                player2: {
+                    amber: 3
+                }
+            });
+            this.player1.play(this.crassosaurus);
+            this.player1.selectOption(3);
+            this.player1.selectOption(0);
+            expect(this.crassosaurus.location).toBe('purged');
+        });
     });
 });
