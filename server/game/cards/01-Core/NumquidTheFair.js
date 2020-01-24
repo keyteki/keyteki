@@ -11,6 +11,7 @@ class NumquidTheFair extends Card {
             },
             then: preThenContext => ({
                 condition: context => context.player.creaturesInPlay.length < context.player.opponent.creaturesInPlay.length,
+                alwaysTriggers: true,
                 gameAction: ability.actions.resolveAbility({ ability: preThenContext.ability })
             })
         });
