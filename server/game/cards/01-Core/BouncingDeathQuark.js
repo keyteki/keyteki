@@ -16,7 +16,7 @@ class BouncingDeathquark extends Card {
                 }
             },
             effect: 'destroy {1}',
-            effectArgs: context => [[context.targets.enemy, context.targets.friendly]],
+            effectArgs: context => [Object.values(context.targets)],
             then: context => ({
                 condition: () =>
                     context.player.cardsInPlay.some(card => card.type === 'creature' && card.allowGameAction('destroy')) &&
