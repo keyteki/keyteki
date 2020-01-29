@@ -8,12 +8,11 @@ class IngramsBlaster extends BlasterCard {
                     event.card === context.source && event.parent.name === 'Medic Ingram' &&
                     event.context.player === event.card.controller
             },
-            gameAction: ability.actions.heal({
-                fully: true,
-                promptForSelect: {
-                    cardType: 'creature'
-                }
-            })
+            target: {
+                mode: 'exactly',
+                cardType: 'creature',
+                gameAction: ability.actions.heal({ fully: true })
+            }
         });
 
         this.setupBlasterCardAbilities(ability, 'Medic Ingram');

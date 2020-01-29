@@ -8,14 +8,14 @@ class ChansBlaster extends BlasterCard {
                     event.card === context.source && event.parent.name === 'Commander Chan' &&
                     event.context.player === event.card.controller
             },
-            gameAction: ability.actions.use({
-                promptForSelect: {
-                    optional: true,
-                    controller: 'self',
-                    cardType: 'creature',
-                    cardCondition: card => (card.exhausted === false) && (card !== this.parent)
-                }
-            })
+            target: {
+                optional: true,
+                mode: 'exactly',
+                controller: 'self',
+                cardType: 'creature',
+                cardCondition: card => (card.exhausted === false) && (card !== this.parent),
+                gameAction: ability.actions.use()
+            }
         });
 
         this.setupBlasterCardAbilities(ability, 'Commander Chan');

@@ -32,7 +32,7 @@ describe('Garcia’s Blaster', function() {
                 this.player1.playUpgrade(this.garciaSBlaster, this.techivorePulpate);
                 this.player1.reap(this.techivorePulpate);
 
-                expect(this.player1).toHavePrompt('Any reactions?');
+                expect(this.player1).toHavePrompt('Triggered Abilities');
                 expect(this.player1).toHavePromptButton('Done');
                 this.player1.clickPrompt('Done');
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
@@ -42,7 +42,7 @@ describe('Garcia’s Blaster', function() {
                 this.player1.playUpgrade(this.garciaSBlaster, this.techivorePulpate);
                 this.player1.reap(this.techivorePulpate);
 
-                expect(this.player1).toHavePrompt('Any reactions?');
+                expect(this.player1).toHavePrompt('Triggered Abilities');
                 expect(this.player1).toBeAbleToSelect(this.techivorePulpate);
                 this.player1.clickCard(this.techivorePulpate);
                 expect(this.player1).toHavePrompt('Select one');
@@ -62,7 +62,7 @@ describe('Garcia’s Blaster', function() {
                 this.player1.playUpgrade(this.garciaSBlaster, this.techivorePulpate);
                 this.player1.fightWith(this.techivorePulpate, this.lamindra);
 
-                expect(this.player1).toHavePrompt('Any reactions?');
+                expect(this.player1).toHavePrompt('Triggered Abilities');
                 expect(this.player1).toBeAbleToSelect(this.techivorePulpate);
                 this.player1.clickCard(this.techivorePulpate);
                 expect(this.player1).toHavePrompt('Select one');
@@ -82,7 +82,7 @@ describe('Garcia’s Blaster', function() {
                 this.player1.playUpgrade(this.garciaSBlaster, this.techivorePulpate);
                 this.player1.reap(this.techivorePulpate);
 
-                expect(this.player1).toHavePrompt('Any reactions?');
+                expect(this.player1).toHavePrompt('Triggered Abilities');
                 expect(this.player1).toBeAbleToSelect(this.techivorePulpate);
                 this.player1.clickCard(this.techivorePulpate);
                 expect(this.player1).toHavePrompt('Select one');
@@ -105,7 +105,7 @@ describe('Garcia’s Blaster', function() {
                 this.player1.playUpgrade(this.garciaSBlaster, this.techivorePulpate);
                 this.player1.fightWith(this.techivorePulpate, this.lamindra);
 
-                expect(this.player1).toHavePrompt('Any reactions?');
+                expect(this.player1).toHavePrompt('Triggered Abilities');
                 expect(this.player1).toBeAbleToSelect(this.techivorePulpate);
                 this.player1.clickCard(this.techivorePulpate);
                 expect(this.player1).toHavePrompt('Select one');
