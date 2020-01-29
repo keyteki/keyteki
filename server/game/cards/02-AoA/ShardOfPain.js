@@ -3,13 +3,11 @@ const Card = require('../../Card.js');
 class ShardOfPain extends Card {
     setupCardAbilities(ability) {
         this.action({
-            target: {
-                cardType: 'creature',
+            effect: 'deal 1 damage to a creature for each friendly shard',
+            gameAction: ability.actions.allocateDamage(context => ({
                 controller: 'opponent',
-                gameAction: ability.actions.dealDamage(context => ({
-                    amount: context.player.cardsInPlay.filter(card => card.hasTrait('shard')).length
-                }))
-            }
+                numSteps: context.player.cardsInPlay.filter(card => card.hasTrait('shard')).length
+            }))
         });
     }
 }
