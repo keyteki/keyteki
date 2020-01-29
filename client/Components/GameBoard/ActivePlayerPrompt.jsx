@@ -40,13 +40,13 @@ class ActivePlayerPrompt extends React.Component {
     localizedText(source, text, values) {
         let { t, i18n } = this.props;
 
-        if(!text) {
-            return '';
-        }
-
         if(!isNaN(text)) {
             // text is just a plain number, avoid translation
             return text;
+        }
+
+        if(!text) {
+            return '';
         }
 
         if(i18n.language !== 'en') {
