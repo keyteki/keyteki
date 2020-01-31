@@ -64,7 +64,8 @@ describe('Cincinnatus Rex', function() {
                 this.setupTest({
                     player1: {
                         house: 'saurian',
-                        inPlay: ['cincinnatus-rex', 'paraguardian']
+                        inPlay: ['paraguardian', 'duskwitch'],
+                        hand: ['cincinnatus-rex']
                     },
                     player2: {
                         inPlay: ['lamindra', 'troll'],
@@ -74,6 +75,7 @@ describe('Cincinnatus Rex', function() {
             });
 
             it('should have the option to exalt after fight and cancel', function() {
+                this.player1.play(this.cincinnatusRex);
                 this.player1.fightWith(this.paraguardian, this.lamindra);
                 this.player1.fightWith(this.cincinnatusRex, this.lamindra);
                 expect(this.player1).toHavePrompt('Triggered Abilities');
@@ -83,6 +85,7 @@ describe('Cincinnatus Rex', function() {
             });
 
             it('should exalt after fight and ready friendly creatures', function() {
+                this.player1.play(this.cincinnatusRex);
                 this.player1.fightWith(this.paraguardian, this.lamindra);
                 this.player1.fightWith(this.cincinnatusRex, this.lamindra);
                 expect(this.player1).toHavePrompt('Triggered Abilities');
