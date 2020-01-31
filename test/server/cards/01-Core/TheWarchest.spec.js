@@ -23,8 +23,7 @@ describe('The Warchest', function() {
                 expect(this.snufflegator.location).toBe('discard');
                 expect(this.sequis.location).toBe('discard');
                 expect(this.batdrone.location).toBe('discard');
-                this.player1.clickCard(this.theWarchest);
-                this.player1.clickPrompt('Use this card\'s Action ability');
+                this.player1.useAction(this.theWarchest);
                 expect(this.player1.amber).toBe(3);
             });
         });
@@ -43,8 +42,53 @@ describe('The Warchest', function() {
                 });
             });
 
-            it('should destroy both creatures', function() {
+            it('should destroy both creatures and not gain amber from warchest', function() {
                 this.player1.play(this.cowardSEnd);
+                expect(this.player1.amber).toBe(0);
+            });
+        });
+
+        describe('Interaction with Poltergeist', function() {
+            beforeEach(function() {
+                this.setupTest({
+                    player1: {
+                        house: 'dis',
+                        inPlay: ['stealer-of-souls', 'pit-demon', 'shooler', 'the-warchest', 'dust-imp'],
+                        hand: ['poltergeist']
+                    },
+                    player2: {
+                        inPlay: ['redlock', 'yantzee-gang', 'halacor', 'ancient-bear']
+                    }
+                });
+            });
+
+            it('should destroy The Warchest and gain ambers after fighting', function() {
+                this.player1.fightWith(this.stealerOfSouls, this.redlock);
+                expect(this.stealerOfSouls.tokens.damage).toBe(3);
+                expect(this.redlock.location).toBe('purged');
+                expect(this.player1.amber).toBe(1);
+
+                this.player1.fightWith(this.pitDemon, this.yantzeeGang);
+                expect(this.pitDemon.location).toBe('discard');
+                expect(this.yantzeeGang.location).toBe('discard');
+                expect(this.player1.amber).toBe(1);
+
+                this.player1.fightWith(this.shooler, this.halacor);
+                expect(this.shooler.tokens.damage).toBe(4);
+                expect(this.halacor.location).toBe('discard');
+                expect(this.player1.amber).toBe(1);
+
+                this.player1.fightWith(this.dustImp, this.ancientBear);
+                expect(this.dustImp.location).toBe('discard');
+                expect(this.ancientBear.tokens.damage).toBe(2);
+                expect(this.player1.amber).toBe(3);
+
+                this.player1.play(this.poltergeist);
+                expect(this.player1.amber).toBe(4);
+
+                this.player1.clickCard(this.theWarchest);
+                expect(this.theWarchest.location).toBe('discard');
+                expect(this.player1.amber).toBe(7);
             });
         });
 
@@ -65,8 +109,8 @@ describe('The Warchest', function() {
 
             it('should trigger', function() {
                 this.player1.fightWith(this.valdr, this.gangerChieftain);
-                this.player1.clickCard(this.theWarchest);
-                expect(this.player1).toHavePrompt('The Warchest');
+                this.player1.useAction(this.theWarchest);
+                expect(this.player1.amber).toBe(1);
             });
         });
     });
