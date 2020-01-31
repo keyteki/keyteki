@@ -6,15 +6,16 @@ describe('Poltergeist\'s', function() {
                     player1: {
                         house: 'dis',
                         hand: ['poltergeist'],
-                        discard: ['tocsin', 'batdrone']
+                        inPlay: ['lifeward']
                     },
                     player2: {
-                        inPlay: ['cannon', 'bumpsy']
+                        inPlay: ['cannon', 'bumpsy'],
+                        hand: ['troll', 'smith']
                     }
                 });
             });
 
-            it('should allow p1 to use an artifact on p2s board, then destroy it.', function() {
+            it('should allow p1 to use an artifact on p2\'s board, then destroy it.', function() {
                 this.player1.play(this.poltergeist);
                 expect(this.player1).toHavePrompt('Choose a artifact');
                 expect(this.player1).toBeAbleToSelect(this.cannon);
@@ -27,8 +28,20 @@ describe('Poltergeist\'s', function() {
                 expect(this.cannon.location).toBe('discard');
                 expect(this.bumpsy.tokens.damage).toBe(2);
             });
-        });
 
+            it('should allow using own artifact', function() {
+                this.player1.play(this.poltergeist);
+                expect(this.player1).toHavePrompt('Choose a artifact');
+                expect(this.player1).toBeAbleToSelect(this.lifeward);
+                this.player1.clickCard(this.lifeward);
+                expect(this.lifeward.location).toBe('discard');
+                this.player1.endTurn();
+                this.player2.clickPrompt('brobnar');
+                this.player2.clickCard(this.troll);
+                expect(this.player2).toHavePromptButton('Discard this card');
+                expect(this.player2).not.toHavePromptButton('Play this creature');
+            });
+        });
 
         describe('Poltergeist\'s ability', function() {
             beforeEach(function() {
@@ -36,8 +49,7 @@ describe('Poltergeist\'s', function() {
                     player1: {
                         house: 'dis',
                         hand: ['poltergeist'],
-                        inPlay: ['tentacus'],
-                        discard: ['tocsin', 'batdrone']
+                        inPlay: ['tentacus']
                     },
                     player2: {
                         inPlay: ['cannon', 'bumpsy'],
