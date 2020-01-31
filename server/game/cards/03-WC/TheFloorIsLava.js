@@ -4,7 +4,7 @@ class TheFloorIsLava extends Card {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onPhaseStarted: (event, context) => event.phase === 'main' && context.player === this.game.activePlayer
+                onPhaseStarted: (event, context) => event.phase === 'key' && context.player === this.game.activePlayer
             },
             targets: {
                 friendly: {
