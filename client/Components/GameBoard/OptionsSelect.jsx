@@ -1,12 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { withTranslation, Trans } from 'react-i18next';
+
 class OptionsSelect extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            selectedOption: undefined
+            selectedOption: (this.props.options.length > 0 ? '' + this.props.options[0].arg : '')
         };
 
         this.onChange = this.onChange.bind(this);
@@ -25,21 +27,23 @@ class OptionsSelect extends React.Component {
         }
     }
 
-    render() {
+    render() {                
         return (
             <div>
                 <select className='form-control' onChange={ this.onChange }>
-                    { this.props.options.map(option => <option key={ option.value }>{ option.text }</option>) }
+                    { this.props.options.map(option => <option key={ option.arg }>{ option.text }</option>) }
                 </select>
-                <button className='btn btn-default prompt-button btn-stretch option-button' onClick={ this.onDoneClicked }>Done</button>
+                <button className='btn btn-default prompt-button btn-stretch option-button' onClick={ this.onDoneClicked }>{ this.props.t('Done') }</button>
             </div>);
     }
 }
 
 OptionsSelect.displayName = 'OptionsSelect';
 OptionsSelect.propTypes = {
+    i18n: PropTypes.object,
     onOptionSelected: PropTypes.func,
-    options: PropTypes.array
+    options: PropTypes.array,
+    t: PropTypes.func
 };
 
-export default OptionsSelect;
+export default withTranslation()(OptionsSelect);

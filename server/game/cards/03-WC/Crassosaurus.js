@@ -1,38 +1,56 @@
 const Card = require('../../Card.js');
 
 class Crassosaurus extends Card {
+    calculateOwnAmber(context) {
+        return context.option && (context.option.value < 10) ? Math.min(context.player.amber, 10 - context.option.value) : 0;
+    }
+
+    calculateCapturedAmber(context) {
+        return context.option && (context.option.value + this.calculateOwnAmber(context));
+    }
+
     setupCardAbilities(ability) {
         this.play({
             condition: context => !!context.player.opponent,
             target: {
                 activePromptTitle: 'Choose how many to capture from opponent',
                 mode: 'options',
-                options: context => [...Array(Math.min(context.player.opponent.amber + 1, 11)).keys()].map(option => ({ name: option, value: option }))
+                autoSelect: true,
+                options: context => {
+                    let amber = context.player.amber;
+                    let oppAmber = context.player.opponent.amber;
+
+                    let minAmber = Math.max(0, 10 - amber);
+                    let options = [];
+                    for(let i = minAmber; i < oppAmber; ++i) {
+                        options.push(i);
+                    }
+                    options.push(oppAmber);
+                    return options.map(option => ({ name: option, value: option }));
+                }
             },
-            gameAction: ability.actions.capture(context => ({
-                condition: context => context.option && context.option.value > 0,
-                amount: context.option && context.option.value
-            })),
-            then: thenContext => ({
-                condition: () => thenContext.option.value < 10,
-                target: {
-                    activePromptTitle: 'Choose how many to capture from own side',
-                    mode: 'options',
-                    options: [...Array(11 - thenContext.option.value).keys()].map(option => ({ name: option, value: option }))
-                },
-                gameAction: ability.actions.capture(context => ({
-                    ownController: true,
+            gameAction: ability.actions.sequential([
+                ability.actions.capture(context => ({
                     amount: context.option && context.option.value
                 })),
-                then: {
-                    condition: context => context.source.tokens.amber < 10,
-                    alwaysTriggers: true,
-                    gameAction: ability.actions.purge(),
-                    message: 'purges {1} as it has less than 10 amber on it'
-                },
-                message: '{0} uses {1} to capture {3} amber from {0}, placing it on {1}',
-                messageArgs: context => [context.option.name]
-            })
+                ability.actions.capture(context => ({
+                    ownController: true,
+                    amount: this.calculateOwnAmber(context)
+                })),
+                ability.actions.conditional(({
+                    condition: context => context.source.amber < 10,
+                    trueGameAction: ability.actions.purge()
+                }))
+            ]),
+            effect: 'capture {1} amber from {2}{3}{4} amber from {5}{6}',
+            effectArgs: context => [
+                context.option && context.option.value,
+                context.player.opponent,
+                context.source.amber + this.calculateCapturedAmber(context) < 10 ? ', ' : ' and ',
+                this.calculateOwnAmber(context),
+                context.player,
+                context.source.amber + this.calculateCapturedAmber(context) < 10 ? ' and then purge it' : ''
+            ],
         });
     }
 }
