@@ -22,7 +22,9 @@ class Crassosaurus extends Card {
                     let minAmber = Math.max(0, 10 - amber);
                     let options = [];
 
-                    for(let i = oppAmber; i >= minAmber; --i) {
+                    options.push({ name: oppAmber + ' / ' + Math.min(amber, 10 - oppAmber), value: oppAmber });
+
+                    for(let i = oppAmber - 1; i >= minAmber; --i) {
                         options.push({ name: i + ' / ' + Math.min(amber, 10 - i), value: i });
                     }
 
