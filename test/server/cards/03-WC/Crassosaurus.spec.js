@@ -106,7 +106,6 @@ describe('Crassosaurus', function() {
                 expect(this.player1.amber).toBe(0);
                 expect(this.player2.amber).toBe(3);
                 expect(this.crassosaurus.location).toBe('purged');
-
             });
 
             it('should purge when choosing to capture 0 from self and fewer than 10 total is captured', function() {
@@ -117,7 +116,6 @@ describe('Crassosaurus', function() {
                 expect(this.player1.amber).toBe(0);
                 expect(this.player2.amber).toBe(0);
                 expect(this.crassosaurus.location).toBe('purged');
-
             });
 
             it('should purge when choosing to capture 3 from self and fewer than 10 total is captured', function() {
@@ -171,7 +169,7 @@ describe('Crassosaurus', function() {
                 this.player2.amber = 6;
                 this.player1.play(this.crassosaurus);
 
-                this.player1.selectOption(6)
+                this.player1.selectOption(6);
 
                 expect(this.crassosaurus.location).toBe('play area');
                 expect(this.player1.amber).toBe(0);

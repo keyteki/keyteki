@@ -25,7 +25,9 @@ class Crassosaurus extends Card {
                     for(let i = minAmber; i < oppAmber; ++i) {
                         options.push(i);
                     }
+
                     options.push(oppAmber);
+
                     return options.map(option => ({ name: option, value: option }));
                 }
             },
@@ -50,7 +52,7 @@ class Crassosaurus extends Card {
                 this.calculateOwnAmber(context),
                 context.player,
                 context.source.amber + this.calculateCapturedAmber(context) < 10 ? ' and then purge it' : ''
-            ],
+            ]
         });
     }
 }

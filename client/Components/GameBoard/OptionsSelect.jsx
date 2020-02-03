@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { withTranslation, Trans } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 
 class OptionsSelect extends React.Component {
     constructor(props) {
@@ -27,7 +27,7 @@ class OptionsSelect extends React.Component {
         }
     }
 
-    render() {                
+    render() {
         return (
             <div>
                 <select className='form-control' onChange={ this.onChange }>
