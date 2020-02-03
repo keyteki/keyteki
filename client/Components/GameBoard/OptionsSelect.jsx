@@ -8,7 +8,7 @@ class OptionsSelect extends React.Component {
         super(props);
 
         this.state = {
-            selectedOption: (this.props.options.length > 0 ? '' + this.props.options[0].arg : '')
+            selectedOption: null
         };
 
         this.onChange = this.onChange.bind(this);
@@ -23,7 +23,7 @@ class OptionsSelect extends React.Component {
         event.preventDefault();
 
         if(this.props.onOptionSelected) {
-            this.props.onOptionSelected(this.state.selectedOption);
+            this.props.onOptionSelected(this.state.selectedOption ? this.state.selectedOption : '' + this.props.options[0].arg);
         }
     }
 
@@ -31,7 +31,7 @@ class OptionsSelect extends React.Component {
         return (
             <div>
                 <select className='form-control' onChange={ this.onChange }>
-                    { this.props.options.map(option => <option key={ option.arg }>{ option.text }</option>) }
+                    { this.props.options.map(option => <option key={ option.arg } value={ option.arg }>{ option.text }</option>) }
                 </select>
                 <button className='btn btn-default prompt-button btn-stretch option-button' onClick={ this.onDoneClicked }>{ this.props.t('Done') }</button>
             </div>);

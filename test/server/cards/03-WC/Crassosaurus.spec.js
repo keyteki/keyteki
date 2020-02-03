@@ -13,10 +13,14 @@ describe('Crassosaurus', function() {
                 });
             });
 
-            it('should auto capture from opponent and from self', function() {
+            it('should capture from opponent and from self', function() {
                 this.player1.amber = 5;
                 this.player2.amber = 5;
                 this.player1.play(this.crassosaurus);
+
+                expect(this.player1).toHavePrompt('Choose how many to capture from opponent / from you');
+                expect(this.player1).toHavePromptButton('5 / 5');
+                this.player1.selectOption(5);
 
                 expect(this.crassosaurus.location).toBe('play area');
                 expect(this.player1.amber).toBe(0);
@@ -29,16 +33,16 @@ describe('Crassosaurus', function() {
                 this.player2.amber = 11;
                 this.player1.play(this.crassosaurus);
 
-                expect(this.player1).toHavePrompt('Choose how many to capture from opponent');
-                expect(this.player1).not.toHavePromptButton(4);
-                expect(this.player1).toHavePromptButton(5);
-                expect(this.player1).toHavePromptButton(6);
-                expect(this.player1).toHavePromptButton(7);
-                expect(this.player1).toHavePromptButton(8);
-                expect(this.player1).toHavePromptButton(9);
-                expect(this.player1).toHavePromptButton(10);
-                expect(this.player1).toHavePromptButton(11);
-                expect(this.player1).not.toHavePromptButton(12);
+                expect(this.player1).toHavePrompt('Choose how many to capture from opponent / from you');
+                expect(this.player1).not.toHavePromptButton('4 / 6');
+                expect(this.player1).toHavePromptButton('5 / 5');
+                expect(this.player1).toHavePromptButton('6 / 4');
+                expect(this.player1).toHavePromptButton('7 / 3');
+                expect(this.player1).toHavePromptButton('8 / 2');
+                expect(this.player1).toHavePromptButton('9 / 1');
+                expect(this.player1).toHavePromptButton('10 / 0');
+                expect(this.player1).not.toHavePromptButton('11 / -1');
+                expect(this.player1).not.toHavePromptButton('12 / -2');
 
                 this.player1.selectOption(10);
                 expect(this.player1.amber).toBe(5);
@@ -51,17 +55,6 @@ describe('Crassosaurus', function() {
                 this.player2.amber = 11;
                 this.player1.play(this.crassosaurus);
 
-                expect(this.player1).toHavePrompt('Choose how many to capture from opponent');
-                expect(this.player1).not.toHavePromptButton(4);
-                expect(this.player1).toHavePromptButton(5);
-                expect(this.player1).toHavePromptButton(6);
-                expect(this.player1).toHavePromptButton(7);
-                expect(this.player1).toHavePromptButton(8);
-                expect(this.player1).toHavePromptButton(9);
-                expect(this.player1).toHavePromptButton(10);
-                expect(this.player1).toHavePromptButton(11);
-                expect(this.player1).not.toHavePromptButton(12);
-
                 this.player1.selectOption(8);
                 expect(this.player1.amber).toBe(3);
                 expect(this.player2.amber).toBe(3);
@@ -73,14 +66,15 @@ describe('Crassosaurus', function() {
                 this.player2.amber = 6;
                 this.player1.play(this.crassosaurus);
 
-                expect(this.player1).toHavePrompt('Choose how many to capture from opponent');
-                expect(this.player1).toHavePromptButton(0);
-                expect(this.player1).toHavePromptButton(1);
-                expect(this.player1).toHavePromptButton(2);
-                expect(this.player1).toHavePromptButton(3);
-                expect(this.player1).toHavePromptButton(4);
-                expect(this.player1).toHavePromptButton(5);
-                expect(this.player1).toHavePromptButton(6);
+                expect(this.player1).toHavePrompt('Choose how many to capture from opponent / from you');
+                expect(this.player1).toHavePromptButton('0 / 10');
+                expect(this.player1).toHavePromptButton('1 / 9');
+                expect(this.player1).toHavePromptButton('2 / 8');
+                expect(this.player1).toHavePromptButton('3 / 7');
+                expect(this.player1).toHavePromptButton('4 / 6');
+                expect(this.player1).toHavePromptButton('5 / 5');
+                expect(this.player1).toHavePromptButton('6 / 4');
+                expect(this.player1).not.toHavePromptButton('7 / 3');
 
                 this.player1.selectOption(0);
                 expect(this.player1.amber).toBe(1);
@@ -93,6 +87,10 @@ describe('Crassosaurus', function() {
                 this.player2.amber = 3;
                 this.player1.play(this.crassosaurus);
 
+                expect(this.player1).toHavePrompt('Choose how many to capture from opponent / from you');
+                expect(this.player1).toHavePromptButton('3 / 1');
+                this.player1.selectOption(3);
+
                 expect(this.player1.amber).toBe(0);
                 expect(this.player2.amber).toBe(4);
                 expect(this.crassosaurus.location).toBe('purged');
@@ -102,6 +100,10 @@ describe('Crassosaurus', function() {
                 this.player1.amber = 0;
                 this.player2.amber = 3;
                 this.player1.play(this.crassosaurus);
+
+                expect(this.player1).toHavePrompt('Choose how many to capture from opponent / from you');
+                expect(this.player1).toHavePromptButton('3 / 0');
+                this.player1.selectOption(3);
 
                 expect(this.player1.amber).toBe(0);
                 expect(this.player2.amber).toBe(3);
@@ -113,6 +115,10 @@ describe('Crassosaurus', function() {
                 this.player2.amber = 0;
                 this.player1.play(this.crassosaurus);
 
+                expect(this.player1).toHavePrompt('Choose how many to capture from opponent / from you');
+                expect(this.player1).toHavePromptButton('0 / 0');
+                this.player1.selectOption(0);
+
                 expect(this.player1.amber).toBe(0);
                 expect(this.player2.amber).toBe(0);
                 expect(this.crassosaurus.location).toBe('purged');
@@ -122,6 +128,10 @@ describe('Crassosaurus', function() {
                 this.player1.amber = 3;
                 this.player2.amber = 0;
                 this.player1.play(this.crassosaurus);
+
+                expect(this.player1).toHavePrompt('Choose how many to capture from opponent / from you');
+                expect(this.player1).toHavePromptButton('0 / 3');
+                this.player1.selectOption(0);
 
                 expect(this.player1.amber).toBe(0);
                 expect(this.player2.amber).toBe(3);
@@ -143,20 +153,32 @@ describe('Crassosaurus', function() {
                 });
             });
 
-            it('and calculate automatically and purge it after all', function() {
+            it('and prompt once if purge when less than 10 first time', function() {
                 this.player1.amber = 1;
                 this.player2.amber = 3;
                 this.player1.play(this.crassosaurus);
+
+                expect(this.player1).toHavePrompt('Choose how many to capture from opponent / from you');
+                expect(this.player1).toHavePromptButton('3 / 1');
+                this.player1.selectOption(3);
 
                 expect(this.crassosaurus.location).toBe('purged');
                 expect(this.player1.amber).toBe(0);
                 expect(this.player2.amber).toBe(4);
             });
 
-            it('and calculate automatically', function() {
+            it('and prompt twice if captured 10 first time', function() {
                 this.player1.amber = 5;
                 this.player2.amber = 5;
                 this.player1.play(this.crassosaurus);
+
+                expect(this.player1).toHavePrompt('Choose how many to capture from opponent / from you');
+                expect(this.player1).toHavePromptButton('5 / 5');
+                this.player1.selectOption(5);
+
+                expect(this.player1).toHavePrompt('Choose how many to capture from opponent / from you');
+                expect(this.player1).toHavePromptButton('0 / 0');
+                this.player1.selectOption(0);
 
                 expect(this.crassosaurus.location).toBe('play area');
                 expect(this.player1.amber).toBe(0);
@@ -164,12 +186,19 @@ describe('Crassosaurus', function() {
                 expect(this.crassosaurus.tokens.amber).toBe(10);
             });
 
-            it('and calculate automatically after second pass', function() {
+            it('and prompt twice if captured 10 first time and still amber to capture', function() {
                 this.player1.amber = 5;
                 this.player2.amber = 6;
                 this.player1.play(this.crassosaurus);
 
+                expect(this.player1).toHavePrompt('Choose how many to capture from opponent / from you');
+                expect(this.player1).toHavePromptButton('6 / 4');
+                expect(this.player1).toHavePromptButton('5 / 5');
                 this.player1.selectOption(6);
+
+                expect(this.player1).toHavePrompt('Choose how many to capture from opponent / from you');
+                expect(this.player1).toHavePromptButton('0 / 1');
+                this.player1.selectOption(0);
 
                 expect(this.crassosaurus.location).toBe('play area');
                 expect(this.player1.amber).toBe(0);
@@ -177,26 +206,26 @@ describe('Crassosaurus', function() {
                 expect(this.crassosaurus.tokens.amber).toBe(11);
             });
 
-            it('and calculate automatically after second pass', function() {
-                this.player1.amber = 5;
-                this.player2.amber = 13;
-                this.player1.play(this.crassosaurus);
-
-                this.player1.selectOption(10);
-
-                expect(this.crassosaurus.location).toBe('play area');
-                expect(this.player1.amber).toBe(0);
-                expect(this.player2.amber).toBe(0);
-                expect(this.crassosaurus.tokens.amber).toBe(18);
-            });
-
-            it('and prompt twice for opponent\'s amber', function() {
+            it('and prompt twice if captured 10 first time and still amber to capture, with multiple options twice', function() {
                 this.player1.amber = 5;
                 this.player2.amber = 16;
                 this.player1.play(this.crassosaurus);
 
-                this.player1.selectOption(10);
+                expect(this.player1).toHavePrompt('Choose how many to capture from opponent / from you');
+                expect(this.player1).toHavePromptButton('10 / 0');
+                expect(this.player1).toHavePromptButton('9 / 1');
+                expect(this.player1).toHavePromptButton('8 / 2');
+                expect(this.player1).toHavePromptButton('7 / 3');
+                expect(this.player1).toHavePromptButton('6 / 4');
+                expect(this.player1).toHavePromptButton('5 / 5');
+                expect(this.player1).not.toHavePromptButton('4 / 6');
                 this.player1.selectOption(6);
+
+                expect(this.player1).toHavePrompt('Choose how many to capture from opponent / from you');
+                expect(this.player1).toHavePromptButton('10 / 0');
+                expect(this.player1).toHavePromptButton('9 / 1');
+                expect(this.player1).not.toHavePromptButton('8 / 2');
+                this.player1.selectOption(10);
 
                 expect(this.crassosaurus.location).toBe('play area');
                 expect(this.player1.amber).toBe(1);

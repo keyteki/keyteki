@@ -59,13 +59,6 @@ class AbilityTargetOptions {
             player = player.opponent;
         }
 
-        let options = this.getOptions(context);
-
-        if((options.length === 1) && this.properties.autoSelect) {
-            context.option = options[0];
-            return;
-        }
-
         let promptTitle = this.properties.activePromptTitle || 'Choose an option';
 
         context.game.promptWithOptionsMenu(player, {

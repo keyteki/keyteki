@@ -13,22 +13,20 @@ class Crassosaurus extends Card {
         this.play({
             condition: context => !!context.player.opponent,
             target: {
-                activePromptTitle: 'Choose how many to capture from opponent',
+                activePromptTitle: 'Choose how many to capture from opponent / from you',
                 mode: 'options',
-                autoSelect: true,
                 options: context => {
                     let amber = context.player.amber;
-                    let oppAmber = context.player.opponent.amber;
+                    let oppAmber = Math.min(context.player.opponent.amber, 10);
 
                     let minAmber = Math.max(0, 10 - amber);
                     let options = [];
-                    for(let i = minAmber; i < oppAmber; ++i) {
-                        options.push(i);
+
+                    for(let i = oppAmber; i >= minAmber; --i) {
+                        options.push({ name: i + ' / ' + Math.min(amber, 10 - i), value: i });
                     }
 
-                    options.push(oppAmber);
-
-                    return options.map(option => ({ name: option, value: option }));
+                    return options;
                 }
             },
             gameAction: ability.actions.sequential([
