@@ -1,4 +1,4 @@
-fdescribe('Crassosaurus', function() {
+describe('Crassosaurus', function() {
     integration(function() {
         describe('when played', function() {
             beforeEach(function() {
