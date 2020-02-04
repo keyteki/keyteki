@@ -9,7 +9,7 @@ class OptionsSelect extends React.Component {
 
         this.state = {
             selectedOption: null,
-            prevOptions: null,
+            prevOptions: null
         };
 
         this.onChange = this.onChange.bind(this);
@@ -17,7 +17,7 @@ class OptionsSelect extends React.Component {
     }
 
     static getDerivedStateFromProps(props, state) {
-        if (props.options !== state.prevOptions) {
+        if(props.options !== state.prevOptions) {
             return {
                 selectedOption: props.options && props.options.length > 0 ? '' + props.options[0].arg : -1,
                 prevOptions: props.options
@@ -25,7 +25,7 @@ class OptionsSelect extends React.Component {
         }
 
         return null;
-      }
+    }
 
     onChange(event) {
         this.setState({ selectedOption: event.target.value });
