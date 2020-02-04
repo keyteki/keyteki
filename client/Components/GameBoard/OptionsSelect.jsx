@@ -8,12 +8,24 @@ class OptionsSelect extends React.Component {
         super(props);
 
         this.state = {
-            selectedOption: null
+            selectedOption: null,
+            prevOptions: null,
         };
 
         this.onChange = this.onChange.bind(this);
         this.onDoneClicked = this.onDoneClicked.bind(this);
     }
+
+    static getDerivedStateFromProps(props, state) {
+        if (props.options !== state.prevOptions) {
+            return {
+                selectedOption: props.options && props.options.length > 0 ? '' + props.options[0].arg : -1,
+                prevOptions: props.options
+            };
+        }
+
+        return null;
+      }
 
     onChange(event) {
         this.setState({ selectedOption: event.target.value });
@@ -23,7 +35,7 @@ class OptionsSelect extends React.Component {
         event.preventDefault();
 
         if(this.props.onOptionSelected) {
-            this.props.onOptionSelected(this.state.selectedOption ? this.state.selectedOption : '' + this.props.options[0].arg);
+            this.props.onOptionSelected(this.state.selectedOption);
         }
     }
 
@@ -31,7 +43,7 @@ class OptionsSelect extends React.Component {
         return (
             <div>
                 <select className='form-control' onChange={ this.onChange }>
-                    { this.props.options.map(option => <option key={ option.arg } value={ option.arg }>{ option.text }</option>) }
+                    { this.props.options.map(option => <option key={ option.value } selected = { this.state.selectedOption === '' + option.arg } value={ option.arg }>{ option.text }</option>) }
                 </select>
                 <button className='btn btn-default prompt-button btn-stretch option-button' onClick={ this.onDoneClicked }>{ this.props.t('Done') }</button>
             </div>);
