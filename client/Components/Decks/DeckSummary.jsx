@@ -97,6 +97,8 @@ class DeckSummary extends React.Component {
                         </span>
                         { card.maverick ? <img className='small-maverick' src='/img/maverick.png' width='12px'
                             height='12px'/> : null }
+                        { card.anomaly ? <img className='small-maverick' src='/img/anomaly.png' width='12px'
+                            height='14px'/> : null }
                     </div>);
 
                     cards.push(cardToRender);
