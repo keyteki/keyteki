@@ -8,13 +8,13 @@ class QincansBlaster extends BlasterCard {
                     event.card === context.source && event.parent.name === 'Sci. Officer Qincan' &&
                     event.context.player === event.card.controller
             },
-            gameAction: ability.actions.archive({
+            target: {
                 optional: true,
-                promptForSelect: {
-                    optional: true,
-                    cardType: 'creature'
-                }
-            })
+                mode: 'exactly',
+                cardType: 'creature',
+                location: 'play area',
+                gameAction: ability.actions.archive()
+            }
         });
 
         this.setupBlasterCardAbilities(ability, 'Sci. Officer Qincan');
