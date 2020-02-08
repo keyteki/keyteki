@@ -12,12 +12,14 @@ class DeckList extends React.Component {
 
         this.state = {
             searchFilter: undefined,
+            expansionFilter: undefined,
             sortOrder: 'datedesc',
             pageSize: 10,
             currentPage: 0
         };
 
         this.changeFilter = _.debounce(filter => this.onChangeFilter(filter), 200);
+        this.onChangeExpansionFilter = this.onChangeExpansionFilter.bind(this);
         this.filterDeck = this.filterDeck.bind(this);
         this.onSortChanged = this.onSortChanged.bind(this);
         this.onPageSizeChanged = this.onPageSizeChanged.bind(this);
@@ -28,11 +30,27 @@ class DeckList extends React.Component {
             return false;
         }
 
+        if(this.state.expansionFilter === 'World\'s Collide' && deck.expansion !== 452) {
+            return false;
+        }
+
+        if(this.state.expansionFilter === 'Age of Ascension' && deck.expansion !== 435) {
+            return false;
+        }
+
+        if(this.state.expansionFilter === 'Call of the Archons' && deck.expansion !== 341) {
+            return false;
+        }
+
         return true;
     }
 
     onChangeFilter(filter) {
         this.setState({ searchFilter: filter.toLowerCase() });
+    }
+
+    onChangeExpansionFilter(event) {
+        this.setState({ expansionFilter: event.target.value });
     }
 
     onSortChanged(value) {
@@ -124,7 +142,17 @@ class DeckList extends React.Component {
                                 <option>50</option>
                             </select>
                         </div>
-
+                    </div>
+                    <div className='col-md-12'>
+                        <div className='form-group'>
+                            <label className='control-label'><Trans>Filter By Expansion</Trans>:</label>
+                            <select className='form-control' onChange={ this.onChangeExpansionFilter }>
+                                <option />
+                                <option>World&#39;s Collide</option>
+                                <option>Age of Ascension</option>
+                                <option>Call of the Archons</option>
+                            </select>
+                        </div>
                     </div>
                     <div className='col-md-12'><Trans>Sort by</Trans>:<RadioGroup buttons={ sortButtons } onValueSelected={ this.onSortChanged } defaultValue={ this.state.sortOrder } /></div>
                     <nav className='col-md-12' aria-label={ t('Page navigation') } >
