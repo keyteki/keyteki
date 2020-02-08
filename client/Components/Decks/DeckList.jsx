@@ -15,7 +15,7 @@ class DeckList extends React.Component {
             expansionFilter: undefined,
             sortOrder: 'datedesc',
             pageSize: 10,
-            currentPage: 0,
+            currentPage: 0
         };
 
         this.changeFilter = _.debounce(filter => this.onChangeFilter(filter), 200);
@@ -30,7 +30,7 @@ class DeckList extends React.Component {
             return false;
         }
 
-        if(this.state.expansionFilter === "World's Collide" && deck.expansion !== 452) {
+        if(this.state.expansionFilter === 'World\'s Collide' && deck.expansion !== 452) {
             return false;
         }
 
@@ -147,8 +147,8 @@ class DeckList extends React.Component {
                         <div className='form-group'>
                             <label className='control-label'><Trans>Filter By Expansion</Trans>:</label>
                             <select className='form-control' onChange={ this.onChangeExpansionFilter }>
-                                <option></option>
-                                <option>World's Collide</option>
+                                <option />
+                                <option>World&#39;s Collide</option>
                                 <option>Age of Ascension</option>
                                 <option>Call of the Archons</option>
                             </select>
