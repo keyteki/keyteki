@@ -58,7 +58,10 @@ class DeckList extends React.Component {
     }
 
     onPageSizeChanged(event) {
-        this.setState({ pageSize: event.target.value });
+        this.setState({
+            currentPage: 0,
+            pageSize: event.target.value
+        });
     }
 
     onPageChanged(page) {
