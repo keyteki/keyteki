@@ -11,8 +11,8 @@ class DeckList extends React.Component {
         super(props);
 
         this.state = {
-            searchFilter: undefined,
-            expansionFilter: undefined,
+            searchFilter: '',
+            expansionFilter: '',
             sortOrder: 'datedesc',
             pageSize: 10,
             currentPage: 0
@@ -26,31 +26,28 @@ class DeckList extends React.Component {
     }
 
     filterDeck(deck) {
-        if(this.state.searchFilter && !deck.name.toLowerCase().includes(this.state.searchFilter)) {
-            return false;
-        }
+        const passedSearchFilter = this.state.searchFilter === '' || deck.name.toLowerCase().includes(this.state.searchFilter);
+        const passedExpansionFilter = this.state.expansionFilter === '' || (
+            (this.state.expansionFilter === 'World\'s Collide' && deck.expansion === 452) ||
+            (this.state.expansionFilter === 'Age of Ascension' && deck.expansion === 435) ||
+            (this.state.expansionFilter === 'Call of the Archons' && deck.expansion === 341)
+        );
 
-        if(this.state.expansionFilter === 'World\'s Collide' && deck.expansion !== 452) {
-            return false;
-        }
-
-        if(this.state.expansionFilter === 'Age of Ascension' && deck.expansion !== 435) {
-            return false;
-        }
-
-        if(this.state.expansionFilter === 'Call of the Archons' && deck.expansion !== 341) {
-            return false;
-        }
-
-        return true;
+        return passedSearchFilter && passedExpansionFilter;
     }
 
     onChangeFilter(filter) {
-        this.setState({ searchFilter: filter.toLowerCase() });
+        this.setState({
+            currentPage: 0,
+            searchFilter: filter.toLowerCase()
+        });
     }
 
     onChangeExpansionFilter(event) {
-        this.setState({ expansionFilter: event.target.value });
+        this.setState({
+            currentPage: 0,
+            expansionFilter: event.target.value
+        });
     }
 
     onSortChanged(value) {
@@ -72,7 +69,7 @@ class DeckList extends React.Component {
         let { activeDeck, className, decks, onSelectDeck, t } = this.props;
 
         let deckRows = [];
-        let decksInSearch = 0;
+        let numDecksNotFiltered = 0;
 
         if(!decks || decks.length === 0) {
             deckRows = t('You have no decks, try adding one');
@@ -95,23 +92,13 @@ class DeckList extends React.Component {
                     break;
             }
 
-            if(!this.state.searchFilter) {
-                // if there is NO search value, then use the regular pagination
-                sortedDecks = sortedDecks.slice(this.state.currentPage * this.state.pageSize, (this.state.currentPage * this.state.pageSize) + this.state.pageSize);
-            }
+            sortedDecks = sortedDecks.filter(this.filterDeck);
+            numDecksNotFiltered = sortedDecks.length;
+
+            sortedDecks = sortedDecks.slice(this.state.currentPage * this.state.pageSize, (this.state.currentPage * this.state.pageSize) + this.state.pageSize);
 
             for(let deck of sortedDecks) {
-                if(this.filterDeck(deck)) {
-                    deckRows.push(<DeckRow active={ activeDeck && activeDeck._id === deck._id } deck={ deck } key={ index++ } onSelect={ onSelectDeck } />);
-                    // keep track of the decks that passed the filter
-                    decksInSearch++;
-                }
-            }
-
-            if(!this.state.searchFilter) {
-                // if there is NO search value, then all of our decks are in the "results"
-                // not just limited to those on the page
-                decksInSearch = decks.length;
+                deckRows.push(<DeckRow active={ activeDeck && activeDeck._id === deck._id } deck={ deck } key={ index++ } onSelect={ onSelectDeck } />);
             }
         }
 
@@ -123,7 +110,7 @@ class DeckList extends React.Component {
         ];
 
         let pager = [];
-        let pages = _.range(0, Math.ceil(decksInSearch / this.state.pageSize));
+        let pages = _.range(0, Math.ceil(numDecksNotFiltered / this.state.pageSize));
         for(let page of pages) {
             pager.push(<li key={ page }><a href='#' className={ (page === this.state.currentPage ? 'active' : null) } onClick={ this.onPageChanged.bind(this, page) }>{ page + 1 }</a></li>);
         }
