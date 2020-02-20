@@ -59,6 +59,7 @@ export class GameBoard extends React.Component {
         this.sendChatMessage = this.sendChatMessage.bind(this);
         this.onSettingsClick = this.onSettingsClick.bind(this);
         this.onMessagesClick = this.onMessagesClick.bind(this);
+        this.onCopyClick = this.onCopyClick.bind(this);
         this.onManualModeClick = this.onManualModeClick.bind(this);
         this.onMuteClick = this.onMuteClick.bind(this);
 
@@ -269,6 +270,18 @@ export class GameBoard extends React.Component {
         this.setState(newState);
     }
 
+    onCopyClick() {
+        let message = document.getElementsByClassName('messages panel')[0];
+        if(message) {
+            let dummy = document.createElement('textarea');
+            document.body.appendChild(dummy);
+            dummy.value = message.innerText;
+            dummy.select();
+            document.execCommand('copy');
+            document.body.removeChild(dummy);
+        }
+    }
+
     onManualModeClick(event) {
         event.preventDefault();
         this.props.sendGameMessage('toggleManualMode');
@@ -459,7 +472,7 @@ export class GameBoard extends React.Component {
                 <div className='player-stats-row'>
                     <PlayerStats { ...boundActionCreators } stats={ thisPlayer.stats } showControls={ !this.state.spectating && manualMode } user={ thisPlayer.user }
                         activePlayer={ thisPlayer.activePlayer } onSettingsClick={ this.onSettingsClick } showMessages
-                        onMessagesClick={ this.onMessagesClick } numMessages={ this.state.newMessages } houses={ thisPlayer.houses } onManualModeClick={ this.onManualModeClick }
+                        onMessagesClick={ this.onMessagesClick } onCopyClick={ this.onCopyClick } numMessages={ this.state.newMessages } houses={ thisPlayer.houses } onManualModeClick={ this.onManualModeClick }
                         activeHouse={ thisPlayer.activeHouse } manualModeEnabled={ manualMode } showManualMode={ !this.state.spectating }
                         muteSpectators={ this.props.currentGame.muteSpectators } onMuteClick={ this.onMuteClick } />
                 </div>
