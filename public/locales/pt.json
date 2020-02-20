@@ -443,5 +443,16 @@
     "Select a card to move this card next to": "Escolha uma carta para posicionar essa carta ao lado",
     "Which side to you want to move this card to?": "Para qual lado você deseja mover essa carta?",
     "Any reactions to key phase starting?": "Alguma reação ao início do passo de forja?",
-    "Any interrupts?": "Alguma interrupção?"
+    "Any interrupts?": "Alguma interrupção?",
+    "Matches": "Partidas",
+    "My Deck": "Meu Deck",
+    "Opponent": "Opponente",
+    "Opponent's Deck": "Deck do Oponente",
+    "Winner": "Vencedor",
+    "Reason": "Motivo",
+    "Keys": "Chaves",
+    "Type": "Tipo",
+    "Format": "Formato",
+    "Started At": "Início",
+    "Duration": "Duração"
 }

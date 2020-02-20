@@ -7,6 +7,14 @@ export function receiveGames(games) {
     };
 }
 
+export function loadUserGames() {
+    return {
+        types: ['REQUEST_USERGAMES', 'RECEIVE_USERGAMES'],
+        shouldCallAPI: () => true,
+        APIParams: { url: '/api/games', cache: false }
+    };
+}
+
 export function startNewGame() {
     return {
         type: 'START_NEWGAME'
