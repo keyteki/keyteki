@@ -57,7 +57,7 @@ class GameService {
                 '$match': {
                     '$and': [
                         {
-                            'players.name': 'romano1'
+                            'players.name': username
                         },
                         {
                             'players.deck': {
