@@ -97,7 +97,7 @@ class SquishableCardPanel extends React.Component {
 
         let style = {
             width: dimensions.width + 'px',
-            height: dimensions.height + 'px'
+            height: (dimensions.height) + 'px'
         };
 
         return (
