@@ -26,6 +26,9 @@ class Mimicry extends Card {
                             card.abilities.reactions.find(ability => ability.properties.name === 'Play').properties
                         ));
                     }
+                    if(card.hasKeyword('omega')) {
+                        this.game.cardsPlayed.push(card);
+                    }
                 }
 
                 return {
