@@ -443,5 +443,16 @@
     "Select a card to move this card next to": "Select a card to move this card next to",
     "Which side to you want to move this card to?": "Which side to you want to move this card to?",
     "Any reactions to key phase starting?": "Any reactions to key phase starting?",
-    "Any interrupts?": "Any interrupts?"
+    "Any interrupts?": "Any interrupts?",
+    "Matches": "Matches",
+    "My Deck": "My Deck",
+    "Opponent": "Opponent",
+    "Opponent's Deck": "Opponent's Deck",
+    "Winner": "Winner",
+    "Reason": "Reason",
+    "Keys": "Keys",
+    "Type": "Type",
+    "Format": "Format",
+    "Started At": "Started At",
+    "Duration": "Duration"
 }

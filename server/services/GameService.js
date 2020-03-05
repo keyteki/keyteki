@@ -42,6 +42,60 @@ class GameService {
                 throw new Error('Unable to get all games');
             });
     }
+
+    async findByUserName(username) {
+        let games = await this.games.aggregate([
+            {
+                '$lookup': {
+                    'from': 'decks',
+                    'localField': 'players.deck',
+                    'foreignField': 'identity',
+                    'as': 'decks'
+                }
+            },
+            {
+                '$match': {
+                    '$and': [
+                        {
+                            'players.name': username
+                        },
+                        {
+                            'players.deck': {
+                                '$ne': null
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                '$sort': {
+                    'finishedAt': -1
+                }
+            },
+            {
+                '$limit': 30
+            }
+        ]);
+
+        // Make sure position zero is always the given username
+        games.forEach(game => {
+            if(game.players && game.players[0] && game.players[1] && game.decks[0] && game.decks[1]) {
+                if(game.players[1].name === username) {
+                    let opponent = game.players[0];
+                    game.players[0] = game.players[1];
+                    game.players[1] = opponent;
+                }
+
+                if(game.players[0].deck === game.decks[1].identity) {
+                    let oppDeck = game.decks[0];
+                    game.decks[0] = game.decks[1];
+                    game.decks[1] = oppDeck;
+                }
+            }
+        });
+
+        return games;
+    }
 }
 
 module.exports = GameService;
