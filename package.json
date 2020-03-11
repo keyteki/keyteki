@@ -71,7 +71,7 @@
     "merge-images": "^1.1.0",
     "mini-css-extract-plugin": "^0.8.0",
     "moment": "^2.18.1",
-    "mongodb": "^2.2.31",
+    "mongodb": "^2.2.36",
     "monk": "^4.0.0",
     "node-noop": "^1.0.0",
     "node-sass": "^4.12.0",
@@ -111,7 +111,7 @@
     "webpack-merge": "^4.2.1",
     "winston": "^2.2.0",
     "winston-daily-rotate-file": "^1.7.2",
-    "zeromq": "^5.1.0"
+    "zeromq": "^5.2.0"
   },
   "devDependencies": {
     "@types/node": "^6.0.0",

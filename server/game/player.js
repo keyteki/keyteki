@@ -14,6 +14,7 @@ class Player extends GameObject {
         this.id = id;
         this.owner = owner;
 
+        this.health = 30;
         this.hand = [];
         this.cardsInPlay = []; // This stores references to all creatures and artifacts in play.  Upgrades are not stored here.
         this.deckName = '';
@@ -451,6 +452,55 @@ class Player extends GameObject {
         });
     }
 
+    getPlayerCard() {
+        return {
+            "id": this.owner,
+            "name": "Player",
+            "number": "1000",
+            "image": "https://cdn.keyforgegame.com/media/card_front/en/435_004_CJWCMWC9XG73_en.png",
+            "keywords": [],
+            "traits": [],
+            "type": "player",
+            "rarity": "Common",
+            "amber": 0,
+            "armor": null,
+            "power": null,
+            "text": "The player card",
+            "locale": {
+                "de": {
+                    "name": "Player"
+                },
+                "en": {
+                    "name": "Player"
+                },
+                "es": {
+                    "name": "Player"
+                },
+                "fr": {
+                    "name": "Player"
+                },
+                "it": {
+                    "name": "Player"
+                },
+                "pl": {
+                    "name": "Player"
+                },
+                "pt": {
+                    "name": "Player"
+                },
+                "th": {
+                    "name": "Player"
+                },
+                "zhhans": {
+                    "name": "Player"
+                },
+                "zhhant": {
+                    "name": "Player"
+                }
+            }
+        }
+    }
+
     getDeckCards(list) {
         let final = [];
         list.forEach(card => {
@@ -653,6 +703,7 @@ class Player extends GameObject {
 
     getStats() {
         return {
+            health: this.health,
             amber: this.amber,
             chains: this.chains,
             keys: this.keys,

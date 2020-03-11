@@ -5,6 +5,7 @@ import Avatar from '../Site/Avatar';
 
 import { withTranslation, Trans } from 'react-i18next';
 import { toastr } from 'react-redux-toastr';
+import { thisExpression } from '@babel/types';
 
 export class PlayerStats extends React.Component {
     constructor() {
@@ -67,6 +68,14 @@ export class PlayerStats extends React.Component {
         }
     }
 
+    getHealth() {
+        return (
+            <div className='state'>
+                <div>Health: {this.props.stats['health']}</div>
+            </div>
+        );
+    }
+
     render() {
         let t = this.props.t;
         let playerAvatar = (
@@ -79,6 +88,8 @@ export class PlayerStats extends React.Component {
         return (
             <div className='panel player-stats'>
                 { playerAvatar }
+
+                { this.getHealth() }
 
                 { this.getButton('amber', 'Amber') }
                 { this.getButton('chains', 'Chains') }
