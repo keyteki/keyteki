@@ -195,7 +195,7 @@ class Game extends EventEmitter {
 
     /**
      * Returns the visitbility of the card for a given player.
-     * @param {Card} card
+     * @param {Card} cardselectableCards
      * @param {Player} player
      */
     isCardVisible(card, player) {
@@ -265,6 +265,10 @@ class Game extends EventEmitter {
         }
 
         let card = this.findAnyCardInAnyList(cardId);
+        if (card === undefined || card === null) {
+            var playerCards = this.getPlayers().map(player => player.playerCard);
+            card = playerCards.find(card => card.uuid === cardId);
+        }
 
         if(!card) {
             return;
@@ -360,10 +364,13 @@ class Game extends EventEmitter {
      * function doesn't check to see if a conquest victory has been achieved)
      */
     checkWinCondition() {
-        for(const player of this.getPlayers()) {
-            if(Object.values(player.keys).every(key => key)) {
-                this.recordWinner(player, 'keys');
-            }
+        var playerOne = this.getPlayers()[0];
+        var playerTwo = this.getPlayers()[1];
+        if (playerOne.health <= 0) {
+            this.recordWinner(playerTwo, 'kill');
+        }
+        else if (playerTwo.health <= 0) {
+            this.recordWinner(playerOne, 'kill')
         }
     }
 
@@ -609,6 +616,9 @@ class Game extends EventEmitter {
         this.allCards = _.reduce(this.getPlayers(), (cards, player) => {
             return cards.concat(player.deck);
         }, []);
+
+        var playerCards = this.getPlayers().map((player) => player.playerCard);
+        this.allCards.concat(playerCards);
 
         this.pipeline.initialise([
             new SetupPhase(this),

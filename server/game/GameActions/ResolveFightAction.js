@@ -2,8 +2,7 @@ const CardGameAction = require('./CardGameAction');
 
 class ResolveFightAction extends CardGameAction {
     setup() {
-        this.name = 'attack';
-        this.targetType = ['creature'];
+        this.targetType = ['creature', 'player'];
         this.effectMsg = 'make {1} fight {0}';
         this.effectArgs = this.attacker;
     }
@@ -52,6 +51,11 @@ class ResolveFightAction extends CardGameAction {
                 fightEvent: event,
                 damageSource: event.attacker
             };
+
+            if (event.card.type === 'player') {
+                event.card.owner.health -= attackerParams.amount;
+            }
+
             if(!event.card.getKeywordValue('elusive') || event.card.elusiveUsed || event.attacker.ignores('elusive')) {
                 if((!event.attacker.getKeywordValue('skirmish') || event.defenderTarget !== event.attacker) && event.card.checkRestrictions('dealFightDamage') && event.attackerTarget.checkRestrictions('dealFightDamageWhenDefending')) {
                     damageEvents.push(context.game.actions.dealDamage(defenderParams).getEvent(event.defenderTarget, context));

@@ -201,6 +201,7 @@ class SelectCardPrompt extends UiPrompt {
     }
 
     selectCard(card) {
+        console.log("aa");
         if(this.selector.hasReachedLimit(this.selectedCards, this.context) && !this.selectedCards.includes(card)) {
             return false;
         }

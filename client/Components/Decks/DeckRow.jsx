@@ -43,6 +43,7 @@ class DeckRow extends React.Component {
     }
 
     handleDeckClick() {
+        console.log("aa");
         if(this.props.onSelect) {
             this.props.onSelect(this.props.deck);
         }

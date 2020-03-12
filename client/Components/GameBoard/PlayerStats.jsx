@@ -26,22 +26,6 @@ export class PlayerStats extends React.Component {
         return this.props.stats[stat] || 0;
     }
 
-    getButton(stat, name, statToSet = stat) {
-        return (
-            <div className='state'>
-                { this.props.showControls ? <button className='btn btn-stat' onClick={ this.sendUpdate.bind(this, statToSet, 'down') }>
-                    <img src='/img/Minus.png' title='-' alt='-' />
-                </button> : null }
-                <div className={ `stat-image ${stat}` }>
-                    <div className='stat-value'>{ this.getStatValueOrDefault(stat) }</div>
-                </div>
-                { this.props.showControls ? <button className='btn btn-stat' onClick={ this.sendUpdate.bind(this, statToSet, 'up') }>
-                    <img src='/img/Plus.png' title='+' alt='+' />
-                </button> : null }
-            </div>
-        );
-    }
-
     onSettingsClick(event) {
         event.preventDefault();
 
@@ -90,9 +74,6 @@ export class PlayerStats extends React.Component {
                 { playerAvatar }
 
                 { this.getHealth() }
-
-                { this.getButton('amber', 'Amber') }
-                { this.getButton('chains', 'Chains') }
 
                 { this.props.houses ? this.getHouses() : null }
 

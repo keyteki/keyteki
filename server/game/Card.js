@@ -447,7 +447,7 @@ class Card extends EffectSource {
             this.facedown = false;
         }
 
-        if(originalLocation !== targetLocation) {
+        if(originalLocation !== targetLocation && this.type !== 'player') {
             this.updateAbilityEvents(originalLocation, targetLocation);
             this.updateEffects(originalLocation, targetLocation);
             this.game.emitEvent('onCardMoved', { card: this, originalLocation: originalLocation, newLocation: targetLocation });
@@ -474,7 +474,11 @@ class Card extends EffectSource {
     }
 
     checkRestrictions(actionType, context = null) {
-        return super.checkRestrictions(actionType, context) && (!context || !context.player || context.player.checkRestrictions(actionType, context));
+        return super.checkRestrictions(actionType, context) && 
+                (!context || 
+                !context.player || 
+                context.player.checkRestrictions(actionType, context)
+            );
     }
 
 
@@ -729,7 +733,7 @@ class Card extends EffectSource {
             printedAbility: false,
             target: {
                 activePromptTitle: 'Choose a creature to attack',
-                cardType: 'creature',
+                cardType: ['creature', 'player'],
                 controller: 'opponent',
                 gameAction: new ResolveFightAction({ attacker: this })
             }

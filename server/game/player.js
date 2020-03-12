@@ -5,6 +5,7 @@ const Deck = require('./deck');
 const ClockSelector = require('./Clocks/ClockSelector');
 const PlayableLocation = require('./playablelocation');
 const PlayerPromptState = require('./playerpromptstate');
+const Card = require('./Card');
 
 class Player extends GameObject {
     constructor(id, user, owner, game, clockdetails) {
@@ -45,6 +46,12 @@ class Player extends GameObject {
         this.optionSettings = user.settings.optionSettings;
 
         this.promptState = new PlayerPromptState(this);
+
+        var card = this.getPlayerCard();
+        this.moveCard(card, 'play area');
+        card.ready();
+
+        this.playerCard = card;
     }
 
     get name() {
@@ -302,7 +309,8 @@ class Player extends GameObject {
             artifact: [...cardLocations, 'play area'],
             action: [...cardLocations, 'being played'],
             creature: [...cardLocations, 'play area'],
-            upgrade: [...cardLocations, 'play area']
+            upgrade: [...cardLocations, 'play area'],
+            player: ['play area']
         };
 
         return legalLocations[card.type] && legalLocations[card.type].includes(location);
@@ -338,7 +346,9 @@ class Player extends GameObject {
             return;
         }
 
-        this.removeCardFromPile(card);
+        if (card.type !== 'player') {
+            this.removeCardFromPile(card);
+        }
         let location = card.location;
 
         if(location === 'play area') {
@@ -411,7 +421,10 @@ class Player extends GameObject {
         }
 
         if(card.controller !== this) {
-            card.controller.removeCardFromPile(card);
+            if (card.controller !== null && card.controller !== undefined) {
+                card.controller.removeCardFromPile(card);
+            }
+            
             return;
         }
 
@@ -453,19 +466,23 @@ class Player extends GameObject {
     }
 
     getPlayerCard() {
-        return {
-            "id": this.owner,
+        var cardData = {
+            "id": "player",
             "name": "Player",
-            "number": "1000",
-            "image": "https://cdn.keyforgegame.com/media/card_front/en/435_004_CJWCMWC9XG73_en.png",
+            "number": "-1",
+            "image": "player",
+            "expansion": 0,
+            "house": "player",
             "keywords": [],
-            "traits": [],
+            "traits": [
+                "mutant"
+            ],
             "type": "player",
-            "rarity": "Common",
+            "rarity": "Rare",
             "amber": 0,
-            "armor": null,
-            "power": null,
-            "text": "The player card",
+            "armor": 0,
+            "power": 0,
+            "text": "Player",
             "locale": {
                 "de": {
                     "name": "Player"
@@ -498,7 +515,13 @@ class Player extends GameObject {
                     "name": "Player"
                 }
             }
-        }
+        };
+        var card = new Card(this.owner, cardData);
+        card.location = 'hand';
+        card.game = this.game;
+        card.owner = this;
+        card.setDefaultController(this);
+        return card;
     }
 
     getDeckCards(list) {
