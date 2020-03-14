@@ -865,7 +865,7 @@ class Card extends EffectSource {
 
         if(!this.game.isCardVisible(this, activePlayer)) {
             return {
-                cardback: this.owner.deckData.cardback,
+                cardback: 'cardback.png',
                 controller: this.controller.name,
                 location: this.location,
                 facedown: true,
