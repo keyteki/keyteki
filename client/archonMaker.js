@@ -42,6 +42,7 @@ export const buildDeckList = (deck, language, translate, AllCards) => new Promis
     Promise.all([cardBack, maverick, legacy, anomaly, Common, Uncommon, Rare, Special, qrCode, set])
         .then(([cardBack, maverick, legacy, anomaly, Common, Uncommon, Rare, Special, qrCode, set]) => {
             const Rarities = { Common, Uncommon, Rare, Special };
+            cardBack = loadImage('cardback.png')
             ctx.drawImage(cardBack, 0, 0);
             ctx.drawImage(qrCode, 332, 612, 150, 150);
             ctx.drawImage(set, 232, 92, 20, 20);
