@@ -26,6 +26,7 @@ import Privacy from './pages/Privacy';
 import Community from './pages/Community';
 import BanlistAdmin from './pages/BanlistAdmin';
 import Patreon from './pages/Patreon';
+import Deckbuilder from './pages/Deckbuilder';
 
 const routes = [
     { path: '/', action: () => <Lobby key='lobby' /> },
@@ -34,6 +35,7 @@ const routes = [
     { path: '/blocklist', action: () => <BlockList key='blocklist' /> },
     { path: '/decks', action: () => <Decks key='decks' /> },
     { path: '/decks/import', action: () => <ImportDeck key='importDecks' /> },
+    { path: '/decks/build', action: () => <Deckbuilder key='deckbuilder' />},
     { path: '/forgot', action: () => <ForgotPassword key='forgotpassword' /> },
     { path: '/how-to-play', action: () => <HowToPlay key='howtoplay' /> },
     { path: '/login', action: () => <Login key='login' /> },

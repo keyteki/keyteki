@@ -128,6 +128,12 @@ export default function(state = { decks: [] }, action) {
             }
 
             return newState;
+            case 'REQUEST_MANACRESTCARDS':
+                newState = Object.assign({}, state, {
+
+                });
+
+                return newState;
         case 'SAVE_DECK':
             newState = Object.assign({}, state, {
                 deckSaved: false

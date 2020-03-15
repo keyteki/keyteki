@@ -22,6 +22,16 @@ export function loadDeck(deckId) {
     };
 }
 
+export function getCards() {
+    return {
+        type: 'REQUEST_MANACRESTCARDS',
+        APIParams: {
+            url: '/api/decks/cards',
+            type: 'GET'
+        }
+    }
+}
+
 export function selectDeck(deck) {
     return {
         type: 'SELECT_DECK',
