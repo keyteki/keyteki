@@ -8,20 +8,29 @@ class UpToXCardSelector extends BaseCardSelector {
         this.optional = true;
     }
 
-    defaultActivePromptTitle() {
-        if(this.cardType.length === 1) {
-            return this.numCards === 1 ? 'Choose a ' + this.cardType[0] : { text: `Choose {{amount}} ${this.cardType[0]}s`, values: { amount: this.numCards } };
+    getNumCards(context) {
+        if(typeof this.numCards === 'function') {
+            return this.numCards(context);
         }
 
-        return this.numCards === 1 ? 'Choose a card' : { text: 'Choose {{amount}} cards', values: { amount: this.numCards } };
+        return this.numCards;
     }
 
-    hasReachedLimit(selectedCards) {
-        return selectedCards.length >= this.numCards;
+    defaultActivePromptTitle(context) {
+        let numCards = this.getNumCards(context);
+        if(this.cardType.length === 1) {
+            return numCards === 1 ? 'Choose a ' + this.cardType[0] : { text: `Choose {{amount}} ${this.cardType[0]}s`, values: { amount: numCards } };
+        }
+
+        return numCards === 1 ? 'Choose a card' : { text: 'Choose {{amount}} cards', values: { amount: numCards } };
     }
 
-    hasExceededLimit(selectedCards) {
-        return selectedCards.length > this.numCards;
+    hasReachedLimit(selectedCards, context) {
+        return selectedCards.length >= this.getNumCards(context);
+    }
+
+    hasExceededLimit(selectedCards, context) {
+        return selectedCards.length > this.getNumCards(context);
     }
 
     hasEnoughTargets() {

@@ -8,12 +8,11 @@ class MasterTheTheory extends Card {
             effectArgs: context => [context.player.opponent, context.player.opponent.creaturesInPlay.length],
             targets: {
                 cards: {
-                    mode: 'exactly',
+                    mode: 'upTo',
                     numCards: context => (context.player.opponent.creaturesInPlay.length),
                     controller: 'self',
                     location: 'hand',
-                    gameAction: ability.actions.archive(),
-                    optional: true
+                    gameAction: ability.actions.archive()
                 }
             }
         });
