@@ -15,7 +15,7 @@ export const buildDeckList = (deck, language, translate, AllCards) => new Promis
 
     const canvas = createCanvas(600, 840);
     const ctx = canvas.getContext('2d');
-    const cardBack = loadImage(Images.cardback);
+    const cardBack = loadImage(Images.decklist);
     const Common = loadImage(Images.Common);
     const Uncommon = loadImage(Images.Uncommon);
     const Rare = loadImage(Images.Rare);
@@ -42,10 +42,9 @@ export const buildDeckList = (deck, language, translate, AllCards) => new Promis
     Promise.all([cardBack, maverick, legacy, anomaly, Common, Uncommon, Rare, Special, qrCode, set])
         .then(([cardBack, maverick, legacy, anomaly, Common, Uncommon, Rare, Special, qrCode, set]) => {
             const Rarities = { Common, Uncommon, Rare, Special };
-            cardBack = loadImage('cardback.png')
             ctx.drawImage(cardBack, 0, 0);
             ctx.drawImage(qrCode, 332, 612, 150, 150);
-            ctx.drawImage(set, 232, 92, 20, 20);
+            //ctx.drawImage(set, 232, 92, 20, 20);
 
             const houseProm = deck.houses.map((house, index) => {
                 return new Promise(houseRes => {
@@ -72,47 +71,47 @@ export const buildDeckList = (deck, language, translate, AllCards) => new Promis
                 .sort((a, b) => +a.number - +b.number)
                 .sort((a, b) => order.indexOf(a.type) - order.indexOf(b.type))
                 .sort((a, b) => deck.houses.indexOf(a.house) - deck.houses.indexOf(b.house));
-            const cardProm = cardList.map((card, index) => {
-                return new Promise(cardRes => {
-                    const title = (card.locale && card.locale[language]) ? card.locale[language].name : card.name;
-                    let x = cardData.start.x,
-                        y = cardData.start.y + (index * 28);
-                    if(index > 11) {
-                        y = y + 45;
-                    }
+            //const cardProm = cardList.map((card, index) => {
+                // return new Promise(cardRes => {
+                //     const title = (card.locale && card.locale[language]) ? card.locale[language].name : card.name;
+                //     let x = cardData.start.x,
+                //         y = cardData.start.y + (index * 28);
+                //     if(index > 11) {
+                //         y = y + 45;
+                //     }
 
-                    if(index > 20) {
-                        x = x + 245;
-                        y = cardData.start.y + ((index - 22.5) * 28);
-                    }
+                //     if(index > 20) {
+                //         x = x + 245;
+                //         y = cardData.start.y + ((index - 22.5) * 28);
+                //     }
 
-                    if(index > 23) {
-                        y = y + 52;
-                    }
+                //     if(index > 23) {
+                //         y = y + 52;
+                //     }
 
-                    ctx.drawImage((Rarities[card.rarity === 'FIXED' || card.rarity === 'Variant' ? 'Special' : card.rarity]), x, y - 19, cardData.size, cardData.size);
-                    ctx.fillStyle = 'black';
-                    ctx.font = 'bold 20px Keyforge';
-                    ctx.textAlign = 'left';
-                    ctx.fillText(card.number, x + 22, y);
-                    ctx.font = '20px Keyforge';
-                    ctx.fillText(title, x + 60, y);
-                    if(card.is_maverick) {
-                        ctx.drawImage(maverick, x + ((title.length * 6) + 100), y - 18, cardData.size, cardData.size);
-                    }
+                //     ctx.drawImage((Rarities[card.rarity === 'FIXED' || card.rarity === 'Variant' ? 'Special' : card.rarity]), x, y - 19, cardData.size, cardData.size);
+                //     ctx.fillStyle = 'black';
+                //     ctx.font = 'bold 20px Keyforge';
+                //     ctx.textAlign = 'left';
+                //     ctx.fillText(card.number, x + 22, y);
+                //     ctx.font = '20px Keyforge';
+                //     ctx.fillText(title, x + 60, y);
+                //     if(card.is_maverick) {
+                //         ctx.drawImage(maverick, x + ((title.length * 6) + 100), y - 18, cardData.size, cardData.size);
+                //     }
 
-                    if(card.is_legacy) {
-                        ctx.drawImage(legacy, x + ((title.length * 6) + 100) + (card.is_maverick ? 20 : 0), y - 18, cardData.size, cardData.size);
-                    }
+                //     if(card.is_legacy) {
+                //         ctx.drawImage(legacy, x + ((title.length * 6) + 100) + (card.is_maverick ? 20 : 0), y - 18, cardData.size, cardData.size);
+                //     }
 
-                    if(card.is_anomaly) {
-                        ctx.drawImage(anomaly, x + ((title.length * 6) + 100) + (card.is_maverick ? 20 : 0), y - 18, cardData.size, cardData.size);
-                    }
+                //     if(card.is_anomaly) {
+                //         ctx.drawImage(anomaly, x + ((title.length * 6) + 100) + (card.is_maverick ? 20 : 0), y - 18, cardData.size, cardData.size);
+                //     }
 
-                    cardRes();
-                });
-            });
-            ctx.drawImage((getCircularText(deck.name, 1600, 0)), -500, 35);
+                //     cardRes();
+                // });
+            //});
+            //ctx.drawImage((getCircularText(deck.name, 1600, 0)), -500, 35);
 
             Promise.all([...houseProm, ...cardProm]).then(() => resolve(canvas.toDataURL('image/jpeg')));
         });

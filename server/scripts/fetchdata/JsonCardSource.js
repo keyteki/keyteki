@@ -9,15 +9,22 @@ class JsonCardSource {
 
     loadPackFiles(directory) {
         let cards = [];
-        let files = fs.readdirSync(path.join(directory, 'packs'));
-        for(let file of files) {
-            let pack = JSON.parse(fs.readFileSync(path.join(directory, 'packs', file)));
-            for(let card of pack.cards) {
-                card.packCode = pack.code;
-            }
-
-            cards = cards.concat(pack.cards);
+        //let files = fs.readdirSync(path.join(directory, 'packs'));
+        var packPath = path.join(directory, 'packs', 'MaN.json');
+        let pack = JSON.parse(fs.readFileSync(packPath));
+        for (let card of pack.cards) {
+            card.packCode = pack.code;
         }
+
+        cards = cards.concat(pack.cards);
+        //for(let file of files) {
+        //    let pack = JSON.parse(fs.readFileSync(path.join(directory, 'packs', file)));
+        //    for(let card of pack.cards) {
+        //        card.packCode = pack.code;
+        //    }
+
+        //    cards = cards.concat(pack.cards);
+        //}
 
         return cards;
     }

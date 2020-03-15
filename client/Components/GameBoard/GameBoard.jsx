@@ -297,7 +297,6 @@ export class GameBoard extends React.Component {
                         deckUuid = { otherPlayer.deckUuid }
                         deckSet = { otherPlayer.deckSet }
                         drawDeck = { otherPlayer.cardPiles.deck }
-                        houses = { otherPlayer.houses }
                         numDeckCards={ otherPlayer.numDeckCards }
                         discard={ otherPlayer.cardPiles.discard }
                         onCardClick={ this.onCardClick }
@@ -348,7 +347,6 @@ export class GameBoard extends React.Component {
                         deckUuid = { thisPlayer.deckUuid }
                         deckSet = { thisPlayer.deckSet }
                         drawDeck = { thisPlayer.cardPiles.deck }
-                        houses = { thisPlayer.houses }
                         faction={ thisPlayer.faction }
                         hand={ thisPlayer.cardPiles.hand }
                         onCardClick={ this.onCardClick }
@@ -421,10 +419,6 @@ export class GameBoard extends React.Component {
                     optionSettings={ thisPlayer.optionSettings }
                     onOptionSettingToggle={ this.onOptionSettingToggle.bind(this) }
                     id='settings-modal' />
-                <div className='player-stats-row stats-top'>
-                    <PlayerStats stats={ otherPlayer.stats } houses={ otherPlayer.houses } activeHouse={ otherPlayer.activeHouse }
-                        user={ otherPlayer.user } activePlayer={ otherPlayer.activePlayer } />
-                </div>
                 <div className='main-window'>
                     { this.renderBoard(thisPlayer, otherPlayer) }
                     <CardZoom imageUrl={ cardToZoom ? `/img/cards/${cardToZoom.image}.png` : '' }
@@ -460,8 +454,7 @@ export class GameBoard extends React.Component {
                 <div className='player-stats-row'>
                     <PlayerStats { ...boundActionCreators } stats={ thisPlayer.stats } showControls={ !this.state.spectating && manualMode } user={ thisPlayer.user }
                         activePlayer={ thisPlayer.activePlayer } onSettingsClick={ this.onSettingsClick } showMessages
-                        onMessagesClick={ this.onMessagesClick } numMessages={ this.state.newMessages } houses={ thisPlayer.houses } onManualModeClick={ this.onManualModeClick }
-                        activeHouse={ thisPlayer.activeHouse } manualModeEnabled={ manualMode } showManualMode={ !this.state.spectating }
+                        onMessagesClick={ this.onMessagesClick } numMessages={ this.state.newMessages } onManualModeClick={ this.onManualModeClick } manualModeEnabled={ manualMode } showManualMode={ !this.state.spectating }
                         muteSpectators={ this.props.currentGame.muteSpectators } onMuteClick={ this.onMuteClick } />
                 </div>
             </div >);

@@ -24,7 +24,6 @@ class PlayerRow extends React.Component {
         const deck = {
             name: this.props.deckName,
             cards: this.props.deckCards,
-            houses: this.props.houses,
             uuid: this.props.deckUuid,
             expansion: this.props.deckSet
         };
@@ -46,7 +45,6 @@ class PlayerRow extends React.Component {
         const deck = {
             name: this.props.deckName,
             cards: this.props.deckCards,
-            houses: this.props.houses,
             uuid: this.props.deckUuid,
             expansion: this.props.deckSet
         };
@@ -95,15 +93,6 @@ class PlayerRow extends React.Component {
             size: this.props.cardSize
         };
 
-        let sortedHand = this.props.hand.sort((a, b) => {
-            if(a.printedHouse < b.printedHouse) {
-                return -1;
-            } else if(a.printedHouse > b.printedHouse) {
-                return 1;
-            }
-
-            return 0;
-        });
 
         let hand = (<SquishableCardPanel
             cards={ sortedHand }

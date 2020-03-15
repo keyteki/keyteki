@@ -173,7 +173,8 @@ class NewGame extends React.Component {
         let expansions = [
             { name: 'cota', label: t('Call of the Archons') },
             { name: 'aoa', label: t('Age of Ascension') },
-            { name: 'wc', label: t('Worlds Collide') }
+            { name: 'wc', label: t('Worlds Collide') },
+            { name: 'man', label: 'Manacrest'}
         ];
 
         return (

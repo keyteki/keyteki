@@ -14,7 +14,7 @@ let configService = new ConfigService();
 const optionsDefinition = [
     { name: 'card-source', type: String, defaultValue: 'json' },
     { name: 'card-dir', type: String, defaultValue: path.join(__dirname, '..', '..', 'keyteki-json-data') },
-    { name: 'image-source', type: String, defaultValue: 'keyforge' },
+    { name: 'image-source', type: String, defaultValue: 'none' },
     { name: 'image-dir', type: String, defaultValue: path.join(__dirname, '..', '..', 'public', 'img', 'cards') },
     { name: 'no-images', type: Boolean, defaultValue: false },
     { name: 'language', type: String, defaultValue: 'en' }
@@ -28,7 +28,9 @@ function createDataSource(options) {
 
     throw new Error(`Unknown card source '${options['card-source']}'`);
 }
-function createImageSource(options) {
+
+function createImageSource(options) {
+
     if(options['no-images']) {
         return new NoImageSource();
     }
@@ -38,11 +40,12 @@ function createDataSource(options) {
             return new NoImageSource();
         case 'keyforge':
             return new KeyforgeImageSource();
+        default:
+            return new NoImageSource();
     }
-
-    throw new Error(`Unknown image source '${options['image-source']}'`);
 }
-let options = commandLineArgs(optionsDefinition);
+
+let options = commandLineArgs(optionsDefinition);
 
 let db = monk(configService.getValue('dbPath'));
 let dataSource = createDataSource(options);

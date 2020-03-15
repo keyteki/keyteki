@@ -14,5 +14,6 @@ build/
 !tsconfig.json
 data
 mongodb
+!public/img/cards/*.png
 
 /.idea/

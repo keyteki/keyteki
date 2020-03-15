@@ -28,7 +28,7 @@ class CardImport {
 
     async importCards() {
         let cards = await this.dataSource.getCards();
-
+        console.log(cards);
         await this.cardService.replaceCards(cards);
 
         console.info(cards.length + ' cards fetched');

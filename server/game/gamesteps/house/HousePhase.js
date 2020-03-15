@@ -11,27 +11,28 @@ class HousePhase extends Phase {
     }
 
     chooseHouse() {
-        let choices = this.game.activePlayer.getAvailableHouses().map(house => {
-            return { text: house, icon: house };
-        });
-        if(choices.length > 0) {
-            this.game.promptWithHandlerMenu(this.game.activePlayer, {
-                promptTitle: 'Choose Active House',
-                activePromptTitle: 'Choose which house you want to activate this turn',
-                source: 'House Choice',
-                choices: choices,
-                choiceHandler: house => {
-                    this.game.addMessage('{0} chooses {1} as their active house this turn', this.game.activePlayer, house.text);
-                    this.game.raiseEvent(
-                        'onChooseActiveHouse',
-                        { player: this.game.activePlayer, house: house.text },
-                        () => this.game.activePlayer.activeHouse = house.text
-                    );
-                }
-            });
-        } else {
-            this.game.addMessage('{0} has no legal choices for active house this turn, and so must play without an active house', this.game.activePlayer);
-        }
+        this.game.activePlayer.activeHouse = 'alchemist';
+        // let choices = this.game.activePlayer.getAvailableHouses().map(house => {
+        //     return { text: house, icon: house };
+        // });
+        // if(choices.length > 0) {
+        //     this.game.promptWithHandlerMenu(this.game.activePlayer, {
+        //         promptTitle: 'Choose Active House',
+        //         activePromptTitle: 'Choose which house you want to activate this turn',
+        //         source: 'House Choice',
+        //         choices: choices,
+        //         choiceHandler: house => {
+        //             this.game.addMessage('{0} chooses {1} as their active house this turn', this.game.activePlayer, house.text);
+        //             this.game.raiseEvent(
+        //                 'onChooseActiveHouse',
+        //                 { player: this.game.activePlayer, house: house.text },
+        //                 () => this.game.activePlayer.activeHouse = house.text
+        //             );
+        //         }
+        //     });
+        // } else {
+        //     this.game.addMessage('{0} has no legal choices for active house this turn, and so must play without an active house', this.game.activePlayer);
+        // }
     }
 
     takeCardsFromArchives() {

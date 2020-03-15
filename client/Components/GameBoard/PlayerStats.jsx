@@ -34,14 +34,6 @@ export class PlayerStats extends React.Component {
         }
     }
 
-    getHouses() {
-        return (
-            <div className='state'>
-                { this.props.houses.map(house => (<img key={ house } className='img-responsive' src={ `/img/house/${house}.png` } title={ this.props.t(house) } />)) }
-            </div>
-        );
-    }
-
     writeChatToClipboard(event) {
         event.preventDefault();
         let messagePanel = document.getElementsByClassName('messages panel')[0];
@@ -74,15 +66,6 @@ export class PlayerStats extends React.Component {
                 { playerAvatar }
 
                 { this.getHealth() }
-
-                { this.props.houses ? this.getHouses() : null }
-
-                { this.props.activeHouse &&
-                    <div className='state'>
-                        <div className='hand-size'><Trans>Active House</Trans>: </div>
-                        <img className='house-image' src={ `/img/house/${this.props.activeHouse}.png` } title={ this.props.activeHouse } />
-                    </div>
-                }
 
                 { this.props.activePlayer &&
                     <div className='state first-player-state'>

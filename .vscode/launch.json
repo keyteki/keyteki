@@ -99,6 +99,25 @@
             "sourceMaps": false
         },
         {
+            "name": "Launch (Fetch data)",
+            "type": "node",
+            "request": "launch",
+            "program": "${workspaceRoot}/server/scripts/fetchdata.js",
+            "stopOnEntry": false,
+            "args": [],
+            "cwd": "${workspaceRoot}",
+            "preLaunchTask": null,
+            "runtimeExecutable": null,
+            "runtimeArgs": [
+                "--nolazy"
+            ],
+            "env": {
+                "NODE_ENV": "development"
+            },
+            "console": "internalConsole",
+            "sourceMaps": false
+        }
+        {
             "name": "Attach",
             "type": "node",
             "request": "attach",
