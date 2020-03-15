@@ -3,7 +3,7 @@ import { createCanvas, loadImage } from 'canvas';
 import QRCode from 'qrcode';
 
 export const buildDeckList = (deck, language, translate, AllCards) => new Promise(resolve => {
-    if(deck.uuid.length === 0 || deck.houses.length === 0) {
+    if(deck.uuid.length === 0) {
         resolve(Images.cardback);
         return;
     }
@@ -46,31 +46,7 @@ export const buildDeckList = (deck, language, translate, AllCards) => new Promis
             ctx.drawImage(qrCode, 332, 612, 150, 150);
             //ctx.drawImage(set, 232, 92, 20, 20);
 
-            const houseProm = deck.houses.map((house, index) => {
-                return new Promise(houseRes => {
-                    loadImage(Images[house]).then(img => {
-                        ctx.drawImage(img, houseData[index].x, houseData[index].y, houseData.size, houseData.size);
-                        ctx.fillStyle = 'black';
-                        ctx.font = 'bold 25px Keyforge';
-                        ctx.textAlign = 'left';
-                        ctx.fillText(translate(house).toUpperCase(), houseData[index].x + 40, houseData[index].y + 28);
-                        houseRes();
-                    });
-                });
-            });
             let order = ['action', 'artifact', 'creature', 'upgrade'];
-            let cardList = deck.cards.map(card => {
-                return {
-                    ...AllCards[card.id],
-                    is_maverick: !!card.maverick,
-                    is_legacy: !!card.legacy,
-                    is_anomaly: !!card.anomaly,
-                    house: card.house
-                };
-            })
-                .sort((a, b) => +a.number - +b.number)
-                .sort((a, b) => order.indexOf(a.type) - order.indexOf(b.type))
-                .sort((a, b) => deck.houses.indexOf(a.house) - deck.houses.indexOf(b.house));
             //const cardProm = cardList.map((card, index) => {
                 // return new Promise(cardRes => {
                 //     const title = (card.locale && card.locale[language]) ? card.locale[language].name : card.name;
@@ -113,12 +89,12 @@ export const buildDeckList = (deck, language, translate, AllCards) => new Promis
             //});
             //ctx.drawImage((getCircularText(deck.name, 1600, 0)), -500, 35);
 
-            Promise.all([...houseProm, ...cardProm]).then(() => resolve(canvas.toDataURL('image/jpeg')));
+            //Promise.all([...houseProm, ...cardProm]).then(() => resolve(canvas.toDataURL('image/jpeg')));
         });
 });
 
 export const buildArchon = (deck, language) => new Promise(resolve => {
-    if(deck.uuid.length === 0 || deck.houses.length === 0) {
+    if(deck.uuid.length === 0) {
         resolve(Images.cardback);
         return;
     }
@@ -141,7 +117,7 @@ const imageName = (deck, language) => {
     let number = btoa(deck.uuid)
         .replace(/[\D+089]/g, '')
         .slice(-1);
-    return btoa([...deck.houses, language, number === '' ? 1 : number].join());
+    return btoa(['alchemist', language, number === '' ? 1 : number].join());
 };
 
 const getCurvedFontSize = (length) => {

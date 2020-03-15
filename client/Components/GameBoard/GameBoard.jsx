@@ -419,6 +419,10 @@ export class GameBoard extends React.Component {
                     optionSettings={ thisPlayer.optionSettings }
                     onOptionSettingToggle={ this.onOptionSettingToggle.bind(this) }
                     id='settings-modal' />
+                <div className='player-stats-row stats-top'>	
+                    <PlayerStats stats={ otherPlayer.stats }	
+                        user={ otherPlayer.user } activePlayer={ otherPlayer.activePlayer } />	
+                </div>
                 <div className='main-window'>
                     { this.renderBoard(thisPlayer, otherPlayer) }
                     <CardZoom imageUrl={ cardToZoom ? `/img/cards/${cardToZoom.image}.png` : '' }

@@ -27,18 +27,8 @@ class PlayerRow extends React.Component {
             uuid: this.props.deckUuid,
             expansion: this.props.deckSet
         };
-        buildArchon(deck, this.props.language)
-            .then(cardBackUrl => {
-                if(this.props.player === 1) {
-                    this.props.setPlayer1CardBack(cardBackUrl);
-                } else {
-                    this.props.setPlayer2CardBack(cardBackUrl);
-                }
-            });
-        buildDeckList(deck, this.props.language, this.props.t, this.props.cards)
-            .then(deckListUrl => {
-                this.setState({ deckListUrl });
-            });
+        this.props.setPlayer1CardBack(this.props.cardBackUrl);
+        this.props.setPlayer2CardBack(this.props.cardBackUrl);
     }
 
     componentDidUpdate(prevProps) {
@@ -48,20 +38,9 @@ class PlayerRow extends React.Component {
             uuid: this.props.deckUuid,
             expansion: this.props.deckSet
         };
+        this.props.setPlayer1CardBack(this.props.cardBackUrl);
+        this.props.setPlayer2CardBack(this.props.cardBackUrl);
 
-        if(this.props.language) {
-            if(this.props.language !== prevProps.language) {
-                buildArchon(deck, this.props.language)
-                    .then(cardBackUrl => {
-                        if(this.props.player === 1) {
-                            this.props.setPlayer1CardBack(cardBackUrl);
-                        } else {
-                            this.props.setPlayer2CardBack(cardBackUrl);
-                        }
-                    });
-                buildDeckList(deck, this.props.language, this.props.t, this.props.cards).then(deckListUrl => this.setState({ deckListUrl }));
-            }
-        }
     }
 
     renderDroppablePile(source, child) {
@@ -93,6 +72,15 @@ class PlayerRow extends React.Component {
             size: this.props.cardSize
         };
 
+        let sortedHand = this.props.hand.sort((a, b) => {	
+            if(a.printedHouse < b.printedHouse) {	
+                return -1;	
+            } else if(a.printedHouse > b.printedHouse) {	
+                return 1;	
+            }	
+
+            return 0;	
+        });
 
         let hand = (<SquishableCardPanel
             cards={ sortedHand }
