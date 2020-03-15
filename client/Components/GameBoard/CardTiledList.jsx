@@ -6,7 +6,7 @@ import Card from './Card';
 function CardTiledList(props) {
     let cardList = props.cards && props.cards.map((card, index) => {
         return (<Card
-            cardBackUrl={ props.cardBackUrl }
+            cardBackUrl={ './img/cards/cardback.png' }
             canDrag={ props.manualMode }
             card={ card }
             disableMouseOver={ props.disableMouseOver }

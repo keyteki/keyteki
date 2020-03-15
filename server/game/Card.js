@@ -865,7 +865,7 @@ class Card extends EffectSource {
 
         if(!this.game.isCardVisible(this, activePlayer)) {
             return {
-                cardback: 'cardback',
+                cardback: './img/cards/cardback.png',
                 controller: this.controller.name,
                 location: this.location,
                 facedown: true,
@@ -881,7 +881,7 @@ class Card extends EffectSource {
             image: this.cardData.image,
             canPlay: (activePlayer === this.game.activePlayer) && this.game.activePlayer.activeHouse &&
                 isController && (this.getLegalActions(activePlayer, false).length > 0),
-            cardback: 'cardback',
+            cardback: './img/cards/cardback.png',
             childCards: this.childCards.map(card => {
                 return card.getSummary(activePlayer, hideWhenFaceup);
             }),

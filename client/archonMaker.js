@@ -9,13 +9,13 @@ export const buildDeckList = (deck, language, translate, AllCards) => new Promis
     }
 
     if(deck.cards.length === 0) {
-        buildArchon(deck, language).then(imageUrl => resolve(imageUrl));
+        buialdArchon(deck, language).then(imageUrl => resolve(imageUrl));
         return;
     }
 
     const canvas = createCanvas(600, 840);
     const ctx = canvas.getContext('2d');
-    const cardBack = loadImage(Images.decklist);
+    const cardBack = loadImage(Images.cardback);
     const Common = loadImage(Images.Common);
     const Uncommon = loadImage(Images.Uncommon);
     const Rare = loadImage(Images.Rare);

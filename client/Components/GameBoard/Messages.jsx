@@ -16,8 +16,8 @@ class Messages extends React.Component {
 
         this.tokens = {
             amber: { className: 'icon-amber', imageSrc: '/img/amber.png' },
-            card: { className: 'icon-card', imageSrc: '/img/idbacks/cardback.jpg' },
-            cards: { className: 'icon-card', imageSrc: '/img/idbacks/cardback.jpg' },
+            card: { className: 'icon-card', imageSrc: '/img/cards/cardback.jpg' },
+            cards: { className: 'icon-card', imageSrc: '/img/cards/cardback.jpg' },
             forgedkeyblue: { className: 'icon-forgedKey', imageSrc: '/img/forgedkeyblue.png' },
             forgedkeyyellow: { className: 'icon-forgedKey', imageSrc: '/img/forgedkeyyellow.png' },
             forgedkeyred: { className: 'icon-forgedKey', imageSrc: '/img/forgedkeyred.png' },

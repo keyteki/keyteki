@@ -287,7 +287,7 @@ export class GameBoard extends React.Component {
                 <div className='player-home-row'>
                     <PlayerRow
                         player={ 2 }
-                        cardBackUrl={ 'cardback.png' }
+                        cardBackUrl={ './img/cards/cardback.png' }
                         faction={ otherPlayer.faction }
                         archives={ otherPlayer.cardPiles.archives }
                         hand={ otherPlayer.cardPiles.hand } isMe={ false }
@@ -314,7 +314,7 @@ export class GameBoard extends React.Component {
                 <div className='board-inner'>
                     <div className='play-area'>
                         <PlayerBoard
-                            cardBackUrl={ 'cardback.png' }
+                            cardBackUrl={ './img/cards/cardback.png' }
                             cardsInPlay={ otherPlayer.cardPiles.cardsInPlay }
                             onCardClick={ this.onCardClick }
                             onMenuItemClick={ this.onMenuItemClick }
@@ -324,7 +324,7 @@ export class GameBoard extends React.Component {
                             user={ this.props.user } />
                         <Droppable onDragDrop={ this.onDragDrop } source='play area' manualMode={ this.props.currentGame.manualMode }>
                             <PlayerBoard
-                                cardBackUrl={ 'cardback.png' }
+                                cardBackUrl={ './img/cards/cardback.png' }
                                 cardsInPlay={ thisPlayer.cardPiles.cardsInPlay }
                                 manualMode={ this.props.currentGame.manualMode }
                                 onCardClick={ this.onCardClick }
@@ -340,7 +340,7 @@ export class GameBoard extends React.Component {
                 <div className='player-home-row our-side'>
                     <PlayerRow isMe={ !this.state.spectating }
                         player={ 1 }
-                        cardBackUrl={ 'cardback.png' }
+                        cardBackUrl={ './img/cards/cardback.png' }
                         archives={ thisPlayer.cardPiles.archives }
                         language={ this.props.i18n.language }
                         deckCards = { thisPlayer.deckCards }

@@ -751,7 +751,7 @@ class Player extends GameObject {
                 hand: this.getSummaryForCardList(this.hand, activePlayer, true),
                 purged: this.getSummaryForCardList(this.purged, activePlayer)
             },
-            cardback: 'cardback',
+            cardback: './img/cards/cardback.png',
             deckName: this.deckData.name,
             disconnected: !!this.disconnectedAt,
             activePlayer: this.game.activePlayer === this,

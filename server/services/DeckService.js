@@ -103,7 +103,7 @@ class DeckService {
                 username: deck.username,
                 uuid: uuid,
                 identity: deckResponse.data.name.toLowerCase().replace(/[,?.!"„“”]/gi, '').replace(/[ '’]/gi, '-'),
-                cardback: '',
+                cardback: 'cardback',
                 name: deckResponse.data.name,
                 banned: false,
                 verified: false,

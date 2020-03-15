@@ -57,7 +57,7 @@ class DrawDeck extends React.Component {
 
         let drawDeck = (<CardPile className='draw'
             cardCount={ this.props.cardCount }
-            cardBackUrl={ this.props.cardBackUrl }
+            cardBackUrl={ './img/cards/cardback.png' }
             cards={ this.props.cards }
             disablePopup={ !hasCards && (this.props.spectating || !this.props.isMe) }
             hiddenTopCard

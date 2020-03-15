@@ -171,7 +171,7 @@ class InnerCard extends React.Component {
 
         return (
             <SquishableCardPanel
-                cardBackUrl = { this.props.cardBackUrl }
+                cardBackUrl = { './img/cards/cardback.png' }
                 cardSize={ this.props.size }
                 cards={ underneathCards }
                 className='underneath'

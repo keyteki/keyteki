@@ -51,7 +51,7 @@ class PlayerBoard extends React.Component {
         return row.map(card => (
             <Card
                 key={ card.uuid }
-                cardBackUrl = { this.props.cardBackUrl }
+                cardBackUrl = { './img/cards/cardback.png' }
                 canDrag={ this.props.manualMode }
                 card={ card }
                 disableMouseOver={ card.facedown && !card.code }
