@@ -1,0 +1,2266 @@
+{
+    "ids": ["0"],
+    "code": "MaN",
+    "name": "Manacrest",
+    "cardCount": "1",
+    "releaseDate": "2019-15-03",
+    "cards": [
+        {
+        "id": "abberationoftruth",
+        "name": "Abberation of Truth",
+        "number": "001",
+        "image": "abberation-of-truth.png",
+        "expansion": 0,
+        "house": "alchemist",
+        "keywords": [],
+        "traits": [],
+        "type": "action",
+        "rarity": "Common",
+        "amber": 1,
+        "armor": null,
+        "power": 0,
+        "text": "Play: Ready and fight with a friendly creature.",
+        "locale": {
+            "de": {
+                "name": "Zorn"
+            },
+            "en": {
+                "name": "Anger"
+            },
+            "es": {
+                "name": "Furia"
+            },
+            "fr": {
+                "name": "Colère"
+            },
+            "it": {
+                "name": "Collera"
+            },
+            "pl": {
+                "name": "Gniew"
+            },
+            "pt": {
+                "name": "Fúria"
+            },
+            "th": {
+                "name": "Anger"
+            },
+            "zhhans": {
+                "name": "怒火中烧"
+            },
+            "zhhant": {
+                "name": "怒火中燒"
+            }
+        }
+    }, {
+        "id": "absolution",
+        "name": "Absolution",
+        "number": "002",
+        "image": "absolution.png",
+        "expansion": 0,
+        "house": "alchemist",
+        "keywords": [],
+        "traits": [],
+        "type": "action",
+        "rarity": "Common",
+        "amber": 1,
+        "armor": null,
+        "power": 0,
+        "text": "Play: Ready and fight with a friendly creature.",
+        "locale": {
+            "de": {
+                "name": "Zorn"
+            },
+            "en": {
+                "name": "Anger"
+            },
+            "es": {
+                "name": "Furia"
+            },
+            "fr": {
+                "name": "Colère"
+            },
+            "it": {
+                "name": "Collera"
+            },
+            "pl": {
+                "name": "Gniew"
+            },
+            "pt": {
+                "name": "Fúria"
+            },
+            "th": {
+                "name": "Anger"
+            },
+            "zhhans": {
+                "name": "怒火中烧"
+            },
+            "zhhant": {
+                "name": "怒火中燒"
+            }
+        }
+    }, {
+        "id": "acolyteofaggression",
+        "name": "Acolyte of Aggresion",
+        "number": "003",
+        "image": "acolyteofaggression.png",
+        "expansion": 0,
+        "house": "alchemist",
+        "keywords": [],
+        "traits": [],
+        "type": "action",
+        "rarity": "Common",
+        "amber": 1,
+        "armor": null,
+        "power": 0,
+        "text": "Play: Ready and fight with a friendly creature.",
+        "locale": {
+            "de": {
+                "name": "Zorn"
+            },
+            "en": {
+                "name": "Anger"
+            },
+            "es": {
+                "name": "Furia"
+            },
+            "fr": {
+                "name": "Colère"
+            },
+            "it": {
+                "name": "Collera"
+            },
+            "pl": {
+                "name": "Gniew"
+            },
+            "pt": {
+                "name": "Fúria"
+            },
+            "th": {
+                "name": "Anger"
+            },
+            "zhhans": {
+                "name": "怒火中烧"
+            },
+            "zhhant": {
+                "name": "怒火中燒"
+            }
+        }
+    }, {
+        "id": "aethershieldguardmage",
+        "name": "Aethershield Guardmage",
+        "number": "004",
+        "image": "aethershieldguardmage.png",
+        "expansion": 0,
+        "house": "alchemist",
+        "keywords": [],
+        "traits": [],
+        "type": "action",
+        "rarity": "Common",
+        "amber": 1,
+        "armor": null,
+        "power": 0,
+        "text": "Play: Ready and fight with a friendly creature.",
+        "locale": {
+            "de": {
+                "name": "Zorn"
+            },
+            "en": {
+                "name": "Anger"
+            },
+            "es": {
+                "name": "Furia"
+            },
+            "fr": {
+                "name": "Colère"
+            },
+            "it": {
+                "name": "Collera"
+            },
+            "pl": {
+                "name": "Gniew"
+            },
+            "pt": {
+                "name": "Fúria"
+            },
+            "th": {
+                "name": "Anger"
+            },
+            "zhhans": {
+                "name": "怒火中烧"
+            },
+            "zhhant": {
+                "name": "怒火中燒"
+            }
+        }
+    }, {
+        "id": "aetherwalker",
+        "name": "Aetherwalker",
+        "number": "005",
+        "image": "aetherwalker.png",
+        "expansion": 0,
+        "house": "alchemist",
+        "keywords": [],
+        "traits": [],
+        "type": "action",
+        "rarity": "Common",
+        "amber": 1,
+        "armor": null,
+        "power": 0,
+        "text": "Play: Ready and fight with a friendly creature.",
+        "locale": {
+            "de": {
+                "name": "Zorn"
+            },
+            "en": {
+                "name": "Anger"
+            },
+            "es": {
+                "name": "Furia"
+            },
+            "fr": {
+                "name": "Colère"
+            },
+            "it": {
+                "name": "Collera"
+            },
+            "pl": {
+                "name": "Gniew"
+            },
+            "pt": {
+                "name": "Fúria"
+            },
+            "th": {
+                "name": "Anger"
+            },
+            "zhhans": {
+                "name": "怒火中烧"
+            },
+            "zhhant": {
+                "name": "怒火中燒"
+            }
+        }
+    }, {
+        "id": "amplification",
+        "name": "Amplification",
+        "number": "006",
+        "image": "amplification.png",
+        "expansion": 0,
+        "house": "alchemist",
+        "keywords": [],
+        "traits": [],
+        "type": "action",
+        "rarity": "Common",
+        "amber": 1,
+        "armor": null,
+        "power": 0,
+        "text": "Play: Ready and fight with a friendly creature.",
+        "locale": {
+            "de": {
+                "name": "Zorn"
+            },
+            "en": {
+                "name": "Anger"
+            },
+            "es": {
+                "name": "Furia"
+            },
+            "fr": {
+                "name": "Colère"
+            },
+            "it": {
+                "name": "Collera"
+            },
+            "pl": {
+                "name": "Gniew"
+            },
+            "pt": {
+                "name": "Fúria"
+            },
+            "th": {
+                "name": "Anger"
+            },
+            "zhhans": {
+                "name": "怒火中烧"
+            },
+            "zhhant": {
+                "name": "怒火中燒"
+            }
+        }
+    }, {
+        "id": "antiquehoarder",
+        "name": "Antique Hoarder",
+        "number": "007",
+        "image": "amplification.png",
+        "expansion": 0,
+        "house": "alchemist",
+        "keywords": [],
+        "traits": [],
+        "type": "action",
+        "rarity": "Common",
+        "amber": 1,
+        "armor": null,
+        "power": 0,
+        "text": "Play: Ready and fight with a friendly creature.",
+        "locale": {
+            "de": {
+                "name": "Zorn"
+            },
+            "en": {
+                "name": "Anger"
+            },
+            "es": {
+                "name": "Furia"
+            },
+            "fr": {
+                "name": "Colère"
+            },
+            "it": {
+                "name": "Collera"
+            },
+            "pl": {
+                "name": "Gniew"
+            },
+            "pt": {
+                "name": "Fúria"
+            },
+            "th": {
+                "name": "Anger"
+            },
+            "zhhans": {
+                "name": "怒火中烧"
+            },
+            "zhhant": {
+                "name": "怒火中燒"
+            }
+        }
+    }, {
+        "id": "burnalive",
+        "name": "Burn Alive",
+        "number": "008",
+        "image": "burnalive.png",
+        "expansion": 0,
+        "house": "alchemist",
+        "keywords": [],
+        "traits": [],
+        "type": "action",
+        "rarity": "Common",
+        "amber": 1,
+        "armor": null,
+        "power": 0,
+        "text": "Play: Ready and fight with a friendly creature.",
+        "locale": {
+            "de": {
+                "name": "Zorn"
+            },
+            "en": {
+                "name": "Anger"
+            },
+            "es": {
+                "name": "Furia"
+            },
+            "fr": {
+                "name": "Colère"
+            },
+            "it": {
+                "name": "Collera"
+            },
+            "pl": {
+                "name": "Gniew"
+            },
+            "pt": {
+                "name": "Fúria"
+            },
+            "th": {
+                "name": "Anger"
+            },
+            "zhhans": {
+                "name": "怒火中烧"
+            },
+            "zhhant": {
+                "name": "怒火中燒"
+            }
+        }
+    }, {
+        "id": "chaosstorm",
+        "name": "Chaos Storm",
+        "number": "009",
+        "image": "chaosstorm.png",
+        "expansion": 0,
+        "house": "alchemist",
+        "keywords": [],
+        "traits": [],
+        "type": "action",
+        "rarity": "Common",
+        "amber": 1,
+        "armor": null,
+        "power": 0,
+        "text": "Play: Ready and fight with a friendly creature.",
+        "locale": {
+            "de": {
+                "name": "Zorn"
+            },
+            "en": {
+                "name": "Anger"
+            },
+            "es": {
+                "name": "Furia"
+            },
+            "fr": {
+                "name": "Colère"
+            },
+            "it": {
+                "name": "Collera"
+            },
+            "pl": {
+                "name": "Gniew"
+            },
+            "pt": {
+                "name": "Fúria"
+            },
+            "th": {
+                "name": "Anger"
+            },
+            "zhhans": {
+                "name": "怒火中烧"
+            },
+            "zhhant": {
+                "name": "怒火中燒"
+            }
+        }
+    }, {
+        "id": "collectthoughts",
+        "name": "Collect Thoughts",
+        "number": "010",
+        "image": "collectthoughts.png",
+        "expansion": 0,
+        "house": "alchemist",
+        "keywords": [],
+        "traits": [],
+        "type": "action",
+        "rarity": "Common",
+        "amber": 1,
+        "armor": null,
+        "power": 0,
+        "text": "Play: Ready and fight with a friendly creature.",
+        "locale": {
+            "de": {
+                "name": "Zorn"
+            },
+            "en": {
+                "name": "Anger"
+            },
+            "es": {
+                "name": "Furia"
+            },
+            "fr": {
+                "name": "Colère"
+            },
+            "it": {
+                "name": "Collera"
+            },
+            "pl": {
+                "name": "Gniew"
+            },
+            "pt": {
+                "name": "Fúria"
+            },
+            "th": {
+                "name": "Anger"
+            },
+            "zhhans": {
+                "name": "怒火中烧"
+            },
+            "zhhant": {
+                "name": "怒火中燒"
+            }
+        }
+    }, {
+        "id": "combust",
+        "name": "Combust",
+        "number": "011",
+        "image": "combust.png",
+        "expansion": 0,
+        "house": "alchemist",
+        "keywords": [],
+        "traits": [],
+        "type": "action",
+        "rarity": "Common",
+        "amber": 1,
+        "armor": null,
+        "power": 0,
+        "text": "Play: Ready and fight with a friendly creature.",
+        "locale": {
+            "de": {
+                "name": "Zorn"
+            },
+            "en": {
+                "name": "Anger"
+            },
+            "es": {
+                "name": "Furia"
+            },
+            "fr": {
+                "name": "Colère"
+            },
+            "it": {
+                "name": "Collera"
+            },
+            "pl": {
+                "name": "Gniew"
+            },
+            "pt": {
+                "name": "Fúria"
+            },
+            "th": {
+                "name": "Anger"
+            },
+            "zhhans": {
+                "name": "怒火中烧"
+            },
+            "zhhant": {
+                "name": "怒火中燒"
+            }
+        }
+    }, {
+        "id": "consideration",
+        "name": "Consideration",
+        "number": "012",
+        "image": "consideration.png",
+        "expansion": 0,
+        "house": "alchemist",
+        "keywords": [],
+        "traits": [],
+        "type": "action",
+        "rarity": "Common",
+        "amber": 1,
+        "armor": null,
+        "power": 0,
+        "text": "Play: Ready and fight with a friendly creature.",
+        "locale": {
+            "de": {
+                "name": "Zorn"
+            },
+            "en": {
+                "name": "Anger"
+            },
+            "es": {
+                "name": "Furia"
+            },
+            "fr": {
+                "name": "Colère"
+            },
+            "it": {
+                "name": "Collera"
+            },
+            "pl": {
+                "name": "Gniew"
+            },
+            "pt": {
+                "name": "Fúria"
+            },
+            "th": {
+                "name": "Anger"
+            },
+            "zhhans": {
+                "name": "怒火中烧"
+            },
+            "zhhant": {
+                "name": "怒火中燒"
+            }
+        }
+    }, {
+        "id": "darkestnight",
+        "name": "Darkest Night",
+        "number": "013",
+        "image": "darkestnight.png",
+        "expansion": 0,
+        "house": "alchemist",
+        "keywords": [],
+        "traits": [],
+        "type": "action",
+        "rarity": "Common",
+        "amber": 1,
+        "armor": null,
+        "power": 0,
+        "text": "Play: Ready and fight with a friendly creature.",
+        "locale": {
+            "de": {
+                "name": "Zorn"
+            },
+            "en": {
+                "name": "Anger"
+            },
+            "es": {
+                "name": "Furia"
+            },
+            "fr": {
+                "name": "Colère"
+            },
+            "it": {
+                "name": "Collera"
+            },
+            "pl": {
+                "name": "Gniew"
+            },
+            "pt": {
+                "name": "Fúria"
+            },
+            "th": {
+                "name": "Anger"
+            },
+            "zhhans": {
+                "name": "怒火中烧"
+            },
+            "zhhant": {
+                "name": "怒火中燒"
+            }
+        }
+    }, {
+        "id": "displace",
+        "name": "Displace",
+        "number": "014",
+        "image": "displace.png",
+        "expansion": 0,
+        "house": "alchemist",
+        "keywords": [],
+        "traits": [],
+        "type": "action",
+        "rarity": "Common",
+        "amber": 1,
+        "armor": null,
+        "power": 0,
+        "text": "Play: Ready and fight with a friendly creature.",
+        "locale": {
+            "de": {
+                "name": "Zorn"
+            },
+            "en": {
+                "name": "Anger"
+            },
+            "es": {
+                "name": "Furia"
+            },
+            "fr": {
+                "name": "Colère"
+            },
+            "it": {
+                "name": "Collera"
+            },
+            "pl": {
+                "name": "Gniew"
+            },
+            "pt": {
+                "name": "Fúria"
+            },
+            "th": {
+                "name": "Anger"
+            },
+            "zhhans": {
+                "name": "怒火中烧"
+            },
+            "zhhant": {
+                "name": "怒火中燒"
+            }
+        }
+    }, {
+        "id": "electrify",
+        "name": "Electrify",
+        "number": "015",
+        "image": "electrify.png",
+        "expansion": 0,
+        "house": "alchemist",
+        "keywords": [],
+        "traits": [],
+        "type": "action",
+        "rarity": "Common",
+        "amber": 1,
+        "armor": null,
+        "power": 0,
+        "text": "Play: Ready and fight with a friendly creature.",
+        "locale": {
+            "de": {
+                "name": "Zorn"
+            },
+            "en": {
+                "name": "Anger"
+            },
+            "es": {
+                "name": "Furia"
+            },
+            "fr": {
+                "name": "Colère"
+            },
+            "it": {
+                "name": "Collera"
+            },
+            "pl": {
+                "name": "Gniew"
+            },
+            "pt": {
+                "name": "Fúria"
+            },
+            "th": {
+                "name": "Anger"
+            },
+            "zhhans": {
+                "name": "怒火中烧"
+            },
+            "zhhant": {
+                "name": "怒火中燒"
+            }
+        }
+    }, {
+        "id": "ensaringearthmage",
+        "name": "Ensaring Earthmage",
+        "number": "016",
+        "image": "ensaringearthmage.png",
+        "expansion": 0,
+        "house": "alchemist",
+        "keywords": [],
+        "traits": [],
+        "type": "action",
+        "rarity": "Common",
+        "amber": 1,
+        "armor": null,
+        "power": 0,
+        "text": "Play: Ready and fight with a friendly creature.",
+        "locale": {
+            "de": {
+                "name": "Zorn"
+            },
+            "en": {
+                "name": "Anger"
+            },
+            "es": {
+                "name": "Furia"
+            },
+            "fr": {
+                "name": "Colère"
+            },
+            "it": {
+                "name": "Collera"
+            },
+            "pl": {
+                "name": "Gniew"
+            },
+            "pt": {
+                "name": "Fúria"
+            },
+            "th": {
+                "name": "Anger"
+            },
+            "zhhans": {
+                "name": "怒火中烧"
+            },
+            "zhhant": {
+                "name": "怒火中燒"
+            }
+        }
+    }, {
+        "id": "explosivehomonculus",
+        "name": "Explosive Homonculus",
+        "number": "017",
+        "image": "explosivehomonculus.png",
+        "expansion": 0,
+        "house": "alchemist",
+        "keywords": [],
+        "traits": [],
+        "type": "action",
+        "rarity": "Common",
+        "amber": 1,
+        "armor": null,
+        "power": 0,
+        "text": "Play: Ready and fight with a friendly creature.",
+        "locale": {
+            "de": {
+                "name": "Zorn"
+            },
+            "en": {
+                "name": "Anger"
+            },
+            "es": {
+                "name": "Furia"
+            },
+            "fr": {
+                "name": "Colère"
+            },
+            "it": {
+                "name": "Collera"
+            },
+            "pl": {
+                "name": "Gniew"
+            },
+            "pt": {
+                "name": "Fúria"
+            },
+            "th": {
+                "name": "Anger"
+            },
+            "zhhans": {
+                "name": "怒火中烧"
+            },
+            "zhhant": {
+                "name": "怒火中燒"
+            }
+        }
+    }, {
+        "id": "farseerwarlock",
+        "name": "Farseer Warlock",
+        "number": "018",
+        "image": "farseerwarlock.png",
+        "expansion": 0,
+        "house": "alchemist",
+        "keywords": [],
+        "traits": [],
+        "type": "action",
+        "rarity": "Common",
+        "amber": 1,
+        "armor": null,
+        "power": 0,
+        "text": "Play: Ready and fight with a friendly creature.",
+        "locale": {
+            "de": {
+                "name": "Zorn"
+            },
+            "en": {
+                "name": "Anger"
+            },
+            "es": {
+                "name": "Furia"
+            },
+            "fr": {
+                "name": "Colère"
+            },
+            "it": {
+                "name": "Collera"
+            },
+            "pl": {
+                "name": "Gniew"
+            },
+            "pt": {
+                "name": "Fúria"
+            },
+            "th": {
+                "name": "Anger"
+            },
+            "zhhans": {
+                "name": "怒火中烧"
+            },
+            "zhhant": {
+                "name": "怒火中燒"
+            }
+        }
+    }, {
+        "id": "firefistadept",
+        "name": "Firefist Adept",
+        "number": "019",
+        "image": "firefistadept.png",
+        "expansion": 0,
+        "house": "alchemist",
+        "keywords": [],
+        "traits": [],
+        "type": "action",
+        "rarity": "Common",
+        "amber": 1,
+        "armor": null,
+        "power": 0,
+        "text": "Play: Ready and fight with a friendly creature.",
+        "locale": {
+            "de": {
+                "name": "Zorn"
+            },
+            "en": {
+                "name": "Anger"
+            },
+            "es": {
+                "name": "Furia"
+            },
+            "fr": {
+                "name": "Colère"
+            },
+            "it": {
+                "name": "Collera"
+            },
+            "pl": {
+                "name": "Gniew"
+            },
+            "pt": {
+                "name": "Fúria"
+            },
+            "th": {
+                "name": "Anger"
+            },
+            "zhhans": {
+                "name": "怒火中烧"
+            },
+            "zhhant": {
+                "name": "怒火中燒"
+            }
+        }
+    }, {
+        "id": "franticsolution",
+        "name": "Frantic Solution",
+        "number": "020",
+        "image": "franticsolution.png",
+        "expansion": 0,
+        "house": "alchemist",
+        "keywords": [],
+        "traits": [],
+        "type": "action",
+        "rarity": "Common",
+        "amber": 1,
+        "armor": null,
+        "power": 0,
+        "text": "Play: Ready and fight with a friendly creature.",
+        "locale": {
+            "de": {
+                "name": "Zorn"
+            },
+            "en": {
+                "name": "Anger"
+            },
+            "es": {
+                "name": "Furia"
+            },
+            "fr": {
+                "name": "Colère"
+            },
+            "it": {
+                "name": "Collera"
+            },
+            "pl": {
+                "name": "Gniew"
+            },
+            "pt": {
+                "name": "Fúria"
+            },
+            "th": {
+                "name": "Anger"
+            },
+            "zhhans": {
+                "name": "怒火中烧"
+            },
+            "zhhant": {
+                "name": "怒火中燒"
+            }
+        }
+    }, {
+        "id": "headmastersscorn",
+        "name": "Headmaster's Scorn",
+        "number": "021",
+        "image": "headmastersscorn.png",
+        "expansion": 0,
+        "house": "alchemist",
+        "keywords": [],
+        "traits": [],
+        "type": "action",
+        "rarity": "Common",
+        "amber": 1,
+        "armor": null,
+        "power": 0,
+        "text": "Play: Ready and fight with a friendly creature.",
+        "locale": {
+            "de": {
+                "name": "Zorn"
+            },
+            "en": {
+                "name": "Anger"
+            },
+            "es": {
+                "name": "Furia"
+            },
+            "fr": {
+                "name": "Colère"
+            },
+            "it": {
+                "name": "Collera"
+            },
+            "pl": {
+                "name": "Gniew"
+            },
+            "pt": {
+                "name": "Fúria"
+            },
+            "th": {
+                "name": "Anger"
+            },
+            "zhhans": {
+                "name": "怒火中烧"
+            },
+            "zhhant": {
+                "name": "怒火中燒"
+            }
+        }
+    }, {
+        "id": "herosrecall",
+        "name": "Hero's Recall",
+        "number": "022",
+        "image": "herosrecall.png",
+        "expansion": 0,
+        "house": "alchemist",
+        "keywords": [],
+        "traits": [],
+        "type": "action",
+        "rarity": "Common",
+        "amber": 1,
+        "armor": null,
+        "power": 0,
+        "text": "Play: Ready and fight with a friendly creature.",
+        "locale": {
+            "de": {
+                "name": "Zorn"
+            },
+            "en": {
+                "name": "Anger"
+            },
+            "es": {
+                "name": "Furia"
+            },
+            "fr": {
+                "name": "Colère"
+            },
+            "it": {
+                "name": "Collera"
+            },
+            "pl": {
+                "name": "Gniew"
+            },
+            "pt": {
+                "name": "Fúria"
+            },
+            "th": {
+                "name": "Anger"
+            },
+            "zhhans": {
+                "name": "怒火中烧"
+            },
+            "zhhant": {
+                "name": "怒火中燒"
+            }
+        }
+    }, {
+        "id": "formofthemirage",
+        "name": "Form of the Mirage",
+        "number": "023",
+        "image": "formofthemirage.png",
+        "expansion": 0,
+        "house": "alchemist",
+        "keywords": [],
+        "traits": [],
+        "type": "action",
+        "rarity": "Common",
+        "amber": 1,
+        "armor": null,
+        "power": 0,
+        "text": "Play: Ready and fight with a friendly creature.",
+        "locale": {
+            "de": {
+                "name": "Zorn"
+            },
+            "en": {
+                "name": "Anger"
+            },
+            "es": {
+                "name": "Furia"
+            },
+            "fr": {
+                "name": "Colère"
+            },
+            "it": {
+                "name": "Collera"
+            },
+            "pl": {
+                "name": "Gniew"
+            },
+            "pt": {
+                "name": "Fúria"
+            },
+            "th": {
+                "name": "Anger"
+            },
+            "zhhans": {
+                "name": "怒火中烧"
+            },
+            "zhhant": {
+                "name": "怒火中燒"
+            }
+        }
+    }, {
+        "id": "libraryvigil",
+        "name": "Library Vigil",
+        "number": "024",
+        "image": "libraryvigil.png",
+        "expansion": 0,
+        "house": "alchemist",
+        "keywords": [],
+        "traits": [],
+        "type": "action",
+        "rarity": "Common",
+        "amber": 1,
+        "armor": null,
+        "power": 0,
+        "text": "Play: Ready and fight with a friendly creature.",
+        "locale": {
+            "de": {
+                "name": "Zorn"
+            },
+            "en": {
+                "name": "Anger"
+            },
+            "es": {
+                "name": "Furia"
+            },
+            "fr": {
+                "name": "Colère"
+            },
+            "it": {
+                "name": "Collera"
+            },
+            "pl": {
+                "name": "Gniew"
+            },
+            "pt": {
+                "name": "Fúria"
+            },
+            "th": {
+                "name": "Anger"
+            },
+            "zhhans": {
+                "name": "怒火中烧"
+            },
+            "zhhant": {
+                "name": "怒火中燒"
+            }
+        }
+    }, {
+        "id": "lightningmage",
+        "name": "Lightning Mage",
+        "number": "025",
+        "image": "lightningmage.png",
+        "expansion": 0,
+        "house": "alchemist",
+        "keywords": [],
+        "traits": [],
+        "type": "action",
+        "rarity": "Common",
+        "amber": 1,
+        "armor": null,
+        "power": 0,
+        "text": "Play: Ready and fight with a friendly creature.",
+        "locale": {
+            "de": {
+                "name": "Zorn"
+            },
+            "en": {
+                "name": "Anger"
+            },
+            "es": {
+                "name": "Furia"
+            },
+            "fr": {
+                "name": "Colère"
+            },
+            "it": {
+                "name": "Collera"
+            },
+            "pl": {
+                "name": "Gniew"
+            },
+            "pt": {
+                "name": "Fúria"
+            },
+            "th": {
+                "name": "Anger"
+            },
+            "zhhans": {
+                "name": "怒火中烧"
+            },
+            "zhhant": {
+                "name": "怒火中燒"
+            }
+        }
+    }, {
+        "id": "lightningstorm",
+        "name": "Lightning Storm",
+        "number": "026",
+        "image": "lightningstorm.png",
+        "expansion": 0,
+        "house": "alchemist",
+        "keywords": [],
+        "traits": [],
+        "type": "action",
+        "rarity": "Common",
+        "amber": 1,
+        "armor": null,
+        "power": 0,
+        "text": "Play: Ready and fight with a friendly creature.",
+        "locale": {
+            "de": {
+                "name": "Zorn"
+            },
+            "en": {
+                "name": "Anger"
+            },
+            "es": {
+                "name": "Furia"
+            },
+            "fr": {
+                "name": "Colère"
+            },
+            "it": {
+                "name": "Collera"
+            },
+            "pl": {
+                "name": "Gniew"
+            },
+            "pt": {
+                "name": "Fúria"
+            },
+            "th": {
+                "name": "Anger"
+            },
+            "zhhans": {
+                "name": "怒火中烧"
+            },
+            "zhhant": {
+                "name": "怒火中燒"
+            }
+        }
+    }, {
+        "id": "mendingshaman",
+        "name": "Mending Shaman",
+        "number": "027",
+        "image": "mendingshaman.png",
+        "expansion": 0,
+        "house": "alchemist",
+        "keywords": [],
+        "traits": [],
+        "type": "action",
+        "rarity": "Common",
+        "amber": 1,
+        "armor": null,
+        "power": 0,
+        "text": "Play: Ready and fight with a friendly creature.",
+        "locale": {
+            "de": {
+                "name": "Zorn"
+            },
+            "en": {
+                "name": "Anger"
+            },
+            "es": {
+                "name": "Furia"
+            },
+            "fr": {
+                "name": "Colère"
+            },
+            "it": {
+                "name": "Collera"
+            },
+            "pl": {
+                "name": "Gniew"
+            },
+            "pt": {
+                "name": "Fúria"
+            },
+            "th": {
+                "name": "Anger"
+            },
+            "zhhans": {
+                "name": "怒火中烧"
+            },
+            "zhhant": {
+                "name": "怒火中燒"
+            }
+        }
+    }, {
+        "id": "mindbolt",
+        "name": "Mindbolt",
+        "number": "028",
+        "image": "mindbolt.png",
+        "expansion": 0,
+        "house": "alchemist",
+        "keywords": [],
+        "traits": [],
+        "type": "action",
+        "rarity": "Common",
+        "amber": 1,
+        "armor": null,
+        "power": 0,
+        "text": "Play: Ready and fight with a friendly creature.",
+        "locale": {
+            "de": {
+                "name": "Zorn"
+            },
+            "en": {
+                "name": "Anger"
+            },
+            "es": {
+                "name": "Furia"
+            },
+            "fr": {
+                "name": "Colère"
+            },
+            "it": {
+                "name": "Collera"
+            },
+            "pl": {
+                "name": "Gniew"
+            },
+            "pt": {
+                "name": "Fúria"
+            },
+            "th": {
+                "name": "Anger"
+            },
+            "zhhans": {
+                "name": "怒火中烧"
+            },
+            "zhhant": {
+                "name": "怒火中燒"
+            }
+        }
+    }, {
+        "id": "moltenshaman",
+        "name": "Molten Shaman",
+        "number": "029",
+        "image": "moltenshaman.png",
+        "expansion": 0,
+        "house": "alchemist",
+        "keywords": [],
+        "traits": [],
+        "type": "action",
+        "rarity": "Common",
+        "amber": 1,
+        "armor": null,
+        "power": 0,
+        "text": "Play: Ready and fight with a friendly creature.",
+        "locale": {
+            "de": {
+                "name": "Zorn"
+            },
+            "en": {
+                "name": "Anger"
+            },
+            "es": {
+                "name": "Furia"
+            },
+            "fr": {
+                "name": "Colère"
+            },
+            "it": {
+                "name": "Collera"
+            },
+            "pl": {
+                "name": "Gniew"
+            },
+            "pt": {
+                "name": "Fúria"
+            },
+            "th": {
+                "name": "Anger"
+            },
+            "zhhans": {
+                "name": "怒火中烧"
+            },
+            "zhhant": {
+                "name": "怒火中燒"
+            }
+        }
+    }, {
+        "id": "overgrownhomunculus",
+        "name": "Overgrown Homunculus",
+        "number": "030",
+        "image": "overgrownhomunculus.png",
+        "expansion": 0,
+        "house": "alchemist",
+        "keywords": [],
+        "traits": [],
+        "type": "action",
+        "rarity": "Common",
+        "amber": 1,
+        "armor": null,
+        "power": 0,
+        "text": "Play: Ready and fight with a friendly creature.",
+        "locale": {
+            "de": {
+                "name": "Zorn"
+            },
+            "en": {
+                "name": "Anger"
+            },
+            "es": {
+                "name": "Furia"
+            },
+            "fr": {
+                "name": "Colère"
+            },
+            "it": {
+                "name": "Collera"
+            },
+            "pl": {
+                "name": "Gniew"
+            },
+            "pt": {
+                "name": "Fúria"
+            },
+            "th": {
+                "name": "Anger"
+            },
+            "zhhans": {
+                "name": "怒火中烧"
+            },
+            "zhhant": {
+                "name": "怒火中燒"
+            }
+        }
+    }, {
+        "id": "prepare",
+        "name": "Prepare",
+        "number": "031",
+        "image": "prepare.png",
+        "expansion": 0,
+        "house": "alchemist",
+        "keywords": [],
+        "traits": [],
+        "type": "action",
+        "rarity": "Common",
+        "amber": 1,
+        "armor": null,
+        "power": 0,
+        "text": "Play: Ready and fight with a friendly creature.",
+        "locale": {
+            "de": {
+                "name": "Zorn"
+            },
+            "en": {
+                "name": "Anger"
+            },
+            "es": {
+                "name": "Furia"
+            },
+            "fr": {
+                "name": "Colère"
+            },
+            "it": {
+                "name": "Collera"
+            },
+            "pl": {
+                "name": "Gniew"
+            },
+            "pt": {
+                "name": "Fúria"
+            },
+            "th": {
+                "name": "Anger"
+            },
+            "zhhans": {
+                "name": "怒火中烧"
+            },
+            "zhhant": {
+                "name": "怒火中燒"
+            }
+        }
+    }, {
+        "id": "pyromancersjoy",
+        "name": "Pyromancer's Joy",
+        "number": "032",
+        "image": "pyromancersjoy.png",
+        "expansion": 0,
+        "house": "alchemist",
+        "keywords": [],
+        "traits": [],
+        "type": "action",
+        "rarity": "Common",
+        "amber": 1,
+        "armor": null,
+        "power": 0,
+        "text": "Play: Ready and fight with a friendly creature.",
+        "locale": {
+            "de": {
+                "name": "Zorn"
+            },
+            "en": {
+                "name": "Anger"
+            },
+            "es": {
+                "name": "Furia"
+            },
+            "fr": {
+                "name": "Colère"
+            },
+            "it": {
+                "name": "Collera"
+            },
+            "pl": {
+                "name": "Gniew"
+            },
+            "pt": {
+                "name": "Fúria"
+            },
+            "th": {
+                "name": "Anger"
+            },
+            "zhhans": {
+                "name": "怒火中烧"
+            },
+            "zhhant": {
+                "name": "怒火中燒"
+            }
+        }
+    }, {
+        "id": "rageboundsage",
+        "name": "Ragebound Sage",
+        "number": "033",
+        "image": "rageboundsage.png",
+        "expansion": 0,
+        "house": "alchemist",
+        "keywords": [],
+        "traits": [],
+        "type": "action",
+        "rarity": "Common",
+        "amber": 1,
+        "armor": null,
+        "power": 0,
+        "text": "Play: Ready and fight with a friendly creature.",
+        "locale": {
+            "de": {
+                "name": "Zorn"
+            },
+            "en": {
+                "name": "Anger"
+            },
+            "es": {
+                "name": "Furia"
+            },
+            "fr": {
+                "name": "Colère"
+            },
+            "it": {
+                "name": "Collera"
+            },
+            "pl": {
+                "name": "Gniew"
+            },
+            "pt": {
+                "name": "Fúria"
+            },
+            "th": {
+                "name": "Anger"
+            },
+            "zhhans": {
+                "name": "怒火中烧"
+            },
+            "zhhant": {
+                "name": "怒火中燒"
+            }
+        }
+    }, {
+        "id": "reveal",
+        "name": "Reveal",
+        "number": "034",
+        "image": "reveal.png",
+        "expansion": 0,
+        "house": "alchemist",
+        "keywords": [],
+        "traits": [],
+        "type": "action",
+        "rarity": "Common",
+        "amber": 1,
+        "armor": null,
+        "power": 0,
+        "text": "Play: Ready and fight with a friendly creature.",
+        "locale": {
+            "de": {
+                "name": "Zorn"
+            },
+            "en": {
+                "name": "Anger"
+            },
+            "es": {
+                "name": "Furia"
+            },
+            "fr": {
+                "name": "Colère"
+            },
+            "it": {
+                "name": "Collera"
+            },
+            "pl": {
+                "name": "Gniew"
+            },
+            "pt": {
+                "name": "Fúria"
+            },
+            "th": {
+                "name": "Anger"
+            },
+            "zhhans": {
+                "name": "怒火中烧"
+            },
+            "zhhant": {
+                "name": "怒火中燒"
+            }
+        }
+    }, {
+        "id": "sageofthorns",
+        "name": "Sage of Thorns",
+        "number": "035",
+        "image": "sageofthorns.png",
+        "expansion": 0,
+        "house": "alchemist",
+        "keywords": [],
+        "traits": [],
+        "type": "action",
+        "rarity": "Common",
+        "amber": 1,
+        "armor": null,
+        "power": 0,
+        "text": "Play: Ready and fight with a friendly creature.",
+        "locale": {
+            "de": {
+                "name": "Zorn"
+            },
+            "en": {
+                "name": "Anger"
+            },
+            "es": {
+                "name": "Furia"
+            },
+            "fr": {
+                "name": "Colère"
+            },
+            "it": {
+                "name": "Collera"
+            },
+            "pl": {
+                "name": "Gniew"
+            },
+            "pt": {
+                "name": "Fúria"
+            },
+            "th": {
+                "name": "Anger"
+            },
+            "zhhans": {
+                "name": "怒火中烧"
+            },
+            "zhhant": {
+                "name": "怒火中燒"
+            }
+        }
+    }, {
+        "id": "searingtouch",
+        "name": "Searing Touch",
+        "number": "036",
+        "image": "searingtouch.png",
+        "expansion": 0,
+        "house": "alchemist",
+        "keywords": [],
+        "traits": [],
+        "type": "action",
+        "rarity": "Common",
+        "amber": 1,
+        "armor": null,
+        "power": 0,
+        "text": "Play: Ready and fight with a friendly creature.",
+        "locale": {
+            "de": {
+                "name": "Zorn"
+            },
+            "en": {
+                "name": "Anger"
+            },
+            "es": {
+                "name": "Furia"
+            },
+            "fr": {
+                "name": "Colère"
+            },
+            "it": {
+                "name": "Collera"
+            },
+            "pl": {
+                "name": "Gniew"
+            },
+            "pt": {
+                "name": "Fúria"
+            },
+            "th": {
+                "name": "Anger"
+            },
+            "zhhans": {
+                "name": "怒火中烧"
+            },
+            "zhhant": {
+                "name": "怒火中燒"
+            }
+        }
+    }, {
+        "id": "seekerofforbiddentruth",
+        "name": "Seeker of forbidden truth",
+        "number": "037",
+        "image": "seekerofforbiddentruth.png",
+        "expansion": 0,
+        "house": "alchemist",
+        "keywords": [],
+        "traits": [],
+        "type": "action",
+        "rarity": "Common",
+        "amber": 1,
+        "armor": null,
+        "power": 0,
+        "text": "Play: Ready and fight with a friendly creature.",
+        "locale": {
+            "de": {
+                "name": "Zorn"
+            },
+            "en": {
+                "name": "Anger"
+            },
+            "es": {
+                "name": "Furia"
+            },
+            "fr": {
+                "name": "Colère"
+            },
+            "it": {
+                "name": "Collera"
+            },
+            "pl": {
+                "name": "Gniew"
+            },
+            "pt": {
+                "name": "Fúria"
+            },
+            "th": {
+                "name": "Anger"
+            },
+            "zhhans": {
+                "name": "怒火中烧"
+            },
+            "zhhant": {
+                "name": "怒火中燒"
+            }
+        }
+    }, {
+        "id": "servantofthelibrary",
+        "name": "Servant of the Library",
+        "number": "038",
+        "image": "servantofthelibrary.png",
+        "expansion": 0,
+        "house": "alchemist",
+        "keywords": [],
+        "traits": [],
+        "type": "action",
+        "rarity": "Common",
+        "amber": 1,
+        "armor": null,
+        "power": 0,
+        "text": "Play: Ready and fight with a friendly creature.",
+        "locale": {
+            "de": {
+                "name": "Zorn"
+            },
+            "en": {
+                "name": "Anger"
+            },
+            "es": {
+                "name": "Furia"
+            },
+            "fr": {
+                "name": "Colère"
+            },
+            "it": {
+                "name": "Collera"
+            },
+            "pl": {
+                "name": "Gniew"
+            },
+            "pt": {
+                "name": "Fúria"
+            },
+            "th": {
+                "name": "Anger"
+            },
+            "zhhans": {
+                "name": "怒火中烧"
+            },
+            "zhhant": {
+                "name": "怒火中燒"
+            }
+        }
+    }, {
+        "id": "soullesssorcerer",
+        "name": "Soulless sorcerer",
+        "number": "039",
+        "image": "soullesssorcerer.png",
+        "expansion": 0,
+        "house": "alchemist",
+        "keywords": [],
+        "traits": [],
+        "type": "action",
+        "rarity": "Common",
+        "amber": 1,
+        "armor": null,
+        "power": 0,
+        "text": "Play: Ready and fight with a friendly creature.",
+        "locale": {
+            "de": {
+                "name": "Zorn"
+            },
+            "en": {
+                "name": "Anger"
+            },
+            "es": {
+                "name": "Furia"
+            },
+            "fr": {
+                "name": "Colère"
+            },
+            "it": {
+                "name": "Collera"
+            },
+            "pl": {
+                "name": "Gniew"
+            },
+            "pt": {
+                "name": "Fúria"
+            },
+            "th": {
+                "name": "Anger"
+            },
+            "zhhans": {
+                "name": "怒火中烧"
+            },
+            "zhhant": {
+                "name": "怒火中燒"
+            }
+        }
+    }, {
+        "id": "steelresolve",
+        "name": "Steel Resolve",
+        "number": "040",
+        "image": "steelresolve.png",
+        "expansion": 0,
+        "house": "alchemist",
+        "keywords": [],
+        "traits": [],
+        "type": "action",
+        "rarity": "Common",
+        "amber": 1,
+        "armor": null,
+        "power": 0,
+        "text": "Play: Ready and fight with a friendly creature.",
+        "locale": {
+            "de": {
+                "name": "Zorn"
+            },
+            "en": {
+                "name": "Anger"
+            },
+            "es": {
+                "name": "Furia"
+            },
+            "fr": {
+                "name": "Colère"
+            },
+            "it": {
+                "name": "Collera"
+            },
+            "pl": {
+                "name": "Gniew"
+            },
+            "pt": {
+                "name": "Fúria"
+            },
+            "th": {
+                "name": "Anger"
+            },
+            "zhhans": {
+                "name": "怒火中烧"
+            },
+            "zhhant": {
+                "name": "怒火中燒"
+            }
+        }
+    }, {
+        "id": "surgeofbrilliance",
+        "name": "Surge of Brilliance",
+        "number": "041",
+        "image": "surgeofbrilliance.png",
+        "expansion": 0,
+        "house": "alchemist",
+        "keywords": [],
+        "traits": [],
+        "type": "action",
+        "rarity": "Common",
+        "amber": 1,
+        "armor": null,
+        "power": 0,
+        "text": "Play: Ready and fight with a friendly creature.",
+        "locale": {
+            "de": {
+                "name": "Zorn"
+            },
+            "en": {
+                "name": "Anger"
+            },
+            "es": {
+                "name": "Furia"
+            },
+            "fr": {
+                "name": "Colère"
+            },
+            "it": {
+                "name": "Collera"
+            },
+            "pl": {
+                "name": "Gniew"
+            },
+            "pt": {
+                "name": "Fúria"
+            },
+            "th": {
+                "name": "Anger"
+            },
+            "zhhans": {
+                "name": "怒火中烧"
+            },
+            "zhhant": {
+                "name": "怒火中燒"
+            }
+        }
+    }, {
+        "id": "tideseeker",
+        "name": "Tide Seeker",
+        "number": "042",
+        "image": "tideseeker.png",
+        "expansion": 0,
+        "house": "alchemist",
+        "keywords": [],
+        "traits": [],
+        "type": "action",
+        "rarity": "Common",
+        "amber": 1,
+        "armor": null,
+        "power": 0,
+        "text": "Play: Ready and fight with a friendly creature.",
+        "locale": {
+            "de": {
+                "name": "Zorn"
+            },
+            "en": {
+                "name": "Anger"
+            },
+            "es": {
+                "name": "Furia"
+            },
+            "fr": {
+                "name": "Colère"
+            },
+            "it": {
+                "name": "Collera"
+            },
+            "pl": {
+                "name": "Gniew"
+            },
+            "pt": {
+                "name": "Fúria"
+            },
+            "th": {
+                "name": "Anger"
+            },
+            "zhhans": {
+                "name": "怒火中烧"
+            },
+            "zhhant": {
+                "name": "怒火中燒"
+            }
+        }
+    }, {
+        "id": "tidetyrant",
+        "name": "Tide Tyrant",
+        "number": "043",
+        "image": "tidetyrant.png",
+        "expansion": 0,
+        "house": "alchemist",
+        "keywords": [],
+        "traits": [],
+        "type": "action",
+        "rarity": "Common",
+        "amber": 1,
+        "armor": null,
+        "power": 0,
+        "text": "Play: Ready and fight with a friendly creature.",
+        "locale": {
+            "de": {
+                "name": "Zorn"
+            },
+            "en": {
+                "name": "Anger"
+            },
+            "es": {
+                "name": "Furia"
+            },
+            "fr": {
+                "name": "Colère"
+            },
+            "it": {
+                "name": "Collera"
+            },
+            "pl": {
+                "name": "Gniew"
+            },
+            "pt": {
+                "name": "Fúria"
+            },
+            "th": {
+                "name": "Anger"
+            },
+            "zhhans": {
+                "name": "怒火中烧"
+            },
+            "zhhant": {
+                "name": "怒火中燒"
+            }
+        }
+    }, {
+        "id": "transmute",
+        "name": "Transmute",
+        "number": "044",
+        "image": "transmute.png",
+        "expansion": 0,
+        "house": "alchemist",
+        "keywords": [],
+        "traits": [],
+        "type": "action",
+        "rarity": "Common",
+        "amber": 1,
+        "armor": null,
+        "power": 0,
+        "text": "Play: Ready and fight with a friendly creature.",
+        "locale": {
+            "de": {
+                "name": "Zorn"
+            },
+            "en": {
+                "name": "Anger"
+            },
+            "es": {
+                "name": "Furia"
+            },
+            "fr": {
+                "name": "Colère"
+            },
+            "it": {
+                "name": "Collera"
+            },
+            "pl": {
+                "name": "Gniew"
+            },
+            "pt": {
+                "name": "Fúria"
+            },
+            "th": {
+                "name": "Anger"
+            },
+            "zhhans": {
+                "name": "怒火中烧"
+            },
+            "zhhant": {
+                "name": "怒火中燒"
+            }
+        }
+    }, {
+        "id": "wallofaether",
+        "name": "Wall of Aether",
+        "number": "045",
+        "image": "wallofaether.png",
+        "expansion": 0,
+        "house": "alchemist",
+        "keywords": [],
+        "traits": [],
+        "type": "action",
+        "rarity": "Common",
+        "amber": 1,
+        "armor": null,
+        "power": 0,
+        "text": "Play: Ready and fight with a friendly creature.",
+        "locale": {
+            "de": {
+                "name": "Zorn"
+            },
+            "en": {
+                "name": "Anger"
+            },
+            "es": {
+                "name": "Furia"
+            },
+            "fr": {
+                "name": "Colère"
+            },
+            "it": {
+                "name": "Collera"
+            },
+            "pl": {
+                "name": "Gniew"
+            },
+            "pt": {
+                "name": "Fúria"
+            },
+            "th": {
+                "name": "Anger"
+            },
+            "zhhans": {
+                "name": "怒火中烧"
+            },
+            "zhhant": {
+                "name": "怒火中燒"
+            }
+        }
+    }, {
+        "id": "wanderingguardmage",
+        "name": "Wandering Guardmage",
+        "number": "046",
+        "image": "wanderingguardmage.png",
+        "expansion": 0,
+        "house": "alchemist",
+        "keywords": [],
+        "traits": [],
+        "type": "action",
+        "rarity": "Common",
+        "amber": 1,
+        "armor": null,
+        "power": 0,
+        "text": "Play: Ready and fight with a friendly creature.",
+        "locale": {
+            "de": {
+                "name": "Zorn"
+            },
+            "en": {
+                "name": "Anger"
+            },
+            "es": {
+                "name": "Furia"
+            },
+            "fr": {
+                "name": "Colère"
+            },
+            "it": {
+                "name": "Collera"
+            },
+            "pl": {
+                "name": "Gniew"
+            },
+            "pt": {
+                "name": "Fúria"
+            },
+            "th": {
+                "name": "Anger"
+            },
+            "zhhans": {
+                "name": "怒火中烧"
+            },
+            "zhhant": {
+                "name": "怒火中燒"
+            }
+        }
+    }, {
+        "id": "wanderingservant",
+        "name": "Wandering Servant",
+        "number": "047",
+        "image": "wanderingservant.png",
+        "expansion": 0,
+        "house": "alchemist",
+        "keywords": [],
+        "traits": [],
+        "type": "action",
+        "rarity": "Common",
+        "amber": 1,
+        "armor": null,
+        "power": 0,
+        "text": "Play: Ready and fight with a friendly creature.",
+        "locale": {
+            "de": {
+                "name": "Zorn"
+            },
+            "en": {
+                "name": "Anger"
+            },
+            "es": {
+                "name": "Furia"
+            },
+            "fr": {
+                "name": "Colère"
+            },
+            "it": {
+                "name": "Collera"
+            },
+            "pl": {
+                "name": "Gniew"
+            },
+            "pt": {
+                "name": "Fúria"
+            },
+            "th": {
+                "name": "Anger"
+            },
+            "zhhans": {
+                "name": "怒火中烧"
+            },
+            "zhhant": {
+                "name": "怒火中燒"
+            }
+        }
+    }, {
+        "id": "warboundacolyte",
+        "name": "Warbound Acolyte",
+        "number": "048",
+        "image": "warboundacolyte.png",
+        "expansion": 0,
+        "house": "alchemist",
+        "keywords": [],
+        "traits": [],
+        "type": "action",
+        "rarity": "Common",
+        "amber": 1,
+        "armor": null,
+        "power": 0,
+        "text": "Play: Ready and fight with a friendly creature.",
+        "locale": {
+            "de": {
+                "name": "Zorn"
+            },
+            "en": {
+                "name": "Anger"
+            },
+            "es": {
+                "name": "Furia"
+            },
+            "fr": {
+                "name": "Colère"
+            },
+            "it": {
+                "name": "Collera"
+            },
+            "pl": {
+                "name": "Gniew"
+            },
+            "pt": {
+                "name": "Fúria"
+            },
+            "th": {
+                "name": "Anger"
+            },
+            "zhhans": {
+                "name": "怒火中烧"
+            },
+            "zhhant": {
+                "name": "怒火中燒"
+            }
+        }
+    }
+]
+}
