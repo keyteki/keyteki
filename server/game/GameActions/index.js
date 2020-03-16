@@ -19,6 +19,7 @@ module.exports = {
     ExaltAction: require('./ExaltAction'),
     ExhaustAction: require('./ExhaustAction'),
     FightGameAction: require('./FightGameAction'),
+    GainManaAction: require('./GainManaAction'),
     ForgeAction: require('./ForgeAction'),
     HealAction: require('./HealAction'),
     JointGameAction: require('./JointGameAction'),

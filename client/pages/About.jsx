@@ -12,12 +12,12 @@ class About extends React.Component {
 
         return (
             <div className='col-xs-12 full-height'>
-                <Panel title={ t('About The Crucible Online - Help and information') }>
+                <Panel title={ t('About Manacrest Online - Help and information') }>
                     <a className='btn btn-danger btn-lg pull-right' target='_blank' rel='noopener noreferrer' href='https://github.com/keyteki/keyteki/issues'><Trans>Report Problems</Trans></a>
                     <Trans i18nKey='about.whatisthis'>
                         <h3>What is this?</h3>
 
-                        <p>This site was setup to allow you to play Keyforge, a Unique Deck Game from Fantasy Flight Games (FFG) in your browser.</p>
+                        <p>This site was setup to allow you to play Manacrest, a Unique Deck Game in your browser.</p>
                     </Trans>
                     <Trans i18nKey='about.cool'>
                         <h3>That&apos;s pretty cool!  But how does any of this work?</h3>
@@ -51,10 +51,6 @@ class About extends React.Component {
                         <p>Some icons were included from game-icons.net:
                         Death Note by <a target='_blank' href='http://lorcblog.blogspot.com/' rel='noopener noreferrer'>lorc</a>. <a target='_blank' href='https://creativecommons.org/licenses/by/3.0/' rel='noopener noreferrer'>CC-BY 3.0</a></p>
                         <p>Time Limit icon made by <a href='https://www.flaticon.com/authors/minh-hoang' title='Minh Hoang'>Minh Hoang</a> from <a href='https://www.flaticon.com/' title='Flaticon'>www.flaticon.com</a> is licensed by <a href='http://creativecommons.org/licenses/by/3.0/' title='Creative Commons BY 3.0' target='_blank' rel='noopener noreferrer'>CC 3.0 BY</a></p>
-                    </Trans>
-                    <Trans i18nKey='about.addnotes'>
-                        <h3>Additional Notes</h3>
-                        <p>The Keyforge Unique Deck Game, the artwork and many other things are all copyright Fantasy Flight Games and I make no claims of ownership or otherwise of any of the artwork or trademarks.  This site exists for passionate fans to play a game they enjoy and augment, rather than replace, the in person LCG.  FFG does not endorse, support, and is not involved with, this site in any way.</p>
                     </Trans>
                 </Panel>
             </div >

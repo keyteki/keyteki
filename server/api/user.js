@@ -61,7 +61,7 @@ module.exports.init = function(server) {
         } catch(error) {
             logger.error(error);
 
-            return res.send({ success: false, message: 'An error occured saving the user.  Please try again later.' });
+            return res.send({ success: false, message: 'An error occurred saving the user.  Please try again later.' });
         }
 
         let user = dbUser.getDetails();
@@ -82,7 +82,7 @@ module.exports.init = function(server) {
         } catch(error) {
             logger.error(error);
 
-            return res.send({ success: false, message: 'An error occured saving the user.  Please try again later.' });
+            return res.send({ success: false, message: 'An error occurred saving the user.  Please try again later.' });
         }
 
         res.send({ success: true });

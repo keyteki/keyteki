@@ -15,7 +15,8 @@ class Player extends GameObject {
         this.id = id;
         this.owner = owner;
 
-        this.health = 30;
+        this.health = 25;
+        this.mana = 5;
         this.hand = [];
         this.cardsInPlay = []; // This stores references to all creatures and artifacts in play.  Upgrades are not stored here.
         this.deckName = '';
@@ -23,11 +24,6 @@ class Player extends GameObject {
         this.deckUuid = '';
         this.deckSet = 0;
         this.discard = [];
-        this.purged = [];
-        this.archives = [];
-
-        this.houses = [];
-        this.activeHouse = null;
 
         this.deckData = {};
         this.takenMulligan = false;
@@ -285,7 +281,7 @@ class Player extends GameObject {
         }
 
         let display = 'a card';
-        if(!card.facedown && source !== 'hand' || ['play area', 'discard', 'purged'].includes(target)) {
+        if(!card.facedown && source !== 'hand' || ['play area', 'discard'].includes(target)) {
             display = card;
         }
 
@@ -304,7 +300,7 @@ class Player extends GameObject {
             return false;
         }
 
-        const cardLocations = ['hand', 'deck', 'discard', 'archives', 'purged', 'grafted'];
+        const cardLocations = ['hand', 'deck', 'discard'];
         const legalLocations = {
             artifact: [...cardLocations, 'play area'],
             action: [...cardLocations, 'being played'],
@@ -390,7 +386,7 @@ class Player extends GameObject {
 
         if(targetLocation === 'deck' && !options.bottom) {
             targetPile.unshift(card);
-        } else if(['discard', 'purged'].includes(targetLocation)) {
+        } else if(['discard'].includes(targetLocation)) {
             // new cards go on the top of the discard pile
             targetPile.unshift(card);
         } else if(targetLocation === 'play area' && options.deployIndex !== undefined) {
@@ -424,7 +420,7 @@ class Player extends GameObject {
             if (card.controller !== null && card.controller !== undefined) {
                 card.controller.removeCardFromPile(card);
             }
-            
+
             return;
         }
 
@@ -727,10 +723,7 @@ class Player extends GameObject {
     getStats() {
         return {
             health: this.health,
-            amber: this.amber,
-            chains: this.chains,
-            keys: this.keys,
-            houses: this.houses
+            mana: this.mana,
         };
     }
 
@@ -743,13 +736,10 @@ class Player extends GameObject {
         let isActivePlayer = activePlayer === this;
         let promptState = isActivePlayer ? this.promptState.getState() : {};
         let state = {
-            activeHouse: this.activeHouse,
             cardPiles: {
-                archives: this.getSummaryForCardList(this.archives, activePlayer, true),
                 cardsInPlay: this.getSummaryForCardList(this.cardsInPlay, activePlayer),
                 discard: this.getSummaryForCardList(this.discard, activePlayer),
                 hand: this.getSummaryForCardList(this.hand, activePlayer, true),
-                purged: this.getSummaryForCardList(this.purged, activePlayer)
             },
             cardback: './img/cards/cardback.png',
             deckName: this.deckData.name,
@@ -760,7 +750,6 @@ class Player extends GameObject {
             left: this.left,
             name: this.name,
             numDeckCards: this.deck.length,
-            numArchivesCards: this.archives.length,
             optionSettings: this.optionSettings,
             phase: this.game.currentPhase,
             stats: this.getStats(),

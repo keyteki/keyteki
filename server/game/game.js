@@ -11,11 +11,12 @@ const Spectator = require('./spectator');
 const AnonymousSpectator = require('./anonymousspectator');
 const GamePipeline = require('./gamepipeline');
 const SetupPhase = require('./gamesteps/setup/setupphase');
-const KeyPhase = require('./gamesteps/key/KeyPhase');
+const SupplyPhase = require('./gamesteps/supply/supplyPhase');
 const HousePhase = require('./gamesteps/house/HousePhase');
 const MainPhase = require('./gamesteps/main/MainPhase');
 const ReadyPhase = require('./gamesteps/ReadyPhase');
 const DrawPhase = require('./gamesteps/draw/drawphase');
+const CleanupPhase = require('./gamesteps/cleanup/CleanupPhase');
 const SimpleStep = require('./gamesteps/simplestep');
 const MenuPrompt = require('./gamesteps/menuprompt');
 const HandlerMenuPrompt = require('./gamesteps/handlermenuprompt');
@@ -265,7 +266,7 @@ class Game extends EventEmitter {
         }
 
         let card = this.findAnyCardInAnyList(cardId);
-        if (card === undefined || card === null) {
+        if(card === undefined || card === null) {
             var playerCards = this.getPlayers().map(player => player.playerCard);
             card = playerCards.find(card => card.uuid === cardId);
         }
@@ -366,11 +367,10 @@ class Game extends EventEmitter {
     checkWinCondition() {
         var playerOne = this.getPlayers()[0];
         var playerTwo = this.getPlayers()[1];
-        if (playerOne.health <= 0) {
+        if(playerOne.health <= 0) {
             this.recordWinner(playerTwo, 'kill');
-        }
-        else if (playerTwo.health <= 0) {
-            this.recordWinner(playerOne, 'kill')
+        } else if(playerTwo.health <= 0) {
+            this.recordWinner(playerOne, 'kill');
         }
     }
 
@@ -646,11 +646,9 @@ class Game extends EventEmitter {
     beginRound() {
         this.raiseEvent('onBeginRound');
         this.activePlayer.beginRound();
-        this.queueStep(new KeyPhase(this));
-        this.queueStep(new HousePhase(this));
+        this.queueStep(new SupplyPhase(this));
         this.queueStep(new MainPhase(this));
-        this.queueStep(new ReadyPhase(this));
-        this.queueStep(new DrawPhase(this));
+        this.queueStep(new CleanupPhase(this));
         this.queueStep(new SimpleStep(this, () => this.raiseEndRoundEvent())),
         this.queueStep(new SimpleStep(this, () => this.beginRound()));
     }
