@@ -13,7 +13,7 @@
 
     lobby: {
         port: 4000,
-        appName: 'The Crucible Online',
+        appName: 'Manacrest Online',
         emailFromAddress: 'noreply@thecrucible.online',
         blockDisposableEmail: false,
         requireActivation: false,

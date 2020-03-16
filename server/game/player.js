@@ -15,7 +15,7 @@ class Player extends GameObject {
         this.id = id;
         this.owner = owner;
 
-        this.health = 30;
+        this.health = 25;
         this.hand = [];
         this.cardsInPlay = []; // This stores references to all creatures and artifacts in play.  Upgrades are not stored here.
         this.deckName = '';
@@ -424,7 +424,7 @@ class Player extends GameObject {
             if (card.controller !== null && card.controller !== undefined) {
                 card.controller.removeCardFromPile(card);
             }
-            
+
             return;
         }
 

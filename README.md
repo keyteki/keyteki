@@ -1,7 +1,7 @@
 # Keyteki
 
 
-Web based implementation of Keyforge: the Unique Deck Game
+Web based implementation of Manacrest
 
 ## FAQ
 

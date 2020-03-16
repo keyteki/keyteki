@@ -44,19 +44,8 @@ class PlayerRow extends React.Component {
     }
 
     renderDroppablePile(source, child) {
-        return this.props.isMe ? <Droppable onDragDrop={ this.props.onDragDrop } source={ source } manualMode={ this.props.manualMode }>{ child }</Droppable> : child;
-    }
-
-    renderKeys() {
-        let t = this.props.t;
-
-        let keys = ['red', 'blue', 'yellow']
-            .sort(color => this.props.keys[color] ? -1 : 1)
-            .map(color => {
-                return <img key={ `key ${color}` } src={ `/img/${this.props.keys[color] ? 'forgedkey' : 'unforgedkey'}${color}.png` } title={ t('Forged Key') } />;
-            });
-
-        return <div className={ `keys ${this.props.cardSize}` }>{ keys }</div>;
+        return this.props.isMe ? <Droppable onDragDrop={this.props.onDragDrop} source={source}
+                                            manualMode={this.props.manualMode}>{child}</Droppable> : child;
     }
 
     render() {
@@ -72,67 +61,69 @@ class PlayerRow extends React.Component {
             size: this.props.cardSize
         };
 
-        let sortedHand = this.props.hand.sort((a, b) => {	
-            if(a.printedHouse < b.printedHouse) {	
-                return -1;	
-            } else if(a.printedHouse > b.printedHouse) {	
-                return 1;	
-            }	
+        let sortedHand = this.props.hand.sort((a, b) => {
+            if(a.printedHouse < b.printedHouse) {
+                return -1;
+            } else if(a.printedHouse > b.printedHouse) {
+                return 1;
+            }
 
-            return 0;	
+            return 0;
         });
 
         let hand = (<SquishableCardPanel
-            cards={ sortedHand }
+            cards={sortedHand}
             className='panel hand'
             groupVisibleCards
-            cardBackUrl={ this.props.cardBackUrl }
-            username={ this.props.username }
-            manualMode={ this.props.manualMode }
-            maxCards={ 5 }
-            onCardClick={ this.props.onCardClick }
-            onMouseOut={ this.props.onMouseOut }
-            onMouseOver={ this.props.onMouseOver }
+            cardBackUrl={this.props.cardBackUrl}
+            username={this.props.username}
+            manualMode={this.props.manualMode}
+            maxCards={5}
+            onCardClick={this.props.onCardClick}
+            onMouseOut={this.props.onMouseOut}
+            onMouseOver={this.props.onMouseOver}
             source='hand'
-            title={ t('Hand') }
-            cardSize={ this.props.cardSize } />);
+            title={t('Hand')}
+            cardSize={this.props.cardSize}/>);
 
         let drawDeck = (<DrawDeck
-            cardCount={ this.props.numDeckCards }
-            cards={ this.props.drawDeck }
-            isMe={ this.props.isMe }
-            manualMode={ this.props.manualMode }
-            numDeckCards={ this.props.numDeckCards }
-            onPopupChange={ this.props.onDrawPopupChange }
-            onShuffleClick={ this.props.onShuffleClick }
-            showDeck={ this.props.showDeck }
-            spectating={ this.props.spectating }
-            cardBackUrl={ this.props.cardBackUrl }
-            { ...cardPileProps } />);
+            cardCount={this.props.numDeckCards}
+            cards={this.props.drawDeck}
+            isMe={this.props.isMe}
+            manualMode={this.props.manualMode}
+            numDeckCards={this.props.numDeckCards}
+            onPopupChange={this.props.onDrawPopupChange}
+            onShuffleClick={this.props.onShuffleClick}
+            showDeck={this.props.showDeck}
+            spectating={this.props.spectating}
+            cardBackUrl={this.props.cardBackUrl}
+            {...cardPileProps} />);
 
         let hasArchivedCards = !!this.props.archives && (this.props.archives.length > 0);
 
-        let archives = (<CardPile className='archives' title={ t('Archives') } source='archives' cards={ this.props.archives }
-            hiddenTopCard={ hasArchivedCards && !this.props.isMe } cardBackUrl={ this.props.cardBackUrl }
-            { ...cardPileProps } />);
+        let archives = (
+            <CardPile className='archives' title={t('Archives')} source='archives' cards={this.props.archives}
+                      hiddenTopCard={hasArchivedCards && !this.props.isMe} cardBackUrl={this.props.cardBackUrl}
+                      {...cardPileProps} />);
 
-        let discard = (<CardPile className='discard' title={ t('Discard') } source='discard' cards={ this.props.discard }
-            { ...cardPileProps } />);
+        let discard = (<CardPile className='discard' title={t('Discard')} source='discard' cards={this.props.discard}
+                                 {...cardPileProps} />);
 
-        let purged = (<CardPile className='purged' title={ t('Purged') } source='purged' cards={ this.props.purgedPile }
-            { ...cardPileProps } />);
+        let purged = (<CardPile className='purged' title={t('Purged')} source='purged' cards={this.props.purgedPile}
+                                {...cardPileProps} />);
 
-        let identity = <IdentityCard className='identity' deckListUrl={ this.state.deckListUrl } size={ this.props.cardSize } onMouseOut={ this.props.onMouseOut } onMouseOver={ this.props.onMouseOver }/>;
+        let identity = <IdentityCard className='identity' deckListUrl={this.state.deckListUrl}
+                                     size={this.props.cardSize} onMouseOut={this.props.onMouseOut}
+                                     onMouseOver={this.props.onMouseOver}/>;
 
         return (
             <div className='player-home-row-container'>
-                { this.renderKeys() }
-                { this.renderDroppablePile('hand', hand) }
-                { this.renderDroppablePile('archives', archives) }
-                { identity }
-                { this.renderDroppablePile('deck', drawDeck) }
-                { this.renderDroppablePile('discard', discard) }
-                { ((this.props.purgedPile.length > 0) || this.props.manualMode) ? this.renderDroppablePile('purged', purged) : null }
+                {this.renderDroppablePile('hand', hand)}
+                {this.renderDroppablePile('archives', archives)}
+                {identity}
+                {this.renderDroppablePile('deck', drawDeck)}
+                {this.renderDroppablePile('discard', discard)}
+                {((this.props.purgedPile.length > 0) || this.props.manualMode) ? this.renderDroppablePile('purged', purged) : null}
             </div>
         );
     }
@@ -157,7 +148,6 @@ PlayerRow.propTypes = {
     i18n: PropTypes.object,
     isMe: PropTypes.bool,
     isMelee: PropTypes.bool,
-    keys: PropTypes.object,
     language: PropTypes.string,
     manualMode: PropTypes.bool,
     numDeckCards: PropTypes.number,

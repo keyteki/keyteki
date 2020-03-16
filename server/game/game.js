@@ -366,11 +366,10 @@ class Game extends EventEmitter {
     checkWinCondition() {
         var playerOne = this.getPlayers()[0];
         var playerTwo = this.getPlayers()[1];
-        if (playerOne.health <= 0) {
+        if(playerOne.health <= 0) {
             this.recordWinner(playerTwo, 'kill');
-        }
-        else if (playerTwo.health <= 0) {
-            this.recordWinner(playerOne, 'kill')
+        } else if(playerTwo.health <= 0) {
+            this.recordWinner(playerOne, 'kill');
         }
     }
 

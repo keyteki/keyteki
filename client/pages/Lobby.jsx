@@ -96,7 +96,7 @@ class Lobby extends React.Component {
                 </SideBar>
                 <div className='col-sm-offset-1 col-sm-10'>
                     <div className='main-header'>
-                        <span className='text-center'><h1>Keyforge</h1></span>
+                        <span className='text-center'><h1>Manacrest</h1></span>
                     </div>
                 </div>
                 { this.props.motd && this.props.motd.message &&

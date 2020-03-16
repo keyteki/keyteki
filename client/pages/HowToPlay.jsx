@@ -12,10 +12,10 @@ class HowToPlay extends React.Component {
 
         return (
             <div className='col-xs-12 full-height'>
-                <Panel title={ t('How To Play on The Crucible Online') }>
+                <Panel title={ t('How To Play on Manacrest Online') }>
                     <a className='btn btn-danger btn-lg pull-right' target='_blank' href='https://github.com/keyteki/keyteki/issues' rel='noopener noreferrer'><Trans>Report Problems</Trans></a>
 
-                    <p><Trans i18nKey='howtoplay.thisguide'>This guide is aimed at players familiar with Keyforge: the Unique Deck Game who want to start playing online using the The Crucible Online platform. If you are new to this cardgame in general, there is a <a href='https://www.youtube.com/watch?v=D7qt2H9Im2Q' target='_blank' rel='noopener noreferrer'>helpful tutorial video</a>, a <a href='https://images-cdn.fantasyflightgames.com/filer_public/99/15/99157338-aa49-47b1-9ab9-90e99ba1db51/kf_quickstart_web_good.pdf' target='_blank' rel='noopener noreferrer'>Quickstart guide</a>, and a <a href='https://images-cdn.fantasyflightgames.com/filer_public/7f/d1/7fd1d910-f915-4b2c-9941-9457a8ab693a/keyforge_rulebook_v11-compressed.pdf' target='_blank' rel='noopener noreferrer'>Rulebook</a> to help you out.</Trans></p>
+                    <p><Trans i18nKey='howtoplay.thisguide'>This guide is aimed at players familiar with Manacrest: the Unique Deck Game who want to start playing online using the Manacrest Online platform. If you are new to this cardgame in general, there is a <a href='https://www.youtube.com/watch?v=D7qt2H9Im2Q' target='_blank' rel='noopener noreferrer'>helpful tutorial video</a>, a <a href='https://images-cdn.fantasyflightgames.com/filer_public/99/15/99157338-aa49-47b1-9ab9-90e99ba1db51/kf_quickstart_web_good.pdf' target='_blank' rel='noopener noreferrer'>Quickstart guide</a>, and a <a href='https://images-cdn.fantasyflightgames.com/filer_public/7f/d1/7fd1d910-f915-4b2c-9941-9457a8ab693a/keyforge_rulebook_v11-compressed.pdf' target='_blank' rel='noopener noreferrer'>Rulebook</a> to help you out.</Trans></p>
 
                     <h3><Trans>Topics</Trans></h3>
 
@@ -35,7 +35,7 @@ class HowToPlay extends React.Component {
                     <p><Trans i18nKey='howtoplay.profile'>Clicking your <Link href='/profile'>Profile</Link> at the top right of the page allows you to tailor certain aspects of gameplay to your wishes.</Trans></p>
 
                     <h3 id='bugs'><Trans>Bugs and Automation</Trans></h3>
-                    <p><Trans i18nKey='howtoplay.bugs'>The Crucible Online is currently in beta and still a work in progress. If you happen upon a card that you believe is not working as it should, it would help immensely if you would submit an issue on <a target='_blank' href='https://github.com/keyteki/keyteki/issues' rel='noopener noreferrer'>GitHub</a>. Other comments and/or feedback can be left on GitHub as well.</Trans></p>
+                    <p><Trans i18nKey='howtoplay.bugs'>Manacrest Online is currently in beta and still a work in progress. If you happen upon a card that you believe is not working as it should, it would help immensely if you would submit an issue on <a target='_blank' href='https://github.com/keyteki/keyteki/issues' rel='noopener noreferrer'>GitHub</a>. Other comments and/or feedback can be left on GitHub as well.</Trans></p>
 
                     <h3 id='mmode'><Trans>Manual Mode</Trans></h3>
                     <p><Trans i18nKey='howtoplay.manualmode1'>Most of the cards should be implemented, but if things go wrong, or someone misclicks, or you really hate automation, you can switch on
@@ -59,7 +59,7 @@ class HowToPlay extends React.Component {
                     </ul>
 
                     <h3 id='conceding'><Trans>About Stats, Conceding and Leaving Games</Trans></h3>
-                    <p><Trans i18nKey='howtoplay.about'>The Crucible Online does not rank and/or match players by skill level in any way. There are three categories (beginner, casual and competitive) to be chosen when creating a game which gives an indication of what to expect, but it doesn&apos;t enforce anything. Even though personal stats are not being tracked, most players still very much appreciate a formal concede by clicking the ‘Concede’ button and typing ‘gg’ before leaving a game. The reality of quick and anonymous online games dictates this won’t always happen though, as evidenced by regular complaining in the main lobby about people leaving without conceding. Our advice is to just move on to the next game since in the end, conceding or not doesn’t really impact anything. Happy gaming!</Trans></p>
+                    <p><Trans i18nKey='howtoplay.about'>Manacrest Online does not rank and/or match players by skill level in any way. There are three categories (beginner, casual and competitive) to be chosen when creating a game which gives an indication of what to expect, but it doesn&apos;t enforce anything. Even though personal stats are not being tracked, most players still very much appreciate a formal concede by clicking the ‘Concede’ button and typing ‘gg’ before leaving a game. The reality of quick and anonymous online games dictates this won’t always happen though, as evidenced by regular complaining in the main lobby about people leaving without conceding. Our advice is to just move on to the next game since in the end, conceding or not doesn’t really impact anything. Happy gaming!</Trans></p>
                 </Panel>
             </div>
         );
