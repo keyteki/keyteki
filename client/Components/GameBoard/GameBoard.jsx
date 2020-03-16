@@ -33,8 +33,6 @@ const placeholderPlayer = {
     stats: {
         keys: { red: false, blue: false, yellow: false }
     },
-    houses: [],
-    deckName: '',
     deckUuid: '',
     deckSet: 0,
     deckCards:[],
@@ -289,7 +287,6 @@ export class GameBoard extends React.Component {
                         player={ 2 }
                         cardBackUrl={ './img/cards/cardback.png' }
                         faction={ otherPlayer.faction }
-                        archives={ otherPlayer.cardPiles.archives }
                         hand={ otherPlayer.cardPiles.hand } isMe={ false }
                         language={ this.props.i18n.language }
                         deckCards = { otherPlayer.deckCards }
@@ -303,7 +300,6 @@ export class GameBoard extends React.Component {
                         onMouseOver={ this.onMouseOver }
                         onMouseOut={ this.onMouseOut }
                         purgedPile={ otherPlayer.cardPiles.purged }
-                        keys={ otherPlayer.stats.keys }
                         spectating={ this.state.spectating }
                         title={ otherPlayer.title }
                         side='top'
@@ -340,7 +336,6 @@ export class GameBoard extends React.Component {
                     <PlayerRow isMe={ !this.state.spectating }
                         player={ 1 }
                         cardBackUrl={ './img/cards/cardback.png' }
-                        archives={ thisPlayer.cardPiles.archives }
                         language={ this.props.i18n.language }
                         deckCards = { thisPlayer.deckCards }
                         deckName = { thisPlayer.deckName }
@@ -353,10 +348,8 @@ export class GameBoard extends React.Component {
                         onMouseOver={ this.onMouseOver }
                         onMouseOut={ this.onMouseOut }
                         numDeckCards={ thisPlayer.numDeckCards }
-                        keys={ thisPlayer.stats.keys }
                         onDrawPopupChange={ this.handleDrawPopupChange }
                         onShuffleClick={ this.onShuffleClick }
-                        purgedPile={ thisPlayer.cardPiles.purged }
                         onDragDrop={ this.onDragDrop }
                         discard={ thisPlayer.cardPiles.discard }
                         showDeck={ thisPlayer.showDeck }
@@ -419,9 +412,9 @@ export class GameBoard extends React.Component {
                     optionSettings={ thisPlayer.optionSettings }
                     onOptionSettingToggle={ this.onOptionSettingToggle.bind(this) }
                     id='settings-modal' />
-                <div className='player-stats-row stats-top'>	
-                    <PlayerStats stats={ otherPlayer.stats }	
-                        user={ otherPlayer.user } activePlayer={ otherPlayer.activePlayer } />	
+                <div className='player-stats-row stats-top'>
+                    <PlayerStats stats={ otherPlayer.stats }
+                        user={ otherPlayer.user } activePlayer={ otherPlayer.activePlayer } />
                 </div>
                 <div className='main-window'>
                     { this.renderBoard(thisPlayer, otherPlayer) }

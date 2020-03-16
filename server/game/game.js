@@ -11,7 +11,7 @@ const Spectator = require('./spectator');
 const AnonymousSpectator = require('./anonymousspectator');
 const GamePipeline = require('./gamepipeline');
 const SetupPhase = require('./gamesteps/setup/setupphase');
-const KeyPhase = require('./gamesteps/key/KeyPhase');
+const SupplyPhase = require('./gamesteps/supply/supplyPhase');
 const HousePhase = require('./gamesteps/house/HousePhase');
 const MainPhase = require('./gamesteps/main/MainPhase');
 const ReadyPhase = require('./gamesteps/ReadyPhase');
@@ -265,7 +265,7 @@ class Game extends EventEmitter {
         }
 
         let card = this.findAnyCardInAnyList(cardId);
-        if (card === undefined || card === null) {
+        if(card === undefined || card === null) {
             var playerCards = this.getPlayers().map(player => player.playerCard);
             card = playerCards.find(card => card.uuid === cardId);
         }
@@ -645,8 +645,7 @@ class Game extends EventEmitter {
     beginRound() {
         this.raiseEvent('onBeginRound');
         this.activePlayer.beginRound();
-        this.queueStep(new KeyPhase(this));
-        this.queueStep(new HousePhase(this));
+        this.queueStep(new SupplyPhase(this));
         this.queueStep(new MainPhase(this));
         this.queueStep(new ReadyPhase(this));
         this.queueStep(new DrawPhase(this));

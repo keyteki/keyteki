@@ -10,7 +10,6 @@ import IdentityCard from './IdentityCard';
 import Droppable from './Droppable';
 
 import { withTranslation } from 'react-i18next';
-import { buildArchon, buildDeckList } from '../../archonMaker';
 import * as Images from '../../assets/img';
 import * as actions from '../../ReduxActions/misc';
 
@@ -90,27 +89,17 @@ class PlayerRow extends React.Component {
             cardCount={this.props.numDeckCards}
             cards={this.props.drawDeck}
             isMe={this.props.isMe}
-            manualMode={this.props.manualMode}
-            numDeckCards={this.props.numDeckCards}
+            manualMode={ this.props.manualMode }
+            numDeckCards={ this.props.numDeckCards }
             onPopupChange={this.props.onDrawPopupChange}
-            onShuffleClick={this.props.onShuffleClick}
+            onShuffleClick={ this.props.onShuffleClick }
             showDeck={this.props.showDeck}
             spectating={this.props.spectating}
             cardBackUrl={this.props.cardBackUrl}
             {...cardPileProps} />);
 
-        let hasArchivedCards = !!this.props.archives && (this.props.archives.length > 0);
-
-        let archives = (
-            <CardPile className='archives' title={t('Archives')} source='archives' cards={this.props.archives}
-                      hiddenTopCard={hasArchivedCards && !this.props.isMe} cardBackUrl={this.props.cardBackUrl}
-                      {...cardPileProps} />);
-
         let discard = (<CardPile className='discard' title={t('Discard')} source='discard' cards={this.props.discard}
                                  {...cardPileProps} />);
-
-        let purged = (<CardPile className='purged' title={t('Purged')} source='purged' cards={this.props.purgedPile}
-                                {...cardPileProps} />);
 
         let identity = <IdentityCard className='identity' deckListUrl={this.state.deckListUrl}
                                      size={this.props.cardSize} onMouseOut={this.props.onMouseOut}
@@ -119,11 +108,9 @@ class PlayerRow extends React.Component {
         return (
             <div className='player-home-row-container'>
                 {this.renderDroppablePile('hand', hand)}
-                {this.renderDroppablePile('archives', archives)}
                 {identity}
                 {this.renderDroppablePile('deck', drawDeck)}
                 {this.renderDroppablePile('discard', discard)}
-                {((this.props.purgedPile.length > 0) || this.props.manualMode) ? this.renderDroppablePile('purged', purged) : null}
             </div>
         );
     }
@@ -131,7 +118,6 @@ class PlayerRow extends React.Component {
 
 PlayerRow.displayName = 'PlayerRow';
 PlayerRow.propTypes = {
-    archives: PropTypes.array,
     cardBackUrl: PropTypes.string,
     cardSize: PropTypes.string,
     cards: PropTypes.object,

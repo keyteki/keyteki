@@ -47,7 +47,15 @@ export class PlayerStats extends React.Component {
     getHealth() {
         return (
             <div className='state'>
-                <div>Health: {this.props.stats['health']}</div>
+                <div>Health: { this.props.stats['health'] }</div>
+            </div>
+        );
+    }
+
+    getMana() {
+        return (
+            <div className='state'>
+                <div>Mana: { this.props.stats['mana'] }</div>
             </div>
         );
     }
@@ -72,6 +80,8 @@ export class PlayerStats extends React.Component {
                         <Trans>Active Player</Trans>
                     </div>
                 }
+
+                { this.getMana() }
 
                 { this.props.showMessages &&
                     <div className='state chat-status'>
@@ -114,9 +124,7 @@ export class PlayerStats extends React.Component {
 
 PlayerStats.displayName = 'PlayerStats';
 PlayerStats.propTypes = {
-    activeHouse: PropTypes.string,
     activePlayer: PropTypes.bool,
-    houses: PropTypes.array,
     i18n: PropTypes.object,
     manualModeEnabled: PropTypes.bool,
     muteSpectators: PropTypes.bool,

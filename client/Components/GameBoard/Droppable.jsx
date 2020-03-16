@@ -9,44 +9,22 @@ const validTargets = {
     hand: [
         'play area',
         'discard',
-        'deck',
-        'archives',
-        'purged'
+        'deck'
     ],
     'play area': [
         'discard',
         'hand',
-        'deck',
-        'archives',
-        'purged'
+        'deck'
     ],
     'discard': [
-        'archives',
         'hand',
         'deck',
-        'play area',
-        'purged'
-    ],
-    'archives': [
-        'hand',
-        'deck',
-        'play area',
-        'discard',
-        'purged'
+        'play area'
     ],
     'deck': [
         'hand',
         'discard',
-        'archives',
-        'play area',
-        'purged'
-    ],
-    'purged': [
-        'deck',
-        'play area',
-        'discard',
-        'hand',
-        'archives'
+        'play area'
     ]
 };
 

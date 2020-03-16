@@ -386,7 +386,7 @@ InnerCard.propTypes = {
     onMouseOver: PropTypes.func,
     orientation: PropTypes.oneOf(['horizontal', 'exhausted', 'vertical']),
     size: PropTypes.string,
-    source: PropTypes.oneOf(['archives', 'hand', 'discard', 'deck', 'purged', 'play area', 'upgrade']).isRequired,
+    source: PropTypes.oneOf(['hand', 'discard', 'deck', 'play area', 'upgrade']).isRequired,
     style: PropTypes.object,
     wrapped: PropTypes.bool
 };
