@@ -714,7 +714,7 @@
         "id": "ensaringearthmage",
         "name": "Ensaring Earthmage",
         "number": "016",
-        "image": "ensaringearthmage.png",
+        "image": "ensnaringearthmage.png",
         "expansion": 0,
         "house": "alchemist",
         "keywords": [],
@@ -758,10 +758,10 @@
             }
         }
     }, {
-        "id": "explosivehomonculus",
-        "name": "Explosive Homonculus",
+        "id": "explosivehomunculus",
+        "name": "Explosive Homunculus",
         "number": "017",
-        "image": "explosivehomonculus.png",
+        "image": "explosivehomunculus.png",
         "expansion": 0,
         "house": "alchemist",
         "keywords": [],

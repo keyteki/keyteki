@@ -8,6 +8,8 @@ class CardImage extends Component {
     constructor() {
         super();
         this.state = { src: '', err: '' };
+
+        this.onClick = this.onClick.bind(this);
     }
 
     componentDidMount() {
@@ -21,42 +23,34 @@ class CardImage extends Component {
     }
 
     updateImage() {
-        let { img, maverick, anomaly, amber, i18n } = this.props;
-
+        let { img, i18n } = this.props;
+        
         if(!this.props.img) {
             return;
         }
 
+
         let langToUse = this.props.language ? this.props.language : i18n.language;
 
-        let imgPath = (langToUse === 'en') ? img : img.replace('/cards/', '/cards/' + langToUse + '/');
-
-        if(maverick) {
-            let maverickHouseImg = '/img/maverick/maverick-' + maverick + (amber > 0 ? '-amber' : '') + '.png';
-
-            mergeImages([
-                imgPath,
-                { src: maverickHouseImg, x: 0, y: 0 },
-                { src: '/img/maverick/maverick-corner.png', x: 210, y: 0 }
-            ]).then(src => this.setState({ src }))
-                .catch(err => this.setState({ err: err.toString() }));
-        } else if(anomaly) {
-            let maverickHouseImg = '/img/maverick/maverick-' + anomaly + (amber > 0 ? '-amber' : '') + '.png';
-
-            mergeImages([
-                imgPath,
-                { src: maverickHouseImg, x: 0, y: 0 }
-            ]).then(src => this.setState({ src }))
-                .catch(err => this.setState({ err: err.toString() }));
+        let imgPath = this.props.img;
+        if (this.props.isDeckbuilder) {
+            imgPath = '/img/cards/' + this.props.img;
         } else {
-            this.setState({ src: imgPath });
+            imgPath = (langToUse === 'en') ? img : img.replace('/cards/', '/cards/' + langToUse + '/');
         }
+
+        this.setState({ src: imgPath });
+
+    }
+
+    onClick() {
+        this.props.selectFunction(this.props.id);
     }
 
     render() {
         return (
             <Fragment>
-                <img src={ this.state.src } alt={ this.props.alt } className={ this.props.className } />
+                <img src={ this.state.src } alt={ this.props.alt } className={ this.props.className } onClick={ this.onClick } />
                 { this.state.err && <p>{ this.state.err } </p> }
             </Fragment>
         );

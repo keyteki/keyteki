@@ -109,8 +109,7 @@ module.exports.init = function(server) {
         await deckService.update(deck);
         res.send({ success: true, message: 'Deck verified successfully', deckId: id });
     }));
+    server.post('/api/decks/builder/:id', passport.authenticate('jwt', {session:false}), wrapAsync(async function(req, res) {
 
-    server.get('/api/decks/cards', passport.authenticate('jwt', { session: false }), wrapAsync(async function(req, res) {
-        res.send({success: true, message: 'Hey!'});
     }));
 };
