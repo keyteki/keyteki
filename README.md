@@ -1,19 +1,19 @@
-# Keyteki
+# Manateki
 
 
-Web based implementation of Keyforge: the Unique Deck Game
+Web based implementation of the Manacrest trading card game
 
 ## FAQ
 
 ### What is it?
 
-This is the respository for the code internally known as keyteki which is running on [thecrucible.online](https://thecrucible.online/) allowing people to play KeyForge online using only their browser
+This is the repository for the code internally known as Manateki which is running on [ManacrestOnline.com](https://manacrestonline.com/) allowing people to play Manacrest online using only their browser
 
-### Does't this look a lot like Jinteki/Throneteki? The Android netrunner/AGOT online experience?
+### Does't this look a lot like Keyteki/Jinteki/Throneteki? The Keyfroge/Android netrunner/AGOT online experience?
 
-Glad you noticed!  Yes, jinteki was a huge inspiration for this project, as the interface is clean and user friendly, so I've tried to make this similar in a lot of ways
+Glad you noticed!  Yes, Keyteki/jinteki was a huge inspiration for this project, as the interface is clean and user friendly, so I've tried to make this similar in a lot of ways
 
-Keyteki is a fork of the ringteki sourcecode
+Manateki is a fork of the Keyteki sourcecode
 
 ### Can I contribute?
 
@@ -36,7 +36,7 @@ See this document for features I have planned and a link to the currently implem
 
 ### How do I do X Y Z?
 
-Check out the [About page](https://thecrucible.online/about) of Keyteki live deployment.
+Check out the [About page](https://manacrestonline.com/about) of Manateki live deployment.
 
 ## Development
 
@@ -155,7 +155,7 @@ npm test
 
 ### Coding Guidelines
 
-All JavaScript code included in Keyteki should pass (no errors, no warnings)
+All JavaScript code included in Manateki should pass (no errors, no warnings)
 linting by [ESLint](http://eslint.org/), according to the rules defined in
 `.eslintrc` at the root of this repo. To manually check that that is indeed the
 case install ESLint and run
@@ -175,4 +175,4 @@ npm test
 If you are making any game engine changes, these will not be accepted without unit tests to cover them.
 
 ### Discord Discusson
-[Keyteki Discord Server](https://discord.gg/NncEXAs)
+[Manacrest Discord Server](https://manacrest.com/discord)
