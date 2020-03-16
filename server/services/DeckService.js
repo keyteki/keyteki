@@ -5,8 +5,6 @@ class DeckService {
     constructor(db) {
         this.decks = db.get('decks');
         this.games = db.get('games');
-
-        this.buildingDecks = {};
     }
 
     async getById(id) {
@@ -138,18 +136,6 @@ class DeckService {
 
     async verifyDecksForUser(username) {
         return await this.decks.update({ username: username, verified: false, flagged: true }, { $set: { verified: true } }, { multi: true });
-    }
-
-    createBuilder(username) {
-
-    }
-
-    addCardToBuilder(username, cardId) {
-
-    }
-
-    removeCardToBuilder(username, cardId) {
-        
     }
 }
 
