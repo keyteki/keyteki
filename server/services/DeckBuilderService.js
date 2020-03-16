@@ -1,10 +1,37 @@
 const logger = require('../log.js');
 const util = require('../util.js');
 
+const uuid = require('uuid-random');
+
+const templateDeck = {
+    "expansion": 0,
+    // username
+    // uuid
+    // identiy
+    // name
+    "cardback": "",
+    "banned": false,
+    "verified": false,
+    "includeInSealed": false,
+    "houses": ["alchemist"],
+    "cards": [
+        // {
+        //  "id": cardId
+        //  "count": {"$numberInt": "30"}
+        // }
+    ],
+    "lastUpdated": {
+        "$date": {
+            "$numberLong": "1583953389672"
+        }
+    }
+}
+
 class DeckBuilderService {
     constructor(db) {
         this.decks = db.get('decks');
         this.games = db.get('games');
+        this.cards = db.get('cards');
 
         this.buildingDecks = {};
     }
@@ -68,15 +95,37 @@ class DeckBuilderService {
     // }
 
     async create(username) {
-        console.log(username + " wants to create a deck!");
+         delete this.buildingDecks[username];
+
+        this.buildingDecks[username] = Object.assign({}, templateDeck);
+        this.buildingDecks[username].username = username;
+        this.buildingDecks[username].uuid = uuid();
+        this.buildingDecks[username].cards = [];
     }
 
-    async addCard(username, cardId) {
+    addCard(username, cardId) {
+        if (!cardId || cardId === '') {
+            return;
+        }
+        var userdeck = this.buildingDecks[username];
+        var cardReference = userdeck.cards.find(card => card.id == cardId);
+        if (cardReference) {
+            cardReference.count += 1;
+        } 
+        else {
+            this.buildingDecks[username].cards.push(
+                {
+                    "id": cardId,
+                    "count": 1
+                }
+            );
+        }
 
+        return this.buildingDecks[username].cards;
     }
 
-    async removeCard(username, cardId) {
-        
+    removeCard(username, cardId) {
+        return this.buildingDecks[username].cards;
     }
 }
 

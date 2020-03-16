@@ -9,3 +9,4 @@ export * from './ReduxActions/admin';
 export * from './ReduxActions/user';
 export * from './ReduxActions/account';
 export * from './ReduxActions/banlist';
+export * from './ReduxActions/deckbuilder';

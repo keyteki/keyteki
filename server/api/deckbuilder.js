@@ -12,8 +12,18 @@ let deckBuilderService = new DeckBuilderService(db);
 
 module.exports.init = function(server) {
     server.post('/api/decks/builder', passport.authenticate('jwt', {session:false}), wrapAsync(async function(req, res) {
-        await deckBuilderService.create(req.user.username);
+        deckBuilderService.create(req.user.username).then(
+            res.send({success: true})
+        )
+        .catch(
+            res.send({success: false})
+        );
 
-        res.send({success: true})
+    }));
+
+    server.patch('/api/decks/builder/:id', passport.authenticate('jwt', {session:false}), wrapAsync(async function(req, res) {
+        var selectedCards = deckBuilderService.addCard(req.user.username, req.params.id)
+        res.send({success: true, selectedCards: selectedCards});
+
     }));
 }

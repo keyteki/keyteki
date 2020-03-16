@@ -44,7 +44,6 @@ export default function callAPIMiddleware({ dispatch, getState }) {
 
         let response;
         let errorStatus = 200;
-
         try {
             response = await $.ajax(apiParams.url, apiParams);
         } catch(error) {
