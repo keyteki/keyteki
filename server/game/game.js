@@ -16,6 +16,7 @@ const HousePhase = require('./gamesteps/house/HousePhase');
 const MainPhase = require('./gamesteps/main/MainPhase');
 const ReadyPhase = require('./gamesteps/ReadyPhase');
 const DrawPhase = require('./gamesteps/draw/drawphase');
+const CleanupPhase = require('./gamesteps/cleanup/CleanupPhase');
 const SimpleStep = require('./gamesteps/simplestep');
 const MenuPrompt = require('./gamesteps/menuprompt');
 const HandlerMenuPrompt = require('./gamesteps/handlermenuprompt');
@@ -647,8 +648,7 @@ class Game extends EventEmitter {
         this.activePlayer.beginRound();
         this.queueStep(new SupplyPhase(this));
         this.queueStep(new MainPhase(this));
-        this.queueStep(new ReadyPhase(this));
-        this.queueStep(new DrawPhase(this));
+        this.queueStep(new CleanupPhase(this));
         this.queueStep(new SimpleStep(this, () => this.raiseEndRoundEvent())),
         this.queueStep(new SimpleStep(this, () => this.beginRound()));
     }

@@ -9,7 +9,6 @@ class GainManaAction extends PlayerAction {
     setup() {
         super.setup();
         this.name = 'modifyMana';
-        this.effectMsg = 'refills their mana by ' + this.amount;
     }
 
     defaultTargets(context) {
@@ -17,13 +16,17 @@ class GainManaAction extends PlayerAction {
     }
 
     getEvent(player, context) {
+        if(this.refill) {
+            context.game.addMessage('{0} refills {1} mana.', player, this.amount);
+        }
+
         let params = {
             player: player,
             amount: this.amount,
             context: context
         };
         return super.createEvent('onModifyMana', params, event => {
-            player.mana = Math.max(player.chains + event.amount, 0);
+            player.mana = Math.max(event.amount, 0);
         });
     }
 

@@ -5,7 +5,9 @@ class SupplyPhase extends Phase {
     constructor(game) {
         super(game, 'supply');
         this.initialise([
-            new SimpleStep(game, () => this.drawCards())
+            new SimpleStep(game, () => this.drawCards()),
+            new SimpleStep(game, () => this.refillMana())
+
         ]);
     }
 
@@ -14,7 +16,7 @@ class SupplyPhase extends Phase {
     }
 
     drawCards() {
-        this.game.actions.draw({ refill: true }).resolve(this.game.activePlayer, this.game.getFrameworkContext());
+        this.game.actions.draw().resolve(this.game.activePlayer, this.game.getFrameworkContext());
     }
 }
 
