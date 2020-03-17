@@ -5,6 +5,7 @@ const ConfigService = require('../services/ConfigService');
 const DeckService = require('../services/DeckService.js');
 const { wrapAsync } = require('../util.js');
 
+
 const configService = new ConfigService();
 
 let db = monk(configService.getValue('dbPath'));
@@ -53,11 +54,7 @@ module.exports.init = function(server) {
     }));
 
     server.post('/api/decks', passport.authenticate('jwt', { session: false }), wrapAsync(async function(req, res) {
-        if(!req.body.uuid) {
-            return res.send({ success: false, message: 'uuid must be specified' });
-        }
-
-        let deck = Object.assign({}, { uuid: req.body.uuid, username: req.user.username });
+        let deck = Object.assign({}, { username: req.user.username });
         let savedDeck;
 
         try {

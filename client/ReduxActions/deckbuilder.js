@@ -1,61 +1,46 @@
 import $ from 'jquery'
 
-const apiRoutes = {
-    "createDeckBuilder": "/api/decks/builder",
-    "addCardToBuilder" : "/api/decks/builder/"
+const apiRoute = "/api/deckbuilder";
+
+export function createDeckBuilder(successCallback, errorCallback) {
+    makeRequest('PUT', successCallback, errorCallback);
+
+    return { type: 'DEFFERED' };
 }
 
-function buildRestPath(route) {
-    if (route in apiRoutes) {
-        return 'http://' + location.host + apiRoutes[route];
-    }
-    return '';
+export function addCardToBuilder(cardId, successCallback, errorCallback) {
+    makeRequest('PATCH', successCallback, errorCallback, '/' + cardId);
+
+    return { type: 'DEFFERED' };
+}
+
+export function getBuilderDeck(successCallback, errorCallback) {
+    makeRequest('GET', successCallback, errorCallback);
+
+    return { type: 'DEFFERED' };
+}
+
+export function saveBuilderDeck(successCallback, errorCallback) {
+    makeRequest('POST', successCallback, errorCallback);
+    
+    return { type: 'DEFFERED' };
+}
+
+function makeRequest(type, successCallback, errorCallback, complementaryUrl = '') {
+    var url = buildRestPath() + complementaryUrl;
+    $.ajax({
+        url: url,
+        type: type,
+        headers: buildAuthorizationHeaders(),
+        success: successCallback,
+        error: errorCallback
+    });
+}
+
+function buildRestPath() {
+    return 'http://' + location.host + apiRoute;
 }
 
 function buildAuthorizationHeaders() {
     return { 'Authorization': 'bearer ' + localStorage.token };
 }
-export function createDeckBuilder(successCallback, errorCallback) {
-    var url = buildRestPath("createDeckBuilder"); 
-    $.ajax({
-        url: url,
-        type: 'POST',
-        headers: buildAuthorizationHeaders(),
-        success: successCallback,
-        error: errorCallback
-    });
-
-    return {
-        type: 'BUILDER_CREATE',
-        shouldCallAPI: () => true,
-        APIParams: {
-            url: apiRoutes['createDeckBuilder'],
-            type: 'POST',
-            data: {},
-            contentType: 'application/json'
-        }
-    };
-}
-
-export function addCardToBuilder(cardId, successCallback, errorCallback) {
-    var url = buildRestPath("addCardToBuilder"); 
-    $.ajax({
-        url: url + cardId,
-        type: 'PATCH',
-        headers: buildAuthorizationHeaders(),
-        success: successCallback,
-        error: errorCallback
-    });
-
-    return {
-        type: 'BUILDER_ADD',
-        shouldCallAPI: () => true,
-        APIParams: {
-            url: apiRoutes['addCardToBuilder'] + cardId,
-            type: 'PATCH',
-            data: {},
-            contentType: 'application/json'
-        }
-    };
-}
-
