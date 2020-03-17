@@ -402,7 +402,7 @@ module.exports.init = function(server, options) {
         }
 
         if(!user.verified) {
-            return res.send({ success: false, message: 'You must verifiy your account before trying to log in' });
+            return res.send({ success: false, message: 'You must verify your account before trying to log in' });
         }
 
         let userObj = user.getWireSafeDetails();
@@ -488,7 +488,7 @@ module.exports.init = function(server, options) {
 
         let user = await userService.getUserById(req.body.id);
         if(!user) {
-            res.send({ success: false, message: 'An error occured resetting your password, check the url you have entered and try again.' });
+            res.send({ success: false, message: 'An error occurred resetting your password, check the url you have entered and try again.' });
 
             return next();
         }
@@ -496,7 +496,7 @@ module.exports.init = function(server, options) {
         if(!user.resetToken) {
             logger.error('Got unexpected reset request for user', user.username);
 
-            res.send({ success: false, message: 'An error occured resetting your password, check the url you have entered and try again.' });
+            res.send({ success: false, message: 'An error occurred resetting your password, check the url you have entered and try again.' });
 
             return next();
         }
@@ -516,7 +516,7 @@ module.exports.init = function(server, options) {
         if(resetToken !== req.body.token) {
             logger.error('Invalid reset token', user.username, req.body.token);
 
-            res.send({ success: false, message: 'An error occured resetting your password, check the url you have entered and try again.' });
+            res.send({ success: false, message: 'An error occurred resetting your password, check the url you have entered and try again.' });
 
             return next();
         }
