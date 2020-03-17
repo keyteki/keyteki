@@ -16,6 +16,10 @@ constructor() {
     this.selectedCards = [];
     this.selectedDisplayCards = [];
     this.forcedUpdate = false;
+
+    this.state = {
+        deckName: ''
+    }
 }
 
 componentDidMount() {
@@ -23,6 +27,7 @@ componentDidMount() {
     this.props.createDeckBuilder();
     
     this.selectFunction = this.selectFunction.bind(this);
+    this.saveButtonClicked = this.saveButtonClicked.bind(this);
 }
 
 componentWillReceiveProps(props) {
@@ -40,8 +45,15 @@ render() {
             <Panel title={'Selected Cards'} className='deckbuilder-container selected-cards-panel'>
                 {this.getSelectedCards()}
             </Panel>
+            <button onClick={this.saveButtonClicked}>Save</button>
         </Panel>
         ); 
+ }
+
+ saveButtonClicked() {
+    this.props.getBuilderDeck((response) => {
+        this.props.saveBuilderDeck();
+    });
  }
 
 
@@ -59,7 +71,6 @@ render() {
     }
 
     getSelectedCards() {
-        debugger;
         if (this.selectedCards.length != this.selectedDisplayCards.length || this.forcedUpdate) {
             this.selectedDisplayCards = [];
             for (var i = 0; i < this.selectedCards.length; i++) {
@@ -94,6 +105,8 @@ Deckbuilder.propTypes = {
     loadCards: PropTypes.func.isRequired,
     createDeckBuilder: PropTypes.func.isRequired,
     addCardToBuilder: PropTypes.func.isRequired,
+    getBuilderDeck: PropTypes.func.isRequired,
+    saveDeck: PropTypes.func.isRequired,
     selectedCards: PropTypes.array,
     cards: PropTypes.object,
     message: PropTypes.string

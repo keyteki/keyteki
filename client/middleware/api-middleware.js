@@ -3,6 +3,10 @@ import { navigate, setAuthTokens, authenticateSocket } from '../actions';
 
 export default function callAPIMiddleware({ dispatch, getState }) {
     return next => async action => {
+        if (action.type === 'DEFFERED') {
+            return;
+        }
+        
         const {
             types,
             APIParams,
