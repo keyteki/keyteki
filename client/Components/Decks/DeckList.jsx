@@ -23,6 +23,7 @@ class DeckList extends React.Component {
         this.filterDeck = this.filterDeck.bind(this);
         this.onSortChanged = this.onSortChanged.bind(this);
         this.onPageSizeChanged = this.onPageSizeChanged.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     filterDeck(deck) {
@@ -34,6 +35,10 @@ class DeckList extends React.Component {
         );
 
         return passedSearchFilter && passedExpansionFilter;
+    }
+
+    handleSubmit(event) {
+        event.preventDefault();
     }
 
     onChangeFilter(filter) {
@@ -117,7 +122,7 @@ class DeckList extends React.Component {
 
         return (
             <div className={ className }>
-                <form className='form'>
+                <form className='form' onSubmit={ this.handleSubmit } >
                     <div className='col-md-8'>
                         <div className='form-group'>
                             <label className='control-label'><Trans>Filter</Trans>:</label><input autoFocus className='form-control' placeholder={ t('Search...') } type='text' onChange={ e => this.changeFilter(e.target.value) }/>
