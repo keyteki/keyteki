@@ -24,13 +24,12 @@ export class CardEntry extends React.Component {
                     <p>{this.props.cardName} ({this.props.count})</p>
                     &nbsp;
                     &nbsp;
-                    {this.hover && this.props.count > 1 ? <button className="minusButton">&#8213;</button> : ''}
-                    {this.hover ? <button className="deleteButton">&#10006;</button> : ''}
+                    {this.hover ? <button className="minusButton" onClick={this.props.handleMinus}>&#8213;</button> : ''}
+                    {this.hover ? <button className="deleteButton" onClick={this.props.handleRemove}>&#10006;</button> : ''}
                 </div>
             </div>
         ); 
     }
-
 }
 
 

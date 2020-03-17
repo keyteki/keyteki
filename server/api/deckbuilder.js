@@ -17,8 +17,13 @@ module.exports.init = function(server) {
         )
     }));
 
-    server.patch('/api/deckbuilder/:id', passport.authenticate('jwt', {session:false}), wrapAsync(async function(req, res) {
-        var selectedCards = deckBuilderService.addCard(req.user.username, req.params.id)
+    server.patch('/api/deckbuilder', passport.authenticate('jwt', {session:false}), wrapAsync(async function(req, res) {
+        var selectedCards = deckBuilderService.addCard(req.user.username, req.body.cardId)
+        res.send({success: true, selectedCards: selectedCards});
+    }));
+
+    server.delete('/api/deckbuilder', passport.authenticate('jwt', {session:false}), wrapAsync(async function(req, res) {
+        var selectedCards = deckBuilderService.removeCard(req.user.username, req.body.cardId, req.body.count)
         res.send({success: true, selectedCards: selectedCards});
     }));
 
@@ -31,4 +36,5 @@ module.exports.init = function(server) {
         deckBuilderService.saveDeck(req.user.username)
         res.send({success: true});
     }));
+
 }
