@@ -3,38 +3,106 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import Panel from '../Components/Site/Panel';
+import CardEntry from '../Components/Site/CardEntry';
+import CardImage from '../Components/GameBoard/CardImage';
 
 import * as actions from '../actions';
 
 export class Deckbuilder extends React.Component {
 constructor() {
     super();
+    this.cards = [];
+    this.displayCards = [];
+    this.selectedCards = [];
+    this.selectedDisplayCards = [];
+    this.forcedUpdate = false;
+}
 
-    console.log(this.props.getCards());
+componentDidMount() {
+    this.props.loadCards();
+    this.props.createDeckBuilder();
+    
+    this.selectFunction = this.selectFunction.bind(this);
+}
+
+componentWillReceiveProps(props) {
+    if (this.props.cards) {
+        this.cards = Object.values(this.props.cards);
+    }
 }
 
 render() {
-    return ( 
+    return (
         <Panel title={ 'Deckbuilder' }>
-            <Panel title={'Available Cards'}>
-
+            <Panel title={'Available Cards'} className='deckbuilder-container available-cards-panel'>
+                {this.getCards()}
+            </Panel>
+            <Panel title={'Selected Cards'} className='deckbuilder-container selected-cards-panel'>
+                {this.getSelectedCards()}
             </Panel>
         </Panel>
         ); 
+ }
+
+
+    getCards() {
+        if (this.cards.length != this.displayCards.length) {
+            this.displayCards = [];
+            for (var i = 0; i < this.cards.length; i++) {
+                this.displayCards.push(
+                    <CardImage isDeckbuilder={true} img={this.cards[i].image} key={i} selectFunction={this.selectFunction} id={this.cards[i].id}/> 
+                );
+            }
+        }
+
+        return <div>{this.displayCards}</div>
+    }
+
+    getSelectedCards() {
+        debugger;
+        if (this.selectedCards.length != this.selectedDisplayCards.length || this.forcedUpdate) {
+            this.selectedDisplayCards = [];
+            for (var i = 0; i < this.selectedCards.length; i++) {
+                var card = this.cards.find(card => card.id == this.selectedCards[i].id);
+                if (!card) {
+                    continue;
+                }
+                this.selectedDisplayCards.push(
+                    <CardEntry key={i} cardName={card.name} count={this.selectedCards[i].count}/>
+                );
+            }
+        }
+
+        return <div>{this.selectedDisplayCards}</div>
+    }
+
+    selectFunction(id) {
+        this.props.addCardToBuilder(id,
+            (response) => {
+                if (response.success) {
+                    this.selectedCards = response.selectedCards;
+                    this.forceUpdate();
+                    this.forcedUpdate = true;
+                }
+            });
+
     }
 }
 
 Deckbuilder.displayName = 'Deckbuilder';
 Deckbuilder.propTypes = {
-    getCards: PropTypes.func.isRequired
-}
+    loadCards: PropTypes.func.isRequired,
+    createDeckBuilder: PropTypes.func.isRequired,
+    addCardToBuilder: PropTypes.func.isRequired,
+    selectedCards: PropTypes.array,
+    cards: PropTypes.object,
+    message: PropTypes.string
+};
 
 function mapStateToProps(state) {
     return {
-        apiLoading: state.api.FORGOTPASSWORD_ACCOUNT ? state.api.FORGOTPASSWORD_ACCOUNT.loading : undefined,
-        apiMessage: state.api.FORGOTPASSWORD_ACCOUNT ? state.api.FORGOTPASSWORD_ACCOUNT.message : undefined,
-        apiSuccess: state.api.FORGOTPASSWORD_ACCOUNT ? state.api.FORGOTPASSWORD_ACCOUNT.success : undefined,
-        socket: state.lobby.socket
+        cards: state.cards.cards,
+        selectedCards: state.deckbuilder.selectedCards
     };
 }
 

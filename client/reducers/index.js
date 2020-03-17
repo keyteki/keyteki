@@ -9,10 +9,11 @@ import admin from './admin';
 import user from './user';
 import account from './account';
 import lobby from './lobby';
+import deckbuilder from './deckbuilder'
 import { reducer as toastrReducer } from 'react-redux-toastr';
 
 const rootReducer = combineReducers({
-    navigation, auth, cards, games, news, toastr: toastrReducer, api, admin, user, account, lobby
+    navigation, auth, cards, games, news, toastr: toastrReducer, api, admin, user, account, lobby, deckbuilder
 });
 
 export default rootReducer;

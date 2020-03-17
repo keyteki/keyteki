@@ -35,3 +35,58 @@
         border-color: @brand-primary;
     }
 }
+
+.deckbuilder-container .panel-body {
+    overflow-y: auto;
+    height: 600px;
+}
+
+.deckbuilder-panel {
+    display: flex;
+    justify-content: stretch;
+}
+
+.available-cards-panel {
+    width: 70%;
+    float: left;
+}
+
+.available-cards-panel img {
+    width: 30%;
+    height: 300px;
+    margin: 5px 5px 5px 5px;
+}
+
+.selected-cards-panel {
+    width: 28%;
+    float: right;
+}
+
+.cardEntry {
+    display: flex;
+    flex-direction: row;
+    width: 100%
+}
+
+.cardContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    width: 100%
+}
+
+.cardContainer button {
+    background-color: transparent;
+    border: 0px;
+    margin: 0px;
+    padding: 0px;
+    margin-left: 10px;
+}
+
+.cardContainer .deleteButton:hover {
+    color: red;
+}
+
+.cardContainer .minusButton {
+    margin-left: auto;
+}
