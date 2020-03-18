@@ -12,6 +12,7 @@ services:
       - "./server:/usr/src/app/server"
       - "./public:/usr/src/app/public"
       - "./less:/usr/src/app/less"
+      - "./packs:/usr/src/app/packs"
     links:
       - mongo
     depends_on:
@@ -31,7 +32,7 @@ services:
     command:
       - node
       - "--inspect=0.0.0.0:9339"
-      - "server/gamenode"      
+      - "server/gamenode"
   mongo:
     image: mongo
     ports:

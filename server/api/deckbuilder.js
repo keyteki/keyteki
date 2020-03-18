@@ -18,13 +18,13 @@ module.exports.init = function(server) {
     }));
 
     server.patch('/api/deckbuilder', passport.authenticate('jwt', {session:false}), wrapAsync(async function(req, res) {
-        var selectedCards = deckBuilderService.addCard(req.user.username, req.body.cardId)
-        res.send({success: true, selectedCards: selectedCards});
+        var buildingDeck = deckBuilderService.addCard(req.user.username, req.body.cardId)
+        res.send({ success: true, selectedCards: buildingDeck });
     }));
 
     server.delete('/api/deckbuilder', passport.authenticate('jwt', {session:false}), wrapAsync(async function(req, res) {
         var selectedCards = deckBuilderService.removeCard(req.user.username, req.body.cardId, req.body.count)
-        res.send({success: true, selectedCards: selectedCards});
+        res.send({success: true, buildingDeck: selectedCards });
     }));
 
     server.get('/api/deckbuilder', passport.authenticate('jwt', {session:false}), wrapAsync(async function(req, res) {

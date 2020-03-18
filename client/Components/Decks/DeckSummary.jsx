@@ -41,10 +41,10 @@ class DeckSummary extends React.Component {
 
     onCardMouseOver(event) {
         let cardToDisplay = Object.values(this.props.deck.cards).filter(card => {
-            let house = event.target.dataset.card_house;
+            let faction = event.target.dataset.card_faction;
             let cardId = event.target.dataset.card_id;
 
-            return (house === card.card.house) && (cardId === card.card.id);
+            return (faction === card.card.faction) && (cardId === card.card.id);
         });
 
         this.setState({ cardToShow: cardToDisplay[0] });
@@ -64,25 +64,25 @@ class DeckSummary extends React.Component {
         let groupedCards = {};
 
         for(const card of this.props.deck.cards) {
-            let house = card.card.house;
-            if(!house) {
+            let faction = card.card.faction;
+            if(!faction) {
                 continue;
             }
 
-            if(!groupedCards[house]) {
-                groupedCards[house] = [card];
+            if(!groupedCards[faction]) {
+                groupedCards[faction] = [card];
             } else {
-                groupedCards[house].push(card);
+                groupedCards[faction].push(card);
             }
         }
 
-        // Traverse props.deck.houses to guarantee the card boxes will have the same order as the house icons
-        for(const house of this.props.deck.houses) {
-            let key = house;
-            let houseTitleLocale = t(house);
-            let houseTitle = houseTitleLocale[0].toUpperCase() + houseTitleLocale.slice(1);
+        // Traverse props.deck.factions to guarantee the card boxes will have the same order as the faction icons
+        for(const faction of this.props.deck.factions) {
+            let key = faction;
+            let factionTitleLocale = t(faction);
+            let factionTitle = factionTitleLocale[0].toUpperCase() + factionTitleLocale.slice(1);
 
-            let cardList = groupedCards[house];
+            let cardList = groupedCards[faction];
             let cards = [];
             let count = 0;
 
@@ -92,13 +92,9 @@ class DeckSummary extends React.Component {
                         <span>{ card.count + 'x ' }</span>
                         <span className='card-link' onMouseOver={ this.onCardMouseOver }
                             onMouseOut={ this.onMouseOut }
-                            data-card_id={ card.card.id } data-card_house={ house }>
+                            data-card_id={ card.card.id } data-card_faction={ faction }>
                             { (card.card.locale && card.card.locale[i18n.language]) ? card.card.locale[i18n.language].name : card.card.name }
                         </span>
-                        { card.maverick ? <img className='small-maverick' src='/img/maverick.png' width='12px'
-                            height='12px'/> : null }
-                        { card.anomaly ? <img className='small-maverick' src='/img/anomaly.png' width='12px'
-                            height='14px'/> : null }
                     </div>);
 
                     cards.push(cardToRender);
@@ -108,7 +104,7 @@ class DeckSummary extends React.Component {
 
             cardsToRender.push(
                 <div className='cards-no-break' key={ key }>
-                    <div className='card-group-title'>{ houseTitle + ' (' + count.toString() + ')' }</div>
+                    <div className='card-group-title'>{ factionTitle + ' (' + count.toString() + ')' }</div>
                     <div key={ key } className='card-group'>{ cards }</div>
                 </div>);
         }
@@ -126,10 +122,9 @@ class DeckSummary extends React.Component {
         }
 
         let cardCounts = {
-            creature: 0,
-            artifact: 0,
-            action: 0,
-            upgrade: 0
+            unit: 0,
+            spell: 0,
+            relic: 0
         };
 
         for(let card of this.props.deck.cards) {
@@ -147,10 +142,7 @@ class DeckSummary extends React.Component {
                 { this.state.cardToShow &&
                     <div className='hover-card'>
                         <CardImage className='hover-image'
-                            img={ `/img/cards/${ this.state.cardToShow.card.image }.png` }
-                            maverick={ this.state.cardToShow.maverick }
-                            anomaly={ this.state.cardToShow.anomaly }
-                            amber={ this.state.cardToShow.card.amber }/>
+                            img={ `/img/cards/${ this.state.cardToShow.card.image }.png` }/>
                         <AltCard card={ this.state.cardToShow }/>
                     </div> }
                 { this.state.archonShow &&
@@ -165,27 +157,12 @@ class DeckSummary extends React.Component {
                         <img className={ 'img-responsive' } src={ this.state.imageUrl } onMouseOut={ this.onMouseOut } onMouseOver={ this.onMouseOver }/>
                     </div>
                     <div className='col-xs-8 col-sm-6'>
-                        <div className='info-row row'><span><Trans>Actions</Trans>:</span><span
-                            className='pull-right'>{ cardCounts.action } <Trans>cards</Trans></span></div>
-                        <div className='info-row row'><span><Trans>Artifacts</Trans>:</span><span
-                            className='pull-right'>{ cardCounts.artifact } <Trans>cards</Trans></span></div>
-                        <div className='info-row row'><span><Trans>Creatures</Trans>:</span><span
-                            className='pull-right'>{ cardCounts.creature } <Trans>cards</Trans></span></div>
-                        <div className='info-row row'><span><Trans>Upgrades</Trans>:</span><span
-                            className='pull-right'>{ cardCounts.upgrade } <Trans>cards</Trans></span></div>
-                        { /* <div className='info-row row'><span><Trans>Wins</Trans>:</span><span
-                            className='pull-right'>{ this.props.deck.wins }</span></div>
-                        <div className='info-row row'><span><Trans>Losses</Trans>:</span><span
-                            className='pull-right'>{ this.props.deck.losses }</span></div> */ }
-                        <div className='info-row row'><span><Trans>Validity</Trans>:</span>
-                            <DeckStatus className='pull-right' status={ this.props.deck.status }/>
-                        </div>
-                        { this.props.deck.usageLevel > 0 && !this.props.deck.verified ?
-                            <div className='info-row row'><Trans i18nKey='decksummary.toverify'>This deck has been
-                                flagged as requiring verification. Please email a photo of the decklist with your
-                                username written on a piece of paper to</Trans>: thecrucible.deckcheck@gmail.com
-                            </div> : null
-                        }
+                        <div className='info-row row'><span><Trans>Spells</Trans>:</span><span
+                            className='pull-right'>{ cardCounts.spell } <Trans>cards</Trans></span></div>
+                        <div className='info-row row'><span><Trans>Relics</Trans>:</span><span
+                            className='pull-right'>{ cardCounts.relic } <Trans>cards</Trans></span></div>
+                        <div className='info-row row'><span><Trans>Units</Trans>:</span><span
+                            className='pull-right'>{ cardCounts.unit } <Trans>cards</Trans></span></div>
                     </div>
                     <div className='col-xs-2 col-sm-3 no-x-padding'>
                         { this.props.deck.agenda && this.props.deck.agenda.code ?

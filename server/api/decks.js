@@ -32,22 +32,6 @@ module.exports.init = function(server) {
 
     server.get('/api/decks', passport.authenticate('jwt', { session: false }), wrapAsync(async function(req, res) {
         let decks = (await deckService.findByUserName(req.user.username)).map(deck => {
-            let deckUsageLevel = 0;
-            if(deck.usageCount > configService.getValueForSection('lobby', 'lowerDeckThreshold')) {
-                deckUsageLevel = 1;
-            }
-
-            if(deck.usageCount > configService.getValueForSection('lobby', 'middleDeckThreshold')) {
-                deckUsageLevel = 2;
-            }
-
-            if(deck.usageCount > configService.getValueForSection('lobby', 'upperDeckThreshold')) {
-                deckUsageLevel = 3;
-            }
-
-            deck.usageLevel = deckUsageLevel;
-            deck.usageCount = undefined;
-
             return deck;
         });
         res.send({ success: true, decks: decks });
