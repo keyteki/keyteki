@@ -31,7 +31,7 @@ export class Deckbuilder extends React.Component {
         this.saveButtonClicked = this.saveButtonClicked.bind(this);
     }
 
-    componentWillReceiveProps(props) {
+    componentWillReceiveProps() {
         if(this.props.cards) {
             this.cards = Object.values(this.props.cards);
         }
@@ -62,7 +62,7 @@ export class Deckbuilder extends React.Component {
                     this.forcedUpdate = true;
                 }
             });
-        window.location.reload();});
+        });
     }
 
 
@@ -83,13 +83,13 @@ export class Deckbuilder extends React.Component {
     selectFunction(id) {
         this.props.addCardToBuilder(id,
             (response) => {
-                if (response.success) {
-                    this.selectedCards = response.selectedCards;
+                if(response.success) {
+                    this.selectedCards = response.buildingDeck.cards;
+                    this.total = response.buildingDeck.total;
                     this.forceUpdate();
                     this.forcedUpdate = true;
                 }
             });
-
     }
 
     getSelectedCards() {
@@ -127,9 +127,9 @@ export class Deckbuilder extends React.Component {
     removeSelectedCard(cardId, count) {
         this.props.removeCardFromBuilder(cardId, count,
             (response) => {
-            if(response.success) {
+            if (response.success) {
                 this.selectedCards = response.buildingDeck.cards;
-                    this.total = response.buildingDeck.total;
+                this.total = response.buildingDeck.total;
                 this.forceUpdate();
                 this.forcedUpdate = true;
             }
