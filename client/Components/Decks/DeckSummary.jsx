@@ -76,7 +76,7 @@ class DeckSummary extends React.Component {
             }
         }
 
-        // Traverse props.deck.houses to guarantee the card boxes will have the same order as the house icons
+        // Traverse props.deck.factions to guarantee the card boxes will have the same order as the faction icons
         for(const faction of this.props.deck.factions) {
             let key = faction;
             let factionTitleLocale = t(faction);
