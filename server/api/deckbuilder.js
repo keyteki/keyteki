@@ -18,8 +18,8 @@ module.exports.init = function(server) {
     }));
 
     server.patch('/api/deckbuilder/:id', passport.authenticate('jwt', {session:false}), wrapAsync(async function(req, res) {
-        var selectedCards = deckBuilderService.addCard(req.user.username, req.params.id)
-        res.send({success: true, selectedCards: selectedCards});
+        var buildingDeck = deckBuilderService.addCard(req.user.username, req.params.id)
+        res.send({success: true, buildingDeck: buildingDeck });
     }));
 
     server.get('/api/deckbuilder', passport.authenticate('jwt', {session:false}), wrapAsync(async function(req, res) {

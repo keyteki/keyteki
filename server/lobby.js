@@ -628,7 +628,6 @@ class Lobby {
                 }
 
                 deck.status = {
-                    usageLevel: 0,
                     basicRules: true,
                     flagged: false,
                     verified: true,
@@ -664,21 +663,7 @@ class Lobby {
                     card.card = cards[card.id];
                 }
 
-                let deckUsageLevel = 0;
-                if(deck.usageCount > this.configService.getValueForSection('lobby', 'lowerDeckThreshold')) {
-                    deckUsageLevel = 1;
-                }
-
-                if(deck.usageCount > this.configService.getValueForSection('lobby', 'middleDeckThreshold')) {
-                    deckUsageLevel = 2;
-                }
-
-                if(deck.usageCount > this.configService.getValueForSection('lobby', 'upperDeckThreshold')) {
-                    deckUsageLevel = 3;
-                }
-
                 deck.status = {
-                    usageLevel: deckUsageLevel,
                     basicRules: true,
                     verified: !!deck.verified,
                     noUnreleasedCards: true,

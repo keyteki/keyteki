@@ -133,17 +133,6 @@ class DeckList extends React.Component {
                             </select>
                         </div>
                     </div>
-                    <div className='col-md-12'>
-                        <div className='form-group'>
-                            <label className='control-label'><Trans>Filter By Expansion</Trans>:</label>
-                            <select className='form-control' onChange={ this.onChangeExpansionFilter }>
-                                <option />
-                                <option>World&#39;s Collide</option>
-                                <option>Age of Ascension</option>
-                                <option>Call of the Archons</option>
-                            </select>
-                        </div>
-                    </div>
                     <div className='col-md-12'><Trans>Sort by</Trans>:<RadioGroup buttons={ sortButtons } onValueSelected={ this.onSortChanged } defaultValue={ this.state.sortOrder } /></div>
                     <nav className='col-md-12' aria-label={ t('Page navigation') } >
                         <ul className='pagination'>
