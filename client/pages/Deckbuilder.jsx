@@ -62,7 +62,7 @@ export class Deckbuilder extends React.Component {
                     this.forcedUpdate = true;
                 }
             });
-        });
+        window.location.reload();});
     }
 
 
@@ -80,6 +80,18 @@ export class Deckbuilder extends React.Component {
         return <div>{ this.displayCards }</div>;
     }
 
+    selectFunction(id) {
+        this.props.addCardToBuilder(id,
+            (response) => {
+                if (response.success) {
+                    this.selectedCards = response.selectedCards;
+                    this.forceUpdate();
+                    this.forcedUpdate = true;
+                }
+            });
+
+    }
+
     getSelectedCards() {
         if(this.selectedCards.length !== this.selectedDisplayCards.length || this.forcedUpdate) {
             this.selectedDisplayCards = [];
@@ -88,7 +100,14 @@ export class Deckbuilder extends React.Component {
 
                 if(card && selectedCard.count) {
                     this.selectedDisplayCards.push(
-                        <CardEntry key={ i } cardName={ card.name } count={ selectedCard.count }/>
+                        <CardEntry
+                        key={ i }
+                        cardName={ card.name }
+                        count={ selectedCard.count }
+                        id={card.id}
+                        handleMinus={this.handleMinus.bind(this, card.id)}
+                        handleRemove={this.handleRemove.bind(this, card.id)}
+                    />
                     );
                 }
             });
@@ -97,18 +116,26 @@ export class Deckbuilder extends React.Component {
         return <div>{ this.selectedDisplayCards }</div>;
     }
 
-    selectFunction(id) {
-        this.props.addCardToBuilder(id,
-            (response) => {
-                if(response.success) {
-                    this.selectedCards = response.buildingDeck.cards;
-                    this.total = response.buildingDeck.total;
-                    this.forceUpdate();
-                    this.forcedUpdate = true;
-                }
-            });
-
+    handleMinus(cardId) {
+        this.removeSelectedCard(cardId, 1);
     }
+
+    handleRemove(cardId) {
+        this.removeSelectedCard(cardId, 45);
+    }
+
+    removeSelectedCard(cardId, count) {
+        this.props.removeCardFromBuilder(cardId, count,
+            (response) => {
+            if(response.success) {
+                this.selectedCards = response.buildingDeck.cards;
+                    this.total = response.buildingDeck.total;
+                this.forceUpdate();
+                this.forcedUpdate = true;
+            }
+        });
+    }
+
 }
 
 Deckbuilder.displayName = 'Deckbuilder';
@@ -119,6 +146,7 @@ Deckbuilder.propTypes = {
     getBuilderDeck: PropTypes.func.isRequired,
     loadCards: PropTypes.func.isRequired,
     message: PropTypes.string,
+    removeCardFromBuilder: PropTypes.func.isRequired,
     saveDeck: PropTypes.func.isRequired,
     selectedCards: PropTypes.array
 };
