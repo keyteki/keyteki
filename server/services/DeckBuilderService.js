@@ -57,7 +57,17 @@ class DeckBuilderService {
         return this.buildingDecks[username].cards;
     }
 
-    removeCard(username, cardId) {
+    removeCard(username, cardId, count) {
+        var userdeck = this.buildingDecks[username];
+        var cardReference = userdeck.cards.find(card => card.id == cardId);
+        if (cardReference) {
+            if (cardReference.count > count) {
+                cardReference.count -= count;
+            }
+            else {
+                userdeck.cards = userdeck.cards.filter(card => card.id != cardId);
+            }
+        }
         return this.buildingDecks[username].cards;
     }
 
@@ -73,4 +83,3 @@ class DeckBuilderService {
 }
 
 module.exports = DeckBuilderService;
-

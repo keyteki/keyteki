@@ -9,7 +9,13 @@ export function createDeckBuilder(successCallback, errorCallback) {
 }
 
 export function addCardToBuilder(cardId, successCallback, errorCallback) {
-    makeRequest('PATCH', successCallback, errorCallback, '/' + cardId);
+    makeRequest('PATCH', successCallback, errorCallback, {cardId: cardId});
+
+    return { type: 'DEFFERED' };
+}
+
+export function removeCardFromBuilder(cardId, count, successCallback, errorCallback) {
+    makeRequest('DELETE', successCallback, errorCallback, {cardId: cardId, count: count});
 
     return { type: 'DEFFERED' };
 }
@@ -26,14 +32,14 @@ export function saveBuilderDeck(successCallback, errorCallback) {
     return { type: 'DEFFERED' };
 }
 
-function makeRequest(type, successCallback, errorCallback, complementaryUrl = '') {
-    var url = buildRestPath() + complementaryUrl;
+function makeRequest(type, successCallback, errorCallback, body = {}) {
     $.ajax({
-        url: url,
+        url: buildRestPath(),
         type: type,
         headers: buildAuthorizationHeaders(),
         success: successCallback,
-        error: errorCallback
+        error: errorCallback,
+        data: body
     });
 }
 

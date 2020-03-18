@@ -53,6 +53,7 @@ render() {
  saveButtonClicked() {
     this.props.getBuilderDeck((response) => {
         this.props.saveBuilderDeck();
+        window.location.reload();
     });
  }
 
@@ -70,23 +71,6 @@ render() {
         return <div>{this.displayCards}</div>
     }
 
-    getSelectedCards() {
-        if (this.selectedCards.length != this.selectedDisplayCards.length || this.forcedUpdate) {
-            this.selectedDisplayCards = [];
-            for (var i = 0; i < this.selectedCards.length; i++) {
-                var card = this.cards.find(card => card.id == this.selectedCards[i].id);
-                if (!card) {
-                    continue;
-                }
-                this.selectedDisplayCards.push(
-                    <CardEntry key={i} cardName={card.name} count={this.selectedCards[i].count}/>
-                );
-            }
-        }
-
-        return <div>{this.selectedDisplayCards}</div>
-    }
-
     selectFunction(id) {
         this.props.addCardToBuilder(id,
             (response) => {
@@ -98,6 +82,50 @@ render() {
             });
 
     }
+
+    getSelectedCards() {
+        if (this.selectedCards.length != this.selectedDisplayCards.length || this.forcedUpdate) {
+            this.selectedDisplayCards = [];
+            for (var i = 0; i < this.selectedCards.length; i++) {
+                var card = this.cards.find(card => card.id == this.selectedCards[i].id);
+                if (!card) {
+                    continue;
+                }
+                this.selectedDisplayCards.push(
+                    <CardEntry 
+                        key={i} 
+                        cardName={card.name} 
+                        count={this.selectedCards[i].count}
+                        id={card.id}
+                        handleMinus={this.handleMinus.bind(this, card.id)}
+                        handleRemove={this.handleRemove.bind(this, card.id)}
+                    />
+                );
+            }
+        }
+
+        return <div>{this.selectedDisplayCards}</div>
+    }
+
+    handleMinus(cardId) {
+        this.removeSelectedCard(cardId, 1);
+    }
+
+    handleRemove(cardId) {
+        this.removeSelectedCard(cardId, 45);
+    }
+
+    removeSelectedCard(cardId, count) {
+        this.props.removeCardFromBuilder(cardId, count, 
+            (response) => {
+            if (response.success) {
+                this.selectedCards = response.selectedCards;
+                this.forceUpdate();
+                this.forcedUpdate = true;
+            }
+        });
+    }
+
 }
 
 Deckbuilder.displayName = 'Deckbuilder';
@@ -106,6 +134,7 @@ Deckbuilder.propTypes = {
     createDeckBuilder: PropTypes.func.isRequired,
     addCardToBuilder: PropTypes.func.isRequired,
     getBuilderDeck: PropTypes.func.isRequired,
+    removeCardFromBuilder: PropTypes.func.isRequired,
     saveDeck: PropTypes.func.isRequired,
     selectedCards: PropTypes.array,
     cards: PropTypes.object,
