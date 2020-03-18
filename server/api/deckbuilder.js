@@ -33,7 +33,7 @@ module.exports.init = function(server) {
     }));
 
     server.post('/api/deckbuilder', passport.authenticate('jwt', {session:false}), wrapAsync(async function(req, res) {
-        deckBuilderService.saveDeck(req.user.username)
+        deckBuilderService.saveDeck(req.user.username, req.body.deckName);
         res.send({success: true});
     }));
 

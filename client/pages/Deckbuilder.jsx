@@ -37,6 +37,10 @@ export class Deckbuilder extends React.Component {
         }
     }
 
+    handleChange(event) {
+        this.setState({deckName: event.target.value});
+      }
+
     render() {
         return (
             <Panel title={'Deckbuilder'}>
@@ -46,6 +50,7 @@ export class Deckbuilder extends React.Component {
                 <Panel title={'Selected Cards (' + this.total + ')' } className='deckbuilder-container selected-cards-panel'>
                     {this.getSelectedCards()}
                 </Panel>
+                Deck name: <input type="text" value={this.state.value} onChange={this.handleChange} />    
                 <button disabled={ this.total < 35 || this.total > 45 } onClick={this.saveButtonClicked}>Save</button>
             </Panel>
         );
@@ -53,7 +58,7 @@ export class Deckbuilder extends React.Component {
 
     saveButtonClicked() {
         this.props.getBuilderDeck((response) => {
-            this.props.saveBuilderDeck((res) => {
+            this.props.saveBuilderDeck(this.state.deckName, (res) => {
                 if(res.success) {
                     this.selectedDisplayCards = [];
                     this.selectedCards = [];

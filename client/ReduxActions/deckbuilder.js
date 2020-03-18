@@ -26,8 +26,8 @@ export function getBuilderDeck(successCallback, errorCallback) {
     return { type: 'DEFFERED' };
 }
 
-export function saveBuilderDeck(successCallback, errorCallback) {
-    makeRequest('POST', successCallback, errorCallback);
+export function saveBuilderDeck(deckName, successCallback, errorCallback) {
+    makeRequest('POST', successCallback, errorCallback, {bo});
     
     return { type: 'DEFFERED' };
 }

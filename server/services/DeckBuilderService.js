@@ -77,8 +77,9 @@ class DeckBuilderService {
         return this.buildingDecks[username];
     }
 
-    saveDeck(username) {
+    saveDeck(username, deckName) {
         this.buildingDecks[username].identity = 'identity';
+        this.buildingDecks[username].name = deckName;
         this.decks.insert(this.buildingDecks[username]);
         delete this.buildingDecks[username];
     }
