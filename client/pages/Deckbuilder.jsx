@@ -43,10 +43,10 @@ export class Deckbuilder extends React.Component {
                 <Panel title={'Available Cards'} className='deckbuilder-container available-cards-panel'>
                     {this.getCards()}
                 </Panel>
-                <Panel title={'Selected Cards'} className='deckbuilder-container selected-cards-panel'>
+                <Panel title={'Selected Cards (' + this.total + ')' } className='deckbuilder-container selected-cards-panel'>
                     {this.getSelectedCards()}
                 </Panel>
-                <button disabled={ this.total <= 35 || this.total >= 45 } onClick={this.saveButtonClicked}>Save</button>
+                <button disabled={ this.total < 35 || this.total > 45 } onClick={this.saveButtonClicked}>Save</button>
             </Panel>
         );
     }
