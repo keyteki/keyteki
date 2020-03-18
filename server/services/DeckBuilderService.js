@@ -60,16 +60,17 @@ class DeckBuilderService {
 
     removeCard(username, cardId, count) {
         var userdeck = this.buildingDecks[username];
-        var cardReference = userdeck.cards.find(card => card.id == cardId);
+        var cardReference = userdeck.cards.find(card => card.id === cardId);
         if (cardReference) {
             if (cardReference.count > count) {
                 cardReference.count -= count;
-            }
-            else {
-                userdeck.cards = userdeck.cards.filter(card => card.id != cardId);
+                this.buildingDecks[username].total--;
+            } else {
+                this.buildingDecks[username].total = userdeck.total - userdeck.cards.find(card => card.id === cardId).count;
+                userdeck.cards = userdeck.cards.filter(card => card.id !== cardId);
             }
         }
-        return this.buildingDecks[username].cards;
+        return this.buildingDecks[username];
     }
 
     getDeck(username) {
