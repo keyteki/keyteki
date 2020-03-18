@@ -48,7 +48,7 @@ class DeckService {
     }
 
     async findByUserName(username) {
-        let decks = await this.decks.find({ username: username, banned: false }, { sort: { lastUpdated: -1 } });
+        let decks = await this.decks.find({ username: username }, { sort: { lastUpdated: -1 } });
 
         for(let deck of decks) {
             deck.usageCount = await this.decks.count({ name: deck.name });
