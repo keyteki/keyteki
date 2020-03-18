@@ -29,6 +29,7 @@ export class Deckbuilder extends React.Component {
 
         this.selectFunction = this.selectFunction.bind(this);
         this.saveButtonClicked = this.saveButtonClicked.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
 
     componentWillReceiveProps() {

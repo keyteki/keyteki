@@ -78,6 +78,9 @@ class DeckBuilderService {
     }
 
     saveDeck(username, deckName) {
+        if (!deckName) {
+            deckName = 'Default deck name';
+        }
         this.buildingDecks[username].identity = 'identity';
         this.buildingDecks[username].name = deckName;
         this.decks.insert(this.buildingDecks[username]);
