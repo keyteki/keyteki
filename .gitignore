@@ -1,6 +1,5 @@
 bower_components
 node_modules
-public
 dist
 typings
 coverage
@@ -14,6 +13,5 @@ build/
 !tsconfig.json
 data
 mongodb
-!public/img/cards/*.png
 
 /.idea/
