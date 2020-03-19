@@ -266,10 +266,7 @@ class InnerCard extends React.Component {
 
         let image = (<CardImage className={ imageClass }
             img={ this.imageUrl }
-            language={ this.props.language }
-            maverick={ !this.isFacedown() ? this.props.card.maverick : null }
-            anomaly={ !this.isFacedown() ? this.props.card.anomaly : null }
-            amber={ !this.isFacedown() ? this.props.card.cardPrintedAmber : 0 }/>);
+            language={ this.props.language }/>);
 
         let content = this.props.connectDragSource(
             <div className='card-frame'>
@@ -323,9 +320,6 @@ class InnerCard extends React.Component {
 
     render() {
         let style = Object.assign({}, this.props.style);
-        if(this.props.card.upgrades) {
-            style.top = this.props.card.upgrades.length * (15 * this.getCardSizeMultiplier());
-        }
 
         if(this.props.wrapped) {
             return (

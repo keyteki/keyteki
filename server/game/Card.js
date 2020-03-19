@@ -53,12 +53,9 @@ class Card extends EffectSource {
             });
         }
 
-        this.printedHouse = cardData.house;
-        this.cardPrintedAmber = cardData.amber;
-        this.maverick = cardData.maverick;
-        this.anomaly = cardData.anomaly;
+        this.printedFaction = cardData.faction;
+        this.mana = cardData.mana;
 
-        this.upgrades = [];
         this.parent = null;
         this.childCards = [];
         this.clonedNeighbors = null;
@@ -350,7 +347,7 @@ class Card extends EffectSource {
             combinedHouses = combinedHouses.concat((this.getEffects('changeHouse')));
         } else {
             let copyEffect = this.mostRecentEffect('copyCard');
-            combinedHouses.push(copyEffect ? copyEffect.printedHouse : this.printedHouse);
+            combinedHouses.push(copyEffect ? copyEffect.printedHouse : this.printedFaction);
         }
 
         if(this.anyEffect('addHouse')) {
@@ -371,7 +368,7 @@ class Card extends EffectSource {
         }
 
         let copyEffect = this.mostRecentEffect('copyCard');
-        return (copyEffect ? copyEffect.printedHouse : this.printedHouse) === house || this.getEffects('addHouse').includes(house);
+        return (copyEffect ? copyEffect.printedHouse : this.printedFaction) === house || this.getEffects('addHouse').includes(house);
     }
 
     applyAnyLocationPersistentEffects() {
@@ -474,9 +471,9 @@ class Card extends EffectSource {
     }
 
     checkRestrictions(actionType, context = null) {
-        return super.checkRestrictions(actionType, context) && 
-                (!context || 
-                !context.player || 
+        return super.checkRestrictions(actionType, context) &&
+                (!context ||
+                !context.player ||
                 context.player.checkRestrictions(actionType, context)
             );
     }
@@ -553,13 +550,7 @@ class Card extends EffectSource {
         clone.parent = this.parent;
         clone.clonedNeighbors = this.neighbors;
         clone.traits = this.getTraits();
-        clone.modifiedPower = this.getPower();
         return clone;
-    }
-
-    get printedAmber() {
-        const copyEffect = this.mostRecentEffect('copyCard');
-        return (copyEffect ? copyEffect.cardPrintedAmber : this.cardPrintedAmber) + this.sumEffects('modifyAmberValue');
     }
 
     get power() {
@@ -852,9 +843,7 @@ class Card extends EffectSource {
         let result = super.getShortSummary();
 
         // Include card specific information useful for UI rendering
-        result.maverick = this.maverick;
-        result.anomaly = this.anomaly;
-        result.cardPrintedAmber = this.cardPrintedAmber;
+        result.mana = this.mana;
         result.locale = this.locale;
         return result;
     }
@@ -876,7 +865,6 @@ class Card extends EffectSource {
         }
 
         let state = {
-            anomaly: this.anomaly,
             id: this.cardData.id,
             image: this.cardData.image,
             canPlay: (activePlayer === this.game.activePlayer) && this.game.activePlayer.activeHouse &&
@@ -892,16 +880,12 @@ class Card extends EffectSource {
             menu: this.getMenu(),
             name: this.cardData.name,
             new: this.new,
-            printedHouse: this.printedHouse,
-            maverick: this.maverick,
-            cardPrintedAmber: this.cardPrintedAmber,
+            printedFaction: this.printedFaction,
+            mana: this.mana,
             stunned: this.stunned,
-            taunt: !!this.getKeywordValue('taunt'),
+            guardian: !!this.getKeywordValue('guardian'),
             tokens: this.tokens,
             type: this.getType(),
-            upgrades: this.upgrades.map(upgrade => {
-                return upgrade.getSummary(activePlayer, hideWhenFaceup);
-            }),
             uuid: this.uuid
         };
 

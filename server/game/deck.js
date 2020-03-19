@@ -20,14 +20,6 @@ class Deck {
                 return result;
             }
 
-            if(card.maverick) {
-                result.card.house = card.maverick;
-                result.card.maverick = card.maverick;
-            } else if(card.anomaly) {
-                result.card.house = card.anomaly;
-                result.card.anomaly = card.anomaly;
-            }
-
             return result;
         });
 
@@ -36,11 +28,11 @@ class Deck {
 
     prepare(player) {
         var result = {
-            houses: [],
+            factions: [],
             cards: []
         };
 
-        result.houses = this.data.houses;
+        result.factions = this.data.factions;
 
         this.eachRepeatedCard(this.data.cards, cardData => {
             let card = this.createCard(player, cardData);
@@ -69,11 +61,6 @@ class Deck {
         }
 
         cardData.image = cardData.id;
-        if(cardData.maverick) {
-            cardData.house = cardData.maverick;
-        } else if(cardData.anomaly) {
-            cardData.house = cardData.anomaly;
-        }
 
         if(!cards[cardData.id]) {
             return new Card(player, cardData);
