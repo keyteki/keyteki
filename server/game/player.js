@@ -24,12 +24,9 @@ class Player extends GameObject {
         this.deckUuid = '';
         this.deckSet = 0;
         this.discard = [];
-
         this.deckData = {};
-        this.takenMulligan = false;
 
-        this.chains = 0;
-        this.keyForged = [];
+        this.takenMulligan = false;
         this.creatureFought = false;
 
         this.clock = ClockSelector.for(this, clockdetails);
@@ -215,7 +212,6 @@ class Player extends GameObject {
         this.shuffleDeck();
 
         this.keys = { red: false, blue: false, yellow: false };
-        this.amber = 0;
         this.turn = 1;
         this.readyToStart = false;
         this.opponent = this.game.getOtherPlayer(this);
@@ -302,10 +298,9 @@ class Player extends GameObject {
 
         const cardLocations = ['hand', 'deck', 'discard'];
         const legalLocations = {
-            artifact: [...cardLocations, 'play area'],
-            action: [...cardLocations, 'being played'],
-            creature: [...cardLocations, 'play area'],
-            upgrade: [...cardLocations, 'play area'],
+            spell: [...cardLocations, 'being played'],
+            unit: [...cardLocations, 'play area'],
+            relic: [...cardLocations, 'play area'],
             player: ['play area']
         };
 
@@ -320,7 +315,7 @@ class Player extends GameObject {
         this.deckData.selected = false;
         this.deckData = deckData;
         this.deckData.selected = true;
-        this.houses = deckData.houses;
+        this.factions = deckData.factions;
     }
 
     /**
