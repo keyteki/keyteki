@@ -16,6 +16,6 @@ class TideSeeker extends Card {
     }
 }
 
-TideSeeker.id = 'tide-seeker';
+TideSeeker.id = 'tideseeker';
 
 module.exports = TideSeeker;
