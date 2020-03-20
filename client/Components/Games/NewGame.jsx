@@ -24,6 +24,7 @@ class NewGame extends React.Component {
         this.onPasswordChange = this.onPasswordChange.bind(this);
         this.onUseGameTimeLimitClick = this.onUseGameTimeLimitClick.bind(this);
         this.onGameTimeLimitChange = this.onGameTimeLimitChange.bind(this);
+        this.onHideDecklistsClick = this.onHideDecklistsClick.bind(this);
 
         this.state = {
             spectators: true,
@@ -34,6 +35,7 @@ class NewGame extends React.Component {
             expansions: { cota: false, aoa: false, wc: true },
             password: '',
             useGameTimeLimit: false,
+            hideDecklists: false,
             gameTimeLimit: 35
         };
     }
@@ -82,7 +84,8 @@ class NewGame extends React.Component {
             muteSpectators: this.state.muteSpectators,
             expansions: this.state.expansions,
             useGameTimeLimit: this.state.useGameTimeLimit,
-            gameTimeLimit: this.state.gameTimeLimit
+            gameTimeLimit: this.state.gameTimeLimit,
+            hideDecklists: this.state.hideDecklists
         });
     }
 
@@ -104,6 +107,10 @@ class NewGame extends React.Component {
 
     onUseGameTimeLimitClick(event) {
         this.setState({ useGameTimeLimit: event.target.checked });
+    }
+
+    onHideDecklistsClick(event) {
+        this.setState({ hideDecklists: event.target.checked });
     }
 
     onGameTimeLimitChange(event) {
@@ -133,6 +140,8 @@ class NewGame extends React.Component {
             { this.state.useGameTimeLimit && <div className='col-sm-4'>
                 <input className='form-control' type='number' onChange={ this.onGameTimeLimitChange } value={ this.state.gameTimeLimit } />
             </div> }
+            <Checkbox name='hideDecklists' noGroup label={ t('Hide opponent decklists') } fieldClass='col-sm-8'
+                onChange={ this.onHideDecklistsClick } checked={ this.state.hideDecklists } />
         </div>);
     }
 
