@@ -38,7 +38,7 @@ const routes = [
     { path: '/how-to-play', action: () => <HowToPlay key='howtoplay' /> },
     { path: '/login', action: () => <Login key='login' /> },
     { path: '/logout', action: () => <Logout key='logout' /> },
-    { path: '/matches', action: () => <Matches key='matches' /> },
+    //{ path: '/matches', action: () => <Matches key='matches' /> },
     { path: '/news', action: () => <NewsAdmin key='newsadmin' />, permission: 'canEditNews' },
     { path: '/play', action: context => (context.currentGame && context.currentGame.started) ? <GameBoard key='gameboard' /> : <GameLobby key='gamelobby' /> },
     { path: '/profile', action: () => <Profile key='profile' /> },

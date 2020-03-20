@@ -2,7 +2,7 @@ const menus = [
     { path: '/login', title: 'Login', showOnlyWhenLoggedOut: true, position: 'right' },
     { path: '/register', title: 'Register', showOnlyWhenLoggedOut: true, position: 'right' },
     { path: '/decks', title: 'Decks', showOnlyWhenLoggedIn: true, position: 'left' },
-    { path: '/matches', title: 'Matches', showOnlyWhenLoggedIn: true, position: 'left' },
+    //    { path: '/matches', title: 'Matches', showOnlyWhenLoggedIn: true, position: 'left' },
     { path: '/play', title: 'Play', position: 'left' },
     {
         title: 'Help', position: 'left', childItems: [
