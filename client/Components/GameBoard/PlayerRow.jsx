@@ -36,10 +36,12 @@ class PlayerRow extends React.Component {
                     this.props.setPlayer2CardBack(cardBackUrl);
                 }
             });
-        buildDeckList(deck, this.props.language, this.props.t, this.props.cards)
-            .then(deckListUrl => {
-                this.setState({ deckListUrl });
-            });
+        if(!this.props.hideDecklist) {
+            buildDeckList(deck, this.props.language, this.props.t, this.props.cards)
+                .then(deckListUrl => {
+                    this.setState({ deckListUrl });
+                });
+        }
     }
 
     componentDidUpdate(prevProps) {
@@ -176,10 +178,10 @@ PlayerRow.propTypes = {
     drawDeck: PropTypes.array,
     faction: PropTypes.object,
     hand: PropTypes.array,
+    hideDecklist: PropTypes.bool,
     houses: PropTypes.array,
     i18n: PropTypes.object,
     isMe: PropTypes.bool,
-    isMelee: PropTypes.bool,
     keys: PropTypes.object,
     language: PropTypes.string,
     manualMode: PropTypes.bool,

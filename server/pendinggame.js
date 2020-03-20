@@ -24,6 +24,7 @@ class PendingGame {
         this.gameChat = new GameChat();
         this.useGameTimeLimit = details.useGameTimeLimit;
         this.gameTimeLimit = details.gameTimeLimit;
+        this.hideDecklists = details.hideDecklists;
     }
 
     // Getters
@@ -356,7 +357,8 @@ class PendingGame {
             started: this.started,
             spectators,
             useGameTimeLimit: this.useGameTimeLimit,
-            gameTimeLimit: this.gameTimeLimit
+            gameTimeLimit: this.gameTimeLimit,
+            hideDecklists: this.hideDecklists
         };
     }
 }

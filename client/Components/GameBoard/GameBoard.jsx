@@ -290,6 +290,7 @@ export class GameBoard extends React.Component {
                         faction={ otherPlayer.faction }
                         archives={ otherPlayer.cardPiles.archives }
                         hand={ otherPlayer.cardPiles.hand } isMe={ false }
+                        hideDecklist={ this.props.currentGame.hideDecklists }
                         language={ this.props.i18n.language }
                         deckCards = { otherPlayer.deckCards }
                         deckName = { otherPlayer.deckName }

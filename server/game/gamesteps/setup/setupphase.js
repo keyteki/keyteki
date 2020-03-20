@@ -39,7 +39,7 @@ class SetupPhase extends Phase {
                 argType: 'link',
                 label: player.deckData.name
             };
-            if(this.game.gameFormat !== 'sealed') {
+            if(this.game.gameFormat !== 'sealed' && !this.game.hideDecklists) {
                 this.game.addMessage('{0} is playing as the Archon: {1}', player, link);
             }
         }
