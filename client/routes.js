@@ -6,7 +6,7 @@ import Logout from './pages/Logout';
 import Register from './pages/Register';
 import Lobby from './pages/Lobby';
 import Decks from './pages/Decks';
-import Matches from './pages/Matches';
+//import Matches from './pages/Matches';
 import ImportDeck from './Components/Decks/ImportDeck';
 import HowToPlay from './pages/HowToPlay';
 import About from './pages/About';
