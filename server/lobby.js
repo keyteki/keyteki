@@ -805,7 +805,6 @@ class Lobby {
             spectators: game.allowSpectators,
             showHand: game.showHand,
             gameType: game.gameType,
-            isMelee: game.isMelee,
             hideDecklists: game.hideDecklists,
             useGameTimeLimit: game.useGameTimeLimit,
             gameTimeLimit: game.gameTimeLimit,
