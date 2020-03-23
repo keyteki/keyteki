@@ -16,10 +16,10 @@ class Munchling extends Card {
                 dependsOn: 'select',
                 mode: 'upTo',
                 numCards: 1,
-                gameAction: ability.actions.discard()
-            },
-            then: {
-                gameAction: ability.actions.gainAmber(1)
+                gameAction: [
+                    ability.actions.discard(),
+                    ability.actions.gainAmber()
+                ]
             }
         });
     }
