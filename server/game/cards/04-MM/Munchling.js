@@ -19,7 +19,7 @@ class Munchling extends Card {
                 gameAction: ability.actions.discard()
             },
             then: {
-                gameAction: ability.actions.gainAmber()
+                gameAction: ability.actions.gainAmber(1)
             }
         });
     }
