@@ -1,6 +1,6 @@
-fdescribe('Fetch Drones', function() {
+fdescribe('Fetchdrones', function() {
     integration(function() {
-        describe('Fetch Drones\'s ability', function() {
+        describe('Fetchdrones\'s ability', function() {
             beforeEach(function() {
                 this.setupTest({
                     player1: {
