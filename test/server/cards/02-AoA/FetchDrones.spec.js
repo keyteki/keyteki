@@ -120,6 +120,7 @@ describe('Fetchdrones', function() {
             });
 
             it('should prompt for a single creature when only one logos in deck', function() {
+                this.player1.deck = [];
                 this.player1.moveCard(this.dextre, 'deck');
 
                 this.player1.play(this.archimedes);
@@ -133,6 +134,50 @@ describe('Fetchdrones', function() {
 
                 expect(this.batdrone.amber).toBe(2);
                 expect(this.player2.amber).toBe(8);
+
+                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            });
+
+            it('should prompt for a single creature when opponent has 1 amber', function() {
+                this.player2.amber = 1;
+
+                this.player1.moveCard(this.dextre, 'deck');
+                this.player1.moveCard(this.foggify, 'deck');
+
+                this.player1.play(this.archimedes);
+                this.player1.play(this.batdrone);
+
+                this.player1.useAction(this.fetchdrones);
+
+                expect(this.player1).toBeAbleToSelect(this.archimedes);
+                expect(this.player1).toBeAbleToSelect(this.batdrone);
+                this.player1.clickCard(this.batdrone);
+
+                expect(this.batdrone.amber).toBe(1);
+                expect(this.player2.amber).toBe(0);
+
+                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            });
+
+            it('should prompt for a two creatures when opponent has 3 amber', function() {
+                this.player2.amber = 3;
+
+                this.player1.moveCard(this.dextre, 'deck');
+                this.player1.moveCard(this.foggify, 'deck');
+
+                this.player1.play(this.archimedes);
+                this.player1.play(this.batdrone);
+
+                this.player1.useAction(this.fetchdrones);
+
+                expect(this.player1).toBeAbleToSelect(this.archimedes);
+                expect(this.player1).toBeAbleToSelect(this.batdrone);
+                this.player1.clickCard(this.batdrone);
+                this.player1.clickCard(this.archimedes);
+
+                expect(this.batdrone.amber).toBe(2);
+                expect(this.archimedes.amber).toBe(1);
+                expect(this.player2.amber).toBe(0);
 
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
