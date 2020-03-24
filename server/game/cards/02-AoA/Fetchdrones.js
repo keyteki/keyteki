@@ -10,7 +10,7 @@ class Fetchdrones extends Card {
                 let cards = preThenContext.player.deck.length > 0 ? preThenContext.player.deck.slice(0, Math.min(2, preThenContext.player.deck.length)) : [];
                 return {
                     condition: () => cards.filter(card => card.hasHouse('logos')).length > 0,
-                    gameAction: ability.actions.sequentialForEach(context => ({
+                    gameAction: ability.actions.sequentialForEach({
                         num: cards.filter(card => card.hasHouse('logos')).length,
                         action: ability.actions.capture({
                             amount: 2,
@@ -20,7 +20,7 @@ class Fetchdrones extends Card {
                                 controller: 'self'
                             }
                         })
-                    }))
+                    })
                 };
             }
         });
