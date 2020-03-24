@@ -1,11 +1,12 @@
 const AllPlayerPrompt = require('./allplayerprompt');
 
 class RematchPrompt extends AllPlayerPrompt {
-    constructor(game, requestingPlayer) {
+    constructor(game, requestingPlayer, swapDecks) {
         super(game);
 
         this.requestingPlayer = requestingPlayer;
         this.completedPlayers = new Set([requestingPlayer]);
+        this.swapDecks = swapDecks;
         this.cancelled = false;
     }
 
@@ -15,7 +16,10 @@ class RematchPrompt extends AllPlayerPrompt {
 
     activePrompt() {
         return {
-            menuTitle: { text: '{{player}} would like a rematch. Allow?', values: { player: this.requestingPlayer.name } },
+            menuTitle: {
+                text: '{{player}} would like a rematch{{swap}}. Allow?',
+                values: { player: this.requestingPlayer.name, swap: this.swapDecks ? ' and swap decks' : '' }
+            },
             buttons: [
                 { arg: 'yes', text: 'Yes' },
                 { arg: 'no', text: 'No' }
@@ -31,7 +35,8 @@ class RematchPrompt extends AllPlayerPrompt {
 
     onMenuCommand(player, arg) {
         if(arg === 'yes') {
-            this.game.addAlert('info', '{0} agrees to a rematch, setting it up now', player);
+            this.game.addAlert('info', '{0} agrees to a rematch{1}, setting it up now', player,
+                this.swapDecks ? ' and swap decks' : '');
             this.completedPlayers.add(player);
         } else {
             this.game.addAlert('info', '{0} would not like a rematch', player);
@@ -44,6 +49,10 @@ class RematchPrompt extends AllPlayerPrompt {
     onCompleted() {
         if(this.cancelled) {
             return;
+        }
+
+        if(this.swapDecks) {
+            this.game.gameFormat = this.game.gameFormat === 'reversal' ? 'normal' : 'reversal';
         }
 
         this.game.rematch();

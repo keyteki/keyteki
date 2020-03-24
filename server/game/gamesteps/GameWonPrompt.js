@@ -18,7 +18,8 @@ class GameWonPrompt extends AllPlayerPrompt {
             menuTitle: { text: '{{player}} has won the game!', values: { player: this.winner.name } },
             buttons: [
                 { arg: 'continue', text: 'Continue Playing' },
-                { arg: 'rematch', text: 'Rematch' }
+                { arg: 'rematch', text: 'Rematch' },
+                { arg: 'rematch-swap', text: 'Rematch: Swap Decks' }
             ]
         };
     }
@@ -28,13 +29,31 @@ class GameWonPrompt extends AllPlayerPrompt {
     }
 
     menuCommand(player, arg) {
-        let message = arg === 'continue' ? 'to continue' : 'a rematch';
+        let message = '';
+        switch(arg) {
+            case 'continue':
+                message = 'to continue';
+                break;
+            case 'rematch':
+                message = 'a rematch';
+                break;
+            case 'rematch-swap':
+                message = 'a rematch and swap decks';
+                break;
+        }
+
         this.game.addMessage('{0} would like {1}', player, message);
 
         this.clickedButton[player.name] = true;
 
         if(arg === 'rematch') {
             this.game.queueStep(new RematchPrompt(this.game, player));
+
+            return true;
+        }
+
+        if(arg === 'rematch-swap') {
+            this.game.queueStep(new RematchPrompt(this.game, player, true));
 
             return true;
         }
