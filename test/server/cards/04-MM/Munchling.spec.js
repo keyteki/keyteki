@@ -18,7 +18,7 @@ describe('munchling', function () {
             });
 
             it('give prompt', function () {
-                expect(this.player1).toHavePrompt('Any reactions to Helper Bot leaving play?');
+                expect(this.player1).toBeAbleToSelect(this.munchling);
             });
 
             describe('and the ability is triggered', function () {
