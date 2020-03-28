@@ -23,7 +23,7 @@ describe('survey', function() {
                 expect(this.player1).toHavePrompt('Choose a card to discard');
                 expect(this.player1).toHavePromptCardButton(this.troll);
                 expect(this.player1).toHavePromptCardButton(this.umbra);
-                expect(this.player1).not.toHavePromptCardButton(this.krump);				
+                expect(this.player1).not.toHavePromptCardButton(this.krump);
                 this.player1.clickPrompt('troll');
                 expect(this.troll.location).toBe('discard');
                 expect(this.umbra.location).toBe('deck');

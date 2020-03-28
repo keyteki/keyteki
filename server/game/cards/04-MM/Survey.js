@@ -9,8 +9,7 @@ class Survey extends Card {
                     activePromptTitle: 'Choose a card to discard',
                     cards: context.player.deck.slice(0, 2)
                 }
-            })),
-            message: 'Choose to keep or discard top of deck.'
+            }))
         });
     }
 }
