@@ -5,14 +5,17 @@ describe('Ganger Chieftain', function() {
                 this.setupTest({
                     player1: {
                         house: 'brobnar',
-                        hand: ['ganger-chieftain', 'anger'],
+                        hand: ['ganger-chieftain', 'anger', 'ganger-chieftain'],
                         inPlay: ['troll', 'ancient-bear']
                     },
                     player2: {
+                        hand: ['foggify'],
                         inPlay: ['batdrone', 'doc-bookton']
                     }
                 });
                 this.player1.fightWith(this.troll, this.docBookton);
+                this.ganger1 = this.player1.hand[0];
+                this.ganger2 = this.player1.hand[2];
             });
 
             it('should allow fighting with an exhausted creature', function() {
@@ -68,6 +71,52 @@ describe('Ganger Chieftain', function() {
                 this.player1.clickCard(this.troll);
                 expect(this.troll.exhausted).toBe(false);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            });
+        });
+        describe('Ganger Chieftain\'s ability', function() {
+            beforeEach(function() {
+                this.setupTest({
+                    player1: {
+                        house: 'logos',
+                        hand: ['foggify'],
+                        inPlay: ['batdrone', 'doc-bookton']
+                    },
+                    player2: {
+                        hand: ['ganger-chieftain', 'anger', 'ganger-chieftain'],
+                        inPlay: ['troll']
+                    }
+                });
+                this.ganger1 = this.player2.hand[0];
+                this.ganger2 = this.player2.hand[2];
+            });
+            it('should respect the rules of cards like foggify', function() {
+                this.player1.play(this.foggify);
+                this.player1.endTurn();
+                this.player2.clickPrompt('brobnar');
+                this.player2.reap(this.troll);
+                expect(this.troll.exhausted).toBe(true);
+                this.player2.playCreature(this.ganger1, true);
+                this.player2.clickCard(this.ganger1);
+                expect(this.player2).toHavePrompt('Ganger Chieftain');
+                expect(this.player2).toBeAbleToSelect(this.troll);
+                expect(this.player2).not.toBeAbleToSelect(this.ganger1);
+                expect(this.player2).not.toBeAbleToSelect(this.docBookton);
+                this.player2.clickCard(this.troll);
+                expect(this.troll.exhausted).toBe(false);
+                expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+                this.player2.playCreature(this.ganger2, true);
+                this.player2.clickCard(this.ganger2);
+                expect(this.player2).toHavePrompt('Ganger Chieftain');
+                expect(this.player2).not.toBeAbleToSelect(this.troll);
+                expect(this.player2).not.toBeAbleToSelect(this.ganger2);
+                expect(this.player2).toBeAbleToSelect(this.ganger1);
+                this.player2.clickCard(this.ganger1);
+                expect(this.ganger1.exhausted).toBe(false);
+                this.player2.clickCard(this.ganger1);
+                expect(this.player2).toHavePrompt('Choose an ability:');
+                expect(this.player2).toHavePromptButton('Reap with this creature');
+                this.player2.clickPrompt('Reap With This Creature');
+                expect(this.player2.amber).toBe(2);
             });
         });
     });
