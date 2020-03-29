@@ -53,7 +53,8 @@ class GameWonPrompt extends AllPlayerPrompt {
         }
 
         if(arg === 'rematch-swap') {
-            this.game.queueStep(new RematchPrompt(this.game, player, true));
+            this.game.swap = !this.game.swap;
+            this.game.queueStep(new RematchPrompt(this.game, player));
 
             return true;
         }

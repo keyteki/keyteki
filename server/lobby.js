@@ -808,7 +808,8 @@ class Lobby {
             hideDecklists: game.hideDecklists,
             useGameTimeLimit: game.useGameTimeLimit,
             gameTimeLimit: game.gameTimeLimit,
-            gameFormat: oldGame.gameFormat
+            swap: oldGame.swap,
+            gameFormat: game.gameFormat
         });
         newGame.rematch = true;
 

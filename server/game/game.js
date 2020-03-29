@@ -55,6 +55,7 @@ class Game extends EventEmitter {
         this.savedGameId = details.savedGameId;
         this.gameType = details.gameType;
         this.gameFormat = details.gameFormat;
+        this.swap = details.swap;
         this.currentAbilityWindow = null;
         this.currentActionWindow = null;
         this.currentEventWindow = null;
@@ -78,7 +79,8 @@ class Game extends EventEmitter {
         this.cardVisibility = new CardVisibility(this);
 
         _.each(details.players, player => {
-            this.playersAndSpectators[player.user.username] = new Player(player.id, player.user, this.owner === player.user.username, this);
+            this.playersAndSpectators[player.user.username] = new Player(player.id, player.user,
+                this.owner === player.user.username, this);
         });
 
         _.each(details.spectators, spectator => {
@@ -244,7 +246,6 @@ class Game extends EventEmitter {
         return foundCards;
     }
 
-
     get actions() {
         return GameActions;
     }
@@ -409,7 +410,8 @@ class Game extends EventEmitter {
         if(target[stat] < 0) {
             target[stat] = 0;
         } else {
-            this.addAlert('danger', '{0} sets {1} to {2} ({3})', player, stat, target[stat], (value > 0 ? '+' : '') + value);
+            this.addAlert('danger', '{0} sets {1} to {2} ({3})', player, stat, target[stat],
+                (value > 0 ? '+' : '') + value);
         }
     }
 
@@ -583,7 +585,8 @@ class Game extends EventEmitter {
         });
 
         //reversal swap
-        if(this.gameFormat === 'reversal') {
+
+        if((this.gameFormat === 'reversal' || this.swap) && !(this.gameFormat === 'reversal' && this.swap)) {
             const playerNames = Object.keys(players);
             if(playerNames.length === 2) {
                 const deckData = players[playerNames[0]].deckData;
@@ -625,7 +628,8 @@ class Game extends EventEmitter {
 
     checkForTimeExpired() {
         if(this.timeLimit.isTimeLimitReached && !this.finishedAt) {
-            this.addAlert('success', 'The game has ended because the timer has expired.  Timed wins are not currently implemented');
+            this.addAlert('success',
+                'The game has ended because the timer has expired.  Timed wins are not currently implemented');
             this.finishedAt = new Date();
         }
     }
@@ -642,7 +646,7 @@ class Game extends EventEmitter {
         this.queueStep(new MainPhase(this));
         this.queueStep(new ReadyPhase(this));
         this.queueStep(new DrawPhase(this));
-        this.queueStep(new SimpleStep(this, () => this.raiseEndRoundEvent())),
+        this.queueStep(new SimpleStep(this, () => this.raiseEndRoundEvent()));
         this.queueStep(new SimpleStep(this, () => this.beginRound()));
     }
 
@@ -784,7 +788,10 @@ class Game extends EventEmitter {
                 () => player.cardsInPlay.push(card)
             ];
             this.promptWithHandlerMenu(this.activePlayer, {
-                activePromptTitle: { text: 'Choose which flank {{card}} should be placed on', values: { card: card.name } },
+                activePromptTitle: {
+                    text: 'Choose which flank {{card}} should be placed on',
+                    values: { card: card.name }
+                },
                 source: card,
                 choices: ['Left', 'Right'],
                 handlers: handlers
@@ -861,7 +868,8 @@ class Game extends EventEmitter {
             return;
         }
 
-        this.addAlert('info', '{0} has disconnected.  The game will wait up to 30 seconds for them to reconnect', player);
+        this.addAlert('info', '{0} has disconnected.  The game will wait up to 30 seconds for them to reconnect',
+            player);
 
         if(this.isSpectator(player)) {
             delete this.playersAndSpectators[playerName];
@@ -985,7 +993,9 @@ class Game extends EventEmitter {
             this.activePlayer = this.activePlayer.opponent;
         }
 
-        let playerResources = this.getPlayers().map(player => `${player.name}: ${player.amber} amber (${this.playerKeys(player)})`).join(' ');
+        let playerResources = this.getPlayers()
+            .map(player => `${player.name}: ${player.amber} amber (${this.playerKeys(player)})`)
+            .join(' ');
 
         this.addAlert('endofround', `End of turn ${this.round}`);
 
@@ -1023,7 +1033,8 @@ class Game extends EventEmitter {
     }
 
     firstThingThisTurn() {
-        return this.cardsDiscarded.length === 0 && this.cardsUsed.length === 0 && this.cardsPlayed.length === 0 && this.effectsUsed.length === 0;
+        return this.cardsDiscarded.length === 0 && this.cardsUsed.length === 0 && this.cardsPlayed.length === 0 &&
+            this.effectsUsed.length === 0;
     }
 
     continue() {
@@ -1051,6 +1062,7 @@ class Game extends EventEmitter {
             players: players,
             gameType: this.gameType,
             gameFormat: this.gameFormat,
+            swap: this.swap,
             winner: this.winner ? this.winner.name : undefined,
             winReason: this.winReason,
             finishedAt: this.finishedAt
@@ -1074,6 +1086,7 @@ class Game extends EventEmitter {
             return {
                 id: this.id,
                 gameFormat: this.gameFormat,
+                swap: this.swap,
                 manualMode: this.manualMode,
                 name: this.name,
                 owner: this.owner,
@@ -1139,6 +1152,7 @@ class Game extends EventEmitter {
             createdAt: this.createdAt,
             gameType: this.gameType,
             gameFormat: this.gameFormat,
+            swap: this.swap,
             id: this.id,
             manualMode: this.manualMode,
             messages: this.gameChat.messages,
