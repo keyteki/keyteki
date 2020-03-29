@@ -35,8 +35,7 @@ class RematchPrompt extends AllPlayerPrompt {
 
     onMenuCommand(player, arg) {
         if(arg === 'yes') {
-            this.game.addAlert('info', '{0} agrees to a rematch{1}, setting it up now', player,
-                this.swap ? ' and swap decks' : '');
+            this.game.addAlert('info', '{0} agrees to a rematch{1}, setting it up now', player, this.swap ? ' and swap decks' : '');
             this.completedPlayers.add(player);
         } else {
             this.game.addAlert('info', '{0} would not like a rematch', player);

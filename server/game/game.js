@@ -79,8 +79,7 @@ class Game extends EventEmitter {
         this.cardVisibility = new CardVisibility(this);
 
         _.each(details.players, player => {
-            this.playersAndSpectators[player.user.username] = new Player(player.id, player.user,
-                this.owner === player.user.username, this);
+            this.playersAndSpectators[player.user.username] = new Player(player.id, player.user, this.owner === player.user.username, this);
         });
 
         _.each(details.spectators, spectator => {
@@ -410,8 +409,7 @@ class Game extends EventEmitter {
         if(target[stat] < 0) {
             target[stat] = 0;
         } else {
-            this.addAlert('danger', '{0} sets {1} to {2} ({3})', player, stat, target[stat],
-                (value > 0 ? '+' : '') + value);
+            this.addAlert('danger', '{0} sets {1} to {2} ({3})', player, stat, target[stat], (value > 0 ? '+' : '') + value);
         }
     }
 
@@ -628,8 +626,7 @@ class Game extends EventEmitter {
 
     checkForTimeExpired() {
         if(this.timeLimit.isTimeLimitReached && !this.finishedAt) {
-            this.addAlert('success',
-                'The game has ended because the timer has expired.  Timed wins are not currently implemented');
+            this.addAlert('success', 'The game has ended because the timer has expired.  Timed wins are not currently implemented');
             this.finishedAt = new Date();
         }
     }
@@ -868,8 +865,7 @@ class Game extends EventEmitter {
             return;
         }
 
-        this.addAlert('info', '{0} has disconnected.  The game will wait up to 30 seconds for them to reconnect',
-            player);
+        this.addAlert('info', '{0} has disconnected.  The game will wait up to 30 seconds for them to reconnect', player);
 
         if(this.isSpectator(player)) {
             delete this.playersAndSpectators[playerName];
@@ -1033,8 +1029,7 @@ class Game extends EventEmitter {
     }
 
     firstThingThisTurn() {
-        return this.cardsDiscarded.length === 0 && this.cardsUsed.length === 0 && this.cardsPlayed.length === 0 &&
-            this.effectsUsed.length === 0;
+        return this.cardsDiscarded.length === 0 && this.cardsUsed.length === 0 && this.cardsPlayed.length === 0 && this.effectsUsed.length === 0;
     }
 
     continue() {
