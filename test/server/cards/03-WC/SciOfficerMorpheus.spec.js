@@ -47,7 +47,7 @@ describe('Sci. Officer Morpheus', function() {
                 });
             });
 
-            it('should stack off house play effects, like kirby, or helper bot', function() {
+            xit('should stack off house play effects, like kirby, or helper bot', function() {
                 this.player1.playCreature(this.helperBot, true);
                 this.player1.playCreature(this.medicIngram, true);
                 this.player1.clickCard(this.medicIngram);
