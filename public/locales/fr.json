@@ -454,5 +454,6 @@
     "Type": "Type",
     "Format": "Format",
     "Started At": "Started At",
-    "Duration": "Duration"
+    "Duration": "Duration",
+    "Destroy {{card}} or Discard a Logos Card": "Destroy {{card}} or Discard a Logos Card"
 }
