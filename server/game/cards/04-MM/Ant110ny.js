@@ -15,7 +15,7 @@ class Ant110ny extends Card {
             condition: context => context.source.hasToken('amber'),
             gameAction: [
                 ability.actions.removeAmber({ amount: 1 }),
-                ability.actions.gainAmber(context => ({ target: context.player.opponent }))
+                ability.actions.gainAmber(context => ({ target: context.game.activePlayer.opponent }))
             ]
         });
     }
