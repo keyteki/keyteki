@@ -656,7 +656,8 @@ class Player extends GameObject {
             amber: this.amber,
             chains: this.chains,
             keys: this.keys,
-            houses: this.houses
+            houses: this.houses,
+            keyCost: this.getCurrentKeyCost()
         };
     }
 
