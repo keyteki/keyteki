@@ -1,6 +1,6 @@
 const PlayerAction = require('./PlayerAction');
 
-class RandomDiscardAction extends PlayerAction {
+class DiscardTopOfDeckAction extends PlayerAction {
     setDefaultProperties() {
         this.amount = 1;
         this.location = 'deck';
@@ -8,7 +8,7 @@ class RandomDiscardAction extends PlayerAction {
 
     setup() {
         super.setup();
-        this.name = 'discard';
+        this.name = 'discard-top-of-deck';
         this.effectMsg = 'discard ' + (this.amount === 1 ? 'a card' : this.amount + ' cards') + ' at random from their ' + this.location;
     }
 
@@ -28,4 +28,4 @@ class RandomDiscardAction extends PlayerAction {
     }
 }
 
-module.exports = RandomDiscardAction;
+module.exports = DiscardTopOfDeckAction;
