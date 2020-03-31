@@ -66,6 +66,7 @@ describe('Chant of Hubris', function() {
 
                 expect(this.player1).toHavePrompt('Choose another creature');
 
+                expect(this.player1).not.toBeAbleToSelect(this.archimedes);
                 expect(this.player1).toBeAbleToSelect(this.dextre);
                 expect(this.player1).toBeAbleToSelect(this.gub);
                 expect(this.player1).toBeAbleToSelect(this.shooler);
@@ -88,6 +89,7 @@ describe('Chant of Hubris', function() {
 
                 expect(this.player1).toHavePrompt('Choose another creature');
 
+                expect(this.player1).not.toBeAbleToSelect(this.archimedes);
                 expect(this.player1).toBeAbleToSelect(this.dextre);
                 expect(this.player1).toBeAbleToSelect(this.gub);
                 expect(this.player1).toBeAbleToSelect(this.shooler);
@@ -110,6 +112,7 @@ describe('Chant of Hubris', function() {
 
                 expect(this.player1).toHavePrompt('Choose another creature');
 
+                expect(this.player1).not.toBeAbleToSelect(this.shooler);
                 expect(this.player1).toBeAbleToSelect(this.dextre);
                 expect(this.player1).toBeAbleToSelect(this.gub);
                 expect(this.player1).toBeAbleToSelect(this.archimedes);
@@ -132,6 +135,7 @@ describe('Chant of Hubris', function() {
 
                 expect(this.player1).toHavePrompt('Choose another creature');
 
+                expect(this.player1).not.toBeAbleToSelect(this.shooler);
                 expect(this.player1).toBeAbleToSelect(this.dextre);
                 expect(this.player1).toBeAbleToSelect(this.gub);
                 expect(this.player1).toBeAbleToSelect(this.archimedes);
