@@ -129,7 +129,7 @@ const optionDefinitions = [
 
 const buildArchon = (card) => new Promise(cardResolve => {
     const number = card[4];
-    const path = Path.resolve(__dirname, '../../public/img/idbacks/archons', `${ Buffer.from(card.join()).toString('base64') }.png`);
+    const path = Path.resolve(__dirname, '../../public/img/idbacks/archons', `${Buffer.from(card.join()).toString('base64')}.png`);
     if(fs.existsSync(path)) {
         // eslint-disable-next-line no-console
         console.log('File Exists, moving on!');
@@ -142,10 +142,10 @@ const buildArchon = (card) => new Promise(cardResolve => {
     const ctx = canvas.getContext('2d');
     let promises = [];
 
-    promises.push(loadImage(Path.join(__dirname, `./archon_blanks/archon_${ number }.png`)));
-    promises.push(loadImage(Path.join(__dirname, `./archon_houses/${ card[0] }.png`)));
-    promises.push(loadImage(Path.join(__dirname, `./archon_houses/${ card[1] }.png`)));
-    promises.push(loadImage(Path.join(__dirname, `./archon_houses/${ card[2] }.png`)));
+    promises.push(loadImage(Path.join(__dirname, `./archon_blanks/archon_${number}.png`)));
+    promises.push(loadImage(Path.join(__dirname, `./archon_houses/${card[0]}.png`)));
+    promises.push(loadImage(Path.join(__dirname, `./archon_houses/${card[1]}.png`)));
+    promises.push(loadImage(Path.join(__dirname, `./archon_houses/${card[2]}.png`)));
     Promise.all(promises).then(([cardBack, house1, house2, house3]) => {
         ctx.drawImage(cardBack, 0, 0);
         ctx.drawImage(house1, 45, 590, 150, 150);
@@ -192,9 +192,14 @@ const buildAllFiles = async () => {
     new registerFont(Path.join(__dirname, '../../public/fonts/ZCOOL-Regular.ttf'), { family: 'Keyforge' });
     new registerFont(Path.join(__dirname, '../../public/fonts/Kanit-Regular.ttf'), { family: 'Keyforge' });
     const cards = permute(options.language);
+    const path = Path.resolve(__dirname, '../../public/img/idbacks/archons');
+    if(!fs.existsSync(path)) {
+        fs.mkdirSync(path);
+    }
+
     for(let i = 0; i < cards.length; i++) {
         // eslint-disable-next-line no-console
-        console.log(`Building ${ i } ${ cards[i] }.  ${cards.length - i} cards to go!`);
+        console.log(`Building ${i} ${cards[i]}.  ${cards.length - i} cards to go!`);
         await buildArchon(cards[i]);
     }
 };
