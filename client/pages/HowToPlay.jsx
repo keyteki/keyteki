@@ -49,6 +49,7 @@ class HowToPlay extends React.Component {
                         <li>/active-house x - <Trans i18nKey='howtoplay.cmd.activehouse'>Change your active house to x</Trans></li>
                         <li>/cancel-prompt - <Trans i18nKey='howtoplay.cmd.cancelprompt'>Clear the current prompt and resume the game flow. Use with caution and only when the prompt is &apos;stuck&apos; and you are unable to continue</Trans></li>
                         <li>/discard x - <Trans i18nKey='howtoplay.cmd.discard'>Discards x cards randomly from your hand</Trans></li>
+                        <li>/discardtopofdeck x - <Trans i18nKey='howtoplay.cmd.discardtopofdeck'>Discards x cards from the top of your deck</Trans></li>
                         <li>/draw x - <Trans i18nKey='howtoplay.cmd.draw'>Draws x cards from your deck to your hand</Trans></li>
                         <li>/forge - <Trans i18nKey='howtoplay.cmd.forge'>Forge a key</Trans></li>
                         <li>/give-control - <Trans i18nKey='howtoplay.cmd.givecontrol'>Give control of a card to your opponent. Use with caution</Trans></li>
