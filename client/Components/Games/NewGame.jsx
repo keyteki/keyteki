@@ -131,10 +131,14 @@ class NewGame extends React.Component {
         let t = this.props.t;
 
         return (<div className='row'>
-            <Checkbox name='allowSpectators' noGroup label={ t('Allow spectators') } fieldClass='col-sm-8' onChange={ this.onSpectatorsClick } checked={ this.state.spectators }/>
-            <Checkbox name='showHands' noGroup label={ t('Show hands to spectators') } fieldClass='col-sm-8' onChange={ this.onShowHandClick } checked={ this.state.showHand }/>
-            <Checkbox name='muteSpectators' noGroup label={ t('Mute spectators') } fieldClass='col-sm-8' onChange={ this.onMuteSpectatorsClick } checked={ this.state.muteSpectators }/>
-            <Checkbox name='timeLimit' noGroup label={ t('Use a time limit (in minutes)') } fieldClass='col-sm-12' onChange={ this.onUseGameTimeLimitClick } checked={ this.state.useGameTimeLimit }/>
+            <Checkbox name='allowSpectators' noGroup label={ t('Allow spectators') } fieldClass='col-sm-8'
+                onChange={ this.onSpectatorsClick } checked={ this.state.spectators }/>
+            <Checkbox name='showHands' noGroup label={ t('Show hands to spectators') } fieldClass='col-sm-8'
+                onChange={ this.onShowHandClick } checked={ this.state.showHand }/>
+            <Checkbox name='muteSpectators' noGroup label={ t('Mute spectators') } fieldClass='col-sm-8'
+                onChange={ this.onMuteSpectatorsClick } checked={ this.state.muteSpectators }/>
+            <Checkbox name='timeLimit' noGroup label={ t('Use a time limit (in minutes)') } fieldClass='col-sm-12'
+                onChange={ this.onUseGameTimeLimitClick } checked={ this.state.useGameTimeLimit }/>
             { this.state.useGameTimeLimit && <div className='col-sm-4'>
                 <input className='form-control' type='number' onChange={ this.onGameTimeLimitChange } value={ this.state.gameTimeLimit }/>
             </div> }

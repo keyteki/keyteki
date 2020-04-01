@@ -39,7 +39,7 @@ class ChainBiddingPrompt extends AllPlayerPrompt {
                 this.game.reInitialisePlayers(true);
             }
 
-            this.game.changeStat(otherPlayer.name, 'chains', this.adaptive.chains, false);
+            this.game.changeStat(otherPlayer.name, 'chains', this.adaptive.chains, true);
             this.game.adaptive.biddingWinner = otherPlayer.name;
             this.clickedButton[player.name] = true;
         } else {

@@ -396,7 +396,7 @@ class Game extends EventEmitter {
      * @param {String} stat
      * @param {Number} value
      */
-    changeStat(playerName, stat, value, danger) {
+    changeStat(playerName, stat, value, info) {
         let player = this.getPlayerByName(playerName);
         if(!player) {
             return;
@@ -409,7 +409,7 @@ class Game extends EventEmitter {
         if(target[stat] < 0) {
             target[stat] = 0;
         } else {
-            this.addAlert(danger ? 'danger' : 'info', '{0} sets {1} to {2} ({3})', player, stat, target[stat], (value > 0 ? '+' : '') + value);
+            this.addAlert(info ? 'info' : 'danger', '{0} sets {1} to {2} ({3})', player, stat, target[stat], (value > 0 ? '+' : '') + value);
         }
     }
 
@@ -1014,22 +1014,22 @@ class Game extends EventEmitter {
             this.activePlayer = this.activePlayer.opponent;
         }
 
-        let playerResources = this.getPlayers().map(player => `${ player.name }: ${ player.amber } amber (${ this.playerKeys(player) })`).join(' ');
+        let playerResources = this.getPlayers().map(player => `${player.name}: ${player.amber} amber (${this.playerKeys(player)})`).join(' ');
 
-        this.addAlert('endofround', `End of turn ${ this.round }`);
+        this.addAlert('endofround', `End of turn ${this.round}`);
 
         if(!this.activePlayer.opponent || this.activePlayer.turn === this.activePlayer.opponent.turn) {
             this.round++;
         }
 
         this.addMessage(playerResources);
-        this.addAlert('startofround', `Turn ${ this.round }`);
+        this.addAlert('startofround', `Turn ${this.round}`);
         this.checkForTimeExpired();
     }
 
     playerKeys(player) {
         const length = Object.values(player.keys).filter(forged => forged).length;
-        return length === 1 ? '1 key' : `${ length } keys`;
+        return length === 1 ? '1 key' : `${length} keys`;
     }
 
     get cardsInPlay() {
