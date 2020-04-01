@@ -36,6 +36,7 @@ class NewGame extends React.Component {
             password: '',
             useGameTimeLimit: false,
             hideDecklists: false,
+            adaptive: { chains: 0, selection: [], biddingWinner: '', match1Winner: '', match2Winner: '', match3Winner: '' },
             gameTimeLimit: 35
         };
     }
@@ -85,7 +86,8 @@ class NewGame extends React.Component {
             expansions: this.state.expansions,
             useGameTimeLimit: this.state.useGameTimeLimit,
             gameTimeLimit: this.state.gameTimeLimit,
-            hideDecklists: this.state.hideDecklists
+            hideDecklists: this.state.hideDecklists,
+            adaptive: this.state.adaptive
         });
     }
 
@@ -129,19 +131,14 @@ class NewGame extends React.Component {
         let t = this.props.t;
 
         return (<div className='row'>
-            <Checkbox name='allowSpectators' noGroup label={ t('Allow spectators') } fieldClass='col-sm-8'
-                onChange={ this.onSpectatorsClick } checked={ this.state.spectators } />
-            <Checkbox name='showHands' noGroup label={ t('Show hands to spectators') } fieldClass='col-sm-8'
-                onChange={ this.onShowHandClick } checked={ this.state.showHand } />
-            <Checkbox name='muteSpectators' noGroup label={ t('Mute spectators') } fieldClass='col-sm-8'
-                onChange={ this.onMuteSpectatorsClick } checked={ this.state.muteSpectators } />
-            <Checkbox name='timeLimit' noGroup label={ t('Use a time limit (in minutes)') } fieldClass='col-sm-12'
-                onChange={ this.onUseGameTimeLimitClick } checked={ this.state.useGameTimeLimit } />
+            <Checkbox name='allowSpectators' noGroup label={ t('Allow spectators') } fieldClass='col-sm-8' onChange={ this.onSpectatorsClick } checked={ this.state.spectators }/>
+            <Checkbox name='showHands' noGroup label={ t('Show hands to spectators') } fieldClass='col-sm-8' onChange={ this.onShowHandClick } checked={ this.state.showHand }/>
+            <Checkbox name='muteSpectators' noGroup label={ t('Mute spectators') } fieldClass='col-sm-8' onChange={ this.onMuteSpectatorsClick } checked={ this.state.muteSpectators }/>
+            <Checkbox name='timeLimit' noGroup label={ t('Use a time limit (in minutes)') } fieldClass='col-sm-12' onChange={ this.onUseGameTimeLimitClick } checked={ this.state.useGameTimeLimit }/>
             { this.state.useGameTimeLimit && <div className='col-sm-4'>
-                <input className='form-control' type='number' onChange={ this.onGameTimeLimitChange } value={ this.state.gameTimeLimit } />
+                <input className='form-control' type='number' onChange={ this.onGameTimeLimitChange } value={ this.state.gameTimeLimit }/>
             </div> }
-            <Checkbox name='hideDecklists' noGroup label={ t('Hide opponent decklists') } fieldClass='col-sm-8'
-                onChange={ this.onHideDecklistsClick } checked={ this.state.hideDecklists } />
+            <Checkbox name='hideDecklists' noGroup label={ t('Hide opponent decklists') } fieldClass='col-sm-8' onChange={ this.onHideDecklistsClick } checked={ this.state.hideDecklists }/>
         </div>);
     }
 
@@ -162,7 +159,7 @@ class NewGame extends React.Component {
                 <div className='col-sm-10'>
                     { gameTypes.map(gameType => {
                         return (<label key={ gameType.name } className='radio-inline'>
-                            <input type='radio' onChange={ this.onGameTypeChange.bind(this, gameType.name) } checked={ this.isGameTypeSelected(gameType.name) } />
+                            <input type='radio' onChange={ this.onGameTypeChange.bind(this, gameType.name) } checked={ this.isGameTypeSelected(gameType.name) }/>
                             { gameType.label }
                         </label>);
                     }) }
@@ -176,7 +173,8 @@ class NewGame extends React.Component {
         let gameFormats = [
             { name: 'normal', label: t('Normal') },
             { name: 'sealed', label: t('Sealed') },
-            { name: 'reversal', label: t('Reversal') }
+            { name: 'reversal', label: t('Reversal') },
+            { name: 'adaptive-bo1', label: t('Adaptive - Best of 1') }
         ];
 
         let expansions = [
