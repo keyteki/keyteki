@@ -66,5 +66,35 @@ describe('Information Exchange', function() {
                 });
             });
         });
+
+
+        describe('when played', function() {
+            beforeEach(function() {
+                this.setupTest({
+                    player1: {
+                        amber: 2,
+                        house: 'logos',
+                        hand: ['information-exchange']
+                    },
+                    player2: {
+                        amber: 3,
+                        hand: ['urchin', 'sci-officer-qincan']
+                    }
+                });
+            });
+
+            it('should only steal 2 if the amber was stolen from the player on the OPPONENTS TURN [Qincan]', function() {
+                this.player1.endTurn();
+                this.player2.clickPrompt('staralliance');
+                this.player2.play(this.sciOfficerQincan);
+                this.player2.endTurn();
+                this.player1.clickPrompt('logos');
+                expect(this.player2.amber).toBe(4);
+                expect(this.player1.amber).toBe(1);
+                this.player1.play(this.informationExchange);
+                expect(this.player1.amber).toBe(2);
+                expect(this.player2.amber).toBe(3);
+            });
+        });
     });
 });

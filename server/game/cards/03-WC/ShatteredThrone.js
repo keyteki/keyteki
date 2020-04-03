@@ -2,11 +2,11 @@ const Card = require('../../Card.js');
 
 class ShatteredThrone extends Card {
     setupCardAbilities(ability) {
-        this.interrupt({
+        this.reaction({
             when: {
                 onFight: () => true
             },
-            gameAction: ability.actions.capture(context => ({ target: context.event.attacker }))
+            gameAction: ability.actions.capture(context => ({ target: (context.game.creaturesInPlay.indexOf(context.event.attacker) !== -1) ? context.event.attacker : [] }))
         });
     }
 }

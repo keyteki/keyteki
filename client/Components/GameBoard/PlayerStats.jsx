@@ -27,7 +27,7 @@ export class PlayerStats extends React.Component {
 
     getButton(stat, name, statToSet = stat) {
         return (
-            <div className='state'>
+            <div className='state' title={ name }>
                 { this.props.showControls ? <button className='btn btn-stat' onClick={ this.sendUpdate.bind(this, statToSet, 'down') }>
                     <img src='/img/Minus.png' title='-' alt='-' />
                 </button> : null }
@@ -37,6 +37,16 @@ export class PlayerStats extends React.Component {
                 { this.props.showControls ? <button className='btn btn-stat' onClick={ this.sendUpdate.bind(this, statToSet, 'up') }>
                     <img src='/img/Plus.png' title='+' alt='+' />
                 </button> : null }
+            </div>
+        );
+    }
+
+    getKeyCost() {
+        return (
+            <div className='state' title={ 'Current Key Cost' }>
+                <div className={ 'stat-image keyCost' }>
+                    <div className='stat-value'>{ this.getStatValueOrDefault('keyCost') }</div>
+                </div>
             </div>
         );
     }
@@ -82,6 +92,7 @@ export class PlayerStats extends React.Component {
 
                 { this.getButton('amber', 'Amber') }
                 { this.getButton('chains', 'Chains') }
+                { this.getKeyCost() }
 
                 { this.props.houses ? this.getHouses() : null }
 
