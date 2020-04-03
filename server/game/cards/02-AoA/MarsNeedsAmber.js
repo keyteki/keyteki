@@ -12,7 +12,7 @@ class MarsNeedsAmber extends Card {
                 } else if(context.player.opponent.amber >= damagedNonMarsCreatures.length) {
                     return {
                         target: damagedNonMarsCreatures,
-                        ownController: true
+                        player: context.player.oppoennt
                     };
                 }
 
@@ -22,7 +22,7 @@ class MarsNeedsAmber extends Card {
                         mode: 'exactly',
                         numCards: context.player.opponent.amber
                     },
-                    ownController: true
+                    player: context.player.opponent
                 };
             })
         });

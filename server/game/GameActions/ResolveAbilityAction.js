@@ -27,17 +27,15 @@ class ResolveAbilityAction extends CardAction {
         }
     }
 
-    canAffect(card, context) {
-        return this.ability && super.canAffect(card, context);
-    }
-
     getEvent(card, context) {
         return super.createEvent('onAction', { card: card, context: context }, () => {
-            let newContext = Object.assign(this.ability.createContext(context.player), {
-                isResolveAbility: true,
-                secondResolution: this.secondResolution
-            });
-            context.game.queueStep(new NoCostsAbilityResolver(context.game, newContext));
+            if(this.ability && this.ability.condition(context)) {
+                let newContext = Object.assign(this.ability.createContext(context.player), {
+                    isResolveAbility: true,
+                    secondResolution: this.secondResolution
+                });
+                context.game.queueStep(new NoCostsAbilityResolver(context.game, newContext));
+            }
         });
     }
 }
