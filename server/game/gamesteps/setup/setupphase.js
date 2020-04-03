@@ -3,7 +3,6 @@ const Phase = require('../phase.js');
 const SimpleStep = require('../simplestep.js');
 const MulliganPrompt = require('./mulliganprompt.js');
 const AdaptiveDeckSelectionPrompt = require('./AdaptiveDeckSelectionPrompt');
-const ChainBiddingPrompt = require('./ChainBiddingPrompt');
 const GameStartPrompt = require('./GameStartPrompt');
 const Effects = require('../../effects.js');
 
@@ -11,8 +10,7 @@ class SetupPhase extends Phase {
     constructor(game) {
         super(game, 'setup');
         this.initialise([
-            new AdaptiveDeckSelectionPrompt(game),
-            new SimpleStep(game, () => this.biddingCheck()),
+            new SimpleStep(game, () => this.adaptiveCheck()),
             new SimpleStep(game, () => this.setupBegin()),
             new GameStartPrompt(game),
             new SimpleStep(game, () => this.drawStartingHands()),
@@ -23,31 +21,15 @@ class SetupPhase extends Phase {
     }
 
     startPhase() {
-        if(!this.game.adaptive) {
-            this.game.adaptive = { chains: 0, selection: [], biddingWinner: '', match1Winner: '', match2Winner: '', match3Winner: '' };
-        }
-
         this.game.currentPhase = this.name;
         for(let step of this.steps) {
             this.game.queueStep(step);
         }
     }
 
-    biddingCheck() {
-        const [player1, player2] = this.game.adaptive.selection;
-
-        if(!player1) {
-            return;
-        }
-
-        if(player1.uuid === player2.uuid) {
-            this.game.addMessage('Both players have selected {0}. Bidding will start at 0 chains by {1}', player1.deckName, player1.owner);
-            this.game.queueStep(new ChainBiddingPrompt(this.game, player1));
-        } else {
-            this.game.addMessage('Players have selected different decks. Chains will not be bid.');
-            if(player1.owner !== player1.name) {
-                this.game.reInitialisePlayers(true);
-            }
+    adaptiveCheck() {
+        if(this.game.gameFormat === 'adaptive-bo1') {
+            this.game.queueStep(new AdaptiveDeckSelectionPrompt(this.game));
         }
     }
 

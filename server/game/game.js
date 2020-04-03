@@ -66,7 +66,7 @@ class Game extends EventEmitter {
         this.gameTimeLimit = details.gameTimeLimit;
         this.timeLimit = new TimeLimit(this);
         this.hideDecklists = details.hideDecklists;
-        this.adaptive = details.adaptive;
+        this.adaptive = { chains: 0, selection: [], biddingWinner: '', match1Winner: '', match2Winner: '', match3Winner: '' };
 
         this.cardsUsed = [];
         this.cardsPlayed = [];
@@ -582,19 +582,6 @@ class Game extends EventEmitter {
             }
         });
 
-        //reversal swap
-        if(this.gameFormat === 'reversal') {
-            const [player1, player2] = Object.keys(players);
-            if(player2) {
-                const deckData = players[player1].deckData;
-                const houses = players[player1].houses;
-                players[player1].deckData = players[player2].deckData;
-                players[player1].houses = players[player2].houses;
-                players[player2].houses = houses;
-                players[player2].deckData = deckData;
-            }
-        }
-
         this.playersAndSpectators = players;
 
         if(this.useGameTimeLimit) {
@@ -624,15 +611,9 @@ class Game extends EventEmitter {
     }
 
     reInitialisePlayers(swap) {
-        let players = {};
+        let players = this.getPlayers();
 
-        _.each(this.playersAndSpectators, player => {
-            if(!player.left) {
-                players[player.name] = player;
-            }
-        });
-
-        //reversal swap
+        //adaptive swap
         if(swap) {
             const [player1, player2] = Object.keys(players);
             if(player2) {
@@ -645,9 +626,9 @@ class Game extends EventEmitter {
             }
         }
 
-        this.playersAndSpectators = players;
+        this.players = players;
 
-        for(let player of this.getPlayers()) {
+        for(let player of this.players) {
             player.initialise();
         }
     }
@@ -671,7 +652,7 @@ class Game extends EventEmitter {
         this.queueStep(new MainPhase(this));
         this.queueStep(new ReadyPhase(this));
         this.queueStep(new DrawPhase(this));
-        this.queueStep(new SimpleStep(this, () => this.raiseEndRoundEvent())),
+        this.queueStep(new SimpleStep(this, () => this.raiseEndRoundEvent()));
         this.queueStep(new SimpleStep(this, () => this.beginRound()));
     }
 
@@ -1014,22 +995,22 @@ class Game extends EventEmitter {
             this.activePlayer = this.activePlayer.opponent;
         }
 
-        let playerResources = this.getPlayers().map(player => `${player.name}: ${player.amber} amber (${this.playerKeys(player)})`).join(' ');
+        let playerResources = this.getPlayers().map(player => `${ player.name }: ${ player.amber } amber (${ this.playerKeys(player) })`).join(' ');
 
-        this.addAlert('endofround', `End of turn ${this.round}`);
+        this.addAlert('endofround', `End of turn ${ this.round }`);
 
         if(!this.activePlayer.opponent || this.activePlayer.turn === this.activePlayer.opponent.turn) {
             this.round++;
         }
 
         this.addMessage(playerResources);
-        this.addAlert('startofround', `Turn ${this.round}`);
+        this.addAlert('startofround', `Turn ${ this.round }`);
         this.checkForTimeExpired();
     }
 
     playerKeys(player) {
         const length = Object.values(player.keys).filter(forged => forged).length;
-        return length === 1 ? '1 key' : `${length} keys`;
+        return length === 1 ? '1 key' : `${ length } keys`;
     }
 
     get cardsInPlay() {
