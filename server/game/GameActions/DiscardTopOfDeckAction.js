@@ -22,7 +22,7 @@ class DiscardTopOfDeckAction extends PlayerAction {
 
             let cards = player.deck.slice(0, amount);
 
-            context.game.addMessage('{0} discards {1} from top of deck', player, cards);
+            context.game.addMessage('{0} discards {1} from the top of their deck', player, cards);
             context.game.actions.discard().resolve(cards, context);
         });
     }
