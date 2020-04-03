@@ -36,8 +36,7 @@ class NewGame extends React.Component {
             password: '',
             useGameTimeLimit: false,
             hideDecklists: false,
-            gameTimeLimit: 35,
-            swap: false
+            gameTimeLimit: 35
         };
     }
 
@@ -86,8 +85,7 @@ class NewGame extends React.Component {
             expansions: this.state.expansions,
             useGameTimeLimit: this.state.useGameTimeLimit,
             gameTimeLimit: this.state.gameTimeLimit,
-            hideDecklists: this.state.hideDecklists,
-            swap: this.state.swap
+            hideDecklists: this.state.hideDecklists
         });
     }
 
