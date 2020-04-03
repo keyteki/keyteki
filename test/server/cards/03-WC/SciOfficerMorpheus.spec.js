@@ -31,5 +31,29 @@ describe('Sci. Officer Morpheus', function() {
                 expect(this.player2.amber).toBe(1);
             });
         });
+        describe('Sci. Officer Morpheus\'s ability', function() {
+            beforeEach(function() {
+                this.setupTest({
+                    player1: {
+                        house: 'logos',
+                        inPlay: ['sci-officer-morpheus', 'lamindra', 'redlock'],
+                        hand: ['medic-ingram', 'sensor-chief-garcia', 'helper-bot']
+                    },
+                    player2: {
+                        amber: 11,
+                        inPlay: ['mighty-tiger'],
+                        hand: ['dextre', 'krump']
+                    }
+                });
+            });
+
+            xit('should stack off house play effects, like kirby, or helper bot', function() {
+                this.player1.playCreature(this.helperBot, true);
+                this.player1.playCreature(this.medicIngram, true);
+                this.player1.clickCard(this.medicIngram);
+                this.player1.clickCard(this.helperBot);
+                this.player1.playCreature(this.sensorChiefGarcia, true);
+            });
+        });
     });
 });
