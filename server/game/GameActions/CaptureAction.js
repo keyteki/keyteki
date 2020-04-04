@@ -29,7 +29,7 @@ class CaptureAction extends CardAction {
                 let player = this.player || context.player.opponent;
                 if(player.amber < this.target.length * this.amount) {
                     context.game.promptForSelect(context.game.currentPlayer, {
-                        activePromptTitle: 'Insufficient amber - choose creatures to capture',
+                        activePromptTitle: 'Not enough amber, choose creatures',
                         mode: 'exactly',
                         numCards: Math.ceil(player.amber / this.amount),
                         context: context,
