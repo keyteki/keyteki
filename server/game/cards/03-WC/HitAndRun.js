@@ -10,7 +10,7 @@ class HitAndRun extends Card {
                     gameAction: ability.actions.dealDamage({ amount: 2 })
                 }
             },
-            then: ()=> ({
+            then: {
                 alwaysTriggers: true,
                 targets: {
                     returnCreature: {
@@ -20,7 +20,7 @@ class HitAndRun extends Card {
                         gameAction: ability.actions.returnToHand()
                     }
                 }
-            })
+            }
         });
     }
 }
