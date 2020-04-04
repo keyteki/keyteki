@@ -46,7 +46,8 @@ class Lobby {
             this.io.emit('removemessage', messageId);
         });
 
-        setInterval(() => this.clearStalePendingGames(), 60 * 1000);
+        setInterval(() => this.clearStalePendingGames(), 60 * 1000); // every minute
+        setInterval(() => this.clearOldRefreshTokens(), 2 * 60 * 60 * 1000); // every 2 hours
     }
 
     // External methods
@@ -140,7 +141,7 @@ class Lobby {
                     return;
                 }
 
-                this.userService.getUserById(user._id).then(dbUser => {
+                this.userService.getUserById(user.id).then(dbUser => {
                     let socket = this.sockets[ioSocket.id];
                     if(!socket) {
                         logger.error('Tried to authenticate socket but could not find it', dbUser.username);
@@ -283,6 +284,14 @@ class Lobby {
         }
     }
 
+    clearOldRefreshTokens() {
+        logger.info('Starting refresh token cleanup...');
+
+        this.userService.cleanupRefreshTokens().then(() => {
+            logger.info('Refresh token cleanup completed.');
+        });
+    }
+
     sendFilteredMessages(socket) {
         this.messageService.getLastMessages().then(messages => {
             let messagesToSend = this.filterMessages(messages, socket);
@@ -378,7 +387,7 @@ class Lobby {
             return;
         }
 
-        this.userService.getUserById(user._id).then(dbUser => {
+        this.userService.getUserById(user.id).then(dbUser => {
             this.users[dbUser.username] = dbUser;
             socket.user = dbUser;
 

@@ -1,24 +1,29 @@
-const _ = require('underscore');
-
 const logger = require('../log.js');
+const db = require('../db');
 
 class CardService {
-    constructor(db) {
-        this.cards = db.get('cards');
-        this.packs = db.get('packs');
-    }
-
     replaceCards(cards) {
         return this.cards.remove({})
             .then(() => this.cards.insert(cards));
     }
 
-    replacePacks(cards) {
-        return this.packs.remove({})
-            .then(() => this.packs.insert(cards));
-    }
+    async getAllCards(options) {
+        let cards;
 
-    getAllCards(options) {
+        try {
+            cards = await db.query('SELECT * FROM "Cards"');
+        } catch(err) {
+            logger.error('Failed to lookup cards', err);
+
+            return [];
+        }
+
+        let retCards = {};
+
+        for(let card of cards) {
+            retCards[card.Id] = this.mapCard(card, options);
+        }
+
         return this.cards.find({})
             .then(result => {
                 let cards = {};
@@ -37,10 +42,10 @@ class CardService {
             });
     }
 
-    getAllPacks() {
-        return this.packs.find({}).catch(err => {
-            logger.info(err);
-        });
+    mapCard(card, options) {
+        return {
+
+        };
     }
 }
 

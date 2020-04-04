@@ -22,7 +22,7 @@ module.exports.init = function(server) {
         let user;
         let linkedAccounts;
         try {
-            user = await userService.getUserByUsername(req.params.username);
+            user = await userService.getFullUserByUsername(req.params.username);
 
             if(!user) {
                 return res.status(404).send({ message: 'Not found' });
@@ -57,7 +57,7 @@ module.exports.init = function(server) {
         let dbUser;
 
         try {
-            dbUser = await userService.getUserByUsername(req.params.username);
+            dbUser = await userService.getFullUserByUsername(req.params.username);
         } catch(error) {
             logger.error(error);
 
@@ -95,7 +95,7 @@ module.exports.init = function(server) {
 
         let user;
         try {
-            user = await userService.getUserByUsername(req.params.username);
+            user = await userService.getFullUserByUsername(req.params.username);
 
             if(!user) {
                 return res.status(404).send({ message: 'Not found' });

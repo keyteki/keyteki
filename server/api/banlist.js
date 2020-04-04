@@ -33,12 +33,13 @@ module.exports.init = function(server) {
 
         entry = {
             ip: req.body.ip,
-            user: req.user.username,
-            added: new Date()
+            userId: req.user.id
         };
 
         banlistService.addBanlistEntry(entry)
             .then(ip => {
+                ip.user = req.user.username;
+
                 res.send({ success: true, entry: ip });
             })
             .catch(() => {
