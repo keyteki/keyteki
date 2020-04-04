@@ -6,7 +6,7 @@ describe('matter-maker', function() {
                     player1: {
                         house: 'staralliance',
                         inPlay: ['troll'],
-                        hand: ['camouflage','matter-maker','stunner']
+                        hand: ['camouflage','matter-maker','stunner','alaka','ballcano']
                     },
                     player2: {
                         amber: 1,
@@ -23,7 +23,7 @@ describe('matter-maker', function() {
                 expect(this.troll.upgrades).toContain(this.stunner);
             });
 
-            it('show allow playing staralliance upgrades on non-starliance turns', function() {
+            it('should allow playing staralliance upgrades on non-starliance turns', function() {
                 this.player1.play(this.matterMaker);
                 this.player1.endTurn();
 
@@ -35,6 +35,12 @@ describe('matter-maker', function() {
                 this.player1.playUpgrade(this.stunner, this.troll);
                 expect(this.troll.upgrades).toContain(this.camouflage);
                 expect(this.troll.upgrades).toContain(this.stunner);
+            });
+
+            it('should only allow upgrades to be played out of house', function() {
+                this.player1.play(this.matterMaker);
+                expect(this.player1).not.toBeAbleToPlay(this.alaka);
+                expect(this.player1).not.toBeAbleToPlay(this.ballcano);
             });
         });
     });
