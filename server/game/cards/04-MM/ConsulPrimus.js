@@ -3,7 +3,7 @@ const Card = require('../../Card.js');
 class ConsulPrimus extends Card {
     setupCardAbilities(ability) {
         this.reap({
-            condition: context => context.game.creaturesInPlay.length > 1 && context.game.creaturesInPlay.some(card => card.hasToken('amber')),
+            condition: context => context.game.creaturesInPlay.length > 1,
             target: {
                 cardType: 'creature',
                 cardCondition: card => card.hasToken('amber'),
@@ -17,7 +17,7 @@ class ConsulPrimus extends Card {
                         cardType: 'creature',
                         activePromptTitle: 'Choose another creature',
                         cardCondition: card => card !== preContext.target
-                    }
+            }
                 })
             })
         });
