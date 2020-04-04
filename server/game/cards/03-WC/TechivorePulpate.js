@@ -2,7 +2,7 @@ const Card = require('../../Card.js');
 
 class TechivorePulpate extends Card {
     setupCardAbilities(ability) {
-        this.constantReaction({
+        this.reaction({
             when: {
                 onChooseActiveHouse: (event, context) => event.player === context.player || event.player !== context.player
             },

@@ -63,6 +63,7 @@ describe('Key Hammer', function () {
                 this.player2.play(this.fullMoon);
                 this.player2.play(this.huntingWitch);
                 this.player2.play(this.flaxia);
+                this.player2.clickCard(this.flaxia);
                 this.player2.play(this.snufflegator);
                 expect(this.player2.amber).toBe(7);
                 this.player2.play(this.keyCharge);

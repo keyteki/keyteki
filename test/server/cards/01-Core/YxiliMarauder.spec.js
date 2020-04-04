@@ -17,6 +17,7 @@ describe('Yxili Marauder', function() {
 
             it('should capture 2 amber and get +1 for each amber', function() {
                 this.player1.play(this.yxiliMarauder);
+                this.player1.clickCard(this.yxiliMarauder);
                 expect(this.yxiliMarauder.amber).toBe(2);
                 expect(this.yxiliMarauder.power).toBe(4);
                 expect(this.player2.amber).toBe(1);

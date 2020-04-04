@@ -2,7 +2,7 @@ const Card = require('../../Card.js');
 
 class Redacted extends Card {
     setupCardAbilities(ability) {
-        this.constantReaction({
+        this.reaction({
             when: {
                 onChooseActiveHouse: (event, context) => event.player === context.player && event.house === 'logos'
             },

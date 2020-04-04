@@ -5,26 +5,10 @@ class MarsNeedsAmber extends Card {
         this.play({
             condition: context => !!context.player.opponent,
             effect: 'make each damaged enemy non-mars creature capture 1 amber from their side',
-            gameAction: ability.actions.capture(context => {
-                let damagedNonMarsCreatures = context.player.opponent.creaturesInPlay.filter(card => card.hasToken('damage') && !card.hasHouse('mars'));
-                if(!context.player.opponent || context.player.opponent.amber === 0) {
-                    return { target: [] };
-                } else if(context.player.opponent.amber >= damagedNonMarsCreatures.length) {
-                    return {
-                        target: damagedNonMarsCreatures,
-                        player: context.player.oppoennt
-                    };
-                }
-
-                return {
-                    promptForSelect: {
-                        cardCondition: card => damagedNonMarsCreatures.includes(card),
-                        mode: 'exactly',
-                        numCards: context.player.opponent.amber
-                    },
-                    player: context.player.opponent
-                };
-            })
+            gameAction: ability.actions.capture(context => ({
+                target: context.player.opponent.creaturesInPlay.filter(card => card.hasToken('damage') && !card.hasHouse('mars')),
+                player: context.player.opponent
+            }))
         });
     }
 }

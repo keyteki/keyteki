@@ -22,6 +22,28 @@ class CaptureAction extends CardAction {
                player.amber > 0 && this.amount > 0 && super.canAffect(card, context);
     }
 
+    preEventHandler(context) {
+        super.preEventHandler(context);
+        context.game.queueSimpleStep(() => {
+            if(this.target.length > 1) {
+                let player = this.player || context.player.opponent;
+                if(player.amber < this.target.length) {
+                    context.game.promptForSelect(context.game.currentPlayer, {
+                        activePromptTitle: 'Insufficient amber - choose creatures to capture',
+                        mode: 'exactly',
+                        numCards: player.amber,
+                        context: context,
+                        cardCondition: card => this.target.includes(card),
+                        onSelect: (player, cards) => {
+                            this.target = cards;
+                            return true;
+                        }
+                    });
+                }
+            }
+        });
+    }
+
     getEvent(card, context) {
         let player = this.player || context.player.opponent;
         let params = {

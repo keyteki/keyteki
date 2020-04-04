@@ -18,7 +18,6 @@ describe('Replicator', function() {
             it('should use Gamgee\'s reap effect', function() {
                 this.player1.reap(this.replicator);
                 this.player1.clickCard(this.gamgee);
-                this.player1.clickPrompt('Gamgee');
                 expect(this.player1.player.amber).toBe(4);
                 expect(this.player2.player.amber).toBe(4);
             });
@@ -27,7 +26,6 @@ describe('Replicator', function() {
                 this.player1.fightWith(this.titanMechanic, this.bingleBangbang);
                 this.player1.reap(this.replicator);
                 this.player1.clickCard(this.foozle);
-                this.player1.clickPrompt('Foozle');
                 expect(this.player1.player.amber).toBe(4);
                 expect(this.player2.player.amber).toBe(5);
             });
@@ -70,7 +68,6 @@ describe('Replicator', function() {
                 this.player1.clickPrompt('Reap with this creature');
                 expect(this.player1).toBeAbleToSelect(this.ulyqMegamouth);
                 this.player1.clickCard(this.ulyqMegamouth);
-                this.player1.clickPrompt('Ulyq Megamouth');
                 expect(this.player1).toHavePrompt('Ulyq Megamouth');
                 expect(this.player1).toBeAbleToSelect(this.dextre);
             });
