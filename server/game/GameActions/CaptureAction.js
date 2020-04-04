@@ -27,11 +27,11 @@ class CaptureAction extends CardAction {
         context.game.queueSimpleStep(() => {
             if(this.target.length > 1) {
                 let player = this.player || context.player.opponent;
-                if(player.amber < this.target.length) {
+                if(player.amber < this.target.length * this.amount) {
                     context.game.promptForSelect(context.game.currentPlayer, {
                         activePromptTitle: 'Insufficient amber - choose creatures to capture',
                         mode: 'exactly',
-                        numCards: player.amber,
+                        numCards: Math.ceil(player.amber / this.amount),
                         context: context,
                         cardCondition: card => this.target.includes(card),
                         onSelect: (player, cards) => {
