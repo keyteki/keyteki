@@ -24,10 +24,12 @@ const mockContext = {
     source: card,
     target: card,
     targets: {
+        creature: card,
         reveal: [card],
         two: [card],
         flank: { hasHouse: () => true, neighbors: [], childCards: [], hasTrait: () => false }
     },
+    option: { value: 1 },
     player: player
 };
 mockContext.event.context = mockContext;

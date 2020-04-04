@@ -60,12 +60,12 @@ describe('Favor of Rex', function() {
                 expect(this.player1.amber).toBe(4);
             });
 
-            it('should duplicate play effect of an enemy creature', function() {
+            it('should not cause Flaxia to fire with one fewer creatures', function() {
                 this.player1.play(this.favorOfRex);
                 expect(this.player1).toHavePrompt('Choose a creature');
                 expect(this.player1).toBeAbleToSelect(this.flaxia);
                 this.player1.clickCard(this.flaxia);
-                expect(this.player1.amber).toBe(13);
+                expect(this.player1.amber).toBe(11);
                 expect(this.player2.amber).toBe(4);
             });
 

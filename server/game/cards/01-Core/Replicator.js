@@ -3,16 +3,27 @@ const Card = require('../../Card.js');
 class Replicator extends Card {
     setupCardAbilities(ability) {
         this.reap({
-            target: {
-                cardType: 'creature',
-                cardCondition: (card, context) =>
-                    card !== context.source && card.abilities.reactions.some(ability => ability.properties.reap),
-                gameAction: ability.actions.resolveAbility(context => ({
-                    ability: context.target.abilities.reactions.find(ability => ability.properties.reap)
-                }))
+            targets: {
+                creature: {
+                    cardType: 'creature',
+                    cardCondition: (card, context) => card !== context.source
+                },
+                ability: {
+                    dependsOn: 'creature',
+                    mode: 'options',
+                    options: context => context.targets.creature.abilities.reactions.filter(ability => ability.isReap()).map(ability => ({
+                        name: ability.card.name,
+                        value: ability.card.name
+                    }))
+                }
             },
-            // TODO: add a menu to choose which ability
-            effect: 'trigger {0}\'s Reap: abilitiy'
+            gameAction: ability.actions.resolveAbility(context => ({
+                target: context.targets.creature,
+                ability: context.targets.creature && context.targets.creature.abilities.reactions.filter(ability => ability.isReap()).find(ability =>
+                    ability.card.name === context.option.value)
+            })),
+            effect: 'trigger {0}\'s Reap: abilitiy {1}{2}',
+            effectArgs: context => context.option.value === context.targets.creature.name ? [] : ['gained from ', context.option.value]
         });
     }
 }
