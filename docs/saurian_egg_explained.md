@@ -191,7 +191,7 @@ return newlist
 ```
 A map allows you to provide a function to encapsulate the ```toUpperCase(str)``` and remove the other code. For example:
 ```
-newList = list.mapp(toUpperCase(str) )
+newList = list.map(toUpperCase(str) )
 ```
 
 In our case, we want a list of cards, but we have a list of events. So a simple map fucntion ```map(event => event.card)``` will work.
