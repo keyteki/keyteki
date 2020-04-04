@@ -41,6 +41,13 @@ class SaurianEgg extends Card {
                 })),
 
                 then: {
+                    condition: context.preThenEvents &&
+                    context.preThenEvents.filter(
+                        event => !event.cancelled &&
+                        event.name === 'onCardDiscarded' &&
+                        event.card.type === 'creature' &&
+                        event.card.hasHouse('saurian')
+                    ).length > 0,
                     gameAction: ability.actions.destroy(context => ({
                         target: context.source
                     }))

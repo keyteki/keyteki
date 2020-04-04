@@ -5,11 +5,13 @@ describe('saurian-egg', function() {
                 this.setupTest({
                     player1: {
                         house: 'saurian',
-                        inPlay: ['saurian-egg','troll','umbra','gargantodon','paraguardian']
+                        inPlay: ['saurian-egg','tantadlin','gargantodon','paraguardian','imperial-road'],
+                        hand: ['questor-jarta','rhetor-gallim','senator-shrix','troll','alaka','bumblebird']
                     },
                     player2: {
                         amber: 1,
-                        inPlay: ['umbra']
+                        inPlay: ['tantadlin'],
+                        hand: ['ember-imp']
                     }
                 });
             });
@@ -17,17 +19,17 @@ describe('saurian-egg', function() {
             it('should discard 2 cards that are not saurian creatures and not be destoryed.', function() {
                 this.player1.player.deck = [];
                 this.player1.moveCard(this.troll, 'deck');
-                this.player1.moveCard(this.umbra, 'deck');
+                this.player1.moveCard(this.tantadlin, 'deck');
                 this.player1.clickCard(this.saurianEgg);
                 this.player1.clickPrompt('Use this card\'s Omni ability');
-                expect(this.umbra.location).toBe('discard');
+                expect(this.tantadlin.location).toBe('discard');
                 expect(this.troll.location).toBe('discard');
                 expect(this.saurianEgg.location).toBe('play area');
             });
 
             it('should discard 2 cards where the first is saurian and it goes into play', function() {
                 this.player1.player.deck = [];
-                this.player1.moveCard(this.umbra, 'deck');
+                this.player1.moveCard(this.tantadlin, 'deck');
                 this.player1.moveCard(this.gargantodon, 'deck');
                 this.player1.clickCard(this.saurianEgg);
                 this.player1.clickPrompt('Use this card\'s Omni ability');
@@ -36,7 +38,7 @@ describe('saurian-egg', function() {
                 this.player1.clickPrompt('Left');
                 expect(this.gargantodon.location).toBe('play area');
 
-                expect(this.umbra.location).toBe('discard');
+                expect(this.tantadlin.location).toBe('discard');
                 expect(this.gargantodon.location).toBe('play area');
                 expect(this.player1.player.cardsInPlay[0]).toBe(this.gargantodon);
                 expect(this.gargantodon.exhausted).toBe(false);
@@ -79,7 +81,7 @@ describe('saurian-egg', function() {
                 expect(this.saurianEgg.location).toBe('discard');
             });
 
-            it('when 2 saurian creature in deck it should put both into play', function() {
+            it('when 2 saurian creatures in deck it should put both into play', function() {
                 this.player1.player.deck = [];
                 this.player1.moveCard(this.gargantodon, 'deck');
                 this.player1.moveCard(this.paraguardian, 'deck');
