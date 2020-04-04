@@ -17,7 +17,7 @@ class ConsulPrimus extends Card {
                         cardType: 'creature',
                         activePromptTitle: 'Choose another creature',
                         cardCondition: card => card !== preContext.target
-            }
+                    }
                 })
             })
         });
