@@ -95,6 +95,18 @@ class CardAbility extends ThenAbility {
         }
     }
 
+    isPlay() {
+        return false;
+    }
+
+    isReap() {
+        return false;
+    }
+
+    isFight() {
+        return false;
+    }
+
     isTriggeredAbility() {
         return true;
     }

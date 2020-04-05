@@ -27,6 +27,7 @@ describe('TheBigOne(WC)', function() {
                 this.player1.endTurn();
                 this.player2.clickPrompt('shadows');
                 this.player2.play(this.urchin);
+                this.player2.clickCard(this.urchin);
                 expect(theBigOne.tokens.fuse).toBe(7);
                 this.player2.endTurn();
                 this.player1.clickPrompt('brobnar');

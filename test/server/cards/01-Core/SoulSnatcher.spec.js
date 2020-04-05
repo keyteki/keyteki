@@ -29,6 +29,8 @@ describe('Soul Snatcher', function() {
 
             it('should award 1 amber to both players when both have cards destroyed at same time', function() {
                 this.player1.fightWith(this.emberImp, this.bloodshardImp);
+                this.player1.clickCard(this.soulSnatcher);
+                this.player1.clickCard(this.emberImp);
                 expect(this.player1.player.amber).toBe(1);
                 expect(this.player2.player.amber).toBe(1);
             });

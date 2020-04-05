@@ -2,7 +2,7 @@ const Card = require('../../Card.js');
 
 class SoulSnatcher extends Card {
     setupCardAbilities(ability) {
-        this.constantReaction({
+        this.reaction({
             when: {
                 onCardDestroyed: event => event.card.type === 'creature'
             },

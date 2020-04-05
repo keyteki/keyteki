@@ -74,6 +74,7 @@ describe('Obsidian Forge', function() {
             });
 
             it('should allow key to be forged using Soul Snatcher amber', function() {
+                this.player1.player.optionSettings.orderForcedAbilities = false;
                 this.player1.amber = 0;
                 this.player1.moveCard(this.soulSnatcher, 'play area');
 

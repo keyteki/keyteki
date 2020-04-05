@@ -27,6 +27,7 @@ class AbilityTargetCard {
                 contextCopy.target = contextCopy.targets[this.name];
             }
 
+            this.resetGameActions();
             return (!properties.cardCondition || properties.cardCondition(card, contextCopy)) &&
                    (properties.gameAction.length === 0 || properties.gameAction.some(gameAction => gameAction.hasLegalTarget(contextCopy)));
         };
