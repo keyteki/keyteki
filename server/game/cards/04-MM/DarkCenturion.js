@@ -7,12 +7,13 @@ class DarkCenturion extends Card {
                 mode: 'exactly',
                 numCards: 1,
                 cardType: 'creature',
-                cardCondition: card => card.hasToken('amber'),
-                gameAction: ability.actions.sequential([
-                    ability.actions.removeAmber({ amount: 1 }),
-                    ability.actions.ward()
-                ])
-            }
+                gameAction: ability.actions.removeAmber({ amount: 1 })
+            },
+            then: context => ({
+                gameAction: ability.actions.addWardToken({
+                    target: context.target[0]
+                })
+            })
         });
     }
 }

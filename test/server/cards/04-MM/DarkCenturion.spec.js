@@ -29,6 +29,7 @@ describe('dark-centurion', function() {
 
                 expect(this.umbra.hasToken('amber')).toBe(false);
                 expect(this.umbra.hasToken('ward')).toBe(true);
+                expect(this.darkCenturion.hasToken('ward')).toBe(false);
             });
 
             it('should be able to remove one aember from a creature that the opponent controls, and ward it', function() {
