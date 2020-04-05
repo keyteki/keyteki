@@ -71,6 +71,22 @@ describe('Quintrino Flux', function() {
                 expect(this.alaka.location).toBe('discard');
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
+
+            it('should work with warded creatures even when both creatures have the same power', function() {
+                this.theroCenturion.ward();
+                this.player1.play(this.quintrinoFlux);
+                this.player1.clickCard(this.theroCenturion);
+                this.player1.clickCard(this.mogghunter);
+                expect(this.theroCenturion.warded).toBe(false);
+                expect(this.theroCenturion.location).toBe('play area');
+                expect(this.tricerianLegionary.location).toBe('play area');
+                expect(this.mogghunter.location).toBe('discard');
+                expect(this.ogopogo.location).toBe('discard');
+                expect(this.kalochStonefather.location).toBe('discard');
+                expect(this.cowfyne.location).toBe('play area');
+                expect(this.alaka.location).toBe('play area');
+                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            });
         });
 
         describe('Quintrino Flux\'s ability', function() {
