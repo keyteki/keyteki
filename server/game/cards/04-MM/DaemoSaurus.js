@@ -1,6 +1,6 @@
 const Card = require('../../Card.js');
 
-class DæmoSaurus extends Card {
+class DaemoSaurus extends Card {
     setupCardAbilities(ability) {
         this.play({
             optional: true,
@@ -21,6 +21,6 @@ class DæmoSaurus extends Card {
     }
 }
 
-DæmoSaurus.id = 'dæmo-saurus';
+DaemoSaurus.id = 'dæmo-saurus';
 
-module.exports = DæmoSaurus;
+module.exports = DaemoSaurus;

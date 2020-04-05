@@ -1,6 +1,6 @@
 const Card = require('../../Card.js');
 
-class DæmoBot extends Card {
+class DaemoBot extends Card {
     setupCardAbilities(ability) {
         this.reap({
             target: {
@@ -19,6 +19,6 @@ class DæmoBot extends Card {
     }
 }
 
-DæmoBot.id = 'dæmo-bot';
+DaemoBot.id = 'dæmo-bot';
 
-module.exports = DæmoBot;
+module.exports = DaemoBot;
