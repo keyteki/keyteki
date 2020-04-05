@@ -1026,10 +1026,11 @@ class Game extends EventEmitter {
      *
      * @param {Array} cards - which cards to consider. Default are all cards.
      * @param {boolean} upgrade - if upgrades should be counted. Default is false.
+     * @param {filter} filter - an extra filter to apply to the card.
      */
-    getHousesInPlay(cards = this.cardsInPlay, upgrade = false) {
-        return Constants.Houses.filter(house => cards.some(card => card.hasHouse(house)
-            || (upgrade && card.upgrades && card.upgrades.some(upgrade => upgrade.hasHouse(house)))));
+    getHousesInPlay(cards = this.cardsInPlay, upgrade = false, filter = null) {
+        return Constants.Houses.filter(house => cards.some(card => ((!filter || filter(card)) && card.hasHouse(house))
+            || (upgrade && card.upgrades && card.upgrades.some(upgrade => (!filter || filter(upgrade)) && upgrade.hasHouse(house)))));
     }
 
     firstThingThisTurn() {
