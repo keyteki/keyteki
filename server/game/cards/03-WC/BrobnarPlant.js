@@ -2,7 +2,7 @@ const Card = require('../../Card.js');
 
 class BrobnarPlant extends Card {
     setupCardAbilities(ability) {
-        this.constantReaction({
+        this.reaction({
             when: {
                 onChooseActiveHouse: (event) => event.house === 'brobnar'
             },

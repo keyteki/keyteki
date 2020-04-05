@@ -15,6 +15,7 @@ class ChatCommands {
             '/disconnectme': this.disconnectMe,
             '/draw': this.draw,
             '/discard': this.discard,
+            '/discardtopofdeck': this.discardtopofdeck,
             '/forge': this.forge,
             '/manual': this.manual,
             '/modify-clock': this.modifyClock,
@@ -114,7 +115,8 @@ class ChatCommands {
         if(!house) {
             return;
         } else if(!player.activeHouse) {
-            this.game.addMessage('{0} attempted to change their active house with /active-house, but they cannot have an active house currently', player, house);
+            this.game.addMessage('{0} attempted to change their active house with /active-house, but they cannot have an active house currently', player,
+                house);
         } else if(!this.houses.includes(house.toLowerCase())) {
             this.game.addMessage('{0} attempted to change their active house with /active-house, but {1} is not a valid house', player, house);
         } else {
@@ -140,7 +142,7 @@ class ChatCommands {
     }
 
     draw(player, args) {
-        var num = this.getNumberOrDefault(args[1], 1);
+        let num = this.getNumberOrDefault(args[1], 1);
 
         this.game.addMessage('{0} uses the /draw command to draw {1} cards to their hand', player, num);
 
@@ -148,11 +150,19 @@ class ChatCommands {
     }
 
     discard(player, args) {
-        var num = this.getNumberOrDefault(args[1], 1);
+        let num = this.getNumberOrDefault(args[1], 1);
 
         this.game.addMessage('{0} uses the /discard command to discard {1} card{2} at random', player, num, num > 1 ? 's' : '');
 
         GameActions.discardAtRandom({ amount: num }).resolve(player, this.game.getFrameworkContext());
+    }
+
+    discardtopofdeck(player, args) {
+        let num = this.getNumberOrDefault(args[1], 1);
+
+        this.game.addMessage('{0} uses the /discardtopofdeck command to discard {1} card{2} from top of deck', player, num, num > 1 ? 's' : '');
+
+        GameActions.discardTopOfDeck({ amount: num }).resolve(player, this.game.getFrameworkContext());
     }
 
     cancelPrompt(player) {
@@ -162,8 +172,8 @@ class ChatCommands {
     }
 
     setToken(player, args) {
-        var token = args[1];
-        var num = this.getNumberOrDefault(args[2], 1);
+        let token = args[1];
+        let num = this.getNumberOrDefault(args[2], 1);
 
         if(!this.isValidToken(token)) {
             return false;
@@ -174,7 +184,7 @@ class ChatCommands {
             waitingPromptTitle: 'Waiting for opponent to set token',
             cardCondition: card => (card.location === 'play area') && card.controller === player,
             onSelect: (p, card) => {
-                var numTokens = card.tokens[token] || 0;
+                let numTokens = card.tokens[token] || 0;
 
                 card.addToken(token, num - numTokens);
                 this.game.addMessage('{0} uses the /token command to set the {1} token count of {2} to {3}', p, token, card, num - numTokens);
@@ -217,7 +227,7 @@ class ChatCommands {
     }
 
     getNumberOrDefault(string, defaultNumber) {
-        var num = parseInt(string);
+        let num = parseInt(string);
 
         if(isNaN(num)) {
             num = defaultNumber;
@@ -235,7 +245,7 @@ class ChatCommands {
             return false;
         }
 
-        var lowerToken = token.toLowerCase();
+        let lowerToken = token.toLowerCase();
 
         return _.contains(this.tokens, lowerToken);
     }

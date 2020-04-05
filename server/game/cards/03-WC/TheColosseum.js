@@ -2,7 +2,7 @@ const Card = require('../../Card.js');
 
 class TheColosseum extends Card {
     setupCardAbilities(ability) {
-        this.constantReaction({
+        this.reaction({
             when: {
                 onCardDestroyed: (event, context) =>
                     event.clone.controller !== context.player &&

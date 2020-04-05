@@ -2,6 +2,7 @@ const _ = require('underscore');
 const Phase = require('../phase.js');
 const SimpleStep = require('../simplestep.js');
 const MulliganPrompt = require('./mulliganprompt.js');
+const AdaptiveDeckSelectionPrompt = require('./AdaptiveDeckSelectionPrompt');
 const GameStartPrompt = require('./GameStartPrompt');
 const Effects = require('../../effects.js');
 
@@ -9,6 +10,7 @@ class SetupPhase extends Phase {
     constructor(game) {
         super(game, 'setup');
         this.initialise([
+            new SimpleStep(game, () => this.adaptiveCheck()),
             new SimpleStep(game, () => this.setupBegin()),
             new GameStartPrompt(game),
             new SimpleStep(game, () => this.drawStartingHands()),
@@ -19,10 +21,15 @@ class SetupPhase extends Phase {
     }
 
     startPhase() {
-        // Don't raise any events without a determined first player
         this.game.currentPhase = this.name;
         for(let step of this.steps) {
             this.game.queueStep(step);
+        }
+    }
+
+    adaptiveCheck() {
+        if(this.game.gameFormat === 'adaptive-bo1') {
+            this.game.queueStep(new AdaptiveDeckSelectionPrompt(this.game));
         }
     }
 
@@ -40,7 +47,7 @@ class SetupPhase extends Phase {
                 label: player.deckData.name
             };
             if(this.game.gameFormat !== 'sealed' && !this.game.hideDecklists) {
-                this.game.addMessage('{0} is playing as the Archon: {1}', player, link);
+                this.game.addMessage('{0} is playing as the Archon: {1}{2}', player, link, player.chains > 0 ? ` with ${player.chains} chains` : '');
             }
         }
     }

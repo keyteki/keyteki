@@ -25,11 +25,27 @@ class PlayCardAction extends CardGameAction {
     }
 
     getEvent(card, context) {
-        let action = card.getActions(this.location).find(action => action.title.includes('Play'));
         return super.createEvent('unnamedEvent', { card: card, context: context }, () => {
-            let actionContext = action.createContext(context.player);
-            actionContext.ignoreHouse = true;
-            context.game.resolveAbility(actionContext);
+            let playActions = card.getActions(this.location).filter(action => action.title.includes('Play'));
+            let action;
+            if(playActions.length > 1) {
+                context.game.promptWithHandlerMenu(context.player, {
+                    activePromptTitle: 'Play ' + card.name + ':',
+                    choices: playActions.map(ability => ability.title),
+                    handlers: playActions.map(ability => () => action = ability),
+                    source: card
+                });
+            } else if(playActions.length === 1) {
+                action = playActions[0];
+            } else {
+                return;
+            }
+
+            context.game.queueSimpleStep(() => {
+                let actionContext = action.createContext(context.player);
+                actionContext.ignoreHouse = true;
+                context.game.resolveAbility(actionContext);
+            });
         });
     }
 }

@@ -17,6 +17,7 @@ class PendingGame {
         this.muteSpectators = details.muteSpectators;
         this.gameType = details.gameType;
         this.gameFormat = details.gameFormat;
+        this.adaptive = details.adaptive;
         this.expansions = details.expansions;
         this.started = false;
         this.node = {};
@@ -60,6 +61,7 @@ class PendingGame {
             gameId: this.id,
             gameType: this.gameType,
             gameFormat: this.gameFormat,
+            adaptive: this.adaptive,
             expansions: this.expansions,
             players: players,
             startedAt: this.createdAt
@@ -298,6 +300,7 @@ class PendingGame {
             createdAt: this.createdAt,
             gameType: this.gameType,
             gameFormat: this.gameFormat,
+            adaptive: this.adaptive,
             id: this.id,
             messages: activePlayer ? this.gameChat.messages : undefined,
             muteSpectators: this.muteSpectators,
@@ -347,6 +350,7 @@ class PendingGame {
             createdAt: this.createdAt,
             gameType: this.gameType,
             gameFormat: this.gameFormat,
+            adaptive: this.adaptive,
             id: this.id,
             muteSpectators: this.muteSpectators,
             name: this.name,

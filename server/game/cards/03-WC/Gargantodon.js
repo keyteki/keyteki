@@ -27,10 +27,10 @@ class Gargantodon extends Card {
                 target: {
                     cardType: 'creature',
                     cardCondition: (card, context) => card.controller === context.game.activePlayer,
-                    gameAction: ability.actions.capture(context => ({
+                    gameAction: ability.actions.capture({
                         amount: preThenContext.event.amount,
-                        ownController: preThenContext.event.player === context.game.activePlayer
-                    }))
+                        player: preThenContext.event.player
+                    })
                 }
             })
         });

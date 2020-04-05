@@ -94,7 +94,7 @@ class Effect {
         }
 
         let effectOnSource = this.source.persistentEffects.some(effect => effect.ref && effect.ref.includes(this));
-        return !this.source.facedown && effectOnSource;
+        return (this.location === 'any' || !this.source.facedown) && effectOnSource;
     }
 
     checkCondition(stateChanged) {

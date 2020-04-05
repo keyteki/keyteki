@@ -808,7 +808,8 @@ class Lobby {
             hideDecklists: game.hideDecklists,
             useGameTimeLimit: game.useGameTimeLimit,
             gameTimeLimit: game.gameTimeLimit,
-            gameFormat: game.gameFormat
+            gameFormat: game.gameFormat,
+            adaptive: game.adaptive
         });
         newGame.rematch = true;
 
@@ -948,6 +949,7 @@ class Lobby {
             syncGame.started = game.started;
             syncGame.gameType = game.gameType;
             syncGame.gameFormat = game.gameFormat;
+            syncGame.adaptive = game.adaptive;
             syncGame.password = game.password;
 
             for(let player of Object.values(game.players)) {
