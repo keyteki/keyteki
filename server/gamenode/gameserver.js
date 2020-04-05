@@ -124,7 +124,8 @@ class GameServer {
         });
         Sentry.captureException(e);
         if(game) {
-            game.addMessage('A Server error has occured processing your game state, apologies.  Your game may now be in an inconsistent state, or you may be able to continue.  The error has been logged.');
+            game.addMessage(
+                'A Server error has occured processing your game state, apologies.  Your game may now be in an inconsistent state, or you may be able to continue.  The error has been logged.');
         }
     }
 
@@ -231,7 +232,16 @@ class GameServer {
 
         game.started = true;
         for(let player of Object.values(pendingGame.players)) {
-            game.selectDeck(player.name, player.deck);
+            let playerName = player.name;
+            //reversal deck swap
+            if(pendingGame.gameFormat === 'reversal') {
+                let otherPlayer = game.getOtherPlayer(player);
+                if(otherPlayer) {
+                    playerName = otherPlayer.name;
+                }
+            }
+
+            game.selectDeck(playerName, player.deck);
         }
 
         game.initialise();
@@ -307,16 +317,16 @@ class GameServer {
             return;
         }
 
-        var game = this.findGameForUser(ioSocket.request.user.username);
+        let game = this.findGameForUser(ioSocket.request.user.username);
         if(!game) {
             logger.info('No game for', ioSocket.request.user.username, 'disconnecting');
             ioSocket.disconnect();
             return;
         }
 
-        var socket = new Socket(ioSocket, { config: config });
+        let socket = new Socket(ioSocket, { config: config });
 
-        var player = game.playersAndSpectators[socket.user.username];
+        let player = game.playersAndSpectators[socket.user.username];
         if(!player) {
             return;
         }
@@ -375,7 +385,7 @@ class GameServer {
     }
 
     onLeaveGame(socket) {
-        var game = this.findGameForUser(socket.user.username);
+        let game = this.findGameForUser(socket.user.username);
         if(!game) {
             return;
         }
@@ -405,7 +415,7 @@ class GameServer {
     }
 
     onGameMessage(socket, command, ...args) {
-        var game = this.findGameForUser(socket.user.username);
+        let game = this.findGameForUser(socket.user.username);
 
         if(!game) {
             return;

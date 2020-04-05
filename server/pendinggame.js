@@ -18,6 +18,7 @@ class PendingGame {
         this.gameType = details.gameType;
         this.gameFormat = details.gameFormat;
         this.swap = details.swap;
+        this.adaptive = details.adaptive;
         this.expansions = details.expansions;
         this.started = false;
         this.node = {};
@@ -61,6 +62,7 @@ class PendingGame {
             gameId: this.id,
             gameType: this.gameType,
             gameFormat: this.gameFormat,
+            adaptive: this.adaptive,
             swap: this.swap,
             expansions: this.expansions,
             players: players,
@@ -214,7 +216,7 @@ class PendingGame {
     }
 
     selectDeck(playerName, deck) {
-        let player = this.getPlayerByName(playerName);
+        var player = this.getPlayerByName(playerName);
         if(!player) {
             return;
         }
@@ -301,6 +303,7 @@ class PendingGame {
             gameType: this.gameType,
             gameFormat: this.gameFormat,
             swap: this.swap,
+            adaptive: this.adaptive,
             id: this.id,
             messages: activePlayer ? this.gameChat.messages : undefined,
             muteSpectators: this.muteSpectators,
@@ -351,6 +354,7 @@ class PendingGame {
             gameType: this.gameType,
             gameFormat: this.gameFormat,
             swap: this.swap,
+            adaptive: this.adaptive,
             id: this.id,
             muteSpectators: this.muteSpectators,
             name: this.name,

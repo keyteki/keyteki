@@ -74,14 +74,6 @@ describe('Infomancer', function() {
                 expect(this.flaxia.tokens.damage).toBe(1);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
-
-            it('should not activate anything if card has no play effect', function() {
-                this.player1.play(this.infomancer);
-                this.player1.clickCard(this.virtuousWorks);
-                this.infomancer.exhausted = false;
-                this.player1.reap(this.infomancer);
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
-            });
         });
     });
 });

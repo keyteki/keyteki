@@ -71,8 +71,44 @@ describe('Positron Bolt', function() {
                 expect(this.player1).toBeAbleToSelect(this.troll);
                 this.player1.clickCard(this.troll);
                 expect(this.troll.tokens.damage).toBe(3);
+                expect(this.player1).toBeAbleToSelect(this.krump);
+                expect(this.player1).not.toBeAbleToSelect(this.troll);
+                this.player1.clickCard(this.krump);
                 expect(this.krump.tokens.damage).toBe(2);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            });
+        });
+
+        describe('Positron Bolt\'s ability', function() {
+            beforeEach(function() {
+                this.setupTest({
+                    player1: {
+                        house: 'logos',
+                        inPlay: ['titan-mechanic'],
+                        hand: ['positron-bolt']
+                    },
+                    player2: {
+                        amber: 1,
+                        inPlay: ['helper-bot', 'lamindra', 'urchin', 'mooncurser', 'haedroth-s-wall']
+                    }
+                });
+            });
+
+            it('should redefine armor for flank creature', function() {
+                this.player1.play(this.positronBolt);
+                expect(this.player1.amber).toBe(1);
+                expect(this.player1).toHavePrompt('Choose a creature');
+                expect(this.player1).toBeAbleToSelect(this.titanMechanic);
+                expect(this.player1).not.toBeAbleToSelect(this.lamindra);
+                expect(this.player1).not.toBeAbleToSelect(this.urchin);
+                expect(this.player1).toBeAbleToSelect(this.mooncurser);
+                expect(this.player1).toBeAbleToSelect(this.helperBot);
+                this.player1.clickCard(this.helperBot);
+                expect(this.helperBot.location).toBe('discard');
+                expect(this.lamindra.location).toBe('play area');
+                expect(this.urchin.location).toBe('play area');
+                expect(this.lamindra.tokens.damage).toBe(undefined);
+                expect(this.urchin.tokens.damage).toBe(undefined);
             });
         });
 
@@ -103,7 +139,15 @@ describe('Positron Bolt', function() {
                 expect(this.player1).not.toBeAbleToSelect(this.redlock);
                 this.player1.clickCard(this.troll);
                 expect(this.troll.tokens.damage).toBe(3);
+                expect(this.player1).not.toBeAbleToSelect(this.troll);
+                expect(this.player1).not.toBeAbleToSelect(this.krump);
+                expect(this.player1).toBeAbleToSelect(this.groggins);
+                this.player1.clickCard(this.groggins);
                 expect(this.groggins.tokens.damage).toBe(2);
+                expect(this.player1).not.toBeAbleToSelect(this.troll);
+                expect(this.player1).not.toBeAbleToSelect(this.groggins);
+                expect(this.player1).toBeAbleToSelect(this.krump);
+                this.player1.clickCard(this.krump);
                 expect(this.krump.tokens.damage).toBe(1);
                 expect(this.redlock.tokens.damage).toBeUndefined();
                 expect(this.lamindra.tokens.damage).toBeUndefined();
@@ -156,6 +200,12 @@ describe('Positron Bolt', function() {
                 expect(this.player1).not.toBeAbleToSelect(this.groggins);
                 expect(this.player1).not.toBeAbleToSelect(this.redlock);
                 this.player1.clickCard(this.krump);
+                expect(this.player1).not.toBeAbleToSelect(this.troll);
+                expect(this.player1).not.toBeAbleToSelect(this.krump);
+                expect(this.player1).not.toBeAbleToSelect(this.lamindra);
+                expect(this.player1).not.toBeAbleToSelect(this.groggins);
+                expect(this.player1).toBeAbleToSelect(this.redlock);
+                this.player1.clickCard(this.redlock);
                 expect(this.groggins.tokens.damage).toBe(3);
                 expect(this.krump.tokens.damage).toBe(2);
                 expect(this.redlock.tokens.damage).toBe(1);

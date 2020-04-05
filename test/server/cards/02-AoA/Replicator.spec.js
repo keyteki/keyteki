@@ -30,7 +30,7 @@ describe('Replicator', function() {
                 expect(this.player2.player.amber).toBe(5);
             });
 
-            xit('should fail Foozle\'s reap effect\'s condition', function() {
+            it('should fail Foozle\'s reap effect\'s condition', function() {
                 this.player1.reap(this.replicator);
                 this.player1.clickCard(this.foozle);
                 expect(this.player1.player.amber).toBe(3);
@@ -53,7 +53,7 @@ describe('Replicator', function() {
                 });
             });
 
-            xit('Copy reap effects including upgrades', function() {
+            it('Copy reap effects including upgrades', function() {
                 // This test specifically addresses multiple reap effects and
                 // Is xit'd until we re-factor the base replicator card code
                 this.player1.playUpgrade(this.redPlanetRayGun, this.ulyqMegamouth);
