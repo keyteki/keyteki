@@ -3,27 +3,28 @@ const Card = require('../../Card.js');
 class PositronBolt extends Card {
     setupCardAbilities(ability) {
         this.play({
-            target: {
-                cardType: 'creature',
-                cardCondition: card => card.isOnFlank(),
-                gameAction: ability.actions.dealDamage({ amount: 3 })
-            },
-            then: preThenContext => ({
-                alwaysTrigger: preThenContext.target.neighbors.length > 0,
-                target: {
+            targets: {
+                first: {
                     cardType: 'creature',
-                    cardCondition: card => preThenContext.target.neighbors.includes(card) && card !== preThenContext.target,
-                    gameAction: ability.actions.dealDamage({ amount: 2 })
+                    cardCondition: card => card.isOnFlank()
                 },
-                then: preThenContextNext => ({
-                    alwaysTrigger: preThenContext.target.neighbors.length > 0,
-                    target: {
-                        cardType: 'creature',
-                        cardCondition: card => preThenContextNext.target.neighbors.includes(card) && card !== preThenContextNext.target && card !== preThenContext.target,
-                        gameAction: ability.actions.dealDamage({ amount: 1 })
-                    }
-                })
-            })
+                second: {
+                    dependsOn: 'first',
+                    cardType: 'creature',
+                    cardCondition: (card, context) => context.targets.first && context.targets.first.neighbors.includes(card)
+                },
+                third: {
+                    dependsOn: 'second',
+                    cardType: 'creature',
+                    cardCondition: (card, context) =>
+                        context.targets.second && context.targets.second.neighbors.includes(card) && card !== context.targets.first,
+                    gameAction: ability.actions.sequential([
+                        ability.actions.dealDamage(context => ({ target: context.targets.first, amount: 3 })),
+                        ability.actions.dealDamage(context => ({ target: context.targets.second, amount: 2 })),
+                        ability.actions.dealDamage(context => ({ target: context.targets.third, amount: 1 }))
+                    ])
+                }
+            }
         });
     }
 }
