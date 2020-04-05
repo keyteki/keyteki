@@ -5,7 +5,7 @@ class WordOfReturning extends Card {
         this.play({
             condition: context => !!context.player.opponent,
             effect: 'deal damage to enemy creatures and take their amber',
-            gameAction: [
+            gameAction: ability.actions.sequential([
                 ability.actions.dealDamage(context => ({
                     target: context.player.opponent.cardsInPlay.filter(card => card.type === 'creature'),
                     amountForCard: card => card.amber
@@ -14,7 +14,7 @@ class WordOfReturning extends Card {
                     target: context.player.opponent.cardsInPlay.filter(card => card.type === 'creature'),
                     all: true
                 }))
-            ]
+            ])
         });
     }
 }

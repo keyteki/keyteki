@@ -9,7 +9,8 @@ describe('Word of Returning', function() {
                         hand: ['word-of-returning']
                     },
                     player2: {
-                        inPlay: ['dextre', 'sequis', 'mother']
+                        inPlay: ['dextre', 'sequis', 'mother'],
+                        hand: ['praefectus-ludo']
                     }
                 });
                 this.silvertooth.addToken('amber');
@@ -25,6 +26,31 @@ describe('Word of Returning', function() {
                 expect(this.dextre.hasToken('amber')).toBe(false);
                 expect(this.sequis.hasToken('amber')).toBe(false);
                 expect(this.player1.amber).toBe(6);
+            });
+        });
+        describe('Word of Returning\'s ability with ludo in play', function() {
+            beforeEach(function() {
+                this.setupTest({
+                    player1: {
+                        house: 'untamed',
+                        inPlay: ['silvertooth'],
+                        hand: ['word-of-returning']
+                    },
+                    player2: {
+                        inPlay: ['helper-bot', 'sequis', 'praefectus-ludo']
+                    }
+                });
+                this.helperBot.addToken('amber', 10);
+                this.sequis.addToken('amber', 4);
+                this.player1.play(this.wordOfReturning);
+            });
+
+            it('should deal a damage to each enemy unit for each amber they have, and take all amber', function() {
+                expect(this.helperBot.location).toBe('discard');
+                expect(this.praefectusLudo.location).toBe('play area');
+                expect(this.sequis.tokens.damage).toBe(2);
+                expect(this.sequis.hasToken('amber')).toBe(false);
+                expect(this.player1.amber).toBe(5);
             });
         });
     });
