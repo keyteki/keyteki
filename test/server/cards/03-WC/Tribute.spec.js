@@ -54,7 +54,7 @@ describe('Tribute', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            fit('should allow exalt even if no amber was captured', function() {
+            it('should allow exalt even if no amber was captured', function() {
                 this.player2.amber = 0;
                 this.player1.play(this.tribute);
                 expect(this.player1).toHavePrompt('Choose a creature');
