@@ -55,6 +55,7 @@ class Game extends EventEmitter {
         this.savedGameId = details.savedGameId;
         this.gameType = details.gameType;
         this.gameFormat = details.gameFormat;
+        this.swap = details.swap;
         this.currentAbilityWindow = null;
         this.currentActionWindow = null;
         this.currentEventWindow = null;
@@ -794,7 +795,10 @@ class Game extends EventEmitter {
                 () => player.cardsInPlay.push(card)
             ];
             this.promptWithHandlerMenu(this.activePlayer, {
-                activePromptTitle: { text: 'Choose which flank {{card}} should be placed on', values: { card: card.name } },
+                activePromptTitle: {
+                    text: 'Choose which flank {{card}} should be placed on',
+                    values: { card: card.name }
+                },
                 source: card,
                 choices: ['Left', 'Right'],
                 handlers: handlers
@@ -1062,6 +1066,7 @@ class Game extends EventEmitter {
             players: players,
             gameType: this.gameType,
             gameFormat: this.gameFormat,
+            swap: this.swap,
             adaptive: this.adaptive,
             winner: this.winner ? this.winner.name : undefined,
             winReason: this.winReason,
@@ -1086,6 +1091,7 @@ class Game extends EventEmitter {
             return {
                 id: this.id,
                 gameFormat: this.gameFormat,
+                swap: this.swap,
                 adaptive: this.adaptive,
                 manualMode: this.manualMode,
                 name: this.name,
@@ -1152,6 +1158,7 @@ class Game extends EventEmitter {
             createdAt: this.createdAt,
             gameType: this.gameType,
             gameFormat: this.gameFormat,
+            swap: this.swap,
             adaptive: this.adaptive,
             id: this.id,
             manualMode: this.manualMode,

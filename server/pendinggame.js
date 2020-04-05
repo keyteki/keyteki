@@ -17,6 +17,7 @@ class PendingGame {
         this.muteSpectators = details.muteSpectators;
         this.gameType = details.gameType;
         this.gameFormat = details.gameFormat;
+        this.swap = details.swap;
         this.adaptive = details.adaptive;
         this.expansions = details.expansions;
         this.started = false;
@@ -50,7 +51,7 @@ class PendingGame {
     }
 
     getSaveState() {
-        var players = _.map(this.getPlayers(), player => {
+        let players = _.map(this.getPlayers(), player => {
             return {
                 houses: player.houses,
                 name: player.name
@@ -62,6 +63,7 @@ class PendingGame {
             gameType: this.gameType,
             gameFormat: this.gameFormat,
             adaptive: this.adaptive,
+            swap: this.swap,
             expansions: this.expansions,
             players: players,
             startedAt: this.createdAt
@@ -157,7 +159,7 @@ class PendingGame {
     }
 
     leave(playerName) {
-        var player = this.getPlayerOrSpectator(playerName);
+        let player = this.getPlayerOrSpectator(playerName);
         if(!player) {
             return;
         }
@@ -182,7 +184,7 @@ class PendingGame {
     }
 
     disconnect(playerName) {
-        var player = this.getPlayerOrSpectator(playerName);
+        let player = this.getPlayerOrSpectator(playerName);
         if(!player) {
             return;
         }
@@ -203,7 +205,7 @@ class PendingGame {
     }
 
     chat(playerName, message) {
-        var player = this.getPlayerOrSpectator(playerName);
+        let player = this.getPlayerOrSpectator(playerName);
         if(!player) {
             return;
         }
@@ -235,7 +237,7 @@ class PendingGame {
     }
 
     isOwner(playerName) {
-        var player = this.players[playerName];
+        let player = this.players[playerName];
 
         if(!player || !player.owner) {
             return false;
@@ -270,11 +272,11 @@ class PendingGame {
 
     // Summary
     getSummary(activePlayer) {
-        var playerSummaries = {};
-        var playersInGame = _.filter(this.players, player => !player.left);
+        let playerSummaries = {};
+        let playersInGame = _.filter(this.players, player => !player.left);
 
         _.each(playersInGame, player => {
-            var deck = undefined;
+            let deck = undefined;
 
             if(activePlayer === player.name && player.deck && this.gameFormat !== 'sealed') {
                 deck = { name: player.deck.name, selected: player.deck.selected, status: player.deck.status };
@@ -300,6 +302,7 @@ class PendingGame {
             createdAt: this.createdAt,
             gameType: this.gameType,
             gameFormat: this.gameFormat,
+            swap: this.swap,
             adaptive: this.adaptive,
             id: this.id,
             messages: activePlayer ? this.gameChat.messages : undefined,
@@ -350,6 +353,7 @@ class PendingGame {
             createdAt: this.createdAt,
             gameType: this.gameType,
             gameFormat: this.gameFormat,
+            swap: this.swap,
             adaptive: this.adaptive,
             id: this.id,
             muteSpectators: this.muteSpectators,

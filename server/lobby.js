@@ -808,6 +808,7 @@ class Lobby {
             hideDecklists: game.hideDecklists,
             useGameTimeLimit: game.useGameTimeLimit,
             gameTimeLimit: game.gameTimeLimit,
+            swap: oldGame.swap,
             gameFormat: game.gameFormat,
             adaptive: game.adaptive
         });
