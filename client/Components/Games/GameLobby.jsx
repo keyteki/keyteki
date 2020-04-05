@@ -46,6 +46,7 @@ class GameLobby extends React.Component {
             normal: true,
             sealed: true,
             reversal: true,
+            'adaptive-bo1': true,
             showOnlyNewGames: false
         };
 
@@ -266,7 +267,7 @@ class GameLobby extends React.Component {
                 <Modal { ...modalProps }>
                     { modalBody }
                 </Modal>
-            </div >);
+            </div>);
     }
 }
 

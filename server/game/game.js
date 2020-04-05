@@ -66,6 +66,7 @@ class Game extends EventEmitter {
         this.gameTimeLimit = details.gameTimeLimit;
         this.timeLimit = new TimeLimit(this);
         this.hideDecklists = details.hideDecklists;
+        this.adaptive = { chains: 0, selection: [], biddingWinner: '', match1Winner: '', match2Winner: '', match3Winner: '' };
 
         this.cardsUsed = [];
         this.cardsPlayed = [];
@@ -244,7 +245,6 @@ class Game extends EventEmitter {
         return foundCards;
     }
 
-
     get actions() {
         return GameActions;
     }
@@ -396,7 +396,7 @@ class Game extends EventEmitter {
      * @param {String} stat
      * @param {Number} value
      */
-    changeStat(playerName, stat, value) {
+    changeStat(playerName, stat, value, info) {
         let player = this.getPlayerByName(playerName);
         if(!player) {
             return;
@@ -409,7 +409,7 @@ class Game extends EventEmitter {
         if(target[stat] < 0) {
             target[stat] = 0;
         } else {
-            this.addAlert('danger', '{0} sets {1} to {2} ({3})', player, stat, target[stat], (value > 0 ? '+' : '') + value);
+            this.addAlert(info ? 'info' : 'danger', '{0} sets {1} to {2} ({3})', player, stat, target[stat], (value > 0 ? '+' : '') + value);
         }
     }
 
@@ -582,19 +582,6 @@ class Game extends EventEmitter {
             }
         });
 
-        //reversal swap
-        if(this.gameFormat === 'reversal') {
-            const playerNames = Object.keys(players);
-            if(playerNames.length === 2) {
-                const deckData = players[playerNames[0]].deckData;
-                const houses = players[playerNames[0]].houses;
-                players[playerNames[0]].deckData = players[playerNames[1]].deckData;
-                players[playerNames[0]].houses = players[playerNames[1]].houses;
-                players[playerNames[1]].houses = houses;
-                players[playerNames[1]].deckData = deckData;
-            }
-        }
-
         this.playersAndSpectators = players;
 
         if(this.useGameTimeLimit) {
@@ -623,6 +610,29 @@ class Game extends EventEmitter {
         this.continue();
     }
 
+    reInitialisePlayers(swap) {
+        let players = this.getPlayers();
+
+        //adaptive swap
+        if(swap) {
+            const [player1, player2] = Object.keys(players);
+            if(player2) {
+                const deckData = players[player1].deckData;
+                const houses = players[player1].houses;
+                players[player1].deckData = players[player2].deckData;
+                players[player1].houses = players[player2].houses;
+                players[player2].houses = houses;
+                players[player2].deckData = deckData;
+            }
+        }
+
+        this.players = players;
+
+        for(let player of this.players) {
+            player.initialise();
+        }
+    }
+
     checkForTimeExpired() {
         if(this.timeLimit.isTimeLimitReached && !this.finishedAt) {
             this.addAlert('success', 'The game has ended because the timer has expired.  Timed wins are not currently implemented');
@@ -642,7 +652,7 @@ class Game extends EventEmitter {
         this.queueStep(new MainPhase(this));
         this.queueStep(new ReadyPhase(this));
         this.queueStep(new DrawPhase(this));
-        this.queueStep(new SimpleStep(this, () => this.raiseEndRoundEvent())),
+        this.queueStep(new SimpleStep(this, () => this.raiseEndRoundEvent()));
         this.queueStep(new SimpleStep(this, () => this.beginRound()));
     }
 
@@ -985,22 +995,22 @@ class Game extends EventEmitter {
             this.activePlayer = this.activePlayer.opponent;
         }
 
-        let playerResources = this.getPlayers().map(player => `${player.name}: ${player.amber} amber (${this.playerKeys(player)})`).join(' ');
+        let playerResources = this.getPlayers().map(player => `${ player.name }: ${ player.amber } amber (${ this.playerKeys(player) })`).join(' ');
 
-        this.addAlert('endofround', `End of turn ${this.round}`);
+        this.addAlert('endofround', `End of turn ${ this.round }`);
 
         if(!this.activePlayer.opponent || this.activePlayer.turn === this.activePlayer.opponent.turn) {
             this.round++;
         }
 
         this.addMessage(playerResources);
-        this.addAlert('startofround', `Turn ${this.round}`);
+        this.addAlert('startofround', `Turn ${ this.round }`);
         this.checkForTimeExpired();
     }
 
     playerKeys(player) {
         const length = Object.values(player.keys).filter(forged => forged).length;
-        return length === 1 ? '1 key' : `${length} keys`;
+        return length === 1 ? '1 key' : `${ length } keys`;
     }
 
     get cardsInPlay() {
@@ -1051,6 +1061,7 @@ class Game extends EventEmitter {
             players: players,
             gameType: this.gameType,
             gameFormat: this.gameFormat,
+            adaptive: this.adaptive,
             winner: this.winner ? this.winner.name : undefined,
             winReason: this.winReason,
             finishedAt: this.finishedAt
@@ -1074,6 +1085,7 @@ class Game extends EventEmitter {
             return {
                 id: this.id,
                 gameFormat: this.gameFormat,
+                adaptive: this.adaptive,
                 manualMode: this.manualMode,
                 name: this.name,
                 owner: this.owner,
@@ -1139,6 +1151,7 @@ class Game extends EventEmitter {
             createdAt: this.createdAt,
             gameType: this.gameType,
             gameFormat: this.gameFormat,
+            adaptive: this.adaptive,
             id: this.id,
             manualMode: this.manualMode,
             messages: this.gameChat.messages,
