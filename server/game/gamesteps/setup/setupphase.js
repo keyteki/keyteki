@@ -10,7 +10,7 @@ class SetupPhase extends Phase {
     constructor(game) {
         super(game, 'setup');
         this.initialise([
-            new SimpleStep(game, () => this.adaptiveCheck()),
+            new AdaptiveDeckSelectionPrompt(game),
             new SimpleStep(game, () => this.setupBegin()),
             new GameStartPrompt(game),
             new SimpleStep(game, () => this.drawStartingHands()),
@@ -24,12 +24,6 @@ class SetupPhase extends Phase {
         this.game.currentPhase = this.name;
         for(let step of this.steps) {
             this.game.queueStep(step);
-        }
-    }
-
-    adaptiveCheck() {
-        if(this.game.gameFormat === 'adaptive-bo1') {
-            this.game.queueStep(new AdaptiveDeckSelectionPrompt(this.game));
         }
     }
 

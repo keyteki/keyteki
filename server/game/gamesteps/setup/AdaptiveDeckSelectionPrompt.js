@@ -11,7 +11,7 @@ class AdaptiveDeckSelectionPrompt extends AllPlayerPrompt {
     }
 
     completionCondition(player) {
-        return !!this.clickedButton[player.name] || this.players.length < 2;
+        return !(this.game.gameFormat === 'adaptive-bo1') || !!this.clickedButton[player.name] || this.players.length < 2;
     }
 
     activePrompt() {
@@ -57,7 +57,7 @@ class AdaptiveDeckSelectionPrompt extends AllPlayerPrompt {
             this.game.queueStep(new ChainBiddingPrompt(this.game, player1));
         } else {
             this.game.addMessage('Players have selected different decks. Chains will not be bid.');
-            if(player1.owner !== player1.name) {
+            if(player1.owner !== player1.player) {
                 this.game.reInitialisePlayers(true);
             }
         }

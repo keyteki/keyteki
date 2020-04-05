@@ -629,9 +629,13 @@ class Game extends EventEmitter {
 
         this.players = players;
 
-        for(let player of this.players) {
+        for(let player of this.getPlayers()) {
             player.initialise();
         }
+
+        this.allCards = _.reduce(this.getPlayers(), (cards, player) => {
+            return cards.concat(player.deck);
+        }, []);
     }
 
     checkForTimeExpired() {
