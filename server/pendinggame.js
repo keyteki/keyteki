@@ -17,7 +17,7 @@ class PendingGame {
         this.muteSpectators = details.muteSpectators;
         this.gameType = details.gameType;
         this.gameFormat = details.gameFormat;
-        this.swap = details.swap;
+        this.swap = !!details.swap;
         this.adaptive = details.adaptive;
         this.expansions = details.expansions;
         this.started = false;
