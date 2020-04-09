@@ -178,6 +178,7 @@ export class GameBoard extends React.Component {
                 okText: t('Ok'),
                 cancelText: t('Cancel'),
                 onOk: () => {
+                    this.props.sendGameMessage('concede');
                     this.props.sendGameMessage('leavegame');
                     this.props.closeGameSocket();
                 }
