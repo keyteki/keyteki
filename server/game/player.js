@@ -20,6 +20,7 @@ class Player extends GameObject {
         this.discard = [];
         this.purged = [];
         this.archives = [];
+        this.wins = 0;
 
         this.houses = [];
         this.activeHouse = null;
@@ -648,6 +649,10 @@ class Player extends GameObject {
         return this.getEffects('additionalCost').reduce((array, costFactory) => array.concat(costFactory(context)), []).filter(cost => !!cost);
     }
 
+    setWins(wins) {
+        this.wins = wins;
+    }
+
     getStats() {
         return {
             amber: this.amber,
@@ -676,6 +681,7 @@ class Player extends GameObject {
                 purged: this.getSummaryForCardList(this.purged, activePlayer)
             },
             cardback: 'cardback',
+            deckName: this.deckData.name,
             disconnected: !!this.disconnectedAt,
             activePlayer: this.game.activePlayer === this,
             houses: this.houses,
@@ -690,7 +696,8 @@ class Player extends GameObject {
             timerSettings: {},
             user: _.omit(this.user, ['password', 'email']),
             deckCards: this.deckCards,
-            deckData: this.deckData
+            deckData: this.deckData,
+            wins: this.wins
         };
 
         if(isActivePlayer) {
