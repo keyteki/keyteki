@@ -174,10 +174,11 @@ export class GameBoard extends React.Component {
         let t = this.props.t;
 
         if(!this.state.spectating && this.isGameActive()) {
-            toastr.confirm(t('Your game is not finished, are you sure you want to leave?'), {
+            toastr.confirm(t('Your game is not finished. If you leave you will concede the game. Are you sure you want to leave?'), {
                 okText: t('Ok'),
                 cancelText: t('Cancel'),
                 onOk: () => {
+                    this.props.sendGameMessage('concede');
                     this.props.sendGameMessage('leavegame');
                     this.props.closeGameSocket();
                 }
