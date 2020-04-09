@@ -53,5 +53,27 @@ describe('Word of Returning', function() {
                 expect(this.player1.amber).toBe(5);
             });
         });
+        describe('Word of Returning\'s ability with shadow self and ether spider', function() {
+            beforeEach(function() {
+                this.setupTest({
+                    player1: {
+                        house: 'untamed',
+                        inPlay: ['silvertooth'],
+                        hand: ['word-of-returning']
+                    },
+                    player2: {
+                        inPlay: ['helper-bot', 'shadow-self','ether-spider']
+                    }
+                });
+                this.etherSpider.addToken('amber', 9);
+                this.player1.play(this.wordOfReturning);
+            });
+            it('should leave a on ether spider and destroy shadow self', function() {
+                expect(this.shadowSelf.location).toBe('discard');
+                expect(this.etherSpider.location).toBe('play area');
+                expect(this.etherSpider.tokens.amber).toBe(10);
+                expect(this.player1.amber).toBe(0);
+            });
+        });
     });
 });
