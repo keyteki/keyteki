@@ -37,7 +37,7 @@ describe('Word of Returning', function() {
                         hand: ['word-of-returning']
                     },
                     player2: {
-                        inPlay: ['helper-bot', 'sequis']
+                        inPlay: ['helper-bot', 'sequis', 'praefectus-ludo']
                     }
                 });
                 this.helperBot.addToken('amber', 10);
