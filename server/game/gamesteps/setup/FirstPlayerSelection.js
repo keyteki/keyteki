@@ -6,6 +6,7 @@ class FirstPlayerSelection extends AllPlayerPrompt {
         super(game);
         this.previousWinner = game.previousWinner;
         this.clickedButton = false;
+        this.players = game.getPlayers();
     }
 
     completionCondition(player) {
@@ -16,11 +17,7 @@ class FirstPlayerSelection extends AllPlayerPrompt {
         return {
             promptTitle: 'First Player',
             menuTitle: 'Who will go first?',
-            buttons: [
-                { arg: 'me', text: 'Me' },
-                { arg: 'opponent', text: 'Opponent' },
-                { arg: 'random', text: 'random' }
-            ]
+            buttons: this.players.map(player => ({ arg: player.name, text: player.name })).concat({ arg: 'random', text: 'random' })
         };
     }
 
@@ -29,19 +26,19 @@ class FirstPlayerSelection extends AllPlayerPrompt {
     }
 
     menuCommand(player, arg) {
-        switch(arg) {
-            case 'me':
-                this.game.activePlayer = player;
-                this.game.addMessage('{0} chooses to go first', player.name);
-                break;
-            case 'opponent':
-                this.game.activePlayer = this.game.getOtherPlayer(player);
-                this.game.addMessage('{0} chooses to go second', player.name);
-                break;
-            default:
-                this.game.addMessage('{0} chooses to randomize the first player', player.name);
-                break;
+        const otherPlayer = this.game.getOtherPlayer(player);
+        let message;
+        if(arg === player.name) {
+            this.game.activePlayer = player;
+            message = '{0} chooses to go first';
+        } else if(arg === otherPlayer.name) {
+            this.game.activePlayer = otherPlayer;
+            message = '{0} chooses to go second';
+        } else {
+            message = '{0} chooses to randomize the first player';
         }
+
+        this.game.addMessage(message, player.name);
 
         this.clickedButton = true;
 
@@ -52,7 +49,7 @@ class FirstPlayerSelection extends AllPlayerPrompt {
         if(!this.game.activePlayer) {
             let allPlayersShuffled = _.shuffle(this.game.getPlayers());
             this.game.activePlayer = allPlayersShuffled.shift();
-            this.game.addMessage('{0} won the flip and is first player',this.game.activePlayer.name);
+            this.game.addMessage('{0} won the flip and is first player', this.game.activePlayer.name);
         }
     }
 }
