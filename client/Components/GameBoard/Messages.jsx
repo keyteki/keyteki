@@ -51,6 +51,9 @@ class Messages extends React.Component {
                     case 'amber':
                         token = 'Æmber';
                         break;
+                    case 'amber.':
+                        token = 'Æmber.';
+                        break;
                     case 'forgedkeyblue':
                         token = 'blue key';
                         break;
