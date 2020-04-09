@@ -21,14 +21,7 @@ class PlayerRow extends React.Component {
     }
 
     componentDidMount() {
-        const deck = {
-            name: this.props.deckName,
-            cards: this.props.deckCards,
-            houses: this.props.houses,
-            uuid: this.props.deckUuid,
-            expansion: this.props.deckSet
-        };
-        buildArchon(deck, this.props.language)
+        buildArchon(this.props.deckData, this.props.language)
             .then(cardBackUrl => {
                 if(this.props.player === 1) {
                     this.props.setPlayer1CardBack(cardBackUrl);
@@ -37,7 +30,7 @@ class PlayerRow extends React.Component {
                 }
             });
         if(!this.props.hideDecklist) {
-            buildDeckList(deck, this.props.language, this.props.t, this.props.cards)
+            buildDeckList({ ...this.props.deckData, cards: this.props.deckCards }, this.props.language, this.props.t, this.props.cards)
                 .then(deckListUrl => {
                     this.setState({ deckListUrl });
                 });
@@ -45,17 +38,9 @@ class PlayerRow extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        const deck = {
-            name: this.props.deckName,
-            cards: this.props.deckCards,
-            houses: this.props.houses,
-            uuid: this.props.deckUuid,
-            expansion: this.props.deckSet
-        };
-
         if(this.props.language) {
-            if(this.props.language !== prevProps.language || this.props.deckUuid !== prevProps.deckUuid) {
-                buildArchon(deck, this.props.language)
+            if(this.props.language !== prevProps.language || this.props.deckData.uuid !== prevProps.deckData.uuid) {
+                buildArchon(this.props.deckData, this.props.language)
                     .then(cardBackUrl => {
                         if(this.props.player === 1) {
                             this.props.setPlayer1CardBack(cardBackUrl);
@@ -63,7 +48,7 @@ class PlayerRow extends React.Component {
                             this.props.setPlayer2CardBack(cardBackUrl);
                         }
                     });
-                buildDeckList(deck, this.props.language, this.props.t, this.props.cards)
+                buildDeckList({ ...this.props.deckData, cards: this.props.deckCards }, this.props.language, this.props.t, this.props.cards)
                     .then(deckListUrl => {
                         this.setState({ deckListUrl });
                     });
@@ -174,9 +159,7 @@ PlayerRow.propTypes = {
     cards: PropTypes.object,
     conclavePile: PropTypes.array,
     deckCards: PropTypes.array,
-    deckName: PropTypes.string,
-    deckSet: PropTypes.number,
-    deckUuid: PropTypes.string,
+    deckData: PropTypes.object,
     discard: PropTypes.array,
     drawDeck: PropTypes.array,
     faction: PropTypes.object,

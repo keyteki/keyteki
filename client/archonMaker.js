@@ -3,12 +3,12 @@ import { createCanvas, loadImage } from 'canvas';
 import QRCode from 'qrcode';
 
 export const buildDeckList = (deck, language, translate, AllCards) => new Promise(resolve => {
-    if(deck.uuid.length === 0 || deck.houses.length === 0) {
+    if(!deck.uuid || !deck.houses) {
         resolve(Images.cardback);
         return;
     }
 
-    if(deck.cards.length === 0) {
+    if(!deck.cards || 0 >= deck.cards.length) {
         buildArchon(deck, language).then(imageUrl => resolve(imageUrl));
         return;
     }
@@ -23,7 +23,7 @@ export const buildDeckList = (deck, language, translate, AllCards) => new Promis
     const maverick = loadImage(Images.Maverick);
     const legacy = loadImage(Images.Legacy);
     const anomaly = loadImage(Images.Anomaly);
-    const set = loadImage(Images[`icon${deck.expansion}`]);
+    const set = loadImage(Images[`icon${ deck.expansion }`]);
 
     const houseData = {
         size: 35,
@@ -36,7 +36,7 @@ export const buildDeckList = (deck, language, translate, AllCards) => new Promis
         start: { x: 60, y: 185 }
     };
     const qrCode = new Promise(qrRes => {
-        QRCode.toDataURL(`https://www.keyforgegame.com/${deck.uuid.length > 0 ? 'deck-details/' + deck.uuid : ''}`, { margin: 0 })
+        QRCode.toDataURL(`https://www.keyforgegame.com/${ deck.uuid ? 'deck-details/' + deck.uuid : '' }`, { margin: 0 })
             .then(url => loadImage(url).then(image => qrRes(image)));
     });
     Promise.all([cardBack, maverick, legacy, anomaly, Common, Uncommon, Rare, Special, qrCode, set])
@@ -118,14 +118,14 @@ export const buildDeckList = (deck, language, translate, AllCards) => new Promis
 });
 
 export const buildArchon = (deck, language) => new Promise(resolve => {
-    if(deck.uuid.length === 0 || deck.houses.length === 0) {
+    if(!deck.uuid || !deck.houses) {
         resolve(Images.cardback);
         return;
     }
 
     const canvas = createCanvas(600, 840);
     const ctx = canvas.getContext('2d');
-    loadImage(`/img/idbacks/archons/${imageName(deck, language)}.png`)
+    loadImage(`/img/idbacks/archons/${ imageName(deck, language) }.png`)
         .then(archon => {
             ctx.drawImage(archon, 0, 0);
             ctx.drawImage((getCircularText(deck.name, 700, 0)), -50, 70);
@@ -134,7 +134,7 @@ export const buildArchon = (deck, language) => new Promise(resolve => {
 });
 
 const imageName = (deck, language) => {
-    if(deck.uuid === '') {
+    if(!deck.uuid) {
         return 'archon';
     }
 
@@ -162,7 +162,7 @@ const getCircularText = (text = '', diameter, kerning) => {
     canvas.height = diameter;
     ctx.fillStyle = 'white';
     ctx.strokeStyle = 'grey';
-    ctx.font = `bold ${getCurvedFontSize(text.length)}px Keyforge`;
+    ctx.font = `bold ${ getCurvedFontSize(text.length) }px Keyforge`;
 
     text = text.split('').reverse().join('');
 
