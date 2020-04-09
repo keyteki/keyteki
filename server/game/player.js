@@ -23,6 +23,7 @@ class Player extends GameObject {
         this.discard = [];
         this.purged = [];
         this.archives = [];
+        this.wins = 0;
 
         this.houses = [];
         this.activeHouse = null;
@@ -613,7 +614,7 @@ class Player extends GameObject {
 
         this.keys[key] = true;
         this.keyForged.push(key);
-        this.game.addMessage('{0} forges the {1}, paying {2} amber', this.game.activePlayer, `forgedkey${key}`, modifiedCost);
+        this.game.addMessage('{0} forges the {1}, paying {2} amber', this.game.activePlayer, `forgedkey${ key }`, modifiedCost);
     }
 
     unforgeKey(choices) {
@@ -626,14 +627,15 @@ class Player extends GameObject {
                     this.game.queueSimpleStep(() => {
                         this.keys[key.text.toLowerCase()] = false;
                         this.keyForged.splice(this.keyForged.findIndex(x => x === key.text.toLowerCase()), 1);
-                        this.game.addMessage('{0} unforges {1}\'s {2}', this.game.activePlayer, this.game.activePlayer.opponent, `forgedkey${key.text.toLowerCase()}`);
+                        this.game.addMessage('{0} unforges {1}\'s {2}', this.game.activePlayer, this.game.activePlayer.opponent,
+                            `forgedkey${ key.text.toLowerCase() }`);
                     });
                 }
             });
         } else {
             this.keys[this.keyForged[0].toLowerCase()] = false;
             this.keyForged.splice(this.keyForged.findIndex(key => key === this.keyForged[0].toLowerCase()), 1);
-            this.game.addMessage('{0} unforges the {1}', this.game.activePlayer, `forgedkey${this.keyForged[0]}`);
+            this.game.addMessage('{0} unforges the {1}', this.game.activePlayer, `forgedkey${ this.keyForged[0] }`);
         }
     }
 
@@ -649,6 +651,10 @@ class Player extends GameObject {
 
     getAdditionalCosts(context) {
         return this.getEffects('additionalCost').reduce((array, costFactory) => array.concat(costFactory(context)), []).filter(cost => !!cost);
+    }
+
+    setWins(wins) {
+        this.wins = wins;
     }
 
     getStats() {
@@ -695,7 +701,8 @@ class Player extends GameObject {
             user: _.omit(this.user, ['password', 'email']),
             deckUuid: this.deckData.uuid,
             deckSet: this.deckData.expansion,
-            deckCards: this.deckCards
+            deckCards: this.deckCards,
+            wins: this.wins
         };
 
         if(isActivePlayer) {

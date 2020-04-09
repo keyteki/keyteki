@@ -514,7 +514,7 @@ class Lobby {
             let socket = this.sockets[player.id];
 
             if(!socket || !socket.user) {
-                logger.error(`Wanted to handoff to ${player.name}, but couldn't find a socket`);
+                logger.error(`Wanted to handoff to ${ player.name }, but couldn't find a socket`);
                 continue;
             }
 
@@ -813,6 +813,7 @@ class Lobby {
             adaptive: game.adaptive
         });
         newGame.rematch = true;
+        newGame.previousWinner = oldGame.winner;
 
         let owner = game.getPlayerOrSpectator(game.owner.username);
         if(!owner) {
@@ -839,7 +840,7 @@ class Lobby {
             let socket = this.sockets[player.id];
 
             if(!socket) {
-                logger.warn(`Tried to add ${player.name} to a rematch but couldn't find their socket`);
+                logger.warn(`Tried to add ${ player.name } to a rematch but couldn't find their socket`);
                 continue;
             }
 
@@ -847,11 +848,19 @@ class Lobby {
             promises.push(this.onSelectDeck(socket, newGame.id, player.deck._id));
         }
 
+        for(let player of Object.values(game.getPlayers())) {
+            let oldPlayer = oldGame.players.find(x => x.name === player.name);
+
+            if(oldPlayer.wins) {
+                newGame.players[player.name].wins = oldPlayer.wins;
+            }
+        }
+
         for(let spectator of game.getSpectators()) {
             let socket = this.sockets[spectator.id];
 
             if(!socket) {
-                logger.warn(`Tried to add ${spectator.name} to spectate a rematch but couldn't find their socket`);
+                logger.warn(`Tried to add ${ spectator.name } to spectate a rematch but couldn't find their socket`);
                 continue;
             }
 
@@ -908,7 +917,7 @@ class Lobby {
     onClearSessions(socket, username) {
         this.userService.clearUserSessions(username).then(success => {
             if(!success) {
-                logger.error(`Failed to clear sessions for user ${username}`, username);
+                logger.error(`Failed to clear sessions for user ${ username }`, username);
                 return;
             }
 
