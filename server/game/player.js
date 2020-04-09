@@ -614,7 +614,7 @@ class Player extends GameObject {
 
         this.keys[key] = true;
         this.keyForged.push(key);
-        this.game.addMessage('{0} forges the {1}, paying {2} amber', this.game.activePlayer, `forgedkey${ key }`, modifiedCost);
+        this.game.addMessage('{0} forges the {1}, paying {2} amber', this.game.activePlayer, `forgedkey${key}`, modifiedCost);
     }
 
     unforgeKey(choices) {
@@ -627,15 +627,14 @@ class Player extends GameObject {
                     this.game.queueSimpleStep(() => {
                         this.keys[key.text.toLowerCase()] = false;
                         this.keyForged.splice(this.keyForged.findIndex(x => x === key.text.toLowerCase()), 1);
-                        this.game.addMessage('{0} unforges {1}\'s {2}', this.game.activePlayer, this.game.activePlayer.opponent,
-                            `forgedkey${ key.text.toLowerCase() }`);
+                        this.game.addMessage('{0} unforges {1}\'s {2}', this.game.activePlayer, this.game.activePlayer.opponent, `forgedkey${key.text.toLowerCase()}`);
                     });
                 }
             });
         } else {
             this.keys[this.keyForged[0].toLowerCase()] = false;
             this.keyForged.splice(this.keyForged.findIndex(key => key === this.keyForged[0].toLowerCase()), 1);
-            this.game.addMessage('{0} unforges the {1}', this.game.activePlayer, `forgedkey${ this.keyForged[0] }`);
+            this.game.addMessage('{0} unforges the {1}', this.game.activePlayer, `forgedkey${this.keyForged[0]}`);
         }
     }
 

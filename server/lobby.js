@@ -514,7 +514,7 @@ class Lobby {
             let socket = this.sockets[player.id];
 
             if(!socket || !socket.user) {
-                logger.error(`Wanted to handoff to ${ player.name }, but couldn't find a socket`);
+                logger.error(`Wanted to handoff to ${player.name}, but couldn't find a socket`);
                 continue;
             }
 
@@ -840,7 +840,7 @@ class Lobby {
             let socket = this.sockets[player.id];
 
             if(!socket) {
-                logger.warn(`Tried to add ${ player.name } to a rematch but couldn't find their socket`);
+                logger.warn(`Tried to add ${player.name} to a rematch but couldn't find their socket`);
                 continue;
             }
 
@@ -860,7 +860,7 @@ class Lobby {
             let socket = this.sockets[spectator.id];
 
             if(!socket) {
-                logger.warn(`Tried to add ${ spectator.name } to spectate a rematch but couldn't find their socket`);
+                logger.warn(`Tried to add ${spectator.name} to spectate a rematch but couldn't find their socket`);
                 continue;
             }
 
@@ -917,7 +917,7 @@ class Lobby {
     onClearSessions(socket, username) {
         this.userService.clearUserSessions(username).then(success => {
             if(!success) {
-                logger.error(`Failed to clear sessions for user ${ username }`, username);
+                logger.error(`Failed to clear sessions for user ${username}`, username);
                 return;
             }
 

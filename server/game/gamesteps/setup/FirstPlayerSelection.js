@@ -32,14 +32,14 @@ class FirstPlayerSelection extends AllPlayerPrompt {
         switch(arg) {
             case 'me':
                 this.game.activePlayer = player;
-                this.game.addMessage('{0} chooses to go first.', player.name);
+                this.game.addMessage('{0} chooses to go first', player.name);
                 break;
             case 'opponent':
                 this.game.activePlayer = this.game.getOtherPlayer(player);
-                this.game.addMessage('{0} chooses to go second.', player.name);
+                this.game.addMessage('{0} chooses to go second', player.name);
                 break;
             default:
-                this.game.addMessage('{0} chooses to randomize the first player.', player.name);
+                this.game.addMessage('{0} chooses to randomize the first player', player.name);
                 break;
         }
 
@@ -52,7 +52,7 @@ class FirstPlayerSelection extends AllPlayerPrompt {
         if(!this.game.activePlayer) {
             let allPlayersShuffled = _.shuffle(this.game.getPlayers());
             this.game.activePlayer = allPlayersShuffled.shift();
-            this.game.addMessage('{0} won the flip and is first player.',this.game.activePlayer.name);
+            this.game.addMessage('{0} won the flip and is first player',this.game.activePlayer.name);
         }
     }
 }
