@@ -3,6 +3,7 @@ const Phase = require('../phase.js');
 const SimpleStep = require('../simplestep.js');
 const MulliganPrompt = require('./mulliganprompt.js');
 const AdaptiveDeckSelectionPrompt = require('./AdaptiveDeckSelectionPrompt');
+const FirstPlayerSelection = require('./FirstPlayerSelection');
 const GameStartPrompt = require('./GameStartPrompt');
 const Effects = require('../../effects.js');
 
@@ -11,6 +12,7 @@ class SetupPhase extends Phase {
         super(game, 'setup');
         this.initialise([
             new AdaptiveDeckSelectionPrompt(game),
+            new FirstPlayerSelection(game),
             new SimpleStep(game, () => this.setupBegin()),
             new GameStartPrompt(game),
             new SimpleStep(game, () => this.drawStartingHands()),
@@ -28,8 +30,6 @@ class SetupPhase extends Phase {
     }
 
     setupBegin() {
-        let allPlayersShuffled = _.shuffle(this.game.getPlayers());
-        this.game.activePlayer = allPlayersShuffled.shift();
         for(let card of this.game.allCards) {
             card.applyAnyLocationPersistentEffects();
         }
