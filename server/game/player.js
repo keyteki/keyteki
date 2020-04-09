@@ -16,10 +16,7 @@ class Player extends GameObject {
 
         this.hand = [];
         this.cardsInPlay = []; // This stores references to all creatures and artifacts in play.  Upgrades are not stored here.
-        this.deckName = '';
         this.deckCards = [];
-        this.deckUuid = '';
-        this.deckSet = 0;
         this.discard = [];
         this.purged = [];
         this.archives = [];
@@ -684,7 +681,6 @@ class Player extends GameObject {
                 purged: this.getSummaryForCardList(this.purged, activePlayer)
             },
             cardback: 'cardback',
-            deckName: this.deckData.name,
             disconnected: !!this.disconnectedAt,
             activePlayer: this.game.activePlayer === this,
             houses: this.houses,
@@ -698,9 +694,8 @@ class Player extends GameObject {
             stats: this.getStats(),
             timerSettings: {},
             user: _.omit(this.user, ['password', 'email']),
-            deckUuid: this.deckData.uuid,
-            deckSet: this.deckData.expansion,
             deckCards: this.deckCards,
+            deckData: this.deckData,
             wins: this.wins
         };
 
