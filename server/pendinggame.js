@@ -27,6 +27,7 @@ class PendingGame {
         this.useGameTimeLimit = details.useGameTimeLimit;
         this.gameTimeLimit = details.gameTimeLimit;
         this.hideDecklists = details.hideDecklists;
+        this.previousWinner = details.previousWinner;
     }
 
     // Getters
@@ -54,7 +55,8 @@ class PendingGame {
         let players = _.map(this.getPlayers(), player => {
             return {
                 houses: player.houses,
-                name: player.name
+                name: player.name,
+                wins: player.wins
             };
         });
 
@@ -64,6 +66,7 @@ class PendingGame {
             gameFormat: this.gameFormat,
             adaptive: this.adaptive,
             swap: this.swap,
+            previousWinner: this.previousWinner,
             expansions: this.expansions,
             players: players,
             startedAt: this.createdAt
@@ -91,7 +94,8 @@ class PendingGame {
             id: id,
             name: user.username,
             user: user,
-            owner: this.owner.username === user.username
+            owner: this.owner.username === user.username,
+            wins: 0
         };
     }
 
@@ -293,6 +297,7 @@ class PendingGame {
                 left: player.left,
                 name: player.name,
                 owner: player.owner,
+                wins: player.wins,
                 role: player.user.role
             };
         });
@@ -303,6 +308,7 @@ class PendingGame {
             gameType: this.gameType,
             gameFormat: this.gameFormat,
             swap: this.swap,
+            previousWinner: this.previousWinner,
             adaptive: this.adaptive,
             id: this.id,
             messages: activePlayer ? this.gameChat.messages : undefined,
@@ -354,6 +360,7 @@ class PendingGame {
             gameType: this.gameType,
             gameFormat: this.gameFormat,
             swap: this.swap,
+            previousWinner: this.previousWinner,
             adaptive: this.adaptive,
             id: this.id,
             muteSpectators: this.muteSpectators,

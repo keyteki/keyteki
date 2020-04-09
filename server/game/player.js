@@ -23,6 +23,7 @@ class Player extends GameObject {
         this.discard = [];
         this.purged = [];
         this.archives = [];
+        this.wins = 0;
 
         this.houses = [];
         this.activeHouse = null;
@@ -651,6 +652,10 @@ class Player extends GameObject {
         return this.getEffects('additionalCost').reduce((array, costFactory) => array.concat(costFactory(context)), []).filter(cost => !!cost);
     }
 
+    setWins(wins) {
+        this.wins = wins;
+    }
+
     getStats() {
         return {
             amber: this.amber,
@@ -695,7 +700,8 @@ class Player extends GameObject {
             user: _.omit(this.user, ['password', 'email']),
             deckUuid: this.deckData.uuid,
             deckSet: this.deckData.expansion,
-            deckCards: this.deckCards
+            deckCards: this.deckCards,
+            wins: this.wins
         };
 
         if(isActivePlayer) {

@@ -56,6 +56,7 @@ class Game extends EventEmitter {
         this.gameType = details.gameType;
         this.gameFormat = details.gameFormat;
         this.swap = details.swap;
+        this.previousWinner = details.previousWinner;
         this.currentAbilityWindow = null;
         this.currentActionWindow = null;
         this.currentEventWindow = null;
@@ -67,7 +68,7 @@ class Game extends EventEmitter {
         this.gameTimeLimit = details.gameTimeLimit;
         this.timeLimit = new TimeLimit(this);
         this.hideDecklists = details.hideDecklists;
-        this.adaptive = { chains: 0, selection: [], biddingWinner: '', match1Winner: '', match2Winner: '', match3Winner: '' };
+        this.adaptive = { chains: 0, selection: [], biddingWinner: '' };
 
         this.cardsUsed = [];
         this.cardsPlayed = [];
@@ -381,7 +382,7 @@ class Game extends EventEmitter {
         }
 
         this.addAlert('success', '{0} has won the game', winner);
-
+        this.setWins(winner.name, winner.wins ? winner.wins + 1 : 1);
         this.winner = winner;
         this.finishedAt = new Date();
         this.winReason = reason;
@@ -463,6 +464,13 @@ class Game extends EventEmitter {
         let player = this.getPlayerByName(playerName);
         if(player) {
             player.selectDeck(deck);
+        }
+    }
+
+    setWins(playerName, wins) {
+        let player = this.getPlayerByName(playerName);
+        if(player) {
+            player.setWins(wins);
         }
     }
 
@@ -1059,7 +1067,8 @@ class Game extends EventEmitter {
                 houses: player.houses,
                 deck: player.deckData.identity,
                 keys: player.keys,
-                turn: player.turn
+                turn: player.turn,
+                wins: player.wins
             };
         });
 
@@ -1071,6 +1080,8 @@ class Game extends EventEmitter {
             gameType: this.gameType,
             gameFormat: this.gameFormat,
             swap: this.swap,
+            record: this.record,
+            previousWinner: this.previousWinner,
             adaptive: this.adaptive,
             winner: this.winner ? this.winner.name : undefined,
             winReason: this.winReason,
@@ -1096,6 +1107,8 @@ class Game extends EventEmitter {
                 id: this.id,
                 gameFormat: this.gameFormat,
                 swap: this.swap,
+                record: this.record,
+                previousWinner: this.previousWinner,
                 adaptive: this.adaptive,
                 manualMode: this.manualMode,
                 name: this.name,
@@ -1153,7 +1166,8 @@ class Game extends EventEmitter {
                 left: player.left,
                 name: player.name,
                 owner: player.owner,
-                user: options.fullData && player.user
+                user: options.fullData && player.user,
+                wins: player.wins
             };
         }
 
@@ -1163,7 +1177,10 @@ class Game extends EventEmitter {
             gameType: this.gameType,
             gameFormat: this.gameFormat,
             swap: this.swap,
+            record: this.record,
+            previousWinner: this.previousWinner,
             adaptive: this.adaptive,
+            winner: this.winner,
             id: this.id,
             manualMode: this.manualMode,
             messages: this.gameChat.messages,
