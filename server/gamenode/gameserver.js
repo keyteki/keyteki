@@ -233,6 +233,7 @@ class GameServer {
         game.started = true;
         for(let player of Object.values(pendingGame.players)) {
             let playerName = player.name;
+            game.setWins(playerName, player.wins);
             if((pendingGame.gameFormat === 'reversal' || pendingGame.swap) && !(pendingGame.gameFormat === 'reversal' && pendingGame.swap)) {
                 let otherPlayer = game.getOtherPlayer(player);
                 if(otherPlayer) {

@@ -813,6 +813,7 @@ class Lobby {
             adaptive: game.adaptive
         });
         newGame.rematch = true;
+        newGame.previousWinner = oldGame.winner;
 
         let owner = game.getPlayerOrSpectator(game.owner.username);
         if(!owner) {
@@ -845,6 +846,14 @@ class Lobby {
 
             newGame.join(socket.id, player.user);
             promises.push(this.onSelectDeck(socket, newGame.id, player.deck._id));
+        }
+
+        for(let player of Object.values(game.getPlayers())) {
+            let oldPlayer = oldGame.players.find(x => x.name === player.name);
+
+            if(oldPlayer.wins) {
+                newGame.players[player.name].wins = oldPlayer.wins;
+            }
         }
 
         for(let spectator of game.getSpectators()) {
