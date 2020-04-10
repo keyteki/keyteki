@@ -11,10 +11,17 @@ export class PlayerStats extends React.Component {
         super();
 
         this.sendUpdate = this.sendUpdate.bind(this);
+        this.setActiveHouse = this.setActiveHouse.bind(this);
     }
 
     sendUpdate(type, direction) {
         this.props.sendGameMessage('changeStat', type, direction === 'up' ? 1 : -1);
+    }
+
+    setActiveHouse(house) {
+        if(this.props.showControls) {
+            this.props.sendGameMessage('changeActiveHouse', house);
+        }
     }
 
     getStatValueOrDefault(stat) {
@@ -62,7 +69,7 @@ export class PlayerStats extends React.Component {
     getHouses() {
         return (
             <div className='state'>
-                { this.props.houses.map(house => (<img key={ house } className='img-responsive' src={ `/img/house/${house}.png` } title={ this.props.t(house) } />)) }
+                { this.props.houses.map(house => (<img key={ house } onClick={ this.setActiveHouse.bind(this, house) } className='img-responsive' src={ `/img/house/${house}.png` } title={ this.props.t(house) } />)) }
             </div>
         );
     }

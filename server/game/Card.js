@@ -77,6 +77,8 @@ class Card extends EffectSource {
             { command: 'exhaust', text: 'Exhaust/Ready' },
             { command: 'addDamage', text: 'Add 1 damage' },
             { command: 'remDamage', text: 'Remove 1 damage' },
+            { command: 'addPower', text: 'Add 1 power token' },
+            { command: 'remPower', text: 'Remove 1 power token' },
             { command: 'addAmber', text: 'Add 1 amber' },
             { command: 'remAmber', text: 'Remove 1 amber' },
             { command: 'addEnrage', text: 'Add 1 enrage' },

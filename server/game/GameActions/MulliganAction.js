@@ -1,10 +1,10 @@
 const PlayerAction = require('./PlayerAction');
 
-class ShuffleDeckAction extends PlayerAction {
+class MulliganAction extends PlayerAction {
     setup() {
         super.setup();
-        this.name = 'shuffleDeck';
-        this.effectMsg = 'shuffle their deck';
+        this.name = 'mulligan';
+        this.effectMsg = 'take a mulligan';
     }
 
     defaultTargets(context) {
@@ -13,10 +13,10 @@ class ShuffleDeckAction extends PlayerAction {
 
     getEvent(player, context) {
         return super.createEvent('unnamedEvent', { player: player, context: context }, event => {
-            event.player.shuffleDeck();
-            context.game.addMessage('{0} is shuffling their deck', player);
+            context.game.addMessage('{0} mulligans their hand', this);
+            event.player.takeMulligan();
         });
     }
 }
 
-module.exports = ShuffleDeckAction;
+module.exports = MulliganAction;

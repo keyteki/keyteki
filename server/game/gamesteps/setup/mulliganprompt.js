@@ -33,16 +33,8 @@ class MulliganPrompt extends AllPlayerPrompt {
         }
 
         if(arg === 'no') {
-            let size = player.hand.length;
-
-            for(let card of player.hand) {
-                player.moveCard(card, 'deck');
-            }
-
-            player.shuffleDeck();
-            player.drawCardsToHand(size - 1);
+            player.takeMulligan();
             this.takenMulligan[player.uuid] = true;
-
             return true;
         } else if(arg === 'yes') {
             this.takenMulligan[player.uuid] = true;
