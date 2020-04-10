@@ -843,7 +843,7 @@ class Lobby {
         this.sendGameState(newGame);
         this.broadcastGameMessage('newgame', newGame);
 
-        let promises = [this.onSelectDeck(socket, newGame.id, owner.deck._id)];
+        let promises = [this.onSelectDeck(socket, newGame.id, owner.deck.id)];
 
         for(let player of Object.values(game.getPlayers()).filter(player => player.name !== newGame.owner.username)) {
             let socket = this.sockets[player.id];
@@ -854,7 +854,7 @@ class Lobby {
             }
 
             newGame.join(socket.id, player.user);
-            promises.push(this.onSelectDeck(socket, newGame.id, player.deck._id));
+            promises.push(this.onSelectDeck(socket, newGame.id, player.deck.id));
         }
 
         for(let player of Object.values(game.getPlayers())) {

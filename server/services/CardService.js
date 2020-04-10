@@ -66,7 +66,8 @@ class CardService {
         let cards;
 
         try {
-            cards = await db.query('SELECT c.*, e."ExpansionId", e."Code" AS "ExpansionCode" FROM "Cards" c JOIN "Expansions" e ON e."Id" = c."ExpansionId"');
+            cards = await db.query('SELECT c.*, e."ExpansionId", e."Code" AS "ExpansionCode", h."Code" AS "House" FROM "Cards" c ' +
+            'JOIN "Expansions" e ON e."Id" = c."ExpansionId" JOIN "Houses" h ON h."Id" = c."HouseId"');
         } catch(err) {
             logger.error('Failed to lookup cards', err);
 

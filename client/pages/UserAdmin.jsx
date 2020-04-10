@@ -71,7 +71,7 @@ class UserAdmin extends React.Component {
             }, 5000);
             this.setState({ successMessage: 'User saved successfully.' });
         } else if(props.deckVerified) {
-            props.currentUser.invalidDecks = props.currentUser.invalidDecks.filter(d => d._id !== props.deckVerified);
+            props.currentUser.invalidDecks = props.currentUser.invalidDecks.filter(d => d.id !== props.deckVerified);
 
             setTimeout(() => {
                 props.clearUserStatus();
@@ -220,7 +220,7 @@ class UserAdmin extends React.Component {
                                                     <tr key={ deck.uuid }>
                                                         <td>{ deck.uuid }</td>
                                                         <td>{ deck.name }</td>
-                                                        <td><button className='btn btn-default' onClick={ event => this.onVerifyClick(event, deck._id) }>Verify</button></td>
+                                                        <td><button className='btn btn-default' onClick={ event => this.onVerifyClick(event, deck.id) }>Verify</button></td>
                                                     </tr>
                                                 );
                                             }) }
