@@ -18,6 +18,7 @@ class PlayerRow extends React.Component {
     constructor(props) {
         super(props);
         this.state = { deckListUrl: Images.cardback };
+        this.modifyKey = this.modifyKey.bind(this);
     }
 
     componentDidMount() {
@@ -56,6 +57,12 @@ class PlayerRow extends React.Component {
         }
     }
 
+    modifyKey(color) {
+        if(this.props.manualMode) {
+            this.props.sendGameMessage('modifyKey', color, this.props.keys[color]);
+        }
+    }
+
     renderDroppablePile(source, child) {
         return this.props.isMe ? <Droppable onDragDrop={ this.props.onDragDrop } source={ source } manualMode={ this.props.manualMode }>{ child }</Droppable> : child;
     }
@@ -66,7 +73,7 @@ class PlayerRow extends React.Component {
         let keys = ['red', 'blue', 'yellow']
             .sort(color => this.props.keys[color] ? -1 : 1)
             .map(color => {
-                return <img key={ `key ${color}` } src={ `/img/${this.props.keys[color] ? 'forgedkey' : 'unforgedkey'}${color}.png` } title={ t('Forged Key') } />;
+                return <img key={ `key ${color}` } src={ `/img/${this.props.keys[color] ? 'forgedkey' : 'unforgedkey'}${color}.png` } onClick={ this.modifyKey.bind(this, color) } title={ t('Forged Key') } />;
             });
 
         return <div className={ `keys ${this.props.cardSize}` }>{ keys }</div>;
@@ -182,6 +189,7 @@ PlayerRow.propTypes = {
     player: PropTypes.number,
     power: PropTypes.number,
     purgedPile: PropTypes.array,
+    sendGameMessage: PropTypes.func,
     setPlayer1CardBack: PropTypes.func,
     setPlayer2CardBack: PropTypes.func,
     showDeck: PropTypes.bool,
