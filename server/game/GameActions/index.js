@@ -31,6 +31,7 @@ module.exports = {
     MoveCardAction: require('./MoveCardAction'),
     MoveOnBattlelineAction: require('./MoveOnBattlelineAction'),
     MoveToFlankAction: require('./MoveToFlankAction'),
+    MulliganAction: require('./MulliganAction'),
     PlaceUnderAction: require('./PlaceUnderAction'),
     PlayCardAction: require('./PlayCardAction'),
     PurgeAction: require('./PurgeAction'),

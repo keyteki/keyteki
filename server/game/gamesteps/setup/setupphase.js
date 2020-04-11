@@ -56,6 +56,7 @@ class SetupPhase extends Phase {
 
     drawStartingHands() {
         _.each(this.game.getPlayers(), player => {
+            this.game.actions.shuffleDeck().resolve(player, this.game.getFrameworkContext());
             this.game.actions.draw({ refill: true }).resolve(player, this.game.getFrameworkContext());
         });
     }

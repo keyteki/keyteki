@@ -415,6 +415,16 @@ class Game extends EventEmitter {
         }
     }
 
+    changeActiveHouse(playerName, house) {
+        let player = this.getPlayerByName(playerName);
+        if(!player) {
+            return;
+        }
+
+        this.addAlert('danger', '{0} manually changed their active house to {1}', player, house);
+        player.activeHouse = house.toLowerCase();
+    }
+
     /**
      * This function is called by the client every time a player enters a chat message
      * @param {String} playerName
@@ -1011,22 +1021,22 @@ class Game extends EventEmitter {
             this.activePlayer = this.activePlayer.opponent;
         }
 
-        let playerResources = this.getPlayers().map(player => `${ player.name }: ${ player.amber } amber (${ this.playerKeys(player) })`).join(' ');
+        let playerResources = this.getPlayers().map(player => `${player.name}: ${player.amber} amber (${this.playerKeys(player)})`).join(' ');
 
-        this.addAlert('endofround', `End of turn ${ this.round }`);
+        this.addAlert('endofround', `End of turn ${this.round}`);
 
         if(!this.activePlayer.opponent || this.activePlayer.turn === this.activePlayer.opponent.turn) {
             this.round++;
         }
 
         this.addMessage(playerResources);
-        this.addAlert('startofround', `Turn ${ this.round }`);
+        this.addAlert('startofround', `Turn ${this.round}`);
         this.checkForTimeExpired();
     }
 
     playerKeys(player) {
         const length = Object.values(player.keys).filter(forged => forged).length;
-        return length === 1 ? '1 key' : `${ length } keys`;
+        return length === 1 ? '1 key' : `${length} keys`;
     }
 
     get cardsInPlay() {

@@ -19,8 +19,10 @@ class ChatCommands {
             '/forge': this.forge,
             '/manual': this.manual,
             '/modify-clock': this.modifyClock,
+            '/mulligan': this.mulligan,
             '/mute-spectators': this.muteSpectators,
             '/rematch': this.rematch,
+            '/shuffle': this.shuffle,
             '/stop-clocks': this.stopClocks,
             '/start-clocks': this.startClocks,
             '/token': this.setToken,
@@ -94,7 +96,7 @@ class ChatCommands {
         }
 
         const color = args[1] ? args[1] : Object.keys(player.keys).filter(key => !player.keys[key])[0];
-        this.game.addMessage('{0} uses the /forge command to forge the {1} ', player, `forgedkey${color}`);
+        this.game.addAlert('danger', '{0} forges the {1} ', player, `forgedkey${color}`);
         player.keys[color] = true;
         player.keyForged.push(color);
     }
@@ -105,7 +107,7 @@ class ChatCommands {
         }
 
         const color = args[1] ? args[1] : Object.keys(player.keys).filter(key => player.keys[key])[0];
-        this.game.addMessage('{0} uses the /unforge command to unforge the {1}', player, `unforgedkey${color}`);
+        this.game.addAlert('danger', '{0} unforges the {1}', player, `unforgedkey${color}`);
         player.keys[color] = false;
         player.keyForged.splice(player.keyForged.findIndex(key => key === color), 1);
     }
@@ -120,53 +122,57 @@ class ChatCommands {
         } else if(!this.houses.includes(house.toLowerCase())) {
             this.game.addMessage('{0} attempted to change their active house with /active-house, but {1} is not a valid house', player, house);
         } else {
-            this.game.addMessage('{0} manually changed their active house to {1}', player, house);
+            this.game.addAlert('danger', '{0} manually changed their active house to {1}', player, house);
             player.activeHouse = house.toLowerCase();
         }
     }
 
     startClocks(player) {
-        this.game.addMessage('{0} restarts the timers', player);
+        this.game.addAlert('danger', '{0} restarts the timers', player);
         _.each(this.game.getPlayers(), player => player.clock.restart());
     }
 
     stopClocks(player) {
-        this.game.addMessage('{0} stops the timers', player);
+        this.game.addAlert('danger','{0} stops the timers', player);
         _.each(this.game.getPlayers(), player => player.clock.pause());
     }
 
     modifyClock(player, args) {
         let num = this.getNumberOrDefault(args[1], 60);
-        this.game.addMessage('{0} adds {1} seconds to their clock', player, num);
+        this.game.addAlert('danger','{0} adds {1} seconds to their clock', player, num);
         player.clock.modify(num);
     }
 
     draw(player, args) {
         let num = this.getNumberOrDefault(args[1], 1);
-
-        this.game.addMessage('{0} uses the /draw command to draw {1} cards to their hand', player, num);
-
+        this.game.addAlert('danger', '{0} draws {1} cards to their hand', player, num);
         player.drawCardsToHand(num);
     }
 
     discard(player, args) {
         let num = this.getNumberOrDefault(args[1], 1);
-
-        this.game.addMessage('{0} uses the /discard command to discard {1} card{2} at random', player, num, num > 1 ? 's' : '');
-
+        this.game.addAlert('danger','{0} discard{2} {1} card{2} at random', player, num, num > 1 ? 's' : '');
         GameActions.discardAtRandom({ amount: num }).resolve(player, this.game.getFrameworkContext());
     }
 
     discardtopofdeck(player, args) {
         let num = this.getNumberOrDefault(args[1], 1);
-
-        this.game.addMessage('{0} uses the /discardtopofdeck command to discard {1} card{2} from top of deck', player, num, num > 1 ? 's' : '');
-
+        this.game.addAlert('danger', '{0} discards {1} card{2} from top of deck', player, num, num > 1 ? 's' : '');
         GameActions.discardTopOfDeck({ amount: num }).resolve(player, this.game.getFrameworkContext());
     }
 
+    shuffle(player) {
+        this.game.addAlert('danger', '{0} is shuffling their deck', player);
+        player.shuffleDeck();
+    }
+
+    mulligan(player) {
+        this.game.addAlert('danger', '{0} mulligans their hand', player);
+        player.takeMulligan();
+    }
+
     cancelPrompt(player) {
-        this.game.addMessage('{0} uses the /cancel-prompt to skip the current step.', player);
+        this.game.addAlert('danger','{0} skips the current step.', player);
         this.game.pipeline.cancelStep();
         this.game.cancelPromptUsed = true;
     }
@@ -185,10 +191,8 @@ class ChatCommands {
             cardCondition: card => (card.location === 'play area') && card.controller === player,
             onSelect: (p, card) => {
                 let numTokens = card.tokens[token] || 0;
-
                 card.addToken(token, num - numTokens);
-                this.game.addMessage('{0} uses the /token command to set the {1} token count of {2} to {3}', p, token, card, num - numTokens);
-
+                this.game.addAlert('danger','{0} uses the /token command to set the {1} token count of {2} to {3}', p, token, card, num - numTokens);
                 return true;
             }
         });
@@ -200,7 +204,7 @@ class ChatCommands {
             cardCondition: card => card.facedown && card.controller === player,
             onSelect: (player, card) => {
                 card.facedown = false;
-                this.game.addMessage('{0} reveals {1}', player, card);
+                this.game.addAlert('danger','{0} reveals {1}', player, card);
                 return true;
             }
         });

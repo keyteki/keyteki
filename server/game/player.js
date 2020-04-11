@@ -181,12 +181,23 @@ class Player extends GameObject {
      * Shuffles the deck, emitting an event and displaying a message in chat
      */
     shuffleDeck() {
-        if(this.name !== 'Dummy Player') {
-            this.game.addMessage('{0} is shuffling their deck', this);
-        }
-
         this.game.emitEvent('onDeckShuffled', { player: this });
         this.deck = _.shuffle(this.deck);
+    }
+
+    /**
+     * Mulligans the players starting hand, emitting an event and displaying a message in chat
+     */
+    takeMulligan() {
+        let size = this.hand.length;
+
+        for(let card of this.hand) {
+            this.moveCard(card, 'deck');
+        }
+
+        this.shuffleDeck();
+        this.drawCardsToHand(size - 1);
+        this.takenMulligan = true;
     }
 
     /**
@@ -206,8 +217,6 @@ class Player extends GameObject {
      */
     initialise() {
         this.prepareDecks();
-        this.shuffleDeck();
-
         this.keys = { red: false, blue: false, yellow: false };
         this.amber = 0;
         this.turn = 1;
