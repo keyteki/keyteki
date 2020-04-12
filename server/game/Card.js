@@ -77,6 +77,7 @@ class Card extends EffectSource {
             { command: 'exhaust', text: 'Exhaust/Ready', menu: 'main' },
             { command: 'tokens', text: 'Modify Tokens', menu: 'main' },
             { command: 'control', text: 'Give control', menu: 'main' },
+            { command: 'main', text: 'Back', menu: 'tokens' },
             { command: 'addDamage', text: 'Add 1 damage', menu: 'tokens' },
             { command: 'remDamage', text: 'Remove 1 damage', menu: 'tokens' },
             { command: 'addPower', text: 'Add 1 power token', menu: 'tokens' },
@@ -87,8 +88,7 @@ class Card extends EffectSource {
             { command: 'remEnrage', text: 'Remove 1 enrage', menu: 'tokens' },
             { command: 'stun', text: 'Stun/Remove Stun', menu: 'tokens' },
             { command: 'addWard', text: 'Add 1 ward', menu: 'tokens' },
-            { command: 'remWard', text: 'Remove 1 ward', menu: 'tokens' },
-            { command: 'main', text: 'Back', menu: 'tokens' }
+            { command: 'remWard', text: 'Remove 1 ward', menu: 'tokens' }
         ];
 
         this.endRound();
