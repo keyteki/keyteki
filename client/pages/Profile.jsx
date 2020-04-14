@@ -28,6 +28,7 @@ class Profile extends React.Component {
             email: '',
             newPassword: '',
             newPasswordAgain: '',
+            challongeApiKey: '',
             validation: {},
             optionSettings: {}
         };
@@ -73,6 +74,7 @@ class Profile extends React.Component {
         this.setState({
             email: props.user.email,
             enableGravatar: props.user.enableGravatar,
+            challongeApiKey: props.user.challongeApiKey,
             selectedBackground: props.user.settings.background,
             selectedCardSize: props.user.settings.cardSize,
             optionSettings: props.user.settings.optionSettings
@@ -123,6 +125,7 @@ class Profile extends React.Component {
             email: this.state.email,
             password: this.state.newPassword,
             enableGravatar: this.state.enableGravatar,
+            challongeApiKey: this.state.challongeApiKey,
             settings: {
                 background: this.state.selectedBackground,
                 cardSize: this.state.selectedCardSize,
@@ -239,6 +242,8 @@ class Profile extends React.Component {
                             <Input name='newPasswordAgain' label={ t('New Password (again)') } labelClass='col-sm-4' fieldClass='col-sm-8' placeholder={ t('Enter new password (again)') }
                                 type='password' onChange={ this.onChange.bind(this, 'newPasswordAgain') } value={ this.state.newPasswordAgain }
                                 onBlur={ this.verifyPassword.bind(this, false) } validationMessage={ this.state.validation['password1'] } />
+                            <Input name='' label={ t('Challonge API Key') } labelClass='col-sm-4' fieldClass='col-sm-8' placeholder={ t('Enter Challonge API Key') }
+                                type='challongeApiKey' onChange={ this.onChange.bind(this, 'challongeApiKey') } value={ this.state.challongeApiKey }/>
                             <span className='col-sm-3 text-center'><Avatar username={ this.props.user.username } /></span>
                             <Checkbox name='enableGravatar' label={ t('Enable Gravatar integration') } fieldClass='col-sm-offset-1 col-sm-7'
                                 onChange={ e => this.setState({ enableGravatar: e.target.checked }) } checked={ this.state.enableGravatar } />

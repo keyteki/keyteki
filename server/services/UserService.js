@@ -80,6 +80,7 @@ class UserService extends EventEmitter {
         var toSet = {
             email: user.email,
             enableGravatar: user.enableGravatar,
+            challongeApiKey: user.challongeApiKey,
             settings: user.settings,
             promptedActionWindows: user.promptedActionWindows,
             permissions: user.permissions,

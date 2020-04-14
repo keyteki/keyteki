@@ -58,6 +58,10 @@ class User {
         return this.userData.email;
     }
 
+    get challongeApiKey() {
+        return this.userData.challongeApiKey;
+    }
+
     get enableGravatar() {
         return this.userData.enableGravatar;
     }
@@ -124,7 +128,8 @@ class User {
             promptedActionWindows: this.userData.promptedActionWindows,
             permissions: this.userData.permissions,
             verified: this.userData.verified,
-            enableGravatar: this.userData.enableGravatar
+            enableGravatar: this.userData.enableGravatar,
+            challongeApiKey: this.userData.challongeApiKey
         };
 
         user = Settings.getUserWithDefaultsSet(user);
