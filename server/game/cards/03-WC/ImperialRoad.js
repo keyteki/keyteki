@@ -8,11 +8,11 @@ class ImperialRoad extends Card {
                 location: 'hand',
                 controller: 'self',
                 cardCondition: card => card.hasHouse('saurian'),
-                gameAction: ability.actions.sequential([
-                    ability.actions.playCard(),
-                    ability.actions.stun()
-                ])
-            }
+                gameAction: ability.actions.playCard()
+            },
+            then: preThenContext => ({
+                gameAction: ability.actions.stun({ target: preThenContext.target })
+            })
         });
     }
 }

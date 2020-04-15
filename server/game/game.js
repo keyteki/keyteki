@@ -421,8 +421,20 @@ class Game extends EventEmitter {
             return;
         }
 
-        this.addAlert('danger', '{0} manually changed their active house to {1}', player, house);
-        player.activeHouse = house.toLowerCase();
+        this.chatCommands.activeHouse(player, ['active-house', house]);
+    }
+
+    modifyKey(playerName, color, forged) {
+        let player = this.getPlayerByName(playerName);
+        if(!player) {
+            return;
+        }
+
+        if(forged) {
+            this.chatCommands.unforge(player, ['modify-key', color]);
+        } else {
+            this.chatCommands.forge(player, ['modify-key', color]);
+        }
     }
 
     /**
