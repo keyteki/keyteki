@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import $ from 'jquery';
+import ReactClipboard from 'react-clipboardjs-copy';
 
 import Panel from '../Site/Panel';
 import Messages from '../GameBoard/Messages';
@@ -35,6 +36,8 @@ class PendingGame extends React.Component {
         };
 
         this.notification = undefined;
+
+        this.gameLinkRef = React.createRef();
     }
 
     componentDidMount() {
@@ -232,6 +235,15 @@ class PendingGame extends React.Component {
                     <div className='btn-group'>
                         <button className='btn btn-success' disabled={ !this.isGameReady() || this.props.connecting || this.state.waiting } onClick={ this.onStartClick }><Trans>Start</Trans></button>
                         <button className='btn btn-primary' onClick={ this.onLeaveClick }><Trans>Leave</Trans></button>
+                    </div>
+                    <div className='pull-right'>
+                        <ReactClipboard text={ `${window.location.protocol}//${window.location.host}/play?gameId=${this.props.currentGame.id}` } options= { {
+                            container: document.getElementById('pendingGameModal')
+                        } }>
+                            <button className='btn btn-primary'>
+                        Copy Game Link
+                            </button>
+                        </ReactClipboard>
                     </div>
                     <div className='game-status'>{ this.getGameStatus() }</div>
                 </Panel>

@@ -852,6 +852,11 @@ class Lobby {
             let oldPlayer = oldGame.players.find(x => x.name === player.name);
 
             if(oldPlayer.wins) {
+                if(!newGame.players[player.name]) {
+                    logger.warn(`Tried to set ${player.name} wins but couldn't find them in the game`);
+                    continue;
+                }
+
                 newGame.players[player.name].wins = oldPlayer.wins;
             }
         }
