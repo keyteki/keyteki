@@ -362,7 +362,6 @@ export class GameBoard extends React.Component {
                         onMenuItemClick={ this.onMenuItemClick }
                         cardSize={ this.props.user.settings.cardSize }
                         manualMode={ this.props.currentGame.manualMode }
-                        sendGameMessage={ this.props.sendGameMessage }
                         side='bottom' />
                 </div>
             </div>
