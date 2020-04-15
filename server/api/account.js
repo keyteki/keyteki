@@ -221,7 +221,7 @@ module.exports.init = function(server, options) {
             username: req.body.username,
             email: req.body.email,
             enableGravatar: req.body.enableGravatar,
-            challongeApiKey: req.body.challongeApiKey,
+            challonge: req.body.challonge,
             registerIp: ip
         };
 
@@ -596,7 +596,7 @@ module.exports.init = function(server, options) {
         }
 
         user.enableGravatar = userToSet.enableGravatar;
-        user.challongeApiKey = userToSet.challongeApiKey;
+        user.challonge = userToSet.challonge;
 
         await downloadAvatar(user);
 

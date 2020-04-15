@@ -28,7 +28,8 @@ class Profile extends React.Component {
             email: '',
             newPassword: '',
             newPasswordAgain: '',
-            challongeApiKey: '',
+            challongeApiKey: undefined,
+            challongeApiSubdomain: undefined,
             validation: {},
             optionSettings: {}
         };
@@ -74,7 +75,7 @@ class Profile extends React.Component {
         this.setState({
             email: props.user.email,
             enableGravatar: props.user.enableGravatar,
-            challongeApiKey: props.user.challongeApiKey,
+            challonge: props.user.challonge,
             selectedBackground: props.user.settings.background,
             selectedCardSize: props.user.settings.cardSize,
             optionSettings: props.user.settings.optionSettings
@@ -125,7 +126,10 @@ class Profile extends React.Component {
             email: this.state.email,
             password: this.state.newPassword,
             enableGravatar: this.state.enableGravatar,
-            challongeApiKey: this.state.challongeApiKey,
+            challonge: {
+                key: this.state.challongeApiKey,
+                subdomain: this.state.challongeApiSubdomain
+            },
             settings: {
                 background: this.state.selectedBackground,
                 cardSize: this.state.selectedCardSize,
@@ -244,6 +248,8 @@ class Profile extends React.Component {
                                 onBlur={ this.verifyPassword.bind(this, false) } validationMessage={ this.state.validation['password1'] } />
                             <Input name='' label={ t('Challonge API Key') } labelClass='col-sm-4' fieldClass='col-sm-8' placeholder={ t('Enter Challonge API Key') }
                                 type='challongeApiKey' onChange={ this.onChange.bind(this, 'challongeApiKey') } value={ this.state.challongeApiKey }/>
+                            <Input name='' label={ t('Challonge API Subdomain') } labelClass='col-sm-4' fieldClass='col-sm-8' placeholder={ t('Challonge Community Subdomain') }
+                                type='challongeApiSubdomain' onChange={ this.onChange.bind(this, 'challongeApiSubdomain') } value={ this.state.challongeApiSubdomain }/>
                             <span className='col-sm-3 text-center'><Avatar username={ this.props.user.username } /></span>
                             <Checkbox name='enableGravatar' label={ t('Enable Gravatar integration') } fieldClass='col-sm-offset-1 col-sm-7'
                                 onChange={ e => this.setState({ enableGravatar: e.target.checked }) } checked={ this.state.enableGravatar } />

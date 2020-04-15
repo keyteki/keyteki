@@ -58,8 +58,8 @@ class User {
         return this.userData.email;
     }
 
-    get challongeApiKey() {
-        return this.userData.challongeApiKey;
+    get challonge() {
+        return this.userData.challonge;
     }
 
     get enableGravatar() {
@@ -129,7 +129,7 @@ class User {
             permissions: this.userData.permissions,
             verified: this.userData.verified,
             enableGravatar: this.userData.enableGravatar,
-            challongeApiKey: this.userData.challongeApiKey
+            challonge: this.userData.challonge
         };
 
         user = Settings.getUserWithDefaultsSet(user);

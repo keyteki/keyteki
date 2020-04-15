@@ -13,7 +13,18 @@ module.exports.init = function(server) {
             })
             .catch(err => {
                 logger.error(err);
-                res.send({ success: false, message: 'Error loading tounaments' });
+                res.send({ success: false, message: 'Error loading tournaments' });
+            });
+    }));
+
+    server.post('/api/challonge/matches/', passport.authenticate('jwt', { session: false }), wrapAsync(async function(req, res) {
+        challongeService.getMatches({ ...req.user }, req.body.data)
+            .then(data => {
+                res.send({ success: true, data });
+            })
+            .catch(err => {
+                logger.error(err);
+                res.send({ success: false, message: 'Error loading matches' });
             });
     }));
 };
