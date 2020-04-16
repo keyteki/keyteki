@@ -18,9 +18,9 @@ class Infomancer extends Card {
                 controller: 'self',
                 cardType: 'action',
                 cardCondition: (card, context) => card.parent === context.source && card.location === 'grafted',
-                gameAction: ability.actions.resolveAbility(context => ({
-                    ability: context.target && context.target.abilities.reactions.find(ability => ability.properties.name === 'Play')
-                }))
+                gameAction: ability.actions.resolveAbility({
+                    ability: ability => ability.isPlay()
+                })
             }
         });
     }

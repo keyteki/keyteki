@@ -16,7 +16,7 @@ class ChantOfHubris extends Card {
                         messageArgs: card => [preContext.player, preContext.source, card],
                         cardType: 'creature',
                         activePromptTitle: 'Choose another creature',
-                        cardCondition: card => card !== preContext.event.card
+                        cardCondition: card => card !== preContext.target
                     }
                 })
             })

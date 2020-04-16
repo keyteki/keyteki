@@ -9,6 +9,8 @@ import HouseSelect from './HouseSelect';
 import OptionsSelect from './OptionsSelect';
 import Panel from '../Site/Panel';
 
+const MaxButtonTextLength = 28;
+
 class ActivePlayerPrompt extends React.Component {
     constructor(props) {
         super(props);
@@ -86,11 +88,17 @@ class ActivePlayerPrompt extends React.Component {
         }
 
         for(const button of this.props.buttons) {
-            let buttonText = this.localizedText(button.card, button.text, button.values);
+            const originalButtonText = this.localizedText(button.card, button.text, button.values);
+            let buttonText = originalButtonText;
+
+            if(buttonText.length > MaxButtonTextLength) {
+                buttonText = buttonText.slice(0, MaxButtonTextLength - 3).trim() + '...';
+            }
 
             let option = (
                 <button key={ button.command + buttonIndex.toString() }
                     className='btn btn-default prompt-button btn-stretch'
+                    title={ originalButtonText }
                     onClick={ event => this.onButtonClick(event, button.command, button.arg, button.uuid, button.method) }
                     onMouseOver={ event => this.onMouseOver(event, button.card) }
                     onMouseOut={ event => this.onMouseOut(event, button.card) }

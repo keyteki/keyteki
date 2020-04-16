@@ -36,7 +36,7 @@ class Crassosaurus extends Card {
                     amount: context.option && context.option.value
                 })),
                 ability.actions.capture(context => ({
-                    ownController: true,
+                    player: context.player,
                     amount: this.calculateOwnAmber(context)
                 })),
                 ability.actions.conditional(({

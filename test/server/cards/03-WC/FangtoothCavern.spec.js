@@ -33,5 +33,36 @@ describe('Fangtooth Cavern', function() {
                 expect(this.dustImp.location).toBe('discard');
             });
         });
+        describe('Fangtooth Cavern\'s ability', function() {
+            beforeEach(function() {
+                this.setupTest({
+                    player1: {
+                        house: 'untamed',
+                        inPlay: ['fangtooth-cavern', 'dextre']
+                    },
+                    player2: {
+                        inPlay: ['mighty-tiger', 'tocsin']
+                    }
+                });
+            });
+
+            it('should prompt for player choice when there are two equal power creatures in play', function() {
+                this.player1.endTurn();
+                expect(this.player1).toBeAbleToSelect(this.dextre);
+                expect(this.player1).toBeAbleToSelect(this.tocsin);
+                expect(this.player1).not.toBeAbleToSelect(this.mightyTiger);
+                this.player1.clickCard(this.tocsin);
+                expect(this.tocsin.location).toBe('discard');
+                this.player2.clickPrompt('dis');
+                this.player2.endTurn();
+                expect(this.dextre.location).toBe('play area');
+                this.player1.clickPrompt('logos');
+                this.player1.endTurn();
+                expect(this.player1).toBeAbleToSelect(this.dextre);
+                expect(this.player1).not.toBeAbleToSelect(this.mightyTiger);
+                this.player1.clickCard(this.dextre);
+                expect(this.dextre.location).toBe('deck');
+            });
+        });
     });
 });

@@ -16,13 +16,11 @@ class Player extends GameObject {
 
         this.hand = [];
         this.cardsInPlay = []; // This stores references to all creatures and artifacts in play.  Upgrades are not stored here.
-        this.deckName = '';
         this.deckCards = [];
-        this.deckUuid = '';
-        this.deckSet = 0;
         this.discard = [];
         this.purged = [];
         this.archives = [];
+        this.wins = 0;
 
         this.houses = [];
         this.activeHouse = null;
@@ -183,12 +181,23 @@ class Player extends GameObject {
      * Shuffles the deck, emitting an event and displaying a message in chat
      */
     shuffleDeck() {
-        if(this.name !== 'Dummy Player') {
-            this.game.addMessage('{0} is shuffling their deck', this);
-        }
-
         this.game.emitEvent('onDeckShuffled', { player: this });
         this.deck = _.shuffle(this.deck);
+    }
+
+    /**
+     * Mulligans the players starting hand, emitting an event and displaying a message in chat
+     */
+    takeMulligan() {
+        let size = this.hand.length;
+
+        for(let card of this.hand) {
+            this.moveCard(card, 'deck');
+        }
+
+        this.shuffleDeck();
+        this.drawCardsToHand(size - 1);
+        this.takenMulligan = true;
     }
 
     /**
@@ -208,8 +217,6 @@ class Player extends GameObject {
      */
     initialise() {
         this.prepareDecks();
-        this.shuffleDeck();
-
         this.keys = { red: false, blue: false, yellow: false };
         this.amber = 0;
         this.turn = 1;
@@ -651,12 +658,17 @@ class Player extends GameObject {
         return this.getEffects('additionalCost').reduce((array, costFactory) => array.concat(costFactory(context)), []).filter(cost => !!cost);
     }
 
+    setWins(wins) {
+        this.wins = wins;
+    }
+
     getStats() {
         return {
             amber: this.amber,
             chains: this.chains,
             keys: this.keys,
-            houses: this.houses
+            houses: this.houses,
+            keyCost: this.getCurrentKeyCost()
         };
     }
 
@@ -671,14 +683,13 @@ class Player extends GameObject {
         let state = {
             activeHouse: this.activeHouse,
             cardPiles: {
-                archives: this.getSummaryForCardList(this.archives, activePlayer, true),
+                archives: this.getSummaryForCardList(this.archives, activePlayer),
                 cardsInPlay: this.getSummaryForCardList(this.cardsInPlay, activePlayer),
                 discard: this.getSummaryForCardList(this.discard, activePlayer),
                 hand: this.getSummaryForCardList(this.hand, activePlayer, true),
                 purged: this.getSummaryForCardList(this.purged, activePlayer)
             },
             cardback: 'cardback',
-            deckName: this.deckData.name,
             disconnected: !!this.disconnectedAt,
             activePlayer: this.game.activePlayer === this,
             houses: this.houses,
@@ -692,9 +703,9 @@ class Player extends GameObject {
             stats: this.getStats(),
             timerSettings: {},
             user: _.omit(this.user, ['password', 'email']),
-            deckUuid: this.deckData.uuid,
-            deckSet: this.deckData.expansion,
-            deckCards: this.deckCards
+            deckCards: this.deckCards,
+            deckData: this.deckData,
+            wins: this.wins
         };
 
         if(isActivePlayer) {

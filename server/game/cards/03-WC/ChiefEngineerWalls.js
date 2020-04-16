@@ -7,7 +7,6 @@ class ChiefEngineerWalls extends Card {
             reap: true,
             optional: true,
             target: {
-                cardType: ['creature', 'upgrade'],
                 location: ['discard'],
                 controller: 'self',
                 cardCondition: (card => card.hasTrait('robot') || card.type === 'upgrade'),

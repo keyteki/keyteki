@@ -10,12 +10,17 @@ class Fetchdrones extends Card {
                 let cards = preThenContext.player.deck.length > 0 ? preThenContext.player.deck.slice(0, Math.min(2, preThenContext.player.deck.length)) : [];
                 return {
                     condition: () => cards.filter(card => card.hasHouse('logos')).length > 0,
-                    target: {
-                        mode: 'exactly',
-                        controller: 'self',
-                        numCards: () => cards.filter(card => card.hasHouse('logos')).length,
-                        gameAction: ability.actions.capture({ amount: 2 })
-                    }
+                    gameAction: ability.actions.sequentialForEach({
+                        num: cards.filter(card => card.hasHouse('logos')).length,
+                        action: ability.actions.capture({
+                            amount: 2,
+                            promptForSelect: {
+                                activePromptTitle: 'Choose a creature',
+                                cardType: 'creature',
+                                controller: 'self'
+                            }
+                        })
+                    })
                 };
             }
         });

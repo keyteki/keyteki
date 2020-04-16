@@ -2,7 +2,7 @@ const Card = require('../../Card.js');
 
 class UntamedPlant extends Card {
     setupCardAbilities(ability) {
-        this.constantReaction({
+        this.reaction({
             when: {
                 onChooseActiveHouse: (event) => event.house === 'untamed'
             },

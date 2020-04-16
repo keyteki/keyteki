@@ -2,6 +2,8 @@ const _ = require('underscore');
 const Phase = require('../phase.js');
 const SimpleStep = require('../simplestep.js');
 const MulliganPrompt = require('./mulliganprompt.js');
+const AdaptiveDeckSelectionPrompt = require('./AdaptiveDeckSelectionPrompt');
+const FirstPlayerSelection = require('./FirstPlayerSelection');
 const GameStartPrompt = require('./GameStartPrompt');
 const Effects = require('../../effects.js');
 
@@ -9,6 +11,8 @@ class SetupPhase extends Phase {
     constructor(game) {
         super(game, 'setup');
         this.initialise([
+            new AdaptiveDeckSelectionPrompt(game),
+            new FirstPlayerSelection(game),
             new SimpleStep(game, () => this.setupBegin()),
             new GameStartPrompt(game),
             new SimpleStep(game, () => this.drawStartingHands()),
@@ -19,7 +23,6 @@ class SetupPhase extends Phase {
     }
 
     startPhase() {
-        // Don't raise any events without a determined first player
         this.game.currentPhase = this.name;
         for(let step of this.steps) {
             this.game.queueStep(step);
@@ -27,8 +30,6 @@ class SetupPhase extends Phase {
     }
 
     setupBegin() {
-        let allPlayersShuffled = _.shuffle(this.game.getPlayers());
-        this.game.activePlayer = allPlayersShuffled.shift();
         for(let card of this.game.allCards) {
             card.applyAnyLocationPersistentEffects();
         }
@@ -39,8 +40,8 @@ class SetupPhase extends Phase {
                 argType: 'link',
                 label: player.deckData.name
             };
-            if(this.game.gameFormat !== 'sealed') {
-                this.game.addMessage('{0} is playing as the Archon: {1}', player, link);
+            if(this.game.gameFormat !== 'sealed' && !this.game.hideDecklists) {
+                this.game.addMessage('{0} is playing as the Archon: {1}{2}', player, link, player.chains > 0 ? ` with ${player.chains} chains` : '');
             }
         }
     }
@@ -55,6 +56,7 @@ class SetupPhase extends Phase {
 
     drawStartingHands() {
         _.each(this.game.getPlayers(), player => {
+            this.game.actions.shuffleDeck().resolve(player, this.game.getFrameworkContext());
             this.game.actions.draw({ refill: true }).resolve(player, this.game.getFrameworkContext());
         });
     }

@@ -46,6 +46,7 @@ class GameLobby extends React.Component {
             normal: true,
             sealed: true,
             reversal: true,
+            'adaptive-bo1': true,
             showOnlyNewGames: false
         };
 
@@ -68,6 +69,10 @@ class GameLobby extends React.Component {
                     }
                 }
             });
+        }
+
+        if(this.props.gameId) {
+            this.props.socket.emit('joingame', this.props.gameId);
         }
     }
 
@@ -266,7 +271,7 @@ class GameLobby extends React.Component {
                 <Modal { ...modalProps }>
                     { modalBody }
                 </Modal>
-            </div >);
+            </div>);
     }
 }
 
@@ -276,12 +281,14 @@ GameLobby.propTypes = {
     cancelNewGame: PropTypes.func,
     cancelPasswordJoin: PropTypes.func,
     currentGame: PropTypes.object,
+    gameId: PropTypes.string,
     games: PropTypes.array,
     i18n: PropTypes.object,
     leaveGame: PropTypes.func,
     newGame: PropTypes.bool,
     passwordGame: PropTypes.object,
     setContextMenu: PropTypes.func,
+    socket: PropTypes.object,
     startNewGame: PropTypes.func,
     t: PropTypes.func,
     user: PropTypes.object

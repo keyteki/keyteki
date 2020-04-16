@@ -2,7 +2,7 @@ const Card = require('../../Card.js');
 
 class CarloPhantom extends Card {
     setupCardAbilities(ability) {
-        this.constantReaction({
+        this.reaction({
             when: {
                 onCardPlayed: (event, context) => event.card.type === 'artifact' && event.player === context.player
             },
