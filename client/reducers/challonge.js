@@ -3,19 +3,26 @@ function challonge(state = {
 }, action) {
     switch(action.type) {
         case 'REQUEST_TOURNAMENTS':
-            return Object.assign({}, state, {
-            });
+            return Object.assign({}, state, {});
+        case 'REQUEST_MATCHES':
+            return Object.assign({}, state, {});
+        case 'REQUEST_PARTICIPANTS':
+            return Object.assign({}, state, {});
         case 'RECEIVE_TOURNAMENTS':
             return Object.assign({}, state, {
-                tournaments: action.response.tournaments
-            });
-        case 'REQUEST_MATCHES':
-            return Object.assign({}, state, {
+                tournaments: action.response.data
             });
         case 'RECEIVE_MATCHES':
             return Object.assign({}, state, {
-                matches: action.response.data.matches,
-                participants: action.response.data.participants
+                matches: action.response.data
+            });
+        case 'RECEIVE_ATTACHMENTS':
+            return Object.assign({}, state, {
+                matches: action.response.data
+            });
+        case 'RECEIVE_PARTICIPANTS':
+            return Object.assign({}, state, {
+                participants: action.response.data
             });
         default:
             return state;

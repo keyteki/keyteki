@@ -36,18 +36,43 @@ class ChallongeService {
                 return;
             }
 
-            let matches = util.httpRequest(`https://api.challonge.com/v1/tournaments/${tournamentId}/matches.json?api_key=${user.challonge.key}`, { json: true });
-            let participants = util.httpRequest(`https://api.challonge.com/v1/tournaments/${tournamentId}/participants.json?api_key=${user.challonge.key}`, { json: true });
-            Promise.all([matches, participants])
-                .then(([matches, participants]) => {
-                    let final = {
-                        matches: matches.map(x => x.match),
-                        participants: participants.map(x => x.participant)
-                    };
-                    resolve(final);
-                })
+            util.httpRequest(`https://api.challonge.com/v1/tournaments/${tournamentId}/matches.json?api_key=${user.challonge.key}`, { json: true })
+                .then(matches => resolve(matches.map(x => x.match)))
                 .catch(err => {
                     logger.error('Failed to get tournaments for ', user.username, err);
+                    reject();
+                });
+        });
+    }
+
+    getParticipants(user, tournamentId) {
+        return new Promise((resolve, reject) => {
+            if(!(user.challonge.key && tournamentId)) {
+                resolve({});
+                return;
+            }
+
+            util.httpRequest(`https://api.challonge.com/v1/tournaments/${tournamentId}/participants.json?api_key=${user.challonge.key}`, { json: true })
+                .then(participants => resolve(participants.map(x => x.participant)))
+                .catch(err => {
+                    logger.error('Failed to get participants for ', user.username, err);
+                    reject();
+                });
+        });
+    }
+
+    createAttachment(user, data) {
+        return new Promise((resolve, reject) => {
+            if(!(user.challonge.key)) {
+                resolve();
+                return;
+            }
+
+            let url = `https://api.challonge.com/v1/tournaments/${data.tournamentId}/matches/${data.matchId}/attachments.json?api_key=${user.challonge.key}`;
+            util.httpRequest(url, { method:'POST', json: true, body: { url: data.attachment } })
+                .then(attachment => resolve(attachment.match_attachment))
+                .catch(err => {
+                    logger.error('Failed to create attachments for ', user.username, err);
                     reject();
                 });
         });

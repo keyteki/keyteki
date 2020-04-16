@@ -8,6 +8,7 @@ const logger = require('./log');
 class PendingGame {
     constructor(owner, details) {
         this.owner = owner;
+        this.challonge = details.challonge;
         this.players = {};
         this.spectators = {};
         this.id = uuid.v1();
@@ -62,6 +63,7 @@ class PendingGame {
 
         return {
             gameId: this.id,
+            challonge: this.challonge,
             gameType: this.gameType,
             gameFormat: this.gameFormat,
             adaptive: this.adaptive,
@@ -137,6 +139,15 @@ class PendingGame {
 
         this.addMessage('{0} has joined the game', user.username);
         this.addPlayer(id, user);
+
+        if(!this.isOwner(this.owner.username)) {
+            let otherPlayer = _.find(this.players, player => player.name !== this.owner.username);
+
+            if(otherPlayer) {
+                this.owner = otherPlayer.user;
+                otherPlayer.owner = true;
+            }
+        }
 
         return undefined;
     }
@@ -307,6 +318,7 @@ class PendingGame {
             createdAt: this.createdAt,
             gameType: this.gameType,
             gameFormat: this.gameFormat,
+            challonge: this.challonge,
             swap: this.swap,
             previousWinner: this.previousWinner,
             adaptive: this.adaptive,
@@ -359,6 +371,7 @@ class PendingGame {
             createdAt: this.createdAt,
             gameType: this.gameType,
             gameFormat: this.gameFormat,
+            challonge: this.challonge,
             swap: this.swap,
             previousWinner: this.previousWinner,
             adaptive: this.adaptive,

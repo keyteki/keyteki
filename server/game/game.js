@@ -69,6 +69,7 @@ class Game extends EventEmitter {
         this.timeLimit = new TimeLimit(this);
         this.hideDecklists = details.hideDecklists;
         this.adaptive = { chains: 0, selection: [], biddingWinner: '' };
+        this.challonge = details.challonge;
 
         this.cardsUsed = [];
         this.cardsPlayed = [];
@@ -1101,6 +1102,7 @@ class Game extends EventEmitter {
             players: players,
             gameType: this.gameType,
             gameFormat: this.gameFormat,
+            challonge: this.challonge,
             swap: this.swap,
             previousWinner: this.previousWinner,
             adaptive: this.adaptive,
@@ -1127,6 +1129,7 @@ class Game extends EventEmitter {
             return {
                 id: this.id,
                 gameFormat: this.gameFormat,
+                challonge: this.challonge,
                 swap: this.swap,
                 previousWinner: this.previousWinner,
                 adaptive: this.adaptive,
@@ -1196,6 +1199,7 @@ class Game extends EventEmitter {
             createdAt: this.createdAt,
             gameType: this.gameType,
             gameFormat: this.gameFormat,
+            challonge: this.challonge,
             swap: this.swap,
             adaptive: this.adaptive,
             winner: this.winner,

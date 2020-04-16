@@ -11,17 +11,23 @@ import { withTranslation, Trans } from 'react-i18next';
 import Modal from '../Site/Modal';
 import NewTournamentGame from './NewTournamentGame';
 import $ from 'jquery';
+import ReactClipboard from 'react-clipboardjs-copy';
 
 class TournamentLobby extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            tournament: ''
+            tournament: {},
+            tournamentGames: []
         };
         this.createGames = this.createGames.bind(this);
+        this.sendAttachment = this.sendAttachment.bind(this);
+        this.closeModal = this.closeModal.bind(this);
         this.getOpenMatches = this.getOpenMatches.bind(this);
+        this.getMatchLink = this.getMatchLink.bind(this);
         this.getTournamentData = this.getTournamentData.bind(this);
+        this.getTournamentGames = this.getTournamentGames.bind(this);
         this.getParticipantName = this.getParticipantName.bind(this);
         this.refreshMatches = this.refreshMatches.bind(this);
         this.selectTournament = this.selectTournament.bind(this);
@@ -31,28 +37,52 @@ class TournamentLobby extends React.Component {
         this.props.fetchTournaments();
     }
 
+    componentWillReceiveProps(props) {
+        const tournamentGames = props.games.filter(x => x.challonge && x.challonge.tournamentId === this.state.tournament.id);
+        this.setState({ tournamentGames });
+    }
+
+    sendAttachment() {
+        this.state.tournamentGames.forEach(game=>{
+            this.props.createAttachment(game, this.getMatchLink(game));
+        });
+    }
+
     createGames () {
         $('#pendingGameModal').modal('show');
+    }
+
+    closeModal () {
+        $('#pendingGameModal').modal('hide');
     }
 
     getTournamentData() {
         this.props.fetchTournaments();
     }
 
-    //TODO split match an participant data API calls
     refreshMatches() {
-        this.props.fetchMatches(this.state.tournament);
+        if(this.state.tournament) {
+            this.props.fetchMatches(this.state.tournament.id);
+        }
     }
 
     //TODO get the select to select based on state
     selectTournament(event) {
-        this.props.fetchMatches(event.target.value);
-        this.setState({ tournament: event.target.value });
+        let tournament = this.props.tournaments.find(x=> x.id === +event.target.value);
+        if(tournament) {
+            this.props.fetchParticipants(event.target.value);
+            this.props.fetchMatches(event.target.value);
+            this.setState({ tournament });
+        }
     }
 
     getParticipantName(id) {
+        if(!this.props.participants) {
+            return id;
+        }
+
         const participant = this.props.participants.find(x => x.id === id);
-        return participant ? participant.display_name : 'Blank';
+        return participant ? participant.display_name : 'Unknown';
     }
 
     getOpenMatches() {
@@ -62,6 +92,17 @@ class TournamentLobby extends React.Component {
         }
 
         return openMatches;
+    }
+
+    getTournamentGames() {
+        const tournamentGames = this.props.games.filter(x => x.challonge && x.challonge.tournamentId === this.state.tournament.id);
+        this.setState({ tournamentGames });
+    }
+
+    getMatchLink(game) {
+        if(game) {
+            return `${window.location.protocol}//${window.location.host}/play?gameId=${ game.id }`;
+        }
     }
 
     render() {
@@ -97,19 +138,34 @@ class TournamentLobby extends React.Component {
                             </div>
                         </div>
                         <div className='col-xs-12'>
-                            <div className='col-sm-5'>
-                                { this.getOpenMatches().map((match, index) =>
-                                    <div key={ index }>Round { match.round }: { this.getParticipantName(match.player1_id) } vs { this.getParticipantName(match.player2_id) } ({ match.state }) </div>)
-                                }
+                            { this.getOpenMatches().map((match, index) => {
+                                const game = this.state.tournamentGames.find(x => x.challonge && x.challonge.matchId === match.id);
+                                return (<div className='col-xs-12' key={ index }>
+                                    <div className='col-sm-5'>Round { match.round }: { this.getParticipantName(match.player1_id) } vs { this.getParticipantName(match.player2_id) } ({ match.state }) </div>
+                                    <div className='col-sm-3'>
+                                        <ReactClipboard text={ this.getMatchLink(game) }>
+                                            <button className='btn btn-primary' disabled={ !game }>Copy Game Link</button>
+                                        </ReactClipboard>
+                                    </div>
+                                </div>);
+                            })
+                            }
+                            <div className='col-sm-3'>
+                                <button className='btn btn-primary' disabled={ 0 >= this.getOpenMatches().length } onClick={ this.createGames }><Trans>Create Games</Trans></button>
                             </div>
                             <div className='col-sm-3'>
-                                <button className='btn btn-primary' disabled={ 0 >= this.getOpenMatches().length } onClick={ this.createGames } ><Trans>Create Games</Trans></button>
+                                <button className='btn btn-primary' onClick={ this.sendAttachment } disabled={ false }>Send Attachment</button>
                             </div>
                         </div>
                     </Panel>
                 </div>
                 <Modal { ...modalProps }>
-                    <NewTournamentGame defaultGameName={ 'Default Name' } />
+                    <NewTournamentGame
+                        closeModal={ this.closeModal }
+                        getParticipantName={ this.getParticipantName }
+                        defaultGameName={ 'Default Name' }
+                        openMatches={ this.getOpenMatches() }
+                        tournament={ this.state.tournament }/>
                 </Modal>
             </div>);
     }
@@ -120,12 +176,12 @@ TournamentLobby.propTypes = {
     bannerNotice: PropTypes.string,
     cancelNewGame: PropTypes.func,
     cancelPasswordJoin: PropTypes.func,
-    currentGame: PropTypes.object,
+    createAttachment: PropTypes.func,
     fetchMatches: PropTypes.func,
+    fetchParticipants: PropTypes.func,
     fetchTournaments: PropTypes.func,
     games: PropTypes.array,
     i18n: PropTypes.object,
-    leaveGame: PropTypes.func,
     matches: PropTypes.array,
     newGame: PropTypes.bool,
     participants: PropTypes.array,
@@ -139,8 +195,10 @@ TournamentLobby.propTypes = {
 
 function mapStateToProps(state) {
     return {
+        createAttachment: state.challonge.createAttachment,
         fetchTournaments: state.challonge.fetchTournaments,
         fetchMatches: state.challonge.fetchMatches,
+        fetchParticipants: state.challonge.fetchParticipants,
         tournaments: state.challonge.tournaments,
         matches: state.challonge.matches,
         participants: state.challonge.participants,

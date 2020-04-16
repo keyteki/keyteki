@@ -8,15 +8,12 @@ import * as actions from '../../actions';
 
 import { withTranslation, Trans } from 'react-i18next';
 
-const GameNameMaxLength = 64;
-
 class NewTournamentGame extends React.Component {
     constructor() {
         super();
 
         this.onCancelClick = this.onCancelClick.bind(this);
         this.onSubmitClick = this.onSubmitClick.bind(this);
-        this.onNameChange = this.onNameChange.bind(this);
         this.onSpectatorsClick = this.onSpectatorsClick.bind(this);
         this.onMuteSpectatorsClick = this.onMuteSpectatorsClick.bind(this);
         this.onShowHandClick = this.onShowHandClick.bind(this);
@@ -44,12 +41,8 @@ class NewTournamentGame extends React.Component {
 
     onCancelClick(event) {
         event.preventDefault();
-
+        this.props.closeModal();
         this.props.cancelNewGame();
-    }
-
-    onNameChange(event) {
-        this.setState({ gameName: event.target.value });
     }
 
     onPasswordChange(event) {
@@ -70,20 +63,27 @@ class NewTournamentGame extends React.Component {
 
     onSubmitClick(event) {
         event.preventDefault();
-
-        this.props.socket.emit('newgame', {
-            name: this.state.gameName,
-            spectators: this.state.spectators,
-            showHand: this.state.showHand,
-            gameType: 'tournament',
-            gameFormat: this.state.selectedGameFormat,
-            password: this.state.password,
-            muteSpectators: this.state.muteSpectators,
-            expansions: this.state.expansions,
-            useGameTimeLimit: this.state.useGameTimeLimit,
-            gameTimeLimit: this.state.gameTimeLimit,
-            hideDecklists: this.state.hideDecklists
+        const { getParticipantName } = this.props;
+        this.props.openMatches.forEach(match => {
+            this.props.socket.emit('newgame', {
+                name: `${getParticipantName(match.player1_id)} vs ${getParticipantName(match.player2_id)}`,
+                spectators: this.state.spectators,
+                showHand: this.state.showHand,
+                gameType: 'tournament',
+                gameFormat: this.state.selectedGameFormat,
+                password: this.state.password,
+                muteSpectators: this.state.muteSpectators,
+                expansions: this.state.expansions,
+                useGameTimeLimit: this.state.useGameTimeLimit,
+                gameTimeLimit: this.state.gameTimeLimit,
+                hideDecklists: this.state.hideDecklists,
+                challonge: {
+                    matchId: match.id,
+                    tournamentId: this.props.tournament.id
+                }
+            });
         });
+        this.props.closeModal();
     }
 
     onGameFormatChange(gameFormat) {
@@ -178,7 +178,6 @@ class NewTournamentGame extends React.Component {
     }
 
     render() {
-        let charsLeft = GameNameMaxLength - this.state.gameName.length;
         let t = this.props.t;
 
 
@@ -187,13 +186,6 @@ class NewTournamentGame extends React.Component {
                 <Panel title={ t('New game') }>
                     <form className='form'>
                         <div>
-                            <div className='row'>
-                                <div className='col-sm-8'>
-                                    <label htmlFor='gameName'><Trans>Name</Trans></label>
-                                    <label className='game-name-char-limit'>{ charsLeft >= 0 ? charsLeft : 0 }</label>
-                                    <input className='form-control' placeholder={ t('Game Name') } type='text' onChange={ this.onNameChange } value={ this.state.gameName } maxLength={ GameNameMaxLength } />
-                                </div>
-                            </div>
                             { this.getOptions() }
                             { this.getGameFormatOptions() }
                             <div className='row game-password'>
@@ -221,10 +213,14 @@ NewTournamentGame.displayName = 'NewTournamentGame';
 NewTournamentGame.propTypes = {
     allowMelee: PropTypes.bool,
     cancelNewGame: PropTypes.func,
+    closeModal: PropTypes.func,
     defaultGameName: PropTypes.string,
+    getParticipantName: PropTypes.func,
     i18n: PropTypes.object,
+    openMatches: PropTypes.array,
     socket: PropTypes.object,
-    t: PropTypes.func
+    t: PropTypes.func,
+    tournament: PropTypes.object
 };
 
 function mapStateToProps(state) {

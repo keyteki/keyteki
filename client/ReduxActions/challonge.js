@@ -19,9 +19,36 @@ export function fetchMatches(tournamentId) {
     };
 }
 
+export function fetchParticipants(tournamentId) {
+    return {
+        types: ['REQUEST_PARTICIPANTS', 'RECEIVE_PARTICIPANTS'],
+        shouldCallAPI: () => true,
+        APIParams: {
+            url: '/api/challonge/participants',
+            type: 'POST',
+            data: JSON.stringify({ data: tournamentId }),
+            cache: false
+        }
+    };
+}
+
 export function receiveTournaments(tournaments) {
     return {
         type: 'RECEIVE_TOURNAMENTS',
         tournaments: tournaments
+    };
+}
+
+export function createAttachment(game, attachment) {
+    const { tournamentId, matchId } = game.challonge;
+    return {
+        types: ['CREATE_ATTACHMENT', 'RECEIVE_ATTACHMENT'],
+        shouldCallAPI: () => true,
+        APIParams: {
+            url: '/api/challonge/createAttachment',
+            type: 'POST',
+            data: JSON.stringify({ tournamentId, matchId, attachment }),
+            cache: false
+        }
     };
 }
