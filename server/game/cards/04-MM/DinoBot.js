@@ -4,9 +4,7 @@ class DinoBot extends Card {
     setupCardAbilities(ability) {
         this.play({
             optional: true,
-            gameAction: ability.actions.exalt(context => ({
-                target: context.source
-            })),
+            gameAction: ability.actions.exalt(),
             then: {
                 target: {
                     cardType: 'creature',
