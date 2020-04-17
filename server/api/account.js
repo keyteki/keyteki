@@ -13,14 +13,12 @@ const UserService = require('../services/UserService');
 const ConfigService = require('../services/ConfigService');
 const BanlistService = require('../services/BanlistService');
 const PatreonService = require('../services/PatreonService');
-const ChallongeService = require('../services/ChallongeService');
 const util = require('../util.js');
 
 let configService = new ConfigService();
 let userService;
 let banlistService;
 let patreonService;
-let challongeService;
 
 const appName = configService.getValueForSection('lobby', 'appName');
 
@@ -126,7 +124,6 @@ module.exports.init = function(server, options) {
     patreonService = new PatreonService(configService.getValueForSection('lobby', 'patreonClientId'),
         configService.getValueForSection('lobby', 'patreonSecret'), userService,
         configService.getValueForSection('lobby', 'patreonCallbackUrl'));
-    challongeService = new ChallongeService();
 
     let emailKey = configService.getValueForSection('lobby', 'emailKey');
     if(emailKey) {
