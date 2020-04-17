@@ -39,13 +39,13 @@ export function receiveTournaments(tournaments) {
     };
 }
 
-export function createAttachment(game, attachment) {
+export function attachMatchLink(game, attachment) {
     const { tournamentId, matchId } = game.challonge;
     return {
         types: ['CREATE_ATTACHMENT', 'RECEIVE_ATTACHMENT'],
         shouldCallAPI: () => true,
         APIParams: {
-            url: '/api/challonge/createAttachment',
+            url: '/api/challonge/attachMatchLink',
             type: 'POST',
             data: JSON.stringify({ tournamentId, matchId, attachment }),
             cache: false

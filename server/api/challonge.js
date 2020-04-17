@@ -39,8 +39,8 @@ module.exports.init = function(server) {
             });
     }));
 
-    server.post('/api/challonge/createAttachment', passport.authenticate('jwt', { session: false }), wrapAsync(async function(req, res) {
-        challongeService.createAttachment({ ...req.user }, req.body)
+    server.post('/api/challonge/attachMatchLink', passport.authenticate('jwt', { session: false }), wrapAsync(async function(req, res) {
+        challongeService.attachMatchLink({ ...req.user }, req.body)
             .then(data => {
                 res.send({ success: true, data });
             })

@@ -32,7 +32,7 @@ class ChallongeService {
     getMatches(user, tournamentId) {
         return new Promise((resolve, reject) => {
             if(!(user.challonge.key && tournamentId)) {
-                resolve({});
+                resolve([]);
                 return;
             }
 
@@ -48,7 +48,7 @@ class ChallongeService {
     getParticipants(user, tournamentId) {
         return new Promise((resolve, reject) => {
             if(!(user.challonge.key && tournamentId)) {
-                resolve({});
+                resolve([]);
                 return;
             }
 
@@ -61,7 +61,7 @@ class ChallongeService {
         });
     }
 
-    createAttachment(user, data) {
+    attachMatchLink(user, data) {
         return new Promise((resolve, reject) => {
             if(!(user.challonge.key)) {
                 resolve();
@@ -69,7 +69,7 @@ class ChallongeService {
             }
 
             let url = `https://api.challonge.com/v1/tournaments/${data.tournamentId}/matches/${data.matchId}/attachments.json?api_key=${user.challonge.key}`;
-            util.httpRequest(url, { method:'POST', json: true, body: { url: data.attachment } })
+            util.httpRequest(url, { method:'POST', json: true, body: { description: 'Click This link to enter your game.', url: data.attachment } })
                 .then(attachment => resolve(attachment.match_attachment))
                 .catch(err => {
                     logger.error('Failed to create attachments for ', user.username, err);

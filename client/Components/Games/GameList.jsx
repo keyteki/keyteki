@@ -230,7 +230,7 @@ class GameList extends React.Component {
 
         let gameList = [];
 
-        for(const gameType of ['beginner', 'casual', 'competitive']) {
+        for(const gameType of ['beginner', 'casual', 'competitive', 'tournament']) {
             if(this.props.gameFilter[gameType] && groupedGames[gameType]) {
                 gameList.push(this.getGamesForType(gameType, groupedGames[gameType]));
             }

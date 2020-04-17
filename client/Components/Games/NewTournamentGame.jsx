@@ -36,7 +36,6 @@ class NewTournamentGame extends React.Component {
     }
 
     componentWillMount() {
-        this.setState({ gameName: this.props.defaultGameName });
     }
 
     onCancelClick(event) {
@@ -64,7 +63,7 @@ class NewTournamentGame extends React.Component {
     onSubmitClick(event) {
         event.preventDefault();
         const { getParticipantName } = this.props;
-        this.props.openMatches.forEach(match => {
+        this.props.matches.forEach(match => {
             this.props.socket.emit('newgame', {
                 name: `${getParticipantName(match.player1_id)} vs ${getParticipantName(match.player2_id)}`,
                 spectators: this.state.spectators,
@@ -214,10 +213,9 @@ NewTournamentGame.propTypes = {
     allowMelee: PropTypes.bool,
     cancelNewGame: PropTypes.func,
     closeModal: PropTypes.func,
-    defaultGameName: PropTypes.string,
     getParticipantName: PropTypes.func,
     i18n: PropTypes.object,
-    openMatches: PropTypes.array,
+    matches: PropTypes.array,
     socket: PropTypes.object,
     t: PropTypes.func,
     tournament: PropTypes.object
