@@ -625,15 +625,21 @@ class Player extends GameObject {
                 choiceHandler: key => {
                     this.game.queueSimpleStep(() => {
                         this.keys[key.text.toLowerCase()] = false;
-                        this.keysForgedThisRound.splice(this.keysForgedThisRound.findIndex(x => x === key.text.toLowerCase()), 1);
+                        let forgedKeyIndex = this.keysForgedThisRound.findIndex(x => x === key.text.toLowerCase());
+                        if(forgedKeyIndex !== -1) {
+                            this.keysForgedThisRound.splice(forgedKeyIndex, 1);
+                        }
                         this.game.addMessage('{0} unforges {1}\'s {2}', this.game.activePlayer, this.game.activePlayer.opponent, `forgedkey${key.text.toLowerCase()}`);
                     });
                 }
             });
-        } else if(choices.length === 1) {
+        } else {
             this.keys[choices[0].toLowerCase()] = false;
-            this.keysForgedThisRound.splice(this.keysForgedThisRound.findIndex(key => key === choices[0].toLowerCase()), 1);
-            this.game.addMessage('{0} unforges the {1}', this.game.activePlayer, `forgedkey${this.keysForgedThisRound[0]}`);
+            let forgedKeyIndex = this.keysForgedThisRound.findIndex(x => x === choices[0].toLowerCase());
+            if(forgedKeyIndex !== -1) {
+                this.keysForgedThisRound.splice(forgedKeyIndex, 1);
+            }
+            this.game.addMessage('{0} unforges the {1}', this.game.activePlayer, `forgedkey${choices[0]}`);
         }
     }
 
