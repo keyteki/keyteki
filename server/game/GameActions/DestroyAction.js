@@ -46,6 +46,7 @@ class DestroyAction extends CardGameAction {
                 });
                 event.addSubEvent(event.leavesPlayEvent);
             });
+            card.owner.creatureDestroyed = true;
             event.addSubEvent(event.destroyEvent);
         });
     }

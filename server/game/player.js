@@ -31,6 +31,7 @@ class Player extends GameObject {
         this.chains = 0;
         this.keyForged = [];
         this.creatureFought = false;
+        this.creatureDestroyed = false;
 
         this.clock = ClockSelector.for(this, clockdetails);
         this.showDeck = false;
@@ -237,6 +238,7 @@ class Player extends GameObject {
     beginRound() {
         this.keyForged = [];
         this.creatureFought = false;
+        this.creatureDestroyed = false;
     }
 
     endRound() {
