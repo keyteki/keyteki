@@ -1,6 +1,6 @@
 const Card = require('../../Card.js');
 
-class DinoBot extends Card {
+class DinoBeast extends Card {
     setupCardAbilities(ability) {
         this.play({
             optional: true,
@@ -12,20 +12,9 @@ class DinoBot extends Card {
                 }
             }
         });
-
-        this.reap({
-            target: {
-                controller: 'self',
-                location: 'hand',
-                gameAction: ability.actions.discard()
-            },
-            then: {
-                gameAction: ability.actions.draw()
-            }
-        });
     }
 }
 
-DinoBot.id = 'dino-bot';
+DinoBeast.id = 'dino-beast';
 
-module.exports = DinoBot;
+module.exports = DinoBeast;
