@@ -95,7 +95,7 @@ class ChatCommands {
         const color = args[1] ? args[1] : Object.keys(player.keys).filter(key => !player.keys[key])[0];
         this.game.addMessage('{0} uses the /forge command to forge the {1} ', player, `forgedkey${color}`);
         player.keys[color] = true;
-        player.keyForged.push(color);
+        player.keysForgedThisRound.push(color);
     }
 
     unforge(player, args) {
@@ -106,7 +106,7 @@ class ChatCommands {
         const color = args[1] ? args[1] : Object.keys(player.keys).filter(key => player.keys[key])[0];
         this.game.addMessage('{0} uses the /unforge command to unforge the {1}', player, `unforgedkey${color}`);
         player.keys[color] = false;
-        player.keyForged.splice(player.keyForged.findIndex(key => key === color), 1);
+        player.keysForgedThisRound.splice(player.keysForgedThisRound.findIndex(key => key === color), 1);
     }
 
     activeHouse(player, args) {
