@@ -21,7 +21,6 @@ describe('Dark Wave', function() {
                 expect(this.shooler.tokens.damage).toBe(2);
                 expect(this.bullWark.tokens.damage).toBeUndefined();
                 expect(this.sacroBeast.tokens.damage).toBeUndefined();
-
             });
         });
     });
