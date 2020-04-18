@@ -4,6 +4,7 @@ const passport = require('passport');
 const ConfigService = require('../services/ConfigService');
 const DeckService = require('../services/DeckService.js');
 const { wrapAsync } = require('../util.js');
+const logger = require('../log.js');
 
 const configService = new ConfigService();
 
@@ -11,6 +12,20 @@ let db = monk(configService.getValue('dbPath'));
 let deckService = new DeckService(db);
 
 module.exports.init = function(server) {
+    server.get('/api/standalone-decks', wrapAsync(async function(req, res) {
+        let decks;
+
+        try {
+            decks = await deckService.getStandaloneDecks();
+        } catch(err) {
+            logger.error('Failed to get standalone decks', err);
+
+            throw new Error('Failed to get standalone decks');
+        }
+
+        res.send({ success: true, decks: decks });
+    }));
+
     server.get('/api/decks/:id', passport.authenticate('jwt', { session: false }), wrapAsync(async function(req, res) {
         if(!req.params.id || req.params.id === '') {
             return res.status(404).send({ message: 'No such deck' });

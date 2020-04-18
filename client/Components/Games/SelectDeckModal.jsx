@@ -23,7 +23,7 @@ class SelectDeckModal extends React.Component {
                     { this.props.standaloneDecks && this.props.standaloneDecks.length !== 0 && (
                         <div>
                             <h3 className='deck-list-header'><Trans>Or choose a standalone deck</Trans>:</h3>
-                            <DeckList className='deck-list-popup' decks={ this.props.standaloneDecks } onSelectDeck={ this.props.onDeckSelected } />
+                            <DeckList className='deck-list-popup' decks={ this.props.standaloneDecks } onSelectDeck={ this.props.onDeckSelected } noFilter />
                         </div>)
                     }
                 </div>

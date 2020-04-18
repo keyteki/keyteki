@@ -7,6 +7,14 @@ class DeckService {
         this.games = db.get('games');
     }
 
+    getByStandaloneId(id) {
+        return this.decks.findOne({ standaloneId: id })
+            .catch(err => {
+                logger.error('Unable to fetch standalone deck', err);
+                throw new Error('Unable to fetch standalone deck ' + id);
+            });
+    }
+
     async getById(id) {
         let deck;
 
@@ -115,6 +123,16 @@ class DeckService {
         }
 
         logger.error(`DECK IMPORT ERROR: ${illegalCard.id.split('').map(char => char.charCodeAt(0))}`);
+    }
+
+    createStandalone(deck) {
+        deck.lastUpdated = new Date();
+
+        return this.decks.insert(deck);
+    }
+
+    getStandaloneDecks() {
+        return this.decks.find({ standaloneId: { $exists: true } }, { sort: { lastUpdated: -1 } });
     }
 
     update(deck) {
