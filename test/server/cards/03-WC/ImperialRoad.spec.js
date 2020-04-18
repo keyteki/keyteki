@@ -13,12 +13,14 @@ describe('Imperial Road', function() {
                     }
                 });
             });
+            
             it('should not prompt for creature', function() {
                 this.player1.useAction(this.imperialRoad, true);
                 expect(this.player1).not.toHavePrompt('Choose a creature');
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
         });
+        
         describe('Imperial Road\'s ability', function() {
             beforeEach(function() {
                 this.setupTest({
@@ -33,6 +35,7 @@ describe('Imperial Road', function() {
                     }
                 });
             });
+            
             it('should not prompt for creature when there\'s none in hand (but are in discard or in play)', function() {
                 this.player1.useAction(this.imperialRoad, true);
                 expect(this.player1).not.toHavePrompt('Choose a creature');
