@@ -14,13 +14,13 @@ describe('Break-key', function () {
                 });
             });
 
-            xit('should not unforge opponent\'s key when equal amount of keys', function () {
+            it('should not unforge opponent\'s key when equal amount of keys', function () {
                 this.player1.play(this.breakKey);
                 expect(this.player1.amber).toBe(1);
                 expect(this.player2.amber).toBe(4);
             });
 
-            xit('should not unforge opponent\'s key whey controller has more keys', function () {
+            it('should not unforge opponent\'s key whey controller has more keys', function () {
                 this.player1.player.keys = { red: true, blue: true, yellow: false };
                 this.player2.player.keys = { red: true, blue: false, yellow: false };
 
