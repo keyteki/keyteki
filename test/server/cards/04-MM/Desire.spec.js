@@ -16,7 +16,7 @@ describe('Desire', function() {
                 this.player1.forgeKey('Red');
             });
 
-            it('should forge a ket at 6 (9 - 4 sins in play)', function() {
+            it('should forge a ket at 6 (6 +4 -4 sins in play)', function() {
                 expect(this.player1.player.keys.red).toBe(true);
                 expect(this.player1.player.keys.blue).toBe(false);
                 expect(this.player1.player.keys.yellow).toBe(false);
