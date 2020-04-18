@@ -629,6 +629,7 @@ class Player extends GameObject {
                         if(forgedKeyIndex !== -1) {
                             this.keysForgedThisRound.splice(forgedKeyIndex, 1);
                         }
+
                         this.game.addMessage('{0} unforges {1}\'s {2}', this.game.activePlayer, this.game.activePlayer.opponent, `forgedkey${key.text.toLowerCase()}`);
                     });
                 }
@@ -639,6 +640,7 @@ class Player extends GameObject {
             if(forgedKeyIndex !== -1) {
                 this.keysForgedThisRound.splice(forgedKeyIndex, 1);
             }
+
             this.game.addMessage('{0} unforges the {1}', this.game.activePlayer, `forgedkey${choices[0]}`);
         }
     }
