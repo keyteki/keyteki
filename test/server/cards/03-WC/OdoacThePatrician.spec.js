@@ -9,10 +9,11 @@ describe('Odoac The Patrician', function() {
                     },
                     player2: {
                         amber: 4,
-                        hand: ['odoac-the-patrician'],
+                        hand: ['odoac-the-patrician']
                     }
                 });
             });
+
             it('should not prevent amber being stolen when it has no amber on it', function() {
                 this.player1.endTurn();
                 this.player2.clickPrompt('saurian');
@@ -25,6 +26,7 @@ describe('Odoac The Patrician', function() {
                 expect(this.player2.amber).toBe(3);
             });
         });
+
         describe('Odoac The Patrician\'s ability', function() {
             beforeEach(function() {
                 this.setupTest({
@@ -35,10 +37,11 @@ describe('Odoac The Patrician', function() {
                     },
                     player2: {
                         amber: 4,
-                        hand: ['odoac-the-patrician'],
+                        hand: ['odoac-the-patrician']
                     }
                 });
             });
+
             it('should not prevent amber being stolen when it has no amber on it', function() {
                 this.player1.endTurn();
                 this.player2.clickPrompt('saurian');
