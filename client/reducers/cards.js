@@ -1,5 +1,3 @@
-import _ from 'underscore';
-
 function selectDeck(state, deck) {
     if(state.decks && state.decks.length !== 0) {
         state.selectedDeck = deck;
@@ -11,15 +9,14 @@ function selectDeck(state, deck) {
 }
 
 function processDecks(decks, state) {
-    _.each(decks, deck => {
+    for(let deck of decks) {
         if(!state.cards || !deck.houses) {
             deck.status = {};
-            deck.cards = [];
 
-            return;
+            continue;
         }
 
-        deck.cards = _.map(deck.cards, card => {
+        deck.cards = deck.cards.map(card => {
             let result = { count: card.count, card: Object.assign({}, state.cards[card.id]), id: card.id, maverick: card.maverick, anomaly: card.anomaly };
             result.card.image = card.id;
             if(card.maverick) {
@@ -38,20 +35,28 @@ function processDecks(decks, state) {
             usageLevel: deck.usageLevel,
             noUnreleasedCards: true,
             officialRole: true,
-            faqRestrictedList: true,
-            faqVersion: 'v1.0',
             extendedStatus: []
         };
-    });
+    }
 }
 
 export default function(state = { decks: [] }, action) {
     let newState;
     switch(action.type) {
         case 'RECEIVE_CARDS':
-            return Object.assign({}, state, {
+            var decks = state.decks;
+
+            newState = Object.assign({}, state, {
                 cards: action.response.cards
             });
+
+            if(decks.length > 0) {
+                processDecks(decks, newState);
+
+                newState.decks = decks;
+            }
+
+            return newState;
         case 'RECEIVE_FACTIONS':
             var factions = {};
 
@@ -86,6 +91,13 @@ export default function(state = { decks: [] }, action) {
             });
 
             newState = selectDeck(newState, newState.decks[0]);
+
+            return newState;
+        case 'STANDALONE_DECKS_LOADED':
+            processDecks(action.response.decks, state);
+            newState = Object.assign({}, state, {
+                standaloneDecks: action.response.decks
+            });
 
             return newState;
         case 'REQUEST_DECK':
@@ -135,7 +147,7 @@ export default function(state = { decks: [] }, action) {
 
             return newState;
         case 'DECK_SAVED':
-            var decks = state.decks;
+            decks = state.decks;
             decks.unshift(action.response.deck);
             newState = Object.assign({}, state, {
                 deckSaved: true,

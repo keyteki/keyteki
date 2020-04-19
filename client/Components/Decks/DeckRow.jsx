@@ -57,7 +57,7 @@ class DeckRow extends React.Component {
             return t('Popular');
         } else if(status.usageLevel === 3 && !status.verified) {
             return t('Notorious');
-        } else if(!status.officialRole || !status.noUnreleasedCards || !status.faqRestrictedList) {
+        } else if(!status.officialRole || !status.noUnreleasedCards) {
             return t('Casual');
         }
 
