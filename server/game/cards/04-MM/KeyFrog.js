@@ -1,6 +1,6 @@
 const Card = require('../../Card.js');
 
-class KeyFrog extends Card {
+class Keyfrog extends Card {
     setupCardAbilities(ability) {
         this.destroyed({
             gameAction: ability.actions.forgeKey()
@@ -8,6 +8,6 @@ class KeyFrog extends Card {
     }
 }
 
-KeyFrog.id = 'key-frog';
+Keyfrog.id = 'keyfrog';
 
-module.exports = KeyFrog;
+module.exports = Keyfrog;
