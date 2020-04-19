@@ -8,6 +8,14 @@ class DeckService {
         this.configService = configService;
     }
 
+    getByStandaloneId(id) {
+        return this.decks.findOne({ standaloneId: id })
+            .catch(err => {
+                logger.error('Unable to fetch standalone deck', err);
+                throw new Error('Unable to fetch standalone deck ' + id);
+            });
+    }
+
     async getById(id) {
         let deck;
 

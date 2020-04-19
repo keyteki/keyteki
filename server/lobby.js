@@ -657,8 +657,6 @@ class Lobby {
                     verified: true,
                     noUnreleasedCards: true,
                     officialRole: true,
-                    faqRestrictedList: true,
-                    faqVersion: 'v1.0',
                     extendedStatus: []
                 };
 
@@ -706,8 +704,6 @@ class Lobby {
                     verified: !!deck.verified,
                     noUnreleasedCards: true,
                     officialRole: true,
-                    faqRestrictedList: true,
-                    faqVersion: 'v1.0',
                     extendedStatus: []
                 };
 
