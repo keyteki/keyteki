@@ -1,12 +1,10 @@
 const Card = require('../../Card.js');
 
-class DæmoSaurus extends Card {
+class DinoBeast extends Card {
     setupCardAbilities(ability) {
         this.play({
             optional: true,
-            gameAction: ability.actions.exalt(context => ({
-                target: context.source
-            })),
+            gameAction: ability.actions.exalt(),
             then: {
                 target: {
                     cardType: 'creature',
@@ -14,13 +12,9 @@ class DæmoSaurus extends Card {
                 }
             }
         });
-
-        this.destroyed({
-            gameAction: ability.actions.steal({ amount: 1 })
-        });
     }
 }
 
-DæmoSaurus.id = 'dæmo-saurus';
+DinoBeast.id = 'dino-beast';
 
-module.exports = DæmoSaurus;
+module.exports = DinoBeast;

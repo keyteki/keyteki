@@ -1,6 +1,6 @@
 const Card = require('../../Card.js');
 
-class DæmoBot extends Card {
+class TechnoFiend extends Card {
     setupCardAbilities(ability) {
         this.reap({
             target: {
@@ -12,13 +12,12 @@ class DæmoBot extends Card {
                 gameAction: ability.actions.draw()
             }
         });
-
         this.destroyed({
             gameAction: ability.actions.steal({ amount: 1 })
         });
     }
 }
 
-DæmoBot.id = 'dæmo-bot';
+TechnoFiend.id = 'techno-fiend';
 
-module.exports = DæmoBot;
+module.exports = TechnoFiend;
