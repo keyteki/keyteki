@@ -11,9 +11,9 @@ class Memolith extends Card {
                 gameAction: ability.actions.conditional({
                     condition: context => context.target.location === 'hand',
                     trueGameAction: ability.actions.graft(context => ({ parent: context.source })),
-                    falseGameAction: ability.actions.resolveAbility(context => ({
-                        ability: context.target && context.target.abilities.reactions.find(ability => ability.properties.name === 'Play')
-                    }))
+                    falseGameAction: ability.actions.resolveAbility({
+                        ability: ability => ability.isPlay()
+                    })
                 })
             }
         });

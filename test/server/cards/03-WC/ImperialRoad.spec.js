@@ -31,7 +31,8 @@ describe('Imperial Road', function() {
                         hand: ['flaxia', 'tantadlin', 'troll']
                     },
                     player2: {
-                        amber: 1
+                        amber: 1,
+                        inPlay: ['krump']
                     }
                 });
             });
@@ -40,6 +41,26 @@ describe('Imperial Road', function() {
                 this.player1.useAction(this.imperialRoad, true);
                 expect(this.player1).not.toHavePrompt('Choose a creature');
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                this.player1.endTurn();
+                this.player2.clickPrompt('brobnar');
+                this.player2.endTurn();
+                this.player1.clickPrompt('untamed');
+                this.player1.useAction(this.imperialRoad, true);
+                expect(this.player1).toHavePrompt('Choose a creature');
+                expect(this.player1).not.toBeAbleToSelect(this.grimlocusDux);
+                expect(this.player1).toBeAbleToSelect(this.tribunePompitus);
+                this.player1.clickCard(this.tribunePompitus);
+                this.player1.clickPrompt('left');
+                expect(this.tribunePompitus.location).toBe('play area');
+                expect(this.tribunePompitus.stunned).toBe(true);
+                this.player1.endTurn();
+                this.player2.clickPrompt('brobnar');
+                this.player2.endTurn();
+                this.player1.clickPrompt('untamed');
+                this.player1.useAction(this.imperialRoad, true);
+                expect(this.player1).not.toHavePrompt('Choose a creature');
+                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.imperialRoad.exhausted).toBe(true);
             });
         });
     });

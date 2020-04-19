@@ -179,6 +179,7 @@ class GameList extends React.Component {
                                 { game.useGameTimeLimit && <img src='/img/timelimit.png' className='game-list-icon' alt={ t('Time limit used') } /> }
                                 { game.gameFormat === 'sealed' && <img src='/img/sealed.png' className='game-list-icon' alt={ t('Sealed game format') } title={ t('Sealed game format') } /> }
                                 { game.gameFormat === 'reversal' && <img src='/img/reversal.png' className='game-list-icon' alt={ t('Reversal game format') } title={ t('Reversal game format') } /> }
+                                { game.gameFormat === 'adaptive-bo1' && <img src='/img/adaptive.png' className='game-list-icon' alt={ t('Adaptive (Best of 1) game format') } title={ t('Adaptive (Best of 1) game format') } /> }
                             </span>
                         </div>
                         <div className='game-middle-row'>

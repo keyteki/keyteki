@@ -192,9 +192,14 @@ const buildAllFiles = async () => {
     new registerFont(Path.join(__dirname, '../../public/fonts/ZCOOL-Regular.ttf'), { family: 'Keyforge' });
     new registerFont(Path.join(__dirname, '../../public/fonts/Kanit-Regular.ttf'), { family: 'Keyforge' });
     const cards = permute(options.language);
+    const path = Path.resolve(__dirname, '../../public/img/idbacks/archons');
+    if(!fs.existsSync(path)) {
+        fs.mkdirSync(path);
+    }
+
     for(let i = 0; i < cards.length; i++) {
         // eslint-disable-next-line no-console
-        console.log(`Building ${ i } ${ cards[i] }.  ${cards.length - i} cards to go!`);
+        console.log(`Building ${ i } ${ cards[i] }.  ${ cards.length - i } cards to go!`);
         await buildArchon(cards[i]);
     }
 };

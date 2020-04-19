@@ -34,12 +34,10 @@ const placeholderPlayer = {
         keys: { red: false, blue: false, yellow: false }
     },
     houses: [],
-    deckName: '',
-    deckUuid: '',
-    deckSet: 0,
     deckCards:[],
     title: null,
-    user: null
+    user: null,
+    deckData: {}
 };
 
 export class GameBoard extends React.Component {
@@ -176,10 +174,11 @@ export class GameBoard extends React.Component {
         let t = this.props.t;
 
         if(!this.state.spectating && this.isGameActive()) {
-            toastr.confirm(t('Your game is not finished, are you sure you want to leave?'), {
+            toastr.confirm(t('Your game is not finished. If you leave you will concede the game. Are you sure you want to leave?'), {
                 okText: t('Ok'),
                 cancelText: t('Cancel'),
                 onOk: () => {
+                    this.props.sendGameMessage('concede');
                     this.props.sendGameMessage('leavegame');
                     this.props.closeGameSocket();
                 }
@@ -292,10 +291,8 @@ export class GameBoard extends React.Component {
                         hand={ otherPlayer.cardPiles.hand } isMe={ false }
                         hideDecklist={ this.props.currentGame.hideDecklists }
                         language={ this.props.i18n.language }
+                        deckData = { otherPlayer.deckData }
                         deckCards = { otherPlayer.deckCards }
-                        deckName = { otherPlayer.deckName }
-                        deckUuid = { otherPlayer.deckUuid }
-                        deckSet = { otherPlayer.deckSet }
                         drawDeck = { otherPlayer.cardPiles.deck }
                         houses = { otherPlayer.houses }
                         numDeckCards={ otherPlayer.numDeckCards }
@@ -343,10 +340,8 @@ export class GameBoard extends React.Component {
                         cardBackUrl={ this.props.player1CardBack }
                         archives={ thisPlayer.cardPiles.archives }
                         language={ this.props.i18n.language }
+                        deckData = { thisPlayer.deckData }
                         deckCards = { thisPlayer.deckCards }
-                        deckName = { thisPlayer.deckName }
-                        deckUuid = { thisPlayer.deckUuid }
-                        deckSet = { thisPlayer.deckSet }
                         drawDeck = { thisPlayer.cardPiles.deck }
                         houses = { thisPlayer.houses }
                         faction={ thisPlayer.faction }

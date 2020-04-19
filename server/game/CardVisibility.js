@@ -37,7 +37,7 @@ class CardVisibility {
     isSpectatorRule(card, player) {
         return this.game.showHand &&
             player.isSpectator() &&
-            ['hand'].includes(card.location);
+            ['hand', 'archives'].includes(card.location);
     }
 }
 

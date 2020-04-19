@@ -7,7 +7,6 @@ class HypnoticCommand extends Card {
             gameAction: ability.actions.sequentialForEach(context => ({
                 num: context.player.creaturesInPlay.filter(card => card.hasHouse('mars')).length,
                 action: ability.actions.capture({
-                    ownController: true,
                     promptForSelect: {
                         activePromptTitle: 'Choose a creature to capture 1 amber from its controller',
                         cardType: 'creature',

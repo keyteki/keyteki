@@ -14,6 +14,7 @@ describe('The Colosseum', function() {
                         inPlay: ['nexus', 'bad-penny','silvertooth', 'ronnie-wristclocks', 'murkens', 'lamindra', 'umbra', 'redlock']
                     }
                 });
+                this.player1.player.optionSettings.orderForcedAbilities = false;
             });
 
             it('should place a glory counter on itself when an enemy creature is destroyed [1]', function() {

@@ -15,7 +15,9 @@ class InformationExchange extends Card {
     }
 
     onStealAmber(event) {
-        this.amberStolenControllerUuid[event.player.opponent.uuid] = true;
+        if(this.game.activePlayer !== this.controller) {
+            this.amberStolenControllerUuid[event.player.opponent.uuid] = true;
+        }
     }
 
     onRoundEnded() {

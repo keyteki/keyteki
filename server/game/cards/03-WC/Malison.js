@@ -12,7 +12,7 @@ class Malison extends Card {
             effectArgs: context => context.target,
             then: context => ({
                 condition: () => context.target.isOnFlank(),
-                gameAction: ability.actions.capture({ target: context.target, ownController: true })
+                gameAction: ability.actions.capture({ target: context.target })
             })
         });
     }

@@ -46,6 +46,7 @@ class GameLobby extends React.Component {
             normal: true,
             sealed: true,
             reversal: true,
+            'adaptive-bo1': true,
             showOnlyNewGames: false
         };
 
@@ -68,6 +69,10 @@ class GameLobby extends React.Component {
                     }
                 }
             });
+        }
+
+        if(this.props.gameId) {
+            this.props.socket.emit('joingame', this.props.gameId);
         }
     }
 
@@ -233,6 +238,9 @@ class GameLobby extends React.Component {
 
         return (
             <div className='full-height'>
+                <div className='col-md-offset-2 col-md-8 banner-kote'>
+                    <a target='_blank' rel='noopener noreferrer' href='https://www.facebook.com/groups/kotevent/permalink/891154581314876/'><img src='/kote/kote4.png' width='100%'/></a>
+                </div>
                 { this.props.bannerNotice ? <AlertPanel type='error' message={ t(this.props.bannerNotice) } /> : null }
                 { this.state.errorMessage ? <AlertPanel type='error' message={ t(this.state.errorMessage) } /> : null }
 
@@ -263,7 +271,7 @@ class GameLobby extends React.Component {
                 <Modal { ...modalProps }>
                     { modalBody }
                 </Modal>
-            </div >);
+            </div>);
     }
 }
 
@@ -273,12 +281,14 @@ GameLobby.propTypes = {
     cancelNewGame: PropTypes.func,
     cancelPasswordJoin: PropTypes.func,
     currentGame: PropTypes.object,
+    gameId: PropTypes.string,
     games: PropTypes.array,
     i18n: PropTypes.object,
     leaveGame: PropTypes.func,
     newGame: PropTypes.bool,
     passwordGame: PropTypes.object,
     setContextMenu: PropTypes.func,
+    socket: PropTypes.object,
     startNewGame: PropTypes.func,
     t: PropTypes.func,
     user: PropTypes.object
@@ -297,4 +307,3 @@ function mapStateToProps(state) {
 }
 
 export default withTranslation()(connect(mapStateToProps, actions)(GameLobby));
-

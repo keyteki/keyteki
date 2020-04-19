@@ -808,9 +808,12 @@ class Lobby {
             hideDecklists: game.hideDecklists,
             useGameTimeLimit: game.useGameTimeLimit,
             gameTimeLimit: game.gameTimeLimit,
-            gameFormat: game.gameFormat
+            swap: oldGame.swap,
+            gameFormat: game.gameFormat,
+            adaptive: game.adaptive
         });
         newGame.rematch = true;
+        newGame.previousWinner = oldGame.winner;
 
         let owner = game.getPlayerOrSpectator(game.owner.username);
         if(!owner) {
@@ -843,6 +846,19 @@ class Lobby {
 
             newGame.join(socket.id, player.user);
             promises.push(this.onSelectDeck(socket, newGame.id, player.deck._id));
+        }
+
+        for(let player of Object.values(game.getPlayers())) {
+            let oldPlayer = oldGame.players.find(x => x.name === player.name);
+
+            if(oldPlayer.wins) {
+                if(!newGame.players[player.name]) {
+                    logger.warn(`Tried to set ${player.name} wins but couldn't find them in the game`);
+                    continue;
+                }
+
+                newGame.players[player.name].wins = oldPlayer.wins;
+            }
         }
 
         for(let spectator of game.getSpectators()) {
@@ -948,6 +964,7 @@ class Lobby {
             syncGame.started = game.started;
             syncGame.gameType = game.gameType;
             syncGame.gameFormat = game.gameFormat;
+            syncGame.adaptive = game.adaptive;
             syncGame.password = game.password;
 
             for(let player of Object.values(game.players)) {
