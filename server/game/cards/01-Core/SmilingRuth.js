@@ -3,7 +3,7 @@ const Card = require('../../Card.js');
 class SmilingRuth extends Card {
     setupCardAbilities(ability) {
         this.reap({
-            condition: context => context.player.keyForged.length > 0,
+            condition: context => context.player.keysForgedThisRound.length > 0,
             target: {
                 cardType: 'creature',
                 controller: 'opponent',

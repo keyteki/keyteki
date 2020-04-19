@@ -29,7 +29,7 @@ class Player extends GameObject {
         this.takenMulligan = false;
 
         this.chains = 0;
-        this.keyForged = [];
+        this.keysForgedThisRound = [];
         this.creatureFought = false;
         this.creatureDestroyed = false;
 
@@ -236,7 +236,7 @@ class Player extends GameObject {
     }
 
     beginRound() {
-        this.keyForged = [];
+        this.keysForgedThisRound = [];
         this.creatureFought = false;
         this.creatureDestroyed = false;
     }
@@ -621,12 +621,12 @@ class Player extends GameObject {
         }
 
         this.keys[key] = true;
-        this.keyForged.push(key);
+        this.keysForgedThisRound.push(key);
         this.game.addMessage('{0} forges the {1}, paying {2} amber', this.game.activePlayer, `forgedkey${key}`, modifiedCost);
     }
 
     unforgeKey(choices) {
-        if(this.keyForged.length > 1) {
+        if(choices.length > 1) {
             this.game.promptWithHandlerMenu(this, {
                 activePromptTitle: { text: 'Which key would you like to unforge?' },
                 source: 'Unforge a key',
@@ -634,15 +634,19 @@ class Player extends GameObject {
                 choiceHandler: key => {
                     this.game.queueSimpleStep(() => {
                         this.keys[key.value] = false;
-                        this.keyForged.splice(this.keyForged.findIndex(x => x === key.value), 1);
+                        this.keysForgedThisRound.splice(this.keysForgedThisRound.findIndex(x => x === key.value), 1);
                         this.game.addMessage('{0} unforges {1}\'s {2}', this.game.activePlayer, this.game.activePlayer.opponent, `forgedkey${key.value}`);
                     });
                 }
             });
         } else {
-            this.keys[this.keyForged[0].toLowerCase()] = false;
-            this.keyForged.splice(this.keyForged.findIndex(key => key === this.keyForged[0].toLowerCase()), 1);
-            this.game.addMessage('{0} unforges the {1}', this.game.activePlayer, `forgedkey${this.keyForged[0]}`);
+            this.keys[choices[0].toLowerCase()] = false;
+            let forgedKeyIndex = this.keysForgedThisRound.findIndex(x => x === choices[0].toLowerCase());
+            if(forgedKeyIndex !== -1) {
+                this.keysForgedThisRound.splice(forgedKeyIndex, 1);
+            }
+
+            this.game.addMessage('{0} unforges the {1}', this.game.activePlayer, `forgedkey${choices[0]}`);
         }
     }
 
