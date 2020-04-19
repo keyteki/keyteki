@@ -240,9 +240,7 @@ class PendingGame extends React.Component {
                         <ReactClipboard text={ `${window.location.protocol}//${window.location.host}/play?gameId=${this.props.currentGame.id}` } options= { {
                             container: document.getElementById('pendingGameModal')
                         } }>
-                            <button className='btn btn-primary'>
-                        Copy Game Link
-                            </button>
+                            <button className='btn btn-primary'><Trans>Copy Game Link</Trans></button>
                         </ReactClipboard>
                     </div>
                     <div className='game-status'>{ this.getGameStatus() }</div>

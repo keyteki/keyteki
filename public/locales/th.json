@@ -454,5 +454,21 @@
     "Type": "Type",
     "Format": "Format",
     "Started At": "Started At",
-    "Duration": "Duration"
+    "Duration": "Duration",
+    "{{player}} will go first.": "{{player}} will go first.",
+    "Who will go first?": "Who will go first?",
+    "Filter By Expansion": "Filter By Expansion",
+    "Use a time limit (in minutes)": "Use a time limit (in minutes)",
+    "Hide opponent decklists": "Hide opponent decklists",
+    "Adaptive - Best of 1": "Adaptive - Best of 1",
+    "Reversal": "Reversal",
+    "Reversal game format": "Reversal game format",
+    "Copy Game Link": "Copy Game Link",
+    "Adaptive (Best of 1) game format": "Adaptive (Best of 1) game format",
+    "Deck Selection": "Deck Selection",
+    "Choose the deck to bid on": "Choose the deck to bid on",
+    "Bidding": "Bidding",
+    "Bid chains for selected deck": "Bid chains for selected deck",
+    "Pass": "Pass",
+    "Waiting for opponent to bid or pass": "Waiting for opponent to bid or pass"
 }

@@ -454,5 +454,21 @@
     "Type": "Tipo",
     "Format": "Formato",
     "Started At": "Início",
-    "Duration": "Duração"
+    "Duration": "Duração",
+    "{{player}} will go first.": "{{player}} irá começar.",
+    "Who will go first?": "Quem irá começar?",
+    "Filter By Expansion": "Filtrar por Expansão",
+    "Use a time limit (in minutes)": "User limite de tempo (em minutos)",
+    "Hide opponent decklists": "Esconder deck do oponente",
+    "Adaptive - Best of 1": "Adaptativo - Melhor de 1",
+    "Reversal": "Reverso",
+    "Reversal game format": "Formato de partida reverso",
+    "Copy Game Link": "Copiar Link da Partida",
+    "Adaptive (Best of 1) game format": "Formato de partida adaptativo (Melhor de 1)",
+    "Deck Selection": "Escolha de Deck",
+    "Choose the deck to bid on": "Escolha o deck para leiloar",
+    "Bidding": "Leilão",
+    "Bid chains for selected deck": "Quantas correntes pelo deck",
+    "Pass": "Passar",
+    "Waiting for opponent to bid or pass": "Aguardando o oponente leiloar ou passar"
 }
