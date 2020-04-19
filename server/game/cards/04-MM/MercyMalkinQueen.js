@@ -13,6 +13,7 @@ class MercyMalkinQueen extends Card {
             effect: 'ready a friendly Beast creature.',
             target: {
                 controller: 'self',
+                cardType: 'creature',
                 cardCondition: card => card.hasTrait('beast'),
                 gameAction: ability.actions.ready()
             }
