@@ -1,6 +1,6 @@
-describe('Consul Primus', function() {
+describe('Humble', function() {
     integration(function() {
-        describe('Consul Primus\'s reap ability', function() {
+        describe('Humble\'s reap ability', function() {
             beforeEach(function() {
                 this.setupTest({
                     player1: {
