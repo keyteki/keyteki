@@ -10,10 +10,10 @@ class Humble extends Card {
                 gameAction: ability.actions.exhaust()
             },
             then: preThenContext => ({
-                gameAction: ability.actions.removeAmber(context => ({
-                    amount: !context.preThenEvent.exhausted ? 3 : 0,
+                gameAction: ability.actions.removeAmber({
+                    amount: 3,
                     target: preThenContext.target
-                }))
+                })
             })
         });
     }
