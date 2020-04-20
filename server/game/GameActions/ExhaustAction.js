@@ -16,7 +16,7 @@ class ExhaustAction extends CardGameAction {
     }
 
     getEvent(card, context) {
-        return super.createEvent('onCardExhausted', { card: card, context: context }, () => card.exhaust());
+        return super.createEvent('onCardExhausted', { card: card, exhausted: card.exhausted, context: context }, () => card.exhaust());
     }
 }
 
