@@ -531,7 +531,8 @@ class Player extends GameObject {
     }
 
     getAmberSources() {
-        return this.cardsInPlay.filter(card => card.anyEffect('keyAmber') && card.hasToken('amber'));
+        return this.cardsInPlay.filter(card => card.anyEffect('keyAmber') && card.hasToken('amber'))
+            .concat(this.opponent ? this.opponent.cardsInPlay.filter(card => card.anyEffect('keyAmberOpponent') && card.hasToken('amber')) : []);
     }
 
     canForgeKey(modifier = 0) {
