@@ -36,7 +36,7 @@ describe('survey', function() {
                 expect(this.player1).not.toHavePrompt('Choose a card to discard');
             });
 
-            it('should not prompt if 1 card in deck', function() {
+            it('should prompt if 1 card in deck', function() {
                 this.player1.player.deck = [];
                 this.player1.moveCard(this.krump, 'deck');
                 this.player1.play(this.survey);
