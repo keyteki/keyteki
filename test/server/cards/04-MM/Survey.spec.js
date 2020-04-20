@@ -35,6 +35,16 @@ describe('survey', function() {
                 this.player1.play(this.survey);
                 expect(this.player1).not.toHavePrompt('Choose a card to discard');
             });
+
+            it('should not prompt if 1 card in deck', function() {
+                this.player1.player.deck = [];
+                this.player1.moveCard(this.krump, 'deck');
+                this.player1.play(this.survey);
+                expect(this.player1).toHavePrompt('Choose a card to discard');
+                expect(this.player1).toHavePromptCardButton(this.krump);
+                this.player1.clickPrompt('krump');
+                expect(this.krump.location).toBe('discard');
+            });
         });
     });
 });
