@@ -9,7 +9,7 @@ describe('Odoac The Patrician', function() {
                     },
                     player2: {
                         amber: 4,
-                        hand: ['odoac-the-patrician'],
+                        hand: ['odoac-the-patrician']
                     }
                 });
             });
@@ -35,7 +35,7 @@ describe('Odoac The Patrician', function() {
                     },
                     player2: {
                         amber: 4,
-                        hand: ['odoac-the-patrician'],
+                        hand: ['odoac-the-patrician']
                     }
                 });
             });

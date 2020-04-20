@@ -465,10 +465,10 @@ class Card extends EffectSource {
         }
 
         if(this.facedown) {
-            return [{ command: 'reveal', text: 'Reveal' }];
+            return [{ command: 'reveal', text: 'Reveal', menu: 'main' }];
         }
 
-        menu.push({ command: 'click', text: 'Select Card' });
+        menu.push({ command: 'click', text: 'Select Card', menu: 'main' });
         if(this.location === 'play area') {
             menu = menu.concat(this.menu);
         }
