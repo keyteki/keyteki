@@ -27,7 +27,7 @@ class DeckList extends React.Component {
     }
 
     filterDeck(deck) {
-        let t = this.props.t;        
+        let t = this.props.t;
         const passedSearchFilter = this.state.searchFilter === '' || deck.name.toLowerCase().includes(this.state.searchFilter);
         const passedExpansionFilter = this.state.expansionFilter === '' || (
             (this.state.expansionFilter === t('Worlds Collide') && deck.expansion === 452) ||
