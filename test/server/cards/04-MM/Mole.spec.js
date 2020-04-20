@@ -14,7 +14,6 @@ describe('Mole', function() {
                         inPlay: ['troll']
                     }
                 });
-
             });
 
             it('should allow opponent to use amber on own creature', function() {
