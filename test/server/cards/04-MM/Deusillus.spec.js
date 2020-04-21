@@ -49,6 +49,8 @@ describe('Deusillus', function() {
                 expect(this.deusillus.amber).toBe(5);
                 expect(this.deusillus.location).toBe('play area');
                 expect(this.deusillus.playedParts).toContain(this.deusillus2);
+                expect(this.player1.player.hand).not.toContain(this.deusillus);
+                expect(this.player1.player.hand).not.toContain(this.deusillus2);
             });
 
             it('should play starting with part 2', function() {
@@ -62,6 +64,8 @@ describe('Deusillus', function() {
                 expect(this.deusillus2.amber).toBe(5);
                 expect(this.deusillus2.location).toBe('play area');
                 expect(this.deusillus2.playedParts).toContain(this.deusillus);
+                expect(this.player1.player.hand).not.toContain(this.deusillus);
+                expect(this.player1.player.hand).not.toContain(this.deusillus2);
             });
 
             it('should move both cards to discard after destroyed', function() {

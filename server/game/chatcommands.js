@@ -62,7 +62,7 @@ class ChatCommands {
 
         let cardName = args.slice(1).join(' ');
         let card = Object.values(this.game.cardData).find(c => {
-            return c.name.toLowerCase() === cardName.toLowerCase();
+            return c.id.toLowerCase() === cardName.toLowerCase() || c.name.toLowerCase() === cardName.toLowerCase();
         });
 
         if(!card) {

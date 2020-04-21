@@ -59,12 +59,15 @@ class Deusillus extends Card {
             this.compositeParts.forEach(id => {
                 let part = this.controller.hand.find(card => id === card.id);
                 if(part) {
+                    this.controller.removeCardFromPile(part);
                     part.moveTo('play area'); // TODO if not here, when we remove it from play, it tries to removeEffects
                     // TODO this is a problem because we are applying effects twice (work on it)
                     // this.controller.removeCardFromPile(part);
                     this.playedParts.push(part);
                 }
             });
+
+            this.image = 'deusillus-complete';
         }
 
         if(originalLocation === 'play area') {
@@ -72,6 +75,7 @@ class Deusillus extends Card {
                 this.controller.moveCard(part, targetLocation);
             });
             this.playedParts = [];
+            this.image = '';
         }
     }
 }
