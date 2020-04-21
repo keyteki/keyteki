@@ -25,6 +25,8 @@ class BasePlayAction extends BaseAbility {
             return 'location';
         } else if(!ignoredRequirements.includes('cannotTrigger') && (!context.player.checkRestrictions('play', context) || !context.source.checkRestrictions('play', context))) {
             return 'cannotTrigger';
+        } else if(context.source.getEffects('playWith').some(id => !context.source.controller.hand.some(card => id === card.id))) {
+            return 'cannotTrigger';
         }
 
         return super.meetsRequirements(context);
