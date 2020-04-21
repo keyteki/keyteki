@@ -1,8 +1,8 @@
 const Deusillus = require('./Deusillus.js');
 
 class Deusillus2 extends Deusillus {    
-    playWithId() {
-        return 'deusillus';
+    compositeParts() {
+        return ['deusillus'];
     }
 }
 

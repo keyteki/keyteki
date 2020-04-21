@@ -1,4 +1,4 @@
-fdescribe('Deusillus', function() {
+describe('Deusillus', function() {
     integration(function() {
         describe('Deusillus\'s Ability', function() {
             beforeEach(function() {
@@ -61,6 +61,7 @@ fdescribe('Deusillus', function() {
                 this.player1.play(this.wildWormhole);
                 expect(this.deusillus.location).toBe('deck');
                 expect(this.deusillus2.location).toBe('discard');
+                expect(this.player1).not.toHavePrompt('Which flank do you want to place this creature on?');
             });
 
             it('and prevent playing if part 1 is not in player\'s hand', function() {
@@ -69,22 +70,23 @@ fdescribe('Deusillus', function() {
                 this.player1.play(this.wildWormhole);
                 expect(this.deusillus.location).toBe('discard');
                 expect(this.deusillus2.location).toBe('deck');
+                expect(this.player1).not.toHavePrompt('Which flank do you want to place this creature on?');
             });
             
-            it('and play if part 1 is in player\'s hand', function() {
-                this.player1.moveCard(this.deusillus2, 'deck');
-                this.player1.play(this.wildWormhole);
-                expect(this.player1).toHavePrompt('Which flank do you want to place this creature on?');
-                //expect(this.deusillus.location).toBe('discard');
-                //expect(this.deusillus2.location).toBe('deck');
-            });
-
-            it('and play if part 2 is in player\'s hand', function() {
+            it('and prevent playing even if part 2 is in player\'s hand', function() {
                 this.player1.moveCard(this.deusillus, 'deck');
                 this.player1.play(this.wildWormhole);
-                expect(this.player1).toHavePrompt('Which flank do you want to place this creature on?');
-                //expect(this.deusillus.location).toBe('discard');
-                //expect(this.deusillus2.location).toBe('deck');
+                expect(this.deusillus.location).toBe('deck');
+                expect(this.deusillus2.location).toBe('hand');
+                expect(this.player1).not.toHavePrompt('Which flank do you want to place this creature on?');
+            });
+
+            it('and prevent playing even if part 1 is in player\'s hand', function() {
+                this.player1.moveCard(this.deusillus2, 'deck');
+                this.player1.play(this.wildWormhole);
+                expect(this.deusillus.location).toBe('hand');
+                expect(this.deusillus2.location).toBe('deck');
+                expect(this.player1).not.toHavePrompt('Which flank do you want to place this creature on?');
             });
         });
     });
