@@ -11,7 +11,7 @@ describe('Deusillus', function() {
                     },
                     player2: {
                         amber: 5,
-                        inPlay: ['troll', 'narp', 'zorg']
+                        inPlay: ['troll', 'narp', 'zorg', 'collector-worm']
                     }
                 });
             });
@@ -95,6 +95,22 @@ describe('Deusillus', function() {
                 expect(this.deusillus2.amber).toBe(4);
                 expect(this.narp.tokens.damage).toBe(6);
                 expect(this.troll.tokens.damage).toBe(2);
+            });
+
+            it('should be archived completely', function() {
+                this.collectorWorm.tokens.ward = 1;
+
+                this.player1.play(this.deusillus);
+                this.player1.clickCard(this.narp);
+                this.player1.endTurn();
+                this.player2.clickPrompt('mars');
+
+                this.player2.fightWith(this.collectorWorm, this.deusillus);
+                expect(this.collectorWorm.tokens.ward).toBeUndefined();
+                expect(this.deusillus.location).toBe('archives');
+                expect(this.deusillus2.location).toBe('archives');
+                expect(this.player2.archives).toContain(this.deusillus);
+                expect(this.player2.archives).toContain(this.deusillus2);
             });
         });
 
