@@ -60,13 +60,11 @@ class Deusillus extends Card {
                 let part = this.controller.hand.find(card => id === card.id);
                 if(part) {
                     this.controller.removeCardFromPile(part);
-                    // TODO enhance Any persistent effect that has location: 'play area' should only be implemented in part 1 of a gigantic card
                     part.moveTo('play area');
                     this.playedParts.push(part);
                 }
             });
 
-            // TODO can we do better?
             this.image = 'deusillus-complete';
         }
 
