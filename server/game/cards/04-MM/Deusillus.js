@@ -62,7 +62,7 @@ class Deusillus extends Card {
                     part.moveTo('play area'); // TODO if not here, when we remove it from play, it tries to removeEffects
                     // TODO this is a problem because we are applying effects twice (work on it)
                     // this.controller.removeCardFromPile(part);
-                   this.playedParts.push(part);
+                    this.playedParts.push(part);
                 }
             });
         }
