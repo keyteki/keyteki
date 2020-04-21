@@ -873,8 +873,8 @@ class Card extends EffectSource {
 
         let state = {
             anomaly: this.anomaly,
-            id: this.cardData.id,
-            image: this.cardData.image,
+            id: this.id,
+            image: this.image,
             canPlay: (activePlayer === this.game.activePlayer) && this.game.activePlayer.activeHouse &&
                 isController && (this.getLegalActions(activePlayer, false).length > 0),
             cardback: this.owner.deckData.cardback,
@@ -886,7 +886,7 @@ class Card extends EffectSource {
             facedown: this.facedown,
             location: this.location,
             menu: this.getMenu(),
-            name: this.cardData.name,
+            name: this.name,
             new: this.new,
             printedHouse: this.printedHouse,
             maverick: this.maverick,
