@@ -102,6 +102,19 @@ class GameLobby extends React.Component {
             $('#pendingGameModal').modal('show');
             this.setState({ gameState: GameState.PendingGame });
         }
+
+        if(!props.currentGame && this.props.gameId) {
+            const game = props.games.find(x => x.id === this.props.gameId);
+            if(!game) {
+                return;
+            }
+
+            if(game.needsPassword) {
+                this.props.joinPasswordGame(game, 'Join');
+            } else {
+                this.props.socket.emit('joingame', this.props.gameId);
+            }
+        }
     }
 
     setGameState(props) {
@@ -284,6 +297,7 @@ GameLobby.propTypes = {
     gameId: PropTypes.string,
     games: PropTypes.array,
     i18n: PropTypes.object,
+    joinPasswordGame: PropTypes.func,
     leaveGame: PropTypes.func,
     newGame: PropTypes.bool,
     passwordGame: PropTypes.object,
