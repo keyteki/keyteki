@@ -335,6 +335,21 @@ export class GameBoard extends React.Component {
                 </div>
                 { this.getTimer() }
                 <div className='player-home-row our-side'>
+                    <div className='prompt-area'>
+                        <div className='inset-pane'>
+                            <ActivePlayerPrompt
+                                cards={ this.props.cards }
+                                buttons={ thisPlayer.buttons }
+                                controls={ thisPlayer.controls }
+                                promptText={ thisPlayer.menuTitle }
+                                promptTitle={ thisPlayer.promptTitle }
+                                onButtonClick={ this.onCommand }
+                                onMouseOver={ this.onMouseOver }
+                                onMouseOut={ this.onMouseOut }
+                                user={ this.props.user }
+                                phase={ thisPlayer.phase } />
+                        </div>
+                    </div>
                     <PlayerRow isMe={ !this.state.spectating }
                         player={ 1 }
                         cardBackUrl={ this.props.player1CardBack }
@@ -426,21 +441,6 @@ export class GameBoard extends React.Component {
                         show={ !!cardToZoom } cardName={ cardToZoom ? cardToZoom.name : null }
                         card={ cardToZoom } />
                     <div className='right-side'>
-                        <div className='prompt-area'>
-                            <div className='inset-pane'>
-                                <ActivePlayerPrompt
-                                    cards={ this.props.cards }
-                                    buttons={ thisPlayer.buttons }
-                                    controls={ thisPlayer.controls }
-                                    promptText={ thisPlayer.menuTitle }
-                                    promptTitle={ thisPlayer.promptTitle }
-                                    onButtonClick={ this.onCommand }
-                                    onMouseOver={ this.onMouseOver }
-                                    onMouseOut={ this.onMouseOut }
-                                    user={ this.props.user }
-                                    phase={ thisPlayer.phase } />
-                            </div>
-                        </div>
                         { this.state.showMessages && <div className='gamechat'>
                             <GameChat key='gamechat'
                                 messages={ this.props.currentGame.messages }
