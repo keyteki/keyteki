@@ -12,7 +12,7 @@ class Deusillus extends Card {
     get compositeParts() {
         return ['deusillus-2'];
     }
-    
+
     setupCardAbilities(ability) {
         this.persistentEffect({
             location: 'any',
@@ -22,7 +22,7 @@ class Deusillus extends Card {
                     this.compositeParts.some(id => !context.source.controller.hand.some(card => id === card.id));
             })
         });
-        
+
         this.play({
             gameAction: ability.actions.sequential([
                 ability.actions.capture(context => ({
@@ -59,9 +59,9 @@ class Deusillus extends Card {
             this.compositeParts.forEach(id => {
                 let part = this.controller.hand.find(card => id === card.id);
                 if(part) {
-                    this.controller.removeCardFromPile(part);                    
+                    this.controller.removeCardFromPile(part);
                     // TODO enhance Any persistent effect that has location: 'play area' should only be implemented in part 1 of a gigantic card
-                    part.moveTo('play area'); 
+                    part.moveTo('play area');
                     this.playedParts.push(part);
                 }
             });
