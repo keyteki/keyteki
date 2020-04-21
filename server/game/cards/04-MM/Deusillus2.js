@@ -1,7 +1,12 @@
 const Deusillus = require('./Deusillus.js');
 
 class Deusillus2 extends Deusillus {    
-    compositeParts() {
+    constructor(owner, cardData) {
+        cardData.power = 20; // TODO hack
+        super(owner, cardData);
+    }
+
+    get compositeParts() {
         return ['deusillus'];
     }
 }
