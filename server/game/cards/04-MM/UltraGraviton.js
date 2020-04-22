@@ -41,7 +41,7 @@ class UltraGraviton extends Card {
                     location: 'play area',
                     gameAction: ability.actions.purge() //and.... resolve TODO
                 }
-            },
+            }
         });
     }
 
