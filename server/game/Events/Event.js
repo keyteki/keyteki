@@ -1,63 +1,124 @@
 const _ = require('underscore');
 
 class Event {
-    constructor(name, params, handler, gameAction) {
+    constructor(name, params = {}, handler) {
         this.name = name;
         this.cancelled = false;
-        this.resolved = false;
         this.handler = handler;
-        this.gameAction = gameAction;
         this.card = null;
         this.context = null;
-        this.window = null;
         this.condition = (event) => true; // eslint-disable-line no-unused-vars
+        this.onCancel = (event) => true;
         this.order = 0;
-        this.isContingent = false;
-        this.subEvents = [];
-        this.isFullyResolved = event => {
-            return event.resolved;
-        };
+        this.parentEvent = null;
+        this.childEvent = null;
+        this.sharedReactionEvent = null;
+        this.sharesReactionWindowWithEvent = null;
+        this.nextEvent = null;
+        //this.previousEvent = null;
 
         _.extend(this, params);
     }
 
     cancel() {
         this.cancelled = true;
-        if(this.window) {
-            this.window.removeEvent(this);
+    }
+
+    addChildEvent(event) {
+        if(this.getSimultaneousEvents().includes(event)) {
+            return;
+        }
+
+        if(this.childEvent) {
+            this.childEvent.addChildEvent(event);
+        } else {
+            event.parentEvent = this;
+            this.childEvent = event;
+            if(event.nextEvent) {
+                this.addNextEvent(event.nextEvent);
+                event.nextEvent = null;
+            }
         }
     }
 
-    setWindow(window) {
-        this.window = window;
+    getSimultaneousEvents() {
+        return this.parentEvent ? this.parentEvent.getSimultaneousEvents() : this.getChildEvents();
     }
 
-    unsetWindow() {
-        this.window = null;
+    getChildEvents() {
+        let events = this.cancelled ? [] : [this];
+
+        if(this.childEvent) {
+            return events.concat(this.childEvent.getChildEvents());
+        }
+
+        return events;
     }
 
-    addSubEvent(event) {
-        this.subEvents = this.subEvents.concat(event);
+    addSharedReactionEvent(event) {
+        if(this.getSharedReactionEvents().includes(event)) {
+            return;
+        }
+
+        if(this.sharedReactionEvent) {
+            this.sharedReactionEvent.addSharedReactionEvent(event);
+        } else if(this.parentEvent) {
+            this.parentEvent.addSharedReactionEvent(event);
+        } else {
+            this.sharedReactionEvent = event;
+        }
     }
 
-    preResolutionEffect(game) {
-        game.emit(this.name + ':preResolution', this);
+    getSharedReactionEvents() {
+        let events = this.getChildEvents();
+        if(this.sharedReactionEvent) {
+            return events.concat(this.sharedReactionEvent.getSharedReactionEvents());
+        }
+
+        return events;
+    }
+
+    addNextEvent(event) {
+        if(this.parentEvent) {
+            this.parentEvent.addNextEvent(event);
+        } else if(this.nextEvent) {
+            this.nextEvent.addChildEvent(event);
+        } else {
+            this.nextEvent = event;
+            //event.previousEvent = this;
+        }
+    }
+    /*
+    findFirstEvent(predicate = () => true) {
+        if(this.previousEvent && this.previousEvent.findFirstEvent(predicate)) {
+            return this.previousEvent.findFirstEvent(predicate);
+        }
+
+        return this.getChildEvents().find(predicate);
+    } */
+
+    sharesReactionWindowWith(event) {
+        event.addSharedReactionEvent(this);
+        this.sharesReactionWindowWithEvent = event;
     }
 
     checkCondition() {
-        if(this.resolved || this.name === 'unnamedEvent') {
-            return true;
+        if(this.childEvent) {
+            this.childEvent.checkCondition();
         }
 
-        if(this.cancelled || this.gameAction && !this.gameAction.checkEventCondition(this) || !this.condition(this)) {
-            return false;
+        if(this.resolved || this.name === 'unnamedEvent' || this.cancelled) {
+            return;
+        }
+
+        if(!this.condition(this)) {
+            this.cancel();
+            return;
         }
 
         if(this.card) {
             this.clone = this.card.createSnapshot();
         }
-
-        return true;
     }
 
     executeHandler() {

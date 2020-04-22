@@ -8,7 +8,6 @@ class DestroyAction extends CardGameAction {
     }
 
     setDefaultProperties() {
-        this.inFight = false;
         this.purge = false;
     }
 
@@ -24,29 +23,35 @@ class DestroyAction extends CardGameAction {
         const params = {
             card: card,
             context: context,
-            inFight: this.inFight,
-            isFullyResolved: event => !!event.destroyEvent && event.destroyEvent.isFullyResolved(event.destroyEvent)
+            damageEvent: this.damageEvent
         };
-        return super.createEvent('onCardMarkedForDestruction', params, event => {
+        return super.createEvent('onCardDestroyed', params, event => {
             event.card.moribund = true;
-            event.destroyEvent = context.game.getEvent('onCardDestroyed', {
+
+            let leavesPlayEvent = super.createEvent('onCardLeavesPlay', {
                 card: event.card,
                 context: context,
                 condition: event => event.card.location === 'play area',
-                isFullyResolved: event => !!event.leavesPlayEvent && event.leavesPlayEvent.isFullyResolved(event.leavesPlayEvent),
-                inFight: event.inFight,
                 battlelineIndex: event.card.controller.creaturesInPlay.indexOf(event.card) - 1
             }, event => {
-                event.leavesPlayEvent = context.game.getEvent('onCardLeavesPlay', {
-                    card: event.card,
-                    context: event.context,
-                    battlelineIndex: event.card.controller.creaturesInPlay.indexOf(event.card) - 1
-                }, event => {
+                if(context.game.firstDestroyEvent && !event.getSimultaneousEvents().includes(context.game.firstDestroyEvent)) {
+                    context.game.firstDestroyEvent.addChildEvent(super.createEvent(
+                        'unnamedEvent', {}, () => event.card.owner.moveCard(event.card, this.purge ? 'purged' : 'discard')
+                    ));
+                    event.sharesReactionWindowWith(context.game.firstDestroyEvent);
+                } else {
                     event.card.owner.moveCard(event.card, this.purge ? 'purged' : 'discard');
-                });
-                event.addSubEvent(event.leavesPlayEvent);
+                }
             });
-            event.addSubEvent(event.destroyEvent);
+            event.sharesReactionWindowWith(leavesPlayEvent);
+            event.addNextEvent(leavesPlayEvent);
+
+            if(!context.game.firstDestroyEvent) {
+                context.game.firstDestroyEvent = leavesPlayEvent;
+                if(event.damageEvent) {
+                    leavesPlayEvent.sharesReactionWindowWith(event.damageEvent);
+                }
+            }
         });
     }
 }

@@ -756,24 +756,18 @@ class Game extends EventEmitter {
      * @param events
      * @returns {EventWindow}
      */
-    openEventWindow(events) {
-        if(!_.isArray(events)) {
-            events = [events];
-        }
-
-        return this.queueStep(new EventWindow(this, events));
-    }
-
-    openThenEventWindow(events, checkState = true) {
-        if(this.currentEventWindow) {
-            if(!_.isArray(events)) {
-                events = [events];
+    openEventWindow(event) {
+        if(_.isArray(event)) {
+            if(event.length > 1) {
+                for(let e of event.slice(1)) {
+                    event[0].addChildEvent(e);
+                }
             }
 
-            return this.queueStep(new ThenEventWindow(this, events, checkState));
+            return this.queueStep(new EventWindow(this, event[0]));
         }
 
-        return this.openEventWindow(events);
+        return this.queueStep(new EventWindow(this, event));
     }
 
     /**

@@ -71,7 +71,11 @@ class ResolveFightAction extends CardGameAction {
             event.card.isFighting = true;
             event.attacker.isFighting = true;
             context.game.checkGameState(true);
-            event.addSubEvent(damageEvents);
+            for(let e of damageEvents) {
+                event.addNextEvent(e);
+            }
+
+            event.sharesReactionWindowWith(damageEvents[0]);
             event.card.elusiveUsed = true;
             context.player.creatureFought = true;
             event.attacker.unenrage();
