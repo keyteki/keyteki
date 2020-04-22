@@ -118,7 +118,7 @@ describe('Deusillus', function() {
             });
         });
 
-        describe('Deusillus\'s Ability should interact with Wild Wormhole ', function() {
+        describe('Deusillus\'s Ability should interact with Wild Wormhole', function() {
             beforeEach(function() {
                 this.setupTest({
                     player1: {
@@ -166,6 +166,70 @@ describe('Deusillus', function() {
                 expect(this.deusillus.location).toBe('hand');
                 expect(this.deusillus2.location).toBe('deck');
                 expect(this.player1).not.toHavePrompt('Which flank do you want to place this creature on?');
+            });
+        });
+
+        describe('Deusillus\'s Ability should interact with Nature´s Call', function() {
+            beforeEach(function() {
+                this.setupTest({
+                    player1: {
+                        amber: 2,
+                        house: 'saurian',
+                        inPlay: ['senator-shrix'],
+                        hand: ['deusillus', 'deusillus-2']
+                    },
+                    player2: {
+                        amber: 5,
+                        inPlay: ['troll', 'narp', 'zorg'],
+                        hand: ['nature-s-call']
+                    }
+                });
+            });
+
+            it('should play part 1 after being returned to hand', function() {
+                this.player1.play(this.deusillus);
+                this.player1.clickCard(this.narp);
+                this.player1.endTurn();
+                this.player2.clickPrompt('untamed');
+                this.player2.play(this.natureSCall);
+                this.player2.clickCard(this.senatorShrix);
+                this.player2.clickCard(this.deusillus);
+                this.player2.clickCard(this.narp);
+                this.player2.clickPrompt('Done');
+
+                expect(this.senatorShrix.location).toBe('hand');
+                expect(this.deusillus.location).toBe('hand');
+                expect(this.deusillus2.location).toBe('hand');
+                expect(this.narp.location).toBe('hand');
+
+                this.player2.endTurn();
+                this.player1.clickPrompt('saurian');
+                this.player1.play(this.deusillus2);
+                this.player1.clickCard(this.troll);
+                expect(this.troll.tokens.damage).toBe(5);
+            });
+
+            it('should play part 2 after being returned to hand', function() {
+                this.player1.play(this.deusillus2);
+                this.player1.clickCard(this.narp);
+                this.player1.endTurn();
+                this.player2.clickPrompt('untamed');
+                this.player2.play(this.natureSCall);
+                this.player2.clickCard(this.senatorShrix);
+                this.player2.clickCard(this.deusillus2);
+                this.player2.clickCard(this.narp);
+                this.player2.clickPrompt('Done');
+
+                expect(this.senatorShrix.location).toBe('hand');
+                expect(this.deusillus.location).toBe('hand');
+                expect(this.deusillus2.location).toBe('hand');
+                expect(this.narp.location).toBe('hand');
+
+                this.player2.endTurn();
+                this.player1.clickPrompt('saurian');
+                this.player1.play(this.deusillus);
+                this.player1.clickCard(this.troll);
+                expect(this.troll.tokens.damage).toBe(5);
             });
         });
     });

@@ -52,25 +52,22 @@ class Deusillus extends Card {
     }
 
     moveTo(targetLocation) {
-        let originalLocation = this.location;
         super.moveTo(targetLocation);
 
-        if((originalLocation === 'hand') && (targetLocation === 'play area')) {
+        if(this.location === 'play area') {
             this.compositeParts.forEach(id => {
+                // Always remove the second part from hand
                 let part = this.controller.hand.find(card => id === card.id);
-                if(part) {
-                    this.controller.removeCardFromPile(part);
-                    part.moveTo('play area');
-                    this.playedParts.push(part);
-                }
+                this.controller[part.location] = this.controller[part.location].filter(c => c !== part);
+                this.playedParts.push(part);
             });
 
             this.image = 'deusillus-complete';
-        }
-
-        if(originalLocation === 'play area') {
+        } else {
+            let cardIndex = this.controller[this.location].indexOf(this);
             this.playedParts.forEach(part => {
-                this.controller.moveCard(part, targetLocation);
+                part.location = this.location;
+                this.controller[this.location].splice(cardIndex, 0, part);
             });
             this.playedParts = [];
             this.image = this.id;
