@@ -57,17 +57,18 @@ class Deusillus extends Card {
         if(this.location === 'play area') {
             this.compositeParts.forEach(id => {
                 // Always remove the second part from hand
-                let part = this.controller.hand.find(card => id === card.id);
-                this.controller[part.location] = this.controller[part.location].filter(c => c !== part);
+                let part = this.controller.getSourceList('hand').find(card => id === card.id);
+                this.controller.removeCardFromPile(part);
                 this.playedParts.push(part);
             });
 
             this.image = 'deusillus-complete';
         } else {
-            let cardIndex = this.controller[this.location].indexOf(this);
+            let cardPile = this.controller.getSourceList(this.location);
+            let cardIndex = cardPile.indexOf(this);
             this.playedParts.forEach(part => {
                 part.location = this.location;
-                this.controller[this.location].splice(cardIndex, 0, part);
+                cardPile.splice(cardIndex, 0, part);
             });
             this.playedParts = [];
             this.image = this.id;
