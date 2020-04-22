@@ -12,7 +12,7 @@ import Droppable from './Droppable';
 import { withTranslation } from 'react-i18next';
 import { buildArchon, buildDeckList } from '../../archonMaker';
 import * as Images from '../../assets/img';
-import * as actions from '../../ReduxActions/misc';
+import * as actions from '../../actions';
 
 class PlayerRow extends React.Component {
     constructor(props) {
