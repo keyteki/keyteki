@@ -93,7 +93,7 @@ export class PlayerStats extends React.Component {
             </div>);
         let matchRecord = (
             this.props.matchRecord &&
-            <div className='state' title={ `Match Record: ${this.props.matchRecord.thisPlayer.name} ${this.props.matchRecord.thisPlayer.wins} - ${this.props.matchRecord.otherPlayer.name} ${this.props.matchRecord.otherPlayer.wins}` }>
+            <div className='state' title={ `Matches: ${this.props.matchRecord.thisPlayer.name} ${this.props.matchRecord.thisPlayer.wins} - ${this.props.matchRecord.otherPlayer.name} ${this.props.matchRecord.otherPlayer.wins}` }>
                 <span>{ `${this.props.matchRecord.thisPlayer.wins} - ${this.props.matchRecord.otherPlayer.wins}` }</span>
             </div>
         );
