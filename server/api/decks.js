@@ -1,4 +1,3 @@
-const monk = require('monk');
 const passport = require('passport');
 
 const ConfigService = require('../services/ConfigService');
@@ -7,8 +6,7 @@ const { wrapAsync } = require('../util.js');
 
 const configService = new ConfigService();
 
-let db = monk(configService.getValue('dbPath'));
-let deckService = new DeckService(db);
+let deckService = new DeckService(configService);
 
 module.exports.init = function(server) {
     server.get('/api/decks/:id', passport.authenticate('jwt', { session: false }), wrapAsync(async function(req, res) {

@@ -11,7 +11,7 @@ let configService = new ConfigService();
 
 let db = monk(configService.getValue('dbPath'));
 let userService = new UserService(db, configService);
-let deckService = new DeckService(db);
+let deckService = new DeckService(configService);
 
 module.exports.init = function(server) {
     server.get('/api/user/:username', passport.authenticate('jwt', { session: false }), wrapAsync(async (req, res) => {
@@ -29,7 +29,7 @@ module.exports.init = function(server) {
             }
 
             if(req.user.permissions.canVerifyDecks) {
-                user.invalidDecks = (await deckService.getFlaggedUnverifiedDecksForUser(user.username)).map(deck => {
+                user.invalidDecks = (await deckService.getFlaggedUnverifiedDecksForUser(user)).map(deck => {
                     return { _id: deck._id, uuid: deck.uuid, name: deck.name };
                 });
             }
@@ -101,7 +101,7 @@ module.exports.init = function(server) {
                 return res.status(404).send({ message: 'Not found' });
             }
 
-            await deckService.verifyDecksForUser(req.params.username);
+            await deckService.verifyDecksForUser(user.id);
         } catch(error) {
             logger.error(error);
 

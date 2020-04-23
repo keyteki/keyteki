@@ -22,10 +22,10 @@ class Lobby {
         this.users = {};
         this.games = {};
         this.messageService = options.messageService || ServiceFactory.messageService(options.db);
-        this.deckService = options.deckService || new DeckService(options.db);
-        this.cardService = options.cardService || new CardService(options.db);
+        this.cardService = options.cardService || new CardService();
         this.userService = options.userService || new UserService(options.db, options.configService);
         this.configService = options.configService || new ConfigService();
+        this.deckService = options.deckService || new DeckService(this.configService);
         this.router = options.router || new GameRouter(this.configService);
 
         this.router.on('onGameClosed', this.onGameClosed.bind(this));

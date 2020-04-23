@@ -4,6 +4,10 @@ const db = require('../db');
 const { expand, flatten } = require('../Array');
 
 class DeckService {
+    constructor(configService) {
+        this.configService = configService;
+    }
+
     async getById(id) {
         let deck;
 
@@ -16,16 +20,12 @@ class DeckService {
             'JOIN "Expansions" e on e."Id" = d."ExpansionId" ' +
             'WHERE "Id" = $1 ', [id]);
         } catch(err) {
-            logger.error('Failed to retrieve decks', err);
+            logger.error('Failed to retrieve deck: ' + id, err);
+
+            throw new Error('Unable to fetch deck: ' + id);
         }
 
-        try {
-            deck = await this.decks.findOne({ _id: id });
-            deck.usageCount = await this.decks.count({ name: deck.name });
-        } catch(err) {
-            logger.error('Unable to fetch deck', err);
-            throw new Error('Unable to fetch deck ' + id);
-        }
+        await this.getDeckCardsAndHouses(deck);
 
         return deck;
     }
@@ -48,14 +48,6 @@ class DeckService {
         return await this.decks.aggregate([{ $match: { includeInSealed: true, expansion: { $in: dbExpansions } } }, { $sample: { size: 1 } }]);
     }
 
-    getByUuid(uuid) {
-        return this.decks.findOne({ uuid: uuid })
-            .catch(err => {
-                logger.error('Unable to fetch deck', err);
-                throw new Error('Unable to fetch deck ' + uuid);
-            });
-    }
-
     async findForUser(user) {
         let retDecks = [];
         let decks;
@@ -76,22 +68,26 @@ class DeckService {
         for(let deck of decks) {
             let retDeck = this.mapDeck(deck);
 
-            let cards = await db.query('SELECT * FROM "DeckCards" WHERE "DeckId" = $1', [deck.Id]);
-
-            retDeck.cards = cards.map(card => ({
-                id: card.CardId,
-                count: card.Count,
-                maverick: card.Maverick,
-                anomaly: card.Anomaly
-            }));
-
-            let houses = await db.query('SELECT * FROM "DeckHouses" dh JOIN "Houses" h ON h."Id" = dh."HouseId" WHERE "DeckId" = $1', [deck.Id]);
-            retDeck.houses = houses.map(house => house.Code);
+            await this.getDeckCardsAndHouses(deck);
 
             retDecks.push(retDeck);
         }
 
         return retDecks;
+    }
+
+    async getDeckCardsAndHouses(deck) {
+        let cards = await db.query('SELECT * FROM "DeckCards" WHERE "DeckId" = $1', [deck.Id]);
+
+        deck.cards = cards.map(card => ({
+            id: card.CardId,
+            count: card.Count,
+            maverick: card.Maverick,
+            anomaly: card.Anomaly
+        }));
+
+        let houses = await db.query('SELECT * FROM "DeckHouses" dh JOIN "Houses" h ON h."Id" = dh."HouseId" WHERE "DeckId" = $1', [deck.Id]);
+        deck.houses = houses.map(house => house.Code);
     }
 
     async create(user, deck) {
@@ -181,7 +177,7 @@ class DeckService {
 
     async delete(id) {
         try {
-            await db.query('DELETE FROM  "Decks" WHERE "Id" = $1', [id]);
+            await db.query('DELETE FROM "Decks" WHERE "Id" = $1', [id]);
         } catch(err) {
             logger.error('Failed to delete deck', err);
 
@@ -189,12 +185,43 @@ class DeckService {
         }
     }
 
-    async getFlaggedUnverifiedDecksForUser(username) {
-        return await this.decks.find({ username: username, verified: false, flagged: true });
+    async getFlaggedUnverifiedDecksForUser(user) {
+        let retDecks = [];
+        let decks;
+
+        try {
+            decks = await db.query('SELECT d.*, u."Username", e."ExpansionId" as "Expansion", (SELECT COUNT(*) FROM "Decks" WHERE "Name" = d."Name") AS "DeckCount", ' +
+            '(SELECT COUNT(*) FROM "Games" g JOIN "GamePlayers" gp ON gp."GameId" = g."Id" WHERE g."WinnerId" = $1 AND gp."DeckId" = d."Id") AS "WinCount", ' +
+            '(SELECT COUNT(*) FROM "Games" g JOIN "GamePlayers" gp ON gp."GameId" = g."Id" WHERE g."WinnerId" != $1 AND g."WinnerId" IS NOT NULL AND gp."PlayerId" = $1 AND gp."DeckId" = d."Id") AS "LoseCount" ' +
+            'FROM "Decks" d ' +
+            'JOIN "Users" u ON u."Id" = "UserId" ' +
+            'JOIN "Expansions" e on e."Id" = d."ExpansionId" ' +
+            'WHERE "Id" = $1 AND "Verfied" = False AND "DeckCount" > $2', [user.id, this.configService.getValueForSection('lobby', 'lowerDeckThreshold')]);
+        } catch(err) {
+            logger.error('Failed to retrieve unverified decks: ' + user.id, err);
+
+            throw new Error('Unable to fetch unverified decks: ' + user.id);
+        }
+
+        for(let deck of decks) {
+            let retDeck = this.mapDeck(deck);
+
+            await this.getDeckCardsAndHouses(deck);
+
+            retDecks.push(retDeck);
+        }
+
+        return retDecks;
     }
 
-    async verifyDecksForUser(username) {
-        return await this.decks.update({ username: username, verified: false, flagged: true }, { $set: { verified: true } }, { multi: true });
+    async verifyDecksForUser(user) {
+        try {
+            await db.query('UPDATE "Decks" SET "Verified" = True WHERE "UserId" = $1 AND "Verified" = False', [user.id]);
+        } catch(err) {
+            logger.error('Failed to verify decks: ' + user.id, err);
+
+            throw new Error('Unable to unverify decks: ' + user.id);
+        }
     }
 
     parseDeckResponse(username, deckResponse) {

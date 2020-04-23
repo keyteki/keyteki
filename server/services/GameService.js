@@ -1,33 +1,65 @@
 const _ = require('underscore');
 
 const logger = require('../log.js');
+const db = require('../db');
 
 class GameService {
-    constructor(db) {
-        this.games = db.get('games');
+    async create(game) {
+        let gameId;
+
+        await db.query('BEGIN');
+
+        try {
+            gameId = await db.query('INSERT INTO "Games" ("GameId", "GameType", "GameFormat", "StartedAt") VALUES ($1, $2, $3, $4) RETURNING "Id"',
+                [game.gameId, game.gameType, game.gameFormat, game.startedAt])[0].Id;
+        } catch(err) {
+            logger.error('Failed to create game', err);
+
+            await db.query('ROLLBACK');
+
+            throw new Error('Failed to create game');
+        }
+
+        for(let player of game.players) {
+            try {
+                await db.query('INSERT INTO "GamePlayers" ("GameId", "PlayerId", "DeckId") VALUES ' +
+                    '($1, (SELECT "Id" FROM "Users" WHERE "Username" = $2), SELECT "Id" FROM "Decks" WHERE "Identity" = $3)', [gameId, player.name, player.deck]);
+            } catch(err) {
+                logger.error('Failed to create game player', err);
+
+                await db.query('ROLLBACK');
+
+                throw new Error('Failed to create game player');
+            }
+        }
+
+        await db.query('COMMIT');
     }
 
-    create(game) {
-        return this.games.insert(game)
-            .catch(err => {
-                logger.error('Unable to create game', err);
-                throw new Error('Unable to create game');
-            });
-    }
+    async update(game) {
+        await db.query('BEGIN');
 
-    update(game) {
-        let properties = {
-            startedAt: game.startedAt,
-            players: game.players,
-            winner: game.winner,
-            winReason: game.winReason,
-            finishedAt: game.finishedAt
-        };
-        return this.games.update({ gameId: game.gameId }, { '$set': properties })
-            .catch(err => {
-                logger.error('Unable to update game', err);
-                throw new Error('Unable to update game');
-            });
+        try {
+            await db.query('UPDATE "Games" SET "StartedAt" = $2, "WinnerId" = (SELECT "Id" FROM "Users" WHERE "Username" = $3), "WinReason" = $4, "FinishedAt" = $5 WHERE "GameId" = $1',
+                [game.gameId, game.startedAt, game.winner, game.winReason, game.finishedAt]);
+        } catch(err) {
+            await db.query('ROLLBACK');
+
+            throw new Error('Failed to update game');
+        }
+
+        for(let player of game.players) {
+            try {
+                await db.query('UPDATE "GamePlayers" SET "Keys" = $1, "Turn" = $2 WHERE "GameId" = $3 AND "PlayerId" = (SELECT "Id" FROM "User" WHERE "Username" = $4)',
+                    [player.keys, player.turn, game.gameId, player.name]);
+            } catch(err) {
+                logger.error('Failed to update game player', err);
+
+                await db.query('ROLLBACK');
+
+                throw new Error('Failed to update game player');
+            }
+        }
     }
 
     getAllGames(from, to) {
