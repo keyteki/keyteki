@@ -36,7 +36,7 @@ class Lobby extends React.Component {
         this.checkChatError(this.props);
     }
 
-    componentWillReceiveProps(props) {
+    componentDidReceiveProps(props) {
         this.checkChatError(props);
     }
 
@@ -106,9 +106,6 @@ class Lobby extends React.Component {
                         </AlertPanel>
                     </div>
                 }
-                <div className='col-sm-offset-1 col-sm-10 banner-kote'>
-                    <a target='_blank' rel='noopener noreferrer' href='https://www.facebook.com/groups/kotevent/permalink/891154581314876/'><img src='/kote/kote4.png' width='100%'/></a>
-                </div>
                 { this.props.bannerNotice ? <div className='col-sm-offset-1 col-sm-10 announcement'>
                     <AlertPanel message={ this.props.bannerNotice } type='error' />
                 </div> : null }
