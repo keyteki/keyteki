@@ -51,7 +51,7 @@ export class PlayerStats extends React.Component {
     getKeyCost() {
         return (
             <div className='state' title={ 'Current Key Cost' }>
-                <div className={ 'stat-image keyCost' }>
+                <div className='stat-image keyCost'>
                     <div className='stat-value'>{ this.getStatValueOrDefault('keyCost') }</div>
                 </div>
             </div>
@@ -91,6 +91,12 @@ export class PlayerStats extends React.Component {
                 <Avatar username={ this.props.user ? this.props.user.username : undefined } />
                 <b>{ this.props.user ? this.props.user.username : t('Noone') }</b>
             </div>);
+        let matchRecord = (
+            this.props.matchRecord &&
+            <div className='state' title={ `Matches: ${this.props.matchRecord.thisPlayer.name} ${this.props.matchRecord.thisPlayer.wins} - ${this.props.matchRecord.otherPlayer.name} ${this.props.matchRecord.otherPlayer.wins}` }>
+                <span>{ `${this.props.matchRecord.thisPlayer.wins} - ${this.props.matchRecord.otherPlayer.wins}` }</span>
+            </div>
+        );
         let muteClass = this.props.muteSpectators ? 'glyphicon-eye-close' : 'glyphicon-eye-open';
 
         return (
@@ -102,6 +108,8 @@ export class PlayerStats extends React.Component {
                 { this.getKeyCost() }
 
                 { this.props.houses ? this.getHouses() : null }
+
+                { matchRecord }
 
                 { this.props.activeHouse &&
                     <div className='state'>
@@ -162,6 +170,7 @@ PlayerStats.propTypes = {
     houses: PropTypes.array,
     i18n: PropTypes.object,
     manualModeEnabled: PropTypes.bool,
+    matchRecord: PropTypes.object,
     muteSpectators: PropTypes.bool,
     numMessages: PropTypes.number,
     onManualModeClick: PropTypes.func,
