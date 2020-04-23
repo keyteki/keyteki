@@ -598,16 +598,16 @@ class Player extends GameObject {
         if(unforgedKeys.length > 1) {
             this.game.promptWithHandlerMenu(this, {
                 activePromptTitle: { text: 'Which key would you like to forge?' },
-                source: 'Forge a key.',
+                source: 'Forge a key',
                 choices: unforgedKeys,
                 choiceHandler: key => {
                     this.game.queueSimpleStep(() => {
-                        this.finalizeForge(key.text.toLowerCase(), modifiedCost, cost);
+                        this.finalizeForge(key.value, modifiedCost, cost);
                     });
                 }
             });
         } else {
-            this.game.queueSimpleStep(() => this.finalizeForge(unforgedKeys.shift().text.toLowerCase(), modifiedCost, cost));
+            this.game.queueSimpleStep(() => this.finalizeForge(unforgedKeys.shift().value, modifiedCost, cost));
         }
     }
 
@@ -627,13 +627,13 @@ class Player extends GameObject {
         if(this.keyForged.length > 1) {
             this.game.promptWithHandlerMenu(this, {
                 activePromptTitle: { text: 'Which key would you like to unforge?' },
-                source: 'Unforge a key.',
+                source: 'Unforge a key',
                 choices: this.getKeyOptions(choices),
                 choiceHandler: key => {
                     this.game.queueSimpleStep(() => {
-                        this.keys[key.text.toLowerCase()] = false;
-                        this.keyForged.splice(this.keyForged.findIndex(x => x === key.text.toLowerCase()), 1);
-                        this.game.addMessage('{0} unforges {1}\'s {2}', this.game.activePlayer, this.game.activePlayer.opponent, `forgedkey${key.text.toLowerCase()}`);
+                        this.keys[key.value] = false;
+                        this.keyForged.splice(this.keyForged.findIndex(x => x === key.value), 1);
+                        this.game.addMessage('{0} unforges {1}\'s {2}', this.game.activePlayer, this.game.activePlayer.opponent, `forgedkey${key.value}`);
                     });
                 }
             });
@@ -645,13 +645,13 @@ class Player extends GameObject {
     }
 
     getUnforgedKeys() {
-        return [{ text: 'Red', icon: 'unforgedkeyred' }, { text: 'Blue', icon: 'unforgedkeyblue' }, { text: 'Yellow', icon: 'unforgedkeyyellow' }]
-            .filter(key => !this.keys[key.text.toLowerCase()]);
+        return [{ text: 'Red', value: 'red', icon: 'unforgedkeyred' }, { text: 'Blue', value: 'blue', icon: 'unforgedkeyblue' },
+            { text: 'Yellow', value: 'yellow', icon: 'unforgedkeyyellow' }].filter(key => !this.keys[key.value]);
     }
 
     getKeyOptions(options) {
-        return [{ text: 'Red', icon: 'forgedkeyred' }, { text: 'Blue', icon: 'forgedkeyblue' }, { text: 'Yellow', icon: 'forgedkeyyellow' }]
-            .filter(key => options.includes(key.text.toLowerCase()));
+        return [{ text: 'Red', value: 'red', icon: 'forgedkeyred' }, { text: 'Blue', value: 'blue', icon: 'forgedkeyblue' },
+            { text: 'Yellow', value: 'yellow', icon: 'forgedkeyyellow' }].filter(key => options.includes(key.value));
     }
 
     getAdditionalCosts(context) {

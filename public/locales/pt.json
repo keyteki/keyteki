@@ -470,5 +470,12 @@
     "Bidding": "Leilão",
     "Bid chains for selected deck": "Quantas correntes pelo deck",
     "Pass": "Passar",
-    "Waiting for opponent to bid or pass": "Aguardando o oponente leiloar ou passar"
+    "Waiting for opponent to bid or pass": "Aguardando o oponente leiloar ou passar",
+    "Forge a key": "Forjar chave",
+    "Unforge a key": "Desforjar chave",
+    "Which key would you like to forge?": "Qual chave você deseja forjar?",
+    "Which key would you like to unforge?": "Qual chave você deseja desforjar?",
+    "Red": "Vermelha",
+    "Blue": "Azul",
+    "Yellow": "Amarela"
 }
