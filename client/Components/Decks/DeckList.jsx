@@ -27,11 +27,12 @@ class DeckList extends React.Component {
     }
 
     filterDeck(deck) {
+        let t = this.props.t;
         const passedSearchFilter = this.state.searchFilter === '' || deck.name.toLowerCase().includes(this.state.searchFilter);
         const passedExpansionFilter = this.state.expansionFilter === '' || (
-            (this.state.expansionFilter === 'World\'s Collide' && deck.expansion === 452) ||
-            (this.state.expansionFilter === 'Age of Ascension' && deck.expansion === 435) ||
-            (this.state.expansionFilter === 'Call of the Archons' && deck.expansion === 341)
+            (this.state.expansionFilter === t('Worlds Collide') && deck.expansion === 452) ||
+            (this.state.expansionFilter === t('Age of Ascension') && deck.expansion === 435) ||
+            (this.state.expansionFilter === t('Call of the Archons') && deck.expansion === 341)
         );
 
         return passedSearchFilter && passedExpansionFilter;
@@ -143,9 +144,9 @@ class DeckList extends React.Component {
                             <label className='control-label'><Trans>Filter By Expansion</Trans>:</label>
                             <select className='form-control' onChange={ this.onChangeExpansionFilter }>
                                 <option />
-                                <option>World&#39;s Collide</option>
-                                <option>Age of Ascension</option>
-                                <option>Call of the Archons</option>
+                                <option>{ t('Worlds Collide') }</option>
+                                <option>{ t('Age of Ascension') }</option>
+                                <option>{ t('Call of the Archons') }</option>
                             </select>
                         </div>
                     </div>
