@@ -66,7 +66,7 @@ class Application extends React.Component {
         }
     }
 
-    componentWilUnmount() {
+    componentWillUnmount() {
         window.removeEventListener('focus', this.onFocusChange);
         window.removeEventListener('blur', this.onFocusChange);
     }
