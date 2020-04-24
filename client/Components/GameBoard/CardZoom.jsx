@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import CircleType from 'circletype';
 
@@ -19,22 +20,23 @@ class CardZoom extends React.Component {
     }
 
     render() {
+        const size = this.props.user.settings.zoomSize ? this.props.user.settings.zoomSize : 'normal';
         if(!this.props.card) {
             return null;
         }
 
         return (
-            <div className='card-large vertical'>
+            <div className={ `card-zoom ${size} vertical` }>
                 { this.props.show &&
                 <div className='card-zoomed shadow'>
                     { this.props.card.imageUrl ?
                         <div className='card-zoomed shadow'>
-                            <img className='image-large img-responsive' src={ this.props.card.imageUrl }/>
+                            <img className={ `image-zoom ${size} img-responsive` } src={ this.props.card.imageUrl }/>
                         </div>
                         :
                         <div className='card-zoomed shadow'>
                             <span className='card-name'>{ this.props.cardName }</span>
-                            <CardImage className='image-large img-responsive' img={ this.props.imageUrl } maverick={ this.props.card.maverick } anomaly={ this.props.card.anomaly } amber={ this.props.card.cardPrintedAmber }/>
+                            <CardImage className={ `image-zoom ${size} img-responsive` } img={ this.props.imageUrl } maverick={ this.props.card.maverick } anomaly={ this.props.card.anomaly } amber={ this.props.card.cardPrintedAmber }/>
                             { this.props.card && <AltCard card={ this.props.card }/> }
                         </div>
                     }
@@ -49,7 +51,13 @@ CardZoom.propTypes = {
     card: PropTypes.object,
     cardName: PropTypes.string,
     imageUrl: PropTypes.string,
-    show: PropTypes.bool
+    show: PropTypes.bool,
+    user: PropTypes.object
 };
+function mapStateToProps(state) {
+    return {
+        user: state.account.user
+    };
+}
 
-export default CardZoom;
+export default connect(mapStateToProps)(CardZoom);
