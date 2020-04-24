@@ -1,6 +1,5 @@
 const AbilityContext = require('../AbilityContext');
 const BaseAbility = require('../baseability.js');
-const ThenAbility = require('../ThenAbility');
 const Costs = require('../costs.js');
 
 class BasePlayAction extends BaseAbility {
