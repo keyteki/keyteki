@@ -1,16 +1,12 @@
-const Card = require('../../Card.js');
+const CompositeCard = require('../../CompositeCard.js');
 
-class Deusillus extends Card {
+class Deusillus extends CompositeCard {
     constructor(owner, cardData) {
         super(owner, cardData);
-        // TODO This could be temporary - depends if the final JSON will contain this info or not
-        // I added this to help 'It's Coming...'
-        this.gigantic = true;
-        this.playedParts = [];
-    }
 
-    get compositeParts() {
-        return ['deusillus-2'];
+        this.gigantic = true;
+        this.compositeImageId = 'deusillus-complete';
+        this.compositeParts = ['deusillus-2'];
     }
 
     setupCardAbilities(ability) {
@@ -18,8 +14,7 @@ class Deusillus extends Card {
             location: 'any',
             match: this,
             effect: ability.effects.cardCannot('play', context => {
-                return context.source.location !== 'hand' ||
-                    this.compositeParts.some(id => !context.source.controller.hand.some(card => id === card.id));
+                return this.compositeParts.concat(this.id).some(id => !context.source.controller.hand.some(card => id === card.id));
             })
         });
 
@@ -49,30 +44,6 @@ class Deusillus extends Card {
                 }))
             ])
         });
-    }
-
-    moveTo(targetLocation) {
-        super.moveTo(targetLocation);
-
-        if(this.location === 'play area') {
-            this.compositeParts.forEach(id => {
-                // Always remove the second part from hand
-                let part = this.controller.getSourceList('hand').find(card => id === card.id);
-                this.controller.removeCardFromPile(part);
-                this.playedParts.push(part);
-            });
-
-            this.image = 'deusillus-complete';
-        } else {
-            let cardPile = this.controller.getSourceList(this.location);
-            let cardIndex = cardPile.indexOf(this);
-            this.playedParts.forEach(part => {
-                part.location = this.location;
-                cardPile.splice(cardIndex, 0, part);
-            });
-            this.playedParts = [];
-            this.image = this.id;
-        }
     }
 }
 

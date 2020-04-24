@@ -11,7 +11,8 @@ describe('Deusillus', function() {
                     },
                     player2: {
                         amber: 5,
-                        inPlay: ['troll', 'narp', 'zorg', 'collector-worm']
+                        inPlay: ['troll', 'narp', 'zorg', 'vezyma-thinkdrone', 'collector-worm', 'ulyq-megamouth'],
+                        hand: ['hypnobeam']
                     }
                 });
             });
@@ -115,6 +116,40 @@ describe('Deusillus', function() {
                 expect(this.deusillus2.location).toBe('archives');
                 expect(this.player2.archives).toContain(this.deusillus);
                 expect(this.player2.archives).toContain(this.deusillus2);
+            });
+
+            it('should be taken control by hypnobeam', function() {
+                this.player1.play(this.deusillus);
+                this.player1.clickCard(this.narp);
+                this.player1.endTurn();
+                this.player2.clickPrompt('mars');
+                this.player2.play(this.hypnobeam);
+                this.player2.clickCard(this.deusillus);
+                this.player2.clickPrompt('Left');
+                expect(this.deusillus.location).toBe('play area');
+                expect(this.player2.player.cardsInPlay).toContain(this.deusillus);
+                this.player2.reap(this.ulyqMegamouth);
+                this.player2.clickCard(this.deusillus);
+                this.player2.clickPrompt('Reap with this creature');
+            });
+
+            it('should go to owner\'s archive when not specified by card', function() {
+                this.player1.play(this.deusillus);
+                this.player1.clickCard(this.narp);
+                this.player1.endTurn();
+                this.player2.clickPrompt('mars');
+                this.player2.play(this.hypnobeam);
+                this.player2.clickCard(this.deusillus);
+                this.player2.clickPrompt('Left');
+                expect(this.deusillus.location).toBe('play area');
+                expect(this.player2.player.cardsInPlay).toContain(this.deusillus);
+                this.player2.reap(this.vezymaThinkdrone);
+                this.player2.clickCard(this.deusillus);
+                this.player2.clickPrompt('Yes');
+                expect(this.deusillus.location).toBe('archives');
+                expect(this.deusillus2.location).toBe('archives');
+                expect(this.player1.archives).toContain(this.deusillus);
+                expect(this.player1.archives).toContain(this.deusillus2);
             });
         });
 

@@ -1,16 +1,12 @@
-const Card = require('../../Card.js');
+const CompositeCard = require('../../CompositeCard.js');
 
-class UltraGraviton extends Card {
+class UltraGraviton extends CompositeCard {
     constructor(owner, cardData) {
         super(owner, cardData);
-        // TODO This could be temporary - depends if the final JSON will contain this info or not
-        // I added this to help 'It's Coming...'
-        this.gigantic = true;
-        this.playedParts = [];
-    }
 
-    get compositeParts() {
-        return ['ultra-graviton-2'];
+        this.gigantic = true;
+        this.compositeImageId = 'ultra-graviton-complete';
+        this.compositeParts = ['ultra-graviton-2'];
     }
 
     setupCardAbilities(ability) {
@@ -43,30 +39,6 @@ class UltraGraviton extends Card {
                 }
             }
         });
-    }
-
-    moveTo(targetLocation) {
-        super.moveTo(targetLocation);
-
-        if(this.location === 'play area') {
-            this.compositeParts.forEach(id => {
-                // Always remove the second part from hand
-                let part = this.controller.getSourceList('hand').find(card => id === card.id);
-                this.controller.removeCardFromPile(part);
-                this.playedParts.push(part);
-            });
-
-            this.image = 'ultra-graviton-complete';
-        } else {
-            let cardPile = this.controller.getSourceList(this.location);
-            let cardIndex = cardPile.indexOf(this);
-            this.playedParts.forEach(part => {
-                part.location = this.location;
-                cardPile.splice(cardIndex, 0, part);
-            });
-            this.playedParts = [];
-            this.image = this.id;
-        }
     }
 }
 

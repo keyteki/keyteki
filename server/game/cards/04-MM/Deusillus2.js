@@ -1,8 +1,10 @@
 const Deusillus = require('./Deusillus.js');
 
 class Deusillus2 extends Deusillus {
-    get compositeParts() {
-        return ['deusillus'];
+    constructor(owner, cardData) {
+        super(owner, cardData);
+
+        this.compositeParts = ['deusillus'];
     }
 }
 

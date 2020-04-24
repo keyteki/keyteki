@@ -1,8 +1,10 @@
 const UltraGraviton = require('./UltraGraviton.js');
 
 class UltraGraviton2 extends UltraGraviton {
-    get compositeParts() {
-        return ['ultra-graviton'];
+    constructor(owner, cardData) {
+        super(owner, cardData);
+
+        this.compositeParts = ['ultra-graviton'];
     }
 }
 
