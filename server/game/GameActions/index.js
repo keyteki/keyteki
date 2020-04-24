@@ -48,6 +48,7 @@ module.exports = {
     RemoveTokenAction: require('./RemoveTokenAction'),
     RemoveWardAction: require('./RemoveWardAction'),
     ResolveAbilityAction: require('./ResolveAbilityAction'),
+    ResolveBonusIconsAction: require('./ResolveBonusIconsAction'),
     ResolveFightAction: require('./ResolveFightAction'),
     ReturnAmberAction: require('./ReturnAmberAction'),
     ReturnToDeckAction: require('./ReturnToDeckAction'),

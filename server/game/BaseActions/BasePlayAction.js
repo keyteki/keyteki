@@ -1,5 +1,6 @@
 const AbilityContext = require('../AbilityContext');
 const BaseAbility = require('../baseability.js');
+const ThenAbility = require('../ThenAbility');
 const Costs = require('../costs.js');
 
 class BasePlayAction extends BaseAbility {
@@ -15,9 +16,7 @@ class BasePlayAction extends BaseAbility {
     }
 
     displayMessage(context) {
-        let amberMsg = context.source.printedAmber > 0 ? ', gaining ' + context.source.printedAmber.toString() + ' amber' : '';
-        context.game.actions.gainAmber({ amount: context.source.printedAmber }).resolve(context.player, context);
-        context.game.addMessage('{0} plays {1}{2}', context.player, context.source, amberMsg);
+        context.game.addMessage('{0} plays {1}', context.player, context.source);
     }
 
     meetsRequirements(context = this.createContext(), ignoredRequirements = []) {
@@ -37,6 +36,13 @@ class BasePlayAction extends BaseAbility {
             player: player,
             source: this.card
         });
+    }
+
+    addBonusIconResolution(event, context) {
+        event.addSubEvent(context.game.getEvent('unnamedEvent', {}, () => {
+            context.game.checkGameState(true);
+            context.game.actions.resolveBonusIcons().resolve(this.card, context);
+        }));
     }
 
     isAction() {

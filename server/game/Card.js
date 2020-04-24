@@ -149,6 +149,18 @@ class Card extends EffectSource {
         return persistentEffects.concat(this.abilities.keywordPersistentEffects, gainedPersistentEffects);
     }
 
+    get bonusIcons() {
+        if(this.anyEffect('copyCard')) {
+            return this.mostRecentEffect('copyCard').bonusIcons;
+        } else if(this.cardData.enhancements) {
+            return this.cardData.enhancements;
+        } else if(this.printedAmber) {
+            return Array.from(Array(this.printedAmber), () => 'amber');
+        }
+
+        return [];
+    }
+
     setupAbilities() {
         this.setupKeywordAbilities(AbilityDsl);
         this.setupCardAbilities(AbilityDsl);
