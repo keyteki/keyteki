@@ -9,7 +9,7 @@ class IdentityCard extends React.Component {
             'vertical': true
         });
         return (
-            <div className={ className } onMouseOver={ () => this.props.onMouseOver({ imageUrl: this.props.deckListUrl }) } onMouseOut={ this.props.onMouseOut }>
+            <div className={ className } onMouseOver={ () => this.props.onMouseOver({ imageUrl: this.props.deckListUrl, type: 'decklist' }) } onMouseOut={ this.props.onMouseOut }>
                 <div className='card-wrapper'>
                     <div className='card-frame'>
                         <img className={ `card-image vertical ${this.props.size}` } src={ this.props.deckListUrl }/>

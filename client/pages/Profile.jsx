@@ -21,7 +21,6 @@ class Profile extends React.Component {
 
         this.handleSelectBackground = this.handleSelectBackground.bind(this);
         this.handleSelectCardSize = this.handleSelectCardSize.bind(this);
-        this.handleSelectZoomSize = this.handleSelectZoomSize.bind(this);
         this.onUpdateAvatarClick = this.onUpdateAvatarClick.bind(this);
         this.onUnlinkClick = this.onUnlinkClick.bind(this);
 
@@ -76,7 +75,6 @@ class Profile extends React.Component {
             enableGravatar: props.user.enableGravatar,
             selectedBackground: props.user.settings.background,
             selectedCardSize: props.user.settings.cardSize,
-            selectedZoomSize: props.user.settings.zoomSize,
             optionSettings: props.user.settings.optionSettings
         });
     }
@@ -128,7 +126,6 @@ class Profile extends React.Component {
             settings: {
                 background: this.state.selectedBackground,
                 cardSize: this.state.selectedCardSize,
-                zoomSize: this.state.selectedZoomSize,
                 optionSettings: this.state.optionSettings
             }
         });
@@ -176,10 +173,6 @@ class Profile extends React.Component {
 
     handleSelectCardSize(size) {
         this.setState({ selectedCardSize: size });
-    }
-
-    handleSelectZoomSize(size) {
-        this.setState({ selectedZoomSize: size });
     }
 
     onUpdateAvatarClick(event) {
@@ -283,24 +276,6 @@ class Profile extends React.Component {
                                                     name={ cardSize.name }
                                                     onSelect={ this.handleSelectCardSize }
                                                     selected={ this.state.selectedCardSize === cardSize.name } />
-                                            ))
-                                        }
-                                    </div>
-                                </div>
-                            </Panel>
-                        </div>
-                        <div>
-                            <Panel title={ t('Zoom Size') }>
-                                <div className='row'>
-                                    <div className='col-xs-12'>
-                                        {
-                                            cardSizes.map(cardSize => (
-                                                <CardSizeOption
-                                                    key={ cardSize.name }
-                                                    label={ cardSize.label }
-                                                    name={ cardSize.name }
-                                                    onSelect={ this.handleSelectZoomSize }
-                                                    selected={ this.state.selectedZoomSize === cardSize.name } />
                                             ))
                                         }
                                     </div>

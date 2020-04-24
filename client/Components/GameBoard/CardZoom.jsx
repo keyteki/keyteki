@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import CircleType from 'circletype';
 
@@ -20,10 +19,11 @@ class CardZoom extends React.Component {
     }
 
     render() {
-        const size = this.props.user.settings.zoomSize ? this.props.user.settings.zoomSize : 'normal';
         if(!this.props.card) {
             return null;
         }
+
+        const size = this.props.card.type === 'decklist' ? 'x-large' : 'normal';
 
         return (
             <div className={ `card-zoom ${size} vertical` }>
@@ -51,13 +51,8 @@ CardZoom.propTypes = {
     card: PropTypes.object,
     cardName: PropTypes.string,
     imageUrl: PropTypes.string,
-    show: PropTypes.bool,
-    user: PropTypes.object
+    show: PropTypes.bool
 };
-function mapStateToProps(state) {
-    return {
-        user: state.account.user
-    };
-}
 
-export default connect(mapStateToProps)(CardZoom);
+
+export default CardZoom;
