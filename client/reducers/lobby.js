@@ -3,7 +3,8 @@ const _ = require('underscore');
 const defaultState = {
     games: [],
     users: [],
-    messages: []
+    messages: [],
+    windowBlurred: false
 };
 
 export default function(state = defaultState, action) {
@@ -71,6 +72,14 @@ export default function(state = defaultState, action) {
             return Object.assign({}, state, {
                 newGame: false,
                 currentGame: undefined
+            });
+        case 'WINDOW_BLUR':
+            return Object.assign({}, state, {
+                windowBlurred: true
+            });
+        case 'WINDOW_FOCUS':
+            return Object.assign({}, state, {
+                windowBlurred: false
             });
     }
 
