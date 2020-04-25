@@ -25,9 +25,11 @@ class DeckService {
             throw new Error('Unable to fetch deck: ' + id);
         }
 
-        await this.getDeckCardsAndHouses(deck);
+        let retDeck = this.mapDeck(deck);
 
-        return deck;
+        await this.getDeckCardsAndHouses(retDeck);
+
+        return retDeck;
     }
 
     async getSealedDeck(expansions) {
@@ -68,7 +70,7 @@ class DeckService {
         for(let deck of decks) {
             let retDeck = this.mapDeck(deck);
 
-            await this.getDeckCardsAndHouses(deck);
+            await this.getDeckCardsAndHouses(retDeck);
 
             retDecks.push(retDeck);
         }
@@ -77,7 +79,7 @@ class DeckService {
     }
 
     async getDeckCardsAndHouses(deck) {
-        let cards = await db.query('SELECT * FROM "DeckCards" WHERE "DeckId" = $1', [deck.Id]);
+        let cards = await db.query('SELECT * FROM "DeckCards" WHERE "DeckId" = $1', [deck.id]);
 
         deck.cards = cards.map(card => ({
             id: card.CardId,
@@ -86,7 +88,7 @@ class DeckService {
             anomaly: card.Anomaly
         }));
 
-        let houses = await db.query('SELECT * FROM "DeckHouses" dh JOIN "Houses" h ON h."Id" = dh."HouseId" WHERE "DeckId" = $1', [deck.Id]);
+        let houses = await db.query('SELECT * FROM "DeckHouses" dh JOIN "Houses" h ON h."Id" = dh."HouseId" WHERE "DeckId" = $1', [deck.id]);
         deck.houses = houses.map(house => house.Code);
     }
 

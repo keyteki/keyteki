@@ -17,7 +17,7 @@ class MessageService extends EventEmitter {
         let messages;
 
         try {
-            messages = await db.query('SELECT DISTINCT m.*, u."Username" AS "Poster", r."Name" AS "Role", ud."Username" AS DeletedBy FROM "Messages" m ' +
+            messages = await db.query('SELECT m.*, u."Username" AS "Poster", r."Name" AS "Role", ud."Username" AS DeletedBy FROM "Messages" m ' +
                 'JOIN "Users" u ON u."Id" = m."PosterId" ' +
                 'LEFT JOIN "UserRoles" ur ON ur."UserId" = u."Id" ' +
                 'LEFT JOIN "Roles" r ON r."Id" = ur."RoleId" ' +
@@ -68,7 +68,7 @@ class MessageService extends EventEmitter {
     mapMessage(message, user) {
         let retMessage = {
             id: message.Id,
-            message: !message.DeletedBy || user.permissions.canModerateChat ? message.Text : '<Message deleted by a moderator>',
+            message: (!message.DeletedBy || (user && user.permissions.canModerateChat)) ? message.Text : '<Message deleted by a moderator>',
             time: message.PostedTime,
             user: {
                 username: message.Poster,
@@ -77,7 +77,7 @@ class MessageService extends EventEmitter {
             }
         };
 
-        if(user.permissions.canModerateChat) {
+        if(user && user.permissions.canModerateChat) {
             retMessage.deletedBy = message.DeletedBy;
         }
 

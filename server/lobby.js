@@ -10,7 +10,6 @@ const PendingGame = require('./pendinggame');
 const GameRouter = require('./gamerouter');
 const ServiceFactory = require('./services/ServiceFactory');
 const DeckService = require('./services/DeckService');
-const CardService = require('./services/CardService');
 const UserService = require('./services/UserService');
 const ConfigService = require('./services/ConfigService');
 const User = require('./models/User');
@@ -21,9 +20,9 @@ class Lobby {
         this.sockets = {};
         this.users = {};
         this.games = {};
-        this.messageService = options.messageService || ServiceFactory.messageService(options.db);
-        this.cardService = options.cardService || new CardService();
-        this.userService = options.userService || new UserService(options.db, options.configService);
+        this.messageService = options.messageService || ServiceFactory.messageService();
+        this.cardService = options.cardService || ServiceFactory.cardService();
+        this.userService = options.userService || new UserService(options.configService);
         this.configService = options.configService || new ConfigService();
         this.deckService = options.deckService || new DeckService(this.configService);
         this.router = options.router || new GameRouter(this.configService);
@@ -48,6 +47,9 @@ class Lobby {
 
         setInterval(() => this.clearStalePendingGames(), 60 * 1000); // every minute
         setInterval(() => this.clearOldRefreshTokens(), 2 * 60 * 60 * 1000); // every 2 hours
+
+        // pre cache card list so the first user to the site doesn't have a slowdown
+        this.cardService.getAllCards();
     }
 
     // External methods

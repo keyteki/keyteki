@@ -8,9 +8,9 @@ let newsService = new NewsService();
 
 module.exports.init = function (server) {
     server.get('/api/news', wrapAsync(async function (req, res) {
-        let limit = 5;
+        let limit = 3;
 
-        if(req.query.limit && req.user.permissions && req.user.permissions.canEditNews) {
+        if(req.query.limit && req.user && req.user.permissions && req.user.permissions.canEditNews) {
             limit = req.query.limit;
         }
 
@@ -23,7 +23,7 @@ module.exports.init = function (server) {
             res.send({ success: false, message: 'Error loading news' });
         }
 
-        if(req.user.permissions && req.user.permissions.canEditNews) {
+        if(req.user && req.user.permissions && req.user.permissions.canEditNews) {
             return res.send({ success: true, news: news });
         }
 
