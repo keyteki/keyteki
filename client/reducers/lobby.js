@@ -219,7 +219,7 @@ function handleMessage(action, state) {
             newState = Object.assign({}, state);
 
             newState.messages = newState.messages.filter(message => {
-                return message._id !== action.args[0];
+                return message.id !== action.args[0];
             });
 
             break;

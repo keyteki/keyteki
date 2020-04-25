@@ -16,7 +16,7 @@ module.exports.init = function(server) {
             return res.status(403);
         }
 
-        messageService.removeMessage(req.params.messageId).then(() => {
+        messageService.removeMessage(req.params.messageId, req.user).then(() => {
             res.send({ success: true });
         }).catch(err => {
             logger.error(err);

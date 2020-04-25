@@ -42,7 +42,7 @@ class Lobby {
         this.io.use(this.handshake.bind(this));
         this.io.on('connection', this.onConnection.bind(this));
 
-        this.messageService.on('messageDeleted', messageId => {
+        this.messageService.on('messageDeleted', (messageId, user) => {
             this.io.emit('removemessage', messageId);
         });
 
@@ -293,7 +293,7 @@ class Lobby {
     }
 
     sendFilteredMessages(socket) {
-        this.messageService.getLastMessages().then(messages => {
+        this.messageService.getLastMessagesForUser(socket.user).then(messages => {
             let messagesToSend = this.filterMessages(messages, socket);
             socket.send('lobbymessages', messagesToSend.reverse());
         });
@@ -347,7 +347,7 @@ class Lobby {
 
         this.messageService.getMotdMessage().then(message => {
             if(message) {
-                socket.send('motd', message[0]);
+                socket.send('motd', message);
             }
         }).catch(err => {
             logger.error(err);
@@ -609,8 +609,8 @@ class Lobby {
             return;
         }
 
-        let chatMessage = { user: socket.user.getShortSummary(), message: message, time: new Date() };
-        let newMessage = await this.messageService.addMessage(chatMessage);
+        let chatMessage = { message: message, time: new Date() };
+        let newMessage = await this.messageService.addMessage(chatMessage, socket.user);
 
         for(let s of Object.values(this.sockets)) {
             if(s.user && s.user.hasUserBlocked(socket.user)) {
@@ -776,11 +776,10 @@ class Lobby {
             message: motd.message,
             motdType: motd.motdType,
             type: 'motd',
-            user: socket.user.getShortSummary(),
             time: new Date()
         } : {};
 
-        this.messageService.setMotdMessage(newMotd).then(() => {
+        this.messageService.setMotdMessage(newMotd, socket.user).then(() => {
             this.io.emit('motd', { message: newMotd.message, motdType: newMotd.motdType });
         }).catch(err => {
             logger.error(err);
