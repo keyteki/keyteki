@@ -28,7 +28,7 @@ function news(state = {
             });
         case 'NEWS_SAVED':
             var matchingNews = news.find(n => {
-                return n.id === action.response.id;
+                return n.id === parseInt(action.response.id);
             });
 
             if(matchingNews) {
@@ -45,7 +45,7 @@ function news(state = {
             });
         case 'NEWS_DELETED':
             news = news.filter(n => {
-                return n.id !== action.response.id;
+                return n.id !== parseInt(action.response.id);
             });
 
             return Object.assign({}, state, {

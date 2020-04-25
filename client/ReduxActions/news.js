@@ -61,7 +61,8 @@ export function saveNews(id, text) {
         APIParams: {
             url: `/api/news/${id}`,
             type: 'PUT',
-            data: { text: text }
+            contentType: 'application/json',
+            data: JSON.stringify({ text: text })
         }
     };
 }

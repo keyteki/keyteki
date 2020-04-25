@@ -6,7 +6,7 @@ const UserService = require('./services/UserService');
 const ConfigService = require('./services/ConfigService');
 const configService = new ConfigService();
 
-function runServer() {
+async function runServer() {
     let options = { configService: configService };
 
     options.userService = new UserService(options.configService);
@@ -14,6 +14,8 @@ function runServer() {
     let server = new Server(process.env.NODE_ENV !== 'production');
     let httpServer = server.init(options);
     let lobby = new Lobby(httpServer, options);
+
+    await lobby.init();
 
     pmx.action('status', reply => {
         var status = lobby.getStatus();

@@ -47,9 +47,11 @@ class Lobby {
 
         setInterval(() => this.clearStalePendingGames(), 60 * 1000); // every minute
         setInterval(() => this.clearOldRefreshTokens(), 2 * 60 * 60 * 1000); // every 2 hours
+    }
 
+    async init() {
         // pre cache card list so the first user to the site doesn't have a slowdown
-        this.cardService.getAllCards();
+        await this.cardService.getAllCards();
     }
 
     // External methods

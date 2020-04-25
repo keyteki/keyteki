@@ -106,7 +106,7 @@ class LobbyChat extends React.Component {
                 </div>);
             });
 
-            let userClass = 'username' + (firstMessage.user.role ? ` ${firstMessage.user.role}-role` : '');
+            let userClass = 'username' + (firstMessage.user.role ? ` ${firstMessage.user.role.toLowerCase()}-role` : '');
 
             return (
                 <div key={ timestamp + firstMessage.user.username + (index++).toString() }>
