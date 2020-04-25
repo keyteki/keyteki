@@ -58,7 +58,7 @@ describe('Niffle Kong', function() {
 
             it('should move both cards to discard after destroyed', function() {
                 this.player1.play(this.niffleKong);
-                this.niffleKong.tokens.damage = 1
+                this.niffleKong.tokens.damage = 1;
                 this.player1.play(this.saveThePack);
                 expect(this.niffleKong.location).toBe('discard');
                 expect(this.niffleKong2.location).toBe('discard');
