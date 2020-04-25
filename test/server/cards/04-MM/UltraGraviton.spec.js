@@ -173,7 +173,6 @@ describe('Ultra Graviton', function() {
                 this.collectorWorm.tokens.ward = 1;
 
                 this.player1.play(this.ultraGraviton);
-                this.player1.clickCard(this.narp);
                 this.player1.endTurn();
                 this.player2.clickPrompt('mars');
 
@@ -256,7 +255,6 @@ describe('Ultra Graviton', function() {
 
             it('should play part 1 after being returned to hand', function() {
                 this.player1.play(this.ultraGraviton);
-                this.player1.clickCard(this.narp);
                 this.player1.endTurn();
                 this.player2.clickPrompt('untamed');
                 this.player2.play(this.natureSCall);
@@ -278,7 +276,6 @@ describe('Ultra Graviton', function() {
 
             it('should play part 2 after being returned to hand', function() {
                 this.player1.play(this.ultraGraviton2);
-                this.player1.clickCard(this.narp);
                 this.player1.endTurn();
                 this.player2.clickPrompt('untamed');
                 this.player2.play(this.natureSCall);
