@@ -1,11 +1,11 @@
 const Card = require('../../Card.js');
 
-class ConsulPrimus extends Card {
+class MonumentToPrimus extends Card {
     setupCardAbilities(ability) {
-        this.reap({
-            condition: context => context.game.creaturesInPlay.length > 1,
+        this.action({
             target: {
                 cardType: 'creature',
+                cardCondition: (card, context) => context.player.discard.some(discardCard => discardCard.id === 'consul-primus') || card.controller === context.player,
                 gameAction: ability.actions.removeAmber()
             },
             then: preContext => ({
@@ -14,8 +14,9 @@ class ConsulPrimus extends Card {
                         message: '{0} uses {1} to place 1 amber on {2}',
                         messageArgs: card => [preContext.player, preContext.source, card],
                         cardType: 'creature',
-                        activePromptTitle: 'Choose another creature',
-                        cardCondition: card => card !== preContext.target
+                        cardCondition: (card, context) => (card !== preContext.target) &&
+                            (context.player.discard.some(discardCard => discardCard.id === 'consul-primus') || card.controller === context.player),
+                        activePromptTitle: 'Choose another creature'
                     }
                 })
             })
@@ -23,6 +24,6 @@ class ConsulPrimus extends Card {
     }
 }
 
-ConsulPrimus.id = 'consul-primus';
+MonumentToPrimus.id = 'monument-to-primus';
 
-module.exports = ConsulPrimus;
+module.exports = MonumentToPrimus;
