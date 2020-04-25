@@ -18,14 +18,14 @@ class DeckService {
             'FROM "Decks" d ' +
             'JOIN "Users" u ON u."Id" = "UserId" ' +
             'JOIN "Expansions" e on e."Id" = d."ExpansionId" ' +
-            'WHERE "Id" = $1 ', [id]);
+            'WHERE d."Id" = $1 ', [id]);
         } catch(err) {
             logger.error('Failed to retrieve deck: ' + id, err);
 
             throw new Error('Unable to fetch deck: ' + id);
         }
 
-        let retDeck = this.mapDeck(deck);
+        let retDeck = this.mapDeck(deck[0]);
 
         await this.getDeckCardsAndHouses(retDeck);
 

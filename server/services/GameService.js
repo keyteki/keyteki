@@ -10,8 +10,17 @@ class GameService {
         await db.query('BEGIN');
 
         try {
-            gameId = await db.query('INSERT INTO "Games" ("GameId", "GameType", "GameFormat", "StartedAt") VALUES ($1, $2, $3, $4) RETURNING "Id"',
-                [game.gameId, game.gameType, game.gameFormat, game.startedAt])[0].Id;
+            let newGame = await db.query('INSERT INTO "Games" ("GameId", "GameType", "GameFormat", "StartedAt") VALUES ($1, $2, $3, $4) RETURNING "Id"',
+                [game.gameId, game.gameType, game.gameFormat, game.startedAt]);
+
+            if(!newGame || newGame.length === 0) {
+                logger.error('Failed to create game');
+                await db.query('ROLLBACK');
+
+                throw new Error('Failed to create game');
+            }
+
+            gameId = newGame[0].Id;
         } catch(err) {
             logger.error('Failed to create game', err);
 
@@ -23,7 +32,7 @@ class GameService {
         for(let player of game.players) {
             try {
                 await db.query('INSERT INTO "GamePlayers" ("GameId", "PlayerId", "DeckId") VALUES ' +
-                    '($1, (SELECT "Id" FROM "Users" WHERE "Username" = $2), SELECT "Id" FROM "Decks" WHERE "Identity" = $3)', [gameId, player.name, player.deck]);
+                    '($1, (SELECT "Id" FROM "Users" WHERE "Username" = $2), (SELECT "Id" FROM "Decks" WHERE "Identity" = $3))', [gameId, player.name, player.deck]);
             } catch(err) {
                 logger.error('Failed to create game player', err);
 
@@ -50,7 +59,7 @@ class GameService {
 
         for(let player of game.players) {
             try {
-                await db.query('UPDATE "GamePlayers" SET "Keys" = $1, "Turn" = $2 WHERE "GameId" = $3 AND "PlayerId" = (SELECT "Id" FROM "User" WHERE "Username" = $4)',
+                await db.query('UPDATE "GamePlayers" SET "Keys" = $1, "Turn" = $2 WHERE "GameId" = $3 AND "PlayerId" = (SELECT "Id" FROM "Users" WHERE "Username" = $4)',
                     [player.keys, player.turn, game.gameId, player.name]);
             } catch(err) {
                 logger.error('Failed to update game player', err);

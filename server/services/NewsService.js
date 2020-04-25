@@ -5,7 +5,7 @@ class NewsService {
     async getRecentNewsItems(options) {
         let news;
         try {
-            news = await db.query('SELECT n.*, u."Username" FROM "News" n JOIN "Users" u ON u."Id" = n."PosterId" ORDER BY "PostedDate" DESC LIMIT $1', [options.limit]);
+            news = await db.query('SELECT n.*, u."Username" AS "Poster" FROM "News" n JOIN "Users" u ON u."Id" = n."PosterId" ORDER BY "PostedDate" DESC LIMIT $1', [options.limit]);
         } catch(err) {
             logger.error('Failed to fetch news', err);
 
@@ -26,7 +26,7 @@ class NewsService {
             throw new Error('Error occured adding news item');
         }
 
-        news.id = ret.Id;
+        news.id = ret[0].Id;
 
         return news;
     }

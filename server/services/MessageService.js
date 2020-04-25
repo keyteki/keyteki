@@ -49,6 +49,11 @@ class MessageService extends EventEmitter {
 
         try {
             motd = await db.query('SELECT * FROM "Motd" ORDER BY "PostedTime" DESC LIMIT 1');
+            if(!motd || motd.length === 0) {
+                return undefined;
+            }
+
+            motd = motd[0];
         } catch(err) {
             logger.error('Unable to fetch motd', err);
             throw new Error('Unable to fetch motd');

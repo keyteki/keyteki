@@ -7,27 +7,34 @@ const { wrapAsync } = require('../util.js');
 let newsService = new NewsService();
 
 module.exports.init = function (server) {
-    server.get('/api/news', wrapAsync(async function (req, res) {
-        let limit = 3;
+    server.get('/api/news', wrapAsync(async function (req, res, next) {
+        passport.authenticate('jwt', { session: false }, wrapAsync(async (err, user) => {
+            if(err) {
+                return next(err);
+            }
 
-        if(req.query.limit && req.user && req.user.permissions && req.user.permissions.canEditNews) {
-            limit = req.query.limit;
-        }
+            let limit = 3;
+            let isNewsAdmin = user && user.permissions && user.permissions.canEditNews;
 
-        let news;
-        try {
-            news = await newsService.getRecentNewsItems({ limit: limit });
-        } catch(err) {
-            logger.error(err);
+            if(req.query.limit && isNewsAdmin) {
+                limit = req.query.limit;
+            }
 
-            res.send({ success: false, message: 'Error loading news' });
-        }
+            let news;
+            try {
+                news = await newsService.getRecentNewsItems({ limit: limit });
+            } catch(err) {
+                logger.error(err);
 
-        if(req.user && req.user.permissions && req.user.permissions.canEditNews) {
-            return res.send({ success: true, news: news });
-        }
+                return res.send({ success: false, message: 'Error loading news' });
+            }
 
-        res.send({ success: true, news: news.map(n => ({ text: n.text, datePublished: n.datePublished })) });
+            if(isNewsAdmin) {
+                return res.send({ success: true, news: news });
+            }
+
+            res.send({ success: true, news: news.map(n => ({ text: n.text, datePublished: n.datePublished })) });
+        }))(req, res, next);
     }));
 
     server.post('/api/news', passport.authenticate('jwt', { session: false }), wrapAsync(async function (req, res) {
@@ -36,6 +43,8 @@ module.exports.init = function (server) {
         }
 
         let newsItem = await newsService.addNews({ poster: req.user.id, text: req.body.text, datePublished: new Date() });
+        newsItem.poster = req.user.username;
+
         res.send({ success: true, newsItem: newsItem });
     }));
 
