@@ -1,7 +1,6 @@
 const zmq = require('zeromq');
 const router = zmq.socket('router');
 const logger = require('./log.js');
-const monk = require('monk');
 const EventEmitter = require('events');
 const GameService = require('./services/GameService.js');
 
@@ -10,7 +9,7 @@ class GameRouter extends EventEmitter {
         super();
 
         this.workers = {};
-        this.gameService = new GameService(monk(configService.getValue('dbPath')));
+        this.gameService = new GameService();
 
         router.bind(`tcp://0.0.0.0:${configService.getValue('mqPort')}`, err => {
             if(err) {

@@ -1,4 +1,3 @@
-const monk = require('monk');
 const passport = require('passport');
 
 const UserService = require('../services/UserService.js');
@@ -9,8 +8,7 @@ const logger = require('../log.js');
 
 let configService = new ConfigService();
 
-let db = monk(configService.getValue('dbPath'));
-let userService = new UserService(db, configService);
+let userService = new UserService(configService);
 let deckService = new DeckService(configService);
 
 module.exports.init = function(server) {
@@ -21,6 +19,7 @@ module.exports.init = function(server) {
 
         let user;
         let linkedAccounts;
+        let retUser;
         try {
             user = await userService.getFullUserByUsername(req.params.username);
 
@@ -28,9 +27,11 @@ module.exports.init = function(server) {
                 return res.status(404).send({ message: 'Not found' });
             }
 
+            retUser = user.getFullDetails();
+
             if(req.user.permissions.canVerifyDecks) {
-                user.invalidDecks = (await deckService.getFlaggedUnverifiedDecksForUser(user)).map(deck => {
-                    return { _id: deck._id, uuid: deck.uuid, name: deck.name };
+                retUser.invalidDecks = (await deckService.getFlaggedUnverifiedDecksForUser(user)).map(deck => {
+                    return { id: deck.id, uuid: deck.uuid, name: deck.name };
                 });
             }
 
@@ -41,7 +42,7 @@ module.exports.init = function(server) {
             return res.send({ success: false, message: 'An error occurred searching the user.  Please try again later.' });
         }
 
-        res.send({ success: true, user: user.getFullDetails(), linkedAccounts: linkedAccounts && linkedAccounts.map(account => account.username).filter(name => name !== user.username) });
+        res.send({ success: true, user: retUser, linkedAccounts: linkedAccounts && linkedAccounts.map(account => account.username).filter(name => name !== user.username) });
     }));
 
     server.put('/api/user/:username', passport.authenticate('jwt', { session: false }), wrapAsync(async (req, res) => {

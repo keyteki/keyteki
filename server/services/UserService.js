@@ -8,7 +8,7 @@ const User = require('../models/User');
 const db = require('../db');
 
 class UserService extends EventEmitter {
-    constructor(_, configService) {
+    constructor(configService) {
         super();
 
         this.configService = configService;

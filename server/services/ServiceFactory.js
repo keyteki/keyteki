@@ -3,12 +3,12 @@ const MessageService = require('./MessageService');
 let services = {};
 
 module.exports = {
-    messageService: db => {
+    messageService: () => {
         if(services.messageService) {
             return services.messageService;
         }
 
-        services.messageService = new MessageService(db);
+        services.messageService = new MessageService();
 
         return services.messageService;
     }

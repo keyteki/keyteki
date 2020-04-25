@@ -1,16 +1,15 @@
-const Server = require('./server.js');
-const Lobby = require('./lobby.js');
 const pmx = require('pmx');
-const monk = require('monk');
-const config = require('config');
+
+const Server = require('./server');
+const Lobby = require('./lobby');
 const UserService = require('./services/UserService');
 const ConfigService = require('./services/ConfigService');
 const configService = new ConfigService();
 
 function runServer() {
-    let options = { configService: configService, db: monk(config.dbPath) };
+    let options = { configService: configService };
 
-    options.userService = new UserService(options.db, options.configService);
+    options.userService = new UserService(options.configService);
 
     let server = new Server(process.env.NODE_ENV !== 'production');
     let httpServer = server.init(options);
@@ -48,4 +47,5 @@ function runServer() {
 
     server.run();
 }
-module.exports = runServer;
+
+module.exports = runServer;

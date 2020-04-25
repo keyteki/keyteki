@@ -1,14 +1,10 @@
-const monk = require('monk');
 const passport = require('passport');
 
 const ServiceFactory = require('../services/ServiceFactory.js');
-const ConfigService = require('../services/ConfigService.js');
 
 const logger = require('../log.js');
 
-let configService = new ConfigService();
-let db = monk(configService.getValue('dbPath'));
-let messageService = ServiceFactory.messageService(db);
+let messageService = ServiceFactory.messageService();
 
 module.exports.init = function(server) {
     server.delete('/api/messages/:messageId', passport.authenticate('jwt', { session: false }), function(req, res) {

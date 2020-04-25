@@ -12,7 +12,7 @@ const webpackHotMiddleware = require('webpack-hot-middleware');
 const historyApiFallback = require('connect-history-api-fallback');
 const webpack = require('webpack');
 const webpackConfig = require('../webpack.dev.js');
-const monk = require('monk');
+
 const passportJwt = require('passport-jwt');
 const Sentry = require('@sentry/node');
 
@@ -25,8 +25,8 @@ const version = require('../version.js');
 class Server {
     constructor(isDeveloping) {
         this.configService = new ConfigService();
-        let db = monk(this.configService.getValue('dbPath'));
-        this.userService = new UserService(db);
+
+        this.userService = new UserService(this.configService);
         this.isDeveloping = isDeveloping;
         this.server = http.Server(app);
     }
@@ -125,7 +125,7 @@ class Server {
 
     serializeUser(user, done) {
         if(user) {
-            done(null, user._id);
+            done(null, user.id);
         }
     }
 }
