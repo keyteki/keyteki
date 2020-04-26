@@ -145,28 +145,28 @@ class DeckList extends React.Component {
                                 <label className='control-label'><Trans>Filter By Expansion</Trans>:</label>
                                 <select className='form-control' onChange={ this.onChangeExpansionFilter }>
                                     <option />
-                                    <option>Worlds Collide</option>
-                                    <option>Age of Ascension</option>
-                                    <option>Call of the Archons</option>
+                                    <option>{ t('Worlds Collide') }</option>
+                                    <option>{ t('Age of Ascension') }</option>
+                                    <option>{ t('Call of the Archons') }</option>
                                 </select>
                             </div>
+                            <div className='col-md-12'><Trans>Sort by</Trans>:<RadioGroup buttons={ sortButtons } onValueSelected={ this.onSortChanged } defaultValue={ this.state.sortOrder } /></div>
+                            <nav className='col-md-12' aria-label={ t('Page navigation') } >
+                                <ul className='pagination'>
+                                    <li>
+                                        <a href='#' aria-label={ t('Previous') } onClick={ this.onPageChanged.bind(this, 0) }>
+                                            <span aria-hidden='true'>&laquo;</span>
+                                        </a>
+                                    </li>
+                                    { pager }
+                                    <li>
+                                        <a href='#' aria-label={ t('Next') } onClick={ this.onPageChanged.bind(this, pages.length - 1) }>
+                                            <span aria-hidden='true'>&raquo;</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
                         </div>
-                        <div className='col-md-12'><Trans>Sort by</Trans>:<RadioGroup buttons={ sortButtons } onValueSelected={ this.onSortChanged } defaultValue={ this.state.sortOrder } /></div>
-                        <nav className='col-md-12' aria-label={ t('Page navigation') } >
-                            <ul className='pagination'>
-                                <li>
-                                    <a href='#' aria-label={ t('Previous') } onClick={ this.onPageChanged.bind(this, 0) }>
-                                        <span aria-hidden='true'>&laquo;</span>
-                                    </a>
-                                </li>
-                                { pager }
-                                <li>
-                                    <a href='#' aria-label={ t('Next') } onClick={ this.onPageChanged.bind(this, pages.length - 1) }>
-                                        <span aria-hidden='true'>&raquo;</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </nav>
                     </form>
                 }
                 <div className='col-md-12'>{ deckRows }</div>
