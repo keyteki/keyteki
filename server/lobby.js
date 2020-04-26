@@ -42,7 +42,17 @@ class Lobby {
         this.io.on('connection', this.onConnection.bind(this));
 
         this.messageService.on('messageDeleted', (messageId, user) => {
-            this.io.emit('removemessage', messageId);
+            for(let socket of Object.values(this.sockets)) {
+                if(socket.user === user || (socket.user && socket.user.hasUserBlocked(user))) {
+                    continue;
+                }
+
+                if(socket.user && socket.user.permissions && socket.user.permissions.canModerateChat) {
+                    socket.send('removemessage', messageId, user.username);
+                } else {
+                    socket.send('removemessage', messageId);
+                }
+            }
         });
 
         setInterval(() => this.clearStalePendingGames(), 60 * 1000); // every minute
@@ -615,6 +625,7 @@ class Lobby {
 
         let chatMessage = { message: message, time: new Date() };
         let newMessage = await this.messageService.addMessage(chatMessage, socket.user);
+        newMessage.user = socket.user.getShortSummary();
 
         for(let s of Object.values(this.sockets)) {
             if(s.user && s.user.hasUserBlocked(socket.user)) {
@@ -633,8 +644,7 @@ class Lobby {
 
         Promise.all([this.cardService.getAllCards(), this.deckService.getSealedDeck(game.expansions)])
             .then(results => {
-                let [cards, deckArray] = results;
-                let deck = deckArray[0];
+                let [cards, deck] = results;
 
                 for(let card of deck.cards) {
                     card.card = cards[card.id];

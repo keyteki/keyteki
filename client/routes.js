@@ -6,7 +6,7 @@ import Logout from './pages/Logout';
 import Register from './pages/Register';
 import Lobby from './pages/Lobby';
 import Decks from './pages/Decks';
-import Matches from './pages/Matches';
+//import Matches from './pages/Matches';
 import ImportDeck from './Components/Decks/ImportDeck';
 import HowToPlay from './pages/HowToPlay';
 import About from './pages/About';
@@ -38,7 +38,7 @@ const routes = [
     { path: '/how-to-play', action: () => <HowToPlay key='howtoplay' /> },
     { path: '/login', action: () => <Login key='login' /> },
     { path: '/logout', action: () => <Logout key='logout' /> },
-    { path: '/matches', action: () => <Matches key='matches' /> },
+    //{ path: '/matches', action: () => <Matches key='matches' /> },
     { path: '/news', action: () => <NewsAdmin key='newsadmin' />, permission: 'canEditNews' },
     { path: '/play', action: context => (context.currentGame && context.currentGame.started) ? <GameBoard key='gameboard' /> : <GameLobby key='gamelobby' gameId={ context.params.gameId } /> },
     { path: '/profile', action: () => <Profile key='profile' /> },

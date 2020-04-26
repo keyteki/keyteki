@@ -218,9 +218,11 @@ function handleMessage(action, state) {
         case 'removemessage':
             newState = Object.assign({}, state);
 
-            newState.messages = newState.messages.filter(message => {
-                return message.id !== action.args[0];
-            });
+            var message = newState.messages.find(message => message.id === parseInt(action.args[0]));
+            message.deletedBy = action.args[1];
+            message.deleted = true;
+
+            newState.messages = [].concat(newState.messages);
 
             break;
         case 'banner':

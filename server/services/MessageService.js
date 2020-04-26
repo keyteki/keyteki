@@ -5,19 +5,26 @@ const db = require('../db');
 
 class MessageService extends EventEmitter {
     async addMessage(message, user) {
+        let ret;
+        let id;
         try {
-            await db.query('INSERT INTO "Messages" ("Text", "PostedTime", "PosterId") VALUES ($1, $2, $3)', [message.message, message.time, user.id]);
+            ret = await db.query('INSERT INTO "Messages" ("Text", "PostedTime", "PosterId") VALUES ($1, $2, $3) RETURNING "Id"', [message.message, message.time, user.id]);
         } catch(err) {
             logger.error('Unable to insert message', err);
             throw new Error('Unable to insert message');
         }
+
+        id = ret[0].Id;
+        message.id = id;
+
+        return message;
     }
 
     async getLastMessagesForUser(user) {
         let messages;
 
         try {
-            messages = await db.query('SELECT m.*, u."Username" AS "Poster", r."Name" AS "Role", ud."Username" AS DeletedBy FROM "Messages" m ' +
+            messages = await db.query('SELECT m.*, u."Username" AS "Poster", r."Name" AS "Role", ud."Username" AS "DeletedBy" FROM "Messages" m ' +
                 'JOIN "Users" u ON u."Id" = m."PosterId" ' +
                 'LEFT JOIN "UserRoles" ur ON ur."UserId" = u."Id" ' +
                 'LEFT JOIN "Roles" r ON r."Id" = ur."RoleId" ' +
@@ -35,7 +42,7 @@ class MessageService extends EventEmitter {
 
     async removeMessage(messageId, user) {
         try {
-            await db.query('UPDATE "Messages" SET "Deleted" = $1, DeletedBy = $2', [new Date(), user.id]);
+            await db.query('UPDATE "Messages" SET "Deleted" = $1, "DeletedById" = $2 WHERE "Id" = $3', [new Date(), user.id, messageId]);
         } catch(err) {
             logger.error('Failed to remove message', err);
             throw new Error('Failed to remove message');
@@ -73,7 +80,8 @@ class MessageService extends EventEmitter {
     mapMessage(message, user) {
         let retMessage = {
             id: message.Id,
-            message: (!message.DeletedBy || (user && user.permissions.canModerateChat)) ? message.Text : '<Message deleted by a moderator>',
+            message: (!message.Deleted || (user && user.permissions.canModerateChat)) ? message.Text : undefined,
+            deleted: !!message.Deleted,
             time: message.PostedTime,
             user: {
                 username: message.Poster,

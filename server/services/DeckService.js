@@ -47,7 +47,20 @@ class DeckService {
             dbExpansions.push(452);
         }
 
-        return await this.decks.aggregate([{ $match: { includeInSealed: true, expansion: { $in: dbExpansions } } }, { $sample: { size: 1 } }]);
+        let deck;
+        let expansionStr = dbExpansions.join(',');
+        try {
+            deck = await db.query(`SELECT * from "Decks" WHERE "ExpansionId" IN (SELECT "Id" FROM "Expansions" WHERE "ExpansionId" IN(${expansionStr})) AND "IncludeInSealed" = True ORDER BY random() LIMIT 1`);
+        } catch(err) {
+            logger.error('Failed to fetch random deck', err);
+            throw new Error('Failed to fetch random deck');
+        }
+
+        let retDeck = this.mapDeck(deck[0]);
+
+        await this.getDeckCardsAndHouses(retDeck);
+
+        return retDeck;
     }
 
     async findForUser(user) {

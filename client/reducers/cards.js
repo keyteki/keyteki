@@ -1,5 +1,3 @@
-import _ from 'underscore';
-
 function selectDeck(state, deck) {
     if(state.decks && state.decks.length !== 0) {
         state.selectedDeck = deck;
@@ -20,7 +18,6 @@ function processDecks(decks, state) {
         }
 
         deck.cards = deck.cards.map(card => {
-            console.info(card, card.id, state.cards[card.id]);
             let result = { count: card.count, card: Object.assign({}, state.cards[card.id]), id: card.id, maverick: card.maverick, anomaly: card.anomaly };
             result.card.image = card.id;
             if(card.maverick) {
@@ -105,12 +102,12 @@ export default function(state = { decks: [] }, action) {
                 deckSaved: false
             });
 
-            if(!newState.decks.some(deck => deck.id === action.response.deck.id)) {
+            if(!newState.decks.some(deck => deck.id === parseInt(action.response.deck.id))) {
                 newState.decks.push(processDecks([action.response.deck], state));
             }
 
             var selected = newState.decks.find(deck => {
-                return deck.id === action.response.deck.id;
+                return deck.id === parseInt(action.response.deck.id);
             });
 
             newState = selectDeck(newState, selected);
@@ -151,7 +148,7 @@ export default function(state = { decks: [] }, action) {
             });
 
             newState.decks = newState.decks.filter(deck => {
-                return deck.id !== action.response.deckId;
+                return deck.id !== parseInt(action.response.deckId);
             });
 
             newState.selectedDeck = newState.decks[0];
