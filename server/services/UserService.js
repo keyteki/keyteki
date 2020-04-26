@@ -219,7 +219,7 @@ class UserService extends EventEmitter {
             logger.error('Failed to update user', err);
         }
 
-        if(user.password && user.password) {
+        if(user.password && user.password !== '') {
             return this.setPassword(user, user.password);
         }
     }

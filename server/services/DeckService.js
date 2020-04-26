@@ -211,7 +211,7 @@ class DeckService {
             'FROM "Decks" d ' +
             'JOIN "Users" u ON u."Id" = "UserId" ' +
             'JOIN "Expansions" e on e."Id" = d."ExpansionId" ' +
-            'WHERE "Id" = $1 AND "Verfied" = False AND "DeckCount" > $2', [user.id, this.configService.getValueForSection('lobby', 'lowerDeckThreshold')]);
+            'WHERE u."Id" = $1 AND d."Verified" = False AND (SELECT COUNT(*) FROM "Decks" WHERE "Name" = d."Name") > $2', [user.id, this.configService.getValueForSection('lobby', 'lowerDeckThreshold')]);
         } catch(err) {
             logger.error(`Failed to retrieve unverified decks: ${user.id}`, err);
 
