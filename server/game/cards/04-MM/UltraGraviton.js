@@ -1,10 +1,11 @@
-const CompositeCard = require('../../CompositeCard.js');
+const Card = require('../../Card.js');
 
-class UltraGraviton extends CompositeCard {
+class UltraGraviton extends Card {
     constructor(owner, cardData) {
         super(owner, cardData);
 
         this.gigantic = true;
+        this.playedParts = [];
         this.compositeImageId = 'ultra-graviton-complete';
         this.compositeParts = ['ultra-graviton-2'];
     }

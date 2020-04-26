@@ -1,10 +1,11 @@
-const CompositeCard = require('../../CompositeCard.js');
+const Card = require('../../Card.js');
 
-class NiffleKong extends CompositeCard {
+class NiffleKong extends Card {
     constructor(owner, cardData) {
         super(owner, cardData);
 
         this.gigantic = true;
+        this.playedParts = [];
         this.compositeImageId = 'niffle-kong-complete';
         this.compositeParts = ['niffle-kong-2'];
     }

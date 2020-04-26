@@ -1,10 +1,11 @@
-const CompositeCard = require('../../CompositeCard.js');
+const Card = require('../../Card.js');
 
-class Deusillus extends CompositeCard {
+class Deusillus extends Card {
     constructor(owner, cardData) {
         super(owner, cardData);
 
         this.gigantic = true;
+        this.playedParts = [];
         this.compositeImageId = 'deusillus-complete';
         this.compositeParts = ['deusillus-2'];
     }

@@ -267,5 +267,72 @@ describe('Deusillus', function() {
                 expect(this.troll.tokens.damage).toBe(5);
             });
         });
+
+        describe('Deusillus\'s Ability should interact with Overlord Greking', function() {
+            beforeEach(function() {
+                this.setupTest({
+                    player1: {
+                        amber: 2,
+                        house: 'saurian',
+                        inPlay: ['senator-shrix'],
+                        hand: ['deusillus', 'deusillus-2']
+                    },
+                    player2: {
+                        amber: 5,
+                        inPlay: ['overlord-greking', 'narp', 'zorg']
+                    }
+                });
+            });
+
+            it('should play part 1 after being returned to hand', function() {
+                this.player1.play(this.deusillus);
+                this.player1.clickCard(this.narp);
+                this.player1.endTurn();
+                this.deusillus.tokens.damage = 19;
+                this.overlordGreking.tokens.ward = 1;
+                this.player2.clickPrompt('dis');
+                this.player2.fightWith(this.overlordGreking, this.deusillus);
+                this.player2.clickPrompt('Left');
+
+                expect(this.deusillus.location).toBe('play area');
+                expect(this.deusillus.controller).toBe(this.player2.player);
+            });
+        });
+
+        describe('Deusillus\'s Ability should interact with Spangler Box', function() {
+            beforeEach(function() {
+                this.setupTest({
+                    player1: {
+                        amber: 2,
+                        house: 'saurian',
+                        inPlay: ['senator-shrix'],
+                        hand: ['deusillus', 'deusillus-2']
+                    },
+                    player2: {
+                        amber: 5,
+                        inPlay: ['spangler-box', 'narp', 'zorg']
+                    }
+                });
+            });
+
+            xit('should play part 1 after being returned to hand', function() {
+                this.player1.play(this.deusillus);
+                this.player1.clickCard(this.narp);
+                this.player1.endTurn();
+
+                this.player2.clickPrompt('logos');
+                this.player2.useAction(this.spanglerBox);
+                this.player2.clickCard(this.deusillus);
+
+                expect(this.deusillus.location).toBe('purged');
+                expect(this.deusillus2.location).toBe('purged');
+
+                expect(this.deusillus.parent).toBe(this.spanglerBox);
+                expect(this.deusillus2.parent).toBe(this.spanglerBox);
+
+                expect(this.spanglerBox.childCards).toContain(this.deusillus);
+                expect(this.spanglerBox.childCards).toContain(this.deusillus2);
+            });
+        });
     });
 });
