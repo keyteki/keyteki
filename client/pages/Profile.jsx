@@ -37,7 +37,7 @@ class Profile extends React.Component {
         this.updateProfile(this.props);
     }
 
-    componentWillReceiveProps(props) {
+    componentDidReceiveProps(props) {
         if(!props.user) {
             return;
         }

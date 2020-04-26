@@ -21,7 +21,7 @@ class Patreon extends React.Component {
         this.props.linkPatreon(this.props.code);
     }
 
-    componentWillReceiveProps(props) {
+    componentDidReceiveProps(props) {
         if(props.accountLinked) {
             this.setState({ successMessage: 'Your account was linked successfully.  Sending you back to the profile page.' });
 

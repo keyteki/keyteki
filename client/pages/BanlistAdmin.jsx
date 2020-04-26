@@ -20,11 +20,11 @@ class BanlistAdmin extends React.Component {
         this.onAddBanlistClick = this.onAddBanlistClick.bind(this);
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.props.loadBanlist();
     }
 
-    componentWillReceiveProps(props) {
+    componentDidReceiveProps(props) {
         let clearStatus = false;
         if(props.banListAdded) {
             clearStatus = true;

@@ -40,6 +40,7 @@ class NewGame extends React.Component {
         };
     }
 
+    // eslint-disable-next-line react/no-deprecated
     componentWillMount() {
         this.setState({ gameName: this.props.defaultGameName });
     }

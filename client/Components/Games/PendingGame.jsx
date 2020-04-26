@@ -48,7 +48,7 @@ class PendingGame extends React.Component {
         }
     }
 
-    componentWillReceiveProps(props) {
+    componentDidReceiveProps(props) {
         if(!props.user) {
             return;
         }

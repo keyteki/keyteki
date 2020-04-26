@@ -58,7 +58,7 @@ class UserAdmin extends React.Component {
         this.onFindClick = this.onFindClick.bind(this);
     }
 
-    componentWillReceiveProps(props) {
+    componentDidReceiveProps(props) {
         this.setState({
             permissions: props.currentUser ? (props.currentUser.permissions || this.defaultPermissions) : this.defaultPermissions,
             disabled: props.currentUser ? props.currentUser.disabled : false,

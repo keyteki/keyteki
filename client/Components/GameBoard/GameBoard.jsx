@@ -78,7 +78,7 @@ export class GameBoard extends React.Component {
         $('.modal-backdrop').remove();
     }
 
-    componentWillReceiveProps(props) {
+    componentDidReceiveProps(props) {
         this.updateContextMenu(props);
 
         let lastMessageCount = this.state.lastMessageCount;

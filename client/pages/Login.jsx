@@ -17,7 +17,7 @@ class Login extends React.Component {
         this.onLogin = this.onLogin.bind(this);
     }
 
-    componentWillReceiveProps(props) {
+    componentDidReceiveProps(props) {
         if(props.loggedIn) {
             this.props.authenticateSocket();
 

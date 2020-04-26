@@ -46,7 +46,7 @@ class MovablePanel extends React.Component {
         };
     }
 
-    componentWillReceiveProps(props) {
+    componentDidReceiveProps(props) {
         if(props.isDragging) {
             let style = {
                 position: 'fixed',

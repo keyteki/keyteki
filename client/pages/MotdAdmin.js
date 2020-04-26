@@ -27,7 +27,7 @@ class MotdAdmin extends React.Component {
         this.onSaveClick = this.onSaveClick.bind(this);
     }
 
-    componentWillReceiveProps(props) {
+    componentDidReceiveProps(props) {
         this.setState({ motdText: props.motd && props.motd.message, selectedMotdType: props.motd ? props.motd.motdType : 'info' });
     }
 

@@ -17,7 +17,7 @@ class ResetPassword extends React.Component {
         this.state = {};
     }
 
-    componentWillReceiveProps(props) {
+    componentDidReceiveProps(props) {
         if(props.accountPasswordReset) {
             this.setState({ successMessage: 'Your password has been changed.  You will shortly be redirected to the login page.' });
 

@@ -16,7 +16,7 @@ class StatusPopOver extends React.Component {
         this.updateProps(this.props);
     }
 
-    componentWillReceiveProps(props) {
+    componentDidReceiveProps(props) {
         this.updateProps(props);
     }
 

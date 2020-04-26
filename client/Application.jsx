@@ -23,6 +23,7 @@ class Application extends React.Component {
         };
     }
 
+    // eslint-disable-next-line react/no-deprecated
     componentWillMount() {
         if(!localStorage) {
             this.setState({ incompatibleBrowser: true });
