@@ -132,7 +132,7 @@
     "jasmine": "^2.8.0",
     "jasmine-core": "^2.8.0",
     "jest": "^25.2.4",
-    "jimp": "^0.3.11",
+    "jimp": "^0.10.3",
     "json-loader": "^0.5.7",
     "less": "^3.11.1",
     "less-loader": "^4.0.5",

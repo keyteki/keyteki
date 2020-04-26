@@ -426,7 +426,7 @@ class Lobby {
 
         delete this.users[socket.user.username];
 
-        logger.info('user \'%s\' disconnected from the lobby: %s', socket.user.username, reason);
+        logger.info(`user '${socket.user.username}' disconnected from the lobby: ${reason}`);
 
         let game = this.findGameForUser(socket.user.username);
         if(!game) {

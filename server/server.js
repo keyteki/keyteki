@@ -119,7 +119,7 @@ class Server {
                 logger.error(err);
             }
 
-            logger.info('==> ?? Listening on port %s. Open up http://0.0.0.0:%s/ in your browser.', port, port);
+            logger.info(`==> ?? Listening on port ${port}. Open up http://0.0.0.0:${port}/ in your browser.`);
         });
     }
 

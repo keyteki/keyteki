@@ -196,7 +196,7 @@ class GameRouter extends EventEmitter {
                 if(worker) {
                     worker.numGames--;
                 } else {
-                    logger.error('Got close game for non existant worker %s', identity);
+                    logger.error(`Got close game for non existant worker ${identity}`);
                 }
 
                 this.emit('onGameRematch', message.arg.game);
@@ -206,7 +206,7 @@ class GameRouter extends EventEmitter {
                 if(worker) {
                     worker.numGames--;
                 } else {
-                    logger.error('Got close game for non existant worker %s', identity);
+                    logger.error(`Got close game for non existant worker ${identity}`);
                 }
 
                 this.emit('onGameClosed', message.arg.game);
