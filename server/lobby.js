@@ -148,7 +148,7 @@ class Lobby {
                 this.userService.getUserById(user.id).then(dbUser => {
                     let socket = this.sockets[ioSocket.id];
                     if(!socket) {
-                        logger.error('Tried to authenticate socket but could not find it', dbUser.username);
+                        logger.error('Tried to authenticate socket for %s but could not find it', dbUser.username);
                         return;
                     }
 
@@ -256,7 +256,7 @@ class Lobby {
 
         for(let player of Object.values(game.getPlayersAndSpectators())) {
             if(!this.sockets[player.id]) {
-                logger.info('Wanted to send to ', player.id, ' but have no socket');
+                logger.info(`Wanted to send to ${player.id} but have no socket`);
                 continue;
             }
 
@@ -279,7 +279,7 @@ class Lobby {
         let staleGames = Object.values(this.games).filter(game => !game.started && Date.now() - game.createdAt > timeout);
 
         for(let game of staleGames) {
-            logger.info('closed pending game', game.id, 'due to inactivity');
+            logger.info(`closed pending game ${game.id} due to inactivity`);
             delete this.games[game.id];
         }
 
@@ -734,7 +734,7 @@ class Lobby {
             return;
         }
 
-        logger.info(socket.user.username, 'closed game', game.id, '(' + game.name + ') forcefully');
+        logger.info(`${socket.user.username} closed game ${game.id} (${game.name}) forcefully`);
 
         if(!game.started) {
             delete this.games[game.id];
@@ -934,14 +934,14 @@ class Lobby {
     onClearSessions(socket, username) {
         this.userService.clearUserSessions(username).then(success => {
             if(!success) {
-                logger.error(`Failed to clear sessions for user ${username}`, username);
+                logger.error(`Failed to clear sessions for user ${username}`);
                 return;
             }
 
             let game = this.findGameForUser(username);
 
             if(game) {
-                logger.info('closed game', game.id, '(' + game.name + ') forcefully due to clear session on', username);
+                logger.info(`closed game ${game.id} (${game.name}) forcefully due to clear session on ${username}`);
 
                 if(!game.started) {
                     delete this.games[game.id];
@@ -965,7 +965,7 @@ class Lobby {
             let owner = game.players[game.owner];
 
             if(!owner) {
-                logger.error('Got a game where the owner wasn\'t a player', game.owner);
+                logger.error('Got a game where the owner %s wasn\'t a player', game.owner);
                 continue;
             }
 

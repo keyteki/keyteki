@@ -196,7 +196,7 @@ class GameRouter extends EventEmitter {
                 if(worker) {
                     worker.numGames--;
                 } else {
-                    logger.error('Got close game for non existant worker', identity);
+                    logger.error('Got close game for non existant worker %s', identity);
                 }
 
                 this.emit('onGameRematch', message.arg.game);
@@ -206,7 +206,7 @@ class GameRouter extends EventEmitter {
                 if(worker) {
                     worker.numGames--;
                 } else {
-                    logger.error('Got close game for non existant worker', identity);
+                    logger.error('Got close game for non existant worker %s', identity);
                 }
 
                 this.emit('onGameClosed', message.arg.game);
@@ -242,7 +242,7 @@ class GameRouter extends EventEmitter {
             }
 
             if(worker.pingSent && currentTime - worker.pingSent > pingTimeout) {
-                logger.info('worker', worker.identity + ' timed out');
+                logger.info(`worker ${worker.identity} timed out`);
                 worker.disconnected = true;
                 this.emit('onWorkerTimedOut', worker.identity);
             } else if(!worker.pingSent) {

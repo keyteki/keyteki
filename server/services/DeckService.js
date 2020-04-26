@@ -20,7 +20,7 @@ class DeckService {
             'JOIN "Expansions" e on e."Id" = d."ExpansionId" ' +
             'WHERE d."Id" = $1 ', [id]);
         } catch(err) {
-            logger.error('Failed to retrieve deck: ' + id, err);
+            logger.error(`Failed to retrieve deck: ${id}`, err);
 
             throw new Error('Unable to fetch deck: ' + id);
         }
@@ -99,14 +99,14 @@ class DeckService {
             let response = await util.httpRequest(`https://www.keyforgegame.com/api/decks/${deck.uuid}/?links=cards`);
 
             if(response[0] === '<') {
-                logger.error('Deck failed to import', deck.uuid, response);
+                logger.error('Deck failed to import: %s %s', deck.uuid, response);
 
                 return;
             }
 
             deckResponse = JSON.parse(response);
         } catch(error) {
-            logger.error('Unable to import deck', deck.uuid, error);
+            logger.error(`Unable to import deck ${deck.uuid}`, error);
 
             return;
         }
@@ -200,9 +200,9 @@ class DeckService {
             'JOIN "Expansions" e on e."Id" = d."ExpansionId" ' +
             'WHERE "Id" = $1 AND "Verfied" = False AND "DeckCount" > $2', [user.id, this.configService.getValueForSection('lobby', 'lowerDeckThreshold')]);
         } catch(err) {
-            logger.error('Failed to retrieve unverified decks: ' + user.id, err);
+            logger.error(`Failed to retrieve unverified decks: ${user.id}`, err);
 
-            throw new Error('Unable to fetch unverified decks: ' + user.id);
+            throw new Error(`Unable to fetch unverified decks: ${user.id}`);
         }
 
         for(let deck of decks) {
@@ -220,9 +220,9 @@ class DeckService {
         try {
             await db.query('UPDATE "Decks" SET "Verified" = True WHERE "UserId" = $1 AND "Verified" = False', [user.id]);
         } catch(err) {
-            logger.error('Failed to verify decks: ' + user.id, err);
+            logger.error(`Failed to verify decks: ${user.id}`, err);
 
-            throw new Error('Unable to unverify decks: ' + user.id);
+            throw new Error(`Unable to unverify decks: ${user.id}`);
         }
     }
 

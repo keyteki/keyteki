@@ -146,13 +146,13 @@ class GameServer {
 
         let staleGames = Object.values(this.games).filter(game => game.finishedAt && (Date.now() - game.finishedAt > timeout));
         for(let game of staleGames) {
-            logger.info('closed finished game', game.id, 'due to inactivity');
+            logger.info(`closed finished game ${game.id} due to inactivity`);
             this.closeGame(game);
         }
 
         let emptyGames = Object.values(this.games).filter(game => game.isEmpty());
         for(let game of emptyGames) {
-            logger.info('closed empty game', game.id);
+            logger.info(`closed empty game ${game.id}`);
             this.closeGame(game);
         }
     }
@@ -269,7 +269,7 @@ class GameServer {
             return retGame;
         });
 
-        logger.info('syncing', _.size(gameSummaries), ' games');
+        logger.info(`syncing ${_.size(gameSummaries)} games`);
 
         callback(gameSummaries);
     }
@@ -319,7 +319,7 @@ class GameServer {
 
         let game = this.findGameForUser(ioSocket.request.user.username);
         if(!game) {
-            logger.info('No game for', ioSocket.request.user.username, 'disconnecting');
+            logger.info(`No game for ${ioSocket.request.user.username} disconnecting`);
             ioSocket.disconnect();
             return;
         }

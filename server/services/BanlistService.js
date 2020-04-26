@@ -55,7 +55,7 @@ class UserService {
         try {
             res = await db.query('INSERT INTO "BanList" ("Ip", "CreatorId", "Added") VALUES ($1, $2, $3) RETURNING "Id"', [entry.ip, entry.userId, added]);
         } catch(err) {
-            logger.error('Error adding banlist entry', err, entry);
+            logger.error(`Error adding banlist entry ${entry}`, err);
 
             throw new Error('Error occured adding banlist entry');
         }
