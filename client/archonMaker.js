@@ -122,26 +122,23 @@ export const buildDeckList = (deck, language, translate, AllCards) => new Promis
         });*/
 });
 
-export const buildArchon = (deck, language) => new Promise(async resolve => {
+export const buildArchon = (deck, language) => new Promise(resolve => {
     if(!deck.uuid || !deck.houses) {
         resolve(Images.cardback);
         return;
     }
 
-    const canvas = new fabric.Canvas('c');
+    const canvas = new fabric.Canvas();
     canvas.setDimensions({ width: 600, height: 840 });
-    const archon = await loadImage(`/img/idbacks/archons/${imageName(deck, language)}.png`);
-    const deckNameUrl = getCircularText(deck.name, 700, 0);
-    const deckName = await loadImage(deckNameUrl);
-    canvas.add(archon);
-    deckName.set({ left: -50, top: 70 });
-    canvas.add(deckName);
-
-    const dataURL = canvas.toDataURL({
-        format: 'jpeg',
-        quality: 0.8
-    });
-    resolve(dataURL);
+    const archon = loadImage(`/img/idbacks/archons/${imageName(deck, language)}.png`);
+    const title = getCircularText(deck.name, 700, 0);
+    Promise.all([archon, title])
+        .then(([archon, title]) => {
+            canvas.add(archon);
+            title.set({ left: -50, top: 70 });
+            canvas.add(title);
+            resolve(canvas.toDataURL({ format: 'jpeg', quality: 0.8 }));
+        });
 });
 
 const loadImage = (url) => {
@@ -151,7 +148,6 @@ const loadImage = (url) => {
         });
     });
 };
-
 
 const imageName = (deck, language) => {
     if(!deck.uuid) {
@@ -174,35 +170,37 @@ const getCurvedFontSize = (length) => {
 };
 
 const getCircularText = (text = '', diameter, kerning) => {
-    let canvas = fabric.util.createCanvasElement();
-    let ctx = canvas.getContext('2d');
-    let textHeight = 40, startAngle = 0;
+    return new Promise((resolve, reject) => {
+        let canvas = fabric.util.createCanvasElement();
+        let ctx = canvas.getContext('2d');
+        let textHeight = 40, startAngle = 0;
 
-    canvas.width = diameter;
-    canvas.height = diameter;
-    ctx.fillStyle = 'white';
-    ctx.strokeStyle = 'grey';
-    ctx.font = `bold ${getCurvedFontSize(text.length)}px Keyforge`;
+        canvas.width = diameter;
+        canvas.height = diameter;
+        ctx.fillStyle = 'white';
+        ctx.strokeStyle = 'grey';
+        ctx.font = `bold ${getCurvedFontSize(text.length)}px Keyforge`;
 
-    text = text.split('').reverse().join('');
+        text = text.split('').reverse().join('');
 
-    ctx.translate(diameter / 2, diameter / 2); // Move to center
-    ctx.textBaseline = 'middle'; // Ensure we draw in exact center
-    ctx.textAlign = 'center'; // Ensure we draw in exact center
+        ctx.translate(diameter / 2, diameter / 2); // Move to center
+        ctx.textBaseline = 'middle'; // Ensure we draw in exact center
+        ctx.textAlign = 'center'; // Ensure we draw in exact center
 
-    for(let j = 0; j < text.length; j++) {
-        let charWid = ctx.measureText(text[j]).width;
-        startAngle += ((charWid + (j === text.length - 1 ? 0 : kerning)) / (diameter / 2 - textHeight)) / 2;
-    }
+        for(let j = 0; j < text.length; j++) {
+            let charWid = ctx.measureText(text[j]).width;
+            startAngle += ((charWid + (j === text.length - 1 ? 0 : kerning)) / (diameter / 2 - textHeight)) / 2;
+        }
 
-    ctx.rotate(startAngle);
+        ctx.rotate(startAngle);
 
-    for(let j = 0; j < text.length; j++) {
-        let charWid = ctx.measureText(text[j]).width; // half letter
-        ctx.rotate((charWid / 2) / (diameter / 2 - textHeight) * -1);
-        ctx.fillText(text[j], 0, (0 - diameter / 2 + textHeight / 2));
-        ctx.rotate((charWid / 2 + kerning) / (diameter / 2 - textHeight) * -1); // rotate half letter
-    }
+        for(let j = 0; j < text.length; j++) {
+            let charWid = ctx.measureText(text[j]).width; // half letter
+            ctx.rotate((charWid / 2) / (diameter / 2 - textHeight) * -1);
+            ctx.fillText(text[j], 0, (0 - diameter / 2 + textHeight / 2));
+            ctx.rotate((charWid / 2 + kerning) / (diameter / 2 - textHeight) * -1); // rotate half letter
+        }
 
-    return canvas.toDataURL();
+        loadImage(canvas.toDataURL()).then(resolve).catch(reject);
+    });
 };
