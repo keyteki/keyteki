@@ -213,8 +213,8 @@ export function connectLobby() {
             dispatch(nodeStatusReceived(status));
         });
 
-        socket.on('removemessage', messageId => {
-            dispatch(lobbyMessageReceived('removemessage', messageId));
+        socket.on('removemessage', (messageId, deletedBy) => {
+            dispatch(lobbyMessageReceived('removemessage', messageId, deletedBy));
         });
     };
 }

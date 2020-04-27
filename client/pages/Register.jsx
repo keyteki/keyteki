@@ -23,7 +23,7 @@ export class Register extends React.Component {
         };
     }
 
-    componentWillReceiveProps(props) {
+    componentDidReceiveProps(props) {
         let t = this.props.t;
 
         if(props.accountRegistered) {

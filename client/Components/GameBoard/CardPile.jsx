@@ -21,7 +21,7 @@ class CardPile extends React.Component {
         this.onCloseClick = this.onCloseClick.bind(this);
     }
 
-    componentWillReceiveProps(props) {
+    componentDidReceiveProps(props) {
         let hasNewSelectableCard = props.cards && props.cards.some(card => card.selectable);
         let didHaveSelectableCard = this.props.cards && this.props.cards.some(card => card.selectable);
 

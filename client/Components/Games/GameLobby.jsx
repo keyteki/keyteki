@@ -76,7 +76,7 @@ class GameLobby extends React.Component {
         }
     }
 
-    componentWillReceiveProps(props) {
+    componentDidReceiveProps(props) {
         if(!props.currentGame) {
             this.props.setContextMenu([]);
         }

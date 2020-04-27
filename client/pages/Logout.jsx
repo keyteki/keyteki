@@ -7,11 +7,11 @@ import AlertPanel from '../Components/Site/AlertPanel';
 import * as actions from '../actions';
 
 class Logout extends React.Component {
-    componentWillMount() {
+    componentDidMount() {
         this.props.logout();
     }
 
-    componentWillReceiveProps(props) {
+    componentDidReceiveProps(props) {
         if(props.loggedOut) {
             this.props.navigate('/');
         }

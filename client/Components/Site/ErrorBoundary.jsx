@@ -16,12 +16,6 @@ class ErrorBoundary extends React.Component {
         this.onReturnClick = this.onReturnClick.bind(this);
     }
 
-    componentWillReceiveProps(props) {
-        if(props.errorPath !== this.state.errorPath) {
-            this.setState({ error: null, errorPath: props.errorPath });
-        }
-    }
-
     componentDidCatch(error, errorInfo) {
         this.setState({ error });
 
@@ -30,6 +24,12 @@ class ErrorBoundary extends React.Component {
             const eventId = Sentry.captureException(error);
             this.setState({ eventId });
         });
+    }
+
+    componentDidReceiveProps(props) {
+        if(props.errorPath !== this.state.errorPath) {
+            this.setState({ error: null, errorPath: props.errorPath });
+        }
     }
 
     onReturnClick(event) {

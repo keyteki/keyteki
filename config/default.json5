@@ -5,6 +5,11 @@
     dbPath: 'mongodb://mongo:27017/keyforge',
     mqHost: 'lobby',
     mqPort: 6000,
+    dbUser: 'keyteki',
+    dbHost: 'localhost',
+    dbDatabase: 'keyteki',
+    dbPassword: 'password',
+    dbPort: 5432,
     minLobbyChatTime: 0, // The time (in seconds) an account has to be registered before it can chat in the lobby
     /*
      * Other global configurations used, but not specified, include:

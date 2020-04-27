@@ -16,7 +16,7 @@ class Deck {
                 card: card.card
             };
             if(!result.card) {
-                logger.error('Corrupt deck', card.id, card);
+                logger.error(`Corrupt deck ${card.id} ${card}`);
                 return result;
             }
 
@@ -64,7 +64,7 @@ class Deck {
 
     createCard(player, cardData) {
         if(!cardData || !cardData.id) {
-            logger.error('no cardData for ' + JSON.stringify(this.data));
+            logger.error(`no cardData for ${JSON.stringify(this.data)}`);
             return;
         }
 

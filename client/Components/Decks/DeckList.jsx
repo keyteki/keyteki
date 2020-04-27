@@ -104,7 +104,7 @@ class DeckList extends React.Component {
             sortedDecks = sortedDecks.slice(this.state.currentPage * this.state.pageSize, (this.state.currentPage * this.state.pageSize) + this.state.pageSize);
 
             for(let deck of sortedDecks) {
-                deckRows.push(<DeckRow active={ activeDeck && activeDeck._id === deck._id } deck={ deck } key={ index++ } onSelect={ onSelectDeck } />);
+                deckRows.push(<DeckRow active={ activeDeck && activeDeck.id === deck.id } deck={ deck } key={ index++ } onSelect={ onSelectDeck } />);
             }
         }
 

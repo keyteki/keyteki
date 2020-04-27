@@ -73,17 +73,21 @@ class PatreonService {
 
         response.date = new Date();
 
-        let dbUser = await this.userService.getUserByUsername(username);
-        if(!dbUser) {
+        let user = await this.userService.getUserByUsername(username);
+        if(!user) {
             logger.error('Error linking patreon account, user not found');
             return false;
         }
 
-        let user = dbUser.getDetails();
         user.patreon = response;
 
         try {
+            let password = user.password;
+
+            user.password = undefined;
             await this.userService.update(user);
+
+            user.password = password;
         } catch(err) {
             logger.error(err);
             return false;
@@ -93,13 +97,12 @@ class PatreonService {
     }
 
     async unlinkAccount(username) {
-        let dbUser = await this.userService.getUserByUsername(username);
-        if(!dbUser) {
+        let user = await this.userService.getUserByUsername(username);
+        if(!user) {
             logger.error('Error unlinking patreon account, user not found');
             return false;
         }
 
-        let user = dbUser.getDetails();
         user.patreon = undefined;
 
         try {
