@@ -306,7 +306,7 @@ describe('Deusillus', function() {
                         amber: 2,
                         house: 'saurian',
                         inPlay: ['senator-shrix'],
-                        hand: ['deusillus', 'deusillus-2']
+                        hand: ['deusillus', 'deusillus-2', 'poltergeist']
                     },
                     player2: {
                         amber: 5,
@@ -315,7 +315,7 @@ describe('Deusillus', function() {
                 });
             });
 
-            xit('should play part 1 after being returned to hand', function() {
+            it('should put Deusillus under Spangler Box as a single creature', function() {
                 this.player1.play(this.deusillus);
                 this.player1.clickCard(this.narp);
                 this.player1.endTurn();
@@ -328,10 +328,38 @@ describe('Deusillus', function() {
                 expect(this.deusillus2.location).toBe('purged');
 
                 expect(this.deusillus.parent).toBe(this.spanglerBox);
-                expect(this.deusillus2.parent).toBe(this.spanglerBox);
+                expect(this.deusillus.playedParts).toContain(this.deusillus2);
 
                 expect(this.spanglerBox.childCards).toContain(this.deusillus);
-                expect(this.spanglerBox.childCards).toContain(this.deusillus2);
+                expect(this.spanglerBox.childCards).not.toContain(this.deusillus2);
+            });
+
+            it('should put Deusillus in play after Spangler Box is destroyed', function() {
+                this.player1.play(this.deusillus);
+                this.player1.clickCard(this.narp);
+                this.player1.endTurn();
+
+                this.player2.clickPrompt('logos');
+                this.player2.useAction(this.spanglerBox);
+                this.player2.clickCard(this.deusillus);
+                this.player2.endTurn();
+
+                this.player1.clickPrompt('dis');
+                this.player1.play(this.poltergeist);
+                this.player1.clickCard(this.spanglerBox);
+                this.player1.clickCard(this.zorg);
+
+                expect(this.player1).toHavePrompt('Deusillus');
+                this.player1.clickPrompt('Left');
+
+                expect(this.spanglerBox.location).toBe('discard');
+                expect(this.zorg.location).toBe('play area');
+                expect(this.zorg.controller).toBe(this.player2.player);
+                expect(this.deusillus.location).toBe('play area');
+                expect(this.deusillus.playedParts).toContain(this.deusillus2);
+                expect(this.player1.player.hand).not.toContain(this.deusillus);
+                expect(this.player1.player.hand).not.toContain(this.deusillus2);
+                expect(this.deusillus.controller).toBe(this.player1.player);
             });
         });
     });

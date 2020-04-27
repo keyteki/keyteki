@@ -210,6 +210,7 @@ class Card extends EffectSource {
         this.abilities.keywordReactions.push(this.interrupt({
             when: {
                 onCardMarkedForDestruction: (event, context) => event.card === context.source && context.source.warded,
+                onCardPurged: (event, context) => event.card === context.source && context.source.warded,
                 onCardLeavesPlay: (event, context) => event.card === context.source && context.source.warded,
                 onDamageDealt: (event, context) => event.card === context.source && !context.event.noGameStateCheck && context.source.warded
             },

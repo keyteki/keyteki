@@ -119,10 +119,15 @@ class PutIntoPlayAction extends CardGameAction {
             if(card.gigantic) {
                 card.compositeParts.forEach(id => {
                     let part = card.controller.getSourceList(card.location).find(part => id === part.id);
-                    card.controller.removeCardFromPile(part);
-                    card.playedParts.push(part);
-                });
+                    if(!part && card.parent) {
+                        part = card.parent.childCards.find(part => id === part.id);
+                    }
 
+                    if(part) {
+                        card.controller.removeCardFromPile(part);
+                        card.playedParts.push(part);
+                    }
+                });
                 card.image = card.compositeImageId || card.id;
             }
 
