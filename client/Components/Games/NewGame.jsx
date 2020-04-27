@@ -12,8 +12,8 @@ import { withTranslation, Trans } from 'react-i18next';
 const GameNameMaxLength = 64;
 
 class NewGame extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.onCancelClick = this.onCancelClick.bind(this);
         this.onSubmitClick = this.onSubmitClick.bind(this);
@@ -36,13 +36,9 @@ class NewGame extends React.Component {
             password: '',
             useGameTimeLimit: false,
             hideDecklists: false,
-            gameTimeLimit: 35
+            gameTimeLimit: 35,
+            gameName: this.props.defaultGameName
         };
-    }
-
-    // eslint-disable-next-line react/no-deprecated
-    componentWillMount() {
-        this.setState({ gameName: this.props.defaultGameName });
     }
 
     onCancelClick(event) {
