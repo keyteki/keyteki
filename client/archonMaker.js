@@ -13,13 +13,10 @@ export const buildDeckList = (deck, language, translate, AllCards) => new Promis
         return;
     }
 
-    resolve(Images.cardback);
-
-
-    /*const canvas = new fabric.Canvas('c');
+    const canvas = new fabric.Canvas();
+    canvas.setDimensions({ width: 600, height: 840 });
 
     //const canvas = createCanvas(600, 840);
-    const ctx = canvas.getContext('2d');
     const cardBack = loadImage(Images.decklist);
     const Common = loadImage(Images.Common);
     const Uncommon = loadImage(Images.Uncommon);
@@ -28,7 +25,7 @@ export const buildDeckList = (deck, language, translate, AllCards) => new Promis
     const maverick = loadImage(Images.Maverick);
     const legacy = loadImage(Images.Legacy);
     const anomaly = loadImage(Images.Anomaly);
-    const set = loadImage(Images[`icon${ deck.expansion }`]);
+    const set = loadImage(Images[`icon${deck.expansion}`]);
 
     const houseData = {
         size: 35,
@@ -41,85 +38,100 @@ export const buildDeckList = (deck, language, translate, AllCards) => new Promis
         start: { x: 60, y: 185 }
     };
     const qrCode = new Promise(qrRes => {
-        QRCode.toDataURL(`https://www.keyforgegame.com/${ deck.uuid ? 'deck-details/' + deck.uuid : '' }`, { margin: 0 })
+        QRCode.toDataURL(`https://www.keyforgegame.com/${deck.uuid ? 'deck-details/' + deck.uuid : ''}`, { margin: 0 })
             .then(url => loadImage(url).then(image => qrRes(image)));
     });
-    Promise.all([cardBack, maverick, legacy, anomaly, Common, Uncommon, Rare, Special, qrCode, set])
-        .then(([cardBack, maverick, legacy, anomaly, Common, Uncommon, Rare, Special, qrCode, set]) => {
+    const title = getCircularText(deck.name, 1600, 0);
+    Promise.all([cardBack, maverick, legacy, anomaly, Common, Uncommon, Rare, Special, qrCode, set, title])
+        .then(([cardBack, maverick, legacy, anomaly, Common, Uncommon, Rare, Special, qrCode, set, title]) => {
             const Rarities = { Common, Uncommon, Rare, Special };
-            ctx.drawImage(cardBack, 0, 0);
-            ctx.drawImage(qrCode, 332, 612, 150, 150);
-            ctx.drawImage(set, 232, 92, 20, 20);
+            qrCode.set({ left: 332, top: 612, width: 150, height: 150 });
+            set.set({ left: 232, top: 92 });
+            set.scaleToWidth(20);
+            title.set({ left: -500, top: 35 });
+            canvas.add(cardBack);
+            canvas.add(qrCode);
+            canvas.add(set);
+            canvas.add(title);
 
             const houseProm = deck.houses.map((house, index) => {
                 return new Promise(houseRes => {
                     loadImage(Images[house]).then(img => {
-                        ctx.drawImage(img, houseData[index].x, houseData[index].y, houseData.size, houseData.size);
-                        ctx.fillStyle = 'black';
-                        ctx.font = 'bold 25px Keyforge';
-                        ctx.textAlign = 'left';
-                        ctx.fillText(translate(house).toUpperCase(), houseData[index].x + 40, houseData[index].y + 28);
+                        img.set({ left: houseData[index].x, top: houseData[index].y });
+                        img.scaleToWidth(30);
+                        img.scaleToHeight(30);
+                        canvas.add(img);
+                        const houseText = new fabric.Text(translate(house).replace(/^\w/, c => c.toUpperCase()), {
+                            fontWeight: 800,
+                            fontFamily: 'Keyforge',
+                            textAlign: 'left',
+                            fillStyle: 'black',
+                            fontSize: 25
+                        });
+                        houseText.set({ left: houseData[index].x + 35, top: houseData[index].y + 5 });
+                        canvas.add(houseText);
+                        canvas.renderAll();
                         houseRes();
                     });
                 });
             });
             let order = ['action', 'artifact', 'creature', 'upgrade'];
             let cardList = deck.cards.map(card => {
-                return {
-                    ...AllCards[card.id],
-                    is_maverick: !!card.maverick,
-                    is_legacy: !!card.legacy,
-                    is_anomaly: !!card.anomaly,
-                    house: card.house
-                };
+                console.log(deck.cards)
+                // return {
+                //     ...AllCards[card.id],
+                //     is_maverick: !!card.maverick,
+                //     is_legacy: !!card.legacy,
+                //     is_anomaly: !!card.anomaly,
+                //     house: card.house
+                // };
             })
                 .sort((a, b) => +a.number - +b.number)
                 .sort((a, b) => order.indexOf(a.type) - order.indexOf(b.type))
                 .sort((a, b) => deck.houses.indexOf(a.house) - deck.houses.indexOf(b.house));
             const cardProm = cardList.map((card, index) => {
-                return new Promise(cardRes => {
-                    const title = (card.locale && card.locale[language]) ? card.locale[language].name : card.name;
-                    let x = cardData.start.x,
-                        y = cardData.start.y + (index * 28);
-                    if(index > 11) {
-                        y = y + 45;
-                    }
-
-                    if(index > 20) {
-                        x = x + 245;
-                        y = cardData.start.y + ((index - 22.5) * 28);
-                    }
-
-                    if(index > 23) {
-                        y = y + 52;
-                    }
-
-                    ctx.drawImage((Rarities[card.rarity === 'FIXED' || card.rarity === 'Variant' ? 'Special' : card.rarity]), x, y - 19, cardData.size, cardData.size);
-                    ctx.fillStyle = 'black';
-                    ctx.font = 'bold 20px Keyforge';
-                    ctx.textAlign = 'left';
-                    ctx.fillText(card.number, x + 22, y);
-                    ctx.font = '20px Keyforge';
-                    ctx.fillText(title, x + 60, y);
-                    if(card.is_maverick) {
-                        ctx.drawImage(maverick, x + ((title.length * 6) + 100), y - 18, cardData.size, cardData.size);
-                    }
-
-                    if(card.is_legacy) {
-                        ctx.drawImage(legacy, x + ((title.length * 6) + 100) + (card.is_maverick ? 20 : 0), y - 18, cardData.size, cardData.size);
-                    }
-
-                    if(card.is_anomaly) {
-                        ctx.drawImage(anomaly, x + ((title.length * 6) + 100) + (card.is_maverick ? 20 : 0), y - 18, cardData.size, cardData.size);
-                    }
-
-                    cardRes();
-                });
+                // return new Promise(cardRes => {
+                //     const title = (card.locale && card.locale[language]) ? card.locale[language].name : card.name;
+                //     let x = cardData.start.x,
+                //         y = cardData.start.y + (index * 28);
+                //     if(index > 11) {
+                //         y = y + 45;
+                //     }
+                //
+                //     if(index > 20) {
+                //         x = x + 245;
+                //         y = cardData.start.y + ((index - 22.5) * 28);
+                //     }
+                //
+                //     if(index > 23) {
+                //         y = y + 52;
+                //     }
+                //
+                //     ctx.drawImage((Rarities[card.rarity === 'FIXED' || card.rarity === 'Variant' ? 'Special' : card.rarity]), x, y - 19, cardData.size, cardData.size);
+                //     ctx.fillStyle = 'black';
+                //     ctx.font = 'bold 20px Keyforge';
+                //     ctx.textAlign = 'left';
+                //     ctx.fillText(card.number, x + 22, y);
+                //     ctx.font = '20px Keyforge';
+                //     ctx.fillText(title, x + 60, y);
+                //     if(card.is_maverick) {
+                //         ctx.drawImage(maverick, x + ((title.length * 6) + 100), y - 18, cardData.size, cardData.size);
+                //     }
+                //
+                //     if(card.is_legacy) {
+                //         ctx.drawImage(legacy, x + ((title.length * 6) + 100) + (card.is_maverick ? 20 : 0), y - 18, cardData.size, cardData.size);
+                //     }
+                //
+                //     if(card.is_anomaly) {
+                //         ctx.drawImage(anomaly, x + ((title.length * 6) + 100) + (card.is_maverick ? 20 : 0), y - 18, cardData.size, cardData.size);
+                //     }
+                //
+                //     cardRes();
+                // });
             });
-            ctx.drawImage((getCircularText(deck.name, 1600, 0)), -500, 35);
 
             Promise.all([...houseProm, ...cardProm]).then(() => resolve(canvas.toDataURL('image/jpeg')));
-        });*/
+        });
 });
 
 export const buildArchon = (deck, language) => new Promise(resolve => {
