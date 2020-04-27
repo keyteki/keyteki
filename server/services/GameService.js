@@ -76,11 +76,11 @@ class GameService {
 
             try {
                 await db.query('UPDATE "GamePlayers" SET "Keys" = $1, ' +
-                    '"DeckId" = (SELECT "Id" FROM "Decks" WHERE "Identity" = $5 AND "PlayerId" = (SELECT "Id" FROM "Users" WHERE "Username" = $4)), ' +
+                    '"DeckId" = (SELECT "Id" FROM "Decks" WHERE "Identity" = $5 AND "UserId" = (SELECT "Id" FROM "Users" WHERE "Username" = $4)), ' +
                     '"Turn" = $2 WHERE "GameId" = (SELECT "Id" FROM "Games" WHERE "GameId" = $3) AND "PlayerId" = (SELECT "Id" FROM "Users" WHERE "Username" = $4)',
                 [keys, player.turn, game.gameId, player.name, player.deck]);
             } catch(err) {
-                logger.error('Failed to update game player', err);
+                logger.error(`Failed to update game player ${game.gameId}, ${player.name} ${player.deck}`, err);
 
                 await db.query('ROLLBACK');
 
