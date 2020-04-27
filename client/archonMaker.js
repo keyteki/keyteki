@@ -1,5 +1,5 @@
 import * as Images from './assets/img';
-import { createCanvas, loadImage } from 'canvas';
+import { fabric } from 'fabric';
 import QRCode from 'qrcode';
 
 export const buildDeckList = (deck, language, translate, AllCards) => new Promise(resolve => {
@@ -13,7 +13,12 @@ export const buildDeckList = (deck, language, translate, AllCards) => new Promis
         return;
     }
 
-    const canvas = createCanvas(600, 840);
+    resolve(Images.cardback);
+
+
+    /*const canvas = new fabric.Canvas('c');
+
+    //const canvas = createCanvas(600, 840);
     const ctx = canvas.getContext('2d');
     const cardBack = loadImage(Images.decklist);
     const Common = loadImage(Images.Common);
@@ -114,24 +119,39 @@ export const buildDeckList = (deck, language, translate, AllCards) => new Promis
             ctx.drawImage((getCircularText(deck.name, 1600, 0)), -500, 35);
 
             Promise.all([...houseProm, ...cardProm]).then(() => resolve(canvas.toDataURL('image/jpeg')));
-        });
+        });*/
 });
 
-export const buildArchon = (deck, language) => new Promise(resolve => {
+export const buildArchon = (deck, language) => new Promise(async resolve => {
     if(!deck.uuid || !deck.houses) {
         resolve(Images.cardback);
         return;
     }
 
-    const canvas = createCanvas(600, 840);
-    const ctx = canvas.getContext('2d');
-    loadImage(`/img/idbacks/archons/${ imageName(deck, language) }.png`)
-        .then(archon => {
-            ctx.drawImage(archon, 0, 0);
-            ctx.drawImage((getCircularText(deck.name, 700, 0)), -50, 70);
-            resolve(canvas.toDataURL('image/jpeg'));
-        });
+    const canvas = new fabric.Canvas('c');
+    canvas.setDimensions({ width: 600, height: 840 });
+    const archon = await loadImage(`/img/idbacks/archons/${imageName(deck, language)}.png`);
+    const deckNameUrl = getCircularText(deck.name, 700, 0);
+    const deckName = await loadImage(deckNameUrl);
+    canvas.add(archon);
+    deckName.set({ left: -50, top: 70 });
+    canvas.add(deckName);
+
+    const dataURL = canvas.toDataURL({
+        format: 'jpeg',
+        quality: 0.8
+    });
+    resolve(dataURL);
 });
+
+const loadImage = (url) => {
+    return new Promise(resolve => {
+        fabric.Image.fromURL(url, image => {
+            resolve(image);
+        });
+    });
+};
+
 
 const imageName = (deck, language) => {
     if(!deck.uuid) {
@@ -154,7 +174,7 @@ const getCurvedFontSize = (length) => {
 };
 
 const getCircularText = (text = '', diameter, kerning) => {
-    let canvas = createCanvas(600, 840);
+    let canvas = fabric.util.createCanvasElement();
     let ctx = canvas.getContext('2d');
     let textHeight = 40, startAngle = 0;
 
@@ -162,7 +182,7 @@ const getCircularText = (text = '', diameter, kerning) => {
     canvas.height = diameter;
     ctx.fillStyle = 'white';
     ctx.strokeStyle = 'grey';
-    ctx.font = `bold ${ getCurvedFontSize(text.length) }px Keyforge`;
+    ctx.font = `bold ${getCurvedFontSize(text.length)}px Keyforge`;
 
     text = text.split('').reverse().join('');
 
@@ -184,5 +204,5 @@ const getCircularText = (text = '', diameter, kerning) => {
         ctx.rotate((charWid / 2 + kerning) / (diameter / 2 - textHeight) * -1); // rotate half letter
     }
 
-    return canvas;
+    return canvas.toDataURL();
 };
