@@ -60,7 +60,7 @@ docker-compose exec lobby node server/scripts/fetchdata
 #### Required Software
 * Git
 * Node.js 8
-* MongoDB
+* PostgreSQL
 * ZeroMQ Libraries
 
 Clone the repository, then run the following commands:
@@ -74,7 +74,7 @@ mkdir server/logs
 Create config/local.json5 and put the following in it:
 ```
 {
-    dbPath: 'mongodb://localhost:27017/keyforge',
+    dbHost: 'localhost',
     mqHost: 'localhost',
 
     lobby: {
@@ -94,7 +94,7 @@ node .
 node server/gamenode
 ```
 
-There are two exectuable components and you'll need to configure/run both to run a local server.  First is the lobby server and then there are game nodes. The default configurations assume you are running mongo locally on the default port. If you need to change any configurations, edit `config/default.json5` or create a `config/local.json5` configuration that overrides any desired settings.   
+There are two exectuable components and you'll need to configure/run both to run a local server.  First is the lobby server and then there are game nodes. The default configurations assume you are running postgres locally on the default port. If you need to change any configurations, edit `config/default.json5` or create a `config/local.json5` configuration that overrides any desired settings.   
 
 To download all supported languages (not needed if you're running just a test / dev server):
 ```
@@ -127,13 +127,15 @@ PORT={port} SERVER={node-name} node server/gamenode
 
 The game server should be accessible by browsing to localhost:4000. 
 
+The docker setup creates a default 'admin' user with the password of 'password'.
+
 You can register 2 or more users, to play against yourself. 
 They can have fake email addresses. 
 You can login as both users either from 2 different browsers, or by 
 using an incognito window. 
 
 These users will be normal (non-admin) users. To escalate a user to 
-the admin role requires manual edits to the Mongo database, but that 
+the admin role requires manual edits to the database, but that 
 is not required for testing in-game functionality. 
 
 If you implement or make changes to a card, you can use manual mode 

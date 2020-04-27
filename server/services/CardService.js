@@ -13,9 +13,17 @@ class CardService {
         }
 
         let expansions;
-
         try {
             expansions = await db.query('SELECT * FROM "Expansions"');
+        } catch(err) {
+            logger.error('Failed to fetch expansions', err);
+
+            return;
+        }
+
+        let houses;
+        try {
+            houses = await db.query('SELECT * FROM "Houses"');
         } catch(err) {
             logger.error('Failed to fetch expansions', err);
 
@@ -33,6 +41,16 @@ class CardService {
             };
         }
 
+        const housesByCode = {};
+
+        for(const house of houses) {
+            housesByCode[house.Code] = {
+                id: house.Id,
+                code: house.Code,
+                name: house.Name
+            };
+        }
+
         for(let card of cards) {
             try {
                 const expansion = expansionsByNumber[card.expansion];
@@ -43,9 +61,16 @@ class CardService {
                     continue;
                 }
 
-                let ret = await db.query('INSERT INTO "Cards" ("CardId", "Name", "Number", "Image", "Keywords", "Traits", "ExpansionId", "Type", "Rarity", "Amber", "Armor", "Power", "Text")' +
-                ' VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING "Id"', [card.id, card.name, card.number, card.image, card.keywords.join(','),
-                    card.traits.join(','), expansion.id, card.type, card.rarity, card.amber, card.armor, card.power, card.text]);
+                const house = housesByCode[card.house];
+                if(!house) {
+                    logger.error(`Failed to find house for card ${card.id}`);
+
+                    continue;
+                }
+
+                let ret = await db.query('INSERT INTO "Cards" ("CardId", "Name", "Number", "Image", "Keywords", "Traits", "HouseId", "ExpansionId", "Type", "Rarity", "Amber", "Armor", "Power", "Text")' +
+                ' VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING "Id"', [card.id, card.name, card.number, card.image, card.keywords.join(','),
+                    card.traits.join(','), house.id, expansion.id, card.type, card.rarity, card.amber, card.armor, card.power, card.text]);
 
                 for(const [language, locale] of Object.entries(card.locale)) {
                     await db.query('INSERT INTO "CardLocaleNames" ("CardId", "Locale", "Name") VALUES ($1, $2, $3)', [ret[0].Id, language, locale.name]);

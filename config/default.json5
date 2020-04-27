@@ -2,13 +2,12 @@
     env: 'development',
 
     secret: 'somethingverysecret',
-    dbPath: 'mongodb://mongo:27017/keyforge',
     mqHost: 'lobby',
     mqPort: 6000,
     dbUser: 'keyteki',
-    dbHost: 'localhost',
+    dbHost: 'postgres',
     dbDatabase: 'keyteki',
-    dbPassword: 'password',
+    dbPassword: 'changemeplease',
     dbPort: 5432,
     minLobbyChatTime: 0, // The time (in seconds) an account has to be registered before it can chat in the lobby
     /*
