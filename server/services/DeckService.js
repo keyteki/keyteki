@@ -25,6 +25,10 @@ class DeckService {
             throw new Error('Unable to fetch deck: ' + id);
         }
 
+        if(!deck || deck.length === 0) {
+            return undefined;
+        }
+
         let retDeck = this.mapDeck(deck[0]);
 
         await this.getDeckCardsAndHouses(retDeck);

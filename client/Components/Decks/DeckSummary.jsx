@@ -181,9 +181,7 @@ class DeckSummary extends React.Component {
                             <DeckStatus className='pull-right' status={ this.props.deck.status }/>
                         </div>
                         { this.props.deck.usageLevel > 0 && !this.props.deck.verified ?
-                            <div className='info-row row'><Trans i18nKey='decksummary.toverify'>This deck has been
-                                flagged as requiring verification. Please email a photo of the decklist with your
-                                username written on a piece of paper to</Trans>: thecrucible.deckcheck@gmail.com
+                            <div className='info-row row'><Trans i18nKey='decksummary.toverify'>This deck is flagged.  Please look out for a new verification system coming soon.</Trans>
                             </div> : null
                         }
                     </div>

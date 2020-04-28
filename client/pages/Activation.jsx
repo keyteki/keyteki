@@ -18,7 +18,8 @@ class Activation extends React.Component {
         this.props.activateAccount({ id: this.props.id, token: this.props.token });
     }
 
-    componentDidReceiveProps(props) {
+    // eslint-disable-next-line camelcase
+    UNSAFE_componentWillReceiveProps(props) {
         if(props.accountActivated) {
             this.setState({ successMessage: 'Your account has been activated.  You will shortly be redirected to the login page.' });
 

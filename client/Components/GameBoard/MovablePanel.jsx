@@ -46,7 +46,8 @@ class MovablePanel extends React.Component {
         };
     }
 
-    componentDidReceiveProps(props) {
+    // eslint-disable-next-line camelcase
+    UNSAFE_componentWillReceiveProps(props) {
         if(props.isDragging) {
             let style = {
                 position: 'fixed',

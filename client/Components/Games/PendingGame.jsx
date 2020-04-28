@@ -48,7 +48,8 @@ class PendingGame extends React.Component {
         }
     }
 
-    componentDidReceiveProps(props) {
+    // eslint-disable-next-line camelcase
+    UNSAFE_componentWillReceiveProps(props) {
         if(!props.user) {
             return;
         }

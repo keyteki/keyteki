@@ -11,7 +11,8 @@ class Logout extends React.Component {
         this.props.logout();
     }
 
-    componentDidReceiveProps(props) {
+    // eslint-disable-next-line camelcase
+    UNSAFE_componentWillReceiveProps(props) {
         if(props.loggedOut) {
             this.props.navigate('/');
         }

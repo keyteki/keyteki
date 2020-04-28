@@ -1,6 +1,5 @@
 const { Pool } = require('pg');
 const ConfigService = require('../services/ConfigService');
-const logger = require('../log');
 
 const configService = new ConfigService();
 
@@ -14,12 +13,7 @@ const pool = new Pool({
 
 module.exports = {
     query: async (text, params) => {
-        const start = Date.now();
-
         let res = await pool.query(text, params);
-
-        const duration = Date.now() - start;
-        logger.info('executed query', { text, duration, rows: res.rowCount });
 
         return res.rows;
     }

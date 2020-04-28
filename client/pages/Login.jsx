@@ -17,7 +17,8 @@ class Login extends React.Component {
         this.onLogin = this.onLogin.bind(this);
     }
 
-    componentDidReceiveProps(props) {
+    // eslint-disable-next-line camelcase
+    UNSAFE_componentWillReceiveProps(props) {
         if(props.loggedIn) {
             this.props.authenticateSocket();
 

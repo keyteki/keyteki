@@ -515,10 +515,10 @@ module.exports.init = function(server, options) {
         }
 
         let hmac = crypto.createHmac('sha512', configService.getValueForSection('lobby', 'hmacSecret'));
-        let resetToken = hmac.update('RESET ' + user.username + ' ' + user.tokenExpires).digest('hex');
+        let resetToken = hmac.update('RESET ' + user.username + ' ' + moment(user.tokenExpires).format('YYYYMMDD-HH:mm:ss')).digest('hex');
 
         if(resetToken !== req.body.token) {
-            logger.error('Invalid reset token for %s: %s', user.username, req.body.token);
+            logger.error(`Invalid reset token for ${user.username}: ${req.body.token}`);
 
             res.send({ success: false, message: 'An error occured resetting your password, check the url you have entered and try again.' });
 
@@ -537,12 +537,12 @@ module.exports.init = function(server, options) {
     server.post('/api/account/password-reset', wrapAsync(async (req, res) => {
         let resetToken;
 
-        let response = await util.httpRequest(`https://www.google.com/recaptcha/api/siteverify?secret=${configService.getValue('captchaKey')}&response=${req.body.captcha}`);
-        let answer = JSON.parse(response);
+        // let response = await util.httpRequest(`https://www.google.com/recaptcha/api/siteverify?secret=${configService.getValue('captchaKey')}&response=${req.body.captcha}`);
+        // let answer = JSON.parse(response);
 
-        if(!answer.success) {
-            return res.send({ success: false, message: 'Please complete the captcha correctly' });
-        }
+        // if(!answer.success) {
+        //     return res.send({ success: false, message: 'Please complete the captcha correctly' });
+        // }
 
         res.send({ success: true });
 
@@ -564,7 +564,7 @@ module.exports.init = function(server, options) {
         resetToken = hmac.update(`RESET ${user.username} ${formattedExpiration}`).digest('hex');
 
         try {
-            await userService.setResetToken(user, resetToken, formattedExpiration);
+            await userService.setResetToken(user, resetToken, expiration);
         } catch(err) {
             return;
         }
@@ -574,6 +574,9 @@ module.exports.init = function(server, options) {
             'If you did not request this reset, do not worry, your account has not been affected and your password has not been changed, just ignore this email.\n' +
             'Kind regards,\n\n' +
             `${appName} team`;
+
+
+        console.info(emailText);
 
         await sendEmail(user.email, `${appName} - Password reset`, emailText);
     }));
