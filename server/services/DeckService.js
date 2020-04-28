@@ -56,7 +56,7 @@ class DeckService {
         let deck;
         let expansionStr = dbExpansions.join(',');
         try {
-            deck = await db.query(`SELECT * from "Decks" WHERE "ExpansionId" IN (SELECT "Id" FROM "Expansions" WHERE "ExpansionId" IN(${expansionStr})) AND "IncludeInSealed" = True ORDER BY random() LIMIT 1`);
+            deck = await db.query(`SELECT d.*, e."ExpansionId" AS "Expansion" from "Decks" d JOIN "Expansions" e on e."Id" = d."ExpansionId" WHERE d."ExpansionId" IN (SELECT "Id" FROM "Expansions" WHERE "ExpansionId" IN(${expansionStr})) AND "IncludeInSealed" = True ORDER BY random() LIMIT 1`);
         } catch(err) {
             logger.error('Failed to fetch random deck', err);
             throw new Error('Failed to fetch random deck');
