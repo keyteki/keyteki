@@ -26,6 +26,8 @@ class DeckService {
         }
 
         if(!deck || deck.length === 0) {
+            logger.warn(`Failed to retrieve deck: ${id} as it was not found`);
+
             return undefined;
         }
 
@@ -58,6 +60,11 @@ class DeckService {
         } catch(err) {
             logger.error('Failed to fetch random deck', err);
             throw new Error('Failed to fetch random deck');
+        }
+
+        if(!deck || deck.length === 0) {
+            logger.warn('Could not find any sealed decks!');
+            return undefined;
         }
 
         let retDeck = this.mapDeck(deck[0]);
