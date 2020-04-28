@@ -82,7 +82,7 @@ class Application extends React.Component {
         }
 
         const activePlayer = Object.values(this.props.currentGame.players).find(x => x.activePlayer);
-        if(activePlayer && activePlayer.name === this.props.user.username) {
+        if(activePlayer && this.props.user && activePlayer.name === this.props.user.username) {
             let oldTitle = document.title;
             let msg = 'Alert!';
             let timeoutId = false;
