@@ -119,7 +119,7 @@ async function downloadAvatar(user) {
 }
 
 module.exports.init = function(server, options) {
-    userService = options.userService || new UserService(options.db, options.configService);
+    userService = options.userService || new UserService(options.configService);
     banlistService = new BanlistService(options.db, configService);
     patreonService = new PatreonService(configService.getValueForSection('lobby', 'patreonClientId'),
         configService.getValueForSection('lobby', 'patreonSecret'), userService,
