@@ -58,7 +58,8 @@ class UserAdmin extends React.Component {
         this.onFindClick = this.onFindClick.bind(this);
     }
 
-    componentDidReceiveProps(props) {
+    // eslint-disable-next-line camelcase
+    UNSAFE_componentWillReceiveProps(props) {
         this.setState({
             permissions: props.currentUser ? (props.currentUser.permissions || this.defaultPermissions) : this.defaultPermissions,
             disabled: props.currentUser ? props.currentUser.disabled : false,

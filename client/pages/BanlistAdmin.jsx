@@ -24,7 +24,8 @@ class BanlistAdmin extends React.Component {
         this.props.loadBanlist();
     }
 
-    componentDidReceiveProps(props) {
+    // eslint-disable-next-line camelcase
+    UNSAFE_componentWillReceiveProps(props) {
         let clearStatus = false;
         if(props.banListAdded) {
             clearStatus = true;

@@ -119,7 +119,7 @@ async function downloadAvatar(user) {
 }
 
 module.exports.init = function(server, options) {
-    userService = options.userService || new UserService(options.db, options.configService);
+    userService = options.userService || new UserService(options.configService);
     banlistService = new BanlistService(options.db, configService);
     patreonService = new PatreonService(configService.getValueForSection('lobby', 'patreonClientId'),
         configService.getValueForSection('lobby', 'patreonSecret'), userService,
@@ -515,10 +515,10 @@ module.exports.init = function(server, options) {
         }
 
         let hmac = crypto.createHmac('sha512', configService.getValueForSection('lobby', 'hmacSecret'));
-        let resetToken = hmac.update('RESET ' + user.username + ' ' + user.tokenExpires).digest('hex');
+        let resetToken = hmac.update('RESET ' + user.username + ' ' + moment(user.tokenExpires).format('YYYYMMDD-HH:mm:ss')).digest('hex');
 
         if(resetToken !== req.body.token) {
-            logger.error('Invalid reset token for %s: %s', user.username, req.body.token);
+            logger.error(`Invalid reset token for ${user.username}: ${req.body.token}`);
 
             res.send({ success: false, message: 'An error occured resetting your password, check the url you have entered and try again.' });
 
@@ -564,7 +564,7 @@ module.exports.init = function(server, options) {
         resetToken = hmac.update(`RESET ${user.username} ${formattedExpiration}`).digest('hex');
 
         try {
-            await userService.setResetToken(user, resetToken, formattedExpiration);
+            await userService.setResetToken(user, resetToken, expiration);
         } catch(err) {
             return;
         }

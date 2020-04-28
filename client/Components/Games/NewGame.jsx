@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { toastr } from 'react-redux-toastr';
+import { withTranslation, Trans } from 'react-i18next';
 
 import Panel from '../Site/Panel';
 import Checkbox from '../Form/Checkbox';
 import AlertPanel from '../Site/AlertPanel';
 import * as actions from '../../actions';
-
-import { withTranslation, Trans } from 'react-i18next';
 
 const GameNameMaxLength = 64;
 
@@ -69,6 +69,20 @@ class NewGame extends React.Component {
 
     onSubmitClick(event) {
         event.preventDefault();
+
+        let expansionsSelected = 0;
+
+        for(const value of Object.values(this.state.expansions)) {
+            if(value) {
+                expansionsSelected++;
+            }
+        }
+
+        if(this.state.selectedGameFormat === 'sealed' && expansionsSelected === 0) {
+            toastr.error(this.props.t('Please select at least one expansion!'));
+
+            return;
+        }
 
         this.props.socket.emit('newgame', {
             name: this.state.gameName,

@@ -37,7 +37,8 @@ class Profile extends React.Component {
         this.updateProfile(this.props);
     }
 
-    componentDidReceiveProps(props) {
+    // eslint-disable-next-line camelcase
+    UNSAFE_componentWillReceiveProps(props) {
         if(!props.user) {
             return;
         }
@@ -72,7 +73,7 @@ class Profile extends React.Component {
 
         this.setState({
             email: props.user.email,
-            enableGravatar: props.user.enableGravatar,
+            enableGravatar: !props.user.settings.disableGravatar,
             selectedBackground: props.user.settings.background,
             selectedCardSize: props.user.settings.cardSize,
             optionSettings: props.user.settings.optionSettings

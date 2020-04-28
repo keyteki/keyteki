@@ -28,7 +28,8 @@ class Security extends React.Component {
         }
     }
 
-    componentDidReceiveProps(props) {
+    // eslint-disable-next-line camelcase
+    UNSAFE_componentWillReceiveProps(props) {
         if(!this.state.detailsLoaded && props.user) {
             this.props.loadActiveSessions(props.user);
 
