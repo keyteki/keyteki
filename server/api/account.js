@@ -537,12 +537,12 @@ module.exports.init = function(server, options) {
     server.post('/api/account/password-reset', wrapAsync(async (req, res) => {
         let resetToken;
 
-        // let response = await util.httpRequest(`https://www.google.com/recaptcha/api/siteverify?secret=${configService.getValue('captchaKey')}&response=${req.body.captcha}`);
-        // let answer = JSON.parse(response);
+        let response = await util.httpRequest(`https://www.google.com/recaptcha/api/siteverify?secret=${configService.getValue('captchaKey')}&response=${req.body.captcha}`);
+        let answer = JSON.parse(response);
 
-        // if(!answer.success) {
-        //     return res.send({ success: false, message: 'Please complete the captcha correctly' });
-        // }
+        if(!answer.success) {
+            return res.send({ success: false, message: 'Please complete the captcha correctly' });
+        }
 
         res.send({ success: true });
 
@@ -574,9 +574,6 @@ module.exports.init = function(server, options) {
             'If you did not request this reset, do not worry, your account has not been affected and your password has not been changed, just ignore this email.\n' +
             'Kind regards,\n\n' +
             `${appName} team`;
-
-
-        console.info(emailText);
 
         await sendEmail(user.email, `${appName} - Password reset`, emailText);
     }));
