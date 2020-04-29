@@ -18,7 +18,7 @@ class Decks extends React.Component {
         this.handleDeleteDeck = this.handleDeleteDeck.bind(this);
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.props.loadDecks();
     }
 

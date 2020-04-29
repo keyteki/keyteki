@@ -78,7 +78,8 @@ export class GameBoard extends React.Component {
         $('.modal-backdrop').remove();
     }
 
-    componentWillReceiveProps(props) {
+    // eslint-disable-next-line camelcase
+    UNSAFE_componentWillReceiveProps(props) {
         this.updateContextMenu(props);
 
         let lastMessageCount = this.state.lastMessageCount;

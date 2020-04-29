@@ -59,6 +59,8 @@ class GameServer {
             options.path = '/' + (process.env.SERVER || config.gameNode.name) + '/socket.io';
         }
 
+        logger.info(`Listening on 0.0.0.0:${process.env.PORT || config.gameNode.socketioPort}/${(process.env.SERVER || config.gameNode.name)}/socket.io`);
+
         this.io = socketio(server, options);
         this.io.set('heartbeat timeout', 30000);
         this.io.use(this.handshake.bind(this));
@@ -146,13 +148,13 @@ class GameServer {
 
         let staleGames = Object.values(this.games).filter(game => game.finishedAt && (Date.now() - game.finishedAt > timeout));
         for(let game of staleGames) {
-            logger.info('closed finished game', game.id, 'due to inactivity');
+            logger.info(`closed finished game ${game.id} due to inactivity`);
             this.closeGame(game);
         }
 
         let emptyGames = Object.values(this.games).filter(game => game.isEmpty());
         for(let game of emptyGames) {
-            logger.info('closed empty game', game.id);
+            logger.info(`closed empty game ${game.id}`);
             this.closeGame(game);
         }
     }
@@ -269,7 +271,7 @@ class GameServer {
             return retGame;
         });
 
-        logger.info('syncing', _.size(gameSummaries), ' games');
+        logger.info(`syncing ${_.size(gameSummaries)} games`);
 
         callback(gameSummaries);
     }
@@ -319,7 +321,7 @@ class GameServer {
 
         let game = this.findGameForUser(ioSocket.request.user.username);
         if(!game) {
-            logger.info('No game for', ioSocket.request.user.username, 'disconnecting');
+            logger.info(`No game for ${ioSocket.request.user.username} disconnecting`);
             ioSocket.disconnect();
             return;
         }
@@ -336,7 +338,7 @@ class GameServer {
         player.connectionSucceeded = true;
 
         if(player.disconnectedAt) {
-            logger.info('user \'%s\' reconnected to game', socket.user.username);
+            logger.info(`user '${socket.user.username} reconnected to game`);
             game.reconnect(socket, player.name);
         }
 
@@ -360,7 +362,7 @@ class GameServer {
             return;
         }
 
-        logger.info('user \'%s\' disconnected from a game: %s', socket.user.username, reason);
+        logger.info(`user '${socket.user.username}' disconnected from a game: ${reason}`);
 
         let player = game.playersAndSpectators[socket.user.username];
         if(player.id !== socket.id) {

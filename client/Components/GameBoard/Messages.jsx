@@ -159,7 +159,7 @@ class Messages extends React.Component {
                     </span>
                 );
             } else if(fragment.name && fragment.argType === 'player') {
-                let userClass = 'username' + (fragment.role ? ` ${fragment.role}-role` : '');
+                let userClass = 'username' + (fragment.role ? ` ${fragment.role.toLowerCase()}-role` : '');
 
                 messages.push(
                     <div key={ index++ } className='message-chat'>
@@ -170,7 +170,7 @@ class Messages extends React.Component {
                     </div>
                 );
             } else if(fragment.argType === 'nonAvatarPlayer') {
-                let userClass = 'username' + (fragment.role ? ` ${fragment.role}-role` : '');
+                let userClass = 'username' + (fragment.role ? ` ${fragment.role.toLowerCase()}-role` : '');
 
                 messages.push(<span key={ index++ } className={ userClass }>{ fragment.name }</span>);
             } else {

@@ -22,7 +22,7 @@ export class ImportDeck extends React.Component {
         this.onDeckStringChange = this.onDeckStringChange.bind(this);
     }
 
-    componentWillUpdate(props) {
+    componentDidUpdate(props) {
         if(props.deckSaved) {
             this.props.navigate('/decks');
 

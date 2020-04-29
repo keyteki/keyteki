@@ -76,7 +76,8 @@ class GameLobby extends React.Component {
         }
     }
 
-    componentWillReceiveProps(props) {
+    // eslint-disable-next-line camelcase
+    UNSAFE_componentWillReceiveProps(props) {
         if(!props.currentGame) {
             this.props.setContextMenu([]);
         }
