@@ -87,7 +87,7 @@ class DeckRow extends React.Component {
                     <img className='deck-expansion' src={ '/img/idbacks/' + this.props.deck.expansion + '.png' } />
                     { this.getStatusName(this.props.deck.status) }
                 </span>
-                <div className='row small'>
+                <div className='row'>
                     <span className='col-xs-8 col-md-7 col-lg-9 deck-house-icons'>
                         <img className='deck-sm-house' src={ '/img/house/' + this.props.deck.houses[0] + '.png' } />
                         <img className='deck-sm-house' src={ '/img/house/' + this.props.deck.houses[1] + '.png' } />

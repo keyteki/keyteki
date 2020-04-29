@@ -63,7 +63,7 @@ class TriggeredAbilityWindow extends ForcedTriggeredAbilityWindow {
         }
 
         // remove any choices which involve the current player canceling their own abilities
-        if(this.abilityType === 'cancelinterrupt' && !this.currentPlayer.optionSettings.cancelOwnAbilities) {
+        if(this.abilityType === 'cancelinterrupt') {
             this.choices = this.choices.filter(context => !(
                 context.player === this.currentPlayer &&
                 context.event.name === 'onCardAbilityInitiated' &&
@@ -97,7 +97,7 @@ class TriggeredAbilityWindow extends ForcedTriggeredAbilityWindow {
 
     getPromptForSelectProperties() {
         return _.extend(super.getPromptForSelectProperties(), {
-            selectCard: this.currentPlayer.optionSettings.markCardsUnselectable,
+            selectCard: true,
             buttons: [{ text: 'Pass', arg: 'pass' }],
             onMenuCommand: (player, arg) => {
                 this.pass(player, arg);

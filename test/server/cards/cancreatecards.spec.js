@@ -28,6 +28,7 @@ const mockContext = {
         two: [card],
         flank: { hasHouse: () => true, neighbors: [], childCards: [], hasTrait: () => false }
     },
+    option: {},
     player: player
 };
 mockContext.event.context = mockContext;

@@ -7,6 +7,7 @@ class ExploRover extends Card {
             location: 'any',
             effect: ability.effects.canPlayAsUpgrade()
         });
+
         this.whileAttached({
             effect: ability.effects.addKeyword({ skirmish: 1 })
         });

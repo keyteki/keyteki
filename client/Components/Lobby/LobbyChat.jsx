@@ -97,16 +97,31 @@ class LobbyChat extends React.Component {
                     return undefined;
                 }
 
+                let messageText;
+
+                if(message.deleted) {
+                    if(this.props.isModerator) {
+                        messageText = (<React.Fragment>
+                            <span className='message-deleted message-moderated'>{ message.message }</span>
+                            <span className='message-deleted'> - (Message removed by { message.deletedBy })</span>
+                        </React.Fragment>);
+                    } else {
+                        messageText = <span className='message-deleted'>Message deleted by a moderator</span>;
+                    }
+                } else {
+                    messageText = message.message;
+                }
+
                 return (<div key={ message.user.username + i++ } className='lobby-message'>
-                    { message.message }
+                    { messageText }
                     { this.props.isModerator &&
-                        <a href='#' className='btn no-padding btn-noimg' onClick={ this.onRemoveMessageClick.bind(this, message._id) }>
+                        <a href='#' className='btn no-padding btn-noimg' onClick={ this.onRemoveMessageClick.bind(this, message.id) }>
                             <span className='chat-delete glyphicon glyphicon-remove' />
                         </a> }
                 </div>);
             });
 
-            let userClass = 'username' + (firstMessage.user.role ? ` ${firstMessage.user.role}-role` : '');
+            let userClass = 'username' + (firstMessage.user.role ? ` ${firstMessage.user.role.toLowerCase()}-role` : '');
 
             return (
                 <div key={ timestamp + firstMessage.user.username + (index++).toString() }>

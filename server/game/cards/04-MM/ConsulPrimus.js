@@ -6,7 +6,6 @@ class ConsulPrimus extends Card {
             condition: context => context.game.creaturesInPlay.length > 1,
             target: {
                 cardType: 'creature',
-                cardCondition: card => card.hasToken('amber'),
                 gameAction: ability.actions.removeAmber()
             },
             then: preContext => ({

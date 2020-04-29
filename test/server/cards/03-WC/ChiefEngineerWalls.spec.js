@@ -1,6 +1,6 @@
-describe('Armsmaster Molina', function() {
+describe('Chief Engineer Walls', function() {
     integration(function() {
-        describe('Armsmaster Molina\'s ability', function() {
+        describe('Chief Engineer Walls\'s ability', function() {
             beforeEach(function() {
                 this.setupTest({
                     player1: {
@@ -26,7 +26,7 @@ describe('Armsmaster Molina', function() {
             });
         });
 
-        describe('Armsmaster Molina\'s ability', function() {
+        describe('Chief Engineer Walls\'s ability', function() {
             beforeEach(function() {
                 this.setupTest({
                     player1: {

@@ -46,6 +46,7 @@ const Actions = {
     removeWard: (propertyFactory) => new GameActions.RemoveWardAction(propertyFactory),
     removeWardToken: (propertyFactory) => new GameActions.RemoveTokenAction(propertyFactory, 'ward'),
     resolveAbility: (propertyFactory) => new GameActions.ResolveAbilityAction(propertyFactory), // ability
+    resolveBonusIcons: (propertyFactory) => new GameActions.ResolveBonusIconsAction(propertyFactory),
     resolveFight: (propertyFactory) => new GameActions.ResolveFightAction(propertyFactory), // this shouldn't normally be needed
     returnAmber: (propertyFactory) => new GameActions.ReturnAmberAction(propertyFactory),
     returnToDeck: (propertyFactory) => new GameActions.ReturnToDeckAction(propertyFactory), // bottom = false
@@ -60,6 +61,7 @@ const Actions = {
     archiveAtRandom: (propertyFactory) => new GameActions.RandomArchiveAction(propertyFactory), // amount = 1
     chosenDiscard: (propertyFactory) => new GameActions.ChosenDiscardAction(propertyFactory), // amount = 1
     discardAtRandom: (propertyFactory) => new GameActions.RandomDiscardAction(propertyFactory), // amount = 1
+    discardTopOfDeck: (propertyFactory) => new GameActions.DiscardTopOfDeckAction(propertyFactory), // amount = 1
     purgeAtRandom: (propertyFactory) => new GameActions.RandomPurgeAction(propertyFactory), // amount = 1
     draw: (propertyFactory) => new GameActions.DrawAction(propertyFactory), // amount = 1
     forgeKey: (propertyFactory) => new GameActions.ForgeAction(propertyFactory), // modifier = 0
@@ -73,6 +75,7 @@ const Actions = {
     rearrangeCards: (propertFactory) => new GameActions.RearrangeCardsAction(propertFactory),
     search: (propertyFactory) => new GameActions.SearchAction(propertyFactory), // name
     shuffleDeck: (propertyFactory) => new GameActions.ShuffleDeckAction(propertyFactory), // name
+    mulligan: (propertyFactory) => new GameActions.MulliganAction(propertyFactory), // name
     steal: (propertyFactory) => new GameActions.StealAction(propertyFactory), // amount = 1
     transferAmber: (propertyFactory) => new GameActions.TransferAmberAction(propertyFactory), // amount = 1
     unforgeKey: (propertyFactory) => new GameActions.UnforgeAction(propertyFactory),

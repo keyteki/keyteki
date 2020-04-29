@@ -36,7 +36,8 @@ class Lobby extends React.Component {
         this.checkChatError(this.props);
     }
 
-    componentWillReceiveProps(props) {
+    // eslint-disable-next-line camelcase
+    UNSAFE_componentWillReceiveProps(props) {
         this.checkChatError(props);
     }
 

@@ -16,13 +16,11 @@ class Player extends GameObject {
 
         this.hand = [];
         this.cardsInPlay = []; // This stores references to all creatures and artifacts in play.  Upgrades are not stored here.
-        this.deckName = '';
         this.deckCards = [];
-        this.deckUuid = '';
-        this.deckSet = 0;
         this.discard = [];
         this.purged = [];
         this.archives = [];
+        this.wins = 0;
 
         this.houses = [];
         this.activeHouse = null;
@@ -184,12 +182,23 @@ class Player extends GameObject {
      * Shuffles the deck, emitting an event and displaying a message in chat
      */
     shuffleDeck() {
-        if(this.name !== 'Dummy Player') {
-            this.game.addMessage('{0} is shuffling their deck', this);
-        }
-
         this.game.emitEvent('onDeckShuffled', { player: this });
         this.deck = _.shuffle(this.deck);
+    }
+
+    /**
+     * Mulligans the players starting hand, emitting an event and displaying a message in chat
+     */
+    takeMulligan() {
+        let size = this.hand.length;
+
+        for(let card of this.hand) {
+            this.moveCard(card, 'deck');
+        }
+
+        this.shuffleDeck();
+        this.drawCardsToHand(size - 1);
+        this.takenMulligan = true;
     }
 
     /**
@@ -209,8 +218,6 @@ class Player extends GameObject {
      */
     initialise() {
         this.prepareDecks();
-        this.shuffleDeck();
-
         this.keys = { red: false, blue: false, yellow: false };
         this.amber = 0;
         this.turn = 1;
@@ -594,16 +601,16 @@ class Player extends GameObject {
         if(unforgedKeys.length > 1) {
             this.game.promptWithHandlerMenu(this, {
                 activePromptTitle: { text: 'Which key would you like to forge?' },
-                source: 'Forge a key.',
+                source: 'Forge a key',
                 choices: unforgedKeys,
                 choiceHandler: key => {
                     this.game.queueSimpleStep(() => {
-                        this.finalizeForge(key.text.toLowerCase(), modifiedCost, cost);
+                        this.finalizeForge(key.value, modifiedCost, cost);
                     });
                 }
             });
         } else {
-            this.game.queueSimpleStep(() => this.finalizeForge(unforgedKeys.shift().text.toLowerCase(), modifiedCost, cost));
+            this.game.queueSimpleStep(() => this.finalizeForge(unforgedKeys.shift().value, modifiedCost, cost));
         }
     }
 
@@ -623,17 +630,13 @@ class Player extends GameObject {
         if(choices.length > 1) {
             this.game.promptWithHandlerMenu(this, {
                 activePromptTitle: { text: 'Which key would you like to unforge?' },
-                source: 'Unforge a key.',
+                source: 'Unforge a key',
                 choices: this.getKeyOptions(choices),
                 choiceHandler: key => {
                     this.game.queueSimpleStep(() => {
-                        this.keys[key.text.toLowerCase()] = false;
-                        let forgedKeyIndex = this.keysForgedThisRound.findIndex(x => x === key.text.toLowerCase());
-                        if(forgedKeyIndex !== -1) {
-                            this.keysForgedThisRound.splice(forgedKeyIndex, 1);
-                        }
-
-                        this.game.addMessage('{0} unforges {1}\'s {2}', this.game.activePlayer, this.game.activePlayer.opponent, `forgedkey${key.text.toLowerCase()}`);
+                        this.keys[key.value] = false;
+                        this.keysForgedThisRound.splice(this.keysForgedThisRound.findIndex(x => x === key.value), 1);
+                        this.game.addMessage('{0} unforges {1}\'s {2}', this.game.activePlayer, this.game.activePlayer.opponent, `forgedkey${key.value}`);
                     });
                 }
             });
@@ -649,17 +652,21 @@ class Player extends GameObject {
     }
 
     getUnforgedKeys() {
-        return [{ text: 'Red', icon: 'unforgedkeyred' }, { text: 'Blue', icon: 'unforgedkeyblue' }, { text: 'Yellow', icon: 'unforgedkeyyellow' }]
-            .filter(key => !this.keys[key.text.toLowerCase()]);
+        return [{ text: 'Red', value: 'red', icon: 'unforgedkeyred' }, { text: 'Blue', value: 'blue', icon: 'unforgedkeyblue' },
+            { text: 'Yellow', value: 'yellow', icon: 'unforgedkeyyellow' }].filter(key => !this.keys[key.value]);
     }
 
     getKeyOptions(options) {
-        return [{ text: 'Red', icon: 'forgedkeyred' }, { text: 'Blue', icon: 'forgedkeyblue' }, { text: 'Yellow', icon: 'forgedkeyyellow' }]
-            .filter(key => options.includes(key.text.toLowerCase()));
+        return [{ text: 'Red', value: 'red', icon: 'forgedkeyred' }, { text: 'Blue', value: 'blue', icon: 'forgedkeyblue' },
+            { text: 'Yellow', value: 'yellow', icon: 'forgedkeyyellow' }].filter(key => options.includes(key.value));
     }
 
     getAdditionalCosts(context) {
         return this.getEffects('additionalCost').reduce((array, costFactory) => array.concat(costFactory(context)), []).filter(cost => !!cost);
+    }
+
+    setWins(wins) {
+        this.wins = wins;
     }
 
     getStats() {
@@ -667,7 +674,8 @@ class Player extends GameObject {
             amber: this.amber,
             chains: this.chains,
             keys: this.keys,
-            houses: this.houses
+            houses: this.houses,
+            keyCost: this.getCurrentKeyCost()
         };
     }
 
@@ -682,14 +690,13 @@ class Player extends GameObject {
         let state = {
             activeHouse: this.activeHouse,
             cardPiles: {
-                archives: this.getSummaryForCardList(this.archives, activePlayer, true),
+                archives: this.getSummaryForCardList(this.archives, activePlayer),
                 cardsInPlay: this.getSummaryForCardList(this.cardsInPlay, activePlayer),
                 discard: this.getSummaryForCardList(this.discard, activePlayer),
                 hand: this.getSummaryForCardList(this.hand, activePlayer, true),
                 purged: this.getSummaryForCardList(this.purged, activePlayer)
             },
             cardback: 'cardback',
-            deckName: this.deckData.name,
             disconnected: !!this.disconnectedAt,
             activePlayer: this.game.activePlayer === this,
             houses: this.houses,
@@ -703,9 +710,9 @@ class Player extends GameObject {
             stats: this.getStats(),
             timerSettings: {},
             user: _.omit(this.user, ['password', 'email']),
-            deckUuid: this.deckData.uuid,
-            deckSet: this.deckData.expansion,
-            deckCards: this.deckCards
+            deckCards: this.deckCards,
+            deckData: this.deckData,
+            wins: this.wins
         };
 
         if(isActivePlayer) {

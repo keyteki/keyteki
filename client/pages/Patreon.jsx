@@ -21,7 +21,8 @@ class Patreon extends React.Component {
         this.props.linkPatreon(this.props.code);
     }
 
-    componentWillReceiveProps(props) {
+    // eslint-disable-next-line camelcase
+    UNSAFE_componentWillReceiveProps(props) {
         if(props.accountLinked) {
             this.setState({ successMessage: 'Your account was linked successfully.  Sending you back to the profile page.' });
 

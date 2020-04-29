@@ -118,12 +118,12 @@ export default function(state = { decks: [] }, action) {
                 deckSaved: false
             });
 
-            if(!newState.decks.some(deck => deck._id === action.response.deck._id)) {
+            if(!newState.decks.some(deck => deck.id === parseInt(action.response.deck.id))) {
                 newState.decks.push(processDecks([action.response.deck], state));
             }
 
             var selected = newState.decks.find(deck => {
-                return deck._id === action.response.deck._id;
+                return deck.id === parseInt(action.response.deck.id);
             });
 
             newState = selectDeck(newState, selected);
@@ -164,7 +164,7 @@ export default function(state = { decks: [] }, action) {
             });
 
             newState.decks = newState.decks.filter(deck => {
-                return deck._id !== action.response.deckId;
+                return deck.id !== parseInt(action.response.deckId);
             });
 
             newState.selectedDeck = newState.decks[0];

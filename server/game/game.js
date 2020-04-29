@@ -55,6 +55,8 @@ class Game extends EventEmitter {
         this.savedGameId = details.savedGameId;
         this.gameType = details.gameType;
         this.gameFormat = details.gameFormat;
+        this.swap = details.swap;
+        this.previousWinner = details.previousWinner;
         this.currentAbilityWindow = null;
         this.currentActionWindow = null;
         this.currentEventWindow = null;
@@ -65,6 +67,8 @@ class Game extends EventEmitter {
         this.useGameTimeLimit = details.useGameTimeLimit;
         this.gameTimeLimit = details.gameTimeLimit;
         this.timeLimit = new TimeLimit(this);
+        this.hideDecklists = details.hideDecklists;
+        this.adaptive = { chains: 0, selection: [], biddingWinner: '' };
 
         this.cardsUsed = [];
         this.cardsPlayed = [];
@@ -243,7 +247,6 @@ class Game extends EventEmitter {
         return foundCards;
     }
 
-
     get actions() {
         return GameActions;
     }
@@ -379,7 +382,7 @@ class Game extends EventEmitter {
         }
 
         this.addAlert('success', '{0} has won the game', winner);
-
+        this.setWins(winner.name, winner.wins ? winner.wins + 1 : 1);
         this.winner = winner;
         this.finishedAt = new Date();
         this.winReason = reason;
@@ -395,7 +398,7 @@ class Game extends EventEmitter {
      * @param {String} stat
      * @param {Number} value
      */
-    changeStat(playerName, stat, value) {
+    changeStat(playerName, stat, value, info) {
         let player = this.getPlayerByName(playerName);
         if(!player) {
             return;
@@ -408,7 +411,29 @@ class Game extends EventEmitter {
         if(target[stat] < 0) {
             target[stat] = 0;
         } else {
-            this.addAlert('danger', '{0} sets {1} to {2} ({3})', player, stat, target[stat], (value > 0 ? '+' : '') + value);
+            this.addAlert(info ? 'info' : 'danger', '{0} sets {1} to {2} ({3})', player, stat, target[stat], (value > 0 ? '+' : '') + value);
+        }
+    }
+
+    changeActiveHouse(playerName, house) {
+        let player = this.getPlayerByName(playerName);
+        if(!player) {
+            return;
+        }
+
+        this.chatCommands.activeHouse(player, ['active-house', house]);
+    }
+
+    modifyKey(playerName, color, forged) {
+        let player = this.getPlayerByName(playerName);
+        if(!player) {
+            return;
+        }
+
+        if(forged) {
+            this.chatCommands.unforge(player, ['modify-key', color]);
+        } else {
+            this.chatCommands.forge(player, ['modify-key', color]);
         }
     }
 
@@ -461,6 +486,13 @@ class Game extends EventEmitter {
         let player = this.getPlayerByName(playerName);
         if(player) {
             player.selectDeck(deck);
+        }
+    }
+
+    setWins(playerName, wins) {
+        let player = this.getPlayerByName(playerName);
+        if(player) {
+            player.setWins(wins);
         }
     }
 
@@ -581,19 +613,6 @@ class Game extends EventEmitter {
             }
         });
 
-        //reversal swap
-        if(this.gameFormat === 'reversal') {
-            const playerNames = Object.keys(players);
-            if(playerNames.length === 2) {
-                const deckData = players[playerNames[0]].deckData;
-                const houses = players[playerNames[0]].houses;
-                players[playerNames[0]].deckData = players[playerNames[1]].deckData;
-                players[playerNames[0]].houses = players[playerNames[1]].houses;
-                players[playerNames[1]].houses = houses;
-                players[playerNames[1]].deckData = deckData;
-            }
-        }
-
         this.playersAndSpectators = players;
 
         if(this.useGameTimeLimit) {
@@ -622,6 +641,33 @@ class Game extends EventEmitter {
         this.continue();
     }
 
+    reInitialisePlayers(swap) {
+        let players = this.getPlayers();
+
+        //adaptive swap
+        if(swap) {
+            const [player1, player2] = Object.keys(players);
+            if(player2) {
+                const deckData = players[player1].deckData;
+                const houses = players[player1].houses;
+                players[player1].deckData = players[player2].deckData;
+                players[player1].houses = players[player2].houses;
+                players[player2].houses = houses;
+                players[player2].deckData = deckData;
+            }
+        }
+
+        this.players = players;
+
+        for(let player of this.getPlayers()) {
+            player.initialise();
+        }
+
+        this.allCards = _.reduce(this.getPlayers(), (cards, player) => {
+            return cards.concat(player.deck);
+        }, []);
+    }
+
     checkForTimeExpired() {
         if(this.timeLimit.isTimeLimitReached && !this.finishedAt) {
             this.addAlert('success', 'The game has ended because the timer has expired.  Timed wins are not currently implemented');
@@ -641,7 +687,7 @@ class Game extends EventEmitter {
         this.queueStep(new MainPhase(this));
         this.queueStep(new ReadyPhase(this));
         this.queueStep(new DrawPhase(this));
-        this.queueStep(new SimpleStep(this, () => this.raiseEndRoundEvent())),
+        this.queueStep(new SimpleStep(this, () => this.raiseEndRoundEvent()));
         this.queueStep(new SimpleStep(this, () => this.beginRound()));
     }
 
@@ -783,7 +829,10 @@ class Game extends EventEmitter {
                 () => player.cardsInPlay.push(card)
             ];
             this.promptWithHandlerMenu(this.activePlayer, {
-                activePromptTitle: { text: 'Choose which flank {{card}} should be placed on', values: { card: card.name } },
+                activePromptTitle: {
+                    text: 'Choose which flank {{card}} should be placed on',
+                    values: { card: card.name }
+                },
                 source: card,
                 choices: ['Left', 'Right'],
                 handlers: handlers
@@ -1015,10 +1064,11 @@ class Game extends EventEmitter {
      *
      * @param {Array} cards - which cards to consider. Default are all cards.
      * @param {boolean} upgrade - if upgrades should be counted. Default is false.
+     * @param {filter} filter - an extra filter to apply to the card.
      */
-    getHousesInPlay(cards = this.cardsInPlay, upgrade = false) {
-        return Constants.Houses.filter(house => cards.some(card => card.hasHouse(house)
-            || (upgrade && card.upgrades && card.upgrades.some(upgrade => upgrade.hasHouse(house)))));
+    getHousesInPlay(cards = this.cardsInPlay, upgrade = false, filter = null) {
+        return Constants.Houses.filter(house => cards.some(card => ((!filter || filter(card)) && card.hasHouse(house))
+            || (upgrade && card.upgrades && card.upgrades.some(upgrade => (!filter || filter(upgrade)) && upgrade.hasHouse(house)))));
     }
 
     firstThingThisTurn() {
@@ -1039,7 +1089,8 @@ class Game extends EventEmitter {
                 houses: player.houses,
                 deck: player.deckData.identity,
                 keys: player.keys,
-                turn: player.turn
+                turn: player.turn,
+                wins: player.wins
             };
         });
 
@@ -1050,6 +1101,9 @@ class Game extends EventEmitter {
             players: players,
             gameType: this.gameType,
             gameFormat: this.gameFormat,
+            swap: this.swap,
+            previousWinner: this.previousWinner,
+            adaptive: this.adaptive,
             winner: this.winner ? this.winner.name : undefined,
             winReason: this.winReason,
             finishedAt: this.finishedAt
@@ -1073,6 +1127,9 @@ class Game extends EventEmitter {
             return {
                 id: this.id,
                 gameFormat: this.gameFormat,
+                swap: this.swap,
+                previousWinner: this.previousWinner,
+                adaptive: this.adaptive,
                 manualMode: this.manualMode,
                 name: this.name,
                 owner: this.owner,
@@ -1090,6 +1147,7 @@ class Game extends EventEmitter {
                 winner: this.winner ? this.winner.name : undefined,
                 cancelPromptUsed: this.cancelPromptUsed,
                 useGameTimeLimit: this.useGameTimeLimit,
+                hideDecklists: this.hideDecklists,
                 gameTimeLimitStarted: this.timeLimit.timeLimitStarted,
                 gameTimeLimitStartedAt: this.timeLimit.timeLimitStartedAt,
                 gameTimeLimitTime: this.timeLimit.timeLimitInMinutes
@@ -1128,7 +1186,8 @@ class Game extends EventEmitter {
                 left: player.left,
                 name: player.name,
                 owner: player.owner,
-                user: options.fullData && player.user
+                user: options.fullData && player.user,
+                wins: player.wins
             };
         }
 
@@ -1137,6 +1196,9 @@ class Game extends EventEmitter {
             createdAt: this.createdAt,
             gameType: this.gameType,
             gameFormat: this.gameFormat,
+            swap: this.swap,
+            adaptive: this.adaptive,
+            winner: this.winner,
             id: this.id,
             manualMode: this.manualMode,
             messages: this.gameChat.messages,

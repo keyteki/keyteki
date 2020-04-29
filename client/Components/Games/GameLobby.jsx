@@ -46,6 +46,7 @@ class GameLobby extends React.Component {
             normal: true,
             sealed: true,
             reversal: true,
+            'adaptive-bo1': true,
             showOnlyNewGames: false
         };
 
@@ -69,9 +70,14 @@ class GameLobby extends React.Component {
                 }
             });
         }
+
+        if(this.props.gameId) {
+            this.props.socket.emit('joingame', this.props.gameId);
+        }
     }
 
-    componentWillReceiveProps(props) {
+    // eslint-disable-next-line camelcase
+    UNSAFE_componentWillReceiveProps(props) {
         if(!props.currentGame) {
             this.props.setContextMenu([]);
         }
@@ -96,6 +102,19 @@ class GameLobby extends React.Component {
             // Joining a game
             $('#pendingGameModal').modal('show');
             this.setState({ gameState: GameState.PendingGame });
+        }
+
+        if(!props.currentGame && this.props.gameId) {
+            const game = props.games.find(x => x.id === this.props.gameId);
+            if(!game) {
+                return;
+            }
+
+            if(game.needsPassword) {
+                this.props.joinPasswordGame(game, 'Join');
+            } else {
+                this.props.socket.emit('joingame', this.props.gameId);
+            }
         }
     }
 
@@ -263,7 +282,7 @@ class GameLobby extends React.Component {
                 <Modal { ...modalProps }>
                     { modalBody }
                 </Modal>
-            </div >);
+            </div>);
     }
 }
 
@@ -273,12 +292,15 @@ GameLobby.propTypes = {
     cancelNewGame: PropTypes.func,
     cancelPasswordJoin: PropTypes.func,
     currentGame: PropTypes.object,
+    gameId: PropTypes.string,
     games: PropTypes.array,
     i18n: PropTypes.object,
+    joinPasswordGame: PropTypes.func,
     leaveGame: PropTypes.func,
     newGame: PropTypes.bool,
     passwordGame: PropTypes.object,
     setContextMenu: PropTypes.func,
+    socket: PropTypes.object,
     startNewGame: PropTypes.func,
     t: PropTypes.func,
     user: PropTypes.object
@@ -297,4 +319,3 @@ function mapStateToProps(state) {
 }
 
 export default withTranslation()(connect(mapStateToProps, actions)(GameLobby));
-

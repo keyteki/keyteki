@@ -151,6 +151,7 @@ describe('Crassosaurus', function() {
                         inPlay: ['batdrone', 'dextre']
                     }
                 });
+                this.player1.player.optionSettings.orderForcedAbilities = false;
             });
 
             it('and prompt once if purge when less than 10 first time', function() {

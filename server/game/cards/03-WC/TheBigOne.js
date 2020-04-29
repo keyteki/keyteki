@@ -2,7 +2,7 @@ const Card = require('../../Card.js');
 
 class TheBigOne extends Card {
     setupCardAbilities(ability) {
-        this.constantReaction({
+        this.reaction({
             when: {
                 onCardPlayed: (event, context) => event.card.type === 'creature' && event.card !== context.source
             },

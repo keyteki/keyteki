@@ -53,6 +53,7 @@ describe('Self-Bolstering Automata', function() {
                     this.pipPip.tokens.ward = 1;
                     this.player1.play(this.positronBolt);
                     this.player1.clickCard(this.selfBolsteringAutomata);
+                    this.player1.clickCard(this.pipPip);
                 });
 
                 it('should fully heal automata, not destroy it, exhaust it and move it to the right flank and get 2 +1 power counters', function() {

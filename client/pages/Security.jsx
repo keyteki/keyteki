@@ -19,6 +19,7 @@ class Security extends React.Component {
         };
     }
 
+    // eslint-disable-next-line react/no-deprecated
     componentWillMount() {
         if(this.props.user) {
             this.props.loadActiveSessions(this.props.user);
@@ -27,7 +28,8 @@ class Security extends React.Component {
         }
     }
 
-    componentWillReceiveProps(props) {
+    // eslint-disable-next-line camelcase
+    UNSAFE_componentWillReceiveProps(props) {
         if(!this.state.detailsLoaded && props.user) {
             this.props.loadActiveSessions(props.user);
 
