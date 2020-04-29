@@ -12,8 +12,8 @@ class KeyHammer extends Card {
             })),
             then: {
                 gameAction: ability.actions.unforgeKey(context => ({
-                    target: context.player.opponent && context.player.opponent.keyForged.length > 0 ? context.player.opponent : [],
-                    choices: context.player.opponent.keyForged || []
+                    target: context.player.opponent && context.player.opponent.keysForgedThisRound.length > 0 ? context.player.opponent : [],
+                    choices: context.player.opponent.keysForgedThisRound || []
                 }))
             }
         });

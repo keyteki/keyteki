@@ -657,8 +657,6 @@ class Lobby {
                     verified: true,
                     noUnreleasedCards: true,
                     officialRole: true,
-                    faqRestrictedList: true,
-                    faqVersion: 'v1.0',
                     extendedStatus: []
                 };
 
@@ -673,13 +671,13 @@ class Lobby {
             });
     }
 
-    onSelectDeck(socket, gameId, deckId) {
+    onSelectDeck(socket, gameId, deckId, isStandalone) {
         let game = this.games[gameId];
         if(!game) {
             return;
         }
 
-        return Promise.all([this.cardService.getAllCards(), this.deckService.getById(deckId)])
+        return Promise.all([this.cardService.getAllCards(), isStandalone ? this.deckService.getStandaloneDeckById(deckId) : this.deckService.getById(deckId)])
             .then(results => {
                 let [cards, deck] = results;
 
@@ -706,8 +704,6 @@ class Lobby {
                     verified: !!deck.verified,
                     noUnreleasedCards: true,
                     officialRole: true,
-                    faqRestrictedList: true,
-                    faqVersion: 'v1.0',
                     extendedStatus: []
                 };
 
@@ -856,7 +852,7 @@ class Lobby {
         this.sendGameState(newGame);
         this.broadcastGameMessage('newgame', newGame);
 
-        let promises = [this.onSelectDeck(socket, newGame.id, owner.deck.id)];
+        let promises = [this.onSelectDeck(socket, newGame.id, owner.deck.id, owner.deck.isStandalone)];
 
         for(let player of Object.values(game.getPlayers()).filter(player => player.name !== newGame.owner.username)) {
             let socket = this.sockets[player.id];
@@ -867,7 +863,7 @@ class Lobby {
             }
 
             newGame.join(socket.id, player.user);
-            promises.push(this.onSelectDeck(socket, newGame.id, player.deck.id));
+            promises.push(this.onSelectDeck(socket, newGame.id, player.deck.id, player.deck.isStandalone));
         }
 
         for(let player of Object.values(game.getPlayers())) {

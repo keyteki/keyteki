@@ -61,3 +61,14 @@ export function clearDeckStatus() {
         type: 'CLEAR_DECK_STATUS'
     };
 }
+
+export function loadStandaloneDecks() {
+    return {
+        types: ['LOAD_STANDALONE_DECKS', 'STANDALONE_DECKS_LOADED'],
+        shouldCallAPI: () => true,
+        APIParams: {
+            url: '/api/standalone-decks',
+            type: 'GET'
+        }
+    };
+}
