@@ -8,14 +8,6 @@ class DeckService {
         this.configService = configService;
     }
 
-    getByStandaloneId(id) {
-        return this.decks.findOne({ standaloneId: id })
-            .catch(err => {
-                logger.error('Unable to fetch standalone deck', err);
-                throw new Error('Unable to fetch standalone deck ' + id);
-            });
-    }
-
     async getById(id) {
         let deck;
 
@@ -44,6 +36,68 @@ class DeckService {
         await this.getDeckCardsAndHouses(retDeck);
 
         return retDeck;
+    }
+
+    async getStandaloneDeckById(standaloneId) {
+        let deck;
+
+        try {
+            deck = await db.query('SELECT d.*, e."ExpansionId" as "Expansion" ' +
+            'FROM "StandaloneDecks" d ' +
+            'JOIN "Expansions" e on e."Id" = d."ExpansionId" ' +
+            'WHERE d."Id" = $1 ', [standaloneId]);
+        } catch(err) {
+            logger.error(`Failed to retrieve deck: ${standaloneId}`, err);
+
+            throw new Error('Unable to fetch deck: ' + standaloneId);
+        }
+
+        if(!deck || deck.length === 0) {
+            logger.warn(`Failed to retrieve deck: ${standaloneId} as it was not found`);
+
+            return undefined;
+        }
+
+        let retDeck = this.mapDeck(deck[0]);
+
+        await this.getDeckCardsAndHouses(retDeck, true);
+
+        return retDeck;
+    }
+
+    async getStandaloneDecks() {
+        let decks;
+
+        try {
+            decks = await db.query('SELECT d.*, e."ExpansionId" as "Expansion" ' +
+            'FROM "StandaloneDecks" d ' +
+            'JOIN "Expansions" e on e."Id" = d."ExpansionId"');
+        } catch(err) {
+            logger.error('Failed to retrieve standalone decks', err);
+
+            throw new Error('Unable to fetch standalone decks');
+        }
+
+        if(!decks || decks.length === 0) {
+            logger.warn('Failed to retrieve standalone decks, none found');
+
+            return undefined;
+        }
+
+        let retDecks = [];
+        for(const deck of decks) {
+            let retDeck = this.mapDeck(deck);
+
+            await this.getDeckCardsAndHouses(retDeck, true);
+
+            retDecks.push(retDeck);
+        }
+
+        return retDecks;
+    }
+
+    async createStandalone(deck) {
+        return this.insertDeck(deck);
     }
 
     async getSealedDeck(expansions) {
@@ -110,8 +164,9 @@ class DeckService {
         return retDecks;
     }
 
-    async getDeckCardsAndHouses(deck) {
-        let cards = await db.query('SELECT * FROM "DeckCards" WHERE "DeckId" = $1', [deck.id]);
+    async getDeckCardsAndHouses(deck, standalone = false) {
+        let cardTable = standalone ? 'StandaloneDeckCards' : 'DeckCards';
+        let cards = await db.query(`SELECT * FROM "${cardTable}" WHERE "DeckId" = $1`, [deck.id]);
 
         deck.cards = cards.map(card => ({
             id: card.CardId,
@@ -120,8 +175,11 @@ class DeckService {
             anomaly: card.Anomaly
         }));
 
-        let houses = await db.query('SELECT * FROM "DeckHouses" dh JOIN "Houses" h ON h."Id" = dh."HouseId" WHERE "DeckId" = $1', [deck.id]);
+        let houseTable = standalone ? 'StandaloneDeckHouses' : 'DeckHouses';
+        let houses = await db.query(`SELECT * FROM "${houseTable}" dh JOIN "Houses" h ON h."Id" = dh."HouseId" WHERE "DeckId" = $1`, [deck.id]);
         deck.houses = houses.map(house => house.Code);
+
+        deck.isStandalone = standalone;
     }
 
     async create(user, deck) {
@@ -148,12 +206,23 @@ class DeckService {
         }
 
         let newDeck = this.parseDeckResponse(deck.username, deckResponse);
+
+        return this.insertDeck(newDeck, user);
+    }
+
+    async insertDeck(deck, user) {
         let ret;
 
         try {
             await db.query('BEGIN');
-            ret = await db.query('INSERT INTO "Decks" ("UserId", "Uuid", "Identity", "Name", "IncludeInSealed", "LastUpdated", "Verified", "ExpansionId", "Flagged", "Banned") ' +
-                'VALUES ($1, $2, $3, $4, $5, $6, false, (SELECT "Id" FROM "Expansions" WHERE "ExpansionId" = $7), false, false) RETURNING "Id"', [user.id, newDeck.uuid, newDeck.identity, newDeck.name, false, newDeck.lastUpdated, newDeck.expansion]);
+
+            if(user) {
+                ret = await db.query('INSERT INTO "Decks" ("UserId", "Uuid", "Identity", "Name", "IncludeInSealed", "LastUpdated", "Verified", "ExpansionId", "Flagged", "Banned") ' +
+                'VALUES ($1, $2, $3, $4, $5, $6, false, (SELECT "Id" FROM "Expansions" WHERE "ExpansionId" = $7), false, false) RETURNING "Id"', [user.id, deck.uuid, deck.identity, deck.name, false, deck.lastUpdated, deck.expansion]);
+            } else {
+                ret = await db.query('INSERT INTO "StandaloneDecks" ("Identity", "Name", "LastUpdated", "ExpansionId") ' +
+                'VALUES ($1, $2, $3, (SELECT "Id" FROM "Expansions" WHERE "ExpansionId" = $4)) RETURNING "Id"', [deck.identity, deck.name, deck.lastUpdated || new Date(), deck.expansion]);
+            }
         } catch(err) {
             logger.error('Failed to add deck', err);
 
@@ -162,19 +231,20 @@ class DeckService {
             throw new Error('Failed to import deck');
         }
 
-        newDeck.id = ret[0].Id;
+        deck.id = ret[0].Id;
 
         let params = [];
-        for(let card of newDeck.cards) {
+        for(let card of deck.cards) {
             params.push(card.id);
             params.push(card.count);
             params.push(card.maverick);
             params.push(card.anomaly);
-            params.push(newDeck.id);
+            params.push(deck.id);
         }
 
+        let deckCardTable = user ? '"DeckCards"' : '"StandaloneDeckCards"';
         try {
-            await db.query(`INSERT INTO "DeckCards" ("CardId", "Count", "Maverick", "Anomaly", "DeckId") VALUES ${expand(newDeck.cards.length, 5)}`, params);
+            await db.query(`INSERT INTO ${deckCardTable} ("CardId", "Count", "Maverick", "Anomaly", "DeckId") VALUES ${expand(deck.cards.length, 5)}`, params);
         } catch(err) {
             logger.error('Failed to add deck', err);
 
@@ -183,9 +253,10 @@ class DeckService {
             throw new Error('Failed to import deck');
         }
 
+        let deckHouseTable = user ? '"DeckHouses"' : '"StandaloneDeckHouses"';
         try {
-            await db.query('INSERT INTO "DeckHouses" ("DeckId", "HouseId") VALUES ($1, (SELECT "Id" FROM "Houses" WHERE "Code" = $2)), ' +
-            '($1, (SELECT "Id" FROM "Houses" WHERE "Code" = $3)), ($1, (SELECT "Id" FROM "Houses" WHERE "Code" = $4))', flatten([newDeck.id, newDeck.houses]));
+            await db.query(`INSERT INTO ${deckHouseTable} ("DeckId", "HouseId") VALUES ($1, (SELECT "Id" FROM "Houses" WHERE "Code" = $2)), ` +
+            '($1, (SELECT "Id" FROM "Houses" WHERE "Code" = $3)), ($1, (SELECT "Id" FROM "Houses" WHERE "Code" = $4))', flatten([deck.id, deck.houses]));
 
             await db.query('COMMIT');
         } catch(err) {
@@ -196,7 +267,7 @@ class DeckService {
             throw new Error('Failed to import deck');
         }
 
-        return newDeck;
+        return deck;
     }
 
     async update(deck) {
