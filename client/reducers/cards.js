@@ -12,7 +12,6 @@ function processDecks(decks, state) {
     for(let deck of decks) {
         if(!state.cards || !deck.houses) {
             deck.status = {};
-            deck.cards = [];
 
             continue;
         }
@@ -45,9 +44,15 @@ export default function(state = { decks: [] }, action) {
     let newState;
     switch(action.type) {
         case 'RECEIVE_CARDS':
-            return Object.assign({}, state, {
+            newState = Object.assign({}, state, {
                 cards: action.response.cards
             });
+
+            if(state.decks.length > 0) {
+                processDecks(state.decks, newState);
+            }
+
+            return newState;
         case 'RECEIVE_FACTIONS':
             var factions = {};
 
