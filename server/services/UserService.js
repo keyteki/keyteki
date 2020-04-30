@@ -450,7 +450,7 @@ class UserService extends EventEmitter {
     }
 
     async setSupporterStatus(userId, isSupporter) {
-        let supporterRoles = await db.query('SELECT 1 "UserRoles" ur JOIN "Roles" r ON r."Id" = ur."RoleId" WHERE "UserId" = $1 AND r."Name" = \'Supporter\'',
+        let supporterRoles = await db.query('SELECT 1 FROM "UserRoles" ur JOIN "Roles" r ON r."Id" = ur."RoleId" WHERE "UserId" = $1 AND r."Name" = \'Supporter\'',
             [userId]);
         let isExistingSupporter = supporterRoles && supporterRoles.length > 0;
 
@@ -465,7 +465,7 @@ class UserService extends EventEmitter {
             }
         } else if(!isExistingSupporter && isSupporter) {
             try {
-                await db.query('INSERT INTO "UserRoles" ("UserId", "RoleId") VALUES ($1, (SELECT "Id" FROM "Roles" WHERE "Name" = \'Supporter\'',
+                await db.query('INSERT INTO "UserRoles" ("UserId", "RoleId") VALUES ($1, (SELECT "Id" FROM "Roles" WHERE "Name" = \'Supporter\'))',
                     [userId]);
             } catch(err) {
                 logger.error('Failed to add supporter status', err);

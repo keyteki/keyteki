@@ -331,40 +331,28 @@ module.exports.init = function(server, options) {
     server.post('/api/account/checkauth', passport.authenticate('jwt', { session: false }), wrapAsync(async (req, res) => {
         let user = await userService.getFullUserByUsername(req.user.username);
         let userDetails = user.getWireSafeDetails();
+        let isSupporter = false;
 
-        if(!user.patreon || !user.patreon.refresh_token) {
-            return res.send({ success: true, user: userDetails });
-        }
-
-        userDetails.patreon = await patreonService.getPatreonStatusForUser(user);
-
-        if(userDetails.patreon === 'none') {
-            delete (userDetails.patreon);
-
-            let ret = await patreonService.refreshTokenForUser(user);
-            if(!ret) {
-                return res.send({ success: true, user: userDetails });
-            }
-
+        if(user.patreon && user.patreon.refresh_token) {
             userDetails.patreon = await patreonService.getPatreonStatusForUser(user);
 
             if(userDetails.patreon === 'none') {
-                return res.send({ success: true, user: userDetails });
+                delete (userDetails.patreon);
+
+                let ret = await patreonService.refreshTokenForUser(user);
+                if(ret) {
+                    userDetails.patreon = await patreonService.getPatreonStatusForUser(user);
+                }
             }
         }
 
-        try {
-            if(userDetails.patreon === 'pledged' && !userDetails.permissions.isSupporter) {
-                await userService.setSupporterStatus(user.id, true);
-                // eslint-disable-next-line require-atomic-updates
-                userDetails.permissions.isSupporter = req.user.permissions.isSupporter = true;
-            } else if(userDetails.patreon !== 'pledged' && userDetails.permissions.isSupporter) {
-                await userService.setSupporterStatus(user.id, false);
-                // eslint-disable-next-line require-atomic-updates
-                userDetails.permissions.isSupporter = req.user.permissions.isSupporter = false;
-            }
-        // eslint-disable-next-line no-empty
-        } catch(err) {
+        if(userDetails.patreon === 'pledged') {
+            isSupporter = true;
+        }
+
+        if(isSupporter !== req.user.permissions.isSupporter) {
+            userDetails.permissions.isSupporter = req.user.permissions.isSupporter = isSupporter;
+            await userService.setSupporterStatus(user.id, isSupporter);
         }
 
         res.send({ success: true, user: userDetails });
