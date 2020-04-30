@@ -11,19 +11,28 @@ class ResolveBonusIconsAction extends CardGameAction {
         return super.createEvent('onResolveBonusIcons', { card: card, context: context }, event => {
             for(let icon of event.card.bonusIcons) {
                 context.game.queueSimpleStep(() => {
-                    const mayResolveAsCapture = context.player.anyEffect('mayResolveBonusIconsAsCapture');
-                    const mayStealInsteadOfCapture = context.player.anyEffect('mayResolveCaptureIconsAsSteal');
-                    if(mayResolveAsCapture && icon !== 'capture' || mayStealInsteadOfCapture && icon === 'capture') {
-                        let choices = [icon];
-                        if(mayResolveAsCapture && icon !== 'capture') {
-                            choices.push('capture');
-                        }
+                    let choices = [icon];
+                    let mayResolveBonusIconsAsEffects = context.player.getEffects('mayResolveBonusIconsAs');
 
-                        if(mayStealInsteadOfCapture) {
-                            choices.push('steal');
-                        }
+                    if(mayResolveBonusIconsAsEffects) {
+                        let noIconAdded = false;
 
-                        context.player.promptWithHandlerMenu(context.player, {
+                        while(!noIconAdded) {
+                            noIconAdded = true;
+
+                            for(let resolveBonusAsIcon of mayResolveBonusIconsAsEffects) {
+                                if((resolveBonusAsIcon.icon === 'any') || choices.includes(resolveBonusAsIcon.icon)) {
+                                    if(!choices.includes(resolveBonusAsIcon.value)) {
+                                        choices.push(resolveBonusAsIcon.value);
+                                        noIconAdded = false;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    if(choices.length > 1) {
+                        context.game.promptWithHandlerMenu(context.player, {
                             activePromptTitle: 'How do you wish to resolve this ' + icon + ' icon?',
                             choices: choices,
                             handlers: choices.map(choice => () => icon = choice),
@@ -31,6 +40,7 @@ class ResolveBonusIconsAction extends CardGameAction {
                         });
                     }
                 });
+
                 context.game.queueSimpleStep(() => {
                     if(icon === 'amber') {
                         context.game.actions.gainAmber({ bonus: true }).resolve(context.player, context.game.getFrameworkContext(context.player));
