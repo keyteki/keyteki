@@ -152,13 +152,11 @@ class Card extends EffectSource {
     get bonusIcons() {
         if(this.anyEffect('copyCard')) {
             return this.mostRecentEffect('copyCard').bonusIcons;
-        } else if(this.cardData.enhancements) {
-            return this.cardData.enhancements;
-        } else if(this.printedAmber) {
-            return Array.from(Array(this.printedAmber), () => 'amber');
         }
 
-        return [];
+        let result = this.printedAmber ? Array.from(Array(this.printedAmber), () => 'amber') : [];
+
+        return this.cardData.enhancements ? result.concat(this.cardData.enhancements) : result;
     }
 
     setupAbilities() {
