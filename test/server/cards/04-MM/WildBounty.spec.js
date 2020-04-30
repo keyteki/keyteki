@@ -1,4 +1,4 @@
-describe('Wild Bounty', function() {
+fdescribe('Wild Bounty', function() {
     integration(function() {
         describe('Wild Bounty\'s abilities', function() {
             beforeEach(function() {
@@ -26,8 +26,17 @@ describe('Wild Bounty', function() {
                 this.player1.play(this.fertilityChant);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
                 expect(this.player1.amber).toBe(8);
-                expect(this.player2.amber).toBe(4);
+                expect(this.player2.amber).toBe(4);                
             });
+            
+            it('should trigger twice only for the immediate next card', function() {
+                this.player1.play(this.wildBounty);
+                this.player1.play(this.fertilityChant);
+                this.player1.play(this.dustPixie);
+                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.player1.amber).toBe(10);
+                expect(this.player2.amber).toBe(4);
+            }); 
 
             it('should reveal a card and apply enhanced bonus icons twice', function() {
                 this.dustPixie.cardData.enhancements = ['amber', 'draw', 'damage'];
