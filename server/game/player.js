@@ -645,7 +645,10 @@ class Player extends GameObject {
                 choiceHandler: key => {
                     this.game.queueSimpleStep(() => {
                         this.keys[key.value] = false;
-                        this.keysForgedThisRound.splice(this.keysForgedThisRound.findIndex(x => x === key.value), 1);
+                        let forgedKeyIndex = this.keysForgedThisRound.findIndex(x => x === key.value);
+                        if(forgedKeyIndex !== -1) {
+                            this.keysForgedThisRound.splice(forgedKeyIndex, 1);
+                        }
                         this.game.addMessage('{0} unforges {1}\'s {2}', this.game.activePlayer, this.game.activePlayer.opponent, `forgedkey${key.value}`);
                     });
                 }
