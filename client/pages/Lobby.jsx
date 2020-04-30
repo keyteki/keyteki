@@ -96,9 +96,7 @@ class Lobby extends React.Component {
                     <UserList users={ this.props.users } />
                 </SideBar>
                 <div className='col-sm-offset-1 col-sm-10'>
-                    <div className='main-header'>
-                        <span className='text-center'><h1>Keyforge</h1></span>
-                    </div>
+                    <div className='main-header' />
                 </div>
                 { this.props.motd && this.props.motd.message &&
                     <div className='col-sm-offset-1 col-sm-10 banner'>
