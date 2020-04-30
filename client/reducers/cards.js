@@ -44,12 +44,16 @@ export default function(state = { decks: [] }, action) {
     let newState;
     switch(action.type) {
         case 'RECEIVE_CARDS':
+            var decks = state.decks;
+
             newState = Object.assign({}, state, {
                 cards: action.response.cards
             });
 
-            if(state.decks.length > 0) {
-                processDecks(state.decks, newState);
+            if(decks.length > 0) {
+                processDecks(decks, newState);
+
+                newState.decks = decks;
             }
 
             return newState;
@@ -87,6 +91,13 @@ export default function(state = { decks: [] }, action) {
             });
 
             newState = selectDeck(newState, newState.decks[0]);
+
+            return newState;
+        case 'STANDALONE_DECKS_LOADED':
+            processDecks(action.response.decks, state);
+            newState = Object.assign({}, state, {
+                standaloneDecks: action.response.decks
+            });
 
             return newState;
         case 'REQUEST_DECK':
@@ -136,7 +147,7 @@ export default function(state = { decks: [] }, action) {
 
             return newState;
         case 'DECK_SAVED':
-            var decks = state.decks;
+            decks = state.decks;
             decks.unshift(action.response.deck);
             newState = Object.assign({}, state, {
                 deckSaved: true,

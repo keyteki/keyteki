@@ -43,7 +43,7 @@ class Decks extends React.Component {
 
         if(this.props.apiLoading) {
             content = <div><Trans>Loading decks from the server...</Trans></div>;
-        } else if(!this.props.apiSuccess) {
+        } else if(this.props.apiSuccess === false) {
             content = <AlertPanel type='error' message={ this.props.apiMessage } />;
         } else {
             content = (

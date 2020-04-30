@@ -35,7 +35,8 @@ mockContext.event.context = mockContext;
 
 function expectLocalizedString(str) {
     if(isNaN(str)) {
-        expect(localeEn[str]).toBe(str);
+        let localeStr = str.text ? str.text : str;
+        expect(localeEn[localeStr]).toBe(localeStr);
     }
 }
 
@@ -63,7 +64,7 @@ function expectLocalizedTarget(target) {
 
     if(target.choices) {
         _.forEach(Object.keys(target.choices), choice => {
-            expectLocalizedString(choice, card);
+            expectLocalizedString(choice);
         });
     }
 }

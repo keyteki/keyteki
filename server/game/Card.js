@@ -152,13 +152,11 @@ class Card extends EffectSource {
     get bonusIcons() {
         if(this.anyEffect('copyCard')) {
             return this.mostRecentEffect('copyCard').bonusIcons;
-        } else if(this.cardData.enhancements) {
-            return this.cardData.enhancements;
-        } else if(this.printedAmber) {
-            return Array.from(Array(this.printedAmber), () => 'amber');
         }
 
-        return [];
+        let result = this.printedAmber ? Array.from(Array(this.printedAmber), () => 'amber') : [];
+
+        return this.cardData.enhancements ? result.concat(this.cardData.enhancements) : result;
     }
 
     setupAbilities() {
@@ -226,6 +224,7 @@ class Card extends EffectSource {
         this.abilities.keywordReactions.push(this.interrupt({
             when: {
                 onCardMarkedForDestruction: (event, context) => event.card === context.source && context.source.warded,
+                onCardPurged: (event, context) => event.card === context.source && context.source.warded,
                 onCardLeavesPlay: (event, context) => event.card === context.source && context.source.warded,
                 onDamageDealt: (event, context) => event.card === context.source && !context.event.noGameStateCheck && context.source.warded
             },
@@ -887,8 +886,8 @@ class Card extends EffectSource {
 
         let state = {
             anomaly: this.anomaly,
-            id: this.cardData.id,
-            image: this.cardData.image,
+            id: this.id,
+            image: this.image,
             canPlay: (activePlayer === this.game.activePlayer) && this.game.activePlayer.activeHouse &&
                 isController && (this.getLegalActions(activePlayer, false).length > 0),
             cardback: this.owner.deckData.cardback,
@@ -900,7 +899,7 @@ class Card extends EffectSource {
             facedown: this.facedown,
             location: this.location,
             menu: this.getMenu(),
-            name: this.cardData.name,
+            name: this.name,
             new: this.new,
             printedHouse: this.printedHouse,
             maverick: this.maverick,
