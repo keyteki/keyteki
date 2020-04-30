@@ -6,6 +6,8 @@ const uuid = require('uuid');
 const logger = require('../log');
 const User = require('../models/User');
 const db = require('../db');
+const { expand } = require('../Array');
+
 
 class UserService extends EventEmitter {
     constructor(configService) {
@@ -100,7 +102,7 @@ class UserService extends EventEmitter {
         if(permissions) {
             user.permissions = this.mapPermissions(permissions);
         } else {
-            user.permissions = [];
+            user.permissions = {};
         }
 
         return new User(user);
@@ -209,19 +211,94 @@ class UserService extends EventEmitter {
     }
 
     async update(user) {
-        let query = 'UPDATE "Users" SET "Email"=$1, "Verified"=$2, "Disabled"=$3, "Settings_DisableGravatar"=$4, ' +
-            '"Settings_CardSize"=$5, "Settings_Background"=$6, "Settings_OrderAbilities"=$7, "Settings_ConfirmOneClick"=$8, "PatreonToken"=$9 WHERE "Id" = $10';
+        await db.query('BEGIN');
+
+        let query = 'UPDATE "Users" SET "Email" = $1, "Verified" = $2, "Disabled" = $3, "Settings_DisableGravatar" = $4, ' +
+            '"Settings_CardSize" = $5, "Settings_Background" = $6, "Settings_OrderAbilities" = $7, "Settings_ConfirmOneClick" = $8, "PatreonToken" = $9 WHERE "Id" = $10';
 
         try {
             await db.query(query, [user.email, user.verified, user.disabled, !user.enableGravatar, user.settings.cardSize,
                 user.settings.background, user.settings.optionSettings.orderForcedAbilities, user.settings.optionSettings.confirmOneClick, JSON.stringify(user.patreon), user.id]);
         } catch(err) {
             logger.error('Failed to update user', err);
+
+            await db.query('ROLLBACK');
         }
 
         if(user.password && user.password !== '') {
-            return this.setPassword(user, user.password);
+            try {
+                this.setPassword(user, user.password);
+            } catch(err) {
+                logger.error('Failed to update user password', err);
+
+                await db.query('ROLLBACK');
+            }
         }
+
+        let permissions;
+        let existingPermissions;
+        try {
+            permissions = await db.query('SELECT r."Name" FROM "UserRoles" ur JOIN "Roles" r ON r."Id" = ur."RoleId" WHERE ur."UserId" = $1', [user.id]);
+        } catch(err) {
+            logger.error('Failed to lookup permissions for user', err);
+        }
+
+        if(permissions) {
+            existingPermissions = this.mapPermissions(permissions);
+        } else {
+            existingPermissions = {};
+        }
+
+        let existing = [];
+
+        for(let permission of Object.keys(existingPermissions)) {
+            if(existingPermissions[permission]) {
+                existing.push(permission);
+            }
+        }
+
+        let newPerms = [];
+        for(let permission of Object.keys(user.permissions)) {
+            if(user.permissions[permission]) {
+                newPerms.push(permission);
+            }
+        }
+
+        let toRemove = new Set([...existing].filter(x => !new Set([...newPerms]).has(x)));
+        let toAdd = new Set([...newPerms].filter(x => !new Set([...existing]).has(x)));
+
+        let params = [];
+        for(let permission of toAdd) {
+            params.push(user.id);
+            params.push(this.permissionToRole(permission));
+        }
+
+        if(toAdd.size > 0) {
+            try {
+                await db.query(`INSERT INTO "UserRoles" ("UserId", "RoleId") VALUES ${expand(toAdd.size, 2)}`, params);
+            } catch(err) {
+                logger.error('Failed to set permissions', err);
+
+                await db.query('ROLLBACK');
+
+                throw new Error('Failed to set permissions');
+            }
+        }
+
+        if(toRemove.size > 0) {
+            const deleteStr = Array.from(toRemove).map(perm => this.permissionToRole(perm)).join(', ');
+            try {
+                await db.query(`DELETE FROM "UserRoles" WHERE "UserId" = $1 AND "RoleId" IN (${deleteStr})`, [user.id]);
+            } catch(err) {
+                logger.error('Failed to set permissions', err);
+
+                await db.query('ROLLBACK');
+
+                throw new Error('Failed to set permissions');
+            }
+        }
+
+        await(db.query('COMMIT'));
     }
 
     async addBlocklistEntry(user, entry) {
@@ -270,6 +347,8 @@ class UserService extends EventEmitter {
             return db.query('UPDATE "Users" SET "Password" = $1 WHERE "Id" = $2', [password, user.id]);
         } catch(err) {
             logger.error('Failed to update user password', err);
+
+            throw new Error('failed to update user password');
         }
     }
 
@@ -439,6 +518,35 @@ class UserService extends EventEmitter {
             tokenId: token.TokenId,
             lastUsed: token.LastUsed
         }));
+    }
+
+    permissionToRole(permission) {
+        switch(permission) {
+            case 'canManageUsers':
+                return 1; //'UserManager';
+            case 'canManageBanlist':
+                return 2; // 'BanListManager';
+            case 'canEditNews':
+                return 3; //'NewsManager';
+            case 'canManageGames':
+                return 4; // 'GameManager';
+            case 'canManageMotd':
+                return 5; // 'MotdManager';
+            case 'canManagePermissions':
+                return 6; // 'PermissionsManager';
+            case 'canManageNodes':
+                return 7; // 'NodeManager';
+            case 'canModerateChat':
+                return 8; // 'ChatManager';
+            case 'canVerifyDecks':
+                return 9; // 'DeckVerifier';
+            case 'isAdmin':
+                return 10; // 'Admin';
+            case 'isContributor':
+                return 11; // 'Contributor';
+            case 'isSupporter':
+                return 12; // 'Supporter';
+        }
     }
 
     mapPermissions(permissions) {
