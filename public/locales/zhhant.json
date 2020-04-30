@@ -480,5 +480,14 @@
     "Yellow": "Yellow",
     "Destroy {{card}} or Discard a Logos Card": "Destroy {{card}} or Discard a Logos Card",
     "Choose a creature to damage due to bonus icon": "Choose a creature to damage due to bonus icon",
-    "Choose a creature to capture amber due to bonus icon": "Choose a creature to capture amber due to bonus icon"
+    "Choose a creature to capture amber due to bonus icon": "Choose a creature to capture amber due to bonus icon",
+    "How do you wish to resolve this capture icon?": "How do you wish to resolve this capture icon?",
+    "How do you wish to resolve this amber icon?": "How do you wish to resolve this amber icon?",
+    "How do you wish to resolve this draw icon?": "How do you wish to resolve this draw icon?",
+    "How do you wish to resolve this damage icon?": "How do you wish to resolve this damage icon?",
+    "amber": "amber",
+    "capture": "capture",
+    "damage": "damage",
+    "steal": "steal",
+    "draw": "draw"
 }
