@@ -478,5 +478,7 @@
     "Red": "Red",
     "Blue": "Blue",
     "Yellow": "Yellow",
-    "Destroy {{card}} or Discard a Logos Card": "Destroy {{card}} or Discard a Logos Card"
+    "Destroy {{card}} or Discard a Logos Card": "Destroy {{card}} or Discard a Logos Card",
+    "Choose a creature to damage due to bonus icon": "Choose a creature to damage due to bonus icon",
+    "Choose a creature to capture amber due to bonus icon": "Choose a creature to capture amber due to bonus icon"
 }
