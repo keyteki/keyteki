@@ -19,6 +19,14 @@ class MenuCommands {
                 game.addAlert('danger', '{0} removes a damage from {1}', player, card);
                 card.removeToken('damage', 1);
                 break;
+            case 'remPower':
+                game.addAlert('danger', '{0} removes a power token from {1}', player, card);
+                card.removeToken('power', 1);
+                break;
+            case 'addPower':
+                game.addAlert('danger', '{0} adds an power token to {1}', player, card);
+                card.addToken('power', 1);
+                break;
             case 'addAmber':
                 game.addAlert('danger', '{0} adds an amber to {1}', player, card);
                 card.addToken('amber', 1);

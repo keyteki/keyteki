@@ -5,7 +5,7 @@ describe('Hit and Run', function() {
                 this.setupTest({
                     player1: {
                         house: 'shadows',
-                        inPlay: ['flaxia', 'knoxx'],
+                        inPlay: ['flaxia', 'knoxx', 'helper-bot'],
                         hand: ['hit-and-run']
                     },
                     player2: {
@@ -13,6 +13,32 @@ describe('Hit and Run', function() {
                         inPlay: ['lamindra', 'troll']
                     }
                 });
+            });
+
+            it('Hit a friendly creature and return a friendly creature to hand', function() {
+                this.player1.play(this.hitAndRun);
+
+                expect(this.player1).toHavePrompt('Hit and Run');
+                expect(this.player1).toBeAbleToSelect(this.flaxia);
+                expect(this.player1).toBeAbleToSelect(this.helperBot);
+                expect(this.player1).toBeAbleToSelect(this.knoxx);
+                expect(this.player1).toBeAbleToSelect(this.lamindra);
+                expect(this.player1).toBeAbleToSelect(this.troll);
+
+                this.player1.clickCard(this.helperBot);
+
+                expect(this.player1).toHavePrompt('Hit and Run');
+                expect(this.player1).toBeAbleToSelect(this.flaxia);
+                expect(this.player1).toBeAbleToSelect(this.knoxx);
+                expect(this.player1).not.toBeAbleToSelect(this.helperBot);
+                expect(this.player1).not.toBeAbleToSelect(this.lamindra);
+                expect(this.player1).not.toBeAbleToSelect(this.troll);
+
+                this.player1.clickCard(this.knoxx);
+                expect(this.knoxx.location).toBe('hand');
+                expect(this.flaxia.location).toBe('play area');
+                expect(this.lamindra.location).toBe('play area');
+                expect(this.troll.location).toBe('play area');
             });
 
             it('Hit a friendly creature and return a friendly creature to hand', function() {

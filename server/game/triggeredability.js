@@ -81,16 +81,27 @@ class TriggeredAbility extends CardAbility {
         } else if(!this.when[event.name] || !this.when[event.name](event, context)) {
             return false;
         } else if(this.properties.play || this.properties.fight || this.properties.reap) {
-            let { play, fight, reap } = this.properties;
-            reap = reap || (play && this.card.anyEffect('playAbilitiesAddReap'));
-            fight = fight || (reap && this.card.anyEffect('reapAbilitiesAddFight'));
-            reap = reap || (fight && this.card.anyEffect('fightAbilitiesAddReap'));
-            if(event.name === 'onCardPlayed' && !play || event.name === 'onFight' && !fight || event.name === 'onReap' && !reap) {
+            if(event.name === 'onCardPlayed' && !this.isPlay() || event.name === 'onFight' && !this.isFight() || event.name === 'onReap' && !this.isReap()) {
                 return false;
             }
         }
 
         return true;
+    }
+
+    isPlay() {
+        return this.properties.play;
+    }
+
+    isFight() {
+        let { play, fight, reap } = this.properties;
+        reap = reap || (play && this.card.anyEffect('playAbilitiesAddReap'));
+        return fight || (reap && this.card.anyEffect('reapAbilitiesAddFight'));
+    }
+
+    isReap() {
+        let { play, fight, reap } = this.properties;
+        return reap || (play && this.card.anyEffect('playAbilitiesAddReap')) || (fight && this.card.anyEffect('fightAbilitiesAddReap'));
     }
 
     registerEvents() {

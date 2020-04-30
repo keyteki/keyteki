@@ -23,7 +23,8 @@ export class Register extends React.Component {
         };
     }
 
-    componentWillReceiveProps(props) {
+    // eslint-disable-next-line camelcase
+    UNSAFE_componentWillReceiveProps(props) {
         let t = this.props.t;
 
         if(props.accountRegistered) {

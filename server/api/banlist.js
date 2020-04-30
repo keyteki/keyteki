@@ -1,14 +1,9 @@
-const monk = require('monk');
 const passport = require('passport');
 
 const BanlistService = require('../services/BanlistService');
-const ConfigService = require('../services/ConfigService');
 const { wrapAsync } = require('../util');
 
-let configService = new ConfigService();
-let db = monk(configService.getValue('dbPath'));
-
-let banlistService = new BanlistService(db);
+let banlistService = new BanlistService();
 
 module.exports.init = function(server) {
     server.get('/api/banlist', passport.authenticate('jwt', { session: false }), wrapAsync(async function(req, res) {
@@ -33,12 +28,13 @@ module.exports.init = function(server) {
 
         entry = {
             ip: req.body.ip,
-            user: req.user.username,
-            added: new Date()
+            userId: req.user.id
         };
 
         banlistService.addBanlistEntry(entry)
             .then(ip => {
+                ip.user = req.user.username;
+
                 res.send({ success: true, entry: ip });
             })
             .catch(() => {

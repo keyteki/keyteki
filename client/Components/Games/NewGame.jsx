@@ -1,19 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { toastr } from 'react-redux-toastr';
+import { withTranslation, Trans } from 'react-i18next';
 
 import Panel from '../Site/Panel';
 import Checkbox from '../Form/Checkbox';
 import AlertPanel from '../Site/AlertPanel';
 import * as actions from '../../actions';
 
-import { withTranslation, Trans } from 'react-i18next';
-
 const GameNameMaxLength = 64;
 
 class NewGame extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.onCancelClick = this.onCancelClick.bind(this);
         this.onSubmitClick = this.onSubmitClick.bind(this);
@@ -24,6 +24,7 @@ class NewGame extends React.Component {
         this.onPasswordChange = this.onPasswordChange.bind(this);
         this.onUseGameTimeLimitClick = this.onUseGameTimeLimitClick.bind(this);
         this.onGameTimeLimitChange = this.onGameTimeLimitChange.bind(this);
+        this.onHideDecklistsClick = this.onHideDecklistsClick.bind(this);
 
         this.state = {
             spectators: true,
@@ -34,12 +35,10 @@ class NewGame extends React.Component {
             expansions: { cota: false, aoa: false, wc: true },
             password: '',
             useGameTimeLimit: false,
-            gameTimeLimit: 35
+            hideDecklists: false,
+            gameTimeLimit: 35,
+            gameName: this.props.defaultGameName
         };
-    }
-
-    componentWillMount() {
-        this.setState({ gameName: this.props.defaultGameName });
     }
 
     onCancelClick(event) {
@@ -71,6 +70,20 @@ class NewGame extends React.Component {
     onSubmitClick(event) {
         event.preventDefault();
 
+        let expansionsSelected = 0;
+
+        for(const value of Object.values(this.state.expansions)) {
+            if(value) {
+                expansionsSelected++;
+            }
+        }
+
+        if(this.state.selectedGameFormat === 'sealed' && expansionsSelected === 0) {
+            toastr.error(this.props.t('Please select at least one expansion!'));
+
+            return;
+        }
+
         this.props.socket.emit('newgame', {
             name: this.state.gameName,
             spectators: this.state.spectators,
@@ -82,7 +95,8 @@ class NewGame extends React.Component {
             muteSpectators: this.state.muteSpectators,
             expansions: this.state.expansions,
             useGameTimeLimit: this.state.useGameTimeLimit,
-            gameTimeLimit: this.state.gameTimeLimit
+            gameTimeLimit: this.state.gameTimeLimit,
+            hideDecklists: this.state.hideDecklists
         });
     }
 
@@ -106,6 +120,10 @@ class NewGame extends React.Component {
         this.setState({ useGameTimeLimit: event.target.checked });
     }
 
+    onHideDecklistsClick(event) {
+        this.setState({ hideDecklists: event.target.checked });
+    }
+
     onGameTimeLimitChange(event) {
         this.setState({ gameTimeLimit: event.target.value });
     }
@@ -123,16 +141,17 @@ class NewGame extends React.Component {
 
         return (<div className='row'>
             <Checkbox name='allowSpectators' noGroup label={ t('Allow spectators') } fieldClass='col-sm-8'
-                onChange={ this.onSpectatorsClick } checked={ this.state.spectators } />
+                onChange={ this.onSpectatorsClick } checked={ this.state.spectators }/>
             <Checkbox name='showHands' noGroup label={ t('Show hands to spectators') } fieldClass='col-sm-8'
-                onChange={ this.onShowHandClick } checked={ this.state.showHand } />
+                onChange={ this.onShowHandClick } checked={ this.state.showHand }/>
             <Checkbox name='muteSpectators' noGroup label={ t('Mute spectators') } fieldClass='col-sm-8'
-                onChange={ this.onMuteSpectatorsClick } checked={ this.state.muteSpectators } />
+                onChange={ this.onMuteSpectatorsClick } checked={ this.state.muteSpectators }/>
             <Checkbox name='timeLimit' noGroup label={ t('Use a time limit (in minutes)') } fieldClass='col-sm-12'
-                onChange={ this.onUseGameTimeLimitClick } checked={ this.state.useGameTimeLimit } />
+                onChange={ this.onUseGameTimeLimitClick } checked={ this.state.useGameTimeLimit }/>
             { this.state.useGameTimeLimit && <div className='col-sm-4'>
-                <input className='form-control' type='number' onChange={ this.onGameTimeLimitChange } value={ this.state.gameTimeLimit } />
+                <input className='form-control' type='number' onChange={ this.onGameTimeLimitChange } value={ this.state.gameTimeLimit }/>
             </div> }
+            <Checkbox name='hideDecklists' noGroup label={ t('Hide opponent decklists') } fieldClass='col-sm-8' onChange={ this.onHideDecklistsClick } checked={ this.state.hideDecklists }/>
         </div>);
     }
 
@@ -153,7 +172,7 @@ class NewGame extends React.Component {
                 <div className='col-sm-10'>
                     { gameTypes.map(gameType => {
                         return (<label key={ gameType.name } className='radio-inline'>
-                            <input type='radio' onChange={ this.onGameTypeChange.bind(this, gameType.name) } checked={ this.isGameTypeSelected(gameType.name) } />
+                            <input type='radio' onChange={ this.onGameTypeChange.bind(this, gameType.name) } checked={ this.isGameTypeSelected(gameType.name) }/>
                             { gameType.label }
                         </label>);
                     }) }
@@ -167,7 +186,8 @@ class NewGame extends React.Component {
         let gameFormats = [
             { name: 'normal', label: t('Normal') },
             { name: 'sealed', label: t('Sealed') },
-            { name: 'reversal', label: t('Reversal') }
+            { name: 'reversal', label: t('Reversal') },
+            { name: 'adaptive-bo1', label: t('Adaptive - Best of 1') }
         ];
 
         let expansions = [

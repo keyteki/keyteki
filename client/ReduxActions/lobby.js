@@ -30,9 +30,3 @@ export function removeLobbyMessage(messageId) {
         }
     };
 }
-
-export function clearChatStatus() {
-    return {
-        type: 'CLEAR_CHAT_STATUS'
-    };
-}

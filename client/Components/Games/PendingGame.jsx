@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import $ from 'jquery';
+import ReactClipboard from 'react-clipboardjs-copy';
 
 import Panel from '../Site/Panel';
 import Messages from '../GameBoard/Messages';
@@ -35,6 +36,8 @@ class PendingGame extends React.Component {
         };
 
         this.notification = undefined;
+
+        this.gameLinkRef = React.createRef();
     }
 
     componentDidMount() {
@@ -45,7 +48,8 @@ class PendingGame extends React.Component {
         }
     }
 
-    componentWillReceiveProps(props) {
+    // eslint-disable-next-line camelcase
+    UNSAFE_componentWillReceiveProps(props) {
         if(!props.user) {
             return;
         }
@@ -97,7 +101,7 @@ class PendingGame extends React.Component {
     selectDeck(deck) {
         $('#decks-modal').modal('hide');
 
-        this.props.socket.emit('selectdeck', this.props.currentGame.id, deck._id);
+        this.props.socket.emit('selectdeck', this.props.currentGame.id, deck.id, deck.isStandalone);
     }
 
     getNumberOfPlayers(props) {
@@ -232,6 +236,13 @@ class PendingGame extends React.Component {
                     <div className='btn-group'>
                         <button className='btn btn-success' disabled={ !this.isGameReady() || this.props.connecting || this.state.waiting } onClick={ this.onStartClick }><Trans>Start</Trans></button>
                         <button className='btn btn-primary' onClick={ this.onLeaveClick }><Trans>Leave</Trans></button>
+                    </div>
+                    <div className='pull-right'>
+                        <ReactClipboard text={ `${window.location.protocol}//${window.location.host}/play?gameId=${this.props.currentGame.id}` } options= { {
+                            container: document.getElementById('pendingGameModal')
+                        } }>
+                            <button className='btn btn-primary'><Trans>Copy Game Link</Trans></button>
+                        </ReactClipboard>
                     </div>
                     <div className='game-status'>{ this.getGameStatus() }</div>
                 </Panel>

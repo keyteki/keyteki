@@ -104,5 +104,39 @@ describe('Fidgit', function() {
                 }
             });
         });
+        describe('Fidgit\'s ability', function() {
+            beforeEach(function() {
+                this.setupTest({
+                    player1: {
+                        house: 'shadows',
+                        inPlay: ['fidgit', 'mother']
+                    },
+                    player2: {
+                        inPlay: ['maruck-the-marked', 'collector-worm'],
+                        hand: ['bulwark'],
+                        discard: ['ghostly-hand']
+                    }
+                });
+            });
+            it('should not play an action from the discard if the player chooses archives and returns a creature', function() {
+                this.player2.moveCard(this.bulwark, 'deck');
+                this.player2.player.archives = [];
+                this.player1.endTurn();
+                this.player2.clickPrompt('mars');
+                this.player2.fightWith(this.collectorWorm, this.mother);
+                expect(this.mother.location).toBe('archives');
+                this.player2.endTurn();
+                this.player1.clickPrompt('shadows');
+                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.player2.archives.length).toBe(1);
+                this.player1.clickCard(this.fidgit);
+                expect(this.player1).toHavePrompt('Choose an ability:');
+                this.player1.clickPrompt('Reap with this Creature');
+                expect(this.player1).toHavePrompt('Select One');
+                this.player1.clickPrompt('Random card from archives');
+                expect(this.mother.location).toBe('hand');
+                expect(this.player1.amber).toBe(1);
+            });
+        });
     });
 });

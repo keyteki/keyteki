@@ -2,7 +2,7 @@ const Card = require('../../Card.js');
 
 class VeylanAnalyst extends Card {
     setupCardAbilities(ability) {
-        this.constantReaction({
+        this.reaction({
             when: {
                 onAbilityResolved: (event, context) =>
                     event.context.player === context.player && event.context.source.type === 'artifact' &&

@@ -24,6 +24,7 @@ describe('Shadow of Dis', function() {
 
             it('test blanking hunting witch', function() {
                 this.player1.play(this.dewFaerie);
+                this.player1.clickCard(this.huntingWitch);
                 expect(this.player1.amber).toBe(1);
                 this.player1.endTurn();
                 this.player2.clickPrompt('dis');
@@ -88,6 +89,7 @@ describe('Shadow of Dis', function() {
 
             it('should wear off after the opponent\'s turn', function() {
                 this.player1.play(this.dewFaerie);
+                this.player1.clickCard(this.huntingWitch);
                 expect(this.player1.amber).toBe(1);
                 this.player1.endTurn();
                 this.player2.clickPrompt('dis');
@@ -102,6 +104,7 @@ describe('Shadow of Dis', function() {
                 this.player2.endTurn();
                 this.player1.clickPrompt('brobnar');
                 this.player1.play(this.bumpsy);
+                this.player1.clickCard(this.huntingWitch);
                 expect(this.player1.amber).toBe(2);
             });
         });

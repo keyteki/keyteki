@@ -12,23 +12,17 @@ import Droppable from './Droppable';
 import { withTranslation } from 'react-i18next';
 import { buildArchon, buildDeckList } from '../../archonMaker';
 import * as Images from '../../assets/img';
-import * as actions from '../../ReduxActions/misc';
+import * as actions from '../../actions';
 
 class PlayerRow extends React.Component {
     constructor(props) {
         super(props);
         this.state = { deckListUrl: Images.cardback };
+        this.modifyKey = this.modifyKey.bind(this);
     }
 
     componentDidMount() {
-        const deck = {
-            name: this.props.deckName,
-            cards: this.props.deckCards,
-            houses: this.props.houses,
-            uuid: this.props.deckUuid,
-            expansion: this.props.deckSet
-        };
-        buildArchon(deck, this.props.language)
+        buildArchon(this.props.deckData, this.props.language)
             .then(cardBackUrl => {
                 if(this.props.player === 1) {
                     this.props.setPlayer1CardBack(cardBackUrl);
@@ -36,24 +30,18 @@ class PlayerRow extends React.Component {
                     this.props.setPlayer2CardBack(cardBackUrl);
                 }
             });
-        buildDeckList(deck, this.props.language, this.props.t, this.props.cards)
-            .then(deckListUrl => {
-                this.setState({ deckListUrl });
-            });
+        if(!this.props.hideDecklist) {
+            buildDeckList({ ...this.props.deckData, cards: this.props.deckCards }, this.props.language, this.props.t, this.props.cards)
+                .then(deckListUrl => {
+                    this.setState({ deckListUrl });
+                });
+        }
     }
 
     componentDidUpdate(prevProps) {
-        const deck = {
-            name: this.props.deckName,
-            cards: this.props.deckCards,
-            houses: this.props.houses,
-            uuid: this.props.deckUuid,
-            expansion: this.props.deckSet
-        };
-
         if(this.props.language) {
-            if(this.props.language !== prevProps.language) {
-                buildArchon(deck, this.props.language)
+            if(this.props.language !== prevProps.language || this.props.deckData.uuid !== prevProps.deckData.uuid) {
+                buildArchon(this.props.deckData, this.props.language)
                     .then(cardBackUrl => {
                         if(this.props.player === 1) {
                             this.props.setPlayer1CardBack(cardBackUrl);
@@ -61,8 +49,17 @@ class PlayerRow extends React.Component {
                             this.props.setPlayer2CardBack(cardBackUrl);
                         }
                     });
-                buildDeckList(deck, this.props.language, this.props.t, this.props.cards).then(deckListUrl => this.setState({ deckListUrl }));
+                buildDeckList({ ...this.props.deckData, cards: this.props.deckCards }, this.props.language, this.props.t, this.props.cards)
+                    .then(deckListUrl => {
+                        this.setState({ deckListUrl });
+                    });
             }
+        }
+    }
+
+    modifyKey(color) {
+        if(this.props.manualMode) {
+            this.props.sendGameMessage('modifyKey', color, this.props.keys[color]);
         }
     }
 
@@ -76,7 +73,7 @@ class PlayerRow extends React.Component {
         let keys = ['red', 'blue', 'yellow']
             .sort(color => this.props.keys[color] ? -1 : 1)
             .map(color => {
-                return <img key={ `key ${color}` } src={ `/img/${this.props.keys[color] ? 'forgedkey' : 'unforgedkey'}${color}.png` } title={ t('Forged Key') } />;
+                return <img key={ `key ${color}` } src={ `/img/${this.props.keys[color] ? 'forgedkey' : 'unforgedkey'}${color}.png` } onClick={ this.modifyKey.bind(this, color) } title={ t('Forged Key') } />;
             });
 
         return <div className={ `keys ${this.props.cardSize}` }>{ keys }</div>;
@@ -169,17 +166,15 @@ PlayerRow.propTypes = {
     cards: PropTypes.object,
     conclavePile: PropTypes.array,
     deckCards: PropTypes.array,
-    deckName: PropTypes.string,
-    deckSet: PropTypes.number,
-    deckUuid: PropTypes.string,
+    deckData: PropTypes.object,
     discard: PropTypes.array,
     drawDeck: PropTypes.array,
     faction: PropTypes.object,
     hand: PropTypes.array,
+    hideDecklist: PropTypes.bool,
     houses: PropTypes.array,
     i18n: PropTypes.object,
     isMe: PropTypes.bool,
-    isMelee: PropTypes.bool,
     keys: PropTypes.object,
     language: PropTypes.string,
     manualMode: PropTypes.bool,
@@ -194,6 +189,7 @@ PlayerRow.propTypes = {
     player: PropTypes.number,
     power: PropTypes.number,
     purgedPile: PropTypes.array,
+    sendGameMessage: PropTypes.func,
     setPlayer1CardBack: PropTypes.func,
     setPlayer2CardBack: PropTypes.func,
     showDeck: PropTypes.bool,

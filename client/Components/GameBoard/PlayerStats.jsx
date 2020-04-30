@@ -11,10 +11,17 @@ export class PlayerStats extends React.Component {
         super();
 
         this.sendUpdate = this.sendUpdate.bind(this);
+        this.setActiveHouse = this.setActiveHouse.bind(this);
     }
 
     sendUpdate(type, direction) {
         this.props.sendGameMessage('changeStat', type, direction === 'up' ? 1 : -1);
+    }
+
+    setActiveHouse(house) {
+        if(this.props.showControls) {
+            this.props.sendGameMessage('changeActiveHouse', house);
+        }
     }
 
     getStatValueOrDefault(stat) {
@@ -27,7 +34,7 @@ export class PlayerStats extends React.Component {
 
     getButton(stat, name, statToSet = stat) {
         return (
-            <div className='state'>
+            <div className='state' title={ name }>
                 { this.props.showControls ? <button className='btn btn-stat' onClick={ this.sendUpdate.bind(this, statToSet, 'down') }>
                     <img src='/img/Minus.png' title='-' alt='-' />
                 </button> : null }
@@ -37,6 +44,16 @@ export class PlayerStats extends React.Component {
                 { this.props.showControls ? <button className='btn btn-stat' onClick={ this.sendUpdate.bind(this, statToSet, 'up') }>
                     <img src='/img/Plus.png' title='+' alt='+' />
                 </button> : null }
+            </div>
+        );
+    }
+
+    getKeyCost() {
+        return (
+            <div className='state' title={ 'Current Key Cost' }>
+                <div className='stat-image keyCost'>
+                    <div className='stat-value'>{ this.getStatValueOrDefault('keyCost') }</div>
+                </div>
             </div>
         );
     }
@@ -52,7 +69,7 @@ export class PlayerStats extends React.Component {
     getHouses() {
         return (
             <div className='state'>
-                { this.props.houses.map(house => (<img key={ house } className='img-responsive' src={ `/img/house/${house}.png` } title={ this.props.t(house) } />)) }
+                { this.props.houses.map(house => (<img key={ house } onClick={ this.setActiveHouse.bind(this, house) } className='img-responsive' src={ `/img/house/${house}.png` } title={ this.props.t(house) } />)) }
             </div>
         );
     }
@@ -74,6 +91,12 @@ export class PlayerStats extends React.Component {
                 <Avatar username={ this.props.user ? this.props.user.username : undefined } />
                 <b>{ this.props.user ? this.props.user.username : t('Noone') }</b>
             </div>);
+        let matchRecord = (
+            this.props.matchRecord &&
+            <div className='state' title={ `Matches: ${this.props.matchRecord.thisPlayer.name} ${this.props.matchRecord.thisPlayer.wins} - ${this.props.matchRecord.otherPlayer.name} ${this.props.matchRecord.otherPlayer.wins}` }>
+                <span>{ `${this.props.matchRecord.thisPlayer.wins} - ${this.props.matchRecord.otherPlayer.wins}` }</span>
+            </div>
+        );
         let muteClass = this.props.muteSpectators ? 'glyphicon-eye-close' : 'glyphicon-eye-open';
 
         return (
@@ -82,8 +105,11 @@ export class PlayerStats extends React.Component {
 
                 { this.getButton('amber', 'Amber') }
                 { this.getButton('chains', 'Chains') }
+                { this.getKeyCost() }
 
                 { this.props.houses ? this.getHouses() : null }
+
+                { matchRecord }
 
                 { this.props.activeHouse &&
                     <div className='state'>
@@ -144,6 +170,7 @@ PlayerStats.propTypes = {
     houses: PropTypes.array,
     i18n: PropTypes.object,
     manualModeEnabled: PropTypes.bool,
+    matchRecord: PropTypes.object,
     muteSpectators: PropTypes.bool,
     numMessages: PropTypes.number,
     onManualModeClick: PropTypes.func,

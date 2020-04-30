@@ -46,5 +46,32 @@ describe('Smite', function() {
                 expect(this.helperBot.hasToken('damage')).toBe(false);
             });
         });
+        describe('Smite\'s ability with duma', function() {
+            beforeEach(function() {
+                this.setupTest({
+                    player1: {
+                        house: 'sanctum',
+                        hand: ['smite'],
+                        inPlay: ['sequis', 'helper-bot']
+                    },
+                    player2: {
+                        inPlay: ['murmook', 'duma-the-martyr', 'troll']
+                    }
+                });
+                this.troll.tokens['damage'] = 7;
+                this.murmook.tokens['damage'] = 2;
+            });
+
+            it('should cause a creature to fight, Duma will heal neighbors, and then deal 2 damage to its neighbors', function() {
+                this.player1.play(this.smite);
+                this.player1.clickCard(this.sequis);
+                expect(this.player1).toHavePrompt('Sequis');
+                expect(this.player1).toBeAbleToSelect(this.dumaTheMartyr);
+                this.player1.clickCard(this.dumaTheMartyr);
+                expect(this.dumaTheMartyr.location).toBe('discard');
+                expect(this.murmook.tokens.damage).toBe(2);
+                expect(this.troll.tokens.damage).toBe(2);
+            });
+        });
     });
 });

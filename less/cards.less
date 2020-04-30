@@ -231,22 +231,30 @@
   z-index: @layer-card-menu;
 }
 
-.card-large {
+.card-zoom {
   right: 5px;
   top: 5px;
   position: absolute;
   z-index: @layer-top;
   pointer-events: none;
 
-  &.vertical {
+  &.small {
+    width: @card-width * 3;
+    height: @card-height * 3;
+  }
+  &.normal {
     width: @card-width * 4;
     height: @card-height * 4;
   }
-
-  &.horizontal {
-    width: @card-height * 4;
-    height: @card-width * 4;
+  &.large {
+    width: @card-width * 5;
+    height: @card-height * 5;
   }
+  &.x-large {
+    width: @card-width * 6;
+    height: @card-height * 6;
+  }
+
 }
 
 .card-zoomed {
@@ -254,14 +262,25 @@
   height: 100%;
 }
 
-.image-large {
+.image-zoom {
   position: absolute;
   top: 0;
   left: 0;
   border-radius: 12px;
   z-index: @layer-top;
-  height: @card-height * 4;
 }
+  &.small {
+    height: @card-height * 3;
+  }
+  &.normal {
+    height: @card-height * 4;
+  }
+  &.large {
+    height: @card-height * 5;
+  }
+  &.x-large {
+    height: @card-height * 6;
+  }
 
 .upgrade {
   margin-top: -@upgrade-offset - @card-height;
@@ -360,6 +379,14 @@
   }
 }
 
+.amber {
+  background-image: url('/img/amber.png');
+}
+
+.armor {
+  background-image: url('/img/armor.png');
+}
+
 .damage {
   background-image: url('/img/damage.png');
 }
@@ -372,12 +399,13 @@
   background-image: url('/img/doom.png');
 }
 
-.amber {
-  background-image: url('/img/amber.png');
+.enrage {
+  background-image: url("/img/enrage.png");
+  line-height: 21px;
 }
 
-.armor {
-  background-image: url('/img/armor.png');
+.fuse {
+  background-image: url('/img/fuse.png');
 }
 
 .glory {
@@ -395,11 +423,6 @@
 
 .stun {
   background-image: url("/img/stun.png");
-}
-
-.enrage {
-  background-image: url("/img/enrage.png");
-  line-height: 21px;
 }
 
 .ward {

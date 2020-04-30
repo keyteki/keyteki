@@ -74,17 +74,21 @@ class Card extends EffectSource {
         this.locale = cardData.locale;
 
         this.menu = [
-            { command: 'exhaust', text: 'Exhaust/Ready' },
-            { command: 'addDamage', text: 'Add 1 damage' },
-            { command: 'remDamage', text: 'Remove 1 damage' },
-            { command: 'addAmber', text: 'Add 1 amber' },
-            { command: 'remAmber', text: 'Remove 1 amber' },
-            { command: 'addEnrage', text: 'Add 1 enrage' },
-            { command: 'remEnrage', text: 'Remove 1 enrage' },
-            { command: 'stun', text: 'Stun/Remove Stun' },
-            { command: 'addWard', text: 'Add 1 ward' },
-            { command: 'remWard', text: 'Remove 1 ward' },
-            { command: 'control', text: 'Give control' }
+            { command: 'exhaust', text: 'Exhaust/Ready', menu: 'main' },
+            { command: 'tokens', text: 'Modify Tokens', menu: 'main' },
+            { command: 'control', text: 'Give control', menu: 'main' },
+            { command: 'main', text: 'Back', menu: 'tokens' },
+            { command: 'addDamage', text: 'Add 1 damage', menu: 'tokens' },
+            { command: 'remDamage', text: 'Remove 1 damage', menu: 'tokens' },
+            { command: 'addPower', text: 'Add 1 power token', menu: 'tokens' },
+            { command: 'remPower', text: 'Remove 1 power token', menu: 'tokens' },
+            { command: 'addAmber', text: 'Add 1 amber', menu: 'tokens' },
+            { command: 'remAmber', text: 'Remove 1 amber', menu: 'tokens' },
+            { command: 'addEnrage', text: 'Add 1 enrage', menu: 'tokens' },
+            { command: 'remEnrage', text: 'Remove 1 enrage', menu: 'tokens' },
+            { command: 'stun', text: 'Stun/Remove Stun', menu: 'tokens' },
+            { command: 'addWard', text: 'Add 1 ward', menu: 'tokens' },
+            { command: 'remWard', text: 'Remove 1 ward', menu: 'tokens' }
         ];
 
         this.endRound();
@@ -143,6 +147,18 @@ class Card extends EffectSource {
 
         let gainedPersistentEffects = this.getEffects('gainAbility').filter(ability => ability.abilityType === 'persistentEffect');
         return persistentEffects.concat(this.abilities.keywordPersistentEffects, gainedPersistentEffects);
+    }
+
+    get bonusIcons() {
+        if(this.anyEffect('copyCard')) {
+            return this.mostRecentEffect('copyCard').bonusIcons;
+        } else if(this.cardData.enhancements) {
+            return this.cardData.enhancements;
+        } else if(this.printedAmber) {
+            return Array.from(Array(this.printedAmber), () => 'amber');
+        }
+
+        return [];
     }
 
     setupAbilities() {
@@ -275,7 +291,6 @@ class Card extends EffectSource {
 
         return action;
     }
-
 
     beforeFight(properties) {
         return this.interrupt(Object.assign({ when: { onFight: (event, context) => event.attacker === context.source } }, properties));
@@ -463,10 +478,10 @@ class Card extends EffectSource {
         }
 
         if(this.facedown) {
-            return [{ command: 'reveal', text: 'Reveal' }];
+            return [{ command: 'reveal', text: 'Reveal', menu: 'main' }];
         }
 
-        menu.push({ command: 'click', text: 'Select Card' });
+        menu.push({ command: 'click', text: 'Select Card', menu: 'main' });
         if(this.location === 'play area') {
             menu = menu.concat(this.menu);
         }
@@ -477,7 +492,6 @@ class Card extends EffectSource {
     checkRestrictions(actionType, context = null) {
         return super.checkRestrictions(actionType, context) && (!context || !context.player || context.player.checkRestrictions(actionType, context));
     }
-
 
     addToken(type, number = 1) {
         if(!number || !Number.isInteger(number)) {

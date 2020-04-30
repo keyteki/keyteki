@@ -20,11 +20,12 @@ class BanlistAdmin extends React.Component {
         this.onAddBanlistClick = this.onAddBanlistClick.bind(this);
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.props.loadBanlist();
     }
 
-    componentWillReceiveProps(props) {
+    // eslint-disable-next-line camelcase
+    UNSAFE_componentWillReceiveProps(props) {
         let clearStatus = false;
         if(props.banListAdded) {
             clearStatus = true;
@@ -78,12 +79,12 @@ class BanlistAdmin extends React.Component {
         }
 
         let renderedBanlist = this.props.banlist.map(entry => {
-            return (<tr key={ entry._id }>
+            return (<tr key={ entry.id }>
                 <td>{ entry.ip }</td>
                 <td>{ moment(entry.added).format('YYYY-MM-DD') }</td>
                 <td>{ entry.user }</td>
                 <td>
-                    <button type='button' className='btn btn-danger' onClick={ this.onDeleteClick.bind(this, entry._id) }>Delete { this.props.apiDeleteState &&
+                    <button type='button' className='btn btn-danger' onClick={ this.onDeleteClick.bind(this, entry.id) }>Delete { this.props.apiDeleteState &&
                         this.props.apiDeleteState.loading && <span className='spinner button-spinner' /> }</button>
                 </td>
             </tr>);
