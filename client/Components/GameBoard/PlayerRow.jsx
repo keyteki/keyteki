@@ -11,13 +11,12 @@ import Droppable from './Droppable';
 
 import { withTranslation } from 'react-i18next';
 import { buildArchon, buildDeckList } from '../../archonMaker';
-import * as Images from '../../assets/img';
 import * as actions from '../../actions';
 
 class PlayerRow extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { deckListUrl: Images.cardback };
+        this.state = { deckListUrl: 'img/idbacks/identity.jpg' };
         this.modifyKey = this.modifyKey.bind(this);
     }
 

@@ -1,10 +1,9 @@
-import * as Images from './assets/img';
 import { fabric } from 'fabric';
 import QRCode from 'qrcode';
 
 export const buildDeckList = (deck, language, translate, AllCards) => new Promise(resolve => {
     if(!deck.uuid || !deck.houses) {
-        resolve(Images.cardback);
+        resolve('img/idbacks/identity.jpg');
         return;
     }
 
@@ -17,16 +16,16 @@ export const buildDeckList = (deck, language, translate, AllCards) => new Promis
     canvas.setDimensions({ width: 600, height: 840 });
 
     //const canvas = createCanvas(600, 840);
-    const Common = loadImage(Images.Common);
-    const Rare = loadImage(Images.Rare);
-    const Special = loadImage(Images.Special);
-    const Uncommon = loadImage(Images.Uncommon);
-    const anomaly = loadImage(Images.Anomaly);
-    const cardBack = loadImage(Images.decklist);
-    const legacy = loadImage(Images.Legacy);
-    const maverick = loadImage(Images.Maverick);
-    const set = loadImage(Images[`icon${deck.expansion}`]);
-    const tco = loadImage(Images.tco);
+    const Common = loadImage('img/idbacks/Common.png');
+    const Rare = loadImage('img/idbacks/Rare.png');
+    const Special = loadImage('img/idbacks/Special.png');
+    const Uncommon = loadImage('img/idbacks/Uncommon.png');
+    const anomaly = loadImage('img/idbacks/Anomaly.png');
+    const cardBack = loadImage('img/idbacks/decklist.png');
+    const legacy = loadImage('img/idbacks/Legacy.png');
+    const maverick = loadImage('img/idbacks/Maverick.png');
+    const set = loadImage(`img/idbacks/${deck.expansion}.png`);
+    const tco = loadImage('img/idbacks/tco.png');
 
     const houseData = {
         size: 35,
@@ -58,7 +57,7 @@ export const buildDeckList = (deck, language, translate, AllCards) => new Promis
 
             const houseProm = deck.houses.sort().map((house, index) => {
                 return new Promise(houseRes => {
-                    loadImage(Images[house]).then(img => {
+                    loadImage(`img/idbacks/houses/${house}.png`).then(img => {
                         img.set({
                             left: houseData[index].x,
                             top: houseData[index].y
@@ -165,7 +164,7 @@ export const buildDeckList = (deck, language, translate, AllCards) => new Promis
 
 export const buildArchon = (deck, language) => new Promise(resolve => {
     if(!deck.uuid || !deck.houses) {
-        resolve(Images.cardback);
+        resolve('img/idbacks/identity.jpg');
         return;
     }
 
