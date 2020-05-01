@@ -49,19 +49,23 @@ class ResolveBonusIconsAction extends CardGameAction {
                         context.game.actions.draw({ bonus: true }).resolve(context.player, context.game.getFrameworkContext(context.player));
                         context.game.addMessage('{0} draws a card due to {1}\'s bonus icon', context.player, event.card);
                     } else if(icon === 'steal') {
-                        context.game.actions.steal().resolve(context.player.opponent, context.game.getFrameworkContext(context.player));
-                        context.game.addMessage('{0} steals an amber due to {1}\'s bonus icon', context.player, event.card);
+                        if(context.player.opponent && context.player.opponent.amber > 0) {
+                            context.game.actions.steal().resolve(context.player.opponent, context.game.getFrameworkContext(context.player));
+                            context.game.addMessage('{0} steals an amber due to {1}\'s bonus icon', context.player, event.card);
+                        }
                     } else if(icon === 'capture') {
-                        context.game.promptForSelect(context.player, {
-                            activePromptTitle: 'Choose a creature to capture amber due to bonus icon',
-                            cardType: 'creature',
-                            controller: 'self',
-                            onSelect: (player, card) => {
-                                context.game.actions.capture({ bonus: true }).resolve(card, context.game.getFrameworkContext(player));
-                                context.game.addMessage('{0} captures an amber on {1} due to {2}\'s bonus icon', player, card, event.card);
-                                return true;
-                            }
-                        });
+                        if(context.player.opponent && context.player.opponent.amber > 0 && context.player.creaturesInPlay.length > 0) {
+                            context.game.promptForSelect(context.player, {
+                                activePromptTitle: 'Choose a creature to capture amber due to bonus icon',
+                                cardType: 'creature',
+                                controller: 'self',
+                                onSelect: (player, card) => {
+                                    context.game.actions.capture({ bonus: true }).resolve(card, context.game.getFrameworkContext(player));
+                                    context.game.addMessage('{0} captures an amber on {1} due to {2}\'s bonus icon', player, card, event.card);
+                                    return true;
+                                }
+                            });
+                        }
                     } else if(icon === 'damage') {
                         context.game.promptForSelect(context.player, {
                             activePromptTitle: 'Choose a creature to damage due to bonus icon',
