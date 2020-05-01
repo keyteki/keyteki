@@ -116,7 +116,7 @@ describe('Ultra Graviton', function() {
                 expect(this.player1.amber).toBe(0);
             });
 
-            xit('should be able to reap with the creature and apply bonus icon', function() {
+            it('should be able to reap with the creature and apply bonus icon', function() {
                 this.player1.play(this.ultraGraviton);
                 this.ultraGraviton.exhausted = false;
                 this.player1.reap(this.ultraGraviton);
@@ -132,7 +132,7 @@ describe('Ultra Graviton', function() {
                 expect(this.player1.amber).toBe(3);
             });
 
-            xit('should be able to fight with the creature and apply bonus icon', function() {
+            it('should be able to fight with the creature and apply bonus icon', function() {
                 this.player1.play(this.ultraGraviton2);
                 this.ultraGraviton2.exhausted = false;
                 this.player1.fightWith(this.ultraGraviton2, this.zorg);
@@ -141,7 +141,6 @@ describe('Ultra Graviton', function() {
                 expect(this.player1).toBeAbleToSelect(this.fuzzyGruen);
                 expect(this.player1).toBeAbleToSelect(this.narp);
                 expect(this.player1).toBeAbleToSelect(this.troll);
-                expect(this.player1).toBeAbleToSelect(this.zorg);
                 this.player1.clickCard(this.fuzzyGruen);
                 expect(this.player1.player.archives.length).toBe(4);
                 expect(this.fuzzyGruen.location).toBe('purged');
