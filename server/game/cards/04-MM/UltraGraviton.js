@@ -36,7 +36,10 @@ class UltraGraviton extends Card {
             then: {
                 target: {
                     location: 'play area',
-                    gameAction: ability.actions.purge() //and.... resolve TODO
+                    gameAction: [
+                        ability.actions.purge(),
+                        ability.actions.resolveBonusIcons()
+                    ]
                 }
             }
         });

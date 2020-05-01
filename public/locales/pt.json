@@ -480,5 +480,14 @@
     "Yellow": "Amarela",
     "Destroy {{card}} or Discard a Logos Card": "Destruir {{card}} ou Descartar uma Carta Logos",
     "Choose a creature to damage due to bonus icon": "Escolha uma criatura para causar dano por bônus",
-    "Choose a creature to capture amber due to bonus icon": "Choose a creature to capture amber due to bonus icon"
+    "Choose a creature to capture amber due to bonus icon": "Escolha uma criatura para capturar por bônus",
+    "How do you wish to resolve this capture icon?": "Como deseja resolver esse bônus de captura?",
+    "How do you wish to resolve this amber icon?": "Como deseja resolver esse bônus de amber?",
+    "How do you wish to resolve this draw icon?": "Como deseja resolver esse bônus de compra?",
+    "How do you wish to resolve this damage icon?": "Como deseja resolver esse bônus de dano?",
+    "amber": "amber",
+    "capture": "capturar",
+    "damage": "dano",
+    "steal": "roubar",
+    "draw": "comprar"
 }
