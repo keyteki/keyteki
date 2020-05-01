@@ -6,7 +6,6 @@ class ItsComing extends Card {
             effect: 'search for a Gigantic creature part and shuffle discard into their deck',
             gameAction: ability.actions.search({
                 cardCondition: card => card.gigantic,
-                mode: 'exactly',
                 amount: 1
             })
         });
