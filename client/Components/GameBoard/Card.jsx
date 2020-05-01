@@ -136,7 +136,7 @@ class InnerCard extends React.Component {
     }
 
     getupgrades() {
-        if(!['full deck', 'play area'].includes(this.props.source)) {
+        if(!['full deck', 'play area'].includes(this.props.source) || !this.props.card.upgrades) {
             return null;
         }
 
