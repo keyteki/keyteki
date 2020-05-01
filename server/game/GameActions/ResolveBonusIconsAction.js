@@ -22,8 +22,8 @@ class ResolveBonusIconsAction extends CardGameAction {
 
                             for(let resolveBonusAsIcon of mayResolveBonusIconsAsEffects) {
                                 if((resolveBonusAsIcon.icon === 'any') || choices.includes(resolveBonusAsIcon.icon)) {
-                                    if(!choices.includes(resolveBonusAsIcon.value)) {
-                                        choices.push(resolveBonusAsIcon.value);
+                                    if(!choices.includes(resolveBonusAsIcon.newIcon)) {
+                                        choices.push(resolveBonusAsIcon.newIcon);
                                         noIconAdded = false;
                                     }
                                 }
