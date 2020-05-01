@@ -171,8 +171,9 @@ class DeckService {
         deck.cards = cards.map(card => ({
             id: card.CardId,
             count: card.Count,
-            maverick: card.Maverick,
-            anomaly: card.Anomaly
+            maverick: card.Maverick || undefined,
+            anomaly: card.Anomaly || undefined,
+            enhancements: card.Enhancements ? card.Enhancements.replace(/[[{}"\]]/gi, '').split(',') : undefined
         }));
 
         let houseTable = standalone ? 'StandaloneDeckHouses' : 'DeckHouses';
@@ -240,11 +241,17 @@ class DeckService {
             params.push(card.maverick);
             params.push(card.anomaly);
             params.push(deck.id);
+            if(!user) {
+                params.push(card.enhancements);
+            }
         }
 
-        let deckCardTable = user ? '"DeckCards"' : '"StandaloneDeckCards"';
         try {
-            await db.query(`INSERT INTO ${deckCardTable} ("CardId", "Count", "Maverick", "Anomaly", "DeckId") VALUES ${expand(deck.cards.length, 5)}`, params);
+            if(user) {
+                await db.query(`INSERT INTO "DeckCards" ("CardId", "Count", "Maverick", "Anomaly", "DeckId") VALUES ${expand(deck.cards.length, 5)}`, params);
+            } else {
+                await db.query(`INSERT INTO "StandaloneDeckCards" ("CardId", "Count", "Maverick", "Anomaly", "DeckId", "Enhancements") VALUES ${expand(deck.cards.length, 6)}`, params);
+            }
         } catch(err) {
             logger.error('Failed to add deck', err);
 
