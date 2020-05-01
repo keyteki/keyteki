@@ -39,7 +39,7 @@ class PlayerRow extends React.Component {
 
     componentDidUpdate(prevProps) {
         if(this.props.language) {
-            if(this.props.language !== prevProps.language || this.props.deckData.uuid !== prevProps.deckData.uuid) {
+            if(this.props.language !== prevProps.language || this.props.deckData.identity !== prevProps.deckData.identity) {
                 buildArchon(this.props.deckData, this.props.language)
                     .then(cardBackUrl => {
                         if(this.props.player === 1) {
