@@ -22,6 +22,7 @@ describe('It´s Coming', function() {
                 expect(this.player1).toBeAbleToSelect(this.deusillus);
                 expect(this.player1).not.toBeAbleToSelect(this.deusillus2);
                 this.player1.clickCard(this.deusillus);
+                this.player1.clickPrompt('Done');
                 expect(this.deusillus.location).toBe('hand');
                 expect(this.deusillus2.location).toBe('hand');
             });
@@ -32,6 +33,7 @@ describe('It´s Coming', function() {
                 expect(this.player1).toBeAbleToSelect(this.deusillus2);
                 expect(this.player1).not.toBeAbleToSelect(this.deusillus);
                 this.player1.clickCard(this.deusillus2);
+                this.player1.clickPrompt('Done');
                 expect(this.deusillus.location).toBe('hand');
                 expect(this.deusillus2.location).toBe('hand');
             });
@@ -42,6 +44,7 @@ describe('It´s Coming', function() {
                 expect(this.player1).toBeAbleToSelect(this.deusillus);
                 expect(this.player1).not.toBeAbleToSelect(this.deusillus2);
                 this.player1.clickCard(this.deusillus);
+                this.player1.clickPrompt('Done');
                 expect(this.deusillus.location).toBe('hand');
                 expect(this.deusillus2.location).toBe('hand');
             });
@@ -52,6 +55,7 @@ describe('It´s Coming', function() {
                 expect(this.player1).toBeAbleToSelect(this.deusillus2);
                 expect(this.player1).not.toBeAbleToSelect(this.deusillus);
                 this.player1.clickCard(this.deusillus2);
+                this.player1.clickPrompt('Done');
                 expect(this.deusillus.location).toBe('hand');
                 expect(this.deusillus2.location).toBe('hand');
             });
@@ -63,6 +67,7 @@ describe('It´s Coming', function() {
                 expect(this.player1).toBeAbleToSelect(this.deusillus);
                 expect(this.player1).toBeAbleToSelect(this.deusillus2);
                 this.player1.clickCard(this.deusillus);
+                this.player1.clickPrompt('Done');
                 expect(this.deusillus.location).toBe('hand');
                 expect(this.deusillus2.location).toBe('deck');
             });
