@@ -13,10 +13,7 @@ export const buildDeckList = (deck, language, translate, AllCards) => new Promis
         return;
     }
 
-    const canvas = new fabric.Canvas();
-    canvas.setDimensions({ width: 600, height: 840 });
-
-    //const canvas = createCanvas(600, 840);
+    const canvas = new fabric.Canvas('decklist').setDimensions({ width: 600, height: 840 });
     const Common = loadImage('img/idbacks/Common.png');
     const Rare = loadImage('img/idbacks/Rare.png');
     const Special = loadImage('img/idbacks/Special.png');
