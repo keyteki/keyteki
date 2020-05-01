@@ -1,8 +1,9 @@
 import { fabric } from 'fabric';
 import QRCode from 'qrcode';
+import uuid from 'uuid';
 
 export const buildDeckList = (deck, language, translate, AllCards) => new Promise(resolve => {
-    if(!deck.uuid || !deck.houses) {
+    if(!deck.houses) {
         resolve('img/idbacks/identity.jpg');
         return;
     }
@@ -163,7 +164,7 @@ export const buildDeckList = (deck, language, translate, AllCards) => new Promis
 });
 
 export const buildArchon = (deck, language) => new Promise(resolve => {
-    if(!deck.uuid || !deck.houses) {
+    if(!deck.houses) {
         resolve('img/idbacks/identity.jpg');
         return;
     }
@@ -190,11 +191,7 @@ const loadImage = (url) => {
 };
 
 const imageName = (deck, language) => {
-    if(!deck.uuid) {
-        return 'archon';
-    }
-
-    let number = btoa(deck.uuid)
+    let number = btoa(deck.uuid || uuid.v1())
         .replace(/[\D+089]/g, '')
         .slice(-1);
     return btoa([...deck.houses.sort(), language, number === '' ? 1 : number].join());
