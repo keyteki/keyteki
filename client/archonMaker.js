@@ -216,6 +216,11 @@ const getCurvedFontSize = (length) => {
 const getCircularText = (text = '', diameter, kerning) => {
     return new Promise((resolve, reject) => {
         let canvas = fabric.util.createCanvasElement();
+        if(!canvas) {
+            reject();
+            return;
+        }
+
         let ctx = canvas.getContext('2d');
         let textHeight = 40, startAngle = 0;
 
