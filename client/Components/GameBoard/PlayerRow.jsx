@@ -33,6 +33,8 @@ class PlayerRow extends React.Component {
             buildDeckList({ ...this.props.deckData, cards: this.props.deckCards }, this.props.language, this.props.t, this.props.cards)
                 .then(deckListUrl => {
                     this.setState({ deckListUrl });
+                }).catch(() => {
+                    this.setState({ deckListUrl: 'img/idbacks/identity.jpg' });
                 });
         }
     }
@@ -51,6 +53,8 @@ class PlayerRow extends React.Component {
                 buildDeckList({ ...this.props.deckData, cards: this.props.deckCards }, this.props.language, this.props.t, this.props.cards)
                     .then(deckListUrl => {
                         this.setState({ deckListUrl });
+                    }).catch(() => {
+                        this.setState({ deckListUrl: 'img/idbacks/identity.jpg' });
                     });
             }
         }

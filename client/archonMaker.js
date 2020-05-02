@@ -3,20 +3,20 @@ import QRCode from 'qrcode';
 import uuid from 'uuid';
 
 export const buildDeckList = (deck, language, translate, AllCards) => new Promise(resolve => {
+    const defaultCard = 'img/idbacks/identity.jpg';
     if(!deck.houses) {
-        resolve('img/idbacks/identity.jpg');
+        resolve(defaultCard);
         return;
     }
 
     if(!deck.cards || 0 >= deck.cards.length) {
-        buildArchon(deck, language).then(imageUrl => resolve(imageUrl));
+        buildArchon(deck, language)
+            .then(imageUrl => resolve(imageUrl))
+            .catch(() => resolve(defaultCard));
         return;
     }
 
-    const canvas = new fabric.Canvas();
-    canvas.setDimensions({ width: 600, height: 840 });
-
-    //const canvas = createCanvas(600, 840);
+    const canvas = new fabric.Canvas('decklist').setDimensions({ width: 600, height: 840 });
     const Common = loadImage('img/idbacks/Common.png');
     const Rare = loadImage('img/idbacks/Rare.png');
     const Special = loadImage('img/idbacks/Special.png');
@@ -73,7 +73,7 @@ export const buildDeckList = (deck, language, translate, AllCards) => new Promis
                             fillStyle: 'black',
                             fontSize: 25
                         }).set({ left: houseData[index].x + 35, top: houseData[index].y + 5 });
-                        canvas.add(houseText).add(img).renderAll();
+                        canvas.add(houseText).add(img);
                         houseRes();
                     });
                 });
@@ -116,7 +116,7 @@ export const buildDeckList = (deck, language, translate, AllCards) => new Promis
                         fillStyle: 'black',
                         fontSize: 20
                     };
-                    const rarity = new fabric.Image(Rarities[card.rarity === 'FIXED' || card.rarity === 'Variant' ? 'Special' : card.rarity]._element)
+                    const rarity = new fabric.Image(Rarities[card.rarity === 'FIXED' || card.rarity === 'Variant' ? 'Special' : card.rarity].getElement())
                         .set({ left: x, top: y })
                         .scaleToWidth(cardData.size)
                         .setShadow({ color: 'gray', offsetX: 10, offsetY: 10, blur: 3 });
@@ -131,7 +131,7 @@ export const buildDeckList = (deck, language, translate, AllCards) => new Promis
 
                     if(card.is_maverick) {
                         iconX = iconX + 20;
-                        const maverickImage = new fabric.Image(maverick._element)
+                        const maverickImage = new fabric.Image(maverick.getElement())
                             .set({ left: iconX, top: y })
                             .setShadow({ color: 'gray', offsetX: 10, offsetY: 10, blur: 5 })
                             .scaleToHeight(cardData.size);
@@ -139,7 +139,7 @@ export const buildDeckList = (deck, language, translate, AllCards) => new Promis
                     }
 
                     if(card.is_legacy) {
-                        const legacyImage = new fabric.Image(legacy._element)
+                        const legacyImage = new fabric.Image(legacy.getElement())
                             .set({ left: iconX, top: y })
                             .setShadow({ color: 'gray', offsetX: 10, offsetY: 10, blur: 5 })
                             .scaleToWidth(cardData.size);
@@ -147,20 +147,22 @@ export const buildDeckList = (deck, language, translate, AllCards) => new Promis
                     }
 
                     if(card.is_anomaly) {
-                        const anomalyImage = new fabric.Image(anomaly._element)
+                        const anomalyImage = new fabric.Image(anomaly.getElement())
                             .set({ left: iconX, top: y })
                             .setShadow({ color: 'gray', offsetX: 10, offsetY: 10, blur: 5 })
                             .scaleToWidth(cardData.size);
                         canvas.add(anomalyImage);
                     }
 
-                    canvas.renderAll();
                     cardRes();
                 });
             });
 
-            Promise.all([...houseProm, ...cardProm]).then(() => resolve(canvas.toDataURL('image/jpeg')));
-        });
+            Promise.all([...houseProm, ...cardProm])
+                .then(() => resolve(canvas.toDataURL('image/jpeg')))
+                .catch(() => resolve(defaultCard));
+        })
+        .catch(() => resolve(defaultCard));
 });
 
 export const buildArchon = (deck, language) => new Promise(resolve => {
@@ -169,23 +171,28 @@ export const buildArchon = (deck, language) => new Promise(resolve => {
         return;
     }
 
-    const canvas = new fabric.Canvas();
+    const canvas = new fabric.Canvas('archon');
     canvas.setDimensions({ width: 600, height: 840 });
     const archon = loadImage(`/img/idbacks/archons/${imageName(deck, language)}.png`);
-    const title = getCircularText(deck.name, 700, 0);
+    const title = getCircularText(deck.name, 1600, 0);
     Promise.all([archon, title])
         .then(([archon, title]) => {
             canvas.add(archon);
             title.set({ left: -50, top: 66 });
             canvas.add(title);
             resolve(canvas.toDataURL({ format: 'jpeg', quality: 0.8 }));
-        });
+        })
+        .catch(() => resolve('img/idbacks/identity.jpg'));
 });
 
 const loadImage = (url) => {
-    return new Promise(resolve => {
+    return new Promise((resolve, reject) => {
         fabric.Image.fromURL(url, image => {
-            resolve(image);
+            if(!image.getElement()) {
+                reject();
+            } else {
+                resolve(image);
+            }
         });
     });
 };
@@ -209,6 +216,11 @@ const getCurvedFontSize = (length) => {
 const getCircularText = (text = '', diameter, kerning) => {
     return new Promise((resolve, reject) => {
         let canvas = fabric.util.createCanvasElement();
+        if(!canvas) {
+            reject();
+            return;
+        }
+
         let ctx = canvas.getContext('2d');
         let textHeight = 40, startAngle = 0;
 
