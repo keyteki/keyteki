@@ -21,7 +21,7 @@ class CardImage extends Component {
     }
 
     updateImage() {
-        let { img, maverick, anomaly, amber, i18n } = this.props;
+        let { img, maverick, anomaly, amber, enhancements, i18n } = this.props;
 
         if(!this.props.img) {
             return;
@@ -31,21 +31,31 @@ class CardImage extends Component {
 
         let imgPath = (langToUse === 'en') ? img : img.replace('/cards/', '/cards/' + langToUse + '/');
 
+        let imagesToMerge = [];
+
         if(maverick) {
             let maverickHouseImg = '/img/maverick/maverick-' + maverick + (amber > 0 ? '-amber' : '') + '.png';
+            imagesToMerge.push({ src: maverickHouseImg, x: 0, y: 0 });
+            imagesToMerge.push({ src: '/img/maverick/maverick-corner.png', x: 210, y: 0 });
+        }
 
-            mergeImages([
-                imgPath,
-                { src: maverickHouseImg, x: 0, y: 0 },
-                { src: '/img/maverick/maverick-corner.png', x: 210, y: 0 }
-            ]).then(src => this.setState({ src }))
-                .catch(err => this.setState({ err: err.toString() }));
-        } else if(anomaly) {
+        if(anomaly) {
             let maverickHouseImg = '/img/maverick/maverick-' + anomaly + (amber > 0 ? '-amber' : '') + '.png';
+            imagesToMerge.push({ src: maverickHouseImg, x: 0, y: 0 });
+        }
 
+        if(enhancements && enhancements.length > 0) {
+            let y = 57 + (amber * 31);
+            imagesToMerge.push({ src: `/img/enhancements/base-${enhancements.length}.png`, x: 14, y });
+            enhancements.forEach((enhancement,index) => {
+                imagesToMerge.push({ src: `/img/enhancements/${enhancement}.png`, x: 25, y: (y + 10) + (index * 31) });
+            });
+        }
+
+        if(imagesToMerge) {
             mergeImages([
                 imgPath,
-                { src: maverickHouseImg, x: 0, y: 0 }
+                ...imagesToMerge
             ]).then(src => this.setState({ src }))
                 .catch(err => this.setState({ err: err.toString() }));
         } else {
@@ -56,7 +66,7 @@ class CardImage extends Component {
     render() {
         return (
             <Fragment>
-                <img src={ this.state.src } alt={ this.props.alt } className={ this.props.className } />
+                <img src={ this.state.src } alt={ this.props.alt } className={ this.props.className }/>
                 { this.state.err && <p>{ this.state.err } </p> }
             </Fragment>
         );
@@ -68,6 +78,7 @@ CardImage.propTypes = {
     amber: PropTypes.number,
     anomaly: PropTypes.string,
     className: PropTypes.string,
+    enhancements: PropTypes.array,
     i18n: PropTypes.object,
     img: PropTypes.string.isRequired,
     language: PropTypes.string,
