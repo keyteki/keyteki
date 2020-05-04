@@ -36,7 +36,7 @@ class CardZoom extends React.Component {
                         :
                         <div className='card-zoomed shadow'>
                             <span className='card-name'>{ this.props.cardName }</span>
-                            <CardImage className={ `image-zoom ${size} img-responsive` } img={ this.props.imageUrl } maverick={ this.props.card.maverick } anomaly={ this.props.card.anomaly } amber={ this.props.card.cardPrintedAmber }/>
+                            <CardImage className={ `image-zoom ${size} img-responsive` } img={ this.props.imageUrl } maverick={ this.props.card.maverick } anomaly={ this.props.card.anomaly } enhancements={ this.props.card.enhancements } amber={ this.props.card.cardPrintedAmber }/>
                             { this.props.card && <AltCard card={ this.props.card }/> }
                         </div>
                     }
