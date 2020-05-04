@@ -2,7 +2,7 @@ import { fabric } from 'fabric';
 import QRCode from 'qrcode';
 import uuid from 'uuid';
 
-export const buildDeckList = (deck, language, translate, AllCards) => new Promise(async resolve => {
+export const buildDeckList = (deck, language, translate, AllCards) => new Promise(resolve => {
     const defaultCard = 'img/idbacks/identity.jpg';
     if(!deck.houses) {
         resolve(defaultCard);
@@ -172,7 +172,7 @@ export const buildDeckList = (deck, language, translate, AllCards) => new Promis
         .catch(() => resolve(defaultCard));
 });
 
-export const buildArchon = (deck, language) => new Promise(async resolve => {
+export const buildArchon = (deck, language) => new Promise(resolve => {
     if(!deck.houses) {
         resolve('img/idbacks/identity.jpg');
         return;
@@ -235,7 +235,6 @@ const getCircularText = (text = '', diameter, kerning) => {
             reject(err);
             return;
         }
-
 
         let ctx = canvas.getContext('2d');
         let textHeight = 40, startAngle = 0;
