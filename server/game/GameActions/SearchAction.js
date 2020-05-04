@@ -5,7 +5,6 @@ class SearchAction extends PlayerAction {
         this.amount = null;
         this.location = ['deck', 'discard'];
         this.reveal = true;
-        this.mode = 'upTo';
     }
 
     setup() {
@@ -31,7 +30,7 @@ class SearchAction extends PlayerAction {
                 context: context,
                 numCards: this.amount,
                 cardCondition: card => this.cardCondition ? this.cardCondition(card) : !this.cardName || card.name === this.cardName,
-                mode: this.amount > 0 ? this.mode : 'unlimited',
+                mode: this.amount > 0 ? 'upTo' : 'unlimited',
                 onSelect: (player, cards) => {
                     if(cards.length > 0) {
                         let cardMessageInfo = '{1}';
