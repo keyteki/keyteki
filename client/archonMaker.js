@@ -2,7 +2,7 @@ import { fabric } from 'fabric';
 import QRCode from 'qrcode';
 import uuid from 'uuid';
 
-export const buildDeckList = (deck, language, translate, AllCards) => new Promise(resolve => {
+export const buildDeckList = (deck, language, translate, AllCards) => new Promise(async resolve => {
     const defaultCard = 'img/idbacks/identity.jpg';
     if(!deck.houses) {
         resolve(defaultCard);
@@ -16,11 +16,8 @@ export const buildDeckList = (deck, language, translate, AllCards) => new Promis
         return;
     }
 
-    const canvas = new fabric.Canvas('decklist');
-    if(!canvas) {
-        resolve(defaultCard);
-        return;
-    }
+    const canvas = await createCanvas('decklist')
+        .catch(() => resolve('img/idbacks/identity.jpg'));
 
     canvas.setDimensions({ width: 600, height: 840 });
     const Common = loadImage('img/idbacks/Common.png');
@@ -171,17 +168,14 @@ export const buildDeckList = (deck, language, translate, AllCards) => new Promis
         .catch(() => resolve(defaultCard));
 });
 
-export const buildArchon = (deck, language) => new Promise(resolve => {
+export const buildArchon = (deck, language) => new Promise(async resolve => {
     if(!deck.houses) {
         resolve('img/idbacks/identity.jpg');
         return;
     }
 
-    const canvas = new fabric.Canvas('archon');
-    if(!canvas) {
-        resolve('img/idbacks/identity.jpg');
-        return;
-    }
+    const canvas = await createCanvas('archon')
+        .catch(() => resolve('img/idbacks/identity.jpg'));
 
     canvas.setDimensions({ width: 600, height: 840 });
     const archon = loadImage(`/img/idbacks/archons/${imageName(deck, language)}.png`);
@@ -195,6 +189,19 @@ export const buildArchon = (deck, language) => new Promise(resolve => {
         })
         .catch(() => resolve('img/idbacks/identity.jpg'));
 });
+
+const createCanvas = (name) => {
+    return new Promise((resolve, reject) => {
+        let canvas;
+        try {
+            canvas = new fabric.Canvas(name);
+        } catch(err) {
+            reject();
+        }
+
+        resolve(canvas);
+    });
+};
 
 const loadImage = (url) => {
     return new Promise((resolve, reject) => {
@@ -226,11 +233,14 @@ const getCurvedFontSize = (length) => {
 
 const getCircularText = (text = '', diameter, kerning) => {
     return new Promise((resolve, reject) => {
-        let canvas = fabric.util.createCanvasElement();
-        if(!canvas) {
-            reject();
+        let canvas;
+        try {
+            canvas = fabric.util.createCanvasElement();
+        } catch(err) {
+            reject(err);
             return;
         }
+
 
         let ctx = canvas.getContext('2d');
         let textHeight = 40, startAngle = 0;
