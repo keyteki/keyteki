@@ -185,7 +185,7 @@ export const buildArchon = (deck, language) => new Promise(resolve => {
 
     canvas.setDimensions({ width: 600, height: 840 });
     const archon = loadImage(`/img/idbacks/archons/${imageName(deck, language)}.png`);
-    const title = getCircularText(deck.name, 1600, 0);
+    const title = getCircularText(deck.name, 700, 0);
     Promise.all([archon, title])
         .then(([archon, title]) => {
             canvas.add(archon);
