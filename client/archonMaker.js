@@ -16,8 +16,12 @@ export const buildDeckList = (deck, language, translate, AllCards) => new Promis
         return;
     }
 
-    const canvas = await createCanvas('decklist')
-        .catch(() => resolve('img/idbacks/identity.jpg'));
+    let canvas;
+    try {
+        canvas = new fabric.Canvas('decklist');
+    } catch(err) {
+        resolve('img/idbacks/identity.jpg');
+    }
 
     canvas.setDimensions({ width: 600, height: 840 });
     const Common = loadImage('img/idbacks/Common.png');
@@ -174,8 +178,12 @@ export const buildArchon = (deck, language) => new Promise(async resolve => {
         return;
     }
 
-    const canvas = await createCanvas('archon')
-        .catch(() => resolve('img/idbacks/identity.jpg'));
+    let canvas;
+    try {
+        canvas = new fabric.Canvas('archon');
+    } catch(err) {
+        resolve('img/idbacks/identity.jpg');
+    }
 
     canvas.setDimensions({ width: 600, height: 840 });
     const archon = loadImage(`/img/idbacks/archons/${imageName(deck, language)}.png`);
@@ -189,19 +197,6 @@ export const buildArchon = (deck, language) => new Promise(async resolve => {
         })
         .catch(() => resolve('img/idbacks/identity.jpg'));
 });
-
-const createCanvas = (name) => {
-    return new Promise((resolve, reject) => {
-        let canvas;
-        try {
-            canvas = new fabric.Canvas(name);
-        } catch(err) {
-            reject();
-        }
-
-        resolve(canvas);
-    });
-};
 
 const loadImage = (url) => {
     return new Promise((resolve, reject) => {
