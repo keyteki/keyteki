@@ -18,9 +18,9 @@ class ReturnToDeckAction extends CardGameAction {
 
     getEvent(card, context) {
         let eventName = (card.location === 'play area') ? 'onCardLeavesPlay' : 'onMoveCard';
-        let deckSize = card.owner.getSourceList('deck').length;
+        let deckLength = card.owner.getSourceList('deck').length;
 
-        return super.createEvent(eventName, { card: card, context: context, deckSize: deckSize }, () => {
+        return super.createEvent(eventName, { card: card, context: context, deckLength: deckLength }, () => {
             card.owner.moveCard(card, 'deck', { bottom: this.bottom });
             let cardsByOwner = this.target.filter(c => c.owner === card.owner);
             if(this.shuffle && cardsByOwner.findIndex(c => c === card) === cardsByOwner.length - 1) {

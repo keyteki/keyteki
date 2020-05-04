@@ -92,7 +92,7 @@ describe('Timequake', function() {
 
                 this.player1.play(this.timequake);
 
-                // Upgrade should be in deck and not discard
+                // Upgrade should not be in discard
                 expect(this.bloodOfTitans.location).not.toBe('discard');
                 expect(this.player1.player.hand.length).toBe(5);
             });

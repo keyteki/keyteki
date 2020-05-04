@@ -10,9 +10,9 @@ class Timequake extends Card {
             then: {
                 alwaysTriggers: true,
                 message: '{0} uses {1} to draw {3} card',
-                messageArgs: context => [context.preThenEvent ? context.player.deck.length - context.preThenEvent.deckSize : 0],
+                messageArgs: context => [context.preThenEvent ? context.player.deck.length - context.preThenEvent.deckLength : 0],
                 gameAction: ability.actions.draw(context => ({
-                    amount: context.preThenEvent ? context.player.deck.length - context.preThenEvent.deckSize : 0
+                    amount: context.preThenEvent ? context.player.deck.length - context.preThenEvent.deckLength : 0
                 }))
             }
         });
