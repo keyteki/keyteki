@@ -5,9 +5,9 @@ class ExchangeOfficer extends Card {
         this.play({
             reap: true,
             fight: true,
-            effect: 'allow them to play or use one Brobnar card this turn',
+            effect: 'allow them to play or use one staralliance card this turn',
             gameAction: ability.actions.forRemainderOfTurn({
-                effect: ability.effects.canPlayOrUseHouse('star alliance')
+                effect: ability.effects.canPlayOrUseHouse('staralliance')
             })
         });
     }
