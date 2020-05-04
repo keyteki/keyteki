@@ -30,7 +30,7 @@ describe('Timequake', function() {
                 expect(this.orbOfWonder.location).not.toBe('play area');
             });
 
-            it('should return not draw any card if nothing is in play', function() {
+            it('should not draw any card if nothing is in play', function() {
                 this.player1.moveCard(this.lamindra, 'discard');
                 this.player1.moveCard(this.orbOfWonder, 'discard');
                 this.player1.moveCard(this.murkens, 'discard');
@@ -92,10 +92,9 @@ describe('Timequake', function() {
 
                 this.player1.play(this.timequake);
 
-                // BOT should be in deck and not discard
-                expect(this.bloodOfTitans.location).toBe('deck');
-                // Hand
-                expect(this.player1.player.hand.length).toBe(1 + 4);
+                // Upgrade should not be in discard
+                expect(this.bloodOfTitans.location).not.toBe('discard');
+                expect(this.player1.player.hand.length).toBe(5);
             });
         });
     });

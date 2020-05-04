@@ -45,10 +45,10 @@ class CardImage extends Component {
         }
 
         if(enhancements && enhancements.length > 0) {
-            let y = 57 + (amber * 31);
+            let y = 59 + (amber * 30);
             imagesToMerge.push({ src: `/img/enhancements/base-${enhancements.length}.png`, x: 14, y });
             enhancements.forEach((enhancement,index) => {
-                imagesToMerge.push({ src: `/img/enhancements/${enhancement}.png`, x: 25, y: (y + 10) + (index * 31) });
+                imagesToMerge.push({ src: `/img/enhancements/${enhancement}.png`, x: 21, y: (y + 10) + (index * 31) });
             });
         }
 
