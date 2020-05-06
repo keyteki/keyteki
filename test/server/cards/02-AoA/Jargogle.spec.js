@@ -97,7 +97,7 @@ describe('Jargogle', function() {
                 expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should not end turn after playing omega due to Strange Gizmo', function() {
+            xit('should not end turn after playing omega due to Strange Gizmo', function() {
                 this.player1.play(this.jargogle);
                 this.player1.clickCard(this.duskwitch);
                 this.player1.endTurn();
