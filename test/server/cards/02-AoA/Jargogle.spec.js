@@ -1,4 +1,4 @@
-fdescribe('Jargogle', function() {
+describe('Jargogle', function() {
     integration(function() {
         describe('play ability', function() {
             beforeEach(function() {
