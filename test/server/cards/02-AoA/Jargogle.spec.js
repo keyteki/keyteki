@@ -102,7 +102,7 @@ describe('Jargogle', function() {
                 this.player1.clickCard(this.duskwitch);
                 this.player1.endTurn();
                 this.player1.amber = 7;
-                this.player2.clickPrompt('brobnar')
+                this.player2.clickPrompt('brobnar');
                 this.player2.endTurn();
                 this.player1.forgeKey('red');
                 this.player1.clickPrompt('Left');
