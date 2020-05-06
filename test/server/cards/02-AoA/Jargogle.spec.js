@@ -81,6 +81,7 @@ describe('Jargogle', function() {
                 this.jargogle.exhausted = false;
                 this.player1.fightWith(this.jargogle, this.shorty);
                 this.player1.clickPrompt('Left');
+                expect(this.duskwitch.exhausted).toBe(false);
                 expect(this.player2).toHavePrompt('Choose which house you want to activate this turn');
                 this.player2.clickPrompt('brobnar');
                 expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
@@ -92,12 +93,13 @@ describe('Jargogle', function() {
                 this.player1.play(this.entropicSwirl);
                 this.player1.clickCard(this.jargogle);
                 this.player1.clickPrompt('Left');
+                expect(this.duskwitch.exhausted).toBe(false);
                 expect(this.player2).toHavePrompt('Choose which house you want to activate this turn');
                 this.player2.clickPrompt('brobnar');
                 expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            xit('should not end turn after playing omega due to Strange Gizmo', function() {
+            it('should not end turn after playing omega due to Strange Gizmo', function() {
                 this.player1.play(this.jargogle);
                 this.player1.clickCard(this.duskwitch);
                 this.player1.endTurn();
