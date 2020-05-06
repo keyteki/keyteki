@@ -16,7 +16,13 @@ export const buildDeckList = (deck, language, translate, AllCards) => new Promis
         return;
     }
 
-    const canvas = new fabric.Canvas('decklist').setDimensions({ width: 600, height: 840 });
+    const canvas = new fabric.Canvas('decklist');
+    if(!canvas) {
+        resolve(defaultCard);
+        return;
+    }
+
+    canvas.setDimensions({ width: 600, height: 840 });
     const Common = loadImage('img/idbacks/Common.png');
     const Rare = loadImage('img/idbacks/Rare.png');
     const Special = loadImage('img/idbacks/Special.png');
@@ -172,9 +178,14 @@ export const buildArchon = (deck, language) => new Promise(resolve => {
     }
 
     const canvas = new fabric.Canvas('archon');
+    if(!canvas) {
+        resolve('img/idbacks/identity.jpg');
+        return;
+    }
+
     canvas.setDimensions({ width: 600, height: 840 });
     const archon = loadImage(`/img/idbacks/archons/${imageName(deck, language)}.png`);
-    const title = getCircularText(deck.name, 1600, 0);
+    const title = getCircularText(deck.name, 700, 0);
     Promise.all([archon, title])
         .then(([archon, title]) => {
             canvas.add(archon);

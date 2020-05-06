@@ -150,6 +150,7 @@ class DeckSummary extends React.Component {
                             img={ `/img/cards/${ this.state.cardToShow.card.image }.png` }
                             maverick={ this.state.cardToShow.maverick }
                             anomaly={ this.state.cardToShow.anomaly }
+                            enhancements={ this.state.cardToShow.enhancements }
                             amber={ this.state.cardToShow.card.amber }/>
                         <AltCard card={ this.state.cardToShow }/>
                     </div> }

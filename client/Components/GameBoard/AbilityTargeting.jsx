@@ -25,6 +25,7 @@ class AbilityTargeting extends React.Component {
                     img={ !card.facedown ? (`/img/cards/${card.image}.png`) : '/img/idbacks/cardback.jpg' }
                     maverick={ card.maverick }
                     anomaly={ card.anomaly }
+                    enhancements={ card.enhancements }
                     amber={ card.cardPrintedAmber }/>
 
             </div>);

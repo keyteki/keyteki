@@ -7,7 +7,7 @@ describe('Timequake', function() {
                         house: 'brobnar',
                         amber: 2,
                         inPlay: ['lamindra', 'murkens', 'orb-of-wonder'],
-                        hand: ['timequake', 'troll', 'redlock']
+                        hand: ['timequake', 'troll', 'blood-of-titans']
                     },
                     player2: {
                         amber: 1,
@@ -16,20 +16,21 @@ describe('Timequake', function() {
                 });
             });
 
-            it('should return 2 cards in play to deck and draw 2 cards', function() {
+            it('should return 3 cards in play to deck and draw 3 cards', function() {
                 expect(this.player1.player.cardsInPlay.length).toBe(3);
                 expect(this.player1.player.hand.length).toBe(3);
 
                 this.player1.play(this.timequake);
 
                 expect(this.player1.player.cardsInPlay.length).toBe(0);
+                // 3 initial cards - 1 played + 3 drawn
                 expect(this.player1.player.hand.length).toBe(5);
                 expect(this.lamindra.location).not.toBe('play area');
                 expect(this.murkens.location).not.toBe('play area');
                 expect(this.orbOfWonder.location).not.toBe('play area');
             });
 
-            it('should return not draw any card if nothing is in play', function() {
+            it('should not draw any card if nothing is in play', function() {
                 this.player1.moveCard(this.lamindra, 'discard');
                 this.player1.moveCard(this.orbOfWonder, 'discard');
                 this.player1.moveCard(this.murkens, 'discard');
@@ -79,6 +80,21 @@ describe('Timequake', function() {
                 expect(this.lamindra.location).toBe('discard');
                 expect(this.murkens.location).toBe('discard');
                 expect(this.orbOfWonder.location).not.toBe('play area');
+            });
+
+            it('should shuffle upgrade before creatures', function() {
+                // Play the upgrade
+                this.player1.playUpgrade(this.bloodOfTitans, this.lamindra);
+                expect(this.player1.player.cardsInPlay.length).toBe(3);
+                expect(this.lamindra.upgrades).toContain(this.bloodOfTitans);
+
+                expect(this.player1.player.hand.length).toBe(2);
+
+                this.player1.play(this.timequake);
+
+                // Upgrade should not be in discard
+                expect(this.bloodOfTitans.location).not.toBe('discard');
+                expect(this.player1.player.hand.length).toBe(5);
             });
         });
     });
