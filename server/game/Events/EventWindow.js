@@ -30,20 +30,17 @@ class EventWindow extends BaseStepWithPipeline {
 
     openAbilityWindow(abilityType) {
         let events = this.event.getSimultaneousEvents();
-        //console.log(abilityType, events.map(e => e.name), this.event.name, this.event.openReactionWindow);
         if(events.length === 0 || abilityType === 'reaction' && !this.event.openReactionWindow) {
             return;
         }
 
         if(abilityType === 'interrupt' && events.some(event => event.name === 'onCardLeavesPlay')) {
-            //console.log('opening', abilityType, 'window for', events.map(e => [e.name, e.card && e.card.name]));
             this.queueStep(new DestroyedAbilityWindow(this.game, abilityType, this));
         } else {
             if(abilityType === 'reaction') {
                 this.game.checkDelayedEffects(events);
             }
 
-            //console.log('opening', abilityType, 'window for', events.map(e => [e.name, e.card && e.card.name]));
             this.queueStep(new ForcedTriggeredAbilityWindow(this.game, abilityType, this));
         }
     }
@@ -69,9 +66,7 @@ class EventWindow extends BaseStepWithPipeline {
 
     checkGameState() {
         const events = this.event.getSimultaneousEvents();
-        //console.log('checkGameState');
         if(!events.every(event => event.noGameStateCheck)) {
-            //console.log('checking', events.filter(event => event.openReactionWindow).map(e => [e.name, e.card && e.card.name]));
             this.game.checkGameState(events.some(event => event.handler));
         }
     }
@@ -95,7 +90,6 @@ class EventWindow extends BaseStepWithPipeline {
         if(this.event.subEvent) {
             let currentSubEvent = this.event.subEvent;
             this.event.subEvent = null;
-            //console.log('queuing', currentSubEvent.name);
             this.queueStep(new EventWindow(this.game, currentSubEvent));
             if(!currentSubEvent.openReactionWindow) {
                 this.queueStep(new SimpleStep(this.game, () => {
@@ -107,15 +101,6 @@ class EventWindow extends BaseStepWithPipeline {
             this.queueStep(new SimpleStep(this.game, () => this.checkForSubEvent()));
         }
     }
-    /*
-    executePostHandler() {
-        const events = this.event.getSimultaneousEvents();
-        for(const event of events) {
-            if(event.postHandler && !event.cancelled) {
-                event.postHandler(event);
-            }
-        }
-    }   */
 }
 
 module.exports = EventWindow;

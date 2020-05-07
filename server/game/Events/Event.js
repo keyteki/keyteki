@@ -6,9 +6,9 @@ class Event {
         this.cancelled = false;
         this.resolved = false;
         this.handler = handler;
+        this.gameAction = gameAction;
         this.card = null;
         this.context = null;
-        this.gameAction = gameAction;
         this.condition = (event) => true; // eslint-disable-line no-unused-vars
         this.order = 0;
         this.parentEvent = null;
