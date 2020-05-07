@@ -48,7 +48,8 @@ class PendingGame extends React.Component {
         }
     }
 
-    componentWillReceiveProps(props) {
+    // eslint-disable-next-line camelcase
+    UNSAFE_componentWillReceiveProps(props) {
         if(!props.user) {
             return;
         }
@@ -100,7 +101,7 @@ class PendingGame extends React.Component {
     selectDeck(deck) {
         $('#decks-modal').modal('hide');
 
-        this.props.socket.emit('selectdeck', this.props.currentGame.id, deck._id);
+        this.props.socket.emit('selectdeck', this.props.currentGame.id, deck.id, deck.isStandalone);
     }
 
     getNumberOfPlayers(props) {
@@ -240,9 +241,7 @@ class PendingGame extends React.Component {
                         <ReactClipboard text={ `${window.location.protocol}//${window.location.host}/play?gameId=${this.props.currentGame.id}` } options= { {
                             container: document.getElementById('pendingGameModal')
                         } }>
-                            <button className='btn btn-primary'>
-                        Copy Game Link
-                            </button>
+                            <button className='btn btn-primary'><Trans>Copy Game Link</Trans></button>
                         </ReactClipboard>
                     </div>
                     <div className='game-status'>{ this.getGameStatus() }</div>

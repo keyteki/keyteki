@@ -46,6 +46,7 @@ const Actions = {
     removeWard: (propertyFactory) => new GameActions.RemoveWardAction(propertyFactory),
     removeWardToken: (propertyFactory) => new GameActions.RemoveTokenAction(propertyFactory, 'ward'),
     resolveAbility: (propertyFactory) => new GameActions.ResolveAbilityAction(propertyFactory), // ability
+    resolveBonusIcons: (propertyFactory) => new GameActions.ResolveBonusIconsAction(propertyFactory),
     resolveFight: (propertyFactory) => new GameActions.ResolveFightAction(propertyFactory), // this shouldn't normally be needed
     returnAmber: (propertyFactory) => new GameActions.ReturnAmberAction(propertyFactory),
     returnToDeck: (propertyFactory) => new GameActions.ReturnToDeckAction(propertyFactory), // bottom = false

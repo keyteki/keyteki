@@ -1,4 +1,4 @@
-version: "3.3"
+version: "3.5"
 services:
   lobby:
     restart: always
@@ -13,9 +13,9 @@ services:
       - "./public:/usr/src/app/public"
       - "./less:/usr/src/app/less"
     links:
-      - mongo
+      - postgres
     depends_on:
-      - mongo
+      - postgres
     command:
       - node
       - "--inspect=0.0.0.0:9229"
@@ -32,12 +32,17 @@ services:
       - node
       - "--inspect=0.0.0.0:9339"
       - "server/gamenode"      
-  mongo:
-    image: mongo
+  postgres:
+    image: postgres
+    environment: 
+      POSTGRES_USER: ${POSTGRES_USER:-keyteki}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changemeplease}
     ports:
-      - "27027:27017"
+      - "54320:5432"
     volumes:
-      - mongodb:/data/db
+      - postgres:/data/postgres
+      - ./server/db/schema:/docker-entrypoint-initdb.d
+    restart: unless-stopped
 volumes:
-  mongodb:
+  postgres:
   node_modules:

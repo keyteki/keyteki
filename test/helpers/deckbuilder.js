@@ -113,6 +113,8 @@ class DeckBuilder {
             throw new Error(`Multiple cards match the name ${idOrLabelOrName}. Use one of these instead:\n${matchingLabels}`);
         }
 
+        cardsByName[0].enhancements = null;
+
         return cardsByName[0];
     }
 }

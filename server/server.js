@@ -12,7 +12,7 @@ const webpackHotMiddleware = require('webpack-hot-middleware');
 const historyApiFallback = require('connect-history-api-fallback');
 const webpack = require('webpack');
 const webpackConfig = require('../webpack.dev.js');
-const monk = require('monk');
+
 const passportJwt = require('passport-jwt');
 const Sentry = require('@sentry/node');
 
@@ -25,8 +25,8 @@ const version = require('../version.js');
 class Server {
     constructor(isDeveloping) {
         this.configService = new ConfigService();
-        let db = monk(this.configService.getValue('dbPath'));
-        this.userService = new UserService(db);
+
+        this.userService = new UserService(this.configService);
         this.isDeveloping = isDeveloping;
         this.server = http.Server(app);
     }
@@ -43,7 +43,7 @@ class Server {
         opts.secretOrKey = this.configService.getValue('secret');
 
         passport.use(new JwtStrategy(opts, (jwtPayload, done) => {
-            this.userService.getUserById(jwtPayload._id).then(user => {
+            this.userService.getUserById(jwtPayload.id).then(user => {
                 if(user) {
                     return done(null, user.getWireSafeDetails());
                 }
@@ -119,13 +119,13 @@ class Server {
                 logger.error(err);
             }
 
-            logger.info('==> ?? Listening on port %s. Open up http://0.0.0.0:%s/ in your browser.', port, port);
+            logger.info(`==> ?? Listening on port ${port}. Open up http://0.0.0.0:${port}/ in your browser.`);
         });
     }
 
     serializeUser(user, done) {
         if(user) {
-            done(null, user._id);
+            done(null, user.id);
         }
     }
 }

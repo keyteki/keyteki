@@ -11,13 +11,12 @@ import Droppable from './Droppable';
 
 import { withTranslation } from 'react-i18next';
 import { buildArchon, buildDeckList } from '../../archonMaker';
-import * as Images from '../../assets/img';
-import * as actions from '../../ReduxActions/misc';
+import * as actions from '../../actions';
 
 class PlayerRow extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { deckListUrl: Images.cardback };
+        this.state = { deckListUrl: 'img/idbacks/identity.jpg' };
         this.modifyKey = this.modifyKey.bind(this);
     }
 
@@ -34,13 +33,15 @@ class PlayerRow extends React.Component {
             buildDeckList({ ...this.props.deckData, cards: this.props.deckCards }, this.props.language, this.props.t, this.props.cards)
                 .then(deckListUrl => {
                     this.setState({ deckListUrl });
+                }).catch(() => {
+                    this.setState({ deckListUrl: 'img/idbacks/identity.jpg' });
                 });
         }
     }
 
     componentDidUpdate(prevProps) {
         if(this.props.language) {
-            if(this.props.language !== prevProps.language || this.props.deckData.uuid !== prevProps.deckData.uuid) {
+            if(this.props.language !== prevProps.language || this.props.deckData.identity !== prevProps.deckData.identity) {
                 buildArchon(this.props.deckData, this.props.language)
                     .then(cardBackUrl => {
                         if(this.props.player === 1) {
@@ -52,6 +53,8 @@ class PlayerRow extends React.Component {
                 buildDeckList({ ...this.props.deckData, cards: this.props.deckCards }, this.props.language, this.props.t, this.props.cards)
                     .then(deckListUrl => {
                         this.setState({ deckListUrl });
+                    }).catch(() => {
+                        this.setState({ deckListUrl: 'img/idbacks/identity.jpg' });
                     });
             }
         }

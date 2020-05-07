@@ -136,7 +136,7 @@ class InnerCard extends React.Component {
     }
 
     getupgrades() {
-        if(!['full deck', 'play area'].includes(this.props.source)) {
+        if(!['full deck', 'play area'].includes(this.props.source) || !this.props.card.upgrades) {
             return null;
         }
 
@@ -269,6 +269,7 @@ class InnerCard extends React.Component {
             language={ this.props.language }
             maverick={ !this.isFacedown() ? this.props.card.maverick : null }
             anomaly={ !this.isFacedown() ? this.props.card.anomaly : null }
+            enhancements={ !this.isFacedown() ? this.props.card.enhancements : [] }
             amber={ !this.isFacedown() ? this.props.card.cardPrintedAmber : 0 }/>);
 
         let content = this.props.connectDragSource(
@@ -351,6 +352,7 @@ InnerCard.propTypes = {
         canPlay: PropTypes.bool,
         code: PropTypes.string,
         controlled: PropTypes.bool,
+        enhancements: PropTypes.array,
         facedown: PropTypes.bool,
         factionStatus: PropTypes.array,
         image: PropTypes.string,

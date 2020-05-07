@@ -24,6 +24,7 @@ describe('PowerOfFire(WC)', function() {
                 expect(this.player2.chains).toBe(0);
                 expect(this).toHaveRecentChatMessage('player1 uses Power of Fire to sacrifice Troll and cause each player to lose 4 aember; player1 gains 1 chain');
             });
+
             it('makes players lose half of barrister\'s power == 2', function() {
                 this.player1.play(this.powerOfFire);
                 this.player1.clickCard(this.barristerJoya);

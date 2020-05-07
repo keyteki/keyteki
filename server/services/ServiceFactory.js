@@ -1,15 +1,21 @@
 const MessageService = require('./MessageService');
+const CardService = require('./CardService');
 
 let services = {};
 
 module.exports = {
-    messageService: db => {
-        if(services.messageService) {
-            return services.messageService;
+    messageService: () => {
+        if(!services.messageService) {
+            services.messageService = new MessageService();
         }
 
-        services.messageService = new MessageService(db);
-
         return services.messageService;
+    },
+    cardService: () => {
+        if(!services.cardService) {
+            services.cardService = new CardService();
+        }
+
+        return services.cardService;
     }
 };

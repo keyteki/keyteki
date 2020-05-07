@@ -16,7 +16,8 @@ class StatusPopOver extends React.Component {
         this.updateProps(this.props);
     }
 
-    componentWillReceiveProps(props) {
+    // eslint-disable-next-line camelcase
+    UNSAFE_componentWillReceiveProps(props) {
         this.updateProps(props);
     }
 

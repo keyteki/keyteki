@@ -54,3 +54,15 @@ export function receiveBannerNotice(notice) {
         notice: notice
     };
 }
+
+export function clearChatStatus() {
+    return {
+        type: 'CLEAR_CHAT_STATUS'
+    };
+}
+
+export function setWindowBlur(type) {
+    return {
+        type: `WINDOW_${type.toUpperCase()}`
+    };
+}

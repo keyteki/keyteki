@@ -108,5 +108,33 @@ describe('Poltergeist\'s', function() {
                 expect(this.player2.amber).toBe(2);
             });
         });
+
+        describe('Poltergeist\'s ability', function() {
+            beforeEach(function() {
+                this.setupTest({
+                    player1: {
+                        house: 'dis',
+                        hand: ['poltergeist'],
+                        inPlay: ['troll', 'gub', 'shooler']
+                    },
+                    player2: {
+                        inPlay: ['spike-trap', 'bumpsy', 'dendrix', 'malison'],
+                        amber: 1
+                    }
+                });
+            });
+
+            it('should work with artifacts that sacrifice themselves.', function() {
+                this.player1.play(this.poltergeist);
+                this.player1.clickCard(this.spikeTrap);
+                expect(this.spikeTrap.location).toBe('discard');
+                expect(this.troll.tokens.damage).toBe(3);
+                expect(this.gub.tokens.damage).toBeUndefined();
+                expect(this.shooler.tokens.damage).toBe(3);
+                expect(this.bumpsy.tokens.damage).toBe(3);
+                expect(this.dendrix.tokens.damage).toBeUndefined();
+                expect(this.malison.tokens.damage).toBe(3);
+            });
+        });
     });
 });
