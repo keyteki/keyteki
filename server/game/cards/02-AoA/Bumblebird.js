@@ -5,7 +5,8 @@ class Bumblebird extends Card {
         this.play({
             effect: 'add 1 power counter to each other friendly untamed creature',
             gameAction: ability.actions.addPowerCounter(context => ({
-                target: context.game.creaturesInPlay.filter(card => card !== context.source && card.hasHouse('untamed') && card.controller === this.controller && card.type === 'creature'),
+                target: context.game.creaturesInPlay.filter(card => card !== context.source && card.hasHouse('untamed')
+                    && card.controller === context.source.controller && card.type === 'creature'),
                 amount: 2
             }))
         });
