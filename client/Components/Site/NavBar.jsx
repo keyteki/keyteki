@@ -252,7 +252,7 @@ class NavBar extends React.Component {
                             <span className='icon-bar' />
                             <span className='icon-bar' />
                         </button>
-                        <Link href='/' className='navbar-brand'>{ this.props.title }</Link>
+                        <Link href='/' className='navbar-brand' />
                     </div>
                     <div id='navbar' className='collapse navbar-collapse'>
                         <ul className='nav navbar-nav'>

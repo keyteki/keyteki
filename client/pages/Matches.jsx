@@ -10,7 +10,7 @@ import * as actions from '../actions';
 import { withTranslation, Trans } from 'react-i18next';
 
 class Matches extends React.Component {
-    componentWillMount() {
+    componentDidMount() {
         this.props.loadUserGames();
     }
 

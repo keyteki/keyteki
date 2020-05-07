@@ -29,8 +29,9 @@ class Player extends GameObject {
         this.takenMulligan = false;
 
         this.chains = 0;
-        this.keyForged = [];
+        this.keysForgedThisRound = [];
         this.creatureFought = false;
+        this.creatureDestroyed = false;
 
         this.clock = ClockSelector.for(this, clockdetails);
         this.showDeck = false;
@@ -235,8 +236,9 @@ class Player extends GameObject {
     }
 
     beginRound() {
-        this.keyForged = [];
+        this.keysForgedThisRound = [];
         this.creatureFought = false;
+        this.creatureDestroyed = false;
     }
 
     endRound() {
@@ -397,6 +399,16 @@ class Player extends GameObject {
             targetPile.push(card);
         }
 
+        if((targetLocation !== 'play area') && card.gigantic) {
+            let cardIndex = targetPile.indexOf(card);
+            card.playedParts.forEach(part => {
+                part.location = targetLocation;
+                targetPile.splice(cardIndex, 0, part);
+            });
+            card.playedParts = [];
+            card.image = card.id;
+        }
+
         this.game.raiseEvent('onCardPlaced', { card: card, from: location, to: targetLocation });
     }
 
@@ -536,7 +548,8 @@ class Player extends GameObject {
     }
 
     getAmberSources() {
-        return this.cardsInPlay.filter(card => card.anyEffect('keyAmber') && card.hasToken('amber'));
+        return this.cardsInPlay.filter(card => card.anyEffect('keyAmber') && card.hasToken('amber'))
+            .concat(this.opponent ? this.opponent.cardsInPlay.filter(card => card.anyEffect('keyAmberOpponent') && card.hasToken('amber')) : []);
     }
 
     canForgeKey(modifier = 0) {
@@ -598,16 +611,16 @@ class Player extends GameObject {
         if(unforgedKeys.length > 1) {
             this.game.promptWithHandlerMenu(this, {
                 activePromptTitle: { text: 'Which key would you like to forge?' },
-                source: 'Forge a key.',
+                source: 'Forge a key',
                 choices: unforgedKeys,
                 choiceHandler: key => {
                     this.game.queueSimpleStep(() => {
-                        this.finalizeForge(key.text.toLowerCase(), modifiedCost, cost);
+                        this.finalizeForge(key.value, modifiedCost, cost);
                     });
                 }
             });
         } else {
-            this.game.queueSimpleStep(() => this.finalizeForge(unforgedKeys.shift().text.toLowerCase(), modifiedCost, cost));
+            this.game.queueSimpleStep(() => this.finalizeForge(unforgedKeys.shift().value, modifiedCost, cost));
         }
     }
 
@@ -619,39 +632,47 @@ class Player extends GameObject {
         }
 
         this.keys[key] = true;
-        this.keyForged.push(key);
+        this.keysForgedThisRound.push(key);
         this.game.addMessage('{0} forges the {1}, paying {2} amber', this.game.activePlayer, `forgedkey${key}`, modifiedCost);
     }
 
     unforgeKey(choices) {
-        if(this.keyForged.length > 1) {
+        if(choices.length > 1) {
             this.game.promptWithHandlerMenu(this, {
                 activePromptTitle: { text: 'Which key would you like to unforge?' },
-                source: 'Unforge a key.',
+                source: 'Unforge a key',
                 choices: this.getKeyOptions(choices),
                 choiceHandler: key => {
                     this.game.queueSimpleStep(() => {
-                        this.keys[key.text.toLowerCase()] = false;
-                        this.keyForged.splice(this.keyForged.findIndex(x => x === key.text.toLowerCase()), 1);
-                        this.game.addMessage('{0} unforges {1}\'s {2}', this.game.activePlayer, this.game.activePlayer.opponent, `forgedkey${key.text.toLowerCase()}`);
+                        this.keys[key.value] = false;
+                        let forgedKeyIndex = this.keysForgedThisRound.findIndex(x => x === key.value);
+                        if(forgedKeyIndex !== -1) {
+                            this.keysForgedThisRound.splice(forgedKeyIndex, 1);
+                        }
+
+                        this.game.addMessage('{0} unforges {1}\'s {2}', this.game.activePlayer, this.game.activePlayer.opponent, `forgedkey${key.value}`);
                     });
                 }
             });
         } else {
-            this.keys[this.keyForged[0].toLowerCase()] = false;
-            this.keyForged.splice(this.keyForged.findIndex(key => key === this.keyForged[0].toLowerCase()), 1);
-            this.game.addMessage('{0} unforges the {1}', this.game.activePlayer, `forgedkey${this.keyForged[0]}`);
+            this.keys[choices[0].toLowerCase()] = false;
+            let forgedKeyIndex = this.keysForgedThisRound.findIndex(x => x === choices[0].toLowerCase());
+            if(forgedKeyIndex !== -1) {
+                this.keysForgedThisRound.splice(forgedKeyIndex, 1);
+            }
+
+            this.game.addMessage('{0} unforges the {1}', this.game.activePlayer, `forgedkey${choices[0]}`);
         }
     }
 
     getUnforgedKeys() {
-        return [{ text: 'Red', icon: 'unforgedkeyred' }, { text: 'Blue', icon: 'unforgedkeyblue' }, { text: 'Yellow', icon: 'unforgedkeyyellow' }]
-            .filter(key => !this.keys[key.text.toLowerCase()]);
+        return [{ text: 'Red', value: 'red', icon: 'unforgedkeyred' }, { text: 'Blue', value: 'blue', icon: 'unforgedkeyblue' },
+            { text: 'Yellow', value: 'yellow', icon: 'unforgedkeyyellow' }].filter(key => !this.keys[key.value]);
     }
 
     getKeyOptions(options) {
-        return [{ text: 'Red', icon: 'forgedkeyred' }, { text: 'Blue', icon: 'forgedkeyblue' }, { text: 'Yellow', icon: 'forgedkeyyellow' }]
-            .filter(key => options.includes(key.text.toLowerCase()));
+        return [{ text: 'Red', value: 'red', icon: 'forgedkeyred' }, { text: 'Blue', value: 'blue', icon: 'forgedkeyblue' },
+            { text: 'Yellow', value: 'yellow', icon: 'forgedkeyyellow' }].filter(key => options.includes(key.value));
     }
 
     getAdditionalCosts(context) {

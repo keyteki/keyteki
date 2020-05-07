@@ -27,6 +27,10 @@ class RemoveTokenAction extends CardGameAction {
         return this.all ? card.tokens[this.type] || 0 : this.amount;
     }
 
+    checkEventCondition(event) {
+        return !!event.card.tokens[event.type] && super.checkEventCondition(event);
+    }
+
     canAffect(card, context) {
         return this.getAmount(card) > 0 && card.location === 'play area' && super.canAffect(card, context);
     }

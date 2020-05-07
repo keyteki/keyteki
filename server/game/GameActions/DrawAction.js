@@ -4,6 +4,7 @@ class DrawAction extends PlayerAction {
     setDefaultProperties() {
         this.amount = 1;
         this.refill = false;
+        this.bonus = false;
     }
 
     setup() {
@@ -32,13 +33,14 @@ class DrawAction extends PlayerAction {
             amount = this.amount;
         }
 
-        if(amount > 0) {
+        if(!this.bonus && amount > 0) {
             context.game.addMessage('{0} draws {1} card{2}{3}', player, amount, amount > 1 ? 's' : '', this.refill ? ` to their maximum of ${player.maxHandSize}` : '');
         }
 
         return super.createEvent('onDrawCards', {
             player: player,
             amount: amount,
+            bonus: this.bonus,
             shedChains: shedChains,
             context: context
         }, event => {

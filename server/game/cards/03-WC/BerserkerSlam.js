@@ -11,10 +11,10 @@ class BerserkerSlam extends Card {
             then: {
                 condition: context => context.preThenEvent.destroyed && !context.preThenEvent.redirectApplied,
                 message: '{0} uses {1} to cause {3} to lose 1 aember',
-                messageArgs: context => [context.preThenEvent.card.controller],
+                messageArgs: context => [context.preThenEvent.clone.controller],
                 gameAction: ability.actions.loseAmber(context => ({
                     amount: 1,
-                    target: context.preThenEvent.card.controller
+                    target: context.preThenEvent.clone.controller
                 }))
             }
         });

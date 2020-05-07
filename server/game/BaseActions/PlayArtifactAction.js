@@ -12,6 +12,7 @@ class PlayAction extends BasePlayAction {
             card: context.source,
             originalLocation: context.source.location
         });
+        this.addBonusIconResolution(cardPlayedEvent, context);
         context.game.openEventWindow([context.game.actions.putIntoPlay({ myControl: true }).getEvent(context.source, context), cardPlayedEvent]);
     }
 }

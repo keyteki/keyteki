@@ -65,7 +65,7 @@ class ChatCommands {
 
         let cardName = args.slice(1).join(' ');
         let card = Object.values(this.game.cardData).find(c => {
-            return c.name.toLowerCase() === cardName.toLowerCase();
+            return c.id.toLowerCase() === cardName.toLowerCase() || c.name.toLowerCase() === cardName.toLowerCase();
         });
 
         if(!card) {
@@ -98,7 +98,7 @@ class ChatCommands {
         const color = args[1] ? args[1] : Object.keys(player.keys).filter(key => !player.keys[key])[0];
         this.game.addAlert('danger', '{0} forges the {1} ', player, `forgedkey${color}`);
         player.keys[color] = true;
-        player.keyForged.push(color);
+        player.keysForgedThisRound.push(color);
     }
 
     unforge(player, args) {
@@ -109,7 +109,10 @@ class ChatCommands {
         const color = args[1] ? args[1] : Object.keys(player.keys).filter(key => player.keys[key])[0];
         this.game.addAlert('danger', '{0} unforges the {1}', player, `unforgedkey${color}`);
         player.keys[color] = false;
-        player.keyForged.splice(player.keyForged.findIndex(key => key === color), 1);
+        let forgedKeyIndex = player.keysForgedThisRound.findIndex(key => key === color);
+        if(forgedKeyIndex !== -1) {
+            player.keysForgedThisRound.splice(forgedKeyIndex, 1);
+        }
     }
 
     activeHouse(player, args) {

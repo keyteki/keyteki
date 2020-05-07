@@ -1,7 +1,6 @@
 const zmq = require('zeromq');
 const router = zmq.socket('router');
 const logger = require('./log.js');
-const monk = require('monk');
 const EventEmitter = require('events');
 const GameService = require('./services/GameService.js');
 
@@ -10,7 +9,7 @@ class GameRouter extends EventEmitter {
         super();
 
         this.workers = {};
-        this.gameService = new GameService(monk(configService.getValue('dbPath')));
+        this.gameService = new GameService();
 
         router.bind(`tcp://0.0.0.0:${configService.getValue('mqPort')}`, err => {
             if(err) {
@@ -197,7 +196,7 @@ class GameRouter extends EventEmitter {
                 if(worker) {
                     worker.numGames--;
                 } else {
-                    logger.error('Got close game for non existant worker', identity);
+                    logger.error(`Got close game for non existant worker ${identity}`);
                 }
 
                 this.emit('onGameRematch', message.arg.game);
@@ -207,7 +206,7 @@ class GameRouter extends EventEmitter {
                 if(worker) {
                     worker.numGames--;
                 } else {
-                    logger.error('Got close game for non existant worker', identity);
+                    logger.error(`Got close game for non existant worker ${identity}`);
                 }
 
                 this.emit('onGameClosed', message.arg.game);
@@ -243,7 +242,7 @@ class GameRouter extends EventEmitter {
             }
 
             if(worker.pingSent && currentTime - worker.pingSent > pingTimeout) {
-                logger.info('worker', worker.identity + ' timed out');
+                logger.info(`worker ${worker.identity} timed out`);
                 worker.disconnected = true;
                 this.emit('onWorkerTimedOut', worker.identity);
             } else if(!worker.pingSent) {

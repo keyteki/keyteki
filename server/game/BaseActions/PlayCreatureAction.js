@@ -14,6 +14,7 @@ class PlayCreatureAction extends BasePlayAction {
         });
         let action = context.game.actions.putIntoPlay({ myControl: true });
         action.preEventHandler(context);
+        this.addBonusIconResolution(cardPlayedEvent, context);
         context.game.openEventWindow([action.getEvent(context.source, context), cardPlayedEvent]);
     }
 }

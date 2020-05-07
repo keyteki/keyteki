@@ -59,7 +59,7 @@ export default function(state = { banlist: [] }, action) {
             return Object.assign({}, state, {
                 banlistDeleted: true,
                 banlist: state.banlist.filter(entry => {
-                    return entry._id !== action.response.id;
+                    return entry.id !== action.response.id;
                 })
             });
         case 'CLEAR_BANLIST_STATUS':

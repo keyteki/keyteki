@@ -78,7 +78,8 @@ export class GameBoard extends React.Component {
         $('.modal-backdrop').remove();
     }
 
-    componentWillReceiveProps(props) {
+    // eslint-disable-next-line camelcase
+    UNSAFE_componentWillReceiveProps(props) {
         this.updateContextMenu(props);
 
         let lastMessageCount = this.state.lastMessageCount;
@@ -279,6 +280,19 @@ export class GameBoard extends React.Component {
         return player;
     }
 
+    getMatchRecord(thisPlayer, otherPlayer) {
+        return {
+            thisPlayer: {
+                name: thisPlayer.name,
+                wins: thisPlayer.wins
+            },
+            otherPlayer: {
+                name: otherPlayer.name ? otherPlayer.name : 'Noone',
+                wins: otherPlayer.wins ? otherPlayer.wins : 0
+            }
+        };
+    }
+
     renderBoard(thisPlayer, otherPlayer) {
         return [
             <div key='board-middle' className='board-middle'>
@@ -453,11 +467,24 @@ export class GameBoard extends React.Component {
                     </div>
                 </div>
                 <div className='player-stats-row'>
-                    <PlayerStats { ...boundActionCreators } stats={ thisPlayer.stats } showControls={ !this.state.spectating && manualMode } user={ thisPlayer.user }
-                        activePlayer={ thisPlayer.activePlayer } onSettingsClick={ this.onSettingsClick } showMessages
-                        onMessagesClick={ this.onMessagesClick } numMessages={ this.state.newMessages } houses={ thisPlayer.houses } onManualModeClick={ this.onManualModeClick }
-                        activeHouse={ thisPlayer.activeHouse } manualModeEnabled={ manualMode } showManualMode={ !this.state.spectating }
-                        muteSpectators={ this.props.currentGame.muteSpectators } onMuteClick={ this.onMuteClick } />
+                    <PlayerStats { ...boundActionCreators }
+                        activeHouse={ thisPlayer.activeHouse }
+                        activePlayer={ thisPlayer.activePlayer }
+                        houses={ thisPlayer.houses }
+                        manualModeEnabled={ manualMode }
+                        matchRecord={ this.getMatchRecord(thisPlayer, otherPlayer) }
+                        muteSpectators={ this.props.currentGame.muteSpectators }
+                        numMessages={ this.state.newMessages }
+                        onManualModeClick={ this.onManualModeClick }
+                        onMessagesClick={ this.onMessagesClick }
+                        onMuteClick={ this.onMuteClick }
+                        onSettingsClick={ this.onSettingsClick }
+                        showControls={ !this.state.spectating && manualMode }
+                        showManualMode={ !this.state.spectating }
+                        showMessages
+                        stats={ thisPlayer.stats }
+                        user={ thisPlayer.user } />
+
                 </div>
             </div >);
     }

@@ -121,7 +121,7 @@ class DeckSummary extends React.Component {
     }
 
     render() {
-        if(!this.props.deck || !this.props.cards) {
+        if(!this.props.deck || !this.props.cards || this.props.deck.cards.some(c => !c.card)) {
             return <div><Trans>Waiting for selected deck...</Trans></div>;
         }
 
@@ -150,6 +150,7 @@ class DeckSummary extends React.Component {
                             img={ `/img/cards/${ this.state.cardToShow.card.image }.png` }
                             maverick={ this.state.cardToShow.maverick }
                             anomaly={ this.state.cardToShow.anomaly }
+                            enhancements={ this.state.cardToShow.enhancements }
                             amber={ this.state.cardToShow.card.amber }/>
                         <AltCard card={ this.state.cardToShow }/>
                     </div> }
@@ -173,17 +174,15 @@ class DeckSummary extends React.Component {
                             className='pull-right'>{ cardCounts.creature } <Trans>cards</Trans></span></div>
                         <div className='info-row row'><span><Trans>Upgrades</Trans>:</span><span
                             className='pull-right'>{ cardCounts.upgrade } <Trans>cards</Trans></span></div>
-                        { /* <div className='info-row row'><span><Trans>Wins</Trans>:</span><span
+                        <div className='info-row row'><span><Trans>Wins</Trans>:</span><span
                             className='pull-right'>{ this.props.deck.wins }</span></div>
                         <div className='info-row row'><span><Trans>Losses</Trans>:</span><span
-                            className='pull-right'>{ this.props.deck.losses }</span></div> */ }
+                            className='pull-right'>{ this.props.deck.losses }</span></div>
                         <div className='info-row row'><span><Trans>Validity</Trans>:</span>
                             <DeckStatus className='pull-right' status={ this.props.deck.status }/>
                         </div>
                         { this.props.deck.usageLevel > 0 && !this.props.deck.verified ?
-                            <div className='info-row row'><Trans i18nKey='decksummary.toverify'>This deck has been
-                                flagged as requiring verification. Please email a photo of the decklist with your
-                                username written on a piece of paper to</Trans>: thecrucible.deckcheck@gmail.com
+                            <div className='info-row row'><Trans i18nKey='decksummary.toverify'>This deck is flagged.  Please look out for a new verification system coming soon.</Trans>
                             </div> : null
                         }
                     </div>

@@ -77,7 +77,8 @@ class GameLobby extends React.Component {
         }
     }
 
-    componentWillReceiveProps(props) {
+    // eslint-disable-next-line camelcase
+    UNSAFE_componentWillReceiveProps(props) {
         if(!props.currentGame) {
             this.props.setContextMenu([]);
         }
@@ -102,6 +103,19 @@ class GameLobby extends React.Component {
             // Joining a game
             $('#pendingGameModal').modal('show');
             this.setState({ gameState: GameState.PendingGame });
+        }
+
+        if(!props.currentGame && this.props.gameId) {
+            const game = props.games.find(x => x.id === this.props.gameId);
+            if(!game) {
+                return;
+            }
+
+            if(game.needsPassword) {
+                this.props.joinPasswordGame(game, 'Join');
+            } else {
+                this.props.socket.emit('joingame', this.props.gameId);
+            }
         }
     }
 
@@ -239,9 +253,6 @@ class GameLobby extends React.Component {
 
         return (
             <div className='full-height'>
-                <div className='col-md-offset-2 col-md-8 banner-kote'>
-                    <a target='_blank' rel='noopener noreferrer' href='https://www.facebook.com/groups/kotevent/permalink/891154581314876/'><img src='/kote/kote4.png' width='100%'/></a>
-                </div>
                 { this.props.bannerNotice ? <AlertPanel type='error' message={ t(this.props.bannerNotice) } /> : null }
                 { this.state.errorMessage ? <AlertPanel type='error' message={ t(this.state.errorMessage) } /> : null }
 
@@ -286,6 +297,7 @@ GameLobby.propTypes = {
     gameId: PropTypes.string,
     games: PropTypes.array,
     i18n: PropTypes.object,
+    joinPasswordGame: PropTypes.func,
     leaveGame: PropTypes.func,
     newGame: PropTypes.bool,
     passwordGame: PropTypes.object,

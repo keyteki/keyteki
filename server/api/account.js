@@ -36,7 +36,7 @@ function verifyPassword(password, dbPassword) {
 
 async function sendEmail(address, subject, email) {
     if(!configService.getValueForSection('lobby', 'emailKey')) {
-        logger.info('Trying to send email, but email key not configured.', address, subject, email);
+        logger.info(`Trying to send email to ${address}, but email key not configured.`);
         return;
     }
 
@@ -119,7 +119,7 @@ async function downloadAvatar(user) {
 }
 
 module.exports.init = function(server, options) {
-    userService = options.userService || new UserService(options.db, options.configService);
+    userService = options.userService || new UserService(options.configService);
     banlistService = new BanlistService(options.db, configService);
     patreonService = new PatreonService(configService.getValueForSection('lobby', 'patreonClientId'),
         configService.getValueForSection('lobby', 'patreonSecret'), userService,
@@ -150,14 +150,14 @@ module.exports.init = function(server, options) {
             return next();
         }
 
-        let user = await userService.getUserByEmail(req.body.email);
+        let user = await userService.doesEmailExist(req.body.email);
         if(user) {
             res.send({ success: false, message: 'An account with that email already exists, please use another' });
 
             return next();
         }
 
-        user = await userService.getUserByUsername(req.body.username);
+        user = await userService.doesUserExist(req.body.username);
         if(user) {
             res.send({ success: false, message: 'An account with that name already exists, please choose another' });
 
@@ -172,17 +172,17 @@ module.exports.init = function(server, options) {
                 let answer = JSON.parse(response);
 
                 if(answer.request_status !== 'success') {
-                    logger.warn('Failed to check email address', answer);
+                    logger.warn(`Failed to check email address ${answer}`);
                 }
 
                 if(answer.domain_status === 'block') {
-                    logger.warn('Blocking', domain, 'from registering the account', req.body.username);
+                    logger.warn(`Blocking ${domain} from registering the account ${req.body.username}`);
                     res.send({ success: false, message: 'One time use email services are not permitted on this site.  Please use a real email address' });
 
                     return next();
                 }
             } catch(err) {
-                logger.warn('Could not valid email address', domain, err);
+                logger.warn(`Could not valid email address ${domain}`, err);
             }
         }
 
@@ -239,7 +239,7 @@ module.exports.init = function(server, options) {
         user = await userService.addUser(newUser);
 
         if(configService.getValueForSection('lobby', 'requireActivation')) {
-            let url = `${req.protocol}://${req.get('host')}/activation?id=${user._id}&token=${newUser.activationToken}`;
+            let url = `${req.protocol}://${req.get('host')}/activation?id=${user.id}&token=${newUser.activationToken}`;
             let emailText = `Hi,\n\nSomeone, hopefully you, has requested an account to be created on ${appName} (${req.protocol}://${req.get('host')}).  If this was you, click this link ${url} to complete the process.\n\n` +
                 'If you did not request this please disregard this email.\n' +
                 'Kind regards,\n\n' +
@@ -253,7 +253,7 @@ module.exports.init = function(server, options) {
         try {
             await downloadAvatar(user);
         } catch(error) {
-            logger.error('Error downloading avatar for', user.username, error);
+            logger.error(`Error downloading avatar for ${user.username}`, error);
         }
     }));
 
@@ -274,7 +274,7 @@ module.exports.init = function(server, options) {
         }
 
         if(!user.activationToken) {
-            logger.error('Got unexpected activate request for user', user.username);
+            logger.error('Got unexpected activate request for user %s', user.username);
 
             res.send({ success: false, message: 'An error occured activating your account, check the url you have entered and try again.' });
 
@@ -285,7 +285,7 @@ module.exports.init = function(server, options) {
         if(user.activationTokenExpiry < now) {
             res.send({ success: false, message: 'The activation token you have provided has expired.' });
 
-            logger.error('Token expired', user.username);
+            logger.error('Token expired for %s', user.username);
 
             return next();
         }
@@ -294,7 +294,7 @@ module.exports.init = function(server, options) {
         let resetToken = hmac.update('ACTIVATE ' + user.username + ' ' + user.activationTokenExpiry).digest('hex');
 
         if(resetToken !== req.body.token) {
-            logger.error('Invalid activation token', user.username, req.body.token);
+            logger.error('Invalid activation token for %s: %s', user.username, req.body.token);
 
             res.send({ success: false, message: 'An error occured activating your account, check the url you have entered and try again.' });
 
@@ -315,7 +315,7 @@ module.exports.init = function(server, options) {
     }));
 
     server.post('/api/account/check-username', wrapAsync(async (req, res) => {
-        let user = await userService.getUserByUsername(req.body.username);
+        let user = await userService.doesUserExist(req.body.username);
         if(user) {
             return res.send({ success: true, message: 'An account with that name already exists, please choose another' });
         }
@@ -330,38 +330,30 @@ module.exports.init = function(server, options) {
     });
 
     server.post('/api/account/checkauth', passport.authenticate('jwt', { session: false }), wrapAsync(async (req, res) => {
-        let user = await userService.getUserByUsername(req.user.username);
+        let user = await userService.getFullUserByUsername(req.user.username);
         let userDetails = user.getWireSafeDetails();
+        let isSupporter = false;
 
-        if(!user.patreon || !user.patreon.refresh_token) {
-            return res.send({ success: true, user: userDetails });
-        }
-
-        userDetails.patreon = await patreonService.getPatreonStatusForUser(user);
-
-        if(userDetails.patreon === 'none') {
-            delete (userDetails.patreon);
-
-            let ret = await patreonService.refreshTokenForUser(user);
-            if(!ret) {
-                return res.send({ success: true, user: userDetails });
-            }
-
+        if(user.patreon && user.patreon.refresh_token) {
             userDetails.patreon = await patreonService.getPatreonStatusForUser(user);
 
             if(userDetails.patreon === 'none') {
-                return res.send({ success: true, user: userDetails });
+                delete (userDetails.patreon);
+
+                let ret = await patreonService.refreshTokenForUser(user);
+                if(ret) {
+                    userDetails.patreon = await patreonService.getPatreonStatusForUser(user);
+                }
             }
         }
 
-        if(userDetails.patreon === 'pledged' && !userDetails.permissions.isSupporter) {
-            await userService.setSupporterStatus(user.username, true);
-            // eslint-disable-next-line require-atomic-updates
-            userDetails.permissions.isSupporter = req.user.permissions.isSupporter = true;
-        } else if(userDetails.patreon !== 'pledged' && userDetails.permissions.isSupporter) {
-            await userService.setSupporterStatus(user.username, false);
-            // eslint-disable-next-line require-atomic-updates
-            userDetails.permissions.isSupporter = req.user.permissions.isSupporter = false;
+        if(userDetails.patreon === 'pledged') {
+            isSupporter = true;
+        }
+
+        if(isSupporter !== req.user.permissions.isSupporter) {
+            userDetails.permissions.isSupporter = req.user.permissions.isSupporter = isSupporter;
+            await userService.setSupporterStatus(user.id, isSupporter);
         }
 
         res.send({ success: true, user: userDetails });
@@ -380,7 +372,7 @@ module.exports.init = function(server, options) {
             return next();
         }
 
-        let user = await userService.getUserByUsername(req.body.username);
+        let user = await userService.getFullUserByUsername(req.body.username);
         if(!user) {
             return res.send({ success: false, message: 'Invalid username/password' });
         }
@@ -414,7 +406,7 @@ module.exports.init = function(server, options) {
             ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
         }
 
-        let refreshToken = await userService.addRefreshToken(user.username, authToken, ip);
+        let refreshToken = await userService.addRefreshToken(user, authToken, ip);
         if(!refreshToken) {
             return res.send({ success: false, message: 'There was an error validating your login details.  Please try again later' });
         }
@@ -431,7 +423,7 @@ module.exports.init = function(server, options) {
 
         let token = req.body.token;
 
-        let user = await userService.getUserByUsername(token.username);
+        let user = await userService.getFullUserByUsername(token.username);
         if(!user) {
             res.send({ success: false, message: 'Invalid refresh token' });
 
@@ -446,7 +438,7 @@ module.exports.init = function(server, options) {
         }
 
         let refreshToken = user.tokens.find(t => {
-            return t._id.toString() === token.id;
+            return t.id === token.id;
         });
         if(!refreshToken) {
             res.send({ success: false, message: 'Invalid refresh token' });
@@ -495,7 +487,7 @@ module.exports.init = function(server, options) {
         }
 
         if(!user.resetToken) {
-            logger.error('Got unexpected reset request for user', user.username);
+            logger.error('Got unexpected reset request for user %s', user.username);
 
             res.send({ success: false, message: 'An error occured resetting your password, check the url you have entered and try again.' });
 
@@ -506,16 +498,16 @@ module.exports.init = function(server, options) {
         if(user.tokenExpires < now) {
             res.send({ success: false, message: 'The reset token you have provided has expired.' });
 
-            logger.error('Token expired', user.username);
+            logger.error('Token expired for %s', user.username);
 
             return next();
         }
 
         let hmac = crypto.createHmac('sha512', configService.getValueForSection('lobby', 'hmacSecret'));
-        let resetToken = hmac.update('RESET ' + user.username + ' ' + user.tokenExpires).digest('hex');
+        let resetToken = hmac.update('RESET ' + user.username + ' ' + moment(user.tokenExpires).format('YYYYMMDD-HH:mm:ss')).digest('hex');
 
         if(resetToken !== req.body.token) {
-            logger.error('Invalid reset token', user.username, req.body.token);
+            logger.error(`Invalid reset token for ${user.username}: ${req.body.token}`);
 
             res.send({ success: false, message: 'An error occured resetting your password, check the url you have entered and try again.' });
 
@@ -548,7 +540,7 @@ module.exports.init = function(server, options) {
             user = await userService.getUserByEmail(req.body.username);
 
             if(!user) {
-                logger.info('Username not found for password reset', req.body.username);
+                logger.info('Username %s not found for password reset', req.body.username);
 
                 return;
             }
@@ -560,9 +552,14 @@ module.exports.init = function(server, options) {
 
         resetToken = hmac.update(`RESET ${user.username} ${formattedExpiration}`).digest('hex');
 
-        await userService.setResetToken(user, resetToken, formattedExpiration);
-        let url = `${req.protocol}://${req.get('host')}/reset-password?id=${user._id}&token=${resetToken}`;
-        let emailText = `Hi,\n\nSomeone, hopefully you, has requested the password for ${user.username} on ${appName} (${req.protocol}://${req.get('host')}) to be reset.  If this was you, click this link ${url} to complete the process.\n\n` +
+        try {
+            await userService.setResetToken(user, resetToken, expiration);
+        } catch(err) {
+            return;
+        }
+
+        let url = `${req.protocol}://${req.get('host')}/reset-password?id=${user.id}&token=${resetToken}`;
+        let emailText = `Hi,\n\nSomeone, hopefully you, has requested their password on ${appName} (${req.protocol}://${req.get('host')}) to be reset.  If this was you, click this link ${url} to complete the process.\n\n` +
             'If you did not request this reset, do not worry, your account has not been affected and your password has not been changed, just ignore this email.\n' +
             'Kind regards,\n\n' +
             `${appName} team`;
@@ -577,7 +574,7 @@ module.exports.init = function(server, options) {
             return res.status(403).send({ message: 'Unauthorized' });
         }
 
-        let user = await userService.getUserByUsername(req.params.username);
+        let user = await userService.getFullUserByUsername(req.params.username);
         if(!user) {
             return res.status(404).send({ message: 'Not found' });
         }
@@ -599,7 +596,7 @@ module.exports.init = function(server, options) {
 
         await userService.update(user);
 
-        let updatedUser = await userService.getUserById(user._id);
+        let updatedUser = await userService.getUserById(user.id);
         let safeUser = updatedUser.getWireSafeDetails();
         let authToken;
 
@@ -625,7 +622,7 @@ module.exports.init = function(server, options) {
                 return a.lastUsed < b.lastUsed;
             }).map(t => {
                 return {
-                    id: t._id,
+                    id: t.id,
                     ip: t.ip,
                     lastUsed: t.lastUsed
                 };
@@ -643,17 +640,16 @@ module.exports.init = function(server, options) {
         }
 
         let user = await checkAuth(req, res);
-
         if(!user) {
             return;
         }
 
-        let session = await userService.getRefreshTokenById(req.params.username, req.params.id);
+        let session = await userService.getRefreshTokenById(user.id, req.params.id);
         if(!session) {
             return res.status(404).send({ message: 'Not found' });
         }
 
-        await userService.removeRefreshToken(req.params.username, req.params.id);
+        await userService.removeRefreshToken(user.id, req.params.id);
 
         res.send({ success: true, message: 'Session deleted successfully', tokenId: req.params.id });
     }));
@@ -688,10 +684,15 @@ module.exports.init = function(server, options) {
             return res.send({ success: false, message: 'Entry already on block list' });
         }
 
+        try {
+            await userService.addBlocklistEntry(user, lowerCaseUser);
+        } catch(err) {
+            return res.send({ success: false, message: 'Block list entry failed to add' });
+        }
+
         user.blockList.push(lowerCaseUser);
 
-        await userService.updateBlockList(user);
-        let updatedUser = await userService.getUserById(user._id);
+        let updatedUser = await userService.getUserById(user.id);
 
         res.send({ success: true, message: 'Block list entry added successfully', username: lowerCaseUser, user: updatedUser.getWireSafeDetails() });
     }));
@@ -721,12 +722,17 @@ module.exports.init = function(server, options) {
             return res.status(404).send({ message: 'Not found' });
         }
 
+        try {
+            await userService.deleteBlocklistEntry(user, lowerCaseUser);
+        } catch(err) {
+            return res.send({ success: false, message: 'Block list entry failed to remove' });
+        }
+
         user.blockList = _.reject(user.blockList, user => {
             return user === lowerCaseUser;
         });
 
-        await userService.updateBlockList(user);
-        let updatedUser = await userService.getUserById(user._id);
+        let updatedUser = await userService.getUserById(user.id);
 
         res.send({ success: true, message: 'Block list entry removed successfully', username: lowerCaseUser, user: updatedUser.getWireSafeDetails() });
     }));
@@ -765,14 +771,18 @@ module.exports.init = function(server, options) {
 
         let status = await patreonService.getPatreonStatusForUser(user);
 
-        if(status === 'pledged' && !user.permissions.isSupporter) {
-            await userService.setSupporterStatus(user.username, true);
-            // eslint-disable-next-line require-atomic-updates
-            user.permissions.isSupporter = req.user.permissions.isSupporter = true;
-        } else if(status !== 'pledged' && user.permissions.isSupporter) {
-            await userService.setSupporterStatus(user.username, false);
-            // eslint-disable-next-line require-atomic-updates
-            user.permissions.isSupporter = req.user.permissions.isSupporter = false;
+        try {
+            if(status === 'pledged' && !user.permissions.isSupporter) {
+                await userService.setSupporterStatus(user.id, true);
+                // eslint-disable-next-line require-atomic-updates
+                user.permissions.isSupporter = req.user.permissions.isSupporter = true;
+            } else if(status !== 'pledged' && user.permissions.isSupporter) {
+                await userService.setSupporterStatus(user.id, false);
+                // eslint-disable-next-line require-atomic-updates
+                user.permissions.isSupporter = req.user.permissions.isSupporter = false;
+            }
+        // eslint-disable-next-line no-empty
+        } catch(err) {
         }
 
         return res.send({ success: true });
@@ -797,7 +807,7 @@ module.exports.init = function(server, options) {
 };
 
 async function checkAuth(req, res) {
-    let user = await userService.getUserByUsername(req.params.username);
+    let user = await userService.getFullUserByUsername(req.params.username);
 
     if(!req.user) {
         res.status(401).send({ message: 'Unauthorized' });
