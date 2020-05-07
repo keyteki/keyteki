@@ -28,7 +28,11 @@ class FirstPlayerSelection extends AllPlayerPrompt {
     menuCommand(player, arg) {
         const otherPlayer = this.game.getOtherPlayer(player);
         let message;
-        if(arg === player.name) {
+
+        if(!otherPlayer) {
+            this.game.activePlayer = player;
+            message = '{0} will go first';
+        } else if(arg === player.name) {
             this.game.activePlayer = player;
             message = '{0} chooses to go first';
         } else if(arg === otherPlayer.name) {

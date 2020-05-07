@@ -57,6 +57,7 @@ class Card extends EffectSource {
         this.cardPrintedAmber = cardData.amber;
         this.maverick = cardData.maverick;
         this.anomaly = cardData.anomaly;
+        this.enhancements = cardData.enhancements;
 
         this.upgrades = [];
         this.parent = null;
@@ -149,6 +150,16 @@ class Card extends EffectSource {
         return persistentEffects.concat(this.abilities.keywordPersistentEffects, gainedPersistentEffects);
     }
 
+    get bonusIcons() {
+        if(this.anyEffect('copyCard')) {
+            return this.mostRecentEffect('copyCard').bonusIcons;
+        }
+
+        let result = this.printedAmber ? Array.from(Array(this.printedAmber), () => 'amber') : [];
+
+        return this.cardData.enhancements ? result.concat(this.cardData.enhancements) : result;
+    }
+
     setupAbilities() {
         this.setupKeywordAbilities(AbilityDsl);
         this.setupCardAbilities(AbilityDsl);
@@ -214,6 +225,7 @@ class Card extends EffectSource {
         this.abilities.keywordReactions.push(this.interrupt({
             when: {
                 onCardDestroyed: (event, context) => event.card === context.source && context.source.warded,
+                onCardPurged: (event, context) => event.card === context.source && context.source.warded,
                 onCardLeavesPlay: (event, context) => event.card === context.source && context.source.warded,
                 onDamageDealt: (event, context) => event.card === context.source && !context.event.noGameStateCheck && context.source.warded
             },
@@ -855,6 +867,7 @@ class Card extends EffectSource {
         // Include card specific information useful for UI rendering
         result.maverick = this.maverick;
         result.anomaly = this.anomaly;
+        result.enhancements = this.enhancements;
         result.cardPrintedAmber = this.cardPrintedAmber;
         result.locale = this.locale;
         return result;
@@ -878,8 +891,9 @@ class Card extends EffectSource {
 
         let state = {
             anomaly: this.anomaly,
-            id: this.cardData.id,
-            image: this.cardData.image,
+            enhancements: this.enhancements,
+            id: this.id,
+            image: this.image,
             canPlay: (activePlayer === this.game.activePlayer) && this.game.activePlayer.activeHouse &&
                 isController && (this.getLegalActions(activePlayer, false).length > 0),
             cardback: this.owner.deckData.cardback,
@@ -891,7 +905,7 @@ class Card extends EffectSource {
             facedown: this.facedown,
             location: this.location,
             menu: this.getMenu(),
-            name: this.cardData.name,
+            name: this.name,
             new: this.new,
             printedHouse: this.printedHouse,
             maverick: this.maverick,

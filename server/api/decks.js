@@ -1,16 +1,29 @@
-const monk = require('monk');
 const passport = require('passport');
 
 const ConfigService = require('../services/ConfigService');
 const DeckService = require('../services/DeckService.js');
 const { wrapAsync } = require('../util.js');
+const logger = require('../log.js');
 
 const configService = new ConfigService();
 
-let db = monk(configService.getValue('dbPath'));
-let deckService = new DeckService(db);
+let deckService = new DeckService(configService);
 
 module.exports.init = function(server) {
+    server.get('/api/standalone-decks', wrapAsync(async function(req, res) {
+        let decks;
+
+        try {
+            decks = await deckService.getStandaloneDecks();
+        } catch(err) {
+            logger.error('Failed to get standalone decks', err);
+
+            throw new Error('Failed to get standalone decks');
+        }
+
+        res.send({ success: true, decks: decks });
+    }));
+
     server.get('/api/decks/:id', passport.authenticate('jwt', { session: false }), wrapAsync(async function(req, res) {
         if(!req.params.id || req.params.id === '') {
             return res.status(404).send({ message: 'No such deck' });
@@ -30,7 +43,7 @@ module.exports.init = function(server) {
     }));
 
     server.get('/api/decks', passport.authenticate('jwt', { session: false }), wrapAsync(async function(req, res) {
-        let decks = (await deckService.findByUserName(req.user.username)).map(deck => {
+        let decks = (await deckService.findForUser(req.user)).map(deck => {
             let deckUsageLevel = 0;
             if(deck.usageCount > configService.getValueForSection('lobby', 'lowerDeckThreshold')) {
                 deckUsageLevel = 1;
@@ -49,6 +62,7 @@ module.exports.init = function(server) {
 
             return deck;
         });
+
         res.send({ success: true, decks: decks });
     }));
 
@@ -61,7 +75,7 @@ module.exports.init = function(server) {
         let savedDeck;
 
         try {
-            savedDeck = await deckService.create(deck);
+            savedDeck = await deckService.create(req.user, deck);
         } catch(error) {
             return res.send({ success: false, message: 'An error occurred importing your deck.  Please check the Url or try again later.' });
         }

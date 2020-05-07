@@ -7,13 +7,12 @@ const path = require('path');
 const CardService = require('../../services/CardService.js');
 
 class CardImport {
-    constructor(db, dataSource, imageSource, imageDir, language) {
-        this.db = db;
+    constructor(dataSource, imageSource, imageDir, language) {
         this.dataSource = dataSource;
         this.imageSource = imageSource;
         this.imageDir = imageDir;
         this.language = language;
-        this.cardService = new CardService(db);
+        this.cardService = new CardService();
     }
 
     async import() {
@@ -21,8 +20,6 @@ class CardImport {
             await this.importCards();
         } catch(e) {
             console.log('Unable to fetch data', e);
-        } finally {
-            this.db.close();
         }
     }
 

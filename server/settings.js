@@ -1,9 +1,6 @@
 const defaultOptionSettings = {
-    markCardsUnselectable: true,
-    cancelOwnAbilities: false,
     orderForcedAbilities: false,
-    confirmOneClick: true,
-    showStatusInSidebar: false
+    confirmOneClick: true
 };
 
 const defaultSettings = {
@@ -28,6 +25,7 @@ function getUserWithDefaultsSet(user) {
 
     return userToReturn;
 }
-module.exports = {
+
+module.exports = {
     getUserWithDefaultsSet: getUserWithDefaultsSet
 };

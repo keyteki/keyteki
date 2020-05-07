@@ -1,15 +1,11 @@
 /*eslint no-console:0 */
 const commandLineArgs = require('command-line-args');
-const monk = require('monk');
 const path = require('path');
 
-const ConfigService = require('../services/ConfigService');
 const CardImport = require('./fetchdata/CardImport');
 const KeyforgeImageSource = require('./fetchdata/KeyforgeImageSource');
 const JsonCardSource = require('./fetchdata/JsonCardSource');
 const NoImageSource = require('./fetchdata/NoImageSource');
-
-let configService = new ConfigService();
 
 const optionsDefinition = [
     { name: 'card-source', type: String, defaultValue: 'json' },
@@ -28,7 +24,8 @@ function createDataSource(options) {
 
     throw new Error(`Unknown card source '${options['card-source']}'`);
 }
-function createImageSource(options) {
+
+function createImageSource(options) {
     if(options['no-images']) {
         return new NoImageSource();
     }
@@ -42,12 +39,12 @@ function createDataSource(options) {
 
     throw new Error(`Unknown image source '${options['image-source']}'`);
 }
-let options = commandLineArgs(optionsDefinition);
 
-let db = monk(configService.getValue('dbPath'));
+let options = commandLineArgs(optionsDefinition);
+
 let dataSource = createDataSource(options);
 let imageSource = createImageSource(options);
 
-let cardImport = new CardImport(db, dataSource, imageSource, options['image-dir'], options['language']);
+let cardImport = new CardImport(dataSource, imageSource, options['image-dir'], options['language']);
 
 cardImport.import();

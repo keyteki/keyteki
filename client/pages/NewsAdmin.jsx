@@ -18,11 +18,11 @@ class NewsAdmin extends React.Component {
         this.onSaveClick = this.onSaveClick.bind(this);
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.props.loadNews({ limit: 5, forceLoad: true });
     }
 
-    componentWillUpdate(props) {
+    componentDidUpdate(props) {
         if(props.newsChanged) {
             setTimeout(() => {
                 this.props.clearNewsStatus();
@@ -51,7 +51,7 @@ class NewsAdmin extends React.Component {
     }
 
     onEditClick(item) {
-        this.setState({ editItemId: item._id, editText: item.text });
+        this.setState({ editItemId: item.id, editText: item.text });
     }
 
     onSaveClick() {
@@ -63,21 +63,21 @@ class NewsAdmin extends React.Component {
         let content = null;
 
         var renderedNews = this.props.news.map(newsItem => {
-            return (<tr key={ newsItem._id }>
+            return (<tr key={ newsItem.id }>
                 <td>{ moment(newsItem.datePublished).format('YYYY-MM-DD') }</td>
                 <td>{ newsItem.poster }</td>
                 <td>
-                    { this.state.editItemId === newsItem._id ?
+                    { this.state.editItemId === newsItem.id ?
                         <TextArea name='newsEditText' value={ this.state.editText } onChange={ this.onEditTextChange.bind(this) } rows='4' /> :
                         newsItem.text }
                 </td>
                 <td>
                     <div className='btn-group'>
-                        { this.state.editItemId === newsItem._id ?
+                        { this.state.editItemId === newsItem.id ?
                             <button type='button' className='btn btn-primary' onClick={ this.onSaveClick }>Save</button> :
                             <button type='button' className='btn btn-primary' onClick={ this.onEditClick.bind(this, newsItem) }>Edit</button>
                         }
-                        <button type='button' className='btn btn-danger' onClick={ this.onDeleteClick.bind(this, newsItem._id) }>Delete</button>
+                        <button type='button' className='btn btn-danger' onClick={ this.onDeleteClick.bind(this, newsItem.id) }>Delete</button>
                     </div>
                 </td>
             </tr>);

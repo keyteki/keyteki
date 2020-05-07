@@ -28,6 +28,7 @@ const Effects = {
     fightAbilitiesAddReap: () => EffectBuilder.card.static('fightAbilitiesAddReap'),
     ignores: (trait) => EffectBuilder.card.static('ignores', trait),
     keyAmber: () => EffectBuilder.card.static('keyAmber'),
+    keyAmberOpponent: () => EffectBuilder.card.static('keyAmberOpponent'),
     limitFightDamage: (amount) => EffectBuilder.card.flexible('limitFightDamage', amount),
     modifyAmberValue: (amount) => EffectBuilder.card.flexible('modifyAmberValue', amount),
     modifyArmor: (amount) => EffectBuilder.card.flexible('modifyArmor', amount),
@@ -74,6 +75,7 @@ const Effects = {
         unapply: (player, context, effect) => context.game.effectEngine.removeDelayedEffect(effect)
     }),
     forgeAmberGainedByOpponent: () => EffectBuilder.player.static('forgeAmberGainedByOpponent'),
+    mayResolveBonusIconsAs: (newIcon, icon = 'any') => EffectBuilder.player.static('mayResolveBonusIconsAs', { newIcon: newIcon, icon: icon }),
     modifyKeyCost: (amount) => EffectBuilder.player.flexible('modifyKeyCost', amount),
     modifyHandSize: (amount) => EffectBuilder.player.flexible('modifyHandSize', amount),
     noActiveHouseForPlay: () => EffectBuilder.player.static('noActiveHouseForPlay'),

@@ -6,7 +6,7 @@ describe('Self-Bolstering Automata', function() {
                     player1: {
                         house: 'logos',
                         inPlay: ['self-bolstering-automata', 'pip-pip'],
-                        hand: ['bouncing-deathquark']
+                        hand: ['bouncing-deathquark', 'positron-bolt']
                     },
                     player2: {
                         amber: 1,
@@ -29,8 +29,8 @@ describe('Self-Bolstering Automata', function() {
                         expect(this.player1.player.cardsInPlay[1]).toBe(this.selfBolsteringAutomata);
                     });
 
-                    it('should gain 2 +1 power counters', function() {
-                        expect(this.selfBolsteringAutomata.tokens.power).toBe(2);
+                    it('should not gain 2 +1 power counters, since it was exhausted by fighting', function() {
+                        expect(this.selfBolsteringAutomata.tokens.power).toBeUndefined();
                     });
                 });
             });
@@ -45,6 +45,25 @@ describe('Self-Bolstering Automata', function() {
                     it('should not stop automata from being destroyed', function() {
                         expect(this.selfBolsteringAutomata.location).toBe('discard');
                     });
+                });
+            });
+
+            describe('when destroyed with damage', function() {
+                beforeEach(function() {
+                    this.pipPip.tokens.ward = 1;
+                    this.player1.play(this.positronBolt);
+                    this.player1.clickCard(this.selfBolsteringAutomata);
+                    this.player1.clickCard(this.pipPip);
+                });
+
+                it('should fully heal automata, not destroy it, exhaust it and move it to the right flank and get 2 +1 power counters', function() {
+                    expect(this.player1).toHavePrompt('Self-Bolstering Automata');
+                    this.player1.clickPrompt('right');
+                    expect(this.selfBolsteringAutomata.tokens.damage).toBe(undefined);
+                    expect(this.selfBolsteringAutomata.location).toBe('play area');
+                    expect(this.selfBolsteringAutomata.exhausted).toBe(true);
+                    expect(this.player1.player.cardsInPlay[1]).toBe(this.selfBolsteringAutomata);
+                    expect(this.selfBolsteringAutomata.tokens.power).toBe(2);
                 });
             });
 

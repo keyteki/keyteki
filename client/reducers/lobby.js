@@ -3,7 +3,8 @@ const _ = require('underscore');
 const defaultState = {
     games: [],
     users: [],
-    messages: []
+    messages: [],
+    windowBlurred: false
 };
 
 export default function(state = defaultState, action) {
@@ -71,6 +72,14 @@ export default function(state = defaultState, action) {
             return Object.assign({}, state, {
                 newGame: false,
                 currentGame: undefined
+            });
+        case 'WINDOW_BLUR':
+            return Object.assign({}, state, {
+                windowBlurred: true
+            });
+        case 'WINDOW_FOCUS':
+            return Object.assign({}, state, {
+                windowBlurred: false
             });
     }
 
@@ -209,9 +218,11 @@ function handleMessage(action, state) {
         case 'removemessage':
             newState = Object.assign({}, state);
 
-            newState.messages = newState.messages.filter(message => {
-                return message._id !== action.args[0];
-            });
+            var message = newState.messages.find(message => message.id === parseInt(action.args[0]));
+            message.deletedBy = action.args[1];
+            message.deleted = true;
+
+            newState.messages = [].concat(newState.messages);
 
             break;
         case 'banner':

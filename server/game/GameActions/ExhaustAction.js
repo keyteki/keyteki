@@ -15,6 +15,10 @@ class ExhaustAction extends CardGameAction {
         return super.canAffect(card, context);
     }
 
+    checkEventCondition(event) {
+        return !event.card.exhausted && super.checkEventCondition(event);
+    }
+
     getEvent(card, context) {
         return super.createEvent('onCardExhausted', { card: card, context: context }, () => card.exhaust());
     }

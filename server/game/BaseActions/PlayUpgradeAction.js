@@ -14,12 +14,10 @@ class PlayUpgradeAction extends BasePlayAction {
     }
 
     displayMessage(context) {
-        let amberMsg = context.source.printedAmber > 0 ? ', gaining ' + context.source.printedAmber.toString() + ' amber' : '';
-        context.game.actions.gainAmber({ amount: context.source.printedAmber }).resolve(context.player, context);
         if(context.target) {
-            context.game.addMessage('{0} plays {1}{2}{3} attaching it to {4}', context.player, context.source, amberMsg, context.source.printedAmber > 0 ? '' : ',', context.target);
+            context.game.addMessage('{0} plays {1}{2} attaching it to {4}', context.player, context.source, context.source.printedAmber > 0 ? '' : ',', context.target);
         } else {
-            context.game.addMessage('{0} plays {1}{2} and it is discarded', context.player, context.source, amberMsg);
+            context.game.addMessage('{0} plays {1} and it is discarded', context.player, context.source);
         }
     }
 
@@ -39,6 +37,7 @@ class PlayUpgradeAction extends BasePlayAction {
             event.addChildEvent(changeTypeEvent);
         }
 
+        this.addBonusIconResolution(event, context);
         context.game.openEventWindow(event);
     }
 }

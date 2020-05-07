@@ -24,8 +24,26 @@ describe('Spangler Box', function() {
                 expect(this.player1).toBeAbleToSelect(this.stealerOfSouls);
                 this.player1.clickCard(this.silvertooth);
                 expect(this.silvertooth.location).toBe('purged');
+                expect(this.silvertooth.parent).toBe(this.spanglerBox);
+                expect(this.spanglerBox.childCards).toContain(this.silvertooth);
                 expect(this.spanglerBox.controller).toBe(this.player2.player);
                 expect(this.player2.player.cardsInPlay).toContain(this.spanglerBox);
+                expect(this.spanglerBox.exhausted).toBe(true);
+            });
+
+            it('should not purge warded creatures and remain under owner control', function() {
+                this.silvertooth.tokens.ward = 1;
+                this.player1.clickCard(this.spanglerBox);
+                this.player1.clickPrompt('Use this card\'s Action ability');
+                expect(this.player1).toHavePrompt('Spangler Box');
+                expect(this.player1).toBeAbleToSelect(this.docBookton);
+                expect(this.player1).toBeAbleToSelect(this.silvertooth);
+                expect(this.player1).toBeAbleToSelect(this.stealerOfSouls);
+                this.player1.clickCard(this.silvertooth);
+                expect(this.silvertooth.location).toBe('play area');
+                expect(this.silvertooth.tokens.ward).toBeUndefined();
+                expect(this.spanglerBox.controller).toBe(this.player1.player);
+                expect(this.player1.player.cardsInPlay).toContain(this.spanglerBox);
                 expect(this.spanglerBox.exhausted).toBe(true);
             });
 

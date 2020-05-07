@@ -17,10 +17,13 @@ class Application extends React.Component {
 
         this.router = new Router();
 
+        this.onFocusChange = this.onFocusChange.bind(this);
+        this.blinkTab = this.blinkTab.bind(this);
         this.state = {
         };
     }
 
+    // eslint-disable-next-line react/no-deprecated
     componentWillMount() {
         if(!localStorage) {
             this.setState({ incompatibleBrowser: true });
@@ -42,6 +45,7 @@ class Application extends React.Component {
 
         this.props.loadCards();
         this.props.loadFactions();
+        this.props.loadStandaloneDecks();
 
         $(document).ajaxError((event, xhr) => {
             if(xhr.status === 403) {
@@ -50,12 +54,58 @@ class Application extends React.Component {
         });
 
         this.props.connectLobby();
+        window.addEventListener('focus', this.onFocusChange);
+        window.addEventListener('blur', this.onFocusChange);
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(props) {
         if(!this.props.currentGame) {
             this.props.setContextMenu([]);
         }
+
+        if(!props.windowBlurred || this.props.windowBlurred) {
+            this.blinkTab();
+        }
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('focus', this.onFocusChange);
+        window.removeEventListener('blur', this.onFocusChange);
+    }
+
+    blinkTab() {
+        if(!this.props.currentGame || !this.props.currentGame.players) {
+            return;
+        }
+
+        if(Object.keys(this.props.currentGame.players).length < 2) {
+            return;
+        }
+
+        const activePlayer = Object.values(this.props.currentGame.players).find(x => x.activePlayer);
+        if(activePlayer && this.props.user && activePlayer.name === this.props.user.username) {
+            let oldTitle = document.title;
+            let msg = 'Alert!';
+            let timeoutId = false;
+
+            let blink = function () {
+                document.title = document.title === msg ? oldTitle : msg;
+
+                if(document.hasFocus()) {
+                    document.title = oldTitle;
+                    clearInterval(timeoutId);
+                }
+            };
+
+            if(!timeoutId) {
+                timeoutId = setInterval(blink, 500);
+            }
+        }
+    }
+
+
+    onFocusChange(event) {
+        this.props.setWindowBlur(event.type);
     }
 
     render() {
@@ -107,12 +157,15 @@ Application.propTypes = {
     loadFactions: PropTypes.func,
     loadPacks: PropTypes.func,
     loadRestrictedList: PropTypes.func,
+    loadStandaloneDecks: PropTypes.func,
     navigate: PropTypes.func,
     path: PropTypes.string,
     setAuthTokens: PropTypes.func,
     setContextMenu: PropTypes.func,
+    setWindowBlur: PropTypes.func,
     token: PropTypes.string,
-    user: PropTypes.object
+    user: PropTypes.object,
+    windowBlurred: PropTypes.bool
 };
 
 function mapStateToProps(state) {
@@ -120,7 +173,8 @@ function mapStateToProps(state) {
         currentGame: state.lobby.currentGame,
         path: state.navigation.path,
         token: state.account.token,
-        user: state.account.user
+        user: state.account.user,
+        windowBlurred: state.lobby.windowBlurred
     };
 }
 

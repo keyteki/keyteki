@@ -6,8 +6,8 @@ class User {
         this.invalidDecks = undefined;
     }
 
-    get _id() {
-        return this.userData._id;
+    get id() {
+        return this.userData.id;
     }
 
     get disabled() {
@@ -117,7 +117,7 @@ class User {
 
     getWireSafeDetails() {
         let user = {
-            _id: this.userData._id,
+            id: this.userData.id,
             username: this.userData.username,
             email: this.userData.email,
             settings: this.userData.settings,
