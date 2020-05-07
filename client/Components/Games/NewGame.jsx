@@ -16,7 +16,7 @@ class NewGame extends React.Component {
         super(props);
 
         this.onCancelClick = this.onCancelClick.bind(this);
-        this.onGameHiddenClick = this.onGameHiddenClick.bind(this);
+        this.ongamePrivateClick = this.ongamePrivateClick.bind(this);
         this.onGameTimeLimitChange = this.onGameTimeLimitChange.bind(this);
         this.onHideDecklistsClick = this.onHideDecklistsClick.bind(this);
         this.onMuteSpectatorsClick = this.onMuteSpectatorsClick.bind(this);
@@ -29,8 +29,8 @@ class NewGame extends React.Component {
 
         this.state = {
             expansions: { cota: false, aoa: false, wc: true },
-            gameHidden: false,
             gameName: this.props.defaultGameName,
+            gamePrivate: false,
             gameTimeLimit: 35,
             hideDecklists: false,
             muteSpectators: false,
@@ -89,7 +89,7 @@ class NewGame extends React.Component {
         this.props.socket.emit('newgame', {
             expansions: this.state.expansions,
             gameFormat: this.state.selectedGameFormat,
-            gameHidden: this.state.gameHidden,
+            gamePrivate: this.state.gamePrivate,
             gameTimeLimit: this.state.gameTimeLimit,
             gameType: this.state.selectedGameType,
             hideDecklists: this.state.hideDecklists,
@@ -131,8 +131,8 @@ class NewGame extends React.Component {
         this.setState({ gameTimeLimit: event.target.value });
     }
 
-    onGameHiddenClick(event) {
-        this.setState({ gameHidden: event.target.checked });
+    ongamePrivateClick(event) {
+        this.setState({ gamePrivate: event.target.checked });
     }
 
     isGameTypeSelected(gameType) {
@@ -155,8 +155,8 @@ class NewGame extends React.Component {
                 onChange={ this.onMuteSpectatorsClick } checked={ this.state.muteSpectators }/>
             <Checkbox name='timeLimit' noGroup label={ t('Use a time limit (in minutes)') } fieldClass='col-sm-12'
                 onChange={ this.onUseGameTimeLimitClick } checked={ this.state.useGameTimeLimit }/>
-            <Checkbox name='gameHidden' noGroup label={ t('Hide game in lobby') } fieldClass='col-sm-12'
-                onChange={ this.onGameHiddenClick } checked={ this.state.gameHidden }/>
+            <Checkbox name='gamePrivate' noGroup label={ t('Private game (Requires game link to join)') } fieldClass='col-sm-12'
+                onChange={ this.ongamePrivateClick } checked={ this.state.gamePrivate }/>
             { this.state.useGameTimeLimit && <div className='col-sm-4'>
                 <input className='form-control' type='number' onChange={ this.onGameTimeLimitChange } value={ this.state.gameTimeLimit }/>
             </div> }

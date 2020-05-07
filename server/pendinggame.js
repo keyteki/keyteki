@@ -13,7 +13,7 @@ class PendingGame {
         this.expansions = details.expansions;
         this.gameChat = new GameChat();
         this.gameFormat = details.gameFormat;
-        this.gameHidden = !!details.gameHidden;
+        this.gamePrivate = !!details.gamePrivate;
         this.gameTimeLimit = details.gameTimeLimit;
         this.gameType = details.gameType;
         this.hideDecklists = details.hideDecklists;
@@ -65,7 +65,7 @@ class PendingGame {
             adaptive: this.adaptive,
             expansions: this.expansions,
             gameFormat: this.gameFormat,
-            gameHidden: this.gameHidden,
+            gamePrivate: this.gamePrivate,
             gameId: this.id,
             gameType: this.gameType,
             players: players,
@@ -309,7 +309,7 @@ class PendingGame {
             allowSpectators: this.allowSpectators,
             createdAt: this.createdAt,
             gameFormat: this.gameFormat,
-            gameHidden: this.gameHidden,
+            gamePrivate: this.gamePrivate,
             gameType: this.gameType,
             id: this.id,
             messages: activePlayer ? this.gameChat.messages : undefined,
@@ -361,7 +361,7 @@ class PendingGame {
             allowSpectators: this.allowSpectators,
             createdAt: this.createdAt,
             gameFormat: this.gameFormat,
-            gameHidden: this.gameHidden,
+            gamePrivate: this.gamePrivate,
             gameTimeLimit: this.gameTimeLimit,
             gameType: this.gameType,
             hideDecklists: this.hideDecklists,

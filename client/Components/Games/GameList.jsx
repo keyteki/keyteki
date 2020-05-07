@@ -150,7 +150,7 @@ class GameList extends React.Component {
                 continue;
             }
 
-            if(game.gameHidden && !game.started) {
+            if(game.gamePrivate && !game.started) {
                 continue;
             }
 
