@@ -7,27 +7,28 @@ const logger = require('./log');
 
 class PendingGame {
     constructor(owner, details) {
+        this.adaptive = details.adaptive;
+        this.allowSpectators = details.spectators;
+        this.createdAt = new Date();
+        this.expansions = details.expansions;
+        this.gameChat = new GameChat();
+        this.gameFormat = details.gameFormat;
+        this.gameHidden = !!details.gameHidden;
+        this.gameTimeLimit = details.gameTimeLimit;
+        this.gameType = details.gameType;
+        this.hideDecklists = details.hideDecklists;
+        this.id = uuid.v1();
+        this.muteSpectators = details.muteSpectators;
+        this.name = details.name;
+        this.node = {};
         this.owner = owner;
         this.players = {};
-        this.spectators = {};
-        this.id = uuid.v1();
-        this.name = details.name;
-        this.allowSpectators = details.spectators;
-        this.showHand = details.showHand;
-        this.muteSpectators = details.muteSpectators;
-        this.gameType = details.gameType;
-        this.gameFormat = details.gameFormat;
-        this.swap = !!details.swap;
-        this.adaptive = details.adaptive;
-        this.expansions = details.expansions;
-        this.started = false;
-        this.node = {};
-        this.createdAt = new Date();
-        this.gameChat = new GameChat();
-        this.useGameTimeLimit = details.useGameTimeLimit;
-        this.gameTimeLimit = details.gameTimeLimit;
-        this.hideDecklists = details.hideDecklists;
         this.previousWinner = details.previousWinner;
+        this.showHand = details.showHand;
+        this.spectators = {};
+        this.started = false;
+        this.swap = !!details.swap;
+        this.useGameTimeLimit = details.useGameTimeLimit;
     }
 
     // Getters
@@ -61,15 +62,16 @@ class PendingGame {
         });
 
         return {
+            adaptive: this.adaptive,
+            expansions: this.expansions,
+            gameFormat: this.gameFormat,
+            gameHidden: this.gameHidden,
             gameId: this.id,
             gameType: this.gameType,
-            gameFormat: this.gameFormat,
-            adaptive: this.adaptive,
-            swap: this.swap,
-            previousWinner: this.previousWinner,
-            expansions: this.expansions,
             players: players,
-            startedAt: this.createdAt
+            previousWinner: this.previousWinner,
+            startedAt: this.createdAt,
+            swap: this.swap
         };
     }
 
@@ -93,18 +95,18 @@ class PendingGame {
         this.players[user.username] = {
             id: id,
             name: user.username,
-            user: user,
             owner: this.owner.username === user.username,
+            user: user,
             wins: 0
         };
     }
 
     addSpectator(id, user) {
         this.spectators[user.username] = {
+            emailHash: user.emailHash,
             id: id,
             name: user.username,
-            user: user,
-            emailHash: user.emailHash
+            user: user
         };
     }
 
@@ -280,7 +282,7 @@ class PendingGame {
         let playersInGame = _.filter(this.players, player => !player.left);
 
         _.each(playersInGame, player => {
-            let deck = undefined;
+            let deck;
 
             if(activePlayer === player.name && player.deck && this.gameFormat !== 'sealed') {
                 deck = { name: player.deck.name, selected: player.deck.selected, status: player.deck.status };
@@ -291,25 +293,24 @@ class PendingGame {
             }
 
             playerSummaries[player.name] = {
-                houses: this.started && player.deck ? player.deck.houses : [],
                 deck: activePlayer ? deck : {},
+                houses: this.started && player.deck ? player.deck.houses : [],
                 id: player.id,
                 left: player.left,
                 name: player.name,
                 owner: player.owner,
-                wins: player.wins,
-                role: player.user.role
+                role: player.user.role,
+                wins: player.wins
             };
         });
 
         return {
+            adaptive: this.adaptive,
             allowSpectators: this.allowSpectators,
             createdAt: this.createdAt,
-            gameType: this.gameType,
             gameFormat: this.gameFormat,
-            swap: this.swap,
-            previousWinner: this.previousWinner,
-            adaptive: this.adaptive,
+            gameHidden: this.gameHidden,
+            gameType: this.gameType,
             id: this.id,
             messages: activePlayer ? this.gameChat.messages : undefined,
             muteSpectators: this.muteSpectators,
@@ -318,8 +319,10 @@ class PendingGame {
             node: this.node ? this.node.identity : undefined,
             owner: this.owner.username,
             players: playerSummaries,
+            previousWinner: this.previousWinner,
             showHand: this.showHand,
             started: this.started,
+            swap: this.swap,
             spectators: _.map(this.spectators, spectator => {
                 return {
                     id: spectator.id,
@@ -327,8 +330,7 @@ class PendingGame {
                     settings: spectator.settings
                 };
             }),
-            useGameTimeLimit: this.useGameTimeLimit,
-            gameTimeLimit: this.gameTimeLimit
+            useGameTimeLimit: this.useGameTimeLimit
         };
     }
 
@@ -355,25 +357,26 @@ class PendingGame {
         }
 
         return {
+            adaptive: this.adaptive,
             allowSpectators: this.allowSpectators,
             createdAt: this.createdAt,
-            gameType: this.gameType,
             gameFormat: this.gameFormat,
-            swap: this.swap,
-            previousWinner: this.previousWinner,
-            adaptive: this.adaptive,
+            gameHidden: this.gameHidden,
+            gameTimeLimit: this.gameTimeLimit,
+            gameType: this.gameType,
+            hideDecklists: this.hideDecklists,
             id: this.id,
             muteSpectators: this.muteSpectators,
             name: this.name,
             needsPassword: !!this.password,
             owner: this.owner.getDetails(),
             players,
+            previousWinner: this.previousWinner,
             showHand: this.showHand,
-            started: this.started,
             spectators,
-            useGameTimeLimit: this.useGameTimeLimit,
-            gameTimeLimit: this.gameTimeLimit,
-            hideDecklists: this.hideDecklists
+            started: this.started,
+            swap: this.swap,
+            useGameTimeLimit: this.useGameTimeLimit
         };
     }
 }

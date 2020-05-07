@@ -982,6 +982,7 @@ class Lobby {
             syncGame.started = game.started;
             syncGame.gameType = game.gameType;
             syncGame.gameFormat = game.gameFormat;
+            syncGame.gameHidden = game.gameHidden;
             syncGame.adaptive = game.adaptive;
             syncGame.password = game.password;
 
