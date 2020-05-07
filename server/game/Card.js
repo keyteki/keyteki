@@ -213,7 +213,7 @@ class Card extends EffectSource {
         // warded
         this.abilities.keywordReactions.push(this.interrupt({
             when: {
-                onCardMarkedForDestruction: (event, context) => event.card === context.source && context.source.warded,
+                onCardDestroyed: (event, context) => event.card === context.source && context.source.warded,
                 onCardLeavesPlay: (event, context) => event.card === context.source && context.source.warded,
                 onDamageDealt: (event, context) => event.card === context.source && !context.event.noGameStateCheck && context.source.warded
             },
@@ -258,7 +258,10 @@ class Card extends EffectSource {
     }
 
     destroyed(properties) {
-        return this.interrupt(Object.assign({ when: { onCardDestroyed: (event, context) => event.card === context.source } }, properties));
+        return this.interrupt(Object.assign({ when: {
+            onCardLeavesPlay: (event, context) =>
+                event.triggeringEvent && event.triggeringEvent.name === 'onCardDestroyed' && event.card === context.source
+        } }, properties));
     }
 
     leavesPlay(properties) {

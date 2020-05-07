@@ -1,27 +1,31 @@
 const _ = require('underscore');
 
 class Event {
-    constructor(name, params = {}, handler) {
+    constructor(name, params = {}, handler, gameAction) {
         this.name = name;
         this.cancelled = false;
+        this.resolved = false;
         this.handler = handler;
         this.card = null;
         this.context = null;
+        this.gameAction = gameAction;
         this.condition = (event) => true; // eslint-disable-line no-unused-vars
-        this.onCancel = (event) => true;
         this.order = 0;
         this.parentEvent = null;
         this.childEvent = null;
-        this.sharedReactionEvent = null;
-        this.sharesReactionWindowWithEvent = null;
-        this.nextEvent = null;
-        //this.previousEvent = null;
+        this.subEvent = null;
+        this.openReactionWindow = true;
 
         _.extend(this, params);
+
+        if(this.card) {
+            this.clone = this.card.createSnapshot();
+        }
     }
 
     cancel() {
         this.cancelled = true;
+        this.resolved = false;
     }
 
     addChildEvent(event) {
@@ -29,77 +33,46 @@ class Event {
             return;
         }
 
+        if(event.childEvent) {
+            this.addChildEvent(event.childEvent);
+            event.childEvent = null;
+        }
+
         if(this.childEvent) {
             this.childEvent.addChildEvent(event);
         } else {
-            event.parentEvent = this;
             this.childEvent = event;
-            if(event.nextEvent) {
-                this.addNextEvent(event.nextEvent);
-                event.nextEvent = null;
+            event.parentEvent = this;
+            if(event.subEvent) {
+                this.addSubEvent(event.subEvent);
+                event.subEvent = null;
             }
         }
     }
 
     getSimultaneousEvents() {
-        return this.parentEvent ? this.parentEvent.getSimultaneousEvents() : this.getChildEvents();
+        let events = this.parentEvent ? this.parentEvent.getSimultaneousEvents() : this.getChildEvents();
+        return events.filter(event => !event.cancelled);
     }
 
     getChildEvents() {
-        let events = this.cancelled ? [] : [this];
-
-        if(this.childEvent) {
-            return events.concat(this.childEvent.getChildEvents());
-        }
-
-        return events;
+        let events = [this];
+        return this.childEvent ? events.concat(this.childEvent.getChildEvents()) : events;
     }
 
-    addSharedReactionEvent(event) {
-        if(this.getSharedReactionEvents().includes(event)) {
+    addSubEvent(event) {
+        if(this.subEvent && this.subEvent.getSimultaneousEvents().includes(event)) {
             return;
         }
 
-        if(this.sharedReactionEvent) {
-            this.sharedReactionEvent.addSharedReactionEvent(event);
+        if(this.subEvent) {
+            this.subEvent.addChildEvent(event);
         } else if(this.parentEvent) {
-            this.parentEvent.addSharedReactionEvent(event);
+            this.parentEvent.addSubEvent(event);
         } else {
-            this.sharedReactionEvent = event;
+            this.subEvent = event;
+            event.openReactionWindow = false;
         }
-    }
-
-    getSharedReactionEvents() {
-        let events = this.getChildEvents();
-        if(this.sharedReactionEvent) {
-            return events.concat(this.sharedReactionEvent.getSharedReactionEvents());
-        }
-
-        return events;
-    }
-
-    addNextEvent(event) {
-        if(this.parentEvent) {
-            this.parentEvent.addNextEvent(event);
-        } else if(this.nextEvent) {
-            this.nextEvent.addChildEvent(event);
-        } else {
-            this.nextEvent = event;
-            //event.previousEvent = this;
-        }
-    }
-    /*
-    findFirstEvent(predicate = () => true) {
-        if(this.previousEvent && this.previousEvent.findFirstEvent(predicate)) {
-            return this.previousEvent.findFirstEvent(predicate);
-        }
-
-        return this.getChildEvents().find(predicate);
-    } */
-
-    sharesReactionWindowWith(event) {
-        event.addSharedReactionEvent(this);
-        this.sharesReactionWindowWithEvent = event;
     }
 
     checkCondition() {
@@ -107,11 +80,11 @@ class Event {
             this.childEvent.checkCondition();
         }
 
-        if(this.resolved || this.name === 'unnamedEvent' || this.cancelled) {
+        if(this.resolved || this.cancelled) {
             return;
         }
 
-        if(!this.condition(this)) {
+        if(!this.condition(this) || this.gameAction && !this.gameAction.checkEventCondition(this)) {
             this.cancel();
             return;
         }

@@ -27,7 +27,7 @@ class TerminalCondition {
 
     checkCondition() {
         return this.condition() && (!this.gameAction || this.gameAction.canAffect(this.target, this.context)) &&
-            (!this.event || this.event.cancelled || this.event.isFullyResolved(this.event));
+            (!this.event || this.event.cancelled || this.event.leavesPlayEvent.resolved && this.event.card !== this.target);
     }
 
     getEvent() {

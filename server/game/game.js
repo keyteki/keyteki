@@ -25,7 +25,6 @@ const GameWonPrompt = require('./gamesteps/GameWonPrompt');
 const GameActions = require('./GameActions');
 const Event = require('./Events/Event');
 const EventWindow = require('./Events/EventWindow');
-const ThenEventWindow = require('./Events/ThenEventWindow');
 const AbilityResolver = require('./gamesteps/abilityresolver');
 const SimultaneousEffectWindow = require('./gamesteps/SimultaneousEffectWindow');
 const AbilityContext = require('./AbilityContext');
@@ -758,7 +757,9 @@ class Game extends EventEmitter {
      */
     openEventWindow(event) {
         if(_.isArray(event)) {
-            if(event.length > 1) {
+            if(event.length === 0) {
+                return;
+            } else if(event.length > 1) {
                 for(let e of event.slice(1)) {
                     event[0].addChildEvent(e);
                 }
@@ -960,7 +961,7 @@ class Game extends EventEmitter {
         this.addAlert('info', '{0} has reconnected', player);
     }
 
-    checkGameState(hasChanged = false, events = []) {
+    checkGameState(hasChanged = false) {
         // check for a game state change (recalculating conflict skill if necessary)
         if(this.effectEngine.checkEffects(hasChanged) || hasChanged) {
             this.checkWinCondition();
@@ -993,7 +994,9 @@ class Game extends EventEmitter {
             // any terminal conditions which have met their condition
             this.effectEngine.checkTerminalConditions();
         }
+    }
 
+    checkDelayedEffects(events) {
         if(events.length > 0) {
             // check for any delayed effects which need to fire
             this.effectEngine.checkDelayedEffects(events);

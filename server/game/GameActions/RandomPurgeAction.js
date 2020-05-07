@@ -19,7 +19,7 @@ class RandomPurgeAction extends PlayerAction {
     }
 
     getEvent(player, context) {
-        return super.createEvent('unnamedEvent', {}, () => {
+        return super.createEvent('unnamedEvent', { player, context }, () => {
             let amount = Math.min(this.amount, player.hand.length);
             let cards = _.shuffle(player.hand).slice(0, amount);
             if(this.location === 'archives') {

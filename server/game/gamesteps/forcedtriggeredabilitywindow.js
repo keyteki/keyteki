@@ -213,9 +213,6 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
     emitEvents() {
         this.choices = [];
         let events = this.eventWindow.event.getSimultaneousEvents();
-        if(this.abilityType === 'reaction' && this.eventWindow.event.sharedReactionEvent) {
-            events = events.concat(this.eventWindow.event.getSharedReactionEvents());
-        }
 
         this.events = _.difference(events, this.eventsToExclude);
         _.each(this.events, event => {

@@ -41,55 +41,14 @@ class DealDamageAction extends CardGameAction {
             card: card,
             context: context,
             amount: amount,
-            damageSource: this.damageSource,
+            damageSource: this.damageSource || context.source,
             damageType: this.damageType,
-            destroyed: false,
+            destroyEvent: null,
             fightEvent: this.fightEvent,
             ignoreArmor: this.ignoreArmor
         };
 
         return super.createEvent('onDamageDealt', params, damageDealtEvent => {
-            //  Use Ward to prevent damage
-            //  Use Armor to prevent damage
-            //  Deal damage, and mark creatures for destruction
-
-            /*
-                Event sequences (ABC, XYZ):
-                Interrupts to ABC
-                Resolve ABC
-                Game state check
-                Reactions ABC
-                Interrupts to XYZ
-                Resolve XYZ
-                Game state check
-                Reactions XYZ
-
-                Events sharing interupts (ABC, XYZ):
-                Interrupts to ABC
-                Resolve ABC
-                Game state check
-                Interrupts to XYZ
-                Resolve XYZ
-                Game state check
-                Reactions to ABCXYZ
-            */
-
-            /*
-                onDamageDealt event - interrupts
-                check for ward, remove it (raise event?)
-                check for armor:
-                    onDamagePreventedByArmor interrupts
-                    reduce damage amount in original event?
-                    onDamagePreventedByArmor reactions
-                deal damage:
-                    onDamageApplied interrupts
-                    place tokens on creatures
-                    check for lethal damage
-                    queue Destroy events
-                    onDamageApplied reactions?
-                onDamageDealt reactions, onDamageApplied reactions, onCreatureDestroyed reactions,
-            */
-
             if(card.warded) {
                 for(let event in damageDealtEvent.getSimultaneousEvents().filter(event => event.name === 'onDamageDealt' && event.card === card)) {
                     event.cancel();
@@ -108,21 +67,27 @@ class DealDamageAction extends CardGameAction {
                 event.noGameStateCheck = true;
                 event.card.addToken('damage', event.amount);
                 if(!event.card.moribund && (event.card.tokens.damage >= event.card.power || damageDealtEvent.damageSource && damageDealtEvent.damageSource.getKeywordValue('poison'))) {
-                    event.addNextEvent(context.game.actions.destroy({ damageEvent: damageDealtEvent, purge: this.purge }).getEvent(event.card, context.game.getFrameworkContext()));
+                    if(this.purge) {
+                        damageDealtEvent.destroyEvent = context.game.actions.purge({ damageEvent: damageDealtEvent }).getEvent(event.card, context.game.getFrameworkContext());
+                    } else {
+                        damageDealtEvent.destroyEvent = context.game.actions.destroy({ damageEvent: damageDealtEvent }).getEvent(event.card, context.game.getFrameworkContext());
+                    }
+
+                    event.addSubEvent(damageDealtEvent.destroyEvent);
                     if(damageDealtEvent.fightEvent) {
                         damageDealtEvent.fightEvent.destroyed.push(event.card);
                     }
                 }
             });
-            damageDealtEvent.sharesReactionWindowWith(damageAppliedEvent);
 
-            if(damageDealtEvent.ignoreArmor) {
-                damageDealtEvent.addNextEvent(damageAppliedEvent);
+            if(damageDealtEvent.ignoreArmor || damageDealtEvent.card.armor <= damageDealtEvent.card.armorUsed) {
+                damageDealtEvent.addSubEvent(damageAppliedEvent);
             } else {
                 let armorPreventParams = {
                     card: damageDealtEvent.card,
                     context: damageDealtEvent.context,
-                    amout: damageDealtEvent.amount
+                    amount: damageDealtEvent.amount,
+                    noGameStateCheck: true
                 };
                 let armorPreventEvent = super.createEvent('onDamagePreventedByArmor', armorPreventParams, event => {
                     const currentArmor = event.card.armor - event.card.armorUsed;
@@ -136,9 +101,10 @@ class DealDamageAction extends CardGameAction {
 
                     damageAppliedEvent.amount -= event.damagePrevented;
                     damageDealtEvent.amount -= event.damagePrevented;
+                    damageDealtEvent.addSubEvent(damageAppliedEvent);
                 });
-                damageDealtEvent.addNextEvent(armorPreventEvent);
-                armorPreventEvent.addNextEvent(damageAppliedEvent);
+                damageDealtEvent.addSubEvent(armorPreventEvent);
+                armorPreventEvent.openReactionWindow = true;
             }
         });
     }

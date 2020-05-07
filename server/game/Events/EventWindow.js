@@ -14,11 +14,13 @@ class EventWindow extends BaseStepWithPipeline {
         this.pipeline.initialise([
             new SimpleStep(this.game, () => this.checkEventCondition()),
             new SimpleStep(this.game, () => this.openAbilityWindow('interrupt')),
+            new SimpleStep(this.game, () => this.preResolutionEffects()),
             new SimpleStep(this.game, () => this.executeHandler()),
             new SimpleStep(this.game, () => this.checkGameState()),
+            new SimpleStep(this.game, () => this.checkForSubEvent()),
             new SimpleStep(this.game, () => this.triggerConstantReactions()),
-            new SimpleStep(this.game, () => this.openAbilityWindow('reaction')),
-            new SimpleStep(this.game, () => this.checkNextEvents())
+            new SimpleStep(this.game, () => this.openAbilityWindow('reaction'))
+            //new SimpleStep(this.game, () => this.executePostHandler())
         ]);
     }
 
@@ -27,15 +29,28 @@ class EventWindow extends BaseStepWithPipeline {
     }
 
     openAbilityWindow(abilityType) {
-        const events = this.event.getSimultaneousEvents();
-        if(events.length === 0 || abilityType === 'reaction' && this.event.sharesReactionWindowWithEvent) {
+        let events = this.event.getSimultaneousEvents();
+        //console.log(abilityType, events.map(e => e.name), this.event.name, this.event.openReactionWindow);
+        if(events.length === 0 || abilityType === 'reaction' && !this.event.openReactionWindow) {
             return;
         }
 
-        if(abilityType === 'interrupt' && events.some(event => event.name === 'onCardDestroyed')) {
+        if(abilityType === 'interrupt' && events.some(event => event.name === 'onCardLeavesPlay')) {
+            //console.log('opening', abilityType, 'window for', events.map(e => [e.name, e.card && e.card.name]));
             this.queueStep(new DestroyedAbilityWindow(this.game, abilityType, this));
         } else {
+            if(abilityType === 'reaction') {
+                this.game.checkDelayedEffects(events);
+            }
+
+            //console.log('opening', abilityType, 'window for', events.map(e => [e.name, e.card && e.card.name]));
             this.queueStep(new ForcedTriggeredAbilityWindow(this.game, abilityType, this));
+        }
+    }
+
+    preResolutionEffects() {
+        for(let event of this.event.getSimultaneousEvents()) {
+            this.game.emit(event.name + ':preResolution', event);
         }
     }
 
@@ -54,15 +69,20 @@ class EventWindow extends BaseStepWithPipeline {
 
     checkGameState() {
         const events = this.event.getSimultaneousEvents();
+        //console.log('checkGameState');
         if(!events.every(event => event.noGameStateCheck)) {
+            //console.log('checking', events.filter(event => event.openReactionWindow).map(e => [e.name, e.card && e.card.name]));
             this.game.checkGameState(events.some(event => event.handler));
         }
     }
 
     triggerConstantReactions() {
-        const events = this.event.getSimultaneousEvents();
+        if(!this.event.openReactionWindow) {
+            return;
+        }
 
-        let reactionWindow = {
+        const events = this.event.getSimultaneousEvents();
+        const reactionWindow = {
             addChoice: context => this.game.resolveAbility(context)
         };
 
@@ -71,11 +91,31 @@ class EventWindow extends BaseStepWithPipeline {
         }
     }
 
-    checkNextEvents() {
-        if(this.event.nextEvent) {
-            this.queueStep(new EventWindow(this.game, this.event.nextEvent));
+    checkForSubEvent() {
+        if(this.event.subEvent) {
+            let currentSubEvent = this.event.subEvent;
+            this.event.subEvent = null;
+            //console.log('queuing', currentSubEvent.name);
+            this.queueStep(new EventWindow(this.game, currentSubEvent));
+            if(!currentSubEvent.openReactionWindow) {
+                this.queueStep(new SimpleStep(this.game, () => {
+                    this.event.addChildEvent(currentSubEvent);
+                    currentSubEvent.openReactionWindow = true;
+                }));
+            }
+
+            this.queueStep(new SimpleStep(this.game, () => this.checkForSubEvent()));
         }
     }
+    /*
+    executePostHandler() {
+        const events = this.event.getSimultaneousEvents();
+        for(const event of events) {
+            if(event.postHandler && !event.cancelled) {
+                event.postHandler(event);
+            }
+        }
+    }   */
 }
 
 module.exports = EventWindow;
