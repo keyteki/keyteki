@@ -32,6 +32,11 @@ export class PlayerStats extends React.Component {
         return this.props.stats[stat] || 0;
     }
 
+    getHouse(house) {
+        let houseTitle = this.props.t(house);
+        return houseTitle[0].toUpperCase() + houseTitle.slice(1);
+    }
+
     getButton(stat, name, statToSet = stat) {
         return (
             <div className='state' title={ name }>
@@ -50,7 +55,7 @@ export class PlayerStats extends React.Component {
 
     getKeyCost() {
         return (
-            <div className='state' title={ 'Current Key Cost' }>
+            <div className='state' title={ this.props.t('Current Key Cost') }>
                 <div className='stat-image keyCost'>
                     <div className='stat-value'>{ this.getStatValueOrDefault('keyCost') }</div>
                 </div>
@@ -69,7 +74,7 @@ export class PlayerStats extends React.Component {
     getHouses() {
         return (
             <div className='state'>
-                { this.props.houses.map(house => (<img key={ house } onClick={ this.setActiveHouse.bind(this, house) } className='img-responsive' src={ `/img/house/${house}.png` } title={ this.props.t(house) } />)) }
+                { this.props.houses.map(house => (<img key={ house } onClick={ this.setActiveHouse.bind(this, house) } className='img-responsive' src={ `/img/house/${house}.png` } title={ this.getHouse(house) } />)) }
             </div>
         );
     }
@@ -103,8 +108,8 @@ export class PlayerStats extends React.Component {
             <div className='panel player-stats'>
                 { playerAvatar }
 
-                { this.getButton('amber', 'Amber') }
-                { this.getButton('chains', 'Chains') }
+                { this.getButton('amber', t('Amber')) }
+                { this.getButton('chains', t('Chains')) }
                 { this.getKeyCost() }
 
                 { this.props.houses ? this.getHouses() : null }
@@ -114,7 +119,7 @@ export class PlayerStats extends React.Component {
                 { this.props.activeHouse &&
                     <div className='state'>
                         <div className='hand-size'><Trans>Active House</Trans>: </div>
-                        <img className='house-image' src={ `/img/house/${this.props.activeHouse}.png` } title={ this.props.activeHouse } />
+                        <img className='house-image' src={ `/img/house/${this.props.activeHouse}.png` } title={ this.getHouse(this.props.activeHouse) } />
                     </div>
                 }
 
