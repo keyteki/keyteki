@@ -5,11 +5,11 @@ describe('Mimic Gel', function() {
                 this.setupTest({
                     player1: {
                         house: 'logos',
-                        inPlay: ['batdrone', 'key-to-dis', 'tantadlin', 'titan-guardian'],
+                        inPlay: ['batdrone', 'key-to-dis', 'tantadlin', 'titan-guardian', 'xenos-bloodshadow'],
                         hand: ['mimic-gel', 'phase-shift', 'dextre']
                     },
                     player2: {
-                        inPlay: ['panpaca-anga', 'flaxia', 'duskwitch', 'bumblebird']
+                        inPlay: ['panpaca-anga', 'flaxia', 'duskwitch', 'bumblebird', 'troll']
                     }
                 });
             });
@@ -41,6 +41,7 @@ describe('Mimic Gel', function() {
                 expect(this.player1).toBeAbleToSelect(this.panpacaAnga);
                 expect(this.player1).toBeAbleToSelect(this.flaxia);
                 expect(this.player1).toBeAbleToSelect(this.titanGuardian);
+                expect(this.player1).toBeAbleToSelect(this.xenosBloodshadow);
             });
 
             it('should come into play as a copy of the chosen creature', function() {
@@ -90,11 +91,29 @@ describe('Mimic Gel', function() {
                 expect(this.mimicGel.hasTrait('witch')).toBe(true);
                 expect(this.mimicGel.hasHouse('logos')).toBe(true);
                 expect(this.mimicGel.hasHouse('untamed')).toBe(false);
-                expect(this.mimicGel.hasKeyword('omega')).toBe(true);
+                expect(this.mimicGel.getKeywordValue('omega')).toBe(1);
                 expect(this.mimicGel.power).toBe(1);
                 expect(this.mimicGel.name).toBe('Duskwitch');
                 expect(this.mimicGel.exhausted).toBe(false);
                 expect(this.player2).toHavePrompt('Choose which house you want to activate this turn');
+            });
+
+            xit('should copy elusive and hazardous keyword', function() {
+                this.player1.clickCard(this.mimicGel);
+                this.player1.clickPrompt('Play this creature');
+                this.player1.clickPrompt('Left');
+                this.player1.clickCard(this.xenosBloodshadow);
+                expect(this.mimicGel.location).toBe('play area');
+                expect(this.mimicGel.power).toBe(4);
+                expect(this.mimicGel.armor).toBe(0);
+                expect(this.mimicGel.getKeywordValue('elusive')).toBe(1);
+                expect(this.mimicGel.getKeywordValue('hazardous')).toBe(6);
+                expect(this.mimicGel.name).toBe('Xenos Bloodshadow');
+                this.player1.endTurn();
+                this.player2.clickPrompt('brobnar');
+                this.player2.fightWith(this.troll, this.mimicGel);
+                expect(this.troll.tokens.damage).toBe(6);
+                expect(this.mimicGel.tokens.damage).toBeUndefined();
             });
 
             xit('should copy taunt keyword', function() {
@@ -107,7 +126,7 @@ describe('Mimic Gel', function() {
                 expect(this.mimicGel.hasTrait('beast')).toBe(true);
                 expect(this.mimicGel.hasTrait('cyborg')).toBe(true);
                 expect(this.mimicGel.hasHouse('logos')).toBe(true);
-                expect(this.mimicGel.hasKeyword('taunt')).toBe(true);
+                expect(this.mimicGel.getKeywordValue('taunt')).toBe(1);
                 expect(this.mimicGel.power).toBe(5);
                 expect(this.mimicGel.armor).toBe(1);
                 expect(this.mimicGel.name).toBe('Titan Guardian');
