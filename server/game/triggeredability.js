@@ -41,14 +41,16 @@ class TriggeredAbility extends CardAbility {
         this.autoResolve = !!properties.autoResolve;
         this.abilityType = abilityType;
         this.optional = !!properties.optional;
+        this.hasTriggered = false;
+        this.isLastingAbilityTrigger = !!properties.player;
         if(properties.location === 'any') {
             this.registerEvents();
         }
     }
 
     eventHandler(event, window) {
-        let player = this.card.controller;
-        if(event.name === 'onCardPlayed' && this.card.type === 'action') {
+        let player = this.properties.player || this.card.controller;
+        if(!this.isLastingAbilityTrigger && event.name === 'onCardPlayed' && this.card.type === 'action') {
             player = event.player;
         } else if(this.triggeredByOpponent) {
             player = player.opponent;
@@ -60,8 +62,10 @@ class TriggeredAbility extends CardAbility {
 
         let context = this.createContext(player, event);
         //  console.log(event.name, this.card.name, this.card.reactions.includes(this), this.isTriggeredByEvent(event, context), this.meetsRequirements(context));
-        if(this.card.reactions.includes(this) && this.isTriggeredByEvent(event, context) && this.meetsRequirements(context) === '') {
-            window.addChoice(context);
+        if(this.card.reactions.includes(this) || (this.isLastingAbilityTrigger && (!this.hasTriggered || this.properties.multipleTrigger))) {
+            if(this.isTriggeredByEvent(event, context) && this.meetsRequirements(context) === '') {
+                window.addChoice(context);
+            }
         }
     }
 
@@ -84,6 +88,10 @@ class TriggeredAbility extends CardAbility {
             if(event.name === 'onCardPlayed' && !this.isPlay() || event.name === 'onFight' && !this.isFight() || event.name === 'onReap' && !this.isReap()) {
                 return false;
             }
+        }
+
+        if(this.isLastingAbilityTrigger) {
+            this.hasTriggered = true;
         }
 
         return true;

@@ -31,7 +31,7 @@ class LastingEffectAction extends GameAction {
 
     getEventArray(context) {
         if(this.when && this.gameAction) {
-            this.effect = [Effects.delayedEffect({
+            this.effect = [Effects.lastingAbilityTrigger({
                 when: this.when,
                 gameAction: this.gameAction,
                 message: this.message,
@@ -45,7 +45,7 @@ class LastingEffectAction extends GameAction {
             context: context,
             effect: this.effect,
             roundDuration: this.duration,
-            targetController: this.targetController,
+            targetController: this.when ? 'current' : this.targetController,
             until: this.until
         };
         return [super.createEvent('applyLastingEffect', { context: context }, event => event.context.source.roundDurationEffect(properties))];

@@ -27,6 +27,7 @@ describe('Ragnarok', function() {
                 expect(this.player1).not.toHavePromptButton('Reap with this creature');
                 this.player1.clickPrompt('Fight with this creature');
                 this.player1.clickCard(this.lamindra);
+                this.player1.clickPrompt('Ragnarok');
                 expect(this.player1.amber).toBe(2);
                 expect(this.lamindra.location).toBe('discard');
                 this.player1.endTurn();
