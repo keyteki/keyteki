@@ -16,9 +16,6 @@ class CreedOfNurture extends Card {
                         cardType: 'creature',
                         gameAction: ability.actions.cardLastingEffect(context => {
                             const effects = context.targets.creatureInHand.traits.map(trait => ability.effects.addTrait(trait));
-                            if(Object.keys(context.targets.creatureInHand.printedKeywords).length > 0) {
-                                effects.push(ability.effects.addKeyword(context.targets.creatureInHand.printedKeywords));
-                            }
 
                             const printedAbilities = Object.values(context.targets.creatureInHand.abilities).reduce((result, array) =>
                                 result.concat(array.filter(ability => ability.printedAbility)), []);

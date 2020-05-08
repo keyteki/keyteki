@@ -10,7 +10,6 @@ class Gargantodon extends Card {
         });
 
         this.persistentEffect({
-            match: this,
             effect: ability.effects.limitFightDamage(4)
         });
 

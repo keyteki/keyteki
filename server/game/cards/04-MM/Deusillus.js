@@ -13,7 +13,6 @@ class Deusillus extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
             location: 'any',
-            match: this,
             effect: ability.effects.cardCannot('play', context => {
                 return this.compositeParts.concat(this.id).some(id => !context.source.controller.hand.some(card => id === card.id));
             })

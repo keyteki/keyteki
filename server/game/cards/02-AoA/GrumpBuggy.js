@@ -8,7 +8,7 @@ class GrumpBuggy extends Card {
                 this.controller.cardsInPlay.filter(card => card.type === 'creature' && card.power >= 5).length)
         });
         this.persistentEffect({
-            condition: () => !!this.controller.opponent,
+            condition: context => !!context.player.opponent,
             effect: ability.effects.modifyKeyCost(() =>
                 this.controller.opponent.cardsInPlay.filter(card => card.type === 'creature' && card.power >= 5).length)
         });
