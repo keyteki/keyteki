@@ -25,6 +25,8 @@ describe('Wild Bounty', function() {
                 this.player1.play(this.wildBounty);
                 expect(this.player1.amber).toBe(0);
                 this.player1.play(this.fertilityChant);
+                expect(this.player1).toHavePrompt('Triggered Abilities');
+                this.player1.clickPrompt('Wild Bounty');
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
                 expect(this.player1.amber).toBe(8);
                 expect(this.player2.amber).toBe(4);
@@ -34,6 +36,8 @@ describe('Wild Bounty', function() {
                 this.player1.play(this.wildBounty);
                 expect(this.player1.amber).toBe(0);
                 this.player1.play(this.fertilityChant);
+                expect(this.player1).toHavePrompt('Triggered Abilities');
+                this.player1.clickPrompt('Wild Bounty');
                 this.player1.play(this.dustPixie);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
                 expect(this.player1.amber).toBe(10);
@@ -87,11 +91,15 @@ describe('Wild Bounty', function() {
 
                 this.wildBounty2.cardData.enhancements = ['amber', 'draw'];
                 this.player1.play(this.wildBounty2);
+                expect(this.player1).toHavePrompt('Triggered Abilities');
+                this.player1.clickPrompt('Wild Bounty');
                 expect(this.player1.amber).toBe(2);
                 expect(this.player2.amber).toBe(2);
                 expect(this.player1.player.hand.length).toBe(4);
 
                 this.player1.play(this.fertilityChant);
+                expect(this.player1).toHavePrompt('Triggered Abilities');
+                this.player1.clickPrompt('Wild Bounty');
                 expect(this.player1.amber).toBe(10);
                 expect(this.player2.amber).toBe(4);
 
