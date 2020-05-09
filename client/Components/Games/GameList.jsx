@@ -150,6 +150,10 @@ class GameList extends React.Component {
                 continue;
             }
 
+            if(game.gamePrivate && !game.started) {
+                continue;
+            }
+
             let players = this.getPlayers(game);
 
             let isAdmin = this.props.user && this.props.user.permissions.canManageGames;

@@ -48,7 +48,6 @@ class Card extends EffectSource {
             this.printedKeywords[split[0]] = value;
             this.persistentEffect({
                 location: 'any',
-                match: this,
                 effect: AbilityDsl.effects.addKeyword({ [split[0]]: value })
             });
         }

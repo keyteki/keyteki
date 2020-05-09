@@ -6,8 +6,7 @@ describe('Duskwitch', function() {
                     player1: {
                         amber: 2,
                         house: 'untamed',
-                        hand: ['hunting-witch', 'dust-pixie'],
-                        inPlay: ['duskwitch']
+                        hand: ['duskwitch', 'hunting-witch', 'dust-pixie'],
                     },
                     player2: {
                         amber: 2,
@@ -15,7 +14,18 @@ describe('Duskwitch', function() {
                     }
                 });
             });
+
+            it('should end turn after playing Duskwitch', function() {
+                this.player1.play(this.duskwitch);
+                expect(this.duskwitch.exhausted).toBe(false);
+                expect(this.player2).toHavePrompt('Choose which house you want to activate this turn');
+            });
+
             it('should ready ALL creatures played by the owner', function() {
+                this.player1.play(this.duskwitch);
+                this.player2.clickPrompt('logos');
+                this.player2.endTurn();
+                this.player1.clickPrompt('untamed');
                 this.player1.play(this.huntingWitch);
                 this.player1.play(this.dustPixie);
                 expect(this.huntingWitch.exhausted).toBe(false);
@@ -29,7 +39,7 @@ describe('Duskwitch', function() {
                     player1: {
                         amber: 2,
                         house: 'untamed',
-                        inPlay: ['heart-of-the-forest']
+                        hand: ['duskwitch']
                     },
                     player2: {
                         amber: 1,
@@ -40,7 +50,7 @@ describe('Duskwitch', function() {
             });
 
             it('should NOT ready creatures played by the opponent', function() {
-                this.player1.endTurn();
+                this.player1.play(this.duskwitch);
                 this.player2.clickPrompt('untamed');
                 this.player2.play(this.huntingWitch);
                 this.player2.play(this.dustPixie);

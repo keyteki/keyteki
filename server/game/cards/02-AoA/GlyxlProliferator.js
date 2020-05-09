@@ -3,7 +3,7 @@ const Card = require('../../Card.js');
 class GlyxlProliferator extends Card {
     setupCardAbilities(ability) {
         this.reap({
-            condition: () => this.isOnFlank(),
+            condition: context => context.source.isOnFlank(),
             target: {
                 controller: 'self',
                 cardCondition: card => card.hasHouse('mars'),

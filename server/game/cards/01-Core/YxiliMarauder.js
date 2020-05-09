@@ -3,8 +3,7 @@ const Card = require('../../Card.js');
 class YxiliMarauder extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
-            match: this,
-            effect: ability.effects.modifyPower(() => this.amber)
+            effect: ability.effects.modifyPower(card => card.amber)
         });
 
         this.play({

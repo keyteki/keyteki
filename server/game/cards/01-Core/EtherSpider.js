@@ -8,7 +8,6 @@ class EtherSpider extends Card {
         });
 
         this.persistentEffect({
-            match: this,
             effect: ability.effects.cardCannot('dealFightDamage')
         });
     }

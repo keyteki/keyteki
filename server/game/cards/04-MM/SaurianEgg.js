@@ -3,7 +3,6 @@ const Card = require('../../Card.js');
 class SaurianEgg extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
-            match: this,
             effect: [
                 ability.effects.cardCannot('reap'),
                 ability.effects.cardCannot('fight')

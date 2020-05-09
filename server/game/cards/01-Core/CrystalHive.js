@@ -8,7 +8,6 @@ class CrystalHive extends Card {
                 when: {
                     onReap: () => true
                 },
-                message: '{0} gains 1 amber due to {1}\'s effect',
                 gameAction: ability.actions.gainAmber({ target: context.player })
             }))
         });
