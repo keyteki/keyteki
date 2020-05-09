@@ -6,7 +6,7 @@ describe('Duskwitch', function() {
                     player1: {
                         amber: 2,
                         house: 'untamed',
-                        hand: ['duskwitch', 'hunting-witch', 'dust-pixie'],
+                        hand: ['duskwitch', 'hunting-witch', 'dust-pixie']
                     },
                     player2: {
                         amber: 2,
