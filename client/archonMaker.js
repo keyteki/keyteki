@@ -3,7 +3,6 @@ import QRCode from 'qrcode';
 import uuid from 'uuid';
 const defaultCard = 'img/idbacks/identity.jpg';
 
-
 export const buildDeckList = (deck, language, translate, AllCards) => new Promise(resolve => {
     if(!deck.houses) {
         resolve(defaultCard);
