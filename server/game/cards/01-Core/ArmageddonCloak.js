@@ -14,6 +14,10 @@ class ArmageddonCloak extends Card {
                             event: context.event,
                             card: this,
                             postHandler: context => context.source.moribund = false
+                        })),
+                        ability.actions.changeEvent(context => ({
+                            event: context.event.triggeringEvent,
+                            card: this
                         }))
                     ]
                 })

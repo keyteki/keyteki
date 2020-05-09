@@ -232,7 +232,9 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
 
     emitEvents() {
         this.choices = [];
-        this.events = _.difference(this.eventWindow.events, this.eventsToExclude);
+        let events = this.eventWindow.event.getSimultaneousEvents();
+
+        this.events = _.difference(events, this.eventsToExclude);
         _.each(this.events, event => {
             this.game.emit(event.name + ':' + this.abilityType, event, this);
         });

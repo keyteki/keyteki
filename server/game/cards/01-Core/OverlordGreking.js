@@ -5,7 +5,8 @@ class OverlordGreking extends Card {
         this.reaction({
             when: {
                 onDamageDealt: (event, context) =>
-                    event.damageSource === context.source && event.destroyed && event.card.location === 'discard'
+                    event.damageSource === context.source && event.card.location === 'discard' &&
+                    event.destroyEvent && event.destroyEvent.resolved
             },
             gameAction: ability.actions.putIntoPlay(context => ({
                 target: context.event.card,

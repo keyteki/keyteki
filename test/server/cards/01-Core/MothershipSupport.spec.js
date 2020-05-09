@@ -33,7 +33,6 @@ describe('Mothership Support', function() {
                 expect(this.player1).toBeAbleToSelect(this.troll);
                 expect(this.player1).toBeAbleToSelect(this.bumpsy);
                 this.player1.clickCard(this.troll);
-                expect(this.troll.tokens.damage).toBe(2);
                 expect(this.player1).toHavePrompt('Mothership Support');
                 expect(this.player1).toBeAbleToSelect(this.mindwarper);
                 expect(this.player1).toBeAbleToSelect(this.johnSmyth);
@@ -41,7 +40,6 @@ describe('Mothership Support', function() {
                 expect(this.player1).toBeAbleToSelect(this.troll);
                 expect(this.player1).toBeAbleToSelect(this.bumpsy);
                 this.player1.clickCard(this.mindwarper);
-                expect(this.mindwarper.tokens.damage).toBe(2);
                 expect(this.player1).toHavePrompt('Mothership Support');
                 expect(this.player1).toBeAbleToSelect(this.mindwarper);
                 expect(this.player1).toBeAbleToSelect(this.johnSmyth);

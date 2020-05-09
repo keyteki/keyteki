@@ -20,7 +20,7 @@ class ShadowSelf extends Card {
                     amount: context.event.card.tokens.armor || 0
                 })),
                 ability.actions.addEventToWindow(context => ({
-                    targetWindow: context.event.window,
+                    targetEvent: context.event,
                     eventToAdd: ability.actions.dealDamage({
                         amount: context.event.amount - (!context.event.ignoreArmor && context.event.card.tokens.armor || 0),
                         damageSource: context.event.damageSource,

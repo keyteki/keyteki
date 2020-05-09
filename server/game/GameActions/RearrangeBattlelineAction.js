@@ -45,7 +45,7 @@ class RearrangeBattlelineAction extends CardGameAction {
     }
 
     getEvent(card, context) {
-        return super.createEvent('unnamedEvent', { context: context }, () => {
+        return super.createEvent('unnamedEvent', { card, context }, () => {
         });
     }
 }

@@ -22,23 +22,23 @@ class PlayUpgradeAction extends BasePlayAction {
     }
 
     executeHandler(context) {
-        const events = [context.game.getEvent('onCardPlayed', {
+        const event = context.game.getEvent('onCardPlayed', {
             player: context.player,
             card: context.source,
             originalLocation: context.source.location
-        })];
-        events.push(new AttachAction({ upgrade: context.source }).getEvent(context.target, context));
+        });
+        event.addChildEvent(new AttachAction({ upgrade: context.source }).getEvent(context.target, context));
         if(context.source.type === 'creature') {
             const changeTypeEvent = new LastingEffectCardAction({
                 duration: 'lastingEffect',
                 effect: Effects.changeType('upgrade')
             }).getEvent(context.source, context);
             changeTypeEvent.gameAction = null;
-            events.push(changeTypeEvent);
+            event.addChildEvent(changeTypeEvent);
         }
 
-        this.addBonusIconResolution(events[0], context);
-        context.game.openEventWindow(events);
+        this.addBonusIconResolution(event, context);
+        context.game.openEventWindow(event);
     }
 }
 

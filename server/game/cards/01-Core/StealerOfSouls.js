@@ -8,7 +8,8 @@ class StealerOfSouls extends Card {
                 return [context.player, context.source, context.target];
             },
             when: {
-                onDamageDealt: (event, context) => event.damageSource === context.source && event.destroyed
+                onDamageDealt: (event, context) => event.damageSource === context.source &&
+                    event.destroyEvent && event.destroyEvent.resolved
             },
             gameAction: [
                 ability.actions.purge(context => ({ target: context.event.card.location === 'discard' ? context.event.card : [] })),

@@ -1,6 +1,6 @@
-const CardGameAction = require('./CardGameAction');
+const PlayerGameAction = require('./PlayerAction');
 
-class RearrangeCardsAction extends CardGameAction {
+class RearrangeCardsAction extends PlayerGameAction {
     setDefaultProperties() {
     }
 
@@ -41,8 +41,8 @@ class RearrangeCardsAction extends CardGameAction {
         }
     }
 
-    getEvent(card, context) {
-        return super.createEvent('unnamedEvent', { cards: this.orderedCards, context: context }, () => {
+    getEvent(player, context) {
+        return super.createEvent('unnamedEvent', { player: player, cards: this.orderedCards, context: context }, () => {
             context.player.deck.splice(0, this.amount, ...this.orderedCards);
         });
     }

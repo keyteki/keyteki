@@ -126,7 +126,7 @@ describe('Might Makes Right', function() {
                 this.player1.clickCard(this.bellowingPatrizate);
                 this.player1.clickCard(this.kingOfTheCrag);
                 this.player1.clickPrompt('Done');
-                expect(this.player1).toHavePrompt('Any Interrupts?');
+                expect(this.player1).toHavePrompt('Triggered Abilities');
                 this.player1.clickCard(this.hebeTheHuge);
                 this.player1.clickCard(this.groke);
                 expect(this.groke.location).toBe('discard');
