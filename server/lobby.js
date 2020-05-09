@@ -327,22 +327,22 @@ class Lobby {
     onConnection(ioSocket) {
         let socket = new Socket(ioSocket, { configService: this.configService });
 
-        socket.registerEvent('lobbychat', this.onLobbyChat.bind(this));
-        socket.registerEvent('newgame', this.onNewGame.bind(this));
+        socket.registerEvent('chat', this.onPendingGameChat.bind(this));
+        socket.registerEvent('clearsessions', this.onClearSessions.bind(this));
+        socket.registerEvent('connectfailed', this.onConnectFailed.bind(this));
+        socket.registerEvent('getnodestatus', this.onGetNodeStatus.bind(this));
+        socket.registerEvent('getsealeddeck', this.onGetSealedDeck.bind(this));
         socket.registerEvent('joingame', this.onJoinGame.bind(this));
         socket.registerEvent('leavegame', this.onLeaveGame.bind(this));
-        socket.registerEvent('watchgame', this.onWatchGame.bind(this));
-        socket.registerEvent('startgame', this.onStartGame.bind(this));
-        socket.registerEvent('chat', this.onPendingGameChat.bind(this));
-        socket.registerEvent('selectdeck', this.onSelectDeck.bind(this));
-        socket.registerEvent('getsealeddeck', this.onGetSealedDeck.bind(this));
-        socket.registerEvent('connectfailed', this.onConnectFailed.bind(this));
-        socket.registerEvent('removegame', this.onRemoveGame.bind(this));
-        socket.registerEvent('clearsessions', this.onClearSessions.bind(this));
-        socket.registerEvent('getnodestatus', this.onGetNodeStatus.bind(this));
-        socket.registerEvent('togglenode', this.onToggleNode.bind(this));
-        socket.registerEvent('restartnode', this.onRestartNode.bind(this));
+        socket.registerEvent('lobbychat', this.onLobbyChat.bind(this));
         socket.registerEvent('motd', this.onMotdChange.bind(this));
+        socket.registerEvent('newgame', this.onNewGame.bind(this));
+        socket.registerEvent('removegame', this.onRemoveGame.bind(this));
+        socket.registerEvent('restartnode', this.onRestartNode.bind(this));
+        socket.registerEvent('selectdeck', this.onSelectDeck.bind(this));
+        socket.registerEvent('startgame', this.onStartGame.bind(this));
+        socket.registerEvent('togglenode', this.onToggleNode.bind(this));
+        socket.registerEvent('watchgame', this.onWatchGame.bind(this));
 
         socket.on('authenticate', this.onAuthenticated.bind(this));
         socket.on('disconnect', this.onSocketDisconnected.bind(this));
@@ -551,12 +551,12 @@ class Lobby {
 
         socket.send('handoff', {
             address: gameNode.address,
+            authToken: authToken,
+            gameId: gameId,
+            name: gameNode.identity,
             port: gameNode.port,
             protocol: gameNode.protocol,
-            name: gameNode.identity,
-            authToken: authToken,
-            user: user,
-            gameId: gameId
+            user: user
         });
     }
 
@@ -651,13 +651,13 @@ class Lobby {
                 }
 
                 deck.status = {
-                    usageLevel: 0,
                     basicRules: true,
+                    extendedStatus: [],
                     flagged: false,
-                    verified: true,
                     noUnreleasedCards: true,
                     officialRole: true,
-                    extendedStatus: []
+                    usageLevel: 0,
+                    verified: true
                 };
 
                 game.selectDeck(socket.user.username, deck);
@@ -699,12 +699,12 @@ class Lobby {
                 }
 
                 deck.status = {
-                    usageLevel: deckUsageLevel,
                     basicRules: true,
-                    verified: !!deck.verified,
+                    extendedStatus: [],
                     noUnreleasedCards: true,
                     officialRole: true,
-                    extendedStatus: []
+                    usageLevel: deckUsageLevel,
+                    verified: !!deck.verified
                 };
 
                 deck.usageCount = 0;
@@ -820,15 +820,15 @@ class Lobby {
         delete this.games[gameId];
 
         let newGame = new PendingGame(game.owner, {
-            spectators: game.allowSpectators,
-            showHand: game.showHand,
+            adaptive: game.adaptive,
+            gameFormat: game.gameFormat,
+            gameTimeLimit: game.gameTimeLimit,
             gameType: game.gameType,
             hideDecklists: game.hideDecklists,
-            useGameTimeLimit: game.useGameTimeLimit,
-            gameTimeLimit: game.gameTimeLimit,
+            showHand: game.showHand,
+            spectators: game.allowSpectators,
             swap: oldGame.swap,
-            gameFormat: game.gameFormat,
-            adaptive: game.adaptive
+            useGameTimeLimit: game.useGameTimeLimit
         });
         newGame.rematch = true;
         newGame.previousWinner = oldGame.winner;
@@ -976,14 +976,15 @@ class Lobby {
             }
 
             let syncGame = new PendingGame(new User(owner.user), { spectators: game.allowSpectators, name: game.name });
+            syncGame.adaptive = game.adaptive;
+            syncGame.createdAt = game.startedAt;
+            syncGame.gameFormat = game.gameFormat;
+            syncGame.gamePrivate = game.gamePrivate;
+            syncGame.gameType = game.gameType;
             syncGame.id = game.id;
             syncGame.node = this.router.workers[nodeName];
-            syncGame.createdAt = game.startedAt;
-            syncGame.started = game.started;
-            syncGame.gameType = game.gameType;
-            syncGame.gameFormat = game.gameFormat;
-            syncGame.adaptive = game.adaptive;
             syncGame.password = game.password;
+            syncGame.started = game.started;
 
             for(let player of Object.values(game.players)) {
                 syncGame.players[player.name] = {
