@@ -4,7 +4,6 @@ class KelifiDragon extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
             location: 'any',
-            match: this,
             effect: ability.effects.cardCannot('play', context => context.player.amber < 7)
         });
 

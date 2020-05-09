@@ -3,8 +3,7 @@ const Card = require('../../Card.js');
 class CenturionStenopius extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
-            match: this,
-            effect: ability.effects.modifyPower(() => 3 * (this.tokens.amber || 0))
+            effect: ability.effects.modifyPower(card => 3 * card.amber)
         });
         this.play({
             fight: true,

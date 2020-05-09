@@ -3,7 +3,6 @@ const Card = require('../../Card.js');
 class Tantadlin extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
-            match: this,
             effect: ability.effects.limitFightDamage(2)
         });
         this.fight({

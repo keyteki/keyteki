@@ -3,7 +3,6 @@ const Card = require('../../Card.js');
 class StormCrawler extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
-            match: this,
             effect: ability.effects.limitFightDamage(1)
         });
         this.reaction({

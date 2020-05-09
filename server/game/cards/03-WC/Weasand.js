@@ -11,7 +11,6 @@ class Weasand extends Card {
         });
 
         this.persistentEffect({
-            match: this,
             effect: ability.effects.terminalCondition({
                 condition: () => this.isOnFlank(),
                 message: '{0} is destroyed because it is on a flank',

@@ -4,7 +4,6 @@ class GiantSloth extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
             condition: () => !this.game.cardsDiscarded.some(card => card.hasHouse('untamed')),
-            match: this,
             effect: ability.effects.cardCannot('use')
         });
 
