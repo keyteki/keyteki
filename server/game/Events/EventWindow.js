@@ -20,7 +20,6 @@ class EventWindow extends BaseStepWithPipeline {
             new SimpleStep(this.game, () => this.checkForSubEvent()),
             new SimpleStep(this.game, () => this.triggerConstantReactions()),
             new SimpleStep(this.game, () => this.openAbilityWindow('reaction'))
-            //new SimpleStep(this.game, () => this.executePostHandler())
         ]);
     }
 
