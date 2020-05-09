@@ -10,7 +10,8 @@ class SpoilsOfBattle extends Card {
                 controller: 'self',
                 gameAction: ability.actions.capture()
             },
-            gameAction: [
+            effect: 'capture 1 amber',
+            gameAction: ability.actions.sequential([
                 ability.actions.capture(context => ({
                     target: context.player.creaturesInPlay.filter(card => card.hasToken('amber'))
                 })),
@@ -18,7 +19,7 @@ class SpoilsOfBattle extends Card {
                     player: context.player,
                     target: context.player.opponent.creaturesInPlay.filter(card => card.hasToken('amber'))
                 }))
-            ]
+            ])
         });
     }
 }
