@@ -537,7 +537,7 @@ class Card extends EffectSource {
     }
 
     isBlank() {
-        return this.anyEffect('blank') || this.controller.anyEffect('blank');
+        return this.anyEffect('blank');
     }
 
     hasKeyword(keyword) {
