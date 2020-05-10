@@ -15,6 +15,7 @@ class LastingEffectAction extends GameAction {
         this.when = null;
         this.gameAction = null;
         this.message = null;
+        this.match = null;
         this.multipleTrigger = true;
     }
 
@@ -44,6 +45,7 @@ class LastingEffectAction extends GameAction {
             condition: this.condition,
             context: context,
             effect: this.effect,
+            match: this.match,
             roundDuration: this.duration,
             targetController: this.when ? 'current' : this.targetController,
             until: this.until
