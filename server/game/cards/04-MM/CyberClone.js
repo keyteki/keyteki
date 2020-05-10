@@ -32,7 +32,8 @@ class CyberClone extends Card {
                         };
                     })
                 ])
-            }
+            },
+            effect: 'purge {0} and copy its power, armor, keywords and traits'
         });
     }
 }
