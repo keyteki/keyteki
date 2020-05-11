@@ -15,7 +15,7 @@ class Bonesaw extends Card {
     }
 
     onRoundEnded() {
-        this.friendlyCreatureDestroyed = {};
+        this.creatureDestroyedControllerUuid = {};
     }
 
     onCardDestroyed(event) {
