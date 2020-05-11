@@ -40,7 +40,8 @@ class TournamentLobby extends React.Component {
         this.props.fetchTournaments();
     }
 
-    componentWillReceiveProps(props) {
+    // eslint-disable-next-line camelcase
+    UNSAFE_componentWillReceiveProps(props) {
         const tournamentGames = props.games.filter(x => x.challonge && x.challonge.tournamentId === this.state.tournament.id);
         this.setState({ tournamentGames });
     }

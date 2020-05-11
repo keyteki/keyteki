@@ -35,9 +35,6 @@ class NewTournamentGame extends React.Component {
         };
     }
 
-    componentWillMount() {
-    }
-
     onCancelClick(event) {
         event.preventDefault();
         this.props.closeModal();
