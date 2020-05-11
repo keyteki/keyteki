@@ -4,7 +4,8 @@ class NizakTheForgotten extends Card {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onDamageDealt: (event, context) => event.damageSource === context.source && event.destroyed && event.card.location === 'discard'
+                onCardDestroyed: (event, context) => event.damageEvent && event.damageEvent.fightEvent &&
+                    event.damageEvent.damageSource === context.source && event.card.location === 'discard'
             },
             gameAction: ability.actions.returnToHand(context => ({
                 location: 'discard',

@@ -19,7 +19,7 @@ class RandomDiscardAction extends PlayerAction {
     }
 
     getEvent(player, context) {
-        return super.createEvent('unnamedEvent', {}, () => {
+        return super.createEvent('unnamedEvent', { player, context }, () => {
             let amount = Math.min(this.amount, player.hand.length);
             if(this.location === 'archives') {
                 amount = Math.min(this.amount, player.archives.length);

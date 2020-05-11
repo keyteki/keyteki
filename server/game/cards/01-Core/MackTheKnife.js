@@ -12,7 +12,7 @@ class MackTheKnife extends Card {
                 gameAction: ability.actions.dealDamage()
             },
             then: {
-                condition: context => context.preThenEvent.destroyed,
+                condition: context => context.preThenEvent.destroyEvent && context.preThenEvent.destroyEvent.resolved,
                 gameAction: ability.actions.gainAmber()
             }
         });

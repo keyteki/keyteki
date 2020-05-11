@@ -79,6 +79,10 @@ describe('Wild Wormhole', function() {
                 this.player1.play(this.libraryAccess);
                 expect(this.libraryAccess.location).toBe('purged');
                 this.player1.play(this.wildWormhole);
+                expect(this.player1).toHavePrompt('Triggered Abilities');
+                expect(this.player1).toHavePromptButton('Library Access');
+                expect(this.player1).toHavePromptButton('Wild Wormhole');
+                this.player1.clickPrompt('Library Access');
                 expect(this.dextre.location).toBe('hand');
                 expect(this.gauntletOfCommand.location).toBe('deck');
                 expect(this.player1).toHavePrompt('Way of the Bear');
@@ -93,6 +97,10 @@ describe('Wild Wormhole', function() {
                 this.player1.moveCard(this.dextre, 'deck');
                 this.player1.play(this.libraryAccess);
                 this.player1.play(this.wildWormhole);
+                expect(this.player1).toHavePrompt('Triggered Abilities');
+                expect(this.player1).toHavePromptButton('Library Access');
+                expect(this.player1).toHavePromptButton('Wild Wormhole');
+                this.player1.clickPrompt('Library Access');
                 expect(this.dextre.location).toBe('hand');
                 expect(this.gauntletOfCommand.location).toBe('deck');
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
@@ -104,7 +112,16 @@ describe('Wild Wormhole', function() {
                 this.player1.moveCard(this.dextre, 'deck');
                 this.player1.play(this.libraryAccess);
                 this.player1.play(this.wildWormhole);
+                expect(this.player1).toHavePrompt('Triggered Abilities');
+                expect(this.player1).toHavePromptButton('Library Access');
+                expect(this.player1).toHavePromptButton('Wild Wormhole');
+                this.player1.clickPrompt('Library Access');
                 expect(this.dextre.location).toBe('hand');
+                expect(this.gauntletOfCommand.location).toBe('deck');
+                expect(this.player1).toHavePrompt('Triggered Abilities');
+                expect(this.player1).toHavePromptButton('Library Access');
+                expect(this.player1).toHavePromptButton('Anger');
+                this.player1.clickPrompt('Library Access');
                 expect(this.gauntletOfCommand.location).toBe('hand');
                 expect(this.player1).toHavePrompt('Anger');
             });

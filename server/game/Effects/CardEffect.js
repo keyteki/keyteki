@@ -3,8 +3,12 @@ const Effect = require('./Effect.js');
 class CardEffect extends Effect {
     constructor(game, source, properties, effect) {
         super(game, source, properties, effect);
+        if(!properties.match && properties.duration === 'persistentEffect') {
+            this.match = (card, context) => card === context.source;
+        }
+
         this.targetController = properties.targetController || 'current';
-        this.targetLocation = properties.targetLocation || 'play area';
+        this.targetLocation = properties.targetLocation || (properties.location === 'any' ? 'any' : 'play area');
     }
 
     isValidTarget(target) {

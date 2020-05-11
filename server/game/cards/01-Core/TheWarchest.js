@@ -13,7 +13,7 @@ class TheWarchest extends Card {
     }
 
     onCardDestroyed(event) {
-        if(event.clone.type === 'creature' && event.inFight) {
+        if(event.damageEvent && event.damageEvent.fightEvent && event.clone.type === 'creature') {
             this.creaturesDestroyed.push(event.clone);
         }
     }

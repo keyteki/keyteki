@@ -3,9 +3,7 @@ const Card = require('../../Card.js');
 class LordInvidius extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
-            condition: () => this.isInCenter(),
-            match: this,
-            targetController: 'current',
+            condition: context => context.source.isInCenter(),
             effect: ability.effects.gainAbility('reap', {
                 target: {
                     cardType: 'creature',

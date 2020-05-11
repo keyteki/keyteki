@@ -4,9 +4,8 @@ class TheColosseum extends Card {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onCardDestroyed: (event, context) =>
-                    event.clone.controller !== context.player &&
-                    event.inFight &&
+                onCardDestroyed: (event, context) => event.clone.controller !== context.player &&
+                    event.damageEvent && event.damageEvent.fightEvent &&
                     event.clone.type === 'creature'
             },
             effect: 'place a glory counter on itself due to {1} being destroyed',

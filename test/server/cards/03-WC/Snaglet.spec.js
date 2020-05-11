@@ -33,7 +33,7 @@ describe('Snaglet', function() {
                         this.player2.clickPrompt('brobnar');
                     });
 
-                    it('should cause 1 amber to be stolen', function() {
+                    it('should cause 2 amber to be stolen', function() {
                         expect(this.player1.amber).toBe(6);
                         expect(this.player2.amber).toBe(0);
                     });
@@ -47,7 +47,7 @@ describe('Snaglet', function() {
                         this.player2.clickPrompt('untamed');
                     });
 
-                    it('should cause 1 amber to be stolen', function() {
+                    it('should not cause 2 amber to be stolen', function() {
                         expect(this.player1.amber).toBe(4);
                         expect(this.player2.amber).toBe(2);
                     });

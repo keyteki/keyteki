@@ -86,9 +86,19 @@ class ThenAbility extends BaseAbility {
         }
 
         if(events.length > 0) {
-            let window = this.game.openEventWindow(events);
+            this.game.openEventWindow(events);
             if(then) {
-                window.addThenAbility(events, new ThenAbility(this.game, this.card, then), context);
+                this.game.queueSimpleStep(() => {
+                    if(then.alwaysTriggers || events.every(event => !event.cancelled)) {
+                        let thenAbility = new ThenAbility(this.game, this.card, then);
+                        let thenContext = thenAbility.createContext(context.player);
+                        thenContext.preThenEvents = events;
+                        thenContext.preThenEvent = events[0];
+                        if(!thenAbility.meetsRequirements(thenContext) && thenAbility.condition(thenContext)) {
+                            this.game.resolveAbility(thenContext);
+                        }
+                    }
+                });
             }
         } else if(then && then.alwaysTriggers) {
             let thenAbility = new ThenAbility(this.game, this.card, then);

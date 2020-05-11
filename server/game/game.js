@@ -25,7 +25,6 @@ const GameWonPrompt = require('./gamesteps/GameWonPrompt');
 const GameActions = require('./GameActions');
 const Event = require('./Events/Event');
 const EventWindow = require('./Events/EventWindow');
-const ThenEventWindow = require('./Events/ThenEventWindow');
 const AbilityResolver = require('./gamesteps/abilityresolver');
 const SimultaneousEffectWindow = require('./gamesteps/SimultaneousEffectWindow');
 const AbilityContext = require('./AbilityContext');
@@ -38,38 +37,39 @@ class Game extends EventEmitter {
     constructor(details, options = {}) {
         super();
 
-        this.effectEngine = new EffectEngine(this);
-        this.playersAndSpectators = {};
-        this.gameChat = new GameChat();
-        this.chatCommands = new ChatCommands(this);
-        this.pipeline = new GamePipeline();
-        this.id = details.id;
-        this.name = details.name;
+        this.adaptive = { chains: 0, selection: [], biddingWinner: '' };
         this.allowSpectators = details.allowSpectators;
-        this.showHand = details.showHand;
-        this.muteSpectators = details.muteSpectators;
-        this.owner = details.owner.username;
-        this.started = false;
-        this.playStarted = false;
+        this.cancelPromptUsed = false;
+        this.challonge = details.challonge;
+        this.chatCommands = new ChatCommands(this);
         this.createdAt = new Date();
-        this.savedGameId = details.savedGameId;
-        this.gameType = details.gameType;
-        this.gameFormat = details.gameFormat;
-        this.swap = details.swap;
-        this.previousWinner = details.previousWinner;
         this.currentAbilityWindow = null;
         this.currentActionWindow = null;
         this.currentEventWindow = null;
-        this.manualMode = false;
-        this.cancelPromptUsed = false;
         this.currentPhase = '';
-        this.password = details.password;
-        this.useGameTimeLimit = details.useGameTimeLimit;
+        this.effectEngine = new EffectEngine(this);
+        this.gameChat = new GameChat();
+        this.gameFormat = details.gameFormat;
+        this.gamePrivate = details.gamePrivate;
         this.gameTimeLimit = details.gameTimeLimit;
-        this.timeLimit = new TimeLimit(this);
+        this.gameType = details.gameType;
         this.hideDecklists = details.hideDecklists;
-        this.adaptive = { chains: 0, selection: [], biddingWinner: '' };
-        this.challonge = details.challonge;
+        this.id = details.id;
+        this.manualMode = false;
+        this.muteSpectators = details.muteSpectators;
+        this.name = details.name;
+        this.owner = details.owner.username;
+        this.password = details.password;
+        this.pipeline = new GamePipeline();
+        this.playStarted = false;
+        this.playersAndSpectators = {};
+        this.previousWinner = details.previousWinner;
+        this.savedGameId = details.savedGameId;
+        this.showHand = details.showHand;
+        this.started = false;
+        this.swap = details.swap;
+        this.timeLimit = new TimeLimit(this);
+        this.useGameTimeLimit = details.useGameTimeLimit;
 
         this.cardsUsed = [];
         this.cardsPlayed = [];
@@ -757,24 +757,20 @@ class Game extends EventEmitter {
      * @param events
      * @returns {EventWindow}
      */
-    openEventWindow(events) {
-        if(!_.isArray(events)) {
-            events = [events];
-        }
-
-        return this.queueStep(new EventWindow(this, events));
-    }
-
-    openThenEventWindow(events, checkState = true) {
-        if(this.currentEventWindow) {
-            if(!_.isArray(events)) {
-                events = [events];
+    openEventWindow(event) {
+        if(_.isArray(event)) {
+            if(event.length === 0) {
+                return;
+            } else if(event.length > 1) {
+                for(let e of event.slice(1)) {
+                    event[0].addChildEvent(e);
+                }
             }
 
-            return this.queueStep(new ThenEventWindow(this, events, checkState));
+            return this.queueStep(new EventWindow(this, event[0]));
         }
 
-        return this.openEventWindow(events);
+        return this.queueStep(new EventWindow(this, event));
     }
 
     /**
@@ -967,7 +963,7 @@ class Game extends EventEmitter {
         this.addAlert('info', '{0} has reconnected', player);
     }
 
-    checkGameState(hasChanged = false, events = []) {
+    checkGameState(hasChanged = false) {
         // check for a game state change (recalculating conflict skill if necessary)
         if(this.effectEngine.checkEffects(hasChanged) || hasChanged) {
             this.checkWinCondition();
@@ -1000,7 +996,9 @@ class Game extends EventEmitter {
             // any terminal conditions which have met their condition
             this.effectEngine.checkTerminalConditions();
         }
+    }
 
+    checkDelayedEffects(events) {
         if(events.length > 0) {
             // check for any delayed effects which need to fire
             this.effectEngine.checkDelayedEffects(events);
@@ -1086,29 +1084,30 @@ class Game extends EventEmitter {
     getSaveState() {
         let players = this.getPlayers().map(player => {
             return {
-                name: player.name,
-                houses: player.houses,
                 deck: player.deckData.identity,
+                houses: player.houses,
                 keys: player.keys,
+                name: player.name,
                 turn: player.turn,
                 wins: player.wins
             };
         });
 
         return {
-            id: this.savedGameId,
-            gameId: this.id,
-            startedAt: this.startedAt,
-            players: players,
-            gameType: this.gameType,
-            gameFormat: this.gameFormat,
-            challonge: this.challonge,
-            swap: this.swap,
-            previousWinner: this.previousWinner,
             adaptive: this.adaptive,
-            winner: this.winner ? this.winner.name : undefined,
+            challonge: this.challonge,
+            finishedAt: this.finishedAt,
+            gameFormat: this.gameFormat,
+            gameId: this.id,
+            gamePrivate: this.gamePrivate,
+            gameType: this.gameType,
+            id: this.savedGameId,
+            players: players,
+            previousWinner: this.previousWinner,
+            startedAt: this.startedAt,
+            swap: this.swap,
             winReason: this.winReason,
-            finishedAt: this.finishedAt
+            winner: this.winner ? this.winner.name : undefined
         };
     }
 
@@ -1127,33 +1126,33 @@ class Game extends EventEmitter {
             this.timeLimit.checkForTimeLimitReached();
 
             return {
-                id: this.id,
-                gameFormat: this.gameFormat,
-                challonge: this.challonge,
-                swap: this.swap,
-                previousWinner: this.previousWinner,
                 adaptive: this.adaptive,
+                cancelPromptUsed: this.cancelPromptUsed,
+                challonge: this.challonge,
+                gameFormat: this.gameFormat,
+                gamePrivate: this.gamePrivate,
+                gameTimeLimitStarted: this.timeLimit.timeLimitStarted,
+                gameTimeLimitStartedAt: this.timeLimit.timeLimitStartedAt,
+                gameTimeLimitTime: this.timeLimit.timeLimitInMinutes,
+                hideDecklists: this.hideDecklists,
+                id: this.id,
                 manualMode: this.manualMode,
+                messages: this.gameChat.messages,
+                muteSpectators: this.muteSpectators,
                 name: this.name,
                 owner: this.owner,
                 players: playerState,
-                messages: this.gameChat.messages,
-                muteSpectators: this.muteSpectators,
+                previousWinner: this.previousWinner,
                 showHand: this.showHand,
                 spectators: this.getSpectators().map(spectator => {
                     return {
                         id: spectator.id,
                         name: spectator.name
                     };
-                }),
-                started: this.started,
-                winner: this.winner ? this.winner.name : undefined,
-                cancelPromptUsed: this.cancelPromptUsed,
+                }),started: this.started,
+                swap: this.swap,
                 useGameTimeLimit: this.useGameTimeLimit,
-                hideDecklists: this.hideDecklists,
-                gameTimeLimitStarted: this.timeLimit.timeLimitStarted,
-                gameTimeLimitStartedAt: this.timeLimit.timeLimitStartedAt,
-                gameTimeLimitTime: this.timeLimit.timeLimitInMinutes
+                winner: this.winner ? this.winner.name : undefined
             };
         }
 
@@ -1185,8 +1184,8 @@ class Game extends EventEmitter {
                 emailHash: player.emailHash,
                 faction: '',
                 id: player.id,
-                lobbyId: player.lobbyId,
                 left: player.left,
+                lobbyId: player.lobbyId,
                 name: player.name,
                 owner: player.owner,
                 user: options.fullData && player.user,
@@ -1195,22 +1194,20 @@ class Game extends EventEmitter {
         }
 
         return {
+            adaptive: this.adaptive,
             allowSpectators: this.allowSpectators,
             createdAt: this.createdAt,
-            gameType: this.gameType,
-            gameFormat: this.gameFormat,
             challonge: this.challonge,
-            swap: this.swap,
-            adaptive: this.adaptive,
-            winner: this.winner,
+            gameFormat: this.gameFormat,
+            gamePrivate: this.gamePrivate,
+            gameType: this.gameType,
             id: this.id,
             manualMode: this.manualMode,
             messages: this.gameChat.messages,
+            muteSpectators: this.muteSpectators,
             name: this.name,
             owner: this.owner,
             players: playerSummaries,
-            started: this.started,
-            startedAt: this.startedAt,
             showHand: this.showHand,
             spectators: this.getSpectators().map(spectator => {
                 return {
@@ -1219,7 +1216,10 @@ class Game extends EventEmitter {
                     name: spectator.name
                 };
             }),
-            muteSpectators: this.muteSpectators
+            started: this.started,
+            startedAt: this.startedAt,
+            swap: this.swap,
+            winner: this.winner
         };
     }
 }

@@ -8,7 +8,6 @@ class ScowlyCaper extends Card {
 
         this.persistentEffect({
             location: 'any',
-            match: this,
             effect: ability.effects.entersPlayUnderOpponentsControl()
         });
 

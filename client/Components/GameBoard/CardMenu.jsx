@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 
 import classNames from 'classnames';
 
+import { withTranslation } from 'react-i18next';
+
 class CardMenu extends React.Component {
     constructor() {
         super();
@@ -28,7 +30,7 @@ class CardMenu extends React.Component {
                 'disabled': !!menuItem.disabled
             });
             if(menuItem.menu === this.state.submenu) {
-                return <div key={ menuIndex++ } className={ className } onClick={ this.onMenuItemClick.bind(this, menuItem) }>{ menuItem.text }</div>;
+                return <div key={ menuIndex++ } className={ className } onClick={ this.onMenuItemClick.bind(this, menuItem) }>{ this.props.t(menuItem.text) }</div>;
             }
         });
 
@@ -42,8 +44,10 @@ class CardMenu extends React.Component {
 
 CardMenu.displayName = 'CardMenu';
 CardMenu.propTypes = {
+    i18n: PropTypes.object,
     menu: PropTypes.array.isRequired,
-    onMenuItemClick: PropTypes.func
+    onMenuItemClick: PropTypes.func,
+    t: PropTypes.func
 };
 
-export default CardMenu;
+export default withTranslation()(CardMenu);

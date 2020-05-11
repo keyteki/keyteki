@@ -8,8 +8,6 @@ class BarnRazing extends Card {
                 when: {
                     onFight: event => event.attacker.controller === context.player
                 },
-                message: '{3} loses 1 amber due to {1}\'s effect',
-                messageArgs: context => [context.player.opponent],
                 gameAction: ability.actions.loseAmber(context => ({
                     target: context.player.opponent
                 }))

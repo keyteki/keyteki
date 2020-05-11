@@ -3,7 +3,6 @@ const Card = require('../../Card.js');
 class CincinnatusRex extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
-            match: this,
             effect: ability.effects.terminalCondition({
                 condition: () => !this.controller.opponent || this.controller.opponent.creaturesInPlay.length === 0,
                 message: '{0} is destroyed as there are no opposing creatures',

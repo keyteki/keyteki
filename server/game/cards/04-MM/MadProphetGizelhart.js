@@ -3,8 +3,7 @@ const Card = require('../../Card.js');
 class MadProphetGizelhart extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
-            condition: () => this.isInCenter(),
-            match: this,
+            condition: context => context.source.isInCenter(),
             targetController: 'current',
             effect: ability.effects.gainAbility('action', {
                 effect: 'heal 1 damage from all creatures',

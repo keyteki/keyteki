@@ -75,14 +75,13 @@ class GameAction {
         }
 
         this.preEventHandler(context);
-        let eventWindow;
+        let dummyEvent = context.game.getEvent('unnamedEvent');
         context.game.queueSimpleStep(() => {
             for(let event of this.getEventArray(context)) {
-                eventWindow.addEvent(event);
+                dummyEvent.addChildEvent(event);
             }
         });
-        eventWindow = context.game.openEventWindow([]);
-        return eventWindow;
+        return context.game.openEventWindow(dummyEvent);
     }
 
     canAffect(target, context) { // eslint-disable-line no-unused-vars

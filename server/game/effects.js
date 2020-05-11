@@ -48,6 +48,14 @@ const Effects = {
     }),
     transferDamage: (card) => EffectBuilder.card.static('transferDamage', card),
     // Player effects
+    lastingAbilityTrigger: (properties) => EffectBuilder.player.detached('abilityTrigger', {
+        apply: (player, context) => {
+            let ability = context.source.triggeredAbility('reaction', Object.assign({ printedAbility: false, player: player }, properties));
+            ability.registerEvents();
+            return ability;
+        },
+        unapply: (player, context, ability) => ability.unregisterEvents()
+    }),
     additionalCost: (costFactory) => EffectBuilder.player.static('additionalCost', costFactory),
     canFight: (match) => EffectBuilder.player.static('canUse', context => (
         (context.ability.title === 'Fight with this creature' ||

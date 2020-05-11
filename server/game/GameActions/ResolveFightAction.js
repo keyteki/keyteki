@@ -9,7 +9,7 @@ class ResolveFightAction extends CardGameAction {
     }
 
     canAffect(card, context) {
-        if(card.location !== 'play area' || !this.attacker) {
+        if(card.location !== 'play area' || !this.attacker || this.attacker.location !== 'play area') {
             return false;
         } else if(!this.attacker.checkRestrictions('fight') || card.controller === this.attacker.controller) {
             return false;
@@ -31,7 +31,15 @@ class ResolveFightAction extends CardGameAction {
             destroyed: []
         };
         return super.createEvent('onFight', params, event => {
-            let damageEvents = [];
+            context.player.creatureFought = true;
+            event.attacker.unenrage();
+
+            if(!this.canAffect(event.card)) {
+                event.card.elusiveUsed = true;
+                return;
+            }
+
+            let damageEvent;
             let defenderAmount = event.card.power;
             if(event.card.anyEffect('limitFightDamage')) {
                 defenderAmount = Math.min(defenderAmount, ...event.card.getEffects('limitFightDamage'));
@@ -54,27 +62,34 @@ class ResolveFightAction extends CardGameAction {
             };
             if(!event.card.getKeywordValue('elusive') || event.card.elusiveUsed || event.attacker.ignores('elusive')) {
                 if((!event.attacker.getKeywordValue('skirmish') || event.defenderTarget !== event.attacker) && event.card.checkRestrictions('dealFightDamage') && event.attackerTarget.checkRestrictions('dealFightDamageWhenDefending')) {
-                    damageEvents.push(context.game.actions.dealDamage(defenderParams).getEvent(event.defenderTarget, context));
+                    damageEvent = context.game.actions.dealDamage(defenderParams).getEvent(event.defenderTarget, context);
                 }
 
                 if(event.attacker.checkRestrictions('dealFightDamage')) {
-                    damageEvents.push(context.game.actions.dealDamage(attackerParams).getEvent(event.attackerTarget, context));
+                    if(damageEvent) {
+                        damageEvent.addChildEvent(context.game.actions.dealDamage(attackerParams).getEvent(event.attackerTarget, context));
+                    } else {
+                        damageEvent = context.game.actions.dealDamage(attackerParams).getEvent(event.attackerTarget, context);
+                    }
                 }
             } else if(event.attackerTarget !== event.card && event.attacker.checkRestrictions('dealFightDamage')) {
-                damageEvents.push(context.game.actions.dealDamage(attackerParams).getEvent(event.attackerTarget, context));
+                damageEvent = context.game.actions.dealDamage(attackerParams).getEvent(event.attackerTarget, context);
             }
 
-            damageEvents.push(context.game.getEvent('unnamedEvent', {}, () => {
-                event.card.isFighting = false;
-                event.attacker.isFighting = false;
-            }));
-            event.card.isFighting = true;
-            event.attacker.isFighting = true;
-            context.game.checkGameState(true);
-            event.addSubEvent(damageEvents);
             event.card.elusiveUsed = true;
-            context.player.creatureFought = true;
-            event.attacker.unenrage();
+            if(damageEvent) {
+                event.card.isFighting = true;
+                event.attacker.isFighting = true;
+                context.game.checkGameState(true);
+                damageEvent.openReactionWindow = false;
+                context.game.openEventWindow(damageEvent);
+                context.game.queueSimpleStep(() => {
+                    event.addChildEvent(damageEvent);
+                    damageEvent.openReactionWindow = true;
+                    event.card.isFighting = false;
+                    event.attacker.isFighting = false;
+                });
+            }
         });
     }
 }

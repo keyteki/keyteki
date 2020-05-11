@@ -53,19 +53,39 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
             return false;
         }
 
-        // Choose an card to trigger
+        // Choose a card to trigger
         this.promptBetweenSources(this.choices);
         return false;
     }
 
     promptBetweenSources(choices) {
-        this.game.promptForSelect(this.currentPlayer, _.extend(this.getPromptForSelectProperties(), {
-            cardCondition: card => _.any(choices, context => context.source === card),
-            onSelect: (player, card) => {
-                this.promptBetweenAbilities(choices.filter(context => context.source === card));
+        let lastingTriggers = _.uniq(choices.filter(context =>
+            context.ability.isLastingAbilityTrigger || context.source.location === 'being played'), context => context.ability);
+        let lastingTriggerCards = lastingTriggers.map(context => context.source);
+        let buttons = [];
+        for(let i = 0; i < lastingTriggerCards.length; i++) {
+            buttons.push({ text: lastingTriggerCards[i].name, arg: i.toString() });
+        }
+
+        let defaultProperties = this.getPromptForSelectProperties();
+        let properties = Object.assign({}, defaultProperties);
+        properties.buttons = buttons.concat(defaultProperties.buttons);
+        properties.cardCondition = card => !lastingTriggerCards.includes(card) && choices.some(context => context.source === card);
+        properties.onSelect = (player, card) => {
+            this.promptBetweenAbilities(choices.filter(context => context.source === card));
+            return true;
+        };
+
+        properties.onMenuCommand = (player, arg) => {
+            if(defaultProperties.onMenuCommand(player, arg)) {
                 return true;
             }
-        }));
+
+            this.promptBetweenAbilities(choices.filter(context => context.source === lastingTriggerCards[parseInt(arg)]));
+            return true;
+        };
+
+        this.game.promptForSelect(this.currentPlayer, properties);
     }
 
     getPromptForSelectProperties() {
@@ -212,7 +232,9 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
 
     emitEvents() {
         this.choices = [];
-        this.events = _.difference(this.eventWindow.events, this.eventsToExclude);
+        let events = this.eventWindow.event.getSimultaneousEvents();
+
+        this.events = _.difference(events, this.eventsToExclude);
         _.each(this.events, event => {
             this.game.emit(event.name + ':' + this.abilityType, event, this);
         });
