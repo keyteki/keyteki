@@ -8,7 +8,6 @@ const User = require('../models/User');
 const db = require('../db');
 const { expand } = require('../Array');
 
-
 class UserService extends EventEmitter {
     constructor(configService) {
         super();
@@ -105,6 +104,19 @@ class UserService extends EventEmitter {
             user.permissions = {};
         }
 
+        let challonge;
+        try {
+            challonge = await db.query('SELECT * FROM "ChallongeSettings" WHERE "UserId" = $1', [user.id]);
+        } catch(err) {
+            logger.error('Failed to lookup permissions for user', err);
+        }
+
+        if(challonge) {
+            user.challonge = { key: challonge[0].ApiKey, subdomain: challonge[0].SubDomain };
+        } else {
+            user.challonge = { key: '', subdomain: '' };
+        }
+
         return new User(user);
     }
 
@@ -181,6 +193,19 @@ class UserService extends EventEmitter {
             user.permissions = [];
         }
 
+        let challonge;
+        try {
+            challonge = await db.query('SELECT * FROM "ChallongeSettings" WHERE "UserId" = $1', [user.id]);
+        } catch(err) {
+            logger.error('Failed to lookup permissions for user', err);
+        }
+
+        if(challonge) {
+            user.challonge = { key: challonge[0].ApiKey, subdomain: challonge[0].SubDomain };
+        } else {
+            user.challonge = { key: '', subdomain: '' };
+        }
+
         return new User(user);
     }
 
@@ -188,9 +213,9 @@ class UserService extends EventEmitter {
         let users = [];
         try {
             const query = 'SELECT DISTINCT u."Username" FROM "RefreshToken" rt ' +
-                            'JOIN "RefreshToken" rt2 ON rt."Ip" = rt2."Ip" ' +
-                            'JOIN "Users" u ON u."Id" = rt2."UserId" ' +
-                            'WHERE rt."UserId" = $1 and rt2."UserId" != $1';
+                'JOIN "RefreshToken" rt2 ON rt."Ip" = rt2."Ip" ' +
+                'JOIN "Users" u ON u."Id" = rt2."UserId" ' +
+                'WHERE rt."UserId" = $1 and rt2."UserId" != $1';
             users = await db.query(query, [user.id]);
         } catch(err) {
             logger.error('Error finding related ips', err, user.username);
@@ -201,8 +226,8 @@ class UserService extends EventEmitter {
 
     async addUser(user) {
         let ret = await db.query('INSERT INTO "Users" ' +
-        '("Username", "Password", "Email", "Registered", "RegisterIp", "Settings_DisableGravatar", "Verified", "ActivationToken", "ActivationTokenExpiry") VALUES ' +
-        '($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "Id"',
+            '("Username", "Password", "Email", "Registered", "RegisterIp", "Settings_DisableGravatar", "Verified", "ActivationToken", "ActivationTokenExpiry") VALUES ' +
+            '($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "Id"',
         [user.username, user.password, user.email, user.registered, user.registerIp, !user.enableGravatar, user.verified, user.activationToken, user.activationTokenExpiry]);
 
         user.id = ret[0].Id;
@@ -217,8 +242,20 @@ class UserService extends EventEmitter {
             '"Settings_CardSize" = $5, "Settings_Background" = $6, "Settings_OrderAbilities" = $7, "Settings_ConfirmOneClick" = $8, "PatreonToken" = $9 WHERE "Id" = $10';
 
         try {
-            await db.query(query, [user.email, user.verified, user.disabled, !user.enableGravatar, user.settings.cardSize,
+            await db.query(query, [
+                user.email, user.verified, user.disabled, !user.enableGravatar, user.settings.cardSize,
                 user.settings.background, user.settings.optionSettings.orderForcedAbilities, user.settings.optionSettings.confirmOneClick, JSON.stringify(user.patreon), user.id]);
+        } catch(err) {
+            logger.error('Failed to update user', err);
+
+            await db.query('ROLLBACK');
+        }
+
+        query = 'INSERT INTO "ChallongeSettings" ("ApiKey", "SubDomain", "UserId") VALUES ($1, $2, $3) ' +
+        'ON CONFLICT ("UserId") DO UPDATE SET "ApiKey" = $1, "SubDomain" = $2';
+
+        try {
+            await db.query(query, [user.challonge.key, user.challonge.subdomain, user.id]);
         } catch(err) {
             logger.error('Failed to update user', err);
 
@@ -298,7 +335,7 @@ class UserService extends EventEmitter {
             }
         }
 
-        await(db.query('COMMIT'));
+        await (db.query('COMMIT'));
     }
 
     async addBlocklistEntry(user, entry) {
