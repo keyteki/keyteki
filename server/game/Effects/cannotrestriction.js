@@ -11,18 +11,18 @@ class CannotRestriction extends EffectValue {
         return this;
     }
 
-    isMatch(type, abilityContext) {
-        return this.type === type && this.checkCondition(abilityContext);
+    isMatch(type, abilityContext, abilityType) {
+        return this.type === type && this.checkCondition(abilityContext, abilityType);
     }
 
-    checkCondition(context) {
+    checkCondition(context, abilityType) {
         if(!this.condition) {
             return true;
         } else if(!context) {
             return false;
         }
 
-        return this.condition(context);
+        return this.condition(context, abilityType);
     }
 }
 

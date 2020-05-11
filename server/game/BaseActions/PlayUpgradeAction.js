@@ -9,8 +9,7 @@ class PlayUpgradeAction extends BasePlayAction {
             activePromptTitle: 'Choose a creature to attach this upgrade to',
             cardType: 'creature',
             gameAction: new AttachAction(context => ({ upgrade: context.source }))
-        });
-        this.title = 'Play this upgrade';
+        }, 'upgrade');
     }
 
     displayMessage(context) {

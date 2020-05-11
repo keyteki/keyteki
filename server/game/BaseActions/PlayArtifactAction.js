@@ -2,8 +2,7 @@ const BasePlayAction = require('./BasePlayAction');
 
 class PlayAction extends BasePlayAction {
     constructor(card) {
-        super(card);
-        this.title = 'Play this artifact';
+        super(card, null, 'artifact');
     }
 
     executeHandler(context) {

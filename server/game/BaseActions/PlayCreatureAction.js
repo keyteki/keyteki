@@ -2,8 +2,7 @@ const BasePlayAction = require('./BasePlayAction');
 
 class PlayCreatureAction extends BasePlayAction {
     constructor(card) {
-        super(card);
-        this.title = 'Play this creature';
+        super(card, null, 'creature');
     }
 
     executeHandler(context) {

@@ -9,7 +9,7 @@ class QuixxleStone extends Card {
                 return currentPlayerCreatures.length > opponentCreatures.length;
             },
             targetController: 'any',
-            effect: ability.effects.playerCannot('play', context => context.source.type === 'creature')
+            effect: ability.effects.playerCannot('play', (context, abilityType) => abilityType === 'creature' && context.source.type === 'creature')
         });
     }
 }

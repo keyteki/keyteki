@@ -11,7 +11,7 @@ describe('Quixxle Stone', function() {
                     player2: {
                         house: 'shadows',
                         inPlay: [],
-                        hand: ['bad-penny', 'umbra', 'chain-gang']
+                        hand: ['bad-penny', 'umbra', 'chain-gang', 'explo-rover', 'securi-droid']
                     }
                 });
             });
@@ -72,6 +72,19 @@ describe('Quixxle Stone', function() {
                 expect(this.player2.inPlay.length).toBe(1);
                 expect(this.player2.inPlay).toContain(this.badPenny);
                 expect(this.player2.inPlay).not.toContain(this.umbra);
+            });
+
+            it('non-owner player has more creatures, but still can play a creature as an upgrade', function() {
+                this.player1.endTurn();
+                this.player2.clickPrompt('staralliance');
+                this.player2.play(this.exploRover);
+                this.player2.clickCard(this.securiDroid);
+                expect(this.player2).toHavePromptButton('Play this upgrade');
+                expect(this.player2).not.toHavePromptButton('Play this creature');
+                expect(this.player2).toHavePromptButton('Discard this card');
+                this.player2.clickPrompt('Play this upgrade');
+                this.player2.clickCard(this.exploRover);
+                expect(this.exploRover.upgrades).toContain(this.securiDroid);
             });
         });
     });

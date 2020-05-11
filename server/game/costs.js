@@ -42,7 +42,7 @@ const Costs = {
             return false;
         })
     }),
-    play: () => ({
+    play: (abilityType) => ({
         canPay: context => {
             if(context.source.getKeywordValue('alpha') > 0 && !context.game.firstThingThisTurn()) {
                 return false;
@@ -50,7 +50,7 @@ const Costs = {
                 return false;
             } else if(context.source.hasHouse(context.player.activeHouse) && !context.player.anyEffect('noActiveHouseForPlay')) {
                 return true;
-            } else if(context.ignoreHouse || context.player.getEffects('canPlay').some(match => match(context.source, context))) {
+            } else if(context.ignoreHouse || context.player.getEffects('canPlay').some(match => match(context.source, context, abilityType))) {
                 return true;
             }
 

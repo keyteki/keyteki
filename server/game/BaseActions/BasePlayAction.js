@@ -3,15 +3,16 @@ const BaseAbility = require('../baseability.js');
 const Costs = require('../costs.js');
 
 class BasePlayAction extends BaseAbility {
-    constructor(card, target) {
-        let properties = { cost: Costs.play() };
+    constructor(card, target, abilityType) {
+        let properties = { cost: Costs.play(abilityType) };
         if(target) {
             properties.target = target;
         }
 
         super(properties);
         this.card = card;
-        this.abilityType = 'action';
+        this.abilityType = abilityType;
+        this.title = 'Play this ' + abilityType;
     }
 
     displayMessage(context) {
@@ -21,7 +22,8 @@ class BasePlayAction extends BaseAbility {
     meetsRequirements(context = this.createContext(), ignoredRequirements = []) {
         if(!ignoredRequirements.includes('location') && !context.player.isCardInPlayableLocation(context.source, 'play')) {
             return 'location';
-        } else if(!ignoredRequirements.includes('cannotTrigger') && (!context.player.checkRestrictions('play', context) || !context.source.checkRestrictions('play', context))) {
+        } else if(!ignoredRequirements.includes('cannotTrigger') &&
+            (!context.player.checkRestrictions('play', context, this.abilityType) || !context.source.checkRestrictions('play', context, this.abilityType))) {
             return 'cannotTrigger';
         }
 
