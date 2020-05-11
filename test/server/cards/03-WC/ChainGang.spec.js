@@ -16,13 +16,14 @@ describe('Chain Gang', function() {
                 });
             });
 
-            it('ready itself when I play subtle chain, and prompt to shuffle subtle chain back into my deck on action use', function() {
+            fit('ready itself when I play subtle chain, and prompt to shuffle subtle chain back into my deck on action use', function() {
                 this.player1.reap(this.chainGang);
                 expect(this.player1.amber).toBe(5);
                 expect(this.player2.amber).toBe(5);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
                 expect(this.chainGang.exhausted).toBe(true);
                 this.player1.play(this.subtleChain);
+                this.player1.clickCard(this.chainGang);
                 expect(this.mother.location).toBe('discard');
                 expect(this.subtleChain.location).toBe('discard');
                 expect(this.chainGang.exhausted).toBe(false);

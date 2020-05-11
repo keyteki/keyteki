@@ -5,6 +5,7 @@ class PutIntoPlayAction extends CardGameAction {
         this.left = false;
         this.deployIndex = undefined;
         this.myControl = false;
+        this.ready = false;
     }
 
     setup() {
@@ -132,6 +133,17 @@ class PutIntoPlayAction extends CardGameAction {
             }
 
             player.moveCard(card, 'play area', { left: this.left, deployIndex: this.deployIndex, myControl: control });
+            if(!this.ready && !card.anyEffect('entersPlayReady')) {
+                card.exhaust();
+            }
+
+            if(card.anyEffect('entersPlayStunned')) {
+                card.stun();
+            }
+
+            if(card.anyEffect('entersPlayEnraged')) {
+                card.enrage();
+            }
         });
     }
 }

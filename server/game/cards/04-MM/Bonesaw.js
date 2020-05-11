@@ -1,15 +1,27 @@
 const Card = require('../../Card.js');
+const EventRegistrar = require('../../eventregistrar.js');
 
 class Bonesaw extends Card {
     setupCardAbilities(ability) {
-        this.constantReaction({
-            when: {
-                onCardEntersPlay: (event, context) => {
-                    return event.card === context.source && context.player.creatureDestroyed;
-                }
-            },
-            gameAction: ability.actions.ready()
+        this.creatureDestroyedControllerUuid = {};
+        this.tracker = new EventRegistrar(this.game, this);
+        this.tracker.register(['onRoundEnded', 'onCardDestroyed']);
+
+        this.persistentEffect({
+            location: 'any',
+            condition: context => this.creatureDestroyedControllerUuid[context.source.controller.uuid],
+            effect: ability.effects.entersPlayReady()
         });
+    }
+
+    onRoundEnded() {
+        this.friendlyCreatureDestroyed = {};
+    }
+
+    onCardDestroyed(event) {
+        if(event.clone.type === 'creature') {
+            this.creatureDestroyedControllerUuid[event.clone.controller.uuid] = true;
+        }
     }
 }
 

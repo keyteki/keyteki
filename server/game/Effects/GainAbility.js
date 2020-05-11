@@ -17,11 +17,7 @@ class GainAbility extends EffectValue {
     }
 
     apply(target) {
-        if(this.type === 'constant') {
-            this.values[target.uuid] = target.constantReaction(this.properties);
-        } else {
-            this.values[target.uuid] = target[this.type](this.properties);
-        }
+        this.values[target.uuid] = target[this.type](this.properties);
 
         if(this.type === 'persistentEffect') {
             const value = this.values[target.uuid];

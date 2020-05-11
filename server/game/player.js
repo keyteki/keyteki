@@ -371,8 +371,6 @@ class Player extends GameObject {
             if(options.myControl) {
                 card.setDefaultController(this);
             }
-
-            card.exhausted = true;
         } else if(card.owner !== this) {
             card.owner.moveCard(card, targetLocation, options);
             return;

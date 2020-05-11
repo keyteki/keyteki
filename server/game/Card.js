@@ -123,7 +123,7 @@ class Card extends EffectSource {
             return this.abilities.keywordReactions;
         }
 
-        const TriggeredAbilityTypes = ['interrupt', 'reaction', 'constant'];
+        const TriggeredAbilityTypes = ['interrupt', 'reaction'];
         let reactions = this.abilities.reactions;
         if(this.anyEffect('copyCard')) {
             let mostRecentEffect = _.last(this.effects.filter(effect => effect.type === 'copyCard'));
@@ -304,10 +304,6 @@ class Card extends EffectSource {
         }
 
         return ability;
-    }
-
-    constantReaction(properties) {
-        return this.triggeredAbility('constant', properties);
     }
 
     reaction(properties) {

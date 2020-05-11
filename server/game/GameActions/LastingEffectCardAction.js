@@ -34,7 +34,7 @@ class LastingEffectCardAction extends CardGameAction {
     }
 
     canAffect(card, context) {
-        if(card.location !== 'play area' && this.targetLocation !== 'hand') {
+        if(card.location !== 'play area' && !this.targetLocation) {
             return false;
         }
 

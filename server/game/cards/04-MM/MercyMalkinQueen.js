@@ -2,7 +2,7 @@ const Card = require('../../Card.js');
 
 class MercyMalkinQueen extends Card {
     setupCardAbilities(ability) {
-        this.constantReaction({
+        this.reaction({
             when: {
                 onCardPlayed: (event, context) => context.player === event.player && event.card.type === 'creature' && event.card.hasTrait('cat')
             },
