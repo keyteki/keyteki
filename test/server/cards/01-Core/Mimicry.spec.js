@@ -5,7 +5,6 @@ describe('Mimicry', function() {
                 this.setupTest({
                     player1: {
                         house: 'untamed',
-                        hand: [],
                         inPlay: ['batdrone'],
                         hand: ['mimicry'],
                         discard: ['snufflegator']
