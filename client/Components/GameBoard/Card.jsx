@@ -258,7 +258,7 @@ class InnerCard extends React.Component {
             'unselectable': this.props.card.unselectable,
             'dragging': this.props.isDragging,
             'controlled': this.props.card.controlled,
-            'taunt': this.props.card.type === 'creature' && this.props.card.taunt && this.props.source === 'play area'
+            'taunt': this.props.card.taunt && this.props.source === 'play area'
         });
         let imageClass = classNames('card-image vertical', this.sizeClass, {
             'exhausted': (this.props.orientation === 'exhausted' || this.props.card.exhausted || this.props.orientation === 'horizontal')
