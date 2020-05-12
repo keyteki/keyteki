@@ -35,7 +35,9 @@ class ZmqSocket extends EventEmitter {
             data = JSON.stringify({ command: command, arg: arg });
         } catch(err) {
             logger.error('Failed to stringify node data', err);
-            logger.error(detectBinary(arg));
+            for(let obj of Object.values(detectBinary(arg))) {
+                logger.error(`Path: ${obj.path}, Type: ${obj.type}`);
+            }
 
             return;
         }
