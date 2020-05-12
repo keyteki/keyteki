@@ -20,7 +20,7 @@ class HowToPlay extends React.Component {
                     <h3><Trans>Topics</Trans></h3>
 
                     <ul className='htp-main-list'>
-                        <li><a href='#decks'><Trans>Adding Decks</Trans></a></li>                       
+                        <li><a href='#decks'><Trans>Adding Decks</Trans></a></li>
                         <li><a href='#profile'><Trans>Profile Options</Trans></a></li>
                         <li><a href='#bugs'><Trans>Bugs and Automation</Trans></a></li>
                         <li><a href='#mmode'><Trans>Manual Mode</Trans></a></li>
