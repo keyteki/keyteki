@@ -20,7 +20,7 @@ class Mimicry extends Card {
                 let card = context.target;
                 let effects = [];
                 if(card) {
-                    effects.push(ability.effects.modifyAmberValue(card.printedAmber));
+                    effects.push(ability.effects.modifyBonusIcons(card.bonusIcons));
                     if(card.abilities.reactions.some(ability => ability.properties.name === 'Play')) {
                         effects.push(ability.effects.gainAbility('play',
                             card.abilities.reactions.find(ability => ability.properties.name === 'Play').properties
