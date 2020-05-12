@@ -6,6 +6,19 @@ export function fetchTournaments() {
     };
 }
 
+export function fetchFullTournament(tournamentId) {
+    return {
+        types: ['REQUEST_FULL_TOURNAMENT', 'RECEIVE_FULL_TOURNAMENT'],
+        shouldCallAPI: () => true,
+        APIParams: {
+            url: '/api/challonge/fullTournament',
+            type: 'POST',
+            data: JSON.stringify({ data: tournamentId }),
+            cache: false
+        }
+    };
+}
+
 export function fetchMatches(tournamentId) {
     return {
         types: ['REQUEST_MATCHES', 'RECEIVE_MATCHES'],
@@ -39,16 +52,22 @@ export function receiveTournaments(tournaments) {
     };
 }
 
-export function attachMatchLink(game, attachment) {
-    const { tournamentId, matchId } = game.challonge;
+export function attachMatchLink(data) {
     return {
-        types: ['CREATE_ATTACHMENT', 'RECEIVE_ATTACHMENT'],
+        types: ['CREATE_ATTACHMENTS', 'RECEIVE_ATTACHMENTS'],
         shouldCallAPI: () => true,
         APIParams: {
             url: '/api/challonge/attachMatchLink',
             type: 'POST',
-            data: JSON.stringify({ tournamentId, matchId, attachment }),
+            data: JSON.stringify(data),
             cache: false
         }
+    };
+}
+
+
+export function clearChallongeMessage() {
+    return {
+        type: 'CLEAR_CHALLONGE_MESSAGE'
     };
 }

@@ -18,38 +18,45 @@ class TournamentLobby extends React.Component {
         super(props);
 
         this.state = {
+            showMessage: false,
             tournament: {},
-            tournamentGames: [],
             matchesToCreate: []
         };
-        this.createGames = this.createGames.bind(this);
-        this.sendAttachment = this.sendAttachment.bind(this);
+
         this.closeModal = this.closeModal.bind(this);
-        this.getOpenMatches = this.getOpenMatches.bind(this);
+        this.createGames = this.createGames.bind(this);
         this.getMatchLink = this.getMatchLink.bind(this);
         this.getMatchesWithNoGames = this.getMatchesWithNoGames.bind(this);
+        this.getMatchesWithGames = this.getMatchesWithGames.bind(this);
+        this.getOpenMatches = this.getOpenMatches.bind(this);
+        this.getParticipantName = this.getParticipantName.bind(this);
         this.getTournamentData = this.getTournamentData.bind(this);
         this.getTournamentGames = this.getTournamentGames.bind(this);
-        this.getParticipantName = this.getParticipantName.bind(this);
         this.refreshMatches = this.refreshMatches.bind(this);
         this.refreshTournaments = this.refreshTournaments.bind(this);
         this.selectTournament = this.selectTournament.bind(this);
+        this.sendAttachment = this.sendAttachment.bind(this);
     }
 
     componentDidMount() {
-        this.props.fetchTournaments();
+        if(!this.props.tournaments) {
+            this.props.fetchTournaments();
+        }
+
+        if(this.props.matches) {
+            this.setTournament(this.props.matches[0].tournament_id);
+        }
     }
 
-    // eslint-disable-next-line camelcase
-    UNSAFE_componentWillReceiveProps(props) {
-        const tournamentGames = props.games.filter(x => x.challonge && x.challonge.tournamentId === this.state.tournament.id);
-        this.setState({ tournamentGames });
+    componentDidUpdate(prevProps) {
+        if(prevProps.challongeMessage !== this.props.challongeMessage) {
+            this.toggleMessage();
+        }
     }
 
-    sendAttachment() {
-        this.state.tournamentGames.forEach(game=>{
-            this.props.attachMatchLink(game, this.getMatchLink(game));
-        });
+    closeModal() {
+        $('#pendingGameModal').modal('hide');
+        this.setState({ matchesToCreate: [] });
     }
 
     createGames (event) {
@@ -62,17 +69,44 @@ class TournamentLobby extends React.Component {
         $('#pendingGameModal').modal('show');
     }
 
-    getMatchesWithNoGames() {
-        return this.getOpenMatches().filter(x => !this.state.tournamentGames.map(x=>x.challonge.matchId).includes(x.id));
+    getParticipantName(id) {
+        if(!this.props.participants) {
+            return id;
+        }
+
+        const participant = this.props.participants.find(x => x.id === id);
+        return participant ? participant.display_name : 'Unknown';
     }
 
-    closeModal () {
-        $('#pendingGameModal').modal('hide');
-        this.setState({ matchesToCreate: [] });
+    getMatchLink(game) {
+        if(game) {
+            return `${window.location.protocol}//${window.location.host}/play?gameId=${ game.id }`;
+        }
+    }
+
+    getOpenMatches() {
+        let openMatches = [];
+        if(this.props.matches) {
+            openMatches = this.props.matches.filter(x => x.state === 'open');
+        }
+
+        return openMatches;
+    }
+
+    getMatchesWithGames() {
+        return this.getOpenMatches().filter(x => this.getTournamentGames().map(x=>x.challonge.matchId).includes(x.id));
+    }
+
+    getMatchesWithNoGames() {
+        return this.getOpenMatches().filter(x => !this.getTournamentGames().map(x=>x.challonge.matchId).includes(x.id));
     }
 
     getTournamentData() {
         this.props.fetchTournaments();
+    }
+
+    getTournamentGames() {
+        return this.props.games.filter(x => x.challonge && x.challonge.tournamentId === this.state.tournament.id);
     }
 
     refreshTournaments() {
@@ -85,67 +119,65 @@ class TournamentLobby extends React.Component {
         }
     }
 
-    //TODO get the select to select based on state
     selectTournament(event) {
         let tournament = this.props.tournaments.find(x=> x.id === +event.target.value);
         if(tournament) {
-            this.props.fetchParticipants(event.target.value);
-            this.props.fetchMatches(event.target.value);
+            this.props.fetchFullTournament(event.target.value);
             this.setState({ tournament });
         }
     }
 
-    getParticipantName(id) {
-        if(!this.props.participants) {
-            return id;
+    setTournament(id) {
+        let tournament = this.props.tournaments.find(x=> x.id === id);
+        if(tournament) {
+            this.setState({ tournament });
         }
-
-        const participant = this.props.participants.find(x => x.id === id);
-        return participant ? participant.display_name : 'Unknown';
     }
 
-    getOpenMatches() {
-        let openMatches = [];
-        if(this.props.matches) {
-            openMatches = this.props.matches.filter(x => x.state === 'open');
-        }
-
-        return openMatches;
+    sendAttachment() {
+        const matchData = this.getTournamentGames().map(game=> {
+            return {
+                attachment: this.getMatchLink(game),
+                matchId: game.challonge.matchId,
+                tournamentId: game.challonge.tournamentId
+            };
+        });
+        this.props.attachMatchLink(matchData);
     }
 
-    getTournamentGames() {
-        const tournamentGames = this.props.games.filter(x => x.challonge && x.challonge.tournamentId === this.state.tournament.id);
-        this.setState({ tournamentGames });
-    }
-
-    getMatchLink(game) {
-        if(game) {
-            return `${window.location.protocol}//${window.location.host}/play?gameId=${ game.id }`;
-        }
+    toggleMessage() {
+        this.setState({ showMessage: !this.state.showMessage });
     }
 
     render() {
         let t = this.props.t;
         let modalProps = {
-            id: 'pendingGameModal',
-            className: 'settings-popup row',
             bodyClassName: 'col-xs-12',
+            className: 'settings-popup row',
+            id: 'pendingGameModal',
             noClickToClose: true,
-            title: t('Game Options'),
-            okButton: t('Create')
+            okButton: t('Create'),
+            title: t('Game Options')
         };
+
+        let messageBar;
+        if(this.state.showMessage) {
+            setTimeout(() => {
+                this.toggleMessage();
+            }, 5000);
+            messageBar = <AlertPanel type={ this.props.challongeApiSuccess ? 'success' : 'error' } message={ t(this.props.challongeMessage) } />;
+        }
+
         return (
             <div className='full-height'>
-                { this.props.bannerNotice ? <AlertPanel type='error' message={ t(this.props.bannerNotice) } /> : null }
-                { this.state.errorMessage ? <AlertPanel type='error' message={ t(this.state.errorMessage) } /> : null }
-
+                { messageBar }
                 <div className='col-md-offset-2 col-md-8 full-height'>
                     <Panel title={ t('Tournament Organizer Panel') }>
                         <div className='col-xs-12 game-controls'>
                             <div className='col-sm-8'>
                                 <div className='form-group'>
-                                    <select className='form-control' onChange={ this.selectTournament }>
-                                        <option />
+                                    <select className='form-control' value={ this.state.tournament.id } onChange={ this.selectTournament }>
+                                        { !this.state.tournament.id && <option/> }
                                         { this.props.tournaments && this.props.tournaments.map((tournament, index) =>
                                             <option value={ tournament.id } key={ index }>{ `${tournament.name} (${tournament.state})` }</option>)
                                         }
@@ -161,9 +193,9 @@ class TournamentLobby extends React.Component {
                         </div>
                         <div className='col-xs-12'>
                             { this.getOpenMatches().map((match, index) => {
-                                const game = this.state.tournamentGames.find(x => x.challonge && x.challonge.matchId === match.id);
+                                const game = this.getTournamentGames().find(x => x.challonge && x.challonge.matchId === match.id);
                                 return (<div className='col-xs-12 match-row' key={ index }>
-                                    <div className='col-sm-5'>Round { match.round }: { this.getParticipantName(match.player1_id) } vs { this.getParticipantName(match.player2_id) } ({ match.state }) </div>
+                                    <div className='col-sm-5'>Table { index + 1 } : { this.getParticipantName(match.player1_id) } vs { this.getParticipantName(match.player2_id) } ({ match.state }) </div>
                                     <div className='col-sm-3'>
                                         { game ?
                                             <ReactClipboard text={ this.getMatchLink(game) }>
@@ -196,7 +228,7 @@ class TournamentLobby extends React.Component {
                                 <div className='col-sm-3'>
                                     <button className='btn btn-primary'
                                         onClick={ this.sendAttachment }
-                                        disabled={ false }>
+                                        disabled={ 0 >= this.getMatchesWithGames().length }>
                                     Send Attachment
                                     </button>
                                 </div>
@@ -219,9 +251,13 @@ class TournamentLobby extends React.Component {
 TournamentLobby.displayName = 'TournamentLobby';
 TournamentLobby.propTypes = {
     attachMatchLink: PropTypes.func,
+    attachments: PropTypes.array,
     bannerNotice: PropTypes.string,
     cancelNewGame: PropTypes.func,
     cancelPasswordJoin: PropTypes.func,
+    challongeApiSuccess: PropTypes.bool,
+    challongeMessage: PropTypes.string,
+    fetchFullTournament: PropTypes.func,
     fetchMatches: PropTypes.func,
     fetchParticipants: PropTypes.func,
     fetchTournaments: PropTypes.func,
@@ -241,18 +277,22 @@ TournamentLobby.propTypes = {
 function mapStateToProps(state) {
     return {
         attachMatchLink: state.challonge.attachMatchLink,
-        fetchTournaments: state.challonge.fetchTournaments,
+        attachments: state.challonge.attachments,
+        bannerNotice: state.lobby.notice,
+        challongeApiSuccess: state.challonge.success,
+        currentGame: state.lobby.currentGame,
+        fetchFullTournament: state.challonge.fetchFullTournament,
         fetchMatches: state.challonge.fetchMatches,
         fetchParticipants: state.challonge.fetchParticipants,
-        tournaments: state.challonge.tournaments,
-        matches: state.challonge.matches,
-        participants: state.challonge.participants,
-        bannerNotice: state.lobby.notice,
-        currentGame: state.lobby.currentGame,
+        fetchTournaments: state.challonge.fetchTournaments,
         games: state.lobby.games,
+        matches: state.challonge.matches,
+        challongeMessage: state.challonge.message,
         newGame: state.lobby.newGame,
+        participants: state.challonge.participants,
         passwordGame: state.lobby.passwordGame,
         socket: state.lobby.socket,
+        tournaments: state.challonge.tournaments,
         user: state.account.user
     };
 }
