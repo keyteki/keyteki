@@ -36,6 +36,8 @@ class ZmqSocket extends EventEmitter {
         } catch(err) {
             logger.error('Failed to stringify node data', err);
             logger.error(detectBinary(arg));
+
+            return;
         }
 
         this.socket.send(data);
