@@ -4,6 +4,7 @@ const zmq = require('zeromq');
 
 const config = require('config');
 const logger = require('../log.js');
+const { detectBinary } = require('../util');
 
 class ZmqSocket extends EventEmitter {
     constructor(listenAddress, protocol, version) {
@@ -28,7 +29,16 @@ class ZmqSocket extends EventEmitter {
     }
 
     send(command, arg) {
-        this.socket.send(JSON.stringify({ command: command, arg: arg }));
+        let data = '';
+
+        try {
+            data = JSON.stringify({ command: command, arg: arg });
+        } catch(err) {
+            logger.error('Failed to stringify node data', err);
+            logger.error(detectBinary(arg));
+        }
+
+        this.socket.send(data);
     }
 
     onConnect() {
