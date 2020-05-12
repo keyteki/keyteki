@@ -61,7 +61,7 @@ class GameChat {
                         returnedFraments.push(this.formatArray(arg));
                     } else if(arg instanceof Card) {
                         returnedFraments.push({ name: arg.name, image: arg.image, label: arg.name, type: arg.getType(),
-                            maverick: arg.maverick, anomaly: arg.anomaly, cardPrintedAmber: arg.cardPrintedAmber, argType: 'card' });
+                            maverick: arg.maverick, anomaly: arg.anomaly, cardPrintedAmber: arg.cardPrintedAmber, enhancements: arg.enhancements, argType: 'card' });
                     } else if(arg instanceof Spectator || arg instanceof Player) {
                         returnedFraments.push({ name: arg.user.username, argType: 'nonAvatarPlayer' });
                     } else {
