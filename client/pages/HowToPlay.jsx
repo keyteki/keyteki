@@ -29,18 +29,18 @@ class HowToPlay extends React.Component {
                     </ul>
 
                     <h3 id='decks'><Trans>Adding Decks</Trans></h3>
-                    <p><Trans i18nKey='howtoplay.addingdecks'>Until the game officially launches, it will not be possible to play with your own deck.  There are a number of decks which are available to all players, and you can choose to play with any of those. You are now ready to start playing. Head over to the <Link href='/play'>Play</Link> section to create, join or watch games.</Trans></p>
+                    <p><Trans i18nKey='howtoplay.addingdecks'>Clicking the <Link href='/decks'>Decks</Link> link will let you import decks from the master vault.</Trans></p>
 
                     <h3 id='profile'><Trans>Profile Options</Trans></h3>
                     <p><Trans i18nKey='howtoplay.profile'>Clicking your <Link href='/profile'>Profile</Link> at the top right of the page allows you to tailor certain aspects of gameplay to your wishes.</Trans></p>
 
                     <h3 id='bugs'><Trans>Bugs and Automation</Trans></h3>
-                    <p><Trans i18nKey='howtoplay.bugs'>The Crucible Online is currently in beta and still a work in progress. If you happen upon a card that you believe is not working as it should, it would help immensely if you would submit an issue on <a target='_blank' href='https://github.com/keyteki/keyteki/issues' rel='noopener noreferrer'>GitHub</a>. Other comments and/or feedback can be left on GitHub as well.</Trans></p>
+                    <p><Trans i18nKey='howtoplay.bugs'>If you happen upon a card that you believe is not working as it should, it would help immensely if you would submit an issue on <a target='_blank' href='https://github.com/keyteki/keyteki/issues' rel='noopener noreferrer'>GitHub</a>. Other comments and/or feedback can be left on GitHub as well.</Trans></p>
 
                     <h3 id='mmode'><Trans>Manual Mode</Trans></h3>
                     <p><Trans i18nKey='howtoplay.manualmode1'>Most of the cards should be implemented, but if things go wrong, or someone misclicks, or you really hate automation, you can switch on
                     Manual Mode by clicking the wrench in the bottom right.</Trans></p>
-                    <p><Trans i18nKey='howtoplay.manualmode2'>In manual mode, clicking cards and rings will bring up a menu which allows you to easily change the game state. Most of the functions in
+                    <p><Trans i18nKey='howtoplay.manualmode2'>In manual mode, clicking cards will bring up a menu which allows you to easily change the game state. Most of the functions in
                     these menus mirror the Manual Commands listed below, but there are a couple of things which can only be done in menus.</Trans></p>
 
                     <h3 id='commands'><Trans>Manual Commands</Trans></h3>
