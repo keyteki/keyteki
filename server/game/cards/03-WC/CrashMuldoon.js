@@ -2,12 +2,11 @@ const Card = require('../../Card.js');
 
 class CrashMuldoon extends Card {
     setupCardAbilities(ability) {
-        this.constantReaction({
-            when: {
-                onCardEntersPlay: (event, context) => event.card === context.source
-            },
-            gameAction: ability.actions.ready()
+        this.persistentEffect({
+            location: 'any',
+            effect: ability.effects.entersPlayReady()
         });
+
         this.action({
             target: {
                 cardType: 'creature',

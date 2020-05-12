@@ -61,7 +61,6 @@ class DestroyAction extends CardGameAction {
                 leavesPlayEvent.card.owner.moveCard(event.card, this.purge ? 'purged' : 'discard');
             });
 
-            card.owner.creatureDestroyed = true;
             event.addSubEvent(event.leavesPlayEvent);
             /*
             if(!context.game.firstDestroyEvent || context.game.firstDestroyEvent.getSimultaneousEvents().every(e => e.cancelled || e.resolved)) {

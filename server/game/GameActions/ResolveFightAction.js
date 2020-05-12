@@ -31,7 +31,6 @@ class ResolveFightAction extends CardGameAction {
             destroyed: []
         };
         return super.createEvent('onFight', params, event => {
-            context.player.creatureFought = true;
             event.attacker.unenrage();
 
             if(!this.canAffect(event.card)) {

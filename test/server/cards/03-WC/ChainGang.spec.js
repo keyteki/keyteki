@@ -23,6 +23,7 @@ describe('Chain Gang', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
                 expect(this.chainGang.exhausted).toBe(true);
                 this.player1.play(this.subtleChain);
+                this.player1.clickCard(this.chainGang);
                 expect(this.mother.location).toBe('discard');
                 expect(this.subtleChain.location).toBe('discard');
                 expect(this.chainGang.exhausted).toBe(false);

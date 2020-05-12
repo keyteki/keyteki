@@ -2,7 +2,7 @@ const Card = require('../../Card.js');
 
 class ChainGang extends Card {
     setupCardAbilities(ability) {
-        this.constantReaction({
+        this.reaction({
             when: {
                 onCardPlayed: (event, context) =>
                     event.card.name === 'Subtle Chain' &&
