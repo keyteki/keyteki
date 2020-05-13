@@ -25,7 +25,7 @@ describe('Transporter Platform', function() {
                 expect(this.captainValJericho.location).toBe('hand');
             });
 
-            it('should return creature and artifact to owner\'s hand', function() {
+            it('should return creature and upgrades to owner\'s hand', function() {
                 this.player1.playUpgrade(this.calv1n, this.captainValJericho);
                 this.player1.useAction(this.transporterPlatform);
                 expect(this.player1).toBeAbleToSelect(this.captainValJericho);
@@ -37,6 +37,16 @@ describe('Transporter Platform', function() {
                 this.player1.clickCard(this.captainValJericho);
                 expect(this.calv1n.location).toBe('hand');
                 expect(this.captainValJericho.location).toBe('hand');
+            });
+
+            it('should return upgrades only when creature is warded', function() {
+                this.player1.playUpgrade(this.calv1n, this.medicIngram);
+                this.medicIngram.tokens.ward = 1;
+                this.player1.useAction(this.transporterPlatform);
+                this.player1.clickCard(this.medicIngram);
+                expect(this.calv1n.location).toBe('hand');
+                expect(this.medicIngram.location).toBe('play area');
+                expect(this.medicIngram.tokens.ward).toBeUndefined();
             });
         });
 
