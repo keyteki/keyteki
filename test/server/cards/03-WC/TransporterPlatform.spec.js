@@ -68,7 +68,7 @@ describe('Transporter Platform', function() {
                     },
                     player2: {
                         inPlay: ['urchin', 'lamindra', 'flaxia'],
-                        hand: ['way-of-the-bear']
+                        hand: ['way-of-the-bear', 'poltergeist', 'soulkeeper']
                     }
                 });
             });
@@ -121,6 +121,20 @@ describe('Transporter Platform', function() {
                 expect(this.player1.player.hand).toContain(this.collarOfSubordination);
                 expect(this.player1.player.hand).toContain(this.calv1n);
                 expect(this.player2.player.hand).toContain(this.wayOfTheBear);
+            });
+
+            it('should be able to select own creature after Poltergeist', function() {
+                this.player1.endTurn();
+
+                this.player2.clickPrompt('dis');
+                this.player2.playUpgrade(this.soulkeeper, this.lamindra);
+                this.player2.play(this.poltergeist);
+                this.player2.clickCard(this.transporterPlatform);
+                this.player2.clickCard(this.lamindra);
+
+                expect(this.lamindra.location).toBe('hand');
+                expect(this.soulkeeper.location).toBe('hand');
+                expect(this.transporterPlatform.location).toBe('discard');
             });
         });
     });
