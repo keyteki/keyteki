@@ -12,42 +12,29 @@ let rotate = new transports.DailyRotateFile({
     zippedArchive: true
 });
 
-function rest(info) {
-    const cleanedObject = Object.assign({}, info, {
-        timestamp: undefined,
-        level: undefined,
-        message: undefined,
-        splat: undefined,
-        label: undefined
-    });
-
-    let str = '';
-
-    for(let [key, value] of Object.entries(cleanedObject)) {
-        if(!value) {
-            continue;
-        }
-
-        str += `${key}=${value} `;
+const prettyJson = format.printf(info => {
+    if(typeof info.message === 'object') {
+        info.message = JSON.stringify(info.message, null, 4);
     }
 
-    return str;
-}
+    return `${info.level}: ${info.message}`;
+});
 
 const logger = createLogger({
     format: format.combine(
-        format.timestamp(),
+        format.colorize(),
+        format.prettyPrint(),
         format.splat(),
-        format.errors({ stack: true }),
-        format.printf(info => `${info.timestamp} ${info.level}: ${info.message}\n${rest(info)}}`)
+        format.simple(),
+        prettyJson,
     ),
     transports: [
         new transports.Console({ format: format.combine(
-            format.splat(),
             format.colorize(),
-            format.timestamp(),
-            format.errors({ stack: true }),
-            format.printf(info => `${info.timestamp} ${info.level}: ${info.message}\n${rest(info)}`)
+            format.prettyPrint(),
+            format.splat(),
+            format.simple(),
+            prettyJson,
         ) }),
         rotate
     ]

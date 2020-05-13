@@ -258,7 +258,7 @@ class UserService extends EventEmitter {
         }
 
         let newPerms = [];
-        for(let permission of Object.keys(user.permissions)) {
+        for(let permission of Object.keys(user.permissions || {})) {
             if(user.permissions[permission]) {
                 newPerms.push(permission);
             }
