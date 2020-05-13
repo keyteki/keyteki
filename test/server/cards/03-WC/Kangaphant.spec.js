@@ -27,6 +27,14 @@ describe('Kangaphant', function() {
                 expect(this.player2.amber).toBe(1);
                 expect(this.mightyTiger.location).toBe('discard');
             });
+
+            it('should end if Kangaphant is destroyed', function() {
+                this.player1.reap(this.kangaphant);
+                this.player1.reap(this.snufflegator);
+                expect(this.kangaphant.location).toBe('discard');
+                expect(this.snufflegator.location).toBe('play area');
+                expect(this.player1.amber).toBe(2);
+            });
         });
     });
 });
