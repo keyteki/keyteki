@@ -1215,7 +1215,7 @@ class Game extends EventEmitter {
             started: this.started,
             startedAt: this.startedAt,
             swap: this.swap,
-            winner: this.winner
+            winner: this.winner ? this.winner.name : undefined
         };
     }
 }
