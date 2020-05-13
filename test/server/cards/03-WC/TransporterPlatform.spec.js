@@ -63,12 +63,12 @@ describe('Transporter Platform', function() {
                 this.setupTest({
                     player1: {
                         house: 'dis',
-                        hand: ['collar-of-subordination', 'calv-1n'],
+                        hand: ['collar-of-subordination', 'calv-1n', 'cloaking-dongle'],
                         inPlay: ['transporter-platform', 'captain-val-jericho', 'medic-ingram']
                     },
                     player2: {
                         inPlay: ['urchin', 'lamindra', 'flaxia'],
-                        hand: ['way-of-the-bear', 'poltergeist', 'soulkeeper']
+                        hand: ['way-of-the-bear', 'poltergeist', 'soulkeeper', 'tentacus']
                     }
                 });
             });
@@ -135,6 +135,35 @@ describe('Transporter Platform', function() {
                 expect(this.lamindra.location).toBe('hand');
                 expect(this.soulkeeper.location).toBe('hand');
                 expect(this.transporterPlatform.location).toBe('discard');
+            });
+
+            it('should be able to pay to use Transporter Platform', function() {
+                this.player1.endTurn();
+
+                this.player2.clickPrompt('dis');
+                this.player2.play(this.tentacus);
+                this.player2.endTurn();
+
+                this.player1.clickPrompt('staralliance');
+                this.player1.playUpgrade(this.cloakingDongle, this.medicIngram);
+                this.player1.useAction(this.transporterPlatform);
+                this.player1.clickCard(this.medicIngram);
+
+                expect(this.medicIngram.location).toBe('hand');
+                expect(this.cloakingDongle.location).toBe('hand');
+                expect(this.player1.amber).toBe(0);
+            });
+
+            it('should not be able to use Transporter Platform if player has no amber', function() {
+                this.player1.endTurn();
+
+                this.player2.clickPrompt('dis');
+                this.player2.play(this.tentacus);
+                this.player2.endTurn();
+
+                this.player1.clickPrompt('staralliance');
+                this.player1.clickCard(this.transporterPlatform);
+                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
         });
     });
