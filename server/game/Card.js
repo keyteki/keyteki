@@ -906,7 +906,7 @@ class Card extends EffectSource {
             maverick: this.maverick,
             cardPrintedAmber: this.cardPrintedAmber,
             stunned: this.stunned,
-            taunt: !!this.getKeywordValue('taunt'),
+            taunt: this.getType() === 'creature' && !!this.getKeywordValue('taunt'),
             tokens: this.tokens,
             type: this.getType(),
             upgrades: this.upgrades.map(upgrade => {
