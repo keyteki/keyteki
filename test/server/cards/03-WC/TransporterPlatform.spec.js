@@ -25,6 +25,14 @@ describe('Transporter Platform', function() {
                 expect(this.captainValJericho.location).toBe('hand');
             });
 
+            it('should not return creature when it is warded', function() {
+                this.medicIngram.tokens.ward = 1;
+                this.player1.useAction(this.transporterPlatform);
+                this.player1.clickCard(this.medicIngram);
+                expect(this.medicIngram.location).toBe('play area');
+                expect(this.medicIngram.tokens.ward).toBeUndefined();
+            });
+
             it('should return creature and upgrades to owner\'s hand', function() {
                 this.player1.playUpgrade(this.calv1n, this.captainValJericho);
                 this.player1.useAction(this.transporterPlatform);
@@ -55,7 +63,7 @@ describe('Transporter Platform', function() {
                 this.setupTest({
                     player1: {
                         house: 'dis',
-                        hand: ['collar-of-subordination'],
+                        hand: ['collar-of-subordination', 'calv-1n'],
                         inPlay: ['transporter-platform', 'captain-val-jericho', 'medic-ingram']
                     },
                     player2: {
@@ -65,7 +73,7 @@ describe('Transporter Platform', function() {
                 });
             });
 
-            it('should return creature to owner\'s hand', function() {
+            it('should return creature and upgrades to owner\'s hand', function() {
                 this.player1.playUpgrade(this.collarOfSubordination, this.lamindra);
                 this.player1.clickPrompt('Left');
                 this.player1.endTurn();
@@ -86,6 +94,33 @@ describe('Transporter Platform', function() {
                 expect(this.player1.player.hand).toContain(this.collarOfSubordination);
                 expect(this.player2.player.hand).toContain(this.wayOfTheBear);
                 expect(this.player2.player.hand).toContain(this.lamindra);
+            });
+
+            it('should return upgrades only to owner\'s hand', function() {
+                this.player1.playUpgrade(this.collarOfSubordination, this.lamindra);
+                this.player1.clickPrompt('Left');
+                this.player1.endTurn();
+
+                this.player2.clickPrompt('untamed');
+                this.player2.playUpgrade(this.wayOfTheBear, this.lamindra);
+                this.player2.endTurn();
+
+                this.player1.clickPrompt('staralliance');
+                this.lamindra.tokens.ward = 1;
+                this.player1.playUpgrade(this.calv1n, this.lamindra);
+                this.player1.useAction(this.transporterPlatform);
+                expect(this.player1).toBeAbleToSelect(this.lamindra);
+                this.player1.clickCard(this.lamindra);
+
+                expect(this.lamindra.location).toBe('play area');
+                expect(this.lamindra.tokens.ward).toBeUndefined();
+                expect(this.calv1n.location).toBe('hand');
+                expect(this.collarOfSubordination.location).toBe('hand');
+                expect(this.wayOfTheBear.location).toBe('hand');
+
+                expect(this.player1.player.hand).toContain(this.collarOfSubordination);
+                expect(this.player1.player.hand).toContain(this.calv1n);
+                expect(this.player2.player.hand).toContain(this.wayOfTheBear);
             });
         });
     });
