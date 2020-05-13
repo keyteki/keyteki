@@ -5,7 +5,7 @@ class QuixxleStone extends Card {
         this.persistentEffect({
             condition: () => {
                 let currentPlayerCreatures = this.game.activePlayer.cardsInPlay.filter(card => card.type === 'creature');
-                let opponentCreatures = this.game.activePlayer.opponent.cardsInPlay.filter(card => card.type === 'creature');
+                let opponentCreatures = this.game.activePlayer.opponent ? this.game.activePlayer.opponent.cardsInPlay.filter(card => card.type === 'creature') : [];
                 return currentPlayerCreatures.length > opponentCreatures.length;
             },
             targetController: 'any',
