@@ -73,5 +73,25 @@ describe('Dance of Doom', function() {
                 });
             });
         });
+
+        describe('when played and there is no creature in play', function() {
+            beforeEach(function() {
+                this.setupTest({
+                    player1: {
+                        house: 'dis',
+                        hand: ['dance-of-doom']
+                    },
+                    player2: {
+                    }
+                });
+
+                this.player1.play(this.danceOfDoom);
+            });
+
+            it('should prompt for 0 only', function() {
+                expect(this.player1).toHavePrompt('Choose a number');
+                this.player1.selectOption(0);
+            });
+        });
     });
 });
