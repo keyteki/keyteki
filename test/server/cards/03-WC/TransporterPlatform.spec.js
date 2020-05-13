@@ -14,6 +14,13 @@ describe('Transporter Platform', function() {
                 });
             });
 
+            it('should be able to use and return no creature, when no creatures in play', function() {
+                this.player1.moveCard(this.medicIngram, 'discard');
+                this.player1.moveCard(this.captainValJericho, 'discard');
+                this.player1.useAction(this.transporterPlatform);
+                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            });
+
             it('should return creature to owner\'s hand', function() {
                 this.player1.useAction(this.transporterPlatform);
                 expect(this.player1).toBeAbleToSelect(this.captainValJericho);
