@@ -26,7 +26,9 @@ class Deck {
             } else if(card.anomaly) {
                 result.card.house = card.anomaly;
                 result.card.anomaly = card.anomaly;
-            } else if(card.enhancements) {
+            }
+
+            if(card.enhancements) {
                 result.card.enhancements = card.enhancements;
             }
 

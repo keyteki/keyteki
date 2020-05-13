@@ -80,6 +80,22 @@ describe('Infurnace', function() {
                 expect(this.fertilityChant.location).toBe('purged');
                 expect(this.player2.amber).toBe(0);
             });
+
+            it('should consider enhanced icons after purging', function() {
+                this.banish.cardData.enhancements = ['amber', 'archive', 'amber'];
+
+                this.player1.play(this.infurnace);
+                expect(this.player1).toHavePrompt('Infurnace');
+                this.player1.clickPrompt('Mine');
+                expect(this.player1).toBeAbleToSelect(this.banish);
+                expect(this.player1).toBeAbleToSelect(this.cullTheWeak);
+                this.player1.clickCard(this.banish);
+                this.player1.clickCard(this.cullTheWeak);
+                this.player1.clickPrompt('Done');
+                expect(this.banish.location).toBe('purged');
+                expect(this.cullTheWeak.location).toBe('purged');
+                expect(this.player2.amber).toBe(1);
+            });
         });
 
         describe('Infurnace\'s ability', function() {
