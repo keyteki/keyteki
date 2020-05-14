@@ -156,6 +156,9 @@ describe('Weasand', function() {
                 expect(this.player1).toBeAbleToSelect(this.lamindra);
                 this.player1.clickCard(this.lamindra);
                 expect(this.lamindra.location).toBe('discard');
+                expect(this.flaxia.location).toBe('play area');
+                expect(this.redlock.location).toBe('play area');
+                expect(this.weasand.location).toBe('hand');
             });
 
             it('should not destroy creature at center if choose to reveal Weasand using Creed', function() {
@@ -166,6 +169,9 @@ describe('Weasand', function() {
                 this.player1.clickCard(this.flaxia);
                 expect(this.flaxia.location).toBe('play area');
                 expect(this.flaxia.getKeywordValue('elusive')).toBe(2);
+                expect(this.redlock.location).toBe('play area');
+                expect(this.lamindra.location).toBe('play area');
+                expect(this.weasand.location).toBe('hand');
             });
         });
     });
