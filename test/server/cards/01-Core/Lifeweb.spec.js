@@ -1,6 +1,6 @@
-describe('Lifeward', function() {
+describe('Lifeweb', function() {
     integration(function() {
-        describe('Lifeward\'s ability', function() {
+        describe('Lifeweb\'s ability', function() {
             beforeEach(function() {
                 this.setupTest({
                     player1: {
