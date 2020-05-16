@@ -61,13 +61,13 @@ docker-compose exec lobby node server/scripts/fetchdata
 * Git
 * Node.js 8
 * PostgreSQL
-* ZeroMQ Libraries
+* Redis
 
 Clone the repository, then run the following commands:
 ```
 git submodule init
 git submodule update
-npm install # See https://github.com/JustinTulloss/zeromq.node/issues/283 for zmq errors on OS X
+npm install
 mkdir server/logs
 ```
 

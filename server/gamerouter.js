@@ -1,31 +1,41 @@
-const zmq = require('zeromq');
-const router = zmq.socket('router');
-const logger = require('./log.js');
+const redis = require('redis');
 const EventEmitter = require('events');
-const GameService = require('./services/GameService.js');
+
+const logger = require('./log');
+const GameService = require('./services/GameService');
+const { detectBinary } = require('./util');
 
 class GameRouter extends EventEmitter {
+    /**
+     * @param {import("./services/ConfigService.js")} configService
+     */
     constructor(configService) {
         super();
 
         this.workers = {};
         this.gameService = new GameService();
 
-        router.bind(`tcp://0.0.0.0:${configService.getValue('mqPort')}`, err => {
-            if(err) {
-                logger.info(err);
-            }
-        });
+        this.subscriber = redis.createClient(configService.getValue('redisUrl'));
+        this.publisher = redis.createClient(configService.getValue('redisUrl'));
 
-        router.on('message', this.onMessage.bind(this));
+        this.subscriber.on('error', this.onError);
+        this.publisher.on('error', this.onError);
+
+        this.subscriber.subscribe('nodemessage');
+        this.subscriber.on('message', this.onMessage.bind(this));
+        this.subscriber.on('subscribe', () => {
+            this.sendCommand('allnodes', 'LOBBYHELLO');
+        });
 
         setInterval(this.checkTimeouts.bind(this), 1000 * 60);
     }
 
     // External methods
+    /**
+     * @param {import("./pendinggame.js")} game
+     */
     startGame(game) {
         let node = this.getNextAvailableGameNode();
-
         if(!node) {
             logger.error('Could not find new node for game');
             return;
@@ -40,6 +50,10 @@ class GameRouter extends EventEmitter {
         return node;
     }
 
+    /**
+     * @param {import("./pendinggame.js")} game
+     * @param {import("./models/User")} user
+     */
     addSpectator(game, user) {
         this.sendCommand(game.node.identity, 'SPECTATOR', { game: game, user: user });
     }
@@ -49,10 +63,9 @@ class GameRouter extends EventEmitter {
             return undefined;
         }
 
-        var returnedWorker = undefined;
-
+        let returnedWorker;
         for(const worker of Object.values(this.workers)) {
-            if(worker.numGames >= worker.maxGames || worker.disabled || worker.disconnected) {
+            if(worker.disabled || worker.disconnected || worker.numGames >= worker.maxGames) {
                 continue;
             }
 
@@ -75,8 +88,11 @@ class GameRouter extends EventEmitter {
         });
     }
 
+    /**
+     * @param {string} nodeName
+     */
     disableNode(nodeName) {
-        var worker = this.workers[nodeName];
+        let worker = this.workers[nodeName];
         if(!worker) {
             return false;
         }
@@ -86,8 +102,11 @@ class GameRouter extends EventEmitter {
         return true;
     }
 
+    /**
+     * @param {string} nodeName
+     */
     enableNode(nodeName) {
-        var worker = this.workers[nodeName];
+        let worker = this.workers[nodeName];
         if(!worker) {
             return false;
         }
@@ -97,6 +116,9 @@ class GameRouter extends EventEmitter {
         return true;
     }
 
+    /**
+     * @param {string} nodeName
+     */
     toggleNode(nodeName) {
         let worker = this.workers[nodeName];
         if(!worker) {
@@ -108,17 +130,24 @@ class GameRouter extends EventEmitter {
         return true;
     }
 
+    /**
+     * @param {string} nodeName
+     */
     restartNode(nodeName) {
         let worker = this.workers[nodeName];
         if(!worker) {
             return false;
         }
 
-        this.sendCommand(nodeName, 'RESTART', {});
+        this.sendCommand(nodeName, 'RESTART');
 
         return true;
     }
 
+    /**
+     * @param {import("./pendinggame.js")} game
+     * @param {string} username
+     */
     notifyFailedConnect(game, username) {
         if(!game.node) {
             return;
@@ -127,6 +156,9 @@ class GameRouter extends EventEmitter {
         this.sendCommand(game.node.identity, 'CONNECTFAILED', { gameId: game.id, username: username });
     }
 
+    /**
+     * @param {import("./pendinggame.js")} game
+     */
     closeGame(game) {
         if(!game.node) {
             return;
@@ -136,45 +168,55 @@ class GameRouter extends EventEmitter {
     }
 
     // Events
-    onMessage(identity, msg) {
-        var identityStr = identity.toString();
+    /**
+     * @param {Error} err
+     */
+    onError(err) {
+        logger.error('Redis error: ', err);
+    }
 
-        var worker = this.workers[identityStr];
-
-        var message = undefined;
-
-        try {
-            message = JSON.parse(msg.toString());
-        } catch(err) {
-            logger.info(err);
+    /**
+     * @param {string} channel
+     * @param {string} msg
+     */
+    onMessage(channel, msg) {
+        if(channel !== 'nodemessage') {
+            logger.warn(`Message '${msg}' received for unknown channel ${channel}`);
             return;
         }
 
+        let message;
+        try {
+            message = JSON.parse(msg);
+        } catch(err) {
+            logger.info(`Error decoding redis message. Channel ${channel}, message '${msg}' %o`, err);
+            return;
+        }
+
+        const identity = message.identity;
+        let worker = this.workers[identity];
+
         if(worker && worker.disconnected) {
-            logger.info(`Worker ${identityStr} came back`);
+            logger.info(`Worker ${identity} came back`);
             worker.disconnected = false;
         }
 
         switch(message.command) {
             case 'HELLO':
-                this.emit('onWorkerStarted', identityStr);
-                if(this.workers[identityStr]) {
-                    logger.info(`Worker ${identityStr} was already known, presume reconnected`);
-                    this.workers[identityStr].disconnected = false;
+                this.emit('onWorkerStarted', identity);
+                if(this.workers[identity]) {
+                    logger.info(`Worker ${identity} was already known, presume reconnected`);
+                    this.workers[identity].disconnected = false;
                 }
 
-                this.workers[identityStr] = {
-                    identity: identityStr,
-                    maxGames: message.arg.maxGames,
+                this.workers[identity] = {
+                    identity: identity,
                     numGames: 0,
-                    address: message.arg.address,
-                    port: message.arg.port,
-                    protocol: message.arg.protocol,
-                    version: message.arg.version
+                    ... message.arg
                 };
-                worker = this.workers[identityStr];
+                worker = this.workers[identity];
 
-                this.emit('onNodeReconnected', identityStr, message.arg.games);
+                this.emit('onNodeReconnected', identity, message.arg.games);
 
                 worker.numGames = message.arg.games.length;
 
@@ -196,7 +238,7 @@ class GameRouter extends EventEmitter {
                 if(worker) {
                     worker.numGames--;
                 } else {
-                    logger.error(`Got close game for non existant worker ${identity}`);
+                    logger.error(`Got rematch game for non existant worker ${identity}`);
                 }
 
                 this.emit('onGameRematch', message.arg.game);
@@ -223,17 +265,42 @@ class GameRouter extends EventEmitter {
         }
 
         if(worker) {
-            worker.lastMessage = Date.now();
+            worker.lastMessage = new Date();
         }
     }
 
     // Internal methods
-    sendCommand(identity, command, arg) {
-        router.send([identity, '', JSON.stringify({ command: command, arg: arg })]);
+    /**
+     * @param {string} channel
+     * @param {string} command
+     */
+    sendCommand(channel, command, arg = {}) {
+        let object = {
+            command: command,
+            arg: arg
+        };
+
+        let objectStr = '';
+        try {
+            objectStr = JSON.stringify(object);
+        } catch(err) {
+            logger.error('Failed to stringify node data', err);
+            for(let obj of Object.values(detectBinary(arg))) {
+                logger.error(`Path: ${obj.path}, Type: ${obj.type}`);
+            }
+
+            return;
+        }
+
+        try {
+            this.publisher.publish(channel, objectStr);
+        } catch(err) {
+            logger.error(err);
+        }
     }
 
     checkTimeouts() {
-        var currentTime = Date.now();
+        const currentTime = Date.now();
         const pingTimeout = 1 * 60 * 1000;
 
         for(const worker of Object.values(this.workers)) {
