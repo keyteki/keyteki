@@ -11,7 +11,7 @@ class EdaiEdie4x4 extends Card {
         });
         this.persistentEffect({
             targetController: 'opponent',
-            effect: ability.effects.modifyKeyCost(player => player.opponent && player.opponent.archives.length || 0)
+            effect: ability.effects.modifyKeyCost(player => (player.opponent && player.opponent.archives.length) || 0)
         });
     }
 }
