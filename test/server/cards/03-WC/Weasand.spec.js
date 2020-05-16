@@ -133,5 +133,46 @@ describe('Weasand', function() {
                 expect(this.armageddonCloak.location).toBe('discard');
             });
         });
+
+        describe('Weasand\'s ability', function() {
+            beforeEach(function() {
+                this.setupTest({
+                    player1: {
+                        house: 'untamed',
+                        inPlay: ['lamindra', 'flaxia', 'redlock', 'creed-of-nurture'],
+                        hand: ['weasand', 'bumblebird']
+                    },
+                    player2: {
+                        inPlay: ['bulwark'],
+                        hand: ['armageddon-cloak']
+                    }
+                });
+            });
+
+            it('should destroy creature on flank if choose to reveal Weasand using Creed', function() {
+                this.player1.useAction(this.creedOfNurture, true);
+                expect(this.player1).toBeAbleToSelect(this.weasand);
+                this.player1.clickCard(this.weasand);
+                expect(this.player1).toBeAbleToSelect(this.lamindra);
+                this.player1.clickCard(this.lamindra);
+                expect(this.lamindra.location).toBe('discard');
+                expect(this.flaxia.location).toBe('play area');
+                expect(this.redlock.location).toBe('play area');
+                expect(this.weasand.location).toBe('hand');
+            });
+
+            it('should not destroy creature at center if choose to reveal Weasand using Creed', function() {
+                this.player1.useAction(this.creedOfNurture, true);
+                expect(this.player1).toBeAbleToSelect(this.weasand);
+                this.player1.clickCard(this.weasand);
+                expect(this.player1).toBeAbleToSelect(this.flaxia);
+                this.player1.clickCard(this.flaxia);
+                expect(this.flaxia.location).toBe('play area');
+                expect(this.flaxia.getKeywordValue('elusive')).toBe(2);
+                expect(this.redlock.location).toBe('play area');
+                expect(this.lamindra.location).toBe('play area');
+                expect(this.weasand.location).toBe('hand');
+            });
+        });
     });
 });
