@@ -525,6 +525,7 @@ class Lobby {
 
         let gameNode = this.router.startGame(game);
         if(!gameNode) {
+            socket.send('gameerror', 'No game nodes available. Try again later.');
             return;
         }
 

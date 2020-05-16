@@ -41,6 +41,8 @@
     "@sendgrid/mail": "^6.5.5",
     "@sentry/browser": "^5.15.4",
     "@sentry/node": "^5.15.4",
+    "@types/redis": "^2.8.21",
+    "@types/socket.io": "^2.1.5",
     "assets-webpack-plugin": "^3.9.12",
     "bcrypt": "^3.0.8",
     "bootstrap": "^3.3.7",
@@ -62,7 +64,7 @@
     "html-webpack-plugin": "^3.2.0",
     "i18next": "^17.3.1",
     "i18next-browser-languagedetector": "^3.1.1",
-    "jquery": "^3.1.0",
+    "jquery": "^3.5.1",
     "jquery-migrate": "3.0.0",
     "jquery-nearest": "^1.4.0",
     "jquery-validation": "^1.18.0",
@@ -73,7 +75,7 @@
     "moment": "^2.18.1",
     "monk": "^7.1.2",
     "node-noop": "^1.0.0",
-    "node-sass": "^4.13.1",
+    "node-sass": "^4.14.1",
     "passport": "^0.3.2",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
@@ -98,6 +100,7 @@
     "react-redux": "^4.4.8",
     "react-redux-toastr": "^7.6.4",
     "react-transition-group": "^2.5.0",
+    "redis": "^3.0.2",
     "redux": "^3.7.2",
     "redux-thunk": "^2.1.0",
     "regenerator-runtime": "^0.13.5",
@@ -111,8 +114,7 @@
     "webpack-dev-middleware": "^3.7.2",
     "webpack-merge": "^4.2.2",
     "winston": "^3.2.1",
-    "winston-daily-rotate-file": "^4.4.2",
-    "zeromq": "^5.2.0"
+    "winston-daily-rotate-file": "^4.4.2"
   },
   "devDependencies": {
     "@types/node": "^6.14.9",
@@ -149,7 +151,7 @@
     "ts-node": "^8.8.1",
     "typescript": "^2.5.2",
     "url-loader": "^1.1.2",
-    "webpack-dev-server": "^3.10.3",
+    "webpack-dev-server": "^3.11.0",
     "webpack-hot-middleware": "^2.19.1"
   }
 }

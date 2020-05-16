@@ -1,45 +1,47 @@
-const _ = require('underscore');
 const socketio = require('socket.io');
 const jwt = require('jsonwebtoken');
 const Sentry = require('@sentry/node');
 const http = require('http');
 const https = require('https');
 const fs = require('fs');
-const config = require('config');
 
 const { detectBinary } = require('../util');
-const logger = require('../log.js');
-const ZmqSocket = require('./zmqsocket.js');
-const Game = require('../game/game.js');
-const Socket = require('../socket.js');
-const version = require('../../version.js');
-
-if(config.sentryDsn) {
-    Sentry.init({ dsn: config.sentryDsn, release: version.build });
-}
+const logger = require('../log');
+const GameSocket = require('./gamesocket');
+const Game = require('../game/game');
+const Socket = require('../socket');
+const ConfigService = require('../services/ConfigService');
+const version = require('../../version');
 
 class GameServer {
     constructor() {
+        this.configService = new ConfigService();
+        const sentryDsn = this.configService.getValue('sentryDsn');
+
+        if(sentryDsn) {
+            Sentry.init({ dsn: sentryDsn, release: version.build });
+        }
+
         this.games = {};
 
         this.protocol = 'https';
 
         try {
-            var privateKey = fs.readFileSync(config.gameNode.keyPath).toString();
-            var certificate = fs.readFileSync(config.gameNode.certPath).toString();
+            var privateKey = fs.readFileSync(this.configService.getValueForSection('gameNode', 'keyPath')).toString();
+            var certificate = fs.readFileSync(this.configService.getValueForSection('gameNode', 'certPath')).toString();
         } catch(e) {
             this.protocol = 'http';
         }
 
-        this.host = config.gameNode.host;
+        this.host = this.configService.getValueForSection('gameNode', 'host');
 
-        this.zmqSocket = new ZmqSocket(this.host, this.protocol, version.build);
-        this.zmqSocket.on('onStartGame', this.onStartGame.bind(this));
-        this.zmqSocket.on('onSpectator', this.onSpectator.bind(this));
-        this.zmqSocket.on('onGameSync', this.onGameSync.bind(this));
-        this.zmqSocket.on('onFailedConnect', this.onFailedConnect.bind(this));
-        this.zmqSocket.on('onCloseGame', this.onCloseGame.bind(this));
-        this.zmqSocket.on('onCardData', this.onCardData.bind(this));
+        this.gameSocket = new GameSocket(this.configService, this.host, this.protocol, version.build);
+        this.gameSocket.on('onStartGame', this.onStartGame.bind(this));
+        this.gameSocket.on('onSpectator', this.onSpectator.bind(this));
+        this.gameSocket.on('onGameSync', this.onGameSync.bind(this));
+        this.gameSocket.on('onFailedConnect', this.onFailedConnect.bind(this));
+        this.gameSocket.on('onCloseGame', this.onCloseGame.bind(this));
+        this.gameSocket.on('onCardData', this.onCardData.bind(this));
 
         var server = undefined;
 
@@ -49,25 +51,29 @@ class GameServer {
             server = https.createServer({ key: privateKey, cert: certificate });
         }
 
-        server.listen(process.env.PORT || config.gameNode.socketioPort, '0.0.0.0');
+        const nodeName = this.configService.getValueForSection('gameNode', 'name');
+        const socketioPort = this.configService.getValueForSection('gameNode', 'socketioPort');
 
-        var options = {
-            perMessageDeflate: false
+        server.listen(process.env.PORT || socketioPort, '0.0.0.0');
+
+        let options = {
+            perMessageDeflate: false,
+            pingTimeout: 15000
         };
 
-        if(process.env.NODE_ENV !== 'production') {
-            options.path = '/' + (process.env.SERVER || config.gameNode.name) + '/socket.io';
+        const corsOrigin = this.configService.getValueForSection('gameNode', 'origin');
+        if(corsOrigin) {
+            options.origins = corsOrigin;
         }
 
-        logger.info(`Listening on 0.0.0.0:${process.env.PORT || config.gameNode.socketioPort}/${(process.env.SERVER || config.gameNode.name)}/socket.io`);
+        if(process.env.NODE_ENV !== 'production') {
+            options.path = '/' + (process.env.SERVER || nodeName) + '/socket.io';
+        }
+
+        logger.info(`Listening on 0.0.0.0:${process.env.PORT || socketioPort}/${(process.env.SERVER || nodeName)}/socket.io`);
 
         this.io = socketio(server, options);
-        this.io.set('heartbeat timeout', 30000);
         this.io.use(this.handshake.bind(this));
-
-        if(config.gameNode.origin) {
-            this.io.set('origins', config.gameNode.origin);
-        }
 
         this.io.on('connection', this.onConnection.bind(this));
 
@@ -75,8 +81,8 @@ class GameServer {
     }
 
     debugDump() {
-        var games = _.map(this.games, game => {
-            var players = _.map(game.playersAndSpectators, player => {
+        const games = Object.values(this.games).map(game => {
+            const players = Object.values(game.playersAndSpectators).map(player => {
                 return {
                     name: player.name,
                     left: player.left,
@@ -97,10 +103,14 @@ class GameServer {
 
         return {
             games: games,
-            gameCount: _.size(this.games)
+            gameCount: Object.values(this.games).length
         };
     }
 
+    /**
+     * @param {import("../game/game")} game
+     * @param {Error} e
+     */
     handleError(game, e) {
         logger.error(e);
 
@@ -116,9 +126,9 @@ class GameServer {
             debugData.messages = game.getPlainTextLog();
             debugData.game.messages = undefined;
 
-            _.each(game.getPlayers(), player => {
-                debugData[player.name] = player.getState(player);
-            });
+            for(const player of game.getPlayers()) {
+                debugData[player.name] = player.getState(player, game.gameFormat);
+            }
         }
 
         Sentry.configureScope((scope) => {
@@ -131,8 +141,11 @@ class GameServer {
         }
     }
 
+    /**
+     * @param {import("../game/game")} game
+     */
     closeGame(game) {
-        for(let player of Object.values(game.getPlayersAndSpectators())) {
+        for(const player of Object.values(game.getPlayersAndSpectators())) {
             if(player.socket) {
                 player.socket.tIsClosing = true;
                 player.socket.disconnect();
@@ -140,25 +153,29 @@ class GameServer {
         }
 
         delete this.games[game.id];
-        this.zmqSocket.send('GAMECLOSED', { game: game.id });
+        this.gameSocket.send('GAMECLOSED', { game: game.id });
     }
 
     clearStaleAndFinishedGames() {
         const timeout = 20 * 60 * 1000;
 
-        let staleGames = Object.values(this.games).filter(game => game.finishedAt && (Date.now() - game.finishedAt > timeout));
-        for(let game of staleGames) {
+        const staleGames = Object.values(this.games).filter(game => game.finishedAt && (Date.now() - game.finishedAt > timeout));
+        for(const game of staleGames) {
             logger.info(`closed finished game ${game.id} due to inactivity`);
             this.closeGame(game);
         }
 
-        let emptyGames = Object.values(this.games).filter(game => game.isEmpty());
-        for(let game of emptyGames) {
+        const emptyGames = Object.values(this.games).filter(game => game.isEmpty());
+        for(const game of emptyGames) {
             logger.info(`closed empty game ${game.id}`);
             this.closeGame(game);
         }
     }
 
+    /**
+     * @param {import("../game/game")} game
+     * @param {{ (): void }} func
+     */
     runAndCatchErrors(game, func) {
         try {
             func();
@@ -169,9 +186,12 @@ class GameServer {
         }
     }
 
+    /**
+     * @param {string} username
+     */
     findGameForUser(username) {
-        return _.find(this.games, game => {
-            var player = game.playersAndSpectators[username];
+        return Object.values(this.games).find(game => {
+            const player = game.playersAndSpectators[username];
 
             if(!player || player.left) {
                 return false;
@@ -181,19 +201,26 @@ class GameServer {
         });
     }
 
+    /**
+     * @param {import("../game/game")} game
+     */
     sendGameState(game) {
-        _.each(game.getPlayersAndSpectators(), player => {
+        for(const player of Object.values(game.getPlayersAndSpectators())) {
             if(player.left || player.disconnectedAt || !player.socket) {
                 return;
             }
 
             player.socket.send('gamestate', game.getState(player.name));
-        });
+        }
     }
 
+    /**
+     * @param {import("socket.io").Socket} socket
+     * @param {() => void} next
+     */
     handshake(socket, next) {
         if(socket.handshake.query.token && socket.handshake.query.token !== 'undefined') {
-            jwt.verify(socket.handshake.query.token, config.secret, function(err, user) {
+            jwt.verify(socket.handshake.query.token, this.configService.getValue('secret'), function(err, user) {
                 if(err) {
                     return;
                 }
@@ -205,12 +232,20 @@ class GameServer {
         next();
     }
 
+    /**
+     * @param {import("../game/game")} game
+     * @param {string} reason
+     * @param {import("../game/player")} winner
+     */
     gameWon(game, reason, winner) {
-        this.zmqSocket.send('GAMEWIN', { game: game.getSaveState(), winner: winner.name, reason: reason });
+        this.gameSocket.send('GAMEWIN', { game: game.getSaveState(), winner: winner.name, reason: reason });
     }
 
+    /**
+     * @param {import("../game/game")} game
+     */
     rematch(game) {
-        this.zmqSocket.send('REMATCH', { game: game.getSaveState() });
+        this.gameSocket.send('REMATCH', { game: game.getSaveState() });
 
         for(let player of Object.values(game.getPlayersAndSpectators())) {
             if(player.left || player.disconnectedAt || !player.socket) {
@@ -225,8 +260,12 @@ class GameServer {
         delete this.games[game.id];
     }
 
+    /**
+     * @param {import("../pendinggame")} pendingGame
+     */
     onStartGame(pendingGame) {
         let game = new Game(pendingGame, { router: this, cardData: this.cardData });
+
         game.on('onTimeExpired', () => {
             this.sendGameState(game);
         });
@@ -236,6 +275,7 @@ class GameServer {
         for(let player of Object.values(pendingGame.players)) {
             let playerName = player.name;
             game.setWins(playerName, player.wins);
+
             if((pendingGame.gameFormat === 'reversal' || pendingGame.swap) && !(pendingGame.gameFormat === 'reversal' && pendingGame.swap)) {
                 let otherPlayer = game.getOtherPlayer(player);
                 if(otherPlayer) {
@@ -252,8 +292,12 @@ class GameServer {
         }
     }
 
+    /**
+     * @param {import("../pendinggame")} pendingGame
+     * @param {any} user
+     */
     onSpectator(pendingGame, user) {
-        var game = this.games[pendingGame.id];
+        const game = this.games[pendingGame.id];
         if(!game) {
             return;
         }
@@ -264,20 +308,24 @@ class GameServer {
     }
 
     onGameSync(callback) {
-        var gameSummaries = _.map(this.games, game => {
+        const gameSummaries = Object.values(this.games).map(game => {
             var retGame = game.getSummary(undefined, { fullData: true });
             retGame.password = game.password;
 
             return retGame;
         });
 
-        logger.info(`syncing ${_.size(gameSummaries)} games`);
+        logger.info(`syncing ${gameSummaries.length} games`);
 
         callback(gameSummaries);
     }
 
+    /**
+     * @param {string} gameId
+     * @param {string} username
+     */
     onFailedConnect(gameId, username) {
-        var game = this.findGameForUser(username);
+        const game = this.findGameForUser(username);
         if(!game || game.id !== gameId) {
             return;
         }
@@ -287,12 +335,15 @@ class GameServer {
         if(game.isEmpty()) {
             delete this.games[game.id];
 
-            this.zmqSocket.send('GAMECLOSED', { game: game.id });
+            this.gameSocket.send('GAMECLOSED', { game: game.id });
         }
 
         this.sendGameState(game);
     }
 
+    /**
+     * @param {string} gameId
+     */
     onCloseGame(gameId) {
         let game = this.games[gameId];
         if(!game) {
@@ -305,7 +356,7 @@ class GameServer {
         }
 
         delete this.games[gameId];
-        this.zmqSocket.send('GAMECLOSED', { game: game.id });
+        this.gameSocket.send('GAMECLOSED', { game: game.id });
     }
 
     onCardData(cardData) {
@@ -316,6 +367,7 @@ class GameServer {
         if(!ioSocket.request.user) {
             logger.info('socket connected with no user, disconnecting');
             ioSocket.disconnect();
+
             return;
         }
 
@@ -326,7 +378,7 @@ class GameServer {
             return;
         }
 
-        let socket = new Socket(ioSocket, { config: config });
+        let socket = new Socket(ioSocket, { configService: this.configService });
 
         let player = game.playersAndSpectators[socket.user.username];
         if(!player) {
@@ -377,9 +429,9 @@ class GameServer {
             if(game.isEmpty()) {
                 delete this.games[game.id];
 
-                this.zmqSocket.send('GAMECLOSED', { game: game.id });
+                this.gameSocket.send('GAMECLOSED', { game: game.id });
             } else if(isSpectator) {
-                this.zmqSocket.send('PLAYERLEFT', { gameId: game.id, game: game.getSaveState(), player: socket.user.username, spectator: true });
+                this.gameSocket.send('PLAYERLEFT', { gameId: game.id, game: game.getSaveState(), player: socket.user.username, spectator: true });
             }
         }
 
@@ -397,7 +449,7 @@ class GameServer {
 
         game.leave(socket.user.username);
 
-        this.zmqSocket.send('PLAYERLEFT', {
+        this.gameSocket.send('PLAYERLEFT', {
             gameId: game.id,
             game: game.getSaveState(),
             player: socket.user.username,
@@ -410,7 +462,7 @@ class GameServer {
         if(game.isEmpty()) {
             delete this.games[game.id];
 
-            this.zmqSocket.send('GAMECLOSED', { game: game.id });
+            this.gameSocket.send('GAMECLOSED', { game: game.id });
         }
 
         this.sendGameState(game);
@@ -427,7 +479,7 @@ class GameServer {
             return this.onLeaveGame(socket);
         }
 
-        if(!game[command] || !_.isFunction(game[command])) {
+        if(!game[command] || !(game[command] instanceof Function)) {
             return;
         }
 

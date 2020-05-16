@@ -56,6 +56,10 @@ export default function(state = defaultState, action) {
             }
 
             break;
+        case 'GAME_STARTING':
+            return Object.assign({}, state, {
+                gameError: undefined
+            });
         case 'START_NEWGAME':
             return Object.assign({}, state, {
                 newGame: true
@@ -124,13 +128,11 @@ function handleGameState(action, state) {
 }
 
 function handleMessage(action, state) {
-    let newState = state;
+    let newState = Object.assign({}, state);
 
     switch(action.message) {
         case 'games':
-            newState = Object.assign({}, state, {
-                games: action.args[0]
-            });
+            newState.games = action.args[0];
 
             // If the current game is no longer in the game list, it must have been closed
             if(state.currentGame && !action.args[0].some(game => {
@@ -142,17 +144,12 @@ function handleMessage(action, state) {
 
             break;
         case 'newgame':
-            var games = [...action.args[0], ...state.games];
-
-            newState = Object.assign({}, state, {
-                games: games
-            });
+            newState.games = [...action.args[0], ...state.games];
 
             break;
         case 'removegame':
-            newState = Object.assign({}, state, {
-                games: state.games.filter(game => !action.args[0].some(g => g.id === game.id))
-            });
+            newState.games = state.games.filter(game => !action.args[0].some(g => g.id === game.id));
+
             break;
         case 'updategame':
             var updatedGames = state.games.slice(0);
@@ -162,14 +159,11 @@ function handleMessage(action, state) {
                 updatedGames[index] = game;
             }
 
-            newState = Object.assign({}, state, {
-                games: updatedGames
-            });
+            newState.games = updatedGames;
+
             break;
         case 'users':
-            newState = Object.assign({}, state, {
-                users: action.args[0]
-            });
+            newState.users = action.args[0];
 
             break;
         case 'newuser':
@@ -178,46 +172,36 @@ function handleMessage(action, state) {
             users.push(action.args[0]);
             users = users.sort((a, b) => a < b);
 
-            newState = Object.assign({}, state, {
-                users: users
-            });
+            newState.users = users;
 
             break;
         case 'userleft':
-            newState = Object.assign({}, state, {
-                users: state.users.filter(u => u.username !== action.args[0].username)
-            });
+            newState.users = state.users.filter(u => u.username !== action.args[0].username);
 
             break;
         case 'passworderror':
-            newState = Object.assign({}, state, {
-                passwordError: action.args[0]
-            });
+            newState.passwordError = action.args[0];
+
+            break;
+        case 'gameerror':
+            newState.gameError = action.args[0];
 
             break;
         case 'lobbychat':
-            newState = Object.assign({}, state, {
-                messages: [
-                    ...state.messages, action.args[0]
-                ]
-            });
+            newState.messages = [
+                ...state.messages, action.args[0]
+            ];
 
             break;
         case 'nochat':
-            newState = Object.assign({}, state, {
-                lobbyError: true
-            });
+            newState.lobbyError = true;
 
             break;
         case 'lobbymessages':
-            newState = Object.assign({}, state, {
-                messages: action.args[0]
-            });
+            newState.messages = action.args[0];
 
             break;
         case 'removemessage':
-            newState = Object.assign({}, state);
-
             var message = newState.messages.find(message => message.id === parseInt(action.args[0]));
             message.deletedBy = action.args[1];
             message.deleted = true;
@@ -226,14 +210,10 @@ function handleMessage(action, state) {
 
             break;
         case 'banner':
-            newState = Object.assign({}, state, {
-                notice: action.args[0]
-            });
+            newState.notice = action.args[0];
             break;
         case 'motd':
-            newState = Object.assign({}, state, {
-                motd: action.args[0]
-            });
+            newState.motd = action.args[0];
 
             break;
         case 'gamestate':
@@ -241,10 +221,8 @@ function handleMessage(action, state) {
 
             break;
         case 'cleargamestate':
-            newState = Object.assign({}, state, {
-                newGame: false,
-                currentGame: undefined
-            });
+            newState.newGame = false;
+            newState.currentGame = undefined;
 
             break;
     }

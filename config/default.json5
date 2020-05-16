@@ -2,8 +2,7 @@
     env: 'development',
 
     secret: 'somethingverysecret',
-    mqHost: 'lobby',
-    mqPort: 6000,
+    redisUrl: 'redis://redis/',
     dbUser: 'keyteki',
     dbHost: 'postgres',
     dbDatabase: 'keyteki',
