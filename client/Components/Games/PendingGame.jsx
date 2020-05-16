@@ -141,6 +141,9 @@ class PendingGame extends React.Component {
     getGameStatus() {
         let t = this.props.t;
 
+        if(this.props.gameError) {
+            return t(this.props.gameError);
+        }
 
         if(this.props.connecting) {
             return t('Connecting to game server {{host}}', { host: this.props.host });
@@ -234,7 +237,7 @@ class PendingGame extends React.Component {
                 </audio>
                 <Panel title={ this.props.currentGame.name }>
                     <div className='btn-group'>
-                        <button className='btn btn-success' disabled={ !this.isGameReady() || this.props.connecting || this.state.waiting } onClick={ this.onStartClick }><Trans>Start</Trans></button>
+                        <button className='btn btn-success' disabled={ !this.isGameReady() || this.props.connecting || (this.state.waiting && !this.props.gameError) } onClick={ this.onStartClick }><Trans>Start</Trans></button>
                         <button className='btn btn-primary' onClick={ this.onLeaveClick }><Trans>Leave</Trans></button>
                     </div>
                     <div className='pull-right'>
@@ -286,6 +289,7 @@ PendingGame.propTypes = {
     connecting: PropTypes.bool,
     currentGame: PropTypes.object,
     decks: PropTypes.array,
+    gameError: PropTypes.string,
     gameSocketClose: PropTypes.func,
     host: PropTypes.string,
     i18n: PropTypes.object,
@@ -309,6 +313,7 @@ function mapStateToProps(state) {
         connecting: state.games.connecting,
         currentGame: state.lobby.currentGame,
         decks: state.cards.decks,
+        gameError: state.lobby.gameError,
         host: state.games.gameHost,
         loading: state.api.loading,
         socket: state.lobby.socket,

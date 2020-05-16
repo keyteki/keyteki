@@ -38,7 +38,8 @@ class GameRouter extends EventEmitter {
         let node = this.getNextAvailableGameNode();
         if(!node) {
             logger.error('Could not find new node for game');
-            return;
+
+            return undefined;
         }
 
         this.gameService.create(game.getSaveState());
@@ -304,7 +305,7 @@ class GameRouter extends EventEmitter {
         const pingTimeout = 1 * 60 * 1000;
 
         for(const worker of Object.values(this.workers)) {
-            if(worker.disconnceted) {
+            if(worker.disconnected) {
                 continue;
             }
 

@@ -94,7 +94,10 @@ export default function(state = { decks: [] }, action) {
 
             return newState;
         case 'STANDALONE_DECKS_LOADED':
-            processDecks(action.response.decks, state);
+            if(action.response.decks) {
+                processDecks(action.response.decks, state);
+            }
+
             newState = Object.assign({}, state, {
                 standaloneDecks: action.response.decks
             });
