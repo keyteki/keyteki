@@ -79,7 +79,7 @@ describe('Mimic Gel', function() {
                 expect(this.tantadlin.power).toBe(11);
             });
 
-            xit('should copy omega keyword and end turn', function() {
+            it('should copy omega keyword and end turn', function() {
                 expect(this.mimicGel.hasTrait('shapeshifter')).toBe(true);
                 this.player1.clickCard(this.mimicGel);
                 this.player1.clickPrompt('Play this creature');
@@ -98,7 +98,7 @@ describe('Mimic Gel', function() {
                 expect(this.player2).toHavePrompt('Choose which house you want to activate this turn');
             });
 
-            xit('should copy elusive and hazardous keyword', function() {
+            it('should copy elusive and hazardous keyword', function() {
                 this.player1.clickCard(this.mimicGel);
                 this.player1.clickPrompt('Play this creature');
                 this.player1.clickPrompt('Left');
@@ -116,7 +116,7 @@ describe('Mimic Gel', function() {
                 expect(this.mimicGel.tokens.damage).toBeUndefined();
             });
 
-            xit('should copy taunt keyword', function() {
+            it('should copy taunt keyword', function() {
                 this.player1.clickCard(this.mimicGel);
                 this.player1.clickPrompt('Play this creature');
                 this.player1.clickPrompt('Left');

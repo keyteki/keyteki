@@ -53,11 +53,11 @@ class PasswordGame extends React.Component {
                     <div className='game-password'>
                         <input className='form-control' type='password' onChange={ this.onPasswordChange.bind(this) } value={ this.state.password } />
                     </div>
-                    { this.props.passwordError ?
+                    { this.props.passwordError &&
                         <div>
                             <AlertPanel type='error' message={ t(this.props.passwordError) } />
                         </div>
-                        : null }
+                    }
                     <div>
                         <div className='btn-group'>
                             <button className='btn btn-primary' onClick={ this.onJoinClick.bind(this) }>{ t(this.props.passwordJoinType) }</button>

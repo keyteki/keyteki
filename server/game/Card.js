@@ -123,7 +123,7 @@ class Card extends EffectSource {
             return this.abilities.keywordReactions;
         }
 
-        const TriggeredAbilityTypes = ['interrupt', 'reaction', 'constant'];
+        const TriggeredAbilityTypes = ['interrupt', 'reaction'];
         let reactions = this.abilities.reactions;
         if(this.anyEffect('copyCard')) {
             let mostRecentEffect = _.last(this.effects.filter(effect => effect.type === 'copyCard'));
@@ -154,8 +154,11 @@ class Card extends EffectSource {
             return this.mostRecentEffect('copyCard').bonusIcons;
         }
 
-        let result = this.printedAmber ? Array.from(Array(this.printedAmber), () => 'amber') : [];
+        if(this.anyEffect('modifyBonusIcons')) {
+            return this.mostRecentEffect('modifyBonusIcons');
+        }
 
+        let result = this.cardPrintedAmber ? Array.from(Array(this.cardPrintedAmber), () => 'amber') : [];
         return this.cardData.enhancements ? result.concat(this.cardData.enhancements) : result;
     }
 
@@ -304,10 +307,6 @@ class Card extends EffectSource {
         }
 
         return ability;
-    }
-
-    constantReaction(properties) {
-        return this.triggeredAbility('constant', properties);
     }
 
     reaction(properties) {
@@ -567,11 +566,6 @@ class Card extends EffectSource {
         clone.traits = this.getTraits();
         clone.modifiedPower = this.getPower();
         return clone;
-    }
-
-    get printedAmber() {
-        const copyEffect = this.mostRecentEffect('copyCard');
-        return (copyEffect ? copyEffect.cardPrintedAmber : this.cardPrintedAmber) + this.sumEffects('modifyAmberValue');
     }
 
     get power() {
@@ -910,7 +904,7 @@ class Card extends EffectSource {
             maverick: this.maverick,
             cardPrintedAmber: this.cardPrintedAmber,
             stunned: this.stunned,
-            taunt: !!this.getKeywordValue('taunt'),
+            taunt: this.getType() === 'creature' && !!this.getKeywordValue('taunt'),
             tokens: this.tokens,
             type: this.getType(),
             upgrades: this.upgrades.map(upgrade => {

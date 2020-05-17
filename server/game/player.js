@@ -30,8 +30,6 @@ class Player extends GameObject {
 
         this.chains = 0;
         this.keysForgedThisRound = [];
-        this.creatureFought = false;
-        this.creatureDestroyed = false;
 
         this.clock = ClockSelector.for(this, clockdetails);
         this.showDeck = false;
@@ -237,8 +235,6 @@ class Player extends GameObject {
 
     beginRound() {
         this.keysForgedThisRound = [];
-        this.creatureFought = false;
-        this.creatureDestroyed = false;
     }
 
     endRound() {
@@ -371,8 +367,6 @@ class Player extends GameObject {
             if(options.myControl) {
                 card.setDefaultController(this);
             }
-
-            card.exhausted = true;
         } else if(card.owner !== this) {
             card.owner.moveCard(card, targetLocation, options);
             return;

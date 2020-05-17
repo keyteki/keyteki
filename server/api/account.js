@@ -505,6 +505,7 @@ module.exports.init = function(server, options) {
 
         let hmac = crypto.createHmac('sha512', configService.getValueForSection('lobby', 'hmacSecret'));
         let resetToken = hmac.update('RESET ' + user.username + ' ' + moment(user.tokenExpires).format('YYYYMMDD-HH:mm:ss')).digest('hex');
+        logger.info(`${user.username} ${moment(user.tokenExpires).format('YYYYMMDD-HH:mm:ss')} ${resetToken}`);
 
         if(resetToken !== req.body.token) {
             logger.error(`Invalid reset token for ${user.username}: ${req.body.token}`);
@@ -551,6 +552,8 @@ module.exports.init = function(server, options) {
         let hmac = crypto.createHmac('sha512', configService.getValueForSection('lobby', 'hmacSecret'));
 
         resetToken = hmac.update(`RESET ${user.username} ${formattedExpiration}`).digest('hex');
+
+        logger.info(`${resetToken} ${user.username} ${formattedExpiration}`);
 
         try {
             await userService.setResetToken(user, resetToken, expiration);

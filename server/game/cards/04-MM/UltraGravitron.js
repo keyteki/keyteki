@@ -1,13 +1,13 @@
 const Card = require('../../Card.js');
 
-class UltraGraviton extends Card {
+class UltraGravitron extends Card {
     constructor(owner, cardData) {
         super(owner, cardData);
 
         this.gigantic = true;
         this.playedParts = [];
-        this.compositeImageId = 'ultra-graviton-complete';
-        this.compositeParts = ['ultra-graviton-2'];
+        this.compositeImageId = 'ultra-gravitron-complete';
+        this.compositeParts = ['ultra-gravitron-2'];
     }
 
     setupCardAbilities(ability) {
@@ -45,6 +45,6 @@ class UltraGraviton extends Card {
     }
 }
 
-UltraGraviton.id = 'ultra-graviton';
+UltraGravitron.id = 'ultra-gravitron';
 
-module.exports = UltraGraviton;
+module.exports = UltraGravitron;

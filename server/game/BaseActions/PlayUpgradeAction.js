@@ -15,7 +15,7 @@ class PlayUpgradeAction extends BasePlayAction {
 
     displayMessage(context) {
         if(context.target) {
-            context.game.addMessage('{0} plays {1}{2} attaching it to {3}', context.player, context.source, context.source.printedAmber > 0 ? '' : ',', context.target);
+            context.game.addMessage('{0} plays {1} attaching it to {2}', context.player, context.source, context.target);
         } else {
             context.game.addMessage('{0} plays {1} and it is discarded', context.player, context.source);
         }

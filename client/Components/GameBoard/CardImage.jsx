@@ -34,7 +34,8 @@ class CardImage extends Component {
         let imagesToMerge = [];
 
         if(maverick) {
-            let maverickHouseImg = '/img/maverick/maverick-' + maverick + (amber > 0 ? '-amber' : '') + '.png';
+            let bonusIcons = (amber > 0) || (enhancements && enhancements.length > 0);
+            let maverickHouseImg = '/img/maverick/maverick-' + maverick + (bonusIcons ? '-amber' : '') + '.png';
             imagesToMerge.push({ src: maverickHouseImg, x: 0, y: 0 });
             imagesToMerge.push({ src: '/img/maverick/maverick-corner.png', x: 210, y: 0 });
         }
@@ -52,7 +53,7 @@ class CardImage extends Component {
             });
         }
 
-        if(imagesToMerge) {
+        if(imagesToMerge.length > 0) {
             mergeImages([
                 imgPath,
                 ...imagesToMerge

@@ -30,6 +30,7 @@ class PendingGame {
         this.started = false;
         this.swap = !!details.swap;
         this.useGameTimeLimit = details.useGameTimeLimit;
+        this.rematch = false;
     }
 
     // Getters

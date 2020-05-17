@@ -95,7 +95,7 @@ export function handoffReceived(details) {
             url += ':' + details.port;
         }
 
-        dispatch(actions.setAuthTokens(details.authToken, state.auth.refreshToken));
+        dispatch(actions.setAuthTokens(details.authToken, state.auth.refreshToken, details.user));
 
         if(state.games.socket && state.games.gameId !== details.gameId) {
             dispatch(actions.closeGameSocket());
@@ -111,6 +111,31 @@ export function nodeStatusReceived(status) {
         status: status
     };
 }
+
+export function responseTimeReceived(responseTime) {
+    return {
+        type: 'RESPONSE_TIME_RECEIVED',
+        responseTime: responseTime
+    };
+}
+
+const messages = [
+    'newgame',
+    'removegame',
+    'updategame',
+    'games',
+    'users',
+    'newuser',
+    'userleft',
+    'lobbychat',
+    'nochat',
+    'passworderror',
+    'lobbymessages',
+    'banner',
+    'motd',
+    'cleargamestate',
+    'gameerror'
+];
 
 export function connectLobby() {
     return (dispatch, getState) => {
@@ -128,6 +153,10 @@ export function connectLobby() {
 
         dispatch(lobbyConnecting(socket));
 
+        socket.on('pong', responseTime => {
+            dispatch(responseTimeReceived(responseTime));
+        });
+
         socket.on('connect', () => {
             dispatch(lobbyConnected());
         });
@@ -140,65 +169,15 @@ export function connectLobby() {
             dispatch(lobbyReconnecting());
         });
 
-        socket.on('newgame', games => {
-            dispatch(lobbyMessageReceived('newgame', games));
-        });
-
-        socket.on('removegame', games => {
-            dispatch(lobbyMessageReceived('removegame', games));
-        });
-
-        socket.on('updategame', games => {
-            dispatch(lobbyMessageReceived('updategame', games));
-        });
-
-        socket.on('games', games => {
-            dispatch(lobbyMessageReceived('games', games));
-        });
-
-        socket.on('users', users => {
-            dispatch(lobbyMessageReceived('users', users));
-        });
-
-        socket.on('newuser', user => {
-            dispatch(lobbyMessageReceived('newuser', user));
-        });
-
-        socket.on('userleft', user => {
-            dispatch(lobbyMessageReceived('userleft', user));
-        });
-
-        socket.on('passworderror', message => {
-            dispatch(lobbyMessageReceived('passworderror', message));
-        });
-
-        socket.on('lobbychat', message => {
-            dispatch(lobbyMessageReceived('lobbychat', message));
-        });
-
-        socket.on('nochat', messages => {
-            dispatch(lobbyMessageReceived('nochat', messages));
-        });
-
-        socket.on('lobbymessages', messages => {
-            dispatch(lobbyMessageReceived('lobbymessages', messages));
-        });
-
-        socket.on('banner', notice => {
-            dispatch(lobbyMessageReceived('banner', notice));
-        });
+        for(const message of messages) {
+            socket.on(message, arg => {
+                dispatch(lobbyMessageReceived(message, arg));
+            });
+        }
 
         socket.on('gamestate', game => {
             state = getState();
             dispatch(lobbyMessageReceived('gamestate', game, state.account.user ? state.account.user.username : undefined));
-        });
-
-        socket.on('motd', motd => {
-            dispatch(lobbyMessageReceived('motd', motd));
-        });
-
-        socket.on('cleargamestate', () => {
-            dispatch(lobbyMessageReceived('cleargamestate'));
         });
 
         socket.on('handoff', handoff => {

@@ -24,7 +24,6 @@ import GameBoard from './Components/GameBoard/GameBoard.jsx';
 import BlockList from './pages/BlockList';
 import NodesAdmin from './pages/NodesAdmin';
 import Privacy from './pages/Privacy';
-import Community from './pages/Community';
 import BanlistAdmin from './pages/BanlistAdmin';
 import Patreon from './pages/Patreon';
 
@@ -50,7 +49,6 @@ const routes = [
     { path: '/users', action: () => <UserAdmin key='useradmin' />, permission: 'canManageUsers' },
     { path: '/nodes', action: () => <NodesAdmin key='nodesadmin' />, permission: 'canManageNodes' },
     { path: '/privacy', action: () => <Privacy key='privacy' /> },
-    { path: '/community', action: () => <Community key='community' /> },
     { path: '/banlist', action: () => <BanlistAdmin key='banlist' permission='canManageBanlist' /> },
     { path: '/admin/motd', action: () => <MotdAdmin key='motdadmin' />, permission: 'canManageMotd' },
     { path: '/patreon', action: context => <Patreon code={ context.params.code } /> }

@@ -109,6 +109,13 @@ export function gameSocketConnectFailed() {
     };
 }
 
+export function responseTimeReceived(responseTime) {
+    return {
+        type: 'GAME_SOCKET_RESPONSE_TIME_RECEIVED',
+        responseTime: responseTime
+    };
+}
+
 export function connectGameSocket(url, name) {
     return (dispatch, getState) => {
         let state = getState();
@@ -120,6 +127,10 @@ export function connectGameSocket(url, name) {
             reconnectionDelayMax: 5000,
             reconnectionAttempts: 5,
             query: state.auth.token ? 'token=' + state.auth.token : undefined
+        });
+
+        gameSocket.on('pong', responseTime => {
+            dispatch(responseTimeReceived(responseTime));
         });
 
         dispatch(gameSocketConnecting(url + '/' + name, gameSocket));
@@ -153,7 +164,9 @@ export function connectGameSocket(url, name) {
         });
 
         gameSocket.on('gamestate', game => {
-            dispatch(receiveGameState(game, state.account.user ? state.account.user.username : undefined));
+            state = getState();
+
+            dispatch(receiveGameState(game, state.auth.user ? state.auth.user.username : undefined));
         });
 
         gameSocket.on('cleargamestate', () => {
