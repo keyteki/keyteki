@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { withTranslation } from 'react-i18next';
 
 import Link from './Link';
 import Avatar from './Avatar';
 import * as actions from '../../actions';
 import menus from '../../menus';
-
 import i18n from '../../i18n';
-import { withTranslation } from 'react-i18next';
+import ServerStatus from './ServerStatus';
 
 class NavBar extends React.Component {
     constructor(props) {
@@ -201,47 +201,6 @@ class NavBar extends React.Component {
             );
         });
 
-        let className = 'glyphicon glyphicon-signal';
-        let toolTip = 'Lobby is';
-
-        if(this.props.lobbySocketConnected) {
-            className += ' text-success';
-            toolTip += ' connected';
-        } else if(this.props.lobbySocketConnecting) {
-            className += ' text-primary';
-            toolTip += ' connecting';
-        } else {
-            className += ' text-danger';
-            toolTip += ' disconnected';
-        }
-
-        let lobbyStatus = (
-            <li>
-                <span className={ className } title={ t(toolTip) } />
-            </li>);
-
-        className = 'glyphicon glyphicon-signal';
-        toolTip = 'Game server is';
-        if(this.props.currentGame) {
-            if(this.props.gameConnected) {
-                className += ' text-success';
-                toolTip += ' connected';
-            } else if(this.props.gameConnecting) {
-                className += ' text-primary';
-                toolTip += ' connecting';
-            } else {
-                className += ' text-danger';
-                toolTip += ' disconnected';
-            }
-        } else {
-            toolTip += ' not needed at this time';
-        }
-
-        let gameStatus = (
-            <li>
-                <span className={ className } title={ t(toolTip) } />
-            </li>);
-
         return (
             <nav className='navbar navbar-inverse navbar-fixed-top navbar-sm'>
                 <div className='container'>
@@ -261,8 +220,8 @@ class NavBar extends React.Component {
                         <ul className='nav navbar-nav navbar-right'>
                             { contextMenu }
                             { numGames }
-                            { lobbyStatus }
-                            { gameStatus }
+                            { !this.props.currentGame && <ServerStatus connected={ this.props.lobbySocketConnected } connecting={ this.props.lobbySocketConnecting } serverType='Lobby' responseTime={ this.props.lobbyResponse } /> }
+                            { this.props.currentGame && <ServerStatus connected={ this.props.gameConnected } connecting={ this.props.gameConnecting } serverType='Game server' responseTime={ this.props.gameResponse } /> }
                             { rightMenuToRender }
                             { languageDropdown }
                         </ul>
@@ -278,8 +237,10 @@ NavBar.propTypes = {
     currentGame: PropTypes.object,
     gameConnected: PropTypes.bool,
     gameConnecting: PropTypes.bool,
+    gameResponse: PropTypes.number,
     games: PropTypes.array,
     i18n: PropTypes.object,
+    lobbyResponse: PropTypes.number,
     lobbySocketConnected: PropTypes.bool,
     lobbySocketConnecting: PropTypes.bool,
     path: PropTypes.string,
@@ -294,7 +255,9 @@ function mapStateToProps(state) {
         currentGame: state.lobby.currentGame,
         gameConnected: state.games.connected,
         gameConnecting: state.games.connecting,
+        gameResponse: state.games.responseTime,
         games: state.lobby.games,
+        lobbyResponse: state.lobby.responseTime,
         lobbySocketConnected: state.lobby.connected,
         lobbySocketConnecting: state.lobby.connecting,
         path: state.navigation.path,
