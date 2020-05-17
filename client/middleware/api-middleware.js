@@ -62,7 +62,7 @@ export default function callAPIMiddleware({ dispatch, getState }) {
                     return;
                 }
 
-                dispatch(setAuthTokens(authResponse.token, state.auth.refreshToken));
+                dispatch(setAuthTokens(authResponse.token, state.auth.refreshToken, authResponse.user));
                 dispatch(authenticateSocket());
 
                 apiParams.headers = {

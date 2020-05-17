@@ -95,7 +95,7 @@ export function handoffReceived(details) {
             url += ':' + details.port;
         }
 
-        dispatch(actions.setAuthTokens(details.authToken, state.auth.refreshToken));
+        dispatch(actions.setAuthTokens(details.authToken, state.auth.refreshToken, details.user));
 
         if(state.games.socket && state.games.gameId !== details.gameId) {
             dispatch(actions.closeGameSocket());
@@ -109,6 +109,13 @@ export function nodeStatusReceived(status) {
     return {
         type: 'NODE_STATUS_RECEIVED',
         status: status
+    };
+}
+
+export function responseTimeReceived(responseTime) {
+    return {
+        type: 'RESPONSE_TIME_RECEIVED',
+        responseTime: responseTime
     };
 }
 
@@ -145,6 +152,10 @@ export function connectLobby() {
         });
 
         dispatch(lobbyConnecting(socket));
+
+        socket.on('pong', responseTime => {
+            dispatch(responseTimeReceived(responseTime));
+        });
 
         socket.on('connect', () => {
             dispatch(lobbyConnected());

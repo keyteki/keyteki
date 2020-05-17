@@ -522,7 +522,7 @@ function mapStateToProps(state) {
         player2CardBack: state.cards.player2CardBack,
         restrictedList: state.cards.restrictedList,
         socket: state.lobby.socket,
-        user: state.account.user
+        user: state.auth.user
     };
 }
 

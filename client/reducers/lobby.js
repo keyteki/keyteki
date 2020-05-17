@@ -8,48 +8,50 @@ const defaultState = {
 };
 
 export default function(state = defaultState, action) {
+    let newState = Object.assign({}, state);
+
     switch(action.type) {
         case 'LOBBY_CONNECTING':
-            return Object.assign({}, state, {
-                connecting: true,
-                connected: false,
-                socket: action.socket
-            });
+            newState.connecting = true;
+            newState.connected = false;
+            newState.socket = action.socket;
+
+            break;
         case 'LOBBY_CONNECTED':
-            return Object.assign({}, state, {
-                connecting: false,
-                connected: true
-            });
+            newState.connecting = false;
+            newState.connected = true;
+
+            break;
         case 'LOBBY_DISCONNECTED':
-            return Object.assign({}, state, {
-                connecting: false,
-                connected: false
-            });
+            newState.connecting = false;
+            newState.connected = false;
+
+            break;
         case 'LOBBY_RECONNECING':
-            return Object.assign({}, state, {
-                connected: false,
-                connecting: true
-            });
+            newState.connected = false,
+            newState.connecting = true;
+
+            break;
         case 'LOBBY_MESSAGE_RECEIVED':
             return handleMessage(action, state);
         case 'LOBBY_MESSAGE_DELETED':
             return handleMessage(action, state);
         case 'JOIN_PASSWORD_GAME':
-            return Object.assign({}, state, {
-                passwordGame: action.game,
-                passwordJoinType: action.joinType
-            });
+            newState.passwordGame = action.game;
+            newState.passwordJoinType = action.joinType;
+
+            break;
         case 'CANCEL_PASSWORD_JOIN':
-            return Object.assign({}, state, {
-                passwordGame: undefined,
-                passwordError: undefined,
-                passwordJoinType: undefined
-            });
+            newState.passwordJoinType = undefined;
+            newState.passwordGame = undefined;
+            newState.passwordError = undefined;
+
+            break;
         case 'GAME_SOCKET_CLOSED':
-            return Object.assign({}, state, {
-                currentGame: undefined,
-                newGame: false
-            });
+            newState.currentGame = undefined;
+            newState.newGame = false;
+
+            break;
         case 'PROFILE_SAVED':
             if(state.socket) {
                 state.socket.emit('authenticate', action.response.token);
@@ -57,37 +59,43 @@ export default function(state = defaultState, action) {
 
             break;
         case 'GAME_STARTING':
-            return Object.assign({}, state, {
-                gameError: undefined
-            });
+            newState.gameError = undefined;
+
+            break;
         case 'START_NEWGAME':
-            return Object.assign({}, state, {
-                newGame: true
-            });
+            newState.newGame = true;
+
+            break;
         case 'CANCEL_NEWGAME':
-            return Object.assign({}, state, {
-                newGame: false
-            });
+            newState.newGame = false;
+
+            break;
         case 'CLEAR_CHAT_STATUS':
-            return Object.assign({}, state, {
-                lobbyError: false
-            });
+            newState.lobbyError = false;
+
+            break;
         case 'CLEAR_GAMESTATE':
-            return Object.assign({}, state, {
-                newGame: false,
-                currentGame: undefined
-            });
+            newState.newGame = false;
+            newState.currentGame = undefined;
+
+            break;
         case 'WINDOW_BLUR':
-            return Object.assign({}, state, {
-                windowBlurred: true
-            });
+            newState.windowBlurred = true;
+
+            break;
         case 'WINDOW_FOCUS':
-            return Object.assign({}, state, {
-                windowBlurred: false
-            });
+            newState.windowBlurred = false;
+
+            break;
+        case 'RESPONSE_TIME_RECEIVED':
+            newState.responseTime = action.responseTime;
+
+            break;
+        default:
+            return state;
     }
 
-    return state;
+    return newState;
 }
 
 function handleGameState(action, state) {
