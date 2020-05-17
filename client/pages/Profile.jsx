@@ -75,8 +75,8 @@ class Profile extends React.Component {
 
         this.setState({
             challonge: props.user.challonge,
-            challongeApiKey: props.user.challonge.key,
-            challongeApiSubdomain: props.user.challonge.subdomain,
+            challongeApiKey: props.user.challonge ? props.user.challonge.key : '',
+            challongeApiSubdomain: props.user.challonge ? props.user.challonge.subdomain : '',
             email: props.user.email,
             enableGravatar: !props.user.settings.disableGravatar,
             optionSettings: props.user.settings.optionSettings,

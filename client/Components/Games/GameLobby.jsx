@@ -224,11 +224,12 @@ class GameLobby extends React.Component {
         let t = this.props.t;
 
         let modalProps = {
-            id: 'pendingGameModal',
-            className: 'settings-popup row',
             bodyClassName: 'col-xs-12',
-            title: '',
-            noClickToClose: true
+            className: 'settings-popup row',
+            defaultGameType: 'casual',
+            id: 'pendingGameModal',
+            noClickToClose: true,
+            title: ''
         };
         let modalBody = null;
 

@@ -2,16 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import AlertPanel from '../Site/AlertPanel';
 import Panel from '../Site/Panel';
 
 import * as actions from '../../actions';
 
 import { withTranslation, Trans } from 'react-i18next';
 import Modal from '../Site/Modal';
-import NewTournamentGame from './NewTournamentGame';
+import NewGame from './NewGame';
 import $ from 'jquery';
 import ReactClipboard from 'react-clipboardjs-copy';
+import { toastr } from 'react-redux-toastr';
 
 class TournamentLobby extends React.Component {
     constructor(props) {
@@ -146,7 +146,9 @@ class TournamentLobby extends React.Component {
     }
 
     toggleMessage() {
-        this.setState({ showMessage: !this.state.showMessage });
+        const type = this.props.challongeApiSuccess ? 'success' : 'error';
+        const message = this.props.t(this.props.challongeMessage);
+        toastr[type](message);
     }
 
     render() {
@@ -160,17 +162,8 @@ class TournamentLobby extends React.Component {
             title: t('Game Options')
         };
 
-        let messageBar;
-        if(this.state.showMessage) {
-            setTimeout(() => {
-                this.toggleMessage();
-            }, 5000);
-            messageBar = <AlertPanel type={ this.props.challongeApiSuccess ? 'success' : 'error' } message={ t(this.props.challongeMessage) } />;
-        }
-
         return (
             <div className='full-height'>
-                { messageBar }
                 <div className='col-md-offset-2 col-md-8 full-height'>
                     <Panel title={ t('Tournament Organizer Panel') }>
                         <div className='col-xs-12 game-controls'>
@@ -229,7 +222,7 @@ class TournamentLobby extends React.Component {
                                     <button className='btn btn-primary'
                                         onClick={ this.sendAttachment }
                                         disabled={ 0 >= this.getMatchesWithGames().length }>
-                                    Send Attachment
+                                        <Trans>Send Attachments</Trans>
                                     </button>
                                 </div>
                             </div>
@@ -237,10 +230,11 @@ class TournamentLobby extends React.Component {
                     </Panel>
                 </div>
                 <Modal { ...modalProps }>
-                    <NewTournamentGame
+                    <NewGame
                         closeModal={ this.closeModal }
+                        defaultGameName={ '' }
+                        defaultGameType={ 'tournament' }
                         getParticipantName={ this.getParticipantName }
-                        defaultGameName={ 'Default Name' }
                         matches={ this.state.matchesToCreate }
                         tournament={ this.state.tournament }/>
                 </Modal>
