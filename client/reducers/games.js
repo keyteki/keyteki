@@ -16,7 +16,7 @@ function games(state = {}, action) {
             break;
         case 'GAME_SOCKET_CONNECT_FAILED':
             newState.connecting = false;
-            newState.connected; false;
+            newState.connected = false;
             newState.gameHost = undefined;
 
             break;
@@ -38,7 +38,7 @@ function games(state = {}, action) {
         case 'GAME_SOCKET_CLOSED':
             newState.connected = false;
             newState.connecting = false;
-            newState. gameHost = undefined;
+            newState.gameHost = undefined;
             newState.socket = undefined;
 
             break;
