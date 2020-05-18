@@ -1,4 +1,4 @@
-fdescribe('Dark Centurion', function() {
+describe('Dark Centurion', function() {
     integration(function() {
         describe('Dark Centurion\'s ability', function() {
             beforeEach(function() {
