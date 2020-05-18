@@ -65,7 +65,7 @@ class UserService extends EventEmitter {
             return user;
         }
 
-        this.populatedLinkedUserDetails(user);
+        await this.populatedLinkedUserDetails(user);
 
         return new User(user);
     }
@@ -107,7 +107,7 @@ class UserService extends EventEmitter {
             return user;
         }
 
-        this.populatedLinkedUserDetails(user);
+        await this.populatedLinkedUserDetails(user);
 
         return new User(user);
     }
