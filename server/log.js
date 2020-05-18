@@ -22,7 +22,6 @@ const prettyJson = format.printf(info => {
 
 const logger = createLogger({
     format: format.combine(
-        format.colorize(),
         format.prettyPrint(),
         format.splat(),
         format.simple(),
