@@ -9,7 +9,8 @@ describe('Citizen Shrix', function () {
                         hand: ['citizen-shrix']
                     },
                     player2: {
-                        amber: 4
+                        amber: 4,
+                        hand: ['troll']
                     }
                 });
             });
@@ -53,8 +54,8 @@ describe('Citizen Shrix', function () {
                 this.player1.clickPrompt('saurian');
                 this.player1.reap(this.citizenShrix);
 
+                expect(this.player1.amber).toBe(3);
                 expect(this.player2.amber).toBe(2);
-                expect(this.player1.amber).toBe(2);
             });
         });
     });
