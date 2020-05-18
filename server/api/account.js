@@ -218,6 +218,7 @@ module.exports.init = function(server, options) {
             username: req.body.username,
             email: req.body.email,
             enableGravatar: req.body.enableGravatar,
+            challonge: req.body.challonge,
             registerIp: ip
         };
 
@@ -592,6 +593,7 @@ module.exports.init = function(server, options) {
         }
 
         user.enableGravatar = userToSet.enableGravatar;
+        user.challonge = userToSet.challonge;
 
         await downloadAvatar(user);
 

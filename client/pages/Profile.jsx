@@ -21,15 +21,17 @@ class Profile extends React.Component {
 
         this.handleSelectBackground = this.handleSelectBackground.bind(this);
         this.handleSelectCardSize = this.handleSelectCardSize.bind(this);
-        this.onUpdateAvatarClick = this.onUpdateAvatarClick.bind(this);
         this.onUnlinkClick = this.onUnlinkClick.bind(this);
+        this.onUpdateAvatarClick = this.onUpdateAvatarClick.bind(this);
 
         this.state = {
+            challongeApiKey: '',
+            challongeApiSubdomain: '',
             email: '',
             newPassword: '',
             newPasswordAgain: '',
-            validation: {},
-            optionSettings: {}
+            optionSettings: {},
+            validation: {}
         };
     }
 
@@ -72,11 +74,14 @@ class Profile extends React.Component {
         }
 
         this.setState({
+            challonge: props.user.challonge,
+            challongeApiKey: props.user.challonge ? props.user.challonge.key : '',
+            challongeApiSubdomain: props.user.challonge ? props.user.challonge.subdomain : '',
             email: props.user.email,
             enableGravatar: !props.user.settings.disableGravatar,
+            optionSettings: props.user.settings.optionSettings,
             selectedBackground: props.user.settings.background,
-            selectedCardSize: props.user.settings.cardSize,
-            optionSettings: props.user.settings.optionSettings
+            selectedCardSize: props.user.settings.cardSize
         });
     }
 
@@ -121,9 +126,13 @@ class Profile extends React.Component {
         }
 
         this.props.saveProfile(this.props.user.username, {
+            challonge: {
+                key: this.state.challongeApiKey,
+                subdomain: this.state.challongeApiSubdomain
+            },
             email: this.state.email,
-            password: this.state.newPassword,
             enableGravatar: this.state.enableGravatar,
+            password: this.state.newPassword,
             settings: {
                 background: this.state.selectedBackground,
                 cardSize: this.state.selectedCardSize,
@@ -240,6 +249,10 @@ class Profile extends React.Component {
                             <Input name='newPasswordAgain' label={ t('New Password (again)') } labelClass='col-sm-4' fieldClass='col-sm-8' placeholder={ t('Enter new password (again)') }
                                 type='password' onChange={ this.onChange.bind(this, 'newPasswordAgain') } value={ this.state.newPasswordAgain }
                                 onBlur={ this.verifyPassword.bind(this, false) } validationMessage={ this.state.validation['password1'] } />
+                            <Input name='challongeApiKey' label={ t('Challonge API Key') } labelClass='col-sm-4' fieldClass='col-sm-8' placeholder={ t('Enter Challonge API Key') }
+                                type='text' onChange={ this.onChange.bind(this, 'challongeApiKey') } value={ this.state.challongeApiKey }/>
+                            <Input name='challongeApiSubdomain' label={ t('Challonge API Subdomain') } labelClass='col-sm-4' fieldClass='col-sm-8' placeholder={ t('Challonge Community Subdomain') }
+                                type='text' onChange={ this.onChange.bind(this, 'challongeApiSubdomain') } value={ this.state.challongeApiSubdomain }/>
                             <span className='col-sm-3 text-center'><Avatar username={ this.props.user.username } /></span>
                             <Checkbox name='enableGravatar' label={ t('Enable Gravatar integration') } fieldClass='col-sm-offset-1 col-sm-7'
                                 onChange={ e => this.setState({ enableGravatar: e.target.checked }) } checked={ this.state.enableGravatar } />
