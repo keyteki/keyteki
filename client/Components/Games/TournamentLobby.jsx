@@ -94,11 +94,11 @@ class TournamentLobby extends React.Component {
     }
 
     getMatchesWithGames() {
-        return this.getOpenMatches().filter(x => this.getTournamentGames().map(x=>x.challonge.matchId).includes(x.id));
+        return this.getOpenMatches().filter(x => this.getTournamentGames().map(x => x.challonge.matchId).includes(x.id));
     }
 
     getMatchesWithNoGames() {
-        return this.getOpenMatches().filter(x => !this.getTournamentGames().map(x=>x.challonge.matchId).includes(x.id));
+        return this.getOpenMatches().filter(x => !this.getTournamentGames().map(x => x.challonge.matchId).includes(x.id));
     }
 
     getTournamentData() {
@@ -203,7 +203,7 @@ class TournamentLobby extends React.Component {
                                         ) : <button className='btn btn-primary' value={ match.id } onClick={ this.createGames }>Create Game</button>
                                         }
                                     </div>
-                                    { 0 >= index &&
+                                    { index <= 0 &&
                                     <div className='col-sm-3'>
                                         <button className='btn btn-primary'
                                             onClick={ this.refreshMatches }>
@@ -218,7 +218,7 @@ class TournamentLobby extends React.Component {
                                 <div className='col-sm-3'>
                                     <button className='btn btn-primary'
                                         value='all'
-                                        disabled={ 0 >= this.getMatchesWithNoGames().length }
+                                        disabled={ this.getMatchesWithNoGames().length <= 0 }
                                         onClick={ this.createGames }>
                                         <Trans>Create All Games</Trans>
                                     </button>
@@ -226,7 +226,7 @@ class TournamentLobby extends React.Component {
                                 <div className='col-sm-3'>
                                     <button className='btn btn-primary'
                                         onClick={ this.sendAttachment }
-                                        disabled={ 0 >= this.getMatchesWithGames().length }>
+                                        disabled={ this.getMatchesWithGames().length <= 0 }>
                                         <Trans>Send Attachments</Trans>
                                     </button>
                                 </div>

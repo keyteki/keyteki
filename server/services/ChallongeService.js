@@ -2,87 +2,89 @@ const util = require('../util.js');
 const logger = require('../log.js');
 
 class ChallongeService {
-    getTournamentsForUser(user) {
-        return new Promise((resolve, reject) => {
-            if(!user.challonge.key) {
-                reject();
-                return;
-            }
+    async getTournamentsForUser(user) {
+        if(!user.challonge.key) {
+            throw 'Challonge key not found';
+        }
 
-            const personal = util.httpRequest(`https://api.challonge.com/v1/tournaments.json?api_key=${user.challonge.key}`, { json: true });
-            const community = user.challonge.subdomain ? util.httpRequest(`https://api.challonge.com/v1/tournaments.json?api_key=${user.challonge.key}&subdomain=${user.challonge.subdomain}`, { json: true }) : [];
-            Promise.all([personal, community])
-                .then(([personal, community]) => {
-                    let final = [...personal.map(x => x.tournament), ...community.map(x => x.tournament)];
-                    final = final.filter(x => x.game_name === 'Keyforge' && x.state !== 'complete');
-                    final = final.sort((a, b) => {
-                        let aDate = new Date(a.created_at);
-                        let bDate = new Date(b.created_at);
-                        return aDate > bDate ? 0 : 1;
-                    });
-                    resolve(final);
-                })
-                .catch(err => {
-                    logger.error('Failed to get tournaments for ', user.username, err);
-                    reject(err);
-                });
+        let personal, community;
+
+        try {
+            personal = await util.httpRequest(`https://api.challonge.com/v1/tournaments.json?api_key=${user.challonge.key}`, { json: true });
+            community = user.challonge.subdomain ? await util.httpRequest(`https://api.challonge.com/v1/tournaments.json?api_key=${user.challonge.key}&subdomain=${user.challonge.subdomain}`, { json: true }) : [];
+        } catch(error) {
+            logger.error(`Failed to get tournaments for ${user.username} ${error}`);
+            throw error;
+        }
+
+        let final = [...personal.map(x => x.tournament), ...community.map(x => x.tournament)];
+        final = final.filter(x => x.game_name === 'Keyforge' && x.state !== 'complete');
+        final = final.sort((a, b) => {
+            let aDate = new Date(a.created_at);
+            let bDate = new Date(b.created_at);
+            return aDate > bDate ? 0 : 1;
         });
+        return final;
     }
 
-    getMatches(user, tournamentId) {
-        return new Promise((resolve, reject) => {
-            if(!(user.challonge.key && tournamentId)) {
-                reject();
-                return;
-            }
+    async getMatches(user, tournamentId) {
+        if(!user.challonge.key || !tournamentId) {
+            throw 'Challonge key or tournament ID not found';
+        }
 
-            util.httpRequest(`https://api.challonge.com/v1/tournaments/${tournamentId}/matches.json?api_key=${user.challonge.key}`, { json: true })
-                .then(matches => resolve(matches.map(x => x.match)))
-                .catch(err => {
-                    logger.error('Failed to get tournaments for ', user.username, err);
-                    reject(err);
-                });
-        });
+        let matches;
+        try {
+            matches = await util.httpRequest(`https://api.challonge.com/v1/tournaments/${tournamentId}/matches.json?api_key=${user.challonge.key}`, { json: true });
+        } catch(error) {
+            logger.error(`Failed to get tournaments for ${user.username} ${error}`);
+            throw error;
+        }
+
+        return matches.map(x => x.match);
     }
 
-    getParticipants(user, tournamentId) {
-        return new Promise((resolve, reject) => {
-            if(!(user.challonge.key && tournamentId)) {
-                reject();
-                return;
-            }
+    async getParticipants(user, tournamentId) {
+        if(!user.challonge.key || !tournamentId) {
+            throw 'Challonge key or tournament ID not found';
+        }
 
-            util.httpRequest(`https://api.challonge.com/v1/tournaments/${tournamentId}/participants.json?api_key=${user.challonge.key}`, { json: true })
-                .then(participants => resolve(participants.map(x => x.participant)))
-                .catch(err => {
-                    logger.error('Failed to get participants for ', user.username, err);
-                    reject(err);
-                });
-        });
+        let participants;
+        try {
+            participants = await util.httpRequest(`https://api.challonge.com/v1/tournaments/${tournamentId}/participants.json?api_key=${user.challonge.key}`, { json: true });
+        } catch(error) {
+            logger.error(`Failed to get participants for ${user.username} ${error}`);
+            throw error;
+        }
+
+        return participants.map(x => x.participant);
     }
 
-    attachMatchLink(user, data) {
-        return new Promise((resolve, reject) => {
-            if(!(user.challonge.key)) {
-                reject();
-                return;
-            }
+    async attachMatchLink(user, data) {
+        if(!user.challonge.key) {
+            throw 'Challonge key not found';
+        }
 
-            const challongeResults = data.map(x => {
-                return new Promise((challongeResolve, challongeReject) => {
-                    let url = `https://api.challonge.com/v1/tournaments/${x.tournamentId}/matches/${x.matchId}/attachments.json?api_key=${user.challonge.key}`;
-                    util.httpRequest(url, { method: 'POST', json: true, body: { description: 'Click This link to enter your game.', url: x.attachment } })
-                        .then(result => {
-                            challongeResolve(result.match_attachment);
-                        })
-                        .catch(err => {
-                            logger.error('Failed to create attachments for ', user.username, err);
-                            challongeReject(err);
-                        });
-                });
+        let challongeResults;
+        try {
+            challongeResults = await data.map(async x => {
+                let result;
+                let url = `https://api.challonge.com/v1/tournaments/${x.tournamentId}/matches/${x.matchId}/attachments.json?api_key=${user.challonge.key}`;
+
+                try {
+                    result = await util.httpRequest(url, { method: 'POST', json: true, body: { description: 'Click This link to enter your game.', url: x.attachment } });
+                } catch(error) {
+                    logger.error(`Failed to get attachments for ${user.username} ${error}`);
+                    throw error;
+                }
+
+                return result.match_attachment;
             });
-            Promise.all(challongeResults).then(resolve).catch(reject);
-        });
+        } catch(error) {
+            logger.error(`Failed to get attachments for ${user.username} ${error}`);
+            throw error;
+        }
+
+        return challongeResults;
     }
 }
 

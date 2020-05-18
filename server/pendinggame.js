@@ -146,7 +146,7 @@ class PendingGame {
         this.addPlayer(id, user);
 
         if(!this.isOwner(this.owner.username)) {
-            let otherPlayer = _.find(this.players, player => player.name !== this.owner.username);
+            let otherPlayer = Object.values(this.players).find(player => player.name !== this.owner.username);
 
             if(otherPlayer) {
                 this.owner = otherPlayer.user;

@@ -65,7 +65,6 @@ export function attachMatchLink(data) {
     };
 }
 
-
 export function clearChallongeMessage() {
     return {
         type: 'CLEAR_CHALLONGE_MESSAGE'

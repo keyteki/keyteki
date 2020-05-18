@@ -104,14 +104,15 @@ class NewGame extends React.Component {
         };
 
         if(this.props.tournament) {
-            this.props.matches.forEach(match => {
+            for(let match of this.props.matches) {
                 this.props.socket.emit('newgame', {
                     ...newGame,
                     name: `${this.props.getParticipantName(match.player1_id)} vs ${this.props.getParticipantName(match.player2_id)}`,
                     challonge: { matchId: match.id, tournamentId: this.props.tournament.id },
                     tournament: true
                 });
-            });
+            }
+
             this.props.closeModal();
         } else {
             this.props.socket.emit('newgame', newGame);
