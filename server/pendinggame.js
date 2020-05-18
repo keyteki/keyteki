@@ -113,12 +113,14 @@ class PendingGame {
         };
     }
 
-    newGame(id, user, password) {
+    newGame(id, user, password, join) {
         if(password) {
             this.password = crypto.createHash('md5').update(password).digest('hex');
         }
 
-        this.addPlayer(id, user);
+        if(join) {
+            this.addPlayer(id, user);
+        }
     }
 
     isUserBlocked(user) {

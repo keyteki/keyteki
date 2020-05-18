@@ -151,21 +151,8 @@ class TournamentLobby extends React.Component {
         toastr[type](message);
     }
 
-    watchGame(event, game) {
-        let t = this.props.t;
-
-        event.preventDefault();
-
-        if(!this.props.user) {
-            toastr.error(t('Please login before trying to watch a game'));
-            return;
-        }
-
-        if(game.needsPassword) {
-            this.props.joinPasswordGame(game, 'Watch');
-        } else {
-            this.props.socket.emit('watchgame', game.id);
-        }
+    watchGame(event) {
+        this.props.navigate('/play', `?gameId=${event.target.value}`);
     }
 
     render() {
@@ -209,7 +196,7 @@ class TournamentLobby extends React.Component {
                                     <div className='col-sm-3'>
                                         { game ? (
                                             game.started ?
-                                                <button className='btn btn-primary gamelist-button' onClick={ event => this.watchGame(event, game) }><Trans>Watch</Trans></button>
+                                                <button className='btn btn-primary' value={ game.id } onClick={ this.watchGame }><Trans>Watch</Trans></button>
                                                 : <ReactClipboard text={ this.getMatchLink(game) }>
                                                     <button className='btn btn-primary'>Copy Game Link</button>
                                                 </ReactClipboard>
@@ -250,10 +237,14 @@ class TournamentLobby extends React.Component {
                 <Modal { ...modalProps }>
                     <NewGame
                         closeModal={ this.closeModal }
-                        defaultGameName={ '' }
-                        defaultGameType={ 'tournament' }
+                        defaultGameName=''
+                        defaultGameType='competitive'
+                        gamePrivate
+                        gameTimeLimit
                         getParticipantName={ this.getParticipantName }
                         matches={ this.state.matchesToCreate }
+                        muteSpectators
+                        showHand
                         tournament={ this.state.tournament }/>
                 </Modal>
             </div>);
@@ -277,6 +268,7 @@ TournamentLobby.propTypes = {
     i18n: PropTypes.object,
     joinPasswordGame: PropTypes.func,
     matches: PropTypes.array,
+    navigate: PropTypes.func,
     newGame: PropTypes.bool,
     participants: PropTypes.array,
     passwordGame: PropTypes.object,

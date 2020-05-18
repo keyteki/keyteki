@@ -473,10 +473,8 @@ class Lobby {
         }
 
         let game = new PendingGame(socket.user, gameDetails);
-        if(game.gameType !== 'tournament') {
-            game.newGame(socket.id, socket.user, gameDetails.password);
-            socket.joinChannel(game.id);
-        }
+        game.newGame(socket.id, socket.user, gameDetails.password, !game.challonge);
+        socket.joinChannel(game.id);
 
         this.sendGameState(game);
 

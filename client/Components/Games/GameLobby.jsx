@@ -43,7 +43,6 @@ class GameLobby extends React.Component {
             beginner: true,
             casual: true,
             competitive: true,
-            tournament: false,
             normal: true,
             sealed: true,
             reversal: true,
@@ -73,7 +72,7 @@ class GameLobby extends React.Component {
         }
 
         if(this.props.gameId) {
-            this.props.socket.emit('joingame', this.props.gameId);
+            this.useGameLink(this.props.games);
         }
     }
 
@@ -106,17 +105,32 @@ class GameLobby extends React.Component {
         }
 
         if(!props.currentGame && this.props.gameId) {
-            const game = props.games.find(x => x.id === this.props.gameId);
-            if(!game) {
-                return;
-            }
+            this.useGameLink(props.games);
+        }
+    }
 
+    useGameLink(games) {
+        const game = games.find(x => x.id === this.props.gameId);
+
+        if(!game) {
+            return;
+        }
+
+        if(!game.started && Object.keys(game.players).length < 2) {
             if(game.needsPassword) {
                 this.props.joinPasswordGame(game, 'Join');
             } else {
                 this.props.socket.emit('joingame', this.props.gameId);
             }
+        } else {
+            if(game.needsPassword) {
+                this.props.joinPasswordGame(game, 'Watch');
+            } else {
+                this.props.socket.emit('watchgame', game.id);
+            }
         }
+
+        this.props.setUrl('/play');
     }
 
     setGameState(props) {
@@ -272,7 +286,6 @@ class GameLobby extends React.Component {
                                     <Checkbox name='normal' label={ t('Normal') } fieldClass='col-sm-4' noGroup onChange={ this.onCheckboxChange.bind(this, 'normal') } checked={ this.state.filter['normal'] } />
                                     <Checkbox name='sealed' label={ t('Sealed') } fieldClass='col-sm-4' noGroup onChange={ this.onCheckboxChange.bind(this, 'sealed') } checked={ this.state.filter['sealed'] } />
                                     <Checkbox name='reversal' label={ t('Reversal') } fieldClass='col-sm-4' noGroup onChange={ this.onCheckboxChange.bind(this, 'reversal') } checked={ this.state.filter['reversal'] } />
-                                    <Checkbox name='tournament' label={ t('Tournament') } fieldClass='col-sm-6' noGroup onChange={ this.onCheckboxChange.bind(this, 'tournament') } checked={ this.state.filter['tournament'] } />
                                     <Checkbox name='showOnlyNewGames' label={ t('Only show new games') } fieldClass='col-sm-6' noGroup onChange={ this.onCheckboxChange.bind(this, 'showOnlyNewGames') } checked={ this.state.filter['showOnlyNewGames'] } />
                                 </Panel>
                             </div>
@@ -303,6 +316,7 @@ GameLobby.propTypes = {
     newGame: PropTypes.bool,
     passwordGame: PropTypes.object,
     setContextMenu: PropTypes.func,
+    setUrl: PropTypes.func,
     socket: PropTypes.object,
     startNewGame: PropTypes.func,
     t: PropTypes.func,
@@ -316,6 +330,7 @@ function mapStateToProps(state) {
         games: state.lobby.games,
         newGame: state.lobby.newGame,
         passwordGame: state.lobby.passwordGame,
+        setUrl: state.lobby.setUrl,
         socket: state.lobby.socket,
         user: state.account.user
     };

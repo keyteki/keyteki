@@ -30,16 +30,16 @@ class NewGame extends React.Component {
         this.state = {
             expansions: { cota: false, aoa: false, wc: true },
             gameName: this.props.defaultGameName,
-            gamePrivate: false,
+            gamePrivate: this.props.gamePrivate,
             gameTimeLimit: 35,
             hideDecklists: false,
-            muteSpectators: false,
+            muteSpectators: this.props.muteSpectators,
             password: '',
             selectedGameFormat: 'normal',
-            selectedGameType: this.props.defaultGameType,
-            showHand: false,
+            selectedGameType: this.props.defaultGameType ? this.props.defaultGameType : 'casual',
+            showHand: this.props.showHand,
             spectators: true,
-            useGameTimeLimit: false
+            useGameTimeLimit: this.props.gameTimeLimit
         };
     }
 
@@ -108,7 +108,8 @@ class NewGame extends React.Component {
                 this.props.socket.emit('newgame', {
                     ...newGame,
                     name: `${this.props.getParticipantName(match.player1_id)} vs ${this.props.getParticipantName(match.player2_id)}`,
-                    challonge: { matchId: match.id, tournamentId: this.props.tournament.id }
+                    challonge: { matchId: match.id, tournamentId: this.props.tournament.id },
+                    tournament: true
                 });
             });
             this.props.closeModal();
@@ -318,10 +319,14 @@ NewGame.propTypes = {
     closeModal: PropTypes.func,
     defaultGameName: PropTypes.string,
     defaultGameType: PropTypes.string,
+    gamePrivate: PropTypes.bool,
+    gameTimeLimit: PropTypes.bool,
     getParticipantName: PropTypes.func,
     i18n: PropTypes.object,
     matches: PropTypes.array,
+    muteSpectators: PropTypes.bool,
     quickJoin: PropTypes.bool,
+    showHand: PropTypes.bool,
     socket: PropTypes.object,
     t: PropTypes.func,
     tournament: PropTypes.string
