@@ -4,7 +4,7 @@ const menus = [
     { path: '/decks', title: 'Decks', showOnlyWhenLoggedIn: true, position: 'left' },
     //{ path: '/matches', title: 'Matches', showOnlyWhenLoggedIn: true, position: 'left' },
     { path: '/play', title: 'Play', position: 'left' },
-    { path: '/tournamentlobby', title: 'Tournament', showOnlyWhenLoggedIn: true, position: 'left' },
+    { path: '/tournamentlobby', title: 'Tournament', showOnlyWhenLoggedIn: true, permission: 'canRunTournaments', position: 'left' },
     {
         title: 'Help', position: 'left', childItems: [
             { path: '/how-to-play', title: 'How To Play' },

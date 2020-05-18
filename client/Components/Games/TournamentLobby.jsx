@@ -1,17 +1,16 @@
-import React from 'react';
+import $ from 'jquery';
 import PropTypes from 'prop-types';
+import React from 'react';
+import ReactClipboard from 'react-clipboardjs-copy';
 import { connect } from 'react-redux';
+import { toastr } from 'react-redux-toastr';
+import { withTranslation, Trans } from 'react-i18next';
 
+import Modal from '../Site/Modal';
+import NewGame from './NewGame';
 import Panel from '../Site/Panel';
 
 import * as actions from '../../actions';
-
-import { withTranslation, Trans } from 'react-i18next';
-import Modal from '../Site/Modal';
-import NewGame from './NewGame';
-import $ from 'jquery';
-import ReactClipboard from 'react-clipboardjs-copy';
-import { toastr } from 'react-redux-toastr';
 
 class TournamentLobby extends React.Component {
     constructor(props) {
@@ -36,6 +35,7 @@ class TournamentLobby extends React.Component {
         this.refreshTournaments = this.refreshTournaments.bind(this);
         this.selectTournament = this.selectTournament.bind(this);
         this.sendAttachment = this.sendAttachment.bind(this);
+        this.watchGame = this.watchGame.bind(this);
     }
 
     componentDidMount() {
@@ -151,6 +151,23 @@ class TournamentLobby extends React.Component {
         toastr[type](message);
     }
 
+    watchGame(event, game) {
+        let t = this.props.t;
+
+        event.preventDefault();
+
+        if(!this.props.user) {
+            toastr.error(t('Please login before trying to watch a game'));
+            return;
+        }
+
+        if(game.needsPassword) {
+            this.props.joinPasswordGame(game, 'Watch');
+        } else {
+            this.props.socket.emit('watchgame', game.id);
+        }
+    }
+
     render() {
         let t = this.props.t;
         let modalProps = {
@@ -188,14 +205,15 @@ class TournamentLobby extends React.Component {
                             { this.getOpenMatches().map((match, index) => {
                                 const game = this.getTournamentGames().find(x => x.challonge && x.challonge.matchId === match.id);
                                 return (<div className='col-xs-12 match-row' key={ index }>
-                                    <div className='col-sm-5'>Table { index + 1 } : { this.getParticipantName(match.player1_id) } vs { this.getParticipantName(match.player2_id) } ({ match.state }) </div>
+                                    <div className='col-sm-5'>Table { index + 1 } : { this.getParticipantName(match.player1_id) } vs { this.getParticipantName(match.player2_id) } ({ game && game.started ? 'In Progress' : 'Pending' }) </div>
                                     <div className='col-sm-3'>
-                                        { game ?
-                                            <ReactClipboard text={ this.getMatchLink(game) }>
-                                                <button className='btn btn-primary'>Copy Game Link</button>
-                                            </ReactClipboard>
-                                            :
-                                            <button className='btn btn-primary' value={ match.id } onClick={ this.createGames }>Create Game</button>
+                                        { game ? (
+                                            game.started ?
+                                                <button className='btn btn-primary gamelist-button' onClick={ event => this.watchGame(event, game) }><Trans>Watch</Trans></button>
+                                                : <ReactClipboard text={ this.getMatchLink(game) }>
+                                                    <button className='btn btn-primary'>Copy Game Link</button>
+                                                </ReactClipboard>
+                                        ) : <button className='btn btn-primary' value={ match.id } onClick={ this.createGames }>Create Game</button>
                                         }
                                     </div>
                                     { 0 >= index &&
@@ -257,11 +275,13 @@ TournamentLobby.propTypes = {
     fetchTournaments: PropTypes.func,
     games: PropTypes.array,
     i18n: PropTypes.object,
+    joinPasswordGame: PropTypes.func,
     matches: PropTypes.array,
     newGame: PropTypes.bool,
     participants: PropTypes.array,
     passwordGame: PropTypes.object,
     setContextMenu: PropTypes.func,
+    socket: PropTypes.object,
     startNewGame: PropTypes.func,
     t: PropTypes.func,
     tournaments: PropTypes.array,

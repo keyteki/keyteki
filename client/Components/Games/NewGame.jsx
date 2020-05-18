@@ -84,15 +84,10 @@ class NewGame extends React.Component {
 
         if(this.state.selectedGameFormat === 'sealed' && expansionsSelected === 0) {
             toastr.error(this.props.t('Please select at least one expansion!'));
-
             return;
         }
 
-        this.emitNewGame();
-    }
-
-    emitNewGame () {
-        this.props.socket.emit('newgame', {
+        let newGame = {
             expansions: this.state.expansions,
             gameFormat: this.state.selectedGameFormat,
             gamePrivate: this.state.gamePrivate,
@@ -106,7 +101,20 @@ class NewGame extends React.Component {
             showHand: this.state.showHand,
             spectators: this.state.spectators,
             useGameTimeLimit: this.state.useGameTimeLimit
-        });
+        };
+
+        if(this.props.tournament) {
+            this.props.matches.forEach(match => {
+                this.props.socket.emit('newgame', {
+                    ...newGame,
+                    name: `${this.props.getParticipantName(match.player1_id)} vs ${this.props.getParticipantName(match.player2_id)}`,
+                    challonge: { matchId: match.id, tournamentId: this.props.tournament.id }
+                });
+            });
+            this.props.closeModal();
+        } else {
+            this.props.socket.emit('newgame', newGame);
+        }
     }
 
     onGameTypeChange(gameType) {

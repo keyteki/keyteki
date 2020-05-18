@@ -44,7 +44,7 @@ const routes = [
     { path: '/profile', action: () => <Profile key='profile' /> },
     { path: '/register', action: () => <Register key='register' /> },
     { path: '/reset-password', action: context => <ResetPassword key='resetpassword' id={ context.params.id } token={ context.params.token } /> },
-    { path: '/tournamentlobby', action: () => <TournamentLobby key='tournamentlobby' /> },
+    { path: '/tournamentlobby', action: () => <TournamentLobby key='tournamentlobby' />, permission: 'canRunTournaments' },
     { path: '/security', action: () => <Security key='security' /> },
     { path: '/users', action: () => <UserAdmin key='useradmin' />, permission: 'canManageUsers' },
     { path: '/nodes', action: () => <NodesAdmin key='nodesadmin' />, permission: 'canManageNodes' },
