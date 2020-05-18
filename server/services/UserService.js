@@ -65,57 +65,7 @@ class UserService extends EventEmitter {
             return user;
         }
 
-        let tokens;
-        try {
-            tokens = await db.query('SELECT * FROM "RefreshToken" WHERE "UserId" = $1', [user.id]);
-        } catch(err) {
-            logger.error('Failed to lookup tokens for user', err);
-        }
-
-        if(tokens) {
-            user.tokens = this.mapTokens(tokens);
-        } else {
-            user.tokens = [];
-        }
-
-        let blockList;
-        try {
-            blockList = await db.query('SELECT * FROM "BlockList" WHERE "UserId" = $1', [user.id]);
-        } catch(err) {
-            logger.error('Failed to lookup blocklist for user', err);
-        }
-
-        if(blockList) {
-            user.blockList = blockList.map(bl => bl.Entry);
-        } else {
-            user.blockList = [];
-        }
-
-        let permissions;
-        try {
-            permissions = await db.query('SELECT r."Name" FROM "UserRoles" ur JOIN "Roles" r ON r."Id" = ur."RoleId" WHERE ur."UserId" = $1', [user.id]);
-        } catch(err) {
-            logger.error('Failed to lookup permissions for user', err);
-        }
-
-        if(permissions) {
-            user.permissions = this.mapPermissions(permissions);
-        } else {
-            user.permissions = {};
-        }
-
-        let challonge;
-        try {
-            challonge = await db.query('SELECT * FROM "ChallongeSettings" WHERE "UserId" = $1', [user.id]);
-        } catch(err) {
-            logger.error('Failed to lookup permissions for user', err);
-        }
-
-        if(challonge) {
-            user.challonge = { key: challonge[0].ApiKey, subdomain: challonge[0].SubDomain };
-        } else {
-            user.challonge = { key: '', subdomain: '' };
-        }
+        this.populatedLinkedUserDetails(user);
 
         return new User(user);
     }
@@ -153,58 +103,11 @@ class UserService extends EventEmitter {
 
         let user = this.getUserFromDbUser(rows[0]);
 
-        let tokens;
-
-        try {
-            tokens = await db.query('SELECT * FROM "RefreshToken" WHERE "UserId" = $1', [user.id]);
-        } catch(err) {
-            logger.error('Failed to lookup tokens for user', err);
+        if(!user) {
+            return user;
         }
 
-        if(tokens) {
-            user.tokens = this.mapTokens(tokens);
-        } else {
-            user.tokens = [];
-        }
-
-        let blockList;
-        try {
-            blockList = await db.query('SELECT * FROM "BlockList" WHERE "UserId" = $1', [user.id]);
-        } catch(err) {
-            logger.error('Failed to lookup blocklist for user', err);
-        }
-
-        if(blockList) {
-            user.blockList = blockList.map(bl => bl.Entry);
-        } else {
-            user.blockList = [];
-        }
-
-        let permissions;
-        try {
-            permissions = await db.query('SELECT r."Name" FROM "UserRoles" ur JOIN "Roles" r ON r."Id" = ur."RoleId" WHERE ur."UserId" = $1', [user.id]);
-        } catch(err) {
-            logger.error('Failed to lookup permissions for user', err);
-        }
-
-        if(permissions) {
-            user.permissions = this.mapPermissions(permissions);
-        } else {
-            user.permissions = [];
-        }
-
-        let challonge;
-        try {
-            challonge = await db.query('SELECT * FROM "ChallongeSettings" WHERE "UserId" = $1', [user.id]);
-        } catch(err) {
-            logger.error('Failed to lookup permissions for user', err);
-        }
-
-        if(challonge) {
-            user.challonge = { key: challonge[0].ApiKey, subdomain: challonge[0].SubDomain };
-        } else {
-            user.challonge = { key: '', subdomain: '' };
-        }
+        this.populatedLinkedUserDetails(user);
 
         return new User(user);
     }
@@ -514,6 +417,60 @@ class UserService extends EventEmitter {
 
     async cleanupRefreshTokens() {
         await db.query('DELETE FROM "RefreshToken" WHERE "Expiry" < current_date');
+    }
+
+    async populatedLinkedUserDetails(user) {
+        let tokens;
+        try {
+            tokens = await db.query('SELECT * FROM "RefreshToken" WHERE "UserId" = $1', [user.id]);
+        } catch(err) {
+            logger.error('Failed to lookup tokens for user', err);
+        }
+
+        if(tokens) {
+            user.tokens = this.mapTokens(tokens);
+        } else {
+            user.tokens = [];
+        }
+
+        let blockList;
+        try {
+            blockList = await db.query('SELECT * FROM "BlockList" WHERE "UserId" = $1', [user.id]);
+        } catch(err) {
+            logger.error('Failed to lookup blocklist for user', err);
+        }
+
+        if(blockList) {
+            user.blockList = blockList.map(bl => bl.Entry);
+        } else {
+            user.blockList = [];
+        }
+
+        let permissions;
+        try {
+            permissions = await db.query('SELECT r."Name" FROM "UserRoles" ur JOIN "Roles" r ON r."Id" = ur."RoleId" WHERE ur."UserId" = $1', [user.id]);
+        } catch(err) {
+            logger.error('Failed to lookup permissions for user', err);
+        }
+
+        if(permissions) {
+            user.permissions = this.mapPermissions(permissions);
+        } else {
+            user.permissions = {};
+        }
+
+        let challonge;
+        try {
+            challonge = await db.query('SELECT * FROM "ChallongeSettings" WHERE "UserId" = $1', [user.id]);
+        } catch(err) {
+            logger.error('Failed to lookup permissions for user', err);
+        }
+
+        if(challonge && challonge.length > 0) {
+            user.challonge = { key: challonge[0].ApiKey, subdomain: challonge[0].SubDomain };
+        } else {
+            user.challonge = { key: '', subdomain: '' };
+        }
     }
 
     getUserFromDbUser(dbUser) {
