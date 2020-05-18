@@ -540,6 +540,8 @@ class UserService extends EventEmitter {
                 return 11; // 'Contributor';
             case 'isSupporter':
                 return 12; // 'Supporter';
+            case 'canManageTournaments':
+                return 13; // 'TournamentManager'
         }
     }
 
@@ -554,6 +556,7 @@ class UserService extends EventEmitter {
             canVerifyDecks: false,
             canManageBanlist: false,
             canManageMotd: false,
+            canManageTournaments: false,
             isAdmin: false,
             isContributor: false,
             isSupporter: false
@@ -596,6 +599,9 @@ class UserService extends EventEmitter {
                     break;
                 case 'Contributor':
                     ret.isContributor = true;
+                    break;
+                case 'TournamentManager':
+                    ret.canManageTournaments = true;
                     break;
             }
         }
