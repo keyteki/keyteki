@@ -207,7 +207,7 @@ class GameServer {
     sendGameState(game) {
         for(const player of Object.values(game.getPlayersAndSpectators())) {
             if(player.left || player.disconnectedAt || !player.socket) {
-                return;
+                continue;
             }
 
             player.socket.send('gamestate', game.getState(player.name));
