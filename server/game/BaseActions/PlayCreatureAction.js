@@ -21,4 +21,3 @@ class PlayCreatureAction extends BasePlayAction {
 }
 
 module.exports = PlayCreatureAction;
-

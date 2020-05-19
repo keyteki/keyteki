@@ -1,7 +1,7 @@
-describe('Ballcano', function() {
-    integration(function() {
-        describe('Ballcano\'s ability', function() {
-            beforeEach(function() {
+describe('Ballcano', function () {
+    integration(function () {
+        describe("Ballcano's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'brobnar',
@@ -14,7 +14,7 @@ describe('Ballcano', function() {
                 });
             });
 
-            it('should deal 4 damage to all creatures', function() {
+            it('should deal 4 damage to all creatures', function () {
                 this.player1.play(this.ballcano);
                 expect(this.urchin.location).toBe('discard');
                 expect(this.nexus.location).toBe('discard');

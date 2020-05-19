@@ -15,7 +15,7 @@ const binaryCardEffects = [
 class StaticEffect {
     constructor(type = '', value) {
         this.type = type;
-        if(value instanceof EffectValue) {
+        if (value instanceof EffectValue) {
             this.value = value;
         } else {
             this.value = new EffectValue(value);
@@ -53,19 +53,18 @@ class StaticEffect {
     }
 
     checkConflictingEffects(type, target) {
-        if(binaryCardEffects.includes(type)) {
-            let matchingEffects = target.effects.filter(effect => effect.type === type);
-            return matchingEffects.every(effect => this.hasLongerDuration(effect) || effect.isConditional);
+        if (binaryCardEffects.includes(type)) {
+            let matchingEffects = target.effects.filter((effect) => effect.type === type);
+            return matchingEffects.every(
+                (effect) => this.hasLongerDuration(effect) || effect.isConditional
+            );
         }
 
         return true;
     }
 
     hasLongerDuration(effect) {
-        let durations = [
-            'untilEndOfPhase',
-            'untilEndOfRound'
-        ];
+        let durations = ['untilEndOfPhase', 'untilEndOfRound'];
         return durations.indexOf(this.duration) > durations.indexOf(effect.duration);
     }
 

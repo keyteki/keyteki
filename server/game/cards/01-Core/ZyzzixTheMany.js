@@ -12,7 +12,7 @@ class ZyzzixTheMany extends Card {
                 location: 'hand',
                 gameAction: ability.actions.reveal()
             },
-            then: context => ({
+            then: (context) => ({
                 gameAction: [
                     ability.actions.archive({ target: context.target }),
                     ability.actions.addPowerCounter({ amount: 3 })

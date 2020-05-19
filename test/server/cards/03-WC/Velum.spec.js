@@ -1,7 +1,7 @@
-describe('Velum', function() {
-    integration(function() {
-        describe('Velum\'s play ability', function() {
-            beforeEach(function() {
+describe('Velum', function () {
+    integration(function () {
+        describe("Velum's play ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
@@ -14,7 +14,7 @@ describe('Velum', function() {
                 });
             });
 
-            it('Should archive 1 card when Hyde is not in play', function() {
+            it('Should archive 1 card when Hyde is not in play', function () {
                 this.player1.reap(this.velum);
                 expect(this.player1.amber).toBe(1);
                 expect(this.player1).toHavePrompt('Velum');
@@ -29,7 +29,7 @@ describe('Velum', function() {
                 expect(this.velum.location).toBe('play area');
             });
 
-            it('Should archive 2 cards when Hyde is in play', function() {
+            it('Should archive 2 cards when Hyde is in play', function () {
                 this.player1.playCreature(this.hyde);
                 this.player1.reap(this.velum);
                 expect(this.player1.amber).toBe(1);
@@ -51,8 +51,8 @@ describe('Velum', function() {
             });
         });
 
-        describe('Velum\'s destroy ability', function() {
-            beforeEach(function() {
+        describe("Velum's destroy ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
@@ -65,14 +65,14 @@ describe('Velum', function() {
                 });
             });
 
-            it('Should destroy Velum since Hyde is in hand', function() {
+            it('Should destroy Velum since Hyde is in hand', function () {
                 this.player1.fightWith(this.velum, this.groggins);
 
                 expect(this.velum.location).toBe('discard');
                 expect(this.hyde.location).toBe('hand');
             });
 
-            it('Should destroy Velum since Hyde is in play', function() {
+            it('Should destroy Velum since Hyde is in play', function () {
                 this.player1.playCreature(this.hyde);
                 this.player1.fightWith(this.velum, this.groggins);
 
@@ -80,7 +80,7 @@ describe('Velum', function() {
                 expect(this.hyde.location).toBe('play area');
             });
 
-            it('Should archive Velum and Hyde', function() {
+            it('Should archive Velum and Hyde', function () {
                 this.player1.moveCard(this.hyde, 'discard');
                 expect(this.hyde.location).toBe('discard');
 

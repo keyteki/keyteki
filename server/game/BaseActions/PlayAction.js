@@ -16,7 +16,7 @@ class PlayAction extends BasePlayAction {
         });
         this.addBonusIconResolution(event, context);
         context.game.queueSimpleStep(() => {
-            if(context.source.location === 'being played') {
+            if (context.source.location === 'being played') {
                 context.source.owner.moveCard(context.source, 'discard');
             }
         });

@@ -1,7 +1,7 @@
-describe('Monument to Primus', function() {
-    integration(function() {
-        describe('Monument to Primus\'s action ability', function() {
-            beforeEach(function() {
+describe('Monument to Primus', function () {
+    integration(function () {
+        describe("Monument to Primus's action ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'saurian',
@@ -16,16 +16,16 @@ describe('Monument to Primus', function() {
                 });
             });
 
-            it('should not prompt for any creature, since no other creature to place amber', function() {
+            it('should not prompt for any creature, since no other creature to place amber', function () {
                 this.player1.useAction(this.monumentToPrimus);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
         });
     });
 
-    integration(function() {
-        describe('Monument to Primus\'s action ability', function() {
-            beforeEach(function() {
+    integration(function () {
+        describe("Monument to Primus's action ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'saurian',
@@ -43,7 +43,7 @@ describe('Monument to Primus', function() {
                 this.shooler.tokens.amber = 1;
             });
 
-            it('should allow picking from friendly and placing on friendly creature only, when CP is not in discard', function() {
+            it('should allow picking from friendly and placing on friendly creature only, when CP is not in discard', function () {
                 this.player1.useAction(this.monumentToPrimus);
 
                 expect(this.player1).toHavePrompt('Choose a creature');
@@ -67,7 +67,7 @@ describe('Monument to Primus', function() {
                 expect(this.dextre.tokens.amber).toBe(1);
             });
 
-            it('should allow picking from friendly and placing on friendly creature only, when CP is in discard', function() {
+            it('should allow picking from friendly and placing on friendly creature only, when CP is in discard', function () {
                 this.player1.moveCard(this.consulPrimus, 'discard');
                 this.player1.useAction(this.monumentToPrimus);
 
@@ -92,7 +92,7 @@ describe('Monument to Primus', function() {
                 expect(this.dextre.tokens.amber).toBe(1);
             });
 
-            it('should allow picking from friendly and placing on enemy creature, when CP is in discard', function() {
+            it('should allow picking from friendly and placing on enemy creature, when CP is in discard', function () {
                 this.player1.moveCard(this.consulPrimus, 'discard');
                 this.player1.useAction(this.monumentToPrimus);
 
@@ -115,7 +115,7 @@ describe('Monument to Primus', function() {
                 expect(this.shooler.tokens.amber).toBe(2);
             });
 
-            it('should allow picking from enemy and placing on friendly creature, when CP is in discard', function() {
+            it('should allow picking from enemy and placing on friendly creature, when CP is in discard', function () {
                 this.player1.moveCard(this.consulPrimus, 'discard');
                 this.player1.useAction(this.monumentToPrimus);
 
@@ -138,7 +138,7 @@ describe('Monument to Primus', function() {
                 expect(this.shooler.hasToken('amber')).toBe(false);
             });
 
-            it('should allow picking from enemy and placing on enemy creature, when CP is in discard', function() {
+            it('should allow picking from enemy and placing on enemy creature, when CP is in discard', function () {
                 this.player1.moveCard(this.consulPrimus, 'discard');
                 this.player1.useAction(this.monumentToPrimus);
 
@@ -161,7 +161,7 @@ describe('Monument to Primus', function() {
                 expect(this.shooler.hasToken('amber')).toBe(false);
             });
 
-            it('should allow picking a creature without amber, when CP is not in discard', function() {
+            it('should allow picking a creature without amber, when CP is not in discard', function () {
                 this.player1.useAction(this.monumentToPrimus);
 
                 expect(this.player1).toHavePrompt('Choose a creature');
@@ -177,7 +177,7 @@ describe('Monument to Primus', function() {
                 expect(this.dextre.tokens.amber).toBeUndefined();
             });
 
-            it('should allow picking a creature without amber, when CP is in discard', function() {
+            it('should allow picking a creature without amber, when CP is in discard', function () {
                 this.player1.moveCard(this.consulPrimus, 'discard');
                 this.player1.useAction(this.monumentToPrimus);
 

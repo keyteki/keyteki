@@ -121,51 +121,74 @@ const lanugageJSON = {
         th: 'Saurian'
     }
 };
-const houses = ['brobnar', 'dis', 'logos', 'mars', 'sanctum', 'shadows', 'saurian', 'staralliance', 'untamed'];
-const allLanguages = ['en', 'zhhant', 'zhhans', 'pt', 'fr', 'es', 'de', 'it', 'pl', 'th'];
-const optionDefinitions = [
-    { name: 'language', alias: 'l', type: String, multiple: true }
+const houses = [
+    'brobnar',
+    'dis',
+    'logos',
+    'mars',
+    'sanctum',
+    'shadows',
+    'saurian',
+    'staralliance',
+    'untamed'
 ];
+const allLanguages = ['en', 'zhhant', 'zhhans', 'pt', 'fr', 'es', 'de', 'it', 'pl', 'th'];
+const optionDefinitions = [{ name: 'language', alias: 'l', type: String, multiple: true }];
 
-const buildArchon = (card) => new Promise(cardResolve => {
-    const number = card[4];
-    const path = Path.resolve(__dirname, '../../public/img/idbacks/archons', `${ Buffer.from(card.join()).toString('base64') }.png`);
-    if(fs.existsSync(path)) {
-        // eslint-disable-next-line no-console
-        console.log('File Exists, moving on!');
-        cardResolve();
-        return;
-    }
+const buildArchon = (card) =>
+    new Promise((cardResolve) => {
+        const number = card[4];
+        const path = Path.resolve(
+            __dirname,
+            '../../public/img/idbacks/archons',
+            `${Buffer.from(card.join()).toString('base64')}.png`
+        );
+        if (fs.existsSync(path)) {
+            // eslint-disable-next-line no-console
+            console.log('File Exists, moving on!');
+            cardResolve();
+            return;
+        }
 
-    const houseNames = [{ x: -305, y: 720 }, { x: -125, y: 770 }, { x: 55, y: 720 }];
-    const canvas = createCanvas(600, 840);
-    const ctx = canvas.getContext('2d');
-    let promises = [];
+        const houseNames = [
+            { x: -305, y: 720 },
+            { x: -125, y: 770 },
+            { x: 55, y: 720 }
+        ];
+        const canvas = createCanvas(600, 840);
+        const ctx = canvas.getContext('2d');
+        let promises = [];
 
-    promises.push(loadImage(Path.join(__dirname, `./archon_blanks/archon_${ number }.png`)));
-    promises.push(loadImage(Path.join(__dirname, `./archon_houses/${ card[0] }.png`)));
-    promises.push(loadImage(Path.join(__dirname, `./archon_houses/${ card[1] }.png`)));
-    promises.push(loadImage(Path.join(__dirname, `./archon_houses/${ card[2] }.png`)));
-    Promise.all(promises).then(([cardBack, house1, house2, house3]) => {
-        ctx.drawImage(cardBack, 0, 0);
-        ctx.drawImage(house1, 45, 590, 150, 150);
-        ctx.drawImage(house2, 225, 640, 150, 150);
-        ctx.drawImage(house3, 405, 590, 150, 150);
-        card.slice(0, 3).forEach((house, index) => {
-            ctx.drawImage((getCircularText(lanugageJSON[house][card[3]], 850, 0)), houseNames[index].x, houseNames[index].y);
+        promises.push(loadImage(Path.join(__dirname, `./archon_blanks/archon_${number}.png`)));
+        promises.push(loadImage(Path.join(__dirname, `./archon_houses/${card[0]}.png`)));
+        promises.push(loadImage(Path.join(__dirname, `./archon_houses/${card[1]}.png`)));
+        promises.push(loadImage(Path.join(__dirname, `./archon_houses/${card[2]}.png`)));
+        Promise.all(promises).then(([cardBack, house1, house2, house3]) => {
+            ctx.drawImage(cardBack, 0, 0);
+            ctx.drawImage(house1, 45, 590, 150, 150);
+            ctx.drawImage(house2, 225, 640, 150, 150);
+            ctx.drawImage(house3, 405, 590, 150, 150);
+            card.slice(0, 3).forEach((house, index) => {
+                ctx.drawImage(
+                    getCircularText(lanugageJSON[house][card[3]], 850, 0),
+                    houseNames[index].x,
+                    houseNames[index].y
+                );
+            });
+            fs.writeFile(path, canvas.toBuffer('image/jpeg', { quality: 0.7 }), () =>
+                cardResolve()
+            );
         });
-        fs.writeFile(path, canvas.toBuffer('image/jpeg', { quality: 0.7 }), () => cardResolve());
     });
-});
 const permute = (languages) => {
     let final = [];
-    for(let a = 0; a < houses.length; a++) {
-        for(let b = 0; b < houses.length; b++) {
-            if(a !== b) {
-                for(let c = 0; c < houses.length; c++) {
-                    if(c !== a && c !== b) {
-                        for(let d = 0; d < languages.length; d++) {
-                            for(let i = 1; i < 8; i++) {
+    for (let a = 0; a < houses.length; a++) {
+        for (let b = 0; b < houses.length; b++) {
+            if (a !== b) {
+                for (let c = 0; c < houses.length; c++) {
+                    if (c !== a && c !== b) {
+                        for (let d = 0; d < languages.length; d++) {
+                            for (let i = 1; i < 8; i++) {
                                 final.push([houses[a], houses[b], houses[c], languages[d], i]);
                             }
                         }
@@ -180,26 +203,32 @@ const permute = (languages) => {
 
 const buildAllFiles = async () => {
     const options = commandLineArgs(optionDefinitions);
-    if(!options.language) {
+    if (!options.language) {
         options.language = ['en'];
     }
 
-    if(options.language[0] === 'all') {
+    if (options.language[0] === 'all') {
         options.language = allLanguages;
     }
 
-    new registerFont(Path.join(__dirname, '../../public/fonts/Oswald-Regular.ttf'), { family: 'Keyforge' });
-    new registerFont(Path.join(__dirname, '../../public/fonts/ZCOOL-Regular.ttf'), { family: 'Keyforge' });
-    new registerFont(Path.join(__dirname, '../../public/fonts/Kanit-Regular.ttf'), { family: 'Keyforge' });
+    new registerFont(Path.join(__dirname, '../../public/fonts/Oswald-Regular.ttf'), {
+        family: 'Keyforge'
+    });
+    new registerFont(Path.join(__dirname, '../../public/fonts/ZCOOL-Regular.ttf'), {
+        family: 'Keyforge'
+    });
+    new registerFont(Path.join(__dirname, '../../public/fonts/Kanit-Regular.ttf'), {
+        family: 'Keyforge'
+    });
     const cards = permute(options.language);
     const path = Path.resolve(__dirname, '../../public/img/idbacks/archons');
-    if(!fs.existsSync(path)) {
+    if (!fs.existsSync(path)) {
         fs.mkdirSync(path);
     }
 
-    for(let i = 0; i < cards.length; i++) {
+    for (let i = 0; i < cards.length; i++) {
         // eslint-disable-next-line no-console
-        console.log(`Building ${ i } ${ cards[i] }.  ${ cards.length - i } cards to go!`);
+        console.log(`Building ${i} ${cards[i]}.  ${cards.length - i} cards to go!`);
         await buildArchon(cards[i]);
     }
 };
@@ -207,7 +236,8 @@ const buildAllFiles = async () => {
 const getCircularText = (text = '', diameter, kerning) => {
     let canvas = createCanvas(0, 0);
     let ctx = canvas.getContext('2d');
-    let textHeight = 40, startAngle = 0;
+    let textHeight = 40,
+        startAngle = 0;
 
     canvas.width = diameter;
     canvas.height = diameter;
@@ -221,18 +251,19 @@ const getCircularText = (text = '', diameter, kerning) => {
     ctx.textBaseline = 'middle'; // Ensure we draw in exact center
     ctx.textAlign = 'center'; // Ensure we draw in exact center
 
-    for(let j = 0; j < text.length; j++) {
+    for (let j = 0; j < text.length; j++) {
         let charWid = ctx.measureText(text[j]).width;
-        startAngle += ((charWid + (j === text.length - 1 ? 0 : kerning)) / (diameter / 2 - textHeight)) / 2;
+        startAngle +=
+            (charWid + (j === text.length - 1 ? 0 : kerning)) / (diameter / 2 - textHeight) / 2;
     }
 
     ctx.rotate(startAngle);
 
-    for(let j = 0; j < text.length; j++) {
+    for (let j = 0; j < text.length; j++) {
         let charWid = ctx.measureText(text[j]).width; // half letter
-        ctx.rotate((charWid / 2) / (diameter / 2 - textHeight) * -1);
-        ctx.fillText(text[j], 0, (0 - diameter / 2 + textHeight / 2));
-        ctx.rotate((charWid / 2 + kerning) / (diameter / 2 - textHeight) * -1); // rotate half letter
+        ctx.rotate((charWid / 2 / (diameter / 2 - textHeight)) * -1);
+        ctx.fillText(text[j], 0, 0 - diameter / 2 + textHeight / 2);
+        ctx.rotate(((charWid / 2 + kerning) / (diameter / 2 - textHeight)) * -1); // rotate half letter
     }
 
     return canvas;

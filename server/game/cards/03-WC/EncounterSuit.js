@@ -4,10 +4,10 @@ class EncounterSuit extends Card {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onCardPlayed: event => event.card.type === 'action'
+                onCardPlayed: (event) => event.card.type === 'action'
             },
             autoResolve: true,
-            gameAction: ability.actions.ward(context => ({ target: context.source.parent }))
+            gameAction: ability.actions.ward((context) => ({ target: context.source.parent }))
         });
     }
 }

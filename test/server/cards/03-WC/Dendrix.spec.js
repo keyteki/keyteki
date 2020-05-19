@@ -1,7 +1,7 @@
-describe('Dendrix', function() {
-    integration(function() {
-        describe('Dendrix\'s ability', function() {
-            beforeEach(function() {
+describe('Dendrix', function () {
+    integration(function () {
+        describe("Dendrix's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'dis',
@@ -14,7 +14,7 @@ describe('Dendrix', function() {
                 });
             });
 
-            it('should cause opponent to discard a random card on fight', function() {
+            it('should cause opponent to discard a random card on fight', function () {
                 this.player1.fightWith(this.dendrix, this.dustImp);
                 expect(this.mindBarb.location).toBe('discard');
             });

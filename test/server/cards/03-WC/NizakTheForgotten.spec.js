@@ -1,7 +1,7 @@
-describe('Nizak, the Forgotten', function() {
-    integration(function() {
-        describe('when fighting', function() {
-            beforeEach(function() {
+describe('Nizak, the Forgotten', function () {
+    integration(function () {
+        describe('when fighting', function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'brobnar',
@@ -15,11 +15,11 @@ describe('Nizak, the Forgotten', function() {
                 this.player1.fightWith(this.nizakTheForgotten, this.mother);
             });
 
-            it('should take no damage', function() {
+            it('should take no damage', function () {
                 expect(this.nizakTheForgotten.tokens.damage).toBe(undefined);
             });
 
-            it('should return the destroyed creature to its owners hand', function() {
+            it('should return the destroyed creature to its owners hand', function () {
                 expect(this.mother.location).toBe('hand');
             });
         });

@@ -9,7 +9,11 @@ class DiscardTopOfDeckAction extends PlayerAction {
     setup() {
         super.setup();
         this.name = 'discard-top-of-deck';
-        this.effectMsg = 'discard ' + (this.amount === 1 ? 'a card' : this.amount + ' cards') + ' at random from their ' + this.location;
+        this.effectMsg =
+            'discard ' +
+            (this.amount === 1 ? 'a card' : this.amount + ' cards') +
+            ' at random from their ' +
+            this.location;
     }
 
     canAffect(player, context) {

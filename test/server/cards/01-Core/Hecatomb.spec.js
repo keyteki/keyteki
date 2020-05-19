@@ -1,7 +1,7 @@
-describe('Hecatomb', function() {
-    integration(function() {
-        describe('Hecatomb\'s ability', function() {
-            beforeEach(function() {
+describe('Hecatomb', function () {
+    integration(function () {
+        describe("Hecatomb's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'dis',
@@ -15,7 +15,7 @@ describe('Hecatomb', function() {
                     }
                 });
             });
-            it('should award 1 amber for each dis creature destroyed to respective controllers', function() {
+            it('should award 1 amber for each dis creature destroyed to respective controllers', function () {
                 this.player1.play(this.hecatomb);
                 expect(this.player1.player.amber).toBe(3);
                 expect(this.player2.player.amber).toBe(1);
@@ -24,8 +24,8 @@ describe('Hecatomb', function() {
                 expect(this.bloodshardImp.location).toBe('discard');
             });
         });
-        describe('Hecatomb\'s ability', function() {
-            beforeEach(function() {
+        describe("Hecatomb's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'dis',
@@ -39,7 +39,7 @@ describe('Hecatomb', function() {
                     }
                 });
             });
-            it('should not award amber for non dis creatures as an aftereffect', function() {
+            it('should not award amber for non dis creatures as an aftereffect', function () {
                 this.player1.play(this.hecatomb);
                 expect(this.player1.player.amber).toBe(4);
                 expect(this.player2.player.amber).toBe(1);

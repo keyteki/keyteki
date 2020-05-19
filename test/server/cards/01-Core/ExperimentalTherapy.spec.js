@@ -1,7 +1,7 @@
-describe('Experimental Therapy', function() {
-    integration(function() {
-        describe('Experimental Therapy\'s ability', function() {
-            beforeEach(function() {
+describe('Experimental Therapy', function () {
+    integration(function () {
+        describe("Experimental Therapy's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
@@ -14,7 +14,7 @@ describe('Experimental Therapy', function() {
                 });
             });
 
-            it('should stun, exhaust and make its controller\'s creature belong to all houses', function() {
+            it("should stun, exhaust and make its controller's creature belong to all houses", function () {
                 this.player1.playUpgrade(this.experimentalTherapy, this.zorg);
                 expect(this.experimentalTherapy.location).toBe('play area');
                 expect(this.zorg.upgrades).toContain(this.experimentalTherapy);
@@ -29,7 +29,7 @@ describe('Experimental Therapy', function() {
                 expect(this.zorg.hasHouse('untamed')).toBe(true);
             });
 
-            it('should stun, exhaust and make an opponent\'s creature belong to all houses', function() {
+            it("should stun, exhaust and make an opponent's creature belong to all houses", function () {
                 this.player1.playUpgrade(this.experimentalTherapy, this.troll);
                 expect(this.experimentalTherapy.location).toBe('play area');
                 expect(this.troll.upgrades).toContain(this.experimentalTherapy);

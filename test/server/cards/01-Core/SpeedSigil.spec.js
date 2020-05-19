@@ -1,7 +1,7 @@
-describe('Speed Sigil', function() {
-    integration(function() {
-        describe('Speed Sigil\'s ability', function() {
-            beforeEach(function() {
+describe('Speed Sigil', function () {
+    integration(function () {
+        describe("Speed Sigil's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'untamed',
@@ -14,25 +14,25 @@ describe('Speed Sigil', function() {
                 });
             });
 
-            it('should ready the first creature played by the controlling player', function() {
+            it('should ready the first creature played by the controlling player', function () {
                 this.player1.play(this.bigtwig);
                 expect(this.bigtwig.exhausted).toBe(false);
             });
 
-            it('should not ready the second creature played by the controlling player', function() {
+            it('should not ready the second creature played by the controlling player', function () {
                 this.player1.play(this.bigtwig);
                 this.player1.play(this.snufflegator);
                 expect(this.snufflegator.exhausted).toBe(true);
             });
 
-            it('should ready the first creature played by the opposing player', function() {
+            it('should ready the first creature played by the opposing player', function () {
                 this.player1.endTurn();
                 this.player2.clickPrompt('sanctum');
                 this.player2.play(this.sequis);
                 expect(this.sequis.exhausted).toBe(false);
             });
 
-            it('should not ready the second creature played by the opposing player', function() {
+            it('should not ready the second creature played by the opposing player', function () {
                 this.player1.endTurn();
                 this.player2.clickPrompt('sanctum');
                 this.player2.play(this.sequis);

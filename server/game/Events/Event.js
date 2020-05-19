@@ -18,7 +18,7 @@ class Event {
 
         _.extend(this, params);
 
-        if(this.card) {
+        if (this.card) {
             this.clone = this.card.createSnapshot();
         }
     }
@@ -29,21 +29,21 @@ class Event {
     }
 
     addChildEvent(event) {
-        if(this.getSimultaneousEvents().includes(event)) {
+        if (this.getSimultaneousEvents().includes(event)) {
             return;
         }
 
-        if(event.childEvent) {
+        if (event.childEvent) {
             this.addChildEvent(event.childEvent);
             event.childEvent = null;
         }
 
-        if(this.childEvent) {
+        if (this.childEvent) {
             this.childEvent.addChildEvent(event);
         } else {
             this.childEvent = event;
             event.parentEvent = this;
-            if(event.subEvent) {
+            if (event.subEvent) {
                 this.addSubEvent(event.subEvent);
                 event.subEvent = null;
             }
@@ -51,8 +51,10 @@ class Event {
     }
 
     getSimultaneousEvents() {
-        let events = this.parentEvent ? this.parentEvent.getSimultaneousEvents() : this.getChildEvents();
-        return events.filter(event => !event.cancelled);
+        let events = this.parentEvent
+            ? this.parentEvent.getSimultaneousEvents()
+            : this.getChildEvents();
+        return events.filter((event) => !event.cancelled);
     }
 
     getChildEvents() {
@@ -61,13 +63,13 @@ class Event {
     }
 
     addSubEvent(event) {
-        if(this.subEvent && this.subEvent.getSimultaneousEvents().includes(event)) {
+        if (this.subEvent && this.subEvent.getSimultaneousEvents().includes(event)) {
             return;
         }
 
-        if(this.subEvent) {
+        if (this.subEvent) {
             this.subEvent.addChildEvent(event);
-        } else if(this.parentEvent) {
+        } else if (this.parentEvent) {
             this.parentEvent.addSubEvent(event);
         } else {
             this.subEvent = event;
@@ -76,27 +78,30 @@ class Event {
     }
 
     checkCondition() {
-        if(this.childEvent) {
+        if (this.childEvent) {
             this.childEvent.checkCondition();
         }
 
-        if(this.resolved || this.cancelled) {
+        if (this.resolved || this.cancelled) {
             return;
         }
 
-        if(!this.condition(this) || this.gameAction && !this.gameAction.checkEventCondition(this)) {
+        if (
+            !this.condition(this) ||
+            (this.gameAction && !this.gameAction.checkEventCondition(this))
+        ) {
             this.cancel();
             return;
         }
 
-        if(this.card) {
+        if (this.card) {
             this.clone = this.card.createSnapshot();
         }
     }
 
     executeHandler() {
         this.resolved = true;
-        if(this.handler) {
+        if (this.handler) {
             this.handler(this);
         }
     }

@@ -24,13 +24,16 @@ class ViewDeck extends React.Component {
 
         return (
             <div className='col-md-6'>
-                <Panel title={ deck.name }>
+                <Panel title={deck.name}>
                     <div className='btn-group col-xs-12'>
-                        <ConfirmedButton onClick={ this.handleDeleteClick }><Trans>Delete</Trans></ConfirmedButton>
+                        <ConfirmedButton onClick={this.handleDeleteClick}>
+                            <Trans>Delete</Trans>
+                        </ConfirmedButton>
                     </div>
-                    <DeckSummary deck={ deck } cards={ cards } />
+                    <DeckSummary deck={deck} cards={cards} />
                 </Panel>
-            </div>);
+            </div>
+        );
     }
 }
 

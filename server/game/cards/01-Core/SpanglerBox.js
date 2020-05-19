@@ -9,14 +9,14 @@ class SpanglerBox extends Card {
             },
             effect: 'purge a creature and give control to the other player',
             then: {
-                gameAction: ability.actions.placeUnder(context => ({
+                gameAction: ability.actions.placeUnder((context) => ({
                     moveGigantic: true,
                     parent: context.source,
                     target: context.preThenEvent.card
                 })),
                 then: {
-                    condition: context => !!context.player.opponent,
-                    gameAction: ability.actions.cardLastingEffect(context => ({
+                    condition: (context) => !!context.player.opponent,
+                    gameAction: ability.actions.cardLastingEffect((context) => ({
                         duration: 'lastingEffect',
                         effect: ability.effects.takeControl(context.player.opponent)
                     }))
@@ -25,7 +25,7 @@ class SpanglerBox extends Card {
         });
         this.leavesPlay({
             effect: 'returning to play all creatures purged by Spangler Box',
-            gameAction: ability.actions.sequentialForEach(context => ({
+            gameAction: ability.actions.sequentialForEach((context) => ({
                 forEach: context.source.childCards,
                 action: ability.actions.putIntoPlay()
             }))

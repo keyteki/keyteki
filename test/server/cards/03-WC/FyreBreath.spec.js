@@ -1,11 +1,11 @@
-describe('FyreBreath(WC)', function() {
-    integration(function() {
-        describe('Fyre-breath fight ability', function() {
-            beforeEach(function() {
+describe('FyreBreath(WC)', function () {
+    integration(function () {
+        describe('Fyre-breath fight ability', function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'brobnar',
-                        'hand': ['fyre-breath'],
+                        hand: ['fyre-breath'],
                         inPlay: ['firespitter']
                     },
                     player2: {
@@ -14,7 +14,7 @@ describe('FyreBreath(WC)', function() {
                 });
             });
 
-            it('fyre breath upgrades creature with +3 power and before fight effect dealing 2 damage to neighbors', function() {
+            it('fyre breath upgrades creature with +3 power and before fight effect dealing 2 damage to neighbors', function () {
                 this.player1.playUpgrade(this.fyreBreath, this.firespitter);
                 expect(this.firespitter.power).toBe(8);
                 this.player1.fightWith(this.firespitter, this.troll);

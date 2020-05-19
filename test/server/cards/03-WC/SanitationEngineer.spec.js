@@ -1,7 +1,7 @@
-describe('Sanitation Engineer', function() {
-    integration(function() {
-        describe('Sanitation Engineer\'s ability', function() {
-            beforeEach(function() {
+describe('Sanitation Engineer', function () {
+    integration(function () {
+        describe("Sanitation Engineer's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
@@ -14,7 +14,7 @@ describe('Sanitation Engineer', function() {
                 });
             });
 
-            it('should discard a card when used to reap', function() {
+            it('should discard a card when used to reap', function () {
                 this.player1.reap(this.sanitationEngineer);
                 expect(this.player1.amber).toBe(1);
                 expect(this.player1).toHavePrompt('Sanitation Engineer');

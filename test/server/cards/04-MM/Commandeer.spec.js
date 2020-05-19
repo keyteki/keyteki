@@ -1,6 +1,6 @@
 describe('Commandeer', function () {
     integration(function () {
-        describe('Commandeer\'s ability', function () {
+        describe("Commandeer's ability", function () {
             beforeEach(function () {
                 this.setupTest({
                     player1: {

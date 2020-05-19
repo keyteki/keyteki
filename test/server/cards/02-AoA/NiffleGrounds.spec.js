@@ -1,11 +1,11 @@
-describe('Niffle Grounds', function() {
-    integration(function() {
-        describe('Niffle Grounds\' ability', function() {
-            beforeEach(function() {
+describe('Niffle Grounds', function () {
+    integration(function () {
+        describe("Niffle Grounds' ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'untamed',
-                        inPlay: ['mindwarper','niffle-grounds']
+                        inPlay: ['mindwarper', 'niffle-grounds']
                     },
                     player2: {
                         inPlay: ['gamgee', 'knuckles-bolton', 'champion-anaphiel']
@@ -17,20 +17,20 @@ describe('Niffle Grounds', function() {
                 expect(this.knucklesBolton.getKeywordValue('elusive')).toBe(1);
                 expect(this.gamgee.getKeywordValue('elusive')).toBe(1);
             });
-            it('should be able to target any creatures', function() {
+            it('should be able to target any creatures', function () {
                 this.player1.clickCard(this.niffleGrounds);
                 expect(this.player1).toHavePrompt('Niffle Grounds');
-                this.player1.clickPrompt('Use this card\'s Action ability');
+                this.player1.clickPrompt("Use this card's Action ability");
                 expect(this.player1).toBeAbleToSelect(this.mindwarper);
                 expect(this.player1).toBeAbleToSelect(this.gamgee);
                 expect(this.player1).toBeAbleToSelect(this.knucklesBolton);
                 expect(this.player1).toBeAbleToSelect(this.championAnaphiel);
                 expect(this.player1).not.toBeAbleToSelect(this.niffleGrounds);
             });
-            it('should remove elusive from mindwarper without affecting other creatures', function() {
+            it('should remove elusive from mindwarper without affecting other creatures', function () {
                 this.player1.clickCard(this.niffleGrounds);
                 expect(this.player1).toHavePrompt('Niffle Grounds');
-                this.player1.clickPrompt('Use this card\'s Action ability');
+                this.player1.clickPrompt("Use this card's Action ability");
                 expect(this.player1).toBeAbleToSelect(this.mindwarper);
                 expect(this.player1).toBeAbleToSelect(this.gamgee);
                 expect(this.player1).toBeAbleToSelect(this.knucklesBolton);
@@ -40,10 +40,10 @@ describe('Niffle Grounds', function() {
                 expect(this.gamgee.getKeywordValue('elusive')).toBe(1);
                 expect(this.championAnaphiel.getKeywordValue('taunt')).toBe(1);
             });
-            it('should remove elusive from gamgee without affecting other creatures', function() {
+            it('should remove elusive from gamgee without affecting other creatures', function () {
                 this.player1.clickCard(this.niffleGrounds);
                 expect(this.player1).toHavePrompt('Niffle Grounds');
-                this.player1.clickPrompt('Use this card\'s Action ability');
+                this.player1.clickPrompt("Use this card's Action ability");
                 expect(this.player1).toBeAbleToSelect(this.mindwarper);
                 expect(this.player1).toBeAbleToSelect(this.gamgee);
                 expect(this.player1).toBeAbleToSelect(this.knucklesBolton);
@@ -53,10 +53,10 @@ describe('Niffle Grounds', function() {
                 expect(this.knucklesBolton.getKeywordValue('elusive')).toBe(1);
                 expect(this.championAnaphiel.getKeywordValue('taunt')).toBe(1);
             });
-            it('should remove taunt from anaphiel without affecting other creatures', function() {
+            it('should remove taunt from anaphiel without affecting other creatures', function () {
                 this.player1.clickCard(this.niffleGrounds);
                 expect(this.player1).toHavePrompt('Niffle Grounds');
-                this.player1.clickPrompt('Use this card\'s Action ability');
+                this.player1.clickPrompt("Use this card's Action ability");
                 expect(this.player1).toBeAbleToSelect(this.mindwarper);
                 expect(this.player1).toBeAbleToSelect(this.gamgee);
                 expect(this.player1).toBeAbleToSelect(this.knucklesBolton);

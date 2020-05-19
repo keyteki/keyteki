@@ -1,7 +1,7 @@
-describe('Lateral Shift', function() {
-    integration(function() {
-        describe('Lateral Shift\'s omni ability', function() {
-            beforeEach(function() {
+describe('Lateral Shift', function () {
+    integration(function () {
+        describe("Lateral Shift's omni ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'brobnar',
@@ -10,25 +10,32 @@ describe('Lateral Shift', function() {
                     },
                     player2: {
                         amber: 6,
-                        hand: ['bulwark', 'shooler', 'gorm-of-omm', 'gateway-to-dis', 'virtuous-works', 'armageddon-cloak']
+                        hand: [
+                            'bulwark',
+                            'shooler',
+                            'gorm-of-omm',
+                            'gateway-to-dis',
+                            'virtuous-works',
+                            'armageddon-cloak'
+                        ]
                     }
                 });
             });
 
-            it('should be able to see the cards', function() {
-                for(let card of this.player2.player.hand) {
+            it('should be able to see the cards', function () {
+                for (let card of this.player2.player.hand) {
                     expect(this.player1.game.isCardVisible(card, this.player1.player)).toBe(false);
                 }
 
                 this.player1.play(this.lateralShift);
                 expect(this.player1).toHavePrompt('Lateral Shift');
 
-                for(let card of this.player2.player.hand) {
+                for (let card of this.player2.player.hand) {
                     expect(this.player1.game.isCardVisible(card, this.player1.player)).toBe(true);
                 }
             });
 
-            it('should be able to play a creature from opponent\'s hand', function() {
+            it("should be able to play a creature from opponent's hand", function () {
                 this.player1.play(this.lateralShift);
                 expect(this.player1).toHavePrompt('Lateral Shift');
                 expect(this.player1).toBeAbleToSelect(this.bulwark);
@@ -44,7 +51,7 @@ describe('Lateral Shift', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should be able to play an artifact from opponent\'s hand', function() {
+            it("should be able to play an artifact from opponent's hand", function () {
                 this.player1.play(this.lateralShift);
                 expect(this.player1).toHavePrompt('Lateral Shift');
                 this.player1.clickCard(this.gormOfOmm);
@@ -54,7 +61,7 @@ describe('Lateral Shift', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should be able to play an action from opponent\'s hand', function() {
+            it("should be able to play an action from opponent's hand", function () {
                 this.player1.play(this.lateralShift);
                 expect(this.player1).toHavePrompt('Lateral Shift');
                 this.player1.clickCard(this.virtuousWorks);
@@ -65,13 +72,13 @@ describe('Lateral Shift', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should not be able to play an upgrade since there is no creature in play', function() {
+            it('should not be able to play an upgrade since there is no creature in play', function () {
                 this.player1.play(this.lateralShift);
                 expect(this.player1).toHavePrompt('Lateral Shift');
                 expect(this.player1).not.toBeAbleToSelect(this.armageddonCloak);
             });
 
-            it('should not be able to play an upgrade if there is a creature in play', function() {
+            it('should not be able to play an upgrade if there is a creature in play', function () {
                 this.player1.play(this.troll);
                 this.player1.play(this.lateralShift);
                 expect(this.player1).toHavePrompt('Lateral Shift');

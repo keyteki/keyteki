@@ -1,7 +1,7 @@
-describe('Transporter Platform', function() {
-    integration(function() {
-        describe('Transporter Platform\'s ability', function() {
-            beforeEach(function() {
+describe('Transporter Platform', function () {
+    integration(function () {
+        describe("Transporter Platform's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'staralliance',
@@ -14,14 +14,14 @@ describe('Transporter Platform', function() {
                 });
             });
 
-            it('should be able to use and return no creature, when no creatures in play', function() {
+            it('should be able to use and return no creature, when no creatures in play', function () {
                 this.player1.moveCard(this.medicIngram, 'discard');
                 this.player1.moveCard(this.captainValJericho, 'discard');
                 this.player1.useAction(this.transporterPlatform);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should return creature to owner\'s hand', function() {
+            it("should return creature to owner's hand", function () {
                 this.player1.useAction(this.transporterPlatform);
                 expect(this.player1).toBeAbleToSelect(this.captainValJericho);
                 expect(this.player1).toBeAbleToSelect(this.medicIngram);
@@ -32,7 +32,7 @@ describe('Transporter Platform', function() {
                 expect(this.captainValJericho.location).toBe('hand');
             });
 
-            it('should not return creature when it is warded', function() {
+            it('should not return creature when it is warded', function () {
                 this.medicIngram.tokens.ward = 1;
                 this.player1.useAction(this.transporterPlatform);
                 this.player1.clickCard(this.medicIngram);
@@ -40,7 +40,7 @@ describe('Transporter Platform', function() {
                 expect(this.medicIngram.tokens.ward).toBeUndefined();
             });
 
-            it('should return creature and upgrades to owner\'s hand', function() {
+            it("should return creature and upgrades to owner's hand", function () {
                 this.player1.playUpgrade(this.calv1n, this.captainValJericho);
                 this.player1.useAction(this.transporterPlatform);
                 expect(this.player1).toBeAbleToSelect(this.captainValJericho);
@@ -54,7 +54,7 @@ describe('Transporter Platform', function() {
                 expect(this.captainValJericho.location).toBe('hand');
             });
 
-            it('should return upgrades only when creature is warded', function() {
+            it('should return upgrades only when creature is warded', function () {
                 this.player1.playUpgrade(this.calv1n, this.medicIngram);
                 this.medicIngram.tokens.ward = 1;
                 this.player1.useAction(this.transporterPlatform);
@@ -65,8 +65,8 @@ describe('Transporter Platform', function() {
             });
         });
 
-        describe('Transporter Platform\'s ability', function() {
-            beforeEach(function() {
+        describe("Transporter Platform's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'dis',
@@ -80,7 +80,7 @@ describe('Transporter Platform', function() {
                 });
             });
 
-            it('should return creature and upgrades to owner\'s hand', function() {
+            it("should return creature and upgrades to owner's hand", function () {
                 this.player1.playUpgrade(this.collarOfSubordination, this.lamindra);
                 this.player1.clickPrompt('Left');
                 this.player1.endTurn();
@@ -103,7 +103,7 @@ describe('Transporter Platform', function() {
                 expect(this.player2.player.hand).toContain(this.lamindra);
             });
 
-            it('should return upgrades only to owner\'s hand', function() {
+            it("should return upgrades only to owner's hand", function () {
                 this.player1.playUpgrade(this.collarOfSubordination, this.lamindra);
                 this.player1.clickPrompt('Left');
                 this.player1.endTurn();
@@ -130,7 +130,7 @@ describe('Transporter Platform', function() {
                 expect(this.player2.player.hand).toContain(this.wayOfTheBear);
             });
 
-            it('should be able to select own creature after Poltergeist', function() {
+            it('should be able to select own creature after Poltergeist', function () {
                 this.player1.endTurn();
 
                 this.player2.clickPrompt('dis');
@@ -144,7 +144,7 @@ describe('Transporter Platform', function() {
                 expect(this.transporterPlatform.location).toBe('discard');
             });
 
-            it('should be able to pay to use Transporter Platform', function() {
+            it('should be able to pay to use Transporter Platform', function () {
                 this.player1.endTurn();
 
                 this.player2.clickPrompt('dis');
@@ -161,7 +161,7 @@ describe('Transporter Platform', function() {
                 expect(this.player1.amber).toBe(0);
             });
 
-            it('should not be able to use Transporter Platform if player has no amber', function() {
+            it('should not be able to use Transporter Platform if player has no amber', function () {
                 this.player1.endTurn();
 
                 this.player2.clickPrompt('dis');

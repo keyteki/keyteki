@@ -1,11 +1,11 @@
-describe('The Fittest', function() {
-    integration(function() {
-        describe('The Fittest\'s ability', function() {
-            beforeEach(function() {
+describe('The Fittest', function () {
+    integration(function () {
+        describe("The Fittest's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'untamed',
-                        inPlay: ['dust-pixie', 'rustgnawer', 'snufflegator','duskwitch'],
+                        inPlay: ['dust-pixie', 'rustgnawer', 'snufflegator', 'duskwitch'],
                         hand: ['the-fittest', 'dew-faerie']
                     },
                     player2: {
@@ -13,7 +13,7 @@ describe('The Fittest', function() {
                     }
                 });
             });
-            it('should give all friendly creatures a +1 power counter', function() {
+            it('should give all friendly creatures a +1 power counter', function () {
                 this.player1.play(this.theFittest);
                 expect(this.dustPixie.tokens.power).toBe(1);
                 expect(this.rustgnawer.tokens.power).toBe(1);

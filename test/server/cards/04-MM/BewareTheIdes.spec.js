@@ -1,11 +1,17 @@
-describe('Beware the Ides', function() {
-    integration(function() {
-        describe('Beware the Ides\'s ability', function() {
-            beforeEach(function() {
+describe('Beware the Ides', function () {
+    integration(function () {
+        describe("Beware the Ides's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'saurian',
-                        hand: ['beware-the-ides', 'galeatops', 'deusillus', 'deusillus-2', 'terrordactyl']
+                        hand: [
+                            'beware-the-ides',
+                            'galeatops',
+                            'deusillus',
+                            'deusillus-2',
+                            'terrordactyl'
+                        ]
                     },
                     player2: {
                         inPlay: ['troll', 'lamindra']
@@ -13,12 +19,12 @@ describe('Beware the Ides', function() {
                 });
             });
 
-            it('should not prompt for any card if no card is in center of battleline', function() {
+            it('should not prompt for any card if no card is in center of battleline', function () {
                 this.player1.play(this.bewareTheIdes);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should allow selecting a friendly card in center of battle line', function() {
+            it('should allow selecting a friendly card in center of battle line', function () {
                 this.player1.play(this.galeatops);
                 this.player1.play(this.deusillus);
                 this.player1.clickCard(this.troll);
@@ -37,7 +43,7 @@ describe('Beware the Ides', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should allow selecting an enemy card in center of battle line', function() {
+            it('should allow selecting an enemy card in center of battle line', function () {
                 this.player2.moveCard(this.lamindra, 'discard');
                 this.player1.play(this.galeatops);
                 this.player1.play(this.bewareTheIdes);

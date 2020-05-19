@@ -11,14 +11,16 @@ class UserService {
         let banList;
 
         try {
-            banList = await db.query('SELECT bl."Id", bl."Ip", u."Username", bl."Added" FROM "BanList" bl JOIN "Users" u ON u."Id" = bl."CreatorId"');
-        } catch(err) {
+            banList = await db.query(
+                'SELECT bl."Id", bl."Ip", u."Username", bl."Added" FROM "BanList" bl JOIN "Users" u ON u."Id" = bl."CreatorId"'
+            );
+        } catch (err) {
             logger.error('Error fetching banlist', err);
 
             throw new Error('Error occured fetching banlist');
         }
 
-        return banList.map(be => this.mapBanList(be));
+        return banList.map((be) => this.mapBanList(be));
     }
 
     mapBanList(banListEntry) {
@@ -34,14 +36,17 @@ class UserService {
         let entry;
 
         try {
-            entry = await db.query('SELECT bl."Id", bl."Ip", u."Username", bl."Added" FROM "BanList" bl JOIN "Users" u ON u."Id" = bl."CreatorId" WHERE bl."Ip" = $1', [ip]);
-        } catch(err) {
+            entry = await db.query(
+                'SELECT bl."Id", bl."Ip", u."Username", bl."Added" FROM "BanList" bl JOIN "Users" u ON u."Id" = bl."CreatorId" WHERE bl."Ip" = $1',
+                [ip]
+            );
+        } catch (err) {
             logger.error('Error fetching banlist entry', err);
 
             throw new Error('Error occured fetching banlist entry');
         }
 
-        if(!entry || entry.length === 0) {
+        if (!entry || entry.length === 0) {
             return undefined;
         }
 
@@ -53,8 +58,11 @@ class UserService {
         let res;
 
         try {
-            res = await db.query('INSERT INTO "BanList" ("Ip", "CreatorId", "Added") VALUES ($1, $2, $3) RETURNING "Id"', [entry.ip, entry.userId, added]);
-        } catch(err) {
+            res = await db.query(
+                'INSERT INTO "BanList" ("Ip", "CreatorId", "Added") VALUES ($1, $2, $3) RETURNING "Id"',
+                [entry.ip, entry.userId, added]
+            );
+        } catch (err) {
             logger.error(`Error adding banlist entry ${entry}`, err);
 
             throw new Error('Error occured adding banlist entry');

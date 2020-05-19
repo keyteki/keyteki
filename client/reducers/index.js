@@ -13,7 +13,18 @@ import lobby from './lobby';
 import { reducer as toastrReducer } from 'react-redux-toastr';
 
 const rootReducer = combineReducers({
-    navigation, auth, cards, games, news, challonge, toastr: toastrReducer, api, admin, user, account, lobby
+    navigation,
+    auth,
+    cards,
+    games,
+    news,
+    challonge,
+    toastr: toastrReducer,
+    api,
+    admin,
+    user,
+    account,
+    lobby
 });
 
 export default rootReducer;

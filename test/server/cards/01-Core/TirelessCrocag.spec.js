@@ -1,7 +1,7 @@
-describe('Tireless Crocag', function() {
-    integration(function() {
-        describe('Tireless Crocag\'s ability', function() {
-            beforeEach(function() {
+describe('Tireless Crocag', function () {
+    integration(function () {
+        describe("Tireless Crocag's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'brobnar',
@@ -14,14 +14,14 @@ describe('Tireless Crocag', function() {
                 });
             });
 
-            it('should be destroyed immediately after being played if opponent has no creatures', function() {
+            it('should be destroyed immediately after being played if opponent has no creatures', function () {
                 this.player1.play(this.tirelessCrocag);
                 expect(this.tirelessCrocag.location).toBe('discard');
             });
         });
 
-        describe('Tireless Crocag\'s ability', function() {
-            beforeEach(function() {
+        describe("Tireless Crocag's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'brobnar',
@@ -35,12 +35,12 @@ describe('Tireless Crocag', function() {
                 });
             });
 
-            it('should stay in play if opponent has creatures on the board', function() {
+            it('should stay in play if opponent has creatures on the board', function () {
                 this.player1.play(this.tirelessCrocag);
                 expect(this.tirelessCrocag.location).toBe('play area');
             });
 
-            it('should destroy itself if opponent has no creatures on the board', function() {
+            it('should destroy itself if opponent has no creatures on the board', function () {
                 this.player1.play(this.tirelessCrocag);
                 expect(this.tirelessCrocag.location).toBe('play area');
                 this.player1.play(this.punch);
@@ -49,7 +49,7 @@ describe('Tireless Crocag', function() {
                 expect(this.tirelessCrocag.location).toBe('discard');
             });
 
-            it('should be destroyed even if warded', function() {
+            it('should be destroyed even if warded', function () {
                 this.player1.play(this.tirelessCrocag);
                 this.tirelessCrocag.ward();
                 this.player1.play(this.punch);
@@ -58,7 +58,7 @@ describe('Tireless Crocag', function() {
                 expect(this.tirelessCrocag.location).toBe('discard');
             });
 
-            it('should destroy itself if opponent has no creatures on the board and its their fault', function() {
+            it('should destroy itself if opponent has no creatures on the board and its their fault', function () {
                 this.player1.play(this.tirelessCrocag);
                 expect(this.tirelessCrocag.location).toBe('play area');
                 this.player1.endTurn();
@@ -68,7 +68,7 @@ describe('Tireless Crocag', function() {
                 expect(this.tirelessCrocag.location).toBe('discard');
             });
 
-            it('should be unable to reap', function() {
+            it('should be unable to reap', function () {
                 this.player1.play(this.tirelessCrocag);
                 expect(this.tirelessCrocag.location).toBe('play area');
                 this.player1.endTurn();
@@ -79,7 +79,7 @@ describe('Tireless Crocag', function() {
                 expect(this.player1).not.toHavePromptButton('Reap with this creature');
             });
 
-            it('should be useable in any house', function() {
+            it('should be useable in any house', function () {
                 this.player1.play(this.tirelessCrocag);
                 expect(this.tirelessCrocag.location).toBe('play area');
                 this.player1.endTurn();
@@ -94,8 +94,8 @@ describe('Tireless Crocag', function() {
             });
         });
 
-        describe('Weasand\'s ability', function() {
-            beforeEach(function() {
+        describe("Weasand's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'brobnar',
@@ -108,7 +108,7 @@ describe('Tireless Crocag', function() {
                 });
             });
 
-            it('should be destroyed even with armageddon cloack', function() {
+            it('should be destroyed even with armageddon cloack', function () {
                 this.player1.play(this.tirelessCrocag);
                 expect(this.tirelessCrocag.location).toBe('play area');
                 this.player1.endTurn();

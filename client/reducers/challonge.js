@@ -1,7 +1,17 @@
-function challonge(state = {
-    challonge: { tournaments: [], matches: [], participants: [], attachments: [], message: '', success: false }
-}, action) {
-    switch(action.type) {
+function challonge(
+    state = {
+        challonge: {
+            tournaments: [],
+            matches: [],
+            participants: [],
+            attachments: [],
+            message: '',
+            success: false
+        }
+    },
+    action
+) {
+    switch (action.type) {
         case 'REQUEST_TOURNAMENTS':
             return Object.assign({}, state, {});
         case 'REQUEST_FULL_TOURNAMENT':

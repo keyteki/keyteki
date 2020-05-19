@@ -3,7 +3,7 @@ const Card = require('../../Card.js');
 class OperationsOfficerYshi extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
-            match: card => this.neighbors.includes(card),
+            match: (card) => this.neighbors.includes(card),
             effect: [
                 ability.effects.gainAbility('fight', {
                     gameAction: ability.actions.capture()

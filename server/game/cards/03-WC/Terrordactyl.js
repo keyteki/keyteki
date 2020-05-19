@@ -13,7 +13,7 @@ class Terrordactyl extends Card {
 
         this.beforeFight({
             effect: 'deal 4 damage to each neighbor of the creature being fought',
-            gameAction: ability.actions.dealDamage(context => ({
+            gameAction: ability.actions.dealDamage((context) => ({
                 amount: 4,
                 target: context.event.card.neighbors
             }))

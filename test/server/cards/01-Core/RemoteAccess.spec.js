@@ -1,7 +1,7 @@
-describe('Remote Access', function() {
-    integration(function() {
-        describe('Remote Access\'s ability', function() {
-            beforeEach(function() {
+describe('Remote Access', function () {
+    integration(function () {
+        describe("Remote Access's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'shadows',
@@ -16,7 +16,7 @@ describe('Remote Access', function() {
                 });
             });
 
-            it('should correctly apply Potion of Invulnerability', function() {
+            it('should correctly apply Potion of Invulnerability', function () {
                 this.player1.endTurn();
                 this.player2.clickPrompt('logos');
                 this.player2.play(this.remoteAccess);
@@ -27,7 +27,7 @@ describe('Remote Access', function() {
                 expect(this.brainEater.hasToken('damage')).toBe(false);
             });
 
-            it('should apply chains to the correct player when targeting Masterplan', function() {
+            it('should apply chains to the correct player when targeting Masterplan', function () {
                 this.player1.play(this.masterplan);
                 this.player1.clickCard(this.gatewayToDis);
                 this.player1.endTurn();

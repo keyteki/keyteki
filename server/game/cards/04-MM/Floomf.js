@@ -5,7 +5,7 @@ class Floomf extends Card {
         this.fight({
             target: {
                 cardType: 'creature',
-                cardCondition: card => card.traits.includes('beast'),
+                cardCondition: (card) => card.traits.includes('beast'),
                 gameAction: ability.actions.addPowerCounter({
                     amount: 2
                 })

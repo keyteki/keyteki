@@ -42,9 +42,7 @@
             "cwd": "${workspaceRoot}",
             "preLaunchTask": null,
             "runtimeExecutable": null,
-            "runtimeArgs": [
-                "--nolazy"
-            ],
+            "runtimeArgs": ["--nolazy"],
             "env": {
                 "NODE_ENV": "development"
             },
@@ -61,9 +59,7 @@
             "cwd": "${workspaceRoot}",
             "preLaunchTask": null,
             "runtimeExecutable": null,
-            "runtimeArgs": [
-                "--nolazy"
-            ],
+            "runtimeArgs": ["--nolazy"],
             "env": {
                 "NODE_ENV": "development"
             },

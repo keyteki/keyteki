@@ -9,26 +9,34 @@ class CostReducer {
         this.match = properties.match;
         this.targetCondition = properties.targetCondition;
         this.amount = properties.amount || 1;
-        this.playingTypes = properties.playingTypes ? (_.isArray(properties.playingTypes) ? properties.playingTypes : [properties.playingTypes]) : ['play'];
-        if(this.limit) {
+        this.playingTypes = properties.playingTypes
+            ? _.isArray(properties.playingTypes)
+                ? properties.playingTypes
+                : [properties.playingTypes]
+            : ['play'];
+        if (this.limit) {
             this.limit.registerEvents(game);
         }
     }
 
     canReduce(playingType, card, target = null) {
-        if(this.limit && this.limit.isAtMax(this.source.controller)) {
+        if (this.limit && this.limit.isAtMax(this.source.controller)) {
             return false;
         }
 
-        return this.playingTypes.includes(playingType) && !!this.match(card) && this.checkTargetCondition(target);
+        return (
+            this.playingTypes.includes(playingType) &&
+            !!this.match(card) &&
+            this.checkTargetCondition(target)
+        );
     }
 
     checkTargetCondition(target) {
-        if(!this.targetCondition) {
+        if (!this.targetCondition) {
             return true;
         }
 
-        if(!target) {
+        if (!target) {
             return false;
         }
 
@@ -36,7 +44,7 @@ class CostReducer {
     }
 
     getAmount(card) {
-        if(_.isFunction(this.amount)) {
+        if (_.isFunction(this.amount)) {
             return this.amount(card);
         }
 
@@ -44,17 +52,19 @@ class CostReducer {
     }
 
     markUsed() {
-        if(this.limit) {
+        if (this.limit) {
             this.limit.increment(this.source.controller);
         }
     }
 
     isExpired() {
-        return !!this.limit && this.limit.isAtMax(this.source.controller) && !this.limit.isRepeatable();
+        return (
+            !!this.limit && this.limit.isAtMax(this.source.controller) && !this.limit.isRepeatable()
+        );
     }
 
     unregisterEvents() {
-        if(this.limit) {
+        if (this.limit) {
             this.limit.unregisterEvents(this.game);
         }
     }

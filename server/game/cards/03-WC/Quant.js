@@ -5,7 +5,10 @@ class Quant extends Card {
         this.reap({
             effect: 'allow them to play one non-Logos action card this turn',
             gameAction: ability.actions.forRemainderOfTurn({
-                effect: ability.effects.canPlayNonHouse(({ house: 'logos', condition: card => card.type === 'action' }))
+                effect: ability.effects.canPlayNonHouse({
+                    house: 'logos',
+                    condition: (card) => card.type === 'action'
+                })
             })
         });
     }

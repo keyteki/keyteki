@@ -1,7 +1,7 @@
-describe('Binate Rupture', function() {
-    integration(function() {
-        describe('Binate Rupture\'s ability', function() {
-            beforeEach(function() {
+describe('Binate Rupture', function () {
+    integration(function () {
+        describe("Binate Rupture's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         amber: 2,
@@ -17,7 +17,7 @@ describe('Binate Rupture', function() {
                 });
             });
 
-            it('should double both player\'s amber', function() {
+            it("should double both player's amber", function () {
                 this.player1.play(this.binateRupture);
 
                 expect(this.player1.amber).toBe(4);

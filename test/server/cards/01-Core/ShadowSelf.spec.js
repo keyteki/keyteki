@@ -1,7 +1,7 @@
-describe('Shadow Self', function() {
-    integration(function() {
-        describe('Shadow Self\'s ability', function() {
-            beforeEach(function() {
+describe('Shadow Self', function () {
+    integration(function () {
+        describe("Shadow Self's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'shadows',
@@ -16,7 +16,7 @@ describe('Shadow Self', function() {
                 this.shadowSelf2 = this.player1.findCardByName('shadow-self', 'hand');
             });
 
-            it('should not deal damage in fights', function() {
+            it('should not deal damage in fights', function () {
                 this.player1.fightWith(this.shadowSelf1, this.silvertooth);
                 expect(this.shadowSelf1.tokens.damage).toBe(2);
                 expect(this.silvertooth.hasToken('damage')).toBe(false);
@@ -27,7 +27,7 @@ describe('Shadow Self', function() {
                 expect(this.silvertooth.hasToken('damage')).toBe(false);
             });
 
-            it('should take damage instead of a creature next to it', function() {
+            it('should take damage instead of a creature next to it', function () {
                 this.player1.fightWith(this.urchin, this.silvertooth);
                 expect(this.urchin.hasToken('damage')).toBe(false);
                 expect(this.urchin.location).toBe('play area');
@@ -35,7 +35,7 @@ describe('Shadow Self', function() {
                 expect(this.silvertooth.tokens.damage).toBe(1);
             });
 
-            it('should not take damage when an elusive neighboring creature is attacked', function() {
+            it('should not take damage when an elusive neighboring creature is attacked', function () {
                 this.player1.endTurn();
                 this.player2.clickPrompt('shadows');
                 this.player2.fightWith(this.silvertooth, this.urchin);
@@ -44,7 +44,7 @@ describe('Shadow Self', function() {
                 expect(this.shadowSelf1.hasToken('damage')).toBe(false);
             });
 
-            it('should reduce its armor before taking the damage', function() {
+            it('should reduce its armor before taking the damage', function () {
                 this.player1.endTurn();
                 this.player2.clickPrompt('shadows');
                 this.player2.endTurn();
@@ -60,7 +60,7 @@ describe('Shadow Self', function() {
                 expect(this.shadowSelf1.armorUsed).toBe(1);
             });
 
-            it('should reduce its armor before taking the damage of neighbors', function() {
+            it('should reduce its armor before taking the damage of neighbors', function () {
                 this.player1.endTurn();
                 this.player2.clickPrompt('shadows');
                 this.player2.endTurn();
@@ -80,7 +80,7 @@ describe('Shadow Self', function() {
                 expect(this.shadowSelf1.armorUsed).toBe(1);
             });
 
-            it('should prompt the active player to choose which Shadow Self gets the damage if two can receive it', function() {
+            it('should prompt the active player to choose which Shadow Self gets the damage if two can receive it', function () {
                 this.player1.playCreature(this.shadowSelf2, true);
                 expect(this.badPenny.neighbors).toContain(this.shadowSelf1);
                 expect(this.badPenny.neighbors).toContain(this.shadowSelf2);

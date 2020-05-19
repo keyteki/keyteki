@@ -45,13 +45,13 @@ class Socket extends EventEmitter {
 
     // Events
     onSocketEvent(callback, ...args) {
-        if(!this.user) {
+        if (!this.user) {
             return;
         }
 
         try {
             callback(this, ...args);
-        } catch(err) {
+        } catch (err) {
             logger.info(err);
             Sentry.configureScope((scope) => {
                 scope.setExtra('extra', args);
@@ -62,7 +62,7 @@ class Socket extends EventEmitter {
 
     onAuthenticate(token) {
         jwt.verify(token, this.configService.getValue('secret'), (err, user) => {
-            if(err) {
+            if (err) {
                 return;
             }
 

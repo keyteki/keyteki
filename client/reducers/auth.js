@@ -1,5 +1,5 @@
 export default function (state = {}, action) {
-    switch(action.type) {
+    switch (action.type) {
         case 'PROFILE_SAVED':
             return Object.assign({}, state, {
                 token: action.response.token
@@ -28,7 +28,7 @@ export default function (state = {}, action) {
             });
         case 'SET_AUTH_TOKENS':
             localStorage.setItem('token', action.token);
-            if(action.refreshToken) {
+            if (action.refreshToken) {
                 localStorage.setItem('refreshToken', JSON.stringify(action.refreshToken));
             }
 

@@ -1,11 +1,11 @@
-describe('Lamindra', function() {
-    integration(function() {
-        describe('Lamindra\'s ability', function() {
-            beforeEach(function() {
+describe('Lamindra', function () {
+    integration(function () {
+        describe("Lamindra's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'shadows',
-                        hand: ['bad-penny', 'lamindra', 'umbra','redlock']
+                        hand: ['bad-penny', 'lamindra', 'umbra', 'redlock']
                     },
                     player2: {
                         inPlay: ['snufflegator', 'halacor']
@@ -13,7 +13,7 @@ describe('Lamindra', function() {
                 });
             });
 
-            it('should give its neighbors elusive', function() {
+            it('should give its neighbors elusive', function () {
                 this.player1.play(this.badPenny);
                 this.player1.play(this.lamindra);
                 this.player1.play(this.umbra);
@@ -22,7 +22,7 @@ describe('Lamindra', function() {
                 expect(this.umbra.getKeywordValue('elusive')).toBe(1);
                 expect(this.redlock.getKeywordValue('elusive')).toBe(0);
             });
-            it('should give its neighbors elusive when deployed', function() {
+            it('should give its neighbors elusive when deployed', function () {
                 this.player1.play(this.badPenny);
                 this.player1.play(this.umbra);
                 this.player1.play(this.redlock);
@@ -32,7 +32,7 @@ describe('Lamindra', function() {
                 expect(this.umbra.getKeywordValue('elusive')).toBe(1);
                 expect(this.redlock.getKeywordValue('elusive')).toBe(0);
             });
-            it('should give its new neighbor elusive if an existing one is destroyed', function() {
+            it('should give its new neighbor elusive if an existing one is destroyed', function () {
                 this.player1.play(this.badPenny);
                 this.player1.play(this.lamindra);
                 this.player1.play(this.umbra);

@@ -1,7 +1,7 @@
-describe('Kirby’s Blaster', function() {
-    integration(function() {
-        describe('Kirby’s Blaster\'s attach ability', function() {
-            beforeEach(function() {
+describe('Kirby’s Blaster', function () {
+    integration(function () {
+        describe("Kirby’s Blaster's attach ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'staralliance',
@@ -15,17 +15,17 @@ describe('Kirby’s Blaster', function() {
                 });
             });
 
-            it('should draw 2 cards when attached to the associated officer', function() {
+            it('should draw 2 cards when attached to the associated officer', function () {
                 this.player1.playUpgrade(this.kirbySBlaster, this.comOfficerKirby);
                 expect(this.player1.hand.length).toBe(2);
             });
 
-            it('should not draw 2 cards when attached to the non associated officer', function() {
+            it('should not draw 2 cards when attached to the non associated officer', function () {
                 this.player1.playUpgrade(this.kirbySBlaster, this.techivorePulpate);
                 expect(this.player1.hand.length).toBe(0);
             });
 
-            it('reap ability should allow choosing for an action and cancel', function() {
+            it('reap ability should allow choosing for an action and cancel', function () {
                 this.player1.playUpgrade(this.kirbySBlaster, this.techivorePulpate);
                 this.player1.reap(this.techivorePulpate);
 
@@ -35,7 +35,7 @@ describe('Kirby’s Blaster', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('reap ability should allow dealing 2 damages to a creature', function() {
+            it('reap ability should allow dealing 2 damages to a creature', function () {
                 this.player1.playUpgrade(this.kirbySBlaster, this.techivorePulpate);
                 this.player1.reap(this.techivorePulpate);
 
@@ -55,7 +55,7 @@ describe('Kirby’s Blaster', function() {
                 expect(this.krump.tokens.damage).toBe(2);
             });
 
-            it('fight ability should allow dealing 2 damages to a creature', function() {
+            it('fight ability should allow dealing 2 damages to a creature', function () {
                 this.player1.playUpgrade(this.kirbySBlaster, this.techivorePulpate);
                 this.player1.fightWith(this.techivorePulpate, this.lamindra);
 
@@ -75,7 +75,7 @@ describe('Kirby’s Blaster', function() {
                 expect(this.krump.tokens.damage).toBe(2);
             });
 
-            it('reap ability should allow moving the upgrade to the appropriate officer', function() {
+            it('reap ability should allow moving the upgrade to the appropriate officer', function () {
                 this.player1.playUpgrade(this.kirbySBlaster, this.techivorePulpate);
                 this.player1.reap(this.techivorePulpate);
 
@@ -97,7 +97,7 @@ describe('Kirby’s Blaster', function() {
                 expect(this.techivorePulpate.upgrades).not.toContain(this.kirbySBlaster);
             });
 
-            it('fight ability should allow moving the upgrade to the appropriate officer', function() {
+            it('fight ability should allow moving the upgrade to the appropriate officer', function () {
                 this.player1.playUpgrade(this.kirbySBlaster, this.techivorePulpate);
                 this.player1.fightWith(this.techivorePulpate, this.lamindra);
 
@@ -120,8 +120,8 @@ describe('Kirby’s Blaster', function() {
             });
         });
 
-        describe('Kirby’s Blaster\'s attach ability', function() {
-            beforeEach(function() {
+        describe("Kirby’s Blaster's attach ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'staralliance',
@@ -135,7 +135,7 @@ describe('Kirby’s Blaster', function() {
                 });
             });
 
-            it('reap ability should default to deal damage when officer is not in play', function() {
+            it('reap ability should default to deal damage when officer is not in play', function () {
                 this.player1.playUpgrade(this.kirbySBlaster, this.techivorePulpate);
                 this.player1.reap(this.techivorePulpate);
                 this.player1.clickCard(this.techivorePulpate);
@@ -148,7 +148,7 @@ describe('Kirby’s Blaster', function() {
                 expect(this.krump.tokens.damage).toBe(2);
             });
 
-            it('fight ability should default to deal damage when officer is not in play', function() {
+            it('fight ability should default to deal damage when officer is not in play', function () {
                 this.player1.playUpgrade(this.kirbySBlaster, this.techivorePulpate);
                 this.player1.fightWith(this.techivorePulpate, this.lamindra);
                 this.player1.clickCard(this.techivorePulpate);
@@ -162,8 +162,8 @@ describe('Kirby’s Blaster', function() {
             });
         });
 
-        describe('Kirby’s Blaster\'s attach ability', function() {
-            beforeEach(function() {
+        describe("Kirby’s Blaster's attach ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'staralliance',
@@ -180,7 +180,7 @@ describe('Kirby’s Blaster', function() {
                 this.comOfficerKirby2 = this.player1.player.creaturesInPlay[2];
             });
 
-            it('should allow moving upgrade between officers of same name', function() {
+            it('should allow moving upgrade between officers of same name', function () {
                 this.player1.playUpgrade(this.kirbySBlaster, this.comOfficerKirby1);
                 this.player1.reap(this.comOfficerKirby1);
                 this.player1.clickCard(this.comOfficerKirby1);

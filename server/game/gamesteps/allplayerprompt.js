@@ -6,12 +6,13 @@ class AllPlayerPrompt extends UiPrompt {
         return !this.completionCondition(player);
     }
 
-    completionCondition(player) { // eslint-disable-line no-unused-vars
+    // eslint-disable-next-line no-unused-vars
+    completionCondition(player) {
         return false;
     }
 
     isComplete() {
-        return _.all(this.game.getPlayers(), player => {
+        return _.all(this.game.getPlayers(), (player) => {
             return this.completionCondition(player);
         });
     }

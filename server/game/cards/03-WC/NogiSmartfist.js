@@ -5,7 +5,7 @@ class NogiSmartfist extends Card {
         this.fight({
             gameAction: [
                 ability.actions.draw({ amount: 2 }),
-                ability.actions.discardAtRandom(context => ({
+                ability.actions.discardAtRandom((context) => ({
                     amount: 2,
                     target: context.player
                 }))

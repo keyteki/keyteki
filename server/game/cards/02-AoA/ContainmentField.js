@@ -6,7 +6,7 @@ class ContainmentField extends Card {
             when: {
                 onUseCard: (event, context) => event.card === context.source.parent
             },
-            gameAction: ability.actions.destroy(context => ({ target: context.source.parent }))
+            gameAction: ability.actions.destroy((context) => ({ target: context.source.parent }))
         });
     }
 }

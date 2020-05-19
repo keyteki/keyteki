@@ -1,7 +1,7 @@
-describe('Triumph', function() {
-    integration(function() {
-        describe('Triumph\'s ability', function() {
-            beforeEach(function() {
+describe('Triumph', function () {
+    integration(function () {
+        describe("Triumph's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'saurian',
@@ -16,7 +16,7 @@ describe('Triumph', function() {
                 });
             });
 
-            it('should do nothing when there are enemy creatures', function() {
+            it('should do nothing when there are enemy creatures', function () {
                 this.player1.play(this.triumph);
                 expect(this.lamindra.amber).toBe(0);
                 expect(this.redlock.amber).toBe(0);
@@ -29,7 +29,7 @@ describe('Triumph', function() {
                 expect(this.player1.amber).toBe(5);
             });
 
-            it('should exalt friendly creatures, but not forge a key when there are less than 6 friendly creatures', function() {
+            it('should exalt friendly creatures, but not forge a key when there are less than 6 friendly creatures', function () {
                 this.player2.moveCard(this.shooler, 'discard');
                 this.player1.play(this.triumph);
                 expect(this.lamindra.amber).toBe(1);
@@ -42,7 +42,7 @@ describe('Triumph', function() {
                 expect(this.player1.amber).toBe(5);
             });
 
-            it('should exalt friendly creatures and forge when there are 6 friendly creatures', function() {
+            it('should exalt friendly creatures and forge when there are 6 friendly creatures', function () {
                 this.player2.moveCard(this.shooler, 'discard');
                 this.player1.play(this.spartasaur);
                 this.player1.play(this.triumph);
@@ -57,7 +57,7 @@ describe('Triumph', function() {
                 expect(this.player1.amber).toBe(5);
             });
 
-            it('should exalt friendly creatures and forge when there are more than 6 friendly creatures', function() {
+            it('should exalt friendly creatures and forge when there are more than 6 friendly creatures', function () {
                 this.player2.moveCard(this.shooler, 'discard');
                 this.player1.play(this.spartasaur);
                 this.player1.play(this.saurusRex);

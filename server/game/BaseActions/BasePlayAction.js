@@ -5,7 +5,7 @@ const Costs = require('../costs.js');
 class BasePlayAction extends BaseAbility {
     constructor(card, target) {
         let properties = { cost: Costs.play() };
-        if(target) {
+        if (target) {
             properties.target = target;
         }
 
@@ -19,9 +19,16 @@ class BasePlayAction extends BaseAbility {
     }
 
     meetsRequirements(context = this.createContext(), ignoredRequirements = []) {
-        if(!ignoredRequirements.includes('location') && !context.player.isCardInPlayableLocation(context.source, 'play')) {
+        if (
+            !ignoredRequirements.includes('location') &&
+            !context.player.isCardInPlayableLocation(context.source, 'play')
+        ) {
             return 'location';
-        } else if(!ignoredRequirements.includes('cannotTrigger') && (!context.player.checkRestrictions('play', context) || !context.source.checkRestrictions('play', context))) {
+        } else if (
+            !ignoredRequirements.includes('cannotTrigger') &&
+            (!context.player.checkRestrictions('play', context) ||
+                !context.source.checkRestrictions('play', context))
+        ) {
             return 'cannotTrigger';
         }
 
@@ -38,10 +45,12 @@ class BasePlayAction extends BaseAbility {
     }
 
     addBonusIconResolution(event, context) {
-        event.addSubEvent(context.game.getEvent('unnamedEvent', {}, () => {
-            context.game.checkGameState(true);
-            context.game.actions.resolveBonusIcons().resolve(this.card, context);
-        }));
+        event.addSubEvent(
+            context.game.getEvent('unnamedEvent', {}, () => {
+                context.game.checkGameState(true);
+                context.game.actions.resolveBonusIcons().resolve(this.card, context);
+            })
+        );
     }
 
     isAction() {
@@ -54,4 +63,3 @@ class BasePlayAction extends BaseAbility {
 }
 
 module.exports = BasePlayAction;
-

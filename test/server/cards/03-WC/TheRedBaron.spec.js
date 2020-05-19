@@ -1,7 +1,7 @@
-describe('The Red Baron', function() {
-    integration(function() {
-        describe('The Red Baron\'s omni ability', function() {
-            beforeEach(function() {
+describe('The Red Baron', function () {
+    integration(function () {
+        describe("The Red Baron's omni ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'brobnar',
@@ -15,7 +15,7 @@ describe('The Red Baron', function() {
                 });
             });
 
-            it('should gain elusive when opponent\'s forged a red key', function() {
+            it("should gain elusive when opponent's forged a red key", function () {
                 this.player1.endTurn();
                 this.player2.clickPrompt('Red');
                 this.player2.clickPrompt('brobnar');
@@ -30,7 +30,7 @@ describe('The Red Baron', function() {
                 expect(this.theRedBaron.location).toBe('discard');
             });
 
-            it('should not gain elusive when opponent\'s forged a blue key', function() {
+            it("should not gain elusive when opponent's forged a blue key", function () {
                 this.player1.endTurn();
                 this.player2.clickPrompt('Blue');
                 this.player2.clickPrompt('brobnar');
@@ -41,7 +41,7 @@ describe('The Red Baron', function() {
                 expect(this.theRedBaron.location).toBe('discard');
             });
 
-            it('should not gain elusive when opponent\'s forged a yellow key', function() {
+            it("should not gain elusive when opponent's forged a yellow key", function () {
                 this.player1.endTurn();
                 this.player2.clickPrompt('Yellow');
                 this.player2.clickPrompt('brobnar');
@@ -52,7 +52,7 @@ describe('The Red Baron', function() {
                 expect(this.theRedBaron.location).toBe('discard');
             });
 
-            it('should not give elusive to other creatures', function() {
+            it('should not give elusive to other creatures', function () {
                 this.player1.endTurn();
                 this.player2.clickPrompt('Red');
                 this.player2.clickPrompt('brobnar');
@@ -64,8 +64,8 @@ describe('The Red Baron', function() {
             });
         });
 
-        describe('The Red Baron\'s omni ability', function() {
-            beforeEach(function() {
+        describe("The Red Baron's omni ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'brobnar',
@@ -79,7 +79,7 @@ describe('The Red Baron', function() {
                 });
             });
 
-            it('should steal after reap when forged a red key', function() {
+            it('should steal after reap when forged a red key', function () {
                 this.player1.endTurn();
                 this.player2.clickPrompt('Red');
                 this.player2.clickPrompt('brobnar');
@@ -90,7 +90,7 @@ describe('The Red Baron', function() {
                 expect(this.player1.amber).toBe(2);
             });
 
-            it('should not steal after reap when forged a blue key', function() {
+            it('should not steal after reap when forged a blue key', function () {
                 this.player1.endTurn();
                 this.player2.clickPrompt('Blue');
                 this.player2.clickPrompt('brobnar');
@@ -101,7 +101,7 @@ describe('The Red Baron', function() {
                 expect(this.player1.amber).toBe(3);
             });
 
-            it('should not steal after reap when forged a yellow key', function() {
+            it('should not steal after reap when forged a yellow key', function () {
                 this.player1.endTurn();
                 this.player2.clickPrompt('Yellow');
                 this.player2.clickPrompt('brobnar');

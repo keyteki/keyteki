@@ -22,7 +22,11 @@ class InnerLink extends React.Component {
     }
 
     render() {
-        return (<a className={ this.props.className } href={ this.props.href } onClick={ this.onClick }>{ this.props.children }</a>);
+        return (
+            <a className={this.props.className} href={this.props.href} onClick={this.onClick}>
+                {this.props.children}
+            </a>
+        );
     }
 }
 

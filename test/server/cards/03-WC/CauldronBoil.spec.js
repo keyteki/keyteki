@@ -1,7 +1,7 @@
-describe('Cauldron Boil', function() {
-    integration(function() {
-        describe('Cauldron Boil\'s ability', function() {
-            beforeEach(function() {
+describe('Cauldron Boil', function () {
+    integration(function () {
+        describe("Cauldron Boil's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'untamed',
@@ -15,9 +15,9 @@ describe('Cauldron Boil', function() {
                 this.silvertooth.addToken('damage');
                 this.dextre.addToken('damage');
                 this.sequis.addToken('damage');
-                this.brainEater.addToken('damage',2);
+                this.brainEater.addToken('damage', 2);
             });
-            it('should deal a damage to each enemy unit for each existing damage they have', function() {
+            it('should deal a damage to each enemy unit for each existing damage they have', function () {
                 this.player1.play(this.cauldronBoil);
                 expect(this.dextre.tokens.damage).toBe(2);
                 expect(this.mother.hasToken('damage')).toBe(false);

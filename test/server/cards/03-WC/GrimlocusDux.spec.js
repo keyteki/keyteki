@@ -1,7 +1,7 @@
-describe('Grimlocus Dux', function() {
-    integration(function() {
-        describe('Grimlocus Dux\' play ability', function() {
-            beforeEach(function() {
+describe('Grimlocus Dux', function () {
+    integration(function () {
+        describe("Grimlocus Dux' play ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'saurian',
@@ -13,7 +13,7 @@ describe('Grimlocus Dux', function() {
                 });
             });
 
-            it('should be exalted twice', function() {
+            it('should be exalted twice', function () {
                 this.player1.playCreature(this.grimlocusDux);
 
                 expect(this.grimlocusDux.tokens.amber).toBe(2);

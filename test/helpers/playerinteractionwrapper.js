@@ -21,7 +21,7 @@ class PlayerInteractionWrapper {
     }
 
     set amber(newValue) {
-        if(newValue >= 0) {
+        if (newValue >= 0) {
             this.player.amber = newValue;
         }
     }
@@ -31,7 +31,7 @@ class PlayerInteractionWrapper {
     }
 
     set chains(newValue) {
-        if(newValue > 0) {
+        if (newValue > 0) {
             this.player.chains = newValue;
         }
     }
@@ -48,9 +48,9 @@ class PlayerInteractionWrapper {
     set hand(cards = []) {
         //Move all cards in hand to the deck
         var cardsInHand = this.hand;
-        _.each(cardsInHand, card => this.moveCard(card, 'deck'));
+        _.each(cardsInHand, (card) => this.moveCard(card, 'deck'));
         cards = this.mixedListToCardList(cards, 'deck');
-        _.each(cards, card => this.moveCard(card, 'hand'));
+        _.each(cards, (card) => this.moveCard(card, 'hand'));
     }
 
     /**
@@ -77,12 +77,12 @@ class PlayerInteractionWrapper {
      */
     set inPlay(newState = []) {
         // First, move all cards in play back to the appropriate decks
-        _.each(this.inPlay, card => {
+        _.each(this.inPlay, (card) => {
             this.moveCard(card, 'deck');
         });
         // Set up each of the cards
-        _.each(newState, card => {
-            if(_.isString(card)) {
+        _.each(newState, (card) => {
+            if (_.isString(card)) {
                 card = this.findCardByName(card, 'deck');
             }
 
@@ -101,15 +101,17 @@ class PlayerInteractionWrapper {
      */
     set discard(newContents = []) {
         //  Move cards to the deck
-        _.each(this.discard, card => {
+        _.each(this.discard, (card) => {
             this.moveCard(card, 'deck');
         });
         // Move cards to the discard in reverse order
         // (helps with referring to cards by index)
-        _.chain(newContents).reverse().each(name => {
-            var card = this.findCardByName(name, 'deck');
-            this.moveCard(card, 'discard');
-        });
+        _.chain(newContents)
+            .reverse()
+            .each((name) => {
+                var card = this.findCardByName(name, 'deck');
+                this.moveCard(card, 'discard');
+            });
     }
 
     get discard() {
@@ -118,9 +120,9 @@ class PlayerInteractionWrapper {
 
     set archives(newContents = []) {
         var cardsInArchives = this.archives;
-        _.each(cardsInArchives, card => this.moveCard(card, 'deck'));
+        _.each(cardsInArchives, (card) => this.moveCard(card, 'deck'));
         let cards = this.mixedListToCardList(newContents, 'deck');
-        _.each(cards, card => this.moveCard(card, 'archives'));
+        _.each(cards, (card) => this.moveCard(card, 'archives'));
     }
 
     get archives() {
@@ -132,17 +134,17 @@ class PlayerInteractionWrapper {
     }
 
     replaceLocalizedValues(title) {
-        if(!title) {
+        if (!title) {
             return null;
         }
 
-        if(!title.text) {
+        if (!title.text) {
             return title;
         }
 
         let result = title.text;
-        if(title.values) {
-            for(var key in title.values) {
+        if (title.values) {
+            for (var key in title.values) {
                 result = result.replace('{{' + key + '}}', title.values[key]);
             }
         }
@@ -165,7 +167,7 @@ class PlayerInteractionWrapper {
 
     get currentButtons() {
         var buttons = this.currentPrompt().buttons;
-        return _.map(buttons, button => this.replaceLocalizedValues(button));
+        return _.map(buttons, (button) => this.replaceLocalizedValues(button));
     }
 
     /**
@@ -196,11 +198,17 @@ class PlayerInteractionWrapper {
         var prompt = this.currentPrompt();
         var selectableCards = this.currentActionTargets;
 
-        if(!prompt) {
+        if (!prompt) {
             return 'no prompt active';
         }
 
-        return prompt.menuTitle + '\n' + _.map(this.currentButtons, button => '[ ' + button + ' ]').join('\n') + '\n' + _.pluck(selectableCards, 'name').join('\n');
+        return (
+            prompt.menuTitle +
+            '\n' +
+            _.map(this.currentButtons, (button) => '[ ' + button + ' ]').join('\n') +
+            '\n' +
+            _.pluck(selectableCards, 'name').join('\n')
+        );
     }
 
     findCardByName(name, locations = 'any', side) {
@@ -216,16 +224,21 @@ class PlayerInteractionWrapper {
     filterCardsByName(name, locations = 'any', side) {
         var matchFunc = matchCardByNameAndPack(name);
         // So that function can accept either lists or single locations
-        if(locations !== 'any') {
-            if(!_.isArray(locations)) {
+        if (locations !== 'any') {
+            if (!_.isArray(locations)) {
                 locations = [locations];
             }
             // 'provinces' = ['province 1', 'province 2', etc.]
         }
 
         try {
-            var cards = this.filterCards(card => matchFunc(card.cardData) && (locations === 'any' || _.contains(locations, card.location)), side);
-        } catch(e) {
+            var cards = this.filterCards(
+                (card) =>
+                    matchFunc(card.cardData) &&
+                    (locations === 'any' || _.contains(locations, card.location)),
+                side
+            );
+        } catch (e) {
             throw new Error(`Name: ${name}, Locations: ${locations}. Error thrown: ${e}`);
         }
 
@@ -237,18 +250,18 @@ class PlayerInteractionWrapper {
     }
 
     /**
-    *   Filters cards by given condition
-    *   @param {function(card: DrawCard)} condition - card matching function
-    *   @param {String} [side] - set to 'opponent' to search in opponent's cards
-    */
+     *   Filters cards by given condition
+     *   @param {function(card: DrawCard)} condition - card matching function
+     *   @param {String} [side] - set to 'opponent' to search in opponent's cards
+     */
     filterCards(condition, side) {
         var player = this.player;
-        if(side === 'opponent') {
+        if (side === 'opponent') {
             player = this.opponent;
         }
 
         var cards = player.allCards.filter(condition);
-        if(cards.length === 0) {
+        if (cards.length === 0) {
             throw new Error(`Could not find any matching cards for ${player.name}`);
         }
 
@@ -256,11 +269,11 @@ class PlayerInteractionWrapper {
     }
 
     putIntoPlay(card) {
-        if(_.isString(card)) {
+        if (_.isString(card)) {
             card = this.findCardByName(card);
         }
 
-        if(card.location !== 'play area') {
+        if (card.location !== 'play area') {
             this.player.moveCard(card, 'play area');
         }
 
@@ -270,9 +283,13 @@ class PlayerInteractionWrapper {
 
     hasPrompt(title) {
         var currentPrompt = this.currentPrompt();
-        return !!currentPrompt &&
-            ((currentPrompt.menuTitle && currentPrompt.menuTitle.toLowerCase() === title.toLowerCase()) ||
-                (currentPrompt.promptTitle && currentPrompt.promptTitle.toLowerCase() === title.toLowerCase()));
+        return (
+            !!currentPrompt &&
+            ((currentPrompt.menuTitle &&
+                currentPrompt.menuTitle.toLowerCase() === title.toLowerCase()) ||
+                (currentPrompt.promptTitle &&
+                    currentPrompt.promptTitle.toLowerCase() === title.toLowerCase()))
+        );
     }
 
     selectDeck(deck) {
@@ -282,22 +299,33 @@ class PlayerInteractionWrapper {
     clickPrompt(text) {
         text = text.toString();
         var currentPrompt = this.player.currentPrompt();
-        var promptButton = _.find(currentPrompt.buttons, button => {
-            return button.card && button.card.name.toLowerCase() === text.toLowerCase() ||
-                button.text.toString().toLowerCase() === text.toLowerCase();
+        var promptButton = _.find(currentPrompt.buttons, (button) => {
+            return (
+                (button.card && button.card.name.toLowerCase() === text.toLowerCase()) ||
+                button.text.toString().toLowerCase() === text.toLowerCase()
+            );
         });
 
-        if(!promptButton) {
-            throw new Error(`Couldn't click on "${text}" for ${this.player.name}. Current prompt is:\n${this.formatPrompt()}`);
+        if (!promptButton) {
+            throw new Error(
+                `Couldn't click on "${text}" for ${
+                    this.player.name
+                }. Current prompt is:\n${this.formatPrompt()}`
+            );
         }
 
-        this.game.menuButton(this.player.name, promptButton.arg, promptButton.uuid, promptButton.method);
+        this.game.menuButton(
+            this.player.name,
+            promptButton.arg,
+            promptButton.uuid,
+            promptButton.method
+        );
         this.game.continue();
         this.checkUnserializableGameState();
     }
 
     clickCard(card, location = 'any', side) {
-        if(_.isString(card)) {
+        if (_.isString(card)) {
             card = this.findCardByName(card, location, side);
         }
 
@@ -308,13 +336,13 @@ class PlayerInteractionWrapper {
     }
 
     clickMenu(card, menuText) {
-        if(_.isString(card)) {
+        if (_.isString(card)) {
             card = this.findCardByName(card);
         }
 
-        var items = _.filter(card.getMenu(), item => item.text === menuText);
+        var items = _.filter(card.getMenu(), (item) => item.text === menuText);
 
-        if(items.length === 0) {
+        if (items.length === 0) {
             throw new Error(`Card ${card.name} does not have a menu item "${menuText}"`);
         }
 
@@ -325,10 +353,16 @@ class PlayerInteractionWrapper {
 
     selectTrait(trait) {
         let currentPrompt = this.player.currentPrompt();
-        let promptControl = currentPrompt.controls.find(control => control.type.toString().toLowerCase() === 'trait-name');
+        let promptControl = currentPrompt.controls.find(
+            (control) => control.type.toString().toLowerCase() === 'trait-name'
+        );
 
-        if(!promptControl) {
-            throw new Error(`Couldn't select a trait for ${this.player.name}. Current prompt is:\n${this.formatPrompt()}`);
+        if (!promptControl) {
+            throw new Error(
+                `Couldn't select a trait for ${
+                    this.player.name
+                }. Current prompt is:\n${this.formatPrompt()}`
+            );
         }
 
         this.game.menuButton(this.player.name, trait, promptControl.uuid, promptControl.method);
@@ -338,10 +372,14 @@ class PlayerInteractionWrapper {
 
     selectOption(option) {
         let currentPrompt = this.player.currentPrompt();
-        let promptButton = currentPrompt.buttons.find(button => button.arg === option);
+        let promptButton = currentPrompt.buttons.find((button) => button.arg === option);
 
-        if(!promptButton) {
-            throw new Error(`Couldn't select an option for ${this.player.name}. Current prompt is:\n${this.formatPrompt()}`);
+        if (!promptButton) {
+            throw new Error(
+                `Couldn't select an option for ${
+                    this.player.name
+                }. Current prompt is:\n${this.formatPrompt()}`
+            );
         }
 
         this.game.menuButton(this.player.name, option, promptButton.uuid, promptButton.method);
@@ -350,12 +388,12 @@ class PlayerInteractionWrapper {
     }
 
     endTurn() {
-        if(this.currentPrompt().menuTitle !== 'Choose a card to play, discard or use') {
+        if (this.currentPrompt().menuTitle !== 'Choose a card to play, discard or use') {
             throw new Error('Cannot end turn now');
         }
 
         this.clickPrompt('End Turn');
-        if(this.currentPrompt().menuTitle === 'Are you sure you want to end your turn?') {
+        if (this.currentPrompt().menuTitle === 'Are you sure you want to end your turn?') {
             this.clickPrompt('Yes');
         }
     }
@@ -374,7 +412,7 @@ class PlayerInteractionWrapper {
      * card object, if card parameter is a String
      */
     moveCard(card, targetLocation, searchLocations = 'any') {
-        if(_.isString(card)) {
+        if (_.isString(card)) {
             card = this.mixedListToCardList([card], searchLocations)[0];
         }
 
@@ -391,7 +429,7 @@ class PlayerInteractionWrapper {
      * Player's action of passing priority
      */
     pass() {
-        if(!this.canAct) {
+        if (!this.canAct) {
             throw new Error(`${this.name} can't pass, because they don't have priority`);
         }
 
@@ -399,23 +437,29 @@ class PlayerInteractionWrapper {
     }
 
     checkActions(card) {
-        console.log(card.getActions().map(action => [action.title, action.meetsRequirements()]));
+        console.log(card.getActions().map((action) => [action.title, action.meetsRequirements()]));
     }
 
     fightWith(creature, target) {
-        if(creature.type !== 'creature' || !this.hasPrompt('Choose a card to play, discard or use')) {
+        if (
+            creature.type !== 'creature' ||
+            !this.hasPrompt('Choose a card to play, discard or use')
+        ) {
             throw new Error(`${creature.name} cannot fight now`);
         }
 
         this.clickCard(creature);
         this.clickPrompt('Fight with this creature');
-        if(target) {
+        if (target) {
             this.clickCard(target);
         }
     }
 
     reap(creature) {
-        if(creature.type !== 'creature' || !this.hasPrompt('Choose a card to play, discard or use')) {
+        if (
+            creature.type !== 'creature' ||
+            !this.hasPrompt('Choose a card to play, discard or use')
+        ) {
             throw new Error(`${creature.name} cannot reap now`);
         }
 
@@ -424,24 +468,24 @@ class PlayerInteractionWrapper {
     }
 
     play(card, left = false, deploy = false) {
-        if(card.type === 'creature') {
+        if (card.type === 'creature') {
             this.playCreature(card, left, deploy);
-        } else if(card.type === 'artifact') {
+        } else if (card.type === 'artifact') {
             this.clickCard(card);
             this.clickPrompt('Play this artifact');
-        } else if(card.type === 'action') {
+        } else if (card.type === 'action') {
             this.clickCard(card);
             this.clickPrompt('Play this action');
         }
     }
 
     useAction(card, omni = false) {
-        if(card.type !== 'creature' && card.type !== 'artifact') {
+        if (card.type !== 'creature' && card.type !== 'artifact') {
             throw new Error(`${card.name} cannot act`);
         }
 
         this.clickCard(card);
-        this.clickPrompt('Use this card\'s ' + (omni ? 'Omni' : 'Action') + ' ability');
+        this.clickPrompt("Use this card's " + (omni ? 'Omni' : 'Action') + ' ability');
     }
 
     playUpgrade(upgrade, target) {
@@ -452,18 +496,18 @@ class PlayerInteractionWrapper {
     }
 
     playCreature(card, left = false, deploy = false) {
-        if(_.isString(card)) {
+        if (_.isString(card)) {
             card = this.findCardByName(card, 'hand');
         }
 
         this.clickCard(card, 'hand');
         this.clickPrompt('Play this creature');
-        if(this.hasPrompt('Which flank do you want to place this creature on?')) {
-            if(left && deploy) {
+        if (this.hasPrompt('Which flank do you want to place this creature on?')) {
+            if (left && deploy) {
                 this.clickPrompt('Deploy Left');
-            } else if(left && !deploy) {
+            } else if (left && !deploy) {
                 this.clickPrompt('Left');
-            } else if(!left && deploy) {
+            } else if (!left && deploy) {
                 this.clickPrompt('Deploy Right');
             } else {
                 this.clickPrompt('Right');
@@ -479,18 +523,20 @@ class PlayerInteractionWrapper {
      * @param {String[]|String} locations - list of locations to get card objects from
      */
     mixedListToCardList(mixed, locations = 'any') {
-        if(!mixed) {
+        if (!mixed) {
             return [];
         }
 
         // Yank all the non-string cards
-        var cardList = _.reject(mixed, card => _.isString(card));
-        mixed = _.filter(mixed, card => _.isString(card));
+        var cardList = _.reject(mixed, (card) => _.isString(card));
+        mixed = _.filter(mixed, (card) => _.isString(card));
         // Find cards objects for the rest
         _.each(mixed, (card) => {
             //Find only those cards that aren't already in the list
-            var cardObject = this.filterCardsByName(card, locations).find(card => !_.contains(cardList, card));
-            if(!cardObject) {
+            var cardObject = this.filterCardsByName(card, locations).find(
+                (card) => !_.contains(cardList, card)
+            );
+            if (!cardObject) {
                 throw new Error(`Could not find card named ${card}`);
             }
 
@@ -504,13 +550,15 @@ class PlayerInteractionWrapper {
         let state = this.game.getState(this.player.name);
         let results = detectBinary(state);
 
-        if(results.length !== 0) {
-            throw new Error('Unable to serialize game state back to client:\n' + JSON.stringify(results));
+        if (results.length !== 0) {
+            throw new Error(
+                'Unable to serialize game state back to client:\n' + JSON.stringify(results)
+            );
         }
     }
 
     forgeKey(color) {
-        if(this.hasPrompt('Which key would you like to forge?')) {
+        if (this.hasPrompt('Which key would you like to forge?')) {
             this.clickPrompt(color);
         } else {
             throw new Error(`${this.name} does not have a forge key prompt`);
@@ -518,7 +566,7 @@ class PlayerInteractionWrapper {
     }
 
     unforgeKey(color) {
-        if(this.hasPrompt('Which key would you like to unforge?')) {
+        if (this.hasPrompt('Which key would you like to unforge?')) {
             this.clickPrompt(color);
         } else {
             throw new Error(`${this.name} does not have an unforge key prompt`);

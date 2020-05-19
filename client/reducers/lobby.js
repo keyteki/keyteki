@@ -7,10 +7,10 @@ const defaultState = {
     windowBlurred: false
 };
 
-export default function(state = defaultState, action) {
+export default function (state = defaultState, action) {
     let newState = Object.assign({}, state);
 
-    switch(action.type) {
+    switch (action.type) {
         case 'LOBBY_CONNECTING':
             newState.connecting = true;
             newState.connected = false;
@@ -28,8 +28,7 @@ export default function(state = defaultState, action) {
 
             break;
         case 'LOBBY_RECONNECING':
-            newState.connected = false,
-            newState.connecting = true;
+            (newState.connected = false), (newState.connecting = true);
 
             break;
         case 'LOBBY_MESSAGE_RECEIVED':
@@ -53,7 +52,7 @@ export default function(state = defaultState, action) {
 
             break;
         case 'PROFILE_SAVED':
-            if(state.socket) {
+            if (state.socket) {
                 state.socket.emit('authenticate', action.response.token);
             }
 
@@ -106,29 +105,32 @@ function handleGameState(action, state) {
     var username = action.args[1];
 
     var currentState = retState.currentGame;
-    if(!currentState) {
+    if (!currentState) {
         retState.newGame = false;
         return retState;
     }
 
-    if(currentState && currentState.spectators.some(spectator => {
-        return spectator.name === username;
-    })) {
+    if (
+        currentState &&
+        currentState.spectators.some((spectator) => {
+            return spectator.name === username;
+        })
+    ) {
         return retState;
     }
 
-    if(!currentState || !currentState.players[username] || currentState.players[username].left) {
+    if (!currentState || !currentState.players[username] || currentState.players[username].left) {
         delete retState.currentGame;
         retState.newGame = false;
     }
 
-    if(currentState) {
+    if (currentState) {
         delete retState.passwordGame;
         delete retState.passwordJoinType;
         delete retState.passwordError;
     }
 
-    if(retState.currentGame && !retState.currentGame.started) {
+    if (retState.currentGame && !retState.currentGame.started) {
         retState.newGame = true;
     }
 
@@ -138,14 +140,17 @@ function handleGameState(action, state) {
 function handleMessage(action, state) {
     let newState = Object.assign({}, state);
 
-    switch(action.message) {
+    switch (action.message) {
         case 'games':
             newState.games = action.args[0];
 
             // If the current game is no longer in the game list, it must have been closed
-            if(state.currentGame && !action.args[0].some(game => {
-                return game.id === state.currentGame.id;
-            })) {
+            if (
+                state.currentGame &&
+                !action.args[0].some((game) => {
+                    return game.id === state.currentGame.id;
+                })
+            ) {
                 newState.currentGame = undefined;
                 newState.newGame = false;
             }
@@ -156,13 +161,15 @@ function handleMessage(action, state) {
 
             break;
         case 'removegame':
-            newState.games = state.games.filter(game => !action.args[0].some(g => g.id === game.id));
+            newState.games = state.games.filter(
+                (game) => !action.args[0].some((g) => g.id === game.id)
+            );
 
             break;
         case 'updategame':
             var updatedGames = state.games.slice(0);
-            for(let game of action.args[0]) {
-                let index = _.findIndex(updatedGames, g => g.id === game.id);
+            for (let game of action.args[0]) {
+                let index = _.findIndex(updatedGames, (g) => g.id === game.id);
 
                 updatedGames[index] = game;
             }
@@ -184,7 +191,7 @@ function handleMessage(action, state) {
 
             break;
         case 'userleft':
-            newState.users = state.users.filter(u => u.username !== action.args[0].username);
+            newState.users = state.users.filter((u) => u.username !== action.args[0].username);
 
             break;
         case 'passworderror':
@@ -196,9 +203,7 @@ function handleMessage(action, state) {
 
             break;
         case 'lobbychat':
-            newState.messages = [
-                ...state.messages, action.args[0]
-            ];
+            newState.messages = [...state.messages, action.args[0]];
 
             break;
         case 'nochat':
@@ -210,7 +215,9 @@ function handleMessage(action, state) {
 
             break;
         case 'removemessage':
-            var message = newState.messages.find(message => message.id === parseInt(action.args[0]));
+            var message = newState.messages.find(
+                (message) => message.id === parseInt(action.args[0])
+            );
             message.deletedBy = action.args[1];
             message.deleted = true;
 

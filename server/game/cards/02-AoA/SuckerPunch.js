@@ -8,7 +8,7 @@ class SuckerPunch extends Card {
                 controller: 'opponent',
                 gameAction: ability.actions.dealDamage({ amount: 2 })
             },
-            then: context => ({
+            then: (context) => ({
                 condition: () => context.target.location !== 'play area',
                 gameAction: ability.actions.archive()
             })

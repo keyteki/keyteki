@@ -1,7 +1,7 @@
-describe('Charge!', function() {
-    integration(function() {
-        describe('Charge!\'s ability', function() {
-            beforeEach(function() {
+describe('Charge!', function () {
+    integration(function () {
+        describe("Charge!'s ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'sanctum',
@@ -13,7 +13,7 @@ describe('Charge!', function() {
                 });
             });
 
-            it('should allow future creatures to deal 2D after play', function() {
+            it('should allow future creatures to deal 2D after play', function () {
                 this.player1.play(this.bulwark);
                 this.player1.play(this.charge);
                 this.player1.play(this.gormOfOmm);

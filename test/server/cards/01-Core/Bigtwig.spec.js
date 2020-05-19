@@ -1,7 +1,7 @@
-describe('Bigtwig', function() {
-    integration(function() {
-        describe('Bigtwig\'s ability', function() {
-            beforeEach(function() {
+describe('Bigtwig', function () {
+    integration(function () {
+        describe("Bigtwig's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'untamed',
@@ -14,13 +14,13 @@ describe('Bigtwig', function() {
                 });
             });
 
-            it('should not allow him to attack unstunned targets', function() {
+            it('should not allow him to attack unstunned targets', function () {
                 this.player1.clickCard(this.bigtwig);
                 expect(this.player1).toHavePrompt('Bigtwig');
                 expect(this.player1).not.toHavePromptButton('Fight with this creature');
             });
 
-            it('should allow him to attack stunned targets', function() {
+            it('should allow him to attack stunned targets', function () {
                 this.player1.play(this.inkaTheSpider);
                 this.player1.clickCard(this.troll);
                 expect(this.troll.stunned).toBe(true);
@@ -29,7 +29,7 @@ describe('Bigtwig', function() {
                 expect(this.player1).toHavePromptButton('Fight with this creature');
             });
 
-            it('should stun a creature when he reaps', function() {
+            it('should stun a creature when he reaps', function () {
                 this.player1.reap(this.bigtwig);
                 expect(this.player1).toHavePrompt('Bigtwig');
                 expect(this.player1).toBeAbleToSelect(this.troll);

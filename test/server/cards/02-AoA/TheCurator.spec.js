@@ -1,7 +1,7 @@
-describe('The Curator', function() {
-    integration(function() {
-        describe('The Curator\'s ability', function() {
-            beforeEach(function() {
+describe('The Curator', function () {
+    integration(function () {
+        describe("The Curator's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         amber: 2,
@@ -15,7 +15,7 @@ describe('The Curator', function() {
                     }
                 });
             });
-            it('should ready ALL artifacts played by the owner', function() {
+            it('should ready ALL artifacts played by the owner', function () {
                 this.player1.play(this.skeletonKey);
                 this.player1.play(this.subtleMaul);
                 expect(this.skeletonKey.exhausted).toBe(false);
@@ -23,8 +23,8 @@ describe('The Curator', function() {
             });
         });
 
-        describe('The Curator\'s ability', function() {
-            beforeEach(function() {
+        describe("The Curator's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         amber: 2,
@@ -39,7 +39,7 @@ describe('The Curator', function() {
                 });
             });
 
-            it('should NOT ready creatures played by the opponent', function() {
+            it('should NOT ready creatures played by the opponent', function () {
                 this.player1.endTurn();
                 this.player2.clickPrompt('shadows');
                 this.player2.play(this.skeletonKey);

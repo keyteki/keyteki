@@ -8,7 +8,7 @@ const messages = require('./messages');
 const banlist = require('./banlist');
 const challonge = require('./challonge');
 
-module.exports.init = function(server, options) {
+module.exports.init = function (server, options) {
     account.init(server, options);
     decks.init(server);
     games.init(server);

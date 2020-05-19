@@ -7,7 +7,7 @@ class PhoenixHeart extends Card {
                 effect: 'return {0} to hand and deal 3 damage to all creatures',
                 gameAction: [
                     ability.actions.returnToHand(),
-                    ability.actions.dealDamage(context => ({
+                    ability.actions.dealDamage((context) => ({
                         amount: 3,
                         target: context.game.creaturesInPlay
                     }))

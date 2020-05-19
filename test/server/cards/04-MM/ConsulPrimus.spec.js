@@ -1,7 +1,7 @@
-describe('Consul Primus', function() {
-    integration(function() {
-        describe('Consul Primus\'s reap ability', function() {
-            beforeEach(function() {
+describe('Consul Primus', function () {
+    integration(function () {
+        describe("Consul Primus's reap ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'saurian',
@@ -16,7 +16,7 @@ describe('Consul Primus', function() {
                 });
             });
 
-            it('should not prompt for any creature, since no other creature to place amber', function() {
+            it('should not prompt for any creature, since no other creature to place amber', function () {
                 this.consulPrimus.tokens.amber = 9;
                 this.player1.reap(this.consulPrimus);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
@@ -24,9 +24,9 @@ describe('Consul Primus', function() {
         });
     });
 
-    integration(function() {
-        describe('Consul Primus\'s reap ability', function() {
-            beforeEach(function() {
+    integration(function () {
+        describe("Consul Primus's reap ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'saurian',
@@ -44,7 +44,7 @@ describe('Consul Primus', function() {
                 this.shooler.tokens.amber = 1;
             });
 
-            it('should allow picking from friendly and placing on friendly creature', function() {
+            it('should allow picking from friendly and placing on friendly creature', function () {
                 this.player1.reap(this.consulPrimus);
                 expect(this.player1.amber).toBe(2);
 
@@ -67,7 +67,7 @@ describe('Consul Primus', function() {
                 expect(this.dextre.tokens.amber).toBe(1);
             });
 
-            it('should allow picking from friendly and placing on enemy creature', function() {
+            it('should allow picking from friendly and placing on enemy creature', function () {
                 this.player1.reap(this.consulPrimus);
                 expect(this.player1.amber).toBe(2);
 
@@ -90,7 +90,7 @@ describe('Consul Primus', function() {
                 expect(this.shooler.tokens.amber).toBe(2);
             });
 
-            it('should allow picking from enemy and placing on friendly creature', function() {
+            it('should allow picking from enemy and placing on friendly creature', function () {
                 this.player1.reap(this.consulPrimus);
                 expect(this.player1.amber).toBe(2);
 
@@ -113,7 +113,7 @@ describe('Consul Primus', function() {
                 expect(this.shooler.hasToken('amber')).toBe(false);
             });
 
-            it('should allow picking from enemy and placing on itself', function() {
+            it('should allow picking from enemy and placing on itself', function () {
                 this.player1.reap(this.consulPrimus);
                 expect(this.player1.amber).toBe(2);
 
@@ -136,7 +136,7 @@ describe('Consul Primus', function() {
                 expect(this.shooler.hasToken('amber')).toBe(false);
             });
 
-            it('should allow picking from enemy and placing on enemy creature', function() {
+            it('should allow picking from enemy and placing on enemy creature', function () {
                 this.player1.reap(this.consulPrimus);
                 expect(this.player1.amber).toBe(2);
 
@@ -159,7 +159,7 @@ describe('Consul Primus', function() {
                 expect(this.shooler.hasToken('amber')).toBe(false);
             });
 
-            it('should allow picking a creature without amber', function() {
+            it('should allow picking a creature without amber', function () {
                 this.player1.reap(this.consulPrimus);
                 expect(this.player1.amber).toBe(2);
 
