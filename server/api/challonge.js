@@ -1,5 +1,4 @@
 const ChallongeService = require('../services/ChallongeService.js');
-const logger = require('../log.js');
 const passport = require('passport');
 const { wrapAsync } = require('../util.js');
 

@@ -5,8 +5,7 @@ describe('Charge!', function() {
                 this.setupTest({
                     player1: {
                         house: 'sanctum',
-                        hand: ['charge', 'bulwark', 'grey-monk', 'barrister-joya', 'gorm-of-omm'],
-
+                        hand: ['charge', 'bulwark', 'grey-monk', 'barrister-joya', 'gorm-of-omm']
                     },
                     player2: {
                         inPlay: ['troll', 'alaka', 'groke', 'ogopogo']
