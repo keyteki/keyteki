@@ -40,6 +40,7 @@ class Game extends EventEmitter {
         this.adaptive = { chains: 0, selection: [], biddingWinner: '' };
         this.allowSpectators = details.allowSpectators;
         this.cancelPromptUsed = false;
+        this.challonge = details.challonge;
         this.chatCommands = new ChatCommands(this);
         this.createdAt = new Date();
         this.currentAbilityWindow = null;
@@ -1094,6 +1095,7 @@ class Game extends EventEmitter {
 
         return {
             adaptive: this.adaptive,
+            challonge: this.challonge,
             finishedAt: this.finishedAt,
             gameFormat: this.gameFormat,
             gameId: this.id,
@@ -1126,6 +1128,7 @@ class Game extends EventEmitter {
             return {
                 adaptive: this.adaptive,
                 cancelPromptUsed: this.cancelPromptUsed,
+                challonge: this.challonge,
                 gameFormat: this.gameFormat,
                 gamePrivate: this.gamePrivate,
                 gameTimeLimitStarted: this.timeLimit.timeLimitStarted,
@@ -1194,6 +1197,7 @@ class Game extends EventEmitter {
             adaptive: this.adaptive,
             allowSpectators: this.allowSpectators,
             createdAt: this.createdAt,
+            challonge: this.challonge,
             gameFormat: this.gameFormat,
             gamePrivate: this.gamePrivate,
             gameType: this.gameType,

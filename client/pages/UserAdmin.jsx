@@ -24,6 +24,7 @@ class UserAdmin extends React.Component {
             canVerifyDecks: false,
             canManageBanlist: false,
             canManageMotd: false,
+            canManageTournaments: false,
             isAdmin: false,
             isContributor: false,
             isSupporter: false
@@ -46,6 +47,7 @@ class UserAdmin extends React.Component {
             { name: 'canVerifyDecks', label: 'Deck Verifier' },
             { name: 'canManageBanlist', label: 'Banlist Manager' },
             { name: 'canManageMotd', label: 'Motd Manager' },
+            { name: 'canManageTournaments', label: 'Tournaments Manager' },
             { name: 'isAdmin', label: 'Site Admin' },
             { name: 'isContributor', label: 'Contributor' },
             { name: 'isSupporter', label: 'Supporter' }

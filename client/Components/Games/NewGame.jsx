@@ -16,7 +16,7 @@ class NewGame extends React.Component {
         super(props);
 
         this.onCancelClick = this.onCancelClick.bind(this);
-        this.ongamePrivateClick = this.ongamePrivateClick.bind(this);
+        this.onGamePrivateClick = this.onGamePrivateClick.bind(this);
         this.onGameTimeLimitChange = this.onGameTimeLimitChange.bind(this);
         this.onHideDecklistsClick = this.onHideDecklistsClick.bind(this);
         this.onMuteSpectatorsClick = this.onMuteSpectatorsClick.bind(this);
@@ -30,23 +30,25 @@ class NewGame extends React.Component {
         this.state = {
             expansions: { cota: false, aoa: false, wc: true },
             gameName: this.props.defaultGameName,
-            gamePrivate: false,
+            gamePrivate: this.props.gamePrivate,
             gameTimeLimit: 35,
             hideDecklists: false,
-            muteSpectators: false,
+            muteSpectators: this.props.muteSpectators,
             password: '',
             selectedGameFormat: 'normal',
-            selectedGameType: 'casual',
-            showHand: false,
+            selectedGameType: this.props.defaultGameType ? this.props.defaultGameType : 'casual',
+            showHand: this.props.showHand,
             spectators: true,
-            useGameTimeLimit: false
+            useGameTimeLimit: this.props.gameTimeLimit
         };
     }
 
     onCancelClick(event) {
         event.preventDefault();
-
         this.props.cancelNewGame();
+        if(this.props.tournament) {
+            this.props.closeModal();
+        }
     }
 
     onNameChange(event) {
@@ -82,11 +84,10 @@ class NewGame extends React.Component {
 
         if(this.state.selectedGameFormat === 'sealed' && expansionsSelected === 0) {
             toastr.error(this.props.t('Please select at least one expansion!'));
-
             return;
         }
 
-        this.props.socket.emit('newgame', {
+        let newGame = {
             expansions: this.state.expansions,
             gameFormat: this.state.selectedGameFormat,
             gamePrivate: this.state.gamePrivate,
@@ -100,7 +101,22 @@ class NewGame extends React.Component {
             showHand: this.state.showHand,
             spectators: this.state.spectators,
             useGameTimeLimit: this.state.useGameTimeLimit
-        });
+        };
+
+        if(this.props.tournament) {
+            for(let match of this.props.matches) {
+                this.props.socket.emit('newgame', {
+                    ...newGame,
+                    name: `${this.props.getParticipantName(match.player1_id)} vs ${this.props.getParticipantName(match.player2_id)}`,
+                    challonge: { matchId: match.id, tournamentId: this.props.tournament.id },
+                    tournament: true
+                });
+            }
+
+            this.props.closeModal();
+        } else {
+            this.props.socket.emit('newgame', newGame);
+        }
     }
 
     onGameTypeChange(gameType) {
@@ -131,7 +147,7 @@ class NewGame extends React.Component {
         this.setState({ gameTimeLimit: event.target.value });
     }
 
-    ongamePrivateClick(event) {
+    onGamePrivateClick(event) {
         this.setState({ gamePrivate: event.target.checked });
     }
 
@@ -156,7 +172,7 @@ class NewGame extends React.Component {
             <Checkbox name='timeLimit' noGroup label={ t('Use a time limit (in minutes)') } fieldClass='col-sm-12'
                 onChange={ this.onUseGameTimeLimitClick } checked={ this.state.useGameTimeLimit }/>
             <Checkbox name='gamePrivate' noGroup label={ t('Private game (Requires game link to join)') } fieldClass='col-sm-12'
-                onChange={ this.ongamePrivateClick } checked={ this.state.gamePrivate }/>
+                onChange={ this.onGamePrivateClick } checked={ this.state.gamePrivate }/>
             { this.state.useGameTimeLimit && <div className='col-sm-4'>
                 <input className='form-control' type='number' onChange={ this.onGameTimeLimitChange } value={ this.state.gameTimeLimit }/>
             </div> }
@@ -245,6 +261,18 @@ class NewGame extends React.Component {
                     { this.getGameFormatOptions() }
                     { this.getGameTypeOptions() }
                 </div>);
+        } else if(this.props.tournament) {
+            content =
+                (<div>
+                    { this.getOptions() }
+                    { this.getGameFormatOptions() }
+                    <div className='row game-password'>
+                        <div className='col-sm-8'>
+                            <label><Trans>Password</Trans></label>
+                            <input className='form-control' type='password' onChange={ this.onPasswordChange } value={ this.state.password } />
+                        </div>
+                    </div>
+                </div>);
         } else {
             content = (<div>
                 <div className='row'>
@@ -289,11 +317,20 @@ NewGame.displayName = 'NewGame';
 NewGame.propTypes = {
     allowMelee: PropTypes.bool,
     cancelNewGame: PropTypes.func,
+    closeModal: PropTypes.func,
     defaultGameName: PropTypes.string,
+    defaultGameType: PropTypes.string,
+    gamePrivate: PropTypes.bool,
+    gameTimeLimit: PropTypes.bool,
+    getParticipantName: PropTypes.func,
     i18n: PropTypes.object,
+    matches: PropTypes.array,
+    muteSpectators: PropTypes.bool,
     quickJoin: PropTypes.bool,
+    showHand: PropTypes.bool,
     socket: PropTypes.object,
-    t: PropTypes.func
+    t: PropTypes.func,
+    tournament: PropTypes.string
 };
 
 function mapStateToProps(state) {

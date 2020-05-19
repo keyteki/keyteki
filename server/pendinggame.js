@@ -9,6 +9,7 @@ class PendingGame {
     constructor(owner, details) {
         this.adaptive = details.adaptive;
         this.allowSpectators = details.spectators;
+        this.challonge = details.challonge;
         this.createdAt = new Date();
         this.expansions = details.expansions;
         this.gameChat = new GameChat();
@@ -64,6 +65,7 @@ class PendingGame {
 
         return {
             adaptive: this.adaptive,
+            challonge: this.challonge,
             expansions: this.expansions,
             gameFormat: this.gameFormat,
             gamePrivate: this.gamePrivate,
@@ -111,12 +113,14 @@ class PendingGame {
         };
     }
 
-    newGame(id, user, password) {
+    newGame(id, user, password, join) {
         if(password) {
             this.password = crypto.createHash('md5').update(password).digest('hex');
         }
 
-        this.addPlayer(id, user);
+        if(join) {
+            this.addPlayer(id, user);
+        }
     }
 
     isUserBlocked(user) {
@@ -140,6 +144,15 @@ class PendingGame {
 
         this.addMessage('{0} has joined the game', user.username);
         this.addPlayer(id, user);
+
+        if(!this.isOwner(this.owner.username)) {
+            let otherPlayer = Object.values(this.players).find(player => player.name !== this.owner.username);
+
+            if(otherPlayer) {
+                this.owner = otherPlayer.user;
+                otherPlayer.owner = true;
+            }
+        }
 
         return undefined;
     }
@@ -308,6 +321,7 @@ class PendingGame {
         return {
             adaptive: this.adaptive,
             allowSpectators: this.allowSpectators,
+            challonge: this.challonge,
             createdAt: this.createdAt,
             gameFormat: this.gameFormat,
             gamePrivate: this.gamePrivate,
@@ -360,6 +374,7 @@ class PendingGame {
         return {
             adaptive: this.adaptive,
             allowSpectators: this.allowSpectators,
+            challonge: this.challonge,
             createdAt: this.createdAt,
             gameFormat: this.gameFormat,
             gamePrivate: this.gamePrivate,
