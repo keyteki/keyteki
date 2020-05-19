@@ -6,7 +6,7 @@ describe('Baldric The Bold', function() {
                     player1: {
                         amber: 1,
                         house: 'sanctum',
-                        inPlay: ['baldric-the-bold', 'tantadlin'],
+                        inPlay: ['baldric-the-bold', 'tantadlin']
                     },
                     player2: {
                         inPlay: ['ember-imp', 'lamindra', 'spyyyder', 'troll']
