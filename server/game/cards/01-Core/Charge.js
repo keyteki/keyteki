@@ -7,7 +7,8 @@ class Charge extends Card {
                 when: {
                     onCardPlayed: event => event.card.type === 'creature' && context.player === event.player
                 },
-                gameAction: ability.actions.cardLastingEffect({
+                gameAction: ability.actions.cardLastingEffect(context => ({
+                    target: context.event.card,
                     effect: ability.effects.gainAbility('reaction', {
                         when: {
                             onCardPlayed: (event, context) => event.card === context.source
@@ -18,7 +19,7 @@ class Charge extends Card {
                             gameAction: ability.actions.dealDamage({ amount: 2 })
                         }
                     })
-                })
+                }))
             }))
         });
     }
