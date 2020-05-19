@@ -61,7 +61,8 @@ class DealDamageAction extends CardGameAction {
             let damageAppliedParams = {
                 amount: damageDealtEvent.amount,
                 card: damageDealtEvent.card,
-                context: damageDealtEvent.context
+                context: damageDealtEvent.context,
+                condition: event => event.amount > 0
             };
             let damageAppliedEvent = super.createEvent('onDamageApplied', damageAppliedParams, event => {
                 event.noGameStateCheck = true;
