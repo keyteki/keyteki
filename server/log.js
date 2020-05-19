@@ -13,7 +13,9 @@ let rotate = new transports.DailyRotateFile({
 });
 
 const prettyJson = format.printf(info => {
-    if(typeof info.message === 'object') {
+    if(info.meta && info.meta instanceof Error) {
+        info.message = `${info.message} ${info.meta.stack}`;
+    } else if(typeof info.message === 'object') {
         info.message = JSON.stringify(info.message, null, 4);
     }
 
@@ -22,6 +24,7 @@ const prettyJson = format.printf(info => {
 
 const logger = createLogger({
     format: format.combine(
+        format.errors({ stack: true }),
         format.prettyPrint(),
         format.splat(),
         format.simple(),
@@ -29,6 +32,7 @@ const logger = createLogger({
     ),
     transports: [
         new transports.Console({ format: format.combine(
+            format.errors({ stack: true }),
             format.colorize(),
             format.prettyPrint(),
             format.splat(),

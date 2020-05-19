@@ -7,7 +7,7 @@
             "port": 9339,
             "localRoot": "${workspaceFolder}",
             "name": "Docker: Attach to Game",
-            "remoteRoot": "/usr/src/node"
+            "remoteRoot": "/usr/src/app"
         },
         {
             "type": "node",
@@ -15,7 +15,7 @@
             "port": 9229,
             "localRoot": "${workspaceFolder}",
             "name": "Docker: Attach to Lobby",
-            "remoteRoot": "/usr/src/lobby"
+            "remoteRoot": "/usr/src/app"
         },
         {
             "type": "node",

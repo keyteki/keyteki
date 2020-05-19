@@ -13,8 +13,8 @@ class ChallongeService {
             personal = await util.httpRequest(`https://api.challonge.com/v1/tournaments.json?api_key=${user.challonge.key}`, { json: true });
             community = user.challonge.subdomain ? await util.httpRequest(`https://api.challonge.com/v1/tournaments.json?api_key=${user.challonge.key}&subdomain=${user.challonge.subdomain}`, { json: true }) : [];
         } catch(error) {
-            logger.error(`Failed to get tournaments for ${user.username} ${error}`);
-            throw error;
+            logger.error(`Failed to get tournaments for ${user.username}`, error);
+            throw new Error('Failed to get tournaments');
         }
 
         let final = [...personal.map(x => x.tournament), ...community.map(x => x.tournament)];
@@ -29,15 +29,15 @@ class ChallongeService {
 
     async getMatches(user, tournamentId) {
         if(!user.challonge.key || !tournamentId) {
-            throw 'Challonge key or tournament ID not found';
+            throw new Error('Challonge key or tournament ID not found');
         }
 
         let matches;
         try {
             matches = await util.httpRequest(`https://api.challonge.com/v1/tournaments/${tournamentId}/matches.json?api_key=${user.challonge.key}`, { json: true });
         } catch(error) {
-            logger.error(`Failed to get tournaments for ${user.username} ${error}`);
-            throw error;
+            logger.error(`Failed to get tournaments for ${user.username}`, error);
+            throw new Error('Failed to get tournaments');
         }
 
         return matches.map(x => x.match);
@@ -45,15 +45,15 @@ class ChallongeService {
 
     async getParticipants(user, tournamentId) {
         if(!user.challonge.key || !tournamentId) {
-            throw 'Challonge key or tournament ID not found';
+            throw new Error('Challonge key or tournament ID not found');
         }
 
         let participants;
         try {
             participants = await util.httpRequest(`https://api.challonge.com/v1/tournaments/${tournamentId}/participants.json?api_key=${user.challonge.key}`, { json: true });
         } catch(error) {
-            logger.error(`Failed to get participants for ${user.username} ${error}`);
-            throw error;
+            logger.error(`Failed to get participants for ${user.username}`, error);
+            throw new Error('Failed to get participants');
         }
 
         return participants.map(x => x.participant);
@@ -61,7 +61,7 @@ class ChallongeService {
 
     async attachMatchLink(user, data) {
         if(!user.challonge.key) {
-            throw 'Challonge key not found';
+            throw new Error('Challonge key not found');
         }
 
         let challongeResults;
@@ -73,15 +73,15 @@ class ChallongeService {
                 try {
                     result = await util.httpRequest(url, { method: 'POST', json: true, body: { description: 'Click This link to enter your game.', url: x.attachment } });
                 } catch(error) {
-                    logger.error(`Failed to get attachments for ${user.username} ${error}`);
-                    throw error;
+                    logger.error(`Failed to get attachments for ${user.username}`, error);
+                    throw new Error('Failed to get attachments');
                 }
 
                 return result.match_attachment;
             });
         } catch(error) {
-            logger.error(`Failed to get attachments for ${user.username} ${error}`);
-            throw error;
+            logger.error(`Failed to get attachments for ${user.username}`, error);
+            throw new Error('Failed to get attachments');
         }
 
         return challongeResults;

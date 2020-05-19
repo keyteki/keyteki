@@ -9,7 +9,7 @@ import { withTranslation, Trans } from 'react-i18next';
 import Modal from '../Site/Modal';
 import NewGame from './NewGame';
 import Panel from '../Site/Panel';
-
+import ApiStatus from '../Site/ApiStatus';
 import * as actions from '../../actions';
 
 class TournamentLobby extends React.Component {
@@ -43,7 +43,7 @@ class TournamentLobby extends React.Component {
             this.props.fetchTournaments();
         }
 
-        if(this.props.matches) {
+        if(this.props.matches && this.props.matches.length > 0) {
             this.setTournament(this.props.matches[0].tournament_id);
         }
     }
@@ -170,6 +170,7 @@ class TournamentLobby extends React.Component {
             <div className='full-height'>
                 <div className='col-md-offset-2 col-md-8 full-height'>
                     <Panel title={ t('Tournament Organizer Panel') }>
+                        <ApiStatus apiState={ this.props.tournamentApiState } successMessage={ this.state.successMessage } />
                         <div className='col-xs-12 game-controls'>
                             <div className='col-sm-8'>
                                 <div className='form-group'>
@@ -185,6 +186,7 @@ class TournamentLobby extends React.Component {
                                 <button className='btn btn-primary'
                                     onClick={ this.refreshTournaments }>
                                     <Trans>Refresh Tournaments</Trans>
+                                    { this.props.tournamentApiState && this.props.tournamentApiState.loading && <span className='spinner button-spinner' /> }
                                 </button>
                             </div>
                         </div>
@@ -276,6 +278,7 @@ TournamentLobby.propTypes = {
     socket: PropTypes.object,
     startNewGame: PropTypes.func,
     t: PropTypes.func,
+    tournamentApiState: PropTypes.object,
     tournaments: PropTypes.array,
     user: PropTypes.object
 };
@@ -298,6 +301,7 @@ function mapStateToProps(state) {
         participants: state.challonge.participants,
         passwordGame: state.lobby.passwordGame,
         socket: state.lobby.socket,
+        tournamentApiState: state.api.REQUEST_TOURNAMENTS,
         tournaments: state.challonge.tournaments,
         user: state.account.user
     };
