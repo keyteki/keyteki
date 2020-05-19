@@ -285,7 +285,6 @@ TournamentLobby.propTypes = {
 
 function mapStateToProps(state) {
     return {
-
         attachMatchLink: state.challonge.attachMatchLink,
         attachments: state.challonge.attachments,
         bannerNotice: state.lobby.notice,
