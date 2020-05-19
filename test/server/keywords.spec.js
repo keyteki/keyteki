@@ -105,8 +105,7 @@ describe('keywords', function() {
                         hand: ['way-of-the-wolf']
                     },
                     player2: {
-                        inPlay: ['urchin', 'briar-grubbling', 'mighty-tiger', 'magda-the-rat'],
-                        hand: ['flame-wreathed']
+                        inPlay: ['urchin', 'briar-grubbling', 'mighty-tiger', 'magda-the-rat', 'sequis']
                     }
                 });
             });
@@ -170,6 +169,12 @@ describe('keywords', function() {
             it('Poison should destroy the creature', function() {
                 this.player1.fightWith(this.inkaTheSpider, this.mightyTiger);
                 expect(this.mightyTiger.location).toBe('discard');
+                expect(this.inkaTheSpider.location).toBe('discard');
+            });
+
+            it('Poison should not destroy the creature if damage is prevented by armor', function() {
+                this.player1.fightWith(this.inkaTheSpider, this.sequis);
+                expect(this.sequis.location).toBe('play area');
                 expect(this.inkaTheSpider.location).toBe('discard');
             });
         });
