@@ -43,7 +43,7 @@ class TournamentLobby extends React.Component {
             this.props.fetchTournaments();
         }
 
-        if(this.props.matches) {
+        if(this.props.matches && this.props.matches.length > 0) {
             this.setTournament(this.props.matches[0].tournament_id);
         }
     }
@@ -186,6 +186,7 @@ class TournamentLobby extends React.Component {
                                 <button className='btn btn-primary'
                                     onClick={ this.refreshTournaments }>
                                     <Trans>Refresh Tournaments</Trans>
+                                    { this.props.tournamentApiState && this.props.tournamentApiState.loading && <span className='spinner button-spinner' /> }
                                 </button>
                             </div>
                         </div>
