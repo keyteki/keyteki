@@ -1,7 +1,7 @@
-describe('Beast\'s Bane', function() {
-    integration(function() {
-        describe('Beast\'s Bane\'s ability', function() {
-            beforeEach(function() {
+describe("Beast's Bane", function () {
+    integration(function () {
+        describe("Beast's Bane's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         amber: 4,
@@ -15,7 +15,7 @@ describe('Beast\'s Bane', function() {
                     }
                 });
             });
-            it('prompt for a beast creature to destroy', function() {
+            it('prompt for a beast creature to destroy', function () {
                 this.player1.play(this.beastsBane);
                 expect(this.player1).toHavePrompt('Beasts’ Bane');
                 expect(this.player1).toBeAbleToSelect(this.rotgrub);

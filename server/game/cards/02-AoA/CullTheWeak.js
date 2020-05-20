@@ -8,7 +8,7 @@ class CullTheWeak extends Card {
                 cardType: 'creature',
                 controller: 'opponent',
                 numCards: 1,
-                cardStat: card => -card.power,
+                cardStat: (card) => -card.power,
                 gameAction: ability.actions.destroy()
             }
         });

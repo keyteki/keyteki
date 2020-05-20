@@ -1,7 +1,7 @@
-describe('Lifeward', function() {
-    integration(function() {
-        describe('Lifeward\'s ability', function() {
-            beforeEach(function() {
+describe('Lifeward', function () {
+    integration(function () {
+        describe("Lifeward's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'dis',
@@ -14,9 +14,9 @@ describe('Lifeward', function() {
                 });
             });
 
-            it('should stop their opponent playing creatures', function() {
+            it('should stop their opponent playing creatures', function () {
                 this.player1.clickCard(this.lifeward);
-                this.player1.clickPrompt('Use this card\'s Omni ability');
+                this.player1.clickPrompt("Use this card's Omni ability");
                 expect(this.lifeward.location).toBe('discard');
                 this.player1.endTurn();
                 this.player2.clickPrompt('brobnar');

@@ -1,7 +1,7 @@
-describe('Ring of Invisibility', function() {
-    integration(function() {
-        describe('Ring of Invisibility\'s ability', function() {
-            beforeEach(function() {
+describe('Ring of Invisibility', function () {
+    integration(function () {
+        describe("Ring of Invisibility's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'shadows',
@@ -14,7 +14,7 @@ describe('Ring of Invisibility', function() {
                 });
             });
 
-            it('should give the attached creature Skirmish', function() {
+            it('should give the attached creature Skirmish', function () {
                 this.player1.playUpgrade(this.ringOfInvisibility, this.silvertooth);
                 expect(this.silvertooth.getKeywordValue('skirmish')).toBe(1);
                 expect(this.silvertooth.getKeywordValue('elusive')).toBe(1);
@@ -23,7 +23,7 @@ describe('Ring of Invisibility', function() {
                 expect(this.troll.tokens.damage).toBe(2);
             });
 
-            it('should give the attached creature Elusive', function() {
+            it('should give the attached creature Elusive', function () {
                 this.player1.playUpgrade(this.ringOfInvisibility, this.silvertooth);
                 this.player1.fightWith(this.silvertooth, this.troll);
                 this.player1.endTurn();

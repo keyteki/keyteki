@@ -1,7 +1,7 @@
-describe('Rogue Ogre', function() {
-    integration(function() {
-        describe('Rogue Ogre\'s ability', function() {
-            beforeEach(function() {
+describe('Rogue Ogre', function () {
+    integration(function () {
+        describe("Rogue Ogre's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         amber: 5,
@@ -16,13 +16,13 @@ describe('Rogue Ogre', function() {
                 });
             });
 
-            it('should not activate when no cards are played', function() {
+            it('should not activate when no cards are played', function () {
                 this.player1.endTurn();
                 expect(this.player2.amber).toBe(4);
                 expect(this.rogueOgre.hasToken('amber')).toBe(false);
             });
 
-            it('should capture an amber when one card is played', function() {
+            it('should capture an amber when one card is played', function () {
                 this.player1.play(this.troll);
                 this.player1.endTurn();
                 expect(this.player2.amber).toBe(3);

@@ -27,11 +27,11 @@ class ThenAbility extends BaseAbility {
     }
 
     displayMessage(context) {
-        if(this.properties.message) {
+        if (this.properties.message) {
             let messageArgs = [context.player, context.source, context.target];
-            if(this.properties.messageArgs) {
+            if (this.properties.messageArgs) {
                 let args = this.properties.messageArgs;
-                if(typeof args === 'function') {
+                if (typeof args === 'function') {
                     args = args(context);
                 }
 
@@ -44,21 +44,21 @@ class ThenAbility extends BaseAbility {
 
     getGameActions(context) {
         // if there are any targets, look for gameActions attached to them
-        let actions = this.targets.reduce((array, target) => array.concat(target.getGameAction(context)), []);
+        let actions = this.targets.reduce(
+            (array, target) => array.concat(target.getGameAction(context)),
+            []
+        );
         // look for a gameAction on the ability itself, on an upgrade execute that action on its parent, otherwise on the card itself
         return actions.concat(this.gameAction);
     }
 
     executeHandler(context) {
-        if(this.properties.may) {
+        if (this.properties.may) {
             this.game.promptWithHandlerMenu(context.player, {
                 activePromptTitle: 'Do you wish to ' + this.properties.may + '?',
                 context: context,
                 choices: ['Yes', 'No'],
-                handlers: [
-                    () => this.handler(context),
-                    () => true
-                ]
+                handlers: [() => this.handler(context), () => true]
             });
         } else {
             this.handler(context);
@@ -69,7 +69,7 @@ class ThenAbility extends BaseAbility {
 
     executeGameActionPrehandlers(context) {
         let actions = this.getGameActions(context);
-        for(const action of actions) {
+        for (const action of actions) {
             action.preEventHandler(context);
         }
 
@@ -79,37 +79,43 @@ class ThenAbility extends BaseAbility {
     executeGameActions(actions, context) {
         // Get any gameActions for this ability
         // Get their events, and execute simultaneously
-        let events = actions.reduce((array, action) => array.concat(action.getEventArray(context)), []);
+        let events = actions.reduce(
+            (array, action) => array.concat(action.getEventArray(context)),
+            []
+        );
         let then = this.properties.then;
-        if(then && typeof then === 'function') {
+        if (then && typeof then === 'function') {
             then = then(context);
         }
 
-        if(events.length > 0) {
+        if (events.length > 0) {
             this.game.openEventWindow(events);
-            if(then) {
+            if (then) {
                 this.game.queueSimpleStep(() => {
-                    if(then.alwaysTriggers || events.every(event => !event.cancelled)) {
+                    if (then.alwaysTriggers || events.every((event) => !event.cancelled)) {
                         let thenAbility = new ThenAbility(this.game, this.card, then);
                         let thenContext = thenAbility.createContext(context.player);
                         thenContext.preThenEvents = events;
                         thenContext.preThenEvent = events[0];
-                        if(!thenAbility.meetsRequirements(thenContext) && thenAbility.condition(thenContext)) {
+                        if (
+                            !thenAbility.meetsRequirements(thenContext) &&
+                            thenAbility.condition(thenContext)
+                        ) {
                             this.game.resolveAbility(thenContext);
                         }
                     }
                 });
             }
-        } else if(then && then.alwaysTriggers) {
+        } else if (then && then.alwaysTriggers) {
             let thenAbility = new ThenAbility(this.game, this.card, then);
             let thenContext = thenAbility.createContext(context.player);
-            if(!thenAbility.meetsRequirements(thenContext) && thenAbility.condition(thenContext)) {
+            if (!thenAbility.meetsRequirements(thenContext) && thenAbility.condition(thenContext)) {
                 this.game.resolveAbility(thenContext);
             }
         }
 
-        for(let action of actions) {
-            if(action.postHandler) {
+        for (let action of actions) {
+            if (action.postHandler) {
                 action.postHandler(context, action);
             }
         }

@@ -7,7 +7,7 @@ class YoMamaMastery extends Card {
         });
 
         this.play({
-            gameAction: ability.actions.heal(context => ({
+            gameAction: ability.actions.heal((context) => ({
                 fully: true,
                 target: context.source.parent
             }))

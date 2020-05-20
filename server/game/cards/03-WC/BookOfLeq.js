@@ -4,13 +4,17 @@ class BookOfLeQ extends Card {
     setupCardAbilities(ability) {
         this.action({
             gameAction: [
-                ability.actions.reveal(context => ({
+                ability.actions.reveal((context) => ({
                     location: 'deck',
                     target: context.player.deck.length > 0 ? context.player.deck[0] : []
                 })),
-                ability.actions.conditional(({
-                    condition: context => context.player.deck.length > 0 && context.player.deck[0].printedHouse !== 'staralliance',
-                    trueGameAction: ability.actions.changeActiveHouse(context => ({ house: context.player.deck[0] && context.player.deck[0].printedHouse })),
+                ability.actions.conditional({
+                    condition: (context) =>
+                        context.player.deck.length > 0 &&
+                        context.player.deck[0].printedHouse !== 'staralliance',
+                    trueGameAction: ability.actions.changeActiveHouse((context) => ({
+                        house: context.player.deck[0] && context.player.deck[0].printedHouse
+                    })),
                     falseGameAction: ability.actions.forRemainderOfTurn({
                         targetController: 'current',
                         effect: [
@@ -18,12 +22,14 @@ class BookOfLeQ extends Card {
                             ability.effects.skipStep('draw')
                         ]
                     }),
-                    postHandler: context => {
-                        if(!context.game.endPhaseRightNow) {
-                            context.game.endPhaseRightNow = context.player.deck.length === 0 || context.player.deck[0].printedHouse === 'staralliance';
+                    postHandler: (context) => {
+                        if (!context.game.endPhaseRightNow) {
+                            context.game.endPhaseRightNow =
+                                context.player.deck.length === 0 ||
+                                context.player.deck[0].printedHouse === 'staralliance';
                         }
                     }
-                }))
+                })
             ]
         });
     }

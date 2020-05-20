@@ -4,7 +4,7 @@ class ArmoryOfficerNel extends Card {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onCardPlayed: event => event.card.type === 'upgrade'
+                onCardPlayed: (event) => event.card.type === 'upgrade'
             },
             autoResolve: true,
             gameAction: ability.actions.draw()

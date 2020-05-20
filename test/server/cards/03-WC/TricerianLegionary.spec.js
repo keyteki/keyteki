@@ -1,7 +1,7 @@
-describe('Tricerian Legionary', function() {
-    integration(function() {
-        describe('Tricerian Legionary\'s play ability', function() {
-            beforeEach(function() {
+describe('Tricerian Legionary', function () {
+    integration(function () {
+        describe("Tricerian Legionary's play ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'saurian',
@@ -17,7 +17,7 @@ describe('Tricerian Legionary', function() {
                 expect(this.lamindra.warded).toBe(false);
             });
 
-            it('Play can only ward friendly creatures', function() {
+            it('Play can only ward friendly creatures', function () {
                 this.player1.play(this.tricerianLegionary);
 
                 expect(this.player1).toHavePrompt('Tricerian Legionary');

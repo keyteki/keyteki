@@ -1,11 +1,11 @@
-describe('Kangaphant', function() {
-    integration(function() {
-        describe('Kangaphant\'s ability', function() {
-            beforeEach(function() {
+describe('Kangaphant', function () {
+    integration(function () {
+        describe("Kangaphant's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'untamed',
-                        inPlay: ['dust-pixie', 'kangaphant', 'snufflegator','duskwitch'],
+                        inPlay: ['dust-pixie', 'kangaphant', 'snufflegator', 'duskwitch'],
                         hand: ['song-of-the-wild', 'dew-faerie']
                     },
                     player2: {
@@ -13,7 +13,7 @@ describe('Kangaphant', function() {
                     }
                 });
             });
-            it('should give all creatures \'Reap: Destroy this Creature\'', function() {
+            it("should give all creatures 'Reap: Destroy this Creature'", function () {
                 this.player1.reap(this.dustPixie);
                 this.player1.reap(this.duskwitch);
                 this.player1.reap(this.snufflegator);
@@ -28,7 +28,7 @@ describe('Kangaphant', function() {
                 expect(this.mightyTiger.location).toBe('discard');
             });
 
-            it('should end if Kangaphant is destroyed', function() {
+            it('should end if Kangaphant is destroyed', function () {
                 this.player1.reap(this.kangaphant);
                 this.player1.reap(this.snufflegator);
                 expect(this.kangaphant.location).toBe('discard');

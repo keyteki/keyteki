@@ -4,7 +4,9 @@ class HarbingerOfDoom extends Card {
     setupCardAbilities(ability) {
         this.destroyed({
             optional: false,
-            gameAction: ability.actions.destroy(context => ({ target: context.game.creaturesInPlay.filter(card => card !== this) }))
+            gameAction: ability.actions.destroy((context) => ({
+                target: context.game.creaturesInPlay.filter((card) => card !== this)
+            }))
         });
     }
 }

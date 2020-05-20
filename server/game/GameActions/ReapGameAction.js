@@ -11,7 +11,7 @@ class ReapGameAction extends CardGameAction {
         let reapAction = card.getReapAction();
         let newContext = reapAction.createContext(context.player);
         newContext.ignoreHouse = true;
-        if(reapAction.meetsRequirements(newContext, ['stunned'])) {
+        if (reapAction.meetsRequirements(newContext, ['stunned'])) {
             return false;
         }
 
@@ -21,8 +21,10 @@ class ReapGameAction extends CardGameAction {
     getEvent(card, context) {
         return super.createEvent('unnamedEvent', { card, context }, () => {
             let newContext;
-            if(card.stunned) {
-                let removeStunAction = card.getActions().find(action => action.title === 'Remove this creature\'s stun');
+            if (card.stunned) {
+                let removeStunAction = card
+                    .getActions()
+                    .find((action) => action.title === "Remove this creature's stun");
                 newContext = removeStunAction.createContext(context.player);
             } else {
                 let reapAction = card.getReapAction();

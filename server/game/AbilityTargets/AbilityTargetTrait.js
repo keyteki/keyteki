@@ -7,8 +7,10 @@ class AbilityTargetTrait {
         this.traits = properties.traits;
         this.dependentTarget = null;
 
-        if(this.properties.dependsOn) {
-            let dependsOnTarget = ability.targets.find(target => target.name === this.properties.dependsOn);
+        if (this.properties.dependsOn) {
+            let dependsOnTarget = ability.targets.find(
+                (target) => target.name === this.properties.dependsOn
+            );
             dependsOnTarget.dependentTarget = this;
         }
     }
@@ -16,17 +18,17 @@ class AbilityTargetTrait {
     getTraits(context) {
         let traits = this.traits;
 
-        if(!traits) {
+        if (!traits) {
             traits = [];
 
-            return flatMap(Object.values(context.game.cardData), card => card.traits);
+            return flatMap(Object.values(context.game.cardData), (card) => card.traits);
         }
 
-        if(typeof traits === 'function') {
+        if (typeof traits === 'function') {
             traits = traits(context);
         }
 
-        if(!Array.isArray(traits)) {
+        if (!Array.isArray(traits)) {
             return [traits];
         }
 
@@ -37,8 +39,7 @@ class AbilityTargetTrait {
         return !!this.properties.dependsOn || this.hasLegalTarget(context);
     }
 
-    resetGameActions() {
-    }
+    resetGameActions() {}
 
     hasLegalTarget(context) {
         return !!this.getTraits(context).length;
@@ -53,13 +54,17 @@ class AbilityTargetTrait {
     }
 
     resolve(context, targetResults) {
-        if(targetResults.cancelled || targetResults.payCostsFirst || targetResults.delayTargeting) {
+        if (
+            targetResults.cancelled ||
+            targetResults.payCostsFirst ||
+            targetResults.delayTargeting
+        ) {
             return;
         }
 
         let player = context.player;
-        if(this.properties.player && this.properties.player === 'opponent') {
-            if(context.stage === 'pretarget') {
+        if (this.properties.player && this.properties.player === 'opponent') {
+            if (context.stage === 'pretarget') {
                 targetResults.delayTargeting = this;
                 return;
             }

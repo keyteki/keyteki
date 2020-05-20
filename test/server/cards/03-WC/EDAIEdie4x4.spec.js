@@ -1,7 +1,7 @@
-describe('EDAI Edie 4x4', function() {
-    integration(function() {
-        describe('EDAI Edie 4x4\'s ability', function() {
-            beforeEach(function() {
+describe('EDAI Edie 4x4', function () {
+    integration(function () {
+        describe("EDAI Edie 4x4's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
@@ -15,7 +15,7 @@ describe('EDAI Edie 4x4', function() {
                 });
             });
 
-            it('should allow you to archive a card when played', function() {
+            it('should allow you to archive a card when played', function () {
                 this.player1.play(this.edaiEdie4x4);
                 expect(this.player1).toBeAbleToSelect(this.archimedes);
                 expect(this.player1).not.toBeAbleToSelect(this.edaiEdie4x4);
@@ -25,8 +25,8 @@ describe('EDAI Edie 4x4', function() {
             });
         });
 
-        describe('EDAI Edie 4x4\'s ability', function() {
-            beforeEach(function() {
+        describe("EDAI Edie 4x4's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         amber: 8,
@@ -42,7 +42,7 @@ describe('EDAI Edie 4x4', function() {
                 });
             });
 
-            it('should increase the cost of opponent\'s keys by 1 for each archived card.', function() {
+            it("should increase the cost of opponent's keys by 1 for each archived card.", function () {
                 this.player1.endTurn();
                 this.player2.forgeKey('red');
                 expect(this.player2.player.amber).toBe(2);
@@ -54,8 +54,8 @@ describe('EDAI Edie 4x4', function() {
             });
         });
 
-        describe('EDAI Edie 4x4 and Mimic Gel\'s ability', function() {
-            beforeEach(function() {
+        describe("EDAI Edie 4x4 and Mimic Gel's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         amber: 12,
@@ -71,7 +71,7 @@ describe('EDAI Edie 4x4', function() {
                 });
             });
 
-            it('should increase the cost of opponent\'s keys when Mimic Gel is played.', function() {
+            it("should increase the cost of opponent's keys when Mimic Gel is played.", function () {
                 this.player1.endTurn();
                 this.player2.clickPrompt('logos');
                 this.player2.clickPrompt('No');
@@ -84,7 +84,7 @@ describe('EDAI Edie 4x4', function() {
                 expect(this.player1.player.amber).toBe(4);
             });
 
-            it('should increase the cost of opponent\'s keys when Mimic Gel is played on controlled Edai.', function() {
+            it("should increase the cost of opponent's keys when Mimic Gel is played on controlled Edai.", function () {
                 this.player1.endTurn();
                 this.player2.clickPrompt('logos');
                 this.player2.clickPrompt('No');

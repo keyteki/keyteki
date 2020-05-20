@@ -9,7 +9,7 @@ class ReduceArmorAction extends CardGameAction {
     setup() {
         this.name = 'reduceArmor';
         this.targetType = ['creature'];
-        this.effectMsg = 'reduce {0}\'s armor';
+        this.effectMsg = "reduce {0}'s armor";
     }
 
     canAffect(card, context) {
@@ -17,22 +17,26 @@ class ReduceArmorAction extends CardGameAction {
     }
 
     getEvent(card, context, amount = this.amount || this.amountForCard(card, context)) {
-        return super.createEvent('onReduceArmor', { card: card, context: context, amount: amount }, event => {
-            let amount = event.amount;
+        return super.createEvent(
+            'onReduceArmor',
+            { card: card, context: context, amount: amount },
+            (event) => {
+                let amount = event.amount;
 
-            if(amount === 0) {
-                return;
-            }
-
-            const currentArmor = event.card.tokens.armor || 0;
-            if(currentArmor > 0) {
-                if(amount > currentArmor) {
-                    amount = currentArmor;
+                if (amount === 0) {
+                    return;
                 }
 
-                event.card.armorUsed += amount;
+                const currentArmor = event.card.tokens.armor || 0;
+                if (currentArmor > 0) {
+                    if (amount > currentArmor) {
+                        amount = currentArmor;
+                    }
+
+                    event.card.armorUsed += amount;
+                }
             }
-        });
+        );
     }
 }
 

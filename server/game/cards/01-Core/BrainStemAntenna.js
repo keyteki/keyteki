@@ -5,7 +5,10 @@ class BrainStemAntenna extends Card {
         this.whileAttached({
             effect: ability.effects.gainAbility('reaction', {
                 when: {
-                    onCardPlayed: (event, context) => event.card.hasHouse('mars') && event.card.type === 'creature' && event.player === context.player
+                    onCardPlayed: (event, context) =>
+                        event.card.hasHouse('mars') &&
+                        event.card.type === 'creature' &&
+                        event.player === context.player
                 },
                 gameAction: [
                     ability.actions.ready(),

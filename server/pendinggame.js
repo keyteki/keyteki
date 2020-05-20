@@ -55,7 +55,7 @@ class PendingGame {
     }
 
     getSaveState() {
-        let players = _.map(this.getPlayers(), player => {
+        let players = _.map(this.getPlayers(), (player) => {
             return {
                 houses: player.houses,
                 name: player.name,
@@ -90,7 +90,7 @@ class PendingGame {
     }
 
     addPlayer(id, user) {
-        if(!user) {
+        if (!user) {
             logger.error('Tried to add a player to a game that did not have a user object');
             return;
         }
@@ -114,11 +114,11 @@ class PendingGame {
     }
 
     newGame(id, user, password, join) {
-        if(password) {
+        if (password) {
             this.password = crypto.createHash('md5').update(password).digest('hex');
         }
 
-        if(join) {
+        if (join) {
             this.addPlayer(id, user);
         }
     }
@@ -128,16 +128,16 @@ class PendingGame {
     }
 
     join(id, user, password) {
-        if(_.size(this.players) === 2 || this.started) {
+        if (_.size(this.players) === 2 || this.started) {
             return 'Game full';
         }
 
-        if(this.isUserBlocked(user)) {
+        if (this.isUserBlocked(user)) {
             return 'Cannot join game';
         }
 
-        if(this.password) {
-            if(crypto.createHash('md5').update(password).digest('hex') !== this.password) {
+        if (this.password) {
+            if (crypto.createHash('md5').update(password).digest('hex') !== this.password) {
                 return 'Incorrect game password';
             }
         }
@@ -145,10 +145,12 @@ class PendingGame {
         this.addMessage('{0} has joined the game', user.username);
         this.addPlayer(id, user);
 
-        if(!this.isOwner(this.owner.username)) {
-            let otherPlayer = Object.values(this.players).find(player => player.name !== this.owner.username);
+        if (!this.isOwner(this.owner.username)) {
+            let otherPlayer = Object.values(this.players).find(
+                (player) => player.name !== this.owner.username
+            );
 
-            if(otherPlayer) {
+            if (otherPlayer) {
                 this.owner = otherPlayer.user;
                 otherPlayer.owner = true;
             }
@@ -158,16 +160,16 @@ class PendingGame {
     }
 
     watch(id, user, password) {
-        if(!this.allowSpectators) {
+        if (!this.allowSpectators) {
             return 'Join not permitted';
         }
 
-        if(this.isUserBlocked(user)) {
+        if (this.isUserBlocked(user)) {
             return 'Cannot join game';
         }
 
-        if(this.password) {
-            if(crypto.createHash('md5').update(password).digest('hex') !== this.password) {
+        if (this.password) {
+            if (crypto.createHash('md5').update(password).digest('hex') !== this.password) {
                 return 'Incorrect game password';
             }
         }
@@ -180,16 +182,16 @@ class PendingGame {
 
     leave(playerName) {
         let player = this.getPlayerOrSpectator(playerName);
-        if(!player) {
+        if (!player) {
             return;
         }
 
-        if(!this.started) {
+        if (!this.started) {
             this.addMessage('{0} has left the game', playerName);
         }
 
-        if(this.players[playerName]) {
-            if(this.started) {
+        if (this.players[playerName]) {
+            if (this.started) {
                 this.players[playerName].left = true;
             } else {
                 this.removeAndResetOwner(playerName);
@@ -198,23 +200,23 @@ class PendingGame {
             }
         }
 
-        if(this.spectators[playerName]) {
+        if (this.spectators[playerName]) {
             delete this.spectators[playerName];
         }
     }
 
     disconnect(playerName) {
         let player = this.getPlayerOrSpectator(playerName);
-        if(!player) {
+        if (!player) {
             return;
         }
 
-        if(!this.started) {
+        if (!this.started) {
             this.addMessage('{0} has disconnected', playerName);
         }
 
-        if(this.players[playerName]) {
-            if(!this.started) {
+        if (this.players[playerName]) {
+            if (!this.started) {
                 this.removeAndResetOwner(playerName);
 
                 delete this.players[playerName];
@@ -226,7 +228,7 @@ class PendingGame {
 
     chat(playerName, message) {
         let player = this.getPlayerOrSpectator(playerName);
-        if(!player) {
+        if (!player) {
             return;
         }
 
@@ -237,11 +239,11 @@ class PendingGame {
 
     selectDeck(playerName, deck) {
         var player = this.getPlayerByName(playerName);
-        if(!player) {
+        if (!player) {
             return;
         }
 
-        if(player.deck) {
+        if (player.deck) {
             player.deck.selected = false;
         }
 
@@ -253,13 +255,15 @@ class PendingGame {
 
     // interrogators
     isEmpty() {
-        return !_.any(this.getPlayersAndSpectators(), player => this.hasActivePlayer(player.name));
+        return !_.any(this.getPlayersAndSpectators(), (player) =>
+            this.hasActivePlayer(player.name)
+        );
     }
 
     isOwner(playerName) {
         let player = this.players[playerName];
 
-        if(!player || !player.owner) {
+        if (!player || !player.owner) {
             return false;
         }
 
@@ -267,10 +271,10 @@ class PendingGame {
     }
 
     removeAndResetOwner(playerName) {
-        if(this.isOwner(playerName)) {
-            let otherPlayer = _.find(this.players, player => player.name !== playerName);
+        if (this.isOwner(playerName)) {
+            let otherPlayer = _.find(this.players, (player) => player.name !== playerName);
 
-            if(otherPlayer) {
+            if (otherPlayer) {
                 this.owner = otherPlayer.user;
                 otherPlayer.owner = true;
             }
@@ -278,29 +282,42 @@ class PendingGame {
     }
 
     hasActivePlayer(playerName) {
-        return this.players[playerName] && !this.players[playerName].left && !this.players[playerName].disconnected || this.spectators[playerName];
+        return (
+            (this.players[playerName] &&
+                !this.players[playerName].left &&
+                !this.players[playerName].disconnected) ||
+            this.spectators[playerName]
+        );
     }
 
     isVisibleFor(user) {
-        if(!user) {
+        if (!user) {
             return true;
         }
 
         let players = Object.values(this.players);
-        return !this.owner.hasUserBlocked(user) && !user.hasUserBlocked(this.owner) && players.every(player => !player.user.hasUserBlocked(user));
+        return (
+            !this.owner.hasUserBlocked(user) &&
+            !user.hasUserBlocked(this.owner) &&
+            players.every((player) => !player.user.hasUserBlocked(user))
+        );
     }
 
     // Summary
     getSummary(activePlayer) {
         let playerSummaries = {};
-        let playersInGame = _.filter(this.players, player => !player.left);
+        let playersInGame = _.filter(this.players, (player) => !player.left);
 
-        _.each(playersInGame, player => {
+        _.each(playersInGame, (player) => {
             let deck;
 
-            if(activePlayer === player.name && player.deck && this.gameFormat !== 'sealed') {
-                deck = { name: player.deck.name, selected: player.deck.selected, status: player.deck.status };
-            } else if(player.deck) {
+            if (activePlayer === player.name && player.deck && this.gameFormat !== 'sealed') {
+                deck = {
+                    name: player.deck.name,
+                    selected: player.deck.selected,
+                    status: player.deck.status
+                };
+            } else if (player.deck) {
                 deck = { selected: player.deck.selected, status: player.deck.status };
             } else {
                 deck = {};
@@ -338,7 +355,7 @@ class PendingGame {
             showHand: this.showHand,
             started: this.started,
             swap: this.swap,
-            spectators: _.map(this.spectators, spectator => {
+            spectators: _.map(this.spectators, (spectator) => {
                 return {
                     id: spectator.id,
                     name: spectator.name,
@@ -352,7 +369,7 @@ class PendingGame {
     getStartGameDetails() {
         const players = {};
 
-        for(let playerDetails of Object.values(this.players)) {
+        for (let playerDetails of Object.values(this.players)) {
             const { name, user, ...rest } = playerDetails;
             players[name] = {
                 name,
@@ -362,7 +379,7 @@ class PendingGame {
         }
 
         const spectators = {};
-        for(let spectatorDetails of Object.values(this.spectators)) {
+        for (let spectatorDetails of Object.values(this.spectators)) {
             const { name, user, ...rest } = spectatorDetails;
             spectators[name] = {
                 name,

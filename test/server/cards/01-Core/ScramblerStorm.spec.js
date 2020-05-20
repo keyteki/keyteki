@@ -1,7 +1,7 @@
-describe('Scrambler Storm', function() {
-    integration(function() {
-        describe('Scrambler Storm\'s ability', function() {
-            beforeEach(function() {
+describe('Scrambler Storm', function () {
+    integration(function () {
+        describe("Scrambler Storm's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
@@ -13,7 +13,7 @@ describe('Scrambler Storm', function() {
                 });
             });
 
-            it('should stop the opponent playing actions, but let them play other cards', function() {
+            it('should stop the opponent playing actions, but let them play other cards', function () {
                 this.player1.play(this.scramblerStorm);
                 this.player1.endTurn();
                 this.player2.clickPrompt('sanctum');

@@ -1,13 +1,13 @@
-describe('Barn Razing', function() {
-    integration(function() {
-        describe('Barn Razing\'s ability', function() {
-            beforeEach(function() {
+describe('Barn Razing', function () {
+    integration(function () {
+        describe("Barn Razing's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         amber: 4,
                         house: 'brobnar',
                         hand: ['barn-razing'],
-                        inPlay: ['ganger-chieftain','troll'],
+                        inPlay: ['ganger-chieftain', 'troll'],
                         discard: ['tocsin', 'batdrone']
                     },
                     player2: {
@@ -17,7 +17,7 @@ describe('Barn Razing', function() {
                     }
                 });
             });
-            it('should cause opponent to lose 1A each time a friendly creature fights', function() {
+            it('should cause opponent to lose 1A each time a friendly creature fights', function () {
                 this.player1.play(this.barnRazing);
                 this.player1.fightWith(this.gangerChieftain, this.duskwitch);
                 expect(this.player2.amber).toBe(3);

@@ -1,7 +1,7 @@
-describe('Deusillus', function() {
-    integration(function() {
-        describe('Deusillus\'s Ability', function() {
-            beforeEach(function() {
+describe('Deusillus', function () {
+    integration(function () {
+        describe("Deusillus's Ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         amber: 2,
@@ -11,35 +11,42 @@ describe('Deusillus', function() {
                     },
                     player2: {
                         amber: 5,
-                        inPlay: ['troll', 'narp', 'zorg', 'vezyma-thinkdrone', 'collector-worm', 'ulyq-megamouth'],
+                        inPlay: [
+                            'troll',
+                            'narp',
+                            'zorg',
+                            'vezyma-thinkdrone',
+                            'collector-worm',
+                            'ulyq-megamouth'
+                        ],
                         hand: ['hypnobeam']
                     }
                 });
             });
 
-            it('should not be able to play with just part 1', function() {
+            it('should not be able to play with just part 1', function () {
                 this.player1.moveCard(this.deusillus2, 'discard');
                 this.player1.clickCard(this.deusillus);
                 expect(this.player1).not.toHavePromptButton('Play this creature');
             });
 
-            it('should not be able to play with just part 2', function() {
+            it('should not be able to play with just part 2', function () {
                 this.player1.moveCard(this.deusillus, 'discard');
                 this.player1.clickCard(this.deusillus2);
                 expect(this.player1).not.toHavePromptButton('Play this creature');
             });
 
-            it('should be able to play with path 1', function() {
+            it('should be able to play with path 1', function () {
                 this.player1.clickCard(this.deusillus);
                 expect(this.player1).toHavePromptButton('Play this creature');
             });
 
-            it('should be able to play with part 2', function() {
+            it('should be able to play with part 2', function () {
                 this.player1.clickCard(this.deusillus2);
                 expect(this.player1).toHavePromptButton('Play this creature');
             });
 
-            it('should play starting with part 1', function() {
+            it('should play starting with part 1', function () {
                 this.player1.play(this.deusillus);
                 expect(this.player1).toBeAbleToSelect(this.narp);
                 expect(this.player1).toBeAbleToSelect(this.zorg);
@@ -54,7 +61,7 @@ describe('Deusillus', function() {
                 expect(this.player1.player.hand).not.toContain(this.deusillus2);
             });
 
-            it('should play starting with part 2', function() {
+            it('should play starting with part 2', function () {
                 this.player1.play(this.deusillus2);
                 expect(this.player1).toBeAbleToSelect(this.narp);
                 expect(this.player1).toBeAbleToSelect(this.zorg);
@@ -69,7 +76,7 @@ describe('Deusillus', function() {
                 expect(this.player1.player.hand).not.toContain(this.deusillus2);
             });
 
-            it('should move both cards to discard after destroyed', function() {
+            it('should move both cards to discard after destroyed', function () {
                 this.player1.play(this.deusillus);
                 this.player1.clickCard(this.narp);
                 this.player1.play(this.regrettableMeteor);
@@ -79,7 +86,7 @@ describe('Deusillus', function() {
                 expect(this.player1.discard).toContain(this.deusillus2);
             });
 
-            it('should be able to reap with the creature', function() {
+            it('should be able to reap with the creature', function () {
                 this.player1.play(this.deusillus);
                 this.player1.clickCard(this.narp);
                 this.deusillus.exhausted = false;
@@ -90,7 +97,7 @@ describe('Deusillus', function() {
                 expect(this.zorg.tokens.damage).toBe(2);
             });
 
-            it('should be able to fight with the creature', function() {
+            it('should be able to fight with the creature', function () {
                 this.player1.play(this.deusillus2);
                 this.player1.clickCard(this.narp);
                 this.deusillus2.exhausted = false;
@@ -102,7 +109,7 @@ describe('Deusillus', function() {
                 expect(this.troll.tokens.damage).toBe(2);
             });
 
-            it('should be archived completely', function() {
+            it('should be archived completely', function () {
                 this.collectorWorm.tokens.ward = 1;
 
                 this.player1.play(this.deusillus);
@@ -118,7 +125,7 @@ describe('Deusillus', function() {
                 expect(this.player2.archives).toContain(this.deusillus2);
             });
 
-            it('should be taken control by hypnobeam', function() {
+            it('should be taken control by hypnobeam', function () {
                 this.player1.play(this.deusillus);
                 this.player1.clickCard(this.narp);
                 this.player1.endTurn();
@@ -133,7 +140,7 @@ describe('Deusillus', function() {
                 this.player2.clickPrompt('Reap with this creature');
             });
 
-            it('should go to owner\'s archive when not specified by card', function() {
+            it("should go to owner's archive when not specified by card", function () {
                 this.player1.play(this.deusillus);
                 this.player1.clickCard(this.narp);
                 this.player1.endTurn();
@@ -153,8 +160,8 @@ describe('Deusillus', function() {
             });
         });
 
-        describe('Deusillus\'s Ability should interact with Wild Wormhole', function() {
-            beforeEach(function() {
+        describe("Deusillus's Ability should interact with Wild Wormhole", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         amber: 2,
@@ -169,43 +176,51 @@ describe('Deusillus', function() {
                 });
             });
 
-            it('and prevent playing if part 2 is not in player\'s hand', function() {
+            it("and prevent playing if part 2 is not in player's hand", function () {
                 this.player1.moveCard(this.deusillus, 'deck');
                 this.player1.moveCard(this.deusillus2, 'discard');
                 this.player1.play(this.wildWormhole);
                 expect(this.deusillus.location).toBe('deck');
                 expect(this.deusillus2.location).toBe('discard');
-                expect(this.player1).not.toHavePrompt('Which flank do you want to place this creature on?');
+                expect(this.player1).not.toHavePrompt(
+                    'Which flank do you want to place this creature on?'
+                );
             });
 
-            it('and prevent playing if part 1 is not in player\'s hand', function() {
+            it("and prevent playing if part 1 is not in player's hand", function () {
                 this.player1.moveCard(this.deusillus, 'discard');
                 this.player1.moveCard(this.deusillus2, 'deck');
                 this.player1.play(this.wildWormhole);
                 expect(this.deusillus.location).toBe('discard');
                 expect(this.deusillus2.location).toBe('deck');
-                expect(this.player1).not.toHavePrompt('Which flank do you want to place this creature on?');
+                expect(this.player1).not.toHavePrompt(
+                    'Which flank do you want to place this creature on?'
+                );
             });
 
-            it('and prevent playing even if part 2 is in player\'s hand', function() {
+            it("and prevent playing even if part 2 is in player's hand", function () {
                 this.player1.moveCard(this.deusillus, 'deck');
                 this.player1.play(this.wildWormhole);
                 expect(this.deusillus.location).toBe('deck');
                 expect(this.deusillus2.location).toBe('hand');
-                expect(this.player1).not.toHavePrompt('Which flank do you want to place this creature on?');
+                expect(this.player1).not.toHavePrompt(
+                    'Which flank do you want to place this creature on?'
+                );
             });
 
-            it('and prevent playing even if part 1 is in player\'s hand', function() {
+            it("and prevent playing even if part 1 is in player's hand", function () {
                 this.player1.moveCard(this.deusillus2, 'deck');
                 this.player1.play(this.wildWormhole);
                 expect(this.deusillus.location).toBe('hand');
                 expect(this.deusillus2.location).toBe('deck');
-                expect(this.player1).not.toHavePrompt('Which flank do you want to place this creature on?');
+                expect(this.player1).not.toHavePrompt(
+                    'Which flank do you want to place this creature on?'
+                );
             });
         });
 
-        describe('Deusillus\'s Ability should interact with Nature´s Call', function() {
-            beforeEach(function() {
+        describe("Deusillus's Ability should interact with Nature´s Call", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         amber: 2,
@@ -221,7 +236,7 @@ describe('Deusillus', function() {
                 });
             });
 
-            it('should play part 1 after being returned to hand', function() {
+            it('should play part 1 after being returned to hand', function () {
                 this.player1.play(this.deusillus);
                 this.player1.clickCard(this.narp);
                 this.player1.endTurn();
@@ -244,7 +259,7 @@ describe('Deusillus', function() {
                 expect(this.troll.tokens.damage).toBe(5);
             });
 
-            it('should play part 2 after being returned to hand', function() {
+            it('should play part 2 after being returned to hand', function () {
                 this.player1.play(this.deusillus2);
                 this.player1.clickCard(this.narp);
                 this.player1.endTurn();
@@ -268,8 +283,8 @@ describe('Deusillus', function() {
             });
         });
 
-        describe('Deusillus\'s Ability should interact with Overlord Greking', function() {
-            beforeEach(function() {
+        describe("Deusillus's Ability should interact with Overlord Greking", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         amber: 2,
@@ -284,7 +299,7 @@ describe('Deusillus', function() {
                 });
             });
 
-            it('should play part 1 after being returned to hand', function() {
+            it('should play part 1 after being returned to hand', function () {
                 this.player1.play(this.deusillus);
                 this.player1.clickCard(this.narp);
                 this.player1.endTurn();
@@ -299,8 +314,8 @@ describe('Deusillus', function() {
             });
         });
 
-        describe('Deusillus\'s Ability should interact with Spangler Box', function() {
-            beforeEach(function() {
+        describe("Deusillus's Ability should interact with Spangler Box", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         amber: 2,
@@ -315,7 +330,7 @@ describe('Deusillus', function() {
                 });
             });
 
-            it('should put Deusillus under Spangler Box as a single creature', function() {
+            it('should put Deusillus under Spangler Box as a single creature', function () {
                 this.player1.play(this.deusillus);
                 this.player1.clickCard(this.narp);
                 this.player1.endTurn();
@@ -334,7 +349,7 @@ describe('Deusillus', function() {
                 expect(this.spanglerBox.childCards).not.toContain(this.deusillus2);
             });
 
-            it('should put Deusillus in play after Spangler Box is destroyed', function() {
+            it('should put Deusillus in play after Spangler Box is destroyed', function () {
                 this.player1.play(this.deusillus);
                 this.player1.clickCard(this.narp);
                 this.player1.endTurn();

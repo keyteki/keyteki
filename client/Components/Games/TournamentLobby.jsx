@@ -39,17 +39,17 @@ class TournamentLobby extends React.Component {
     }
 
     componentDidMount() {
-        if(!this.props.tournaments) {
+        if (!this.props.tournaments) {
             this.props.fetchTournaments();
         }
 
-        if(this.props.matches && this.props.matches.length > 0) {
+        if (this.props.matches && this.props.matches.length > 0) {
             this.setTournament(this.props.matches[0].tournament_id);
         }
     }
 
     componentDidUpdate(prevProps) {
-        if(prevProps.challongeMessage !== this.props.challongeMessage) {
+        if (prevProps.challongeMessage !== this.props.challongeMessage) {
             this.toggleMessage();
         }
     }
@@ -59,10 +59,10 @@ class TournamentLobby extends React.Component {
         this.setState({ matchesToCreate: [] });
     }
 
-    createGames (event) {
+    createGames(event) {
         let matchesToCreate = this.getMatchesWithNoGames();
-        if(event.target.value !== 'all') {
-            matchesToCreate = matchesToCreate.filter(x=> x.id === +event.target.value);
+        if (event.target.value !== 'all') {
+            matchesToCreate = matchesToCreate.filter((x) => x.id === +event.target.value);
         }
 
         this.setState({ matchesToCreate });
@@ -70,35 +70,44 @@ class TournamentLobby extends React.Component {
     }
 
     getParticipantName(id) {
-        if(!this.props.participants) {
+        if (!this.props.participants) {
             return id;
         }
 
-        const participant = this.props.participants.find(x => x.id === id);
+        const participant = this.props.participants.find((x) => x.id === id);
         return participant ? participant.display_name : 'Unknown';
     }
 
     getMatchLink(game) {
-        if(game) {
-            return `${window.location.protocol}//${window.location.host}/play?gameId=${ game.id }`;
+        if (game) {
+            return `${window.location.protocol}//${window.location.host}/play?gameId=${game.id}`;
         }
     }
 
     getOpenMatches() {
         let openMatches = [];
-        if(this.props.matches) {
-            openMatches = this.props.matches.filter(x => x.state === 'open');
+        if (this.props.matches) {
+            openMatches = this.props.matches.filter((x) => x.state === 'open');
         }
 
         return openMatches;
     }
 
     getMatchesWithGames() {
-        return this.getOpenMatches().filter(x => this.getTournamentGames().map(x => x.challonge.matchId).includes(x.id));
+        return this.getOpenMatches().filter((x) =>
+            this.getTournamentGames()
+                .map((x) => x.challonge.matchId)
+                .includes(x.id)
+        );
     }
 
     getMatchesWithNoGames() {
-        return this.getOpenMatches().filter(x => !this.getTournamentGames().map(x => x.challonge.matchId).includes(x.id));
+        return this.getOpenMatches().filter(
+            (x) =>
+                !this.getTournamentGames()
+                    .map((x) => x.challonge.matchId)
+                    .includes(x.id)
+        );
     }
 
     getTournamentData() {
@@ -106,7 +115,9 @@ class TournamentLobby extends React.Component {
     }
 
     getTournamentGames() {
-        return this.props.games.filter(x => x.challonge && x.challonge.tournamentId === this.state.tournament.id);
+        return this.props.games.filter(
+            (x) => x.challonge && x.challonge.tournamentId === this.state.tournament.id
+        );
     }
 
     refreshTournaments() {
@@ -114,28 +125,28 @@ class TournamentLobby extends React.Component {
     }
 
     refreshMatches() {
-        if(this.state.tournament) {
+        if (this.state.tournament) {
             this.props.fetchMatches(this.state.tournament.id);
         }
     }
 
     selectTournament(event) {
-        let tournament = this.props.tournaments.find(x=> x.id === +event.target.value);
-        if(tournament) {
+        let tournament = this.props.tournaments.find((x) => x.id === +event.target.value);
+        if (tournament) {
             this.props.fetchFullTournament(event.target.value);
             this.setState({ tournament });
         }
     }
 
     setTournament(id) {
-        let tournament = this.props.tournaments.find(x=> x.id === id);
-        if(tournament) {
+        let tournament = this.props.tournaments.find((x) => x.id === id);
+        if (tournament) {
             this.setState({ tournament });
         }
     }
 
     sendAttachment() {
-        const matchData = this.getTournamentGames().map(game=> {
+        const matchData = this.getTournamentGames().map((game) => {
             return {
                 attachment: this.getMatchLink(game),
                 matchId: game.challonge.matchId,
@@ -169,66 +180,113 @@ class TournamentLobby extends React.Component {
         return (
             <div className='full-height'>
                 <div className='col-md-offset-2 col-md-8 full-height'>
-                    <Panel title={ t('Tournament Organizer Panel') }>
-                        <ApiStatus apiState={ this.props.tournamentApiState } successMessage={ this.state.successMessage } />
+                    <Panel title={t('Tournament Organizer Panel')}>
+                        <ApiStatus
+                            apiState={this.props.tournamentApiState}
+                            successMessage={this.state.successMessage}
+                        />
                         <div className='col-xs-12 game-controls'>
                             <div className='col-sm-8'>
                                 <div className='form-group'>
-                                    <select className='form-control' value={ this.state.tournament.id } onChange={ this.selectTournament }>
-                                        { !this.state.tournament.id && <option/> }
-                                        { this.props.tournaments && this.props.tournaments.map((tournament, index) =>
-                                            <option value={ tournament.id } key={ index }>{ `${tournament.name} (${tournament.state})` }</option>)
-                                        }
+                                    <select
+                                        className='form-control'
+                                        value={this.state.tournament.id}
+                                        onChange={this.selectTournament}
+                                    >
+                                        {!this.state.tournament.id && <option />}
+                                        {this.props.tournaments &&
+                                            this.props.tournaments.map((tournament, index) => (
+                                                <option
+                                                    value={tournament.id}
+                                                    key={index}
+                                                >{`${tournament.name} (${tournament.state})`}</option>
+                                            ))}
                                     </select>
                                 </div>
                             </div>
                             <div className='col-sm-3'>
-                                <button className='btn btn-primary'
-                                    onClick={ this.refreshTournaments }>
+                                <button
+                                    className='btn btn-primary'
+                                    onClick={this.refreshTournaments}
+                                >
                                     <Trans>Refresh Tournaments</Trans>
-                                    { this.props.tournamentApiState && this.props.tournamentApiState.loading && <span className='spinner button-spinner' /> }
+                                    {this.props.tournamentApiState &&
+                                        this.props.tournamentApiState.loading && (
+                                            <span className='spinner button-spinner' />
+                                        )}
                                 </button>
                             </div>
                         </div>
                         <div className='col-xs-12'>
-                            { this.getOpenMatches().map((match, index) => {
-                                const game = this.getTournamentGames().find(x => x.challonge && x.challonge.matchId === match.id);
-                                return (<div className='col-xs-12 match-row' key={ index }>
-                                    <div className='col-sm-5'>Table { index + 1 } : { this.getParticipantName(match.player1_id) } vs { this.getParticipantName(match.player2_id) } ({ game && game.started ? 'In Progress' : 'Pending' }) </div>
-                                    <div className='col-sm-3'>
-                                        { game ? (
-                                            game.started ?
-                                                <button className='btn btn-primary' value={ game.id } onClick={ this.watchGame }><Trans>Watch</Trans></button>
-                                                : <ReactClipboard text={ this.getMatchLink(game) }>
-                                                    <button className='btn btn-primary'>Copy Game Link</button>
-                                                </ReactClipboard>
-                                        ) : <button className='btn btn-primary' value={ match.id } onClick={ this.createGames }>Create Game</button>
-                                        }
+                            {this.getOpenMatches().map((match, index) => {
+                                const game = this.getTournamentGames().find(
+                                    (x) => x.challonge && x.challonge.matchId === match.id
+                                );
+                                return (
+                                    <div className='col-xs-12 match-row' key={index}>
+                                        <div className='col-sm-5'>
+                                            Table {index + 1} :{' '}
+                                            {this.getParticipantName(match.player1_id)} vs{' '}
+                                            {this.getParticipantName(match.player2_id)} (
+                                            {game && game.started ? 'In Progress' : 'Pending'}){' '}
+                                        </div>
+                                        <div className='col-sm-3'>
+                                            {game ? (
+                                                game.started ? (
+                                                    <button
+                                                        className='btn btn-primary'
+                                                        value={game.id}
+                                                        onClick={this.watchGame}
+                                                    >
+                                                        <Trans>Watch</Trans>
+                                                    </button>
+                                                ) : (
+                                                    <ReactClipboard text={this.getMatchLink(game)}>
+                                                        <button className='btn btn-primary'>
+                                                            Copy Game Link
+                                                        </button>
+                                                    </ReactClipboard>
+                                                )
+                                            ) : (
+                                                <button
+                                                    className='btn btn-primary'
+                                                    value={match.id}
+                                                    onClick={this.createGames}
+                                                >
+                                                    Create Game
+                                                </button>
+                                            )}
+                                        </div>
+                                        {index <= 0 && (
+                                            <div className='col-sm-3'>
+                                                <button
+                                                    className='btn btn-primary'
+                                                    onClick={this.refreshMatches}
+                                                >
+                                                    <Trans>Refresh Matches</Trans>
+                                                </button>
+                                            </div>
+                                        )}
                                     </div>
-                                    { index <= 0 &&
-                                    <div className='col-sm-3'>
-                                        <button className='btn btn-primary'
-                                            onClick={ this.refreshMatches }>
-                                            <Trans>Refresh Matches</Trans>
-                                        </button>
-                                    </div>
-                                    }
-                                </div>);
-                            })
-                            }
+                                );
+                            })}
                             <div className='col-xs-12'>
                                 <div className='col-sm-3'>
-                                    <button className='btn btn-primary'
+                                    <button
+                                        className='btn btn-primary'
                                         value='all'
-                                        disabled={ this.getMatchesWithNoGames().length <= 0 }
-                                        onClick={ this.createGames }>
+                                        disabled={this.getMatchesWithNoGames().length <= 0}
+                                        onClick={this.createGames}
+                                    >
                                         <Trans>Create All Games</Trans>
                                     </button>
                                 </div>
                                 <div className='col-sm-3'>
-                                    <button className='btn btn-primary'
-                                        onClick={ this.sendAttachment }
-                                        disabled={ this.getMatchesWithGames().length <= 0 }>
+                                    <button
+                                        className='btn btn-primary'
+                                        onClick={this.sendAttachment}
+                                        disabled={this.getMatchesWithGames().length <= 0}
+                                    >
                                         <Trans>Send Attachments</Trans>
                                     </button>
                                 </div>
@@ -236,20 +294,22 @@ class TournamentLobby extends React.Component {
                         </div>
                     </Panel>
                 </div>
-                <Modal { ...modalProps }>
+                <Modal {...modalProps}>
                     <NewGame
-                        closeModal={ this.closeModal }
+                        closeModal={this.closeModal}
                         defaultGameName=''
                         defaultGameType='competitive'
                         gamePrivate
                         gameTimeLimit
-                        getParticipantName={ this.getParticipantName }
-                        matches={ this.state.matchesToCreate }
+                        getParticipantName={this.getParticipantName}
+                        matches={this.state.matchesToCreate}
                         muteSpectators
                         showHand
-                        tournament={ this.state.tournament }/>
+                        tournament={this.state.tournament}
+                    />
                 </Modal>
-            </div>);
+            </div>
+        );
     }
 }
 

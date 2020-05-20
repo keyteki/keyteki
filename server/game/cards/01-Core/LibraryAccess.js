@@ -5,11 +5,12 @@ class LibraryAccess extends Card {
         this.play({
             effect: 'draw a card after playing a card for the remainder of the turn, and purge {0}',
             gameAction: [
-                ability.actions.forRemainderOfTurn(context => ({
+                ability.actions.forRemainderOfTurn((context) => ({
                     when: {
-                        onCardPlayed: event => event.player === context.player && event.card !== context.source
+                        onCardPlayed: (event) =>
+                            event.player === context.player && event.card !== context.source
                     },
-                    gameAction: ability.actions.draw(context => ({ target: context.player }))
+                    gameAction: ability.actions.draw((context) => ({ target: context.player }))
                 })),
                 ability.actions.moveCard({ destination: 'purged' })
             ]

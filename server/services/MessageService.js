@@ -8,8 +8,11 @@ class MessageService extends EventEmitter {
         let ret;
         let id;
         try {
-            ret = await db.query('INSERT INTO "Messages" ("Text", "PostedTime", "PosterId") VALUES ($1, $2, $3) RETURNING "Id"', [message.message, message.time, user.id]);
-        } catch(err) {
+            ret = await db.query(
+                'INSERT INTO "Messages" ("Text", "PostedTime", "PosterId") VALUES ($1, $2, $3) RETURNING "Id"',
+                [message.message, message.time, user.id]
+            );
+        } catch (err) {
             logger.error('Unable to insert message', err);
             throw new Error('Unable to insert message');
         }
@@ -24,26 +27,31 @@ class MessageService extends EventEmitter {
         let messages;
 
         try {
-            messages = await db.query('SELECT m.*, u."Username" AS "Poster", r."Name" AS "Role", ud."Username" AS "DeletedBy" FROM "Messages" m ' +
-                'JOIN "Users" u ON u."Id" = m."PosterId" ' +
-                'LEFT JOIN "UserRoles" ur ON ur."UserId" = u."Id" ' +
-                'LEFT JOIN "Roles" r ON r."Id" = ur."RoleId" ' +
-                'LEFT JOIN "Users" ud ON ud."Id" = m."DeletedById" ' +
-                'WHERE r."Name" IS NULL OR r."Name" IN (\'Admin\', \'Supporter\', \'Contributor\') ' +
-                'ORDER BY "PostedTime" DESC ' +
-                'LIMIT 100');
-        } catch(err) {
+            messages = await db.query(
+                'SELECT m.*, u."Username" AS "Poster", r."Name" AS "Role", ud."Username" AS "DeletedBy" FROM "Messages" m ' +
+                    'JOIN "Users" u ON u."Id" = m."PosterId" ' +
+                    'LEFT JOIN "UserRoles" ur ON ur."UserId" = u."Id" ' +
+                    'LEFT JOIN "Roles" r ON r."Id" = ur."RoleId" ' +
+                    'LEFT JOIN "Users" ud ON ud."Id" = m."DeletedById" ' +
+                    "WHERE r.\"Name\" IS NULL OR r.\"Name\" IN ('Admin', 'Supporter', 'Contributor') " +
+                    'ORDER BY "PostedTime" DESC ' +
+                    'LIMIT 100'
+            );
+        } catch (err) {
             logger.error('Unable to fetch messages', err);
             throw new Error('Unable to fetch messages');
         }
 
-        return messages.map(m => this.mapMessage(m, user));
+        return messages.map((m) => this.mapMessage(m, user));
     }
 
     async removeMessage(messageId, user) {
         try {
-            await db.query('UPDATE "Messages" SET "Deleted" = $1, "DeletedById" = $2 WHERE "Id" = $3', [new Date(), user.id, messageId]);
-        } catch(err) {
+            await db.query(
+                'UPDATE "Messages" SET "Deleted" = $1, "DeletedById" = $2 WHERE "Id" = $3',
+                [new Date(), user.id, messageId]
+            );
+        } catch (err) {
             logger.error('Failed to remove message', err);
             throw new Error('Failed to remove message');
         }
@@ -56,12 +64,12 @@ class MessageService extends EventEmitter {
 
         try {
             motd = await db.query('SELECT * FROM "Motd" ORDER BY "PostedTime" DESC LIMIT 1');
-            if(!motd || motd.length === 0) {
+            if (!motd || motd.length === 0) {
                 return undefined;
             }
 
             motd = motd[0];
-        } catch(err) {
+        } catch (err) {
             logger.error('Unable to fetch motd', err);
             throw new Error('Unable to fetch motd');
         }
@@ -74,13 +82,19 @@ class MessageService extends EventEmitter {
     }
 
     async setMotdMessage(message, user) {
-        await db.query('INSERT INTO "Motd" ("PosterId", "Text", "Type", "PostedTime") VALUES ($1, $2, $3, $4)', [user.id, message.message, message.motdType, new Date()]);
+        await db.query(
+            'INSERT INTO "Motd" ("PosterId", "Text", "Type", "PostedTime") VALUES ($1, $2, $3, $4)',
+            [user.id, message.message, message.motdType, new Date()]
+        );
     }
 
     mapMessage(message, user) {
         let retMessage = {
             id: message.Id,
-            message: (!message.Deleted || (user && user.permissions.canModerateChat)) ? message.Text : undefined,
+            message:
+                !message.Deleted || (user && user.permissions.canModerateChat)
+                    ? message.Text
+                    : undefined,
             deleted: !!message.Deleted,
             time: message.PostedTime,
             user: {
@@ -90,7 +104,7 @@ class MessageService extends EventEmitter {
             }
         };
 
-        if(user && user.permissions.canModerateChat) {
+        if (user && user.permissions.canModerateChat) {
             retMessage.deletedBy = message.DeletedBy;
         }
 

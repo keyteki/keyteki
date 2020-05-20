@@ -1,7 +1,7 @@
-describe('umbra-fiend', function() {
-    integration(function() {
-        describe('Umbra-Fiend\'s ability', function() {
-            beforeEach(function() {
+describe('umbra-fiend', function () {
+    integration(function () {
+        describe("Umbra-Fiend's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'dis',
@@ -14,7 +14,7 @@ describe('umbra-fiend', function() {
                 });
             });
 
-            it('should steal an amber when destroyed', function() {
+            it('should steal an amber when destroyed', function () {
                 this.player1.fightWith(this.umbraFiend, this.umbra);
                 expect(this.umbraFiend.location).toBe('discard');
                 expect(this.player1.amber).toBe(1);

@@ -5,7 +5,8 @@ class ShardOfLife extends Card {
         this.action({
             target: {
                 mode: 'exactly',
-                numCards: context => context.player.cardsInPlay.filter(card => card.hasTrait('shard')).length,
+                numCards: (context) =>
+                    context.player.cardsInPlay.filter((card) => card.hasTrait('shard')).length,
                 location: 'discard',
                 controller: 'self',
                 gameAction: ability.actions.returnToDeck({ shuffle: true })

@@ -1,7 +1,7 @@
-describe('Spartasaur', function() {
-    integration(function() {
-        describe('when played', function() {
-            beforeEach(function() {
+describe('Spartasaur', function () {
+    integration(function () {
+        describe('when played', function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'saurian',
@@ -13,24 +13,24 @@ describe('Spartasaur', function() {
                 });
             });
 
-            describe('and fighting', function() {
-                beforeEach(function() {
+            describe('and fighting', function () {
+                beforeEach(function () {
                     this.player1.fightWith(this.spartasaur, this.badPenny);
                 });
 
-                it('should gain 2 amber', function() {
+                it('should gain 2 amber', function () {
                     expect(this.player1.amber).toBe(2);
                 });
             });
 
-            describe('and another friendly creature is destroyed', function() {
-                beforeEach(function() {
+            describe('and another friendly creature is destroyed', function () {
+                beforeEach(function () {
                     this.player1.fightWith(this.rhetorGallim, this.brainEater);
                     this.player1.clickCard(this.spartasaur);
                     this.player1.clickCard(this.dextre);
                 });
 
-                it('should destroy each non dinosaur creature', function() {
+                it('should destroy each non dinosaur creature', function () {
                     expect(this.badPenny.location).toBe('hand');
                     expect(this.troll.location).toBe('discard');
                     expect(this.legatusRaptor.location).toBe('play area');

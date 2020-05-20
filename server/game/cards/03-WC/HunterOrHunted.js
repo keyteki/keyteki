@@ -14,13 +14,20 @@ class HunterOrHunted extends Card {
                 creature: {
                     dependsOn: 'action',
                     cardType: 'creature',
-                    cardCondition: (card, context) => (context.selects.action.choice === 'Ward a creature') || card.warded,
+                    cardCondition: (card, context) =>
+                        context.selects.action.choice === 'Ward a creature' || card.warded,
                     gameAction: [
-                        ability.actions.ward(context => ({
-                            target: context.selects.action.choice === 'Ward a creature' ? context.targets.creature : []
+                        ability.actions.ward((context) => ({
+                            target:
+                                context.selects.action.choice === 'Ward a creature'
+                                    ? context.targets.creature
+                                    : []
                         })),
-                        ability.actions.removeWardToken(context => ({
-                            target: context.selects.action.choice === 'Move a ward' ? context.targets.creature : []
+                        ability.actions.removeWardToken((context) => ({
+                            target:
+                                context.selects.action.choice === 'Move a ward'
+                                    ? context.targets.creature
+                                    : []
                         }))
                     ]
                 },
@@ -28,8 +35,11 @@ class HunterOrHunted extends Card {
                     dependsOn: 'creature',
                     cardType: 'creature',
                     cardCondition: (card, context) => card !== context.targets.creature,
-                    gameAction: ability.actions.addWardToken(context => ({
-                        target: context.selects.action.choice === 'Move a ward' ? context.targets.moveToCreature : []
+                    gameAction: ability.actions.addWardToken((context) => ({
+                        target:
+                            context.selects.action.choice === 'Move a ward'
+                                ? context.targets.moveToCreature
+                                : []
                     }))
                 }
             }

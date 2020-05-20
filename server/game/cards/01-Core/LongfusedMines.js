@@ -6,9 +6,11 @@ class LongfusedMines extends Card {
             effect: 'deal 3 damage to each non-flank enemy creature',
             gameAction: [
                 ability.actions.sacrifice(),
-                ability.actions.dealDamage(context => ({
+                ability.actions.dealDamage((context) => ({
                     amount: 3,
-                    target: context.game.creaturesInPlay.filter(card => card.controller !== context.player && !card.isOnFlank())
+                    target: context.game.creaturesInPlay.filter(
+                        (card) => card.controller !== context.player && !card.isOnFlank()
+                    )
                 }))
             ]
         });

@@ -4,7 +4,7 @@ class SackOfCoins extends Card {
     setupCardAbilities(ability) {
         this.play({
             effect: 'deal 1 damage to a creature for each amber in their pool',
-            gameAction: ability.actions.allocateDamage(context => ({
+            gameAction: ability.actions.allocateDamage((context) => ({
                 numSteps: context.player.amber || 0
             }))
         });

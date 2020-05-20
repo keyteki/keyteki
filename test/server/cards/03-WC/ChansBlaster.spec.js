@@ -1,7 +1,7 @@
-describe('Chan’s Blaster', function() {
-    integration(function() {
-        describe('Chan’s Blaster\'s attach ability', function() {
-            beforeEach(function() {
+describe('Chan’s Blaster', function () {
+    integration(function () {
+        describe("Chan’s Blaster's attach ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'staralliance',
@@ -16,14 +16,14 @@ describe('Chan’s Blaster', function() {
                 });
             });
 
-            it('should allow using another friendly creature and cancel when attached to the associated officer', function() {
+            it('should allow using another friendly creature and cancel when attached to the associated officer', function () {
                 this.player1.playUpgrade(this.chanSBlaster, this.commanderChan);
                 expect(this.player1).toHavePrompt('Choose a creature');
                 expect(this.player1).toHavePromptButton('Done');
                 this.player1.clickPrompt('Done');
             });
 
-            it('should allow using another friendly creature when attached to the associated officer', function() {
+            it('should allow using another friendly creature when attached to the associated officer', function () {
                 this.player1.reap(this.techivorePulpate);
                 this.player1.playUpgrade(this.chanSBlaster, this.commanderChan);
                 expect(this.player1).toHavePrompt('Choose a creature');
@@ -37,12 +37,12 @@ describe('Chan’s Blaster', function() {
                 expect(this.player1.amber).toBe(3);
             });
 
-            it('should not prompt for using another creature when attached to the non associated officer', function() {
+            it('should not prompt for using another creature when attached to the non associated officer', function () {
                 this.player1.playUpgrade(this.chanSBlaster, this.techivorePulpate);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('reap ability should allow choosing for an action and cancel', function() {
+            it('reap ability should allow choosing for an action and cancel', function () {
                 this.player1.playUpgrade(this.chanSBlaster, this.techivorePulpate);
                 this.player1.reap(this.techivorePulpate);
 
@@ -52,7 +52,7 @@ describe('Chan’s Blaster', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('reap ability should allow dealing 2 damages to a creature', function() {
+            it('reap ability should allow dealing 2 damages to a creature', function () {
                 this.player1.playUpgrade(this.chanSBlaster, this.techivorePulpate);
                 this.player1.reap(this.techivorePulpate);
 
@@ -72,7 +72,7 @@ describe('Chan’s Blaster', function() {
                 expect(this.krump.tokens.damage).toBe(2);
             });
 
-            it('fight ability should allow dealing 2 damages to a creature', function() {
+            it('fight ability should allow dealing 2 damages to a creature', function () {
                 this.player1.playUpgrade(this.chanSBlaster, this.techivorePulpate);
                 this.player1.fightWith(this.techivorePulpate, this.lamindra);
 
@@ -92,7 +92,7 @@ describe('Chan’s Blaster', function() {
                 expect(this.krump.tokens.damage).toBe(2);
             });
 
-            it('reap ability should allow moving the upgrade to the appropriate officer', function() {
+            it('reap ability should allow moving the upgrade to the appropriate officer', function () {
                 this.player1.playUpgrade(this.chanSBlaster, this.techivorePulpate);
                 this.player1.reap(this.techivorePulpate);
 
@@ -114,7 +114,7 @@ describe('Chan’s Blaster', function() {
                 expect(this.player1.amber).toBe(3);
             });
 
-            it('fight ability should allow moving the upgrade to the appropriate officer', function() {
+            it('fight ability should allow moving the upgrade to the appropriate officer', function () {
                 this.player1.playUpgrade(this.chanSBlaster, this.techivorePulpate);
                 this.player1.fightWith(this.techivorePulpate, this.lamindra);
 
@@ -135,8 +135,8 @@ describe('Chan’s Blaster', function() {
             });
         });
 
-        describe('Chan’s Blaster\'s attach ability', function() {
-            beforeEach(function() {
+        describe("Chan’s Blaster's attach ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'staralliance',
@@ -150,7 +150,7 @@ describe('Chan’s Blaster', function() {
                 });
             });
 
-            it('reap ability should default to deal damage when officer is not in play', function() {
+            it('reap ability should default to deal damage when officer is not in play', function () {
                 this.player1.playUpgrade(this.chanSBlaster, this.techivorePulpate);
                 this.player1.reap(this.techivorePulpate);
                 this.player1.clickCard(this.techivorePulpate);
@@ -163,7 +163,7 @@ describe('Chan’s Blaster', function() {
                 expect(this.krump.tokens.damage).toBe(2);
             });
 
-            it('fight ability should default to deal damage when officer is not in play', function() {
+            it('fight ability should default to deal damage when officer is not in play', function () {
                 this.player1.playUpgrade(this.chanSBlaster, this.techivorePulpate);
                 this.player1.fightWith(this.techivorePulpate, this.lamindra);
                 this.player1.clickCard(this.techivorePulpate);
@@ -177,13 +177,19 @@ describe('Chan’s Blaster', function() {
             });
         });
 
-        describe('Chan’s Blaster\'s attach ability', function() {
-            beforeEach(function() {
+        describe("Chan’s Blaster's attach ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'staralliance',
                         hand: ['chan-s-blaster'],
-                        inPlay: ['techivore-pulpate', 'commander-chan', 'commander-chan', 'gub', 'shooler']
+                        inPlay: [
+                            'techivore-pulpate',
+                            'commander-chan',
+                            'commander-chan',
+                            'gub',
+                            'shooler'
+                        ]
                     },
                     player2: {
                         amber: 2,
@@ -195,7 +201,7 @@ describe('Chan’s Blaster', function() {
                 this.commanderChan2 = this.player1.player.creaturesInPlay[2];
             });
 
-            it('should allow moving upgrade between officers of same name', function() {
+            it('should allow moving upgrade between officers of same name', function () {
                 this.player1.playUpgrade(this.chanSBlaster, this.commanderChan1);
                 this.player1.clickCard(this.gub);
                 this.player1.clickPrompt('Reap with this creature');

@@ -1,7 +1,7 @@
-describe('Inky Gloom', function() {
-    integration(function() {
-        describe('Inky Gloom\'s play ability', function() {
-            beforeEach(function() {
+describe('Inky Gloom', function () {
+    integration(function () {
+        describe("Inky Gloom's play ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'shadows',
@@ -14,7 +14,7 @@ describe('Inky Gloom', function() {
                 });
             });
 
-            it('Opponent cannot reap for one turn', function() {
+            it('Opponent cannot reap for one turn', function () {
                 this.player1.play(this.inkyGloom);
                 this.player1.reap(this.badPenny);
                 this.player1.endTurn();

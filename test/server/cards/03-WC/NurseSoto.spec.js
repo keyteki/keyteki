@@ -1,7 +1,7 @@
-describe('Nurse Soto', function() {
-    integration(function() {
-        describe('Nurse Soto\'s ability', function() {
-            beforeEach(function() {
+describe('Nurse Soto', function () {
+    integration(function () {
+        describe("Nurse Soto's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'shadows',
@@ -14,7 +14,7 @@ describe('Nurse Soto', function() {
                     }
                 });
             });
-            it('should heal 3 damage from it\'s neighbours when it reaps', function() {
+            it("should heal 3 damage from it's neighbours when it reaps", function () {
                 this.player1.play(this.poisonWave);
                 expect(this.lieutenantKhrkhar.tokens.damage).toBe(2);
                 expect(this.nurseSoto.tokens.damage).toBe(2);
@@ -27,7 +27,7 @@ describe('Nurse Soto', function() {
                 expect(this.nurseSoto.tokens.damage).toBe(2);
                 expect(this.lieutenantKhrkhar.tokens.damage).toBe(undefined);
             });
-            it('should heal 3 damage from it\'s neighbours when it fights', function() {
+            it("should heal 3 damage from it's neighbours when it fights", function () {
                 this.player1.play(this.poisonWave);
                 expect(this.lieutenantKhrkhar.tokens.damage).toBe(2);
                 expect(this.nurseSoto.tokens.damage).toBe(2);
@@ -41,8 +41,8 @@ describe('Nurse Soto', function() {
                 expect(this.lieutenantKhrkhar.tokens.damage).toBe(undefined);
             });
         });
-        describe('Nurse Soto\'s ability', function() {
-            beforeEach(function() {
+        describe("Nurse Soto's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'shadows',
@@ -56,7 +56,7 @@ describe('Nurse Soto', function() {
                     }
                 });
             });
-            it('should heal 3 damage from it\'s neighbours when it is played', function() {
+            it("should heal 3 damage from it's neighbours when it is played", function () {
                 this.player1.play(this.poisonWave);
                 expect(this.lieutenantKhrkhar.tokens.damage).toBe(2);
                 expect(this.medicIngram.tokens.damage).toBe(2);

@@ -12,9 +12,15 @@ class AddEventToWindowAction extends GameAction {
     }
 
     getEventArray() {
-        return [super.createEvent('unnamedEvent', { targetEvent: this.targetEvent, eventToAdd: this.eventToAdd }, event => {
-            event.targetEvent.addChildEvent(event.eventToAdd);
-        })];
+        return [
+            super.createEvent(
+                'unnamedEvent',
+                { targetEvent: this.targetEvent, eventToAdd: this.eventToAdd },
+                (event) => {
+                    event.targetEvent.addChildEvent(event.eventToAdd);
+                }
+            )
+        ];
     }
 }
 

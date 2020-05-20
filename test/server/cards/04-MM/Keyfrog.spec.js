@@ -1,7 +1,7 @@
-describe('Keyfrog', function() {
-    integration(function() {
-        describe('Keyfrog\'s ability', function() {
-            beforeEach(function() {
+describe('Keyfrog', function () {
+    integration(function () {
+        describe("Keyfrog's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'untamed',
@@ -13,14 +13,14 @@ describe('Keyfrog', function() {
                 });
             });
 
-            it('should not forge a key if not enough amber', function() {
+            it('should not forge a key if not enough amber', function () {
                 this.player1.player.keys = { red: true, blue: false, yellow: false };
                 this.player1.fightWith(this.keyfrog, this.troll);
                 expect(this.keyfrog.location).toBe('discard');
                 expect(this.player1).not.toHavePrompt('Which key would you like to forge?');
             });
 
-            it('should forge a key after being destroyed', function() {
+            it('should forge a key after being destroyed', function () {
                 this.player1.player.amber = 6;
                 this.player1.player.keys = { red: true, blue: false, yellow: false };
                 this.player1.fightWith(this.keyfrog, this.troll);
@@ -36,7 +36,7 @@ describe('Keyfrog', function() {
                 expect(this.keyfrog.location).toBe('discard');
             });
 
-            it('should not forge a key if not enough amber, when destroyed by opponent', function() {
+            it('should not forge a key if not enough amber, when destroyed by opponent', function () {
                 this.player1.player.keys = { red: true, blue: false, yellow: false };
                 this.player1.endTurn();
 
@@ -46,7 +46,7 @@ describe('Keyfrog', function() {
                 expect(this.player2).not.toHavePrompt('Which key would you like to forge?');
             });
 
-            it('should choose opponent\'s key color', function() {
+            it("should choose opponent's key color", function () {
                 this.player1.player.amber = 6;
                 this.player1.player.keys = { red: true, blue: false, yellow: false };
                 this.player1.endTurn();

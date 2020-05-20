@@ -1,7 +1,7 @@
 function games(state = {}, action) {
     let newState = Object.assign({}, state);
 
-    switch(action.type) {
+    switch (action.type) {
         case 'GAME_SOCKET_CONNECTED':
             newState.socket = action.socket;
             newState.connecting = false;

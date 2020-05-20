@@ -7,7 +7,12 @@ export function registerAccount(user) {
         APIParams: {
             url: '/api/account/register',
             type: 'POST',
-            data: JSON.stringify({ username: user.username, password: user.password, email: user.email, enableGravatar: user.enableGravatar }),
+            data: JSON.stringify({
+                username: user.username,
+                password: user.password,
+                email: user.email,
+                enableGravatar: user.enableGravatar
+            }),
             contentType: 'application/json'
         }
     };
@@ -44,18 +49,18 @@ export function logout() {
     return (dispatch, getState) => {
         let state = getState();
 
-        if(!state.auth.refreshToken) {
+        if (!state.auth.refreshToken) {
             return;
         }
 
-        if(state.lobby.socket) {
+        if (state.lobby.socket) {
             state.lobby.socket.closing = true;
             state.lobby.socket.disconnect();
 
             dispatch(connectLobby());
         }
 
-        if(state.games.socket) {
+        if (state.games.socket) {
             state.games.socket.disconnect();
         }
 
@@ -86,7 +91,11 @@ export function resetPassword(details) {
         APIParams: {
             url: '/api/account/password-reset-finish',
             type: 'POST',
-            data: JSON.stringify({ id: details.id, token: details.token, newPassword: details.newPassword }),
+            data: JSON.stringify({
+                id: details.id,
+                token: details.token,
+                newPassword: details.newPassword
+            }),
             contentType: 'application/json'
         }
     };

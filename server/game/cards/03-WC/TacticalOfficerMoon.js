@@ -5,13 +5,13 @@ class TacticalOfficerMoon extends Card {
         this.play({
             target: {
                 mode: 'select',
-                activePromptTitle: 'Which player\'s battleline do you want to rearrange',
+                activePromptTitle: "Which player's battleline do you want to rearrange",
                 choices: {
                     Mine: () => true,
-                    'Opponent\'s': context => !!context.player.opponent
+                    "Opponent's": (context) => !!context.player.opponent
                 }
             },
-            gameAction: ability.actions.rearrangeBattleline(context => ({
+            gameAction: ability.actions.rearrangeBattleline((context) => ({
                 player: context.select === 'Mine' ? context.player : context.player.opponent
             }))
         });

@@ -1,7 +1,7 @@
-describe('The Sting', function() {
-    integration(function() {
-        describe('The Sting\'s ability', function() {
-            beforeEach(function() {
+describe('The Sting', function () {
+    integration(function () {
+        describe("The Sting's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'untamed',
@@ -16,7 +16,7 @@ describe('The Sting', function() {
                 });
             });
 
-            it('should skip the controllers key phase', function() {
+            it('should skip the controllers key phase', function () {
                 this.player1.endTurn();
                 expect(this.player2.amber).toBe(6);
                 expect(this.player2.player.keys.red).toBe(false);
@@ -24,7 +24,7 @@ describe('The Sting', function() {
                 expect(this.player2.player.keys.yellow).toBe(false);
             });
 
-            it('should cause the controller to receive oppponent\'s forging amber', function() {
+            it("should cause the controller to receive oppponent's forging amber", function () {
                 this.player1.play(this.keyCharge);
                 this.player1.clickPrompt('Yes');
                 this.player1.forgeKey('Red');
@@ -35,16 +35,16 @@ describe('The Sting', function() {
                 expect(this.player1.player.keys.yellow).toBe(false);
             });
 
-            it('should sacrifice when used', function() {
+            it('should sacrifice when used', function () {
                 this.player1.endTurn();
                 this.player2.clickPrompt('shadows');
                 this.player2.clickCard(this.theSting);
                 expect(this.player2).toHavePrompt('The Sting');
-                this.player2.clickPrompt('Use this card\'s Action ability');
+                this.player2.clickPrompt("Use this card's Action ability");
                 expect(this.theSting.location).toBe('discard');
             });
 
-            it('should sacrifice when used with Nexus', function() {
+            it('should sacrifice when used with Nexus', function () {
                 this.player1.endTurn();
                 this.player2.clickPrompt('shadows');
                 this.player2.endTurn();

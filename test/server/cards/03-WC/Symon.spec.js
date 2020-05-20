@@ -1,7 +1,7 @@
-describe('Symon', function() {
-    integration(function() {
-        describe('Symon\'s fight ability', function() {
-            beforeEach(function() {
+describe('Symon', function () {
+    integration(function () {
+        describe("Symon's fight ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'shadows',
@@ -15,7 +15,7 @@ describe('Symon', function() {
                 });
             });
 
-            it('should move the defender to top of deck, if both survived the fight.', function() {
+            it('should move the defender to top of deck, if both survived the fight.', function () {
                 this.player1.fightWith(this.symon, this.krump);
 
                 expect(this.symon.hasToken('damage')).toBe(false);
@@ -24,7 +24,7 @@ describe('Symon', function() {
                 expect(this.player2.deck[0]).toBe(this.krump);
             });
 
-            it('should not move the defender to top of deck, if the defender was destroyed.', function() {
+            it('should not move the defender to top of deck, if the defender was destroyed.', function () {
                 this.player1.fightWith(this.symon, this.gub);
 
                 expect(this.symon.hasToken('damage')).toBe(false);

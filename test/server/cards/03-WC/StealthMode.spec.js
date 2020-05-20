@@ -1,7 +1,7 @@
-describe('Stealth Mode', function() {
-    integration(function() {
-        describe('Stealth Mode\'s ability', function() {
-            beforeEach(function() {
+describe('Stealth Mode', function () {
+    integration(function () {
+        describe("Stealth Mode's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'staralliance',
@@ -13,7 +13,7 @@ describe('Stealth Mode', function() {
                 });
             });
 
-            it('should stop the opponent playing actions, but let them play other cards', function() {
+            it('should stop the opponent playing actions, but let them play other cards', function () {
                 this.player1.play(this.stealthMode);
                 this.player1.endTurn();
                 this.player2.clickPrompt('sanctum');

@@ -1,7 +1,7 @@
-describe('Chaos Portal', function() {
-    integration(function() {
-        describe('Chaos Portal\'s Ability', function() {
-            beforeEach(function() {
+describe('Chaos Portal', function () {
+    integration(function () {
+        describe("Chaos Portal's Ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
@@ -11,7 +11,7 @@ describe('Chaos Portal', function() {
                 });
             });
 
-            it('should prompt to choose a house', function() {
+            it('should prompt to choose a house', function () {
                 this.player1.useAction(this.chaosPortal);
                 expect(this.player1).toHavePrompt('Chaos Portal');
                 expect(this.player1).toHavePromptButton('brobnar');
@@ -25,7 +25,7 @@ describe('Chaos Portal', function() {
                 expect(this.player1).toHavePromptButton('saurian');
             });
 
-            it('should play the card if it is of the chosen house', function() {
+            it('should play the card if it is of the chosen house', function () {
                 this.player1.moveCard(this.badPenny, 'deck');
                 expect(this.badPenny.location).toBe('deck');
                 this.player1.useAction(this.chaosPortal);
@@ -33,7 +33,7 @@ describe('Chaos Portal', function() {
                 expect(this.badPenny.location).toBe('play area');
             });
 
-            it('should not play the card if it is of a different house', function() {
+            it('should not play the card if it is of a different house', function () {
                 this.player1.moveCard(this.badPenny, 'deck');
                 expect(this.badPenny.location).toBe('deck');
                 this.player1.useAction(this.chaosPortal);
@@ -41,7 +41,7 @@ describe('Chaos Portal', function() {
                 expect(this.badPenny.location).toBe('deck');
             });
 
-            it('should end the turn when an omega card is played', function() {
+            it('should end the turn when an omega card is played', function () {
                 this.player1.moveCard(this.duskwitch, 'deck');
                 expect(this.duskwitch.location).toBe('deck');
                 this.player1.useAction(this.chaosPortal);

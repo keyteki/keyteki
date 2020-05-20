@@ -1,11 +1,16 @@
-describe('Bouncing Death Quark', function() {
-    integration(function() {
-        describe('Bouncing Death Quark\'s ability', function() {
-            beforeEach(function() {
+describe('Bouncing Death Quark', function () {
+    integration(function () {
+        describe("Bouncing Death Quark's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
-                        hand: ['batdrone', 'doc-bookton', 'bouncing-deathquark', 'twin-bolt-emission'],
+                        hand: [
+                            'batdrone',
+                            'doc-bookton',
+                            'bouncing-deathquark',
+                            'twin-bolt-emission'
+                        ],
                         inPlay: ['mother']
                     },
                     player2: {
@@ -14,7 +19,7 @@ describe('Bouncing Death Quark', function() {
                 });
             });
 
-            it('should prompt the player to kill two targets', function() {
+            it('should prompt the player to kill two targets', function () {
                 this.player1.play(this.bouncingDeathquark);
                 expect(this.player1).toHavePrompt('Bouncing Deathquark');
                 expect(this.player1).not.toBeAbleToSelect(this.mother);
@@ -33,7 +38,7 @@ describe('Bouncing Death Quark', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should prompt the player to repeat the ability when more targets exist', function() {
+            it('should prompt the player to repeat the ability when more targets exist', function () {
                 this.player1.play(this.batdrone);
                 this.player1.play(this.bouncingDeathquark);
                 this.player1.clickCard(this.macisAsp);
@@ -45,7 +50,7 @@ describe('Bouncing Death Quark', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should repeat 3 times', function() {
+            it('should repeat 3 times', function () {
                 this.player1.play(this.batdrone);
                 this.player1.play(this.docBookton);
                 this.player1.play(this.bouncingDeathquark);
@@ -67,7 +72,7 @@ describe('Bouncing Death Quark', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should kill only an enemy creature if there are no friendly creatures', function() {
+            it('should kill only an enemy creature if there are no friendly creatures', function () {
                 this.player1.fightWith(this.mother, this.macisAsp);
                 expect(this.mother.location).toBe('discard');
                 expect(this.macisAsp.location).toBe('discard');
@@ -80,8 +85,7 @@ describe('Bouncing Death Quark', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-
-            it('should kill only a friendly creature if there are no enemy creatures', function() {
+            it('should kill only a friendly creature if there are no enemy creatures', function () {
                 this.player1.fightWith(this.mother, this.macisAsp);
                 expect(this.mother.location).toBe('discard');
                 expect(this.macisAsp.location).toBe('discard');

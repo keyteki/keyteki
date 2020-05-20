@@ -2,7 +2,7 @@ const { createLogger, format, transports } = require('winston');
 require('winston-daily-rotate-file');
 const fs = require('fs');
 
-if(!fs.existsSync(__dirname + '/logs/')) {
+if (!fs.existsSync(__dirname + '/logs/')) {
     fs.mkdirSync(__dirname + '/logs/');
 }
 
@@ -12,10 +12,10 @@ let rotate = new transports.DailyRotateFile({
     zippedArchive: true
 });
 
-const prettyJson = format.printf(info => {
-    if(info.meta && info.meta instanceof Error) {
+const prettyJson = format.printf((info) => {
+    if (info.meta && info.meta instanceof Error) {
         info.message = `${info.message} ${info.meta.stack}`;
-    } else if(typeof info.message === 'object') {
+    } else if (typeof info.message === 'object') {
         info.message = JSON.stringify(info.message, null, 4);
     }
 
@@ -28,17 +28,19 @@ const logger = createLogger({
         format.prettyPrint(),
         format.splat(),
         format.simple(),
-        prettyJson,
+        prettyJson
     ),
     transports: [
-        new transports.Console({ format: format.combine(
-            format.errors({ stack: true }),
-            format.colorize(),
-            format.prettyPrint(),
-            format.splat(),
-            format.simple(),
-            prettyJson,
-        ) }),
+        new transports.Console({
+            format: format.combine(
+                format.errors({ stack: true }),
+                format.colorize(),
+                format.prettyPrint(),
+                format.splat(),
+                format.simple(),
+                prettyJson
+            )
+        }),
         rotate
     ]
 });

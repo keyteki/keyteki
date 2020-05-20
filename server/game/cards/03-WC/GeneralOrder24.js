@@ -4,15 +4,22 @@ class GeneralOrder24 extends Card {
     setupCardAbilities(ability) {
         this.interrupt({
             when: {
-                onPhaseStarted: event => event.phase === 'key'
+                onPhaseStarted: (event) => event.phase === 'key'
             },
-            gameAction: ability.actions.destroy(context => ({ target: context.game.activePlayer.creaturesInPlay.length === 0 ? context.source : [] })),
+            gameAction: ability.actions.destroy((context) => ({
+                target: context.game.activePlayer.creaturesInPlay.length === 0 ? context.source : []
+            })),
             target: {
                 activePromptTitle: 'Choose a creature to destroy',
                 cardType: 'creature',
-                cardCondition: (card, context) => context.game.activePlayer.creaturesInPlay.includes(card),
-                gameAction: ability.actions.destroy(context => ({
-                    target: context.target && context.game.creaturesInPlay.filter(creature => context.target.getHouses().some(house => creature.hasHouse(house)))
+                cardCondition: (card, context) =>
+                    context.game.activePlayer.creaturesInPlay.includes(card),
+                gameAction: ability.actions.destroy((context) => ({
+                    target:
+                        context.target &&
+                        context.game.creaturesInPlay.filter((creature) =>
+                            context.target.getHouses().some((house) => creature.hasHouse(house))
+                        )
                 }))
             }
         });

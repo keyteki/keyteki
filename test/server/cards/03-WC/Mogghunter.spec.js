@@ -1,7 +1,7 @@
-describe('Mogghunter(WC)', function() {
-    integration(function() {
-        describe('Mogghunter fight ability', function() {
-            beforeEach(function() {
+describe('Mogghunter(WC)', function () {
+    integration(function () {
+        describe('Mogghunter fight ability', function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'brobnar',
@@ -13,7 +13,7 @@ describe('Mogghunter(WC)', function() {
                 });
             });
 
-            it('deal 2 damage to flank creature', function() {
+            it('deal 2 damage to flank creature', function () {
                 this.player1.fightWith(this.mogghunter, this.nexus);
                 expect(this.player1).toHavePrompt('Choose a creature');
                 expect(this.player1).toBeAbleToSelect(this.troll);
@@ -22,7 +22,9 @@ describe('Mogghunter(WC)', function() {
                 this.player1.clickCard(this.troll);
                 expect(this.nexus.hasToken('damage')).toBe(false);
                 expect(this.troll.tokens.damage).toBe(2);
-                expect(this).toHaveRecentChatMessage('player1 uses Mogghunter to deal 2 damage to Troll');
+                expect(this).toHaveRecentChatMessage(
+                    'player1 uses Mogghunter to deal 2 damage to Troll'
+                );
             });
         });
     });

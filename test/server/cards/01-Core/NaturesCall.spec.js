@@ -1,7 +1,7 @@
-describe('Nature\'s Call', function() {
-    integration(function() {
-        describe('Nature\'s Call ability', function() {
-            beforeEach(function() {
+describe("Nature's Call", function () {
+    integration(function () {
+        describe("Nature's Call ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'untamed',
@@ -14,13 +14,13 @@ describe('Nature\'s Call', function() {
                 });
             });
 
-            it('should be able to play without picking any creatures', function() {
+            it('should be able to play without picking any creatures', function () {
                 this.player1.play(this.natureSCall);
                 expect(this.player1.currentButtons).toContain('Done');
                 this.player1.clickPrompt('Done');
             });
 
-            it('should be able to play with only picking 1 creature', function() {
+            it('should be able to play with only picking 1 creature', function () {
                 this.player1.play(this.natureSCall);
                 expect(this.player1.currentButtons).toContain('Done');
                 expect(this.player1).toBeAbleToSelect(this.batdrone);
@@ -33,7 +33,7 @@ describe('Nature\'s Call', function() {
                 expect(this.nexus.location).toBe('hand');
             });
 
-            it('should be able to play with only picking 3 creatures from each side', function() {
+            it('should be able to play with only picking 3 creatures from each side', function () {
                 this.player1.play(this.natureSCall);
                 expect(this.player1.currentButtons).toContain('Done');
                 this.player1.clickCard(this.nexus);
@@ -45,7 +45,7 @@ describe('Nature\'s Call', function() {
                 expect(this.mother.location).toBe('hand');
             });
 
-            it('should not be able return more than 3', function() {
+            it('should not be able return more than 3', function () {
                 this.player1.play(this.natureSCall);
                 expect(this.player1.currentButtons).toContain('Done');
                 this.player1.clickCard(this.nexus);

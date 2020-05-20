@@ -4,7 +4,8 @@ class Teliga extends Card {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onCardPlayed: (event, context) => event.card.type === 'creature' && event.player !== context.player
+                onCardPlayed: (event, context) =>
+                    event.card.type === 'creature' && event.player !== context.player
             },
             gameAction: ability.actions.gainAmber()
         });

@@ -1,7 +1,7 @@
-describe('We Can ALL Win', function() {
-    integration(function() {
-        describe('We Can ALL Win\'s ability', function() {
-            beforeEach(function() {
+describe('We Can ALL Win', function () {
+    integration(function () {
+        describe("We Can ALL Win's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'staralliance',
@@ -16,7 +16,7 @@ describe('We Can ALL Win', function() {
                 });
             });
 
-            it('both players should forge at -2A cost', function() {
+            it('both players should forge at -2A cost', function () {
                 this.player1.play(this.weCanAllWin);
                 this.player1.endTurn();
                 this.player2.forgeKey('Red');

@@ -1,7 +1,7 @@
-describe('Chronus', function() {
-    integration(function() {
-        describe('Chronus\'s abilities', function() {
-            beforeEach(function() {
+describe('Chronus', function () {
+    integration(function () {
+        describe("Chronus's abilities", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
@@ -14,7 +14,7 @@ describe('Chronus', function() {
                 });
             });
 
-            it('should have option to archive card and be able to decline', function() {
+            it('should have option to archive card and be able to decline', function () {
                 this.dextre.cardData.enhancements = ['amber', 'draw', 'amber'];
 
                 this.player1.play(this.dextre);
@@ -24,7 +24,7 @@ describe('Chronus', function() {
                 expect(this.player1.amber).toBe(2);
             });
 
-            it('should have option to archive card and choose to archive a card', function() {
+            it('should have option to archive card and choose to archive a card', function () {
                 this.dextre.cardData.enhancements = ['amber', 'amber', 'draw'];
 
                 this.player1.play(this.dextre);
@@ -40,7 +40,7 @@ describe('Chronus', function() {
                 expect(this.player1.amber).toBe(2);
             });
 
-            it('should interact before card\'s effect', function() {
+            it("should interact before card's effect", function () {
                 this.tautauVapors.cardData.enhancements = ['draw', 'amber', 'amber'];
 
                 expect(this.player1.player.hand.length).toBe(4);
@@ -54,7 +54,7 @@ describe('Chronus', function() {
                 expect(this.player1.amber).toBe(2);
             });
 
-            it('should work with multiple draw icons', function() {
+            it('should work with multiple draw icons', function () {
                 this.dextre.cardData.enhancements = ['draw', 'draw', 'draw', 'draw'];
 
                 this.player1.play(this.dextre);
@@ -72,7 +72,7 @@ describe('Chronus', function() {
                 expect(this.player1.amber).toBe(0);
             });
 
-            it('should work with cards that have default amber icon', function() {
+            it('should work with cards that have default amber icon', function () {
                 this.poke.cardData.enhancements = ['draw'];
 
                 this.player1.play(this.poke);
@@ -83,7 +83,7 @@ describe('Chronus', function() {
                 expect(this.player1.amber).toBe(1);
             });
 
-            it('should work with Mimic Gel', function() {
+            it('should work with Mimic Gel', function () {
                 this.dextre.cardData.enhancements = ['draw'];
 
                 this.player1.play(this.mimicGel);
@@ -101,7 +101,7 @@ describe('Chronus', function() {
                 expect(this.player1.amber).toBe(0);
             });
 
-            it('should not have an option to archive, if no D enhancement', function() {
+            it('should not have an option to archive, if no D enhancement', function () {
                 this.dextre.cardData.enhancements = ['amber', 'amber'];
 
                 this.player1.play(this.dextre);
@@ -112,4 +112,3 @@ describe('Chronus', function() {
         });
     });
 });
-

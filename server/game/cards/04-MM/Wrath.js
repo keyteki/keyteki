@@ -7,7 +7,8 @@ class Wrath extends Card {
                 cardType: 'creature',
                 controller: 'opponent',
                 mode: 'exactly',
-                numCards: context => context.player.creaturesInPlay.filter(card => card.hasTrait('sin')).length,
+                numCards: (context) =>
+                    context.player.creaturesInPlay.filter((card) => card.hasTrait('sin')).length,
                 gameAction: ability.actions.enrage()
             }
         });

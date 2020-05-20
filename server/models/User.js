@@ -87,15 +87,15 @@ class User {
     }
 
     get role() {
-        if(this.isAdmin) {
+        if (this.isAdmin) {
             return 'admin';
         }
 
-        if(this.isContributor) {
+        if (this.isContributor) {
             return 'contributor';
         }
 
-        if(this.isSupporter) {
+        if (this.isSupporter) {
             return 'supporter';
         }
 

@@ -1,8 +1,8 @@
-export default function(state = { banlist: [] }, action) {
-    switch(action.type) {
+export default function (state = { banlist: [] }, action) {
+    switch (action.type) {
         case 'RECEIVE_FINDUSER':
             var user = action.response.user;
-            if(user) {
+            if (user) {
                 user.linkedAccounts = action.response.linkedAccounts;
             }
 
@@ -36,8 +36,7 @@ export default function(state = { banlist: [] }, action) {
                 nodeStatus: action.status
             });
         case 'REQUEST_BANLIST':
-            return Object.assign({}, state, {
-            });
+            return Object.assign({}, state, {});
         case 'RECEIVE_BANLIST':
             return Object.assign({}, state, {
                 banlist: action.response.banlist
@@ -58,7 +57,7 @@ export default function(state = { banlist: [] }, action) {
         case 'BANLIST_DELETED':
             return Object.assign({}, state, {
                 banlistDeleted: true,
-                banlist: state.banlist.filter(entry => {
+                banlist: state.banlist.filter((entry) => {
                     return entry.id !== action.response.id;
                 })
             });

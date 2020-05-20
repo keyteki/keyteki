@@ -1,7 +1,7 @@
-describe('Moor Wolf', function() {
-    integration(function() {
-        describe('Moor Wolf\'s ability', function() {
-            beforeEach(function() {
+describe('Moor Wolf', function () {
+    integration(function () {
+        describe("Moor Wolf's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'untamed',
@@ -13,7 +13,7 @@ describe('Moor Wolf', function() {
                     }
                 });
             });
-            it('should ready all other wolf creatures when played', function() {
+            it('should ready all other wolf creatures when played', function () {
                 this.moorWolf2 = this.player1.findCardByName('moor-wolf', 'hand');
                 this.moorWolf3 = this.player2.findCardByName('moor-wolf', 'play area');
                 this.player1.reap(this.moorWolf);

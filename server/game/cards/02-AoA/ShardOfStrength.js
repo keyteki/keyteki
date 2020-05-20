@@ -6,8 +6,9 @@ class ShardOfStrength extends Card {
             target: {
                 cardType: 'creature',
                 controller: 'self',
-                gameAction: ability.actions.addPowerCounter(context => ({
-                    amount: context.player.cardsInPlay.filter(card => card.hasTrait('shard')).length
+                gameAction: ability.actions.addPowerCounter((context) => ({
+                    amount: context.player.cardsInPlay.filter((card) => card.hasTrait('shard'))
+                        .length
                 }))
             }
         });

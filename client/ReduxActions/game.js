@@ -34,7 +34,7 @@ export function clearGameState() {
 }
 
 export function receiveGameState(game, username) {
-    return dispatch => {
+    return (dispatch) => {
         dispatch({
             type: 'LOBBY_MESSAGE_RECEIVED',
             message: 'gamestate',
@@ -129,7 +129,7 @@ export function connectGameSocket(url, name) {
             query: state.auth.token ? 'token=' + state.auth.token : undefined
         });
 
-        gameSocket.on('pong', responseTime => {
+        gameSocket.on('pong', (responseTime) => {
             dispatch(responseTimeReceived(responseTime));
         });
 
@@ -140,7 +140,7 @@ export function connectGameSocket(url, name) {
         });
 
         gameSocket.on('connect_error', (err) => {
-            if(state.lobby.socket) {
+            if (state.lobby.socket) {
                 state.lobby.socket.emit('connectfailed');
             }
 
@@ -163,10 +163,12 @@ export function connectGameSocket(url, name) {
             dispatch(gameSocketConnectFailed());
         });
 
-        gameSocket.on('gamestate', game => {
+        gameSocket.on('gamestate', (game) => {
             state = getState();
 
-            dispatch(receiveGameState(game, state.auth.user ? state.auth.user.username : undefined));
+            dispatch(
+                receiveGameState(game, state.auth.user ? state.auth.user.username : undefined)
+            );
         });
 
         gameSocket.on('cleargamestate', () => {
@@ -192,7 +194,7 @@ export function closeGameSocket() {
     return (dispatch, getState) => {
         let state = getState();
 
-        if(state.games.socket) {
+        if (state.games.socket) {
             state.games.socket.gameClosing = true;
             state.games.socket.close();
         }
@@ -211,7 +213,7 @@ export function startGame(id) {
     return (dispatch, getState) => {
         let state = getState();
 
-        if(state.lobby.socket) {
+        if (state.lobby.socket) {
             state.lobby.socket.emit('startgame', id);
         }
 
@@ -223,7 +225,7 @@ export function leaveGame(id) {
     return (dispatch, getState) => {
         let state = getState();
 
-        if(state.lobby.socket) {
+        if (state.lobby.socket) {
             state.lobby.socket.emit('leavegame', id);
         }
 

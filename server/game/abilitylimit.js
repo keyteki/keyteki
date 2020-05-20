@@ -18,7 +18,7 @@ class FixedAbilityLimit {
     }
 
     increment(player) {
-        if(this.useCount[player.name]) {
+        if (this.useCount[player.name]) {
             this.useCount[player.name] += 1;
         } else {
             this.useCount[player.name] = 1;
@@ -61,19 +61,19 @@ class RepeatableAbilityLimit extends FixedAbilityLimit {
 
 var AbilityLimit = {};
 
-AbilityLimit.fixed = function(max) {
+AbilityLimit.fixed = function (max) {
     return new FixedAbilityLimit(max);
 };
 
-AbilityLimit.repeatable = function(max, eventName) {
+AbilityLimit.repeatable = function (max, eventName) {
     return new RepeatableAbilityLimit(max, eventName);
 };
 
-AbilityLimit.perPhase = function(max) {
+AbilityLimit.perPhase = function (max) {
     return new RepeatableAbilityLimit(max, 'onPhaseEnded');
 };
 
-AbilityLimit.perRound = function(max) {
+AbilityLimit.perRound = function (max) {
     return new RepeatableAbilityLimit(max, 'onRoundEnded');
 };
 

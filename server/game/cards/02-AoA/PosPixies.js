@@ -3,10 +3,7 @@ const Card = require('../../Card.js');
 class PosPixies extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
-            effect: [
-                ability.effects.stealFromPool(),
-                ability.effects.captureFromPool()
-            ]
+            effect: [ability.effects.stealFromPool(), ability.effects.captureFromPool()]
         });
     }
 }

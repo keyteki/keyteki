@@ -23,37 +23,49 @@ class SearchAction extends PlayerAction {
     }
 
     getEvent(player, context) {
-        return super.createEvent('onSearch', { player: player, context: context, location: this.location }, () => {
-            context.game.promptForSelect(player, {
-                location: this.location,
-                controller: 'self',
-                context: context,
-                numCards: this.amount,
-                cardCondition: card => this.cardCondition ? this.cardCondition(card) : !this.cardName || card.name === this.cardName,
-                mode: this.amount > 0 ? 'upTo' : 'unlimited',
-                onSelect: (player, cards) => {
-                    if(cards.length > 0) {
-                        let cardMessageInfo = '{1}';
-                        if(!this.reveal) {
-                            cardMessageInfo = cards.length === 1 ? 'a card' : '{2} cards';
+        return super.createEvent(
+            'onSearch',
+            { player: player, context: context, location: this.location },
+            () => {
+                context.game.promptForSelect(player, {
+                    location: this.location,
+                    controller: 'self',
+                    context: context,
+                    numCards: this.amount,
+                    cardCondition: (card) =>
+                        this.cardCondition
+                            ? this.cardCondition(card)
+                            : !this.cardName || card.name === this.cardName,
+                    mode: this.amount > 0 ? 'upTo' : 'unlimited',
+                    onSelect: (player, cards) => {
+                        if (cards.length > 0) {
+                            let cardMessageInfo = '{1}';
+                            if (!this.reveal) {
+                                cardMessageInfo = cards.length === 1 ? 'a card' : '{2} cards';
+                            }
+
+                            context.game.addMessage(
+                                `{0} takes ${cardMessageInfo} into their hand`,
+                                player,
+                                cards,
+                                cards.length
+                            );
+                            for (let card of cards) {
+                                player.moveCard(card, 'hand');
+                            }
+                        } else {
+                            context.game.addMessage("{0} doesn't take anything", player);
                         }
 
-                        context.game.addMessage(`{0} takes ${cardMessageInfo} into their hand`, player, cards, cards.length);
-                        for(let card of cards) {
-                            player.moveCard(card, 'hand');
+                        if (this.location.includes('deck')) {
+                            player.shuffleDeck();
                         }
-                    } else {
-                        context.game.addMessage('{0} doesn\'t take anything', player);
-                    }
 
-                    if(this.location.includes('deck')) {
-                        player.shuffleDeck();
+                        return true;
                     }
-
-                    return true;
-                }
-            });
-        });
+                });
+            }
+        );
     }
 }
 

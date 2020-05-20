@@ -1,7 +1,7 @@
-describe('Unguarded Camp', function() {
-    integration(function() {
-        describe('Unguarded Camp\'s ability', function() {
-            beforeEach(function() {
+describe('Unguarded Camp', function () {
+    integration(function () {
+        describe("Unguarded Camp's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'brobnar',
@@ -15,13 +15,13 @@ describe('Unguarded Camp', function() {
                 });
             });
 
-            it('should not trigger when the player has equal creatures', function() {
+            it('should not trigger when the player has equal creatures', function () {
                 this.player1.play(this.unguardedCamp);
                 expect(this.player1.amber).toBe(1);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should trigger and prompt the player to choose creatures to capture', function() {
+            it('should trigger and prompt the player to choose creatures to capture', function () {
                 this.player1.play(this.valdr);
                 this.player1.play(this.krump);
                 this.player1.play(this.headhunter);
@@ -46,7 +46,7 @@ describe('Unguarded Camp', function() {
                 expect(this.player2.amber).toBe(0);
             });
 
-            it('should only allow stealing amber the opponent has', function() {
+            it('should only allow stealing amber the opponent has', function () {
                 this.player2.amber = 1;
                 this.player1.play(this.valdr);
                 this.player1.play(this.krump);

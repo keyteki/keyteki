@@ -1,7 +1,7 @@
-describe('Evasion Sigil', function() {
-    integration(function() {
-        describe('Evasion Sigil\'s ability', function() {
-            beforeEach(function() {
+describe('Evasion Sigil', function () {
+    integration(function () {
+        describe("Evasion Sigil's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
@@ -16,7 +16,7 @@ describe('Evasion Sigil', function() {
                 this.player1.moveCard(this.troll, 'deck');
             });
 
-            it('should allow creatures to attack when the top card is a different house, and stop them when it\'s the same', function() {
+            it("should allow creatures to attack when the top card is a different house, and stop them when it's the same", function () {
                 this.player1.fightWith(this.dextre, this.sequis);
                 expect(this.troll.location).toBe('discard');
                 expect(this.dextre.location).toBe('deck');

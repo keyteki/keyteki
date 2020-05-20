@@ -3,7 +3,7 @@ const Card = require('../../Card.js');
 class GargantesScrapper extends Card {
     setupCardAbilities(ability) {
         this.play({
-            condition: context => context.player.amber >= 3,
+            condition: (context) => context.player.amber >= 3,
             target: {
                 cardType: 'creature',
                 controller: 'opponent',

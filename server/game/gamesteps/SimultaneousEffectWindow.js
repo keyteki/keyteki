@@ -8,7 +8,7 @@ class SimultaneousEffectWindow extends ForcedTriggeredAbilityWindow {
     }
 
     addChoice(choice) {
-        if(!choice.condition) {
+        if (!choice.condition) {
             choice.condition = () => true;
         }
 
@@ -16,12 +16,12 @@ class SimultaneousEffectWindow extends ForcedTriggeredAbilityWindow {
     }
 
     filterChoices() {
-        let choices = this.choices.filter(choice => choice.condition());
-        if(choices.length === 0) {
+        let choices = this.choices.filter((choice) => choice.condition());
+        if (choices.length === 0) {
             return true;
         }
 
-        if(choices.length === 1 || !this.currentPlayer.optionSettings.orderForcedAbilities) {
+        if (choices.length === 1 || !this.currentPlayer.optionSettings.orderForcedAbilities) {
             this.resolveEffect(choices[0]);
         } else {
             this.promptBetweenChoices(choices);
@@ -35,13 +35,13 @@ class SimultaneousEffectWindow extends ForcedTriggeredAbilityWindow {
             source: 'Order Simultaneous effects',
             activePromptTitle: 'Choose an effect to be resolved',
             waitingPromptTitle: 'Waiting for opponent',
-            choices: _.map(choices, choice => choice.title),
-            handlers: _.map(choices, choice => (() => this.resolveEffect(choice)))
+            choices: _.map(choices, (choice) => choice.title),
+            handlers: _.map(choices, (choice) => () => this.resolveEffect(choice))
         });
     }
 
     resolveEffect(choice) {
-        this.choices = this.choices.filter(c => c !== choice);
+        this.choices = this.choices.filter((c) => c !== choice);
         choice.handler();
     }
 }

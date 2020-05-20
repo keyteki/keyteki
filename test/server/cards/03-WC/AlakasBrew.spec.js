@@ -1,7 +1,7 @@
-describe('Alakas Brew', function() {
-    integration(function() {
-        describe('Alakas Brew\'s ability', function() {
-            beforeEach(function() {
+describe('Alakas Brew', function () {
+    integration(function () {
+        describe("Alakas Brew's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'brobnar',
@@ -15,7 +15,7 @@ describe('Alakas Brew', function() {
                 });
             });
 
-            it('should give the selected creature 2 power counters.', function() {
+            it('should give the selected creature 2 power counters.', function () {
                 this.player1.play(this.alakaSBrew);
                 expect(this.player1).toHavePrompt('Alaka’s Brew');
                 expect(this.player1).toBeAbleToSelect(this.ancientBear);

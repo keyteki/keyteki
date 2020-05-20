@@ -1,7 +1,7 @@
-describe('Collector Worm', function() {
-    integration(function() {
-        describe('Collector Worm\'s ability', function() {
-            beforeEach(function() {
+describe('Collector Worm', function () {
+    integration(function () {
+        describe("Collector Worm's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         amber: 2,
@@ -17,7 +17,7 @@ describe('Collector Worm', function() {
                 });
             });
 
-            it('should archive the defender, if both survived the fight.', function() {
+            it('should archive the defender, if both survived the fight.', function () {
                 expect(this.player1.archives.length).toBe(0);
                 expect(this.player2.archives.length).toBe(0);
 
@@ -32,7 +32,7 @@ describe('Collector Worm', function() {
                 expect(this.mother.location).toBe('archives');
             });
 
-            it('should not archive the defender, if the defender was destroyed.', function() {
+            it('should not archive the defender, if the defender was destroyed.', function () {
                 expect(this.player1.archives.length).toBe(0);
                 expect(this.player2.archives.length).toBe(0);
 
@@ -47,7 +47,7 @@ describe('Collector Worm', function() {
                 expect(this.helperBot.location).toBe('discard');
             });
 
-            it('should not archive the defender, if the Collector Worm was destroyed.', function() {
+            it('should not archive the defender, if the Collector Worm was destroyed.', function () {
                 expect(this.player1.archives.length).toBe(0);
                 expect(this.player2.archives.length).toBe(0);
 

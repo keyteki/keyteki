@@ -1,6 +1,6 @@
-describe('Dæmo-Bot', function() {
+describe('Dæmo-Bot', function () {
     integration(function () {
-        describe('Dæmo-Bots\'s Reap ability', function () {
+        describe("Dæmo-Bots's Reap ability", function () {
             beforeEach(function () {
                 this.setupTest({
                     player1: {
@@ -24,7 +24,7 @@ describe('Dæmo-Bot', function() {
                 expect(this.player1.hand.length).toBe(1);
             });
 
-            it('should shouldn\'t draw a card when used to reap when there is nothing to discard', function () {
+            it("should shouldn't draw a card when used to reap when there is nothing to discard", function () {
                 this.player1.moveCard(this.soulkeeper, 'deck');
                 this.player1.reap(this.dæmoBot);
                 expect(this.player1.amber).toBe(1);
@@ -34,7 +34,7 @@ describe('Dæmo-Bot', function() {
                 expect(this.player1.hand.length).toBe(0);
             });
         });
-        describe('Dæmo-Bots\'s Destroyed ability', function () {
+        describe("Dæmo-Bots's Destroyed ability", function () {
             beforeEach(function () {
                 this.setupTest({
                     player1: {

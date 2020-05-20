@@ -1,7 +1,7 @@
-describe('Mothergun', function() {
-    integration(function() {
-        describe('Mothergun\'s ability', function() {
-            beforeEach(function() {
+describe('Mothergun', function () {
+    integration(function () {
+        describe("Mothergun's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'mars',
@@ -13,10 +13,10 @@ describe('Mothergun', function() {
                     }
                 });
                 this.player1.clickCard(this.mothergun);
-                this.player1.clickPrompt('Use this card\'s Action ability');
+                this.player1.clickPrompt("Use this card's Action ability");
             });
 
-            it('should prompt the player to reveal cards', function() {
+            it('should prompt the player to reveal cards', function () {
                 expect(this.player1).toHavePrompt('Choose which cards to reveal');
                 expect(this.player1).toBeAbleToSelect(this.zorg);
                 expect(this.player1).toBeAbleToSelect(this.combatPheromones);
@@ -27,13 +27,13 @@ describe('Mothergun', function() {
                 expect(this.player1).not.toBeAbleToSelect(this.troll);
             });
 
-            it('should allow the player to select 0 cards', function() {
+            it('should allow the player to select 0 cards', function () {
                 expect(this.player1.currentButtons).toContain('Done');
                 this.player1.clickPrompt('Done');
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should deal the correct amount of damage', function() {
+            it('should deal the correct amount of damage', function () {
                 this.player1.clickCard(this.zorg);
                 this.player1.clickCard(this.combatPheromones);
                 this.player1.clickCard(this.softLanding);

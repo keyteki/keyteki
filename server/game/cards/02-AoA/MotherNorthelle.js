@@ -7,11 +7,11 @@ class MotherNorthelle extends Card {
                 activePromptTitle: 'Choose a captured amber to move to your pool.',
                 cardType: 'creature',
                 controller: 'self',
-                cardCondition: card => card.hasToken('amber'),
+                cardCondition: (card) => card.hasToken('amber'),
                 gameAction: ability.actions.removeAmber()
             },
             effect: 'move 1 amber from {0} to their pool',
-            then:{
+            then: {
                 gameAction: ability.actions.gainAmber()
             }
         });
