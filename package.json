@@ -95,6 +95,7 @@
         "jquery-validation": "^1.18.0",
         "jquery-validation-unobtrusive": "^3.2.11",
         "jsonwebtoken": "^8.4.0",
+        "lint-staged": "^10.2.4",
         "merge-images": "^1.2.0",
         "mini-css-extract-plugin": "^0.8.2",
         "moment": "^2.18.1",
