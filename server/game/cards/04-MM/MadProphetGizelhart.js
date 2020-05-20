@@ -8,7 +8,7 @@ class MadProphetGizelhart extends Card {
             effect: ability.effects.gainAbility('action', {
                 effect: 'heal 1 damage from all creatures',
                 gameAction: ability.actions.heal((context) => ({
-                    amount: 1,
+                    fully: true,
                     target: context.game.creaturesInPlay.filter(
                         (card) => card.hasToken('damage') && !card.hasTrait('mutant')
                     )
