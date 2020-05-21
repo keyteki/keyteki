@@ -5,7 +5,7 @@ describe('Scowly Caper', function () {
                 this.setupTest({
                     player1: {
                         house: 'shadows',
-                        inPlay: ['lamindra', 'nexus', 'spangler-box'],
+                        inPlay: ['lamindra', 'nexus', 'yantzee-gang', 'spangler-box'],
                         hand: ['scowly-caper']
                     },
                     player2: {
@@ -132,6 +132,17 @@ describe('Scowly Caper', function () {
                 this.player2.clickCard(this.archimedes);
 
                 expect(this.archimedes.location).toBe('discard');
+            });
+
+            it("opponent should be able to use it regardless of house chosen", function () {
+                this.player1.playCreature(this.scowlyCaper);
+                this.scowlyCaper.exhausted = false;
+                expect(this.scowlyCaper.controller).toBe(this.player2.player);
+                this.player1.endTurn();
+                this.player2.clickPrompt('logos');
+                this.player2.fightWith(this.scowlyCaper, this.yantzeeGang);
+                expect(this.scowlyCaper.hasToken('damage')).toBe(false);
+                expect(this.yantzeeGang.tokens.damage).toBe(2);
             });
         });
     });
