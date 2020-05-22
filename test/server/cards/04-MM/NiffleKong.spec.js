@@ -99,7 +99,7 @@ describe('Niffle Kong', function () {
                 expect(this.player1.player.hand.length).toBe(1);
             });
 
-            fit('should reveal and move any number of niffle from discard and deck to hand', function () {
+            it('should reveal and move any number of niffle from discard and deck to hand', function () {
                 this.player1.moveCard(this.niffleApe2, 'deck');
                 this.player1.moveCard(this.niffleQueen1, 'deck');
                 this.player1.play(this.niffleKong);
