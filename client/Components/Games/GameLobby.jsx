@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { toastr } from 'react-redux-toastr';
 import $ from 'jquery';
 
 import NewGame from './NewGame';
@@ -121,6 +122,7 @@ class GameLobby extends React.Component {
         const game = games.find((x) => x.id === this.props.gameId);
 
         if (!game) {
+            toastr.error('The game you tried to join was not found.');
             return;
         }
 
