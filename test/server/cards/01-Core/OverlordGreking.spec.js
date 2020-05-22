@@ -8,7 +8,7 @@ describe('Overlord Greking', function () {
                         inPlay: ['overlord-greking', 'dominator-bauble']
                     },
                     player2: {
-                        inPlay: ['mother', 'troll', 'dextre']
+                        inPlay: ['mother', 'troll', 'batdrone', 'dextre']
                     }
                 });
             });
@@ -25,6 +25,25 @@ describe('Overlord Greking', function () {
                 expect(this.player1.player.cardsInPlay).toContain(this.mother);
                 this.player1.endTurn();
                 expect(this.player1.hand.length).toBe(7);
+            });
+
+            it('should be able to use the controller creature', function () {
+                this.player1.fightWith(this.overlordGreking, this.batdrone);
+                expect(this.overlordGreking.tokens.damage).toBe(2);
+                expect(this.batdrone.hasToken('damage')).toBe(false);
+                expect(this.batdrone.location).toBe('discard');
+                expect(this.player1).toHavePrompt('batdrone');
+                this.player1.clickPrompt('Left');
+                expect(this.batdrone.location).toBe('play area');
+                expect(this.batdrone.controller).toBe(this.player1.player);
+                this.player1.endTurn();
+                this.player2.clickPrompt('brobnar');
+                this.player2.endTurn();
+                this.player1.clickPrompt('logos');
+                this.player1.fightWith(this.batdrone, this.troll);
+                expect(this.batdrone.location).toBe('play area');
+                expect(this.batdrone.hasToken('damage')).toBe(false);
+                expect(this.troll.tokens.damage).toBe(2);
             });
 
             it('should make the controlled creature die as normal', function () {
