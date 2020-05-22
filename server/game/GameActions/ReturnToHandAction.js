@@ -2,7 +2,7 @@ const CardGameAction = require('./CardGameAction');
 
 class ReturnToHandAction extends CardGameAction {
     setDefaultProperties() {
-        this.location = 'play area';
+        this.location = ['play area'];
     }
 
     setup() {
@@ -10,10 +10,14 @@ class ReturnToHandAction extends CardGameAction {
         this.name = 'returnToHand';
         this.effectMsg = 'return {0} to their hand';
         this.cost = "returning {0} to their owner's hand";
+
+        if (!Array.isArray(this.location)) {
+            this.location = [this.location];
+        }
     }
 
     canAffect(card, context) {
-        if (card.location !== this.location) {
+        if (!this.location.includes(card.location)) {
             return false;
         }
 
@@ -21,7 +25,7 @@ class ReturnToHandAction extends CardGameAction {
     }
 
     getEvent(card, context) {
-        let eventName = this.location === 'play area' ? 'onCardLeavesPlay' : 'onMoveCard';
+        let eventName = card.location === 'play area' ? 'onCardLeavesPlay' : 'onMoveCard';
 
         return super.createEvent(
             eventName,
