@@ -134,7 +134,7 @@ describe('Scowly Caper', function () {
                 expect(this.archimedes.location).toBe('discard');
             });
 
-            it("opponent should be able to use it regardless of house chosen", function () {
+            it('opponent should be able to use it regardless of house chosen', function () {
                 this.player1.playCreature(this.scowlyCaper);
                 this.scowlyCaper.exhausted = false;
                 expect(this.scowlyCaper.controller).toBe(this.player2.player);
