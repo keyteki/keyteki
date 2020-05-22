@@ -7,7 +7,13 @@ describe('Niffle Kong', function () {
                         house: 'untamed',
                         inPlay: ['fuzzy-gruen', 'niffle-ape'],
                         hand: ['niffle-kong', 'niffle-kong-2', 'save-the-pack'],
-                        discard: ['niffle-ape', 'niffle-ape', 'niffle-ape', 'niffle-queen', 'niffle-queen']
+                        discard: [
+                            'niffle-ape',
+                            'niffle-ape',
+                            'niffle-ape',
+                            'niffle-queen',
+                            'niffle-queen'
+                        ]
                     },
                     player2: {
                         amber: 5,

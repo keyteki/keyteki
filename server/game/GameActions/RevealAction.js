@@ -10,7 +10,7 @@ class RevealAction extends CardGameAction {
         super.setup();
         this.name = 'reveal';
         this.effectMsg = 'reveal {0}';
-        
+
         if (!Array.isArray(this.location)) {
             this.location = [this.location];
         }

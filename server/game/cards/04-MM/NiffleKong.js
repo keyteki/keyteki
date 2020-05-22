@@ -29,7 +29,7 @@ class NiffleKong extends Card {
                 location: ['deck', 'discard'],
                 mode: 'unlimited',
                 cardType: 'creature',
-                cardCondition: card => card.hasTrait('niffle'),
+                cardCondition: (card) => card.hasTrait('niffle'),
                 gameAction: ability.actions.sequential([
                     ability.actions.reveal({ location: ['deck', 'discard'], chatMessage: true }),
                     ability.actions.returnToHand({ location: ['deck', 'discard'] }),
@@ -37,7 +37,7 @@ class NiffleKong extends Card {
                         target: context.player
                     }))
                 ])
-            },
+            }
         });
 
         this.fight({
