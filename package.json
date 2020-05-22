@@ -22,16 +22,13 @@
     },
     "lint-staged": {
         "server/**/*.{js,jsx,ts,tsx}": [
-            "eslint . --fix",
-            "git add"
+            "eslint . --fix"
         ],
         "client/**/*.{js,jsx,ts,tsx}": [
-            "eslint . --fix",
-            "git add"
+            "eslint . --fix"
         ],
         "test/**/*.{js,jsx,ts,tsx}": [
-            "eslint . --fix",
-            "git add"
+            "eslint . --fix"
         ]
     },
     "husky": {
