@@ -5,7 +5,7 @@ describe('Lyco-Alien', function () {
                 this.setupTest({
                     player1: {
                         house: 'staralliance',
-                        inPlay: ['Lyco-alien'],
+                        inPlay: ['lyco-alien'],
                         hand: ['eyegor', 'titan-mechanic', 'archimedes'],
                         amber: 4
                     },
