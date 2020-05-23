@@ -3,6 +3,7 @@ module.exports = {
     AddTokenAction: require('./AddTokenAction'),
     AllocateDamageAction: require('./AllocateDamageAction'),
     ArchiveAction: require('./ArchiveAction'),
+    ArrangeDeckCardAction: require('./ArrangeDeckCardAction'),
     AttachAction: require('./AttachAction'),
     CaptureAction: require('./CaptureAction'),
     ChangeActiveHouseAction: require('./ChangeActiveHouse'),
