@@ -22,7 +22,7 @@ class DinoAlien extends Card {
                         cards: context.player.deck.slice(0, 3)
                     }
                 })),
-                ability.actions.arrangeDeckCard((context) => ({
+                ability.actions.arrangeDeck((context) => ({
                     bottom: true,
                     promptWithHandlerMenu: {
                         activePromptTitle: 'Choose a card to move to bottom of deck',

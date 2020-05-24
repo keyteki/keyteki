@@ -13,7 +13,7 @@ const Actions = {
         new GameActions.AddTokenAction(propertyFactory, 'growth'),
     addWardToken: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'ward'),
     archive: (propertyFactory) => new GameActions.ArchiveAction(propertyFactory),
-    arrangeDeckCard: (propertyFactory) => new GameActions.ArrangeDeckCardAction(propertyFactory),
+    arrangeDeck: (propertyFactory) => new GameActions.ArrangeDeckAction(propertyFactory),
     attach: (propertyFactory) => new GameActions.AttachAction(propertyFactory), // upgrade
     capture: (propertyFactory) => new GameActions.CaptureAction(propertyFactory),
     cardLastingEffect: (propertyFactory) =>
