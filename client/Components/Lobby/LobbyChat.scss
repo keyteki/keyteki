@@ -1,3 +1,9 @@
+@import '../../styles/variables';
+@import '../../styles/colours';
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+
 .message-deleted {
     font-style: italic;
 }
@@ -17,13 +23,20 @@
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     position: absolute;
     top: 45px;
-    bottom: 50px;
-    left: 20px;
-    right: 20px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
     font-size: 11px;
     overflow-y: auto;
+    margin-left: 5px;
+    margin-top: 10px;
 
     .username {
         margin-right: 5px;
     }
+}
+
+.icon-remove {
+    color: theme-color('danger');
+    padding: 0 5px;
 }

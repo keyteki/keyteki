@@ -1,6 +1,7 @@
 import { fabric } from 'fabric';
 import QRCode from 'qrcode';
 import uuid from 'uuid';
+import { Shadow } from 'fabric/fabric-impl';
 const defaultCard = 'img/idbacks/identity.jpg';
 
 export const buildDeckList = (deck, language, translate, AllCards) =>
@@ -75,7 +76,7 @@ export const buildDeckList = (deck, language, translate, AllCards) =>
                                     fontWeight: 800,
                                     fontFamily: 'Keyforge',
                                     textAlign: 'left',
-                                    fillStyle: 'black',
+                                    stroke: 'black',
                                     fontSize: 25
                                 }
                             ).set({ left: houseData[index].x + 35, top: houseData[index].y + 5 });
@@ -104,7 +105,7 @@ export const buildDeckList = (deck, language, translate, AllCards) =>
                             deck.houses.sort().indexOf(b.house)
                     );
                 const cardProm = cardList.map((card, index) => {
-                    return new Promise(async (cardRes) => {
+                    return async (cardRes) => {
                         let x = cardData.start.x,
                             y = cardData.start.y + index * 28;
                         const name =
@@ -140,7 +141,9 @@ export const buildDeckList = (deck, language, translate, AllCards) =>
                         )
                             .set({ left: x, top: y })
                             .scaleToWidth(cardData.size)
-                            .setShadow({ color: 'gray', offsetX: 10, offsetY: 10, blur: 3 });
+                            .setShadow(
+                                new Shadow({ color: 'gray', offsetX: 10, offsetY: 10, blur: 3 })
+                            );
                         const number = new fabric.Text(card.number.toString(), fontProps).set({
                             left: x + 22,
                             top: y
@@ -161,7 +164,9 @@ export const buildDeckList = (deck, language, translate, AllCards) =>
                             const maverick = await loadImage('img/idbacks/Maverick.png');
                             const maverickImage = new fabric.Image(maverick.getElement())
                                 .set({ left: iconX, top: y })
-                                .setShadow({ color: 'gray', offsetX: 10, offsetY: 10, blur: 5 })
+                                .setShadow(
+                                    new Shadow({ color: 'gray', offsetX: 10, offsetY: 10, blur: 5 })
+                                )
                                 .scaleToHeight(cardData.size);
                             canvas.add(maverickImage);
                             iconX = iconX + 20;
@@ -171,13 +176,15 @@ export const buildDeckList = (deck, language, translate, AllCards) =>
                             const anomaly = await loadImage('img/idbacks/Anomaly.png');
                             const anomalyImage = new fabric.Image(anomaly.getElement())
                                 .set({ left: iconX, top: y })
-                                .setShadow({ color: 'gray', offsetX: 10, offsetY: 10, blur: 5 })
+                                .setShadow(
+                                    new Shadow({ color: 'gray', offsetX: 10, offsetY: 10, blur: 5 })
+                                )
                                 .scaleToHeight(cardData.size);
                             canvas.add(anomalyImage);
                         }
 
                         cardRes();
-                    });
+                    };
                 });
 
                 Promise.all([...houseProm, ...cardProm])
@@ -281,5 +288,5 @@ const getCircularText = (text = '', diameter, yOffset = 0) => {
         ctx.rotate((charWid / 2 / (diameter / 2 - textHeight)) * -1); // rotate half letter
     }
 
-    return new fabric.Image(canvas, { left: 0, top: 0 });
+    return new fabric.Image(canvas.id, { left: 0, top: 0 });
 };

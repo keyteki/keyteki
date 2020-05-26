@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import $ from 'jquery';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 import Avatar from '../Site/Avatar';
 
@@ -129,10 +131,10 @@ class LobbyChat extends React.Component {
                         {this.props.isModerator && (
                             <a
                                 href='#'
-                                className='btn no-padding btn-noimg'
+                                className='btn btn-icon icon-remove'
                                 onClick={this.onRemoveMessageClick.bind(this, message.id)}
                             >
-                                <span className='chat-delete glyphicon glyphicon-remove' />
+                                <FontAwesomeIcon icon={faTimes} />
                             </a>
                         )}
                     </div>

@@ -97,33 +97,44 @@ class Lobby extends React.Component {
             : 'You must be logged in to send lobby chat messages';
 
         return (
-            <div>
+            <div className='flex-container'>
                 <SideBar>
                     <UserList users={this.props.users} />
                 </SideBar>
-                <Col sm={{ span: 10, offset: 1 }}>
-                    <div className='main-header' />
-                </Col>
-                {this.props.motd?.message && (
-                    <Col sm={{ span: 10, offset: 1 }} className='banner'>
-                        <AlertPanel type={'danger'} message={this.props.motd.message}></AlertPanel>
+                <div>
+                    <Col sm={{ span: 10, offset: 1 }}>
+                        <div className='main-header' />
                     </Col>
+                </div>
+                {this.props.motd?.message && (
+                    <div>
+                        <Col sm={{ span: 10, offset: 1 }} className='banner'>
+                            <AlertPanel
+                                type={'danger'}
+                                message={this.props.motd.message}
+                            ></AlertPanel>
+                        </Col>
+                    </div>
                 )}
                 {this.props.bannerNotice ? (
-                    <Col sm={{ span: 10, offset: 1 }} className='annoucement'>
-                        <AlertPanel message={this.props.bannerNotice} type='error' />
-                    </Col>
+                    <div>
+                        <Col sm={{ span: 10, offset: 1 }} className='annoucement'>
+                            <AlertPanel message={this.props.bannerNotice} type='error' />
+                        </Col>
+                    </div>
                 ) : null}
-                <Col sm={{ span: 10, offset: 1 }}>
-                    <Panel title={t('Latest site news')}>
-                        {this.props.loading ? (
-                            <div>
-                                <Trans>News loading...</Trans>
-                            </div>
-                        ) : null}
-                        <News news={this.props.news} />
-                    </Panel>
-                </Col>
+                <div>
+                    <Col sm={{ span: 10, offset: 1 }}>
+                        <Panel title={t('Latest site news')}>
+                            {this.props.loading ? (
+                                <div>
+                                    <Trans>News loading...</Trans>
+                                </div>
+                            ) : null}
+                            <News news={this.props.news} />
+                        </Panel>
+                    </Col>
+                </div>
                 <Col sm={{ span: 10, offset: 1 }} className='chat-container'>
                     <Panel
                         title={t('Lobby Chat ({{users}}) online', {

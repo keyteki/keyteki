@@ -102,7 +102,7 @@ const AlertPanel = ({ type = AlertType.Info, title, message, noIcon = false, chi
 
     return (
         <Alert variant={alertType}>
-            <Alert.Heading>{title}</Alert.Heading>
+            {title && <Alert.Heading>{title}</Alert.Heading>}
             {!noIcon && <FontAwesomeIcon icon={icon} />}
             {message && <span id='alert-message'>&nbsp;{getMessageWithLinks(message)}</span>}
             {children && <span>&nbsp;{children}</span>}
