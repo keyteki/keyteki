@@ -1,0 +1,151 @@
+@import 'colours';
+@import 'fonts';
+@import 'variables';
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+
+@import 'bootstrap';
+
+html,
+body {
+    height: 100%;
+}
+
+.body,
+.container,
+#component {
+    height: 100%;
+}
+
+body {
+    font-size: 0.9rem;
+}
+
+.wrapper {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+
+    overflow-y: auto;
+}
+
+a {
+    color: theme-color('secondary');
+
+    &:hover {
+        color: theme-color('info');
+        text-decoration: none;
+    }
+
+    text-decoration: none;
+}
+
+.btn {
+    .spinner-border {
+        vertical-align: middle;
+        margin-right: 5px;
+    }
+
+    &:not(.dropdown-toggle) {
+        width: 126px;
+        background-position: center;
+        background-repeat: no-repeat;
+        border: none;
+        background-color: transparent;
+        font-family: Keyforge, Helvetica, sans-serif;
+
+        &:hover {
+            text-shadow: 0px 0px 6px theme-color('white');
+            transition: all 0.4s ease 0s;
+
+            background-color: transparent;
+        }
+
+        &:focus {
+            background-color: transparent;
+        }
+
+        &:active {
+            background-color: transparent;
+        }
+
+        &:focus:active {
+            background-color: transparent;
+        }
+    }
+}
+
+.btn-primary {
+    background-image: url('~assets/img/button-purple.png');
+
+    &:hover {
+        background-image: url('~assets/img/button-purple-hover.png');
+    }
+
+    &:focus:active {
+        background-image: url('~assets/img/button-purple-hover.png');
+    }
+}
+
+.btn-secondary {
+    &:not(.dropdown-toggle) {
+        background-image: url('~assets/img/button-orange.png');
+
+        &:hover {
+            background-image: url('~assets/img/button-orange-hover.png');
+        }
+
+        &:focus:active {
+            background-image: url('~assets/img/button-orange-hover.png');
+        }
+    }
+}
+
+.btn-danger {
+    &:not(.dropdown-toggle) {
+        background-image: url('~assets/img/button-red.png');
+
+        &:hover {
+            background-image: url('~assets/img/button-red-hover.png');
+        }
+
+        &:focus:active {
+            background-image: url('~assets/img/button-red-hover.png');
+        }
+    }
+}
+
+.alert {
+    ul {
+        list-style: none;
+        margin-bottom: 0;
+    }
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: theme-color('primary');
+}
+
+.bg {
+    background-image: url('~assets/img/bgs/philophosaurus.png');
+
+    height: 100%;
+
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.keyforge-font {
+    font-family: 'Keyforge', serif;
+}
+
+.content {
+    padding-top: $navbar-height + 5px;
+}
+
+.card {
+    margin-bottom: 10px;
+}

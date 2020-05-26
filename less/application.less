@@ -43,94 +43,6 @@
     list-style-type: none;
 }
 
-.main-header {
-    background-color: fade(@brand-primary, 50%);
-    height: 100%;
-    vertical-align: center;
-    margin-bottom: 5px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    border-radius: 4px;
-    background-image: url('../public/img/main_header_logo.png');
-    height: 55px;
-    background-repeat: no-repeat;
-    background-position-x: center;
-    background-origin: content-box;
-}
-
-.news-item {
-    color: @brand-secondary;
-
-    &:first-child {
-        color: @brand-primary;
-        font-weight: bolder;
-    }
-
-    .news-icon {
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: contain;
-        float: left;
-        text-align: center;
-        height: 18px;
-        width: 18px;
-        margin-top: 2px;
-    }
-
-    display: flex;
-}
-
-.news-container {
-    max-height: 130px;
-    min-height: 130px;
-    overflow-y: auto;
-}
-
-.sidebar {
-    position: absolute;
-    left: 0;
-    top: @navbar-height;
-    bottom: 0;
-    background-color: fade(@navbar-inverse-bg, 80%);
-
-    & a {
-        color: @brand-primary;
-
-        &:active {
-            color: @brand-primary;
-        }
-    }
-
-    &.expanded {
-        width: 200px;
-    }
-
-    z-index: 999;
-    overflow-y: auto;
-}
-
-.userlist {
-    text-align: center;
-    padding-top: 5px;
-    padding-bottom: 20px;
-    font-weight: bold;
-}
-
-.user-row {
-    text-align: left;
-    font-weight: normal;
-    padding-top: 5px;
-    padding-left: 10px;
-
-    &:hover {
-        background-color: fade(@brand-info, 20%);
-    }
-}
-
-.glyphicon-menu-hamburger {
-    font-size: 16px;
-}
-
 .selected {
     box-shadow: 0 0 1px 4px @brand-secondary;
 }
@@ -212,42 +124,6 @@ ul.htp-sub-list {
 
 .user-search {
     width: 200px;
-}
-
-.sidebar-enter.collapsed {
-    width: 200px;
-}
-
-.sidebar-enter.expanded {
-    width: 40px;
-}
-
-.sidebar-enter.sidebar-enter-active.collapsed {
-    width: 40px;
-    transition: width 500ms ease-in-out;
-}
-
-.sidebar-enter.sidebar-enter-active.expanded {
-    width: 200px;
-    transition: width 500ms ease-in-out;
-}
-
-.sidebar-leave.collapsed {
-    width: 40px;
-}
-
-.sidebar-leave.expanded {
-    width: 200px;
-}
-
-.sidebar-leave.sidebar-leave-active.collapsed {
-    width: 40px;
-    transition: width 500ms ease-in-out;
-}
-
-.sidebar-leave.sidebar-leave-active.expanded {
-    width: 40px;
-    transition: width 500ms ease-in-out;
 }
 
 .motd-button {

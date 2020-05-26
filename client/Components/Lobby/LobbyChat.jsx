@@ -5,6 +5,8 @@ import $ from 'jquery';
 
 import Avatar from '../Site/Avatar';
 
+import './LobbyChat.scss';
+
 class LobbyChat extends React.Component {
     constructor(props) {
         super(props);

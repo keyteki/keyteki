@@ -1,7 +1,7 @@
 /* eslint react/display-name: 0 react/no-multi-comp: 0 */
 
 import React from 'react';
-import Login from './pages/Login';
+import Login from './pages/LoginContainer';
 import Logout from './pages/Logout';
 import Register from './pages/Register';
 import Lobby from './pages/Lobby';

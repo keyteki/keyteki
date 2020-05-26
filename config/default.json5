@@ -2,12 +2,12 @@
     env: 'development',
 
     secret: 'somethingverysecret',
-    redisUrl: 'redis://redis/',
+    redisUrl: 'redis://localhost/',
     dbUser: 'keyteki',
-    dbHost: 'postgres',
+    dbHost: 'localhost',
     dbDatabase: 'keyteki',
     dbPassword: 'changemeplease',
-    dbPort: 5432,
+    dbPort: 54320,
     minLobbyChatTime: 0, // The time (in seconds) an account has to be registered before it can chat in the lobby
     /*
      * Other global configurations used, but not specified, include:

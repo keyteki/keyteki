@@ -2,14 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import $ from 'jquery';
 import { connect } from 'react-redux';
+import { Container } from 'react-bootstrap';
 
 import { Constants } from './constants';
 import ErrorBoundary from './Components/Site/ErrorBoundary';
-import NavBar from './Components/Site/NavBar';
+import Navigation from './Components/Navigation/Navigation';
 import Router from './Router';
 import { tryParseJSON } from './util';
 import AlertPanel from './Components/Site/AlertPanel';
-import * as actions from './actions';
+import * as actions from './redux/actions';
 
 class Application extends React.Component {
     constructor(props) {
@@ -147,9 +148,9 @@ class Application extends React.Component {
 
         return (
             <div className={backgroundClass}>
-                <NavBar title='The Crucible Online' />
+                <Navigation appName='The Crucible Online' user={this.props.user} />
                 <div className='wrapper'>
-                    <div className='container content'>
+                    <Container className='content'>
                         <ErrorBoundary
                             navigate={this.props.navigate}
                             errorPath={this.props.path}
@@ -157,10 +158,10 @@ class Application extends React.Component {
                         >
                             {component}
                         </ErrorBoundary>
-                    </div>
+                    </Container>
                 </div>
                 <div className='keyforge-font' style={{ zIndex: -999 }}>
-                    .
+                    &nbsp;
                 </div>
             </div>
         );

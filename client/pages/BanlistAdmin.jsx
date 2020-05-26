@@ -6,7 +6,7 @@ import moment from 'moment';
 import Form from '../Components/Form/Form';
 import Panel from '../Components/Site/Panel';
 import ApiStatus from '../Components/Site/ApiStatus';
-import * as actions from '../actions';
+import * as actions from '../redux/actions';
 
 class BanlistAdmin extends React.Component {
     constructor(props) {

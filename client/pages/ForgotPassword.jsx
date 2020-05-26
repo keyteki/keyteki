@@ -7,7 +7,7 @@ import AlertPanel from '../Components/Site/AlertPanel';
 import Panel from '../Components/Site/Panel';
 import Form from '../Components/Form/Form';
 
-import * as actions from '../actions';
+import * as actions from '../redux/actions';
 
 class ForgotPassword extends React.Component {
     constructor() {

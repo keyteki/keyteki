@@ -7,7 +7,7 @@ import moment from 'moment';
 
 import Avatar from '../Site/Avatar';
 import AlertPanel from '../Site/AlertPanel';
-import * as actions from '../../actions';
+import * as actions from '../../redux/actions';
 
 import { withTranslation, Trans } from 'react-i18next';
 

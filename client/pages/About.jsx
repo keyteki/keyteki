@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Panel from '../Components/Site/Panel';
-import Link from '../Components/Site/Link';
+import Link from '../Components/Navigation/Link';
 
 import { withTranslation, Trans } from 'react-i18next';
 

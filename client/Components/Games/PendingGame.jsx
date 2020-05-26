@@ -9,7 +9,7 @@ import Messages from '../GameBoard/Messages';
 import Avatar from '../Site/Avatar';
 import SelectDeckModal from './SelectDeckModal';
 import DeckStatus from '../Decks/DeckStatus';
-import * as actions from '../../actions';
+import * as actions from '../../redux/actions';
 
 import { withTranslation, Trans } from 'react-i18next';
 

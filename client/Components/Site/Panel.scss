@@ -1,0 +1,22 @@
+@import '../../styles/colours';
+@import '../../styles/fonts';
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+
+.card {
+    font-family: Keyforge, Helvetica, sans-serif;
+    box-shadow: 3px 3px 5px theme-color('primary');
+
+    .card-header {
+        font-weight: normal;
+        background-size: cover;
+        color: theme-color('light');
+    }
+
+    &.border-primary {
+        .card-header {
+            background-image: url('~assets/img/panel-purple.png');
+            border-color: theme-color('primary');
+        }
+    }
+}

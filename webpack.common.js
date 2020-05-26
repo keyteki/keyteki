@@ -4,7 +4,12 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-    resolve: { extensions: ['.js', '.jsx'] },
+    resolve: {
+        extensions: ['.js', '.jsx'],
+        alias: {
+            assets: path.resolve('./client/assets')
+        }
+    },
     plugins: [
         new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
@@ -36,9 +41,11 @@ module.exports = {
     module: {
         rules: [
             { test: /\.jsx?/, exclude: /node_modules/, loader: 'babel-loader' },
-            { test: /.(png|woff(2)?|eot|ttf|svg)(\?[a-z0-9=.]+)?$/, use: 'url-loader?limit=25000' },
+            {
+                test: /.(jpe?g|png|woff(2)?|eot|ttf|svg)(\?[a-z0-9=.]+)?$/,
+                use: 'url-loader?limit=16384'
+            },
             { test: /\.css$/, use: ['style-loader', 'css-loader'] },
-            { test: /\.less$/, use: ['style-loader', 'css-loader', 'less-loader'] },
             { test: /\.scss$/, use: ['style-loader', 'css-loader', 'sass-loader'] },
             {
                 test: /\.json/,

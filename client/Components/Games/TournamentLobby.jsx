@@ -10,7 +10,7 @@ import Modal from '../Site/Modal';
 import NewGame from './NewGame';
 import Panel from '../Site/Panel';
 import ApiStatus from '../Site/ApiStatus';
-import * as actions from '../../actions';
+import * as actions from '../../redux/actions';
 
 class TournamentLobby extends React.Component {
     constructor(props) {

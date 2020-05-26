@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import AlertPanel from '../Site/AlertPanel';
 import Panel from '../Site/Panel';
-import * as actions from '../../actions';
+import * as actions from '../../redux/actions';
 
 import { withTranslation, Trans } from 'react-i18next';
 

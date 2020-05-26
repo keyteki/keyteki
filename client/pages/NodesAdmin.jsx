@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import Panel from '../Components/Site/Panel';
 
-import * as actions from '../actions';
+import * as actions from '../redux/actions';
 
 class NodeAdmin extends React.Component {
     constructor(props) {

@@ -1,0 +1,39 @@
+@import '../../styles/variables';
+@import '../../styles/colours';
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+
+.news-item {
+    color: theme-color('secondary');
+
+    &:first-child {
+        color: theme-color('primary');
+        font-weight: bolder;
+    }
+
+    .news-icon {
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+        float: left;
+        text-align: center;
+        height: 18px;
+        width: 18px;
+        margin-top: 2px;
+    }
+
+    display: flex;
+}
+
+.unforged-red {
+    background-image: url('~assets/img/unforgedkeyred.png');
+}
+
+.unforged-blue {
+    background-image: url('~assets/img/unforgedkeyblue.png');
+}
+
+.unforged-yellow {
+    background-image: url('~assets/img/unforgedkeyyellow.png');
+}

@@ -1,0 +1,23 @@
+@import '../../styles/variables';
+@import '../../styles/colours';
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+
+.navbar-brand {
+    a {
+        color: gray('500');
+    }
+
+    background-image: url('~assets/img/header_icon.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-origin: content-box;
+    width: 72px;
+    height: 100%;
+}
+
+.navbar-sm {
+    min-height: $navbar-height;
+    height: $navbar-height;
+}

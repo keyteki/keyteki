@@ -6,7 +6,7 @@ import 'jquery-validation-unobtrusive';
 import 'react-redux-toastr/src/styles/index.scss';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
-import '../less/site.less';
+import './styles/index.scss';
 
 $.validator.setDefaults({
     highlight: function (element) {

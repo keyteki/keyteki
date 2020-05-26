@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import Avatar from '../Site/Avatar';
 import { Constants } from '../../constants';
-import * as actions from '../../actions';
+import * as actions from '../../redux/actions';
 
 class Messages extends React.Component {
     constructor() {

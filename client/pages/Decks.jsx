@@ -4,10 +4,10 @@ import { connect } from 'react-redux';
 
 import AlertPanel from '../Components/Site/AlertPanel';
 import Panel from '../Components/Site/Panel';
-import Link from '../Components/Site/Link';
+import Link from '../Components/Navigation/Link';
 import DeckList from '../Components/Decks/DeckList';
 import ViewDeck from '../Components/Decks/ViewDeck';
-import * as actions from '../actions';
+import * as actions from '../redux/actions';
 
 import { withTranslation, Trans } from 'react-i18next';
 

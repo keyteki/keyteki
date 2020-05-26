@@ -1,0 +1,40 @@
+@import '../../styles/variables';
+@import '../../styles/colours';
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+
+.sidebar {
+    position: absolute;
+    left: 0;
+    top: $navbar-height;
+    bottom: 0;
+    background-color: theme-color('dark');
+
+    & a {
+        color: theme-color('primary');
+
+        &:active {
+            color: theme-color('primary');
+        }
+    }
+
+    &.expanded {
+        width: 200px;
+
+        a {
+            color: theme-color('danger');
+        }
+    }
+
+    z-index: 999;
+    overflow-y: auto;
+
+    width: 40px;
+
+    transition: width 500ms ease-in-out;
+}
+
+.sidebar-button {
+    width: auto !important;
+}

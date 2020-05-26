@@ -5,7 +5,7 @@ import moment from 'moment';
 
 import AlertPanel from '../Components/Site/AlertPanel';
 import TextArea from '../Components/Form/TextArea';
-import * as actions from '../actions';
+import * as actions from '../redux/actions';
 
 class NewsAdmin extends React.Component {
     constructor(props) {

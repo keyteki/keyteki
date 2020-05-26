@@ -1,0 +1,29 @@
+.message-deleted {
+    font-style: italic;
+}
+
+.message-moderated {
+    text-decoration: line-through;
+}
+
+.lobby-message {
+    margin-bottom: 4px;
+    margin-top: 2px;
+    word-wrap: break-word;
+    padding-left: 30px;
+}
+
+.lobby-messages {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    position: absolute;
+    top: 45px;
+    bottom: 50px;
+    left: 20px;
+    right: 20px;
+    font-size: 11px;
+    overflow-y: auto;
+
+    .username {
+        margin-right: 5px;
+    }
+}

@@ -7,7 +7,7 @@ import { withTranslation, Trans } from 'react-i18next';
 import Panel from '../Site/Panel';
 import Checkbox from '../Form/Checkbox';
 import AlertPanel from '../Site/AlertPanel';
-import * as actions from '../../actions';
+import * as actions from '../../redux/actions';
 
 const GameNameMaxLength = 64;
 

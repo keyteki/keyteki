@@ -13,7 +13,7 @@ import Panel from '../Site/Panel';
 import Modal from '../Site/Modal';
 import Checkbox from '../Form/Checkbox';
 
-import * as actions from '../../actions';
+import * as actions from '../../redux/actions';
 
 import { withTranslation, Trans } from 'react-i18next';
 

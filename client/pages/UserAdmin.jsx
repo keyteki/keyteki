@@ -8,7 +8,7 @@ import Checkbox from '../Components/Form/Checkbox';
 import Panel from '../Components/Site/Panel';
 import ApiStatus from '../Components/Site/ApiStatus';
 
-import * as actions from '../actions';
+import * as actions from '../redux/actions';
 
 class UserAdmin extends React.Component {
     constructor(props) {

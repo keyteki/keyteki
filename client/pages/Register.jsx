@@ -5,9 +5,9 @@ import { connect } from 'react-redux';
 import AlertPanel from '../Components/Site/AlertPanel.jsx';
 import Panel from '../Components/Site/Panel.jsx';
 import Form from '../Components/Form/Form.jsx';
-import Link from '../Components/Site/Link.jsx';
+import Link from '../Components/Navigation/Link.jsx';
 
-import * as actions from '../actions';
+import * as actions from '../redux/actions';
 
 import { withTranslation, Trans } from 'react-i18next';
 

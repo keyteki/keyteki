@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Panel from '../Components/Site/Panel';
 import TextArea from '../Components/Form/TextArea';
 import RadioGroup from '../Components/Form/RadioGroup';
-import * as actions from '../actions';
+import * as actions from '../redux/actions';
 
 class MotdAdmin extends React.Component {
     constructor(props) {

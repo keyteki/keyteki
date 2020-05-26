@@ -1,48 +1,44 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useState } from 'react';
+import classNames from 'classnames';
 
-class SideBar extends React.Component {
-    constructor(props) {
-        super(props);
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes, faBars } from '@fortawesome/free-solid-svg-icons';
 
-        this.state = {
-            expanded: false
-        };
+import './Sidebar.scss';
 
-        this.onBurgerClick = this.onBurgerClick.bind(this);
-    }
+/**
+ * @typedef SidebarProps
+ * @property {import('react').ReactNode | import('react').ReactNodeArray} [children]
+ */
 
-    onBurgerClick() {
-        this.setState({ expanded: !this.state.expanded });
-    }
+/**
+ *
+ * @param {SidebarProps} props
+ */
+const SideBar = ({ children }) => {
+    const [expanded, setExpanded] = useState(false);
 
-    render() {
-        let component = this.state.expanded ? (
-            <div className='sidebar expanded' key='sidebar-expanded'>
-                <div>
-                    <a href='#' className='btn btn-noimg pull-right' onClick={this.onBurgerClick}>
-                        <span className='glyphicon glyphicon-remove' />
-                    </a>
-                    {this.props.children}
-                </div>
-            </div>
-        ) : (
-            <div className='sidebar collapsed' key='sidebar'>
-                <div>
-                    <a href='#' className='btn btn-noimg' onClick={this.onBurgerClick}>
-                        <span className='glyphicon glyphicon-menu-hamburger' />
-                    </a>
-                </div>
-            </div>
-        );
+    let sidebarClass = classNames('sidebar', {
+        expanded: expanded,
+        collapsed: !expanded
+    });
 
-        return <div>{component}</div>;
-    }
-}
+    let burgerClass = classNames('sidebar-button btn', {
+        'float-right': expanded
+    });
+
+    let icon = expanded ? faTimes : faBars;
+
+    return (
+        <div className={sidebarClass}>
+            <a href='#' className={burgerClass} onClick={() => setExpanded(!expanded)}>
+                <FontAwesomeIcon icon={icon} />
+            </a>
+            {expanded && children}
+        </div>
+    );
+};
 
 SideBar.displayName = 'SideBar';
-SideBar.propTypes = {
-    children: PropTypes.node
-};
 
 export default SideBar;

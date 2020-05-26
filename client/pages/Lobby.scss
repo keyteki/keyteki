@@ -1,0 +1,29 @@
+@import '../styles/colours';
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+
+.main-header {
+    background-color: rgba(theme-color('primary'), 0.5);
+    height: 100%;
+    vertical-align: center;
+    margin-bottom: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-radius: 4px;
+    background-image: url('~assets/img/main_header_logo.png');
+    height: 55px;
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-origin: content-box;
+}
+
+.chat-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+
+    .card {
+        flex: 1;
+        margin-bottom: 10px;
+    }
+}

@@ -11,7 +11,7 @@ import Droppable from './Droppable';
 
 import { withTranslation } from 'react-i18next';
 import { buildArchon, buildDeckList } from '../../archonMaker';
-import * as actions from '../../actions';
+import * as actions from '../../redux/actions';
 
 class PlayerRow extends React.Component {
     constructor(props) {
@@ -292,6 +292,4 @@ function mapDispatchToProps(dispatch) {
     return boundActions;
 }
 
-export default withTranslation()(
-    connect(mapStateToProps, mapDispatchToProps, null, { withRef: true })(PlayerRow)
-);
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps, null)(PlayerRow));

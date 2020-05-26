@@ -15,7 +15,7 @@ import GameChat from './GameChat';
 import GameConfigurationModal from './GameConfigurationModal';
 import Droppable from './Droppable';
 import TimeLimitClock from './TimeLimitClock';
-import * as actions from '../../actions';
+import * as actions from '../../redux/actions';
 
 import { withTranslation, Trans } from 'react-i18next';
 
@@ -583,6 +583,4 @@ function mapDispatchToProps(dispatch) {
     return boundActions;
 }
 
-export default withTranslation()(
-    connect(mapStateToProps, mapDispatchToProps, null, { withRef: true })(GameBoard)
-);
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps, null)(GameBoard));

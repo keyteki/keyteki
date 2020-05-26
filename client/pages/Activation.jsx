@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import AlertPanel from '../Components/Site/AlertPanel';
 
-import * as actions from '../actions';
+import * as actions from '../redux/actions';
 
 class Activation extends React.Component {
     constructor() {
