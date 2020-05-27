@@ -3,7 +3,7 @@ const Card = require('../../Card.js');
 
 class AutoLegionary extends Card {
     setupCardAbilities(ability) {
-        let effects = [ability.effects.changeType('creature'), ability.effects.modifyPower(5)];
+        let effects = [ability.effects.changeType('creature')];
 
         effects = effects.concat(Constants.Houses.map((house) => ability.effects.addHouse(house)));
 
@@ -12,7 +12,9 @@ class AutoLegionary extends Card {
                 ability.actions.cardLastingEffect((context) => ({
                     target: context.source,
                     duration: 'lastingEffect',
-                    effect: effects
+                    effect: effects.concat(
+                        context.source.power ? [] : ability.effects.modifyPower(5)
+                    )
                 })),
                 ability.actions.moveToFlank()
             ])
