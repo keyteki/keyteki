@@ -10,10 +10,11 @@ import ViewDeck from '../Components/Decks/ViewDeck';
 import * as actions from '../redux/actions';
 
 import { withTranslation, Trans } from 'react-i18next';
+import { Col, Row } from 'react-bootstrap';
 
 class Decks extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.handleDeleteDeck = this.handleDeleteDeck.bind(this);
     }
@@ -50,27 +51,29 @@ class Decks extends React.Component {
         } else {
             content = (
                 <div className='full-height'>
-                    <div className='col-xs-12'>{successPanel}</div>
-                    <div className='col-md-6 full-height'>
-                        <Panel title={t('Your decks')}>
-                            <Link className='btn btn-primary' href='/decks/import'>
-                                <Trans>Import Deck</Trans>
-                            </Link>
-                            <DeckList
-                                className='deck-list'
-                                activeDeck={this.props.selectedDeck}
-                                decks={this.props.decks}
-                                onSelectDeck={this.props.selectDeck}
+                    <Col sm={12}>{successPanel}</Col>
+                    <Row>
+                        <Col md={6} className='full-height'>
+                            <Panel title={t('Your decks')}>
+                                <Link className='btn btn-primary' href='/decks/import'>
+                                    <Trans>Import Deck</Trans>
+                                </Link>
+                                <DeckList
+                                    className='deck-list'
+                                    activeDeck={this.props.selectedDeck}
+                                    decks={this.props.decks}
+                                    onSelectDeck={this.props.selectDeck}
+                                />
+                            </Panel>
+                        </Col>
+                        {!!this.props.selectedDeck && (
+                            <ViewDeck
+                                deck={this.props.selectedDeck}
+                                cards={this.props.cards}
+                                onDeleteDeck={this.handleDeleteDeck}
                             />
-                        </Panel>
-                    </div>
-                    {!!this.props.selectedDeck && (
-                        <ViewDeck
-                            deck={this.props.selectedDeck}
-                            cards={this.props.cards}
-                            onDeleteDeck={this.handleDeleteDeck}
-                        />
-                    )}
+                        )}
+                    </Row>
                 </div>
             );
         }

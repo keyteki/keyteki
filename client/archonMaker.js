@@ -1,7 +1,6 @@
 import { fabric } from 'fabric';
 import QRCode from 'qrcode';
 import uuid from 'uuid';
-import { Shadow } from 'fabric/fabric-impl';
 const defaultCard = 'img/idbacks/identity.jpg';
 
 export const buildDeckList = (deck, language, translate, AllCards) =>
@@ -142,7 +141,12 @@ export const buildDeckList = (deck, language, translate, AllCards) =>
                             .set({ left: x, top: y })
                             .scaleToWidth(cardData.size)
                             .setShadow(
-                                new Shadow({ color: 'gray', offsetX: 10, offsetY: 10, blur: 3 })
+                                new fabric.Shadow({
+                                    color: 'gray',
+                                    offsetX: 10,
+                                    offsetY: 10,
+                                    blur: 3
+                                })
                             );
                         const number = new fabric.Text(card.number.toString(), fontProps).set({
                             left: x + 22,
@@ -165,7 +169,12 @@ export const buildDeckList = (deck, language, translate, AllCards) =>
                             const maverickImage = new fabric.Image(maverick.getElement())
                                 .set({ left: iconX, top: y })
                                 .setShadow(
-                                    new Shadow({ color: 'gray', offsetX: 10, offsetY: 10, blur: 5 })
+                                    new fabric.Shadow({
+                                        color: 'gray',
+                                        offsetX: 10,
+                                        offsetY: 10,
+                                        blur: 5
+                                    })
                                 )
                                 .scaleToHeight(cardData.size);
                             canvas.add(maverickImage);
@@ -177,7 +186,12 @@ export const buildDeckList = (deck, language, translate, AllCards) =>
                             const anomalyImage = new fabric.Image(anomaly.getElement())
                                 .set({ left: iconX, top: y })
                                 .setShadow(
-                                    new Shadow({ color: 'gray', offsetX: 10, offsetY: 10, blur: 5 })
+                                    new fabric.Shadow({
+                                        color: 'gray',
+                                        offsetX: 10,
+                                        offsetY: 10,
+                                        blur: 5
+                                    })
                                 )
                                 .scaleToHeight(cardData.size);
                             canvas.add(anomalyImage);
