@@ -31,6 +31,7 @@ class PendingGame {
         this.swap = !!details.swap;
         this.useGameTimeLimit = details.useGameTimeLimit;
         this.rematch = false;
+        this.tournament = details.tournament;
     }
 
     // Getters
@@ -160,6 +161,13 @@ class PendingGame {
     }
 
     watch(id, user, password) {
+        if (user && user.permissions && user.permissions.canManageGames) {
+            this.addSpectator(id, user);
+            this.addMessage('{0} has joined the game as a spectator', user.username);
+
+            return;
+        }
+
         if (!this.allowSpectators) {
             return 'Join not permitted';
         }
@@ -176,8 +184,6 @@ class PendingGame {
 
         this.addSpectator(id, user);
         this.addMessage('{0} has joined the game as a spectator', user.username);
-
-        return undefined;
     }
 
     leave(playerName) {
@@ -293,6 +299,14 @@ class PendingGame {
     isVisibleFor(user) {
         if (!user) {
             return true;
+        }
+
+        if (user.permissions && user.permissions.canManageGames) {
+            return true;
+        }
+
+        if (this.gamePrivate && !this.started) {
+            return false;
         }
 
         let players = Object.values(this.players);
