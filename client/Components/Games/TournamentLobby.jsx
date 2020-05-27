@@ -176,7 +176,7 @@ class TournamentLobby extends React.Component {
             okButton: t('Create'),
             title: t('Game Options')
         };
-
+        const openMatches = this.getOpenMatches();
         return (
             <div className='full-height'>
                 <div className='col-md-offset-2 col-md-8 full-height'>
@@ -218,14 +218,19 @@ class TournamentLobby extends React.Component {
                             </div>
                         </div>
                         <div className='col-xs-12'>
-                            {this.getOpenMatches().map((match, index) => {
+                            {openMatches[0] && (
+                                <div className='match-round'>
+                                    {'Round: ' + openMatches[0].round}
+                                </div>
+                            )}
+                            {openMatches.map((match, index) => {
                                 const game = this.getTournamentGames().find(
                                     (x) => x.challonge && x.challonge.matchId === match.id
                                 );
                                 return (
                                     <div className='col-xs-12 match-row' key={index}>
                                         <div className='col-sm-5'>
-                                            Table {index + 1} :{' '}
+                                            Table {index + 1}:{' '}
                                             {this.getParticipantName(match.player1_id)} vs{' '}
                                             {this.getParticipantName(match.player2_id)} (
                                             {game && game.started ? 'In Progress' : 'Pending'}){' '}
