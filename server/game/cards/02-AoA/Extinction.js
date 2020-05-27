@@ -6,14 +6,13 @@ class Extinction extends Card {
             target: {
                 cardType: 'creature',
                 location: 'play area',
-                gameAction: [
-                    ability.actions.destroy(),
-                    ability.actions.destroy((context) => ({
-                        target: context.game.creaturesInPlay.filter((card) =>
+                gameAction: ability.actions.destroy((context) => ({
+                    target: context.game.creaturesInPlay.filter(
+                        (card) =>
+                            context.target &&
                             card.getTraits().some((trait) => context.target.hasTrait(trait))
-                        )
-                    }))
-                ]
+                    )
+                }))
             },
             effect: 'destroy {0} and each creature that shares a trait with it',
             gameAction: ability.actions.gainChains()
