@@ -20,7 +20,6 @@ import CardSizeOption from './CardSizeOption';
 
 /**
  * @param {CardSizeProps} props
- * @returns {React.FC<CardSizeProps>}
  */
 const ProfileCardSize = (props) => {
     const { t } = useTranslation();

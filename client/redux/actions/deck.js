@@ -1,3 +1,5 @@
+import { Decks } from '../types';
+
 export function loadDecks() {
     return {
         types: ['REQUEST_DECKS', 'RECEIVE_DECKS'],
@@ -48,7 +50,7 @@ export function saveDeck(deck) {
     });
 
     return {
-        types: ['SAVE_DECK', 'DECK_SAVED'],
+        types: [Decks.SaveDeck, Decks.DeckSaved],
         shouldCallAPI: () => true,
         APIParams: {
             url: '/api/decks/',

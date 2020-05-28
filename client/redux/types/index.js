@@ -9,3 +9,8 @@ export const Api = Object.freeze({
     ApiLoading: 'API_LOADING',
     ClearApiStatus: 'CLEAR_API_STATUS'
 });
+
+export const Decks = Object.freeze({
+    SaveDeck: 'SAVE_DECK',
+    DeckSaved: 'DECK_SAVED'
+});

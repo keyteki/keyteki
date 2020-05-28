@@ -1,23 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import BootstrapTable from 'react-bootstrap-table-next';
-import { Col, Form } from 'react-bootstrap';
-import { Formik, useFormikContext } from 'formik';
+import React, { useState } from 'react';
+import { Col } from 'react-bootstrap';
 import moment from 'moment';
+import BootstrapTable from 'react-bootstrap-table-next';
+import paginationFactory from 'react-bootstrap-table2-paginator';
+import { useTranslation } from 'react-i18next';
 
 import Archon from './Archon';
 
 import './DeckList.scss';
 
-const SubmitOnChange = () => {
-    // Grab values and submitForm from context
-    const { values, submitForm } = useFormikContext();
-    useEffect(() => {
-        submitForm();
-    }, [values, submitForm]);
-
-    return null;
-};
+/**
+ * @typedef Deck
+ * @property {string} name The name of the deck
+ * @property {string[]} houses The houses in the deck
+ * @property {Date} lastUpdated The date the deck was last saved
+ */
 
 /**
  * @typedef DeckListProps
@@ -31,7 +28,7 @@ const SubmitOnChange = () => {
 /**
  * @param {DeckListProps} props
  */
-const DeckList = ({ className, decks, noFilter }) => {
+const DeckList = ({ className, decks }) => {
     const { t } = useTranslation();
     const [zoomArchon, setZoomArchon] = useState(false);
     const [acrhonImage, setArchonImage] = useState('');
@@ -48,14 +45,6 @@ const DeckList = ({ className, decks, noFilter }) => {
         }
 
         return t('Valid');
-    };
-
-    const initialValues = {
-        searchFilter: '',
-        expansionFilter: '',
-        sortOrder: 'datedesc',
-        pageSize: 10,
-        currentPage: 0
     };
 
     const columns = [
@@ -89,13 +78,12 @@ const DeckList = ({ className, decks, noFilter }) => {
             dataField: 'lastUpdated',
             text: t('Date Added'),
             sort: true,
+            /**
+             * @param {Date} cell
+             */
             formatter: (cell) => moment(cell).format('Do MMM YYYY')
         }
     ];
-
-    const handleSubmit = (event) => {
-        console.info(event);
-    };
 
     return (
         <div className={className}>
@@ -106,121 +94,6 @@ const DeckList = ({ className, decks, noFilter }) => {
                     </div>
                 </div>
             )}
-            {!noFilter && (
-                <Formik onSubmit={handleSubmit} initialValues={initialValues}>
-                    {(formProps) => (
-                        <Form
-                            onSubmit={(event) => {
-                                event.preventDefault();
-                                formProps.handleSubmit(event);
-                            }}
-                        >
-                            <Form.Row>
-                                <Form.Group as={Col} md='8' controlId='formGridFilter'>
-                                    <Form.Label>{t('Filter')}</Form.Label>
-                                    <Form.Control
-                                        name='filter'
-                                        type='text'
-                                        placeholder={t('Search...')}
-                                        value={formProps.values.searchFilter}
-                                        onChange={formProps.handleChange}
-                                        onBlur={formProps.handleBlur}
-                                        isInvalid={
-                                            formProps.touched.searchFilter &&
-                                            !!formProps.errors.searchFilter
-                                        }
-                                    />
-                                    <Form.Control.Feedback type='invalid'>
-                                        {formProps.errors.searchFilter}
-                                    </Form.Control.Feedback>
-                                </Form.Group>
-                                <Form.Group as={Col} md='4' controlId='formGridPageSize'>
-                                    <Form.Label>{t('Show')}</Form.Label>
-                                    <Form.Control
-                                        name='pageSize'
-                                        as='select'
-                                        value={formProps.values.pageSize}
-                                        onChange={formProps.handleChange}
-                                        onBlur={formProps.handleBlur}
-                                        isInvalid={
-                                            formProps.touched.pageSize &&
-                                            !!formProps.errors.pageSize
-                                        }
-                                    >
-                                        <option>10</option>
-                                        <option>25</option>
-                                        <option>50</option>
-                                    </Form.Control>
-                                    <Form.Control.Feedback type='invalid'>
-                                        {formProps.errors.pageSize}
-                                    </Form.Control.Feedback>
-                                </Form.Group>
-                            </Form.Row>
-                            <Form.Row>
-                                <Form.Group as={Col} md='12' controlId='formGridExpansion'>
-                                    <Form.Label>{t('Filter by expansion')}</Form.Label>
-                                    <Form.Control
-                                        name='expansion'
-                                        as='select'
-                                        value={formProps.values.expansion}
-                                        onChange={formProps.handleChange}
-                                        onBlur={formProps.handleBlur}
-                                        isInvalid={
-                                            formProps.touched.expansion &&
-                                            !!formProps.errors.expansion
-                                        }
-                                    >
-                                        <option />
-                                        <option>{t('Worlds Collide')}</option>
-                                        <option>{t('Age of Ascension')}</option>
-                                        <option>{t('Call of the Archons')}</option>
-                                    </Form.Control>
-                                    <Form.Control.Feedback type='invalid'>
-                                        {formProps.errors.expansion}
-                                    </Form.Control.Feedback>
-                                </Form.Group>
-                            </Form.Row>
-
-                            <Col md={12}>
-                                {/* <Trans>Sort by</Trans>:
-                                    <RadioGroup
-                                        buttons={sortButtons}
-                                        onValueSelected={this.onSortChanged}
-                                        defaultValue={this.state.sortOrder}
-                                    /> */}
-                            </Col>
-                            <nav className='col-md-12' aria-label={t('Page navigation')}>
-                                <ul className='pagination'>
-                                    <li>
-                                        {/* <a
-                                            href='#'
-                                            aria-label={t('Previous')}
-                                            onClick={this.onPageChanged.bind(this, 0)}
-                                        >
-                                            <span aria-hidden='true'>&laquo;</span>
-                                        </a> */}
-                                    </li>
-                                    {/* {pager} */}
-                                    {/* <li>
-                                            <a
-                                                href='#'
-                                                aria-label={t('Next')}
-                                                onClick={this.onPageChanged.bind(
-                                                    this,
-                                                    pages.length - 1
-                                                )}
-                                            >
-                                                <span aria-hidden='true'>&raquo;</span>
-                                            </a>
-                                        </li> */}
-                                </ul>
-                            </nav>
-
-                            <SubmitOnChange />
-                        </Form>
-                    )}
-                </Formik>
-            )}
             <Col md={12}>
                 <BootstrapTable
                     bootstrap4
@@ -228,7 +101,7 @@ const DeckList = ({ className, decks, noFilter }) => {
                     keyField='id'
                     data={decks}
                     columns={columns}
-                    // pagination={paginationFactory()}
+                    pagination={paginationFactory()}
                     defaultSorted={[{ dataField: 'datePublished', order: 'desc' }]}
                 />
             </Col>

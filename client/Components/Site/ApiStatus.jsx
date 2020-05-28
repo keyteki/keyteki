@@ -9,7 +9,6 @@ import { Alert } from 'react-bootstrap';
 
 /**
  * @param {ApiStatusProps} props
- * @returns {React.FC<ApiStatusProps>}
  */
 const ApiStatus = (props) => {
     if (!props.state || props.state.loading) {

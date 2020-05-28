@@ -22,7 +22,6 @@ import './ProfileMain.scss';
 
 /**
  * @param {ProfileMainProps} props
- * @returns {React.FC<ProfileMainProps>}
  */
 const ProfileMain = (props) => {
     const { t } = useTranslation();

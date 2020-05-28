@@ -67,7 +67,6 @@ const initialValues = {
 
 /**
  * @param {ProfileProps} props
- * @returns {React.FC<ProfileProps>}
  */
 const Profile = (props) => {
     const { user, onSubmit, isLoading } = props;

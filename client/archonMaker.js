@@ -215,6 +215,10 @@ export const buildDeckList = (deck, language, translate, AllCards) =>
             });
     });
 
+/**
+ * @param {import('./Components/Decks/DeckList').Deck} deck
+ * @param {string} language
+ */
 export const buildArchon = async (deck, language) => {
     if (!deck.houses) {
         return defaultCard;

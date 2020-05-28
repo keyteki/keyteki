@@ -5,7 +5,7 @@ import { buildArchon } from '../../archonMaker';
 
 /**
  * @typedef ArchonProps
- * @property {Deck} deck
+ * @property {import('./DeckList').Deck} deck
  * @property {function(boolean): void} onZoomToggle
  * @property {function(string): void} onImageChanged
  */

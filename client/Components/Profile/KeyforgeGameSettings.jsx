@@ -9,13 +9,12 @@ import { useTranslation } from 'react-i18next';
 
 /**
  * @typedef KeyforgeGameSettingsProps
- * @property {import('formik').FormikProps<ProfileDetails} formProps
+ * @property {import('formik').FormikProps<ProfileDetails>} formProps
  * @property {User} user
  */
 
 /**
  * @param {KeyforgeGameSettingsProps} props
- * @returns {React.FC<KeyforgeGameSettingsProps>}
  */
 const KeyforgeGameSettings = (props) => {
     const { t } = useTranslation();

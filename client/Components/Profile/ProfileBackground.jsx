@@ -21,7 +21,6 @@ import GameBackgroundOption from './GameBackgroundOption';
 
 /**
  * @param {BackgroundProps} props
- * @returns {React.FC<BackgroundProps>}
  */
 const ProfileBackground = (props) => {
     const { t } = useTranslation();

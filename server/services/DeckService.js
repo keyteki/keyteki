@@ -69,6 +69,22 @@ class DeckService {
         return retDeck;
     }
 
+    async deckExistsForUser(user, deckId) {
+        let deck;
+        try {
+            deck = await db.query(
+                'SELECT 1 FROM "Decks" d WHERE d."Identity" = $1 AND d."UserId" = $2',
+                [deckId, user.id]
+            );
+        } catch (err) {
+            logger.error(`Failed to check deck: ${deckId}`, err);
+
+            return false;
+        }
+
+        return deck && deck.length > 0;
+    }
+
     async getStandaloneDeckById(standaloneId) {
         let deck;
 
@@ -250,23 +266,48 @@ class DeckService {
             if (response[0] === '<') {
                 logger.error('Deck failed to import: %s %s', deck.uuid, response);
 
-                return;
+                throw new Error('Invalid response from Api. Please try again later.');
             }
 
             deckResponse = JSON.parse(response);
         } catch (error) {
             logger.error(`Unable to import deck ${deck.uuid}`, error);
 
-            return;
+            throw new Error('Invalid response from Api. Please try again later.');
         }
 
         if (!deckResponse || !deckResponse._linked || !deckResponse.data) {
-            return;
+            throw new Error('Invalid response from Api. Please try again later.');
         }
 
         let newDeck = this.parseDeckResponse(deck.username, deckResponse);
 
+        let validExpansion = await this.checkValidDeckExpansion(newDeck);
+        if (!validExpansion) {
+            throw new Error('This deck is from a future expansion and not currently supported');
+        }
+
+        let deckExists = await this.deckExistsForUser(user, newDeck.identity);
+        if (deckExists) {
+            throw new Error('Deck already exists.');
+        }
+
         return this.insertDeck(newDeck, user);
+    }
+
+    async checkValidDeckExpansion(deck) {
+        let ret;
+        try {
+            ret = await db.query('SELECT 1 FROM "Expansions" WHERE "ExpansionId" = $1', [
+                deck.expansion
+            ]);
+        } catch (err) {
+            logger.error('Failed to check expansion', err);
+
+            return false;
+        }
+
+        return ret && ret.length > 0;
     }
 
     async insertDeck(deck, user) {

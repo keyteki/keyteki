@@ -1,3 +1,5 @@
+import { Decks } from '../types';
+
 function selectDeck(state, deck) {
     if (state.decks && state.decks.length !== 0) {
         state.selectedDeck = deck;
@@ -153,13 +155,13 @@ export default function (state = { decks: [] }, action) {
             }
 
             return newState;
-        case 'SAVE_DECK':
+        case Decks.SaveDeck:
             newState = Object.assign({}, state, {
                 deckSaved: false
             });
 
             return newState;
-        case 'DECK_SAVED':
+        case Decks.DeckSaved:
             decks = state.decks;
             decks.unshift(action.response.deck);
             newState = Object.assign({}, state, {

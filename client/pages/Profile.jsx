@@ -7,9 +7,6 @@ import Profile from '../Components/Profile/Profile';
 import { updateProfile, clearApiStatus } from '../redux/actions';
 import ApiStatus from '../Components/Site/ApiStatus';
 
-/**
- * @returns {React.FC}
- */
 const ProfileContainer = () => {
     const dispatch = useDispatch();
     const { t } = useTranslation();

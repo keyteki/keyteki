@@ -102,8 +102,7 @@ module.exports.init = function (server) {
             } catch (error) {
                 return res.send({
                     success: false,
-                    message:
-                        'An error occurred importing your deck.  Please check the Url or try again later.'
+                    message: error.message
                 });
             }
 
