@@ -1,6 +1,7 @@
 import { fabric } from 'fabric';
 import QRCode from 'qrcode';
 import uuid from 'uuid';
+
 const defaultCard = 'img/idbacks/identity.jpg';
 
 export const buildDeckList = (deck, language, translate, AllCards) =>
@@ -13,7 +14,9 @@ export const buildDeckList = (deck, language, translate, AllCards) =>
         if (!deck.cards || 0 >= deck.cards.length) {
             buildArchon(deck, language)
                 .then((imageUrl) => resolve(imageUrl))
-                .catch(() => resolve(defaultCard));
+                .catch(() => {
+                    resolve(defaultCard);
+                });
             return;
         }
 
@@ -203,41 +206,52 @@ export const buildDeckList = (deck, language, translate, AllCards) =>
 
                 Promise.all([...houseProm, ...cardProm])
                     .then(() => resolve(canvas.toDataURL('image/jpeg')))
-                    .catch(() => resolve(defaultCard));
+                    .catch(() => {
+                        resolve(defaultCard);
+                    });
             })
-            .catch(() => resolve(defaultCard));
+            .catch(() => {
+                resolve(defaultCard);
+            });
     });
 
-export const buildArchon = (deck, language) =>
-    new Promise((resolve) => {
-        if (!deck.houses) {
-            resolve(defaultCard);
-            return;
-        }
+export const buildArchon = async (deck, language) => {
+    if (!deck.houses) {
+        return defaultCard;
+    }
 
-        let canvas;
-        try {
-            canvas = new fabric.Canvas('archon');
-        } catch (err) {
-            resolve(defaultCard);
-        }
+    let canvas;
+    try {
+        canvas = new fabric.Canvas('archon');
+    } catch (err) {
+        return defaultCard;
+    }
 
-        canvas.setDimensions({ width: 600, height: 840 });
-        loadImage(`/img/idbacks/archons/${imageName(deck, language)}.png`)
-            .then((archon) => {
-                canvas.add(archon);
-                canvas.add(getCircularText(deck.name, 700, 15));
-                resolve(canvas.toDataURL({ format: 'jpeg', quality: 0.8 }));
-            })
-            .catch(() => resolve(defaultCard));
-    });
+    canvas.setDimensions({ width: 600, height: 840 });
+    let archon;
+    try {
+        archon = await loadImage(`/img/idbacks/archons/${imageName(deck, language)}.png`);
+    } catch {
+        archon = await loadImage(defaultCard);
+    }
+
+    canvas.add(archon);
+    canvas.add(getCircularText(deck.name, 700, 15));
+
+    return canvas.toDataURL({ format: 'jpeg', quality: 0.8 });
+};
 
 const loadImage = (url) => {
     return new Promise((resolve, reject) => {
         fabric.Image.fromURL(url, (image) => {
             if (!image.getElement()) {
+                console.info('rejecting');
                 reject();
             } else {
+                if (image.width === 0) {
+                    return reject();
+                }
+
                 resolve(image);
             }
         });
@@ -264,6 +278,7 @@ const getCircularText = (text = '', diameter, yOffset = 0) => {
     let canvas;
     try {
         canvas = fabric.util.createCanvasElement();
+        canvas.id = 'archon-canvas';
     } catch (err) {
         return;
     }
@@ -302,5 +317,8 @@ const getCircularText = (text = '', diameter, yOffset = 0) => {
         ctx.rotate((charWid / 2 / (diameter / 2 - textHeight)) * -1); // rotate half letter
     }
 
-    return new fabric.Image(canvas.id, { left: 0, top: 0 });
+    let img = document.createElement('img');
+    img.src = canvas.toDataURL();
+
+    return new fabric.Image(img, { left: 0, top: 0 });
 };

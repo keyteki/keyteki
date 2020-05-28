@@ -1,11 +1,13 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import BootstrapTable from 'react-bootstrap-table-next';
 import { Col, Form } from 'react-bootstrap';
 import { Formik, useFormikContext } from 'formik';
 import moment from 'moment';
 
-import { buildArchon } from '../../archonMaker';
+import Archon from './Archon';
+
+import './DeckList.scss';
 
 const SubmitOnChange = () => {
     // Grab values and submitForm from context
@@ -29,8 +31,10 @@ const SubmitOnChange = () => {
 /**
  * @param {DeckListProps} props
  */
-const DeckList = ({ activeDeck, className, decks, noFilter, onSelectDeck }) => {
-    const { t, i18n } = useTranslation();
+const DeckList = ({ className, decks, noFilter }) => {
+    const { t } = useTranslation();
+    const [zoomArchon, setZoomArchon] = useState(false);
+    const [acrhonImage, setArchonImage] = useState('');
 
     const getStatusName = (status) => {
         if (status.usageLevel === 1 && !status.verified) {
@@ -59,10 +63,16 @@ const DeckList = ({ activeDeck, className, decks, noFilter, onSelectDeck }) => {
             dataField: 'none',
             text: t('Id'),
             sort: false,
-            formatExtraData: 
-            formatter: (_, row) => {
-                return buildArchon(row, i18n.language);
-            }
+            // eslint-disable-next-line react/display-name
+            formatter: (_, row) => (
+                <div className='deck-image'>
+                    <Archon
+                        deck={row}
+                        onZoomToggle={(zoom) => setZoomArchon(zoom)}
+                        onImageChanged={(image) => setArchonImage(image)}
+                    />
+                </div>
+            )
         },
         {
             dataField: 'name',
@@ -89,6 +99,13 @@ const DeckList = ({ activeDeck, className, decks, noFilter, onSelectDeck }) => {
 
     return (
         <div className={className}>
+            {zoomArchon && (
+                <div className='hover-card'>
+                    <div className='hover-image'>
+                        <img className={'img-fluid'} src={acrhonImage} />
+                    </div>
+                </div>
+            )}
             {!noFilter && (
                 <Formik onSubmit={handleSubmit} initialValues={initialValues}>
                     {(formProps) => (

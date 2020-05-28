@@ -1,1 +1,15 @@
 $navbar-height: 45px;
+// Z-index layers
+
+$layer-bottom: 1;
+$layer-cards: 10;
+$layer-pile-header: 20;
+$layer-card-collection: 100;
+$layer-prompt: 110;
+$layer-card-menu: 120;
+$layer-top: 9999;
+
+// card
+
+$keyteki-card-width: 65px;
+$keyteki-card-height: 91px;

@@ -1,0 +1,33 @@
+@import '../../styles/variables';
+
+.deck-list {
+    padding-top: 15px;
+}
+
+.deck-image {
+    padding-left: 0;
+    padding-right: 0;
+    width: 30px;
+}
+
+.hover-card {
+    position: fixed;
+    top: 60px;
+    left: 10px;
+    z-index: $layer-top;
+    min-width: $keyteki-card-width * 4;
+    min-height: $keyteki-card-height * 4;
+    pointer-events: none;
+
+    &.horizontal {
+        min-height: $keyteki-card-width * 4;
+        min-width: $keyteki-card-height * 4;
+    }
+}
+
+.hover-image {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: $layer-top;
+}

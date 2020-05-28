@@ -3,9 +3,9 @@ import { Col, Alert } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
 
-import Profile from '../components/Profile/Profile';
+import Profile from '../Components/Profile/Profile';
 import { updateProfile, clearApiStatus } from '../redux/actions';
-import ApiStatus from '../components/Site/ApiStatus';
+import ApiStatus from '../Components/Site/ApiStatus';
 
 /**
  * @returns {React.FC}

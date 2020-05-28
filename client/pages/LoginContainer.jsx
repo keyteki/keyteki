@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Col } from 'react-bootstrap';
 
-import Login from '../components/Login';
-import Panel from '../components/Site/Panel';
-import ApiStatus from '../components/Site/ApiStatus';
+import Login from '../Components/Login';
+import Panel from '../Components/Site/Panel';
+import ApiStatus from '../Components/Site/ApiStatus';
 import { Auth } from '../redux/types';
 import { loginAccount, clearApiStatus, authenticateSocket, navigate } from '../redux/actions';
 
