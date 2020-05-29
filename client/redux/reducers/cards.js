@@ -99,6 +99,7 @@ export default function (state = { decks: [] }, action) {
             processDecks(action.response.decks, state);
             newState = Object.assign({}, state, {
                 singleDeck: false,
+                numDecks: action.response.numDecks,
                 decks: action.response.decks
             });
 

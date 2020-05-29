@@ -53,36 +53,41 @@ module.exports.init = function (server) {
         '/api/decks',
         passport.authenticate('jwt', { session: false }),
         wrapAsync(async function (req, res) {
-            let decks = (await deckService.findForUser(req.user)).map((deck) => {
-                let deckUsageLevel = 0;
-                if (
-                    deck.usageCount >
-                    configService.getValueForSection('lobby', 'lowerDeckThreshold')
-                ) {
-                    deckUsageLevel = 1;
-                }
+            let numDecks = await deckService.getNumDecksForUser(req.user);
+            let decks = [];
 
-                if (
-                    deck.usageCount >
-                    configService.getValueForSection('lobby', 'middleDeckThreshold')
-                ) {
-                    deckUsageLevel = 2;
-                }
+            if (numDecks > 0) {
+                decks = (await deckService.findForUser(req.user, req.query)).map((deck) => {
+                    let deckUsageLevel = 0;
+                    if (
+                        deck.usageCount >
+                        configService.getValueForSection('lobby', 'lowerDeckThreshold')
+                    ) {
+                        deckUsageLevel = 1;
+                    }
 
-                if (
-                    deck.usageCount >
-                    configService.getValueForSection('lobby', 'upperDeckThreshold')
-                ) {
-                    deckUsageLevel = 3;
-                }
+                    if (
+                        deck.usageCount >
+                        configService.getValueForSection('lobby', 'middleDeckThreshold')
+                    ) {
+                        deckUsageLevel = 2;
+                    }
 
-                deck.usageLevel = deckUsageLevel;
-                deck.usageCount = undefined;
+                    if (
+                        deck.usageCount >
+                        configService.getValueForSection('lobby', 'upperDeckThreshold')
+                    ) {
+                        deckUsageLevel = 3;
+                    }
 
-                return deck;
-            });
+                    deck.usageLevel = deckUsageLevel;
+                    deck.usageCount = undefined;
 
-            res.send({ success: true, decks: decks });
+                    return deck;
+                });
+            }
+
+            res.send({ success: true, numDecks: numDecks, decks: decks });
         })
     );
 

@@ -190,9 +190,43 @@ class DeckService {
         return retDeck;
     }
 
-    async findForUser(user) {
+    async getNumDecksForUser(user) {
+        let ret;
+
+        try {
+            ret = await db.query('SELECT COUNT(*) AS "NumDecks" FROM "Decks" WHERE "UserId" = $1', [
+                user.id
+            ]);
+        } catch (err) {
+            logger.error('Failed to count users decks');
+
+            throw new Error('Failed to count decks');
+        }
+
+        return ret && ret.length > 0 ? ret[0].NumDecks : 0;
+    }
+
+    mapSortColumn(sort) {
+        switch (sort) {
+            case 'lastUpdated':
+                return 'd."LastUpdated"';
+            case 'name':
+                return 'd."Identity"';
+            default:
+                return 'd."LastUpdated"';
+        }
+    }
+
+    async findForUser(
+        user,
+        options = { page: 1, pageSize: 10, sort: 'lastUpdated', sortDir: 'desc' }
+    ) {
         let retDecks = [];
         let decks;
+        let pageSize = options.pageSize;
+        let page = options.page;
+        let sortColumn = this.mapSortColumn(options.sort);
+        let sortDir = options.sortDir === 'desc' ? 'DESC' : 'ASC';
 
         try {
             decks = await db.query(
@@ -203,8 +237,10 @@ class DeckService {
                     'JOIN "Users" u ON u."Id" = "UserId" ' +
                     'JOIN "Expansions" e on e."Id" = d."ExpansionId" ' +
                     'WHERE "UserId" = $1 ' +
-                    'ORDER BY "LastUpdated" DESC',
-                [user.id]
+                    `ORDER BY ${sortColumn} ${sortDir} ` +
+                    'LIMIT $2 ' +
+                    'OFFSET $3',
+                [user.id, pageSize, page - 1]
             );
         } catch (err) {
             logger.error('Failed to retrieve decks', err);

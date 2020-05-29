@@ -6,32 +6,29 @@ import { buildArchon } from '../../archonMaker';
 /**
  * @typedef ArchonProps
  * @property {import('./DeckList').Deck} deck
- * @property {function(boolean): void} onZoomToggle
- * @property {function(string): void} onImageChanged
+ * @property {function(boolean, string): void} onZoomToggle
  */
 
 /**
  * @param {ArchonProps} props
  */
-const Archon = ({ deck, onZoomToggle, onImageChanged }) => {
+const Archon = ({ deck, onZoomToggle }) => {
     const { i18n } = useTranslation();
     const [imageUrl, setImageUrl] = useState('');
 
-    const loadArchon = () => {
+    useEffect(() => {
         buildArchon(deck, i18n.language).then((imageUrl) => {
             setImageUrl(imageUrl);
-            onImageChanged(imageUrl);
         });
-    };
-
-    useEffect(loadArchon, []);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return (
         <img
             className={'img-fluid'}
             src={imageUrl}
-            onMouseOut={() => onZoomToggle(false)}
-            onMouseOver={() => onZoomToggle(true)}
+            onMouseOut={() => onZoomToggle(false, null)}
+            onMouseOver={() => onZoomToggle(true, imageUrl)}
         />
     );
 };

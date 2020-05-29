@@ -2,7 +2,7 @@ import { fabric } from 'fabric';
 import QRCode from 'qrcode';
 import uuid from 'uuid';
 
-const defaultCard = 'img/idbacks/identity.jpg';
+const defaultCard = 'img/idbacks/identity-clean.png';
 
 export const buildDeckList = (deck, language, translate, AllCards) =>
     new Promise((resolve) => {

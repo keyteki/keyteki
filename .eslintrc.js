@@ -12,6 +12,7 @@ module.exports = {
     plugins: ['react', 'prettier'],
     extends: [
         'eslint:recommended',
+        'plugin:react-hooks/recommended',
         'plugin:react/recommended',
         'plugin:prettier/recommended',
         'plugin:jest/recommended'

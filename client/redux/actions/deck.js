@@ -1,12 +1,19 @@
 import { Decks } from '../types';
 
-export function loadDecks() {
+/**
+ * @typedef PagingOptions
+ * @property {number} pageSize
+ * @property {number} page
+ */
+
+/**
+ * @param {PagingOptions} options
+ */
+export function loadDecks(options = { page: 1, pageSize: 10 }) {
     return {
         types: ['REQUEST_DECKS', 'RECEIVE_DECKS'],
-        shouldCallAPI: (state) => {
-            return state.cards.singleDeck || state.cards.decks.length === 0;
-        },
-        APIParams: { url: '/api/decks', cache: false }
+        shouldCallAPI: () => true,
+        APIParams: { url: '/api/decks', cache: false, data: options }
     };
 }
 

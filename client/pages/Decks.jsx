@@ -20,7 +20,7 @@ class Decks extends React.Component {
     }
 
     componentDidMount() {
-        this.props.loadDecks();
+        //   this.props.loadDecks();
     }
 
     handleDeleteDeck(deck) {
@@ -60,9 +60,8 @@ class Decks extends React.Component {
                                 </Link>
                                 <DeckList
                                     className='deck-list'
-                                    activeDeck={this.props.selectedDeck}
-                                    decks={this.props.decks}
-                                    onSelectDeck={this.props.selectDeck}
+                                    // activeDeck={this.props.selectedDeck}
+                                    // onSelectDeck={this.props.selectDeck}
                                 />
                             </Panel>
                         </Col>
@@ -90,12 +89,13 @@ Decks.propTypes = {
     cards: PropTypes.object,
     clearDeckStatus: PropTypes.func,
     deckDeleted: PropTypes.bool,
-    decks: PropTypes.array,
+    //    decks: PropTypes.array,
     deleteDeck: PropTypes.func,
     i18n: PropTypes.object,
     loadDecks: PropTypes.func,
     loading: PropTypes.bool,
     navigate: PropTypes.func,
+    //numDecks: PropTypes.number,
     selectDeck: PropTypes.func,
     selectedDeck: PropTypes.object,
     t: PropTypes.func
@@ -103,13 +103,14 @@ Decks.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        apiLoading: state.api.REQUEST_DECKS ? state.api.REQUEST_DECKS.loading : undefined,
-        apiMessage: state.api.REQUEST_DECKS ? state.api.REQUEST_DECKS.message : undefined,
-        apiSuccess: state.api.REQUEST_DECKS ? state.api.REQUEST_DECKS.success : undefined,
+        //    apiLoading: state.api.REQUEST_DECKS ? state.api.REQUEST_DECKS.loading : undefined,
+        //apiMessage: state.api.REQUEST_DECKS ? state.api.REQUEST_DECKS.message : undefined,
+        //apiSuccess: state.api.REQUEST_DECKS ? state.api.REQUEST_DECKS.success : undefined,
         cards: state.cards.cards,
         deckDeleted: state.cards.deckDeleted,
-        decks: state.cards.decks,
+        //decks: state.cards.decks,
         loading: state.api.loading,
+        //        numDecks: state.cards.numDecks,
         selectedDeck: state.cards.selectedDeck
     };
 }
