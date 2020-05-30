@@ -1,4 +1,4 @@
-describe('Ultra Gravitron', function () {
+fdescribe('Ultra Gravitron', function () {
     integration(function () {
         describe("Ultra Gravitron's Ability", function () {
             beforeEach(function () {
@@ -6,7 +6,7 @@ describe('Ultra Gravitron', function () {
                     player1: {
                         house: 'logos',
                         inPlay: ['fuzzy-gruen'],
-                        hand: ['ultra-gravitron', 'ultra-gravitron-2', 'bouncing-deathquark']
+                        hand: ['ultra-gravitron', 'ultra-gravitron2', 'bouncing-deathquark']
                     },
                     player2: {
                         amber: 5,
@@ -191,7 +191,7 @@ describe('Ultra Gravitron', function () {
                         amber: 2,
                         house: 'logos',
                         inPlay: ['fuzzy-gruen'],
-                        hand: ['ultra-gravitron', 'ultra-gravitron-2', 'wild-wormhole']
+                        hand: ['ultra-gravitron', 'ultra-gravitron2', 'wild-wormhole']
                     },
                     player2: {
                         amber: 5,
@@ -250,7 +250,7 @@ describe('Ultra Gravitron', function () {
                         amber: 2,
                         house: 'logos',
                         inPlay: ['fuzzy-gruen'],
-                        hand: ['ultra-gravitron', 'ultra-gravitron-2']
+                        hand: ['ultra-gravitron', 'ultra-gravitron2']
                     },
                     player2: {
                         amber: 5,

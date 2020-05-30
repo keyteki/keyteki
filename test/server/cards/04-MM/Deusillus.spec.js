@@ -1,4 +1,4 @@
-describe('Deusillus', function () {
+fdescribe('Deusillus', function () {
     integration(function () {
         describe("Deusillus's Ability", function () {
             beforeEach(function () {
@@ -7,7 +7,7 @@ describe('Deusillus', function () {
                         amber: 2,
                         house: 'saurian',
                         inPlay: ['senator-shrix'],
-                        hand: ['deusillus', 'deusillus-2', 'regrettable-meteor']
+                        hand: ['deusillus', 'deusillus2', 'regrettable-meteor']
                     },
                     player2: {
                         amber: 5,
@@ -167,7 +167,7 @@ describe('Deusillus', function () {
                         amber: 2,
                         house: 'logos',
                         inPlay: ['senator-shrix'],
-                        hand: ['deusillus', 'deusillus-2', 'wild-wormhole']
+                        hand: ['deusillus', 'deusillus2', 'wild-wormhole']
                     },
                     player2: {
                         amber: 5,
@@ -226,7 +226,7 @@ describe('Deusillus', function () {
                         amber: 2,
                         house: 'saurian',
                         inPlay: ['senator-shrix'],
-                        hand: ['deusillus', 'deusillus-2']
+                        hand: ['deusillus', 'deusillus2']
                     },
                     player2: {
                         amber: 5,
@@ -290,7 +290,7 @@ describe('Deusillus', function () {
                         amber: 2,
                         house: 'saurian',
                         inPlay: ['senator-shrix'],
-                        hand: ['deusillus', 'deusillus-2']
+                        hand: ['deusillus', 'deusillus2']
                     },
                     player2: {
                         amber: 5,
@@ -321,7 +321,7 @@ describe('Deusillus', function () {
                         amber: 2,
                         house: 'saurian',
                         inPlay: ['senator-shrix'],
-                        hand: ['deusillus', 'deusillus-2', 'poltergeist']
+                        hand: ['deusillus', 'deusillus2', 'poltergeist']
                     },
                     player2: {
                         amber: 5,
