@@ -1,4 +1,4 @@
-fdescribe('Ultra Gravitron', function () {
+describe('Ultra Gravitron', function () {
     integration(function () {
         describe("Ultra Gravitron's Ability", function () {
             beforeEach(function () {
@@ -111,7 +111,7 @@ fdescribe('Ultra Gravitron', function () {
                 this.player1.clickCard(this.narp);
                 expect(this.player1.player.archives.length).toBe(4);
                 expect(this.narp.location).toBe('purged');
-                expect(this.ultraGravitron2.tokens.damage).toBe(4);
+                expect(this.ultraGravitron2.tokens.damage).toBe(7);
                 expect(this.zorg.location).toBe('discard');
                 expect(this.player1.amber).toBe(0);
             });
@@ -144,7 +144,7 @@ fdescribe('Ultra Gravitron', function () {
                 this.player1.clickCard(this.fuzzyGruen);
                 expect(this.player1.player.archives.length).toBe(4);
                 expect(this.fuzzyGruen.location).toBe('purged');
-                expect(this.ultraGravitron2.tokens.damage).toBe(4);
+                expect(this.ultraGravitron2.tokens.damage).toBe(7);
                 expect(this.zorg.location).toBe('discard');
                 expect(this.player1.amber).toBe(2);
             });

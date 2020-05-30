@@ -1,4 +1,4 @@
-fdescribe('Niffle Kong', function () {
+describe('Niffle Kong', function () {
     integration(function () {
         describe("Niffle Kong's Ability", function () {
             beforeEach(function () {
