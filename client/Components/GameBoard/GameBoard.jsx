@@ -369,6 +369,7 @@ export class GameBoard extends React.Component {
                     <PlayerRow
                         isMe={!this.state.spectating}
                         player={1}
+                        hideDecklist={this.props.currentGame.hideDecklists && this.state.spectating}
                         cardBackUrl={this.props.player1CardBack}
                         archives={thisPlayer.cardPiles.archives}
                         language={this.props.i18n.language}
