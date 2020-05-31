@@ -39,6 +39,7 @@ INSERT INTO public."Roles" ("Id", "Name") VALUES (10, 'Admin');
 INSERT INTO public."Roles" ("Id", "Name") VALUES (11, 'Supporter');
 INSERT INTO public."Roles" ("Id", "Name") VALUES (12, 'Contributor');
 INSERT INTO public."Roles" ("Id", "Name") VALUES (13, 'TournamentManager');
+INSERT INTO public."Roles" ("Id", "Name") VALUES (14, 'TournamentWinner');
 
 --
 -- Name: Roles_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: keyteki

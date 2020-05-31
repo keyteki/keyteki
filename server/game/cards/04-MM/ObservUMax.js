@@ -1,6 +1,6 @@
 const Card = require('../../Card.js');
 
-class ObserveUMax extends Card {
+class ObservUMax extends Card {
     setupCardAbilities(ability) {
         this.whileAttached({
             effect: [
@@ -15,6 +15,6 @@ class ObserveUMax extends Card {
     }
 }
 
-ObserveUMax.id = 'observe-u-max';
+ObservUMax.id = 'observ-u-max';
 
-module.exports = ObserveUMax;
+module.exports = ObservUMax;
