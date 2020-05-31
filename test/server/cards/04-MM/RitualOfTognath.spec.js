@@ -1,6 +1,6 @@
 describe('Ritual of Tognath', function() {
     integration(function() {
-        describe('Ritual of Tognath\'s ability', function() {
+        describe("Ritual of Tognath's ability", function() {
             beforeEach(function() {
                 this.setupTest({
                     player1: {
