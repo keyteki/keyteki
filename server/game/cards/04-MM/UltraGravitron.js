@@ -7,7 +7,7 @@ class UltraGravitron extends Card {
         this.gigantic = true;
         this.playedParts = [];
         this.compositeImageId = 'ultra-gravitron-complete';
-        this.compositeParts = ['ultra-gravitron-2'];
+        this.compositeParts = ['ultra-gravitron2'];
     }
 
     setupCardAbilities(ability) {
