@@ -7,7 +7,7 @@ class WailOfTheDamned extends Card {
                 mode: 'exactly',
                 numCards: 1,
                 cardType: 'creature',
-                cardCondition: card => card.bonusIcons.length === 0,
+                cardCondition: (card) => card.bonusIcons.length === 0,
                 gameAction: ability.actions.destroy()
             }
         });
