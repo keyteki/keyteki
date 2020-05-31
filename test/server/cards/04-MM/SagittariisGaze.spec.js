@@ -1,6 +1,6 @@
-describe('Sagittarii\'s Gaze', function() {
+describe("Sagittarii's Gaze', function() {
     integration(function() {
-        describe('Sagittarii\'s Gaze\'s ability', function() {
+        describe("Sagittarii's Gaze's ability", function() {
             beforeEach(function() {
                 this.setupTest({
                     player1: {
