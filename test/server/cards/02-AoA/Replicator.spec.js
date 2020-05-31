@@ -1,7 +1,7 @@
-describe('Replicator', function() {
-    integration(function() {
-        describe('Replicator\'s ability', function() {
-            beforeEach(function() {
+describe('Replicator', function () {
+    integration(function () {
+        describe("Replicator's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
@@ -15,14 +15,14 @@ describe('Replicator', function() {
                 });
             });
 
-            it('should use Gamgee\'s reap effect', function() {
+            it("should use Gamgee's reap effect", function () {
                 this.player1.reap(this.replicator);
                 this.player1.clickCard(this.gamgee);
                 expect(this.player1.player.amber).toBe(4);
                 expect(this.player2.player.amber).toBe(4);
             });
 
-            it('should use Foozle\'s reap effect', function() {
+            it("should use Foozle's reap effect", function () {
                 this.player1.fightWith(this.titanMechanic, this.bingleBangbang);
                 this.player1.reap(this.replicator);
                 this.player1.clickCard(this.foozle);
@@ -30,15 +30,15 @@ describe('Replicator', function() {
                 expect(this.player2.player.amber).toBe(5);
             });
 
-            it('should fail Foozle\'s reap effect\'s condition', function() {
+            it("should fail Foozle's reap effect's condition", function () {
                 this.player1.reap(this.replicator);
                 this.player1.clickCard(this.foozle);
                 expect(this.player1.player.amber).toBe(3);
                 expect(this.player2.player.amber).toBe(5);
             });
         });
-        describe('Replicator\'s ability', function() {
-            beforeEach(function() {
+        describe("Replicator's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'mars',
@@ -53,7 +53,7 @@ describe('Replicator', function() {
                 });
             });
 
-            it('Copy reap effects including upgrades', function() {
+            it('Copy reap effects including upgrades', function () {
                 // This test specifically addresses multiple reap effects and
                 // Is xit'd until we re-factor the base replicator card code
                 this.player1.playUpgrade(this.redPlanetRayGun, this.ulyqMegamouth);

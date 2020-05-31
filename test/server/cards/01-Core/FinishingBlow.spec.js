@@ -1,7 +1,7 @@
-describe('Finishing Blow', function() {
-    integration(function() {
-        describe('Finishing Blow\'s ability', function() {
-            beforeEach(function() {
+describe('Finishing Blow', function () {
+    integration(function () {
+        describe("Finishing Blow's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'shadows',
@@ -15,7 +15,7 @@ describe('Finishing Blow', function() {
                 });
             });
 
-            it('should steal an amber when killing a damaged creature', function() {
+            it('should steal an amber when killing a damaged creature', function () {
                 this.player1.fightWith(this.silvertooth, this.yantzeeGang);
                 this.player1.play(this.finishingBlow);
                 expect(this.player1).toHavePrompt('Finishing Blow');
@@ -27,7 +27,7 @@ describe('Finishing Blow', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should not steal when there are no damaged creates', function() {
+            it('should not steal when there are no damaged creates', function () {
                 this.player1.play(this.finishingBlow);
                 expect(this.yantzeeGang.location).toBe('play area');
                 expect(this.silvertooth.location).toBe('play area');
@@ -38,4 +38,3 @@ describe('Finishing Blow', function() {
         });
     });
 });
-

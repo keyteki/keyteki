@@ -19,26 +19,25 @@ class Application extends React.Component {
 
         this.onFocusChange = this.onFocusChange.bind(this);
         this.blinkTab = this.blinkTab.bind(this);
-        this.state = {
-        };
+        this.state = {};
     }
 
     // eslint-disable-next-line react/no-deprecated
     componentWillMount() {
-        if(!localStorage) {
+        if (!localStorage) {
             this.setState({ incompatibleBrowser: true });
         } else {
             try {
                 let token = localStorage.getItem('token');
                 let refreshToken = localStorage.getItem('refreshToken');
-                if(refreshToken) {
+                if (refreshToken) {
                     const parsedToken = tryParseJSON(refreshToken);
-                    if(parsedToken) {
+                    if (parsedToken) {
                         this.props.setAuthTokens(token, parsedToken);
                         this.props.authenticate();
                     }
                 }
-            } catch(error) {
+            } catch (error) {
                 this.setState({ cannotLoad: true });
             }
         }
@@ -48,7 +47,7 @@ class Application extends React.Component {
         this.props.loadStandaloneDecks();
 
         $(document).ajaxError((event, xhr) => {
-            if(xhr.status === 403) {
+            if (xhr.status === 403) {
                 this.props.navigate('/unauth');
             }
         });
@@ -59,11 +58,11 @@ class Application extends React.Component {
     }
 
     componentDidUpdate(props) {
-        if(!this.props.currentGame) {
+        if (!this.props.currentGame) {
             this.props.setContextMenu([]);
         }
 
-        if(!props.windowBlurred || this.props.windowBlurred) {
+        if (!props.windowBlurred || this.props.windowBlurred) {
             this.blinkTab();
         }
     }
@@ -74,16 +73,18 @@ class Application extends React.Component {
     }
 
     blinkTab() {
-        if(!this.props.currentGame || !this.props.currentGame.players) {
+        if (!this.props.currentGame || !this.props.currentGame.players) {
             return;
         }
 
-        if(Object.keys(this.props.currentGame.players).length < 2) {
+        if (Object.keys(this.props.currentGame.players).length < 2) {
             return;
         }
 
-        const activePlayer = Object.values(this.props.currentGame.players).find(x => x.activePlayer);
-        if(activePlayer && this.props.user && activePlayer.name === this.props.user.username) {
+        const activePlayer = Object.values(this.props.currentGame.players).find(
+            (x) => x.activePlayer
+        );
+        if (activePlayer && this.props.user && activePlayer.name === this.props.user.username) {
             let oldTitle = document.title;
             let msg = 'Alert!';
             let timeoutId = false;
@@ -91,25 +92,25 @@ class Application extends React.Component {
             let blink = function () {
                 document.title = document.title === msg ? oldTitle : msg;
 
-                if(document.hasFocus()) {
+                if (document.hasFocus()) {
                     document.title = oldTitle;
                     clearInterval(timeoutId);
                 }
             };
 
-            if(!timeoutId) {
+            if (!timeoutId) {
                 timeoutId = setInterval(blink, 500);
             }
         }
     }
-
 
     onFocusChange(event) {
         this.props.setWindowBlur(event.type);
     }
 
     render() {
-        let gameBoardVisible = this.props.currentGame && this.props.currentGame.started && this.props.path === '/play';
+        let gameBoardVisible =
+            this.props.currentGame && this.props.currentGame.started && this.props.path === '/play';
 
         let component = this.router.resolvePath({
             pathname: this.props.path,
@@ -117,34 +118,52 @@ class Application extends React.Component {
             currentGame: this.props.currentGame
         });
 
-        if(this.state.incompatibleBrowser) {
-            component = <AlertPanel type='error' message='Your browser does not provide the required functionality for this site to work.  Please upgrade your browser.  The site works best with a recet version of Chrome, Safari or Firefox' />;
-        } else if(this.state.cannotLoad) {
-            component = <AlertPanel type='error' message='This site requires the ability to store cookies and local site data to function.  Please enable these features to use the site.' />;
+        if (this.state.incompatibleBrowser) {
+            component = (
+                <AlertPanel
+                    type='error'
+                    message='Your browser does not provide the required functionality for this site to work.  Please upgrade your browser.  The site works best with a recet version of Chrome, Safari or Firefox'
+                />
+            );
+        } else if (this.state.cannotLoad) {
+            component = (
+                <AlertPanel
+                    type='error'
+                    message='This site requires the ability to store cookies and local site data to function.  Please enable these features to use the site.'
+                />
+            );
         }
 
         let backgroundClass = 'bg';
 
-        if(gameBoardVisible && this.props.user) {
+        if (gameBoardVisible && this.props.user) {
             let houseIndex = Constants.HousesNames.indexOf(this.props.user.settings.background);
-            if(houseIndex === -1) {
+            if (houseIndex === -1) {
                 backgroundClass = '';
             } else {
                 backgroundClass += ` bg-board-${Constants.Houses[houseIndex]}`;
             }
         }
 
-        return (<div className={ backgroundClass }>
-            <NavBar title='The Crucible Online' />
-            <div className='wrapper'>
-                <div className='container content'>
-                    <ErrorBoundary navigate={ this.props.navigate } errorPath={ this.props.path } message={ 'We\'re sorry - something\'s gone wrong.' }>
-                        { component }
-                    </ErrorBoundary>
+        return (
+            <div className={backgroundClass}>
+                <NavBar title='The Crucible Online' />
+                <div className='wrapper'>
+                    <div className='container content'>
+                        <ErrorBoundary
+                            navigate={this.props.navigate}
+                            errorPath={this.props.path}
+                            message={"We're sorry - something's gone wrong."}
+                        >
+                            {component}
+                        </ErrorBoundary>
+                    </div>
+                </div>
+                <div className='keyforge-font' style={{ zIndex: -999 }}>
+                    .
                 </div>
             </div>
-            <div className='keyforge-font' style={ { zIndex: -999 } }>.</div>
-        </div>);
+        );
     }
 }
 

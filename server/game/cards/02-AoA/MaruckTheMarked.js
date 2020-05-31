@@ -6,7 +6,7 @@ class MaruckTheMarked extends Card {
             when: {
                 onDamagePreventedByArmor: (event, context) => event.card === context.source
             },
-            gameAction: ability.actions.capture(context => ({
+            gameAction: ability.actions.capture((context) => ({
                 amount: context.event.damagePrevented
             }))
         });

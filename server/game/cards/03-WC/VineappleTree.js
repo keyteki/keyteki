@@ -5,10 +5,10 @@ class VineappleTree extends Card {
         this.action({
             gameAction: ability.actions.addGrowthCounter()
         }),
-        this.persistentEffect({
-            targetController: 'any',
-            effect: ability.effects.modifyKeyCost(() => this.tokens.growth || 0)
-        });
+            this.persistentEffect({
+                targetController: 'any',
+                effect: ability.effects.modifyKeyCost(() => this.tokens.growth || 0)
+            });
         this.reaction({
             when: {
                 onForgeKey: () => true

@@ -1,7 +1,7 @@
-describe('Yxilo Bolter', function() {
-    integration(function() {
-        describe('Yxilo Bolter\'s ability', function() {
-            beforeEach(function() {
+describe('Yxilo Bolter', function () {
+    integration(function () {
+        describe("Yxilo Bolter's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'mars',
@@ -13,7 +13,7 @@ describe('Yxilo Bolter', function() {
                 });
             });
 
-            it('should purge creatures which are destroyed by its ability', function() {
+            it('should purge creatures which are destroyed by its ability', function () {
                 this.player1.reap(this.yxiloBolter);
                 expect(this.player1).toHavePrompt('Yxilo Bolter');
                 expect(this.player1).toBeAbleToSelect(this.batdrone);
@@ -22,7 +22,7 @@ describe('Yxilo Bolter', function() {
                 expect(this.batdrone.location).toBe('purged');
             });
 
-            it('should not purge creatures who are not destroyed', function() {
+            it('should not purge creatures who are not destroyed', function () {
                 this.player1.reap(this.yxiloBolter);
                 expect(this.player1).toHavePrompt('Yxilo Bolter');
                 expect(this.player1).toBeAbleToSelect(this.batdrone);

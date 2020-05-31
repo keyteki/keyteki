@@ -8,7 +8,7 @@ class EnrageAction extends CardGameAction {
     }
 
     canAffect(card, context) {
-        if(card.location !== 'play area') {
+        if (card.location !== 'play area') {
             return false;
         }
 
@@ -16,7 +16,9 @@ class EnrageAction extends CardGameAction {
     }
 
     getEvent(card, context) {
-        return super.createEvent('onCardEnraged', { card: card, context: context }, () => card.enrage());
+        return super.createEvent('onCardEnraged', { card: card, context: context }, () =>
+            card.enrage()
+        );
     }
 }
 

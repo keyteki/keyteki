@@ -1,7 +1,7 @@
-describe('Dark Wave', function() {
-    integration(function() {
-        describe('Dark Wave\'s ability', function() {
-            beforeEach(function() {
+describe('Dark Wave', function () {
+    integration(function () {
+        describe("Dark Wave's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'shadows',
@@ -14,7 +14,7 @@ describe('Dark Wave', function() {
                 });
             });
 
-            it('should deal 2D to each non-mutant', function() {
+            it('should deal 2D to each non-mutant', function () {
                 this.player1.play(this.darkWave);
                 expect(this.troll.tokens.damage).toBe(2);
                 expect(this.ardentHero.tokens.damage).toBe(2);

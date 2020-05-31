@@ -1,7 +1,7 @@
-describe('Quintrino Flux', function() {
-    integration(function() {
-        describe('Quintrino Flux\'s ability', function() {
-            beforeEach(function() {
+describe('Quintrino Flux', function () {
+    integration(function () {
+        describe("Quintrino Flux's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'staralliance',
@@ -14,7 +14,7 @@ describe('Quintrino Flux', function() {
                 });
             });
 
-            it('should prompt the player to choose a friendly target and an enemy target, and destroy all creatures with that power', function() {
+            it('should prompt the player to choose a friendly target and an enemy target, and destroy all creatures with that power', function () {
                 this.player1.play(this.quintrinoFlux);
                 expect(this.player1).toHavePrompt('Quintrino Flux');
                 expect(this.player1).toBeAbleToSelect(this.navigatorAli);
@@ -42,8 +42,8 @@ describe('Quintrino Flux', function() {
             });
         });
 
-        describe('Quintrino Flux\'s ability', function() {
-            beforeEach(function() {
+        describe("Quintrino Flux's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'staralliance',
@@ -56,7 +56,7 @@ describe('Quintrino Flux', function() {
                 });
             });
 
-            it('should work with warded creatures', function() {
+            it('should work with warded creatures', function () {
                 this.theroCenturion.ward();
                 this.player1.play(this.quintrinoFlux);
                 this.player1.clickCard(this.theroCenturion);
@@ -73,20 +73,19 @@ describe('Quintrino Flux', function() {
             });
         });
 
-        describe('Quintrino Flux\'s ability', function() {
-            beforeEach(function() {
+        describe("Quintrino Flux's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'staralliance',
                         hand: ['quintrino-flux'],
                         inPlay: ['navigator-ali', 'nurse-soto']
                     },
-                    player2: {
-                    }
+                    player2: {}
                 });
             });
 
-            it('should prompt for friendly creatures in play', function() {
+            it('should prompt for friendly creatures in play', function () {
                 this.player1.play(this.quintrinoFlux);
                 expect(this.player1).toHavePrompt('Quintrino Flux');
                 expect(this.player1).toBeAbleToSelect(this.navigatorAli);
@@ -98,8 +97,8 @@ describe('Quintrino Flux', function() {
             });
         });
 
-        describe('Quintrino Flux\'s ability', function() {
-            beforeEach(function() {
+        describe("Quintrino Flux's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'staralliance',
@@ -111,7 +110,7 @@ describe('Quintrino Flux', function() {
                 });
             });
 
-            it('should prompt for enemy creatures in play', function() {
+            it('should prompt for enemy creatures in play', function () {
                 this.player1.play(this.quintrinoFlux);
                 expect(this.player1).toHavePrompt('Quintrino Flux');
                 expect(this.player1).toBeAbleToSelect(this.gamgee);
@@ -125,19 +124,18 @@ describe('Quintrino Flux', function() {
             });
         });
 
-        describe('Quintrino Flux\'s ability', function() {
-            beforeEach(function() {
+        describe("Quintrino Flux's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'staralliance',
                         hand: ['quintrino-flux']
                     },
-                    player2: {
-                    }
+                    player2: {}
                 });
             });
 
-            it('should be able to play when no creatures are in play', function() {
+            it('should be able to play when no creatures are in play', function () {
                 this.player1.play(this.quintrinoFlux);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });

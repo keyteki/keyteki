@@ -1,7 +1,7 @@
-describe('Imperial Road', function() {
-    integration(function() {
-        describe('Imperial Road\'s ability', function() {
-            beforeEach(function() {
+describe('Imperial Road', function () {
+    integration(function () {
+        describe("Imperial Road's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'untamed',
@@ -14,15 +14,15 @@ describe('Imperial Road', function() {
                 });
             });
 
-            it('should not prompt for creature', function() {
+            it('should not prompt for creature', function () {
                 this.player1.useAction(this.imperialRoad, true);
                 expect(this.player1).not.toHavePrompt('Choose a creature');
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
         });
 
-        describe('Imperial Road\'s ability', function() {
-            beforeEach(function() {
+        describe("Imperial Road's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'untamed',
@@ -36,7 +36,7 @@ describe('Imperial Road', function() {
                 });
             });
 
-            it('should be able to select Saurian creature to play and fizzle when there\'s none', function() {
+            it("should be able to select Saurian creature to play and fizzle when there's none", function () {
                 this.player1.useAction(this.imperialRoad, true);
                 expect(this.player1).toHavePrompt('Choose a creature');
                 expect(this.player1).toBeAbleToSelect(this.grimlocusDux);

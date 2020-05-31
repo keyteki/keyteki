@@ -6,7 +6,7 @@ class JohnSmyth extends Card {
             reap: true,
             target: {
                 cardType: 'creature',
-                cardCondition: card => !card.hasTrait('agent') && card.hasHouse('mars'),
+                cardCondition: (card) => !card.hasTrait('agent') && card.hasHouse('mars'),
                 gameAction: ability.actions.ready()
             }
         });

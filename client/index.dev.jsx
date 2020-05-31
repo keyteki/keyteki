@@ -15,7 +15,7 @@ const store = configureStore();
 
 store.dispatch(navigate(window.location.pathname, window.location.search, true));
 
-window.onpopstate = function(e) {
+window.onpopstate = function (e) {
     store.dispatch(navigate(e.target.location.pathname, null, true));
 };
 
@@ -23,23 +23,27 @@ const DnDContainer = DragDropContext(TouchBackend({ enableMouseEvents: true }))(
 
 const render = () => {
     const Application = require('./Application').default;
-    ReactDOM.render(<DnDContainer>
-        <Provider store={ store }>
-            <div className='body'>
-                <ReduxToastr
-                    timeOut={ 4000 }
-                    newestOnTop
-                    preventDuplicates
-                    position='top-right'
-                    transitionIn='fadeIn'
-                    transitionOut='fadeOut' />
-                <Application />
-            </div>
-        </Provider>
-    </DnDContainer>, document.getElementById('component'));
+    ReactDOM.render(
+        <DnDContainer>
+            <Provider store={store}>
+                <div className='body'>
+                    <ReduxToastr
+                        timeOut={4000}
+                        newestOnTop
+                        preventDuplicates
+                        position='top-right'
+                        transitionIn='fadeIn'
+                        transitionOut='fadeOut'
+                    />
+                    <Application />
+                </div>
+            </Provider>
+        </DnDContainer>,
+        document.getElementById('component')
+    );
 };
 
-if(module.hot) {
+if (module.hot) {
     module.hot.accept('./Application', () => {
         setTimeout(render);
     });

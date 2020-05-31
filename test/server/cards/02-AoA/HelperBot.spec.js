@@ -1,7 +1,7 @@
-describe('Helper Bot', function() {
-    integration(function() {
-        describe('Helper Bot\'s ability', function() {
-            beforeEach(function() {
+describe('Helper Bot', function () {
+    integration(function () {
+        describe("Helper Bot's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
@@ -14,7 +14,7 @@ describe('Helper Bot', function() {
                 this.player1.playCreature(this.helperBot);
             });
 
-            it('should allow playing a non-logos card', function() {
+            it('should allow playing a non-logos card', function () {
                 expect(this.player1.amber).toBe(0);
                 this.player1.clickCard(this.virtuousWorks);
                 this.player1.clickPrompt('Play this action');
@@ -23,7 +23,7 @@ describe('Helper Bot', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should stack', function() {
+            it('should stack', function () {
                 this.player1.moveCard(this.helperBot, 'hand');
                 this.player1.playCreature(this.helperBot);
                 expect(this.player1.amber).toBe(0);
@@ -34,7 +34,7 @@ describe('Helper Bot', function() {
                 expect(this.player1).toHavePrompt('Punch');
             });
 
-            it('should not carry over to the following turn', function() {
+            it('should not carry over to the following turn', function () {
                 this.player1.endTurn();
                 this.player2.clickPrompt('logos');
                 this.player2.endTurn();
@@ -44,7 +44,7 @@ describe('Helper Bot', function() {
                 expect(this.player1.amber).toBe(0);
             });
 
-            it('should not be used up by Wild Wormhole', function() {
+            it('should not be used up by Wild Wormhole', function () {
                 this.player1.moveCard(this.virtuousWorks, 'deck');
                 this.player1.play(this.wildWormhole);
                 expect(this.virtuousWorks.location).toBe('discard');

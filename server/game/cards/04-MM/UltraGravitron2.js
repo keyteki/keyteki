@@ -8,6 +8,6 @@ class UltraGravitron2 extends UltraGravitron {
     }
 }
 
-UltraGravitron2.id = 'ultra-gravitron-2';
+UltraGravitron2.id = 'ultra-gravitron2';
 
 module.exports = UltraGravitron2;

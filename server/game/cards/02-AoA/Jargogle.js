@@ -6,7 +6,7 @@ class Jargogle extends Card {
             target: {
                 controller: 'self',
                 location: 'hand',
-                gameAction: ability.actions.placeUnder(context => ({
+                gameAction: ability.actions.placeUnder((context) => ({
                     parent: context.source,
                     facedown: true
                 }))
@@ -15,13 +15,25 @@ class Jargogle extends Card {
 
         this.destroyed({
             effect: '{1}{2}',
-            effectArgs: context => [
+            effectArgs: (context) => [
                 context.game.activePlayer === context.player ? 'play ' : 'archive ',
-                context.game.activePlayer === context.player ? context.source.childCards[0] : 'a card'
+                context.game.activePlayer === context.player
+                    ? context.source.childCards[0]
+                    : 'a card'
             ],
             gameAction: [
-                ability.actions.playCard(context => ({ target: context.game.activePlayer === context.player ? context.source.childCards : [] })),
-                ability.actions.archive(context => ({ target: context.game.activePlayer !== context.player ? context.source.childCards : [] }))
+                ability.actions.playCard((context) => ({
+                    target:
+                        context.game.activePlayer === context.player
+                            ? context.source.childCards
+                            : []
+                })),
+                ability.actions.archive((context) => ({
+                    target:
+                        context.game.activePlayer !== context.player
+                            ? context.source.childCards
+                            : []
+                }))
             ]
         });
     }

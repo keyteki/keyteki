@@ -9,7 +9,7 @@ class Alaka extends Card {
 
         this.persistentEffect({
             location: 'any',
-            condition: context => this.creaturesFoughtByPlayer[context.source.controller.uuid],
+            condition: (context) => this.creaturesFoughtByPlayer[context.source.controller.uuid],
             effect: ability.effects.entersPlayReady()
         });
     }

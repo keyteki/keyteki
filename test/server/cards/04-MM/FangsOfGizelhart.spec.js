@@ -1,7 +1,7 @@
-describe('fangs-of-gizelhart', function() {
-    integration(function() {
-        describe('Access Denied\'s ability', function() {
-            beforeEach(function() {
+describe('fangs-of-gizelhart', function () {
+    integration(function () {
+        describe("Access Denied's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'sanctum',
@@ -15,7 +15,7 @@ describe('fangs-of-gizelhart', function() {
                 });
             });
 
-            it('should purge truebaru', function() {
+            it('should purge truebaru', function () {
                 this.player1.play(this.fangsOfGizelhart);
                 expect(this.player1).toBeAbleToSelect(this.truebaru);
                 expect(this.player1).not.toBeAbleToSelect(this.badPenny);

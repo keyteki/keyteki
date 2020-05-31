@@ -1,6 +1,6 @@
 describe('Cornicen Octavia', function () {
     integration(function () {
-        describe('Cornicen Octavia\'s ability', function () {
+        describe("Cornicen Octavia's ability", function () {
             beforeEach(function () {
                 this.setupTest({
                     player1: {
@@ -13,7 +13,7 @@ describe('Cornicen Octavia', function () {
                 });
             });
 
-            it('should capture two amber as an action', function() {
+            it('should capture two amber as an action', function () {
                 expect(this.player2.amber).toBe(4);
                 expect(this.cornicenOctavia.amber).toBe(0);
 

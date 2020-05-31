@@ -1,7 +1,7 @@
-describe('WretchedDoll', function() {
-    integration(function() {
-        describe('Wretched Doll place doom counters', function() {
-            beforeEach(function() {
+describe('WretchedDoll', function () {
+    integration(function () {
+        describe('Wretched Doll place doom counters', function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'dis',
@@ -17,7 +17,7 @@ describe('WretchedDoll', function() {
                 });
             });
 
-            it('can place doom counter and destroy doomed creature for on both sides', function() {
+            it('can place doom counter and destroy doomed creature for on both sides', function () {
                 this.player1.useAction(this.wretchedDoll);
                 expect(this.player1).toHavePrompt('Wretched Doll');
                 expect(this.player1).toBeAbleToSelect(this.zorg);

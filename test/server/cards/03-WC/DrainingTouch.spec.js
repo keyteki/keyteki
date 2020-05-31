@@ -1,7 +1,7 @@
-describe('Draining Touch', function() {
-    integration(function() {
-        describe('Draining Touch\'s ability', function() {
-            beforeEach(function() {
+describe('Draining Touch', function () {
+    integration(function () {
+        describe("Draining Touch's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'dis',
@@ -16,7 +16,7 @@ describe('Draining Touch', function() {
                 this.spyyyder.addToken('amber');
                 this.dendrix.addToken('amber', 4);
             });
-            it('should allow creatures without amber on them to be selected for destruction', function() {
+            it('should allow creatures without amber on them to be selected for destruction', function () {
                 this.player1.play(this.drainingTouch);
                 expect(this.player1).toHavePrompt('Draining Touch');
                 expect(this.player1).toBeAbleToSelect(this.dustImp);
@@ -26,8 +26,8 @@ describe('Draining Touch', function() {
                 expect(this.dustImp.location).toBe('discard');
             });
         });
-        describe('Draining Touch\'s ability', function() {
-            beforeEach(function() {
+        describe("Draining Touch's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'dis',
@@ -43,7 +43,7 @@ describe('Draining Touch', function() {
                 this.dendrix.addToken('amber', 4);
                 this.dustImp.addToken('amber');
             });
-            it('should fizzle when there are no creatures without amber', function() {
+            it('should fizzle when there are no creatures without amber', function () {
                 this.player1.play(this.drainingTouch);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });

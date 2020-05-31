@@ -1,7 +1,7 @@
-describe('Hock', function() {
-    integration(function() {
-        describe('Hock\'s play ability', function() {
-            beforeEach(function() {
+describe('Hock', function () {
+    integration(function () {
+        describe("Hock's play ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'shadows',
@@ -14,7 +14,7 @@ describe('Hock', function() {
                 });
             });
 
-            it('Destroy a friendly artifact and gain 1 amber', function() {
+            it('Destroy a friendly artifact and gain 1 amber', function () {
                 this.player1.play(this.hock);
 
                 expect(this.player1).toHavePrompt('Hock');
@@ -30,7 +30,7 @@ describe('Hock', function() {
                 expect(this.player2.amber).toBe(0);
             });
 
-            it('Destroy an enemy artifact and gain 1 amber', function() {
+            it('Destroy an enemy artifact and gain 1 amber', function () {
                 this.player1.play(this.hock);
 
                 expect(this.player1).toHavePrompt('Hock');
@@ -46,8 +46,7 @@ describe('Hock', function() {
                 expect(this.player2.amber).toBe(0);
             });
 
-
-            it('There is no artifact in play, so no extra amber', function() {
+            it('There is no artifact in play, so no extra amber', function () {
                 this.player1.moveCard(this.lifeward, 'hand');
                 this.player1.moveCard(this.fetchdrones, 'hand');
 

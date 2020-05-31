@@ -1,6 +1,6 @@
 describe('Citizen Shrix', function () {
     integration(function () {
-        describe('Citizen Shrix\'s ability', function () {
+        describe("Citizen Shrix's ability", function () {
             beforeEach(function () {
                 this.setupTest({
                     player1: {
@@ -15,12 +15,12 @@ describe('Citizen Shrix', function () {
                 });
             });
 
-            it('should exalt on play', function() {
+            it('should exalt on play', function () {
                 this.player1.play(this.citizenShrix);
                 expect(this.citizenShrix.tokens.amber).toBe(1);
             });
 
-            it('should steal on play', function() {
+            it('should steal on play', function () {
                 expect(this.player2.amber).toBe(4);
                 expect(this.player1.amber).toBe(0);
                 this.player1.play(this.citizenShrix);
@@ -28,7 +28,7 @@ describe('Citizen Shrix', function () {
                 expect(this.player1.amber).toBe(1);
             });
 
-            it('should exalt on reap', function() {
+            it('should exalt on reap', function () {
                 this.player1.play(this.citizenShrix);
                 expect(this.citizenShrix.tokens.amber).toBe(1);
                 this.player1.endTurn();
@@ -41,7 +41,7 @@ describe('Citizen Shrix', function () {
                 expect(this.citizenShrix.tokens.amber).toBe(2);
             });
 
-            it('should steal on reap', function() {
+            it('should steal on reap', function () {
                 expect(this.player2.amber).toBe(4);
                 expect(this.player1.amber).toBe(0);
 

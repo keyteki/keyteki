@@ -4,15 +4,14 @@ class FangtoothCavern extends Card {
     setupCardAbilities(ability) {
         this.interrupt({
             when: {
-                onRoundEnded: (event, context) =>
-                    context.player === this.game.activePlayer
+                onRoundEnded: (event, context) => context.player === this.game.activePlayer
             },
             target: {
                 mode: 'mostStat',
                 cardType: 'creature',
                 controller: 'any',
                 numCards: 1,
-                cardStat: card => -card.power,
+                cardStat: (card) => -card.power,
                 gameAction: ability.actions.destroy()
             }
         });

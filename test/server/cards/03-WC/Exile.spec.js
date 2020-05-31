@@ -1,7 +1,7 @@
-describe('Exile', function() {
-    integration(function() {
-        describe('Exile\' play ability', function() {
-            beforeEach(function() {
+describe('Exile', function () {
+    integration(function () {
+        describe("Exile' play ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'saurian',
@@ -15,13 +15,13 @@ describe('Exile', function() {
                 });
             });
 
-            it('should not ask for a creature if none is in play', function() {
+            it('should not ask for a creature if none is in play', function () {
                 this.player1.play(this.exile);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
                 expect(this.player1.amber).toBe(1);
             });
 
-            it('should increase power +3 after exalt', function() {
+            it('should increase power +3 after exalt', function () {
                 this.player1.playCreature(this.questorJarta);
                 this.player1.play(this.exile);
 

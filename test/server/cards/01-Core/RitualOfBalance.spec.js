@@ -1,7 +1,7 @@
-describe('Ritual of Balance', function() {
-    integration(function() {
-        describe('Ritual of Balance\'s ability', function() {
-            beforeEach(function() {
+describe('Ritual of Balance', function () {
+    integration(function () {
+        describe("Ritual of Balance's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'untamed',
@@ -15,14 +15,14 @@ describe('Ritual of Balance', function() {
                 });
             });
 
-            it('should steal 1 amber if opponent has less 6 or more amber', function() {
+            it('should steal 1 amber if opponent has less 6 or more amber', function () {
                 this.player1.useAction(this.ritualOfBalance);
                 expect(this.ritualOfBalance.exhausted).toBe(true);
                 expect(this.player1.amber).toBe(4);
                 expect(this.player2.amber).toBe(7);
             });
 
-            it('should not steal 1 amber if opponent has less than 6', function() {
+            it('should not steal 1 amber if opponent has less than 6', function () {
                 this.player2.amber = 5;
                 this.player1.useAction(this.ritualOfBalance);
                 expect(this.ritualOfBalance.exhausted).toBe(true);
@@ -31,8 +31,8 @@ describe('Ritual of Balance', function() {
             });
         });
 
-        describe('Ritual of Balance\'s ability', function() {
-            beforeEach(function() {
+        describe("Ritual of Balance's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'shadows',
@@ -47,7 +47,7 @@ describe('Ritual of Balance', function() {
                 });
             });
 
-            it('should be exhausted if used by an opponent even if the condition is met', function() {
+            it('should be exhausted if used by an opponent even if the condition is met', function () {
                 this.player1.reap(this.nexus);
                 expect(this.player1).toHavePrompt('Nexus');
                 expect(this.player1).toBeAbleToSelect(this.ritualOfBalance);
@@ -59,8 +59,8 @@ describe('Ritual of Balance', function() {
             });
         });
 
-        describe('Ritual of Balance\'s ability', function() {
-            beforeEach(function() {
+        describe("Ritual of Balance's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'shadows',
@@ -73,7 +73,7 @@ describe('Ritual of Balance', function() {
                 });
             });
 
-            it('should be exhausted if used by an opponent even if the condition is not met', function() {
+            it('should be exhausted if used by an opponent even if the condition is not met', function () {
                 this.player1.reap(this.nexus);
                 expect(this.player1).toHavePrompt('Nexus');
                 expect(this.player1).toBeAbleToSelect(this.ritualOfBalance);
@@ -83,8 +83,8 @@ describe('Ritual of Balance', function() {
             });
         });
 
-        describe('Ritual of Balance\'s ability', function() {
-            beforeEach(function() {
+        describe("Ritual of Balance's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
@@ -97,7 +97,7 @@ describe('Ritual of Balance', function() {
                 });
             });
 
-            it('should be exhausted if used by an opponent even if the condition is not met', function() {
+            it('should be exhausted if used by an opponent even if the condition is not met', function () {
                 this.player1.play(this.remoteAccess);
                 this.player1.clickCard(this.ritualOfBalance);
                 expect(this.ritualOfBalance.exhausted).toBe(true);

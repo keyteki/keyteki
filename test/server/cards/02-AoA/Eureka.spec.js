@@ -1,7 +1,7 @@
-describe('Eureka!', function() {
-    integration(function() {
-        describe('Eureka!\'s ability', function() {
-            beforeEach(function() {
+describe('Eureka!', function () {
+    integration(function () {
+        describe("Eureka!'s ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         amber: 1,
@@ -15,7 +15,7 @@ describe('Eureka!', function() {
                 });
             });
 
-            it('should gain 2 amber and archive two random cards', function() {
+            it('should gain 2 amber and archive two random cards', function () {
                 this.player1.play(this.eureka);
                 expect(this.player1.archives.length).toBe(2);
                 expect(this.player1.hand.length).toBe(3);

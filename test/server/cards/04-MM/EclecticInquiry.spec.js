@@ -1,7 +1,7 @@
-describe('Eclectic Inquiry', function() {
-    integration(function() {
-        describe('Eclectic Inquiry\'s ability', function() {
-            beforeEach(function() {
+describe('Eclectic Inquiry', function () {
+    integration(function () {
+        describe("Eclectic Inquiry's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
@@ -13,13 +13,13 @@ describe('Eclectic Inquiry', function() {
                 });
             });
 
-            it('should not archive any card if deck is empty', function() {
+            it('should not archive any card if deck is empty', function () {
                 this.player1.player.deck = [];
                 this.player1.play(this.eclecticInquiry);
                 expect(this.player1.player.archives.length).toBe(0);
             });
 
-            it('should archive one card if deck has a solo card', function() {
+            it('should archive one card if deck has a solo card', function () {
                 this.player1.player.deck = [];
                 this.player1.moveCard(this.gub, 'deck');
                 this.player1.play(this.eclecticInquiry);
@@ -27,7 +27,7 @@ describe('Eclectic Inquiry', function() {
                 expect(this.gub.location).toBe('archives');
             });
 
-            it('should archive two cards if deck has many cards', function() {
+            it('should archive two cards if deck has many cards', function () {
                 this.player1.moveCard(this.gub, 'deck');
                 this.player1.moveCard(this.dextre, 'deck');
                 this.player1.play(this.eclecticInquiry);

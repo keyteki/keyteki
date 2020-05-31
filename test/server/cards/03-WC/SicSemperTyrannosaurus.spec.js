@@ -1,7 +1,7 @@
-describe('Sic Semper Tyrannosaurus', function() {
-    integration(function() {
-        describe('Sic Semper Tyrannosaurus\'s play ability', function() {
-            beforeEach(function() {
+describe('Sic Semper Tyrannosaurus', function () {
+    integration(function () {
+        describe("Sic Semper Tyrannosaurus's play ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'saurian',
@@ -14,7 +14,7 @@ describe('Sic Semper Tyrannosaurus', function() {
                 });
             });
 
-            it('should destroy most powerful creature and gain no amber', function() {
+            it('should destroy most powerful creature and gain no amber', function () {
                 this.player1.play(this.sicSemperTyrannosaurus);
                 expect(this.player1).toHavePrompt('Choose a creature');
                 expect(this.player1).toBeAbleToSelect(this.krump);
@@ -24,7 +24,7 @@ describe('Sic Semper Tyrannosaurus', function() {
                 expect(this.krump.location).toBe('discard');
             });
 
-            it('should destroy most powerful creature and gain all amber on it', function() {
+            it('should destroy most powerful creature and gain all amber on it', function () {
                 this.redlock.tokens.amber = 10;
                 this.krump.tokens.amber = 4;
                 this.player1.play(this.sicSemperTyrannosaurus);
@@ -37,7 +37,7 @@ describe('Sic Semper Tyrannosaurus', function() {
                 expect(this.player1.amber).toBe(4);
             });
 
-            it('should allow select most powerful creature, destroy it and gain all amber on it', function() {
+            it('should allow select most powerful creature, destroy it and gain all amber on it', function () {
                 this.player1.playCreature(this.brutodonAuxiliary);
                 this.brutodonAuxiliary.tokens.amber = 8;
                 this.player1.play(this.sicSemperTyrannosaurus);
@@ -51,7 +51,7 @@ describe('Sic Semper Tyrannosaurus', function() {
                 expect(this.player1.amber).toBe(8);
             });
 
-            it('should allow select most powerful creature, remove its ward and gain all amber on it', function() {
+            it('should allow select most powerful creature, remove its ward and gain all amber on it', function () {
                 this.player1.playCreature(this.brutodonAuxiliary);
                 this.brutodonAuxiliary.tokens.amber = 8;
                 this.brutodonAuxiliary.ward();

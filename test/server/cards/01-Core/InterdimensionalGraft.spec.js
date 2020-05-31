@@ -1,7 +1,7 @@
-describe('Interdimensional Graft', function() {
-    integration(function() {
-        describe('Interdimensional Graft\'s ability', function() {
-            beforeEach(function() {
+describe('Interdimensional Graft', function () {
+    integration(function () {
+        describe("Interdimensional Graft's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
@@ -16,7 +16,7 @@ describe('Interdimensional Graft', function() {
                 this.player1.play(this.interdimensionalGraft);
             });
 
-            it('should trigger on forging a key in the key phase', function() {
+            it('should trigger on forging a key in the key phase', function () {
                 this.player2.amber = 9;
                 this.player1.endTurn();
                 this.player2.forgeKey('Red');
@@ -27,7 +27,7 @@ describe('Interdimensional Graft', function() {
                 expect(this.player1.amber).toBe(4);
             });
 
-            it('should trigger on forging a key using a card ability', function() {
+            it('should trigger on forging a key using a card ability', function () {
                 expect(this.player1.amber).toBe(1);
                 this.player1.endTurn();
                 expect(this.player2.player.keys.red).toBe(false);
@@ -51,7 +51,7 @@ describe('Interdimensional Graft', function() {
                 expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should not trigger on subsequent turns', function() {
+            it('should not trigger on subsequent turns', function () {
                 this.player1.endTurn();
                 this.player2.clickPrompt('untamed');
                 this.player2.play(this.dustPixie);

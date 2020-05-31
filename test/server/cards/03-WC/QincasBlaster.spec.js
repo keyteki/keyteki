@@ -1,7 +1,7 @@
-describe('Qincan’s Blaster', function() {
-    integration(function() {
-        describe('Qincan’s Blaster\'s attach ability', function() {
-            beforeEach(function() {
+describe('Qincan’s Blaster', function () {
+    integration(function () {
+        describe("Qincan’s Blaster's attach ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'staralliance',
@@ -16,14 +16,14 @@ describe('Qincan’s Blaster', function() {
                 });
             });
 
-            it('should allow archiving and cancel when attached to the associated officer', function() {
+            it('should allow archiving and cancel when attached to the associated officer', function () {
                 this.player1.playUpgrade(this.qincanSBlaster, this.sciOfficerQincan);
                 expect(this.player1).toHavePrompt('Choose a creature');
                 expect(this.player1).toHavePromptButton('Done');
                 this.player1.clickPrompt('Done');
             });
 
-            it('should allow archiving a friendly creature when attached to the associated officer', function() {
+            it('should allow archiving a friendly creature when attached to the associated officer', function () {
                 this.player1.playUpgrade(this.qincanSBlaster, this.sciOfficerQincan);
                 expect(this.player1).toHavePrompt('Choose a creature');
                 expect(this.player1).toBeAbleToSelect(this.sciOfficerQincan);
@@ -35,7 +35,7 @@ describe('Qincan’s Blaster', function() {
                 expect(this.player1.player.archives).toContain(this.techivorePulpate);
             });
 
-            it('should allow archiving an enemy creature when attached to the associated officer', function() {
+            it('should allow archiving an enemy creature when attached to the associated officer', function () {
                 this.player1.playUpgrade(this.qincanSBlaster, this.sciOfficerQincan);
                 expect(this.player1).toHavePrompt('Choose a creature');
                 expect(this.player1).toBeAbleToSelect(this.sciOfficerQincan);
@@ -47,12 +47,12 @@ describe('Qincan’s Blaster', function() {
                 expect(this.player2.player.archives).toContain(this.krump);
             });
 
-            it('should not prompt for dealing damage when attached to the non associated officer', function() {
+            it('should not prompt for dealing damage when attached to the non associated officer', function () {
                 this.player1.playUpgrade(this.qincanSBlaster, this.techivorePulpate);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('reap ability should allow choosing for an action and cancel', function() {
+            it('reap ability should allow choosing for an action and cancel', function () {
                 this.player1.playUpgrade(this.qincanSBlaster, this.techivorePulpate);
                 this.player1.reap(this.techivorePulpate);
 
@@ -62,7 +62,7 @@ describe('Qincan’s Blaster', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('reap ability should allow dealing 2 damages to a creature', function() {
+            it('reap ability should allow dealing 2 damages to a creature', function () {
                 this.player1.playUpgrade(this.qincanSBlaster, this.techivorePulpate);
                 this.player1.reap(this.techivorePulpate);
 
@@ -82,7 +82,7 @@ describe('Qincan’s Blaster', function() {
                 expect(this.krump.tokens.damage).toBe(2);
             });
 
-            it('fight ability should allow dealing 2 damages to a creature', function() {
+            it('fight ability should allow dealing 2 damages to a creature', function () {
                 this.player1.playUpgrade(this.qincanSBlaster, this.techivorePulpate);
                 this.player1.fightWith(this.techivorePulpate, this.lamindra);
 
@@ -102,7 +102,7 @@ describe('Qincan’s Blaster', function() {
                 expect(this.krump.tokens.damage).toBe(2);
             });
 
-            it('reap ability should allow moving the upgrade to the appropriate officer', function() {
+            it('reap ability should allow moving the upgrade to the appropriate officer', function () {
                 this.player1.playUpgrade(this.qincanSBlaster, this.techivorePulpate);
                 this.player1.reap(this.techivorePulpate);
 
@@ -125,7 +125,7 @@ describe('Qincan’s Blaster', function() {
                 expect(this.techivorePulpate.upgrades).not.toContain(this.qincanSBlaster);
             });
 
-            it('fight ability should allow moving the upgrade to the appropriate officer', function() {
+            it('fight ability should allow moving the upgrade to the appropriate officer', function () {
                 this.player1.playUpgrade(this.qincanSBlaster, this.techivorePulpate);
                 this.player1.fightWith(this.techivorePulpate, this.lamindra);
 
@@ -148,8 +148,8 @@ describe('Qincan’s Blaster', function() {
             });
         });
 
-        describe('Qincan’s Blaster\'s attach ability', function() {
-            beforeEach(function() {
+        describe("Qincan’s Blaster's attach ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'staralliance',
@@ -163,7 +163,7 @@ describe('Qincan’s Blaster', function() {
                 });
             });
 
-            it('reap ability should default to deal damage when officer is not in play', function() {
+            it('reap ability should default to deal damage when officer is not in play', function () {
                 this.player1.playUpgrade(this.qincanSBlaster, this.techivorePulpate);
                 this.player1.reap(this.techivorePulpate);
                 this.player1.clickCard(this.techivorePulpate);
@@ -176,7 +176,7 @@ describe('Qincan’s Blaster', function() {
                 expect(this.krump.tokens.damage).toBe(2);
             });
 
-            it('fight ability should default to deal damage when officer is not in play', function() {
+            it('fight ability should default to deal damage when officer is not in play', function () {
                 this.player1.playUpgrade(this.qincanSBlaster, this.techivorePulpate);
                 this.player1.fightWith(this.techivorePulpate, this.lamindra);
                 this.player1.clickCard(this.techivorePulpate);
@@ -190,13 +190,18 @@ describe('Qincan’s Blaster', function() {
             });
         });
 
-        describe('Qincan’s Blaster\'s attach ability', function() {
-            beforeEach(function() {
+        describe("Qincan’s Blaster's attach ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'staralliance',
                         hand: ['qincan-s-blaster'],
-                        inPlay: ['techivore-pulpate', 'sci-officer-qincan', 'sci-officer-qincan', 'gub']
+                        inPlay: [
+                            'techivore-pulpate',
+                            'sci-officer-qincan',
+                            'sci-officer-qincan',
+                            'gub'
+                        ]
                     },
                     player2: {
                         amber: 2,
@@ -208,7 +213,7 @@ describe('Qincan’s Blaster', function() {
                 this.sciOfficerQincan2 = this.player1.player.creaturesInPlay[2];
             });
 
-            it('should allow moving upgrade between officers of same name', function() {
+            it('should allow moving upgrade between officers of same name', function () {
                 this.player1.playUpgrade(this.qincanSBlaster, this.sciOfficerQincan1);
                 this.player1.clickCard(this.techivorePulpate);
                 expect(this.techivorePulpate.location).toBe('archives');

@@ -7,7 +7,7 @@ class NiffleGrounds extends Card {
                 cardType: 'creature',
                 targetController: 'any',
                 effect: 'remove taunt and elusive from {1}',
-                effectArgs: context => context.target,
+                effectArgs: (context) => context.target,
                 gameAction: ability.actions.cardLastingEffect({
                     effect: [
                         ability.effects.removeKeyword('elusive'),

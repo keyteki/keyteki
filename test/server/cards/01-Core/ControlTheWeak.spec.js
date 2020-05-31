@@ -1,7 +1,7 @@
-describe('Control the Weak', function() {
-    integration(function() {
-        describe('Control the Weak\'s ability', function() {
-            beforeEach(function() {
+describe('Control the Weak', function () {
+    integration(function () {
+        describe("Control the Weak's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'dis',
@@ -13,7 +13,7 @@ describe('Control the Weak', function() {
                 });
             });
 
-            it('should force the opponent to pick a particular house', function() {
+            it('should force the opponent to pick a particular house', function () {
                 this.player1.play(this.handOfDis);
                 this.player1.clickCard(this.pitlord);
                 expect(this.pitlord.location).toBe('discard');
@@ -30,7 +30,7 @@ describe('Control the Weak', function() {
                 expect(this.player2).not.toHavePromptButton('brobnar');
             });
 
-            it('should interact correctly with Pitlord', function() {
+            it('should interact correctly with Pitlord', function () {
                 this.player1.play(this.controlTheWeak);
                 expect(this.player1).toHavePrompt('Control the Weak');
                 expect(this.player1).toHavePromptButton('dis');

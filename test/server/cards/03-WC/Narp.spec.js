@@ -1,7 +1,7 @@
-describe('Narp', function() {
-    integration(function() {
-        describe('Narp\'s Ability', function() {
-            beforeEach(function() {
+describe('Narp', function () {
+    integration(function () {
+        describe("Narp's Ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         amber: 0,
@@ -14,7 +14,7 @@ describe('Narp', function() {
                 });
             });
 
-            it('should stop his neighbors from reaping', function() {
+            it('should stop his neighbors from reaping', function () {
                 this.player1.reap(this.narp);
                 expect(this.player1.amber).toBe(1);
                 this.player1.clickCard(this.troll);

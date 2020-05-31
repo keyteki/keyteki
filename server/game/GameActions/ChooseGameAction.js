@@ -17,14 +17,17 @@ class ChooseGameAction extends GameAction {
 
     update(context) {
         super.update(context);
-        for(const key of Object.keys(this.choices)) {
-            if(!Array.isArray(this.choices[key])) {
+        for (const key of Object.keys(this.choices)) {
+            if (!Array.isArray(this.choices[key])) {
                 this.choices[key] = [this.choices[key]];
             }
         }
 
-        this.gameActions = Object.values(this.choices).reduce((array, actions) => array.concat(actions), []);
-        for(let gameAction of this.gameActions) {
+        this.gameActions = Object.values(this.choices).reduce(
+            (array, actions) => array.concat(actions),
+            []
+        );
+        for (let gameAction of this.gameActions) {
             gameAction.update(context);
         }
 
@@ -33,7 +36,7 @@ class ChooseGameAction extends GameAction {
 
     setTarget(target) {
         super.setTarget(target);
-        for(let gameAction of this.gameActions) {
+        for (let gameAction of this.gameActions) {
             gameAction.setDefaultTarget(() => target);
         }
     }
@@ -42,37 +45,47 @@ class ChooseGameAction extends GameAction {
         super.preEventHandler(context);
         let activePromptTitle = this.activePromptTitle;
         let choices = Object.keys(this.choices);
-        choices = choices.filter(key => this.choices[key].some(action => action.hasLegalTarget(context)));
-        let handlers = choices.map(choice => {
+        choices = choices.filter((key) =>
+            this.choices[key].some((action) => action.hasLegalTarget(context))
+        );
+        let handlers = choices.map((choice) => {
             return () => {
                 this.choice = choice;
-                if(this.messages[choice]) {
+                if (this.messages[choice]) {
                     context.game.addMessage(this.messages[choice], context.player, this.target);
                 }
 
-                for(let gameAction of this.choices[choice]) {
+                for (let gameAction of this.choices[choice]) {
                     context.game.queueSimpleStep(() => gameAction.preEventHandler(context));
                 }
             };
         });
-        context.game.promptWithHandlerMenu(context.player, { activePromptTitle, context, choices, handlers });
+        context.game.promptWithHandlerMenu(context.player, {
+            activePromptTitle,
+            context,
+            choices,
+            handlers
+        });
     }
 
     hasLegalTarget(context) {
         this.update(context);
-        return this.gameActions.some(gameAction => gameAction.hasLegalTarget(context));
+        return this.gameActions.some((gameAction) => gameAction.hasLegalTarget(context));
     }
 
     canAffect(target, context) {
-        return this.gameActions.some(gameAction => gameAction.canAffect(target, context));
+        return this.gameActions.some((gameAction) => gameAction.canAffect(target, context));
     }
 
     getEventArray(context) {
-        if(!this.choice) {
+        if (!this.choice) {
             return [];
         }
 
-        return this.choices[this.choice].reduce((array, action) => array.concat(action.getEventArray(context)), []);
+        return this.choices[this.choice].reduce(
+            (array, action) => array.concat(action.getEventArray(context)),
+            []
+        );
     }
 }
 

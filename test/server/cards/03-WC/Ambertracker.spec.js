@@ -1,7 +1,7 @@
-describe('Ambertracker', function() {
-    integration(function() {
-        describe('Ambertracker\'s ability', function() {
-            beforeEach(function() {
+describe('Ambertracker', function () {
+    integration(function () {
+        describe("Ambertracker's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'staralliance',
@@ -17,7 +17,7 @@ describe('Ambertracker', function() {
                 this.sequis.addToken('amber', 4);
             });
 
-            it('should deal 2 damage to each enemy unit with amber on it', function() {
+            it('should deal 2 damage to each enemy unit with amber on it', function () {
                 this.player1.play(this.æmbertracker);
                 expect(this.dextre.tokens.damage).toBe(2);
                 expect(this.mother.hasToken('damage')).toBe(false);

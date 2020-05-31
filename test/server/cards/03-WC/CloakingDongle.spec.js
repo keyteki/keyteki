@@ -1,7 +1,7 @@
-describe('Cloaking Dongle', function() {
-    integration(function() {
-        describe('Cloaking Dongle\'s ability', function() {
-            beforeEach(function() {
+describe('Cloaking Dongle', function () {
+    integration(function () {
+        describe("Cloaking Dongle's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'staralliance',
@@ -14,7 +14,7 @@ describe('Cloaking Dongle', function() {
                 });
             });
 
-            it('should give the creature and its neighbors elusive', function() {
+            it('should give the creature and its neighbors elusive', function () {
                 this.player1.playUpgrade(this.cloakingDongle, this.umbra);
                 expect(this.badPenny.getKeywordValue('elusive')).toBe(1);
                 expect(this.umbra.getKeywordValue('elusive')).toBe(1);

@@ -1,7 +1,7 @@
-describe('stirring-grave', function() {
-    integration(function() {
-        describe('Stirring Grave\'s ability', function() {
-            beforeEach(function() {
+describe('stirring-grave', function () {
+    integration(function () {
+        describe("Stirring Grave's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'dis',
@@ -13,7 +13,7 @@ describe('stirring-grave', function() {
                 });
             });
 
-            it('should require you to archive a creature from your discard pile', function() {
+            it('should require you to archive a creature from your discard pile', function () {
                 expect(this.dextre.location).toBe('discard');
                 this.player1.play(this.stirringGrave);
                 expect(this.player1).toBeAbleToSelect(this.dextre);
@@ -26,5 +26,3 @@ describe('stirring-grave', function() {
         });
     });
 });
-
-

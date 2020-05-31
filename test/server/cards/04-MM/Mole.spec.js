@@ -1,7 +1,7 @@
-describe('Mole', function() {
-    integration(function() {
-        describe('Mole \'s ability', function() {
-            beforeEach(function() {
+describe('Mole', function () {
+    integration(function () {
+        describe("Mole 's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         amber: 5,
@@ -16,7 +16,7 @@ describe('Mole', function() {
                 });
             });
 
-            it('should allow opponent to use amber on own creature', function() {
+            it('should allow opponent to use amber on own creature', function () {
                 this.senatorShrix.tokens.amber = 4;
                 this.player1.playUpgrade(this.mole, this.senatorShrix);
                 this.player1.endTurn();

@@ -12,7 +12,12 @@ class TransferAmberAction extends PlayerAction {
     }
 
     canAffect(player, context) {
-        return player.opponent && player.amber > 0 && this.amount > 0 && super.canAffect(player, context);
+        return (
+            player.opponent &&
+            player.amber > 0 &&
+            this.amount > 0 &&
+            super.canAffect(player, context)
+        );
     }
 
     getEvent(player, context) {
@@ -21,9 +26,11 @@ class TransferAmberAction extends PlayerAction {
             player: player,
             amount: Math.min(this.amount, player.amber)
         };
-        return super.createEvent('onTransferAmber', params, event => {
+        return super.createEvent('onTransferAmber', params, (event) => {
             event.player.modifyAmber(-event.amount);
-            context.game.actions.gainAmber({ amount: event.amount }).resolve(event.player.opponent, context);
+            context.game.actions
+                .gainAmber({ amount: event.amount })
+                .resolve(event.player.opponent, context);
         });
     }
 }

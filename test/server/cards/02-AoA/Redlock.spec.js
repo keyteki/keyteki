@@ -1,7 +1,7 @@
-describe('Redlock', function() {
-    integration(function() {
-        describe('Redlock\'s ability', function() {
-            beforeEach(function() {
+describe('Redlock', function () {
+    integration(function () {
+        describe("Redlock's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'shadows',
@@ -17,13 +17,13 @@ describe('Redlock', function() {
                 });
             });
 
-            it('should NOT give an aember if you play a creature', function() {
+            it('should NOT give an aember if you play a creature', function () {
                 this.player1.play(this.faygin);
                 this.player1.endTurn();
                 expect(this.player1.player.amber).toBe(2);
             });
 
-            it('should give amber if you don\'t play a creature', function() {
+            it("should give amber if you don't play a creature", function () {
                 this.player1.endTurn();
                 expect(this.player1.player.amber).toBe(3);
             });

@@ -1,7 +1,7 @@
-describe('Soulkeeper', function() {
-    integration(function() {
-        describe('Soulkeeper\'s ability', function() {
-            beforeEach(function() {
+describe('Soulkeeper', function () {
+    integration(function () {
+        describe("Soulkeeper's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'dis',
@@ -14,7 +14,7 @@ describe('Soulkeeper', function() {
                 });
             });
 
-            it('should destroy the most powerful enemy creature when the creature it is attached to dies', function() {
+            it('should destroy the most powerful enemy creature when the creature it is attached to dies', function () {
                 this.player1.playUpgrade(this.soulkeeper, this.oldYurk);
                 this.player1.fightWith(this.oldYurk, this.troll);
                 expect(this.player1).toHavePrompt('Old Yurk');
@@ -27,8 +27,8 @@ describe('Soulkeeper', function() {
                 expect(this.troll.location).toBe('discard');
             });
         });
-        describe('Soulkeeper\'s ability', function() {
-            beforeEach(function() {
+        describe("Soulkeeper's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'dis',
@@ -41,7 +41,7 @@ describe('Soulkeeper', function() {
                 });
             });
 
-            it('should allow the choice between enemy creatures when two or more have the highest power', function() {
+            it('should allow the choice between enemy creatures when two or more have the highest power', function () {
                 this.player1.playUpgrade(this.soulkeeper, this.oldYurk);
                 this.player1.fightWith(this.oldYurk, this.bilgumAvalanche);
                 expect(this.player1).toHavePrompt('Old Yurk');
@@ -57,8 +57,8 @@ describe('Soulkeeper', function() {
                 expect(this.yantzeeGang.location).toBe('discard');
             });
         });
-        describe('Soulkeeper\'s ability', function() {
-            beforeEach(function() {
+        describe("Soulkeeper's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'dis',
@@ -71,7 +71,7 @@ describe('Soulkeeper', function() {
                 });
             });
 
-            it('should fire when the creature is sacrificed', function() {
+            it('should fire when the creature is sacrificed', function () {
                 this.player1.playUpgrade(this.soulkeeper, this.oldYurk);
                 this.player1.endTurn();
                 this.player2.clickPrompt('shadows');

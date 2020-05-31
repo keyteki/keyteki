@@ -1,7 +1,7 @@
-describe('Magda the Rat', function() {
-    integration(function() {
-        describe('Magda the Rat\'s ability', function() {
-            beforeEach(function() {
+describe('Magda the Rat', function () {
+    integration(function () {
+        describe("Magda the Rat's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'shadows',
@@ -14,14 +14,14 @@ describe('Magda the Rat', function() {
                 });
             });
 
-            it('should steal when coming into play', function() {
+            it('should steal when coming into play', function () {
                 this.player2.amber = 1;
                 this.player1.play(this.magdaTheRat);
                 expect(this.player2.amber).toBe(0);
                 expect(this.player1.amber).toBe(1);
             });
 
-            it('should allow opponent to steal when leaving play during controller\'s turn', function() {
+            it("should allow opponent to steal when leaving play during controller's turn", function () {
                 this.player1.play(this.magdaTheRat);
                 expect(this.player2.amber).toBe(1);
                 expect(this.player1.amber).toBe(2);
@@ -35,7 +35,7 @@ describe('Magda the Rat', function() {
                 expect(this.player1.amber).toBe(0);
             });
 
-            it('should allow opponent to steal when leaving play during opponent\'s turn', function() {
+            it("should allow opponent to steal when leaving play during opponent's turn", function () {
                 this.player1.play(this.magdaTheRat);
                 expect(this.player2.amber).toBe(1);
                 expect(this.player1.amber).toBe(2);

@@ -3,11 +3,13 @@ const Card = require('../../Card.js');
 class ScientistsBane extends Card {
     setupCardAbilities(ability) {
         this.play({
-            condition: context => context.game.creaturesInPlay.filter(card => card.hasTrait('scientist')).length > 0,
+            condition: (context) =>
+                context.game.creaturesInPlay.filter((card) => card.hasTrait('scientist')).length >
+                0,
             optional: false,
             target: {
                 cardType: 'creature',
-                cardCondition: card => card.hasTrait('scientist'),
+                cardCondition: (card) => card.hasTrait('scientist'),
                 gameAction: ability.actions.destroy()
             }
         });

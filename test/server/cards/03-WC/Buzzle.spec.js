@@ -1,7 +1,7 @@
-describe('Buzzle', function() {
-    integration(function() {
-        describe('Buzzle\'s ability', function() {
-            beforeEach(function() {
+describe('Buzzle', function () {
+    integration(function () {
+        describe("Buzzle's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'dis',
@@ -15,7 +15,7 @@ describe('Buzzle', function() {
                 });
             });
 
-            it('should trigger when played', function() {
+            it('should trigger when played', function () {
                 this.player1.play(this.buzzle);
                 expect(this.player1).toHavePrompt('Buzzle');
                 expect(this.player1).toBeAbleToSelect(this.dustImp);
@@ -26,7 +26,7 @@ describe('Buzzle', function() {
                 expect(this.buzzle.exhausted).toBe(false);
             });
 
-            it('should be able to not purge after play', function() {
+            it('should be able to not purge after play', function () {
                 this.player1.play(this.buzzle);
                 expect(this.player1).toHavePrompt('Buzzle');
                 expect(this.player1).toBeAbleToSelect(this.dustImp);
@@ -37,8 +37,8 @@ describe('Buzzle', function() {
             });
         });
 
-        describe('Buzzle\'s ability', function() {
-            beforeEach(function() {
+        describe("Buzzle's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'dis',
@@ -51,7 +51,7 @@ describe('Buzzle', function() {
                 });
             });
 
-            it('should trigger when fighting', function() {
+            it('should trigger when fighting', function () {
                 this.player1.fightWith(this.buzzle, this.batdrone);
                 expect(this.player1).toHavePrompt('Buzzle');
                 expect(this.player1).toBeAbleToSelect(this.dustImp);
@@ -64,7 +64,7 @@ describe('Buzzle', function() {
                 expect(this.batdrone.location).toBe('discard');
             });
 
-            it('should not ready if purged a warded creatured', function() {
+            it('should not ready if purged a warded creatured', function () {
                 this.overlordGreking.ward();
                 this.player1.fightWith(this.buzzle, this.batdrone);
                 this.player1.clickCard(this.overlordGreking);
@@ -74,7 +74,7 @@ describe('Buzzle', function() {
                 expect(this.batdrone.location).toBe('discard');
             });
 
-            it('should be able to not purge after fight', function() {
+            it('should be able to not purge after fight', function () {
                 this.player1.fightWith(this.buzzle, this.batdrone);
                 expect(this.player1).toHavePrompt('Buzzle');
                 expect(this.player1).toBeAbleToSelect(this.dustImp);

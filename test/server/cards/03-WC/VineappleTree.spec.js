@@ -1,7 +1,7 @@
-describe('Vineapple Tree', function() {
-    integration(function() {
-        describe('Vineapple Tree Functionality', function() {
-            beforeEach(function() {
+describe('Vineapple Tree', function () {
+    integration(function () {
+        describe('Vineapple Tree Functionality', function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         amber: 5,
@@ -15,11 +15,11 @@ describe('Vineapple Tree', function() {
                     }
                 });
             });
-            it('should place a growth counter on itself when used', function() {
+            it('should place a growth counter on itself when used', function () {
                 this.player1.useAction(this.vineappleTree);
                 expect(this.vineappleTree.tokens.growth).toBe(1);
             });
-            it('should increase key cost by 1A for every growth counter on it', function() {
+            it('should increase key cost by 1A for every growth counter on it', function () {
                 this.player1.useAction(this.vineappleTree);
                 expect(this.vineappleTree.tokens.growth).toBe(1);
                 this.player1.endTurn();

@@ -1,7 +1,7 @@
-describe('Quantum Fingertrap', function() {
-    integration(function() {
-        describe('Quantum Fingertrap\'s ability', function() {
-            beforeEach(function() {
+describe('Quantum Fingertrap', function () {
+    integration(function () {
+        describe("Quantum Fingertrap's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
@@ -14,14 +14,14 @@ describe('Quantum Fingertrap', function() {
                 });
             });
 
-            it('should not prompt for any creature if owner and opponent only have less than 2 creatures in play', function() {
+            it('should not prompt for any creature if owner and opponent only have less than 2 creatures in play', function () {
                 this.player1.useAction(this.quantumFingertrap);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
         });
 
-        describe('Quantum Fingertrap\'s ability', function() {
-            beforeEach(function() {
+        describe("Quantum Fingertrap's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
@@ -34,7 +34,7 @@ describe('Quantum Fingertrap', function() {
                 });
             });
 
-            it('should not prompt for second creature if controller has a single creature in play', function() {
+            it('should not prompt for second creature if controller has a single creature in play', function () {
                 this.player1.useAction(this.quantumFingertrap);
                 expect(this.player1).toHavePrompt('Choose a creature');
                 this.player1.clickCard(this.archimedes);
@@ -42,8 +42,8 @@ describe('Quantum Fingertrap', function() {
             });
         });
 
-        describe('Quantum Fingertrap\'s ability', function() {
-            beforeEach(function() {
+        describe("Quantum Fingertrap's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
@@ -56,7 +56,7 @@ describe('Quantum Fingertrap', function() {
                 });
             });
 
-            it('should not prompt for second creature if opponent has a single creature in play', function() {
+            it('should not prompt for second creature if opponent has a single creature in play', function () {
                 this.player1.useAction(this.quantumFingertrap);
                 expect(this.player1).toHavePrompt('Choose a creature');
                 this.player1.clickCard(this.urchin);
@@ -64,12 +64,18 @@ describe('Quantum Fingertrap', function() {
             });
         });
 
-        describe('Quantum Fingertrap\'s ability', function() {
-            beforeEach(function() {
+        describe("Quantum Fingertrap's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
-                        inPlay: ['brobnar-ambassador', 'bulwark', 'challe-the-safeguard', 'cowfyne', 'quantum-fingertrap']
+                        inPlay: [
+                            'brobnar-ambassador',
+                            'bulwark',
+                            'challe-the-safeguard',
+                            'cowfyne',
+                            'quantum-fingertrap'
+                        ]
                     },
                     player2: {
                         amber: 2,
@@ -78,10 +84,9 @@ describe('Quantum Fingertrap', function() {
                 });
             });
 
-            it('should allow swapping any creature in controller\'s battleline', function() {
+            it("should allow swapping any creature in controller's battleline", function () {
                 expect(this.player1.player.creaturesInPlay[0]).toBe(this.brobnarAmbassador);
                 expect(this.player1.player.creaturesInPlay[3]).toBe(this.cowfyne);
-
 
                 this.player1.useAction(this.quantumFingertrap);
                 expect(this.player1).toHavePrompt('Choose a creature');
@@ -102,10 +107,9 @@ describe('Quantum Fingertrap', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should allow swapping any creature in opponent\'s battleline', function() {
+            it("should allow swapping any creature in opponent's battleline", function () {
                 expect(this.player2.player.creaturesInPlay[0]).toBe(this.urchin);
                 expect(this.player2.player.creaturesInPlay[1]).toBe(this.lamindra);
-
 
                 this.player1.useAction(this.quantumFingertrap);
                 expect(this.player1).toHavePrompt('Choose a creature');

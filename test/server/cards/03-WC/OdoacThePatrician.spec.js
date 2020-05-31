@@ -1,7 +1,7 @@
-describe('Odoac The Patrician', function() {
-    integration(function() {
-        describe('Odoac The Patrician\'s ability', function() {
-            beforeEach(function() {
+describe('Odoac The Patrician', function () {
+    integration(function () {
+        describe("Odoac The Patrician's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
@@ -14,7 +14,7 @@ describe('Odoac The Patrician', function() {
                 });
             });
 
-            it('should not prevent amber being stolen when it has no amber on it', function() {
+            it('should not prevent amber being stolen when it has no amber on it', function () {
                 this.player1.endTurn();
                 this.player2.clickPrompt('saurian');
                 this.player2.play(this.odoacThePatrician);
@@ -27,8 +27,8 @@ describe('Odoac The Patrician', function() {
             });
         });
 
-        describe('Odoac The Patrician\'s ability', function() {
-            beforeEach(function() {
+        describe("Odoac The Patrician's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         amber: 1,
@@ -42,7 +42,7 @@ describe('Odoac The Patrician', function() {
                 });
             });
 
-            it('should not prevent amber being stolen when it has no amber on it', function() {
+            it('should not prevent amber being stolen when it has no amber on it', function () {
                 this.player1.endTurn();
                 this.player2.clickPrompt('saurian');
                 this.player2.play(this.odoacThePatrician);

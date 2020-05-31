@@ -1,7 +1,7 @@
-describe('bot-bookton', function() {
-    integration(function() {
-        describe('Bot Bookton\'s ability', function() {
-            beforeEach(function() {
+describe('bot-bookton', function () {
+    integration(function () {
+        describe("Bot Bookton's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
@@ -15,7 +15,7 @@ describe('bot-bookton', function() {
                 });
             });
 
-            it('should play a card on top of the deck', function() {
+            it('should play a card on top of the deck', function () {
                 this.player1.moveCard(this.dextre, 'deck');
                 expect(this.dextre.location).toBe('deck');
                 this.player1.reap(this.botBookton);
@@ -28,5 +28,3 @@ describe('bot-bookton', function() {
         });
     });
 });
-
-

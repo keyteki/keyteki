@@ -1,11 +1,11 @@
-describe('The Grey Rider', function() {
-    integration(function() {
-        describe('The Grey Rider\'s ability', function() {
-            beforeEach(function() {
+describe('The Grey Rider', function () {
+    integration(function () {
+        describe("The Grey Rider's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'sanctum',
-                        hand: ['the-grey-rider','inspiration'],
+                        hand: ['the-grey-rider', 'inspiration'],
                         inPlay: ['sequis', 'ancient-bear']
                     },
                     player2: {
@@ -15,7 +15,7 @@ describe('The Grey Rider', function() {
                 this.player1.fightWith(this.sequis, this.dextre);
             });
 
-            it('on play, it should allow fighting with an exhausted creature', function() {
+            it('on play, it should allow fighting with an exhausted creature', function () {
                 expect(this.sequis.exhausted).toBe(true);
                 expect(this.dextre.location).toBe('deck');
                 this.player1.playCreature(this.theGreyRider, true);
@@ -33,7 +33,7 @@ describe('The Grey Rider', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('on play, it should allow fighting with a non-house creature', function() {
+            it('on play, it should allow fighting with a non-house creature', function () {
                 this.player1.playCreature(this.theGreyRider);
                 this.player1.clickCard(this.theGreyRider);
                 expect(this.player1).toHavePrompt('The Grey Rider');
@@ -50,7 +50,7 @@ describe('The Grey Rider', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('on play, it should ready creatures who can\'t fight', function() {
+            it("on play, it should ready creatures who can't fight", function () {
                 this.player1.play(this.inspiration);
                 this.player1.clickCard(this.ancientBear);
                 expect(this.player1).toHavePrompt('Ancient Bear');
@@ -68,19 +68,18 @@ describe('The Grey Rider', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
         });
-        describe('The Grey Rider\'s ability', function() {
-            beforeEach(function() {
+        describe("The Grey Rider's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'sanctum',
-                        hand: ['the-grey-rider','inspiration'],
+                        hand: ['the-grey-rider', 'inspiration'],
                         inPlay: ['sequis']
                     },
-                    player2: {
-                    }
+                    player2: {}
                 });
             });
-            it('on play, it should let you reap with an in house card when there\'s no opponents to fight', function() {
+            it("on play, it should let you reap with an in house card when there's no opponents to fight", function () {
                 this.player1.clickCard(this.sequis);
                 this.player1.clickPrompt('Reap with this creature');
                 expect(this.sequis.exhausted).toBe(true);

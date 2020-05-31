@@ -1,7 +1,7 @@
-describe('Seeker of Truth', function() {
-    integration(function() {
-        describe('Seeker of Truth\'s ability', function() {
-            beforeEach(function() {
+describe('Seeker of Truth', function () {
+    integration(function () {
+        describe("Seeker of Truth's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'sanctum',
@@ -13,7 +13,7 @@ describe('Seeker of Truth', function() {
                 });
             });
 
-            it('should allow fighting with an non-Sanctum ready creature', function() {
+            it('should allow fighting with an non-Sanctum ready creature', function () {
                 this.troll.exhausted = true;
                 this.player1.fightWith(this.seekerOfTruth, this.lamindra);
                 this.player1.clickCard(this.seekerOfTruth);
@@ -28,7 +28,7 @@ describe('Seeker of Truth', function() {
                 expect(this.lamindra.location).toBe('discard');
             });
 
-            it('should be an optional choice', function() {
+            it('should be an optional choice', function () {
                 this.troll.exhausted = true;
                 this.player1.fightWith(this.seekerOfTruth, this.lamindra);
                 this.player1.clickPrompt('Done');

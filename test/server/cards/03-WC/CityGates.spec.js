@@ -1,7 +1,7 @@
-describe('City Gates', function() {
-    integration(function() {
-        describe('City Gates\'s ability', function() {
-            beforeEach(function() {
+describe('City Gates', function () {
+    integration(function () {
+        describe("City Gates's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'saurian',
@@ -14,7 +14,7 @@ describe('City Gates', function() {
                 });
             });
 
-            it('should capture 1 amber', function() {
+            it('should capture 1 amber', function () {
                 this.player1.play(this.brutodonAuxiliary);
                 this.player1.useAction(this.cityGates);
                 expect(this.player1).toHavePrompt('Choose a creature');
@@ -25,7 +25,7 @@ describe('City Gates', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should capture 2 ambers', function() {
+            it('should capture 2 ambers', function () {
                 this.player1.play(this.legatusRaptor);
                 this.player1.useAction(this.cityGates);
                 expect(this.player1).toHavePrompt('Choose a creature');
@@ -36,7 +36,7 @@ describe('City Gates', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should not capture an amber when there are no creatures in play', function() {
+            it('should not capture an amber when there are no creatures in play', function () {
                 this.player1.useAction(this.cityGates);
                 expect(this.player1).not.toHavePrompt('Choose a creature');
                 expect(this.player1.amber).toBe(0);
@@ -44,7 +44,7 @@ describe('City Gates', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should not capture an amber when the opponent has 0', function() {
+            it('should not capture an amber when the opponent has 0', function () {
                 this.player2.amber = 0;
                 this.player1.play(this.brutodonAuxiliary);
                 this.player1.useAction(this.cityGates);

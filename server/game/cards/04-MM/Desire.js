@@ -8,8 +8,11 @@ class Desire extends Card {
         });
 
         this.reap({
-            gameAction: ability.actions.forgeKey(context => ({
-                modifier: -(context.player.creaturesInPlay.reduce((total, card) => total + (card.hasTrait('sin') ? 1 : 0), 0))
+            gameAction: ability.actions.forgeKey((context) => ({
+                modifier: -context.player.creaturesInPlay.reduce(
+                    (total, card) => total + (card.hasTrait('sin') ? 1 : 0),
+                    0
+                )
             }))
         });
     }

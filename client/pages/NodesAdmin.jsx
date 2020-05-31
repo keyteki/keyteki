@@ -36,18 +36,31 @@ class NodeAdmin extends React.Component {
     }
 
     getNodesTable() {
-        const body = this.props.nodeStatus.map(node => {
+        const body = this.props.nodeStatus.map((node) => {
             return (
-                <tr key={ node.name }>
-                    <td>{ node.name }</td>
-                    <td>{ node.numGames }</td>
-                    <td>{ node.status }</td>
-                    <td>{ node.version }</td>
+                <tr key={node.name}>
+                    <td>{node.name}</td>
+                    <td>{node.numGames}</td>
+                    <td>{node.status}</td>
+                    <td>{node.version}</td>
                     <td>
-                        <button type='button' className='btn btn-primary' onClick={ this.onToggleNodeClick.bind(this, node) }>{ node.status === 'active' ? 'Disable' : 'Enable' }</button>
-                        <button type='button' className='btn btn-primary' onClick={ this.onRestartNodeClick.bind(this, node) }>Restart</button>
+                        <button
+                            type='button'
+                            className='btn btn-primary'
+                            onClick={this.onToggleNodeClick.bind(this, node)}
+                        >
+                            {node.status === 'active' ? 'Disable' : 'Enable'}
+                        </button>
+                        <button
+                            type='button'
+                            className='btn btn-primary'
+                            onClick={this.onRestartNodeClick.bind(this, node)}
+                        >
+                            Restart
+                        </button>
                     </td>
-                </tr>);
+                </tr>
+            );
         });
 
         return (
@@ -61,30 +74,33 @@ class NodeAdmin extends React.Component {
                         <th>Actions</th>
                     </tr>
                 </thead>
-                <tbody>
-                    { body }
-                </tbody>
-            </table>);
+                <tbody>{body}</tbody>
+            </table>
+        );
     }
 
     render() {
         let content;
 
-        if(!this.props.nodeStatus) {
+        if (!this.props.nodeStatus) {
             content = <div>Waiting for game node status from the lobby...</div>;
-        } else if(this.props.nodeStatus.length > 0) {
+        } else if (this.props.nodeStatus.length > 0) {
             content = this.getNodesTable();
         } else {
-            content = <div>There are no game nodes connected.  This is probably bad.</div>;
+            content = <div>There are no game nodes connected. This is probably bad.</div>;
         }
 
-        return (<div className='col-sm-offset-1 col-sm-10'>
-            <Panel title='Game Node Administration'>
-                { content }
+        return (
+            <div className='col-sm-offset-1 col-sm-10'>
+                <Panel title='Game Node Administration'>
+                    {content}
 
-                <button className='btn btn-default' onClick={ this.onRefreshClick }>Refresh</button>
-            </Panel>
-        </div>);
+                    <button className='btn btn-default' onClick={this.onRefreshClick}>
+                        Refresh
+                    </button>
+                </Panel>
+            </div>
+        );
     }
 }
 

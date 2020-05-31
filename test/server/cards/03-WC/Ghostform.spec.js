@@ -1,7 +1,7 @@
-describe('Ghostform', function() {
-    integration(function() {
-        describe('Ghostform\'s ability', function() {
-            beforeEach(function() {
+describe('Ghostform', function () {
+    integration(function () {
+        describe("Ghostform's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'brobnar',
@@ -19,7 +19,7 @@ describe('Ghostform', function() {
                 this.player2.clickPrompt('untamed');
             });
 
-            it('should not allow the creature to be damaged', function() {
+            it('should not allow the creature to be damaged', function () {
                 this.player2.play(this.mightyTiger);
                 expect(this.player2).toHavePrompt('Mighty Tiger');
                 expect(this.player2).toBeAbleToSelect(this.urchin);
