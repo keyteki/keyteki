@@ -6,7 +6,7 @@ describe('Niffle Kong', function () {
                     player1: {
                         house: 'untamed',
                         inPlay: ['fuzzy-gruen', 'niffle-ape'],
-                        hand: ['niffle-kong', 'niffle-kong-2', 'save-the-pack'],
+                        hand: ['niffle-kong', 'niffle-kong2', 'save-the-pack'],
                         discard: [
                             'niffle-ape',
                             'niffle-ape',
@@ -226,7 +226,7 @@ describe('Niffle Kong', function () {
                         amber: 2,
                         house: 'logos',
                         inPlay: ['fuzzy-gruen'],
-                        hand: ['niffle-kong', 'niffle-kong-2', 'wild-wormhole']
+                        hand: ['niffle-kong', 'niffle-kong2', 'wild-wormhole']
                     },
                     player2: {
                         amber: 5,
@@ -285,7 +285,7 @@ describe('Niffle Kong', function () {
                         amber: 2,
                         house: 'untamed',
                         inPlay: ['fuzzy-gruen'],
-                        hand: ['niffle-kong', 'niffle-kong-2']
+                        hand: ['niffle-kong', 'niffle-kong2']
                     },
                     player2: {
                         amber: 5,

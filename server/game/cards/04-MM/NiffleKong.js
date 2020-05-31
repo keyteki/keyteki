@@ -7,7 +7,7 @@ class NiffleKong extends Card {
         this.gigantic = true;
         this.playedParts = [];
         this.compositeImageId = 'niffle-kong-complete';
-        this.compositeParts = ['niffle-kong-2'];
+        this.compositeParts = ['niffle-kong2'];
     }
 
     setupCardAbilities(ability) {

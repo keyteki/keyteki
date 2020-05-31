@@ -174,15 +174,12 @@ class GameList extends React.Component {
                 continue;
             }
 
-            if (game.gamePrivate && !game.started) {
-                continue;
-            }
-
             let players = this.getPlayers(game);
 
             let isAdmin = this.props.user && this.props.user.permissions.canManageGames;
             let rowClass = classNames('game-row', {
-                [game.node]: game.node && isAdmin
+                [game.node]: game.node && isAdmin,
+                ['private-game']: game.gamePrivate && isAdmin
             });
 
             let timeDifference = moment().diff(moment(game.createdAt));
