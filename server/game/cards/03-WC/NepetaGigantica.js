@@ -5,7 +5,7 @@ class NepetaGigantica extends Card {
         this.action({
             target: {
                 cardType: 'creature',
-                cardCondition: card => card.power >= 5 || card.hasTrait('giant'),
+                cardCondition: (card) => card.power >= 5 || card.hasTrait('giant'),
                 gameAction: ability.actions.stun()
             }
         });

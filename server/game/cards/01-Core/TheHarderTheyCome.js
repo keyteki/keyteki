@@ -5,7 +5,7 @@ class TheHarderTheyCome extends Card {
         this.play({
             target: {
                 cardType: 'creature',
-                cardCondition: card => card.power >= 5,
+                cardCondition: (card) => card.power >= 5,
                 gameAction: ability.actions.purge()
             }
         });

@@ -6,7 +6,7 @@ class SongOfSpring extends Card {
             target: {
                 mode: 'unlimited',
                 location: ['play area', 'discard', 'hand'],
-                cardCondition: card => card.type === 'creature' && card.hasHouse('untamed'),
+                cardCondition: (card) => card.type === 'creature' && card.hasHouse('untamed'),
                 controller: 'self',
                 gameAction: ability.actions.returnToDeck({ shuffle: true })
             }

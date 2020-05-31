@@ -1,7 +1,7 @@
-describe('Font of the eye', function() {
-    integration(function() {
-        describe('Font of the eye\'s ability', function() {
-            beforeEach(function() {
+describe('Font of the eye', function () {
+    integration(function () {
+        describe("Font of the eye's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'brobnar',
@@ -15,13 +15,13 @@ describe('Font of the eye', function() {
                 });
             });
 
-            it('not allow a capture if no creatures have been destroyed', function() {
+            it('not allow a capture if no creatures have been destroyed', function () {
                 this.player1.clickCard(this.fontOfTheEye);
 
                 expect(this.player1).not.toBeAbleToSelect(this.bumpsy);
             });
 
-            it('allow a friendly creature to capture 1 if an enemy was destroyed', function() {
+            it('allow a friendly creature to capture 1 if an enemy was destroyed', function () {
                 this.player1.fightWith(this.bumpsy, this.selwynTheFence);
                 this.player1.useAction(this.fontOfTheEye, true);
 

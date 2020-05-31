@@ -1,12 +1,19 @@
-describe('General Order 24', function() {
-    integration(function() {
-        describe('with no other creatures in play', function() {
-            beforeEach(function() {
+describe('General Order 24', function () {
+    integration(function () {
+        describe('with no other creatures in play', function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'staralliance',
                         inPlay: [],
-                        hand: ['general-order-24', 'captain-val-jericho', 'navigator-ali', 'ganger-chieftain', 'shooler', 'malison']
+                        hand: [
+                            'general-order-24',
+                            'captain-val-jericho',
+                            'navigator-ali',
+                            'ganger-chieftain',
+                            'shooler',
+                            'malison'
+                        ]
                     },
                     player2: {
                         house: 'shadows',
@@ -16,7 +23,7 @@ describe('General Order 24', function() {
                 });
             });
 
-            it('general order 24 is activated when owner has no creatures, it gets destroyed', function() {
+            it('general order 24 is activated when owner has no creatures, it gets destroyed', function () {
                 this.player2.moveCard(this.badPenny, 'play area');
                 this.player1.play(this.generalOrder24, 'play area');
                 this.player1.endTurn();
@@ -28,7 +35,7 @@ describe('General Order 24', function() {
                 expect(this.generalOrder24.location).toBe('discard');
             });
 
-            it('general order 24 is activated when opponent has no creatures, it gets destroyed', function() {
+            it('general order 24 is activated when opponent has no creatures, it gets destroyed', function () {
                 this.player1.moveCard(this.navigatorAli, 'play area');
                 this.player1.play(this.generalOrder24);
                 this.player1.endTurn();
@@ -36,7 +43,7 @@ describe('General Order 24', function() {
                 expect(this.generalOrder24.location).toBe('discard');
             });
 
-            it('general order 24 is played when opponent has creatures, it forces the opponent to choose a creature', function() {
+            it('general order 24 is played when opponent has creatures, it forces the opponent to choose a creature', function () {
                 this.player2.moveCard(this.badPenny, 'play area');
                 this.player2.moveCard(this.umbra, 'play area');
                 this.player2.moveCard(this.eyegor, 'play area');
@@ -46,7 +53,7 @@ describe('General Order 24', function() {
                 expect(this.player2).toHavePrompt('Choose a creature to destroy');
             });
 
-            it('general order 24 is played when opponent has creatures, it destroys the creature the opponent chooses and other cards in the house', function() {
+            it('general order 24 is played when opponent has creatures, it destroys the creature the opponent chooses and other cards in the house', function () {
                 this.player2.moveCard(this.badPenny, 'play area');
                 this.player2.moveCard(this.umbra, 'play area');
                 this.player2.moveCard(this.eyegor, 'play area');
@@ -59,7 +66,7 @@ describe('General Order 24', function() {
                 expect(this.player2.inPlay).toContain(this.eyegor);
             });
 
-            it('general order 24 is played when owner has creatures, it destroys the creature the owner chooses and other cards in the house', function() {
+            it('general order 24 is played when owner has creatures, it destroys the creature the owner chooses and other cards in the house', function () {
                 this.player2.moveCard(this.badPenny, 'play area');
                 this.player2.moveCard(this.umbra, 'play area');
                 this.player2.moveCard(this.eyegor, 'play area');

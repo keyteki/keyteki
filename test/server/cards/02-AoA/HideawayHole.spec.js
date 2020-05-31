@@ -1,7 +1,7 @@
-describe('HideawayHole', function() {
-    integration(function() {
-        describe('HideawayHole\'s ability', function() {
-            beforeEach(function() {
+describe('HideawayHole', function () {
+    integration(function () {
+        describe("HideawayHole's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'shadows',
@@ -17,9 +17,9 @@ describe('HideawayHole', function() {
                 });
             });
 
-            it('should make creatures in play elusive', function() {
+            it('should make creatures in play elusive', function () {
                 this.player1.clickCard(this.hideawayHole);
-                this.player1.clickPrompt('Use this card\'s Omni ability');
+                this.player1.clickPrompt("Use this card's Omni ability");
 
                 this.player1.endTurn();
 
@@ -30,9 +30,9 @@ describe('HideawayHole', function() {
                 expect(this.murkens.tokens.damage).toBe(undefined);
             });
 
-            it('have the effect expire at the start of next turn', function() {
+            it('have the effect expire at the start of next turn', function () {
                 this.player1.clickCard(this.hideawayHole);
-                this.player1.clickPrompt('Use this card\'s Omni ability');
+                this.player1.clickPrompt("Use this card's Omni ability");
 
                 this.player1.endTurn();
 

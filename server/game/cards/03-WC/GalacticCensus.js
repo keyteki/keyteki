@@ -2,7 +2,7 @@ const Card = require('../../Card.js');
 
 class GalacticCensus extends Card {
     getAmountForHouses(houses) {
-        switch(houses.length) {
+        switch (houses.length) {
             case 0:
             case 1:
             case 2:
@@ -19,8 +19,10 @@ class GalacticCensus extends Card {
 
     setupCardAbilities(ability) {
         this.play({
-            gameAction: ability.actions.gainAmber(context => ({
-                amount: this.getAmountForHouses(context.game.getHousesInPlay(context.game.creaturesInPlay))
+            gameAction: ability.actions.gainAmber((context) => ({
+                amount: this.getAmountForHouses(
+                    context.game.getHousesInPlay(context.game.creaturesInPlay)
+                )
             }))
         });
     }

@@ -1,7 +1,7 @@
-describe('Sci. Officer Qincan', function() {
-    integration(function() {
-        describe('Sci. Officer Qincan\'s ability', function() {
-            beforeEach(function() {
+describe('Sci. Officer Qincan', function () {
+    integration(function () {
+        describe("Sci. Officer Qincan's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         amber: 3,
@@ -19,21 +19,21 @@ describe('Sci. Officer Qincan', function() {
                 this.player1.play(this.sciOfficerQincan);
             });
 
-            it('should steal an amber if player chooses a house not in play', function() {
+            it('should steal an amber if player chooses a house not in play', function () {
                 this.player1.endTurn();
                 this.player2.clickPrompt('Logos');
                 expect(this.player1.amber).toBe(4);
                 expect(this.player2.amber).toBe(3);
             });
 
-            it('should not steal an amber if player chooses a house in play', function() {
+            it('should not steal an amber if player chooses a house in play', function () {
                 this.player1.endTurn();
                 this.player2.clickPrompt('untamed');
                 expect(this.player1.amber).toBe(3);
                 expect(this.player2.amber).toBe(4);
             });
 
-            it('should apply to both players', function() {
+            it('should apply to both players', function () {
                 this.player1.endTurn();
                 this.player2.clickPrompt('untamed');
                 expect(this.player1.amber).toBe(3);
@@ -45,7 +45,7 @@ describe('Sci. Officer Qincan', function() {
                 expect(this.player2.amber).toBe(3);
             });
 
-            it('should consider upgrades', function() {
+            it('should consider upgrades', function () {
                 this.player1.endTurn();
                 this.player2.clickPrompt('untamed');
                 this.player2.endTurn();

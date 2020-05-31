@@ -8,6 +8,6 @@ class Deusillus2 extends Deusillus {
     }
 }
 
-Deusillus2.id = 'deusillus-2';
+Deusillus2.id = 'deusillus2';
 
 module.exports = Deusillus2;

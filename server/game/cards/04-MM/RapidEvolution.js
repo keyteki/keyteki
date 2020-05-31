@@ -5,7 +5,7 @@ class RapidEvolution extends Card {
         this.play({
             target: {
                 cardType: 'creature',
-                gameAction: ability.actions.addPowerCounter(context => ({
+                gameAction: ability.actions.addPowerCounter((context) => ({
                     amount: context.player.amber
                 }))
             }

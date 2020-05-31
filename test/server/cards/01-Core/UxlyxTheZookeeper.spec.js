@@ -1,7 +1,7 @@
-describe('Uxlyx the Zookeeper', function() {
-    integration(function() {
-        describe('Uxlyx the Zookeeper\'s ability', function() {
-            beforeEach(function() {
+describe('Uxlyx the Zookeeper', function () {
+    integration(function () {
+        describe("Uxlyx the Zookeeper's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'mars',
@@ -14,7 +14,7 @@ describe('Uxlyx the Zookeeper', function() {
                 });
             });
 
-            it('should trigger when Uxlyx reaps', function() {
+            it('should trigger when Uxlyx reaps', function () {
                 this.player1.reap(this.uxlyxTheZookeeper);
                 expect(this.player1).toHavePrompt('Uxlyx the Zookeeper');
                 expect(this.player1).not.toBeAbleToSelect(this.uxlyxTheZookeeper);
@@ -25,7 +25,7 @@ describe('Uxlyx the Zookeeper', function() {
                 expect(this.player1.archives).toContain(this.batdrone);
             });
 
-            it('should not trigger when there are no enemy creatures', function() {
+            it('should not trigger when there are no enemy creatures', function () {
                 this.player1.play(this.mothershipSupport);
                 expect(this.player1).toHavePrompt('Mothership Support');
                 this.player1.clickCard(this.batdrone);
@@ -34,7 +34,7 @@ describe('Uxlyx the Zookeeper', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should return creatures to their owner\'s hand', function() {
+            it("should return creatures to their owner's hand", function () {
                 this.player1.reap(this.uxlyxTheZookeeper);
                 this.player1.clickCard(this.batdrone);
                 this.player1.endTurn();

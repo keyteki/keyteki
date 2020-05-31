@@ -8,10 +8,10 @@ class ParticleSweep extends Card {
                 numCards: 1,
                 cardType: 'creature',
                 gameAction: [
-                    ability.actions.destroy(context => ({
+                    ability.actions.destroy((context) => ({
                         target: context.target[0].hasTrait('mutant') ? context.target : []
                     })),
-                    ability.actions.dealDamage(context => ({
+                    ability.actions.dealDamage((context) => ({
                         target: context.target[0].hasTrait('mutant') ? [] : context.target,
                         amount: 2
                     }))

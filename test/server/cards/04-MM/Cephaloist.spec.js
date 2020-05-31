@@ -1,7 +1,7 @@
-describe('Cephaloist', function() {
-    integration(function() {
-        describe('Cephaloist\'s ability', function() {
-            beforeEach(function() {
+describe('Cephaloist', function () {
+    integration(function () {
+        describe("Cephaloist's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'untamed',
@@ -14,7 +14,7 @@ describe('Cephaloist', function() {
                 });
             });
 
-            it('should not prevent amber being stolen when player has less than 4A', function() {
+            it('should not prevent amber being stolen when player has less than 4A', function () {
                 this.player1.endTurn();
                 this.player2.clickPrompt('shadows');
                 this.player2.play(this.urchin);
@@ -22,7 +22,7 @@ describe('Cephaloist', function() {
                 expect(this.player2.amber).toBe(1);
             });
 
-            it('should prevent amber being stolen when player has 4A', function() {
+            it('should prevent amber being stolen when player has 4A', function () {
                 this.player1.player.amber = 4;
                 this.player1.endTurn();
                 this.player2.clickPrompt('shadows');
@@ -31,7 +31,7 @@ describe('Cephaloist', function() {
                 expect(this.player2.amber).toBe(0);
             });
 
-            it('should prevent amber being stolen when player has more than 4A', function() {
+            it('should prevent amber being stolen when player has more than 4A', function () {
                 this.player1.player.amber = 6;
                 this.player1.endTurn();
                 this.player2.clickPrompt('shadows');

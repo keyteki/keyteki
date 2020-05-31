@@ -1,12 +1,18 @@
-describe('Shard of Pain', function() {
-    integration(function() {
-        describe('Shard of Pain\'s ability', function() {
-            beforeEach(function() {
+describe('Shard of Pain', function () {
+    integration(function () {
+        describe("Shard of Pain's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'dis',
                         hand: ['dust-imp'],
-                        inPlay: ['shooler', 'shard-of-pain', 'shard-of-greed', 'seeker-needle', 'shard-of-hope']
+                        inPlay: [
+                            'shooler',
+                            'shard-of-pain',
+                            'shard-of-greed',
+                            'seeker-needle',
+                            'shard-of-hope'
+                        ]
                     },
                     player2: {
                         hand: ['remote-access'],
@@ -15,7 +21,7 @@ describe('Shard of Pain', function() {
                 });
             });
 
-            it('should deal 3 damages to enemy creatures', function() {
+            it('should deal 3 damages to enemy creatures', function () {
                 this.player1.useAction(this.shardOfPain);
                 expect(this.player1).toBeAbleToSelect(this.mother);
                 expect(this.player1).toBeAbleToSelect(this.dextre);

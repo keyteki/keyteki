@@ -1,7 +1,7 @@
-describe('Pride', function() {
-    integration(function() {
-        describe('Pride\'s abilities', function() {
-            beforeEach(function() {
+describe('Pride', function () {
+    integration(function () {
+        describe("Pride's abilities", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'dis',
@@ -13,7 +13,7 @@ describe('Pride', function() {
                 });
             });
 
-            it('should ward all sin creatures', function() {
+            it('should ward all sin creatures', function () {
                 this.player1.reap(this.pride);
                 expect(this.envy.tokens.ward).toBe(1);
                 expect(this.pride.tokens.ward).toBe(1);

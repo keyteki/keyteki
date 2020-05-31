@@ -3,8 +3,10 @@ const Card = require('../../Card.js');
 class Dharna extends Card {
     setupCardAbilities(ability) {
         this.play({
-            gameAction: ability.actions.gainAmber(context => ({
-                amount: context.player.cardsInPlay.filter(card => card.type === 'creature' && card.hasToken('damage')).length
+            gameAction: ability.actions.gainAmber((context) => ({
+                amount: context.player.cardsInPlay.filter(
+                    (card) => card.type === 'creature' && card.hasToken('damage')
+                ).length
             }))
         });
         this.reap({

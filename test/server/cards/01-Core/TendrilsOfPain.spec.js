@@ -1,7 +1,7 @@
-describe('Tendrils of Pain', function() {
-    integration(function() {
-        describe('Tendrils of Pain\'s ability', function() {
-            beforeEach(function() {
+describe('Tendrils of Pain', function () {
+    integration(function () {
+        describe("Tendrils of Pain's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'dis',
@@ -18,15 +18,15 @@ describe('Tendrils of Pain', function() {
                 this.mightyTiger.ward();
             });
 
-            describe('if opponent forges a key', function() {
-                beforeEach(function() {
+            describe('if opponent forges a key', function () {
+                beforeEach(function () {
                     this.player1.endTurn();
                     this.player2.forgeKey('Red');
                     this.player2.clickPrompt('untamed');
                     this.player2.endTurn();
                 });
 
-                it('player 2 forges a key', function() {
+                it('player 2 forges a key', function () {
                     expect(this.player2.player.keys.red).toBe(true);
                     expect(this.player2.player.keys.blue).toBe(false);
                     expect(this.player2.player.keys.yellow).toBe(false);
@@ -35,12 +35,12 @@ describe('Tendrils of Pain', function() {
                     expect(this.chotaHazri.warded).toBe(true);
                     expect(this.mightyTiger.warded).toBe(true);
                 });
-                describe('play tendrils of pain', function() {
-                    beforeEach(function() {
+                describe('play tendrils of pain', function () {
+                    beforeEach(function () {
                         this.player1.clickPrompt('dis');
                         this.player1.play(this.tendrilsOfPain);
                     });
-                    it('Tendrils deals 1 damages, then 3 damage', function() {
+                    it('Tendrils deals 1 damages, then 3 damage', function () {
                         expect(this.helperBot.location).toBe('discard');
                         expect(this.chotaHazri.location).toBe('discard');
                         expect(this.huntingWitch.location).toBe('discard');
@@ -51,8 +51,8 @@ describe('Tendrils of Pain', function() {
                 });
             });
 
-            describe('if opponent does not forge a key', function() {
-                it('player 2 forges a key', function() {
+            describe('if opponent does not forge a key', function () {
+                it('player 2 forges a key', function () {
                     expect(this.player2.player.keys.red).toBe(false);
                     expect(this.player2.player.keys.blue).toBe(false);
                     expect(this.player2.player.keys.yellow).toBe(false);
@@ -61,11 +61,11 @@ describe('Tendrils of Pain', function() {
                     expect(this.chotaHazri.warded).toBe(true);
                     expect(this.mightyTiger.warded).toBe(true);
                 });
-                describe('play tendrils of pain', function() {
-                    beforeEach(function() {
+                describe('play tendrils of pain', function () {
+                    beforeEach(function () {
                         this.player1.play(this.tendrilsOfPain);
                     });
-                    it('Tendrils deals 1 damage', function() {
+                    it('Tendrils deals 1 damage', function () {
                         expect(this.helperBot.location).toBe('play area');
                         expect(this.chotaHazri.location).toBe('play area');
                         expect(this.huntingWitch.location).toBe('play area');

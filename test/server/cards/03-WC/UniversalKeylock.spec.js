@@ -1,7 +1,7 @@
-describe('Universal Keylock', function() {
-    integration(function() {
-        describe('Universal Keylock\'s ability', function() {
-            beforeEach(function() {
+describe('Universal Keylock', function () {
+    integration(function () {
+        describe("Universal Keylock's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         amber: 9,
@@ -14,7 +14,7 @@ describe('Universal Keylock', function() {
                     }
                 });
             });
-            it('should increase key cost by 3 for either player and destroy itself when a key is forged.', function() {
+            it('should increase key cost by 3 for either player and destroy itself when a key is forged.', function () {
                 this.player1.endTurn();
                 expect(this.player2.player.keys.red).toBe(false);
                 expect(this.player2.player.keys.blue).toBe(false);
@@ -30,8 +30,8 @@ describe('Universal Keylock', function() {
                 expect(this.universalKeylock.location).toBe('discard');
             });
         });
-        describe('Universal Keylock\'s ability', function() {
-            beforeEach(function() {
+        describe("Universal Keylock's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         amber: 6,
@@ -44,7 +44,7 @@ describe('Universal Keylock', function() {
                     }
                 });
             });
-            it('should increase key cost by 3 for either player and destroy itself when a key is forged.', function() {
+            it('should increase key cost by 3 for either player and destroy itself when a key is forged.', function () {
                 this.player1.endTurn();
                 this.player2.forgeKey('Red');
                 expect(this.player2.player.keys.red).toBe(true);

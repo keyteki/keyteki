@@ -1,7 +1,7 @@
-describe('The Shadowsmith', function() {
-    integration(function() {
-        describe('The Shadowsmith\'s ability', function() {
-            beforeEach(function() {
+describe('The Shadowsmith', function () {
+    integration(function () {
+        describe("The Shadowsmith's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'untamed',
@@ -14,7 +14,7 @@ describe('The Shadowsmith', function() {
                 });
             });
 
-            it('should give elusive keyword to all mutant creatures', function() {
+            it('should give elusive keyword to all mutant creatures', function () {
                 expect(this.cephaloist.getKeywordValue('elusive')).toBe(1);
                 expect(this.theShadowsmith.getKeywordValue('elusive')).toBe(1);
                 expect(this.dextre.getKeywordValue('elusive')).toBe(0);

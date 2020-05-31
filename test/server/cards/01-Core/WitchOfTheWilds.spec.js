@@ -1,7 +1,7 @@
-describe('Witch of the Wilds', function() {
-    integration(function() {
-        describe('Witch of the Wilds\'s ability', function() {
-            beforeEach(function() {
+describe('Witch of the Wilds', function () {
+    integration(function () {
+        describe("Witch of the Wilds's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
@@ -14,14 +14,14 @@ describe('Witch of the Wilds', function() {
                 });
             });
 
-            it('should allow playing a untamed card', function() {
+            it('should allow playing a untamed card', function () {
                 this.player1.play(this.ancientBear);
                 expect(this.ancientBear.location).toBe('play area');
                 this.player1.clickCard(this.snufflegator);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should stack with Phase Shift', function() {
+            it('should stack with Phase Shift', function () {
                 this.player1.play(this.phaseShift);
                 this.player1.play(this.virtuousWorks);
                 expect(this.virtuousWorks.location).toBe('discard');
@@ -31,9 +31,7 @@ describe('Witch of the Wilds', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should have DEF effect on GHI', function() {
-
-            });
+            it('should have DEF effect on GHI', function () {});
         });
     });
 });

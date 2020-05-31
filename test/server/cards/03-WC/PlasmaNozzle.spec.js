@@ -1,7 +1,7 @@
-describe('Plasma Nozzle', function() {
-    integration(function() {
-        describe('Plasma Nozzle\'s ability', function() {
-            beforeEach(function() {
+describe('Plasma Nozzle', function () {
+    integration(function () {
+        describe("Plasma Nozzle's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'staralliance',
@@ -14,7 +14,7 @@ describe('Plasma Nozzle', function() {
                 });
             });
 
-            it('should add \'before fight: deal 2 to the target with 2 splash\'', function() {
+            it("should add 'before fight: deal 2 to the target with 2 splash'", function () {
                 this.player1.playUpgrade(this.plasmaNozzle, this.lieutenantKhrkhar);
                 this.player1.fightWith(this.lieutenantKhrkhar, this.sequis);
                 expect(this.nexus.tokens.damage).toBe(1);

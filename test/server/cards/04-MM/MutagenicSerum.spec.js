@@ -1,11 +1,17 @@
-describe('Mutagenic Serum', function() {
-    integration(function() {
-        describe('Mutagenic Serum\'s ability', function() {
-            beforeEach(function() {
+describe('Mutagenic Serum', function () {
+    integration(function () {
+        describe("Mutagenic Serum's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
-                        inPlay: ['mutagenic-serum', 'ardent-hero', 'dextre', 'scrivener-favian', 'bull-wark']
+                        inPlay: [
+                            'mutagenic-serum',
+                            'ardent-hero',
+                            'dextre',
+                            'scrivener-favian',
+                            'bull-wark'
+                        ]
                     },
                     player2: {
                         inPlay: ['dust-imp']
@@ -13,7 +19,7 @@ describe('Mutagenic Serum', function() {
                 });
             });
 
-            it('should allow using mutant creatures', function() {
+            it('should allow using mutant creatures', function () {
                 this.player1.useAction(this.mutagenicSerum, true);
                 expect(this.mutagenicSerum.location).toBe('discard');
                 this.player1.reap(this.dextre);

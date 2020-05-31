@@ -6,10 +6,10 @@ class ZYXResearcher extends Card {
             target: {
                 mode: 'select',
                 choices: {
-                    'Deck': ability.actions.archive(context => ({
+                    Deck: ability.actions.archive((context) => ({
                         target: context.player.deck[0]
                     })),
-                    'Discard pile': ability.actions.archive(context => ({
+                    'Discard pile': ability.actions.archive((context) => ({
                         target: context.player.discard[0]
                     }))
                 }

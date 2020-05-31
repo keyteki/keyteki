@@ -10,9 +10,11 @@ class NewsItem extends React.Component {
 
         return (
             <div className='news-item'>
-                <div className={ `col-sm-1 news-icon ${this.props.icon}` } />
-                &nbsp;{ moment(this.props.date).format('YYYY-MM-DD') + ' - ' }{ parts }
-            </div>);
+                <div className={`col-sm-1 news-icon ${this.props.icon}`} />
+                &nbsp;{moment(this.props.date).format('YYYY-MM-DD') + ' - '}
+                {parts}
+            </div>
+        );
     }
 }
 

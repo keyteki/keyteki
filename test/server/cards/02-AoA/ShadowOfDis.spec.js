@@ -1,12 +1,25 @@
-describe('Shadow of Dis', function() {
-    integration(function() {
-        describe('Shadow of Dis\' ability', function() {
-            beforeEach(function() {
+describe('Shadow of Dis', function () {
+    integration(function () {
+        describe("Shadow of Dis' ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'untamed',
-                        inPlay: ['autocannon', 'hunting-witch', 'hideaway-hole', 'kindrith-longshot'],
-                        hand: ['bumpsy', 'valdr', 'dew-faerie', 'halacor', 'snufflegator', 'inka-the-spider', 'tantadlin']
+                        inPlay: [
+                            'autocannon',
+                            'hunting-witch',
+                            'hideaway-hole',
+                            'kindrith-longshot'
+                        ],
+                        hand: [
+                            'bumpsy',
+                            'valdr',
+                            'dew-faerie',
+                            'halacor',
+                            'snufflegator',
+                            'inka-the-spider',
+                            'tantadlin'
+                        ]
                     },
                     player2: {
                         inPlay: ['tezmal'],
@@ -14,7 +27,7 @@ describe('Shadow of Dis', function() {
                     }
                 });
             });
-            it('should not blank artifacts', function() {
+            it('should not blank artifacts', function () {
                 this.player1.endTurn();
                 this.player2.clickPrompt('dis');
                 this.player2.play(this.shadowOfDis);
@@ -22,7 +35,7 @@ describe('Shadow of Dis', function() {
                 expect(this.dustImp.tokens.damage).toBe(1);
             });
 
-            it('test blanking hunting witch', function() {
+            it('test blanking hunting witch', function () {
                 this.player1.play(this.dewFaerie);
                 this.player1.clickCard(this.huntingWitch);
                 expect(this.player1.amber).toBe(1);
@@ -36,7 +49,7 @@ describe('Shadow of Dis', function() {
                 expect(this.player1.amber).toBe(1);
             });
 
-            it('test printed skirmish is ignored', function() {
+            it('test printed skirmish is ignored', function () {
                 this.player1.moveCard(this.autocannon, 'discard');
                 this.player1.play(this.snufflegator);
                 this.player1.endTurn();
@@ -50,7 +63,7 @@ describe('Shadow of Dis', function() {
                 expect(this.snufflegator.tokens.damage).toBe(2); // 2 from spyyyder ignoring snufflegator's skirmish
             });
 
-            it('test halacor skirmish is ignored', function() {
+            it('test halacor skirmish is ignored', function () {
                 this.player1.moveCard(this.autocannon, 'discard');
                 this.player1.play(this.halacor);
                 this.player1.play(this.tantadlin);
@@ -65,7 +78,7 @@ describe('Shadow of Dis', function() {
                 expect(this.tantadlin.tokens.damage).toBe(2); // 2 from spyyyder ignoring halacor's skirmish
             });
 
-            it('test kindrith-longshot elusive is ignored', function() {
+            it('test kindrith-longshot elusive is ignored', function () {
                 this.player1.moveCard(this.autocannon, 'discard');
                 this.player1.endTurn();
                 this.player2.clickPrompt('dis');
@@ -75,10 +88,10 @@ describe('Shadow of Dis', function() {
                 expect(this.kindrithLongshot.tokens.damage).toBe(2); // 2 from tezmal ignoring kindrith's elusive
             });
 
-            it('test hideway-hole artifact\'s elusive still works', function() {
+            it("test hideway-hole artifact's elusive still works", function () {
                 this.player1.moveCard(this.autocannon, 'discard');
                 this.player1.clickCard(this.hideawayHole);
-                this.player1.clickPrompt('Use this card\'s Omni ability');
+                this.player1.clickPrompt("Use this card's Omni ability");
                 this.player1.endTurn();
                 this.player2.clickPrompt('dis');
                 this.player2.play(this.shadowOfDis);
@@ -87,7 +100,7 @@ describe('Shadow of Dis', function() {
                 expect(this.kindrithLongshot.hasToken('damage')).toBe(false);
             });
 
-            it('should wear off after the opponent\'s turn', function() {
+            it("should wear off after the opponent's turn", function () {
                 this.player1.play(this.dewFaerie);
                 this.player1.clickCard(this.huntingWitch);
                 expect(this.player1.amber).toBe(1);

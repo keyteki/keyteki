@@ -4,7 +4,7 @@ class DarkFaerie extends Card {
     setupCardAbilities(ability) {
         this.fight({
             effect: 'gain 2 amber',
-            gameAction: ability.actions.gainAmber(context => ({
+            gameAction: ability.actions.gainAmber((context) => ({
                 amount: 2,
                 target: context.player
             }))

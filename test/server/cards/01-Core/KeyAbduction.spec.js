@@ -1,11 +1,18 @@
-describe('Key Abduction', function() {
-    integration(function() {
-        describe('Key Abduction\'s ability', function() {
-            beforeEach(function() {
+describe('Key Abduction', function () {
+    integration(function () {
+        describe("Key Abduction's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'mars',
-                        hand: ['key-abduction', 'phase-shift', 'virtuous-works', 'chuff-ape', 'dextre', 'batdrone'],
+                        hand: [
+                            'key-abduction',
+                            'phase-shift',
+                            'virtuous-works',
+                            'chuff-ape',
+                            'dextre',
+                            'batdrone'
+                        ],
                         inPlay: ['sequis', 'mindwarper', 'blypyp']
                     },
                     player2: {
@@ -15,7 +22,7 @@ describe('Key Abduction', function() {
                 this.zorg.tokens.damage = 3;
             });
 
-            it('should return creatures to hand and not prompt to forge when the player has insufficient amber', function() {
+            it('should return creatures to hand and not prompt to forge when the player has insufficient amber', function () {
                 this.player1.play(this.keyAbduction);
                 expect(this.player1.amber).toBe(1);
                 expect(this.sequis.location).toBe('play area');
@@ -25,7 +32,7 @@ describe('Key Abduction', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should prompt to forge a key if the player has enough amber', function() {
+            it('should prompt to forge a key if the player has enough amber', function () {
                 this.player1.amber = 8;
                 this.player1.play(this.keyAbduction);
                 expect(this.player1).toHavePrompt('Do you wish to forge a key?');
@@ -38,7 +45,7 @@ describe('Key Abduction', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should prompt to forge a key even if no mars creatures are returned to hand', function() {
+            it('should prompt to forge a key even if no mars creatures are returned to hand', function () {
                 this.player1.amber = 9;
                 this.player1.fightWith(this.mindwarper, this.zorg);
                 this.player1.fightWith(this.blypyp, this.zorg);

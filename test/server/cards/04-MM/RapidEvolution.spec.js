@@ -1,7 +1,7 @@
-describe('Rapid Evolution', function() {
-    integration(function() {
-        describe('Rapid Evolution\'s ability', function() {
-            beforeEach(function() {
+describe('Rapid Evolution', function () {
+    integration(function () {
+        describe("Rapid Evolution's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         amber: 4,
@@ -16,7 +16,7 @@ describe('Rapid Evolution', function() {
                 });
             });
 
-            it('should give a creature, 4 power counters', function() {
+            it('should give a creature, 4 power counters', function () {
                 this.player1.play(this.rapidEvolution);
                 expect(this.player1).toBeAbleToSelect(this.flaxia);
                 expect(this.player1).toBeAbleToSelect(this.odoacThePatrician);

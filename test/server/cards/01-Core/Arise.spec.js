@@ -1,7 +1,7 @@
-describe('Arise!', function() {
-    integration(function() {
-        describe('Arise!\'s ability', function() {
-            beforeEach(function() {
+describe('Arise!', function () {
+    integration(function () {
+        describe("Arise!'s ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'dis',
@@ -14,7 +14,7 @@ describe('Arise!', function() {
                 });
             });
 
-            it('should prompt to choose a house', function() {
+            it('should prompt to choose a house', function () {
                 this.player1.play(this.arise);
                 expect(this.player1).toHavePrompt('Arise!');
                 expect(this.player1.currentButtons).toContain('brobnar');
@@ -26,7 +26,7 @@ describe('Arise!', function() {
                 expect(this.player1.currentButtons).toContain('untamed');
             });
 
-            it('should return dis creatures if the player chooses dis', function() {
+            it('should return dis creatures if the player chooses dis', function () {
                 this.player1.play(this.arise);
                 this.player1.clickPrompt('dis');
                 expect(this.pitDemon.location).toBe('hand');
@@ -34,7 +34,7 @@ describe('Arise!', function() {
                 expect(this.ancientBear.location).toBe('discard');
             });
 
-            it('should give the player a chain', function() {
+            it('should give the player a chain', function () {
                 this.player1.play(this.arise);
                 this.player1.clickPrompt('untamed');
                 expect(this.pitDemon.location).toBe('discard');

@@ -9,118 +9,158 @@ const configService = new ConfigService();
 
 let deckService = new DeckService(configService);
 
-module.exports.init = function(server) {
-    server.get('/api/standalone-decks', wrapAsync(async function(req, res) {
-        let decks;
+module.exports.init = function (server) {
+    server.get(
+        '/api/standalone-decks',
+        wrapAsync(async function (req, res) {
+            let decks;
 
-        try {
-            decks = await deckService.getStandaloneDecks();
-        } catch(err) {
-            logger.error('Failed to get standalone decks', err);
+            try {
+                decks = await deckService.getStandaloneDecks();
+            } catch (err) {
+                logger.error('Failed to get standalone decks', err);
 
-            throw new Error('Failed to get standalone decks');
-        }
-
-        res.send({ success: true, decks: decks });
-    }));
-
-    server.get('/api/decks/:id', passport.authenticate('jwt', { session: false }), wrapAsync(async function(req, res) {
-        if(!req.params.id || req.params.id === '') {
-            return res.status(404).send({ message: 'No such deck' });
-        }
-
-        let deck = await deckService.getById(req.params.id);
-
-        if(!deck) {
-            return res.status(404).send({ message: 'No such deck' });
-        }
-
-        if(deck.username !== req.user.username) {
-            return res.status(401).send({ message: 'Unauthorized' });
-        }
-
-        res.send({ success: true, deck: deck });
-    }));
-
-    server.get('/api/decks', passport.authenticate('jwt', { session: false }), wrapAsync(async function(req, res) {
-        let decks = (await deckService.findForUser(req.user)).map(deck => {
-            let deckUsageLevel = 0;
-            if(deck.usageCount > configService.getValueForSection('lobby', 'lowerDeckThreshold')) {
-                deckUsageLevel = 1;
+                throw new Error('Failed to get standalone decks');
             }
 
-            if(deck.usageCount > configService.getValueForSection('lobby', 'middleDeckThreshold')) {
-                deckUsageLevel = 2;
+            res.send({ success: true, decks: decks });
+        })
+    );
+
+    server.get(
+        '/api/decks/:id',
+        passport.authenticate('jwt', { session: false }),
+        wrapAsync(async function (req, res) {
+            if (!req.params.id || req.params.id === '') {
+                return res.status(404).send({ message: 'No such deck' });
             }
 
-            if(deck.usageCount > configService.getValueForSection('lobby', 'upperDeckThreshold')) {
-                deckUsageLevel = 3;
+            let deck = await deckService.getById(req.params.id);
+
+            if (!deck) {
+                return res.status(404).send({ message: 'No such deck' });
             }
 
-            deck.usageLevel = deckUsageLevel;
-            deck.usageCount = undefined;
+            if (deck.username !== req.user.username) {
+                return res.status(401).send({ message: 'Unauthorized' });
+            }
 
-            return deck;
-        });
+            res.send({ success: true, deck: deck });
+        })
+    );
 
-        res.send({ success: true, decks: decks });
-    }));
+    server.get(
+        '/api/decks',
+        passport.authenticate('jwt', { session: false }),
+        wrapAsync(async function (req, res) {
+            let decks = (await deckService.findForUser(req.user)).map((deck) => {
+                let deckUsageLevel = 0;
+                if (
+                    deck.usageCount >
+                    configService.getValueForSection('lobby', 'lowerDeckThreshold')
+                ) {
+                    deckUsageLevel = 1;
+                }
 
-    server.post('/api/decks', passport.authenticate('jwt', { session: false }), wrapAsync(async function(req, res) {
-        if(!req.body.uuid) {
-            return res.send({ success: false, message: 'uuid must be specified' });
-        }
+                if (
+                    deck.usageCount >
+                    configService.getValueForSection('lobby', 'middleDeckThreshold')
+                ) {
+                    deckUsageLevel = 2;
+                }
 
-        let deck = Object.assign({}, { uuid: req.body.uuid, username: req.user.username });
-        let savedDeck;
+                if (
+                    deck.usageCount >
+                    configService.getValueForSection('lobby', 'upperDeckThreshold')
+                ) {
+                    deckUsageLevel = 3;
+                }
 
-        try {
-            savedDeck = await deckService.create(req.user, deck);
-        } catch(error) {
-            return res.send({ success: false, message: 'An error occurred importing your deck.  Please check the Url or try again later.' });
-        }
+                deck.usageLevel = deckUsageLevel;
+                deck.usageCount = undefined;
 
-        if(!savedDeck) {
-            return res.send({ success: false, message: 'An error occurred importing your deck.  Please check the Url or try again later.' });
-        }
+                return deck;
+            });
 
-        res.send({ success: true, deck: savedDeck });
-    }));
+            res.send({ success: true, decks: decks });
+        })
+    );
 
-    server.delete('/api/decks/:id', passport.authenticate('jwt', { session: false }), wrapAsync(async function(req, res) {
-        let id = req.params.id;
+    server.post(
+        '/api/decks',
+        passport.authenticate('jwt', { session: false }),
+        wrapAsync(async function (req, res) {
+            if (!req.body.uuid) {
+                return res.send({ success: false, message: 'uuid must be specified' });
+            }
 
-        let deck = await deckService.getById(id);
+            let deck = Object.assign({}, { uuid: req.body.uuid, username: req.user.username });
+            let savedDeck;
 
-        if(!deck) {
-            return res.status(404).send({ success: false, message: 'No such deck' });
-        }
+            try {
+                savedDeck = await deckService.create(req.user, deck);
+            } catch (error) {
+                return res.send({
+                    success: false,
+                    message:
+                        'An error occurred importing your deck.  Please check the Url or try again later.'
+                });
+            }
 
-        if(deck.username !== req.user.username) {
-            return res.status(401).send({ message: 'Unauthorized' });
-        }
+            if (!savedDeck) {
+                return res.send({
+                    success: false,
+                    message:
+                        'An error occurred importing your deck.  Please check the Url or try again later.'
+                });
+            }
 
-        await deckService.delete(id);
-        res.send({ success: true, message: 'Deck deleted successfully', deckId: id });
-    }));
+            res.send({ success: true, deck: savedDeck });
+        })
+    );
 
-    server.post('/api/decks/:id/verify', passport.authenticate('jwt', { session: false }), wrapAsync(async function(req, res) {
-        if(!req.user.permissions || !req.user.permissions.canVerifyDecks) {
-            return res.status(403);
-        }
+    server.delete(
+        '/api/decks/:id',
+        passport.authenticate('jwt', { session: false }),
+        wrapAsync(async function (req, res) {
+            let id = req.params.id;
 
-        let id = req.params.id;
+            let deck = await deckService.getById(id);
 
-        let deck = await deckService.getById(id);
+            if (!deck) {
+                return res.status(404).send({ success: false, message: 'No such deck' });
+            }
 
-        if(!deck) {
-            return res.status(404).send({ success: false, message: 'No such deck' });
-        }
+            if (deck.username !== req.user.username) {
+                return res.status(401).send({ message: 'Unauthorized' });
+            }
 
-        deck.verified = true;
-        deck.id = id;
+            await deckService.delete(id);
+            res.send({ success: true, message: 'Deck deleted successfully', deckId: id });
+        })
+    );
 
-        await deckService.update(deck);
-        res.send({ success: true, message: 'Deck verified successfully', deckId: id });
-    }));
+    server.post(
+        '/api/decks/:id/verify',
+        passport.authenticate('jwt', { session: false }),
+        wrapAsync(async function (req, res) {
+            if (!req.user.permissions || !req.user.permissions.canVerifyDecks) {
+                return res.status(403);
+            }
+
+            let id = req.params.id;
+
+            let deck = await deckService.getById(id);
+
+            if (!deck) {
+                return res.status(404).send({ success: false, message: 'No such deck' });
+            }
+
+            deck.verified = true;
+            deck.id = id;
+
+            await deckService.update(deck);
+            res.send({ success: true, message: 'Deck verified successfully', deckId: id });
+        })
+    );
 };

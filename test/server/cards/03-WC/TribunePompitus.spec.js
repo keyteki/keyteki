@@ -1,7 +1,7 @@
-describe('Tribune Pompitus', function() {
-    integration(function() {
-        describe('Tribune Pompitus\'s ability', function() {
-            beforeEach(function() {
+describe('Tribune Pompitus', function () {
+    integration(function () {
+        describe("Tribune Pompitus's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'saurian',
@@ -14,7 +14,7 @@ describe('Tribune Pompitus', function() {
                 });
             });
 
-            it('should give +2 power per amber on friendly creatures', function() {
+            it('should give +2 power per amber on friendly creatures', function () {
                 expect(this.tribunePompitus.power).toBe(4);
                 expect(this.questorJarta.power).toBe(3);
                 expect(this.senatorShrix.power).toBe(4);
@@ -35,7 +35,7 @@ describe('Tribune Pompitus', function() {
                 expect(this.krump.power).toBe(6);
             });
 
-            it('should give an option to exalt itself before fight and allow cancel', function() {
+            it('should give an option to exalt itself before fight and allow cancel', function () {
                 this.player1.fightWith(this.tribunePompitus, this.krump);
                 expect(this.player1).toHavePrompt('Any interrupts?');
                 this.player1.clickPrompt('Done');
@@ -43,7 +43,7 @@ describe('Tribune Pompitus', function() {
                 expect(this.krump.tokens.damage).toBe(4);
             });
 
-            it('should give an option to exalt itself before fight', function() {
+            it('should give an option to exalt itself before fight', function () {
                 this.player1.fightWith(this.tribunePompitus, this.krump);
                 expect(this.player1).toHavePrompt('Any interrupts?');
                 this.player1.clickCard(this.tribunePompitus);
@@ -54,4 +54,3 @@ describe('Tribune Pompitus', function() {
         });
     });
 });
-

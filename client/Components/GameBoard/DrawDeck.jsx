@@ -25,53 +25,67 @@ class DrawDeck extends React.Component {
     }
 
     handleShowDeckClick() {
-        if(this.props.onPopupChange) {
+        if (this.props.onPopupChange) {
             this.props.onPopupChange({ visible: true });
         }
     }
 
     handleShuffleClick() {
-        if(this.props.onShuffleClick) {
+        if (this.props.onShuffleClick) {
             this.props.onShuffleClick();
         }
     }
 
     handlePopupChange(event) {
-        if(this.props.onPopupChange && !event.visible) {
+        if (this.props.onPopupChange && !event.visible) {
             this.props.onPopupChange({ visible: false });
         }
     }
 
     renderDroppablePile(source, child) {
-        return this.props.isMe ? <Droppable onDragDrop={ this.props.onDragDrop } source={ source } manualMode={ this.props.manualMode }>{ child }</Droppable> : child;
+        return this.props.isMe ? (
+            <Droppable
+                onDragDrop={this.props.onDragDrop}
+                source={source}
+                manualMode={this.props.manualMode}
+            >
+                {child}
+            </Droppable>
+        ) : (
+            child
+        );
     }
 
     render() {
         let t = this.props.t;
 
-        let drawDeckPopupMenu = this.props.showDeck ? [
-            { text: 'Close and Shuffle', handler: this.handleShuffleClick }
-        ] : null;
+        let drawDeckPopupMenu = this.props.showDeck
+            ? [{ text: 'Close and Shuffle', handler: this.handleShuffleClick }]
+            : null;
 
         let hasCards = !!this.props.cards && this.props.cards.length !== 0;
 
-        let drawDeck = (<CardPile className='draw'
-            cardCount={ this.props.cardCount }
-            cardBackUrl={ this.props.cardBackUrl }
-            cards={ this.props.cards }
-            disablePopup={ !hasCards && (this.props.spectating || !this.props.isMe) }
-            hiddenTopCard
-            manualMode={ this.props.manualMode }
-            onCardClick={ this.props.onCardClick }
-            onDragDrop={ this.props.onDragDrop }
-            onMouseOut={ this.props.onMouseOut }
-            onMouseOver={ this.props.onMouseOver }
-            onPopupChange={ this.handlePopupChange }
-            popupLocation={ this.props.popupLocation }
-            popupMenu={ drawDeckPopupMenu }
-            size={ this.props.size }
-            source='deck'
-            title={ t('Draw') } />);
+        let drawDeck = (
+            <CardPile
+                className='draw'
+                cardCount={this.props.cardCount}
+                cardBackUrl={this.props.cardBackUrl}
+                cards={this.props.cards}
+                disablePopup={!hasCards && (this.props.spectating || !this.props.isMe)}
+                hiddenTopCard
+                manualMode={this.props.manualMode}
+                onCardClick={this.props.onCardClick}
+                onDragDrop={this.props.onDragDrop}
+                onMouseOut={this.props.onMouseOut}
+                onMouseOver={this.props.onMouseOver}
+                onPopupChange={this.handlePopupChange}
+                popupLocation={this.props.popupLocation}
+                popupMenu={drawDeckPopupMenu}
+                size={this.props.size}
+                source='deck'
+                title={t('Draw')}
+            />
+        );
 
         return this.renderDroppablePile('deck', drawDeck);
     }

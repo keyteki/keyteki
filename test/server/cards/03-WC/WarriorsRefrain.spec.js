@@ -1,7 +1,7 @@
-describe('Warriors\' Refrain', function() {
-    integration(function() {
-        describe('Warriors\' Refrain ability', function() {
-            beforeEach(function() {
+describe("Warriors' Refrain", function () {
+    integration(function () {
+        describe("Warriors' Refrain ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'brobnar',
@@ -14,7 +14,7 @@ describe('Warriors\' Refrain', function() {
                 });
             });
 
-            it('should stun each creature with power 3 or lower', function() {
+            it('should stun each creature with power 3 or lower', function () {
                 this.player1.play(this.warriorsRefrain);
                 expect(this.urchin.stunned).toBe(true);
                 expect(this.nexus.stunned).toBe(true);

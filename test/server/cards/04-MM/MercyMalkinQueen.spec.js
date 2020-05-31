@@ -1,7 +1,7 @@
-describe('Mercy, Malkin Queen', function() {
+describe('Mercy, Malkin Queen', function () {
     integration(function () {
-        describe('Mercy, Malkin Queens\'s Play ability', function () {
-            beforeEach(function() {
+        describe("Mercy, Malkin Queens's Play ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'untamed',
@@ -14,7 +14,7 @@ describe('Mercy, Malkin Queen', function() {
                 });
             });
 
-            it('should ready a beast after fight', function() {
+            it('should ready a beast after fight', function () {
                 this.player1.reap(this.knoxx);
                 this.player1.fightWith(this.mercyMalkinQueen, this.troll);
 
@@ -29,7 +29,7 @@ describe('Mercy, Malkin Queen', function() {
                 expect(this.knoxx.exhausted).toBe(false);
             });
 
-            it('should ward a Cat creature after it enters play', function() {
+            it('should ward a Cat creature after it enters play', function () {
                 this.player1.play(this.floomf);
                 expect(this.floomf.tokens.ward).toBe(1);
                 expect(this.mercyMalkinQueen.tokens.ward).toBeUndefined();
@@ -38,8 +38,8 @@ describe('Mercy, Malkin Queen', function() {
     });
 
     integration(function () {
-        describe('Mercy, Malkin Queens\'s Play ability', function () {
-            beforeEach(function() {
+        describe("Mercy, Malkin Queens's Play ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'untamed',
@@ -51,7 +51,7 @@ describe('Mercy, Malkin Queen', function() {
                 });
             });
 
-            it('should not ward an enemy Cat creature after it enters play', function() {
+            it('should not ward an enemy Cat creature after it enters play', function () {
                 this.player1.play(this.floomf);
                 expect(this.floomf.tokens.ward).toBeUndefined();
                 expect(this.mercyMalkinQueen.tokens.ward).toBeUndefined();

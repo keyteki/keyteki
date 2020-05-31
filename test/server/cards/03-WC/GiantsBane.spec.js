@@ -1,7 +1,7 @@
-describe('Giant\'s Bane', function() {
-    integration(function() {
-        describe('Giant\'s Bane\'s ability', function() {
-            beforeEach(function() {
+describe("Giant's Bane", function () {
+    integration(function () {
+        describe("Giant's Bane's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         amber: 4,
@@ -15,7 +15,7 @@ describe('Giant\'s Bane', function() {
                     }
                 });
             });
-            it('prompt for a giant creature to destroy', function() {
+            it('prompt for a giant creature to destroy', function () {
                 this.player1.play(this.giantsBane);
                 expect(this.player1).toHavePrompt('Giants’ Bane');
                 expect(this.player1).toBeAbleToSelect(this.brammo);

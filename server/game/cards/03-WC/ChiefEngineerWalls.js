@@ -9,7 +9,7 @@ class ChiefEngineerWalls extends Card {
             target: {
                 location: ['discard'],
                 controller: 'self',
-                cardCondition: (card => card.hasTrait('robot') || card.type === 'upgrade'),
+                cardCondition: (card) => card.hasTrait('robot') || card.type === 'upgrade',
                 gameAction: ability.actions.returnToHand({ location: 'discard' })
             }
         });

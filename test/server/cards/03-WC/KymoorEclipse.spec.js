@@ -1,7 +1,7 @@
-describe('Kymoor Eclipse', function() {
-    integration(function() {
-        describe('Kymoor Eclipse\'s play ability', function() {
-            beforeEach(function() {
+describe('Kymoor Eclipse', function () {
+    integration(function () {
+        describe("Kymoor Eclipse's play ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'shadows',
@@ -14,7 +14,7 @@ describe('Kymoor Eclipse', function() {
                 });
             });
 
-            it('Return flank\'s creatures to deck', function() {
+            it("Return flank's creatures to deck", function () {
                 this.player1.play(this.kymoorEclipse);
 
                 expect(this.flaxia.location).toBe('deck');

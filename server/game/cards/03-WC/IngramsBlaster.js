@@ -5,7 +5,8 @@ class IngramsBlaster extends BlasterCard {
         this.reaction({
             when: {
                 onCardAttached: (event, context) =>
-                    event.card === context.source && event.parent.name === 'Medic Ingram' &&
+                    event.card === context.source &&
+                    event.parent.name === 'Medic Ingram' &&
                     event.context.player === event.card.controller
             },
             target: {

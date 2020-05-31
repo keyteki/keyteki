@@ -5,7 +5,9 @@ class SaveThePack extends Card {
         this.play({
             effect: 'destroy each damaged creature and gain 1 chain',
             gameAction: [
-                ability.actions.destroy(context => ({ target: context.game.creaturesInPlay.filter(card => card.hasToken('damage')) })),
+                ability.actions.destroy((context) => ({
+                    target: context.game.creaturesInPlay.filter((card) => card.hasToken('damage'))
+                })),
                 ability.actions.gainChains()
             ]
         });

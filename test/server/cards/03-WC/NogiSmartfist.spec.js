@@ -1,7 +1,7 @@
-describe('Nogi Smartfist', function() {
-    integration(function() {
-        describe('Nogi Smartfist\'s ability', function() {
-            beforeEach(function() {
+describe('Nogi Smartfist', function () {
+    integration(function () {
+        describe("Nogi Smartfist's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'brobnar',
@@ -14,7 +14,7 @@ describe('Nogi Smartfist', function() {
                 });
             });
 
-            it('should draw 2 cards and discard 2 cards when fight', function() {
+            it('should draw 2 cards and discard 2 cards when fight', function () {
                 this.player1.fightWith(this.nogiSmartfist, this.duskwitch);
                 expect(this.player1.discard.length).toBe(2);
             });

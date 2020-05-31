@@ -5,7 +5,8 @@ class MolinasBlaster extends BlasterCard {
         this.reaction({
             when: {
                 onCardAttached: (event, context) =>
-                    event.card === context.source && event.parent.name === 'Armsmaster Molina' &&
+                    event.card === context.source &&
+                    event.parent.name === 'Armsmaster Molina' &&
                     event.context.player === event.card.controller
             },
             target: {

@@ -6,13 +6,13 @@ class GabosLongarms extends Card {
             target: {
                 activePromptTitle: 'Choose a creature to deal damage to',
                 cardType: 'creature',
-                gameAction: ability.actions.changeEvent(context => ({
+                gameAction: ability.actions.changeEvent((context) => ({
                     event: context.event,
                     attackerTarget: context.target
                 }))
             },
             effect: 'deal damage to {0} instead of {1}',
-            effectArgs: context => context.event.card
+            effectArgs: (context) => context.event.card
         });
     }
 }

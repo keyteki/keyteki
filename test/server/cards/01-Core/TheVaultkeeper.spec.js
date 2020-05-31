@@ -1,7 +1,7 @@
-describe('The Vaultkeeper', function() {
-    integration(function() {
-        describe('The Vaultkeeper\'s ability', function() {
-            beforeEach(function() {
+describe('The Vaultkeeper', function () {
+    integration(function () {
+        describe("The Vaultkeeper's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
@@ -15,13 +15,13 @@ describe('The Vaultkeeper', function() {
                 this.player1.play(this.phaseShift);
             });
 
-            it('should not allow amber to be stolen', function() {
+            it('should not allow amber to be stolen', function () {
                 this.player1.play(this.urchin);
                 expect(this.player1.amber).toBe(0);
                 expect(this.player2.amber).toBe(4);
             });
 
-            it('should allow amber to be captured or lost', function() {
+            it('should allow amber to be captured or lost', function () {
                 this.player1.play(this.dextre);
                 expect(this.dextre.tokens.amber).toBe(1);
                 expect(this.player2.amber).toBe(3);

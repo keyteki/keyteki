@@ -1,7 +1,7 @@
-describe('Protectrix', function() {
-    integration(function() {
-        describe('Protectrix\'s ability', function() {
-            beforeEach(function() {
+describe('Protectrix', function () {
+    integration(function () {
+        describe("Protectrix's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
@@ -14,7 +14,7 @@ describe('Protectrix', function() {
                     }
                 });
             });
-            it('should make a creature invincible if it heals damage off it.', function() {
+            it('should make a creature invincible if it heals damage off it.', function () {
                 this.player1.play(this.poke);
                 expect(this.player1).toHavePrompt('Poke');
                 expect(this.player1).toBeAbleToSelect(this.commanderRemiel);
@@ -30,7 +30,7 @@ describe('Protectrix', function() {
                 expect(this.player2).toBeAbleToSelect(this.protectrix);
                 this.player2.clickCard(this.commanderRemiel);
                 expect(this.commanderRemiel.tokens.damage).toBe(undefined);
-                this.player2.fightWith(this.commanderRemiel,this.dextre);
+                this.player2.fightWith(this.commanderRemiel, this.dextre);
                 expect(this.commanderRemiel.tokens.damage).toBe(undefined);
                 expect(this.dextre.location).toBe('deck');
                 this.player2.play(this.inspiration);

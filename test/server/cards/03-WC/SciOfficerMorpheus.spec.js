@@ -1,7 +1,7 @@
-describe('Sci. Officer Morpheus', function() {
-    integration(function() {
-        describe('Sci. Officer Morpheus\'s ability', function() {
-            beforeEach(function() {
+describe('Sci. Officer Morpheus', function () {
+    integration(function () {
+        describe("Sci. Officer Morpheus's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'staralliance',
@@ -16,7 +16,7 @@ describe('Sci. Officer Morpheus', function() {
                 });
             });
 
-            it('should activate play effect of a creature twice and ask for use iteraction twice', function() {
+            it('should activate play effect of a creature twice and ask for use iteraction twice', function () {
                 this.player1.playCreature(this.medicIngram);
                 this.player1.clickCard(this.sciOfficerMorpheus);
                 this.player1.clickCard(this.lamindra);
@@ -25,7 +25,7 @@ describe('Sci. Officer Morpheus', function() {
                 expect(this.redlock.warded).toBe(true);
             });
 
-            it('should activate play effect of a creature without user iteraction', function() {
+            it('should activate play effect of a creature without user iteraction', function () {
                 this.player1.playCreature(this.sensorChiefGarcia);
                 this.player1.clickCard(this.sciOfficerMorpheus);
                 this.player1.endTurn();
@@ -33,8 +33,8 @@ describe('Sci. Officer Morpheus', function() {
                 expect(this.player2.amber).toBe(1);
             });
         });
-        describe('Sci. Officer Morpheus\'s ability', function() {
-            beforeEach(function() {
+        describe("Sci. Officer Morpheus's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
@@ -49,7 +49,7 @@ describe('Sci. Officer Morpheus', function() {
                 });
             });
 
-            it('should stack off house play effects, like kirby, or helper bot', function() {
+            it('should stack off house play effects, like kirby, or helper bot', function () {
                 this.player1.playCreature(this.helperBot, true);
                 this.player1.clickCard(this.sciOfficerMorpheus);
                 this.player1.playCreature(this.medicIngram, true);
@@ -60,8 +60,8 @@ describe('Sci. Officer Morpheus', function() {
             });
         });
 
-        describe('Morpheus/Mindlock interaction', function() {
-            beforeEach(function() {
+        describe('Morpheus/Mindlock interaction', function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
@@ -73,7 +73,7 @@ describe('Sci. Officer Morpheus', function() {
                 });
             });
 
-            it('should allow mindlock to trigger again if morpheus is taken control of', function() {
+            it('should allow mindlock to trigger again if morpheus is taken control of', function () {
                 this.player1.playCreature(this.harlandMindlock);
                 expect(this.player1).toHavePrompt('Harland Mindlock');
                 expect(this.player1).toBeAbleToSelect(this.sciOfficerMorpheus);

@@ -10,11 +10,13 @@ class ReturnAmberAction extends CardGameAction {
     setup() {
         this.name = 'removeAmber';
         this.targetType = ['creature'];
-        this.effectMsg = `return ${this.all ? 'all' : this.amount} amber from {0} to ${this.recipient ? this.recipient.name + '\'s' : 'their'} pool`;
+        this.effectMsg = `return ${this.all ? 'all' : this.amount} amber from {0} to ${
+            this.recipient ? this.recipient.name + "'s" : 'their'
+        } pool`;
     }
 
     canAffect(card, context) {
-        if(card.location !== 'play area' || this.amount === 0) {
+        if (card.location !== 'play area' || this.amount === 0) {
             return false;
         }
 
@@ -28,12 +30,14 @@ class ReturnAmberAction extends CardGameAction {
             amount: this.all ? card.amber : Math.min(this.amount, card.amber),
             recipient: this.recipient || card.controller.opponent
         };
-        return super.createEvent('onReturnAmber', params, event => {
+        return super.createEvent('onReturnAmber', params, (event) => {
             event.card.removeToken('amber', event.amount);
-            context.game.actions.gainAmber({
-                amount: event.amount,
-                target: this.recipient || card.controller.opponent
-            }).resolve(context.player, context);
+            context.game.actions
+                .gainAmber({
+                    amount: event.amount,
+                    target: this.recipient || card.controller.opponent
+                })
+                .resolve(context.player, context);
         });
     }
 }

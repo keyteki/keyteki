@@ -1,7 +1,7 @@
-describe('Key of Darkness', function() {
-    integration(function() {
-        describe('Key of Darkness\'s ability', function() {
-            beforeEach(function() {
+describe('Key of Darkness', function () {
+    integration(function () {
+        describe("Key of Darkness's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'shadows',
@@ -14,7 +14,7 @@ describe('Key of Darkness', function() {
                 });
             });
 
-            it('should forge a key at +6 cost', function() {
+            it('should forge a key at +6 cost', function () {
                 this.player1.play(this.keyOfDarkness);
                 this.player1.forgeKey('Red');
                 expect(this.player1.player.keys.red).toBe(true);
@@ -23,7 +23,7 @@ describe('Key of Darkness', function() {
                 expect(this.player1.amber).toBe(0);
             });
 
-            it('should forge a key at +2 cost if opponent has no amber', function() {
+            it('should forge a key at +2 cost if opponent has no amber', function () {
                 this.player1.play(this.urchin);
                 expect(this.player1.amber).toBe(13);
                 expect(this.player2.amber).toBe(0);
@@ -35,7 +35,7 @@ describe('Key of Darkness', function() {
                 expect(this.player1.amber).toBe(5);
             });
 
-            it('should not forge a key if the player doesn\'t have sufficient amber', function() {
+            it("should not forge a key if the player doesn't have sufficient amber", function () {
                 this.player1.amber = 9;
                 this.player1.play(this.keyOfDarkness);
                 expect(this.player1.player.keys.red).toBe(false);

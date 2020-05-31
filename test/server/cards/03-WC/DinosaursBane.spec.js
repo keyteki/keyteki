@@ -1,7 +1,7 @@
-describe('Dinosaurs\' Bane', function() {
-    integration(function() {
-        describe('Dinosaurs\' Bane\'s ability', function() {
-            beforeEach(function() {
+describe("Dinosaurs' Bane", function () {
+    integration(function () {
+        describe("Dinosaurs' Bane's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         amber: 4,
@@ -15,7 +15,7 @@ describe('Dinosaurs\' Bane', function() {
                     }
                 });
             });
-            it('prompt for a dinosaur creature to destroy', function() {
+            it('prompt for a dinosaur creature to destroy', function () {
                 this.player1.play(this.dinosaursBane);
                 expect(this.player1).toHavePrompt('Dinosaurs’ Bane');
                 expect(this.player1).toBeAbleToSelect(this.legatusRaptor);

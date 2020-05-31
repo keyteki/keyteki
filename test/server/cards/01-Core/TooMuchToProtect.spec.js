@@ -1,7 +1,7 @@
-describe('Too Much To Protect', function() {
-    integration(function() {
-        describe('Too Much To Protect\'s ability', function() {
-            beforeEach(function() {
+describe('Too Much To Protect', function () {
+    integration(function () {
+        describe("Too Much To Protect's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'shadows',
@@ -13,14 +13,14 @@ describe('Too Much To Protect', function() {
                     }
                 });
             });
-            it('should steal all but 6 aember', function() {
+            it('should steal all but 6 aember', function () {
                 this.player1.play(this.tooMuchToProtect);
                 expect(this.player1.amber).toBe(9);
                 expect(this.player2.amber).toBe(6);
             });
         });
-        describe('Too Much To Protect\'s ability', function() {
-            beforeEach(function() {
+        describe("Too Much To Protect's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'shadows',
@@ -32,14 +32,14 @@ describe('Too Much To Protect', function() {
                     }
                 });
             });
-            it('shouldn\'t do a thing when there is anti-steal in play [Vaultkeeper]', function() {
+            it("shouldn't do a thing when there is anti-steal in play [Vaultkeeper]", function () {
                 this.player1.play(this.tooMuchToProtect);
                 expect(this.player1.amber).toBe(1);
                 expect(this.player2.amber).toBe(14);
             });
         });
-        describe('Too Much To Protect\'s ability', function() {
-            beforeEach(function() {
+        describe("Too Much To Protect's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'shadows',
@@ -51,13 +51,13 @@ describe('Too Much To Protect', function() {
                     }
                 });
             });
-            it('shouldn\'t do a thing when there is anti-steal in play [Odoac]', function() {
-                this.odoacThePatrician.addToken('amber',1);
+            it("shouldn't do a thing when there is anti-steal in play [Odoac]", function () {
+                this.odoacThePatrician.addToken('amber', 1);
                 this.player1.play(this.tooMuchToProtect);
                 expect(this.player1.amber).toBe(1);
                 expect(this.player2.amber).toBe(14);
             });
-            it('should work when there isn\'t anti-steal in play [Odoac]', function() {
+            it("should work when there isn't anti-steal in play [Odoac]", function () {
                 this.player1.play(this.tooMuchToProtect);
                 expect(this.player1.amber).toBe(9);
                 expect(this.player2.amber).toBe(6);

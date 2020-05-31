@@ -6,7 +6,7 @@ class CloakingDongle extends Card {
             effect: [
                 ability.effects.addKeyword({ elusive: 1 }),
                 ability.effects.gainAbility('persistentEffect', {
-                    match: card => this.parent.neighbors.includes(card),
+                    match: (card) => this.parent.neighbors.includes(card),
                     effect: ability.effects.addKeyword({ elusive: 1 })
                 })
             ]

@@ -4,10 +4,7 @@ class GizelhartsZealot extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
             location: 'any',
-            effect: [
-                ability.effects.entersPlayReady(),
-                ability.effects.entersPlayEnraged()
-            ]
+            effect: [ability.effects.entersPlayReady(), ability.effects.entersPlayEnraged()]
         });
     }
 }

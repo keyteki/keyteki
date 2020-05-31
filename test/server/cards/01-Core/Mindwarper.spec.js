@@ -1,7 +1,7 @@
-describe('Mindwarper', function() {
-    integration(function() {
-        describe('Mindwarper\'s ability', function() {
-            beforeEach(function() {
+describe('Mindwarper', function () {
+    integration(function () {
+        describe("Mindwarper's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         amber: 1,
@@ -15,7 +15,7 @@ describe('Mindwarper', function() {
                 });
             });
 
-            it('should prompt for a target and place one of its controller\'s amber on that creature', function() {
+            it("should prompt for a target and place one of its controller's amber on that creature", function () {
                 this.player1.useAction(this.mindwarper);
                 expect(this.player1).toHavePrompt('Mindwarper');
                 expect(this.player1).toBeAbleToSelect(this.bumpsy);
@@ -27,7 +27,7 @@ describe('Mindwarper', function() {
                 expect(this.bumpsy.tokens.amber).toBe(1);
             });
 
-            it('should give the amber to the creature\'s opponent when killed', function() {
+            it("should give the amber to the creature's opponent when killed", function () {
                 this.player1.useAction(this.mindwarper);
                 this.player1.clickCard(this.bumpsy);
                 this.player1.fightWith(this.zorg, this.bumpsy);

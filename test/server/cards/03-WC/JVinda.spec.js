@@ -1,7 +1,7 @@
-describe('J. Vinda', function() {
-    integration(function() {
-        describe('J. Vinda\'s reap ability', function() {
-            beforeEach(function() {
+describe('J. Vinda', function () {
+    integration(function () {
+        describe("J. Vinda's reap ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         amber: 3,
@@ -17,7 +17,7 @@ describe('J. Vinda', function() {
                 });
             });
 
-            it('Destroy a 1 power friendly creature and steal 1 amber', function() {
+            it('Destroy a 1 power friendly creature and steal 1 amber', function () {
                 this.player1.reap(this.jVinda);
 
                 expect(this.player1).toBeAbleToSelect(this.jVinda);
@@ -33,7 +33,7 @@ describe('J. Vinda', function() {
                 expect(this.player2.amber).toBe(1);
             });
 
-            it('Destroy an enemy creature and steal 1 amber', function() {
+            it('Destroy an enemy creature and steal 1 amber', function () {
                 this.krump.tokens['damage'] = 5;
 
                 this.player1.reap(this.jVinda);
@@ -51,8 +51,7 @@ describe('J. Vinda', function() {
                 expect(this.player2.amber).toBe(1);
             });
 
-
-            it('Destroy an enemy creature, but opponent does not have amber', function() {
+            it('Destroy an enemy creature, but opponent does not have amber', function () {
                 this.player2.amber = 0;
                 this.krump.tokens['damage'] = 5;
 
@@ -71,7 +70,7 @@ describe('J. Vinda', function() {
                 expect(this.player2.amber).toBe(0);
             });
 
-            it('Creature is damage, but not destroyed, so no stealing', function() {
+            it('Creature is damage, but not destroyed, so no stealing', function () {
                 this.player1.reap(this.jVinda);
 
                 expect(this.player1).toBeAbleToSelect(this.jVinda);

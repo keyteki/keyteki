@@ -4,10 +4,7 @@ class GrimlocusDux extends Card {
     setupCardAbilities(ability) {
         this.play({
             effect: 'exalt {0} twice',
-            gameAction: [
-                ability.actions.exalt(),
-                ability.actions.exalt()
-            ]
+            gameAction: [ability.actions.exalt(), ability.actions.exalt()]
         });
     }
 }

@@ -17,7 +17,9 @@ class FirstPlayerSelection extends AllPlayerPrompt {
         return {
             promptTitle: 'First Player',
             menuTitle: 'Who will go first?',
-            buttons: this.players.map(player => ({ arg: player.name, text: player.name })).concat({ arg: 'random', text: 'random' })
+            buttons: this.players
+                .map((player) => ({ arg: player.name, text: player.name }))
+                .concat({ arg: 'random', text: 'random' })
         };
     }
 
@@ -29,13 +31,13 @@ class FirstPlayerSelection extends AllPlayerPrompt {
         const otherPlayer = this.game.getOtherPlayer(player);
         let message;
 
-        if(!otherPlayer) {
+        if (!otherPlayer) {
             this.game.activePlayer = player;
             message = '{0} will go first';
-        } else if(arg === player.name) {
+        } else if (arg === player.name) {
             this.game.activePlayer = player;
             message = '{0} chooses to go first';
-        } else if(arg === otherPlayer.name) {
+        } else if (arg === otherPlayer.name) {
             this.game.activePlayer = otherPlayer;
             message = '{0} chooses to go second';
         } else {
@@ -50,10 +52,13 @@ class FirstPlayerSelection extends AllPlayerPrompt {
     }
 
     onCompleted() {
-        if(!this.game.activePlayer) {
+        if (!this.game.activePlayer) {
             let allPlayersShuffled = _.shuffle(this.game.getPlayers());
             this.game.activePlayer = allPlayersShuffled.shift();
-            this.game.addMessage('{0} won the flip and is first player', this.game.activePlayer.name);
+            this.game.addMessage(
+                '{0} won the flip and is first player',
+                this.game.activePlayer.name
+            );
         }
     }
 }

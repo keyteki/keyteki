@@ -1,7 +1,7 @@
-describe('Begone!', function() {
-    integration(function() {
-        describe('Begone!\'s ability', function() {
-            beforeEach(function() {
+describe('Begone!', function () {
+    integration(function () {
+        describe("Begone!'s ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'shadows',
@@ -15,7 +15,7 @@ describe('Begone!', function() {
                 });
             });
 
-            it('gain amber if there is no Dis in play', function() {
+            it('gain amber if there is no Dis in play', function () {
                 this.player1.endTurn();
                 this.player2.clickPrompt('sanctum');
                 this.player2.play(this.begone);

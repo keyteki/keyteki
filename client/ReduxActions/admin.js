@@ -10,7 +10,7 @@ export function clearUserSessions(username) {
     return (dispatch, getState) => {
         var socket = getState().lobby.socket;
 
-        if(!socket) {
+        if (!socket) {
             return;
         }
 

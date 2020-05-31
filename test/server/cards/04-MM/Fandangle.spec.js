@@ -1,7 +1,7 @@
-describe('Fandangle', function() {
-    integration(function() {
-        describe('Fandangle\'s ability', function() {
-            beforeEach(function() {
+describe('Fandangle', function () {
+    integration(function () {
+        describe("Fandangle's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         amber: 2,
@@ -16,7 +16,7 @@ describe('Fandangle', function() {
                 });
             });
 
-            it('should not ready creatures if less than 4A', function() {
+            it('should not ready creatures if less than 4A', function () {
                 this.player1.play(this.dextre);
                 this.player1.play(this.phaseShift);
                 this.player1.play(this.huntingWitch);
@@ -24,7 +24,7 @@ describe('Fandangle', function() {
                 expect(this.huntingWitch.exhausted).toBe(true);
             });
 
-            it('should ready non-Untamed creatures if 4A', function() {
+            it('should ready non-Untamed creatures if 4A', function () {
                 this.player1.player.amber = 4;
                 this.player1.play(this.dextre);
                 this.player1.play(this.phaseShift);
@@ -33,7 +33,7 @@ describe('Fandangle', function() {
                 expect(this.huntingWitch.exhausted).toBe(true);
             });
 
-            it('should ready non-Untamed creatures if more than 4A', function() {
+            it('should ready non-Untamed creatures if more than 4A', function () {
                 this.player1.player.amber = 5;
                 this.player1.play(this.dextre);
                 this.player1.play(this.phaseShift);
@@ -43,8 +43,8 @@ describe('Fandangle', function() {
             });
         });
 
-        describe('Fandangle\'s ability', function() {
-            beforeEach(function() {
+        describe("Fandangle's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         amber: 5,
@@ -60,7 +60,7 @@ describe('Fandangle', function() {
                 });
             });
 
-            it('should NOT ready creatures played by the opponent', function() {
+            it('should NOT ready creatures played by the opponent', function () {
                 this.player1.play(this.duskwitch);
                 this.player2.clickPrompt('logos');
                 this.player2.play(this.dextre);

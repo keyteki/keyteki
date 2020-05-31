@@ -7,7 +7,7 @@ class UlyqMegamouth extends Card {
             target: {
                 cardType: 'creature',
                 controller: 'self',
-                cardCondition: card => !card.hasHouse('mars'),
+                cardCondition: (card) => !card.hasHouse('mars'),
                 gameAction: ability.actions.use()
             }
         });

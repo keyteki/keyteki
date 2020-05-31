@@ -1,7 +1,7 @@
-describe('Breaker Hill', function() {
-    integration(function() {
-        describe('Breaker Hill\'s gained ability', function() {
-            beforeEach(function() {
+describe('Breaker Hill', function () {
+    integration(function () {
+        describe("Breaker Hill's gained ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'brobnar',
@@ -14,7 +14,7 @@ describe('Breaker Hill', function() {
                 });
             });
 
-            it('neighbor should be able to use action', function() {
+            it('neighbor should be able to use action', function () {
                 this.player1.useAction(this.krump);
                 expect(this.player1.amber).toBe(1);
                 expect(this.player2.amber).toBe(2);
@@ -24,9 +24,9 @@ describe('Breaker Hill', function() {
                 expect(this.player2.amber).toBe(1);
             });
 
-            it('non-neighbor should not be able to use action', function() {
+            it('non-neighbor should not be able to use action', function () {
                 this.player1.clickCard(this.cowfyne);
-                expect(this.player1).not.toHavePromptButton('Use this player\'s Action');
+                expect(this.player1).not.toHavePromptButton("Use this player's Action");
             });
         });
     });

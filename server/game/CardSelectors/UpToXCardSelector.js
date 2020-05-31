@@ -9,7 +9,7 @@ class UpToXCardSelector extends BaseCardSelector {
     }
 
     getNumCards(context) {
-        if(typeof this.numCards === 'function') {
+        if (typeof this.numCards === 'function') {
             return this.numCards(context);
         }
 
@@ -18,11 +18,15 @@ class UpToXCardSelector extends BaseCardSelector {
 
     defaultActivePromptTitle(context) {
         let numCards = this.getNumCards(context);
-        if(this.cardType.length === 1) {
-            return numCards === 1 ? 'Choose a ' + this.cardType[0] : { text: `Choose {{amount}} ${this.cardType[0]}s`, values: { amount: numCards } };
+        if (this.cardType.length === 1) {
+            return numCards === 1
+                ? 'Choose a ' + this.cardType[0]
+                : { text: `Choose {{amount}} ${this.cardType[0]}s`, values: { amount: numCards } };
         }
 
-        return numCards === 1 ? 'Choose a card' : { text: 'Choose {{amount}} cards', values: { amount: numCards } };
+        return numCards === 1
+            ? 'Choose a card'
+            : { text: 'Choose {{amount}} cards', values: { amount: numCards } };
     }
 
     hasReachedLimit(selectedCards, context) {

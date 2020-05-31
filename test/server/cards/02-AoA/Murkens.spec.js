@@ -1,7 +1,7 @@
-describe('Murkens', function() {
-    integration(function() {
-        describe('Murkens\'s ability', function() {
-            beforeEach(function() {
+describe('Murkens', function () {
+    integration(function () {
+        describe("Murkens's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'shadows',
@@ -20,7 +20,7 @@ describe('Murkens', function() {
                 this.player2.moveCard(this.troll, 'deck');
             });
 
-            it('when deck and archives are empty, should not have prompt', function() {
+            it('when deck and archives are empty, should not have prompt', function () {
                 this.player2.player.deck = [];
                 this.player2.player.archives = [];
                 this.player1.play(this.murkens);
@@ -29,7 +29,7 @@ describe('Murkens', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('when deck is empty, play archived card directly', function() {
+            it('when deck is empty, play archived card directly', function () {
                 this.player2.player.deck = [];
                 this.player1.play(this.murkens);
                 this.player1.clickPrompt('Left');
@@ -37,7 +37,7 @@ describe('Murkens', function() {
                 expect(this.player1).not.toHavePrompt('Random card from archives');
 
                 // Randomness
-                if(this.krump.location === 'archives') {
+                if (this.krump.location === 'archives') {
                     expect(this.grenadeSnib.location).toBe('play area');
                     expect(this.grenadeSnib.controller).toBe(this.player1.player);
                 } else {
@@ -46,7 +46,7 @@ describe('Murkens', function() {
                 }
             });
 
-            it('when archive is empty, play top of deck card directly', function() {
+            it('when archive is empty, play top of deck card directly', function () {
                 this.player2.player.archives = [];
                 this.player1.play(this.murkens);
                 this.player1.clickPrompt('Left');
@@ -59,7 +59,7 @@ describe('Murkens', function() {
                 expect(this.troll.controller).toBe(this.player1.player);
             });
 
-            it('when top of deck is selected, top card is played', function() {
+            it('when top of deck is selected, top card is played', function () {
                 this.player1.play(this.murkens);
                 this.player1.clickPrompt('Top of deck');
                 this.player1.clickPrompt('Left');
@@ -70,13 +70,13 @@ describe('Murkens', function() {
                 expect(this.troll.controller).toBe(this.player1.player);
             });
 
-            it('when archives is selected, plays a random card from archives', function() {
+            it('when archives is selected, plays a random card from archives', function () {
                 this.player1.play(this.murkens);
                 this.player1.clickPrompt('Random card from archives');
                 this.player1.clickPrompt('Left');
 
                 // Randomness
-                if(this.krump.location === 'archives') {
+                if (this.krump.location === 'archives') {
                     expect(this.grenadeSnib.location).toBe('play area');
                     expect(this.grenadeSnib.controller).toBe(this.player1.player);
                 } else {

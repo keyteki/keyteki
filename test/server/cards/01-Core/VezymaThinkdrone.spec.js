@@ -1,7 +1,7 @@
-describe('Vezyma Thinkdrone', function() {
-    integration(function() {
-        describe('Vezyma Thinkdrone\'s ability', function() {
-            beforeEach(function() {
+describe('Vezyma Thinkdrone', function () {
+    integration(function () {
+        describe("Vezyma Thinkdrone's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'mars',
@@ -15,7 +15,7 @@ describe('Vezyma Thinkdrone', function() {
                 });
             });
 
-            it('should archive a card after reap', function() {
+            it('should archive a card after reap', function () {
                 this.player1.play(this.phloxemSpike);
                 expect(this.player1.amber).toBe(1);
                 this.player1.playUpgrade(this.brainStemAntenna, this.gamgee);
@@ -26,7 +26,9 @@ describe('Vezyma Thinkdrone', function() {
                 expect(this.player1).toBeAbleToSelect(this.ronnieWristclocks);
                 expect(this.player1).toBeAbleToSelect(this.gamgee);
                 this.player1.clickCard(this.ronnieWristclocks);
-                expect(this.player1).toHavePrompt('Do you wish to archive a friendly creature or artifact?');
+                expect(this.player1).toHavePrompt(
+                    'Do you wish to archive a friendly creature or artifact?'
+                );
                 this.player1.clickPrompt('Yes');
                 expect(this.ronnieWristclocks.location).toBe('archives');
                 expect(this.vezymaThinkdrone.location).toBe('play area');
@@ -34,7 +36,7 @@ describe('Vezyma Thinkdrone', function() {
                 expect(this.player1.amber).toBe(2);
             });
 
-            it('should archive a controlled card to owner\'s archive', function() {
+            it("should archive a controlled card to owner's archive", function () {
                 this.player1.endTurn();
                 this.player2.clickPrompt('shadows');
                 this.player2.playCreature(this.scowlyCaper);
@@ -48,7 +50,9 @@ describe('Vezyma Thinkdrone', function() {
                 expect(this.player1).toBeAbleToSelect(this.gamgee);
                 expect(this.player1).toBeAbleToSelect(this.scowlyCaper);
                 this.player1.clickCard(this.scowlyCaper);
-                expect(this.player1).toHavePrompt('Do you wish to archive a friendly creature or artifact?');
+                expect(this.player1).toHavePrompt(
+                    'Do you wish to archive a friendly creature or artifact?'
+                );
                 this.player1.clickPrompt('Yes');
                 expect(this.scowlyCaper.location).toBe('archives');
                 expect(this.vezymaThinkdrone.location).toBe('play area');
