@@ -7,7 +7,7 @@ class Deusillus extends Card {
         this.gigantic = true;
         this.playedParts = [];
         this.compositeImageId = 'deusillus-complete';
-        this.compositeParts = ['deusillus-2'];
+        this.compositeParts = ['deusillus2'];
     }
 
     setupCardAbilities(ability) {
