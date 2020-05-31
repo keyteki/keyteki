@@ -1,7 +1,7 @@
-describe('Wail of the Damned', function() {
-    integration(function() {
-        describe("Wail of the Damned's ability", function() {
-            beforeEach(function() {
+describe('Wail of the Damned', function () {
+    integration(function () {
+        describe("Wail of the Damned's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'dis',
@@ -14,12 +14,12 @@ describe('Wail of the Damned', function() {
                     }
                 });
 
-                // Make some enhancements
+                // Add some enhancements
                 this.gub.cardData.enhancements = ['amber', 'draw'];
                 this.troll.cardData.enhancements = ['amber', 'amber'];
             });
 
-            it('should destroy a creature with no bonus icon', function() {
+            it('should destroy a creature with no bonus icon', function () {
                 this.player1.play(this.wailOfTheDamned);
 
                 expect(this.player1).toBeAbleToSelect(this.emberImp);

@@ -1,11 +1,20 @@
-describe('Grim Reminder', function() {
-    integration(function() {
-        describe('Grim Reminder\'s ability', function() {
-            beforeEach(function() {
+describe('Grim Reminder', function () {
+    integration(function () {
+        describe("Grim Reminder's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'dis',
-                        inPlay: ['ember-imp', 'shooler', 'gub', 'spyyyder', 'troll', 'lamindra', 'redlock', 'alaka'],
+                        inPlay: [
+                            'ember-imp',
+                            'shooler',
+                            'gub',
+                            'spyyyder',
+                            'troll',
+                            'lamindra',
+                            'redlock',
+                            'alaka'
+                        ],
                         hand: ['grim-reminder']
                     },
                     player2: {
@@ -19,7 +28,7 @@ describe('Grim Reminder', function() {
                 this.player1.moveCard(this.troll, 'discard');
             });
 
-            it('should move all selected house creatures to archive', function() {
+            it('should move all selected house creatures to archive', function () {
                 this.player1.play(this.grimReminder);
                 expect(this.player1).toHavePrompt('Choose a house');
                 this.player1.clickPrompt('dis');
