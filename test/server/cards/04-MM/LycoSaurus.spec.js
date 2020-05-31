@@ -1,6 +1,6 @@
-describe('Lyco-Saurus', function() {
+describe('Lyco-Saurus', function () {
     integration(function () {
-        describe('Lyco-Saurus\'s play ability', function () {
+        describe("Lyco-Saurus's play ability", function () {
             beforeEach(function () {
                 this.setupTest({
                     player1: {

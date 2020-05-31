@@ -7,7 +7,12 @@ class MoveToFlankAction extends CardGameAction {
     }
 
     update(context) {
-        this.applyProperties(Object.assign({ target: this.getDefaultTargets(context), origin: context.source }, this.propertyFactory(context)));
+        this.applyProperties(
+            Object.assign(
+                { target: this.getDefaultTargets(context), origin: context.source },
+                this.propertyFactory(context)
+            )
+        );
     }
 
     setup() {
@@ -28,14 +33,14 @@ class MoveToFlankAction extends CardGameAction {
             context: context,
             source: this.target.length > 0 ? this.target[0] : context.source,
             choices: ['Left', 'Right'],
-            choiceHandler: choice => this.left = choice === 'Left'
+            choiceHandler: (choice) => (this.left = choice === 'Left')
         });
     }
 
     getEvent(card, context) {
         return super.createEvent('onMoveToFlank', { card: card, context: context }, () => {
             let cardIndex = card.controller.cardsInPlay.indexOf(card);
-            if(this.left) {
+            if (this.left) {
                 card.controller.cardsInPlay.splice(cardIndex, 1);
                 card.controller.cardsInPlay.unshift(card);
             } else {

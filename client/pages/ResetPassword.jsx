@@ -19,8 +19,11 @@ class ResetPassword extends React.Component {
 
     // eslint-disable-next-line camelcase
     UNSAFE_componentWillReceiveProps(props) {
-        if(props.accountPasswordReset) {
-            this.setState({ successMessage: 'Your password has been changed.  You will shortly be redirected to the login page.' });
+        if (props.accountPasswordReset) {
+            this.setState({
+                successMessage:
+                    'Your password has been changed.  You will shortly be redirected to the login page.'
+            });
 
             setTimeout(() => {
                 this.props.navigate('/login');
@@ -29,27 +32,47 @@ class ResetPassword extends React.Component {
     }
 
     onSubmit(state) {
-        this.props.resetPassword({ id: this.props.id, token: this.props.token, newPassword: state.password });
+        this.props.resetPassword({
+            id: this.props.id,
+            token: this.props.token,
+            newPassword: state.password
+        });
     }
 
     render() {
-        if(!this.props.id || !this.props.token) {
-            return <AlertPanel type='error' message='This page is not intended to be viewed directly.  Please click on the link in your email to reset your password' />;
+        if (!this.props.id || !this.props.token) {
+            return (
+                <AlertPanel
+                    type='error'
+                    message='This page is not intended to be viewed directly.  Please click on the link in your email to reset your password'
+                />
+            );
         }
 
-        let errorBar = this.props.apiSuccess === false ? <AlertPanel type='error' message={ this.props.apiMessage } /> : null;
-        let successBar = this.state.successMessage ? <AlertPanel type='success' message={ this.state.successMessage } /> : null;
+        let errorBar =
+            this.props.apiSuccess === false ? (
+                <AlertPanel type='error' message={this.props.apiMessage} />
+            ) : null;
+        let successBar = this.state.successMessage ? (
+            <AlertPanel type='success' message={this.state.successMessage} />
+        ) : null;
 
         return (
             <div>
                 <div className='col-sm-6 col-sm-offset-3'>
-                    { errorBar }
-                    { successBar }
+                    {errorBar}
+                    {successBar}
                     <Panel title='Reset password'>
-                        <Form name='resetpassword' apiLoading={ this.props.apiLoading } buttonText='Submit' onSubmit={ this.onSubmit } />
+                        <Form
+                            name='resetpassword'
+                            apiLoading={this.props.apiLoading}
+                            buttonText='Submit'
+                            onSubmit={this.onSubmit}
+                        />
                     </Panel>
                 </div>
-            </div>);
+            </div>
+        );
     }
 }
 
@@ -68,9 +91,15 @@ ResetPassword.displayName = 'ResetPassword';
 function mapStateToProps(state) {
     return {
         accountPasswordReset: state.account.passwordReset,
-        apiLoading: state.api.RESETPASSWORD_ACCOUNT ? state.api.RESETPASSWORD_ACCOUNT.loading : undefined,
-        apiMessage: state.api.RESETPASSWORD_ACCOUNT ? state.api.RESETPASSWORD_ACCOUNT.message : undefined,
-        apiSuccess: state.api.RESETPASSWORD_ACCOUNT ? state.api.RESETPASSWORD_ACCOUNT.success : undefined
+        apiLoading: state.api.RESETPASSWORD_ACCOUNT
+            ? state.api.RESETPASSWORD_ACCOUNT.loading
+            : undefined,
+        apiMessage: state.api.RESETPASSWORD_ACCOUNT
+            ? state.api.RESETPASSWORD_ACCOUNT.message
+            : undefined,
+        apiSuccess: state.api.RESETPASSWORD_ACCOUNT
+            ? state.api.RESETPASSWORD_ACCOUNT.success
+            : undefined
     };
 }
 

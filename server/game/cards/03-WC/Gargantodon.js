@@ -15,11 +15,11 @@ class Gargantodon extends Card {
             when: {
                 onStealAmber: () => true
             },
-            gameAction: ability.actions.changeEvent(context => ({
+            gameAction: ability.actions.changeEvent((context) => ({
                 event: context.event,
                 cancel: true
             })),
-            then: preThenContext => ({
+            then: (preThenContext) => ({
                 alwaysTrigger: true,
                 target: {
                     cardType: 'creature',

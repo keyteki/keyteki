@@ -1,7 +1,7 @@
-describe('Crassosaurus', function() {
-    integration(function() {
-        describe('when played', function() {
-            beforeEach(function() {
+describe('Crassosaurus', function () {
+    integration(function () {
+        describe('when played', function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'saurian',
@@ -13,7 +13,7 @@ describe('Crassosaurus', function() {
                 });
             });
 
-            it('should capture from opponent and from self', function() {
+            it('should capture from opponent and from self', function () {
                 this.player1.amber = 5;
                 this.player2.amber = 5;
                 this.player1.play(this.crassosaurus);
@@ -28,7 +28,7 @@ describe('Crassosaurus', function() {
                 expect(this.crassosaurus.tokens.amber).toBe(10);
             });
 
-            it('should prompt for amber capture from opponent', function() {
+            it('should prompt for amber capture from opponent', function () {
                 this.player1.amber = 5;
                 this.player2.amber = 11;
                 this.player1.play(this.crassosaurus);
@@ -50,7 +50,7 @@ describe('Crassosaurus', function() {
                 expect(this.crassosaurus.tokens.amber).toBe(10);
             });
 
-            it('should prompt for amber capture from opponent and auto calculate from own', function() {
+            it('should prompt for amber capture from opponent and auto calculate from own', function () {
                 this.player1.amber = 5;
                 this.player2.amber = 11;
                 this.player1.play(this.crassosaurus);
@@ -61,7 +61,7 @@ describe('Crassosaurus', function() {
                 expect(this.crassosaurus.tokens.amber).toBe(10);
             });
 
-            it('should prompt for amber capture from opponent and auto calculate from own', function() {
+            it('should prompt for amber capture from opponent and auto calculate from own', function () {
                 this.player1.amber = 11;
                 this.player2.amber = 6;
                 this.player1.play(this.crassosaurus);
@@ -82,7 +82,7 @@ describe('Crassosaurus', function() {
                 expect(this.crassosaurus.tokens.amber).toBe(10);
             });
 
-            it('should purge when choosing to capture 1 from self and fewer than 10 total is captured', function() {
+            it('should purge when choosing to capture 1 from self and fewer than 10 total is captured', function () {
                 this.player1.amber = 1;
                 this.player2.amber = 3;
                 this.player1.play(this.crassosaurus);
@@ -96,7 +96,7 @@ describe('Crassosaurus', function() {
                 expect(this.crassosaurus.location).toBe('purged');
             });
 
-            it('should purge when choosing to capture 0 from self and fewer than 10 total is captured', function() {
+            it('should purge when choosing to capture 0 from self and fewer than 10 total is captured', function () {
                 this.player1.amber = 0;
                 this.player2.amber = 3;
                 this.player1.play(this.crassosaurus);
@@ -110,7 +110,7 @@ describe('Crassosaurus', function() {
                 expect(this.crassosaurus.location).toBe('purged');
             });
 
-            it('should purge when choosing to capture 0 from self and fewer than 10 total is captured', function() {
+            it('should purge when choosing to capture 0 from self and fewer than 10 total is captured', function () {
                 this.player1.amber = 0;
                 this.player2.amber = 0;
                 this.player1.play(this.crassosaurus);
@@ -124,7 +124,7 @@ describe('Crassosaurus', function() {
                 expect(this.crassosaurus.location).toBe('purged');
             });
 
-            it('should purge when choosing to capture 3 from self and fewer than 10 total is captured', function() {
+            it('should purge when choosing to capture 3 from self and fewer than 10 total is captured', function () {
                 this.player1.amber = 3;
                 this.player2.amber = 0;
                 this.player1.play(this.crassosaurus);
@@ -139,8 +139,8 @@ describe('Crassosaurus', function() {
             });
         });
 
-        describe('when played, should interact with Sci. Officer Morpheus', function() {
-            beforeEach(function() {
+        describe('when played, should interact with Sci. Officer Morpheus', function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'saurian',
@@ -154,7 +154,7 @@ describe('Crassosaurus', function() {
                 this.player1.player.optionSettings.orderForcedAbilities = false;
             });
 
-            it('and prompt once if purge when less than 10 first time', function() {
+            it('and prompt once if purge when less than 10 first time', function () {
                 this.player1.amber = 1;
                 this.player2.amber = 3;
                 this.player1.play(this.crassosaurus);
@@ -168,7 +168,7 @@ describe('Crassosaurus', function() {
                 expect(this.player2.amber).toBe(4);
             });
 
-            it('and prompt twice if captured 10 first time', function() {
+            it('and prompt twice if captured 10 first time', function () {
                 this.player1.amber = 5;
                 this.player2.amber = 5;
                 this.player1.play(this.crassosaurus);
@@ -187,7 +187,7 @@ describe('Crassosaurus', function() {
                 expect(this.crassosaurus.tokens.amber).toBe(10);
             });
 
-            it('and prompt twice if captured 10 first time and still amber to capture', function() {
+            it('and prompt twice if captured 10 first time and still amber to capture', function () {
                 this.player1.amber = 5;
                 this.player2.amber = 6;
                 this.player1.play(this.crassosaurus);
@@ -207,7 +207,7 @@ describe('Crassosaurus', function() {
                 expect(this.crassosaurus.tokens.amber).toBe(11);
             });
 
-            it('and prompt twice if captured 10 first time and still amber to capture, with multiple options twice', function() {
+            it('and prompt twice if captured 10 first time and still amber to capture, with multiple options twice', function () {
                 this.player1.amber = 5;
                 this.player2.amber = 16;
                 this.player1.play(this.crassosaurus);

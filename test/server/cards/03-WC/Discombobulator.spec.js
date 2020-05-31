@@ -1,7 +1,7 @@
-describe('Discombobulator', function() {
-    integration(function() {
-        describe('Discombobulator\'s ability', function() {
-            beforeEach(function() {
+describe('Discombobulator', function () {
+    integration(function () {
+        describe("Discombobulator's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
@@ -15,7 +15,7 @@ describe('Discombobulator', function() {
                 });
             });
 
-            it('should not allow amber to be stolen while it is in play', function() {
+            it('should not allow amber to be stolen while it is in play', function () {
                 this.player1.playUpgrade(this.discombobulator, this.eyegor);
                 expect(this.player1.amber).toBe(1);
                 expect(this.player2.amber).toBe(4);
@@ -27,7 +27,7 @@ describe('Discombobulator', function() {
                 expect(this.player2.amber).toBe(4);
             });
 
-            it('should allow amber to be captured or lost', function() {
+            it('should allow amber to be captured or lost', function () {
                 this.player1.playUpgrade(this.discombobulator, this.eyegor);
                 expect(this.player1.amber).toBe(1);
                 expect(this.player2.amber).toBe(4);

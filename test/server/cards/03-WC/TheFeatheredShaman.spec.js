@@ -1,7 +1,7 @@
-describe('The Feathered Shaman', function() {
-    integration(function() {
-        describe('The Feathered Shaman\'s abilities', function() {
-            beforeEach(function() {
+describe('The Feathered Shaman', function () {
+    integration(function () {
+        describe("The Feathered Shaman's abilities", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'untamed',
@@ -15,7 +15,7 @@ describe('The Feathered Shaman', function() {
                 });
             });
 
-            it('should ward no creature since there are no neighbors after reap', function() {
+            it('should ward no creature since there are no neighbors after reap', function () {
                 expect(this.theFeatheredShaman.warded).toBe(false);
                 this.player1.reap(this.theFeatheredShaman);
 
@@ -23,14 +23,14 @@ describe('The Feathered Shaman', function() {
                 expect(this.theFeatheredShaman.warded).toBe(false);
             });
 
-            it('should ward no creature since there are no neighbors after fight', function() {
+            it('should ward no creature since there are no neighbors after fight', function () {
                 expect(this.theFeatheredShaman.warded).toBe(false);
                 this.player1.fightWith(this.theFeatheredShaman, this.lamindra);
 
                 expect(this.theFeatheredShaman.warded).toBe(false);
             });
 
-            it('should ward right neighbor after reap', function() {
+            it('should ward right neighbor after reap', function () {
                 this.player1.playCreature(this.flaxia);
                 expect(this.theFeatheredShaman.warded).toBe(false);
                 expect(this.flaxia.warded).toBe(false);
@@ -40,7 +40,7 @@ describe('The Feathered Shaman', function() {
                 expect(this.theFeatheredShaman.warded).toBe(false);
             });
 
-            it('should ward right neighbor after fight', function() {
+            it('should ward right neighbor after fight', function () {
                 this.player1.playCreature(this.flaxia);
                 expect(this.theFeatheredShaman.warded).toBe(false);
                 expect(this.flaxia.warded).toBe(false);
@@ -49,7 +49,7 @@ describe('The Feathered Shaman', function() {
                 expect(this.theFeatheredShaman.warded).toBe(false);
             });
 
-            it('should ward both neighbors after reap', function() {
+            it('should ward both neighbors after reap', function () {
                 this.player1.playCreature(this.flaxia);
                 this.player1.playCreature(this.knoxx, true);
                 expect(this.theFeatheredShaman.warded).toBe(false);
@@ -63,7 +63,7 @@ describe('The Feathered Shaman', function() {
                 expect(this.knoxx.warded).toBe(true);
             });
 
-            it('should ward both neighbors after fight', function() {
+            it('should ward both neighbors after fight', function () {
                 this.player1.playCreature(this.flaxia);
                 this.player1.playCreature(this.knoxx, true);
                 expect(this.theFeatheredShaman.warded).toBe(false);

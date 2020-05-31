@@ -11,14 +11,21 @@ class AdaptiveDeckSelectionPrompt extends AllPlayerPrompt {
     }
 
     completionCondition(player) {
-        return !(this.game.gameFormat === 'adaptive-bo1') || !!this.clickedButton[player.name] || this.players.length < 2;
+        return (
+            !(this.game.gameFormat === 'adaptive-bo1') ||
+            !!this.clickedButton[player.name] ||
+            this.players.length < 2
+        );
     }
 
     activePrompt() {
         return {
             promptTitle: 'Deck Selection',
             menuTitle: 'Choose the deck to bid on',
-            buttons: this.players.map(player=> ({ arg: player.deckData.uuid, text: player.deckData.name }))
+            buttons: this.players.map((player) => ({
+                arg: player.deckData.uuid,
+                text: player.deckData.name
+            }))
         };
     }
 
@@ -45,16 +52,20 @@ class AdaptiveDeckSelectionPrompt extends AllPlayerPrompt {
     onCompleted() {
         const [player1, player2] = this.game.adaptive.selection;
 
-        if(!player1 || !player2) {
+        if (!player1 || !player2) {
             return;
         }
 
-        if(player1.uuid === player2.uuid) {
-            this.game.addMessage('Both players have selected {0}. Bidding will start at 0 chains by {1}', player1.deckName, player1.owner);
+        if (player1.uuid === player2.uuid) {
+            this.game.addMessage(
+                'Both players have selected {0}. Bidding will start at 0 chains by {1}',
+                player1.deckName,
+                player1.owner
+            );
             this.game.queueStep(new ChainBiddingPrompt(this.game, player1));
         } else {
             this.game.addMessage('Players have selected different decks. Chains will not be bid.');
-            if(player1.owner !== player1.player) {
+            if (player1.owner !== player1.player) {
                 this.game.reInitialisePlayers(true);
             }
         }

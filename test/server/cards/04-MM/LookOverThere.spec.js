@@ -1,6 +1,6 @@
 describe('look-over-there', function () {
     integration(function () {
-        describe('Look Over There\'s ability', function () {
+        describe("Look Over There's ability", function () {
             beforeEach(function () {
                 this.setupTest({
                     player1: {

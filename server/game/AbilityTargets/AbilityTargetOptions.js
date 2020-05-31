@@ -5,8 +5,10 @@ class AbilityTargetOptions {
         this.options = properties.options;
         this.dependentTarget = null;
 
-        if(this.properties.dependsOn) {
-            let dependsOnTarget = ability.targets.find(target => target.name === this.properties.dependsOn);
+        if (this.properties.dependsOn) {
+            let dependsOnTarget = ability.targets.find(
+                (target) => target.name === this.properties.dependsOn
+            );
             dependsOnTarget.dependentTarget = this;
         }
     }
@@ -14,11 +16,11 @@ class AbilityTargetOptions {
     getOptions(context) {
         let options = this.options;
 
-        if(typeof options === 'function') {
+        if (typeof options === 'function') {
             options = options(context);
         }
 
-        if(!Array.isArray(options)) {
+        if (!Array.isArray(options)) {
             return [options];
         }
 
@@ -29,8 +31,7 @@ class AbilityTargetOptions {
         return !!this.properties.dependsOn || this.hasLegalTarget(context);
     }
 
-    resetGameActions() {
-    }
+    resetGameActions() {}
 
     hasLegalTarget(context) {
         return !!this.getOptions(context).length;
@@ -45,13 +46,17 @@ class AbilityTargetOptions {
     }
 
     resolve(context, targetResults) {
-        if(targetResults.cancelled || targetResults.payCostsFirst || targetResults.delayTargeting) {
+        if (
+            targetResults.cancelled ||
+            targetResults.payCostsFirst ||
+            targetResults.delayTargeting
+        ) {
             return;
         }
 
         let player = context.player;
-        if(this.properties.player && this.properties.player === 'opponent') {
-            if(context.stage === 'pretarget') {
+        if (this.properties.player && this.properties.player === 'opponent') {
+            if (context.stage === 'pretarget') {
                 targetResults.delayTargeting = this;
                 return;
             }
@@ -66,7 +71,7 @@ class AbilityTargetOptions {
             waitingPromptTitle: 'Waiting for opponent',
             source: this.properties.source || context.source,
             options: this.getOptions(context),
-            optionsHandler: option => context.option = option
+            optionsHandler: (option) => (context.option = option)
         });
     }
 }

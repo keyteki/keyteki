@@ -6,13 +6,22 @@ class IdentityCard extends React.Component {
     render() {
         let className = classNames('panel', 'card-pile', this.props.className, {
             [this.props.size]: this.props.size !== 'normal',
-            'vertical': true
+            vertical: true
         });
         return (
-            <div className={ className } onMouseOver={ () => this.props.onMouseOver({ imageUrl: this.props.deckListUrl, type: 'decklist' }) } onMouseOut={ this.props.onMouseOut }>
+            <div
+                className={className}
+                onMouseOver={() =>
+                    this.props.onMouseOver({ imageUrl: this.props.deckListUrl, type: 'decklist' })
+                }
+                onMouseOut={this.props.onMouseOut}
+            >
                 <div className='card-wrapper'>
                     <div className='card-frame'>
-                        <img className={ `card-image vertical ${this.props.size}` } src={ this.props.deckListUrl }/>
+                        <img
+                            className={`card-image vertical ${this.props.size}`}
+                            src={this.props.deckListUrl}
+                        />
                     </div>
                 </div>
             </div>

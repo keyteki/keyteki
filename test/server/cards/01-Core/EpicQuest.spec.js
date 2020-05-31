@@ -1,12 +1,20 @@
-describe('Epic Quest', function() {
-    integration(function() {
-        describe('Epic Quest\'s ability', function() {
-            beforeEach(function() {
+describe('Epic Quest', function () {
+    integration(function () {
+        describe("Epic Quest's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'sanctum',
                         inPlay: ['epic-quest'],
-                        hand: ['sequis', 'clear-mind', 'glorious-few', 'virtuous-works', 'gorm-of-omm', 'round-table', 'protectrix']
+                        hand: [
+                            'sequis',
+                            'clear-mind',
+                            'glorious-few',
+                            'virtuous-works',
+                            'gorm-of-omm',
+                            'round-table',
+                            'protectrix'
+                        ]
                     },
                     player2: {
                         amber: 1,
@@ -15,7 +23,7 @@ describe('Epic Quest', function() {
                 });
             });
 
-            it('should not forge a key if played 6 or less sanctum cards', function() {
+            it('should not forge a key if played 6 or less sanctum cards', function () {
                 this.player1.play(this.sequis);
                 this.player1.play(this.clearMind);
                 this.player1.play(this.gloriousFew);
@@ -29,7 +37,7 @@ describe('Epic Quest', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should forge a key if played 7 sanctum cards', function() {
+            it('should forge a key if played 7 sanctum cards', function () {
                 this.player1.play(this.sequis);
                 this.player1.play(this.clearMind);
                 this.player1.play(this.gloriousFew);

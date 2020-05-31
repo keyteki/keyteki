@@ -18,7 +18,7 @@ class DeckList extends React.Component {
             currentPage: 0
         };
 
-        this.changeFilter = _.debounce(filter => this.onChangeFilter(filter), 200);
+        this.changeFilter = _.debounce((filter) => this.onChangeFilter(filter), 200);
         this.onChangeExpansionFilter = this.onChangeExpansionFilter.bind(this);
         this.filterDeck = this.filterDeck.bind(this);
         this.onSortChanged = this.onSortChanged.bind(this);
@@ -28,12 +28,14 @@ class DeckList extends React.Component {
 
     filterDeck(deck) {
         let t = this.props.t;
-        const passedSearchFilter = this.state.searchFilter === '' || deck.name.toLowerCase().includes(this.state.searchFilter);
-        const passedExpansionFilter = this.state.expansionFilter === '' || (
+        const passedSearchFilter =
+            this.state.searchFilter === '' ||
+            deck.name.toLowerCase().includes(this.state.searchFilter);
+        const passedExpansionFilter =
+            this.state.expansionFilter === '' ||
             (this.state.expansionFilter === t('Worlds Collide') && deck.expansion === 452) ||
             (this.state.expansionFilter === t('Age of Ascension') && deck.expansion === 435) ||
-            (this.state.expansionFilter === t('Call of the Archons') && deck.expansion === 341)
-        );
+            (this.state.expansionFilter === t('Call of the Archons') && deck.expansion === 341);
 
         return passedSearchFilter && passedExpansionFilter;
     }
@@ -77,13 +79,13 @@ class DeckList extends React.Component {
         let deckRows = [];
         let numDecksNotFiltered = 0;
 
-        if(!decks || decks.length === 0) {
+        if (!decks || decks.length === 0) {
             deckRows = t('You have no decks, try adding one');
         } else {
             let index = 0;
             let sortedDecks = decks;
 
-            switch(this.state.sortOrder) {
+            switch (this.state.sortOrder) {
                 case 'dateasc':
                     sortedDecks = _.sortBy(sortedDecks, 'lastUpdated');
                     break;
@@ -101,10 +103,20 @@ class DeckList extends React.Component {
             sortedDecks = sortedDecks.filter(this.filterDeck);
             numDecksNotFiltered = sortedDecks.length;
 
-            sortedDecks = sortedDecks.slice(this.state.currentPage * this.state.pageSize, (this.state.currentPage * this.state.pageSize) + this.state.pageSize);
+            sortedDecks = sortedDecks.slice(
+                this.state.currentPage * this.state.pageSize,
+                this.state.currentPage * this.state.pageSize + this.state.pageSize
+            );
 
-            for(let deck of sortedDecks) {
-                deckRows.push(<DeckRow active={ activeDeck && activeDeck.id === deck.id } deck={ deck } key={ index++ } onSelect={ onSelectDeck } />);
+            for (let deck of sortedDecks) {
+                deckRows.push(
+                    <DeckRow
+                        active={activeDeck && activeDeck.id === deck.id}
+                        deck={deck}
+                        key={index++}
+                        onSelect={onSelectDeck}
+                    />
+                );
             }
         }
 
@@ -117,23 +129,44 @@ class DeckList extends React.Component {
 
         let pager = [];
         let pages = _.range(0, Math.ceil(numDecksNotFiltered / this.state.pageSize));
-        for(let page of pages) {
-            pager.push(<li key={ page }><a href='#' className={ (page === this.state.currentPage ? 'active' : null) } onClick={ this.onPageChanged.bind(this, page) }>{ page + 1 }</a></li>);
+        for (let page of pages) {
+            pager.push(
+                <li key={page}>
+                    <a
+                        href='#'
+                        className={page === this.state.currentPage ? 'active' : null}
+                        onClick={this.onPageChanged.bind(this, page)}
+                    >
+                        {page + 1}
+                    </a>
+                </li>
+            );
         }
 
         return (
-            <div className={ className }>
-                { !this.props.noFilter &&
-                    <form className='form' onSubmit={ this.handleSubmit } >
+            <div className={className}>
+                {!this.props.noFilter && (
+                    <form className='form' onSubmit={this.handleSubmit}>
                         <div className='col-md-8'>
                             <div className='form-group'>
-                                <label className='control-label'><Trans>Filter</Trans>:</label><input autoFocus className='form-control' placeholder={ t('Search...') } type='text' onChange={ e => this.changeFilter(e.target.value) }/>
+                                <label className='control-label'>
+                                    <Trans>Filter</Trans>:
+                                </label>
+                                <input
+                                    autoFocus
+                                    className='form-control'
+                                    placeholder={t('Search...')}
+                                    type='text'
+                                    onChange={(e) => this.changeFilter(e.target.value)}
+                                />
                             </div>
                         </div>
                         <div className='col-md-4'>
                             <div className='form-group'>
-                                <label className='control-label'><Trans>Show</Trans>:</label>
-                                <select className='form-control' onChange={ this.onPageSizeChanged }>
+                                <label className='control-label'>
+                                    <Trans>Show</Trans>:
+                                </label>
+                                <select className='form-control' onChange={this.onPageSizeChanged}>
                                     <option>10</option>
                                     <option>25</option>
                                     <option>50</option>
@@ -142,25 +175,48 @@ class DeckList extends React.Component {
                         </div>
                         <div className='col-md-12'>
                             <div className='form-group'>
-                                <label className='control-label'><Trans>Filter By Expansion</Trans>:</label>
-                                <select className='form-control' onChange={ this.onChangeExpansionFilter }>
+                                <label className='control-label'>
+                                    <Trans>Filter By Expansion</Trans>:
+                                </label>
+                                <select
+                                    className='form-control'
+                                    onChange={this.onChangeExpansionFilter}
+                                >
                                     <option />
-                                    <option>{ t('Worlds Collide') }</option>
-                                    <option>{ t('Age of Ascension') }</option>
-                                    <option>{ t('Call of the Archons') }</option>
+                                    <option>{t('Worlds Collide')}</option>
+                                    <option>{t('Age of Ascension')}</option>
+                                    <option>{t('Call of the Archons')}</option>
                                 </select>
                             </div>
-                            <div className='col-md-12'><Trans>Sort by</Trans>:<RadioGroup buttons={ sortButtons } onValueSelected={ this.onSortChanged } defaultValue={ this.state.sortOrder } /></div>
-                            <nav className='col-md-12' aria-label={ t('Page navigation') } >
+                            <div className='col-md-12'>
+                                <Trans>Sort by</Trans>:
+                                <RadioGroup
+                                    buttons={sortButtons}
+                                    onValueSelected={this.onSortChanged}
+                                    defaultValue={this.state.sortOrder}
+                                />
+                            </div>
+                            <nav className='col-md-12' aria-label={t('Page navigation')}>
                                 <ul className='pagination'>
                                     <li>
-                                        <a href='#' aria-label={ t('Previous') } onClick={ this.onPageChanged.bind(this, 0) }>
+                                        <a
+                                            href='#'
+                                            aria-label={t('Previous')}
+                                            onClick={this.onPageChanged.bind(this, 0)}
+                                        >
                                             <span aria-hidden='true'>&laquo;</span>
                                         </a>
                                     </li>
-                                    { pager }
+                                    {pager}
                                     <li>
-                                        <a href='#' aria-label={ t('Next') } onClick={ this.onPageChanged.bind(this, pages.length - 1) }>
+                                        <a
+                                            href='#'
+                                            aria-label={t('Next')}
+                                            onClick={this.onPageChanged.bind(
+                                                this,
+                                                pages.length - 1
+                                            )}
+                                        >
                                             <span aria-hidden='true'>&raquo;</span>
                                         </a>
                                     </li>
@@ -168,9 +224,10 @@ class DeckList extends React.Component {
                             </nav>
                         </div>
                     </form>
-                }
-                <div className='col-md-12'>{ deckRows }</div>
-            </div>);
+                )}
+                <div className='col-md-12'>{deckRows}</div>
+            </div>
+        );
     }
 }
 

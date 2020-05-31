@@ -9,7 +9,8 @@ class Bonesaw extends Card {
 
         this.persistentEffect({
             location: 'any',
-            condition: context => this.creatureDestroyedControllerUuid[context.source.controller.uuid],
+            condition: (context) =>
+                this.creatureDestroyedControllerUuid[context.source.controller.uuid],
             effect: ability.effects.entersPlayReady()
         });
     }
@@ -19,7 +20,7 @@ class Bonesaw extends Card {
     }
 
     onCardDestroyed(event) {
-        if(event.clone.type === 'creature') {
+        if (event.clone.type === 'creature') {
             this.creatureDestroyedControllerUuid[event.clone.controller.uuid] = true;
         }
     }

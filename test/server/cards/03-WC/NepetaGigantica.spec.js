@@ -1,7 +1,7 @@
-describe('Nepeta Gigantica', function() {
-    integration(function() {
-        describe('Nepeta Gigantica\'s ability', function() {
-            beforeEach(function() {
+describe('Nepeta Gigantica', function () {
+    integration(function () {
+        describe("Nepeta Gigantica's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'untamed',
@@ -13,7 +13,7 @@ describe('Nepeta Gigantica', function() {
                 });
             });
 
-            it('should give the option to choose between stunning P>5 or Giant', function() {
+            it('should give the option to choose between stunning P>5 or Giant', function () {
                 this.player1.useAction(this.nepetaGigantica);
                 expect(this.player1).toBeAbleToSelect(this.tantadlin);
                 expect(this.player1).toBeAbleToSelect(this.drummernaut);

@@ -1,7 +1,7 @@
-describe('Gabos Longarms', function() {
-    integration(function() {
-        describe('Gabos Longarms\'s ability', function() {
-            beforeEach(function() {
+describe('Gabos Longarms', function () {
+    integration(function () {
+        describe("Gabos Longarms's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'dis',
@@ -13,7 +13,7 @@ describe('Gabos Longarms', function() {
                 });
             });
 
-            it('should trigger when he attacks', function() {
+            it('should trigger when he attacks', function () {
                 this.player1.fightWith(this.gabosLongarms, this.championAnaphiel);
                 expect(this.player1).toHavePrompt('Gabos Longarms');
                 expect(this.player1).toBeAbleToSelect(this.ganymedeArchivist);
@@ -26,7 +26,7 @@ describe('Gabos Longarms', function() {
                 expect(this.championAnaphiel.hasToken('damage')).toBe(false);
             });
 
-            it('should not trigger when he is attacked', function() {
+            it('should not trigger when he is attacked', function () {
                 this.player1.endTurn();
                 this.player2.clickPrompt('sanctum');
                 this.player2.fightWith(this.championAnaphiel, this.gabosLongarms);

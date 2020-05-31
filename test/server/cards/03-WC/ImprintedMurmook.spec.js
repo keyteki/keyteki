@@ -1,7 +1,7 @@
-describe('Imprinted Murmook', function() {
-    integration(function() {
-        describe('Imprinted Murmook\'s ability', function() {
-            beforeEach(function() {
+describe('Imprinted Murmook', function () {
+    integration(function () {
+        describe("Imprinted Murmook's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         amber: 5,
@@ -15,7 +15,7 @@ describe('Imprinted Murmook', function() {
                 });
             });
 
-            it('should reduce the controllers key cost by 1, but not the opponents', function() {
+            it('should reduce the controllers key cost by 1, but not the opponents', function () {
                 this.player1.endTurn();
                 expect(this.player2.amber).toBe(5);
                 expect(this.player1.player.keys.red).toBe(false);

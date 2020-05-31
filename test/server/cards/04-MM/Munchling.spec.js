@@ -1,6 +1,6 @@
 describe('munchling', function () {
     integration(function () {
-        describe('Munchling\'s fight ability', function () {
+        describe("Munchling's fight ability", function () {
             beforeEach(function () {
                 this.setupTest({
                     player1: {
@@ -66,5 +66,3 @@ describe('munchling', function () {
         });
     });
 });
-
-

@@ -44,9 +44,9 @@ class GameSocket extends EventEmitter {
                 arg: arg,
                 identity: this.nodeName
             });
-        } catch(err) {
+        } catch (err) {
             logger.error('Failed to stringify node data', err);
-            for(let obj of Object.values(detectBinary(arg))) {
+            for (let obj of Object.values(detectBinary(arg))) {
                 logger.error(`Path: ${obj.path}, Type: ${obj.type}`);
             }
 
@@ -64,7 +64,7 @@ class GameSocket extends EventEmitter {
     }
 
     onConnect(channel) {
-        if(channel === 'allnodes') {
+        if (channel === 'allnodes') {
             this.emit('onGameSync', this.onGameSync.bind(this));
         }
     }
@@ -74,9 +74,13 @@ class GameSocket extends EventEmitter {
             maxGames: config.maxGames,
             version: this.version,
             address: this.listenAddress,
-            port: process.env.NODE_ENV === 'production' ? 80 : (process.env.PORT || config.gameNode.socketioPort),
+            port:
+                process.env.NODE_ENV === 'production'
+                    ? 80
+                    : process.env.PORT || config.gameNode.socketioPort,
             protocol: this.protocol,
-            games: games });
+            games: games
+        });
     }
 
     /**
@@ -84,7 +88,7 @@ class GameSocket extends EventEmitter {
      * @param {string} msg
      */
     onMessage(channel, msg) {
-        if(channel !== 'allnodes' && channel !== this.nodeName) {
+        if (channel !== 'allnodes' && channel !== this.nodeName) {
             logger.warn(`Message '${msg}' received for unknown channel ${channel}`);
             return;
         }
@@ -92,12 +96,15 @@ class GameSocket extends EventEmitter {
         let message;
         try {
             message = JSON.parse(msg);
-        } catch(err) {
-            logger.info(`Error decoding redis message. Channel ${channel}, message '${msg}' %o`, err);
+        } catch (err) {
+            logger.info(
+                `Error decoding redis message. Channel ${channel}, message '${msg}' %o`,
+                err
+            );
             return;
         }
 
-        switch(message.command) {
+        switch (message.command) {
             case 'PING':
                 this.send('PONG');
                 break;

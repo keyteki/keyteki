@@ -1,7 +1,7 @@
-describe('waking-nightmare', function() {
-    integration(function() {
-        describe('Waking Nightmare\'s ability', function() {
-            beforeEach(function() {
+describe('waking-nightmare', function () {
+    integration(function () {
+        describe("Waking Nightmare's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'dis',
@@ -15,7 +15,7 @@ describe('waking-nightmare', function() {
                 });
             });
 
-            it('should increase key costs for one turn', function() {
+            it('should increase key costs for one turn', function () {
                 this.player1.play(this.wakingNightmare);
                 this.player1.endTurn();
 
@@ -32,7 +32,7 @@ describe('waking-nightmare', function() {
                 expect(this.player2.player.amber).toBe(0);
             });
 
-            it('should increase key costs by 1 for each Dis creature', function() {
+            it('should increase key costs by 1 for each Dis creature', function () {
                 this.player1.play(this.wakingNightmare);
                 this.player1.fightWith(this.emberImp, this.dustImp);
                 expect(this.player2.player.amber).toBe(8);

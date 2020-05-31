@@ -1,7 +1,7 @@
-describe('Uncharted Lands', function() {
-    integration(function() {
-        describe('Uncharted Lands\'s ability', function() {
-            beforeEach(function() {
+describe('Uncharted Lands', function () {
+    integration(function () {
+        describe("Uncharted Lands's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'staralliance',
@@ -15,12 +15,12 @@ describe('Uncharted Lands', function() {
                 });
             });
 
-            it('should put 6A on itself when played.', function() {
+            it('should put 6A on itself when played.', function () {
                 this.player1.play(this.unchartedLands);
                 expect(this.unchartedLands.amber).toBe(6);
             });
 
-            it('should transfer one from itself to the players pool when an SA creature reaps.', function() {
+            it('should transfer one from itself to the players pool when an SA creature reaps.', function () {
                 this.player1.play(this.unchartedLands);
                 expect(this.unchartedLands.amber).toBe(6);
                 this.player1.reap(this.lieutenantKhrkhar);
@@ -28,10 +28,10 @@ describe('Uncharted Lands', function() {
                 expect(this.unchartedLands.amber).toBe(5);
             });
 
-            it('should transfer a maximum of 6 when an SA creature reaps.', function() {
+            it('should transfer a maximum of 6 when an SA creature reaps.', function () {
                 this.player1.play(this.unchartedLands);
                 expect(this.unchartedLands.amber).toBe(6);
-                for(let i = 0; i < 6; ++i) {
+                for (let i = 0; i < 6; ++i) {
                     this.player1.reap(this.lieutenantKhrkhar);
                     expect(this.player1.amber).toBe((i + 1) * 2);
                     this.lieutenantKhrkhar.exhausted = false;
@@ -43,7 +43,7 @@ describe('Uncharted Lands', function() {
                 expect(this.unchartedLands.amber).toBe(0);
             });
 
-            it('should not transfer one from itself to the players pool when a non-SA creature reaps.', function() {
+            it('should not transfer one from itself to the players pool when a non-SA creature reaps.', function () {
                 this.player1.play(this.unchartedLands);
                 expect(this.unchartedLands.amber).toBe(6);
                 this.player1.reap(this.lieutenantKhrkhar);
@@ -56,7 +56,7 @@ describe('Uncharted Lands', function() {
                 expect(this.player2.amber).toBe(4);
             });
 
-            it('should transfer one from itself to the opponents pool when an opposing SA creature reaps.', function() {
+            it('should transfer one from itself to the opponents pool when an opposing SA creature reaps.', function () {
                 this.player1.play(this.unchartedLands);
                 expect(this.unchartedLands.amber).toBe(6);
                 this.player1.reap(this.lieutenantKhrkhar);

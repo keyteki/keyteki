@@ -5,7 +5,7 @@ class UnsuspectingPrey extends Card {
         this.play({
             target: {
                 mode: 'upTo',
-                cardCondition: card => !card.hasToken('damage'),
+                cardCondition: (card) => !card.hasToken('damage'),
                 numCards: 3,
                 cardType: 'creature',
                 gameAction: ability.actions.dealDamage({

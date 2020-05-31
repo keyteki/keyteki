@@ -1,7 +1,7 @@
-describe('Diplo-Macy', function() {
-    integration(function() {
-        describe('Diplo-Macy\'s ability', function() {
-            beforeEach(function() {
+describe('Diplo-Macy', function () {
+    integration(function () {
+        describe("Diplo-Macy's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'saurian',
@@ -14,7 +14,7 @@ describe('Diplo-Macy', function() {
                 });
             });
 
-            it('should add before fight effect until start of next turn', function() {
+            it('should add before fight effect until start of next turn', function () {
                 this.player1.play(this.diploMacy);
                 this.player1.fightWith(this.grimlocusDux, this.lamindra);
                 expect(this.grimlocusDux.amber).toBe(1);

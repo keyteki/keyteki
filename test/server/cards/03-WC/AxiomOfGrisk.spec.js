@@ -1,7 +1,7 @@
-describe('Axiom of Grisk', function() {
-    integration(function() {
-        describe('Axiom of Grisk\'s play ability', function() {
-            beforeEach(function() {
+describe('Axiom of Grisk', function () {
+    integration(function () {
+        describe("Axiom of Grisk's play ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'saurian',
@@ -12,7 +12,7 @@ describe('Axiom of Grisk', function() {
                     }
                 });
             });
-            it('should not need to select any creature, but still gain 2 chains', function() {
+            it('should not need to select any creature, but still gain 2 chains', function () {
                 this.player1.play(this.axiomOfGrisk);
 
                 expect(this.player1).not.toHavePrompt('Choose a creature to ward');
@@ -21,9 +21,9 @@ describe('Axiom of Grisk', function() {
         });
     });
 
-    integration(function() {
-        describe('Axiom of Grisk\'s play ability', function() {
-            beforeEach(function() {
+    integration(function () {
+        describe("Axiom of Grisk's play ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'saurian',
@@ -36,7 +36,7 @@ describe('Axiom of Grisk', function() {
                 });
             });
 
-            it('should destroy all creatures without amber', function() {
+            it('should destroy all creatures without amber', function () {
                 this.player1.play(this.axiomOfGrisk);
 
                 expect(this.player1).toHavePrompt('Choose a creature to ward');
@@ -58,7 +58,7 @@ describe('Axiom of Grisk', function() {
                 expect(this.groggins.location).toBe('discard');
             });
 
-            it('should destroy each creature without amber', function() {
+            it('should destroy each creature without amber', function () {
                 this.troll.tokens['amber'] = 1;
                 this.lamindra.tokens['amber'] = 3;
 
@@ -84,7 +84,7 @@ describe('Axiom of Grisk', function() {
                 expect(this.groggins.location).toBe('discard');
             });
 
-            it('should destroy no creature without amber', function() {
+            it('should destroy no creature without amber', function () {
                 this.troll.tokens['amber'] = 1;
                 this.valdr.tokens['amber'] = 3;
                 this.krump.tokens['amber'] = 1;

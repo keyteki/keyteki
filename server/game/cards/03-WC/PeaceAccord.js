@@ -4,11 +4,11 @@ class PeaceAccord extends Card {
     setupCardAbilities(ability) {
         this.play({
             gameAction: [
-                ability.actions.gainAmber(context => ({
+                ability.actions.gainAmber((context) => ({
                     target: context.player.opponent,
                     amount: 2
                 })),
-                ability.actions.gainAmber(context => ({
+                ability.actions.gainAmber((context) => ({
                     target: context.player,
                     amount: 2
                 }))
@@ -17,10 +17,10 @@ class PeaceAccord extends Card {
 
         this.reaction({
             when: {
-                onFight: event => event.card.type === 'creature'
+                onFight: (event) => event.card.type === 'creature'
             },
             gameAction: [
-                ability.actions.loseAmber(context => ({
+                ability.actions.loseAmber((context) => ({
                     target: context.event.attacker.controller,
                     amount: 4
                 })),

@@ -1,7 +1,7 @@
-describe('Nexus', function() {
-    integration(function() {
-        describe('Nexus\'s ability', function() {
-            beforeEach(function() {
+describe('Nexus', function () {
+    integration(function () {
+        describe("Nexus's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'shadows',
@@ -13,7 +13,7 @@ describe('Nexus', function() {
                 });
             });
 
-            it('should trigger when reaping, and allow using an opponent\'s artifact', function() {
+            it("should trigger when reaping, and allow using an opponent's artifact", function () {
                 this.player1.reap(this.nexus);
                 expect(this.player1).toHavePrompt('Nexus');
                 expect(this.player1).toBeAbleToSelect(this.gauntletOfCommand);
@@ -28,9 +28,9 @@ describe('Nexus', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should not trigger when there are no artifacts', function() {
+            it('should not trigger when there are no artifacts', function () {
                 this.player1.clickCard(this.gormOfOmm);
-                this.player1.clickPrompt('Use this card\'s Omni ability');
+                this.player1.clickPrompt("Use this card's Omni ability");
                 this.player1.clickCard(this.gauntletOfCommand);
                 expect(this.gormOfOmm.location).toBe('discard');
                 expect(this.gauntletOfCommand.location).toBe('discard');

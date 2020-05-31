@@ -3,7 +3,7 @@ const Card = require('../../Card.js');
 class Weasand extends Card {
     setupCardAbilities(ability) {
         this.interrupt({
-            condition: context => !!context.player.opponent,
+            condition: (context) => !!context.player.opponent,
             when: {
                 onForgeKey: () => true
             },

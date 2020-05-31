@@ -1,7 +1,7 @@
-describe('Noddy the Thief', function() {
-    integration(function() {
-        describe('Noddy the Thief\'s ability', function() {
-            beforeEach(function() {
+describe('Noddy the Thief', function () {
+    integration(function () {
+        describe("Noddy the Thief's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'shadows',
@@ -14,9 +14,9 @@ describe('Noddy the Thief', function() {
                 });
             });
 
-            it('should purge friendly shadow creatures and steal amber', function() {
+            it('should purge friendly shadow creatures and steal amber', function () {
                 this.player1.clickCard(this.noddyTheThief);
-                this.player1.clickPrompt('Use this card\'s Action ability');
+                this.player1.clickPrompt("Use this card's Action ability");
                 expect(this.player1.amber).toBe(1);
                 expect(this.player2.amber).toBe(4);
             });

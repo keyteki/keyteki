@@ -1,7 +1,7 @@
-describe('Thieves\' Bane', function() {
-    integration(function() {
-        describe('Thieves\' Bane\'s ability', function() {
-            beforeEach(function() {
+describe("Thieves' Bane", function () {
+    integration(function () {
+        describe("Thieves' Bane's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         amber: 4,
@@ -15,7 +15,7 @@ describe('Thieves\' Bane', function() {
                     }
                 });
             });
-            it('prompt for a thief creature to destroy', function() {
+            it('prompt for a thief creature to destroy', function () {
                 this.player1.play(this.thievesBane);
                 expect(this.player1).toHavePrompt('Thieves’ Bane');
                 expect(this.player1).toBeAbleToSelect(this.aVinda);

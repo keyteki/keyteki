@@ -1,7 +1,7 @@
-describe('Xenotraining', function() {
-    integration(function() {
-        describe('Xenotraining\'s ability', function() {
-            beforeEach(function() {
+describe('Xenotraining', function () {
+    integration(function () {
+        describe("Xenotraining's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         amber: 6,
@@ -15,7 +15,7 @@ describe('Xenotraining', function() {
                     }
                 });
             });
-            it('should prompt to capture [1] when it is played', function() {
+            it('should prompt to capture [1] when it is played', function () {
                 this.player1.play(this.xenotraining);
                 expect(this.player1).toHavePrompt('Xenotraining');
                 expect(this.player1).toBeAbleToSelect(this.lieutenantKhrkhar);
@@ -24,8 +24,8 @@ describe('Xenotraining', function() {
                 expect(this.lieutenantKhrkhar.tokens.amber).toBe(1);
             });
         });
-        describe('Xenotraining\'s ability', function() {
-            beforeEach(function() {
+        describe("Xenotraining's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         amber: 6,
@@ -39,7 +39,7 @@ describe('Xenotraining', function() {
                     }
                 });
             });
-            it('should prompt to capture [2] when it is played', function() {
+            it('should prompt to capture [2] when it is played', function () {
                 this.player1.play(this.xenotraining);
                 expect(this.player1).toHavePrompt('Xenotraining');
                 expect(this.player1).toBeAbleToSelect(this.lieutenantKhrkhar);
@@ -51,8 +51,8 @@ describe('Xenotraining', function() {
                 expect(this.mother.tokens.amber).toBe(1);
             });
         });
-        describe('Xenotraining\'s ability', function() {
-            beforeEach(function() {
+        describe("Xenotraining's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         amber: 6,
@@ -66,7 +66,7 @@ describe('Xenotraining', function() {
                     }
                 });
             });
-            it('should prompt to capture [3] when it is played', function() {
+            it('should prompt to capture [3] when it is played', function () {
                 this.player1.play(this.xenotraining);
                 expect(this.player1).toHavePrompt('Xenotraining');
                 expect(this.player1).toBeAbleToSelect(this.lieutenantKhrkhar);
@@ -80,7 +80,7 @@ describe('Xenotraining', function() {
                 expect(this.mother.tokens.amber).toBe(1);
                 expect(this.rustgnawer.tokens.amber).toBe(1);
             });
-            it('you should be able to capture all aember onto one creature', function() {
+            it('you should be able to capture all aember onto one creature', function () {
                 this.player1.play(this.xenotraining);
                 expect(this.player1).toHavePrompt('Xenotraining');
                 expect(this.player1).toBeAbleToSelect(this.lieutenantKhrkhar);

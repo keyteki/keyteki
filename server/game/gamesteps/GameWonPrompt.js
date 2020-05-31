@@ -15,7 +15,10 @@ class GameWonPrompt extends AllPlayerPrompt {
     activePrompt() {
         return {
             promptTitle: 'Game Won',
-            menuTitle: { text: '{{player}} has won the game!', values: { player: this.winner.name } },
+            menuTitle: {
+                text: '{{player}} has won the game!',
+                values: { player: this.winner.name }
+            },
             buttons: [
                 { arg: 'continue', text: 'Continue Playing' },
                 { arg: 'rematch', text: 'Rematch' },
@@ -30,7 +33,7 @@ class GameWonPrompt extends AllPlayerPrompt {
 
     menuCommand(player, arg) {
         let message = '';
-        switch(arg) {
+        switch (arg) {
             case 'continue':
                 message = 'to continue';
                 break;
@@ -46,13 +49,13 @@ class GameWonPrompt extends AllPlayerPrompt {
 
         this.clickedButton[player.name] = true;
 
-        if(arg === 'rematch') {
+        if (arg === 'rematch') {
             this.game.queueStep(new RematchPrompt(this.game, player));
 
             return true;
         }
 
-        if(arg === 'rematch-swap') {
+        if (arg === 'rematch-swap') {
             this.game.swap = !this.game.swap;
             this.game.queueStep(new RematchPrompt(this.game, player));
 

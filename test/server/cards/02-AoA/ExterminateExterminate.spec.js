@@ -1,7 +1,7 @@
-describe('Exterminate!Exterminate!', function() {
-    integration(function() {
-        describe('Exterminate!Exterminate!\'s ability', function() {
-            beforeEach(function() {
+describe('Exterminate!Exterminate!', function () {
+    integration(function () {
+        describe("Exterminate!Exterminate!'s ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'mars',
@@ -14,7 +14,7 @@ describe('Exterminate!Exterminate!', function() {
                 });
             });
 
-            it('should prompt the player and destroy creatures correctly', function() {
+            it('should prompt the player and destroy creatures correctly', function () {
                 this.player1.play(this.exterminateExterminate);
                 expect(this.player1).toHavePrompt('Exterminate! Exterminate!');
                 expect(this.player1).toBeAbleToSelect(this.commanderRemiel);

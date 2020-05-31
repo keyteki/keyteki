@@ -18,18 +18,16 @@ class DeckRow extends React.Component {
     }
 
     componentDidMount() {
-        buildArchon(this.props.deck, this.props.i18n.language)
-            .then(imageUrl => {
-                this.setState({ imageUrl });
-            });
+        buildArchon(this.props.deck, this.props.i18n.language).then((imageUrl) => {
+            this.setState({ imageUrl });
+        });
     }
 
     componentDidUpdate(prevProps) {
-        if(this.props.i18n.language !== prevProps.i18n.language) {
-            buildArchon(this.props.deck, this.props.i18n.language)
-                .then(imageUrl => {
-                    this.setState({ imageUrl });
-                });
+        if (this.props.i18n.language !== prevProps.i18n.language) {
+            buildArchon(this.props.deck, this.props.i18n.language).then((imageUrl) => {
+                this.setState({ imageUrl });
+            });
         }
     }
 
@@ -37,13 +35,12 @@ class DeckRow extends React.Component {
         this.setState({ archonShow: true });
     }
 
-
     onMouseOut() {
         this.setState({ archonShow: false });
     }
 
     handleDeckClick() {
-        if(this.props.onSelect) {
+        if (this.props.onSelect) {
             this.props.onSelect(this.props.deck);
         }
     }
@@ -51,13 +48,13 @@ class DeckRow extends React.Component {
     getStatusName(status) {
         let t = this.props.t;
 
-        if(status.usageLevel === 1 && !status.verified) {
+        if (status.usageLevel === 1 && !status.verified) {
             return t('Used');
-        } else if(status.usageLevel === 2 && !status.verified) {
+        } else if (status.usageLevel === 2 && !status.verified) {
             return t('Popular');
-        } else if(status.usageLevel === 3 && !status.verified) {
+        } else if (status.usageLevel === 3 && !status.verified) {
             return t('Notorious');
-        } else if(!status.officialRole || !status.noUnreleasedCards) {
+        } else if (!status.officialRole || !status.noUnreleasedCards) {
             return t('Casual');
         }
 
@@ -66,38 +63,58 @@ class DeckRow extends React.Component {
 
     render() {
         let language = this.props.i18n.language;
-        moment.locale((language === 'zhhans') || (language === 'zhhant') ? 'zh-cn' : language);
+        moment.locale(language === 'zhhans' || language === 'zhhant' ? 'zh-cn' : language);
 
         return (
-            <div className={ this.props.active ? 'deck-row active' : 'deck-row' } key={ this.props.deck.name } onClick={ this.handleDeckClick }>
-                { this.state.archonShow &&
-                <div className='hover-card'>
-                    <div className='hover-image'>
-                        <img className={ 'img-responsive' } src={ this.state.imageUrl }/>
+            <div
+                className={this.props.active ? 'deck-row active' : 'deck-row'}
+                key={this.props.deck.name}
+                onClick={this.handleDeckClick}
+            >
+                {this.state.archonShow && (
+                    <div className='hover-card'>
+                        <div className='hover-image'>
+                            <img className={'img-responsive'} src={this.state.imageUrl} />
+                        </div>
                     </div>
-                </div>
-                }
+                )}
                 <div className='col-xs-1 deck-image'>
-                    <img className={ 'img-responsive' } src={ this.state.imageUrl } onMouseOut={ this.onMouseOut } onMouseOver={ this.onMouseOver }/>
+                    <img
+                        className={'img-responsive'}
+                        src={this.state.imageUrl}
+                        onMouseOut={this.onMouseOut}
+                        onMouseOver={this.onMouseOver}
+                    />
                 </div>
-                <span className='col-xs-8 col-md-7 col-lg-9 deck-name'>
-                    { this.props.deck.name }
-                </span>
+                <span className='col-xs-8 col-md-7 col-lg-9 deck-name'>{this.props.deck.name}</span>
                 <span className='col-xs-2 col-md-3 col-lg-2 deck-status-label text-right pull-right'>
-                    <img className='deck-expansion' src={ '/img/idbacks/' + this.props.deck.expansion + '.png' } />
-                    { this.getStatusName(this.props.deck.status) }
+                    <img
+                        className='deck-expansion'
+                        src={'/img/idbacks/' + this.props.deck.expansion + '.png'}
+                    />
+                    {this.getStatusName(this.props.deck.status)}
                 </span>
                 <div className='row'>
                     <span className='col-xs-8 col-md-7 col-lg-9 deck-house-icons'>
-                        <img className='deck-sm-house' src={ '/img/house/' + this.props.deck.houses[0] + '.png' } />
-                        <img className='deck-sm-house' src={ '/img/house/' + this.props.deck.houses[1] + '.png' } />
-                        <img className='deck-sm-house' src={ '/img/house/' + this.props.deck.houses[2] + '.png' } />
+                        <img
+                            className='deck-sm-house'
+                            src={'/img/house/' + this.props.deck.houses[0] + '.png'}
+                        />
+                        <img
+                            className='deck-sm-house'
+                            src={'/img/house/' + this.props.deck.houses[1] + '.png'}
+                        />
+                        <img
+                            className='deck-sm-house'
+                            src={'/img/house/' + this.props.deck.houses[2] + '.png'}
+                        />
                     </span>
                     <span className='col-xs-4 col-md-3 deck-date text-right pull-right'>
-                        { moment(this.props.deck.lastUpdated).format('Do MMM YYYY') }
+                        {moment(this.props.deck.lastUpdated).format('Do MMM YYYY')}
                     </span>
                 </div>
-            </div>);
+            </div>
+        );
     }
 }
 

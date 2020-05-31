@@ -1,7 +1,7 @@
-describe('The Flex', function() {
-    integration(function() {
-        describe('when played', function() {
-            beforeEach(function() {
+describe('The Flex', function () {
+    integration(function () {
+        describe('when played', function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'brobnar',
@@ -17,35 +17,35 @@ describe('The Flex', function() {
                 this.player1.play(this.theFlex);
             });
 
-            describe('and a non exausted even powered creature is selected', function() {
-                beforeEach(function() {
+            describe('and a non exausted even powered creature is selected', function () {
+                beforeEach(function () {
                     this.player1.clickCard(this.troll);
                 });
 
-                it('should gain exhaust the target', function() {
+                it('should gain exhaust the target', function () {
                     expect(this.troll.exhausted).toBe(true);
                 });
 
-                it('should give amber equal to half the power', function() {
+                it('should give amber equal to half the power', function () {
                     expect(this.player1.amber).toBe(4);
                 });
             });
 
-            describe('and a non exausted odd powered creature is selected', function() {
-                beforeEach(function() {
+            describe('and a non exausted odd powered creature is selected', function () {
+                beforeEach(function () {
                     this.player1.clickCard(this.cowfyne);
                 });
 
-                it('should gain exhaust the target', function() {
+                it('should gain exhaust the target', function () {
                     expect(this.cowfyne.exhausted).toBe(true);
                 });
 
-                it('should give amber equal to half the power rounded down', function() {
+                it('should give amber equal to half the power rounded down', function () {
                     expect(this.player1.amber).toBe(2);
                 });
             });
 
-            it('should not be able to select an exausted creature', function() {
+            it('should not be able to select an exausted creature', function () {
                 expect(this.player1).not.toBeAbleToSelect(this.bingleBangbang);
             });
         });

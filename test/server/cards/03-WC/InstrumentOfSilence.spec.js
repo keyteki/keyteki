@@ -1,7 +1,7 @@
-describe('Instrument of Silence', function() {
-    integration(function() {
-        describe('Instrument of Silence\'s ability', function() {
-            beforeEach(function() {
+describe('Instrument of Silence', function () {
+    integration(function () {
+        describe("Instrument of Silence's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'untamed',
@@ -16,13 +16,13 @@ describe('Instrument of Silence', function() {
                 });
             });
 
-            it('should gain an amber when it fights an elusive creature', function() {
+            it('should gain an amber when it fights an elusive creature', function () {
                 this.player1.playUpgrade(this.instrumentOfSilence, this.dustPixie);
                 this.player1.fightWith(this.dustPixie, this.nexus);
                 expect(this.dustPixie.location).toBe('play area');
                 expect(this.player1.amber).toBe(1);
             });
-            it('should gain skirmish from the upgrade', function() {
+            it('should gain skirmish from the upgrade', function () {
                 this.player1.playUpgrade(this.instrumentOfSilence, this.dustPixie);
                 this.player1.fightWith(this.dustPixie, this.yantzeeGang);
                 expect(this.dustPixie.location).toBe('play area');

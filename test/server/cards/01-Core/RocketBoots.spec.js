@@ -1,7 +1,7 @@
-describe('Rocket Boots', function() {
-    integration(function() {
-        describe('Rocket Boots\'s ability', function() {
-            beforeEach(function() {
+describe('Rocket Boots', function () {
+    integration(function () {
+        describe("Rocket Boots's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
@@ -15,7 +15,7 @@ describe('Rocket Boots', function() {
                 });
             });
 
-            it('should ready the character once after reaping with it', function() {
+            it('should ready the character once after reaping with it', function () {
                 this.player1.playUpgrade(this.rocketBoots, this.batdrone);
                 expect(this.rocketBoots.location).toBe('play area');
                 this.player1.reap(this.batdrone);
@@ -26,7 +26,7 @@ describe('Rocket Boots', function() {
                 expect(this.batdrone.exhausted).toBe(true);
             });
 
-            it('should ready the character once after fighting with it', function() {
+            it('should ready the character once after fighting with it', function () {
                 this.player1.playUpgrade(this.rocketBoots, this.batdrone);
                 expect(this.rocketBoots.location).toBe('play area');
                 this.player1.fightWith(this.batdrone, this.snufflegator);

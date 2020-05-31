@@ -1,12 +1,12 @@
-describe('Niffle Kong', function() {
-    integration(function() {
-        describe('Niffle Kong\'s Ability', function() {
-            beforeEach(function() {
+describe('Niffle Kong', function () {
+    integration(function () {
+        describe("Niffle Kong's Ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'untamed',
                         inPlay: ['fuzzy-gruen', 'niffle-ape'],
-                        hand: ['niffle-kong', 'niffle-kong-2', 'save-the-pack'],
+                        hand: ['niffle-kong', 'niffle-kong2', 'save-the-pack'],
                         discard: ['niffle-ape', 'niffle-ape', 'niffle-ape', 'niffle-queen']
                     },
                     player2: {
@@ -18,29 +18,29 @@ describe('Niffle Kong', function() {
                 this.niffleApe1 = this.player1.player.cardsInPlay[1];
             });
 
-            it('should not be able to play with just part 1', function() {
+            it('should not be able to play with just part 1', function () {
                 this.player1.moveCard(this.niffleKong2, 'discard');
                 this.player1.clickCard(this.niffleKong);
                 expect(this.player1).not.toHavePromptButton('Play this creature');
             });
 
-            it('should not be able to play with just part 2', function() {
+            it('should not be able to play with just part 2', function () {
                 this.player1.moveCard(this.niffleKong, 'discard');
                 this.player1.clickCard(this.niffleKong2);
                 expect(this.player1).not.toHavePromptButton('Play this creature');
             });
 
-            it('should be able to play with path 1', function() {
+            it('should be able to play with path 1', function () {
                 this.player1.clickCard(this.niffleKong);
                 expect(this.player1).toHavePromptButton('Play this creature');
             });
 
-            it('should be able to play with part 2', function() {
+            it('should be able to play with part 2', function () {
                 this.player1.clickCard(this.niffleKong2);
                 expect(this.player1).toHavePromptButton('Play this creature');
             });
 
-            it('should play starting with part 1', function() {
+            it('should play starting with part 1', function () {
                 this.player1.play(this.niffleKong);
                 expect(this.niffleKong.location).toBe('play area');
                 expect(this.niffleKong.playedParts).toContain(this.niffleKong2);
@@ -48,7 +48,7 @@ describe('Niffle Kong', function() {
                 expect(this.player1.player.hand).not.toContain(this.niffleKong2);
             });
 
-            it('should play starting with part 2', function() {
+            it('should play starting with part 2', function () {
                 this.player1.play(this.niffleKong2);
                 expect(this.niffleKong2.location).toBe('play area');
                 expect(this.niffleKong2.playedParts).toContain(this.niffleKong);
@@ -56,7 +56,7 @@ describe('Niffle Kong', function() {
                 expect(this.player1.player.hand).not.toContain(this.niffleKong2);
             });
 
-            it('should move both cards to discard after destroyed', function() {
+            it('should move both cards to discard after destroyed', function () {
                 this.player1.play(this.niffleKong);
                 this.niffleKong.tokens.damage = 1;
                 this.player1.play(this.saveThePack);
@@ -66,13 +66,13 @@ describe('Niffle Kong', function() {
                 expect(this.player1.discard).toContain(this.niffleKong2);
             });
 
-            it('should reveal and move all niffle from discard and deck to hand', function() {
+            it('should reveal and move all niffle from discard and deck to hand', function () {
                 this.player1.moveCard(this.niffleQueen, 'deck');
                 this.player1.play(this.niffleKong);
                 expect(this.player1.player.hand.length).toBe(5);
             });
 
-            it('should be able to reap with the creature then deal 3D, destroy an artifact and steal 1A', function() {
+            it('should be able to reap with the creature then deal 3D, destroy an artifact and steal 1A', function () {
                 this.player1.play(this.niffleKong);
                 this.niffleKong.exhausted = false;
                 this.player1.reap(this.niffleKong);
@@ -95,7 +95,7 @@ describe('Niffle Kong', function() {
                 expect(this.player2.amber).toBe(4);
             });
 
-            it('should be able to fight with the creature then deal 3D, destroy an artifact and steal 1A', function() {
+            it('should be able to fight with the creature then deal 3D, destroy an artifact and steal 1A', function () {
                 this.player1.play(this.niffleKong2);
                 this.niffleKong2.exhausted = false;
                 this.player1.fightWith(this.niffleKong2, this.zorg);
@@ -109,7 +109,7 @@ describe('Niffle Kong', function() {
                 expect(this.player2.amber).toBe(4);
             });
 
-            it('should be able to reap with the creature and steal 1A if no enemy creature/artifact are in play', function() {
+            it('should be able to reap with the creature and steal 1A if no enemy creature/artifact are in play', function () {
                 this.player2.moveCard(this.zorg, 'discard');
                 this.player2.moveCard(this.collectorWorm, 'discard');
                 this.player2.moveCard(this.mothergun, 'discard');
@@ -121,7 +121,7 @@ describe('Niffle Kong', function() {
                 expect(this.player2.amber).toBe(4);
             });
 
-            it('should be able to fight with the creature and steal 1A if no enemy creature/artifact are in play', function() {
+            it('should be able to fight with the creature and steal 1A if no enemy creature/artifact are in play', function () {
                 this.player2.moveCard(this.collectorWorm, 'discard');
                 this.player2.moveCard(this.mothergun, 'discard');
                 this.player1.play(this.niffleKong2);
@@ -132,7 +132,7 @@ describe('Niffle Kong', function() {
                 expect(this.player2.amber).toBe(4);
             });
 
-            it('should be archived completely', function() {
+            it('should be archived completely', function () {
                 this.collectorWorm.tokens.ward = 1;
 
                 this.player1.play(this.niffleKong);
@@ -148,14 +148,14 @@ describe('Niffle Kong', function() {
             });
         });
 
-        describe('Niffle Kong\'s Ability should interact with Wild Wormhole', function() {
-            beforeEach(function() {
+        describe("Niffle Kong's Ability should interact with Wild Wormhole", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         amber: 2,
                         house: 'logos',
                         inPlay: ['fuzzy-gruen'],
-                        hand: ['niffle-kong', 'niffle-kong-2', 'wild-wormhole']
+                        hand: ['niffle-kong', 'niffle-kong2', 'wild-wormhole']
                     },
                     player2: {
                         amber: 5,
@@ -164,49 +164,57 @@ describe('Niffle Kong', function() {
                 });
             });
 
-            it('and prevent playing if part 2 is not in player\'s hand', function() {
+            it("and prevent playing if part 2 is not in player's hand", function () {
                 this.player1.moveCard(this.niffleKong, 'deck');
                 this.player1.moveCard(this.niffleKong2, 'discard');
                 this.player1.play(this.wildWormhole);
                 expect(this.niffleKong.location).toBe('deck');
                 expect(this.niffleKong2.location).toBe('discard');
-                expect(this.player1).not.toHavePrompt('Which flank do you want to place this creature on?');
+                expect(this.player1).not.toHavePrompt(
+                    'Which flank do you want to place this creature on?'
+                );
             });
 
-            it('and prevent playing if part 1 is not in player\'s hand', function() {
+            it("and prevent playing if part 1 is not in player's hand", function () {
                 this.player1.moveCard(this.niffleKong, 'discard');
                 this.player1.moveCard(this.niffleKong2, 'deck');
                 this.player1.play(this.wildWormhole);
                 expect(this.niffleKong.location).toBe('discard');
                 expect(this.niffleKong2.location).toBe('deck');
-                expect(this.player1).not.toHavePrompt('Which flank do you want to place this creature on?');
+                expect(this.player1).not.toHavePrompt(
+                    'Which flank do you want to place this creature on?'
+                );
             });
 
-            it('and prevent playing even if part 2 is in player\'s hand', function() {
+            it("and prevent playing even if part 2 is in player's hand", function () {
                 this.player1.moveCard(this.niffleKong, 'deck');
                 this.player1.play(this.wildWormhole);
                 expect(this.niffleKong.location).toBe('deck');
                 expect(this.niffleKong2.location).toBe('hand');
-                expect(this.player1).not.toHavePrompt('Which flank do you want to place this creature on?');
+                expect(this.player1).not.toHavePrompt(
+                    'Which flank do you want to place this creature on?'
+                );
             });
 
-            it('and prevent playing even if part 1 is in player\'s hand', function() {
+            it("and prevent playing even if part 1 is in player's hand", function () {
                 this.player1.moveCard(this.niffleKong2, 'deck');
                 this.player1.play(this.wildWormhole);
                 expect(this.niffleKong.location).toBe('hand');
                 expect(this.niffleKong2.location).toBe('deck');
-                expect(this.player1).not.toHavePrompt('Which flank do you want to place this creature on?');
+                expect(this.player1).not.toHavePrompt(
+                    'Which flank do you want to place this creature on?'
+                );
             });
         });
 
-        describe('Niffle Kong\'s Ability should interact with Nature´s Call', function() {
-            beforeEach(function() {
+        describe("Niffle Kong's Ability should interact with Nature´s Call", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         amber: 2,
                         house: 'untamed',
                         inPlay: ['fuzzy-gruen'],
-                        hand: ['niffle-kong', 'niffle-kong-2']
+                        hand: ['niffle-kong', 'niffle-kong2']
                     },
                     player2: {
                         amber: 5,
@@ -216,7 +224,7 @@ describe('Niffle Kong', function() {
                 });
             });
 
-            it('should play part 1 after being returned to hand', function() {
+            it('should play part 1 after being returned to hand', function () {
                 this.player1.play(this.niffleKong);
                 this.player1.endTurn();
                 this.player2.clickPrompt('untamed');
@@ -236,7 +244,7 @@ describe('Niffle Kong', function() {
                 this.player1.play(this.niffleKong2);
             });
 
-            it('should play part 2 after being returned to hand', function() {
+            it('should play part 2 after being returned to hand', function () {
                 this.player1.play(this.niffleKong2);
                 this.player1.endTurn();
                 this.player2.clickPrompt('untamed');

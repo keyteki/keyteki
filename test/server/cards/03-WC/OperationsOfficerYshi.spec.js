@@ -1,11 +1,15 @@
-describe('Operations Officer Yshi', function() {
-    integration(function() {
-        describe('Operations Officer Yshi\'s ability', function() {
-            beforeEach(function() {
+describe('Operations Officer Yshi', function () {
+    integration(function () {
+        describe("Operations Officer Yshi's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'staralliance',
-                        inPlay: ['lieutenant-khrkhar', 'operations-officer-yshi', 'sensor-chief-garcia']
+                        inPlay: [
+                            'lieutenant-khrkhar',
+                            'operations-officer-yshi',
+                            'sensor-chief-garcia'
+                        ]
                     },
                     player2: {
                         amber: 4,
@@ -13,7 +17,7 @@ describe('Operations Officer Yshi', function() {
                     }
                 });
             });
-            it('should grant reap: capture 1 to its neighbors', function() {
+            it('should grant reap: capture 1 to its neighbors', function () {
                 this.player1.reap(this.lieutenantKhrkhar);
                 expect(this.player1.amber).toBe(1);
                 expect(this.player2.amber).toBe(3);
@@ -25,8 +29,8 @@ describe('Operations Officer Yshi', function() {
                 expect(this.player2.amber).toBe(2);
                 expect(this.sensorChiefGarcia.tokens.amber).toBe(1);
             });
-            it('should grant fight: capture 1 to its neighbors', function() {
-                this.player1.fightWith(this.lieutenantKhrkhar,this.dustPixie);
+            it('should grant fight: capture 1 to its neighbors', function () {
+                this.player1.fightWith(this.lieutenantKhrkhar, this.dustPixie);
                 expect(this.player2.amber).toBe(3);
                 expect(this.lieutenantKhrkhar.tokens.amber).toBe(1);
             });

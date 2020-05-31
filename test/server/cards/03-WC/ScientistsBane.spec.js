@@ -1,7 +1,7 @@
-describe('Scientists\' Bane', function() {
-    integration(function() {
-        describe('Scientists\' Bane\'s ability', function() {
-            beforeEach(function() {
+describe("Scientists' Bane", function () {
+    integration(function () {
+        describe("Scientists' Bane's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         amber: 4,
@@ -15,7 +15,7 @@ describe('Scientists\' Bane', function() {
                     }
                 });
             });
-            it('prompt for a scientist creature to destroy', function() {
+            it('prompt for a scientist creature to destroy', function () {
                 this.player1.play(this.scientistsBane);
                 expect(this.player1).toHavePrompt('Scientists’ Bane');
                 expect(this.player1).toBeAbleToSelect(this.nogiSmartfist);

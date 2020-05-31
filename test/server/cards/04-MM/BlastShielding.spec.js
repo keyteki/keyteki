@@ -1,11 +1,16 @@
-describe('blast-shielding', function() {
-    integration(function() {
-        describe('Blast Shielding\'s ability', function() {
-            beforeEach(function() {
+describe('blast-shielding', function () {
+    integration(function () {
+        describe("Blast Shielding's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'staralliance',
-                        inPlay: ['chief-engineer-walls','cxo-taber','sci-officer-qincan','tactical-officer-moon'],
+                        inPlay: [
+                            'chief-engineer-walls',
+                            'cxo-taber',
+                            'sci-officer-qincan',
+                            'tactical-officer-moon'
+                        ],
                         hand: ['blast-shielding']
                     },
                     player2: {
@@ -15,13 +20,13 @@ describe('blast-shielding', function() {
                 });
             });
 
-            it('should should apply to a creature', function() {
+            it('should should apply to a creature', function () {
                 this.player1.playUpgrade(this.blastShielding, this.cxoTaber);
                 expect(this.cxoTaber.location).toBe('play area');
                 expect(this.cxoTaber.upgrades).toContain(this.blastShielding);
             });
 
-            it('should get prompt to move blast shield when creature is used, and not move if they want to not move it', function() {
+            it('should get prompt to move blast shield when creature is used, and not move if they want to not move it', function () {
                 this.player1.playUpgrade(this.blastShielding, this.cxoTaber);
                 expect(this.cxoTaber.tokens.armor).toBe(2);
                 expect(this.cxoTaber.location).toBe('play area');
@@ -34,7 +39,7 @@ describe('blast-shielding', function() {
                 expect(this.cxoTaber.upgrades).toContain(this.blastShielding);
             });
 
-            it('should get prompt to move blast shield when creature is used, and be able to move it', function() {
+            it('should get prompt to move blast shield when creature is used, and be able to move it', function () {
                 this.player1.playUpgrade(this.blastShielding, this.cxoTaber);
                 expect(this.cxoTaber.location).toBe('play area');
                 expect(this.cxoTaber.upgrades).toContain(this.blastShielding);

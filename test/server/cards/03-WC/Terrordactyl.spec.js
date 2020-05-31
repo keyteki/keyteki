@@ -1,7 +1,7 @@
-describe('Terrordactyl', function() {
-    integration(function() {
-        describe('Terrordactyl\'s play ability', function() {
-            beforeEach(function() {
+describe('Terrordactyl', function () {
+    integration(function () {
+        describe("Terrordactyl's play ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'saurian',
@@ -13,14 +13,14 @@ describe('Terrordactyl', function() {
                 });
             });
 
-            it('should enter play stunned', function() {
+            it('should enter play stunned', function () {
                 this.player1.play(this.terrordactyl);
                 expect(this.terrordactyl.stunned).toBe(true);
             });
         });
 
-        describe('Terrordactyl\'s fight ability', function() {
-            beforeEach(function() {
+        describe("Terrordactyl's fight ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'saurian',
@@ -32,7 +32,7 @@ describe('Terrordactyl', function() {
                 });
             });
 
-            it('should deal only 4 damages when fighting and 4 damages to neighbors', function() {
+            it('should deal only 4 damages when fighting and 4 damages to neighbors', function () {
                 this.player1.fightWith(this.terrordactyl, this.krump);
                 expect(this.terrordactyl.tokens.damage).toBe(6);
                 expect(this.krump.tokens.damage).toBe(4);

@@ -1,7 +1,7 @@
-describe('Exhume', function() {
-    integration(function() {
-        describe('Exhume\'s play ability', function() {
-            beforeEach(function() {
+describe('Exhume', function () {
+    integration(function () {
+        describe("Exhume's play ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'dis',
@@ -18,7 +18,7 @@ describe('Exhume', function() {
                 });
             });
 
-            it('should allow selecting non-alpha creatures', function() {
+            it('should allow selecting non-alpha creatures', function () {
                 this.player1.play(this.exhume);
                 expect(this.player1).toBeAbleToSelect(this.ancientBear);
                 expect(this.player1).toBeAbleToSelect(this.shooler);

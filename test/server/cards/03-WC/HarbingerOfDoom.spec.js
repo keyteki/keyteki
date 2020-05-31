@@ -1,7 +1,7 @@
-describe('Harbinger of Doom', function() {
-    integration(function() {
-        describe('Harbinger of Doom\'s ability', function() {
-            beforeEach(function() {
+describe('Harbinger of Doom', function () {
+    integration(function () {
+        describe("Harbinger of Doom's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'dis',
@@ -14,7 +14,7 @@ describe('Harbinger of Doom', function() {
                     }
                 });
             });
-            it('should clear the board when it\'s destroyed', function() {
+            it("should clear the board when it's destroyed", function () {
                 this.player1.fightWith(this.harbingerOfDoom, this.mother);
                 expect(this.harbingerOfDoom.location).toBe('discard');
                 expect(this.spyyyder.location).toBe('discard');
@@ -25,7 +25,7 @@ describe('Harbinger of Doom', function() {
             });
         });
 
-        describe('2 Harbinger of Doom and a warded creature', function() {
+        describe('2 Harbinger of Doom and a warded creature', function () {
             beforeEach(function () {
                 this.setupTest({
                     player1: {
@@ -42,7 +42,7 @@ describe('Harbinger of Doom', function() {
                 this.harbingerOfDoom2 = this.player2.inPlay[1];
             });
 
-            it('should destroy all creatures', function() {
+            it('should destroy all creatures', function () {
                 this.player1.play(this.gatewayToDis);
                 this.player1.clickCard(this.harbingerOfDoom);
 

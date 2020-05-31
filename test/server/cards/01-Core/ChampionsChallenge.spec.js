@@ -1,7 +1,7 @@
-describe('Champion\'s Challenge', function() {
-    integration(function() {
-        describe('Champion\'s Challenge\'s ability', function() {
-            beforeEach(function() {
+describe("Champion's Challenge", function () {
+    integration(function () {
+        describe("Champion's Challenge's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'brobnar',
@@ -14,7 +14,7 @@ describe('Champion\'s Challenge', function() {
                 });
             });
 
-            it('should destroy all but one of the enemy creatures if I have none in play', function() {
+            it('should destroy all but one of the enemy creatures if I have none in play', function () {
                 this.player1.play(this.championSChallenge);
                 expect(this.player1).toHavePrompt('Champion’s Challenge');
                 expect(this.player1).toBeAbleToSelect(this.dextre);
@@ -25,7 +25,7 @@ describe('Champion\'s Challenge', function() {
                 expect(this.ganymedeArchivist.location).toBe('discard');
             });
 
-            it('should fight with my creature and the remaining one if I only have one', function() {
+            it('should fight with my creature and the remaining one if I only have one', function () {
                 this.player1.play(this.troll);
                 expect(this.troll.exhausted).toBe(true);
                 this.player1.play(this.championSChallenge);
@@ -48,7 +48,7 @@ describe('Champion\'s Challenge', function() {
                 expect(this.troll.exhausted).toBe(true);
             });
 
-            it('should destroy all but one of my creatures and opponents creatures and fight with the remainder', function() {
+            it('should destroy all but one of my creatures and opponents creatures and fight with the remainder', function () {
                 this.player1.play(this.bumpsy);
                 this.player1.play(this.firespitter);
                 this.player1.play(this.championSChallenge);
@@ -63,12 +63,19 @@ describe('Champion\'s Challenge', function() {
                 expect(this.firespitter.tokens.damage).toBe(2);
             });
         });
-        describe('Champion\'s Challenge\'s ability', function() {
-            beforeEach(function() {
+        describe("Champion's Challenge's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'brobnar',
-                        hand: ['punch', 'champion-s-challenge', 'troll', 'bumpsy', 'firespitter', 'troll']
+                        hand: [
+                            'punch',
+                            'champion-s-challenge',
+                            'troll',
+                            'bumpsy',
+                            'firespitter',
+                            'troll'
+                        ]
                     },
                     player2: {
                         amber: 1
@@ -76,7 +83,7 @@ describe('Champion\'s Challenge', function() {
                 });
             });
 
-            it('should allow me to reap with the remaning creature I have if my opponent\'s board is empty', function() {
+            it("should allow me to reap with the remaning creature I have if my opponent's board is empty", function () {
                 this.player1.play(this.troll);
                 expect(this.troll.exhausted).toBe(true);
                 this.player1.play(this.championSChallenge);

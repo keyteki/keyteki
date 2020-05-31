@@ -7,7 +7,10 @@ class Mug extends Card {
                 activePromptTitle: 'Choose a captured amber to move to your pool.',
                 cardType: 'creature',
                 gameAction: ability.actions.sequential([
-                    ability.actions.returnAmber(context => ({ amount: 1, recipient: context.player })),
+                    ability.actions.returnAmber((context) => ({
+                        amount: 1,
+                        recipient: context.player
+                    })),
                     ability.actions.dealDamage({ amount: 2 })
                 ])
             },

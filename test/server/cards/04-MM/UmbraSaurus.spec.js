@@ -1,6 +1,6 @@
-describe('Umbra-Saurus', function() {
+describe('Umbra-Saurus', function () {
     integration(function () {
-        describe('Umbra-Saurus\'s Reap ability', function () {
+        describe("Umbra-Saurus's Reap ability", function () {
             beforeEach(function () {
                 this.setupTest({
                     player1: {
