@@ -1,7 +1,7 @@
-describe('Ritual of Tognath', function() {
-    integration(function() {
-        describe("Ritual of Tognath's ability", function() {
-            beforeEach(function() {
+describe('Ritual of Tognath', function () {
+    integration(function () {
+        describe("Ritual of Tognath's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'dis',
@@ -14,8 +14,7 @@ describe('Ritual of Tognath', function() {
                     }
                 });
             });
-
-            it('should destroy 2 friendly creatures', function() {
+            it('should destroy 2 friendly creatures', function () {
                 this.player1.play(this.ritualOfTognath);
 
                 expect(this.player1).toBeAbleToSelect(this.spyyyder);
