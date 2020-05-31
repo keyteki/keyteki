@@ -78,6 +78,10 @@ class User {
         return this.userData.permissions && this.userData.permissions.isAdmin;
     }
 
+    get isWinner() {
+        return this.userData.permissions && this.userData.permissions.isWinner;
+    }
+
     get isContributor() {
         return this.userData.permissions && this.userData.permissions.isContributor;
     }
@@ -89,6 +93,10 @@ class User {
     get role() {
         if (this.isAdmin) {
             return 'admin';
+        }
+
+        if (this.isWinner) {
+            return 'winner';
         }
 
         if (this.isContributor) {
