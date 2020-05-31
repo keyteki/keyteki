@@ -3,8 +3,8 @@ const Card = require('../../Card.js');
 class HedonisticIntent extends Card {
     setupCardAbilities(ability) {
         this.play({
-            gameAction: ability.actions.exalt(context => ({
-                target: context.game.creaturesInPlay.filter(card => card.isOnFlank())
+            gameAction: ability.actions.exalt((context) => ({
+                target: context.game.creaturesInPlay.filter((card) => card.isOnFlank())
             }))
         });
     }

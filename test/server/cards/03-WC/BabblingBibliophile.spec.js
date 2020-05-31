@@ -1,11 +1,11 @@
-describe('Babbling Bibliophile', function() {
-    integration(function() {
-        describe('BB\'s Reap ability', function() {
-            beforeEach(function() {
+describe('Babbling Bibliophile', function () {
+    integration(function () {
+        describe("BB's Reap ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
-                        hand: ['alaka','labwork'],
+                        hand: ['alaka', 'labwork'],
                         inPlay: ['babbling-bibliophile']
                     },
                     player2: {
@@ -14,7 +14,7 @@ describe('Babbling Bibliophile', function() {
                 });
             });
 
-            it('should draw two cards when it reaps', function() {
+            it('should draw two cards when it reaps', function () {
                 this.player1.reap(this.babblingBibliophile);
                 expect(this.player1.hand.length).toBe(4);
                 expect(this.player1.amber).toBe(1);

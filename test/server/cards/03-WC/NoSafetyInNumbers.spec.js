@@ -1,7 +1,7 @@
-describe('No Safety in Numbers', function() {
-    integration(function() {
-        describe('No Safety in Numbers\'s play ability', function() {
-            beforeEach(function() {
+describe('No Safety in Numbers', function () {
+    integration(function () {
+        describe("No Safety in Numbers's play ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'shadows',
@@ -16,7 +16,7 @@ describe('No Safety in Numbers', function() {
                 });
             });
 
-            it('should not deal damage to any creature', function() {
+            it('should not deal damage to any creature', function () {
                 this.player1.play(this.noSafetyInNumbers);
 
                 expect(this.troll.hasToken('damage')).toBe(false);
@@ -26,8 +26,8 @@ describe('No Safety in Numbers', function() {
             });
         });
 
-        describe('No Safety in Numbers\'s play ability', function() {
-            beforeEach(function() {
+        describe("No Safety in Numbers's play ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'shadows',
@@ -42,7 +42,7 @@ describe('No Safety in Numbers', function() {
                 });
             });
 
-            it('should deal 3 damage to Brobnar and Shadows', function() {
+            it('should deal 3 damage to Brobnar and Shadows', function () {
                 this.player1.play(this.noSafetyInNumbers);
 
                 expect(this.troll.tokens.damage).toBe(3);

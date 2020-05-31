@@ -1,7 +1,7 @@
-describe('Mantle of the Zealot', function() {
-    integration(function() {
-        describe('Mantle of the Zealot\'s ability', function() {
-            beforeEach(function() {
+describe('Mantle of the Zealot', function () {
+    integration(function () {
+        describe("Mantle of the Zealot's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'sanctum',
@@ -14,7 +14,7 @@ describe('Mantle of the Zealot', function() {
                 });
             });
 
-            it('should allow using a non-house card', function() {
+            it('should allow using a non-house card', function () {
                 this.player1.playUpgrade(this.mantleOfTheZealot, this.grabberJammer);
                 this.player1.clickCard(this.grabberJammer);
                 expect(this.player1).toHavePrompt('Grabber Jammer');

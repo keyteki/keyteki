@@ -1,7 +1,7 @@
-describe('AmberConductionUnit', function() {
-    integration(function() {
-        describe('AmberConductionUnit', function() {
-            beforeEach(function() {
+describe('AmberConductionUnit', function () {
+    integration(function () {
+        describe('AmberConductionUnit', function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'shadows',
@@ -17,7 +17,7 @@ describe('AmberConductionUnit', function() {
                 });
             });
 
-            it('stuns the first creature to reap', function() {
+            it('stuns the first creature to reap', function () {
                 this.player1.endTurn();
 
                 this.player2.clickPrompt('brobnar');
@@ -26,7 +26,7 @@ describe('AmberConductionUnit', function() {
                 expect(this.grenadeSnib.stunned).toBe(true);
             });
 
-            it('stuns a creature with an onReap', function() {
+            it('stuns a creature with an onReap', function () {
                 this.player1.endTurn();
 
                 this.player2.clickPrompt('brobnar');
@@ -36,7 +36,7 @@ describe('AmberConductionUnit', function() {
                 expect(this.troll.stunned).toBe(true);
             });
 
-            it('does not stun the second creature to reap', function() {
+            it('does not stun the second creature to reap', function () {
                 this.player1.endTurn();
 
                 this.player2.clickPrompt('brobnar');

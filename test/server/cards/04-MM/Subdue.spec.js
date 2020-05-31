@@ -1,7 +1,7 @@
-describe('Subdue', function() {
-    integration(function() {
-        describe('Subdue\'s ability', function() {
-            beforeEach(function() {
+describe('Subdue', function () {
+    integration(function () {
+        describe("Subdue's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'staralliance',
@@ -14,13 +14,13 @@ describe('Subdue', function() {
                 });
             });
 
-            it('should deal one damage to a creature', function() {
+            it('should deal one damage to a creature', function () {
                 this.player1.play(this.subdue);
                 this.player1.clickCard(this.helperBot);
                 expect(this.helperBot.location).toBe('discard');
             });
 
-            it('should stun the damaged creature', function() {
+            it('should stun the damaged creature', function () {
                 this.player1.play(this.subdue);
                 this.player1.clickCard(this.dodger);
                 expect(this.dodger.location).toBe('play area');

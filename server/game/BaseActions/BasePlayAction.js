@@ -20,10 +20,16 @@ class BasePlayAction extends BaseAbility {
     }
 
     meetsRequirements(context = this.createContext(), ignoredRequirements = []) {
-        if(!ignoredRequirements.includes('location') && !context.player.isCardInPlayableLocation(context.source, 'play')) {
+        if (
+            !ignoredRequirements.includes('location') &&
+            !context.player.isCardInPlayableLocation(context.source, 'play')
+        ) {
             return 'location';
-        } else if(!ignoredRequirements.includes('cannotTrigger') &&
-            (!context.player.checkRestrictions('play', context, this.abilityType) || !context.source.checkRestrictions('play', context, this.abilityType))) {
+        } else if (
+            !ignoredRequirements.includes('cannotTrigger') &&
+            (!context.player.checkRestrictions('play', context, this.abilityType) ||
+                !context.source.checkRestrictions('play', context, this.abilityType))
+        ) {
             return 'cannotTrigger';
         }
 
@@ -40,10 +46,12 @@ class BasePlayAction extends BaseAbility {
     }
 
     addBonusIconResolution(event, context) {
-        event.addSubEvent(context.game.getEvent('unnamedEvent', {}, () => {
+        event.addSubEvent(
+            context.game.getEvent('unnamedEvent', {}, () => {
             context.game.checkGameState(true);
             context.game.actions.resolveBonusIcons().resolve(this.card, context);
-        }));
+            })
+        );
     }
 
     isAction() {
@@ -56,4 +64,3 @@ class BasePlayAction extends BaseAbility {
 }
 
 module.exports = BasePlayAction;
-

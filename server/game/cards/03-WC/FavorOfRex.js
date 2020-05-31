@@ -7,7 +7,7 @@ class FavorOfRex extends Card {
                 controller: 'any',
                 cardType: 'creature',
                 gameAction: ability.actions.resolveAbility({
-                    ability: ability => ability.isPlay()
+                    ability: (ability) => ability.isPlay()
                 })
             },
             effect: 'trigger play effect of {0}'

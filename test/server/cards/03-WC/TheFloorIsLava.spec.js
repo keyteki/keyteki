@@ -1,12 +1,17 @@
-describe('The Floor Is Lava', function() {
-    integration(function() {
-        describe('The Floor Is Lava\'s ability', function() {
-            beforeEach(function() {
+describe('The Floor Is Lava', function () {
+    integration(function () {
+        describe("The Floor Is Lava's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'brobnar',
                         hand: ['igon-the-terrible', 'igon-the-green'],
-                        inPlay: ['the-floor-is-lava', 'dominator-bauble', 'groke', 'ganger-chieftain']
+                        inPlay: [
+                            'the-floor-is-lava',
+                            'dominator-bauble',
+                            'groke',
+                            'ganger-chieftain'
+                        ]
                     },
                     player2: {
                         inPlay: ['mother', 'troll', 'dextre']
@@ -14,7 +19,7 @@ describe('The Floor Is Lava', function() {
                 });
             });
 
-            it('should prompt to deal damage to a friendly creature and an enemy creature', function() {
+            it('should prompt to deal damage to a friendly creature and an enemy creature', function () {
                 this.player1.endTurn();
                 this.player2.clickPrompt('logos');
                 this.player2.endTurn();
@@ -37,7 +42,7 @@ describe('The Floor Is Lava', function() {
                 this.player1.clickPrompt('brobnar');
             });
 
-            it('should prompt to deal damage to no friendly creature and an enemy creature', function() {
+            it('should prompt to deal damage to no friendly creature and an enemy creature', function () {
                 this.player1.player.moveCard(this.groke, 'discard');
                 this.player1.player.moveCard(this.gangerChieftain, 'discard');
 
@@ -56,7 +61,7 @@ describe('The Floor Is Lava', function() {
                 this.player1.clickPrompt('brobnar');
             });
 
-            it('should prompt to deal damage to a friendly creature and no enemy creature', function() {
+            it('should prompt to deal damage to a friendly creature and no enemy creature', function () {
                 this.player2.player.moveCard(this.troll, 'discard');
                 this.player2.player.moveCard(this.mother, 'discard');
                 this.player2.player.moveCard(this.dextre, 'discard');

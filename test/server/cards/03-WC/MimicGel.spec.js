@@ -1,11 +1,17 @@
-describe('Mimic Gel', function() {
-    integration(function() {
-        describe('Mimic Gel\'s ability', function() {
-            beforeEach(function() {
+describe('Mimic Gel', function () {
+    integration(function () {
+        describe("Mimic Gel's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
-                        inPlay: ['batdrone', 'key-to-dis', 'tantadlin', 'titan-guardian', 'xenos-bloodshadow'],
+                        inPlay: [
+                            'batdrone',
+                            'key-to-dis',
+                            'tantadlin',
+                            'titan-guardian',
+                            'xenos-bloodshadow'
+                        ],
                         hand: ['mimic-gel', 'phase-shift', 'dextre']
                     },
                     player2: {
@@ -14,7 +20,7 @@ describe('Mimic Gel', function() {
                 });
             });
 
-            it('should not allow Mimic Gel to be played if there are no creatures in play', function() {
+            it('should not allow Mimic Gel to be played if there are no creatures in play', function () {
                 this.player1.useAction(this.keyToDis, true);
                 expect(this.batdrone.location).toBe('discard');
                 expect(this.panpacaAnga.location).toBe('discard');
@@ -25,14 +31,14 @@ describe('Mimic Gel', function() {
                 expect(this.player1).not.toHavePromptButton('Play this creature');
             });
 
-            it('should not stop non mimic gel cards from being played', function() {
+            it('should not stop non mimic gel cards from being played', function () {
                 this.player1.useAction(this.keyToDis, true);
                 this.player1.clickCard(this.dextre);
 
                 expect(this.player1).toHavePromptButton('Play this creature');
             });
 
-            it('should prompt the player to pick a creature when played', function() {
+            it('should prompt the player to pick a creature when played', function () {
                 this.player1.clickCard(this.mimicGel);
                 this.player1.clickPrompt('Play this creature');
                 this.player1.clickPrompt('Left');
@@ -44,7 +50,7 @@ describe('Mimic Gel', function() {
                 expect(this.player1).toBeAbleToSelect(this.xenosBloodshadow);
             });
 
-            it('should come into play as a copy of the chosen creature', function() {
+            it('should come into play as a copy of the chosen creature', function () {
                 expect(this.mimicGel.hasTrait('shapeshifter')).toBe(true);
                 this.player1.clickCard(this.mimicGel);
                 this.player1.clickPrompt('Play this creature');
@@ -61,7 +67,7 @@ describe('Mimic Gel', function() {
                 expect(this.titanGuardian.power).toBe(7);
             });
 
-            it('should allow copying creatures with alpha keyword', function() {
+            it('should allow copying creatures with alpha keyword', function () {
                 expect(this.mimicGel.hasTrait('shapeshifter')).toBe(true);
                 this.player1.clickCard(this.mimicGel);
                 this.player1.clickPrompt('Play this creature');
@@ -79,7 +85,7 @@ describe('Mimic Gel', function() {
                 expect(this.tantadlin.power).toBe(11);
             });
 
-            xit('should copy omega keyword and end turn', function() {
+            it('should copy omega keyword and end turn', function () {
                 expect(this.mimicGel.hasTrait('shapeshifter')).toBe(true);
                 this.player1.clickCard(this.mimicGel);
                 this.player1.clickPrompt('Play this creature');
@@ -95,10 +101,12 @@ describe('Mimic Gel', function() {
                 expect(this.mimicGel.power).toBe(1);
                 expect(this.mimicGel.name).toBe('Duskwitch');
                 expect(this.mimicGel.exhausted).toBe(false);
-                expect(this.player2).toHavePrompt('Choose which house you want to activate this turn');
+                expect(this.player2).toHavePrompt(
+                    'Choose which house you want to activate this turn'
+                );
             });
 
-            xit('should copy elusive and hazardous keyword', function() {
+            it('should copy elusive and hazardous keyword', function () {
                 this.player1.clickCard(this.mimicGel);
                 this.player1.clickPrompt('Play this creature');
                 this.player1.clickPrompt('Left');
@@ -116,7 +124,7 @@ describe('Mimic Gel', function() {
                 expect(this.mimicGel.tokens.damage).toBeUndefined();
             });
 
-            xit('should copy taunt keyword', function() {
+            it('should copy taunt keyword', function () {
                 this.player1.clickCard(this.mimicGel);
                 this.player1.clickPrompt('Play this creature');
                 this.player1.clickPrompt('Left');

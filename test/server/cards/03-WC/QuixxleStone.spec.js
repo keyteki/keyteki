@@ -1,7 +1,7 @@
-describe('Quixxle Stone', function() {
-    integration(function() {
-        describe('Quixxle Stone\'s Persistent Effect', function() {
-            beforeEach(function() {
+describe('Quixxle Stone', function () {
+    integration(function () {
+        describe("Quixxle Stone's Persistent Effect", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'dis',
@@ -16,7 +16,7 @@ describe('Quixxle Stone', function() {
                 });
             });
 
-            it('player has less creatures, can play multiple creatures', function() {
+            it('player has less creatures, can play multiple creatures', function () {
                 this.player2.moveCard(this.badPenny, 'play area');
                 this.player2.moveCard(this.umbra, 'play area');
                 this.player1.play(this.shooler);
@@ -33,14 +33,14 @@ describe('Quixxle Stone', function() {
                 expect(this.player1.inPlay).not.toContain(this.rotgrub);
             });
 
-            it('equal amount of creatures in play, can play a creature', function() {
+            it('equal amount of creatures in play, can play a creature', function () {
                 this.player1.play(this.shooler);
                 expect(this.player1.inPlay.length).toBe(2);
                 expect(this.player1.inPlay).toContain(this.quixxleStone);
                 expect(this.player1.inPlay).toContain(this.shooler);
             });
 
-            it('owner player has more creatures, cannot play a creature', function() {
+            it('owner player has more creatures, cannot play a creature', function () {
                 this.player1.play(this.malison);
                 this.player1.clickCard(this.shooler);
                 expect(this.player1).toHavePrompt('Shooler');
@@ -50,7 +50,7 @@ describe('Quixxle Stone', function() {
                 expect(this.player1.inPlay).toContain(this.malison);
             });
 
-            it('owner player has more creatures, can play non-creature card', function() {
+            it('owner player has more creatures, can play non-creature card', function () {
                 this.player1.play(this.malison);
                 this.player1.clickCard(this.handOfDis);
                 expect(this.player1).toHavePrompt('Hand of Dis');
@@ -60,7 +60,7 @@ describe('Quixxle Stone', function() {
                 expect(this.player1.inPlay).toContain(this.malison);
             });
 
-            it('non-owner player has more creatures, cannot play a creature', function() {
+            it('non-owner player has more creatures, cannot play a creature', function () {
                 this.player2.moveCard(this.badPenny, 'play area');
                 this.player1.endTurn();
                 this.player2.clickPrompt('shadows');

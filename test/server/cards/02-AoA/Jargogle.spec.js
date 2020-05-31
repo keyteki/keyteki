@@ -1,12 +1,19 @@
-describe('Jargogle', function() {
-    integration(function() {
-        describe('play ability', function() {
-            beforeEach(function() {
+describe('Jargogle', function () {
+    integration(function () {
+        describe('play ability', function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
                         inPlay: ['helper-bot', 'dharna', 'strange-gizmo'],
-                        hand: ['jargogle', 'bumblebird', 'binding-irons', 'deepwood-druid', 'duskwitch', 'entropic-swirl']
+                        hand: [
+                            'jargogle',
+                            'bumblebird',
+                            'binding-irons',
+                            'deepwood-druid',
+                            'duskwitch',
+                            'entropic-swirl'
+                        ]
                     },
                     player2: {
                         amber: 4,
@@ -15,7 +22,7 @@ describe('Jargogle', function() {
                 });
             });
 
-            it('should select a card to place under Jargogle', function() {
+            it('should select a card to place under Jargogle', function () {
                 this.player1.play(this.jargogle);
                 expect(this.player1).toBeAbleToSelect(this.bumblebird);
                 expect(this.player1).toBeAbleToSelect(this.deepwoodDruid);
@@ -28,7 +35,7 @@ describe('Jargogle', function() {
                 expect(this.jargogle.childCards).toContain(this.bindingIrons);
             });
 
-            it('should player after destroyed during player\'s turn', function() {
+            it("should player after destroyed during player's turn", function () {
                 this.player1.play(this.jargogle);
                 this.player1.clickCard(this.bindingIrons);
                 this.jargogle.exhausted = false;
@@ -38,7 +45,7 @@ describe('Jargogle', function() {
                 expect(this.player2.player.chains).toBe(3);
             });
 
-            it('should archive after destroyed by opponent', function() {
+            it('should archive after destroyed by opponent', function () {
                 this.player1.play(this.jargogle);
                 this.player1.clickCard(this.bindingIrons);
                 this.player1.endTurn();
@@ -49,7 +56,7 @@ describe('Jargogle', function() {
                 expect(this.player1.player.archives).toContain(this.bindingIrons);
             });
 
-            it('should play and consider deploy effect of card', function() {
+            it('should play and consider deploy effect of card', function () {
                 this.player1.play(this.jargogle);
                 this.player1.clickCard(this.deepwoodDruid);
                 this.jargogle.exhausted = false;
@@ -66,7 +73,7 @@ describe('Jargogle', function() {
                 expect(this.jargogle.location).toBe('discard');
             });
 
-            it('should not play and discard alpha card', function() {
+            it('should not play and discard alpha card', function () {
                 this.player1.play(this.jargogle);
                 this.player1.clickCard(this.bumblebird);
                 this.jargogle.exhausted = false;
@@ -75,31 +82,35 @@ describe('Jargogle', function() {
                 expect(this.bumblebird.location).toBe('discard');
             });
 
-            it('should end turn after fighting and playing omega', function() {
+            it('should end turn after fighting and playing omega', function () {
                 this.player1.play(this.jargogle);
                 this.player1.clickCard(this.duskwitch);
                 this.jargogle.exhausted = false;
                 this.player1.fightWith(this.jargogle, this.shorty);
                 this.player1.clickPrompt('Left');
                 expect(this.duskwitch.exhausted).toBe(false);
-                expect(this.player2).toHavePrompt('Choose which house you want to activate this turn');
+                expect(this.player2).toHavePrompt(
+                    'Choose which house you want to activate this turn'
+                );
                 this.player2.clickPrompt('brobnar');
                 expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should end turn after destroyed by action and playing omega', function() {
+            it('should end turn after destroyed by action and playing omega', function () {
                 this.player1.play(this.jargogle);
                 this.player1.clickCard(this.duskwitch);
                 this.player1.play(this.entropicSwirl);
                 this.player1.clickCard(this.jargogle);
                 this.player1.clickPrompt('Left');
                 expect(this.duskwitch.exhausted).toBe(false);
-                expect(this.player2).toHavePrompt('Choose which house you want to activate this turn');
+                expect(this.player2).toHavePrompt(
+                    'Choose which house you want to activate this turn'
+                );
                 this.player2.clickPrompt('brobnar');
                 expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should not end turn after playing omega due to Strange Gizmo', function() {
+            it('should not end turn after playing omega due to Strange Gizmo', function () {
                 this.player1.play(this.jargogle);
                 this.player1.clickCard(this.duskwitch);
                 this.player1.endTurn();

@@ -1,7 +1,7 @@
-describe('Biomatrix Backup', function() {
-    integration(function() {
-        describe('Biomatrix Backup\'s ability', function() {
-            beforeEach(function() {
+describe('Biomatrix Backup', function () {
+    integration(function () {
+        describe("Biomatrix Backup's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'mars',
@@ -14,7 +14,7 @@ describe('Biomatrix Backup', function() {
                 });
             });
 
-            it('should place the creature in archives', function() {
+            it('should place the creature in archives', function () {
                 this.player1.playUpgrade(this.biomatrixBackup, this.tunk);
                 this.player1.fightWith(this.tunk, this.troll);
                 expect(this.tunk.location).toBe('archives');

@@ -1,7 +1,7 @@
-describe('Groupthink Tank', function() {
-    integration(function() {
-        describe('Groupthink Tank\'s action ability', function() {
-            beforeEach(function() {
+describe('Groupthink Tank', function () {
+    integration(function () {
+        describe("Groupthink Tank's action ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
@@ -15,7 +15,7 @@ describe('Groupthink Tank', function() {
                 });
             });
 
-            it('deal damage to all creatures with at least one neighbor sharing the same house', function() {
+            it('deal damage to all creatures with at least one neighbor sharing the same house', function () {
                 this.player1.useAction(this.groupthinkTank);
 
                 expect(this.groupthinkTank.hasToken('damage')).toBe(false);
@@ -27,7 +27,7 @@ describe('Groupthink Tank', function() {
                 expect(this.skullion.tokens.damage).toBe(2);
             });
 
-            it('should be affected by experimental therapy', function() {
+            it('should be affected by experimental therapy', function () {
                 this.player1.playUpgrade(this.experimentalTherapy, this.yxilxDominator);
                 this.player1.useAction(this.groupthinkTank);
 

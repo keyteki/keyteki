@@ -18,8 +18,8 @@ class UiPrompt extends BaseStep {
     }
 
     setPrompt() {
-        _.each(this.game.getPlayers(), player => {
-            if(this.activeCondition(player)) {
+        _.each(this.game.getPlayers(), (player) => {
+            if (this.activeCondition(player)) {
                 player.setPrompt(this.addDefaultCommandToButtons(this.activePrompt(player)));
                 player.startClock();
             } else {
@@ -32,20 +32,20 @@ class UiPrompt extends BaseStep {
         return player === this.game.activePlayer;
     }
 
-    activePrompt(player) { // eslint-disable-line no-unused-vars
-    }
+    // eslint-disable-next-line no-unused-vars
+    activePrompt(player) {}
 
     addDefaultCommandToButtons(original) {
         var prompt = _.clone(original);
-        if(prompt.buttons) {
-            _.each(prompt.buttons, button => {
+        if (prompt.buttons) {
+            _.each(prompt.buttons, (button) => {
                 button.command = button.command || 'menuButton';
                 button.uuid = this.uuid;
             });
         }
 
-        if(prompt.controls) {
-            for(let control of prompt.controls) {
+        if (prompt.controls) {
+            for (let control of prompt.controls) {
                 control.uuid = this.uuid;
             }
         }
@@ -60,7 +60,7 @@ class UiPrompt extends BaseStep {
     continue() {
         var completed = this.isComplete();
 
-        if(completed) {
+        if (completed) {
             this.clearPrompts();
             this.onCompleted();
         } else {
@@ -71,28 +71,28 @@ class UiPrompt extends BaseStep {
     }
 
     clearPrompts() {
-        _.each(this.game.getPlayers(), player => {
+        _.each(this.game.getPlayers(), (player) => {
             player.cancelPrompt();
         });
     }
 
     onMenuCommand(player, arg, uuid, method) {
-        if(!this.activeCondition(player) || uuid !== this.uuid) {
+        if (!this.activeCondition(player) || uuid !== this.uuid) {
             return false;
         }
 
         return this.menuCommand(player, arg, method);
     }
 
-    menuCommand(player, arg, method) { // eslint-disable-line no-unused-vars
+    // eslint-disable-next-line no-unused-vars
+    menuCommand(player, arg, method) {
         return true;
     }
 
     /**
      * Handler that will be called once isComplete() returns true.
      */
-    onCompleted() {
-    }
+    onCompleted() {}
 }
 
 module.exports = UiPrompt;

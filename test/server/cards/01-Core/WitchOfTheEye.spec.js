@@ -1,11 +1,11 @@
-describe('Witch of the Eye', function() {
-    integration(function() {
-        describe('Witch of the Eye\'s reap ability', function() {
-            beforeEach(function() {
+describe('Witch of the Eye', function () {
+    integration(function () {
+        describe("Witch of the Eye's reap ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'untamed',
-                        hand: ['way-of-the-bear','niffle-ape'],
+                        hand: ['way-of-the-bear', 'niffle-ape'],
                         inPlay: ['witch-of-the-eye']
                     },
                     player2: {
@@ -14,7 +14,7 @@ describe('Witch of the Eye', function() {
                 });
             });
 
-            it('should return a card from discard to hand when it reaps', function() {
+            it('should return a card from discard to hand when it reaps', function () {
                 this.player1.clickCard(this.wayOfTheBear);
                 this.player1.clickPrompt('Discard this card');
                 this.player1.clickCard(this.niffleApe);

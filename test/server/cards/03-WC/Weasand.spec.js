@@ -1,7 +1,7 @@
-describe('Weasand', function() {
-    integration(function() {
-        describe('Weasand\'s ability', function() {
-            beforeEach(function() {
+describe('Weasand', function () {
+    integration(function () {
+        describe("Weasand's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'shadows',
@@ -15,7 +15,7 @@ describe('Weasand', function() {
                 });
             });
 
-            it('should not gain amber if opponent does not forge a key', function() {
+            it('should not gain amber if opponent does not forge a key', function () {
                 this.player1.playCreature(this.weasand, true, true);
                 this.player1.clickCard(this.redlock);
                 expect(this.weasand.location).toBe('play area');
@@ -24,7 +24,7 @@ describe('Weasand', function() {
                 expect(this.player1.amber).toBe(0);
             });
 
-            it('should not gain amber if player does not forge a key', function() {
+            it('should not gain amber if player does not forge a key', function () {
                 this.player1.playCreature(this.weasand, true, true);
                 this.player1.clickCard(this.redlock);
                 expect(this.weasand.location).toBe('play area');
@@ -36,7 +36,7 @@ describe('Weasand', function() {
                 expect(this.player1.amber).toBe(0);
             });
 
-            it('should gain 2 amber if opponent forges a key', function() {
+            it('should gain 2 amber if opponent forges a key', function () {
                 this.player2.amber = 6;
                 this.player1.playCreature(this.weasand, true, true);
                 this.player1.clickCard(this.redlock);
@@ -48,7 +48,7 @@ describe('Weasand', function() {
                 expect(this.player2.amber).toBe(0);
             });
 
-            it('should gain 2 amber after forging a key', function() {
+            it('should gain 2 amber after forging a key', function () {
                 this.player1.amber = 6;
                 this.player1.playCreature(this.weasand, true, true);
                 this.player1.clickCard(this.redlock);
@@ -61,12 +61,12 @@ describe('Weasand', function() {
                 expect(this.player2.amber).toBe(0);
             });
 
-            it('should be destroyed if on a flank right after play', function() {
+            it('should be destroyed if on a flank right after play', function () {
                 this.player1.playCreature(this.weasand);
                 expect(this.weasand.location).toBe('discard');
             });
 
-            it('should be destroyed if on a flank after a fight', function() {
+            it('should be destroyed if on a flank after a fight', function () {
                 this.player1.playCreature(this.weasand, true, true);
                 this.player1.clickCard(this.redlock);
                 expect(this.weasand.location).toBe('play area');
@@ -77,7 +77,7 @@ describe('Weasand', function() {
                 expect(this.weasand.location).toBe('discard');
             });
 
-            it('should be destroyed even if warded', function() {
+            it('should be destroyed even if warded', function () {
                 this.player1.playCreature(this.weasand, true, true);
                 this.player1.clickCard(this.redlock);
                 this.weasand.ward();
@@ -88,7 +88,7 @@ describe('Weasand', function() {
                 expect(this.weasand.location).toBe('discard');
             });
 
-            it('should be destroyed after moved in the battleline', function() {
+            it('should be destroyed after moved in the battleline', function () {
                 this.player1.playCreature(this.weasand, true, true);
                 this.player1.clickCard(this.redlock);
                 this.player1.endTurn();
@@ -106,8 +106,8 @@ describe('Weasand', function() {
             });
         });
 
-        describe('Weasand\'s ability', function() {
-            beforeEach(function() {
+        describe("Weasand's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'shadows',
@@ -121,7 +121,7 @@ describe('Weasand', function() {
                 });
             });
 
-            it('should be destroyed even with armageddon cloack', function() {
+            it('should be destroyed even with armageddon cloack', function () {
                 this.player1.playCreature(this.weasand, true, true);
                 this.player1.clickCard(this.redlock);
                 this.player1.endTurn();
@@ -131,6 +131,47 @@ describe('Weasand', function() {
                 expect(this.redlock.location).toBe('discard');
                 expect(this.weasand.location).toBe('discard');
                 expect(this.armageddonCloak.location).toBe('discard');
+            });
+        });
+
+        describe("Weasand's ability", function () {
+            beforeEach(function () {
+                this.setupTest({
+                    player1: {
+                        house: 'untamed',
+                        inPlay: ['lamindra', 'flaxia', 'redlock', 'creed-of-nurture'],
+                        hand: ['weasand', 'bumblebird']
+                    },
+                    player2: {
+                        inPlay: ['bulwark'],
+                        hand: ['armageddon-cloak']
+                    }
+                });
+            });
+
+            it('should destroy creature on flank if choose to reveal Weasand using Creed', function () {
+                this.player1.useAction(this.creedOfNurture, true);
+                expect(this.player1).toBeAbleToSelect(this.weasand);
+                this.player1.clickCard(this.weasand);
+                expect(this.player1).toBeAbleToSelect(this.lamindra);
+                this.player1.clickCard(this.lamindra);
+                expect(this.lamindra.location).toBe('discard');
+                expect(this.flaxia.location).toBe('play area');
+                expect(this.redlock.location).toBe('play area');
+                expect(this.weasand.location).toBe('hand');
+            });
+
+            it('should not destroy creature at center if choose to reveal Weasand using Creed', function () {
+                this.player1.useAction(this.creedOfNurture, true);
+                expect(this.player1).toBeAbleToSelect(this.weasand);
+                this.player1.clickCard(this.weasand);
+                expect(this.player1).toBeAbleToSelect(this.flaxia);
+                this.player1.clickCard(this.flaxia);
+                expect(this.flaxia.location).toBe('play area');
+                expect(this.flaxia.getKeywordValue('elusive')).toBe(2);
+                expect(this.redlock.location).toBe('play area');
+                expect(this.lamindra.location).toBe('play area');
+                expect(this.weasand.location).toBe('hand');
             });
         });
     });

@@ -1,7 +1,7 @@
-describe('Unsuspecting Prey', function() {
-    integration(function() {
-        describe('Unsuspecting Prey\'s ability', function() {
-            beforeEach(function() {
+describe('Unsuspecting Prey', function () {
+    integration(function () {
+        describe("Unsuspecting Prey's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'untamed',
@@ -9,12 +9,12 @@ describe('Unsuspecting Prey', function() {
                         hand: ['unsuspecting-prey']
                     },
                     player2: {
-                        inPlay: ['dust-imp','snudge','spyyyder']
+                        inPlay: ['dust-imp', 'snudge', 'spyyyder']
                     }
                 });
             });
 
-            it('should allow the player to choose 0 creatures', function() {
+            it('should allow the player to choose 0 creatures', function () {
                 this.player1.play(this.unsuspectingPrey);
                 expect(this.player1).toHavePrompt('Unsuspecting Prey');
                 expect(this.player1).toBeAbleToSelect(this.snufflegator);
@@ -23,7 +23,7 @@ describe('Unsuspecting Prey', function() {
                 this.player1.clickPrompt('Done');
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
-            it('should allow the player to choose up to 3 creatures', function() {
+            it('should allow the player to choose up to 3 creatures', function () {
                 this.player1.play(this.unsuspectingPrey);
                 expect(this.player1).toHavePrompt('Unsuspecting Prey');
                 expect(this.player1).toBeAbleToSelect(this.snufflegator);
@@ -39,7 +39,7 @@ describe('Unsuspecting Prey', function() {
                 expect(this.snufflegator.tokens.damage).toBe(2);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
-            it('should only allow player to choose undamaged creatures', function() {
+            it('should only allow player to choose undamaged creatures', function () {
                 this.dustImp.tokens.damage = 1;
                 this.snudge.tokens.damage = 1;
                 this.snufflegator.tokens.damage = 1;

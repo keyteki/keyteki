@@ -1,7 +1,7 @@
-describe('SlimyJark(WC)', function() {
-    integration(function() {
-        describe('Slimy Jark fight to enrage', function() {
-            beforeEach(function() {
+describe('SlimyJark(WC)', function () {
+    integration(function () {
+        describe('Slimy Jark fight to enrage', function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'brobnar',
@@ -13,7 +13,7 @@ describe('SlimyJark(WC)', function() {
                 });
             });
 
-            it('enrages what slimy jark fights', function() {
+            it('enrages what slimy jark fights', function () {
                 this.player1.fightWith(this.slimyJark, this.nexus);
                 expect(this.nexus.tokens.enrage).toBe(1);
                 expect(this).toHaveRecentChatMessage('player1 uses Slimy Jark to enrage Nexus');

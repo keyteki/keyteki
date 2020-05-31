@@ -1,7 +1,7 @@
-describe('Festering Touch', function() {
-    integration(function() {
-        describe('its ability', function() {
-            beforeEach(function() {
+describe('Festering Touch', function () {
+    integration(function () {
+        describe('its ability', function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'dis',
@@ -14,7 +14,7 @@ describe('Festering Touch', function() {
                 });
             });
 
-            it('deal 1 damage to a creature that is undamaged', function() {
+            it('deal 1 damage to a creature that is undamaged', function () {
                 this.player1.play(this.festeringTouch);
                 this.player1.clickCard(this.troll);
                 this.player1.clickPrompt('Done');
@@ -22,7 +22,7 @@ describe('Festering Touch', function() {
                 expect(this.troll.tokens.damage).toBe(1);
             });
 
-            it('deal 3 damage to a creature that is damaged', function() {
+            it('deal 3 damage to a creature that is damaged', function () {
                 this.troll.tokens.damage = 1;
                 this.player1.play(this.festeringTouch);
                 this.player1.clickCard(this.troll);

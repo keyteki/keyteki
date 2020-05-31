@@ -1,7 +1,7 @@
-describe('Shorty(WC)', function() {
-    integration(function() {
-        describe('Shorty reap ability', function() {
-            beforeEach(function() {
+describe('Shorty(WC)', function () {
+    integration(function () {
+        describe('Shorty reap ability', function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'brobnar',
@@ -13,7 +13,7 @@ describe('Shorty(WC)', function() {
                 });
             });
 
-            it('shorty is enraged after reaping', function() {
+            it('shorty is enraged after reaping', function () {
                 this.player1.clickCard(this.shorty);
                 this.player1.clickPrompt('Reap with this creature');
                 expect(this.shorty.tokens.enrage).toBe(1);

@@ -1,7 +1,7 @@
-describe('Camouflage', function() {
-    integration(function() {
-        describe('Camouflage\'s ability', function() {
-            beforeEach(function() {
+describe('Camouflage', function () {
+    integration(function () {
+        describe("Camouflage's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'untamed',
@@ -17,7 +17,7 @@ describe('Camouflage', function() {
                 this.player2.clickPrompt('Sanctum');
             });
 
-            it('should not allow creatures not on a flank to attack a creature with Camouflage', function() {
+            it('should not allow creatures not on a flank to attack a creature with Camouflage', function () {
                 this.player2.clickCard(this.bulwark);
                 this.player2.clickPrompt('Fight with this creature');
                 expect(this.player2).toBeAbleToSelect(this.mightyTiger);
@@ -25,7 +25,7 @@ describe('Camouflage', function() {
                 expect(this.player2).not.toBeAbleToSelect(this.troll);
             });
 
-            it('should not allow a creature to fight if there are no legal targets', function() {
+            it('should not allow a creature to fight if there are no legal targets', function () {
                 this.player2.fightWith(this.sequis, this.mightyTiger);
                 this.player2.fightWith(this.commanderRemiel, this.dextre);
                 expect(this.mightyTiger.location).toBe('discard');

@@ -1,7 +1,7 @@
-describe('Help from Future Self', function() {
-    integration(function() {
-        describe('Help from Future Self\'s ability', function() {
-            beforeEach(function() {
+describe('Help from Future Self', function () {
+    integration(function () {
+        describe("Help from Future Self's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
@@ -14,7 +14,7 @@ describe('Help from Future Self', function() {
                 });
             });
 
-            it('should allow retrieval of Timetraveleer from the discard', function() {
+            it('should allow retrieval of Timetraveleer from the discard', function () {
                 this.player1.play(this.helpFromFutureSelf);
                 expect(this.player1).toHavePrompt('Help From Future Self');
                 expect(this.player1).toBeAbleToSelect(this.timetraveller);
@@ -24,7 +24,7 @@ describe('Help from Future Self', function() {
                 expect(this.timetraveller.location).toBe('hand');
             });
 
-            it('should allow retrieval of Timetraveleer from the deck', function() {
+            it('should allow retrieval of Timetraveleer from the deck', function () {
                 this.player1.moveCard(this.timetraveller, 'deck');
                 this.player1.play(this.helpFromFutureSelf);
                 expect(this.player1).toHavePrompt('Help From Future Self');
@@ -35,7 +35,7 @@ describe('Help from Future Self', function() {
                 expect(this.timetraveller.location).toBe('hand');
             });
 
-            it('should allow fail to find', function() {
+            it('should allow fail to find', function () {
                 this.player1.play(this.helpFromFutureSelf);
                 expect(this.player1).toHavePrompt('Help From Future Self');
                 expect(this.player1).toBeAbleToSelect(this.timetraveller);
@@ -44,7 +44,7 @@ describe('Help from Future Self', function() {
                 expect(this.timetraveller.location).toBe('deck');
             });
 
-            it('should fail to find when the card is in hand', function() {
+            it('should fail to find when the card is in hand', function () {
                 this.player1.moveCard(this.timetraveller, 'hand');
                 this.player1.play(this.helpFromFutureSelf);
                 expect(this.player1).toHavePrompt('Help From Future Self');

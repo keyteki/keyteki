@@ -1,7 +1,7 @@
-describe('Mating Season', function() {
-    integration(function() {
-        describe('Mating Season\'s ability', function() {
-            beforeEach(function() {
+describe('Mating Season', function () {
+    integration(function () {
+        describe("Mating Season's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'mars',
@@ -14,7 +14,7 @@ describe('Mating Season', function() {
                 });
             });
 
-            it('should return each creature to its owners deck, and give amber', function() {
+            it('should return each creature to its owners deck, and give amber', function () {
                 this.player1.play(this.matingSeason);
                 expect(this.player1.amber).toBe(2);
                 expect(this.player2.amber).toBe(2);

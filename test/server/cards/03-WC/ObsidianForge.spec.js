@@ -1,12 +1,22 @@
-describe('Obsidian Forge', function() {
-    integration(function() {
-        describe('Obsidian Forge\'s ability', function() {
-            beforeEach(function() {
+describe('Obsidian Forge', function () {
+    integration(function () {
+        describe("Obsidian Forge's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'dis',
                         amber: 6,
-                        inPlay: ['obsidian-forge','groke', 'hebe-the-huge', 'ganger-chieftain', 'bellowing-patrizate', 'king-of-the-crag', 'brammo','bingle-bangbang','firespitter'],
+                        inPlay: [
+                            'obsidian-forge',
+                            'groke',
+                            'hebe-the-huge',
+                            'ganger-chieftain',
+                            'bellowing-patrizate',
+                            'king-of-the-crag',
+                            'brammo',
+                            'bingle-bangbang',
+                            'firespitter'
+                        ],
                         discard: ['soul-snatcher']
                     },
                     player2: {
@@ -17,9 +27,9 @@ describe('Obsidian Forge', function() {
                 });
             });
 
-            it('should allow key to be forged at [6] if 6 creatures are sacrificed', function() {
+            it('should allow key to be forged at [6] if 6 creatures are sacrificed', function () {
                 this.player1.clickCard(this.obsidianForge);
-                this.player1.clickPrompt('Use this card\'s Action ability');
+                this.player1.clickPrompt("Use this card's Action ability");
                 expect(this.player1).toHavePrompt('Obsidian Forge');
                 this.player1.clickCard(this.groke);
                 this.player1.clickCard(this.hebeTheHuge);
@@ -43,9 +53,9 @@ describe('Obsidian Forge', function() {
                 expect(this.player1.player.amber).toBe(0);
             });
 
-            it('should allow key to be forged at [4] if 8 creatures are sacrificed', function() {
+            it('should allow key to be forged at [4] if 8 creatures are sacrificed', function () {
                 this.player1.clickCard(this.obsidianForge);
-                this.player1.clickPrompt('Use this card\'s Action ability');
+                this.player1.clickPrompt("Use this card's Action ability");
                 expect(this.player1).toHavePrompt('Obsidian Forge');
                 this.player1.clickCard(this.groke);
                 this.player1.clickCard(this.hebeTheHuge);
@@ -73,13 +83,13 @@ describe('Obsidian Forge', function() {
                 expect(this.player1.player.amber).toBe(2);
             });
 
-            it('should allow key to be forged using Soul Snatcher amber', function() {
+            it('should allow key to be forged using Soul Snatcher amber', function () {
                 this.player1.player.optionSettings.orderForcedAbilities = false;
                 this.player1.amber = 0;
                 this.player1.moveCard(this.soulSnatcher, 'play area');
 
                 this.player1.clickCard(this.obsidianForge);
-                this.player1.clickPrompt('Use this card\'s Action ability');
+                this.player1.clickPrompt("Use this card's Action ability");
                 expect(this.player1).toHavePrompt('Obsidian Forge');
                 this.player1.clickCard(this.groke);
                 this.player1.clickCard(this.hebeTheHuge);

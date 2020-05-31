@@ -1,7 +1,7 @@
-describe('Resurgence', function() {
-    integration(function() {
-        describe('Resurgence\'s action ability', function() {
-            beforeEach(function() {
+describe('Resurgence', function () {
+    integration(function () {
+        describe("Resurgence's action ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'untamed',
@@ -16,18 +16,18 @@ describe('Resurgence', function() {
                 });
             });
 
-            it('should not pick any card if discard is empty', function() {
+            it('should not pick any card if discard is empty', function () {
                 this.player1.play(this.resurgence);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should not pick any card if discard does not have a creature', function() {
+            it('should not pick any card if discard does not have a creature', function () {
                 this.player1.moveCard(this.regrowth, 'discard');
                 this.player1.play(this.resurgence);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should pick a single card if only one non-mutant is in discard', function() {
+            it('should pick a single card if only one non-mutant is in discard', function () {
                 this.player1.moveCard(this.flaxia, 'discard');
                 this.player1.moveCard(this.regrowth, 'discard');
                 this.player1.play(this.resurgence);
@@ -36,7 +36,7 @@ describe('Resurgence', function() {
                 expect(this.flaxia.location).toBe('hand');
             });
 
-            it('should pick a single card if only one non-mutant is in discard', function() {
+            it('should pick a single card if only one non-mutant is in discard', function () {
                 this.player1.moveCard(this.bullWark, 'discard');
                 this.player1.moveCard(this.regrowth, 'discard');
                 this.player1.play(this.resurgence);
@@ -45,7 +45,7 @@ describe('Resurgence', function() {
                 expect(this.bullWark.location).toBe('hand');
             });
 
-            it('should pick a single card if selected a non-mutant from discard', function() {
+            it('should pick a single card if selected a non-mutant from discard', function () {
                 this.player1.moveCard(this.flaxia, 'discard');
                 this.player1.moveCard(this.bullWark, 'discard');
                 this.player1.play(this.resurgence);
@@ -54,7 +54,7 @@ describe('Resurgence', function() {
                 expect(this.flaxia.location).toBe('hand');
             });
 
-            it('should pick two cards if selected a mutant from discard', function() {
+            it('should pick two cards if selected a mutant from discard', function () {
                 this.player1.moveCard(this.flaxia, 'discard');
                 this.player1.moveCard(this.bullWark, 'discard');
                 this.player1.play(this.resurgence);

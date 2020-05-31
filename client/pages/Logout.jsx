@@ -13,20 +13,23 @@ class Logout extends React.Component {
 
     // eslint-disable-next-line camelcase
     UNSAFE_componentWillReceiveProps(props) {
-        if(props.loggedOut) {
+        if (props.loggedOut) {
             this.props.navigate('/');
         }
     }
 
     render() {
-        let errorBar = this.props.apiSuccess === false ? <AlertPanel type='error' message={ this.props.apiMessage } /> : null;
+        let errorBar =
+            this.props.apiSuccess === false ? (
+                <AlertPanel type='error' message={this.props.apiMessage} />
+            ) : null;
 
         return (
             <div className='col-sm-6 col-sm-offset-3'>
-                { errorBar }
-
+                {errorBar}
                 Logging you out of your account, please wait..
-            </div>);
+            </div>
+        );
     }
 }
 

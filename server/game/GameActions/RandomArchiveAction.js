@@ -9,7 +9,8 @@ class RandomArchiveAction extends PlayerAction {
     setup() {
         super.setup();
         this.name = 'archive';
-        this.effectMsg = 'archive ' + (this.amount === 1 ? 'a card' : this.amount + ' cards') + ' at random';
+        this.effectMsg =
+            'archive ' + (this.amount === 1 ? 'a card' : this.amount + ' cards') + ' at random';
     }
 
     canAffect(player, context) {
@@ -17,7 +18,7 @@ class RandomArchiveAction extends PlayerAction {
     }
 
     getEvent(player, context) {
-        return super.createEvent('unnamedEvent', {}, () => {
+        return super.createEvent('unnamedEvent', { player, context }, () => {
             let amount = Math.min(this.amount, player.hand.length);
             let cards = _.shuffle(player.hand).slice(0, amount);
             context.game.actions.archive().resolve(cards, context);

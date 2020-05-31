@@ -1,7 +1,7 @@
-describe('Reclaimed by Nature', function() {
-    integration(function() {
-        describe('Reclaimed by Nature\'s abilities', function() {
-            beforeEach(function() {
+describe('Reclaimed by Nature', function () {
+    integration(function () {
+        describe("Reclaimed by Nature's abilities", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'untamed',
@@ -15,7 +15,7 @@ describe('Reclaimed by Nature', function() {
                 });
             });
 
-            it('should purge an artifact and resolve no bonus office since card has no bonus', function() {
+            it('should purge an artifact and resolve no bonus office since card has no bonus', function () {
                 this.player1.play(this.reclaimedByNature);
                 expect(this.player1).toBeAbleToSelect(this.vineappleTree);
                 expect(this.player1).toBeAbleToSelect(this.customsOffice);
@@ -28,7 +28,7 @@ describe('Reclaimed by Nature', function() {
                 expect(this.player1.amber).toBe(1);
             });
 
-            it('should reveal a card and apply default card bonus icon', function() {
+            it('should reveal a card and apply default card bonus icon', function () {
                 this.player1.play(this.reclaimedByNature);
                 expect(this.player1).toBeAbleToSelect(this.vineappleTree);
                 expect(this.player1).toBeAbleToSelect(this.customsOffice);
@@ -41,7 +41,7 @@ describe('Reclaimed by Nature', function() {
                 expect(this.player1.amber).toBe(2);
             });
 
-            it('should reveal a card and apply enhanced bonus icons', function() {
+            it('should reveal a card and apply enhanced bonus icons', function () {
                 this.evasionSigil.cardData.enhancements = ['amber', 'draw', 'damage'];
                 this.player1.play(this.reclaimedByNature);
                 expect(this.player1).toBeAbleToSelect(this.vineappleTree);
@@ -63,4 +63,3 @@ describe('Reclaimed by Nature', function() {
         });
     });
 });
-

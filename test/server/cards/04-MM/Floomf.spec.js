@@ -1,7 +1,7 @@
-describe('Floomf', function() {
-    integration(function() {
-        describe('Floomf\'s ability', function() {
-            beforeEach(function() {
+describe('Floomf', function () {
+    integration(function () {
+        describe("Floomf's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'untamed',
@@ -15,7 +15,7 @@ describe('Floomf', function() {
                 });
             });
 
-            it('should give the selected beast creature 2 power counters.', function() {
+            it('should give the selected beast creature 2 power counters.', function () {
                 this.player1.fightWith(this.floomf, this.huntingWitch);
 
                 expect(this.player1).toBeAbleToSelect(this.ancientBear);

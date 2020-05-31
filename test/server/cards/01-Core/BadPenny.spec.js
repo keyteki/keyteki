@@ -1,7 +1,7 @@
-describe('Bad Penny', function() {
-    integration(function() {
-        describe('Bad Penny\'s ability', function() {
-            beforeEach(function() {
+describe('Bad Penny', function () {
+    integration(function () {
+        describe("Bad Penny's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'brobnar',
@@ -14,7 +14,7 @@ describe('Bad Penny', function() {
                 });
             });
 
-            it('should return to hand', function() {
+            it('should return to hand', function () {
                 this.player1.fightWith(this.troll, this.badPenny);
                 expect(this.badPenny.location).toBe('hand');
                 expect(this.badPenny.moribund).toBe(false);

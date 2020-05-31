@@ -5,7 +5,7 @@ class GainAbility extends EffectValue {
         super();
         this.type = type;
         this.values = {};
-        if(properties.properties) {
+        if (properties.properties) {
             this.properties = Object.assign({}, properties.properties, { printedAbility });
         } else {
             this.properties = Object.assign({}, properties, { printedAbility, ref: [] });
@@ -17,20 +17,16 @@ class GainAbility extends EffectValue {
     }
 
     apply(target) {
-        if(this.type === 'constant') {
-            this.values[target.uuid] = target.constantReaction(this.properties);
-        } else {
-            this.values[target.uuid] = target[this.type](this.properties);
-        }
+        this.values[target.uuid] = target[this.type](this.properties);
 
-        if(this.type === 'persistentEffect') {
+        if (this.type === 'persistentEffect') {
             const value = this.values[target.uuid];
-            if(value.location === 'any' || value.location === target.location) {
+            if (value.location === 'any' || value.location === target.location) {
                 value.ref = target.addEffectToEngine(value);
             }
 
             return;
-        } else if(this.type === 'action') {
+        } else if (this.type === 'action') {
             return;
         }
 
@@ -38,12 +34,12 @@ class GainAbility extends EffectValue {
     }
 
     unapply(target) {
-        if(this.type === 'persistentEffect') {
+        if (this.type === 'persistentEffect') {
             const value = this.values[target.uuid];
-            if(value.ref) {
+            if (value.ref) {
                 target.removeEffectFromEngine(value.ref);
             }
-        } else if(this.type !== 'action') {
+        } else if (this.type !== 'action') {
             this.values[target.uuid].unregisterEvents();
         }
 

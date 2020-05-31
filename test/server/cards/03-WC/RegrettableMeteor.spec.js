@@ -1,11 +1,17 @@
-describe('Regrettable Meteor', function() {
-    integration(function() {
-        describe('Regrettable Meteor\'s play ability', function() {
-            beforeEach(function() {
+describe('Regrettable Meteor', function () {
+    integration(function () {
+        describe("Regrettable Meteor's play ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'saurian',
-                        inPlay: ['troll', 'flaxia', 'philophosaurus', 'orator-hissaro', 'paraguardian'],
+                        inPlay: [
+                            'troll',
+                            'flaxia',
+                            'philophosaurus',
+                            'orator-hissaro',
+                            'paraguardian'
+                        ],
                         hand: ['regrettable-meteor']
                     },
                     player2: {
@@ -14,7 +20,7 @@ describe('Regrettable Meteor', function() {
                 });
             });
 
-            it('should destroy all Dinosaurs and creatures with power 6 or higher', function() {
+            it('should destroy all Dinosaurs and creatures with power 6 or higher', function () {
                 this.player1.play(this.regrettableMeteor);
 
                 expect(this.troll.location).toBe('discard');

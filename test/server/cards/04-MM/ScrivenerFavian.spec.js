@@ -1,7 +1,7 @@
-describe('Scrivener Favian', function() {
-    integration(function() {
-        describe('Scrivener Favian\'s abilities', function() {
-            beforeEach(function() {
+describe('Scrivener Favian', function () {
+    integration(function () {
+        describe("Scrivener Favian's abilities", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'untamed',
@@ -15,19 +15,19 @@ describe('Scrivener Favian', function() {
                 });
             });
 
-            it('should not trigger if no bonus', function() {
+            it('should not trigger if no bonus', function () {
                 this.player1.play(this.wildBounty);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
                 expect(this.player1.amber).toBe(0);
             });
 
-            it('should not trigger if no capture', function() {
+            it('should not trigger if no capture', function () {
                 this.player1.play(this.fertilityChant);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
                 expect(this.player1.amber).toBe(4);
             });
 
-            it('should ask to replace capture with steal, and capture, if selected', function() {
+            it('should ask to replace capture with steal, and capture, if selected', function () {
                 this.dustPixie.cardData.enhancements = ['amber', 'capture', 'draw'];
                 this.player1.play(this.dustPixie);
                 expect(this.player1).toHavePrompt('How do you wish to resolve this capture icon?');
@@ -42,7 +42,7 @@ describe('Scrivener Favian', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should ask to replace capture with steal, and steal, if selected', function() {
+            it('should ask to replace capture with steal, and steal, if selected', function () {
                 this.dustPixie.cardData.enhancements = ['amber', 'capture', 'draw'];
                 this.player1.play(this.dustPixie);
                 expect(this.player1).toHavePrompt('How do you wish to resolve this capture icon?');
@@ -56,8 +56,8 @@ describe('Scrivener Favian', function() {
             });
         });
 
-        describe('Scrivener Favian\'s abilities', function() {
-            beforeEach(function() {
+        describe("Scrivener Favian's abilities", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'untamed',
@@ -71,7 +71,7 @@ describe('Scrivener Favian', function() {
                 });
             });
 
-            it('should interact with Amphora Captura and convert every bonus to steal, when selected, but still keep original options', function() {
+            it('should interact with Amphora Captura and convert every bonus to steal, when selected, but still keep original options', function () {
                 this.dustPixie.cardData.enhancements = ['amber', 'capture', 'draw'];
                 this.player1.play(this.dustPixie);
                 expect(this.player1).toHavePrompt('How do you wish to resolve this amber icon?');
@@ -109,4 +109,3 @@ describe('Scrivener Favian', function() {
         });
     });
 });
-

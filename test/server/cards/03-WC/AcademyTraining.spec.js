@@ -1,7 +1,7 @@
-describe('Academy Training', function() {
-    integration(function() {
-        describe('Academy Training\'s ability', function() {
-            beforeEach(function() {
+describe('Academy Training', function () {
+    integration(function () {
+        describe("Academy Training's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
@@ -16,7 +16,7 @@ describe('Academy Training', function() {
                 });
             });
 
-            it('should treat the upgraded creature as Logos, but not its original house', function() {
+            it('should treat the upgraded creature as Logos, but not its original house', function () {
                 this.player1.playUpgrade(this.academyTraining, this.rustgnawer);
                 expect(this.rustgnawer.hasHouse('logos')).toBe(true);
                 expect(this.rustgnawer.hasHouse('untamed')).toBe(false);
@@ -33,7 +33,7 @@ describe('Academy Training', function() {
                 expect(this.player1.amber).toBe(1);
             });
 
-            it('should add the \'draw a card\' effect to reaping', function() {
+            it("should add the 'draw a card' effect to reaping", function () {
                 this.player1.playUpgrade(this.academyTraining, this.rustgnawer);
                 expect(this.player1.hand.length).toBe(0);
                 this.player1.reap(this.rustgnawer);
@@ -41,7 +41,7 @@ describe('Academy Training', function() {
                 expect(this.player1.hand.length).toBe(1);
             });
 
-            it('should not be logos if opponent takes control', function() {
+            it('should not be logos if opponent takes control', function () {
                 this.player1.playUpgrade(this.academyTraining, this.rustgnawer);
                 this.player1.endTurn();
                 this.player2.clickPrompt('logos');

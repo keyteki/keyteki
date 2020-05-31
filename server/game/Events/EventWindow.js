@@ -18,7 +18,6 @@ class EventWindow extends BaseStepWithPipeline {
             new SimpleStep(this.game, () => this.executeHandler()),
             new SimpleStep(this.game, () => this.checkGameState()),
             new SimpleStep(this.game, () => this.checkForSubEvent()),
-            new SimpleStep(this.game, () => this.triggerConstantReactions()),
             new SimpleStep(this.game, () => this.openAbilityWindow('reaction'))
         ]);
     }
@@ -29,14 +28,17 @@ class EventWindow extends BaseStepWithPipeline {
 
     openAbilityWindow(abilityType) {
         let events = this.event.getSimultaneousEvents();
-        if(events.length === 0 || abilityType === 'reaction' && !this.event.openReactionWindow) {
+        if (events.length === 0 || (abilityType === 'reaction' && !this.event.openReactionWindow)) {
             return;
         }
 
-        if(abilityType === 'interrupt' && events.some(event => event.name === 'onCardLeavesPlay')) {
+        if (
+            abilityType === 'interrupt' &&
+            events.some((event) => event.name === 'onCardLeavesPlay')
+        ) {
             this.queueStep(new DestroyedAbilityWindow(this.game, abilityType, this));
         } else {
-            if(abilityType === 'reaction') {
+            if (abilityType === 'reaction') {
                 this.game.checkDelayedEffects(events);
             }
 
@@ -45,17 +47,17 @@ class EventWindow extends BaseStepWithPipeline {
     }
 
     preResolutionEffects() {
-        for(let event of this.event.getSimultaneousEvents()) {
+        for (let event of this.event.getSimultaneousEvents()) {
             this.game.emit(event.name + ':preResolution', event);
         }
     }
 
     executeHandler() {
         const events = this.event.getSimultaneousEvents();
-        for(let event of events) {
+        for (let event of events) {
             // need to checkCondition here to ensure the event won't fizzle due to another event's resolution (e.g. double honoring an ordinary character with YR etc.)
             event.checkCondition();
-            if(!event.cancelled) {
+            if (!event.cancelled) {
                 event.executeHandler();
             }
 
@@ -65,36 +67,23 @@ class EventWindow extends BaseStepWithPipeline {
 
     checkGameState() {
         const events = this.event.getSimultaneousEvents();
-        if(!events.every(event => event.noGameStateCheck)) {
-            this.game.checkGameState(events.some(event => event.handler));
-        }
-    }
-
-    triggerConstantReactions() {
-        if(!this.event.openReactionWindow) {
-            return;
-        }
-
-        const events = this.event.getSimultaneousEvents();
-        const reactionWindow = {
-            addChoice: context => this.game.resolveAbility(context)
-        };
-
-        for(let event of events) {
-            this.game.emit(event.name + ':constant', event, reactionWindow);
+        if (!events.every((event) => event.noGameStateCheck)) {
+            this.game.checkGameState(events.some((event) => event.handler));
         }
     }
 
     checkForSubEvent() {
-        if(this.event.subEvent) {
+        if (this.event.subEvent) {
             let currentSubEvent = this.event.subEvent;
             this.event.subEvent = null;
             this.queueStep(new EventWindow(this.game, currentSubEvent));
-            if(!currentSubEvent.openReactionWindow) {
-                this.queueStep(new SimpleStep(this.game, () => {
-                    this.event.addChildEvent(currentSubEvent);
-                    currentSubEvent.openReactionWindow = true;
-                }));
+            if (!currentSubEvent.openReactionWindow) {
+                this.queueStep(
+                    new SimpleStep(this.game, () => {
+                        this.event.addChildEvent(currentSubEvent);
+                        currentSubEvent.openReactionWindow = true;
+                    })
+                );
             }
 
             this.queueStep(new SimpleStep(this.game, () => this.checkForSubEvent()));

@@ -1,7 +1,7 @@
-describe('Cooperative Hunting', function() {
-    integration(function() {
-        describe('Cooperative Hunting\'s ability', function() {
-            beforeEach(function() {
+describe('Cooperative Hunting', function () {
+    integration(function () {
+        describe("Cooperative Hunting's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'untamed',
@@ -14,7 +14,7 @@ describe('Cooperative Hunting', function() {
                 });
             });
 
-            it('should not destroy creatures until all targets have been chosen', function() {
+            it('should not destroy creatures until all targets have been chosen', function () {
                 this.player1.play(this.cooperativeHunting);
                 expect(this.player1).toHavePrompt('Cooperative Hunting');
                 expect(this.player1).toBeAbleToSelect(this.mightyTiger);

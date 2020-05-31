@@ -1,12 +1,14 @@
-function news(state = {
-    news: []
-}, action) {
+function news(
+    state = {
+        news: []
+    },
+    action
+) {
     let news = state.news;
 
-    switch(action.type) {
+    switch (action.type) {
         case 'REQUEST_NEWS':
-            return Object.assign({}, state, {
-            });
+            return Object.assign({}, state, {});
         case 'RECEIVE_NEWS':
             return Object.assign({}, state, {
                 news: action.response.news
@@ -27,11 +29,11 @@ function news(state = {
                 newsSaved: false
             });
         case 'NEWS_SAVED':
-            var matchingNews = news.find(n => {
+            var matchingNews = news.find((n) => {
                 return n.id === parseInt(action.response.id);
             });
 
-            if(matchingNews) {
+            if (matchingNews) {
                 matchingNews.text = action.response.text;
             }
 
@@ -44,7 +46,7 @@ function news(state = {
                 newsDeleted: false
             });
         case 'NEWS_DELETED':
-            news = news.filter(n => {
+            news = news.filter((n) => {
                 return n.id !== parseInt(action.response.id);
             });
 

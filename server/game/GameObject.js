@@ -25,21 +25,23 @@ class GameObject {
     }
 
     removeEffect(effect) {
-        this.effects = this.effects.filter(e => e !== effect);
+        this.effects = this.effects.filter((e) => e !== effect);
     }
 
     getEffects(type, predicate = () => true) {
-        let filteredEffects = this.effects.filter(effect => effect.type === type && predicate(effect));
-        return filteredEffects.map(effect => effect.getValue(this));
+        let filteredEffects = this.effects.filter(
+            (effect) => effect.type === type && predicate(effect)
+        );
+        return filteredEffects.map((effect) => effect.getValue(this));
     }
 
     sumEffects(type) {
-        let filteredEffects = this.effects.filter(effect => effect.type === type);
+        let filteredEffects = this.effects.filter((effect) => effect.type === type);
         return filteredEffects.reduce((total, effect) => total + effect.getValue(this), 0);
     }
 
     anyEffect(type) {
-        return this.effects.filter(effect => effect.type === type).length > 0;
+        return this.effects.filter((effect) => effect.type === type).length > 0;
     }
 
     mostRecentEffect(type) {

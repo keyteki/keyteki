@@ -1,11 +1,16 @@
-describe('Combat Pheromones', function() {
-    integration(function() {
-        describe('Combat Pheromones\'s ability', function() {
-            beforeEach(function() {
+describe('Combat Pheromones', function () {
+    integration(function () {
+        describe("Combat Pheromones's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'sanctum',
-                        inPlay: ['commander-remiel', 'mindwarper', 'crystal-hive', 'combat-pheromones'],
+                        inPlay: [
+                            'commander-remiel',
+                            'mindwarper',
+                            'crystal-hive',
+                            'combat-pheromones'
+                        ],
                         hand: ['inspiration']
                     },
                     player2: {
@@ -14,9 +19,9 @@ describe('Combat Pheromones', function() {
                 });
             });
 
-            it('should allow using a Mars creature', function() {
+            it('should allow using a Mars creature', function () {
                 this.player1.clickCard(this.combatPheromones);
-                this.player1.clickPrompt('Use this card\'s Omni ability');
+                this.player1.clickPrompt("Use this card's Omni ability");
                 expect(this.player1).toHavePrompt('Combat Pheromones');
                 expect(this.player1).toBeAbleToSelect(this.mindwarper);
                 expect(this.player1).not.toBeAbleToSelect(this.commanderRemiel);
@@ -28,9 +33,9 @@ describe('Combat Pheromones', function() {
                 expect(this.player1).toHavePrompt('Mindwarper');
             });
 
-            it('should allow using an artifact', function() {
+            it('should allow using an artifact', function () {
                 this.player1.clickCard(this.combatPheromones);
-                this.player1.clickPrompt('Use this card\'s Omni ability');
+                this.player1.clickPrompt("Use this card's Omni ability");
                 this.player1.clickCard(this.crystalHive);
                 this.player1.clickCard(this.mindwarper);
                 this.player1.clickPrompt('Done');

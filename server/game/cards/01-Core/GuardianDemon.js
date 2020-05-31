@@ -5,22 +5,25 @@ class GuardianDemon extends Card {
         this.play({
             fight: true,
             reap: true,
-            condition: context => context.game.creaturesInPlay.some(card => card.hasToken('damage')),
+            condition: (context) =>
+                context.game.creaturesInPlay.some((card) => card.hasToken('damage')),
             target: {
                 activePromptTitle: 'Choose a creature to heal',
                 optional: true,
                 cardType: 'creature',
                 gameAction: ability.actions.heal({ amount: 2, upTo: true })
             },
-            then: context => ({
+            then: (context) => ({
                 target: {
                     activePromptTitle: 'Choose a creature to deal damage to',
                     cardType: 'creature',
-                    cardCondition: card => card !== context.target,
-                    gameAction: ability.actions.dealDamage(context => ({ amount: context.preThenEvent.amount }))
+                    cardCondition: (card) => card !== context.target,
+                    gameAction: ability.actions.dealDamage((context) => ({
+                        amount: context.preThenEvent.amount
+                    }))
                 },
                 message: '{0} uses {1} to deal {3} damage to {2}',
-                messageArgs: context => context.preThenEvent.amount
+                messageArgs: (context) => context.preThenEvent.amount
             })
         });
     }

@@ -2,11 +2,9 @@ const Card = require('../../Card.js');
 
 class Terrordactyl extends Card {
     setupCardAbilities(ability) {
-        this.constantReaction({
-            when: {
-                onCardEntersPlay: (event, context) => event.card === context.source
-            },
-            gameAction: ability.actions.stun()
+        this.persistentEffect({
+            location: 'any',
+            effect: ability.effects.entersPlayStunned()
         });
 
         this.persistentEffect({
@@ -15,7 +13,7 @@ class Terrordactyl extends Card {
 
         this.beforeFight({
             effect: 'deal 4 damage to each neighbor of the creature being fought',
-            gameAction: ability.actions.dealDamage(context => ({
+            gameAction: ability.actions.dealDamage((context) => ({
                 amount: 4,
                 target: context.event.card.neighbors
             }))

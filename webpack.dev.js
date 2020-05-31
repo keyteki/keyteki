@@ -4,7 +4,7 @@ const common = require('./webpack.common.js');
 
 module.exports = merge(common, {
     entry: {
-        'bundle': ['react-hot-loader/patch', './client/index.jsx', 'webpack-hot-middleware/client']
+        bundle: ['react-hot-loader/patch', './client/index.jsx', 'webpack-hot-middleware/client']
     },
     output: {
         filename: '[name].[hash].js'
@@ -18,7 +18,5 @@ module.exports = merge(common, {
         historyApiFallback: true,
         publicPath: '/'
     },
-    plugins: [
-        new webpack.HotModuleReplacementPlugin()
-    ]
+    plugins: [new webpack.HotModuleReplacementPlugin()]
 });

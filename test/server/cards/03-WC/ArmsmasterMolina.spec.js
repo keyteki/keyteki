@@ -1,7 +1,7 @@
-describe('Armsmaster Molina', function() {
-    integration(function() {
-        describe('Armsmaster Molina\'s ability', function() {
-            beforeEach(function() {
+describe('Armsmaster Molina', function () {
+    integration(function () {
+        describe("Armsmaster Molina's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'shadows',
@@ -14,7 +14,7 @@ describe('Armsmaster Molina', function() {
                 });
             });
 
-            it('should give its neighbors hazardous:3', function() {
+            it('should give its neighbors hazardous:3', function () {
                 expect(this.dustPixie.getKeywordValue('hazardous')).toBe(3);
                 expect(this.poSPixies.getKeywordValue('hazardous')).toBe(3);
             });

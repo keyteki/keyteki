@@ -5,10 +5,13 @@ class DoorstepToHeaven extends Card {
         this.play({
             effect: 'reduce both players to 5 amber',
             gameAction: [
-                ability.actions.loseAmber(context => ({
-                    amount: context.player.opponent && context.player.opponent.amber > 5 ? context.player.opponent.amber - 5 : 0
+                ability.actions.loseAmber((context) => ({
+                    amount:
+                        context.player.opponent && context.player.opponent.amber > 5
+                            ? context.player.opponent.amber - 5
+                            : 0
                 })),
-                ability.actions.loseAmber(context => ({
+                ability.actions.loseAmber((context) => ({
                     target: context.player,
                     amount: context.player.amber > 5 ? context.player.amber - 5 : 0
                 }))

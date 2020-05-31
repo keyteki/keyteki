@@ -12,7 +12,7 @@ class HouseSelect extends React.Component {
     }
 
     onHouseClicked(button) {
-        if(this.props.onHouseSelected) {
+        if (this.props.onHouseSelected) {
             this.props.onHouseSelected(button.command, button.uuid, undefined, button.arg);
         }
     }
@@ -23,16 +23,22 @@ class HouseSelect extends React.Component {
         let houses = Constants.Houses;
         let i = 0;
 
-        for(let house of houses) {
-            let houseButton = this.props.buttons.find(b => b.text === house);
-            if(houseButton) {
-                icons.push(<div className={ `button-icon icon-${houseButton.text}` } key={ houseButton.text } onClick={ this.onHouseClicked.bind(this, houseButton) } />);
+        for (let house of houses) {
+            let houseButton = this.props.buttons.find((b) => b.text === house);
+            if (houseButton) {
+                icons.push(
+                    <div
+                        className={`button-icon icon-${houseButton.text}`}
+                        key={houseButton.text}
+                        onClick={this.onHouseClicked.bind(this, houseButton)}
+                    />
+                );
             } else {
-                icons.push(<div className={ `button-icon icon-${house} disabled` } key={ house } />);
+                icons.push(<div className={`button-icon icon-${house} disabled`} key={house} />);
             }
 
-            if(++i === 5) {
-                iconRows.push(<div className='house-icon-row'>{ icons }</div>);
+            if (++i === 5) {
+                iconRows.push(<div className='house-icon-row'>{icons}</div>);
 
                 i = 0;
 
@@ -40,12 +46,9 @@ class HouseSelect extends React.Component {
             }
         }
 
-        iconRows.push(<div className='house-icon-row'>{ icons }</div>);
+        iconRows.push(<div className='house-icon-row'>{icons}</div>);
 
-        return (
-            <div>
-                { iconRows }
-            </div>);
+        return <div>{iconRows}</div>;
     }
 }
 

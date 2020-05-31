@@ -10,7 +10,8 @@ class UnchartedLands extends Card {
         });
         this.persistentEffect({
             targetController: 'any',
-            match: (card) => card.hasHouse('staralliance') && card.type === 'creature' && this.amber > 0,
+            match: (card) =>
+                card.hasHouse('staralliance') && card.type === 'creature' && this.amber > 0,
             effect: ability.effects.gainAbility('reap', {
                 gameAction: [
                     ability.actions.removeAmber({

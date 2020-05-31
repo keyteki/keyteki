@@ -8,22 +8,28 @@ class LeastStatCardSelector extends ExactlyXCardSelector {
 
     canTarget(card, context) {
         let sorted = this.getSortedCards(context);
-        let maxStat = sorted.length < this.numCards ? Infinity : this.cardStat(sorted[this.numCards - 1]);
+        let maxStat =
+            sorted.length < this.numCards ? Infinity : this.cardStat(sorted[this.numCards - 1]);
         return this.cardStat(card) <= maxStat && sorted.includes(card);
     }
 
     getSortedCards(context) {
-        return this.findPossibleCards(context).filter(card => super.canTarget(card, context)).sort((a, b) => this.cardStat(a) - this.cardStat(b));
+        return this.findPossibleCards(context)
+            .filter((card) => super.canTarget(card, context))
+            .sort((a, b) => this.cardStat(a) - this.cardStat(b));
     }
 
     hasEnoughSelected(selectedCards, context) {
-        if(!super.hasEnoughSelected(selectedCards)) {
+        if (!super.hasEnoughSelected(selectedCards)) {
             return false;
         }
 
         let sorted = this.getSortedCards(context);
-        let maxStat = sorted.length < this.numCards ? Infinity : this.cardStat(sorted[this.numCards - 1]);
-        return sorted.every(card => this.cardStat(card) >= maxStat || selectedCards.includes(card));
+        let maxStat =
+            sorted.length < this.numCards ? Infinity : this.cardStat(sorted[this.numCards - 1]);
+        return sorted.every(
+            (card) => this.cardStat(card) >= maxStat || selectedCards.includes(card)
+        );
     }
 }
 

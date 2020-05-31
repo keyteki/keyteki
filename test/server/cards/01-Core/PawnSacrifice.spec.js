@@ -1,7 +1,7 @@
-describe('Pawn Sacrifice', function() {
-    integration(function() {
-        describe('Pawn Sacrifice\'s ability', function() {
-            beforeEach(function() {
+describe('Pawn Sacrifice', function () {
+    integration(function () {
+        describe("Pawn Sacrifice's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'shadows',
@@ -15,7 +15,7 @@ describe('Pawn Sacrifice', function() {
                 });
             });
 
-            it('prompt for a sacrifice and then resolve it, then prompt for creatures to damage', function() {
+            it('prompt for a sacrifice and then resolve it, then prompt for creatures to damage', function () {
                 this.player1.play(this.pawnSacrifice);
                 expect(this.player1).toHavePrompt('Choose a creature to sacrifice');
                 expect(this.player1).toBeAbleToSelect(this.urchin);
@@ -33,7 +33,7 @@ describe('Pawn Sacrifice', function() {
                 expect(this.inkaTheSpider.location).toBe('discard');
             });
 
-            it('should work correctly when there is only 1 creature to damage', function() {
+            it('should work correctly when there is only 1 creature to damage', function () {
                 this.player1.play(this.silvertooth);
                 expect(this.silvertooth.exhausted).toBe(false);
                 this.player1.fightWith(this.silvertooth, this.inkaTheSpider);
@@ -56,7 +56,7 @@ describe('Pawn Sacrifice', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should work correctly when there are no creatures to damage', function() {
+            it('should work correctly when there are no creatures to damage', function () {
                 this.player1.play(this.nerveBlast);
                 this.player1.clickCard(this.batdrone);
                 expect(this.batdrone.location).toBe('discard');

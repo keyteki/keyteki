@@ -11,18 +11,22 @@ const GameFlowWrapper = require('./gameflowwrapper.js');
 const deckBuilder = new DeckBuilder();
 
 const ProxiedGameFlowWrapperMethods = [
-    'startGame', 'selectFirstPlayer', 'keepCards', 'getChatLogs', 'getChatLog'
+    'startGame',
+    'selectFirstPlayer',
+    'keepCards',
+    'getChatLogs',
+    'getChatLog'
 ];
 
 var customMatchers = {
-    toHavePrompt: function() {
+    toHavePrompt: function () {
         return {
-            compare: function(actual, expected) {
+            compare: function (actual, expected) {
                 var result = {};
                 var currentPrompt = actual.currentPrompt();
                 result.pass = actual.hasPrompt(expected);
 
-                if(result.pass) {
+                if (result.pass) {
                     result.message = `Expected ${actual.name} not to have prompt "${expected}" but it did.`;
                 } else {
                     result.message = `Expected ${actual.name} to have prompt "${expected}" but it had menuTitle "${currentPrompt.menuTitle}" and promptTitle "${currentPrompt.promptTitle}".`;
@@ -32,18 +36,20 @@ var customMatchers = {
             }
         };
     },
-    toHavePromptButton: function(util, customEqualityMatchers) {
+    toHavePromptButton: function (util, customEqualityMatchers) {
         return {
-            compare: function(actual, expected) {
+            compare: function (actual, expected) {
                 var buttons = actual.currentPrompt().buttons;
                 var result = {};
 
-                result.pass = _.any(buttons, button => util.equals(button.text, expected, customEqualityMatchers));
+                result.pass = _.any(buttons, (button) =>
+                    util.equals(button.text, expected, customEqualityMatchers)
+                );
 
-                if(result.pass) {
+                if (result.pass) {
                     result.message = `Expected ${actual.name} not to have prompt button "${expected}" but it did.`;
                 } else {
-                    var buttonText = _.map(buttons, button => '[' + button.text + ']').join('\n');
+                    var buttonText = _.map(buttons, (button) => '[' + button.text + ']').join('\n');
                     result.message = `Expected ${actual.name} to have prompt button "${expected}" but it had buttons:\n${buttonText}`;
                 }
 
@@ -51,22 +57,27 @@ var customMatchers = {
             }
         };
     },
-    toHavePromptCardButton: function(util, customEqualityMatchers) {
+    toHavePromptCardButton: function (util, customEqualityMatchers) {
         return {
-            compare: function(actual, card) {
+            compare: function (actual, card) {
                 var buttons = actual.currentPrompt().buttons;
                 var result = {};
 
-                if(_.isString(card)) {
+                if (_.isString(card)) {
                     card = actual.findCardByName(card);
                 }
 
-                result.pass = _.any(buttons, button => util.equals(button.card ? button.card.id : '', card.id, customEqualityMatchers));
+                result.pass = _.any(buttons, (button) =>
+                    util.equals(button.card ? button.card.id : '', card.id, customEqualityMatchers)
+                );
 
-                if(result.pass) {
+                if (result.pass) {
                     result.message = `Expected ${actual.name} not to have prompt button "${card.name}" but it did.`;
                 } else {
-                    var buttonText = _.map(buttons, button => '[' + (button.card ? button.card.name : '') + ']').join('\n');
+                    var buttonText = _.map(
+                        buttons,
+                        (button) => '[' + (button.card ? button.card.name : '') + ']'
+                    ).join('\n');
                     result.message = `Expected ${actual.name} to have prompt button "${card.name}" but it had buttons:\n${buttonText}`;
                 }
 
@@ -74,10 +85,10 @@ var customMatchers = {
             }
         };
     },
-    toBeAbleToSelect: function() {
+    toBeAbleToSelect: function () {
         return {
-            compare: function(player, card) {
-                if(_.isString(card)) {
+            compare: function (player, card) {
+                if (_.isString(card)) {
                     card = player.findCardByName(card);
                 }
 
@@ -85,7 +96,7 @@ var customMatchers = {
 
                 result.pass = player.currentActionTargets.includes(card);
 
-                if(result.pass) {
+                if (result.pass) {
                     result.message = `Expected ${card.name} not to be selectable by ${player.name} but it was.`;
                 } else {
                     result.message = `Expected ${card.name} to be selectable by ${player.name} but it wasn't.`;
@@ -95,10 +106,10 @@ var customMatchers = {
             }
         };
     },
-    toBeAbleToPlay: function() {
+    toBeAbleToPlay: function () {
         return {
-            compare: function(player, card) {
-                if(_.isString(card)) {
+            compare: function (player, card) {
+                if (_.isString(card)) {
                     card = player.findCardByName(card);
                 }
 
@@ -106,7 +117,7 @@ var customMatchers = {
 
                 result.pass = card.getLegalActions(player.player, false).length > 0;
 
-                if(result.pass) {
+                if (result.pass) {
                     result.message = `Expected ${card.name} not to be playable by ${player.name} but it was.`;
                 } else {
                     result.message = `Expected ${card.name} to be playable by ${player.name} but it wasn't.`;
@@ -116,15 +127,15 @@ var customMatchers = {
             }
         };
     },
-    toHaveRecentChatMessage: function() {
+    toHaveRecentChatMessage: function () {
         return {
-            compare: function(game, msg, numBack = 1) {
+            compare: function (game, msg, numBack = 1) {
                 let result = {};
                 let logs = game.getChatLogs(numBack);
 
-                result.pass = logs.filter(lastMsg => lastMsg.includes(msg)).length > 0;
+                result.pass = logs.filter((lastMsg) => lastMsg.includes(msg)).length > 0;
 
-                if(result.pass) {
+                if (result.pass) {
                     result.message = `Expected ${msg} not to be in ${logs} but it was.`;
                 } else {
                     result.message = `Expected '${msg}' to be in [${logs}] but it wasn't.`;
@@ -136,16 +147,16 @@ var customMatchers = {
     }
 };
 
-beforeEach(function() {
+beforeEach(function () {
     jasmine.addMatchers(customMatchers);
 });
 
-global.integration = function(definitions) {
-    describe('integration', function() {
-        beforeEach(function() {
+global.integration = function (definitions) {
+    describe('integration', function () {
+        beforeEach(function () {
             let cards = {};
 
-            for(let card of deckBuilder.cards) {
+            for (let card of deckBuilder.cards) {
                 cards[card.id] = card;
             }
 
@@ -157,11 +168,11 @@ global.integration = function(definitions) {
             this.player1 = this.flow.player1;
             this.player2 = this.flow.player2;
 
-            _.each(ProxiedGameFlowWrapperMethods, method => {
+            _.each(ProxiedGameFlowWrapperMethods, (method) => {
                 this[method] = (...args) => this.flow[method].apply(this.flow, args);
             });
 
-            this.buildDeck = function(faction, cards) {
+            this.buildDeck = function (faction, cards) {
                 return deckBuilder.buildDeck(faction, cards);
             };
 
@@ -169,13 +180,13 @@ global.integration = function(definitions) {
              * Factory method. Creates a new simulation of a game.
              * @param {Object} [options = {}] - specifies the state of the game
              */
-            this.setupTest = function(options = {}) {
+            this.setupTest = function (options = {}) {
                 //Set defaults
-                if(!options.player1) {
+                if (!options.player1) {
                     options.player1 = {};
                 }
 
-                if(!options.player2) {
+                if (!options.player2) {
                     options.player2 = {};
                 }
 
@@ -187,13 +198,13 @@ global.integration = function(definitions) {
                 //Setup phase
 
                 this.keepCards();
-                if(options.phase !== 'setup') {
+                if (options.phase !== 'setup') {
                     // Choose a house
                     this.player1.clickPrompt(this.player1.currentButtons[0]);
                     this.player1.endTurn();
                     this.player2.clickPrompt(this.player2.currentButtons[0]);
                     this.player2.endTurn();
-                    if(options.player1.house) {
+                    if (options.player1.house) {
                         this.player1.clickPrompt(options.player1.house);
                     }
                 }
@@ -218,16 +229,19 @@ global.integration = function(definitions) {
                 this.player1.archives = options.player1.archives;
                 this.player2.archives = options.player2.archives;
 
-                for(let player of [this.player1, this.player2]) {
-                    let cards = ['inPlay', 'hand', 'discard', 'archives'].reduce((array, location) => array.concat(player[location]), []);
-                    for(let card of cards) {
+                for (let player of [this.player1, this.player2]) {
+                    let cards = ['inPlay', 'hand', 'discard', 'archives'].reduce(
+                        (array, location) => array.concat(player[location]),
+                        []
+                    );
+                    for (let card of cards) {
                         let split = card.id.split('-');
-                        for(let i = 1; i < split.length; i++) {
+                        for (let i = 1; i < split.length; i++) {
                             split[i] = split[i].slice(0, 1).toUpperCase() + split[i].slice(1);
                         }
 
                         let camel = split.join('');
-                        if(!this[camel]) {
+                        if (!this[camel]) {
                             this[camel] = card;
                         }
                     }
@@ -237,8 +251,8 @@ global.integration = function(definitions) {
             };
         });
 
-        afterEach(function() {
-            if(process.env.DEBUG_TEST) {
+        afterEach(function () {
+            if (process.env.DEBUG_TEST) {
                 // eslint-disable-next-line no-console
                 console.info(this.game.getPlainTextLog());
             }

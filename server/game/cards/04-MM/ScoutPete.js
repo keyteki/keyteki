@@ -5,14 +5,14 @@ class ScoutPete extends Card {
         this.play({
             fight: true,
             reap: true,
-            condition: context => context.player.deck.length > 0,
-            gameAction: ability.actions.discard(context => ({
+            condition: (context) => context.player.deck.length > 0,
+            gameAction: ability.actions.discard((context) => ({
                 promptWithHandlerMenu: {
                     optional: true,
                     activePromptTitle: 'Select card to discard',
                     cards: [context.player.deck[0]],
                     choices: ['Leave on top of deck'],
-                    handlers: [()=>[]]
+                    handlers: [() => []]
                 }
             })),
             message: 'Choose to keep or discard top of deck.'

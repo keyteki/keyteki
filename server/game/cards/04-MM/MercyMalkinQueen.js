@@ -2,11 +2,14 @@ const Card = require('../../Card.js');
 
 class MercyMalkinQueen extends Card {
     setupCardAbilities(ability) {
-        this.constantReaction({
+        this.reaction({
             when: {
-                onCardPlayed: (event, context) => context.player === event.player && event.card.type === 'creature' && event.card.hasTrait('cat')
+                onCardPlayed: (event, context) =>
+                    context.player === event.player &&
+                    event.card.type === 'creature' &&
+                    event.card.hasTrait('cat')
             },
-            gameAction: ability.actions.ward(context => ({ target: context.event.card }))
+            gameAction: ability.actions.ward((context) => ({ target: context.event.card }))
         });
 
         this.fight({
@@ -14,7 +17,7 @@ class MercyMalkinQueen extends Card {
             target: {
                 controller: 'self',
                 cardType: 'creature',
-                cardCondition: card => card.hasTrait('beast'),
+                cardCondition: (card) => card.hasTrait('beast'),
                 gameAction: ability.actions.ready()
             }
         });

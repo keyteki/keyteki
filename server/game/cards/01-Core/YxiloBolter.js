@@ -8,7 +8,7 @@ class YxiloBolter extends Card {
                 cardType: 'creature',
                 gameAction: ability.actions.dealDamage({ amount: 2, purge: true })
             },
-            then: context => ({
+            then: (context) => ({
                 condition: () => context.target.location === 'discard',
                 gameAction: ability.actions.purge({ target: context.target })
             })

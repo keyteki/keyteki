@@ -9,7 +9,7 @@ class SenatorShrix extends Card {
         this.play({
             reap: true,
             optional: true,
-            gameAction: ability.actions.exalt(context => ({
+            gameAction: ability.actions.exalt((context) => ({
                 target: context.source
             }))
         });

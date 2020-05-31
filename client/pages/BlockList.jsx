@@ -21,7 +21,7 @@ class BlockList extends React.Component {
 
     // eslint-disable-next-line react/no-deprecated
     componentWillMount() {
-        if(this.props.user) {
+        if (this.props.user) {
             this.props.loadBlockList(this.props.user);
 
             this.setState({ detailsLoaded: true });
@@ -30,7 +30,7 @@ class BlockList extends React.Component {
 
     // eslint-disable-next-line camelcase
     UNSAFE_componentWillReceiveProps(props) {
-        if(!this.state.detailsLoaded && props.user) {
+        if (!this.state.detailsLoaded && props.user) {
             this.props.loadBlockList(props.user);
 
             this.setState({ detailsLoaded: true });
@@ -58,79 +58,119 @@ class BlockList extends React.Component {
 
         let successPanel;
 
-        if(this.props.blockListAdded) {
+        if (this.props.blockListAdded) {
             setTimeout(() => {
                 this.props.clearBlockListStatus();
             }, 5000);
             successPanel = (
-                <AlertPanel message={ t('Block list entry added successfully') } type={ 'success' } />
+                <AlertPanel message={t('Block list entry added successfully')} type={'success'} />
             );
             this.props.socket.emit('authenticate', this.props.token);
         }
 
-        if(this.props.blockListDeleted) {
+        if (this.props.blockListDeleted) {
             setTimeout(() => {
                 this.props.clearBlockListStatus();
             }, 5000);
             successPanel = (
-                <AlertPanel message={ t('Block list entry removed successfully') } type={ 'success' } />
+                <AlertPanel message={t('Block list entry removed successfully')} type={'success'} />
             );
             this.props.socket.emit('authenticate', this.props.token);
         }
 
         let content;
-        let blockList = this.props.blockList.map(user => {
+        let blockList = this.props.blockList.map((user) => {
             return (
-                <tr key={ user }>
-                    <td>{ user }</td>
-                    <td><a href='#' className='btn' onClick={ this.onRemoveClick.bind(this, user) }><span className='glyphicon glyphicon-remove' /></a></td>
+                <tr key={user}>
+                    <td>{user}</td>
+                    <td>
+                        <a href='#' className='btn' onClick={this.onRemoveClick.bind(this, user)}>
+                            <span className='glyphicon glyphicon-remove' />
+                        </a>
+                    </td>
                 </tr>
             );
         });
 
-        let table = (this.props.blockList && this.props.blockList.length === 0) ? <div><Trans>No users currently blocked</Trans></div> : (
-            <table className='table table-striped blocklist'>
-                <thead>
-                    <tr>
-                        <th><Trans>Username</Trans></th>
-                        <th><Trans>Remove</Trans></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    { blockList }
-                </tbody>
-            </table>
-        );
+        let table =
+            this.props.blockList && this.props.blockList.length === 0 ? (
+                <div>
+                    <Trans>No users currently blocked</Trans>
+                </div>
+            ) : (
+                <table className='table table-striped blocklist'>
+                    <thead>
+                        <tr>
+                            <th>
+                                <Trans>Username</Trans>
+                            </th>
+                            <th>
+                                <Trans>Remove</Trans>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>{blockList}</tbody>
+                </table>
+            );
 
-        let errorBar = this.props.apiSuccess === false ? <AlertPanel type='error' message={ this.props.apiMessage } /> : null;
+        let errorBar =
+            this.props.apiSuccess === false ? (
+                <AlertPanel type='error' message={this.props.apiMessage} />
+            ) : null;
 
-        if(this.props.apiLoading) {
-            content = <div><Trans>Loading block list from the server...</Trans></div>;
+        if (this.props.apiLoading) {
+            content = (
+                <div>
+                    <Trans>Loading block list from the server...</Trans>
+                </div>
+            );
         } else {
             content = (
                 <div className='col-sm-8 col-sm-offset-2 full-height'>
                     <div className='about-container'>
-                        { successPanel }
-                        { errorBar }
+                        {successPanel}
+                        {errorBar}
 
                         <form className='form form-horizontal'>
-                            <Panel title={ t('Block list') }>
-                                <p><Trans i18nKey='blocklist.explain'>It can sometimes become necessary to prevent someone joining your games, or stop seeing their messages, or both.
-                                Users on this list will not be able to join your games, and you will not see their chat messages or their games.</Trans>
+                            <Panel title={t('Block list')}>
+                                <p>
+                                    <Trans i18nKey='blocklist.explain'>
+                                        It can sometimes become necessary to prevent someone joining
+                                        your games, or stop seeing their messages, or both. Users on
+                                        this list will not be able to join your games, and you will
+                                        not see their chat messages or their games.
+                                    </Trans>
                                 </p>
 
                                 <div className='form-group'>
-                                    <Input name='blockee' label={ t('Username') } labelClass='col-sm-4' fieldClass='col-sm-4' placeholder={ t('Enter username to block') }
-                                        type='text' onChange={ this.onUsernameChange.bind(this) } value={ this.state.username } noGroup />
-                                    <button className='btn btn-primary' onClick={ this.onAddClick.bind(this) }><Trans>Add</Trans></button>
+                                    <Input
+                                        name='blockee'
+                                        label={t('Username')}
+                                        labelClass='col-sm-4'
+                                        fieldClass='col-sm-4'
+                                        placeholder={t('Enter username to block')}
+                                        type='text'
+                                        onChange={this.onUsernameChange.bind(this)}
+                                        value={this.state.username}
+                                        noGroup
+                                    />
+                                    <button
+                                        className='btn btn-primary'
+                                        onClick={this.onAddClick.bind(this)}
+                                    >
+                                        <Trans>Add</Trans>
+                                    </button>
                                 </div>
 
-                                <h3><Trans>Users Blocked</Trans></h3>
-                                { table }
+                                <h3>
+                                    <Trans>Users Blocked</Trans>
+                                </h3>
+                                {table}
                             </Panel>
                         </form>
                     </div>
-                </div>);
+                </div>
+            );
         }
 
         return content;

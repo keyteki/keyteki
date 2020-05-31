@@ -1,7 +1,7 @@
-describe('Captain Val Jericho', function() {
-    integration(function() {
-        describe('Captain Val Jericho\'s ability', function() {
-            beforeEach(function() {
+describe('Captain Val Jericho', function () {
+    integration(function () {
+        describe("Captain Val Jericho's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         amber: 4,
@@ -16,19 +16,19 @@ describe('Captain Val Jericho', function() {
                 });
             });
 
-            it('should not be in center when on the left of an even battle line', function() {
+            it('should not be in center when on the left of an even battle line', function () {
                 expect(this.captainValJericho.isInCenter()).toBe(true);
                 this.player1.play(this.commanderChan, false);
                 expect(this.captainValJericho.isInCenter()).toBe(false);
             });
 
-            it('should not be in center when on the right of an even battle line', function() {
+            it('should not be in center when on the right of an even battle line', function () {
                 expect(this.captainValJericho.isInCenter()).toBe(true);
                 this.player1.play(this.commanderChan, true);
                 expect(this.captainValJericho.isInCenter()).toBe(false);
             });
 
-            it('should allow playing non-staralliance only when in the middle', function() {
+            it('should allow playing non-staralliance only when in the middle', function () {
                 expect(this.captainValJericho.isInCenter()).toBe(true);
                 this.player1.clickCard(this.chuffApe);
                 expect(this.player1).toHavePrompt('Play Chuff Ape:');
@@ -45,7 +45,7 @@ describe('Captain Val Jericho', function() {
                 this.player1.clickPrompt('Play this creature');
             });
 
-            it('should allow playing non-staralliance only once', function() {
+            it('should allow playing non-staralliance only once', function () {
                 expect(this.captainValJericho.isInCenter()).toBe(true);
                 this.player1.play(this.chuffApe, true);
                 this.player1.play(this.commanderChan, false);

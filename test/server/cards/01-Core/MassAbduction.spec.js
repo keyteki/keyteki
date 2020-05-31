@@ -1,11 +1,16 @@
-describe('Mass Abduction', function() {
-    integration(function() {
-        describe('Mass Abduction\'s ability', function() {
-            beforeEach(function() {
+describe('Mass Abduction', function () {
+    integration(function () {
+        describe("Mass Abduction's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'mars',
-                        hand: ['orbital-bombardment', 'soft-landing', 'mass-abduction', 'mindwarper']
+                        hand: [
+                            'orbital-bombardment',
+                            'soft-landing',
+                            'mass-abduction',
+                            'mindwarper'
+                        ]
                     },
                     player2: {
                         inPlay: ['troll', 'dextre', 'bumpsy', 'sequis']
@@ -13,7 +18,7 @@ describe('Mass Abduction', function() {
                 });
             });
 
-            it('should archive all creatures selected', function() {
+            it('should archive all creatures selected', function () {
                 this.player1.play(this.orbitalBombardment);
                 this.player1.clickCard(this.massAbduction);
                 this.player1.clickCard(this.mindwarper);

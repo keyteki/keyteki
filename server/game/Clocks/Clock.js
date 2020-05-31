@@ -25,15 +25,15 @@ class Clock {
     }
 
     start() {
-        if(!this.paused) {
+        if (!this.paused) {
             this.timerStart = Date.now();
             this.updateStateId();
         }
     }
 
     stop() {
-        if(this.timerStart > 0) {
-            this.updateTimeLeft(Math.floor(((Date.now() - this.timerStart) / 1000) + 0.5));
+        if (this.timerStart > 0) {
+            this.updateTimeLeft(Math.floor((Date.now() - this.timerStart) / 1000 + 0.5));
             this.timerStart = 0;
             this.updateStateId();
         }
@@ -49,17 +49,17 @@ class Clock {
     }
 
     updateTimeLeft(secs) {
-        if(this.timeLeft === 0 || secs < 0) {
+        if (this.timeLeft === 0 || secs < 0) {
             return;
         }
 
-        if(this.mode === 'down') {
+        if (this.mode === 'down') {
             this.modify(-secs);
-            if(this.timeLeft < 0) {
+            if (this.timeLeft < 0) {
                 this.timeLeft = 0;
                 this.timeRanOut();
             }
-        } else if(this.mode === 'up') {
+        } else if (this.mode === 'up') {
             this.modify(secs);
         }
     }

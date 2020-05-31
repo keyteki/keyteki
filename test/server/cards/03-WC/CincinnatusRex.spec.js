@@ -1,7 +1,7 @@
-describe('Cincinnatus Rex', function() {
-    integration(function() {
-        describe('Cincinnatus Rex\'s ability', function() {
-            beforeEach(function() {
+describe('Cincinnatus Rex', function () {
+    integration(function () {
+        describe("Cincinnatus Rex's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'saurian',
@@ -14,14 +14,14 @@ describe('Cincinnatus Rex', function() {
                 });
             });
 
-            it('should be destroyed immediately after being played if opponent has no creatures', function() {
+            it('should be destroyed immediately after being played if opponent has no creatures', function () {
                 this.player1.play(this.cincinnatusRex);
                 expect(this.cincinnatusRex.location).toBe('discard');
             });
         });
 
-        describe('Cincinnatus Rex\'s ability', function() {
-            beforeEach(function() {
+        describe("Cincinnatus Rex's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'saurian',
@@ -35,12 +35,12 @@ describe('Cincinnatus Rex', function() {
                 });
             });
 
-            it('should stay in play if opponent has creatures on the board', function() {
+            it('should stay in play if opponent has creatures on the board', function () {
                 this.player1.play(this.cincinnatusRex);
                 expect(this.cincinnatusRex.location).toBe('play area');
             });
 
-            it('should destroy itself if opponent has no creatures on the board', function() {
+            it('should destroy itself if opponent has no creatures on the board', function () {
                 this.player1.play(this.cincinnatusRex);
                 expect(this.cincinnatusRex.location).toBe('play area');
                 this.player1.fightWith(this.paraguardian, this.bingleBangbang);
@@ -48,7 +48,7 @@ describe('Cincinnatus Rex', function() {
                 expect(this.cincinnatusRex.location).toBe('discard');
             });
 
-            it('should destroy itself if opponent has no creatures on the board and its their fault', function() {
+            it('should destroy itself if opponent has no creatures on the board and its their fault', function () {
                 this.player1.play(this.cincinnatusRex);
                 expect(this.cincinnatusRex.location).toBe('play area');
                 this.player1.endTurn();
@@ -59,8 +59,8 @@ describe('Cincinnatus Rex', function() {
             });
         });
 
-        describe('Cincinnatus Rex\'s ability', function() {
-            beforeEach(function() {
+        describe("Cincinnatus Rex's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'saurian',
@@ -74,7 +74,7 @@ describe('Cincinnatus Rex', function() {
                 });
             });
 
-            it('should have the option to exalt after fight and cancel', function() {
+            it('should have the option to exalt after fight and cancel', function () {
                 this.player1.play(this.cincinnatusRex);
                 this.player1.fightWith(this.paraguardian, this.lamindra);
                 this.player1.fightWith(this.cincinnatusRex, this.lamindra);
@@ -84,7 +84,7 @@ describe('Cincinnatus Rex', function() {
                 expect(this.paraguardian.exhausted).toBe(true);
             });
 
-            it('should exalt after fight and ready friendly creatures', function() {
+            it('should exalt after fight and ready friendly creatures', function () {
                 this.player1.play(this.cincinnatusRex);
                 this.player1.fightWith(this.paraguardian, this.lamindra);
                 this.player1.fightWith(this.cincinnatusRex, this.lamindra);

@@ -1,7 +1,7 @@
-describe('Gravelguts', function() {
-    integration(function() {
-        describe('Gravelguts\'s ability', function() {
-            beforeEach(function() {
+describe('Gravelguts', function () {
+    integration(function () {
+        describe("Gravelguts's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'brobnar',
@@ -14,7 +14,7 @@ describe('Gravelguts', function() {
                     }
                 });
             });
-            it('should gain 2 +1 power counters when it destroys a creature in a fight', function() {
+            it('should gain 2 +1 power counters when it destroys a creature in a fight', function () {
                 this.player1.fightWith(this.gravelguts, this.silvertooth);
                 expect(this.silvertooth.location).toBe('discard');
                 expect(this.gravelguts.tokens.damage).toBe(2);

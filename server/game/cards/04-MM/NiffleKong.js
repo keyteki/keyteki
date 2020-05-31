@@ -7,40 +7,52 @@ class NiffleKong extends Card {
         this.gigantic = true;
         this.playedParts = [];
         this.compositeImageId = 'niffle-kong-complete';
-        this.compositeParts = ['niffle-kong-2'];
+        this.compositeParts = ['niffle-kong2'];
     }
 
     setupCardAbilities(ability) {
         this.persistentEffect({
             location: 'any',
-            effect: ability.effects.cardCannot('play', context => {
-                return context.source.location !== 'hand' ||
-                    this.compositeParts.some(id => !context.source.controller.hand.some(card => id === card.id));
+            effect: ability.effects.cardCannot('play', (context) => {
+                return (
+                    context.source.location !== 'hand' ||
+                    this.compositeParts.some(
+                        (id) => !context.source.controller.hand.some((card) => id === card.id)
+                    )
+                );
             })
         });
 
         this.play({
             effect: 'return all Niffle creatures from deck and discard to hand',
             gameAction: [
-                ability.actions.reveal(context => ({
+                ability.actions.reveal((context) => ({
                     location: 'deck',
                     chatMessage: true,
-                    target: context.player.deck.filter(card => card.type === 'creature' && card.hasTrait('niffle'))
+                    target: context.player.deck.filter(
+                        (card) => card.type === 'creature' && card.hasTrait('niffle')
+                    )
                 })),
-                ability.actions.reveal(context => ({
+                ability.actions.reveal((context) => ({
                     location: 'discard',
                     chatMessage: true,
-                    target: context.player.discard.filter(card => card.type === 'creature' && card.hasTrait('niffle'))
+                    target: context.player.discard.filter(
+                        (card) => card.type === 'creature' && card.hasTrait('niffle')
+                    )
                 })),
-                ability.actions.returnToHand(context => ({
+                ability.actions.returnToHand((context) => ({
                     location: 'deck',
-                    target: context.player.deck.filter(card => card.type === 'creature' && card.hasTrait('niffle'))
+                    target: context.player.deck.filter(
+                        (card) => card.type === 'creature' && card.hasTrait('niffle')
+                    )
                 })),
-                ability.actions.returnToHand(context => ({
+                ability.actions.returnToHand((context) => ({
                     location: 'discard',
-                    target: context.player.discard.filter(card => card.type === 'creature' && card.hasTrait('niffle'))
+                    target: context.player.discard.filter(
+                        (card) => card.type === 'creature' && card.hasTrait('niffle')
+                    )
                 })),
-                ability.actions.shuffleDeck(context => ({
+                ability.actions.shuffleDeck((context) => ({
                     target: context.player
                 }))
             ]
@@ -51,7 +63,7 @@ class NiffleKong extends Card {
             target: {
                 controller: 'self',
                 cardType: 'creature',
-                cardCondition: card => card.hasTrait('niffle'),
+                cardCondition: (card) => card.hasTrait('niffle'),
                 gameAction: ability.actions.destroy()
             },
             then: {
@@ -67,7 +79,7 @@ class NiffleKong extends Card {
                         gameAction: ability.actions.destroy()
                     }
                 },
-                gameAction: ability.actions.steal(context => ({
+                gameAction: ability.actions.steal((context) => ({
                     target: context.player.opponent
                 }))
             }

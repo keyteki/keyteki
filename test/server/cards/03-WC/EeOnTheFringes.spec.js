@@ -1,7 +1,7 @@
-describe('E’e on the Fringes', function() {
-    integration(function() {
-        describe('E’e on the Fringes\'s ability', function() {
-            beforeEach(function() {
+describe('E’e on the Fringes', function () {
+    integration(function () {
+        describe("E’e on the Fringes's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         amber: 4,
@@ -15,14 +15,14 @@ describe('E’e on the Fringes', function() {
                 });
             });
 
-            it('when a card is played, should have no prompt', function() {
+            it('when a card is played, should have no prompt', function () {
                 this.player1.play(this.redlock);
                 expect(this.player1.amber).toBe(4);
                 expect(this.player2.amber).toBe(5);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('when a non-Dis card is discarded, should have no prompt', function() {
+            it('when a non-Dis card is discarded, should have no prompt', function () {
                 this.player1.clickCard(this.redlock);
                 this.player1.clickPrompt('Discard this card');
                 expect(this.player1.amber).toBe(4);
@@ -31,8 +31,8 @@ describe('E’e on the Fringes', function() {
             });
         });
 
-        describe('E’e on the Fringes\'s ability', function() {
-            beforeEach(function() {
+        describe("E’e on the Fringes's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         amber: 4,
@@ -49,7 +49,7 @@ describe('E’e on the Fringes', function() {
                 this.player1.moveCard(this.shooler, 'discard');
             });
 
-            it('when Dis-card is discarded, should have a prompt and be able to cancel', function() {
+            it('when Dis-card is discarded, should have a prompt and be able to cancel', function () {
                 this.player1.clickCard(this.threeFates);
                 this.player1.clickPrompt('Discard this card');
                 expect(this.player1).toHavePrompt('E’e on the Fringes');
@@ -62,7 +62,7 @@ describe('E’e on the Fringes', function() {
                 expect(this.player2.amber).toBe(5);
             });
 
-            it('when Dis-card is discarded, should have a prompt, purge one card and steal 1A', function() {
+            it('when Dis-card is discarded, should have a prompt, purge one card and steal 1A', function () {
                 this.player1.clickCard(this.threeFates);
                 this.player1.clickPrompt('Discard this card');
                 expect(this.player1).toHavePrompt('E’e on the Fringes');

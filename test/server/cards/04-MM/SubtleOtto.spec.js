@@ -1,7 +1,7 @@
-describe('Subtle Otto', function() {
-    integration(function() {
-        describe('Subtle Otto\'s reap ability', function() {
-            beforeEach(function() {
+describe('Subtle Otto', function () {
+    integration(function () {
+        describe("Subtle Otto's reap ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'shadows',
@@ -15,7 +15,7 @@ describe('Subtle Otto', function() {
                 });
             });
 
-            it('Discard card from opponent\'s hand', function() {
+            it("Discard card from opponent's hand", function () {
                 this.player1.play(this.subtleOtto);
                 expect(this.player1.hand.length).toBe(5);
                 expect(this.player2.hand.length).toBe(5);

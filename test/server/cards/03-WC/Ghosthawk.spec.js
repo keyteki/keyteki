@@ -1,7 +1,7 @@
-describe('Ghosthawk', function() {
-    integration(function() {
-        describe('Ghostform\'s ability', function() {
-            beforeEach(function() {
+describe('Ghosthawk', function () {
+    integration(function () {
+        describe("Ghostform's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'untamed',
@@ -19,31 +19,31 @@ describe('Ghosthawk', function() {
                 this.player1.clickCard(this.dewFaerie);
             });
 
-            it('should prompt to reap with both cards', function() {
+            it('should prompt to reap with both cards', function () {
                 expect(this.player1).toBeAbleToSelect(this.troll);
                 expect(this.player1).toBeAbleToSelect(this.dewFaerie);
             });
 
-            describe('when clicking the left side', function() {
-                beforeEach(function() {
+            describe('when clicking the left side', function () {
+                beforeEach(function () {
                     this.player1.clickCard(this.troll);
                 });
 
-                it('should reap with the card', function() {
+                it('should reap with the card', function () {
                     expect(this.player1.amber).toBe(1);
                 });
 
-                it('should trigger the reap effect', function() {
+                it('should trigger the reap effect', function () {
                     expect(this.troll.tokens.damage).toBe(1);
                 });
             });
 
-            describe('when clicking the right side', function() {
-                beforeEach(function() {
+            describe('when clicking the right side', function () {
+                beforeEach(function () {
                     this.player1.clickCard(this.dewFaerie);
                 });
 
-                it('shoudl trigger the reap effect and reap', function() {
+                it('shoudl trigger the reap effect and reap', function () {
                     expect(this.player1.amber).toBe(2);
                 });
             });

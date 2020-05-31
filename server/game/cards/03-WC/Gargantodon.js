@@ -2,11 +2,9 @@ const Card = require('../../Card.js');
 
 class Gargantodon extends Card {
     setupCardAbilities(ability) {
-        this.constantReaction({
-            when: {
-                onCardEntersPlay: (event, context) => event.card === context.source
-            },
-            gameAction: ability.actions.stun()
+        this.persistentEffect({
+            location: 'any',
+            effect: ability.effects.entersPlayStunned()
         });
 
         this.persistentEffect({
@@ -17,11 +15,11 @@ class Gargantodon extends Card {
             when: {
                 onStealAmber: () => true
             },
-            gameAction: ability.actions.changeEvent(context => ({
+            gameAction: ability.actions.changeEvent((context) => ({
                 event: context.event,
                 cancel: true
             })),
-            then: preThenContext => ({
+            then: (preThenContext) => ({
                 alwaysTrigger: true,
                 target: {
                     cardType: 'creature',

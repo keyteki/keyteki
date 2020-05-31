@@ -4,9 +4,11 @@ class HebeTheHuge extends Card {
     setupCardAbilities(ability) {
         this.play({
             effect: 'deal 2 damage to each undamaged creature',
-            gameAction: ability.actions.dealDamage(context => ({
+            gameAction: ability.actions.dealDamage((context) => ({
                 amount: 2,
-                target: context.game.creaturesInPlay.filter(card => !card.hasToken('damage') && card !== context.source)
+                target: context.game.creaturesInPlay.filter(
+                    (card) => !card.hasToken('damage') && card !== context.source
+                )
             }))
         });
     }

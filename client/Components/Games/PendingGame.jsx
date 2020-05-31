@@ -43,37 +43,45 @@ class PendingGame extends React.Component {
     componentDidMount() {
         this.props.loadDecks();
 
-        if(this.props.currentGame && this.props.currentGame.gameFormat === 'sealed') {
+        if (this.props.currentGame && this.props.currentGame.gameFormat === 'sealed') {
             this.props.socket.emit('getsealeddeck', this.props.currentGame.id);
         }
     }
 
     // eslint-disable-next-line camelcase
     UNSAFE_componentWillReceiveProps(props) {
-        if(!props.user) {
+        if (!props.user) {
             return;
         }
 
         let players = this.getNumberOfPlayers(props);
 
-        if(this.notification && this.state.playerCount === 1 && players === 2 && props.currentGame.owner === this.props.user.username) {
+        if (
+            this.notification &&
+            this.state.playerCount === 1 &&
+            players === 2 &&
+            props.currentGame.owner === this.props.user.username
+        ) {
             let promise = this.notification.play();
 
-            if(promise !== undefined) {
-                promise.catch(() => {
-                }).then(() => {
-                });
+            if (promise !== undefined) {
+                promise.catch(() => {}).then(() => {});
             }
 
-            if(window.Notification && Notification.permission === 'granted') {
-                let otherPlayer = Object.values(props.currentGame.players).find(p => p.name !== props.user.username);
-                let windowNotification = new Notification('The Crucible Online', { body: `${otherPlayer.name} has joined your game`, icon: `/img/avatar/${otherPlayer.username}.png` });
+            if (window.Notification && Notification.permission === 'granted') {
+                let otherPlayer = Object.values(props.currentGame.players).find(
+                    (p) => p.name !== props.user.username
+                );
+                let windowNotification = new Notification('The Crucible Online', {
+                    body: `${otherPlayer.name} has joined your game`,
+                    icon: `/img/avatar/${otherPlayer.username}.png`
+                });
 
                 setTimeout(() => windowNotification.close(), 5000);
             }
         }
 
-        if(props.connecting) {
+        if (props.connecting) {
             this.setState({ waiting: false });
         }
 
@@ -81,13 +89,15 @@ class PendingGame extends React.Component {
     }
 
     isGameReady() {
-        if(!this.props.user) {
+        if (!this.props.user) {
             return false;
         }
 
-        if(!Object.values(this.props.currentGame.players).every(player => {
-            return !!player.deck.selected;
-        })) {
+        if (
+            !Object.values(this.props.currentGame.players).every((player) => {
+                return !!player.deck.selected;
+            })
+        ) {
             return false;
         }
 
@@ -116,51 +126,75 @@ class PendingGame extends React.Component {
         let status = null;
         let isSealed = this.props.currentGame.gameFormat === 'sealed';
 
-        if(player && player.deck && player.deck.selected && isSealed) {
+        if (player && player.deck && player.deck.selected && isSealed) {
             deck = <span className='deck-selection'>Sealed Deck Selected</span>;
-        } else if(player && player.deck && player.deck.selected) {
-            if(playerIsMe) {
-                deck = <span className='deck-selection clickable' onClick={ this.onSelectDeckClick }>{ player.deck.name }</span>;
+        } else if (player && player.deck && player.deck.selected) {
+            if (playerIsMe) {
+                deck = (
+                    <span className='deck-selection clickable' onClick={this.onSelectDeckClick}>
+                        {player.deck.name}
+                    </span>
+                );
             } else {
-                deck = <span className='deck-selection'><Trans>Deck Selected</Trans></span>;
+                deck = (
+                    <span className='deck-selection'>
+                        <Trans>Deck Selected</Trans>
+                    </span>
+                );
             }
 
-            status = <DeckStatus status={ player.deck.status } />;
-        } else if(player && playerIsMe && !isSealed) {
-            selectLink = <span className='card-link' onClick={ this.onSelectDeckClick }><Trans>Select deck...</Trans></span>;
-        } else if(isSealed) {
-            selectLink = <span><Trans>Sealed deck loading...</Trans></span>;
+            status = <DeckStatus status={player.deck.status} />;
+        } else if (player && playerIsMe && !isSealed) {
+            selectLink = (
+                <span className='card-link' onClick={this.onSelectDeckClick}>
+                    <Trans>Select deck...</Trans>
+                </span>
+            );
+        } else if (isSealed) {
+            selectLink = (
+                <span>
+                    <Trans>Sealed deck loading...</Trans>
+                </span>
+            );
         }
 
         return (
-            <div className='player-row' key={ player.name }>
-                <Avatar username={ player.name } /><span>{ player.name }</span>{ deck } { status } { selectLink }
-            </div>);
+            <div className='player-row' key={player.name}>
+                <Avatar username={player.name} />
+                <span>{player.name}</span>
+                {deck} {status} {selectLink}
+            </div>
+        );
     }
 
     getGameStatus() {
         let t = this.props.t;
 
+        if (this.props.gameError) {
+            return t(this.props.gameError);
+        }
 
-        if(this.props.connecting) {
+        if (this.props.connecting) {
             return t('Connecting to game server {{host}}', { host: this.props.host });
         }
 
-        if(this.state.waiting) {
+        if (this.state.waiting) {
             return t('Waiting for lobby server...');
         }
 
-        if(this.getNumberOfPlayers(this.props) < 2) {
+        if (this.getNumberOfPlayers(this.props) < 2) {
             return t('Waiting for players...');
         }
 
-        if(!Object.values(this.props.currentGame.players).every(player => {
-            return !!player.deck.selected;
-        })) {
+        if (
+            !Object.values(this.props.currentGame.players).every((player) => {
+                return !!player.deck.selected;
+            })
+        ) {
             return t('Waiting for players to select decks');
         }
 
-        if(this.props.currentGame.owner === this.props.user.username) {
+        if (this.props.currentGame.owner === this.props.user.username) {
             return t('Ready to begin, click start to begin the game');
         }
 
@@ -182,7 +216,7 @@ class PendingGame extends React.Component {
     }
 
     sendMessage() {
-        if(this.state.message === '') {
+        if (this.state.message === '') {
             return;
         }
 
@@ -192,7 +226,7 @@ class PendingGame extends React.Component {
     }
 
     onKeyPress(event) {
-        if(event.key === 'Enter') {
+        if (event.key === 'Enter') {
             this.sendMessage();
 
             event.preventDefault();
@@ -216,67 +250,106 @@ class PendingGame extends React.Component {
     render() {
         let t = this.props.t;
 
-        if(this.props.currentGame && this.props.currentGame.started) {
-            return <div><Trans>Loading game in progress, please wait...</Trans></div>;
+        if (this.props.currentGame && this.props.currentGame.started) {
+            return (
+                <div>
+                    <Trans>Loading game in progress, please wait...</Trans>
+                </div>
+            );
         }
 
-        if(!this.props.user) {
+        if (!this.props.user) {
             this.props.navigate('/');
 
-            return <div><Trans>You must be logged in to play, redirecting...</Trans></div>;
+            return (
+                <div>
+                    <Trans>You must be logged in to play, redirecting...</Trans>
+                </div>
+            );
         }
 
         return (
             <div>
-                <audio ref={ ref => this.notification = ref }>
+                <audio ref={(ref) => (this.notification = ref)}>
                     <source src='/sound/charge.mp3' type='audio/mpeg' />
                     <source src='/sound/charge.ogg' type='audio/ogg' />
                 </audio>
-                <Panel title={ this.props.currentGame.name }>
+                <Panel title={this.props.currentGame.name}>
                     <div className='btn-group'>
-                        <button className='btn btn-success' disabled={ !this.isGameReady() || this.props.connecting || this.state.waiting } onClick={ this.onStartClick }><Trans>Start</Trans></button>
-                        <button className='btn btn-primary' onClick={ this.onLeaveClick }><Trans>Leave</Trans></button>
+                        <button
+                            className='btn btn-success'
+                            disabled={
+                                !this.isGameReady() ||
+                                this.props.connecting ||
+                                (this.state.waiting && !this.props.gameError)
+                            }
+                            onClick={this.onStartClick}
+                        >
+                            <Trans>Start</Trans>
+                        </button>
+                        <button className='btn btn-primary' onClick={this.onLeaveClick}>
+                            <Trans>Leave</Trans>
+                        </button>
                     </div>
                     <div className='pull-right'>
-                        <ReactClipboard text={ `${window.location.protocol}//${window.location.host}/play?gameId=${this.props.currentGame.id}` } options= { {
-                            container: document.getElementById('pendingGameModal')
-                        } }>
-                            <button className='btn btn-primary'><Trans>Copy Game Link</Trans></button>
+                        <ReactClipboard
+                            text={`${window.location.protocol}//${window.location.host}/play?gameId=${this.props.currentGame.id}`}
+                            options={{
+                                container: document.getElementById('pendingGameModal')
+                            }}
+                        >
+                            <button className='btn btn-primary'>
+                                <Trans>Copy Game Link</Trans>
+                            </button>
                         </ReactClipboard>
                     </div>
-                    <div className='game-status'>{ this.getGameStatus() }</div>
+                    <div className='game-status'>{this.getGameStatus()}</div>
                 </Panel>
-                <Panel title={ t('Players') }>
-                    {
-                        Object.values(this.props.currentGame.players).map(player => {
-                            return this.getPlayerStatus(player, this.props.user.username);
-                        })
-                    }
+                <Panel title={t('Players')}>
+                    {Object.values(this.props.currentGame.players).map((player) => {
+                        return this.getPlayerStatus(player, this.props.user.username);
+                    })}
                 </Panel>
-                <Panel title={ t('Spectators({{users}})', { users : this.props.currentGame.spectators.length }) }>
-                    { this.props.currentGame.spectators.map(spectator => {
-                        return <div key={ spectator.name }>{ spectator.name }</div>;
-                    }) }
+                <Panel
+                    title={t('Spectators({{users}})', {
+                        users: this.props.currentGame.spectators.length
+                    })}
+                >
+                    {this.props.currentGame.spectators.map((spectator) => {
+                        return <div key={spectator.name}>{spectator.name}</div>;
+                    })}
                 </Panel>
-                <Panel title={ t('Chat') }>
+                <Panel title={t('Chat')}>
                     <div className='message-list'>
-                        <Messages messages={ this.props.currentGame.messages } onCardMouseOver={ this.onMouseOver } onCardMouseOut={ this.onMouseOut } />
+                        <Messages
+                            messages={this.props.currentGame.messages}
+                            onCardMouseOver={this.onMouseOver}
+                            onCardMouseOut={this.onMouseOut}
+                        />
                     </div>
                     <form className='form form-hozitontal'>
                         <div className='form-group'>
-                            <input className='form-control' type='text' placeholder={ t('Enter a message...') } value={ this.state.message }
-                                onKeyPress={ this.onKeyPress } onChange={ this.onChange } />
+                            <input
+                                className='form-control'
+                                type='text'
+                                placeholder={t('Enter a message...')}
+                                value={this.state.message}
+                                onKeyPress={this.onKeyPress}
+                                onChange={this.onChange}
+                            />
                         </div>
                     </form>
                 </Panel>
                 <SelectDeckModal
-                    apiError={ this.props.apiError }
-                    decks={ this.props.decks }
+                    apiError={this.props.apiError}
+                    decks={this.props.decks}
                     id='decks-modal'
-                    loading={ this.props.loading }
-                    onDeckSelected={ this.selectDeck.bind(this) }
-                    standaloneDecks={ this.props.standaloneDecks } />
-            </div >);
+                    loading={this.props.loading}
+                    onDeckSelected={this.selectDeck.bind(this)}
+                    standaloneDecks={this.props.standaloneDecks}
+                />
+            </div>
+        );
     }
 }
 
@@ -286,6 +359,7 @@ PendingGame.propTypes = {
     connecting: PropTypes.bool,
     currentGame: PropTypes.object,
     decks: PropTypes.array,
+    gameError: PropTypes.string,
     gameSocketClose: PropTypes.func,
     host: PropTypes.string,
     i18n: PropTypes.object,
@@ -309,6 +383,7 @@ function mapStateToProps(state) {
         connecting: state.games.connecting,
         currentGame: state.lobby.currentGame,
         decks: state.cards.decks,
+        gameError: state.lobby.gameError,
         host: state.games.gameHost,
         loading: state.api.loading,
         socket: state.lobby.socket,

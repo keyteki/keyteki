@@ -3,7 +3,7 @@ const Card = require('../../Card.js');
 class SeraphicArmor extends Card {
     setupCardAbilities(ability) {
         this.play({
-            gameAction: ability.actions.heal(context => ({
+            gameAction: ability.actions.heal((context) => ({
                 fully: true,
                 target: context.source.parent
             }))

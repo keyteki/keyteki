@@ -1,7 +1,7 @@
-describe('Spike Trap', function() {
-    integration(function() {
-        describe('Spike Trap\'s omni ability', function() {
-            beforeEach(function() {
+describe('Spike Trap', function () {
+    integration(function () {
+        describe("Spike Trap's omni ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'dis',
@@ -15,15 +15,15 @@ describe('Spike Trap', function() {
                     }
                 });
             });
-            it('should sacrifice the artifact', function() {
+            it('should sacrifice the artifact', function () {
                 this.player1.useAction(this.spikeTrap, true);
                 expect(this.spikeTrap.location).toBe('discard');
             });
         });
     });
-    integration(function() {
-        describe('Spike Trap\'s omni ability', function() {
-            beforeEach(function() {
+    integration(function () {
+        describe("Spike Trap's omni ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'dis',
@@ -37,7 +37,7 @@ describe('Spike Trap', function() {
                     }
                 });
             });
-            it('should sacrifice the artifact and deal 3 damages to flank creatures', function() {
+            it('should sacrifice the artifact and deal 3 damages to flank creatures', function () {
                 this.player1.useAction(this.spikeTrap, true);
                 expect(this.spikeTrap.location).toBe('discard');
 

@@ -1,7 +1,7 @@
-describe('Entropic Manipulator', function() {
-    integration(function() {
-        describe('Entropic Manipulator\'s ability', function() {
-            beforeEach(function() {
+describe('Entropic Manipulator', function () {
+    integration(function () {
+        describe("Entropic Manipulator's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'mars',
@@ -17,10 +17,10 @@ describe('Entropic Manipulator', function() {
                 this.zorg.tokens.damage = 3;
             });
 
-            it('should not use up armor', function() {
+            it('should not use up armor', function () {
                 this.player1.play(this.entropicManipulator);
                 expect(this.player1).toHavePrompt('Entropic Manipulator');
-                this.player1.clickPrompt('Opponent\'s');
+                this.player1.clickPrompt("Opponent's");
                 expect(this.player1).toHavePrompt('Entropic Manipulator');
                 expect(this.troll.tokens.damage).toBe(6);
                 expect(this.zorg.tokens.damage).toBeUndefined();
@@ -36,7 +36,7 @@ describe('Entropic Manipulator', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should allow a player to put more than lethal damage on a creature', function() {
+            it('should allow a player to put more than lethal damage on a creature', function () {
                 this.player1.play(this.entropicManipulator);
                 expect(this.player1).toHavePrompt('Entropic Manipulator');
                 this.player1.clickPrompt('Mine');
@@ -61,7 +61,7 @@ describe('Entropic Manipulator', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should protect a creature with Armageddon Cloak', function() {
+            it('should protect a creature with Armageddon Cloak', function () {
                 this.player1.endTurn();
                 this.player2.clickPrompt('sanctum');
                 this.player2.playUpgrade(this.armageddonCloak, this.batdrone);
@@ -82,7 +82,7 @@ describe('Entropic Manipulator', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should kill a warded creature', function() {
+            it('should kill a warded creature', function () {
                 this.batdrone.ward();
                 this.player1.play(this.entropicManipulator);
                 this.player1.clickPrompt('Mine');

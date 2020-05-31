@@ -11,12 +11,13 @@ class MightyLance extends Card {
                 secondary: {
                     dependsOn: 'initial',
                     cardType: 'creature',
-                    cardCondition: (card, context) => context.targets.initial.neighbors.includes(card),
+                    cardCondition: (card, context) =>
+                        context.targets.initial.neighbors.includes(card),
                     gameAction: ability.actions.dealDamage({ amount: 3 })
                 }
             },
             effect: 'deal 3 damage to {1}',
-            effectArgs: context => [Object.values(context.targets)]
+            effectArgs: (context) => [Object.values(context.targets)]
         });
     }
 }

@@ -4,9 +4,9 @@ class DarkWave extends Card {
     setupCardAbilities(ability) {
         this.play({
             effect: 'deal 2 damage to all non-Mutant creatures',
-            gameAction: ability.actions.dealDamage(context => ({
+            gameAction: ability.actions.dealDamage((context) => ({
                 amount: 2,
-                target: context.game.creaturesInPlay.filter(card => !card.hasTrait('mutant'))
+                target: context.game.creaturesInPlay.filter((card) => !card.hasTrait('mutant'))
             }))
         });
     }

@@ -1,7 +1,7 @@
-describe('Twin Bolt Emission', function() {
-    integration(function() {
-        describe('Twin Bolt Emission\'s ability', function() {
-            beforeEach(function() {
+describe('Twin Bolt Emission', function () {
+    integration(function () {
+        describe("Twin Bolt Emission's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
@@ -14,7 +14,7 @@ describe('Twin Bolt Emission', function() {
                 });
             });
 
-            it('should allow friendly and enemy creatures to be selected, and deal damage to both', function() {
+            it('should allow friendly and enemy creatures to be selected, and deal damage to both', function () {
                 this.player1.play(this.twinBoltEmission);
                 expect(this.player1).toHavePrompt('Twin Bolt Emission');
                 expect(this.player1).toBeAbleToSelect(this.docBookton);
@@ -28,8 +28,7 @@ describe('Twin Bolt Emission', function() {
                 expect(this.docBookton.tokens.damage).toBe(2);
             });
 
-
-            it('should only deal damage to a single target if there is only one creature on the board', function() {
+            it('should only deal damage to a single target if there is only one creature on the board', function () {
                 this.player1.fightWith(this.docBookton, this.inkaTheSpider);
                 expect(this.inkaTheSpider.location).toBe('discard');
                 expect(this.docBookton.location).toBe('discard');
@@ -45,7 +44,7 @@ describe('Twin Bolt Emission', function() {
                 expect(this.dextre.tokens.damage).toBe(2);
             });
 
-            it('should not resolve if there are no creatures in play', function() {
+            it('should not resolve if there are no creatures in play', function () {
                 this.player1.fightWith(this.docBookton, this.inkaTheSpider);
                 expect(this.inkaTheSpider.location).toBe('discard');
                 expect(this.docBookton.location).toBe('discard');
