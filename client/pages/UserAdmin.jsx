@@ -27,7 +27,8 @@ class UserAdmin extends React.Component {
             canManageTournaments: false,
             isAdmin: false,
             isContributor: false,
-            isSupporter: false
+            isSupporter: false,
+            isWinner: false
         };
 
         this.state = {
@@ -52,7 +53,8 @@ class UserAdmin extends React.Component {
             { name: 'canManageTournaments', label: 'Tournaments Manager' },
             { name: 'isAdmin', label: 'Site Admin' },
             { name: 'isContributor', label: 'Contributor' },
-            { name: 'isSupporter', label: 'Supporter' }
+            { name: 'isSupporter', label: 'Supporter' },
+            { name: 'isWinner', label: 'Tournament Winner' }
         ];
 
         this.onDisabledChanged = this.onDisabledChanged.bind(this);

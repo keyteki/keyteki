@@ -6,7 +6,7 @@ describe('Ultra Gravitron', function () {
                     player1: {
                         house: 'logos',
                         inPlay: ['fuzzy-gruen'],
-                        hand: ['ultra-gravitron', 'ultra-gravitron-2', 'bouncing-deathquark']
+                        hand: ['ultra-gravitron', 'ultra-gravitron2', 'bouncing-deathquark']
                     },
                     player2: {
                         amber: 5,
@@ -111,7 +111,7 @@ describe('Ultra Gravitron', function () {
                 this.player1.clickCard(this.narp);
                 expect(this.player1.player.archives.length).toBe(4);
                 expect(this.narp.location).toBe('purged');
-                expect(this.ultraGravitron2.tokens.damage).toBe(4);
+                expect(this.ultraGravitron2.tokens.damage).toBe(7);
                 expect(this.zorg.location).toBe('discard');
                 expect(this.player1.amber).toBe(0);
             });
@@ -144,7 +144,7 @@ describe('Ultra Gravitron', function () {
                 this.player1.clickCard(this.fuzzyGruen);
                 expect(this.player1.player.archives.length).toBe(4);
                 expect(this.fuzzyGruen.location).toBe('purged');
-                expect(this.ultraGravitron2.tokens.damage).toBe(4);
+                expect(this.ultraGravitron2.tokens.damage).toBe(7);
                 expect(this.zorg.location).toBe('discard');
                 expect(this.player1.amber).toBe(2);
             });
@@ -191,7 +191,7 @@ describe('Ultra Gravitron', function () {
                         amber: 2,
                         house: 'logos',
                         inPlay: ['fuzzy-gruen'],
-                        hand: ['ultra-gravitron', 'ultra-gravitron-2', 'wild-wormhole']
+                        hand: ['ultra-gravitron', 'ultra-gravitron2', 'wild-wormhole']
                     },
                     player2: {
                         amber: 5,
@@ -250,7 +250,7 @@ describe('Ultra Gravitron', function () {
                         amber: 2,
                         house: 'logos',
                         inPlay: ['fuzzy-gruen'],
-                        hand: ['ultra-gravitron', 'ultra-gravitron-2']
+                        hand: ['ultra-gravitron', 'ultra-gravitron2']
                     },
                     player2: {
                         amber: 5,
