@@ -11,7 +11,10 @@ class CrashMuldoon extends Card {
             target: {
                 cardType: 'creature',
                 controller: 'self',
-                cardCondition: (card, context) => context.source.neighbors.includes(card) && card.exhausted === false && !card.hasHouse('staralliance'),
+                cardCondition: (card, context) =>
+                    context.source.neighbors.includes(card) &&
+                    card.exhausted === false &&
+                    !card.hasHouse('staralliance'),
                 gameAction: ability.actions.use()
             },
             effect: 'use a neighboring non staralliance creature'

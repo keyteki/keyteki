@@ -5,10 +5,7 @@ class Subdue extends Card {
         this.play({
             target: {
                 cardType: 'creature',
-                gameAction: [
-                    ability.actions.dealDamage({ amount: 1 }),
-                    ability.actions.stun()
-                ]
+                gameAction: [ability.actions.dealDamage({ amount: 1 }), ability.actions.stun()]
             }
         });
     }

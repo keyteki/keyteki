@@ -1,7 +1,7 @@
-describe('Hologrammophone', function() {
-    integration(function() {
-        describe('Hologrammophone\'s ability', function() {
-            beforeEach(function() {
+describe('Hologrammophone', function () {
+    integration(function () {
+        describe("Hologrammophone's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
@@ -18,9 +18,9 @@ describe('Hologrammophone', function() {
                 expect(this.lamindra.warded).toBe(false);
             });
 
-            it('Ward a friendly creature', function() {
+            it('Ward a friendly creature', function () {
                 this.player1.clickCard(this.hologrammophone);
-                this.player1.clickPrompt('Use this card\'s Action ability');
+                this.player1.clickPrompt("Use this card's Action ability");
                 expect(this.player1).toHavePrompt('Hologrammophone');
 
                 expect(this.player1).toBeAbleToSelect(this.flaxia);
@@ -35,9 +35,9 @@ describe('Hologrammophone', function() {
                 expect(this.lamindra.warded).toBe(false);
             });
 
-            it('Ward an enemy creature', function() {
+            it('Ward an enemy creature', function () {
                 this.player1.clickCard(this.hologrammophone);
-                this.player1.clickPrompt('Use this card\'s Action ability');
+                this.player1.clickPrompt("Use this card's Action ability");
                 expect(this.player1).toHavePrompt('Hologrammophone');
 
                 expect(this.player1).toBeAbleToSelect(this.lamindra);

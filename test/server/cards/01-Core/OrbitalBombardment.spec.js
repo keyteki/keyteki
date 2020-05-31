@@ -1,11 +1,17 @@
-describe('Orbital Bombardment', function() {
-    integration(function() {
-        describe('Orbital Bombardment\'s ability', function() {
-            beforeEach(function() {
+describe('Orbital Bombardment', function () {
+    integration(function () {
+        describe("Orbital Bombardment's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'mars',
-                        hand: ['orbital-bombardment', 'zorg', 'combat-pheromones', 'soft-landing', 'dextre'],
+                        hand: [
+                            'orbital-bombardment',
+                            'zorg',
+                            'combat-pheromones',
+                            'soft-landing',
+                            'dextre'
+                        ],
                         inPlay: ['mothergun', 'mindwarper']
                     },
                     player2: {
@@ -15,7 +21,7 @@ describe('Orbital Bombardment', function() {
                 this.player1.play(this.orbitalBombardment);
             });
 
-            it('should prompt the player to reveal cards', function() {
+            it('should prompt the player to reveal cards', function () {
                 expect(this.player1).toHavePrompt('Choose which cards to reveal');
                 expect(this.player1).toBeAbleToSelect(this.zorg);
                 expect(this.player1).toBeAbleToSelect(this.combatPheromones);
@@ -27,13 +33,13 @@ describe('Orbital Bombardment', function() {
                 expect(this.player1).not.toBeAbleToSelect(this.troll);
             });
 
-            it('should allow the player to select 0 cards', function() {
+            it('should allow the player to select 0 cards', function () {
                 expect(this.player1.currentButtons).toContain('Done');
                 this.player1.clickPrompt('Done');
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should deal the correct amount of damage', function() {
+            it('should deal the correct amount of damage', function () {
                 this.player1.clickCard(this.zorg);
                 this.player1.clickCard(this.combatPheromones);
                 this.player1.clickCard(this.softLanding);

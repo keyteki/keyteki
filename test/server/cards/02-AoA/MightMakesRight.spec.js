@@ -1,12 +1,18 @@
-describe('Might Makes Right', function() {
-    integration(function() {
-        describe('Might Makes Right\'s ability', function() {
-            beforeEach(function() {
+describe('Might Makes Right', function () {
+    integration(function () {
+        describe("Might Makes Right's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'brobnar',
                         amber: 2,
-                        inPlay: ['groke', 'hebe-the-huge', 'ganger-chieftain', 'bellowing-patrizate', 'king-of-the-crag'],
+                        inPlay: [
+                            'groke',
+                            'hebe-the-huge',
+                            'ganger-chieftain',
+                            'bellowing-patrizate',
+                            'king-of-the-crag'
+                        ],
                         hand: ['might-makes-right']
                     },
                     player2: {
@@ -17,12 +23,12 @@ describe('Might Makes Right', function() {
                 });
             });
 
-            it('should award 1 amber when played, even if player elects not to sacrifice', function() {
+            it('should award 1 amber when played, even if player elects not to sacrifice', function () {
                 this.player1.play(this.mightMakesRight);
                 expect(this.player1.player.amber).toBe(3);
             });
 
-            it('should allow key to be forged at zero cost if creatures of total power of 25 or more are sacrificed', function() {
+            it('should allow key to be forged at zero cost if creatures of total power of 25 or more are sacrificed', function () {
                 this.player1.play(this.mightMakesRight);
                 this.player1.clickCard(this.groke);
                 this.player1.clickCard(this.hebeTheHuge);
@@ -42,7 +48,7 @@ describe('Might Makes Right', function() {
                 expect(this.player1.player.amber).toBe(3);
             });
 
-            it('should not allow key to be forged if creatures under total power of 25 are sacrificed', function() {
+            it('should not allow key to be forged if creatures under total power of 25 are sacrificed', function () {
                 this.player1.play(this.mightMakesRight);
                 this.player1.clickCard(this.groke);
                 this.player1.clickCard(this.hebeTheHuge);
@@ -55,7 +61,7 @@ describe('Might Makes Right', function() {
                 expect(this.player1.player.amber).toBe(3);
             });
 
-            it('should ensure that sacrificed creatures are in the discard pile under normal conditions', function() {
+            it('should ensure that sacrificed creatures are in the discard pile under normal conditions', function () {
                 this.player1.play(this.mightMakesRight);
                 this.player1.clickCard(this.groke);
                 this.player1.clickCard(this.hebeTheHuge);
@@ -72,8 +78,8 @@ describe('Might Makes Right', function() {
             });
         });
 
-        describe('Might Makes Right\'s ability', function() {
-            beforeEach(function() {
+        describe("Might Makes Right's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'brobnar',
@@ -84,7 +90,7 @@ describe('Might Makes Right', function() {
                 });
             });
 
-            it('should allow key to be forged at zero cost if creatures of total power of 25 or more (including modifiers) are sacrificed', function() {
+            it('should allow key to be forged at zero cost if creatures of total power of 25 or more (including modifiers) are sacrificed', function () {
                 this.player1.play(this.mightMakesRight);
                 this.player1.clickCard(this.knoxx);
                 this.player1.clickCard(this.lionBautrem);
@@ -101,13 +107,20 @@ describe('Might Makes Right', function() {
             });
         });
 
-        describe('Might Makes Right\'s ability', function() {
-            beforeEach(function() {
+        describe("Might Makes Right's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'brobnar',
                         amber: 2,
-                        inPlay: ['groke', 'hebe-the-huge', 'archimedes', 'ganger-chieftain', 'bellowing-patrizate', 'king-of-the-crag'],
+                        inPlay: [
+                            'groke',
+                            'hebe-the-huge',
+                            'archimedes',
+                            'ganger-chieftain',
+                            'bellowing-patrizate',
+                            'king-of-the-crag'
+                        ],
                         hand: ['might-makes-right']
                     },
                     player2: {
@@ -118,7 +131,7 @@ describe('Might Makes Right', function() {
                 });
             });
 
-            it('should ensure that sacrificed creatures end up in the Archive (due to Archimedes)', function() {
+            it('should ensure that sacrificed creatures end up in the Archive (due to Archimedes)', function () {
                 this.player1.play(this.mightMakesRight);
                 this.player1.clickCard(this.groke);
                 this.player1.clickCard(this.hebeTheHuge);
@@ -137,8 +150,8 @@ describe('Might Makes Right', function() {
             });
         });
 
-        describe('Might Makes Right\'s ability', function() {
-            beforeEach(function() {
+        describe("Might Makes Right's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'brobnar',
@@ -154,7 +167,7 @@ describe('Might Makes Right', function() {
                 });
             });
 
-            it('should simply award one amber if there\'s insufficient creatures on the board', function() {
+            it("should simply award one amber if there's insufficient creatures on the board", function () {
                 this.player1.play(this.mightMakesRight);
                 expect(this.player1.player.amber).toBe(3);
             });

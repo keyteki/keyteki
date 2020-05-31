@@ -1,7 +1,7 @@
-describe('Deepwood Druid', function() {
-    integration(function() {
-        describe('Deepwood Druid\'s ability', function() {
-            beforeEach(function() {
+describe('Deepwood Druid', function () {
+    integration(function () {
+        describe("Deepwood Druid's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'untamed',
@@ -15,9 +15,9 @@ describe('Deepwood Druid', function() {
                 this.silvertooth.addToken('damage');
                 this.dextre.addToken('damage');
                 this.sequis.addToken('damage');
-                this.brainEater.addToken('damage',2);
+                this.brainEater.addToken('damage', 2);
             });
-            it('on play, it should allow full healing of a neighboring creature', function() {
+            it('on play, it should allow full healing of a neighboring creature', function () {
                 this.player1.playCreature(this.deepwoodDruid, true);
                 expect(this.player1).toHavePrompt('Deepwood Druid');
                 expect(this.player1).toBeAbleToSelect(this.silvertooth);
@@ -31,8 +31,8 @@ describe('Deepwood Druid', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
         });
-        describe('Deepwood Druid\'s ability', function() {
-            beforeEach(function() {
+        describe("Deepwood Druid's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'untamed',
@@ -44,10 +44,10 @@ describe('Deepwood Druid', function() {
                 });
                 this.silvertooth.addToken('damage');
                 this.dextre.addToken('damage');
-                this.rustgnawer.addToken('damage',2);
-                this.brainEater.addToken('damage',2);
+                this.rustgnawer.addToken('damage', 2);
+                this.brainEater.addToken('damage', 2);
             });
-            it('on reap, it should allow full healing of a neighboring creature', function() {
+            it('on reap, it should allow full healing of a neighboring creature', function () {
                 this.player1.reap(this.deepwoodDruid);
                 expect(this.player1).toHavePrompt('Deepwood Druid');
                 expect(this.player1).toBeAbleToSelect(this.silvertooth);

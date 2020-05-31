@@ -9,7 +9,7 @@ class TemptingOffer extends Card {
                 gameAction: ability.actions.returnToHand()
             },
             then: {
-                gameAction: ability.actions.gainAmber(context => ({
+                gameAction: ability.actions.gainAmber((context) => ({
                     target: context.player.opponent
                 }))
             }

@@ -1,7 +1,7 @@
-describe('Hit and Run', function() {
-    integration(function() {
-        describe('Hit and Run\'s play ability', function() {
-            beforeEach(function() {
+describe('Hit and Run', function () {
+    integration(function () {
+        describe("Hit and Run's play ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'shadows',
@@ -15,7 +15,7 @@ describe('Hit and Run', function() {
                 });
             });
 
-            it('Hit a friendly creature and return a friendly creature to hand', function() {
+            it('Hit a friendly creature and return a friendly creature to hand', function () {
                 this.player1.play(this.hitAndRun);
 
                 expect(this.player1).toHavePrompt('Hit and Run');
@@ -41,7 +41,7 @@ describe('Hit and Run', function() {
                 expect(this.troll.location).toBe('play area');
             });
 
-            it('Hit a friendly creature and return a friendly creature to hand', function() {
+            it('Hit a friendly creature and return a friendly creature to hand', function () {
                 this.player1.play(this.hitAndRun);
 
                 expect(this.player1).toHavePrompt('Hit and Run');
@@ -51,7 +51,6 @@ describe('Hit and Run', function() {
                 expect(this.player1).toBeAbleToSelect(this.troll);
 
                 this.player1.clickCard(this.flaxia);
-
 
                 expect(this.player1).toHavePrompt('Hit and Run');
                 expect(this.player1).toBeAbleToSelect(this.flaxia);
@@ -67,7 +66,7 @@ describe('Hit and Run', function() {
                 expect(this.flaxia.tokens.damage).toBe(2);
             });
 
-            it('Hit an enemy creature and return a friendly creature to hand', function() {
+            it('Hit an enemy creature and return a friendly creature to hand', function () {
                 this.player1.play(this.hitAndRun);
 
                 expect(this.player1).toHavePrompt('Hit and Run');
@@ -91,7 +90,7 @@ describe('Hit and Run', function() {
                 expect(this.troll.location).toBe('play area');
                 expect(this.troll.tokens.damage).toBe(2);
             });
-            it('Hit an enemy creature warded and return a friendly creature to hand', function() {
+            it('Hit an enemy creature warded and return a friendly creature to hand', function () {
                 this.troll.tokens.ward = 1;
                 expect(this.troll.warded).toBe(true);
                 this.player1.play(this.hitAndRun);

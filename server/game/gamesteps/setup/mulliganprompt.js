@@ -28,15 +28,15 @@ class MulliganPrompt extends AllPlayerPrompt {
     }
 
     menuCommand(player, arg) {
-        if(this.takenMulligan[player.uuid]) {
+        if (this.takenMulligan[player.uuid]) {
             return false;
         }
 
-        if(arg === 'no') {
+        if (arg === 'no') {
             player.takeMulligan();
             this.takenMulligan[player.uuid] = true;
             return true;
-        } else if(arg === 'yes') {
+        } else if (arg === 'yes') {
             this.takenMulligan[player.uuid] = true;
             return true;
         }

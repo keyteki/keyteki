@@ -1,7 +1,7 @@
-describe('Red-Hot Armor', function() {
-    integration(function() {
-        describe('Red-Hot Armor\'s ability', function() {
-            beforeEach(function() {
+describe('Red-Hot Armor', function () {
+    integration(function () {
+        describe("Red-Hot Armor's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'dis',
@@ -9,13 +9,18 @@ describe('Red-Hot Armor', function() {
                         hand: ['red-hot-armor']
                     },
                     player2: {
-                        inPlay: ['sequis', 'commander-remiel', 'raiding-knight', 'champion-anaphiel'], // armors: 4/2, 3/0, 4/2, 6/1
+                        inPlay: [
+                            'sequis',
+                            'commander-remiel',
+                            'raiding-knight',
+                            'champion-anaphiel'
+                        ], // armors: 4/2, 3/0, 4/2, 6/1
                         hand: ['shadow-self', 'abond-the-armorsmith']
                     }
                 });
             });
 
-            it('should deal the correct amount of damage to each creature', function() {
+            it('should deal the correct amount of damage to each creature', function () {
                 this.player1.fightWith(this.emberImp, this.sequis);
                 expect(this.sequis.armorUsed).toBe(2);
                 expect(this.sequis.hasToken('damage')).toBe(false);
@@ -32,7 +37,7 @@ describe('Red-Hot Armor', function() {
                 expect(this.championAnaphiel.armorUsed).toBe(1);
             });
 
-            it('should deal damage only to Shadow self', function() {
+            it('should deal damage only to Shadow self', function () {
                 this.player1.endTurn();
                 this.player2.clickPrompt('shadows');
                 this.player2.playCreature(this.shadowSelf);
@@ -54,7 +59,7 @@ describe('Red-Hot Armor', function() {
                 expect(this.shadowSelf.tokens.damage).toBe(1);
             });
 
-            it('should deal extra damage due to abond', function() {
+            it('should deal extra damage due to abond', function () {
                 this.player1.endTurn();
                 this.player2.clickPrompt('shadows');
                 this.player2.playCreature(this.shadowSelf);

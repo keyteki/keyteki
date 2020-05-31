@@ -3,11 +3,13 @@ const Card = require('../../Card.js');
 class Xenotraining extends Card {
     setupCardAbilities(ability) {
         this.play({
-            condition: context => !!context.player.opponent && context.player.opponent.amber > 0,
-            effect: 'capture 1 amber on a friendly creature for each house represented by friendly creatures',
-            gameAction: ability.actions.sequentialForEach(context => ({
+            condition: (context) => !!context.player.opponent && context.player.opponent.amber > 0,
+            effect:
+                'capture 1 amber on a friendly creature for each house represented by friendly creatures',
+            gameAction: ability.actions.sequentialForEach((context) => ({
                 num: Math.min(
-                    context.player.opponent.amber, context.game.getHousesInPlay(this.controller.creaturesInPlay).length,
+                    context.player.opponent.amber,
+                    context.game.getHousesInPlay(this.controller.creaturesInPlay).length
                 ),
                 action: ability.actions.capture({
                     promptForSelect: {

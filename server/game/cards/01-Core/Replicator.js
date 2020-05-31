@@ -7,7 +7,7 @@ class Replicator extends Card {
                 cardType: 'creature',
                 cardCondition: (card, context) => card !== context.source,
                 gameAction: ability.actions.resolveAbility({
-                    ability: ability => ability.isReap()
+                    ability: (ability) => ability.isReap()
                 })
             }
         });

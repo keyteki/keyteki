@@ -1,7 +1,7 @@
-describe('Positron Bolt', function() {
-    integration(function() {
-        describe('Positron Bolt\'s ability', function() {
-            beforeEach(function() {
+describe('Positron Bolt', function () {
+    integration(function () {
+        describe("Positron Bolt's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
@@ -13,15 +13,15 @@ describe('Positron Bolt', function() {
                 });
             });
 
-            it('should not prompt for creature when there are no creatures in play', function() {
+            it('should not prompt for creature when there are no creatures in play', function () {
                 this.player1.play(this.positronBolt);
                 expect(this.player1.amber).toBe(1);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
         });
 
-        describe('Positron Bolt\'s ability', function() {
-            beforeEach(function() {
+        describe("Positron Bolt's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
@@ -35,7 +35,7 @@ describe('Positron Bolt', function() {
                 });
             });
 
-            it('should deal 3D to a creature', function() {
+            it('should deal 3D to a creature', function () {
                 this.player1.play(this.positronBolt);
                 expect(this.player1.amber).toBe(1);
                 expect(this.player1).toHavePrompt('Choose a creature');
@@ -47,8 +47,8 @@ describe('Positron Bolt', function() {
             });
         });
 
-        describe('Positron Bolt\'s ability', function() {
-            beforeEach(function() {
+        describe("Positron Bolt's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
@@ -62,7 +62,7 @@ describe('Positron Bolt', function() {
                 });
             });
 
-            it('should deal 3D to a creature and 2D to its neighbor', function() {
+            it('should deal 3D to a creature and 2D to its neighbor', function () {
                 this.player1.play(this.positronBolt);
                 expect(this.player1.amber).toBe(1);
                 expect(this.player1).toHavePrompt('Choose a creature');
@@ -79,8 +79,8 @@ describe('Positron Bolt', function() {
             });
         });
 
-        describe('Positron Bolt\'s ability', function() {
-            beforeEach(function() {
+        describe("Positron Bolt's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
@@ -89,12 +89,18 @@ describe('Positron Bolt', function() {
                     },
                     player2: {
                         amber: 1,
-                        inPlay: ['helper-bot', 'lamindra', 'urchin', 'mooncurser', 'haedroth-s-wall']
+                        inPlay: [
+                            'helper-bot',
+                            'lamindra',
+                            'urchin',
+                            'mooncurser',
+                            'haedroth-s-wall'
+                        ]
                     }
                 });
             });
 
-            it('should redefine armor for flank creature', function() {
+            it('should redefine armor for flank creature', function () {
                 this.player1.play(this.positronBolt);
                 expect(this.player1.amber).toBe(1);
                 expect(this.player1).toHavePrompt('Choose a creature');
@@ -113,8 +119,8 @@ describe('Positron Bolt', function() {
                 expect(this.urchin.tokens.damage).toBe(undefined);
             });
         });
-        describe('Positron Bolt\'s ability', function() {
-            beforeEach(function() {
+        describe("Positron Bolt's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
@@ -128,7 +134,7 @@ describe('Positron Bolt', function() {
                 });
             });
 
-            it('should deal 3D to a creature, 2D to its neighbor and 1D to the either neighbor', function() {
+            it('should deal 3D to a creature, 2D to its neighbor and 1D to the either neighbor', function () {
                 this.player1.play(this.positronBolt);
                 expect(this.player1.amber).toBe(1);
                 expect(this.player1).toHavePrompt('Choose a creature');
@@ -160,8 +166,8 @@ describe('Positron Bolt', function() {
             });
         });
 
-        describe('Positron Bolt\'s ability', function() {
-            beforeEach(function() {
+        describe("Positron Bolt's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
@@ -175,7 +181,7 @@ describe('Positron Bolt', function() {
                 });
             });
 
-            it('should deal 3D to a creature, 2D to its neighbor and 1D to the either neighbor', function() {
+            it('should deal 3D to a creature, 2D to its neighbor and 1D to the either neighbor', function () {
                 this.player1.play(this.positronBolt);
                 expect(this.player1.amber).toBe(1);
                 expect(this.player1).toHavePrompt('Choose a creature');
@@ -202,7 +208,7 @@ describe('Positron Bolt', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should be able to select the Spectral Tunneler\'s target and a neighbor with no other neighbor', function() {
+            it("should be able to select the Spectral Tunneler's target and a neighbor with no other neighbor", function () {
                 this.player1.useAction(this.spectralTunneler);
                 this.player1.clickCard(this.groggins);
                 this.player1.play(this.positronBolt);
@@ -229,7 +235,7 @@ describe('Positron Bolt', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should be able to select the Spectral Tunneler\'s target and a neighbor with another neighbor ', function() {
+            it("should be able to select the Spectral Tunneler's target and a neighbor with another neighbor ", function () {
                 this.player1.useAction(this.spectralTunneler);
                 this.player1.clickCard(this.groggins);
                 this.player1.play(this.positronBolt);

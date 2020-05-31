@@ -1,11 +1,11 @@
-describe('Fangtooth Cavern', function() {
-    integration(function() {
-        describe('Fangtooth Cavern\'s ability', function() {
-            beforeEach(function() {
+describe('Fangtooth Cavern', function () {
+    integration(function () {
+        describe("Fangtooth Cavern's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'untamed',
-                        inPlay: ['fangtooth-cavern','dust-pixie', 'dextre']
+                        inPlay: ['fangtooth-cavern', 'dust-pixie', 'dextre']
                     },
                     player2: {
                         inPlay: ['dust-imp', 'mighty-tiger']
@@ -13,7 +13,7 @@ describe('Fangtooth Cavern', function() {
                 });
             });
 
-            it('should destroy the least powerful creature at the end of p1 turn', function() {
+            it('should destroy the least powerful creature at the end of p1 turn', function () {
                 this.player1.endTurn();
                 expect(this.player1).toBeAbleToSelect(this.dustPixie);
                 expect(this.player1).not.toBeAbleToSelect(this.dustImp);
@@ -33,8 +33,8 @@ describe('Fangtooth Cavern', function() {
                 expect(this.dustImp.location).toBe('discard');
             });
         });
-        describe('Fangtooth Cavern\'s ability', function() {
-            beforeEach(function() {
+        describe("Fangtooth Cavern's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'untamed',
@@ -46,7 +46,7 @@ describe('Fangtooth Cavern', function() {
                 });
             });
 
-            it('should prompt for player choice when there are two equal power creatures in play', function() {
+            it('should prompt for player choice when there are two equal power creatures in play', function () {
                 this.player1.endTurn();
                 expect(this.player1).toBeAbleToSelect(this.dextre);
                 expect(this.player1).toBeAbleToSelect(this.tocsin);

@@ -1,8 +1,7 @@
 const PlayerGameAction = require('./PlayerAction');
 
 class RearrangeCardsAction extends PlayerGameAction {
-    setDefaultProperties() {
-    }
+    setDefaultProperties() {}
 
     setup() {
         super.setup();
@@ -16,11 +15,11 @@ class RearrangeCardsAction extends PlayerGameAction {
             activePromptTitle: 'Select first card to return (last one is top)',
             context: context,
             cards: this.remainingCards,
-            cardHandler: card => {
+            cardHandler: (card) => {
                 this.orderedCards.unshift(card);
-                this.remainingCards = this.remainingCards.filter(c => c !== card);
+                this.remainingCards = this.remainingCards.filter((c) => c !== card);
 
-                if(this.remainingCards.length === 1) {
+                if (this.remainingCards.length === 1) {
                     this.orderedCards.unshift(this.remainingCards[0]);
                 } else {
                     this.promptForRemainingCards(context);
@@ -36,15 +35,19 @@ class RearrangeCardsAction extends PlayerGameAction {
         this.orderedCards = this.amount === 1 ? context.player.deck : [];
         this.remainingCards = context.player.deck.slice(0, this.amount);
 
-        if(this.amount > 1) {
+        if (this.amount > 1) {
             this.promptForRemainingCards(context);
         }
     }
 
     getEvent(player, context) {
-        return super.createEvent('unnamedEvent', { player: player, cards: this.orderedCards, context: context }, () => {
-            context.player.deck.splice(0, this.amount, ...this.orderedCards);
-        });
+        return super.createEvent(
+            'unnamedEvent',
+            { player: player, cards: this.orderedCards, context: context },
+            () => {
+                context.player.deck.splice(0, this.amount, ...this.orderedCards);
+            }
+        );
     }
 }
 

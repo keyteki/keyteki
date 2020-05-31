@@ -1,11 +1,11 @@
-describe('Techivore Pulpate', function() {
-    integration(function() {
-        describe('Techivore Pulpate\'s ability', function() {
-            beforeEach(function() {
+describe('Techivore Pulpate', function () {
+    integration(function () {
+        describe("Techivore Pulpate's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'staralliance',
-                        inPlay: ['memory-chip','techivore-pulpate', 'skeleton-key'],
+                        inPlay: ['memory-chip', 'techivore-pulpate', 'skeleton-key'],
                         hand: ['yantzee-gang', 'dextre', 'doc-bookton'],
                         discard: ['batdrone']
                     },
@@ -17,10 +17,10 @@ describe('Techivore Pulpate', function() {
                 });
             });
 
-            it('should not destroy artifacts of non-called house', function() {
+            it('should not destroy artifacts of non-called house', function () {
                 expect(this.memoryChip.location).toBe('play area');
             });
-            it('should destroy artifacts of called house', function() {
+            it('should destroy artifacts of called house', function () {
                 expect(this.memoryChip.location).toBe('play area');
                 this.player1.endTurn();
                 this.player2.clickPrompt('shadows');

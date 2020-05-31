@@ -1,7 +1,7 @@
-describe('keywords', function() {
-    integration(function() {
-        describe('Taunt', function() {
-            beforeEach(function() {
+describe('keywords', function () {
+    integration(function () {
+        describe('Taunt', function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'sanctum',
@@ -9,12 +9,17 @@ describe('keywords', function() {
                         hand: ['protect-the-weak']
                     },
                     player2: {
-                        inPlay: ['bulwark', 'ganymede-archivist', 'champion-anaphiel', 'inka-the-spider']
+                        inPlay: [
+                            'bulwark',
+                            'ganymede-archivist',
+                            'champion-anaphiel',
+                            'inka-the-spider'
+                        ]
                     }
                 });
             });
 
-            it('should not allow attacking neighboring creatures without taunt', function() {
+            it('should not allow attacking neighboring creatures without taunt', function () {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
                 this.player1.fightWith(this.francus);
                 expect(this.player1).toHavePrompt('Choose a creature to attack');
@@ -25,7 +30,7 @@ describe('keywords', function() {
                 expect(this.player1).not.toBeAbleToSelect(this.inkaTheSpider);
             });
 
-            it('should allow fighting a creature with taunt next to a creature with taunt', function() {
+            it('should allow fighting a creature with taunt next to a creature with taunt', function () {
                 this.player1.playUpgrade(this.protectTheWeak, this.inkaTheSpider);
                 expect(this.protectTheWeak.location).toBe('play area');
                 expect(this.inkaTheSpider.upgrades).toContain(this.protectTheWeak);
@@ -40,8 +45,8 @@ describe('keywords', function() {
             });
         });
 
-        describe('Assault/Hazardous', function() {
-            beforeEach(function() {
+        describe('Assault/Hazardous', function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'untamed',
@@ -54,14 +59,14 @@ describe('keywords', function() {
                 });
             });
 
-            it('Assault should deal damage before the fight starts', function() {
+            it('Assault should deal damage before the fight starts', function () {
                 this.player1.playUpgrade(this.wayOfTheBear, this.mightyTiger);
                 this.player1.fightWith(this.mightyTiger, this.inkaTheSpider);
                 expect(this.inkaTheSpider.location).toBe('discard');
                 expect(this.mightyTiger.location).toBe('play area');
             });
 
-            it('Assault should stop hazardous if it resolves first', function() {
+            it('Assault should stop hazardous if it resolves first', function () {
                 this.player1.playUpgrade(this.wayOfTheBear, this.mightyTiger);
                 expect(this.wayOfTheBear.location).toBe('play area');
                 expect(this.mightyTiger.getKeywordValue('assault')).toBe(2);
@@ -72,7 +77,7 @@ describe('keywords', function() {
                 expect(this.mightyTiger.location).toBe('play area');
             });
 
-            it('Hazardous should stop Assault if it resolves first', function() {
+            it('Hazardous should stop Assault if it resolves first', function () {
                 this.player1.playUpgrade(this.wayOfTheBear, this.mightyTiger);
                 this.player1.fightWith(this.mightyTiger, this.briarGrubbling);
                 expect(this.player1).toHavePrompt('Any Interrupts?');
@@ -81,9 +86,9 @@ describe('keywords', function() {
                 expect(this.briarGrubbling.location).toBe('play area');
             });
 
-            it('should trigger at the same time as before fight actions', function() {
+            it('should trigger at the same time as before fight actions', function () {
                 this.player1.clickCard(this.combatPheromones);
-                this.player1.clickPrompt('Use this card\'s Omni ability');
+                this.player1.clickPrompt("Use this card's Omni ability");
                 this.player1.clickCard(this.zorg);
                 this.player1.clickPrompt('Done');
                 expect(this.combatPheromones.location).toBe('discard');
@@ -96,8 +101,8 @@ describe('keywords', function() {
             });
         });
 
-        describe('Skirmish/Elusive/Poison', function() {
-            beforeEach(function() {
+        describe('Skirmish/Elusive/Poison', function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'untamed',
@@ -105,27 +110,33 @@ describe('keywords', function() {
                         hand: ['way-of-the-wolf']
                     },
                     player2: {
-                        inPlay: ['urchin', 'briar-grubbling', 'mighty-tiger', 'magda-the-rat'],
+                        inPlay: [
+                            'urchin',
+                            'briar-grubbling',
+                            'mighty-tiger',
+                            'magda-the-rat',
+                            'sinder'
+                        ],
                         hand: ['flame-wreathed']
                     }
                 });
             });
 
-            it('Skirmish should deal damage without taking any', function() {
+            it('Skirmish should deal damage without taking any', function () {
                 this.player1.fightWith(this.snufflegator, this.mightyTiger);
                 expect(this.mightyTiger.location).toBe('discard');
                 expect(this.snufflegator.location).toBe('play area');
                 expect(this.snufflegator.hasToken('damage')).toBe(false);
             });
 
-            it('Skirmish shouldn\'t stop Hazardous', function() {
+            it("Skirmish shouldn't stop Hazardous", function () {
                 this.player1.fightWith(this.snufflegator, this.briarGrubbling);
                 expect(this.briarGrubbling.location).toBe('play area');
                 expect(this.snufflegator.location).toBe('discard');
                 expect(this.briarGrubbling.hasToken('damage')).toBe(false);
             });
 
-            it('Skirmish should work with poison', function() {
+            it('Skirmish should work with poison', function () {
                 this.player1.playUpgrade(this.wayOfTheWolf, this.inkaTheSpider);
                 this.player1.fightWith(this.inkaTheSpider, this.mightyTiger);
                 expect(this.mightyTiger.location).toBe('discard');
@@ -133,7 +144,7 @@ describe('keywords', function() {
                 expect(this.inkaTheSpider.hasToken('damage')).toBe(false);
             });
 
-            it('Elusive should result in both creatures taking no damage', function() {
+            it('Elusive should result in both creatures taking no damage', function () {
                 this.player1.fightWith(this.inkaTheSpider, this.urchin);
                 expect(this.urchin.location).toBe('play area');
                 expect(this.inkaTheSpider.location).toBe('play area');
@@ -141,7 +152,7 @@ describe('keywords', function() {
                 expect(this.inkaTheSpider.hasToken('damage')).toBe(false);
             });
 
-            it('Elusive shouldn\'t stop damage on the second attack', function() {
+            it("Elusive shouldn't stop damage on the second attack", function () {
                 this.player1.fightWith(this.inkaTheSpider, this.urchin);
                 this.player1.fightWith(this.snufflegator, this.urchin);
                 expect(this.urchin.location).toBe('discard');
@@ -149,7 +160,7 @@ describe('keywords', function() {
                 expect(this.snufflegator.hasToken('damage')).toBe(false);
             });
 
-            it('Elusive shouldn\'t stop Assault', function() {
+            it("Elusive shouldn't stop Assault", function () {
                 this.player1.fightWith(this.ancientBear, this.urchin);
                 expect(this.ancientBear.exhausted).toBe(true);
                 expect(this.urchin.location).toBe('discard');
@@ -157,7 +168,7 @@ describe('keywords', function() {
                 expect(this.ancientBear.hasToken('damage')).toBe(false);
             });
 
-            it('Elusive should work with Hazardous', function() {
+            it('Elusive should work with Hazardous', function () {
                 this.player1.endTurn();
                 this.player2.clickPrompt('dis');
                 this.player2.playUpgrade(this.flameWreathed, this.urchin);
@@ -167,9 +178,15 @@ describe('keywords', function() {
                 expect(this.inkaTheSpider.location).toBe('discard');
             });
 
-            it('Poison should destroy the creature', function() {
+            it('Poison should destroy the creature', function () {
                 this.player1.fightWith(this.inkaTheSpider, this.mightyTiger);
                 expect(this.mightyTiger.location).toBe('discard');
+                expect(this.inkaTheSpider.location).toBe('discard');
+            });
+
+            it('Poison should not destroy the creature if damage is prevented by armor', function () {
+                this.player1.fightWith(this.inkaTheSpider, this.sinder);
+                expect(this.sinder.location).toBe('play area');
                 expect(this.inkaTheSpider.location).toBe('discard');
             });
         });

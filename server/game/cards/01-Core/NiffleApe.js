@@ -3,10 +3,7 @@ const Card = require('../../Card.js');
 class NiffleApe extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
-            effect: [
-                ability.effects.ignores('taunt'),
-                ability.effects.ignores('elusive')
-            ]
+            effect: [ability.effects.ignores('taunt'), ability.effects.ignores('elusive')]
         });
     }
 }

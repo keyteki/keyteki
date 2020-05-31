@@ -18,7 +18,7 @@ class MenuPrompt extends UiPrompt {
         super(game);
         this.player = player;
         this.context = context;
-        if(properties.source && !properties.waitingPromptTitle) {
+        if (properties.source && !properties.waitingPromptTitle) {
             properties.waitingPromptTitle = 'Waiting for opponent';
         }
 
@@ -30,7 +30,9 @@ class MenuPrompt extends UiPrompt {
     }
 
     activePrompt() {
-        let promptTitle = this.properties.promptTitle || (this.properties.source ? this.properties.source.name : undefined);
+        let promptTitle =
+            this.properties.promptTitle ||
+            (this.properties.source ? this.properties.source.name : undefined);
         return _.extend({ promptTitle: promptTitle }, this.properties.activePrompt);
     }
 
@@ -39,11 +41,11 @@ class MenuPrompt extends UiPrompt {
     }
 
     menuCommand(player, arg, method) {
-        if(!this.context[method] || !this.hasMethodButtonOrControl(method)) {
+        if (!this.context[method] || !this.hasMethodButtonOrControl(method)) {
             return false;
         }
 
-        if(this.context[method](this.properties.activePrompt.context, player, arg, method)) {
+        if (this.context[method](this.properties.activePrompt.context, player, arg, method)) {
             this.complete();
         }
 
@@ -51,7 +53,10 @@ class MenuPrompt extends UiPrompt {
     }
 
     hasMethodButtonOrControl(method) {
-        return _.any(this.properties.activePrompt.buttons, button => button.method === method) || this.properties.activePrompt.controls.some(control => control.method === method);
+        return (
+            _.any(this.properties.activePrompt.buttons, (button) => button.method === method) ||
+            this.properties.activePrompt.controls.some((control) => control.method === method)
+        );
     }
 }
 

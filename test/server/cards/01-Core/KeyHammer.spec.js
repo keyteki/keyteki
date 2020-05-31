@@ -1,6 +1,6 @@
 describe('Key Hammer', function () {
     integration(function () {
-        describe('Key Hammer\'s ability', function () {
+        describe("Key Hammer's ability", function () {
             beforeEach(function () {
                 this.setupTest({
                     player1: {

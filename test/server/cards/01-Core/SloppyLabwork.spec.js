@@ -1,7 +1,7 @@
-describe('Sloppy Labwork', function() {
-    integration(function() {
-        describe('Sloppy Labwork\'s ability', function() {
-            beforeEach(function() {
+describe('Sloppy Labwork', function () {
+    integration(function () {
+        describe("Sloppy Labwork's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
@@ -10,7 +10,7 @@ describe('Sloppy Labwork', function() {
                 });
             });
 
-            it('should archive a card and discard a card', function() {
+            it('should archive a card and discard a card', function () {
                 this.player1.play(this.sloppyLabwork);
                 this.player1.clickCard(this.dextre);
                 this.player1.clickCard(this.batdrone);
@@ -19,7 +19,7 @@ describe('Sloppy Labwork', function() {
                 expect(this.batdrone.location).toBe('discard');
             });
 
-            it('should archive a card when only one is in hand', function() {
+            it('should archive a card when only one is in hand', function () {
                 this.player1.play(this.dextre);
                 this.player1.play(this.sloppyLabwork);
                 this.player1.clickCard(this.batdrone);

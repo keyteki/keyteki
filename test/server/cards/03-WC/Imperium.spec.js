@@ -1,7 +1,7 @@
-describe('Imperium', function() {
-    integration(function() {
-        describe('Imperium\'s play ability', function() {
-            beforeEach(function() {
+describe('Imperium', function () {
+    integration(function () {
+        describe("Imperium's play ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'saurian',
@@ -17,7 +17,7 @@ describe('Imperium', function() {
                 expect(this.lamindra.warded).toBe(false);
             });
 
-            it('should ward 2 friendly creatures', function() {
+            it('should ward 2 friendly creatures', function () {
                 this.player1.play(this.imperium);
 
                 expect(this.player1).toHavePrompt('Imperium');

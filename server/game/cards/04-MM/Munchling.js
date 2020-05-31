@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class Munchling extends Card {
-    setupCardAbilities (ability) {
+    setupCardAbilities(ability) {
         this.fight({
             optional: true,
             target: {

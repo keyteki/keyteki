@@ -1,7 +1,7 @@
-describe('Poison Wave', function() {
-    integration(function() {
-        describe('Poison Wave\'s ability', function() {
-            beforeEach(function() {
+describe('Poison Wave', function () {
+    integration(function () {
+        describe("Poison Wave's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'shadows',
@@ -14,7 +14,7 @@ describe('Poison Wave', function() {
                 });
             });
 
-            it('should deal 2 damage to all creatures', function() {
+            it('should deal 2 damage to all creatures', function () {
                 this.player1.play(this.poisonWave);
                 expect(this.urchin.location).toBe('discard');
                 expect(this.nexus.tokens.damage).toBe(2);

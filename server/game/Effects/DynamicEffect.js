@@ -18,7 +18,7 @@ class DynamicEffect extends StaticEffect {
     }
 
     getValue(target) {
-        if(target) {
+        if (target) {
             return this.values[target.uuid];
         }
     }

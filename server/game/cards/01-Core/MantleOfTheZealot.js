@@ -4,7 +4,7 @@ class MantleOfTheZealot extends Card {
     setupCardAbilities(ability) {
         this.whileAttached({
             effect: ability.effects.gainAbility('persistentEffect', {
-                effect: ability.effects.canUse(card => card === this.parent)
+                effect: ability.effects.canUse((card) => card === this.parent)
             })
         });
     }

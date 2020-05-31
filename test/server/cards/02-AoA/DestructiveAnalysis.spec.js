@@ -1,7 +1,7 @@
-describe('Destructive Analysis', function() {
-    integration(function() {
-        describe('Destructive Analysis\'s ability', function() {
-            beforeEach(function() {
+describe('Destructive Analysis', function () {
+    integration(function () {
+        describe("Destructive Analysis's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'mars',
@@ -26,7 +26,7 @@ describe('Destructive Analysis', function() {
                 expect(this.player1.archives).toContain(this.troll);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
-            it('should allow purging of any number of cards to deal 2D to a creature', function() {
+            it('should allow purging of any number of cards to deal 2D to a creature', function () {
                 expect(this.tunk.location).toBe('archives');
                 this.player1.play(this.destructiveAnalysis);
                 expect(this.player1).toHavePrompt('Destructive Analysis');
@@ -42,7 +42,7 @@ describe('Destructive Analysis', function() {
                 expect(this.tunk.location).toBe('purged');
                 expect(this.bumpsy.tokens.damage).toBe(4);
             });
-            it('should return archived opponent cards to their hands and deal no additional damage ', function() {
+            it('should return archived opponent cards to their hands and deal no additional damage ', function () {
                 expect(this.tunk.location).toBe('archives');
                 this.player1.play(this.destructiveAnalysis);
                 expect(this.player1).toHavePrompt('Destructive Analysis');
@@ -60,7 +60,7 @@ describe('Destructive Analysis', function() {
                 expect(this.player1.hand).not.toContain(this.troll);
                 expect(this.bumpsy.tokens.damage).toBe(2);
             });
-            it('should allow you to select no creatures', function() {
+            it('should allow you to select no creatures', function () {
                 expect(this.tunk.location).toBe('archives');
                 this.player1.play(this.destructiveAnalysis);
                 expect(this.player1).toHavePrompt('Destructive Analysis');

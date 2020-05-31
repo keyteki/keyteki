@@ -1,17 +1,17 @@
 function navigate(state, newPath, search, noHistory) {
     try {
-        if(state.path !== newPath && !noHistory) {
+        if (state.path !== newPath && !noHistory) {
             window.history.pushState({}, '', newPath + (search || ''));
         }
 
         return { path: newPath, search: search };
-    } catch(err) {
+    } catch (err) {
         return {};
     }
 }
 
 export default function (state = { path: '/' }, action) {
-    switch(action.type) {
+    switch (action.type) {
         case 'NAVIGATE':
             state = navigate(state, action.newPath, action.search, action.noHistory);
             break;

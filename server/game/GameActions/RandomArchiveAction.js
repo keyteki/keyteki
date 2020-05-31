@@ -9,7 +9,8 @@ class RandomArchiveAction extends PlayerAction {
     setup() {
         super.setup();
         this.name = 'archive';
-        this.effectMsg = 'archive ' + (this.amount === 1 ? 'a card' : this.amount + ' cards') + ' at random';
+        this.effectMsg =
+            'archive ' + (this.amount === 1 ? 'a card' : this.amount + ' cards') + ' at random';
     }
 
     canAffect(player, context) {

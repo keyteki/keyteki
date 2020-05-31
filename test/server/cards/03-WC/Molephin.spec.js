@@ -1,7 +1,7 @@
-describe('Molephin', function() {
-    integration(function() {
-        describe('Molephin\'s ability', function() {
-            beforeEach(function() {
+describe('Molephin', function () {
+    integration(function () {
+        describe("Molephin's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         amber: 5,
@@ -17,7 +17,7 @@ describe('Molephin', function() {
                 });
             });
 
-            it('on steal, should deal damage equal to the amount of aember stolen to the entire enemy board', function() {
+            it('on steal, should deal damage equal to the amount of aember stolen to the entire enemy board', function () {
                 this.player1.endTurn();
                 this.player2.clickPrompt('shadows');
                 this.player2.play(this.urchin);
@@ -37,7 +37,7 @@ describe('Molephin', function() {
                 expect(this.molephin.tokens.damage).toBeUndefined();
             });
 
-            it('it shouldn\'t deal damage if molephins controller steals', function() {
+            it("it shouldn't deal damage if molephins controller steals", function () {
                 this.player1.play(this.ronnieWristclocks);
                 expect(this.player1.amber).toBe(6);
                 expect(this.player2.amber).toBe(4);
@@ -46,7 +46,7 @@ describe('Molephin', function() {
                 expect(this.molephin.tokens.damage).toBeUndefined();
             });
 
-            it('it shouldn\'t deal damage if amber is paid, not stolen', function() {
+            it("it shouldn't deal damage if amber is paid, not stolen", function () {
                 this.player1.useAction(this.spikeTrap, true);
                 expect(this.badPenny.location).toBe('hand');
                 expect(this.molephin.tokens.damage).toBeUndefined();

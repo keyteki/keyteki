@@ -1,7 +1,7 @@
-describe('Succubus', function() {
-    integration(function() {
-        describe('Succubus\'s ability', function() {
-            beforeEach(function() {
+describe('Succubus', function () {
+    integration(function () {
+        describe("Succubus's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'dis',
@@ -13,7 +13,7 @@ describe('Succubus', function() {
                 });
             });
 
-            it('should stack', function() {
+            it('should stack', function () {
                 this.player1.endTurn();
                 expect(this.player1.hand.length).toBe(4);
             });

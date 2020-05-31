@@ -1,11 +1,17 @@
-describe('Good of the Many', function() {
-    integration(function() {
-        describe('Good of the Many\'s play ability', function() {
-            beforeEach(function() {
+describe('Good of the Many', function () {
+    integration(function () {
+        describe("Good of the Many's play ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'saurian',
-                        inPlay: ['mindwarper', 'blypyp', 'philophosaurus', 'orator-hissaro', 'terrordactyl'],
+                        inPlay: [
+                            'mindwarper',
+                            'blypyp',
+                            'philophosaurus',
+                            'orator-hissaro',
+                            'terrordactyl'
+                        ],
                         hand: ['good-of-the-many']
                     },
                     player2: {
@@ -14,7 +20,7 @@ describe('Good of the Many', function() {
                 });
             });
 
-            it('should destroy all creatures that do not share a trait with another creature in its battleline', function() {
+            it('should destroy all creatures that do not share a trait with another creature in its battleline', function () {
                 this.player1.play(this.goodOfTheMany);
 
                 expect(this.mindwarper.location).toBe('play area');

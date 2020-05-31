@@ -7,7 +7,7 @@ class Ragnarok extends Card {
                 ability.actions.forRemainderOfTurn({
                     effect: ability.effects.cardCannot('reap')
                 }),
-                ability.actions.forRemainderOfTurn(context => ({
+                ability.actions.forRemainderOfTurn((context) => ({
                     when: {
                         onFight: () => true
                     },
@@ -17,7 +17,9 @@ class Ragnarok extends Card {
                     when: {
                         onRoundEnded: () => true
                     },
-                    gameAction: ability.actions.destroy(context => ({ target: context.game.creaturesInPlay }))
+                    gameAction: ability.actions.destroy((context) => ({
+                        target: context.game.creaturesInPlay
+                    }))
                 })
             ]
         });

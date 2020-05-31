@@ -3,7 +3,7 @@ const Card = require('../../Card.js');
 class GiantSloth extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
-            condition: () => !this.game.cardsDiscarded.some(card => card.hasHouse('untamed')),
+            condition: () => !this.game.cardsDiscarded.some((card) => card.hasHouse('untamed')),
             effect: ability.effects.cardCannot('use')
         });
 

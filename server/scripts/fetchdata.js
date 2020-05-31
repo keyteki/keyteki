@@ -9,15 +9,23 @@ const NoImageSource = require('./fetchdata/NoImageSource');
 
 const optionsDefinition = [
     { name: 'card-source', type: String, defaultValue: 'json' },
-    { name: 'card-dir', type: String, defaultValue: path.join(__dirname, '..', '..', 'keyteki-json-data') },
+    {
+        name: 'card-dir',
+        type: String,
+        defaultValue: path.join(__dirname, '..', '..', 'keyteki-json-data')
+    },
     { name: 'image-source', type: String, defaultValue: 'keyforge' },
-    { name: 'image-dir', type: String, defaultValue: path.join(__dirname, '..', '..', 'public', 'img', 'cards') },
+    {
+        name: 'image-dir',
+        type: String,
+        defaultValue: path.join(__dirname, '..', '..', 'public', 'img', 'cards')
+    },
     { name: 'no-images', type: Boolean, defaultValue: false },
     { name: 'language', type: String, defaultValue: 'en' }
 ];
 
 function createDataSource(options) {
-    switch(options['card-source']) {
+    switch (options['card-source']) {
         case 'json':
             return new JsonCardSource(options['card-dir']);
     }
@@ -26,11 +34,11 @@ function createDataSource(options) {
 }
 
 function createImageSource(options) {
-    if(options['no-images']) {
+    if (options['no-images']) {
         return new NoImageSource();
     }
 
-    switch(options['image-source']) {
+    switch (options['image-source']) {
         case 'none':
             return new NoImageSource();
         case 'keyforge':

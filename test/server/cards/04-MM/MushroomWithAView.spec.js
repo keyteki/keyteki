@@ -1,7 +1,7 @@
-describe('Mushroom with a View', function() {
-    integration(function() {
-        describe('Mushroom with a View\'s abilities', function() {
-            beforeEach(function() {
+describe('Mushroom with a View', function () {
+    integration(function () {
+        describe("Mushroom with a View's abilities", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'dis',
@@ -13,7 +13,7 @@ describe('Mushroom with a View', function() {
                 });
             });
 
-            it('should heal 1 from all friendly creatures', function() {
+            it('should heal 1 from all friendly creatures', function () {
                 this.envy.tokens.damage = 2;
                 this.pride.tokens.damage = 1;
                 this.troll.tokens.damage = 1;

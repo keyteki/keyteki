@@ -1,7 +1,7 @@
-describe('Hexpion', function() {
-    integration(function() {
-        describe('Hexpion\' destroyed ability', function() {
-            beforeEach(function() {
+describe('Hexpion', function () {
+    integration(function () {
+        describe("Hexpion' destroyed ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
@@ -15,7 +15,7 @@ describe('Hexpion', function() {
                 });
             });
 
-            it('should move destroyed hexpion to archive', function() {
+            it('should move destroyed hexpion to archive', function () {
                 this.player1.fightWith(this.hexpion, this.krump);
 
                 expect(this.hexpion.location).toBe('archives');
@@ -23,7 +23,7 @@ describe('Hexpion', function() {
                 expect(this.player1.player.archives.length).toBe(2);
             });
 
-            it('should move controlled hexpion to opponent\'s archive', function() {
+            it("should move controlled hexpion to opponent's archive", function () {
                 this.player1.endTurn();
 
                 this.player2.clickPrompt('dis');

@@ -1,7 +1,7 @@
-describe('Cleansing Wave', function() {
-    integration(function() {
-        describe('Cleansing Wave\'s ability', function() {
-            beforeEach(function() {
+describe('Cleansing Wave', function () {
+    integration(function () {
+        describe("Cleansing Wave's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'sanctum',
@@ -14,7 +14,7 @@ describe('Cleansing Wave', function() {
                 });
             });
 
-            it('should heal each creature with damage and gain amber equal to the total number healed', function() {
+            it('should heal each creature with damage and gain amber equal to the total number healed', function () {
                 this.snufflegator.addToken('damage', 2);
                 this.ancientBear.addToken('damage', 1);
                 this.sequis.addToken('damage', 2);
@@ -22,7 +22,7 @@ describe('Cleansing Wave', function() {
                 expect(this.sequis.tokens.damage).toBe(1);
                 expect(this.raidingKnight.hasToken('damage')).toBe(false);
                 expect(this.snufflegator.tokens.damage).toBe(1);
-                expect(this.ancientBear .hasToken('damage')).toBe(false);
+                expect(this.ancientBear.hasToken('damage')).toBe(false);
                 expect(this.troll.hasToken('damage')).toBe(false);
                 expect(this.player1.amber).toBe(3);
                 expect(this.player2.amber).toBe(0);

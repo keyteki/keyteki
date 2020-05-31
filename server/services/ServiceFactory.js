@@ -5,14 +5,14 @@ let services = {};
 
 module.exports = {
     messageService: () => {
-        if(!services.messageService) {
+        if (!services.messageService) {
             services.messageService = new MessageService();
         }
 
         return services.messageService;
     },
     cardService: () => {
-        if(!services.cardService) {
+        if (!services.cardService) {
             services.cardService = new CardService();
         }
 

@@ -10,11 +10,14 @@ class InformationOfficerGray extends Card {
                 numCards: 1,
                 controller: 'self',
                 location: 'hand',
-                cardCondition: card => !card.hasHouse('staralliance'),
+                cardCondition: (card) => !card.hasHouse('staralliance'),
                 gameAction: ability.actions.archive()
             },
             effect: 'reveal {1}{2}',
-            effectArgs: context => [context.target.length > 0 ? context.target : undefined, context.target.length > 0 ? ' from their hand, and archive it' : 'no cards']
+            effectArgs: (context) => [
+                context.target.length > 0 ? context.target : undefined,
+                context.target.length > 0 ? ' from their hand, and archive it' : 'no cards'
+            ]
         });
     }
 }

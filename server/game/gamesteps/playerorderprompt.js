@@ -14,17 +14,18 @@ class PlayerOrderPrompt extends UiPrompt {
     }
 
     lazyFetchPlayers() {
-        if(!this.players) {
+        if (!this.players) {
             this.players = this.game.getPlayersInFirstPlayerOrder();
         }
     }
 
     skipPlayers() {
         this.lazyFetchPlayers();
-        this.players = _.reject(this.players, p => this.skipCondition(p));
+        this.players = _.reject(this.players, (p) => this.skipCondition(p));
     }
 
-    skipCondition(player) { // eslint-disable-line no-unused-vars
+    // eslint-disable-next-line no-unused-vars
+    skipCondition(player) {
         return false;
     }
 

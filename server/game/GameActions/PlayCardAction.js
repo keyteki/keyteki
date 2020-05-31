@@ -12,12 +12,14 @@ class PlayCardAction extends CardGameAction {
     }
 
     canAffect(card, context) {
-        if(!super.canAffect(card, context)) {
+        if (!super.canAffect(card, context)) {
             return false;
         }
 
-        let actions = card.getActions(this.location).filter(action => action.title.includes('Play'));
-        return !!actions.find(action => {
+        let actions = card
+            .getActions(this.location)
+            .filter((action) => action.title.includes('Play'));
+        return !!actions.find((action) => {
             let actionContext = action.createContext(context.player);
             actionContext.ignoreHouse = true;
             return !action.meetsRequirements(actionContext, ['location']);
@@ -26,16 +28,18 @@ class PlayCardAction extends CardGameAction {
 
     getEvent(card, context) {
         return super.createEvent('unnamedEvent', { card: card, context: context }, () => {
-            let playActions = card.getActions(this.location).filter(action => action.title.includes('Play'));
+            let playActions = card
+                .getActions(this.location)
+                .filter((action) => action.title.includes('Play'));
             let action;
-            if(playActions.length > 1) {
+            if (playActions.length > 1) {
                 context.game.promptWithHandlerMenu(context.player, {
                     activePromptTitle: 'Play ' + card.name + ':',
-                    choices: playActions.map(ability => ability.title),
-                    handlers: playActions.map(ability => () => action = ability),
+                    choices: playActions.map((ability) => ability.title),
+                    handlers: playActions.map((ability) => () => (action = ability)),
                     source: card
                 });
-            } else if(playActions.length === 1) {
+            } else if (playActions.length === 1) {
                 action = playActions[0];
             } else {
                 return;

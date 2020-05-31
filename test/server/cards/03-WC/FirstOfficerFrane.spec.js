@@ -1,7 +1,7 @@
-describe('First Officer Frane', function() {
-    integration(function() {
-        describe('First Officer Frane\'s ability', function() {
-            beforeEach(function() {
+describe('First Officer Frane', function () {
+    integration(function () {
+        describe("First Officer Frane's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'staralliance',
@@ -15,7 +15,7 @@ describe('First Officer Frane', function() {
                 });
             });
 
-            it('should allow a friendly creature to capture 1 amber when it is played', function() {
+            it('should allow a friendly creature to capture 1 amber when it is played', function () {
                 this.player1.play(this.firstOfficerFrane);
                 expect(this.player1).toHavePrompt('First Officer Frane');
                 expect(this.player1).toBeAbleToSelect(this.firstOfficerFrane);
@@ -27,7 +27,7 @@ describe('First Officer Frane', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should not capture an amber when the opponent has 0', function() {
+            it('should not capture an amber when the opponent has 0', function () {
                 this.player2.amber = 0;
                 this.player1.play(this.firstOfficerFrane);
                 expect(this.player2.amber).toBe(0);
@@ -36,8 +36,8 @@ describe('First Officer Frane', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
         });
-        describe('First Officer Frane\'s ability', function() {
-            beforeEach(function() {
+        describe("First Officer Frane's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'staralliance',
@@ -49,7 +49,7 @@ describe('First Officer Frane', function() {
                     }
                 });
             });
-            it('should allow a friendly creature to capture 1 amber when it reaps', function() {
+            it('should allow a friendly creature to capture 1 amber when it reaps', function () {
                 this.player1.reap(this.firstOfficerFrane);
                 expect(this.player1).toHavePrompt('First Officer Frane');
                 expect(this.player1).toBeAbleToSelect(this.firstOfficerFrane);
@@ -60,7 +60,7 @@ describe('First Officer Frane', function() {
                 expect(this.firstOfficerFrane.tokens.amber).toBe(1);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
-            it('should allow a friendly creature to capture 1 amber when it fights', function() {
+            it('should allow a friendly creature to capture 1 amber when it fights', function () {
                 this.player1.fightWith(this.firstOfficerFrane, this.dustPixie);
                 expect(this.player1).toHavePrompt('First Officer Frane');
                 expect(this.player1).toBeAbleToSelect(this.firstOfficerFrane);

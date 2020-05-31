@@ -1,7 +1,7 @@
-describe('Draco Praeco', function() {
-    integration(function() {
-        describe('Draco Praeco\'s reap ability', function() {
-            beforeEach(function() {
+describe('Draco Praeco', function () {
+    integration(function () {
+        describe("Draco Praeco's reap ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         amber: 4,
@@ -14,7 +14,7 @@ describe('Draco Praeco', function() {
                 });
             });
 
-            it('should be able to choose not to ward', function() {
+            it('should be able to choose not to ward', function () {
                 this.player1.reap(this.dracoPraeco);
                 expect(this.player1).toHavePrompt('Any reactions?');
                 expect(this.player1).toHavePromptButton('Done');
@@ -22,7 +22,7 @@ describe('Draco Praeco', function() {
                 expect(this.dracoPraeco.hasToken('amber')).toBe(false);
             });
 
-            it('should be able to choose to ward and select a house', function() {
+            it('should be able to choose to ward and select a house', function () {
                 this.player1.reap(this.dracoPraeco);
                 expect(this.player1).toHavePrompt('Any reactions?');
                 expect(this.player1).toBeAbleToSelect(this.dracoPraeco);

@@ -23,13 +23,13 @@ class AbilityResolver extends BaseStepWithPipeline {
     }
 
     createSnapshot() {
-        if(['creature', 'artifact'].includes(this.context.source.getType())) {
+        if (['creature', 'artifact'].includes(this.context.source.getType())) {
             this.context.cardStateWhenInitiated = this.context.source.createSnapshot();
         }
     }
 
     resolveEarlyTargets() {
-        if(this.cancelled) {
+        if (this.cancelled) {
             return;
         }
 
@@ -37,7 +37,7 @@ class AbilityResolver extends BaseStepWithPipeline {
     }
 
     checkForCancel() {
-        if(this.cancelled) {
+        if (this.cancelled) {
             return;
         }
 
@@ -45,18 +45,18 @@ class AbilityResolver extends BaseStepWithPipeline {
     }
 
     payCosts() {
-        if(this.cancelled) {
+        if (this.cancelled) {
             return;
         }
 
         this.costEvents = this.context.ability.payCosts(this.context);
-        if(this.costEvents.length > 0) {
+        if (this.costEvents.length > 0) {
             this.game.openEventWindow(this.costEvents);
         }
     }
 
     resolveTargets() {
-        if(this.cancelled) {
+        if (this.cancelled) {
             return;
         }
 
@@ -64,18 +64,21 @@ class AbilityResolver extends BaseStepWithPipeline {
     }
 
     initiateAbility() {
-        if(this.cancelled) {
+        if (this.cancelled) {
             return;
-        } else if(this.targetResults.cancelled) {
+        } else if (this.targetResults.cancelled) {
             this.cancelled = true;
             return;
         }
 
-        this.game.raiseEvent('onAbilityInitiated', { context: this.context, noGameStateCheck: true });
+        this.game.raiseEvent('onAbilityInitiated', {
+            context: this.context,
+            noGameStateCheck: true
+        });
     }
 
     executeHandler() {
-        if(this.cancelled) {
+        if (this.cancelled) {
             return;
         }
 
@@ -85,7 +88,7 @@ class AbilityResolver extends BaseStepWithPipeline {
     }
 
     raiseResolvedEvent() {
-        if(this.cancelled) {
+        if (this.cancelled) {
             return;
         }
 

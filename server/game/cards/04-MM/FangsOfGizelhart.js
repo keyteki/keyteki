@@ -7,7 +7,7 @@ class FangsOfGizelhart extends Card {
                 cardType: 'creature',
                 mode: 'mostStat',
                 numCards: 1,
-                cardStat: card => card.power,
+                cardStat: (card) => card.power,
                 gameAction: ability.actions.purge()
             }
         });

@@ -10,9 +10,9 @@ class JsonCardSource {
     loadPackFiles(directory) {
         let cards = [];
         let files = fs.readdirSync(path.join(directory, 'packs'));
-        for(let file of files) {
+        for (let file of files) {
             let pack = JSON.parse(fs.readFileSync(path.join(directory, 'packs', file)));
-            for(let card of pack.cards) {
+            for (let card of pack.cards) {
                 card.packCode = pack.code;
             }
 

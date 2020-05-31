@@ -1,6 +1,6 @@
 describe('mad-prophet-gizelhart', function () {
     integration(function () {
-        describe('Mad Prophet Gizelhart\'s ability', function () {
+        describe("Mad Prophet Gizelhart's ability", function () {
             beforeEach(function () {
                 this.setupTest({
                     player1: {

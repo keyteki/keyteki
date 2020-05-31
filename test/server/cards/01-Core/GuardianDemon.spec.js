@@ -1,7 +1,7 @@
-describe('Guardian Demon', function() {
-    integration(function() {
-        describe('Guardian Demon\'s ability', function() {
-            beforeEach(function() {
+describe('Guardian Demon', function () {
+    integration(function () {
+        describe("Guardian Demon's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'dis',
@@ -14,7 +14,7 @@ describe('Guardian Demon', function() {
                 });
             });
 
-            it('should move damage when played and fighting', function() {
+            it('should move damage when played and fighting', function () {
                 this.player1.fightWith(this.theTerror, this.sequis);
                 expect(this.theTerror.tokens.damage).toBe(4);
                 expect(this.sequis.tokens.damage).toBe(3);
@@ -77,12 +77,12 @@ describe('Guardian Demon', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should not trigger when there are no damaged creatures', function() {
+            it('should not trigger when there are no damaged creatures', function () {
                 this.player1.play(this.guardianDemon);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should not prompt to target a second creature if the first was not healed',function() {
+            it('should not prompt to target a second creature if the first was not healed', function () {
                 this.player1.fightWith(this.restringuntus, this.emberImp);
                 expect(this.emberImp.tokens.damage).toBe(1);
                 this.player1.play(this.guardianDemon);
@@ -94,7 +94,7 @@ describe('Guardian Demon', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should deal 1 damage when only 1 damage is healed', function() {
+            it('should deal 1 damage when only 1 damage is healed', function () {
                 this.player1.fightWith(this.restringuntus, this.emberImp);
                 expect(this.emberImp.tokens.damage).toBe(1);
                 this.player1.play(this.guardianDemon);

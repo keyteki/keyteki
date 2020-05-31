@@ -4,7 +4,10 @@ class BronzeKeyImp extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
             targetController: 'any',
-            effect: ability.effects.playerCannot('forge', context => context.player.getForgedKeys() === 0)
+            effect: ability.effects.playerCannot(
+                'forge',
+                (context) => context.player.getForgedKeys() === 0
+            )
         });
     }
 }

@@ -1,7 +1,7 @@
-describe('Neutron Shark', function() {
-    integration(function() {
-        describe('Neutron Shark\'s ability', function() {
-            beforeEach(function() {
+describe('Neutron Shark', function () {
+    integration(function () {
+        describe("Neutron Shark's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
@@ -15,7 +15,7 @@ describe('Neutron Shark', function() {
                 });
             });
 
-            it('should trigger when played', function() {
+            it('should trigger when played', function () {
                 this.player1.play(this.neutronShark);
                 expect(this.player1).toHavePrompt('Neutron Shark');
                 expect(this.player1).toBeAbleToSelect(this.batdrone);
@@ -25,7 +25,7 @@ describe('Neutron Shark', function() {
                 expect(this.player1).not.toBeAbleToSelect(this.libraryOfBabble);
             });
 
-            it('should destroy both cards and discard the top card of the deck', function() {
+            it('should destroy both cards and discard the top card of the deck', function () {
                 this.player1.moveCard(this.dextre, 'deck');
                 expect(this.dextre.location).toBe('deck');
                 this.player1.play(this.neutronShark);
@@ -43,7 +43,7 @@ describe('Neutron Shark', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should resolve the ability again if the top card is not logos', function() {
+            it('should resolve the ability again if the top card is not logos', function () {
                 this.player1.moveCard(this.dextre, 'deck');
                 expect(this.dextre.location).toBe('deck');
                 this.player1.moveCard(this.urchin, 'deck');
@@ -83,7 +83,7 @@ describe('Neutron Shark', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should repeat even if only one card was destroyed', function() {
+            it('should repeat even if only one card was destroyed', function () {
                 this.player1.play(this.twinBoltEmission);
                 this.player1.clickCard(this.emberImp);
                 this.player1.clickCard(this.batdrone);
@@ -104,7 +104,7 @@ describe('Neutron Shark', function() {
                 expect(this.player1).toHavePrompt('Neutron Shark');
             });
 
-            it('should not repeat if Neutron Shark was destroyed', function() {
+            it('should not repeat if Neutron Shark was destroyed', function () {
                 this.player1.moveCard(this.umbra, 'deck');
                 expect(this.umbra.location).toBe('deck');
                 this.player1.play(this.neutronShark);
@@ -117,8 +117,8 @@ describe('Neutron Shark', function() {
             });
         });
 
-        describe('Neutron Shark and Bellowing Patrizate interaction', function() {
-            beforeEach(function() {
+        describe('Neutron Shark and Bellowing Patrizate interaction', function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
@@ -129,7 +129,7 @@ describe('Neutron Shark', function() {
                 });
             });
 
-            it('should prompt the player to choose which to resolve first', function() {
+            it('should prompt the player to choose which to resolve first', function () {
                 this.player1.play(this.neutronShark);
                 expect(this.player1).toHavePrompt('Triggered Abilities');
             });

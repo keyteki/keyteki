@@ -9,11 +9,18 @@ import { withTranslation } from 'react-i18next';
 export class GameConfigurationModal extends React.Component {
     render() {
         return (
-            <Modal id={ this.props.id } className='settings-popup row' bodyClassName='col-xs-12' title={ this.props.t('Game Configuration') }>
+            <Modal
+                id={this.props.id}
+                className='settings-popup row'
+                bodyClassName='col-xs-12'
+                title={this.props.t('Game Configuration')}
+            >
                 <GameConfiguration
-                    optionSettings={ this.props.optionSettings }
-                    onOptionSettingToggle={ this.props.onOptionSettingToggle } />
-            </Modal>);
+                    optionSettings={this.props.optionSettings}
+                    onOptionSettingToggle={this.props.onOptionSettingToggle}
+                />
+            </Modal>
+        );
     }
 }
 

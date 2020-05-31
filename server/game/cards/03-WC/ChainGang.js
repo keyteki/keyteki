@@ -6,7 +6,8 @@ class ChainGang extends Card {
             when: {
                 onCardPlayed: (event, context) =>
                     event.card.name === 'Subtle Chain' &&
-                    event.player === context.player && event.card !== context.source
+                    event.player === context.player &&
+                    event.card !== context.source
             },
             gameAction: ability.actions.ready()
         });
@@ -15,7 +16,7 @@ class ChainGang extends Card {
                 cardType: 'action',
                 location: ['discard'],
                 controller: 'self',
-                cardCondition: card => card.name === 'Subtle Chain',
+                cardCondition: (card) => card.name === 'Subtle Chain',
                 gameAction: ability.actions.returnToDeck({ shuffle: true })
             },
             gameAction: ability.actions.steal()

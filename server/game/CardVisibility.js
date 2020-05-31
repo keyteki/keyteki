@@ -1,8 +1,4 @@
-const OpenInformationLocations = [
-    'play area',
-    'purged',
-    'discard'
-];
+const OpenInformationLocations = ['play area', 'purged', 'discard'];
 
 class CardVisibility {
     constructor(game) {
@@ -15,7 +11,7 @@ class CardVisibility {
     }
 
     isVisible(card, player) {
-        return this.rules.some(rule => rule(card, player));
+        return this.rules.some((rule) => rule(card, player));
     }
 
     addRule(rule) {
@@ -23,7 +19,7 @@ class CardVisibility {
     }
 
     removeRule(rule) {
-        this.rules = this.rules.filter(r => r !== rule);
+        this.rules = this.rules.filter((r) => r !== rule);
     }
 
     isPublicRule(card) {
@@ -35,9 +31,11 @@ class CardVisibility {
     }
 
     isSpectatorRule(card, player) {
-        return this.game.showHand &&
+        return (
+            this.game.showHand &&
             player.isSpectator() &&
-            ['hand', 'archives'].includes(card.location);
+            ['hand', 'archives'].includes(card.location)
+        );
     }
 }
 

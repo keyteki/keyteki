@@ -12,8 +12,12 @@ class FaustTheGreat extends Card {
         });
         this.persistentEffect({
             targetController: 'opponent',
-            effect: ability.effects.modifyKeyCost((player, context) =>
-                context.source.controller.cardsInPlay.filter(card => card.type === 'creature' && card.hasToken('amber')).length)
+            effect: ability.effects.modifyKeyCost(
+                (player, context) =>
+                    context.source.controller.cardsInPlay.filter(
+                        (card) => card.type === 'creature' && card.hasToken('amber')
+                    ).length
+            )
         });
     }
 }

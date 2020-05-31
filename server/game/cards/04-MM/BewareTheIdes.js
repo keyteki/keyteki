@@ -5,7 +5,7 @@ class BewareTheIdes extends Card {
         this.play({
             target: {
                 cardType: 'creature',
-                cardCondition: card => card.isInCenter(),
+                cardCondition: (card) => card.isInCenter(),
                 gameAction: ability.actions.dealDamage({ amount: 23 })
             }
         });

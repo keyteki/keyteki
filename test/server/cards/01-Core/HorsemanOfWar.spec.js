@@ -1,7 +1,7 @@
-describe('Horseman of War', function() {
-    integration(function() {
-        describe('Horseman of War\'s ability', function() {
-            beforeEach(function() {
+describe('Horseman of War', function () {
+    integration(function () {
+        describe("Horseman of War's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'sanctum',
@@ -15,7 +15,7 @@ describe('Horseman of War', function() {
                 });
             });
 
-            it('should allow non-sanctum creatures to fight', function() {
+            it('should allow non-sanctum creatures to fight', function () {
                 this.player1.play(this.horsemanOfWar);
                 this.player1.clickCard(this.emberImp);
                 expect(this.player1).toHavePrompt('Ember Imp');
@@ -41,20 +41,20 @@ describe('Horseman of War', function() {
                 expect(this.sequis.location).toBe('discard');
             });
 
-            it('should not stop use of artifacts', function() {
+            it('should not stop use of artifacts', function () {
                 this.player1.play(this.horsemanOfWar);
                 this.player1.clickCard(this.gormOfOmm);
                 expect(this.player1).toHavePrompt('Gorm Of Omm');
-                this.player1.clickPrompt('Use this card\'s Omni ability');
+                this.player1.clickPrompt("Use this card's Omni ability");
                 expect(this.player1).toHavePrompt('Gorm Of Omm');
             });
 
-            it('should not allow creatures to use actions', function() {
+            it('should not allow creatures to use actions', function () {
                 this.player1.play(this.horsemanOfWar);
                 this.player1.clickCard(this.pitDemon);
                 expect(this.player1).toHavePrompt('Pit Demon');
                 expect(this.player1).not.toHavePromptButton('Reap with this creature');
-                expect(this.player1).not.toHavePromptButton('Use this card\'s Action ability');
+                expect(this.player1).not.toHavePromptButton("Use this card's Action ability");
                 this.player1.clickPrompt('Fight with this creature');
                 this.player1.clickCard(this.troll);
                 expect(this.troll.tokens.damage).toBe(5);

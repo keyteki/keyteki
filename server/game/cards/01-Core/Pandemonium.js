@@ -5,12 +5,16 @@ class Pandemonium extends Card {
         this.play({
             effect: 'cause each undamaged creature to capture 1 amber from their opponent',
             gameAction: [
-                ability.actions.capture(context => ({
-                    target: context.player.creaturesInPlay.filter(card => !card.hasToken('damage'))
+                ability.actions.capture((context) => ({
+                    target: context.player.creaturesInPlay.filter(
+                        (card) => !card.hasToken('damage')
+                    )
                 })),
-                ability.actions.capture(context => ({
+                ability.actions.capture((context) => ({
                     player: context.player,
-                    target: context.player.opponent.creaturesInPlay.filter(card => !card.hasToken('damage'))
+                    target: context.player.opponent.creaturesInPlay.filter(
+                        (card) => !card.hasToken('damage')
+                    )
                 }))
             ]
         });

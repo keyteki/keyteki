@@ -4,8 +4,8 @@ class Eureka extends Card {
     setupCardAbilities(ability) {
         this.play({
             gameAction: [
-                ability.actions.gainAmber(context => ({ amount: 2, target: context.player })),
-                ability.actions.archiveAtRandom(context => ({
+                ability.actions.gainAmber((context) => ({ amount: 2, target: context.player })),
+                ability.actions.archiveAtRandom((context) => ({
                     target: context.player,
                     amount: 2
                 }))

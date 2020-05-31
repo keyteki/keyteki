@@ -1,7 +1,7 @@
-describe('Truebaru', function() {
-    integration(function() {
-        describe('Truebaru\'s ability', function() {
-            beforeEach(function() {
+describe('Truebaru', function () {
+    integration(function () {
+        describe("Truebaru's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         amber: 3,
@@ -15,19 +15,19 @@ describe('Truebaru', function() {
                 });
             });
 
-            it('should remove 3 amber when played', function() {
+            it('should remove 3 amber when played', function () {
                 this.player1.play(this.truebaru);
                 expect(this.player1.amber).toBe(0);
             });
 
-            it('should not allow playing Truebaru when a player has less than 3 amber', function() {
+            it('should not allow playing Truebaru when a player has less than 3 amber', function () {
                 this.player1.amber = 2;
                 this.player1.clickCard(this.truebaru);
                 expect(this.player1).toHavePrompt('Truebaru');
                 expect(this.player1).not.toHavePromptButton('Play this creature');
             });
 
-            it('should not give amber when Fear is played', function() {
+            it('should not give amber when Fear is played', function () {
                 this.player1.play(this.truebaru);
                 expect(this.player1.amber).toBe(0);
                 expect(this.player2.amber).toBe(2);

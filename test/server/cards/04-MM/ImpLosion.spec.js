@@ -1,7 +1,7 @@
-describe('Imp-losion', function() {
-    integration(function() {
-        describe('Imp-losion\'s abilities', function() {
-            beforeEach(function() {
+describe('Imp-losion', function () {
+    integration(function () {
+        describe("Imp-losion's abilities", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'dis',
@@ -14,7 +14,7 @@ describe('Imp-losion', function() {
                 });
             });
 
-            it('should destroy one friendly and one enemy creature', function() {
+            it('should destroy one friendly and one enemy creature', function () {
                 this.player1.play(this.impLosion);
                 this.player1.clickCard(this.gub);
                 this.player1.clickCard(this.troll);

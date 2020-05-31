@@ -1,7 +1,7 @@
-describe('A Fair Game', function() {
-    integration(function() {
-        describe('A Fair Game\'s ability', function() {
-            beforeEach(function() {
+describe('A Fair Game', function () {
+    integration(function () {
+        describe("A Fair Game's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'dis',
@@ -15,7 +15,7 @@ describe('A Fair Game', function() {
                 });
             });
 
-            it('should give each player the correct amount of amber when discarding a card which matches', function() {
+            it('should give each player the correct amount of amber when discarding a card which matches', function () {
                 this.player1.moveCard(this.tocsin, 'deck');
                 this.player2.moveCard(this.flaxia, 'deck');
                 this.player1.play(this.aFairGame);
@@ -23,7 +23,7 @@ describe('A Fair Game', function() {
                 expect(this.player2.amber).toBe(2);
             });
 
-            it('should give the correct amount when one player doesn\'t have a matching card', function() {
+            it("should give the correct amount when one player doesn't have a matching card", function () {
                 this.player1.moveCard(this.tocsin, 'deck');
                 this.player2.moveCard(this.nexus, 'deck');
                 this.player1.play(this.aFairGame);
@@ -31,8 +31,8 @@ describe('A Fair Game', function() {
                 expect(this.player2.amber).toBe(2);
             });
 
-            it('should not discard a card when the discard is empty, and should give no amber', function() {
-                for(let card of this.player1.player.deck) {
+            it('should not discard a card when the discard is empty, and should give no amber', function () {
+                for (let card of this.player1.player.deck) {
                     this.player1.moveCard(card, 'discard');
                 }
 
