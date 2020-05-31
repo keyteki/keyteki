@@ -5,8 +5,10 @@ class VeylanAnalyst extends Card {
         this.reaction({
             when: {
                 onAbilityResolved: (event, context) =>
-                    event.context.player === context.player && event.context.source.type === 'artifact' &&
-                    event.context.ability.isAction() && !event.context.ability.isCardPlayed()
+                    event.context.player === context.player &&
+                    event.context.source.type === 'artifact' &&
+                    event.context.ability.isAction() &&
+                    !event.context.ability.isCardPlayed()
             },
             gameAction: ability.actions.gainAmber()
         });

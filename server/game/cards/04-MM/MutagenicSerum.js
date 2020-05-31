@@ -6,7 +6,9 @@ class MutagenicSerum extends Card {
             gameAction: [
                 ability.actions.sacrifice(),
                 ability.actions.forRemainderOfTurn({
-                    effect: ability.effects.canUse(card => card.type === 'creature' && card.hasTrait('mutant'))
+                    effect: ability.effects.canUse(
+                        (card) => card.type === 'creature' && card.hasTrait('mutant')
+                    )
                 })
             ]
         });

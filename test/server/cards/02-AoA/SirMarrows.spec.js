@@ -1,7 +1,7 @@
-describe('Sir Marrows', function() {
-    integration(function() {
-        describe('Sir Marrows\'s ability', function() {
-            beforeEach(function() {
+describe('Sir Marrows', function () {
+    integration(function () {
+        describe("Sir Marrows's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
@@ -14,7 +14,7 @@ describe('Sir Marrows', function() {
                 });
             });
 
-            it('should capture an amber when opponent\'s reap', function() {
+            it("should capture an amber when opponent's reap", function () {
                 this.player1.reap(this.dextre);
                 expect(this.sirMarrows.amber).toBe(1);
                 expect(this.player1.amber).toBe(0);
@@ -22,8 +22,8 @@ describe('Sir Marrows', function() {
             });
         });
 
-        describe('Sir Marrows\'s ability', function() {
-            beforeEach(function() {
+        describe("Sir Marrows's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
@@ -39,7 +39,7 @@ describe('Sir Marrows', function() {
                 this.sirMarrows2 = this.player2.player.creaturesInPlay[1];
             });
 
-            xit('should capture just one amber, APC should select which Sir Marrows to capture', function() {
+            xit('should capture just one amber, APC should select which Sir Marrows to capture', function () {
                 this.player1.reap(this.dextre);
                 this.player1.clickCard(this.sirMarrows2);
                 this.player1.reap(this.archimedes);

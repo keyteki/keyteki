@@ -18,11 +18,11 @@ class SmiteAbilityResolver extends AbilityResolver {
     }
 
     getNeighbors() {
-        if(this.cancelled) {
+        if (this.cancelled) {
             return;
         }
 
-        if(!this.context.target) {
+        if (!this.context.target) {
             return;
         }
 
@@ -30,7 +30,7 @@ class SmiteAbilityResolver extends AbilityResolver {
     }
 
     damageNeighbors() {
-        if(this.cancelled || !this.neighbors) {
+        if (this.cancelled || !this.neighbors) {
             return;
         }
 
@@ -42,8 +42,10 @@ class SmiteFightAction extends FightGameAction {
     getEvent(card, context) {
         return super.createEvent('onInitiateFight', { card, context }, () => {
             let newContext;
-            if(card.stunned) {
-                let removeStunAction = card.getActions().find(action => action.title === 'Remove this creature\'s stun');
+            if (card.stunned) {
+                let removeStunAction = card
+                    .getActions()
+                    .find((action) => action.title === "Remove this creature's stun");
                 newContext = removeStunAction.createContext(context.player);
             } else {
                 let fightAction = card.getFightAction();

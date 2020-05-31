@@ -1,11 +1,11 @@
-describe('dark-centurion', function() {
-    integration(function() {
-        describe('Dark Centurion\'s ability', function() {
-            beforeEach(function() {
+describe('dark-centurion', function () {
+    integration(function () {
+        describe("Dark Centurion's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'saurian',
-                        inPlay: ['umbra','dark-centurion'],
+                        inPlay: ['umbra', 'dark-centurion'],
                         hand: ['access-denied']
                     },
                     player2: {
@@ -15,14 +15,14 @@ describe('dark-centurion', function() {
                 });
             });
 
-            it('should be able to remove one aember from a creature that this player controls, and ward it', function() {
+            it('should be able to remove one aember from a creature that this player controls, and ward it', function () {
                 this.umbra.tokens.amber = 1;
                 expect(this.umbra.hasToken('amber')).toBe(true);
 
                 expect(this.darkCenturion.location).toBe('play area');
                 this.player1.clickCard(this.darkCenturion);
-                expect(this.player1).toHavePromptButton('Use this card\'s Action ability');
-                this.player1.clickPrompt('Use this card\'s Action ability');
+                expect(this.player1).toHavePromptButton("Use this card's Action ability");
+                this.player1.clickPrompt("Use this card's Action ability");
 
                 expect(this.player1).toBeAbleToSelect(this.umbra);
                 this.player1.clickCard(this.umbra);
@@ -32,7 +32,7 @@ describe('dark-centurion', function() {
                 expect(this.darkCenturion.hasToken('ward')).toBe(false);
             });
 
-            it('should be able to remove one aember from a creature that the opponent controls, and ward it', function() {
+            it('should be able to remove one aember from a creature that the opponent controls, and ward it', function () {
                 this.umbra.tokens.amber = 1;
                 this.troll.tokens.amber = 1;
 
@@ -41,8 +41,8 @@ describe('dark-centurion', function() {
 
                 expect(this.darkCenturion.location).toBe('play area');
                 this.player1.clickCard(this.darkCenturion);
-                expect(this.player1).toHavePromptButton('Use this card\'s Action ability');
-                this.player1.clickPrompt('Use this card\'s Action ability');
+                expect(this.player1).toHavePromptButton("Use this card's Action ability");
+                this.player1.clickPrompt("Use this card's Action ability");
 
                 expect(this.player1).toBeAbleToSelect(this.umbra);
                 expect(this.player1).toBeAbleToSelect(this.troll);

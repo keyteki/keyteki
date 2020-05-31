@@ -1,7 +1,7 @@
-describe('Armageddon Cloak', function() {
-    integration(function() {
-        describe('Armageddon Cloak\'s ability', function() {
-            beforeEach(function() {
+describe('Armageddon Cloak', function () {
+    integration(function () {
+        describe("Armageddon Cloak's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'sanctum',
@@ -15,7 +15,7 @@ describe('Armageddon Cloak', function() {
                 });
             });
 
-            it('should heal it of damage and prevent destruction', function() {
+            it('should heal it of damage and prevent destruction', function () {
                 this.player1.playUpgrade(this.armageddonCloak, this.sequis);
                 this.player1.play(this.oneStoodAgainstMany);
                 expect(this.player1).toHavePrompt('One Stood Against Many');

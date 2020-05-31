@@ -1,7 +1,7 @@
-describe('Titan Guardian', function() {
-    integration(function() {
-        describe('Titan Guardian\'s ability', function() {
-            beforeEach(function() {
+describe('Titan Guardian', function () {
+    integration(function () {
+        describe("Titan Guardian's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
@@ -16,7 +16,7 @@ describe('Titan Guardian', function() {
                 });
             });
 
-            it('should draw two cards if it is destroyed while not on a flank', function() {
+            it('should draw two cards if it is destroyed while not on a flank', function () {
                 this.player1.endTurn();
                 this.player2.clickPrompt('shadows');
                 this.player2.play(this.lifeForALife);
@@ -26,13 +26,13 @@ describe('Titan Guardian', function() {
                 expect(this.titanGuardian.location).toBe('discard');
             });
         });
-        describe('Titan Guardian\'s ability', function() {
-            beforeEach(function() {
+        describe("Titan Guardian's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
                         hand: ['dextre'],
-                        inPlay: ['eyegor', 'doc-bookton','titan-guardian']
+                        inPlay: ['eyegor', 'doc-bookton', 'titan-guardian']
                     },
                     player2: {
                         amber: 1,
@@ -42,7 +42,7 @@ describe('Titan Guardian', function() {
                 });
             });
 
-            it('should NOT draw two cards if it is destroyed while on a flank', function() {
+            it('should NOT draw two cards if it is destroyed while on a flank', function () {
                 this.player1.endTurn();
                 this.player2.clickPrompt('shadows');
                 this.player2.play(this.lifeForALife);

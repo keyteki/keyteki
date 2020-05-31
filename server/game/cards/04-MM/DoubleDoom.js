@@ -8,8 +8,8 @@ class DoubleDoom extends Card {
                 controller: 'opponent'
             },
             gameAction: ability.actions.sequential([
-                ability.actions.returnToHand(context => ({ target: context.target })),
-                ability.actions.discardAtRandom(context => ({ target: context.player.opponent }))
+                ability.actions.returnToHand((context) => ({ target: context.target })),
+                ability.actions.discardAtRandom((context) => ({ target: context.player.opponent }))
             ]),
             effect: 'return {0} to owners hand and discard random card'
         });

@@ -1,7 +1,7 @@
-describe('Martian Generosity', function() {
-    integration(function() {
-        describe('Martian Generosity\'s ability', function() {
-            beforeEach(function() {
+describe('Martian Generosity', function () {
+    integration(function () {
+        describe("Martian Generosity's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'mars',
@@ -14,7 +14,7 @@ describe('Martian Generosity', function() {
                 });
             });
 
-            it('should let a player draw 2 cards for each amber in pool', function() {
+            it('should let a player draw 2 cards for each amber in pool', function () {
                 this.player1.play(this.martianGenerosity);
                 expect(this.player1.player.amber).toBe(0);
                 expect(this.player1.hand.length).toBe(8);

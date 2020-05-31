@@ -1,7 +1,7 @@
-describe('Hapsis', function() {
-    integration(function() {
-        describe('Hapsis\' ability', function() {
-            beforeEach(function() {
+describe('Hapsis', function () {
+    integration(function () {
+        describe("Hapsis' ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
@@ -13,7 +13,7 @@ describe('Hapsis', function() {
                 });
             });
 
-            it('should draw a card when it attacks and destroys a creature', function() {
+            it('should draw a card when it attacks and destroys a creature', function () {
                 let handSize = this.player1.hand.length;
                 this.player1.fightWith(this.hapsis, this.eyegor);
                 expect(this.eyegor.location).toBe('discard');
@@ -22,7 +22,7 @@ describe('Hapsis', function() {
                 expect(this.hapsis.hasToken('ward')).toBe(true);
             });
 
-            it('should draw a card when it is attacked and the attacker is destroyed', function() {
+            it('should draw a card when it is attacked and the attacker is destroyed', function () {
                 this.player1.endTurn();
                 this.player2.clickPrompt('logos');
                 let handSize = this.player1.hand.length;

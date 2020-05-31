@@ -1,7 +1,7 @@
-describe('Medic Ingram', function() {
-    integration(function() {
-        describe('Medic Ingram\'s play/reap/fight ability', function() {
-            beforeEach(function() {
+describe('Medic Ingram', function () {
+    integration(function () {
+        describe("Medic Ingram's play/reap/fight ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'staralliance',
@@ -23,7 +23,7 @@ describe('Medic Ingram', function() {
                 this.krump.tokens['damage'] = 5;
             });
 
-            it('Play may heal any creature', function() {
+            it('Play may heal any creature', function () {
                 this.player1.play(this.medicIngram);
 
                 expect(this.player1).toHavePrompt('Medic Ingram');
@@ -46,7 +46,7 @@ describe('Medic Ingram', function() {
                 expect(this.krump.tokens.damage).toBe(5);
             });
 
-            it('Reap may heal any creature', function() {
+            it('Reap may heal any creature', function () {
                 this.player1.play(this.medicIngram);
                 this.player1.clickCard(this.medicIngram);
 
@@ -73,7 +73,7 @@ describe('Medic Ingram', function() {
                 expect(this.krump.tokens.damage).toBe(5);
             });
 
-            it('Fight may heal any creature', function() {
+            it('Fight may heal any creature', function () {
                 this.player1.play(this.medicIngram);
                 this.player1.clickCard(this.medicIngram);
 
@@ -100,7 +100,7 @@ describe('Medic Ingram', function() {
                 expect(this.krump.tokens.damage).toBe(5);
             });
 
-            it('Play may heal maximum of 3', function() {
+            it('Play may heal maximum of 3', function () {
                 this.player1.play(this.medicIngram);
                 this.player1.clickCard(this.krump);
 

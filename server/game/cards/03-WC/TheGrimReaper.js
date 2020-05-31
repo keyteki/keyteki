@@ -1,4 +1,3 @@
-
 const Card = require('../../Card.js');
 
 class TheGrimReaper extends Card {

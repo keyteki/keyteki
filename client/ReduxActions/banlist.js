@@ -1,13 +1,12 @@
 import $ from 'jquery';
 
 export function fetchBanlist() {
-    return dispatch => {
+    return (dispatch) => {
         dispatch(requestBanlist());
 
-        return $.ajax('/api/banlist')
-            .done(function(data) {
-                dispatch(receiveBanlist(data));
-            });
+        return $.ajax('/api/banlist').done(function (data) {
+            dispatch(receiveBanlist(data));
+        });
     };
 }
 

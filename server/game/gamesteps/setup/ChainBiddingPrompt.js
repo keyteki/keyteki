@@ -19,10 +19,7 @@ class ChainBiddingPrompt extends AllPlayerPrompt {
         return {
             promptTitle: 'Bidding',
             menuTitle: 'Bid chains for selected deck',
-            buttons: [
-                ...arr.map(x => ({ arg: x, text: x })),
-                { arg: 'pass', text: 'Pass' }
-            ]
+            buttons: [...arr.map((x) => ({ arg: x, text: x })), { arg: 'pass', text: 'Pass' }]
         };
     }
 
@@ -31,11 +28,11 @@ class ChainBiddingPrompt extends AllPlayerPrompt {
     }
 
     menuCommand(player, arg) {
-        if(arg === 'pass') {
+        if (arg === 'pass') {
             this.game.addMessage('{0} passes.', player, arg);
             const otherPlayer = this.game.getOtherPlayer(player);
 
-            if(this.bidDeck.owner !== otherPlayer.name) {
+            if (this.bidDeck.owner !== otherPlayer.name) {
                 this.game.reInitialisePlayers(true);
             }
 

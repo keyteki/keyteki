@@ -1,11 +1,18 @@
-describe('Information Officer Gray', function() {
-    integration(function() {
-        describe('Information Officer Gray\'s ability', function() {
-            beforeEach(function() {
+describe('Information Officer Gray', function () {
+    integration(function () {
+        describe("Information Officer Gray's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'staralliance',
-                        hand: ['zorg', 'information-officer-gray', 'combat-pheromones', 'soft-landing', 'dextre','lieutenant-khrkhar'],
+                        hand: [
+                            'zorg',
+                            'information-officer-gray',
+                            'combat-pheromones',
+                            'soft-landing',
+                            'dextre',
+                            'lieutenant-khrkhar'
+                        ],
                         inPlay: ['mothergun', 'mindwarper']
                     },
                     player2: {
@@ -14,7 +21,7 @@ describe('Information Officer Gray', function() {
                 });
             });
 
-            it('should prompt the player to reveal a card and archive the selected card', function() {
+            it('should prompt the player to reveal a card and archive the selected card', function () {
                 this.player1.play(this.informationOfficerGray);
                 expect(this.player1).toHavePrompt('Information Officer Gray');
                 expect(this.player1).toBeAbleToSelect(this.zorg);
@@ -28,7 +35,7 @@ describe('Information Officer Gray', function() {
                 expect(this.dextre.location).toBe('archives');
             });
 
-            it('should allow the player to select 0 cards', function() {
+            it('should allow the player to select 0 cards', function () {
                 this.player1.play(this.informationOfficerGray);
                 expect(this.player1).toHavePrompt('Information Officer Gray');
                 expect(this.player1.currentButtons).toContain('Done');

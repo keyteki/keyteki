@@ -19,7 +19,7 @@ $.validator.setDefaults({
 
 let index;
 
-if(process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'production') {
     index = require('./index.prod');
 } else {
     index = require('./index.dev');

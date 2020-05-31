@@ -1,7 +1,7 @@
-describe('Etaromme', function() {
-    integration(function() {
-        describe('Etaromme\'s reap ability', function() {
-            beforeEach(function() {
+describe('Etaromme', function () {
+    integration(function () {
+        describe("Etaromme's reap ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'dis',
@@ -15,7 +15,7 @@ describe('Etaromme', function() {
                 });
             });
 
-            it('should destroy itself when it is the only creature in play', function() {
+            it('should destroy itself when it is the only creature in play', function () {
                 this.player1.reap(this.etaromme);
 
                 expect(this.player1).toHavePrompt('Choose a creature');
@@ -26,7 +26,7 @@ describe('Etaromme', function() {
                 expect(this.etaromme.location).toBe('discard');
             });
 
-            it('should select only creatures of Dis house', function() {
+            it('should select only creatures of Dis house', function () {
                 this.player1.playCreature(this.shooler);
                 this.player1.reap(this.etaromme);
 
@@ -41,8 +41,8 @@ describe('Etaromme', function() {
             });
         });
 
-        describe('Etaromme\'s reap ability', function() {
-            beforeEach(function() {
+        describe("Etaromme's reap ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'dis',
@@ -56,7 +56,7 @@ describe('Etaromme', function() {
                 });
             });
 
-            it('should be able to destroy all Logo creatures', function() {
+            it('should be able to destroy all Logo creatures', function () {
                 this.player1.reap(this.etaromme);
 
                 expect(this.player1).toHavePrompt('Choose a creature');
@@ -72,8 +72,8 @@ describe('Etaromme', function() {
             });
         });
 
-        describe('Etaromme\'s reap ability', function() {
-            beforeEach(function() {
+        describe("Etaromme's reap ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'dis',
@@ -87,7 +87,7 @@ describe('Etaromme', function() {
                 });
             });
 
-            it('should be able to destroy all Brobnar and Shadows creatures', function() {
+            it('should be able to destroy all Brobnar and Shadows creatures', function () {
                 this.player1.reap(this.etaromme);
 
                 expect(this.player1).toHavePrompt('Choose a creature');
@@ -104,8 +104,8 @@ describe('Etaromme', function() {
             });
         });
 
-        describe('Etaromme\'s reap ability', function() {
-            beforeEach(function() {
+        describe("Etaromme's reap ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
@@ -119,7 +119,7 @@ describe('Etaromme', function() {
                 });
             });
 
-            it('should consider house modifiers', function() {
+            it('should consider house modifiers', function () {
                 this.player1.playUpgrade(this.experimentalTherapy, this.archimedes);
                 this.player1.endTurn();
                 this.player2.clickPrompt('dis');

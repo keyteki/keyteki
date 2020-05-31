@@ -6,8 +6,11 @@ class ShatteredThrone extends Card {
             when: {
                 onFight: () => true
             },
-            gameAction: ability.actions.capture(context => ({
-                target: (context.game.creaturesInPlay.indexOf(context.event.attacker) !== -1) ? context.event.attacker : [],
+            gameAction: ability.actions.capture((context) => ({
+                target:
+                    context.game.creaturesInPlay.indexOf(context.event.attacker) !== -1
+                        ? context.event.attacker
+                        : [],
                 player: context.event.attacker.controller.opponent
             }))
         });

@@ -1,7 +1,7 @@
-describe('Anger', function() {
-    integration(function() {
-        describe('Anger\'s ability', function() {
-            beforeEach(function() {
+describe('Anger', function () {
+    integration(function () {
+        describe("Anger's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'brobnar',
@@ -16,7 +16,7 @@ describe('Anger', function() {
                 this.player1.fightWith(this.troll, this.mightyTiger);
             });
 
-            it('should allow fighting with an exhausted creature', function() {
+            it('should allow fighting with an exhausted creature', function () {
                 this.player1.play(this.anger);
                 expect(this.player1).toHavePrompt('Anger');
                 this.player1.clickCard(this.troll);
@@ -29,7 +29,7 @@ describe('Anger', function() {
                 expect(this.huntingWitch.location).toBe('discard');
             });
 
-            it('should allow fighting with a non-active house creature', function() {
+            it('should allow fighting with a non-active house creature', function () {
                 this.player1.play(this.anger);
                 expect(this.player1).toHavePrompt('Anger');
                 this.player1.clickCard(this.ancientBear);
@@ -41,7 +41,7 @@ describe('Anger', function() {
                 expect(this.huntingWitch.location).toBe('discard');
             });
 
-            it('should ready a target when it cannot fight', function() {
+            it('should ready a target when it cannot fight', function () {
                 this.player1.endTurn();
                 this.player2.clickPrompt('logos');
                 this.player2.play(this.foggify);
@@ -59,7 +59,7 @@ describe('Anger', function() {
                 expect(this.troll.exhausted).toBe(false);
             });
 
-            it('should remove the stun from a stunned target', function() {
+            it('should remove the stun from a stunned target', function () {
                 this.troll.stun();
                 this.player1.play(this.anger);
                 expect(this.player1).toHavePrompt('Anger');

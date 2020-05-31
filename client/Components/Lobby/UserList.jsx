@@ -7,22 +7,29 @@ import { withTranslation, Trans } from 'react-i18next';
 
 class UserList extends React.Component {
     render() {
-        if(!this.props.users) {
-            return <div><Trans>Userlist loading...</Trans></div>;
+        if (!this.props.users) {
+            return (
+                <div>
+                    <Trans>Userlist loading...</Trans>
+                </div>
+            );
         }
 
-        const userList = this.props.users.map(user => {
+        const userList = this.props.users.map((user) => {
             return (
-                <div className='user-row' key={ user.name }>
-                    <Avatar username={ user.name } />
-                    <span>{ user.name }</span>
+                <div className='user-row' key={user.name}>
+                    <Avatar username={user.name} />
+                    <span>{user.name}</span>
                 </div>
             );
         });
 
-        return (<div className='userlist'><Trans>Online Users</Trans>
-            { userList }
-        </div>);
+        return (
+            <div className='userlist'>
+                <Trans>Online Users</Trans>
+                {userList}
+            </div>
+        );
     }
 }
 

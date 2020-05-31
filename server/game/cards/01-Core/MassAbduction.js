@@ -8,7 +8,7 @@ class MassAbduction extends Card {
                 numCards: 3,
                 cardType: 'creature',
                 controller: 'opponent',
-                cardCondition: card => card.hasToken('damage'),
+                cardCondition: (card) => card.hasToken('damage'),
                 gameAction: ability.actions.archive({ owner: false })
             }
         });

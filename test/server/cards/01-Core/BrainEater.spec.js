@@ -1,7 +1,7 @@
-describe('Brain Eater', function() {
-    integration(function() {
-        describe('Brain Eater\'s ability', function() {
-            beforeEach(function() {
+describe('Brain Eater', function () {
+    integration(function () {
+        describe("Brain Eater's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
@@ -13,7 +13,7 @@ describe('Brain Eater', function() {
                 });
             });
 
-            it('should draw a card when it attacks and destroys a creature', function() {
+            it('should draw a card when it attacks and destroys a creature', function () {
                 let handSize = this.player1.hand.length;
                 this.player1.fightWith(this.brainEater, this.docBookton);
                 expect(this.docBookton.location).toBe('discard');
@@ -21,7 +21,7 @@ describe('Brain Eater', function() {
                 expect(this.player1.hand.length).toBe(handSize + 1);
             });
 
-            it('should draw a card when it is attacked and the attacker is destroyed', function() {
+            it('should draw a card when it is attacked and the attacker is destroyed', function () {
                 this.player1.endTurn();
                 this.player2.clickPrompt('logos');
                 let handSize = this.player1.hand.length;

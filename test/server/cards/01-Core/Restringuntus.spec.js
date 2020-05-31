@@ -1,7 +1,7 @@
-describe('Restringuntus', function() {
-    integration(function() {
-        describe('Restringuntus\'s ability', function() {
-            beforeEach(function() {
+describe('Restringuntus', function () {
+    integration(function () {
+        describe("Restringuntus's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'dis',
@@ -15,7 +15,7 @@ describe('Restringuntus', function() {
                 this.player1.play(this.restringuntus);
             });
 
-            it('should prompt the player to choose a house', function() {
+            it('should prompt the player to choose a house', function () {
                 expect(this.player1).toHavePrompt('Restringuntus');
                 expect(this.player1.currentButtons).toContain('brobnar');
                 expect(this.player1.currentButtons).toContain('dis');
@@ -26,7 +26,7 @@ describe('Restringuntus', function() {
                 expect(this.player1.currentButtons).toContain('untamed');
             });
 
-            it('should not allow the other player to pick the house picked', function() {
+            it('should not allow the other player to pick the house picked', function () {
                 this.player1.clickPrompt('brobnar');
                 this.player1.endTurn();
                 expect(this.player2).toHavePromptButton('sanctum');
@@ -34,7 +34,7 @@ describe('Restringuntus', function() {
                 expect(this.player2).not.toHavePromptButton('brobnar');
             });
 
-            it('should not cause an issue if an off-house is chosen', function() {
+            it('should not cause an issue if an off-house is chosen', function () {
                 this.player1.clickPrompt('logos');
                 this.player1.endTurn();
                 expect(this.player2).toHavePromptButton('sanctum');
@@ -42,7 +42,7 @@ describe('Restringuntus', function() {
                 expect(this.player2).toHavePromptButton('brobnar');
             });
 
-            it('should override pitlord if it is in play', function() {
+            it('should override pitlord if it is in play', function () {
                 this.player2.moveCard(this.pitlord, 'play area');
                 this.player1.clickPrompt('dis');
                 this.player1.endTurn();

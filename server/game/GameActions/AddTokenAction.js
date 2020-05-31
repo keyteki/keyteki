@@ -14,11 +14,12 @@ class AddTokenAction extends CardGameAction {
         this.name = 'addToken';
         this.targetType = ['creature', 'artifact', 'upgrade'];
         let token = '+1 power counters';
-        if(this.amount === 1) {
+        if (this.amount === 1) {
             token = '+1 power counter';
         }
 
-        this.effectMsg = 'place ' + this.amount + ' ' + (this.type === 'power' ? token : this.type) + ' on {0}';
+        this.effectMsg =
+            'place ' + this.amount + ' ' + (this.type === 'power' ? token : this.type) + ' on {0}';
     }
 
     canAffect(card, context) {
@@ -26,7 +27,11 @@ class AddTokenAction extends CardGameAction {
     }
 
     getEvent(card, context) {
-        return super.createEvent('onAddToken', { card: card, context: context, amount: this.amount }, () => card.addToken(this.type, this.amount));
+        return super.createEvent(
+            'onAddToken',
+            { card: card, context: context, amount: this.amount },
+            () => card.addToken(this.type, this.amount)
+        );
     }
 }
 

@@ -1,7 +1,7 @@
-describe('Veylan Analyst', function() {
-    integration(function() {
-        describe('Veylan Analyst\'s ability', function() {
-            beforeEach(function() {
+describe('Veylan Analyst', function () {
+    integration(function () {
+        describe("Veylan Analyst's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
@@ -13,19 +13,15 @@ describe('Veylan Analyst', function() {
                 });
             });
 
-            it('should trigger when using an artifact', function() {
+            it('should trigger when using an artifact', function () {
                 this.player1.clickCard(this.libraryOfBabble);
-                this.player1.clickPrompt('Use this card\'s Action ability');
+                this.player1.clickPrompt("Use this card's Action ability");
                 expect(this.player1.amber).toBe(1);
             });
 
-            it('should not trigger under ABC circumstances', function() {
+            it('should not trigger under ABC circumstances', function () {});
 
-            });
-
-            it('should have DEF effect on GHI', function() {
-
-            });
+            it('should have DEF effect on GHI', function () {});
         });
     });
 });

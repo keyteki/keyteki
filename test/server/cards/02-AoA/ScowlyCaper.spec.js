@@ -1,11 +1,11 @@
-describe('Scowly Caper', function() {
-    integration(function() {
-        describe('Scowly Caper\'s ability', function() {
-            beforeEach(function() {
+describe('Scowly Caper', function () {
+    integration(function () {
+        describe("Scowly Caper's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'shadows',
-                        inPlay: ['lamindra', 'nexus', 'spangler-box'],
+                        inPlay: ['lamindra', 'nexus', 'yantzee-gang', 'spangler-box'],
                         hand: ['scowly-caper']
                     },
                     player2: {
@@ -15,7 +15,7 @@ describe('Scowly Caper', function() {
                 });
             });
 
-            it('should start at opponent\'s play area', function() {
+            it("should start at opponent's play area", function () {
                 this.player1.playCreature(this.scowlyCaper);
 
                 // Should not ask for flank positioning twice
@@ -29,7 +29,7 @@ describe('Scowly Caper', function() {
                 expect(this.scowlyCaper.controller).toBe(this.player2.player);
             });
 
-            it('should select creature to destroy at end of turn', function() {
+            it('should select creature to destroy at end of turn', function () {
                 this.player1.playCreature(this.scowlyCaper);
                 this.player1.endTurn();
 
@@ -50,7 +50,7 @@ describe('Scowly Caper', function() {
                 expect(this.faygin.location).toBe('discard');
             });
 
-            it('should return to its owners discard', function() {
+            it('should return to its owners discard', function () {
                 this.player1.playCreature(this.scowlyCaper);
                 this.player1.endTurn();
 
@@ -65,7 +65,7 @@ describe('Scowly Caper', function() {
                 expect(this.player2.discard).not.toContain(this.scowlyCaper);
             });
 
-            it('should be archived in owner\'s archive if next to archimedes', function() {
+            it("should be archived in owner's archive if next to archimedes", function () {
                 this.player1.playCreature(this.scowlyCaper, true);
                 this.player1.endTurn();
 
@@ -85,7 +85,7 @@ describe('Scowly Caper', function() {
                 expect(this.player2.archives).not.toContain(this.scowlyCaper);
             });
 
-            it('should return to its owner\'s opponent after Spangler is destroyed', function() {
+            it("should return to its owner's opponent after Spangler is destroyed", function () {
                 this.player1.playCreature(this.scowlyCaper);
                 this.player1.endTurn();
 
@@ -103,7 +103,7 @@ describe('Scowly Caper', function() {
                 this.player1.clickPrompt('logos');
 
                 this.player1.clickCard(this.spanglerBox);
-                this.player1.clickPrompt('Use this card\'s Action ability');
+                this.player1.clickPrompt("Use this card's Action ability");
                 this.player1.clickCard(this.scowlyCaper);
                 expect(this.scowlyCaper.location).toBe('purged');
                 this.player1.endTurn();
@@ -111,7 +111,7 @@ describe('Scowly Caper', function() {
                 expect(this.player2).toHavePromptButton('sanctum');
                 this.player2.clickPrompt('sanctum');
                 this.player2.clickCard(this.gormOfOmm);
-                this.player2.clickPrompt('Use this card\'s Omni ability');
+                this.player2.clickPrompt("Use this card's Omni ability");
                 this.player2.clickCard(this.spanglerBox);
 
                 expect(this.player2).toHavePrompt('Scowly Caper');
@@ -132,6 +132,17 @@ describe('Scowly Caper', function() {
                 this.player2.clickCard(this.archimedes);
 
                 expect(this.archimedes.location).toBe('discard');
+            });
+
+            it('opponent should be able to use it regardless of house chosen', function () {
+                this.player1.playCreature(this.scowlyCaper);
+                this.scowlyCaper.exhausted = false;
+                expect(this.scowlyCaper.controller).toBe(this.player2.player);
+                this.player1.endTurn();
+                this.player2.clickPrompt('logos');
+                this.player2.fightWith(this.scowlyCaper, this.yantzeeGang);
+                expect(this.scowlyCaper.hasToken('damage')).toBe(false);
+                expect(this.yantzeeGang.tokens.damage).toBe(2);
             });
         });
     });

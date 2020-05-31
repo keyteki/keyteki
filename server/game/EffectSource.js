@@ -17,7 +17,9 @@ class EffectSource extends GameObject {
      */
     untilEndOfPhase(propertyFactory) {
         var properties = propertyFactory(AbilityDsl);
-        return this.addEffectToEngine(Object.assign({ duration: 'untilEndOfPhase', location: 'any' }, properties));
+        return this.addEffectToEngine(
+            Object.assign({ duration: 'untilEndOfPhase', location: 'any' }, properties)
+        );
     }
 
     /**
@@ -25,12 +27,19 @@ class EffectSource extends GameObject {
      */
     untilEndOfRound(propertyFactory) {
         var properties = propertyFactory(AbilityDsl);
-        return this.addEffectToEngine(Object.assign({ duration: 'untilEndOfRound', location: 'any' }, properties));
+        return this.addEffectToEngine(
+            Object.assign({ duration: 'untilEndOfRound', location: 'any' }, properties)
+        );
     }
 
     untilNextTurn(propertyFactory) {
         let properties = propertyFactory(AbilityDsl);
-        return this.addEffectToEngine(Object.assign({ duration: 'untilNextTurn', location: 'any', roundDuration: 2 }, properties));
+        return this.addEffectToEngine(
+            Object.assign(
+                { duration: 'untilNextTurn', location: 'any', roundDuration: 2 },
+                properties
+            )
+        );
     }
 
     /**
@@ -39,7 +48,9 @@ class EffectSource extends GameObject {
      */
     lastingEffect(propertyFactory) {
         let properties = propertyFactory(AbilityDsl);
-        return this.addEffectToEngine(Object.assign({ duration: 'custom', location: 'any' }, properties));
+        return this.addEffectToEngine(
+            Object.assign({ duration: 'custom', location: 'any' }, properties)
+        );
     }
 
     roundDurationEffect(properties) {
@@ -71,15 +82,17 @@ class EffectSource extends GameObject {
     addEffectToEngine(properties) {
         let effect = properties.effect;
         properties = _.omit(properties, 'effect');
-        if(!Array.isArray(effect)) {
+        if (!Array.isArray(effect)) {
             effect = [effect];
         }
 
-        return effect.map(factory => this.game.effectEngine.add(factory(this.game, this, properties)));
+        return effect.map((factory) =>
+            this.game.effectEngine.add(factory(this.game, this, properties))
+        );
     }
 
     removeEffectFromEngine(effectArray) {
-        this.game.effectEngine.unapplyAndRemove(effect => effectArray.includes(effect));
+        this.game.effectEngine.unapplyAndRemove((effect) => effectArray.includes(effect));
     }
 
     removeLastingEffects() {

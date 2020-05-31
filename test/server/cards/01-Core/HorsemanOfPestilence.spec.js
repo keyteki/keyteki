@@ -1,11 +1,18 @@
-describe('Horseman of Pestilence', function() {
-    integration(function() {
-        describe('Horseman of Pestilence\'s ability', function() {
-            beforeEach(function() {
+describe('Horseman of Pestilence', function () {
+    integration(function () {
+        describe("Horseman of Pestilence's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'sanctum',
-                        inPlay: ['sequis', 'ember-imp', 'batdrone', 'gorm-of-omm', 'pit-demon', 'horseman-of-pestilence'],
+                        inPlay: [
+                            'sequis',
+                            'ember-imp',
+                            'batdrone',
+                            'gorm-of-omm',
+                            'pit-demon',
+                            'horseman-of-pestilence'
+                        ],
                         hand: ['horseman-of-pestilence']
                     },
                     player2: {
@@ -13,11 +20,17 @@ describe('Horseman of Pestilence', function() {
                         inPlay: ['troll', 'gauntlet-of-command']
                     }
                 });
-                this.horsemanOfPestilence1 = this.player1.findCardByName('horseman-of-pestilence', 'hand');
-                this.horsemanOfPestilence2 = this.player1.findCardByName('horseman-of-pestilence', 'play area');
+                this.horsemanOfPestilence1 = this.player1.findCardByName(
+                    'horseman-of-pestilence',
+                    'hand'
+                );
+                this.horsemanOfPestilence2 = this.player1.findCardByName(
+                    'horseman-of-pestilence',
+                    'play area'
+                );
             });
 
-            it('should deal 1 damage to all non-horseman creatures when played', function() {
+            it('should deal 1 damage to all non-horseman creatures when played', function () {
                 this.player1.play(this.horsemanOfPestilence1);
                 expect(this.troll.tokens.damage).toBe(1);
                 expect(this.emberImp.tokens.damage).toBe(1);
@@ -27,7 +40,7 @@ describe('Horseman of Pestilence', function() {
                 expect(this.horsemanOfPestilence2.hasToken('damage')).toBe(false);
             });
 
-            it('should deal 1 damage to all non-horseman creatures when reaping', function() {
+            it('should deal 1 damage to all non-horseman creatures when reaping', function () {
                 this.player1.reap(this.horsemanOfPestilence2);
                 expect(this.troll.tokens.damage).toBe(1);
                 expect(this.emberImp.tokens.damage).toBe(1);

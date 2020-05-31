@@ -1,7 +1,7 @@
-describe('Mug', function() {
-    integration(function() {
-        describe('Mug\'s play ability', function() {
-            beforeEach(function() {
+describe('Mug', function () {
+    integration(function () {
+        describe("Mug's play ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'shadows',
@@ -13,17 +13,19 @@ describe('Mug', function() {
                 });
             });
 
-            it('should not prompt for any creature', function() {
+            it('should not prompt for any creature', function () {
                 this.player1.play(this.mug);
-                expect(this.player1).not.toHavePrompt('Choose a captured amber to move to your pool.');
+                expect(this.player1).not.toHavePrompt(
+                    'Choose a captured amber to move to your pool.'
+                );
                 expect(this.player1.amber).toBe(1);
             });
         });
     });
 
-    integration(function() {
-        describe('Mug\'s play ability', function() {
-            beforeEach(function() {
+    integration(function () {
+        describe("Mug's play ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'shadows',
@@ -41,7 +43,7 @@ describe('Mug', function() {
                 this.krump.tokens['amber'] = 1;
             });
 
-            it('should move 1 amber and deal 2 damages to friendly creature', function() {
+            it('should move 1 amber and deal 2 damages to friendly creature', function () {
                 this.player1.play(this.mug);
 
                 expect(this.player1).toHavePrompt('Choose a captured amber to move to your pool.');
@@ -61,7 +63,7 @@ describe('Mug', function() {
                 expect(this.player2.amber).toBe(4);
             });
 
-            it('should move 1 amber and deal 2 damages to enemy creature', function() {
+            it('should move 1 amber and deal 2 damages to enemy creature', function () {
                 this.player1.play(this.mug);
 
                 expect(this.player1).toBeAbleToSelect(this.flaxia);
@@ -80,8 +82,7 @@ describe('Mug', function() {
                 expect(this.player2.amber).toBe(4);
             });
 
-
-            it('should deal 2 damages to creature without amber', function() {
+            it('should deal 2 damages to creature without amber', function () {
                 this.player1.play(this.mug);
 
                 expect(this.player1).toHavePrompt('Choose a captured amber to move to your pool.');

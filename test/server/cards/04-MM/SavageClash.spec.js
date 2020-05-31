@@ -1,6 +1,6 @@
 describe('savage-clash', function () {
     integration(function () {
-        describe('Savage Clash\'s ability', function () {
+        describe("Savage Clash's ability", function () {
             beforeEach(function () {
                 this.setupTest({
                     player1: {
@@ -14,7 +14,7 @@ describe('savage-clash', function () {
                 });
             });
 
-            it('destroys each creature except the most powerful enemy creature and the least powerful friendly creature', function() {
+            it('destroys each creature except the most powerful enemy creature and the least powerful friendly creature', function () {
                 this.player1.play(this.savageClash);
 
                 expect(this.player1).toHavePrompt('Savage Clash');

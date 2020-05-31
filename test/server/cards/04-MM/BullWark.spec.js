@@ -1,7 +1,7 @@
-describe('bull-wark', function() {
-    integration(function() {
-        describe('Bull-wark\'s ability', function() {
-            beforeEach(function() {
+describe('bull-wark', function () {
+    integration(function () {
+        describe("Bull-wark's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'sanctum',
@@ -13,7 +13,7 @@ describe('bull-wark', function() {
                 });
             });
 
-            it('should give its neighbors assault 2', function() {
+            it('should give its neighbors assault 2', function () {
                 expect(this.dustImp.getKeywordValue('assault')).toBe(2);
                 expect(this.munchling.getKeywordValue('assault')).toBe(2);
             });

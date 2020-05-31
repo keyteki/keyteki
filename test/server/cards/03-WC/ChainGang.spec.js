@@ -1,7 +1,7 @@
-describe('Chain Gang', function() {
-    integration(function() {
-        describe('Chain Gang\'s ability', function() {
-            beforeEach(function() {
+describe('Chain Gang', function () {
+    integration(function () {
+        describe("Chain Gang's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         amber: 4,
@@ -16,7 +16,7 @@ describe('Chain Gang', function() {
                 });
             });
 
-            it('ready itself when I play subtle chain, and prompt to shuffle subtle chain back into my deck on action use', function() {
+            it('ready itself when I play subtle chain, and prompt to shuffle subtle chain back into my deck on action use', function () {
                 this.player1.reap(this.chainGang);
                 expect(this.player1.amber).toBe(5);
                 expect(this.player2.amber).toBe(5);
@@ -28,7 +28,7 @@ describe('Chain Gang', function() {
                 expect(this.subtleChain.location).toBe('discard');
                 expect(this.chainGang.exhausted).toBe(false);
                 this.player1.clickCard(this.chainGang);
-                this.player1.clickPrompt('Use this card\'s Action ability');
+                this.player1.clickPrompt("Use this card's Action ability");
                 expect(this.player1).toBeAbleToSelect(this.subtleChain);
                 this.player1.clickCard(this.subtleChain);
                 expect(this.subtleChain.location).toBe('deck');
@@ -36,9 +36,9 @@ describe('Chain Gang', function() {
                 expect(this.player2.amber).toBe(4);
             });
 
-            it('steals even when there is no subtle chain', function() {
+            it('steals even when there is no subtle chain', function () {
                 this.player1.clickCard(this.chainGang);
-                this.player1.clickPrompt('Use this card\'s Action ability');
+                this.player1.clickPrompt("Use this card's Action ability");
                 expect(this.player1.amber).toBe(5);
                 expect(this.player2.amber).toBe(4);
             });

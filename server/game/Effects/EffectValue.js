@@ -1,7 +1,7 @@
 class EffectValue {
     constructor(value) {
         this.value = value;
-        if(this.value === undefined) {
+        if (this.value === undefined) {
             this.value = true;
         }
 
@@ -12,7 +12,8 @@ class EffectValue {
         this.value = value;
     }
 
-    getValue(target) { // eslint-disable-line no-unused-vars
+    // eslint-disable-next-line no-unused-vars
+    getValue(target) {
         return this.value;
     }
 
@@ -20,11 +21,11 @@ class EffectValue {
         this.context = context;
     }
 
-    apply(target) { // eslint-disable-line no-unused-vars
-    }
+    // eslint-disable-next-line no-unused-vars
+    apply(target) {}
 
-    unapply(target) { // eslint-disable-line no-unused-vars
-    }
+    // eslint-disable-next-line no-unused-vars
+    unapply(target) {}
 }
 
 module.exports = EffectValue;

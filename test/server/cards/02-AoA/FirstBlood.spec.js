@@ -1,7 +1,7 @@
-describe('First Blood', function() {
-    integration(function() {
-        describe('First Blood\'s ability', function() {
-            beforeEach(function() {
+describe('First Blood', function () {
+    integration(function () {
+        describe("First Blood's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'brobnar',
@@ -10,7 +10,7 @@ describe('First Blood', function() {
                     }
                 });
             });
-            it('should allow you to deal 2 damage for each friendly brobnar creature, distributed 1 at a time.', function() {
+            it('should allow you to deal 2 damage for each friendly brobnar creature, distributed 1 at a time.', function () {
                 this.player1.play(this.firstBlood);
                 expect(this.player1).toHavePrompt('First Blood');
                 expect(this.player1).toBeAbleToSelect(this.bumpsy);
@@ -25,8 +25,8 @@ describe('First Blood', function() {
                 expect(this.firstBlood.location).toBe('discard');
             });
         });
-        describe('First Blood\'s ability', function() {
-            beforeEach(function() {
+        describe("First Blood's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'brobnar',
@@ -35,7 +35,7 @@ describe('First Blood', function() {
                     }
                 });
             });
-            it('should do nothing if there are no friendly brobnar creatures in play.', function() {
+            it('should do nothing if there are no friendly brobnar creatures in play.', function () {
                 this.player1.play(this.firstBlood);
                 expect(this.player1.amber).toBe(1);
                 expect(this.player1).toHavePrompt('Play Phase');

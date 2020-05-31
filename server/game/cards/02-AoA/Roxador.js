@@ -6,7 +6,7 @@ class Roxador extends Card {
             effect: ability.effects.limitFightDamage(2)
         });
         this.fight({
-            gameAction: ability.actions.stun(context => ({ target: context.event.card }))
+            gameAction: ability.actions.stun((context) => ({ target: context.event.card }))
         });
     }
 }

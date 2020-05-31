@@ -9,7 +9,7 @@ class Resurgence extends Card {
                 cardType: 'creature',
                 gameAction: ability.actions.returnToHand({ location: 'discard' })
             },
-            then: preContext => ({
+            then: (preContext) => ({
                 condition: () => preContext.target.hasTrait('mutant'),
                 target: {
                     location: 'discard',

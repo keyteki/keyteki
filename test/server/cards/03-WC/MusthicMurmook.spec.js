@@ -1,10 +1,10 @@
-describe('Musthic Murmook', function() {
-    integration(function() {
-        describe('Musthic Murmook\'s ability', function() {
-            beforeEach(function() {
+describe('Musthic Murmook', function () {
+    integration(function () {
+        describe("Musthic Murmook's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
-                        amber:6,
+                        amber: 6,
                         house: 'untamed',
                         hand: ['musthic-murmook'],
                         inPlay: ['batdrone'],
@@ -18,7 +18,7 @@ describe('Musthic Murmook', function() {
                     }
                 });
             });
-            it('should deal 4 damage to a creature when played', function() {
+            it('should deal 4 damage to a creature when played', function () {
                 this.player1.play(this.musthicMurmook);
                 expect(this.player1).toHavePrompt('Musthic Murmook');
                 expect(this.player1).toBeAbleToSelect(this.batdrone);
@@ -27,7 +27,7 @@ describe('Musthic Murmook', function() {
                 this.player1.clickCard(this.snufflegator);
                 expect(this.snufflegator.location).toBe('discard');
             });
-            it('should increase key cost by 1 for both players.', function() {
+            it('should increase key cost by 1 for both players.', function () {
                 this.player1.play(this.musthicMurmook);
                 expect(this.player1).toHavePrompt('Musthic Murmook');
                 expect(this.player1).toBeAbleToSelect(this.batdrone);

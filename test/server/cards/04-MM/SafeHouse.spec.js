@@ -1,7 +1,7 @@
-describe('Safe House', function() {
-    integration(function() {
-        describe('Safe House\'s ability', function() {
-            beforeEach(function() {
+describe('Safe House', function () {
+    integration(function () {
+        describe("Safe House's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'shadows',
@@ -14,7 +14,7 @@ describe('Safe House', function() {
                 });
             });
 
-            it('should archive a friendly creature', function() {
+            it('should archive a friendly creature', function () {
                 this.player1.useAction(this.safeHouse);
                 expect(this.player1).toBeAbleToSelect(this.sinder);
                 expect(this.player1).toBeAbleToSelect(this.emberImp);

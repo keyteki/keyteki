@@ -1,7 +1,7 @@
-describe('Demon\'s Bane', function() {
-    integration(function() {
-        describe('Demon\'s Bane\'s ability', function() {
-            beforeEach(function() {
+describe("Demon's Bane", function () {
+    integration(function () {
+        describe("Demon's Bane's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         amber: 4,
@@ -15,7 +15,7 @@ describe('Demon\'s Bane', function() {
                     }
                 });
             });
-            it('prompt for a demon creature to destroy', function() {
+            it('prompt for a demon creature to destroy', function () {
                 this.player1.play(this.demonsBane);
                 expect(this.player1).toHavePrompt('Demons’ Bane');
                 expect(this.player1).toBeAbleToSelect(this.dendrix);

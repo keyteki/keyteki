@@ -4,7 +4,7 @@ class TheCurator extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
             targetLocation: 'any',
-            match: card => card.type === 'artifact',
+            match: (card) => card.type === 'artifact',
             effect: ability.effects.entersPlayReady()
         });
     }

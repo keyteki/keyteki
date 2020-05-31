@@ -1,7 +1,7 @@
-describe('access-denied', function() {
-    integration(function() {
-        describe('Access Denied\'s ability', function() {
-            beforeEach(function() {
+describe('access-denied', function () {
+    integration(function () {
+        describe("Access Denied's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'staralliance',
@@ -15,13 +15,13 @@ describe('access-denied', function() {
                 });
             });
 
-            it('should should apply to a creature', function() {
+            it('should should apply to a creature', function () {
                 this.player1.playUpgrade(this.accessDenied, this.umbra);
                 expect(this.umbra.location).toBe('play area');
                 expect(this.umbra.upgrades).toContain(this.accessDenied);
             });
 
-            it('creature should not be able to reap', function() {
+            it('creature should not be able to reap', function () {
                 this.player1.playUpgrade(this.accessDenied, this.cxoTaber);
                 expect(this.cxoTaber.location).toBe('play area');
                 expect(this.cxoTaber.upgrades).toContain(this.accessDenied);

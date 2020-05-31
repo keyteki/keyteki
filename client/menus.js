@@ -5,7 +5,16 @@ const menus = [
     //{ path: '/matches', title: 'Matches', showOnlyWhenLoggedIn: true, position: 'left' },
     { path: '/play', title: 'Play', position: 'left' },
     {
-        title: 'Help', position: 'left', childItems: [
+        path: '/tournamentlobby',
+        title: 'Tournament',
+        showOnlyWhenLoggedIn: true,
+        permission: 'canManageTournaments',
+        position: 'left'
+    },
+    {
+        title: 'Help',
+        position: 'left',
+        childItems: [
             { path: '/how-to-play', title: 'How To Play' },
             { path: '/about', title: 'About' },
             { path: '/privacy', title: 'Privacy Policy' }
@@ -32,7 +41,8 @@ const menus = [
             { path: '/nodes', title: 'Nodes', permission: 'canManageNodes' },
             { path: '/banlist', title: 'Ban List', permission: 'canManageBanlist' },
             { path: '/admin/motd', title: 'Motd', permission: 'canManageMotd' }
-        ], position: 'left'
+        ],
+        position: 'left'
     }
 ];
 

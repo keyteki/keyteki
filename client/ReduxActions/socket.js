@@ -24,7 +24,7 @@ export function sendGameMessage(message, ...args) {
     return (dispatch, getState) => {
         var state = getState();
 
-        if(state.games.socket) {
+        if (state.games.socket) {
             state.games.socket.emit('game', message, ...args);
         }
 
@@ -70,7 +70,7 @@ export function authenticateSocket() {
     return (dispatch, getState) => {
         let state = getState();
 
-        if(state.lobby.socket && state.auth.token) {
+        if (state.lobby.socket && state.auth.token) {
             state.lobby.socket.emit('authenticate', state.auth.token);
         }
     };
@@ -91,13 +91,13 @@ export function handoffReceived(details) {
 
         dispatch(handoff(details));
 
-        if(details.port && !standardPorts.some(p => p === details.port)) {
+        if (details.port && !standardPorts.some((p) => p === details.port)) {
             url += ':' + details.port;
         }
 
-        dispatch(actions.setAuthTokens(details.authToken, state.auth.refreshToken));
+        dispatch(actions.setAuthTokens(details.authToken, state.auth.refreshToken, details.user));
 
-        if(state.games.socket && state.games.gameId !== details.gameId) {
+        if (state.games.socket && state.games.gameId !== details.gameId) {
             dispatch(actions.closeGameSocket());
         }
 
@@ -109,6 +109,13 @@ export function nodeStatusReceived(status) {
     return {
         type: 'NODE_STATUS_RECEIVED',
         status: status
+    };
+}
+
+export function responseTimeReceived(responseTime) {
+    return {
+        type: 'RESPONSE_TIME_RECEIVED',
+        responseTime: responseTime
     };
 }
 
@@ -146,6 +153,10 @@ export function connectLobby() {
 
         dispatch(lobbyConnecting(socket));
 
+        socket.on('pong', (responseTime) => {
+            dispatch(responseTimeReceived(responseTime));
+        });
+
         socket.on('connect', () => {
             dispatch(lobbyConnected());
         });
@@ -158,18 +169,24 @@ export function connectLobby() {
             dispatch(lobbyReconnecting());
         });
 
-        for(const message of messages) {
-            socket.on(message, arg => {
+        for (const message of messages) {
+            socket.on(message, (arg) => {
                 dispatch(lobbyMessageReceived(message, arg));
             });
         }
 
-        socket.on('gamestate', game => {
+        socket.on('gamestate', (game) => {
             state = getState();
-            dispatch(lobbyMessageReceived('gamestate', game, state.account.user ? state.account.user.username : undefined));
+            dispatch(
+                lobbyMessageReceived(
+                    'gamestate',
+                    game,
+                    state.account.user ? state.account.user.username : undefined
+                )
+            );
         });
 
-        socket.on('handoff', handoff => {
+        socket.on('handoff', (handoff) => {
             dispatch(handoffReceived(handoff));
         });
 
@@ -177,7 +194,7 @@ export function connectLobby() {
             dispatch(actions.authenticate());
         });
 
-        socket.on('nodestatus', status => {
+        socket.on('nodestatus', (status) => {
             dispatch(nodeStatusReceived(status));
         });
 

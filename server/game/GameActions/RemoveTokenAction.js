@@ -15,8 +15,8 @@ class RemoveTokenAction extends CardGameAction {
         this.name = 'removeToken';
         this.targetType = ['artifact', 'creature'];
 
-        let type = (this.type === 'power') ? 'power counter' : this.type;
-        if(!this.all && this.amount > 1) {
+        let type = this.type === 'power' ? 'power counter' : this.type;
+        if (!this.all && this.amount > 1) {
             type += 's';
         }
 
@@ -32,13 +32,21 @@ class RemoveTokenAction extends CardGameAction {
     }
 
     canAffect(card, context) {
-        return this.getAmount(card) > 0 && card.location === 'play area' && super.canAffect(card, context);
+        return (
+            this.getAmount(card) > 0 &&
+            card.location === 'play area' &&
+            super.canAffect(card, context)
+        );
     }
 
     getEvent(card, context) {
-        return super.createEvent('onRemoveToken', { type: this.type, card: card, context: context, amount: this.getAmount(card) }, event => {
-            card.removeToken(event.type, event.amount);
-        });
+        return super.createEvent(
+            'onRemoveToken',
+            { type: this.type, card: card, context: context, amount: this.getAmount(card) },
+            (event) => {
+                card.removeToken(event.type, event.amount);
+            }
+        );
     }
 }
 

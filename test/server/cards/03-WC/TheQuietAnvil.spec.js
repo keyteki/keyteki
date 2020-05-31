@@ -1,13 +1,22 @@
-describe('The Quiet Anvil', function() {
-    integration(function() {
-        describe('The Quiet Anvil\'s play ability', function() {
-            beforeEach(function() {
+describe('The Quiet Anvil', function () {
+    integration(function () {
+        describe("The Quiet Anvil's play ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         amber: 3,
                         house: 'shadows',
                         inPlay: ['the-quiet-anvil', 'bad-penny'],
-                        hand: ['manchego', 'mother', 'batdrone', 'wild-wormhole', 'hexpion', 'dextre', 'titan-mechanic', 'doc-bookton']
+                        hand: [
+                            'manchego',
+                            'mother',
+                            'batdrone',
+                            'wild-wormhole',
+                            'hexpion',
+                            'dextre',
+                            'titan-mechanic',
+                            'doc-bookton'
+                        ]
                     },
                     player2: {
                         amber: 2,
@@ -15,7 +24,7 @@ describe('The Quiet Anvil', function() {
                     }
                 });
             });
-            it('should reduce key cost by 2A while in play and destroy itself when a key is forged (player side)', function() {
+            it('should reduce key cost by 2A while in play and destroy itself when a key is forged (player side)', function () {
                 this.player1.reap(this.badPenny);
                 expect(this.player1.amber).toBe(4);
                 this.player1.endTurn();
@@ -26,7 +35,7 @@ describe('The Quiet Anvil', function() {
                 expect(this.player1.amber).toBe(0);
                 expect(this.theQuietAnvil.location).toBe('discard');
             });
-            it('should reduce key cost by 2A while in play and destroy itself when a key is forged (opponent side)', function() {
+            it('should reduce key cost by 2A while in play and destroy itself when a key is forged (opponent side)', function () {
                 this.player1.reap(this.badPenny);
                 expect(this.player1.amber).toBe(4);
                 this.player2.amber = 4;

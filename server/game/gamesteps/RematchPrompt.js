@@ -18,7 +18,10 @@ class RematchPrompt extends AllPlayerPrompt {
         return {
             menuTitle: {
                 text: '{{player}} would like a rematch{{swap}}. Allow?',
-                values: { player: this.requestingPlayer.name, swap: this.swap ? ' and swap decks' : '' }
+                values: {
+                    player: this.requestingPlayer.name,
+                    swap: this.swap ? ' and swap decks' : ''
+                }
             },
             buttons: [
                 { arg: 'yes', text: 'Yes' },
@@ -34,8 +37,13 @@ class RematchPrompt extends AllPlayerPrompt {
     }
 
     onMenuCommand(player, arg) {
-        if(arg === 'yes') {
-            this.game.addAlert('info', '{0} agrees to a rematch{1}, setting it up now', player, this.swap ? ' and swap decks' : '');
+        if (arg === 'yes') {
+            this.game.addAlert(
+                'info',
+                '{0} agrees to a rematch{1}, setting it up now',
+                player,
+                this.swap ? ' and swap decks' : ''
+            );
             this.completedPlayers.add(player);
         } else {
             this.game.addAlert('info', '{0} would not like a rematch', player);
@@ -46,12 +54,16 @@ class RematchPrompt extends AllPlayerPrompt {
     }
 
     onCompleted() {
-        if(this.cancelled) {
+        if (this.cancelled) {
             return;
         }
 
         this.game.rematch();
-        this.game.addAlert('danger', '{0} uses /rematch to reset the game and start a rematch', this.requestingPlayer);
+        this.game.addAlert(
+            'danger',
+            '{0} uses /rematch to reset the game and start a rematch',
+            this.requestingPlayer
+        );
     }
 }
 

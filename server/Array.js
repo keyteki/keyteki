@@ -1,6 +1,6 @@
 function flatten(array) {
     return array.reduce((result, element) => {
-        if(Array.isArray(element)) {
+        if (Array.isArray(element)) {
             return result.concat(flatten(element));
         }
 
@@ -16,8 +16,8 @@ function partition(array, filterFunc) {
     let matches = [];
     let remaining = [];
 
-    for(let item of array) {
-        if(filterFunc(item)) {
+    for (let item of array) {
+        if (filterFunc(item)) {
             matches.push(item);
         } else {
             remaining.push(item);
@@ -28,15 +28,15 @@ function partition(array, filterFunc) {
 }
 
 function sortByComparison(transform) {
-    return function(a, b) {
+    return function (a, b) {
         let aValue = transform(a);
         let bValue = transform(b);
 
-        if(aValue > bValue) {
+        if (aValue > bValue) {
             return 1;
         }
 
-        if(aValue < bValue) {
+        if (aValue < bValue) {
             return -1;
         }
 
@@ -45,10 +45,19 @@ function sortByComparison(transform) {
 }
 
 // expand(3, 2) returns "($1, $2), ($3, $4), ($5, $6)"
-function expand (rowCount, columnCount, startAt = 1) {
+function expand(rowCount, columnCount, startAt = 1) {
     let index = startAt;
 
-    return Array(rowCount).fill(0).map(() => `(${Array(columnCount).fill(0).map(() => `$${index++}`).join(', ')})`).join(', ');
+    return Array(rowCount)
+        .fill(0)
+        .map(
+            () =>
+                `(${Array(columnCount)
+                    .fill(0)
+                    .map(() => `$${index++}`)
+                    .join(', ')})`
+        )
+        .join(', ');
 }
 
 function sortBy(array, transform) {

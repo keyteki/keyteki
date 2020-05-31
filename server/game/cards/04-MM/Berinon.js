@@ -4,7 +4,8 @@ class Berinon extends Card {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onCardEntersPlay: event => event.card.type === 'creature' && event.card.hasTrait('mutant')
+                onCardEntersPlay: (event) =>
+                    event.card.type === 'creature' && event.card.hasTrait('mutant')
             },
             gameAction: ability.actions.enrage()
         });

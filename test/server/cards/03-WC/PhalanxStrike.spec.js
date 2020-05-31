@@ -1,7 +1,7 @@
-describe('Phalanx Strike', function() {
-    integration(function() {
-        describe('Phalanx Strike\'s ability', function() {
-            beforeEach(function() {
+describe('Phalanx Strike', function () {
+    integration(function () {
+        describe("Phalanx Strike's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'saurian',
@@ -14,7 +14,7 @@ describe('Phalanx Strike', function() {
                 });
             });
 
-            it('should prompt the player to select a target', function() {
+            it('should prompt the player to select a target', function () {
                 this.player1.play(this.phalanxStrike);
                 expect(this.player1).toHavePrompt('Phalanx Strike');
                 expect(this.player1).toBeAbleToSelect(this.mother);
@@ -23,7 +23,7 @@ describe('Phalanx Strike', function() {
                 expect(this.player1).toBeAbleToSelect(this.urchin);
             });
 
-            it('should deal one damage for each friendly creature to the selected target', function() {
+            it('should deal one damage for each friendly creature to the selected target', function () {
                 this.player1.play(this.phalanxStrike);
                 expect(this.player1).toHavePrompt('Phalanx Strike');
                 expect(this.player1).toBeAbleToSelect(this.mother);
@@ -34,7 +34,7 @@ describe('Phalanx Strike', function() {
                 expect(this.mother.tokens.damage).toBe(2);
             });
 
-            it('should prompt the player to repeat the ability if they exalt a friendly creature - and accept', function() {
+            it('should prompt the player to repeat the ability if they exalt a friendly creature - and accept', function () {
                 this.player1.play(this.phalanxStrike);
                 expect(this.player1).toHavePrompt('Phalanx Strike');
                 expect(this.player1).toBeAbleToSelect(this.mother);
@@ -59,7 +59,7 @@ describe('Phalanx Strike', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should prompt the player to repeat the ability if they exalt a friendly creature - but refuse', function() {
+            it('should prompt the player to repeat the ability if they exalt a friendly creature - but refuse', function () {
                 this.player1.play(this.phalanxStrike);
                 expect(this.player1).toHavePrompt('Phalanx Strike');
                 expect(this.player1).toBeAbleToSelect(this.mother);
@@ -75,7 +75,7 @@ describe('Phalanx Strike', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should prompt the player to repeat the ability if they exalt a friendly creature, even if first target was warded', function() {
+            it('should prompt the player to repeat the ability if they exalt a friendly creature, even if first target was warded', function () {
                 this.mother.ward();
                 this.player1.play(this.phalanxStrike);
                 expect(this.player1).toHavePrompt('Phalanx Strike');

@@ -1,11 +1,11 @@
-describe('Creed of Nature', function() {
-    integration(function() {
-        describe('Creed of Nature\'s ability', function() {
-            beforeEach(function() {
+describe('Creed of Nature', function () {
+    integration(function () {
+        describe("Creed of Nature's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'untamed',
-                        inPlay: ['creed-of-nature', 'mighty-tiger','duskwitch'],
+                        inPlay: ['creed-of-nature', 'mighty-tiger', 'duskwitch'],
                         hand: ['low-dawn', 'dew-faerie']
                     },
                     player2: {
@@ -13,9 +13,9 @@ describe('Creed of Nature', function() {
                     }
                 });
             });
-            it('should give a creature skirmish and assault <x> where <x> is the creatures power before sacrificing itself.', function() {
+            it('should give a creature skirmish and assault <x> where <x> is the creatures power before sacrificing itself.', function () {
                 this.player1.clickCard(this.creedOfNature);
-                this.player1.clickPrompt('Use this card\'s Omni Ability');
+                this.player1.clickPrompt("Use this card's Omni Ability");
                 expect(this.player1).toBeAbleToSelect(this.mightyTiger);
                 expect(this.player1).toBeAbleToSelect(this.duskwitch);
                 expect(this.player1).toBeAbleToSelect(this.snufflegator);

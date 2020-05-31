@@ -1,7 +1,7 @@
-describe('Oubliette', function() {
-    integration(function() {
-        describe('Oubliette\'s ability', function() {
-            beforeEach(function() {
+describe('Oubliette', function () {
+    integration(function () {
+        describe("Oubliette's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'shadows',
@@ -15,7 +15,7 @@ describe('Oubliette', function() {
                 });
             });
 
-            it('should purge friendly shadow creatures and steal amber', function() {
+            it('should purge friendly shadow creatures and steal amber', function () {
                 this.player1.play(this.oubliette);
 
                 expect(this.player1).toBeAbleToSelect(this.brendTheFanatic);

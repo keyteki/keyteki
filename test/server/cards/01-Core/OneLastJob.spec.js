@@ -1,7 +1,7 @@
-describe('One Last Job', function() {
-    integration(function() {
-        describe('One Last Job\'s ability', function() {
-            beforeEach(function() {
+describe('One Last Job', function () {
+    integration(function () {
+        describe("One Last Job's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'shadows',
@@ -15,7 +15,7 @@ describe('One Last Job', function() {
                 });
             });
 
-            it('should purge friendly shadow creatures and steal amber', function() {
+            it('should purge friendly shadow creatures and steal amber', function () {
                 this.player1.play(this.oneLastJob);
                 expect(this.player1.amber).toBe(4);
                 expect(this.player2.amber).toBe(2);

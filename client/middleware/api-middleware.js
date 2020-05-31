@@ -2,7 +2,7 @@ import $ from 'jquery';
 import { navigate, setAuthTokens, authenticateSocket } from '../actions';
 
 export default function callAPIMiddleware({ dispatch, getState }) {
-    return next => async action => {
+    return (next) => async (action) => {
         const {
             types,
             APIParams,
@@ -11,32 +11,40 @@ export default function callAPIMiddleware({ dispatch, getState }) {
             skipAuth = false
         } = action;
 
-        if(!types) {
+        if (!types) {
             return next(action);
         }
 
-        if(!Array.isArray(types) || types.length !== 2 || !types.every(type => typeof type === 'string')) {
+        if (
+            !Array.isArray(types) ||
+            types.length !== 2 ||
+            !types.every((type) => typeof type === 'string')
+        ) {
             throw new Error('Expected an array of two string types.');
         }
 
         const [requestType, successType] = types;
 
-        dispatch(Object.assign({}, payload, {
-            type: requestType
-        }));
+        dispatch(
+            Object.assign({}, payload, {
+                type: requestType
+            })
+        );
 
-        if(!shouldCallAPI(getState())) {
+        if (!shouldCallAPI(getState())) {
             return;
         }
 
-        dispatch(Object.assign({}, payload, {
-            type: 'API_LOADING',
-            request: requestType
-        }));
+        dispatch(
+            Object.assign({}, payload, {
+                type: 'API_LOADING',
+                request: requestType
+            })
+        );
 
         let apiParams = APIParams || {};
         apiParams.contentType = 'application/json';
-        if(!skipAuth) {
+        if (!skipAuth) {
             apiParams.headers = {
                 Authorization: `Bearer ${getState().auth.token}`
             };
@@ -47,8 +55,8 @@ export default function callAPIMiddleware({ dispatch, getState }) {
 
         try {
             response = await $.ajax(apiParams.url, apiParams);
-        } catch(error) {
-            if(error.status === 401) {
+        } catch (error) {
+            if (error.status === 401) {
                 let state = getState();
                 let authResponse = await $.ajax('/api/account/token', {
                     contentType: 'application/json',
@@ -56,13 +64,15 @@ export default function callAPIMiddleware({ dispatch, getState }) {
                     data: JSON.stringify({ token: state.auth.refreshToken })
                 });
 
-                if(!authResponse.success) {
+                if (!authResponse.success) {
                     dispatch(navigate('/login'));
 
                     return;
                 }
 
-                dispatch(setAuthTokens(authResponse.token, state.auth.refreshToken));
+                dispatch(
+                    setAuthTokens(authResponse.token, state.auth.refreshToken, authResponse.user)
+                );
                 dispatch(authenticateSocket());
 
                 apiParams.headers = {
@@ -71,7 +81,7 @@ export default function callAPIMiddleware({ dispatch, getState }) {
 
                 try {
                     response = await $.ajax(apiParams.url, apiParams);
-                } catch(innerError) {
+                } catch (innerError) {
                     errorStatus = innerError.status;
                 }
             } else {
@@ -79,44 +89,55 @@ export default function callAPIMiddleware({ dispatch, getState }) {
             }
         }
 
-        if(!response) {
-            dispatch(Object.assign({}, payload, {
-                status: errorStatus,
-                message: 'An error occured communicating with the server.  Please try again later.',
+        if (!response) {
+            dispatch(
+                Object.assign({}, payload, {
+                    status: errorStatus,
+                    message:
+                        'An error occured communicating with the server.  Please try again later.',
+                    type: 'API_LOADED',
+                    request: requestType
+                })
+            );
+
+            dispatch(
+                Object.assign({}, payload, {
+                    status: errorStatus,
+                    message:
+                        'An error occured communicating with the server.  Please try again later.',
+                    type: 'API_FAILURE',
+                    request: requestType
+                })
+            );
+
+            return;
+        }
+
+        if (!response.success) {
+            dispatch(
+                Object.assign({}, payload, {
+                    status: 200,
+                    message: response.message,
+                    type: 'API_FAILURE',
+                    request: requestType
+                })
+            );
+
+            return;
+        }
+
+        dispatch(
+            Object.assign({}, payload, {
+                response,
+                type: successType
+            })
+        );
+
+        dispatch(
+            Object.assign({}, payload, {
                 type: 'API_LOADED',
                 request: requestType
-            }));
-
-            dispatch(Object.assign({}, payload, {
-                status: errorStatus,
-                message: 'An error occured communicating with the server.  Please try again later.',
-                type: 'API_FAILURE',
-                request: requestType
-            }));
-
-            return;
-        }
-
-        if(!response.success) {
-            dispatch(Object.assign({}, payload, {
-                status: 200,
-                message: response.message,
-                type: 'API_FAILURE',
-                request: requestType
-            }));
-
-            return;
-        }
-
-        dispatch(Object.assign({}, payload, {
-            response,
-            type: successType
-        }));
-
-        dispatch(Object.assign({}, payload, {
-            type: 'API_LOADED',
-            request: requestType
-        }));
+            })
+        );
     };
 }
-

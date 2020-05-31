@@ -1,7 +1,7 @@
-describe('Humans\' Bane', function() {
-    integration(function() {
-        describe('Humans\' Bane\'s ability', function() {
-            beforeEach(function() {
+describe("Humans' Bane", function () {
+    integration(function () {
+        describe("Humans' Bane's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         amber: 4,
@@ -15,7 +15,7 @@ describe('Humans\' Bane', function() {
                     }
                 });
             });
-            it('prompt for a human creature to destroy', function() {
+            it('prompt for a human creature to destroy', function () {
                 this.player1.play(this.humansBane);
                 expect(this.player1).toHavePrompt('Humans’ Bane');
                 expect(this.player1).toBeAbleToSelect(this.manchego);

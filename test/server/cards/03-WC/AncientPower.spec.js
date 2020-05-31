@@ -1,7 +1,7 @@
-describe('Ancient Power', function() {
-    integration(function() {
-        describe('Ancient Power\'s play ability', function() {
-            beforeEach(function() {
+describe('Ancient Power', function () {
+    integration(function () {
+        describe("Ancient Power's play ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'saurian',
@@ -20,7 +20,7 @@ describe('Ancient Power', function() {
                 this.lamindra.tokens.amber = 1;
             });
 
-            it('Play must ward all friendly creatures', function() {
+            it('Play must ward all friendly creatures', function () {
                 this.player1.play(this.ancientPower);
 
                 expect(this.troll.warded).toBe(true);
