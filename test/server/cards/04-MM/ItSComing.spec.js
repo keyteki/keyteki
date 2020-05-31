@@ -7,13 +7,17 @@ describe('It´s Coming', function () {
                         amber: 2,
                         house: 'saurian',
                         inPlay: ['senator-shrix'],
-                        hand: ['deusillus', 'deusillus-2', 'it-s-coming']
+                        hand: ['deusillus', 'deusillus2', 'it-s-coming']
                     },
                     player2: {
                         amber: 5,
                         inPlay: ['troll', 'narp', 'zorg', 'collector-worm']
                     }
                 });
+
+                // Fix house selection (multiple cards with same id)
+                this.itSComing.printedHouse = 'saurian';
+                this.itSComing.cardData.house = 'saurian';
             });
 
             it('should be able to return part 1 from deck', function () {

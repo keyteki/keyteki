@@ -464,7 +464,7 @@ class Lobby {
 
         game.disconnect(socket.user.username);
 
-        if (game.isEmpty()) {
+        if (game.isEmpty() && !game.tournament) {
             this.broadcastGameMessage('removegame', game);
             delete this.games[game.id];
         } else {
@@ -639,7 +639,7 @@ class Lobby {
         socket.send('cleargamestate');
         socket.leaveChannel(game.id);
 
-        if (game.isEmpty()) {
+        if (game.isEmpty() && !game.tournament) {
             delete this.games[game.id];
             this.broadcastGameMessage('removegame', game);
         } else {

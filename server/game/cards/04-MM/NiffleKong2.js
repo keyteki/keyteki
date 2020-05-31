@@ -8,6 +8,6 @@ class NiffleKong2 extends NiffleKong {
     }
 }
 
-NiffleKong2.id = 'niffle-kong-2';
+NiffleKong2.id = 'niffle-kong2';
 
 module.exports = NiffleKong2;

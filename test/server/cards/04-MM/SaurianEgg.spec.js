@@ -20,7 +20,7 @@ describe('saurian-egg', function () {
                             'alaka',
                             'bumblebird',
                             'deusillus',
-                            'deusillus-2'
+                            'deusillus2'
                         ]
                     },
                     player2: {
