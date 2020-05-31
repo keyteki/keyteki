@@ -7,29 +7,43 @@ class AbilityTargetAbility {
         this.selector = this.getSelector(properties);
         this.dependentTarget = null;
         this.dependentCost = null;
-        if(this.properties.dependsOn) {
-            let dependsOnTarget = ability.targets.find(target => target.name === this.properties.dependsOn);
+        if (this.properties.dependsOn) {
+            let dependsOnTarget = ability.targets.find(
+                (target) => target.name === this.properties.dependsOn
+            );
             dependsOnTarget.dependentTarget = this;
         }
     }
 
     getSelector(properties) {
         let cardCondition = (card, context) => {
-            let abilities = card.abilities.actions.concat(card.abilities.reactions).filter(ability => ability.printedAbility);
-            return abilities.some(ability => {
+            let abilities = card.abilities.actions
+                .concat(card.abilities.reactions)
+                .filter((ability) => ability.printedAbility);
+            return abilities.some((ability) => {
                 let contextCopy = context.copy();
                 contextCopy.targetAbility = ability;
-                if(context.stage === 'pretarget' && this.dependentCost && !this.dependentCost.canPay(contextCopy)) {
+                if (
+                    context.stage === 'pretarget' &&
+                    this.dependentCost &&
+                    !this.dependentCost.canPay(contextCopy)
+                ) {
                     return false;
                 }
 
-                return properties.cardCondition(card, contextCopy) &&
-                       (!this.dependentTarget || this.dependentTarget.hasLegalTarget(contextCopy)) &&
-                       properties.gameAction.some(gameAction => gameAction.hasLegalTarget(contextCopy));
+                return (
+                    properties.cardCondition(card, contextCopy) &&
+                    (!this.dependentTarget || this.dependentTarget.hasLegalTarget(contextCopy)) &&
+                    properties.gameAction.some((gameAction) =>
+                        gameAction.hasLegalTarget(contextCopy)
+                    )
+                );
             });
         };
 
-        return CardSelector.for(Object.assign({}, properties, { cardCondition: cardCondition, targets: false }));
+        return CardSelector.for(
+            Object.assign({}, properties, { cardCondition: cardCondition, targets: false })
+        );
     }
 
     canResolve(context) {
@@ -37,7 +51,7 @@ class AbilityTargetAbility {
     }
 
     resetGameActions() {
-        for(let action of this.properties.gameAction) {
+        for (let action of this.properties.gameAction) {
             action.reset();
         }
     }
@@ -51,19 +65,25 @@ class AbilityTargetAbility {
     }
 
     getGameAction(context) {
-        return this.properties.gameAction.filter(gameAction => gameAction.hasLegalTarget(context));
+        return this.properties.gameAction.filter((gameAction) =>
+            gameAction.hasLegalTarget(context)
+        );
     }
 
     resolve(context, targetResults) {
-        if(targetResults.cancelled || targetResults.payCostsFirst || targetResults.delayTargeting) {
+        if (
+            targetResults.cancelled ||
+            targetResults.payCostsFirst ||
+            targetResults.delayTargeting
+        ) {
             return;
         }
 
         let buttons = [];
         let waitingPromptTitle = '';
-        if(context.stage === 'pretarget') {
+        if (context.stage === 'pretarget') {
             buttons.push({ text: 'Cancel', arg: 'cancel' });
-            if(context.ability.abilityType === 'action') {
+            if (context.ability.abilityType === 'action') {
                 waitingPromptTitle = 'Waiting for opponent to take an action or pass';
             } else {
                 waitingPromptTitle = 'Waiting for opponent';
@@ -76,7 +96,9 @@ class AbilityTargetAbility {
             context: context,
             selector: this.selector,
             onSelect: (player, card) => {
-                let ability = card.abilities.actions.find(action => action.printedAbility) || card.abilities.reactions.find(reaction => reaction.printedAbility);
+                let ability =
+                    card.abilities.actions.find((action) => action.printedAbility) ||
+                    card.abilities.reactions.find((reaction) => reaction.printedAbility);
                 context.targetAbility = ability;
                 return true;
             },
@@ -85,7 +107,7 @@ class AbilityTargetAbility {
                 return true;
             },
             onMenuCommand: (player, arg) => {
-                if(arg === 'costsFirst') {
+                if (arg === 'costsFirst') {
                     targetResults.costsFirst = true;
                     return true;
                 }
@@ -93,17 +115,22 @@ class AbilityTargetAbility {
                 return true;
             }
         };
-        context.game.promptForSelect(context.player, Object.assign(promptProperties, this.properties));
+        context.game.promptForSelect(
+            context.player,
+            Object.assign(promptProperties, this.properties)
+        );
     }
 
     checkTarget(context) {
-        if(!context.targetAbility) {
+        if (!context.targetAbility) {
             return false;
         }
 
-        return this.properties.cardType === context.targetAbility.card.type &&
-               this.properties.cardCondition(context.targetAbility.card, context) &&
-               (!this.dependentTarget || this.dependentTarget.checkTarget(context));
+        return (
+            this.properties.cardType === context.targetAbility.card.type &&
+            this.properties.cardCondition(context.targetAbility.card, context) &&
+            (!this.dependentTarget || this.dependentTarget.checkTarget(context))
+        );
     }
 }
 

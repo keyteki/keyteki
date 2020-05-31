@@ -1,7 +1,7 @@
-describe('Old Boomy', function() {
-    integration(function() {
-        describe('Old Boomy\'s ability', function() {
-            beforeEach(function() {
+describe('Old Boomy', function () {
+    integration(function () {
+        describe("Old Boomy's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'brobnar',
@@ -14,7 +14,7 @@ describe('Old Boomy', function() {
                 this.player1.playUpgrade(this.bloodOfTitans, this.oldBoomy);
             });
 
-            it('should archive the card and damage Old Boomy if the first card is brobnar', function() {
+            it('should archive the card and damage Old Boomy if the first card is brobnar', function () {
                 expect(this.player1.player.deck[0]).toBe(this.troll);
                 this.player1.reap(this.oldBoomy);
                 expect(this.oldBoomy.tokens.damage).toBe(2);
@@ -22,7 +22,7 @@ describe('Old Boomy', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should archive the card and prompt the player if the first card is not brobnar', function() {
+            it('should archive the card and prompt the player if the first card is not brobnar', function () {
                 this.player1.moveCard(this.dextre, 'deck');
                 this.player1.moveCard(this.batdrone, 'deck');
                 this.player1.reap(this.oldBoomy);
@@ -39,7 +39,7 @@ describe('Old Boomy', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should continue to resolve the ability until a brobnar card is revealed', function() {
+            it('should continue to resolve the ability until a brobnar card is revealed', function () {
                 this.player1.moveCard(this.dextre, 'deck');
                 this.player1.moveCard(this.batdrone, 'deck');
                 this.player1.reap(this.oldBoomy);

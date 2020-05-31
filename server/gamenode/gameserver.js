@@ -18,7 +18,7 @@ class GameServer {
         this.configService = new ConfigService();
         const sentryDsn = this.configService.getValue('sentryDsn');
 
-        if(sentryDsn) {
+        if (sentryDsn) {
             Sentry.init({ dsn: sentryDsn, release: version.build });
         }
 
@@ -27,15 +27,24 @@ class GameServer {
         this.protocol = 'https';
 
         try {
-            var privateKey = fs.readFileSync(this.configService.getValueForSection('gameNode', 'keyPath')).toString();
-            var certificate = fs.readFileSync(this.configService.getValueForSection('gameNode', 'certPath')).toString();
-        } catch(e) {
+            var privateKey = fs
+                .readFileSync(this.configService.getValueForSection('gameNode', 'keyPath'))
+                .toString();
+            var certificate = fs
+                .readFileSync(this.configService.getValueForSection('gameNode', 'certPath'))
+                .toString();
+        } catch (e) {
             this.protocol = 'http';
         }
 
         this.host = this.configService.getValueForSection('gameNode', 'host');
 
-        this.gameSocket = new GameSocket(this.configService, this.host, this.protocol, version.build);
+        this.gameSocket = new GameSocket(
+            this.configService,
+            this.host,
+            this.protocol,
+            version.build
+        );
         this.gameSocket.on('onStartGame', this.onStartGame.bind(this));
         this.gameSocket.on('onSpectator', this.onSpectator.bind(this));
         this.gameSocket.on('onGameSync', this.onGameSync.bind(this));
@@ -45,7 +54,7 @@ class GameServer {
 
         var server = undefined;
 
-        if(!privateKey || !certificate) {
+        if (!privateKey || !certificate) {
             server = http.createServer();
         } else {
             server = https.createServer({ key: privateKey, cert: certificate });
@@ -62,15 +71,19 @@ class GameServer {
         };
 
         const corsOrigin = this.configService.getValueForSection('gameNode', 'origin');
-        if(corsOrigin) {
+        if (corsOrigin) {
             options.origins = corsOrigin;
         }
 
-        if(process.env.NODE_ENV !== 'production') {
+        if (process.env.NODE_ENV !== 'production') {
             options.path = '/' + (process.env.SERVER || nodeName) + '/socket.io';
         }
 
-        logger.info(`Listening on 0.0.0.0:${process.env.PORT || socketioPort}/${(process.env.SERVER || nodeName)}/socket.io`);
+        logger.info(
+            `Listening on 0.0.0.0:${process.env.PORT || socketioPort}/${
+                process.env.SERVER || nodeName
+            }/socket.io`
+        );
 
         this.io = socketio(server, options);
         this.io.use(this.handshake.bind(this));
@@ -81,8 +94,8 @@ class GameServer {
     }
 
     debugDump() {
-        const games = Object.values(this.games).map(game => {
-            const players = Object.values(game.playersAndSpectators).map(player => {
+        const games = Object.values(this.games).map((game) => {
+            const players = Object.values(game.playersAndSpectators).map((player) => {
                 return {
                     name: player.name,
                     left: player.left,
@@ -117,7 +130,7 @@ class GameServer {
         let gameState = game.getState();
         let debugData = {};
 
-        if(e.message.includes('Maximum call stack')) {
+        if (e.message.includes('Maximum call stack')) {
             debugData.badSerializaton = detectBinary(gameState);
         } else {
             debugData.game = gameState;
@@ -126,7 +139,7 @@ class GameServer {
             debugData.messages = game.getPlainTextLog();
             debugData.game.messages = undefined;
 
-            for(const player of game.getPlayers()) {
+            for (const player of game.getPlayers()) {
                 debugData[player.name] = player.getState(player, game.gameFormat);
             }
         }
@@ -135,9 +148,10 @@ class GameServer {
             scope.setExtra('extra', debugData);
         });
         Sentry.captureException(e);
-        if(game) {
+        if (game) {
             game.addMessage(
-                'A Server error has occured processing your game state, apologies.  Your game may now be in an inconsistent state, or you may be able to continue.  The error has been logged.');
+                'A Server error has occured processing your game state, apologies.  Your game may now be in an inconsistent state, or you may be able to continue.  The error has been logged.'
+            );
         }
     }
 
@@ -145,8 +159,8 @@ class GameServer {
      * @param {import("../game/game")} game
      */
     closeGame(game) {
-        for(const player of Object.values(game.getPlayersAndSpectators())) {
-            if(player.socket) {
+        for (const player of Object.values(game.getPlayersAndSpectators())) {
+            if (player.socket) {
                 player.socket.tIsClosing = true;
                 player.socket.disconnect();
             }
@@ -159,14 +173,16 @@ class GameServer {
     clearStaleAndFinishedGames() {
         const timeout = 20 * 60 * 1000;
 
-        const staleGames = Object.values(this.games).filter(game => game.finishedAt && (Date.now() - game.finishedAt > timeout));
-        for(const game of staleGames) {
+        const staleGames = Object.values(this.games).filter(
+            (game) => game.finishedAt && Date.now() - game.finishedAt > timeout
+        );
+        for (const game of staleGames) {
             logger.info(`closed finished game ${game.id} due to inactivity`);
             this.closeGame(game);
         }
 
-        const emptyGames = Object.values(this.games).filter(game => game.isEmpty());
-        for(const game of emptyGames) {
+        const emptyGames = Object.values(this.games).filter((game) => game.isEmpty());
+        for (const game of emptyGames) {
             logger.info(`closed empty game ${game.id}`);
             this.closeGame(game);
         }
@@ -179,7 +195,7 @@ class GameServer {
     runAndCatchErrors(game, func) {
         try {
             func();
-        } catch(e) {
+        } catch (e) {
             this.handleError(game, e);
 
             this.sendGameState(game);
@@ -190,10 +206,10 @@ class GameServer {
      * @param {string} username
      */
     findGameForUser(username) {
-        return Object.values(this.games).find(game => {
+        return Object.values(this.games).find((game) => {
             const player = game.playersAndSpectators[username];
 
-            if(!player || player.left) {
+            if (!player || player.left) {
                 return false;
             }
 
@@ -205,9 +221,9 @@ class GameServer {
      * @param {import("../game/game")} game
      */
     sendGameState(game) {
-        for(const player of Object.values(game.getPlayersAndSpectators())) {
-            if(player.left || player.disconnectedAt || !player.socket) {
-                return;
+        for (const player of Object.values(game.getPlayersAndSpectators())) {
+            if (player.left || player.disconnectedAt || !player.socket) {
+                continue;
             }
 
             player.socket.send('gamestate', game.getState(player.name));
@@ -219,14 +235,18 @@ class GameServer {
      * @param {() => void} next
      */
     handshake(socket, next) {
-        if(socket.handshake.query.token && socket.handshake.query.token !== 'undefined') {
-            jwt.verify(socket.handshake.query.token, this.configService.getValue('secret'), function(err, user) {
-                if(err) {
-                    return;
-                }
+        if (socket.handshake.query.token && socket.handshake.query.token !== 'undefined') {
+            jwt.verify(
+                socket.handshake.query.token,
+                this.configService.getValue('secret'),
+                function (err, user) {
+                    if (err) {
+                        return;
+                    }
 
-                socket.request.user = user;
-            });
+                    socket.request.user = user;
+                }
+            );
         }
 
         next();
@@ -238,7 +258,11 @@ class GameServer {
      * @param {import("../game/player")} winner
      */
     gameWon(game, reason, winner) {
-        this.gameSocket.send('GAMEWIN', { game: game.getSaveState(), winner: winner.name, reason: reason });
+        this.gameSocket.send('GAMEWIN', {
+            game: game.getSaveState(),
+            winner: winner.name,
+            reason: reason
+        });
     }
 
     /**
@@ -247,8 +271,8 @@ class GameServer {
     rematch(game) {
         this.gameSocket.send('REMATCH', { game: game.getSaveState() });
 
-        for(let player of Object.values(game.getPlayersAndSpectators())) {
-            if(player.left || player.disconnectedAt || !player.socket) {
+        for (let player of Object.values(game.getPlayersAndSpectators())) {
+            if (player.left || player.disconnectedAt || !player.socket) {
                 continue;
             }
 
@@ -272,13 +296,16 @@ class GameServer {
         this.games[pendingGame.id] = game;
 
         game.started = true;
-        for(let player of Object.values(pendingGame.players)) {
+        for (let player of Object.values(pendingGame.players)) {
             let playerName = player.name;
             game.setWins(playerName, player.wins);
 
-            if((pendingGame.gameFormat === 'reversal' || pendingGame.swap) && !(pendingGame.gameFormat === 'reversal' && pendingGame.swap)) {
+            if (
+                (pendingGame.gameFormat === 'reversal' || pendingGame.swap) &&
+                !(pendingGame.gameFormat === 'reversal' && pendingGame.swap)
+            ) {
                 let otherPlayer = game.getOtherPlayer(player);
-                if(otherPlayer) {
+                if (otherPlayer) {
                     playerName = otherPlayer.name;
                 }
             }
@@ -287,7 +314,7 @@ class GameServer {
         }
 
         game.initialise();
-        if(pendingGame.rematch) {
+        if (pendingGame.rematch) {
             game.addAlert('info', 'The rematch is ready');
         }
     }
@@ -298,7 +325,7 @@ class GameServer {
      */
     onSpectator(pendingGame, user) {
         const game = this.games[pendingGame.id];
-        if(!game) {
+        if (!game) {
             return;
         }
 
@@ -308,7 +335,7 @@ class GameServer {
     }
 
     onGameSync(callback) {
-        const gameSummaries = Object.values(this.games).map(game => {
+        const gameSummaries = Object.values(this.games).map((game) => {
             var retGame = game.getSummary(undefined, { fullData: true });
             retGame.password = game.password;
 
@@ -326,13 +353,13 @@ class GameServer {
      */
     onFailedConnect(gameId, username) {
         const game = this.findGameForUser(username);
-        if(!game || game.id !== gameId) {
+        if (!game || game.id !== gameId) {
             return;
         }
 
         game.failedConnect(username);
 
-        if(game.isEmpty()) {
+        if (game.isEmpty()) {
             delete this.games[game.id];
 
             this.gameSocket.send('GAMECLOSED', { game: game.id });
@@ -346,11 +373,11 @@ class GameServer {
      */
     onCloseGame(gameId) {
         let game = this.games[gameId];
-        if(!game) {
+        if (!game) {
             return;
         }
 
-        for(let player of Object.values(game.getPlayersAndSpectators())) {
+        for (let player of Object.values(game.getPlayersAndSpectators())) {
             player.socket.send('cleargamestate');
             player.socket.leaveChannel(game.id);
         }
@@ -364,7 +391,7 @@ class GameServer {
     }
 
     onConnection(ioSocket) {
-        if(!ioSocket.request.user) {
+        if (!ioSocket.request.user) {
             logger.info('socket connected with no user, disconnecting');
             ioSocket.disconnect();
 
@@ -372,7 +399,7 @@ class GameServer {
         }
 
         let game = this.findGameForUser(ioSocket.request.user.username);
-        if(!game) {
+        if (!game) {
             logger.info(`No game for ${ioSocket.request.user.username} disconnecting`);
             ioSocket.disconnect();
             return;
@@ -381,7 +408,7 @@ class GameServer {
         let socket = new Socket(ioSocket, { configService: this.configService });
 
         let player = game.playersAndSpectators[socket.user.username];
-        if(!player) {
+        if (!player) {
             return;
         }
 
@@ -389,7 +416,7 @@ class GameServer {
         player.id = socket.id;
         player.connectionSucceeded = true;
 
-        if(player.disconnectedAt) {
+        if (player.disconnectedAt) {
             logger.info(`user '${socket.user.username} reconnected to game`);
             game.reconnect(socket, player.name);
         }
@@ -398,7 +425,7 @@ class GameServer {
 
         player.socket = socket;
 
-        if(!game.isSpectator(player) && !player.disconnectedAt) {
+        if (!game.isSpectator(player) && !player.disconnectedAt) {
             game.addAlert('info', '{0} has connected to the game server', player);
         }
 
@@ -410,14 +437,14 @@ class GameServer {
 
     onSocketDisconnected(socket, reason) {
         let game = this.findGameForUser(socket.user.username);
-        if(!game) {
+        if (!game) {
             return;
         }
 
         logger.info(`user '${socket.user.username}' disconnected from a game: ${reason}`);
 
         let player = game.playersAndSpectators[socket.user.username];
-        if(player.id !== socket.id) {
+        if (player.id !== socket.id) {
             return;
         }
 
@@ -425,13 +452,18 @@ class GameServer {
 
         game.disconnect(socket.user.username);
 
-        if(!socket.tIsClosing) {
-            if(game.isEmpty()) {
+        if (!socket.tIsClosing) {
+            if (game.isEmpty()) {
                 delete this.games[game.id];
 
                 this.gameSocket.send('GAMECLOSED', { game: game.id });
-            } else if(isSpectator) {
-                this.gameSocket.send('PLAYERLEFT', { gameId: game.id, game: game.getSaveState(), player: socket.user.username, spectator: true });
+            } else if (isSpectator) {
+                this.gameSocket.send('PLAYERLEFT', {
+                    gameId: game.id,
+                    game: game.getSaveState(),
+                    player: socket.user.username,
+                    spectator: true
+                });
             }
         }
 
@@ -440,7 +472,7 @@ class GameServer {
 
     onLeaveGame(socket) {
         let game = this.findGameForUser(socket.user.username);
-        if(!game) {
+        if (!game) {
             return;
         }
 
@@ -459,7 +491,7 @@ class GameServer {
         socket.send('cleargamestate');
         socket.leaveChannel(game.id);
 
-        if(game.isEmpty()) {
+        if (game.isEmpty()) {
             delete this.games[game.id];
 
             this.gameSocket.send('GAMECLOSED', { game: game.id });
@@ -471,15 +503,15 @@ class GameServer {
     onGameMessage(socket, command, ...args) {
         let game = this.findGameForUser(socket.user.username);
 
-        if(!game) {
+        if (!game) {
             return;
         }
 
-        if(command === 'leavegame') {
+        if (command === 'leavegame') {
             return this.onLeaveGame(socket);
         }
 
-        if(!game[command] || !(game[command] instanceof Function)) {
+        if (!game[command] || !(game[command] instanceof Function)) {
             return;
         }
 

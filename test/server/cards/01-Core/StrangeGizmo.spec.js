@@ -1,7 +1,7 @@
-describe('Strange Gizmo', function() {
-    integration(function() {
-        describe('Strange Gizmo\'s ability', function() {
-            beforeEach(function() {
+describe('Strange Gizmo', function () {
+    integration(function () {
+        describe("Strange Gizmo's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'dis',
@@ -14,7 +14,7 @@ describe('Strange Gizmo', function() {
                 });
             });
 
-            it('should trigger when a key is forged', function() {
+            it('should trigger when a key is forged', function () {
                 this.player1.endTurn();
                 this.player2.forgeKey('Red');
                 expect(this.player2.player.keys.red).toBe(true);

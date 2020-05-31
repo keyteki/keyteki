@@ -16,22 +16,24 @@ class ImportStandaloneDecks {
         try {
             this.cards = await this.cardService.getAllCards();
 
-            for(let deck of this.loadDecks()) {
+            for (let deck of this.loadDecks()) {
                 let existingDeck = await this.deckService.getStandaloneDeckById(deck.standaloneId);
-                if(!existingDeck) {
+                if (!existingDeck) {
                     console.log('Importing', deck.name);
                     await this.deckService.createStandalone(deck);
                 }
             }
 
             console.log('Done importing standalone decks');
-        } catch(err) {
+        } catch (err) {
             console.error('Could not finish import', err);
         }
     }
 
     loadDecks() {
-        let data = fs.readFileSync(path.join(__dirname, '../../keyteki-json-data/standalone-decks.json'));
+        let data = fs.readFileSync(
+            path.join(__dirname, '../../keyteki-json-data/standalone-decks.json')
+        );
         return JSON.parse(data);
     }
 }

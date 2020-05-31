@@ -33,22 +33,34 @@ class CardAction extends CardAbility {
         super(game, card, properties);
 
         this.abilityType = 'action';
-        this.title = properties.title || 'Use this card\'s ' + (properties.omni ? 'Omni' : 'Action') + ' ability';
+        this.title =
+            properties.title ||
+            "Use this card's " + (properties.omni ? 'Omni' : 'Action') + ' ability';
         this.condition = properties.condition;
         this.omni = !!properties.omni;
         this.cost = this.cost.concat(Costs.exhaust(), Costs.use());
     }
 
     meetsRequirements(context = this.createContext(), ignoredRequirements = []) {
-        if(!this.card.checkRestrictions('useAction', context) || !context.player.checkRestrictions('useAction', context)) {
+        if (
+            !this.card.checkRestrictions('useAction', context) ||
+            !context.player.checkRestrictions('useAction', context)
+        ) {
             return 'cannotTrigger';
-        } else if(!this.card.checkRestrictions('use', context) || !context.player.checkRestrictions('use', context)) {
+        } else if (
+            !this.card.checkRestrictions('use', context) ||
+            !context.player.checkRestrictions('use', context)
+        ) {
             return 'cannotTrigger';
-        } else if(!ignoredRequirements.includes('location') && !this.isInValidLocation(context)) {
+        } else if (!ignoredRequirements.includes('location') && !this.isInValidLocation(context)) {
             return 'location';
-        } else if(!ignoredRequirements.includes('condition') && this.condition && !this.condition(context)) {
+        } else if (
+            !ignoredRequirements.includes('condition') &&
+            this.condition &&
+            !this.condition(context)
+        ) {
             return 'condition';
-        } else if(!ignoredRequirements.includes('stunned') && this.card.stunned) {
+        } else if (!ignoredRequirements.includes('stunned') && this.card.stunned) {
             return 'stunned';
         }
 

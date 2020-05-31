@@ -1,7 +1,7 @@
-describe('Ragnarok', function() {
-    integration(function() {
-        describe('Ragnarok\'s play ability', function() {
-            beforeEach(function() {
+describe('Ragnarok', function () {
+    integration(function () {
+        describe("Ragnarok's play ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'brobnar',
@@ -16,7 +16,7 @@ describe('Ragnarok', function() {
                 });
             });
 
-            it('should stop all creatures from reaping, fight should gain player 1 amber', function() {
+            it('should stop all creatures from reaping, fight should gain player 1 amber', function () {
                 this.player1.play(this.ragnarok);
                 this.player1.clickCard(this.troll);
                 expect(this.player1).not.toHavePromptButton('Reap with this creature');
@@ -38,7 +38,7 @@ describe('Ragnarok', function() {
                 expect(this.helperBot.location).toBe('discard');
             });
 
-            it('should last for only 1 round', function() {
+            it('should last for only 1 round', function () {
                 this.player1.play(this.ragnarok);
                 this.player1.endTurn();
 
@@ -57,8 +57,8 @@ describe('Ragnarok', function() {
             });
         });
 
-        describe('Ragnarok\'s play ability', function() {
-            beforeEach(function() {
+        describe("Ragnarok's play ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'brobnar',
@@ -73,7 +73,7 @@ describe('Ragnarok', function() {
                 });
             });
 
-            it('should gain amber from Redlock if no creature was played', function() {
+            it('should gain amber from Redlock if no creature was played', function () {
                 this.player1.play(this.ragnarok);
                 this.player1.endTurn();
                 expect(this.player1.amber).toBe(1);

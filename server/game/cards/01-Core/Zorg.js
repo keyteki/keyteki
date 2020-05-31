@@ -8,7 +8,9 @@ class Zorg extends Card {
         });
 
         this.beforeFight({
-            gameAction: ability.actions.stun(context => ({ target: context.event.card.neighbors.concat(context.event.card) }))
+            gameAction: ability.actions.stun((context) => ({
+                target: context.event.card.neighbors.concat(context.event.card)
+            }))
         });
     }
 }

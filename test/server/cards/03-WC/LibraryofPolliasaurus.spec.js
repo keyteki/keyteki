@@ -1,7 +1,7 @@
-describe('Library of Polliasaurus', function() {
-    integration(function() {
-        describe('Library of Polliasaurus\'s ability', function() {
-            beforeEach(function() {
+describe('Library of Polliasaurus', function () {
+    integration(function () {
+        describe("Library of Polliasaurus's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'saurian',
@@ -16,14 +16,14 @@ describe('Library of Polliasaurus', function() {
                 });
             });
 
-            it('should not prompt for any creature, since there is no friendly creature.', function() {
+            it('should not prompt for any creature, since there is no friendly creature.', function () {
                 this.player1.useAction(this.libraryOfPolliasaurus);
 
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
                 expect(this.player1.amber).toBe(1);
             });
 
-            it('should not prompt for any creature, since friendly creature has no.', function() {
+            it('should not prompt for any creature, since friendly creature has no.', function () {
                 this.player1.playCreature(this.questorJarta);
                 this.player1.useAction(this.libraryOfPolliasaurus);
 
@@ -33,9 +33,9 @@ describe('Library of Polliasaurus', function() {
         });
     });
 
-    integration(function() {
-        describe('Library of Polliasaurus\'s ability', function() {
-            beforeEach(function() {
+    integration(function () {
+        describe("Library of Polliasaurus's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'saurian',
@@ -53,7 +53,7 @@ describe('Library of Polliasaurus', function() {
                 this.shooler.tokens.amber = 2;
             });
 
-            it('should allow picking from friendly creature', function() {
+            it('should allow picking from friendly creature', function () {
                 this.player1.useAction(this.libraryOfPolliasaurus);
 
                 expect(this.player1).toHavePrompt('Choose a creature');

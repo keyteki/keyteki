@@ -1,7 +1,7 @@
-describe('Primus Unguis', function() {
-    integration(function() {
-        describe('Primus Unguis\'s ability', function() {
-            beforeEach(function() {
+describe('Primus Unguis', function () {
+    integration(function () {
+        describe("Primus Unguis's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'saurian',
@@ -14,12 +14,12 @@ describe('Primus Unguis', function() {
                 });
             });
 
-            it('should exalt after reap get +2 power per amber on itself', function() {
+            it('should exalt after reap get +2 power per amber on itself', function () {
                 this.player1.reap(this.primusUnguis);
                 expect(this.primusUnguis.amber).toBe(1);
             });
 
-            it('should exalt after reap get +2 power per amber on itself', function() {
+            it('should exalt after reap get +2 power per amber on itself', function () {
                 expect(this.primusUnguis.power).toBe(5);
                 expect(this.questorJarta.power).toBe(3);
                 expect(this.troll.power).toBe(8);
@@ -38,4 +38,3 @@ describe('Primus Unguis', function() {
         });
     });
 });
-

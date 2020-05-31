@@ -1,12 +1,17 @@
-describe('Harland Mindlock', function() {
-    integration(function() {
-        describe('Harland Mindlock\'s ability', function() {
-            beforeEach(function() {
+describe('Harland Mindlock', function () {
+    integration(function () {
+        describe("Harland Mindlock's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
                         inPlay: ['dextre', 'sequis'],
-                        hand: ['harland-mindlock', 'phase-shift', 'sergeant-zakiel', 'ammonia-clouds']
+                        hand: [
+                            'harland-mindlock',
+                            'phase-shift',
+                            'sergeant-zakiel',
+                            'ammonia-clouds'
+                        ]
                     },
                     player2: {
                         inPlay: ['troll', 'valdr', 'dust-imp']
@@ -14,7 +19,7 @@ describe('Harland Mindlock', function() {
                 });
             });
 
-            it('should take control of a creature until it leaves play', function() {
+            it('should take control of a creature until it leaves play', function () {
                 this.player1.play(this.harlandMindlock);
                 expect(this.player1).toHavePrompt('Harland Mindlock');
                 this.player1.clickCard(this.troll);
@@ -32,7 +37,7 @@ describe('Harland Mindlock', function() {
                 expect(this.player2.player.cardsInPlay[0]).toBe(this.troll);
             });
 
-            it('should give the player the choice to trigger their new creature', function() {
+            it('should give the player the choice to trigger their new creature', function () {
                 this.player1.play(this.harlandMindlock);
                 expect(this.player1).toHavePrompt('Harland Mindlock');
                 this.player1.clickCard(this.troll);
@@ -45,7 +50,7 @@ describe('Harland Mindlock', function() {
                 expect(this.player1).toHavePromptButton('brobnar');
             });
 
-            it('should trigger Destroyed abilities on controlled characters correctly', function() {
+            it('should trigger Destroyed abilities on controlled characters correctly', function () {
                 this.player1.play(this.harlandMindlock);
                 this.player1.clickCard(this.dustImp);
                 this.player1.clickPrompt('Left');

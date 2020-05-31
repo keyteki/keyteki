@@ -6,7 +6,7 @@ class Redlock extends Card {
             when: {
                 onRoundEnded: (event, context) =>
                     context.player === this.game.activePlayer &&
-                    this.game.cardsPlayed.filter(card => card.type === 'creature').length === 0
+                    this.game.cardsPlayed.filter((card) => card.type === 'creature').length === 0
             },
             gameAction: ability.actions.gainAmber()
         });

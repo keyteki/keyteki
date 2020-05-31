@@ -6,59 +6,29 @@ import classNames from 'classnames';
 import { ItemTypes } from '../../constants';
 
 const validTargets = {
-    hand: [
-        'play area',
-        'discard',
-        'deck',
-        'archives',
-        'purged'
-    ],
-    'play area': [
-        'discard',
-        'hand',
-        'deck',
-        'archives',
-        'purged'
-    ],
-    'discard': [
-        'archives',
-        'hand',
-        'deck',
-        'play area',
-        'purged'
-    ],
-    'archives': [
-        'hand',
-        'deck',
-        'play area',
-        'discard',
-        'purged'
-    ],
-    'deck': [
-        'hand',
-        'discard',
-        'archives',
-        'play area',
-        'purged'
-    ],
-    'purged': [
-        'deck',
-        'play area',
-        'discard',
-        'hand',
-        'archives'
-    ]
+    hand: ['play area', 'discard', 'deck', 'archives', 'purged'],
+    'play area': ['discard', 'hand', 'deck', 'archives', 'purged'],
+    discard: ['archives', 'hand', 'deck', 'play area', 'purged'],
+    archives: ['hand', 'deck', 'play area', 'discard', 'purged'],
+    deck: ['hand', 'discard', 'archives', 'play area', 'purged'],
+    purged: ['deck', 'play area', 'discard', 'hand', 'archives']
 };
 
 const dropTarget = {
     canDrop(props, monitor) {
         let item = monitor.getItem();
 
-        if(props.manualMode) {
-            return validTargets[item.source] && validTargets[item.source].some(target => target === props.source);
+        if (props.manualMode) {
+            return (
+                validTargets[item.source] &&
+                validTargets[item.source].some((target) => target === props.source)
+            );
         }
 
-        if(item.source === 'hand' && props.source === 'play area' || item.source === 'hand' && props.source === 'discard') {
+        if (
+            (item.source === 'hand' && props.source === 'play area') ||
+            (item.source === 'hand' && props.source === 'discard')
+        ) {
             return item.card.canPlay;
         }
 
@@ -67,7 +37,7 @@ const dropTarget = {
     drop(props, monitor) {
         let item = monitor.getItem();
 
-        if(props.onDragDrop) {
+        if (props.onDragDrop) {
             props.onDragDrop(item.card, item.source, props.source);
         }
     }
@@ -88,15 +58,19 @@ class Droppable extends React.Component {
     render() {
         let className = classNames('overlay', {
             'drop-ok': this.props.isOver && this.props.canDrop,
-            'no-drop': this.props.isOver && !this.props.canDrop && this.props.source !== this.props.itemSource,
+            'no-drop':
+                this.props.isOver &&
+                !this.props.canDrop &&
+                this.props.source !== this.props.itemSource,
             'can-drop': !this.props.isOver && this.props.canDrop
         });
 
         return this.props.connectDropTarget(
             <div className='drop-target'>
-                <div className={ className } />
-                { this.props.children }
-            </div>);
+                <div className={className} />
+                {this.props.children}
+            </div>
+        );
     }
 }
 

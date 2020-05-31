@@ -17,14 +17,14 @@ async function runServer() {
 
     await lobby.init();
 
-    pmx.action('status', reply => {
+    pmx.action('status', (reply) => {
         var status = lobby.getStatus();
 
         reply(status);
     });
 
     pmx.action('disable', (param, reply) => {
-        if(!param) {
+        if (!param) {
             reply({ error: 'Need to specify node to disable' });
 
             return;
@@ -34,7 +34,7 @@ async function runServer() {
     });
 
     pmx.action('enable', (param, reply) => {
-        if(!param) {
+        if (!param) {
             reply({ error: 'Need to specify node to enable' });
 
             return;
@@ -43,7 +43,7 @@ async function runServer() {
         reply({ success: lobby.enableNode(param) });
     });
 
-    pmx.action('debug', reply => {
+    pmx.action('debug', (reply) => {
         reply(lobby.debugDump());
     });
 

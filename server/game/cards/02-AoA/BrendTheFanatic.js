@@ -3,10 +3,10 @@ const Card = require('../../Card.js');
 class BrendTheFanatic extends Card {
     setupCardAbilities(ability) {
         this.play({
-            condition: context => !!context.player.opponent,
+            condition: (context) => !!context.player.opponent,
             effect: 'cause {1} to gain 1 amber',
-            effectArgs: context => context.player.opponent,
-            gameAction: ability.actions.gainAmber(context => ({
+            effectArgs: (context) => context.player.opponent,
+            gameAction: ability.actions.gainAmber((context) => ({
                 amount: 1,
                 target: context.player.opponent
             }))

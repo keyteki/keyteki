@@ -9,7 +9,7 @@ class BrambleLynx extends Card {
 
         this.persistentEffect({
             location: 'any',
-            condition: context => this.creaturesReapedByPlayer[context.source.controller.uuid],
+            condition: (context) => this.creaturesReapedByPlayer[context.source.controller.uuid],
             effect: ability.effects.entersPlayReady()
         });
     }

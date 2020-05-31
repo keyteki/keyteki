@@ -1,7 +1,7 @@
-describe('sinder', function() {
-    integration(function() {
-        describe('Sinder\'s ability', function() {
-            beforeEach(function() {
+describe('sinder', function () {
+    integration(function () {
+        describe("Sinder's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'dis',
@@ -14,7 +14,7 @@ describe('sinder', function() {
                 });
             });
 
-            it('should destroy itself if only friendly creature in play', function() {
+            it('should destroy itself if only friendly creature in play', function () {
                 this.player1.reap(this.sinder);
                 expect(this.player1).toHavePrompt('Sinder');
                 expect(this.player1).toBeAbleToSelect(this.sinder);
@@ -23,7 +23,7 @@ describe('sinder', function() {
                 expect(this.sinder.location).toBe('discard');
             });
 
-            it('should be able to select which friendly creature to destroy', function() {
+            it('should be able to select which friendly creature to destroy', function () {
                 this.player1.play(this.dustImp);
                 this.player1.reap(this.sinder);
                 expect(this.player1).toHavePrompt('Sinder');

@@ -1,7 +1,7 @@
-describe('Memolith', function() {
-    integration(function() {
-        describe('Memolith\'s ability', function() {
-            beforeEach(function() {
+describe('Memolith', function () {
+    integration(function () {
+        describe("Memolith's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'brobnar',
@@ -14,7 +14,7 @@ describe('Memolith', function() {
                 });
             });
 
-            it('should do nothing when there is no action in the hand or grafted card', function() {
+            it('should do nothing when there is no action in the hand or grafted card', function () {
                 this.player1.useAction(this.memolith);
                 expect(this.player1).not.toHavePrompt('Memolith');
                 expect(this.player1).not.toBeAbleToSelect(this.troll);
@@ -23,8 +23,8 @@ describe('Memolith', function() {
             });
         });
 
-        describe('Memolith\'s ability', function() {
-            beforeEach(function() {
+        describe("Memolith's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'brobnar',
@@ -37,7 +37,7 @@ describe('Memolith', function() {
                 });
             });
 
-            it('should allow grafting an action card', function() {
+            it('should allow grafting an action card', function () {
                 this.player1.useAction(this.memolith);
                 expect(this.player1).toHavePrompt('Memolith');
                 expect(this.player1).toBeAbleToSelect(this.pound);
@@ -50,7 +50,7 @@ describe('Memolith', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should activate the play effect of a grafted card', function() {
+            it('should activate the play effect of a grafted card', function () {
                 this.player1.useAction(this.memolith);
                 this.player1.clickCard(this.pound);
                 expect(this.pound.facedown).toBe(false);
@@ -69,7 +69,7 @@ describe('Memolith', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should activate the play effect of a grafted card, if no action to attach', function() {
+            it('should activate the play effect of a grafted card, if no action to attach', function () {
                 this.player1.moveCard(this.anger, 'discard');
                 this.player1.useAction(this.memolith);
                 this.player1.clickCard(this.pound);
@@ -87,7 +87,7 @@ describe('Memolith', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should activate the play effect of a grafted card on Memolith only', function() {
+            it('should activate the play effect of a grafted card on Memolith only', function () {
                 this.player1.play(this.infomancer);
                 this.player1.clickCard(this.anger);
                 this.player1.useAction(this.memolith);

@@ -3,7 +3,7 @@ const Card = require('../../Card.js');
 class HaydenOswin extends Card {
     setupCardAbilities(ability) {
         this.reap({
-            gameAction: ability.actions.gainAmber(context => ({
+            gameAction: ability.actions.gainAmber((context) => ({
                 amount: context.source.upgrades.length
             }))
         });

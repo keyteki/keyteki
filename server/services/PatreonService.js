@@ -20,10 +20,14 @@ class PatreonService {
         try {
             response = await patreonApiClient('/current_user', {
                 fields: {
-                    pledge: [...pledgeSchema.default_attributes, pledgeSchema.attributes.declined_since, pledgeSchema.attributes.created_at]
+                    pledge: [
+                        ...pledgeSchema.default_attributes,
+                        pledgeSchema.attributes.declined_since,
+                        pledgeSchema.attributes.created_at
+                    ]
                 }
             });
-        } catch(err) {
+        } catch (err) {
             logger.error(err);
 
             return 'none';
@@ -32,7 +36,7 @@ class PatreonService {
         let { id } = response.rawJson.data;
         let pUser = response.store.find('user', id);
 
-        if(!pUser || !pUser.pledges || pUser.pledges.length === 0) {
+        if (!pUser || !pUser.pledges || pUser.pledges.length === 0) {
             return 'linked';
         }
 
@@ -43,7 +47,7 @@ class PatreonService {
         let response;
         try {
             response = await this.patreonOAuthClient.refreshToken(user.patreon.refresh_token);
-        } catch(err) {
+        } catch (err) {
             logger.error('Error refreshing patreon account', err);
             return undefined;
         }
@@ -54,7 +58,7 @@ class PatreonService {
 
         try {
             await this.userService.update(userDetails);
-        } catch(err) {
+        } catch (err) {
             logger.error(err);
             return undefined;
         }
@@ -66,7 +70,7 @@ class PatreonService {
         let response;
         try {
             response = await this.patreonOAuthClient.getTokens(code, this.callbackUrl);
-        } catch(err) {
+        } catch (err) {
             logger.error('Error linking patreon account', err);
             return false;
         }
@@ -74,7 +78,7 @@ class PatreonService {
         response.date = new Date();
 
         let user = await this.userService.getUserByUsername(username);
-        if(!user) {
+        if (!user) {
             logger.error('Error linking patreon account, user not found');
             return false;
         }
@@ -88,7 +92,7 @@ class PatreonService {
             await this.userService.update(user);
 
             user.password = password;
-        } catch(err) {
+        } catch (err) {
             logger.error(err);
             return false;
         }
@@ -98,7 +102,7 @@ class PatreonService {
 
     async unlinkAccount(username) {
         let user = await this.userService.getUserByUsername(username);
-        if(!user) {
+        if (!user) {
             logger.error('Error unlinking patreon account, user not found');
             return false;
         }
@@ -107,7 +111,7 @@ class PatreonService {
 
         try {
             await this.userService.update(user);
-        } catch(err) {
+        } catch (err) {
             logger.error(err);
             return false;
         }

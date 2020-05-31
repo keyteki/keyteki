@@ -1,7 +1,7 @@
-describe('Mini Groupthink Tank', function() {
-    integration(function() {
-        describe('Mini Groupthink Tank\'s play ability', function() {
-            beforeEach(function() {
+describe('Mini Groupthink Tank', function () {
+    integration(function () {
+        describe("Mini Groupthink Tank's play ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
@@ -15,7 +15,7 @@ describe('Mini Groupthink Tank', function() {
                 });
             });
 
-            it('should play and deal damage to an enemy creature with 2 neighbors sharing the same house', function() {
+            it('should play and deal damage to an enemy creature with 2 neighbors sharing the same house', function () {
                 this.player1.playCreature(this.miniGroupthinkTank);
 
                 expect(this.player1).toHavePrompt('Mini Groupthink Tank');
@@ -37,7 +37,7 @@ describe('Mini Groupthink Tank', function() {
                 expect(this.gub.location).toBe('discard');
             });
 
-            it('should play and deal damage to a friendly creature with 2 neighbors sharing the same house', function() {
+            it('should play and deal damage to a friendly creature with 2 neighbors sharing the same house', function () {
                 this.player1.playCreature(this.miniGroupthinkTank);
 
                 expect(this.player1).toHavePrompt('Mini Groupthink Tank');
@@ -58,7 +58,7 @@ describe('Mini Groupthink Tank', function() {
                 expect(this.groupthinkTank.location).toBe('discard');
             });
 
-            it('should be affected by experimental therapy', function() {
+            it('should be affected by experimental therapy', function () {
                 this.player1.playUpgrade(this.experimentalTherapy, this.lamindra);
                 this.player1.playCreature(this.miniGroupthinkTank);
 
@@ -82,8 +82,8 @@ describe('Mini Groupthink Tank', function() {
             });
         });
 
-        describe('Mini Groupthink Tank\'s reap ability', function() {
-            beforeEach(function() {
+        describe("Mini Groupthink Tank's reap ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
@@ -96,7 +96,7 @@ describe('Mini Groupthink Tank', function() {
                 });
             });
 
-            it('should reap and deal damage to a creature with 2 neighbors sharing the same house', function() {
+            it('should reap and deal damage to a creature with 2 neighbors sharing the same house', function () {
                 this.player1.reap(this.miniGroupthinkTank);
 
                 expect(this.player1).toHavePrompt('Mini Groupthink Tank');
@@ -119,8 +119,8 @@ describe('Mini Groupthink Tank', function() {
             });
         });
 
-        describe('Mini Groupthink Tank\'s fight ability', function() {
-            beforeEach(function() {
+        describe("Mini Groupthink Tank's fight ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
@@ -133,7 +133,7 @@ describe('Mini Groupthink Tank', function() {
                 });
             });
 
-            it('should fight and deal damage to a creature with 2 neighbors sharing the same house', function() {
+            it('should fight and deal damage to a creature with 2 neighbors sharing the same house', function () {
                 this.player1.fightWith(this.miniGroupthinkTank, this.archimedes);
 
                 expect(this.player1).toHavePrompt('Mini Groupthink Tank');
@@ -157,4 +157,3 @@ describe('Mini Groupthink Tank', function() {
         });
     });
 });
-

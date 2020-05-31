@@ -4,7 +4,7 @@ class Eyegor extends Card {
     setupCardAbilities(ability) {
         this.play({
             effect: 'to look at the top 3 cards of their deck',
-            gameAction: ability.actions.moveCard(context => ({
+            gameAction: ability.actions.moveCard((context) => ({
                 destination: 'hand',
                 promptWithHandlerMenu: {
                     activePromptTitle: 'Choose a card to add to hand',
@@ -13,7 +13,7 @@ class Eyegor extends Card {
                 }
             })),
             then: {
-                gameAction: ability.actions.discard(context => ({
+                gameAction: ability.actions.discard((context) => ({
                     target: context.player.deck.slice(0, 2)
                 }))
             }

@@ -16,13 +16,13 @@ class Router {
         const pattern = toRegex(path, keys);
         const match = pattern.exec(uri);
 
-        if(!match) {
+        if (!match) {
             return undefined;
         }
 
         let params = {};
 
-        for(let i = 1; i < match.length; i++) {
+        for (let i = 1; i < match.length; i++) {
             params[keys[i - 1].name] = match[i] !== undefined ? match[i] : undefined;
         }
 
@@ -34,21 +34,24 @@ class Router {
     }
 
     resolvePath(context) {
-        for(const route of this.routes) {
+        for (const route of this.routes) {
             const uri = context.pathname;
             const params = this.matchUri(route.path, uri);
 
-            if(!params) {
+            if (!params) {
                 continue;
             }
 
             const result = route.action({ ...context, params });
 
-            if(!result) {
+            if (!result) {
                 continue;
             }
 
-            if(route.permission && (!context.user || !context.user.permissions[route.permission])) {
+            if (
+                route.permission &&
+                (!context.user || !context.user.permissions[route.permission])
+            ) {
                 return <Unauthorised />;
             }
 

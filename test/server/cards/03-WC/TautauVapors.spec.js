@@ -1,7 +1,7 @@
-describe('Tautau Vapors', function() {
-    integration(function() {
-        describe('Tautau Vapors\' ability', function() {
-            beforeEach(function() {
+describe('Tautau Vapors', function () {
+    integration(function () {
+        describe("Tautau Vapors' ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
@@ -14,7 +14,7 @@ describe('Tautau Vapors', function() {
                 });
             });
 
-            it('should draw two cards and archive a card when played', function() {
+            it('should draw two cards and archive a card when played', function () {
                 this.player1.play(this.tautauVapors);
                 expect(this.player1.hand.length).toBe(3);
                 expect(this.player1).toHavePrompt('Tautau Vapors');

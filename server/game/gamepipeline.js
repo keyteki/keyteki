@@ -7,7 +7,7 @@ class GamePipeline {
     }
 
     initialise(steps) {
-        if(!_.isArray(steps)) {
+        if (!_.isArray(steps)) {
             steps = [steps];
         }
 
@@ -21,7 +21,7 @@ class GamePipeline {
     getCurrentStep() {
         var step = _.first(this.pipeline);
 
-        if(_.isFunction(step)) {
+        if (_.isFunction(step)) {
             var createdStep = step();
             this.pipeline[0] = createdStep;
             return createdStep;
@@ -31,11 +31,11 @@ class GamePipeline {
     }
 
     queueStep(step) {
-        if(this.pipeline.length === 0) {
+        if (this.pipeline.length === 0) {
             this.pipeline.unshift(step);
         } else {
             var currentStep = this.getCurrentStep();
-            if(currentStep.queueStep) {
+            if (currentStep.queueStep) {
                 currentStep.queueStep(step);
             } else {
                 this.queue.push(step);
@@ -44,15 +44,15 @@ class GamePipeline {
     }
 
     cancelStep() {
-        if(this.pipeline.length === 0) {
+        if (this.pipeline.length === 0) {
             return;
         }
 
         var step = this.getCurrentStep();
 
-        if(step.cancelStep && step.isComplete) {
+        if (step.cancelStep && step.isComplete) {
             step.cancelStep();
-            if(!step.isComplete()) {
+            if (!step.isComplete()) {
                 return;
             }
         }
@@ -61,9 +61,9 @@ class GamePipeline {
     }
 
     handleCardClicked(player, card) {
-        if(this.pipeline.length > 0) {
+        if (this.pipeline.length > 0) {
             var step = this.getCurrentStep();
-            if(step.onCardClicked(player, card) !== false) {
+            if (step.onCardClicked(player, card) !== false) {
                 return true;
             }
         }
@@ -72,9 +72,9 @@ class GamePipeline {
     }
 
     handleCardDragged(player, card, from, to) {
-        if(this.pipeline.length > 0) {
+        if (this.pipeline.length > 0) {
             var step = this.getCurrentStep();
-            if(step.onCardDragged(player, card, from ,to) !== false) {
+            if (step.onCardDragged(player, card, from, to) !== false) {
                 return true;
             }
         }
@@ -83,9 +83,9 @@ class GamePipeline {
     }
 
     handleMenuCommand(player, arg, uuid, method) {
-        if(this.pipeline.length > 0) {
+        if (this.pipeline.length > 0) {
             var step = this.getCurrentStep();
-            if(step.onMenuCommand(player, arg, uuid, method) !== false) {
+            if (step.onMenuCommand(player, arg, uuid, method) !== false) {
                 return true;
             }
         }
@@ -94,17 +94,17 @@ class GamePipeline {
     }
 
     continue() {
-        if(this.queue.length > 0) {
+        if (this.queue.length > 0) {
             this.pipeline = this.queue.concat(this.pipeline);
             this.queue = [];
         }
 
-        while(this.pipeline.length > 0) {
+        while (this.pipeline.length > 0) {
             var currentStep = this.getCurrentStep();
             // Explicitly check for a return of false - if no return values is
             // defined then just continue to the next step.
-            if(currentStep.continue() === false) {
-                if(this.queue.length === 0) {
+            if (currentStep.continue() === false) {
+                if (this.queue.length === 0) {
                     return false;
                 }
             } else {
@@ -120,24 +120,24 @@ class GamePipeline {
 
     getDebugInfo() {
         return {
-            pipeline: _.map(this.pipeline, step => this.getDebugInfoForStep(step)),
-            queue: _.map(this.queue, step => this.getDebugInfoForStep(step))
+            pipeline: _.map(this.pipeline, (step) => this.getDebugInfoForStep(step)),
+            queue: _.map(this.queue, (step) => this.getDebugInfoForStep(step))
         };
     }
 
     getDebugInfoForStep(step) {
         let name = step.constructor.name;
-        if(step.pipeline) {
+        if (step.pipeline) {
             let result = {};
             result[name] = step.pipeline.getDebugInfo();
             return result;
         }
 
-        if(step.getDebugInfo) {
+        if (step.getDebugInfo) {
             return step.getDebugInfo();
         }
 
-        if(_.isFunction(step)) {
+        if (_.isFunction(step)) {
             return step.toString();
         }
 
@@ -147,7 +147,7 @@ class GamePipeline {
     consoleDebugInfo() {
         let pipeline = this;
         let step = pipeline.pipeline[0];
-        while(step.pipeline) {
+        while (step.pipeline) {
             pipeline = step.pipeline;
             step = pipeline.pipeline[0];
         }

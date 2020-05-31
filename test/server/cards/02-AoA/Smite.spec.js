@@ -1,7 +1,7 @@
-describe('Smite', function() {
-    integration(function() {
-        describe('Smite\'s ability', function() {
-            beforeEach(function() {
+describe('Smite', function () {
+    integration(function () {
+        describe("Smite's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'sanctum',
@@ -14,7 +14,7 @@ describe('Smite', function() {
                 });
             });
 
-            it('should cause a creature to fight, and then deal 2 damage to its neighbors', function() {
+            it('should cause a creature to fight, and then deal 2 damage to its neighbors', function () {
                 this.player1.play(this.smite);
                 expect(this.player1).toHavePrompt('Smite');
                 this.player1.clickCard(this.sequis);
@@ -26,7 +26,7 @@ describe('Smite', function() {
                 expect(this.troll.tokens.damage).toBe(2);
             });
 
-            it('should remove creature\'s stun', function() {
+            it("should remove creature's stun", function () {
                 this.sequis.stunned = true;
                 this.player1.play(this.smite);
                 expect(this.player1).toHavePrompt('Smite');
@@ -35,7 +35,7 @@ describe('Smite', function() {
                 expect(this.player1).not.toHavePrompt('Sequis');
             });
 
-            it('should remove creature\'s stun and not damage it', function() {
+            it("should remove creature's stun and not damage it", function () {
                 this.helperBot.stunned = true;
                 this.player1.play(this.smite);
                 expect(this.player1).toHavePrompt('Smite');
@@ -46,8 +46,8 @@ describe('Smite', function() {
                 expect(this.helperBot.hasToken('damage')).toBe(false);
             });
         });
-        describe('Smite\'s ability with duma', function() {
-            beforeEach(function() {
+        describe("Smite's ability with duma", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'sanctum',
@@ -62,7 +62,7 @@ describe('Smite', function() {
                 this.murmook.tokens['damage'] = 2;
             });
 
-            it('should cause a creature to fight, Duma will heal neighbors, and then deal 2 damage to its neighbors', function() {
+            it('should cause a creature to fight, Duma will heal neighbors, and then deal 2 damage to its neighbors', function () {
                 this.player1.play(this.smite);
                 this.player1.clickCard(this.sequis);
                 expect(this.player1).toHavePrompt('Sequis');

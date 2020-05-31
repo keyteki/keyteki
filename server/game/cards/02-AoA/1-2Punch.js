@@ -7,10 +7,10 @@ class OneTwoPunch extends Card {
                 cardType: 'creature',
                 controller: 'opponent',
                 gameAction: [
-                    ability.actions.destroy(context => ({
+                    ability.actions.destroy((context) => ({
                         target: context.target.stunned ? context.target : []
                     })),
-                    ability.actions.stun(context => ({
+                    ability.actions.stun((context) => ({
                         target: context.target.stunned ? [] : context.target
                     }))
                 ]

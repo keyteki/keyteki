@@ -1,7 +1,7 @@
-describe('Ganger Chieftain', function() {
-    integration(function() {
-        describe('Ganger Chieftain\'s ability', function() {
-            beforeEach(function() {
+describe('Ganger Chieftain', function () {
+    integration(function () {
+        describe("Ganger Chieftain's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'brobnar',
@@ -18,7 +18,7 @@ describe('Ganger Chieftain', function() {
                 this.ganger2 = this.player1.hand[2];
             });
 
-            it('should allow fighting with an exhausted creature', function() {
+            it('should allow fighting with an exhausted creature', function () {
                 expect(this.troll.exhausted).toBe(true);
                 expect(this.docBookton.location).toBe('discard');
                 this.player1.playCreature(this.gangerChieftain, true);
@@ -37,7 +37,7 @@ describe('Ganger Chieftain', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should allow fighting with a non-house creature', function() {
+            it('should allow fighting with a non-house creature', function () {
                 this.player1.play(this.gangerChieftain);
                 this.player1.clickCard(this.gangerChieftain);
                 expect(this.player1).toHavePrompt('Ganger Chieftain');
@@ -55,7 +55,7 @@ describe('Ganger Chieftain', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should ready creatures who can\'t fight', function() {
+            it("should ready creatures who can't fight", function () {
                 this.player1.play(this.anger);
                 this.player1.clickCard(this.ancientBear);
                 expect(this.player1).toHavePrompt('Choose a creature to attack');
@@ -73,8 +73,8 @@ describe('Ganger Chieftain', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
         });
-        describe('Ganger Chieftain\'s ability', function() {
-            beforeEach(function() {
+        describe("Ganger Chieftain's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
@@ -89,7 +89,7 @@ describe('Ganger Chieftain', function() {
                 this.ganger1 = this.player2.hand[0];
                 this.ganger2 = this.player2.hand[2];
             });
-            it('should respect the rules of cards like foggify', function() {
+            it('should respect the rules of cards like foggify', function () {
                 this.player1.play(this.foggify);
                 this.player1.endTurn();
                 this.player2.clickPrompt('brobnar');

@@ -1,7 +1,7 @@
-describe('Toad', function() {
-    integration(function() {
-        describe('Toad Behaviour', function() {
-            beforeEach(function() {
+describe('Toad', function () {
+    integration(function () {
+        describe('Toad Behaviour', function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         amber: 5,
@@ -16,7 +16,7 @@ describe('Toad', function() {
                     }
                 });
             });
-            it('should not be able to reap', function() {
+            it('should not be able to reap', function () {
                 this.player1.clickCard(this.toad);
                 expect(this.player1).not.toHavePrompt('Reap with this Creature');
             });

@@ -1,12 +1,19 @@
-describe('subject-kirby', function() {
-    integration(function() {
-        describe('when reaping', function() {
-            beforeEach(function() {
+describe('subject-kirby', function () {
+    integration(function () {
+        describe('when reaping', function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'staralliance',
                         inPlay: ['subject-kirby', 'urchin'],
-                        hand: ['wild-wormhole', 'shadow-self', 'navigator-ali', 'safe-place', 'rocket-boots', 'armsmaster-molina']
+                        hand: [
+                            'wild-wormhole',
+                            'shadow-self',
+                            'navigator-ali',
+                            'safe-place',
+                            'rocket-boots',
+                            'armsmaster-molina'
+                        ]
                     },
                     player2: {
                         inPlay: ['lamindra']
@@ -20,19 +27,19 @@ describe('subject-kirby', function() {
                 this.player1.reap(this.subjectKirby);
             });
 
-            it('should allow a non star alliance creature to be played', function() {
+            it('should allow a non star alliance creature to be played', function () {
                 expect(this.player1).toBeAbleToPlay(this.shadowSelf);
             });
 
-            it('should not allow a non star alliance action to be played', function() {
+            it('should not allow a non star alliance action to be played', function () {
                 expect(this.player1).not.toBeAbleToPlay(this.wildWormhole);
             });
 
-            it('should not allow a non star alliance artifact card to be played', function() {
+            it('should not allow a non star alliance artifact card to be played', function () {
                 expect(this.player1).not.toBeAbleToPlay(this.safePlace);
             });
 
-            it('should not allow a non star alliance upgrade card to be played', function() {
+            it('should not allow a non star alliance upgrade card to be played', function () {
                 expect(this.player1).not.toBeAbleToPlay(this.rocketBoots);
             });
 
@@ -41,13 +48,21 @@ describe('subject-kirby', function() {
             });
         });
 
-        describe('when playing', function() {
-            beforeEach(function() {
+        describe('when playing', function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'staralliance',
                         inPlay: ['urchin'],
-                        hand: ['subject-kirby', 'wild-wormhole', 'shadow-self', 'navigator-ali', 'safe-place', 'rocket-boots', 'armsmaster-molina']
+                        hand: [
+                            'subject-kirby',
+                            'wild-wormhole',
+                            'shadow-self',
+                            'navigator-ali',
+                            'safe-place',
+                            'rocket-boots',
+                            'armsmaster-molina'
+                        ]
                     },
                     player2: {
                         inPlay: ['lamindra']
@@ -61,19 +76,19 @@ describe('subject-kirby', function() {
                 this.player1.play(this.subjectKirby);
             });
 
-            it('should allow a non star alliance creature to be played', function() {
+            it('should allow a non star alliance creature to be played', function () {
                 expect(this.player1).toBeAbleToPlay(this.shadowSelf);
             });
 
-            it('should not allow a non star alliance action to be played', function() {
+            it('should not allow a non star alliance action to be played', function () {
                 expect(this.player1).not.toBeAbleToPlay(this.wildWormhole);
             });
 
-            it('should not allow a non star alliance artifact card to be played', function() {
+            it('should not allow a non star alliance artifact card to be played', function () {
                 expect(this.player1).not.toBeAbleToPlay(this.safePlace);
             });
 
-            it('should not allow a non star alliance upgrade card to be played', function() {
+            it('should not allow a non star alliance upgrade card to be played', function () {
                 expect(this.player1).not.toBeAbleToPlay(this.rocketBoots);
             });
 
@@ -82,13 +97,20 @@ describe('subject-kirby', function() {
             });
         });
 
-        describe('when fighting', function() {
-            beforeEach(function() {
+        describe('when fighting', function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'staralliance',
                         inPlay: ['subject-kirby', 'urchin'],
-                        hand: ['wild-wormhole', 'shadow-self', 'navigator-ali', 'safe-place', 'rocket-boots', 'armsmaster-molina']
+                        hand: [
+                            'wild-wormhole',
+                            'shadow-self',
+                            'navigator-ali',
+                            'safe-place',
+                            'rocket-boots',
+                            'armsmaster-molina'
+                        ]
                     },
                     player2: {
                         inPlay: ['lamindra']
@@ -102,19 +124,19 @@ describe('subject-kirby', function() {
                 this.player1.fightWith(this.subjectKirby, this.lamindra);
             });
 
-            it('should allow a non star alliance creature to be played', function() {
+            it('should allow a non star alliance creature to be played', function () {
                 expect(this.player1).toBeAbleToPlay(this.shadowSelf);
             });
 
-            it('should not allow a non star alliance action to be played', function() {
+            it('should not allow a non star alliance action to be played', function () {
                 expect(this.player1).not.toBeAbleToPlay(this.wildWormhole);
             });
 
-            it('should not allow a non star alliance artifact card to be played', function() {
+            it('should not allow a non star alliance artifact card to be played', function () {
                 expect(this.player1).not.toBeAbleToPlay(this.safePlace);
             });
 
-            it('should not allow a non star alliance upgrade card to be played', function() {
+            it('should not allow a non star alliance upgrade card to be played', function () {
                 expect(this.player1).not.toBeAbleToPlay(this.rocketBoots);
             });
 

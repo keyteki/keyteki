@@ -1,12 +1,12 @@
-describe('survey', function() {
-    integration(function() {
-        describe('Survey\'s ability', function() {
-            beforeEach(function() {
+describe('survey', function () {
+    integration(function () {
+        describe("Survey's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'staralliance',
                         inPlay: ['umbra'],
-                        hand: ['survey','troll','umbra','krump']
+                        hand: ['survey', 'troll', 'umbra', 'krump']
                     },
                     player2: {
                         amber: 1,
@@ -15,7 +15,7 @@ describe('survey', function() {
                 });
             });
 
-            it('should prompt and force card to discard one of 2 cards from top of deck', function() {
+            it('should prompt and force card to discard one of 2 cards from top of deck', function () {
                 this.player1.moveCard(this.krump, 'deck');
                 this.player1.moveCard(this.troll, 'deck');
                 this.player1.moveCard(this.umbra, 'deck');
@@ -30,13 +30,13 @@ describe('survey', function() {
                 expect(this.krump.location).toBe('deck');
             });
 
-            it('should not prompt if no cards in deck', function() {
+            it('should not prompt if no cards in deck', function () {
                 this.player1.player.deck = [];
                 this.player1.play(this.survey);
                 expect(this.player1).not.toHavePrompt('Choose a card to discard');
             });
 
-            it('should prompt if 1 card in deck', function() {
+            it('should prompt if 1 card in deck', function () {
                 this.player1.player.deck = [];
                 this.player1.moveCard(this.krump, 'deck');
                 this.player1.play(this.survey);

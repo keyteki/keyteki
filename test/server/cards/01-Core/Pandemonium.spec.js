@@ -1,7 +1,7 @@
-describe('Pandemonium', function() {
-    integration(function() {
-        describe('Pandemonium\'s ability', function() {
-            beforeEach(function() {
+describe('Pandemonium', function () {
+    integration(function () {
+        describe("Pandemonium's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'dis',
@@ -18,7 +18,7 @@ describe('Pandemonium', function() {
                 this.mother.tokens.damage = 3;
             });
 
-            it('should cause undamaged creatures to capture 1', function() {
+            it('should cause undamaged creatures to capture 1', function () {
                 this.player1.play(this.pandemonium);
                 expect(this.urchin.tokens.amber).toBe(1);
                 expect(this.dextre.tokens.amber).toBe(1);
@@ -30,7 +30,7 @@ describe('Pandemonium', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should prompt the player to pick creatures when there is insufficient amber', function() {
+            it('should prompt the player to pick creatures when there is insufficient amber', function () {
                 this.player1.amber = 0;
                 this.player2.amber = 2;
                 this.player1.play(this.pandemonium);

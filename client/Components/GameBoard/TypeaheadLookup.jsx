@@ -20,7 +20,7 @@ class TypeaheadLookup extends React.Component {
     }
 
     handleDoneClick() {
-        if(this.props.onValueSelected) {
+        if (this.props.onValueSelected) {
             this.props.onValueSelected(this.state.selectedValue);
         }
     }
@@ -28,9 +28,17 @@ class TypeaheadLookup extends React.Component {
     render() {
         return (
             <div>
-                <Typeahead labelKey={ 'label' } options={ this.props.values } dropup onChange={ this.handleChange } />
-                <button type='button' onClick={ this.handleDoneClick } className='btn btn-primary'>Done</button>
-            </div>);
+                <Typeahead
+                    labelKey={'label'}
+                    options={this.props.values}
+                    dropup
+                    onChange={this.handleChange}
+                />
+                <button type='button' onClick={this.handleDoneClick} className='btn btn-primary'>
+                    Done
+                </button>
+            </div>
+        );
     }
 }
 

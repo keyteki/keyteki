@@ -1,7 +1,7 @@
-describe('Paraguardian', function() {
-    integration(function() {
-        describe('Paraguardian\'s reap ability', function() {
-            beforeEach(function() {
+describe('Paraguardian', function () {
+    integration(function () {
+        describe("Paraguardian's reap ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'saurian',
@@ -13,7 +13,7 @@ describe('Paraguardian', function() {
                 });
             });
 
-            it('should exalt Paraguardian and ward its neighbors', function() {
+            it('should exalt Paraguardian and ward its neighbors', function () {
                 this.player1.reap(this.paraguardian);
 
                 expect(this.player1).toHavePrompt('Any reactions?');
@@ -27,7 +27,7 @@ describe('Paraguardian', function() {
                 expect(this.lamindra.warded).toBe(false);
             });
 
-            it('should not ward neighbors if player does not exalt Paraguardian', function() {
+            it('should not ward neighbors if player does not exalt Paraguardian', function () {
                 this.player1.reap(this.paraguardian);
 
                 expect(this.player1).toHavePrompt('Any reactions?');

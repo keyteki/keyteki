@@ -5,7 +5,8 @@ class QincansBlaster extends BlasterCard {
         this.reaction({
             when: {
                 onCardAttached: (event, context) =>
-                    event.card === context.source && event.parent.name === 'Sci. Officer Qincan' &&
+                    event.card === context.source &&
+                    event.parent.name === 'Sci. Officer Qincan' &&
                     event.context.player === event.card.controller
             },
             target: {

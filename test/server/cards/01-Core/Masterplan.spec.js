@@ -1,7 +1,7 @@
-describe('Masterplan', function() {
-    integration(function() {
-        describe('Masterplan\'s ability', function() {
-            beforeEach(function() {
+describe('Masterplan', function () {
+    integration(function () {
+        describe("Masterplan's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'shadows',
@@ -15,7 +15,7 @@ describe('Masterplan', function() {
                 });
             });
 
-            it('should prompt the player to put a card underneath it when played', function() {
+            it('should prompt the player to put a card underneath it when played', function () {
                 this.player1.play(this.masterplan);
                 expect(this.player1).toHavePrompt('Masterplan');
                 this.player1.clickCard(this.virtuousWorks);
@@ -23,25 +23,25 @@ describe('Masterplan', function() {
                 expect(this.masterplan.childCards).toContain(this.virtuousWorks);
             });
 
-            it('should play the card when clicked', function() {
+            it('should play the card when clicked', function () {
                 this.player1.play(this.masterplan);
                 this.player1.clickCard(this.virtuousWorks);
                 expect(this.player1.amber).toBe(1);
                 this.masterplan.ready();
                 this.player1.clickCard(this.masterplan);
-                this.player1.clickPrompt('Use this card\'s Omni ability');
+                this.player1.clickPrompt("Use this card's Omni ability");
                 expect(this.virtuousWorks.location).toBe('discard');
                 expect(this.masterplan.childCards).not.toContain(this.virtuousWorks);
                 expect(this.player1.amber).toBe(4);
             });
 
-            it('should play a creature when clicked', function() {
+            it('should play a creature when clicked', function () {
                 this.player1.play(this.masterplan);
                 this.player1.clickCard(this.snufflegator);
                 expect(this.player1.amber).toBe(1);
                 this.masterplan.ready();
                 this.player1.clickCard(this.masterplan);
-                this.player1.clickPrompt('Use this card\'s Omni ability');
+                this.player1.clickPrompt("Use this card's Omni ability");
                 expect(this.player1).toHavePrompt('Snufflegator');
                 expect(this.player1).toHavePromptButton('Left');
                 this.player1.clickPrompt('Left');
@@ -51,13 +51,13 @@ describe('Masterplan', function() {
                 expect(this.player1.amber).toBe(1);
             });
 
-            it('should play an upgrade when clicked', function() {
+            it('should play an upgrade when clicked', function () {
                 this.player1.play(this.masterplan);
                 this.player1.clickCard(this.protectTheWeak);
                 expect(this.player1.amber).toBe(1);
                 this.masterplan.ready();
                 this.player1.clickCard(this.masterplan);
-                this.player1.clickPrompt('Use this card\'s Omni ability');
+                this.player1.clickPrompt("Use this card's Omni ability");
                 expect(this.player1).toHavePrompt('Protect the Weak');
                 expect(this.player1).toBeAbleToSelect(this.ladyMaxena);
                 expect(this.masterplan.location).toBe('play area');
@@ -69,7 +69,7 @@ describe('Masterplan', function() {
                 expect(this.player1.amber).toBe(2);
             });
 
-            it('should work properly when Remote Accessed', function() {
+            it('should work properly when Remote Accessed', function () {
                 this.player1.play(this.masterplan);
                 this.player1.clickCard(this.virtuousWorks);
                 expect(this.player1.amber).toBe(1);
@@ -85,7 +85,7 @@ describe('Masterplan', function() {
                 expect(this.player2.amber).toBe(4);
             });
 
-            it('should work properly when Remote Accessed with a creature', function() {
+            it('should work properly when Remote Accessed with a creature', function () {
                 this.player1.play(this.masterplan);
                 this.player1.clickCard(this.snufflegator);
                 expect(this.player1.amber).toBe(1);
@@ -106,7 +106,7 @@ describe('Masterplan', function() {
                 expect(this.player2.amber).toBe(1);
             });
 
-            it('should work properly when Remote Accessed with an upgrade', function() {
+            it('should work properly when Remote Accessed with an upgrade', function () {
                 this.player1.play(this.masterplan);
                 this.player1.clickCard(this.protectTheWeak);
                 expect(this.player1.amber).toBe(1);

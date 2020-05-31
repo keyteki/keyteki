@@ -7,7 +7,7 @@ class Paraguardian extends Card {
             effect: 'exalt {0} and ward its neighbors',
             gameAction: ability.actions.exalt(),
             then: {
-                gameAction: ability.actions.ward(context => ({
+                gameAction: ability.actions.ward((context) => ({
                     target: context.source.neighbors
                 }))
             }

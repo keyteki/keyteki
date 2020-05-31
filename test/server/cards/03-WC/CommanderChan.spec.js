@@ -1,7 +1,7 @@
-describe('Commander Chan', function() {
-    integration(function() {
-        describe('Commander Chan\'s ability', function() {
-            beforeEach(function() {
+describe('Commander Chan', function () {
+    integration(function () {
+        describe("Commander Chan's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'staralliance',
@@ -12,7 +12,7 @@ describe('Commander Chan', function() {
                     }
                 });
             });
-            it('should allow using friendly creature when you reap', function() {
+            it('should allow using friendly creature when you reap', function () {
                 this.player1.reap(this.lieutenantKhrkhar);
                 expect(this.lieutenantKhrkhar.exhausted).toBe(true);
                 this.player1.reap(this.commanderChan);
@@ -23,7 +23,7 @@ describe('Commander Chan', function() {
                 this.player1.clickPrompt('Reap with this creature');
                 expect(this.player1.amber).toBe(3);
             });
-            it('should allow using friendly creature when you fight', function() {
+            it('should allow using friendly creature when you fight', function () {
                 this.player1.reap(this.lieutenantKhrkhar);
                 expect(this.lieutenantKhrkhar.exhausted).toBe(true);
                 this.player1.fightWith(this.commanderChan, this.dustPixie);

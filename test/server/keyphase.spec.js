@@ -1,9 +1,16 @@
-describe('key phase', function() {
-    integration(function() {
-        beforeEach(function() {
+describe('key phase', function () {
+    integration(function () {
+        beforeEach(function () {
             this.setupTest({
                 player1: {
-                    hand: ['titan-mechanic', 'hunting-witch', 'way-of-the-bear', 'protectrix', 'inka-the-spider', 'nepenthe-seed'],
+                    hand: [
+                        'titan-mechanic',
+                        'hunting-witch',
+                        'way-of-the-bear',
+                        'protectrix',
+                        'inka-the-spider',
+                        'nepenthe-seed'
+                    ],
                     discard: ['ancient-bear']
                 },
                 player2: {
@@ -13,7 +20,7 @@ describe('key phase', function() {
             });
         });
 
-        it('should forge a key at normal cost', function() {
+        it('should forge a key at normal cost', function () {
             this.player1.clickPrompt('logos');
             this.player1.endTurn();
             this.player2.forgeKey('Red');
@@ -23,7 +30,7 @@ describe('key phase', function() {
             expect(this.player2.amber).toBe(3);
         });
 
-        it('should apply cost modifiers', function() {
+        it('should apply cost modifiers', function () {
             this.player1.clickPrompt('logos');
             this.titanMechanic = this.player1.clickCard('titan-mechanic');
             this.player1.clickPrompt('Play this creature');

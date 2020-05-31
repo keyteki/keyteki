@@ -1,7 +1,7 @@
-describe('stilt-kin(WC)', function() {
-    integration(function() {
-        describe('stilt-kin ability', function() {
-            beforeEach(function() {
+describe('stilt-kin(WC)', function () {
+    integration(function () {
+        describe('stilt-kin ability', function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'brobnar',
@@ -14,7 +14,7 @@ describe('stilt-kin(WC)', function() {
                 });
             });
 
-            it('should ready and fights when giant is played adjacent', function() {
+            it('should ready and fights when giant is played adjacent', function () {
                 this.player1.reap(this.stiltKin);
                 this.player1.play(this.cowfyne);
                 expect(this.player1).toHavePrompt('Choose a creature to attack');
@@ -24,8 +24,7 @@ describe('stilt-kin(WC)', function() {
                 expect(this.stiltKin.hasToken('damage')).toBe(false);
             });
 
-
-            it('should not ready and fights when non-giant is played adjacent', function() {
+            it('should not ready and fights when non-giant is played adjacent', function () {
                 this.player1.reap(this.stiltKin);
                 this.player1.play(this.littleRapscal);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');

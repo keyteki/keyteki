@@ -4,7 +4,7 @@ class MarsFirst extends Card {
     setupCardAbilities(ability) {
         this.play({
             target: {
-                cardCondition: card => card.hasHouse('mars'),
+                cardCondition: (card) => card.hasHouse('mars'),
                 cardType: 'creature',
                 controller: 'self',
                 gameAction: ability.actions.sequential([

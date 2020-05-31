@@ -1,7 +1,7 @@
-describe('Dino-Bot', function() {
+describe('Dino-Bot', function () {
     integration(function () {
-        describe('Dino-Bots\'s Play ability', function () {
-            beforeEach(function() {
+        describe("Dino-Bots's Play ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         amber: 5,
@@ -17,21 +17,21 @@ describe('Dino-Bot', function() {
                 this.player1.play(this.dinoBot);
             });
 
-            it('should allow dino-bot to be exalted', function() {
+            it('should allow dino-bot to be exalted', function () {
                 expect(this.player1).toHavePrompt('Any reactions to Dino-Bot being played?');
             });
 
-            describe('and the ability is triggered', function() {
-                beforeEach(function() {
+            describe('and the ability is triggered', function () {
+                beforeEach(function () {
                     this.player1.clickCard(this.dinoBot);
                 });
 
-                it('should exalt dino-bot', function() {
+                it('should exalt dino-bot', function () {
                     expect(this.dinoBot.tokens.amber).toBe(1);
                 });
 
-                describe('should prompt to to do damage', function() {
-                    it('damage troll', function() {
+                describe('should prompt to to do damage', function () {
+                    it('damage troll', function () {
                         expect(this.player1).toHavePrompt('Choose a creature');
                         expect(this.player1).toBeAbleToSelect(this.troll);
                         expect(this.player1).toBeAbleToSelect(this.dinoBot);
@@ -41,17 +41,17 @@ describe('Dino-Bot', function() {
                 });
             });
 
-            describe('and the ability is not triggered', function() {
-                beforeEach(function() {
+            describe('and the ability is not triggered', function () {
+                beforeEach(function () {
                     this.player1.clickPrompt('Done');
                 });
 
-                it('should not exalt dino-bot', function() {
+                it('should not exalt dino-bot', function () {
                     expect(this.dinoBot.tokens.amber).toBe(undefined);
                 });
             });
         });
-        describe('Dino-Bots\'s Reap ability', function () {
+        describe("Dino-Bots's Reap ability", function () {
             beforeEach(function () {
                 this.setupTest({
                     player1: {
@@ -75,7 +75,7 @@ describe('Dino-Bot', function() {
                 expect(this.player1.hand.length).toBe(1);
             });
 
-            it('should shouldn\'t draw a card when used to reap when there is nothing to discard', function () {
+            it("should shouldn't draw a card when used to reap when there is nothing to discard", function () {
                 this.player1.moveCard(this.soulkeeper, 'deck');
                 this.player1.reap(this.dinoBot);
                 expect(this.player1.amber).toBe(1);

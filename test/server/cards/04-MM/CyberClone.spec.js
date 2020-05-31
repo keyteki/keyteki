@@ -1,7 +1,7 @@
-describe('Cyber-Clone', function() {
-    integration(function() {
-        describe('Cyber-Clone\'s abilities', function() {
-            beforeEach(function() {
+describe('Cyber-Clone', function () {
+    integration(function () {
+        describe("Cyber-Clone's abilities", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
@@ -14,7 +14,7 @@ describe('Cyber-Clone', function() {
                 });
             });
 
-            it('should enter as a 1-power, no keyword, single trait, no armor creature, if no other creature is in play', function() {
+            it('should enter as a 1-power, no keyword, single trait, no armor creature, if no other creature is in play', function () {
                 this.player1.play(this.cyberClone);
                 expect(this.cyberClone.location).toBe('play area');
                 expect(this.cyberClone.power).toBe(1);
@@ -27,23 +27,34 @@ describe('Cyber-Clone', function() {
             });
         });
 
-        describe('Cyber-Clone\'s abilities', function() {
-            beforeEach(function() {
+        describe("Cyber-Clone's abilities", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
-                        inPlay: ['mother', 'batdrone', 'prescriptive-grammarbot', 'groupthink-tank', 'reckless-rizzo'],
+                        inPlay: [
+                            'mother',
+                            'batdrone',
+                            'prescriptive-grammarbot',
+                            'groupthink-tank',
+                            'reckless-rizzo'
+                        ],
                         hand: ['cyber-clone', 'mimic-gel', 'academy-training']
                     },
                     player2: {
-                        inPlay: ['bulwark', 'xenos-bloodshadow', 'lion-bautrem', 'abond-the-armorsmith'],
+                        inPlay: [
+                            'bulwark',
+                            'xenos-bloodshadow',
+                            'lion-bautrem',
+                            'abond-the-armorsmith'
+                        ],
                         hand: ['flame-wreathed', 'shoulder-armor'],
                         amber: 2
                     }
                 });
             });
 
-            it('should purge a creature in play and gain its power and armor', function() {
+            it('should purge a creature in play and gain its power and armor', function () {
                 this.player1.play(this.cyberClone);
                 this.player1.clickCard(this.groupthinkTank);
                 expect(this.groupthinkTank.location).toBe('purged');
@@ -58,7 +69,7 @@ describe('Cyber-Clone', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should prevent purge with ward, but still gain its power and armor', function() {
+            it('should prevent purge with ward, but still gain its power and armor', function () {
                 this.groupthinkTank.tokens.ward = 1;
                 this.player1.play(this.cyberClone);
                 this.player1.clickCard(this.groupthinkTank);
@@ -75,7 +86,7 @@ describe('Cyber-Clone', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should purge and clone Mimic Gel', function() {
+            it('should purge and clone Mimic Gel', function () {
                 this.player1.play(this.mimicGel);
                 this.player1.clickCard(this.groupthinkTank);
                 this.player1.play(this.cyberClone);
@@ -92,7 +103,7 @@ describe('Cyber-Clone', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should clone modified power, armor and keywords', function() {
+            it('should clone modified power, armor and keywords', function () {
                 this.player1.play(this.cyberClone);
                 this.player1.clickCard(this.xenosBloodshadow);
                 expect(this.xenosBloodshadow.location).toBe('purged');
@@ -107,7 +118,7 @@ describe('Cyber-Clone', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should clone removed keywords', function() {
+            it('should clone removed keywords', function () {
                 this.player1.playUpgrade(this.academyTraining, this.recklessRizzo);
                 this.player1.useAction(this.recklessRizzo);
                 this.player1.play(this.cyberClone);
@@ -126,4 +137,3 @@ describe('Cyber-Clone', function() {
         });
     });
 });
-

@@ -1,13 +1,19 @@
-describe('Pile of Skulls', function() {
-    integration(function() {
-        describe('Pile of Skulls\'s ability', function() {
-            beforeEach(function() {
+describe('Pile of Skulls', function () {
+    integration(function () {
+        describe("Pile of Skulls's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'brobnar',
                         amber: 0,
                         hand: ['coward-s-end'],
-                        inPlay: ['pile-of-skulls', 'flamethrower', 'krump', 'bumpsy', 'overlord-greking']
+                        inPlay: [
+                            'pile-of-skulls',
+                            'flamethrower',
+                            'krump',
+                            'bumpsy',
+                            'overlord-greking'
+                        ]
                     },
                     player2: {
                         amber: 3,
@@ -16,9 +22,9 @@ describe('Pile of Skulls', function() {
                 });
             });
 
-            it('should capture 1 amber for every enemy creature destroyed [3]', function() {
+            it('should capture 1 amber for every enemy creature destroyed [3]', function () {
                 this.player1.clickCard(this.flamethrower);
-                this.player1.clickPrompt('Use this card\'s action ability');
+                this.player1.clickPrompt("Use this card's action ability");
                 this.player1.clickCard(this.bumpsy);
                 this.player1.play(this.cowardSEnd);
                 expect(this.player1).toHavePrompt('Triggered Abilities');
@@ -54,9 +60,9 @@ describe('Pile of Skulls', function() {
                 expect(this.overlordGreking.tokens.amber).toBe(1);
             });
 
-            it('should allow the same creature to capture mutliple amber', function() {
+            it('should allow the same creature to capture mutliple amber', function () {
                 this.player1.clickCard(this.flamethrower);
-                this.player1.clickPrompt('Use this card\'s action ability');
+                this.player1.clickPrompt("Use this card's action ability");
                 this.player1.clickCard(this.krump);
                 this.player1.play(this.cowardSEnd);
                 expect(this.player1).toHavePrompt('Triggered Abilities');

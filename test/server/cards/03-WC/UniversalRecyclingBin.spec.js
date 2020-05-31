@@ -1,7 +1,7 @@
-describe('Universal Recycling Bin', function() {
-    integration(function() {
-        describe('Universal Recycling Bin\'s ability', function() {
-            beforeEach(function() {
+describe('Universal Recycling Bin', function () {
+    integration(function () {
+        describe("Universal Recycling Bin's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
@@ -17,11 +17,11 @@ describe('Universal Recycling Bin', function() {
                 this.player1.moveCard(this.mother, 'purged');
             });
 
-            it('should allow you to move a purged card to your archive', function() {
+            it('should allow you to move a purged card to your archive', function () {
                 expect(this.mother.location).toBe('purged');
                 this.player1.clickCard(this.universalRecycleBin);
-                expect(this.player1).toHavePromptButton('Use this card\'s Action ability');
-                this.player1.clickPrompt('Use this card\'s Action ability');
+                expect(this.player1).toHavePromptButton("Use this card's Action ability");
+                this.player1.clickPrompt("Use this card's Action ability");
                 expect(this.player1).toBeAbleToSelect(this.mother);
                 expect(this.player1).not.toBeAbleToSelect(this.archimedes);
                 expect(this.player1).not.toBeAbleToSelect(this.faygin);

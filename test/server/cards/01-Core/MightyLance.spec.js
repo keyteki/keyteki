@@ -1,7 +1,7 @@
-describe('Mighty Lance', function() {
-    integration(function() {
-        describe('Mighty Lance\'s ability', function() {
-            beforeEach(function() {
+describe('Mighty Lance', function () {
+    integration(function () {
+        describe("Mighty Lance's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'sanctum',
@@ -13,14 +13,14 @@ describe('Mighty Lance', function() {
                 });
             });
 
-            it('should not prompt for creature when there are no creatures in play', function() {
+            it('should not prompt for creature when there are no creatures in play', function () {
                 this.player1.play(this.mightyLance);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
         });
 
-        describe('Mighty Lance\'s ability', function() {
-            beforeEach(function() {
+        describe("Mighty Lance's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'sanctum',
@@ -34,7 +34,7 @@ describe('Mighty Lance', function() {
                 });
             });
 
-            it('should deal 3D to a creature', function() {
+            it('should deal 3D to a creature', function () {
                 this.player1.play(this.mightyLance);
                 expect(this.player1).toHavePrompt('Choose a creature');
                 expect(this.player1).toBeAbleToSelect(this.titanMechanic);
@@ -45,8 +45,8 @@ describe('Mighty Lance', function() {
             });
         });
 
-        describe('Mighty Lance\'s ability', function() {
-            beforeEach(function() {
+        describe("Mighty Lance's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'sanctum',
@@ -60,7 +60,7 @@ describe('Mighty Lance', function() {
                 });
             });
 
-            it('should deal 3D to a creature and 3D to its neighbor', function() {
+            it('should deal 3D to a creature and 3D to its neighbor', function () {
                 this.player1.play(this.mightyLance);
                 expect(this.player1).toHavePrompt('Choose a creature');
                 expect(this.player1).toBeAbleToSelect(this.titanMechanic);

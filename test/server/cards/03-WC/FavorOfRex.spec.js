@@ -1,7 +1,7 @@
-describe('Favor of Rex', function() {
-    integration(function() {
-        describe('Favor of Rex\'s ability', function() {
-            beforeEach(function() {
+describe('Favor of Rex', function () {
+    integration(function () {
+        describe("Favor of Rex's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'saurian',
@@ -13,15 +13,15 @@ describe('Favor of Rex', function() {
                 });
             });
 
-            it('should not prompt for creature', function() {
+            it('should not prompt for creature', function () {
                 this.player1.play(this.favorOfRex);
                 expect(this.player1).not.toHavePrompt('Choose a creature');
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
         });
 
-        describe('Favor of Rex\'s ability', function() {
-            beforeEach(function() {
+        describe("Favor of Rex's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'saurian',
@@ -36,7 +36,7 @@ describe('Favor of Rex', function() {
                 });
             });
 
-            it('should have no effect if creature has no Play: ability', function() {
+            it('should have no effect if creature has no Play: ability', function () {
                 expect(this.player1.amber).toBe(10);
                 this.player1.play(this.favorOfRex);
                 expect(this.player1).toHavePrompt('Choose a creature');
@@ -48,7 +48,7 @@ describe('Favor of Rex', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should duplicate play effect of a friendly creature', function() {
+            it('should duplicate play effect of a friendly creature', function () {
                 this.player1.play(this.favorOfRex);
                 expect(this.player1).toHavePrompt('Choose a creature');
                 expect(this.player1).toBeAbleToSelect(this.witchOfTheWilds);
@@ -60,7 +60,7 @@ describe('Favor of Rex', function() {
                 expect(this.player1.amber).toBe(4);
             });
 
-            it('should not cause Flaxia to fire with one fewer creatures', function() {
+            it('should not cause Flaxia to fire with one fewer creatures', function () {
                 this.player1.play(this.favorOfRex);
                 expect(this.player1).toHavePrompt('Choose a creature');
                 expect(this.player1).toBeAbleToSelect(this.flaxia);
@@ -69,7 +69,7 @@ describe('Favor of Rex', function() {
                 expect(this.player2.amber).toBe(4);
             });
 
-            it('should apply opponent correctly when capturing', function() {
+            it('should apply opponent correctly when capturing', function () {
                 this.player1.play(this.favorOfRex);
                 expect(this.player1).toHavePrompt('Choose a creature');
                 expect(this.player1).toBeAbleToSelect(this.charette);
@@ -79,7 +79,7 @@ describe('Favor of Rex', function() {
                 expect(this.player2.amber).toBe(1);
             });
 
-            it('should apply opponent correctly when stealing', function() {
+            it('should apply opponent correctly when stealing', function () {
                 this.player1.play(this.favorOfRex);
                 expect(this.player1).toHavePrompt('Choose a creature');
                 expect(this.player1).toBeAbleToSelect(this.shooler);
@@ -88,7 +88,7 @@ describe('Favor of Rex', function() {
                 expect(this.player2.amber).toBe(3);
             });
 
-            it('should apply opponent correctly when Play: has a condition', function() {
+            it('should apply opponent correctly when Play: has a condition', function () {
                 this.player1.play(this.favorOfRex);
                 expect(this.player1).toHavePrompt('Choose a creature');
                 this.player1.clickCard(this.drumble);
@@ -97,7 +97,7 @@ describe('Favor of Rex', function() {
                 expect(this.player2.amber).toBe(4);
             });
 
-            it('should duplicate play effect of a alpha creature', function() {
+            it('should duplicate play effect of a alpha creature', function () {
                 this.player1.play(this.favorOfRex);
                 expect(this.player1).toHavePrompt('Choose a creature');
                 this.player1.clickCard(this.bumblebird);

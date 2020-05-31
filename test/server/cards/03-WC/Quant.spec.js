@@ -1,7 +1,7 @@
-describe('Quant', function() {
-    integration(function() {
-        describe('when reaping', function() {
-            beforeEach(function() {
+describe('Quant', function () {
+    integration(function () {
+        describe('when reaping', function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
@@ -22,11 +22,11 @@ describe('Quant', function() {
                 this.player1.reap(this.quant);
             });
 
-            it('should allow a non logos action card to be played', function() {
+            it('should allow a non logos action card to be played', function () {
                 expect(this.player1).toBeAbleToPlay(this.anger);
             });
 
-            it('should not allow a non-logos creature card to be played', function() {
+            it('should not allow a non-logos creature card to be played', function () {
                 expect(this.player1).not.toBeAbleToPlay(this.shadowSelf);
             });
         });

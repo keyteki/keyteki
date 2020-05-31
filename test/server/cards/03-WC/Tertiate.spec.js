@@ -1,20 +1,29 @@
-describe('Tertiate', function() {
-    integration(function() {
-        describe('Tertiate\'s play ability', function() {
-            beforeEach(function() {
+describe('Tertiate', function () {
+    integration(function () {
+        describe("Tertiate's play ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'saurian',
                         hand: ['tertiate', 'brutodon-auxiliary']
                     },
                     player2: {
-                        hand: ['lamindra', 'redlock', 'gub', 'shooler', 'dextre', 'archimedes', 'helper-bot', 'spyyyder', 'skullion']
+                        hand: [
+                            'lamindra',
+                            'redlock',
+                            'gub',
+                            'shooler',
+                            'dextre',
+                            'archimedes',
+                            'helper-bot',
+                            'spyyyder',
+                            'skullion'
+                        ]
                     }
                 });
             });
 
-
-            it('should only gain the card amber', function() {
+            it('should only gain the card amber', function () {
                 this.player1.play(this.tertiate);
 
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
@@ -22,8 +31,8 @@ describe('Tertiate', function() {
             });
         });
 
-        describe('Tertiate\'s play ability', function() {
-            beforeEach(function() {
+        describe("Tertiate's play ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'saurian',
@@ -31,12 +40,22 @@ describe('Tertiate', function() {
                         hand: ['tertiate']
                     },
                     player2: {
-                        hand: ['lamindra', 'redlock', 'gub', 'shooler', 'dextre', 'archimedes', 'helper-bot', 'spyyyder', 'skullion']
+                        hand: [
+                            'lamindra',
+                            'redlock',
+                            'gub',
+                            'shooler',
+                            'dextre',
+                            'archimedes',
+                            'helper-bot',
+                            'spyyyder',
+                            'skullion'
+                        ]
                     }
                 });
             });
 
-            it('should destroy 1 friendly creature', function() {
+            it('should destroy 1 friendly creature', function () {
                 this.player1.play(this.tertiate);
 
                 expect(this.player1).toHavePrompt('Choose a creature');
@@ -46,8 +65,8 @@ describe('Tertiate', function() {
             });
         });
 
-        describe('Tertiate\'s play ability', function() {
-            beforeEach(function() {
+        describe("Tertiate's play ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'saurian',
@@ -59,7 +78,7 @@ describe('Tertiate', function() {
                 });
             });
 
-            it('should destroy 2 enemy creatures', function() {
+            it('should destroy 2 enemy creatures', function () {
                 this.player1.play(this.tertiate);
 
                 expect(this.player1).toHavePrompt('Choose 2 creatures');
@@ -76,8 +95,8 @@ describe('Tertiate', function() {
             });
         });
 
-        describe('Tertiate\'s play ability', function() {
-            beforeEach(function() {
+        describe("Tertiate's play ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'saurian',
@@ -85,12 +104,22 @@ describe('Tertiate', function() {
                         hand: ['tertiate']
                     },
                     player2: {
-                        inPlay: ['lamindra', 'redlock', 'gub', 'shooler', 'dextre', 'archimedes', 'helper-bot', 'spyyyder', 'skullion']
+                        inPlay: [
+                            'lamindra',
+                            'redlock',
+                            'gub',
+                            'shooler',
+                            'dextre',
+                            'archimedes',
+                            'helper-bot',
+                            'spyyyder',
+                            'skullion'
+                        ]
                     }
                 });
             });
 
-            it('should destroy 2 friendly and 3 enemy creatures', function() {
+            it('should destroy 2 friendly and 3 enemy creatures', function () {
                 this.player1.play(this.tertiate);
 
                 expect(this.player1).toHavePrompt('Choose 3 creatures');

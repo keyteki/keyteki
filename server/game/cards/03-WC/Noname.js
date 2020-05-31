@@ -3,7 +3,9 @@ const Card = require('../../Card.js');
 class Noname extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
-            effect: ability.effects.modifyPower(() => this.game.allCards.filter(card => card.location === 'purged').length)
+            effect: ability.effects.modifyPower(
+                () => this.game.allCards.filter((card) => card.location === 'purged').length
+            )
         });
         this.play({
             fight: true,

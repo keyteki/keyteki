@@ -9,7 +9,7 @@ class Humble extends Card {
                 cardType: 'creature',
                 gameAction: ability.actions.exhaust()
             },
-            then: preThenContext => ({
+            then: (preThenContext) => ({
                 gameAction: ability.actions.removeAmber({
                     amount: 3,
                     target: preThenContext.target

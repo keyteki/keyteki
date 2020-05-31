@@ -1,7 +1,7 @@
-describe('Lava Ball', function() {
-    integration(function() {
-        describe('Lava Ball\'s ability', function() {
-            beforeEach(function() {
+describe('Lava Ball', function () {
+    integration(function () {
+        describe("Lava Ball's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'brobnar',
@@ -13,7 +13,7 @@ describe('Lava Ball', function() {
                 });
             });
 
-            it('should deal 4 damage with 2 splash', function() {
+            it('should deal 4 damage with 2 splash', function () {
                 this.player1.play(this.lavaBall);
                 this.player1.clickCard(this.ancientBear);
                 expect(this.ancientBear.tokens.damage).toBe(4);

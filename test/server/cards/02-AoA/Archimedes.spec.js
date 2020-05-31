@@ -1,12 +1,17 @@
-describe('Archimedes', function() {
-    integration(function() {
-        describe('Archimedes\' gain ability', function() {
-            beforeEach(function() {
+describe('Archimedes', function () {
+    integration(function () {
+        describe("Archimedes' gain ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'dis',
                         inPlay: ['gub', 'archimedes', 'streke', 'krump'],
-                        hand: ['collar-of-subordination', 'hand-of-dis', 'gateway-to-dis', 'shooler']
+                        hand: [
+                            'collar-of-subordination',
+                            'hand-of-dis',
+                            'gateway-to-dis',
+                            'shooler'
+                        ]
                     },
                     player2: {
                         inPlay: ['lamindra'],
@@ -15,7 +20,7 @@ describe('Archimedes', function() {
                 });
             });
 
-            it('should move destroyed neighbor to archive', function() {
+            it('should move destroyed neighbor to archive', function () {
                 this.player1.play(this.handOfDis);
                 this.player1.clickCard(this.streke);
 
@@ -23,7 +28,7 @@ describe('Archimedes', function() {
                 expect(this.player1.archives).toContain(this.streke);
             });
 
-            it('should move only immediate neighbors to archive on a board wipe', function() {
+            it('should move only immediate neighbors to archive on a board wipe', function () {
                 this.player1.play(this.gatewayToDis);
 
                 expect(this.player1).toHavePrompt('Triggered Abilities');
@@ -42,7 +47,7 @@ describe('Archimedes', function() {
                 expect(this.player1.discard).toContain(this.krump);
             });
 
-            it('should move only immediate neighbors to archive on a board wipe, even if Archimdes survives', function() {
+            it('should move only immediate neighbors to archive on a board wipe, even if Archimdes survives', function () {
                 this.archimedes.ward();
                 this.player1.play(this.gatewayToDis);
 
@@ -56,7 +61,7 @@ describe('Archimedes', function() {
                 expect(this.krump.location).toBe('discard');
             });
 
-            it('should move controlled neighbor to opponent\'s archive', function() {
+            it("should move controlled neighbor to opponent's archive", function () {
                 this.player1.moveCard(this.gub, 'discard');
                 expect(this.gub.location).toBe('discard');
 
@@ -76,8 +81,8 @@ describe('Archimedes', function() {
             });
         });
 
-        describe('Archimedes\' and Massive Damage', function() {
-            beforeEach(function() {
+        describe("Archimedes' and Massive Damage", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'shadows',
@@ -85,12 +90,19 @@ describe('Archimedes', function() {
                         hand: ['whistling-darts', 'booby-trap']
                     },
                     player2: {
-                        inPlay: ['jargogle', 'tantadlin', 'helper-bot', 'archimedes', 'harland-mindlock', 'gub']
+                        inPlay: [
+                            'jargogle',
+                            'tantadlin',
+                            'helper-bot',
+                            'archimedes',
+                            'harland-mindlock',
+                            'gub'
+                        ]
                     }
                 });
             });
 
-            it('should archive only immediate neighbors', function() {
+            it('should archive only immediate neighbors', function () {
                 this.player1.play(this.whistlingDarts);
                 this.player1.clickCard(this.helperBot);
 
@@ -104,7 +116,7 @@ describe('Archimedes', function() {
                 expect(this.harlandMindlock.location).toBe('archives');
             });
 
-            it('should archive only immediate neighbors when archimedes dies', function() {
+            it('should archive only immediate neighbors when archimedes dies', function () {
                 this.player1.play(this.boobyTrap);
                 this.player1.clickCard(this.archimedes);
                 this.player1.clickCard(this.helperBot);

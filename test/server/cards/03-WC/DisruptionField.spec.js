@@ -1,7 +1,7 @@
-describe('Disruption Field', function() {
-    integration(function() {
-        describe('Disruption Field\'s ability', function() {
-            beforeEach(function() {
+describe('Disruption Field', function () {
+    integration(function () {
+        describe("Disruption Field's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'staralliance',
@@ -15,7 +15,7 @@ describe('Disruption Field', function() {
                 });
             });
 
-            it('should increase opponent\'s key cost +1 per disruption token', function() {
+            it("should increase opponent's key cost +1 per disruption token", function () {
                 this.player1.playUpgrade(this.disruptionField, this.doctorDriscoll);
                 this.disruptionField.tokens.disruption = 2;
                 this.player1.endTurn();
@@ -24,19 +24,19 @@ describe('Disruption Field', function() {
                 expect(this.player2.amber).toBe(1);
             });
 
-            it('should add +1 disruption counter after reap', function() {
+            it('should add +1 disruption counter after reap', function () {
                 this.player1.playUpgrade(this.disruptionField, this.doctorDriscoll);
                 this.player1.reap(this.doctorDriscoll);
                 expect(this.disruptionField.tokens.disruption).toBe(1);
             });
 
-            it('should add +1 disruption counter after fight', function() {
+            it('should add +1 disruption counter after fight', function () {
                 this.player1.playUpgrade(this.disruptionField, this.doctorDriscoll);
                 this.player1.fightWith(this.doctorDriscoll, this.lamindra);
                 expect(this.disruptionField.tokens.disruption).toBe(1);
             });
 
-            it('should cleanup tokens when destroyed', function() {
+            it('should cleanup tokens when destroyed', function () {
                 this.disruptionField.tokens.disruption = 3;
                 this.player1.playUpgrade(this.disruptionField, this.doctorDriscoll);
                 this.player1.fightWith(this.doctorDriscoll, this.troll);

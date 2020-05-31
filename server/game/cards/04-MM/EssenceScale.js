@@ -13,11 +13,9 @@ class EssenceScale extends Card {
                 target: {
                     cardType: 'creature',
                     controller: 'self',
-                    cardCondition: (card, context) => context.preThenEvent.card.getHouses().some(house => card.hasHouse(house)),
-                    gameAction: [
-                        ability.actions.ready(),
-                        ability.actions.use()
-                    ]
+                    cardCondition: (card, context) =>
+                        context.preThenEvent.card.getHouses().some((house) => card.hasHouse(house)),
+                    gameAction: [ability.actions.ready(), ability.actions.use()]
                 }
             }
         });

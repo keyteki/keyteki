@@ -1,7 +1,7 @@
-describe('Blinding Light', function() {
-    integration(function() {
-        describe('Blinding Light\'s ability', function() {
-            beforeEach(function() {
+describe('Blinding Light', function () {
+    integration(function () {
+        describe("Blinding Light's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'sanctum',
@@ -15,7 +15,7 @@ describe('Blinding Light', function() {
                 });
             });
 
-            it('should prompt to choose a house', function() {
+            it('should prompt to choose a house', function () {
                 this.player1.play(this.blindingLight);
                 expect(this.player1).toHavePrompt('Blinding Light');
                 expect(this.player1.currentButtons).toContain('brobnar');
@@ -27,7 +27,7 @@ describe('Blinding Light', function() {
                 expect(this.player1.currentButtons).toContain('untamed');
             });
 
-            it('should stun Mars cards when Mars is selected', function() {
+            it('should stun Mars cards when Mars is selected', function () {
                 this.player1.play(this.blindingLight);
                 this.player1.clickPrompt('mars');
                 expect(this.mindwarper.stunned).toBe(true);
@@ -37,7 +37,7 @@ describe('Blinding Light', function() {
                 expect(this.sequis.stunned).not.toBe(true);
             });
 
-            it('should stun Sanctum cards when Sanctum is selected', function() {
+            it('should stun Sanctum cards when Sanctum is selected', function () {
                 this.player1.play(this.blindingLight);
                 this.player1.clickPrompt('sanctum');
                 expect(this.mindwarper.stunned).not.toBe(true);
@@ -47,7 +47,7 @@ describe('Blinding Light', function() {
                 expect(this.sequis.stunned).toBe(true);
             });
 
-            it('should stun Untamed cards when Untamed is selected', function() {
+            it('should stun Untamed cards when Untamed is selected', function () {
                 this.player1.play(this.blindingLight);
                 this.player1.clickPrompt('untamed');
                 expect(this.mindwarper.stunned).not.toBe(true);
@@ -57,7 +57,7 @@ describe('Blinding Light', function() {
                 expect(this.sequis.stunned).not.toBe(true);
             });
 
-            it('should stun no cards when Dis is selected', function() {
+            it('should stun no cards when Dis is selected', function () {
                 this.player1.play(this.blindingLight);
                 this.player1.clickPrompt('dis');
                 expect(this.mindwarper.stunned).not.toBe(true);
@@ -67,7 +67,7 @@ describe('Blinding Light', function() {
                 expect(this.sequis.stunned).not.toBe(true);
             });
 
-            it('should not stun creatures with an upgrade which matches the chosen house', function() {
+            it('should not stun creatures with an upgrade which matches the chosen house', function () {
                 this.player1.endTurn();
                 this.player2.clickPrompt('logos');
                 this.player2.playUpgrade(this.rocketBoots, this.championAnaphiel);

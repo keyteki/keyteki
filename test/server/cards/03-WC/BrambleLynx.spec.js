@@ -1,7 +1,7 @@
-describe('Bramble Lynx', function() {
-    integration(function() {
-        describe('Bramble Lynx\'s constant ability', function() {
-            beforeEach(function() {
+describe('Bramble Lynx', function () {
+    integration(function () {
+        describe("Bramble Lynx's constant ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'untamed',
@@ -14,18 +14,18 @@ describe('Bramble Lynx', function() {
                 });
             });
 
-            it('should not enter ready since no creature reaped this turn', function() {
+            it('should not enter ready since no creature reaped this turn', function () {
                 this.player1.playCreature(this.brambleLynx);
                 expect(this.brambleLynx.exhausted).toBe(true);
             });
 
-            it('should enter play read if a creature reaps', function() {
+            it('should enter play read if a creature reaps', function () {
                 this.player1.reap(this.flaxia);
                 this.player1.playCreature(this.brambleLynx);
                 expect(this.brambleLynx.exhausted).toBe(false);
             });
 
-            it('should be valid only for one turn', function() {
+            it('should be valid only for one turn', function () {
                 this.player1.reap(this.flaxia);
                 this.player1.endTurn();
                 this.player2.clickPrompt('brobnar');

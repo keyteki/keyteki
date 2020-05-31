@@ -1,7 +1,7 @@
-describe('Firespitter', function() {
-    integration(function() {
-        describe('Firespitter\'s ability', function() {
-            beforeEach(function() {
+describe('Firespitter', function () {
+    integration(function () {
+        describe("Firespitter's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'brobnar',
@@ -13,7 +13,7 @@ describe('Firespitter', function() {
                 });
             });
 
-            it('should deal 1 damage to all enemies before the fight', function() {
+            it('should deal 1 damage to all enemies before the fight', function () {
                 this.player1.fightWith(this.firespitter, this.urchin);
                 expect(this.urchin.location).toBe('discard');
                 expect(this.snufflegator.tokens.damage).toBe(1);

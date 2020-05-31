@@ -1,7 +1,7 @@
-describe('Orb of Wonder', function() {
-    integration(function() {
-        describe('Orb of Wonder\'s omni ability', function() {
-            beforeEach(function() {
+describe('Orb of Wonder', function () {
+    integration(function () {
+        describe("Orb of Wonder's omni ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'brobnar',
@@ -20,7 +20,7 @@ describe('Orb of Wonder', function() {
                 this.player1.moveCard(this.redlock, 'deck');
             });
 
-            it('should sacrifice the artifact and select a card from deck', function() {
+            it('should sacrifice the artifact and select a card from deck', function () {
                 this.player1.useAction(this.orbOfWonder, true);
                 expect(this.orbOfWonder.location).toBe('discard');
                 expect(this.player1).toHavePrompt('Orb of Wonder');

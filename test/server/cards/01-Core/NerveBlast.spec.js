@@ -1,7 +1,7 @@
-describe('Nerve Blast', function() {
-    integration(function() {
-        describe('Nerve Blast\'s ability', function() {
-            beforeEach(function() {
+describe('Nerve Blast', function () {
+    integration(function () {
+        describe("Nerve Blast's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'shadows',
@@ -14,7 +14,7 @@ describe('Nerve Blast', function() {
                 });
             });
 
-            it('should steal an amber, and trigger the damage', function() {
+            it('should steal an amber, and trigger the damage', function () {
                 this.player1.play(this.silvertooth);
                 this.player1.play(this.nerveBlast);
                 expect(this.player1.amber).toBe(1);
@@ -26,14 +26,14 @@ describe('Nerve Blast', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should not trigger damage when there are no creatures in play', function() {
+            it('should not trigger damage when there are no creatures in play', function () {
                 this.player1.play(this.nerveBlast);
                 expect(this.player1.amber).toBe(1);
                 expect(this.player2.amber).toBe(1);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should not do anything if you cannot steal', function() {
+            it('should not do anything if you cannot steal', function () {
                 this.player2.amber = 0;
                 this.player1.play(this.nerveBlast);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
