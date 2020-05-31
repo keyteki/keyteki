@@ -1,7 +1,7 @@
-describe('City-State Interest', function() {
-    integration(function() {
-        describe('City-State Interest\'s play ability', function() {
-            beforeEach(function() {
+describe('City-State Interest', function () {
+    integration(function () {
+        describe("City-State Interest's play ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'saurian',
@@ -15,7 +15,7 @@ describe('City-State Interest', function() {
                 });
             });
 
-            it('Play will make each friendly creature capture 1 amber', function() {
+            it('Play will make each friendly creature capture 1 amber', function () {
                 this.player1.play(this.cityStateInterest);
 
                 expect(this.troll.tokens.amber).toBe(1);
@@ -24,8 +24,8 @@ describe('City-State Interest', function() {
                 expect(this.lamindra.hasToken('amber')).toBe(false);
             });
         });
-        describe('City-State Interest\'s play ability', function() {
-            beforeEach(function() {
+        describe("City-State Interest's play ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'saurian',
@@ -39,7 +39,7 @@ describe('City-State Interest', function() {
                 });
             });
 
-            it('will let player choose which creatures capture if there are more creatures than opponent aember', function() {
+            it('will let player choose which creatures capture if there are more creatures than opponent aember', function () {
                 this.player1.play(this.cityStateInterest);
                 expect(this.player1).toHavePrompt('City-State Interest');
                 expect(this.player1).not.toBeAbleToSelect(this.lamindra);

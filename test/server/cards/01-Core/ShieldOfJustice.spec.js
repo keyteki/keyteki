@@ -1,7 +1,7 @@
-describe('Shield of Justice', function() {
-    integration(function() {
-        describe('Shield of Justice\'s ability', function() {
-            beforeEach(function() {
+describe('Shield of Justice', function () {
+    integration(function () {
+        describe("Shield of Justice's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'sanctum',
@@ -14,7 +14,7 @@ describe('Shield of Justice', function() {
                 });
             });
 
-            it('should place the creature in archives', function() {
+            it('should place the creature in archives', function () {
                 expect(this.bulwark.hasToken('damage')).toBe(false);
                 expect(this.sequis.hasToken('damage')).toBe(false);
 

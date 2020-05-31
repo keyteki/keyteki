@@ -3,8 +3,10 @@ const Card = require('../../Card.js');
 class ProfessorSutterkin extends Card {
     setupCardAbilities(ability) {
         this.reap({
-            gameAction: ability.actions.draw(context => ({
-                amount: context.player.cardsInPlay.filter(card => card.type === 'creature' && card.hasHouse('logos')).length
+            gameAction: ability.actions.draw((context) => ({
+                amount: context.player.cardsInPlay.filter(
+                    (card) => card.type === 'creature' && card.hasHouse('logos')
+                ).length
             }))
         });
     }

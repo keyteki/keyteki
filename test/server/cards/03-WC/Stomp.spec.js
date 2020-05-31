@@ -1,7 +1,7 @@
-describe('Stomp', function() {
-    integration(function() {
-        describe('Stomp\'s ability', function() {
-            beforeEach(function() {
+describe('Stomp', function () {
+    integration(function () {
+        describe("Stomp's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'saurian',
@@ -14,7 +14,7 @@ describe('Stomp', function() {
                 });
             });
 
-            it('should not prompt to exalt a friendly creature if the target is not destroyed', function() {
+            it('should not prompt to exalt a friendly creature if the target is not destroyed', function () {
                 this.player1.play(this.stomp);
                 expect(this.player1).toBeAbleToSelect(this.terrordactyl);
                 expect(this.player1).toBeAbleToSelect(this.nexus);
@@ -24,7 +24,7 @@ describe('Stomp', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should prompt to exalt a friendly creature if the target is destroyed', function() {
+            it('should prompt to exalt a friendly creature if the target is destroyed', function () {
                 this.player1.play(this.stomp);
                 expect(this.player1).toBeAbleToSelect(this.terrordactyl);
                 expect(this.player1).toBeAbleToSelect(this.nexus);

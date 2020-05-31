@@ -1,7 +1,7 @@
-describe('Force Field', function() {
-    integration(function() {
-        describe('Force Field\'s ability', function() {
-            beforeEach(function() {
+describe('Force Field', function () {
+    integration(function () {
+        describe("Force Field's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'staralliance',
@@ -14,7 +14,7 @@ describe('Force Field', function() {
                 });
             });
 
-            it('should be warded after reap', function() {
+            it('should be warded after reap', function () {
                 expect(this.exploRover.warded).toBe(false);
                 this.player1.playUpgrade(this.forceField, this.exploRover);
                 expect(this.player1.amber).toBe(1);
@@ -23,7 +23,7 @@ describe('Force Field', function() {
                 expect(this.exploRover.warded).toBe(true);
             });
 
-            it('should not be warded after fight', function() {
+            it('should not be warded after fight', function () {
                 expect(this.exploRover.warded).toBe(false);
                 this.player1.playUpgrade(this.forceField, this.exploRover);
                 this.player1.fightWith(this.exploRover, this.lamindra);

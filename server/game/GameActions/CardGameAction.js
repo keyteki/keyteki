@@ -17,10 +17,12 @@ class CardGameAction extends GameAction {
         let result = super.hasLegalTarget(context);
         let contextCopy = context.copy();
         contextCopy.stage = 'effect';
-        if(this.promptForSelect) {
+        if (this.promptForSelect) {
             return this.getSelector().hasEnoughTargets(contextCopy);
-        } else if(this.promptWithHandlerMenu && !this.promptWithHandlerMenu.customHandler) {
-            return this.promptWithHandlerMenu.cards.some(card => this.canAffect(card, contextCopy));
+        } else if (this.promptWithHandlerMenu && !this.promptWithHandlerMenu.customHandler) {
+            return this.promptWithHandlerMenu.cards.some((card) =>
+                this.canAffect(card, contextCopy)
+            );
         }
 
         return result;
@@ -28,17 +30,20 @@ class CardGameAction extends GameAction {
 
     getSelector() {
         let condition = this.promptForSelect.cardCondition || (() => true);
-        let cardCondition = (card, context) => this.canAffect(card, context) && condition(card, context);
+        let cardCondition = (card, context) =>
+            this.canAffect(card, context) && condition(card, context);
 
-        return CardSelector.for(Object.assign({}, this.promptForSelect, { cardCondition: cardCondition }));
+        return CardSelector.for(
+            Object.assign({}, this.promptForSelect, { cardCondition: cardCondition })
+        );
     }
 
     preEventHandler(context) {
         super.preEventHandler(context);
-        if(this.promptForSelect) {
+        if (this.promptForSelect) {
             let selector = this.getSelector();
             this.target = [];
-            if(!selector.hasEnoughTargets(context)) {
+            if (!selector.hasEnoughTargets(context)) {
                 return;
             }
 
@@ -48,13 +53,13 @@ class CardGameAction extends GameAction {
                 selector: selector,
                 onSelect: (player, cards) => {
                     this.setTarget(cards);
-                    if(this.promptForSelect.message) {
+                    if (this.promptForSelect.message) {
                         let messageArgs = this.promptForSelect.messageArgs || [];
-                        if(typeof messageArgs === 'function') {
+                        if (typeof messageArgs === 'function') {
                             messageArgs = messageArgs(cards);
                         }
 
-                        if(!Array.isArray(messageArgs)) {
+                        if (!Array.isArray(messageArgs)) {
                             messageArgs = [messageArgs];
                         }
 
@@ -66,35 +71,43 @@ class CardGameAction extends GameAction {
             };
             let properties = Object.assign(defaultProperties, this.promptForSelect);
             context.game.promptForSelect(properties.player, properties);
-        } else if(this.promptWithHandlerMenu) {
+        } else if (this.promptWithHandlerMenu) {
             let properties = this.promptWithHandlerMenu;
-            if(!properties.customHandler) {
-                properties.cards = properties.cards.filter(card => this.canAffect(card, context));
+            if (!properties.customHandler) {
+                properties.cards = properties.cards.filter((card) => this.canAffect(card, context));
                 this.target = [];
             }
 
-            if(properties.cards.length === 0) {
+            if (properties.cards.length === 0) {
                 return;
             }
 
-            if(!properties.player) {
+            if (!properties.player) {
                 properties.player = context.player;
             }
 
-            if(properties.customHandler) {
-                properties.cardHandler = card => properties.customHandler(card, this);
+            if (properties.customHandler) {
+                properties.cardHandler = (card) => properties.customHandler(card, this);
             }
 
             let defaultProperties = {
                 context: context,
-                cardHandler: card => {
+                cardHandler: (card) => {
                     this.setTarget(card);
-                    if(properties.message) {
-                        context.game.addMessage(properties.message, properties.player, context.source, card);
+                    if (properties.message) {
+                        context.game.addMessage(
+                            properties.message,
+                            properties.player,
+                            context.source,
+                            card
+                        );
                     }
                 }
             };
-            context.game.promptWithHandlerMenu(properties.player, Object.assign(defaultProperties, properties));
+            context.game.promptWithHandlerMenu(
+                properties.player,
+                Object.assign(defaultProperties, properties)
+            );
         }
     }
 
@@ -103,7 +116,10 @@ class CardGameAction extends GameAction {
     }
 
     checkEventCondition(event) {
-        return this.canAffect(event.card, event.context) && event.card.checkRestrictions(this.name, event.context);
+        return (
+            this.canAffect(event.card, event.context) &&
+            event.card.checkRestrictions(this.name, event.context)
+        );
     }
 }
 

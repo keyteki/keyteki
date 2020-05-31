@@ -8,13 +8,15 @@ class Foozle extends Card {
         this.tracker.register(['onCardDestroyed', 'onRoundEnded']);
 
         this.reap({
-            condition: context => context.player.opponent && this.creatureDestroyedControllerUuid[context.player.opponent.uuid],
+            condition: (context) =>
+                context.player.opponent &&
+                this.creatureDestroyedControllerUuid[context.player.opponent.uuid],
             gameAction: ability.actions.gainAmber()
         });
     }
 
     onCardDestroyed(event) {
-        if(event.clone.type === 'creature') {
+        if (event.clone.type === 'creature') {
             this.creatureDestroyedControllerUuid[event.clone.controller.uuid] = true;
         }
     }

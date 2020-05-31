@@ -1,7 +1,7 @@
-describe('Ogopogo', function() {
-    integration(function() {
-        describe('Ogopogo\'s ability', function() {
-            beforeEach(function() {
+describe('Ogopogo', function () {
+    integration(function () {
+        describe("Ogopogo's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'brobnar',
@@ -14,7 +14,7 @@ describe('Ogopogo', function() {
                 });
             });
 
-            it('should deal 2 damage to another creature after it attacks and destroys a different one', function() {
+            it('should deal 2 damage to another creature after it attacks and destroys a different one', function () {
                 this.player1.fightWith(this.ogopogo, this.umbra);
                 expect(this.player1).toHavePrompt('Triggered Abilities');
                 expect(this.player1).toBeAbleToSelect(this.ogopogo);
@@ -27,10 +27,10 @@ describe('Ogopogo', function() {
                 expect(this.gamgee.location).toBe('discard');
             });
 
-            it('should not prompt to deal damage when a creature dies after attacking ogopogo', function() {
+            it('should not prompt to deal damage when a creature dies after attacking ogopogo', function () {
                 this.player1.endTurn();
                 this.player2.clickPrompt('shadows');
-                this.player2.fightWith(this.gamgee,this.ogopogo);
+                this.player2.fightWith(this.gamgee, this.ogopogo);
                 expect(this.player2).not.toHavePrompt('Triggered Abilities');
                 expect(this.ogopogo.location).toBe('play area');
                 expect(this.gamgee.location).toBe('discard');

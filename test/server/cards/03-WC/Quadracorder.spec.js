@@ -1,7 +1,7 @@
-describe('Quadracorder', function() {
-    integration(function() {
-        describe('Quadracorder\'s ability', function() {
-            beforeEach(function() {
+describe('Quadracorder', function () {
+    integration(function () {
+        describe("Quadracorder's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         amber: 6,
@@ -17,14 +17,14 @@ describe('Quadracorder', function() {
                 });
             });
 
-            it('should increase key cost by [1] when it is attached to a creature', function() {
+            it('should increase key cost by [1] when it is attached to a creature', function () {
                 this.player1.playUpgrade(this.quadracorder, this.lieutenantKhrkhar);
                 this.player1.endTurn();
                 expect(this.player2.player.getForgedKeys()).toBe(0);
                 expect(this.player2.player.amber).toBe(6);
             });
 
-            it('should increase key cost by [2] when it is attached to a creature', function() {
+            it('should increase key cost by [2] when it is attached to a creature', function () {
                 this.player1.moveCard(this.mother, 'play area');
                 this.player2.amber = 7;
                 this.player1.playUpgrade(this.quadracorder, this.lieutenantKhrkhar);
@@ -33,7 +33,7 @@ describe('Quadracorder', function() {
                 expect(this.player2.player.amber).toBe(7);
             });
 
-            it('should increase key cost by [3] when it is attached to a creature', function() {
+            it('should increase key cost by [3] when it is attached to a creature', function () {
                 this.player1.moveCard(this.mother, 'play area');
                 this.player1.moveCard(this.rustgnawer, 'play area');
                 this.player2.amber = 8;
@@ -43,7 +43,7 @@ describe('Quadracorder', function() {
                 expect(this.player2.player.amber).toBe(8);
             });
 
-            it('should increase key cost by [3] when it is attached to an enemy creature', function() {
+            it('should increase key cost by [3] when it is attached to an enemy creature', function () {
                 this.player1.moveCard(this.mother, 'play area');
                 this.player1.moveCard(this.rustgnawer, 'play area');
                 this.player2.moveCard(this.badPenny, 'play area');
@@ -53,7 +53,7 @@ describe('Quadracorder', function() {
                 expect(this.player2.player.getForgedKeys()).toBe(0);
                 expect(this.player2.player.amber).toBe(8);
             });
-            it('should increase key cost by [3] when it is attached to an enemy creature, but not to controller', function() {
+            it('should increase key cost by [3] when it is attached to an enemy creature, but not to controller', function () {
                 this.player1.moveCard(this.mother, 'play area');
                 this.player1.moveCard(this.rustgnawer, 'play area');
                 this.player2.moveCard(this.badPenny, 'play area');
@@ -73,8 +73,8 @@ describe('Quadracorder', function() {
             });
         });
 
-        describe('when played with Auto Legionary', function() {
-            it('should not increase the cost of keys by more than [3]', function() {
+        describe('when played with Auto Legionary', function () {
+            it('should not increase the cost of keys by more than [3]', function () {
                 this.setupTest({
                     player1: {
                         house: 'saurian',

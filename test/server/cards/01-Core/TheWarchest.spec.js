@@ -1,7 +1,7 @@
-describe('The Warchest', function() {
-    integration(function() {
-        describe('The Warchest\'s ability', function() {
-            beforeEach(function() {
+describe('The Warchest', function () {
+    integration(function () {
+        describe("The Warchest's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'brobnar',
@@ -14,7 +14,7 @@ describe('The Warchest', function() {
                 });
             });
 
-            it('should gain amber equal to the number of creatures destroyed in a fight', function() {
+            it('should gain amber equal to the number of creatures destroyed in a fight', function () {
                 this.player1.fightWith(this.troll, this.snufflegator);
                 this.player1.fightWith(this.valdr, this.sequis);
                 this.player1.play(this.punch);
@@ -28,8 +28,8 @@ describe('The Warchest', function() {
             });
         });
 
-        describe('Interaction with Coward\'s End', function() {
-            beforeEach(function() {
+        describe("Interaction with Coward's End", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'brobnar',
@@ -42,18 +42,24 @@ describe('The Warchest', function() {
                 });
             });
 
-            it('should destroy both creatures and not gain amber from warchest', function() {
+            it('should destroy both creatures and not gain amber from warchest', function () {
                 this.player1.play(this.cowardSEnd);
                 expect(this.player1.amber).toBe(0);
             });
         });
 
-        describe('Interaction with Poltergeist', function() {
-            beforeEach(function() {
+        describe('Interaction with Poltergeist', function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'dis',
-                        inPlay: ['stealer-of-souls', 'pit-demon', 'shooler', 'the-warchest', 'dust-imp'],
+                        inPlay: [
+                            'stealer-of-souls',
+                            'pit-demon',
+                            'shooler',
+                            'the-warchest',
+                            'dust-imp'
+                        ],
                         hand: ['poltergeist']
                     },
                     player2: {
@@ -62,7 +68,7 @@ describe('The Warchest', function() {
                 });
             });
 
-            it('should destroy The Warchest and gain ambers after fighting', function() {
+            it('should destroy The Warchest and gain ambers after fighting', function () {
                 this.player1.fightWith(this.stealerOfSouls, this.redlock);
                 expect(this.stealerOfSouls.tokens.damage).toBe(3);
                 expect(this.redlock.location).toBe('purged');
@@ -92,8 +98,8 @@ describe('The Warchest', function() {
             });
         });
 
-        describe('When both creatures died in the fight', function() {
-            beforeEach(function() {
+        describe('When both creatures died in the fight', function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'brobnar',
@@ -107,7 +113,7 @@ describe('The Warchest', function() {
                 this.valdr.tokens.damage = 4;
             });
 
-            it('should trigger', function() {
+            it('should trigger', function () {
                 this.player1.fightWith(this.valdr, this.gangerChieftain);
                 this.player1.useAction(this.theWarchest);
                 expect(this.player1.amber).toBe(1);

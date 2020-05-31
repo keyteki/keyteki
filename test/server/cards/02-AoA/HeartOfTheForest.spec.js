@@ -1,7 +1,7 @@
-describe('Heart of the Forest', function() {
-    integration(function() {
-        describe('Heart of the Forest\'s ability', function() {
-            beforeEach(function() {
+describe('Heart of the Forest', function () {
+    integration(function () {
+        describe("Heart of the Forest's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         amber: 6,
@@ -14,7 +14,7 @@ describe('Heart of the Forest', function() {
                     }
                 });
             });
-            it('should stop a key being forged', function() {
+            it('should stop a key being forged', function () {
                 this.player2.player.keys = { red: true, blue: false, yellow: false };
                 this.player1.endTurn();
                 expect(this.player2.player.keys.red).toBe(true);
@@ -24,8 +24,8 @@ describe('Heart of the Forest', function() {
             });
         });
 
-        describe('Heart of the Forest\'s ability', function() {
-            beforeEach(function() {
+        describe("Heart of the Forest's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         amber: 6,
@@ -39,7 +39,7 @@ describe('Heart of the Forest', function() {
                 });
             });
 
-            it('should NOT stop a key being forged if the keys are equal', function() {
+            it('should NOT stop a key being forged if the keys are equal', function () {
                 this.player1.endTurn();
                 this.player2.forgeKey('Red');
                 expect(this.player2.player.keys.red).toBe(true);

@@ -1,7 +1,7 @@
-describe('Wild Bounty', function() {
-    integration(function() {
-        describe('Wild Bounty\'s abilities', function() {
-            beforeEach(function() {
+describe('Wild Bounty', function () {
+    integration(function () {
+        describe("Wild Bounty's abilities", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'untamed',
@@ -14,14 +14,14 @@ describe('Wild Bounty', function() {
                 });
             });
 
-            it('should not trigger twice before Wild Bounty is played', function() {
+            it('should not trigger twice before Wild Bounty is played', function () {
                 this.player1.play(this.fertilityChant);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
                 expect(this.player1.amber).toBe(4);
                 expect(this.player2.amber).toBe(4);
             });
 
-            it('should trigger twice after Wild Bounty and resolve default bonus icons twice', function() {
+            it('should trigger twice after Wild Bounty and resolve default bonus icons twice', function () {
                 this.player1.play(this.wildBounty);
                 expect(this.player1.amber).toBe(0);
                 this.player1.play(this.fertilityChant);
@@ -32,7 +32,7 @@ describe('Wild Bounty', function() {
                 expect(this.player2.amber).toBe(4);
             });
 
-            it('should trigger twice only for the immediate next card', function() {
+            it('should trigger twice only for the immediate next card', function () {
                 this.player1.play(this.wildBounty);
                 expect(this.player1.amber).toBe(0);
                 this.player1.play(this.fertilityChant);
@@ -44,7 +44,7 @@ describe('Wild Bounty', function() {
                 expect(this.player2.amber).toBe(4);
             });
 
-            it('should reveal a card and apply enhanced bonus icons twice', function() {
+            it('should reveal a card and apply enhanced bonus icons twice', function () {
                 this.dustPixie.cardData.enhancements = ['amber', 'draw', 'damage'];
                 this.player1.play(this.wildBounty);
                 expect(this.player1.amber).toBe(0);
@@ -65,8 +65,8 @@ describe('Wild Bounty', function() {
             });
         });
 
-        describe('Wild Bounty\'s abilities', function() {
-            beforeEach(function() {
+        describe("Wild Bounty's abilities", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'untamed',
@@ -83,7 +83,7 @@ describe('Wild Bounty', function() {
                 this.wildBounty2 = this.player1.player.hand[3];
             });
 
-            it('should trigger twice after second wildBounty1 is played and twice after card played after wildBounty2, third card resolve bonus once', function() {
+            it('should trigger twice after second wildBounty1 is played and twice after card played after wildBounty2, third card resolve bonus once', function () {
                 this.player1.play(this.wildBounty1);
                 expect(this.player1.amber).toBe(0);
                 expect(this.player2.amber).toBe(2);
@@ -112,4 +112,3 @@ describe('Wild Bounty', function() {
         });
     });
 });
-

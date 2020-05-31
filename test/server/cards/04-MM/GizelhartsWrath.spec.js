@@ -1,7 +1,7 @@
-describe('gizelharts-wrath', function() {
-    integration(function() {
-        describe('Gizelharts Wrath\'s ability', function() {
-            beforeEach(function() {
+describe('gizelharts-wrath', function () {
+    integration(function () {
+        describe("Gizelharts Wrath's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'sanctum',
@@ -14,13 +14,13 @@ describe('gizelharts-wrath', function() {
                 });
             });
 
-            it('should destroy all mutants', function() {
+            it('should destroy all mutants', function () {
                 this.player1.play(this.gizelhartSWrath);
                 expect(this.munchling.location).toBe('discard');
                 expect(this.botBookton.location).toBe('discard');
             });
 
-            it('should not destroy non-mutant creatures', function() {
+            it('should not destroy non-mutant creatures', function () {
                 this.player1.play(this.gizelhartSWrath);
                 expect(this.batdrone.location).toBe('play area');
                 expect(this.dustImp.location).toBe('play area');

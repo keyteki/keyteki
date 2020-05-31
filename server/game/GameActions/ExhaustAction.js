@@ -8,7 +8,7 @@ class ExhaustAction extends CardGameAction {
     }
 
     canAffect(card, context) {
-        if(card.location !== 'play area') {
+        if (card.location !== 'play area') {
             return false;
         }
 
@@ -20,7 +20,9 @@ class ExhaustAction extends CardGameAction {
     }
 
     getEvent(card, context) {
-        return super.createEvent('onCardExhausted', { card: card, context: context }, () => card.exhaust());
+        return super.createEvent('onCardExhausted', { card: card, context: context }, () =>
+            card.exhaust()
+        );
     }
 }
 

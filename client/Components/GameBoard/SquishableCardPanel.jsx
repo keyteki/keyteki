@@ -20,39 +20,46 @@ class SquishableCardPanel extends React.Component {
         let overflow = requiredWidth - overallDimensions.width;
         let offset = overflow / (handLength - 1);
 
-        if(this.props.groupVisibleCards && this.hasMixOfVisibleCards()) {
-            cards = [...this.props.cards].sort((a, b) => a.facedown && !b.facedown ? -1 : 1);
+        if (this.props.groupVisibleCards && this.hasMixOfVisibleCards()) {
+            cards = [...this.props.cards].sort((a, b) => (a.facedown && !b.facedown ? -1 : 1));
         }
 
-        let hand = cards.map(card => {
+        let hand = cards.map((card) => {
             let left = (cardWidth - offset) * cardIndex++;
 
             let style = {};
-            if(needsSquish) {
+            if (needsSquish) {
                 style = {
                     left: left + 'px'
                 };
             }
 
-            return (<Card key={ card.uuid }
-                card={ card }
-                cardBackUrl={ this.props.cardBackUrl }
-                disableMouseOver={ !card.name }
-                canDrag={ this.props.manualMode }
-                onClick={ this.props.onCardClick }
-                onMouseOver={ this.props.onMouseOver }
-                onMouseOut={ this.props.onMouseOut }
-                size={ this.props.cardSize }
-                style={ style }
-                language={ this.props.i18n.language }
-                source={ this.props.source } />);
+            return (
+                <Card
+                    key={card.uuid}
+                    card={card}
+                    cardBackUrl={this.props.cardBackUrl}
+                    disableMouseOver={!card.name}
+                    canDrag={this.props.manualMode}
+                    onClick={this.props.onCardClick}
+                    onMouseOver={this.props.onMouseOver}
+                    onMouseOut={this.props.onMouseOut}
+                    size={this.props.cardSize}
+                    style={style}
+                    language={this.props.i18n.language}
+                    source={this.props.source}
+                />
+            );
         });
 
         return hand;
     }
 
     hasMixOfVisibleCards() {
-        return this.props.cards.some(card => !!card.code) && this.props.cards.some(card => !card.code);
+        return (
+            this.props.cards.some((card) => !!card.code) &&
+            this.props.cards.some((card) => !card.code)
+        );
     }
 
     getCardDimensions() {
@@ -64,7 +71,7 @@ class SquishableCardPanel extends React.Component {
     }
 
     getCardSizeMultiplier() {
-        switch(this.props.cardSize) {
+        switch (this.props.cardSize) {
             case 'small':
                 return 0.6;
             case 'large':
@@ -92,7 +99,7 @@ class SquishableCardPanel extends React.Component {
 
         let className = classNames('squishable-card-panel', this.props.className, {
             [this.props.cardSize]: this.props.cardSize !== 'normal',
-            'squish': needsSquish
+            squish: needsSquish
         });
 
         let style = {
@@ -101,13 +108,11 @@ class SquishableCardPanel extends React.Component {
         };
 
         return (
-            <div className={ className } style={ style }>
-                { this.props.title &&
-                    <div className='panel-header'>
-                        { `${this.props.title} (${cards.length})` }
-                    </div>
-                }
-                { cards }
+            <div className={className} style={style}>
+                {this.props.title && (
+                    <div className='panel-header'>{`${this.props.title} (${cards.length})`}</div>
+                )}
+                {cards}
             </div>
         );
     }

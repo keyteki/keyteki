@@ -6,7 +6,7 @@ class CardService {
         try {
             await db.query('DELETE FROM "CardLocaleNames"');
             await db.query('DELETE FROM "Cards"');
-        } catch(err) {
+        } catch (err) {
             logger.error('Failed to delete existing cards', err);
 
             return;
@@ -15,7 +15,7 @@ class CardService {
         let expansions;
         try {
             expansions = await db.query('SELECT * FROM "Expansions"');
-        } catch(err) {
+        } catch (err) {
             logger.error('Failed to fetch expansions', err);
 
             return;
@@ -24,7 +24,7 @@ class CardService {
         let houses;
         try {
             houses = await db.query('SELECT * FROM "Houses"');
-        } catch(err) {
+        } catch (err) {
             logger.error('Failed to fetch expansions', err);
 
             return;
@@ -32,7 +32,7 @@ class CardService {
 
         const expansionsByNumber = {};
 
-        for(const expansion of expansions) {
+        for (const expansion of expansions) {
             expansionsByNumber[expansion.ExpansionId] = {
                 id: expansion.Id,
                 expansionId: expansion.ExpansionId,
@@ -43,7 +43,7 @@ class CardService {
 
         const housesByCode = {};
 
-        for(const house of houses) {
+        for (const house of houses) {
             housesByCode[house.Code] = {
                 id: house.Id,
                 code: house.Code,
@@ -51,31 +51,51 @@ class CardService {
             };
         }
 
-        for(let card of cards) {
+        for (let card of cards) {
             try {
                 const expansion = expansionsByNumber[card.expansion];
 
-                if(!expansion) {
+                if (!expansion) {
                     logger.error(`Failed to find expansion for card ${card.id}`);
 
                     continue;
                 }
 
                 const house = housesByCode[card.house];
-                if(!house) {
+                if (!house) {
                     logger.error(`Failed to find house for card ${card.id}`);
 
                     continue;
                 }
 
-                let ret = await db.query('INSERT INTO "Cards" ("CardId", "Name", "Number", "Image", "Keywords", "Traits", "HouseId", "ExpansionId", "Type", "Rarity", "Amber", "Armor", "Power", "Text")' +
-                ' VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING "Id"', [card.id, card.name, card.number, card.image, card.keywords.join(','),
-                    card.traits.join(','), house.id, expansion.id, card.type, card.rarity, card.amber, card.armor, card.power, card.text]);
+                let ret = await db.query(
+                    'INSERT INTO "Cards" ("CardId", "Name", "Number", "Image", "Keywords", "Traits", "HouseId", "ExpansionId", "Type", "Rarity", "Amber", "Armor", "Power", "Text")' +
+                        ' VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING "Id"',
+                    [
+                        card.id,
+                        card.name,
+                        card.number,
+                        card.image,
+                        card.keywords.join(','),
+                        card.traits.join(','),
+                        house.id,
+                        expansion.id,
+                        card.type,
+                        card.rarity,
+                        card.amber,
+                        card.armor,
+                        card.power,
+                        card.text
+                    ]
+                );
 
-                for(const [language, locale] of Object.entries(card.locale)) {
-                    await db.query('INSERT INTO "CardLocaleNames" ("CardId", "Locale", "Name") VALUES ($1, $2, $3)', [ret[0].Id, language, locale.name]);
+                for (const [language, locale] of Object.entries(card.locale)) {
+                    await db.query(
+                        'INSERT INTO "CardLocaleNames" ("CardId", "Locale", "Name") VALUES ($1, $2, $3)',
+                        [ret[0].Id, language, locale.name]
+                    );
                 }
-            } catch(err) {
+            } catch (err) {
                 logger.error(`Failed to add card ${card.id}`, err);
 
                 continue;
@@ -84,16 +104,18 @@ class CardService {
     }
 
     async getAllCards(options) {
-        if(this.cardCache) {
+        if (this.cardCache) {
             return this.cardCache;
         }
 
         let cards;
 
         try {
-            cards = await db.query('SELECT c.*, e."ExpansionId", e."Code" AS "ExpansionCode", h."Code" AS "House" FROM "Cards" c ' +
-            'JOIN "Expansions" e ON e."Id" = c."ExpansionId" JOIN "Houses" h ON h."Id" = c."HouseId"');
-        } catch(err) {
+            cards = await db.query(
+                'SELECT c.*, e."ExpansionId", e."Code" AS "ExpansionCode", h."Code" AS "House" FROM "Cards" c ' +
+                    'JOIN "Expansions" e ON e."Id" = c."ExpansionId" JOIN "Houses" h ON h."Id" = c."HouseId"'
+            );
+        } catch (err) {
             logger.error('Failed to lookup cards', err);
 
             return [];
@@ -101,11 +123,13 @@ class CardService {
 
         let retCards = {};
 
-        for(let card of cards) {
+        for (let card of cards) {
             let languages = [];
             try {
-                languages = await db.query('SELECT * FROM "CardLocaleNames" WHERE "CardId" = $1', [card.Id]);
-            } catch(err) {
+                languages = await db.query('SELECT * FROM "CardLocaleNames" WHERE "CardId" = $1', [
+                    card.Id
+                ]);
+            } catch (err) {
                 logger.error(`Failed to get languages for card ${card.CardId}`, err);
             }
 
@@ -131,11 +155,11 @@ class CardService {
             locale: {}
         };
 
-        for(let language of languages) {
+        for (let language of languages) {
             retCard.locale[language.Locale] = { name: language.Name };
         }
 
-        if(options && options.shortForm) {
+        if (options && options.shortForm) {
             return retCard;
         }
 

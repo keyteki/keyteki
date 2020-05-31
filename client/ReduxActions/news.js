@@ -1,13 +1,12 @@
 import $ from 'jquery';
 
 export function fetchNews() {
-    return dispatch => {
+    return (dispatch) => {
         dispatch(requestNews());
 
-        return $.ajax('/api/news')
-            .done(function(data) {
-                dispatch(receiveNews(data));
-            });
+        return $.ajax('/api/news').done(function (data) {
+            dispatch(receiveNews(data));
+        });
     };
 }
 
@@ -27,7 +26,7 @@ export function receiveNews(news) {
 export function loadNews(options) {
     let params = {};
 
-    if(options && options.limit) {
+    if (options && options.limit) {
         params.limit = options.limit;
     }
 

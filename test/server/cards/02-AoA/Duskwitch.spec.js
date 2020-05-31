@@ -1,7 +1,7 @@
-describe('Duskwitch', function() {
-    integration(function() {
-        describe('Duskwitch\'s ability', function() {
-            beforeEach(function() {
+describe('Duskwitch', function () {
+    integration(function () {
+        describe("Duskwitch's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         amber: 2,
@@ -15,13 +15,15 @@ describe('Duskwitch', function() {
                 });
             });
 
-            it('should end turn after playing Duskwitch', function() {
+            it('should end turn after playing Duskwitch', function () {
                 this.player1.play(this.duskwitch);
                 expect(this.duskwitch.exhausted).toBe(false);
-                expect(this.player2).toHavePrompt('Choose which house you want to activate this turn');
+                expect(this.player2).toHavePrompt(
+                    'Choose which house you want to activate this turn'
+                );
             });
 
-            it('should ready ALL creatures played by the owner', function() {
+            it('should ready ALL creatures played by the owner', function () {
                 this.player1.play(this.duskwitch);
                 this.player2.clickPrompt('logos');
                 this.player2.endTurn();
@@ -33,8 +35,8 @@ describe('Duskwitch', function() {
             });
         });
 
-        describe('Duskwitch\'s ability', function() {
-            beforeEach(function() {
+        describe("Duskwitch's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         amber: 2,
@@ -49,7 +51,7 @@ describe('Duskwitch', function() {
                 });
             });
 
-            it('should NOT ready creatures played by the opponent', function() {
+            it('should NOT ready creatures played by the opponent', function () {
                 this.player1.play(this.duskwitch);
                 this.player2.clickPrompt('untamed');
                 this.player2.play(this.huntingWitch);

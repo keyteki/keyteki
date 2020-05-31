@@ -14,10 +14,10 @@ class CardMenu extends React.Component {
     }
 
     onMenuItemClick(menuItem) {
-        if(['main', 'tokens'].includes(menuItem.command)) {
+        if (['main', 'tokens'].includes(menuItem.command)) {
             this.setState({ submenu: menuItem.command });
         } else {
-            if(this.props.onMenuItemClick) {
+            if (this.props.onMenuItemClick) {
                 this.props.onMenuItemClick(menuItem);
             }
         }
@@ -25,20 +25,24 @@ class CardMenu extends React.Component {
 
     render() {
         let menuIndex = 0;
-        let menuItems = this.props.menu.map(menuItem => {
+        let menuItems = this.props.menu.map((menuItem) => {
             let className = classNames('menu-item', {
-                'disabled': !!menuItem.disabled
+                disabled: !!menuItem.disabled
             });
-            if(menuItem.menu === this.state.submenu) {
-                return <div key={ menuIndex++ } className={ className } onClick={ this.onMenuItemClick.bind(this, menuItem) }>{ this.props.t(menuItem.text) }</div>;
+            if (menuItem.menu === this.state.submenu) {
+                return (
+                    <div
+                        key={menuIndex++}
+                        className={className}
+                        onClick={this.onMenuItemClick.bind(this, menuItem)}
+                    >
+                        {this.props.t(menuItem.text)}
+                    </div>
+                );
             }
         });
 
-        return (
-            <div className='panel menu'>
-                { menuItems }
-            </div>
-        );
+        return <div className='panel menu'>{menuItems}</div>;
     }
 }
 

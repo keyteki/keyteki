@@ -1,7 +1,7 @@
-describe('A. Vinda', function() {
-    integration(function() {
-        describe('A. Vinda\'s reap ability', function() {
-            beforeEach(function() {
+describe('A. Vinda', function () {
+    integration(function () {
+        describe("A. Vinda's reap ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'shadows',
@@ -15,7 +15,7 @@ describe('A. Vinda', function() {
                 });
             });
 
-            it('Destroy a 1 power friendly creature and discard card from opponent\'s hand', function() {
+            it("Destroy a 1 power friendly creature and discard card from opponent's hand", function () {
                 this.player1.reap(this.aVinda);
 
                 expect(this.player1).toBeAbleToSelect(this.aVinda);
@@ -31,7 +31,7 @@ describe('A. Vinda', function() {
                 expect(this.player2.hand.length).toBe(5);
             });
 
-            it('Destroy an enemy creature and discard card from opponent\'s hand', function() {
+            it("Destroy an enemy creature and discard card from opponent's hand", function () {
                 this.krump.tokens['damage'] = 5;
 
                 this.player1.reap(this.aVinda);
@@ -49,7 +49,7 @@ describe('A. Vinda', function() {
                 expect(this.player2.hand.length).toBe(5);
             });
 
-            it('Creature is damage, but not destroyed, so opponent\'s card should not be discarded', function() {
+            it("Creature is damage, but not destroyed, so opponent's card should not be discarded", function () {
                 this.player1.reap(this.aVinda);
 
                 expect(this.player1).toBeAbleToSelect(this.aVinda);

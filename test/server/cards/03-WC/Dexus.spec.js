@@ -1,7 +1,7 @@
-describe('Dexus', function() {
-    integration(function() {
-        describe('card ability', function() {
-            beforeEach(function() {
+describe('Dexus', function () {
+    integration(function () {
+        describe('card ability', function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'dis',
@@ -15,13 +15,13 @@ describe('Dexus', function() {
                 });
             });
 
-            it('should cause the opponent to lose an amber when when a right flank creature is played', function() {
+            it('should cause the opponent to lose an amber when when a right flank creature is played', function () {
                 this.player1.play(this.dustImp);
 
                 expect(this.player1.amber).toBe(2);
             });
 
-            it('should not cause the opponent to lose an amber when when a left flank creature is played', function() {
+            it('should not cause the opponent to lose an amber when when a left flank creature is played', function () {
                 this.player1.play(this.dustImp, true);
 
                 expect(this.player1.amber).toBe(3);
@@ -29,9 +29,9 @@ describe('Dexus', function() {
         });
     });
 
-    integration(function() {
-        describe('card ability', function() {
-            beforeEach(function() {
+    integration(function () {
+        describe('card ability', function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'dis',
@@ -45,7 +45,7 @@ describe('Dexus', function() {
                 });
             });
 
-            it('should cause the opponent to lose an amber when when first creature is played', function() {
+            it('should cause the opponent to lose an amber when when first creature is played', function () {
                 this.player1.play(this.dustImp);
 
                 expect(this.player1.amber).toBe(2);

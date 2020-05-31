@@ -1,7 +1,7 @@
-describe('Forging An Alliance', function() {
-    integration(function() {
-        describe('Forging An Alliance\'s ability', function() {
-            beforeEach(function() {
+describe('Forging An Alliance', function () {
+    integration(function () {
+        describe("Forging An Alliance's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         amber: 4,
@@ -14,14 +14,14 @@ describe('Forging An Alliance', function() {
                     }
                 });
             });
-            it('should not prompt to forge when the player has insufficient amber', function() {
+            it('should not prompt to forge when the player has insufficient amber', function () {
                 this.player1.play(this.forgingAnAlliance);
                 expect(this.player1.amber).toBe(5);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
         });
-        describe('Forging An Alliance\'s ability', function() {
-            beforeEach(function() {
+        describe("Forging An Alliance's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         amber: 9,
@@ -34,7 +34,7 @@ describe('Forging An Alliance', function() {
                     }
                 });
             });
-            it('should forge a key when the player has sufficient amber [10]', function() {
+            it('should forge a key when the player has sufficient amber [10]', function () {
                 this.player1.play(this.forgingAnAlliance);
                 this.player1.clickPrompt('Red');
                 expect(this.player1.amber).toBe(0);
@@ -42,8 +42,8 @@ describe('Forging An Alliance', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
         });
-        describe('Forging An Alliance\'s ability', function() {
-            beforeEach(function() {
+        describe("Forging An Alliance's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         amber: 6,
@@ -56,7 +56,7 @@ describe('Forging An Alliance', function() {
                     }
                 });
             });
-            it('should forge a key when the player has sufficient amber [7]', function() {
+            it('should forge a key when the player has sufficient amber [7]', function () {
                 this.player1.play(this.forgingAnAlliance);
                 this.player1.clickPrompt('Red');
                 expect(this.player1.amber).toBe(0);
@@ -64,8 +64,8 @@ describe('Forging An Alliance', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
         });
-        describe('Forging An Alliance\'s ability', function() {
-            beforeEach(function() {
+        describe("Forging An Alliance's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         amber: 6,
@@ -78,7 +78,7 @@ describe('Forging An Alliance', function() {
                     }
                 });
             });
-            it('should forge a key when the player has sufficient amber [7], considering upgrade', function() {
+            it('should forge a key when the player has sufficient amber [7], considering upgrade', function () {
                 this.player1.playUpgrade(this.forceField, this.sequis);
                 this.player1.play(this.forgingAnAlliance);
                 this.player1.clickPrompt('Red');

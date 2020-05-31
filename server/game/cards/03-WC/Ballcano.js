@@ -5,7 +5,7 @@ class Ballcano extends Card {
         this.play({
             effect: 'deal 4 damage to all creatures, gaining 2 chains',
             gameAction: [
-                ability.actions.dealDamage(context => ({
+                ability.actions.dealDamage((context) => ({
                     amount: 4,
                     target: context.game.creaturesInPlay
                 })),

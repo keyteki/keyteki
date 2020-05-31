@@ -1,6 +1,6 @@
-describe('Umbra-Bot', function() {
+describe('Umbra-Bot', function () {
     integration(function () {
-        describe('Umbra-Bots\'s Reap ability', function () {
+        describe("Umbra-Bots's Reap ability", function () {
             beforeEach(function () {
                 this.setupTest({
                     player1: {
@@ -24,7 +24,7 @@ describe('Umbra-Bot', function() {
                 expect(this.player1.hand.length).toBe(1);
             });
 
-            it('should shouldn\'t draw a card when used to reap when there is nothing to discard', function () {
+            it("should shouldn't draw a card when used to reap when there is nothing to discard", function () {
                 this.player1.moveCard(this.soulkeeper, 'deck');
                 this.player1.reap(this.umbraBot);
                 expect(this.player1.amber).toBe(1);

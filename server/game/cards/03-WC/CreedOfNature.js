@@ -7,7 +7,7 @@ class CreedOfNature extends Card {
             then: {
                 target: {
                     cardType: 'creature',
-                    gameAction: ability.actions.cardLastingEffect(context => ({
+                    gameAction: ability.actions.cardLastingEffect((context) => ({
                         effect: ability.effects.addKeyword({
                             skirmish: 1,
                             assault: context.target.power

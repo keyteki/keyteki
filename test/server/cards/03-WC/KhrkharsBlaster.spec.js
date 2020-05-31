@@ -1,7 +1,7 @@
-describe('Khrkhar’s Blaster', function() {
-    integration(function() {
-        describe('Khrkhar’s Blaster\'s attach ability', function() {
-            beforeEach(function() {
+describe('Khrkhar’s Blaster', function () {
+    integration(function () {
+        describe("Khrkhar’s Blaster's attach ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'staralliance',
@@ -15,19 +15,19 @@ describe('Khrkhar’s Blaster', function() {
                 });
             });
 
-            it('should ward the associated officer', function() {
+            it('should ward the associated officer', function () {
                 this.player1.playUpgrade(this.khrkharSBlaster, this.lieutenantKhrkhar);
                 expect(this.lieutenantKhrkhar.warded).toBe(true);
                 expect(this.techivorePulpate.warded).toBe(false);
             });
 
-            it('should not ward the non associated officer', function() {
+            it('should not ward the non associated officer', function () {
                 this.player1.playUpgrade(this.khrkharSBlaster, this.techivorePulpate);
                 expect(this.lieutenantKhrkhar.warded).toBe(false);
                 expect(this.techivorePulpate.warded).toBe(false);
             });
 
-            it('reap ability should allow choosing for an action and cancel', function() {
+            it('reap ability should allow choosing for an action and cancel', function () {
                 this.player1.playUpgrade(this.khrkharSBlaster, this.techivorePulpate);
                 this.player1.reap(this.techivorePulpate);
 
@@ -37,7 +37,7 @@ describe('Khrkhar’s Blaster', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('reap ability should allow dealing 2 damages to a creature', function() {
+            it('reap ability should allow dealing 2 damages to a creature', function () {
                 this.player1.playUpgrade(this.khrkharSBlaster, this.techivorePulpate);
                 this.player1.reap(this.techivorePulpate);
 
@@ -57,7 +57,7 @@ describe('Khrkhar’s Blaster', function() {
                 expect(this.krump.tokens.damage).toBe(2);
             });
 
-            it('fight ability should allow dealing 2 damages to a creature', function() {
+            it('fight ability should allow dealing 2 damages to a creature', function () {
                 this.player1.playUpgrade(this.khrkharSBlaster, this.techivorePulpate);
                 this.player1.fightWith(this.techivorePulpate, this.lamindra);
 
@@ -77,7 +77,7 @@ describe('Khrkhar’s Blaster', function() {
                 expect(this.krump.tokens.damage).toBe(2);
             });
 
-            it('reap ability should allow moving the upgrade to the appropriate officer', function() {
+            it('reap ability should allow moving the upgrade to the appropriate officer', function () {
                 this.player1.playUpgrade(this.khrkharSBlaster, this.techivorePulpate);
                 this.player1.reap(this.techivorePulpate);
 
@@ -99,7 +99,7 @@ describe('Khrkhar’s Blaster', function() {
                 expect(this.techivorePulpate.upgrades).not.toContain(this.khrkharSBlaster);
             });
 
-            it('fight ability should allow moving the upgrade to the appropriate officer', function() {
+            it('fight ability should allow moving the upgrade to the appropriate officer', function () {
                 this.player1.playUpgrade(this.khrkharSBlaster, this.techivorePulpate);
                 this.player1.fightWith(this.techivorePulpate, this.lamindra);
 
@@ -122,8 +122,8 @@ describe('Khrkhar’s Blaster', function() {
             });
         });
 
-        describe('Khrkhar’s Blaster\'s attach ability', function() {
-            beforeEach(function() {
+        describe("Khrkhar’s Blaster's attach ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'staralliance',
@@ -137,7 +137,7 @@ describe('Khrkhar’s Blaster', function() {
                 });
             });
 
-            it('reap ability should default to deal damage when officer is not in play', function() {
+            it('reap ability should default to deal damage when officer is not in play', function () {
                 this.player1.playUpgrade(this.khrkharSBlaster, this.techivorePulpate);
                 this.player1.reap(this.techivorePulpate);
                 this.player1.clickCard(this.techivorePulpate);
@@ -150,7 +150,7 @@ describe('Khrkhar’s Blaster', function() {
                 expect(this.krump.tokens.damage).toBe(2);
             });
 
-            it('fight ability should default to deal damage when officer is not in play', function() {
+            it('fight ability should default to deal damage when officer is not in play', function () {
                 this.player1.playUpgrade(this.khrkharSBlaster, this.techivorePulpate);
                 this.player1.fightWith(this.techivorePulpate, this.lamindra);
                 this.player1.clickCard(this.techivorePulpate);
@@ -164,8 +164,8 @@ describe('Khrkhar’s Blaster', function() {
             });
         });
 
-        describe('Khrkhar’s Blaster\'s attach ability', function() {
-            beforeEach(function() {
+        describe("Khrkhar’s Blaster's attach ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'staralliance',
@@ -178,11 +178,14 @@ describe('Khrkhar’s Blaster', function() {
                     }
                 });
 
-                this.lieutenantKhrkhar1 = this.player1.findCardByName('lieutenant-khrkhar', 'play area');
+                this.lieutenantKhrkhar1 = this.player1.findCardByName(
+                    'lieutenant-khrkhar',
+                    'play area'
+                );
                 this.lieutenantKhrkhar2 = this.player1.findCardByName('lieutenant-khrkhar', 'hand');
             });
 
-            it('should allow moving upgrade between officers of same name', function() {
+            it('should allow moving upgrade between officers of same name', function () {
                 this.player1.playUpgrade(this.khrkharSBlaster, this.lieutenantKhrkhar1);
                 this.player1.playCreature(this.lieutenantKhrkhar2);
                 this.player1.reap(this.lieutenantKhrkhar1);

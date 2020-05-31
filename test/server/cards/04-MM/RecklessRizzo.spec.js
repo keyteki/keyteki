@@ -1,7 +1,7 @@
-describe('Reckless Rizzo', function() {
-    integration(function() {
-        describe('Reckless Rizzo\'s abilities', function() {
-            beforeEach(function() {
+describe('Reckless Rizzo', function () {
+    integration(function () {
+        describe("Reckless Rizzo's abilities", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'shadows',
@@ -15,7 +15,7 @@ describe('Reckless Rizzo', function() {
                 });
             });
 
-            it('should steal 2A and lose elusive', function() {
+            it('should steal 2A and lose elusive', function () {
                 expect(this.recklessRizzo.getKeywordValue('elusive')).toBe(1);
                 this.player1.useAction(this.recklessRizzo);
                 expect(this.player1.amber).toBe(3);
@@ -23,7 +23,7 @@ describe('Reckless Rizzo', function() {
                 expect(this.recklessRizzo.getKeywordValue('elusive')).toBe(0);
             });
 
-            it('should lose elusive even if no amber is stolen', function() {
+            it('should lose elusive even if no amber is stolen', function () {
                 this.player2.amber = 0;
                 expect(this.recklessRizzo.getKeywordValue('elusive')).toBe(1);
                 this.player1.useAction(this.recklessRizzo);
@@ -32,7 +32,7 @@ describe('Reckless Rizzo', function() {
                 expect(this.recklessRizzo.getKeywordValue('elusive')).toBe(0);
             });
 
-            it('should last for a single round', function() {
+            it('should last for a single round', function () {
                 expect(this.recklessRizzo.getKeywordValue('elusive')).toBe(1);
                 this.player1.useAction(this.recklessRizzo);
                 expect(this.recklessRizzo.getKeywordValue('elusive')).toBe(0);

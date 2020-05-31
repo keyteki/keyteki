@@ -1,7 +1,7 @@
-describe('Garcia’s Blaster', function() {
-    integration(function() {
-        describe('Garcia’s Blaster\'s attach ability', function() {
-            beforeEach(function() {
+describe('Garcia’s Blaster', function () {
+    integration(function () {
+        describe("Garcia’s Blaster's attach ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'staralliance',
@@ -15,20 +15,20 @@ describe('Garcia’s Blaster', function() {
                 });
             });
 
-            it('should steal 1 amber when attached to the associated officer', function() {
+            it('should steal 1 amber when attached to the associated officer', function () {
                 this.player1.playUpgrade(this.garciaSBlaster, this.sensorChiefGarcia);
                 expect(this.sensorChiefGarcia.hasToken('amber')).toBe(false);
                 expect(this.player1.amber).toBe(2);
                 expect(this.player2.amber).toBe(1);
             });
 
-            it('should not steal 1 amber when attached to the non associated officer', function() {
+            it('should not steal 1 amber when attached to the non associated officer', function () {
                 this.player1.playUpgrade(this.garciaSBlaster, this.techivorePulpate);
                 expect(this.player1.amber).toBe(1);
                 expect(this.player2.amber).toBe(2);
             });
 
-            it('reap ability should allow choosing for an action and cancel', function() {
+            it('reap ability should allow choosing for an action and cancel', function () {
                 this.player1.playUpgrade(this.garciaSBlaster, this.techivorePulpate);
                 this.player1.reap(this.techivorePulpate);
 
@@ -38,7 +38,7 @@ describe('Garcia’s Blaster', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('reap ability should allow dealing 2 damages to a creature', function() {
+            it('reap ability should allow dealing 2 damages to a creature', function () {
                 this.player1.playUpgrade(this.garciaSBlaster, this.techivorePulpate);
                 this.player1.reap(this.techivorePulpate);
 
@@ -58,7 +58,7 @@ describe('Garcia’s Blaster', function() {
                 expect(this.krump.tokens.damage).toBe(2);
             });
 
-            it('fight ability should allow dealing 2 damages to a creature', function() {
+            it('fight ability should allow dealing 2 damages to a creature', function () {
                 this.player1.playUpgrade(this.garciaSBlaster, this.techivorePulpate);
                 this.player1.fightWith(this.techivorePulpate, this.lamindra);
 
@@ -78,7 +78,7 @@ describe('Garcia’s Blaster', function() {
                 expect(this.krump.tokens.damage).toBe(2);
             });
 
-            it('reap ability should allow moving the upgrade to the appropriate officer', function() {
+            it('reap ability should allow moving the upgrade to the appropriate officer', function () {
                 this.player1.playUpgrade(this.garciaSBlaster, this.techivorePulpate);
                 this.player1.reap(this.techivorePulpate);
 
@@ -101,7 +101,7 @@ describe('Garcia’s Blaster', function() {
                 expect(this.techivorePulpate.upgrades).not.toContain(this.garciaSBlaster);
             });
 
-            it('fight ability should allow moving the upgrade to the appropriate officer', function() {
+            it('fight ability should allow moving the upgrade to the appropriate officer', function () {
                 this.player1.playUpgrade(this.garciaSBlaster, this.techivorePulpate);
                 this.player1.fightWith(this.techivorePulpate, this.lamindra);
 
@@ -125,8 +125,8 @@ describe('Garcia’s Blaster', function() {
             });
         });
 
-        describe('Garcia’s Blaster\'s attach ability', function() {
-            beforeEach(function() {
+        describe("Garcia’s Blaster's attach ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'staralliance',
@@ -140,7 +140,7 @@ describe('Garcia’s Blaster', function() {
                 });
             });
 
-            it('reap ability should default to deal damage when officer is not in play', function() {
+            it('reap ability should default to deal damage when officer is not in play', function () {
                 this.player1.playUpgrade(this.garciaSBlaster, this.techivorePulpate);
                 this.player1.reap(this.techivorePulpate);
                 this.player1.clickCard(this.techivorePulpate);
@@ -153,7 +153,7 @@ describe('Garcia’s Blaster', function() {
                 expect(this.krump.tokens.damage).toBe(2);
             });
 
-            it('fight ability should default to deal damage when officer is not in play', function() {
+            it('fight ability should default to deal damage when officer is not in play', function () {
                 this.player1.playUpgrade(this.garciaSBlaster, this.techivorePulpate);
                 this.player1.fightWith(this.techivorePulpate, this.lamindra);
                 this.player1.clickCard(this.techivorePulpate);
@@ -167,8 +167,8 @@ describe('Garcia’s Blaster', function() {
             });
         });
 
-        describe('Garcia’s Blaster\'s attach ability', function() {
-            beforeEach(function() {
+        describe("Garcia’s Blaster's attach ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'staralliance',
@@ -185,7 +185,7 @@ describe('Garcia’s Blaster', function() {
                 this.sensorChiefGarcia2 = this.player1.player.creaturesInPlay[2];
             });
 
-            it('should allow moving upgrade between officers of same name', function() {
+            it('should allow moving upgrade between officers of same name', function () {
                 this.player1.playUpgrade(this.garciaSBlaster, this.sensorChiefGarcia1);
                 this.player1.reap(this.sensorChiefGarcia1);
                 this.player1.clickCard(this.sensorChiefGarcia1);

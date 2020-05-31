@@ -12,9 +12,11 @@ export function loadDeck(deckId) {
     return {
         types: ['REQUEST_DECK', 'RECEIVE_DECK'],
         shouldCallAPI: (state) => {
-            let ret = state.cards.decks.length === 0 || !state.cards.decks.some(deck => {
-                return deck.id === deckId;
-            });
+            let ret =
+                state.cards.decks.length === 0 ||
+                !state.cards.decks.some((deck) => {
+                    return deck.id === deckId;
+                });
 
             return ret;
         },

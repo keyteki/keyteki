@@ -9,7 +9,7 @@ class DarkCenturion extends Card {
                 cardType: 'creature',
                 gameAction: ability.actions.removeAmber({ amount: 1 })
             },
-            then: context => ({
+            then: (context) => ({
                 gameAction: ability.actions.addWardToken({
                     target: context.target[0]
                 })

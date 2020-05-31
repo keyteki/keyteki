@@ -1,7 +1,7 @@
-describe('Forgemaster Og', function() {
-    integration(function() {
-        describe('Forgemaster Og\'s ability', function() {
-            beforeEach(function() {
+describe('Forgemaster Og', function () {
+    integration(function () {
+        describe("Forgemaster Og's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'brobnar',
@@ -15,7 +15,7 @@ describe('Forgemaster Og', function() {
                 });
             });
 
-            it('should trigger when the opponent forges a key, causing them to lose all their remaining amber.', function() {
+            it('should trigger when the opponent forges a key, causing them to lose all their remaining amber.', function () {
                 this.player1.endTurn();
                 this.player2.forgeKey('Red');
                 expect(this.player2.player.keys.red).toBe(true);
@@ -24,7 +24,7 @@ describe('Forgemaster Og', function() {
                 expect(this.player2.amber).toBe(0);
                 expect(this.player1.amber).toBe(4);
             });
-            it('should trigger when the controller forges a key, causing them to lose all their remaining amber.', function() {
+            it('should trigger when the controller forges a key, causing them to lose all their remaining amber.', function () {
                 this.player1.endTurn();
                 this.player2.forgeKey('Red');
                 expect(this.player2.player.keys.red).toBe(true);

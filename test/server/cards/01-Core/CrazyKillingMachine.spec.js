@@ -1,7 +1,7 @@
-describe('Crazy Killing Machine', function() {
-    integration(function() {
-        describe('Crazy Killing Machine\'s ability', function() {
-            beforeEach(function() {
+describe('Crazy Killing Machine', function () {
+    integration(function () {
+        describe("Crazy Killing Machine's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
@@ -17,18 +17,18 @@ describe('Crazy Killing Machine', function() {
                 this.player2.player.moveCard(this.badPenny, 'deck');
             });
 
-            it('should discard a card from both players deck', function() {
+            it('should discard a card from both players deck', function () {
                 expect(this.inspiration.location).toBe('deck');
                 expect(this.badPenny.location).toBe('deck');
                 this.player1.clickCard(this.crazyKillingMachine);
-                this.player1.clickPrompt('Use this card\'s Action ability');
+                this.player1.clickPrompt("Use this card's Action ability");
                 expect(this.inspiration.location).toBe('discard');
                 expect(this.badPenny.location).toBe('discard');
             });
 
-            it('should prompt the controller to destroy creatures', function() {
+            it('should prompt the controller to destroy creatures', function () {
                 this.player1.clickCard(this.crazyKillingMachine);
-                this.player1.clickPrompt('Use this card\'s Action ability');
+                this.player1.clickPrompt("Use this card's Action ability");
                 expect(this.player1).toHavePrompt('Choose a sanctum card to destroy');
                 expect(this.player1).toBeAbleToSelect(this.raidingKnight);
                 expect(this.player1).toBeAbleToSelect(this.sequis);
@@ -46,10 +46,10 @@ describe('Crazy Killing Machine', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should destroy itself if there is not a legal target for one of houses', function() {
+            it('should destroy itself if there is not a legal target for one of houses', function () {
                 this.player1.player.moveCard(this.ancientBear, 'deck');
                 this.player1.clickCard(this.crazyKillingMachine);
-                this.player1.clickPrompt('Use this card\'s Action ability');
+                this.player1.clickPrompt("Use this card's Action ability");
                 expect(this.player1).toHavePrompt('Choose a shadows card to destroy');
                 expect(this.player1).not.toBeAbleToSelect(this.raidingKnight);
                 expect(this.player1).toBeAbleToSelect(this.macisAsp);

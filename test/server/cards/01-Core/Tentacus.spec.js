@@ -1,7 +1,7 @@
-describe('Tentacus', function() {
-    integration(function() {
-        describe('Tentacus\'s ability', function() {
-            beforeEach(function() {
+describe('Tentacus', function () {
+    integration(function () {
+        describe("Tentacus's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
@@ -14,7 +14,7 @@ describe('Tentacus', function() {
                 });
             });
 
-            it('should stop players from using artifacts when they have no amber', function() {
+            it('should stop players from using artifacts when they have no amber', function () {
                 this.player1.play(this.anomalyExploiter);
                 expect(this.anomalyExploiter.location).toBe('play area');
                 this.player1.clickCard(this.libraryOfBabble);
@@ -28,7 +28,7 @@ describe('Tentacus', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should pay an amber to the opponent when they use an artifact', function() {
+            it('should pay an amber to the opponent when they use an artifact', function () {
                 this.player1.amber = 3;
                 this.player1.useAction(this.libraryOfBabble);
                 expect(this.player1.hand.length).toBe(3);
@@ -47,8 +47,8 @@ describe('Tentacus', function() {
             });
         });
 
-        describe('Tentacus\'s ability', function() {
-            beforeEach(function() {
+        describe("Tentacus's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
@@ -61,7 +61,7 @@ describe('Tentacus', function() {
                 });
             });
 
-            it('paid amount should be captured by Ether Spider', function() {
+            it('paid amount should be captured by Ether Spider', function () {
                 this.player1.amber = 3;
                 this.player1.useAction(this.libraryOfBabble);
                 expect(this.player1.hand.length).toBe(3);

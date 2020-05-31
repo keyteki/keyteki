@@ -1,7 +1,7 @@
-describe('Mothership Support', function() {
-    integration(function() {
-        describe('Mothership Support\'s ability', function() {
-            beforeEach(function() {
+describe('Mothership Support', function () {
+    integration(function () {
+        describe("Mothership Support's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'mars',
@@ -14,7 +14,7 @@ describe('Mothership Support', function() {
                 });
             });
 
-            it('should not do anything if there are no creatures in play', function() {
+            it('should not do anything if there are no creatures in play', function () {
                 this.player1.fightWith(this.mindwarper, this.troll);
                 this.player1.fightWith(this.johnSmyth, this.troll);
                 this.player1.fightWith(this.ulyqMegamouth, this.bumpsy);
@@ -24,7 +24,7 @@ describe('Mothership Support', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should trigger and deal damage for each ready mars creature', function() {
+            it('should trigger and deal damage for each ready mars creature', function () {
                 this.player1.play(this.mothershipSupport);
                 expect(this.player1).toHavePrompt('Mothership Support');
                 expect(this.player1).toBeAbleToSelect(this.mindwarper);

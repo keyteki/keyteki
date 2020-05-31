@@ -7,7 +7,7 @@ class LookOverThere extends Card {
                 cardType: 'creature',
                 gameAction: ability.actions.sequential([
                     ability.actions.dealDamage({ amount: 2 }),
-                    ability.actions.conditional(context => ({
+                    ability.actions.conditional((context) => ({
                         condition: () => context.target.location === 'play area',
                         trueGameAction: ability.actions.steal()
                     }))

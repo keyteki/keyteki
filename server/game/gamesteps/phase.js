@@ -13,18 +13,26 @@ class Phase extends BaseStepWithPipeline {
     }
 
     startPhase() {
-        if(this.game.activePlayer && this.game.activePlayer.getEffects('skipStep').includes(this.name)) {
+        if (
+            this.game.activePlayer &&
+            this.game.activePlayer.getEffects('skipStep').includes(this.name)
+        ) {
             return;
         }
 
         this.game.raiseEvent('onPhaseStarted', { phase: this.name }, () => {
             this.game.currentPhase = this.name;
-            if(this.name !== 'setup') {
-                this.game.addAlert('endofround', '{0} phase - {1}', this.name.charAt(0).toUpperCase() + this.name.slice(1), this.game.activePlayer);
+            if (this.name !== 'setup') {
+                this.game.addAlert(
+                    'endofround',
+                    '{0} phase - {1}',
+                    this.name.charAt(0).toUpperCase() + this.name.slice(1),
+                    this.game.activePlayer
+                );
             }
         });
 
-        for(let step of this.steps) {
+        for (let step of this.steps) {
             this.game.queueStep(step);
         }
     }

@@ -4,7 +4,9 @@ class CandleUnit extends Card {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onReap: (event, context) => event.card.type === 'creature' && event.card.controller !== context.source.controller
+                onReap: (event, context) =>
+                    event.card.type === 'creature' &&
+                    event.card.controller !== context.source.controller
             },
             gameAction: ability.actions.draw()
         });

@@ -1,12 +1,18 @@
-describe('Loot the Bodies', function() {
-    integration(function() {
-        describe('Loot the Bodies\'s ability', function() {
-            beforeEach(function() {
+describe('Loot the Bodies', function () {
+    integration(function () {
+        describe("Loot the Bodies's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'brobnar',
                         inPlay: ['troll'],
-                        hand: ['loot-the-bodies', 'loot-the-bodies', 'punch', 'hebe-the-huge', 'coward-s-end']
+                        hand: [
+                            'loot-the-bodies',
+                            'loot-the-bodies',
+                            'punch',
+                            'hebe-the-huge',
+                            'coward-s-end'
+                        ]
                     },
                     player2: {
                         inPlay: ['batdrone', 'ganymede-archivist', 'doc-bookton', 'inka-the-spider']
@@ -14,7 +20,7 @@ describe('Loot the Bodies', function() {
                 });
             });
 
-            it('should gain an amber for enemy creature killed ths turn', function() {
+            it('should gain an amber for enemy creature killed ths turn', function () {
                 this.player1.play(this.lootTheBodies);
                 expect(this.player1.amber).toBe(0);
                 this.player1.fightWith(this.troll, this.ganymedeArchivist);
@@ -35,7 +41,7 @@ describe('Loot the Bodies', function() {
                 expect(this.player1.amber).toBe(5);
             });
 
-            it('should not gain an amber for creatures killed on subsequent turns', function() {
+            it('should not gain an amber for creatures killed on subsequent turns', function () {
                 this.player1.play(this.lootTheBodies);
                 expect(this.player1.amber).toBe(0);
                 this.player1.endTurn();
@@ -44,7 +50,7 @@ describe('Loot the Bodies', function() {
                 expect(this.player1.amber).toBe(0);
             });
 
-            it('should stack', function() {
+            it('should stack', function () {
                 this.lootTheBodies2 = this.player1.player.hand[1];
                 this.player1.play(this.lootTheBodies);
                 expect(this.player1.amber).toBe(0);
@@ -57,7 +63,7 @@ describe('Loot the Bodies', function() {
                 expect(this.player1.amber).toBe(2);
             });
 
-            it('should work with Coward\'s end', function() {
+            it("should work with Coward's end", function () {
                 this.player1.play(this.lootTheBodies);
                 this.player1.play(this.cowardSEnd);
                 this.player1.clickPrompt('Loot the Bodies');

@@ -7,83 +7,94 @@ const defaultState = {
     windowBlurred: false
 };
 
-export default function(state = defaultState, action) {
-    switch(action.type) {
+export default function (state = defaultState, action) {
+    let newState = Object.assign({}, state);
+
+    switch (action.type) {
         case 'LOBBY_CONNECTING':
-            return Object.assign({}, state, {
-                connecting: true,
-                connected: false,
-                socket: action.socket
-            });
+            newState.connecting = true;
+            newState.connected = false;
+            newState.socket = action.socket;
+
+            break;
         case 'LOBBY_CONNECTED':
-            return Object.assign({}, state, {
-                connecting: false,
-                connected: true
-            });
+            newState.connecting = false;
+            newState.connected = true;
+
+            break;
         case 'LOBBY_DISCONNECTED':
-            return Object.assign({}, state, {
-                connecting: false,
-                connected: false
-            });
+            newState.connecting = false;
+            newState.connected = false;
+
+            break;
         case 'LOBBY_RECONNECING':
-            return Object.assign({}, state, {
-                connected: false,
-                connecting: true
-            });
+            (newState.connected = false), (newState.connecting = true);
+
+            break;
         case 'LOBBY_MESSAGE_RECEIVED':
             return handleMessage(action, state);
         case 'LOBBY_MESSAGE_DELETED':
             return handleMessage(action, state);
         case 'JOIN_PASSWORD_GAME':
-            return Object.assign({}, state, {
-                passwordGame: action.game,
-                passwordJoinType: action.joinType
-            });
+            newState.passwordGame = action.game;
+            newState.passwordJoinType = action.joinType;
+
+            break;
         case 'CANCEL_PASSWORD_JOIN':
-            return Object.assign({}, state, {
-                passwordGame: undefined,
-                passwordError: undefined,
-                passwordJoinType: undefined
-            });
+            newState.passwordJoinType = undefined;
+            newState.passwordGame = undefined;
+            newState.passwordError = undefined;
+
+            break;
         case 'GAME_SOCKET_CLOSED':
-            return Object.assign({}, state, {
-                currentGame: undefined,
-                newGame: false
-            });
+            newState.currentGame = undefined;
+            newState.newGame = false;
+
+            break;
         case 'PROFILE_SAVED':
-            if(state.socket) {
+            if (state.socket) {
                 state.socket.emit('authenticate', action.response.token);
             }
 
             break;
+        case 'GAME_STARTING':
+            newState.gameError = undefined;
+
+            break;
         case 'START_NEWGAME':
-            return Object.assign({}, state, {
-                newGame: true
-            });
+            newState.newGame = true;
+
+            break;
         case 'CANCEL_NEWGAME':
-            return Object.assign({}, state, {
-                newGame: false
-            });
+            newState.newGame = false;
+
+            break;
         case 'CLEAR_CHAT_STATUS':
-            return Object.assign({}, state, {
-                lobbyError: false
-            });
+            newState.lobbyError = false;
+
+            break;
         case 'CLEAR_GAMESTATE':
-            return Object.assign({}, state, {
-                newGame: false,
-                currentGame: undefined
-            });
+            newState.newGame = false;
+            newState.currentGame = undefined;
+
+            break;
         case 'WINDOW_BLUR':
-            return Object.assign({}, state, {
-                windowBlurred: true
-            });
+            newState.windowBlurred = true;
+
+            break;
         case 'WINDOW_FOCUS':
-            return Object.assign({}, state, {
-                windowBlurred: false
-            });
+            newState.windowBlurred = false;
+
+            break;
+        case 'RESPONSE_TIME_RECEIVED':
+            newState.responseTime = action.responseTime;
+
+            break;
+        default:
+            return state;
     }
 
-    return state;
+    return newState;
 }
 
 function handleGameState(action, state) {
@@ -94,29 +105,32 @@ function handleGameState(action, state) {
     var username = action.args[1];
 
     var currentState = retState.currentGame;
-    if(!currentState) {
+    if (!currentState) {
         retState.newGame = false;
         return retState;
     }
 
-    if(currentState && currentState.spectators.some(spectator => {
-        return spectator.name === username;
-    })) {
+    if (
+        currentState &&
+        currentState.spectators.some((spectator) => {
+            return spectator.name === username;
+        })
+    ) {
         return retState;
     }
 
-    if(!currentState || !currentState.players[username] || currentState.players[username].left) {
+    if (!currentState || !currentState.players[username] || currentState.players[username].left) {
         delete retState.currentGame;
         retState.newGame = false;
     }
 
-    if(currentState) {
+    if (currentState) {
         delete retState.passwordGame;
         delete retState.passwordJoinType;
         delete retState.passwordError;
     }
 
-    if(retState.currentGame && !retState.currentGame.started) {
+    if (retState.currentGame && !retState.currentGame.started) {
         retState.newGame = true;
     }
 
@@ -124,52 +138,47 @@ function handleGameState(action, state) {
 }
 
 function handleMessage(action, state) {
-    let newState = state;
+    let newState = Object.assign({}, state);
 
-    switch(action.message) {
+    switch (action.message) {
         case 'games':
-            newState = Object.assign({}, state, {
-                games: action.args[0]
-            });
+            newState.games = action.args[0];
 
             // If the current game is no longer in the game list, it must have been closed
-            if(state.currentGame && !action.args[0].some(game => {
-                return game.id === state.currentGame.id;
-            })) {
+            if (
+                state.currentGame &&
+                !action.args[0].some((game) => {
+                    return game.id === state.currentGame.id;
+                })
+            ) {
                 newState.currentGame = undefined;
                 newState.newGame = false;
             }
 
             break;
         case 'newgame':
-            var games = [...action.args[0], ...state.games];
-
-            newState = Object.assign({}, state, {
-                games: games
-            });
+            newState.games = [...action.args[0], ...state.games];
 
             break;
         case 'removegame':
-            newState = Object.assign({}, state, {
-                games: state.games.filter(game => !action.args[0].some(g => g.id === game.id))
-            });
+            newState.games = state.games.filter(
+                (game) => !action.args[0].some((g) => g.id === game.id)
+            );
+
             break;
         case 'updategame':
             var updatedGames = state.games.slice(0);
-            for(let game of action.args[0]) {
-                let index = _.findIndex(updatedGames, g => g.id === game.id);
+            for (let game of action.args[0]) {
+                let index = _.findIndex(updatedGames, (g) => g.id === game.id);
 
                 updatedGames[index] = game;
             }
 
-            newState = Object.assign({}, state, {
-                games: updatedGames
-            });
+            newState.games = updatedGames;
+
             break;
         case 'users':
-            newState = Object.assign({}, state, {
-                users: action.args[0]
-            });
+            newState.users = action.args[0];
 
             break;
         case 'newuser':
@@ -178,47 +187,37 @@ function handleMessage(action, state) {
             users.push(action.args[0]);
             users = users.sort((a, b) => a < b);
 
-            newState = Object.assign({}, state, {
-                users: users
-            });
+            newState.users = users;
 
             break;
         case 'userleft':
-            newState = Object.assign({}, state, {
-                users: state.users.filter(u => u.username !== action.args[0].username)
-            });
+            newState.users = state.users.filter((u) => u.username !== action.args[0].username);
 
             break;
         case 'passworderror':
-            newState = Object.assign({}, state, {
-                passwordError: action.args[0]
-            });
+            newState.passwordError = action.args[0];
+
+            break;
+        case 'gameerror':
+            newState.gameError = action.args[0];
 
             break;
         case 'lobbychat':
-            newState = Object.assign({}, state, {
-                messages: [
-                    ...state.messages, action.args[0]
-                ]
-            });
+            newState.messages = [...state.messages, action.args[0]];
 
             break;
         case 'nochat':
-            newState = Object.assign({}, state, {
-                lobbyError: true
-            });
+            newState.lobbyError = true;
 
             break;
         case 'lobbymessages':
-            newState = Object.assign({}, state, {
-                messages: action.args[0]
-            });
+            newState.messages = action.args[0];
 
             break;
         case 'removemessage':
-            newState = Object.assign({}, state);
-
-            var message = newState.messages.find(message => message.id === parseInt(action.args[0]));
+            var message = newState.messages.find(
+                (message) => message.id === parseInt(action.args[0])
+            );
             message.deletedBy = action.args[1];
             message.deleted = true;
 
@@ -226,14 +225,10 @@ function handleMessage(action, state) {
 
             break;
         case 'banner':
-            newState = Object.assign({}, state, {
-                notice: action.args[0]
-            });
+            newState.notice = action.args[0];
             break;
         case 'motd':
-            newState = Object.assign({}, state, {
-                motd: action.args[0]
-            });
+            newState.motd = action.args[0];
 
             break;
         case 'gamestate':
@@ -241,10 +236,8 @@ function handleMessage(action, state) {
 
             break;
         case 'cleargamestate':
-            newState = Object.assign({}, state, {
-                newGame: false,
-                currentGame: undefined
-            });
+            newState.newGame = false;
+            newState.currentGame = undefined;
 
             break;
     }

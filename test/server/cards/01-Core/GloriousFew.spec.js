@@ -1,7 +1,7 @@
-describe('Glorious Few', function() {
-    integration(function() {
-        describe('Glorious Few\'s ability', function() {
-            beforeEach(function() {
+describe('Glorious Few', function () {
+    integration(function () {
+        describe("Glorious Few's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         amber: 3,
@@ -16,12 +16,12 @@ describe('Glorious Few', function() {
                 });
             });
 
-            it('should give the player amber equal to the difference between the number of creatures on each side', function() {
+            it('should give the player amber equal to the difference between the number of creatures on each side', function () {
                 this.player1.play(this.gloriousFew);
                 expect(this.player1.amber).toBe(5);
             });
 
-            it('should not do anything when the player has more creatures', function() {
+            it('should not do anything when the player has more creatures', function () {
                 this.player1.moveCard(this.batdrone, 'play area');
                 this.player1.moveCard(this.zorg, 'play area');
                 this.player1.moveCard(this.mindwarper, 'play area');

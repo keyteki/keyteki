@@ -8,19 +8,22 @@ class Overrun extends Card {
         this.tracker.register(['onCardDestroyed', 'onPhaseStarted']);
 
         this.play({
-            condition: context => context.player.opponent && (this.creaturesDestroyed[context.player.opponent.uuid] >= 3),
+            condition: (context) =>
+                context.player.opponent &&
+                this.creaturesDestroyed[context.player.opponent.uuid] >= 3,
             gameAction: ability.actions.loseAmber({ amount: 2 })
         });
     }
 
     onCardDestroyed(event) {
-        if(event.card.type === 'creature') {
-            this.creaturesDestroyed[event.card.owner.uuid] = this.creaturesDestroyed[event.card.owner.uuid] + 1;
+        if (event.card.type === 'creature') {
+            this.creaturesDestroyed[event.card.owner.uuid] =
+                this.creaturesDestroyed[event.card.owner.uuid] + 1;
         }
     }
 
     onPhaseStarted(event) {
-        if(event.phase === 'main') {
+        if (event.phase === 'main') {
             this.creaturesDestroyed[this.game.activePlayer.uuid] = 0;
         }
     }

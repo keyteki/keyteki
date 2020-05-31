@@ -1,7 +1,7 @@
-describe('Amphora Captura', function() {
-    integration(function() {
-        describe('Amphora Captura\'s abilities', function() {
-            beforeEach(function() {
+describe('Amphora Captura', function () {
+    integration(function () {
+        describe("Amphora Captura's abilities", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'untamed',
@@ -15,13 +15,13 @@ describe('Amphora Captura', function() {
                 });
             });
 
-            it('should not trigger if no bonus', function() {
+            it('should not trigger if no bonus', function () {
                 this.player1.play(this.wildBounty);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
                 expect(this.player1.amber).toBe(0);
             });
 
-            it('should ask to replace default bonus icon with capture', function() {
+            it('should ask to replace default bonus icon with capture', function () {
                 this.player1.play(this.dustPixie);
                 expect(this.player1).toHavePrompt('How do you wish to resolve this amber icon?');
                 expect(this.player1).toHavePromptButton('amber');
@@ -41,4 +41,3 @@ describe('Amphora Captura', function() {
         });
     });
 });
-

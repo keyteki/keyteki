@@ -1,7 +1,7 @@
-describe('Hunter or Hunted?', function() {
-    integration(function() {
-        describe('Hunter or Hunted?\'s ability', function() {
-            beforeEach(function() {
+describe('Hunter or Hunted?', function () {
+    integration(function () {
+        describe("Hunter or Hunted?'s ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'shadows',
@@ -14,7 +14,7 @@ describe('Hunter or Hunted?', function() {
                 });
             });
 
-            it('should allow warding a friendly creature', function() {
+            it('should allow warding a friendly creature', function () {
                 this.player1.play(this.hunterOrHunted);
                 expect(this.player1).toHavePrompt('Hunter or Hunted?');
                 expect(this.player1).not.toHavePromptButton('Ward a creature');
@@ -25,7 +25,7 @@ describe('Hunter or Hunted?', function() {
                 expect(this.lamindra.tokens.ward).toBe(1);
             });
 
-            it('should allow warding an enemy creature', function() {
+            it('should allow warding an enemy creature', function () {
                 this.player1.play(this.hunterOrHunted);
                 expect(this.player1).toBeAbleToSelect(this.lamindra);
                 expect(this.player1).toBeAbleToSelect(this.troll);
@@ -34,8 +34,8 @@ describe('Hunter or Hunted?', function() {
             });
         });
 
-        describe('Hunter or Hunted?\'s ability', function() {
-            beforeEach(function() {
+        describe("Hunter or Hunted?'s ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'shadows',
@@ -50,7 +50,7 @@ describe('Hunter or Hunted?', function() {
                 this.lamindra.tokens.ward = 1;
             });
 
-            it('should allow warding a warded creature', function() {
+            it('should allow warding a warded creature', function () {
                 this.player1.play(this.hunterOrHunted);
                 expect(this.player1).toHavePrompt('Hunter or Hunted?');
                 expect(this.player1).not.toHavePromptButton('Ward a creature');
@@ -61,8 +61,8 @@ describe('Hunter or Hunted?', function() {
             });
         });
 
-        describe('Hunter or Hunted?\'s ability', function() {
-            beforeEach(function() {
+        describe("Hunter or Hunted?'s ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'shadows',
@@ -77,7 +77,7 @@ describe('Hunter or Hunted?', function() {
                 this.troll.tokens.ward = 2;
             });
 
-            it('should have option to ward', function() {
+            it('should have option to ward', function () {
                 this.player1.play(this.hunterOrHunted);
                 expect(this.player1).toHavePrompt('Hunter or Hunted?');
                 expect(this.player1).toHavePromptButton('Ward a creature');
@@ -87,7 +87,7 @@ describe('Hunter or Hunted?', function() {
                 expect(this.redlock.tokens.ward).toBe(1);
             });
 
-            it('should allow moving a token', function() {
+            it('should allow moving a token', function () {
                 this.player1.play(this.hunterOrHunted);
                 expect(this.player1).toHavePrompt('Hunter or Hunted?');
                 expect(this.player1).toHavePromptButton('Ward a creature');

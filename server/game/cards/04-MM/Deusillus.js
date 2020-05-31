@@ -7,20 +7,22 @@ class Deusillus extends Card {
         this.gigantic = true;
         this.playedParts = [];
         this.compositeImageId = 'deusillus-complete';
-        this.compositeParts = ['deusillus-2'];
+        this.compositeParts = ['deusillus2'];
     }
 
     setupCardAbilities(ability) {
         this.persistentEffect({
             location: 'any',
-            effect: ability.effects.cardCannot('play', context => {
-                return this.compositeParts.concat(this.id).some(id => !context.source.controller.hand.some(card => id === card.id));
+            effect: ability.effects.cardCannot('play', (context) => {
+                return this.compositeParts
+                    .concat(this.id)
+                    .some((id) => !context.source.controller.hand.some((card) => id === card.id));
             })
         });
 
         this.play({
             gameAction: ability.actions.sequential([
-                ability.actions.capture(context => ({
+                ability.actions.capture((context) => ({
                     amount: context.player.opponent ? context.player.opponent.amber : 0
                 })),
                 ability.actions.dealDamage({
@@ -38,7 +40,7 @@ class Deusillus extends Card {
             reap: true,
             gameAction: ability.actions.sequential([
                 ability.actions.removeAmber(),
-                ability.actions.dealDamage(context => ({
+                ability.actions.dealDamage((context) => ({
                     amount: 2,
                     target: context.player.opponent && context.player.opponent.creaturesInPlay
                 }))

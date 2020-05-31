@@ -6,7 +6,7 @@ class Molephin extends Card {
             when: {
                 onStealAmber: (event, context) => event.player === context.player
             },
-            gameAction: ability.actions.dealDamage(context => ({
+            gameAction: ability.actions.dealDamage((context) => ({
                 target: context.player.opponent.creaturesInPlay,
                 amount: context.event.amount
             }))

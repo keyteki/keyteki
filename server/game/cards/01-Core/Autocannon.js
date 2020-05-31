@@ -4,9 +4,9 @@ class Autocannon extends Card {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onCardEntersPlay: event => event.card.type === 'creature'
+                onCardEntersPlay: (event) => event.card.type === 'creature'
             },
-            gameAction: ability.actions.dealDamage(context => ({
+            gameAction: ability.actions.dealDamage((context) => ({
                 amount: 1,
                 target: context.event.card
             }))

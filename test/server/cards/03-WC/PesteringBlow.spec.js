@@ -1,7 +1,7 @@
-describe('Pestering Blow', function() {
-    integration(function() {
-        describe('Pestering Blow\'s play ability', function() {
-            beforeEach(function() {
+describe('Pestering Blow', function () {
+    integration(function () {
+        describe("Pestering Blow's play ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'shadows',
@@ -19,7 +19,7 @@ describe('Pestering Blow', function() {
                 this.krump.tokens['amber'] = 1;
             });
 
-            it('Deal 1 damage and enrage a friendly creature', function() {
+            it('Deal 1 damage and enrage a friendly creature', function () {
                 this.player1.play(this.pesteringBlow);
 
                 expect(this.player1).toBeAbleToSelect(this.flaxia);
@@ -33,7 +33,7 @@ describe('Pestering Blow', function() {
                 expect(this.flaxia.tokens.damage).toBe(1);
             });
 
-            it('Deal 1 damage and enrage an enemy creature', function() {
+            it('Deal 1 damage and enrage an enemy creature', function () {
                 this.player1.play(this.pesteringBlow);
 
                 expect(this.player1).toBeAbleToSelect(this.flaxia);

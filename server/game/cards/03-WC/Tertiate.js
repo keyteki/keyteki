@@ -8,14 +8,17 @@ class Tertiate extends Card {
                     mode: 'exactly',
                     cardType: 'creature',
                     controller: 'opponent',
-                    numCards: context => context.player.opponent ? Math.ceil(context.player.opponent.creaturesInPlay.length / 3) : 0,
+                    numCards: (context) =>
+                        context.player.opponent
+                            ? Math.ceil(context.player.opponent.creaturesInPlay.length / 3)
+                            : 0,
                     gameAction: ability.actions.destroy()
                 },
                 friendly: {
                     mode: 'exactly',
                     cardType: 'creature',
                     controller: 'self',
-                    numCards: context => Math.ceil(context.player.creaturesInPlay.length / 3),
+                    numCards: (context) => Math.ceil(context.player.creaturesInPlay.length / 3),
                     gameAction: ability.actions.destroy()
                 }
             },

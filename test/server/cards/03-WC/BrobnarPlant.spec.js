@@ -1,7 +1,7 @@
-describe('Brobnar Plant', function() {
-    integration(function() {
-        describe('Brobnar Plant\'s constant effect', function() {
-            beforeEach(function() {
+describe('Brobnar Plant', function () {
+    integration(function () {
+        describe("Brobnar Plant's constant effect", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'shadows',
@@ -15,7 +15,7 @@ describe('Brobnar Plant', function() {
                 });
             });
 
-            it('should gain amber when selecting brobnar', function() {
+            it('should gain amber when selecting brobnar', function () {
                 expect(this.player1.amber).toBe(0);
                 expect(this.player2.amber).toBe(0);
 
@@ -38,7 +38,7 @@ describe('Brobnar Plant', function() {
                 this.player1.endTurn();
             });
 
-            it('should not gain amber when not selecting brobnar', function() {
+            it('should not gain amber when not selecting brobnar', function () {
                 expect(this.player1.amber).toBe(0);
                 expect(this.player2.amber).toBe(0);
 
@@ -61,7 +61,7 @@ describe('Brobnar Plant', function() {
                 this.player1.endTurn();
             });
 
-            it('should gain amber after taking control', function() {
+            it('should gain amber after taking control', function () {
                 expect(this.player1.amber).toBe(0);
                 expect(this.player2.amber).toBe(0);
 

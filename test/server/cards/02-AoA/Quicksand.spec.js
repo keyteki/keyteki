@@ -1,7 +1,7 @@
-describe('Quicksand', function() {
-    integration(function() {
-        describe('Quicksand\'s ability', function() {
-            beforeEach(function() {
+describe('Quicksand', function () {
+    integration(function () {
+        describe("Quicksand's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'untamed',
@@ -14,7 +14,7 @@ describe('Quicksand', function() {
                 });
             });
 
-            it('should destroy both players creatures where neither playert has an exhausted untamed creature', function() {
+            it('should destroy both players creatures where neither playert has an exhausted untamed creature', function () {
                 this.player1.fightWith(this.snufflegator, this.dextre);
                 this.player1.fightWith(this.mightyTiger, this.inkaTheSpider);
                 expect(this.inkaTheSpider.location).toBe('discard');
@@ -42,7 +42,7 @@ describe('Quicksand', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should prompt the player where two creatures are tied', function() {
+            it('should prompt the player where two creatures are tied', function () {
                 this.player1.fightWith(this.mightyTiger, this.inkaTheSpider);
                 expect(this.inkaTheSpider.location).toBe('discard');
                 expect(this.mightyTiger.location).toBe('discard');
@@ -59,7 +59,7 @@ describe('Quicksand', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should destroy the most powerful creature where only one player has an exhausted untamed creature', function() {
+            it('should destroy the most powerful creature where only one player has an exhausted untamed creature', function () {
                 this.player1.reap(this.mightyTiger);
                 this.player1.reap(this.snufflegator);
                 this.player1.play(this.quicksand);
@@ -75,7 +75,7 @@ describe('Quicksand', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should not resolve if both players have a ready untamed creature', function() {
+            it('should not resolve if both players have a ready untamed creature', function () {
                 this.player1.play(this.quicksand);
                 expect(this.troll.location).toBe('play area');
                 expect(this.mightyTiger.location).toBe('play area');

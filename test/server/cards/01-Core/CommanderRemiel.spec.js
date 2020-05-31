@@ -1,7 +1,7 @@
-describe('Commander Remiel', function() {
-    integration(function() {
-        describe('Commander Remiel\'s ability', function() {
-            beforeEach(function() {
+describe('Commander Remiel', function () {
+    integration(function () {
+        describe("Commander Remiel's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'sanctum',
@@ -14,7 +14,7 @@ describe('Commander Remiel', function() {
                 });
             });
 
-            it('should allow using another creature', function() {
+            it('should allow using another creature', function () {
                 this.player1.reap(this.commanderRemiel);
                 expect(this.player1).toHavePrompt('Commander Remiel');
                 expect(this.player1).toBeAbleToSelect(this.troll);
@@ -32,7 +32,7 @@ describe('Commander Remiel', function() {
                 expect(this.mightyTiger.location).toBe('discard');
             });
 
-            it('should not trigger when there are no legal targets', function() {
+            it('should not trigger when there are no legal targets', function () {
                 this.player1.play(this.inspiration);
                 this.player1.clickCard(this.troll);
                 this.player1.clickPrompt('Fight with this creature');

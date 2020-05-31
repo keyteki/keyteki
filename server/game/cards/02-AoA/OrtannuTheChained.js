@@ -3,13 +3,16 @@ const Card = require('../../Card.js');
 class OrtannuTheChained extends Card {
     setupCardAbilities(ability) {
         this.reap({
-            effect: 'return each copy of Ortannu’s Binding to hand and deal 2 damage for each copy returned',
-            gameAction: ability.actions.returnToHand(context => ({
+            effect:
+                'return each copy of Ortannu’s Binding to hand and deal 2 damage for each copy returned',
+            gameAction: ability.actions.returnToHand((context) => ({
                 location: 'discard',
-                target: context.player.discard.filter(card => card.name === 'Ortannu’s Binding')
+                target: context.player.discard.filter((card) => card.name === 'Ortannu’s Binding')
             })),
-            then: context => {
-                let amount = context.player.discard.filter(card => card.name === 'Ortannu’s Binding').length;
+            then: (context) => {
+                let amount = context.player.discard.filter(
+                    (card) => card.name === 'Ortannu’s Binding'
+                ).length;
 
                 return {
                     gameAction: ability.actions.sequentialForEach(() => ({

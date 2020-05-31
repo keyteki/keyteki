@@ -5,8 +5,11 @@ class NewsService {
     async getRecentNewsItems(options) {
         let news;
         try {
-            news = await db.query('SELECT n.*, u."Username" AS "Poster" FROM "News" n JOIN "Users" u ON u."Id" = n."PosterId" ORDER BY "PostedDate" DESC LIMIT $1', [options.limit]);
-        } catch(err) {
+            news = await db.query(
+                'SELECT n.*, u."Username" AS "Poster" FROM "News" n JOIN "Users" u ON u."Id" = n."PosterId" ORDER BY "PostedDate" DESC LIMIT $1',
+                [options.limit]
+            );
+        } catch (err) {
             logger.error('Failed to fetch news', err);
 
             throw new Error('Failed to fetch news');
@@ -19,8 +22,11 @@ class NewsService {
         let ret;
 
         try {
-            ret = await db.query('INSERT INTO "News" ("Text", "PosterId", "PostedDate") VALUES ($1, $2, $3) RETURNING "Id"', [news.text, news.poster, new Date()]);
-        } catch(err) {
+            ret = await db.query(
+                'INSERT INTO "News" ("Text", "PosterId", "PostedDate") VALUES ($1, $2, $3) RETURNING "Id"',
+                [news.text, news.poster, new Date()]
+            );
+        } catch (err) {
             logger.error('Error adding news item', err);
 
             throw new Error('Error occured adding news item');
@@ -34,7 +40,7 @@ class NewsService {
     async editNews(id, text) {
         try {
             await db.query('UPDATE "News" SET "Text" = $1 WHERE "Id" = $2', [text, id]);
-        } catch(err) {
+        } catch (err) {
             logger.error('Error saving news item', err);
 
             throw new Error('Error occured saving news item');
@@ -44,7 +50,7 @@ class NewsService {
     async deleteNews(id) {
         try {
             await db.query('DELETE FROM "News" WHERE "Id" = $1', [id]);
-        } catch(err) {
+        } catch (err) {
             logger.error('Error deleting news item', err);
 
             throw new Error('Error occured deleting news item');

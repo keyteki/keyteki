@@ -20,7 +20,7 @@ class ImpLosion extends Card {
                 }
             },
             effects: 'destroy {1}',
-            effectsArg: context => [Object.values(context.targets)]
+            effectsArg: (context) => [Object.values(context.targets)]
         });
     }
 }

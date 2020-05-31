@@ -1,7 +1,7 @@
-export default function(state = {}, action) {
+export default function (state = {}, action) {
     let retState = Object.assign({}, state);
 
-    switch(action.type) {
+    switch (action.type) {
         case 'API_FAILURE':
             retState[action.request] = {
                 status: action.status,

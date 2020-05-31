@@ -1,7 +1,7 @@
-describe('Universal Translator', function() {
-    integration(function() {
-        describe('Universal Translator\'s ability', function() {
-            beforeEach(function() {
+describe('Universal Translator', function () {
+    integration(function () {
+        describe("Universal Translator's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'staralliance',
@@ -13,7 +13,7 @@ describe('Universal Translator', function() {
                     }
                 });
             });
-            it('should let you use a non-sa creature on reap', function() {
+            it('should let you use a non-sa creature on reap', function () {
                 this.player1.playUpgrade(this.universalTranslator, this.lieutenantKhrkhar);
                 this.player1.reap(this.lieutenantKhrkhar);
                 expect(this.player1).toHavePrompt('Lieutenant Khrkhar');
@@ -26,7 +26,7 @@ describe('Universal Translator', function() {
                 this.player1.clickPrompt('Reap with this creature');
                 expect(this.player1.amber).toBe(3);
             });
-            it('should let you use a non-sa creature on fight', function() {
+            it('should let you use a non-sa creature on fight', function () {
                 this.player1.playUpgrade(this.universalTranslator, this.lieutenantKhrkhar);
                 this.player1.fightWith(this.lieutenantKhrkhar, this.nexus);
                 expect(this.player1).toHavePrompt('Lieutenant Khrkhar');

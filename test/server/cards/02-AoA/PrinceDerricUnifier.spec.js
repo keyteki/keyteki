@@ -1,7 +1,7 @@
-describe('Prince Derric Unifier', function() {
-    integration(function() {
-        describe('Prince Derric Unifier\'s play ability 1 house', function() {
-            beforeEach(function() {
+describe('Prince Derric Unifier', function () {
+    integration(function () {
+        describe("Prince Derric Unifier's play ability 1 house", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'sanctum',
@@ -14,14 +14,14 @@ describe('Prince Derric Unifier', function() {
                 });
             });
 
-            it('should not gain ambers since only Derric is in play', function() {
+            it('should not gain ambers since only Derric is in play', function () {
                 this.player1.playCreature(this.princeDerricUnifier);
                 expect(this.player1.amber).toBe(0);
             });
         });
 
-        describe('Prince Derric Unifier\'s play ability', function() {
-            beforeEach(function() {
+        describe("Prince Derric Unifier's play ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'sanctum',
@@ -34,14 +34,14 @@ describe('Prince Derric Unifier', function() {
                 });
             });
 
-            it('should not gain ambers since only two houses are in play', function() {
+            it('should not gain ambers since only two houses are in play', function () {
                 this.player1.playCreature(this.princeDerricUnifier);
                 expect(this.player1.amber).toBe(0);
             });
         });
 
-        describe('Prince Derric Unifier\'s play ability', function() {
-            beforeEach(function() {
+        describe("Prince Derric Unifier's play ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'sanctum',
@@ -54,14 +54,14 @@ describe('Prince Derric Unifier', function() {
                 });
             });
 
-            it('should gain 3 ambers since three houses are in play', function() {
+            it('should gain 3 ambers since three houses are in play', function () {
                 this.player1.playCreature(this.princeDerricUnifier);
                 expect(this.player1.amber).toBe(3);
             });
         });
 
-        describe('Prince Derric Unifier\'s play ability', function() {
-            beforeEach(function() {
+        describe("Prince Derric Unifier's play ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
@@ -74,7 +74,7 @@ describe('Prince Derric Unifier', function() {
                 });
             });
 
-            it('should gain 6 ambers with experimental therapy', function() {
+            it('should gain 6 ambers with experimental therapy', function () {
                 this.player1.playUpgrade(this.experimentalTherapy, this.gub);
                 this.player1.endTurn();
                 this.player2.clickPrompt('shadows');

@@ -1,7 +1,7 @@
-describe('Miasma', function() {
-    integration(function() {
-        describe('Miasma\'s ability', function() {
-            beforeEach(function() {
+describe('Miasma', function () {
+    integration(function () {
+        describe("Miasma's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'shadows',
@@ -17,7 +17,7 @@ describe('Miasma', function() {
                 this.player1.endTurn();
             });
 
-            it('should skip the next turn\'s key phase', function() {
+            it("should skip the next turn's key phase", function () {
                 expect(this.player1.amber).toBe(6);
                 expect(this.player2.amber).toBe(7);
                 expect(this.player2.player.keys.red).toBe(false);
@@ -25,7 +25,7 @@ describe('Miasma', function() {
                 expect(this.player2.player.keys.yellow).toBe(false);
             });
 
-            it('should not skip the following turn key phase', function() {
+            it('should not skip the following turn key phase', function () {
                 this.player2.clickPrompt('untamed');
                 this.player2.endTurn();
                 this.player1.forgeKey('Red');

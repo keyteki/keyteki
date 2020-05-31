@@ -1,7 +1,7 @@
-describe('The Evil Eye', function() {
-    integration(function() {
-        describe('The Evil Eye\'s ability', function() {
-            beforeEach(function() {
+describe('The Evil Eye', function () {
+    integration(function () {
+        describe("The Evil Eye's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         amber: 6,
@@ -13,7 +13,7 @@ describe('The Evil Eye', function() {
                     }
                 });
             });
-            it('should stop a key being forged', function() {
+            it('should stop a key being forged', function () {
                 this.player1.play(this.theEvilEye);
                 this.player1.endTurn();
                 expect(this.player2.player.keys.red).toBe(false);

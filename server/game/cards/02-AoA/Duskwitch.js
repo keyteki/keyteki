@@ -4,7 +4,7 @@ class Duskwitch extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
             targetLocation: 'any',
-            match: card => card.type === 'creature',
+            match: (card) => card.type === 'creature',
             effect: ability.effects.entersPlayReady()
         });
     }

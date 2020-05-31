@@ -15,9 +15,11 @@ class DisruptionField extends Card {
         });
 
         this.persistentEffect({
-            condition: context => context.source.hasToken('disruption'),
+            condition: (context) => context.source.hasToken('disruption'),
             targetController: 'opponent',
-            effect: ability.effects.modifyKeyCost((player, context) => context.source.tokens.disruption || 0)
+            effect: ability.effects.modifyKeyCost(
+                (player, context) => context.source.tokens.disruption || 0
+            )
         });
     }
 }

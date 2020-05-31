@@ -1,7 +1,7 @@
-describe('Tachyon Pulse', function() {
-    integration(function() {
-        describe('Tachyon Pulse\'s ability', function() {
-            beforeEach(function() {
+describe('Tachyon Pulse', function () {
+    integration(function () {
+        describe("Tachyon Pulse's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'staralliance',
@@ -14,7 +14,7 @@ describe('Tachyon Pulse', function() {
                 });
             });
 
-            it('should destroy all artifacts and exhaust creatures with upgrade', function() {
+            it('should destroy all artifacts and exhaust creatures with upgrade', function () {
                 this.player1.playUpgrade(this.forceField, this.nexus);
                 this.player1.playUpgrade(this.exploRover, this.nexus);
                 this.player1.playUpgrade(this.disruptionField, this.lamindra);
@@ -34,7 +34,7 @@ describe('Tachyon Pulse', function() {
                 expect(this.urchin.exhausted).toBe(false);
             });
 
-            it('should exhaust creatures with upgrade even if there are no artifacts', function() {
+            it('should exhaust creatures with upgrade even if there are no artifacts', function () {
                 this.player1.moveCard(this.unchartedLands, 'discard');
                 this.player1.moveCard(this.lifeward, 'discard');
                 this.player1.moveCard(this.unchartedLands, 'discard');

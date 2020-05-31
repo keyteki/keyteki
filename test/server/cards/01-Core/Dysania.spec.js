@@ -1,7 +1,7 @@
-describe('Dysania', function() {
-    integration(function() {
-        describe('Dysania\'s ability', function() {
-            beforeEach(function() {
+describe('Dysania', function () {
+    integration(function () {
+        describe("Dysania's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
@@ -15,7 +15,7 @@ describe('Dysania', function() {
                 });
             });
 
-            it('should discard opponent\'s archives and gain amber', function() {
+            it("should discard opponent's archives and gain amber", function () {
                 this.player1.play(this.dysania);
 
                 expect(this.dextre.location).toBe('discard');
@@ -24,13 +24,15 @@ describe('Dysania', function() {
                 expect(this.player1.amber).toBe(3);
             });
 
-            it('should not consider own card in opponent\'s archives to gain amber', function() {
+            it("should not consider own card in opponent's archives to gain amber", function () {
                 this.player1.player.keys = { red: true, blue: false, yellow: false };
                 this.player1.endTurn();
 
                 // Capture an opponent's card first
                 this.player2.clickPrompt('mars');
-                expect(this.player2).toHavePrompt('Do you wish to take all the cards in archives into your hand?');
+                expect(this.player2).toHavePrompt(
+                    'Do you wish to take all the cards in archives into your hand?'
+                );
                 this.player2.clickPrompt('No');
                 this.player2.play(this.sampleCollection);
                 expect(this.player2).toHavePrompt('Sample Collection');

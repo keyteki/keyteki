@@ -1,7 +1,7 @@
-describe('Equalize', function() {
-    integration(function() {
-        describe('Equalize\'s ability', function() {
-            beforeEach(function() {
+describe('Equalize', function () {
+    integration(function () {
+        describe("Equalize's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'dis',
@@ -17,7 +17,7 @@ describe('Equalize', function() {
                 });
             });
 
-            it('should let a player redistribute all amber', function() {
+            it('should let a player redistribute all amber', function () {
                 this.player1.play(this.charette);
                 this.player1.play(this.drumble);
                 expect(this.charette.tokens.amber).toBe(3);
@@ -51,7 +51,7 @@ describe('Equalize', function() {
                 expect(this.player2.amber).toBe(1);
             });
 
-            it('should let a player redistribute all amber even if it\'s on both sides', function() {
+            it("should let a player redistribute all amber even if it's on both sides", function () {
                 this.player1.play(this.charette);
                 this.player1.play(this.drumble);
                 expect(this.charette.tokens.amber).toBe(3);

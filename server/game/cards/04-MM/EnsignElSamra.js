@@ -9,7 +9,7 @@ class EnsignElSamra extends Card {
                 gameAction: ability.actions.resolveBonusIcons()
             },
             effect: 'reveal {1} from their hand and resolve its bonus icons',
-            effectArgs: context => [context.target]
+            effectArgs: (context) => [context.target]
         });
     }
 }

@@ -1,7 +1,7 @@
-describe('Lifeweb', function() {
-    integration(function() {
-        describe('Lifeweb\'s ability', function() {
-            beforeEach(function() {
+describe('Lifeweb', function () {
+    integration(function () {
+        describe("Lifeweb's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'untamed',
@@ -20,19 +20,19 @@ describe('Lifeweb', function() {
                 this.lifeweb2 = this.player2.player.hand[0];
             });
 
-            it('should not steal amber if opponent did not play any creature', function() {
+            it('should not steal amber if opponent did not play any creature', function () {
                 this.player1.play(this.lifeweb1);
                 expect(this.player1.amber).toBe(2);
                 expect(this.player2.amber).toBe(3);
             });
 
-            describe('when opponent plays', function() {
-                beforeEach(function() {
+            describe('when opponent plays', function () {
+                beforeEach(function () {
                     this.player1.endTurn();
                     this.player2.clickPrompt('shadows');
                 });
 
-                it('less than 3 creatures, should not steal amber', function() {
+                it('less than 3 creatures, should not steal amber', function () {
                     this.player2.play(this.fidgit);
                     this.player2.play(this.gamgee);
                     this.player2.endTurn();
@@ -42,7 +42,7 @@ describe('Lifeweb', function() {
                     expect(this.player2.amber).toBe(3);
                 });
 
-                it('3 creatures, should steal 2 amber', function() {
+                it('3 creatures, should steal 2 amber', function () {
                     this.player2.play(this.fidgit);
                     this.player2.play(this.gamgee);
                     this.player2.play(this.dodger);
@@ -54,7 +54,7 @@ describe('Lifeweb', function() {
                 });
             });
 
-            it('opponent should not steal amber if first player did not play any creature', function() {
+            it('opponent should not steal amber if first player did not play any creature', function () {
                 this.player1.endTurn();
                 this.player2.clickPrompt('untamed');
                 this.player2.play(this.lifeweb2);
@@ -62,7 +62,7 @@ describe('Lifeweb', function() {
                 expect(this.player2.amber).toBe(4);
             });
 
-            it('opponent should not steal amber if first player played less than 2 creatures', function() {
+            it('opponent should not steal amber if first player played less than 2 creatures', function () {
                 this.player1.play(this.bumblebird);
                 this.player1.play(this.bigtwig);
                 this.player1.endTurn();
@@ -72,7 +72,7 @@ describe('Lifeweb', function() {
                 expect(this.player2.amber).toBe(4);
             });
 
-            it('opponent should steal 1 amber if first player played 3 creatures, but only 1A is available', function() {
+            it('opponent should steal 1 amber if first player played 3 creatures, but only 1A is available', function () {
                 this.player1.play(this.bumblebird);
                 this.player1.play(this.fanghouse);
                 this.player1.play(this.bigtwig);

@@ -4,7 +4,7 @@ class HaedrothsWall extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
             targetController: 'current',
-            match: card => card.type === 'creature' && card.isOnFlank(),
+            match: (card) => card.type === 'creature' && card.isOnFlank(),
             effect: ability.effects.modifyPower(2)
         });
     }
