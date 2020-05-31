@@ -1,15 +1,24 @@
 import { Decks } from '../types';
 
 /**
+ * @typedef DeckFilter
+ * @property {string} name
+ * @property {string} value
+ */
+
+/**
  * @typedef PagingOptions
- * @property {number} pageSize
- * @property {number} page
+ * @property {number} [pageSize] The number of elements in each page
+ * @property {number} [page] The page index
+ * @property {string} [sort] The sort column
+ * @property {string} [sortDir] The sort direction
+ * @property {DeckFilter[]} [filter] The filters
  */
 
 /**
  * @param {PagingOptions} options
  */
-export function loadDecks(options = { page: 1, pageSize: 10 }) {
+export function loadDecks(options = {}) {
     return {
         types: ['REQUEST_DECKS', 'RECEIVE_DECKS'],
         shouldCallAPI: () => true,
@@ -42,7 +51,7 @@ export function selectDeck(deck) {
 
 export function deleteDeck(deck) {
     return {
-        types: ['DELETE_DECK', 'DECK_DELETED'],
+        types: [Decks.DeleteDeck, Decks.DeckDeleted],
         shouldCallAPI: () => true,
         APIParams: {
             url: `/api/decks/${deck.id}`,

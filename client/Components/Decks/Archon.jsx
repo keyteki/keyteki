@@ -17,11 +17,10 @@ const Archon = ({ deck, onZoomToggle }) => {
     const [imageUrl, setImageUrl] = useState('');
 
     useEffect(() => {
-        buildArchon(deck, i18n.language).then((imageUrl) => {
-            setImageUrl(imageUrl);
+        buildArchon(deck, i18n.language).then((url) => {
+            setImageUrl(url);
         });
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [deck, i18n.language, imageUrl]);
 
     return (
         <img

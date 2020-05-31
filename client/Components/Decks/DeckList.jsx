@@ -3,6 +3,7 @@ import { Col } from 'react-bootstrap';
 import moment from 'moment';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
+import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -37,7 +38,8 @@ const DeckList = ({ className }) => {
         pageSize: 10,
         page: 1,
         sort: 'lastUpdated',
-        sortDir: 'desc'
+        sortDir: 'desc',
+        filter: []
     });
     const dispatch = useDispatch();
 
@@ -65,20 +67,30 @@ const DeckList = ({ className }) => {
     };
 
     const onTableChange = (type, data) => {
-        console.info('ontablechange', type, data);
-
         let newPageData = Object.assign({}, pagingDetails);
-        if (type === 'pagination') {
-            if (
-                (pagingDetails.page !== data.page && data.page !== 0) ||
-                (pagingDetails.pageSize !== data.sizePerPage && data.sizePerPage !== 0)
-            ) {
-                newPageData.page = data.page || pagingDetails.page;
-                newPageData.pageSize = data.sizePerPage;
-            }
-        } else if (type === 'sort') {
-            newPageData.sort = data.sortField;
-            newPageData.sortDir = data.sortOrder;
+        switch (type) {
+            case 'pagination':
+                if (
+                    (pagingDetails.page !== data.page && data.page !== 0) ||
+                    (pagingDetails.pageSize !== data.sizePerPage && data.sizePerPage !== 0)
+                ) {
+                    newPageData.page = data.page || pagingDetails.page;
+                    newPageData.pageSize = data.sizePerPage;
+                }
+
+                break;
+            case 'sort':
+                newPageData.sort = data.sortField;
+                newPageData.sortDir = data.sortOrder;
+
+                break;
+            case 'filter':
+                newPageData.filter = Object.keys(data.filters).map((k) => ({
+                    name: k,
+                    value: data.filters[k].filterVal
+                }));
+
+                break;
         }
 
         setPagingDetails(newPageData);
@@ -108,7 +120,8 @@ const DeckList = ({ className }) => {
         {
             dataField: 'name',
             text: t('Name'),
-            sort: true
+            sort: true,
+            filter: textFilter()
         },
         {
             dataField: 'status',
@@ -157,6 +170,7 @@ const DeckList = ({ className }) => {
                         sizePerPage: pagingDetails.pageSize,
                         totalSize: numDecks
                     })}
+                    filter={filterFactory()}
                     onTableChange={onTableChange}
                     defaultSorted={[{ dataField: 'datePublished', order: 'desc' }]}
                 />
