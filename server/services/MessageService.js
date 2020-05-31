@@ -33,7 +33,7 @@ class MessageService extends EventEmitter {
                     'LEFT JOIN "UserRoles" ur ON ur."UserId" = u."Id" ' +
                     'LEFT JOIN "Roles" r ON r."Id" = ur."RoleId" ' +
                     'LEFT JOIN "Users" ud ON ud."Id" = m."DeletedById" ' +
-                    "WHERE r.\"Name\" IS NULL OR r.\"Name\" IN ('Admin', 'Supporter', 'Contributor') " +
+                    "WHERE r.\"Name\" IS NULL OR r.\"Name\" IN ('Admin', 'Supporter', 'Contributor', 'TournamentWinner') " +
                     'ORDER BY "PostedTime" DESC ' +
                     'LIMIT 100'
             );
@@ -88,6 +88,19 @@ class MessageService extends EventEmitter {
         );
     }
 
+    mapRole(role) {
+        switch (role) {
+            case 'Admin':
+                return 'admin';
+            case 'Supporter':
+                return 'supporter';
+            case 'Contributor':
+                return 'contributor';
+            case 'TournamentWinner':
+                return 'winner';
+        }
+    }
+
     mapMessage(message, user) {
         let retMessage = {
             id: message.Id,
@@ -100,7 +113,7 @@ class MessageService extends EventEmitter {
             user: {
                 username: message.Poster,
                 name: message.Poster,
-                role: message.Role
+                role: this.mapRole(message.Role)
             }
         };
 

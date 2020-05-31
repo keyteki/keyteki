@@ -9,7 +9,7 @@ describe('Beware the Ides', function () {
                             'beware-the-ides',
                             'galeatops',
                             'deusillus',
-                            'deusillus-2',
+                            'deusillus2',
                             'terrordactyl'
                         ]
                     },

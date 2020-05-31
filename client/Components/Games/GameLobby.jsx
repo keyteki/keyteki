@@ -72,7 +72,7 @@ class GameLobby extends React.Component {
             });
         }
 
-        if (this.props.gameId) {
+        if (this.props.gameId && this.props.games.length > 0) {
             this.useGameLink(this.props.games);
         }
     }
@@ -113,7 +113,7 @@ class GameLobby extends React.Component {
             this.setState({ gameState: GameState.PendingGame });
         }
 
-        if (!props.currentGame && this.props.gameId) {
+        if (!props.currentGame && this.props.gameId && props.games.length > 0) {
             this.useGameLink(props.games);
         }
     }
