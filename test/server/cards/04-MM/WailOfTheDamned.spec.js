@@ -1,6 +1,6 @@
 describe('Wail of the Damned', function() {
     integration(function() {
-        describe('Wail of the Damned\'s ability', function() {
+        describe("Wail of the Damned's ability", function() {
             beforeEach(function() {
                 this.setupTest({
                     player1: {
