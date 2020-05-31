@@ -1,7 +1,7 @@
-describe("Sagittarii's Gaze", function() {
-    integration(function() {
-        describe("Sagittarii's Gaze's ability", function() {
-            beforeEach(function() {
+describe("Sagittarii's Gaze", function () {
+    integration(function () {
+        describe("Sagittarii's Gaze's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'saurian',
@@ -15,7 +15,7 @@ describe("Sagittarii's Gaze", function() {
                 });
             });
 
-            it('should be able to select a creature with damage', function() {
+            it('should be able to select a creature with damage', function () {
                 this.darkCenturion.tokens.damage = 1;
                 this.troll.tokens.damage = 1;
 
@@ -26,9 +26,9 @@ describe("Sagittarii's Gaze", function() {
                 expect(this.player1).not.toBeAbleToSelect(this.lamindra);
                 this.player1.clickCard(this.troll);
 
-                expect(this.darkCenturion.amber).toBe(0);
-                expect(this.troll.amber).toBe(1);
                 expect(this.lamindra.amber).toBe(0);
+                expect(this.troll.amber).toBe(1);
+                expect(this.darkCenturion.amber).toBe(0);
             });
         });
     });
