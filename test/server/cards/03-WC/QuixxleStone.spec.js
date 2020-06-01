@@ -74,7 +74,7 @@ describe('Quixxle Stone', function () {
                 expect(this.player2.inPlay).not.toContain(this.umbra);
             });
 
-            it('non-owner player has more creatures, but still can play a creature as an upgrade', function () {
+            it('non-owner player has more creatures, but still can play one creature as an upgrade', function () {
                 this.player1.endTurn();
                 this.player2.clickPrompt('staralliance');
                 this.player2.play(this.exploRover);
