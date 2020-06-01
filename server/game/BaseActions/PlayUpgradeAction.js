@@ -5,15 +5,19 @@ const Effects = require('../effects');
 
 class PlayUpgradeAction extends BasePlayAction {
     constructor(card) {
-        super(card, {
-            activePromptTitle: 'Choose a creature to attach this upgrade to',
-            cardType: 'creature',
-            gameAction: new AttachAction((context) => ({ upgrade: context.source }))
-        }, 'upgrade');
+        super(
+            card,
+            {
+                activePromptTitle: 'Choose a creature to attach this upgrade to',
+                cardType: 'creature',
+                gameAction: new AttachAction((context) => ({ upgrade: context.source }))
+            },
+            'upgrade'
+        );
     }
 
     displayMessage(context) {
-        if(context.target) {
+        if (context.target) {
             context.game.addMessage(
                 '{0} plays {1} attaching it to {2}',
                 context.player,
@@ -38,7 +42,7 @@ class PlayUpgradeAction extends BasePlayAction {
         event.addChildEvent(
             new AttachAction({ upgrade: context.source }).getEvent(context.target, context)
         );
-        if(context.source.type === 'creature') {
+        if (context.source.type === 'creature') {
             const changeTypeEvent = new LastingEffectCardAction({
                 duration: 'lastingEffect',
                 effect: Effects.changeType('upgrade')

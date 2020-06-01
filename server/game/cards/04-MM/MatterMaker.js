@@ -4,7 +4,9 @@ class MatterMaker extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
             targetController: 'current',
-            effect: ability.effects.canPlay((card, context, abilityType) => abilityType === 'upgrade' && card.canPlayAsUpgrade())
+            effect: ability.effects.canPlay(
+                (card, context, abilityType) => abilityType === 'upgrade' && card.canPlayAsUpgrade()
+            )
         });
     }
 }

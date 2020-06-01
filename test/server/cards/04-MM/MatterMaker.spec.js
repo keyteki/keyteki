@@ -1,12 +1,19 @@
-describe('matter-maker', function() {
-    integration(function() {
-        describe('Matter Makers\'s ability', function() {
-            beforeEach(function() {
+describe('matter-maker', function () {
+    integration(function () {
+        describe("Matter Makers's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'staralliance',
                         inPlay: ['troll'],
-                        hand: ['camouflage', 'matter-maker', 'stunner', 'alaka', 'ballcano', 'securi-droid']
+                        hand: [
+                            'camouflage',
+                            'matter-maker',
+                            'stunner',
+                            'alaka',
+                            'ballcano',
+                            'securi-droid'
+                        ]
                     },
                     player2: {
                         amber: 1,
@@ -15,7 +22,7 @@ describe('matter-maker', function() {
                 });
             });
 
-            it('should enable the play of camouflage and stunner', function() {
+            it('should enable the play of camouflage and stunner', function () {
                 this.player1.play(this.matterMaker);
                 this.player1.playUpgrade(this.camouflage, this.troll);
                 this.player1.playUpgrade(this.stunner, this.troll);
@@ -23,7 +30,7 @@ describe('matter-maker', function() {
                 expect(this.troll.upgrades).toContain(this.stunner);
             });
 
-            it('should allow playing staralliance upgrades on non-starliance turns', function() {
+            it('should allow playing staralliance upgrades on non-starliance turns', function () {
                 this.player1.play(this.matterMaker);
                 this.player1.endTurn();
 
@@ -37,7 +44,7 @@ describe('matter-maker', function() {
                 expect(this.troll.upgrades).toContain(this.stunner);
             });
 
-            it('should allow playing creatures as upgrades on non-house turn', function() {
+            it('should allow playing creatures as upgrades on non-house turn', function () {
                 this.player1.play(this.matterMaker);
                 this.player1.endTurn();
 
@@ -54,7 +61,7 @@ describe('matter-maker', function() {
                 expect(this.troll.upgrades).toContain(this.securiDroid);
             });
 
-            it('should only allow upgrades to be played out of house', function() {
+            it('should only allow upgrades to be played out of house', function () {
                 this.player1.play(this.matterMaker);
                 expect(this.player1).not.toBeAbleToPlay(this.alaka);
                 expect(this.player1).not.toBeAbleToPlay(this.ballcano);

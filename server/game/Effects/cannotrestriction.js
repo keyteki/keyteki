@@ -16,9 +16,9 @@ class CannotRestriction extends EffectValue {
     }
 
     checkCondition(context, abilityType) {
-        if(!this.condition) {
+        if (!this.condition) {
             return true;
-        } else if(!context) {
+        } else if (!context) {
             return false;
         }
 

@@ -39,15 +39,15 @@ const Costs = {
         },
         payEvent: (context) =>
             context.game.getEvent('unnamedEvent', {}, () => {
-            context.game.cardsUsed.push(context.source);
+                context.game.cardsUsed.push(context.source);
                 if (
                     context.ignoreHouse ||
                     context.player.getEffects('canUse').some((match) => match(context))
                 ) {
-                return true;
-            } else if(context.source.hasHouse(context.player.activeHouse)) {
-                return true;
-            }
+                    return true;
+                } else if (context.source.hasHouse(context.player.activeHouse)) {
+                    return true;
+                }
 
                 let houseEffects = context.player.effects.filter(
                     (effect) =>
@@ -63,23 +63,35 @@ const Costs = {
                             !context.source.hasHouse(effect.getValue(context.player)))
                 );
 
-            if(effect) {
-                context.game.effectsUsed.push(effect);
-                return true;
-            }
+                if (effect) {
+                    context.game.effectsUsed.push(effect);
+                    return true;
+                }
 
-            return false;
-        })
+                return false;
+            })
     }),
     play: (abilityType) => ({
         canPay: (context) => {
-            if(context.source.getKeywordValue('alpha') > 0 && !context.game.firstThingThisTurn()) {
+            if (context.source.getKeywordValue('alpha') > 0 && !context.game.firstThingThisTurn()) {
                 return false;
-            } else if(context.game.cardsUsed.concat(context.game.cardsPlayed).filter(card => card.name === context.source.name).length >= 6) {
+            } else if (
+                context.game.cardsUsed
+                    .concat(context.game.cardsPlayed)
+                    .filter((card) => card.name === context.source.name).length >= 6
+            ) {
                 return false;
-            } else if(context.source.hasHouse(context.player.activeHouse) && !context.player.anyEffect('noActiveHouseForPlay')) {
+            } else if (
+                context.source.hasHouse(context.player.activeHouse) &&
+                !context.player.anyEffect('noActiveHouseForPlay')
+            ) {
                 return true;
-            } else if(context.ignoreHouse || context.player.getEffects('canPlay').some(match => match(context.source, context, abilityType))) {
+            } else if (
+                context.ignoreHouse ||
+                context.player
+                    .getEffects('canPlay')
+                    .some((match) => match(context.source, context, abilityType))
+            ) {
                 return true;
             }
 
@@ -92,9 +104,9 @@ const Costs = {
 
             return effects.some((effect) => {
                 let value = effect.getValue(context.player);
-                if(value.condition && !value.condition(context.source)) {
+                if (value.condition && !value.condition(context.source)) {
                     return false;
-                } else if(value.house) {
+                } else if (value.house) {
                     value = value.house;
                 }
 
@@ -106,17 +118,17 @@ const Costs = {
         },
         payEvent: (context) =>
             context.game.getEvent('unnamedEvent', {}, () => {
-            context.game.cardsPlayed.push(context.source);
+                context.game.cardsPlayed.push(context.source);
                 if (
                     context.ignoreHouse ||
                     context.player
                         .getEffects('canPlay')
                         .some((match) => match(context.source, context))
                 ) {
-                return true;
-            } else if(context.source.hasHouse(context.player.activeHouse)) {
-                return true;
-            }
+                    return true;
+                } else if (context.source.hasHouse(context.player.activeHouse)) {
+                    return true;
+                }
 
                 let effects = context.player.effects.filter(
                     (effect) =>
@@ -126,12 +138,12 @@ const Costs = {
                 );
 
                 let effect = effects.find((effect) => {
-                let value = effect.getValue(context.player);
-                if(value.condition && !value.condition(context.source)) {
-                    return false;
-                } else if(value.house) {
-                    value = value.house;
-                }
+                    let value = effect.getValue(context.player);
+                    if (value.condition && !value.condition(context.source)) {
+                        return false;
+                    } else if (value.house) {
+                        value = value.house;
+                    }
 
                     return (
                         (HousePlayEffects.includes(effect.type) &&
@@ -139,15 +151,15 @@ const Costs = {
                         (NonHousePlayEffects.includes(effect.type) &&
                             !context.source.hasHouse(value))
                     );
-            });
+                });
 
-            if(effect) {
-                context.game.effectsUsed.push(effect);
-                return true;
-            }
+                if (effect) {
+                    context.game.effectsUsed.push(effect);
+                    return true;
+                }
 
-            return false;
-        })
+                return false;
+            })
     }),
     payAmber: (amount = 1) => ({
         canPay: (context) => context.player.amber >= amount,

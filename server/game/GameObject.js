@@ -49,7 +49,7 @@ class GameObject {
     }
 
     allowGameAction(actionType, context = this.game.getFrameworkContext()) {
-        if(GameActions[actionType]) {
+        if (GameActions[actionType]) {
             return GameActions[actionType]().canAffect(this, context);
         }
 
@@ -57,7 +57,9 @@ class GameObject {
     }
 
     checkRestrictions(actionType, context, abilityType = null) {
-        return !this.getEffects('abilityRestrictions').some(restriction => restriction.isMatch(actionType, context, abilityType));
+        return !this.getEffects('abilityRestrictions').some((restriction) =>
+            restriction.isMatch(actionType, context, abilityType)
+        );
     }
 
     isUnique() {

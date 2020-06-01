@@ -5,7 +5,7 @@ const Costs = require('../costs.js');
 class BasePlayAction extends BaseAbility {
     constructor(card, target, abilityType) {
         let properties = { cost: Costs.play(abilityType) };
-        if(target) {
+        if (target) {
             properties.target = target;
         }
 
@@ -48,8 +48,8 @@ class BasePlayAction extends BaseAbility {
     addBonusIconResolution(event, context) {
         event.addSubEvent(
             context.game.getEvent('unnamedEvent', {}, () => {
-            context.game.checkGameState(true);
-            context.game.actions.resolveBonusIcons().resolve(this.card, context);
+                context.game.checkGameState(true);
+                context.game.actions.resolveBonusIcons().resolve(this.card, context);
             })
         );
     }
