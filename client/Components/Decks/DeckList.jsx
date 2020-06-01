@@ -3,7 +3,7 @@ import { Col } from 'react-bootstrap';
 import moment from 'moment';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
-import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
+import filterFactory, { textFilter, selectFilter } from 'react-bootstrap-table2-filter';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -25,6 +25,15 @@ import { loadDecks } from '../../redux/actions';
  * @property {string} [className] The CSS class name to use
  * @property {boolean} [noFilter] Whether or not to enable filtering
  * @property {function(void): void} onSelectDeck Callback to invoke when a deck is selected
+ */
+
+/**
+ * @typedef PagingDetails
+ * @property {number} page
+ * @property {number} sizePerPage
+ * @property {string} sortField
+ * @property {string} sortOrder
+ * @property {{ [key: string]: { filterVal: string; }; }} filters
  */
 
 /**
@@ -52,20 +61,24 @@ const DeckList = ({ className }) => {
         dispatch(loadDecks(pagingDetails));
     }, [pagingDetails, dispatch]);
 
-    const getStatusName = (status) => {
-        if (status.usageLevel === 1 && !status.verified) {
-            return t('Used');
-        } else if (status.usageLevel === 2 && !status.verified) {
-            return t('Popular');
-        } else if (status.usageLevel === 3 && !status.verified) {
-            return t('Notorious');
-        } else if (!status.officialRole || !status.noUnreleasedCards) {
-            return t('Casual');
-        }
+    // const getStatusName = (status) => {
+    //     if (status.usageLevel === 1 && !status.verified) {
+    //         return t('Used');
+    //     } else if (status.usageLevel === 2 && !status.verified) {
+    //         return t('Popular');
+    //     } else if (status.usageLevel === 3 && !status.verified) {
+    //         return t('Notorious');
+    //     } else if (!status.officialRole || !status.noUnreleasedCards) {
+    //         return t('Casual');
+    //     }
 
-        return t('Valid');
-    };
+    //     return t('Valid');
+    // };
 
+    /**
+     * @param {any} type
+     * @param {PagingDetails} data
+     */
     const onTableChange = (type, data) => {
         let newPageData = Object.assign({}, pagingDetails);
         switch (type) {
@@ -124,14 +137,22 @@ const DeckList = ({ className }) => {
             filter: textFilter()
         },
         {
-            dataField: 'status',
+            dataField: 'expansion',
             headerStyle: {
-                width: '20%'
+                width: '10%'
             },
             align: 'center',
-            text: t('Status'),
             sort: true,
-            formatter: (cell) => getStatusName(cell)
+            // eslint-disable-next-line react/display-name
+            formatter: (cell) => (
+                <img className='deck-expansion' src={`/img/idbacks/${cell}.png`} />
+            ),
+            filter: selectFilter({
+                options: { 0: 'hi' },
+                className: 'test-classname',
+                withoutEmptyOption: true,
+                style: { backgroundColor: 'pink' }
+            })
         },
         {
             dataField: 'lastUpdated',

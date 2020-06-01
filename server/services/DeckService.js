@@ -190,13 +190,23 @@ class DeckService {
         return retDeck;
     }
 
-    async getNumDecksForUser(user) {
+    async getNumDecksForUser(user, options) {
         let ret;
+        let filter = '';
+
+        let params = [user.id];
+
+        let index = 2;
+        for (let filterObject of options.filter || []) {
+            filter += `AND ${this.mapColumn(filterObject.name)} LIKE $${index++} `;
+            params.push(`%${filterObject.value}%`);
+        }
 
         try {
-            ret = await db.query('SELECT COUNT(*) AS "NumDecks" FROM "Decks" WHERE "UserId" = $1', [
-                user.id
-            ]);
+            ret = await db.query(
+                'SELECT COUNT(*) AS "NumDecks" FROM "Decks" d WHERE "UserId" = $1 ' + filter,
+                params
+            );
         } catch (err) {
             logger.error('Failed to count users decks');
 
@@ -206,12 +216,14 @@ class DeckService {
         return ret && ret.length > 0 ? ret[0].NumDecks : 0;
     }
 
-    mapSortColumn(sort) {
+    mapColumn(sort) {
         switch (sort) {
             case 'lastUpdated':
                 return 'd."LastUpdated"';
             case 'name':
                 return 'd."Identity"';
+            case 'expansion':
+                return 'e."ExpansionId"';
             default:
                 return 'd."LastUpdated"';
         }
@@ -219,14 +231,23 @@ class DeckService {
 
     async findForUser(
         user,
-        options = { page: 1, pageSize: 10, sort: 'lastUpdated', sortDir: 'desc' }
+        options = { page: 1, pageSize: 10, sort: 'lastUpdated', sortDir: 'desc', filter: [] }
     ) {
         let retDecks = [];
         let decks;
         let pageSize = options.pageSize;
         let page = options.page;
-        let sortColumn = this.mapSortColumn(options.sort);
+        let sortColumn = this.mapColumn(options.sort);
         let sortDir = options.sortDir === 'desc' ? 'DESC' : 'ASC';
+        let filter = '';
+
+        let params = [user.id, pageSize, (page - 1) * pageSize];
+
+        let index = 4;
+        for (let filterObject of options.filter || []) {
+            filter += `AND ${this.mapColumn(filterObject.name)} LIKE $${index++} `;
+            params.push(`%${filterObject.value}%`);
+        }
 
         try {
             decks = await db.query(
@@ -237,10 +258,11 @@ class DeckService {
                     'JOIN "Users" u ON u."Id" = "UserId" ' +
                     'JOIN "Expansions" e on e."Id" = d."ExpansionId" ' +
                     'WHERE "UserId" = $1 ' +
+                    filter +
                     `ORDER BY ${sortColumn} ${sortDir} ` +
                     'LIMIT $2 ' +
                     'OFFSET $3',
-                [user.id, pageSize, page - 1]
+                params
             );
         } catch (err) {
             logger.error('Failed to retrieve decks', err);

@@ -53,10 +53,11 @@ module.exports.init = function (server) {
         '/api/decks',
         passport.authenticate('jwt', { session: false }),
         wrapAsync(async function (req, res) {
-            let numDecks = await deckService.getNumDecksForUser(req.user);
+            let numDecks = await deckService.getNumDecksForUser(req.user, req.query);
             let decks = [];
 
             if (numDecks > 0) {
+                console.info(req.query);
                 decks = (await deckService.findForUser(req.user, req.query)).map((deck) => {
                     let deckUsageLevel = 0;
                     if (
