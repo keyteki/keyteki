@@ -5,7 +5,8 @@ class Chronus extends Card {
         this.reaction({
             optional: true,
             when: {
-                onDrawCards: (event) => !!event.bonus
+                onDrawCards: (event, context) =>
+                    !!event.bonus && event.player === context.source.player
             },
             target: {
                 controller: 'self',
