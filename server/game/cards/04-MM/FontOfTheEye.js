@@ -12,8 +12,11 @@ class FontOfTheEye extends Card {
                 cardType: 'creature',
                 controller: 'self',
                 gameAction: ability.actions.capture((context) => ({
-                    amount: context.player.opponent &&
-                        this.creatureDestroyedControllerUuid[context.player.opponent.uuid] ? 1 : 0
+                    amount:
+                        context.player.opponent &&
+                        this.creatureDestroyedControllerUuid[context.player.opponent.uuid]
+                            ? 1
+                            : 0
                 }))
             }
         });
