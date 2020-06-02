@@ -15,7 +15,6 @@ class UseAction extends CardGameAction {
         return (
             card !== context.source &&
             card.location === 'play area' &&
-            !card.exhausted &&
             super.canAffect(card, context)
         );
     }

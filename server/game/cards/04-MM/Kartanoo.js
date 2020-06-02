@@ -5,6 +5,7 @@ class Kartanoo extends Card {
         this.reap({
             target: {
                 cardType: 'artifact',
+                cardCondition: (card) => card.exhausted === false,
                 gameAction: ability.actions.use()
             }
         });
