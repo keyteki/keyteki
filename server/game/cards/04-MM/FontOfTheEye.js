@@ -8,13 +8,13 @@ class FontOfTheEye extends Card {
         this.tracker.register(['onCardDestroyed', 'onRoundEnded']);
 
         this.omni({
-            condition: (context) =>
-                context.player.opponent &&
-                this.creatureDestroyedControllerUuid[context.player.opponent.uuid],
             target: {
                 cardType: 'creature',
                 controller: 'self',
-                gameAction: ability.actions.capture({ amount: 1 })
+                gameAction: ability.actions.capture(context => ({
+                    amount: context.player.opponent &&
+                        this.creatureDestroyedControllerUuid[context.player.opponent.uuid] ? 1 : 0
+                }))
             }
         });
     }
