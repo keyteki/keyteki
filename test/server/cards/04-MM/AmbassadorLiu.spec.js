@@ -16,7 +16,7 @@ describe('Ambassador Liu', function () {
                 });
             });
 
-            it('should steal 1A if discard Dis', function () {
+            it('should steal 1A if discarded Dis', function () {
                 this.player1.useAction(this.ambassadorLiu);
                 expect(this.player1).toBeAbleToSelect(this.shooler);
                 expect(this.player1).toBeAbleToSelect(this.lamindra);
@@ -27,7 +27,7 @@ describe('Ambassador Liu', function () {
                 expect(this.player2.amber).toBe(5);
             });
 
-            it('should steal 1A if discard Shadows', function () {
+            it('should steal 1A if discarded Shadows', function () {
                 this.player1.useAction(this.ambassadorLiu);
                 expect(this.player1).toBeAbleToSelect(this.shooler);
                 expect(this.player1).toBeAbleToSelect(this.lamindra);
@@ -67,7 +67,7 @@ describe('Ambassador Liu', function () {
                 });
             });
 
-            it('should gain 1A if discard Logos', function () {
+            it('should gain 1A if discarded Logos', function () {
                 this.player1.useAction(this.ambassadorLiu);
                 expect(this.player1).toBeAbleToSelect(this.dextre);
                 expect(this.player1).toBeAbleToSelect(this.bumblebird);
@@ -78,7 +78,7 @@ describe('Ambassador Liu', function () {
                 expect(this.player2.amber).toBe(6);
             });
 
-            it('should gain 1A if discard Untamed', function () {
+            it('should gain 1A if discarded Untamed', function () {
                 this.player1.useAction(this.ambassadorLiu);
                 expect(this.player1).toBeAbleToSelect(this.dextre);
                 expect(this.player1).toBeAbleToSelect(this.bumblebird);
@@ -106,7 +106,7 @@ describe('Ambassador Liu', function () {
                 });
             });
 
-            it('should capture 3A if discard Saurian', function () {
+            it('should capture 3A if discarded Saurian', function () {
                 this.player1.useAction(this.ambassadorLiu);
                 expect(this.player1).toBeAbleToSelect(this.bulwark);
                 expect(this.player1).toBeAbleToSelect(this.gargantodon);
@@ -118,7 +118,7 @@ describe('Ambassador Liu', function () {
                 expect(this.player2.amber).toBe(3);
             });
 
-            it('should capture 3A if discard Sanctum', function () {
+            it('should capture 3A if discarded Sanctum', function () {
                 this.player1.useAction(this.ambassadorLiu);
                 expect(this.player1).toBeAbleToSelect(this.bulwark);
                 expect(this.player1).toBeAbleToSelect(this.gargantodon);
