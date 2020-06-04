@@ -7,7 +7,7 @@ class PurifierOfSouls extends Card {
             match: () => true,
             effect: ability.effects.cardCannot(
                 'triggerAbilities',
-                (context) => context.ability.properties.destroyed
+                (context) => !!context.ability.properties.destroyed
             )
         });
     }
