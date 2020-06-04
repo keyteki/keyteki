@@ -924,7 +924,7 @@ class Lobby {
         ];
 
         for (let player of Object.values(game.getPlayers()).filter(
-            (player) => player.name !== newGame.owner.username
+            (player) => player.name !== owner.username
         )) {
             let socket = this.sockets[player.id];
 
