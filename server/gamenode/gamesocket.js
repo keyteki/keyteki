@@ -25,6 +25,7 @@ class GameSocket extends EventEmitter {
 
         this.subscriber = redis.createClient(configService.getValue('redisUrl'));
         this.publisher = redis.createClient(configService.getValue('redisUrl'));
+        this.redis = redis.createClient(configService.getValue('redisUrl'));
 
         this.subscriber.on('error', this.onError);
         this.publisher.on('error', this.onError);
@@ -33,6 +34,16 @@ class GameSocket extends EventEmitter {
         this.subscriber.subscribe('allnodes');
         this.subscriber.on('subscribe', this.onConnect.bind(this));
         this.subscriber.on('message', this.onMessage.bind(this));
+
+        this.redis.get('cards', (err, cards) => {
+            if (err) {
+                logger.error('Error loading cards from redis', err);
+
+                return;
+            }
+
+            this.emit('onCardData', JSON.parse(cards));
+        });
     }
 
     send(command, arg) {
@@ -119,9 +130,6 @@ class GameSocket extends EventEmitter {
                 break;
             case 'CLOSEGAME':
                 this.emit('onCloseGame', message.arg.gameId);
-                break;
-            case 'CARDDATA':
-                this.emit('onCardData', message.arg);
                 break;
             case 'RESTART':
                 logger.error('Got told to restart, executing pm2 restart..');

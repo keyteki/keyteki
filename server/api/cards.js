@@ -1,7 +1,8 @@
 const Constants = require('../constants');
 const ServiceFactory = require('../services/ServiceFactory');
+const ConfigService = require('../services/ConfigService');
 
-const cardService = ServiceFactory.cardService();
+const cardService = ServiceFactory.cardService(new ConfigService());
 
 module.exports.init = function (server) {
     server.get('/api/cards', function (req, res, next) {

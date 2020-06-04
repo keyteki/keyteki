@@ -5,10 +5,11 @@ const path = require('path');
 
 const CardService = require('../services/CardService');
 const DeckService = require('../services/DeckService');
+const ConfigService = require('../services/ConfigService');
 
 class ImportStandaloneDecks {
     constructor() {
-        this.cardService = new CardService();
+        this.cardService = new CardService(new ConfigService());
         this.deckService = new DeckService();
     }
 
