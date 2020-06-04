@@ -92,7 +92,7 @@ const DeckList = ({ className }) => {
         mode: 'radio',
         clickToSelect: true,
         hideSelectColumn: true,
-        selected: [decks.find((d) => d.id === selectedDeck.id).id],
+        selected: decks && selectedDeck ? [decks.find((d) => d.id === selectedDeck.id).id] : [],
         classes: 'selected-deck',
         onSelect: (deck, isSelect) => {
             if (isSelect) {
@@ -170,7 +170,7 @@ const DeckList = ({ className }) => {
             dataField: 'expansion',
             text: t('Set'),
             headerStyle: {
-                width: '15%'
+                width: '14%'
             },
             align: 'center',
             sort: true,
@@ -188,7 +188,7 @@ const DeckList = ({ className }) => {
         {
             dataField: 'lastUpdated',
             headerStyle: {
-                width: '25%'
+                width: '22%'
             },
             align: 'center',
             text: t('Date Added'),
@@ -196,7 +196,20 @@ const DeckList = ({ className }) => {
             /**
              * @param {Date} cell
              */
-            formatter: (cell) => moment(cell).format('Do MMM YYYY')
+            formatter: (cell) => moment(cell).format('DD MMM YYYY')
+        },
+        {
+            dataField: 'winRate',
+            align: 'center',
+            text: t('Win %'),
+            headerStyle: {
+                width: '18%'
+            },
+            sort: true,
+            /**
+             * @param {number} cell
+             */
+            formatter: (cell) => `${cell}%`
         }
     ];
 

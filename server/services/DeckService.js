@@ -211,16 +211,18 @@ class DeckService {
         return ret && ret.length > 0 ? ret[0].NumDecks : 0;
     }
 
-    mapColumn(sort) {
-        switch (sort) {
+    mapColumn(column, isSort = false) {
+        switch (column) {
             case 'lastUpdated':
-                return 'd."LastUpdated"';
+                return '"LastUpdated"';
             case 'name':
-                return 'd."Identity"';
+                return '"Identity"';
             case 'expansion':
-                return 'e."ExpansionId"';
+                return isSort ? '"Expansion"' : 'e."ExpansionId"';
+            case 'winRate':
+                return '"WinRate"';
             default:
-                return 'd."LastUpdated"';
+                return '"LastUpdated"';
         }
     }
 
@@ -252,7 +254,7 @@ class DeckService {
         let decks;
         let pageSize = options.pageSize;
         let page = options.page;
-        let sortColumn = this.mapColumn(options.sort);
+        let sortColumn = this.mapColumn(options.sort, true);
         let sortDir = options.sortDir === 'desc' ? 'DESC' : 'ASC';
         let params = [user.id, pageSize, (page - 1) * pageSize];
 
@@ -261,7 +263,8 @@ class DeckService {
 
         try {
             decks = await db.query(
-                'SELECT d.*, u."Username", e."ExpansionId" as "Expansion", (SELECT COUNT(*) FROM "Decks" WHERE "Name" = d."Name") AS DeckCount, ' +
+                'SELECT *, CASE WHEN "WinCount" + "LoseCount" = 0 THEN 0 ELSE ("WinCount" / ("WinCount" + "LoseCount")) * 100 END AS "WinRate" FROM ( ' +
+                    'SELECT d.*, u."Username", e."ExpansionId" as "Expansion", (SELECT COUNT(*) FROM "Decks" WHERE "Name" = d."Name") AS DeckCount, ' +
                     '(SELECT COUNT(*) FROM "Games" g JOIN "GamePlayers" gp ON gp."GameId" = g."Id" WHERE g."WinnerId" = $1 AND gp."DeckId" = d."Id") AS "WinCount", ' +
                     '(SELECT COUNT(*) FROM "Games" g JOIN "GamePlayers" gp ON gp."GameId" = g."Id" WHERE g."WinnerId" != $1 AND g."WinnerId" IS NOT NULL AND gp."PlayerId" = $1 AND gp."DeckId" = d."Id") AS "LoseCount" ' +
                     'FROM "Decks" d ' +
@@ -269,6 +272,7 @@ class DeckService {
                     'JOIN "Expansions" e on e."Id" = d."ExpansionId" ' +
                     'WHERE "UserId" = $1 ' +
                     filter +
+                    ') sq ' +
                     `ORDER BY ${sortColumn} ${sortDir} ` +
                     'LIMIT $2 ' +
                     'OFFSET $3',
@@ -622,17 +626,18 @@ class DeckService {
 
     mapDeck(deck) {
         return {
+            expansion: deck.Expansion,
             id: deck.Id,
-            username: deck.Username,
-            uuid: deck.Uuid,
             identity: deck.Identity,
             name: deck.Name,
             lastUpdated: deck.LastUpdated,
-            verified: deck.Verified,
-            expansion: deck.Expansion,
-            wins: deck.WinCount,
             losses: deck.LoseCount,
-            usageCount: deck.DeckCount
+            usageCount: deck.DeckCount,
+            username: deck.Username,
+            uuid: deck.Uuid,
+            verified: deck.Verified,
+            wins: deck.WinCount,
+            winRate: deck.WinRate
         };
     }
 }
