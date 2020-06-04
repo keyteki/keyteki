@@ -1,7 +1,14 @@
+const redis = require('redis');
+const { promisify } = require('util');
+
 const logger = require('../log.js');
 const db = require('../db');
 
 class CardService {
+    constructor(configService) {
+        this.redis = redis.createClient(configService.getValue('redisUrl'));
+    }
+
     async replaceCards(cards) {
         try {
             await db.query('DELETE FROM "CardLocaleNames"');
@@ -104,7 +111,19 @@ class CardService {
     }
 
     async getAllCards(options) {
+        const getAsync = promisify(this.redis.get).bind(this.redis);
+        const setAsync = promisify(this.redis.set).bind(this.redis);
+
         if (this.cardCache) {
+            return this.cardCache;
+        }
+
+        let redisCards = await getAsync('cards');
+        if (redisCards) {
+            logger.info('Found cached cards in redis');
+
+            this.cardCache = JSON.parse(redisCards);
+
             return this.cardCache;
         }
 
@@ -136,6 +155,8 @@ class CardService {
             retCards[card.CardId] = this.mapCard(card, languages, options);
         }
 
+        logger.info('Cards loaded from database, sending to redis');
+        await setAsync('cards', JSON.stringify(retCards));
         this.cardCache = retCards;
 
         return retCards;

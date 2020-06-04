@@ -4,7 +4,8 @@ const fs = require('fs');
 const mkdirp = require('mkdirp');
 const path = require('path');
 
-const CardService = require('../../services/CardService.js');
+const CardService = require('../../services/CardService');
+const ConfigService = require('../../services/ConfigService');
 
 class CardImport {
     constructor(dataSource, imageSource, imageDir, language) {
@@ -12,7 +13,7 @@ class CardImport {
         this.imageSource = imageSource;
         this.imageDir = imageDir;
         this.language = language;
-        this.cardService = new CardService();
+        this.cardService = new CardService(new ConfigService());
     }
 
     async import() {

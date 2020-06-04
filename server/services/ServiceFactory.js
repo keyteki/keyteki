@@ -11,9 +11,9 @@ module.exports = {
 
         return services.messageService;
     },
-    cardService: () => {
+    cardService: (configService) => {
         if (!services.cardService) {
-            services.cardService = new CardService();
+            services.cardService = new CardService(configService);
         }
 
         return services.cardService;
