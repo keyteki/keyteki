@@ -63,7 +63,6 @@ export class GameBoard extends React.Component {
         this.state = {
             cardToZoom: undefined,
             spectating: true,
-            isSpectator: false,
             showActionWindowsMenu: false,
             showCardMenu: {},
             showMessages: true,
@@ -111,9 +110,6 @@ export class GameBoard extends React.Component {
         if (props.currentGame && props.currentGame.started) {
             if (props.currentGame.players[props.user.username]) {
                 menuOptions.unshift({ text: 'Concede', onClick: this.onConcedeClick });
-                this.setState({ isSpectator: false });
-            } else if (props.currentGame) {
-                this.setState({ isSpectator: true });
             }
 
             let spectators = props.currentGame.spectators.map((spectator) => {
@@ -373,9 +369,7 @@ export class GameBoard extends React.Component {
                     <PlayerRow
                         isMe={!this.state.spectating}
                         player={1}
-                        hideDecklist={
-                            this.props.currentGame.hideDecklists && this.state.isSpectator
-                        }
+                        hideDecklist={this.props.currentGame.hideDecklists && this.state.spectating}
                         cardBackUrl={this.props.player1CardBack}
                         archives={thisPlayer.cardPiles.archives}
                         language={this.props.i18n.language}
