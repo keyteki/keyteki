@@ -192,19 +192,14 @@ class DeckService {
 
     async getNumDecksForUser(user, options) {
         let ret;
-        let filter = '';
-
         let params = [user.id];
-
         let index = 2;
-        for (let filterObject of options.filter || []) {
-            filter += `AND ${this.mapColumn(filterObject.name)} LIKE $${index++} `;
-            params.push(`%${filterObject.value}%`);
-        }
+        const filter = this.processFilter(index, params, options.filter);
 
         try {
             ret = await db.query(
-                'SELECT COUNT(*) AS "NumDecks" FROM "Decks" d WHERE "UserId" = $1 ' + filter,
+                'SELECT COUNT(*) AS "NumDecks" FROM "Decks" d JOIN "Expansions" e ON e."Id" = d."ExpansionId" WHERE "UserId" = $1 ' +
+                    filter,
                 params
             );
         } catch (err) {
@@ -229,6 +224,26 @@ class DeckService {
         }
     }
 
+    processFilter(index, params, filterOptions) {
+        let filter = '';
+
+        for (let filterObject of filterOptions || []) {
+            if (filterObject.name === 'expansion') {
+                filter += `AND ${this.mapColumn(filterObject.name)} IN ${expand(
+                    1,
+                    filterObject.value.length,
+                    index
+                )} `;
+                params.push(...filterObject.value.map((v) => v.value));
+            } else {
+                filter += `AND ${this.mapColumn(filterObject.name)} LIKE $${index++} `;
+                params.push(`%${filterObject.value}%`);
+            }
+        }
+
+        return filter;
+    }
+
     async findForUser(
         user,
         options = { page: 1, pageSize: 10, sort: 'lastUpdated', sortDir: 'desc', filter: [] }
@@ -239,15 +254,10 @@ class DeckService {
         let page = options.page;
         let sortColumn = this.mapColumn(options.sort);
         let sortDir = options.sortDir === 'desc' ? 'DESC' : 'ASC';
-        let filter = '';
-
         let params = [user.id, pageSize, (page - 1) * pageSize];
 
         let index = 4;
-        for (let filterObject of options.filter || []) {
-            filter += `AND ${this.mapColumn(filterObject.name)} LIKE $${index++} `;
-            params.push(`%${filterObject.value}%`);
-        }
+        const filter = this.processFilter(index, params, options.filter);
 
         try {
             decks = await db.query(

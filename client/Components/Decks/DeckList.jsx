@@ -1,16 +1,27 @@
-import React, { useState, useEffect } from 'react';
-import { Col } from 'react-bootstrap';
+import React, { useState, useEffect, useRef } from 'react';
+import { Col, Form } from 'react-bootstrap';
 import moment from 'moment';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
-import filterFactory, { textFilter, selectFilter } from 'react-bootstrap-table2-filter';
+import filterFactory, { textFilter, multiSelectFilter } from 'react-bootstrap-table2-filter';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
+import Select from 'react-select';
+import debounce from 'lodash.debounce';
+import $ from 'jquery';
 
 import Archon from './Archon';
 
-import './DeckList.scss';
 import { loadDecks } from '../../redux/actions';
+
+import './DeckList.scss';
+
+let expansions = [
+    { value: '341', label: 'CotA' },
+    { value: '435', label: 'AoA' },
+    { value: '452', label: 'WC' },
+    { value: '512', label: 'MM' }
+];
 
 /**
  * @typedef Deck
@@ -50,6 +61,8 @@ const DeckList = ({ className }) => {
         sortDir: 'desc',
         filter: []
     });
+    const nameFilter = useRef(null);
+    const expansionFilter = useRef(null);
     const dispatch = useDispatch();
 
     const { decks, numDecks } = useSelector((state) => ({
@@ -59,21 +72,21 @@ const DeckList = ({ className }) => {
 
     useEffect(() => {
         dispatch(loadDecks(pagingDetails));
+
+        $('.filter-label').parent().parent().hide();
     }, [pagingDetails, dispatch]);
 
-    // const getStatusName = (status) => {
-    //     if (status.usageLevel === 1 && !status.verified) {
-    //         return t('Used');
-    //     } else if (status.usageLevel === 2 && !status.verified) {
-    //         return t('Popular');
-    //     } else if (status.usageLevel === 3 && !status.verified) {
-    //         return t('Notorious');
-    //     } else if (!status.officialRole || !status.noUnreleasedCards) {
-    //         return t('Casual');
-    //     }
-
-    //     return t('Valid');
-    // };
+    const MultiSelectFilter = () => {
+        return (
+            <Select
+                isMulti
+                options={expansions}
+                defaultValue={expansions}
+                value={pagingDetails.filter.find((f) => f.name === 'expansion')?.value}
+                onChange={(values) => expansionFilter.current(values.map((v) => v))}
+            />
+        );
+    };
 
     /**
      * @param {any} type
@@ -134,12 +147,17 @@ const DeckList = ({ className }) => {
             dataField: 'name',
             text: t('Name'),
             sort: true,
-            filter: textFilter()
+            filter: textFilter({
+                getFilter: (filter) => {
+                    nameFilter.current = filter;
+                }
+            })
         },
         {
             dataField: 'expansion',
+            text: t('Set'),
             headerStyle: {
-                width: '10%'
+                width: '15%'
             },
             align: 'center',
             sort: true,
@@ -147,11 +165,10 @@ const DeckList = ({ className }) => {
             formatter: (cell) => (
                 <img className='deck-expansion' src={`/img/idbacks/${cell}.png`} />
             ),
-            filter: selectFilter({
-                options: { 0: 'hi' },
-                className: 'test-classname',
-                withoutEmptyOption: true,
-                style: { backgroundColor: 'pink' }
+            filter: multiSelectFilter({
+                getFilter: (filter) => {
+                    expansionFilter.current = filter;
+                }
             })
         },
         {
@@ -169,6 +186,10 @@ const DeckList = ({ className }) => {
         }
     ];
 
+    let onNameChange = debounce((event) => {
+        nameFilter.current(event.target.value);
+    }, 500);
+
     return (
         <div className={className}>
             {zoomArchon && (
@@ -178,6 +199,28 @@ const DeckList = ({ className }) => {
                     </div>
                 </div>
             )}
+            <Col md={12}>
+                <Form>
+                    <Form.Row>
+                        <Form.Group as={Col} lg='6' controlId='formGridName'>
+                            <Form.Label>{t('Name')}</Form.Label>
+                            <Form.Control
+                                name='name'
+                                type='text'
+                                onChange={(event) => {
+                                    event.persist();
+                                    onNameChange(event);
+                                }}
+                                placeholder={t('Filter by name')}
+                            />
+                        </Form.Group>
+                        <Form.Group as={Col} lg='6' controlId='formGridExpansion'>
+                            <Form.Label>{t('Expansion')}</Form.Label>
+                            <Form.Control as={MultiSelectFilter} />
+                        </Form.Group>
+                    </Form.Row>
+                </Form>
+            </Col>
             <Col md={12}>
                 <BootstrapTable
                     bootstrap4
@@ -192,6 +235,7 @@ const DeckList = ({ className }) => {
                         totalSize: numDecks
                     })}
                     filter={filterFactory()}
+                    filterPosition='top'
                     onTableChange={onTableChange}
                     defaultSorted={[{ dataField: 'datePublished', order: 'desc' }]}
                 />
