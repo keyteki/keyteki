@@ -166,6 +166,7 @@ const DeckList = ({ className }) => {
                 <img className='deck-expansion' src={`/img/idbacks/${cell}.png`} />
             ),
             filter: multiSelectFilter({
+                options: {},
                 getFilter: (filter) => {
                     expansionFilter.current = filter;
                 }
