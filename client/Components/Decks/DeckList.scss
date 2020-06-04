@@ -1,7 +1,18 @@
 @import '../../styles/variables';
+@import '../../styles/colours';
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
 
 .deck-list {
     padding-top: 15px;
+
+    .table-hover {
+        tbody {
+            tr:hover {
+                background-color: rgba(theme-color('info'), 0.3);
+            }
+        }
+    }
 }
 
 .deck-image {
@@ -35,4 +46,8 @@
 .deck-expansion {
     max-width: 15px;
     margin: 2px;
+}
+
+.selected-deck {
+    background-color: rgba(theme-color('primary'), 0.7);
 }

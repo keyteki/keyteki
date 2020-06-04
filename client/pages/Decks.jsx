@@ -50,11 +50,7 @@ const DecksComponent = () => {
                         <Link className='btn btn-primary' href='/decks/import'>
                             <Trans>Import Deck</Trans>
                         </Link>
-                        <DeckList
-                            className='deck-list'
-                            // activeDeck={this.props.selectedDeck}
-                            // onSelectDeck={this.props.selectDeck}
-                        />
+                        <DeckList className='deck-list' />
                     </Panel>
                 </Col>
                 {!!selectedDeck && (

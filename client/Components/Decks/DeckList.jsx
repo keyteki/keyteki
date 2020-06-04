@@ -12,7 +12,7 @@ import $ from 'jquery';
 
 import Archon from './Archon';
 
-import { loadDecks } from '../../redux/actions';
+import { loadDecks, selectDeck } from '../../redux/actions';
 
 import './DeckList.scss';
 
@@ -35,7 +35,6 @@ let expansions = [
  * @property {Deck} [activeDeck] The currently selected deck
  * @property {string} [className] The CSS class name to use
  * @property {boolean} [noFilter] Whether or not to enable filtering
- * @property {function(void): void} onSelectDeck Callback to invoke when a deck is selected
  */
 
 /**
@@ -65,9 +64,10 @@ const DeckList = ({ className }) => {
     const expansionFilter = useRef(null);
     const dispatch = useDispatch();
 
-    const { decks, numDecks } = useSelector((state) => ({
+    const { decks, numDecks, selectedDeck } = useSelector((state) => ({
         decks: state.cards.decks,
-        numDecks: state.cards.numDecks
+        numDecks: state.cards.numDecks,
+        selectedDeck: state.cards.selectedDeck
     }));
 
     useEffect(() => {
@@ -86,6 +86,19 @@ const DeckList = ({ className }) => {
                 onChange={(values) => expansionFilter.current(values.map((v) => v))}
             />
         );
+    };
+
+    const selectRow = {
+        mode: 'radio',
+        clickToSelect: true,
+        hideSelectColumn: true,
+        selected: [decks.find((d) => d.id === selectedDeck.id).id],
+        classes: 'selected-deck',
+        onSelect: (deck, isSelect) => {
+            if (isSelect) {
+                dispatch(selectDeck(deck));
+            }
+        }
     };
 
     /**
@@ -230,6 +243,7 @@ const DeckList = ({ className }) => {
                     keyField='id'
                     data={decks}
                     columns={columns}
+                    selectRow={selectRow}
                     pagination={paginationFactory({
                         page: pagingDetails.page,
                         sizePerPage: pagingDetails.pageSize,
