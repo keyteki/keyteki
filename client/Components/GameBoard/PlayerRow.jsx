@@ -41,6 +41,8 @@ class PlayerRow extends React.Component {
                 .catch(() => {
                     this.setState({ deckListUrl: 'img/idbacks/identity.jpg' });
                 });
+        } else {
+            this.setState({ deckListUrl: 'img/idbacks/identity.jpg' });
         }
     }
 
@@ -48,7 +50,8 @@ class PlayerRow extends React.Component {
         if (this.props.language) {
             if (
                 this.props.language !== prevProps.language ||
-                this.props.deckData.identity !== prevProps.deckData.identity
+                this.props.deckData.identity !== prevProps.deckData.identity ||
+                this.props.hideDecklist !== prevProps.hideDecklist
             ) {
                 buildArchon(this.props.deckData, this.props.language).then((cardBackUrl) => {
                     if (this.props.player === 1) {
@@ -57,18 +60,22 @@ class PlayerRow extends React.Component {
                         this.props.setPlayer2CardBack(cardBackUrl);
                     }
                 });
-                buildDeckList(
-                    { ...this.props.deckData, cards: this.props.deckCards },
-                    this.props.language,
-                    this.props.t,
-                    this.props.cards
-                )
-                    .then((deckListUrl) => {
-                        this.setState({ deckListUrl });
-                    })
-                    .catch(() => {
-                        this.setState({ deckListUrl: 'img/idbacks/identity.jpg' });
-                    });
+                if (!this.props.hideDecklist) {
+                    buildDeckList(
+                        { ...this.props.deckData, cards: this.props.deckCards },
+                        this.props.language,
+                        this.props.t,
+                        this.props.cards
+                    )
+                        .then((deckListUrl) => {
+                            this.setState({ deckListUrl });
+                        })
+                        .catch(() => {
+                            this.setState({ deckListUrl: 'img/idbacks/identity.jpg' });
+                        });
+                } else {
+                    this.setState({ deckListUrl: 'img/idbacks/identity.jpg' });
+                }
             }
         }
     }
