@@ -314,7 +314,7 @@ class Profile extends React.Component {
                                 labelClass='col-sm-4'
                                 fieldClass='col-sm-8'
                                 placeholder={t('Enter Challonge API Key')}
-                                type='text'
+                                type='password'
                                 onChange={this.onChange.bind(this, 'challongeApiKey')}
                                 value={this.state.challongeApiKey}
                             />
