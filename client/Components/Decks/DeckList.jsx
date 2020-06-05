@@ -160,6 +160,9 @@ const DeckList = ({ className }) => {
             dataField: 'name',
             text: t('Name'),
             sort: true,
+            style: {
+                fontSize: '0.8rem'
+            },
             filter: textFilter({
                 getFilter: (filter) => {
                     nameFilter.current = filter;
@@ -188,15 +191,18 @@ const DeckList = ({ className }) => {
         {
             dataField: 'lastUpdated',
             headerStyle: {
-                width: '22%'
+                width: '20%'
+            },
+            style: {
+                fontSize: '0.7rem'
             },
             align: 'center',
-            text: t('Date Added'),
+            text: t('Added'),
             sort: true,
             /**
              * @param {Date} cell
              */
-            formatter: (cell) => moment(cell).format('DD MMM YYYY')
+            formatter: (cell) => moment(cell).format('YYYY-MM-DD')
         },
         {
             dataField: 'winRate',
@@ -204,6 +210,9 @@ const DeckList = ({ className }) => {
             text: t('Win %'),
             headerStyle: {
                 width: '18%'
+            },
+            style: {
+                fontSize: '0.8rem'
             },
             sort: true,
             /**
