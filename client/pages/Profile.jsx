@@ -21,6 +21,7 @@ class Profile extends React.Component {
 
         this.handleSelectBackground = this.handleSelectBackground.bind(this);
         this.handleSelectCardSize = this.handleSelectCardSize.bind(this);
+        this.toggleChallongeFields = this.toggleChallongeFields.bind(this);
         this.onUnlinkClick = this.onUnlinkClick.bind(this);
         this.onUpdateAvatarClick = this.onUpdateAvatarClick.bind(this);
 
@@ -28,6 +29,7 @@ class Profile extends React.Component {
             challongeApiKey: '',
             challongeApiSubdomain: '',
             email: '',
+            showChallonge: false,
             newPassword: '',
             newPasswordAgain: '',
             optionSettings: {},
@@ -107,6 +109,11 @@ class Profile extends React.Component {
         newState.optionSettings[field] = event.target.checked;
 
         this.setState(newState);
+    }
+
+    toggleChallongeFields(event) {
+        event.preventDefault();
+        this.setState({ showChallonge: !this.state.showChallonge });
     }
 
     onSaveClick(event) {
@@ -308,26 +315,39 @@ class Profile extends React.Component {
                                 onBlur={this.verifyPassword.bind(this, false)}
                                 validationMessage={this.state.validation['password1']}
                             />
-                            <Input
-                                name='challongeApiKey'
-                                label={t('Challonge API Key')}
-                                labelClass='col-sm-4'
-                                fieldClass='col-sm-8'
-                                placeholder={t('Enter Challonge API Key')}
-                                type='password'
-                                onChange={this.onChange.bind(this, 'challongeApiKey')}
-                                value={this.state.challongeApiKey}
-                            />
-                            <Input
-                                name='challongeApiSubdomain'
-                                label={t('Challonge API Subdomain')}
-                                labelClass='col-sm-4'
-                                fieldClass='col-sm-8'
-                                placeholder={t('Challonge Community Subdomain')}
-                                type='text'
-                                onChange={this.onChange.bind(this, 'challongeApiSubdomain')}
-                                value={this.state.challongeApiSubdomain}
-                            />
+                            <div className='form-group'>
+                                <button
+                                    name='toggleChallonge'
+                                    onClick={this.toggleChallongeFields}
+                                    className='btn btn-default col-sm-offset-3 col-sm-4'
+                                >
+                                    <Trans>Show Challonge</Trans>
+                                </button>
+                            </div>
+                            {this.state.showChallonge && (
+                                <div>
+                                    <Input
+                                        name='challongeApiKey'
+                                        label={t('Challonge API Key')}
+                                        labelClass='col-sm-4'
+                                        fieldClass='col-sm-8'
+                                        placeholder={t('Enter Challonge API Key')}
+                                        type='text'
+                                        onChange={this.onChange.bind(this, 'challongeApiKey')}
+                                        value={this.state.challongeApiKey}
+                                    />
+                                    <Input
+                                        name='challongeApiSubdomain'
+                                        label={t('Challonge API Subdomain')}
+                                        labelClass='col-sm-4'
+                                        fieldClass='col-sm-8'
+                                        placeholder={t('Challonge Community Subdomain')}
+                                        type='text'
+                                        onChange={this.onChange.bind(this, 'challongeApiSubdomain')}
+                                        value={this.state.challongeApiSubdomain}
+                                    />
+                                </div>
+                            )}
                             <span className='col-sm-3 text-center'>
                                 <Avatar username={this.props.user.username} />
                             </span>
