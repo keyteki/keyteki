@@ -4,8 +4,8 @@ class TheyreEverywhere extends Card {
     setupCardAbilities(ability) {
         this.play({
             effect:
-                'deal 2 damage to enemy flank creatures, and 1 damage to enemy creatures not on a flank',
-            gameAction: ability.actions.sequential([
+                'deal 2 damage to enemy flank creatures, and 1 damage to enemy creatutes not on a flank',
+            gameAction: [
                 ability.actions.dealDamage((context) => ({
                     amount: 2,
                     target: context.game.creaturesInPlay.filter(
@@ -18,7 +18,7 @@ class TheyreEverywhere extends Card {
                         (card) => card.controller === context.player.opponent && !card.isOnFlank()
                     )
                 }))
-            ])
+            ]
         });
     }
 }
