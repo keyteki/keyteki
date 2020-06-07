@@ -1,49 +1,44 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 
-import { withTranslation, Trans } from 'react-i18next';
+import { Trans } from 'react-i18next';
+import { Button } from 'react-bootstrap';
 
-class ConfirmedButton extends React.Component {
-    constructor(props) {
-        super(props);
+/**
+ * @typedef ConfirmedButtonProps
+ * @property {import('react').ReactNode | import('react').ReactNodeArray} [children]
+ * @property {() => void} onClick
+ */
 
-        this.state = {
-            showConfirm: false
-        };
+/**
+ * @param {ConfirmedButtonProps} props
+ */
+const ConfirmedButton = ({ children, onClick }) => {
+    const [showConfirm, setShowConfirm] = useState(false);
 
-        this.handleClick = this.handleClick.bind(this);
-        this.handleConfirmClick = this.handleConfirmClick.bind(this);
-    }
-
-    handleClick(event) {
+    const handleClick = (event) => {
         event.preventDefault();
-        this.setState({ showConfirm: !this.state.showConfirm });
-    }
+        setShowConfirm(!showConfirm);
+    };
 
-    handleConfirmClick(event) {
-        this.props.onClick(event);
-        this.setState({ showConfirm: false });
-    }
+    const handleConfirmClick = (event) => {
+        event.preventDefault();
+        onClick();
 
-    render() {
-        return (
-            <span>
-                <button className='btn btn-danger' onClick={this.handleClick}>
-                    {this.props.children}
-                </button>
-                {this.state.showConfirm && (
-                    <button className='btn btn-danger' onClick={this.handleConfirmClick}>
-                        <Trans>Confirm</Trans>
-                    </button>
-                )}
-            </span>
-        );
-    }
-}
+        setShowConfirm(false);
+    };
 
-ConfirmedButton.propTypes = {
-    children: PropTypes.node,
-    onClick: PropTypes.func
+    return (
+        <>
+            <Button variant='danger' onClick={handleClick}>
+                {children}
+            </Button>
+            {showConfirm && (
+                <Button variant='danger' onClick={handleConfirmClick}>
+                    <Trans>Confirm</Trans>
+                </Button>
+            )}
+        </>
+    );
 };
 
-export default withTranslation()(ConfirmedButton);
+export default ConfirmedButton;

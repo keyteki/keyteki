@@ -13,7 +13,6 @@ const pool = new Pool({
 
 module.exports = {
     query: async (text, params) => {
-        console.info(text, params);
         let res = await pool.query(text, params);
 
         return res.rows;

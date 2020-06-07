@@ -57,7 +57,6 @@ module.exports.init = function (server) {
             let decks = [];
 
             if (numDecks > 0) {
-                console.info(req.query);
                 decks = (await deckService.findForUser(req.user, req.query)).map((deck) => {
                     let deckUsageLevel = 0;
                     if (

@@ -1,48 +1,35 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import ConfirmedButton from '../Form/ConfirmedButton';
 import DeckSummary from './DeckSummary';
 import Panel from '../Site/Panel';
 
-import { withTranslation, Trans } from 'react-i18next';
+import { Trans } from 'react-i18next';
+import { ButtonGroup } from 'react-bootstrap';
 
-class ViewDeck extends React.Component {
-    constructor() {
-        super();
+/**
+ * @typedef ViewDeckProps
+ * @property {import('./DeckList').Deck} deck The currently selected deck
+ */
 
-        this.handleDeleteClick = this.handleDeleteClick.bind(this);
-    }
+/**
+ * @param {ViewDeckProps} props
+ */
+const ViewDeck = ({ deck }) => {
+    const handleDeleteClick = () => {
+        console.info('fluff');
+    };
 
-    handleDeleteClick(event) {
-        event.preventDefault();
-        this.props.onDeleteDeck(this.props.deck);
-    }
-
-    render() {
-        let { deck, cards } = this.props;
-
-        return (
-            <div className='col-md-6'>
-                <Panel title={deck.name}>
-                    <div className='btn-group col-xs-12'>
-                        <ConfirmedButton onClick={this.handleDeleteClick}>
-                            <Trans>Delete</Trans>
-                        </ConfirmedButton>
-                    </div>
-                    <DeckSummary deck={deck} cards={cards} />
-                </Panel>
-            </div>
-        );
-    }
-}
-
-ViewDeck.propTypes = {
-    cards: PropTypes.object,
-    deck: PropTypes.object.isRequired,
-    i18n: PropTypes.object,
-    onDeleteDeck: PropTypes.func.isRequired,
-    t: PropTypes.func
+    return (
+        <Panel title={deck.name}>
+            <ButtonGroup>
+                <ConfirmedButton onClick={handleDeleteClick}>
+                    <Trans>Delete</Trans>
+                </ConfirmedButton>
+            </ButtonGroup>
+            <DeckSummary deck={deck} />
+        </Panel>
+    );
 };
 
-export default withTranslation()(ViewDeck);
+export default ViewDeck;

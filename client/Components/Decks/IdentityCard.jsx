@@ -1,29 +1,40 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { buildArchon } from '../../archonMaker';
+import { buildDeckList } from '../../archonMaker';
 
 import './Archon.scss';
+import { useSelector } from 'react-redux';
 
 /**
- * @typedef ArchonProps
+ * @typedef IdentityCardProps
  * @property {import('./DeckList').Deck} deck
  */
 
 /**
- * @param {ArchonProps} props
+ * @param {IdentityCardProps} props
  */
-const Archon = ({ deck }) => {
-    const { i18n } = useTranslation();
+const IdentityCard = ({ deck }) => {
+    const { t, i18n } = useTranslation();
     const [imageUrl, setImageUrl] = useState('');
     const [imageZoom, setImageZoom] = useState(false);
     const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
+    const cards = useSelector((state) => state.cards.cards);
+
     useEffect(() => {
-        buildArchon(deck, i18n.language).then((url) => {
-            setImageUrl(url);
-        });
-    }, [deck, i18n.language, imageUrl]);
+        if (!cards || cards.length === 0) {
+            return;
+        }
+
+        buildDeckList({ ...deck, cards: deck.cards }, i18n.language, t, cards)
+            .then((deckListUrl) => {
+                setImageUrl(deckListUrl);
+            })
+            .catch(() => {
+                setImageUrl('img/idbacks/identity.jpg');
+            });
+    }, [deck, i18n.language, imageUrl, t, cards]);
 
     return (
         <div>
@@ -57,4 +68,4 @@ const Archon = ({ deck }) => {
     );
 };
 
-export default Archon;
+export default IdentityCard;

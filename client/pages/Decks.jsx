@@ -27,14 +27,13 @@ const DecksComponent = () => {
 
         return retState;
     });
-    const { cards, selectedDeck } = useSelector((state) => ({
-        cards: state.cards.cards,
+    const { selectedDeck } = useSelector((state) => ({
         selectedDeck: state.cards.selectedDeck
     }));
 
-    const handleDeleteDeck = () => {
-        //this.props.deleteDeck(deck);
-    };
+    // const handleDeleteDeck = () => {
+    //     //this.props.deleteDeck(deck);
+    // };
 
     return (
         <div className='full-height'>
@@ -45,7 +44,7 @@ const DecksComponent = () => {
                 />
             </Col>
             <Row>
-                <Col lg={6} className='full-height'>
+                <Col lg={7} className='full-height'>
                     <Panel title={t('Your decks')}>
                         <Col xs={{ offset: 4 }}>
                             <Link className='btn btn-primary' href='/decks/import'>
@@ -55,9 +54,7 @@ const DecksComponent = () => {
                         <DeckList className='deck-list' />
                     </Panel>
                 </Col>
-                {!!selectedDeck && (
-                    <ViewDeck deck={selectedDeck} cards={cards} onDeleteDeck={handleDeleteDeck} />
-                )}
+                <Col lg={5}>{selectedDeck && <ViewDeck deck={selectedDeck} />}</Col>
             </Row>
         </div>
     );

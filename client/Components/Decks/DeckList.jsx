@@ -11,23 +11,56 @@ import debounce from 'lodash.debounce';
 import $ from 'jquery';
 
 import Archon from './Archon';
-
 import { loadDecks, selectDeck } from '../../redux/actions';
 
 import './DeckList.scss';
+import { Constants } from '../../constants';
 
-let expansions = [
-    { value: '341', label: 'CotA' },
-    { value: '435', label: 'AoA' },
-    { value: '452', label: 'WC' },
-    { value: '512', label: 'MM' }
-];
+/**
+ * @typedef CardLanguage
+ * @property {string} name
+ */
+
+/**
+ * @typedef Card
+ * @property {string} id
+ * @property {string} name
+ * @property {string} type
+ * @property {string} house
+ * @property {string} rarity
+ * @property {string} number
+ * @property {string} image
+ * @property {number} amber
+ * @property {number} [armor]
+ * @property {number} power
+ * @property {number} expansion
+ * @property {string} packCode
+ * @property {string[]} traits
+ * @property {string[]} keywords
+ * @property {{[key: string]: CardLanguage}} locale
+ */
+
+/**
+ * @typedef DeckCard
+ * @property {number} count
+ * @property {string} id
+ * @property {Card} card
+ */
 
 /**
  * @typedef Deck
+ * @property {number} id The database id of the deck
  * @property {string} name The name of the deck
  * @property {string[]} houses The houses in the deck
  * @property {Date} lastUpdated The date the deck was last saved
+ * @property {DeckCard[]} cards The cards in the deck along with how many of each card
+ * @property {number} expansion The expansion number
+ * @property {string} losses The number of losses this deck has had
+ * @property {string} username The owner of this deck
+ * @property {string} uuid The unique identifier of the deck
+ * @property {number} wins The number of wins this deck has had
+ * @property {number} winRate The win rate of the deck
+ * @property {number} usageLevel The usage level of the deck
  */
 
 /**
@@ -51,8 +84,6 @@ let expansions = [
  */
 const DeckList = ({ className }) => {
     const { t } = useTranslation();
-    const [zoomArchon, setZoomArchon] = useState(false);
-    const [acrhonImage, setArchonImage] = useState('');
     const [pagingDetails, setPagingDetails] = useState({
         pageSize: 10,
         page: 1,
@@ -80,8 +111,8 @@ const DeckList = ({ className }) => {
         return (
             <Select
                 isMulti
-                options={expansions}
-                defaultValue={expansions}
+                options={Constants.Expansions}
+                defaultValue={Constants.Expansions}
                 value={pagingDetails.filter.find((f) => f.name === 'expansion')?.value}
                 onChange={(values) => expansionFilter.current(values.map((v) => v))}
             />
@@ -146,13 +177,7 @@ const DeckList = ({ className }) => {
             // eslint-disable-next-line react/display-name
             formatter: (_, row) => (
                 <div className='deck-image'>
-                    <Archon
-                        deck={row}
-                        onZoomToggle={(zoom, image) => {
-                            setZoomArchon(zoom);
-                            setArchonImage(image);
-                        }}
-                    />
+                    <Archon deck={row} />
                 </div>
             )
         },
@@ -179,7 +204,7 @@ const DeckList = ({ className }) => {
             sort: true,
             // eslint-disable-next-line react/display-name
             formatter: (cell) => (
-                <img className='deck-expansion' src={`/img/idbacks/${cell}.png`} />
+                <img className='deck-expansion' src={Constants.SetIconPaths[cell]} />
             ),
             filter: multiSelectFilter({
                 options: {},
@@ -228,13 +253,6 @@ const DeckList = ({ className }) => {
 
     return (
         <div className={className}>
-            {zoomArchon && (
-                <div className='hover-card'>
-                    <div className='hover-image'>
-                        <img className={'img-fluid'} src={acrhonImage} />
-                    </div>
-                </div>
-            )}
             <Col md={12}>
                 <Form>
                     <Form.Row>

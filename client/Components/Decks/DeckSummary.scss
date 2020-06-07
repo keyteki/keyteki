@@ -1,0 +1,22 @@
+@import '../../styles/variables';
+@import '../../styles/colours';
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+
+.deck-houses {
+    margin-top: 15px;
+    padding: 5px 0;
+    background-color: rgba(theme-color('primary'), 0.4);
+}
+
+.deck-house {
+    padding-left: 15px;
+}
+
+.deck-house-image {
+    width: 32px;
+}
+
+.deck-cards {
+    padding-top: 15px;
+}
