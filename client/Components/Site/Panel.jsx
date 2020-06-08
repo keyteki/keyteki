@@ -26,7 +26,7 @@ const PanelType = Object.freeze({
  * @typedef PanelProps
  * @property {import('react').ReactNode | import('react').ReactNodeArray} [children]
  * @property {string} [className]
- * @property {string} title
+ * @property {string} [title]
  * @property {string} [titleClass]
  * @property {string} [type]
  */
@@ -61,7 +61,7 @@ const Panel = ({ type = PanelType.Primary, title, children }) => {
 
     return (
         <Card border={retType} bg='dark'>
-            <Card.Header className='text-center'>{title}</Card.Header>
+            {title && <Card.Header className='text-center'>{title}</Card.Header>}
             <Card.Body>{children}</Card.Body>
         </Card>
     );
