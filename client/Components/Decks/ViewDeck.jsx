@@ -5,7 +5,7 @@ import DeckSummary from './DeckSummary';
 import Panel from '../Site/Panel';
 
 import { Trans } from 'react-i18next';
-import { ButtonGroup } from 'react-bootstrap';
+import { ButtonGroup, Col } from 'react-bootstrap';
 
 /**
  * @typedef ViewDeckProps
@@ -22,11 +22,13 @@ const ViewDeck = ({ deck }) => {
 
     return (
         <Panel title={deck.name}>
-            <ButtonGroup>
-                <ConfirmedButton onClick={handleDeleteClick}>
-                    <Trans>Delete</Trans>
-                </ConfirmedButton>
-            </ButtonGroup>
+            <Col xs={12} className='text-center'>
+                <ButtonGroup>
+                    <ConfirmedButton onClick={handleDeleteClick}>
+                        <Trans>Delete</Trans>
+                    </ConfirmedButton>
+                </ButtonGroup>
+            </Col>
             <DeckSummary deck={deck} />
         </Panel>
     );

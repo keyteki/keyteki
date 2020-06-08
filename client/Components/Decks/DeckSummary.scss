@@ -20,3 +20,30 @@
 .deck-cards {
     padding-top: 15px;
 }
+
+.deck-card-link {
+    cursor: pointer;
+    cursor: hand;
+    color: theme-color('secondary');
+}
+
+.deck-card-link:hover {
+    color: theme-color('info');
+}
+
+.small-card-icon {
+    width: 16px;
+    height: 16px;
+}
+
+.deck-summary {
+    margin-top: 15px;
+}
+
+.card-zoom {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: $keyteki-card-width * 4;
+    z-index: 999;
+}

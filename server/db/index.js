@@ -1,5 +1,7 @@
 const { Pool } = require('pg');
+
 const ConfigService = require('../services/ConfigService');
+const logger = require('../log');
 
 const configService = new ConfigService();
 
@@ -12,7 +14,12 @@ const pool = new Pool({
 });
 
 module.exports = {
+    /**
+     * @param {string} text
+     * @param {any[]} params
+     */
     query: async (text, params) => {
+        logger.debug(text, params);
         let res = await pool.query(text, params);
 
         return res.rows;

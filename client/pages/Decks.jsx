@@ -44,9 +44,9 @@ const DecksComponent = () => {
                 />
             </Col>
             <Row>
-                <Col lg={7} className='full-height'>
+                <Col lg={6} className='full-height'>
                     <Panel title={t('Your decks')}>
-                        <Col xs={{ offset: 4 }}>
+                        <Col className='text-center'>
                             <Link className='btn btn-primary' href='/decks/import'>
                                 <Trans>Import Deck</Trans>
                             </Link>
@@ -54,7 +54,7 @@ const DecksComponent = () => {
                         <DeckList className='deck-list' />
                     </Panel>
                 </Col>
-                <Col lg={5}>{selectedDeck && <ViewDeck deck={selectedDeck} />}</Col>
+                <Col lg={6}>{selectedDeck && <ViewDeck deck={selectedDeck} />}</Col>
             </Row>
         </div>
     );

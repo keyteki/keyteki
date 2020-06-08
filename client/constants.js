@@ -33,7 +33,9 @@ export const Constants = {
         { value: '512', label: 'MM' }
     ],
     SetIconPaths: {},
-    HouseIconPaths: {}
+    HouseIconPaths: {},
+    MaverickIcon: require('./assets/img/maverick.png'),
+    AnomalyIcon: require('./assets/img/anomaly.png')
 };
 
 for (let expansion of Constants.Expansions) {
