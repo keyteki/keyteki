@@ -31,10 +31,6 @@ const DecksComponent = () => {
         selectedDeck: state.cards.selectedDeck
     }));
 
-    // const handleDeleteDeck = () => {
-    //     //this.props.deleteDeck(deck);
-    // };
-
     return (
         <div className='full-height'>
             <Col sm={12}>

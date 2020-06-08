@@ -12,7 +12,7 @@ import { Button } from 'react-bootstrap';
 /**
  * @param {ConfirmedButtonProps} props
  */
-const ConfirmedButton = ({ children, onClick }) => {
+const ConfirmButton = ({ children, onClick }) => {
     const [showConfirm, setShowConfirm] = useState(false);
 
     const handleClick = (event) => {
@@ -29,7 +29,7 @@ const ConfirmedButton = ({ children, onClick }) => {
 
     return (
         <>
-            <Button variant='danger' onClick={handleClick}>
+            <Button variant='primary' onClick={handleClick}>
                 {children}
             </Button>
             {showConfirm && (
@@ -41,4 +41,4 @@ const ConfirmedButton = ({ children, onClick }) => {
     );
 };
 
-export default ConfirmedButton;
+export default ConfirmButton;
