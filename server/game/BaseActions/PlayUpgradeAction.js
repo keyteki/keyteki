@@ -30,6 +30,17 @@ class PlayUpgradeAction extends BasePlayAction {
         }
     }
 
+    meetsRequirements(context = this.createContext(), ignoredRequirements = []) {
+        if (context.source.type === 'creature' && context.source.canPlayAsUpgrade()) {
+            context.source.printedType = 'upgrade';
+            let result = super.meetsRequirements(context, ignoredRequirements);
+            context.source.printedType = 'creature';
+            return result;
+        }
+
+        return super.meetsRequirements(context, ignoredRequirements);
+    }
+
     executeHandler(context) {
         const event = context.game.getEvent('onCardPlayed', {
             player: context.player,
