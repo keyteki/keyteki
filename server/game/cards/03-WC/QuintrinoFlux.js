@@ -15,10 +15,12 @@ class QuintrinoFlux extends Card {
                     gameAction: ability.actions.destroy()
                 }
             },
-            gameAction: ability.actions.destroy(context => ({
-                target: context.game.creaturesInPlay.filter(card =>
-                    Object.values(context.targets).some(target => card.power === target.power) &&
-                    Object.values(context.targets).every(target => target !== card)
+            gameAction: ability.actions.destroy((context) => ({
+                target: context.game.creaturesInPlay.filter(
+                    (card) =>
+                        Object.values(context.targets).some(
+                            (target) => card.power === target.power
+                        ) && Object.values(context.targets).every((target) => target !== card)
                 )
             })),
             effect: 'destroy {1}',
