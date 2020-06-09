@@ -10,7 +10,6 @@ class QuintrinoFlux extends Card {
                     gameAction: ability.actions.destroy()
                 },
                 enemy: {
-                    dependsOn: 'friendly',
                     cardType: 'creature',
                     controller: 'opponent',
                     gameAction: ability.actions.destroy()
