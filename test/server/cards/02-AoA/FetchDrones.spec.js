@@ -1,12 +1,23 @@
-describe('Fetchdrones', function() {
-    integration(function() {
-        describe('Fetchdrones\'s ability', function() {
-            beforeEach(function() {
+describe('Fetchdrones', function () {
+    integration(function () {
+        describe("Fetchdrones's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         amber: 1,
                         house: 'logos',
-                        hand: ['gub', 'krump', 'batdrone', 'dextre', 'foggify', 'anger', 'phoenix-heart', 'archimedes', 'brammo', 'bumpsy'],
+                        hand: [
+                            'gub',
+                            'krump',
+                            'batdrone',
+                            'dextre',
+                            'foggify',
+                            'anger',
+                            'phoenix-heart',
+                            'archimedes',
+                            'brammo',
+                            'bumpsy'
+                        ],
                         inPlay: ['fetchdrones']
                     },
                     player2: {
@@ -16,7 +27,7 @@ describe('Fetchdrones', function() {
                 });
             });
 
-            it('should not prompt for capture when no friendly creatures in play', function() {
+            it('should not prompt for capture when no friendly creatures in play', function () {
                 this.player1.moveCard(this.anger, 'deck');
                 this.player1.moveCard(this.foggify, 'deck');
                 this.player1.moveCard(this.batdrone, 'deck');
@@ -30,7 +41,7 @@ describe('Fetchdrones', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should not prompt for capture when no cards in deck', function() {
+            it('should not prompt for capture when no cards in deck', function () {
                 this.player1.deck = [];
 
                 this.player1.play(this.archimedes);
@@ -40,7 +51,7 @@ describe('Fetchdrones', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should not prompt for capture if cards are not logos', function() {
+            it('should not prompt for capture if cards are not logos', function () {
                 this.player1.moveCard(this.brammo, 'deck');
                 this.player1.moveCard(this.gub, 'deck');
 
@@ -52,7 +63,7 @@ describe('Fetchdrones', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should prompt for a single creature if just one card is logos', function() {
+            it('should prompt for a single creature if just one card is logos', function () {
                 this.player1.moveCard(this.brammo, 'deck');
                 this.player1.moveCard(this.foggify, 'deck');
 
@@ -72,7 +83,7 @@ describe('Fetchdrones', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should prompt for two creature if two card are logos', function() {
+            it('should prompt for two creature if two card are logos', function () {
                 this.player1.moveCard(this.dextre, 'deck');
                 this.player1.moveCard(this.foggify, 'deck');
 
@@ -96,7 +107,7 @@ describe('Fetchdrones', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should allow selecting the same creature if two card are logos', function() {
+            it('should allow selecting the same creature if two card are logos', function () {
                 this.player1.moveCard(this.dextre, 'deck');
                 this.player1.moveCard(this.foggify, 'deck');
 
@@ -119,7 +130,7 @@ describe('Fetchdrones', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should prompt for a single creature when only one logos in deck', function() {
+            it('should prompt for a single creature when only one logos in deck', function () {
                 this.player1.deck = [];
                 this.player1.moveCard(this.dextre, 'deck');
 
@@ -138,7 +149,7 @@ describe('Fetchdrones', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should prompt for a single creature when opponent has 1 amber', function() {
+            it('should prompt for a single creature when opponent has 1 amber', function () {
                 this.player2.amber = 1;
 
                 this.player1.moveCard(this.dextre, 'deck');
@@ -159,7 +170,7 @@ describe('Fetchdrones', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should prompt for a two creatures when opponent has 3 amber', function() {
+            it('should prompt for a two creatures when opponent has 3 amber', function () {
                 this.player2.amber = 3;
 
                 this.player1.moveCard(this.dextre, 'deck');

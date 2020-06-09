@@ -14,16 +14,29 @@ class CreedOfNurture extends Card {
                     creatureInPlay: {
                         dependsOn: 'creatureInHand',
                         cardType: 'creature',
-                        gameAction: ability.actions.cardLastingEffect(context => {
-                            const effects = context.targets.creatureInHand.traits.map(trait => ability.effects.addTrait(trait));
-                            if(Object.keys(context.targets.creatureInHand.printedKeywords).length > 0) {
-                                effects.push(ability.effects.addKeyword(context.targets.creatureInHand.printedKeywords));
-                            }
+                        gameAction: ability.actions.cardLastingEffect((context) => {
+                            const effects = context.targets.creatureInHand.traits.map((trait) =>
+                                ability.effects.addTrait(trait)
+                            );
 
-                            const printedAbilities = Object.values(context.targets.creatureInHand.abilities).reduce((result, array) =>
-                                result.concat(array.filter(ability => ability.printedAbility)), []);
-                            for(const printedAbility of printedAbilities) {
-                                effects.push(ability.effects.gainAbility(printedAbility.abilityType, printedAbility.properties ? printedAbility.properties : printedAbility));
+                            const printedAbilities = Object.values(
+                                context.targets.creatureInHand.abilities
+                            ).reduce(
+                                (result, array) =>
+                                    result.concat(
+                                        array.filter((ability) => ability.printedAbility)
+                                    ),
+                                []
+                            );
+                            for (const printedAbility of printedAbilities) {
+                                effects.push(
+                                    ability.effects.gainAbility(
+                                        printedAbility.abilityType,
+                                        printedAbility.properties
+                                            ? printedAbility.properties
+                                            : printedAbility
+                                    )
+                                );
                             }
 
                             return { effect: effects };
@@ -31,7 +44,10 @@ class CreedOfNurture extends Card {
                     }
                 },
                 message: '{0} reveals {3} and choses to give its text box to {4}',
-                messageArgs: context => [context.targets.creatureInHand, context.targets.creatureInPlay]
+                messageArgs: (context) => [
+                    context.targets.creatureInHand,
+                    context.targets.creatureInPlay
+                ]
             }
         });
     }

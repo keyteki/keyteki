@@ -3,7 +3,7 @@ const Card = require('../../Card.js');
 class CaptainValJericho extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
-            condition: () => this.isInCenter(),
+            condition: (context) => context.source.isInCenter(),
             targetController: 'current',
             effect: ability.effects.canPlayNonHouse((card, context) => context.player.activeHouse)
         });

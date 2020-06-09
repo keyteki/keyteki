@@ -4,6 +4,7 @@ class DrawAction extends PlayerAction {
     setDefaultProperties() {
         this.amount = 1;
         this.refill = false;
+        this.bonus = false;
     }
 
     setup() {
@@ -23,34 +24,50 @@ class DrawAction extends PlayerAction {
     getEvent(player, context) {
         let shedChains = false;
         let amount = 0;
-        if(this.refill) {
-            if(player.maxHandSize > player.hand.length) {
-                amount = player.maxHandSize - player.hand.length - (Math.floor((player.chains + 5) / 6));
+        if (this.refill) {
+            if (player.maxHandSize > player.hand.length) {
+                amount =
+                    player.maxHandSize - player.hand.length - Math.floor((player.chains + 5) / 6);
                 shedChains = player.chains > 0;
-            }
-
-            if(amount > 0) {
-                context.game.addMessage('{0} draws {1} cards up to their maximum hand size of {2}', player, amount, player.maxHandSize);
             }
         } else {
             amount = this.amount;
         }
 
-        return super.createEvent('onDrawCards', {
-            player: player,
-            amount: amount,
-            shedChains: shedChains,
-            context: context
-        }, event => {
-            if(event.amount > 0) {
-                event.player.drawCardsToHand(amount);
-            }
+        if (!this.bonus && amount > 0) {
+            context.game.addMessage(
+                '{0} draws {1} card{2}{3}',
+                player,
+                amount,
+                amount > 1 ? 's' : '',
+                this.refill ? ` to their maximum of ${player.maxHandSize}` : ''
+            );
+        }
 
-            if(shedChains) {
-                event.player.modifyChains(-1);
-                context.game.addMessage('{0}\'s chains are reduced by 1 to {1}', event.player, event.player.chains);
+        return super.createEvent(
+            'onDrawCards',
+            {
+                player: player,
+                amount: amount,
+                bonus: this.bonus,
+                shedChains: shedChains,
+                context: context
+            },
+            (event) => {
+                if (event.amount > 0) {
+                    event.player.drawCardsToHand(amount);
+                }
+
+                if (shedChains) {
+                    event.player.modifyChains(-1);
+                    context.game.addMessage(
+                        "{0}'s chains are reduced by 1 to {1}",
+                        event.player,
+                        event.player.chains
+                    );
+                }
             }
-        });
+        );
     }
 }
 

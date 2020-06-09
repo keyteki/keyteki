@@ -8,15 +8,16 @@ class FesteringTouch extends Card {
                 numCards: 2,
                 cardType: 'creature',
                 gameAction: [
-                    ability.actions.dealDamage(context => ({
+                    ability.actions.dealDamage((context) => ({
                         amount: 3,
-                        target: context.target.filter(card => card.hasToken('damage'))
+                        target: context.target.filter((card) => card.hasToken('damage'))
                     })),
-                    ability.actions.dealDamage(context => ({
+                    ability.actions.dealDamage((context) => ({
                         amount: 1,
-                        target: context.target.filter(card => !card.hasToken('damage'))
+                        target: context.target.filter((card) => !card.hasToken('damage'))
                     }))
-                ] }
+                ]
+            }
         });
     }
 }

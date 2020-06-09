@@ -9,8 +9,9 @@ class PainReaction extends Card {
                 gameAction: ability.actions.dealDamage({ amount: 2 })
             },
             then: {
-                condition: context => context.preThenEvent.destroyed,
-                gameAction: ability.actions.dealDamage(context => ({
+                condition: (context) =>
+                    context.preThenEvent.destroyEvent && context.preThenEvent.destroyEvent.resolved,
+                gameAction: ability.actions.dealDamage((context) => ({
                     amount: 2,
                     target: context.preThenEvent.clone.neighbors
                 }))

@@ -1,7 +1,7 @@
-describe('Rotgrub', function() {
-    integration(function() {
-        describe('Rotgrub\'s ability', function() {
-            beforeEach(function() {
+describe('Rotgrub', function () {
+    integration(function () {
+        describe("Rotgrub's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'dis',
@@ -16,13 +16,13 @@ describe('Rotgrub', function() {
                 });
             });
 
-            it('should cause opponent to lose 1A when played.', function() {
+            it('should cause opponent to lose 1A when played.', function () {
                 this.player1.play(this.rotgrub);
                 expect(this.player2.amber).toBe(1);
             });
         });
-        describe('Rotgrub\'s ability', function() {
-            beforeEach(function() {
+        describe("Rotgrub's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'dis',
@@ -37,7 +37,7 @@ describe('Rotgrub', function() {
                 });
             });
 
-            it('should archive itself when used to reap.', function() {
+            it('should archive itself when used to reap.', function () {
                 this.player1.reap(this.rotgrub);
                 expect(this.player1.amber).toBe(1);
                 expect(this.player2.amber).toBe(2);

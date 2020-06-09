@@ -1,7 +1,7 @@
-describe('Reassembling Automaton', function() {
-    integration(function() {
-        describe('destroyed ability', function() {
-            beforeEach(function() {
+describe('Reassembling Automaton', function () {
+    integration(function () {
+        describe('destroyed ability', function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
@@ -14,14 +14,14 @@ describe('Reassembling Automaton', function() {
                 });
             });
 
-            describe('when other creatures are in play', function() {
-                describe('and automaton is destroyed', function() {
-                    beforeEach(function() {
+            describe('when other creatures are in play', function () {
+                describe('and automaton is destroyed', function () {
+                    beforeEach(function () {
                         this.player1.fightWith(this.reassemblingAutomaton, this.troll);
                         this.player1.clickPrompt('right');
                     });
 
-                    it('should fully heal automaton, not destroy it, exhaust it and move it to the right flank', function() {
+                    it('should fully heal automaton, not destroy it, exhaust it and move it to the right flank', function () {
                         expect(this.reassemblingAutomaton.tokens.damage).toBe(undefined);
                         expect(this.reassemblingAutomaton.location).toBe('play area');
                         expect(this.reassemblingAutomaton.exhausted).toBe(true);
@@ -30,14 +30,14 @@ describe('Reassembling Automaton', function() {
                 });
             });
 
-            describe('when no other creatures are in play', function() {
-                describe('and automaton is destroyed', function() {
-                    beforeEach(function() {
+            describe('when no other creatures are in play', function () {
+                describe('and automaton is destroyed', function () {
+                    beforeEach(function () {
                         this.player1.moveCard(this.pipPip, 'discard');
                         this.player1.fightWith(this.reassemblingAutomaton, this.troll);
                     });
 
-                    it('should not stop automaton from being destroyed', function() {
+                    it('should not stop automaton from being destroyed', function () {
                         expect(this.reassemblingAutomaton.location).toBe('discard');
                     });
                 });

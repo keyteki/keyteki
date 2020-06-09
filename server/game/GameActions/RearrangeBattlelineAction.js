@@ -1,8 +1,7 @@
 const CardGameAction = require('./CardGameAction');
 
 class RearrangeBattlelineAction extends CardGameAction {
-    setDefaultProperties() {
-    }
+    setDefaultProperties() {}
 
     setup() {
         super.setup();
@@ -20,13 +19,13 @@ class RearrangeBattlelineAction extends CardGameAction {
             controller: this.player === context.player ? 'self' : 'opponent',
             cardType: 'creature',
             onSelect: (player, cards) => {
-                if(cards.length < 2) {
+                if (cards.length < 2) {
                     return true;
                 }
 
                 let firstIndex = cards[0].controller.cardsInPlay.indexOf(cards[0]);
                 let secondIndex = cards[1].controller.cardsInPlay.indexOf(cards[1]);
-                if(firstIndex >= 0 && secondIndex >= 0) {
+                if (firstIndex >= 0 && secondIndex >= 0) {
                     cards[0].controller.cardsInPlay.splice(firstIndex, 1, cards[1]);
                     cards[1].controller.cardsInPlay.splice(secondIndex, 1, cards[0]);
                 }
@@ -45,8 +44,7 @@ class RearrangeBattlelineAction extends CardGameAction {
     }
 
     getEvent(card, context) {
-        return super.createEvent('unnamedEvent', { context: context }, () => {
-        });
+        return super.createEvent('unnamedEvent', { card, context }, () => {});
     }
 }
 

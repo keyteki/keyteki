@@ -18,13 +18,23 @@ class DiscardAction extends BaseAbility {
     }
 
     meetsRequirements(context = this.createContext(), ignoredRequirements = []) {
-        if(!context.ignoreHouse && (!this.card.hasHouse(context.player.activeHouse) || context.player.anyEffect('noActiveHouseForPlay'))) {
+        if (
+            !context.ignoreHouse &&
+            (!this.card.hasHouse(context.player.activeHouse) ||
+                context.player.anyEffect('noActiveHouseForPlay'))
+        ) {
             return 'house';
-        } else if(!this.card.checkRestrictions('discard', context) || !context.player.checkRestrictions('discard', context)) {
+        } else if (
+            !this.card.checkRestrictions('discard', context) ||
+            !context.player.checkRestrictions('discard', context)
+        ) {
             return 'cannotTrigger';
-        } else if(!ignoredRequirements.includes('location') && !context.player.isCardInPlayableLocation(context.source, 'play')) {
+        } else if (
+            !ignoredRequirements.includes('location') &&
+            !context.player.isCardInPlayableLocation(context.source, 'play')
+        ) {
             return 'location';
-        } else if(context.game.currentPhase !== 'main') {
+        } else if (context.game.currentPhase !== 'main') {
             return 'phase';
         }
 

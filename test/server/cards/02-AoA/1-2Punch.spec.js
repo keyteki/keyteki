@@ -1,7 +1,7 @@
-describe('1-2 Punch', function() {
-    integration(function() {
-        describe('1-2 Punch\'s ability', function() {
-            beforeEach(function() {
+describe('1-2 Punch', function () {
+    integration(function () {
+        describe("1-2 Punch's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'brobnar',
@@ -15,13 +15,13 @@ describe('1-2 Punch', function() {
                 this.punch = this.player1.findCardByName('1-2-punch');
             });
 
-            it('should stun unstunned creatures', function() {
+            it('should stun unstunned creatures', function () {
                 this.player1.play(this.punch);
                 this.player1.clickCard(this.sequis);
                 expect(this.sequis.stunned).toBe(true);
             });
 
-            it('should destroy stunned creatures', function() {
+            it('should destroy stunned creatures', function () {
                 this.player1.play(this.tremor);
                 this.player1.clickCard(this.bulwark);
                 this.player1.play(this.punch);

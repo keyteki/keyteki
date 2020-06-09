@@ -1,7 +1,7 @@
-describe('Mobius Scroll', function() {
-    integration(function() {
-        describe('Mobius Scroll\'s ability', function() {
-            beforeEach(function() {
+describe('Mobius Scroll', function () {
+    integration(function () {
+        describe("Mobius Scroll's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
@@ -14,9 +14,9 @@ describe('Mobius Scroll', function() {
                 });
             });
 
-            it('should prompt to choose two cards from hand, and should allow choosing 0', function() {
+            it('should prompt to choose two cards from hand, and should allow choosing 0', function () {
                 this.player1.clickCard(this.mobiusScroll);
-                this.player1.clickPrompt('Use this card\'s Action ability');
+                this.player1.clickPrompt("Use this card's Action ability");
                 expect(this.player1).toHavePrompt('Mobius Scroll');
                 expect(this.player1).toHavePromptButton('Done');
                 this.player1.clickPrompt('Done');
@@ -24,9 +24,9 @@ describe('Mobius Scroll', function() {
                 expect(this.mobiusScroll.location).toBe('archives');
             });
 
-            it('should archive the cards', function() {
+            it('should archive the cards', function () {
                 this.player1.clickCard(this.mobiusScroll);
-                this.player1.clickPrompt('Use this card\'s Action ability');
+                this.player1.clickPrompt("Use this card's Action ability");
                 this.player1.clickCard(this.batdrone);
                 this.player1.clickCard(this.docBookton);
                 this.player1.clickPrompt('Done');
@@ -37,8 +37,8 @@ describe('Mobius Scroll', function() {
             });
         });
 
-        describe('Mobius Scroll\'s ability', function() {
-            beforeEach(function() {
+        describe("Mobius Scroll's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
@@ -52,7 +52,7 @@ describe('Mobius Scroll', function() {
                 });
             });
 
-            it('should archive 2 cards for the using player and it should always go in the owner\'s archives', function() {
+            it("should archive 2 cards for the using player and it should always go in the owner's archives", function () {
                 this.player1.play(this.remoteAccess);
                 this.player1.clickCard(this.mobiusScroll);
                 this.player1.clickCard(this.batdrone);
@@ -68,8 +68,8 @@ describe('Mobius Scroll', function() {
             });
         });
 
-        describe('Mobius Scroll\'s ability', function() {
-            beforeEach(function() {
+        describe("Mobius Scroll's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'shadows',
@@ -83,7 +83,7 @@ describe('Mobius Scroll', function() {
                 });
             });
 
-            it('should archive 2 cards for the using player and it should always go in the owner\'s archives', function() {
+            it("should archive 2 cards for the using player and it should always go in the owner's archives", function () {
                 this.player1.reap(this.nexus);
                 this.player1.clickCard(this.mobiusScroll);
                 this.player1.clickCard(this.batdrone);

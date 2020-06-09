@@ -3,21 +3,22 @@ const Event = require('../Events/Event.js');
 class GameAction {
     constructor(propertyFactory = {}) {
         this.reset();
-        if(typeof propertyFactory === 'function') {
+        if (typeof propertyFactory === 'function') {
             this.propertyFactory = propertyFactory;
-        } else if(typeof propertyFactory !== 'object') {
+        } else if (typeof propertyFactory !== 'object') {
             throw new Error('Game Actions should only be passed functions or objects');
         } else {
             this.applyProperties(propertyFactory);
-            this.propertyFactory = context => propertyFactory; // eslint-disable-line no-unused-vars
+            this.propertyFactory = (context) => propertyFactory; // eslint-disable-line no-unused-vars
         }
 
-        this.getDefaultTargets = context => this.defaultTargets(context);
+        this.getDefaultTargets = (context) => this.defaultTargets(context);
         this.setup();
+
+        this.noGameStateCheck = false;
     }
 
-    setDefaultProperties() {
-    }
+    setDefaultProperties() {}
 
     reset() {
         this.target = [];
@@ -32,12 +33,17 @@ class GameAction {
     }
 
     update(context) {
-        this.applyProperties(Object.assign({ target: this.getDefaultTargets(context) }, this.propertyFactory(context)));
+        this.applyProperties(
+            Object.assign(
+                { target: this.getDefaultTargets(context) },
+                this.propertyFactory(context)
+            )
+        );
     }
 
     applyProperties(properties) {
-        for(let [key, value] of Object.entries(properties)) {
-            if(value !== undefined) {
+        for (let [key, value] of Object.entries(properties)) {
+            if (value !== undefined) {
                 this[key] = value;
             }
         }
@@ -51,18 +57,18 @@ class GameAction {
     }
 
     setTarget(target) {
-        if(Array.isArray(target)) {
+        if (Array.isArray(target)) {
             this.target = target;
         } else {
             this.target = [target];
         }
 
-        this.target = this.target.filter(target => !!target);
+        this.target = this.target.filter((target) => !!target);
     }
 
     hasLegalTarget(context) {
         this.update(context);
-        return this.target.some(target => this.canAffect(target, context));
+        return this.target.some((target) => this.canAffect(target, context));
     }
 
     preEventHandler(context) {
@@ -70,30 +76,32 @@ class GameAction {
     }
 
     resolve(targets, context) {
-        if(targets) {
+        if (targets) {
             this.setDefaultTarget(() => targets);
         }
 
         this.preEventHandler(context);
-        let eventWindow;
+        let dummyEvent = context.game.getEvent('unnamedEvent');
         context.game.queueSimpleStep(() => {
-            for(let event of this.getEventArray(context)) {
-                eventWindow.addEvent(event);
+            for (let event of this.getEventArray(context)) {
+                dummyEvent.addChildEvent(event);
             }
         });
-        eventWindow = context.game.openEventWindow([]);
-        return eventWindow;
+        return context.game.openEventWindow(dummyEvent);
     }
 
-    canAffect(target, context) { // eslint-disable-line no-unused-vars
+    // eslint-disable-next-line no-unused-vars
+    canAffect(target, context) {
         return this.targetType.includes(target.type);
     }
 
-    checkEventCondition(event) { // eslint-disable-line no-unused-vars
+    // eslint-disable-next-line no-unused-vars
+    checkEventCondition(event) {
         return true;
     }
 
-    defaultTargets(context) { // eslint-disable-line no-unused-vars
+    // eslint-disable-next-line no-unused-vars
+    defaultTargets(context) {
         return [];
     }
 
@@ -103,7 +111,8 @@ class GameAction {
      * @param {Object} context
      * @returns {Event}
      */
-    getEvent(target, context) { // eslint-disable-line no-unused-vars
+    // eslint-disable-next-line no-unused-vars
+    getEvent(target, context) {
         throw new Error('GameAction.getEvent called');
     }
 
@@ -113,11 +122,13 @@ class GameAction {
      * @returns {Event[]}
      */
     getEventArray(context) {
-        return this.target.filter(target => this.canAffect(target, context)).map(target => this.getEvent(target, context));
+        return this.target
+            .filter((target) => this.canAffect(target, context))
+            .map((target) => this.getEvent(target, context));
     }
 
     createEvent(name, params, handler) {
-        if(this.noGameStateCheck) {
+        if (this.noGameStateCheck) {
             params.noGameStateCheck = true;
         }
 

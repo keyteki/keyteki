@@ -6,8 +6,9 @@ class RedPlanetRayGun extends Card {
             effect: ability.effects.gainAbility('reap', {
                 target: {
                     cardType: 'creature',
-                    gameAction: ability.actions.dealDamage(context => ({
-                        amount: context.game.creaturesInPlay.filter(card => card.hasHouse('mars')).length
+                    gameAction: ability.actions.dealDamage((context) => ({
+                        amount: context.game.creaturesInPlay.filter((card) => card.hasHouse('mars'))
+                            .length
                     }))
                 }
             })

@@ -1,7 +1,7 @@
-describe('Wild Wormhole', function() {
-    integration(function() {
-        describe('Wild Wormhole\'s ability', function() {
-            beforeEach(function() {
+describe('Wild Wormhole', function () {
+    integration(function () {
+        describe("Wild Wormhole's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
@@ -15,7 +15,7 @@ describe('Wild Wormhole', function() {
                 });
             });
 
-            it('should play a creature on top of the deck', function() {
+            it('should play a creature on top of the deck', function () {
                 this.player1.moveCard(this.dextre, 'deck');
                 expect(this.dextre.location).toBe('deck');
                 this.player1.play(this.wildWormhole);
@@ -26,7 +26,7 @@ describe('Wild Wormhole', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should play an artifact on top of the deck', function() {
+            it('should play an artifact on top of the deck', function () {
                 this.player1.moveCard(this.gauntletOfCommand, 'deck');
                 expect(this.gauntletOfCommand.location).toBe('deck');
                 this.player1.play(this.wildWormhole);
@@ -35,7 +35,7 @@ describe('Wild Wormhole', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should play an upgrade on top of the deck', function() {
+            it('should play an upgrade on top of the deck', function () {
                 this.player1.moveCard(this.wayOfTheBear, 'deck');
                 expect(this.wayOfTheBear.location).toBe('deck');
                 this.player1.play(this.wildWormhole);
@@ -46,7 +46,7 @@ describe('Wild Wormhole', function() {
                 expect(this.player1.amber).toBe(2);
             });
 
-            it('should play an action from the top of the deck', function() {
+            it('should play an action from the top of the deck', function () {
                 this.player1.moveCard(this.anger, 'deck');
                 expect(this.anger.location).toBe('deck');
                 this.player1.play(this.wildWormhole);
@@ -60,7 +60,7 @@ describe('Wild Wormhole', function() {
                 expect(this.player1.amber).toBe(2);
             });
 
-            it('should leave an upgrade on top of the deck if there are no legal targets', function() {
+            it('should leave an upgrade on top of the deck if there are no legal targets', function () {
                 this.player1.fightWith(this.ganymedeArchivist, this.inkaTheSpider);
                 expect(this.ganymedeArchivist.location).toBe('discard');
                 expect(this.inkaTheSpider.location).toBe('discard');
@@ -72,19 +72,23 @@ describe('Wild Wormhole', function() {
                 expect(this.wayOfTheBear.location).toBe('deck');
             });
 
-            it('should interact correctly with Library Access when playing an upgrade', function() {
+            it('should interact correctly with Library Access when playing an upgrade', function () {
                 this.player1.moveCard(this.gauntletOfCommand, 'deck');
                 this.player1.moveCard(this.wayOfTheBear, 'deck');
                 this.player1.moveCard(this.dextre, 'deck');
                 this.player1.play(this.libraryAccess);
                 expect(this.libraryAccess.location).toBe('purged');
                 this.player1.play(this.wildWormhole);
+                expect(this.player1).toHavePrompt('Triggered Abilities');
+                expect(this.player1).toHavePromptButton('Library Access');
+                expect(this.player1).toHavePromptButton('Wild Wormhole');
+                this.player1.clickPrompt('Library Access');
                 expect(this.dextre.location).toBe('hand');
                 expect(this.gauntletOfCommand.location).toBe('deck');
                 expect(this.player1).toHavePrompt('Way of the Bear');
             });
 
-            it('should interact correctly with Library Access when the upgrade is unplayable', function() {
+            it('should interact correctly with Library Access when the upgrade is unplayable', function () {
                 this.player1.fightWith(this.ganymedeArchivist, this.inkaTheSpider);
                 expect(this.ganymedeArchivist.location).toBe('discard');
                 expect(this.inkaTheSpider.location).toBe('discard');
@@ -93,18 +97,31 @@ describe('Wild Wormhole', function() {
                 this.player1.moveCard(this.dextre, 'deck');
                 this.player1.play(this.libraryAccess);
                 this.player1.play(this.wildWormhole);
+                expect(this.player1).toHavePrompt('Triggered Abilities');
+                expect(this.player1).toHavePromptButton('Library Access');
+                expect(this.player1).toHavePromptButton('Wild Wormhole');
+                this.player1.clickPrompt('Library Access');
                 expect(this.dextre.location).toBe('hand');
                 expect(this.gauntletOfCommand.location).toBe('deck');
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should interact correctly with Library Access when playing an action', function() {
+            it('should interact correctly with Library Access when playing an action', function () {
                 this.player1.moveCard(this.gauntletOfCommand, 'deck');
                 this.player1.moveCard(this.anger, 'deck');
                 this.player1.moveCard(this.dextre, 'deck');
                 this.player1.play(this.libraryAccess);
                 this.player1.play(this.wildWormhole);
+                expect(this.player1).toHavePrompt('Triggered Abilities');
+                expect(this.player1).toHavePromptButton('Library Access');
+                expect(this.player1).toHavePromptButton('Wild Wormhole');
+                this.player1.clickPrompt('Library Access');
                 expect(this.dextre.location).toBe('hand');
+                expect(this.gauntletOfCommand.location).toBe('deck');
+                expect(this.player1).toHavePrompt('Triggered Abilities');
+                expect(this.player1).toHavePromptButton('Library Access');
+                expect(this.player1).toHavePromptButton('Anger');
+                this.player1.clickPrompt('Library Access');
                 expect(this.gauntletOfCommand.location).toBe('hand');
                 expect(this.player1).toHavePrompt('Anger');
             });

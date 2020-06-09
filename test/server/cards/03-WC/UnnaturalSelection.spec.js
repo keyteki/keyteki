@@ -1,7 +1,7 @@
-describe('Unnatural Selection', function() {
-    integration(function() {
-        describe('Unnatural Selection\'s play ability', function() {
-            beforeEach(function() {
+describe('Unnatural Selection', function () {
+    integration(function () {
+        describe("Unnatural Selection's play ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'untamed',
@@ -14,7 +14,7 @@ describe('Unnatural Selection', function() {
                 });
             });
 
-            it('should not need to select anything', function() {
+            it('should not need to select anything', function () {
                 this.player1.play(this.unnaturalSelection);
                 expect(this.player1).not.toHavePrompt('Choose a creature');
                 expect(this.player1.amber).toBe(1);
@@ -22,9 +22,9 @@ describe('Unnatural Selection', function() {
         });
     });
 
-    integration(function() {
-        describe('Unnatural Selection\'s play ability', function() {
-            beforeEach(function() {
+    integration(function () {
+        describe("Unnatural Selection's play ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'untamed',
@@ -37,7 +37,7 @@ describe('Unnatural Selection', function() {
                 });
             });
 
-            it('should select 3 friendly creatures', function() {
+            it('should select 3 friendly creatures', function () {
                 this.player1.play(this.unnaturalSelection);
 
                 expect(this.player1).toHavePrompt('Choose 3 friendly creatures');
@@ -52,7 +52,6 @@ describe('Unnatural Selection', function() {
 
                 this.player1.clickCard(this.knoxx);
                 expect(this.player1).not.toHavePromptButton('Done');
-
 
                 this.player1.clickCard(this.lamindra);
                 expect(this.player1).toHavePromptButton('Done');
@@ -77,9 +76,9 @@ describe('Unnatural Selection', function() {
         });
     });
 
-    integration(function() {
-        describe('Unnatural Selection\'s play ability', function() {
-            beforeEach(function() {
+    integration(function () {
+        describe("Unnatural Selection's play ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'untamed',
@@ -92,7 +91,7 @@ describe('Unnatural Selection', function() {
                 });
             });
 
-            it('should select 3 enemy creatures', function() {
+            it('should select 3 enemy creatures', function () {
                 this.player1.play(this.unnaturalSelection);
 
                 expect(this.player1).toHavePrompt('Choose 3 friendly creatures');
@@ -134,9 +133,9 @@ describe('Unnatural Selection', function() {
         });
     });
 
-    integration(function() {
-        describe('Unnatural Selection\'s play ability', function() {
-            beforeEach(function() {
+    integration(function () {
+        describe("Unnatural Selection's play ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'untamed',
@@ -149,7 +148,7 @@ describe('Unnatural Selection', function() {
                 });
             });
 
-            it('should select 3 friendly and 3 enemy creatures', function() {
+            it('should select 3 friendly and 3 enemy creatures', function () {
                 this.player1.play(this.unnaturalSelection);
 
                 expect(this.player1).toHavePrompt('Choose 3 friendly creatures');

@@ -1,20 +1,17 @@
 const request = require('request');
 
-function escapeRegex(regex) {
-    return regex.replace(/[-[\]/{}()*+?.\\^$|]/g, '\\$&');
-}
-function httpRequest(url, options = {}) {
+function httpRequest(url, options = {}) {
     return new Promise((resolve, reject) => {
         request(url, options, (err, res, body) => {
-            if(err) {
-                if(res) {
+            if (err) {
+                if (res) {
                     err.statusCode = res.statusCode;
                 }
 
                 return reject(err);
             }
 
-            if(res.statusCode !== 200) {
+            if (res.statusCode !== 200) {
                 let err = new Error('Request failed');
                 err.statusCode = res.statusCode;
 
@@ -25,41 +22,43 @@ function escapeRegex(regex) {
         });
     });
 }
-function wrapAsync(fn) {
+
+function wrapAsync(fn) {
     return function (req, res, next) {
         fn(req, res, next).catch((error) => {
             return next(error);
         });
     };
 }
-function detectBinary(state, path = '', results = []) {
+
+function detectBinary(state, path = '', results = []) {
     const allowedTypes = ['Array', 'Boolean', 'Date', 'Number', 'Object', 'String'];
 
-    if(!state) {
+    if (!state) {
         return results;
     }
 
     let type = state.constructor.name;
 
-    if(!allowedTypes.includes(type)) {
+    if (!allowedTypes.includes(type)) {
         results.push({ path: path, type: type });
     }
 
-    if(type === 'Object') {
-        for(let key in state) {
+    if (type === 'Object') {
+        for (let key in state) {
             detectBinary(state[key], `${path}.${key}`, results);
         }
-    } else if(type === 'Array') {
-        for(let i = 0; i < state.length; ++i) {
+    } else if (type === 'Array') {
+        for (let i = 0; i < state.length; ++i) {
             detectBinary(state[i], `${path}[${i}]`, results);
         }
     }
 
     return results;
 }
-module.exports = {
+
+module.exports = {
     detectBinary: detectBinary,
-    escapeRegex: escapeRegex,
     httpRequest: httpRequest,
     wrapAsync: wrapAsync
 };

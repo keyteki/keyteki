@@ -7,9 +7,12 @@ class ChaosPortal extends Card {
                 mode: 'house'
             },
             effect: 'choose {1} and reveal {2}',
-            effectArgs: context => [context.house, context.player.deck[0]],
-            gameAction: ability.actions.playCard(context => ({
-                target: (context.player.deck.length && context.player.deck[0].hasHouse(context.house)) ? context.player.deck[0] : []
+            effectArgs: (context) => [context.house, context.player.deck[0]],
+            gameAction: ability.actions.playCard((context) => ({
+                target:
+                    context.player.deck.length && context.player.deck[0].hasHouse(context.house)
+                        ? context.player.deck[0]
+                        : []
             }))
         });
     }

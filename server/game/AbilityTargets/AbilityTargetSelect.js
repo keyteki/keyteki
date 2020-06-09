@@ -5,16 +5,21 @@ class AbilityTargetSelect {
     constructor(name, properties, ability) {
         this.name = name;
         this.properties = properties;
-        for(const key of Object.keys(properties.choices)) {
-            if(typeof properties.choices[key] !== 'function' && !Array.isArray(properties.choices[key])) {
+        for (const key of Object.keys(properties.choices)) {
+            if (
+                typeof properties.choices[key] !== 'function' &&
+                !Array.isArray(properties.choices[key])
+            ) {
                 properties.choices[key] = [properties.choices[key]];
             }
         }
 
         this.dependentTarget = null;
         this.dependentCost = null;
-        if(this.properties.dependsOn) {
-            let dependsOnTarget = ability.targets.find(target => target.name === this.properties.dependsOn);
+        if (this.properties.dependsOn) {
+            let dependsOnTarget = ability.targets.find(
+                (target) => target.name === this.properties.dependsOn
+            );
             dependsOnTarget.dependentTarget = this;
         }
     }
@@ -24,64 +29,74 @@ class AbilityTargetSelect {
     }
 
     resetGameActions() {
-        for(let action of this.properties.gameAction) {
+        for (let action of this.properties.gameAction) {
             action.reset();
         }
     }
 
     hasLegalTarget(context) {
         let keys = Object.keys(this.properties.choices);
-        return keys.some(key => this.isChoiceLegal(key, context));
+        return keys.some((key) => this.isChoiceLegal(key, context));
     }
 
     isChoiceLegal(key, context) {
         let contextCopy = context.copy();
         contextCopy.selects[this.name] = new SelectChoice(key);
-        if(this.name === 'target') {
+        if (this.name === 'target') {
             contextCopy.select = key;
         }
 
-        if(context.stage === 'pretarget' && this.dependentCost && !this.dependentCost.canPay(contextCopy)) {
+        if (
+            context.stage === 'pretarget' &&
+            this.dependentCost &&
+            !this.dependentCost.canPay(contextCopy)
+        ) {
             return false;
         }
 
-        if(this.dependentTarget && !this.dependentTarget.hasLegalTarget(contextCopy)) {
+        if (this.dependentTarget && !this.dependentTarget.hasLegalTarget(contextCopy)) {
             return false;
         }
 
         let choice = this.properties.choices[key];
-        if(typeof choice === 'function') {
+        if (typeof choice === 'function') {
             return choice(contextCopy);
         }
 
-        return choice.some(gameAction => gameAction.hasLegalTarget(contextCopy));
+        return choice.some((gameAction) => gameAction.hasLegalTarget(contextCopy));
     }
 
     getGameAction(context) {
-        if(!context.selects[this.name]) {
+        if (!context.selects[this.name]) {
             return [];
         }
 
         let choice = this.properties.choices[context.selects[this.name].choice];
-        if(typeof choice !== 'function') {
-            return choice.filter(gameAction => gameAction.hasLegalTarget(context));
+        if (typeof choice !== 'function') {
+            return choice.filter((gameAction) => gameAction.hasLegalTarget(context));
         }
 
         return [];
     }
 
     getAllLegalTargets(context) {
-        return Object.keys(this.properties.choices).filter(key => this.isChoiceLegal(key, context));
+        return Object.keys(this.properties.choices).filter((key) =>
+            this.isChoiceLegal(key, context)
+        );
     }
 
     resolve(context, targetResults) {
-        if(targetResults.cancelled || targetResults.payCostsFirst || targetResults.delayTargeting) {
+        if (
+            targetResults.cancelled ||
+            targetResults.payCostsFirst ||
+            targetResults.delayTargeting
+        ) {
             return;
         }
 
         let player = context.player;
-        if(this.properties.player && this.properties.player === 'opponent') {
-            if(context.stage === 'pretarget') {
+        if (this.properties.player && this.properties.player === 'opponent') {
+            if (context.stage === 'pretarget') {
                 targetResults.delayTargeting = this;
                 return;
             }
@@ -90,33 +105,33 @@ class AbilityTargetSelect {
         }
 
         let promptTitle = this.properties.activePromptTitle || 'Select one';
-        let choices = Object.keys(this.properties.choices).filter(key => (
+        let choices = Object.keys(this.properties.choices).filter((key) =>
             this.isChoiceLegal(key, context)
-        ));
-        let handlers = _.map(choices, choice => {
-            return (() => {
+        );
+        let handlers = _.map(choices, (choice) => {
+            return () => {
                 context.selects[this.name] = new SelectChoice(choice);
-                if(this.name === 'target') {
+                if (this.name === 'target') {
                     context.select = choice;
                 }
-            });
+            };
         });
-        if(this.properties.player !== 'opponent' && context.stage === 'pretarget') {
-            if(!targetResults.noCostsFirstButton) {
+        if (this.properties.player !== 'opponent' && context.stage === 'pretarget') {
+            if (!targetResults.noCostsFirstButton) {
                 choices.push('Pay costs first');
-                handlers.push(() => targetResults.payCostsFirst = true);
+                handlers.push(() => (targetResults.payCostsFirst = true));
             }
 
             choices.push('Cancel');
-            handlers.push(() => targetResults.cancelled = true);
+            handlers.push(() => (targetResults.cancelled = true));
         }
 
-        if(handlers.length === 1) {
+        if (handlers.length === 1) {
             handlers[0]();
-        } else if(handlers.length > 1) {
+        } else if (handlers.length > 1) {
             let waitingPromptTitle = '';
-            if(context.stage === 'pretarget') {
-                if(context.ability.abilityType === 'action') {
+            if (context.stage === 'pretarget') {
+                if (context.ability.abilityType === 'action') {
                     waitingPromptTitle = 'Waiting for opponent to take an action or pass';
                 } else {
                     waitingPromptTitle = 'Waiting for opponent';
@@ -135,8 +150,11 @@ class AbilityTargetSelect {
     }
 
     checkTarget(context) {
-        return context.selects[this.name] && this.isChoiceLegal(context.selects[this.name].choice, context) &&
-               (!this.dependentTarget || this.dependentTarget.checkTarget(context));
+        return (
+            context.selects[this.name] &&
+            this.isChoiceLegal(context.selects[this.name].choice, context) &&
+            (!this.dependentTarget || this.dependentTarget.checkTarget(context))
+        );
     }
 }
 

@@ -5,12 +5,13 @@ class LethalDistraction extends Card {
         this.play({
             target: {
                 cardType: 'creature',
-                gameAction: ability.actions.forRemainderOfTurn(context => ({
+                gameAction: ability.actions.forRemainderOfTurn((context) => ({
                     when: {
-                        onDamageDealt: event => event.damageSource !== this && event.card === context.target
+                        onDamageDealt: (event) =>
+                            event.damageSource !== context.source && event.card === context.target
                     },
-                    message: '{2} is dealt 2 damage due to {1}\'s effect',
-                    gameAction: ability.actions.dealDamage({ damageSource: this, amount: 2 })
+                    message: "{2} is dealt 2 damage due to {1}'s effect",
+                    gameAction: ability.actions.dealDamage({ target: context.target, amount: 2 })
                 }))
             },
             effect: 'make {0} take 2 extra damage whenever they take damage'

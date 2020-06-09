@@ -8,20 +8,24 @@ class InformationExchange extends Card {
         this.tracker.register(['onStealAmber', 'onRoundEnded']);
 
         this.play({
-            gameAction: ability.actions.steal(context => ({
-                amount: context.player.opponent && this.amberStolenControllerUuid[context.player.opponent.uuid] ? 2 : 1
+            gameAction: ability.actions.steal((context) => ({
+                amount:
+                    context.player.opponent &&
+                    this.amberStolenControllerUuid[context.player.opponent.uuid]
+                        ? 2
+                        : 1
             }))
         });
     }
 
     onStealAmber(event) {
-        if(this.game.activePlayer !== this.controller) {
+        if (this.game.activePlayer !== this.controller) {
             this.amberStolenControllerUuid[event.player.opponent.uuid] = true;
         }
     }
 
     onRoundEnded() {
-        if(this.game.activePlayer !== this.controller) {
+        if (this.game.activePlayer !== this.controller) {
             this.amberStolenControllerUuid = {};
         }
     }

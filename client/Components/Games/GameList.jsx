@@ -23,12 +23,12 @@ class GameList extends React.Component {
 
         event.preventDefault();
 
-        if(!this.props.user) {
+        if (!this.props.user) {
             toastr.error(t('Please login before trying to join a game'));
             return;
         }
 
-        if(game.needsPassword) {
+        if (game.needsPassword) {
             this.props.joinPasswordGame(game, 'Join');
         } else {
             this.props.socket.emit('joingame', game.id);
@@ -44,12 +44,12 @@ class GameList extends React.Component {
 
         event.preventDefault();
 
-        if(!this.props.user) {
+        if (!this.props.user) {
             toastr.error(t('Please login before trying to watch a game'));
             return;
         }
 
-        if(game.needsPassword) {
+        if (game.needsPassword) {
             this.props.joinPasswordGame(game, 'Watch');
         } else {
             this.props.socket.emit('watchgame', game.id);
@@ -63,7 +63,7 @@ class GameList extends React.Component {
     }
 
     canJoin(game) {
-        if(this.props.currentGame || game.started || game.full) {
+        if (this.props.currentGame || game.started || game.full) {
             return false;
         }
 
@@ -71,66 +71,90 @@ class GameList extends React.Component {
     }
 
     getPlayerCards(player, firstPlayer) {
-        let houses = player.houses && player.houses.map(house => {
-            return <img key={ house } className='img-responsive' src={ `/img/house/${house}.png` } />;
-        });
+        let houses =
+            player.houses &&
+            player.houses.map((house) => {
+                return (
+                    <img key={house} className='img-responsive' src={`/img/house/${house}.png`} />
+                );
+            });
 
-        if(firstPlayer) {
-            return (<div className='game-faction-row first-player'>
-                { this.getPlayerNameAndAvatar(player, firstPlayer) }
-                <div className='house-icons'>{ houses }</div>
-            </div>);
+        if (firstPlayer) {
+            return (
+                <div className='game-faction-row first-player'>
+                    {this.getPlayerNameAndAvatar(player, firstPlayer)}
+                    <div className='house-icons'>{houses}</div>
+                </div>
+            );
         }
 
-        return (<div className='game-faction-row other-player'>
-            { this.getPlayerNameAndAvatar(player, firstPlayer) }
-            <div className='house-icons'>{ houses }</div>
-        </div>);
+        return (
+            <div className='game-faction-row other-player'>
+                {this.getPlayerNameAndAvatar(player, firstPlayer)}
+                <div className='house-icons'>{houses}</div>
+            </div>
+        );
     }
 
     getPlayerNameAndAvatar(player, firstPlayer) {
-        if(firstPlayer) {
-            return (<div className='game-player-name'>
-                <span className='gamelist-avatar'><Avatar username={ player.name } /></span>
-                <span className='bold'>{ player.name }</span>
-            </div>);
+        if (firstPlayer) {
+            return (
+                <div className='game-player-name'>
+                    <span className='gamelist-avatar'>
+                        <Avatar username={player.name} />
+                    </span>
+                    <span className='bold'>{player.name}</span>
+                </div>
+            );
         }
 
-        return (<div className='game-player-name'>
-            <span className='bold'>{ player.name }</span>
-            <span className='gamelist-avatar'><Avatar username={ player.name } /></span>
-        </div>);
+        return (
+            <div className='game-player-name'>
+                <span className='bold'>{player.name}</span>
+                <span className='gamelist-avatar'>
+                    <Avatar username={player.name} />
+                </span>
+            </div>
+        );
     }
 
     getPlayers(game) {
         let firstPlayer = true;
-        let players = Object.values(game.players).map(player => {
+        let players = Object.values(game.players).map((player) => {
             let classes = classNames('game-player-row', {
                 'first-player': firstPlayer,
                 'other-player': !firstPlayer
             });
 
-            let retPlayer = (<div key={ player.name } className={ classes }>
-                <div>
-                    { this.getPlayerCards(player, firstPlayer) }
+            let retPlayer = (
+                <div key={player.name} className={classes}>
+                    <div>{this.getPlayerCards(player, firstPlayer)}</div>
                 </div>
-            </div>);
+            );
 
             firstPlayer = false;
 
             return retPlayer;
         });
 
-        if(players.length === 1) {
-            if(this.canJoin(game)) {
+        if (players.length === 1) {
+            if (this.canJoin(game)) {
                 players.push(
-                    <div key={ players[0].name } className={ 'game-player-row other-player' }>
+                    <div key={players[0].name} className={'game-player-row other-player'}>
                         <div className='game-faction-row other-player'>
-                            <button className='btn btn-success gamelist-button img-responsive' onClick={ event => this.joinGame(event, game) }><Trans>Join</Trans></button>
+                            <button
+                                className='btn btn-success gamelist-button img-responsive'
+                                onClick={(event) => this.joinGame(event, game)}
+                            >
+                                <Trans>Join</Trans>
+                            </button>
                         </div>
-                    </div>);
+                    </div>
+                );
             } else {
-                players.push(<div key={ players[0].name } className='game-faction-row other-player' />);
+                players.push(
+                    <div key={players[0].name} className='game-faction-row other-player' />
+                );
             }
         }
 
@@ -141,12 +165,12 @@ class GameList extends React.Component {
         let gamesToReturn = [];
         let t = this.props.t;
 
-        for(const game of games) {
-            if(this.props.gameFilter.showOnlyNewGames && game.started) {
+        for (const game of games) {
+            if (this.props.gameFilter.showOnlyNewGames && game.started) {
                 continue;
             }
 
-            if(!this.props.gameFilter[game.gameFormat]) {
+            if (!this.props.gameFilter[game.gameFormat]) {
                 continue;
             }
 
@@ -154,49 +178,97 @@ class GameList extends React.Component {
 
             let isAdmin = this.props.user && this.props.user.permissions.canManageGames;
             let rowClass = classNames('game-row', {
-                [game.node]: game.node && isAdmin
+                [game.node]: game.node && isAdmin,
+                ['private-game']: game.gamePrivate && isAdmin
             });
 
             let timeDifference = moment().diff(moment(game.createdAt));
-            if(timeDifference < 0) {
+            if (timeDifference < 0) {
                 timeDifference = 0;
             }
 
             let formattedTime = moment.utc(timeDifference).format('HH:mm');
 
-            gamesToReturn.push((
-                <div key={ game.id }>
+            gamesToReturn.push(
+                <div key={game.id}>
                     <hr />
-                    <div className={ rowClass }>
+                    <div className={rowClass}>
                         <div className='game-header-row'>
                             <span className='game-title'>
-                                <b>{ game.name }</b>
+                                <b>{game.name}</b>
                             </span>
-                            <span className='game-time'>{ `[${formattedTime}]` }</span>
+                            <span className='game-time'>{`[${formattedTime}]`}</span>
                             <span className='game-icons'>
-                                { game.showHand && <img src='/img/ShowHandIcon.png' className='game-list-icon' alt={ t('Show hands to spectators') } title={ t('Show hands to spectators') } /> }
-                                { game.needsPassword && <span className='password-game glyphicon glyphicon-lock' /> }
-                                { game.useGameTimeLimit && <img src='/img/timelimit.png' className='game-list-icon' alt={ t('Time limit used') } /> }
-                                { game.gameFormat === 'sealed' && <img src='/img/sealed.png' className='game-list-icon' alt={ t('Sealed game format') } title={ t('Sealed game format') } /> }
-                                { game.gameFormat === 'reversal' && <img src='/img/reversal.png' className='game-list-icon' alt={ t('Reversal game format') } title={ t('Reversal game format') } /> }
-                                { game.gameFormat === 'adaptive-bo1' && <img src='/img/adaptive.png' className='game-list-icon' alt={ t('Adaptive (Best of 1) game format') } title={ t('Adaptive (Best of 1) game format') } /> }
+                                {game.showHand && (
+                                    <img
+                                        src='/img/ShowHandIcon.png'
+                                        className='game-list-icon'
+                                        alt={t('Show hands to spectators')}
+                                        title={t('Show hands to spectators')}
+                                    />
+                                )}
+                                {game.needsPassword && (
+                                    <span className='password-game glyphicon glyphicon-lock' />
+                                )}
+                                {game.useGameTimeLimit && (
+                                    <img
+                                        src='/img/timelimit.png'
+                                        className='game-list-icon'
+                                        alt={t('Time limit used')}
+                                    />
+                                )}
+                                {game.gameFormat === 'sealed' && (
+                                    <img
+                                        src='/img/sealed.png'
+                                        className='game-list-icon'
+                                        alt={t('Sealed game format')}
+                                        title={t('Sealed game format')}
+                                    />
+                                )}
+                                {game.gameFormat === 'reversal' && (
+                                    <img
+                                        src='/img/reversal.png'
+                                        className='game-list-icon'
+                                        alt={t('Reversal game format')}
+                                        title={t('Reversal game format')}
+                                    />
+                                )}
+                                {game.gameFormat === 'adaptive-bo1' && (
+                                    <img
+                                        src='/img/adaptive.png'
+                                        className='game-list-icon'
+                                        alt={t('Adaptive (Best of 1) game format')}
+                                        title={t('Adaptive (Best of 1) game format')}
+                                    />
+                                )}
                             </span>
                         </div>
-                        <div className='game-middle-row'>
-                            { players }
-                        </div>
+                        <div className='game-middle-row'>{players}</div>
                         <div className='game-row-buttons'>
-                            { this.canWatch(game) &&
-                                <button className='btn btn-primary gamelist-button' onClick={ event => this.watchGame(event, game) }><Trans>Watch</Trans></button> }
-                            { isAdmin && <button className='btn btn-danger gamelist-button' onClick={ event => this.removeGame(event, game) }><Trans>Remove</Trans></button> }
+                            {this.canWatch(game) && (
+                                <button
+                                    className='btn btn-primary gamelist-button'
+                                    onClick={(event) => this.watchGame(event, game)}
+                                >
+                                    <Trans>Watch</Trans>
+                                </button>
+                            )}
+                            {isAdmin && (
+                                <button
+                                    className='btn btn-danger gamelist-button'
+                                    onClick={(event) => this.removeGame(event, game)}
+                                >
+                                    <Trans>Remove</Trans>
+                                </button>
+                            )}
                         </div>
                     </div>
                 </div>
-            ));
+            );
         }
 
         let gameHeaderClass = 'game-header';
-        switch(gameType) {
+        switch (gameType) {
             case 'beginner':
                 gameHeaderClass += ' label-success';
                 break;
@@ -210,18 +282,20 @@ class GameList extends React.Component {
 
         return (
             <div>
-                <div className={ gameHeaderClass }>{ t(gameType) } ({ gamesToReturn.length })
+                <div className={gameHeaderClass}>
+                    {t(gameType)} ({gamesToReturn.length})
                 </div>
-                { gamesToReturn }
-            </div>);
+                {gamesToReturn}
+            </div>
+        );
     }
 
     render() {
         let groupedGames = {};
         let t = this.props.t;
 
-        for(const game of this.props.games) {
-            if(!groupedGames[game.gameType]) {
+        for (const game of this.props.games) {
+            if (!groupedGames[game.gameType]) {
                 groupedGames[game.gameType] = [game];
             } else {
                 groupedGames[game.gameType].push(game);
@@ -230,22 +304,24 @@ class GameList extends React.Component {
 
         let gameList = [];
 
-        for(const gameType of ['beginner', 'casual', 'competitive']) {
-            if(this.props.gameFilter[gameType] && groupedGames[gameType]) {
+        for (const gameType of ['beginner', 'casual', 'competitive']) {
+            if (this.props.gameFilter[gameType] && groupedGames[gameType]) {
                 gameList.push(this.getGamesForType(gameType, groupedGames[gameType]));
             }
         }
 
-        if(gameList.length === 0) {
-            return (<div className='game-list col-xs-12'>
-                <AlertPanel type='info' message={ t('There are no games matching the filters you have selected') } />
-            </div>);
+        if (gameList.length === 0) {
+            return (
+                <div className='game-list col-xs-12'>
+                    <AlertPanel
+                        type='info'
+                        message={t('There are no games matching the filters you have selected')}
+                    />
+                </div>
+            );
         }
 
-        return (
-            <div className='game-list col-xs-12'>
-                { gameList }
-            </div>);
+        return <div className='game-list col-xs-12'>{gameList}</div>;
     }
 }
 

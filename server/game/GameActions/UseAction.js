@@ -12,14 +12,19 @@ class UseAction extends CardGameAction {
     }
 
     canAffect(card, context) {
-        return card !== context.source && card.location === 'play area' &&
-            super.canAffect(card, context);
+        return (
+            card !== context.source &&
+            card.location === 'play area' &&
+            super.canAffect(card, context)
+        );
     }
 
-
     getEvent(card, context) {
-        return super.createEvent('onUseCard', { card: card, context: context, ignoreHouse: this.ignoreHouse }, event =>
-            card.use(context.player, event.ignoreHouse));
+        return super.createEvent(
+            'onUseCard',
+            { card: card, context: context, ignoreHouse: this.ignoreHouse },
+            (event) => card.use(context.player, event.ignoreHouse)
+        );
     }
 }
 

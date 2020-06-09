@@ -16,20 +16,21 @@ class StatusPopOver extends React.Component {
         this.updateProps(this.props);
     }
 
-    componentWillReceiveProps(props) {
+    // eslint-disable-next-line camelcase
+    UNSAFE_componentWillReceiveProps(props) {
         this.updateProps(props);
     }
 
     updateProps(props) {
         let popovers = $('[data-toggle="popover"]');
 
-        if(!popovers || !popovers.popover) {
+        if (!popovers || !popovers.popover) {
             return;
         }
 
-        if(props.show && !this.state.showing) {
+        if (props.show && !this.state.showing) {
             popovers.popover();
-        } else if(!props.show && this.state.showing) {
+        } else if (!props.show && this.state.showing) {
             popovers.popover('destroy');
         }
 
@@ -40,8 +41,13 @@ class StatusPopOver extends React.Component {
         let content = ReactDOMServer.renderToString(this.props.children);
 
         return (
-            <span data-trigger='hover' data-html='true' data-toggle='popover' data-content={ content }>
-                { this.props.status }
+            <span
+                data-trigger='hover'
+                data-html='true'
+                data-toggle='popover'
+                data-content={content}
+            >
+                {this.props.status}
             </span>
         );
     }

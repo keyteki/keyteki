@@ -1,7 +1,7 @@
-describe('Dis Plant', function() {
-    integration(function() {
-        describe('Dis Plant\'s constant effect', function() {
-            beforeEach(function() {
+describe('Dis Plant', function () {
+    integration(function () {
+        describe("Dis Plant's constant effect", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'shadows',
@@ -15,7 +15,7 @@ describe('Dis Plant', function() {
                 });
             });
 
-            it('should gain amber when selecting dis', function() {
+            it('should gain amber when selecting dis', function () {
                 expect(this.player1.amber).toBe(0);
                 expect(this.player2.amber).toBe(0);
 
@@ -38,7 +38,7 @@ describe('Dis Plant', function() {
                 this.player1.endTurn();
             });
 
-            it('should not gain amber when not selecting dis', function() {
+            it('should not gain amber when not selecting dis', function () {
                 expect(this.player1.amber).toBe(0);
                 expect(this.player2.amber).toBe(0);
 
@@ -61,7 +61,7 @@ describe('Dis Plant', function() {
                 this.player1.endTurn();
             });
 
-            it('should gain amber after taking control', function() {
+            it('should gain amber after taking control', function () {
                 expect(this.player1.amber).toBe(0);
                 expect(this.player2.amber).toBe(0);
 

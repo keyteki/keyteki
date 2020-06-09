@@ -5,7 +5,8 @@ class ChansBlaster extends BlasterCard {
         this.reaction({
             when: {
                 onCardAttached: (event, context) =>
-                    event.card === context.source && event.parent.name === 'Commander Chan' &&
+                    event.card === context.source &&
+                    event.parent.name === 'Commander Chan' &&
                     event.context.player === event.card.controller
             },
             target: {
@@ -13,7 +14,7 @@ class ChansBlaster extends BlasterCard {
                 mode: 'exactly',
                 controller: 'self',
                 cardType: 'creature',
-                cardCondition: card => (card.exhausted === false) && (card !== this.parent),
+                cardCondition: (card) => card.exhausted === false && card !== this.parent,
                 gameAction: ability.actions.use()
             }
         });

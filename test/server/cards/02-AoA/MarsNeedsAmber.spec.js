@@ -1,7 +1,7 @@
-describe('Mars Needs Amber', function() {
-    integration(function() {
-        describe('Mars Needs Amber\'s ability', function() {
-            beforeEach(function() {
+describe('Mars Needs Amber', function () {
+    integration(function () {
+        describe("Mars Needs Amber's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'brobnar',
@@ -15,7 +15,7 @@ describe('Mars Needs Amber', function() {
                 });
             });
 
-            it('should have all damaged non-mars creatures capture from their side', function() {
+            it('should have all damaged non-mars creatures capture from their side', function () {
                 this.player1.play(this.hebeTheHuge);
                 this.player1.endTurn();
                 this.player2.clickPrompt('logos');
@@ -26,8 +26,8 @@ describe('Mars Needs Amber', function() {
             });
         });
 
-        describe('Mars Needs Amber\'s ability', function() {
-            beforeEach(function() {
+        describe("Mars Needs Amber's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'brobnar',
@@ -41,7 +41,7 @@ describe('Mars Needs Amber', function() {
                 });
             });
 
-            it('should not capture if there are no undamaged, non-mars creatures', function() {
+            it('should not capture if there are no undamaged, non-mars creatures', function () {
                 this.player1.play(this.hebeTheHuge);
                 this.player1.endTurn();
                 this.player2.clickPrompt('logos');
@@ -52,8 +52,8 @@ describe('Mars Needs Amber', function() {
             });
         });
 
-        describe('Mars Needs Amber\'s ability', function() {
-            beforeEach(function() {
+        describe("Mars Needs Amber's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'brobnar',
@@ -67,7 +67,7 @@ describe('Mars Needs Amber', function() {
                 });
             });
 
-            it('should give a prompt to pick a creature if there\'s not enough amber for every creature', function() {
+            it("should give a prompt to pick a creature if there's not enough amber for every creature", function () {
                 this.player1.play(this.hebeTheHuge);
                 this.player1.endTurn();
                 this.player2.clickPrompt('logos');

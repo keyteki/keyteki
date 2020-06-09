@@ -4,7 +4,7 @@ class Streke extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
             targetController: 'opponent',
-            condition: () => !this.isOnFlank(),
+            condition: (context) => !context.source.isOnFlank(),
             effect: ability.effects.modifyHandSize(-1)
         });
     }

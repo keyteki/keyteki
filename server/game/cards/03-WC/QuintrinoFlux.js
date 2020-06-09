@@ -22,8 +22,14 @@ class QuintrinoFlux extends Card {
                 )
             })),
             effect: 'destroy {1}',
-            effectArgs: context => [context.game.creaturesInPlay.filter(card => (context.targets.friendly && (card.power === context.targets.friendly.power)) ||
-                (context.targets.enemy && (card.power === context.targets.enemy.power)))]
+            effectArgs: (context) => [
+                context.game.creaturesInPlay.filter(
+                    (card) =>
+                        (context.targets.friendly &&
+                            card.power === context.targets.friendly.power) ||
+                        (context.targets.enemy && card.power === context.targets.enemy.power)
+                )
+            ]
         });
     }
 }

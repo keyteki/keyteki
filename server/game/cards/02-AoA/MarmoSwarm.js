@@ -3,8 +3,7 @@ const Card = require('../../Card.js');
 class MarmoSwarm extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
-            match: this,
-            effect: ability.effects.modifyPower(() => this.controller.amber)
+            effect: ability.effects.modifyPower((card, context) => context.player.amber)
         });
     }
 }

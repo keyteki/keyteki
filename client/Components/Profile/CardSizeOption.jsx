@@ -6,21 +6,25 @@ function CardSizeOption(props) {
     let { name, label, selected, onSelect } = props;
 
     const handleClick = () => {
-        if(onSelect) {
+        if (onSelect) {
             onSelect(name);
         }
     };
 
     return (
-        <div key={ name } className='card-settings' onClick={ handleClick }>
-            <div className={ classNames('card', 'vertical', name, { 'selected': selected }) }>
-                <img className={ classNames('card', 'vertical', name) }
-                    src='/img/idbacks/identity.jpg' />
+        <div key={name} className='card-settings' onClick={handleClick}>
+            <div className={classNames('card', 'vertical', name, { selected: selected })}>
+                <img
+                    className={classNames('card', 'vertical', name)}
+                    src='/img/idbacks/identity.jpg'
+                />
             </div>
-            <span className='bg-label'>{ label }</span>
-        </div>);
+            <span className='bg-label'>{label}</span>
+        </div>
+    );
 }
-CardSizeOption.propTypes = {
+
+CardSizeOption.propTypes = {
     label: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     onSelect: PropTypes.func,

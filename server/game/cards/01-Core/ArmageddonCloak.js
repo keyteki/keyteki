@@ -10,10 +10,14 @@ class ArmageddonCloak extends Card {
                     effectArgs: () => this,
                     gameAction: [
                         ability.actions.heal({ fully: true }),
-                        ability.actions.changeEvent(context => ({
+                        ability.actions.changeEvent((context) => ({
                             event: context.event,
                             card: this,
-                            postHandler: context => context.source.moribund = false
+                            postHandler: (context) => (context.source.moribund = false)
+                        })),
+                        ability.actions.changeEvent((context) => ({
+                            event: context.event.triggeringEvent,
+                            card: this
                         }))
                     ]
                 })

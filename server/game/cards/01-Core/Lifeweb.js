@@ -8,19 +8,21 @@ class Lifeweb extends Card {
         this.tracker.register(['onCardPlayed', 'onPhaseStarted']);
 
         this.play({
-            condition: context => context.player.opponent && this.creaturesPlayed[context.player.opponent.uuid].length >= 3,
+            condition: (context) =>
+                context.player.opponent &&
+                this.creaturesPlayed[context.player.opponent.uuid].length >= 3,
             gameAction: ability.actions.steal({ amount: 2 })
         });
     }
 
     onCardPlayed(event) {
-        if(event.card.type === 'creature') {
+        if (event.card.type === 'creature') {
             this.creaturesPlayed[event.player.uuid].push(event.card);
         }
     }
 
     onPhaseStarted(event) {
-        if(event.phase === 'main') {
+        if (event.phase === 'main') {
             this.creaturesPlayed[this.game.activePlayer.uuid] = [];
         }
     }

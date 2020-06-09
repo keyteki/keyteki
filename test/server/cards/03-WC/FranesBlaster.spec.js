@@ -1,7 +1,7 @@
-describe('Frane’s Blaster', function() {
-    integration(function() {
-        describe('Frane’s Blaster\'s attach ability', function() {
-            beforeEach(function() {
+describe('Frane’s Blaster', function () {
+    integration(function () {
+        describe("Frane’s Blaster's attach ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'staralliance',
@@ -15,21 +15,21 @@ describe('Frane’s Blaster', function() {
                 });
             });
 
-            it('should return all amber from the associated officer', function() {
+            it('should return all amber from the associated officer', function () {
                 this.firstOfficerFrane.tokens.amber = 3;
                 this.player1.playUpgrade(this.franeSBlaster, this.firstOfficerFrane);
                 expect(this.firstOfficerFrane.hasToken('amber')).toBe(false);
                 expect(this.player1.amber).toBe(4);
             });
 
-            it('should not return all amber from the non associated officer', function() {
+            it('should not return all amber from the non associated officer', function () {
                 this.techivorePulpate.tokens.amber = 3;
                 this.player1.playUpgrade(this.franeSBlaster, this.techivorePulpate);
                 expect(this.techivorePulpate.tokens.amber).toBe(3);
                 expect(this.player1.amber).toBe(1);
             });
 
-            it('reap ability should allow choosing for an action and cancel', function() {
+            it('reap ability should allow choosing for an action and cancel', function () {
                 this.player1.playUpgrade(this.franeSBlaster, this.techivorePulpate);
                 this.player1.reap(this.techivorePulpate);
 
@@ -39,7 +39,7 @@ describe('Frane’s Blaster', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('reap ability should allow dealing 2 damages to a creature', function() {
+            it('reap ability should allow dealing 2 damages to a creature', function () {
                 this.player1.playUpgrade(this.franeSBlaster, this.techivorePulpate);
                 this.player1.reap(this.techivorePulpate);
 
@@ -59,7 +59,7 @@ describe('Frane’s Blaster', function() {
                 expect(this.krump.tokens.damage).toBe(2);
             });
 
-            it('fight ability should allow dealing 2 damages to a creature', function() {
+            it('fight ability should allow dealing 2 damages to a creature', function () {
                 this.player1.playUpgrade(this.franeSBlaster, this.techivorePulpate);
                 this.player1.fightWith(this.techivorePulpate, this.lamindra);
 
@@ -79,7 +79,7 @@ describe('Frane’s Blaster', function() {
                 expect(this.krump.tokens.damage).toBe(2);
             });
 
-            it('reap ability should allow moving the upgrade to the appropriate officer', function() {
+            it('reap ability should allow moving the upgrade to the appropriate officer', function () {
                 this.firstOfficerFrane.tokens.amber = 3;
 
                 this.player1.playUpgrade(this.franeSBlaster, this.techivorePulpate);
@@ -104,7 +104,7 @@ describe('Frane’s Blaster', function() {
                 expect(this.techivorePulpate.upgrades).not.toContain(this.franeSBlaster);
             });
 
-            it('fight ability should allow moving the upgrade to the appropriate officer', function() {
+            it('fight ability should allow moving the upgrade to the appropriate officer', function () {
                 this.firstOfficerFrane.tokens.amber = 3;
 
                 this.player1.playUpgrade(this.franeSBlaster, this.techivorePulpate);
@@ -130,8 +130,8 @@ describe('Frane’s Blaster', function() {
             });
         });
 
-        describe('Frane’s Blaster\'s attach ability', function() {
-            beforeEach(function() {
+        describe("Frane’s Blaster's attach ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'staralliance',
@@ -145,7 +145,7 @@ describe('Frane’s Blaster', function() {
                 });
             });
 
-            it('reap ability should default to deal damage when officer is not in play', function() {
+            it('reap ability should default to deal damage when officer is not in play', function () {
                 this.player1.playUpgrade(this.franeSBlaster, this.techivorePulpate);
                 this.player1.reap(this.techivorePulpate);
                 this.player1.clickCard(this.techivorePulpate);
@@ -158,7 +158,7 @@ describe('Frane’s Blaster', function() {
                 expect(this.krump.tokens.damage).toBe(2);
             });
 
-            it('fight ability should default to deal damage when officer is not in play', function() {
+            it('fight ability should default to deal damage when officer is not in play', function () {
                 this.player1.playUpgrade(this.franeSBlaster, this.techivorePulpate);
                 this.player1.fightWith(this.techivorePulpate, this.lamindra);
                 this.player1.clickCard(this.techivorePulpate);
@@ -172,8 +172,8 @@ describe('Frane’s Blaster', function() {
             });
         });
 
-        describe('Frane’s Blaster\'s attach ability', function() {
-            beforeEach(function() {
+        describe("Frane’s Blaster's attach ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'staralliance',
@@ -190,7 +190,7 @@ describe('Frane’s Blaster', function() {
                 this.firstOfficerFrane2 = this.player1.player.creaturesInPlay[2];
             });
 
-            it('should allow moving upgrade between officers of same name', function() {
+            it('should allow moving upgrade between officers of same name', function () {
                 this.firstOfficerFrane1.tokens.amber = 3;
                 this.firstOfficerFrane2.tokens.amber = 5;
 

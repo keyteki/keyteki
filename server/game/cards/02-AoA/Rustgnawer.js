@@ -7,9 +7,11 @@ class Rustgnawer extends Card {
                 cardType: 'artifact',
                 gameAction: ability.actions.destroy()
             },
-            then: context => ({
+            then: (context) => ({
                 gameAction: [
-                    ability.actions.gainAmber({ amount: !context.target.printedAmber ? 0 : context.target.printedAmber })
+                    ability.actions.gainAmber({
+                        amount: context.target.bonusIcons.filter((icon) => icon === 'amber').length
+                    })
                 ]
             })
         });

@@ -1,7 +1,7 @@
-describe('Tribute', function() {
-    integration(function() {
-        describe('Tribute\'s ability', function() {
-            beforeEach(function() {
+describe('Tribute', function () {
+    integration(function () {
+        describe("Tribute's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         amber: 1,
@@ -16,7 +16,7 @@ describe('Tribute', function() {
                 });
             });
 
-            it('should prompt for most powerful creature to capture amber, and allow not to exalt', function() {
+            it('should prompt for most powerful creature to capture amber, and allow not to exalt', function () {
                 this.player1.play(this.tribute);
                 expect(this.player1).toHavePrompt('Choose a creature');
                 expect(this.player1).toBeAbleToSelect(this.gub);
@@ -30,7 +30,7 @@ describe('Tribute', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should capture amber, and allow exalt, but just once', function() {
+            it('should capture amber, and allow exalt, but just once', function () {
                 this.player1.play(this.tribute);
                 expect(this.player1).toHavePrompt('Choose a creature');
                 expect(this.player1).toBeAbleToSelect(this.gub);
@@ -54,7 +54,7 @@ describe('Tribute', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should allow exalt even if no amber was captured', function() {
+            it('should allow exalt even if no amber was captured', function () {
                 this.player2.amber = 0;
                 this.player1.play(this.tribute);
                 expect(this.player1).toHavePrompt('Choose a creature');
@@ -79,7 +79,7 @@ describe('Tribute', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should allow multiple tribute plays', function() {
+            it('should allow multiple tribute plays', function () {
                 this.player1.play(this.tribute);
                 this.player1.clickCard(this.krump);
                 this.player1.clickPrompt('Yes');

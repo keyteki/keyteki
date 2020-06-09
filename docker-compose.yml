@@ -1,43 +1,58 @@
-version: "3.3"
+version: '3.5'
 services:
-  lobby:
-    restart: always
-    build: .
-    image: keyteki
-    ports:
-      - "4000:4000"
-      - "9229:9229"
-    volumes:
-      - "./client:/usr/src/app/client"
-      - "./server:/usr/src/app/server"
-      - "./public:/usr/src/app/public"
-      - "./less:/usr/src/app/less"
-    links:
-      - mongo
-    depends_on:
-      - mongo
-    command:
-      - node
-      - "--inspect=0.0.0.0:9229"
-      - "."
-  node:
-    restart: always
-    build: .
-    ports:
-      - "9500:9500"
-      - "9339:9339"
-    volumes:
-      - "./server:/usr/src/app/server"
-    command:
-      - node
-      - "--inspect=0.0.0.0:9339"
-      - "server/gamenode"      
-  mongo:
-    image: mongo
-    ports:
-      - "27027:27017"
-    volumes:
-      - mongodb:/data/db
+    lobby:
+        restart: always
+        build: .
+        image: keyteki
+        ports:
+            - '4000:4000'
+            - '9229:9229'
+        volumes:
+            - './client:/usr/src/app/client'
+            - './server:/usr/src/app/server'
+            - './public:/usr/src/app/public'
+            - './less:/usr/src/app/less'
+        links:
+            - postgres
+        depends_on:
+            - postgres
+        command:
+            - node
+            - '--inspect=0.0.0.0:9229'
+            - '.'
+    node:
+        restart: always
+        build: .
+        ports:
+            - '9500:9500'
+            - '9339:9339'
+        volumes:
+            - './server:/usr/src/app/server'
+        command:
+            - node
+            - '--inspect=0.0.0.0:9339'
+            - 'server/gamenode'
+    postgres:
+        image: postgres
+        environment:
+            POSTGRES_USER: ${POSTGRES_USER:-keyteki}
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changemeplease}
+        ports:
+            - '54320:5432'
+        volumes:
+            - postgres:/data/postgres
+            - ./server/db/schema:/docker-entrypoint-initdb.d
+        restart: unless-stopped
+    redis:
+        image: 'redis:alpine'
+        command: redis-server
+        ports:
+            - '6379:6379'
+        volumes:
+            - $PWD/redis-data:/var/lib/redis
+            - $PWD/redis.conf:/usr/local/etc/redis/redis.conf
+        environment:
+            - REDIS_REPLICATION_MODE=master
 volumes:
-  mongodb:
-  node_modules:
+    postgres:
+    node_modules:

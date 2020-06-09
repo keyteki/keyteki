@@ -6,8 +6,8 @@ class User {
         this.invalidDecks = undefined;
     }
 
-    get _id() {
-        return this.userData._id;
+    get id() {
+        return this.userData.id;
     }
 
     get disabled() {
@@ -58,6 +58,10 @@ class User {
         return this.userData.email;
     }
 
+    get challonge() {
+        return this.userData.challonge;
+    }
+
     get enableGravatar() {
         return this.userData.enableGravatar;
     }
@@ -74,6 +78,10 @@ class User {
         return this.userData.permissions && this.userData.permissions.isAdmin;
     }
 
+    get isWinner() {
+        return this.userData.permissions && this.userData.permissions.isWinner;
+    }
+
     get isContributor() {
         return this.userData.permissions && this.userData.permissions.isContributor;
     }
@@ -83,15 +91,19 @@ class User {
     }
 
     get role() {
-        if(this.isAdmin) {
+        if (this.isAdmin) {
             return 'admin';
         }
 
-        if(this.isContributor) {
+        if (this.isWinner) {
+            return 'winner';
+        }
+
+        if (this.isContributor) {
             return 'contributor';
         }
 
-        if(this.isSupporter) {
+        if (this.isSupporter) {
             return 'supporter';
         }
 
@@ -117,14 +129,15 @@ class User {
 
     getWireSafeDetails() {
         let user = {
-            _id: this.userData._id,
+            id: this.userData.id,
             username: this.userData.username,
             email: this.userData.email,
             settings: this.userData.settings,
             promptedActionWindows: this.userData.promptedActionWindows,
             permissions: this.userData.permissions,
             verified: this.userData.verified,
-            enableGravatar: this.userData.enableGravatar
+            enableGravatar: this.userData.enableGravatar,
+            challonge: this.userData.challonge
         };
 
         user = Settings.getUserWithDefaultsSet(user);

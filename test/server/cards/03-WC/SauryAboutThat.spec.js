@@ -1,7 +1,7 @@
-describe('Saury About That', function() {
-    integration(function() {
-        describe('Saury About That\' play ability', function() {
-            beforeEach(function() {
+describe('Saury About That', function () {
+    integration(function () {
+        describe("Saury About That' play ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'saurian',
@@ -13,15 +13,15 @@ describe('Saury About That', function() {
                     }
                 });
             });
-            it('should not gain amber when there is no creature in play', function() {
+            it('should not gain amber when there is no creature in play', function () {
                 this.player1.play(this.sauryAboutThat);
 
                 expect(this.player1.amber).toBe(0);
             });
         });
 
-        describe('Saury About That\' play ability', function() {
-            beforeEach(function() {
+        describe("Saury About That' play ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'saurian',
@@ -33,7 +33,7 @@ describe('Saury About That', function() {
                     }
                 });
             });
-            it('should make player 1 gain 1 amber', function() {
+            it('should make player 1 gain 1 amber', function () {
                 this.player1.play(this.sauryAboutThat);
 
                 expect(this.player1).toHavePrompt('Choose a creature');
@@ -43,7 +43,7 @@ describe('Saury About That', function() {
                 expect(this.player1.amber).toBe(1);
                 expect(this.player2.amber).toBe(0);
             });
-            it('should make player 2 gain 1 amber', function() {
+            it('should make player 2 gain 1 amber', function () {
                 this.player1.play(this.sauryAboutThat);
 
                 expect(this.player1).toHavePrompt('Choose a creature');

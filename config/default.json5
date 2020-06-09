@@ -2,9 +2,12 @@
     env: 'development',
 
     secret: 'somethingverysecret',
-    dbPath: 'mongodb://mongo:27017/keyforge',
-    mqHost: 'lobby',
-    mqPort: 6000,
+    redisUrl: 'redis://redis/',
+    dbUser: 'keyteki',
+    dbHost: 'postgres',
+    dbDatabase: 'keyteki',
+    dbPassword: 'changemeplease',
+    dbPort: 5432,
     minLobbyChatTime: 0, // The time (in seconds) an account has to be registered before it can chat in the lobby
     /*
      * Other global configurations used, but not specified, include:
@@ -34,7 +37,7 @@
     gameNode: {
         name: 'test1',
         host: 'localhost',
-        socketioPort: 9500,
+        socketioPort: 9500
 
         /*
          * Other game node configurations used, but not specified, include:

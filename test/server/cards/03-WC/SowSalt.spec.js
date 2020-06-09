@@ -1,7 +1,7 @@
-describe('Sow Salt', function() {
-    integration(function() {
-        describe('Sow Salt\'s ability', function() {
-            beforeEach(function() {
+describe('Sow Salt', function () {
+    integration(function () {
+        describe("Sow Salt's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'saurian',
@@ -14,7 +14,7 @@ describe('Sow Salt', function() {
                 });
             });
 
-            it('should not allow player to reap until their next turn', function() {
+            it('should not allow player to reap until their next turn', function () {
                 this.player1.play(this.sowSalt);
                 this.player1.clickCard(this.tribunePompitus);
                 expect(this.player1).toHavePromptButton('Fight with this creature');

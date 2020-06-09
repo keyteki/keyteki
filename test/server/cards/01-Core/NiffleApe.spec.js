@@ -1,7 +1,7 @@
-describe('Niffle Ape', function() {
-    integration(function() {
-        describe('Niffle Ape\'s ability', function() {
-            beforeEach(function() {
+describe('Niffle Ape', function () {
+    integration(function () {
+        describe("Niffle Ape's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'untamed',
@@ -13,7 +13,7 @@ describe('Niffle Ape', function() {
                 });
             });
 
-            it('should allow attacking through taunt, and should avoid elusive', function() {
+            it('should allow attacking through taunt, and should avoid elusive', function () {
                 this.player1.fightWith(this.niffleApe, this.urchin);
                 expect(this.urchin.location).toBe('discard');
                 expect(this.niffleApe.tokens.damage).toBe(1);

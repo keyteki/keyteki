@@ -3,7 +3,6 @@ const Card = require('../../Card.js');
 class MimicGel extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
-            match: this,
             condition: () => this.game.creaturesInPlay.length === 0,
             location: 'any',
             targetLocation: 'any',
@@ -17,7 +16,7 @@ class MimicGel extends Card {
             location: 'any',
             target: {
                 cardType: 'creature',
-                gameAction: ability.actions.cardLastingEffect(context => ({
+                gameAction: ability.actions.cardLastingEffect((context) => ({
                     target: context.source,
                     targetLocation: 'hand',
                     duration: 'lastingEffect',

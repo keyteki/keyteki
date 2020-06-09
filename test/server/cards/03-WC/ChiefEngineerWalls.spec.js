@@ -1,7 +1,7 @@
-describe('Armsmaster Molina', function() {
-    integration(function() {
-        describe('Armsmaster Molina\'s ability', function() {
-            beforeEach(function() {
+describe('Chief Engineer Walls', function () {
+    integration(function () {
+        describe("Chief Engineer Walls's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'staralliance',
@@ -15,7 +15,7 @@ describe('Armsmaster Molina', function() {
                 });
             });
 
-            it('on play, should allow you to select a creature:robot, or an upgrade from discard pile to return to hand', function() {
+            it('on play, should allow you to select a creature:robot, or an upgrade from discard pile to return to hand', function () {
                 this.player1.play(this.chiefEngineerWalls);
                 this.player1.clickCard(this.chiefEngineerWalls);
                 expect(this.player1).toBeAbleToSelect(this.helperBot);
@@ -26,8 +26,8 @@ describe('Armsmaster Molina', function() {
             });
         });
 
-        describe('Armsmaster Molina\'s ability', function() {
-            beforeEach(function() {
+        describe("Chief Engineer Walls's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'staralliance',
@@ -41,7 +41,7 @@ describe('Armsmaster Molina', function() {
                 });
             });
 
-            it('on reap, should allow you to select a creature:robot, or an upgrade from discard pile to return to hand', function() {
+            it('on reap, should allow you to select a creature:robot, or an upgrade from discard pile to return to hand', function () {
                 this.player1.reap(this.chiefEngineerWalls);
                 this.player1.clickCard(this.chiefEngineerWalls);
                 expect(this.player1).toBeAbleToSelect(this.helperBot);
@@ -51,7 +51,7 @@ describe('Armsmaster Molina', function() {
                 expect(this.helperBot.location).toBe('hand');
             });
 
-            it('on fight, should allow you to select a creature:robot, or an upgrade from discard pile to return to hand', function() {
+            it('on fight, should allow you to select a creature:robot, or an upgrade from discard pile to return to hand', function () {
                 this.player1.fightWith(this.chiefEngineerWalls, this.dustPixie);
                 this.player1.clickCard(this.chiefEngineerWalls);
                 expect(this.player1).toBeAbleToSelect(this.helperBot);

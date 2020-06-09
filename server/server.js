@@ -12,7 +12,7 @@ const webpackHotMiddleware = require('webpack-hot-middleware');
 const historyApiFallback = require('connect-history-api-fallback');
 const webpack = require('webpack');
 const webpackConfig = require('../webpack.dev.js');
-const monk = require('monk');
+
 const passportJwt = require('passport-jwt');
 const Sentry = require('@sentry/node');
 
@@ -25,14 +25,14 @@ const version = require('../version.js');
 class Server {
     constructor(isDeveloping) {
         this.configService = new ConfigService();
-        let db = monk(this.configService.getValue('dbPath'));
-        this.userService = new UserService(db);
+
+        this.userService = new UserService(this.configService);
         this.isDeveloping = isDeveloping;
         this.server = http.Server(app);
     }
 
     init(options) {
-        if(!this.isDeveloping) {
+        if (!this.isDeveloping) {
             Sentry.init({ dsn: this.configService.getValue('sentryDsn'), release: version.build });
             app.use(Sentry.Handlers.requestHandler());
             app.use(Sentry.Handlers.errorHandler());
@@ -42,17 +42,22 @@ class Server {
         opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
         opts.secretOrKey = this.configService.getValue('secret');
 
-        passport.use(new JwtStrategy(opts, (jwtPayload, done) => {
-            this.userService.getUserById(jwtPayload._id).then(user => {
-                if(user) {
-                    return done(null, user.getWireSafeDetails());
-                }
+        passport.use(
+            new JwtStrategy(opts, (jwtPayload, done) => {
+                this.userService
+                    .getUserById(jwtPayload.id)
+                    .then((user) => {
+                        if (user) {
+                            return done(null, user.getWireSafeDetails());
+                        }
 
-                return done(null, false);
-            }).catch(err => {
-                return done(err, false);
-            });
-        }));
+                        return done(null, false);
+                    })
+                    .catch((err) => {
+                        return done(err, false);
+                    });
+            })
+        );
         app.use(passport.initialize());
 
         app.use(bodyParser.json());
@@ -63,7 +68,7 @@ class Server {
         app.use(express.static(__dirname + '/../public'));
         app.use(express.static(__dirname + '/../dist'));
 
-        if(this.isDeveloping) {
+        if (this.isDeveloping) {
             const compiler = webpack(webpackConfig);
             const middleware = webpackDevMiddleware(compiler, {
                 hot: true,
@@ -84,11 +89,13 @@ class Server {
             app.set('views', path.join(__dirname, '..', 'views'));
 
             app.use(middleware);
-            app.use(webpackHotMiddleware(compiler, {
-                log: false,
-                path: '/__webpack_hmr',
-                heartbeat: 2000
-            }));
+            app.use(
+                webpackHotMiddleware(compiler, {
+                    log: false,
+                    path: '/__webpack_hmr',
+                    heartbeat: 2000
+                })
+            );
             app.use(historyApiFallback());
             app.use(middleware);
         } else {
@@ -98,10 +105,10 @@ class Server {
         }
 
         // Define error middleware last
-        app.use(function(err, req, res, next) {
+        app.use(function (err, req, res, next) {
             logger.error(err);
 
-            if(!res.headersSent && req.xhr) {
+            if (!res.headersSent && req.xhr) {
                 return res.status(500).send({ success: false });
             }
 
@@ -112,20 +119,23 @@ class Server {
     }
 
     run() {
-        let port = process.env.PORT || this.configService.getValueForSection('lobby', 'port') || 4000;
+        let port =
+            process.env.PORT || this.configService.getValueForSection('lobby', 'port') || 4000;
 
         this.server.listen(port, '0.0.0.0', function onStart(err) {
-            if(err) {
+            if (err) {
                 logger.error(err);
             }
 
-            logger.info('==> ?? Listening on port %s. Open up http://0.0.0.0:%s/ in your browser.', port, port);
+            logger.info(
+                `==> ?? Listening on port ${port}. Open up http://0.0.0.0:${port}/ in your browser.`
+            );
         });
     }
 
     serializeUser(user, done) {
-        if(user) {
-            done(null, user._id);
+        if (user) {
+            done(null, user.id);
         }
     }
 }

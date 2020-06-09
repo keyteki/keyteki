@@ -10,17 +10,20 @@ class Activation extends React.Component {
     constructor() {
         super();
 
-        this.state = {
-        };
+        this.state = {};
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.props.activateAccount({ id: this.props.id, token: this.props.token });
     }
 
-    componentWillReceiveProps(props) {
-        if(props.accountActivated) {
-            this.setState({ successMessage: 'Your account has been activated.  You will shortly be redirected to the login page.' });
+    // eslint-disable-next-line camelcase
+    UNSAFE_componentWillReceiveProps(props) {
+        if (props.accountActivated) {
+            this.setState({
+                successMessage:
+                    'Your account has been activated.  You will shortly be redirected to the login page.'
+            });
 
             setTimeout(() => {
                 this.props.navigate('/login');
@@ -29,26 +32,38 @@ class Activation extends React.Component {
     }
 
     render() {
-        if(!this.props.id || !this.props.token) {
-            return <AlertPanel type='error' message='This page is not intended to be viewed directly.  Please click on the link in your email to activate your account' />;
+        if (!this.props.id || !this.props.token) {
+            return (
+                <AlertPanel
+                    type='error'
+                    message='This page is not intended to be viewed directly.  Please click on the link in your email to activate your account'
+                />
+            );
         }
 
-        let errorBar = this.props.apiSuccess === false ? <AlertPanel type='error' message={ this.props.apiMessage } /> : null;
-        let successBar = this.state.successMessage ? <AlertPanel type='success' message={ this.state.successMessage } /> : null;
+        let errorBar =
+            this.props.apiSuccess === false ? (
+                <AlertPanel type='error' message={this.props.apiMessage} />
+            ) : null;
+        let successBar = this.state.successMessage ? (
+            <AlertPanel type='success' message={this.state.successMessage} />
+        ) : null;
 
         return (
             <div>
                 <div className='col-sm-6 col-sm-offset-3'>
-                    { errorBar }
-                    { successBar }
+                    {errorBar}
+                    {successBar}
                 </div>
-            </div>);
+            </div>
+        );
     }
 }
 
 Activation.propTypes = {
     accountActivated: PropTypes.bool,
-    activateAccount: PropTypes.func,apiLoading: PropTypes.bool,
+    activateAccount: PropTypes.func,
+    apiLoading: PropTypes.bool,
     apiMessage: PropTypes.string,
     apiSuccess: PropTypes.bool,
     id: PropTypes.string,

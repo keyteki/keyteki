@@ -16,13 +16,11 @@ class Player extends GameObject {
 
         this.hand = [];
         this.cardsInPlay = []; // This stores references to all creatures and artifacts in play.  Upgrades are not stored here.
-        this.deckName = '';
         this.deckCards = [];
-        this.deckUuid = '';
-        this.deckSet = 0;
         this.discard = [];
         this.purged = [];
         this.archives = [];
+        this.wins = 0;
 
         this.houses = [];
         this.activeHouse = null;
@@ -31,16 +29,13 @@ class Player extends GameObject {
         this.takenMulligan = false;
 
         this.chains = 0;
-        this.keyForged = [];
-        this.creatureFought = false;
+        this.keysForgedThisRound = [];
 
         this.clock = ClockSelector.for(this, clockdetails);
         this.showDeck = false;
         this.role = user.role;
 
-        this.playableLocations = [
-            new PlayableLocation('play', this, 'hand')
-        ];
+        this.playableLocations = [new PlayableLocation('play', this, 'hand')];
         this.optionSettings = user.settings.optionSettings;
 
         this.promptState = new PlayerPromptState(this);
@@ -60,7 +55,7 @@ class Player extends GameObject {
 
     startClock() {
         this.clock.start();
-        if(this.opponent) {
+        if (this.opponent) {
             this.opponent.clock.opponentStart();
         }
     }
@@ -75,7 +70,7 @@ class Player extends GameObject {
      * @param card
      */
     isCardUuidInList(list, card) {
-        return list.some(c => {
+        return list.some((c) => {
             return c.uuid === card.uuid;
         });
     }
@@ -86,7 +81,7 @@ class Player extends GameObject {
      * @param card
      */
     isCardNameInList(list, card) {
-        return list.some(c => {
+        return list.some((c) => {
             return c.name === card.name;
         });
     }
@@ -95,7 +90,7 @@ class Player extends GameObject {
      * Checks whether any cards in play are currently marked as selected
      */
     areCardsSelected() {
-        return this.cardsInPlay.any(card => {
+        return this.cardsInPlay.any((card) => {
             return card.selected;
         });
     }
@@ -106,7 +101,7 @@ class Player extends GameObject {
      * @param {String} uuid
      */
     removeCardByUuid(list, uuid) {
-        list = list.filter(card => card.uuid !== uuid);
+        list = list.filter((card) => card.uuid !== uuid);
         return list;
     }
 
@@ -115,7 +110,9 @@ class Player extends GameObject {
      * @param {Function} predicate  - DrawCard => Boolean
      */
     filterCardsInPlay(predicate) {
-        return this.game.allCards.filter(card => card.controller === this && card.location === 'play area' && predicate(card));
+        return this.game.allCards.filter(
+            (card) => card.controller === this && card.location === 'play area' && predicate(card)
+        );
     }
 
     /**
@@ -124,7 +121,7 @@ class Player extends GameObject {
      */
     getNumberOfCardsInPlay(predicate) {
         return this.game.allCards.reduce((num, card) => {
-            if(card.controller === this && card.location === 'play area' && predicate(card)) {
+            if (card.controller === this && card.location === 'play area' && predicate(card)) {
                 return num + 1;
             }
 
@@ -138,11 +135,14 @@ class Player extends GameObject {
      * @param {String} playingType
      */
     isCardInPlayableLocation(card, playingType) {
-        return _.any(this.playableLocations, location => location.playingType === playingType && location.contains(card));
+        return _.any(
+            this.playableLocations,
+            (location) => location.playingType === playingType && location.contains(card)
+        );
     }
 
     get creaturesInPlay() {
-        return this.cardsInPlay.filter(card => card.type === 'creature');
+        return this.cardsInPlay.filter((card) => card.type === 'creature');
     }
 
     /**
@@ -152,16 +152,16 @@ class Player extends GameObject {
     drawCardsToHand(numCards) {
         let remainingCards = 0;
 
-        if(numCards > this.deck.length) {
+        if (numCards > this.deck.length) {
             remainingCards = numCards - this.deck.length;
             numCards = this.deck.length;
         }
 
-        for(let card of this.deck.slice(0, numCards)) {
+        for (let card of this.deck.slice(0, numCards)) {
             this.moveCard(card, 'hand');
         }
 
-        if(remainingCards > 0 && this.discard.length > 0) {
+        if (remainingCards > 0 && this.discard.length > 0) {
             this.deckRanOutOfCards();
             this.game.queueSimpleStep(() => this.drawCardsToHand(remainingCards));
         }
@@ -171,8 +171,8 @@ class Player extends GameObject {
      * Called when one of the players decks runs out of cards, removing 5 honor and shuffling the discard pile back into the deck
      */
     deckRanOutOfCards() {
-        this.game.addMessage('{0}\'s deck has run out of cards, so they shuffle', this);
-        for(let card of this.discard) {
+        this.game.addMessage("{0}'s deck has run out of cards, so they shuffle", this);
+        for (let card of this.discard) {
             this.moveCard(card, 'deck');
         }
 
@@ -183,12 +183,23 @@ class Player extends GameObject {
      * Shuffles the deck, emitting an event and displaying a message in chat
      */
     shuffleDeck() {
-        if(this.name !== 'Dummy Player') {
-            this.game.addMessage('{0} is shuffling their deck', this);
-        }
-
         this.game.emitEvent('onDeckShuffled', { player: this });
         this.deck = _.shuffle(this.deck);
+    }
+
+    /**
+     * Mulligans the players starting hand, emitting an event and displaying a message in chat
+     */
+    takeMulligan() {
+        let size = this.hand.length;
+
+        for (let card of this.hand) {
+            this.moveCard(card, 'deck');
+        }
+
+        this.shuffleDeck();
+        this.drawCardsToHand(size - 1);
+        this.takenMulligan = true;
     }
 
     /**
@@ -208,8 +219,6 @@ class Player extends GameObject {
      */
     initialise() {
         this.prepareDecks();
-        this.shuffleDeck();
-
         this.keys = { red: false, blue: false, yellow: false };
         this.amber = 0;
         this.turn = 1;
@@ -224,16 +233,15 @@ class Player extends GameObject {
     }
 
     removePlayableLocation(location) {
-        this.playableLocations = _.reject(this.playableLocations, l => l === location);
+        this.playableLocations = _.reject(this.playableLocations, (l) => l === location);
     }
 
     beginRound() {
-        this.keyForged = [];
-        this.creatureFought = false;
+        this.keysForgedThisRound = [];
     }
 
     endRound() {
-        for(let card of this.cardsInPlay) {
+        for (let card of this.cardsInPlay) {
             card.new = false;
         }
 
@@ -245,7 +253,7 @@ class Player extends GameObject {
      * @param {String} source
      */
     getSourceList(source) {
-        if(source === 'play area') {
+        if (source === 'play area') {
             return this.cardsInPlay;
         }
 
@@ -260,28 +268,43 @@ class Player extends GameObject {
      */
     drop(cardId, source, target) {
         let sourceList = this.getSourceList(source);
-        let card = sourceList.find(card => card.uuid === cardId);
+        let card = sourceList.find((card) => card.uuid === cardId);
 
-        if(!card) {
+        if (!card) {
             return;
         }
 
         // First, handle legal cases of drag/drop
-        if(!this.game.manualMode) {
+        if (!this.game.manualMode) {
             this.game.pipeline.handleCardDragged(this, card, source, target);
         }
 
         // Any other dragging is only legal in manual mode, when the card is currently in source, when the source and target are different and when the target is a legal location
-        if(!this.game.manualMode || source === target || !this.isLegalLocationForCard(card, target) || card.location !== source) {
+        if (
+            !this.game.manualMode ||
+            source === target ||
+            !this.isLegalLocationForCard(card, target) ||
+            card.location !== source
+        ) {
             return;
         }
 
         let display = 'a card';
-        if(!card.facedown && source !== 'hand' || ['play area', 'discard', 'purged'].includes(target)) {
+        if (
+            (!card.facedown && source !== 'hand') ||
+            ['play area', 'discard', 'purged'].includes(target)
+        ) {
             display = card;
         }
 
-        this.game.addAlert('danger', '{0} manually moves {1} from their {2} to their {3}', this, display, source, target);
+        this.game.addAlert(
+            'danger',
+            '{0} manually moves {1} from their {2} to their {3}',
+            this,
+            display,
+            source,
+            target
+        );
         this.moveCard(card, target);
         this.game.checkGameState(true);
     }
@@ -292,7 +315,7 @@ class Player extends GameObject {
      * @param {String} location
      */
     isLegalLocationForCard(card, location) {
-        if(!card) {
+        if (!card) {
             return false;
         }
 
@@ -326,48 +349,49 @@ class Player extends GameObject {
      * @param {Object} options
      */
     moveCard(card, targetLocation, options = {}) {
-        if(targetLocation.endsWith(' bottom')) {
+        if (targetLocation.endsWith(' bottom')) {
             options.bottom = true;
             targetLocation = targetLocation.replace(' bottom', '');
         }
 
         let targetPile = this.getSourceList(targetLocation);
 
-        if(!this.isLegalLocationForCard(card, targetLocation) || targetPile && targetPile.includes(card)) {
+        if (
+            !this.isLegalLocationForCard(card, targetLocation) ||
+            (targetPile && targetPile.includes(card))
+        ) {
             return;
         }
 
         this.removeCardFromPile(card);
         let location = card.location;
 
-        if(location === 'play area') {
-            if(targetLocation !== 'archives' && card.owner !== this) {
+        if (location === 'play area') {
+            if (targetLocation !== 'archives' && card.owner !== this) {
                 card.owner.moveCard(card, targetLocation, options);
                 return;
             }
 
-            for(let upgrade of card.upgrades) {
+            for (let upgrade of card.upgrades) {
                 upgrade.onLeavesPlay();
                 upgrade.owner.moveCard(upgrade, 'discard');
             }
 
-            for(let child of card.childCards) {
+            for (let child of card.childCards) {
                 child.onLeavesPlay();
                 child.owner.moveCard(child, 'discard');
             }
 
             card.onLeavesPlay();
             card.controller = this;
-        } else if(targetLocation === 'play area') {
-            if(options.myControl) {
+        } else if (targetLocation === 'play area') {
+            if (options.myControl) {
                 card.setDefaultController(this);
             }
-
-            card.exhausted = true;
-        } else if(card.owner !== this) {
+        } else if (card.owner !== this) {
             card.owner.moveCard(card, targetLocation, options);
             return;
-        } else if(card.location === 'archives' && card.controller !== card.owner) {
+        } else if (card.location === 'archives' && card.controller !== card.owner) {
             card.controller = card.owner;
             targetLocation = 'hand';
             targetPile = this.getSourceList(targetLocation);
@@ -377,17 +401,27 @@ class Player extends GameObject {
 
         card.moveTo(targetLocation);
 
-        if(targetLocation === 'deck' && !options.bottom) {
+        if (targetLocation === 'deck' && !options.bottom) {
             targetPile.unshift(card);
-        } else if(['discard', 'purged'].includes(targetLocation)) {
+        } else if (['discard', 'purged'].includes(targetLocation)) {
             // new cards go on the top of the discard pile
             targetPile.unshift(card);
-        } else if(targetLocation === 'play area' && options.deployIndex !== undefined) {
+        } else if (targetLocation === 'play area' && options.deployIndex !== undefined) {
             targetPile.splice(options.deployIndex + 1, 0, card);
-        } else if(targetLocation === 'play area' && options.left) {
+        } else if (targetLocation === 'play area' && options.left) {
             targetPile.unshift(card);
-        } else if(targetPile) {
+        } else if (targetPile) {
             targetPile.push(card);
+        }
+
+        if (targetLocation !== 'play area' && card.gigantic) {
+            let cardIndex = targetPile.indexOf(card);
+            card.playedParts.forEach((part) => {
+                part.location = targetLocation;
+                targetPile.splice(cardIndex, 0, part);
+            });
+            card.playedParts = [];
+            card.image = card.id;
         }
 
         this.game.raiseEvent('onCardPlaced', { card: card, from: location, to: targetLocation });
@@ -398,26 +432,26 @@ class Player extends GameObject {
      * @param card
      */
     removeCardFromPile(card) {
-        if(card.parent) {
-            if(card.parent.upgrades.includes(card)) {
-                card.parent.upgrades = card.parent.upgrades.filter(c => c !== card);
-            } else if(card.parent.childCards.includes(card)) {
-                card.parent.childCards = card.parent.childCards.filter(c => c !== card);
+        if (card.parent) {
+            if (card.parent.upgrades.includes(card)) {
+                card.parent.upgrades = card.parent.upgrades.filter((c) => c !== card);
+            } else if (card.parent.childCards.includes(card)) {
+                card.parent.childCards = card.parent.childCards.filter((c) => c !== card);
             }
 
             card.parent = null;
             return;
         }
 
-        if(card.controller !== this) {
+        if (card.controller !== this) {
             card.controller.removeCardFromPile(card);
             return;
         }
 
-        if(card.location === 'play area') {
-            this.cardsInPlay = this.cardsInPlay.filter(c => c !== card);
-        } else if(this[card.location]) {
-            this[card.location] = this[card.location].filter(c => c !== card);
+        if (card.location === 'play area') {
+            this.cardsInPlay = this.cardsInPlay.filter((c) => c !== card);
+        } else if (this[card.location]) {
+            this[card.location] = this[card.location].filter((c) => c !== card);
         }
     }
 
@@ -446,16 +480,16 @@ class Player extends GameObject {
     }
 
     getSummaryForCardList(list, activePlayer, hideWhenFaceup) {
-        return list.map(card => {
+        return list.map((card) => {
             return card.getSummary(activePlayer, hideWhenFaceup);
         });
     }
 
     getDeckCards(list) {
         let final = [];
-        list.forEach(card => {
+        list.forEach((card) => {
             let arr = [];
-            while(arr.length < card.count) {
+            while (arr.length < card.count) {
                 arr = arr.concat(card.card);
             }
 
@@ -504,19 +538,21 @@ class Player extends GameObject {
         let availableHouses = this.hand.concat(this.cardsInPlay).reduce((houses, card) => {
             let cardHouse = card.printedHouse;
 
-            if(card.anyEffect('changeHouse')) {
+            if (card.anyEffect('changeHouse')) {
                 cardHouse = this.getEffects('changeHouse');
             }
 
-            if(!houses.includes(cardHouse)) {
+            if (!houses.includes(cardHouse)) {
                 return houses.concat(cardHouse);
             }
 
             return houses;
         }, this.houses);
         let stopHouseChoice = this.getEffects('stopHouseChoice');
-        let restrictHouseChoice = _.flatten(this.getEffects('restrictHouseChoice')).filter(house => !stopHouseChoice.includes(house));
-        if(restrictHouseChoice.length > 0) {
+        let restrictHouseChoice = _.flatten(this.getEffects('restrictHouseChoice')).filter(
+            (house) => !stopHouseChoice.includes(house)
+        );
+        if (restrictHouseChoice.length > 0) {
             availableHouses = restrictHouseChoice;
         }
 
@@ -525,23 +561,34 @@ class Player extends GameObject {
     }
 
     canIgnoreHouseRestrictions(card, context) {
-        return this.getEffects('canUse').some(match => match(card, context));
+        return this.getEffects('canUse').some((match) => match(card, context));
     }
 
     getAmberSources() {
-        return this.cardsInPlay.filter(card => card.anyEffect('keyAmber') && card.hasToken('amber'));
+        return this.cardsInPlay
+            .filter((card) => card.anyEffect('keyAmber') && card.hasToken('amber'))
+            .concat(
+                this.opponent
+                    ? this.opponent.cardsInPlay.filter(
+                          (card) => card.anyEffect('keyAmberOpponent') && card.hasToken('amber')
+                      )
+                    : []
+            );
     }
 
     canForgeKey(modifier = 0) {
-        if(!this.checkRestrictions('forge', this.game.getFrameworkContext(this))) {
+        if (!this.checkRestrictions('forge', this.game.getFrameworkContext(this))) {
             return false;
         }
 
-        if(Object.values(this.keys).every(key => key)) {
+        if (Object.values(this.keys).every((key) => key)) {
             return false;
         }
 
-        let alternativeSources = this.getAmberSources().reduce((total, source) => total + source.tokens.amber, 0);
+        let alternativeSources = this.getAmberSources().reduce(
+            (total, source) => total + source.tokens.amber,
+            0
+        );
         return this.amber + alternativeSources >= this.getCurrentKeyCost() + modifier;
     }
 
@@ -550,7 +597,7 @@ class Player extends GameObject {
     }
 
     getForgedKeys() {
-        return Math.max(0, Object.values(this.keys).filter(key => key).length);
+        return Math.max(0, Object.values(this.keys).filter((key) => key).length);
     }
 
     forgeKey(modifier) {
@@ -558,13 +605,19 @@ class Player extends GameObject {
         let modifiedCost = cost;
         let unforgedKeys = this.getUnforgedKeys();
         let amberSources = this.getAmberSources();
-        if(amberSources.length > 0) {
-            let totalAvailable = amberSources.reduce((total, source) => total + source.tokens.amber, 0);
-            for(let source of amberSources) {
+        if (amberSources.length > 0) {
+            let totalAvailable = amberSources.reduce(
+                (total, source) => total + source.tokens.amber,
+                0
+            );
+            for (let source of amberSources) {
                 this.game.queueSimpleStep(() => {
                     let max = Math.min(modifiedCost, source.tokens.amber);
-                    let min = Math.max(0, modifiedCost - this.amber - totalAvailable + source.tokens.amber);
-                    if(max === min) {
+                    let min = Math.max(
+                        0,
+                        modifiedCost - this.amber - totalAvailable + source.tokens.amber
+                    );
+                    if (max === min) {
                         modifiedCost -= max;
                         totalAvailable -= max;
                         source.removeToken('amber', max);
@@ -578,7 +631,7 @@ class Player extends GameObject {
                         },
                         source: source,
                         choices: _.range(min, max + 1),
-                        choiceHandler: choice => {
+                        choiceHandler: (choice) => {
                             modifiedCost -= choice;
                             totalAvailable -= choice;
                             source.removeToken('amber', choice);
@@ -588,67 +641,109 @@ class Player extends GameObject {
             }
         }
 
-        if(unforgedKeys.length > 1) {
+        if (unforgedKeys.length > 1) {
             this.game.promptWithHandlerMenu(this, {
                 activePromptTitle: { text: 'Which key would you like to forge?' },
-                source: 'Forge a key.',
+                source: 'Forge a key',
                 choices: unforgedKeys,
-                choiceHandler: key => {
+                choiceHandler: (key) => {
                     this.game.queueSimpleStep(() => {
-                        this.finalizeForge(key.text.toLowerCase(), modifiedCost, cost);
+                        this.finalizeForge(key.value, modifiedCost, cost);
                     });
                 }
             });
         } else {
-            this.game.queueSimpleStep(() => this.finalizeForge(unforgedKeys.shift().text.toLowerCase(), modifiedCost, cost));
+            this.game.queueSimpleStep(() =>
+                this.finalizeForge(unforgedKeys.shift().value, modifiedCost, cost)
+            );
         }
     }
 
     finalizeForge(key, modifiedCost, cost) {
         this.modifyAmber(-modifiedCost);
 
-        if(this.anyEffect('forgeAmberGainedByOpponent')) {
-            this.game.actions.gainAmber({ amount: cost }).resolve(this.opponent, this.game.getFrameworkContext());
+        if (this.anyEffect('forgeAmberGainedByOpponent')) {
+            this.game.actions
+                .gainAmber({ amount: cost })
+                .resolve(this.opponent, this.game.getFrameworkContext());
         }
 
         this.keys[key] = true;
-        this.keyForged.push(key);
-        this.game.addMessage('{0} forges the {1}, paying {2} amber', this.game.activePlayer, `forgedkey${key}`, modifiedCost);
+        this.keysForgedThisRound.push(key);
+        this.game.addMessage(
+            '{0} forges the {1}, paying {2} amber',
+            this.game.activePlayer,
+            `forgedkey${key}`,
+            modifiedCost
+        );
     }
 
     unforgeKey(choices) {
-        if(this.keyForged.length > 1) {
+        if (choices.length > 1) {
             this.game.promptWithHandlerMenu(this, {
                 activePromptTitle: { text: 'Which key would you like to unforge?' },
-                source: 'Unforge a key.',
+                source: 'Unforge a key',
                 choices: this.getKeyOptions(choices),
-                choiceHandler: key => {
+                choiceHandler: (key) => {
                     this.game.queueSimpleStep(() => {
-                        this.keys[key.text.toLowerCase()] = false;
-                        this.keyForged.splice(this.keyForged.findIndex(x => x === key.text.toLowerCase()), 1);
-                        this.game.addMessage('{0} unforges {1}\'s {2}', this.game.activePlayer, this.game.activePlayer.opponent, `forgedkey${key.text.toLowerCase()}`);
+                        this.keys[key.value] = false;
+                        let forgedKeyIndex = this.keysForgedThisRound.findIndex(
+                            (x) => x === key.value
+                        );
+                        if (forgedKeyIndex !== -1) {
+                            this.keysForgedThisRound.splice(forgedKeyIndex, 1);
+                        }
+
+                        this.game.addMessage(
+                            "{0} unforges {1}'s {2}",
+                            this.game.activePlayer,
+                            this.game.activePlayer.opponent,
+                            `forgedkey${key.value}`
+                        );
                     });
                 }
             });
         } else {
-            this.keys[this.keyForged[0].toLowerCase()] = false;
-            this.keyForged.splice(this.keyForged.findIndex(key => key === this.keyForged[0].toLowerCase()), 1);
-            this.game.addMessage('{0} unforges the {1}', this.game.activePlayer, `forgedkey${this.keyForged[0]}`);
+            this.keys[choices[0].toLowerCase()] = false;
+            let forgedKeyIndex = this.keysForgedThisRound.findIndex(
+                (x) => x === choices[0].toLowerCase()
+            );
+            if (forgedKeyIndex !== -1) {
+                this.keysForgedThisRound.splice(forgedKeyIndex, 1);
+            }
+
+            this.game.addMessage(
+                '{0} unforges the {1}',
+                this.game.activePlayer,
+                `forgedkey${choices[0]}`
+            );
         }
     }
 
     getUnforgedKeys() {
-        return [{ text: 'Red', icon: 'unforgedkeyred' }, { text: 'Blue', icon: 'unforgedkeyblue' }, { text: 'Yellow', icon: 'unforgedkeyyellow' }]
-            .filter(key => !this.keys[key.text.toLowerCase()]);
+        return [
+            { text: 'Red', value: 'red', icon: 'unforgedkeyred' },
+            { text: 'Blue', value: 'blue', icon: 'unforgedkeyblue' },
+            { text: 'Yellow', value: 'yellow', icon: 'unforgedkeyyellow' }
+        ].filter((key) => !this.keys[key.value]);
     }
 
     getKeyOptions(options) {
-        return [{ text: 'Red', icon: 'forgedkeyred' }, { text: 'Blue', icon: 'forgedkeyblue' }, { text: 'Yellow', icon: 'forgedkeyyellow' }]
-            .filter(key => options.includes(key.text.toLowerCase()));
+        return [
+            { text: 'Red', value: 'red', icon: 'forgedkeyred' },
+            { text: 'Blue', value: 'blue', icon: 'forgedkeyblue' },
+            { text: 'Yellow', value: 'yellow', icon: 'forgedkeyyellow' }
+        ].filter((key) => options.includes(key.value));
     }
 
     getAdditionalCosts(context) {
-        return this.getEffects('additionalCost').reduce((array, costFactory) => array.concat(costFactory(context)), []).filter(cost => !!cost);
+        return this.getEffects('additionalCost')
+            .reduce((array, costFactory) => array.concat(costFactory(context)), [])
+            .filter((cost) => !!cost);
+    }
+
+    setWins(wins) {
+        this.wins = wins;
     }
 
     getStats() {
@@ -672,14 +767,13 @@ class Player extends GameObject {
         let state = {
             activeHouse: this.activeHouse,
             cardPiles: {
-                archives: this.getSummaryForCardList(this.archives, activePlayer, true),
+                archives: this.getSummaryForCardList(this.archives, activePlayer),
                 cardsInPlay: this.getSummaryForCardList(this.cardsInPlay, activePlayer),
                 discard: this.getSummaryForCardList(this.discard, activePlayer),
                 hand: this.getSummaryForCardList(this.hand, activePlayer, true),
                 purged: this.getSummaryForCardList(this.purged, activePlayer)
             },
             cardback: 'cardback',
-            deckName: this.deckData.name,
             disconnected: !!this.disconnectedAt,
             activePlayer: this.game.activePlayer === this,
             houses: this.houses,
@@ -693,36 +787,36 @@ class Player extends GameObject {
             stats: this.getStats(),
             timerSettings: {},
             user: _.omit(this.user, ['password', 'email']),
-            deckUuid: this.deckData.uuid,
-            deckSet: this.deckData.expansion,
-            deckCards: this.deckCards
+            deckCards: this.deckCards,
+            deckData: this.deckData,
+            wins: this.wins
         };
 
-        if(isActivePlayer) {
+        if (isActivePlayer) {
             let sortedDeck = this.deck.slice();
             sortedDeck.sort((a, b) => {
-                if(a.printedHouse < b.printedHouse) {
+                if (a.printedHouse < b.printedHouse) {
                     return -1;
-                } else if(a.printedHouse > b.printedHouse) {
+                } else if (a.printedHouse > b.printedHouse) {
                     return 1;
-                } else if(a.id < b.id) {
+                } else if (a.id < b.id) {
                     return -1;
-                } else if(a.id > b.id) {
+                } else if (a.id > b.id) {
                     return 1;
                 }
 
                 return 0;
             });
             state.cardPiles.deck = this.getSummaryForCardList(sortedDeck, activePlayer, true);
-        } else if(gameFormat === 'sealed') {
+        } else if (gameFormat === 'sealed') {
             state.deckCards = [];
         }
 
-        if(this.isTopCardShown()) {
+        if (this.isTopCardShown()) {
             state.deckTopCard = this.deck[0].getSummary(activePlayer);
         }
 
-        if(this.clock) {
+        if (this.clock) {
             state.clock = this.clock.getState();
         }
 

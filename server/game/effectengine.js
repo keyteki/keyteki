@@ -16,7 +16,7 @@ class EffectEngine {
 
     add(effect) {
         this.effects.push(effect);
-        if(effect.duration === 'custom') {
+        if (effect.duration === 'custom') {
             this.registerCustomDurationEvents(effect);
         }
 
@@ -29,7 +29,7 @@ class EffectEngine {
     }
 
     removeTerminalCondition(effect) {
-        this.terminalConditions = this.terminalConditions.filter(e => e !== effect);
+        this.terminalConditions = this.terminalConditions.filter((e) => e !== effect);
     }
 
     addDelayedEffect(effect) {
@@ -37,12 +37,17 @@ class EffectEngine {
     }
 
     removeDelayedEffect(effect) {
-        this.delayedEffects = this.delayedEffects.filter(e => e !== effect);
+        this.delayedEffects = this.delayedEffects.filter((e) => e !== effect);
     }
 
     checkDelayedEffects(events) {
-        this.delayedEffects = this.delayedEffects.filter(effect => !effect.target || effect.target.type === 'player' || effect.target.location === 'play area');
-        _.each(this.delayedEffects, effect => effect.checkEffect(events));
+        this.delayedEffects = this.delayedEffects.filter(
+            (effect) =>
+                !effect.target ||
+                effect.target.type === 'player' ||
+                effect.target.location === 'play area'
+        );
+        _.each(this.delayedEffects, (effect) => effect.checkEffect(events));
         /*
         let effectsToTrigger = this.delayedEffects.filter(effect => effect.checkEffect(events));
         if(effectsToTrigger.length > 0) {
@@ -54,26 +59,31 @@ class EffectEngine {
     }
 
     checkTerminalConditions() {
-        let effectsToTrigger = this.terminalConditions.filter(effect => effect.checkCondition());
-        if(effectsToTrigger.length > 0) {
-            this.game.openThenEventWindow(effectsToTrigger.map(effect => effect.getEvent()));
+        let effectsToTrigger = this.terminalConditions.filter((effect) => effect.checkCondition());
+        if (effectsToTrigger.length > 0) {
+            this.game.openEventWindow(effectsToTrigger.map((effect) => effect.getEvent()));
         }
     }
 
     removeLastingEffects(card) {
-        this.unapplyAndRemove(effect => effect.match === card && effect.duration !== 'persistentEffect');
+        this.unapplyAndRemove(
+            (effect) => effect.match === card && effect.duration !== 'persistentEffect'
+        );
     }
 
     checkEffects(prevStateChanged = false, loops = 0) {
-        if(!prevStateChanged && !this.newEffect) {
+        if (!prevStateChanged && !this.newEffect) {
             return false;
         }
 
         let stateChanged = false;
         this.newEffect = false;
         // Check each effect's condition and find new targets
-        stateChanged = this.effects.reduce((stateChanged, effect) => effect.checkCondition(stateChanged), stateChanged);
-        if(loops === 10) {
+        stateChanged = this.effects.reduce(
+            (stateChanged, effect) => effect.checkCondition(stateChanged),
+            stateChanged
+        );
+        if (loops === 10) {
             throw new Error('EffectEngine.checkEffects looped 10 times');
         } else {
             this.checkEffects(stateChanged, loops + 1);
@@ -83,26 +93,28 @@ class EffectEngine {
     }
 
     onPhaseEnded() {
-        this.newEffect = this.unapplyAndRemove(effect => effect.duration === 'untilEndOfPhase');
+        this.newEffect = this.unapplyAndRemove((effect) => effect.duration === 'untilEndOfPhase');
     }
 
     onRoundEnded() {
-        this.newEffect = this.unapplyAndRemove(effect => effect.duration === 'untilEndOfRound' || effect.roundDuration === 1);
-        _.each(this.effects, effect => {
-            if(effect.roundDuration > 1) {
+        this.newEffect = this.unapplyAndRemove(
+            (effect) => effect.duration === 'untilEndOfRound' || effect.roundDuration === 1
+        );
+        _.each(this.effects, (effect) => {
+            if (effect.roundDuration > 1) {
                 effect.roundDuration -= 1;
             }
         });
     }
 
     registerCustomDurationEvents(effect) {
-        if(!effect.until) {
+        if (!effect.until) {
             return;
         }
 
         let eventNames = Object.keys(effect.until);
         let handler = this.createCustomDurationHandler(effect);
-        _.each(eventNames, eventName => {
+        _.each(eventNames, (eventName) => {
             this.customDurationEvents.push({
                 name: eventName,
                 handler: handler,
@@ -113,43 +125,45 @@ class EffectEngine {
     }
 
     unregisterCustomDurationEvents(effect) {
-        let eventsForEffect = this.customDurationEvents.filter(event => event.effect === effect);
+        let eventsForEffect = this.customDurationEvents.filter((event) => event.effect === effect);
 
-        _.each(eventsForEffect, event => {
+        _.each(eventsForEffect, (event) => {
             this.game.removeListener(event.name, event.handler);
         });
 
-        this.customDurationEvents = this.customDurationEvents.filter(event => event.effect !== effect);
+        this.customDurationEvents = this.customDurationEvents.filter(
+            (event) => event.effect !== effect
+        );
     }
 
     createCustomDurationHandler(customDurationEffect) {
         return (...args) => {
             let event = args[0];
             let listener = customDurationEffect.until[event.name];
-            if(listener && listener(...args)) {
+            if (listener && listener(...args)) {
                 customDurationEffect.cancel();
                 this.unregisterCustomDurationEvents(customDurationEffect);
-                this.effects = this.effects.filter(effect => effect !== customDurationEffect);
+                this.effects = this.effects.filter((effect) => effect !== customDurationEffect);
             }
         };
     }
 
     unapplyAndRemove(match) {
         let matchingEffects = this.effects.filter(match);
-        _.each(matchingEffects, effect => {
+        _.each(matchingEffects, (effect) => {
             effect.cancel();
-            if(effect.duration === 'custom') {
+            if (effect.duration === 'custom') {
                 this.unregisterCustomDurationEvents(effect);
             }
         });
-        this.effects = this.effects.filter(effect => !matchingEffects.includes(effect));
+        this.effects = this.effects.filter((effect) => !matchingEffects.includes(effect));
         return matchingEffects.length > 0;
     }
 
     getDebugInfo() {
         return {
-            effects: this.effects.map(effect => effect.getDebugInfo()),
-            delayedEffects: this.delayedEffects.map(effect => effect.getDebugInfo())
+            effects: this.effects.map((effect) => effect.getDebugInfo()),
+            delayedEffects: this.delayedEffects.map((effect) => effect.getDebugInfo())
         };
     }
 }

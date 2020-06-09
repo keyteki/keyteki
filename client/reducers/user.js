@@ -1,5 +1,5 @@
 export default function (state = { blockList: [] }, action) {
-    switch(action.type) {
+    switch (action.type) {
         case 'RECEIVE_BLOCKLIST':
             return Object.assign({}, state, {
                 blockList: action.response.blockList
@@ -13,7 +13,7 @@ export default function (state = { blockList: [] }, action) {
                 sessionRemoved: false
             });
         case 'SESSION_REMOVED':
-            var sessions = state.sessions.filter(t => {
+            var sessions = state.sessions.filter((t) => {
                 return t.id !== action.response.tokenId;
             });
 
@@ -30,7 +30,7 @@ export default function (state = { blockList: [] }, action) {
 
             return addedState;
         case 'BLOCKLIST_DELETED':
-            var blockList = state.blockList.filter(user => {
+            var blockList = state.blockList.filter((user) => {
                 return user !== action.response.username;
             });
 

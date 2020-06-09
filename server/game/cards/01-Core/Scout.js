@@ -13,7 +13,7 @@ class Scout extends Card {
                 })
             },
             effect: 'give Skirmish to {0} and fight with them',
-            then: context => ({
+            then: (context) => ({
                 gameAction: ability.actions.sequentialForEach({
                     forEach: context.target,
                     action: ability.actions.fight()

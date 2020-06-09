@@ -5,6 +5,7 @@ class PutIntoPlayAction extends CardGameAction {
         this.left = false;
         this.deployIndex = undefined;
         this.myControl = false;
+        this.ready = false;
     }
 
     setup() {
@@ -14,11 +15,11 @@ class PutIntoPlayAction extends CardGameAction {
     }
 
     canAffect(card, context) {
-        if(!context || !super.canAffect(card, context)) {
+        if (!context || !super.canAffect(card, context)) {
             return false;
-        } else if(!context.player) {
+        } else if (!context.player) {
             return false;
-        } else if(card.location === 'play area') {
+        } else if (card.location === 'play area') {
             return false;
         }
 
@@ -30,20 +31,25 @@ class PutIntoPlayAction extends CardGameAction {
         let card = this.target.length > 0 ? this.target[0] : context.source;
         let player;
 
-        if(this.deployIndex !== undefined) {
+        if (this.deployIndex !== undefined) {
             return;
         }
 
-        if(card.anyEffect('entersPlayUnderOpponentsControl') && card.owner.opponent) {
+        if (card.anyEffect('entersPlayUnderOpponentsControl') && card.owner.opponent) {
             player = card.owner.opponent;
         } else {
             player = this.myControl ? context.player : card.controller;
         }
 
-        if(player.cardsInPlay.some(card => card.type === 'creature')) {
+        if (player.cardsInPlay.some((card) => card.type === 'creature')) {
             let choices = ['Left', 'Right'];
 
-            if(context.ability && context.ability.isCardPlayed() && card.hasKeyword('deploy') && player.creaturesInPlay.length > 1) {
+            if (
+                context.ability &&
+                context.ability.isCardPlayed() &&
+                card.hasKeyword('deploy') &&
+                player.creaturesInPlay.length > 1
+            ) {
                 choices.push('Deploy Left');
                 choices.push('Deploy Right');
             }
@@ -53,11 +59,11 @@ class PutIntoPlayAction extends CardGameAction {
                 context: context,
                 source: this.target.length > 0 ? this.target[0] : context.source,
                 choices: choices,
-                choiceHandler: choice => {
+                choiceHandler: (choice) => {
                     let deploy;
                     let flank;
 
-                    switch(choice) {
+                    switch (choice) {
                         case 'Left':
                             flank = 'left';
                             deploy = false;
@@ -80,14 +86,17 @@ class PutIntoPlayAction extends CardGameAction {
                             break;
                     }
 
-                    if(deploy) {
+                    if (deploy) {
                         context.game.promptForSelect(player, {
                             source: card,
                             activePromptTitle: `Select a card to deploy to the ${flank} of`,
-                            cardCondition: card => (card.location === 'play area') && card.controller === player && card.type === 'creature',
+                            cardCondition: (card) =>
+                                card.location === 'play area' &&
+                                card.controller === player &&
+                                card.type === 'creature',
                             onSelect: (p, card) => {
                                 this.deployIndex = card.controller.cardsInPlay.indexOf(card);
-                                if(flank === 'left' && this.deployIndex >= 0) {
+                                if (flank === 'left' && this.deployIndex >= 0) {
                                     this.deployIndex--;
                                 }
 
@@ -108,7 +117,7 @@ class PutIntoPlayAction extends CardGameAction {
         return super.createEvent('onCardEntersPlay', { card: card, context: context }, () => {
             let player;
             let control;
-            if(card.anyEffect('entersPlayUnderOpponentsControl') && card.owner.opponent) {
+            if (card.anyEffect('entersPlayUnderOpponentsControl') && card.owner.opponent) {
                 player = card.owner.opponent;
                 control = true;
             } else {
@@ -116,7 +125,39 @@ class PutIntoPlayAction extends CardGameAction {
                 control = this.myControl;
             }
 
-            player.moveCard(card, 'play area', { left: this.left, deployIndex: this.deployIndex, myControl: control });
+            if (card.gigantic) {
+                card.compositeParts.forEach((id) => {
+                    let part = card.controller
+                        .getSourceList(card.location)
+                        .find((part) => id === part.id);
+                    if (!part && card.parent) {
+                        part = card.parent.childCards.find((part) => id === part.id);
+                    }
+
+                    if (part) {
+                        card.controller.removeCardFromPile(part);
+                        card.playedParts.push(part);
+                    }
+                });
+                card.image = card.compositeImageId || card.id;
+            }
+
+            player.moveCard(card, 'play area', {
+                left: this.left,
+                deployIndex: this.deployIndex,
+                myControl: control
+            });
+            if (!this.ready && !card.anyEffect('entersPlayReady')) {
+                card.exhaust();
+            }
+
+            if (card.anyEffect('entersPlayStunned')) {
+                card.stun();
+            }
+
+            if (card.anyEffect('entersPlayEnraged')) {
+                card.enrage();
+            }
         });
     }
 }

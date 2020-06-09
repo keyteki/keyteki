@@ -1,7 +1,7 @@
-describe('Rock-Hurling Giant', function() {
-    integration(function() {
-        describe('Rock-Hurling Giant\'s ability', function() {
-            beforeEach(function() {
+describe('Rock-Hurling Giant', function () {
+    integration(function () {
+        describe("Rock-Hurling Giant's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         inPlay: ['rock-hurling-giant'],
@@ -14,7 +14,7 @@ describe('Rock-Hurling Giant', function() {
                 });
             });
 
-            it('should trigger from discarding cards', function() {
+            it('should trigger from discarding cards', function () {
                 this.player1.clickPrompt('brobnar');
                 this.player1.clickCard(this.troll);
                 this.player1.clickPrompt('Discard this card');
@@ -30,7 +30,7 @@ describe('Rock-Hurling Giant', function() {
                 expect(this.valdr.location).toBe('discard');
             });
 
-            it('should trigger from discards due to card effects', function() {
+            it('should trigger from discards due to card effects', function () {
                 this.player1.clickPrompt('logos');
                 this.player1.play(this.sloppyLabwork);
                 expect(this.player1).toHavePrompt('Sloppy Labwork');
@@ -40,7 +40,7 @@ describe('Rock-Hurling Giant', function() {
                 expect(this.player1).toHavePrompt('Triggered Abilities');
             });
 
-            it('should not trigger during opponent\'s turn', function() {
+            it("should not trigger during opponent's turn", function () {
                 this.player1.player.chains = 19;
                 this.player1.clickPrompt('logos');
                 this.player1.clickCard(this.sloppyLabwork);

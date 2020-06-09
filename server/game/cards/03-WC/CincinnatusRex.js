@@ -3,9 +3,10 @@ const Card = require('../../Card.js');
 class CincinnatusRex extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
-            match: this,
             effect: ability.effects.terminalCondition({
-                condition: () => !this.controller.opponent || this.controller.opponent.creaturesInPlay.length === 0,
+                condition: () =>
+                    !this.controller.opponent ||
+                    this.controller.opponent.creaturesInPlay.length === 0,
                 message: '{0} is destroyed as there are no opposing creatures',
                 target: this,
                 gameAction: ability.actions.destroy()
@@ -13,7 +14,7 @@ class CincinnatusRex extends Card {
         });
 
         this.play({
-            condition: context => context.player.opponent.creaturesInPlay.length === 0,
+            condition: (context) => context.player.opponent.creaturesInPlay.length === 0,
             gameAction: ability.actions.destroy({ target: this })
         });
 
@@ -21,8 +22,8 @@ class CincinnatusRex extends Card {
             optional: true,
             gameAction: ability.actions.exalt(),
             then: {
-                gameAction: ability.actions.ready(context => ({
-                    target: context.player.cardsInPlay.filter(card => card !== this)
+                gameAction: ability.actions.ready((context) => ({
+                    target: context.player.cardsInPlay.filter((card) => card !== this)
                 }))
             }
         });

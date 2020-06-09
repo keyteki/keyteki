@@ -15,14 +15,18 @@ class TimeLimitClock extends React.Component {
         this.updateProps(this.props);
     }
 
-    componentWillReceiveProps(props) {
+    // eslint-disable-next-line camelcase
+    UNSAFE_componentWillReceiveProps(props) {
         this.updateProps(props);
     }
 
     updateProps(props) {
-        if(props.timeLimitStarted && !this.state.timer) {
+        if (props.timeLimitStarted && !this.state.timer) {
             let timer = setInterval(() => {
-                let endTime = moment(this.props.timeLimitStartedAt).add(this.props.timeLimit, 'minutes');
+                let endTime = moment(this.props.timeLimitStartedAt).add(
+                    this.props.timeLimit,
+                    'minutes'
+                );
                 let time = moment.utc(endTime.diff(moment())).format('mm:ss');
                 this.setState({ timeLeft: time });
             }, 1000);
@@ -34,8 +38,9 @@ class TimeLimitClock extends React.Component {
     render() {
         return (
             <div>
-                <h1>{ this.state.timeLeft }</h1>
-            </div>);
+                <h1>{this.state.timeLeft}</h1>
+            </div>
+        );
     }
 }
 

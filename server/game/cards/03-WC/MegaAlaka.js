@@ -1,17 +1,6 @@
-const Card = require('../../Card.js');
+const Alaka = require('./Alaka.js');
 
-class MegaAlaka extends Card {
-    setupCardAbilities(ability) {
-        this.constantReaction({
-            when: {
-                onCardEntersPlay: (event, context) => {
-                    return event.card === context.source && context.player.creatureFought;
-                }
-            },
-            gameAction: ability.actions.ready()
-        });
-    }
-}
+class MegaAlaka extends Alaka {}
 
 MegaAlaka.id = 'mega-alaka';
 

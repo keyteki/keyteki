@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { withTranslation } from 'react-i18next';
 
 import Link from './Link';
 import Avatar from './Avatar';
 import * as actions from '../../actions';
 import menus from '../../menus';
-
 import i18n from '../../i18n';
-import { withTranslation } from 'react-i18next';
+import ServerStatus from './ServerStatus';
 
 class NavBar extends React.Component {
     constructor(props) {
@@ -90,14 +90,14 @@ class NavBar extends React.Component {
             return option.value === lang;
         });
 
-        if(!option) {
+        if (!option) {
             let idx = i18n.language.indexOf('-');
-            if(idx !== -1) {
+            if (idx !== -1) {
                 lang = i18n.language.substring(0, idx).toLowerCase();
             }
         }
 
-        if(lang === 'zh') {
+        if (lang === 'zh') {
             lang = 'zhhant';
         } else {
             // Try to find again without the '-'
@@ -105,7 +105,7 @@ class NavBar extends React.Component {
                 return option.value === lang;
             });
 
-            if(!option) {
+            if (!option) {
                 // fallback to english
                 lang = 'en';
             }
@@ -118,157 +118,197 @@ class NavBar extends React.Component {
         let t = this.props.t;
         let active = menuItem.path === this.props.path ? 'active' : '';
 
-        if(menuItem.showOnlyWhenLoggedOut && this.props.user) {
+        if (menuItem.showOnlyWhenLoggedOut && this.props.user) {
             return null;
         }
 
-        if(menuItem.showOnlyWhenLoggedIn && !this.props.user) {
+        if (menuItem.showOnlyWhenLoggedIn && !this.props.user) {
             return null;
         }
 
-        if(menuItem.permission && (!this.props.user || !this.props.user.permissions[menuItem.permission])) {
+        if (
+            menuItem.permission &&
+            (!this.props.user || !this.props.user.permissions[menuItem.permission])
+        ) {
             return null;
         }
 
-        if(menuItem.childItems) {
+        if (menuItem.childItems) {
             let className = 'dropdown';
 
-            if(menuItem.childItems.some(item => {
-                return item.path === this.props.path;
-            })) {
+            if (
+                menuItem.childItems.some((item) => {
+                    return item.path === this.props.path;
+                })
+            ) {
                 className += ' active';
             }
 
             var childItems = menuItem.childItems.reduce((items, item) => {
-                if(item.permission && (!this.props.user || !this.props.user.permissions[item.permission])) {
+                if (
+                    item.permission &&
+                    (!this.props.user || !this.props.user.permissions[item.permission])
+                ) {
                     return items;
                 }
 
-                return items.concat(<li key={ item.title }><Link href={ item.path }>{ t(item.title) }</Link></li>);
+                return items.concat(
+                    <li key={item.title}>
+                        <Link href={item.path}>{t(item.title)}</Link>
+                    </li>
+                );
             }, []);
 
-            if(childItems.length === 0) {
+            if (childItems.length === 0) {
                 return null;
             }
 
             return (
-                <li key={ menuItem.title } className={ className }>
-                    <a href='#' className='dropdown-toggle' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'>
-                        { menuItem.showProfilePicture && this.props.user ?
-                            <Avatar username={ this.props.user.username } /> :
-                            null }
-                        { menuItem.showProfilePicture && this.props.user ? this.props.user.username : t(menuItem.title) }<span className='caret' />
+                <li key={menuItem.title} className={className}>
+                    <a
+                        href='#'
+                        className='dropdown-toggle'
+                        data-toggle='dropdown'
+                        role='button'
+                        aria-haspopup='true'
+                        aria-expanded='false'
+                    >
+                        {menuItem.showProfilePicture && this.props.user ? (
+                            <Avatar username={this.props.user.username} />
+                        ) : null}
+                        {menuItem.showProfilePicture && this.props.user
+                            ? this.props.user.username
+                            : t(menuItem.title)}
+                        <span className='caret' />
                     </a>
-                    <ul className='dropdown-menu'>
-                        { childItems }
-                    </ul>
-                </li>);
+                    <ul className='dropdown-menu'>{childItems}</ul>
+                </li>
+            );
         }
 
-        return <li key={ menuItem.title } className={ active }><Link href={ menuItem.path }>{ t(menuItem.title) }</Link></li>;
+        return (
+            <li key={menuItem.title} className={active}>
+                <Link href={menuItem.path}>{t(menuItem.title)}</Link>
+            </li>
+        );
     }
 
     render() {
         let t = this.props.t;
 
-        let leftMenu = menus.filter(menu => {
+        let leftMenu = menus.filter((menu) => {
             return menu.position === 'left';
         });
-        let rightMenu = menus.filter(menu => {
+        let rightMenu = menus.filter((menu) => {
             return menu.position === 'right';
         });
 
         let leftMenuToRender = leftMenu.map(this.renderMenuItem.bind(this));
         let rightMenuToRender = rightMenu.map(this.renderMenuItem.bind(this));
 
-        let languageDropdown = (<li className='dropdown'>
-            <a href='#' className='dropdown-toggle' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'>{ i18n.language }<span className='caret'/></a>
-            <ul className='dropdown-menu'>
-                { this.options.map(item => (<li key={ item.value }><a href='#' onClick={ () => this.onLanguageClick(item) }>{ item.name }</a></li>)) }
-            </ul>
-        </li>);
+        let languageDropdown = (
+            <li className='dropdown'>
+                <a
+                    href='#'
+                    className='dropdown-toggle'
+                    data-toggle='dropdown'
+                    role='button'
+                    aria-haspopup='true'
+                    aria-expanded='false'
+                >
+                    {i18n.language}
+                    <span className='caret' />
+                </a>
+                <ul className='dropdown-menu'>
+                    {this.options.map((item) => (
+                        <li key={item.value}>
+                            <a href='#' onClick={() => this.onLanguageClick(item)}>
+                                {item.name}
+                            </a>
+                        </li>
+                    ))}
+                </ul>
+            </li>
+        );
 
-        let numGames = this.props.games ? <li><span>{ t('{{gameLength}} Games', { gameLength: this.props.games.length }) }</span></li> : null;
-
-        let contextMenu = this.props.context && this.props.context.map(menuItem => {
-            return (
-                <li key={ menuItem.text }><a href='javascript:void(0)' onMouseOver={ this.onMenuItemMouseOver.bind(this, menuItem) }
-                    onMouseOut={ this.onMenuItemMouseOut.bind(this) }
-                    onClick={ menuItem.onClick ? event => {
-                        event.preventDefault();
-                        menuItem.onClick();
-                    } : null }>{ t(menuItem.text, menuItem.values) }</a>{ (this.state.showPopup === menuItem) ? this.state.showPopup.popup : null }</li>
-            );
-        });
-
-        let className = 'glyphicon glyphicon-signal';
-        let toolTip = 'Lobby is';
-
-        if(this.props.lobbySocketConnected) {
-            className += ' text-success';
-            toolTip += ' connected';
-        } else if(this.props.lobbySocketConnecting) {
-            className += ' text-primary';
-            toolTip += ' connecting';
-        } else {
-            className += ' text-danger';
-            toolTip += ' disconnected';
-        }
-
-        let lobbyStatus = (
+        let numGames = this.props.games ? (
             <li>
-                <span className={ className } title={ t(toolTip) } />
-            </li>);
+                <span>{t('{{gameLength}} Games', { gameLength: this.props.games.length })}</span>
+            </li>
+        ) : null;
 
-        className = 'glyphicon glyphicon-signal';
-        toolTip = 'Game server is';
-        if(this.props.currentGame) {
-            if(this.props.gameConnected) {
-                className += ' text-success';
-                toolTip += ' connected';
-            } else if(this.props.gameConnecting) {
-                className += ' text-primary';
-                toolTip += ' connecting';
-            } else {
-                className += ' text-danger';
-                toolTip += ' disconnected';
-            }
-        } else {
-            toolTip += ' not needed at this time';
-        }
-
-        let gameStatus = (
-            <li>
-                <span className={ className } title={ t(toolTip) } />
-            </li>);
+        let contextMenu =
+            this.props.context &&
+            this.props.context.map((menuItem) => {
+                return (
+                    <li key={menuItem.text}>
+                        <a
+                            href='javascript:void(0)'
+                            onMouseOver={this.onMenuItemMouseOver.bind(this, menuItem)}
+                            onMouseOut={this.onMenuItemMouseOut.bind(this)}
+                            onClick={
+                                menuItem.onClick
+                                    ? (event) => {
+                                          event.preventDefault();
+                                          menuItem.onClick();
+                                      }
+                                    : null
+                            }
+                        >
+                            {t(menuItem.text, menuItem.values)}
+                        </a>
+                        {this.state.showPopup === menuItem ? this.state.showPopup.popup : null}
+                    </li>
+                );
+            });
 
         return (
             <nav className='navbar navbar-inverse navbar-fixed-top navbar-sm'>
                 <div className='container'>
                     <div className='navbar-header'>
-                        <button className='navbar-toggle collapsed' type='button' data-toggle='collapse' data-target='#navbar' aria-expanded='false' aria-controls='navbar'>
+                        <button
+                            className='navbar-toggle collapsed'
+                            type='button'
+                            data-toggle='collapse'
+                            data-target='#navbar'
+                            aria-expanded='false'
+                            aria-controls='navbar'
+                        >
                             <span className='sr-only'>Toggle Navigation</span>
                             <span className='icon-bar' />
                             <span className='icon-bar' />
                             <span className='icon-bar' />
                         </button>
-                        <Link href='/' className='navbar-brand'>{ this.props.title }</Link>
+                        <Link href='/' className='navbar-brand' />
                     </div>
                     <div id='navbar' className='collapse navbar-collapse'>
-                        <ul className='nav navbar-nav'>
-                            { leftMenuToRender }
-                        </ul>
+                        <ul className='nav navbar-nav'>{leftMenuToRender}</ul>
                         <ul className='nav navbar-nav navbar-right'>
-                            { contextMenu }
-                            { numGames }
-                            { lobbyStatus }
-                            { gameStatus }
-                            { rightMenuToRender }
-                            { languageDropdown }
+                            {contextMenu}
+                            {numGames}
+                            {!this.props.currentGame && (
+                                <ServerStatus
+                                    connected={this.props.lobbySocketConnected}
+                                    connecting={this.props.lobbySocketConnecting}
+                                    serverType='Lobby'
+                                    responseTime={this.props.lobbyResponse}
+                                />
+                            )}
+                            {this.props.currentGame && (
+                                <ServerStatus
+                                    connected={this.props.gameConnected}
+                                    connecting={this.props.gameConnecting}
+                                    serverType='Game server'
+                                    responseTime={this.props.gameResponse}
+                                />
+                            )}
+                            {rightMenuToRender}
+                            {languageDropdown}
                         </ul>
                     </div>
                 </div>
-            </nav>);
+            </nav>
+        );
     }
 }
 
@@ -278,8 +318,10 @@ NavBar.propTypes = {
     currentGame: PropTypes.object,
     gameConnected: PropTypes.bool,
     gameConnecting: PropTypes.bool,
+    gameResponse: PropTypes.number,
     games: PropTypes.array,
     i18n: PropTypes.object,
+    lobbyResponse: PropTypes.number,
     lobbySocketConnected: PropTypes.bool,
     lobbySocketConnecting: PropTypes.bool,
     path: PropTypes.string,
@@ -294,7 +336,9 @@ function mapStateToProps(state) {
         currentGame: state.lobby.currentGame,
         gameConnected: state.games.connected,
         gameConnecting: state.games.connecting,
+        gameResponse: state.games.responseTime,
         games: state.lobby.games,
+        lobbyResponse: state.lobby.responseTime,
         lobbySocketConnected: state.lobby.connected,
         lobbySocketConnecting: state.lobby.connecting,
         path: state.navigation.path,

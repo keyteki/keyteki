@@ -1,7 +1,7 @@
-describe('Zap', function() {
-    integration(function() {
-        describe('Zap\'s ability', function() {
-            beforeEach(function() {
+describe('Zap', function () {
+    integration(function () {
+        describe("Zap's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'staralliance',
@@ -15,7 +15,7 @@ describe('Zap', function() {
                 this.player1.play(this.zap);
             });
 
-            it('should deal damage for the houses in play [3]', function() {
+            it('should deal damage for the houses in play [3]', function () {
                 expect(this.player1).toHavePrompt('Zap');
                 expect(this.player1).toBeAbleToSelect(this.troll);
                 expect(this.player1).toBeAbleToSelect(this.spyyyder);
@@ -26,11 +26,11 @@ describe('Zap', function() {
                 expect(this.troll.tokens.damage).toBe(3);
             });
 
-            it('should not allow the player to select 0 targets', function() {
+            it('should not allow the player to select 0 targets', function () {
                 expect(this.player1.currentButtons).not.toContain('Done');
             });
 
-            it('should deal damage for the houses in play [3] to different creatures', function() {
+            it('should deal damage for the houses in play [3] to different creatures', function () {
                 expect(this.player1).toHavePrompt('Zap');
                 expect(this.player1).toBeAbleToSelect(this.troll);
                 expect(this.player1).toBeAbleToSelect(this.spyyyder);

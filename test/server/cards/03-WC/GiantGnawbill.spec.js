@@ -1,7 +1,7 @@
-describe('Giant Gnawbill', function() {
-    integration(function() {
-        describe('Giant Gnawbill\'s ability', function() {
-            beforeEach(function() {
+describe('Giant Gnawbill', function () {
+    integration(function () {
+        describe("Giant Gnawbill's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'untamed',
@@ -17,13 +17,13 @@ describe('Giant Gnawbill', function() {
                 });
             });
 
-            it('should NOT prompt a player to destroy an artifact of the chosen house when a selection is made when there isnt one in play', function() {
+            it('should NOT prompt a player to destroy an artifact of the chosen house when a selection is made when there isnt one in play', function () {
                 this.player1.endTurn();
                 this.player2.clickPrompt('untamed');
                 expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should prompt a player to destroy an artifact of the chosen house when a selection is made when there is one in play', function() {
+            it('should prompt a player to destroy an artifact of the chosen house when a selection is made when there is one in play', function () {
                 this.player1.endTurn();
                 this.player2.clickPrompt('logos');
                 expect(this.player2).toHavePrompt('Giant Gnawbill');
@@ -34,7 +34,7 @@ describe('Giant Gnawbill', function() {
                 expect(this.quantumFingertrap.location).toBe('discard');
             });
 
-            it('should prompt a player to destroy an artifact of the chosen house when a selection is made when there is more than one in play', function() {
+            it('should prompt a player to destroy an artifact of the chosen house when a selection is made when there is more than one in play', function () {
                 this.player1.play(this.nepentheSeed);
                 this.player1.play(this.heartOfTheForest);
                 this.player1.endTurn();

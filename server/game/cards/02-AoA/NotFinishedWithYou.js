@@ -9,9 +9,8 @@ class NotFinishedWithYou extends Card {
                 controller: 'self',
                 cardType: 'creature',
                 location: 'discard',
-                gameAction: [
-                    ability.actions.returnToDeck({ shuffle: true })
-                ] }
+                gameAction: [ability.actions.returnToDeck({ shuffle: true })]
+            }
         });
     }
 }

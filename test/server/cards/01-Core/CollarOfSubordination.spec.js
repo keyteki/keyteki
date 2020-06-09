@@ -1,7 +1,7 @@
-describe('Collar of Subordination', function() {
-    integration(function() {
-        describe('Collar of Subordination\'s ability', function() {
-            beforeEach(function() {
+describe('Collar of Subordination', function () {
+    integration(function () {
+        describe("Collar of Subordination's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'dis',
@@ -13,7 +13,7 @@ describe('Collar of Subordination', function() {
                 });
             });
 
-            it('should take control of a creature', function() {
+            it('should take control of a creature', function () {
                 this.player1.playUpgrade(this.collarOfSubordination, this.dustImp);
                 expect(this.dustImp.location).toBe('play area');
                 expect(this.dustImp.upgrades).toContain(this.collarOfSubordination);
@@ -21,7 +21,7 @@ describe('Collar of Subordination', function() {
                 expect(this.player2.player.cardsInPlay).not.toContain(this.dustImp);
             });
 
-            it('should return to it\'s ownders discard', function() {
+            it("should return to it's ownders discard", function () {
                 this.player1.playUpgrade(this.collarOfSubordination, this.dustImp);
                 this.player1.fightWith(this.dustImp, this.dextre);
                 expect(this.dustImp.location).toBe('discard');
@@ -30,7 +30,7 @@ describe('Collar of Subordination', function() {
                 expect(this.player1.player.cardsInPlay).not.toContain(this.dustImp);
             });
 
-            it('should prompt the player to place it on the correct side', function() {
+            it('should prompt the player to place it on the correct side', function () {
                 this.player1.play(this.emberImp);
                 expect(this.player1.player.cardsInPlay[0]).toBe(this.emberImp);
                 this.player1.playUpgrade(this.collarOfSubordination, this.dustImp);

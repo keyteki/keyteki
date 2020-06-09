@@ -1,7 +1,7 @@
-describe('Infomancer', function() {
-    integration(function() {
-        describe('Infomancer\'s ability', function() {
-            beforeEach(function() {
+describe('Infomancer', function () {
+    integration(function () {
+        describe("Infomancer's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'brobnar',
@@ -14,20 +14,28 @@ describe('Infomancer', function() {
                 });
             });
 
-            it('should not graft anything if no action in hand', function() {
+            it('should not graft anything if no action in hand', function () {
                 this.player1.play(this.infomancer);
                 expect(this.player1).not.toHavePrompt('Infomancer');
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
         });
 
-        describe('Infomancer\'s ability', function() {
-            beforeEach(function() {
+        describe("Infomancer's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'brobnar',
                         inPlay: ['krump', 'groggins'],
-                        hand: ['infomancer', 'pound', 'troll', 'anger', 'lava-ball', 'virtuous-works', 'autocannon']
+                        hand: [
+                            'infomancer',
+                            'pound',
+                            'troll',
+                            'anger',
+                            'lava-ball',
+                            'virtuous-works',
+                            'autocannon'
+                        ]
                     },
                     player2: {
                         inPlay: ['panpaca-anga', 'flaxia', 'tantadlin', 'bigtwig']
@@ -35,7 +43,7 @@ describe('Infomancer', function() {
                 });
             });
 
-            it('should allow grafting an action card', function() {
+            it('should allow grafting an action card', function () {
                 this.player1.play(this.infomancer);
                 expect(this.player1).toHavePrompt('Infomancer');
                 expect(this.player1).toBeAbleToSelect(this.pound);
@@ -50,7 +58,7 @@ describe('Infomancer', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should activate the play effect of a grafted card', function() {
+            it('should activate the play effect of a grafted card', function () {
                 this.player1.play(this.infomancer);
                 this.player1.clickCard(this.pound);
                 expect(this.pound.facedown).toBe(false);

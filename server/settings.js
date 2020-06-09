@@ -1,9 +1,6 @@
 const defaultOptionSettings = {
-    markCardsUnselectable: true,
-    cancelOwnAbilities: false,
     orderForcedAbilities: false,
-    confirmOneClick: true,
-    showStatusInSidebar: false
+    confirmOneClick: true
 };
 
 const defaultSettings = {
@@ -15,19 +12,24 @@ const defaultSettings = {
 function getUserWithDefaultsSet(user) {
     let userToReturn = user;
 
-    if(!userToReturn) {
+    if (!userToReturn) {
         return userToReturn;
     }
 
     userToReturn.settings = Object.assign({}, defaultSettings, userToReturn.settings);
-    userToReturn.settings.optionSettings = Object.assign({}, defaultOptionSettings, userToReturn.settings.optionSettings);
+    userToReturn.settings.optionSettings = Object.assign(
+        {},
+        defaultOptionSettings,
+        userToReturn.settings.optionSettings
+    );
     userToReturn.permissions = Object.assign({}, userToReturn.permissions);
-    if(!userToReturn.blockList) {
+    if (!userToReturn.blockList) {
         userToReturn.blockList = [];
     }
 
     return userToReturn;
 }
-module.exports = {
+
+module.exports = {
     getUserWithDefaultsSet: getUserWithDefaultsSet
 };

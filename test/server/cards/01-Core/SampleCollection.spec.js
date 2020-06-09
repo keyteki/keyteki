@@ -1,7 +1,7 @@
-describe('Sample Collection', function() {
-    integration(function() {
-        describe('Sample Collection\'s ability', function() {
-            beforeEach(function() {
+describe('Sample Collection', function () {
+    integration(function () {
+        describe("Sample Collection's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'logos',
@@ -17,14 +17,14 @@ describe('Sample Collection', function() {
                 this.player1.clickCard(this.wildWormhole);
             });
 
-            it('should do nothing when the opponent has 0 keys', function() {
+            it('should do nothing when the opponent has 0 keys', function () {
                 this.player2.player.keys = { red: false, blue: false, yellow: false };
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
                 this.player1.play(this.sampleCollection);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should prompt to choose a creature and archive it when the opponent has 1 key', function() {
+            it('should prompt to choose a creature and archive it when the opponent has 1 key', function () {
                 this.player2.player.keys = { red: true, blue: false, yellow: false };
                 this.player1.play(this.sampleCollection);
                 expect(this.player1).toHavePrompt('Sample Collection');
@@ -38,7 +38,7 @@ describe('Sample Collection', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should prompt to choose two creatures and archive them sequentially when the opponent has 2 keys', function() {
+            it('should prompt to choose two creatures and archive them sequentially when the opponent has 2 keys', function () {
                 this.player2.player.keys = { red: true, blue: true, yellow: false };
                 this.player1.play(this.sampleCollection);
                 expect(this.player1).toHavePrompt('Sample Collection');
@@ -59,7 +59,7 @@ describe('Sample Collection', function() {
                 expect(this.player1.archives).toContain(this.bumpsy);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
-            it('should return creatures to the opponents hand when you pick up your archives', function() {
+            it('should return creatures to the opponents hand when you pick up your archives', function () {
                 this.player2.player.keys = { red: true, blue: true, yellow: false };
                 this.player1.play(this.sampleCollection);
                 this.player1.clickCard(this.troll);
@@ -78,8 +78,8 @@ describe('Sample Collection', function() {
                 expect(this.player1.hand).toContain(this.wildWormhole);
             });
         });
-        describe('Sample Collection\'s ability', function() {
-            beforeEach(function() {
+        describe("Sample Collection's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'mars',
@@ -91,7 +91,7 @@ describe('Sample Collection', function() {
                     }
                 });
             });
-            it('should return creatures to the opponents hand when removed from archives by tantadlin', function() {
+            it('should return creatures to the opponents hand when removed from archives by tantadlin', function () {
                 this.player2.player.keys = { red: true, blue: false, yellow: false };
                 this.player1.play(this.sampleCollection);
                 this.player1.clickCard(this.troll);

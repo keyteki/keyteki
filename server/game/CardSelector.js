@@ -2,6 +2,7 @@ const ExactlyXCardSelector = require('./CardSelectors/ExactlyXCardSelector');
 const MaxStatCardSelector = require('./CardSelectors/MaxStatCardSelector');
 const MinStatCardSelector = require('./CardSelectors/MinStatCardSelector');
 const MostStatCardSelector = require('./CardSelectors/MostStatCardSelector');
+const LeastStatCardSelector = require('./CardSelectors/LeastStatCardSelector');
 const SingleCardSelector = require('./CardSelectors/SingleCardSelector');
 const UnlimitedCardSelector = require('./CardSelectors/UnlimitedCardSelector');
 const UpToXCardSelector = require('./CardSelectors/UpToXCardSelector');
@@ -15,15 +16,16 @@ const defaultProperties = {
 };
 
 const ModeToSelector = {
-    ability: p => new SingleCardSelector(p),
-    exactly: p => new ExactlyXCardSelector(p.numCards, p),
-    minStat: p => new MinStatCardSelector(p),
-    maxStat: p => new MaxStatCardSelector(p),
-    mostHouse: p => new MostHouseCardSelector(p),
-    mostStat: p => new MostStatCardSelector(p),
-    single: p => new SingleCardSelector(p),
-    unlimited: p => new UnlimitedCardSelector(p),
-    upTo: p => new UpToXCardSelector(p.numCards, p)
+    ability: (p) => new SingleCardSelector(p),
+    exactly: (p) => new ExactlyXCardSelector(p.numCards, p),
+    minStat: (p) => new MinStatCardSelector(p),
+    maxStat: (p) => new MaxStatCardSelector(p),
+    mostHouse: (p) => new MostHouseCardSelector(p),
+    mostStat: (p) => new MostStatCardSelector(p),
+    leastStat: (p) => new LeastStatCardSelector(p),
+    single: (p) => new SingleCardSelector(p),
+    unlimited: (p) => new UnlimitedCardSelector(p),
+    upTo: (p) => new UpToXCardSelector(p.numCards, p)
 };
 
 class CardSelector {
@@ -32,7 +34,7 @@ class CardSelector {
 
         let factory = ModeToSelector[properties.mode];
 
-        if(!factory) {
+        if (!factory) {
             throw new Error(`Unknown card selector mode of ${properties.mode}`);
         }
 
@@ -41,17 +43,17 @@ class CardSelector {
 
     static getDefaultedProperties(properties) {
         properties = Object.assign({}, defaultProperties, properties);
-        if(properties.mode) {
+        if (properties.mode) {
             return properties;
         }
 
-        if(properties.maxStat) {
+        if (properties.maxStat) {
             properties.mode = 'maxStat';
-        } else if(properties.minStat) {
+        } else if (properties.minStat) {
             properties.mode = 'minStat';
-        } else if(properties.numCards === 1 && !properties.multiSelect) {
+        } else if (properties.numCards === 1 && !properties.multiSelect) {
             properties.mode = 'single';
-        } else if(properties.numCards === 0) {
+        } else if (properties.numCards === 0) {
             properties.mode = 'unlimited';
         } else {
             properties.mode = 'upTo';

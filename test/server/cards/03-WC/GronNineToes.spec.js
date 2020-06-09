@@ -1,7 +1,7 @@
-describe('Gron Nine Toes', function() {
-    integration(function() {
-        describe('Gron Nine Toes\' Ability', function() {
-            beforeEach(function() {
+describe('Gron Nine Toes', function () {
+    integration(function () {
+        describe("Gron Nine Toes' Ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'brobnar',
@@ -16,7 +16,7 @@ describe('Gron Nine Toes', function() {
                 });
             });
 
-            it('should get a +4 power boost if it has non-lethal damage', function() {
+            it('should get a +4 power boost if it has non-lethal damage', function () {
                 this.player1.play(this.ballcano);
                 expect(this.gronNineToes.tokens.damage).toBe(4);
                 expect(this.gronNineToes.power).toBe(9);

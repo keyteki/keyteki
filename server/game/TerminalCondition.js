@@ -26,18 +26,23 @@ class TerminalCondition {
     }
 
     checkCondition() {
-        return this.condition() && (!this.gameAction || this.gameAction.canAffect(this.target, this.context)) &&
-            (!this.event || this.event.cancelled || this.event.isFullyResolved(this.event));
+        return (
+            this.condition(this.context) &&
+            (!this.gameAction || this.gameAction.canAffect(this.target, this.context)) &&
+            (!this.event ||
+                this.event.cancelled ||
+                (this.event.leavesPlayEvent.resolved && this.event.card !== this.target))
+        );
     }
 
     getEvent() {
-        if(this.message) {
+        if (this.message) {
             this.game.addMessage(this.message, this.source, this.target);
         }
 
-        if(this.getEventFunc) {
+        if (this.getEventFunc) {
             return this.getEventFunc();
-        } else if(this.gameAction) {
+        } else if (this.gameAction) {
             this.event = this.gameAction.getEvent(this.target, this.context);
             return this.event;
         }

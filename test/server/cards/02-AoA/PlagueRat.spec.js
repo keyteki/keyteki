@@ -1,7 +1,7 @@
-describe('Plague Rat', function() {
-    integration(function() {
-        describe('Plague Rat\'s ability', function() {
-            beforeEach(function() {
+describe('Plague Rat', function () {
+    integration(function () {
+        describe("Plague Rat's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'shadows',
@@ -14,7 +14,7 @@ describe('Plague Rat', function() {
                 });
             });
 
-            it('should deal 1 damage to all non-rat creatures', function() {
+            it('should deal 1 damage to all non-rat creatures', function () {
                 this.player1.play(this.plagueRat);
                 expect(this.mightyTiger.tokens.damage).toBe(1);
                 expect(this.dextre.tokens.damage).toBe(1);
@@ -23,7 +23,7 @@ describe('Plague Rat', function() {
                 expect(this.horsemanOfDeath.tokens.damage).toBe(1);
             });
 
-            it('second Plague Rat should deal 2 damage to all non-rat-creatures', function() {
+            it('second Plague Rat should deal 2 damage to all non-rat-creatures', function () {
                 this.player1.play(this.plagueRat);
                 this.plagueRat2 = this.player1.findCardByName('plague-rat', 'hand');
 

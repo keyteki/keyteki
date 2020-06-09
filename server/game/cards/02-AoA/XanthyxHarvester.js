@@ -3,8 +3,8 @@ const Card = require('../../Card.js');
 class XanthyxHarvester extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
-            condition:  () => (this.neighbors.length > 0 && this.neighbors.filter(card => !card.hasHouse('mars')).length > 0),
-            match: this,
+            condition: (context) =>
+                context.source.neighbors.filter((card) => !card.hasHouse('mars')).length > 0,
             effect: ability.effects.cardCannot('use')
         });
         this.reap({

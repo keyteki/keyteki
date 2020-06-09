@@ -1,29 +1,31 @@
-describe('Irestaff(WC)', function() {
-    integration(function() {
-        describe('Play ability', function() {
-            beforeEach(function() {
+describe('Irestaff(WC)', function () {
+    integration(function () {
+        describe('Play ability', function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         amber: 4,
                         house: 'brobnar',
-                        inPlay: ['irestaff','troll']
+                        inPlay: ['irestaff', 'troll']
                     },
                     player2: {
-                        inPlay: ['umbra','nexus']
+                        inPlay: ['umbra', 'nexus']
                     }
                 });
             });
 
-            it('enrages and gives +1 counter to creature', function() {
+            it('enrages and gives +1 counter to creature', function () {
                 this.player1.clickCard(this.irestaff);
-                this.player1.clickPrompt('Use this card\'s Action ability');
+                this.player1.clickPrompt("Use this card's Action ability");
                 expect(this.player1).toBeAbleToSelect(this.troll);
                 expect(this.player1).toBeAbleToSelect(this.umbra);
                 this.player1.clickCard(this.troll);
                 expect(this.troll.power).toBe(9);
                 expect(this.troll.tokens.power).toBe(1);
                 expect(this.troll.tokens.enrage).toBe(1);
-                expect(this).toHaveRecentChatMessage('player1 uses Irestaff to enrage and add a +1 power counter to Troll');
+                expect(this).toHaveRecentChatMessage(
+                    'player1 uses Irestaff to enrage and add a +1 power counter to Troll'
+                );
                 this.player1.clickCard(this.troll);
                 expect(this.player1).not.toHavePromptButton('Reap with this creature');
 

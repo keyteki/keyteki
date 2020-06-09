@@ -1,7 +1,7 @@
-describe('Valoocanth', function() {
-    integration(function() {
-        describe('Valoocanth\'s ability', function() {
-            beforeEach(function() {
+describe('Valoocanth', function () {
+    integration(function () {
+        describe("Valoocanth's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'brobnar',
@@ -14,15 +14,15 @@ describe('Valoocanth', function() {
                 });
             });
 
-            it('after reap, should not exhaust enemy creature if none is in play', function() {
+            it('after reap, should not exhaust enemy creature if none is in play', function () {
                 this.player1.reap(this.valoocanth);
                 expect(this.player1).not.toHavePrompt('Valoocanth');
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
         });
 
-        describe('Valoocanth\'s ability', function() {
-            beforeEach(function() {
+        describe("Valoocanth's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'brobnar',
@@ -35,15 +35,15 @@ describe('Valoocanth', function() {
                 });
             });
 
-            it('after fight, should not exhaust enemy creature if none is in play', function() {
+            it('after fight, should not exhaust enemy creature if none is in play', function () {
                 this.player1.fightWith(this.valoocanth, this.flaxia);
                 expect(this.player1).not.toHavePrompt('Valoocanth');
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
         });
 
-        describe('Valoocanth\'s ability', function() {
-            beforeEach(function() {
+        describe("Valoocanth's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'brobnar',
@@ -56,7 +56,7 @@ describe('Valoocanth', function() {
                 });
             });
 
-            it('after reap, should exhaust enemy creature and its neighbors', function() {
+            it('after reap, should exhaust enemy creature and its neighbors', function () {
                 this.player1.reap(this.valoocanth);
                 expect(this.player1).toHavePrompt('Choose a creature');
                 this.player1.clickCard(this.lamindra);
@@ -66,7 +66,7 @@ describe('Valoocanth', function() {
                 expect(this.flaxia.exhausted).toBe(false);
             });
 
-            it('after fight, should exhaust enemy creature and its neighbors', function() {
+            it('after fight, should exhaust enemy creature and its neighbors', function () {
                 this.player1.fightWith(this.valoocanth, this.flaxia);
                 expect(this.player1).toHavePrompt('Choose a creature');
                 this.player1.clickCard(this.lamindra);
@@ -76,8 +76,8 @@ describe('Valoocanth', function() {
             });
         });
 
-        describe('Valoocanth\'s ability', function() {
-            beforeEach(function() {
+        describe("Valoocanth's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'brobnar',
@@ -90,7 +90,7 @@ describe('Valoocanth', function() {
                 });
             });
 
-            it('after reap, should exhaust enemy creature', function() {
+            it('after reap, should exhaust enemy creature', function () {
                 this.player1.reap(this.valoocanth);
                 expect(this.player1).toHavePrompt('Choose a creature');
                 expect(this.player1).not.toBeAbleToSelect(this.valoocanth);

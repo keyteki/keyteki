@@ -1,7 +1,7 @@
-describe('Doctor Driscoll', function() {
-    integration(function() {
-        describe('Doctor Driscoll\'s ability', function() {
-            beforeEach(function() {
+describe('Doctor Driscoll', function () {
+    integration(function () {
+        describe("Doctor Driscoll's ability", function () {
+            beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'staralliance',
@@ -13,7 +13,7 @@ describe('Doctor Driscoll', function() {
                 });
             });
 
-            it('should gain no amber if a creature without damage is chosen', function() {
+            it('should gain no amber if a creature without damage is chosen', function () {
                 this.player1.fightWith(this.crashMuldoon, this.dustPixie);
                 this.player1.useAction(this.doctorDriscoll);
                 this.player1.clickCard(this.doctorDriscoll);
@@ -21,7 +21,7 @@ describe('Doctor Driscoll', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should gain 1 amber when only 1 damage can be healed', function() {
+            it('should gain 1 amber when only 1 damage can be healed', function () {
                 this.player1.fightWith(this.crashMuldoon, this.dustPixie);
                 this.player1.useAction(this.doctorDriscoll);
                 this.player1.clickCard(this.crashMuldoon);
@@ -30,7 +30,7 @@ describe('Doctor Driscoll', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should gain 2 amber when 2 damage is healed', function() {
+            it('should gain 2 amber when 2 damage is healed', function () {
                 this.player1.fightWith(this.crashMuldoon, this.flaxia);
                 this.player1.useAction(this.doctorDriscoll);
                 this.player1.clickCard(this.flaxia);
@@ -41,4 +41,3 @@ describe('Doctor Driscoll', function() {
         });
     });
 });
-

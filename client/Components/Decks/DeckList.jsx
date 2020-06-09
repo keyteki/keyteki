@@ -18,7 +18,7 @@ class DeckList extends React.Component {
             currentPage: 0
         };
 
-        this.changeFilter = _.debounce(filter => this.onChangeFilter(filter), 200);
+        this.changeFilter = _.debounce((filter) => this.onChangeFilter(filter), 200);
         this.onChangeExpansionFilter = this.onChangeExpansionFilter.bind(this);
         this.filterDeck = this.filterDeck.bind(this);
         this.onSortChanged = this.onSortChanged.bind(this);
@@ -27,12 +27,15 @@ class DeckList extends React.Component {
     }
 
     filterDeck(deck) {
-        const passedSearchFilter = this.state.searchFilter === '' || deck.name.toLowerCase().includes(this.state.searchFilter);
-        const passedExpansionFilter = this.state.expansionFilter === '' || (
-            (this.state.expansionFilter === 'World\'s Collide' && deck.expansion === 452) ||
-            (this.state.expansionFilter === 'Age of Ascension' && deck.expansion === 435) ||
-            (this.state.expansionFilter === 'Call of the Archons' && deck.expansion === 341)
-        );
+        let t = this.props.t;
+        const passedSearchFilter =
+            this.state.searchFilter === '' ||
+            deck.name.toLowerCase().includes(this.state.searchFilter);
+        const passedExpansionFilter =
+            this.state.expansionFilter === '' ||
+            (this.state.expansionFilter === t('Worlds Collide') && deck.expansion === 452) ||
+            (this.state.expansionFilter === t('Age of Ascension') && deck.expansion === 435) ||
+            (this.state.expansionFilter === t('Call of the Archons') && deck.expansion === 341);
 
         return passedSearchFilter && passedExpansionFilter;
     }
@@ -76,13 +79,13 @@ class DeckList extends React.Component {
         let deckRows = [];
         let numDecksNotFiltered = 0;
 
-        if(!decks || decks.length === 0) {
+        if (!decks || decks.length === 0) {
             deckRows = t('You have no decks, try adding one');
         } else {
             let index = 0;
             let sortedDecks = decks;
 
-            switch(this.state.sortOrder) {
+            switch (this.state.sortOrder) {
                 case 'dateasc':
                     sortedDecks = _.sortBy(sortedDecks, 'lastUpdated');
                     break;
@@ -100,10 +103,20 @@ class DeckList extends React.Component {
             sortedDecks = sortedDecks.filter(this.filterDeck);
             numDecksNotFiltered = sortedDecks.length;
 
-            sortedDecks = sortedDecks.slice(this.state.currentPage * this.state.pageSize, (this.state.currentPage * this.state.pageSize) + this.state.pageSize);
+            sortedDecks = sortedDecks.slice(
+                this.state.currentPage * this.state.pageSize,
+                this.state.currentPage * this.state.pageSize + this.state.pageSize
+            );
 
-            for(let deck of sortedDecks) {
-                deckRows.push(<DeckRow active={ activeDeck && activeDeck._id === deck._id } deck={ deck } key={ index++ } onSelect={ onSelectDeck } />);
+            for (let deck of sortedDecks) {
+                deckRows.push(
+                    <DeckRow
+                        active={activeDeck && activeDeck.id === deck.id}
+                        deck={deck}
+                        key={index++}
+                        onSelect={onSelectDeck}
+                    />
+                );
             }
         }
 
@@ -116,58 +129,105 @@ class DeckList extends React.Component {
 
         let pager = [];
         let pages = _.range(0, Math.ceil(numDecksNotFiltered / this.state.pageSize));
-        for(let page of pages) {
-            pager.push(<li key={ page }><a href='#' className={ (page === this.state.currentPage ? 'active' : null) } onClick={ this.onPageChanged.bind(this, page) }>{ page + 1 }</a></li>);
+        for (let page of pages) {
+            pager.push(
+                <li key={page}>
+                    <a
+                        href='#'
+                        className={page === this.state.currentPage ? 'active' : null}
+                        onClick={this.onPageChanged.bind(this, page)}
+                    >
+                        {page + 1}
+                    </a>
+                </li>
+            );
         }
 
         return (
-            <div className={ className }>
-                <form className='form' onSubmit={ this.handleSubmit } >
-                    <div className='col-md-8'>
-                        <div className='form-group'>
-                            <label className='control-label'><Trans>Filter</Trans>:</label><input autoFocus className='form-control' placeholder={ t('Search...') } type='text' onChange={ e => this.changeFilter(e.target.value) }/>
+            <div className={className}>
+                {!this.props.noFilter && (
+                    <form className='form' onSubmit={this.handleSubmit}>
+                        <div className='col-md-8'>
+                            <div className='form-group'>
+                                <label className='control-label'>
+                                    <Trans>Filter</Trans>:
+                                </label>
+                                <input
+                                    autoFocus
+                                    className='form-control'
+                                    placeholder={t('Search...')}
+                                    type='text'
+                                    onChange={(e) => this.changeFilter(e.target.value)}
+                                />
+                            </div>
                         </div>
-                    </div>
-                    <div className='col-md-4'>
-                        <div className='form-group'>
-                            <label className='control-label'><Trans>Show</Trans>:</label>
-                            <select className='form-control' onChange={ this.onPageSizeChanged }>
-                                <option>10</option>
-                                <option>25</option>
-                                <option>50</option>
-                            </select>
+                        <div className='col-md-4'>
+                            <div className='form-group'>
+                                <label className='control-label'>
+                                    <Trans>Show</Trans>:
+                                </label>
+                                <select className='form-control' onChange={this.onPageSizeChanged}>
+                                    <option>10</option>
+                                    <option>25</option>
+                                    <option>50</option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <div className='col-md-12'>
-                        <div className='form-group'>
-                            <label className='control-label'><Trans>Filter By Expansion</Trans>:</label>
-                            <select className='form-control' onChange={ this.onChangeExpansionFilter }>
-                                <option />
-                                <option>World&#39;s Collide</option>
-                                <option>Age of Ascension</option>
-                                <option>Call of the Archons</option>
-                            </select>
+                        <div className='col-md-12'>
+                            <div className='form-group'>
+                                <label className='control-label'>
+                                    <Trans>Filter By Expansion</Trans>:
+                                </label>
+                                <select
+                                    className='form-control'
+                                    onChange={this.onChangeExpansionFilter}
+                                >
+                                    <option />
+                                    <option>{t('Worlds Collide')}</option>
+                                    <option>{t('Age of Ascension')}</option>
+                                    <option>{t('Call of the Archons')}</option>
+                                </select>
+                            </div>
+                            <div className='col-md-12'>
+                                <Trans>Sort by</Trans>:
+                                <RadioGroup
+                                    buttons={sortButtons}
+                                    onValueSelected={this.onSortChanged}
+                                    defaultValue={this.state.sortOrder}
+                                />
+                            </div>
+                            <nav className='col-md-12' aria-label={t('Page navigation')}>
+                                <ul className='pagination'>
+                                    <li>
+                                        <a
+                                            href='#'
+                                            aria-label={t('Previous')}
+                                            onClick={this.onPageChanged.bind(this, 0)}
+                                        >
+                                            <span aria-hidden='true'>&laquo;</span>
+                                        </a>
+                                    </li>
+                                    {pager}
+                                    <li>
+                                        <a
+                                            href='#'
+                                            aria-label={t('Next')}
+                                            onClick={this.onPageChanged.bind(
+                                                this,
+                                                pages.length - 1
+                                            )}
+                                        >
+                                            <span aria-hidden='true'>&raquo;</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
                         </div>
-                    </div>
-                    <div className='col-md-12'><Trans>Sort by</Trans>:<RadioGroup buttons={ sortButtons } onValueSelected={ this.onSortChanged } defaultValue={ this.state.sortOrder } /></div>
-                    <nav className='col-md-12' aria-label={ t('Page navigation') } >
-                        <ul className='pagination'>
-                            <li>
-                                <a href='#' aria-label={ t('Previous') } onClick={ this.onPageChanged.bind(this, 0) }>
-                                    <span aria-hidden='true'>&laquo;</span>
-                                </a>
-                            </li>
-                            { pager }
-                            <li>
-                                <a href='#' aria-label={ t('Next') } onClick={ this.onPageChanged.bind(this, pages.length - 1) }>
-                                    <span aria-hidden='true'>&raquo;</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
-                </form>
-                <div className='col-md-12'>{ deckRows }</div>
-            </div>);
+                    </form>
+                )}
+                <div className='col-md-12'>{deckRows}</div>
+            </div>
+        );
     }
 }
 
@@ -176,6 +236,7 @@ DeckList.propTypes = {
     className: PropTypes.string,
     decks: PropTypes.array,
     i18n: PropTypes.object,
+    noFilter: PropTypes.bool,
     onSelectDeck: PropTypes.func,
     t: PropTypes.func
 };

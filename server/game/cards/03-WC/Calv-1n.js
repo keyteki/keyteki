@@ -8,7 +8,6 @@ class Calv1N extends Card {
         });
 
         this.persistentEffect({
-            match: this,
             location: 'any',
             effect: ability.effects.canPlayAsUpgrade()
         });

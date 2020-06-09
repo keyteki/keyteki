@@ -5,7 +5,7 @@ const Costs = require('../costs.js');
 class BasePlayAction extends BaseAbility {
     constructor(card, target) {
         let properties = { cost: Costs.play() };
-        if(target) {
+        if (target) {
             properties.target = target;
         }
 
@@ -15,15 +15,20 @@ class BasePlayAction extends BaseAbility {
     }
 
     displayMessage(context) {
-        let amberMsg = context.source.printedAmber > 0 ? ', gaining ' + context.source.printedAmber.toString() + ' amber' : '';
-        context.game.actions.gainAmber({ amount: context.source.printedAmber }).resolve(context.player, context);
-        context.game.addMessage('{0} plays {1}{2}', context.player, context.source, amberMsg);
+        context.game.addMessage('{0} plays {1}', context.player, context.source);
     }
 
     meetsRequirements(context = this.createContext(), ignoredRequirements = []) {
-        if(!ignoredRequirements.includes('location') && !context.player.isCardInPlayableLocation(context.source, 'play')) {
+        if (
+            !ignoredRequirements.includes('location') &&
+            !context.player.isCardInPlayableLocation(context.source, 'play')
+        ) {
             return 'location';
-        } else if(!ignoredRequirements.includes('cannotTrigger') && (!context.player.checkRestrictions('play', context) || !context.source.checkRestrictions('play', context))) {
+        } else if (
+            !ignoredRequirements.includes('cannotTrigger') &&
+            (!context.player.checkRestrictions('play', context) ||
+                !context.source.checkRestrictions('play', context))
+        ) {
             return 'cannotTrigger';
         }
 
@@ -39,6 +44,15 @@ class BasePlayAction extends BaseAbility {
         });
     }
 
+    addBonusIconResolution(event, context) {
+        event.addSubEvent(
+            context.game.getEvent('unnamedEvent', {}, () => {
+                context.game.checkGameState(true);
+                context.game.actions.resolveBonusIcons().resolve(this.card, context);
+            })
+        );
+    }
+
     isAction() {
         return true;
     }
@@ -49,4 +63,3 @@ class BasePlayAction extends BaseAbility {
 }
 
 module.exports = BasePlayAction;
-

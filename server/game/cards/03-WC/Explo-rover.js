@@ -3,7 +3,6 @@ const Card = require('../../Card.js');
 class ExploRover extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
-            match: this,
             location: 'any',
             effect: ability.effects.canPlayAsUpgrade()
         });

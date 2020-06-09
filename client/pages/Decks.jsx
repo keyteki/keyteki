@@ -18,7 +18,7 @@ class Decks extends React.Component {
         this.handleDeleteDeck = this.handleDeleteDeck.bind(this);
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.props.loadDecks();
     }
 
@@ -32,35 +32,47 @@ class Decks extends React.Component {
 
         let successPanel = null;
 
-        if(this.props.deckDeleted) {
+        if (this.props.deckDeleted) {
             setTimeout(() => {
                 this.props.clearDeckStatus();
             }, 5000);
-            successPanel = (
-                <AlertPanel message={ t('Deck deleted successfully') } type={ 'success' } />
-            );
+            successPanel = <AlertPanel message={t('Deck deleted successfully')} type={'success'} />;
         }
 
-        if(this.props.apiLoading) {
-            content = <div><Trans>Loading decks from the server...</Trans></div>;
-        } else if(!this.props.apiSuccess) {
-            content = <AlertPanel type='error' message={ this.props.apiMessage } />;
+        if (this.props.apiLoading) {
+            content = (
+                <div>
+                    <Trans>Loading decks from the server...</Trans>
+                </div>
+            );
+        } else if (this.props.apiSuccess === false) {
+            content = <AlertPanel type='error' message={this.props.apiMessage} />;
         } else {
             content = (
                 <div className='full-height'>
-                    <div className='col-xs-12'>
-                        { successPanel }
-                    </div>
+                    <div className='col-xs-12'>{successPanel}</div>
                     <div className='col-md-6 full-height'>
-                        <Panel title={ t('Your decks') }>
-                            <Link className='btn btn-primary' href='/decks/import'><Trans>Import Deck</Trans></Link>
-                            <DeckList className='deck-list' activeDeck={ this.props.selectedDeck } decks={ this.props.decks } onSelectDeck={ this.props.selectDeck } />
+                        <Panel title={t('Your decks')}>
+                            <Link className='btn btn-primary' href='/decks/import'>
+                                <Trans>Import Deck</Trans>
+                            </Link>
+                            <DeckList
+                                className='deck-list'
+                                activeDeck={this.props.selectedDeck}
+                                decks={this.props.decks}
+                                onSelectDeck={this.props.selectDeck}
+                            />
                         </Panel>
                     </div>
-                    { !!this.props.selectedDeck &&
-                        <ViewDeck deck={ this.props.selectedDeck } cards={ this.props.cards } onDeleteDeck={ this.handleDeleteDeck } />
-                    }
-                </div>);
+                    {!!this.props.selectedDeck && (
+                        <ViewDeck
+                            deck={this.props.selectedDeck}
+                            cards={this.props.cards}
+                            onDeleteDeck={this.handleDeleteDeck}
+                        />
+                    )}
+                </div>
+            );
         }
 
         return content;

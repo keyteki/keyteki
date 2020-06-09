@@ -21,7 +21,7 @@ class LobbyChat extends React.Component {
     }
 
     componentDidUpdate() {
-        if(this.state.canScroll) {
+        if (this.state.canScroll) {
             $(this.messages).scrollTop(999999);
         }
     }
@@ -30,7 +30,7 @@ class LobbyChat extends React.Component {
         let messages = this.messages;
 
         setTimeout(() => {
-            if(messages.scrollTop >= messages.scrollHeight - messages.offsetHeight - 20) {
+            if (messages.scrollTop >= messages.scrollHeight - messages.offsetHeight - 20) {
                 this.setState({ canScroll: true });
             } else {
                 this.setState({ canScroll: false });
@@ -41,7 +41,7 @@ class LobbyChat extends React.Component {
     onRemoveMessageClick(messageId, event) {
         event.preventDefault();
 
-        if(this.props.onRemoveMessageClick) {
+        if (this.props.onRemoveMessageClick) {
             this.props.onRemoveMessageClick(messageId);
         }
     }
@@ -54,19 +54,19 @@ class LobbyChat extends React.Component {
         let lastUser;
         let currentGroup = 0;
 
-        for(let message of this.props.messages) {
-            if(!message.user) {
+        for (let message of this.props.messages) {
+            if (!message.user) {
                 return undefined;
             }
 
             const formattedTime = moment(message.time).format('YYYYMMDDHHmm');
-            if(lastUser && message.user && lastUser !== message.user.username) {
+            if (lastUser && message.user && lastUser !== message.user.username) {
                 currentGroup++;
             }
 
             const key = message.user.username + formattedTime + currentGroup;
 
-            if(!groupedMessages[key]) {
+            if (!groupedMessages[key]) {
                 groupedMessages[key] = [];
             }
 
@@ -75,54 +75,93 @@ class LobbyChat extends React.Component {
             lastUser = message.user.username;
         }
 
-        return Object.values(groupedMessages).map(messages => {
+        return Object.values(groupedMessages).map((messages) => {
             let timestamp;
             const firstMessage = messages[0];
 
-            if(!firstMessage.user) {
+            if (!firstMessage.user) {
                 return undefined;
             }
 
-            if(today.isSame(firstMessage.time, 'd')) {
+            if (today.isSame(firstMessage.time, 'd')) {
                 timestamp = moment(firstMessage.time).format('H:mm');
-            } else if(yesterday.isSame(firstMessage.time, 'd')) {
+            } else if (yesterday.isSame(firstMessage.time, 'd')) {
                 timestamp = 'yesterday ' + moment(firstMessage.time).format('H:mm');
             } else {
                 timestamp = moment(firstMessage.time).format('MMM Do H:mm');
             }
 
             let i = 0;
-            const renderedMessages = messages.map(message => {
-                if(!message.user) {
+            const renderedMessages = messages.map((message) => {
+                if (!message.user) {
                     return undefined;
                 }
 
-                return (<div key={ message.user.username + i++ } className='lobby-message'>
-                    { message.message }
-                    { this.props.isModerator &&
-                        <a href='#' className='btn no-padding btn-noimg' onClick={ this.onRemoveMessageClick.bind(this, message._id) }>
-                            <span className='chat-delete glyphicon glyphicon-remove' />
-                        </a> }
-                </div>);
+                let messageText;
+
+                if (message.deleted) {
+                    if (this.props.isModerator) {
+                        messageText = (
+                            <React.Fragment>
+                                <span className='message-deleted message-moderated'>
+                                    {message.message}
+                                </span>
+                                <span className='message-deleted'>
+                                    {' '}
+                                    - (Message removed by {message.deletedBy})
+                                </span>
+                            </React.Fragment>
+                        );
+                    } else {
+                        messageText = (
+                            <span className='message-deleted'>Message deleted by a moderator</span>
+                        );
+                    }
+                } else {
+                    messageText = message.message;
+                }
+
+                return (
+                    <div key={message.user.username + i++} className='lobby-message'>
+                        {messageText}
+                        {this.props.isModerator && (
+                            <a
+                                href='#'
+                                className='btn no-padding btn-noimg'
+                                onClick={this.onRemoveMessageClick.bind(this, message.id)}
+                            >
+                                <span className='chat-delete glyphicon glyphicon-remove' />
+                            </a>
+                        )}
+                    </div>
+                );
             });
 
-            let userClass = 'username' + (firstMessage.user.role ? ` ${firstMessage.user.role}-role` : '');
+            let userClass =
+                'username' +
+                (firstMessage.user.role ? ` ${firstMessage.user.role.toLowerCase()}-role` : '');
 
             return (
-                <div key={ timestamp + firstMessage.user.username + (index++).toString() }>
-                    <Avatar username={ firstMessage.user.username } float />
-                    <span className={ userClass }>{ firstMessage.user.username }</span>
-                    <span>{ timestamp }</span>
-                    { renderedMessages }
+                <div key={timestamp + firstMessage.user.username + (index++).toString()}>
+                    <Avatar username={firstMessage.user.username} float />
+                    <span className={userClass}>{firstMessage.user.username}</span>
+                    <span>{timestamp}</span>
+                    {renderedMessages}
                 </div>
             );
         });
     }
 
     render() {
-        return (<div className='lobby-messages' ref={ m => this.messages = m }onScroll={ this.onScroll }>
-            { this.getMessages() }
-        </div>);
+        return (
+            <div
+                className='lobby-messages'
+                ref={(m) => (this.messages = m)}
+                onScroll={this.onScroll}
+            >
+                {this.getMessages()}
+            </div>
+        );
     }
 }
 

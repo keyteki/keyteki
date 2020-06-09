@@ -15,6 +15,7 @@ class LastingEffectAction extends GameAction {
         this.when = null;
         this.gameAction = null;
         this.message = null;
+        this.match = null;
         this.multipleTrigger = true;
     }
 
@@ -26,29 +27,36 @@ class LastingEffectAction extends GameAction {
 
     hasLegalTarget(context) {
         this.update(context);
-        return !!this.effect.length || this.when && !!this.gameAction;
+        return !!this.effect.length || (this.when && !!this.gameAction);
     }
 
     getEventArray(context) {
-        if(this.when && this.gameAction) {
-            this.effect = [Effects.delayedEffect({
-                when: this.when,
-                gameAction: this.gameAction,
-                message: this.message,
-                multipleTrigger: this.multipleTrigger,
-                context: context
-            })];
+        if (this.when && this.gameAction) {
+            this.effect = [
+                Effects.lastingAbilityTrigger({
+                    when: this.when,
+                    gameAction: this.gameAction,
+                    message: this.message,
+                    multipleTrigger: this.multipleTrigger,
+                    context: context
+                })
+            ];
         }
 
         let properties = {
             condition: this.condition,
             context: context,
             effect: this.effect,
+            match: this.match,
             roundDuration: this.duration,
-            targetController: this.targetController,
+            targetController: this.when ? 'current' : this.targetController,
             until: this.until
         };
-        return [super.createEvent('applyLastingEffect', { context: context }, event => event.context.source.roundDurationEffect(properties))];
+        return [
+            super.createEvent('applyLastingEffect', { context: context }, (event) =>
+                event.context.source.roundDurationEffect(properties)
+            )
+        ];
     }
 }
 

@@ -8,21 +8,27 @@ class DimensionDoor extends Card {
         this.tracker.register([{ 'onReap:preResolution': 'onReap' }]);
 
         this.play({
-            condition: context => !!context.player.opponent,
+            condition: (context) => !!context.player.opponent,
             effect: 'steal amber instead of gaining it while reaping for the remainder of the turn',
             gameAction: ability.actions.forRemainderOfTurn({
                 effect: ability.effects.customDetachedPlayer({
-                    apply: player => this.enabledForPlayers[player.uuid] = true,
-                    unapply: player => this.enabledForPlayers[player.uuid] = false
+                    apply: (player) => (this.enabledForPlayers[player.uuid] = true),
+                    unapply: (player) => (this.enabledForPlayers[player.uuid] = false)
                 })
             })
         });
     }
 
     onReap(event) {
-        if(this.enabledForPlayers[event.card.controller.uuid]) {
-            this.game.addMessage('{0} steals 1 amber instead of gaining it due to {1}\'s effect', event.card.controller, this);
-            event.replaceHandler(event => this.game.actions.steal().resolve(event.context.player.opponent, event.context));
+        if (this.enabledForPlayers[event.card.controller.uuid]) {
+            this.game.addMessage(
+                "{0} steals 1 amber instead of gaining it due to {1}'s effect",
+                event.card.controller,
+                this
+            );
+            event.replaceHandler((event) =>
+                this.game.actions.steal().resolve(event.context.player.opponent, event.context)
+            );
         }
     }
 }

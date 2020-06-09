@@ -25,7 +25,7 @@ const placeholderPlayer = {
         discard: [],
         hand: [],
         purged: [],
-        deck:[]
+        deck: []
     },
     faction: null,
     activePlayer: false,
@@ -34,12 +34,10 @@ const placeholderPlayer = {
         keys: { red: false, blue: false, yellow: false }
     },
     houses: [],
-    deckName: '',
-    deckUuid: '',
-    deckSet: 0,
-    deckCards:[],
+    deckCards: [],
     title: null,
-    user: null
+    user: null,
+    deckData: {}
 };
 
 export class GameBoard extends React.Component {
@@ -80,13 +78,14 @@ export class GameBoard extends React.Component {
         $('.modal-backdrop').remove();
     }
 
-    componentWillReceiveProps(props) {
+    // eslint-disable-next-line camelcase
+    UNSAFE_componentWillReceiveProps(props) {
         this.updateContextMenu(props);
 
         let lastMessageCount = this.state.lastMessageCount;
         let currentMessageCount = props.currentGame ? props.currentGame.messages.length : 0;
 
-        if(this.state.showMessages) {
+        if (this.state.showMessages) {
             this.setState({ lastMessageCount: currentMessageCount, newMessages: 0 });
         } else {
             this.setState({ newMessages: currentMessageCount - lastMessageCount });
@@ -94,38 +93,36 @@ export class GameBoard extends React.Component {
     }
 
     updateContextMenu(props) {
-        if(!props.currentGame || !props.user) {
+        if (!props.currentGame || !props.user) {
             return;
         }
 
         let thisPlayer = props.currentGame.players[props.user.username];
 
-        if(thisPlayer) {
+        if (thisPlayer) {
             this.setState({ spectating: false });
         } else {
             this.setState({ spectating: true });
         }
 
-        let menuOptions = [
-            { text: 'Leave Game', onClick: this.onLeaveClick }
-        ];
+        let menuOptions = [{ text: 'Leave Game', onClick: this.onLeaveClick }];
 
-        if(props.currentGame && props.currentGame.started) {
-            if(props.currentGame.players[props.user.username]) {
+        if (props.currentGame && props.currentGame.started) {
+            if (props.currentGame.players[props.user.username]) {
                 menuOptions.unshift({ text: 'Concede', onClick: this.onConcedeClick });
             }
 
-            let spectators = props.currentGame.spectators.map(spectator => {
-                return <li key={ spectator.id }>{ spectator.name }</li>;
+            let spectators = props.currentGame.spectators.map((spectator) => {
+                return <li key={spectator.id}>{spectator.name}</li>;
             });
 
-            let spectatorPopup = (
-                <ul className='spectators-popup absolute-panel'>
-                    { spectators }
-                </ul>
-            );
+            let spectatorPopup = <ul className='spectators-popup absolute-panel'>{spectators}</ul>;
 
-            menuOptions.unshift({ text: '{{users}} spectators', values: { users: props.currentGame.spectators.length }, popup: spectatorPopup });
+            menuOptions.unshift({
+                text: '{{users}} spectators',
+                values: { users: props.currentGame.spectators.length },
+                popup: spectatorPopup
+            });
 
             this.setContextMenu(menuOptions);
         } else {
@@ -134,7 +131,7 @@ export class GameBoard extends React.Component {
     }
 
     setContextMenu(menu) {
-        if(this.props.setContextMenu) {
+        if (this.props.setContextMenu) {
             this.props.setContextMenu(menu);
         }
     }
@@ -144,28 +141,28 @@ export class GameBoard extends React.Component {
     }
 
     isGameActive() {
-        if(!this.props.currentGame || !this.props.user) {
+        if (!this.props.currentGame || !this.props.user) {
             return false;
         }
 
-        if(this.props.currentGame.winner) {
+        if (this.props.currentGame.winner) {
             return false;
         }
 
         let thisPlayer = this.props.currentGame.players[this.props.user.username];
-        if(!thisPlayer) {
+        if (!thisPlayer) {
             thisPlayer = Object.values(this.props.currentGame.players)[0];
         }
 
-        let otherPlayer = Object.values(this.props.currentGame.players).find(player => {
+        let otherPlayer = Object.values(this.props.currentGame.players).find((player) => {
             return player.name !== thisPlayer.name;
         });
 
-        if(!otherPlayer) {
+        if (!otherPlayer) {
             return false;
         }
 
-        if(otherPlayer.disconnected || otherPlayer.left) {
+        if (otherPlayer.disconnected || otherPlayer.left) {
             return false;
         }
 
@@ -175,15 +172,21 @@ export class GameBoard extends React.Component {
     onLeaveClick() {
         let t = this.props.t;
 
-        if(!this.state.spectating && this.isGameActive()) {
-            toastr.confirm(t('Your game is not finished, are you sure you want to leave?'), {
-                okText: t('Ok'),
-                cancelText: t('Cancel'),
-                onOk: () => {
-                    this.props.sendGameMessage('leavegame');
-                    this.props.closeGameSocket();
+        if (!this.state.spectating && this.isGameActive()) {
+            toastr.confirm(
+                t(
+                    'Your game is not finished. If you leave you will concede the game. Are you sure you want to leave?'
+                ),
+                {
+                    okText: t('Ok'),
+                    cancelText: t('Cancel'),
+                    onOk: () => {
+                        this.props.sendGameMessage('concede');
+                        this.props.sendGameMessage('leavegame');
+                        this.props.closeGameSocket();
+                    }
                 }
-            });
+            );
 
             return;
         }
@@ -222,11 +225,17 @@ export class GameBoard extends React.Component {
 
     getTimer() {
         let timeLimitClock = null;
-        if(this.props.currentGame.useGameTimeLimit && this.props.currentGame.gameTimeLimitStarted) {
-            timeLimitClock = (<TimeLimitClock
-                timeLimitStarted={ this.props.currentGame.gameTimeLimitStarted }
-                timeLimitStartedAt={ this.props.currentGame.gameTimeLimitStartedAt }
-                timeLimit={ this.props.currentGame.gameTimeLimitTime } />);
+        if (
+            this.props.currentGame.useGameTimeLimit &&
+            this.props.currentGame.gameTimeLimitStarted
+        ) {
+            timeLimitClock = (
+                <TimeLimitClock
+                    timeLimitStarted={this.props.currentGame.gameTimeLimitStarted}
+                    timeLimitStartedAt={this.props.currentGame.gameTimeLimitStartedAt}
+                    timeLimit={this.props.currentGame.gameTimeLimitTime}
+                />
+            );
         }
 
         return timeLimitClock;
@@ -261,7 +270,7 @@ export class GameBoard extends React.Component {
             showMessages: showState
         };
 
-        if(showState) {
+        if (showState) {
             newState.newMessages = 0;
             newState.lastMessageCount = this.props.currentGame.messages.length;
         }
@@ -280,119 +289,151 @@ export class GameBoard extends React.Component {
         return player;
     }
 
+    getMatchRecord(thisPlayer, otherPlayer) {
+        return {
+            thisPlayer: {
+                name: thisPlayer.name,
+                wins: thisPlayer.wins
+            },
+            otherPlayer: {
+                name: otherPlayer.name ? otherPlayer.name : 'Noone',
+                wins: otherPlayer.wins ? otherPlayer.wins : 0
+            }
+        };
+    }
+
     renderBoard(thisPlayer, otherPlayer) {
         return [
             <div key='board-middle' className='board-middle'>
                 <div className='player-home-row'>
                     <PlayerRow
-                        player={ 2 }
-                        cardBackUrl={ this.props.player2CardBack }
-                        faction={ otherPlayer.faction }
-                        archives={ otherPlayer.cardPiles.archives }
-                        hand={ otherPlayer.cardPiles.hand } isMe={ false }
-                        hideDecklist={ this.props.currentGame.hideDecklists }
-                        language={ this.props.i18n.language }
-                        deckCards = { otherPlayer.deckCards }
-                        deckName = { otherPlayer.deckName }
-                        deckUuid = { otherPlayer.deckUuid }
-                        deckSet = { otherPlayer.deckSet }
-                        drawDeck = { otherPlayer.cardPiles.deck }
-                        houses = { otherPlayer.houses }
-                        numDeckCards={ otherPlayer.numDeckCards }
-                        discard={ otherPlayer.cardPiles.discard }
-                        onCardClick={ this.onCardClick }
-                        onMouseOver={ this.onMouseOver }
-                        onMouseOut={ this.onMouseOut }
-                        purgedPile={ otherPlayer.cardPiles.purged }
-                        keys={ otherPlayer.stats.keys }
-                        spectating={ this.state.spectating }
-                        title={ otherPlayer.title }
+                        player={2}
+                        cardBackUrl={this.props.player2CardBack}
+                        faction={otherPlayer.faction}
+                        archives={otherPlayer.cardPiles.archives}
+                        hand={otherPlayer.cardPiles.hand}
+                        isMe={false}
+                        hideDecklist={this.props.currentGame.hideDecklists}
+                        language={this.props.i18n.language}
+                        deckData={otherPlayer.deckData}
+                        deckCards={otherPlayer.deckCards}
+                        drawDeck={otherPlayer.cardPiles.deck}
+                        houses={otherPlayer.houses}
+                        numDeckCards={otherPlayer.numDeckCards}
+                        discard={otherPlayer.cardPiles.discard}
+                        onCardClick={this.onCardClick}
+                        onMouseOver={this.onMouseOver}
+                        onMouseOut={this.onMouseOut}
+                        purgedPile={otherPlayer.cardPiles.purged}
+                        keys={otherPlayer.stats.keys}
+                        spectating={this.state.spectating}
+                        title={otherPlayer.title}
                         side='top'
-                        username={ this.props.user.username }
-                        cardSize={ this.props.user.settings.cardSize } />
+                        username={this.props.user.username}
+                        cardSize={this.props.user.settings.cardSize}
+                    />
                 </div>
                 <div className='board-inner'>
                     <div className='play-area'>
                         <PlayerBoard
-                            cardBackUrl={ this.props.player2CardBack }
-                            cardsInPlay={ otherPlayer.cardPiles.cardsInPlay }
-                            onCardClick={ this.onCardClick }
-                            onMenuItemClick={ this.onMenuItemClick }
-                            onMouseOut={ this.onMouseOut }
-                            onMouseOver={ this.onMouseOver }
+                            cardBackUrl={this.props.player2CardBack}
+                            cardsInPlay={otherPlayer.cardPiles.cardsInPlay}
+                            onCardClick={this.onCardClick}
+                            onMenuItemClick={this.onMenuItemClick}
+                            onMouseOut={this.onMouseOut}
+                            onMouseOver={this.onMouseOver}
                             rowDirection='reverse'
-                            user={ this.props.user } />
-                        <Droppable onDragDrop={ this.onDragDrop } source='play area' manualMode={ this.props.currentGame.manualMode }>
+                            user={this.props.user}
+                        />
+                        <Droppable
+                            onDragDrop={this.onDragDrop}
+                            source='play area'
+                            manualMode={this.props.currentGame.manualMode}
+                        >
                             <PlayerBoard
-                                cardBackUrl={ this.props.player1CardBack }
-                                cardsInPlay={ thisPlayer.cardPiles.cardsInPlay }
-                                manualMode={ this.props.currentGame.manualMode }
-                                onCardClick={ this.onCardClick }
-                                onMenuItemClick={ this.onMenuItemClick }
-                                onMouseOut={ this.onMouseOut }
-                                onMouseOver={ this.onMouseOver }
+                                cardBackUrl={this.props.player1CardBack}
+                                cardsInPlay={thisPlayer.cardPiles.cardsInPlay}
+                                manualMode={this.props.currentGame.manualMode}
+                                onCardClick={this.onCardClick}
+                                onMenuItemClick={this.onMenuItemClick}
+                                onMouseOut={this.onMouseOut}
+                                onMouseOver={this.onMouseOver}
                                 rowDirection='default'
-                                user={ this.props.user } />
+                                user={this.props.user}
+                            />
                         </Droppable>
                     </div>
                 </div>
-                { this.getTimer() }
+                {this.getTimer()}
                 <div className='player-home-row our-side'>
-                    <PlayerRow isMe={ !this.state.spectating }
-                        player={ 1 }
-                        cardBackUrl={ this.props.player1CardBack }
-                        archives={ thisPlayer.cardPiles.archives }
-                        language={ this.props.i18n.language }
-                        deckCards = { thisPlayer.deckCards }
-                        deckName = { thisPlayer.deckName }
-                        deckUuid = { thisPlayer.deckUuid }
-                        deckSet = { thisPlayer.deckSet }
-                        drawDeck = { thisPlayer.cardPiles.deck }
-                        houses = { thisPlayer.houses }
-                        faction={ thisPlayer.faction }
-                        hand={ thisPlayer.cardPiles.hand }
-                        onCardClick={ this.onCardClick }
-                        onMouseOver={ this.onMouseOver }
-                        onMouseOut={ this.onMouseOut }
-                        numDeckCards={ thisPlayer.numDeckCards }
-                        keys={ thisPlayer.stats.keys }
-                        onDrawPopupChange={ this.handleDrawPopupChange }
-                        onShuffleClick={ this.onShuffleClick }
-                        purgedPile={ thisPlayer.cardPiles.purged }
-                        onDragDrop={ this.onDragDrop }
-                        discard={ thisPlayer.cardPiles.discard }
-                        showDeck={ thisPlayer.showDeck }
-                        spectating={ this.state.spectating }
-                        title={ thisPlayer.title }
-                        onMenuItemClick={ this.onMenuItemClick }
-                        cardSize={ this.props.user.settings.cardSize }
-                        manualMode={ this.props.currentGame.manualMode }
-                        side='bottom' />
+                    <PlayerRow
+                        isMe={!this.state.spectating}
+                        player={1}
+                        hideDecklist={this.props.currentGame.hideDecklists && this.state.spectating}
+                        cardBackUrl={this.props.player1CardBack}
+                        archives={thisPlayer.cardPiles.archives}
+                        language={this.props.i18n.language}
+                        deckData={thisPlayer.deckData}
+                        deckCards={thisPlayer.deckCards}
+                        drawDeck={thisPlayer.cardPiles.deck}
+                        houses={thisPlayer.houses}
+                        faction={thisPlayer.faction}
+                        hand={thisPlayer.cardPiles.hand}
+                        onCardClick={this.onCardClick}
+                        onMouseOver={this.onMouseOver}
+                        onMouseOut={this.onMouseOut}
+                        numDeckCards={thisPlayer.numDeckCards}
+                        keys={thisPlayer.stats.keys}
+                        onDrawPopupChange={this.handleDrawPopupChange}
+                        onShuffleClick={this.onShuffleClick}
+                        purgedPile={thisPlayer.cardPiles.purged}
+                        onDragDrop={this.onDragDrop}
+                        discard={thisPlayer.cardPiles.discard}
+                        showDeck={thisPlayer.showDeck}
+                        spectating={this.state.spectating}
+                        title={thisPlayer.title}
+                        onMenuItemClick={this.onMenuItemClick}
+                        cardSize={this.props.user.settings.cardSize}
+                        manualMode={this.props.currentGame.manualMode}
+                        side='bottom'
+                    />
                 </div>
             </div>
         ];
     }
 
     render() {
-        if(!this.props.currentGame || !this.props.cards || !this.props.currentGame.started) {
-            return <div><Trans>Waiting for server...</Trans></div>;
+        if (!this.props.currentGame || !this.props.cards || !this.props.currentGame.started) {
+            return (
+                <div>
+                    <Trans>Waiting for server...</Trans>
+                </div>
+            );
         }
 
-        if(!this.props.user) {
+        if (!this.props.user) {
             this.props.navigate('/');
-            return <div><Trans>You are not logged in, redirecting...</Trans></div>;
+            return (
+                <div>
+                    <Trans>You are not logged in, redirecting...</Trans>
+                </div>
+            );
         }
 
         let thisPlayer = this.props.currentGame.players[this.props.user.username];
-        if(!thisPlayer) {
+        if (!thisPlayer) {
             thisPlayer = Object.values(this.props.currentGame.players)[0];
         }
 
-        if(!thisPlayer) {
-            return <div><Trans>Waiting for game to have players or close...</Trans></div>;
+        if (!thisPlayer) {
+            return (
+                <div>
+                    <Trans>Waiting for game to have players or close...</Trans>
+                </div>
+            );
         }
 
-        let otherPlayer = Object.values(this.props.currentGame.players).find(player => {
+        let otherPlayer = Object.values(this.props.currentGame.players).find((player) => {
             return player.name !== thisPlayer.name;
         });
 
@@ -409,62 +450,93 @@ export class GameBoard extends React.Component {
         let manualMode = this.props.currentGame.manualMode;
         let cardToZoom;
 
-        if(this.props.cardToZoom && this.props.cards[this.props.cardToZoom.code]) {
+        if (this.props.cardToZoom && this.props.cards[this.props.cardToZoom.code]) {
             cardToZoom = this.props.cards[this.props.cardToZoom.code];
-        } else if(this.props.cardToZoom) {
+        } else if (this.props.cardToZoom) {
             cardToZoom = this.props.cardToZoom;
         }
 
         return (
-            <div className={ boardClass }>
+            <div className={boardClass}>
                 <GameConfigurationModal
-                    optionSettings={ thisPlayer.optionSettings }
-                    onOptionSettingToggle={ this.onOptionSettingToggle.bind(this) }
-                    id='settings-modal' />
+                    optionSettings={thisPlayer.optionSettings}
+                    onOptionSettingToggle={this.onOptionSettingToggle.bind(this)}
+                    id='settings-modal'
+                />
                 <div className='player-stats-row stats-top'>
-                    <PlayerStats stats={ otherPlayer.stats } houses={ otherPlayer.houses } activeHouse={ otherPlayer.activeHouse }
-                        user={ otherPlayer.user } activePlayer={ otherPlayer.activePlayer } />
+                    <PlayerStats
+                        stats={otherPlayer.stats}
+                        houses={otherPlayer.houses}
+                        activeHouse={otherPlayer.activeHouse}
+                        user={otherPlayer.user}
+                        activePlayer={otherPlayer.activePlayer}
+                    />
                 </div>
                 <div className='main-window'>
-                    { this.renderBoard(thisPlayer, otherPlayer) }
-                    <CardZoom imageUrl={ cardToZoom ? `/img/cards/${cardToZoom.image}.png` : '' }
-                        show={ !!cardToZoom } cardName={ cardToZoom ? cardToZoom.name : null }
-                        card={ cardToZoom } />
+                    {this.renderBoard(thisPlayer, otherPlayer)}
+                    <CardZoom
+                        imageUrl={cardToZoom ? `/img/cards/${cardToZoom.image}.png` : ''}
+                        show={!!cardToZoom}
+                        cardName={cardToZoom ? cardToZoom.name : null}
+                        card={cardToZoom}
+                    />
                     <div className='right-side'>
                         <div className='prompt-area'>
                             <div className='inset-pane'>
                                 <ActivePlayerPrompt
-                                    cards={ this.props.cards }
-                                    buttons={ thisPlayer.buttons }
-                                    controls={ thisPlayer.controls }
-                                    promptText={ thisPlayer.menuTitle }
-                                    promptTitle={ thisPlayer.promptTitle }
-                                    onButtonClick={ this.onCommand }
-                                    onMouseOver={ this.onMouseOver }
-                                    onMouseOut={ this.onMouseOut }
-                                    user={ this.props.user }
-                                    phase={ thisPlayer.phase } />
+                                    cards={this.props.cards}
+                                    buttons={thisPlayer.buttons}
+                                    controls={thisPlayer.controls}
+                                    promptText={thisPlayer.menuTitle}
+                                    promptTitle={thisPlayer.promptTitle}
+                                    onButtonClick={this.onCommand}
+                                    onMouseOver={this.onMouseOver}
+                                    onMouseOut={this.onMouseOut}
+                                    user={this.props.user}
+                                    phase={thisPlayer.phase}
+                                />
                             </div>
                         </div>
-                        { this.state.showMessages && <div className='gamechat'>
-                            <GameChat key='gamechat'
-                                messages={ this.props.currentGame.messages }
-                                onCardMouseOut={ this.onMouseOut }
-                                onCardMouseOver={ this.onMouseOver }
-                                onSendChat={ this.sendChatMessage }
-                                muted={ this.state.spectating && this.props.currentGame.muteSpectators } />
-                        </div>
-                        }
+                        {this.state.showMessages && (
+                            <div className='gamechat'>
+                                <GameChat
+                                    key='gamechat'
+                                    messages={this.props.currentGame.messages}
+                                    onCardMouseOut={this.onMouseOut}
+                                    onCardMouseOver={this.onMouseOver}
+                                    onSendChat={this.sendChatMessage}
+                                    muted={
+                                        this.state.spectating &&
+                                        this.props.currentGame.muteSpectators
+                                    }
+                                />
+                            </div>
+                        )}
                     </div>
                 </div>
                 <div className='player-stats-row'>
-                    <PlayerStats { ...boundActionCreators } stats={ thisPlayer.stats } showControls={ !this.state.spectating && manualMode } user={ thisPlayer.user }
-                        activePlayer={ thisPlayer.activePlayer } onSettingsClick={ this.onSettingsClick } showMessages
-                        onMessagesClick={ this.onMessagesClick } numMessages={ this.state.newMessages } houses={ thisPlayer.houses } onManualModeClick={ this.onManualModeClick }
-                        activeHouse={ thisPlayer.activeHouse } manualModeEnabled={ manualMode } showManualMode={ !this.state.spectating }
-                        muteSpectators={ this.props.currentGame.muteSpectators } onMuteClick={ this.onMuteClick } />
+                    <PlayerStats
+                        {...boundActionCreators}
+                        activeHouse={thisPlayer.activeHouse}
+                        activePlayer={thisPlayer.activePlayer}
+                        houses={thisPlayer.houses}
+                        manualModeEnabled={manualMode}
+                        matchRecord={this.getMatchRecord(thisPlayer, otherPlayer)}
+                        muteSpectators={this.props.currentGame.muteSpectators}
+                        numMessages={this.state.newMessages}
+                        onManualModeClick={this.onManualModeClick}
+                        onMessagesClick={this.onMessagesClick}
+                        onMuteClick={this.onMuteClick}
+                        onSettingsClick={this.onSettingsClick}
+                        showControls={!this.state.spectating && manualMode}
+                        showManualMode={!this.state.spectating}
+                        showMessages
+                        stats={thisPlayer.stats}
+                        user={thisPlayer.user}
+                    />
                 </div>
-            </div >);
+            </div>
+        );
     }
 }
 
@@ -500,7 +572,7 @@ function mapStateToProps(state) {
         player2CardBack: state.cards.player2CardBack,
         restrictedList: state.cards.restrictedList,
         socket: state.lobby.socket,
-        user: state.account.user
+        user: state.auth.user
     };
 }
 
@@ -511,5 +583,6 @@ function mapDispatchToProps(dispatch) {
     return boundActions;
 }
 
-export default withTranslation()(connect(mapStateToProps, mapDispatchToProps, null, { withRef: true })(GameBoard));
-
+export default withTranslation()(
+    connect(mapStateToProps, mapDispatchToProps, null, { withRef: true })(GameBoard)
+);
