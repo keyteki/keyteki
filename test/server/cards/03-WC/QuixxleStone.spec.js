@@ -11,7 +11,8 @@ describe('Quixxle Stone', function () {
                     player2: {
                         house: 'shadows',
                         inPlay: [],
-                        hand: ['bad-penny', 'umbra', 'chain-gang', 'explo-rover', 'securi-droid']                    }
+                        hand: ['bad-penny', 'umbra', 'chain-gang', 'explo-rover', 'securi-droid']
+                    }
                 });
             });
 
