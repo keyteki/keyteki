@@ -72,7 +72,7 @@ describe('Quintrino Flux', function () {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should work with warded creatures even when both creatures have the same power', function() {
+            it('should work with warded creatures even when both creatures have the same power', function () {
                 this.theroCenturion.ward();
                 this.player1.play(this.quintrinoFlux);
                 this.player1.clickCard(this.theroCenturion);
