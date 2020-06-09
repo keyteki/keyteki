@@ -24,38 +24,20 @@ class NiffleKong extends Card {
         });
 
         this.play({
-            effect: 'return all Niffle creatures from deck and discard to hand',
-            gameAction: [
-                ability.actions.reveal((context) => ({
-                    location: 'deck',
-                    chatMessage: true,
-                    target: context.player.deck.filter(
-                        (card) => card.type === 'creature' && card.hasTrait('niffle')
-                    )
-                })),
-                ability.actions.reveal((context) => ({
-                    location: 'discard',
-                    chatMessage: true,
-                    target: context.player.discard.filter(
-                        (card) => card.type === 'creature' && card.hasTrait('niffle')
-                    )
-                })),
-                ability.actions.returnToHand((context) => ({
-                    location: 'deck',
-                    target: context.player.deck.filter(
-                        (card) => card.type === 'creature' && card.hasTrait('niffle')
-                    )
-                })),
-                ability.actions.returnToHand((context) => ({
-                    location: 'discard',
-                    target: context.player.discard.filter(
-                        (card) => card.type === 'creature' && card.hasTrait('niffle')
-                    )
-                })),
-                ability.actions.shuffleDeck((context) => ({
-                    target: context.player
-                }))
-            ]
+            effect: 'return Niffle creatures from deck and discard to hand',
+            target: {
+                location: ['deck', 'discard'],
+                mode: 'unlimited',
+                cardType: 'creature',
+                cardCondition: (card) => card.hasTrait('niffle'),
+                gameAction: ability.actions.sequential([
+                    ability.actions.reveal({ location: ['deck', 'discard'], chatMessage: true }),
+                    ability.actions.returnToHand({ location: ['deck', 'discard'] }),
+                    ability.actions.shuffleDeck((context) => ({
+                        target: context.player
+                    }))
+                ])
+            }
         });
 
         this.fight({

@@ -40,12 +40,12 @@ describe('Tendrils of Pain', function () {
                         this.player1.clickPrompt('dis');
                         this.player1.play(this.tendrilsOfPain);
                     });
-                    it('Tendrils deals 1 damages, then 3 damage', function () {
-                        expect(this.helperBot.location).toBe('discard');
-                        expect(this.chotaHazri.location).toBe('discard');
+                    it('Tendrils deals 4 damage', function () {
+                        expect(this.helperBot.location).toBe('play area');
+                        expect(this.chotaHazri.location).toBe('play area');
                         expect(this.huntingWitch.location).toBe('discard');
                         expect(this.mightyTiger.warded).toBe(false);
-                        expect(this.mightyTiger.tokens.damage).toBe(3);
+                        expect(this.mightyTiger.tokens.damage).toBe(undefined);
                         expect(this.troll.tokens.damage).toBe(4);
                     });
                 });

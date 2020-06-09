@@ -11,7 +11,7 @@ class DarkCenturion extends Card {
             },
             then: (context) => ({
                 gameAction: ability.actions.addWardToken({
-                    target: context.target[0]
+                    target: context.target
                 })
             })
         });
@@ -19,4 +19,5 @@ class DarkCenturion extends Card {
 }
 
 DarkCenturion.id = 'dark-centurion';
+
 module.exports = DarkCenturion;

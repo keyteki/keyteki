@@ -14,7 +14,8 @@ class GamblingDen extends Card {
                 mode: 'house',
                 activePromptTitle: 'Gamble for amber?'
             },
-            effect: 'choose a house',
+            effect: 'choose house {1}',
+            effectArgs: (context) => [context.house],
             gameAction: ability.actions.reveal((context) => ({
                 location: 'deck',
                 chatMessage: true,

@@ -42,7 +42,8 @@ describe('Odoac The Patrician', function () {
                 });
             });
 
-            it('should not prevent amber being stolen when it has no amber on it', function () {
+            it('should prevent amber being stolen when it has amber on it', function () {
+                this.player1.player.amber = 1;
                 this.player1.endTurn();
                 this.player2.clickPrompt('saurian');
                 this.player2.play(this.odoacThePatrician);

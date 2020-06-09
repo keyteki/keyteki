@@ -28,7 +28,11 @@ class PatreonService {
                 }
             });
         } catch (err) {
-            logger.error(err);
+            logger.error(
+                'Error getting patreon status for %s: %s',
+                user.username,
+                await this.errorStreamToString(err)
+            );
 
             return 'none';
         }
@@ -48,7 +52,10 @@ class PatreonService {
         try {
             response = await this.patreonOAuthClient.refreshToken(user.patreon.refresh_token);
         } catch (err) {
-            logger.error('Error refreshing patreon account', err);
+            logger.error(
+                'Error refreshing patreon account %s',
+                await this.errorStreamToString(err)
+            );
             return undefined;
         }
 
@@ -66,12 +73,32 @@ class PatreonService {
         return response;
     }
 
+    errorStreamToString(err) {
+        const stream = err.response ? err.response.body : err.body;
+
+        return new Promise((resolve, reject) => {
+            let str = '';
+
+            stream.on('data', (chunk) => {
+                str += chunk;
+            });
+
+            stream.on('end', () => {
+                resolve(str);
+            });
+
+            stream.on('error', () => {
+                reject();
+            });
+        });
+    }
+
     async linkAccount(username, code) {
         let response;
         try {
             response = await this.patreonOAuthClient.getTokens(code, this.callbackUrl);
         } catch (err) {
-            logger.error('Error linking patreon account', err);
+            logger.error('Error linking patreon account %s', await this.errorStreamToString(err));
             return false;
         }
 
