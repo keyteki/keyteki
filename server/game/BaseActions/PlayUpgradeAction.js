@@ -31,7 +31,7 @@ class PlayUpgradeAction extends BasePlayAction {
     }
 
     meetsRequirements(context = this.createContext(), ignoredRequirements = []) {
-        if (context.source.type === 'creature' && context.source.canPlayAsUpgrade()) {
+        if (context.source.printedType === 'creature' && context.source.canPlayAsUpgrade()) {
             context.source.printedType = 'upgrade';
             let result = super.meetsRequirements(context, ignoredRequirements);
             context.source.printedType = 'creature';
