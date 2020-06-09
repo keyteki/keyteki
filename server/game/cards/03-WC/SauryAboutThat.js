@@ -10,11 +10,9 @@ class SauryAboutThat extends Card {
                 gameAction: ability.actions.destroy()
             },
             then: (preThenContext) => ({
-                gameAction: ability.actions.gainAmber(
-                    ability.actions.gainAmber({
-                        target: preThenContext.target.controller
-                    })
-                )
+                gameAction: ability.actions.gainAmber({
+                    target: preThenContext.target.controller
+                })
             })
         });
     }
