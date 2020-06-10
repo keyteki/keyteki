@@ -1,4 +1,4 @@
-fdescribe('Forge Compiler', function () {
+describe('Forge Compiler', function () {
     integration(function () {
         describe("Forge Compiler's ability", function () {
             beforeEach(function () {
