@@ -1,4 +1,4 @@
-fdescribe('Titan Engineer', function () {
+describe('Titan Engineer', function () {
     integration(function () {
         describe("Titan engineer's ability", function () {
             beforeEach(function () {

@@ -1,4 +1,4 @@
-fdescribe('Auto-Encoder', function () {
+describe('Auto-Encoder', function () {
     integration(function () {
         describe("Auto-Encoder's ability", function () {
             beforeEach(function () {
