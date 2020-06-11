@@ -19,11 +19,12 @@ const prettyJson = format.printf((info) => {
         info.message = JSON.stringify(info.message, null, 4);
     }
 
-    return `${info.level}: ${info.message}`;
+    return `${info.timestamp} ${info.level}: ${info.message}`;
 });
 
 const logger = createLogger({
     format: format.combine(
+        format.timestamp(),
         format.errors({ stack: true }),
         format.prettyPrint(),
         format.splat(),
@@ -33,6 +34,7 @@ const logger = createLogger({
     transports: [
         new transports.Console({
             format: format.combine(
+                format.timestamp(),
                 format.errors({ stack: true }),
                 format.colorize(),
                 format.prettyPrint(),

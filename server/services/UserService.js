@@ -411,7 +411,7 @@ class UserService extends EventEmitter {
             return false;
         }
 
-        let now = moment().moment();
+        let now = moment().utc();
         if (refreshToken.exp < now) {
             return false;
         }
