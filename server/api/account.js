@@ -262,7 +262,7 @@ module.exports.init = function (server, options) {
             };
 
             if (configService.getValueForSection('lobby', 'requireActivation')) {
-                let expiration = moment().add(7, 'days');
+                let expiration = moment().utc().add(7, 'days');
                 let formattedExpiration = expiration.format('YYYYMMDD-HH:mm:ss');
                 let hmac = crypto.createHmac(
                     'sha512',
@@ -343,7 +343,7 @@ module.exports.init = function (server, options) {
                 return next();
             }
 
-            let now = moment();
+            let now = moment().utc();
             if (user.activationTokenExpiry < now) {
                 res.send({
                     success: false,
@@ -621,7 +621,7 @@ module.exports.init = function (server, options) {
                 return next();
             }
 
-            let now = moment();
+            let now = moment().utc();
             if (user.tokenExpires < now) {
                 res.send({
                     success: false,
@@ -705,7 +705,7 @@ module.exports.init = function (server, options) {
                 }
             }
 
-            let expiration = moment().add(4, 'hours');
+            let expiration = moment().utc().add(4, 'hours');
             let formattedExpiration = expiration.format('YYYYMMDD-HH:mm:ss');
             let hmac = crypto.createHmac(
                 'sha512',
