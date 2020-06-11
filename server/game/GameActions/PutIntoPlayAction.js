@@ -147,6 +147,11 @@ class PutIntoPlayAction extends CardGameAction {
                 deployIndex: this.deployIndex,
                 myControl: control
             });
+
+            if (this.myControl) {
+                card.updateEffectContexts();
+            }
+
             if (!this.ready && !card.anyEffect('entersPlayReady')) {
                 card.exhaust();
             }

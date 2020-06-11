@@ -85,7 +85,7 @@ describe('Scowly Caper', function () {
                 expect(this.player2.archives).not.toContain(this.scowlyCaper);
             });
 
-            it("should return to its owner's opponent after Spangler is destroyed", function () {
+            it("should return to its owner's opponent play area after Spangler is destroyed", function () {
                 this.player1.playCreature(this.scowlyCaper);
                 this.player1.endTurn();
 
@@ -141,6 +141,7 @@ describe('Scowly Caper', function () {
                 this.player1.endTurn();
                 this.player2.clickPrompt('logos');
                 this.player2.fightWith(this.scowlyCaper, this.yantzeeGang);
+                expect(this.scowlyCaper.location).toBe('play area');
                 expect(this.scowlyCaper.hasToken('damage')).toBe(false);
                 expect(this.yantzeeGang.tokens.damage).toBe(2);
             });
