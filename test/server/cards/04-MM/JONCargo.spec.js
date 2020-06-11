@@ -1,6 +1,6 @@
 describe('J.O.N. Cargo', function () {
     integration(function () {
-        describe("Commander Dhrxgar's ability", function () {
+        describe("J.O.N. Cargo's ability", function () {
             beforeEach(function () {
                 this.setupTest({
                     player1: {
