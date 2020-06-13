@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { connect, useSelector } from 'react-redux';
+import { connect, useSelector, useDispatch } from 'react-redux';
 import { toastr } from 'react-redux-toastr';
 import $ from 'jquery';
 
@@ -20,6 +20,7 @@ import { Col, Row, Button, Form, Alert } from 'react-bootstrap';
 
 import './GameLobby.scss';
 import { useEffect } from 'react';
+import { startNewGame } from '../../redux/actions';
 
 const GameState = Object.freeze({
     None: 0,
@@ -49,6 +50,7 @@ function isNewNotificationSupported() {
 
 const GameLobby = () => {
     const { t } = useTranslation();
+    const dispatch = useDispatch();
     const filters = [
         { name: 'beginner', label: t('Beginner') },
         { name: 'casual', label: t('Casual') },
@@ -63,29 +65,32 @@ const GameLobby = () => {
         filterDefaults[filter.name] = true;
     }
 
-    const games = useSelector((state) => state.lobby.games);
+    const { games, newGame } = useSelector((state) => ({
+        games: state.lobby.games,
+        newGame: state.lobby.newGame
+    }));
     const [currentFilter, setCurrentFilter] = useState(filterDefaults);
-
-    const onFilterChecked = (name, checked) => {
-        currentFilter[name] = checked;
-        setCurrentFilter(Object.assign({}, currentFilter));
-    };
+    const [quickJoin, setQuickJoin] = useState(false);
 
     useEffect(() => {
         if ('Notification' in window) {
-            console.info('notification is in window', Notification.permission);
             if (Notification.permission !== 'granted') {
                 Notification.requestPermission(() => {});
             }
         }
     }, []);
 
+    const onFilterChecked = (name, checked) => {
+        currentFilter[name] = checked;
+        setCurrentFilter(Object.assign({}, currentFilter));
+    };
+
     return (
         <Col md={{ offset: 2, span: 8 }}>
             <Panel title={t('Current Games')}>
                 <Row className='game-buttons'>
                     <Col sm={4} lg={3}>
-                        <Button variant='primary'>
+                        <Button variant='primary' onClick={() => dispatch(startNewGame())}>
                             <Trans>New Game</Trans>
                         </Button>
                         <Button variant='primary'>
@@ -142,6 +147,7 @@ const GameLobby = () => {
                     </Col>
                 </Row>
             </Panel>
+            {newGame && <NewGame quickJoin={quickJoin} />}
         </Col>
     );
 
