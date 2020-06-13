@@ -387,7 +387,7 @@ class GameServer {
     }
 
     onCardData(cardData) {
-        this.cardData = cardData.cardData;
+        this.cardData = cardData;
     }
 
     onConnection(ioSocket) {
