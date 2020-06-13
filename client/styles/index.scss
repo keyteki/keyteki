@@ -119,6 +119,18 @@ a {
     }
 }
 
+.btn-success {
+    background-image: url('~assets/img/button-green.png');
+
+    &:hover {
+        background-image: url('~assets/img/button-green-hover.png');
+    }
+
+    &:focus:active {
+        background-image: url('~assets/img/button-green-hover.png');
+    }
+}
+
 .alert {
     ul {
         list-style: none;

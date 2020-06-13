@@ -87,6 +87,7 @@ const GameLobby = () => {
 
     return (
         <Col md={{ offset: 2, span: 8 }}>
+            {newGame && <NewGame quickJoin={quickJoin} />}
             <Panel title={t('Current Games')}>
                 <Row className='game-buttons'>
                     <Col sm={4} lg={3}>
@@ -147,7 +148,6 @@ const GameLobby = () => {
                     </Col>
                 </Row>
             </Panel>
-            {newGame && <NewGame quickJoin={quickJoin} />}
         </Col>
     );
 

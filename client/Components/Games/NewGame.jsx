@@ -1,16 +1,52 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import { toastr } from 'react-redux-toastr';
-import { withTranslation, Trans } from 'react-i18next';
+import { withTranslation, Trans, useTranslation } from 'react-i18next';
 
 import Panel from '../Site/Panel';
 import Checkbox from '../Form/Checkbox';
 import AlertPanel from '../Site/AlertPanel';
 import * as actions from '../../redux/actions';
+import { Form, Button } from 'react-bootstrap';
 
 const GameNameMaxLength = 64;
 
+/**
+ * @typedef NewGameProps
+ * @property {boolean} quickJoin The new game is quick join
+ */
+const NewGame = (quickJoin) => {
+    const lobbySocket = useSelector((state) => state.lobby.socket);
+    const { t } = useTranslation();
+
+    if (!lobbySocket) {
+        return (
+            <div>
+                <Trans>
+                    The connection to the lobby has been lost, waiting for it to be restored
+                </Trans>
+            </div>
+        );
+    }
+
+    return (
+        <Panel title={t(quickJoin ? 'Join Existing or Start New Game' : 'New game')}>
+            <Form>
+                <div className='button-row'>
+                    <Button variant='success'>
+                        <Trans>Start</Trans>
+                    </Button>
+                    <Button variant='primary'>
+                        <Trans>Cancel</Trans>
+                    </Button>
+                </div>
+            </Form>
+        </Panel>
+    );
+};
+
+/*
 class NewGame extends React.Component {
     constructor(props) {
         super(props);
@@ -29,7 +65,7 @@ class NewGame extends React.Component {
 
         this.state = {
             expansions: { cota: false, aoa: false, wc: true },
-            gameName: this.props.defaultGameName,
+            gameName: 'some game or other', // this.props.defaultGameName,
             gamePrivate: this.props.gamePrivate,
             gameTimeLimit: 35,
             hideDecklists: false,
@@ -400,58 +436,10 @@ class NewGame extends React.Component {
                 </div>
             );
         }
-
-        return this.props.socket ? (
-            <div>
-                <Panel
-                    title={t(this.props.quickJoin ? 'Join Existing or Start New Game' : 'New game')}
-                >
-                    <form className='form'>
-                        {content}
-                        <div className='button-row'>
-                            <button className='btn btn-success' onClick={this.onSubmitClick}>
-                                <Trans>Start</Trans>
-                            </button>
-                            <button className='btn btn-primary' onClick={this.onCancelClick}>
-                                <Trans>Cancel</Trans>
-                            </button>
-                        </div>
-                    </form>
-                </Panel>
-            </div>
-        ) : (
-            <div>
-                <Trans>Connecting to the server, please wait...</Trans>
-            </div>
-        );
     }
 }
 
+*/
+
 NewGame.displayName = 'NewGame';
-NewGame.propTypes = {
-    allowMelee: PropTypes.bool,
-    cancelNewGame: PropTypes.func,
-    closeModal: PropTypes.func,
-    defaultGameName: PropTypes.string,
-    defaultGameType: PropTypes.string,
-    gamePrivate: PropTypes.bool,
-    gameTimeLimit: PropTypes.bool,
-    getParticipantName: PropTypes.func,
-    i18n: PropTypes.object,
-    matches: PropTypes.array,
-    muteSpectators: PropTypes.bool,
-    quickJoin: PropTypes.bool,
-    showHand: PropTypes.bool,
-    socket: PropTypes.object,
-    t: PropTypes.func,
-    tournament: PropTypes.string
-};
-
-function mapStateToProps(state) {
-    return {
-        allowMelee: state.account.user ? state.account.user.permissions.allowMelee : false,
-        socket: state.lobby.socket
-    };
-}
-
-export default withTranslation()(connect(mapStateToProps, actions)(NewGame));
+export default NewGame;
