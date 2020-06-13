@@ -1,4 +1,4 @@
-fdescribe('Mark of Dis', function () {
+describe('Mark of Dis', function () {
     integration(function () {
         describe("Mark of Dis's ability", function () {
             beforeEach(function () {
