@@ -3,7 +3,7 @@ import { render } from 'react-dom';
 import Application from './Application';
 import { Provider } from 'react-redux';
 import configureStore from './configureStore';
-import { navigate } from './actions';
+import { navigate } from './redux/actions';
 import 'bootstrap/dist/js/bootstrap';
 import ReduxToastr from 'react-redux-toastr';
 import * as Sentry from '@sentry/browser';

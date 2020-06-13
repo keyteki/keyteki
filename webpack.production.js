@@ -4,7 +4,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = merge(common, {
     entry: {
-        bundle: ['./client/index.jsx']
+        bundle: ['@babel/polyfill', './client/index.jsx']
     },
     output: {
         filename: '[name].[contenthash].js'
@@ -20,7 +20,7 @@ module.exports = merge(common, {
         rules: [
             {
                 test: /\.scss$/,
-                use: [{ loader: MiniCssExtractPlugin.loader }, 'css-loader', 'scss-loader']
+                use: [{ loader: MiniCssExtractPlugin.loader }, 'css-loader', 'sass-loader']
             }
         ]
     }

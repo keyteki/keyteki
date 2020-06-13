@@ -40,7 +40,11 @@ module.exports = {
     },
     module: {
         rules: [
-            { test: /\.jsx?/, exclude: /node_modules/, loader: 'babel-loader' },
+            {
+                test: /\.jsx?/,
+                exclude: /[\\/]node_modules[\\/](?!(@sendgrid\/mail|debug|engine.io-client|socket.io-client|cross-env|eslint-config-prettier|eslint-plugin-jest|eslint-plugin-prettier|lint-staged|pg|prettier|socket.io|winston)[\\/])/,
+                loader: 'babel-loader'
+            },
             {
                 test: /.(jpe?g|png|woff(2)?|eot|ttf|svg)(\?[a-z0-9=.]+)?$/,
                 use: 'url-loader?limit=16384'

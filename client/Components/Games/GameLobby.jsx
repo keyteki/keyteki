@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import { toastr } from 'react-redux-toastr';
 import $ from 'jquery';
 
@@ -16,9 +16,10 @@ import Checkbox from '../Form/Checkbox';
 import * as actions from '../../redux/actions';
 
 import { withTranslation, Trans, useTranslation } from 'react-i18next';
-import { Col, Row, Button, Form } from 'react-bootstrap';
+import { Col, Row, Button, Form, Alert } from 'react-bootstrap';
 
 import './GameLobby.scss';
+import { useEffect } from 'react';
 
 const GameState = Object.freeze({
     None: 0,
@@ -27,6 +28,24 @@ const GameState = Object.freeze({
     PasswordedGame: 3,
     Started: 4
 });
+
+function isNewNotificationSupported() {
+    if (!window.Notification || !Notification.requestPermission) {
+        return false;
+    }
+
+    if (Notification.permission == 'granted')
+        throw new Error('You must only call this before calling Notification.requestPermission()');
+    try {
+        new Notification('');
+    } catch (e) {
+        if (e.name == 'TypeError') {
+            return false;
+        }
+    }
+
+    return true;
+}
 
 const GameLobby = () => {
     const { t } = useTranslation();
@@ -44,12 +63,22 @@ const GameLobby = () => {
         filterDefaults[filter.name] = true;
     }
 
+    const games = useSelector((state) => state.lobby.games);
     const [currentFilter, setCurrentFilter] = useState(filterDefaults);
 
     const onFilterChecked = (name, checked) => {
         currentFilter[name] = checked;
         setCurrentFilter(Object.assign({}, currentFilter));
     };
+
+    useEffect(() => {
+        if ('Notification' in window) {
+            console.info('notification is in window', Notification.permission);
+            if (Notification.permission !== 'granted') {
+                Notification.requestPermission(() => {});
+            }
+        }
+    }, []);
 
     return (
         <Col md={{ offset: 2, span: 8 }}>
@@ -103,10 +132,20 @@ const GameLobby = () => {
                         </Panel>
                     </Col>
                 </Row>
+                <Row>
+                    <Col xs='12' className='text-center'>
+                        {games.length === 0 ? (
+                            <Alert variant='info'>{t('No games are currently in progress.')}</Alert>
+                        ) : (
+                            <GameList games={games} gameFilter={currentFilter} />
+                        )}
+                    </Col>
+                </Row>
             </Panel>
         </Col>
     );
 
+    // <GameList games={games} gameFilter={currentFilter} />
     //         let modalProps = {
     //             bodyClassName: 'col-xs-12',
     //             className: 'settings-popup row',
