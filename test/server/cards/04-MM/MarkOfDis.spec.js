@@ -39,7 +39,7 @@ describe('Mark of Dis', function () {
             });
 
             // Disabled until issue with duration is fixed
-            xit('if own creature is not destroyed, should restrict house choice', function () {
+            it('if own creature is not destroyed, should restrict house choice', function () {
                 this.player1.play(this.markOfDis);
                 this.player1.clickCard(this.dodger);
                 expect(this.dodger.tokens.damage).toBe(2);
