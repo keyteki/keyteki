@@ -48,10 +48,17 @@ class LastingEffectAction extends GameAction {
             context: context,
             effect: this.effect,
             match: this.match,
-            roundDuration: this.duration,
-            targetController: this.when ? 'current' : this.targetController,
-            until: this.until
+            targetController: this.when ? 'current' : this.targetController
         };
+        if (this.until) {
+            properties.until = this.until;
+            return [
+                super.createEvent('applyLastingEffect', { context: context }, (event) =>
+                    event.context.source.lastingEffect(properties)
+                )
+            ];
+        }
+        properties.roundDuration = this.duration;
         return [
             super.createEvent('applyLastingEffect', { context: context }, (event) =>
                 event.context.source.roundDurationEffect(properties)
