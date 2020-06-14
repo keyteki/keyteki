@@ -102,10 +102,6 @@ class TriggeredAbility extends CardAbility {
             }
         }
 
-        if (this.isLastingAbilityTrigger) {
-            this.hasTriggered = true;
-        }
-
         return true;
     }
 
