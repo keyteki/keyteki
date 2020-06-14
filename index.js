@@ -6,5 +6,5 @@ runServer()
         logger.info('Server finished startup');
     })
     .catch((err) => {
-        logger.err('Server crashed', err);
+        logger.error('Server crashed', err);
     });

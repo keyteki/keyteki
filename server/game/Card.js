@@ -316,7 +316,8 @@ class Card extends EffectSource {
                             event.triggeringEvent &&
                             event.triggeringEvent.name === 'onCardDestroyed' &&
                             event.card === context.source
-                    }
+                    },
+                    destroyed: true
                 },
                 properties
             )

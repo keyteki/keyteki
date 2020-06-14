@@ -135,10 +135,8 @@ export function verifyAuthentication() {
 }
 
 export function authenticate() {
-    return (dispatch, getState) => {
-        let state = getState();
-
-        dispatch(verifyAuthentication(state.auth.token));
+    return (dispatch) => {
+        dispatch(verifyAuthentication());
 
         return dispatch(authenticateSocket());
     };

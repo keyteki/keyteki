@@ -19,8 +19,8 @@ class ImpLosion extends Card {
                     gameAction: ability.actions.destroy()
                 }
             },
-            effects: 'destroy {1}',
-            effectsArg: (context) => [Object.values(context.targets)]
+            effect: 'destroy {1}',
+            effectArgs: (context) => [Object.values(context.targets)]
         });
     }
 }

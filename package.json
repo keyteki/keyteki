@@ -21,14 +21,9 @@
         ]
     },
     "lint-staged": {
-        "server/**/*.{js,jsx,ts,tsx}": [
-            "eslint . --fix"
-        ],
-        "client/**/*.{js,jsx,ts,tsx}": [
-            "eslint . --fix"
-        ],
-        "test/**/*.{js,jsx,ts,tsx}": [
-            "eslint . --fix"
+        "*.{js,jsx,ts,tsx}": [
+            "prettier --write",
+            "eslint --fix"
         ]
     },
     "husky": {

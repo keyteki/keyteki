@@ -9,7 +9,8 @@ describe('Chronus', function () {
                         hand: ['dextre', 'tautau-vapors', 'poke', 'mimic-gel']
                     },
                     player2: {
-                        amber: 2
+                        amber: 2,
+                        hand: ['mab-the-mad']
                     }
                 });
             });
@@ -108,6 +109,14 @@ describe('Chronus', function () {
                 expect(this.player1).not.toBeAbleToSelect(this.chronus);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
                 expect(this.player1.amber).toBe(2);
+            });
+
+            it("should not be prompted to archive if opponent's play D card", function () {
+                this.mabTheMad.cardData.enhancements = ['draw', 'amber'];
+                this.player1.endTurn();
+                this.player2.clickPrompt('untamed');
+                this.player2.play(this.mabTheMad);
+                expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
             });
         });
     });

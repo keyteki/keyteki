@@ -20,10 +20,10 @@ class Lobby {
         this.sockets = {};
         this.users = {};
         this.games = {};
-        this.messageService = options.messageService || ServiceFactory.messageService();
-        this.cardService = options.cardService || ServiceFactory.cardService();
-        this.userService = options.userService || new UserService(options.configService);
         this.configService = options.configService || new ConfigService();
+        this.messageService = options.messageService || ServiceFactory.messageService();
+        this.cardService = options.cardService || ServiceFactory.cardService(options.configService);
+        this.userService = options.userService || new UserService(options.configService);
         this.deckService = options.deckService || new DeckService(this.configService);
         this.router = options.router || new GameRouter(this.configService);
 
@@ -924,7 +924,7 @@ class Lobby {
         ];
 
         for (let player of Object.values(game.getPlayers()).filter(
-            (player) => player.name !== newGame.owner.username
+            (player) => player.name !== owner.username
         )) {
             let socket = this.sockets[player.id];
 
@@ -1008,12 +1008,7 @@ class Lobby {
         this.clearGamesForNode(nodeName);
     }
 
-    onWorkerStarted(nodeName) {
-        Promise.all([this.cardService.getAllCards()]).then((results) => {
-            let [cards] = results;
-            this.router.sendCommand(nodeName, 'CARDDATA', { cardData: cards });
-        });
-    }
+    onWorkerStarted() {}
 
     onClearSessions(socket, username) {
         this.userService.clearUserSessions(username).then((success) => {

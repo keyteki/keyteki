@@ -185,16 +185,18 @@ class UserService extends EventEmitter {
             await db.query('ROLLBACK');
         }
 
-        query =
-            'INSERT INTO "ChallongeSettings" ("ApiKey", "SubDomain", "UserId") VALUES ($1, $2, $3) ' +
-            'ON CONFLICT ("UserId") DO UPDATE SET "ApiKey" = $1, "SubDomain" = $2';
+        if (user.challonge) {
+            query =
+                'INSERT INTO "ChallongeSettings" ("ApiKey", "SubDomain", "UserId") VALUES ($1, $2, $3) ' +
+                'ON CONFLICT ("UserId") DO UPDATE SET "ApiKey" = $1, "SubDomain" = $2';
 
-        try {
-            await db.query(query, [user.challonge.key, user.challonge.subdomain, user.id]);
-        } catch (err) {
-            logger.error('Failed to update user', err);
+            try {
+                await db.query(query, [user.challonge.key, user.challonge.subdomain, user.id]);
+            } catch (err) {
+                logger.error('Failed to update user', err);
 
-            await db.query('ROLLBACK');
+                await db.query('ROLLBACK');
+            }
         }
 
         if (user.password && user.password !== '') {
@@ -377,7 +379,7 @@ class UserService extends EventEmitter {
     }
 
     async addRefreshToken(user, token, ip) {
-        let expiration = moment().add(1, 'months');
+        let expiration = moment().utc().add(1, 'months');
         let hmac = crypto.createHmac(
             'sha512',
             this.configService.getValueForSection('lobby', 'hmacSecret')
@@ -409,7 +411,7 @@ class UserService extends EventEmitter {
             return false;
         }
 
-        let now = moment();
+        let now = moment().utc();
         if (refreshToken.exp < now) {
             return false;
         }
