@@ -53,8 +53,9 @@ class LastingEffectCardAction extends CardGameAction {
             targetLocation: this.targetLocation,
             until: this.until
         };
+        let duration = this.until ? 'lastingEffect' : this.duration;
         return super.createEvent('onEffectApplied', { card: card, context: context }, (event) =>
-            event.context.source[this.duration](() => properties)
+            event.context.source[duration](() => properties)
         );
     }
 }
