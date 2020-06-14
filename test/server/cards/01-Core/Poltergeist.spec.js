@@ -136,5 +136,49 @@ describe("Poltergeist's", function () {
                 expect(this.malison.tokens.damage).toBe(3);
             });
         });
+
+        fdescribe('Poltergeist/The Golden Spiral interaction', function () {
+            beforeEach(function () {
+                this.setupTest({
+                    player1: {
+                        house: 'dis',
+                        hand: ['poltergeist', 'dust-imp']
+                    },
+                    player2: {
+                        inPlay: ['the-golden-spiral', 'questor-jarta'],
+                        amber: 1
+                    }
+                });
+            });
+
+            it('should cause Spiral to fizzle, then get destroyed', function () {
+                this.player1.play(this.poltergeist);
+                expect(this.player1).toHavePrompt('Poltergeist');
+                expect(this.player1).toBeAbleToSelect(this.theGoldenSpiral);
+                this.player1.clickCard(this.theGoldenSpiral);
+                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.theGoldenSpiral.location).toBe('discard');
+            });
+
+            fit('should cause Spiral to target their creature, then get destroyed', function () {
+                this.player1.play(this.dustImp);
+                expect(this.dustImp.exhausted).toBe(true);
+                this.player1.play(this.poltergeist);
+                expect(this.player1).toHavePrompt('Poltergeist');
+                expect(this.player1).toBeAbleToSelect(this.theGoldenSpiral);
+                this.player1.clickCard(this.theGoldenSpiral);
+                expect(this.theGoldenSpiral.location).toBe('play area');
+                expect(this.player1).toHavePrompt('The Golden Spiral');
+                expect(this.player1).toBeAbleToSelect(this.dustImp);
+                this.player1.clickCard(this.dustImp);
+                expect(this.dustImp.exhausted).toBe(false);
+                expect(this.dustImp.amber).toBe(1);
+                expect(this.player1).toHavePrompt('Dust Imp');
+                this.player1.clickPrompt('Reap with this creature');
+                expect(this.player1.amber).toBe(2);
+                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.theGoldenSpiral.location).toBe('discard');
+            });
+        });
     });
 });
