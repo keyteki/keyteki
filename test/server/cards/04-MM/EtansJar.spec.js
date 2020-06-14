@@ -1,4 +1,4 @@
-xdescribe("Etan's Jar", function () {
+describe("Etan's Jar", function () {
     integration(function () {
         describe('play ability', function () {
             beforeEach(function () {
@@ -33,12 +33,24 @@ xdescribe("Etan's Jar", function () {
                         this.player1.endTurn();
 
                         this.player2.clickPrompt('shadows');
+                        this.player2.clickCard(this.badPenny);
                     });
 
                     it('should not allow cards of that name to be played', function () {
-                        this.player2.clickCard(this.badPenny);
-
                         expect(this.player2).not.toHavePromptButton('Play this creature');
+                    });
+
+                    describe('when etans jar leaves play', function () {
+                        beforeEach(function () {
+                            this.player1.player.moveCard(this.etanSJar, 'discard');
+
+                            this.player2.clickPrompt('cancel');
+                            this.player2.clickCard(this.badPenny);
+                        });
+
+                        xit('should be able to play cards of that name again', function () {
+                            expect(this.player2).toHavePromptButton('Play this creature');
+                        });
                     });
                 });
             });

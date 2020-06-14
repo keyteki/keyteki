@@ -9,12 +9,10 @@ class MarkOfDis extends Card {
                     ability.actions.dealDamage({ amount: 2 }),
                     ability.actions.conditional((context) => ({
                         condition: () => context.target.location === 'play area',
-                        trueGameAction: ability.actions.lastingEffect(() => ({
-                            duration: 'untilNextTurn',
-                            roundDuration: 3,
+                        trueGameAction: ability.actions.untilEndOfMyNextTurn({
                             targetController: context.target.controller,
                             effect: ability.effects.restrictHouseChoice(context.target.getHouses())
-                        }))
+                        })
                     }))
                 ])
             },
