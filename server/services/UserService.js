@@ -379,7 +379,7 @@ class UserService extends EventEmitter {
     }
 
     async addRefreshToken(user, token, ip) {
-        let expiration = moment().add(1, 'months');
+        let expiration = moment().utc().add(1, 'months');
         let hmac = crypto.createHmac(
             'sha512',
             this.configService.getValueForSection('lobby', 'hmacSecret')
@@ -411,7 +411,7 @@ class UserService extends EventEmitter {
             return false;
         }
 
-        let now = moment();
+        let now = moment().utc();
         if (refreshToken.exp < now) {
             return false;
         }

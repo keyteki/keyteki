@@ -14,6 +14,10 @@ class ReassemblingAutomaton extends Card {
                     event: context.event,
                     cancel: true,
                     postHandler: (context) => (context.source.moribund = false)
+                })),
+                ability.actions.changeEvent((context) => ({
+                    event: context.event.triggeringEvent,
+                    cancel: true
                 }))
             ]
         });

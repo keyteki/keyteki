@@ -15,7 +15,7 @@ describe('access-denied', function () {
                 });
             });
 
-            it('should should apply to a creature', function () {
+            it('should apply to a creature', function () {
                 this.player1.playUpgrade(this.accessDenied, this.umbra);
                 expect(this.umbra.location).toBe('play area');
                 expect(this.umbra.upgrades).toContain(this.accessDenied);
