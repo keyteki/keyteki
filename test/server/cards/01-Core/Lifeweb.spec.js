@@ -3,6 +3,35 @@ describe('Lifeweb', function () {
         describe("Lifeweb's ability", function () {
             beforeEach(function () {
                 this.setupTest({
+                    phase: 'setup',
+                    player1: {
+                        house: 'untamed',
+                        inPlay: ['lamindra'],
+                        hand: ['lifeweb', 'fanghouse', 'bigtwig', 'bumblebird'],
+                        amber: 1
+                    },
+                    player2: {
+                        inPlay: ['lamindra'],
+                        hand: ['lifeweb', 'dodger', 'gamgee', 'fidgit'],
+                        amber: 3
+                    }
+                });
+
+                this.lifeweb1 = this.player1.player.hand[0];
+                this.lifeweb2 = this.player2.player.hand[0];
+            });
+
+            it('should not steal amber on first play', function () {
+                this.player1.clickPrompt('untamed');
+                this.player1.play(this.lifeweb1);
+                expect(this.player1.amber).toBe(2);
+                expect(this.player2.amber).toBe(3);
+            });
+        });
+
+        describe("Lifeweb's ability", function () {
+            beforeEach(function () {
+                this.setupTest({
                     player1: {
                         house: 'untamed',
                         inPlay: ['lamindra'],
