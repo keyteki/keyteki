@@ -23,6 +23,12 @@ class Lifeweb extends Card {
     onPhaseStarted(event) {
         if (event.phase === 'main') {
             this.creaturesPlayed[this.game.activePlayer.uuid] = 0;
+            if (
+                this.game.activePlayer.opponent &&
+                this.creaturesPlayed[this.game.activePlayer.opponent.uuid] === undefined
+            ) {
+                this.creaturesPlayed[this.game.activePlayer.opponent.uuid] = 0;
+            }
         }
     }
 }
