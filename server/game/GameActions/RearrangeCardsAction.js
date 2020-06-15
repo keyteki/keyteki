@@ -1,13 +1,22 @@
-const PlayerGameAction = require('./PlayerAction');
+const PlayerAction = require('./PlayerAction');
 
-class RearrangeCardsAction extends PlayerGameAction {
-    setDefaultProperties() {}
+class RearrangeCardsAction extends PlayerAction {
+    setDefaultProperties() {
+        this.amount = 3;
+    }
 
     setup() {
         super.setup();
         this.name = 'rearrangeDeck';
-        this.amount = 3;
         this.effectMsg = `look at the top ${this.amount} cards of their deck and rearrange them in any order`;
+    }
+
+    defaultTargets(context) {
+        return context.player;
+    }
+
+    canAffect(player, context) {
+        return this.amount && player.deck.length > 0 && super.canAffect(player, context);
     }
 
     promptForRemainingCards(context) {
@@ -31,9 +40,10 @@ class RearrangeCardsAction extends PlayerGameAction {
     preEventHandler(context) {
         super.preEventHandler(context);
 
-        this.amount = Math.min(this.amount, context.player.deck.length);
-        this.orderedCards = this.amount === 1 ? context.player.deck : [];
-        this.remainingCards = context.player.deck.slice(0, this.amount);
+        let player = this.target[0];
+        this.amount = Math.min(this.amount, player.deck.length);
+        this.orderedCards = this.amount === 1 ? player.deck.slice(0, 1) : [];
+        this.remainingCards = player.deck.slice(0, this.amount);
 
         if (this.amount > 1) {
             this.promptForRemainingCards(context);
@@ -45,7 +55,7 @@ class RearrangeCardsAction extends PlayerGameAction {
             'unnamedEvent',
             { player: player, cards: this.orderedCards, context: context },
             () => {
-                context.player.deck.splice(0, this.amount, ...this.orderedCards);
+                player.deck.splice(0, this.amount, ...this.orderedCards);
             }
         );
     }

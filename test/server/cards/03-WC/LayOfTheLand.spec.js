@@ -17,7 +17,7 @@ describe('Lay of the land', function () {
                     },
                     player2: {
                         amber: 8,
-                        inPlay: ['bumpsy']
+                        inPlay: []
                     }
                 });
             });
@@ -118,7 +118,6 @@ describe('Lay of the land', function () {
             describe('Play Lay of the Land with 0 cards in deck', function () {
                 beforeEach(function () {
                     this.player1.player.deck = [];
-                    this.player1.moveCard(this.bumpsy, 'discard');
                     this.player1.play(this.layOfTheLand);
                 });
 
