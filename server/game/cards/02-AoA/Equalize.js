@@ -33,6 +33,7 @@ class Equalize extends Card {
                         all: true
                     })),
                     then: {
+                        alwaysTriggers: true,
                         gameAction: ability.actions.sequentialForEach((context) => ({
                             num: context.preThenEvents
                                 .filter((event) => !event.cancelled)

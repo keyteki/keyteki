@@ -33,7 +33,7 @@ class RemoveTokenAction extends CardGameAction {
 
     canAffect(card, context) {
         return (
-            this.getAmount(card) > 0 &&
+            (this.all || this.amount > 0) &&
             card.location === 'play area' &&
             super.canAffect(card, context)
         );
