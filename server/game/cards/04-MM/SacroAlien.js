@@ -12,8 +12,7 @@ class SacroAlien extends Card {
                         cards: context.player.deck.slice(0, 3)
                     }
                 })),
-                ability.actions.arrangeDeck((context) => ({
-                    bottom: true,
+                ability.actions.moveToBottom((context) => ({
                     promptWithHandlerMenu: {
                         activePromptTitle: 'Choose a card to move to bottom of deck',
                         cards: context.player.deck.slice(0, 2),
