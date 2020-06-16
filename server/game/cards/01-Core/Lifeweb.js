@@ -4,6 +4,11 @@ const EventRegistrar = require('../../eventregistrar.js');
 class Lifeweb extends Card {
     setupCardAbilities(ability) {
         this.creaturesPlayed = {};
+        this.creaturesPlayed[this.owner.uuid] = 0;
+        if (this.owner.opponent) {
+            this.creaturesPlayed[this.owner.opponent.uuid] = 0;
+        }
+
         this.tracker = new EventRegistrar(this.game, this);
         this.tracker.register(['onCardPlayed', 'onPhaseStarted']);
 
@@ -16,19 +21,13 @@ class Lifeweb extends Card {
 
     onCardPlayed(event) {
         if (event.card.type === 'creature') {
-            this.creaturesPlayed[event.player.uuid] = this.creaturesPlayed[event.player.uuid] + 1;
+            this.creaturesPlayed[event.player.uuid] += 1;
         }
     }
 
     onPhaseStarted(event) {
         if (event.phase === 'main') {
             this.creaturesPlayed[this.game.activePlayer.uuid] = 0;
-            if (
-                this.game.activePlayer.opponent &&
-                this.creaturesPlayed[this.game.activePlayer.opponent.uuid] === undefined
-            ) {
-                this.creaturesPlayed[this.game.activePlayer.opponent.uuid] = 0;
-            }
         }
     }
 }

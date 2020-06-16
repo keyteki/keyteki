@@ -4,6 +4,11 @@ const EventRegistrar = require('../../eventregistrar.js');
 class Overrun extends Card {
     setupCardAbilities(ability) {
         this.creaturesDestroyed = {};
+        this.creaturesDestroyed[this.owner.uuid] = 0;
+        if (this.owner.opponent) {
+            this.creaturesDestroyed[this.owner.opponent.uuid] = 0;
+        }
+
         this.tracker = new EventRegistrar(this.game, this);
         this.tracker.register(['onCardDestroyed', 'onPhaseStarted']);
 
@@ -17,20 +22,13 @@ class Overrun extends Card {
 
     onCardDestroyed(event) {
         if (event.card.type === 'creature') {
-            this.creaturesDestroyed[event.card.owner.uuid] =
-                this.creaturesDestroyed[event.card.owner.uuid] + 1;
+            this.creaturesDestroyed[event.card.owner.uuid] += 1;
         }
     }
 
     onPhaseStarted(event) {
         if (event.phase === 'main') {
             this.creaturesDestroyed[this.game.activePlayer.uuid] = 0;
-            if (
-                this.game.activePlayer.opponent &&
-                this.creaturesDestroyed[this.game.activePlayer.opponent.uuid] === undefined
-            ) {
-                this.creaturesDestroyed[this.game.activePlayer.opponent.uuid] = 0;
-            }
         }
     }
 }
