@@ -1,4 +1,4 @@
-describe("Etan's Jar", function () {
+fdescribe("Etan's Jar", function () {
     integration(function () {
         describe('play ability', function () {
             beforeEach(function () {
@@ -48,7 +48,7 @@ describe("Etan's Jar", function () {
                             this.player2.clickCard(this.badPenny);
                         });
 
-                        xit('should be able to play cards of that name again', function () {
+                        it('should be able to play cards of that name again', function () {
                             expect(this.player2).toHavePromptButton('Play this creature');
                         });
                     });

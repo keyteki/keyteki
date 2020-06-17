@@ -8,7 +8,8 @@ class EtansJar extends Card {
             },
             gameAction: ability.actions.lastingEffect((context) => ({
                 until: {
-                    onCardLeavesPlay: (event) => event.card === context.source
+                    onCardMoved: (event) =>
+                        event.card === context.source && event.originalLocation === 'play area'
                 },
                 targetController: 'any',
                 effect: ability.effects.playerCannot(
