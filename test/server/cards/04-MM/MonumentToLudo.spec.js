@@ -1,4 +1,4 @@
-fdescribe('Monument to Ludo', function () {
+describe('Monument to Ludo', function () {
     integration(function () {
         describe("Monument to Ludo's action ability", function () {
             beforeEach(function () {
