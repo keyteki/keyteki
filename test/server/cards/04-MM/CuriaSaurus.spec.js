@@ -1,4 +1,4 @@
-fdescribe('CuriaSaurus', function () {
+describe('CuriaSaurus', function () {
     integration(function () {
         describe("CuriaSaurus's abilities", function () {
             beforeEach(function () {
