@@ -141,7 +141,11 @@ const GameLobby = () => {
                 <Row>
                     <Col xs='12' className='text-center'>
                         {games.length === 0 ? (
-                            <Alert variant='info'>{t('No games are currently in progress.')}</Alert>
+                            <AlertPanel type='info'>
+                                {t(
+                                    'No games are currently in progress. Click the buttons above to start one.'
+                                )}
+                            </AlertPanel>
                         ) : (
                             <GameList games={games} gameFilter={currentFilter} />
                         )}
@@ -194,21 +198,6 @@ const GameLobby = () => {
     //                 {this.state.errorMessage ? (
     //                     <AlertPanel type='error' message={t(this.state.errorMessage)} />
     //                 ) : null}
-
-    //                 <div className='col-md-offset-2 col-md-8 full-height'>
-    //                     <Panel title={t('Current Games')}>
-    //                         <div className='col-xs-12'>
-    //                             {this.props.games.length === 0 ? (
-    //                                 <AlertPanel
-    //                                     type='info'
-    //                                     message={t('No games are currently in progress.')}
-    //                                 />
-    //                             ) : (
-    //                                 <GameList games={this.props.games} gameFilter={this.state.filter} />
-    //                             )}
-    //                         </div>
-    //                     </Panel>
-    //                 </div>
     //                 <Modal {...modalProps}>{modalBody}</Modal>
     //             </div>
     //         );

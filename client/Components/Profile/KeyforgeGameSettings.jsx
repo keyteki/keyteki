@@ -16,9 +16,8 @@ import { useTranslation } from 'react-i18next';
 /**
  * @param {KeyforgeGameSettingsProps} props
  */
-const KeyforgeGameSettings = (props) => {
+const KeyforgeGameSettings = ({ formProps }) => {
     const { t } = useTranslation();
-    const formProps = props.formProps;
 
     return (
         <Panel title={t('Game Settings')}>

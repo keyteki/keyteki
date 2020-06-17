@@ -1,14 +1,17 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { connect, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { toastr } from 'react-redux-toastr';
-import { withTranslation, Trans, useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
+import { Form, Button, Row, Col } from 'react-bootstrap';
+import { Formik } from 'formik';
+import * as yup from 'yup';
 
 import Panel from '../Site/Panel';
-import Checkbox from '../Form/Checkbox';
 import AlertPanel from '../Site/AlertPanel';
-import * as actions from '../../redux/actions';
-import { Form, Button } from 'react-bootstrap';
+import GameOptions from './GameOptions';
+import GameFormats from './GameFormats';
+import GameTypes from './GameTypes';
+import { getStandardControlProps } from '../../util';
 
 const GameNameMaxLength = 64;
 
@@ -16,53 +19,148 @@ const GameNameMaxLength = 64;
  * @typedef NewGameProps
  * @property {boolean} quickJoin The new game is quick join
  */
-const NewGame = (quickJoin) => {
+const NewGame = ({ quickJoin }) => {
     const lobbySocket = useSelector((state) => state.lobby.socket);
+    const username = useSelector((state) => state.account.user?.username);
     const { t } = useTranslation();
+
+    const schema = yup.object().shape(
+        {
+            gameName: yup
+                .string()
+                .required(t('You must specify a name for the game'))
+                .max(
+                    GameNameMaxLength,
+                    t(`Game name must be less than ${GameNameMaxLength} characters`)
+                ),
+            password: yup.string().optional(),
+            gameTimeLimit: yup
+                .number()
+                .min(10, t('Games must be at least 10 minutes long'))
+                .max(120, t('Games must be less than 2 hours')),
+            gameFormat: yup.string().required(),
+            gameType: yup.string().required(),
+            wc: yup.boolean().when(['aoa', 'cota'], {
+                is: (aoa, cota) => {
+                    return !aoa && !cota;
+                },
+                then: yup.boolean().required()
+            }),
+            aoa: yup.boolean().when(['wc', 'cota'], {
+                is: (wc, cota) => {
+                    return !wc && !cota;
+                },
+                then: yup.boolean().required()
+            }),
+            cota: yup.boolean().when(['aoa', 'wc'], {
+                is: (aoa, wc) => {
+                    return !aoa && !wc;
+                },
+                then: yup.boolean().required()
+            })
+        },
+        [
+            ['wc', 'aoa'],
+            ['wc', 'cota'],
+            ['aoa', 'cota']
+        ]
+    );
+
+    const initialValues = {
+        gameName: `${username}'s game`,
+        password: '',
+        allowSpectators: true,
+        gameFormat: 'normal',
+        gameType: 'casual',
+        gameTimeLimit: 35,
+        wc: true
+    };
 
     if (!lobbySocket) {
         return (
             <div>
                 <Trans>
-                    The connection to the lobby has been lost, waiting for it to be restored
+                    The connection to the lobby has been lost, waiting for it to be restored. If
+                    this message persists, please refresh the page.
                 </Trans>
             </div>
         );
     }
 
     return (
-        <Panel title={t(quickJoin ? 'Join Existing or Start New Game' : 'New game')}>
-            <Form>
-                <div className='button-row'>
-                    <Button variant='success'>
-                        <Trans>Start</Trans>
-                    </Button>
-                    <Button variant='primary'>
-                        <Trans>Cancel</Trans>
-                    </Button>
-                </div>
-            </Form>
+        <Panel title={t(quickJoin ? 'Quick Join' : 'New game')}>
+            <Formik
+                validationSchema={schema}
+                onSubmit={(something) => {
+                    console.info(something);
+                }}
+                initialValues={initialValues}
+            >
+                {(formProps) => (
+                    <Form
+                        onSubmit={(event) => {
+                            event.preventDefault();
+                            formProps.handleSubmit(event);
+                        }}
+                    >
+                        {quickJoin && (
+                            <AlertPanel
+                                type='info'
+                                message={t(
+                                    "Select the type of game you'd like to play and either you'll join the next one available, or one will be created for you with default options."
+                                )}
+                            />
+                        )}
+                        {!quickJoin && (
+                            <>
+                                <Form.Row>
+                                    <Form.Group as={Col} lg='8' controlId='formGridGameName'>
+                                        <Form.Label>{t('Name')}</Form.Label>
+                                        <Form.Label className='float-right'>
+                                            {GameNameMaxLength - formProps.values.gameName.length}
+                                        </Form.Label>
+                                        <Form.Control
+                                            type='text'
+                                            placeholder={t('Game Name')}
+                                            maxLength={GameNameMaxLength}
+                                            {...getStandardControlProps(formProps, 'gameName')}
+                                        />
+                                        <Form.Control.Feedback type='invalid'>
+                                            {formProps.errors.gameName}
+                                        </Form.Control.Feedback>
+                                    </Form.Group>
+                                </Form.Row>
+                                <GameOptions formProps={formProps} />
+                            </>
+                        )}
+                        <GameFormats formProps={formProps} />
+                        <GameTypes formProps={formProps} />
+                        {!quickJoin && (
+                            <Row>
+                                <Col sm={8}>
+                                    <label>
+                                        <Trans>Password</Trans>
+                                    </label>
+                                    <input className='form-control' type='password' />
+                                </Col>
+                            </Row>
+                        )}
+                        <div className='button-row'>
+                            <Button variant='success' onClick={formProps.submitForm}>
+                                <Trans>Start</Trans>
+                            </Button>
+                            <Button variant='primary'>
+                                <Trans>Cancel</Trans>
+                            </Button>
+                        </div>
+                    </Form>
+                )}
+            </Formik>
         </Panel>
     );
 };
 
 /*
-class NewGame extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.onCancelClick = this.onCancelClick.bind(this);
-        this.onGamePrivateClick = this.onGamePrivateClick.bind(this);
-        this.onGameTimeLimitChange = this.onGameTimeLimitChange.bind(this);
-        this.onHideDecklistsClick = this.onHideDecklistsClick.bind(this);
-        this.onMuteSpectatorsClick = this.onMuteSpectatorsClick.bind(this);
-        this.onNameChange = this.onNameChange.bind(this);
-        this.onPasswordChange = this.onPasswordChange.bind(this);
-        this.onShowHandClick = this.onShowHandClick.bind(this);
-        this.onSpectatorsClick = this.onSpectatorsClick.bind(this);
-        this.onSubmitClick = this.onSubmitClick.bind(this);
-        this.onUseGameTimeLimitClick = this.onUseGameTimeLimitClick.bind(this);
-
         this.state = {
             expansions: { cota: false, aoa: false, wc: true },
             gameName: 'some game or other', // this.props.defaultGameName,
@@ -85,26 +183,6 @@ class NewGame extends React.Component {
         if (this.props.tournament) {
             this.props.closeModal();
         }
-    }
-
-    onNameChange(event) {
-        this.setState({ gameName: event.target.value });
-    }
-
-    onPasswordChange(event) {
-        this.setState({ password: event.target.value });
-    }
-
-    onSpectatorsClick(event) {
-        this.setState({ spectators: event.target.checked });
-    }
-
-    onShowHandClick(event) {
-        this.setState({ showHand: event.target.checked });
-    }
-
-    onMuteSpectatorsClick(event) {
-        this.setState({ muteSpectators: event.target.checked });
     }
 
     onSubmitClick(event) {
@@ -157,146 +235,6 @@ class NewGame extends React.Component {
         }
     }
 
-    onGameTypeChange(gameType) {
-        this.setState({ selectedGameType: gameType });
-    }
-
-    onGameFormatChange(gameFormat) {
-        this.setState({ selectedGameFormat: gameFormat });
-    }
-
-    gameExpansionCheckChange(expansion) {
-        let expansions = this.state.expansions;
-
-        expansions[expansion] = !expansions[expansion];
-
-        this.setState({ expansions: expansions });
-    }
-
-    onUseGameTimeLimitClick(event) {
-        this.setState({ useGameTimeLimit: event.target.checked });
-    }
-
-    onHideDecklistsClick(event) {
-        this.setState({ hideDecklists: event.target.checked });
-    }
-
-    onGameTimeLimitChange(event) {
-        this.setState({ gameTimeLimit: event.target.value });
-    }
-
-    onGamePrivateClick(event) {
-        this.setState({ gamePrivate: event.target.checked });
-    }
-
-    isGameTypeSelected(gameType) {
-        return this.state.selectedGameType === gameType;
-    }
-
-    isGameFormatSelected(gameFormat) {
-        return this.state.selectedGameFormat === gameFormat;
-    }
-
-    getOptions() {
-        let t = this.props.t;
-
-        return (
-            <div className='row'>
-                <Checkbox
-                    name='allowSpectators'
-                    noGroup
-                    label={t('Allow spectators')}
-                    fieldClass='col-sm-8'
-                    onChange={this.onSpectatorsClick}
-                    checked={this.state.spectators}
-                />
-                <Checkbox
-                    name='showHands'
-                    noGroup
-                    label={t('Show hands to spectators')}
-                    fieldClass='col-sm-8'
-                    onChange={this.onShowHandClick}
-                    checked={this.state.showHand}
-                />
-                <Checkbox
-                    name='muteSpectators'
-                    noGroup
-                    label={t('Mute spectators')}
-                    fieldClass='col-sm-8'
-                    onChange={this.onMuteSpectatorsClick}
-                    checked={this.state.muteSpectators}
-                />
-                <Checkbox
-                    name='timeLimit'
-                    noGroup
-                    label={t('Use a time limit (in minutes)')}
-                    fieldClass='col-sm-12'
-                    onChange={this.onUseGameTimeLimitClick}
-                    checked={this.state.useGameTimeLimit}
-                />
-                <Checkbox
-                    name='gamePrivate'
-                    noGroup
-                    label={t('Private game (Requires game link to join)')}
-                    fieldClass='col-sm-12'
-                    onChange={this.onGamePrivateClick}
-                    checked={this.state.gamePrivate}
-                />
-                {this.state.useGameTimeLimit && (
-                    <div className='col-sm-4'>
-                        <input
-                            className='form-control'
-                            type='number'
-                            onChange={this.onGameTimeLimitChange}
-                            value={this.state.gameTimeLimit}
-                        />
-                    </div>
-                )}
-                <Checkbox
-                    name='hideDecklists'
-                    noGroup
-                    label={t('Hide opponent decklists')}
-                    fieldClass='col-sm-8'
-                    onChange={this.onHideDecklistsClick}
-                    checked={this.state.hideDecklists}
-                />
-            </div>
-        );
-    }
-
-    getGameTypeOptions() {
-        let t = this.props.t;
-
-        let gameTypes = [
-            { name: 'beginner', label: t('Beginner') },
-            { name: 'casual', label: t('Casual') },
-            { name: 'competitive', label: t('Competitive') }
-        ];
-
-        return (
-            <div className='row game-type'>
-                <div className='col-sm-12 game-type'>
-                    <b>
-                        <Trans>Game Type</Trans>
-                    </b>
-                </div>
-                <div className='col-sm-10'>
-                    {gameTypes.map((gameType) => {
-                        return (
-                            <label key={gameType.name} className='radio-inline'>
-                                <input
-                                    type='radio'
-                                    onChange={this.onGameTypeChange.bind(this, gameType.name)}
-                                    checked={this.isGameTypeSelected(gameType.name)}
-                                />
-                                {gameType.label}
-                            </label>
-                        );
-                    })}
-                </div>
-            </div>
-        );
-    }
 
     getGameFormatOptions() {
         let t = this.props.t;
@@ -359,23 +297,7 @@ class NewGame extends React.Component {
     }
 
     render() {
-        let charsLeft = GameNameMaxLength - this.state.gameName.length;
-        let content = [];
-        let t = this.props.t;
 
-        if (this.props.quickJoin) {
-            content = (
-                <div>
-                    <AlertPanel
-                        type='info'
-                        message={t(
-                            "Select the type of game you'd like to play and either you'll join the next one available, or one will be created for you with default options."
-                        )}
-                    />
-                    {this.getGameFormatOptions()}
-                    {this.getGameTypeOptions()}
-                </div>
-            );
         } else if (this.props.tournament) {
             content = (
                 <div>

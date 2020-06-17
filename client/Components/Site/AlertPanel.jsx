@@ -92,7 +92,7 @@ const AlertPanel = ({ type = AlertType.Info, title, message, noIcon = false, chi
             break;
         case AlertType.Info:
             icon = faInfoCircle;
-            alertType = 'warning';
+            alertType = 'info';
             break;
         case AlertType.Success:
             icon = faCheckCircle;
