@@ -4,6 +4,7 @@ class SirenHorn extends Card {
     setupCardAbilities(ability) {
         this.whileAttached({
             effect: ability.effects.gainAbility('beforeFight', {
+                condition: (context) => context.source.tokens.amber,
                 effect: 'move 1 amber from {0} to {1}',
                 effectArgs: (context) => context.event.card,
                 gameAction: [

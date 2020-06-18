@@ -1,4 +1,4 @@
-fdescribe('Legions March', function () {
+describe('Legions March', function () {
     integration(function () {
         describe("Legions March's ability", function () {
             beforeEach(function () {
@@ -16,7 +16,7 @@ fdescribe('Legions March', function () {
                 });
             });
 
-            it('should deal 1 damage to each non dinosaur creature when using a dinosaur creature', function () {
+            xit('should deal 1 damage to each non dinosaur creature when using a dinosaur creature', function () {
                 this.player1.play(this.legionSMarch);
                 this.player1.reap(this.consulPrimus);
 

@@ -1,4 +1,4 @@
-describe('Siren Horn', function () {
+fdescribe('Siren Horn', function () {
     integration(function () {
         describe("Siren Horn's ability", function () {
             beforeEach(function () {
@@ -22,6 +22,16 @@ describe('Siren Horn', function () {
 
                 expect(this.senatorShrix.tokens.amber).toBe(1);
                 expect(this.littleRapscal.tokens.amber).toBe(1);
+            });
+
+            it('should not move 1 amber if the fight source has no amber on it', function () {
+                this.senatorShrix.tokens.amber = undefined;
+
+                this.player1.playUpgrade(this.sirenHorn, this.senatorShrix);
+                this.player1.fightWith(this.senatorShrix, this.littleRapscal);
+
+                expect(this.senatorShrix.tokens.amber).toBe(undefined);
+                expect(this.littleRapscal.tokens.amber).toBe(undefined);
             });
         });
     });
