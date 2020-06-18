@@ -1,4 +1,4 @@
-fdescribe('Siren Horn', function () {
+describe('Siren Horn', function () {
     integration(function () {
         describe("Siren Horn's ability", function () {
             beforeEach(function () {
