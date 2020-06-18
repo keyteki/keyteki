@@ -16,9 +16,11 @@ describe('Legions March', function () {
                 });
             });
 
-            xit('should deal 1 damage to each non dinosaur creature when using a dinosaur creature', function () {
+            it('should deal 1 damage to each non dinosaur creature when using a dinosaur creature', function () {
                 this.player1.play(this.legionSMarch);
                 this.player1.reap(this.consulPrimus);
+
+                this.player1.clickCard(this.consulPrimus);
 
                 expect(this.consulPrimus.tokens.damage).toBe(undefined);
                 expect(this.brendTheFanatic.tokens.damage).toBe(1);
