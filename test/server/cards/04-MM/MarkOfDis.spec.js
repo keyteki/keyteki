@@ -38,7 +38,6 @@ describe('Mark of Dis', function () {
                 expect(this.player2).toHavePromptButton('shadows');
             });
 
-            // Disabled until issue with duration is fixed
             it('if own creature is not destroyed, should restrict house choice', function () {
                 this.player1.play(this.markOfDis);
                 this.player1.clickCard(this.dodger);

@@ -10,7 +10,10 @@ class MarkOfDis extends Card {
                     ability.actions.conditional((context) => ({
                         condition: () => context.target.location === 'play area',
                         trueGameAction: ability.actions.untilEndOfMyNextTurn({
-                            targetController: context.target.controller,
+                            targetController:
+                                context.player === context.target.controller
+                                    ? 'current'
+                                    : 'opponent',
                             effect: ability.effects.restrictHouseChoice(context.target.getHouses())
                         })
                     }))
