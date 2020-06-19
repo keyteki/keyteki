@@ -5,7 +5,7 @@ class TheWarchest extends Card {
     setupCardAbilities(ability) {
         this.creaturesDestroyed = [];
         this.tracker = new EventRegistrar(this.game, this);
-        this.tracker.register(['onCardDestroyed', 'onRoundEnded']);
+        this.tracker.register(['onCardDestroyed', 'atEndOfTurn']);
 
         this.action({
             gameAction: ability.actions.gainAmber((context) => ({
@@ -21,7 +21,7 @@ class TheWarchest extends Card {
         }
     }
 
-    onRoundEnded() {
+    atEndOfTurn() {
         this.creaturesDestroyed = [];
     }
 }

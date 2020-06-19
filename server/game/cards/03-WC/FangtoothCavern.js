@@ -4,7 +4,7 @@ class FangtoothCavern extends Card {
     setupCardAbilities(ability) {
         this.interrupt({
             when: {
-                onRoundEnded: (event, context) => context.player === this.game.activePlayer
+                atEndOfTurn: (event, context) => context.player === this.game.activePlayer
             },
             target: {
                 mode: 'mostStat',

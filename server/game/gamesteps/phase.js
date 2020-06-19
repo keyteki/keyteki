@@ -17,10 +17,21 @@ class Phase extends BaseStepWithPipeline {
             this.game.activePlayer &&
             this.game.activePlayer.getEffects('skipStep').includes(this.name)
         ) {
+            this.skipPhase();
             return;
         }
 
-        this.game.raiseEvent('onPhaseStarted', { phase: this.name }, () => {
+        this.game.openEventWindow(this.getPhaseStartedEvent());
+
+        for (let step of this.steps) {
+            this.game.queueStep(step);
+        }
+    }
+
+    skipPhase() {}
+
+    getPhaseStartedEvent() {
+        return this.game.getEvent('onPhaseStarted', { phase: this.name }, () => {
             this.game.currentPhase = this.name;
             if (this.name !== 'setup') {
                 this.game.addAlert(
@@ -31,15 +42,18 @@ class Phase extends BaseStepWithPipeline {
                 );
             }
         });
-
-        for (let step of this.steps) {
-            this.game.queueStep(step);
-        }
     }
 
     endPhase() {
-        this.game.raiseEvent('onPhaseEnded', { phase: this.name });
-        this.game.currentPhase = '';
+        this.game.openEventWindow(this.getPhaseEndedEvent());
+    }
+
+    getPhaseEndedEvent() {
+        return this.game.getEvent(
+            'onPhaseEnded',
+            { phase: this.name },
+            () => (this.game.currentPhase = '')
+        );
     }
 }
 

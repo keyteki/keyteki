@@ -5,7 +5,7 @@ class Bonesaw extends Card {
     setupCardAbilities(ability) {
         this.creatureDestroyedControllerUuid = {};
         this.tracker = new EventRegistrar(this.game, this);
-        this.tracker.register(['onRoundEnded', 'onCardDestroyed']);
+        this.tracker.register(['atEndOfTurn', 'onCardDestroyed']);
 
         this.persistentEffect({
             location: 'any',
@@ -15,7 +15,7 @@ class Bonesaw extends Card {
         });
     }
 
-    onRoundEnded() {
+    atEndOfTurn() {
         this.creatureDestroyedControllerUuid = {};
     }
 

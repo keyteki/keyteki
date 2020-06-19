@@ -715,14 +715,12 @@ class Game extends EventEmitter {
      * @returns {undefined}
      */
     beginRound() {
-        this.raiseEvent('onBeginRound');
         this.activePlayer.beginRound();
         this.queueStep(new KeyPhase(this));
         this.queueStep(new HousePhase(this));
         this.queueStep(new MainPhase(this));
         this.queueStep(new ReadyPhase(this));
         this.queueStep(new DrawPhase(this));
-        this.queueStep(new SimpleStep(this, () => this.raiseEndRoundEvent()));
         this.queueStep(new SimpleStep(this, () => this.beginRound()));
     }
 
@@ -1050,12 +1048,6 @@ class Game extends EventEmitter {
             // check for any delayed effects which need to fire
             this.effectEngine.checkDelayedEffects(events);
         }
-    }
-
-    raiseEndRoundEvent() {
-        this.raiseEvent('onRoundEnded', {}, () => {
-            this.endRound();
-        });
     }
 
     endRound() {

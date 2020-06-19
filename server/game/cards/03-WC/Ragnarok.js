@@ -15,7 +15,7 @@ class Ragnarok extends Card {
                 })),
                 ability.actions.untilNextTurn({
                     when: {
-                        onRoundEnded: () => true
+                        atEndOfTurn: () => true
                     },
                     gameAction: ability.actions.destroy((context) => ({
                         target: context.game.creaturesInPlay

@@ -5,7 +5,7 @@ class FontOfTheEye extends Card {
     setupCardAbilities(ability) {
         this.creatureDestroyedControllerUuid = {};
         this.tracker = new EventRegistrar(this.game, this);
-        this.tracker.register(['onCardDestroyed', 'onRoundEnded']);
+        this.tracker.register(['onCardDestroyed', 'atEndOfTurn']);
 
         this.omni({
             target: {
@@ -28,7 +28,7 @@ class FontOfTheEye extends Card {
         }
     }
 
-    onRoundEnded() {
+    atEndOfTurn() {
         this.creatureDestroyedControllerUuid = {};
     }
 }

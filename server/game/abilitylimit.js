@@ -74,7 +74,7 @@ AbilityLimit.perPhase = function (max) {
 };
 
 AbilityLimit.perRound = function (max) {
-    return new RepeatableAbilityLimit(max, 'onRoundEnded');
+    return new RepeatableAbilityLimit(max, 'atEndOfTurn');
 };
 
 module.exports = AbilityLimit;

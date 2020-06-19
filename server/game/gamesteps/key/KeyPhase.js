@@ -7,6 +7,12 @@ class KeyPhase extends Phase {
         this.initialise([new SimpleStep(game, () => this.forgeKey())]);
     }
 
+    getPhaseStartedEvent() {
+        let event = super.getPhaseStartedEvent();
+        event.addChildEvent(this.game.getEvent('atStartOfTurn', {}));
+        return event;
+    }
+
     forgeKey() {
         if (this.game.activePlayer.canForgeKey()) {
             this.game.actions

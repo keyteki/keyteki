@@ -5,7 +5,7 @@ class BrambleLynx extends Card {
     setupCardAbilities(ability) {
         this.creaturesReapedByPlayer = {};
         this.tracker = new EventRegistrar(this.game, this);
-        this.tracker.register(['onRoundEnded', 'onReap']);
+        this.tracker.register(['atEndOfTurn', 'onReap']);
 
         this.persistentEffect({
             location: 'any',
@@ -14,7 +14,7 @@ class BrambleLynx extends Card {
         });
     }
 
-    onRoundEnded() {
+    atEndOfTurn() {
         this.creaturesReapedByPlayer = {};
     }
 

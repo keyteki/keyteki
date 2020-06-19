@@ -4,7 +4,7 @@ class CybergiantRig extends Card {
     setupCardAbilities(ability) {
         this.interrupt({
             when: {
-                onRoundEnded: (event, context) =>
+                atEndOfTurn: (event, context) =>
                     context.player === this.game.activePlayer &&
                     this.parent &&
                     this.parent.hasToken('power')

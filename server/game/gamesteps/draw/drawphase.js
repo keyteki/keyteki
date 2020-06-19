@@ -7,6 +7,20 @@ class DrawPhase extends Phase {
         this.initialise([new SimpleStep(game, () => this.drawCards())]);
     }
 
+    getPhaseEndedEvent() {
+        let event = super.getPhaseStartedEvent();
+        event.addChildEvent(this.getEndTurnEvent());
+        return event;
+    }
+
+    getEndTurnEvent() {
+        return this.game.getEvent('atEndOfTurn', {}, () => this.game.endRound());
+    }
+
+    skipPhase() {
+        this.game.openEventWindow(this.getEndTurnEvent());
+    }
+
     drawCards() {
         this.game.actions
             .draw({ refill: true })
