@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { toastr } from 'react-redux-toastr';
 import { Trans, useTranslation } from 'react-i18next';
 import { Form, Button, Row, Col } from 'react-bootstrap';
@@ -12,6 +12,9 @@ import GameOptions from './GameOptions';
 import GameFormats from './GameFormats';
 import GameTypes from './GameTypes';
 import { getStandardControlProps } from '../../util';
+import { cancelNewGame, sendSocketMessage } from '../../redux/actions';
+
+import './NewGame.scss';
 
 const GameNameMaxLength = 64;
 
@@ -23,48 +26,24 @@ const NewGame = ({ quickJoin }) => {
     const lobbySocket = useSelector((state) => state.lobby.socket);
     const username = useSelector((state) => state.account.user?.username);
     const { t } = useTranslation();
+    const dispatch = useDispatch();
 
-    const schema = yup.object().shape(
-        {
-            gameName: yup
-                .string()
-                .required(t('You must specify a name for the game'))
-                .max(
-                    GameNameMaxLength,
-                    t(`Game name must be less than ${GameNameMaxLength} characters`)
-                ),
-            password: yup.string().optional(),
-            gameTimeLimit: yup
-                .number()
-                .min(10, t('Games must be at least 10 minutes long'))
-                .max(120, t('Games must be less than 2 hours')),
-            gameFormat: yup.string().required(),
-            gameType: yup.string().required(),
-            wc: yup.boolean().when(['aoa', 'cota'], {
-                is: (aoa, cota) => {
-                    return !aoa && !cota;
-                },
-                then: yup.boolean().required()
-            }),
-            aoa: yup.boolean().when(['wc', 'cota'], {
-                is: (wc, cota) => {
-                    return !wc && !cota;
-                },
-                then: yup.boolean().required()
-            }),
-            cota: yup.boolean().when(['aoa', 'wc'], {
-                is: (aoa, wc) => {
-                    return !aoa && !wc;
-                },
-                then: yup.boolean().required()
-            })
-        },
-        [
-            ['wc', 'aoa'],
-            ['wc', 'cota'],
-            ['aoa', 'cota']
-        ]
-    );
+    const schema = yup.object({
+        gameName: yup
+            .string()
+            .required(t('You must specify a name for the game'))
+            .max(
+                GameNameMaxLength,
+                t(`Game name must be less than ${GameNameMaxLength} characters`)
+            ),
+        password: yup.string().optional(),
+        gameTimeLimit: yup
+            .number()
+            .min(10, t('Games must be at least 10 minutes long'))
+            .max(120, t('Games must be less than 2 hours')),
+        gameFormat: yup.string().required(),
+        gameType: yup.string().required()
+    });
 
     const initialValues = {
         gameName: `${username}'s game`,
@@ -91,8 +70,8 @@ const NewGame = ({ quickJoin }) => {
         <Panel title={t(quickJoin ? 'Quick Join' : 'New game')}>
             <Formik
                 validationSchema={schema}
-                onSubmit={(something) => {
-                    console.info(something);
+                onSubmit={(values) => {
+                    dispatch(sendSocketMessage('newgame', values));
                 }}
                 initialValues={initialValues}
             >
@@ -100,6 +79,21 @@ const NewGame = ({ quickJoin }) => {
                     <Form
                         onSubmit={(event) => {
                             event.preventDefault();
+
+                            if (
+                                formProps.values.gameFormat === 'sealed' &&
+                                !formProps.values.aoa &&
+                                !formProps.values.cota &&
+                                !formProps.values.wc
+                            ) {
+                                formProps.setFieldError(
+                                    'gameFormat',
+                                    t('You must select at least one expansion')
+                                );
+
+                                return;
+                            }
+
                             formProps.handleSubmit(event);
                         }}
                     >
@@ -137,19 +131,21 @@ const NewGame = ({ quickJoin }) => {
                         <GameTypes formProps={formProps} />
                         {!quickJoin && (
                             <Row>
-                                <Col sm={8}>
-                                    <label>
-                                        <Trans>Password</Trans>
-                                    </label>
-                                    <input className='form-control' type='password' />
-                                </Col>
+                                <Form.Group as={Col} sm={8}>
+                                    <Form.Label>{t('Password')}</Form.Label>
+                                    <Form.Control
+                                        type='password'
+                                        placeholder={t('Enter a password')}
+                                        {...getStandardControlProps(formProps, 'password')}
+                                    />
+                                </Form.Group>
                             </Row>
                         )}
-                        <div className='button-row'>
-                            <Button variant='success' onClick={formProps.submitForm}>
+                        <div className='text-center newgame-buttons'>
+                            <Button variant='success' type='submit'>
                                 <Trans>Start</Trans>
                             </Button>
-                            <Button variant='primary'>
+                            <Button variant='primary' onClick={() => dispatch(cancelNewGame())}>
                                 <Trans>Cancel</Trans>
                             </Button>
                         </div>
@@ -161,45 +157,10 @@ const NewGame = ({ quickJoin }) => {
 };
 
 /*
-        this.state = {
-            expansions: { cota: false, aoa: false, wc: true },
-            gameName: 'some game or other', // this.props.defaultGameName,
-            gamePrivate: this.props.gamePrivate,
-            gameTimeLimit: 35,
-            hideDecklists: false,
-            muteSpectators: this.props.muteSpectators,
-            password: '',
-            selectedGameFormat: 'normal',
-            selectedGameType: this.props.defaultGameType ? this.props.defaultGameType : 'casual',
-            showHand: this.props.showHand,
-            spectators: true,
-            useGameTimeLimit: this.props.gameTimeLimit
-        };
-    }
-
-    onCancelClick(event) {
-        event.preventDefault();
-        this.props.cancelNewGame();
-        if (this.props.tournament) {
-            this.props.closeModal();
-        }
-    }
 
     onSubmitClick(event) {
         event.preventDefault();
 
-        let expansionsSelected = 0;
-
-        for (const value of Object.values(this.state.expansions)) {
-            if (value) {
-                expansionsSelected++;
-            }
-        }
-
-        if (this.state.selectedGameFormat === 'sealed' && expansionsSelected === 0) {
-            toastr.error(this.props.t('Please select at least one expansion!'));
-            return;
-        }
 
         let newGame = {
             expansions: this.state.expansions,

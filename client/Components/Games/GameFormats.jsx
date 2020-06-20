@@ -2,6 +2,8 @@ import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { Form, Col } from 'react-bootstrap';
 
+import './GameFormats.scss';
+
 const GameFormats = ({ formProps }) => {
     const { t } = useTranslation();
 
@@ -24,7 +26,7 @@ const GameFormats = ({ formProps }) => {
                 <Col xs={12} className='font-weight-bold'>
                     <Trans>Format</Trans>
                 </Col>
-                <Col>
+                <Form.Group as={Col}>
                     {formats.map((format) => (
                         <Form.Check
                             name='gameFormat'
@@ -38,27 +40,31 @@ const GameFormats = ({ formProps }) => {
                             checked={formProps.values.gameFormat === format.name}
                         ></Form.Check>
                     ))}
-                </Col>
+                    <Form.Control.Feedback type='invalid'>
+                        {formProps.errors.gameFormat}
+                    </Form.Control.Feedback>
+                </Form.Group>
             </Form.Row>
             {formProps.values.gameFormat === 'sealed' && (
                 <Form.Row>
-                    {expansions.map((expansion) => {
-                        return (
-                            <>
-                                <Form.Check
-                                    key={expansion.name}
-                                    type='switch'
-                                    id={expansion.name}
-                                    label={expansion.label}
-                                    inline
-                                    onChange={formProps.handleChange}
-                                    value='true'
-                                    checked={formProps.values[expansion.name]}
-                                ></Form.Check>
-                                <Form.Control.Feedback type='invalid'></Form.Control.Feedback>
-                            </>
-                        );
-                    })}
+                    <Form.Group className='game-formats' as={Col}>
+                        {expansions.map((expansion) => {
+                            return (
+                                <>
+                                    <Form.Check
+                                        key={expansion.name}
+                                        type='switch'
+                                        id={expansion.name}
+                                        label={expansion.label}
+                                        inline
+                                        onChange={formProps.handleChange}
+                                        value='true'
+                                        checked={formProps.values[expansion.name]}
+                                    ></Form.Check>
+                                </>
+                            );
+                        })}
+                    </Form.Group>
                 </Form.Row>
             )}
         </>

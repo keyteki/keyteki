@@ -131,7 +131,7 @@ function handleGameState(action, state) {
     }
 
     if (retState.currentGame && !retState.currentGame.started) {
-        retState.newGame = true;
+        retState.newGame = false;
     }
 
     return retState;

@@ -16,7 +16,7 @@ const GameTypes = ({ formProps }) => {
             <Col xs={12} className='font-weight-bold'>
                 <Trans>Type</Trans>
             </Col>
-            <Col>
+            <Form.Group as={Col}>
                 {types.map((type) => (
                     <Form.Check
                         name='gameType'
@@ -30,7 +30,7 @@ const GameTypes = ({ formProps }) => {
                         checked={formProps.values.gameType === type.name}
                     ></Form.Check>
                 ))}
-            </Col>
+            </Form.Group>
         </Form.Row>
     );
 };

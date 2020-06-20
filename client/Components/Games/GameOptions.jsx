@@ -17,24 +17,26 @@ const GameOptions = ({ formProps }) => {
 
     return (
         <>
-            <Form.Row>
-                <Col xs={12} className='font-weight-bold'>
-                    <Trans>Options</Trans>
-                </Col>
-                {options.map((option) => (
-                    <Col key={option.name} lg='4'>
-                        <Form.Check
-                            type='switch'
-                            id={option.name}
-                            label={option.label}
-                            inline
-                            onChange={formProps.handleChange}
-                            value='true'
-                            checked={formProps.values[option.name]}
-                        ></Form.Check>
+            <Form.Group>
+                <Form.Row>
+                    <Col xs={12} className='font-weight-bold'>
+                        <Trans>Options</Trans>
                     </Col>
-                ))}
-            </Form.Row>
+                    {options.map((option) => (
+                        <Col key={option.name} lg='4'>
+                            <Form.Check
+                                type='switch'
+                                id={option.name}
+                                label={option.label}
+                                inline
+                                onChange={formProps.handleChange}
+                                value='true'
+                                checked={formProps.values[option.name]}
+                            ></Form.Check>
+                        </Col>
+                    ))}
+                </Form.Row>
+            </Form.Group>
             {formProps.values.timeLimit && (
                 <Form.Row>
                     <Form.Group as={Col} sm={4}>

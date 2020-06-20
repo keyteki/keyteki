@@ -65,9 +65,10 @@ const GameLobby = () => {
         filterDefaults[filter.name] = true;
     }
 
-    const { games, newGame } = useSelector((state) => ({
+    const { games, newGame, currentGame } = useSelector((state) => ({
         games: state.lobby.games,
-        newGame: state.lobby.newGame
+        newGame: state.lobby.newGame,
+        currentGame: state.lobby.currentGame
     }));
     const [currentFilter, setCurrentFilter] = useState(filterDefaults);
     const [quickJoin, setQuickJoin] = useState(false);
@@ -88,6 +89,7 @@ const GameLobby = () => {
     return (
         <Col md={{ offset: 2, span: 8 }}>
             {newGame && <NewGame quickJoin={quickJoin} />}
+            {currentGame && !currentGame.started && <PendingGame />}
             <Panel title={t('Current Games')}>
                 <Row className='game-buttons'>
                     <Col sm={4} lg={3}>
