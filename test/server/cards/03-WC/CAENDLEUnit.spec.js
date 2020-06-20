@@ -21,7 +21,7 @@ describe('CAENDLE Unit', function () {
                 expect(this.player1.amber).toBe(2);
                 expect(this.player2.hand.length).toBe(2);
             });
-            it('should capture an aember with the action ability', function () {
+            it('should capture an amber with the action ability', function () {
                 this.player1.reap(this.dustImp);
                 expect(this.player1.amber).toBe(1);
                 expect(this.player2.hand.length).toBe(1);

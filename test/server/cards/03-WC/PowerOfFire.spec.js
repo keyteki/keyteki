@@ -23,7 +23,7 @@ describe('PowerOfFire(WC)', function () {
                 expect(this.player1.chains).toBe(1);
                 expect(this.player2.chains).toBe(0);
                 expect(this).toHaveRecentChatMessage(
-                    'player1 uses Power of Fire to sacrifice Troll and cause each player to lose 4 aember; player1 gains 1 chain'
+                    'player1 uses Power of Fire to sacrifice Troll and cause each player to lose 4 amber; player1 gains 1 chain'
                 );
             });
 

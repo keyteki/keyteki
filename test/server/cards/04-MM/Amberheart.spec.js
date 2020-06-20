@@ -1,6 +1,6 @@
-describe('Æmberheart', function () {
+describe('Amberheart', function () {
     integration(function () {
-        describe("Æmberheart's Play ability", function () {
+        describe("Amberheart's Play ability", function () {
             beforeEach(function () {
                 this.setupTest({
                     player1: {

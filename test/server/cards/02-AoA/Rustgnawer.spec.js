@@ -15,7 +15,7 @@ describe('Rustgnawer', function () {
                 });
             });
 
-            it('should prompt to destroy an artifact when it fights, and return the aember value to the controller. [0]', function () {
+            it('should prompt to destroy an artifact when it fights, and return the amber value to the controller. [0]', function () {
                 this.player1.fightWith(this.rustgnawer, this.nexus);
                 expect(this.player1).toHavePrompt('Rustgnawer');
                 expect(this.player1).toBeAbleToSelect(this.screechbomb);
@@ -25,7 +25,7 @@ describe('Rustgnawer', function () {
                 expect(this.player1.amber).toBe(1);
             });
 
-            it('should prompt to destroy an artifact when it fights, and return the aember value to the controller. [2]', function () {
+            it('should prompt to destroy an artifact when it fights, and return the amber value to the controller. [2]', function () {
                 this.player1.fightWith(this.rustgnawer, this.nexus);
                 expect(this.player1).toHavePrompt('Rustgnawer');
                 expect(this.player1).toBeAbleToSelect(this.screechbomb);
@@ -35,7 +35,7 @@ describe('Rustgnawer', function () {
                 expect(this.player1.amber).toBe(2);
             });
 
-            it('should prompt to destroy an artifact when it fights, and return the aember value to the controller, considering enhancements. [0]', function () {
+            it('should prompt to destroy an artifact when it fights, and return the amber value to the controller, considering enhancements. [0]', function () {
                 this.screechbomb.cardData.enhancements = [
                     'amber',
                     'amber',

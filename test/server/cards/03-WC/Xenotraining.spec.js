@@ -80,7 +80,7 @@ describe('Xenotraining', function () {
                 expect(this.mother.tokens.amber).toBe(1);
                 expect(this.rustgnawer.tokens.amber).toBe(1);
             });
-            it('you should be able to capture all aember onto one creature', function () {
+            it('you should be able to capture all amber onto one creature', function () {
                 this.player1.play(this.xenotraining);
                 expect(this.player1).toHavePrompt('Xenotraining');
                 expect(this.player1).toBeAbleToSelect(this.lieutenantKhrkhar);

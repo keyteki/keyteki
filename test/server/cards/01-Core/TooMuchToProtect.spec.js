@@ -13,7 +13,7 @@ describe('Too Much To Protect', function () {
                     }
                 });
             });
-            it('should steal all but 6 aember', function () {
+            it('should steal all but 6 amber', function () {
                 this.player1.play(this.tooMuchToProtect);
                 expect(this.player1.amber).toBe(9);
                 expect(this.player2.amber).toBe(6);

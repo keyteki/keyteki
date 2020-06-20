@@ -3,7 +3,7 @@ const Card = require('../../Card.js');
 class Commandeer extends Card {
     setupCardAbilities(ability) {
         this.play({
-            effect: 'capture an aember after playing a card for the remainder of the turn',
+            effect: 'capture an amber after playing a card for the remainder of the turn',
             gameAction: ability.actions.forRemainderOfTurn((context) => ({
                 when: {
                     onCardPlayed: (event) =>
