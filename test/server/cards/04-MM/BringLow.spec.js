@@ -15,12 +15,14 @@ describe('Bring Low', function () {
             });
 
             it('should have no effect when opponents amber is less than 5', function () {
+                this.player1.play(this.lordGolgotha);
                 this.player1.play(this.bringLow);
                 expect(this.player1).not.toHavePrompt('Choose a creature to capture 1 amber');
             });
 
             it('should have no effect when opponents amber is exactly 5', function () {
                 this.player2.amber = 5;
+                this.player1.play(this.lordGolgotha);
                 this.player1.play(this.bringLow);
                 expect(this.player1).not.toHavePrompt('Choose a creature to capture 1 amber');
             });
@@ -29,8 +31,6 @@ describe('Bring Low', function () {
                 this.player2.amber = 20;
                 this.player1.play(this.bringLow);
                 expect(this.player1).not.toHavePrompt('Choose a creature to capture 1 amber');
-
-                expect(this.player1).not.toHavePromptButton('Done');
             });
 
             it('should allow capturing onto different creatures', function () {
