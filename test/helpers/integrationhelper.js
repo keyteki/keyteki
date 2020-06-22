@@ -224,20 +224,20 @@ beforeEach(function () {
         this.player1.archives = options.player1.archives;
         this.player2.archives = options.player2.archives;
 
-                for (let player of [this.player1, this.player2]) {
-                    let cards = ['inPlay', 'hand', 'discard', 'archives'].reduce(
-                        (array, location) => array.concat(player[location]),
-                        []
-                    );
-                    for (let card of cards) {
-                        let split = card.id.split('-');
-                        for (let i = 1; i < split.length; i++) {
-                            split[i] = split[i].slice(0, 1).toUpperCase() + split[i].slice(1);
-                            // TODO Enable this and fix the tests it breaks
-                            // if (split[i].length === 1) {
-                            //     split[i] = split[i].toLowerCase();
-                            // }
-                        }
+        for (let player of [this.player1, this.player2]) {
+            let cards = ['inPlay', 'hand', 'discard', 'archives'].reduce(
+                (array, location) => array.concat(player[location]),
+                []
+            );
+            for (let card of cards) {
+                let split = card.id.split('-');
+                for (let i = 1; i < split.length; i++) {
+                    split[i] = split[i].slice(0, 1).toUpperCase() + split[i].slice(1);
+                    // TODO Enable this and fix the tests it breaks
+                    // if (split[i].length === 1) {
+                    //     split[i] = split[i].toLowerCase();
+                    // }
+                }
 
                 let camel = split.join('');
                 if (!this[camel]) {

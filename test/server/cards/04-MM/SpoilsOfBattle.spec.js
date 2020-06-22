@@ -15,8 +15,8 @@ describe('spoils-of-battle', function () {
             });
         });
 
-            it('should cause 1 creature to capture 2 when none have amber on them to start', function () {
-                this.player1.play(this.spoilsOfBattle);
+        it('should cause 1 creature to capture 2 when none have amber on them to start', function () {
+            this.player1.play(this.spoilsOfBattle);
 
             // should be able to capture on any friendly
             expect(this.player1).toBeAbleToSelect(this.urchin);
@@ -39,9 +39,9 @@ describe('spoils-of-battle', function () {
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
 
-            it('should capture on other creatures that have amber without a prompt when there are fewer creatures than ameber', function () {
-                this.mother.tokens.amber = 1;
-                this.nexus.tokens.amber = 1;
+        it('should capture on other creatures that have amber without a prompt when there are fewer creatures than ameber', function () {
+            this.mother.tokens.amber = 1;
+            this.nexus.tokens.amber = 1;
 
             this.player1.play(this.spoilsOfBattle);
             this.player1.clickCard(this.urchin);
@@ -50,9 +50,9 @@ describe('spoils-of-battle', function () {
             expect(this.nexus.tokens.amber).toBe(2);
             expect(this.mother.tokens.amber).toBe(2);
 
-                // note, it is 4 because spoil of battle has amber bonus
-                expect(this.player1.amber).toBe(4);
-                expect(this.player2.amber).toBe(3);
+            // note, it is 4 because spoil of battle has amber bonus
+            expect(this.player1.amber).toBe(4);
+            expect(this.player2.amber).toBe(3);
 
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });

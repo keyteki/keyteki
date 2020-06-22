@@ -22,12 +22,12 @@ describe('mad-prophet-gizelhart', function () {
                 this.player1.useAction(this.madProphetGizelhart);
             });
 
-                it('heal non-mutants and gain 1 amber', function () {
-                    expect(this.troll.tokens.damage).toBe(undefined);
-                    expect(this.dodger.tokens.damage).toBe(undefined);
-                    expect(this.hapsis.tokens.damage).toBe(1);
-                    expect(this.player1.amber).toBe(2);
-                });
+            it('heal non-mutants and gain 1 amber', function () {
+                expect(this.troll.tokens.damage).toBe(undefined);
+                expect(this.dodger.tokens.damage).toBe(undefined);
+                expect(this.hapsis.tokens.damage).toBe(1);
+                expect(this.player1.amber).toBe(2);
             });
+        });
     });
 });

@@ -14,12 +14,12 @@ describe('Shard of Greed', function () {
             });
         });
 
-            it('should grant the player an amber for each friendly shard', function () {
-                this.player1.clickCard(this.shardOfGreed);
-                expect(this.player1).toHavePrompt('Shard of Greed');
-                this.player1.clickPrompt("Use this card's action ability");
-                expect(this.player1.amber).toBe(2);
-            });
+        it('should grant the player an amber for each friendly shard', function () {
+            this.player1.clickCard(this.shardOfGreed);
+            expect(this.player1).toHavePrompt('Shard of Greed');
+            this.player1.clickPrompt("Use this card's action ability");
+            expect(this.player1.amber).toBe(2);
+        });
 
         it('should work properly when Remote Accessed and its the only shard', function () {
             this.player1.endTurn();

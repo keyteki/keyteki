@@ -102,15 +102,15 @@ describe('Lay of the land', function () {
                 expect(this.player1.deck.length).toBe(0);
             });
 
-                it('should have correct prompt', function () {
-                    expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
-                });
+            it('should have correct prompt', function () {
+                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
-            describe('Play Lay of the Land with 0 cards in deck', function () {
-                beforeEach(function () {
-                    this.player1.player.deck = [];
-                    this.player1.play(this.layOfTheLand);
-                });
+        });
+        describe('Play Lay of the Land with 0 cards in deck', function () {
+            beforeEach(function () {
+                this.player1.player.deck = [];
+                this.player1.play(this.layOfTheLand);
+            });
 
             it('should reshuffle deck and draw', function () {
                 expect(this.player1.hand.length).toBe(4);
