@@ -1,17 +1,16 @@
 describe('CAENDLE Unit', function () {
-    integration(function () {
-        describe("CAENDLE Unit's ability", function () {
-            beforeEach(function () {
-                this.setupTest({
-                    player1: {
-                        house: 'dis',
-                        inPlay: ['dust-imp', 'stealer-of-souls', 'dominator-bauble']
-                    },
-                    player2: {
-                        inPlay: ['cændle-unit']
-                    }
-                });
+    describe("CAENDLE Unit's ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'dis',
+                    inPlay: ['dust-imp', 'stealer-of-souls', 'dominator-bauble']
+                },
+                player2: {
+                    inPlay: ['cændle-unit']
+                }
             });
+        });
 
             it('should cause the player to draw a card when their opponent reaps', function () {
                 this.player1.reap(this.dustImp);
@@ -35,5 +34,4 @@ describe('CAENDLE Unit', function () {
                 expect(this.player1.amber).toBe(1);
             });
         });
-    });
 });

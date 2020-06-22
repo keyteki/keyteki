@@ -1,19 +1,18 @@
 describe('Selwyn The Fence', function () {
-    integration(function () {
-        describe("Selwyn The Fence's ability", function () {
-            beforeEach(function () {
-                this.setupTest({
-                    player1: {
-                        house: 'shadows',
-                        inPlay: ['selwyn-the-fence'],
-                        hand: ['old-bruno']
-                    },
-                    player2: {
-                        inPlay: ['urchin'],
-                        amber: 3
-                    }
-                });
+    describe("Selwyn The Fence's ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'shadows',
+                    inPlay: ['selwyn-the-fence'],
+                    hand: ['old-bruno']
+                },
+                player2: {
+                    inPlay: ['urchin'],
+                    amber: 3
+                }
             });
+        });
 
             it('should move captured Amber to pool when reaping.', function () {
                 this.player1.play(this.oldBruno);
@@ -45,5 +44,4 @@ describe('Selwyn The Fence', function () {
                 expect(this.player1.amber).toBe(0);
             });
         });
-    });
 });
