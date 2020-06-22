@@ -13,6 +13,29 @@ describe('Entropic Manipulator', function () {
                         hand: ['armageddon-cloak']
                     }
                 });
+            });
+
+            it('should have no effect when creatures have no damage', function () {
+                this.player1.play(this.entropicManipulator);
+                expect(this.player1).toHavePrompt('Entropic Manipulator');
+                this.player1.clickPrompt('Mine');
+                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            });
+        });
+
+        describe("Entropic Manipulator's ability", function () {
+            beforeEach(function () {
+                this.setupTest({
+                    player1: {
+                        house: 'mars',
+                        hand: ['entropic-manipulator'],
+                        inPlay: ['batdrone', 'troll']
+                    },
+                    player2: {
+                        inPlay: ['sequis', 'zorg'],
+                        hand: ['armageddon-cloak']
+                    }
+                });
                 this.troll.tokens.damage = 6;
                 this.zorg.tokens.damage = 3;
             });

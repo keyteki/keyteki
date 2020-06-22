@@ -17,6 +17,14 @@ describe('Equalize', function () {
                 });
             });
 
+            it('should not redistribute any amber if creatures have no amber', function () {
+                this.player1.endTurn();
+                this.player2.clickPrompt('Red');
+                this.player2.clickPrompt('sanctum');
+                this.player2.play(this.equalize);
+                expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            });
+
             it('should let a player redistribute all amber', function () {
                 this.player1.play(this.charette);
                 this.player1.play(this.drumble);
