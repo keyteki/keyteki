@@ -11,7 +11,7 @@ import debounce from 'lodash.debounce';
 import $ from 'jquery';
 
 import Archon from './Archon';
-import { loadDecks, selectDeck } from '../../redux/actions';
+import { loadDecks, selectDeck, loadStandaloneDecks } from '../../redux/actions';
 
 import './DeckList.scss';
 import { Constants } from '../../constants';
@@ -66,8 +66,9 @@ import { Constants } from '../../constants';
 /**
  * @typedef DeckListProps
  * @property {Deck} [activeDeck] The currently selected deck
- * @property {string} [className] The CSS class name to use
  * @property {boolean} [noFilter] Whether or not to enable filtering
+ * @property {function(Deck): void} [onDeckSelected] Callback fired when a deck is selected
+ * @property {boolean} [standaloneDecks] Only load the standalong decks rather than the user decks
  */
 
 /**
@@ -82,7 +83,7 @@ import { Constants } from '../../constants';
 /**
  * @param {DeckListProps} props
  */
-const DeckList = ({ className }) => {
+const DeckList = ({ onDeckSelected, standaloneDecks = false }) => {
     const { t } = useTranslation();
     const [pagingDetails, setPagingDetails] = useState({
         pageSize: 10,
@@ -96,16 +97,20 @@ const DeckList = ({ className }) => {
     const dispatch = useDispatch();
 
     const { decks, numDecks, selectedDeck } = useSelector((state) => ({
-        decks: state.cards.decks,
+        decks: standaloneDecks ? state.cards.standaloneDecks : state.cards.decks,
         numDecks: state.cards.numDecks,
-        selectedDeck: state.cards.selectedDeck
+        selectedDeck: standaloneDecks ? null : state.cards.selectedDeck
     }));
 
     useEffect(() => {
-        dispatch(loadDecks(pagingDetails));
+        if (standaloneDecks) {
+            dispatch(loadStandaloneDecks());
+        } else {
+            dispatch(loadDecks(pagingDetails));
+        }
 
         $('.filter-label').parent().parent().hide();
-    }, [pagingDetails, dispatch]);
+    }, [pagingDetails, dispatch, standaloneDecks]);
 
     const MultiSelectFilter = () => {
         return (
@@ -123,12 +128,18 @@ const DeckList = ({ className }) => {
         mode: 'radio',
         clickToSelect: true,
         hideSelectColumn: true,
-        selected: decks && selectedDeck ? [decks.find((d) => d.id === selectedDeck.id).id] : [],
+        selected: decks && selectedDeck ? [decks.find((d) => d.id === selectedDeck.id)?.id] : [],
         classes: 'selected-deck',
         onSelect: (deck, isSelect) => {
             if (isSelect) {
                 dispatch(selectDeck(deck));
             }
+        }
+    };
+
+    const rowEvents = {
+        onClick: (event, deck) => {
+            onDeckSelected && onDeckSelected(deck);
         }
     };
 
@@ -184,7 +195,7 @@ const DeckList = ({ className }) => {
         {
             dataField: 'name',
             text: t('Name'),
-            sort: true,
+            sort: !standaloneDecks,
             style: {
                 fontSize: '0.8rem'
             },
@@ -201,7 +212,7 @@ const DeckList = ({ className }) => {
                 width: '14%'
             },
             align: 'center',
-            sort: true,
+            sort: !standaloneDecks,
             // eslint-disable-next-line react/display-name
             formatter: (cell) => (
                 <img className='deck-expansion' src={Constants.SetIconPaths[cell]} />
@@ -223,7 +234,7 @@ const DeckList = ({ className }) => {
             },
             align: 'center',
             text: t('Added'),
-            sort: true,
+            sort: !standaloneDecks,
             /**
              * @param {Date} cell
              */
@@ -239,7 +250,8 @@ const DeckList = ({ className }) => {
             style: {
                 fontSize: '0.8rem'
             },
-            sort: true,
+            sort: !standaloneDecks,
+            hidden: standaloneDecks,
             /**
              * @param {number} cell
              */
@@ -252,29 +264,31 @@ const DeckList = ({ className }) => {
     }, 500);
 
     return (
-        <div className={className}>
-            <Col md={12}>
-                <Form>
-                    <Form.Row>
-                        <Form.Group as={Col} lg='6' controlId='formGridName'>
-                            <Form.Label>{t('Name')}</Form.Label>
-                            <Form.Control
-                                name='name'
-                                type='text'
-                                onChange={(event) => {
-                                    event.persist();
-                                    onNameChange(event);
-                                }}
-                                placeholder={t('Filter by name')}
-                            />
-                        </Form.Group>
-                        <Form.Group as={Col} lg='6' controlId='formGridExpansion'>
-                            <Form.Label>{t('Expansion')}</Form.Label>
-                            <Form.Control as={MultiSelectFilter} />
-                        </Form.Group>
-                    </Form.Row>
-                </Form>
-            </Col>
+        <div className='deck-list'>
+            {!standaloneDecks && (
+                <Col md={12}>
+                    <Form>
+                        <Form.Row>
+                            <Form.Group as={Col} lg='6' controlId='formGridName'>
+                                <Form.Label>{t('Name')}</Form.Label>
+                                <Form.Control
+                                    name='name'
+                                    type='text'
+                                    onChange={(event) => {
+                                        event.persist();
+                                        onNameChange(event);
+                                    }}
+                                    placeholder={t('Filter by name')}
+                                />
+                            </Form.Group>
+                            <Form.Group as={Col} lg='6' controlId='formGridExpansion'>
+                                <Form.Label>{t('Expansion')}</Form.Label>
+                                <Form.Control as={MultiSelectFilter} />
+                            </Form.Group>
+                        </Form.Row>
+                    </Form>
+                </Col>
+            )}
             <Col md={12}>
                 <BootstrapTable
                     bootstrap4
@@ -284,11 +298,16 @@ const DeckList = ({ className }) => {
                     data={decks}
                     columns={columns}
                     selectRow={selectRow}
-                    pagination={paginationFactory({
-                        page: pagingDetails.page,
-                        sizePerPage: pagingDetails.pageSize,
-                        totalSize: numDecks
-                    })}
+                    rowEvents={rowEvents}
+                    pagination={
+                        standaloneDecks
+                            ? null
+                            : paginationFactory({
+                                  page: pagingDetails.page,
+                                  sizePerPage: pagingDetails.pageSize,
+                                  totalSize: numDecks
+                              })
+                    }
                     filter={filterFactory()}
                     filterPosition='top'
                     onTableChange={onTableChange}

@@ -30,24 +30,6 @@ const GameState = Object.freeze({
     Started: 4
 });
 
-function isNewNotificationSupported() {
-    if (!window.Notification || !Notification.requestPermission) {
-        return false;
-    }
-
-    if (Notification.permission == 'granted')
-        throw new Error('You must only call this before calling Notification.requestPermission()');
-    try {
-        new Notification('');
-    } catch (e) {
-        if (e.name == 'TypeError') {
-            return false;
-        }
-    }
-
-    return true;
-}
-
 const GameLobby = () => {
     const { t } = useTranslation();
     const dispatch = useDispatch();

@@ -20,7 +20,7 @@ import { Decks } from '../types';
  */
 export function loadDecks(options = {}) {
     return {
-        types: ['REQUEST_DECKS', 'RECEIVE_DECKS'],
+        types: [Decks.RequestDecks, Decks.DecksReceived],
         shouldCallAPI: () => true,
         APIParams: { url: '/api/decks', cache: false, data: options }
     };

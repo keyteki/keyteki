@@ -22,6 +22,10 @@ const GameNameMaxLength = 64;
  * @typedef NewGameProps
  * @property {boolean} quickJoin The new game is quick join
  */
+
+/**
+ * @param {NewGameProps} props
+ */
 const NewGame = ({ quickJoin }) => {
     const lobbySocket = useSelector((state) => state.lobby.socket);
     const username = useSelector((state) => state.account.user?.username);
@@ -29,7 +33,7 @@ const NewGame = ({ quickJoin }) => {
     const dispatch = useDispatch();
 
     const schema = yup.object({
-        gameName: yup
+        name: yup
             .string()
             .required(t('You must specify a name for the game'))
             .max(
@@ -46,7 +50,7 @@ const NewGame = ({ quickJoin }) => {
     });
 
     const initialValues = {
-        gameName: `${username}'s game`,
+        name: `${username}'s game`,
         password: '',
         allowSpectators: true,
         gameFormat: 'normal',
@@ -111,16 +115,16 @@ const NewGame = ({ quickJoin }) => {
                                     <Form.Group as={Col} lg='8' controlId='formGridGameName'>
                                         <Form.Label>{t('Name')}</Form.Label>
                                         <Form.Label className='float-right'>
-                                            {GameNameMaxLength - formProps.values.gameName.length}
+                                            {GameNameMaxLength - formProps.values.name.length}
                                         </Form.Label>
                                         <Form.Control
                                             type='text'
                                             placeholder={t('Game Name')}
                                             maxLength={GameNameMaxLength}
-                                            {...getStandardControlProps(formProps, 'gameName')}
+                                            {...getStandardControlProps(formProps, 'name')}
                                         />
                                         <Form.Control.Feedback type='invalid'>
-                                            {formProps.errors.gameName}
+                                            {formProps.errors.name}
                                         </Form.Control.Feedback>
                                     </Form.Group>
                                 </Form.Row>

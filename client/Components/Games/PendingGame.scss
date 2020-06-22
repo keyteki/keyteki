@@ -1,0 +1,14 @@
+@import '../../styles/variables';
+@import '../../styles/colours';
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+
+.message-list {
+    height: 200px;
+    width: 100%;
+    border: 1px solid theme-color('primary');
+    border-radius: 4px;
+    margin-bottom: 5px;
+    overflow: auto;
+    padding: 5px 10px;
+}

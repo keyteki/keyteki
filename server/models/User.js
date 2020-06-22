@@ -141,7 +141,6 @@ class User {
             username: this.userData.username,
             email: this.userData.email,
             settings: this.userData.settings,
-            promptedActionWindows: this.userData.promptedActionWindows,
             permissions: this.userData.permissions,
             verified: this.userData.verified,
             enableGravatar: this.userData.enableGravatar,

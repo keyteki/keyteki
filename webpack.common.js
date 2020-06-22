@@ -46,7 +46,7 @@ module.exports = {
                 loader: 'babel-loader'
             },
             {
-                test: /.(jpe?g|png|woff(2)?|eot|ttf|svg)(\?[a-z0-9=.]+)?$/,
+                test: /.(jpe?g|png|woff(2)?|eot|ttf|svg|mp3|ogg)(\?[a-z0-9=.]+)?$/,
                 use: 'url-loader?limit=16384'
             },
             { test: /\.css$/, use: ['style-loader', 'css-loader'] },

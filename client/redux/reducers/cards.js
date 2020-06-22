@@ -95,7 +95,7 @@ export default function (state = { decks: [], cards: [] }, action) {
             return Object.assign({}, state, {
                 player2CardBack: action.url
             });
-        case 'RECEIVE_DECKS':
+        case Decks.DecksReceived:
             processDecks(action.response.decks, state);
             newState = Object.assign({}, state, {
                 singleDeck: false,
@@ -121,7 +121,7 @@ export default function (state = { decks: [], cards: [] }, action) {
                 deckSaved: false,
                 deckDeleted: false
             });
-        case 'REQUEST_DECKS':
+        case Decks.RequestDecks:
             newState = Object.assign({}, state, {
                 deckSaved: false,
                 deckDeleted: false

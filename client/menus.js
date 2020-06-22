@@ -1,11 +1,11 @@
 /**
  * @typedef MenuItem
- * @property {string} path The url path
+ * @property {string} [path] The url path
  * @property {string} title The title to show to the user
- * @property {boolean} showOnlyWhenLoggedIn Whether or not this menu item only shows for logged in users
- * @property {boolean} showOnlyWhenLoggedOut Whether or not this menu item only shows for logged out users
- * @property {GametekiPermission} permission The permission required to see this menu item
- * @property {MenuItem[]} childItems Child menu items
+ * @property {boolean} [showOnlyWhenLoggedIn] Whether or not this menu item only shows for logged in users
+ * @property {boolean} [showOnlyWhenLoggedOut] Whether or not this menu item only shows for logged out users
+ * @property {Permission} [permission] The permission required to see this menu item
+ * @property {MenuItem[]} [childItems] Child menu items
  */
 
 /**

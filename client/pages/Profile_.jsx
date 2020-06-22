@@ -45,11 +45,6 @@ class Profile extends React.Component {
             return;
         }
 
-        // If we haven't previously got any user details, then the api probably just returned now, so set the initial user details
-        if (!this.state.promptedActionWindows) {
-            this.updateProfile(props);
-        }
-
         if (props.profileSaved) {
             this.setState({
                 successMessage:

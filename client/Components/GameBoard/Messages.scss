@@ -1,0 +1,46 @@
+.seperator {
+    hr {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+}
+
+.username {
+    font-weight: bold;
+    color: white;
+}
+
+.message {
+    margin-bottom: 8px;
+    word-wrap: break-word;
+    line-height: 1.2;
+    max-width: 290px;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.message-chat {
+    margin-bottom: 3px;
+    b {
+        color: white;
+    }
+}
+
+.admin-role {
+    color: #e74c3b;
+}
+
+.contributor-role {
+    color: #20667c;
+}
+
+.supporter-role {
+    color: #2ecc71;
+}
+
+.winner-role {
+    color: #eebd1d;
+}
+
+.previouswinner-role {
+    color: #ff38c7;
+}

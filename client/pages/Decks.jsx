@@ -47,7 +47,7 @@ const DecksComponent = () => {
                                 <Trans>Import Deck</Trans>
                             </Link>
                         </Col>
-                        <DeckList className='deck-list' />
+                        <DeckList />
                     </Panel>
                 </Col>
                 <Col lg={6}>{selectedDeck && <ViewDeck deck={selectedDeck} />}</Col>

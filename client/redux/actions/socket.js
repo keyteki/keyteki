@@ -140,6 +140,11 @@ const messages = [
 export function connectLobby() {
     return (dispatch, getState) => {
         let state = getState();
+
+        if (state.lobby.socket && state.lobby.socket.connected) {
+            return;
+        }
+
         let queryString = state.auth.token ? 'token=' + state.auth.token + '&' : '';
         queryString += 'version=' + version.releaseDate;
 
