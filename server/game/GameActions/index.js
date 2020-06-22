@@ -30,6 +30,7 @@ module.exports = {
     ModifyChainsActions: require('./ModifyChainsAction'),
     MoveCardAction: require('./MoveCardAction'),
     MoveOnBattlelineAction: require('./MoveOnBattlelineAction'),
+    MoveToBottomAction: require('./MoveToBottomAction'),
     MoveToFlankAction: require('./MoveToFlankAction'),
     MulliganAction: require('./MulliganAction'),
     PlaceUnderAction: require('./PlaceUnderAction'),
