@@ -1,4 +1,4 @@
-describe('Opportunist', function () {
+fdescribe('Opportunist', function () {
     describe("Opportunist's ability", function () {
         beforeEach(function () {
             this.setupTest({
@@ -29,12 +29,20 @@ describe('Opportunist', function () {
             expect(this.urchin.getKeywordValue('elusive')).toBe(1);
         });
 
-        it('should capture 1A', function () {
+        it('should capture 1A from opponent', function () {
             expect(this.senatorShrix.amber).toBe(0);
             this.player1.playUpgrade(this.opportunist, this.senatorShrix);
             expect(this.senatorShrix.amber).toBe(1);
             expect(this.player1.amber).toBe(4);
             expect(this.player2.amber).toBe(1);
+        });
+
+        it('should capture 1A from player when attached to enemy creature', function () {
+            expect(this.urchin.amber).toBe(0);
+            this.player1.playUpgrade(this.opportunist, this.urchin);
+            expect(this.urchin.amber).toBe(1);
+            expect(this.player1.amber).toBe(3);
+            expect(this.player2.amber).toBe(2);
         });
     });
 });
