@@ -1,4 +1,4 @@
-fdescribe('Opportunist', function () {
+describe('Opportunist', function () {
     describe("Opportunist's ability", function () {
         beforeEach(function () {
             this.setupTest({
