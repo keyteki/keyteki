@@ -12,7 +12,6 @@ class Purify extends Card {
                 gameAction: ability.actions.purge()
             },
             then: (preThenContext) => ({
-                //Todo: affect controller, not current player.
                 gameAction: ability.actions.discard(() => {
                     let deck = preThenContext.target.controller.deck;
                     let index = deck.findIndex(
