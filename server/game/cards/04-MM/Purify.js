@@ -11,10 +11,10 @@ class Purify extends Card {
                 cardCondition: (card) => card.hasTrait('mutant'),
                 gameAction: ability.actions.purge()
             },
-            then: {
+            then: (preThenContext) => ({
                 //Todo: affect controller, not current player.
-                gameAction: ability.actions.discard((context) => {
-                    let deck = context.player.deck;
+                gameAction: ability.actions.discard(() => {
+                    let deck = preThenContext.target.controller.deck;
                     let index = deck.findIndex(
                         (card) => card.type === 'creature' && !card.hasTrait('mutant')
                     );
@@ -23,8 +23,8 @@ class Purify extends Card {
                     }
                     return { target: deck };
                 }),
-                then: (context) => {
-                    let card = context.player.deck.find(
+                then: () => {
+                    let card = preThenContext.target.controller.deck.find(
                         (card) => card.type === 'creature' && !card.hasTrait('mutant')
                     );
                     if (card) {
@@ -37,7 +37,7 @@ class Purify extends Card {
                         };
                     }
                 }
-            }
+            })
         });
     }
 }
