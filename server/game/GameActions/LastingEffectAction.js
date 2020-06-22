@@ -54,7 +54,7 @@ class LastingEffectAction extends GameAction {
             properties.until = this.until;
             return [
                 super.createEvent('applyLastingEffect', { context: context }, (event) =>
-                    event.context.source.lastingEffect(properties)
+                    event.context.source.lastingEffect(() => properties)
                 )
             ];
         }
