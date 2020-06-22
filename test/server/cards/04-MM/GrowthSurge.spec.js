@@ -1,4 +1,4 @@
-fdescribe('Growth Surge', function () {
+describe('Growth Surge', function () {
     integration(function () {
         describe("Growth Surge's ability", function () {
             beforeEach(function () {
