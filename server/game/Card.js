@@ -291,6 +291,19 @@ class Card extends EffectSource {
         );
     }
 
+    /**
+     * @typedef {('play area'|'discard'|'archives'|'being played'|'draw')} CardLocation
+     */
+
+    /**
+     * @typedef PlayProperties
+     * @property {CardLocation} location The location this effect can trigger from
+     * @property {TargetProperties} target The targetting specifier
+     * @property {function(any): boolean} condition An expression that returns whether this effect is allowed to trigger
+     * @property {string} effect The text added to the game log when this effect triggers
+     * @property {function(any): [any]} effectArgs A function that returns the arguments to the effect string
+     */
+
     play(properties) {
         if (this.type === 'action') {
             properties.location = properties.location || 'being played';
@@ -848,7 +861,7 @@ class Card extends EffectSource {
             condition: (context) =>
                 this.checkRestrictions('reap', context) && this.type === 'creature',
             printedAbility: false,
-            gameAction: new ResolveReapAction()
+            gameAction: new ResolveReapAction({})
         });
     }
 

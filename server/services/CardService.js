@@ -7,6 +7,9 @@ const db = require('../db');
 class CardService {
     constructor(configService) {
         this.redis = redis.createClient(configService.getValue('redisUrl'));
+
+        this.getAsync = promisify(this.redis.get).bind(this.redis);
+        this.setAsync = promisify(this.redis.set).bind(this.redis);
     }
 
     async replaceCards(cards) {
@@ -58,6 +61,7 @@ class CardService {
             };
         }
 
+        let cardsById = {};
         for (let card of cards) {
             try {
                 const expansion = expansionsByNumber[card.expansion];
@@ -107,18 +111,19 @@ class CardService {
 
                 continue;
             }
+
+            cardsById[card.id] = card;
         }
+
+        await this.setAsync('cards', JSON.stringify(cardsById));
     }
 
     async getAllCards(options) {
-        const getAsync = promisify(this.redis.get).bind(this.redis);
-        const setAsync = promisify(this.redis.set).bind(this.redis);
-
         if (this.cardCache) {
             return this.cardCache;
         }
 
-        let redisCards = await getAsync('cards');
+        let redisCards = await this.getAsync('cards');
         if (redisCards) {
             logger.info('Found cached cards in redis');
 
@@ -132,7 +137,8 @@ class CardService {
         try {
             cards = await db.query(
                 'SELECT c.*, e."ExpansionId", e."Code" AS "ExpansionCode", h."Code" AS "House" FROM "Cards" c ' +
-                    'JOIN "Expansions" e ON e."Id" = c."ExpansionId" JOIN "Houses" h ON h."Id" = c."HouseId"'
+                    'JOIN "Expansions" e ON e."Id" = c."ExpansionId" JOIN "Houses" h ON h."Id" = c."HouseId"',
+                []
             );
         } catch (err) {
             logger.error('Failed to lookup cards', err);
@@ -156,7 +162,7 @@ class CardService {
         }
 
         logger.info('Cards loaded from database, sending to redis');
-        await setAsync('cards', JSON.stringify(retCards));
+        await this.setAsync('cards', JSON.stringify(retCards));
         this.cardCache = retCards;
 
         return retCards;

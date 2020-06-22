@@ -35,6 +35,7 @@ const Actions = {
     heal: (propertyFactory) => new GameActions.HealAction(propertyFactory),
     moveCard: (propertyFactory) => new GameActions.MoveCardAction(propertyFactory), // destination, switch = false, shuffle = false
     moveOnBattleline: (propertyFactory) => new GameActions.MoveOnBattlelineAction(propertyFactory),
+    moveToBottom: (propertyFactory) => new GameActions.MoveToBottomAction(propertyFactory),
     moveToFlank: (propertyFactory) => new GameActions.MoveToFlankAction(propertyFactory),
     placeAmber: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'amber'), // amount = 1
     placeUnder: (propertyFactory) => new GameActions.PlaceUnderAction(propertyFactory), // parent

@@ -3,7 +3,10 @@ const Card = require('../../Card.js');
 class Equalize extends Card {
     setupCardAbilities(ability) {
         this.play({
-            effect: "redistribute the amber on both player's creatures",
+            effect: "redistribute {1} amber on both player's creatures",
+            effectArgs: (context) => [
+                context.game.creaturesInPlay.reduce((total, card) => total + card.amber, 0)
+            ],
             gameAction: ability.actions.removeAmber((context) => ({
                 target: context.player.creaturesInPlay,
                 noGameStateCheck: true,
@@ -33,6 +36,7 @@ class Equalize extends Card {
                         all: true
                     })),
                     then: {
+                        alwaysTriggers: true,
                         gameAction: ability.actions.sequentialForEach((context) => ({
                             num: context.preThenEvents
                                 .filter((event) => !event.cancelled)

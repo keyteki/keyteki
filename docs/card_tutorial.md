@@ -154,7 +154,7 @@ AccessDenied.id = 'access-denied';
 module.exports = AccessDenied;
 ```
 
-> Note: effects like bonus aember are part of the card definition in the card database, these are already taken care of for you for cards that are in the database. If the card is not in the database, or wrong in the database ask for help.
+> Note: effects like bonus amber are part of the card definition in the card database, these are already taken care of for you for cards that are in the database. If the card is not in the database, or wrong in the database ask for help.
 
 #### 5. Create a test for your card.
 

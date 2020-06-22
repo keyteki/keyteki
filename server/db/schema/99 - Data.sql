@@ -18,7 +18,7 @@ INSERT INTO public."Expansions" ("Id", "ExpansionId", "Code", "Name") VALUES (1,
 INSERT INTO public."Expansions" ("Id", "ExpansionId", "Code", "Name") VALUES (2, 452, 'WC', 'Worlds Collide');
 INSERT INTO public."Expansions" ("Id", "ExpansionId", "Code", "Name") VALUES (3, 435, 'AoA', 'Age of Ascension');
 INSERT INTO public."Expansions" ("Id", "ExpansionId", "Code", "Name") VALUES (4, 341, 'CotA', 'Call of the Archons');
-INSERT INTO public."Expansions" ("Id", "ExpansionId", "Code", "Name") VALUES (5, 512, 'MM', 'Mass Mutation');
+INSERT INTO public."Expansions" ("Id", "ExpansionId", "Code", "Name") VALUES (5, 479, 'MM', 'Mass Mutation');
 
 --
 -- Name: Expansions_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: keyteki
