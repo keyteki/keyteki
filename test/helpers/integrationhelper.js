@@ -1,4 +1,3 @@
-/* global describe, beforeEach, jasmine */
 /* eslint camelcase: 0, no-invalid-this: 0 */
 
 const _ = require('underscore');
@@ -238,6 +237,10 @@ global.integration = function (definitions) {
                         let split = card.id.split('-');
                         for (let i = 1; i < split.length; i++) {
                             split[i] = split[i].slice(0, 1).toUpperCase() + split[i].slice(1);
+                            // TODO Enable this and fix the tests it breaks
+                            // if (split[i].length === 1) {
+                            //     split[i] = split[i].toLowerCase();
+                            // }
                         }
 
                         let camel = split.join('');

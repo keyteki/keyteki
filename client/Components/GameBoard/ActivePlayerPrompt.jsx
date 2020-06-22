@@ -135,9 +135,9 @@ class ActivePlayerPrompt extends React.Component {
         }
     }
 
-    onCardNameSelected(command, method, cardName) {
+    onCardNameSelected(command, uuid, method, cardName) {
         if (this.props.onButtonClick) {
-            this.props.onButtonClick(command, cardName, method);
+            this.props.onButtonClick(command, cardName, uuid, method);
         }
     }
 
@@ -177,6 +177,7 @@ class ActivePlayerPrompt extends React.Component {
                             onCardSelected={this.onCardNameSelected.bind(
                                 this,
                                 control.command,
+                                control.uuid,
                                 control.method
                             )}
                         />
