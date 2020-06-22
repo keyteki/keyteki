@@ -1,6 +1,6 @@
 const Card = require('../../Card.js');
 
-class Chonkers extends Card {
+class Eunoia extends Card {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
@@ -9,18 +9,11 @@ class Chonkers extends Card {
                     event.destroyEvent &&
                     event.destroyEvent.resolved
             },
-            gameAction: [ability.actions.addPowerCounter((context) => (
-                {amount: context.source.tokens.power} 
-            ))]
-        });
-
-        this.play({
-            gameAction: ability.actions.addPowerCounter({amount: 1})
-            
+            gameAction: [ability.actions.gainAmber(), ability.actions.heal({ amount: 2 })]
         });
     }
 }
 
-Chonkers.id = 'chonkers';
+Eunoia.id = 'eunoia';
 
-module.exports = Chonkers;
+module.exports = Eunoia;
