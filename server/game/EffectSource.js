@@ -46,8 +46,7 @@ class EffectSource extends GameObject {
      * Applies a lasting effect which lasts until an event contained in the
      * `until` property for the effect has occurred.
      */
-    lastingEffect(propertyFactory) {
-        let properties = propertyFactory(AbilityDsl);
+    lastingEffect(properties) {
         return this.addEffectToEngine(
             Object.assign({ duration: 'custom', location: 'any' }, properties)
         );
