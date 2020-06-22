@@ -39,7 +39,7 @@ describe('City-State Interest', function () {
                 });
             });
 
-            it('will let player choose which creatures capture if there are more creatures than opponent aember', function () {
+            it('will let player choose which creatures capture if there are more creatures than opponent amber', function () {
                 this.player1.play(this.cityStateInterest);
                 expect(this.player1).toHavePrompt('City-State Interest');
                 expect(this.player1).not.toBeAbleToSelect(this.lamindra);

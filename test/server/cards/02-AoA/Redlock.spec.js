@@ -17,7 +17,7 @@ describe('Redlock', function () {
                 });
             });
 
-            it('should NOT give an aember if you play a creature', function () {
+            it('should NOT give an amber if you play a creature', function () {
                 this.player1.play(this.faygin);
                 this.player1.endTurn();
                 expect(this.player1.player.amber).toBe(2);

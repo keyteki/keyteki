@@ -27,7 +27,7 @@ describe('Dark Centurion', function () {
                 expect(this.darkCenturion.hasToken('ward')).toBe(false);
             });
 
-            it('should be able to remove one aember from a creature that this player controls, and ward it', function () {
+            it('should be able to remove one amber from a creature that this player controls, and ward it', function () {
                 this.umbra.tokens.amber = 1;
                 this.player1.useAction(this.darkCenturion);
 
@@ -40,7 +40,7 @@ describe('Dark Centurion', function () {
                 expect(this.darkCenturion.hasToken('ward')).toBe(false);
             });
 
-            it('should be able to remove one aember from a creature that the opponent controls, and ward it', function () {
+            it('should be able to remove one amber from a creature that the opponent controls, and ward it', function () {
                 this.umbra.tokens.amber = 1;
                 this.troll.tokens.amber = 1;
 

@@ -1,6 +1,6 @@
 const Card = require('../../Card.js');
 
-class Aemberheart extends Card {
+class Amberheart extends Card {
     setupCardAbilities(ability) {
         this.action({
             target: {
@@ -17,6 +17,6 @@ class Aemberheart extends Card {
     }
 }
 
-Aemberheart.id = 'æmberheart';
+Amberheart.id = 'æmberheart';
 
-module.exports = Aemberheart;
+module.exports = Amberheart;

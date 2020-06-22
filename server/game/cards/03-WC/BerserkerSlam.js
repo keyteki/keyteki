@@ -13,7 +13,7 @@ class BerserkerSlam extends Card {
                     context.preThenEvent.destroyEvent &&
                     context.preThenEvent.destroyEvent.resolved &&
                     context.preThenEvent.card === preThenContext.target,
-                message: '{0} uses {1} to cause {3} to lose 1 aember',
+                message: '{0} uses {1} to cause {3} to lose 1 amber',
                 messageArgs: (context) => [context.preThenEvent.clone.controller],
                 gameAction: ability.actions.loseAmber((context) => ({
                     amount: 1,

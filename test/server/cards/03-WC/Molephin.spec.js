@@ -17,7 +17,7 @@ describe('Molephin', function () {
                 });
             });
 
-            it('on steal, should deal damage equal to the amount of aember stolen to the entire enemy board', function () {
+            it('on steal, should deal damage equal to the amount of amber stolen to the entire enemy board', function () {
                 this.player1.endTurn();
                 this.player2.clickPrompt('shadows');
                 this.player2.play(this.urchin);
