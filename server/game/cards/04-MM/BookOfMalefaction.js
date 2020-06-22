@@ -7,7 +7,7 @@ class BookOfMalefaction extends Card {
                 onStealAmber: (event, context) => event.player === context.player
             },
             gameAction: ability.actions.addWarrantCounter((context) => ({
-                target: this,
+                target: context.source,
                 amount: context.event.amount
             }))
         });
