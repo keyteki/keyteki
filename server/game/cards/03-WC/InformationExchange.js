@@ -4,6 +4,7 @@ const EventRegistrar = require('../../eventregistrar.js');
 class InformationExchange extends Card {
     setupCardAbilities(ability) {
         this.amberStolenControllerUuid = {};
+        this.activePlayerStoleAmber = false;
         this.tracker = new EventRegistrar(this.game, this);
         this.tracker.register(['onStealAmber', 'onRoundEnded']);
 
@@ -19,15 +20,18 @@ class InformationExchange extends Card {
     }
 
     onStealAmber(event) {
-        if (this.game.activePlayer !== this.controller) {
-            this.amberStolenControllerUuid[event.player.opponent.uuid] = true;
+        if (event.player.opponent === this.game.activePlayer) {
+            this.activePlayerStoleAmber = true;
         }
     }
 
     onRoundEnded() {
-        if (this.game.activePlayer !== this.controller) {
-            this.amberStolenControllerUuid = {};
+        if (this.game.activePlayer.opponent) {
+            this.amberStolenControllerUuid[
+                this.game.activePlayer.opponent.uuid
+            ] = this.activePlayerStoleAmber;
         }
+        this.activePlayerStoleAmber = false;
     }
 }
 
