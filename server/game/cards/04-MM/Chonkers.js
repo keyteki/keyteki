@@ -9,14 +9,15 @@ class Chonkers extends Card {
                     event.destroyEvent &&
                     event.destroyEvent.resolved
             },
-            gameAction: [ability.actions.addPowerCounter((context) => (
-                {amount: context.source.tokens.power} 
-            ))]
+            gameAction: [
+                ability.actions.addPowerCounter((context) => ({
+                    amount: context.source.tokens.power
+                }))
+            ]
         });
 
         this.play({
-            gameAction: ability.actions.addPowerCounter({amount: 1})
-            
+            gameAction: ability.actions.addPowerCounter({ amount: 1 })
         });
     }
 }
