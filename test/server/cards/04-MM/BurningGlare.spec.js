@@ -19,9 +19,9 @@ describe('Burning Glare', function () {
             it('should allow stunning any enemy creature', function () {
                 this.player1.play(this.burningGlare);
                 expect(this.player1).toHavePrompt('Select one');
-                expect(this.player1).toHavePromptButton('Stun a creature');
+                expect(this.player1).toHavePromptButton('Stun an enemy creature');
                 expect(this.player1).toHavePromptButton('Stun each enemy mutant creature');
-                this.player1.clickPrompt('Stun a creature');
+                this.player1.clickPrompt('Stun an enemy creature');
                 expect(this.player1).toBeAbleToSelect(this.keyfrog);
                 expect(this.player1).toBeAbleToSelect(this.dextre);
                 expect(this.player1).toBeAbleToSelect(this.professorTerato);
@@ -32,19 +32,18 @@ describe('Burning Glare', function () {
                 expect(this.dextre.stunned).toBe(false);
                 expect(this.professorTerato.stunned).toBe(false);
                 expect(this.technoBeast.stunned).toBe(false);
+                expect(this.pismire.stunned).toBe(false);
             });
 
             it('should allow stunning all enemy mutant creatures', function () {
                 this.player1.play(this.burningGlare);
-                expect(this.player1).toHavePrompt('Select one');
-                expect(this.player1).toHavePromptButton('Stun a creature');
-                expect(this.player1).toHavePromptButton('Stun each enemy mutant creature');
                 this.player1.clickPrompt('Stun each enemy mutant creature');
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
                 expect(this.keyfrog.stunned).toBe(false);
                 expect(this.dextre.stunned).toBe(false);
                 expect(this.professorTerato.stunned).toBe(true);
                 expect(this.technoBeast.stunned).toBe(true);
+                expect(this.pismire.stunned).toBe(false);
             });
         });
     });

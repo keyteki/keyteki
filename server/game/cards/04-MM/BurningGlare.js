@@ -6,7 +6,7 @@ class BurningGlare extends Card {
             target: {
                 mode: 'select',
                 choices: {
-                    'Stun a creature': ability.actions.stun({
+                    'Stun an enemy creature': ability.actions.stun({
                         promptForSelect: {
                             activePromptTitle: 'Choose a creature to stun',
                             cardType: 'creature',
