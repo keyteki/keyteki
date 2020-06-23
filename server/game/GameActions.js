@@ -11,6 +11,8 @@ const Actions = {
     addGloryCounter: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'glory'),
     addGrowthCounter: (propertyFactory) =>
         new GameActions.AddTokenAction(propertyFactory, 'growth'),
+    addSchemeCounter: (propertyFactory) =>
+        new GameActions.AddTokenAction(propertyFactory, 'scheme'),
     addWardToken: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'ward'),
     archive: (propertyFactory) => new GameActions.ArchiveAction(propertyFactory),
     attach: (propertyFactory) => new GameActions.AttachAction(propertyFactory), // upgrade
@@ -50,6 +52,8 @@ const Actions = {
     removeAmber: (propertyFactory) => new GameActions.RemoveTokenAction(propertyFactory, 'amber'),
     removeDamage: (propertyFactory) => new GameActions.RemoveTokenAction(propertyFactory, 'damage'),
     removePowerCounter: (propertyFactory) => new GameActions.RemoveTokenAction(propertyFactory),
+    removeSchemeCounter: (propertyFactory) =>
+        new GameActions.RemoveTokenAction(propertyFactory, 'scheme'),
     removeStun: (propertyFactory) => new GameActions.RemoveStunAction(propertyFactory),
     removeWard: (propertyFactory) => new GameActions.RemoveWardAction(propertyFactory),
     removeWardToken: (propertyFactory) =>
