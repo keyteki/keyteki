@@ -10,7 +10,8 @@ describe('Monument to Ludo', function () {
                 },
                 player2: {
                     amber: 4,
-                    inPlay: ['troll']
+                    inPlay: ['troll'],
+                    hand: ['poltergeist']
                 }
             });
         });
@@ -38,6 +39,20 @@ describe('Monument to Ludo', function () {
             this.player1.clickCard(this.badPenny);
 
             expect(this.badPenny.tokens.amber).toBe(3);
+        });
+
+        it("should work with Poltergeist and not consider opponent's discard", function () {
+            this.badPenny.tokens.amber = 5;
+            this.player1.player.moveCard(this.praefectusLudo, 'discard');
+            this.player1.endTurn();
+            this.player2.clickPrompt('dis');
+            this.player2.play(this.poltergeist);
+            this.player2.clickCard(this.monumentToLudo);
+            expect(this.player2).toBeAbleToSelect(this.troll);
+            expect(this.player2).toBeAbleToSelect(this.badPenny);
+            this.player2.clickCard(this.badPenny);
+            expect(this.monumentToLudo.location).toBe('discard');
+            expect(this.badPenny.tokens.amber).toBe(4);
         });
     });
 });
