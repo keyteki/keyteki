@@ -1,16 +1,16 @@
-fdescribe('Lucky Dice', function () {
+describe('Lucky Dice', function () {
     describe("Lucky Dice's abilities", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
                     house: 'shadows',
                     inPlay: ['lucky-dice', 'lamindra', 'dodger', 'brend-the-fanatic'],
-                    amber: 3
+                    amber: 1
                 },
                 player2: {
-                    amber: 2,
-                    inPlay: ['troll', 'bingle-bangbang'],
-                    hand: ['brammo', 'ballcano']
+                    amber: 1,
+                    inPlay: ['troll', 'bingle-bangbang', 'gamgee', 'neffru'],
+                    hand: ['brammo', 'ballcano', 'sneklifter', 'poltergeist']
                 }
             });
         });
@@ -55,6 +55,45 @@ fdescribe('Lucky Dice', function () {
             this.player2.play(this.brammo);
             expect(this.lamindra.location).toBe('discard');
             expect(this.brendTheFanatic.tokens.damage).toBe(2);
+        });
+
+        it('should work when taken control', function () {
+            this.player1.endTurn();
+            this.player2.clickPrompt('shadows');
+            this.player2.play(this.sneklifter);
+            this.player2.clickCard(this.luckyDice);
+            this.player2.useAction(this.luckyDice, true);
+            expect(this.luckyDice.location).toBe('discard');
+            this.player2.fightWith(this.gamgee, this.brendTheFanatic);
+            expect(this.gamgee.location).toBe('discard');
+            this.player2.endTurn();
+            this.player1.clickPrompt('shadows');
+            this.player1.fightWith(this.dodger, this.troll);
+            expect(this.dodger.location).toBe('discard');
+            expect(this.troll.tokens.damage).toBeUndefined();
+            this.player1.endTurn();
+            this.player2.clickPrompt('brobnar');
+            this.player2.play(this.ballcano);
+            expect(this.troll.tokens.damage).toBe(4);
+        });
+
+        it('should work with Poltergeist', function () {
+            this.player1.endTurn();
+            this.player2.clickPrompt('dis');
+            this.player2.play(this.poltergeist);
+            this.player2.clickCard(this.luckyDice);
+            expect(this.luckyDice.location).toBe('discard');
+            this.player2.fightWith(this.neffru, this.brendTheFanatic);
+            expect(this.neffru.tokens.damage).toBe(3);
+            this.player2.endTurn();
+            this.player1.clickPrompt('shadows');
+            this.player1.fightWith(this.dodger, this.troll);
+            expect(this.dodger.location).toBe('discard');
+            expect(this.troll.tokens.damage).toBeUndefined();
+            this.player1.endTurn();
+            this.player2.clickPrompt('brobnar');
+            this.player2.play(this.ballcano);
+            expect(this.troll.tokens.damage).toBe(4);
         });
     });
 });

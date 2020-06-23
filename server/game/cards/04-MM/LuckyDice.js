@@ -12,7 +12,7 @@ class LuckyDice extends Card {
                     target: context.player.creaturesInPlay,
                     effect: ability.effects.cardCannot(
                         'damage',
-                        (dcontext) => context.player !== dcontext.player
+                        (dcontext) => context.player !== dcontext.game.activePlayer
                     )
                 }))
             ])
