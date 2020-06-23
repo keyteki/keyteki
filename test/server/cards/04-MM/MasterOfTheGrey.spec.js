@@ -12,12 +12,14 @@ describe('Master of the Grey', function () {
                             'wild-bounty',
                             'neuro-syphon',
                             'krrrzzzaaap',
-                            'shadow-of-dis'
+                            'shadow-of-dis',
+                            'harland-mindlock'
                         ]
                     },
                     player2: {
                         amber: 2,
-                        inPlay: ['master-of-the-grey']
+                        inPlay: ['master-of-the-grey'],
+                        hand: ['virtuous-works']
                     }
                 });
             });
@@ -26,6 +28,25 @@ describe('Master of the Grey', function () {
                 this.player1.play(this.neuroSyphon);
 
                 expect(this.player1.amber).toBe(4);
+            });
+
+            it('should not block the controllers bonus icons', function () {
+                this.player1.endTurn();
+                this.player2.clickPrompt('sanctum');
+                this.player2.play(this.virtuousWorks);
+
+                expect(this.player2.amber).toBe(5);
+            });
+
+            it('should block the original controllers bonus icons after being stolen', function () {
+                this.player1.play(this.harlandMindlock);
+                this.player1.clickCard(this.masterOfTheGrey);
+                this.player1.clickPrompt('left');
+                this.player1.endTurn();
+                this.player2.clickPrompt('sanctum');
+                this.player2.play(this.virtuousWorks);
+
+                expect(this.player2.amber).toBe(2);
             });
 
             it('should block the doubling effect of fission bloom', function () {
@@ -53,6 +74,18 @@ describe('Master of the Grey', function () {
                 expect(this.player1.amber).toBe(6);
             });
 
+            it('should not block bonus amber or doubling effects after being stolen', function () {
+                this.player1.play(this.harlandMindlock);
+                this.player1.clickCard(this.masterOfTheGrey);
+                this.player1.clickPrompt('left');
+                this.player1.play(this.phaseShift);
+                this.player1.play(this.wildBounty);
+                this.player1.play(this.neuroSyphon);
+
+                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.player1.amber).toBe(6);
+            });
+
             it('should not block bonus amber or doubling effects after abilities are removed', function () {
                 this.player1.play(this.phaseShift);
                 this.player1.play(this.shadowOfDis);
@@ -71,7 +104,7 @@ describe('Master of the Grey', function () {
                 expect(this.player2.amber).toBe(2);
                 expect(this.pismire.tokens.damage).toBeUndefined();
                 expect(this.masterOfTheGrey.tokens.damage).toBeUndefined();
-                expect(this.player1.player.hand.length).toBe(4);
+                expect(this.player1.player.hand.length).toBe(5);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
@@ -98,7 +131,7 @@ describe('Master of the Grey', function () {
                 expect(this.player2.amber).toBe(0);
                 expect(this.pismire.tokens.damage).toBe(2);
                 expect(this.pismire.tokens.amber).toBe(2);
-                expect(this.player1.player.hand.length).toBe(5);
+                expect(this.player1.player.hand.length).toBe(6);
             });
         });
     });
