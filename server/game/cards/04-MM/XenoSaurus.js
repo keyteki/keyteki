@@ -1,15 +1,15 @@
 const Card = require('../../Card.js');
 
-class XenoBot extends Card {
+class XenoSaurus extends Card {
     setupCardAbilities(ability) {
-        this.reap({
-            target: {
-                controller: 'self',
-                location: 'hand',
-                gameAction: ability.actions.discard()
-            },
+        this.play({
+            optional: true,
+            gameAction: ability.actions.exalt(),
             then: {
-                gameAction: ability.actions.draw()
+                target: {
+                    cardType: 'creature',
+                    gameAction: ability.actions.dealDamage({ amount: 3 })
+                }
             }
         });
 
@@ -35,6 +35,6 @@ class XenoBot extends Card {
     }
 }
 
-XenoBot.id = 'xeno-bot';
+XenoSaurus.id = 'xeno-saurus';
 
-module.exports = XenoBot;
+module.exports = XenoSaurus;

@@ -1,18 +1,7 @@
 const Card = require('../../Card.js');
 
-class XenoBot extends Card {
+class XenoBeast extends Card {
     setupCardAbilities(ability) {
-        this.reap({
-            target: {
-                controller: 'self',
-                location: 'hand',
-                gameAction: ability.actions.discard()
-            },
-            then: {
-                gameAction: ability.actions.draw()
-            }
-        });
-
         this.fight({
             effect: 'to look at the top 3 cards of their deck',
             gameAction: ability.actions.sequential([
@@ -35,6 +24,6 @@ class XenoBot extends Card {
     }
 }
 
-XenoBot.id = 'xeno-bot';
+XenoBeast.id = 'xeno-beast';
 
-module.exports = XenoBot;
+module.exports = XenoBeast;
