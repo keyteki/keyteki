@@ -56,13 +56,11 @@ class ChatCommands {
                 break;
         }
 
-        let cardName = args.slice(1).join(' ');
-        let card = Object.values(this.game.cardData).find((c) => {
-            return (
-                c.id.toLowerCase() === cardName.toLowerCase() ||
-                c.name.toLowerCase() === cardName.toLowerCase()
-            );
-        });
+        let cardName = args.slice(1).join(' ').toLowerCase();
+        let card = this.game.cardData[cardName];
+        if (!card) {
+            card = Object.values(this.game.cardData).find((c) => c.name.toLowerCase() === cardName);
+        }
 
         if (!card) {
             return false;

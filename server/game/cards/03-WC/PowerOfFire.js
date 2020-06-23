@@ -14,7 +14,7 @@ class PowerOfFire extends Card {
                     context.preThenEvents &&
                     context.preThenEvents.filter((event) => !event.cancelled),
                 message:
-                    '{0} uses {1} to sacrifice {3} and cause each player to lose {4} aember; {0} gains 1 chain',
+                    '{0} uses {1} to sacrifice {3} and cause each player to lose {4} amber; {0} gains 1 chain',
                 messageArgs: (context) => {
                     return [
                         context.preThenEvent.card,

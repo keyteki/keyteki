@@ -22,6 +22,7 @@ class EntropicManipulator extends Card {
                         : context.player.opponent.creaturesInPlay
             })),
             then: (preContext) => ({
+                alwaysTriggers: true,
                 gameAction: ability.actions.sequentialForEach((context) => ({
                     num: context.preThenEvents
                         .filter((event) => !event.cancelled && event.amount > 0)
