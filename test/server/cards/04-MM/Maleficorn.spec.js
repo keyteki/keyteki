@@ -15,7 +15,7 @@ describe('Maleficorn', function () {
             });
         });
 
-        it('should not deal damage when card has no D enhancement', function () {
+        it('should not deal damage when card has no Damage bonus', function () {
             this.bindingIrons.cardData.enhancements = ['damage', 'damage'];
 
             this.player1.play(this.guiltyHearts);
@@ -61,7 +61,7 @@ describe('Maleficorn', function () {
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
 
-        it('should not deal extra damage when damage is from card', function () {
+        it('should not deal extra damage when damage is not from bonus', function () {
             this.player1.play(this.gongoozle);
             expect(this.player1).toBeAbleToSelect(this.troll);
             expect(this.player1).toBeAbleToSelect(this.maleficorn);
@@ -72,7 +72,7 @@ describe('Maleficorn', function () {
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
 
-        it('should deal 1D + 1D when opponent target its own creature', function () {
+        it('should deal 1D + 1D when opponent target their own creature', function () {
             this.burnTheStockpile.cardData.enhancements = ['damage'];
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
