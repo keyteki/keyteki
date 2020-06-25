@@ -1,4 +1,4 @@
-fdescribe('Look what I found', function () {
+describe('Look what I found', function () {
     beforeEach(function () {
         this.setupTest({
             player1: {
