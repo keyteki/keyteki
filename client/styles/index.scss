@@ -6,6 +6,8 @@
 
 @import 'bootstrap';
 
+@import './fixmeunassigned.scss';
+
 html,
 body {
     height: 100%;
@@ -91,6 +93,18 @@ a {
     }
 }
 
+.btn-default {
+    background-image: url('~assets/img/button-orange.png');
+
+    &:hover {
+        background-image: url('~assets/img/button-orange-hover.png');
+    }
+
+    &:focus:active {
+        background-image: url('~assets/img/button-orange-hover.png');
+    }
+}
+
 .btn-secondary {
     &:not(.dropdown-toggle) {
         background-image: url('~assets/img/button-orange.png');
@@ -166,4 +180,8 @@ a {
 
 .btn-icon {
     width: auto !important;
+}
+
+h4 {
+    font-size: 0.9rem;
 }

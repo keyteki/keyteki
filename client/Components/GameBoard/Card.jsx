@@ -3,15 +3,15 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import 'jquery-migrate';
 import { DragSource } from 'react-dnd';
+import { withTranslation } from 'react-i18next';
 
 import CardMenu from './CardMenu';
 import CardCounters from './CardCounters';
 import CardImage from './CardImage';
 import { ItemTypes } from '../../constants';
-
 import SquishableCardPanel from './SquishableCardPanel';
 
-import { withTranslation } from 'react-i18next';
+import './Card.scss';
 
 const cardSource = {
     beginDrag(props) {
@@ -302,24 +302,16 @@ class InnerCard extends React.Component {
                 taunt: this.props.card.taunt && this.props.source === 'play area'
             }
         );
-        let imageClass = classNames('card-image vertical', this.sizeClass, {
-            exhausted:
-                this.props.orientation === 'exhausted' ||
-                this.props.card.exhausted ||
-                this.props.orientation === 'horizontal'
-        });
+        // let imageClass = classNames('card-image vertical', this.sizeClass, {
+        //     exhausted:
+        //         this.props.orientation === 'exhausted' ||
+        //         this.props.card.exhausted ||
+        //         this.props.orientation === 'horizontal'
+        // });
 
-        let image = (
-            <CardImage
-                className={imageClass}
-                img={this.imageUrl}
-                language={this.props.language}
-                maverick={!this.isFacedown() ? this.props.card.maverick : null}
-                anomaly={!this.isFacedown() ? this.props.card.anomaly : null}
-                enhancements={!this.isFacedown() ? this.props.card.enhancements : []}
-                amber={!this.isFacedown() ? this.props.card.cardPrintedAmber : 0}
-            />
-        );
+        let image = this.props.card ? (
+            <CardImage card={this.props.card} cardBack={this.props.cardBackUrl} />
+        ) : null;
 
         let content = this.props.connectDragSource(
             <div className='card-frame'>
@@ -354,16 +346,6 @@ class InnerCard extends React.Component {
         return this.props.connectDragPreview(content);
     }
 
-    get imageUrl() {
-        let image = this.props.cardBackUrl;
-
-        if (!this.isFacedown()) {
-            image = `/img/cards/${this.props.card.image}.png`;
-        }
-
-        return image;
-    }
-
     get sizeClass() {
         return {
             [this.props.size]: this.props.size !== 'normal'
@@ -372,7 +354,7 @@ class InnerCard extends React.Component {
 
     get statusClass() {
         if (!this.props.card) {
-            return;
+            return undefined;
         }
 
         if (this.props.card.selected) {
@@ -382,6 +364,8 @@ class InnerCard extends React.Component {
         } else if (this.props.card.new) {
             return 'new';
         }
+
+        return undefined;
     }
 
     render() {

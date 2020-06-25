@@ -48,7 +48,7 @@ const routes = [
     {
         path: '/play',
         action: (context) =>
-            context.currentGame && context.currentGame.started ? (
+            context.currentGame?.started ? (
                 <GameBoard key='gameboard' />
             ) : (
                 <GameLobby key='gamelobby' gameId={context.params.gameId} />

@@ -1,0 +1,46 @@
+@import '../../styles/variables';
+@import '../../styles/colours';
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+
+.menu-pane-source {
+    margin-top: -15px;
+    margin-left: -16px;
+    margin-right: -16px;
+    background: theme-color('primary');
+    border: 1px solid $header-border;
+    font-size: 14px;
+    font-weight: normal;
+    padding: 4px;
+    text-align: center;
+    border-top: none;
+}
+
+.menu-pane {
+    text-align: center;
+    z-index: $layer-prompt;
+}
+
+.menu-pane .panel {
+    margin-top: 0;
+    padding-top: 0;
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+}
+
+.menu-pane button {
+    width: 100%;
+    margin-bottom: 5px;
+    white-space: normal;
+}
+
+.prompt-button {
+    display: flex;
+    justify-content: center;
+    text-transform: capitalize;
+}
+
+.phase-indicator {
+    text-transform: uppercase;
+}

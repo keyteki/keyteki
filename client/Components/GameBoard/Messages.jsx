@@ -65,11 +65,17 @@ const Messages = ({ messages, onCardMouseOver, onCardMouseOut }) => {
                         break;
                     case 'success':
                         messages.push(
-                            <AlertPanel type='success' key={index++} message={message} />
+                            <AlertPanel type='success' key={index++}>
+                                {message}
+                            </AlertPanel>
                         );
                         break;
                     case 'info':
-                        messages.push(<AlertPanel type='info' key={index++} message={message} />);
+                        messages.push(
+                            <AlertPanel type='info' key={index++}>
+                                {message}
+                            </AlertPanel>
+                        );
                         break;
                     case 'danger':
                         messages.push(<AlertPanel type='danger' key={index++} message={message} />);
@@ -125,7 +131,7 @@ const Messages = ({ messages, onCardMouseOver, onCardMouseOut }) => {
                 );
             } else {
                 let messageFragment = processKeywords(fragment.toString());
-                messages.push(messageFragment);
+                messages.push(<span className='message-fragment'>{messageFragment}</span>);
             }
         }
 

@@ -1,0 +1,89 @@
+@import '../../styles/variables';
+@import '../../styles/colours';
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+
+.player-stats {
+    display: flex;
+
+    &.panel {
+        margin: 0;
+        border-radius: 0;
+        padding: 5px;
+        position: initial;
+    }
+
+    display: flex;
+    align-items: center;
+}
+
+.state {
+    height: 27px;
+    padding-left: 5px;
+    padding-right: 5px;
+    border-right: solid 2px;
+    display: flex;
+    align-items: center;
+
+    span {
+        padding-right: 3px;
+        padding-left: 3px;
+    }
+
+    &:last-of-type {
+        border-right: none;
+    }
+
+    .glyphicon {
+        color: theme-color('primary');
+    }
+
+    img {
+        height: 100%;
+
+        &:not(:last-child) {
+            margin-right: 10px;
+        }
+    }
+
+    &.first-player {
+        margin: 0px 5px;
+        padding: 5px;
+        text-align: center;
+        background: theme-color('primary');
+        border-radius: 0.25rem;
+        border: 1px solid rgba(128, 128, 128, 0.53);
+    }
+}
+
+.stat-image {
+    background-repeat: no-repeat;
+    width: 28px;
+    height: 28px;
+    background-size: 28px 28px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: default;
+
+    &.amber {
+        background-image: url('~assets/img/amber.png');
+    }
+
+    &.chains {
+        background-image: url('~assets/img/chains.png');
+    }
+    &.keyCost {
+        background-image: url('~assets/img/keyCost.png');
+    }
+}
+
+.stat-value {
+    background: fade(black, 60%) center;
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+    text-align: center;
+    line-height: 15px;
+}

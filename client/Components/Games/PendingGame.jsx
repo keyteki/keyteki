@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import ReactClipboard from 'react-clipboardjs-copy';
 import { Button, Form } from 'react-bootstrap';
 import { Trans, useTranslation } from 'react-i18next';
+import $ from 'jquery';
 
 import Panel from '../Site/Panel';
 import Messages from '../GameBoard/Messages';
@@ -34,9 +35,12 @@ const PendingGame = () => {
     const [waiting, setWaiting] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const [message, setMessage] = useState('');
+    const [canScroll, setCanScroll] = useState(true);
     const [playerCount, setPlayerCount] = useState(0);
     const dispatch = useDispatch();
     const { t } = useTranslation();
+    const messageRef = useRef(null);
+
     useEffect(() => {
         if (!user) {
             return;
@@ -67,7 +71,11 @@ const PendingGame = () => {
         }
 
         setPlayerCount(players);
-    }, [currentGame.owner, currentGame.players, user, playerCount, currentGame]);
+
+        if (canScroll && messageRef.current) {
+            $(messageRef.current)?.scrollTop(999999);
+        }
+    }, [currentGame.owner, currentGame.players, user, playerCount, currentGame, canScroll]);
 
     useEffect(() => {
         if (currentGame && currentGame.gameFormat === 'sealed') {
@@ -197,7 +205,24 @@ const PendingGame = () => {
                 })}
             </Panel>
             <Panel title={t('Chat')}>
-                <div className='message-list'>
+                <div
+                    className='message-list'
+                    ref={messageRef}
+                    onScroll={() => {
+                        setTimeout(() => {
+                            if (
+                                messageRef.current.scrollTop >=
+                                messageRef.current.scrollHeight -
+                                    messageRef.current.offsetHeight -
+                                    20
+                            ) {
+                                setCanScroll(true);
+                            } else {
+                                setCanScroll(false);
+                            }
+                        }, 500);
+                    }}
+                >
                     <Messages messages={currentGame.messages} />
                 </div>
                 <Form>

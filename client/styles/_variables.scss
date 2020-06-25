@@ -1,3 +1,5 @@
+@import 'colours';
+
 $navbar-height: 45px;
 // Z-index layers
 
@@ -13,3 +15,16 @@ $layer-top: 9999;
 
 $keyteki-card-width: 65px;
 $keyteki-card-height: 91px;
+
+$keyteki-card-lg-width: $keyteki-card-width * 1.4;
+$keyteki-card-lg-height: $keyteki-card-height * 1.4;
+
+$keyteki-card-xl-width: $keyteki-card-width * 2;
+$keyteki-card-xl-height: $keyteki-card-height * 2;
+
+$keyteki-card-sm-width: $keyteki-card-width * 0.6;
+$keyteki-card-sm-height: $keyteki-card-height * 0.6;
+
+$controlledBox: 0 0 1px 2px $controlled-border-color;
+
+$header-border: rgba(71, 58, 56, 0.95);

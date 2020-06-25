@@ -1,0 +1,60 @@
+@import '../../styles/variables';
+@import '../../styles/colours';
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+
+.card-pile {
+    padding: 0px;
+    position: relative;
+    margin: 0px 5px;
+
+    &.small {
+        &.vertical {
+            height: $keyteki-card-sm-height;
+            min-width: $keyteki-card-sm-width;
+        }
+
+        &.horizontal {
+            height: $keyteki-card-sm-width;
+            width: $keyteki-card-sm-height;
+        }
+    }
+
+    &.large {
+        &.vertical {
+            height: $keyteki-card-lg-height;
+            min-width: $keyteki-card-lg-width;
+        }
+
+        &.horizontal {
+            height: $keyteki-card-lg-width;
+            width: $keyteki-card-lg-height;
+        }
+    }
+
+    &.x-large {
+        &.vertical {
+            height: $keyteki-card-xl-height;
+            min-width: $keyteki-card-xl-width;
+        }
+
+        &.horizontal {
+            height: $keyteki-card-xl-width;
+            width: $keyteki-card-xl-height;
+        }
+    }
+
+    &.vertical {
+        height: $keyteki-card-height;
+        min-width: $keyteki-card-width;
+    }
+
+    &.horizontal {
+        height: $keyteki-card-width;
+        width: $keyteki-card-height;
+    }
+
+    .card-placeholder {
+        height: $keyteki-card-height;
+    }
+}

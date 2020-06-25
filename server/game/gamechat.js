@@ -23,7 +23,7 @@ class GameChat {
             if (arg instanceof Spectator) {
                 return { name: arg.name, argType: 'nonAvatarPlayer', role: arg.role };
             } else if (arg && arg.name && arg.argType === 'player') {
-                return { name: arg.name, argType: arg.argType, role: arg.role };
+                return { name: arg.name, argType: arg.argType, role: arg.user.role };
             }
 
             return arg;

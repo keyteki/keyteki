@@ -1,0 +1,190 @@
+@import '../../styles/variables';
+@import '../../styles/colours';
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+
+.card-wrapper {
+    margin: 0;
+    vertical-align: middle;
+    display: inline-block;
+    user-select: none;
+    position: relative;
+}
+
+.card-frame {
+    position: relative;
+}
+
+.card-image {
+    left: 0;
+    position: absolute;
+    top: 0;
+    pointer-events: none;
+
+    &.small {
+        &.vertical {
+            height: $keyteki-card-sm-height;
+            width: $keyteki-card-sm-width;
+        }
+
+        &.horizontal {
+            height: $keyteki-card-sm-width;
+            width: $keyteki-card-sm-height;
+        }
+    }
+
+    &.large {
+        &.vertical {
+            height: $keyteki-card-lg-height;
+            width: $keyteki-card-lg-width;
+        }
+
+        &.horizontal {
+            height: $keyteki-card-lg-width;
+            width: $keyteki-card-lg-height;
+        }
+
+        &.exhausted {
+            left: 19px;
+            top: -20px;
+        }
+    }
+
+    &.x-large {
+        &.vertical {
+            height: $keyteki-card-xl-height;
+            width: $keyteki-card-xl-width;
+        }
+
+        &.horizontal {
+            height: $keyteki-card-xl-width;
+            width: $keyteki-card-xl-height;
+        }
+
+        &.exhausted {
+            left: 24px;
+            top: -26px;
+        }
+    }
+
+    &.vertical {
+        height: $keyteki-card-height;
+        width: $keyteki-card-width;
+    }
+
+    &.horizontal {
+        height: $keyteki-card-width;
+        width: $keyteki-card-height;
+    }
+
+    &.exhausted {
+        left: 11px;
+        top: -14px;
+        transform: rotate(90deg);
+    }
+}
+
+.card-name {
+    font-size: 10px;
+    line-height: 14px;
+}
+
+.card {
+    position: relative;
+    border-radius: 4px;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+    z-index: $layer-cards;
+
+    &.small {
+        &.vertical {
+            height: $keyteki-card-sm-height;
+            width: $keyteki-card-sm-width;
+        }
+
+        &.horizontal {
+            height: $keyteki-card-sm-width;
+            width: $keyteki-card-sm-height;
+        }
+    }
+
+    &.large {
+        &.vertical {
+            height: $keyteki-card-lg-height;
+            width: $keyteki-card-lg-width;
+        }
+
+        &.horizontal {
+            height: $keyteki-card-lg-width;
+            width: $keyteki-card-lg-height;
+        }
+    }
+
+    &.x-large {
+        &.vertical {
+            height: $keyteki-card-xl-height;
+            width: $keyteki-card-xl-width;
+        }
+
+        &.horizontal {
+            height: $keyteki-card-xl-width;
+            width: $keyteki-card-xl-height;
+        }
+    }
+
+    &.vertical {
+        height: $keyteki-card-height;
+        width: $keyteki-card-width;
+    }
+
+    &.horizontal {
+        height: $keyteki-card-width;
+        width: $keyteki-card-height;
+    }
+
+    &.selectable {
+        box-shadow: 0 0 10px 1px fadeout(lighten(theme-color('primary'), 60%), 10%);
+
+        &.controlled {
+            box-shadow: $controlledBox,
+                0 0 10px 1px fadeout(lighten(theme-color('primary'), 60%), 10%);
+        }
+    }
+
+    &.unselectable {
+        filter: grayscale(100%) brightness(60%);
+    }
+
+    &.can-play {
+        animation: glowing 2000ms infinite;
+
+        &.controlled {
+            box-shadow: $controlledBox,
+                0 0 10px 1px fadeout(lighten(theme-color('primary'), 60%), 10%);
+        }
+    }
+
+    &.in-danger {
+        box-shadow: 0 0 1px 2px red;
+    }
+
+    &.saved {
+        box-shadow: 0 0 1px 2px green;
+    }
+
+    &.selected {
+        box-shadow: 0 0 1px 4px theme-color('secondary');
+
+        &.controlled {
+            box-shadow: $controlledBox, 0 0 1px 4px theme-color('secondary');
+        }
+    }
+
+    &.new {
+        box-shadow: 0 0 1px 2px theme-color('info');
+    }
+
+    &.controlled {
+        box-shadow: $controlledBox;
+    }
+}

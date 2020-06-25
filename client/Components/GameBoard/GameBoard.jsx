@@ -5,6 +5,7 @@ import $ from 'jquery';
 import { toastr } from 'react-redux-toastr';
 import { bindActionCreators } from 'redux';
 import classNames from 'classnames';
+import { withTranslation, Trans } from 'react-i18next';
 
 import PlayerStats from './PlayerStats';
 import PlayerRow from './PlayerRow';
@@ -17,7 +18,7 @@ import Droppable from './Droppable';
 import TimeLimitClock from './TimeLimitClock';
 import * as actions from '../../redux/actions';
 
-import { withTranslation, Trans } from 'react-i18next';
+import './GameBoard.scss';
 
 const placeholderPlayer = {
     cardPiles: {
@@ -41,8 +42,8 @@ const placeholderPlayer = {
 };
 
 export class GameBoard extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.onMouseOut = this.onMouseOut.bind(this);
         this.onMouseOver = this.onMouseOver.bind(this);
@@ -73,9 +74,6 @@ export class GameBoard extends React.Component {
 
     componentDidMount() {
         this.updateContextMenu(this.props);
-
-        // Timing issues can result in the modal 'sticking', manually clear it
-        $('.modal-backdrop').remove();
     }
 
     // eslint-disable-next-line camelcase
@@ -403,7 +401,7 @@ export class GameBoard extends React.Component {
     }
 
     render() {
-        if (!this.props.currentGame || !this.props.cards || !this.props.currentGame.started) {
+        if (Object.values(this.props.cards).length === 0 || !this.props.currentGame?.started) {
             return (
                 <div>
                     <Trans>Waiting for server...</Trans>
@@ -463,7 +461,7 @@ export class GameBoard extends React.Component {
                     onOptionSettingToggle={this.onOptionSettingToggle.bind(this)}
                     id='settings-modal'
                 />
-                <div className='player-stats-row stats-top'>
+                <div className='stats-top'>
                     <PlayerStats
                         stats={otherPlayer.stats}
                         houses={otherPlayer.houses}
@@ -474,12 +472,12 @@ export class GameBoard extends React.Component {
                 </div>
                 <div className='main-window'>
                     {this.renderBoard(thisPlayer, otherPlayer)}
-                    <CardZoom
+                    {/* <CardZoom
                         imageUrl={cardToZoom ? `/img/cards/${cardToZoom.image}.png` : ''}
                         show={!!cardToZoom}
                         cardName={cardToZoom ? cardToZoom.name : null}
                         card={cardToZoom}
-                    />
+                    /> */}
                     <div className='right-side'>
                         <div className='prompt-area'>
                             <div className='inset-pane'>
@@ -514,7 +512,7 @@ export class GameBoard extends React.Component {
                         )}
                     </div>
                 </div>
-                <div className='player-stats-row'>
+                <div>
                     <PlayerStats
                         {...boundActionCreators}
                         activeHouse={thisPlayer.activeHouse}

@@ -71,7 +71,7 @@ const GameLobby = () => {
     return (
         <Col md={{ offset: 2, span: 8 }}>
             {newGame && <NewGame quickJoin={quickJoin} />}
-            {currentGame && !currentGame.started && <PendingGame />}
+            {currentGame?.started === false && <PendingGame />}
             <Panel title={t('Current Games')}>
                 <Row className='game-buttons'>
                     <Col sm={4} lg={3}>

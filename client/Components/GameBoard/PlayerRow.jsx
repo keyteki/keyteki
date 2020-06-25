@@ -2,16 +2,26 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { withTranslation } from 'react-i18next';
 
 import CardPile from './CardPile';
 import SquishableCardPanel from './SquishableCardPanel';
 import DrawDeck from './DrawDeck';
 import IdentityCard from './IdentityCard';
 import Droppable from './Droppable';
-
-import { withTranslation } from 'react-i18next';
 import { buildArchon, buildDeckList } from '../../archonMaker';
 import * as actions from '../../redux/actions';
+
+import './PlayerRow.scss';
+
+const keyImages = {};
+
+for (const colour of ['red', 'blue', 'yellow']) {
+    keyImages[colour] = {
+        forged: require(`../../assets/img/forgedkey${colour}.png`),
+        unforged: require(`../../assets/img/unforgedkey${colour}.png`)
+    };
+}
 
 class PlayerRow extends React.Component {
     constructor(props) {
@@ -109,9 +119,11 @@ class PlayerRow extends React.Component {
                 return (
                     <img
                         key={`key ${color}`}
-                        src={`/img/${
-                            this.props.keys[color] ? 'forgedkey' : 'unforgedkey'
-                        }${color}.png`}
+                        src={
+                            this.props.keys[color]
+                                ? keyImages[color].forged
+                                : keyImages[color].unforged
+                        }
                         onClick={this.modifyKey.bind(this, color)}
                         title={t('Forged Key')}
                     />

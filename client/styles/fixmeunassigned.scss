@@ -1,0 +1,22 @@
+// This file contains styles that need assigning to a component but that component either doesn't exist yet or needs refactoring
+@import './variables';
+@import './colours';
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+
+.panel {
+    background-color: rgba(0, 0, 0, 0.65);
+}
+
+.panel {
+    font-family: Keyforge;
+
+    -moz-box-shadow: 3px 3px 5px theme-color('primary');
+    -webkit-box-shadow: 3px 3px 5px theme-color('primary');
+    box-shadow: 3px 3px 5px theme-color('primary');
+
+    .panel-heading {
+        font-weight: normal;
+        background-size: cover;
+    }
+}

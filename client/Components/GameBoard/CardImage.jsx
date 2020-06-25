@@ -4,16 +4,16 @@ import { useTranslation } from 'react-i18next';
 
 import './CardImage.scss';
 
-const CardImage = ({ card }) => {
+const CardImage = ({ card, cardBack }) => {
     const { i18n } = useTranslation();
     let [mergedImage, setMergedImage] = useState('');
 
-    let { maverick, anomaly, amber, enhancements, card: cardData } = card;
+    let { maverick, anomaly, amber, enhancements, image } = card;
 
     useEffect(() => {
-        let imgPath = `/img/cards/${i18n.language === 'en' ? '' : i18n.language}/${
-            cardData.image
-        }.png`;
+        let imgPath = card.facedown
+            ? cardBack
+            : `/img/cards/${i18n.language === 'en' ? '' : i18n.language}/${image}.png`;
         let imagesToMerge = [];
 
         if (maverick) {
@@ -53,11 +53,21 @@ const CardImage = ({ card }) => {
         } else {
             setMergedImage(imgPath);
         }
-    }, [amber, anomaly, i18n.language, maverick, enhancements, setMergedImage, cardData.image]);
+    }, [
+        amber,
+        anomaly,
+        i18n.language,
+        maverick,
+        enhancements,
+        setMergedImage,
+        image,
+        cardBack,
+        card.facedown
+    ]);
 
-    if (!cardData.image) {
-        return null;
-    }
+    // if (!cardData?.image) {
+    //     return null;
+    // }
 
     return (
         <>

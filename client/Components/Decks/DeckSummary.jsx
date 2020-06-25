@@ -115,7 +115,7 @@ const DeckSummary = ({ deck }) => {
                             className='card-zoom'
                             style={{ left: mousePos.x + 5 + 'px', top: mousePos.y + 'px' }}
                         >
-                            <CardImage card={zoomCard} />
+                            <CardImage card={Object.assign({}, zoomCard, zoomCard.cardData)} />
                         </div>
                     )}
                     {deck.houses.map((house) => {
