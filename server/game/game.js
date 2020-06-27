@@ -72,6 +72,7 @@ class Game extends EventEmitter {
         this.useGameTimeLimit = details.useGameTimeLimit;
 
         this.cardsUsed = [];
+        this.omegaActionCard = null;
         this.cardsPlayed = [];
         this.cardsDiscarded = [];
         this.effectsUsed = [];
@@ -1065,6 +1066,7 @@ class Game extends EventEmitter {
 
         this.activePlayer.endRound();
         this.cardsUsed = [];
+        this.omegaActionCard = null;
         this.cardsPlayed = [];
         this.cardsDiscarded = [];
         this.effectsUsed = [];

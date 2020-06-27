@@ -16,6 +16,9 @@ class PlayAction extends BasePlayAction {
         });
         this.addBonusIconResolution(event, context);
         context.game.queueSimpleStep(() => {
+            if (context.source.hasKeyword('omega')) {
+                context.game.omegaActionCard = context.source;
+            }
             if (context.source.location === 'being played') {
                 context.source.owner.moveCard(context.source, 'discard');
             }

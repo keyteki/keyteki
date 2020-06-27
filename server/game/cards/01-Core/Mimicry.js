@@ -22,6 +22,9 @@ class Mimicry extends Card {
                 let effects = [];
                 if (card) {
                     effects.push(ability.effects.modifyBonusIcons(card.bonusIcons));
+                    if (card.hasKeyword('omega')) {
+                        effects.push(ability.effects.addKeyword({ omega: 1 }));
+                    }
                     if (
                         card.abilities.reactions.some(
                             (ability) => ability.properties.name === 'Play'

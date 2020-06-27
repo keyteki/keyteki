@@ -4,7 +4,7 @@ class PhloxemSpike extends Card {
     setupCardAbilities(ability) {
         this.play({
             effect: 'destroy each creature not on a flank.',
-            condition: () => this.controller.creaturesInPlay.length === 0,
+            condition: (context) => context.game.activePlayer.creaturesInPlay.length === 0,
             gameAction: ability.actions.destroy((context) => ({
                 target: context.game.creaturesInPlay.filter((card) => !card.isOnFlank())
             }))

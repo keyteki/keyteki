@@ -55,7 +55,9 @@ class ActionWindow extends UiPrompt {
             return;
         }
 
-        let omegaCard = this.game.cardsPlayed.find((card) => card.hasKeyword('omega'));
+        let omegaCard =
+            this.game.omegaActionCard ||
+            this.game.cardsPlayed.find((card) => card.hasKeyword('omega'));
         if (omegaCard) {
             this.game.addMessage(
                 '{0} played {1} which has Omega, ending this step',
