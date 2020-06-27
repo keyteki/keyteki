@@ -9,9 +9,7 @@ class Sloth extends Card {
                     context.game.cardsUsed.filter((card) => card.type === 'creature').length === 0
             },
             gameAction: ability.actions.gainAmber((context) => ({
-                amount: context.player.creaturesInPlay.filter(
-                    (card) => card.type === 'creature' && card.hasTrait('sin')
-                ).length
+                amount: context.player.creaturesInPlay.filter((card) => card.hasTrait('sin')).length
             }))
         });
     }
