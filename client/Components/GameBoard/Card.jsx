@@ -282,7 +282,7 @@ class InnerCard extends React.Component {
         }
 
         let cardClass = classNames(
-            'card',
+            'game-card',
             `card-type-${this.props.card.type}`,
             this.props.className,
             this.sizeClass,

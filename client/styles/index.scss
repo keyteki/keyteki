@@ -53,11 +53,13 @@ a {
     }
 
     &:not(.dropdown-toggle) {
-        width: 126px;
         background-position: center;
         background-repeat: no-repeat;
         border: none;
         background-color: transparent;
+        padding-left: 20px;
+        padding-right: 20px;
+        min-width: 130px;
         font-family: Keyforge, Helvetica, sans-serif;
 
         &:hover {
@@ -145,6 +147,10 @@ a {
     }
 }
 
+.btn-stretch {
+    background-size: 100% 32px;
+}
+
 .alert {
     ul {
         list-style: none;
@@ -184,4 +190,10 @@ a {
 
 h4 {
     font-size: 0.9rem;
+}
+
+.react-bs-table-sizePerPage-dropdown {
+    .btn-default {
+        background-image: none;
+    }
 }
