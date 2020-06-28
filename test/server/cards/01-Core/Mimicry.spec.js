@@ -4,7 +4,7 @@ describe('Mimicry', function () {
             this.setupTest({
                 player1: {
                     house: 'untamed',
-                    inPlay: ['batdrone'],
+                    inPlay: ['batdrone', 'ancient-bear'],
                     hand: ['mimicry'],
                     discard: ['snufflegator']
                 },
@@ -62,6 +62,18 @@ describe('Mimicry', function () {
             expect(this.swindle.location).toBe('discard');
             expect(this.player1).toHavePrompt('Waiting for opponent');
             expect(this.player2).toHavePrompt('House Choice');
+        });
+
+        xit('should not play alpha card if not first thing in turn, but shoud allow selecting it', function () {
+            this.player1.reap(this.ancientBear);
+            this.player1.play(this.mimicry);
+            expect(this.player1).toBeAbleToSelect(this.swindle);
+            this.player1.clickCard(this.swindle);
+            expect(this.player1.amber).toBe(1);
+            expect(this.player2.amber).toBe(5);
+            expect(this.mimicry.location).toBe('hand');
+            expect(this.swindle.location).toBe('discard');
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
     });
 
@@ -209,32 +221,6 @@ describe('Mimicry', function () {
             expect(this.brammo.location).toBe('discard');
             expect(this.alaka.location).toBe('discard');
             expect(this.zorg.location).toBe('play area');
-        });
-    });
-
-    describe('Murkens and Mimicry interaction', function () {
-        beforeEach(function () {
-            this.setupTest({
-                player1: {
-                    house: 'shadows',
-                    hand: ['murkens'],
-                    discard: ['city-state-interest']
-                },
-                player2: {
-                    amber: 2,
-                    inPlay: ['troll', 'brammo', 'alaka'],
-                    discard: ['inky-gloom', 'mimicry']
-                }
-            });
-            this.player2.moveCard(this.mimicry, 'deck');
-        });
-
-        xit("should offer opponent's discard pile", function () {
-            this.player1.play(this.murkens);
-            expect(this.player1).toHavePrompt('Mimicry');
-            expect(this.player1).toBeAbleToSelect(this.inkyGloom);
-            expect(this.player1).not.toBeAbleToSelect(this.cityStateInterest);
-            this.player1.clickCard(this.inkyGloom);
         });
     });
 });
