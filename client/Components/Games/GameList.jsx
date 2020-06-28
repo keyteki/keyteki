@@ -97,20 +97,22 @@ class GameList extends React.Component {
     }
 
     getPlayerNameAndAvatar(player, firstPlayer) {
+        let userClass = 'username' + (player.role ? ` ${player.role.toLowerCase()}-role` : '');
+
         if (firstPlayer) {
             return (
                 <div className='game-player-name'>
                     <span className='gamelist-avatar'>
                         <Avatar username={player.name} />
                     </span>
-                    <span className='bold'>{player.name}</span>
+                    <span className={userClass}>{player.name}</span>
                 </div>
             );
         }
 
         return (
             <div className='game-player-name'>
-                <span className='bold'>{player.name}</span>
+                <span className={userClass}>{player.name}</span>
                 <span className='gamelist-avatar'>
                     <Avatar username={player.name} />
                 </span>
