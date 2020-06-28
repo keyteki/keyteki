@@ -33,7 +33,7 @@ class MessageService extends EventEmitter {
                     'LEFT JOIN "UserRoles" ur ON ur."UserId" = u."Id" ' +
                     'LEFT JOIN "Roles" r ON r."Id" = ur."RoleId" ' +
                     'LEFT JOIN "Users" ud ON ud."Id" = m."DeletedById" ' +
-                    "WHERE r.\"Name\" IS NULL OR r.\"Name\" IN ('Admin', 'Supporter', 'Contributor', 'TournamentWinner') " +
+                    "WHERE r.\"Name\" IS NULL OR r.\"Name\" IN ('Admin', 'Supporter', 'Contributor', 'TournamentWinner', 'PreviousTournamentWinner') " +
                     'ORDER BY "PostedTime" DESC ' +
                     'LIMIT 100'
             );
@@ -98,6 +98,8 @@ class MessageService extends EventEmitter {
                 return 'contributor';
             case 'TournamentWinner':
                 return 'winner';
+            case 'PreviousTournamentWinner':
+                return 'previouswinner';
         }
     }
 

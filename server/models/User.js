@@ -82,6 +82,10 @@ class User {
         return this.userData.permissions && this.userData.permissions.isWinner;
     }
 
+    get isPreviousWinner() {
+        return this.userData.permissions && this.userData.permissions.isPreviousWinner;
+    }
+
     get isContributor() {
         return this.userData.permissions && this.userData.permissions.isContributor;
     }
@@ -97,6 +101,10 @@ class User {
 
         if (this.isWinner) {
             return 'winner';
+        }
+
+        if (this.isPreviousWinner) {
+            return 'previouswinner';
         }
 
         if (this.isContributor) {
