@@ -23,7 +23,7 @@ const SideBar = ({ children }) => {
         collapsed: !expanded
     });
 
-    let burgerClass = classNames('btn-icon btn', {
+    let burgerClass = classNames('btn-icon', {
         'float-right': expanded
     });
 

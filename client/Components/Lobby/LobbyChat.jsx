@@ -131,7 +131,7 @@ class LobbyChat extends React.Component {
                         {this.props.isModerator && (
                             <a
                                 href='#'
-                                className='btn btn-icon icon-remove'
+                                className='btn-icon icon-remove'
                                 onClick={this.onRemoveMessageClick.bind(this, message.id)}
                             >
                                 <FontAwesomeIcon icon={faTimes} />

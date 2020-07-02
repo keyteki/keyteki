@@ -13,7 +13,7 @@ const CardImage = ({ card, cardBack }) => {
     useEffect(() => {
         let imgPath = card.facedown
             ? cardBack
-            : `/img/cards/${i18n.language === 'en' ? '' : i18n.language}/${image}.png`;
+            : `/img/cards/${i18n.language === 'en' ? '' : i18n.language + '/'}${image}.png`;
         let imagesToMerge = [];
 
         if (maverick) {
@@ -71,7 +71,7 @@ const CardImage = ({ card, cardBack }) => {
 
     return (
         <>
-            <img src={mergedImage} />
+            <img className='img-fluid' src={mergedImage} />
         </>
     );
 };

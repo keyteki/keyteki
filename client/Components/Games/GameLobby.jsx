@@ -52,6 +52,7 @@ const GameLobby = () => {
         newGame: state.lobby.newGame,
         currentGame: state.lobby.currentGame
     }));
+    const user = useSelector((state) => state.account.user);
     const [currentFilter, setCurrentFilter] = useState(filterDefaults);
     const [quickJoin, setQuickJoin] = useState(false);
 
@@ -73,12 +74,23 @@ const GameLobby = () => {
             {newGame && <NewGame quickJoin={quickJoin} />}
             {currentGame?.started === false && <PendingGame />}
             <Panel title={t('Current Games')}>
+                {!user && (
+                    <div className='text-center'>
+                        <AlertPanel type='warning'>
+                            {t('Please log in to be able to start a new game')}
+                        </AlertPanel>
+                    </div>
+                )}
                 <Row className='game-buttons'>
                     <Col sm={4} lg={3}>
-                        <Button variant='primary' onClick={() => dispatch(startNewGame())}>
+                        <Button
+                            disabled={!user}
+                            variant='primary'
+                            onClick={() => dispatch(startNewGame())}
+                        >
                             <Trans>New Game</Trans>
                         </Button>
-                        <Button variant='primary'>
+                        <Button disabled={!user} variant='primary'>
                             <Trans>Quick Join</Trans>
                         </Button>
                     </Col>

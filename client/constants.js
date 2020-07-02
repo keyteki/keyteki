@@ -30,7 +30,7 @@ export const Constants = {
         { value: '341', label: 'CotA' },
         { value: '435', label: 'AoA' },
         { value: '452', label: 'WC' },
-        { value: '512', label: 'MM' }
+        { value: '479', label: 'MM' }
     ],
     SetIconPaths: {},
     HouseIconPaths: {},

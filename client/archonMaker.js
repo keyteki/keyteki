@@ -76,7 +76,7 @@ loadImage(require('./assets/img/idbacks/Anomaly.png')).then((image) => {
     AnomalyIcon = image;
 });
 
-loadImage(require('./assets/img/idbacks/identity-clean.png')).then((image) => {
+loadImage(require('./assets/img/idbacks/identity.jpg')).then((image) => {
     DefaultCard = image;
 });
 
@@ -273,7 +273,7 @@ export const buildArchon = async (deck, language) => {
         return DefaultCard;
     }
 
-    canvas.setDimensions({ width: 600, height: 840 });
+    canvas.setDimensions({ width: 738, height: 1048 });
     let archon;
     try {
         archon = await loadImage(`/img/idbacks/archons/${imageName(deck, language)}.png`);
@@ -316,8 +316,8 @@ const getCircularText = (text = '', diameter, yOffset = 0) => {
     let textHeight = 40,
         startAngle = 0;
 
-    canvas.width = 600;
-    canvas.height = 800;
+    canvas.width = 738;
+    canvas.height = 1048;
     ctx.fillStyle = 'white';
     ctx.strokeStyle = 'grey';
     ctx.shadowColor = 'rgb(32,32,32)';

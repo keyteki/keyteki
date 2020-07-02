@@ -11,6 +11,7 @@ import IdentityCard from './IdentityCard';
 import Droppable from './Droppable';
 import { buildArchon, buildDeckList } from '../../archonMaker';
 import * as actions from '../../redux/actions';
+import IdentityDefault from '../../assets/img/idbacks/identity.jpg';
 
 import './PlayerRow.scss';
 
@@ -26,7 +27,7 @@ for (const colour of ['red', 'blue', 'yellow']) {
 class PlayerRow extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { deckListUrl: 'img/idbacks/identity.jpg' };
+        this.state = { deckListUrl: IdentityDefault };
         this.modifyKey = this.modifyKey.bind(this);
     }
 
@@ -49,10 +50,10 @@ class PlayerRow extends React.Component {
                     this.setState({ deckListUrl });
                 })
                 .catch(() => {
-                    this.setState({ deckListUrl: 'img/idbacks/identity.jpg' });
+                    this.setState({ deckListUrl: IdentityDefault });
                 });
         } else {
-            this.setState({ deckListUrl: 'img/idbacks/identity.jpg' });
+            this.setState({ deckListUrl: IdentityDefault });
         }
     }
 
@@ -81,10 +82,10 @@ class PlayerRow extends React.Component {
                             this.setState({ deckListUrl });
                         })
                         .catch(() => {
-                            this.setState({ deckListUrl: 'img/idbacks/identity.jpg' });
+                            this.setState({ deckListUrl: IdentityDefault });
                         });
                 } else {
-                    this.setState({ deckListUrl: 'img/idbacks/identity.jpg' });
+                    this.setState({ deckListUrl: IdentityDefault });
                 }
             }
         }
@@ -235,7 +236,7 @@ class PlayerRow extends React.Component {
         );
 
         return (
-            <div className='player-home-row-container'>
+            <div className='player-home-row-container pt-1'>
                 {this.renderKeys()}
                 {this.renderDroppablePile('hand', hand)}
                 {this.renderDroppablePile('archives', archives)}

@@ -302,15 +302,17 @@ class InnerCard extends React.Component {
                 taunt: this.props.card.taunt && this.props.source === 'play area'
             }
         );
-        // let imageClass = classNames('card-image vertical', this.sizeClass, {
-        //     exhausted:
-        //         this.props.orientation === 'exhausted' ||
-        //         this.props.card.exhausted ||
-        //         this.props.orientation === 'horizontal'
-        // });
+        let imageClass = classNames('card-image vertical', this.sizeClass, {
+            exhausted:
+                this.props.orientation === 'exhausted' ||
+                this.props.card.exhausted ||
+                this.props.orientation === 'horizontal'
+        });
 
         let image = this.props.card ? (
-            <CardImage card={this.props.card} cardBack={this.props.cardBackUrl} />
+            <div className={imageClass}>
+                <CardImage card={this.props.card} cardBack={this.props.cardBackUrl} />
+            </div>
         ) : null;
 
         let content = this.props.connectDragSource(

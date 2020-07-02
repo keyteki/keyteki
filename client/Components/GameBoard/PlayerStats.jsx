@@ -3,8 +3,6 @@ import { withTranslation, Trans } from 'react-i18next';
 import { toastr } from 'react-redux-toastr';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import { withTranslation, Trans } from 'react-i18next';
-import { toastr } from 'react-redux-toastr';
 
 import Avatar from '../Site/Avatar';
 

@@ -71,14 +71,6 @@
     height: 100px;
 }
 
-.active-player {
-  background-color: fade(@brand-secondary, 40%);
-
-  .state .glyphicon {
-    color: white;
-  }
-}
-
 .middle {
     display: flex;
     flex-direction: row;
@@ -121,26 +113,6 @@
 .inner {
     .calculate-tiled-card-prop(max-height, 4, height);
     overflow-y: auto;
-}
-
-.card-list {
-    .card-wrapper {
-        margin: 0 5px 5px 0;
-    }
-}
-
-.card-list-title {
-    background-color: @brand-primary;
-    color: white;
-    margin-bottom: 5px;
-    text-align: center;
-}
-
-.card-list-cards {
-    align-items: center;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
 }
 
 .additional-cards {
