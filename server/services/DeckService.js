@@ -6,6 +6,34 @@ const { expand, flatten } = require('../Array');
 class DeckService {
     constructor(configService) {
         this.configService = configService;
+        this.houseCache = {};
+    }
+
+    async getHouseIdFromName(house) {
+        if (this.houseCache[house]) {
+            return this.houseCache[house];
+        }
+
+        let houses;
+        try {
+            houses = await db.query('SELECT "Id", "Code" FROM "Houses"', []);
+        } catch (err) {
+            logger.error('Failed to retrieve houses', err);
+
+            return undefined;
+        }
+
+        if (!houses || houses.length == 0) {
+            logger.error('Could not find any houses');
+
+            return undefined;
+        }
+
+        for (let house of houses) {
+            this.houseCache[house.Code] = house.Id;
+        }
+
+        return this.houseCache[house];
     }
 
     async getById(id) {
@@ -178,14 +206,24 @@ class DeckService {
     }
 
     async getDeckCardsAndHouses(deck, standalone = false) {
-        let cardTable = standalone ? 'StandaloneDeckCards' : 'DeckCards';
-        let cards = await db.query(`SELECT * FROM "${cardTable}" WHERE "DeckId" = $1`, [deck.id]);
+        let cardTableQuery;
+
+        if (standalone) {
+            cardTableQuery = 'SELECT * FROM "StandaloneDeckCards" WHERE "DeckId" = $1';
+        } else {
+            cardTableQuery =
+                'SELECT dc.*, h."Code" as "House" FROM "DeckCards" dc LEFT JOIN "Houses" h ON h."Id" = dc."HouseId" WHERE "DeckId" = $1';
+        }
+
+        let cards = await db.query(cardTableQuery, [deck.id]);
 
         deck.cards = cards.map((card) => ({
             id: card.CardId,
             count: card.Count,
             maverick: card.Maverick || undefined,
             anomaly: card.Anomaly || undefined,
+            image: card.ImageUrl || undefined,
+            house: card.House || undefined,
             enhancements: card.Enhancements
                 ? card.Enhancements.replace(/[[{}"\]]/gi, '').split(',')
                 : undefined
@@ -274,6 +312,11 @@ class DeckService {
             params.push(card.count);
             params.push(card.maverick);
             params.push(card.anomaly);
+            if (user) {
+                params.push(card.image);
+                params.push(await this.getHouseIdFromName(card.house));
+            }
+
             params.push(deck.id);
             if (!user) {
                 params.push(card.enhancements);
@@ -283,9 +326,9 @@ class DeckService {
         try {
             if (user) {
                 await db.query(
-                    `INSERT INTO "DeckCards" ("CardId", "Count", "Maverick", "Anomaly", "DeckId") VALUES ${expand(
+                    `INSERT INTO "DeckCards" ("CardId", "Count", "Maverick", "Anomaly", "ImageUrl", "HouseId", "DeckId") VALUES ${expand(
                         deck.cards.length,
-                        5
+                        7
                     )}`,
                     params
                 );
@@ -293,7 +336,7 @@ class DeckService {
                 await db.query(
                     `INSERT INTO "StandaloneDeckCards" ("CardId", "Count", "Maverick", "Anomaly", "DeckId", "Enhancements") VALUES ${expand(
                         deck.cards.length,
-                        6
+                        7
                     )}`,
                     params
                 );
@@ -395,23 +438,37 @@ class DeckService {
     }
 
     parseDeckResponse(username, deckResponse) {
+        let specialCards = { 479: { 'dark-æmber-vault': true, 'it-s-coming': true } };
+
         let cards = deckResponse._linked.cards.map((card) => {
             let id = card.card_title
                 .toLowerCase()
                 .replace(/[,?.!"„“”]/gi, '')
                 .replace(/[ '’]/gi, '-');
+
+            let retCard;
             if (card.is_maverick) {
-                return { id: id, count: 1, maverick: card.house.replace(' ', '').toLowerCase() };
+                retCard = { id: id, count: 1, maverick: card.house.replace(' ', '').toLowerCase() };
+            } else if (card.is_anomaly) {
+                retCard = { id: id, count: 1, anomaly: card.house.replace(' ', '').toLowerCase() };
+            } else {
+                retCard = {
+                    id: id,
+                    count: deckResponse.data._links.cards.filter((uuid) => uuid === card.id).length
+                };
             }
 
-            if (card.is_anomaly) {
-                return { id: id, count: 1, anomaly: card.house.replace(' ', '').toLowerCase() };
+            if (card.card_type === 'Creature2') {
+                retCard.id += '2';
             }
 
-            return {
-                id: id,
-                count: deckResponse.data._links.cards.filter((uuid) => uuid === card.id).length
-            };
+            // If this is one of the cards that has an entry for every house, get the correct house image
+            if (specialCards[card.expansion] && specialCards[card.expansion][id]) {
+                retCard.image = card.front_image;
+                retCard.house = card.house.toLowerCase();
+            }
+
+            return retCard;
         });
         let uuid = deckResponse.data.id;
 

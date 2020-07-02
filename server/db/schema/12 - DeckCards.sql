@@ -9,6 +9,7 @@ CREATE TABLE public."DeckCards"
     "Count" integer NOT NULL,
     "Maverick" text COLLATE pg_catalog."default",
     "Anomaly" text COLLATE pg_catalog."default",
+    "ImageUrl" text COLLATE pg_catalog."default",
     "DeckId" integer NOT NULL,
     CONSTRAINT "PK_DeckCards" PRIMARY KEY ("Id"),
     CONSTRAINT "FK_DeckCards_Decks_DeckId" FOREIGN KEY ("DeckId")

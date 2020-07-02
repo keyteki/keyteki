@@ -176,13 +176,23 @@ class DeckSummary extends React.Component {
 
         let cardsToRender = this.getCardsToRender();
 
+        let imageToShow = this.state.cardToShow?.card?.image;
+        if (imageToShow && imageToShow.includes('https://')) {
+            if (this.props.i18n.language !== 'en') {
+                imageToShow = imageToShow.replace('/en/', `/${this.props.i18n.language}/`);
+                imageToShow = imageToShow.replace('_en', `_${this.props.i18n.language}`);
+            }
+        } else {
+            imageToShow = `/img/cards/${this.state.cardToShow?.card?.image}.png`;
+        }
+
         return (
             <div className='deck-summary col-xs-12 no-x-padding'>
                 {this.state.cardToShow && (
                     <div className='hover-card'>
                         <CardImage
                             className='hover-image'
-                            img={`/img/cards/${this.state.cardToShow.card.image}.png`}
+                            img={imageToShow}
                             maverick={this.state.cardToShow.maverick}
                             anomaly={this.state.cardToShow.anomaly}
                             enhancements={this.state.cardToShow.enhancements}
