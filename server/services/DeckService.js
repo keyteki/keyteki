@@ -315,6 +315,7 @@ class DeckService {
             if (user) {
                 params.push(card.image);
                 params.push(await this.getHouseIdFromName(card.house));
+                params.push(card.enhancements ? JSON.stringify(card.enhancements) : undefined);
             }
 
             params.push(deck.id);
@@ -326,9 +327,9 @@ class DeckService {
         try {
             if (user) {
                 await db.query(
-                    `INSERT INTO "DeckCards" ("CardId", "Count", "Maverick", "Anomaly", "ImageUrl", "HouseId", "DeckId") VALUES ${expand(
+                    `INSERT INTO "DeckCards" ("CardId", "Count", "Maverick", "Anomaly", "ImageUrl", "HouseId", "Enhancements", "DeckId") VALUES ${expand(
                         deck.cards.length,
-                        7
+                        8
                     )}`,
                     params
                 );
@@ -456,6 +457,10 @@ class DeckService {
                     id: id,
                     count: deckResponse.data._links.cards.filter((uuid) => uuid === card.id).length
                 };
+            }
+
+            if (card.is_enhanced) {
+                retCard.enhancements = [];
             }
 
             if (card.card_type === 'Creature2') {
