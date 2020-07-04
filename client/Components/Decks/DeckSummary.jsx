@@ -176,14 +176,15 @@ class DeckSummary extends React.Component {
 
         let cardsToRender = this.getCardsToRender();
 
-        let imageToShow = this.state.cardToShow?.card?.image;
+        let imageToShow =
+            this.state.cardToShow && this.state.cardToShow.card && this.state.cardToShow.card.image;
         if (imageToShow && imageToShow.includes('https://')) {
             if (this.props.i18n.language !== 'en') {
                 imageToShow = imageToShow.replace('/en/', `/${this.props.i18n.language}/`);
                 imageToShow = imageToShow.replace('_en', `_${this.props.i18n.language}`);
             }
         } else {
-            imageToShow = `/img/cards/${this.state.cardToShow?.card?.image}.png`;
+            imageToShow = `/img/cards/${imageToShow}.png`;
         }
 
         return (
