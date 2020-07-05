@@ -1,5 +1,5 @@
 describe('Turnkey', function () {
-    describe("Magda the Rat's ability", function () {
+    describe("Turnkey's ability", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
