@@ -47,6 +47,7 @@ describe('Turnkey', function () {
             expect(this.player2.player.keys.blue).toBe(false);
             expect(this.player2.player.keys.yellow).toBe(false);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2.amber).toBe(0);
         });
 
         it("should reforge an opponent's key when leaving play during controller's turn", function () {
@@ -68,9 +69,10 @@ describe('Turnkey', function () {
             expect(this.player2.player.keys.blue).toBe(false);
             expect(this.player2.player.keys.yellow).toBe(true);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2.amber).toBe(0);
         });
 
-        it("should reforge an opponent's key when leaving play during controller's turn", function () {
+        it("should reforge an opponent's key when leaving play during opponent's turn", function () {
             this.player2.player.keys = { red: true, blue: true, yellow: false };
 
             this.player1.play(this.turnkey);
@@ -91,6 +93,7 @@ describe('Turnkey', function () {
             expect(this.player2.player.keys.blue).toBe(false);
             expect(this.player2.player.keys.yellow).toBe(true);
             expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2.amber).toBe(0);
         });
     });
 });
