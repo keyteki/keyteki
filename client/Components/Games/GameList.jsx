@@ -74,9 +74,7 @@ class GameList extends React.Component {
         let houses =
             player.houses &&
             player.houses.map((house) => {
-                return (
-                    <img key={house} className='img-responsive' src={`/img/house/${house}.png`} />
-                );
+                return <img key={house} className='img-fluid' src={`/img/house/${house}.png`} />;
             });
 
         if (firstPlayer) {
@@ -145,7 +143,7 @@ class GameList extends React.Component {
                     <div key={players[0].name} className={'game-player-row other-player'}>
                         <div className='game-faction-row other-player'>
                             <button
-                                className='btn btn-success gamelist-button img-responsive'
+                                className='btn btn-success gamelist-button img-fluid'
                                 onClick={(event) => this.joinGame(event, game)}
                             >
                                 <Trans>Join</Trans>

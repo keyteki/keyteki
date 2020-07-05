@@ -316,8 +316,8 @@ const getCircularText = (text = '', diameter, yOffset = 0) => {
     let textHeight = 40,
         startAngle = 0;
 
-    canvas.width = 738;
-    canvas.height = 1048;
+    canvas.width = 600;
+    canvas.height = 840;
     ctx.fillStyle = 'white';
     ctx.strokeStyle = 'grey';
     ctx.shadowColor = 'rgb(32,32,32)';

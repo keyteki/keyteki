@@ -80,7 +80,7 @@
 }
 
 .stat-value {
-    background: fade(black, 60%) center;
+    background: rgba(black, 0.6) center;
     border-radius: 50%;
     width: 15px;
     height: 15px;
@@ -91,7 +91,12 @@
 .active-player {
     background-color: rgba(theme-color('secondary'), 0.4);
 
-    .state .glyphicon {
+    .state svg {
         color: white;
     }
+}
+
+.chat-status {
+    position: absolute;
+    right: 10px;
 }

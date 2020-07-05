@@ -14,7 +14,7 @@ function GameBackgroundOption(props) {
 
     return (
         <Col sm={4} onClick={handleClick}>
-            <img className={classNames('img-responsive', { selected: selected })} src={imageUrl} />
+            <img className={classNames('img-fluid', { selected: selected })} src={imageUrl} />
             <span className='bg-label'>{label}</span>
         </Col>
     );

@@ -16,18 +16,6 @@
     right: 15px;
 }
 
-.chat {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    flex: 1;
-
-    .messages {
-        padding: 5px;
-    }
-}
-
 .chat > form input {
     width: 100%;
 }
@@ -63,30 +51,9 @@
     overflow-y: hidden;
 }
 
-.gamechat {
-    overflow-y: hidden;
-    position: relative;
-    width: 100%;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-}
-
 .chat-form {
     margin-left: 5px;
     margin-right: 5px;
-}
-
-.chat-status {
-    position: absolute;
-    right: 10px;
-}
-
-.chat-badge {
-    margin-left: -10px;
-    margin-top: 0px;
-
-    z-index: @layer-top;
 }
 
 .chat-delete {

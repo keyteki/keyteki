@@ -112,7 +112,7 @@ const DeckSummary = ({ deck }) => {
                 <Row className='deck-cards'>
                     {zoomCard && (
                         <div
-                            className='card-zoom'
+                            className='decklist-card-zoom'
                             style={{ left: mousePos.x + 5 + 'px', top: mousePos.y + 'px' }}
                         >
                             <CardImage card={Object.assign({}, zoomCard, zoomCard.cardData)} />

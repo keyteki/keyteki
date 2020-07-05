@@ -3,35 +3,46 @@ import React from 'react';
 import Avatar from '../Site/Avatar';
 import AlertPanel from '../Site/AlertPanel';
 import { Constants } from '../../constants';
+import AmberImage from '../../assets/img/amber.png';
+import CardBackImage from '../../assets/img/idbacks/cardback.jpg';
+
+const keyImages = {};
+
+for (const colour of ['red', 'blue', 'yellow']) {
+    keyImages[colour] = {
+        forged: require(`../../assets/img/forgedkey${colour}.png`),
+        unforged: require(`../../assets/img/unforgedkey${colour}.png`)
+    };
+}
 
 import './Messages.scss';
 
 const Messages = ({ messages, onCardMouseOver, onCardMouseOut }) => {
     const tokens = {
-        amber: { className: 'icon-amber', imageSrc: '/img/amber.png' },
-        card: { className: 'icon-card', imageSrc: '/img/idbacks/cardback.jpg' },
-        cards: { className: 'icon-card', imageSrc: '/img/idbacks/cardback.jpg' },
-        forgedkeyblue: { className: 'icon-forgedKey', imageSrc: '/img/forgedkeyblue.png' },
-        forgedkeyyellow: { className: 'icon-forgedKey', imageSrc: '/img/forgedkeyyellow.png' },
-        forgedkeyred: { className: 'icon-forgedKey', imageSrc: '/img/forgedkeyred.png' },
-        unforgedkeyblue: { className: 'icon-forgedKey', imageSrc: '/img/unforgedkeyblue.png' },
+        amber: { className: 'icon-amber', imageSrc: AmberImage },
+        card: { className: 'icon-card', imageSrc: CardBackImage },
+        cards: { className: 'icon-card', imageSrc: CardBackImage },
+        forgedkeyblue: { className: 'icon-forgedKey', imageSrc: keyImages['blue'].forged },
+        forgedkeyyellow: { className: 'icon-forgedKey', imageSrc: keyImages['yellow'].forged },
+        forgedkeyred: { className: 'icon-forgedKey', imageSrc: keyImages['red'].forge },
+        unforgedkeyblue: { className: 'icon-forgedKey', imageSrc: keyImages['blue'].unforged },
         unforgedkeyyellow: {
             className: 'icon-forgedKey',
-            imageSrc: '/img/unforgedkeyyellow.png'
+            imageSrc: keyImages['yellow'].unforged
         },
-        unforgedkeyred: { className: 'icon-forgedKey', imageSrc: '/img/unforgedkeyred.png' }
+        unforgedkeyred: { className: 'icon-forgedKey', imageSrc: keyImages['red'].unforged }
     };
 
     for (let house of Constants.Houses) {
         tokens[house] = {
-            className: `chat-house-icon icon-${house}`,
-            imageSrc: `/img/house/${house}.png`
+            className: 'chat-house-icon',
+            imageSrc: Constants.HouseIconPaths[house]
         };
     }
 
     const getMessage = () => {
         return messages.map((message, index) => (
-            <div key={index} className='message'>
+            <div key={index} className='message mb-1'>
                 {formatMessageText(message.message)}
             </div>
         ));
@@ -56,8 +67,11 @@ const Messages = ({ messages, onCardMouseOver, onCardMouseOut }) => {
                     case 'phasestart':
                     case 'startofround':
                         messages.push(
-                            <div className={'bold seperator ' + fragment.type} key={index++}>
-                                <hr className={fragment.type} />
+                            <div
+                                className={'font-weight-bold text-white separator ' + fragment.type}
+                                key={index++}
+                            >
+                                <hr className={'mt-2 mb-2' + fragment.type} />
                                 {message}
                                 {fragment.type === 'phasestart' && <hr />}
                             </div>
@@ -78,11 +92,17 @@ const Messages = ({ messages, onCardMouseOver, onCardMouseOut }) => {
                         );
                         break;
                     case 'danger':
-                        messages.push(<AlertPanel type='danger' key={index++} message={message} />);
+                        messages.push(
+                            <AlertPanel type='danger' key={index++}>
+                                {message}
+                            </AlertPanel>
+                        );
                         break;
                     case 'warning':
                         messages.push(
-                            <AlertPanel type='warning' key={index++} message={message} />
+                            <AlertPanel type='warning' key={index++}>
+                                {message}
+                            </AlertPanel>
                         );
                         break;
                     default:
@@ -113,7 +133,7 @@ const Messages = ({ messages, onCardMouseOver, onCardMouseOut }) => {
                     'username' + (fragment.role ? ` ${fragment.role.toLowerCase()}-role` : '');
 
                 messages.push(
-                    <div key={index++} className='message-chat'>
+                    <div key={index++} className='message-chat mb-1'>
                         <Avatar username={fragment.name} float />
                         <span key={index++} className={userClass}>
                             {fragment.name}

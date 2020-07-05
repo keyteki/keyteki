@@ -74,13 +74,13 @@ class DeckRow extends React.Component {
                 {this.state.archonShow && (
                     <div className='hover-card'>
                         <div className='hover-image'>
-                            <img className={'img-responsive'} src={this.state.imageUrl} />
+                            <img className={'img-fluid'} src={this.state.imageUrl} />
                         </div>
                     </div>
                 )}
                 <div className='col-xs-1 deck-image'>
                     <img
-                        className={'img-responsive'}
+                        className={'img-fluid'}
                         src={this.state.imageUrl}
                         onMouseOut={this.onMouseOut}
                         onMouseOver={this.onMouseOver}

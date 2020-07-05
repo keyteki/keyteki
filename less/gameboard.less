@@ -4,34 +4,6 @@
     margin-top: auto;
 }
 
-.card-pile {
-    .panel {
-        z-index: @layer-card-menu;
-        background-color: rgba(0, 0, 0, 0.85);
-        position: fixed;
-
-        a {
-            display: inline-block;
-            margin: 0 10px 8px 0;
-            text-decoration: none;
-
-            &:hover {
-                color: @brand-info;
-                cursor: pointer;
-            }
-        }
-
-        .panel {
-            margin-bottom: 0;
-            padding: 5px;
-        }
-
-        .panel-title {
-            margin: 5px 5px;
-        }
-    }
-}
-
 .player-info {
     display: flex;
     flex-direction: row;
@@ -77,124 +49,14 @@
     flex: 1;
 }
 
-/**
-  * Generates the specified property based on the calculation of:
-  * property: numCards * (cardSize + cardSpacing) + additionalOffset
-  *
-  * for the various different card sizes. Example, mixing in
-  * .calculate-tiled-card-prop(min-height, 2, height, 3px) will generate CSS for:
-  * min-height: 2 * (@card-height + 5px) + 3px
-  * &.small {
-  *   min-height: 2 * (@card-sm-height + 5px) + 3px
-  * }
-  * ... etc ...
-  */
-.calculate-tiled-card-prop(@property, @numCards, @cardMeasurement, @additionalOffset: 0px) {
-    @cardMeasurementNm: 'card-@{cardMeasurement}';
-    @cardMeasurementSm: 'card-sm-@{cardMeasurement}';
-    @cardMeasurementLg: 'card-lg-@{cardMeasurement}';
-    @cardMeasurementXl: 'card-xl-@{cardMeasurement}';
-
-    @{property}: @numCards * (@@cardMeasurementNm + 5px) + @additionalOffset;
-
-    &.small {
-        @{property}: @numCards * (@@cardMeasurementSm + 5px) + @additionalOffset;
-    }
-
-    &.large {
-        @{property}: @numCards * (@@cardMeasurementLg + 5px) + @additionalOffset;
-    }
-
-    &.x-large {
-        @{property}: @numCards * (@@cardMeasurementXl + 5px) + @additionalOffset;
-    }
-}
-
-.inner {
-    .calculate-tiled-card-prop(max-height, 4, height);
-    overflow-y: auto;
-}
-
-.additional-cards {
-    .panel {
-        .inner {
-            .calculate-tiled-card-prop(min-height, 2, width);
-            .calculate-tiled-card-prop(min-width, 2, height, @scrollbar-width);
-        }
-    }
-}
-
-.discard {
-    .panel {
-        min-height: 146px;
-
-        .inner {
-            .calculate-tiled-card-prop(min-height, 1, height);
-            .calculate-tiled-card-prop(width, 5, width, @scrollbar-width);
-            padding: 4px;
-        }
-    }
-}
-
-.archives {
-    .panel {
-        .inner {
-            .calculate-tiled-card-prop(min-height, 1, height);
-            .calculate-tiled-card-prop(width, 5, width, @scrollbar-width);
-            padding: 4px;
-        }
-    }
-}
-
-.purged {
-    .panel {
-        .inner {
-            .calculate-tiled-card-prop(min-height, 1, height);
-            .calculate-tiled-card-prop(width, 5, width, @scrollbar-width);
-        }
-    }
-}
-
-.draw {
-    .panel {
-        .inner {
-            .calculate-tiled-card-prop(min-height, 1, height);
-            .calculate-tiled-card-prop(width, 7, width, @scrollbar-width);
-        }
-    }
-}
-
-// Alliance agenda
-.agenda-06018 {
-    .inner {
-        .calculate-tiled-card-prop(width, 2, width);
-    }
-}
-
 .middle-right {
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
 }
 
-.prompt-control-targeting {
-    align-items: center;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    margin-bottom: 10px;
-}
-
 .targeting-arrow {
     margin: 5px;
-}
-
-.target-card {
-    border-radius: 6.25%;
-    flex-shrink: 1;
-    margin: 0 2px;
-    max-height: @card-height;
-    max-width: @card-width;
 }
 
 .target-card-image {
@@ -243,27 +105,7 @@ span.down-arrow {
     display: flex;
 }
 
-.player-board .card-wrapper {
-    margin-right: 10px;
-    margin-bottom: 5px;
-}
-
 //RIGHT SIDE
-
-.close-button {
-    color: @foreground-color;
-    margin-bottom: 0 !important;
-    vertical-align: middle !important;
-}
-
-.settings-popup {
-    background: @background-color;
-
-    .modal-header {
-        background: @brand-primary;
-        font-family: Keyforge;
-    }
-}
 
 .close {
     color: @foreground-color;
@@ -339,14 +181,6 @@ hr.phasestart {
 .phasestart {
     font-size: 15px;
     text-transform: capitalize;
-}
-
-.endofround {
-    font-size: 14px;
-}
-
-.startofround {
-    font-size: 16px;
 }
 
 .option-button {

@@ -7,7 +7,6 @@ import './CardImage.scss';
 const CardImage = ({ card, cardBack }) => {
     const { i18n } = useTranslation();
     let [mergedImage, setMergedImage] = useState('');
-
     let { maverick, anomaly, amber, enhancements, image } = card;
 
     useEffect(() => {
@@ -64,10 +63,6 @@ const CardImage = ({ card, cardBack }) => {
         cardBack,
         card.facedown
     ]);
-
-    // if (!cardData?.image) {
-    //     return null;
-    // }
 
     return (
         <>

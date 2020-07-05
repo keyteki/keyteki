@@ -9,8 +9,6 @@ class IdentityCard extends React.Component {
             vertical: true
         });
 
-        console.info(this.props.deckListUrl);
-
         return (
             <div
                 className={className}
@@ -21,11 +19,8 @@ class IdentityCard extends React.Component {
             >
                 <div className='card-wrapper'>
                     <div className='card-frame'>
-                        <div className='game-card vertical'>
-                            <img
-                                className={`card-image vertical ${this.props.size}`}
-                                src={this.props.deckListUrl}
-                            />
+                        <div className={`game-card vertical ${this.props.size}`}>
+                            <img className={`card-image img-fluid`} src={this.props.deckListUrl} />
                         </div>
                     </div>
                 </div>

@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import $ from 'jquery';
 import { toastr } from 'react-redux-toastr';
 import { bindActionCreators } from 'redux';
 import classNames from 'classnames';
@@ -68,7 +67,8 @@ export class GameBoard extends React.Component {
             showCardMenu: {},
             showMessages: true,
             lastMessageCount: 0,
-            newMessages: 0
+            newMessages: 0,
+            showModal: false
         };
     }
 
@@ -258,7 +258,7 @@ export class GameBoard extends React.Component {
     }
 
     onSettingsClick() {
-        $('#settings-modal').modal('show');
+        this.setState({ showModal: true });
     }
 
     onMessagesClick() {
@@ -456,11 +456,13 @@ export class GameBoard extends React.Component {
 
         return (
             <div className={boardClass}>
-                <GameConfigurationModal
-                    optionSettings={thisPlayer.optionSettings}
-                    onOptionSettingToggle={this.onOptionSettingToggle.bind(this)}
-                    id='settings-modal'
-                />
+                {this.state.showModal && (
+                    <GameConfigurationModal
+                        optionSettings={thisPlayer.optionSettings}
+                        onOptionSettingToggle={this.onOptionSettingToggle.bind(this)}
+                        onClose={() => this.setState({ showModal: false })}
+                    />
+                )}
                 <div className='stats-top'>
                     <PlayerStats
                         stats={otherPlayer.stats}
@@ -472,12 +474,13 @@ export class GameBoard extends React.Component {
                 </div>
                 <div className='main-window'>
                     {this.renderBoard(thisPlayer, otherPlayer)}
-                    {/* <CardZoom
-                        imageUrl={cardToZoom ? `/img/cards/${cardToZoom.image}.png` : ''}
-                        show={!!cardToZoom}
-                        cardName={cardToZoom ? cardToZoom.name : null}
-                        card={cardToZoom}
-                    /> */}
+                    {cardToZoom && (
+                        <CardZoom
+                            imageUrl={cardToZoom ? `/img/cards/${cardToZoom.image}.png` : ''}
+                            cardName={cardToZoom ? cardToZoom.name : null}
+                            card={cardToZoom}
+                        />
+                    )}
                     <div className='right-side'>
                         <div className='prompt-area'>
                             <div className='inset-pane'>

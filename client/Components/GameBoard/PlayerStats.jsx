@@ -3,8 +3,21 @@ import { withTranslation, Trans } from 'react-i18next';
 import { toastr } from 'react-redux-toastr';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+    faEye,
+    faEyeSlash,
+    faCopy,
+    faWrench,
+    faCogs,
+    faComment
+} from '@fortawesome/free-solid-svg-icons';
+import { Badge } from 'react-bootstrap';
 
 import Avatar from '../Site/Avatar';
+import { Constants } from '../../constants';
+import Minus from '../../assets/img/Minus.png';
+import Plus from '../../assets/img/Plus.png';
 
 import './PlayerStats.scss';
 
@@ -43,23 +56,25 @@ export class PlayerStats extends React.Component {
         return (
             <div className='state' title={name}>
                 {this.props.showControls ? (
-                    <button
-                        className='btn btn-stat'
+                    <a
+                        href='#'
+                        className='btn-stat'
                         onClick={this.sendUpdate.bind(this, statToSet, 'down')}
                     >
-                        <img src='/img/Minus.png' title='-' alt='-' />
-                    </button>
+                        <img src={Minus} title='-' alt='-' />
+                    </a>
                 ) : null}
                 <div className={`stat-image ${stat}`}>
                     <div className='stat-value'>{this.getStatValueOrDefault(stat)}</div>
                 </div>
                 {this.props.showControls ? (
-                    <button
-                        className='btn btn-stat'
+                    <a
+                        href='#'
+                        className='btn-stat'
                         onClick={this.sendUpdate.bind(this, statToSet, 'up')}
                     >
-                        <img src='/img/Plus.png' title='+' alt='+' />
-                    </button>
+                        <img src={Plus} title='+' alt='+' />
+                    </a>
                 ) : null}
             </div>
         );
@@ -90,8 +105,8 @@ export class PlayerStats extends React.Component {
                     <img
                         key={house}
                         onClick={this.setActiveHouse.bind(this, house)}
-                        className='img-responsive'
-                        src={`/img/house/${house}.png`}
+                        className='img-fluid'
+                        src={Constants.HouseIconPaths[house]}
                         title={this.getHouse(house)}
                     />
                 ))}
@@ -126,7 +141,6 @@ export class PlayerStats extends React.Component {
                 <span>{`${this.props.matchRecord.thisPlayer.wins} - ${this.props.matchRecord.otherPlayer.wins}`}</span>
             </div>
         );
-        let muteClass = this.props.muteSpectators ? 'glyphicon-eye-close' : 'glyphicon-eye-open';
         let statsClass = classNames('panel player-stats', {
             'active-player': this.props.activePlayer
         });
@@ -150,7 +164,7 @@ export class PlayerStats extends React.Component {
                         </div>
                         <img
                             className='house-image'
-                            src={`/img/house/${this.props.activeHouse}.png`}
+                            src={Constants.HouseIconPaths[this.props.activeHouse]}
                             title={this.getHouse(this.props.activeHouse)}
                         />
                     </div>
@@ -165,56 +179,54 @@ export class PlayerStats extends React.Component {
                 {this.props.showMessages && (
                     <div className='state chat-status'>
                         <div className='state'>
-                            <button
-                                className='btn btn-transparent btn-noimg'
-                                onClick={this.props.onMuteClick}
-                            >
-                                <span className={`glyphicon ${muteClass}`} />
-                            </button>
+                            <a href='#' className='pr-1 pl-1'>
+                                <FontAwesomeIcon
+                                    icon={this.props.muteSpectators ? faEyeSlash : faEye}
+                                    onClick={this.props.onMuteClick}
+                                ></FontAwesomeIcon>
+                            </a>
                         </div>
                         <div className='state'>
-                            <button
-                                className='btn btn-transparent btn-noimg'
-                                onClick={this.writeChatToClipboard.bind(this)}
-                            >
-                                <span className='glyphicon glyphicon-copy' />
-                            </button>
+                            <a href='#' className='pr-1 pl-1'>
+                                <FontAwesomeIcon
+                                    icon={faCopy}
+                                    onClick={this.writeChatToClipboard.bind(this)}
+                                ></FontAwesomeIcon>
+                            </a>
                         </div>
                         {this.props.showManualMode && (
                             <div className='state'>
-                                <button
-                                    className={
-                                        'btn btn-transparent btn-noimg ' +
-                                        (this.props.manualModeEnabled ? 'manual' : 'auto')
-                                    }
+                                <a
+                                    href='#'
+                                    className={this.props.manualModeEnabled ? 'text-danger' : ''}
                                     onClick={this.props.onManualModeClick}
                                 >
-                                    <span className='glyphicon glyphicon-wrench' />
-                                    <span>
+                                    <FontAwesomeIcon icon={faWrench}></FontAwesomeIcon>
+                                    <span className='ml-1'>
                                         <Trans>Manual Mode</Trans>
                                     </span>
-                                </button>
+                                </a>
                             </div>
                         )}
                         <div className='state'>
-                            <button
-                                className='btn btn-transparent btn-noimg'
+                            <a
+                                href='#'
                                 onClick={this.onSettingsClick.bind(this)}
+                                className='pr-1 pl-1'
                             >
-                                <span className='glyphicon glyphicon-cog' />
-                                <Trans>Settings</Trans>
-                            </button>
+                                <FontAwesomeIcon icon={faCogs}></FontAwesomeIcon>
+                                <span className='ml-1'>
+                                    <Trans>Settings</Trans>
+                                </span>
+                            </a>
                         </div>
                         <div>
-                            <button
-                                className='btn btn-transparent btn-noimg'
-                                onClick={this.props.onMessagesClick}
-                            >
-                                <span className='glyphicon glyphicon-envelope' />
-                                <span className='chat-badge badge progress-bar-danger'>
-                                    {this.props.numMessages || null}
-                                </span>
-                            </button>
+                            <a href='#' onClick={this.props.onMessagesClick} className='pl-1'>
+                                <FontAwesomeIcon icon={faComment}></FontAwesomeIcon>
+                                {this.props.numMessages > 0 && (
+                                    <Badge variant='danger'>{this.props.numMessages}</Badge>
+                                )}
+                            </a>
                         </div>
                     </div>
                 )}

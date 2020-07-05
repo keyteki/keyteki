@@ -33,3 +33,12 @@
     text-shadow: 1px 1px 2px #000;
     border-radius: 4px;
 }
+
+.drop-target {
+    display: inline-block;
+    position: relative;
+}
+
+.shadow {
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+}

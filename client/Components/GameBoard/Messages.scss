@@ -1,7 +1,12 @@
-.seperator {
+@import '../../styles/variables';
+@import '../../styles/colours';
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+
+.separator {
     hr {
-        margin-top: 10px;
-        margin-bottom: 10px;
+        border-color: theme-color(primary);
     }
 }
 
@@ -11,7 +16,6 @@
 }
 
 .message {
-    margin-bottom: 8px;
     word-wrap: break-word;
     line-height: 1.2;
     max-width: 290px;
@@ -24,8 +28,19 @@
     }
 }
 
-.message-fragment {
-    padding-left: 15px;
+.messages {
+    height: 100%;
+    overflow: auto;
+    margin: 0;
+    font-size: 12px;
+    overflow-y: auto;
+    flex: 1;
+    display: flex;
+
+    .alert {
+        margin-bottom: 0;
+        padding: 5px;
+    }
 }
 
 .admin-role {
@@ -46,4 +61,38 @@
 
 .previouswinner-role {
     color: #ff38c7;
+}
+
+.endofround {
+    font-size: 0.9rem;
+}
+
+.startofround {
+    font-size: 1.05rem;
+}
+
+.icon-amber {
+    height: 12px;
+    width: 12px;
+}
+
+.chat-house-icon {
+    height: 12px;
+    width: 12px;
+}
+
+.icon-card {
+    height: 16px;
+    width: 12px;
+    margin-top: -4px;
+}
+
+.card-link {
+    cursor: pointer;
+    cursor: hand;
+    color: theme-color(secondary);
+}
+
+.card-link:hover {
+    color: theme-color(info);
 }
