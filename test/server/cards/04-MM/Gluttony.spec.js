@@ -1,4 +1,4 @@
-fdescribe('Guttony', function () {
+describe('Guttony', function () {
     describe("Guttony's abilities", function () {
         beforeEach(function () {
             this.setupTest({
