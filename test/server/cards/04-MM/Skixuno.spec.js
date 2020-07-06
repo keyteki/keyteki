@@ -24,7 +24,7 @@ describe('Skixuno', function () {
             expect(this.bloodshardImp.location).toBe('discard');
         });
 
-        xit('should not gain power for failing to destroy warded creatures', function () {
+        it('should not gain power for failing to destroy warded creatures', function () {
             this.rotgrub.tokens.ward = 1;
             this.player1.play(this.skixuno);
 
