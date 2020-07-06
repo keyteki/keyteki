@@ -42,7 +42,7 @@ describe('Auto-Vac 5150', function () {
             expect(this.player2.player.amber).toBe(6);
         });
 
-        it('should not something keyfrog something', function () {
+        xit('should not increase opponents key cost on the current turn, allowing them to forge with keyfrog', function () {
             this.player1.clickCard(this.autoVac5150);
             this.player1.clickPrompt("Use this card's Action ability");
 
