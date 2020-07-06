@@ -5,13 +5,13 @@ describe('Auto-Vac 5150', function () {
                 player1: {
                     amber: 6,
                     house: 'logos',
-                    inPlay: ['auto-vac-5150'],
+                    inPlay: ['auto-vac-5150', 'dextre'],
                     archives: ['groke', 'mother'],
                     hand: ['lumilu', 'dust-pixie']
                 },
                 player2: {
                     amber: 6,
-                    inPlay: ['munchling'],
+                    inPlay: ['munchling', 'keyfrog'],
                     hand: ['remote-access', 'drumble'],
                     archives: ['daughter']
                 }
@@ -40,6 +40,28 @@ describe('Auto-Vac 5150', function () {
             expect(this.player2).not.toHavePrompt('Forge a Key');
             expect(this.player2.player.getForgedKeys()).toBe(0);
             expect(this.player2.player.amber).toBe(6);
+        });
+
+        it('should not something keyfrog something', function () {
+            this.player1.clickCard(this.autoVac5150);
+            this.player1.clickPrompt("Use this card's Action ability");
+
+            expect(this.player1).toHavePrompt(
+                'Discard a card from your archives or archive a card'
+            );
+            expect(this.player1).toBeAbleToSelect(this.groke);
+            expect(this.player1).toBeAbleToSelect(this.mother);
+            expect(this.player1).toBeAbleToSelect(this.lumilu);
+            expect(this.player1).toBeAbleToSelect(this.dustPixie);
+            expect(this.player1).not.toBeAbleToSelect(this.autoVac5150);
+            expect(this.player1).not.toHavePromptButton('Done');
+            this.player1.clickCard(this.groke);
+            this.player1.fightWith(this.dextre, this.keyfrog);
+
+            expect(this.player1).toHavePrompt('Forge a Key');
+            expect(this.player1).clickPrompt('Red');
+            expect(this.player2.player.getForgedKeys()).toBe(1);
+            expect(this.player2.player.amber).toBe(0);
         });
 
         it('should allow a key to be forged for +3', function () {
