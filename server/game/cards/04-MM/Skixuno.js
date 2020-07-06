@@ -7,17 +7,14 @@ class Skixuno extends Card {
             gameAction: ability.actions.destroy((context) => ({
                 target: context.game.creaturesInPlay.filter((card) => card !== context.source)
             })),
-            then: (context) => ({
+            then: {
                 alwaysTriggers: true,
                 gameAction: ability.actions.addPowerCounter((thenContext) => ({
                     amount: thenContext.preThenEvents.filter(
-                        (event) =>
-                            event.name === 'onCardDestroyed' &&
-                            !event.cancelled &&
-                            event.context === context
+                        (event) => event.name === 'onCardDestroyed' && !event.cancelled
                     ).length
                 }))
-            })
+            }
         });
     }
 }
