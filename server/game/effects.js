@@ -11,6 +11,8 @@ const GainAbility = require('./Effects/GainAbility');
 
 const Effects = {
     // Card effects
+    actionCardLocationAfterPlay: (location) =>
+        EffectBuilder.card.static('actionCardLocationAfterPlay', location),
     addHouse: (house) => EffectBuilder.card.static('addHouse', house),
     addKeyword: (keyword) => EffectBuilder.card.static('addKeyword', keyword),
     addTrait: (trait) => EffectBuilder.card.static('addTrait', trait),

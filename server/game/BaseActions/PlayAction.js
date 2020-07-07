@@ -11,7 +11,9 @@ class PlayAction extends BasePlayAction {
         super.executeHandler(context);
         context.game.queueSimpleStep(() => {
             if (context.source.location === 'being played') {
-                context.source.owner.moveCard(context.source, 'discard');
+                let location =
+                    context.source.mostRecentEffect('actionCardLocationAfterPlay') || 'discard';
+                context.source.owner.moveCard(context.source, location);
             }
         });
     }
