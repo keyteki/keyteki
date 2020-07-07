@@ -19,6 +19,7 @@ class BasePlayAction extends BaseAbility {
     }
 
     meetsRequirements(context = this.createContext(), ignoredRequirements = []) {
+        console.log('meetsRequirements', this.card.name);
         if (
             !ignoredRequirements.includes('location') &&
             !context.player.isCardInPlayableLocation(context.source, 'play')
@@ -31,6 +32,7 @@ class BasePlayAction extends BaseAbility {
         ) {
             return 'cannotTrigger';
         }
+        console.log('super', this.card.name, super.meetsRequirements(context));
 
         return super.meetsRequirements(context);
     }
@@ -51,6 +53,25 @@ class BasePlayAction extends BaseAbility {
                 context.game.actions.resolveBonusIcons().resolve(this.card, context);
             })
         );
+    }
+
+    addSubEvent(event, context) {
+        return;
+    }
+
+    executeHandler(context) {
+        let event = context.game.getEvent(
+            'onCardPlayed',
+            {
+                player: context.player,
+                card: context.source,
+                originalLocation: context.source.location
+            },
+            () => context.game.cardsPlayed.push(context.source)
+        );
+        this.addBonusIconResolution(event, context);
+        this.addSubEvent(event, context);
+        context.game.openEventWindow(event);
     }
 
     isAction() {

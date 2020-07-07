@@ -6,7 +6,7 @@ class SpeedSigil extends Card {
             when: {
                 onCardPlayed: (event, context) =>
                     event.card.type === 'creature' &&
-                    context.game.cardsPlayed.filter((card) => card.type === 'creature').length === 1
+                    context.game.cardsPlayed.filter((card) => card.type === 'creature').length === 0
             },
             gameAction: ability.actions.cardLastingEffect((context) => ({
                 target: context.event.card,

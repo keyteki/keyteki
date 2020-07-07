@@ -41,12 +41,7 @@ class PlayUpgradeAction extends BasePlayAction {
         return super.meetsRequirements(context, ignoredRequirements);
     }
 
-    executeHandler(context) {
-        const event = context.game.getEvent('onCardPlayed', {
-            player: context.player,
-            card: context.source,
-            originalLocation: context.source.location
-        });
+    addSubEvent(event, context) {
         event.addChildEvent(
             new AttachAction({ upgrade: context.source }).getEvent(context.target, context)
         );
@@ -58,9 +53,6 @@ class PlayUpgradeAction extends BasePlayAction {
             changeTypeEvent.gameAction = null;
             event.addChildEvent(changeTypeEvent);
         }
-
-        this.addBonusIconResolution(event, context);
-        context.game.openEventWindow(event);
     }
 }
 
