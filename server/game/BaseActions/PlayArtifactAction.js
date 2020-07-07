@@ -6,17 +6,10 @@ class PlayAction extends BasePlayAction {
         this.title = 'Play this artifact';
     }
 
-    executeHandler(context) {
-        let cardPlayedEvent = context.game.getEvent('onCardPlayed', {
-            player: context.player,
-            card: context.source,
-            originalLocation: context.source.location
-        });
-        this.addBonusIconResolution(cardPlayedEvent, context);
-        cardPlayedEvent.addChildEvent(
+    addSubEvent(event, context) {
+        event.addChildEvent(
             context.game.actions.putIntoPlay({ myControl: true }).getEvent(context.source, context)
         );
-        context.game.openEventWindow(cardPlayedEvent);
     }
 }
 

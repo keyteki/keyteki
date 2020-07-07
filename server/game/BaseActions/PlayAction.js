@@ -7,14 +7,8 @@ class PlayAction extends BasePlayAction {
     }
 
     executeHandler(context) {
-        let location = context.source.location;
         context.player.moveCard(context.source, 'being played');
-        let event = context.game.raiseEvent('onCardPlayed', {
-            player: context.player,
-            card: context.source,
-            originalLocation: location
-        });
-        this.addBonusIconResolution(event, context);
+        super.executeHandler(context);
         context.game.queueSimpleStep(() => {
             if (context.source.location === 'being played') {
                 context.source.owner.moveCard(context.source, 'discard');
