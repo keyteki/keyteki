@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import { Form, Button, Alert, Col, Row, Spinner } from 'react-bootstrap';
 import { Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
 import * as yup from 'yup';
 
 import ProfileMain from './ProfileMain';
@@ -9,6 +10,7 @@ import ProfileBackground from './ProfileBackground';
 import KeyforgeGameSettings from './KeyforgeGameSettings';
 import ProfileCardSize from './ProfileCardSize';
 import { Constants } from '../../constants';
+import BlankBg from '../../assets/img/bgs/blank.png';
 
 import './Profile.scss';
 
@@ -68,14 +70,14 @@ const initialValues = {
 /**
  * @param {ProfileProps} props
  */
-const Profile = (props) => {
-    const { user, onSubmit, isLoading } = props;
+const Profile = ({ onSubmit, isLoading }) => {
     const { t } = useTranslation();
+    const user = useSelector((state) => state.account.user);
     const [localBackground, setBackground] = useState(user?.settings.background);
     const [localCardSize, setCardSize] = useState(user?.settings.cardSize);
     const topRowRef = useRef(null);
 
-    const backgrounds = [{ name: 'none', label: t('none'), imageUrl: 'img/bgs/blank.png' }];
+    const backgrounds = [{ name: 'none', label: t('none'), imageUrl: BlankBg }];
     const cardSizes = [
         { name: 'small', label: t('small') },
         { name: 'normal', label: t('normal') },
@@ -87,7 +89,7 @@ const Profile = (props) => {
         backgrounds.push({
             name: Constants.HousesNames[i],
             label: t(Constants.Houses[i]),
-            imageUrl: `img/bgs/${Constants.Houses[i]}.png`
+            imageUrl: Constants.HouseBgPaths[Constants.Houses[i]]
         });
     }
 

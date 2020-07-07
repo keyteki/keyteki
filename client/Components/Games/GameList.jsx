@@ -4,16 +4,17 @@ import classNames from 'classnames';
 import { connect } from 'react-redux';
 import { toastr } from 'react-redux-toastr';
 import moment from 'moment';
+import { withTranslation, Trans } from 'react-i18next';
 
 import Avatar from '../Site/Avatar';
 import AlertPanel from '../Site/AlertPanel';
 import * as actions from '../../redux/actions';
 
-import { withTranslation, Trans } from 'react-i18next';
+import './GameList.scss';
 
 class GameList extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.joinGame = this.joinGame.bind(this);
     }
@@ -71,17 +72,10 @@ class GameList extends React.Component {
     }
 
     getPlayerCards(player, firstPlayer) {
-        let houses =
-            player.houses &&
-            player.houses.map((house) => {
-                return <img key={house} className='img-fluid' src={`/img/house/${house}.png`} />;
-            });
-
         if (firstPlayer) {
             return (
                 <div className='game-faction-row first-player'>
                     {this.getPlayerNameAndAvatar(player, firstPlayer)}
-                    <div className='house-icons'>{houses}</div>
                 </div>
             );
         }
@@ -89,7 +83,6 @@ class GameList extends React.Component {
         return (
             <div className='game-faction-row other-player'>
                 {this.getPlayerNameAndAvatar(player, firstPlayer)}
-                <div className='house-icons'>{houses}</div>
             </div>
         );
     }
@@ -166,7 +159,7 @@ class GameList extends React.Component {
         let t = this.props.t;
 
         for (const game of games) {
-            if (this.props.gameFilter.showOnlyNewGames && game.started) {
+            if (this.props.gameFilter.onlyShowNew && game.started) {
                 continue;
             }
 
@@ -270,13 +263,13 @@ class GameList extends React.Component {
         let gameHeaderClass = 'game-header';
         switch (gameType) {
             case 'beginner':
-                gameHeaderClass += ' label-success';
+                gameHeaderClass += ' badge-success';
                 break;
             case 'casual':
-                gameHeaderClass += ' label-warning';
+                gameHeaderClass += ' badge-warning';
                 break;
             case 'competitive':
-                gameHeaderClass += ' label-danger';
+                gameHeaderClass += ' badge-danger';
                 break;
         }
 

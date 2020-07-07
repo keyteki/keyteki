@@ -1,3 +1,9 @@
+@import '../../styles/variables';
+@import '../../styles/colours';
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+
 .profile-avatar {
     width: 24px;
     height: 24px;
@@ -6,6 +12,8 @@
 .profile-submit {
     position: sticky;
     bottom: 10px;
+    background-color: theme-color('primary');
+    z-index: $layer-top;
 }
 
 .profile-form {

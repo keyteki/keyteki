@@ -10,7 +10,7 @@ import ApiStatus from '../Components/Site/ApiStatus';
 const ProfileContainer = () => {
     const dispatch = useDispatch();
     const { t } = useTranslation();
-    const authState = useSelector((state) => state.auth);
+    const user = useSelector((state) => state.account.user);
     const apiState = useSelector((state) => {
         const retState = state.api['SAVE_PROFILE'];
 
@@ -27,7 +27,7 @@ const ProfileContainer = () => {
         return retState;
     });
 
-    if (!authState?.user) {
+    if (!user) {
         return <Alert variant='danger'>{t('You need to be logged in to view your profile')}</Alert>;
     }
 
@@ -35,9 +35,8 @@ const ProfileContainer = () => {
         <Col lg={{ span: 10, offset: 1 }}>
             <ApiStatus state={apiState} onClose={() => dispatch(clearApiStatus('SAVE_PROFILE'))} />
             <Profile
-                user={authState.user}
                 onSubmit={(profile) => {
-                    return dispatch(updateProfile(authState.user.username, profile));
+                    return dispatch(updateProfile(user.username, profile));
                 }}
                 isLoading={apiState?.loading}
             />

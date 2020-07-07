@@ -339,7 +339,6 @@ TournamentLobby.propTypes = {
     newGame: PropTypes.bool,
     participants: PropTypes.array,
     passwordGame: PropTypes.object,
-    setContextMenu: PropTypes.func,
     socket: PropTypes.object,
     startNewGame: PropTypes.func,
     t: PropTypes.func,

@@ -1,11 +1,14 @@
 import React from 'react';
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
 
 import Link from './Link';
 import { RightMenu, ProfileMenu, LeftMenu } from '../../menus';
 import LanguageSelector from './LanguageSelector';
 import ProfileDropdown from './ProfileDropdown';
+import ServerStatus from './ServerStatus';
+import GameContextMenu from './GameContextMenu';
 
 import './Navigation.scss';
 
@@ -24,6 +27,24 @@ import './Navigation.scss';
  */
 const Navigation = (props) => {
     const { t } = useTranslation();
+    const {
+        games,
+        currentGame,
+        lobbyResponse,
+        lobbySocketConnected,
+        lobbySocketConnecting
+    } = useSelector((state) => ({
+        games: state.lobby.games,
+        currentGame: state.lobby.currentGame,
+        lobbyResponse: state.lobby.responseTime,
+        lobbySocketConnected: state.lobby.connected,
+        lobbySocketConnecting: state.lobby.connecting
+    }));
+    const { gameConnected, gameConnecting, gameResponse } = useSelector((state) => ({
+        gameConnected: state.games.connected,
+        gameConnecting: state.games.connecting,
+        gameResponse: state.games.responseTime
+    }));
 
     /**
      * @param {MenuItem} menuItem The menu item
@@ -105,6 +126,12 @@ const Navigation = (props) => {
         });
     };
 
+    let numGames = (
+        <li>
+            <span>{t('{{gameLength}} Games', { gameLength: games?.length })}</span>
+        </li>
+    );
+
     return (
         <Navbar bg='dark' variant='dark' className='navbar-sm' fixed='top'>
             <Navbar.Brand href='/'></Navbar.Brand>
@@ -112,6 +139,24 @@ const Navigation = (props) => {
             <Nav>{renderMenuItems(LeftMenu)}</Nav>
             <Navbar.Collapse id='navbar' className='justify-content-end'>
                 <Nav className='ml-auto pr-md-5'>
+                    <GameContextMenu />
+                    {numGames}
+                    {!currentGame && (
+                        <ServerStatus
+                            connected={lobbySocketConnected}
+                            connecting={lobbySocketConnecting}
+                            serverType='Lobby'
+                            responseTime={lobbyResponse}
+                        />
+                    )}
+                    {currentGame && (
+                        <ServerStatus
+                            connected={gameConnected}
+                            connecting={gameConnecting}
+                            serverType='Game server'
+                            responseTime={gameResponse}
+                        />
+                    )}
                     {renderMenuItems(RightMenu)}
                     <ProfileDropdown menu={ProfileMenu} user={props.user} />
                     <LanguageSelector />

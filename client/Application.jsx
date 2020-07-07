@@ -59,10 +59,6 @@ class Application extends React.Component {
     }
 
     componentDidUpdate(props) {
-        if (!this.props.currentGame) {
-            this.props.setContextMenu([]);
-        }
-
         if (!props.windowBlurred || this.props.windowBlurred) {
             this.blinkTab();
         }
@@ -181,7 +177,6 @@ Application.propTypes = {
     navigate: PropTypes.func,
     path: PropTypes.string,
     setAuthTokens: PropTypes.func,
-    setContextMenu: PropTypes.func,
     setWindowBlur: PropTypes.func,
     token: PropTypes.string,
     user: PropTypes.object,

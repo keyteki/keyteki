@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { toastr } from 'react-redux-toastr';
 import { bindActionCreators } from 'redux';
 import classNames from 'classnames';
 import { withTranslation, Trans } from 'react-i18next';
@@ -50,8 +49,6 @@ export class GameBoard extends React.Component {
         this.handleDrawPopupChange = this.handleDrawPopupChange.bind(this);
         this.onDragDrop = this.onDragDrop.bind(this);
         this.onCommand = this.onCommand.bind(this);
-        this.onConcedeClick = this.onConcedeClick.bind(this);
-        this.onLeaveClick = this.onLeaveClick.bind(this);
         this.onShuffleClick = this.onShuffleClick.bind(this);
         this.onMenuItemClick = this.onMenuItemClick.bind(this);
         this.sendChatMessage = this.sendChatMessage.bind(this);
@@ -72,14 +69,8 @@ export class GameBoard extends React.Component {
         };
     }
 
-    componentDidMount() {
-        this.updateContextMenu(this.props);
-    }
-
     // eslint-disable-next-line camelcase
     UNSAFE_componentWillReceiveProps(props) {
-        this.updateContextMenu(props);
-
         let lastMessageCount = this.state.lastMessageCount;
         let currentMessageCount = props.currentGame ? props.currentGame.messages.length : 0;
 
@@ -88,109 +79,6 @@ export class GameBoard extends React.Component {
         } else {
             this.setState({ newMessages: currentMessageCount - lastMessageCount });
         }
-    }
-
-    updateContextMenu(props) {
-        if (!props.currentGame || !props.user) {
-            return;
-        }
-
-        let thisPlayer = props.currentGame.players[props.user.username];
-
-        if (thisPlayer) {
-            this.setState({ spectating: false });
-        } else {
-            this.setState({ spectating: true });
-        }
-
-        let menuOptions = [{ text: 'Leave Game', onClick: this.onLeaveClick }];
-
-        if (props.currentGame && props.currentGame.started) {
-            if (props.currentGame.players[props.user.username]) {
-                menuOptions.unshift({ text: 'Concede', onClick: this.onConcedeClick });
-            }
-
-            let spectators = props.currentGame.spectators.map((spectator) => {
-                return <li key={spectator.id}>{spectator.name}</li>;
-            });
-
-            let spectatorPopup = <ul className='spectators-popup absolute-panel'>{spectators}</ul>;
-
-            menuOptions.unshift({
-                text: '{{users}} spectators',
-                values: { users: props.currentGame.spectators.length },
-                popup: spectatorPopup
-            });
-
-            this.setContextMenu(menuOptions);
-        } else {
-            this.setContextMenu([]);
-        }
-    }
-
-    setContextMenu(menu) {
-        if (this.props.setContextMenu) {
-            this.props.setContextMenu(menu);
-        }
-    }
-
-    onConcedeClick() {
-        this.props.sendGameMessage('concede');
-    }
-
-    isGameActive() {
-        if (!this.props.currentGame || !this.props.user) {
-            return false;
-        }
-
-        if (this.props.currentGame.winner) {
-            return false;
-        }
-
-        let thisPlayer = this.props.currentGame.players[this.props.user.username];
-        if (!thisPlayer) {
-            thisPlayer = Object.values(this.props.currentGame.players)[0];
-        }
-
-        let otherPlayer = Object.values(this.props.currentGame.players).find((player) => {
-            return player.name !== thisPlayer.name;
-        });
-
-        if (!otherPlayer) {
-            return false;
-        }
-
-        if (otherPlayer.disconnected || otherPlayer.left) {
-            return false;
-        }
-
-        return true;
-    }
-
-    onLeaveClick() {
-        let t = this.props.t;
-
-        if (!this.state.spectating && this.isGameActive()) {
-            toastr.confirm(
-                t(
-                    'Your game is not finished. If you leave you will concede the game. Are you sure you want to leave?'
-                ),
-                {
-                    okText: t('Ok'),
-                    cancelText: t('Cancel'),
-                    onOk: () => {
-                        this.props.sendGameMessage('concede');
-                        this.props.sendGameMessage('leavegame');
-                        this.props.closeGameSocket();
-                    }
-                }
-            );
-
-            return;
-        }
-
-        this.props.sendGameMessage('leavegame');
-        this.props.closeGameSocket();
     }
 
     onMouseOver(card) {
@@ -556,7 +444,6 @@ GameBoard.propTypes = {
     player2CardBack: PropTypes.string,
     restrictedList: PropTypes.array,
     sendGameMessage: PropTypes.func,
-    setContextMenu: PropTypes.func,
     socket: PropTypes.object,
     t: PropTypes.func,
     user: PropTypes.object,

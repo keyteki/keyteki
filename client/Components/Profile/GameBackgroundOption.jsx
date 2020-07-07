@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Col } from 'react-bootstrap';
 
+import './GameBackgroundOption.scss';
+
 function GameBackgroundOption(props) {
     let { name, label, imageUrl, selected, onSelect } = props;
 

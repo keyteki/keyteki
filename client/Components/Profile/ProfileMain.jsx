@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { PatreonStatus } from '../../types';
 import Panel from '../Site/Panel';
 import Avatar from '../Site/Avatar';
-import { PatreonClientId, AuthServerUrl } from '../../constants';
+import { PatreonClientId } from '../../constants';
 import PatreonImage from '../../assets/img/Patreon_Mark_Coral.jpg';
 
 import './ProfileMain.scss';
@@ -23,12 +23,10 @@ import './ProfileMain.scss';
 /**
  * @param {ProfileMainProps} props
  */
-const ProfileMain = (props) => {
+const ProfileMain = ({ user, formProps }) => {
     const { t } = useTranslation();
     const inputFile = useRef(null);
     const [localAvatar, setAvatar] = useState(null);
-    const formProps = props.formProps;
-    const { user } = props;
 
     const onAvatarUploadClick = () => {
         if (!inputFile.current) {
@@ -44,16 +42,21 @@ const ProfileMain = (props) => {
     return (
         <Panel title={t('Profile')}>
             <Form.Row>
-                <Form.Group as={Col} md='6'>
-                    <Form.Label>Email</Form.Label>
-                    <div>{user ? user.email : ''}</div>
-                </Form.Group>
-                <Col md={6}>
-                    Account details need to be updated on the{' '}
-                    <a href={AuthServerUrl}>Gameteki site</a>.
-                </Col>
-            </Form.Row>
-            <Form.Row>
+                <Form.Group as={Col} md='6' controlId='formGridEmail'>
+                    <Form.Label>{t('Email')}</Form.Label>
+                    <Form.Control
+                        name='email'
+                        type='text'
+                        placeholder={t('Enter an email address')}
+                        value={formProps.values.email}
+                        onChange={formProps.handleChange}
+                        onBlur={formProps.handleBlur}
+                        isInvalid={formProps.touched.email && !!formProps.errors.email}
+                    />
+                    <Form.Control.Feedback type='invalid'>
+                        {formProps.errors.email}
+                    </Form.Control.Feedback>
+                </Form.Group>{' '}
                 <Form.Group as={Col} md='3'>
                     <Form.Label>{t('Avatar')}</Form.Label>
                     <div>
@@ -112,6 +115,77 @@ const ProfileMain = (props) => {
                             <Button variant='secondary'>Unlink Account</Button>
                         )}
                     </div>
+                </Form.Group>
+            </Form.Row>
+            <Form.Row>
+                <Form.Group as={Col} md='6' controlId='formGridPassword'>
+                    <Form.Label>{t('Password')}</Form.Label>
+                    <Form.Control
+                        name='password'
+                        type='password'
+                        placeholder={t('Enter a password')}
+                        value={formProps.values.password}
+                        onChange={formProps.handleChange}
+                        onBlur={formProps.handleBlur}
+                        isInvalid={formProps.touched.password && !!formProps.errors.password}
+                    />
+                    <Form.Control.Feedback type='invalid'>
+                        {formProps.errors.password}
+                    </Form.Control.Feedback>
+                </Form.Group>
+                <Form.Group as={Col} md='6' controlId='formGridPassword1'>
+                    <Form.Label>{t('Password (again)')}</Form.Label>
+                    <Form.Control
+                        name='passwordAgain'
+                        type='password'
+                        placeholder={t('Enter the same password')}
+                        value={formProps.values.passwordAgain}
+                        onChange={formProps.handleChange}
+                        onBlur={formProps.handleBlur}
+                        isInvalid={
+                            formProps.touched.passwordAgain && !!formProps.errors.passwordAgain
+                        }
+                    />
+                    <Form.Control.Feedback type='invalid'>
+                        {formProps.errors.passwordAgain}
+                    </Form.Control.Feedback>
+                </Form.Group>
+            </Form.Row>
+            <Form.Row>
+                <Form.Group as={Col} md='6' controlId='formGridChallongeKey'>
+                    <Form.Label>{t('Challonge API Key')}</Form.Label>
+                    <Form.Control
+                        name='challongeApiKey'
+                        type='password'
+                        placeholder={t('Enter challonge API key')}
+                        value={formProps.values.challongeApiKey}
+                        onChange={formProps.handleChange}
+                        onBlur={formProps.handleBlur}
+                        isInvalid={
+                            formProps.touched.challongeApiKey && !!formProps.errors.challongeApiKey
+                        }
+                    />
+                    <Form.Control.Feedback type='invalid'>
+                        {formProps.errors.challongeApiKey}
+                    </Form.Control.Feedback>
+                </Form.Group>
+                <Form.Group as={Col} md='6' controlId='formGridChallongeDomain'>
+                    <Form.Label>{t('Password (again)')}</Form.Label>
+                    <Form.Control
+                        name='challongeApiSubdomain'
+                        type='password'
+                        placeholder={t('Challonge API subdomain')}
+                        value={formProps.values.challongeApiSubdomain}
+                        onChange={formProps.handleChange}
+                        onBlur={formProps.handleBlur}
+                        isInvalid={
+                            formProps.touched.challongeApiSubdomain &&
+                            !!formProps.errors.challongeApiSubdomain
+                        }
+                    />
+                    <Form.Control.Feedback type='invalid'>
+                        {formProps.errors.challongeApiSubdomain}
+                    </Form.Control.Feedback>
                 </Form.Group>
             </Form.Row>
         </Panel>

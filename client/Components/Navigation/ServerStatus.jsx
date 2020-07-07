@@ -1,17 +1,22 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheckCircle, faTimesCircle, faBan } from '@fortawesome/free-solid-svg-icons';
+
+import './ServerStatus.scss';
 
 const ServerStatus = (props) => {
     const { connecting, connected, responseTime, serverType } = props;
     const { t } = useTranslation();
 
-    let className = 'glyphicon';
+    let className = '';
     let toolTip = `${serverType} is`;
     let pingText;
+    let icon = faCheckCircle;
 
     if (connected) {
-        className += ' glyphicon-ok-circle text-success';
+        className += ' text-success';
         toolTip += ' connected';
 
         let pingClass;
@@ -35,7 +40,8 @@ const ServerStatus = (props) => {
             );
         }
     } else if (connecting) {
-        className += ' glyphicon-remove-circle text-warning';
+        className += ' text-warning';
+        icon = faTimesCircle;
         toolTip += ' connecting';
         pingText = (
             <React.Fragment>
@@ -44,7 +50,8 @@ const ServerStatus = (props) => {
             </React.Fragment>
         );
     } else {
-        className += ' glyphicon-ban-circle text-danger';
+        className += ' text-danger';
+        icon = faBan;
         toolTip += ' disconnected';
         pingText = (
             <React.Fragment>
@@ -57,7 +64,9 @@ const ServerStatus = (props) => {
     return (
         <li className='server-status'>
             {pingText}
-            <span className={className} title={t(toolTip)} />
+            <span className={className}>
+                <FontAwesomeIcon icon={icon} title={t(toolTip)} />
+            </span>
         </li>
     );
 };

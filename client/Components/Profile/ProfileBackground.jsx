@@ -22,9 +22,8 @@ import GameBackgroundOption from './GameBackgroundOption';
 /**
  * @param {BackgroundProps} props
  */
-const ProfileBackground = (props) => {
+const ProfileBackground = ({ backgrounds, selectedBackground, onBackgroundSelected }) => {
     const { t } = useTranslation();
-    const { backgrounds, selectedBackground, onBackgroundSelected } = props;
 
     return (
         <Panel title={t('Game Board Background')}>

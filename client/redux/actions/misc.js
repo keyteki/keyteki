@@ -14,13 +14,6 @@ export function setUrl(path) {
     };
 }
 
-export function setContextMenu(menu) {
-    return {
-        type: 'SET_CONTEXT_MENU',
-        menu: menu
-    };
-}
-
 export function zoomCard(card) {
     return {
         type: 'ZOOM_CARD',

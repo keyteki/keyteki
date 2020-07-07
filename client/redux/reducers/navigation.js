@@ -15,11 +15,6 @@ export default function (state = { path: '/' }, action) {
         case 'NAVIGATE':
             state = navigate(state, action.newPath, action.search, action.noHistory);
             break;
-        case 'SET_CONTEXT_MENU':
-            state = Object.assign({}, state, {
-                context: action.menu
-            });
-            break;
         case 'SET_URL':
             history.replaceState({}, '', action.path);
             break;

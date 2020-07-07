@@ -34,6 +34,7 @@ export const Constants = {
     ],
     SetIconPaths: {},
     HouseIconPaths: {},
+    HouseBgPaths: {},
     MaverickIcon: require('./assets/img/maverick.png'),
     AnomalyIcon: require('./assets/img/anomaly.png')
 };
@@ -46,4 +47,5 @@ for (let expansion of Constants.Expansions) {
 
 for (let house of Constants.Houses) {
     Constants.HouseIconPaths[house] = require(`./assets/img/idbacks/houses/${house}.png`);
+    Constants.HouseBgPaths[house] = require(`./assets/img/bgs/${house}.png`);
 }

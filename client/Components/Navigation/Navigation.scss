@@ -21,3 +21,8 @@
     min-height: $navbar-height;
     height: $navbar-height;
 }
+
+.navbar-sm .navbar-nav > li > span {
+    padding: 0 15px;
+    line-height: 36px;
+}
