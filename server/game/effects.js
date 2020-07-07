@@ -41,6 +41,8 @@ const Effects = {
     playAbilitiesAddReap: () => EffectBuilder.card.static('playAbilitiesAddReap'),
     reapAbilitiesAddFight: () => EffectBuilder.card.static('reapAbilitiesAddFight'),
     removeKeyword: (keyword) => EffectBuilder.card.static('removeKeyword', keyword),
+    setArmor: (amount) => EffectBuilder.card.flexible('setArmor', amount),
+    setPower: (amount) => EffectBuilder.card.flexible('setPower', amount),
     takeControl: (player) => EffectBuilder.card.static('takeControl', player),
     entersPlayUnderOpponentsControl: () =>
         EffectBuilder.card.static('entersPlayUnderOpponentsControl'),

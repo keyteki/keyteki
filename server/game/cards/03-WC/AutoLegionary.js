@@ -12,9 +12,7 @@ class AutoLegionary extends Card {
                 ability.actions.cardLastingEffect((context) => ({
                     target: context.source,
                     duration: 'lastingEffect',
-                    effect: effects.concat(
-                        context.source.power ? [] : ability.effects.modifyPower(5)
-                    )
+                    effect: effects.concat(ability.effects.setPower(5))
                 })),
                 ability.actions.moveToFlank()
             ])

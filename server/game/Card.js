@@ -674,9 +674,13 @@ class Card extends EffectSource {
         }
 
         const copyEffect = this.mostRecentEffect('copyCard');
-        const printedPower = copyEffect ? copyEffect.printedPower : this.printedPower;
+        const basePower = this.anyEffect('setPower')
+            ? this.mostRecentEffect('setPower')
+            : copyEffect
+            ? copyEffect.printedPower
+            : this.printedPower;
         return (
-            printedPower +
+            basePower +
             this.sumEffects('modifyPower') +
             (this.hasToken('power') ? this.tokens.power : 0)
         );
@@ -697,10 +701,12 @@ class Card extends EffectSource {
         }
 
         const copyEffect = this.mostRecentEffect('copyCard');
-        return (
-            this.sumEffects('modifyArmor') +
-            (copyEffect ? copyEffect.printedArmor : this.printedArmor)
-        );
+        const baseArmor = this.anyEffect('setArmor')
+            ? this.mostRecentEffect('setArmor')
+            : copyEffect
+            ? copyEffect.printedArmor
+            : this.printedArmor;
+        return baseArmor + this.sumEffects('modifyArmor');
     }
 
     get amber() {
