@@ -28,7 +28,6 @@ const Effects = {
     entersPlayEnraged: () => EffectBuilder.card.static('entersPlayEnraged'),
     entersPlayReady: () => EffectBuilder.card.static('entersPlayReady'),
     entersPlayStunned: () => EffectBuilder.card.static('entersPlayStunned'),
-    faceup: (location) => EffectBuilder.card.static('faceup', location),
     gainAbility: (type, properties) =>
         EffectBuilder.card.static('gainAbility', new GainAbility(type, properties)),
     fightAbilitiesAddReap: () => EffectBuilder.card.static('fightAbilitiesAddReap'),
@@ -92,7 +91,6 @@ const Effects = {
     canUse: (match) =>
         EffectBuilder.player.static('canUse', (context) => match(context.source, context)),
     canUseHouse: (house) => EffectBuilder.player.static('canUseHouse', house),
-    chooseArchivedCards: () => EffectBuilder.player.static('chooseArchivedCards'),
     customDetachedPlayer: (properties) => EffectBuilder.player.detached('customEffect', properties),
     delayedEffect: (properties) =>
         EffectBuilder.player.detached('delayedEffect', {

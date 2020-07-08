@@ -979,7 +979,7 @@ class Card extends EffectSource {
         return result;
     }
 
-    getSummary(activePlayer) {
+    getSummary(activePlayer, hideWhenFaceup) {
         let isController = activePlayer === this.controller;
         let selectionState = activePlayer.getCardSelectionState(this);
 
@@ -1007,7 +1007,7 @@ class Card extends EffectSource {
                 this.getLegalActions(activePlayer, false).length > 0,
             cardback: this.owner.deckData.cardback,
             childCards: this.childCards.map((card) => {
-                return card.getSummary(activePlayer);
+                return card.getSummary(activePlayer, hideWhenFaceup);
             }),
             controlled: this.owner !== this.controller,
             exhausted: this.exhausted,
@@ -1024,7 +1024,7 @@ class Card extends EffectSource {
             tokens: this.tokens,
             type: this.getType(),
             upgrades: this.upgrades.map((upgrade) => {
-                return upgrade.getSummary(activePlayer);
+                return upgrade.getSummary(activePlayer, hideWhenFaceup);
             }),
             uuid: this.uuid
         };

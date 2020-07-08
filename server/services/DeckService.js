@@ -337,7 +337,7 @@ class DeckService {
                 await db.query(
                     `INSERT INTO "StandaloneDeckCards" ("CardId", "Count", "Maverick", "Anomaly", "DeckId", "Enhancements") VALUES ${expand(
                         deck.cards.length,
-                        6
+                        7
                     )}`,
                     params
                 );

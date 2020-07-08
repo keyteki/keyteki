@@ -43,25 +43,23 @@ class HousePhase extends Phase {
 
     takeCardsFromArchives() {
         if (this.game.activePlayer.archives.length) {
-            if (this.game.activePlayer.anyEffet(''))
-                this.game.promptWithHandlerMenu(this.game.activePlayer, {
-                    source: 'Access Archives',
-                    activePromptTitle:
-                        'Do you wish to take all the cards in archives into your hand?',
-                    choices: ['Yes', 'No'],
-                    handlers: [
-                        () => {
-                            this.game.addMessage(
-                                '{0} moves all the cards in their archives to their hand',
-                                this.game.activePlayer
-                            );
-                            for (let card of this.game.activePlayer.archives) {
-                                this.game.activePlayer.moveCard(card, 'hand');
-                            }
-                        },
-                        () => true
-                    ]
-                });
+            this.game.promptWithHandlerMenu(this.game.activePlayer, {
+                source: 'Access Archives',
+                activePromptTitle: 'Do you wish to take all the cards in archives into your hand?',
+                choices: ['Yes', 'No'],
+                handlers: [
+                    () => {
+                        this.game.addMessage(
+                            '{0} moves all the cards in their archives to their hand',
+                            this.game.activePlayer
+                        );
+                        for (let card of this.game.activePlayer.archives) {
+                            this.game.activePlayer.moveCard(card, 'hand');
+                        }
+                    },
+                    () => true
+                ]
+            });
         }
     }
 }
