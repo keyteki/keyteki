@@ -41,16 +41,6 @@ describe('Exhume', function () {
             expect(this.exploRover.parent).toBe(this.flaxia);
         });
 
-        it('should allow selecting explo-rover and playing it as an upgrade', function () {
-            this.player1.play(this.exhume);
-            this.player1.clickCard(this.exploRover);
-            expect(this.player1).toHavePromptButton('Play this creature');
-            expect(this.player1).toHavePromptButton('Play this upgrade');
-            this.player1.clickPrompt('Play this upgrade');
-            this.player1.clickCard(this.flaxia);
-            expect(this.exploRover.parent).toBe(this.flaxia);
-        });
-
         xit('should allow selecting explo-rover and playing it as an upgrade, if Lifeward was used', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('dis');
