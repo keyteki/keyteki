@@ -40,4 +40,14 @@ class ImportStandaloneDecks {
 }
 
 let importer = new ImportStandaloneDecks();
-importer.import();
+importer
+    .import()
+    .then(() => {
+        console.error('Done');
+        process.exit(0);
+    })
+    .catch((err) => {
+        console.error('Error: %s', err);
+        console.error('Error: %s', err.stack);
+        process.exit(1);
+    });

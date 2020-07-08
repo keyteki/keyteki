@@ -479,9 +479,9 @@ class Player extends GameObject {
         this.promptState.clearSelectableCards();
     }
 
-    getSummaryForCardList(list, activePlayer, hideWhenFaceup) {
+    getSummaryForCardList(list, activePlayer) {
         return list.map((card) => {
-            return card.getSummary(activePlayer, hideWhenFaceup);
+            return card.getSummary(activePlayer);
         });
     }
 
@@ -770,7 +770,7 @@ class Player extends GameObject {
                 archives: this.getSummaryForCardList(this.archives, activePlayer),
                 cardsInPlay: this.getSummaryForCardList(this.cardsInPlay, activePlayer),
                 discard: this.getSummaryForCardList(this.discard, activePlayer),
-                hand: this.getSummaryForCardList(this.hand, activePlayer, true),
+                hand: this.getSummaryForCardList(this.hand, activePlayer),
                 purged: this.getSummaryForCardList(this.purged, activePlayer)
             },
             cardback: 'cardback',
@@ -807,7 +807,7 @@ class Player extends GameObject {
 
                 return 0;
             });
-            state.cardPiles.deck = this.getSummaryForCardList(sortedDeck, activePlayer, true);
+            state.cardPiles.deck = this.getSummaryForCardList(sortedDeck, activePlayer);
         } else if (gameFormat === 'sealed') {
             state.deckCards = [];
         }
