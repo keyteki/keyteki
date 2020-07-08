@@ -674,8 +674,8 @@ class Card extends EffectSource {
         }
 
         const copyEffect = this.mostRecentEffect('copyCard');
-        const basePower = this.anyEffect('setPower')
-            ? this.mostRecentEffect('setPower')
+        const basePower = this.anyEffect('setBasePower')
+            ? this.mostRecentEffect('setBasePower')
             : copyEffect
             ? copyEffect.printedPower
             : this.printedPower;
@@ -701,8 +701,8 @@ class Card extends EffectSource {
         }
 
         const copyEffect = this.mostRecentEffect('copyCard');
-        const baseArmor = this.anyEffect('setArmor')
-            ? this.mostRecentEffect('setArmor')
+        const baseArmor = this.anyEffect('setBaseArmor')
+            ? this.mostRecentEffect('setBaseArmor')
             : copyEffect
             ? copyEffect.printedArmor
             : this.printedArmor;

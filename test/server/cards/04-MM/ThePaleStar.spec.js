@@ -43,7 +43,7 @@ describe('The Pale Star', function () {
         });
 
         it('should be destroyed and set base power and armor', function () {
-            this.player1.useAction(this.thePaleStar);
+            this.player1.useAction(this.thePaleStar, true);
             expect(this.thePaleStar.location).toBe('discard');
 
             expect(this.spyyyder.power).toBe(1); // base: 1
@@ -107,7 +107,7 @@ describe('The Pale Star', function () {
 
             this.player1.endTurn();
             this.player2.clickPrompt('dis');
-            this.player2.useAction(this.thePaleStar);
+            this.player2.useAction(this.thePaleStar, true);
             expect(this.thePaleStar.location).toBe('discard');
 
             expect(this.spyyyder.power).toBe(1); // base: 1
@@ -147,7 +147,7 @@ describe('The Pale Star', function () {
 
             this.player1.endTurn();
             this.player2.clickPrompt('dis');
-            this.player2.useAction(this.thePaleStar);
+            this.player2.useAction(this.thePaleStar, true);
             expect(this.thePaleStar.location).toBe('discard');
 
             expect(this.autoLegionary.power).toBe(1);

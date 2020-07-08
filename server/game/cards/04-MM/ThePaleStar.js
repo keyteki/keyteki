@@ -2,13 +2,13 @@ const Card = require('../../Card.js');
 
 class ThePaleStar extends Card {
     setupCardAbilities(ability) {
-        this.action({
+        this.omni({
             effect: 'make each creature to be 1 power and 0 amor',
             gameAction: [
                 ability.actions.destroy(),
                 ability.actions.forRemainderOfTurn({
                     targetController: 'any',
-                    effect: [ability.effects.setPower(1), ability.effects.setArmor(0)]
+                    effect: [ability.effects.setBasePower(1), ability.effects.setBaseArmor(0)]
                 })
             ]
         });
