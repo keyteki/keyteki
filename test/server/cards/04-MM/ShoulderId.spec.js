@@ -10,7 +10,7 @@ describe('Shoulder Id', function () {
                 },
                 player2: {
                     amber: 4,
-                    inPlay: ['shoulder-id', 'bulwark']
+                    inPlay: ['shoulder-id']
                 }
             });
         });
@@ -44,8 +44,7 @@ describe('Shoulder Id', function () {
             expect(this.player2.amber).toBe(6);
         });
 
-        xit('should not steal A if it dies due to Assault', function () {
-            // TODO not sure why damage is being dealt back here
+        it('should not steal A if it dies due to Assault', function () {
             this.shoulderId.tokens.damage = 5;
             this.player1.fightWith(this.ancientBear, this.shoulderId);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
