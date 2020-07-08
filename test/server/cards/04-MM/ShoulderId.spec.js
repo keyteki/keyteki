@@ -28,7 +28,7 @@ describe('Shoulder Id', function () {
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             expect(this.fuzzyGruen.location).toBe('play area');
             expect(this.fuzzyGruen.tokens.damage).toBeUndefined();
-            expect(this.shoulderId.tokens.damage).toBe(3);
+            expect(this.shoulderId.tokens.damage).toBe(5);
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(5);
         });
@@ -39,7 +39,7 @@ describe('Shoulder Id', function () {
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             expect(this.fuzzyGruen.location).toBe('play area');
             expect(this.fuzzyGruen.tokens.damage).toBeUndefined();
-            expect(this.shoulderId.tokens.damage).toBe(3);
+            expect(this.shoulderId.tokens.damage).toBe(5);
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(6);
         });
