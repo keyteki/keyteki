@@ -10,9 +10,15 @@ const CardImage = ({ card, cardBack }) => {
     let { maverick, anomaly, amber, enhancements, image } = card;
 
     useEffect(() => {
-        let imgPath = card.facedown
-            ? cardBack
-            : `/img/cards/${i18n.language === 'en' ? '' : i18n.language + '/'}${image}.png`;
+        let imgPath = card.facedown ? cardBack : image;
+        if (image && image.includes('https://')) {
+            if (i18n.language !== 'en') {
+                imgPath = imgPath.replace('/en/', `/${i18n.language}/`);
+                imgPath = imgPath.replace('_en', `_${i18n.language}`);
+            }
+        } else {
+            imgPath = `/img/cards/${i18n.language === 'en' ? '' : i18n.language + '/'}${image}.png`;
+        }
         let imagesToMerge = [];
 
         if (maverick) {
