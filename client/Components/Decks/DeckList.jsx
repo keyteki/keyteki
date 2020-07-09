@@ -112,8 +112,6 @@ const DeckList = ({ onDeckSelected, standaloneDecks = false }) => {
         $('.filter-label').parent().parent().hide();
     }, [pagingDetails, dispatch, standaloneDecks]);
 
-    useEffect(() => () => console.log('unmount'), []);
-
     const MultiSelectFilter = () => {
         return (
             <Select

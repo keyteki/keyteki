@@ -23,7 +23,6 @@
  * @property {any} settings The user's settings
  * @property {any} permissioms The user's permissions
  * @property {boolean} verified Whether or not the user is verified
- * @property {boolean} enableGravatar Whether or not the user has gravatar enabled
  * @property {any} challonge The user's challonge data
  */
 

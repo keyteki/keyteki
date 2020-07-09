@@ -27,9 +27,10 @@ function showNotification(notification) {
 const PendingGame = () => {
     const currentGame = useSelector((state) => state.lobby.currentGame);
     const user = useSelector((state) => state.account.user);
-    const { connecting, gameError } = useSelector((state) => ({
+    const { connecting, gameError, gameHost } = useSelector((state) => ({
         connecting: state.games.connecting,
-        gameError: state.games.gameError
+        gameError: state.games.gameError,
+        gameHost: state.games.gameHost
     }));
     const notification = useRef();
     const [waiting, setWaiting] = useState(false);
@@ -75,7 +76,19 @@ const PendingGame = () => {
         if (canScroll && messageRef.current) {
             $(messageRef.current)?.scrollTop(999999);
         }
-    }, [currentGame.owner, currentGame.players, user, playerCount, currentGame, canScroll]);
+
+        if (connecting) {
+            setWaiting(false);
+        }
+    }, [
+        currentGame.owner,
+        currentGame.players,
+        user,
+        playerCount,
+        currentGame,
+        canScroll,
+        connecting
+    ]);
 
     useEffect(() => {
         if (currentGame && currentGame.gameFormat === 'sealed') {
@@ -86,10 +99,6 @@ const PendingGame = () => {
 
     if (!currentGame) {
         return null;
-    }
-
-    if (connecting) {
-        setWaiting(false);
     }
 
     const canClickStart = () => {
@@ -118,7 +127,7 @@ const PendingGame = () => {
         }
 
         if (connecting) {
-            return t('Connecting to game server {{host}}', { host: host });
+            return t('Connecting to game server {{host}}', { host: gameHost });
         }
 
         if (waiting) {

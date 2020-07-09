@@ -1,4 +1,5 @@
 import { connectLobby, authenticateSocket } from '.';
+import { Account } from '../types';
 
 export function registerAccount(user) {
     return {
@@ -73,7 +74,7 @@ export function forgotPassword(details) {
     localStorage.removeItem('refreshToken');
 
     return {
-        types: ['FORGOTPASSWORD_ACCOUNT', 'ACCOUNT_FORGOTPASSWORD'],
+        types: [Account.ForgotPasswordRequest, Account.ForgotPasswordResponse],
         shouldCallAPI: () => true,
         APIParams: {
             url: '/api/account/password-reset',
@@ -103,7 +104,7 @@ export function resetPassword(details) {
 
 export function activateAccount(details) {
     return {
-        types: ['ACTIVATE_ACCOUNT', 'ACCOUNT_ACTIVATED'],
+        types: [Account.ActivateAccount, Account.AccountActivated],
         shouldCallAPI: () => true,
         APIParams: {
             url: '/api/account/activate',

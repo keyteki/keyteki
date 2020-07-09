@@ -6,6 +6,7 @@ const moment = require('moment');
 const _ = require('underscore');
 const sendgrid = require('@sendgrid/mail');
 const fs = require('fs');
+const jimp = require('jimp');
 
 const logger = require('../log.js');
 const { wrapAsync } = require('../util.js');
@@ -110,8 +111,21 @@ function writeFile(path, data, opts = 'utf8') {
     });
 }
 
-async function downloadAvatar(user) {
-    let stringToHash = user.enableGravatar ? user.email : crypto.randomBytes(32).toString('hex');
+async function processAvatar(newUser, user) {
+    if (newUser.avatar) {
+        const buf = Buffer.from(newUser.avatar, 'base64');
+        jimp.read(buf, (err, image) => {
+            if (err) {
+                throw err;
+            } else {
+                image.resize(24, 24).quality(100).write(`public/img/avatar/${user.username}.png`);
+            }
+        });
+
+        return;
+    }
+
+    let stringToHash = crypto.randomBytes(32).toString('hex');
     let emailHash = crypto.createHash('md5').update(stringToHash).digest('hex');
     let avatar = await util.httpRequest(
         `https://www.gravatar.com/avatar/${emailHash}?d=identicon&s=24`,
@@ -302,7 +316,7 @@ module.exports.init = function (server, options) {
             res.send({ success: true });
 
             try {
-                await downloadAvatar(user);
+                await processAvatar(user);
             } catch (error) {
                 logger.error(`Error downloading avatar for ${user.username}`, error);
             }
@@ -763,10 +777,9 @@ module.exports.init = function (server, options) {
                 user.password = await bcrypt.hash(userToSet.password, 10);
             }
 
-            user.enableGravatar = userToSet.enableGravatar;
             user.challonge = userToSet.challonge;
 
-            await downloadAvatar(user);
+            await processAvatar(userToSet, user);
 
             await userService.update(user);
 
@@ -971,7 +984,7 @@ module.exports.init = function (server, options) {
 
             user = user.getDetails();
 
-            await downloadAvatar(user);
+            await processAvatar(user);
 
             res.send({ success: true });
         })

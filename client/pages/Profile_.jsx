@@ -74,7 +74,6 @@ class Profile extends React.Component {
             challongeApiKey: props.user.challonge ? props.user.challonge.key : '',
             challongeApiSubdomain: props.user.challonge ? props.user.challonge.subdomain : '',
             email: props.user.email,
-            enableGravatar: !props.user.settings.disableGravatar,
             optionSettings: props.user.settings.optionSettings,
             selectedBackground: props.user.settings.background,
             selectedCardSize: props.user.settings.cardSize
@@ -132,7 +131,6 @@ class Profile extends React.Component {
                 subdomain: this.state.challongeApiSubdomain
             },
             email: this.state.email,
-            enableGravatar: this.state.enableGravatar,
             password: this.state.newPassword,
             settings: {
                 background: this.state.selectedBackground,

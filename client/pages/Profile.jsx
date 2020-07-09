@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
 
 import Profile from '../Components/Profile/Profile';
-import { updateProfile, clearApiStatus } from '../redux/actions';
+import { saveProfile, clearApiStatus } from '../redux/actions';
 import ApiStatus from '../Components/Site/ApiStatus';
 
 const ProfileContainer = () => {
@@ -36,7 +36,7 @@ const ProfileContainer = () => {
             <ApiStatus state={apiState} onClose={() => dispatch(clearApiStatus('SAVE_PROFILE'))} />
             <Profile
                 onSubmit={(profile) => {
-                    return dispatch(updateProfile(user.username, profile));
+                    return dispatch(saveProfile(user.username, profile));
                 }}
                 isLoading={apiState?.loading}
             />

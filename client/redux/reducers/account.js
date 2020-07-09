@@ -1,3 +1,5 @@
+import { Account } from '../types';
+
 export default function (state = {}, action) {
     switch (action.type) {
         case 'REGISTER_ACCOUNT':
@@ -31,11 +33,11 @@ export default function (state = {}, action) {
             return Object.assign({}, state, {
                 passwordReset: true
             });
-        case 'ACTIVATE_ACCOUNT':
+        case Account.ActivateAccount:
             return Object.assign({}, state, {
                 activated: false
             });
-        case 'ACCOUNT_ACTIVATED':
+        case Account.AccountActivated:
             return Object.assign({}, state, {
                 activated: true
             });

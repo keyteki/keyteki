@@ -21,38 +21,6 @@
     border-color: @brand-info;
 }
 
-.menu {
-    position: absolute;
-    width: 200px;
-    left: 58px;
-    top: -5px;
-    font-size: 12px;
-    line-height: 16px;
-    z-index: @layer-card-menu;
-}
-
-.menu-item {
-    border: 1px solid @brand-primary;
-    padding: 3px 6px;
-    border-radius: 4px;
-    margin-bottom: 4px;
-    cursor: pointer;
-
-    &:hover {
-        border-color: @brand-info;
-    }
-
-    &.disabled {
-        background-color: fadeout(#222, 20%);
-        color: #666;
-        cursor: not-allowed;
-
-        &:hover {
-            border-color: @brand-primary;
-        }
-    }
-}
-
 .bootstrap-typeahead-input-main {
     background: white !important;
 }

@@ -1,11 +1,13 @@
+import { UserAction } from '../types';
+
 export default function (state = {}, action) {
     switch (action.type) {
         case 'PROFILE_SAVED':
             return Object.assign({}, state, {
                 token: action.response.token
             });
-        case 'BLOCKLIST_ADDED':
-        case 'BLOCKLIST_DELETED':
+        case UserAction.BlocklistAdded:
+        case UserAction.BlocklistDeleted:
             return Object.assign({}, state, {
                 user: action.response.user,
                 username: action.response.user.username

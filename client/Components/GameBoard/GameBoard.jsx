@@ -59,7 +59,6 @@ export class GameBoard extends React.Component {
 
         this.state = {
             cardToZoom: undefined,
-            spectating: true,
             showActionWindowsMenu: false,
             showCardMenu: {},
             showMessages: true,
@@ -189,6 +188,8 @@ export class GameBoard extends React.Component {
     }
 
     renderBoard(thisPlayer, otherPlayer) {
+        let spectating = !this.props.currentGame.players[this.props.user.username];
+
         return [
             <div key='board-middle' className='board-middle'>
                 <div className='player-home-row'>
@@ -212,7 +213,7 @@ export class GameBoard extends React.Component {
                         onMouseOut={this.onMouseOut}
                         purgedPile={otherPlayer.cardPiles.purged}
                         keys={otherPlayer.stats.keys}
-                        spectating={this.state.spectating}
+                        spectating={spectating}
                         title={otherPlayer.title}
                         side='top'
                         username={this.props.user.username}
@@ -253,9 +254,9 @@ export class GameBoard extends React.Component {
                 {this.getTimer()}
                 <div className='player-home-row our-side'>
                     <PlayerRow
-                        isMe={!this.state.spectating}
+                        isMe={!spectating}
                         player={1}
-                        hideDecklist={this.props.currentGame.hideDecklists && this.state.spectating}
+                        hideDecklist={this.props.currentGame.hideDecklists && spectating}
                         cardBackUrl={this.props.player1CardBack}
                         archives={thisPlayer.cardPiles.archives}
                         language={this.props.i18n.language}
@@ -276,7 +277,7 @@ export class GameBoard extends React.Component {
                         onDragDrop={this.onDragDrop}
                         discard={thisPlayer.cardPiles.discard}
                         showDeck={thisPlayer.showDeck}
-                        spectating={this.state.spectating}
+                        spectating={spectating}
                         title={thisPlayer.title}
                         onMenuItemClick={this.onMenuItemClick}
                         cardSize={this.props.user.settings.cardSize}
@@ -306,6 +307,7 @@ export class GameBoard extends React.Component {
             );
         }
 
+        let spectating = !this.props.currentGame.players[this.props.user.username];
         let thisPlayer = this.props.currentGame.players[this.props.user.username];
         if (!thisPlayer) {
             thisPlayer = Object.values(this.props.currentGame.players)[0];
@@ -394,10 +396,7 @@ export class GameBoard extends React.Component {
                                     onCardMouseOut={this.onMouseOut}
                                     onCardMouseOver={this.onMouseOver}
                                     onSendChat={this.sendChatMessage}
-                                    muted={
-                                        this.state.spectating &&
-                                        this.props.currentGame.muteSpectators
-                                    }
+                                    muted={spectating && this.props.currentGame.muteSpectators}
                                 />
                             </div>
                         )}
@@ -417,8 +416,8 @@ export class GameBoard extends React.Component {
                         onMessagesClick={this.onMessagesClick}
                         onMuteClick={this.onMuteClick}
                         onSettingsClick={this.onSettingsClick}
-                        showControls={!this.state.spectating && manualMode}
-                        showManualMode={!this.state.spectating}
+                        showControls={!spectating && manualMode}
+                        showManualMode={!spectating}
                         showMessages
                         stats={thisPlayer.stats}
                         user={thisPlayer.user}

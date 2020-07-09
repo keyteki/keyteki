@@ -18,8 +18,7 @@ export class Register extends React.Component {
         this.onRegister = this.onRegister.bind(this);
 
         this.state = {
-            successMessage: '',
-            enableGravatar: true
+            successMessage: ''
         };
     }
 
@@ -45,13 +44,8 @@ export class Register extends React.Component {
         this.props.registerAccount({
             username: state.username,
             password: state.password,
-            email: state.email,
-            enableGravatar: state.enableGravatar
+            email: state.email
         });
-    }
-
-    onEnableGravatarChanged(event) {
-        this.setState({ enableGravatar: event.target.checked });
     }
 
     render() {

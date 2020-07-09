@@ -1,6 +1,8 @@
+import { UserAction } from '../types';
+
 export default function (state = { blockList: [] }, action) {
     switch (action.type) {
-        case 'RECEIVE_BLOCKLIST':
+        case UserAction.ReceiveBlocklist:
             return Object.assign({}, state, {
                 blockList: action.response.blockList
             });
@@ -21,7 +23,7 @@ export default function (state = { blockList: [] }, action) {
                 sessionRemoved: true,
                 sessions: sessions
             });
-        case 'BLOCKLIST_ADDED':
+        case UserAction.BlocklistAdded:
             var addedState = Object.assign({}, state, {
                 blockListAdded: true
             });
@@ -29,7 +31,7 @@ export default function (state = { blockList: [] }, action) {
             addedState.blockList.push(action.response.username);
 
             return addedState;
-        case 'BLOCKLIST_DELETED':
+        case UserAction.BlocklistDeleted:
             var blockList = state.blockList.filter((user) => {
                 return user !== action.response.username;
             });

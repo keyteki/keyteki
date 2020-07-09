@@ -18,3 +18,19 @@ export const Decks = Object.freeze({
     RequestDecks: 'REQUEST_DECKS',
     DecksReceived: 'DECKS_RECEIVED'
 });
+
+export const UserAction = Object.freeze({
+    RequestBlocklist: 'REQUEST_BLOCKLIST',
+    ReceiveBlocklist: 'RECEIVE_BLOCKLIST',
+    AddBlocklist: 'ADD_BLOCKLIST',
+    BlocklistAdded: 'BLOCKLIST_ADDED',
+    DeleteBlockList: 'DELETE_BLOCKLIST',
+    BlocklistDeleted: 'BLOCKLIST_DELETED'
+});
+
+export const Account = Object.freeze({
+    ActivateAccount: 'ACTIVATE_ACCOUNT',
+    AccountActivated: 'ACCOUNT_ACTIVATED',
+    ForgotPasswordRequest: 'FORGOT_PASSWORD_REQUEST',
+    ForgotPasswordResponse: 'FORGOT_PASSWORD_RESPONSE'
+});

@@ -1,3 +1,5 @@
+import { UserAction } from '../types';
+
 export function loadActiveSessions(user) {
     return {
         types: ['REQUEST_SESSIONS', 'RECEIVE_SESSIONS'],
@@ -22,7 +24,7 @@ export function removeSession(username, sessionId) {
 
 export function loadBlockList(user) {
     return {
-        types: ['REQUEST_BLOCKLIST', 'RECEIVE_BLOCKLIST'],
+        types: [UserAction.RequestBlocklist, UserAction.ReceiveBlocklist],
         shouldCallAPI: () => true,
         APIParams: {
             cache: false,
@@ -33,7 +35,7 @@ export function loadBlockList(user) {
 
 export function addBlockListEntry(user, username) {
     return {
-        types: ['ADD_BLOCKLIST', 'BLOCKLIST_ADDED'],
+        types: [UserAction.AddBlocklist, UserAction.BlocklistAdded],
         shouldCallAPI: () => true,
         APIParams: {
             url: `/api/account/${user.username}/blocklist`,
@@ -45,7 +47,7 @@ export function addBlockListEntry(user, username) {
 
 export function removeBlockListEntry(user, username) {
     return {
-        types: ['DELETE_BLOCKLIST', 'BLOCKLIST_DELETED'],
+        types: [UserAction.DeleteBlockList, UserAction.BlocklistDeleted],
         shouldCallAPI: () => true,
         APIParams: {
             url: `/api/account/${user.username}/blocklist/${username}`,

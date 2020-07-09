@@ -1,17 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { withTranslation, Trans } from 'react-i18next';
+import { Col } from 'react-bootstrap';
 
 import Panel from '../Components/Site/Panel';
 import Link from '../Components/Navigation/Link';
-
-import { withTranslation, Trans } from 'react-i18next';
 
 class About extends React.Component {
     render() {
         let t = this.props.t;
 
         return (
-            <div className='col-xs-12 full-height'>
+            <Col className='full-height' xs='12'>
                 <Panel title={t('About The Crucible Online - Help and information')}>
                     <a
                         className='btn btn-danger btn-lg pull-right'
@@ -145,7 +145,7 @@ class About extends React.Component {
                         </p>
                     </Trans>
                 </Panel>
-            </div>
+            </Col>
         );
     }
 }

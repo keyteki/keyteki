@@ -11,6 +11,7 @@ import AlertPanel from '../Site/AlertPanel';
 import * as actions from '../../redux/actions';
 
 import './GameList.scss';
+import { Col } from 'react-bootstrap';
 
 class GameList extends React.Component {
     constructor(props) {
@@ -25,7 +26,7 @@ class GameList extends React.Component {
         event.preventDefault();
 
         if (!this.props.user) {
-            toastr.error(t('Please login before trying to join a game'));
+            toastr.error(t('Error'), t('Please login before trying to join a game'));
             return;
         }
 
@@ -46,7 +47,7 @@ class GameList extends React.Component {
         event.preventDefault();
 
         if (!this.props.user) {
-            toastr.error(t('Please login before trying to watch a game'));
+            toastr.error(t('Error'), t('Please login before trying to watch a game'));
             return;
         }
 
@@ -305,16 +306,20 @@ class GameList extends React.Component {
 
         if (gameList.length === 0) {
             return (
-                <div className='game-list col-xs-12'>
+                <Col className='game-list' xs='12'>
                     <AlertPanel
                         type='info'
                         message={t('There are no games matching the filters you have selected')}
                     />
-                </div>
+                </Col>
             );
         }
 
-        return <div className='game-list col-xs-12'>{gameList}</div>;
+        return (
+            <Col className='game-list' xs='12'>
+                {gameList}
+            </Col>
+        );
     }
 }
 

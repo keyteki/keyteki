@@ -57,6 +57,8 @@ import './Profile.scss';
 const initialValues = {
     avatar: undefined,
     email: '',
+    challongeApiKey: '',
+    challongeApiSubdomain: '',
     settings: {
         background: '',
         cardSize: ''
@@ -110,8 +112,13 @@ const Profile = ({ onSubmit, isLoading }) => {
     }
 
     initialValues.email = user.email;
-    if (user.customData) {
-        initialValues.gameOptions = JSON.parse(user.customData);
+    if (user?.settings?.optionSettings) {
+        initialValues.gameOptions = user.settings.optionSettings;
+    }
+
+    if (user.challonge) {
+        initialValues.challongeApiKey = user.challonge.key;
+        initialValues.challongeApiSubdomain = user.challonge.subdomain;
     }
 
     const schema = yup.object({
@@ -132,7 +139,11 @@ const Profile = ({ onSubmit, isLoading }) => {
         email: yup
             .string()
             .email(t('Please enter a valid email address'))
-            .required(t('You must specify an email address'))
+            .required(t('You must specify an email address')),
+        password: yup.string().min(6, t('Password must be at least 6 characters')),
+        passwordAgain: yup
+            .string()
+            .oneOf([yup.ref('password'), null], t('The passwords you have entered do not match'))
     });
 
     return (
@@ -144,9 +155,13 @@ const Profile = ({ onSubmit, isLoading }) => {
                  */
                 const submitValues = {
                     avatar: values.avatar ? await toBase64(values.avatar) : null,
+                    challonge: {
+                        key: values.challongeApiKey,
+                        subdomain: values.challongeApiSubdomain
+                    },
                     email: values.email,
-                    settings: values.settings,
-                    customData: JSON.stringify(values.gameOptions)
+                    password: values.password,
+                    settings: { optionSettings: values.gameOptions }
                 };
 
                 if (localBackground) {
@@ -159,11 +174,7 @@ const Profile = ({ onSubmit, isLoading }) => {
 
                 onSubmit(submitValues);
 
-                if (!topRowRef || !topRowRef.current) {
-                    return;
-                }
-
-                topRowRef.current.scrollIntoView(false);
+                topRowRef?.current?.scrollIntoView(false);
             }}
             initialValues={initialValues}
         >

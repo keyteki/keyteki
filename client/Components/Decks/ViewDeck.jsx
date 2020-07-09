@@ -20,7 +20,6 @@ const ViewDeck = ({ deck }) => {
     const dispatch = useDispatch();
 
     const handleDeleteClick = () => {
-        console.info('deleting', deck);
         dispatch(deleteDeck(deck));
     };
 

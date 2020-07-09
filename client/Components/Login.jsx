@@ -1,8 +1,10 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import { Col, Form, Button } from 'react-bootstrap';
 import { Formik } from 'formik';
 import * as yup from 'yup';
+
+import Link from '../Components/Navigation/Link';
 
 /**
  * @typedef LoginDetails
@@ -79,6 +81,9 @@ const Login = (props) => {
                             </Form.Control.Feedback>
                         </Form.Group>
                     </Form.Row>
+                    <Link href='/forgot'>
+                        <Trans>Forgotten your password?</Trans>
+                    </Link>
 
                     <div className='text-center'>
                         <Button variant='primary' type='submit'>
