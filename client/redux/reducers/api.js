@@ -17,7 +17,7 @@ export default function (state = {}, action) {
                 loading: false,
                 message: undefined,
                 status: action.status,
-                success: true
+                success: action.success
             };
 
             break;

@@ -15,16 +15,27 @@ import { clearApiStatus, navigate, saveDeck } from '../../redux/actions';
 const ImportDeck = () => {
     const { t } = useTranslation();
     const dispatch = useDispatch();
+    const selectedDeck = useSelector((state) => state.cards.selectedDeck);
     const apiState = useSelector((state) => {
         const retState = state.api[Decks.SaveDeck];
 
         if (retState && retState.success) {
             retState.message = t('Deck added successfully');
 
-            setTimeout(() => {
-                dispatch(clearApiStatus(Decks.SaveDeck));
-                dispatch(navigate('/decks'));
-            }, 1000);
+            if (selectedDeck.cards.some((c) => c.enhancements)) {
+                retState.message = t(
+                    'Deck added successfully but the deck has enhancements. It is not possible for us to determine which cards are enhanced. You will be redirected to a page that allows you to assign them.'
+                );
+                setTimeout(() => {
+                    dispatch(clearApiStatus(Decks.SaveDeck));
+                    dispatch(navigate('/decks/enhancements'));
+                }, 3000);
+            } else {
+                setTimeout(() => {
+                    dispatch(clearApiStatus(Decks.SaveDeck));
+                    dispatch(navigate('/decks'));
+                }, 1000);
+            }
         }
 
         return retState;

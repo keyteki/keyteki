@@ -306,6 +306,7 @@ class DeckService {
         let cards = await db.query(cardTableQuery, [deck.id]);
 
         deck.cards = cards.map((card) => ({
+            dbId: card.Id,
             id: card.CardId,
             count: card.Count,
             maverick: card.Maverick || undefined,
@@ -364,7 +365,9 @@ class DeckService {
             throw new Error('Deck already exists.');
         }
 
-        return this.insertDeck(newDeck, user);
+        let response = await this.insertDeck(newDeck, user);
+
+        return this.getById(response.id);
     }
 
     async checkValidDeckExpansion(deck) {
@@ -494,6 +497,21 @@ class DeckService {
 
             throw new Error('Failed to update deck');
         }
+
+        for (let card of deck.cards) {
+            if (card.enhancements) {
+                try {
+                    await db.query('UPDATE "DeckCards" SET "Enhancements" = $2 WHERE "Id" = $1', [
+                        card.dbId,
+                        card.enhancements
+                    ]);
+                } catch (err) {
+                    logger.error('Failed to update deck enhancements', err);
+
+                    throw new Error('Failed to update deck');
+                }
+            }
+        }
     }
 
     async delete(id) {
@@ -588,8 +606,21 @@ class DeckService {
 
             return retCard;
         });
-        let uuid = deckResponse.data.id;
 
+        let toAdd = [];
+        for (let card of cards) {
+            if (card.enhancements && card.count > 1) {
+                for (let i = 0; i < card.count - 1; i++) {
+                    toAdd.push(Object.assign({}, card));
+                }
+
+                card.count = 1;
+            }
+        }
+
+        cards = cards.concat(toAdd);
+
+        let uuid = deckResponse.data.id;
         let anyIllegalCards = cards.find(
             (card) =>
                 !card.id

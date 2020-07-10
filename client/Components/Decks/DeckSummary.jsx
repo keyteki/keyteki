@@ -25,10 +25,16 @@ const DeckSummary = ({ deck }) => {
 
         for (const card of filteredCards) {
             for (let i = 0; i < card.count; i++) {
+                let cardClass = 'deck-card-link';
+
+                if (card.enhancements) {
+                    cardClass += ' enhanced-card';
+                }
+
                 cardsByHouse[house].push(
                     <div
-                        key={card.id + i}
-                        className='deck-card-link'
+                        key={`${card.dbId}${i}`}
+                        className={cardClass}
                         onMouseOver={() => setZoomCard(card)}
                         onMouseMove={(event) => {
                             let y = event.clientY;
@@ -115,7 +121,9 @@ const DeckSummary = ({ deck }) => {
                             className='decklist-card-zoom'
                             style={{ left: mousePos.x + 5 + 'px', top: mousePos.y + 'px' }}
                         >
-                            <CardImage card={Object.assign({}, zoomCard, zoomCard.cardData)} />
+                            <CardImage
+                                card={Object.assign({}, zoomCard, zoomCard.card, zoomCard.cardData)}
+                            />
                         </div>
                     )}
                     {deck.houses.map((house) => {

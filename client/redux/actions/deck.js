@@ -92,3 +92,17 @@ export function loadStandaloneDecks() {
         }
     };
 }
+
+export function saveDeckEnhancements(deck, enhancements) {
+    let str = JSON.stringify({ enhancements: enhancements });
+
+    return {
+        types: [Decks.SaveEnhancements, Decks.EnhancementsSaved],
+        shouldCallAPI: () => true,
+        APIParams: {
+            url: `/api/decks/${deck.id}/enhancements`,
+            type: 'POST',
+            data: str
+        }
+    };
+}

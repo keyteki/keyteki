@@ -97,6 +97,7 @@ export default function callAPIMiddleware({ dispatch, getState }) {
                     message:
                         'An error occured communicating with the server.  Please try again later.',
                     type: Api.ApiLoaded,
+                    success: false,
                     request: requestType
                 })
             );
@@ -137,7 +138,8 @@ export default function callAPIMiddleware({ dispatch, getState }) {
         dispatch(
             Object.assign({}, payload, {
                 type: Api.ApiLoaded,
-                request: requestType
+                request: requestType,
+                success: true
             })
         );
     };

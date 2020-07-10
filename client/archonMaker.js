@@ -273,7 +273,7 @@ export const buildArchon = async (deck, language) => {
         return DefaultCard;
     }
 
-    canvas.setDimensions({ width: 738, height: 1048 });
+    canvas.setDimensions({ width: 600, height: 840 });
     let archon;
     try {
         archon = await loadImage(`/img/idbacks/archons/${imageName(deck, language)}.png`);
@@ -317,7 +317,8 @@ const getCircularText = (text = '', diameter, yOffset = 0) => {
         startAngle = 0;
 
     canvas.width = 600;
-    canvas.height = 840;
+    canvas.height = 800;
+
     ctx.fillStyle = 'white';
     ctx.strokeStyle = 'grey';
     ctx.shadowColor = 'rgb(32,32,32)';
