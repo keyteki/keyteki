@@ -84,14 +84,14 @@ a {
 }
 
 .btn-primary {
-    background-image: url('~assets/img/button-purple.png');
+    background-image: url('~assets/img/button-primary.png');
 
     &:hover {
-        background-image: url('~assets/img/button-purple-hover.png');
+        background-image: url('~assets/img/button-primary-hover.png');
     }
 
     &:focus:active {
-        background-image: url('~assets/img/button-purple-hover.png');
+        background-image: url('~assets/img/button-primary-hover.png');
     }
 }
 
@@ -163,7 +163,7 @@ a {
 }
 
 .bg {
-    background-image: url('~assets/img/bgs/philophosaurus.png');
+    background-image: url('~assets/img/bgs/keyforge.png');
 
     height: 100%;
 

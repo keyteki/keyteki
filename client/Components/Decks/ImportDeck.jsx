@@ -130,7 +130,7 @@ const ImportDeck = () => {
                                     </Form.Group>
                                 </Form.Row>
 
-                                <Col xs={1} className='text-center'>
+                                <Col className='text-center'>
                                     <Button variant='secondary' type='submit'>
                                         {t('Import')}
                                         &nbsp;
