@@ -11,6 +11,7 @@ import KeyforgeGameSettings from './KeyforgeGameSettings';
 import ProfileCardSize from './ProfileCardSize';
 import { Constants } from '../../constants';
 import BlankBg from '../../assets/img/bgs/blank.png';
+import MassMutationBg from '../../assets/img/bgs/massmutation.png';
 
 import './Profile.scss';
 
@@ -94,6 +95,12 @@ const Profile = ({ onSubmit, isLoading }) => {
             imageUrl: Constants.HouseBgPaths[Constants.Houses[i]]
         });
     }
+
+    backgrounds.push({
+        name: 'massmutation',
+        label: t('Mass Mutation'),
+        imageUrl: MassMutationBg
+    });
 
     /**
      * @param {File} file

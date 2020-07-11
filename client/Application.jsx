@@ -136,7 +136,7 @@ class Application extends React.Component {
         if (gameBoardVisible && this.props.user) {
             let houseIndex = Constants.HousesNames.indexOf(this.props.user.settings.background);
             if (houseIndex === -1) {
-                backgroundClass = '';
+                backgroundClass += ` bg-board-${this.props.user?.settings?.background}`;
             } else {
                 backgroundClass += ` bg-board-${Constants.Houses[houseIndex]}`;
             }

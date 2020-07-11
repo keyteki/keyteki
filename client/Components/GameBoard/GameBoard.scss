@@ -93,12 +93,16 @@
         margin-top: 15px;
     }
 
+    border-bottom: 2px dashed theme-color(primary);
+
     &.our-side {
         margin: 0;
 
         .taunt {
             margin-top: -15px;
         }
+
+        border-bottom: none;
     }
 }
 
