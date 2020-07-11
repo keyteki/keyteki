@@ -21,10 +21,11 @@ import './PendingGamePlayer.scss';
 const PendingGamePlayers = ({ currentGame, user, onSelectDeck }) => {
     const { t } = useTranslation();
 
+    let firstPlayer = true;
     return (
         <Panel title={t('Players')}>
             {Object.values(currentGame.players).map((player) => {
-                const playerIsMe = player && player.name === user.username;
+                const playerIsMe = player && player.name === user?.username;
                 const isSealed = currentGame.gameFormat === 'sealed';
 
                 let deck = null;
@@ -65,8 +66,14 @@ const PendingGamePlayers = ({ currentGame, user, onSelectDeck }) => {
 
                 let userClass =
                     'username' + (player.role ? ` ${player.role.toLowerCase()}-role` : '');
+                let rowClass = 'player-row';
+                if (firstPlayer) {
+                    rowClass += ' mb-2';
+
+                    firstPlayer = false;
+                }
                 return (
-                    <div className='player-row' key={player.name}>
+                    <div className={rowClass} key={player.name}>
                         <Avatar username={player.name} />
                         <span className={userClass}>{player.name}</span>
                         {deck} {status} {selectLink}

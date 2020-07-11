@@ -9,6 +9,7 @@ import Panel from '../Components/Site/Panel';
 import ApiStatus from '../Components/Site/ApiStatus';
 
 import * as actions from '../redux/actions';
+import { Col } from 'react-bootstrap';
 
 class UserAdmin extends React.Component {
     constructor(props) {
@@ -335,7 +336,7 @@ class UserAdmin extends React.Component {
         }
 
         return (
-            <div className='col-sm-offset-2 col-sm-8'>
+            <Col sm={{ span: 8, offset: 2 }}>
                 <ApiStatus
                     apiState={this.props.apiState}
                     successMessage={this.state.successMessage}
@@ -350,7 +351,7 @@ class UserAdmin extends React.Component {
                     />
                 </Panel>
                 {renderedUser}
-            </div>
+            </Col>
         );
     }
 }

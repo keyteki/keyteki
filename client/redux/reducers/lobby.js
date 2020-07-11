@@ -119,7 +119,7 @@ function handleGameState(action, state) {
         return retState;
     }
 
-    if (!currentState || !currentState.players[username] || currentState.players[username].left) {
+    if (!currentState) {
         delete retState.currentGame;
         retState.newGame = false;
     }

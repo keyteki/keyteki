@@ -83,3 +83,5 @@
  * @property {Spectator[]} spectators The users spectating the game
  * @property {boolean} useGameTimeLimit Whether or not this game has time limits enabled
  */
+
+export default {};

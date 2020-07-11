@@ -1,6 +1,8 @@
+import { Challonge } from '../types';
+
 export function fetchTournaments() {
     return {
-        types: ['REQUEST_TOURNAMENTS', 'RECEIVE_TOURNAMENTS'],
+        types: [Challonge.RequestTournaments, Challonge.RecevieTournaments],
         shouldCallAPI: () => true,
         APIParams: { url: '/api/challonge/tournaments', cache: false }
     };
@@ -8,7 +10,7 @@ export function fetchTournaments() {
 
 export function fetchFullTournament(tournamentId) {
     return {
-        types: ['REQUEST_FULL_TOURNAMENT', 'RECEIVE_FULL_TOURNAMENT'],
+        types: [Challonge.RequestFullTournament, Challonge.ReceiveFullTournament],
         shouldCallAPI: () => true,
         APIParams: {
             url: '/api/challonge/fullTournament',
@@ -21,7 +23,7 @@ export function fetchFullTournament(tournamentId) {
 
 export function fetchMatches(tournamentId) {
     return {
-        types: ['REQUEST_MATCHES', 'RECEIVE_MATCHES'],
+        types: [Challonge.RequestMatches, Challonge.ReceiveMatches],
         shouldCallAPI: () => true,
         APIParams: {
             url: '/api/challonge/matches',
@@ -34,7 +36,7 @@ export function fetchMatches(tournamentId) {
 
 export function fetchParticipants(tournamentId) {
     return {
-        types: ['REQUEST_PARTICIPANTS', 'RECEIVE_PARTICIPANTS'],
+        types: [Challonge.RequestParticipants, Challonge.ReceiveParticipants],
         shouldCallAPI: () => true,
         APIParams: {
             url: '/api/challonge/participants',
@@ -47,14 +49,14 @@ export function fetchParticipants(tournamentId) {
 
 export function receiveTournaments(tournaments) {
     return {
-        type: 'RECEIVE_TOURNAMENTS',
+        type: Challonge.RecevieTournaments,
         tournaments: tournaments
     };
 }
 
 export function attachMatchLink(data) {
     return {
-        types: ['CREATE_ATTACHMENTS', 'RECEIVE_ATTACHMENTS'],
+        types: [Challonge.CreateAttachments, Challonge.ReceiveAttachments],
         shouldCallAPI: () => true,
         APIParams: {
             url: '/api/challonge/attachMatchLink',
@@ -67,6 +69,6 @@ export function attachMatchLink(data) {
 
 export function clearChallongeMessage() {
     return {
-        type: 'CLEAR_CHALLONGE_MESSAGE'
+        type: Challonge.ClearMessage
     };
 }

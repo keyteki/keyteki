@@ -19,13 +19,29 @@ const GameNameMaxLength = 64;
 
 /**
  * @typedef NewGameProps
- * @property {boolean} quickJoin The new game is quick join
+ * @property {boolean} [quickJoin] The new game is quick join
+ * @property {any} [tournament] Whether or not we're operating under the tournament UI
+ * @property {import("../../typedefs").GameType} [defaultGameType] The default game type to use
+ * @property {number} [defaultTimeLimit] The default time limit to use
+ * @property {boolean} [defaultPrivate] Whether or not the game defaults to private
+ * @property {function(string): string} [getParticipantName] A function to get the participant name of a participant in a tournament
+ * @property {any[]} [matches] A list of tournament matches
+ * @property {function(boolean): void} [onClosed] A callback to be called when the window is closed
  */
 
 /**
  * @param {NewGameProps} props
  */
-const NewGame = ({ quickJoin }) => {
+const NewGame = ({
+    quickJoin,
+    tournament,
+    defaultGameType,
+    defaultPrivate,
+    defaultTimeLimit,
+    getParticipantName,
+    matches,
+    onClosed
+}) => {
     const lobbySocket = useSelector((state) => state.lobby.socket);
     const username = useSelector((state) => state.account.user?.username);
     const { t } = useTranslation();
@@ -53,8 +69,10 @@ const NewGame = ({ quickJoin }) => {
         password: '',
         allowSpectators: true,
         gameFormat: 'normal',
-        gameType: 'casual',
-        gameTimeLimit: 35,
+        gameType: defaultGameType || 'casual',
+        timeLimit: !!defaultTimeLimit,
+        gameTimeLimit: defaultTimeLimit || 35,
+        gamePrivate: defaultPrivate,
         wc: true
     };
 
@@ -74,7 +92,24 @@ const NewGame = ({ quickJoin }) => {
             <Formik
                 validationSchema={schema}
                 onSubmit={(values) => {
-                    dispatch(sendSocketMessage('newgame', values));
+                    if (tournament) {
+                        for (let match of matches) {
+                            dispatch(
+                                sendSocketMessage('newgame', {
+                                    ...values,
+                                    name: `${getParticipantName(
+                                        match.player1_id
+                                    )} vs ${getParticipantName(match.player2_id)}`,
+                                    challonge: { matchId: match.id, tournamentId: tournament.id },
+                                    tournament: true
+                                })
+                            );
+
+                            onClosed(true);
+                        }
+                    } else {
+                        dispatch(sendSocketMessage('newgame', values));
+                    }
                 }}
                 initialValues={initialValues}
             >
@@ -110,28 +145,30 @@ const NewGame = ({ quickJoin }) => {
                         )}
                         {!quickJoin && (
                             <>
-                                <Form.Row>
-                                    <Form.Group as={Col} lg='8' controlId='formGridGameName'>
-                                        <Form.Label>{t('Name')}</Form.Label>
-                                        <Form.Label className='float-right'>
-                                            {GameNameMaxLength - formProps.values.name.length}
-                                        </Form.Label>
-                                        <Form.Control
-                                            type='text'
-                                            placeholder={t('Game Name')}
-                                            maxLength={GameNameMaxLength}
-                                            {...getStandardControlProps(formProps, 'name')}
-                                        />
-                                        <Form.Control.Feedback type='invalid'>
-                                            {formProps.errors.name}
-                                        </Form.Control.Feedback>
-                                    </Form.Group>
-                                </Form.Row>
+                                {!tournament && (
+                                    <Form.Row>
+                                        <Form.Group as={Col} lg='8' controlId='formGridGameName'>
+                                            <Form.Label>{t('Name')}</Form.Label>
+                                            <Form.Label className='float-right'>
+                                                {GameNameMaxLength - formProps.values.name.length}
+                                            </Form.Label>
+                                            <Form.Control
+                                                type='text'
+                                                placeholder={t('Game Name')}
+                                                maxLength={GameNameMaxLength}
+                                                {...getStandardControlProps(formProps, 'name')}
+                                            />
+                                            <Form.Control.Feedback type='invalid'>
+                                                {formProps.errors.name}
+                                            </Form.Control.Feedback>
+                                        </Form.Group>
+                                    </Form.Row>
+                                )}
                                 <GameOptions formProps={formProps} />
                             </>
                         )}
                         <GameFormats formProps={formProps} />
-                        <GameTypes formProps={formProps} />
+                        {!tournament && <GameTypes formProps={formProps} />}
                         {!quickJoin && (
                             <Row>
                                 <Form.Group as={Col} sm={8}>
@@ -148,7 +185,15 @@ const NewGame = ({ quickJoin }) => {
                             <Button variant='success' type='submit'>
                                 <Trans>Start</Trans>
                             </Button>
-                            <Button variant='primary' onClick={() => dispatch(cancelNewGame())}>
+                            <Button
+                                variant='primary'
+                                onClick={() => {
+                                    dispatch(cancelNewGame());
+                                    if (onClosed) {
+                                        onClosed(false);
+                                    }
+                                }}
+                            >
                                 <Trans>Cancel</Trans>
                             </Button>
                         </div>

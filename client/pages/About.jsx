@@ -14,7 +14,7 @@ class About extends React.Component {
             <Col className='full-height' xs='12'>
                 <Panel title={t('About The Crucible Online - Help and information')}>
                     <a
-                        className='btn btn-danger btn-lg pull-right'
+                        className='btn btn-danger btn-lg float-right'
                         target='_blank'
                         rel='noopener noreferrer'
                         href='https://github.com/keyteki/keyteki/issues'
@@ -93,7 +93,7 @@ class About extends React.Component {
                     <Trans i18nKey='about.addicons'>
                         <h3>Additional Icons</h3>
                         <p>
-                            Some icons were included from game-icons.net: Death Note by{' '}
+                            Some icons were included from game-icons.net: Death Note by
                             <a
                                 target='_blank'
                                 href='http://lorcblog.blogspot.com/'
@@ -101,7 +101,6 @@ class About extends React.Component {
                             >
                                 lorc
                             </a>
-                            .{' '}
                             <a
                                 target='_blank'
                                 href='https://creativecommons.org/licenses/by/3.0/'
@@ -111,18 +110,18 @@ class About extends React.Component {
                             </a>
                         </p>
                         <p>
-                            Time Limit icon made by{' '}
+                            Time Limit icon made by
                             <a
                                 href='https://www.flaticon.com/authors/minh-hoang'
                                 title='Minh Hoang'
                             >
                                 Minh Hoang
-                            </a>{' '}
-                            from{' '}
+                            </a>
+                            from
                             <a href='https://www.flaticon.com/' title='Flaticon'>
                                 www.flaticon.com
-                            </a>{' '}
-                            is licensed by{' '}
+                            </a>
+                            is licensed by
                             <a
                                 href='http://creativecommons.org/licenses/by/3.0/'
                                 title='Creative Commons BY 3.0'
