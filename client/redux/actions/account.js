@@ -11,8 +11,7 @@ export function registerAccount(user) {
             data: JSON.stringify({
                 username: user.username,
                 password: user.password,
-                email: user.email,
-                enableGravatar: user.enableGravatar
+                email: user.email
             }),
             contentType: 'application/json'
         }
@@ -140,17 +139,6 @@ export function authenticate() {
         dispatch(verifyAuthentication());
 
         return dispatch(authenticateSocket());
-    };
-}
-
-export function updateAvatar(user) {
-    return {
-        types: ['ACCOUNT_UPDATE_AVATAR', 'ACCOUNT_AVATAR_UPDATE'],
-        shouldCallAPI: () => true,
-        APIParams: {
-            url: `/api/account/${user}/updateavatar`,
-            type: 'POST'
-        }
     };
 }
 

@@ -67,7 +67,7 @@ const ProfileMain = ({ user, formProps }) => {
                                 alt={user?.username}
                             />
                         ) : (
-                            <Avatar username={user?.username}></Avatar>
+                            <Avatar imgPath={user?.avatar}></Avatar>
                         )}
                         <Button variant='secondary' onClick={onAvatarUploadClick}>
                             Change avatar

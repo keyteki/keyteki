@@ -10,6 +10,7 @@ import './UserList.scss';
  * @property {string} username The username of the user
  * @property {string} name The username of the user again for some reason
  * @property {string} role The role of the user
+ * @property {string} avatar The user's avatar
  */
 
 /**
@@ -33,7 +34,7 @@ const UserList = ({ users }) => {
     const userList = users.map((user) => {
         return (
             <div className='user-row' key={user.name}>
-                <Avatar username={user.name} />
+                <Avatar imgPath={user.avatar} />
                 <span>{user.name}</span>
             </div>
         );

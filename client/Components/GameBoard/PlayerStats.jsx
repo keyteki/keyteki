@@ -129,8 +129,8 @@ export class PlayerStats extends React.Component {
         let t = this.props.t;
         let playerAvatar = (
             <div className='pr-1'>
-                <Avatar username={this.props.user ? this.props.user.username : undefined} />
-                <b>{this.props.user ? this.props.user.username : t('Noone')}</b>
+                <Avatar imgPath={this.props.user?.avatar} />
+                <b>{this.props.user?.username || t('Noone')}</b>
             </div>
         );
         let matchRecord = this.props.matchRecord && (

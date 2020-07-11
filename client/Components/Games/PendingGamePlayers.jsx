@@ -74,7 +74,7 @@ const PendingGamePlayers = ({ currentGame, user, onSelectDeck }) => {
                 }
                 return (
                     <div className={rowClass} key={player.name}>
-                        <Avatar username={player.name} />
+                        <Avatar imgPath={player.avatar} />
                         <span className={userClass}>{player.name}</span>
                         {deck} {status} {selectLink}
                     </div>

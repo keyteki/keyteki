@@ -134,7 +134,9 @@ const Navigation = (props) => {
 
     return (
         <Navbar bg='dark' variant='dark' className='navbar-sm' fixed='top'>
-            <Navbar.Brand href='/'></Navbar.Brand>
+            <Link className='navbar-brand' href='/'>
+                <Navbar.Brand></Navbar.Brand>
+            </Link>
             <Navbar.Toggle aria-controls='navbar' />
             <Nav>{renderMenuItems(LeftMenu)}</Nav>
             <Navbar.Collapse id='navbar' className='justify-content-end'>

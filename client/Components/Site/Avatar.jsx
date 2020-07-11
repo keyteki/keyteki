@@ -6,23 +6,23 @@ import './Avatar.scss';
 /**
  * @typedef AvatarProps
  * @property {boolean} [float] Whether or not to float the image
- * @property {string} username The username whose avatar to display
+ * @property {string} imgPath The username whose avatar to display
  */
 
 /**
  *
  * @param {AvatarProps} props
  */
-const Avatar = ({ float, username }) => {
+const Avatar = ({ float, imgPath }) => {
     const className = classNames('gravatar', {
         'pull-left': float
     });
 
-    if (!username) {
+    if (!imgPath) {
         return null;
     }
 
-    return <img className={className} src={`/img/avatar/${username}.png`} alt='' />;
+    return <img className={className} src={`/img/avatar/${imgPath}.png`} alt='' />;
 };
 
 export default Avatar;

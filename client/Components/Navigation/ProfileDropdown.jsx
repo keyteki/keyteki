@@ -23,7 +23,7 @@ const ProfileMenu = (props) => {
 
     const title = (
         <span>
-            <Avatar username={props.user.username}></Avatar>
+            <Avatar imgPath={props.user.avatar}></Avatar>
             {props.user.username}
         </span>
     );

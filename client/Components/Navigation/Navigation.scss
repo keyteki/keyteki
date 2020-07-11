@@ -4,10 +4,8 @@
 @import '~bootstrap/scss/variables';
 @import '~bootstrap/scss/mixins';
 
-.navbar-brand {
-    a {
-        color: gray('500');
-    }
+a.navbar-brand {
+    color: gray('500');
 
     background-image: url('~assets/img/header_icon.png');
     background-repeat: no-repeat;

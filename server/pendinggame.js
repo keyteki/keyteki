@@ -338,6 +338,7 @@ class PendingGame {
             }
 
             playerSummaries[player.name] = {
+                avatar: player.user.avatar,
                 deck: activePlayer ? deck : {},
                 houses: this.started && player.deck ? player.deck.houses : [],
                 id: player.id,
@@ -372,7 +373,8 @@ class PendingGame {
             spectators: Object.values(this.spectators).map((spectator) => {
                 return {
                     id: spectator.id,
-                    name: spectator.name
+                    name: spectator.name,
+                    avatar: spectator.user.avatar
                 };
             }),
             useGameTimeLimit: this.useGameTimeLimit

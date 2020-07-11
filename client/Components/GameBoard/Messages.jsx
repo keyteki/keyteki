@@ -134,7 +134,7 @@ const Messages = ({ messages, onCardMouseOver, onCardMouseOut }) => {
 
                 messages.push(
                     <div key={index++} className='message-chat mb-1'>
-                        <Avatar username={fragment.name} float />
+                        <Avatar imgPath={fragment.avatar} float />
                         <span key={index++} className={userClass}>
                             {fragment.name}
                         </span>

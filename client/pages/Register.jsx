@@ -30,7 +30,7 @@ export class Register extends React.Component {
             // this.setState({ successMessage: 'Your account was successfully registered.  Please verify your account using the link in the email sent to the address you have provided.' });
             this.setState({
                 successMessage: t(
-                    'Your account was successfully registered.  You can now process to login.'
+                    'Your account was successfully registered.  You can now proceed to login.'
                 )
             });
             setTimeout(() => {

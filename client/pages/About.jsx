@@ -36,18 +36,6 @@ class About extends React.Component {
                             for a thorough explanation.
                         </p>
                     </Trans>
-                    <Trans i18nKey='about.avatar'>
-                        <h3>Everyone has a shiny avatar, how do I get one?</h3>
-                        <p>
-                            This is handled by the good people at{' '}
-                            <a href='http://gravatar.com' target='_blank' rel='noopener noreferrer'>
-                                Gravatar
-                            </a>
-                            . Sign up there with the same email address you did there and it should
-                            appear on the site after a short while. It will also use the avatar on
-                            any site that uses gravatar. Examples include github and jinteki.
-                        </p>
-                    </Trans>
                     <Trans i18nKey='about.whydiscarded'>
                         <h3>
                             Why do my best cards always get discarded? / Why do I/my opponent draw 6
