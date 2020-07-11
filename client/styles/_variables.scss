@@ -30,3 +30,8 @@ $keyteki-card-sm-height: $keyteki-card-height * 0.6;
 $controlledBox: 0 0 1px 2px $controlled-border-color;
 
 $header-border: rgba(71, 58, 56, 0.95);
+
+$upgrade-offset: 15px;
+$upgrade-offset-sm: $upgrade-offset * 0.6;
+$upgrade-offset-lg: $upgrade-offset * 1.4;
+$upgrade-offset-xl: $upgrade-offset * 2;

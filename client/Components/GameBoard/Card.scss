@@ -158,11 +158,11 @@
     }
 
     &.selectable {
-        box-shadow: 0 0 10px 1px fadeout(lighten(theme-color('primary'), 60%), 10%);
+        box-shadow: 0 0 10px 1px fade-out(lighten(theme-color('primary'), 60%), 0.1);
 
         &.controlled {
             box-shadow: $controlledBox,
-                0 0 10px 1px fadeout(lighten(theme-color('primary'), 60%), 10%);
+                0 0 10px 1px fade-out(lighten(theme-color('primary'), 60%), 0.1);
         }
     }
 
@@ -210,4 +210,26 @@
 
     opacity: 0.5;
     z-index: $layer-top;
+}
+
+.upgrade {
+    margin-top: -$upgrade-offset - $keyteki-card-height;
+
+    &.small {
+        margin-top: -$upgrade-offset - $keyteki-card-sm-height;
+    }
+
+    &.large {
+        margin-top: -$upgrade-offset-lg - $keyteki-card-lg-height;
+    }
+
+    &.x-large {
+        margin-top: -$upgrade-offset-xl - $keyteki-card-xl-height;
+    }
+}
+
+@for $i from 1 through 10 {
+    .upgrade-#{$i} {
+        z-index: $layer-cards - $i;
+    }
 }
