@@ -143,23 +143,25 @@ class Application extends React.Component {
         }
 
         return (
-            <div className={backgroundClass}>
-                <Navigation appName='The Crucible Online' user={this.props.user} />
-                <div className='wrapper'>
-                    <Container className='content'>
-                        <ErrorBoundary
-                            navigate={this.props.navigate}
-                            errorPath={this.props.path}
-                            message={"We're sorry - something's gone wrong."}
-                        >
-                            <Suspense fallback='loading'>{component}</Suspense>
-                        </ErrorBoundary>
-                    </Container>
+            <Suspense fallback='loading'>
+                <div className={backgroundClass}>
+                    <Navigation appName='The Crucible Online' user={this.props.user} />
+                    <div className='wrapper'>
+                        <Container className='content'>
+                            <ErrorBoundary
+                                navigate={this.props.navigate}
+                                errorPath={this.props.path}
+                                message={"We're sorry - something's gone wrong."}
+                            >
+                                {component}
+                            </ErrorBoundary>
+                        </Container>
+                    </div>
+                    <div className='keyforge-font' style={{ zIndex: -999 }}>
+                        &nbsp;
+                    </div>
                 </div>
-                <div className='keyforge-font' style={{ zIndex: -999 }}>
-                    &nbsp;
-                </div>
-            </div>
+            </Suspense>
         );
     }
 }
