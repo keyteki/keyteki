@@ -1,4 +1,4 @@
-describe('Angry Mob', function () {
+xdescribe('Angry Mob', function () {
     describe("Angry Mob's ability", function () {
         beforeEach(function () {
             this.setupTest({
