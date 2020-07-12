@@ -15,6 +15,7 @@ describe('Ransack', function () {
     });
 
     it('should trigger when played', function () {
+        this.player1.moveCard(this.dextre, 'deck');
         this.player1.play(this.ransack);
 
         expect(this.player1.amber).toBe(1);
