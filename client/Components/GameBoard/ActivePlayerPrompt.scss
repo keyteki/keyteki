@@ -46,3 +46,33 @@
 .phase-indicator {
     text-transform: uppercase;
 }
+
+.icon-unforgedkeyred {
+    background-image: url('~assets/img/unforgedkeyred.png');
+}
+
+.icon-unforgedkeyblue {
+    background-image: url('~assets/img/unforgedkeyblue.png');
+}
+
+.icon-unforgedkeyyellow {
+    background-image: url('~assets/img/unforgedkeyyellow.png');
+}
+
+.icon-forgedkeyred {
+    background-image: url('~assets/img/forgedkeyred.png');
+}
+
+.icon-forgedkeyblue {
+    background-image: url('~assets/img/forgedkeyblue.png');
+}
+
+.icon-forgedkeyyellow {
+    background-image: url('~assets/img/forgedkeyyellow.png');
+}
+
+.icon-forgedKey {
+    height: 12px;
+    width: 12px;
+    margin-top: -4px;
+}
