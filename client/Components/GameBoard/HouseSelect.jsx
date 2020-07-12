@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Constants } from '../../constants';
 
+import './HouseSelect.scss';
+
 class HouseSelect extends React.Component {
     constructor(props) {
         super(props);

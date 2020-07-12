@@ -1,0 +1,28 @@
+@import '../../styles/variables';
+@import '../../styles/colours';
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+
+.deck-status-summary {
+    font-size: 12px;
+
+    .valid {
+        color: theme-color('success');
+    }
+
+    .popular {
+        color: theme-color('warning');
+    }
+
+    .used {
+        color: theme-color('warning');
+    }
+
+    .notorious {
+        color: theme-color('danger');
+    }
+
+    .invalid {
+        color: theme-color('danger');
+    }
+}

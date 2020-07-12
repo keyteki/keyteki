@@ -87,6 +87,17 @@
                 "JASMINE_CONFIG_PATH": "./jasmine.json"
             },
             "cwd": "${workspaceRoot}"
+        },
+        {
+            "name": "Debug Current Spec",
+            "type": "node",
+            "request": "launch",
+            "program": "${workspaceRoot}/node_modules/jasmine/bin/jasmine.js",
+            "env": {
+                "JASMINE_CONFIG_PATH": "./jasmine.json"
+            },
+            "args": ["${relativeFile}"],
+            "cwd": "${workspaceRoot}"
         }
     ]
 }

@@ -4,11 +4,18 @@ describe('Explo-rover', function () {
             this.setupTest({
                 player1: {
                     house: 'staralliance',
-                    hand: ['niffle-ape', 'explo-rover', 'nature-s-call', 'masterplan'],
+                    hand: [
+                        'niffle-ape',
+                        'explo-rover',
+                        'nature-s-call',
+                        'masterplan',
+                        'medic-ingram',
+                        'commander-chan'
+                    ],
                     inPlay: ['dust-pixie']
                 },
                 player2: {
-                    inPlay: ['umbra']
+                    inPlay: ['umbra', 'lifeward', 'quixxle-stone']
                 }
             });
         });
@@ -86,6 +93,42 @@ describe('Explo-rover', function () {
             this.player1.fightWith(this.dustPixie, this.umbra);
             expect(this.dustPixie.tokens.damage).toBe(undefined);
             expect(this.umbra.tokens.damage).toBe(1);
+        });
+
+        it('should allow selecting explo-rover and playing it as an upgrade, if Lifeward was used', function () {
+            this.player1.endTurn();
+            this.player2.clickPrompt('dis');
+            this.player2.useAction(this.lifeward, true);
+            expect(this.lifeward.location).toBe('discard');
+            this.player2.endTurn();
+            this.player1.clickPrompt('staralliance');
+            this.player1.clickCard(this.medicIngram);
+            expect(this.player1).not.toHavePromptButton('Play this creature');
+            expect(this.player1).toHavePromptButton('Discard this card');
+            this.player1.clickPrompt('Discard this card');
+            this.player1.clickCard(this.exploRover);
+            expect(this.player1).not.toHavePromptButton('Play this creature');
+            expect(this.player1).toHavePromptButton('Play this upgrade');
+            expect(this.player1).toHavePromptButton('Discard this card');
+            this.player1.clickPrompt('Play this upgrade');
+            this.player1.clickCard(this.dustPixie);
+            expect(this.exploRover.parent).toBe(this.dustPixie);
+        });
+
+        it('should allow selecting explo-rover and playing it as an upgrade, even when Quixxle Stone in play', function () {
+            this.player1.play(this.medicIngram);
+            this.player1.clickCard(this.medicIngram);
+            this.player1.clickCard(this.commanderChan);
+            expect(this.player1).not.toHavePromptButton('Play this creature');
+            expect(this.player1).toHavePromptButton('Discard this card');
+            this.player1.clickPrompt('Discard this card');
+            this.player1.clickCard(this.exploRover);
+            expect(this.player1).not.toHavePromptButton('Play this creature');
+            expect(this.player1).toHavePromptButton('Play this upgrade');
+            expect(this.player1).toHavePromptButton('Discard this card');
+            this.player1.clickPrompt('Play this upgrade');
+            this.player1.clickCard(this.dustPixie);
+            expect(this.exploRover.parent).toBe(this.dustPixie);
         });
     });
 });

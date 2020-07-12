@@ -4,7 +4,6 @@ const defaultOptionSettings = {
 };
 
 const defaultSettings = {
-    disableGravatar: false,
     cardSize: 'normal',
     background: 'Brobnar'
 };

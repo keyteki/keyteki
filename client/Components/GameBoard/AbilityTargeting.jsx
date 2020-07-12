@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import CardImage from './CardImage';
 
+import './AbilityTargetting.scss';
+
 class AbilityTargeting extends React.Component {
     onMouseOver(event, card) {
         if (card && this.props.onMouseOver) {
@@ -18,23 +20,11 @@ class AbilityTargeting extends React.Component {
     renderSimpleCard(card) {
         return (
             <div
-                className='target-card vertical'
+                className='target-card vertical mb-2'
                 onMouseOut={(event) => this.onMouseOut(event, card)}
                 onMouseOver={(event) => this.onMouseOver(event, card)}
             >
-                <CardImage
-                    className='target-card-image vertical'
-                    alt={card.name}
-                    img={
-                        !card.facedown
-                            ? `/img/cards/${card.image}.png`
-                            : '/img/idbacks/cardback.jpg'
-                    }
-                    maverick={card.maverick}
-                    anomaly={card.anomaly}
-                    enhancements={card.enhancements}
-                    amber={card.cardPrintedAmber}
-                />
+                <CardImage card={card} />
             </div>
         );
     }

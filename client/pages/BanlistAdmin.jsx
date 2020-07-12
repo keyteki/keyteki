@@ -6,7 +6,8 @@ import moment from 'moment';
 import Form from '../Components/Form/Form';
 import Panel from '../Components/Site/Panel';
 import ApiStatus from '../Components/Site/ApiStatus';
-import * as actions from '../actions';
+import * as actions from '../redux/actions';
+import { Col } from 'react-bootstrap';
 
 class BanlistAdmin extends React.Component {
     constructor(props) {
@@ -116,7 +117,7 @@ class BanlistAdmin extends React.Component {
         });
 
         return (
-            <div className='col-xs-12'>
+            <Col>
                 {statusBar}
                 <Panel title='Banlist administration'>
                     <table className='table table-striped'>
@@ -140,7 +141,7 @@ class BanlistAdmin extends React.Component {
                         onSubmit={this.onAddBanlistClick}
                     />
                 </Panel>
-            </div>
+            </Col>
         );
     }
 }

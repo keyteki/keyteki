@@ -1,61 +1,172 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
 import Avatar from '../Site/Avatar';
+import AlertPanel from '../Site/AlertPanel';
 import { Constants } from '../../constants';
-import * as actions from '../../actions';
+import AmberImage from '../../assets/img/amber.png';
+import CardBackImage from '../../assets/img/idbacks/cardback.jpg';
 
-class Messages extends React.Component {
-    constructor() {
-        super();
+const keyImages = {};
 
-        this.state = {
-            message: ''
+for (const colour of ['red', 'blue', 'yellow']) {
+    keyImages[colour] = {
+        forged: require(`../../assets/img/forgedkey${colour}.png`),
+        unforged: require(`../../assets/img/unforgedkey${colour}.png`)
+    };
+}
+
+import './Messages.scss';
+
+const Messages = ({ messages, onCardMouseOver, onCardMouseOut }) => {
+    const tokens = {
+        amber: { className: 'icon-amber', imageSrc: AmberImage },
+        card: { className: 'icon-card', imageSrc: CardBackImage },
+        cards: { className: 'icon-card', imageSrc: CardBackImage },
+        forgedkeyblue: { className: 'icon-forgedKey', imageSrc: keyImages['blue'].forged },
+        forgedkeyyellow: { className: 'icon-forgedKey', imageSrc: keyImages['yellow'].forged },
+        forgedkeyred: { className: 'icon-forgedKey', imageSrc: keyImages['red'].forge },
+        unforgedkeyblue: { className: 'icon-forgedKey', imageSrc: keyImages['blue'].unforged },
+        unforgedkeyyellow: {
+            className: 'icon-forgedKey',
+            imageSrc: keyImages['yellow'].unforged
+        },
+        unforgedkeyred: { className: 'icon-forgedKey', imageSrc: keyImages['red'].unforged }
+    };
+
+    for (let house of Constants.Houses) {
+        tokens[house] = {
+            className: 'chat-house-icon',
+            imageSrc: Constants.HouseIconPaths[house]
         };
-
-        this.tokens = {
-            amber: { className: 'icon-amber', imageSrc: '/img/amber.png' },
-            card: { className: 'icon-card', imageSrc: '/img/idbacks/cardback.jpg' },
-            cards: { className: 'icon-card', imageSrc: '/img/idbacks/cardback.jpg' },
-            forgedkeyblue: { className: 'icon-forgedKey', imageSrc: '/img/forgedkeyblue.png' },
-            forgedkeyyellow: { className: 'icon-forgedKey', imageSrc: '/img/forgedkeyyellow.png' },
-            forgedkeyred: { className: 'icon-forgedKey', imageSrc: '/img/forgedkeyred.png' },
-            unforgedkeyblue: { className: 'icon-forgedKey', imageSrc: '/img/unforgedkeyblue.png' },
-            unforgedkeyyellow: {
-                className: 'icon-forgedKey',
-                imageSrc: '/img/unforgedkeyyellow.png'
-            },
-            unforgedkeyred: { className: 'icon-forgedKey', imageSrc: '/img/unforgedkeyred.png' }
-        };
-
-        for (let house of Constants.Houses) {
-            this.tokens[house] = {
-                className: `chat-house-icon icon-${house}`,
-                imageSrc: `/img/house/${house}.png`
-            };
-        }
-
-        this.formatMessageText = this.formatMessageText.bind(this);
     }
 
-    getMessage() {
-        return this.props.messages.map((message, index) => (
-            <div key={index} className='message'>
-                {this.formatMessageText(message.message)}
+    const getMessage = () => {
+        return messages.map((message, index) => (
+            <div key={index} className='message mb-1'>
+                {formatMessageText(message.message)}
             </div>
         ));
-    }
+    };
 
-    processKeywords(message) {
+    const formatMessageText = (message) => {
+        let index = 0;
+        let messages = [];
+
+        for (const [key, fragment] of Object.entries(message)) {
+            if (fragment === null || fragment === undefined) {
+                messages.push('');
+
+                continue;
+            }
+
+            if (key === 'alert') {
+                let message = formatMessageText(fragment.message);
+
+                switch (fragment.type) {
+                    case 'endofround':
+                    case 'phasestart':
+                    case 'startofround':
+                        messages.push(
+                            <div
+                                className={'font-weight-bold text-white separator ' + fragment.type}
+                                key={index++}
+                            >
+                                <hr className={'mt-2 mb-2' + fragment.type} />
+                                {message}
+                                {fragment.type === 'phasestart' && <hr />}
+                            </div>
+                        );
+                        break;
+                    case 'success':
+                        messages.push(
+                            <AlertPanel type='success' key={index++}>
+                                {message}
+                            </AlertPanel>
+                        );
+                        break;
+                    case 'info':
+                        messages.push(
+                            <AlertPanel type='info' key={index++}>
+                                {message}
+                            </AlertPanel>
+                        );
+                        break;
+                    case 'danger':
+                        messages.push(
+                            <AlertPanel type='danger' key={index++}>
+                                {message}
+                            </AlertPanel>
+                        );
+                        break;
+                    case 'warning':
+                        messages.push(
+                            <AlertPanel type='warning' key={index++}>
+                                {message}
+                            </AlertPanel>
+                        );
+                        break;
+                    default:
+                        messages.push(message);
+                        break;
+                }
+            } else if (fragment.message) {
+                messages.push(formatMessageText(fragment.message));
+            } else if (fragment.link && fragment.label) {
+                messages.push(
+                    <a href={fragment.link} target='_blank' rel='noopener noreferrer'>
+                        {fragment.label}
+                    </a>
+                );
+            } else if (fragment.image && fragment.label) {
+                messages.push(
+                    <span
+                        key={index++}
+                        className='card-link'
+                        onMouseOver={onCardMouseOver.bind(this, fragment)}
+                        onMouseOut={onCardMouseOut.bind(this)}
+                    >
+                        {fragment.label}
+                    </span>
+                );
+            } else if (fragment.name && fragment.argType === 'player') {
+                let userClass =
+                    'username' + (fragment.role ? ` ${fragment.role.toLowerCase()}-role` : '');
+
+                messages.push(
+                    <div key={index++} className='message-chat mb-1'>
+                        <Avatar imgPath={fragment.avatar} float />
+                        <span key={index++} className={userClass}>
+                            {fragment.name}
+                        </span>
+                    </div>
+                );
+            } else if (fragment.argType === 'nonAvatarPlayer') {
+                let userClass =
+                    'username' + (fragment.role ? ` ${fragment.role.toLowerCase()}-role` : '');
+
+                messages.push(
+                    <span key={index++} className={userClass}>
+                        {fragment.name}
+                    </span>
+                );
+            } else {
+                let messageFragment = processKeywords(fragment.toString());
+                messages.push(<span className='message-fragment'>{messageFragment}</span>);
+            }
+        }
+
+        return messages;
+    };
+
+    const processKeywords = (message) => {
         let messages = [];
         let i = 0;
 
         for (let token of message.split(' ')) {
             let lowerToken = token.toLowerCase();
 
-            if (this.tokens[lowerToken]) {
-                let tokenEntry = this.tokens[lowerToken];
+            if (tokens[lowerToken]) {
+                let tokenEntry = tokens[lowerToken];
 
                 switch (token) {
                     case 'amber':
@@ -101,141 +212,11 @@ class Messages extends React.Component {
         }
 
         return messages;
-    }
+    };
 
-    formatMessageText(message) {
-        let index = 0;
-
-        let messages = [];
-
-        for (const [key, fragment] of Object.entries(message)) {
-            if (fragment === null || fragment === undefined) {
-                messages.push('');
-
-                continue;
-            }
-
-            if (key === 'alert') {
-                let message = this.formatMessageText(fragment.message);
-
-                switch (fragment.type) {
-                    case 'endofround':
-                    case 'phasestart':
-                    case 'startofround':
-                        messages.push(
-                            <div className={'bold seperator ' + fragment.type} key={index++}>
-                                <hr className={fragment.type} />
-                                {message}
-                                {fragment.type === 'phasestart' && <hr />}
-                            </div>
-                        );
-                        break;
-                    case 'success':
-                        messages.push(
-                            <div className='alert alert-success' key={index++}>
-                                <span className='glyphicon glyphicon-ok-sign' />
-                                &nbsp;
-                                {message}
-                            </div>
-                        );
-                        break;
-                    case 'info':
-                        messages.push(
-                            <div className='alert alert-info' key={index++}>
-                                <span className='glyphicon glyphicon-info-sign' />
-                                &nbsp;
-                                {message}
-                            </div>
-                        );
-                        break;
-                    case 'danger':
-                        messages.push(
-                            <div className='alert alert-danger' key={index++}>
-                                <span className='glyphicon glyphicon-exclamation-sign' />
-                                &nbsp;
-                                {message}
-                            </div>
-                        );
-                        break;
-                    case 'warning':
-                        messages.push(
-                            <div className='alert alert-warning' key={index++}>
-                                <span className='glyphicon glyphicon-warning-sign' />
-                                &nbsp;
-                                {message}
-                            </div>
-                        );
-                        break;
-                    default:
-                        messages.push(message);
-                        break;
-                }
-            } else if (fragment.message) {
-                messages.push(this.formatMessageText(fragment.message));
-            } else if (fragment.link && fragment.label) {
-                messages.push(
-                    <a href={fragment.link} target='_blank' rel='noopener noreferrer'>
-                        {fragment.label}
-                    </a>
-                );
-            } else if (fragment.image && fragment.label) {
-                messages.push(
-                    <span
-                        key={index++}
-                        className='card-link'
-                        onMouseOver={this.props.onCardMouseOver.bind(this, fragment)}
-                        onMouseOut={this.props.onCardMouseOut.bind(this)}
-                    >
-                        {fragment.label}
-                    </span>
-                );
-            } else if (fragment.name && fragment.argType === 'player') {
-                let userClass =
-                    'username' + (fragment.role ? ` ${fragment.role.toLowerCase()}-role` : '');
-
-                messages.push(
-                    <div key={index++} className='message-chat'>
-                        <Avatar username={fragment.name} float />
-                        <span key={index++} className={userClass}>
-                            {fragment.name}
-                        </span>
-                    </div>
-                );
-            } else if (fragment.argType === 'nonAvatarPlayer') {
-                let userClass =
-                    'username' + (fragment.role ? ` ${fragment.role.toLowerCase()}-role` : '');
-
-                messages.push(
-                    <span key={index++} className={userClass}>
-                        {fragment.name}
-                    </span>
-                );
-            } else {
-                let messageFragment = this.processKeywords(fragment.toString());
-                messages.push(messageFragment);
-            }
-        }
-
-        return messages;
-    }
-
-    render() {
-        return <div>{this.getMessage()}</div>;
-    }
-}
-
-Messages.displayName = 'Messages';
-Messages.propTypes = {
-    messages: PropTypes.array,
-    onCardMouseOut: PropTypes.func,
-    onCardMouseOver: PropTypes.func,
-    socket: PropTypes.object
+    return <div>{getMessage()}</div>;
 };
 
-function mapStateToProps(state) {
-    return {
-        socket: state.lobby.socket
-    };
-}
+Messages.displayName = 'Messages';
 
-export default connect(mapStateToProps, actions)(Messages);
+export default Messages;

@@ -5,7 +5,7 @@ import { withTranslation } from 'react-i18next';
 
 import Link from './Link';
 import Avatar from './Avatar';
-import * as actions from '../../actions';
+import * as actions from '../../redux/actions';
 import menus from '../../menus';
 import i18n from '../../i18n';
 import ServerStatus from './ServerStatus';
@@ -174,7 +174,7 @@ class NavBar extends React.Component {
                         aria-expanded='false'
                     >
                         {menuItem.showProfilePicture && this.props.user ? (
-                            <Avatar username={this.props.user.username} />
+                            <Avatar imgPath={this.props.user.avatar} />
                         ) : null}
                         {menuItem.showProfilePicture && this.props.user
                             ? this.props.user.username

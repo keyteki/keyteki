@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { withTranslation } from 'react-i18next';
 
 import Card from './Card';
 
-import { withTranslation } from 'react-i18next';
+import './SquishableCardPanel.scss';
 
 class SquishableCardPanel extends React.Component {
     getCards(needsSquish) {

@@ -5,9 +5,9 @@ import { connect } from 'react-redux';
 import AlertPanel from '../Components/Site/AlertPanel.jsx';
 import Panel from '../Components/Site/Panel.jsx';
 import Form from '../Components/Form/Form.jsx';
-import Link from '../Components/Site/Link.jsx';
+import Link from '../Components/Navigation/Link.jsx';
 
-import * as actions from '../actions';
+import * as actions from '../redux/actions';
 
 import { withTranslation, Trans } from 'react-i18next';
 
@@ -18,8 +18,7 @@ export class Register extends React.Component {
         this.onRegister = this.onRegister.bind(this);
 
         this.state = {
-            successMessage: '',
-            enableGravatar: true
+            successMessage: ''
         };
     }
 
@@ -31,7 +30,7 @@ export class Register extends React.Component {
             // this.setState({ successMessage: 'Your account was successfully registered.  Please verify your account using the link in the email sent to the address you have provided.' });
             this.setState({
                 successMessage: t(
-                    'Your account was successfully registered.  You can now process to login.'
+                    'Your account was successfully registered.  You can now proceed to login.'
                 )
             });
             setTimeout(() => {
@@ -45,13 +44,8 @@ export class Register extends React.Component {
         this.props.registerAccount({
             username: state.username,
             password: state.password,
-            email: state.email,
-            enableGravatar: state.enableGravatar
+            email: state.email
         });
-    }
-
-    onEnableGravatarChanged(event) {
-        this.setState({ enableGravatar: event.target.checked });
     }
 
     render() {

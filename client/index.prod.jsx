@@ -3,7 +3,7 @@ import { render } from 'react-dom';
 import Application from './Application';
 import { Provider } from 'react-redux';
 import configureStore from './configureStore';
-import { navigate } from './actions';
+import { navigate } from './redux/actions';
 import 'bootstrap/dist/js/bootstrap';
 import ReduxToastr from 'react-redux-toastr';
 import * as Sentry from '@sentry/browser';
@@ -12,6 +12,8 @@ import { default as TouchBackend } from 'react-dnd-touch-backend';
 
 import version from '../version';
 import ErrorBoundary from './Components/Site/ErrorBoundary';
+
+import './i18n';
 
 const sentryOptions = {
     dsn: 'https://8e2615acba9548ba8d83fa2735de2bd2@sentry.io/1515148',

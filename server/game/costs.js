@@ -116,7 +116,6 @@ const Costs = {
         },
         payEvent: (context) =>
             context.game.getEvent('unnamedEvent', {}, () => {
-                context.game.cardsPlayed.push(context.source);
                 if (
                     context.ignoreHouse ||
                     context.player

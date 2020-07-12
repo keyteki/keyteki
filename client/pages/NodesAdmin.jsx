@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 
 import Panel from '../Components/Site/Panel';
 
-import * as actions from '../actions';
+import * as actions from '../redux/actions';
+import { Col } from 'react-bootstrap';
 
 class NodeAdmin extends React.Component {
     constructor(props) {
@@ -91,7 +92,7 @@ class NodeAdmin extends React.Component {
         }
 
         return (
-            <div className='col-sm-offset-1 col-sm-10'>
+            <Col sm={{ span: 10, offset: 1 }}>
                 <Panel title='Game Node Administration'>
                     {content}
 
@@ -99,7 +100,7 @@ class NodeAdmin extends React.Component {
                         Refresh
                     </button>
                 </Panel>
-            </div>
+            </Col>
         );
     }
 }
