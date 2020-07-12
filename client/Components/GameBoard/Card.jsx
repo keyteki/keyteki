@@ -212,12 +212,12 @@ class InnerCard extends React.Component {
         );
     }
 
-    getCardOrder() {
+    getCardOrdering() {
         if (!this.props.card.order) {
             return null;
         }
 
-        return <div className='card-order'>{this.props.card.order}</div>;
+        return <div className='card-ordering'>{this.props.card.order}</div>;
     }
 
     showMenu() {
@@ -318,7 +318,7 @@ class InnerCard extends React.Component {
         let content = this.props.connectDragSource(
             <div className='card-frame'>
                 {this.getDragFrame(image)}
-                {this.getCardOrder()}
+                {this.getCardOrdering()}
                 <div
                     className={cardClass}
                     onMouseOver={

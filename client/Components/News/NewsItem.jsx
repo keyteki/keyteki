@@ -4,7 +4,6 @@ import moment from 'moment';
 import { getMessageWithLinks } from '../../util';
 
 import './NewsItem.scss';
-import { Col } from 'react-bootstrap';
 
 /**
  * @typedef {'unforged-red' | 'unforged-blue'| 'unforged-yellow'} NewsIcon

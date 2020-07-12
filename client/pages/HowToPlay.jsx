@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { withTranslation, Trans } from 'react-i18next';
 
 import Link from '../Components/Navigation/Link';
 import Panel from '../Components/Site/Panel';
 
-import { withTranslation, Trans } from 'react-i18next';
+import './HowToPlay.scss';
 
 class HowToPlay extends React.Component {
     render() {
@@ -58,7 +59,7 @@ class HowToPlay extends React.Component {
                         <Trans>Topics</Trans>
                     </h3>
 
-                    <ul className='htp-main-list'>
+                    <ul className='htp-main-list font-weight-bold mb-3'>
                         <li>
                             <a href='#decks'>
                                 <Trans>Adding Decks</Trans>
