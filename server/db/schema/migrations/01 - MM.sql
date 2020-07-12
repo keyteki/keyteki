@@ -8,3 +8,4 @@ ALTER TABLE "DeckCards" ADD CONSTRAINT "FK_DeckCards_Houses_HouseId" FOREIGN KEY
         ON DELETE CASCADE;
 
 ALTER TABLE "Users" ADD COLUMN "Settings_Avatar" text COLLATE pg_catalog."default" NULL;
+UPDATE "Users" SET "Settings_Avatar" = "Username";

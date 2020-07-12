@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import PropTypes from 'prop-types';
 import $ from 'jquery';
 import { connect } from 'react-redux';
@@ -152,7 +152,7 @@ class Application extends React.Component {
                             errorPath={this.props.path}
                             message={"We're sorry - something's gone wrong."}
                         >
-                            {component}
+                            <Suspense fallback='loading'>{component}</Suspense>
                         </ErrorBoundary>
                     </Container>
                 </div>
