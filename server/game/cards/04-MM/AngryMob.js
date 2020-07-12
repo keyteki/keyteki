@@ -2,7 +2,7 @@ const Card = require('../../Card.js');
 
 class AngryMob extends Card {
     setupCardAbilities(ability) {
-        this.fight({
+        this.beforeFight({
             optional: true,
             gameAction: ability.actions.discard((context) => {
                 let deck = context.player.deck;
