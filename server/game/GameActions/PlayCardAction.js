@@ -28,9 +28,16 @@ class PlayCardAction extends CardGameAction {
 
     getEvent(card, context) {
         return super.createEvent('unnamedEvent', { card: card, context: context }, () => {
-            let playActions = card
-                .getActions(this.location)
-                .filter((action) => action.title.includes('Play'));
+            let playActions = card.getActions(this.location).filter((action) => {
+                if (action.title.includes('Play')) {
+                    let newContext = action.createContext(context.player);
+                    newContext.ignoreHouse = true;
+                    return !action.meetsRequirements(newContext, ['location']);
+                } else {
+                    return false;
+                }
+            });
+
             let action;
             if (playActions.length > 1) {
                 context.game.promptWithHandlerMenu(context.player, {
