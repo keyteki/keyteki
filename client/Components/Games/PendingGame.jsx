@@ -158,10 +158,11 @@ class PendingGame extends React.Component {
             );
         }
 
+        let userClass = 'username' + (player.role ? ` ${player.role.toLowerCase()}-role` : '');
         return (
             <div className='player-row' key={player.name}>
                 <Avatar username={player.name} />
-                <span>{player.name}</span>
+                <span className={userClass}>{player.name}</span>
                 {deck} {status} {selectLink}
             </div>
         );

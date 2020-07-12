@@ -635,6 +635,8 @@ class UserService extends EventEmitter {
                 return 13; // 'TournamentManager'
             case 'isWinner':
                 return 14; // 'TournamentWinner'
+            case 'isPreviousWinner':
+                return 15; // 'TournamentPreviousWinner'
         }
     }
 
@@ -653,7 +655,8 @@ class UserService extends EventEmitter {
             isAdmin: false,
             isContributor: false,
             isSupporter: false,
-            isWinner: false
+            isWinner: false,
+            isPreviousWinner: false
         };
 
         for (let permission of permissions) {
@@ -699,6 +702,9 @@ class UserService extends EventEmitter {
                     break;
                 case 'TournamentWinner':
                     ret.isWinner = true;
+                    break;
+                case 'PreviousTournamentWinner':
+                    ret.isPreviousWinner = true;
                     break;
             }
         }

@@ -1,14 +1,14 @@
 import React from 'react';
+import { withTranslation, Trans } from 'react-i18next';
+import { toastr } from 'react-redux-toastr';
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
 import Avatar from '../Site/Avatar';
 
-import { withTranslation, Trans } from 'react-i18next';
-import { toastr } from 'react-redux-toastr';
-
 export class PlayerStats extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.sendUpdate = this.sendUpdate.bind(this);
         this.setActiveHouse = this.setActiveHouse.bind(this);
@@ -125,9 +125,12 @@ export class PlayerStats extends React.Component {
             </div>
         );
         let muteClass = this.props.muteSpectators ? 'glyphicon-eye-close' : 'glyphicon-eye-open';
+        let statsClass = classNames('panel player-stats', {
+            'active-player': this.props.activePlayer
+        });
 
         return (
-            <div className='panel player-stats'>
+            <div className={statsClass}>
                 {playerAvatar}
 
                 {this.getButton('amber', t('Amber'))}

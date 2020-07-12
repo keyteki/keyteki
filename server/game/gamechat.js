@@ -76,7 +76,8 @@ class GameChat {
                     } else if (arg instanceof Spectator || arg instanceof Player) {
                         returnedFraments.push({
                             name: arg.user.username,
-                            argType: 'nonAvatarPlayer'
+                            argType: 'nonAvatarPlayer',
+                            role: arg.user.role
                         });
                     } else {
                         returnedFraments.push(arg);

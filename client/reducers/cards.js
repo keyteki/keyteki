@@ -22,13 +22,17 @@ function processDecks(decks, state) {
                 card: Object.assign({}, state.cards[card.id]),
                 id: card.id,
                 maverick: card.maverick,
-                anomaly: card.anomaly
+                anomaly: card.anomaly,
+                house: card.house,
+                image: card.image
             };
-            result.card.image = card.id;
+            result.card.image = card.image || card.id;
             if (card.maverick) {
                 result.card.house = card.maverick;
             } else if (card.anomaly) {
                 result.card.house = card.anomaly;
+            } else if (card.house) {
+                result.card.house = card.house;
             }
 
             return result;
