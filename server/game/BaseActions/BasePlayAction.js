@@ -53,6 +53,26 @@ class BasePlayAction extends BaseAbility {
         );
     }
 
+    // eslint-disable-next-line no-unused-vars
+    addSubEvent(event, context) {
+        return;
+    }
+
+    executeHandler(context) {
+        let event = context.game.getEvent(
+            'onCardPlayed',
+            {
+                player: context.player,
+                card: context.source,
+                originalLocation: context.source.location
+            },
+            () => context.game.cardsPlayed.push(context.source)
+        );
+        this.addBonusIconResolution(event, context);
+        this.addSubEvent(event, context);
+        context.game.openEventWindow(event);
+    }
+
     isAction() {
         return true;
     }
