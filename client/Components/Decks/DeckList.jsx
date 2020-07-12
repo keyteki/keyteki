@@ -255,7 +255,7 @@ const DeckList = ({ onDeckSelected, standaloneDecks = false }) => {
             /**
              * @param {number} cell
              */
-            formatter: (cell) => `${cell}%`
+            formatter: (cell) => `${cell.toFixed(2)}%`
         }
     ];
 

@@ -69,6 +69,10 @@ const Enhancements = () => {
     let totalEnhancements = 0;
     let totalUsed = 0;
 
+    if (!selectedDeck.cards.some((c) => c.card.text)) {
+        return <div>Please wait while the </div>;
+    }
+
     for (let deckCard of selectedDeck.cards.filter((c) => c.card.text.includes('Enhance'))) {
         let matches = deckCard.card.text.match(enhancementRegex);
         if (!matches || matches.length === 1) {

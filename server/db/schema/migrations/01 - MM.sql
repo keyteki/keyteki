@@ -1,3 +1,5 @@
+INSERT INTO public."Expansions" ("Id", "ExpansionId", "Code", "Name") VALUES (5, 479, 'MM', 'Mass Mutation');
+
 ALTER TABLE "DeckCards" ADD COLUMN "ImageUrl" TEXT NULL;
 ALTER TABLE "DeckCards" ADD COLUMN "HouseId" integer NULL;
 ALTER TABLE "DeckCards" ADD COLUMN "Enhancements" TEXT NULL;
