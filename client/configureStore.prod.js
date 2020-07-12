@@ -1,9 +1,9 @@
 import { applyMiddleware, createStore, compose } from 'redux';
 import thunkMiddleware from 'redux-thunk';
-import rootReducer from './reducers';
+import rootReducer from './redux/reducers';
 import { addBreadcrumb } from '@sentry/browser';
 
-import callAPIMiddleware from './middleware/api-middleware.js';
+import callAPIMiddleware from './redux/middleware/api-middleware.js';
 
 // Sentry middleware
 const sentryReporter = () => (next) => (action) => {

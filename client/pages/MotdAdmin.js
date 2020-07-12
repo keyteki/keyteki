@@ -5,7 +5,8 @@ import { connect } from 'react-redux';
 import Panel from '../Components/Site/Panel';
 import TextArea from '../Components/Form/TextArea';
 import RadioGroup from '../Components/Form/RadioGroup';
-import * as actions from '../actions';
+import * as actions from '../redux/actions';
+import { Col } from 'react-bootstrap';
 
 class MotdAdmin extends React.Component {
     constructor(props) {
@@ -54,7 +55,7 @@ class MotdAdmin extends React.Component {
 
     render() {
         return (
-            <div className='col-sm-offset-2 col-sm-8'>
+            <Col sm={{ span: 8, offset: 2 }}>
                 <Panel title='Motd administration'>
                     <TextArea
                         fieldClass='col-xs-12'
@@ -79,7 +80,7 @@ class MotdAdmin extends React.Component {
                         Save
                     </button>
                 </Panel>
-            </div>
+            </Col>
         );
     }
 }

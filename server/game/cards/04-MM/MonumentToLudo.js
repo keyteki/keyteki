@@ -6,9 +6,7 @@ class MonumentToLudo extends Card {
             target: {
                 cardType: 'creature',
                 gameAction: ability.actions.removeAmber((context) => ({
-                    amount: context.source.controller.discard.some(
-                        (card) => card.name === 'Praefectus Ludo'
-                    )
+                    amount: context.player.discard.some((card) => card.name === 'Praefectus Ludo')
                         ? 2
                         : 1
                 }))

@@ -10,6 +10,7 @@ class DealDamageAction extends CardGameAction {
         this.splash = 0;
         this.purge = false;
         this.ignoreArmor = false;
+        this.bonus = false;
     }
 
     setup() {
@@ -58,7 +59,8 @@ class DealDamageAction extends CardGameAction {
             damageType: this.damageType,
             destroyEvent: null,
             fightEvent: this.fightEvent,
-            ignoreArmor: this.ignoreArmor
+            ignoreArmor: this.ignoreArmor,
+            bonus: this.bonus
         };
 
         return super.createEvent('onDamageDealt', params, (damageDealtEvent) => {

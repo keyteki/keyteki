@@ -4,6 +4,8 @@ import classNames from 'classnames';
 
 import Card from './Card';
 
+import './PlayerBoard.scss';
+
 class PlayerBoard extends React.Component {
     getCardRows() {
         let groupedCards = this.props.cardsInPlay.reduce((group, card) => {

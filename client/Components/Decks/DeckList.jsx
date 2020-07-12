@@ -1,244 +1,322 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import _ from 'underscore';
-import { withTranslation, Trans } from 'react-i18next';
+import React, { useState, useEffect, useRef } from 'react';
+import { Col, Form } from 'react-bootstrap';
+import moment from 'moment';
+import BootstrapTable from 'react-bootstrap-table-next';
+import paginationFactory from 'react-bootstrap-table2-paginator';
+import filterFactory, { textFilter, multiSelectFilter } from 'react-bootstrap-table2-filter';
+import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
+import Select from 'react-select';
+import debounce from 'lodash.debounce';
+import $ from 'jquery';
 
-import DeckRow from './DeckRow';
-import RadioGroup from '../Form/RadioGroup';
+import Archon from './Archon';
+import { loadDecks, selectDeck, loadStandaloneDecks } from '../../redux/actions';
 
-class DeckList extends React.Component {
-    constructor(props) {
-        super(props);
+import './DeckList.scss';
+import { Constants } from '../../constants';
 
-        this.state = {
-            searchFilter: '',
-            expansionFilter: '',
-            sortOrder: 'datedesc',
-            pageSize: 10,
-            currentPage: 0
-        };
+/**
+ * @typedef CardLanguage
+ * @property {string} name
+ */
 
-        this.changeFilter = _.debounce((filter) => this.onChangeFilter(filter), 200);
-        this.onChangeExpansionFilter = this.onChangeExpansionFilter.bind(this);
-        this.filterDeck = this.filterDeck.bind(this);
-        this.onSortChanged = this.onSortChanged.bind(this);
-        this.onPageSizeChanged = this.onPageSizeChanged.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
+/**
+ * @typedef Card
+ * @property {string} id
+ * @property {string} name
+ * @property {string} type
+ * @property {string} house
+ * @property {string} rarity
+ * @property {string} number
+ * @property {string} image
+ * @property {number} amber
+ * @property {number} [armor]
+ * @property {number} power
+ * @property {number} expansion
+ * @property {string} packCode
+ * @property {string[]} traits
+ * @property {string[]} keywords
+ * @property {{[key: string]: CardLanguage}} locale
+ */
 
-    filterDeck(deck) {
-        let t = this.props.t;
-        const passedSearchFilter =
-            this.state.searchFilter === '' ||
-            deck.name.toLowerCase().includes(this.state.searchFilter);
-        const passedExpansionFilter =
-            this.state.expansionFilter === '' ||
-            (this.state.expansionFilter === t('Worlds Collide') && deck.expansion === 452) ||
-            (this.state.expansionFilter === t('Age of Ascension') && deck.expansion === 435) ||
-            (this.state.expansionFilter === t('Call of the Archons') && deck.expansion === 341);
+/**
+ * @typedef DeckCard
+ * @property {number} count
+ * @property {string} id
+ * @property {Card} card
+ */
 
-        return passedSearchFilter && passedExpansionFilter;
-    }
+/**
+ * @typedef Deck
+ * @property {number} id The database id of the deck
+ * @property {string} name The name of the deck
+ * @property {string[]} houses The houses in the deck
+ * @property {Date} lastUpdated The date the deck was last saved
+ * @property {DeckCard[]} cards The cards in the deck along with how many of each card
+ * @property {number} expansion The expansion number
+ * @property {string} losses The number of losses this deck has had
+ * @property {string} username The owner of this deck
+ * @property {string} uuid The unique identifier of the deck
+ * @property {number} wins The number of wins this deck has had
+ * @property {number} winRate The win rate of the deck
+ * @property {number} usageLevel The usage level of the deck
+ */
 
-    handleSubmit(event) {
-        event.preventDefault();
-    }
+/**
+ * @typedef DeckListProps
+ * @property {Deck} [activeDeck] The currently selected deck
+ * @property {boolean} [noFilter] Whether or not to enable filtering
+ * @property {function(Deck): void} [onDeckSelected] Callback fired when a deck is selected
+ * @property {boolean} [standaloneDecks] Only load the standalong decks rather than the user decks
+ */
 
-    onChangeFilter(filter) {
-        this.setState({
-            currentPage: 0,
-            searchFilter: filter.toLowerCase()
-        });
-    }
+/**
+ * @typedef PagingDetails
+ * @property {number} page
+ * @property {number} sizePerPage
+ * @property {string} sortField
+ * @property {string} sortOrder
+ * @property {{ [key: string]: { filterVal: string; }; }} filters
+ */
 
-    onChangeExpansionFilter(event) {
-        this.setState({
-            currentPage: 0,
-            expansionFilter: event.target.value
-        });
-    }
+/**
+ * @param {DeckListProps} props
+ */
+const DeckList = ({ onDeckSelected, standaloneDecks = false }) => {
+    const { t } = useTranslation();
+    const [pagingDetails, setPagingDetails] = useState({
+        pageSize: 10,
+        page: 1,
+        sort: 'lastUpdated',
+        sortDir: 'desc',
+        filter: []
+    });
+    const nameFilter = useRef(null);
+    const expansionFilter = useRef(null);
+    const dispatch = useDispatch();
 
-    onSortChanged(value) {
-        this.setState({ sortOrder: value });
-    }
+    const { decks, numDecks, selectedDeck } = useSelector((state) => ({
+        decks: standaloneDecks ? state.cards.standaloneDecks : state.cards.decks,
+        numDecks: state.cards.numDecks,
+        selectedDeck: standaloneDecks ? null : state.cards.selectedDeck
+    }));
 
-    onPageSizeChanged(event) {
-        this.setState({
-            currentPage: 0,
-            pageSize: event.target.value
-        });
-    }
-
-    onPageChanged(page) {
-        this.setState({ currentPage: page });
-    }
-
-    render() {
-        let { activeDeck, className, decks, onSelectDeck, t } = this.props;
-
-        let deckRows = [];
-        let numDecksNotFiltered = 0;
-
-        if (!decks || decks.length === 0) {
-            deckRows = t('You have no decks, try adding one');
+    useEffect(() => {
+        if (standaloneDecks) {
+            dispatch(loadStandaloneDecks());
         } else {
-            let index = 0;
-            let sortedDecks = decks;
-
-            switch (this.state.sortOrder) {
-                case 'dateasc':
-                    sortedDecks = _.sortBy(sortedDecks, 'lastUpdated');
-                    break;
-                case 'nameasc':
-                    sortedDecks = _.sortBy(sortedDecks, 'name');
-                    break;
-                case 'namedesc':
-                    sortedDecks = _.sortBy(sortedDecks, 'name').reverse();
-                    break;
-                case 'datedesc':
-                default:
-                    break;
-            }
-
-            sortedDecks = sortedDecks.filter(this.filterDeck);
-            numDecksNotFiltered = sortedDecks.length;
-
-            sortedDecks = sortedDecks.slice(
-                this.state.currentPage * this.state.pageSize,
-                this.state.currentPage * this.state.pageSize + this.state.pageSize
-            );
-
-            for (let deck of sortedDecks) {
-                deckRows.push(
-                    <DeckRow
-                        active={activeDeck && activeDeck.id === deck.id}
-                        deck={deck}
-                        key={index++}
-                        onSelect={onSelectDeck}
-                    />
-                );
-            }
+            dispatch(loadDecks(pagingDetails));
         }
 
-        let sortButtons = [
-            { value: 'datedesc', label: t('Date Desc') },
-            { value: 'dateasc', label: t('Date Asc') },
-            { value: 'nameasc', label: t('Name Asc') },
-            { value: 'namedesc', label: t('Name Desc') }
-        ];
+        $('.filter-label').parent().parent().hide();
+    }, [pagingDetails, dispatch, standaloneDecks]);
 
-        let pager = [];
-        let pages = _.range(0, Math.ceil(numDecksNotFiltered / this.state.pageSize));
-        for (let page of pages) {
-            pager.push(
-                <li key={page}>
-                    <a
-                        href='#'
-                        className={page === this.state.currentPage ? 'active' : null}
-                        onClick={this.onPageChanged.bind(this, page)}
-                    >
-                        {page + 1}
-                    </a>
-                </li>
-            );
-        }
-
+    const MultiSelectFilter = () => {
         return (
-            <div className={className}>
-                {!this.props.noFilter && (
-                    <form className='form' onSubmit={this.handleSubmit}>
-                        <div className='col-md-8'>
-                            <div className='form-group'>
-                                <label className='control-label'>
-                                    <Trans>Filter</Trans>:
-                                </label>
-                                <input
-                                    autoFocus
-                                    className='form-control'
-                                    placeholder={t('Search...')}
-                                    type='text'
-                                    onChange={(e) => this.changeFilter(e.target.value)}
-                                />
-                            </div>
-                        </div>
-                        <div className='col-md-4'>
-                            <div className='form-group'>
-                                <label className='control-label'>
-                                    <Trans>Show</Trans>:
-                                </label>
-                                <select className='form-control' onChange={this.onPageSizeChanged}>
-                                    <option>10</option>
-                                    <option>25</option>
-                                    <option>50</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div className='col-md-12'>
-                            <div className='form-group'>
-                                <label className='control-label'>
-                                    <Trans>Filter By Expansion</Trans>:
-                                </label>
-                                <select
-                                    className='form-control'
-                                    onChange={this.onChangeExpansionFilter}
-                                >
-                                    <option />
-                                    <option>{t('Worlds Collide')}</option>
-                                    <option>{t('Age of Ascension')}</option>
-                                    <option>{t('Call of the Archons')}</option>
-                                </select>
-                            </div>
-                            <div className='col-md-12'>
-                                <Trans>Sort by</Trans>:
-                                <RadioGroup
-                                    buttons={sortButtons}
-                                    onValueSelected={this.onSortChanged}
-                                    defaultValue={this.state.sortOrder}
-                                />
-                            </div>
-                            <nav className='col-md-12' aria-label={t('Page navigation')}>
-                                <ul className='pagination'>
-                                    <li>
-                                        <a
-                                            href='#'
-                                            aria-label={t('Previous')}
-                                            onClick={this.onPageChanged.bind(this, 0)}
-                                        >
-                                            <span aria-hidden='true'>&laquo;</span>
-                                        </a>
-                                    </li>
-                                    {pager}
-                                    <li>
-                                        <a
-                                            href='#'
-                                            aria-label={t('Next')}
-                                            onClick={this.onPageChanged.bind(
-                                                this,
-                                                pages.length - 1
-                                            )}
-                                        >
-                                            <span aria-hidden='true'>&raquo;</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
-                    </form>
-                )}
-                <div className='col-md-12'>{deckRows}</div>
-            </div>
+            <Select
+                isMulti
+                options={Constants.Expansions}
+                defaultValue={Constants.Expansions}
+                value={pagingDetails.filter.find((f) => f.name === 'expansion')?.value}
+                onChange={(values) => expansionFilter.current(values.map((v) => v))}
+            />
         );
-    }
-}
+    };
 
-DeckList.propTypes = {
-    activeDeck: PropTypes.object,
-    className: PropTypes.string,
-    decks: PropTypes.array,
-    i18n: PropTypes.object,
-    noFilter: PropTypes.bool,
-    onSelectDeck: PropTypes.func,
-    t: PropTypes.func
+    const selectRow = {
+        mode: 'radio',
+        clickToSelect: true,
+        hideSelectColumn: true,
+        selected: decks && selectedDeck ? [decks.find((d) => d.id === selectedDeck.id)?.id] : [],
+        classes: 'selected-deck',
+        onSelect: (deck, isSelect) => {
+            if (isSelect) {
+                dispatch(selectDeck(deck));
+            }
+        }
+    };
+
+    const rowEvents = {
+        onClick: (event, deck) => {
+            onDeckSelected && onDeckSelected(deck);
+        }
+    };
+
+    /**
+     * @param {any} type
+     * @param {PagingDetails} data
+     */
+    const onTableChange = (type, data) => {
+        let newPageData = Object.assign({}, pagingDetails);
+        switch (type) {
+            case 'pagination':
+                if (
+                    (pagingDetails.page !== data.page && data.page !== 0) ||
+                    (pagingDetails.pageSize !== data.sizePerPage && data.sizePerPage !== 0)
+                ) {
+                    newPageData.page = data.page || pagingDetails.page;
+                    newPageData.pageSize = data.sizePerPage;
+                }
+
+                break;
+            case 'sort':
+                newPageData.sort = data.sortField;
+                newPageData.sortDir = data.sortOrder;
+
+                break;
+            case 'filter':
+                newPageData.filter = Object.keys(data.filters).map((k) => ({
+                    name: k,
+                    value: data.filters[k].filterVal
+                }));
+
+                break;
+        }
+
+        setPagingDetails(newPageData);
+    };
+
+    const columns = [
+        {
+            dataField: 'none',
+            headerStyle: {
+                width: '12%'
+            },
+            text: t('Id'),
+            sort: false,
+            // eslint-disable-next-line react/display-name
+            formatter: (_, row) => (
+                <div className='deck-image'>
+                    <Archon deck={row} />
+                </div>
+            )
+        },
+        {
+            dataField: 'name',
+            text: t('Name'),
+            sort: !standaloneDecks,
+            style: {
+                fontSize: '0.8rem'
+            },
+            filter: textFilter({
+                getFilter: (filter) => {
+                    nameFilter.current = filter;
+                }
+            })
+        },
+        {
+            dataField: 'expansion',
+            text: t('Set'),
+            headerStyle: {
+                width: '14%'
+            },
+            align: 'center',
+            sort: !standaloneDecks,
+            // eslint-disable-next-line react/display-name
+            formatter: (cell) => (
+                <img className='deck-expansion' src={Constants.SetIconPaths[cell]} />
+            ),
+            filter: multiSelectFilter({
+                options: {},
+                getFilter: (filter) => {
+                    expansionFilter.current = filter;
+                }
+            })
+        },
+        {
+            dataField: 'lastUpdated',
+            headerStyle: {
+                width: '20%'
+            },
+            style: {
+                fontSize: '0.7rem'
+            },
+            align: 'center',
+            text: t('Added'),
+            sort: !standaloneDecks,
+            /**
+             * @param {Date} cell
+             */
+            formatter: (cell) => moment(cell).format('YYYY-MM-DD')
+        },
+        {
+            dataField: 'winRate',
+            align: 'center',
+            text: t('Win %'),
+            headerStyle: {
+                width: '18%'
+            },
+            style: {
+                fontSize: '0.8rem'
+            },
+            sort: !standaloneDecks,
+            hidden: standaloneDecks,
+            /**
+             * @param {number} cell
+             */
+            formatter: (cell) => `${cell?.toFixed(2)}%`
+        }
+    ];
+
+    let onNameChange = debounce((event) => {
+        nameFilter.current(event.target.value);
+    }, 500);
+
+    return (
+        <div className='deck-list'>
+            {!standaloneDecks && (
+                <Col md={12}>
+                    <Form>
+                        <Form.Row>
+                            <Form.Group as={Col} lg='6' controlId='formGridName'>
+                                <Form.Label>{t('Name')}</Form.Label>
+                                <Form.Control
+                                    name='name'
+                                    type='text'
+                                    onChange={(event) => {
+                                        event.persist();
+                                        onNameChange(event);
+                                    }}
+                                    placeholder={t('Filter by name')}
+                                />
+                            </Form.Group>
+                            <Form.Group as={Col} lg='6' controlId='formGridExpansion'>
+                                <Form.Label>{t('Expansion')}</Form.Label>
+                                <Form.Control as={MultiSelectFilter} />
+                            </Form.Group>
+                        </Form.Row>
+                    </Form>
+                </Col>
+            )}
+            <Col md={12}>
+                <BootstrapTable
+                    bootstrap4
+                    remote
+                    hover
+                    keyField='id'
+                    data={decks}
+                    columns={columns}
+                    selectRow={selectRow}
+                    rowEvents={rowEvents}
+                    pagination={
+                        standaloneDecks
+                            ? null
+                            : paginationFactory({
+                                  page: pagingDetails.page,
+                                  sizePerPage: pagingDetails.pageSize,
+                                  totalSize: numDecks
+                              })
+                    }
+                    filter={filterFactory()}
+                    filterPosition='top'
+                    onTableChange={onTableChange}
+                    defaultSorted={[{ dataField: 'datePublished', order: 'desc' }]}
+                />
+            </Col>
+        </div>
+    );
 };
 
-export default withTranslation()(DeckList);
+DeckList.displayName = 'DeckList';
+export default DeckList;

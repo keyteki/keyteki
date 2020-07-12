@@ -139,7 +139,7 @@ class UserService extends EventEmitter {
     async addUser(user) {
         let ret = await db.query(
             'INSERT INTO "Users" ' +
-                '("Username", "Password", "Email", "Registered", "RegisterIp", "Settings_DisableGravatar", "Verified", "ActivationToken", "ActivationTokenExpiry") VALUES ' +
+                '("Username", "Password", "Email", "Registered", "RegisterIp", "Settings_Avatar", "Verified", "ActivationToken", "ActivationTokenExpiry") VALUES ' +
                 '($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "Id"',
             [
                 user.username,
@@ -147,7 +147,7 @@ class UserService extends EventEmitter {
                 user.email,
                 user.registered,
                 user.registerIp,
-                !user.enableGravatar,
+                user.avatar,
                 user.verified,
                 user.activationToken,
                 user.activationTokenExpiry
@@ -163,7 +163,7 @@ class UserService extends EventEmitter {
         await db.query('BEGIN');
 
         let query =
-            'UPDATE "Users" SET "Email" = $1, "Verified" = $2, "Disabled" = $3, "Settings_DisableGravatar" = $4, ' +
+            'UPDATE "Users" SET "Email" = $1, "Verified" = $2, "Disabled" = $3, "Settings_Avatar" = $4, ' +
             '"Settings_CardSize" = $5, "Settings_Background" = $6, "Settings_OrderAbilities" = $7, "Settings_ConfirmOneClick" = $8, "PatreonToken" = $9 WHERE "Id" = $10';
 
         try {
@@ -171,7 +171,7 @@ class UserService extends EventEmitter {
                 user.email,
                 user.verified,
                 user.disabled,
-                !user.enableGravatar,
+                user.settings.avatar,
                 user.settings.cardSize,
                 user.settings.background,
                 user.settings.optionSettings.orderForcedAbilities,
@@ -573,9 +573,9 @@ class UserService extends EventEmitter {
             email: dbUser.Email,
             emailHash: dbUser.EmailHash,
             settings: {
+                avatar: dbUser.Settings_Avatar,
                 background: dbUser.Settings_Background,
                 cardSize: dbUser.Settings_CardSize,
-                disableGravatar: dbUser.Settings_DisableGravatar,
                 optionSettings: {
                     orderForcedAbilities: dbUser.Settings_OrderAbilities,
                     confirmOneClick: dbUser.Settings_ConfirmOneClick

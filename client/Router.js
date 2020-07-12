@@ -1,6 +1,6 @@
 import React from 'react';
 import toRegex from 'path-to-regexp';
-import queryString from 'query-string';
+import queryString from 'query-string-es5';
 
 import routes from './routes';
 import NotFound from './pages/NotFound';

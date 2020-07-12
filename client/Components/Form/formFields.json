@@ -59,12 +59,6 @@
             },
             "labelClass": "col-sm-4",
             "fieldClass": "col-sm-7"
-        },
-        {
-            "name": "enableGravatar",
-            "label": "Enable avatar image from Gravatar",
-            "inputType": "checkbox",
-            "fieldClass": "col-sm-offset-4 col-sm-8"
         }
     ],
     "login": [
