@@ -57,7 +57,7 @@ i18n
     .init({
         resources,
         fallbackLng: 'en',
-        debug: true, //(process.env.NODE_ENV !== 'production'),
+        debug: false, //(process.env.NODE_ENV !== 'production'),
         //lng: 'en',
         interpolation: {
             escapeValue: false

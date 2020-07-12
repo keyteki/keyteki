@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import $ from 'jquery';
 import { connect } from 'react-redux';
@@ -143,25 +143,23 @@ class Application extends React.Component {
         }
 
         return (
-            <Suspense fallback='loading'>
-                <div className={backgroundClass}>
-                    <Navigation appName='The Crucible Online' user={this.props.user} />
-                    <div className='wrapper'>
-                        <Container className='content'>
-                            <ErrorBoundary
-                                navigate={this.props.navigate}
-                                errorPath={this.props.path}
-                                message={"We're sorry - something's gone wrong."}
-                            >
-                                {component}
-                            </ErrorBoundary>
-                        </Container>
-                    </div>
-                    <div className='keyforge-font' style={{ zIndex: -999 }}>
-                        &nbsp;
-                    </div>
+            <div className={backgroundClass}>
+                <Navigation appName='The Crucible Online' user={this.props.user} />
+                <div className='wrapper'>
+                    <Container className='content'>
+                        <ErrorBoundary
+                            navigate={this.props.navigate}
+                            errorPath={this.props.path}
+                            message={"We're sorry - something's gone wrong."}
+                        >
+                            {component}
+                        </ErrorBoundary>
+                    </Container>
                 </div>
-            </Suspense>
+                <div className='keyforge-font' style={{ zIndex: -999 }}>
+                    &nbsp;
+                </div>
+            </div>
         );
     }
 }
