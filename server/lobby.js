@@ -792,7 +792,7 @@ class Lobby {
     }
 
     onRemoveGame(socket, gameId) {
-        if (!socket.user.permissions.canMangeGames) {
+        if (!socket.user.permissions.canManageGames) {
             return;
         }
 
@@ -808,6 +808,8 @@ class Lobby {
         } else {
             this.router.closeGame(game);
         }
+
+        this.broadcastGameMessage('removegame', game);
     }
 
     onGetNodeStatus(socket) {

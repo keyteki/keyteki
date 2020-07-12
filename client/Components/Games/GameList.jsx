@@ -4,16 +4,18 @@ import classNames from 'classnames';
 import { connect } from 'react-redux';
 import { toastr } from 'react-redux-toastr';
 import moment from 'moment';
+import { withTranslation, Trans } from 'react-i18next';
 
 import Avatar from '../Site/Avatar';
 import AlertPanel from '../Site/AlertPanel';
-import * as actions from '../../actions';
+import * as actions from '../../redux/actions';
 
-import { withTranslation, Trans } from 'react-i18next';
+import './GameList.scss';
+import { Col } from 'react-bootstrap';
 
 class GameList extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.joinGame = this.joinGame.bind(this);
     }
@@ -24,7 +26,7 @@ class GameList extends React.Component {
         event.preventDefault();
 
         if (!this.props.user) {
-            toastr.error(t('Please login before trying to join a game'));
+            toastr.error(t('Error'), t('Please login before trying to join a game'));
             return;
         }
 
@@ -45,7 +47,7 @@ class GameList extends React.Component {
         event.preventDefault();
 
         if (!this.props.user) {
-            toastr.error(t('Please login before trying to watch a game'));
+            toastr.error(t('Error'), t('Please login before trying to watch a game'));
             return;
         }
 
@@ -71,19 +73,10 @@ class GameList extends React.Component {
     }
 
     getPlayerCards(player, firstPlayer) {
-        let houses =
-            player.houses &&
-            player.houses.map((house) => {
-                return (
-                    <img key={house} className='img-responsive' src={`/img/house/${house}.png`} />
-                );
-            });
-
         if (firstPlayer) {
             return (
                 <div className='game-faction-row first-player'>
                     {this.getPlayerNameAndAvatar(player, firstPlayer)}
-                    <div className='house-icons'>{houses}</div>
                 </div>
             );
         }
@@ -91,7 +84,6 @@ class GameList extends React.Component {
         return (
             <div className='game-faction-row other-player'>
                 {this.getPlayerNameAndAvatar(player, firstPlayer)}
-                <div className='house-icons'>{houses}</div>
             </div>
         );
     }
@@ -103,7 +95,7 @@ class GameList extends React.Component {
             return (
                 <div className='game-player-name'>
                     <span className='gamelist-avatar'>
-                        <Avatar username={player.name} />
+                        <Avatar imgPath={player.avatar} />
                     </span>
                     <span className={userClass}>{player.name}</span>
                 </div>
@@ -114,7 +106,7 @@ class GameList extends React.Component {
             <div className='game-player-name'>
                 <span className={userClass}>{player.name}</span>
                 <span className='gamelist-avatar'>
-                    <Avatar username={player.name} />
+                    <Avatar imgPath={player.avatar} />
                 </span>
             </div>
         );
@@ -145,7 +137,7 @@ class GameList extends React.Component {
                     <div key={players[0].name} className={'game-player-row other-player'}>
                         <div className='game-faction-row other-player'>
                             <button
-                                className='btn btn-success gamelist-button img-responsive'
+                                className='btn btn-success gamelist-button img-fluid'
                                 onClick={(event) => this.joinGame(event, game)}
                             >
                                 <Trans>Join</Trans>
@@ -168,7 +160,7 @@ class GameList extends React.Component {
         let t = this.props.t;
 
         for (const game of games) {
-            if (this.props.gameFilter.showOnlyNewGames && game.started) {
+            if (this.props.gameFilter.onlyShowNew && game.started) {
                 continue;
             }
 
@@ -272,13 +264,13 @@ class GameList extends React.Component {
         let gameHeaderClass = 'game-header';
         switch (gameType) {
             case 'beginner':
-                gameHeaderClass += ' label-success';
+                gameHeaderClass += ' badge-success';
                 break;
             case 'casual':
-                gameHeaderClass += ' label-warning';
+                gameHeaderClass += ' badge-warning';
                 break;
             case 'competitive':
-                gameHeaderClass += ' label-danger';
+                gameHeaderClass += ' badge-danger';
                 break;
         }
 
@@ -314,16 +306,20 @@ class GameList extends React.Component {
 
         if (gameList.length === 0) {
             return (
-                <div className='game-list col-xs-12'>
+                <Col className='game-list' xs='12'>
                     <AlertPanel
                         type='info'
                         message={t('There are no games matching the filters you have selected')}
                     />
-                </div>
+                </Col>
             );
         }
 
-        return <div className='game-list col-xs-12'>{gameList}</div>;
+        return (
+            <Col className='game-list' xs='12'>
+                {gameList}
+            </Col>
+        );
     }
 }
 

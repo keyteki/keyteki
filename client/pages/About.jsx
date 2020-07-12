@@ -1,20 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { withTranslation, Trans } from 'react-i18next';
+import { Col } from 'react-bootstrap';
 
 import Panel from '../Components/Site/Panel';
-import Link from '../Components/Site/Link';
-
-import { withTranslation, Trans } from 'react-i18next';
+import Link from '../Components/Navigation/Link';
 
 class About extends React.Component {
     render() {
         let t = this.props.t;
 
         return (
-            <div className='col-xs-12 full-height'>
+            <Col className='full-height' xs='12'>
                 <Panel title={t('About The Crucible Online - Help and information')}>
                     <a
-                        className='btn btn-danger btn-lg pull-right'
+                        className='btn btn-danger btn-lg float-right'
                         target='_blank'
                         rel='noopener noreferrer'
                         href='https://github.com/keyteki/keyteki/issues'
@@ -34,18 +34,6 @@ class About extends React.Component {
                         <p>
                             Head on over to the <Link href='/how-to-play'>How To Play guide</Link>{' '}
                             for a thorough explanation.
-                        </p>
-                    </Trans>
-                    <Trans i18nKey='about.avatar'>
-                        <h3>Everyone has a shiny avatar, how do I get one?</h3>
-                        <p>
-                            This is handled by the good people at{' '}
-                            <a href='http://gravatar.com' target='_blank' rel='noopener noreferrer'>
-                                Gravatar
-                            </a>
-                            . Sign up there with the same email address you did there and it should
-                            appear on the site after a short while. It will also use the avatar on
-                            any site that uses gravatar. Examples include github and jinteki.
                         </p>
                     </Trans>
                     <Trans i18nKey='about.whydiscarded'>
@@ -93,7 +81,7 @@ class About extends React.Component {
                     <Trans i18nKey='about.addicons'>
                         <h3>Additional Icons</h3>
                         <p>
-                            Some icons were included from game-icons.net: Death Note by{' '}
+                            Some icons were included from game-icons.net: Death Note by
                             <a
                                 target='_blank'
                                 href='http://lorcblog.blogspot.com/'
@@ -101,7 +89,6 @@ class About extends React.Component {
                             >
                                 lorc
                             </a>
-                            .{' '}
                             <a
                                 target='_blank'
                                 href='https://creativecommons.org/licenses/by/3.0/'
@@ -111,18 +98,18 @@ class About extends React.Component {
                             </a>
                         </p>
                         <p>
-                            Time Limit icon made by{' '}
+                            Time Limit icon made by
                             <a
                                 href='https://www.flaticon.com/authors/minh-hoang'
                                 title='Minh Hoang'
                             >
                                 Minh Hoang
-                            </a>{' '}
-                            from{' '}
+                            </a>
+                            from
                             <a href='https://www.flaticon.com/' title='Flaticon'>
                                 www.flaticon.com
-                            </a>{' '}
-                            is licensed by{' '}
+                            </a>
+                            is licensed by
                             <a
                                 href='http://creativecommons.org/licenses/by/3.0/'
                                 title='Creative Commons BY 3.0'
@@ -145,7 +132,7 @@ class About extends React.Component {
                         </p>
                     </Trans>
                 </Panel>
-            </div>
+            </Col>
         );
     }
 }

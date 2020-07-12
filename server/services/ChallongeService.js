@@ -80,9 +80,11 @@ class ChallongeService {
 
         let challongeResults;
         try {
-            challongeResults = await data.map(async (x) => {
+            challongeResults = [];
+
+            for (let match of data) {
                 let result;
-                let url = `https://api.challonge.com/v1/tournaments/${x.tournamentId}/matches/${x.matchId}/attachments.json?api_key=${user.challonge.key}`;
+                let url = `https://api.challonge.com/v1/tournaments/${match.tournamentId}/matches/${match.matchId}/attachments.json?api_key=${user.challonge.key}`;
 
                 try {
                     result = await util.httpRequest(url, {
@@ -90,7 +92,7 @@ class ChallongeService {
                         json: true,
                         body: {
                             description: 'Click This link to enter your game.',
-                            url: x.attachment
+                            url: match.attachment
                         }
                     });
                 } catch (error) {
@@ -98,8 +100,8 @@ class ChallongeService {
                     throw new Error('Failed to get attachments');
                 }
 
-                return result.match_attachment;
-            });
+                challongeResults.push(result.match_attachment);
+            }
         } catch (error) {
             logger.error(`Failed to get attachments for ${user.username}`, error);
             throw new Error('Failed to get attachments');

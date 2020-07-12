@@ -9,6 +9,8 @@ import HouseSelect from './HouseSelect';
 import OptionsSelect from './OptionsSelect';
 import Panel from '../Site/Panel';
 
+import './ActivePlayerPrompt.scss';
+
 const MaxButtonTextLength = 28;
 
 class ActivePlayerPrompt extends React.Component {

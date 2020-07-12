@@ -69,14 +69,6 @@ class Privacy extends React.Component {
                             </Trans>
                         </li>
                         <li>
-                            <Trans i18nKey='privacy.whyemail.3'>
-                                to provide your avatar picture via a service called Gravatar. Your
-                                email address is cryptographically hashed and sent to
-                                Gravatar&quot;s servers for them to provide your profile image or a
-                                default placeholder.
-                            </Trans>
-                        </li>
-                        <li>
                             <Trans i18nKey='privacy.whyemail.4'>
                                 to allow you to reset your password if you forget it
                             </Trans>

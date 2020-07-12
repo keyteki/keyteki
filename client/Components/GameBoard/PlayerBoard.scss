@@ -1,0 +1,32 @@
+@import '../../styles/variables';
+@import '../../styles/colours';
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+
+.card-row {
+    display: flex;
+    justify-content: flex-start;
+    min-height: 0;
+}
+
+.card-row .card.horizontal {
+    margin-bottom: $keyteki-card-height - $keyteki-card-width;
+
+    &.small {
+        margin-bottom: $keyteki-card-sm-height - $keyteki-card-sm-width;
+    }
+
+    &.large {
+        margin-bottom: $keyteki-card-lg-height - $keyteki-card-lg-width;
+    }
+
+    &.x-large {
+        margin-bottom: $keyteki-card-xl-height - $keyteki-card-xl-width;
+    }
+}
+
+.player-board .card-wrapper {
+    margin-right: 10px;
+    margin-bottom: 5px;
+}

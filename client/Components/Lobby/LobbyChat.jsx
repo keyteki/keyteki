@@ -2,8 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import $ from 'jquery';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 import Avatar from '../Site/Avatar';
+
+import './LobbyChat.scss';
 
 class LobbyChat extends React.Component {
     constructor(props) {
@@ -127,10 +131,10 @@ class LobbyChat extends React.Component {
                         {this.props.isModerator && (
                             <a
                                 href='#'
-                                className='btn no-padding btn-noimg'
+                                className='btn-icon icon-remove'
                                 onClick={this.onRemoveMessageClick.bind(this, message.id)}
                             >
-                                <span className='chat-delete glyphicon glyphicon-remove' />
+                                <FontAwesomeIcon icon={faTimes} />
                             </a>
                         )}
                     </div>
@@ -143,7 +147,7 @@ class LobbyChat extends React.Component {
 
             return (
                 <div key={timestamp + firstMessage.user.username + (index++).toString()}>
-                    <Avatar username={firstMessage.user.username} float />
+                    <Avatar imgPath={firstMessage.user.avatar} float />
                     <span className={userClass}>{firstMessage.user.username}</span>
                     <span>{timestamp}</span>
                     {renderedMessages}

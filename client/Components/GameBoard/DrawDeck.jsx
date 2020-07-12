@@ -58,7 +58,6 @@ class DrawDeck extends React.Component {
 
     render() {
         let t = this.props.t;
-
         let drawDeckPopupMenu = this.props.showDeck
             ? [{ text: 'Close and Shuffle', handler: this.handleShuffleClick }]
             : null;

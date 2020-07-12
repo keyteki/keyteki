@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
+import { withTranslation } from 'react-i18next';
 import classNames from 'classnames';
 
-import { withTranslation } from 'react-i18next';
+import './CardMenu.scss';
 
 class CardMenu extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             submenu: 'main'
         };

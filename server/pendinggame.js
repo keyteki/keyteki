@@ -8,7 +8,7 @@ const logger = require('./log');
 class PendingGame {
     constructor(owner, details) {
         this.adaptive = details.adaptive;
-        this.allowSpectators = details.spectators;
+        this.allowSpectators = details.allowSpectators;
         this.challonge = details.challonge;
         this.createdAt = new Date();
         this.expansions = details.expansions;
@@ -338,6 +338,7 @@ class PendingGame {
             }
 
             playerSummaries[player.name] = {
+                avatar: player.user.avatar,
                 deck: activePlayer ? deck : {},
                 houses: this.started && player.deck ? player.deck.houses : [],
                 id: player.id,
@@ -369,11 +370,11 @@ class PendingGame {
             showHand: this.showHand,
             started: this.started,
             swap: this.swap,
-            spectators: _.map(this.spectators, (spectator) => {
+            spectators: Object.values(this.spectators).map((spectator) => {
                 return {
                     id: spectator.id,
                     name: spectator.name,
-                    settings: spectator.settings
+                    avatar: spectator.user.avatar
                 };
             }),
             useGameTimeLimit: this.useGameTimeLimit

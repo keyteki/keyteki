@@ -34,6 +34,7 @@ class Player extends GameObject {
         this.clock = ClockSelector.for(this, clockdetails);
         this.showDeck = false;
         this.role = user.role;
+        this.avatar = user.avatar;
 
         this.playableLocations = [new PlayableLocation('play', this, 'hand')];
         this.optionSettings = user.settings.optionSettings;

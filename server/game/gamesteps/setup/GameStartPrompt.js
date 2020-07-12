@@ -14,7 +14,7 @@ class GameStartPrompt extends AllPlayerPrompt {
         return {
             promptTitle: 'Start Game',
             menuTitle: {
-                text: '{{player}} will go first.',
+                text: '{{player}} will go first',
                 values: { player: this.game.activePlayer.name }
             },
             buttons: [{ text: 'Start the Game' }]

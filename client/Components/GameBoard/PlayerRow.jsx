@@ -2,21 +2,32 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { withTranslation } from 'react-i18next';
 
 import CardPile from './CardPile';
 import SquishableCardPanel from './SquishableCardPanel';
 import DrawDeck from './DrawDeck';
 import IdentityCard from './IdentityCard';
 import Droppable from './Droppable';
-
-import { withTranslation } from 'react-i18next';
 import { buildArchon, buildDeckList } from '../../archonMaker';
-import * as actions from '../../actions';
+import * as actions from '../../redux/actions';
+import IdentityDefault from '../../assets/img/idbacks/identity.jpg';
+
+import './PlayerRow.scss';
+
+const keyImages = {};
+
+for (const colour of ['red', 'blue', 'yellow']) {
+    keyImages[colour] = {
+        forged: require(`../../assets/img/forgedkey${colour}.png`),
+        unforged: require(`../../assets/img/unforgedkey${colour}.png`)
+    };
+}
 
 class PlayerRow extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { deckListUrl: 'img/idbacks/identity.jpg' };
+        this.state = { deckListUrl: IdentityDefault };
         this.modifyKey = this.modifyKey.bind(this);
     }
 
@@ -39,10 +50,10 @@ class PlayerRow extends React.Component {
                     this.setState({ deckListUrl });
                 })
                 .catch(() => {
-                    this.setState({ deckListUrl: 'img/idbacks/identity.jpg' });
+                    this.setState({ deckListUrl: IdentityDefault });
                 });
         } else {
-            this.setState({ deckListUrl: 'img/idbacks/identity.jpg' });
+            this.setState({ deckListUrl: IdentityDefault });
         }
     }
 
@@ -71,10 +82,10 @@ class PlayerRow extends React.Component {
                             this.setState({ deckListUrl });
                         })
                         .catch(() => {
-                            this.setState({ deckListUrl: 'img/idbacks/identity.jpg' });
+                            this.setState({ deckListUrl: IdentityDefault });
                         });
                 } else {
-                    this.setState({ deckListUrl: 'img/idbacks/identity.jpg' });
+                    this.setState({ deckListUrl: IdentityDefault });
                 }
             }
         }
@@ -109,9 +120,11 @@ class PlayerRow extends React.Component {
                 return (
                     <img
                         key={`key ${color}`}
-                        src={`/img/${
-                            this.props.keys[color] ? 'forgedkey' : 'unforgedkey'
-                        }${color}.png`}
+                        src={
+                            this.props.keys[color]
+                                ? keyImages[color].forged
+                                : keyImages[color].unforged
+                        }
                         onClick={this.modifyKey.bind(this, color)}
                         title={t('Forged Key')}
                     />
@@ -223,7 +236,7 @@ class PlayerRow extends React.Component {
         );
 
         return (
-            <div className='player-home-row-container'>
+            <div className='player-home-row-container pt-1'>
                 {this.renderKeys()}
                 {this.renderDroppablePile('hand', hand)}
                 {this.renderDroppablePile('archives', archives)}
@@ -292,6 +305,4 @@ function mapDispatchToProps(dispatch) {
     return boundActions;
 }
 
-export default withTranslation()(
-    connect(mapStateToProps, mapDispatchToProps, null, { withRef: true })(PlayerRow)
-);
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps, null)(PlayerRow));

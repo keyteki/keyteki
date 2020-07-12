@@ -1,0 +1,59 @@
+@import '../../styles/variables';
+@import '../../styles/colours';
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+
+.deck-status {
+    text-align: center;
+    padding: 6px 12px;
+    border: 1px solid black;
+    border-radius: 4px;
+    color: black;
+
+    &.valid {
+        background: theme-color('success');
+    }
+
+    &.casual-play {
+        background: theme-color('warning');
+    }
+
+    &.used {
+        background: theme-color('warning');
+    }
+
+    &.popular {
+        background: theme-color('warning');
+    }
+
+    &.notorious {
+        background: theme-color('danger');
+    }
+}
+
+.popover-body {
+    background-color: #0e0b10;
+}
+
+.popover {
+    background-color: #0e0b10;
+    color: white;
+    //width: 300px;
+
+    ul {
+        padding: 0;
+    }
+
+    li {
+        list-style: none;
+        margin: 4px 0;
+    }
+}
+
+.popover.bs-popover-right {
+    .arrow {
+        &:after {
+            border-right-color: #0e0b10;
+        }
+    }
+}
