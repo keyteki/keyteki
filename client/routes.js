@@ -1,7 +1,7 @@
 /* eslint react/display-name: 0 react/no-multi-comp: 0 */
 
 import React from 'react';
-import Login from './pages/Login';
+import Login from './pages/LoginContainer';
 import Logout from './pages/Logout';
 import Register from './pages/Register';
 import Lobby from './pages/Lobby';
@@ -26,6 +26,7 @@ import NodesAdmin from './pages/NodesAdmin';
 import Privacy from './pages/Privacy';
 import BanlistAdmin from './pages/BanlistAdmin';
 import Patreon from './pages/Patreon';
+import Enhancements from './pages/Enhancements';
 
 const routes = [
     { path: '/', action: () => <Lobby key='lobby' /> },
@@ -39,6 +40,7 @@ const routes = [
     { path: '/blocklist', action: () => <BlockList key='blocklist' /> },
     { path: '/decks', action: () => <Decks key='decks' /> },
     { path: '/decks/import', action: () => <ImportDeck key='importDecks' /> },
+    { path: '/decks/enhancements', action: () => <Enhancements key='enhancements' /> },
     { path: '/forgot', action: () => <ForgotPassword key='forgotpassword' /> },
     { path: '/how-to-play', action: () => <HowToPlay key='howtoplay' /> },
     { path: '/login', action: () => <Login key='login' /> },
@@ -48,7 +50,7 @@ const routes = [
     {
         path: '/play',
         action: (context) =>
-            context.currentGame && context.currentGame.started ? (
+            context.currentGame?.started ? (
                 <GameBoard key='gameboard' />
             ) : (
                 <GameLobby key='gamelobby' gameId={context.params.gameId} />

@@ -2,6 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
+import IdentityDefault from '../../assets/img/idbacks/identity.jpg';
+
+import './CardSizeOption.scss';
+
 function CardSizeOption(props) {
     let { name, label, selected, onSelect } = props;
 
@@ -13,11 +17,8 @@ function CardSizeOption(props) {
 
     return (
         <div key={name} className='card-settings' onClick={handleClick}>
-            <div className={classNames('card', 'vertical', name, { selected: selected })}>
-                <img
-                    className={classNames('card', 'vertical', name)}
-                    src='/img/idbacks/identity.jpg'
-                />
+            <div className={classNames('game-card', 'vertical', name, { selected: selected })}>
+                <img className={classNames('game-card', 'vertical', name)} src={IdentityDefault} />
             </div>
             <span className='bg-label'>{label}</span>
         </div>

@@ -6,6 +6,7 @@ const moment = require('moment');
 const _ = require('underscore');
 const sendgrid = require('@sendgrid/mail');
 const fs = require('fs');
+const jimp = require('jimp');
 
 const logger = require('../log.js');
 const { wrapAsync } = require('../util.js');
@@ -110,11 +111,11 @@ function writeFile(path, data, opts = 'utf8') {
     });
 }
 
-async function downloadAvatar(user) {
-    let stringToHash = user.enableGravatar ? user.email : crypto.randomBytes(32).toString('hex');
-    let emailHash = crypto.createHash('md5').update(stringToHash).digest('hex');
+async function getRandomAvatar(user) {
+    let stringToHash = crypto.randomBytes(32).toString('hex');
+    let md5Hash = crypto.createHash('md5').update(stringToHash).digest('hex');
     let avatar = await util.httpRequest(
-        `https://www.gravatar.com/avatar/${emailHash}?d=identicon&s=24`,
+        `https://www.gravatar.com/avatar/${md5Hash}?d=identicon&s=24`,
         { encoding: null }
     );
 
@@ -123,6 +124,30 @@ async function downloadAvatar(user) {
     }
 
     await writeFile(`public/img/avatar/${user.username}.png`, avatar, 'binary');
+}
+
+function processAvatar(newUser, user) {
+    let hash = crypto.randomBytes(16).toString('hex');
+    const buf = Buffer.from(newUser.avatar, 'base64');
+
+    if (fs.existsSync(`public/img/avatar/${user.settings.avatar}.png`)) {
+        fs.unlinkSync(`public/img/avatar/${user.settings.avatar}.png`);
+    }
+
+    return new Promise((resolve, reject) => {
+        jimp.read(buf, (err, image) => {
+            if (err) {
+                reject(err);
+            } else {
+                image
+                    .resize(24, 24)
+                    .quality(100)
+                    .write(`public/img/avatar/${user.username}-${hash}.png`);
+
+                resolve(`${user.username}-${hash}`);
+            }
+        });
+    });
 }
 
 module.exports.init = function (server, options) {
@@ -255,8 +280,8 @@ module.exports.init = function (server, options) {
                 password: passwordHash,
                 registered: new Date(),
                 username: req.body.username,
+                avatar: req.body.username,
                 email: req.body.email,
-                enableGravatar: req.body.enableGravatar,
                 challonge: req.body.challonge,
                 registerIp: ip
             };
@@ -302,7 +327,7 @@ module.exports.init = function (server, options) {
             res.send({ success: true });
 
             try {
-                await downloadAvatar(user);
+                await getRandomAvatar(user);
             } catch (error) {
                 logger.error(`Error downloading avatar for ${user.username}`, error);
             }
@@ -757,17 +782,20 @@ module.exports.init = function (server, options) {
             user = user.getDetails();
 
             user.email = userToSet.email;
+            let oldAvatar = user.settings.avatar;
+
             user.settings = userToSet.settings;
-            user.promptedActionWindows = userToSet.promptedActionWindows;
+            user.settings.avatar = oldAvatar;
 
             if (userToSet.password && userToSet.password !== '') {
                 user.password = await bcrypt.hash(userToSet.password, 10);
             }
 
-            user.enableGravatar = userToSet.enableGravatar;
             user.challonge = userToSet.challonge;
 
-            await downloadAvatar(user);
+            if (userToSet.avatar) {
+                user.settings.avatar = await processAvatar(userToSet, user);
+            }
 
             await userService.update(user);
 
@@ -957,24 +985,6 @@ module.exports.init = function (server, options) {
                 username: lowerCaseUser,
                 user: updatedUser.getWireSafeDetails()
             });
-        })
-    );
-
-    server.post(
-        '/api/account/:username/updateavatar',
-        passport.authenticate('jwt', { session: false }),
-        wrapAsync(async (req, res) => {
-            let user = await checkAuth(req, res);
-
-            if (!user) {
-                return;
-            }
-
-            user = user.getDetails();
-
-            await downloadAvatar(user);
-
-            res.send({ success: true });
         })
     );
 

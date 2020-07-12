@@ -7,6 +7,7 @@ class AllocateDamageAction extends GameAction {
         this.cardCondition = () => true;
         this.damageStep = 1;
         this.numSteps = 0;
+        this.splash = 0;
         this.controller = 'any';
     }
 
@@ -19,15 +20,18 @@ class AllocateDamageAction extends GameAction {
                 new AllocateDamagePrompt(context.game, {
                     damageStep: this.damageStep,
                     numSteps: this.numSteps,
+                    splash: this.splash,
                     selector: this.getSelector(),
                     context: context,
                     onSelect: (cardDamage) => {
                         for (const uuid of Object.keys(cardDamage)) {
                             const card = context.game.findAnyCardInPlayByUuid(uuid);
+                            const amount =
+                                (cardDamage[uuid].damage || 0) + (cardDamage[uuid].splash || 0);
                             if (card) {
                                 this.events.push(
                                     context.game.actions
-                                        .dealDamage({ amount: cardDamage[uuid] })
+                                        .dealDamage({ amount: amount })
                                         .getEvent(card, context)
                                 );
                             }

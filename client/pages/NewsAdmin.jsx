@@ -5,7 +5,8 @@ import moment from 'moment';
 
 import AlertPanel from '../Components/Site/AlertPanel';
 import TextArea from '../Components/Form/TextArea';
-import * as actions from '../actions';
+import * as actions from '../redux/actions';
+import Panel from '../Components/Site/Panel';
 
 class NewsAdmin extends React.Component {
     constructor(props) {
@@ -124,35 +125,37 @@ class NewsAdmin extends React.Component {
         } else {
             content = (
                 <div>
-                    {successPanel}
-                    <table className='table table-striped'>
-                        <thead>
-                            <tr>
-                                <th className='col-sm-1'>Date</th>
-                                <th className='col-sm-1'>Poster</th>
-                                <th className='col-sm-8'>Text</th>
-                                <th className='col-sm-2'>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>{renderedNews}</tbody>
-                    </table>
+                    <Panel title='News Admin'>
+                        {successPanel}
+                        <table className='table table-striped'>
+                            <thead>
+                                <tr>
+                                    <th className='col-sm-1'>Date</th>
+                                    <th className='col-sm-1'>Poster</th>
+                                    <th className='col-sm-8'>Text</th>
+                                    <th className='col-sm-2'>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>{renderedNews}</tbody>
+                        </table>
 
-                    <form className='form'>
-                        <TextArea
-                            name='newsText'
-                            label='Add news item'
-                            value={this.state.newsText}
-                            onChange={this.onNewsTextChange.bind(this)}
-                        />
+                        <form className='form'>
+                            <TextArea
+                                name='newsText'
+                                label='Add news item'
+                                value={this.state.newsText}
+                                onChange={this.onNewsTextChange.bind(this)}
+                            />
 
-                        <button
-                            type='submit'
-                            className='btn btn-primary'
-                            onClick={this.onAddNews.bind(this)}
-                        >
-                            Add
-                        </button>
-                    </form>
+                            <button
+                                type='submit'
+                                className='btn btn-primary'
+                                onClick={this.onAddNews.bind(this)}
+                            >
+                                Add
+                            </button>
+                        </form>
+                    </Panel>
                 </div>
             );
         }

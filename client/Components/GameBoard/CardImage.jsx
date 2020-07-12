@@ -1,39 +1,50 @@
-import React, { Component, Fragment } from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
 import mergeImages from 'merge-images';
+import { useTranslation } from 'react-i18next';
 
-import { withTranslation } from 'react-i18next';
+import './CardImage.scss';
 
-class CardImage extends Component {
-    constructor() {
-        super();
-        this.state = { src: '', err: '' };
+const EnhancementBaseImages = {};
+
+import AmberImage from '../../assets/img/enhancements/amber.png';
+import CaptureImage from '../../assets/img/enhancements/capture.png';
+import DrawImage from '../../assets/img/enhancements/draw.png';
+import DamageImage from '../../assets/img/enhancements/damage.png';
+
+const EnhancementImages = {
+    amber: AmberImage,
+    capture: CaptureImage,
+    draw: DrawImage,
+    damage: DamageImage
+};
+
+for (let i = 1; i < 6; i++) {
+    EnhancementBaseImages[i] = require(`../../assets/img/enhancements/base-${i}.png`);
+}
+
+const CardImage = ({ card, cardBack }) => {
+    const { i18n } = useTranslation();
+    let [mergedImage, setMergedImage] = useState('');
+    let { maverick, anomaly, amber, enhancements, image } = card;
+
+    if (card.cardPrintedAmber) {
+        amber = card.cardPrintedAmber;
     }
 
-    componentDidMount() {
-        this.updateImage();
-    }
-
-    componentDidUpdate(prevProps) {
-        if (this.props.img !== prevProps.img || this.props.language !== prevProps.language) {
-            this.updateImage();
+    useEffect(() => {
+        let imgPath = image;
+        if (image && image.includes('https://')) {
+            if (i18n.language !== 'en') {
+                imgPath = imgPath.replace('/en/', `/${i18n.language}/`);
+                imgPath = imgPath.replace('_en', `_${i18n.language}`);
+            }
+        } else {
+            imgPath = card.facedown
+                ? cardBack
+                : `/img/cards/${i18n.language === 'en' ? '' : i18n.language + '/'}${image}.png`;
         }
-    }
-
-    updateImage() {
-        let { img, maverick, anomaly, amber, enhancements, i18n } = this.props;
-
-        if (!this.props.img) {
-            return;
-        }
-
-        let langToUse = this.props.language ? this.props.language : i18n.language;
-
-        let imgPath =
-            langToUse === 'en' ? img : img.replace('/cards/', '/cards/' + langToUse + '/');
 
         let imagesToMerge = [];
-
         if (maverick) {
             let bonusIcons = amber > 0 || (enhancements && enhancements.length > 0);
             let maverickHouseImg =
@@ -49,15 +60,15 @@ class CardImage extends Component {
         }
 
         if (enhancements && enhancements.length > 0) {
-            let y = 59 + amber * 30;
+            let y = 59 + (amber ? amber * 30 : 0);
             imagesToMerge.push({
-                src: `/img/enhancements/base-${enhancements.length}.png`,
+                src: EnhancementBaseImages[enhancements.length],
                 x: 14,
                 y
             });
             enhancements.forEach((enhancement, index) => {
                 imagesToMerge.push({
-                    src: `/img/enhancements/${enhancement}.png`,
+                    src: EnhancementImages[enhancement],
                     x: 21,
                     y: y + 10 + index * 31
                 });
@@ -66,33 +77,29 @@ class CardImage extends Component {
 
         if (imagesToMerge.length > 0) {
             mergeImages([imgPath, ...imagesToMerge])
-                .then((src) => this.setState({ src }))
-                .catch((err) => this.setState({ err: err.toString() }));
+                .then((src) => setMergedImage(src))
+                .catch(() => {});
         } else {
-            this.setState({ src: imgPath });
+            setMergedImage(imgPath);
         }
-    }
+    }, [
+        amber,
+        anomaly,
+        i18n.language,
+        maverick,
+        enhancements,
+        setMergedImage,
+        image,
+        cardBack,
+        card.facedown,
+        card
+    ]);
 
-    render() {
-        return (
-            <Fragment>
-                <img src={this.state.src} alt={this.props.alt} className={this.props.className} />
-                {this.state.err && <p>{this.state.err} </p>}
-            </Fragment>
-        );
-    }
-}
-
-CardImage.propTypes = {
-    alt: PropTypes.string,
-    amber: PropTypes.number,
-    anomaly: PropTypes.string,
-    className: PropTypes.string,
-    enhancements: PropTypes.array,
-    i18n: PropTypes.object,
-    img: PropTypes.string.isRequired,
-    language: PropTypes.string,
-    maverick: PropTypes.string
+    return (
+        <>
+            <img className='img-fluid' src={mergedImage} />
+        </>
+    );
 };
 
-export default withTranslation()(CardImage);
+export default CardImage;

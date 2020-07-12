@@ -14,6 +14,8 @@ const Actions = {
     addSchemeCounter: (propertyFactory) =>
         new GameActions.AddTokenAction(propertyFactory, 'scheme'),
     addWardToken: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'ward'),
+    addWarrantCounter: (propertyFactory) =>
+        new GameActions.AddTokenAction(propertyFactory, 'warrant'),
     archive: (propertyFactory) => new GameActions.ArchiveAction(propertyFactory),
     attach: (propertyFactory) => new GameActions.AttachAction(propertyFactory), // upgrade
     capture: (propertyFactory) => new GameActions.CaptureAction(propertyFactory),
@@ -58,6 +60,8 @@ const Actions = {
     removeWard: (propertyFactory) => new GameActions.RemoveWardAction(propertyFactory),
     removeWardToken: (propertyFactory) =>
         new GameActions.RemoveTokenAction(propertyFactory, 'ward'),
+    removeWarrantCounter: (propertyFactory) =>
+        new GameActions.RemoveTokenAction(propertyFactory, 'warrant'),
     resolveAbility: (propertyFactory) => new GameActions.ResolveAbilityAction(propertyFactory), // ability
     resolveBonusIcons: (propertyFactory) =>
         new GameActions.ResolveBonusIconsAction(propertyFactory),

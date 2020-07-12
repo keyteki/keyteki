@@ -118,22 +118,28 @@ class ResolveBonusIconsAction extends CardGameAction {
                                 });
                             }
                         } else if (icon === 'damage') {
-                            context.game.promptForSelect(context.player, {
-                                activePromptTitle: 'Choose a creature to damage due to bonus icon',
-                                cardType: 'creature',
-                                onSelect: (player, card) => {
-                                    context.game.actions
-                                        .dealDamage({ bonus: true })
-                                        .resolve(card, context.game.getFrameworkContext(player));
-                                    context.game.addMessage(
-                                        "{0} deals 1 damage to {1} due to {2}'s bonus icon",
-                                        player,
-                                        card,
-                                        event.card
-                                    );
-                                    return true;
-                                }
-                            });
+                            if (context.game.creaturesInPlay.length > 0) {
+                                context.game.promptForSelect(context.player, {
+                                    activePromptTitle:
+                                        'Choose a creature to damage due to bonus icon',
+                                    cardType: 'creature',
+                                    onSelect: (player, card) => {
+                                        context.game.actions
+                                            .dealDamage({ bonus: true })
+                                            .resolve(
+                                                card,
+                                                context.game.getFrameworkContext(player)
+                                            );
+                                        context.game.addMessage(
+                                            "{0} deals 1 damage to {1} due to {2}'s bonus icon",
+                                            player,
+                                            card,
+                                            event.card
+                                        );
+                                        return true;
+                                    }
+                                });
+                            }
                         }
                     });
                 }

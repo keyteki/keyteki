@@ -4,7 +4,13 @@ const common = require('./webpack.common.js');
 
 module.exports = merge(common, {
     entry: {
-        bundle: ['react-hot-loader/patch', './client/index.jsx', 'webpack-hot-middleware/client']
+        bundle: [
+            '@babel/polyfill',
+            'eventsource',
+            'react-hot-loader/patch',
+            './client/index.jsx',
+            'webpack-hot-middleware/client'
+        ]
     },
     output: {
         filename: '[name].[hash].js'

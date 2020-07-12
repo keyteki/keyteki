@@ -33,7 +33,8 @@ describe("Monument to Primus's action ability", function () {
             },
             player2: {
                 amber: 4,
-                inPlay: ['gub', 'shooler']
+                inPlay: ['gub', 'shooler'],
+                hand: ['poltergeist']
             }
         });
 
@@ -190,5 +191,35 @@ describe("Monument to Primus's action ability", function () {
         expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
 
         expect(this.gub.tokens.amber).toBeUndefined();
+    });
+
+    it("should work with Poltergeist and not consider opponent's discard", function () {
+        this.player1.moveCard(this.consulPrimus, 'discard');
+        this.player1.endTurn();
+        this.player2.clickPrompt('dis');
+        this.player2.play(this.poltergeist);
+        this.player2.clickCard(this.monumentToPrimus);
+
+        expect(this.player2).toHavePrompt('Choose a creature');
+        expect(this.player2).not.toBeAbleToSelect(this.archimedes);
+        expect(this.player2).not.toBeAbleToSelect(this.dextre);
+        expect(this.player2).not.toBeAbleToSelect(this.consulPrimus);
+        expect(this.player2).toBeAbleToSelect(this.shooler);
+        expect(this.player2).toBeAbleToSelect(this.gub);
+
+        this.player2.clickCard(this.shooler);
+
+        expect(this.player2).toHavePrompt('Choose another creature');
+
+        expect(this.player2).not.toBeAbleToSelect(this.archimedes);
+        expect(this.player2).not.toBeAbleToSelect(this.dextre);
+        expect(this.player2).not.toBeAbleToSelect(this.consulPrimus);
+        expect(this.player2).not.toBeAbleToSelect(this.shooler);
+        expect(this.player2).toBeAbleToSelect(this.gub);
+
+        this.player2.clickCard(this.gub);
+
+        expect(this.gub.tokens.amber).toBe(1);
+        expect(this.shooler.tokens.amber).toBeUndefined();
     });
 });

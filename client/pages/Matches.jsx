@@ -5,7 +5,7 @@ import moment from 'moment';
 
 import AlertPanel from '../Components/Site/AlertPanel';
 import Panel from '../Components/Site/Panel';
-import * as actions from '../actions';
+import * as actions from '../redux/actions';
 
 import { withTranslation, Trans } from 'react-i18next';
 

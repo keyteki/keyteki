@@ -2,9 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { DragSource } from 'react-dnd';
 import $ from 'jquery';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 import { ItemTypes } from '../../constants';
 import PopupDefaults from './PopupDefaults';
+
+import './MovablePanel.scss';
 
 const panelSource = {
     beginDrag(props) {
@@ -79,11 +83,10 @@ class MovablePanel extends React.Component {
                 {this.props.connectDragSource(
                     <div className='panel-heading' onClick={(event) => event.stopPropagation()}>
                         <span className='text-center'>{this.props.title}</span>
-                        <span className='pull-right'>
-                            <a
-                                className='close-button glyphicon glyphicon-remove'
-                                onClick={this.props.onCloseClick}
-                            />
+                        <span className='float-right'>
+                            <a className='close-button' onClick={this.props.onCloseClick}>
+                                <FontAwesomeIcon icon={faTimes} />
+                            </a>
                         </span>
                     </div>
                 )}

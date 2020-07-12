@@ -1,37 +1,29 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { Trans } from 'react-i18next';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes, faCheck } from '@fortawesome/free-solid-svg-icons';
 
-import { withTranslation, Trans } from 'react-i18next';
+import './DeckStatusSummary.scss';
 
-class DeckStatusSummary extends React.Component {
-    render() {
-        let { flagged, verified, noUnreleasedCards } = this.props.status;
-        let items = [{ title: 'Only released cards', value: noUnreleasedCards }];
-        if (verified) {
-            items.push({ title: 'Deck verified', value: true });
-        } else if (flagged) {
-            items.push({ title: 'Deck requires verification', value: false });
-        }
-
-        return (
-            <ul className='deck-status-summary'>
-                {items.map((item, index) => (
-                    <li className={item.value ? 'valid' : 'invalid'} key={index}>
-                        <span
-                            className={
-                                item.value ? 'glyphicon glyphicon-ok' : 'glyphicon glyphicon-remove'
-                            }
-                        />
-                        &nbsp;<Trans>{item.title}</Trans>
-                    </li>
-                ))}
-            </ul>
-        );
+const DeckStatusSummary = ({ status }) => {
+    let { flagged, verified, noUnreleasedCards } = status;
+    let items = [{ title: 'Only released cards', value: noUnreleasedCards }];
+    if (verified) {
+        items.push({ title: 'Deck verified', value: true });
+    } else if (flagged) {
+        items.push({ title: 'Deck requires verification', value: false });
     }
-}
 
-DeckStatusSummary.propTypes = {
-    status: PropTypes.object.isRequired
+    return (
+        <ul className='deck-status-summary'>
+            {items.map((item, index) => (
+                <li className={item.value ? 'valid' : 'invalid'} key={index}>
+                    <FontAwesomeIcon icon={item.value ? faCheck : faTimes} />
+                    &nbsp;<Trans>{item.title}</Trans>
+                </li>
+            ))}
+        </ul>
+    );
 };
 
-export default withTranslation()(DeckStatusSummary);
+export default DeckStatusSummary;

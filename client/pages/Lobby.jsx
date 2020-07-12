@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { toastr } from 'react-redux-toastr';
+import { withTranslation, Trans } from 'react-i18next';
+import { Col } from 'react-bootstrap';
 
 import News from '../Components/News/News';
 import AlertPanel from '../Components/Site/AlertPanel';
@@ -10,15 +12,14 @@ import Typeahead from '../Components/Form/Typeahead';
 import SideBar from '../Components/Lobby/SideBar';
 import UserList from '../Components/Lobby/UserList';
 import LobbyChat from '../Components/Lobby/LobbyChat';
-import { getMessageWithLinks } from '../util';
 
-import * as actions from '../actions';
+import * as actions from '../redux/actions';
 
-import { withTranslation, Trans } from 'react-i18next';
+import './Lobby.scss';
 
 class Lobby extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.onChange = this.onChange.bind(this);
         this.onKeyPress = this.onKeyPress.bind(this);
@@ -43,7 +44,10 @@ class Lobby extends React.Component {
 
     checkChatError(props) {
         if (props.lobbyError) {
-            toastr.error('New users are limited from chatting in the lobby, try again later');
+            toastr.error(
+                'Error',
+                'New users are limited from chatting in the lobby, try again later'
+            );
 
             setTimeout(() => {
                 this.props.clearChatStatus();
@@ -97,32 +101,41 @@ class Lobby extends React.Component {
                 <SideBar>
                     <UserList users={this.props.users} />
                 </SideBar>
-                <div className='col-sm-offset-1 col-sm-10'>
-                    <div className='main-header' />
+                <div>
+                    <Col sm={{ span: 10, offset: 1 }}>
+                        <div className='main-header' />
+                    </Col>
                 </div>
-                {this.props.motd && this.props.motd.message && (
-                    <div className='col-sm-offset-1 col-sm-10 banner'>
-                        <AlertPanel type={this.props.motd.motdType}>
-                            {getMessageWithLinks(this.props.motd.message)}
-                        </AlertPanel>
+                {this.props.motd?.message && (
+                    <div>
+                        <Col sm={{ span: 10, offset: 1 }} className='banner'>
+                            <AlertPanel
+                                type={'danger'}
+                                message={this.props.motd.message}
+                            ></AlertPanel>
+                        </Col>
                     </div>
                 )}
                 {this.props.bannerNotice ? (
-                    <div className='col-sm-offset-1 col-sm-10 announcement'>
-                        <AlertPanel message={this.props.bannerNotice} type='error' />
+                    <div>
+                        <Col sm={{ span: 10, offset: 1 }} className='annoucement'>
+                            <AlertPanel message={this.props.bannerNotice} type='error' />
+                        </Col>
                     </div>
                 ) : null}
-                <div className='col-sm-offset-1 col-sm-10'>
-                    <Panel title={t('Latest site news')}>
-                        {this.props.loading ? (
-                            <div>
-                                <Trans>News loading...</Trans>
-                            </div>
-                        ) : null}
-                        <News news={this.props.news} />
-                    </Panel>
+                <div>
+                    <Col sm={{ span: 10, offset: 1 }}>
+                        <Panel title={t('Latest site news')}>
+                            {this.props.loading ? (
+                                <div>
+                                    <Trans>News loading...</Trans>
+                                </div>
+                            ) : null}
+                            <News news={this.props.news} />
+                        </Panel>
+                    </Col>
                 </div>
-                <div className='col-sm-offset-1 col-sm-10 chat-container'>
+                <Col sm={{ span: 10, offset: 1 }} className='chat-container'>
                     <Panel
                         title={t('Lobby Chat ({{users}}) online', {
                             users: this.props.users.length
@@ -131,9 +144,7 @@ class Lobby extends React.Component {
                         <div>
                             <LobbyChat
                                 messages={this.props.messages}
-                                isModerator={
-                                    this.props.user && this.props.user.permissions.canModerateChat
-                                }
+                                isModerator={this.props.user?.permissions?.canModerateChat}
                                 onRemoveMessageClick={this.onRemoveMessageClick}
                             />
                         </div>
@@ -161,7 +172,7 @@ class Lobby extends React.Component {
                             </div>
                         </div>
                     </form>
-                </div>
+                </Col>
             </div>
         );
     }
@@ -171,7 +182,6 @@ Lobby.displayName = 'Lobby';
 Lobby.propTypes = {
     bannerNotice: PropTypes.string,
     clearChatStatus: PropTypes.func,
-    fetchNews: PropTypes.func,
     i18n: PropTypes.object,
     loadNews: PropTypes.func,
     loading: PropTypes.bool,

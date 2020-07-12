@@ -62,10 +62,6 @@ class User {
         return this.userData.challonge;
     }
 
-    get enableGravatar() {
-        return this.userData.enableGravatar;
-    }
-
     get verified() {
         return this.userData.verified;
     }
@@ -118,6 +114,10 @@ class User {
         return 'user';
     }
 
+    get avatar() {
+        return this.userData.settings && this.userData.settings.avatar;
+    }
+
     get patreon() {
         return this.userData.patreon;
     }
@@ -138,13 +138,12 @@ class User {
     getWireSafeDetails() {
         let user = {
             id: this.userData.id,
+            avatar: this.userData.settings && this.userData.settings.avatar,
             username: this.userData.username,
             email: this.userData.email,
             settings: this.userData.settings,
-            promptedActionWindows: this.userData.promptedActionWindows,
             permissions: this.userData.permissions,
             verified: this.userData.verified,
-            enableGravatar: this.userData.enableGravatar,
             challonge: this.userData.challonge
         };
 
@@ -156,6 +155,7 @@ class User {
     getShortSummary() {
         return {
             username: this.username,
+            avatar: this.avatar,
             name: this.username,
             role: this.role
         };
@@ -167,6 +167,7 @@ class User {
         delete user.password;
 
         user = Settings.getUserWithDefaultsSet(user);
+        user.avatar = this.avatar;
 
         return user;
     }
@@ -179,6 +180,7 @@ class User {
 
         user = Settings.getUserWithDefaultsSet(user);
         user.role = this.role;
+        user.avatar = this.avatar;
 
         return user;
     }

@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 
 import Card from './Card';
 
+import './CardTiledList.scss';
+
 function CardTiledList(props) {
     let cardList =
         props.cards &&

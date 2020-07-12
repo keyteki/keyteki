@@ -4,6 +4,8 @@ import classNames from 'classnames';
 
 import Counter from './Counter';
 
+import './CardCounters.scss';
+
 class CardCounters extends React.Component {
     render() {
         if (this.props.counters.length === 0) {

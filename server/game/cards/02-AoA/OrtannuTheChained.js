@@ -9,26 +9,15 @@ class OrtannuTheChained extends Card {
                 location: 'discard',
                 target: context.player.discard.filter((card) => card.name === 'Ortannu’s Binding')
             })),
-            then: (context) => {
-                let amount = context.player.discard.filter(
-                    (card) => card.name === 'Ortannu’s Binding'
-                ).length;
-
-                return {
-                    gameAction: ability.actions.sequentialForEach(() => ({
-                        num: amount,
-                        action: ability.actions.dealDamage({
-                            noGameStateCheck: true,
-                            amount: 2,
-                            splash: 2,
-                            promptForSelect: {
-                                activePromptTitle: 'Choose a creature to deal 2 damage to',
-                                cardType: 'creature'
-                            }
-                        })
-                    }))
-                };
-            }
+            then: (context) => ({
+                gameAction: ability.actions.allocateDamage({
+                    numSteps: context.player.discard.filter(
+                        (card) => card.name === 'Ortannu’s Binding'
+                    ).length,
+                    damageStep: 2,
+                    splash: 2
+                })
+            })
         });
     }
 }

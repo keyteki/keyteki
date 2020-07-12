@@ -440,10 +440,6 @@ class PlayerInteractionWrapper {
         return card;
     }
 
-    togglePromptedActionWindow(window, value) {
-        this.player.promptedActionWindows[window] = value;
-    }
-
     /**
      * Player's action of passing priority
      */

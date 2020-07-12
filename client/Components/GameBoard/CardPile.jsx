@@ -7,6 +7,8 @@ import CardTiledList from './CardTiledList';
 import Droppable from './Droppable';
 import MovablePanel from './MovablePanel';
 
+import './CardPile.scss';
+
 class CardPile extends React.Component {
     constructor(props) {
         super(props);

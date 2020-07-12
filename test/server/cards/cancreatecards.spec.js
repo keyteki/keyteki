@@ -4,7 +4,13 @@ const cards = require('../../../server/game/cards');
 const AbilityDsl = require('../../../server/game/abilitydsl');
 const localeEn = require('../../../public/locales/en.json');
 
-const card = { hasHouse: () => true, neighbors: [], childCards: [], hasTrait: () => false };
+const card = {
+    hasHouse: () => true,
+    neighbors: [],
+    childCards: [],
+    hasTrait: () => false,
+    tokens: {}
+};
 card.neighbors.push(card);
 card.neighbors.push(card);
 card.childCards.push(card);

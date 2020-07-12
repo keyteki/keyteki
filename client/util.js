@@ -41,3 +41,11 @@ export function getMessageWithLinks(message) {
 
     return parts;
 }
+
+export const getStandardControlProps = (formProps, controlName) => ({
+    name: controlName,
+    value: formProps.values[controlName],
+    onChange: formProps.handleChange,
+    onBlur: formProps.handleBlur,
+    isInvalid: formProps.touched[controlName] && !!formProps.errors[controlName]
+});
