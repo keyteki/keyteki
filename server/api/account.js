@@ -130,7 +130,9 @@ function processAvatar(newUser, user) {
     let hash = crypto.randomBytes(16).toString('hex');
     const buf = Buffer.from(newUser.avatar, 'base64');
 
-    fs.unlinkSync(`public/img/avatar/${user.settings.avatar}.png`);
+    if (fs.existsSync(`public/img/avatar/${user.settings.avatar}.png`)) {
+        fs.unlinkSync(`public/img/avatar/${user.settings.avatar}.png`);
+    }
 
     return new Promise((resolve, reject) => {
         jimp.read(buf, (err, image) => {

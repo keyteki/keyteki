@@ -95,7 +95,7 @@ const DeckSummary = ({ deck }) => {
                         <Col xs='7'>
                             <span>Win Rate</span>
                         </Col>
-                        <Col xs='5'>{deck.winRate.toFixed(2)}%</Col>
+                        <Col xs='5'>{deck.winRate?.toFixed(2)}%</Col>
                     </Row>
                 </Col>
             </Row>
