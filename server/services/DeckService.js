@@ -487,15 +487,17 @@ class DeckService {
     }
 
     async update(deck) {
-        try {
-            await db.query(
-                'UPDATE "Decks" SET "Verified" = true, "LastUpdated" = $2 WHERE "Id" = $1',
-                [deck.id, new Date()]
-            );
-        } catch (err) {
-            logger.error('Failed to update deck', err);
+        if (deck.verified) {
+            try {
+                await db.query(
+                    'UPDATE "Decks" SET "Verified" = true, "LastUpdated" = $2 WHERE "Id" = $1',
+                    [deck.id, new Date()]
+                );
+            } catch (err) {
+                logger.error('Failed to update deck', err);
 
-            throw new Error('Failed to update deck');
+                throw new Error('Failed to update deck');
+            }
         }
 
         for (let card of deck.cards) {

@@ -25,4 +25,8 @@
     .invalid {
         color: theme-color('danger');
     }
+
+    .not-verified {
+        color: theme-color('info');
+    }
 }
