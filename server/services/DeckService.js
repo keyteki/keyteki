@@ -611,7 +611,10 @@ class DeckService {
         for (let card of cards) {
             if (card.enhancements && card.count > 1) {
                 for (let i = 0; i < card.count - 1; i++) {
-                    toAdd.push(Object.assign({}, card));
+                    let cardToAdd = Object.assign({}, card);
+
+                    cardToAdd.count = 1;
+                    toAdd.push(cardToAdd);
                 }
 
                 card.count = 1;
