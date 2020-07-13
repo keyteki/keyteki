@@ -15,6 +15,15 @@
     }
 
     table {
+        border: solid 1px #dee2e6;
+        border-width: 0 1px 1px 0;
+        border-spacing: 0;
+
+        th,
+        td {
+            border: solid 1px #dee2e6;
+            border-width: 1px 0 0 1px;
+        }
         tr {
             td {
                 padding-top: 5px;
