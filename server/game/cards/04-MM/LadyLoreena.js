@@ -5,8 +5,9 @@ class LadyLoreena extends Card {
         this.persistentEffect({
             match: (card, context) =>
                 card !== context.source &&
+                !card.getKeywordValue('taunt') &&
                 context.source.neighbors.some((neighbor) => neighbor.neighbors.includes(card)),
-            effect: ability.effects.addKeyword({ taunt: 1 })
+            effect: ability.effects.cardCannot('attackDueToTaunt')
         });
     }
 }

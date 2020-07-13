@@ -3,34 +3,37 @@ describe('Lady Loreena', function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
-                    house: 'sanctum',
-                    inPlay: [
-                        'grey-monk',
-                        'gatekeeper',
-                        'bulwark',
-                        'lady-loreena',
-                        'lamindra',
-                        'bull-wark',
-                        'francus',
-                        'redlock'
-                    ],
+                    house: 'dis',
+                    inPlay: ['gub'],
                     amber: 3
                 },
                 player2: {
-                    amber: 2
+                    amber: 2,
+                    inPlay: [
+                        'grey-monk',
+                        'lamindra',
+                        'champion-anaphiel',
+                        'bulwark',
+                        'lady-loreena',
+                        'francus',
+                        'redlock',
+                        'gamgee'
+                    ]
                 }
             });
         });
 
-        it("should grant taunt to its neighbors' neighbors", function () {
-            expect(this.greyMonk.getKeywordValue('taunt')).toBe(0);
-            expect(this.gatekeeper.getKeywordValue('taunt')).toBe(1);
-            expect(this.bulwark.getKeywordValue('taunt')).toBe(0);
-            expect(this.ladyLoreena.getKeywordValue('taunt')).toBe(1);
-            expect(this.lamindra.getKeywordValue('taunt')).toBe(0);
-            expect(this.bullWark.getKeywordValue('taunt')).toBe(1);
-            expect(this.francus.getKeywordValue('taunt')).toBe(0);
-            expect(this.redlock.getKeywordValue('taunt')).toBe(0);
+        it("should protect her neighbor's neighbor with her taunt", function () {
+            this.player1.clickCard(this.gub);
+            this.player1.clickPrompt('Fight with this creature');
+            expect(this.player1).toBeAbleToSelect(this.greyMonk);
+            expect(this.player1).not.toBeAbleToSelect(this.lamindra);
+            expect(this.player1).toBeAbleToSelect(this.championAnaphiel);
+            expect(this.player1).not.toBeAbleToSelect(this.bulwark);
+            expect(this.player1).toBeAbleToSelect(this.ladyLoreena);
+            expect(this.player1).not.toBeAbleToSelect(this.francus);
+            expect(this.player1).not.toBeAbleToSelect(this.redlock);
+            expect(this.player1).toBeAbleToSelect(this.gamgee);
         });
     });
 });
