@@ -734,7 +734,12 @@ class Lobby {
                 let [cards, deck] = results;
 
                 for (let card of deck.cards) {
+                    let house = card.house;
+
                     card.card = cards[card.id];
+                    if (house) {
+                        card.house = house;
+                    }
                 }
 
                 let deckUsageLevel = 0;
