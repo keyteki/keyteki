@@ -19,7 +19,7 @@ describe('Burning Glare', function () {
             this.player1.play(this.burningGlare);
             expect(this.player1).toHavePrompt('Select one');
             expect(this.player1).toHavePromptButton('Stun an enemy creature');
-            expect(this.player1).toHavePromptButton('Stun each enemy mutant creature');
+            expect(this.player1).toHavePromptButton('Stun all enemy mutants');
             this.player1.clickPrompt('Stun an enemy creature');
             expect(this.player1).toBeAbleToSelect(this.keyfrog);
             expect(this.player1).toBeAbleToSelect(this.dextre);
@@ -36,7 +36,7 @@ describe('Burning Glare', function () {
 
         it('should allow stunning all enemy mutant creatures', function () {
             this.player1.play(this.burningGlare);
-            this.player1.clickPrompt('Stun each enemy mutant creature');
+            this.player1.clickPrompt('Stun all enemy mutants');
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             expect(this.keyfrog.stunned).toBe(false);
             expect(this.dextre.stunned).toBe(false);

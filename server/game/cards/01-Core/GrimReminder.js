@@ -9,7 +9,9 @@ class GrimReminder extends Card {
             effect: 'archive all {1} creatures from their discard pile',
             effectArgs: (context) => [context.house],
             gameAction: ability.actions.archive((context) => ({
-                target: context.player.discard.filter((card) => card.hasHouse(context.house))
+                target: context.player.discard.filter(
+                    (card) => card.type === 'creature' && card.hasHouse(context.house)
+                )
             }))
         });
     }

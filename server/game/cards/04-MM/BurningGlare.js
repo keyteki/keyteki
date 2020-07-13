@@ -13,7 +13,7 @@ class BurningGlare extends Card {
                             controller: 'opponent'
                         }
                     }),
-                    'Stun each enemy mutant creature': ability.actions.stun((context) => ({
+                    'Stun all enemy mutants': ability.actions.stun((context) => ({
                         target: context.game.creaturesInPlay.filter(
                             (card) => card.hasTrait('mutant') && card.controller !== context.player
                         )
