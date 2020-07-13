@@ -28,6 +28,14 @@ class Deck {
                 result.card.anomaly = card.anomaly;
             }
 
+            if (card.house) {
+                result.card.house = card.house;
+            }
+
+            if (card.image) {
+                result.card.cardImage = card.image;
+            }
+
             if (card.enhancements) {
                 result.card.enhancements = card.enhancements;
             }
@@ -72,7 +80,7 @@ class Deck {
             return;
         }
 
-        cardData.image = cardData.id;
+        cardData.image = cardData.cardImage || cardData.id;
         if (cardData.maverick) {
             cardData.house = cardData.maverick;
         } else if (cardData.anomaly) {
