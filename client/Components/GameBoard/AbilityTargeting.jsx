@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import CardImage from './CardImage';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 import './AbilityTargetting.scss';
 
@@ -34,9 +36,7 @@ class AbilityTargeting extends React.Component {
         return (
             <div className='prompt-control-targeting'>
                 {this.renderSimpleCard(this.props.source)}
-                {targetCards.length > 0 && (
-                    <span className='glyphicon glyphicon-arrow-right targeting-arrow' />
-                )}
+                {targetCards.length > 0 && <FontAwesomeIcon icon={faArrowRight} />}
                 {targetCards}
             </div>
         );

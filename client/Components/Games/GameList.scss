@@ -1,3 +1,8 @@
+@import '../../styles/variables';
+@import '../../styles/colours';
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+
 .game-row {
     min-height: 130px;
     padding: 10px 5px;
@@ -98,4 +103,29 @@
     img {
         height: 21px;
     }
+}
+
+.game-list {
+    hr {
+        border-top-color: theme-color(primary);
+        margin: 0;
+    }
+}
+
+.game-row:hover {
+    border-color: theme-color(info);
+    background-color: rgba(theme-color(info), 0.2);
+}
+
+.game-row.active {
+    border-color: theme-color(info);
+    color: theme-color(danger);
+}
+
+.node1 {
+    background-color: rgba(theme-color(warning), 0.2);
+}
+
+.node2 {
+    background-color: rgba(theme-color(danger), 0.2);
 }

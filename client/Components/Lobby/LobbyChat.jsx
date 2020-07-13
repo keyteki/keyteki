@@ -34,12 +34,12 @@ class LobbyChat extends React.Component {
         let messages = this.messages;
 
         setTimeout(() => {
-            if (messages.scrollTop >= messages.scrollHeight - messages.offsetHeight - 20) {
+            if (messages.scrollTop >= messages.scrollHeight - messages.offsetHeight - 90) {
                 this.setState({ canScroll: true });
             } else {
                 this.setState({ canScroll: false });
             }
-        }, 500);
+        }, 250);
     }
 
     onRemoveMessageClick(messageId, event) {

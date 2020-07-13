@@ -143,6 +143,14 @@ const DeckList = ({ onDeckSelected, standaloneDecks = false }) => {
         }
     };
 
+    const rowClasses = (row) => {
+        if (!row.status.basicRules) {
+            return 'invalid';
+        }
+
+        return '';
+    };
+
     /**
      * @param {any} type
      * @param {PagingDetails} data
@@ -299,6 +307,7 @@ const DeckList = ({ onDeckSelected, standaloneDecks = false }) => {
                     columns={columns}
                     selectRow={selectRow}
                     rowEvents={rowEvents}
+                    rowClasses={rowClasses}
                     pagination={
                         standaloneDecks
                             ? null

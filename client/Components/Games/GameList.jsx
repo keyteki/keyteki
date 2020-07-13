@@ -5,13 +5,20 @@ import { connect } from 'react-redux';
 import { toastr } from 'react-redux-toastr';
 import moment from 'moment';
 import { withTranslation, Trans } from 'react-i18next';
+import { Col } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faLock } from '@fortawesome/free-solid-svg-icons';
 
 import Avatar from '../Site/Avatar';
 import AlertPanel from '../Site/AlertPanel';
 import * as actions from '../../redux/actions';
+import TimeLimitIcon from '../../assets/img/Timelimit.png';
+import ShowHandIcon from '../../assets/img/ShowHandIcon.png';
+import SealedIcon from '../../assets/img/sealed.png';
+import ReversalIcon from '../../assets/img/reversal.png';
+import AdaptiveIcon from '../../assets/img/adaptive.png';
 
 import './GameList.scss';
-import { Col } from 'react-bootstrap';
 
 class GameList extends React.Component {
     constructor(props) {
@@ -38,7 +45,10 @@ class GameList extends React.Component {
     }
 
     canWatch(game) {
-        return !this.props.currentGame && game.allowSpectators;
+        return (
+            !this.props.currentGame &&
+            (game.allowSpectators || this.props.user?.permissions?.canManageGames)
+        );
     }
 
     watchGame(event, game) {
@@ -195,25 +205,23 @@ class GameList extends React.Component {
                             <span className='game-icons'>
                                 {game.showHand && (
                                     <img
-                                        src='/img/ShowHandIcon.png'
+                                        src={ShowHandIcon}
                                         className='game-list-icon'
                                         alt={t('Show hands to spectators')}
                                         title={t('Show hands to spectators')}
                                     />
                                 )}
-                                {game.needsPassword && (
-                                    <span className='password-game glyphicon glyphicon-lock' />
-                                )}
+                                {game.needsPassword && <FontAwesomeIcon icon={faLock} />}
                                 {game.useGameTimeLimit && (
                                     <img
-                                        src='/img/timelimit.png'
+                                        src={TimeLimitIcon}
                                         className='game-list-icon'
                                         alt={t('Time limit used')}
                                     />
                                 )}
                                 {game.gameFormat === 'sealed' && (
                                     <img
-                                        src='/img/sealed.png'
+                                        src={SealedIcon}
                                         className='game-list-icon'
                                         alt={t('Sealed game format')}
                                         title={t('Sealed game format')}
@@ -221,7 +229,7 @@ class GameList extends React.Component {
                                 )}
                                 {game.gameFormat === 'reversal' && (
                                     <img
-                                        src='/img/reversal.png'
+                                        src={ReversalIcon}
                                         className='game-list-icon'
                                         alt={t('Reversal game format')}
                                         title={t('Reversal game format')}
@@ -229,7 +237,7 @@ class GameList extends React.Component {
                                 )}
                                 {game.gameFormat === 'adaptive-bo1' && (
                                     <img
-                                        src='/img/adaptive.png'
+                                        src={AdaptiveIcon}
                                         className='game-list-icon'
                                         alt={t('Adaptive (Best of 1) game format')}
                                         title={t('Adaptive (Best of 1) game format')}

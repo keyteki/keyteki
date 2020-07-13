@@ -110,7 +110,7 @@ class Lobby extends React.Component {
                     <div>
                         <Col sm={{ span: 10, offset: 1 }} className='banner'>
                             <AlertPanel
-                                type={'danger'}
+                                type={this.props.motd.motdType}
                                 message={this.props.motd.message}
                             ></AlertPanel>
                         </Col>
