@@ -43,3 +43,25 @@
     background-size: cover;
     margin-left: 5px;
 }
+
+.house-icon-row {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 5px;
+
+    div {
+        cursor: pointer;
+
+        &:hover {
+            background-color: theme-color(primary);
+        }
+
+        &.disabled {
+            opacity: 0.4;
+
+            &:hover {
+                background-color: initial;
+            }
+        }
+    }
+}

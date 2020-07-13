@@ -24,6 +24,14 @@ describe('Auto-Encoder', function () {
             expect(this.player1.archives.length).toBe(1);
         });
 
+        it('When a card is discarded using the menu buttons, archive top card of deck', function () {
+            this.player1.clickCard(this.shooler);
+
+            this.player1.clickPrompt('Discard this card');
+
+            expect(this.player1.archives.length).toBe(1);
+        });
+
         it('When opponent discards a card, do not archive anything', function () {
             this.player1.play(this.mindBarb);
 
