@@ -759,8 +759,19 @@ class Lobby {
                     deckUsageLevel = 3;
                 }
 
+                let hasEnhancementsSet = true;
+                let hasEnhancements = false;
+                if (deck.cards.some((c) => c.enhancements && c.enhancements[0] === '')) {
+                    hasEnhancementsSet = false;
+                }
+
+                if (deck.cards.some((c) => c.enhancements)) {
+                    hasEnhancements = true;
+                }
+
                 deck.status = {
-                    basicRules: true,
+                    basicRules: hasEnhancementsSet,
+                    notVerified: hasEnhancements && !deck.verified,
                     extendedStatus: [],
                     noUnreleasedCards: true,
                     officialRole: true,

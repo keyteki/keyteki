@@ -42,8 +42,14 @@ function processDecks(decks, state) {
             return result;
         });
 
+        let hasEnhancementsSet = true;
+
+        if (deck.cards.some((c) => c?.enhancements === '')) {
+            hasEnhancementsSet = false;
+        }
+
         deck.status = {
-            basicRules: true,
+            basicRules: hasEnhancementsSet,
             flagged: !!deck.flagged,
             verified: !!deck.verified,
             usageLevel: deck.usageLevel,

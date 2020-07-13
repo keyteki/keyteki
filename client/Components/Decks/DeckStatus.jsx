@@ -1,17 +1,19 @@
 import React from 'react';
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
+import { Popover, OverlayTrigger } from 'react-bootstrap';
 
 import DeckStatusSummary from './DeckStatusSummary';
 
 import './DeckStatus.scss';
-import { Popover, OverlayTrigger } from 'react-bootstrap';
 
 const DeckStatus = ({ status }) => {
     const { t } = useTranslation();
 
     let statusName;
     let className = classNames('deck-status', {
+        invalid: !status.basicRules,
+        'not-verified': status.basicRules && status.notVerified,
         used: status.usageLevel === 1 && !status.verified,
         popular: status.usageLevel === 2 && !status.verified,
         notorious: status.usageLevel === 3 && !status.verified,
@@ -19,10 +21,15 @@ const DeckStatus = ({ status }) => {
         valid:
             (status.usageLevel === 0 || status.verified) &&
             status.basicRules &&
+            !status.notVerified &&
             status.noUnreleasedCards
     });
 
-    if (status.usageLevel === 1 && !status.verified) {
+    if (!status.basicRules) {
+        statusName = t('Invalid');
+    } else if (status.notVerified) {
+        statusName = t('Enhancements Not Verified');
+    } else if (status.usageLevel === 1 && !status.verified) {
         statusName = t('Used');
     } else if (status.usageLevel === 2 && !status.verified) {
         statusName = t('Popular');
