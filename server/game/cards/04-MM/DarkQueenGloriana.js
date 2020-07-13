@@ -5,6 +5,7 @@ class DarkQueenGloriana extends Card {
         this.play({
             target: {
                 controller: 'self',
+                cardType: 'creature',
                 cardCondition: (card) => !card.hasHouse('untamed'),
                 gameAction: ability.actions.returnToHand()
             }
