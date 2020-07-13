@@ -22,6 +22,10 @@
             }
         }
     }
+
+    .invalid {
+        background-color: rgba(theme-color(danger), 0.6);
+    }
 }
 
 .deck-image {

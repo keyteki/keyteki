@@ -877,7 +877,7 @@ class Game extends EventEmitter {
     }
 
     watch(socketId, user) {
-        if (!this.allowSpectators) {
+        if (!this.allowSpectators && !user.permissions.canManageGames) {
             return false;
         }
 

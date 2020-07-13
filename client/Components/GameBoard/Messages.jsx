@@ -24,7 +24,7 @@ const Messages = ({ messages, onCardMouseOver, onCardMouseOut }) => {
         cards: { className: 'icon-card', imageSrc: CardBackImage },
         forgedkeyblue: { className: 'icon-forgedKey', imageSrc: keyImages['blue'].forged },
         forgedkeyyellow: { className: 'icon-forgedKey', imageSrc: keyImages['yellow'].forged },
-        forgedkeyred: { className: 'icon-forgedKey', imageSrc: keyImages['red'].forge },
+        forgedkeyred: { className: 'icon-forgedKey', imageSrc: keyImages['red'].forged },
         unforgedkeyblue: { className: 'icon-forgedKey', imageSrc: keyImages['blue'].unforged },
         unforgedkeyyellow: {
             className: 'icon-forgedKey',

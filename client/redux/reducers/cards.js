@@ -44,7 +44,7 @@ function processDecks(decks, state) {
 
         let hasEnhancementsSet = true;
 
-        if (deck.cards.some((c) => c?.enhancements === '')) {
+        if (deck.cards.some((c) => c.enhancements && c.enhancements[0] === '')) {
             hasEnhancementsSet = false;
         }
 
