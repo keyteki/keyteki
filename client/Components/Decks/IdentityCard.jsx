@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
 
 import { buildDeckList } from '../../archonMaker';
+import IdentityDefault from '../../assets/img/idbacks/identity.jpg';
 
 import './Archon.scss';
-import { useSelector } from 'react-redux';
 
 /**
  * @typedef IdentityCardProps
@@ -32,7 +33,7 @@ const IdentityCard = ({ deck }) => {
                 setImageUrl(deckListUrl);
             })
             .catch(() => {
-                setImageUrl('img/idbacks/identity.jpg');
+                setImageUrl({ IdentityDefault });
             });
     }, [deck, i18n.language, imageUrl, t, cards]);
 
