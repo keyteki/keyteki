@@ -33,7 +33,7 @@ const IdentityCard = ({ deck }) => {
                 setImageUrl(deckListUrl);
             })
             .catch(() => {
-                setImageUrl({ IdentityDefault });
+                setImageUrl(IdentityDefault);
             });
     }, [deck, i18n.language, imageUrl, t, cards]);
 
