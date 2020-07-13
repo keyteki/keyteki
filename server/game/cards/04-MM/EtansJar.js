@@ -6,6 +6,8 @@ class EtansJar extends Card {
             target: {
                 mode: 'card-name'
             },
+            effect: 'prevent cards named {1} from being played',
+            effectArgs: (context) => [context.cardName],
             gameAction: ability.actions.lastingEffect((context) => ({
                 until: {
                     onCardMoved: (event) =>
