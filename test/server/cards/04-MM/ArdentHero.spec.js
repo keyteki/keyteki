@@ -1,4 +1,4 @@
-describe('Ardent Hero', function () {
+fdescribe('Ardent Hero', function () {
     describe("Ardent Hero's effect", function () {
         beforeEach(function () {
             this.setupTest({

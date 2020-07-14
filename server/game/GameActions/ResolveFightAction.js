@@ -87,7 +87,7 @@ class ResolveFightAction extends CardGameAction {
                     (!event.attacker.getKeywordValue('skirmish') ||
                         event.defenderTarget !== event.attacker) &&
                     event.card.checkRestrictions('dealFightDamage') &&
-                    event.attackerTarget.checkRestrictions('dealFightDamageWhenDefending', context)
+                    event.attackerTarget.checkRestrictions('dealFightDamageWhenDefending')
                 ) {
                     damageEvent = context.game.actions
                         .dealDamage(defenderParams)
