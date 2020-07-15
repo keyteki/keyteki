@@ -517,5 +517,18 @@
     "Discard a card from your archives or archive a card": "Discard a card from your archives or archive a card",
     "Which player's pool": "Which player's pool",
     "Stun an enemy creature": "Stun an enemy creature",
-    "Stun all enemy mutants": "Stun all enemy mutants"
+    "Stun all enemy mutants": "Stun all enemy mutants",
+    "Deck added successfully": "Deck added successfully",
+    "You must specify the deck link": "You must specify the deck link",
+    "Enhancements set": "Enhancements set",
+    "Enhancements verified": "Enhancements verified",
+    "Deck enhancements saved successfully": "Deck enhancements saved successfully",
+    "This page is not intended to be viewed directly.": "This page is not intended to be viewed directly.",
+    "Assign Enhancements": "Assign Enhancements",
+    "enhancements.alert": "The deck you have just added contains enhancements. It is not possible for us to determine which cards are enhanced. Please assign the enhancements to the correct cards below. To assign enhancements click on the greyed out enhancement icons. If you make a mistake click on the regular icon to remove it. Please make sure these are correct as they cannot be changed later!",
+    "Available Enhancements": "Available Enhancements",
+    "You need to assign enhancements to all cards that have them.": "You need to assign enhancements to all cards that have them.",
+    "You need to assign all enhancements before saving the deck.": "You need to assign all enhancements before saving the deck.",
+    "Cards to enhance": "Cards to enhance",
+    "Enter the deck link": "Enter the deck link"
 }
