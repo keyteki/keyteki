@@ -581,14 +581,23 @@ class DeckService {
                 .replace(/[ '’]/gi, '-');
 
             let retCard;
+            let count = deckResponse.data._links.cards.filter((uuid) => uuid === card.id).length;
             if (card.is_maverick) {
-                retCard = { id: id, count: 1, maverick: card.house.replace(' ', '').toLowerCase() };
+                retCard = {
+                    id: id,
+                    count: count,
+                    maverick: card.house.replace(' ', '').toLowerCase()
+                };
             } else if (card.is_anomaly) {
-                retCard = { id: id, count: 1, anomaly: card.house.replace(' ', '').toLowerCase() };
+                retCard = {
+                    id: id,
+                    count: count,
+                    anomaly: card.house.replace(' ', '').toLowerCase()
+                };
             } else {
                 retCard = {
                     id: id,
-                    count: deckResponse.data._links.cards.filter((uuid) => uuid === card.id).length
+                    count: count
                 };
             }
 
