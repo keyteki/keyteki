@@ -572,7 +572,9 @@ class DeckService {
     }
 
     parseDeckResponse(username, deckResponse) {
-        let specialCards = { 479: { 'dark-æmber-vault': true, 'it-s-coming': true } };
+        let specialCards = {
+            479: { 'dark-æmber-vault': true, 'it-s-coming': true, 'orb-of-wonder': true }
+        };
 
         let cards = deckResponse._linked.cards.map((card) => {
             let id = card.card_title
