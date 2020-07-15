@@ -32,7 +32,7 @@ const EnhancementLookup = {
 };
 
 const Enhancements = () => {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const selectedDeck = useSelector((state) => state.cards.selectedDeck);
     const [enhancedCards, setEnhanceCards] = useState({});
     const [errorMessage, setErrorMessage] = useState('');
@@ -146,7 +146,7 @@ const Enhancements = () => {
                     onClose={() => dispatch(clearApiStatus(Decks.SaveEnhancements))}
                 />
                 <AlertPanel>
-                    <Trans>
+                    <Trans i18nKey='enhancements.alert'>
                         The deck you have just added contains enhancements. It is not possible for
                         us to determine which cards are enhanced. Please assign the enhancements to
                         the correct cards below. To assign enhancements click on the greyed out
@@ -223,7 +223,9 @@ const Enhancements = () => {
                                         }}
                                         onMouseOut={() => setZoomCard(null)}
                                     >
-                                        {c.card.name}
+                                        {c.card.locale && c.card.locale[i18n.language]
+                                            ? c.card.locale[i18n.language].name
+                                            : c.card.name}
                                     </Col>
                                     <Col md='6'>
                                         {existingEnhancements}
