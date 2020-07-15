@@ -31,6 +31,7 @@ describe('Auto-Legionary', function () {
             it('should give the artifact 5 power', function () {
                 expect(this.autoLegionary.power).toBe(5);
             });
+
             describe('when action ability is a second time triggered', function () {
                 beforeEach(function () {
                     this.player1.endTurn();

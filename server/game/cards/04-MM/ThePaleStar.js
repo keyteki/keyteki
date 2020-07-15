@@ -8,7 +8,7 @@ class ThePaleStar extends Card {
                 ability.actions.destroy(),
                 ability.actions.forRemainderOfTurn({
                     targetController: 'any',
-                    effect: [ability.effects.setBasePower(1), ability.effects.setBaseArmor(0)]
+                    effect: [ability.effects.setPower(1), ability.effects.setArmor(0)]
                 })
             ]
         });
