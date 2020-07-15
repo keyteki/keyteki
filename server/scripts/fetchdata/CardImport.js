@@ -47,6 +47,9 @@ class CardImport {
         mkdirp(imageLangDir);
 
         let i = 0;
+        let specialCards = {
+            479: { 'dark-æmber-vault': true, 'it-s-coming': true, 'orb-of-wonder': true }
+        };
 
         for (let card of cards) {
             let imagePath = path.join(imageLangDir, card.id + '.png');
@@ -54,6 +57,10 @@ class CardImport {
             let imageUrl = card.image
                 .replace('/en/', '/' + this.language + '/')
                 .replace('_en.', '_' + this.language + '.');
+
+            if (specialCards[card.expansion] && specialCards[card.expansion][card.id]) {
+                imagePath = path.join(imageLangDir, `${card.id}-${card.house}.png`);
+            }
 
             if (!fs.existsSync(imagePath)) {
                 setTimeout(() => {
