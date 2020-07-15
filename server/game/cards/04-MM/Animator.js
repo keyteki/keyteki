@@ -10,7 +10,11 @@ class Animator extends Card {
                         effect: [
                             ability.effects.changeType('creature'),
                             ability.effects.changeHouse(context.player.activeHouse)
-                        ].concat(ability.effects.setBasePower(3))
+                        ].concat(
+                            context.target && context.target.type === 'artifact'
+                                ? ability.effects.modifyPower(3)
+                                : []
+                        )
                     })),
                     ability.actions.moveToFlank()
                 ])

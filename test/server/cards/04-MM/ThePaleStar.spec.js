@@ -4,7 +4,7 @@ describe('The Pale Star', function () {
             this.setupTest({
                 player1: {
                     amber: 4,
-                    house: 'dis',
+                    house: 'sanctum',
                     inPlay: ['the-pale-star', 'spyyyder', 'gub', 'lion-bautrem', 'wrath']
                 },
                 player2: {
@@ -46,25 +46,25 @@ describe('The Pale Star', function () {
             this.player1.useAction(this.thePaleStar, true);
             expect(this.thePaleStar.location).toBe('discard');
 
-            expect(this.spyyyder.power).toBe(1); // base: 1
-            expect(this.gub.power).toBe(8); // base: 1, +5 tokens, +2 from Lion
-            expect(this.lionBautrem.power).toBe(1); // base: 1
-            expect(this.wrath.power).toBe(3); // base: 1, +2 from Lion
+            expect(this.spyyyder.power).toBe(1);
+            expect(this.gub.power).toBe(1);
+            expect(this.lionBautrem.power).toBe(1);
+            expect(this.wrath.power).toBe(1);
 
-            expect(this.baldricTheBold.power).toBe(3); // base: 1, +2 from Wall
-            expect(this.bulwark.power).toBe(1); // base: 1
-            expect(this.sequis.power).toBe(1); // base: 1
-            expect(this.gatekeeper.power).toBe(3); // base: 1, +2 from Wall
+            expect(this.baldricTheBold.power).toBe(1);
+            expect(this.bulwark.power).toBe(1);
+            expect(this.sequis.power).toBe(1);
+            expect(this.gatekeeper.power).toBe(1);
 
-            expect(this.spyyyder.armor).toBe(0); // base: 0
-            expect(this.gub.armor).toBe(0); // base: 0
-            expect(this.lionBautrem.armor).toBe(0); // base: 0
-            expect(this.wrath.armor).toBe(0); // base: 0
+            expect(this.spyyyder.armor).toBe(0);
+            expect(this.gub.armor).toBe(0);
+            expect(this.lionBautrem.armor).toBe(0);
+            expect(this.wrath.armor).toBe(0);
 
-            expect(this.baldricTheBold.armor).toBe(2); // base: 0, +2 from Bulwark
-            expect(this.bulwark.armor).toBe(0); // base: 0
-            expect(this.sequis.armor).toBe(2); // base: 0, +2 from Bulwark
-            expect(this.gatekeeper.armor).toBe(0); // base: 0
+            expect(this.baldricTheBold.armor).toBe(0);
+            expect(this.bulwark.armor).toBe(0);
+            expect(this.sequis.armor).toBe(0);
+            expect(this.gatekeeper.armor).toBe(0);
         });
     });
 
@@ -110,17 +110,17 @@ describe('The Pale Star', function () {
             this.player2.useAction(this.thePaleStar, true);
             expect(this.thePaleStar.location).toBe('discard');
 
-            expect(this.spyyyder.power).toBe(1); // base: 1
-            expect(this.gub.power).toBe(8); // base: 1, +5 tokens, +2 from Lion
-            expect(this.lionBautrem.power).toBe(1); // base: 1
-            expect(this.mimicGel.power).toBe(3); // base: 1, +2 from Lion
-            expect(this.cyberClone.power).toBe(1); // base: 5
+            expect(this.spyyyder.power).toBe(1);
+            expect(this.gub.power).toBe(1);
+            expect(this.lionBautrem.power).toBe(1);
+            expect(this.mimicGel.power).toBe(1);
+            expect(this.cyberClone.power).toBe(1);
 
-            expect(this.spyyyder.armor).toBe(0); // base: 0
-            expect(this.gub.armor).toBe(0); // base: 0
-            expect(this.lionBautrem.armor).toBe(0); // base: 0
-            expect(this.mimicGel.armor).toBe(0); // base: 0
-            expect(this.cyberClone.armor).toBe(0); // base: 0
+            expect(this.spyyyder.armor).toBe(0);
+            expect(this.gub.armor).toBe(0);
+            expect(this.lionBautrem.armor).toBe(0);
+            expect(this.mimicGel.armor).toBe(0);
+            expect(this.cyberClone.armor).toBe(0);
         });
     });
 

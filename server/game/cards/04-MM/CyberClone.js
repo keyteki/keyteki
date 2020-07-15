@@ -18,8 +18,8 @@ class CyberClone extends Card {
                         let clone = context.event.targetClone;
 
                         let effects = [
-                            ability.effects.setBasePower(clone.power),
-                            ability.effects.setBaseArmor(clone.armor)
+                            ability.effects.modifyPower(clone.power - 1),
+                            ability.effects.modifyArmor(clone.armor)
                         ];
                         effects = effects.concat(
                             clone.traits.map((trait) => ability.effects.addTrait(trait))
