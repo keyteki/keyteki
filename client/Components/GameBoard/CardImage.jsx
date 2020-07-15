@@ -32,17 +32,9 @@ const CardImage = ({ card, cardBack }) => {
     }
 
     useEffect(() => {
-        let imgPath = image;
-        if (image && image.includes('https://')) {
-            if (i18n.language !== 'en') {
-                imgPath = imgPath.replace('/en/', `/${i18n.language}/`);
-                imgPath = imgPath.replace('_en', `_${i18n.language}`);
-            }
-        } else {
-            imgPath = card.facedown
-                ? cardBack
-                : `/img/cards/${i18n.language === 'en' ? '' : i18n.language + '/'}${image}.png`;
-        }
+        let imgPath = card.facedown
+            ? cardBack
+            : `/img/cards/${i18n.language === 'en' ? '' : i18n.language + '/'}${image}.png`;
 
         let imagesToMerge = [];
         if (maverick) {
@@ -59,7 +51,7 @@ const CardImage = ({ card, cardBack }) => {
             imagesToMerge.push({ src: maverickHouseImg, x: 0, y: 0 });
         }
 
-        if (enhancements && enhancements.length > 0) {
+        if (enhancements && enhancements.length > 0 && enhancements[0] !== '') {
             let y = 59 + (amber ? amber * 30 : 0);
             imagesToMerge.push({
                 src: EnhancementBaseImages[enhancements.length],
