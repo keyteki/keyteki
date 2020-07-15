@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavDropdown } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+import { useEffect } from 'react';
 
 const languages = [
     {
@@ -54,6 +55,14 @@ const LanguageSelector = () => {
     const onLanguageSelect = (language) => {
         i18n.changeLanguage(language);
     };
+
+    useEffect(() => {
+        let currentLanguage = languages.find((l) => l.value === i18n.language);
+
+        if (!currentLanguage) {
+            i18n.changeLanguage('en');
+        }
+    }, [i18n]);
 
     return (
         <NavDropdown
