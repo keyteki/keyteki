@@ -73,7 +73,7 @@ describe('Quadracorder', function () {
     });
 
     describe('when played with Auto Legionary', function () {
-        it('should not increase the cost of keys by more than [3]', function () {
+        fit('should consider as house saurian only', function () {
             this.setupTest({
                 player1: {
                     house: 'saurian',
@@ -95,7 +95,7 @@ describe('Quadracorder', function () {
             this.player1.endTurn();
             this.player2.forgeKey('Red');
             expect(this.player2.getForgedKeys()).toBe(1);
-            expect(this.player2.amber).toBe(3);
+            expect(this.player2.amber).toBe(4);
         });
     });
 });

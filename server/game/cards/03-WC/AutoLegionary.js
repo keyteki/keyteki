@@ -4,7 +4,7 @@ class AutoLegionary extends Card {
     setupCardAbilities(ability) {
         let effects = [
             ability.effects.changeType('creature'),
-            ability.effects.canUse((card) => card === this)
+            ability.effects.canUse((card, context) => card === context.source)
         ];
 
         this.action({
@@ -13,7 +13,7 @@ class AutoLegionary extends Card {
                     target: context.source,
                     duration: 'lastingEffect',
                     effect:
-                        context.source && context.source.type === 'artifact'
+                        context.source.type === 'artifact'
                             ? effects.concat(ability.effects.modifyPower(5))
                             : effects
                 })),

@@ -32,6 +32,15 @@ describe('Auto-Legionary', function () {
                 expect(this.autoLegionary.power).toBe(5);
             });
 
+            it('should be used as it belonged to the active house', function () {
+                this.player1.endTurn();
+                this.player2.clickPrompt('brobnar');
+                this.player2.endTurn();
+                this.player1.clickPrompt('untamed');
+                this.player1.reap(this.autoLegionary);
+                expect(this.player1.amber).toBe(1);
+            });
+
             describe('when action ability is a second time triggered', function () {
                 beforeEach(function () {
                     this.player1.endTurn();
