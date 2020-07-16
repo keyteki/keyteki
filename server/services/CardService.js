@@ -107,7 +107,7 @@ class CardService {
                     );
                 }
             } catch (err) {
-                logger.error(`Failed to add card ${card.id}`, err);
+                logger.error(`Failed to add card ${card.id}: `, err);
 
                 continue;
             }

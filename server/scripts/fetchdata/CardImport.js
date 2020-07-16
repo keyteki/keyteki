@@ -32,6 +32,8 @@ class CardImport {
         console.info(cards.length + ' cards fetched');
 
         await this.fetchImages(cards);
+
+        return 0;
     }
 
     fetchImages(cards) {
