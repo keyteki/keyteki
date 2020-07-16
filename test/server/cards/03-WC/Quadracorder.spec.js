@@ -73,7 +73,7 @@ describe('Quadracorder', function () {
     });
 
     describe('when played with Auto Legionary', function () {
-        fit('should consider as house saurian only', function () {
+        it('should consider as house saurian only', function () {
             this.setupTest({
                 player1: {
                     house: 'saurian',
