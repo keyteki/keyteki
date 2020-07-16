@@ -11,7 +11,7 @@ import CardImage from '../GameBoard/CardImage';
 import './DeckSummary.scss';
 
 const DeckSummary = ({ deck }) => {
-    const { i18n } = useTranslation();
+    const { t, i18n } = useTranslation();
     let [zoomCard, setZoomCard] = useState(null);
     let [mousePos, setMousePosition] = useState({ x: 0, y: 0 });
     const cardsByHouse = {};
@@ -72,28 +72,28 @@ const DeckSummary = ({ deck }) => {
                 <Col xs='2' sm='3'>
                     <IdentityCard deck={deck} />
                 </Col>
-                <Col xs='8' sm='4'>
+                <Col xs='8' sm='5'>
                     <Row>
                         <Col xs='7'>
-                            <span>Wins</span>
+                            <span>{t('Wins')}</span>
                         </Col>
                         <Col xs='5'>{deck.wins}</Col>
                     </Row>
                     <Row>
                         <Col xs='7'>
-                            <span>Losses</span>
+                            <span>{t('Losses')}</span>
                         </Col>
                         <Col xs='5'>{deck.losses}</Col>
                     </Row>
                     <Row>
                         <Col xs='7'>
-                            <span>Total</span>
+                            <span>{t('Total')}</span>
                         </Col>
                         <Col xs='5'>{parseInt(deck.wins) + parseInt(deck.losses)}</Col>
                     </Row>
                     <Row>
                         <Col xs='7'>
-                            <span>Win Rate</span>
+                            <span>{t('Win Rate')}</span>
                         </Col>
                         <Col xs='5'>{deck.winRate?.toFixed(2)}%</Col>
                     </Row>
@@ -108,7 +108,7 @@ const DeckSummary = ({ deck }) => {
                                 src={Constants.HouseIconPaths[house]}
                             />
                             <span className='deck-house'>
-                                {house[0].toUpperCase() + house.slice(1)}
+                                {t(house)[0].toUpperCase() + t(house).slice(1)}
                             </span>
                         </Col>
                     );

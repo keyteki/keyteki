@@ -518,5 +518,11 @@
     "You need to assign enhancements to all cards that have them.": "You need to assign enhancements to all cards that have them.",
     "You need to assign all enhancements before saving the deck.": "You need to assign all enhancements before saving the deck.",
     "Cards to enhance": "Cards to enhance",
-    "Enter the deck link": "Enter the deck link"
+    "Enter the deck link": "Enter the deck link",
+    "Total": "Total",
+    "Win Rate": "Win Rate",
+    "Enhancements Not Verified": "Enhancements Not Verified",
+    "No games are currently in progress. Click the buttons above to start one.": "No games are currently in progress. Click the buttons above to start one.",
+    "Please log in to be able to start a new game": "Please log in to be able to start a new game",
+    "Private (requires game link)": "Private (requires game link)"
 }

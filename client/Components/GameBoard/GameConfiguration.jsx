@@ -31,7 +31,7 @@ class GameConfiguration extends React.Component {
                                 name='optionSettings.orderForcedAbilities'
                                 noGroup
                                 label={t('Prompt to order simultaneous abilities')}
-                                fieldClass='col-sm-6'
+                                fieldClass='col-sm-12'
                                 onChange={this.onOptionSettingToggle.bind(
                                     this,
                                     'orderForcedAbilities'
@@ -42,7 +42,7 @@ class GameConfiguration extends React.Component {
                                 name='optionSettings.confirmOneClick'
                                 noGroup
                                 label={t('Show a prompt when initating 1-click abilities')}
-                                fieldClass='col-sm-6'
+                                fieldClass='col-sm-12'
                                 onChange={this.onOptionSettingToggle.bind(this, 'confirmOneClick')}
                                 checked={this.props.optionSettings.confirmOneClick}
                             />
