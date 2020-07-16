@@ -21,7 +21,7 @@ const optionsDefinition = [
         defaultValue: path.join(__dirname, '..', '..', 'public', 'img', 'cards')
     },
     { name: 'no-images', type: Boolean, defaultValue: false },
-    { name: 'language', type: String, defaultValue: 'en' }
+    { name: 'language', type: String, multiple: true, defaultValue: 'en' }
 ];
 
 function createDataSource(options) {
@@ -55,4 +55,10 @@ let imageSource = createImageSource(options);
 
 let cardImport = new CardImport(dataSource, imageSource, options['image-dir'], options['language']);
 
-cardImport.import().then(process.exit).catch(console.error);
+cardImport
+    .import()
+    .then(() => {
+        console.info('complete!');
+        process.exit(0);
+    })
+    .catch((err) => console.info(err));

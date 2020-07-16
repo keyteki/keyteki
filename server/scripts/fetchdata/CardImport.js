@@ -36,39 +36,46 @@ class CardImport {
         return 0;
     }
 
-    fetchImages(cards) {
+    async fetchImages(cards) {
         let imageLangDir;
 
-        if (this.language === 'en') {
-            // Keep english images at the current folder
-            imageLangDir = this.imageDir;
-        } else {
-            imageLangDir = path.join(this.imageDir, this.language.replace('-', ''));
-        }
-
-        mkdirp(imageLangDir);
-
-        let i = 0;
-        let specialCards = {
-            479: { 'dark-æmber-vault': true, 'it-s-coming': true, 'orb-of-wonder': true }
-        };
-
-        for (let card of cards) {
-            let imagePath = path.join(imageLangDir, card.id + '.png');
-
-            let imageUrl = card.image
-                .replace('/en/', '/' + this.language + '/')
-                .replace('_en.', '_' + this.language + '.');
-
-            if (specialCards[card.expansion] && specialCards[card.expansion][card.id]) {
-                imagePath = path.join(imageLangDir, `${card.id}-${card.house}.png`);
+        for (let language of this.language) {
+            if (language === 'en') {
+                // Keep english images at the current folder
+                imageLangDir = this.imageDir;
+            } else {
+                imageLangDir = path.join(this.imageDir, language.replace('-', ''));
             }
 
-            if (!fs.existsSync(imagePath)) {
-                setTimeout(() => {
-                    this.imageSource.fetchImage(card, imageUrl, imagePath);
-                }, i++ * 200);
-            }
+            mkdirp(imageLangDir);
+
+            let i = 0;
+            let specialCards = {
+                479: { 'dark-æmber-vault': true, 'it-s-coming': true, 'orb-of-wonder': true }
+            };
+
+            const promises = cards.map(async (card) => {
+                let imagePath = path.join(imageLangDir, card.id + '.png');
+
+                let imageUrl = card.image
+                    .replace('/en/', '/' + language + '/')
+                    .replace('_en.', '_' + language + '.');
+
+                if (specialCards[card.expansion] && specialCards[card.expansion][card.id]) {
+                    imagePath = path.join(imageLangDir, `${card.id}-${card.house}.png`);
+                }
+
+                if (!fs.existsSync(imagePath)) {
+                    await new Promise((resolve) => {
+                        setTimeout(() => {
+                            this.imageSource.fetchImage(card, imageUrl, imagePath);
+                            resolve();
+                        }, i++ * 200);
+                    });
+                }
+            });
+
+            await Promise.all(promises);
         }
     }
 }
