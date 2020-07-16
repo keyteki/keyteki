@@ -53,7 +53,7 @@ const PendingGamePlayers = ({ currentGame, user, onSelectDeck }) => {
                 } else if (player && playerIsMe && !isSealed) {
                     selectLink = (
                         <Button onClick={onSelectDeck}>
-                            <Trans>Select deck</Trans>
+                            <Trans>Select Deck</Trans>
                         </Button>
                     );
                 } else if (isSealed) {

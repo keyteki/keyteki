@@ -520,5 +520,11 @@
     "Cards to enhance": "Cards to enhance",
     "Enter the deck link": "Enter the deck link",
     "Do you wish to take cards in archives into your hand?": "Do you wish to take cards in archives into your hand?",
-    "All Cards": "All Cards"
+    "All Cards": "All Cards",
+    "Total": "Total",
+    "Win Rate": "Win Rate",
+    "Enhancements Not Verified": "Enhancements Not Verified",
+    "No games are currently in progress. Click the buttons above to start one.": "No games are currently in progress. Click the buttons above to start one.",
+    "Please log in to be able to start a new game": "Please log in to be able to start a new game",
+    "Private (requires game link)": "Private (requires game link)"
 }

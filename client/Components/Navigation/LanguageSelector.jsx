@@ -38,11 +38,11 @@ const languages = [
     },
     {
         name: '简体中文',
-        value: 'zh-cn'
+        value: 'zhhans'
     },
     {
         name: '繁體中文',
-        value: 'zh-tw'
+        value: 'zhhant'
     }
 ];
 

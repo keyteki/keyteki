@@ -458,7 +458,7 @@
     "{{player}} will go first.": "{{player}} irá começar.",
     "Who will go first?": "Quem irá começar?",
     "Filter By Expansion": "Filtrar por Expansão",
-    "Use a time limit (in minutes)": "User limite de tempo (em minutos)",
+    "Use a time limit (in minutes)": "Usar limite de tempo (em minutos)",
     "Hide opponent decklists": "Esconder deck do oponente",
     "Adaptive - Best of 1": "Adaptativo - Melhor de 1",
     "Reversal": "Reverso",
@@ -532,5 +532,11 @@
     "Cards to enhance": "Cartas para propagar",
     "Enter the deck link": "Informe o link do deck",
     "Do you wish to take cards in archives into your hand?": "Você deseja mover cartas do seu arquivo para sua mão?",
-    "All Cards": "Todas as cartas"
+    "All Cards": "Todas as cartas",
+    "Total": "Total",
+    "Win Rate": "Razão de Vitórias",
+    "Enhancements Not Verified": "Propagações Não Verificadas",
+    "No games are currently in progress. Click the buttons above to start one.": "Nenhum partida em andamento. Clique nos botões acima para iniciar uma nova.",
+    "Please log in to be able to start a new game": "Por favor, efetue login para poder iniciar novas partidas",
+    "Private (requires game link)": "Particular (requer link da partida)"
 }
