@@ -96,7 +96,7 @@ const Navigation = (props) => {
                 return (
                     <NavDropdown
                         key={menuItem.title}
-                        title={menuItem.title}
+                        title={t(menuItem.title)}
                         id={`nav-${menuItem.title}`}
                     >
                         {children.map((menuItem) => {
