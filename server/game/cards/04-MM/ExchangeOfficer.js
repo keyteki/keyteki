@@ -6,7 +6,6 @@ class ExchangeOfficer extends Card {
             reap: true,
             fight: true,
             target: {
-                cardType: 'creature',
                 controller: 'self',
                 cardCondition: (card) => card.hasHouse('staralliance'),
                 gameAction: ability.actions.use()
