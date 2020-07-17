@@ -11,8 +11,8 @@ class BurningGlare extends Card {
                             message: '{0} uses {1} to stun {2}',
                             messageArgs: (cards) => [context.player, context.source, cards],
                             activePromptTitle: 'Choose a creature to stun',
-                            cardType: 'creature',
-                            controller: 'opponent'
+                            controller: 'opponent',
+                            cardType: 'creature'
                         }
                     })),
                     'Stun all enemy mutants': ability.actions.stun((context) => ({
