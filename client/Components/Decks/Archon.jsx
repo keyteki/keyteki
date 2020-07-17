@@ -23,7 +23,7 @@ const Archon = ({ deck }) => {
         buildArchon(deck, i18n.language, t).then((url) => {
             setImageUrl(url);
         });
-    }, [deck, i18n.language, imageUrl]);
+    }, [deck, i18n.language, t, imageUrl]);
 
     return (
         <div>
