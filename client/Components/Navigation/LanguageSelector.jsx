@@ -43,6 +43,10 @@ const languages = [
     {
         name: '繁體中文',
         value: 'zhhant'
+    },
+    {
+        name: '언어',
+        value: 'ko'
     }
 ];
 

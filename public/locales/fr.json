@@ -362,7 +362,7 @@
     "about.cool": "<0>C'est plutôt cool !  Mais comment tout cela fonctionne-t-il ?</0><1>Dirigez-vous vers le <1>guide Comment Jouer</1> pour une explication approfondie.</1>",
     "about.avatar": "<0>Tout le monde a un avatar brillant, comment puis-je en obtenir un ?</0><1>Ceci est géré par les bonnes personnes à <1>Gravatar</1>.  Inscrivez-vous là avec la même adresse e-mail que vous avez fait là-bas et il devrait apparaître sur le site après un court moment. Il utilisera également l'avatar sur n'importe quel site qui utilise gravatar. Les exemples incluent github et jinteki.</1>",
     "about.whydiscarded": "<0>Pourquoi mes meilleures cartes sont-elles toujours jetées ? / Pourquoi est-ce que je/mon adversaire pioche 6 cartes brobnar à chaque tour ?</0><p>C'est une question fréquemment posée (généralement moins poliment!). Le code de mélandge des cartes est très bien. Il utilise un algorithme Fisher-Yates qui est le meilleur algorithme de mélange de cartes disponible. Le vrai hasard peut être assez choquant quand vous êtes habitué à l'imparfait mélange humain.  Mais pourquoi me croire ? Croyez les chiffres:</p><p>Le code dedéfausse de carte aléatoire a été exécuté par une routine de test 1 million de fois, voici les résultats pour une taille de main de 6:</p><3>1: 166,840<br/>2: 166,344<br/>3: 166,767<br/>4: 166,594<br/>5: 166,546<br/>6: 166,908<br/></3><p> Ceci dit, si vous pouvez prouver qu'il ya un bug, veuillez s'il vous plaît l'écrire sur GitHub!</p>",
-    "about.thanks": "<0>Remerciement spécial</0><p>Je souhaite remercier gyffon, cryogen, et l'équipe throneteki et ringteki. Sans leur aide et leur soutien, ce site n'aurait jamais eu lieu.</p>",
+    "about.thanks": "<0>Remerciement spécial</0><p>I'd like to thank Jadiel for starting this site and taking good care of it before I got involved!</p>",
     "about.addicons": "<0>Icônes supplémentaires</0><1>Quelques icônes ont été incluses dans game-icons.net: Death Note par <1>lorc</1>. <3>CC-BY 3.0</3></1>",
     "about.addnotes": "<0>Notes supplémentaires</0><p>Le jeu Keyforge de deck unique, les illustrations et bien d'autres choses sont tous des droits d'auteur Fantasy Flight Games et je ne fais aucune réclamation de propriété ou autre concernant l'une des illustrations ou des marques.  Ce site existe pour les fans passionnés jouant à un jeu qu'ils aiment et qu'il enrichisse, et ne remplacer le LCG en personne.  FFG n'approuve pas, ne soutient pas, et n'est pas impliqué avec, ce site en aucune façon.</p>",
     "What is this page?": "Qu'est-ce que cette page ?",
@@ -538,5 +538,6 @@
     "Enhancements Not Verified": "Enhancements Not Verified",
     "No games are currently in progress. Click the buttons above to start one.": "No games are currently in progress. Click the buttons above to start one.",
     "Please log in to be able to start a new game": "Please log in to be able to start a new game",
-    "Private (requires game link)": "Private (requires game link)"
+    "Private (requires game link)": "Private (requires game link)",
+    "Mass Mutation": "Mass Mutation"
 }

@@ -362,7 +362,7 @@
     "about.cool": "<0>Isso é muito legal!  Mas como funciona?</0><1>Clique no link <1>Como Jogar</1> para uma explicação completa.</1>",
     "about.avatar": "<0>Todo mundo tem um avatar maravilhoso, como que eu consigo um?</0><1>Isso é gerenciado pelo bom time da <1>Gravatar</1>.  Registre-se com o mesmo email que você utilizou lá e o seu avatar irá aparecer no site após um pequeno intervalo. Sua imagem irá aparecer também em outros sites que usem o gravatar.  Exemplos incluem o github e jinteki.</1>",
     "about.whydiscarded": "<0>Por que minhas melhores cartas são sempre descartadas? / Por que eu ou meu oponent compramos 6 cartas brobnar a cada rodada?</0><p>Essa é uma questão que sempre é muito feita (usualmente, de forma menos educada!).  O código de embaralhar está correto.  Ele usa o algoritmo  Fisher-Yates que é o melhor algoritmo de embaralhamento de cartas disponível.  Aleatoridade real pode ser muito chocante quando estamos acostumados ao modo humano e imperfeito de embaralhar.  Mas, por que acreditar em mim? Acredite nos números:</p><p>O código de descartar uma carta aleatoriamente foi testado 1 milhão de vezes e aqui estão os resultados para uma mão com 6 cartas:</p><3>1: 166,840<br/>2: 166,344<br/>3: 166,767<br/>4: 166,594<br/>5: 166,546<br/>6: 166,908<br/></3><p>Dito isso, se você provar que há um bug, por favor, abra uma issue no GitHub!</p>",
-    "about.thanks": "<0>Agradecimento Especial</0><p>Gostaria de agradecer gyffon, cryogen, e ao time throneteki e ringteki pois sem sua ajuda e suporte esse site jamais teria acontecido.</p>",
+    "about.thanks": "<0>Agradecimento Especial</0><p>Gostaria de agradecer à Jadiel por ter começado esse site e cuidado bem dele até eu me envolver!</p>",
     "about.addicons": "<0>Ícones Adicionais</0><1>Alguns ícones foram incluídos a partir de game-icons.net: Death Note por <1>lorc</1>. <3>CC-BY 3.0</3></1>",
     "about.addnotes": "<0>Observações Adicionais</0><p>O Keyforge Jogo de Decks Únicos, sua arte e muitas outras coisas são copyright de Fantasy Flight Games e eu não faço nenhuma afirmação de posse de conteúdo de imagens ou qualquer outro conteúdo.  Esse site existe para que fãs apaixonados pelo jogo possam jogar um jogo que eles gostam e aumentar, ao invés de substituir, o jogo LCG entre pessoas.  FFG não endorsa, suporta, e não está envolvida, nesse site de maneira alguma.</p>",
     "What is this page?": "O que é essa página?",
@@ -538,5 +538,6 @@
     "Enhancements Not Verified": "Propagações Não Verificadas",
     "No games are currently in progress. Click the buttons above to start one.": "Nenhum partida em andamento. Clique nos botões acima para iniciar uma nova.",
     "Please log in to be able to start a new game": "Por favor, efetue login para poder iniciar novas partidas",
-    "Private (requires game link)": "Particular (requer link da partida)"
+    "Private (requires game link)": "Particular (requer link da partida)",
+    "Mass Mutation": "Mutação em Massa"
 }
