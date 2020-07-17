@@ -9,13 +9,12 @@ const optionsDefinition = [
         type: String,
         defaultValue: path.join(__dirname, '..', '..', 'public', 'locales')
     },
-    { name: 'key', type: String },
-    { name: 'value', type: String, defaultValue: '' }
+    { name: 'key', type: String }
 ];
 
 let options = commandLineArgs(optionsDefinition);
 
-function addKey(localeDir, key, value) {
+function addKey(localeDir, key) {
     let languages = ['de', 'en', 'es', 'fr', 'it', 'ko', 'pl', 'pt', 'th', 'zhhans', 'zhhant'];
     let locales = {};
 
@@ -23,16 +22,8 @@ function addKey(localeDir, key, value) {
         let file = path.join(localeDir, language + '.json');
         locales[language] = JSON.parse(fs.readFileSync(file));
         for (let localeKey of Object.keys(locales[language])) {
-            if (localeKey === key) {
-                console.log(
-                    'key: [' + key + '] already exists in file ' + file + '. Verify consistency'
-                );
-                return;
-            }
-
-            if (localeKey.toLowerCase() === key.toLowerCase()) {
+            if (localeKey !== key && localeKey.toLowerCase() === key.toLowerCase()) {
                 console.log('key: [' + key + '] exists in file ' + file + ' with different case.');
-                return;
             }
         }
     }
@@ -40,7 +31,7 @@ function addKey(localeDir, key, value) {
     for (let language of languages) {
         let file = path.join(localeDir, language + '.json');
         let locale = locales[language];
-        locale[key] = value ? value : key;
+        delete locale[key];
 
         fs.writeFile(file, JSON.stringify(locale, undefined, 4), 'utf8', function (err) {
             if (err) {
@@ -53,4 +44,4 @@ function addKey(localeDir, key, value) {
     }
 }
 
-addKey(options['locale-dir'], options['key'], options['value']);
+addKey(options['locale-dir'], options['key']);
