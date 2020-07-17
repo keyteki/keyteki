@@ -53,7 +53,7 @@ class NiffleKong extends Card {
             then: {
                 targets: {
                     creature: {
-                        controller: 'opponent',
+                        controller: 'any',
                         cardType: 'creature',
                         gameAction: ability.actions.dealDamage({ amount: 3 })
                     },
