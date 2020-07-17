@@ -70,7 +70,7 @@ const NewGame = ({
         allowSpectators: true,
         gameFormat: 'normal',
         gameType: defaultGameType || 'casual',
-        timeLimit: !!defaultTimeLimit,
+        useGameTimeLimit: !!defaultTimeLimit,
         gameTimeLimit: defaultTimeLimit || 35,
         gamePrivate: defaultPrivate,
         wc: true
