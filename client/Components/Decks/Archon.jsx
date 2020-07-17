@@ -14,13 +14,13 @@ import './Archon.scss';
  * @param {ArchonProps} props
  */
 const Archon = ({ deck }) => {
-    const { i18n } = useTranslation();
+    const { i18n, t } = useTranslation();
     const [imageUrl, setImageUrl] = useState('');
     const [imageZoom, setImageZoom] = useState(false);
     const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
     useEffect(() => {
-        buildArchon(deck, i18n.language).then((url) => {
+        buildArchon(deck, i18n.language, t).then((url) => {
             setImageUrl(url);
         });
     }, [deck, i18n.language, imageUrl]);

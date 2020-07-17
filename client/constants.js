@@ -46,6 +46,6 @@ for (let expansion of Constants.Expansions) {
 }
 
 for (let house of Constants.Houses) {
-    Constants.HouseIconPaths[house] = require(`./assets/img/idbacks/houses/${house}.png`);
+    Constants.HouseIconPaths[house] = require(`./assets/img/house/${house}.png`);
     Constants.HouseBgPaths[house] = require(`./assets/img/bgs/${house}.png`);
 }
