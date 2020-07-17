@@ -6,7 +6,7 @@ class GrimReminder extends Card {
             target: {
                 mode: 'house'
             },
-            effect: 'archive all {1} creatures from their discard pile. Gain 1 chain.',
+            effect: 'archive all {1} creatures from their discard pile and gain 1 chain',
             effectArgs: (context) => [context.house],
             gameAction: [
                 ability.actions.archive((context) => ({
