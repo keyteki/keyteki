@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Col, Button, Row } from 'react-bootstrap';
+import { Col, Button, Row, Table } from 'react-bootstrap';
 import Panel from '../Components/Site/Panel';
 import { useTranslation, Trans } from 'react-i18next';
 import AlertPanel from '../Components/Site/AlertPanel';
@@ -160,117 +160,138 @@ const Enhancements = () => {
                         <h4>
                             <Trans>Cards to enhance</Trans>
                         </h4>
-                        {cards.map((c, index) => {
-                            let existingEnhancements = [];
+                        <Table striped className='enhancements'>
+                            <tbody>
+                                {cards.map((c) => {
+                                    let existingEnhancements = [];
 
-                            if (enhancedCards[c.dbId]) {
-                                for (const enhancement of Object.keys(enhancedCards[c.dbId])) {
-                                    for (let i = 0; i < enhancedCards[c.dbId][enhancement]; i++) {
-                                        existingEnhancements.push(
-                                            <img
-                                                key={`${enhancement}${index}`}
-                                                className='enhancement clickable'
-                                                src={EnhancementImages[enhancement]}
-                                                onClick={() => {
-                                                    let cardEnhancements = enhancedCards[c.dbId];
+                                    if (enhancedCards[c.dbId]) {
+                                        for (const enhancement of Object.keys(
+                                            enhancedCards[c.dbId]
+                                        )) {
+                                            for (
+                                                let i = 0;
+                                                i < enhancedCards[c.dbId][enhancement];
+                                                i++
+                                            ) {
+                                                existingEnhancements.push(
+                                                    <img
+                                                        key={`${enhancement}${c.dbId}${i}`}
+                                                        className='enhancement clickable'
+                                                        src={EnhancementImages[enhancement]}
+                                                        onClick={() => {
+                                                            let cardEnhancements =
+                                                                enhancedCards[c.dbId];
 
-                                                    cardEnhancements[enhancement]--;
-                                                    enhancedCards[c.dbId] = cardEnhancements;
+                                                            cardEnhancements[enhancement]--;
+                                                            if (cardEnhancements[enhancement] < 0) {
+                                                                cardEnhancements[enhancement] = 0;
+                                                            }
+                                                            enhancedCards[
+                                                                c.dbId
+                                                            ] = cardEnhancements;
 
-                                                    setEnhanceCards(
-                                                        Object.assign({}, enhancedCards)
-                                                    );
-                                                }}
-                                            />
-                                        );
+                                                            setEnhanceCards(
+                                                                Object.assign({}, enhancedCards)
+                                                            );
+                                                        }}
+                                                    />
+                                                );
+                                            }
+                                        }
                                     }
-                                }
-                            }
 
-                            return (
-                                <Row key={`${c.id}-${index}`}>
-                                    {zoomCard && (
-                                        <div
-                                            className='decklist-card-zoom'
-                                            style={{
-                                                left: mousePos.x + 5 + 'px',
-                                                top: mousePos.y + 'px'
-                                            }}
-                                        >
-                                            <CardImage
-                                                card={Object.assign(
-                                                    {},
-                                                    zoomCard,
-                                                    zoomCard.card,
-                                                    zoomCard.cardData
+                                    return (
+                                        <tr key={`${c.id}-${c.dbId}`}>
+                                            <td
+                                                className='pr-2 card-link'
+                                                onMouseOver={() => setZoomCard(c)}
+                                                onMouseMove={(event) => {
+                                                    let y = event.clientY;
+                                                    let yPlusHeight = y + 420;
+
+                                                    if (yPlusHeight >= window.innerHeight) {
+                                                        y -= yPlusHeight - window.innerHeight;
+                                                    }
+
+                                                    setMousePosition({ x: event.clientX, y: y });
+                                                }}
+                                                onMouseOut={() => setZoomCard(null)}
+                                            >
+                                                {zoomCard && (
+                                                    <div
+                                                        className='decklist-card-zoom'
+                                                        style={{
+                                                            left: mousePos.x + 5 + 'px',
+                                                            top: mousePos.y + 'px'
+                                                        }}
+                                                    >
+                                                        <CardImage
+                                                            card={Object.assign(
+                                                                {},
+                                                                zoomCard,
+                                                                zoomCard.card,
+                                                                zoomCard.cardData
+                                                            )}
+                                                        />
+                                                    </div>
                                                 )}
-                                            />
-                                        </div>
-                                    )}
-                                    <Col
-                                        md='6'
-                                        className='pr-2 card-link'
-                                        onMouseOver={() => setZoomCard(c)}
-                                        onMouseMove={(event) => {
-                                            let y = event.clientY;
-                                            let yPlusHeight = y + 420;
+                                                {c.card.locale && c.card.locale[i18n.language]
+                                                    ? c.card.locale[i18n.language].name
+                                                    : c.card.name}
+                                            </td>
+                                            <td>
+                                                {Object.keys(enhancements).map((enhancement) => {
+                                                    let numberAdded =
+                                                        usedEnhancements[enhancement] || 0;
 
-                                            if (yPlusHeight >= window.innerHeight) {
-                                                y -= yPlusHeight - window.innerHeight;
-                                            }
+                                                    let imgClass = 'enhancement img-noenhance';
+                                                    if (numberAdded < enhancements[enhancement]) {
+                                                        imgClass += ' clickable';
+                                                    }
 
-                                            setMousePosition({ x: event.clientX, y: y });
-                                        }}
-                                        onMouseOut={() => setZoomCard(null)}
-                                    >
-                                        {c.card.locale && c.card.locale[i18n.language]
-                                            ? c.card.locale[i18n.language].name
-                                            : c.card.name}
-                                    </Col>
-                                    <Col md='6'>
-                                        {existingEnhancements}
-                                        {Object.keys(enhancements).map((enhancement) => {
-                                            let numberAdded = usedEnhancements[enhancement] || 0;
+                                                    return (
+                                                        <img
+                                                            key={enhancement}
+                                                            className={imgClass}
+                                                            src={EnhancementImages[enhancement]}
+                                                            onClick={() => {
+                                                                if (
+                                                                    numberAdded >=
+                                                                    enhancements[enhancement]
+                                                                ) {
+                                                                    return;
+                                                                }
 
-                                            let imgClass = 'enhancement img-noenhance';
-                                            if (numberAdded < enhancements[enhancement]) {
-                                                imgClass += ' clickable';
-                                            }
+                                                                let cardEnhancements =
+                                                                    enhancedCards[c.dbId] || {};
 
-                                            return (
-                                                <img
-                                                    key={enhancement}
-                                                    className={imgClass}
-                                                    src={EnhancementImages[enhancement]}
-                                                    onClick={() => {
-                                                        if (
-                                                            numberAdded >= enhancements[enhancement]
-                                                        ) {
-                                                            return;
-                                                        }
+                                                                cardEnhancements[
+                                                                    enhancement
+                                                                ] = cardEnhancements[enhancement]
+                                                                    ? cardEnhancements[
+                                                                          enhancement
+                                                                      ] + 1
+                                                                    : 1;
 
-                                                        let cardEnhancements =
-                                                            enhancedCards[c.dbId] || {};
+                                                                enhancedCards[
+                                                                    c.dbId
+                                                                ] = cardEnhancements;
 
-                                                        cardEnhancements[
-                                                            enhancement
-                                                        ] = cardEnhancements[enhancement]
-                                                            ? cardEnhancements[enhancement] + 1
-                                                            : 1;
-
-                                                        enhancedCards[c.dbId] = cardEnhancements;
-
-                                                        setEnhanceCards(
-                                                            Object.assign({}, enhancedCards)
-                                                        );
-                                                    }}
-                                                />
-                                            );
-                                        })}
-                                    </Col>
-                                </Row>
-                            );
-                        })}
+                                                                setEnhanceCards(
+                                                                    Object.assign({}, enhancedCards)
+                                                                );
+                                                            }}
+                                                        />
+                                                    );
+                                                })}
+                                                {existingEnhancements}
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
+                            </tbody>
+                        </Table>
                     </Col>
                     <Col sm='6'>
                         <h4>
