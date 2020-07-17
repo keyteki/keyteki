@@ -45,7 +45,7 @@ const languages = [
         value: 'zhhant'
     },
     {
-        name: '언어',
+        name: '한국어',
         value: 'ko'
     }
 ];
