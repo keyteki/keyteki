@@ -10,7 +10,7 @@ class DarkCenturion extends Card {
                 gameAction: ability.actions.removeAmber({ amount: 1 })
             },
             then: (context) => ({
-                gameAction: ability.actions.addWardToken({
+                gameAction: ability.actions.ward({
                     target: context.target
                 })
             })

@@ -42,6 +42,8 @@ describe('Grim Reminder', function () {
 
             expect(this.spyyyder.location).toBe('archives');
             expect(this.gub.location).toBe('archives');
+
+            expect(this.player1.chains).toBe(1);
         });
     });
 });

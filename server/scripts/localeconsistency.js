@@ -10,6 +10,7 @@ const optionsDefinition = [
         defaultValue: path.join(__dirname, '..', '..', 'public', 'locales')
     },
     { name: 'language', type: String },
+    { name: 'source', type: String, defaultValue: 'en' },
     { name: 'verbose', type: String, defaultValue: '1' }
 ];
 
@@ -104,4 +105,4 @@ function verifyLocale(localeDir, sourceLanguage, targetLanguage) {
     }
 }
 
-verifyLocale(options['locale-dir'], 'en', options['language']);
+verifyLocale(options['locale-dir'], options['source'], options['language']);

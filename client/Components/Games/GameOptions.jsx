@@ -10,7 +10,7 @@ const GameOptions = ({ formProps }) => {
         { name: 'allowSpectators', label: t('Allow spectators') },
         { name: 'showHands', label: t('Show hands to spectators') },
         { name: 'muteSpectators', label: t('Mute spectators') },
-        { name: 'timeLimit', label: t('Use a time limit (in minutes)') },
+        { name: 'useGameTimeLimit', label: t('Use a time limit (in minutes)') },
         { name: 'gamePrivate', label: t('Private (requires game link)') },
         { name: 'hideDecklists', label: t('Hide opponent decklists') }
     ];
@@ -37,7 +37,7 @@ const GameOptions = ({ formProps }) => {
                     ))}
                 </Form.Row>
             </Form.Group>
-            {formProps.values.timeLimit && (
+            {formProps.values.useGameTimeLimit && (
                 <Form.Row>
                     <Form.Group as={Col} sm={4}>
                         <Form.Label>{t('Time Limit')}</Form.Label>
