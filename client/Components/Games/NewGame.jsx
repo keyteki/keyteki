@@ -108,6 +108,11 @@ const NewGame = ({
                             onClosed(true);
                         }
                     } else {
+                        values.expansions = {
+                            aoa: values.aoa,
+                            cota: values.cota,
+                            wc: values.wc
+                        };
                         dispatch(sendSocketMessage('newgame', values));
                     }
                 }}
