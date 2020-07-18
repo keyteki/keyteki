@@ -2,11 +2,10 @@ import { fabric } from 'fabric';
 import QRCode from 'qrcode';
 
 import { Constants } from './constants';
-import DefaultCard from './assets/img/idbacks/identity.jpg';
 
 const HouseIcons = {};
 const IdBackHouseIcons = {};
-const IdBackBlanks = {};
+const IdBackBlanksIcons = {};
 const SetIcons = {};
 let AnomalyIcon;
 let CommonIcon;
@@ -33,21 +32,21 @@ export const loadImage = (url) => {
     });
 };
 
-for (let house of Constants.Houses) {
-    loadImage(require(`./assets/img/house/${house}.png`)).then((image) => {
+for (let [house, path] of Object.entries(Constants.HouseIconPaths)) {
+    loadImage(path).then((image) => {
         HouseIcons[house] = image;
     });
 }
 
-for (let house of Constants.Houses) {
-    loadImage(require(`./assets/img/idbacks/idback_houses/${house}.png`)).then((image) => {
+for (let [house, path] of Object.entries(Constants.IdBackHousePaths)) {
+    loadImage(path).then((image) => {
         IdBackHouseIcons[house] = image;
     });
 }
 
-for (let x = 1; x < 8; x++) {
-    loadImage(require(`./assets/img/idbacks/idback_blanks/archon_${x}.png`)).then((image) => {
-        IdBackBlanks[x] = image;
+for (let [x, path] of Object.entries(Constants.IdBackBlanksPaths)) {
+    loadImage(path).then((image) => {
+        IdBackBlanksIcons[x] = image;
     });
 }
 
@@ -91,14 +90,14 @@ loadImage(require('./assets/img/idbacks/Anomaly.png')).then((image) => {
 
 export const buildDeckList = async (deck, language, translate, allCards) => {
     if (!deck.houses) {
-        return DefaultCard;
+        return Constants.DefaultCard;
     }
 
     if (!deck.cards || 0 >= deck.cards.length) {
         try {
             return await buildArchon(deck, language, translate);
         } catch {
-            return DefaultCard;
+            return Constants.DefaultCard;
         }
     }
 
@@ -108,7 +107,7 @@ export const buildDeckList = async (deck, language, translate, allCards) => {
     try {
         canvas = new fabric.Canvas('decklist');
     } catch (err) {
-        return DefaultCard;
+        return Constants.DefaultCard;
     }
 
     canvas.setDimensions({ width: 600, height: 840 });
@@ -293,14 +292,14 @@ export const buildDeckList = async (deck, language, translate, allCards) => {
  */
 export const buildArchon = async (deck, language, translate) => {
     if (!deck.houses) {
-        return DefaultCard;
+        return Constants.DefaultCard;
     }
 
     let canvas;
     try {
         canvas = new fabric.Canvas('archon');
     } catch (err) {
-        return DefaultCard;
+        return Constants.DefaultCard;
     }
 
     canvas.setDimensions({ width: 600, height: 840 });
@@ -315,13 +314,13 @@ export const buildArchon = async (deck, language, translate) => {
         .replace(/[\D+089]/g, '')
         .slice(-1);
 
-    const cardback = IdBackBlanks[number];
-    let house1 = IdBackHouseIcons[deck.houses[0]];
-    let house2 = IdBackHouseIcons[deck.houses[1]];
-    let house3 = IdBackHouseIcons[deck.houses[2]];
+    const cardback = IdBackBlanksIcons[number];
+    const house1 = IdBackHouseIcons[deck.houses[0]];
+    const house2 = IdBackHouseIcons[deck.houses[1]];
+    const house3 = IdBackHouseIcons[deck.houses[2]];
 
     if (!cardback || !house1 || !house2 || !house3) {
-        return DefaultCard;
+        return Constants.DefaultCard;
     }
 
     house1.scaleToWidth(150);
