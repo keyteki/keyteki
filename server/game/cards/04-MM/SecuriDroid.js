@@ -7,7 +7,7 @@ class SecuriDroid extends Card {
             effect: ability.effects.canPlayAsUpgrade()
         });
         this.whileAttached({
-            effect: ability.effects.addKeyword({ Taunt: 1 })
+            effect: ability.effects.addKeyword({ taunt: 1 })
         });
     }
 }
