@@ -7,7 +7,7 @@ describe('Yxilo Bolter', function () {
                     inPlay: ['yxilo-bolter']
                 },
                 player2: {
-                    inPlay: ['batdrone', 'troll']
+                    inPlay: ['batdrone', 'troll', 'bad-penny']
                 }
             });
         });
@@ -29,6 +29,16 @@ describe('Yxilo Bolter', function () {
             this.player1.clickCard(this.troll);
             expect(this.troll.location).toBe('play area');
             expect(this.troll.tokens.damage).toBe(2);
+        });
+
+        fit('should not purge Bad Penny when she goes back to hand', function () {
+            this.player1.reap(this.yxiloBolter);
+            expect(this.player1).toHavePrompt('Yxilo Bolter');
+            expect(this.player1).toBeAbleToSelect(this.badPenny);
+            expect(this.player1).toBeAbleToSelect(this.batdrone);
+            expect(this.player1).toBeAbleToSelect(this.troll);
+            this.player1.clickCard(this.badPenny);
+            expect(this.badPenny.location).toBe('hand');
         });
     });
 });
