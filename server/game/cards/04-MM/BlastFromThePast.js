@@ -10,6 +10,7 @@ class BlastFromThePast extends Card {
             },
             then: {
                 alwaysTriggers: true,
+                message: '{0} uses {1} to archive {2}',
                 target: {
                     cardType: 'creature',
                     location: 'discard',
@@ -18,6 +19,8 @@ class BlastFromThePast extends Card {
                     gameAction: ability.actions.archive()
                 },
                 then: (context) => ({
+                    message: '{0} uses {1} to deal {3} damage to {2}',
+                    messageArgs: (context) => [context.target.power],
                     target: {
                         cardType: 'creature',
                         controller: 'opponent',
