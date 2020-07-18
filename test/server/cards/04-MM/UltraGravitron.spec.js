@@ -9,7 +9,7 @@ describe('Ultra Gravitron', function () {
                 },
                 player2: {
                     amber: 5,
-                    inPlay: ['troll', 'narp', 'zorg', 'collector-worm', 'shattered-throne']
+                    inPlay: ['troll', 'narp', 'zorg', 'collector-worm', 'the-warchest']
                 }
             });
         });
@@ -84,6 +84,7 @@ describe('Ultra Gravitron', function () {
 
         it('should be able to reap with the creature and not apply bonus icon', function () {
             this.player1.play(this.ultraGravitron);
+            expect(this.player1.player.archives.length).toBe(5);
             this.ultraGravitron.exhausted = false;
             this.player1.reap(this.ultraGravitron);
             this.player1.clickCard(this.player1.player.archives[0]);
@@ -92,7 +93,7 @@ describe('Ultra Gravitron', function () {
             expect(this.player1).toBeAbleToSelect(this.narp);
             expect(this.player1).toBeAbleToSelect(this.troll);
             expect(this.player1).toBeAbleToSelect(this.zorg);
-            expect(this.player1).not.toBeAbleToSelect(this.shatteredThrone);
+            expect(this.player1).not.toBeAbleToSelect(this.theWarchest);
             this.player1.clickCard(this.narp);
             expect(this.player1.player.archives.length).toBe(4);
             expect(this.narp.location).toBe('purged');
@@ -101,6 +102,7 @@ describe('Ultra Gravitron', function () {
 
         it('should be able to fight with the creature and not apply bonus icon', function () {
             this.player1.play(this.ultraGravitron2);
+            expect(this.player1.player.archives.length).toBe(5);
             this.ultraGravitron2.exhausted = false;
             this.player1.fightWith(this.ultraGravitron2, this.zorg);
             this.player1.clickCard(this.player1.player.archives[0]);
@@ -108,7 +110,7 @@ describe('Ultra Gravitron', function () {
             expect(this.player1).toBeAbleToSelect(this.fuzzyGruen);
             expect(this.player1).toBeAbleToSelect(this.narp);
             expect(this.player1).toBeAbleToSelect(this.troll);
-            expect(this.player1).not.toBeAbleToSelect(this.shatteredThrone);
+            expect(this.player1).not.toBeAbleToSelect(this.theWarchest);
             this.player1.clickCard(this.narp);
             expect(this.player1.player.archives.length).toBe(4);
             expect(this.narp.location).toBe('purged');
@@ -119,6 +121,7 @@ describe('Ultra Gravitron', function () {
 
         it('should be able to reap with the creature and apply bonus icon', function () {
             this.player1.play(this.ultraGravitron);
+            expect(this.player1.player.archives.length).toBe(5);
             this.ultraGravitron.exhausted = false;
             this.player1.reap(this.ultraGravitron);
             this.player1.clickCard(this.player1.player.archives[0]);
@@ -127,7 +130,7 @@ describe('Ultra Gravitron', function () {
             expect(this.player1).toBeAbleToSelect(this.narp);
             expect(this.player1).toBeAbleToSelect(this.troll);
             expect(this.player1).toBeAbleToSelect(this.zorg);
-            expect(this.player1).not.toBeAbleToSelect(this.shatteredThrone);
+            expect(this.player1).not.toBeAbleToSelect(this.theWarchest);
             this.player1.clickCard(this.fuzzyGruen);
             expect(this.player1.player.archives.length).toBe(4);
             expect(this.fuzzyGruen.location).toBe('purged');
@@ -136,6 +139,7 @@ describe('Ultra Gravitron', function () {
 
         it('should be able to fight with the creature and apply bonus icon', function () {
             this.player1.play(this.ultraGravitron2);
+            expect(this.player1.player.archives.length).toBe(5);
             this.ultraGravitron2.exhausted = false;
             this.player1.fightWith(this.ultraGravitron2, this.zorg);
             this.player1.clickCard(this.player1.player.archives[0]);
@@ -143,7 +147,7 @@ describe('Ultra Gravitron', function () {
             expect(this.player1).toBeAbleToSelect(this.fuzzyGruen);
             expect(this.player1).toBeAbleToSelect(this.narp);
             expect(this.player1).toBeAbleToSelect(this.troll);
-            expect(this.player1).not.toBeAbleToSelect(this.shatteredThrone);
+            expect(this.player1).not.toBeAbleToSelect(this.theWarchest);
             this.player1.clickCard(this.fuzzyGruen);
             expect(this.player1.player.archives.length).toBe(4);
             expect(this.fuzzyGruen.location).toBe('purged');
