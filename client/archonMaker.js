@@ -1,7 +1,21 @@
 import { fabric } from 'fabric';
 import QRCode from 'qrcode';
 
+import { Constants } from './constants';
 import DefaultCard from './assets/img/idbacks/identity.jpg';
+
+const HouseIcons = {};
+const IdBackHouseIcons = {};
+const IdBackBlanks = {};
+const SetIcons = {};
+let AnomalyIcon;
+let CommonIcon;
+let DeckListIcon;
+let MaverickIcon;
+let RareIcon;
+let SpecialIcon;
+let TCOIcon;
+let UncommonIcon;
 
 export const loadImage = (url) => {
     return new Promise((resolve, reject) => {
@@ -18,6 +32,62 @@ export const loadImage = (url) => {
         });
     });
 };
+
+for (let house of Constants.Houses) {
+    loadImage(require(`./assets/img/house/${house}.png`)).then((image) => {
+        HouseIcons[house] = image;
+    });
+}
+
+for (let house of Constants.Houses) {
+    loadImage(require(`./assets/img/idbacks/idback_houses/${house}.png`)).then((image) => {
+        IdBackHouseIcons[house] = image;
+    });
+}
+
+for (let x = 1; x < 8; x++) {
+    loadImage(require(`./assets/img/idbacks/idback_blanks/archon_${x}.png`)).then((image) => {
+        IdBackBlanks[x] = image;
+    });
+}
+
+for (let [key, path] of Object.entries(Constants.SetIconPaths)) {
+    loadImage(path).then((image) => {
+        SetIcons[key] = image;
+    });
+}
+
+loadImage(require('./assets/img/idbacks/tco.png')).then((image) => {
+    TCOIcon = image;
+});
+
+loadImage(require('./assets/img/idbacks/decklist.png')).then((image) => {
+    DeckListIcon = image;
+});
+
+loadImage(require('./assets/img/idbacks/Common.png')).then((image) => {
+    CommonIcon = image;
+});
+
+loadImage(require('./assets/img/idbacks/Rare.png')).then((image) => {
+    RareIcon = image;
+});
+
+loadImage(require('./assets/img/idbacks/Special.png')).then((image) => {
+    SpecialIcon = image;
+});
+
+loadImage(require('./assets/img/idbacks/Uncommon.png')).then((image) => {
+    UncommonIcon = image;
+});
+
+loadImage(require('./assets/img/idbacks/Maverick.png')).then((image) => {
+    MaverickIcon = image;
+});
+
+loadImage(require('./assets/img/idbacks/Anomaly.png')).then((image) => {
+    AnomalyIcon = image;
+});
 
 export const buildDeckList = async (deck, language, translate, allCards) => {
     if (!deck.houses) {
@@ -57,27 +127,25 @@ export const buildDeckList = async (deck, language, translate, allCards) => {
         { margin: 0 }
     );
     const QRCodeIcon = await loadImage(qrCode);
-    const expansion = await loadImage(require(`./assets/img/idbacks/${deck.expansion}.png`));
-    const CardBack = await loadImage(require('./assets/img/idbacks/decklist.png'));
-    const TCOIcon = await loadImage(require('./assets/img/idbacks/tco.png'));
+    const expansion = SetIcons[deck.expansion];
     const Rarities = {
-        Common: await loadImage(require('./assets/img/idbacks/Common.png')),
-        Uncommon: await loadImage(require('./assets/img/idbacks/Uncommon.png')),
-        Rare: await loadImage(require('./assets/img/idbacks/Rare.png')),
-        Special: await loadImage(require('./assets/img/idbacks/Special.png'))
+        Common: CommonIcon,
+        Uncommon: UncommonIcon,
+        Rare: RareIcon,
+        Special: SpecialIcon
     };
     QRCodeIcon.set({ left: 332, top: 612 }).scaleToWidth(150);
     expansion.set({ left: 232, top: 92 }).scaleToWidth(20);
     TCOIcon.set({ left: 505, top: 769, angle: -90 }).scaleToWidth(30);
     canvas
-        .add(CardBack)
+        .add(DeckListIcon)
         .add(QRCodeIcon)
         .add(expansion)
         .add(getCircularText(deck.name, 1600, 65))
         .add(TCOIcon);
 
     for (const [index, house] of deck.houses.sort().entries()) {
-        const houseImage = await loadImage(require(`./assets/img/house/${house}.png`));
+        const houseImage = HouseIcons[house];
         houseImage
             .set({ left: houseData[index].x, top: houseData[index].y })
             .scaleToWidth(30)
@@ -182,7 +250,7 @@ export const buildDeckList = async (deck, language, translate, allCards) => {
         let iconX = x + title.width + number.width + 35;
 
         if (card.is_maverick) {
-            const maverickImage = await loadImage(require('./assets/img/idbacks/Maverick.png'));
+            const maverickImage = new fabric.Image(MaverickIcon.getElement());
             maverickImage
                 .set({ left: iconX, top: y })
                 .setShadow(
@@ -199,7 +267,7 @@ export const buildDeckList = async (deck, language, translate, allCards) => {
         }
 
         if (card.is_anomaly) {
-            const anomalyImage = await loadImage(require('./assets/img/idbacks/Anomaly.png'));
+            const anomalyImage = new fabric.Image(AnomalyIcon.getElement());
             anomalyImage
                 .set({ left: iconX, top: y })
                 .setShadow(
@@ -218,6 +286,11 @@ export const buildDeckList = async (deck, language, translate, allCards) => {
     return canvas.toDataURL({ format: 'jpeg', quality: 1 });
 };
 
+/**
+ * @param {import('./Components/Decks/DeckList').Deck} deck
+ * @param {string} language
+ * @param {function} translate
+ */
 export const buildArchon = async (deck, language, translate) => {
     if (!deck.houses) {
         return DefaultCard;
@@ -227,7 +300,7 @@ export const buildArchon = async (deck, language, translate) => {
     try {
         canvas = new fabric.Canvas('archon');
     } catch (err) {
-        return DefaultCard.toDataURL('image/jpeg');
+        return DefaultCard;
     }
 
     canvas.setDimensions({ width: 600, height: 840 });
@@ -242,18 +315,14 @@ export const buildArchon = async (deck, language, translate) => {
         .replace(/[\D+089]/g, '')
         .slice(-1);
 
-    const background = await loadImage(
-        require(`./assets/img/idbacks/idback_blanks/archon_${number}.png`)
-    );
-    let house1 = await loadImage(
-        require(`./assets/img/idbacks/idback_houses/${deck.houses[0]}.png`)
-    );
-    let house2 = await loadImage(
-        require(`./assets/img/idbacks/idback_houses/${deck.houses[1]}.png`)
-    );
-    let house3 = await loadImage(
-        require(`./assets/img/idbacks/idback_houses/${deck.houses[2]}.png`)
-    );
+    const cardback = IdBackBlanks[number];
+    let house1 = IdBackHouseIcons[deck.houses[0]];
+    let house2 = IdBackHouseIcons[deck.houses[1]];
+    let house3 = IdBackHouseIcons[deck.houses[2]];
+
+    if (!cardback || !house1 || !house2 || !house3) {
+        return DefaultCard;
+    }
 
     house1.scaleToWidth(150);
     house2.scaleToWidth(150);
@@ -261,7 +330,7 @@ export const buildArchon = async (deck, language, translate) => {
     house1.set({ left: 45, top: 590 });
     house2.set({ left: 225, top: 640 });
     house3.set({ left: 405, top: 590 });
-    canvas.add(background);
+    canvas.add(cardback);
     canvas.add(house1);
     canvas.add(house2);
     canvas.add(house3);
