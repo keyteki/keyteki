@@ -381,7 +381,6 @@
     "privacy.lobby": "Tus mensajes en la página de inicio se almacenan para que podamos mostrárselos a otros usuarios del sitio y para detectar patrones de conducta abusiva.  Tus mensajes también pueden ser moderados para eliminar contenido ofensivo, o borrados a nuestra discreción.",
     "Create": "Crear",
     "{{card}}": "{{card}}",
-    "{{card}} ({{quantity}})": "{{card}} ({{quantity}})",
     "How much amber do you want to use from {{card}}?": "¿Cuánto ámbar quieres usar de {{card}}?",
     "Do you wish to repeat this effect?": "¿Quieres repetir este efecto?",
     "Do you wish to forge a key?": "¿Quieres forjar una llave?",

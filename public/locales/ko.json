@@ -381,7 +381,6 @@
     "privacy.lobby": "Your lobby messages are stored so that we can display them to other users of the site and to detect patterns of abusive behaviour.  Your messages may also be moderated to remove offensive content, or deleted altogether at our discretion.",
     "Create": "생성",
     "{{card}}": "{{card}}",
-    "{{card}} ({{quantity}})": "{{card}} ({{quantity}})",
     "How much amber do you want to use from {{card}}?": "{{card}}에서 몇 개의 엠버를 사용하겠습니까?",
     "Do you wish to repeat this effect?": "이 효과를 반복하겠습니까?",
     "Do you wish to forge a key?": "키를 제작하겠습니까?",
