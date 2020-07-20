@@ -28,7 +28,7 @@ const IdentityCard = ({ deck }) => {
             return;
         }
 
-        buildDeckList({ ...deck, cards: deck.cards }, i18n.language, t, cards)
+        buildDeckList(deck, i18n.language, t, cards)
             .then((deckListUrl) => {
                 setImageUrl(deckListUrl);
             })

@@ -32,7 +32,7 @@ class PlayerRow extends React.Component {
     }
 
     componentDidMount() {
-        buildArchon(this.props.deckData, this.props.language).then((cardBackUrl) => {
+        buildArchon(this.props.deckData, this.props.language, this.props.t).then((cardBackUrl) => {
             if (this.props.player === 1) {
                 this.props.setPlayer1CardBack(cardBackUrl);
             } else {
@@ -64,13 +64,15 @@ class PlayerRow extends React.Component {
                 this.props.deckData.identity !== prevProps.deckData.identity ||
                 this.props.hideDecklist !== prevProps.hideDecklist
             ) {
-                buildArchon(this.props.deckData, this.props.language).then((cardBackUrl) => {
-                    if (this.props.player === 1) {
-                        this.props.setPlayer1CardBack(cardBackUrl);
-                    } else {
-                        this.props.setPlayer2CardBack(cardBackUrl);
+                buildArchon(this.props.deckData, this.props.language, this.props.t).then(
+                    (cardBackUrl) => {
+                        if (this.props.player === 1) {
+                            this.props.setPlayer1CardBack(cardBackUrl);
+                        } else {
+                            this.props.setPlayer2CardBack(cardBackUrl);
+                        }
                     }
-                });
+                );
                 if (!this.props.hideDecklist) {
                     buildDeckList(
                         { ...this.props.deckData, cards: this.props.deckCards },
