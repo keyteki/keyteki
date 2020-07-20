@@ -4,7 +4,7 @@ describe('munchling', function () {
             this.setupTest({
                 player1: {
                     house: 'logos',
-                    archives: ['snufflegator'],
+                    archives: ['snufflegator', 'archimedes'],
                     hand: ['eyegor'],
                     inPlay: ['munchling'],
                     amber: 0
@@ -28,7 +28,8 @@ describe('munchling', function () {
             it('and gives prompt', function () {
                 expect(this.player1).toHavePrompt('Choose a card');
                 expect(this.player1).toBeAbleToSelect(this.eyegor);
-                expect(this.player1).toBeAbleToSelect(this.snufflegator);
+                expect(this.player1).toBeAbleToSelect(this.archimedes);
+                expect(this.player1).not.toBeAbleToSelect(this.snufflegator);
             });
 
             describe('discard from hand', function () {
@@ -44,10 +45,10 @@ describe('munchling', function () {
 
             describe('discard from archive', function () {
                 beforeEach(function () {
-                    this.player1.clickCard(this.snufflegator);
+                    this.player1.clickCard(this.archimedes);
                 });
                 it('gives amber', function () {
-                    expect(this.snufflegator.location).toBe('discard');
+                    expect(this.archimedes.location).toBe('discard');
                     expect(this.player1.amber).toBe(1);
                 });
             });

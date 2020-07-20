@@ -38,6 +38,7 @@ class UltraGravitron extends Card {
             },
             then: {
                 target: {
+                    cardType: 'creature',
                     location: 'play area',
                     gameAction: [ability.actions.purge(), ability.actions.resolveBonusIcons()]
                 }
