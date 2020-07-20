@@ -1,7 +1,5 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useRef, useEffect, useState } from 'react';
 import moment from 'moment';
-import $ from 'jquery';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
@@ -9,56 +7,38 @@ import Avatar from '../Site/Avatar';
 
 import './LobbyChat.scss';
 
-class LobbyChat extends React.Component {
-    constructor(props) {
-        super(props);
+const LobbyChat = ({ messages, isModerator, onRemoveMessageClick }) => {
+    const messageRef = useRef();
+    const [canScroll, setCanScroll] = useState(true);
 
-        this.onScroll = this.onScroll.bind(this);
-
-        this.state = {
-            canScroll: true
-        };
-    }
-
-    componentDidMount() {
-        $(this.messages).scrollTop(999999);
-    }
-
-    componentDidUpdate() {
-        if (this.state.canScroll) {
-            $(this.messages).scrollTop(999999);
-        }
-    }
-
-    onScroll() {
-        let messages = this.messages;
-
+    useEffect(() => {
+        // Nudges this to a different timing so that all of the page content is loaded before it tries to scroll
         setTimeout(() => {
-            if (messages.scrollTop >= messages.scrollHeight - messages.offsetHeight - 90) {
-                this.setState({ canScroll: true });
-            } else {
-                this.setState({ canScroll: false });
+            if (canScroll && messageRef.current) {
+                messageRef.current.scrollTop = 99999;
             }
-        }, 250);
-    }
+        }, 10);
+    }, [messageRef, canScroll, messages]);
 
-    onRemoveMessageClick(messageId, event) {
-        event.preventDefault();
+    const onScroll = () => {
+        let messages = messageRef.current;
 
-        if (this.props.onRemoveMessageClick) {
-            this.props.onRemoveMessageClick(messageId);
+        if (messages.scrollTop >= messages.scrollHeight - messages.offsetHeight - 50) {
+            setCanScroll(true);
+        } else {
+            setCanScroll(false);
         }
-    }
+    };
 
-    getMessages() {
+    const getMessages = () => {
         const groupedMessages = {};
-        let index = 0;
         const today = moment();
         const yesterday = moment().add(-1, 'days');
+        let index = 0;
         let lastUser;
         let currentGroup = 0;
 
-        for (let message of this.props.messages) {
+        for (let message of messages) {
             if (!message.user) {
                 return undefined;
             }
@@ -104,9 +84,9 @@ class LobbyChat extends React.Component {
                 let messageText;
 
                 if (message.deleted) {
-                    if (this.props.isModerator) {
+                    if (isModerator) {
                         messageText = (
-                            <React.Fragment>
+                            <>
                                 <span className='message-deleted message-moderated'>
                                     {message.message}
                                 </span>
@@ -114,7 +94,7 @@ class LobbyChat extends React.Component {
                                     {' '}
                                     - (Message removed by {message.deletedBy})
                                 </span>
-                            </React.Fragment>
+                            </>
                         );
                     } else {
                         messageText = (
@@ -128,11 +108,11 @@ class LobbyChat extends React.Component {
                 return (
                     <div key={message.user.username + i++} className='lobby-message'>
                         {messageText}
-                        {this.props.isModerator && (
+                        {isModerator && (
                             <a
                                 href='#'
                                 className='btn-icon icon-remove'
-                                onClick={this.onRemoveMessageClick.bind(this, message.id)}
+                                onClick={() => onRemoveMessageClick(message.id)}
                             >
                                 <FontAwesomeIcon icon={faTimes} />
                             </a>
@@ -146,7 +126,10 @@ class LobbyChat extends React.Component {
                 (firstMessage.user.role ? ` ${firstMessage.user.role.toLowerCase()}-role` : '');
 
             return (
-                <div key={timestamp + firstMessage.user.username + (index++).toString()}>
+                <div
+                    key={timestamp + firstMessage.user.username + (index++).toString()}
+                    className='message-container'
+                >
                     <Avatar imgPath={firstMessage.user.avatar} float />
                     <span className={userClass}>{firstMessage.user.username}</span>
                     <span>{timestamp}</span>
@@ -154,26 +137,15 @@ class LobbyChat extends React.Component {
                 </div>
             );
         });
-    }
+    };
 
-    render() {
-        return (
-            <div
-                className='lobby-messages'
-                ref={(m) => (this.messages = m)}
-                onScroll={this.onScroll}
-            >
-                {this.getMessages()}
-            </div>
-        );
-    }
-}
+    return (
+        <div className='lobby-messages' ref={messageRef} onScroll={onScroll}>
+            {getMessages()}
+        </div>
+    );
+};
 
 LobbyChat.displayName = 'LobbyChat';
-LobbyChat.propTypes = {
-    isModerator: PropTypes.bool,
-    messages: PropTypes.array,
-    onRemoveMessageClick: PropTypes.func
-};
 
 export default LobbyChat;
