@@ -15,6 +15,7 @@ let RareIcon;
 let SpecialIcon;
 let TCOIcon;
 let UncommonIcon;
+let cacheLoaded = false;
 
 export const loadImage = (url) => {
     return new Promise((resolve, reject) => {
@@ -32,65 +33,50 @@ export const loadImage = (url) => {
     });
 };
 
-for (let [house, path] of Object.entries(Constants.HouseIconPaths)) {
-    loadImage(path).then((image) => {
-        HouseIcons[house] = image;
-    });
+async function cacheImages() {
+    for (let [house, path] of Object.entries(Constants.HouseIconPaths)) {
+        await loadImage(path).then((image) => {
+            HouseIcons[house] = image;
+        });
+    }
+
+    for (let [house, path] of Object.entries(Constants.IdBackHousePaths)) {
+        await loadImage(path).then((image) => {
+            IdBackHouseIcons[house] = image;
+        });
+    }
+
+    for (let [x, path] of Object.entries(Constants.IdBackBlanksPaths)) {
+        await loadImage(path).then((image) => {
+            IdBackBlanksIcons[x] = image;
+        });
+    }
+
+    for (let [key, path] of Object.entries(Constants.SetIconPaths)) {
+        await loadImage(path).then((image) => {
+            SetIcons[key] = image;
+        });
+    }
+
+    TCOIcon = await loadImage(require('./assets/img/idbacks/tco.png'));
+    DeckListIcon = await loadImage(require('./assets/img/idbacks/decklist.png'));
+    CommonIcon = await loadImage(require('./assets/img/idbacks/Common.png'));
+    RareIcon = await loadImage(require('./assets/img/idbacks/Rare.png'));
+    SpecialIcon = await loadImage(require('./assets/img/idbacks/Special.png'));
+    UncommonIcon = await loadImage(require('./assets/img/idbacks/Uncommon.png'));
+    MaverickIcon = await loadImage(require('./assets/img/idbacks/Maverick.png'));
+    AnomalyIcon = await loadImage(require('./assets/img/idbacks/Anomaly.png'));
+
+    cacheLoaded = true;
 }
-
-for (let [house, path] of Object.entries(Constants.IdBackHousePaths)) {
-    loadImage(path).then((image) => {
-        IdBackHouseIcons[house] = image;
-    });
-}
-
-for (let [x, path] of Object.entries(Constants.IdBackBlanksPaths)) {
-    loadImage(path).then((image) => {
-        IdBackBlanksIcons[x] = image;
-    });
-}
-
-for (let [key, path] of Object.entries(Constants.SetIconPaths)) {
-    loadImage(path).then((image) => {
-        SetIcons[key] = image;
-    });
-}
-
-loadImage(require('./assets/img/idbacks/tco.png')).then((image) => {
-    TCOIcon = image;
-});
-
-loadImage(require('./assets/img/idbacks/decklist.png')).then((image) => {
-    DeckListIcon = image;
-});
-
-loadImage(require('./assets/img/idbacks/Common.png')).then((image) => {
-    CommonIcon = image;
-});
-
-loadImage(require('./assets/img/idbacks/Rare.png')).then((image) => {
-    RareIcon = image;
-});
-
-loadImage(require('./assets/img/idbacks/Special.png')).then((image) => {
-    SpecialIcon = image;
-});
-
-loadImage(require('./assets/img/idbacks/Uncommon.png')).then((image) => {
-    UncommonIcon = image;
-});
-
-loadImage(require('./assets/img/idbacks/Maverick.png')).then((image) => {
-    MaverickIcon = image;
-});
-
-loadImage(require('./assets/img/idbacks/Anomaly.png')).then((image) => {
-    AnomalyIcon = image;
-});
 
 export const buildDeckList = async (deck, language, translate, allCards) => {
     if (!deck.houses) {
         return Constants.DefaultCard;
+    }
+
+    if (!cacheLoaded) {
+        await cacheImages();
     }
 
     if (!deck.cards || 0 >= deck.cards.length) {
@@ -293,6 +279,10 @@ export const buildDeckList = async (deck, language, translate, allCards) => {
 export const buildArchon = async (deck, language, translate) => {
     if (!deck.houses) {
         return Constants.DefaultCard;
+    }
+
+    if (!cacheLoaded) {
+        await cacheImages();
     }
 
     let canvas;
