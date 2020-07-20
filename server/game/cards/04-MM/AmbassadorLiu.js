@@ -23,7 +23,7 @@ class AmbassadorLiu extends Card {
                         ? 'steal 1 amber'
                         : context.preThenEvent.card.hasHouse('logos') ||
                           context.preThenEvent.card.hasHouse('untamed')
-                        ? 'gain 1 amber'
+                        ? 'gain 2 amber'
                         : 'capture 3 amber'
                 ],
                 gameAction: [
@@ -38,7 +38,7 @@ class AmbassadorLiu extends Card {
                         amount:
                             context.preThenEvent.card.hasHouse('logos') ||
                             context.preThenEvent.card.hasHouse('untamed')
-                                ? 1
+                                ? 2
                                 : 0
                     })),
                     ability.actions.capture((context) => ({
