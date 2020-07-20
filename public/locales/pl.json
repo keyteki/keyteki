@@ -381,7 +381,6 @@
     "privacy.lobby": "Twoje wiadomości z głownej poczekalni są zbierane byśmy mogli je zaprezentować innym użytkownikom i wykrywać wzorce niepożądanych zachowań. Twoje wiadomości mogą być też modyfikowane, by usunąć obraźliwą zawartość albo nawet usunięte, zależnie od naszej decyzji.",
     "Create": "Stwórz",
     "{{card}}": "{{card}}",
-    "{{card}} ({{quantity}})": "{{card}} ({{quantity}})",
     "How much amber do you want to use from {{card}}?": "Jak wiele amber z karty {{card}} chcesz wykorzystać?",
     "Do you wish to repeat this effect?": "Czy chcesz powtórzyć ten efekt?",
     "Do you wish to forge a key?": "Czy chcesz wykuć klucz?",
