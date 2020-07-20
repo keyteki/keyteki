@@ -131,7 +131,7 @@ const ImportDeck = () => {
                                 </Form.Row>
 
                                 <Col className='text-center'>
-                                    <Button variant='primary' type='submit'>
+                                    <Button variant='secondary' type='submit'>
                                         {t('Import')}
                                         &nbsp;
                                         {apiState && apiState.loading && (
