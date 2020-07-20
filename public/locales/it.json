@@ -389,8 +389,8 @@
     "Do you wish to archive a friendly creature or artifact?": "Do you wish to archive a friendly creature or artifact?",
     "Select a card to deploy to the left of": "Select a card to deploy to the left of",
     "Select a card to deploy to the right of": "Select a card to deploy to the right of",
-    "Call of the Archons": "Call of the Archons",
-    "Age of Ascension": "Age of Ascension",
+    "Call of the Archons": "Il Richiamo degli Arconti",
+    "Age of Ascension": "L'Era dell'Ascensione",
     "Choose a creature to ward": "Choose a creature to ward",
     "Heal a Mars creature": "Heal a Mars creature",
     "Stun a Mars creature": "Stun a Mars creature",
@@ -416,7 +416,7 @@
     "Choose a creature to deal {{damageStep}} damage to": "Choose a creature to deal {{damageStep}} damage to",
     "saurian": "saurian",
     "staralliance": "star Alliance",
-    "Worlds Collide": "Worlds Collide",
+    "Worlds Collide": "Mondi in Collisione",
     "Destroy each Dis creature": "Destroy each Dis creature",
     "Gain 1 amber": "Gain 1 amber",
     "Deck": "Deck",
@@ -534,5 +534,12 @@
     "No games are currently in progress. Click the buttons above to start one.": "No games are currently in progress. Click the buttons above to start one.",
     "Please log in to be able to start a new game": "Please log in to be able to start a new game",
     "Private (requires game link)": "Private (requires game link)",
-    "Mass Mutation": "Mass Mutation"
+    "Mass Mutation": "Mutazione di Massa",
+    "Waiting for ping": "Waiting for ping",
+    "Connecting": "Connecting",
+    "Disconnected": "Disconnected",
+    "Expansion": "Expansion",
+    "Added": "Added",
+    "Win %": "Win %",
+    "Filter by name": "Filter by name"
 }

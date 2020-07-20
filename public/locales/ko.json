@@ -534,5 +534,12 @@
     "No games are currently in progress. Click the buttons above to start one.": "현재 진행중인 게임이 없습니다. 위에 있는 버튼을 눌러 새로 시작하세요.",
     "Please log in to be able to start a new game": "새 게임을 시작하기 위해서 로그인을 해주세요",
     "Private (requires game link)": "비밀방 (게임 링크가 필요합니다)",
-    "Mass Mutation": "집단 변이"
+    "Mass Mutation": "집단 변이",
+    "Waiting for ping": "Waiting for ping",
+    "Connecting": "Connecting",
+    "Disconnected": "Disconnected",
+    "Expansion": "Expansion",
+    "Added": "Added",
+    "Win %": "Win %",
+    "Filter by name": "Filter by name"
 }

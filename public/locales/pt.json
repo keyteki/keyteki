@@ -515,7 +515,7 @@
     "Stun all enemy mutants": "Atordoar todos os Mutantes inimigos",
     "Deck added successfully": "Deck adicionado com sucesso",
     "You must specify the deck link": "Você deve informar o link do deck",
-    "Enhancements set": "Propagações atribuída",
+    "Enhancements set": "Propagações atribuídas",
     "Enhancements verified": "Propagações verificadas",
     "Deck enhancements saved successfully": "Propagações do deck salvas com sucesso",
     "This page is not intended to be viewed directly.": "Essa página não deve ser acessada diretamente.",
@@ -529,10 +529,17 @@
     "Do you wish to take cards in archives into your hand?": "Você deseja mover cartas do seu arquivo para sua mão?",
     "All Cards": "Todas as cartas",
     "Total": "Total",
-    "Win Rate": "Razão de Vitórias",
+    "Win Rate": "Perc. de Vitórias",
     "Enhancements Not Verified": "Propagações Não Verificadas",
     "No games are currently in progress. Click the buttons above to start one.": "Nenhum partida em andamento. Clique nos botões acima para iniciar uma nova.",
     "Please log in to be able to start a new game": "Por favor, efetue login para poder iniciar novas partidas",
     "Private (requires game link)": "Particular (requer link da partida)",
-    "Mass Mutation": "Mutação em Massa"
+    "Mass Mutation": "Mutação em Massa",
+    "Waiting for ping": "Aguard. resposta",
+    "Connecting": "Conectando",
+    "Disconnected": "Desconectado",
+    "Expansion": "Expansão",
+    "Added": "Adic.",
+    "Win %": "Vit %",
+    "Filter by name": "Filtrar por nome"
 }
