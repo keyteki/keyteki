@@ -31,7 +31,7 @@ describe('Yxilo Bolter', function () {
             expect(this.troll.tokens.damage).toBe(2);
         });
 
-        fit('should not purge Bad Penny when she goes back to hand', function () {
+        it('should not purge Bad Penny when she goes back to hand', function () {
             this.player1.reap(this.yxiloBolter);
             expect(this.player1).toHavePrompt('Yxilo Bolter');
             expect(this.player1).toBeAbleToSelect(this.badPenny);
