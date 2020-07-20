@@ -16,7 +16,7 @@ const DeckSummary = ({ deck }) => {
     let [mousePos, setMousePosition] = useState({ x: 0, y: 0 });
     const cardsByHouse = {};
 
-    for (const house of deck.houses) {
+    for (const house of deck.houses.sort()) {
         cardsByHouse[house] = [];
         const filteredCards = sortBy(
             deck.cards.filter((c) => c.card.house === house),
