@@ -613,7 +613,7 @@ class DeckService {
 
             // If this is one of the cards that has an entry for every house, get the correct house image
             if (specialCards[card.expansion] && specialCards[card.expansion][id]) {
-                retCard.house = card.house.toLowerCase();
+                retCard.house = card.house.toLowerCase().replace(' ', '');
                 retCard.image = `${retCard.id}-${retCard.house}`;
             }
 
