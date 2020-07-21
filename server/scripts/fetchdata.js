@@ -55,4 +55,6 @@ let imageSource = createImageSource(options);
 
 let cardImport = new CardImport(dataSource, imageSource, options['image-dir'], options['language']);
 
-cardImport.import();
+cardImport.import().then(() => {
+    process.exit(0);
+});
