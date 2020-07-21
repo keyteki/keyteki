@@ -19,17 +19,21 @@ let cacheLoaded = false;
 
 export const loadImage = (url) => {
     return new Promise((resolve, reject) => {
-        fabric.Image.fromURL(url, (image) => {
-            if (!image.getElement()) {
-                reject();
-            } else {
-                if (image.width === 0) {
-                    return reject();
-                }
+        fabric.Image.fromURL(
+            url,
+            (image) => {
+                if (!image.getElement()) {
+                    reject();
+                } else {
+                    if (image.width === 0) {
+                        return reject();
+                    }
 
-                resolve(image);
-            }
-        });
+                    resolve(image);
+                }
+            },
+            { crossOrigin: 'Anonymous' }
+        );
     });
 };
 
@@ -96,6 +100,14 @@ export const buildDeckList = async (deck, language, translate, allCards) => {
         return Constants.DefaultCard;
     }
 
+    const fontProps = {
+        fontWeight: 800,
+        fontFamily: 'Keyforge',
+        textAlign: 'left',
+        fillStyle: 'black',
+        fontSize: 20
+    };
+
     canvas.setDimensions({ width: 600, height: 840 });
     const houseData = {
         size: 35,
@@ -119,15 +131,25 @@ export const buildDeckList = async (deck, language, translate, allCards) => {
         Rare: RareIcon,
         Special: SpecialIcon
     };
+    let name;
+    try {
+        name = getCircularText(deck.name, 1600, 65);
+    } catch (err) {
+        name = new fabric.Text(deck.name, {
+            ...fontProps,
+            fill: '#ffffff',
+            fontSize: getCurvedFontSize(deck.name.length)
+        }).set({
+            top: 30,
+            originX: 'center',
+            left: 300
+        });
+    }
+
     QRCodeIcon.set({ left: 332, top: 612 }).scaleToWidth(150);
     expansion.set({ left: 232, top: 92 }).scaleToWidth(20);
     TCOIcon.set({ left: 505, top: 769, angle: -90 }).scaleToWidth(30);
-    canvas
-        .add(DeckListIcon)
-        .add(QRCodeIcon)
-        .add(expansion)
-        .add(getCircularText(deck.name, 1600, 65))
-        .add(TCOIcon);
+    canvas.add(DeckListIcon).add(QRCodeIcon).add(expansion).add(TCOIcon).add(name);
 
     for (const [index, house] of deck.houses.sort().entries()) {
         const houseImage = HouseIcons[house];
@@ -192,17 +214,11 @@ export const buildDeckList = async (deck, language, translate, allCards) => {
             y = y + 44;
         }
 
-        const fontProps = {
-            fontWeight: 800,
-            fontFamily: 'Keyforge',
-            textAlign: 'left',
-            fillStyle: 'black',
-            fontSize: 20
-        };
         const rarity = new fabric.Image(
             Rarities[
                 card.rarity === 'FIXED' || card.rarity === 'Variant' ? 'Special' : card.rarity
-            ].getElement()
+            ].getElement(),
+            { crossOrigin: 'Anonymous' }
         );
         if (rarity) {
             rarity
@@ -235,7 +251,9 @@ export const buildDeckList = async (deck, language, translate, allCards) => {
         let iconX = x + title.width + number.width + 35;
 
         if (card.is_maverick) {
-            const maverickImage = new fabric.Image(MaverickIcon.getElement());
+            const maverickImage = new fabric.Image(MaverickIcon.getElement(), {
+                crossOrigin: 'Anonymous'
+            });
             maverickImage
                 .set({ left: iconX, top: y })
                 .setShadow(
@@ -252,7 +270,9 @@ export const buildDeckList = async (deck, language, translate, allCards) => {
         }
 
         if (card.is_anomaly) {
-            const anomalyImage = new fabric.Image(AnomalyIcon.getElement());
+            const anomalyImage = new fabric.Image(AnomalyIcon.getElement(), {
+                crossOrigin: 'Anonymous'
+            });
             anomalyImage
                 .set({ left: iconX, top: y })
                 .setShadow(
@@ -324,16 +344,29 @@ export const buildArchon = async (deck, language, translate) => {
     canvas.add(house2);
     canvas.add(house3);
     for (let [index, house] of deck.houses.entries()) {
-        const name = getCircularText(
-            translate(house).replace(/^\w/, (c) => c.toUpperCase()),
-            1400,
-            0,
-            20
-        );
+        let name;
+        try {
+            name = getCircularText(
+                translate(house).replace(/^\w/, (c) => c.toUpperCase()),
+                1400,
+                0,
+                20
+            );
+        } catch (err) {
+            continue;
+        }
         name.set({ originX: 'center', top: houseNames[index].y, left: houseNames[index].x });
         canvas.add(name);
     }
-    canvas.add(getCircularText(deck.name, 700, 15));
+    canvas.renderAll();
+
+    let text;
+    try {
+        text = getCircularText(deck.name, 700, 15);
+    } catch (err) {
+        return canvas.toDataURL({ format: 'jpeg', quality: 1 });
+    }
+    canvas.add(text);
     canvas.renderAll();
     return canvas.toDataURL({ format: 'jpeg', quality: 1 });
 };
@@ -401,5 +434,5 @@ const getCircularText = (
         ctx.rotate((charWid / 2 / (diameter / 2 - textHeight)) * -1); // rotate half letter
     }
 
-    return new fabric.Image(canvas, { left: 0, top: 0 });
+    return new fabric.Image(canvas, { left: 0, top: 0, crossOrigin: 'Anonymous' });
 };
