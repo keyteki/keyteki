@@ -6,6 +6,7 @@ const CardImport = require('./fetchdata/CardImport');
 const KeyforgeImageSource = require('./fetchdata/KeyforgeImageSource');
 const JsonCardSource = require('./fetchdata/JsonCardSource');
 const NoImageSource = require('./fetchdata/NoImageSource');
+const db = require('../db');
 
 const optionsDefinition = [
     { name: 'card-source', type: String, defaultValue: 'json' },
@@ -55,6 +56,11 @@ let imageSource = createImageSource(options);
 
 let cardImport = new CardImport(dataSource, imageSource, options['image-dir'], options['language']);
 
-cardImport.import().then(() => {
+const doImport = async () => {
+    await cardImport.import();
+    await db.shutdown();
+};
+
+doImport().then(() => {
     console.info('Done immporting and downloading images!');
 });

@@ -23,6 +23,8 @@ class CardImport {
         } catch (e) {
             console.log('Unable to fetch data', e);
         }
+
+        this.cardService.shutdown();
     }
 
     async importCards() {
