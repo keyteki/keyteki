@@ -131,25 +131,21 @@ export const buildDeckList = async (deck, language, translate, allCards) => {
         Rare: RareIcon,
         Special: SpecialIcon
     };
-    let name;
-    try {
-        name = getCircularText(deck.name, 1600, 65);
-    } catch (err) {
-        name = new fabric.Text(deck.name, {
-            ...fontProps,
-            fill: '#ffffff',
-            fontSize: getCurvedFontSize(deck.name.length)
-        }).set({
-            top: 30,
-            originX: 'center',
-            left: 300
-        });
-    }
 
     QRCodeIcon.set({ left: 332, top: 612 }).scaleToWidth(150);
     expansion.set({ left: 232, top: 92 }).scaleToWidth(20);
     TCOIcon.set({ left: 505, top: 769, angle: -90 }).scaleToWidth(30);
-    canvas.add(DeckListIcon).add(QRCodeIcon).add(expansion).add(TCOIcon).add(name);
+    canvas.add(DeckListIcon).add(QRCodeIcon).add(expansion).add(TCOIcon);
+
+    let name;
+    try {
+        name = getCircularText(deck.name, 1600, 65);
+    } catch (err) {
+        name = false;
+    }
+    if (name) {
+        canvas.add(name);
+    }
 
     for (const [index, house] of deck.houses.sort().entries()) {
         const houseImage = HouseIcons[house];
@@ -179,7 +175,7 @@ export const buildDeckList = async (deck, language, translate, allCards) => {
                     ...allCards[card.card.id],
                     is_maverick: !!card.card.maverick,
                     is_anomaly: !!card.card.anomaly,
-                    enhancements: card.card.enhancements,
+                    enhancements: card.enhancements,
                     house: card.card.house
                 });
             }
@@ -238,13 +234,11 @@ export const buildDeckList = async (deck, language, translate, allCards) => {
             left: x + 22,
             top: y
         });
-        if (card.enhancements) {
-            fontProps.fill = '#0081ad';
-        }
 
         const title = new fabric.Text(name, {
             ...fontProps,
-            fontWeight: 300
+            fontWeight: 300,
+            fill: card.enhancements ? '#0081ad' : 'black'
         }).set({ left: x + 60, top: y });
         canvas.add(number).add(title).add(rarity);
 
