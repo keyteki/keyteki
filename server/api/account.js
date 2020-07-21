@@ -6,7 +6,7 @@ const moment = require('moment');
 const _ = require('underscore');
 const sendgrid = require('@sendgrid/mail');
 const fs = require('fs');
-const jimp = require('jimp');
+const { fabric } = require('fabric');
 
 const logger = require('../log.js');
 const { wrapAsync } = require('../util.js');
@@ -128,25 +128,39 @@ async function getRandomAvatar(user) {
 
 function processAvatar(newUser, user) {
     let hash = crypto.randomBytes(16).toString('hex');
-    const buf = Buffer.from(newUser.avatar, 'base64');
 
     if (fs.existsSync(`public/img/avatar/${user.settings.avatar}.png`)) {
         fs.unlinkSync(`public/img/avatar/${user.settings.avatar}.png`);
     }
 
     return new Promise((resolve, reject) => {
-        jimp.read(buf, (err, image) => {
-            if (err) {
-                reject(err);
-            } else {
-                image
-                    .resize(24, 24)
-                    .quality(100)
-                    .write(`public/img/avatar/${user.username}-${hash}.png`);
-
-                resolve(`${user.username}-${hash}`);
-            }
-        });
+        const canvas = new fabric.StaticCanvas();
+        canvas.setDimensions({ width: 24, height: 24 });
+        fabric.Image.fromURL(
+            'data:image/png;base64,' + newUser.avatar,
+            (img) => {
+                if (img.getElement() == null) {
+                    reject();
+                } else {
+                    img.scaleToWidth(24)
+                        .scaleToHeight(24)
+                        .set({ originX: 'center', originY: 'center', left: 12, top: 12 });
+                    canvas.add(img);
+                    canvas.renderAll();
+                    let dataUrl = canvas.toDataURL();
+                    let base64Data = dataUrl.replace(/^data:image\/png;base64,/, '');
+                    fs.writeFile(
+                        `./public/img/avatar/${user.username}-${hash}.png`,
+                        base64Data,
+                        'base64',
+                        () => {
+                            resolve(`${user.username}-${hash}`);
+                        }
+                    );
+                }
+            },
+            { crossOrigin: 'anonymous' }
+        );
     });
 }
 
