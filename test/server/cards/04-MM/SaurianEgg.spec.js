@@ -157,19 +157,17 @@ describe('saurian-egg', function () {
             expect(this.saurianEgg.location).toBe('play area');
         });
 
-        it('when only 2 gigantic parts are discarded should be destroyed, and gigantic part put into play', function () {
+        it('when only 2 gigantic parts are discarded should be destroyed, and gigantic parts discarded', function () {
             this.player1.player.deck = [];
             this.player1.moveCard(this.deusillus, 'deck');
             this.player1.moveCard(this.deusillus2, 'deck');
             this.player1.useAction(this.saurianEgg, true);
-            this.player1.clickPrompt('Left');
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
 
-            expect(this.deusillus2.location).toBe('play area');
-            expect(this.deusillus2.exhausted).toBe(false);
-            expect(this.deusillus2.power).toBe(23);
+            expect(this.deusillus.location).toBe('discard');
+            expect(this.deusillus2.location).toBe('discard');
 
-            expect(this.saurianEgg.location).toBe('discard');
+            expect(this.saurianEgg.location).toBe('play area');
         });
     });
 });
