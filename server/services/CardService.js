@@ -178,6 +178,10 @@ class CardService {
         return retCards;
     }
 
+    shutdown() {
+        this.redis.quit();
+    }
+
     mapCard(card, languages, options, locale) {
         let retCard = {
             id: card.CardId,
