@@ -54,10 +54,6 @@ class AbilityTargetSelect {
             return false;
         }
 
-        if (this.dependentTarget && !this.dependentTarget.hasLegalTarget(contextCopy)) {
-            return false;
-        }
-
         let choice = this.properties.choices[key];
         if (typeof choice === 'function') {
             return choice(contextCopy);

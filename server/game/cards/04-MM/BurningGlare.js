@@ -3,22 +3,29 @@ const Card = require('../../Card.js');
 class BurningGlare extends Card {
     setupCardAbilities(ability) {
         this.play({
-            target: {
-                mode: 'select',
-                choices: {
-                    'Stun an enemy creature': ability.actions.stun((context) => ({
-                        promptForSelect: {
-                            message: '{0} uses {1} to stun {2}',
-                            messageArgs: (cards) => [context.player, context.source, cards],
-                            activePromptTitle: 'Choose a creature to stun',
-                            controller: 'opponent',
-                            cardType: 'creature'
-                        }
-                    })),
-                    'Stun all enemy mutants': ability.actions.stun((context) => ({
-                        target: context.game.creaturesInPlay.filter(
-                            (card) => card.hasTrait('mutant') && card.controller !== context.player
-                        )
+            targets: {
+                action: {
+                    mode: 'select',
+                    choices: {
+                        'Stun an enemy creature': () => true,
+                        'Stun all enemy mutants': ability.actions.stun((context) => ({
+                            target: context.game.creaturesInPlay.filter(
+                                (card) =>
+                                    card.hasTrait('mutant') && card.controller !== context.player
+                            )
+                        }))
+                    }
+                },
+                creature: {
+                    dependsOn: 'action',
+                    activePromptTitle: 'Choose a creature to stun',
+                    cardType: 'creature',
+                    controller: 'opponent',
+                    gameAction: ability.actions.stun((context) => ({
+                        target:
+                            context.selects.action.choice === 'Stun an enemy creature'
+                                ? context.targets.creature
+                                : []
                     }))
                 }
             }
