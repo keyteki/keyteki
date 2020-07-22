@@ -4,6 +4,26 @@ describe('Burning Glare', function () {
             this.setupTest({
                 player1: {
                     house: 'sanctum',
+                    hand: ['burning-glare']
+                },
+                player2: {
+                    amber: 2,
+                    hand: ['troll']
+                }
+            });
+        });
+
+        it('should not show any prompt when there are not creatures in play', function () {
+            this.player1.play(this.burningGlare);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+    });
+
+    describe("Burning Glare's ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'sanctum',
                     hand: ['burning-glare'],
                     inPlay: ['pismire']
                 },
@@ -36,12 +56,29 @@ describe('Burning Glare', function () {
 
         it('should allow stunning all enemy mutant creatures', function () {
             this.player1.play(this.burningGlare);
+            expect(this.player1).toHavePrompt('Select one');
+            expect(this.player1).toHavePromptButton('Stun an enemy creature');
+            expect(this.player1).toHavePromptButton('Stun all enemy mutants');
             this.player1.clickPrompt('Stun all enemy mutants');
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             expect(this.keyfrog.stunned).toBe(false);
             expect(this.dextre.stunned).toBe(false);
             expect(this.professorTerato.stunned).toBe(true);
             expect(this.technoBeast.stunned).toBe(true);
+            expect(this.pismire.stunned).toBe(false);
+        });
+
+        it('should allow choosing to stun all mutant creatures, even though no mutants in play', function () {
+            this.player1.moveCard(this.professorTerato, 'discard');
+            this.player1.moveCard(this.technoBeast, 'discard');
+            this.player1.play(this.burningGlare);
+            expect(this.player1).toHavePrompt('Select one');
+            expect(this.player1).toHavePromptButton('Stun an enemy creature');
+            expect(this.player1).toHavePromptButton('Stun all enemy mutants');
+            this.player1.clickPrompt('Stun all enemy mutants');
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.keyfrog.stunned).toBe(false);
+            expect(this.dextre.stunned).toBe(false);
             expect(this.pismire.stunned).toBe(false);
         });
     });

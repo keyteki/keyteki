@@ -3,6 +3,7 @@ const Card = require('../../Card.js');
 class BurningGlare extends Card {
     setupCardAbilities(ability) {
         this.play({
+            condition: (context) => context.game.creaturesInPlay.length > 0,
             targets: {
                 action: {
                     mode: 'select',

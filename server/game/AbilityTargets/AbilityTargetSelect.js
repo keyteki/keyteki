@@ -59,7 +59,7 @@ class AbilityTargetSelect {
             return choice(contextCopy);
         }
 
-        return choice.some((gameAction) => gameAction.hasLegalTarget(contextCopy));
+        return true;
     }
 
     getGameAction(context) {
@@ -68,6 +68,7 @@ class AbilityTargetSelect {
         }
 
         let choice = this.properties.choices[context.selects[this.name].choice];
+
         if (typeof choice !== 'function') {
             return choice.filter((gameAction) => gameAction.hasLegalTarget(context));
         }
