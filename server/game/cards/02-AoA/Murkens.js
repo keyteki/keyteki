@@ -5,7 +5,10 @@ const Card = require('../../Card.js');
 class Murkens extends Card {
     setupCardAbilities(ability) {
         this.play({
-            condition: (context) => !!context.player.opponent,
+            condition: (context) =>
+                !!context.player.opponent &&
+                (context.player.opponent.deck.length > 0 ||
+                    context.player.opponent.archives.length > 0),
             target: {
                 mode: 'select',
                 choices: {

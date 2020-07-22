@@ -23,17 +23,18 @@ describe('Murkens', function () {
             this.player2.player.deck = [];
             this.player2.player.archives = [];
             this.player1.play(this.murkens);
-            expect(this.player1).not.toHavePrompt('Top of deck');
-            expect(this.player1).not.toHavePrompt('Random card from archives');
+            expect(this.player1).not.toHavePromptButton('Top of deck');
+            expect(this.player1).not.toHavePromptButton('Random card from archives');
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
 
-        it('when deck is empty, play archived card directly', function () {
+        it('when deck is empty, still provide option, and allow playing archived card', function () {
             this.player2.player.deck = [];
             this.player1.play(this.murkens);
+            expect(this.player1).toHavePromptButton('Top of deck');
+            expect(this.player1).toHavePromptButton('Random card from archives');
+            this.player1.clickPrompt('Random card from archives');
             this.player1.clickPrompt('Left');
-            expect(this.player1).not.toHavePrompt('Top of deck');
-            expect(this.player1).not.toHavePrompt('Random card from archives');
 
             // Randomness
             if (this.krump.location === 'archives') {
@@ -45,12 +46,13 @@ describe('Murkens', function () {
             }
         });
 
-        it('when archive is empty, play top of deck card directly', function () {
+        it('when archive is empty, still provide option, and allow playing top of deck card', function () {
             this.player2.player.archives = [];
             this.player1.play(this.murkens);
+            expect(this.player1).toHavePromptButton('Top of deck');
+            expect(this.player1).toHavePromptButton('Random card from archives');
+            this.player1.clickPrompt('Top of deck');
             this.player1.clickPrompt('Left');
-            expect(this.player1).not.toHavePrompt('Top of deck');
-            expect(this.player1).not.toHavePrompt('Random card from archives');
             expect(this.troll.location).toBe('play area');
             expect(this.troll.controller).toBe(this.player1.player);
             this.player1.endTurn();

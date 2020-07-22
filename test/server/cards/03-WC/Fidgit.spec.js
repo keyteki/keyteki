@@ -13,21 +13,24 @@ describe('Fidgit', function () {
                 }
             });
         });
+
         it('when deck and archives are empty, should not have prompt', function () {
             this.player2.player.deck = [];
             this.player2.player.archives = [];
             this.player1.reap(this.fidgit);
-            expect(this.player1).not.toHavePrompt('Top of deck');
-            expect(this.player1).not.toHavePrompt('Random card from archives');
+            expect(this.player1).not.toHavePromptButton('Top of deck');
+            expect(this.player1).not.toHavePromptButton('Random card from archives');
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
-        it('when deck is empty, play archived card directly', function () {
+
+        it('when deck is empty, still provide option, and allow playing archived card', function () {
             this.player2.player.deck = [];
             this.player2.moveCard(this.clearMind, 'archives');
             this.player2.moveCard(this.virtuousWorks, 'archives');
             this.player1.reap(this.fidgit);
-            expect(this.player1).not.toHavePrompt('Top of deck');
-            expect(this.player1).not.toHavePrompt('Random card from archives');
+            expect(this.player1).toHavePromptButton('Top of deck');
+            expect(this.player1).toHavePromptButton('Random card from archives');
+            this.player1.clickPrompt('Random card from archives');
 
             // Randomness
             if (this.virtuousWorks.location === 'archives') {
@@ -40,16 +43,20 @@ describe('Fidgit', function () {
                 expect(this.player2.amber).toBe(0);
             }
         });
-        it('when archive is empty, play top of deck card directly', function () {
+
+        it('when archive is empty, still provide option, and allow playing top of deck card', function () {
             this.player2.player.archives = [];
             this.player2.moveCard(this.virtuousWorks, 'deck');
             this.player1.reap(this.fidgit);
-            expect(this.player1).not.toHavePrompt('Top of deck');
-            expect(this.player1).not.toHavePrompt('Random card from archives');
+            expect(this.player1).toHavePromptButton('Top of deck');
+            expect(this.player1).toHavePromptButton('Random card from archives');
+            this.player1.clickPrompt('Top of deck');
+
             expect(this.virtuousWorks.location).toBe('discard');
             expect(this.player1.amber).toBe(4);
             expect(this.player2.amber).toBe(0);
         });
+
         it('when top of deck is selected, top action card is played', function () {
             this.player2.moveCard(this.virtuousWorks, 'deck');
             this.player2.moveCard(this.clearMind, 'archives');
@@ -61,6 +68,7 @@ describe('Fidgit', function () {
             expect(this.player1.amber).toBe(4);
             expect(this.player2.amber).toBe(0);
         });
+
         it('when archives is selected, plays a random action card from archives', function () {
             this.player2.moveCard(this.virtuousWorks, 'archives');
             this.player2.moveCard(this.clearMind, 'archives');
@@ -79,6 +87,7 @@ describe('Fidgit', function () {
                 expect(this.player2.amber).toBe(0);
             }
         });
+
         it('when top of deck is selected, top artifact card is discarded', function () {
             this.player2.moveCard(this.theWarchest, 'deck');
             this.player2.moveCard(this.clearMind, 'archives');
@@ -88,6 +97,7 @@ describe('Fidgit', function () {
 
             expect(this.theWarchest.location).toBe('discard');
         });
+
         it('when archives is selected, discards a random creature card from archives', function () {
             this.player2.moveCard(this.troll, 'archives');
             this.player2.moveCard(this.krump, 'archives');
@@ -103,6 +113,7 @@ describe('Fidgit', function () {
             }
         });
     });
+
     describe("Fidgit's ability", function () {
         beforeEach(function () {
             this.setupTest({
@@ -117,6 +128,7 @@ describe('Fidgit', function () {
                 }
             });
         });
+
         it('should not play an action from the discard if the player chooses archives and returns a creature', function () {
             this.player2.moveCard(this.bulwark, 'deck');
             this.player2.player.archives = [];
