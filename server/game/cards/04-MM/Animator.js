@@ -9,12 +9,9 @@ class Animator extends Card {
                     ability.actions.cardLastingEffect((context) => ({
                         effect: [
                             ability.effects.changeType('creature'),
-                            ability.effects.changeHouse(context.player.activeHouse)
-                        ].concat(
-                            context.target && context.target.type === 'artifact'
-                                ? ability.effects.modifyPower(3)
-                                : []
-                        )
+                            ability.effects.changeHouse(context.player.activeHouse),
+                            ability.effects.setBasePower(3)
+                        ]
                     })),
                     ability.actions.moveToFlank()
                 ])

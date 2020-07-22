@@ -89,7 +89,7 @@ describe('Auto-Legionary', function () {
                     this.player2.clickCard(this.autoLegionary);
                 });
 
-                xit('should have power 5 and armor 0', function () {
+                it('should have power 5 and armor 0', function () {
                     expect(this.mimicGel.location).toBe('play area');
                     expect(this.mimicGel.power).toBe(5);
                     expect(this.mimicGel.armor).toBe(0);

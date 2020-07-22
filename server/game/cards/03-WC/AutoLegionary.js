@@ -9,10 +9,9 @@ class AutoLegionary extends Card {
                     duration: 'lastingEffect',
                     effect: [
                         ability.effects.changeType('creature'),
-                        ability.effects.canUse((card) => card === context.source)
-                    ].concat(
-                        context.source.type === 'artifact' ? ability.effects.modifyPower(5) : []
-                    )
+                        ability.effects.canUse((card) => card === context.source),
+                        ability.effects.setBasePower(5)
+                    ]
                 })),
                 ability.actions.moveToFlank()
             ])
