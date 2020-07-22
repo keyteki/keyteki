@@ -7,7 +7,7 @@ describe('Auto-Legionary', function () {
                     inPlay: ['legatus-raptor', 'mooncurser', 'tantadlin', 'auto-legionary']
                 },
                 player2: {
-                    hand: ['troll', 'groggins', 'groggins', 'groggins', 'groggins', 'groggins']
+                    hand: ['troll', 'mimic-gel']
                 }
             });
 
@@ -76,6 +76,23 @@ describe('Auto-Legionary', function () {
                     it('should give the artifact 5 power', function () {
                         expect(this.autoLegionary.power).toBe(5);
                     });
+                });
+            });
+
+            describe('when interacting with Mimic Gel', function () {
+                beforeEach(function () {
+                    this.player1.endTurn();
+                    this.player2.clickPrompt('logos');
+                    this.player2.play(this.mimicGel);
+                    expect(this.player2).toBeAbleToSelect(this.autoLegionary);
+                    expect(this.player2).toBeAbleToSelect(this.tantadlin);
+                    this.player2.clickCard(this.autoLegionary);
+                });
+
+                xit('should have power 5 and armor 0', function () {
+                    expect(this.mimicGel.location).toBe('play area');
+                    expect(this.mimicGel.power).toBe(5);
+                    expect(this.mimicGel.armor).toBe(0);
                 });
             });
         });
