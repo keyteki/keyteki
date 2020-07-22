@@ -108,14 +108,14 @@ describe('Ghosthawk', function () {
                     this.player1.clickCard(this.dewFaerie);
                 });
 
-                it('should not have any prompt to reap', function () {
+                it('should have a prompt to reap and only non-untamed neighbor is selectable', function () {
                     expect(this.player1).toBeAbleToSelect(this.troll);
                     expect(this.player1).not.toBeAbleToSelect(this.dewFaerie);
                     expect(this.player1).not.toBeAbleToSelect(this.snufflegator);
                     expect(this.player1).not.toBeAbleToSelect(this.inkaTheSpider);
                 });
 
-                it('should reap with one creature and trigger the reap effect', function () {
+                it('should reap with one creature only and trigger the reap effect', function () {
                     this.player1.clickCard(this.troll);
                     expect(this.player1.amber).toBe(1);
                     expect(this.troll.tokens.damage).toBe(1);
