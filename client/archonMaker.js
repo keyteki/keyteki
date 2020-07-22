@@ -85,7 +85,7 @@ export const buildDeckList = async (deck, language, translate, allCards) => {
 
     if (!deck.cards || 0 >= deck.cards.length) {
         try {
-            return await buildArchon(deck, language, translate);
+            return await buildArchon(deck);
         } catch {
             return Constants.DefaultCard;
         }
@@ -287,10 +287,8 @@ export const buildDeckList = async (deck, language, translate, allCards) => {
 
 /**
  * @param {import('./Components/Decks/DeckList').Deck} deck
- * @param {string} language
- * @param {function} translate
  */
-export const buildArchon = async (deck, language, translate) => {
+export const buildArchon = async (deck) => {
     if (!deck.houses) {
         return Constants.DefaultCard;
     }
@@ -308,12 +306,6 @@ export const buildArchon = async (deck, language, translate) => {
 
     canvas.setDimensions({ width: 600, height: 840 });
 
-    const houseNames = [
-        { x: 120, y: 720 },
-        { x: 300, y: 770 },
-        { x: 480, y: 720 }
-    ];
-
     let number = btoa(deck.uuid)
         .replace(/[\D+089]/g, '')
         .slice(-1);
@@ -330,37 +322,23 @@ export const buildArchon = async (deck, language, translate) => {
     house1.scaleToWidth(150);
     house2.scaleToWidth(150);
     house3.scaleToWidth(150);
-    house1.set({ left: 45, top: 590 });
-    house2.set({ left: 225, top: 640 });
-    house3.set({ left: 405, top: 590 });
+    house1.set({ left: 45, top: 70 });
+    house2.set({ left: 225, top: 20 });
+    house3.set({ left: 405, top: 70 });
     canvas.add(cardback);
     canvas.add(house1);
     canvas.add(house2);
     canvas.add(house3);
-    for (let [index, house] of deck.houses.entries()) {
-        let name;
-        try {
-            name = getCircularText(
-                translate(house).replace(/^\w/, (c) => c.toUpperCase()),
-                1400,
-                0,
-                20
-            );
-        } catch (err) {
-            continue;
-        }
-        name.set({ originX: 'center', top: houseNames[index].y, left: houseNames[index].x });
-        canvas.add(name);
-    }
-    canvas.renderAll();
 
     let text;
     try {
-        text = getCircularText(deck.name, 700, 15);
+        text = getCircularText(deck.name, 2500, 1420);
     } catch (err) {
-        return canvas.toDataURL({ format: 'jpeg', quality: 1 });
+        text = false;
     }
-    canvas.add(text);
+    if (text) {
+        canvas.add(text);
+    }
     canvas.renderAll();
     return canvas.toDataURL({ format: 'jpeg', quality: 1 });
 };

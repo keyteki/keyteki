@@ -55,5 +55,7 @@ for (let house of Constants.Houses) {
 }
 
 for (let x = 1; x < 8; x++) {
-    Constants.IdBackBlanksPaths[x] = require(`./assets/img/idbacks/idback_blanks/archon_${x}.png`);
+    Constants.IdBackBlanksPaths[
+        x
+    ] = require(`./assets/img/idbacks/idback_blanks/cardback_${x}.png`);
 }
