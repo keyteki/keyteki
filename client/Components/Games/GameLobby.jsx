@@ -14,6 +14,7 @@ import Panel from '../Site/Panel';
 import './GameLobby.scss';
 import { useEffect } from 'react';
 import { startNewGame, joinPasswordGame, sendSocketMessage, setUrl } from '../../redux/actions';
+import { useRef } from 'react';
 
 const GameLobby = ({ gameId }) => {
     const { t } = useTranslation();
@@ -41,6 +42,7 @@ const GameLobby = ({ gameId }) => {
     const user = useSelector((state) => state.account.user);
     const [currentFilter, setCurrentFilter] = useState(filterDefaults);
     const [quickJoin, setQuickJoin] = useState(false);
+    const topRef = useRef(null);
 
     useEffect(() => {
         if ('Notification' in window) {
@@ -90,9 +92,11 @@ const GameLobby = ({ gameId }) => {
 
     return (
         <Col md={{ offset: 2, span: 8 }}>
-            {newGame && <NewGame quickJoin={quickJoin} />}
-            {currentGame?.started === false && <PendingGame />}
-            {passwordGame && <PasswordGame />}
+            <div ref={topRef}>
+                {newGame && <NewGame quickJoin={quickJoin} />}
+                {currentGame?.started === false && <PendingGame />}
+                {passwordGame && <PasswordGame />}
+            </div>
             <Panel title={t('Current Games')}>
                 {!user && (
                     <div className='text-center'>
@@ -170,7 +174,11 @@ const GameLobby = ({ gameId }) => {
                                 )}
                             </AlertPanel>
                         ) : (
-                            <GameList games={games} gameFilter={currentFilter} />
+                            <GameList
+                                games={games}
+                                gameFilter={currentFilter}
+                                onJoinOrWatchClick={() => topRef.current.scrollIntoView(false)}
+                            />
                         )}
                     </Col>
                 </Row>
