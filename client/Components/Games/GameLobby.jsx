@@ -48,11 +48,18 @@ const GameLobby = ({ gameId }) => {
                 Notification.requestPermission(() => {});
             }
         }
+
+        let filter = localStorage.getItem('gameFilter');
+        if (filter) {
+            setCurrentFilter(JSON.parse(filter));
+        }
     }, []);
 
     const onFilterChecked = (name, checked) => {
         currentFilter[name] = checked;
         setCurrentFilter(Object.assign({}, currentFilter));
+
+        localStorage.setItem('gameFilter', JSON.stringify(currentFilter));
     };
 
     useEffect(() => {
