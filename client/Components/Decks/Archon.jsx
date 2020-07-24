@@ -20,7 +20,7 @@ const Archon = ({ deck }) => {
     const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
     useEffect(() => {
-        buildArchon(deck, i18n.language, t).then((url) => {
+        buildArchon(deck).then((url) => {
             setImageUrl(url);
         });
     }, [deck, i18n.language, t, imageUrl]);
