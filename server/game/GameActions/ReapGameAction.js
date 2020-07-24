@@ -18,6 +18,17 @@ class ReapGameAction extends CardGameAction {
         return card.checkRestrictions('use', context) && super.canAffect(card, context);
     }
 
+    checkEventCondition(event) {
+        let reapAction = event.card.getReapAction();
+        let newContext = reapAction.createContext(event.context.player);
+        newContext.ignoreHouse = true;
+
+        return (
+            this.canAffect(event.card, event.context) &&
+            event.card.checkRestrictions(this.name, newContext)
+        );
+    }
+
     getEvent(card, context) {
         return super.createEvent('unnamedEvent', { card, context }, () => {
             let newContext;
