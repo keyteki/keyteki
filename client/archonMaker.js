@@ -139,7 +139,7 @@ export const buildDeckList = async (deck, language, translate, allCards) => {
 
     let name;
     try {
-        name = getCircularText(deck.name, 1600, 65);
+        name = await getCircularText(deck.name, 1600, 65);
     } catch (err) {
         name = false;
     }
@@ -173,8 +173,8 @@ export const buildDeckList = async (deck, language, translate, allCards) => {
             for (let i = 0; i < card.count; i++) {
                 cardList.push({
                     ...allCards[card.card.id],
-                    is_maverick: !!card.card.maverick,
-                    is_anomaly: !!card.card.anomaly,
+                    is_maverick: !!card.maverick,
+                    is_anomaly: !!card.anomaly,
                     enhancements: card.enhancements,
                     house: card.card.house
                 });
@@ -210,7 +210,7 @@ export const buildDeckList = async (deck, language, translate, allCards) => {
             y = y + 44;
         }
 
-        const rarity = new fabric.Image(
+        const rarity = await new fabric.Image(
             Rarities[
                 card.rarity === 'FIXED' || card.rarity === 'Variant' ? 'Special' : card.rarity
             ].getElement(),
@@ -245,7 +245,7 @@ export const buildDeckList = async (deck, language, translate, allCards) => {
         let iconX = x + title.width + number.width + 35;
 
         if (card.is_maverick) {
-            const maverickImage = new fabric.Image(MaverickIcon.getElement(), {
+            const maverickImage = await new fabric.Image(MaverickIcon.getElement(), {
                 crossOrigin: 'Anonymous'
             });
             maverickImage
@@ -264,7 +264,7 @@ export const buildDeckList = async (deck, language, translate, allCards) => {
         }
 
         if (card.is_anomaly) {
-            const anomalyImage = new fabric.Image(AnomalyIcon.getElement(), {
+            const anomalyImage = await new fabric.Image(AnomalyIcon.getElement(), {
                 crossOrigin: 'Anonymous'
             });
             anomalyImage
@@ -282,7 +282,7 @@ export const buildDeckList = async (deck, language, translate, allCards) => {
         }
         canvas.renderAll();
     }
-    return canvas.toDataURL({ format: 'jpeg', quality: 1 });
+    return canvas.toDataURL({ format: 'jpeg', quality: 0.8 });
 };
 
 /**
@@ -332,7 +332,7 @@ export const buildArchon = async (deck) => {
 
     let text;
     try {
-        text = getCircularText(deck.name, 2500, 1420);
+        text = await getCircularText(deck.name, 2500, 1420);
     } catch (err) {
         text = false;
     }
@@ -340,7 +340,7 @@ export const buildArchon = async (deck) => {
         canvas.add(text);
     }
     canvas.renderAll();
-    return canvas.toDataURL({ format: 'jpeg', quality: 1 });
+    return canvas.toDataURL({ format: 'jpeg', quality: 0.8 });
 };
 
 const getCurvedFontSize = (length) => {
@@ -352,7 +352,7 @@ const getCurvedFontSize = (length) => {
     return size;
 };
 
-const getCircularText = (
+const getCircularText = async (
     text = '',
     diameter,
     yOffset = 0,
@@ -406,5 +406,5 @@ const getCircularText = (
         ctx.rotate((charWid / 2 / (diameter / 2 - textHeight)) * -1); // rotate half letter
     }
 
-    return new fabric.Image(canvas, { left: 0, top: 0, crossOrigin: 'Anonymous' });
+    return await new fabric.Image(canvas, { left: 0, top: 0, crossOrigin: 'Anonymous' });
 };
