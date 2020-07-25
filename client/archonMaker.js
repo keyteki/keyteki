@@ -282,7 +282,13 @@ export const buildDeckList = async (deck, language, translate, allCards) => {
         }
         canvas.renderAll();
     }
-    return canvas.toDataURL({ format: 'jpeg', quality: 0.8 });
+    let finalDeckList;
+    try {
+        finalDeckList = canvas.toDataURL({ format: 'jpeg', quality: 0.8 });
+    } catch (err) {
+        return Constants.DefaultCard;
+    }
+    return finalDeckList;
 };
 
 /**
@@ -344,7 +350,13 @@ export const buildArchon = async (deck) => {
         canvas.add(text);
     }
     canvas.renderAll();
-    return canvas.toDataURL({ format: 'jpeg', quality: 0.8 });
+    let finalArchon;
+    try {
+        finalArchon = canvas.toDataURL({ format: 'jpeg', quality: 0.8 });
+    } catch (err) {
+        return Constants.DefaultCard;
+    }
+    return finalArchon;
 };
 
 const getCurvedFontSize = (length) => {
