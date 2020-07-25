@@ -139,7 +139,7 @@ export const buildDeckList = async (deck, language, translate, allCards) => {
 
     let name;
     try {
-        name = await getCircularText(deck.name, 1600, 65);
+        name = getCircularText(deck.name, 1600, 65);
     } catch (err) {
         name = false;
     }
@@ -332,7 +332,7 @@ export const buildArchon = async (deck) => {
 
     let text;
     try {
-        text = await getCircularText(deck.name, 2500, 1420);
+        text = getCircularText(deck.name, 2500, 1420);
     } catch (err) {
         text = false;
     }
@@ -352,7 +352,7 @@ const getCurvedFontSize = (length) => {
     return size;
 };
 
-const getCircularText = async (
+const getCircularText = (
     text = '',
     diameter,
     yOffset = 0,
@@ -405,6 +405,5 @@ const getCircularText = async (
         ctx.fillText(text[j], 0, 0 - diameter / 2 + textHeight / 2);
         ctx.rotate((charWid / 2 / (diameter / 2 - textHeight)) * -1); // rotate half letter
     }
-
-    return await new fabric.Image(canvas, { left: 0, top: 0, crossOrigin: 'Anonymous' });
+    return new fabric.Image(canvas, { left: 0, top: 0, crossOrigin: 'Anonymous' });
 };
