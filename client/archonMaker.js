@@ -310,6 +310,10 @@ export const buildArchon = async (deck) => {
         .replace(/[\D+089]/g, '')
         .slice(-1);
 
+    if (!number) {
+        number = 1;
+    }
+
     const cardback = IdBackBlanksIcons[number];
     const house1 = IdBackHouseIcons[deck.houses[0]];
     const house2 = IdBackHouseIcons[deck.houses[1]];
