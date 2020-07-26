@@ -258,14 +258,15 @@ class SelectCardPrompt extends UiPrompt {
     }
 
     menuCommand(player, arg) {
-        if (
-            arg === 'cancel' ||
-            (arg === 'done' && this.properties.optional && this.selectedCards.length === 0)
-        ) {
+        if (arg === 'cancel') {
             this.properties.onCancel(player);
             this.complete();
             return true;
         } else if (arg === 'done' && this.hasEnoughSelected()) {
+            if(this.selectedCards.length === 0) {
+                this.complete();
+                return true;
+            }
             return this.fireOnSelect();
         } else if (this.properties.onMenuCommand(player, arg)) {
             this.complete();

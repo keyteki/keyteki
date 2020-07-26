@@ -28,22 +28,6 @@ class AbilityResolver extends BaseStepWithPipeline {
         }
     }
 
-    resolveEarlyTargets() {
-        if (this.cancelled) {
-            return;
-        }
-
-        this.targetResults = this.context.ability.resolveTargets(this.context);
-    }
-
-    checkForCancel() {
-        if (this.cancelled) {
-            return;
-        }
-
-        this.cancelled = this.targetResults.cancelled;
-    }
-
     payCosts() {
         if (this.cancelled) {
             return;

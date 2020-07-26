@@ -21,7 +21,7 @@ describe('Obsidian Forge', function () {
                 player2: {
                     amber: 0,
                     inPlay: ['mighty-tiger', 'hunting-witch'],
-                    hand: ['foggify']
+                    hand: ['foggify', 'miasma']
                 }
             });
         });
@@ -110,6 +110,29 @@ describe('Obsidian Forge', function () {
             expect(this.player1.player.keys.blue).toBe(false);
             expect(this.player1.player.keys.yellow).toBe(false);
             expect(this.player1.player.amber).toBe(0);
+        });
+
+        it('should work after Miasma has been played', function () {
+            this.player1.amber = 13;
+            this.player1.endTurn();
+
+            this.player2.clickPrompt('shadows');
+            this.player2.play(this.miasma);
+            this.player2.endTurn();
+
+            expect(this.player1.amber).toBe(13);
+            this.player1.clickPrompt('dis');
+            this.player1.clickCard(this.obsidianForge);
+            this.player1.clickPrompt("Use this card's Action ability");
+            expect(this.player1).toHavePrompt('Obsidian Forge');
+            this.player1.clickPrompt('Done');
+            this.player1.clickPrompt('Yes');
+            this.player1.forgeKey('Red');
+            expect(this.player1.player.keys.red).toBe(true);
+            expect(this.player1.player.keys.blue).toBe(false);
+            expect(this.player1.player.keys.yellow).toBe(false);
+            expect(this.player1.player.amber).toBe(1);
+            expect(this.obsidianForge.location).toBe('discard');
         });
     });
 });
