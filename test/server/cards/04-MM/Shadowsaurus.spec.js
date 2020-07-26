@@ -1,4 +1,4 @@
-fdescribe('Shadowsaurus', function () {
+describe('Shadowsaurus', function () {
     beforeEach(function () {
         this.setupTest({
             player1: {
