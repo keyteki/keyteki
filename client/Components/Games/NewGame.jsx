@@ -113,6 +113,8 @@ const NewGame = ({
                             cota: values.cota,
                             wc: values.wc
                         };
+                        values.quickJoin = quickJoin;
+
                         dispatch(sendSocketMessage('newgame', values));
                     }
                 }}

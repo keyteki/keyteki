@@ -23,5 +23,8 @@ module.exports = {
         let res = await pool.query(text, params);
 
         return res.rows;
+    },
+    shutdown: async () => {
+        await pool.end();
     }
 };
