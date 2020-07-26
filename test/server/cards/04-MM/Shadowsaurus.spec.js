@@ -1,4 +1,4 @@
-describe('Shadowsaurus', function () {
+fdescribe('Shadowsaurus', function () {
     beforeEach(function () {
         this.setupTest({
             player1: {
@@ -7,7 +7,7 @@ describe('Shadowsaurus', function () {
                 inPlay: ['shadowsaurus']
             },
             player2: {
-                inPlay: ['redlock', 'krump']
+                inPlay: ['redlock', 'krump', 'senator-bracchus']
             }
         });
     });
@@ -31,5 +31,20 @@ describe('Shadowsaurus', function () {
 
         expect(this.krump.controller).toBe(this.player1.player);
         expect(this.player2.amber).toBe(4);
+    });
+
+    it('should change controlled creatures to shadows', function () {
+        expect(this.senatorBracchus.hasHouse('shadows')).toBe(false);
+        expect(this.senatorBracchus.hasHouse('saurian')).toBe(true);
+        this.senatorBracchus.tokens.amber = 10;
+        this.player1.useAction(this.shadowsaurus);
+
+        expect(this.player1).toBeAbleToSelect(this.senatorBracchus);
+        this.player1.clickCard(this.senatorBracchus);
+
+        expect(this.senatorBracchus.controller).toBe(this.player1.player);
+        expect(this.player2.amber).toBe(10);
+        expect(this.senatorBracchus.hasHouse('shadows')).toBe(true);
+        expect(this.senatorBracchus.hasHouse('saurian')).toBe(false);
     });
 });
