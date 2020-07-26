@@ -173,8 +173,8 @@ export const buildDeckList = async (deck, language, translate, allCards) => {
             for (let i = 0; i < card.count; i++) {
                 cardList.push({
                     ...allCards[card.card.id],
-                    is_maverick: !!card.card.maverick,
-                    is_anomaly: !!card.card.anomaly,
+                    is_maverick: !!card.maverick,
+                    is_anomaly: !!card.anomaly,
                     enhancements: card.enhancements,
                     house: card.card.house
                 });
@@ -210,7 +210,7 @@ export const buildDeckList = async (deck, language, translate, allCards) => {
             y = y + 44;
         }
 
-        const rarity = new fabric.Image(
+        const rarity = await new fabric.Image(
             Rarities[
                 card.rarity === 'FIXED' || card.rarity === 'Variant' ? 'Special' : card.rarity
             ].getElement(),
@@ -245,7 +245,7 @@ export const buildDeckList = async (deck, language, translate, allCards) => {
         let iconX = x + title.width + number.width + 35;
 
         if (card.is_maverick) {
-            const maverickImage = new fabric.Image(MaverickIcon.getElement(), {
+            const maverickImage = await new fabric.Image(MaverickIcon.getElement(), {
                 crossOrigin: 'Anonymous'
             });
             maverickImage
@@ -264,7 +264,7 @@ export const buildDeckList = async (deck, language, translate, allCards) => {
         }
 
         if (card.is_anomaly) {
-            const anomalyImage = new fabric.Image(AnomalyIcon.getElement(), {
+            const anomalyImage = await new fabric.Image(AnomalyIcon.getElement(), {
                 crossOrigin: 'Anonymous'
             });
             anomalyImage
@@ -282,7 +282,13 @@ export const buildDeckList = async (deck, language, translate, allCards) => {
         }
         canvas.renderAll();
     }
-    return canvas.toDataURL({ format: 'jpeg', quality: 1 });
+    let finalDeckList;
+    try {
+        finalDeckList = canvas.toDataURL({ format: 'jpeg', quality: 0.8 });
+    } catch (err) {
+        return Constants.DefaultCard;
+    }
+    return finalDeckList;
 };
 
 /**
@@ -309,6 +315,10 @@ export const buildArchon = async (deck) => {
     let number = btoa(deck.uuid)
         .replace(/[\D+089]/g, '')
         .slice(-1);
+
+    if (!number) {
+        number = 1;
+    }
 
     const cardback = IdBackBlanksIcons[number];
     const house1 = IdBackHouseIcons[deck.houses[0]];
@@ -340,7 +350,13 @@ export const buildArchon = async (deck) => {
         canvas.add(text);
     }
     canvas.renderAll();
-    return canvas.toDataURL({ format: 'jpeg', quality: 1 });
+    let finalArchon;
+    try {
+        finalArchon = canvas.toDataURL({ format: 'jpeg', quality: 0.8 });
+    } catch (err) {
+        return Constants.DefaultCard;
+    }
+    return finalArchon;
 };
 
 const getCurvedFontSize = (length) => {
@@ -405,6 +421,5 @@ const getCircularText = (
         ctx.fillText(text[j], 0, 0 - diameter / 2 + textHeight / 2);
         ctx.rotate((charWid / 2 / (diameter / 2 - textHeight)) * -1); // rotate half letter
     }
-
     return new fabric.Image(canvas, { left: 0, top: 0, crossOrigin: 'Anonymous' });
 };
