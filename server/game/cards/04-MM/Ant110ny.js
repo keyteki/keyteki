@@ -4,7 +4,7 @@ class Ant110ny extends Card {
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.capture((context) => ({
-                amount: context.player.opponent.amber
+                amount: context.player.opponent.amber ? context.player.opponent.amber : 0
             }))
         });
         this.interrupt({
