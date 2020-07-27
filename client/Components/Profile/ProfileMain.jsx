@@ -56,7 +56,7 @@ const ProfileMain = ({ user, formProps }) => {
                     <Form.Control.Feedback type='invalid'>
                         {formProps.errors.email}
                     </Form.Control.Feedback>
-                </Form.Group>{' '}
+                </Form.Group>
                 <Form.Group as={Col} md='3'>
                     <Form.Label>{t('Avatar')}</Form.Label>
                     <div>

@@ -22,6 +22,16 @@ for (let i = 1; i < 6; i++) {
     EnhancementBaseImages[i] = require(`../../assets/img/enhancements/base-${i}.png`);
 }
 
+/**
+ * @typedef CardImageProps
+ * @property {object} card // The card data to render an image for
+ * @property {string} [cardBack] // The card back image to show if not showing the card image
+ */
+
+/**
+ *
+ * @param {CardImageProps} props
+ */
 const CardImage = ({ card, cardBack }) => {
     const { i18n } = useTranslation();
     let [mergedImage, setMergedImage] = useState('');

@@ -12,6 +12,10 @@ import { tryParseJSON } from './util';
 import AlertPanel from './Components/Site/AlertPanel';
 import * as actions from './redux/actions';
 
+import Background from './assets/img/bgs/keyforge.png';
+import BlankBg from './assets/img/bgs/blank.png';
+import MassMutationBg from './assets/img/bgs/massmutation.png';
+
 class Application extends React.Component {
     constructor(props) {
         super(props);
@@ -21,6 +25,16 @@ class Application extends React.Component {
         this.onFocusChange = this.onFocusChange.bind(this);
         this.blinkTab = this.blinkTab.bind(this);
         this.state = {};
+        this.bgRef = React.createRef();
+
+        this.backgrounds = { blank: BlankBg };
+
+        for (let i = 0; i < Constants.Houses.length; ++i) {
+            this.backgrounds[Constants.Houses[i]] = Constants.HouseBgPaths[Constants.Houses[i]];
+        }
+
+        this.backgrounds.massmutation = MassMutationBg;
+        this.backgrounds.keyforge = Background;
     }
 
     // eslint-disable-next-line react/no-deprecated
@@ -131,19 +145,31 @@ class Application extends React.Component {
             );
         }
 
-        let backgroundClass = 'bg';
+        let background = 'keyforge';
 
         if (gameBoardVisible && this.props.user) {
             let houseIndex = Constants.HousesNames.indexOf(this.props.user.settings.background);
             if (houseIndex === -1) {
-                backgroundClass += ` bg-board-${this.props.user?.settings?.background}`;
+                background = `${this.props.user?.settings?.background}`;
             } else {
-                backgroundClass += ` bg-board-${Constants.Houses[houseIndex]}`;
+                background = `${Constants.Houses[houseIndex]}`;
             }
+
+            if (
+                this.bgRef.current &&
+                background === 'custom' &&
+                this.props.user.settings.customBackground
+            ) {
+                this.bgRef.current.style.backgroundImage = `url('/img/bgs/${this.props.user.settings.customBackground}.png')`;
+            } else if (this.bgRef.current) {
+                this.bgRef.current.style.backgroundImage = `url('${this.backgrounds[background]}')`;
+            }
+        } else if (this.bgRef.current) {
+            this.bgRef.current.style.backgroundImage = `url('${Background}')`;
         }
 
         return (
-            <div className={backgroundClass}>
+            <div className='bg' ref={this.bgRef}>
                 <Navigation appName='The Crucible Online' user={this.props.user} />
                 <div className='wrapper'>
                     <Container className='content'>
