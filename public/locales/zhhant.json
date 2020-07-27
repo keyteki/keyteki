@@ -381,7 +381,6 @@
     "privacy.lobby": "紀錄大廳訊息的目的是為了讓訊息可以展示給其他玩家, 並避免濫用行為. 我們也可能視情況對你的訊息進行審核或刪除令人反感的內容.",
     "Create": "創建",
     "{{card}}": "{{card}}",
-    "{{card}} ({{quantity}})": "{{card}} ({{quantity}})",
     "How much amber do you want to use from {{card}}?": "你想從 {{card}} 使用多少琥魄?",
     "Do you wish to repeat this effect?": "你想要重複這個效果嗎?",
     "Do you wish to forge a key?": "你想要鍛造鑰匙嗎?",
@@ -535,5 +534,12 @@
     "No games are currently in progress. Click the buttons above to start one.": "No games are currently in progress. Click the buttons above to start one.",
     "Please log in to be able to start a new game": "Please log in to be able to start a new game",
     "Private (requires game link)": "Private (requires game link)",
-    "Mass Mutation": "Mass Mutation"
+    "Mass Mutation": "Mass Mutation",
+    "Waiting for ping": "Waiting for ping",
+    "Connecting": "Connecting",
+    "Disconnected": "Disconnected",
+    "Expansion": "Expansion",
+    "Added": "Added",
+    "Win %": "Win %",
+    "Filter by name": "Filter by name"
 }

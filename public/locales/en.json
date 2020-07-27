@@ -374,7 +374,6 @@
     "privacy.lobby": "Your lobby messages are stored so that we can display them to other users of the site and to detect patterns of abusive behaviour.  Your messages may also be moderated to remove offensive content, or deleted altogether at our discretion.",
     "Create": "Create",
     "{{card}}": "{{card}}",
-    "{{card}} ({{quantity}})": "{{card}} ({{quantity}})",
     "How much amber do you want to use from {{card}}?": "How much amber do you want to use from {{card}}?",
     "Do you wish to repeat this effect?": "Do you wish to repeat this effect?",
     "Do you wish to forge a key?": "Do you wish to forge a key?",
@@ -527,5 +526,12 @@
     "No games are currently in progress. Click the buttons above to start one.": "No games are currently in progress. Click the buttons above to start one.",
     "Please log in to be able to start a new game": "Please log in to be able to start a new game",
     "Private (requires game link)": "Private (requires game link)",
-    "Mass Mutation": "Mass Mutation"
+    "Mass Mutation": "Mass Mutation",
+    "Waiting for ping": "Waiting for ping",
+    "Connecting": "Connecting",
+    "Disconnected": "Disconnected",
+    "Expansion": "Expansion",
+    "Added": "Added",
+    "Win %": "Win %",
+    "Filter by name": "Filter by name"
 }

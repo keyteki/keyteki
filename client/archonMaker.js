@@ -1,107 +1,114 @@
 import { fabric } from 'fabric';
 import QRCode from 'qrcode';
-import uuid from 'uuid';
 
 import { Constants } from './constants';
 
 const HouseIcons = {};
+const IdBackHouseIcons = {};
+const IdBackBlanksIcons = {};
 const SetIcons = {};
-let TCOIcon;
-let CardBackIcon;
+let AnomalyIcon;
 let CommonIcon;
+let DeckListIcon;
+let MaverickIcon;
 let RareIcon;
 let SpecialIcon;
+let TCOIcon;
 let UncommonIcon;
-let MaverickIcon;
-let AnomalyIcon;
-let DefaultCard;
+let cacheLoaded = false;
 
 export const loadImage = (url) => {
     return new Promise((resolve, reject) => {
-        fabric.Image.fromURL(url, (image) => {
-            if (!image.getElement()) {
-                reject();
-            } else {
-                if (image.width === 0) {
-                    return reject();
-                }
+        fabric.Image.fromURL(
+            url,
+            (image) => {
+                if (!image.getElement()) {
+                    reject();
+                } else {
+                    if (image.width === 0) {
+                        return reject();
+                    }
 
-                resolve(image);
-            }
-        });
+                    resolve(image);
+                }
+            },
+            { crossOrigin: 'Anonymous' }
+        );
     });
 };
 
-for (let house of Constants.Houses) {
-    loadImage(require(`./assets/img/idbacks/houses/${house}.png`)).then((image) => {
-        HouseIcons[house] = image;
-    });
+async function cacheImages() {
+    for (let [house, path] of Object.entries(Constants.HouseIconPaths)) {
+        await loadImage(path).then((image) => {
+            HouseIcons[house] = image;
+        });
+    }
+
+    for (let [house, path] of Object.entries(Constants.IdBackHousePaths)) {
+        await loadImage(path).then((image) => {
+            IdBackHouseIcons[house] = image;
+        });
+    }
+
+    for (let [x, path] of Object.entries(Constants.IdBackBlanksPaths)) {
+        await loadImage(path).then((image) => {
+            IdBackBlanksIcons[x] = image;
+        });
+    }
+
+    for (let [key, path] of Object.entries(Constants.SetIconPaths)) {
+        await loadImage(path).then((image) => {
+            SetIcons[key] = image;
+        });
+    }
+
+    TCOIcon = await loadImage(require('./assets/img/idbacks/tco.png'));
+    DeckListIcon = await loadImage(require('./assets/img/idbacks/decklist.png'));
+    CommonIcon = await loadImage(require('./assets/img/idbacks/Common.png'));
+    RareIcon = await loadImage(require('./assets/img/idbacks/Rare.png'));
+    SpecialIcon = await loadImage(require('./assets/img/idbacks/Special.png'));
+    UncommonIcon = await loadImage(require('./assets/img/idbacks/Uncommon.png'));
+    MaverickIcon = await loadImage(require('./assets/img/idbacks/Maverick.png'));
+    AnomalyIcon = await loadImage(require('./assets/img/idbacks/Anomaly.png'));
+
+    cacheLoaded = true;
 }
-
-for (let [key, path] of Object.entries(Constants.SetIconPaths)) {
-    loadImage(path).then((image) => {
-        SetIcons[key] = image;
-    });
-}
-
-loadImage(require('./assets/img/idbacks/tco.png')).then((image) => {
-    TCOIcon = image;
-});
-
-loadImage(require('./assets/img/idbacks/decklist.png')).then((image) => {
-    CardBackIcon = image;
-});
-
-loadImage(require('./assets/img/idbacks/Common.png')).then((image) => {
-    CommonIcon = image;
-});
-
-loadImage(require('./assets/img/idbacks/Rare.png')).then((image) => {
-    RareIcon = image;
-});
-
-loadImage(require('./assets/img/idbacks/Special.png')).then((image) => {
-    SpecialIcon = image;
-});
-
-loadImage(require('./assets/img/idbacks/Uncommon.png')).then((image) => {
-    UncommonIcon = image;
-});
-
-loadImage(require('./assets/img/idbacks/Maverick.png')).then((image) => {
-    MaverickIcon = image;
-});
-
-loadImage(require('./assets/img/idbacks/Anomaly.png')).then((image) => {
-    AnomalyIcon = image;
-});
-
-loadImage(require('./assets/img/idbacks/identity.jpg')).then((image) => {
-    DefaultCard = image;
-});
 
 export const buildDeckList = async (deck, language, translate, allCards) => {
     if (!deck.houses) {
-        return DefaultCard;
+        return Constants.DefaultCard;
+    }
+
+    if (!cacheLoaded) {
+        await cacheImages();
     }
 
     if (!deck.cards || 0 >= deck.cards.length) {
         try {
-            return await buildArchon(deck, language);
+            return await buildArchon(deck);
         } catch {
-            return DefaultCard;
+            return Constants.DefaultCard;
         }
     }
 
     let canvas;
+    const order = ['action', 'artifact', 'creature', 'upgrade'];
+
     try {
         canvas = new fabric.Canvas('decklist');
     } catch (err) {
-        return DefaultCard;
+        return Constants.DefaultCard;
     }
 
-    canvas.setDimensions({ width: 600, height: 840 });
+    const fontProps = {
+        fontWeight: 800,
+        fontFamily: 'Keyforge',
+        textAlign: 'left',
+        fillStyle: 'black',
+        fontSize: 20
+    };
 
+    canvas.setDimensions({ width: 600, height: 840 });
     const houseData = {
         size: 35,
         0: { x: 55, y: 124 },
@@ -117,25 +124,32 @@ export const buildDeckList = async (deck, language, translate, allCards) => {
         { margin: 0 }
     );
     const QRCodeIcon = await loadImage(qrCode);
-
+    const expansion = SetIcons[deck.expansion];
     const Rarities = {
         Common: CommonIcon,
         Uncommon: UncommonIcon,
         Rare: RareIcon,
         Special: SpecialIcon
     };
-    QRCodeIcon.set({ left: 332, top: 612 }).scaleToWidth(150);
-    SetIcons[deck.expansion].set({ left: 232, top: 92 }).scaleToWidth(20);
-    TCOIcon.set({ left: 505, top: 769, angle: -90 }).scaleToWidth(30);
-    canvas
-        .add(CardBackIcon)
-        .add(QRCodeIcon)
-        .add(SetIcons[deck.expansion])
-        .add(getCircularText(deck.name, 1600, 65))
-        .add(TCOIcon);
 
-    deck.houses.sort().map((house, index) => {
-        HouseIcons[house]
+    QRCodeIcon.set({ left: 332, top: 612 }).scaleToWidth(150);
+    expansion.set({ left: 232, top: 92 }).scaleToWidth(20);
+    TCOIcon.set({ left: 505, top: 769, angle: -90 }).scaleToWidth(30);
+    canvas.add(DeckListIcon).add(QRCodeIcon).add(expansion).add(TCOIcon);
+
+    let name;
+    try {
+        name = getCircularText(deck.name, 1600, 65);
+    } catch (err) {
+        name = false;
+    }
+    if (name) {
+        canvas.add(name);
+    }
+
+    for (const [index, house] of deck.houses.sort().entries()) {
+        const houseImage = HouseIcons[house];
+        houseImage
             .set({ left: houseData[index].x, top: houseData[index].y })
             .scaleToWidth(30)
             .scaleToHeight(30)
@@ -150,24 +164,36 @@ export const buildDeckList = async (deck, language, translate, allCards) => {
                 fontSize: 25
             }
         ).set({ left: houseData[index].x + 35, top: houseData[index].y + 5 });
-        canvas.add(houseText).add(HouseIcons[house]);
-    });
-    let order = ['action', 'artifact', 'creature', 'upgrade'];
-    let cardList = deck.cards
-        .map((card) => {
-            return {
+        canvas.add(houseText).add(houseImage);
+    }
+    let cardList = [];
+
+    for (const card of deck.cards) {
+        if (card.count) {
+            for (let i = 0; i < card.count; i++) {
+                cardList.push({
+                    ...allCards[card.card.id],
+                    is_maverick: !!card.card.maverick,
+                    is_anomaly: !!card.card.anomaly,
+                    enhancements: card.enhancements,
+                    house: card.card.house
+                });
+            }
+        } else {
+            cardList.push({
                 ...allCards[card.id],
                 is_maverick: !!card.maverick,
-                is_legacy: !!card.legacy,
                 is_anomaly: !!card.anomaly,
                 enhancements: card.enhancements,
                 house: card.house
-            };
-        })
+            });
+        }
+    }
+    cardList
         .sort((a, b) => +a.number - +b.number)
         .sort((a, b) => order.indexOf(a.type) - order.indexOf(b.type))
         .sort((a, b) => deck.houses.sort().indexOf(a.house) - deck.houses.sort().indexOf(b.house));
-    cardList.map((card, index) => {
+    for (const [index, card] of cardList.entries()) {
         let x = cardData.start.x,
             y = cardData.start.y + index * 28;
         const name = card.locale && card.locale[language] ? card.locale[language].name : card.name;
@@ -184,46 +210,45 @@ export const buildDeckList = async (deck, language, translate, allCards) => {
             y = y + 44;
         }
 
-        const fontProps = {
-            fontWeight: 800,
-            fontFamily: 'Keyforge',
-            textAlign: 'left',
-            fillStyle: 'black',
-            fontSize: 20
-        };
         const rarity = new fabric.Image(
             Rarities[
                 card.rarity === 'FIXED' || card.rarity === 'Variant' ? 'Special' : card.rarity
-            ].getElement()
-        )
-            .set({ left: x, top: y })
-            .scaleToWidth(cardData.size)
-            .setShadow(
-                new fabric.Shadow({
-                    color: 'gray',
-                    offsetX: 10,
-                    offsetY: 10,
-                    blur: 3
-                })
-            );
+            ].getElement(),
+            { crossOrigin: 'Anonymous' }
+        );
+        if (rarity) {
+            rarity
+                .set({ left: x, top: y })
+                .scaleToWidth(cardData.size)
+                .setShadow(
+                    new fabric.Shadow({
+                        color: 'gray',
+                        offsetX: 10,
+                        offsetY: 10,
+                        blur: 3
+                    })
+                );
+        }
+
         const number = new fabric.Text(card.number.toString(), fontProps).set({
             left: x + 22,
             top: y
         });
-        if (card.enhancements) {
-            fontProps.fill = '#0081ad';
-        }
 
         const title = new fabric.Text(name, {
             ...fontProps,
-            fontWeight: 300
+            fontWeight: 300,
+            fill: card.enhancements ? '#0081ad' : 'black'
         }).set({ left: x + 60, top: y });
-        canvas.add(number).add(rarity).add(title);
+        canvas.add(number).add(title).add(rarity);
 
         let iconX = x + title.width + number.width + 35;
 
         if (card.is_maverick) {
-            const maverickImage = new fabric.Image(MaverickIcon.getElement())
+            const maverickImage = new fabric.Image(MaverickIcon.getElement(), {
+                crossOrigin: 'Anonymous'
+            });
+            maverickImage
                 .set({ left: iconX, top: y })
                 .setShadow(
                     new fabric.Shadow({
@@ -239,7 +264,10 @@ export const buildDeckList = async (deck, language, translate, allCards) => {
         }
 
         if (card.is_anomaly) {
-            const anomalyImage = new fabric.Image(AnomalyIcon.getElement())
+            const anomalyImage = new fabric.Image(AnomalyIcon.getElement(), {
+                crossOrigin: 'Anonymous'
+            });
+            anomalyImage
                 .set({ left: iconX, top: y })
                 .setShadow(
                     new fabric.Shadow({
@@ -252,46 +280,67 @@ export const buildDeckList = async (deck, language, translate, allCards) => {
                 .scaleToHeight(cardData.size);
             canvas.add(anomalyImage);
         }
-    });
-
-    return canvas.toDataURL('image/jpeg');
+        canvas.renderAll();
+    }
+    return canvas.toDataURL({ format: 'jpeg', quality: 1 });
 };
 
 /**
  * @param {import('./Components/Decks/DeckList').Deck} deck
- * @param {string} language
  */
-export const buildArchon = async (deck, language) => {
+export const buildArchon = async (deck) => {
     if (!deck.houses) {
-        return DefaultCard;
+        return Constants.DefaultCard;
+    }
+
+    if (!cacheLoaded) {
+        await cacheImages();
     }
 
     let canvas;
     try {
         canvas = new fabric.Canvas('archon');
     } catch (err) {
-        return DefaultCard;
+        return Constants.DefaultCard;
     }
 
     canvas.setDimensions({ width: 600, height: 840 });
-    let archon;
-    try {
-        archon = await loadImage(`/img/idbacks/archons/${imageName(deck, language)}.png`);
-    } catch {
-        archon = DefaultCard;
-    }
 
-    canvas.add(archon);
-    canvas.add(getCircularText(deck.name, 700, 15));
-
-    return canvas.toDataURL({ format: 'jpeg', quality: 0.8 });
-};
-
-const imageName = (deck, language) => {
-    let number = btoa(deck.uuid || uuid.v1())
+    let number = btoa(deck.uuid)
         .replace(/[\D+089]/g, '')
         .slice(-1);
-    return btoa([...deck.houses.sort(), language, number === '' ? 1 : number].join());
+
+    const cardback = IdBackBlanksIcons[number];
+    const house1 = IdBackHouseIcons[deck.houses[0]];
+    const house2 = IdBackHouseIcons[deck.houses[1]];
+    const house3 = IdBackHouseIcons[deck.houses[2]];
+
+    if (!cardback || !house1 || !house2 || !house3) {
+        return Constants.DefaultCard;
+    }
+
+    house1.scaleToWidth(150);
+    house2.scaleToWidth(150);
+    house3.scaleToWidth(150);
+    house1.set({ left: 45, top: 70 });
+    house2.set({ left: 225, top: 20 });
+    house3.set({ left: 405, top: 70 });
+    canvas.add(cardback);
+    canvas.add(house1);
+    canvas.add(house2);
+    canvas.add(house3);
+
+    let text;
+    try {
+        text = getCircularText(deck.name, 2500, 1420);
+    } catch (err) {
+        text = false;
+    }
+    if (text) {
+        canvas.add(text);
+    }
+    canvas.renderAll();
+    return canvas.toDataURL({ format: 'jpeg', quality: 1 });
 };
 
 const getCurvedFontSize = (length) => {
@@ -303,16 +352,26 @@ const getCurvedFontSize = (length) => {
     return size;
 };
 
-const getCircularText = (text = '', diameter, yOffset = 0) => {
-    let canvas;
+const getCircularText = (
+    text = '',
+    diameter,
+    yOffset = 0,
+    fontSize = getCurvedFontSize(text.length)
+) => {
+    let canvas, ctx;
     try {
         canvas = fabric.util.createCanvasElement();
-        canvas.id = 'archon-canvas';
+        canvas.id = 'circular-text';
     } catch (err) {
         return;
     }
 
-    let ctx = canvas.getContext('2d');
+    try {
+        ctx = canvas.getContext('2d');
+    } catch (err) {
+        return;
+    }
+
     let textHeight = 40,
         startAngle = 0;
 
@@ -325,7 +384,7 @@ const getCircularText = (text = '', diameter, yOffset = 0) => {
     ctx.shadowBlur = 4;
     ctx.shadowOffsetX = 2;
     ctx.shadowOffsetY = 3;
-    ctx.font = `${getCurvedFontSize(text.length)}px Keyforge`;
+    ctx.font = `${fontSize}px Keyforge`;
 
     text = text.split('').reverse().join('');
 
@@ -347,8 +406,5 @@ const getCircularText = (text = '', diameter, yOffset = 0) => {
         ctx.rotate((charWid / 2 / (diameter / 2 - textHeight)) * -1); // rotate half letter
     }
 
-    let img = document.createElement('img');
-    img.src = canvas.toDataURL();
-
-    return new fabric.Image(img, { left: 0, top: 0 });
+    return new fabric.Image(canvas, { left: 0, top: 0, crossOrigin: 'Anonymous' });
 };

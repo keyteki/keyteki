@@ -381,7 +381,6 @@
     "privacy.lobby": "Vos messages du chat room sont stockés afin que nous puissions les afficher à d'autres utilisateurs du site et détecter les modèles de comportement abusif.  Vos messages peuvent également être modérés pour supprimer du contenu offensant, ou supprimés complètement à notre discrétion.",
     "Create": "Créer",
     "{{card}}": "{{card}}",
-    "{{card}} ({{quantity}})": "{{card}} ({{quantity}})",
     "How much amber do you want to use from {{card}}?": "Combien d’aombres voulez-vous utiliser de {{card}} ?",
     "Do you wish to repeat this effect?": "Souhaitez-vous répéter cet effet ?",
     "Do you wish to forge a key?": "Souhaitez-vous forger une clé ?",
@@ -535,5 +534,12 @@
     "No games are currently in progress. Click the buttons above to start one.": "No games are currently in progress. Click the buttons above to start one.",
     "Please log in to be able to start a new game": "Please log in to be able to start a new game",
     "Private (requires game link)": "Private (requires game link)",
-    "Mass Mutation": "Mass Mutation"
+    "Mass Mutation": "Mass Mutation",
+    "Waiting for ping": "Waiting for ping",
+    "Connecting": "Connecting",
+    "Disconnected": "Disconnected",
+    "Expansion": "Expansion",
+    "Added": "Added",
+    "Win %": "Win %",
+    "Filter by name": "Filter by name"
 }

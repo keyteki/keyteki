@@ -381,7 +381,6 @@
     "privacy.lobby": "Twoje wiadomości z głownej poczekalni są zbierane byśmy mogli je zaprezentować innym użytkownikom i wykrywać wzorce niepożądanych zachowań. Twoje wiadomości mogą być też modyfikowane, by usunąć obraźliwą zawartość albo nawet usunięte, zależnie od naszej decyzji.",
     "Create": "Stwórz",
     "{{card}}": "{{card}}",
-    "{{card}} ({{quantity}})": "{{card}} ({{quantity}})",
     "How much amber do you want to use from {{card}}?": "Jak wiele amber z karty {{card}} chcesz wykorzystać?",
     "Do you wish to repeat this effect?": "Czy chcesz powtórzyć ten efekt?",
     "Do you wish to forge a key?": "Czy chcesz wykuć klucz?",
@@ -535,5 +534,12 @@
     "No games are currently in progress. Click the buttons above to start one.": "No games are currently in progress. Click the buttons above to start one.",
     "Please log in to be able to start a new game": "Please log in to be able to start a new game",
     "Private (requires game link)": "Private (requires game link)",
-    "Mass Mutation": "Mass Mutation"
+    "Mass Mutation": "Mass Mutation",
+    "Waiting for ping": "Waiting for ping",
+    "Connecting": "Connecting",
+    "Disconnected": "Disconnected",
+    "Expansion": "Expansion",
+    "Added": "Added",
+    "Win %": "Win %",
+    "Filter by name": "Filter by name"
 }

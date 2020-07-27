@@ -45,10 +45,6 @@ class HandlerMenuPrompt extends UiPrompt {
             new AbilityContext({ game: game, player: player, source: this.source });
     }
 
-    getButtonArg(card) {
-        return card.id + '_' + card.printedHouse;
-    }
-
     activeCondition(player) {
         return player === this.player;
     }
@@ -56,30 +52,12 @@ class HandlerMenuPrompt extends UiPrompt {
     activePrompt() {
         let buttons = [];
         if (this.properties.cards) {
-            let cardQuantities = {};
-            _.each(this.properties.cards, (card) => {
-                let arg = this.getButtonArg(card);
-                if (cardQuantities[arg]) {
-                    cardQuantities[arg] += 1;
-                } else {
-                    cardQuantities[arg] = 1;
-                }
-            });
-
-            let cards = _.uniq(this.properties.cards, (card) => this.getButtonArg(card));
-            buttons = _.map(cards, (card) => {
+            buttons = _.map(this.properties.cards, (card) => {
                 let text = '{{card}}';
                 let values = {
                     card: card.name
                 };
-
-                let arg = this.getButtonArg(card);
-                if (cardQuantities[arg] > 1) {
-                    values.quantity = cardQuantities[arg].toString();
-                    text = text + ' ({{quantity}})';
-                }
-
-                return { text: text, arg: arg, card: card, values: values };
+                return { text: text, arg: card.uuid, card: card, values: values };
             });
         }
 
@@ -136,7 +114,7 @@ class HandlerMenuPrompt extends UiPrompt {
 
     menuCommand(player, arg) {
         if (_.isString(arg)) {
-            let card = _.find(this.properties.cards, (card) => this.getButtonArg(card) === arg);
+            let card = _.find(this.properties.cards, (card) => card.uuid === arg);
             if (card && this.properties.cardHandler) {
                 this.properties.cardHandler(card);
                 this.complete();
