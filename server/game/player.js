@@ -673,7 +673,7 @@ class Player extends GameObject {
         this.keysForgedThisRound.push(key);
         this.game.addMessage(
             '{0} forges the {1}, paying {2} amber',
-            this.game.activePlayer,
+            this,
             `forgedkey${key}`,
             modifiedCost
         );
