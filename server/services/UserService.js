@@ -164,7 +164,8 @@ class UserService extends EventEmitter {
 
         let query =
             'UPDATE "Users" SET "Email" = $1, "Verified" = $2, "Disabled" = $3, "Settings_Avatar" = $4, ' +
-            '"Settings_CardSize" = $5, "Settings_Background" = $6, "Settings_OrderAbilities" = $7, "Settings_ConfirmOneClick" = $8, "PatreonToken" = $9 WHERE "Id" = $10';
+            '"Settings_CardSize" = $5, "Settings_Background" = $6, "Settings_OrderAbilities" = $7, "Settings_ConfirmOneClick" = $8, ' +
+            '"PatreonToken" = $9, "Settings_CustomBackground" = $10 WHERE "Id" = $11';
 
         try {
             await db.query(query, [
@@ -177,6 +178,7 @@ class UserService extends EventEmitter {
                 user.settings.optionSettings.orderForcedAbilities,
                 user.settings.optionSettings.confirmOneClick,
                 JSON.stringify(user.patreon),
+                user.settings.customBackground,
                 user.id
             ]);
         } catch (err) {
@@ -576,6 +578,7 @@ class UserService extends EventEmitter {
                 avatar: dbUser.Settings_Avatar,
                 background: dbUser.Settings_Background,
                 cardSize: dbUser.Settings_CardSize,
+                customBackground: dbUser.Settings_CustomBackground,
                 optionSettings: {
                     orderForcedAbilities: dbUser.Settings_OrderAbilities,
                     confirmOneClick: dbUser.Settings_ConfirmOneClick

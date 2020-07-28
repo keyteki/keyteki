@@ -35,6 +35,12 @@ function verifyPassword(password, dbPassword) {
     });
 }
 
+function isValidImage(base64Image) {
+    let buffer = Buffer.from(base64Image, 'base64');
+
+    return buffer.toString('hex', 0, 4) === '89504e47' || buffer.toString('hex', 0, 2) === 'ffd8';
+}
+
 async function sendEmail(address, subject, email) {
     if (!configService.getValueForSection('lobby', 'emailKey')) {
         logger.info(`Trying to send email to ${address}, but email key not configured.`);
@@ -126,42 +132,81 @@ async function getRandomAvatar(user) {
     await writeFile(`public/img/avatar/${user.username}.png`, avatar, 'binary');
 }
 
-function processAvatar(newUser, user) {
+function processImage(image, width, height) {
+    return new Promise((resolve, reject) => {
+        const canvas = new fabric.StaticCanvas();
+        canvas.setDimensions({ width: width, height: height });
+        fabric.Image.fromURL(
+            'data:image/png;base64,' + image,
+            (img) => {
+                if (img.getElement() == null) {
+                    reject('Error occured in fabric');
+                } else {
+                    img.scaleToWidth(width)
+                        .scaleToHeight(height)
+                        .set({
+                            originX: 'center',
+                            originY: 'center',
+                            left: width / 2,
+                            top: height / 2
+                        });
+                    canvas.add(img);
+                    canvas.renderAll();
+                    let dataUrl = canvas.toDataURL();
+                    let base64Data = dataUrl.replace(/^data:image\/png;base64,/, '');
+
+                    resolve(base64Data);
+                }
+            },
+            { crossOrigin: 'anonymous' }
+        );
+    });
+}
+
+async function processAvatar(newUser, user) {
     let hash = crypto.randomBytes(16).toString('hex');
 
     if (fs.existsSync(`public/img/avatar/${user.settings.avatar}.png`)) {
         fs.unlinkSync(`public/img/avatar/${user.settings.avatar}.png`);
     }
 
-    return new Promise((resolve, reject) => {
-        const canvas = new fabric.StaticCanvas();
-        canvas.setDimensions({ width: 24, height: 24 });
-        fabric.Image.fromURL(
-            'data:image/png;base64,' + newUser.avatar,
-            (img) => {
-                if (img.getElement() == null) {
-                    reject();
-                } else {
-                    img.scaleToWidth(24)
-                        .scaleToHeight(24)
-                        .set({ originX: 'center', originY: 'center', left: 12, top: 12 });
-                    canvas.add(img);
-                    canvas.renderAll();
-                    let dataUrl = canvas.toDataURL();
-                    let base64Data = dataUrl.replace(/^data:image\/png;base64,/, '');
-                    fs.writeFile(
-                        `./public/img/avatar/${user.username}-${hash}.png`,
-                        base64Data,
-                        'base64',
-                        () => {
-                            resolve(`${user.username}-${hash}`);
-                        }
-                    );
-                }
-            },
-            { crossOrigin: 'anonymous' }
-        );
-    });
+    let fileData;
+    try {
+        fileData = await processImage(newUser.avatar, 24, 24);
+    } catch (err) {
+        logger.error(err);
+        return null;
+    }
+
+    let fileName = `${user.username}-${hash}`;
+    fs.writeFileSync(`public/img/avatar/${fileName}.png`, fileData, 'base64');
+
+    return fileName;
+}
+
+async function processCustomBackground(newUser, user) {
+    let hash = crypto.randomBytes(16).toString('hex');
+
+    if (fs.existsSync(`public/img/bgs/${user.settings.customBackground}.png`)) {
+        fs.unlinkSync(`public/img/bgs/${user.settings.customBackground}.png`);
+    }
+
+    if (!fs.existsSync('public/img/bgs')) {
+        fs.mkdirSync('public/img/bgs/');
+    }
+
+    let fileData;
+    try {
+        fileData = await processImage(newUser.customBackground, 700, 410);
+    } catch (err) {
+        logger.error(err);
+        return null;
+    }
+
+    let fileName = `${user.username}-${hash}`;
+    fs.writeFileSync(`public/img/bgs/${fileName}.png`, fileData, 'base64');
+
+    return fileName;
 }
 
 module.exports.init = function (server, options) {
@@ -793,13 +838,25 @@ module.exports.init = function (server, options) {
                 return res.status(404).send({ message: 'Not found' });
             }
 
+            if (userToSet.avatar && !isValidImage(userToSet.avatar)) {
+                return res.status(400).send({ success: false, message: 'Avatar must be image' });
+            }
+
+            if (userToSet.customBackground && !isValidImage(userToSet.customBackground)) {
+                return res
+                    .status(400)
+                    .send({ success: false, message: 'Background must be image' });
+            }
+
             user = user.getDetails();
 
             user.email = userToSet.email;
             let oldAvatar = user.settings.avatar;
+            let oldCustomBg = user.settings.customBackground;
 
             user.settings = userToSet.settings;
             user.settings.avatar = oldAvatar;
+            user.settings.customBackground = oldCustomBg;
 
             if (userToSet.password && userToSet.password !== '') {
                 user.password = await bcrypt.hash(userToSet.password, 10);
@@ -809,6 +866,10 @@ module.exports.init = function (server, options) {
 
             if (userToSet.avatar) {
                 user.settings.avatar = await processAvatar(userToSet, user);
+            }
+
+            if (userToSet.customBackground) {
+                user.settings.customBackground = await processCustomBackground(userToSet, user);
             }
 
             await userService.update(user);

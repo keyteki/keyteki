@@ -10,6 +10,7 @@ import ProfileBackground from './ProfileBackground';
 import KeyforgeGameSettings from './KeyforgeGameSettings';
 import ProfileCardSize from './ProfileCardSize';
 import { Constants } from '../../constants';
+import { toBase64 } from '../../util';
 import BlankBg from '../../assets/img/bgs/blank.png';
 import MassMutationBg from '../../assets/img/bgs/massmutation.png';
 
@@ -78,6 +79,7 @@ const Profile = ({ onSubmit, isLoading }) => {
     const user = useSelector((state) => state.account.user);
     const [localBackground, setBackground] = useState(user?.settings.background);
     const [localCardSize, setCardSize] = useState(user?.settings.cardSize);
+    const [customBg, setCustomBg] = useState(null);
     const topRowRef = useRef(null);
 
     const backgrounds = [{ name: 'none', label: t('none'), imageUrl: BlankBg }];
@@ -101,18 +103,6 @@ const Profile = ({ onSubmit, isLoading }) => {
         label: t('Mass Mutation'),
         imageUrl: MassMutationBg
     });
-
-    /**
-     * @param {File} file
-     * @returns {Promise<string>}
-     */
-    const toBase64 = (file) =>
-        new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = () => resolve(reader.result.toString().split(',')[1]);
-            reader.onerror = (error) => reject(error);
-        });
 
     if (!user) {
         return <Alert variant='danger'>You need to be logged in to view your profile.</Alert>;
@@ -179,6 +169,10 @@ const Profile = ({ onSubmit, isLoading }) => {
                     submitValues.settings.cardSize = localCardSize;
                 }
 
+                if (customBg) {
+                    submitValues.customBackground = customBg;
+                }
+
                 onSubmit(submitValues);
 
                 topRowRef?.current?.scrollIntoView(false);
@@ -203,7 +197,16 @@ const Profile = ({ onSubmit, isLoading }) => {
                             <ProfileBackground
                                 backgrounds={backgrounds}
                                 selectedBackground={localBackground || user.settings.background}
-                                onBackgroundSelected={(name) => setBackground(name)}
+                                customBackground={user.settings.customBackground}
+                                onBackgroundSelected={async (name, file) => {
+                                    if (name === 'custom') {
+                                        let base64File = await toBase64(file);
+
+                                        setCustomBg(base64File);
+                                    }
+
+                                    setBackground(name);
+                                }}
                             />
                         </Col>
                     </Row>
