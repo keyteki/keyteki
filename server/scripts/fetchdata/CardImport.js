@@ -30,6 +30,8 @@ class CardImport {
     async importCards() {
         let cards = await this.dataSource.getCards();
 
+        cards = cards.sort((a, b) => (a.expansion > b.expansion ? -1 : 1));
+
         await this.cardService.replaceCards(cards);
 
         console.info(cards.length + ' cards fetched');
