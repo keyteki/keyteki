@@ -87,7 +87,8 @@ const Profile = ({ onSubmit, isLoading }) => {
         { name: 'small', label: t('small') },
         { name: 'normal', label: t('normal') },
         { name: 'large', label: t('large') },
-        { name: 'x-large', label: t('extra-large') }
+        { name: 'x-large', label: t('extra-large') },
+        { name: 'mixed', label: t('mixed') }
     ];
 
     for (let i = 0; i < Constants.Houses.length; ++i) {

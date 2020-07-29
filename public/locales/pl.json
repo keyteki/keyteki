@@ -253,6 +253,7 @@
     "small": "małe",
     "large": "duże",
     "extra-large": "bardzo duże",
+    "mixed": "mieszany",
     "Save": "Zapisz",
     "An error occured communicating with the server.  Please try again later.": "Wystąpił błąd podczas połączenia z serwerem.  Spróbuj później.",
     "There was an error in one or more fields, please see below, correct the error and try again": "Wystąpił błąd w jednym lub więcej pól, patrz niżej, popraw błąd i spróbuj ponownie",

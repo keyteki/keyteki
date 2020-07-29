@@ -253,6 +253,7 @@
     "small": "작다",
     "large": "크다",
     "extra-large": "매우 크다",
+    "mixed": "혼합 된",
     "Save": "저장",
     "An error occured communicating with the server.  Please try again later.": "서버와 통신에 실패했습니다.  다시 시도해주세요.",
     "There was an error in one or more fields, please see below, correct the error and try again": "에러가 발생했습니다, 아래를 보고 에러를 확인하시고 다시 시도해주세요",

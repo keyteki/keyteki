@@ -90,6 +90,18 @@
         }
     }
 
+    &.mixed {
+        &.vertical {
+            height: $keyteki-card-mixed-height;
+            width: $keyteki-card-mixed-width;
+        }
+
+        &.horizontal {
+            height: $keyteki-card-mixed-width;
+            width: $keyteki-card-mixed-height;
+        }
+    }
+
     &.x-large {
         &.vertical {
             height: $keyteki-card-xl-height;
