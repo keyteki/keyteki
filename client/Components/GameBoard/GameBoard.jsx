@@ -341,7 +341,12 @@ export class GameBoard extends React.Component {
         if (this.props.cardToZoom && this.props.cards[this.props.cardToZoom.code]) {
             cardToZoom = this.props.cards[this.props.cardToZoom.code];
         } else if (this.props.cardToZoom) {
-            cardToZoom = this.props.cardToZoom;
+            cardToZoom = {
+                ...this.props.cardToZoom,
+                keywords: this.props.cards[this.props.cardToZoom.id]
+                    ? this.props.cards[this.props.cardToZoom.id].keywords
+                    : []
+            };
         }
 
         return (

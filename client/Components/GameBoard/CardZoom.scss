@@ -28,6 +28,47 @@
     }
 }
 
+.keywords-container {
+    background-color: #333333;
+    background-image: url(/eb69f68b44cc14de1eb99e1e1482830f.png);
+    padding: 5px;
+    margin: 5px;
+    color: #ffffff;
+    font-size: 0.6rem;
+    border-radius: calc(0.25rem - 1px);
+    height: 100px;
+    overflow: hidden;
+}
+
+@keyframes slidein {
+    0% {
+        transform: translateY(0%);
+    }
+    50% {
+        transform: translateY(-80%);
+    }
+    100% {
+        transform: translateY(0%);
+    }
+}
+
+.keywords {
+    animation-duration: 10s;
+    animation-name: slidein;
+    animation-iteration-count: infinite;
+}
+
+.keyword-container {
+    p {
+        margin: 0;
+        margin-bottom: 4px;
+        padding: 0;
+        text-align: justify;
+    }
+    padding-top: 5px;
+    border-bottom: 1px solid #ffffff;
+}
+
 .card-zoomed {
     width: 100%;
     height: 100%;
