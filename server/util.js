@@ -1,4 +1,5 @@
 const request = require('request');
+const { fabric } = require('fabric');
 
 function httpRequest(url, options = {}) {
     return new Promise((resolve, reject) => {
@@ -57,8 +58,47 @@ function detectBinary(state, path = '', results = []) {
     return results;
 }
 
+function isValidImage(base64Image) {
+    let buffer = Buffer.from(base64Image, 'base64');
+
+    return buffer.toString('hex', 0, 4) === '89504e47' || buffer.toString('hex', 0, 2) === 'ffd8';
+}
+
+function processImage(image, width, height) {
+    return new Promise((resolve, reject) => {
+        const canvas = new fabric.StaticCanvas();
+        canvas.setDimensions({ width: width, height: height });
+        fabric.Image.fromURL(
+            'data:image/png;base64,' + image,
+            (img) => {
+                if (img.getElement() == null) {
+                    reject('Error occured in fabric');
+                } else {
+                    img.scaleToWidth(width)
+                        .scaleToHeight(height)
+                        .set({
+                            originX: 'center',
+                            originY: 'center',
+                            left: width / 2,
+                            top: height / 2
+                        });
+                    canvas.add(img);
+                    canvas.renderAll();
+                    let dataUrl = canvas.toDataURL();
+                    let base64Data = dataUrl.replace(/^data:image\/png;base64,/, '');
+
+                    resolve(base64Data);
+                }
+            },
+            { crossOrigin: 'anonymous' }
+        );
+    });
+}
+
 module.exports = {
     detectBinary: detectBinary,
     httpRequest: httpRequest,
-    wrapAsync: wrapAsync
+    wrapAsync: wrapAsync,
+    isValidImage: isValidImage,
+    processImage: processImage
 };

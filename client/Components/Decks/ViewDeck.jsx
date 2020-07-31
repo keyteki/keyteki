@@ -1,12 +1,12 @@
 import React from 'react';
 import { Trans } from 'react-i18next';
-import { ButtonGroup, Col } from 'react-bootstrap';
+import { Col, Button } from 'react-bootstrap';
 
 import ConfirmButton from '../Form/ConfirmButton';
 import DeckSummary from './DeckSummary';
 import Panel from '../Site/Panel';
-import { deleteDeck } from '../../redux/actions';
-import { useDispatch } from 'react-redux';
+import { deleteDeck, navigate } from '../../redux/actions';
+import { useDispatch, useSelector } from 'react-redux';
 
 /**
  * @typedef ViewDeckProps
@@ -18,19 +18,35 @@ import { useDispatch } from 'react-redux';
  */
 const ViewDeck = ({ deck }) => {
     const dispatch = useDispatch();
+    const selectedDeck = useSelector((state) => state.cards.selectedDeck);
 
     const handleDeleteClick = () => {
         dispatch(deleteDeck(deck));
     };
 
+    const isDeckValid = (deck) => {
+        if (!deck) {
+            return true;
+        }
+
+        if (deck.status.verified) {
+            return true;
+        }
+
+        return !deck.status.notVerified;
+    };
+
     return (
         <Panel title={deck.name}>
-            <Col xs={12} className='text-center'>
-                <ButtonGroup>
-                    <ConfirmButton onClick={handleDeleteClick}>
-                        <Trans>Delete</Trans>
-                    </ConfirmButton>
-                </ButtonGroup>
+            <Col className='text-center'>
+                <ConfirmButton onClick={handleDeleteClick}>
+                    <Trans>Delete</Trans>
+                </ConfirmButton>
+                {!isDeckValid(selectedDeck) && (
+                    <Button variant='secondary' onClick={() => dispatch(navigate('/decks/verify'))}>
+                        <Trans>Verify Deck</Trans>
+                    </Button>
+                )}
             </Col>
             <DeckSummary deck={deck} />
         </Panel>

@@ -33,12 +33,14 @@ const DecksComponent = () => {
 
     return (
         <div className='full-height'>
-            <Col sm={12}>
-                <ApiStatus
-                    state={apiState}
-                    onClose={() => dispatch(clearApiStatus(Decks.DeleteDeck))}
-                />
-            </Col>
+            <Row>
+                <Col sm={12}>
+                    <ApiStatus
+                        state={apiState}
+                        onClose={() => dispatch(clearApiStatus(Decks.DeleteDeck))}
+                    />
+                </Col>
+            </Row>
             <Row>
                 <Col lg={6} className='full-height'>
                     <Panel title={t('Your decks')}>

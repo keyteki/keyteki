@@ -19,7 +19,7 @@ module.exports = {
      * @param {any[]} params
      */
     query: async (text, params = []) => {
-        logger.debug(text, params);
+        logger.info(text, params);
         let res = await pool.query(text, params);
 
         return res.rows;

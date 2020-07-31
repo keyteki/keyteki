@@ -6,10 +6,9 @@ const moment = require('moment');
 const _ = require('underscore');
 const sendgrid = require('@sendgrid/mail');
 const fs = require('fs');
-const { fabric } = require('fabric');
 
 const logger = require('../log.js');
-const { wrapAsync } = require('../util.js');
+const { wrapAsync, processImage, isValidImage } = require('../util.js');
 const UserService = require('../services/UserService');
 const ConfigService = require('../services/ConfigService');
 const BanlistService = require('../services/BanlistService');
@@ -33,12 +32,6 @@ function verifyPassword(password, dbPassword) {
             return resolve(valid);
         });
     });
-}
-
-function isValidImage(base64Image) {
-    let buffer = Buffer.from(base64Image, 'base64');
-
-    return buffer.toString('hex', 0, 4) === '89504e47' || buffer.toString('hex', 0, 2) === 'ffd8';
 }
 
 async function sendEmail(address, subject, email) {
@@ -130,37 +123,6 @@ async function getRandomAvatar(user) {
     }
 
     await writeFile(`public/img/avatar/${user.username}.png`, avatar, 'binary');
-}
-
-function processImage(image, width, height) {
-    return new Promise((resolve, reject) => {
-        const canvas = new fabric.StaticCanvas();
-        canvas.setDimensions({ width: width, height: height });
-        fabric.Image.fromURL(
-            'data:image/png;base64,' + image,
-            (img) => {
-                if (img.getElement() == null) {
-                    reject('Error occured in fabric');
-                } else {
-                    img.scaleToWidth(width)
-                        .scaleToHeight(height)
-                        .set({
-                            originX: 'center',
-                            originY: 'center',
-                            left: width / 2,
-                            top: height / 2
-                        });
-                    canvas.add(img);
-                    canvas.renderAll();
-                    let dataUrl = canvas.toDataURL();
-                    let base64Data = dataUrl.replace(/^data:image\/png;base64,/, '');
-
-                    resolve(base64Data);
-                }
-            },
-            { crossOrigin: 'anonymous' }
-        );
-    });
 }
 
 async function processAvatar(newUser, user) {

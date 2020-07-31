@@ -9,6 +9,16 @@ class DeckService {
         this.houseCache = {};
     }
 
+    async flagDeckForVerification(deck) {
+        try {
+            await db.query('UPDATE "Decks" SET "Flagged" = true WHERE "Id" = $1', [deck.id]);
+        } catch (err) {
+            logger.error('Failed to flag deck', err);
+
+            throw err;
+        }
+    }
+
     async getHouseIdFromName(house) {
         if (this.houseCache[house]) {
             return this.houseCache[house];
@@ -526,31 +536,29 @@ class DeckService {
         }
     }
 
-    async getFlaggedUnverifiedDecksForUser(user) {
+    async getFlaggedUnverifiedDecks() {
         let retDecks = [];
         let decks;
 
         try {
             decks = await db.query(
-                'SELECT d.*, u."Username", e."ExpansionId" as "Expansion", (SELECT COUNT(*) FROM "Decks" WHERE "Name" = d."Name") AS "DeckCount", ' +
-                    '(SELECT COUNT(*) FROM "Games" g JOIN "GamePlayers" gp ON gp."GameId" = g."Id" WHERE g."WinnerId" = $1 AND gp."DeckId" = d."Id") AS "WinCount", ' +
-                    '(SELECT COUNT(*) FROM "Games" g JOIN "GamePlayers" gp ON gp."GameId" = g."Id" WHERE g."WinnerId" != $1 AND g."WinnerId" IS NOT NULL AND gp."PlayerId" = $1 AND gp."DeckId" = d."Id") AS "LoseCount" ' +
+                'SELECT d.*, u."Username", e."ExpansionId" as "Expansion" ' +
                     'FROM "Decks" d ' +
                     'JOIN "Users" u ON u."Id" = "UserId" ' +
                     'JOIN "Expansions" e on e."Id" = d."ExpansionId" ' +
-                    'WHERE u."Id" = $1 AND d."Verified" = False AND (SELECT COUNT(*) FROM "Decks" WHERE "Name" = d."Name") > $2',
-                [user.id, this.configService.getValueForSection('lobby', 'lowerDeckThreshold')]
+                    'WHERE d."Verified" = False AND "Flagged" = True',
+                []
             );
         } catch (err) {
-            logger.error(`Failed to retrieve unverified decks: ${user.id}`, err);
+            logger.error('Failed to retrieve unverified decks', err);
 
-            throw new Error(`Unable to fetch unverified decks: ${user.id}`);
+            throw err;
         }
 
         for (let deck of decks) {
             let retDeck = this.mapDeck(deck);
 
-            await this.getDeckCardsAndHouses(deck);
+            await this.getDeckCardsAndHouses(retDeck);
 
             retDecks.push(retDeck);
         }

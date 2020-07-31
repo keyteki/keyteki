@@ -1,8 +1,9 @@
 const passport = require('passport');
+const fs = require('fs');
 
 const ConfigService = require('../services/ConfigService');
 const DeckService = require('../services/DeckService.js');
-const { wrapAsync } = require('../util.js');
+const { wrapAsync, isValidImage, processImage } = require('../util.js');
 const logger = require('../log.js');
 const ServiceFactory = require('../services/ServiceFactory');
 const configService = new ConfigService();
@@ -23,6 +24,20 @@ module.exports.init = function (server) {
 
                 throw new Error('Failed to get standalone decks');
             }
+
+            res.send({ success: true, decks: decks });
+        })
+    );
+
+    server.get(
+        '/api/decks/flagged',
+        passport.authenticate('jwt', { session: false }),
+        wrapAsync(async function (req, res) {
+            if (!req.user.permissions || !req.user.permissions.canVerifyDecks) {
+                return res.status(403);
+            }
+
+            let decks = await deckService.getFlaggedUnverifiedDecks();
 
             res.send({ success: true, decks: decks });
         })
@@ -83,6 +98,19 @@ module.exports.init = function (server) {
 
                     deck.usageLevel = deckUsageLevel;
                     deck.usageCount = undefined;
+
+                    let hasEnhancementsSet = true;
+                    let hasEnhancements = false;
+                    if (deck.cards.some((c) => c.enhancements && c.enhancements[0] === '')) {
+                        hasEnhancementsSet = false;
+                    }
+
+                    if (deck.cards.some((c) => c.enhancements)) {
+                        hasEnhancements = true;
+                    }
+
+                    deck.basicRules = hasEnhancementsSet;
+                    deck.notVerified = hasEnhancements && !deck.verified;
 
                     return deck;
                 });
@@ -237,6 +265,69 @@ module.exports.init = function (server) {
 
             await deckService.update(deck);
             res.send({ success: true, message: 'Enhancements added successfully', deckId: id });
+        })
+    );
+
+    server.post(
+        '/api/decks/:id/uploadVerification',
+        passport.authenticate('jwt', { session: false }),
+        wrapAsync(async function (req, res) {
+            let id = req.params.id;
+
+            let deck = await deckService.getById(id);
+            if (!deck) {
+                return res.status(404).send({ success: false, message: 'No such deck' });
+            }
+
+            if (deck.username !== req.user.username) {
+                return res.status(401).send({ message: 'Unauthorized' });
+            }
+
+            for (let image of Object.values(req.body.images)) {
+                if (!isValidImage(image)) {
+                    return res.status(400).send({ success: false, message: 'Invalid card image' });
+                }
+            }
+
+            if (!fs.existsSync('public/img/deck-verification/')) {
+                fs.mkdirSync('public/img/deck-verification/');
+            }
+
+            if (!fs.existsSync(`public/img/deck-verification/${deck.id}/`)) {
+                fs.mkdirSync(`public/img/deck-verification/${deck.id}/`);
+            }
+
+            let cardsNeedingVerification = {};
+
+            for (let card of deck.cards.filter((card) => card.enhancements)) {
+                cardsNeedingVerification[card.dbId] = card;
+            }
+
+            for (let [cardId, image] of Object.entries(req.body.images)) {
+                if (!cardsNeedingVerification[cardId]) {
+                    return res
+                        .status(400)
+                        .send({ success: false, message: 'Card not needing verification' });
+                }
+
+                let fileData;
+                try {
+                    fileData = await processImage(image, 300, 420);
+                } catch (err) {
+                    logger.error(err);
+                    return null;
+                }
+
+                fs.writeFileSync(
+                    `public/img/deck-verification/${deck.id}/${cardId}.png`,
+                    fileData,
+                    'base64'
+                );
+            }
+
+            await deckService.flagDeckForVerification(deck);
+
+            res.send({ success: true, message: 'Images uploaded successfully' });
         })
     );
 };

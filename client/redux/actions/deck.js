@@ -106,3 +106,17 @@ export function saveDeckEnhancements(deck, enhancements) {
         }
     };
 }
+
+export function uploadVerificationImages(deck, images) {
+    let str = JSON.stringify({ images: images });
+
+    return {
+        types: [Decks.UploadImages, Decks.ImagesUploaded],
+        shouldCallAPI: () => true,
+        APIParams: {
+            url: `/api/decks/${deck.id}/uploadVerification`,
+            type: 'POST',
+            data: str
+        }
+    };
+}

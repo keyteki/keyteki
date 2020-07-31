@@ -60,7 +60,7 @@ class Server {
         );
         app.use(passport.initialize());
 
-        app.use(bodyParser.json({ limit: '5mb' }));
+        app.use(bodyParser.json({ limit: '100mb' }));
         app.use(bodyParser.urlencoded({ extended: false }));
 
         api.init(app, options);

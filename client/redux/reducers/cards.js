@@ -55,7 +55,8 @@ function processDecks(decks, state) {
             usageLevel: deck.usageLevel,
             noUnreleasedCards: true,
             officialRole: true,
-            extendedStatus: []
+            extendedStatus: [],
+            notVerified: deck.notVerified
         };
     }
 }

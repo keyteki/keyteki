@@ -27,6 +27,8 @@ import Privacy from './pages/Privacy';
 import BanlistAdmin from './pages/BanlistAdmin';
 import Patreon from './pages/Patreon';
 import Enhancements from './pages/Enhancements';
+import VerifyDeck from './pages/VerifyDeck';
+import DeckVerification from './pages/DeckVerification';
 
 const routes = [
     { path: '/', action: () => <Lobby key='lobby' /> },
@@ -41,6 +43,7 @@ const routes = [
     { path: '/decks', action: () => <Decks key='decks' /> },
     { path: '/decks/import', action: () => <ImportDeck key='importDecks' /> },
     { path: '/decks/enhancements', action: () => <Enhancements key='enhancements' /> },
+    { path: '/decks/verify', action: () => <VerifyDeck key='verifyDeck' /> },
     { path: '/forgot', action: () => <ForgotPassword key='forgotpassword' /> },
     { path: '/how-to-play', action: () => <HowToPlay key='howtoplay' /> },
     { path: '/login', action: () => <Login key='login' /> },
@@ -85,6 +88,11 @@ const routes = [
         path: '/admin/motd',
         action: () => <MotdAdmin key='motdadmin' />,
         permission: 'canManageMotd'
+    },
+    {
+        path: '/admin/decks',
+        action: () => <DeckVerification key='deckVerification' />,
+        permissions: 'canVerifyDecks'
     },
     { path: '/patreon', action: (context) => <Patreon code={context.params.code} /> }
 ];

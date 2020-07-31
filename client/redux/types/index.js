@@ -18,7 +18,9 @@ export const Decks = Object.freeze({
     RequestDecks: 'REQUEST_DECKS',
     DecksReceived: 'DECKS_RECEIVED',
     SaveEnhancements: 'DECK_SAVE_ENHANCEMENTS',
-    EnhancementsSaved: 'DECK_ENHANCEMENTS_SAV'
+    EnhancementsSaved: 'DECK_ENHANCEMENTS_SAV',
+    UploadImages: 'DECK_UPLOAD_IMAGES',
+    ImagesUploaded: 'DECK_IMAGES_UPLOADED'
 });
 
 export const UserAction = Object.freeze({
@@ -49,4 +51,13 @@ export const Challonge = Object.freeze({
     CreateAttachments: 'CREATE_ATTACHMENTS',
     ReceiveAttachments: 'RECEIVE_ATTACHMENTS',
     ClearMessage: 'CLEAR_CHALLONGE_MESSAGE'
+});
+
+export const Admin = Object.freeze({
+    FindUser: 'ADMIN_FINDUSER',
+    UserFound: 'ADMIN_USERFOUND',
+    SaveUser: 'SAVE_USER',
+    UserSaved: 'USER_SAVED',
+    RequestFlaggedDecks: 'REQUEST_FLAGGED_DECKS',
+    ReceiveFlaggedDecks: 'RECEIVE_FLAGGED_DECKS'
 });
