@@ -12,11 +12,16 @@ CREATE TABLE public."DeckCards"
     "ImageUrl" text COLLATE pg_catalog."default",
     "Enhancements" text COLLATE pg_catalog."default",
     "DeckId" integer NOT NULL,
+    "HouseId" integer NOT NULL,
     CONSTRAINT "PK_DeckCards" PRIMARY KEY ("Id"),
     CONSTRAINT "FK_DeckCards_Decks_DeckId" FOREIGN KEY ("DeckId")
         REFERENCES public."Decks" ("Id") MATCH SIMPLE
         ON UPDATE NO ACTION
-        ON DELETE CASCADE
+        ON DELETE CASCADE,
+    CONSTRAINT "FK_DeckCards_Houses_HouseId" FOREIGN KEY ("HouseId")
+        REFERENCES public."Houses" ("Id") MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE CASCADE;
 )
 
 TABLESPACE pg_default;
