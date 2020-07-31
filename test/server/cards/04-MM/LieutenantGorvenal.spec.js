@@ -57,7 +57,7 @@ describe('Lieutenant Gorvenal', function () {
         });
     });
 
-    fdescribe("Lieutenant Gorvenal's Ability", function () {
+    describe("Lieutenant Gorvenal's Ability", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
