@@ -9,10 +9,14 @@ class Drecker extends Card {
             },
             effect: 'duplicate the damage dealt to {1}',
             effectArgs: (context) => context.event.card,
-            gameAction: ability.actions.dealDamage((context) => ({
-                amount: context.event.amount,
-                damageSource: context.event.damageSource,
-                ignoreArmor: context.event.ignoreArmor
+            gameAction: ability.actions.addEventToWindow((context) => ({
+                targetEvent: context.event,
+                eventToAdd: ability.actions
+                    .dealDamage({
+                        amount: context.event.amount,
+                        damageSource: context.event.damageSource,
+                        ignoreArmor: context.event.ignoreArmor
+                    }).getEvent(context.source, context.event.context)
             }))
         });
 
