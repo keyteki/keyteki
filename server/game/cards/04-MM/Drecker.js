@@ -2,7 +2,7 @@ const Card = require('../../Card.js');
 
 class Drecker extends Card {
     setupCardAbilities(ability) {
-        this.reaction({
+        this.interrupt({
             when: {
                 onDamageDealt: (event, context) =>
                     event.fightEvent && context.source.neighbors.includes(event.card)
@@ -12,8 +12,7 @@ class Drecker extends Card {
             gameAction: ability.actions.dealDamage((context) => ({
                 amount: context.event.amount,
                 damageSource: context.event.damageSource,
-                ignoreArmor: context.event.ignoreArmor,
-                fightEvent: context.event.fightEvent
+                ignoreArmor: context.event.ignoreArmor
             }))
         });
 

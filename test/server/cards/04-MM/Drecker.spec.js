@@ -3,7 +3,7 @@ describe('Drecker', function () {
         this.setupTest({
             player1: {
                 house: 'dis',
-                inPlay: ['snarette', 'drecker', 'umbra'],
+                inPlay: ['snarette', 'drecker'],
                 hand: ['ortannu-s-binding', 'drecker']
             },
             player2: {
@@ -51,8 +51,7 @@ describe('Drecker', function () {
 
     describe('when two dreckers are next to each other', function () {
         beforeEach(function () {
-            this.player1.fightWith(this.snarette, this.troll);
-            this.player1.play(this.drecker2, true);
+            this.player1.play(this.drecker2);
             this.player1.fightWith(this.drecker, this.badPenny);
         });
 
