@@ -23,6 +23,7 @@ class CaptureAction extends CardAction {
             player.checkRestrictions('capture', context) &&
             player.amber > 0 &&
             this.amount > 0 &&
+            card.location === 'play area' &&
             super.canAffect(card, context)
         );
     }
