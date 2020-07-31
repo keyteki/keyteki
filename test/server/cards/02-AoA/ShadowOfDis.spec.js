@@ -1,4 +1,4 @@
-describe('Shadow of Dis', function () {
+fdescribe('Shadow of Dis', function () {
     describe("Shadow of Dis' ability", function () {
         beforeEach(function () {
             this.setupTest({
@@ -113,6 +113,89 @@ describe('Shadow of Dis', function () {
             this.player1.play(this.bumpsy);
             this.player1.clickCard(this.huntingWitch);
             expect(this.player1.amber).toBe(2);
+        });
+    });
+
+    describe('Shadow of Dis Blossom Drake interaction', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'dis',
+                    inPlay: ['the-pale-star', 'autocannon'],
+                    hand: ['shadow-of-dis', 'ember-imp']
+                },
+                player2: {
+                    inPlay: ['blossom-drake'],
+                    hand: ['snufflegator']
+                }
+            });
+            this.blossomDrake.tokens.damage = 1;
+        });
+
+        it("Blossom Drake's ability should be active when in play", function () {
+            this.player1.play(this.emberImp);
+            expect(this.emberImp.hasToken('damage')).toBe(false);
+            expect(this.emberImp.location).toBe('play area');
+            this.player1.endTurn();
+
+            this.player2.clickPrompt('untamed');
+            this.player2.play(this.snufflegator);
+            expect(this.snufflegator.hasToken('damage')).toBe(false);
+            expect(this.snufflegator.location).toBe('play area');
+        });
+
+        it("Blossom Drake's ability should not be active when Shadow of Dis is active", function () {
+            this.player1.play(this.shadowOfDis);
+            this.player1.play(this.emberImp);
+            expect(this.emberImp.tokens.damage).toBe(1);
+            expect(this.emberImp.location).toBe('play area');
+            this.player1.endTurn();
+
+            this.player2.clickPrompt('untamed');
+            this.player2.play(this.snufflegator);
+            expect(this.snufflegator.tokens.damage).toBe(1);
+            expect(this.snufflegator.location).toBe('play area');
+        });
+
+        it("Blossom Drake's ability should be active when Shadow of Dis has expired and it is in play", function () {
+            this.player1.play(this.shadowOfDis);
+            this.player1.endTurn();
+
+            this.player2.clickPrompt('untamed');
+            this.player2.endTurn();
+
+            this.player1.clickPrompt('dis');
+            this.player1.play(this.emberImp);
+            expect(this.emberImp.hasToken('damage')).toBe(false);
+            expect(this.emberImp.location).toBe('play area');
+            this.player1.endTurn();
+
+            this.player2.clickPrompt('untamed');
+            this.player2.play(this.snufflegator);
+            expect(this.snufflegator.hasToken('damage')).toBe(false);
+            expect(this.snufflegator.location).toBe('play area');
+        });
+
+        it("Blossom Drake's ability should not active when Shadow of Dis has expired and it has left play", function () {
+            this.player1.play(this.shadowOfDis);
+            this.player1.clickCard(this.thePaleStar);
+            this.player1.clickPrompt("Use this card's Omni ability");
+            expect(this.blossomDrake.location).toBe('discard');
+            this.player1.endTurn();
+
+            this.player2.clickPrompt('untamed');
+            this.player2.endTurn();
+
+            this.player1.clickPrompt('dis');
+            this.player1.play(this.emberImp);
+            expect(this.emberImp.tokens.damage).toBe(1);
+            expect(this.emberImp.location).toBe('play area');
+            this.player1.endTurn();
+
+            this.player2.clickPrompt('untamed');
+            this.player2.play(this.snufflegator);
+            expect(this.snufflegator.tokens.damage).toBe(1);
+            expect(this.snufflegator.location).toBe('play area');
         });
     });
 });

@@ -124,7 +124,11 @@ class Card extends EffectSource {
     }
 
     get reactions() {
-        if (this.isBlank()) {
+        return this.getReactions();
+    }
+
+    getReactions(ignoreBlank = false) {
+        if (this.isBlank() && !ignoreBlank) {
             return this.abilities.keywordReactions;
         }
 
@@ -144,7 +148,11 @@ class Card extends EffectSource {
     }
 
     get persistentEffects() {
-        if (this.isBlank()) {
+        return this.getPersistentEffects();
+    }
+
+    getPersistentEffects(ignoreBlank = false) {
+        if (this.isBlank() && !ignoreBlank) {
             return this.abilities.keywordPersistentEffects;
         }
 
@@ -500,7 +508,7 @@ class Card extends EffectSource {
     }
 
     updateAbilityEvents(from, to) {
-        _.each(this.reactions, (reaction) => {
+        _.each(this.getReactions(true), (reaction) => {
             if (reaction.location.includes(to) && !reaction.location.includes(from)) {
                 reaction.registerEvents();
             } else if (!reaction.location.includes(to) && reaction.location.includes(from)) {
@@ -514,7 +522,7 @@ class Card extends EffectSource {
             this.removeLastingEffects();
         }
 
-        _.each(this.persistentEffects, (effect) => {
+        _.each(this.getPersistentEffects(true), (effect) => {
             if (effect.location !== 'any') {
                 if (to === 'play area' && from !== 'play area') {
                     effect.ref = this.addEffectToEngine(effect);
@@ -527,7 +535,7 @@ class Card extends EffectSource {
     }
 
     updateEffectContexts() {
-        for (const effect of this.persistentEffects) {
+        for (const effect of this.getPersistentEffects(true)) {
             if (effect.ref) {
                 for (let e of effect.ref) {
                     e.refreshContext();
