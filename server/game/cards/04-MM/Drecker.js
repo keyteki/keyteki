@@ -16,7 +16,8 @@ class Drecker extends Card {
                         amount: context.event.amount,
                         damageSource: context.event.damageSource,
                         ignoreArmor: context.event.ignoreArmor
-                    }).getEvent(context.source, context.event.context)
+                    })
+                    .getEvent(context.source, context.event.context)
             }))
         });
 
