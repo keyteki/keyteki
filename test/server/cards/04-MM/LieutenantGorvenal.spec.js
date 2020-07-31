@@ -56,4 +56,41 @@ describe('Lieutenant Gorvenal', function () {
             expect(this.player2.amber).toBe(3);
         });
     });
+
+    fdescribe("Lieutenant Gorvenal's Ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 3,
+                    house: 'saurian',
+                    inPlay: ['lieutenant-gorvenal', 'citizen-shrix', 'troll', 'bulwark'],
+                    hand: ['exile']
+                },
+                player2: {
+                    amber: 3,
+                    inPlay: ['barrister-joya']
+                }
+            });
+
+            this.player1.play(this.exile);
+            this.player1.clickCard(this.bulwark);
+            this.player1.clickPrompt('left');
+            this.player1.endTurn();
+            this.player2.clickPrompt('sanctum');
+        });
+
+        it('should not capture after an exiled creature fights and not die', function () {
+            this.player2.fightWith(this.bulwark, this.citizenShrix);
+            expect(this.bulwark.location).toBe('play area');
+            expect(this.citizenShrix.location).toBe('discard');
+            expect(this.lieutenantGorvenal.amber).toBe(0);
+        });
+
+        it('should not capture after an exiled creature fights and dies', function () {
+            this.player2.fightWith(this.bulwark, this.troll);
+            expect(this.troll.location).toBe('play area');
+            expect(this.bulwark.location).toBe('discard');
+            expect(this.lieutenantGorvenal.amber).toBe(0);
+        });
+    });
 });
