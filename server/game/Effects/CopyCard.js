@@ -1,5 +1,3 @@
-const _ = require('underscore');
-
 const EffectValue = require('./EffectValue');
 const GainAbility = require('./GainAbility');
 
@@ -9,14 +7,13 @@ class CopyCard extends EffectValue {
         this.abilitiesForTargets = {};
         if (card.anyEffect('copyCard')) {
             this.value = card.mostRecentEffect('copyCard');
-            const copyEffect = _.last(card.effects.filter((effect) => effect.type === 'copyCard'));
-            this.actions = copyEffect.actions.map(
+            this.actions = this.value.actions.map(
                 (action) => new GainAbility('action', action, true)
             );
-            this.reactions = copyEffect.reactions.map(
+            this.reactions = this.value.reactions.map(
                 (ability) => new GainAbility(ability.abilityType, ability, true)
             );
-            this.persistentEffects = copyEffect.persistentEffects.map(
+            this.persistentEffects = this.value.persistentEffects.map(
                 (properties) => new GainAbility('persistentEffect', properties)
             );
         } else {
