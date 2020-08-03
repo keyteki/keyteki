@@ -26,7 +26,9 @@ class NovuDynamo extends Card {
                         ability.actions.conditional({
                             condition: (context) =>
                                 context.target && context.target.location === 'discard',
-                            trueGameAction: ability.actions.gainAmber()
+                            trueGameAction: ability.actions.gainAmber((context) => ({
+                                target: context.player
+                            }))
                         })
                     ])
                 })
