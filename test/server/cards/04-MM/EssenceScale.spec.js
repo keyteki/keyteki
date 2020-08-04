@@ -44,4 +44,40 @@ describe('Essence Scale', function () {
             });
         });
     });
+
+    describe('Lod Invidius interaction', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'dis',
+                    inPlay: ['lord-invidius', 'essence-scale']
+                },
+                player2: {
+                    inPlay: ['silvertooth', 'umbra']
+                }
+            });
+        });
+
+        it('should take control of Silvertooth, then allow destroying it to ready Invidius', function () {
+            this.player1.reap(this.lordInvidius);
+            expect(this.lordInvidius.exhausted).toBe(true);
+            expect(this.player1).toBeAbleToSelect(this.silvertooth);
+            expect(this.player1).toBeAbleToSelect(this.umbra);
+            this.player1.clickCard(this.silvertooth);
+            expect(this.player1).toHavePrompt('Silvertooth');
+            this.player1.clickPrompt('Left');
+            expect(this.silvertooth.controller).toBe(this.player1.player);
+            expect(this.silvertooth.getHouses()).toContain('dis');
+            expect(this.silvertooth.getHouses()).not.toContain('shadows');
+            this.player1.useAction(this.essenceScale);
+            expect(this.player1).toHavePrompt('Essence Scale');
+            expect(this.player1).toBeAbleToSelect(this.silvertooth);
+            this.player1.clickCard(this.silvertooth);
+            expect(this.silvertooth.location).toBe('discard');
+            expect(this.player1).toHavePrompt('Essence Scale');
+            expect(this.player1).toBeAbleToSelect(this.lordInvidius);
+            this.player1.clickCard(this.lordInvidius);
+            expect(this.player1).toHavePrompt('Lord Invidius');
+        });
+    });
 });
