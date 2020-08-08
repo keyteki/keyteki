@@ -145,4 +145,61 @@ describe('Mimic Gel', function () {
             expect(this.player2).not.toBeAbleToSelect(this.tantadlin);
         });
     });
+
+    describe("Two Mimic Gel's ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'logos',
+                    inPlay: [
+                        'batdrone',
+                        'key-to-dis',
+                        'tantadlin',
+                        'titan-guardian',
+                        'xenos-bloodshadow'
+                    ],
+                    hand: ['mimic-gel', 'mimic-gel']
+                },
+                player2: {
+                    inPlay: ['dust-pixie'],
+                    hand: ['mimic-gel']
+                }
+            });
+
+            this.mimicGel1 = this.player1.player.hand[0];
+            this.mimicGel2 = this.player1.player.hand[1];
+            this.mimicGel3 = this.player2.player.hand[0];
+        });
+
+        it('should allow copying the same creature', function () {
+            this.player1.play(this.mimicGel1);
+            this.player1.clickCard(this.dustPixie);
+            this.player1.play(this.mimicGel2);
+            this.player1.clickCard(this.dustPixie);
+            expect(this.player1.amber).toBe(4);
+            expect(this.player2.amber).toBe(0);
+        });
+
+        it('should allow copying another owned mimic gel', function () {
+            this.player1.play(this.mimicGel1);
+            this.player1.clickCard(this.dustPixie);
+            this.player1.play(this.mimicGel2);
+            this.player1.clickCard(this.mimicGel1);
+            expect(this.player1.amber).toBe(4);
+            expect(this.player2.amber).toBe(0);
+        });
+
+        it("should allow copying opponent's mimic gel", function () {
+            this.player1.play(this.mimicGel1);
+            this.player1.clickCard(this.dustPixie);
+            expect(this.player1.amber).toBe(2);
+            expect(this.player2.amber).toBe(0);
+            this.player1.endTurn();
+            this.player2.clickPrompt('logos');
+            this.player2.play(this.mimicGel3);
+            this.player2.clickCard(this.mimicGel1);
+            expect(this.player1.amber).toBe(2);
+            expect(this.player2.amber).toBe(2);
+        });
+    });
 });
