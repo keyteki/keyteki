@@ -17,6 +17,19 @@
     background-origin: content-box;
 }
 
+.event-banner {
+    padding-top: 0px;
+    padding-bottom: 5px;
+    margin-top: 0px;
+    margin-bottom: 8px;
+    border-radius: 4px;
+    background-image: url('~assets/img/event-banner.png');
+    height: 140px;
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-origin: content-box;
+}
+
 .chat-container {
     flex: 1;
     display: flex;
