@@ -57,14 +57,31 @@ class AdaptiveDeckSelectionPrompt extends AllPlayerPrompt {
         }
 
         if (player1.uuid === player2.uuid) {
+            let link = {
+                link: 'https://www.keyforgegame.com/deck-details/' + player1.uuid,
+                argType: 'link',
+                label: player1.deckName
+            };
+
             this.game.addMessage(
                 'Both players have selected {0}. Bidding will start at 0 chains by {1}',
-                player1.deckName,
+                link,
                 player1.owner
             );
             this.game.queueStep(new ChainBiddingPrompt(this.game, player1));
         } else {
-            this.game.addMessage('Players have selected different decks. Chains will not be bid.');
+            this.players.forEach((player) => {
+                const deck =
+                    player1.owner !== player1.player
+                        ? this.game.getOtherPlayer(player).deckData
+                        : player.deckData;
+                let link = {
+                    link: 'https://www.keyforgegame.com/deck-details/' + deck.uuid,
+                    argType: 'link',
+                    label: deck.name
+                };
+                this.game.addMessage('{0} has selected  {1} as their Archon', player.name, link);
+            });
             if (player1.owner !== player1.player) {
                 this.game.reInitialisePlayers(true);
             }
