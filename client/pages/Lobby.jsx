@@ -106,6 +106,11 @@ class Lobby extends React.Component {
                         <div className='main-header' />
                     </Col>
                 </div>
+                <div>
+                    <Col sm={{ span: 10, offset: 1 }}>
+                        <div className='event-banner' />
+                    </Col>
+                </div>
                 {this.props.motd?.message && (
                     <div>
                         <Col sm={{ span: 10, offset: 1 }} className='banner'>
