@@ -23,7 +23,7 @@ class Turnkey extends Card {
                     effect: ability.effects.delayedEffect({
                         when: { onCardLeavesPlay: (event) => event.card === context.source },
                         gameAction: ability.actions.forgeKey((forgeContext) => ({
-                            target: context.player.opponent,
+                            target: forgeContext.player.opponent,
                             modifier: forgeContext.player.opponent
                                 ? -forgeContext.player.opponent.getCurrentKeyCost()
                                 : 0
