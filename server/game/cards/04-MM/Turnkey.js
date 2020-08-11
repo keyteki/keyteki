@@ -22,10 +22,12 @@ class Turnkey extends Card {
                     duration: 'lastingEffect',
                     effect: ability.effects.delayedEffect({
                         when: { onCardLeavesPlay: (event) => event.card === context.source },
-                        gameAction: ability.actions.forgeKey({
+                        gameAction: ability.actions.forgeKey((forgeContext) => ({
                             target: context.player.opponent,
-                            modifier: -Number.MAX_SAFE_INTEGER
-                        }),
+                            modifier: forgeContext.player.opponent
+                                ? -forgeContext.player.opponent.getCurrentKeyCost()
+                                : 0
+                        })),
                         message: '{0} forges a key due to {1} leaving play'
                     })
                 }))
