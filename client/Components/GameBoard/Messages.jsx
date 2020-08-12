@@ -65,7 +65,6 @@ const Messages = ({ messages, onCardMouseOver, onCardMouseOut }) => {
                 switch (fragment.type) {
                     case 'endofround':
                     case 'phasestart':
-                    case 'startofround':
                         messages.push(
                             <div
                                 className={'font-weight-bold text-white separator ' + fragment.type}
@@ -74,6 +73,16 @@ const Messages = ({ messages, onCardMouseOver, onCardMouseOut }) => {
                                 <hr className={'mt-2 mb-2' + fragment.type} />
                                 {message}
                                 {fragment.type === 'phasestart' && <hr />}
+                            </div>
+                        );
+                        break;
+                    case 'startofround':
+                        messages.push(
+                            <div
+                                className={'font-weight-bold text-white separator ' + fragment.type}
+                                key={index++}
+                            >
+                                {message}
                             </div>
                         );
                         break;
