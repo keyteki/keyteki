@@ -1093,7 +1093,7 @@ class Game extends EventEmitter {
         }
 
         this.addMessage(playerResources);
-        this.addAlert('startofround', `Turn ${this.round}`);
+        this.addAlert('startofround', `Turn ${this.round} - {0}`, this.activePlayer);
         this.checkForTimeExpired();
     }
 
