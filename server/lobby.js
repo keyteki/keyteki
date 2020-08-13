@@ -774,6 +774,10 @@ class Lobby {
                     hasEnhancements = true;
                 }
 
+                if (isStandalone) {
+                    deck.verified = true;
+                }
+
                 deck.status = {
                     basicRules: hasEnhancementsSet,
                     notVerified: hasEnhancements && !deck.verified,
@@ -781,7 +785,8 @@ class Lobby {
                     noUnreleasedCards: true,
                     officialRole: true,
                     usageLevel: deckUsageLevel,
-                    verified: !!deck.verified
+                    verified: !!deck.verified,
+                    impossible: isStandalone && deck.id >= 5
                 };
 
                 deck.usageCount = 0;

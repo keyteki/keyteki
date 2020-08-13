@@ -140,6 +140,8 @@ class DeckService {
         for (const deck of decks) {
             let retDeck = this.mapDeck(deck);
 
+            retDeck.verified = true;
+
             await this.getDeckCardsAndHouses(retDeck, true);
 
             retDecks.push(retDeck);
@@ -453,7 +455,7 @@ class DeckService {
                 await db.query(
                     `INSERT INTO "StandaloneDeckCards" ("CardId", "Count", "Maverick", "Anomaly", "DeckId", "Enhancements") VALUES ${expand(
                         deck.cards.length,
-                        7
+                        6
                     )}`,
                     params
                 );
