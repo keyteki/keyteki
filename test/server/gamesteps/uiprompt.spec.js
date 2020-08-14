@@ -20,7 +20,8 @@ describe('the UiPrompt', function () {
 
         this.activePrompt = {
             menuTitle: 'Do stuff',
-            buttons: [{ command: 'command', text: 'Do It', arg: 'foo' }]
+            buttons: [{ command: 'command', text: 'Do It', arg: 'foo' }],
+            uiBase: jasmine.any(Object)
         };
         this.waitingPrompt = {};
 
@@ -47,7 +48,8 @@ describe('the UiPrompt', function () {
                 this.prompt.activePrompt.and.returnValue({ buttons: [{ text: 'foo' }] });
                 this.prompt.continue();
                 expect(this.player2.setPrompt).toHaveBeenCalledWith({
-                    buttons: [{ command: 'menuButton', text: 'foo', uuid: this.prompt.uuid }]
+                    buttons: [{ command: 'menuButton', text: 'foo', uuid: this.prompt.uuid }],
+                    uiBase: jasmine.any(Object)
                 });
             });
 

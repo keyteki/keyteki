@@ -2,7 +2,7 @@ const PlayerOrderPrompt = require('../../../server/game/gamesteps/playerorderpro
 
 describe('the PlayerOrderPrompt', function () {
     beforeEach(function () {
-        this.activePrompt = { active: true };
+        this.activePrompt = { active: true, uiBase: jasmine.any(Object) };
         this.waitingPrompt = { active: false };
 
         this.game = jasmine.createSpyObj('game', ['getPlayers', 'getPlayersInFirstPlayerOrder']);
