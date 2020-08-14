@@ -11,13 +11,15 @@ const GameFormats = ({ formProps }) => {
         { name: 'normal', label: t('Normal') },
         { name: 'sealed', label: t('Sealed') },
         { name: 'reversal', label: t('Reversal') },
-        { name: 'adaptive-bo1', label: t('Adaptive - Best of 1') }
+        { name: 'adaptive-bo1', label: t('Adaptive - Best of 1') },
+        { name: 'bot', label: t('Play against bot') }
     ];
 
     let expansions = [
         { name: 'cota', label: t('Call of the Archons') },
         { name: 'aoa', label: t('Age of Ascension') },
-        { name: 'wc', label: t('Worlds Collide') }
+        { name: 'wc', label: t('Worlds Collide') },
+        { name: 'mm', label: t('Mass Mutation') }
     ];
 
     return (
@@ -45,7 +47,8 @@ const GameFormats = ({ formProps }) => {
                     </Form.Control.Feedback>
                 </Form.Group>
             </Form.Row>
-            {formProps.values.gameFormat === 'sealed' && (
+            {(formProps.values.gameFormat === 'sealed' ||
+                formProps.values.gameFormat === 'bot') && (
                 <Form.Row>
                     <Form.Group className='game-formats' as={Col}>
                         {expansions.map((expansion) => {

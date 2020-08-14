@@ -518,6 +518,44 @@ class Lobby {
 
         this.games[game.id] = game;
         this.broadcastGameMessage('newgame', game);
+
+        if (gameDetails.gameFormat === 'bot') {
+            this.selectBotDeck(game);
+        }
+    }
+
+    selectBotDeck(game) {
+        logger.info(Object.keys(game));
+        Promise.all([
+            this.cardService.getAllCards(),
+            this.deckService.getSealedDeck(game.expansions)
+        ])
+            .then((results) => {
+                let [cards, deck] = results;
+
+                for (let card of deck.cards) {
+                    card.card = cards[card.id];
+                }
+
+                deck.status = {
+                    basicRules: true,
+                    extendedStatus: [],
+                    flagged: false,
+                    noUnreleasedCards: true,
+                    officialRole: true,
+                    usageLevel: 0,
+                    verified: true
+                };
+
+                game.selectBotDeck(deck);
+
+                this.sendGameState(game);
+            })
+            .catch((err) => {
+                logger.info(err);
+
+                return;
+            });
     }
 
     onJoinGame(socket, gameId, password) {

@@ -5,6 +5,12 @@ class Mug extends Card {
         this.play({
             target: {
                 activePromptTitle: 'Choose a captured amber to move to your pool.',
+                botEffect: {
+                    type: 'card',
+                    cardType: 'creature',
+                    creatureamber: -1,
+                    damage: 2
+                },
                 cardType: 'creature',
                 gameAction: ability.actions.sequential([
                     ability.actions.returnAmber((context) => ({

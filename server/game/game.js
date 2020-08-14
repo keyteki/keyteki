@@ -7,6 +7,7 @@ const ChatCommands = require('./chatcommands');
 const GameChat = require('./gamechat');
 const EffectEngine = require('./effectengine');
 const Player = require('./player');
+const BotPlayer = require('./BotPlayer');
 const Spectator = require('./spectator');
 const AnonymousSpectator = require('./anonymousspectator');
 const GamePipeline = require('./gamepipeline');
@@ -82,7 +83,13 @@ class Game extends EventEmitter {
         this.cardVisibility = new CardVisibility(this);
 
         _.each(details.players, (player) => {
-            this.playersAndSpectators[player.user.username] = new Player(
+            let PlayerClass;
+            if (player.isBot) {
+                PlayerClass = BotPlayer;
+            } else {
+                PlayerClass = Player;
+            }
+            this.playersAndSpectators[player.user.username] = new PlayerClass(
                 player.id,
                 player.user,
                 this.owner === player.user.username,
@@ -100,6 +107,19 @@ class Game extends EventEmitter {
         this.setMaxListeners(0);
 
         this.router = options.router;
+    }
+
+    processBot() {
+        if (this.winner) {
+            return;
+        }
+        let changes = false;
+        for (let bot of _.filter(this.getPlayers(), (player) => {
+            return player instanceof BotPlayer;
+        })) {
+            changes = changes || bot.botRespond();
+        }
+        return changes;
     }
 
     /*

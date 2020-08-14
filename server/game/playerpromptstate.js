@@ -49,6 +49,8 @@ class PlayerPromptState {
 
             return button;
         });
+        // Bot may want to inspect the prompt for more info
+        this.base = prompt.uiBase;
         this.controls = prompt.controls || [];
     }
 

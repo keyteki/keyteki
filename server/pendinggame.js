@@ -4,6 +4,7 @@ const crypto = require('crypto');
 
 const GameChat = require('./game/gamechat.js');
 const logger = require('./log');
+const User = require('./models/User.js');
 
 class PendingGame {
     constructor(owner, details) {
@@ -55,6 +56,15 @@ class PendingGame {
         return this.players[playerName];
     }
 
+    getBot() {
+        let bots = _.filter(this.getPlayers(), (player) => {
+            return player.isBot;
+        });
+        if (bots) {
+            return bots[0];
+        }
+    }
+
     getSaveState() {
         let players = _.map(this.getPlayers(), (player) => {
             return {
@@ -103,6 +113,21 @@ class PendingGame {
             user: user,
             wins: 0
         };
+    }
+
+    addBot() {
+        this.players['bot'] = {
+            id: 13,
+            name: 'bot',
+            owner: false,
+            user: new User({
+                username: 'bot',
+                id: 13
+            }),
+            wins: 0,
+            isBot: true
+        };
+        return this.players['bot'];
     }
 
     addSpectator(id, user) {
@@ -257,6 +282,23 @@ class PendingGame {
         player.deck.selected = true;
 
         this.setupFaction(player, deck.faction);
+    }
+
+    selectBotDeck(deck) {
+        var bot = this.getBot();
+        if (!bot) {
+            bot = this.addBot();
+        }
+        if (bot.deck) {
+            bot.deck.selected = false;
+        }
+
+        bot.deck = deck;
+        bot.deck.selected = true;
+
+        this.setupFaction(bot, deck.faction);
+        this.chat(bot.name, 'I have chosen:' + bot.deck.name);
+        logger.info(Object.keys(bot.deck.cards));
     }
 
     // interrogators

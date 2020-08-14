@@ -50,6 +50,9 @@ class UiPrompt extends BaseStep {
             }
         }
 
+        // Bot needs to look at a prompt and get more info
+        prompt.uiBase = this;
+
         return prompt;
     }
 

@@ -167,8 +167,13 @@ class DeckService {
             dbExpansions.push(452);
         }
 
+        if (expansions.mm) {
+            dbExpansions.push(479);
+        }
+
         let deck;
         let expansionStr = dbExpansions.join(',');
+        logger.info(expansionStr);
         try {
             deck = await db.query(
                 `SELECT d.*, e."ExpansionId" AS "Expansion" from "Decks" d JOIN "Expansions" e on e."Id" = d."ExpansionId" WHERE d."ExpansionId" IN (SELECT "Id" FROM "Expansions" WHERE "ExpansionId" IN(${expansionStr})) AND "IncludeInSealed" = True ORDER BY random() LIMIT 1`
