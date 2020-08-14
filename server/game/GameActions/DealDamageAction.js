@@ -65,7 +65,7 @@ class DealDamageAction extends CardGameAction {
 
         return super.createEvent('onDamageDealt', params, (damageDealtEvent) => {
             if (card.warded) {
-                for (let event in damageDealtEvent
+                for (let event of damageDealtEvent
                     .getSimultaneousEvents()
                     .filter((event) => event.name === 'onDamageDealt' && event.card === card)) {
                     event.cancel();
