@@ -482,7 +482,7 @@ class PlayerInteractionWrapper {
         this.clickPrompt('Reap with this creature');
     }
 
-    play(card, left = false, deploy = false) {
+    play(card, left = false, deploy = false, target = null) {
         if (card.type === 'creature') {
             this.playCreature(card, left, deploy);
         } else if (card.type === 'artifact') {
@@ -491,6 +491,8 @@ class PlayerInteractionWrapper {
         } else if (card.type === 'action') {
             this.clickCard(card);
             this.clickPrompt('Play this action');
+        } else if (target) {
+            this.playUpgrade(card, target);
         }
     }
 

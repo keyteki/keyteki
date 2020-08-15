@@ -782,7 +782,8 @@ class Card extends EffectSource {
             match: (card, context) =>
                 card === this.parent && (!properties.match || properties.match(card, context)),
             targetController: 'any',
-            effect: properties.effect
+            effect: properties.effect,
+            botEffect: properties.botEffect || null
         });
     }
 

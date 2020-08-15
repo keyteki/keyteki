@@ -2,6 +2,8 @@ const _ = require('underscore');
 const EventEmitter = require('events');
 const moment = require('moment');
 
+const logger = require('../log');
+
 const Constants = require('../constants');
 const ChatCommands = require('./chatcommands');
 const GameChat = require('./gamechat');
@@ -109,17 +111,30 @@ class Game extends EventEmitter {
         this.router = options.router;
     }
 
-    processBot() {
+    processBots() {
         if (this.winner) {
             return;
         }
         let changes = false;
+        logger.info('processing bots');
         for (let bot of _.filter(this.getPlayers(), (player) => {
             return player instanceof BotPlayer;
         })) {
-            changes = changes || bot.botRespond();
+            while (bot.botRespond()) {
+                changes = true;
+                break;
+            }
         }
         return changes;
+    }
+
+    simulate() {
+        while (!this.winner) {
+            this.processBots();
+            logger.info('running simulation');
+        }
+        logger.info('done');
+        return true;
     }
 
     /*

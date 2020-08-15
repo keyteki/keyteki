@@ -91,15 +91,13 @@ class GameServer {
         this.io.on('connection', this.onConnection.bind(this));
 
         setInterval(() => this.clearStaleAndFinishedGames(), 30 * 1000);
-        setInterval(() => this.botResponder(), 2 * 1000);
+        setInterval(() => this.botResponder(), 1.5 * 1000);
     }
 
     botResponder() {
         Object.values(this.games).map((game) => {
-            if (game.getPlayerByName('bot')) {
-                if (game.processBot()) {
-                    this.sendGameState(game);
-                }
+            if (game.processBots()) {
+                this.sendGameState(game);
             }
         });
     }
