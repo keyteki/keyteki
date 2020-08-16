@@ -371,7 +371,7 @@ module.exports.init = function (server, options) {
                     newUser.activationToken
                 }`;
                 let emailText =
-                    `Hi,\n\nSomeone, hopefully you, has requested an account to be created on ${appName} (${
+                    `Hi ${user.username},\n\nSomeone, hopefully you, has requested an account to be created on ${appName} (${
                         req.protocol
                     }://${req.get(
                         'host'
