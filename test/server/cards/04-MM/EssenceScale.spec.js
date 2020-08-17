@@ -45,11 +45,12 @@ describe('Essence Scale', function () {
         });
     });
 
-    describe('Lod Invidius interaction', function () {
+    describe('Lord Invidius interaction', function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
                     house: 'dis',
+                    hand: ['ember-imp'],
                     inPlay: ['lord-invidius', 'essence-scale']
                 },
                 player2: {
@@ -78,6 +79,21 @@ describe('Essence Scale', function () {
             expect(this.player1).toBeAbleToSelect(this.lordInvidius);
             this.player1.clickCard(this.lordInvidius);
             expect(this.player1).toHavePrompt('Lord Invidius');
+        });
+
+        it('should not trigger the second half of Essence Scale if the creature chosen is warded', function () {
+            this.player1.play(this.emberImp);
+            this.emberImp.exhaust();
+            expect(this.emberImp.location).toBe('play area');
+            expect(this.emberImp.exhausted).toBe(true);
+            this.lordInvidius.ward();
+            expect(this.lordInvidius.warded).toBe(true);
+            this.player1.useAction(this.essenceScale);
+            expect(this.player1).toHavePrompt('Essence Scale');
+            expect(this.player1).toBeAbleToSelect(this.lordInvidius);
+            this.player1.clickCard(this.lordInvidius);
+            expect(this.lordInvidius.warded).toBe(false);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
     });
 });

@@ -15,8 +15,8 @@ class EssenceScale extends Card {
                     controller: 'self',
                     cardCondition: (card, context) =>
                         context.preThenEvent.clone
-                        .getHouses()
-                        .some((house) => card.hasHouse(house)),
+                            .getHouses()
+                            .some((house) => card.hasHouse(house)),
                     gameAction: ability.actions.sequential([
                         ability.actions.ready(),
                         ability.actions.use()
