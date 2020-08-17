@@ -67,11 +67,14 @@ class DealDamageAction extends CardGameAction {
             if (damageDealtEvent.card.warded) {
                 for (let event of damageDealtEvent
                     .getSimultaneousEvents()
-                    .filter((event) => event.name === 'onDamageDealt' && event.card === damageDealtEvent.card)) {
+                    .filter(
+                        (event) =>
+                            event.name === 'onDamageDealt' && event.card === damageDealtEvent.card
+                    )) {
                     event.cancel();
                 }
                 context.game.addMessage(
-                    '{0}\'s ward token prevents the damage dealt by {1} and is discarded',
+                    "{0}\'s ward token prevents the damage dealt by {1} and is discarded",
                     damageDealtEvent.card,
                     damageDealtEvent.damageSource
                 );
