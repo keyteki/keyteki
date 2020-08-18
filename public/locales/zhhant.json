@@ -253,6 +253,7 @@
     "small": "小",
     "large": "大",
     "extra-large": "超大",
+    "mixed": "混合的",
     "Save": "儲存",
     "An error occured communicating with the server.  Please try again later.": "伺服器錯誤.  請稍後重試.",
     "There was an error in one or more fields, please see below, correct the error and try again": "欄位錯誤, 請修正下方錯誤後重試.",

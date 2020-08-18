@@ -64,24 +64,26 @@ class SquishableCardPanel extends React.Component {
     }
 
     getCardDimensions() {
-        let multiplier = this.getCardSizeMultiplier();
+        let { w, h } = this.getCardSizeMultiplier();
         return {
-            width: 65 * multiplier,
-            height: 91 * multiplier
+            width: 65 * w,
+            height: 91 * h
         };
     }
 
     getCardSizeMultiplier() {
         switch (this.props.cardSize) {
             case 'small':
-                return 0.6;
+                return { w: 0.6, h: 0.6 };
             case 'large':
-                return 1.4;
+                return { w: 1.4, h: 1.4 };
             case 'x-large':
-                return 2;
+                return { w: 1.4, h: 1.4 };
+            case 'mixed':
+                return { w: 1.8, h: 1.2 };
         }
 
-        return 1;
+        return { w: 1, h: 1 };
     }
 
     getOverallDimensions() {
@@ -113,7 +115,9 @@ class SquishableCardPanel extends React.Component {
                 {this.props.title && (
                     <div className='panel-header'>{`${this.props.title} (${cards.length})`}</div>
                 )}
-                {cards}
+                <div style={!this.props.isMe ? { ...style, transform: 'rotate(180deg)' } : {}}>
+                    {cards}
+                </div>
             </div>
         );
     }

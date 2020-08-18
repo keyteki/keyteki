@@ -253,6 +253,7 @@
     "small": "small",
     "large": "large",
     "extra-large": "extra-large",
+    "mixed": "mixed",
     "Save": "Save",
     "An error occured communicating with the server.  Please try again later.": "An error occured communicating with the server.  Please try again later.",
     "There was an error in one or more fields, please see below, correct the error and try again": "There was an error in one or more fields, please see below, correct the error and try again",

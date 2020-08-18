@@ -63,7 +63,11 @@ class PlayerBoard extends React.Component {
                 onMenuItemClick={this.props.onMenuItemClick}
                 onMouseOut={this.props.onMouseOut}
                 onMouseOver={this.props.onMouseOver}
-                size={this.props.user.settings.cardSize}
+                size={
+                    this.props.user.settings.cardSize !== 'mixed'
+                        ? this.props.user.settings.cardSize
+                        : 'normal'
+                }
                 source='play area'
             />
         ));

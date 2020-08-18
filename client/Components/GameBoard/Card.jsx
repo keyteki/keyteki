@@ -149,6 +149,8 @@ class InnerCard extends React.Component {
                 return 1.4;
             case 'x-large':
                 return 2;
+            case 'mixed':
+                return 1.8;
         }
 
         return 1;

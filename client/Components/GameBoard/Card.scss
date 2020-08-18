@@ -11,6 +11,20 @@
     position: relative;
 }
 
+.card-wrapper:hover {
+    transform: scale(1.05);
+    -moz-transform: scale(1.05);
+    -webkit-transform: scale(1.05);
+    -o-transform: scale(1.05);
+    -ms-transform: scale(2) rotate(0deg);
+    z-index: 15;
+    -webkit-transition: 0.1s ease;
+    -moz-transition: 0.1s ease;
+    -o-transition: 0.1s ease;
+    -ms-transition: 0.1s ease;
+    transition: 0.1s ease;
+}
+
 .card-frame {
     position: relative;
 }
@@ -30,6 +44,22 @@
         &.horizontal {
             height: $keyteki-card-sm-width;
             width: $keyteki-card-sm-height;
+        }
+    }
+
+    &.mixed {
+        &.vertical {
+            height: $keyteki-card-mixed-height;
+            width: $keyteki-card-mixed-width;
+        }
+
+        &.horizontal {
+            height: $keyteki-card-mixed-width;
+            width: $keyteki-card-mixed-height;
+        }
+        &.exhausted {
+            left: 19px;
+            top: -20px;
         }
     }
 
@@ -132,6 +162,18 @@
         &.horizontal {
             height: $keyteki-card-lg-width;
             width: $keyteki-card-lg-height;
+        }
+    }
+
+    &.mixed {
+        &.vertical {
+            height: $keyteki-card-mixed-height;
+            width: $keyteki-card-mixed-width;
+        }
+
+        &.horizontal {
+            height: $keyteki-card-mixed-width;
+            width: $keyteki-card-mixed-height;
         }
     }
 

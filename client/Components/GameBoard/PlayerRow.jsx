@@ -144,7 +144,7 @@ class PlayerRow extends React.Component {
             onMouseOut: this.props.onMouseOut,
             onMouseOver: this.props.onMouseOver,
             popupLocation: this.props.side,
-            size: this.props.cardSize
+            size: this.props.cardSize !== 'mixed' ? this.props.cardSize : 'normal'
         };
 
         let sortedHand = this.props.hand.sort((a, b) => {
@@ -162,6 +162,7 @@ class PlayerRow extends React.Component {
                 cards={sortedHand}
                 className='panel hand'
                 groupVisibleCards
+                isMe={this.props.isMe}
                 cardBackUrl={this.props.cardBackUrl}
                 username={this.props.username}
                 manualMode={this.props.manualMode}
@@ -229,7 +230,7 @@ class PlayerRow extends React.Component {
             <IdentityCard
                 className='identity'
                 deckListUrl={this.state.deckListUrl}
-                size={this.props.cardSize}
+                size={this.props.cardSize !== 'mixed' ? this.props.cardSize : 'normal'}
                 onMouseOut={this.props.onMouseOut}
                 onMouseOver={this.props.onMouseOver}
             />
