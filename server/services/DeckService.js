@@ -169,6 +169,10 @@ class DeckService {
             dbExpansions.push(452);
         }
 
+        if (expansions.mm) {
+            dbExpansions.push(479);
+        }
+
         let deck;
         let expansionStr = dbExpansions.join(',');
         try {
