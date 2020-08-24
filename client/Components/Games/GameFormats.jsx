@@ -17,7 +17,8 @@ const GameFormats = ({ formProps }) => {
     let expansions = [
         { name: 'cota', label: t('Call of the Archons') },
         { name: 'aoa', label: t('Age of Ascension') },
-        { name: 'wc', label: t('Worlds Collide') }
+        { name: 'wc', label: t('Worlds Collide') },
+        { name: 'mm', label: t('Mass Mutation') }
     ];
 
     return (

@@ -73,7 +73,7 @@ const NewGame = ({
         useGameTimeLimit: !!defaultTimeLimit,
         gameTimeLimit: defaultTimeLimit || 35,
         gamePrivate: defaultPrivate,
-        wc: true
+        mm: true
     };
 
     if (!lobbySocket) {
@@ -111,7 +111,8 @@ const NewGame = ({
                         values.expansions = {
                             aoa: values.aoa,
                             cota: values.cota,
-                            wc: values.wc
+                            wc: values.wc,
+                            mm: values.mm
                         };
                         values.quickJoin = quickJoin;
 
@@ -129,7 +130,8 @@ const NewGame = ({
                                 formProps.values.gameFormat === 'sealed' &&
                                 !formProps.values.aoa &&
                                 !formProps.values.cota &&
-                                !formProps.values.wc
+                                !formProps.values.wc &&
+                                !formProps.values.mm
                             ) {
                                 formProps.setFieldError(
                                     'gameFormat',
