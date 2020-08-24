@@ -1,6 +1,6 @@
 import { Admin } from '../types';
 
-export default function (state = { banlist: [] }, action) {
+export default function (state = { banlist: [], flaggedDecks: [] }, action) {
     switch (action.type) {
         case Admin.FindUser:
             return Object.assign({}, state, {
@@ -28,7 +28,11 @@ export default function (state = { banlist: [] }, action) {
                 flaggedDecks: action.response.decks,
                 selectedFlaggedDeck: action.response.decks[0]
             });
-        case 'DECK_VERIFIED':
+        case Admin.SelectFlaggedDeck:
+            return Object.assign({}, state, {
+                selectedFlaggedDeck: action.deck
+            });
+        case Admin.DeckVerified:
             return Object.assign({}, state, {
                 deckVerified: action.response.deckId
             });

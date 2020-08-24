@@ -20,7 +20,8 @@ export const Decks = Object.freeze({
     SaveEnhancements: 'DECK_SAVE_ENHANCEMENTS',
     EnhancementsSaved: 'DECK_ENHANCEMENTS_SAV',
     UploadImages: 'DECK_UPLOAD_IMAGES',
-    ImagesUploaded: 'DECK_IMAGES_UPLOADED'
+    ImagesUploaded: 'DECK_IMAGES_UPLOADED',
+    SelectDeck: 'SELECT_DECK'
 });
 
 export const UserAction = Object.freeze({
@@ -59,5 +60,8 @@ export const Admin = Object.freeze({
     SaveUser: 'SAVE_USER',
     UserSaved: 'USER_SAVED',
     RequestFlaggedDecks: 'REQUEST_FLAGGED_DECKS',
-    ReceiveFlaggedDecks: 'RECEIVE_FLAGGED_DECKS'
+    ReceiveFlaggedDecks: 'RECEIVE_FLAGGED_DECKS',
+    VerifyDeck: 'VERIFY_DECK',
+    DeckVerified: 'DECK_VERIFIED',
+    SelectFlaggedDeck: 'SELECT_FLAGGED_DECK'
 });

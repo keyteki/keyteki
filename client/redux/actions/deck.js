@@ -44,7 +44,7 @@ export function loadDeck(deckId) {
 
 export function selectDeck(deck) {
     return {
-        type: 'SELECT_DECK',
+        type: Decks.SelectDeck,
         deck: deck
     };
 }

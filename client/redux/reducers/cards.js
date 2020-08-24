@@ -154,7 +154,7 @@ export default function (state = { decks: [], cards: {} }, action) {
             newState = selectDeck(newState, selected);
 
             return newState;
-        case 'SELECT_DECK':
+        case Decks.SelectDeck:
             newState = Object.assign({}, state, {
                 selectedDeck: action.deck,
                 deckSaved: false

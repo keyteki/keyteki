@@ -1,5 +1,7 @@
 const passport = require('passport');
 const fs = require('fs');
+const rimraf = require('rimraf');
+const exif = require('exif-parser');
 
 const ConfigService = require('../services/ConfigService');
 const DeckService = require('../services/DeckService.js');
@@ -10,6 +12,18 @@ const configService = new ConfigService();
 const cardService = ServiceFactory.cardService(configService);
 
 const deckService = new DeckService(configService);
+
+const writeImage = (filename, image) => {
+    return new Promise((resolve, reject) => {
+        fs.writeFile(filename, image, 'base64', (err) => {
+            if (err) {
+                reject(err);
+            }
+
+            resolve();
+        });
+    });
+};
 
 module.exports.init = function (server) {
     server.get(
@@ -193,6 +207,11 @@ module.exports.init = function (server) {
             deck.id = id;
 
             await deckService.update(deck);
+
+            if (fs.existsSync(`public/img/deck-verification/${deck.id}/`)) {
+                rimraf.sync(`public/img/deck-verification/${deck.id}`);
+            }
+
             res.send({ success: true, message: 'Deck verified successfully', deckId: id });
         })
     );
@@ -304,7 +323,7 @@ module.exports.init = function (server) {
             }
 
             for (let [cardId, image] of Object.entries(req.body.images)) {
-                if (!cardsNeedingVerification[cardId]) {
+                if (cardId != 'id-card' && !cardsNeedingVerification[cardId]) {
                     return res
                         .status(400)
                         .send({ success: false, message: 'Card not needing verification' });
@@ -312,17 +331,22 @@ module.exports.init = function (server) {
 
                 let fileData;
                 try {
+                    let buffer = Buffer.from(image, 'base64');
+                    let parser = exif.create(buffer);
+                    var result = parser.parse();
+
+                    console.info(result);
+
                     fileData = await processImage(image, 300, 420);
+
+                    await writeImage(
+                        `public/img/deck-verification/${deck.id}/${cardId}.png`,
+                        fileData
+                    );
                 } catch (err) {
                     logger.error(err);
                     return null;
                 }
-
-                fs.writeFileSync(
-                    `public/img/deck-verification/${deck.id}/${cardId}.png`,
-                    fileData,
-                    'base64'
-                );
             }
 
             await deckService.flagDeckForVerification(deck);

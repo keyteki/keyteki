@@ -33,9 +33,16 @@ export function saveUser(user) {
     };
 }
 
+export function selectFlaggedDeck(deck) {
+    return {
+        type: Admin.SelectFlaggedDeck,
+        deck: deck
+    };
+}
+
 export function verifyDeck(deckId) {
     return {
-        types: ['VERIFY_DECK', 'DECK_VERIFIED'],
+        types: [Admin.VerifyDeck, Admin.DeckVerified],
         shouldCallAPI: () => true,
         APIParams: {
             url: `/api/decks/${deckId}/verify`,

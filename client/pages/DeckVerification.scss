@@ -1,0 +1,21 @@
+@import '../styles/variables';
+@import '../styles/colours';
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+
+.deck-verification {
+    tr {
+        :hover {
+            cursor: pointer;
+            //background-color: theme-color('info');
+        }
+    }
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(theme-color('info'), 0.3);
+}
+
+.verify-id-card {
+    margin-top: 32px;
+}
