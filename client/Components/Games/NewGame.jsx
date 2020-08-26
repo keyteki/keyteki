@@ -97,6 +97,12 @@ const NewGame = ({
                             dispatch(
                                 sendSocketMessage('newgame', {
                                     ...values,
+                                    expansions: {
+                                        aoa: values.aoa,
+                                        cota: values.cota,
+                                        wc: values.wc,
+                                        mm: values.mm
+                                    },
                                     name: `${getParticipantName(
                                         match.player1_id
                                     )} vs ${getParticipantName(match.player2_id)}`,
