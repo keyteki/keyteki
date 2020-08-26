@@ -76,7 +76,7 @@ class DealDamageAction extends CardGameAction {
                 context.game.addMessage(
                     "{0}'s ward token prevents the damage dealt by {1} and is discarded",
                     damageDealtEvent.card,
-                    damageDealtEvent.damageSource
+                    damageDealtEvent ? 'a bonus icon' : damageDealtEvent.damageSource
                 );
                 damageDealtEvent.card.unward();
                 return;

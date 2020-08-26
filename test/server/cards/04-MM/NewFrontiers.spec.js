@@ -21,6 +21,18 @@ describe('New Frontiers', function () {
             expect(this.player1.amber).toBe(1);
         });
 
+        it('can poke a ward without killing the server', function () {
+            this.newFrontiers.cardData.enhancements = ['damage'];
+            this.player1.reap(this.medicIngram);
+            this.player1.clickCard(this.medicIngram);
+            expect(this.medicIngram.tokens.ward).toBe(1);
+            this.player1.play(this.newFrontiers);
+            this.player1.clickCard(this.medicIngram);
+            expect(this.medicIngram.tokens.ward).toBeUndefined();
+            expect(this.player1).toHavePrompt('Choose a house');
+            expect(this.player1.amber).toBe(2);
+        });
+
         it('should archive selected house cards and discard the others', function () {
             this.player1.moveCard(this.flaxia, 'deck');
             this.player1.moveCard(this.medicIngram, 'deck');
