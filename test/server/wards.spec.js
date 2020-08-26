@@ -1,0 +1,27 @@
+describe('Wards', function () {
+    describe('Wards', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'staralliance',
+                    inPlay: ['flaxia', 'medic-ingram', 'bumblebird', 'ancient-bear'],
+                    hand: ['new-frontiers']
+                },
+                player2: {
+                    amber: 2
+                }
+            });
+        });
+
+        it('can be removed by a damage bonus icon', function () {
+            this.newFrontiers.cardData.enhancements = ['damage'];
+            this.player1.reap(this.medicIngram);
+            this.player1.clickCard(this.medicIngram);
+            expect(this.medicIngram.tokens.ward).toBe(1);
+
+            this.player1.play(this.newFrontiers);
+            this.player1.clickCard(this.medicIngram);
+            expect(this.medicIngram.tokens.ward).toBeUndefined();
+        });
+    });
+});
