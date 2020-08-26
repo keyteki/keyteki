@@ -83,6 +83,7 @@
         "eventsource": "^1.0.7",
         "exif-parser": "^0.1.12",
         "express": "^4.15.5",
+        "express-async-handler": "^1.1.4",
         "express-session": "^1.17.0",
         "fabric": "^3.6.3",
         "formik": "^2.1.4",

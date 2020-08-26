@@ -329,29 +329,47 @@ module.exports.init = function (server) {
                         .send({ success: false, message: 'Card not needing verification' });
                 }
 
+                console.info('processing card', cardId);
+
                 let fileData;
+                let rotate = false;
                 try {
                     let buffer = Buffer.from(image, 'base64');
                     let parser = exif.create(buffer);
-                    var result = parser.parse();
+                    let result = parser.parse();
 
-                    console.info(result);
+                    if (result && result.tags && result.tags.Orientation === 6) {
+                        rotate = true;
+                    }
+                } catch (err) {
+                    logger.error(err);
+                }
 
-                    fileData = await processImage(image, 300, 420);
+                console.info('exif checked', cardId);
+
+                try {
+                    fileData = await processImage(image, 300, 420, rotate);
+
+                    console.info('process done, writing', cardId);
 
                     await writeImage(
                         `public/img/deck-verification/${deck.id}/${cardId}.png`,
                         fileData
                     );
+
+                    console.info('writing done', cardId);
                 } catch (err) {
                     logger.error(err);
-                    return null;
+                    return res.send({
+                        success: false,
+                        message: 'An error occured uploading your deck images.'
+                    });
                 }
             }
 
             await deckService.flagDeckForVerification(deck);
 
-            res.send({ success: true, message: 'Images uploaded successfully' });
+            res.send({ success: true, message: 'Images uploaded successfully.' });
         })
     );
 };

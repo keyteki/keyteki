@@ -64,7 +64,7 @@ function isValidImage(base64Image) {
     return buffer.toString('hex', 0, 4) === '89504e47' || buffer.toString('hex', 0, 2) === 'ffd8';
 }
 
-function processImage(image, width, height) {
+function processImage(image, width, height, rotate = false) {
     return new Promise((resolve, reject) => {
         const canvas = new fabric.StaticCanvas();
         canvas.setDimensions({ width: width, height: height });
@@ -80,14 +80,16 @@ function processImage(image, width, height) {
                             originX: 'center',
                             originY: 'center',
                             left: width / 2,
-                            top: height / 2
+                            top: height / 2,
+                            angle: rotate ? 90 : undefined
                         });
+
                     canvas.add(img);
                     canvas.renderAll();
                     let dataUrl = canvas.toDataURL();
                     let base64Data = dataUrl.replace(/^data:image\/png;base64,/, '');
 
-                    resolve(base64Data);
+                    setImmediate(() => resolve(base64Data));
                 }
             },
             { crossOrigin: 'anonymous' }
