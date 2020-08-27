@@ -42,7 +42,7 @@ const Messages = ({ messages, onCardMouseOver, onCardMouseOut }) => {
 
     const getMessage = () => {
         return messages.map((message, index) => (
-            <div key={index} className='message mb-1'>
+            <div key={index} className={'message mb-1 NEWCLASSESHERE'}>
                 {formatMessageText(message.message)}
             </div>
         ));
