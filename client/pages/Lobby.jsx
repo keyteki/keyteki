@@ -109,7 +109,7 @@ class Lobby extends React.Component {
                 <div>
                     <Col sm={{ span: 10, offset: 1 }}>
                         <a
-                            href='https://challonge.com/thecrucibleaugust'
+                            href='https://facebook.com/groups/kotevent'
                             target='_blank'
                             rel='noreferrer'
                         >
