@@ -2,10 +2,10 @@ const passport = require('passport');
 const fs = require('fs');
 const rimraf = require('rimraf');
 const exif = require('exif-parser');
-
+const asyncHandler = require('express-async-handler');
 const ConfigService = require('../services/ConfigService');
 const DeckService = require('../services/DeckService.js');
-const { wrapAsync, isValidImage, processImage } = require('../util.js');
+const { isValidImage, processImage } = require('../util.js');
 const logger = require('../log.js');
 const ServiceFactory = require('../services/ServiceFactory');
 const configService = new ConfigService();
@@ -28,7 +28,7 @@ const writeImage = (filename, image) => {
 module.exports.init = function (server) {
     server.get(
         '/api/standalone-decks',
-        wrapAsync(async function (req, res) {
+        asyncHandler(async (req, res) => {
             let decks;
 
             try {
@@ -46,7 +46,7 @@ module.exports.init = function (server) {
     server.get(
         '/api/decks/flagged',
         passport.authenticate('jwt', { session: false }),
-        wrapAsync(async function (req, res) {
+        asyncHandler(async (req, res) => {
             if (!req.user.permissions || !req.user.permissions.canVerifyDecks) {
                 return res.status(403);
             }
@@ -60,7 +60,7 @@ module.exports.init = function (server) {
     server.get(
         '/api/decks/:id',
         passport.authenticate('jwt', { session: false }),
-        wrapAsync(async function (req, res) {
+        asyncHandler(async (req, res) => {
             if (!req.params.id || req.params.id === '') {
                 return res.status(404).send({ message: 'No such deck' });
             }
@@ -82,7 +82,7 @@ module.exports.init = function (server) {
     server.get(
         '/api/decks',
         passport.authenticate('jwt', { session: false }),
-        wrapAsync(async function (req, res) {
+        asyncHandler(async (req, res) => {
             let numDecks = await deckService.getNumDecksForUser(req.user, req.query);
             let decks = [];
 
@@ -137,7 +137,7 @@ module.exports.init = function (server) {
     server.post(
         '/api/decks',
         passport.authenticate('jwt', { session: false }),
-        wrapAsync(async function (req, res) {
+        asyncHandler(async (req, res) => {
             if (!req.body.uuid) {
                 return res.send({ success: false, message: 'uuid must be specified' });
             }
@@ -169,7 +169,7 @@ module.exports.init = function (server) {
     server.delete(
         '/api/decks/:id',
         passport.authenticate('jwt', { session: false }),
-        wrapAsync(async function (req, res) {
+        asyncHandler(async (req, res) => {
             let id = req.params.id;
 
             let deck = await deckService.getById(id);
@@ -190,7 +190,7 @@ module.exports.init = function (server) {
     server.post(
         '/api/decks/:id/verify',
         passport.authenticate('jwt', { session: false }),
-        wrapAsync(async function (req, res) {
+        asyncHandler(async (req, res) => {
             if (!req.user.permissions || !req.user.permissions.canVerifyDecks) {
                 return res.status(403);
             }
@@ -219,7 +219,7 @@ module.exports.init = function (server) {
     server.post(
         '/api/decks/:id/enhancements',
         passport.authenticate('jwt', { session: false }),
-        wrapAsync(async function (req, res) {
+        asyncHandler(async (req, res) => {
             let id = req.params.id;
 
             let deck = await deckService.getById(id);
@@ -290,7 +290,7 @@ module.exports.init = function (server) {
     server.post(
         '/api/decks/:id/uploadVerification',
         passport.authenticate('jwt', { session: false }),
-        wrapAsync(async function (req, res) {
+        asyncHandler(async (req, res) => {
             let id = req.params.id;
 
             let deck = await deckService.getById(id);
