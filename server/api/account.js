@@ -524,8 +524,10 @@ module.exports.init = function (server, options) {
             }
 
             if (isSupporter !== req.user.permissions.isSupporter) {
-                userDetails.permissions.isSupporter = req.user.permissions.isSupporter = isSupporter;
-                await userService.setSupporterStatus(user.id, isSupporter);
+                if (!req.user.permissions.keepsSupporterWithNoPatreon) {
+                    userDetails.permissions.isSupporter = req.user.permissions.isSupporter = isSupporter;
+                    await userService.setSupporterStatus(user.id, isSupporter);
+                }
             }
 
             res.send({ success: true, user: userDetails });
