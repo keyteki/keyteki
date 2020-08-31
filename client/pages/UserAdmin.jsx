@@ -47,7 +47,11 @@ const permissions = [
     { name: 'isContributor', label: 'Contributor' },
     { name: 'isSupporter', label: 'Supporter' },
     { name: 'isWinner', label: 'Tournament Winner' },
-    { name: 'isPreviousWinner', label: 'Previous Tournament Winner' }
+    { name: 'isPreviousWinner', label: 'Previous Tournament Winner' },
+    {
+        name: 'keepsSupporterWithNoPatreon',
+        label: "Don't remove supporter when patreon expires/unlinks"
+    }
 ];
 
 const UserAdmin = () => {

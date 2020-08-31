@@ -630,16 +630,18 @@ class UserService extends EventEmitter {
                 return 9; // 'DeckVerifier';
             case 'isAdmin':
                 return 10; // 'Admin';
-            case 'isContributor':
-                return 11; // 'Contributor';
             case 'isSupporter':
-                return 12; // 'Supporter';
+                return 11; // 'Supporter';
+            case 'isContributor':
+                return 12; // 'Contributor';
             case 'canManageTournaments':
                 return 13; // 'TournamentManager'
             case 'isWinner':
                 return 14; // 'TournamentWinner'
             case 'isPreviousWinner':
                 return 15; // 'TournamentPreviousWinner'
+            case 'keepsSupporterWithNoPatreon':
+                return 16; // 'KeepSupporterStatus'
         }
     }
 
@@ -659,7 +661,8 @@ class UserService extends EventEmitter {
             isContributor: false,
             isSupporter: false,
             isWinner: false,
-            isPreviousWinner: false
+            isPreviousWinner: false,
+            keepsSupporterWithNoPatreon: false
         };
 
         for (let permission of permissions) {
@@ -708,6 +711,9 @@ class UserService extends EventEmitter {
                     break;
                 case 'PreviousTournamentWinner':
                     ret.isPreviousWinner = true;
+                    break;
+                case 'KeepSupporterStatus':
+                    ret.keepsSupporterWithNoPatreon = true;
                     break;
             }
         }
