@@ -1,65 +1,44 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 
-import Checkbox from '../Form/Checkbox';
 import Panel from '../Site/Panel';
+import { Form } from 'react-bootstrap';
 
-import { withTranslation } from 'react-i18next';
+const GameConfiguration = ({ optionSettings, onOptionSettingToggle }) => {
+    const { t } = useTranslation();
 
-class GameConfiguration extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {};
-    }
-
-    onOptionSettingToggle(option, event) {
-        if (this.props.onOptionSettingToggle) {
-            this.props.onOptionSettingToggle(option, event.target.checked);
-        }
-    }
-
-    render() {
-        let t = this.props.t;
-
-        return (
-            <div>
-                <form className='form form-horizontal'>
-                    <Panel title={t('Game Settings')}>
-                        <div className='form-group'>
-                            <Checkbox
-                                name='optionSettings.orderForcedAbilities'
-                                noGroup
-                                label={t('Prompt to order simultaneous abilities')}
-                                fieldClass='col-sm-12'
-                                onChange={this.onOptionSettingToggle.bind(
-                                    this,
-                                    'orderForcedAbilities'
-                                )}
-                                checked={this.props.optionSettings.orderForcedAbilities}
-                            />
-                            <Checkbox
-                                name='optionSettings.confirmOneClick'
-                                noGroup
-                                label={t('Show a prompt when initating 1-click abilities')}
-                                fieldClass='col-sm-12'
-                                onChange={this.onOptionSettingToggle.bind(this, 'confirmOneClick')}
-                                checked={this.props.optionSettings.confirmOneClick}
-                            />
-                        </div>
-                    </Panel>
-                </form>
-            </div>
-        );
-    }
-}
-
-GameConfiguration.displayName = 'GameConfiguration';
-GameConfiguration.propTypes = {
-    i18n: PropTypes.object,
-    onOptionSettingToggle: PropTypes.func,
-    optionSettings: PropTypes.object,
-    t: PropTypes.func
+    return (
+        <div>
+            <Form>
+                <Panel title={t('Game Settings')}>
+                    <Form.Row>
+                        <Form.Check
+                            id='orderForcedAbilities'
+                            name='optionSettings.orderForcedAbilities'
+                            label={t('Prompt to order simultaneous abilities')}
+                            type='switch'
+                            checked={optionSettings.orderForcedAbilities}
+                            onChange={(event) =>
+                                onOptionSettingToggle('orderForcedAbilities', event.target.checked)
+                            }
+                        />
+                        <Form.Check
+                            id='confirmOneClick'
+                            name='gameOptions.confirmOneClick'
+                            label={t('Show a prompt when initating 1-click abilities')}
+                            type='switch'
+                            checked={optionSettings.confirmOneClick}
+                            onChange={(event) =>
+                                onOptionSettingToggle('confirmOneClick', event.target.checked)
+                            }
+                        />
+                    </Form.Row>
+                </Panel>
+            </Form>
+        </div>
+    );
 };
 
-export default withTranslation()(GameConfiguration);
+GameConfiguration.displayName = 'GameConfiguration';
+
+export default GameConfiguration;

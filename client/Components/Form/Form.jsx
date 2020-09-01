@@ -3,7 +3,6 @@ import $ from 'jquery';
 import PropTypes from 'prop-types';
 
 import Input from './Input.jsx';
-import Checkbox from './Checkbox.jsx';
 
 import formFields from './formFields.json';
 
@@ -32,13 +31,6 @@ class Form extends React.Component {
         var newState = {};
 
         newState[field] = event.target.value;
-        this.setState(newState);
-    }
-
-    onCheckboxChange(field, event) {
-        var newState = {};
-
-        newState[field] = event.target.checked;
         this.setState(newState);
     }
 
@@ -80,34 +72,20 @@ class Form extends React.Component {
         let t = this.props.t;
 
         const fieldsToRender = formFields[this.props.name].map((field) => {
-            switch (field.inputType) {
-                case 'checkbox':
-                    return (
-                        <Checkbox
-                            key={field.name}
-                            name={field.name}
-                            label={t(field.label)}
-                            fieldClass={field.fieldClass}
-                            onChange={this.onCheckboxChange.bind(this, field.name)}
-                            checked={this.state[field.name]}
-                        />
-                    );
-                default:
-                    return (
-                        <Input
-                            key={field.name}
-                            name={field.name}
-                            label={t(field.label)}
-                            placeholder={t(field.placeholder)}
-                            validationAttributes={this.translateValidationProps(field)}
-                            fieldClass={field.fieldClass}
-                            labelClass={field.labelClass}
-                            type={field.inputType}
-                            onChange={this.onChange.bind(this, field.name)}
-                            value={this.state[field.name]}
-                        />
-                    );
-            }
+            return (
+                <Input
+                    key={field.name}
+                    name={field.name}
+                    label={t(field.label)}
+                    placeholder={t(field.placeholder)}
+                    validationAttributes={this.translateValidationProps(field)}
+                    fieldClass={field.fieldClass}
+                    labelClass={field.labelClass}
+                    type={field.inputType}
+                    onChange={this.onChange.bind(this, field.name)}
+                    value={this.state[field.name]}
+                />
+            );
         });
 
         return (
