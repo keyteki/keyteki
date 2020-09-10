@@ -16,7 +16,7 @@ import './ProfileMain.scss';
 
 /**
  * @typedef ProfileMainProps
- * @property {import('formik').FormikProps<ProfileDetails} formProps
+ * @property {import('formik').FormikProps<ProfileDetails>} formProps
  * @property {User} user
  */
 
@@ -42,6 +42,21 @@ const ProfileMain = ({ user, formProps }) => {
     return (
         <Panel title={t('Profile')}>
             <Form.Row>
+                <Form.Group as={Col} md='6' controlId='formGridUsername'>
+                    <Form.Label>{t('Username')}</Form.Label>
+                    <Form.Control
+                        name='username'
+                        type='text'
+                        placeholder={t('Enter a username')}
+                        value={formProps.values.username}
+                        onChange={formProps.handleChange}
+                        onBlur={formProps.handleBlur}
+                        isInvalid={formProps.touched.username && !!formProps.errors.username}
+                    />
+                    <Form.Control.Feedback type='invalid'>
+                        {formProps.errors.username}
+                    </Form.Control.Feedback>
+                </Form.Group>
                 <Form.Group as={Col} md='6' controlId='formGridEmail'>
                     <Form.Label>{t('Email')}</Form.Label>
                     <Form.Control

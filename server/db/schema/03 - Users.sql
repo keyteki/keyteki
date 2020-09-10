@@ -14,6 +14,7 @@ CREATE TABLE public."Users"
     "Settings_OrderAbilities" boolean DEFAULT false,
     "Settings_ConfirmOneClick" boolean DEFAULT true,
     "Settings_Avatar" text COLLATE pg_catalog."default",
+    "Settings_CustomBackground" text COLLATE pg_catalog."default" NULL,
     "Verified" boolean NOT NULL,
     "Disabled" boolean NOT NULL DEFAULT false,
     "PatreonToken" text COLLATE pg_catalog."default",

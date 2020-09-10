@@ -828,7 +828,7 @@ module.exports.init = function (server, options) {
     server.put(
         '/api/account/:username',
         passport.authenticate('jwt', { session: false }),
-        wrapAsync(async (req, res) => {
+        wrapAsync(async (req, res, next) => {
             let userToSet = req.body.data;
 
             if (req.user.username !== req.params.username) {
@@ -838,6 +838,18 @@ module.exports.init = function (server, options) {
             let user = await userService.getFullUserByUsername(req.params.username);
             if (!user) {
                 return res.status(404).send({ message: 'Not found' });
+            }
+
+            if (user.username !== userToSet.username) {
+                let userTest = await userService.doesUserExist(userToSet.username);
+                if (userTest) {
+                    res.send({
+                        success: false,
+                        message: 'An account with that name already exists, please choose another'
+                    });
+
+                    return next();
+                }
             }
 
             if (userToSet.avatar && !isValidImage(userToSet.avatar)) {
@@ -852,6 +864,7 @@ module.exports.init = function (server, options) {
 
             user = user.getDetails();
 
+            user.username = userToSet.username;
             user.email = userToSet.email;
             let oldAvatar = user.settings.avatar;
             let oldCustomBg = user.settings.customBackground;
