@@ -1,4 +1,6 @@
 import React from 'react';
+import classNames from 'classnames';
+import { useSelector } from 'react-redux';
 
 import Avatar from '../Site/Avatar';
 import AlertPanel from '../Site/AlertPanel';
@@ -33,6 +35,10 @@ const Messages = ({ messages, onCardMouseOver, onCardMouseOut }) => {
         unforgedkeyred: { className: 'icon-forgedKey', imageSrc: keyImages['red'].unforged }
     };
 
+    const owner = useSelector(
+        (state) => state.lobby.currentGame.players[state.lobby.currentGame.owner]
+    );
+
     for (let house of Constants.Houses) {
         tokens[house] = {
             className: 'chat-house-icon',
@@ -41,11 +47,20 @@ const Messages = ({ messages, onCardMouseOver, onCardMouseOut }) => {
     }
 
     const getMessage = () => {
-        return messages.map((message, index) => (
-            <div key={index} className={'message mb-1 NEWCLASSESHERE'}>
-                {formatMessageText(message.message)}
-            </div>
-        ));
+        return messages.map((message, index) => {
+            let className = classNames('message', 'mb-1', {
+                'this-player': message.activePlayer && message.activePlayer == owner.name,
+                'other-player': message.activePlayer && message.activePlayer !== owner.name,
+                'chat-bubble': Object.values(message.message).some(
+                    (m) => m.name && m.argType === 'player'
+                )
+            });
+            return (
+                <div key={index} className={className}>
+                    {formatMessageText(message.message)}
+                </div>
+            );
+        });
     };
 
     const formatMessageText = (message) => {

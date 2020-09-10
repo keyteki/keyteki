@@ -12,7 +12,7 @@ class PendingGame {
         this.challonge = details.challonge;
         this.createdAt = new Date();
         this.expansions = details.expansions;
-        this.gameChat = new GameChat();
+        this.gameChat = new GameChat(this);
         this.gameFormat = details.gameFormat;
         this.gamePrivate = !!details.gamePrivate;
         this.gameTimeLimit = details.gameTimeLimit;
