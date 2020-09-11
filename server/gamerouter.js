@@ -56,7 +56,10 @@ class GameRouter extends EventEmitter {
      * @param {import("./models/User")} user
      */
     addSpectator(game, user) {
-        this.sendCommand(game.node.identity, 'SPECTATOR', { game: game, user: user });
+        this.sendCommand(game.node.identity, 'SPECTATOR', {
+            game: game.getSaveState(),
+            user: user
+        });
     }
 
     getNextAvailableGameNode() {
