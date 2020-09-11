@@ -60,4 +60,4 @@ for (let x = 1; x < 8; x++) {
     ] = require(`./assets/img/idbacks/idback_blanks/cardback_${x}.png`);
 }
 
-export const PatreonClientId = '4kOwv1V1rsTTsrWuSKU9D5VB3wOMZtQJBMiOcP3ehQrUOv6EspUoxF0oqyNR8svW';
+export const PatreonClientId = 'HjDP9KKd-HscTXXMs_2TNl2h_POjaEw7D-EkLv_ShRbarVO_WuKA0LWRBp9LRdLq';

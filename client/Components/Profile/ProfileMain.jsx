@@ -1,11 +1,13 @@
 import React, { useRef, useState } from 'react';
 import { Col, Form, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
 
 import { PatreonStatus } from '../../types';
 import Panel from '../Site/Panel';
 import Avatar from '../Site/Avatar';
 import { PatreonClientId } from '../../constants';
+import { unlinkPatreon } from '../../redux/actions';
 import PatreonImage from '../../assets/img/Patreon_Mark_Coral.jpg';
 
 import './ProfileMain.scss';
@@ -27,6 +29,7 @@ const ProfileMain = ({ user, formProps }) => {
     const { t } = useTranslation();
     const inputFile = useRef(null);
     const [localAvatar, setAvatar] = useState(null);
+    const dispatch = useDispatch();
 
     const onAvatarUploadClick = () => {
         if (!inputFile.current) {
@@ -122,12 +125,14 @@ const ProfileMain = ({ user, formProps }) => {
                             src={PatreonImage}
                             alt={t('Patreon Logo')}
                         />
-                        {!user?.patreonStatus || user?.patreonStatus === PatreonStatus.Unlinked ? (
+                        {!user?.patreon || user?.patreon === PatreonStatus.Unlinked ? (
                             <Button variant='secondary' href={patreonUrl}>
                                 Link Account
                             </Button>
                         ) : (
-                            <Button variant='secondary'>Unlink Account</Button>
+                            <Button variant='secondary' onClick={() => dispatch(unlinkPatreon())}>
+                                Unlink Account
+                            </Button>
                         )}
                     </div>
                 </Form.Group>

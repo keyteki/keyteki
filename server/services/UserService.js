@@ -160,7 +160,7 @@ class UserService extends EventEmitter {
     }
 
     async update(user) {
-        await db.query('BEGIN');
+        let client = await db.startTransaction();
 
         let query =
             'UPDATE "Users" SET "Username" = $1, "Email" = $2, "Verified" = $3, "Disabled" = $4, "Settings_Avatar" = $5, ' +
@@ -168,7 +168,7 @@ class UserService extends EventEmitter {
             '"PatreonToken" = $10, "Settings_CustomBackground" = $11 WHERE "Id" = $12';
 
         try {
-            await db.query(query, [
+            await db.queryTran(client, query, [
                 user.username,
                 user.email,
                 user.verified,
@@ -178,14 +178,14 @@ class UserService extends EventEmitter {
                 user.settings.background,
                 user.settings.optionSettings.orderForcedAbilities,
                 user.settings.optionSettings.confirmOneClick,
-                JSON.stringify(user.patreon),
+                user.patreon ? JSON.stringify(user.patreon) : null,
                 user.settings.customBackground,
                 user.id
             ]);
         } catch (err) {
             logger.error('Failed to update user', err);
 
-            await db.query('ROLLBACK');
+            await db.queryTran(client, 'ROLLBACK');
         }
 
         if (user.challonge) {
@@ -194,11 +194,15 @@ class UserService extends EventEmitter {
                 'ON CONFLICT ("UserId") DO UPDATE SET "ApiKey" = $1, "SubDomain" = $2';
 
             try {
-                await db.query(query, [user.challonge.key, user.challonge.subdomain, user.id]);
+                await db.queryTran(client, query, [
+                    user.challonge.key,
+                    user.challonge.subdomain,
+                    user.id
+                ]);
             } catch (err) {
                 logger.error('Failed to update user', err);
 
-                await db.query('ROLLBACK');
+                await db.queryTran(client, 'ROLLBACK');
             }
         }
 
@@ -208,14 +212,15 @@ class UserService extends EventEmitter {
             } catch (err) {
                 logger.error('Failed to update user password', err);
 
-                await db.query('ROLLBACK');
+                await db.queryTran(client, 'ROLLBACK');
             }
         }
 
         let permissions;
         let existingPermissions;
         try {
-            permissions = await db.query(
+            permissions = await db.queryTran(
+                client,
                 'SELECT r."Name" FROM "UserRoles" ur JOIN "Roles" r ON r."Id" = ur."RoleId" WHERE ur."UserId" = $1',
                 [user.id]
             );
@@ -255,14 +260,15 @@ class UserService extends EventEmitter {
 
         if (toAdd.size > 0) {
             try {
-                await db.query(
+                await db.queryTran(
+                    client,
                     `INSERT INTO "UserRoles" ("UserId", "RoleId") VALUES ${expand(toAdd.size, 2)}`,
                     params
                 );
             } catch (err) {
                 logger.error('Failed to set permissions', err);
 
-                await db.query('ROLLBACK');
+                await db.queryTran(client, 'ROLLBACK');
 
                 throw new Error('Failed to set permissions');
             }
@@ -273,20 +279,22 @@ class UserService extends EventEmitter {
                 .map((perm) => this.permissionToRole(perm))
                 .join(', ');
             try {
-                await db.query(
+                await db.queryTran(
+                    client,
                     `DELETE FROM "UserRoles" WHERE "UserId" = $1 AND "RoleId" IN (${deleteStr})`,
                     [user.id]
                 );
             } catch (err) {
                 logger.error('Failed to set permissions', err);
 
-                await db.query('ROLLBACK');
+                await db.queryTran(client, 'ROLLBACK');
 
                 throw new Error('Failed to set permissions');
             }
         }
 
-        await db.query('COMMIT');
+        await db.queryTran(client, 'COMMIT');
+        await client.release();
     }
 
     async addBlocklistEntry(user, entry) {
