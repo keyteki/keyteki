@@ -163,12 +163,13 @@ class UserService extends EventEmitter {
         await db.query('BEGIN');
 
         let query =
-            'UPDATE "Users" SET "Email" = $1, "Verified" = $2, "Disabled" = $3, "Settings_Avatar" = $4, ' +
-            '"Settings_CardSize" = $5, "Settings_Background" = $6, "Settings_OrderAbilities" = $7, "Settings_ConfirmOneClick" = $8, ' +
-            '"PatreonToken" = $9, "Settings_CustomBackground" = $10 WHERE "Id" = $11';
+            'UPDATE "Users" SET "Username" = $1, "Email" = $2, "Verified" = $3, "Disabled" = $4, "Settings_Avatar" = $5, ' +
+            '"Settings_CardSize" = $6, "Settings_Background" = $7, "Settings_OrderAbilities" = $8, "Settings_ConfirmOneClick" = $9, ' +
+            '"PatreonToken" = $10, "Settings_CustomBackground" = $11 WHERE "Id" = $12';
 
         try {
             await db.query(query, [
+                user.username,
                 user.email,
                 user.verified,
                 user.disabled,
