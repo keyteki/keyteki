@@ -106,17 +106,6 @@ class Lobby extends React.Component {
                         <div className='main-header' />
                     </Col>
                 </div>
-                <div>
-                    <Col sm={{ span: 10, offset: 1 }}>
-                        <a
-                            href='https://facebook.com/groups/kotevent'
-                            target='_blank'
-                            rel='noreferrer'
-                        >
-                            <div className='event-banner' />
-                        </a>
-                    </Col>
-                </div>
                 {this.props.motd?.message && (
                     <div>
                         <Col sm={{ span: 10, offset: 1 }} className='banner'>
