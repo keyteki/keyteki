@@ -324,7 +324,7 @@ class GameServer {
      * @param {any} user
      */
     onSpectator(pendingGame, user) {
-        const game = this.games[pendingGame.id];
+        const game = this.games[pendingGame.gameId];
         if (!game) {
             return;
         }
