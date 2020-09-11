@@ -65,6 +65,7 @@ class PendingGame {
         });
 
         return {
+            id: this.id,
             adaptive: this.adaptive,
             challonge: this.challonge,
             expansions: this.expansions,
