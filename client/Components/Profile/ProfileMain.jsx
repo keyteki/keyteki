@@ -122,7 +122,7 @@ const ProfileMain = ({ user, formProps }) => {
                             src={PatreonImage}
                             alt={t('Patreon Logo')}
                         />
-                        {user?.patreonStatus === PatreonStatus.Unlinked ? (
+                        {!user?.patreonStatus || user?.patreonStatus === PatreonStatus.Unlinked ? (
                             <Button variant='secondary' href={patreonUrl}>
                                 Link Account
                             </Button>
