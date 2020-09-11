@@ -3,8 +3,9 @@ const Spectator = require('./spectator.js');
 const Player = require('./player.js');
 
 class GameChat {
-    constructor() {
+    constructor(game) {
         this.messages = [];
+        this.game = game;
     }
 
     addChatMessage(format, player, message) {
@@ -49,7 +50,11 @@ class GameChat {
 
     addMessage(message, ...args) {
         let formattedMessage = this.getFormattedMessage(message, ...args);
-        this.messages.push({ date: new Date(), message: formattedMessage });
+        this.messages.push({
+            date: new Date(),
+            message: formattedMessage,
+            activePlayer: this.game.activePlayer && this.game.activePlayer.name
+        });
     }
 
     addAlert(type, message, ...args) {
@@ -57,7 +62,8 @@ class GameChat {
 
         this.messages.push({
             date: new Date(),
-            message: { alert: { type: type, message: formattedMessage } }
+            message: { alert: { type: type, message: formattedMessage } },
+            activePlayer: this.game.activePlayer && this.game.activePlayer.name
         });
     }
 

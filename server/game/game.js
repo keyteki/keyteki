@@ -48,7 +48,7 @@ class Game extends EventEmitter {
         this.currentEventWindow = null;
         this.currentPhase = '';
         this.effectEngine = new EffectEngine(this);
-        this.gameChat = new GameChat();
+        this.gameChat = new GameChat(this);
         this.gameFormat = details.gameFormat;
         this.gamePrivate = details.gamePrivate;
         this.gameTimeLimit = details.gameTimeLimit;
