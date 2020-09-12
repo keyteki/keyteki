@@ -73,10 +73,22 @@ class DealDamageAction extends CardGameAction {
                     )) {
                     event.cancel();
                 }
+
+                let sourceArg;
+
+                if (
+                    damageDealtEvent.damageSource &&
+                    damageDealtEvent.damageSource.name === 'Framework effect'
+                ) {
+                    sourceArg = 'a bonus icon';
+                } else {
+                    sourceArg = damageDealtEvent.damageSource;
+                }
+
                 context.game.addMessage(
                     "{0}'s ward token prevents the damage dealt by {1} and is discarded",
                     damageDealtEvent.card,
-                    damageDealtEvent.damageSource
+                    sourceArg
                 );
                 damageDealtEvent.card.unward();
                 return;
