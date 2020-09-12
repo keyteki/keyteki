@@ -140,7 +140,7 @@ class GameServer {
             debugData.game.messages = undefined;
 
             for (const player of game.getPlayers()) {
-                debugData[player.name] = player.getState(player, game.gameFormat);
+                debugData[player.name] = player.getState(player);
             }
         }
 

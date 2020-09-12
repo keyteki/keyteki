@@ -1186,7 +1186,7 @@ class Game extends EventEmitter {
 
         if (this.started) {
             for (const player of this.getPlayers()) {
-                playerState[player.name] = player.getState(activePlayer, this.gameFormat);
+                playerState[player.name] = player.getState(activePlayer);
             }
 
             this.timeLimit.checkForTimeLimitReached();
@@ -1226,9 +1226,6 @@ class Game extends EventEmitter {
         return this.getSummary(activePlayerName);
     }
 
-    /*
-     * This is used for debugging?
-     */
     getSummary(activePlayerName, options = {}) {
         let playerSummaries = {};
 
