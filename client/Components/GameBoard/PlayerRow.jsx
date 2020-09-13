@@ -41,7 +41,7 @@ class PlayerRow extends React.Component {
         });
         if (!this.props.hideDecklist) {
             buildDeckList(
-                { ...this.props.deckData, cards: this.props.deckCards },
+                { ...this.props.deckData },
                 this.props.language,
                 this.props.t,
                 this.props.cards
@@ -73,7 +73,7 @@ class PlayerRow extends React.Component {
                 });
                 if (!this.props.hideDecklist) {
                     buildDeckList(
-                        { ...this.props.deckData, cards: this.props.deckCards },
+                        { ...this.props.deckData },
                         this.props.language,
                         this.props.t,
                         this.props.cards
@@ -258,7 +258,6 @@ PlayerRow.propTypes = {
     cardSize: PropTypes.string,
     cards: PropTypes.object,
     conclavePile: PropTypes.array,
-    deckCards: PropTypes.array,
     deckData: PropTypes.object,
     discard: PropTypes.array,
     drawDeck: PropTypes.array,
