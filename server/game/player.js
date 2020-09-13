@@ -772,7 +772,13 @@ class Player extends GameObject {
             phase: this.game.currentPhase,
             stats: this.getStats(),
             timerSettings: {},
-            user: _.omit(this.user, ['password', 'email']),
+            user: {
+                id: this.user.id,
+                username: this.user.username,
+                settings: this.user.settings,
+                role: this.user.role,
+                avatar: this.user.avatar
+            },
             deckData: this.deckData,
             wins: this.wins
         };
