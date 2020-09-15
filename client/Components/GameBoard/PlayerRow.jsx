@@ -32,14 +32,36 @@ class PlayerRow extends React.Component {
     }
 
     componentDidMount() {
-        buildArchon(this.props.deckData).then((cardBackUrl) => {
+        this.setArchons();
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.language) {
+            if (
+                this.props.language !== prevProps.language ||
+                this.props.deckData.identity !== prevProps.deckData.identity ||
+                this.props.hideDecklists !== prevProps.hideDecklists
+            ) {
+                this.setArchons();
+            }
+        }
+    }
+
+    setArchons() {
+        const deckData = { ...this.props.deckData };
+        if ((this.props.gameFormat === 'sealed' && !this.props.isMe) || this.props.hideDecklists) {
+            deckData.name = '';
+        }
+        buildArchon(deckData).then((cardBackUrl) => {
             if (this.props.player === 1) {
                 this.props.setPlayer1CardBack(cardBackUrl);
             } else {
                 this.props.setPlayer2CardBack(cardBackUrl);
             }
         });
-        if (!this.props.hideDecklist) {
+        if ((this.props.gameFormat === 'sealed' && !this.props.isMe) || this.props.hideDecklists) {
+            this.setState({ deckListUrl: IdentityDefault });
+        } else {
             buildDeckList(
                 { ...this.props.deckData },
                 this.props.language,
@@ -52,42 +74,6 @@ class PlayerRow extends React.Component {
                 .catch(() => {
                     this.setState({ deckListUrl: IdentityDefault });
                 });
-        } else {
-            this.setState({ deckListUrl: IdentityDefault });
-        }
-    }
-
-    componentDidUpdate(prevProps) {
-        if (this.props.language) {
-            if (
-                this.props.language !== prevProps.language ||
-                this.props.deckData.identity !== prevProps.deckData.identity ||
-                this.props.hideDecklist !== prevProps.hideDecklist
-            ) {
-                buildArchon(this.props.deckData).then((cardBackUrl) => {
-                    if (this.props.player === 1) {
-                        this.props.setPlayer1CardBack(cardBackUrl);
-                    } else {
-                        this.props.setPlayer2CardBack(cardBackUrl);
-                    }
-                });
-                if (!this.props.hideDecklist) {
-                    buildDeckList(
-                        { ...this.props.deckData },
-                        this.props.language,
-                        this.props.t,
-                        this.props.cards
-                    )
-                        .then((deckListUrl) => {
-                            this.setState({ deckListUrl });
-                        })
-                        .catch(() => {
-                            this.setState({ deckListUrl: IdentityDefault });
-                        });
-                } else {
-                    this.setState({ deckListUrl: IdentityDefault });
-                }
-            }
         }
     }
 
@@ -262,8 +248,9 @@ PlayerRow.propTypes = {
     discard: PropTypes.array,
     drawDeck: PropTypes.array,
     faction: PropTypes.object,
+    gameFormat: PropTypes.string,
     hand: PropTypes.array,
-    hideDecklist: PropTypes.bool,
+    hideDecklists: PropTypes.bool,
     houses: PropTypes.array,
     i18n: PropTypes.object,
     isMe: PropTypes.bool,

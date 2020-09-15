@@ -340,15 +340,18 @@ export const buildArchon = async (deck) => {
     canvas.add(house2);
     canvas.add(house3);
 
-    let text;
-    try {
-        text = getCircularText(deck.name, 2500, 1420);
-    } catch (err) {
-        text = false;
+    if (deck.name.length > 0) {
+        let text;
+        try {
+            text = getCircularText(deck.name, 2500, 1420);
+        } catch (err) {
+            text = false;
+        }
+        if (text) {
+            canvas.add(text);
+        }
     }
-    if (text) {
-        canvas.add(text);
-    }
+
     canvas.renderAll();
     let finalArchon;
     try {
