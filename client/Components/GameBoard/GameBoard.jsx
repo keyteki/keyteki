@@ -339,6 +339,7 @@ export class GameBoard extends React.Component {
                         onMouseOut={this.onMouseOut}
                         onMouseOver={this.onMouseOver}
                         onShuffleClick={this.onShuffleClick}
+                        player={1}
                         purgedPile={thisPlayer.cardPiles.purged}
                         showDeck={thisPlayer.showDeck}
                         side='bottom'
