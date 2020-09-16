@@ -76,6 +76,7 @@ class Game extends EventEmitter {
         this.cardsDiscarded = [];
         this.effectsUsed = [];
         this.activePlayer = null;
+        this.jsonForUsers = {};
 
         this.cardData = options.cardData || [];
 
@@ -1002,6 +1003,8 @@ class Game extends EventEmitter {
         player.id = socket.id;
         player.socket = socket;
         player.disconnectedAt = undefined;
+
+        this.jsonForUsers[player.name] = undefined;
 
         this.addAlert('info', '{0} has reconnected', player);
     }

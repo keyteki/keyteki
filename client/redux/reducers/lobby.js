@@ -49,6 +49,7 @@ export default function (state = defaultState, action) {
         case 'GAME_SOCKET_CLOSED':
             newState.currentGame = undefined;
             newState.newGame = false;
+            newState.rootState = undefined;
 
             break;
         case 'PROFILE_SAVED':
@@ -88,6 +89,10 @@ export default function (state = defaultState, action) {
             break;
         case 'RESPONSE_TIME_RECEIVED':
             newState.responseTime = action.responseTime;
+
+            break;
+        case 'SET_ROOT_STATE':
+            newState.rootState = action.state;
 
             break;
         default:
