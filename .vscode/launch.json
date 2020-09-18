@@ -33,6 +33,13 @@
             "remoteRoot": "/home/keyteki/keyteki-lobby"
         },
         {
+            "type": "edge",
+            "request": "attach",
+            "name": "Attach to Microsoft Edge",
+            "port": 2015,
+            "webRoot": "${workspaceFolder}"
+        }
+        {
             "name": "Launch (Lobby Server)",
             "type": "node",
             "request": "launch",

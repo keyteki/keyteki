@@ -95,6 +95,7 @@
         "jquery-nearest": "^1.4.0",
         "jquery-validation": "^1.18.0",
         "jquery-validation-unobtrusive": "^3.2.11",
+        "jsondiffpatch": "^0.4.1",
         "jsonwebtoken": "^8.4.0",
         "lint-staged": "^10.2.4",
         "lodash.debounce": "^4.0.8",
