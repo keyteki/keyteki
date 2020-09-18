@@ -281,13 +281,6 @@ class InnerCard extends React.Component {
             return <div />;
         }
 
-        console.info(
-            this.props.card.name,
-            this.statusClass,
-            this.props.card.unselectable,
-            this.props.card.canPlay
-        );
-
         let cardClass = classNames(
             'game-card',
             `card-type-${this.props.card.type}`,
