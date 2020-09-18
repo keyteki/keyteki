@@ -147,7 +147,7 @@ class PlayerRow extends React.Component {
             size: this.props.cardSize
         };
 
-        let sortedHand = this.props.hand.sort((a, b) => {
+        let sortedHand = [].concat(this.props.hand).sort((a, b) => {
             if (a.printedHouse < b.printedHouse) {
                 return -1;
             } else if (a.printedHouse > b.printedHouse) {

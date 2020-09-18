@@ -1,7 +1,11 @@
 import io from 'socket.io-client';
 import * as jsondiffpatch from 'jsondiffpatch';
 
-const patcher = jsondiffpatch.create({});
+const patcher = jsondiffpatch.create({
+    objectHash: (obj, index) => {
+        return obj.uuid || obj.name || obj.id || obj._id || '$$index:' + index;
+    }
+});
 
 export function receiveGames(games) {
     return {
@@ -178,13 +182,8 @@ export function connectGameSocket(url, name) {
                 dispatch(setRootState(game));
             }
 
-            console.info(JSON.stringify(gameState));
-
             dispatch(
-                receiveGameState(
-                    Object.assign({}, gameState),
-                    state.auth.user ? state.auth.user.username : undefined
-                )
+                receiveGameState(gameState, state.auth.user ? state.auth.user.username : undefined)
             );
         });
 

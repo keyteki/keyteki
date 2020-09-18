@@ -238,10 +238,9 @@ class GameServer {
                 stateToSend = jsondiffpatch.diff(game.jsonForUsers[player.name], state);
             }
 
-            console.info(JSON.stringify(stateToSend));
             player.socket.send('gamestate', stateToSend);
 
-            game.jsonForUsers[player.name] = state;
+            game.jsonForUsers[player.name] = jsondiffpatch.clone(state);
         }
     }
 

@@ -1010,11 +1010,12 @@ class Card extends EffectSource {
             enhancements: this.enhancements,
             id: this.id,
             image: this.image,
-            canPlay:
+            canPlay: !!(
                 activePlayer === this.game.activePlayer &&
                 this.game.activePlayer.activeHouse &&
                 isController &&
-                this.getLegalActions(activePlayer, false).length > 0,
+                this.getLegalActions(activePlayer, false).length > 0
+            ),
             cardback: this.owner.deckData.cardback,
             childCards: this.childCards.map((card) => {
                 return card.getSummary(activePlayer, hideWhenFaceup);

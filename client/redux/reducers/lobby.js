@@ -1,4 +1,5 @@
 const _ = require('underscore');
+import * as jsondiffpatch from 'jsondiffpatch';
 
 const defaultState = {
     games: [],
@@ -104,7 +105,7 @@ export default function (state = defaultState, action) {
 
 function handleGameState(action, state) {
     let retState = Object.assign({}, state, {
-        currentGame: action.args[0]
+        currentGame: jsondiffpatch.clone(action.args[0])
     });
 
     var username = action.args[1];
