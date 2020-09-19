@@ -27,16 +27,10 @@ export function clearZoom() {
     };
 }
 
-export function setPlayer1CardBack(url) {
+export function setCardBack(player, url) {
     return {
-        type: 'PLAYER1_CARDBACK',
-        url: url
-    };
-}
-
-export function setPlayer2CardBack(url) {
-    return {
-        type: 'PLAYER2_CARDBACK',
+        type: 'PLAYER_CARDBACK',
+        player: player,
         url: url
     };
 }

@@ -340,12 +340,12 @@ export const buildArchon = async (deck) => {
     canvas.add(house2);
     canvas.add(house3);
 
-    if (deck.name.length > 0) {
+    if (deck.name) {
         let text;
         try {
             text = getCircularText(deck.name, 2500, 1420);
         } catch (err) {
-            text = false;
+            text = undefined;
         }
         if (text) {
             canvas.add(text);

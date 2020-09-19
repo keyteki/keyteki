@@ -95,11 +95,13 @@ export default function (state = { decks: [], cards: {} }, action) {
             return Object.assign({}, state, {
                 zoomCard: undefined
             });
-        case 'PLAYER1_CARDBACK':
-            return Object.assign({}, state, {
-                player1CardBack: action.url
-            });
-        case 'PLAYER2_CARDBACK':
+        case 'PLAYER_CARDBACK':
+            if (action.player === 1) {
+                return Object.assign({}, state, {
+                    player1CardBack: action.url
+                });
+            }
+
             return Object.assign({}, state, {
                 player2CardBack: action.url
             });

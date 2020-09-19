@@ -202,7 +202,7 @@ export class GameBoard extends React.Component {
                         faction={otherPlayer.faction}
                         gameFormat={this.props.currentGame.gameFormat}
                         hand={otherPlayer.cardPiles.hand}
-                        hideDecklists={this.props.currentGame.hideDecklists}
+                        hideDeckLists={this.props.currentGame.hideDeckLists}
                         houses={otherPlayer.houses}
                         isMe={false}
                         keys={otherPlayer.stats.keys}
@@ -262,7 +262,7 @@ export class GameBoard extends React.Component {
                         faction={thisPlayer.faction}
                         gameFormat={this.props.currentGame.gameFormat}
                         hand={thisPlayer.cardPiles.hand}
-                        hideDecklists={this.props.currentGame.hideDecklists && spectating}
+                        hideDeckLists={this.props.currentGame.hideDeckLists && spectating}
                         houses={thisPlayer.houses}
                         isMe={!spectating}
                         keys={thisPlayer.stats.keys}

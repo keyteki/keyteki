@@ -34,7 +34,7 @@ class SetupPhase extends Phase {
                 argType: 'link',
                 label: player.deckData.name
             };
-            if (this.game.gameFormat !== 'sealed' && !this.game.hideDecklists) {
+            if (this.game.gameFormat !== 'sealed' && !this.game.hideDeckLists) {
                 this.game.addMessage(
                     '{0} brings {1}{2} to The Crucible',
                     player,

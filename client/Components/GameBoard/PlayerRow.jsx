@@ -1,8 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { withTranslation } from 'react-i18next';
+import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
 
 import CardPile from './CardPile';
 import SquishableCardPanel from './SquishableCardPanel';
@@ -10,285 +8,195 @@ import DrawDeck from './DrawDeck';
 import IdentityCard from './IdentityCard';
 import Droppable from './Droppable';
 import { buildArchon, buildDeckList } from '../../archonMaker';
-import * as actions from '../../redux/actions';
 import IdentityDefault from '../../assets/img/idbacks/identity.jpg';
+import { setCardBack } from '../../redux/actions';
 
 import './PlayerRow.scss';
+import Keys from './Keys';
 
-const keyImages = {};
+const PlayerRow = ({
+    archives,
+    cardBackUrl,
+    cardSize,
+    deckData,
+    discard,
+    drawDeck,
+    isMe,
+    gameFormat,
+    hand,
+    hideDeckLists,
+    keys,
+    language,
+    manualMode,
+    numDeckCards,
+    onCardClick,
+    onDragDrop,
+    onDrawPopupChange,
+    onMouseOut,
+    onMouseOver,
+    onShuffleClick,
+    player,
+    purgedPile,
+    showDeck,
+    side,
+    spectating,
+    username
+}) => {
+    const { t } = useTranslation();
+    const [deckListUrl, setDeckListUrl] = useState(IdentityDefault);
+    const cards = useSelector((state) => state.cards.cards);
+    const deckDataCopy = { ...deckData };
 
-for (const colour of ['red', 'blue', 'yellow']) {
-    keyImages[colour] = {
-        forged: require(`../../assets/img/forgedkey${colour}.png`),
-        unforged: require(`../../assets/img/unforgedkey${colour}.png`)
-    };
-}
+    useEffect(() => {
+        let noDeckLists = false;
 
-class PlayerRow extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { deckListUrl: IdentityDefault };
-        this.modifyKey = this.modifyKey.bind(this);
-    }
-
-    componentDidMount() {
-        this.setArchons();
-    }
-
-    componentDidUpdate(prevProps) {
-        if (this.props.language) {
-            if (
-                this.props.language !== prevProps.language ||
-                this.props.deckData.identity !== prevProps.deckData.identity ||
-                this.props.hideDecklists !== prevProps.hideDecklists
-            ) {
-                this.setArchons();
-            }
+        if ((gameFormat === 'sealed' && !isMe) || hideDeckLists) {
+            deckDataCopy.name = '';
+            noDeckLists = true;
         }
-    }
 
-    setArchons() {
-        const deckData = { ...this.props.deckData };
-        if ((this.props.gameFormat === 'sealed' && !this.props.isMe) || this.props.hideDecklists) {
-            deckData.name = '';
-        }
         buildArchon(deckData).then((cardBackUrl) => {
-            if (this.props.player === 1) {
-                this.props.setPlayer1CardBack(cardBackUrl);
-            } else {
-                this.props.setPlayer2CardBack(cardBackUrl);
-            }
+            setCardBack(player, cardBackUrl);
         });
-        if ((this.props.gameFormat === 'sealed' && !this.props.isMe) || this.props.hideDecklists) {
-            this.setState({ deckListUrl: IdentityDefault });
+        if (noDeckLists) {
+            setDeckListUrl(IdentityDefault);
         } else {
-            buildDeckList(
-                { ...this.props.deckData },
-                this.props.language,
-                this.props.t,
-                this.props.cards
-            )
+            buildDeckList(deckDataCopy, language, t, cards)
                 .then((deckListUrl) => {
-                    this.setState({ deckListUrl });
+                    setDeckListUrl(deckListUrl);
                 })
                 .catch(() => {
-                    this.setState({ deckListUrl: IdentityDefault });
+                    setDeckListUrl(IdentityDefault);
                 });
         }
-    }
+    }, [cards, deckData, gameFormat, hideDeckLists, isMe, language, player, t]);
 
-    modifyKey(color) {
-        if (this.props.manualMode) {
-            this.props.sendGameMessage('modifyKey', color, this.props.keys[color]);
-        }
-    }
-
-    renderDroppablePile(source, child) {
-        return this.props.isMe ? (
-            <Droppable
-                onDragDrop={this.props.onDragDrop}
-                source={source}
-                manualMode={this.props.manualMode}
-            >
+    const renderDroppablePile = (source, child) => {
+        return isMe ? (
+            <Droppable onDragDrop={onDragDrop} source={source} manualMode={manualMode}>
                 {child}
             </Droppable>
         ) : (
             child
         );
-    }
+    };
 
-    renderKeys() {
-        let t = this.props.t;
+    let cardPileProps = {
+        manualMode: manualMode,
+        onCardClick: onCardClick,
+        onDragDrop: onDragDrop,
+        onMouseOut: onMouseOut,
+        onMouseOver: onMouseOver,
+        popupLocation: side,
+        size: cardSize
+    };
 
-        let keys = ['red', 'blue', 'yellow']
-            .sort((color) => (this.props.keys[color] ? -1 : 1))
-            .map((color) => {
-                return (
-                    <img
-                        key={`key ${color}`}
-                        src={
-                            this.props.keys[color]
-                                ? keyImages[color].forged
-                                : keyImages[color].unforged
-                        }
-                        onClick={this.modifyKey.bind(this, color)}
-                        title={t('Forged Key')}
-                    />
-                );
-            });
+    let sortedHand = [].concat(hand).sort((a, b) => {
+        if (a.printedHouse < b.printedHouse) {
+            return -1;
+        } else if (a.printedHouse > b.printedHouse) {
+            return 1;
+        }
 
-        return <div className={`keys ${this.props.cardSize}`}>{keys}</div>;
-    }
+        return 0;
+    });
 
-    render() {
-        let t = this.props.t;
+    let handToRender = (
+        <SquishableCardPanel
+            cards={sortedHand}
+            className='panel hand'
+            groupVisibleCards
+            cardBackUrl={cardBackUrl}
+            username={username}
+            manualMode={manualMode}
+            maxCards={5}
+            onCardClick={onCardClick}
+            onMouseOut={onMouseOut}
+            onMouseOver={onMouseOver}
+            source='hand'
+            title={t('Hand')}
+            cardSize={cardSize}
+        />
+    );
 
-        let cardPileProps = {
-            manualMode: this.props.manualMode,
-            onCardClick: this.props.onCardClick,
-            onDragDrop: this.props.onDragDrop,
-            onMouseOut: this.props.onMouseOut,
-            onMouseOver: this.props.onMouseOver,
-            popupLocation: this.props.side,
-            size: this.props.cardSize
-        };
+    let drawDeckToRender = (
+        <DrawDeck
+            cardCount={numDeckCards}
+            cards={drawDeck}
+            isMe={isMe}
+            manualMode={manualMode}
+            numDeckCards={numDeckCards}
+            onPopupChange={onDrawPopupChange}
+            onShuffleClick={onShuffleClick}
+            showDeck={showDeck}
+            spectating={spectating}
+            cardBackUrl={cardBackUrl}
+            {...cardPileProps}
+        />
+    );
 
-        let sortedHand = [].concat(this.props.hand).sort((a, b) => {
+        let sortedHand = this.props.hand.sort((a, b) => {
             if (a.printedHouse < b.printedHouse) {
                 return -1;
             } else if (a.printedHouse > b.printedHouse) {
                 return 1;
             }
 
-            return 0;
-        });
+    let archivesToRender = (
+        <CardPile
+            className='archives'
+            title={t('Archives')}
+            source='archives'
+            cards={archives}
+            hiddenTopCard={hasArchivedCards && !isMe}
+            cardBackUrl={cardBackUrl}
+            {...cardPileProps}
+        />
+    );
 
-        let hand = (
-            <SquishableCardPanel
-                cards={sortedHand}
-                className='panel hand'
-                groupVisibleCards
-                cardBackUrl={this.props.cardBackUrl}
-                username={this.props.username}
-                manualMode={this.props.manualMode}
-                maxCards={5}
-                onCardClick={this.props.onCardClick}
-                onMouseOut={this.props.onMouseOut}
-                onMouseOver={this.props.onMouseOver}
-                source='hand'
-                title={t('Hand')}
-                cardSize={this.props.cardSize}
-            />
-        );
+    let discardToRender = (
+        <CardPile
+            className='discard'
+            title={t('Discard')}
+            source='discard'
+            cards={discard}
+            {...cardPileProps}
+        />
+    );
 
-        let drawDeck = (
-            <DrawDeck
-                cardCount={this.props.numDeckCards}
-                cards={this.props.drawDeck}
-                isMe={this.props.isMe}
-                manualMode={this.props.manualMode}
-                numDeckCards={this.props.numDeckCards}
-                onPopupChange={this.props.onDrawPopupChange}
-                onShuffleClick={this.props.onShuffleClick}
-                showDeck={this.props.showDeck}
-                spectating={this.props.spectating}
-                cardBackUrl={this.props.cardBackUrl}
-                {...cardPileProps}
-            />
-        );
+    let purged = (
+        <CardPile
+            className='purged'
+            title={t('Purged')}
+            source='purged'
+            cards={purgedPile}
+            {...cardPileProps}
+        />
+    );
 
-        let hasArchivedCards = !!this.props.archives && this.props.archives.length > 0;
+    let identity = (
+        <IdentityCard
+            className='identity'
+            deckListUrl={deckListUrl}
+            size={cardSize}
+            onMouseOut={onMouseOut}
+            onMouseOver={onMouseOver}
+        />
+    );
 
-        let archives = (
-            <CardPile
-                className='archives'
-                title={t('Archives')}
-                source='archives'
-                cards={this.props.archives}
-                hiddenTopCard={hasArchivedCards && !this.props.isMe}
-                cardBackUrl={this.props.cardBackUrl}
-                {...cardPileProps}
-            />
-        );
-
-        let discard = (
-            <CardPile
-                className='discard'
-                title={t('Discard')}
-                source='discard'
-                cards={this.props.discard}
-                {...cardPileProps}
-            />
-        );
-
-        let purged = (
-            <CardPile
-                className='purged'
-                title={t('Purged')}
-                source='purged'
-                cards={this.props.purgedPile}
-                {...cardPileProps}
-            />
-        );
-
-        let identity = (
-            <IdentityCard
-                className='identity'
-                deckListUrl={this.state.deckListUrl}
-                size={this.props.cardSize}
-                onMouseOut={this.props.onMouseOut}
-                onMouseOver={this.props.onMouseOver}
-            />
-        );
-
-        return (
-            <div className='player-home-row-container pt-1'>
-                {this.renderKeys()}
-                {this.renderDroppablePile('hand', hand)}
-                {this.renderDroppablePile('archives', archives)}
-                {identity}
-                {this.renderDroppablePile('deck', drawDeck)}
-                {this.renderDroppablePile('discard', discard)}
-                {this.props.purgedPile.length > 0 || this.props.manualMode
-                    ? this.renderDroppablePile('purged', purged)
-                    : null}
-            </div>
-        );
-    }
-}
-
-PlayerRow.displayName = 'PlayerRow';
-PlayerRow.propTypes = {
-    archives: PropTypes.array,
-    cardBackUrl: PropTypes.string,
-    cardSize: PropTypes.string,
-    cards: PropTypes.object,
-    conclavePile: PropTypes.array,
-    deckData: PropTypes.object,
-    discard: PropTypes.array,
-    drawDeck: PropTypes.array,
-    faction: PropTypes.object,
-    gameFormat: PropTypes.string,
-    hand: PropTypes.array,
-    hideDecklists: PropTypes.bool,
-    houses: PropTypes.array,
-    i18n: PropTypes.object,
-    isMe: PropTypes.bool,
-    keys: PropTypes.object,
-    language: PropTypes.string,
-    manualMode: PropTypes.bool,
-    numDeckCards: PropTypes.number,
-    onCardClick: PropTypes.func,
-    onDragDrop: PropTypes.func,
-    onDrawPopupChange: PropTypes.func,
-    onMenuItemClick: PropTypes.func,
-    onMouseOut: PropTypes.func,
-    onMouseOver: PropTypes.func,
-    onShuffleClick: PropTypes.func,
-    player: PropTypes.number,
-    power: PropTypes.number,
-    purgedPile: PropTypes.array,
-    sendGameMessage: PropTypes.func,
-    setPlayer1CardBack: PropTypes.func,
-    setPlayer2CardBack: PropTypes.func,
-    showDeck: PropTypes.bool,
-    side: PropTypes.oneOf(['top', 'bottom']),
-    spectating: PropTypes.bool,
-    t: PropTypes.func,
-    title: PropTypes.object,
-    username: PropTypes.string
+    return (
+        <div className='player-home-row-container pt-1'>
+            {<Keys cardSize={cardSize} keys={keys} manualMode={manualMode} />}
+            {renderDroppablePile('hand', handToRender)}
+            {renderDroppablePile('archives', archivesToRender)}
+            {identity}
+            {renderDroppablePile('deck', drawDeckToRender)}
+            {renderDroppablePile('discard', discardToRender)}
+            {purgedPile.length > 0 || (manualMode && renderDroppablePile('purged', purged))}
+        </div>
+    );
 };
 
-function mapStateToProps(state) {
-    return {
-        cards: state.cards.cards
-    };
-}
+PlayerRow.displayName = 'PlayerRow';
 
-function mapDispatchToProps(dispatch) {
-    let boundActions = bindActionCreators(actions, dispatch);
-    boundActions.dispatch = dispatch;
-    return boundActions;
-}
-
-export default withTranslation()(connect(mapStateToProps, mapDispatchToProps, null)(PlayerRow));
+export default PlayerRow;
