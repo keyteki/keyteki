@@ -7,6 +7,7 @@ import Droppable from './Droppable';
 import SquishableCardPanel from './SquishableCardPanel';
 
 import './PlayerRow.scss';
+import Keys from './Keys';
 
 const PlayerRow = ({
     archives,
