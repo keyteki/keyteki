@@ -135,13 +135,7 @@ const PlayerRow = ({
         />
     );
 
-        let sortedHand = this.props.hand.sort((a, b) => {
-            if (a.printedHouse < b.printedHouse) {
-                return -1;
-            } else if (a.printedHouse > b.printedHouse) {
-                return 1;
-            }
-
+    let hasArchivedCards = archives?.length > 0;
     let archivesToRender = (
         <CardPile
             className='archives'
