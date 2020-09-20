@@ -2,234 +2,78 @@ import React from 'react';
 import classNames from 'classnames';
 
 import Card from './Card';
-import CardTiledList from './CardTiledList';
-import Droppable from './Droppable';
-import MovablePanel from './MovablePanel';
+import CardPilePopup from './CardPilePopup';
 
 import './CardPile.scss';
 import { useState } from 'react';
+import { useEffect } from 'react';
+import { useCallback } from 'react';
 
 const CardPile = ({
+    cardBackUrl,
     cards,
     cardCount,
     className,
+    closeOnClick,
+    disableMouseOver,
+    disablePopup,
     hiddenTopCard,
-    menu,
-    orientation,
+    manualMode,
+    onCardClick,
+    onDragDrop,
+    onMenuItemClick,
+    onMouseOut,
+    onMouseOver,
+    onPopupChange,
+    onTouchMove,
+    orientation = 'vertical',
+    popupLocation = 'bottom',
+    popupMenu,
     size,
+    source,
     title,
     topCard
 }) => {
-    const [showMenu, setShowMenu] = useState(false);
-    // constructor(props) {
-    //     super(props);
+    const [showPopup, setShowPopup] = useState(false);
+    const updatePopupVisibility = useCallback(
+        (value) => {
+            setShowPopup(value);
 
-    //     this.state = {
-    //         showPopup: !!props.cards && props.cards.some((card) => card.selectable),
-    //         showMenu: false
-    //     };
+            onPopupChange && onPopupChange({ source: source, visible: value });
+        },
+        [source, onPopupChange]
+    );
 
-    //     this.onCollectionClick = this.onCollectionClick.bind(this);
-    //     this.onTopCardClick = this.onTopCardClick.bind(this);
-    //     this.onCloseClick = this.onCloseClick.bind(this);
-    // }
+    console.info('merp');
 
-    // // eslint-disable-next-line camelcase
-    // UNSAFE_componentWillReceiveProps(props) {
-    //     let hasNewSelectableCard = props.cards && props.cards.some((card) => card.selectable);
-    //     let didHaveSelectableCard =
-    //         this.props.cards && this.props.cards.some((card) => card.selectable);
+    useEffect(() => {
+        console.info('hi');
+        if (cards?.some((card) => card.selectable)) {
+            updatePopupVisibility(true);
+        } else {
+            updatePopupVisibility(false);
+        }
+    }, [cards, updatePopupVisibility]);
 
-    //     if (!didHaveSelectableCard && hasNewSelectableCard) {
-    //         this.updatePopupVisibility(true);
-    //     } else if (didHaveSelectableCard && !hasNewSelectableCard) {
-    //         this.updatePopupVisibility(false);
-    //     }
-    // }
-
-    // togglePopup() {
-    //     this.updatePopupVisibility(!this.state.showPopup);
-    // }
-
-    // updatePopupVisibility(value) {
-    //     this.setState({ showPopup: value });
-
-    //     if (this.props.onPopupChange) {
-    //         this.props.onPopupChange({ source: this.props.source, visible: value });
-    //     }
-    // }
-
-    // onCollectionClick(event) {
-    //     event.preventDefault();
-
-    //     if (this.props.menu) {
-    //         this.setState({ showMenu: !this.state.showMenu });
-    //         return;
-    //     }
-
-    //     if (!this.props.disablePopup) {
-    //         this.togglePopup();
-    //     }
-    // }
-
-    const onMenuItemClick = (menuItem) => {
-        if (menuItem.showPopup) {
-            this.togglePopup();
+    const isTopCardSelectable = () => {
+        if (!topCard) {
+            return false;
         }
 
-        if (menuItem.handler) {
-            menuItem.handler();
-        }
+        return topCard.selectable && (!cards || cards.every((card) => card.unselectable));
     };
 
-    // onCloseClick(event) {
-    //     event.preventDefault();
-    //     event.stopPropagation();
+    const onTopCardClick = () => {
+        if (disablePopup || isTopCardSelectable()) {
+            if (onCardClick && topCard) {
+                onCardClick(topCard);
+            }
 
-    //     this.togglePopup();
-    // }
+            return;
+        }
 
-    // onPopupMenuItemClick(menuItem) {
-    //     if (menuItem.handler) {
-    //         menuItem.handler();
-    //     }
-
-    //     this.togglePopup();
-    // }
-
-    // onTopCardClick() {
-    //     if (this.props.menu) {
-    //         this.setState({ showMenu: !this.state.showMenu });
-    //         return;
-    //     }
-
-    //     if (this.props.disablePopup || this.isTopCardSelectable) {
-    //         if (this.props.onCardClick && this.props.topCard) {
-    //             this.props.onCardClick(this.props.topCard);
-    //         }
-
-    //         return;
-    //     }
-
-    //     this.togglePopup();
-    // }
-
-    // get isTopCardSelectable() {
-    //     if (!this.props.topCard) {
-    //         return false;
-    //     }
-
-    //     return (
-    //         this.props.topCard.selectable &&
-    //         (!this.props.cards || this.props.cards.every((card) => card.unselectable))
-    //     );
-    // }
-
-    // onCardClick(card) {
-    //     if (this.props.closeOnClick) {
-    //         this.updatePopupVisibility(false);
-    //     }
-
-    //     if (this.props.onCardClick) {
-    //         this.props.onCardClick(card);
-    //     }
-    // }
-
-    // getPopup() {
-    //     let popup = null;
-    //     let cardList = [];
-
-    //     let listProps = {
-    //         cardBackUrl: this.props.cardBackUrl,
-    //         disableMouseOver: this.props.disableMouseOver,
-    //         manualMode: this.props.manualMode,
-    //         onCardClick: this.onCardClick.bind(this),
-    //         onCardMouseOut: this.props.onMouseOut,
-    //         onCardMouseOver: this.props.onMouseOver,
-    //         onTouchMove: this.props.onTouchMove,
-    //         size: size,
-    //         source: this.props.source
-    //     };
-
-    //     if (this.props.cards && this.props.cards.some((card) => card.group)) {
-    //         const cardGroup = this.props.cards.reduce((grouping, card) => {
-    //             (grouping[card.group] = grouping[card.group] || []).push(card);
-
-    //             return grouping;
-    //         }, {});
-    //         const sortedKeys = Object.keys(cardGroup).sort();
-    //         for (const key of sortedKeys) {
-    //             cardList.push(
-    //                 <CardTiledList cards={cardGroup[key]} key={key} title={key} {...listProps} />
-    //             );
-    //         }
-    //     } else {
-    //         cardList = <CardTiledList cards={this.props.cards} {...listProps} />;
-    //     }
-
-    //     if (this.props.disablePopup || !this.state.showPopup) {
-    //         return null;
-    //     }
-
-    //     let popupClass = classNames('panel-body', {
-    //         'our-side': this.props.popupLocation === 'bottom'
-    //     });
-
-    //     let innerClass = classNames('inner', size);
-    //     let linkIndex = 0;
-
-    //     let popupMenu = this.props.popupMenu ? (
-    //         <div>
-    //             {this.props.popupMenu.map((menuItem) => {
-    //                 return (
-    //                     <a
-    //                         className='btn btn-default'
-    //                         key={linkIndex++}
-    //                         onClick={() => this.onPopupMenuItemClick(menuItem)}
-    //                     >
-    //                         {menuItem.text}
-    //                     </a>
-    //                 );
-    //             })}
-    //         </div>
-    //     ) : null;
-
-    //     popup = (
-    //         <MovablePanel
-    //             title={this.props.title}
-    //             name={this.props.source}
-    //             onCloseClick={this.onCloseClick}
-    //             side={this.props.popupLocation}
-    //         >
-    //             <Droppable
-    //                 onDragDrop={this.props.onDragDrop}
-    //                 source={this.props.source}
-    //                 manualMode={this.props.manualMode}
-    //             >
-    //                 <div className={popupClass} onClick={(event) => event.stopPropagation()}>
-    //                     {popupMenu}
-    //                     <div className={innerClass}>{cardList}</div>
-    //                 </div>
-    //             </Droppable>
-    //         </MovablePanel>
-    //     );
-
-    //     return popup;
-    // }
-
-    let menuIndex = 0;
-
-    let menuItems = menu.map((item) => {
-        return (
-            <div
-                key={(menuIndex++).toString()}
-                className='menu-item'
-                onClick={onMenuItemClick.bind(this, item)}
-            >
-                {item.text}
-            </div>
-        );
-    });
+        updatePopupVisibility(!showPopup);
+    };
 
     let classNameStr = classNames('panel', 'card-pile', className, {
         [size]: size !== 'normal',
@@ -239,7 +83,7 @@ const CardPile = ({
 
     let cardCountStr = cardCount || (cards ? cards.length : '0');
     let headerText = title ? `${title} (${cardCountStr})` : '';
-    let topCard = topCard || (cards ? cards[0] : null);
+    let topCardToRender = topCard || (cards ? cards[0] : null);
     let cardOrientation =
         orientation === 'horizontal' && topCard && topCard.facedown ? 'exhausted' : orientation;
 
@@ -248,27 +92,54 @@ const CardPile = ({
     }
 
     return (
-        <div className={classNameStr} onClick={this.onCollectionClick}>
+        <div
+            className={classNameStr}
+            onClick={() => {
+                if (!disablePopup) {
+                    updatePopupVisibility(!showPopup);
+                }
+            }}
+        >
             <div className='panel-header'>{headerText}</div>
             {topCard ? (
                 <Card
-                    cardBackUrl={this.props.cardBackUrl}
-                    canDrag={this.props.manualMode}
-                    card={topCard}
-                    source={this.props.source}
-                    onMouseOver={this.props.onMouseOver}
-                    onMouseOut={this.props.onMouseOut}
-                    disableMouseOver={this.props.hiddenTopCard}
-                    onClick={this.onTopCardClick}
-                    onMenuItemClick={this.props.onMenuItemClick}
+                    cardBackUrl={cardBackUrl}
+                    canDrag={manualMode}
+                    card={topCardToRender}
+                    source={source}
+                    onMouseOver={onMouseOver}
+                    onMouseOut={onMouseOut}
+                    disableMouseOver={hiddenTopCard}
+                    onClick={onTopCardClick}
+                    onMenuItemClick={onMenuItemClick}
                     orientation={cardOrientation}
                     size={size}
                 />
             ) : (
                 <div className='card-placeholder' />
             )}
-            {showMenu ? menuItems : null}
-            {this.getPopup()}
+            <CardPilePopup
+                cardBackUrl={cardBackUrl}
+                cards={cards}
+                disableMouseOver={disableMouseOver}
+                disablePopup={disablePopup}
+                manualMode={manualMode}
+                onCardClick={() => {
+                    if (closeOnClick) {
+                        updatePopupVisibility(false);
+                    }
+                }}
+                onCloseClick={updatePopupVisibility(!showPopup)}
+                onDragDrop={onDragDrop}
+                onMouseOut={onMouseOut}
+                onMouseOver={onMouseOver}
+                onTouchMove={onTouchMove}
+                popupLocation={popupLocation}
+                popupMenu={popupMenu}
+                size={size}
+                source={source}
+                title={title}
+            />
         </div>
     );
 };
