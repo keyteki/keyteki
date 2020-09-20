@@ -31,8 +31,7 @@ const CardPile = ({
     popupMenu,
     size,
     source,
-    title,
-    topCard
+    title
 }) => {
     const [showPopup, setShowPopup] = useState(false);
     const updatePopupVisibility = useCallback(
@@ -44,36 +43,13 @@ const CardPile = ({
         [source, onPopupChange]
     );
 
-    console.info('merp');
-
     useEffect(() => {
-        console.info('hi');
         if (cards?.some((card) => card.selectable)) {
             updatePopupVisibility(true);
         } else {
             updatePopupVisibility(false);
         }
     }, [cards, updatePopupVisibility]);
-
-    const isTopCardSelectable = () => {
-        if (!topCard) {
-            return false;
-        }
-
-        return topCard.selectable && (!cards || cards.every((card) => card.unselectable));
-    };
-
-    const onTopCardClick = () => {
-        if (disablePopup || isTopCardSelectable()) {
-            if (onCardClick && topCard) {
-                onCardClick(topCard);
-            }
-
-            return;
-        }
-
-        updatePopupVisibility(!showPopup);
-    };
 
     let classNameStr = classNames('panel', 'card-pile', className, {
         [size]: size !== 'normal',
@@ -83,7 +59,7 @@ const CardPile = ({
 
     let cardCountStr = cardCount || (cards ? cards.length : '0');
     let headerText = title ? `${title} (${cardCountStr})` : '';
-    let topCardToRender = topCard || (cards ? cards[0] : null);
+    let topCard = cards ? cards[0] : null;
     let cardOrientation =
         orientation === 'horizontal' && topCard && topCard.facedown ? 'exhausted' : orientation;
 
@@ -105,12 +81,12 @@ const CardPile = ({
                 <Card
                     cardBackUrl={cardBackUrl}
                     canDrag={manualMode}
-                    card={topCardToRender}
+                    card={topCard}
                     source={source}
                     onMouseOver={onMouseOver}
                     onMouseOut={onMouseOut}
                     disableMouseOver={hiddenTopCard}
-                    onClick={onTopCardClick}
+                    onClick={() => updatePopupVisibility(!showPopup)}
                     onMenuItemClick={onMenuItemClick}
                     orientation={cardOrientation}
                     size={size}
@@ -118,28 +94,31 @@ const CardPile = ({
             ) : (
                 <div className='card-placeholder' />
             )}
-            <CardPilePopup
-                cardBackUrl={cardBackUrl}
-                cards={cards}
-                disableMouseOver={disableMouseOver}
-                disablePopup={disablePopup}
-                manualMode={manualMode}
-                onCardClick={() => {
-                    if (closeOnClick) {
-                        updatePopupVisibility(false);
-                    }
-                }}
-                onCloseClick={updatePopupVisibility(!showPopup)}
-                onDragDrop={onDragDrop}
-                onMouseOut={onMouseOut}
-                onMouseOver={onMouseOver}
-                onTouchMove={onTouchMove}
-                popupLocation={popupLocation}
-                popupMenu={popupMenu}
-                size={size}
-                source={source}
-                title={title}
-            />
+            {!disablePopup && showPopup && (
+                <CardPilePopup
+                    cardBackUrl={cardBackUrl}
+                    cards={cards}
+                    disableMouseOver={disableMouseOver}
+                    manualMode={manualMode}
+                    onCardClick={(card) => {
+                        if (closeOnClick) {
+                            updatePopupVisibility(false);
+                        }
+
+                        onCardClick && onCardClick(card);
+                    }}
+                    onCloseClick={() => updatePopupVisibility(!showPopup)}
+                    onDragDrop={onDragDrop}
+                    onMouseOut={onMouseOut}
+                    onMouseOver={onMouseOver}
+                    onTouchMove={onTouchMove}
+                    popupLocation={popupLocation}
+                    popupMenu={popupMenu}
+                    size={size}
+                    source={source}
+                    title={title}
+                />
+            )}
         </div>
     );
 };

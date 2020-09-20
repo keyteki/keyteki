@@ -9,7 +9,6 @@ const CardPilePopup = ({
     cardBackUrl,
     cards,
     disableMouseOver,
-    disablePopup,
     manualMode,
     onCardClick,
     onCloseClick,
@@ -52,10 +51,6 @@ const CardPilePopup = ({
         }
     } else {
         cardList = <CardTiledList cards={cards} {...listProps} />;
-    }
-
-    if (disablePopup || !this.state.showPopup) {
-        return null;
     }
 
     let popupClass = classNames('panel-body', {
