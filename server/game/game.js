@@ -53,7 +53,7 @@ class Game extends EventEmitter {
         this.gamePrivate = details.gamePrivate;
         this.gameTimeLimit = details.gameTimeLimit;
         this.gameType = details.gameType;
-        this.hideDecklists = details.hideDecklists;
+        this.hideDeckLists = details.hideDeckLists;
         this.id = details.id;
         this.manualMode = false;
         this.muteSpectators = details.muteSpectators;
@@ -1203,7 +1203,7 @@ class Game extends EventEmitter {
                 gameTimeLimitStarted: this.timeLimit.timeLimitStarted,
                 gameTimeLimitStartedAt: this.timeLimit.timeLimitStartedAt,
                 gameTimeLimitTime: this.timeLimit.timeLimitInMinutes,
-                hideDecklists: this.hideDecklists,
+                hideDeckLists: this.hideDeckLists,
                 id: this.id,
                 manualMode: this.manualMode,
                 messages: this.gameChat.messages,
