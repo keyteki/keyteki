@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import CardPile from './CardPile';
 import SquishableCardPanel from './SquishableCardPanel';
@@ -45,23 +45,23 @@ const PlayerRow = ({
     const { t } = useTranslation();
     const [deckListUrl, setDeckListUrl] = useState(IdentityDefault);
     const cards = useSelector((state) => state.cards.cards);
-    const deckDataCopy = { ...deckData };
+    const dispatch = useDispatch();
 
     useEffect(() => {
         let noDeckLists = false;
 
         if ((gameFormat === 'sealed' && !isMe) || hideDeckLists) {
-            deckDataCopy.name = '';
             noDeckLists = true;
         }
 
-        buildArchon(deckData).then((cardBackUrl) => {
-            setCardBack(player, cardBackUrl);
+        buildArchon(deckData, noDeckLists).then((cardBackUrl) => {
+            dispatch(setCardBack(player, cardBackUrl));
         });
+
         if (noDeckLists) {
             setDeckListUrl(IdentityDefault);
         } else {
-            buildDeckList(deckDataCopy, language, t, cards)
+            buildDeckList(deckData, language, t, cards)
                 .then((deckListUrl) => {
                     setDeckListUrl(deckListUrl);
                 })
@@ -69,7 +69,8 @@ const PlayerRow = ({
                     setDeckListUrl(IdentityDefault);
                 });
         }
-    }, [cards, deckData, gameFormat, hideDeckLists, isMe, language, player, t]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [cards, deckData.uuid, gameFormat, hideDeckLists, isMe, language, player, t]);
 
     const renderDroppablePile = (source, child) => {
         return isMe ? (
@@ -186,7 +187,7 @@ const PlayerRow = ({
             {identity}
             {renderDroppablePile('deck', drawDeckToRender)}
             {renderDroppablePile('discard', discardToRender)}
-            {purgedPile.length > 0 || (manualMode && renderDroppablePile('purged', purged))}
+            {(purgedPile.length > 0 || manualMode) && renderDroppablePile('purged', purged)}
         </div>
     );
 };

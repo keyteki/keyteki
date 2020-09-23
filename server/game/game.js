@@ -928,6 +928,8 @@ class Game extends EventEmitter {
 
         this.addAlert('info', '{0} has left the game', player);
 
+        this.jsonForUsers[player.name] = undefined;
+
         if (this.isSpectator(player) || !this.started) {
             delete this.playersAndSpectators[playerName];
         } else {
@@ -951,6 +953,8 @@ class Game extends EventEmitter {
             '{0} has disconnected.  The game will wait up to 30 seconds for them to reconnect',
             player
         );
+
+        this.jsonForUsers[player.name] = undefined;
 
         if (this.isSpectator(player)) {
             delete this.playersAndSpectators[playerName];

@@ -34,6 +34,7 @@ const CardPile = ({
     title
 }) => {
     const [showPopup, setShowPopup] = useState(false);
+    const [manualPopup, setManualPopup] = useState(false);
     const updatePopupVisibility = useCallback(
         (value) => {
             setShowPopup(value);
@@ -44,12 +45,16 @@ const CardPile = ({
     );
 
     useEffect(() => {
+        if (manualPopup) {
+            return;
+        }
+
         if (cards?.some((card) => card.selectable)) {
             updatePopupVisibility(true);
         } else {
             updatePopupVisibility(false);
         }
-    }, [cards, updatePopupVisibility]);
+    }, [cards, manualPopup, updatePopupVisibility]);
 
     let classNameStr = classNames('panel', 'card-pile', className, {
         [size]: size !== 'normal',
@@ -63,7 +68,7 @@ const CardPile = ({
     let cardOrientation =
         orientation === 'horizontal' && topCard && topCard.facedown ? 'exhausted' : orientation;
 
-    if (hiddenTopCard && !topCard) {
+    if (hiddenTopCard || !topCard) {
         topCard = { facedown: true };
     }
 
@@ -73,6 +78,7 @@ const CardPile = ({
             onClick={() => {
                 if (!disablePopup) {
                     updatePopupVisibility(!showPopup);
+                    setManualPopup(!showPopup);
                 }
             }}
         >
@@ -86,7 +92,10 @@ const CardPile = ({
                     onMouseOver={onMouseOver}
                     onMouseOut={onMouseOut}
                     disableMouseOver={hiddenTopCard}
-                    onClick={() => updatePopupVisibility(!showPopup)}
+                    onClick={() => {
+                        updatePopupVisibility(!showPopup);
+                        setManualPopup(!showPopup);
+                    }}
                     onMenuItemClick={onMenuItemClick}
                     orientation={cardOrientation}
                     size={size}
@@ -103,11 +112,15 @@ const CardPile = ({
                     onCardClick={(card) => {
                         if (closeOnClick) {
                             updatePopupVisibility(false);
+                            setManualPopup(false);
                         }
 
                         onCardClick && onCardClick(card);
                     }}
-                    onCloseClick={() => updatePopupVisibility(!showPopup)}
+                    onCloseClick={() => {
+                        updatePopupVisibility(!showPopup);
+                        setManualPopup(!showPopup);
+                    }}
                     onDragDrop={onDragDrop}
                     onMouseOut={onMouseOut}
                     onMouseOver={onMouseOver}

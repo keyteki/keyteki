@@ -53,6 +53,10 @@ export default function (state = defaultState, action) {
             newState.rootState = undefined;
 
             break;
+        case 'GAME_SOCKET_DISCONNECTED':
+            newState.rootState = undefined;
+
+            break;
         case 'PROFILE_SAVED':
             if (state.socket) {
                 state.socket.emit('authenticate', action.response.token);
