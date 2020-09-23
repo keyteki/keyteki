@@ -80,12 +80,6 @@ class PendingGame {
         };
     }
 
-    // Helpers
-    setupFaction(player, faction) {
-        player.faction = {};
-        player.faction = faction;
-    }
-
     // Actions
     addMessage() {
         this.gameChat.addMessage(...arguments);
@@ -256,8 +250,6 @@ class PendingGame {
 
         player.deck = deck;
         player.deck.selected = true;
-
-        this.setupFaction(player, deck.faction);
     }
 
     // interrogators

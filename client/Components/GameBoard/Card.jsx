@@ -403,7 +403,6 @@ InnerCard.propTypes = {
         controlled: PropTypes.bool,
         enhancements: PropTypes.array,
         facedown: PropTypes.bool,
-        factionStatus: PropTypes.array,
         image: PropTypes.string,
         exhausted: PropTypes.bool,
         location: PropTypes.string,

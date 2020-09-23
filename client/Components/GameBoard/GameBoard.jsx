@@ -26,7 +26,6 @@ const placeholderPlayer = {
         purged: [],
         deck: []
     },
-    faction: null,
     activePlayer: false,
     numDeckCards: 0,
     stats: {
@@ -199,7 +198,6 @@ export class GameBoard extends React.Component {
                         deckData={otherPlayer.deckData}
                         discard={otherPlayer.cardPiles.discard}
                         drawDeck={otherPlayer.cardPiles.deck}
-                        faction={otherPlayer.faction}
                         gameFormat={this.props.currentGame.gameFormat}
                         hand={otherPlayer.cardPiles.hand}
                         hideDeckLists={this.props.currentGame.hideDeckLists}
@@ -259,7 +257,6 @@ export class GameBoard extends React.Component {
                         deckData={thisPlayer.deckData}
                         discard={thisPlayer.cardPiles.discard}
                         drawDeck={thisPlayer.cardPiles.deck}
-                        faction={thisPlayer.faction}
                         gameFormat={this.props.currentGame.gameFormat}
                         hand={thisPlayer.cardPiles.hand}
                         hideDeckLists={this.props.currentGame.hideDeckLists && spectating}

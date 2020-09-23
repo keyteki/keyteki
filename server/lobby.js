@@ -1092,7 +1092,6 @@ class Lobby {
                     id: player.id,
                     name: player.name,
                     owner: game.owner === player.name,
-                    faction: { cardData: { code: player.faction } },
                     user: new User(player.user)
                 };
             }
