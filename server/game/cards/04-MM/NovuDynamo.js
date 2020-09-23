@@ -4,8 +4,7 @@ class NovuDynamo extends Card {
     setupCardAbilities(ability) {
         this.interrupt({
             when: {
-                onPhaseStarted: (event, context) =>
-                    event.phase === 'key' && context.player === this.game.activePlayer
+                onBeginRound: (_, context) => context.player === this.game.activePlayer
             },
             target: {
                 activePromptTitle: {

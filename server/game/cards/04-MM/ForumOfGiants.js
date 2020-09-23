@@ -21,8 +21,7 @@ class ForumOfGiants extends Card {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onPhaseStarted: (event, context) =>
-                    event.phase === 'key' && context.player === this.game.activePlayer
+                onBeginRound: (_, context) => context.player === this.game.activePlayer
             },
             effect: 'make {1} gain 1 amber',
             effectArgs: (context) => [this.getMostPowerfulCreatureControllers(context)],
