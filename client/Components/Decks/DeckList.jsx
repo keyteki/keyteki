@@ -268,7 +268,7 @@ const DeckList = ({ onDeckSelected, standaloneDecks = false }) => {
     ];
 
     let onNameChange = debounce((event) => {
-        nameFilter.current(event.target.value);
+        nameFilter.current(event.target.value.toLowerCase());
     }, 500);
 
     return (

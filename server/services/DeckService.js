@@ -222,7 +222,7 @@ class DeckService {
             case 'lastUpdated':
                 return '"LastUpdated"';
             case 'name':
-                return '"Identity"';
+                return 'lower(d."Name")';
             case 'expansion':
                 return isSort ? '"Expansion"' : 'e."ExpansionId"';
             case 'winRate':
