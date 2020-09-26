@@ -2,7 +2,7 @@ const Card = require('../../Card.js');
 
 class GeneralOrder24 extends Card {
     setupCardAbilities(ability) {
-        this.interrupt({
+        this.reaction({
             when: {
                 onBeginRound: () => true
             },

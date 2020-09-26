@@ -2,7 +2,7 @@ const Card = require('../../Card.js');
 
 class NovuDynamo extends Card {
     setupCardAbilities(ability) {
-        this.interrupt({
+        this.reaction({
             when: {
                 onBeginRound: (_, context) => context.player === this.game.activePlayer
             },

@@ -2,9 +2,9 @@ const Card = require('../../Card.js');
 
 class DirectorOfZyx extends Card {
     setupCardAbilities(ability) {
-        this.interrupt({
+        this.reaction({
             when: {
-                onRoundStarted: (_, context) => context.player === this.game.activePlayer
+                onBeginRound: (_, context) => context.player === this.game.activePlayer
             },
             gameAction: ability.actions.archive((context) => ({
                 target: context.player.deck[0]
