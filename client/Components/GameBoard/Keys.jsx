@@ -16,7 +16,13 @@ const Keys = ({ cardSize, keys, manualMode }) => {
     const { t } = useTranslation();
     const dispatch = useDispatch();
 
-    let keysToRender = KeyColours.sort((colour) => (keys[colour] ? -1 : 1)).map((colour) => {
+    let keysToRender = KeyColours.sort((a, b) => {
+        if (keys[a] === keys[b]) {
+            return a > b ? -1 : 1;
+        }
+
+        return keys[a] !== keys[b] ? -1 : 1;
+    }).map((colour) => {
         return (
             <img
                 key={`key ${colour}`}
