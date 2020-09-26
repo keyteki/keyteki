@@ -2,9 +2,9 @@ const Card = require('../../Card.js');
 
 class GeneralOrder24 extends Card {
     setupCardAbilities(ability) {
-        this.interrupt({
+        this.reaction({
             when: {
-                onPhaseStarted: (event) => event.phase === 'key'
+                onBeginRound: () => true
             },
             gameAction: ability.actions.destroy((context) => ({
                 target: context.game.activePlayer.creaturesInPlay.length === 0 ? context.source : []

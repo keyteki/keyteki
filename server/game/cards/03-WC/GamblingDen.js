@@ -4,10 +4,8 @@ class GamblingDen extends Card {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onPhaseStarted: (event, context) =>
-                    event.phase === 'key' &&
-                    context.game.activePlayer &&
-                    context.game.activePlayer.deck.length > 0
+                onBeginRound: (_, context) =>
+                    context.game.activePlayer && context.game.activePlayer.deck.length > 0
             },
             optional: true,
             target: {
