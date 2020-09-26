@@ -1,9 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 import classNames from 'classnames';
 import 'jquery-migrate';
-import { DragSource } from 'react-dnd';
-import { withTranslation } from 'react-i18next';
+import { useDrag } from 'react-dnd';
 
 import CardMenu from './CardMenu';
 import CardCounters from './CardCounters';
@@ -13,87 +11,55 @@ import SquishableCardPanel from './SquishableCardPanel';
 
 import './Card.scss';
 
-const cardSource = {
-    beginDrag(props) {
-        return {
-            card: props.card,
-            source: props.source
-        };
-    },
-    canDrag(props) {
-        return props.canDrag || (!props.card.unselectable && props.card.canPlay);
-    }
-};
-
-function collect(connect, monitor) {
-    return {
-        connectDragPreview: connect.dragPreview(),
-        connectDragSource: connect.dragSource(),
-        isDragging: monitor.isDragging(),
-        dragOffset: monitor.getSourceClientOffset()
+const Card = ({
+    canDrag,
+    card,
+    cardBackUrl,
+    className,
+    disableMouseOver,
+    onClick,
+    onMenuItemClick,
+    onMouseOut,
+    onMouseOver,
+    orientation = 'vertical',
+    size,
+    source,
+    style,
+    wrapped = true
+}) => {
+    const sizeClass = {
+        [size]: size !== 'normal'
     };
-}
+    const [showMenu, setShowMenu] = useState(false);
 
-class InnerCard extends React.Component {
-    constructor(props) {
-        super(props);
+    const [{ dragOffset, isDragging }, drag, preview] = useDrag({
+        item: { card: card, source: source, type: ItemTypes.CARD },
+        canDrag: () => canDrag || (!card.unselectable && card.canPlay),
+        collect: (monitor) => ({
+            isDragging: monitor.isDragging(),
+            dragOffset: monitor.getSourceClientOffset()
+        })
+    });
 
-        this.onMouseOver = this.onMouseOver.bind(this);
-        this.onMouseOut = this.onMouseOut.bind(this);
-        this.onMenuItemClick = this.onMenuItemClick.bind(this);
+    const isAllowedMenuSource = () => {
+        return source === 'play area';
+    };
 
-        this.state = {
-            showMenu: false
-        };
-    }
-
-    onMouseOver(card) {
-        if (this.props.onMouseOver) {
-            this.props.onMouseOver(card);
-        }
-    }
-
-    onMouseOut() {
-        if (this.props.onMouseOut) {
-            this.props.onMouseOut();
-        }
-    }
-
-    isAllowedMenuSource() {
-        return this.props.source === 'play area';
-    }
-
-    onClick(event, card) {
+    const onCardClicked = (event, card) => {
         event.preventDefault();
         event.stopPropagation();
-
-        if (
-            this.isAllowedMenuSource() &&
-            this.props.card.menu &&
-            this.props.card.menu.length !== 0
-        ) {
-            this.setState({ showMenu: !this.state.showMenu });
-
+        if (isAllowedMenuSource() && card.menu && card.menu.length !== 0) {
+            setShowMenu(!showMenu);
             return;
         }
 
-        if (this.props.onClick) {
-            this.props.onClick(card);
-        }
-    }
+        onClick && onClick(card);
+    };
 
-    onMenuItemClick(menuItem) {
-        if (this.props.onMenuItemClick) {
-            this.props.onMenuItemClick(this.props.card, menuItem);
-            this.setState({ showMenu: !this.state.showMenu });
-        }
-    }
-
-    getCountersForCard(card) {
+    const getCountersForCard = (card) => {
         const singleValueCounters = ['ward', 'enrage'];
         let counters = [];
-        let needsFade = card.type === 'upgrade' && !['full deck'].includes(this.props.source);
-
+        let needsFade = card.type === 'upgrade' && !['full deck'].includes(source);
         if (card.type === 'creature' && card.baseStrength !== card.strength) {
             counters.push({
                 name: 'strength',
@@ -123,7 +89,7 @@ class InnerCard extends React.Component {
         }
 
         for (const upgrade of card.upgrades || []) {
-            counters = counters.concat(this.getCountersForCard(upgrade));
+            counters = counters.concat(getCountersForCard(upgrade));
         }
 
         if (card.stunned) {
@@ -131,18 +97,10 @@ class InnerCard extends React.Component {
         }
 
         return counters.filter((counter) => counter.count >= 0);
-    }
+    };
 
-    getCardDimensions() {
-        let multiplier = this.getCardSizeMultiplier();
-        return {
-            width: 65 * multiplier,
-            height: 91 * multiplier
-        };
-    }
-
-    getCardSizeMultiplier() {
-        switch (this.props.size) {
+    const getCardSizeMultiplier = () => {
+        switch (size) {
             case 'small':
                 return 0.6;
             case 'large':
@@ -152,117 +110,115 @@ class InnerCard extends React.Component {
         }
 
         return 1;
-    }
+    };
 
-    getupgrades() {
-        if (!['full deck', 'play area'].includes(this.props.source) || !this.props.card.upgrades) {
+    const getupgrades = () => {
+        if (!['full deck', 'play area'].includes(source) || !card.upgrades) {
             return null;
         }
 
         let index = 1;
-        let upgrades = this.props.card.upgrades.map((upgrade) => {
+        let upgrades = card.upgrades.map((upgrade) => {
             let returnedupgrade = (
                 <Card
                     key={upgrade.uuid}
-                    source={this.props.source}
+                    source={source}
                     card={upgrade}
                     className={classNames('upgrade', `upgrade-${index}`)}
                     wrapped={false}
                     onMouseOver={
-                        this.props.disableMouseOver ? null : this.onMouseOver.bind(this, upgrade)
+                        !disableMouseOver && onMouseOver
+                            ? (upgrade) => onMouseOver(upgrade)
+                            : undefined
                     }
-                    onMouseOut={this.props.disableMouseOver ? null : this.onMouseOut}
-                    onClick={this.props.onClick}
-                    onMenuItemClick={this.props.onMenuItemClick}
-                    size={this.props.size}
+                    onMouseOut={!disableMouseOver && onMouseOut}
+                    onClick={onClick}
+                    onMenuItemClick={onMenuItemClick}
+                    size={size}
                 />
             );
 
             index += 1;
-
             return returnedupgrade;
         });
 
         return upgrades;
-    }
+    };
 
-    renderUnderneathCards() {
+    const renderUnderneathCards = () => {
         // TODO: Right now it is assumed that all cards in the childCards array
         // are being placed underneath the current card. In the future there may
         // be other types of cards in this array and it should be filtered.
-        let underneathCards = this.props.card.childCards;
+        let underneathCards = card.childCards;
         if (!underneathCards || underneathCards.length === 0) {
             return;
         }
 
         let maxCards = 1 + (underneathCards.length - 1) / 6;
-
         return (
             <SquishableCardPanel
-                cardBackUrl={this.props.cardBackUrl}
-                cardSize={this.props.size}
+                cardBackUrl={cardBackUrl}
+                cardSize={size}
                 cards={underneathCards}
                 className='underneath'
                 maxCards={maxCards}
-                onCardClick={this.props.onClick}
-                onMouseOut={this.props.onMouseOut}
-                onMouseOver={this.props.onMouseOver}
+                onCardClick={onClick}
+                onMouseOut={onMouseOut}
+                onMouseOver={onMouseOver}
                 source='underneath'
             />
         );
-    }
+    };
 
-    getCardOrdering() {
-        if (!this.props.card.order) {
+    const getCardOrdering = () => {
+        if (!card.order) {
             return null;
         }
 
-        return <div className='card-ordering'>{this.props.card.order}</div>;
-    }
+        return <div className='card-ordering'>{card.order}</div>;
+    };
 
-    showMenu() {
-        if (!this.isAllowedMenuSource()) {
+    const shouldShowMenu = () => {
+        if (!isAllowedMenuSource()) {
             return false;
         }
 
-        if (!this.props.card.menu || !this.state.showMenu) {
+        if (!card.menu || !showMenu) {
             return false;
         }
 
         return true;
-    }
+    };
 
-    showCounters() {
-        if (['full deck'].includes(this.props.source)) {
+    const showCounters = () => {
+        if (['full deck'].includes(source)) {
             return true;
         }
 
-        if (this.props.source !== 'play area' && this.props.source !== 'faction') {
+        if (source !== 'play area' && source !== 'faction') {
             return false;
         }
 
-        if (this.props.card.facedown || this.props.card.type === 'upgrade') {
+        if (card.facedown || card.type === 'upgrade') {
             return false;
         }
 
         return true;
-    }
+    };
 
-    isFacedown() {
-        return this.props.card.facedown || !this.props.card.name;
-    }
+    const isFacedown = () => {
+        return card.facedown || !card.name;
+    };
 
-    getDragFrame(image) {
-        if (!this.props.isDragging) {
+    const getDragFrame = (image) => {
+        if (!isDragging) {
             return null;
         }
 
         let style = {};
-
-        if (this.props.dragOffset && this.props.isDragging) {
-            let x = this.props.dragOffset.x;
-            let y = this.props.dragOffset.y;
-
+        if (dragOffset && isDragging) {
+            let x = dragOffset.x;
+            let y = dragOffset.y;
             style = {
                 left: x,
                 top: y
@@ -270,189 +226,114 @@ class InnerCard extends React.Component {
         }
 
         return (
-            <div className='drag-preview' style={style}>
+            <div className='drag-preview' style={style} ref={preview}>
                 {image}
             </div>
         );
-    }
+    };
 
-    getCard() {
-        if (!this.props.card) {
+    const getCard = () => {
+        if (!card) {
             return <div />;
         }
 
+        let statusClass = getStatusClass();
+
         let cardClass = classNames(
             'game-card',
-            `card-type-${this.props.card.type}`,
-            this.props.className,
-            this.sizeClass,
-            this.statusClass,
+            `card-type-${card.type}`,
+            className,
+            sizeClass,
+            statusClass,
             {
-                'custom-card': this.props.card.code && this.props.card.code.startsWith('custom'),
-                horizontal: this.props.orientation !== 'vertical' || this.props.card.exhausted,
-                vertical: this.props.orientation === 'vertical' && !this.props.card.exhausted,
+                'custom-card': card.code && card.code.startsWith('custom'),
+                horizontal: orientation !== 'vertical' || card.exhausted,
+                vertical: orientation === 'vertical' && !card.exhausted,
                 'can-play':
-                    this.statusClass !== 'selected' &&
-                    this.statusClass !== 'selectable' &&
-                    !this.props.card.unselectable &&
-                    this.props.card.canPlay,
-                unselectable: this.props.card.unselectable,
-                dragging: this.props.isDragging,
-                controlled: this.props.card.controlled,
-                taunt: this.props.card.taunt && this.props.source === 'play area'
+                    statusClass !== 'selected' &&
+                    statusClass !== 'selectable' &&
+                    !card.unselectable &&
+                    card.canPlay,
+                unselectable: card.unselectable,
+                dragging: isDragging,
+                controlled: card.controlled,
+                taunt: card.taunt && source === 'play area'
             }
         );
-        let imageClass = classNames('card-image vertical', this.sizeClass, {
-            exhausted:
-                this.props.orientation === 'exhausted' ||
-                this.props.card.exhausted ||
-                this.props.orientation === 'horizontal'
+        let imageClass = classNames('card-image vertical', sizeClass, {
+            exhausted: orientation === 'exhausted' || card.exhausted || orientation === 'horizontal'
         });
-
-        let image = this.props.card ? (
+        let image = card ? (
             <div className={imageClass}>
-                <CardImage card={this.props.card} cardBack={this.props.cardBackUrl} />
+                <CardImage card={card} cardBack={cardBackUrl} />
             </div>
         ) : null;
-
-        let content = this.props.connectDragSource(
-            <div className='card-frame'>
-                {this.getDragFrame(image)}
-                {this.getCardOrdering()}
+        return (
+            <div className='card-frame' ref={drag}>
+                {getDragFrame(image)}
+                {getCardOrdering()}
                 <div
                     className={cardClass}
                     onMouseOver={
-                        this.props.disableMouseOver || this.isFacedown()
-                            ? null
-                            : this.onMouseOver.bind(this, this.props.card)
+                        !disableMouseOver && !isFacedown() && onMouseOver
+                            ? () => onMouseOver(card)
+                            : undefined
                     }
-                    onMouseOut={
-                        this.props.disableMouseOver || this.isFacedown() ? null : this.onMouseOut
-                    }
-                    onClick={(ev) => this.onClick(ev, this.props.card)}
+                    onMouseOut={!disableMouseOver && !isFacedown() ? onMouseOut : undefined}
+                    onClick={(event) => onCardClicked(event, card)}
                 >
                     <div>
-                        <span className='card-name'>{this.props.card.name}</span>
+                        <span className='card-name'>{card.name}</span>
                         {image}
                     </div>
-                    {this.showCounters() ? (
-                        <CardCounters counters={this.getCountersForCard(this.props.card)} />
-                    ) : null}
+                    {showCounters() && <CardCounters counters={getCountersForCard(card)} />}
                 </div>
-                {this.showMenu() ? (
-                    <CardMenu menu={this.props.card.menu} onMenuItemClick={this.onMenuItemClick} />
-                ) : null}
+                {shouldShowMenu() && (
+                    <CardMenu
+                        menu={card.menu}
+                        onMenuItemClick={(menuItem) => {
+                            onMenuItemClick && onMenuItemClick(card, menuItem);
+                            setShowMenu(!showMenu);
+                        }}
+                    />
+                )}
             </div>
         );
+    };
 
-        return this.props.connectDragPreview(content);
-    }
-
-    get sizeClass() {
-        return {
-            [this.props.size]: this.props.size !== 'normal'
-        };
-    }
-
-    get statusClass() {
-        if (!this.props.card) {
+    const getStatusClass = () => {
+        if (!card) {
             return undefined;
         }
 
-        if (this.props.card.selected) {
+        if (card.selected) {
             return 'selected';
-        } else if (this.props.card.selectable) {
+        } else if (card.selectable) {
             return 'selectable';
-        } else if (this.props.card.new) {
+        } else if (card.new) {
             return 'new';
         }
 
         return undefined;
+    };
+
+    let styleCopy = Object.assign({}, style);
+    if (card.upgrades) {
+        styleCopy.top = card.upgrades.length * (15 * getCardSizeMultiplier());
+    }
+    if (wrapped) {
+        return (
+            <div className='card-wrapper' style={style}>
+                {getCard()}
+                {getupgrades()}
+                {renderUnderneathCards()}
+            </div>
+        );
     }
 
-    render() {
-        let style = Object.assign({}, this.props.style);
-        if (this.props.card.upgrades) {
-            style.top = this.props.card.upgrades.length * (15 * this.getCardSizeMultiplier());
-        }
-
-        if (this.props.wrapped) {
-            return (
-                <div className='card-wrapper' style={style}>
-                    {this.getCard()}
-                    {this.getupgrades()}
-                    {this.renderUnderneathCards()}
-                </div>
-            );
-        }
-
-        return this.getCard();
-    }
-}
-
-InnerCard.displayName = 'Card';
-InnerCard.propTypes = {
-    canDrag: PropTypes.bool,
-    card: PropTypes.shape({
-        anomaly: PropTypes.string,
-        attached: PropTypes.bool,
-        baseStrength: PropTypes.number,
-        childCards: PropTypes.array,
-        canPlay: PropTypes.bool,
-        code: PropTypes.string,
-        controlled: PropTypes.bool,
-        enhancements: PropTypes.array,
-        facedown: PropTypes.bool,
-        image: PropTypes.string,
-        exhausted: PropTypes.bool,
-        location: PropTypes.string,
-        menu: PropTypes.array,
-        name: PropTypes.string,
-        new: PropTypes.bool,
-        order: PropTypes.number,
-        power: PropTypes.number,
-        selectable: PropTypes.bool,
-        selected: PropTypes.bool,
-        strength: PropTypes.number,
-        taunt: PropTypes.bool,
-        tokens: PropTypes.object,
-        type: PropTypes.string,
-        unselectable: PropTypes.bool,
-        upgrades: PropTypes.array,
-        maverick: PropTypes.string,
-        cardPrintedAmber: PropTypes.number
-    }).isRequired,
-    cardBackUrl: PropTypes.string,
-    className: PropTypes.string,
-    connectDragPreview: PropTypes.func,
-    connectDragSource: PropTypes.func,
-    disableMouseOver: PropTypes.bool,
-    dragOffset: PropTypes.object,
-    isDragging: PropTypes.bool,
-    language: PropTypes.string,
-    onClick: PropTypes.func,
-    onMenuItemClick: PropTypes.func,
-    onMouseOut: PropTypes.func,
-    onMouseOver: PropTypes.func,
-    orientation: PropTypes.oneOf(['horizontal', 'exhausted', 'vertical']),
-    size: PropTypes.string,
-    source: PropTypes.oneOf([
-        'archives',
-        'hand',
-        'discard',
-        'deck',
-        'purged',
-        'play area',
-        'upgrade'
-    ]).isRequired,
-    style: PropTypes.object,
-    wrapped: PropTypes.bool
-};
-InnerCard.defaultProps = {
-    orientation: 'vertical',
-    wrapped: true
+    return getCard();
 };
 
-const Card = DragSource(ItemTypes.CARD, cardSource, collect)(InnerCard);
+Card.displayName = 'Card';
 
-export default withTranslation()(Card);
+export default Card;
