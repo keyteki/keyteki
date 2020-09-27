@@ -18,10 +18,10 @@ const Keys = ({ cardSize, keys, manualMode }) => {
 
     let keysToRender = KeyColours.sort((a, b) => {
         if (keys[a] === keys[b]) {
-            return a > b ? -1 : 1;
+            return 0;
         }
 
-        return keys[a] !== keys[b] ? -1 : 1;
+        return keys[a] ? -1 : 1;
     }).map((colour) => {
         return (
             <img
