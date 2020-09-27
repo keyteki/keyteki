@@ -1,225 +1,177 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { toastr } from 'react-redux-toastr';
-import { withTranslation, Trans } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { Col } from 'react-bootstrap';
 
-import News from '../Components/News/News';
+import NewsComponent from '../Components/News/News';
 import AlertPanel from '../Components/Site/AlertPanel';
 import Panel from '../Components/Site/Panel';
 import Typeahead from '../Components/Form/Typeahead';
 import SideBar from '../Components/Lobby/SideBar';
 import UserList from '../Components/Lobby/UserList';
 import LobbyChat from '../Components/Lobby/LobbyChat';
-
-import * as actions from '../redux/actions';
+import { clearChatStatus, loadNews, removeLobbyMessage, sendSocketMessage } from '../redux/actions';
+import { News } from '../redux/types';
 
 import './Lobby.scss';
+import { useRef } from 'react';
 
-class Lobby extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.onChange = this.onChange.bind(this);
-        this.onKeyPress = this.onKeyPress.bind(this);
-        this.onSendClick = this.onSendClick.bind(this);
-        this.onRemoveMessageClick = this.onRemoveMessageClick.bind(this);
-
-        this.state = {
-            message: ''
-        };
-    }
-
-    componentDidMount() {
-        this.props.loadNews({ limit: 3 });
-
-        this.checkChatError(this.props);
-    }
-
-    // eslint-disable-next-line camelcase
-    UNSAFE_componentWillReceiveProps(props) {
-        this.checkChatError(props);
-    }
-
-    checkChatError(props) {
-        if (props.lobbyError) {
-            toastr.error(
-                'Error',
-                'New users are limited from chatting in the lobby, try again later'
-            );
-
-            setTimeout(() => {
-                this.props.clearChatStatus();
-            }, 5000);
-        }
-    }
-
-    sendMessage() {
-        if (this.state.message === '') {
-            return;
-        }
-
-        this.props.socket.emit('lobbychat', this.state.message);
-
-        this.setState({ message: '' });
-    }
-
-    onKeyPress(event) {
-        if (event.key === 'Enter') {
-            this.sendMessage();
-
-            this.message.clear();
-
-            event.preventDefault();
-        }
-    }
-
-    onSendClick(event) {
-        event.preventDefault();
-
-        this.sendMessage();
-    }
-
-    onChange(value) {
-        this.setState({ message: value });
-    }
-
-    onRemoveMessageClick(messageId) {
-        this.props.removeLobbyMessage(messageId);
-    }
-
-    render() {
-        let t = this.props.t;
-        let isLoggedIn = !!this.props.user;
-        let placeholder = isLoggedIn
-            ? 'Enter a message...'
-            : 'You must be logged in to send lobby chat messages';
-
-        return (
-            <div className='flex-container'>
-                <SideBar>
-                    <UserList users={this.props.users} />
-                </SideBar>
-                <div>
-                    <Col sm={{ span: 10, offset: 1 }}>
-                        <div className='main-header' />
-                    </Col>
-                </div>
-                <div>
-                    <Col sm={{ span: 10, offset: 1 }}>
-                        <a
-                            href='https://challonge.com/tournaments/signup/T0ee0ljEUy'
-                            target='_blank'
-                            rel='noreferrer'
-                        >
-                            <div className='event-banner' />
-                        </a>
-                    </Col>
-                </div>
-                {this.props.motd?.message && (
-                    <div>
-                        <Col sm={{ span: 10, offset: 1 }} className='banner'>
-                            <AlertPanel
-                                type={this.props.motd.motdType}
-                                message={this.props.motd.message}
-                            ></AlertPanel>
-                        </Col>
-                    </div>
-                )}
-                {this.props.bannerNotice ? (
-                    <div>
-                        <Col sm={{ span: 10, offset: 1 }} className='annoucement'>
-                            <AlertPanel message={this.props.bannerNotice} type='error' />
-                        </Col>
-                    </div>
-                ) : null}
-                <div>
-                    <Col sm={{ span: 10, offset: 1 }}>
-                        <Panel title={t('Latest site news')}>
-                            {this.props.loading ? (
-                                <div>
-                                    <Trans>News loading...</Trans>
-                                </div>
-                            ) : null}
-                            <News news={this.props.news} />
-                        </Panel>
-                    </Col>
-                </div>
-                <Col sm={{ span: 10, offset: 1 }} className='chat-container'>
-                    <Panel
-                        title={t('Lobby Chat ({{users}}) online', {
-                            users: this.props.users.length
-                        })}
-                    >
-                        <div>
-                            <LobbyChat
-                                messages={this.props.messages}
-                                isModerator={this.props.user?.permissions?.canModerateChat}
-                                onRemoveMessageClick={this.onRemoveMessageClick}
-                            />
-                        </div>
-                    </Panel>
-                    <form
-                        className='form form-hozitontal chat-box-container'
-                        onSubmit={(event) => this.onSendClick(event)}
-                    >
-                        <div className='form-group'>
-                            <div className='chat-box'>
-                                <Typeahead
-                                    disabled={!isLoggedIn}
-                                    ref={(m) => (this.message = m)}
-                                    value={this.state.message}
-                                    placeholder={t(placeholder)}
-                                    labelKey={'name'}
-                                    onKeyDown={this.onKeyPress}
-                                    options={this.props.users}
-                                    onInputChange={this.onChange}
-                                    autoFocus
-                                    dropup
-                                    emptyLabel={''}
-                                    minLength={2}
-                                />
-                            </div>
-                        </div>
-                    </form>
-                </Col>
-            </div>
-        );
-    }
-}
-
-Lobby.displayName = 'Lobby';
-Lobby.propTypes = {
-    bannerNotice: PropTypes.string,
-    clearChatStatus: PropTypes.func,
-    i18n: PropTypes.object,
-    loadNews: PropTypes.func,
-    loading: PropTypes.bool,
-    lobbyError: PropTypes.string,
-    messages: PropTypes.array,
-    motd: PropTypes.object,
-    news: PropTypes.array,
-    removeLobbyMessage: PropTypes.func,
-    socket: PropTypes.object,
-    t: PropTypes.func,
-    user: PropTypes.object,
-    users: PropTypes.array
-};
-
-function mapStateToProps(state) {
-    return {
-        bannerNotice: state.lobby.notice,
-        loading: state.api.loading,
+const Lobby = () => {
+    const dispatch = useDispatch();
+    const { bannerNotice, lobbyError, messages, motd, users } = useSelector((state) => ({
+        bannerNotice: state.lobby.bannerNotice,
         lobbyError: state.lobby.lobbyError,
         messages: state.lobby.messages,
         motd: state.lobby.motd,
-        news: state.news.news,
-        newsLoading: state.news.newsLoading,
-        socket: state.lobby.socket,
-        user: state.account.user,
         users: state.lobby.users
-    };
-}
+    }));
+    const user = useSelector((state) => state.account.user);
+    const news = useSelector((state) => state.news.news);
+    const apiState = useSelector((state) => {
+        const retState = state.api[News.RequestNews];
 
-export default withTranslation()(connect(mapStateToProps, actions)(Lobby));
+        return retState;
+    });
+    const [popupError, setPopupError] = useState(false);
+    const [message, setMessage] = useState('');
+    const { t } = useTranslation();
+    const messageRef = useRef(null);
+
+    useEffect(() => {
+        dispatch(loadNews({ limit: 3 }));
+    }, [dispatch]);
+
+    if (!popupError && lobbyError) {
+        setPopupError(true);
+
+        toastr.error('Error', 'New users are limited from chatting in the lobby, try again later');
+
+        setTimeout(() => {
+            dispatch(clearChatStatus());
+            setPopupError(false);
+        }, 5000);
+    }
+
+    const sendMessage = () => {
+        if (message === '') {
+            return;
+        }
+
+        dispatch(sendSocketMessage('lobbychat', message));
+
+        setMessage('');
+    };
+
+    const onKeyPress = (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+
+            sendMessage();
+
+            messageRef.current?.clear();
+        }
+    };
+
+    let isLoggedIn = !!user;
+    let placeholder = isLoggedIn
+        ? 'Enter a message...'
+        : 'You must be logged in to send lobby chat messages';
+
+    return (
+        <div className='flex-container'>
+            <SideBar>
+                <UserList users={users} />
+            </SideBar>
+            <div>
+                <Col sm={{ span: 10, offset: 1 }}>
+                    <div className='main-header' />
+                </Col>
+            </div>
+            <div>
+                {/* <Col sm={{ span: 10, offset: 1 }}>
+                    <a
+                        href='https://challonge.com/tournaments/signup/T0ee0ljEUy'
+                        target='_blank'
+                        rel='noreferrer'
+                    >
+                        <div className='event-banner' />
+                    </a>
+                </Col> */}
+            </div>
+            {motd?.message && (
+                <div>
+                    <Col sm={{ span: 10, offset: 1 }} className='banner'>
+                        <AlertPanel type={motd.motdType} message={motd.message}></AlertPanel>
+                    </Col>
+                </div>
+            )}
+            {bannerNotice && (
+                <div>
+                    <Col sm={{ span: 10, offset: 1 }} className='annoucement'>
+                        <AlertPanel message={bannerNotice} type='error' />
+                    </Col>
+                </div>
+            )}
+            <div>
+                <Col sm={{ span: 10, offset: 1 }}>
+                    <Panel title={t('Latest site news')}>
+                        {apiState?.loading ? (
+                            <div>
+                                <Trans>News loading, please wait...</Trans>
+                            </div>
+                        ) : null}
+                        <NewsComponent news={news} />
+                    </Panel>
+                </Col>
+            </div>
+            <Col sm={{ span: 10, offset: 1 }} className='chat-container'>
+                <Panel
+                    title={t('Lobby Chat ({{users}}) online', {
+                        users: users.length
+                    })}
+                >
+                    <div>
+                        <LobbyChat
+                            messages={messages}
+                            isModerator={user?.permissions?.canModerateChat}
+                            onRemoveMessageClick={(messageId) =>
+                                dispatch(removeLobbyMessage(messageId))
+                            }
+                        />
+                    </div>
+                </Panel>
+                <form
+                    className='form form-hozitontal chat-box-container'
+                    onSubmit={(event) => {
+                        event.preventDefault();
+                        sendMessage();
+                    }}
+                >
+                    <div className='form-group'>
+                        <div className='chat-box'>
+                            <Typeahead
+                                disabled={!isLoggedIn}
+                                ref={messageRef}
+                                value={message}
+                                placeholder={t(placeholder)}
+                                labelKey={'name'}
+                                onKeyDown={onKeyPress}
+                                options={users}
+                                onInputChange={(value) => setMessage(value)}
+                                autoFocus
+                                dropup
+                                emptyLabel={''}
+                                minLength={2}
+                            />
+                        </div>
+                    </div>
+                </form>
+            </Col>
+        </div>
+    );
+};
+
+Lobby.displayName = 'Lobby';
+
+export default Lobby;
