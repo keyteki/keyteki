@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import classNames from 'classnames';
 import { buildDeckList } from '../../archonMaker';
 import { useTranslation } from 'react-i18next';
@@ -12,32 +12,22 @@ const IdentityCard = ({ cards, className, deckData, size }) => {
     const fabricRef = useRef();
     const { t, i18n } = useTranslation();
 
-    useEffect(() => {
-        const canvas = new fabric.StaticCanvas();
-        buildDeckList(canvas, deckData, i18n.language, t, cards).then((list) => {
-            fabricRef.current = list;
-        });
-    }, [cards, deckData, i18n.language, t]);
-
-    const useFabric = (deckData, i18n, t, cards) => {
-        return useCallback(
-            async (node) => {
-                if (node) {
-                    const canvas = new fabric.StaticCanvas(node);
-                    buildDeckList(canvas, deckData, i18n.language, t, cards).then((list) => {
-                        fabricRef.current = list;
-                    });
-                }
-            },
-            [deckData, i18n.language, t, cards]
-        );
-    };
-
-    const ref = useFabric(deckData, i18n, t, cards);
+    const ref = useCallback(
+        async (node) => {
+            if (node) {
+                const canvas = new fabric.StaticCanvas(node, {
+                    enableRetinaScaling: true,
+                    renderOnAddRemove: false,
+                    skipOffscreen: true
+                });
+                fabricRef.current = await buildDeckList(canvas, deckData, i18n.language, t, cards);
+            }
+        },
+        [deckData, i18n.language, t, cards]
+    );
 
     let fullClass = classNames('panel', 'card-pile', className, {
-        size: size !== 'normal',
-        vertical: true
+        size: size !== 'normal'
     });
 
     return (
@@ -45,7 +35,7 @@ const IdentityCard = ({ cards, className, deckData, size }) => {
             className={fullClass}
             onMouseMove={(event) => {
                 let y = event.clientY;
-                let yPlusHeight = y + 546;
+                let yPlusHeight = y + 420;
 
                 if (yPlusHeight >= window.innerHeight) {
                     y -= yPlusHeight - window.innerHeight;

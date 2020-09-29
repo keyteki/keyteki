@@ -1,4 +1,4 @@
-import React, { useRef, useCallback, useEffect, useState } from 'react';
+import React, { useRef, useCallback, useState } from 'react';
 import { fabric } from 'fabric';
 import { buildCardBack } from '../../archonMaker';
 
@@ -9,28 +9,19 @@ const CardBack = ({ deck, showDeckName = true, zoom = true }) => {
     const [imageZoom, setImageZoom] = useState(false);
     const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
-    useEffect(() => {
-        const canvas = new fabric.StaticCanvas();
-        buildCardBack(canvas, deck, showDeckName).then((cardBack) => {
-            fabricRef.current = cardBack;
-        });
-    }, [deck, showDeckName]);
-
-    const useFabric = (deck, showDeckName) => {
-        return useCallback(
-            async (node) => {
-                if (node) {
-                    const canvas = new fabric.StaticCanvas(node);
-                    buildCardBack(canvas, deck, showDeckName).then((cardBack) => {
-                        fabricRef.current = cardBack;
-                    });
-                }
-            },
-            [deck, showDeckName]
-        );
-    };
-
-    const ref = useFabric(deck, showDeckName, zoom);
+    const ref = useCallback(
+        async (node) => {
+            if (node) {
+                const canvas = new fabric.StaticCanvas(node, {
+                    enableRetinaScaling: true,
+                    renderOnAddRemove: false,
+                    skipOffscreen: true
+                });
+                fabricRef.current = await buildCardBack(canvas, deck, showDeckName);
+            }
+        },
+        [deck, showDeckName]
+    );
 
     return (
         <div>

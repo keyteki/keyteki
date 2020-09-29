@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { fabric } from 'fabric';
@@ -21,29 +21,15 @@ const IdentityCard = ({ deck }) => {
     const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
     const cards = useSelector((state) => state.cards.cards);
 
-    useEffect(() => {
-        if (cards && Object.keys(cards).length > 0) {
-            const canvas = new fabric.StaticCanvas();
-            buildDeckList(canvas, deck, i18n.language, t, cards).then((list) => {
-                fabricRef.current = list;
-            });
-        }
-    }, [deck, i18n.language, t, cards]);
-
-    const useFabric = (deck, i18n, t, cards) => {
-        return useCallback(
-            async (node) => {
-                if (node) {
-                    const canvas = new fabric.StaticCanvas(node);
-                    buildDeckList(canvas, deck, i18n.language, t, cards).then((list) => {
-                        fabricRef.current = list;
-                    });
-                }
-            },
-            [deck, i18n.language, t, cards]
-        );
-    };
-    const ref = useFabric(deck, i18n, t, cards);
+    const ref = useCallback(
+        async (node) => {
+            if (node) {
+                const canvas = new fabric.StaticCanvas(node);
+                fabricRef.current = await buildDeckList(canvas, deck, i18n.language, t, cards);
+            }
+        },
+        [deck, i18n.language, t, cards]
+    );
 
     return (
         <div>
