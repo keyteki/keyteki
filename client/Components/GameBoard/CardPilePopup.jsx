@@ -6,7 +6,7 @@ import Droppable from './Droppable';
 import MovablePanel from './MovablePanel';
 
 const CardPilePopup = ({
-    cardBackUrl,
+    cardBack,
     cards,
     disableMouseOver,
     manualMode,
@@ -26,7 +26,7 @@ const CardPilePopup = ({
     let cardList = [];
 
     let listProps = {
-        cardBackUrl: cardBackUrl,
+        cardBack: cardBack,
         disableMouseOver: disableMouseOver,
         manualMode: manualMode,
         onCardClick: onCardClick,

@@ -27,14 +27,6 @@ export function clearZoom() {
     };
 }
 
-export function setCardBack(player, url) {
-    return {
-        type: 'PLAYER_CARDBACK',
-        player: player,
-        url: url
-    };
-}
-
 export function receiveBannerNotice(notice) {
     return {
         type: 'RECEIVE_BANNER_NOTICE',

@@ -55,6 +55,7 @@ class PlayerBoard extends React.Component {
         return row.map((card) => (
             <Card
                 key={card.uuid}
+                cardBack={this.props.cardBack}
                 cardBackUrl={this.props.cardBackUrl}
                 canDrag={this.props.manualMode}
                 card={card}

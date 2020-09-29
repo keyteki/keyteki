@@ -15,6 +15,7 @@ let RareIcon;
 let SpecialIcon;
 let TCOIcon;
 let UncommonIcon;
+let DefaultCard;
 let cacheLoaded = false;
 
 export const loadImage = (url) => {
@@ -70,35 +71,24 @@ async function cacheImages() {
     UncommonIcon = await loadImage(require('./assets/img/idbacks/Uncommon.png'));
     MaverickIcon = await loadImage(require('./assets/img/idbacks/Maverick.png'));
     AnomalyIcon = await loadImage(require('./assets/img/idbacks/Anomaly.png'));
+    DefaultCard = await loadImage(Constants.DefaultCard);
 
     cacheLoaded = true;
 }
 
-export const buildDeckList = async (deck, language, translate, allCards) => {
-    if (!deck.houses) {
-        return Constants.DefaultCard;
-    }
-
+export const buildDeckList = async (canvas, deck, language, translate, allCards) => {
     if (!cacheLoaded) {
         await cacheImages();
     }
+    canvas.setDimensions({ width: 600, height: 840 });
 
-    if (!deck.cards || 0 >= deck.cards.length) {
-        try {
-            return await buildArchon(deck);
-        } catch {
-            return Constants.DefaultCard;
-        }
+    if (!deck.houses) {
+        canvas.add(DefaultCard);
+        canvas.renderAll();
+        return canvas;
     }
 
-    let canvas;
     const order = ['action', 'artifact', 'creature', 'upgrade'];
-
-    try {
-        canvas = new fabric.Canvas('decklist');
-    } catch (err) {
-        return Constants.DefaultCard;
-    }
 
     const fontProps = {
         fontWeight: 800,
@@ -108,7 +98,6 @@ export const buildDeckList = async (deck, language, translate, allCards) => {
         fontSize: 20
     };
 
-    canvas.setDimensions({ width: 600, height: 840 });
     const houseData = {
         size: 35,
         0: { x: 55, y: 124 },
@@ -119,11 +108,12 @@ export const buildDeckList = async (deck, language, translate, allCards) => {
         size: 20,
         start: { x: 54, y: 165 }
     };
-    const qrCode = await QRCode.toDataURL(
+    const qrCode = await QRCode.toCanvas(
+        null,
         `https://www.keyforgegame.com/${deck.uuid ? 'deck-details/' + deck.uuid : ''}`,
         { margin: 0 }
     );
-    const QRCodeIcon = await loadImage(qrCode);
+    const QRCodeIcon = new fabric.Image(qrCode);
     const expansion = SetIcons[deck.expansion];
     const Rarities = {
         Common: CommonIcon,
@@ -194,6 +184,9 @@ export const buildDeckList = async (deck, language, translate, allCards) => {
         .sort((a, b) => order.indexOf(a.type) - order.indexOf(b.type))
         .sort((a, b) => deck.houses.sort().indexOf(a.house) - deck.houses.sort().indexOf(b.house));
     for (const [index, card] of cardList.entries()) {
+        if (!card) {
+            continue;
+        }
         let x = cardData.start.x,
             y = cardData.start.y + index * 28;
         const name = card.locale && card.locale[language] ? card.locale[language].name : card.name;
@@ -210,7 +203,7 @@ export const buildDeckList = async (deck, language, translate, allCards) => {
             y = y + 44;
         }
 
-        const rarity = await new fabric.Image(
+        const rarity = new fabric.Image(
             Rarities[
                 card.rarity === 'FIXED' || card.rarity === 'Variant' ? 'Special' : card.rarity
             ].getElement(),
@@ -282,35 +275,25 @@ export const buildDeckList = async (deck, language, translate, allCards) => {
         }
         canvas.renderAll();
     }
-    let finalDeckList;
-    try {
-        finalDeckList = canvas.toDataURL({ format: 'jpeg', quality: 0.8 });
-    } catch (err) {
-        return Constants.DefaultCard;
-    }
-    return finalDeckList;
+    return canvas;
 };
 
 /**
+ * @param canvas
  * @param {import('./Components/Decks/DeckList').Deck} deck
+ * @param showDeckName
  */
-export const buildArchon = async (deck, hideDeckName) => {
-    if (!deck.houses) {
-        return Constants.DefaultCard;
-    }
-
+export const buildCardBack = async (canvas, deck, showDeckName) => {
+    canvas.setDimensions({ width: 600, height: 840 });
     if (!cacheLoaded) {
         await cacheImages();
     }
 
-    let canvas;
-    try {
-        canvas = new fabric.Canvas('archon');
-    } catch (err) {
-        return Constants.DefaultCard;
+    if (!deck.houses) {
+        canvas.add(DefaultCard);
+        canvas.renderAll();
+        return canvas;
     }
-
-    canvas.setDimensions({ width: 600, height: 840 });
 
     let number = btoa(deck.uuid)
         .replace(/[\D+089]/g, '')
@@ -326,7 +309,9 @@ export const buildArchon = async (deck, hideDeckName) => {
     const house3 = IdBackHouseIcons[deck.houses[2]];
 
     if (!cardback || !house1 || !house2 || !house3) {
-        return Constants.DefaultCard;
+        canvas.add(DefaultCard);
+        canvas.renderAll();
+        return canvas;
     }
 
     house1.scaleToWidth(150);
@@ -340,7 +325,7 @@ export const buildArchon = async (deck, hideDeckName) => {
     canvas.add(house2);
     canvas.add(house3);
 
-    if (!hideDeckName) {
+    if (showDeckName) {
         let text;
         try {
             text = getCircularText(deck.name, 2500, 1420);
@@ -353,14 +338,8 @@ export const buildArchon = async (deck, hideDeckName) => {
     }
 
     canvas.renderAll();
-    let finalArchon;
-    try {
-        finalArchon = canvas.toDataURL({ format: 'jpeg', quality: 0.8 });
-    } catch (err) {
-        return Constants.DefaultCard;
-    }
 
-    return finalArchon;
+    return canvas;
 };
 
 const getCurvedFontSize = (length) => {

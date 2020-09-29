@@ -1,49 +1,36 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
+import React, { useRef, useCallback, useEffect, useState } from 'react';
 import { fabric } from 'fabric';
+import { buildCardBack } from '../../archonMaker';
 
 import './Archon.scss';
-import { buildDeckList } from '../../archonMaker';
 
-/**
- * @typedef IdentityCardProps
- * @property {import('./DeckList').Deck} deck
- */
-
-/**
- * @param {IdentityCardProps} props
- */
-const IdentityCard = ({ deck }) => {
+const CardBack = ({ deck, showDeckName = true, zoom = true }) => {
     const fabricRef = useRef();
-    const { t, i18n } = useTranslation();
     const [imageZoom, setImageZoom] = useState(false);
     const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-    const cards = useSelector((state) => state.cards.cards);
 
     useEffect(() => {
-        if (cards && Object.keys(cards).length > 0) {
-            const canvas = new fabric.StaticCanvas();
-            buildDeckList(canvas, deck, i18n.language, t, cards).then((list) => {
-                fabricRef.current = list;
-            });
-        }
-    }, [deck, i18n.language, t, cards]);
+        const canvas = new fabric.StaticCanvas();
+        buildCardBack(canvas, deck, showDeckName).then((cardBack) => {
+            fabricRef.current = cardBack;
+        });
+    }, [deck, showDeckName]);
 
-    const useFabric = (deck, i18n, t, cards) => {
+    const useFabric = (deck, showDeckName) => {
         return useCallback(
             async (node) => {
                 if (node) {
                     const canvas = new fabric.StaticCanvas(node);
-                    buildDeckList(canvas, deck, i18n.language, t, cards).then((list) => {
-                        fabricRef.current = list;
+                    buildCardBack(canvas, deck, showDeckName).then((cardBack) => {
+                        fabricRef.current = cardBack;
                     });
                 }
             },
-            [deck, i18n.language, t, cards]
+            [deck, showDeckName]
         );
     };
-    const ref = useFabric(deck, i18n, t, cards);
+
+    const ref = useFabric(deck, showDeckName, zoom);
 
     return (
         <div>
@@ -66,7 +53,7 @@ const IdentityCard = ({ deck }) => {
                 }}
                 onMouseOut={() => setImageZoom(false)}
             />
-            {imageZoom && (
+            {imageZoom && zoom && (
                 <div
                     className='archon-zoom'
                     style={{ left: mousePos.x + 5 + 'px', top: mousePos.y + 'px' }}
@@ -78,4 +65,4 @@ const IdentityCard = ({ deck }) => {
     );
 };
 
-export default IdentityCard;
+export default CardBack;
