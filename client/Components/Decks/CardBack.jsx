@@ -37,7 +37,6 @@ const CardBack = ({ deck, showDeckName = true, zoom = true }) => {
             <canvas
                 className='img-fluid h-100'
                 ref={ref}
-                style={{ border: '1px solid black' }}
                 onMouseMove={(event) => {
                     let y = event.clientY;
                     let yPlusHeight = y + 364;
