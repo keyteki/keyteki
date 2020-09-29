@@ -80,7 +80,8 @@ export const buildDeckList = async (canvas, deck, language, translate, allCards)
     if (!cacheLoaded) {
         await cacheImages();
     }
-    canvas.setDimensions({ width: 600, height: 840 });
+    canvas.setHeight(840);
+    canvas.setWidth(600);
 
     if (!deck.houses) {
         canvas.add(DefaultCard);
@@ -284,10 +285,11 @@ export const buildDeckList = async (canvas, deck, language, translate, allCards)
  * @param showDeckName
  */
 export const buildCardBack = async (canvas, deck, showDeckName) => {
-    canvas.setDimensions({ width: 600, height: 840 });
     if (!cacheLoaded) {
         await cacheImages();
     }
+    canvas.setHeight(840);
+    canvas.setWidth(600);
 
     if (!deck.houses) {
         canvas.add(DefaultCard);
