@@ -1,32 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
 
 import CardPile from './CardPile';
-import SquishableCardPanel from './SquishableCardPanel';
 import DrawDeck from './DrawDeck';
-import IdentityCard from './IdentityCard';
 import Droppable from './Droppable';
-import { buildArchon, buildDeckList } from '../../archonMaker';
-import IdentityDefault from '../../assets/img/idbacks/identity.jpg';
-import { setCardBack } from '../../redux/actions';
+import Keys from './Keys';
+import SquishableCardPanel from './SquishableCardPanel';
 
 import './PlayerRow.scss';
-import Keys from './Keys';
 
 const PlayerRow = ({
     archives,
-    cardBackUrl,
     cardSize,
-    deckData,
+    cardBack,
+    deckList,
     discard,
     drawDeck,
     isMe,
-    gameFormat,
     hand,
-    hideDeckLists,
     keys,
-    language,
     manualMode,
     numDeckCards,
     onCardClick,
@@ -35,7 +27,6 @@ const PlayerRow = ({
     onMouseOut,
     onMouseOver,
     onShuffleClick,
-    player,
     purgedPile,
     showDeck,
     side,
@@ -43,34 +34,6 @@ const PlayerRow = ({
     username
 }) => {
     const { t } = useTranslation();
-    const [deckListUrl, setDeckListUrl] = useState(IdentityDefault);
-    const cards = useSelector((state) => state.cards.cards);
-    const dispatch = useDispatch();
-
-    useEffect(() => {
-        let noDeckLists = false;
-
-        if ((gameFormat === 'sealed' && !isMe) || hideDeckLists) {
-            noDeckLists = true;
-        }
-
-        buildArchon(deckData, noDeckLists).then((cardBackUrl) => {
-            dispatch(setCardBack(player, cardBackUrl));
-        });
-
-        if (noDeckLists) {
-            setDeckListUrl(IdentityDefault);
-        } else {
-            buildDeckList(deckData, language, t, cards)
-                .then((deckListUrl) => {
-                    setDeckListUrl(deckListUrl);
-                })
-                .catch(() => {
-                    setDeckListUrl(IdentityDefault);
-                });
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [cards, deckData.uuid, gameFormat, hideDeckLists, isMe, language, player, t]);
 
     const renderDroppablePile = (source, child) => {
         return isMe ? (
@@ -83,6 +46,7 @@ const PlayerRow = ({
     };
 
     let cardPileProps = {
+        cardBack: cardBack,
         manualMode: manualMode,
         onCardClick: onCardClick,
         onDragDrop: onDragDrop,
@@ -107,7 +71,7 @@ const PlayerRow = ({
             cards={sortedHand}
             className='panel hand'
             groupVisibleCards
-            cardBackUrl={cardBackUrl}
+            cardBack={cardBack}
             username={username}
             manualMode={manualMode}
             maxCards={5}
@@ -131,7 +95,6 @@ const PlayerRow = ({
             onShuffleClick={onShuffleClick}
             showDeck={showDeck}
             spectating={spectating}
-            cardBackUrl={cardBackUrl}
             {...cardPileProps}
         />
     );
@@ -144,7 +107,6 @@ const PlayerRow = ({
             source='archives'
             cards={archives}
             hiddenTopCard={hasArchivedCards && !isMe}
-            cardBackUrl={cardBackUrl}
             {...cardPileProps}
         />
     );
@@ -169,22 +131,12 @@ const PlayerRow = ({
         />
     );
 
-    let identity = (
-        <IdentityCard
-            className='identity'
-            deckListUrl={deckListUrl}
-            size={cardSize}
-            onMouseOut={onMouseOut}
-            onMouseOver={onMouseOver}
-        />
-    );
-
     return (
         <div className='player-home-row-container pt-1'>
             {<Keys cardSize={cardSize} keys={keys} manualMode={manualMode} />}
             {renderDroppablePile('hand', handToRender)}
             {renderDroppablePile('archives', archivesToRender)}
-            {identity}
+            {deckList}
             {renderDroppablePile('deck', drawDeckToRender)}
             {renderDroppablePile('discard', discardToRender)}
             {(purgedPile.length > 0 || manualMode) && renderDroppablePile('purged', purged)}

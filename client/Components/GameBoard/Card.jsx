@@ -14,7 +14,7 @@ import './Card.scss';
 const Card = ({
     canDrag,
     card,
-    cardBackUrl,
+    cardBack,
     className,
     disableMouseOver,
     onClick,
@@ -157,7 +157,7 @@ const Card = ({
         let maxCards = 1 + (underneathCards.length - 1) / 6;
         return (
             <SquishableCardPanel
-                cardBackUrl={cardBackUrl}
+                cardBack={cardBack}
                 cardSize={size}
                 cards={underneathCards}
                 className='underneath'
@@ -265,7 +265,7 @@ const Card = ({
         });
         let image = card ? (
             <div className={imageClass}>
-                <CardImage card={card} cardBack={cardBackUrl} />
+                <CardImage card={card} cardBack={cardBack} />
             </div>
         ) : null;
         return (

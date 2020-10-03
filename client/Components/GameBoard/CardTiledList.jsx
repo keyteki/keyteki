@@ -11,7 +11,7 @@ function CardTiledList(props) {
         props.cards.map((card, index) => {
             return (
                 <Card
-                    cardBackUrl={props.cardBackUrl}
+                    cardBack={props.cardBack}
                     canDrag={props.manualMode}
                     card={card}
                     disableMouseOver={props.disableMouseOver}

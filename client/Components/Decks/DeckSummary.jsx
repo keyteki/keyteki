@@ -4,7 +4,7 @@ import { sortBy } from 'underscore';
 import { useTranslation } from 'react-i18next';
 
 import { Constants } from '../../constants';
-import Archon from './Archon';
+import CardBack from './CardBack';
 import IdentityCard from './IdentityCard';
 import CardImage from '../GameBoard/CardImage';
 
@@ -67,7 +67,7 @@ const DeckSummary = ({ deck }) => {
         <Col xs='12' className='deck-summary'>
             <Row>
                 <Col xs='2' sm='3'>
-                    <Archon deck={deck} />
+                    <CardBack deck={deck} />
                 </Col>
                 <Col xs='2' sm='3'>
                     <IdentityCard deck={deck} />

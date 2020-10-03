@@ -1,35 +1,33 @@
-import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-
-import { buildArchon } from '../../archonMaker';
+import React, { useRef, useCallback, useState } from 'react';
+import { fabric } from 'fabric';
+import { buildCardBack } from '../../archonMaker';
 
 import './Archon.scss';
 
-/**
- * @typedef ArchonProps
- * @property {import('./DeckList').Deck} deck
- */
-
-/**
- * @param {ArchonProps} props
- */
-const Archon = ({ deck }) => {
-    const { i18n, t } = useTranslation();
-    const [imageUrl, setImageUrl] = useState('');
+const CardBack = ({ deck, showDeckName = true, zoom = true }) => {
+    const fabricRef = useRef();
     const [imageZoom, setImageZoom] = useState(false);
     const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
-    useEffect(() => {
-        buildArchon(deck).then((url) => {
-            setImageUrl(url);
-        });
-    }, [deck, i18n.language, t, imageUrl]);
+    const ref = useCallback(
+        async (node) => {
+            if (node) {
+                const canvas = new fabric.StaticCanvas(node, {
+                    enableRetinaScaling: true,
+                    renderOnAddRemove: false,
+                    skipOffscreen: true
+                });
+                fabricRef.current = await buildCardBack(canvas, deck, showDeckName);
+            }
+        },
+        [deck, showDeckName]
+    );
 
     return (
         <div>
-            <img
-                className='img-fluid'
-                src={imageUrl}
+            <canvas
+                className='img-fluid h-100'
+                ref={ref}
                 onMouseMove={(event) => {
                     let y = event.clientY;
                     let yPlusHeight = y + 364;
@@ -45,16 +43,16 @@ const Archon = ({ deck }) => {
                 }}
                 onMouseOut={() => setImageZoom(false)}
             />
-            {imageZoom && (
+            {imageZoom && zoom && (
                 <div
                     className='archon-zoom'
                     style={{ left: mousePos.x + 5 + 'px', top: mousePos.y + 'px' }}
                 >
-                    <img className='img-fluid' src={imageUrl} />
+                    <canvas className='img-fluid h-100' ref={ref} />
                 </div>
             )}
         </div>
     );
 };
 
-export default Archon;
+export default CardBack;

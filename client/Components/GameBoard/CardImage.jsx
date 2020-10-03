@@ -35,6 +35,7 @@ for (let i = 1; i < 6; i++) {
 const CardImage = ({ card, cardBack }) => {
     const { i18n } = useTranslation();
     let [mergedImage, setMergedImage] = useState('');
+    let [cardBackImage, setCardBackImage] = useState(false);
     let { maverick, anomaly, amber, enhancements, image } = card;
 
     if (card.cardPrintedAmber) {
@@ -42,9 +43,10 @@ const CardImage = ({ card, cardBack }) => {
     }
 
     useEffect(() => {
-        let imgPath = card.facedown
-            ? cardBack
-            : `/img/cards/${i18n.language === 'en' ? '' : i18n.language + '/'}${image}.png`;
+        if (card.facedown) {
+            setCardBackImage(cardBack);
+        }
+        let imgPath = `/img/cards/${i18n.language === 'en' ? '' : i18n.language + '/'}${image}.png`;
 
         let imagesToMerge = [];
         if (maverick) {
@@ -97,11 +99,11 @@ const CardImage = ({ card, cardBack }) => {
         card
     ]);
 
-    return (
-        <>
-            <img className='img-fluid' src={mergedImage} />
-        </>
-    );
+    if (cardBackImage) {
+        return cardBackImage;
+    } else {
+        return <img className='img-fluid' src={mergedImage} />;
+    }
 };
 
 export default CardImage;
