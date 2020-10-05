@@ -80,7 +80,6 @@ export const buildDeckList = async (canvas, deck, language, translate, allCards)
     if (!cacheLoaded) {
         await cacheImages();
     }
-
     canvas.setWidth(300);
     canvas.setHeight(420);
 
