@@ -67,6 +67,7 @@ const NewsAdmin = () => {
 
     useEffect(() => {
         dispatch(loadNews({ limit: 5, forceLoad: true }));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const renderedNews = news.map((newsItem) => {

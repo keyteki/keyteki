@@ -20,7 +20,8 @@ const CardBack = ({ deck, showDeckName = true, zoom = true }) => {
                 fabricRef.current = await buildCardBack(canvas, deck, showDeckName);
             }
         },
-        [deck, showDeckName]
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        [deck.name, deck.uuid, showDeckName]
     );
 
     return (

@@ -6,7 +6,7 @@ import { fabric } from 'fabric';
 
 import './IdentityCard.scss';
 
-const IdentityCard = ({ cards, className, deckData, size }) => {
+const IdentityCard = ({ cards, className, deck, size }) => {
     const [imageZoom, setImageZoom] = useState(false);
     const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
     const fabricRef = useRef();
@@ -20,10 +20,11 @@ const IdentityCard = ({ cards, className, deckData, size }) => {
                     renderOnAddRemove: false,
                     skipOffscreen: true
                 });
-                fabricRef.current = await buildDeckList(canvas, deckData, i18n.language, t, cards);
+                fabricRef.current = await buildDeckList(canvas, deck, i18n.language, t, cards);
             }
         },
-        [deckData, i18n.language, t, cards]
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        [deck.uuid, i18n.language, t, cards]
     );
 
     let fullClass = classNames('panel', 'card-pile', className, {

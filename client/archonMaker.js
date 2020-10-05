@@ -124,9 +124,9 @@ export const buildDeckList = async (canvas, deck, language, translate, allCards)
         Special: SpecialIcon
     };
     DeckListIcon.scaleToWidth(300);
-    QRCodeIcon.set({ left: 166, top: 306 }).scaleToWidth(75);
+    QRCodeIcon.set({ left: 168, top: 308 }).scaleToWidth(70);
     expansion.set({ left: 116, top: 46 }).scaleToWidth(10);
-    TCOIcon.set({ left: 202.5, top: 385, angle: -90 }).scaleToWidth(15);
+    TCOIcon.set({ left: 250, top: 385, angle: -90 }).scaleToWidth(20);
     canvas.add(DeckListIcon).add(QRCodeIcon).add(expansion).add(TCOIcon);
 
     let name;
@@ -288,6 +288,7 @@ export const buildCardBack = async (canvas, deck, showDeckName) => {
     if (!cacheLoaded) {
         await cacheImages();
     }
+
     canvas.setWidth(300);
     canvas.setHeight(420);
     canvas.calcOffset();
