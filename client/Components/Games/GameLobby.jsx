@@ -85,9 +85,8 @@ const GameLobby = ({ gameId }) => {
                         dispatch(sendSocketMessage('watchgame', game.id));
                     }
                 }
-
-                dispatch(setUrl('/play'));
             }
+            dispatch(setUrl('/play'));
         }
     }, [currentGame, dispatch, gameId, games]);
 
