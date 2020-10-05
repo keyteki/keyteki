@@ -3,7 +3,6 @@ const AllPlayerPrompt = require('./allplayerprompt');
 class RematchPrompt extends AllPlayerPrompt {
     constructor(game, requestingPlayer) {
         super(game);
-
         this.requestingPlayer = requestingPlayer;
         this.completedPlayers = new Set([requestingPlayer]);
         this.swap = game.swap;
@@ -38,6 +37,13 @@ class RematchPrompt extends AllPlayerPrompt {
 
     onMenuCommand(player, arg) {
         if (arg === 'yes') {
+            for (let player of Object.values(this.game.getPlayers())) {
+                if (player.left || !player.socket) {
+                    this.cancelled = true;
+                    this.game.addAlert('info', '{0} is no longer available for a rematch', player);
+                    return true;
+                }
+            }
             this.game.addAlert(
                 'info',
                 '{0} agrees to a rematch{1}, setting it up now',
@@ -57,7 +63,6 @@ class RematchPrompt extends AllPlayerPrompt {
         if (this.cancelled) {
             return;
         }
-
         this.game.rematch();
         this.game.addAlert(
             'danger',
