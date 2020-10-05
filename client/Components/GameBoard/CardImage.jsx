@@ -34,7 +34,7 @@ for (let i = 1; i < 6; i++) {
  */
 const CardImage = ({ card, cardBack }) => {
     const { i18n } = useTranslation();
-    let [cardImage, setCardImage] = useState(false);
+    let [cardImage, setCardImage] = useState(null);
     let { maverick, anomaly, amber, enhancements, image } = card;
 
     if (card.cardPrintedAmber) {
