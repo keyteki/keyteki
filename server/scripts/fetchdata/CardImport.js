@@ -93,7 +93,7 @@ class CardImport {
         canvas.add(bottom);
         canvas.renderAll();
         const stream = canvas.createPNGStream();
-        const out = await fs.createWriteStream(imgPath);
+        const out = fs.createWriteStream(imgPath);
         stream.on('data', (chunk) => {
             out.write(chunk);
         });
