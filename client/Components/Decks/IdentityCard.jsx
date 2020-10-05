@@ -28,7 +28,8 @@ const IdentityCard = ({ deck }) => {
                 fabricRef.current = await buildDeckList(canvas, deck, i18n.language, t, cards);
             }
         },
-        [deck, i18n.language, t, cards]
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        [deck.uuid, i18n.language, t, cards]
     );
 
     return (

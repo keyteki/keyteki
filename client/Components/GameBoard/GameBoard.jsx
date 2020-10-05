@@ -194,16 +194,12 @@ export class GameBoard extends React.Component {
         );
     }
 
-    getCardBack(deckData, isMe) {
-        return <CardBack deck={deckData} showDeckName={this.showDeckName(isMe)} />;
-    }
-
     getDeckListCard(deckData, isMe) {
         if (this.showDeckName(isMe)) {
             return (
                 <IdentityCard
                     className='identity'
-                    deckData={deckData}
+                    deck={deckData}
                     cards={this.props.cards}
                     gameFormat={this.props.currentGame.gameFormat}
                     hideDeckLists={this.props.currentGame.hideDeckLists}
@@ -243,7 +239,12 @@ export class GameBoard extends React.Component {
                     <PlayerRow
                         archives={otherPlayer.cardPiles.archives}
                         cardSize={this.props.user.settings.cardSize}
-                        cardBack={this.getCardBack(otherPlayer.deckData, false)}
+                        cardBack={
+                            <CardBack
+                                deck={otherPlayer.deckData}
+                                showDeckName={this.showDeckName(false)}
+                            />
+                        }
                         deckList={this.getDeckListCard(otherPlayer.deckData, false)}
                         discard={otherPlayer.cardPiles.discard}
                         drawDeck={otherPlayer.cardPiles.deck}
@@ -265,7 +266,12 @@ export class GameBoard extends React.Component {
                 <div className='board-inner'>
                     <div className='play-area'>
                         <PlayerBoard
-                            cardBack={this.getCardBack(otherPlayer.deckData, false)}
+                            cardBack={
+                                <CardBack
+                                    deck={otherPlayer.deckData}
+                                    showDeckName={this.showDeckName(false)}
+                                />
+                            }
                             cardsInPlay={otherPlayer.cardPiles.cardsInPlay}
                             onCardClick={this.onCardClick}
                             onMenuItemClick={this.onMenuItemClick}
@@ -280,10 +286,12 @@ export class GameBoard extends React.Component {
                             manualMode={this.props.currentGame.manualMode}
                         >
                             <PlayerBoard
-                                cardBack={this.getCardBack(
-                                    thisPlayer.deckData,
-                                    !this.isSpectating()
-                                )}
+                                cardBack={
+                                    <CardBack
+                                        deck={thisPlayer.deckData}
+                                        showDeckName={this.showDeckName(!this.isSpectating())}
+                                    />
+                                }
                                 cardsInPlay={thisPlayer.cardPiles.cardsInPlay}
                                 manualMode={this.props.currentGame.manualMode}
                                 onCardClick={this.onCardClick}
@@ -301,7 +309,12 @@ export class GameBoard extends React.Component {
                     <PlayerRow
                         archives={thisPlayer.cardPiles.archives}
                         cardSize={this.props.user.settings.cardSize}
-                        cardBack={this.getCardBack(thisPlayer.deckData, !this.isSpectating())}
+                        cardBack={
+                            <CardBack
+                                deck={thisPlayer.deckData}
+                                showDeckName={this.showDeckName(!this.isSpectating())}
+                            />
+                        }
                         deckList={this.getDeckListCard(thisPlayer.deckData, !this.isSpectating())}
                         discard={thisPlayer.cardPiles.discard}
                         drawDeck={thisPlayer.cardPiles.deck}
