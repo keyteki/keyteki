@@ -211,6 +211,9 @@ async function processCustomBackground(newUser, user) {
     stream.on('data', (chunk) => {
         out.write(chunk);
     });
+    stream.on('end', () => {
+        canvas.dispose();
+    });
 
     return fileName;
 }
