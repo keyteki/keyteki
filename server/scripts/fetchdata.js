@@ -62,5 +62,5 @@ const doImport = async () => {
 };
 
 doImport().then(() => {
-    console.info('Done immporting and downloading images!');
+    console.info('Done importing and downloading images!');
 });

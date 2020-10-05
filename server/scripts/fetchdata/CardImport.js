@@ -77,6 +77,7 @@ class CardImport {
             let imgPath = path.join(imageLangDir, card + '-complete.png');
             if (!fs.existsSync(imgPath)) {
                 await this.buildGigantics(card, imageLangDir, imgPath);
+                console.log('Built gigantic image for ' + card);
             }
         }
     }
@@ -91,10 +92,14 @@ class CardImport {
         canvas.add(top);
         canvas.add(bottom);
         canvas.renderAll();
-        let dataUrl = canvas.toDataURL();
-        let base64Data = dataUrl.replace(/^data:image\/png;base64,/, '');
-        await fs.writeFileSync(imgPath, base64Data, 'base64');
-        console.log('Built gigantic image for ' + card);
+        const stream = canvas.createPNGStream();
+        const out = fs.createWriteStream(imgPath);
+        stream.on('data', (chunk) => {
+            out.write(chunk);
+        });
+        stream.on('end', () => {
+            canvas.dispose();
+        });
     }
 
     loadImage(imgPath) {
