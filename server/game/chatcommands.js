@@ -100,7 +100,7 @@ class ChatCommands {
             ? args[1]
             : Object.keys(player.keys).filter((key) => !player.keys[key])[0];
 
-        this.game.addAlert('danger', '{0} is attempting to switch manual mode on', player);
+        this.game.addAlert('danger', '{0} is attempting to forge the {1} key', player, color);
         this.game.queueStep(new ManualKeyForgePrompt(this.game, player, color));
     }
 
