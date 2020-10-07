@@ -172,7 +172,9 @@ export const buildDeckList = async (canvas, deck, language, translate, allCards)
                     ...allCards[card.card.id],
                     is_maverick: !!card.maverick,
                     is_anomaly: !!card.anomaly,
-                    enhancements: card.enhancements,
+                    enhancements: card.card.enhancements
+                        ? card.card.enhancements
+                        : card.enhancements,
                     house: card.card.house
                 });
             }
@@ -181,7 +183,7 @@ export const buildDeckList = async (canvas, deck, language, translate, allCards)
                 ...allCards[card.id],
                 is_maverick: !!card.maverick,
                 is_anomaly: !!card.anomaly,
-                enhancements: card.enhancements,
+                enhancements: card.card.enhancements ? card.card.enhancements : card.enhancements,
                 house: card.house
             });
         }
@@ -217,7 +219,6 @@ export const buildDeckList = async (canvas, deck, language, translate, allCards)
             left: x + 11,
             top: y
         });
-
         const title = new fabric.Text(name, {
             ...fontProps,
             fontWeight: 200,
@@ -323,7 +324,6 @@ export const buildCardBack = async (canvas, deck, showDeckName) => {
     }
 
     canvas.renderAll();
-    canvas.calcOffset();
     return canvas;
 };
 
