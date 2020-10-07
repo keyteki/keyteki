@@ -25,17 +25,22 @@ const IdentityCard = ({ cards, className, deck, size, onMouseOut, onMouseOver })
         size: size !== 'normal'
     });
 
+    let image = <canvas className='card-image img-fluid h-100 w-100' ref={ref} />;
+
     return (
         <div
             className={fullClass}
-            onMouseOver={() => onMouseOver({ canvasRef: ref })}
+            onMouseOver={() =>
+                onMouseOver({
+                    image,
+                    size: 'x-large'
+                })
+            }
             onMouseOut={onMouseOut}
         >
             <div className='card-wrapper'>
                 <div className='card-frame'>
-                    <div className={`game-card vertical ${size}`}>
-                        <canvas className='card-image img-fluid h-100' ref={ref} />
-                    </div>
+                    <div className={`game-card vertical ${size}`}>{image}</div>
                 </div>
             </div>
         </div>

@@ -276,7 +276,11 @@ const Card = ({
                     className={cardClass}
                     onMouseOver={
                         !disableMouseOver && !isFacedown() && onMouseOver
-                            ? () => onMouseOver(card)
+                            ? () =>
+                                  onMouseOver({
+                                      image: <CardImage card={card} cardBack={cardBack} />,
+                                      size: 'normal'
+                                  })
                             : undefined
                     }
                     onMouseOut={!disableMouseOver && !isFacedown() ? onMouseOut : undefined}

@@ -37,9 +37,14 @@ export const Constants = {
     HouseBgPaths: {},
     IdBackBlanksPaths: {},
     IdBackHousePaths: {},
+    EnhancementBaseImages: {},
     MaverickIcon: require('./assets/img/maverick.png'),
     AnomalyIcon: require('./assets/img/anomaly.png'),
-    DefaultCard: require('./assets/img/idbacks/identity.jpg')
+    DefaultCard: require('./assets/img/idbacks/identity.jpg'),
+    AmberImage: require('./assets/img/enhancements/amber.png'),
+    CaptureImage: require('./assets/img/enhancements/capture.png'),
+    DrawImage: require('./assets/img/enhancements/draw.png'),
+    DamageImage: require('./assets/img/enhancements/damage.png')
 };
 
 for (let expansion of Constants.Expansions) {
@@ -58,6 +63,10 @@ for (let x = 1; x < 8; x++) {
     Constants.IdBackBlanksPaths[
         x
     ] = require(`./assets/img/idbacks/idback_blanks/cardback_${x}.png`);
+}
+
+for (let x = 1; x < 6; x++) {
+    Constants.EnhancementBaseImages[x] = require(`./assets/img/enhancements/base-${x}.png`);
 }
 
 export const PatreonClientId = 'HjDP9KKd-HscTXXMs_2TNl2h_POjaEw7D-EkLv_ShRbarVO_WuKA0LWRBp9LRdLq';

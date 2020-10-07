@@ -3,10 +3,12 @@ import QRCode from 'qrcode';
 
 import { Constants } from './constants';
 
+const EnhancementBaseImages = {};
 const HouseIcons = {};
 const IdBackHouseIcons = {};
 const IdBackBlanksIcons = {};
 const SetIcons = {};
+const DeckCards = {};
 let AnomalyIcon;
 let CommonIcon;
 let DeckListIcon;
@@ -16,6 +18,14 @@ let SpecialIcon;
 let TCOIcon;
 let UncommonIcon;
 let DefaultCard;
+// eslint-disable-next-line no-unused-vars
+let AmberImage;
+// eslint-disable-next-line no-unused-vars
+let CaptureImage;
+// eslint-disable-next-line no-unused-vars
+let DrawImage;
+// eslint-disable-next-line no-unused-vars
+let DamageImage;
 let cacheLoaded = false;
 
 export const loadImage = (url) => {
@@ -59,6 +69,12 @@ async function cacheImages() {
         });
     }
 
+    for (let [key, path] of Object.entries(Constants.EnhancementBaseImages)) {
+        await loadImage(path).then((image) => {
+            EnhancementBaseImages[key] = image;
+        });
+    }
+
     TCOIcon = await loadImage(require('./assets/img/idbacks/tco.png'));
     DeckListIcon = await loadImage(require('./assets/img/idbacks/decklist.png'));
     CommonIcon = await loadImage(require('./assets/img/idbacks/Common.png'));
@@ -68,6 +84,10 @@ async function cacheImages() {
     MaverickIcon = await loadImage(require('./assets/img/idbacks/Maverick.png'));
     AnomalyIcon = await loadImage(require('./assets/img/idbacks/Anomaly.png'));
     DefaultCard = await loadImage(Constants.DefaultCard);
+    AmberImage = await loadImage(Constants.AmberImage);
+    CaptureImage = await loadImage(Constants.CaptureImage);
+    DrawImage = await loadImage(Constants.DrawImage);
+    DamageImage = await loadImage(Constants.DamageImage);
 
     cacheLoaded = true;
 }
@@ -172,7 +192,9 @@ export const buildDeckList = async (canvas, deck, language, translate, allCards)
                     ...allCards[card.card.id],
                     is_maverick: !!card.maverick,
                     is_anomaly: !!card.anomaly,
-                    enhancements: card.enhancements,
+                    enhancements: card.card.enhancements
+                        ? card.card.enhancements
+                        : card.enhancements,
                     house: card.card.house
                 });
             }
@@ -181,7 +203,7 @@ export const buildDeckList = async (canvas, deck, language, translate, allCards)
                 ...allCards[card.id],
                 is_maverick: !!card.maverick,
                 is_anomaly: !!card.anomaly,
-                enhancements: card.enhancements,
+                enhancements: card.card.enhancements ? card.card.enhancements : card.enhancements,
                 house: card.house
             });
         }
@@ -323,7 +345,26 @@ export const buildCardBack = async (canvas, deck, showDeckName) => {
     }
 
     canvas.renderAll();
-    canvas.calcOffset();
+    return canvas;
+};
+
+/**
+ * @param canvas
+ * @param card
+ */
+export const buildCard = async (canvas, card) => {
+    if (!cacheLoaded) {
+        await cacheImages();
+    }
+
+    canvas.setWidth(300);
+    canvas.setHeight(420);
+    if (!DeckCards[card.image]) {
+        DeckCards[card.image] = await loadImage(card.url);
+    }
+
+    canvas.add(DeckCards[card.image]);
+    canvas.renderAll();
     return canvas;
 };
 
