@@ -12,11 +12,7 @@ const CardBack = ({ deck, showDeckName = true, zoom = true }) => {
     const ref = useCallback(
         async (node) => {
             if (node) {
-                const canvas = new fabric.StaticCanvas(node, {
-                    enableRetinaScaling: true,
-                    renderOnAddRemove: false,
-                    skipOffscreen: true
-                });
+                const canvas = new fabric.StaticCanvas(node);
                 fabricRef.current = await buildCardBack(canvas, deck, showDeckName);
             }
         },
