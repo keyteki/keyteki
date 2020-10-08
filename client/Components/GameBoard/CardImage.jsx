@@ -44,6 +44,7 @@ const CardImage = ({ card, cardBack }) => {
             setCardImage(cardBack);
         } else {
             setCardImage(<canvas className='img-fluid h-100 w-100' ref={ref} />);
+            //setCardImage(<img className='img-fluid' src={url} />);
         }
     }, [card.facedown, card.id, ref, cardBack]);
     if (cardImage) {

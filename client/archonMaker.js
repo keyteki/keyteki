@@ -9,6 +9,9 @@ const IdBackHouseIcons = {};
 const IdBackBlanksIcons = {};
 const SetIcons = {};
 const DeckCards = {};
+const MaverickHouseImages = {};
+const MaverickHouseAmberImages = {};
+const EnhancementPipImages = {};
 let AnomalyIcon;
 let CommonIcon;
 let DeckListIcon;
@@ -18,14 +21,7 @@ let SpecialIcon;
 let TCOIcon;
 let UncommonIcon;
 let DefaultCard;
-// eslint-disable-next-line no-unused-vars
-let AmberImage;
-// eslint-disable-next-line no-unused-vars
-let CaptureImage;
-// eslint-disable-next-line no-unused-vars
-let DrawImage;
-// eslint-disable-next-line no-unused-vars
-let DamageImage;
+let MaverickCornerImage;
 let cacheLoaded = false;
 
 export const loadImage = (url) => {
@@ -75,6 +71,12 @@ async function cacheImages() {
         });
     }
 
+    for (let [key, path] of Object.entries(Constants.EnhancementPips)) {
+        await loadImage(path).then((image) => {
+            EnhancementPipImages[key] = image;
+        });
+    }
+
     TCOIcon = await loadImage(require('./assets/img/idbacks/tco.png'));
     DeckListIcon = await loadImage(require('./assets/img/idbacks/decklist.png'));
     CommonIcon = await loadImage(require('./assets/img/idbacks/Common.png'));
@@ -84,11 +86,6 @@ async function cacheImages() {
     MaverickIcon = await loadImage(require('./assets/img/idbacks/Maverick.png'));
     AnomalyIcon = await loadImage(require('./assets/img/idbacks/Anomaly.png'));
     DefaultCard = await loadImage(Constants.DefaultCard);
-    AmberImage = await loadImage(Constants.AmberImage);
-    CaptureImage = await loadImage(Constants.CaptureImage);
-    DrawImage = await loadImage(Constants.DrawImage);
-    DamageImage = await loadImage(Constants.DamageImage);
-
     cacheLoaded = true;
 }
 
@@ -190,21 +187,27 @@ export const buildDeckList = async (canvas, deck, language, translate, allCards)
             for (let i = 0; i < card.count; i++) {
                 cardList.push({
                     ...allCards[card.card.id],
-                    is_maverick: !!card.maverick,
-                    is_anomaly: !!card.anomaly,
-                    enhancements: card.card.enhancements
-                        ? card.card.enhancements
-                        : card.enhancements,
-                    house: card.card.house
+                    is_maverick: !!card.card.maverick,
+                    is_anomaly: !!card.card.anomaly,
+                    enhancements: card.card.enhancements,
+                    house: card.card.house,
+                    rarity:
+                        card.card.rarity === 'FIXED' || card.card.rarity === 'Variant'
+                            ? 'Special'
+                            : card.card.rarity
                 });
             }
         } else {
             cardList.push({
                 ...allCards[card.id],
-                is_maverick: !!card.maverick,
-                is_anomaly: !!card.anomaly,
-                enhancements: card.card.enhancements ? card.card.enhancements : card.enhancements,
-                house: card.house
+                is_maverick: !!card.card.maverick,
+                is_anomaly: !!card.card.anomaly,
+                enhancements: card.card.enhancements,
+                house: card.house,
+                rarity:
+                    card.card.rarity === 'FIXED' || card.card.rarity === 'Variant'
+                        ? 'Special'
+                        : card.card.rarity
             });
         }
     }
@@ -228,12 +231,11 @@ export const buildDeckList = async (canvas, deck, language, translate, allCards)
         if (index > 23) {
             y = y + 22;
         }
-        const rarity = new fabric.Image(
-            Rarities[
-                card.rarity === 'FIXED' || card.rarity === 'Variant' ? 'Special' : card.rarity
-            ].toCanvasElement()
-        );
-        rarity.set({ left: x, top: y }).scaleToWidth(cardData.size).setShadow(shadowProps);
+        if (Rarities[card.rarity]) {
+            const rarity = new fabric.Image(Rarities[card.rarity].getElement());
+            rarity.set({ left: x, top: y }).scaleToWidth(cardData.size).setShadow(shadowProps);
+            canvas.add(rarity);
+        }
 
         const number = new fabric.Text(card.number.toString(), fontProps).set({
             left: x + 11,
@@ -245,12 +247,12 @@ export const buildDeckList = async (canvas, deck, language, translate, allCards)
             fontWeight: 200,
             fill: card.enhancements ? '#0081ad' : 'black'
         }).set({ left: x + 30, top: y });
-        canvas.add(number).add(title).add(rarity);
+        canvas.add(number).add(title);
 
         let iconX = x + title.width + number.width + 17.5;
 
         if (card.is_maverick) {
-            const maverickImage = new fabric.Image(MaverickIcon.toCanvasElement(), {
+            const maverickImage = new fabric.Image(MaverickIcon.getElement(), {
                 objectCaching: false,
                 noScaleCache: false
             });
@@ -263,7 +265,7 @@ export const buildDeckList = async (canvas, deck, language, translate, allCards)
         }
 
         if (card.is_anomaly) {
-            const anomalyImage = new fabric.Image(AnomalyIcon.toCanvasElement(), {
+            const anomalyImage = new fabric.Image(AnomalyIcon.getElement(), {
                 objectCaching: false,
                 noScaleCache: false
             });
@@ -291,7 +293,6 @@ export const buildCardBack = async (canvas, deck, showDeckName) => {
 
     canvas.setWidth(300);
     canvas.setHeight(420);
-    canvas.calcOffset();
 
     if (!deck.houses) {
         DefaultCard.scaleToWidth(300);
@@ -350,20 +351,64 @@ export const buildCardBack = async (canvas, deck, showDeckName) => {
 
 /**
  * @param canvas
+ * @param maverick
+ * @param anomaly
+ * @param enhancements
+ * @param image
+ * @param amber
  * @param card
  */
-export const buildCard = async (canvas, card) => {
+export const buildCard = async (canvas, { maverick, anomaly, enhancements, image, ...card }) => {
     if (!cacheLoaded) {
         await cacheImages();
     }
 
     canvas.setWidth(300);
     canvas.setHeight(420);
-    if (!DeckCards[card.image]) {
-        DeckCards[card.image] = await loadImage(card.url);
+    if (!DeckCards[image]) {
+        DeckCards[image] = await loadImage(card.url);
     }
+    canvas.add(DeckCards[image]);
+    const amber = card.cardPrintedAmber ? card.cardPrintedAmber : card.amber;
+    const bonusIcons = amber > 0 || (enhancements && enhancements.length > 0);
 
-    canvas.add(DeckCards[card.image]);
+    if (maverick || anomaly) {
+        let house;
+        if (maverick) {
+            if (!MaverickCornerImage) {
+                MaverickCornerImage = await loadImage(Constants.MaverickCornerImage);
+            }
+            MaverickCornerImage.set({ left: 210 });
+            canvas.add(MaverickCornerImage);
+            house = maverick;
+        } else {
+            house = anomaly;
+        }
+
+        if (bonusIcons) {
+            if (!MaverickHouseAmberImages[house]) {
+                MaverickHouseAmberImages[house] = await loadImage(
+                    Constants.MaverickHouseAmberImages[house]
+                );
+            }
+            canvas.add(MaverickHouseAmberImages[house]);
+        } else {
+            if (!MaverickHouseImages[house]) {
+                MaverickHouseImages[house] = await loadImage(Constants.MaverickHouseImages[house]);
+            }
+            canvas.add(MaverickHouseImages[house]);
+        }
+    }
+    if (enhancements && enhancements.length > 0 && enhancements[0] !== '') {
+        let top = 59 + (amber ? amber * 30 : 0);
+        EnhancementBaseImages[enhancements.length].set({ left: 14, top });
+        canvas.add(EnhancementBaseImages[enhancements.length]);
+        for (const [index, pip] of enhancements.entries()) {
+            const pipImage = new fabric.Image(EnhancementPipImages[pip].getElement());
+            pipImage.set({ left: 21, top: top + 10 + index * 31 });
+            canvas.add(pipImage);
+        }
+    }
     canvas.renderAll();
     return canvas;
 };
@@ -427,7 +472,6 @@ const getCircularText = (
         ctx.fillText(text[j], 0, 0 - diameter / 2 + textHeight / 2);
         ctx.rotate((charWid / 2 / (diameter / 2 - textHeight)) * -1); // rotate half letter
     }
-    //canvas.renderAll();
     return new fabric.Image(canvas, {
         objectCaching: false,
         noScaleCache: false
