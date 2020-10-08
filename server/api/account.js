@@ -134,30 +134,29 @@ async function getRandomAvatar(user) {
 
 function processImage(image, width, height) {
     return new Promise((resolve, reject) => {
-        const canvas = new fabric.StaticCanvas();
+        const canvas = new fabric.StaticCanvas('image', {
+            imageSmoothingEnabled: true,
+            enableRetinaScaling: true
+        });
         canvas.setWidth(width);
         canvas.setHeight(height);
-        fabric.Image.fromURL(
-            'data:image/png;base64,' + image,
-            (img) => {
-                if (img.getElement() == null) {
-                    reject('Error occured in fabric');
-                } else {
-                    img.scaleToWidth(width)
-                        .scaleToHeight(height)
-                        .set({
-                            originX: 'center',
-                            originY: 'center',
-                            left: width / 2,
-                            top: height / 2
-                        });
-                    canvas.add(img);
-                    canvas.renderAll();
-                    resolve(canvas);
-                }
-            },
-            { crossOrigin: 'anonymous' }
-        );
+        fabric.Image.fromURL('data:image/png;base64,' + image, (img) => {
+            if (img.getElement() == null) {
+                reject('Error occurred in fabric');
+            } else {
+                img.scaleToWidth(width)
+                    .scaleToHeight(height)
+                    .set({
+                        originX: 'center',
+                        originY: 'center',
+                        left: width / 2,
+                        top: height / 2
+                    });
+                canvas.add(img);
+                canvas.renderAll();
+                resolve(canvas);
+            }
+        });
     });
 }
 
@@ -182,6 +181,9 @@ async function processAvatar(newUser, user) {
     stream.on('data', (chunk) => {
         out.write(chunk);
     });
+    stream.on('end', () => {
+        canvas.dispose();
+    });
 
     return fileName;
 }
@@ -189,8 +191,8 @@ async function processAvatar(newUser, user) {
 async function processCustomBackground(newUser, user) {
     let hash = crypto.randomBytes(16).toString('hex');
 
-    if (fs.existsSync(`public/img/bgs/${user.settings.customBackground}.png`)) {
-        fs.unlinkSync(`public/img/bgs/${user.settings.customBackground}.png`);
+    if (fs.existsSync(`public/img/bgs/${user.settings.customBackground}.jpg`)) {
+        fs.unlinkSync(`public/img/bgs/${user.settings.customBackground}.jpg`);
     }
 
     if (!fs.existsSync('public/img/bgs')) {
@@ -199,15 +201,14 @@ async function processCustomBackground(newUser, user) {
 
     let canvas;
     try {
-        canvas = await processImage(newUser.customBackground, 700, 410);
+        canvas = await processImage(newUser.customBackground, 1920, 1080);
     } catch (err) {
         logger.error(err);
         return null;
     }
-
     let fileName = `${user.username}-${hash}`;
-    const stream = canvas.createPNGStream();
-    const out = fs.createWriteStream(`public/img/bgs/${fileName}.png`);
+    const stream = canvas.createJPEGStream();
+    const out = fs.createWriteStream(`public/img/bgs/${fileName}.jpg`);
     stream.on('data', (chunk) => {
         out.write(chunk);
     });

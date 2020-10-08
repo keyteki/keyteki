@@ -33,7 +33,7 @@ const ProfileBackground = ({
     const { t } = useTranslation();
     const uploadRef = useRef();
     const [localCustomBg, setCustomBg] = useState(
-        customBackground ? `/img/bgs/${customBackground}.png` : null
+        customBackground ? `/img/bgs/${customBackground}.jpg` : null
     );
     const [fileError, setFileError] = useState(null);
 

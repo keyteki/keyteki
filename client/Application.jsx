@@ -160,7 +160,7 @@ class Application extends React.Component {
                 background === 'custom' &&
                 this.props.user.settings.customBackground
             ) {
-                this.bgRef.current.style.backgroundImage = `url('/img/bgs/${this.props.user.settings.customBackground}.png')`;
+                this.bgRef.current.style.backgroundImage = `url('/img/bgs/${this.props.user.settings.customBackground}.jpg')`;
             } else if (this.bgRef.current) {
                 this.bgRef.current.style.backgroundImage = `url('${this.backgrounds[background]}')`;
             }
