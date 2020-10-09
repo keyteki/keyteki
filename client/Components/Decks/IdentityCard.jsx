@@ -1,6 +1,5 @@
 import React, { useCallback, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
 import { fabric } from 'fabric';
 
 import './Archon.scss';
@@ -19,17 +18,16 @@ const IdentityCard = ({ deck }) => {
     const { t, i18n } = useTranslation();
     const [imageZoom, setImageZoom] = useState(false);
     const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-    const cards = useSelector((state) => state.cards.cards);
 
     const ref = useCallback(
         async (node) => {
             if (node) {
                 const canvas = new fabric.StaticCanvas(node);
-                fabricRef.current = await buildDeckList(canvas, deck, i18n.language, t, cards);
+                fabricRef.current = await buildDeckList(canvas, deck, i18n.language, t);
             }
         },
         // eslint-disable-next-line react-hooks/exhaustive-deps
-        [deck.uuid, i18n.language, t, cards]
+        [deck.uuid, i18n.language, t]
     );
 
     return (

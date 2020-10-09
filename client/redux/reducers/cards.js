@@ -45,6 +45,10 @@ function processDecks(decks, state) {
                 result.card.image = card.image;
             }
 
+            if (card.enhancements) {
+                result.card.enhancements = card.enhancements;
+            }
+
             return result;
         });
 

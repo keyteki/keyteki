@@ -200,7 +200,6 @@ export class GameBoard extends React.Component {
                 <IdentityCard
                     className='identity'
                     deck={deckData}
-                    cards={this.props.cards}
                     gameFormat={this.props.currentGame.gameFormat}
                     hideDeckLists={this.props.currentGame.hideDeckLists}
                     isMe={isMe}

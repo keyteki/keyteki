@@ -6,7 +6,7 @@ import { fabric } from 'fabric';
 
 import './IdentityCard.scss';
 
-const IdentityCard = ({ cards, className, deck, size, onMouseOut, onMouseOver }) => {
+const IdentityCard = ({ className, deck, size, onMouseOut, onMouseOver }) => {
     const fabricRef = useRef();
     const { t, i18n } = useTranslation();
 
@@ -14,11 +14,11 @@ const IdentityCard = ({ cards, className, deck, size, onMouseOut, onMouseOver })
         async (node) => {
             if (node) {
                 const canvas = new fabric.StaticCanvas(node);
-                fabricRef.current = await buildDeckList(canvas, deck, i18n.language, t, cards);
+                fabricRef.current = await buildDeckList(canvas, deck, i18n.language, t);
             }
         },
         // eslint-disable-next-line react-hooks/exhaustive-deps
-        [deck.uuid, i18n.language, t, cards]
+        [deck.uuid, i18n.language, t]
     );
 
     let fullClass = classNames('panel', 'card-pile', className, {
