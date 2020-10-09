@@ -89,7 +89,7 @@ async function cacheImages() {
     cacheLoaded = true;
 }
 
-export const buildDeckList = async (canvas, deck, language, translate, allCards) => {
+export const buildDeckList = async (canvas, deck, language, translate) => {
     if (!cacheLoaded) {
         await cacheImages();
     }
@@ -182,32 +182,15 @@ export const buildDeckList = async (canvas, deck, language, translate, allCards)
     }
     let cardList = [];
 
-    for (const card of deck.cards) {
-        if (card.count) {
-            for (let i = 0; i < card.count; i++) {
-                cardList.push({
-                    ...allCards[card.card.id],
-                    is_maverick: !!card.card.maverick,
-                    is_anomaly: !!card.card.anomaly,
-                    enhancements: card.card.enhancements,
-                    house: card.card.house,
-                    rarity:
-                        card.card.rarity === 'FIXED' || card.card.rarity === 'Variant'
-                            ? 'Special'
-                            : card.card.rarity
-                });
-            }
-        } else {
+    for (const { count, card } of deck.cards) {
+        for (let i = 0; i < count; i++) {
             cardList.push({
-                ...allCards[card.id],
-                is_maverick: !!card.card.maverick,
-                is_anomaly: !!card.card.anomaly,
-                enhancements: card.card.enhancements,
-                house: card.house,
+                ...card,
+                is_maverick: !!card.maverick,
+                is_anomaly: !!card.anomaly,
+                enhancements: card.enhancements,
                 rarity:
-                    card.card.rarity === 'FIXED' || card.card.rarity === 'Variant'
-                        ? 'Special'
-                        : card.card.rarity
+                    card.rarity === 'FIXED' || card.rarity === 'Variant' ? 'Special' : card.rarity
             });
         }
     }

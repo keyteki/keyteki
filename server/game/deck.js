@@ -22,17 +22,13 @@ class Deck {
 
             if (card.maverick) {
                 result.card.maverick = card.maverick;
-                result.house = card.maverick;
-                result.card.house = card.house;
             }
             if (card.anomaly) {
                 result.card.anomaly = card.anomaly;
-                result.house = card.anomaly;
-                result.card.house = card.house;
             }
 
-            if (card.enhancements) {
-                result.card.enhancements = card.enhancements;
+            if (card.house) {
+                result.card.house = card.house;
             }
 
             if (card.image) {

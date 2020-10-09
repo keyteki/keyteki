@@ -51,10 +51,10 @@ const DeckSummary = ({ deck }) => {
                         {card.card.locale && card.card.locale[i18n.language]
                             ? card.card.locale[i18n.language].name
                             : card.card.name}
-                        {card.maverick && (
+                        {card.card.maverick && (
                             <img className='small-card-icon' src={Constants.MaverickIcon} />
                         )}
-                        {card.anomaly && (
+                        {card.card.anomaly && (
                             <img className='small-card-icon' src={Constants.AnomalyIcon} />
                         )}
                     </div>

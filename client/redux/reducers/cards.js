@@ -31,21 +31,20 @@ function processDecks(decks, state) {
                 dbId: card.dbId
             };
             result.card.image = card.image || card.id;
-
             if (card.maverick) {
+                result.card.house = card.maverick;
                 result.card.maverick = card.maverick;
-                result.house = card.maverick;
-                result.card.house = card.house;
-            }
-            if (card.anomaly) {
+            } else if (card.anomaly) {
+                result.card.house = card.anomaly;
                 result.card.anomaly = card.anomaly;
-                result.house = card.anomaly;
+            } else if (card.house) {
                 result.card.house = card.house;
             }
 
-            if (card.enhancements) {
-                result.card.enhancements = card.enhancements;
+            if (card.image) {
+                result.card.image = card.image;
             }
+
             return result;
         });
 
