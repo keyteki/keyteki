@@ -338,10 +338,13 @@ export const buildCardBack = async (canvas, deck, showDeckName) => {
  * @param anomaly
  * @param enhancements
  * @param image
- * @param amber
+ * @param url
  * @param card
  */
-export const buildCard = async (canvas, { maverick, anomaly, enhancements, image, ...card }) => {
+export const buildCard = async (
+    canvas,
+    { maverick, anomaly, enhancements, image, url, ...card }
+) => {
     if (!cacheLoaded) {
         await cacheImages();
     }
@@ -351,7 +354,7 @@ export const buildCard = async (canvas, { maverick, anomaly, enhancements, image
     canvas.setWidth(width);
     canvas.setHeight(height);
     if (!DeckCards[image]) {
-        DeckCards[image] = await loadImage(card.url);
+        DeckCards[image] = await loadImage(url);
     }
     canvas.add(DeckCards[image]);
     const amber = card.cardPrintedAmber ? card.cardPrintedAmber : card.amber;

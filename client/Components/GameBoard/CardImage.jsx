@@ -30,7 +30,7 @@ const CardImage = ({ card, cardBack }) => {
                     noScaleCache: false
                 });
                 fabricRef.current = await buildCard(canvas, {
-                    ...card,
+                    ...card.card,
                     url
                 });
             }
