@@ -345,9 +345,11 @@ export const buildCard = async (canvas, { maverick, anomaly, enhancements, image
     if (!cacheLoaded) {
         await cacheImages();
     }
+    const width = 300;
+    const height = 420;
 
-    canvas.setWidth(300);
-    canvas.setHeight(420);
+    canvas.setWidth(width);
+    canvas.setHeight(height);
     if (!DeckCards[image]) {
         DeckCards[image] = await loadImage(card.url);
     }
@@ -383,12 +385,26 @@ export const buildCard = async (canvas, { maverick, anomaly, enhancements, image
         }
     }
     if (enhancements && enhancements.length > 0 && enhancements[0] !== '') {
+        const baseImage = new fabric.Image(EnhancementBaseImages[enhancements.length].getElement());
         let top = 59 + (amber ? amber * 30 : 0);
-        EnhancementBaseImages[enhancements.length].set({ left: 14, top });
-        canvas.add(EnhancementBaseImages[enhancements.length]);
+
+        if (['deusillus2', 'ultra-gravitron2', 'niffle-kong2'].some((x) => x === card.id)) {
+            baseImage.set({ left: width - top, top: 14, angle: 90 });
+        } else {
+            baseImage.set({ left: 14, top });
+        }
+
+        canvas.add(baseImage);
+
         for (const [index, pip] of enhancements.entries()) {
             const pipImage = new fabric.Image(EnhancementPipImages[pip].getElement());
-            pipImage.set({ left: 21, top: top + 10 + index * 31 });
+
+            if (['deusillus2', 'ultra-gravitron2', 'niffle-kong2'].some((x) => x === card.id)) {
+                pipImage.set({ left: width - top - 10 - index * 31, top: 21, angle: 90 });
+            } else {
+                pipImage.set({ left: 21, top: top + 10 + index * 31 });
+            }
+
             canvas.add(pipImage);
         }
     }
