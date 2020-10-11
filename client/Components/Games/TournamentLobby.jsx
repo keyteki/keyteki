@@ -110,7 +110,7 @@ const TournamentLobby = () => {
         }
 
         const participant = participants.find((participant) => participant.id === id);
-        return participant ? participant.display_name : 'Unknown';
+        return participant ? participant.name : 'Unknown';
     };
 
     const createGames = (event) => {
