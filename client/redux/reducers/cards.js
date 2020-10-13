@@ -33,10 +33,20 @@ function processDecks(decks, state) {
             result.card.image = card.image || card.id;
             if (card.maverick) {
                 result.card.house = card.maverick;
+                result.card.maverick = card.maverick;
             } else if (card.anomaly) {
                 result.card.house = card.anomaly;
+                result.card.anomaly = card.anomaly;
             } else if (card.house) {
                 result.card.house = card.house;
+            }
+
+            if (card.image) {
+                result.card.image = card.image;
+            }
+
+            if (card.enhancements) {
+                result.card.enhancements = card.enhancements;
             }
 
             return result;

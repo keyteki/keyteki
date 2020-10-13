@@ -121,7 +121,6 @@ class SquishableCardPanel extends React.Component {
 
 SquishableCardPanel.displayName = 'SquishableCardPanel';
 SquishableCardPanel.propTypes = {
-    cardBackUrl: PropTypes.string,
     cardSize: PropTypes.string,
     cards: PropTypes.array,
     className: PropTypes.string,

@@ -1,26 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import mergeImages from 'merge-images';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { fabric } from 'fabric';
+import { buildCard } from '../../archonMaker';
 
 import './CardImage.scss';
-
-const EnhancementBaseImages = {};
-
-import AmberImage from '../../assets/img/enhancements/amber.png';
-import CaptureImage from '../../assets/img/enhancements/capture.png';
-import DrawImage from '../../assets/img/enhancements/draw.png';
-import DamageImage from '../../assets/img/enhancements/damage.png';
-
-const EnhancementImages = {
-    amber: AmberImage,
-    capture: CaptureImage,
-    draw: DrawImage,
-    damage: DamageImage
-};
-
-for (let i = 1; i < 6; i++) {
-    EnhancementBaseImages[i] = require(`../../assets/img/enhancements/base-${i}.png`);
-}
 
 /**
  * @typedef CardImageProps
@@ -33,71 +16,37 @@ for (let i = 1; i < 6; i++) {
  * @param {CardImageProps} props
  */
 const CardImage = ({ card, cardBack }) => {
-    const { i18n } = useTranslation();
     let [cardImage, setCardImage] = useState(null);
-    let { maverick, anomaly, amber, enhancements, image } = card;
+    const { i18n } = useTranslation();
+    const fabricRef = useRef();
 
-    if (card.cardPrintedAmber) {
-        amber = card.cardPrintedAmber;
-    }
+    const ref = useCallback(
+        async (node) => {
+            if (node) {
+                const canvas = new fabric.StaticCanvas(node, {
+                    enableRetinaScaling: true,
+                    objectCaching: false,
+                    noScaleCache: false
+                });
+                fabricRef.current = await buildCard(canvas, {
+                    ...card,
+                    url: `/img/cards/${i18n.language === 'en' ? '' : i18n.language + '/'}${
+                        card.image
+                    }.png`
+                });
+            }
+        },
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        [card.id, i18n.language]
+    );
 
     useEffect(() => {
         if (card.facedown) {
             setCardImage(cardBack);
-            return;
-        }
-        let imgPath = `/img/cards/${i18n.language === 'en' ? '' : i18n.language + '/'}${image}.png`;
-
-        let imagesToMerge = [];
-        if (maverick) {
-            let bonusIcons = amber > 0 || (enhancements && enhancements.length > 0);
-            let maverickHouseImg =
-                '/img/maverick/maverick-' + maverick + (bonusIcons ? '-amber' : '') + '.png';
-            imagesToMerge.push({ src: maverickHouseImg, x: 0, y: 0 });
-            imagesToMerge.push({ src: '/img/maverick/maverick-corner.png', x: 210, y: 0 });
-        }
-
-        if (anomaly) {
-            let maverickHouseImg =
-                '/img/maverick/maverick-' + anomaly + (amber > 0 ? '-amber' : '') + '.png';
-            imagesToMerge.push({ src: maverickHouseImg, x: 0, y: 0 });
-        }
-
-        if (enhancements && enhancements.length > 0 && enhancements[0] !== '') {
-            let y = 59 + (amber ? amber * 30 : 0);
-            imagesToMerge.push({
-                src: EnhancementBaseImages[enhancements.length],
-                x: 14,
-                y
-            });
-            enhancements.forEach((enhancement, index) => {
-                imagesToMerge.push({
-                    src: EnhancementImages[enhancement],
-                    x: 21,
-                    y: y + 10 + index * 31
-                });
-            });
-        }
-
-        if (imagesToMerge.length > 0) {
-            mergeImages([imgPath, ...imagesToMerge])
-                .then((src) => setCardImage(<img className='img-fluid' src={src} />))
-                .catch(() => {});
         } else {
-            setCardImage(<img className='img-fluid' src={imgPath} />);
+            setCardImage(<canvas className='img-fluid h-100 w-100' ref={ref} />);
         }
-    }, [
-        amber,
-        anomaly,
-        i18n.language,
-        maverick,
-        enhancements,
-        setCardImage,
-        image,
-        cardBack,
-        card.facedown,
-        card
-    ]);
+    }, [card.facedown, card.id, ref, cardBack]);
     if (cardImage) {
         return cardImage;
     }

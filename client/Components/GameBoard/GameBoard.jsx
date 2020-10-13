@@ -200,11 +200,12 @@ export class GameBoard extends React.Component {
                 <IdentityCard
                     className='identity'
                     deck={deckData}
-                    cards={this.props.cards}
                     gameFormat={this.props.currentGame.gameFormat}
                     hideDeckLists={this.props.currentGame.hideDeckLists}
                     isMe={isMe}
                     size={this.props.user.settings.cardSize}
+                    onMouseOut={this.onMouseOut}
+                    onMouseOver={this.onMouseOver}
                 />
             );
         } else {
@@ -418,7 +419,6 @@ export class GameBoard extends React.Component {
                     {this.renderBoard(thisPlayer, otherPlayer)}
                     {cardToZoom && (
                         <CardZoom
-                            imageUrl={cardToZoom ? `/img/cards/${cardToZoom.image}.png` : ''}
                             cardName={cardToZoom ? cardToZoom.name : null}
                             card={cardToZoom}
                         />

@@ -41,7 +41,6 @@ function CardTiledList(props) {
 }
 
 CardTiledList.propTypes = {
-    cardBackUrl: PropTypes.string,
     cards: PropTypes.array,
     disableMouseOver: PropTypes.bool,
     manualMode: PropTypes.bool,
