@@ -23,20 +23,32 @@ let UncommonIcon;
 let DefaultCard;
 let MaverickCornerImage;
 let cacheLoaded = false;
+const imgOptions = {
+    selectable: false,
+    hasControls: false,
+    hasBorders: false,
+    hasRotatingPoint: false,
+    noScaleCache: false,
+    objectCaching: false
+};
 
 export const loadImage = (url) => {
     return new Promise((resolve, reject) => {
-        fabric.Image.fromURL(url, (image) => {
-            if (!image.getElement()) {
-                reject();
-            } else {
-                if (image.width === 0) {
-                    return reject();
-                }
+        fabric.Image.fromURL(
+            url,
+            (image) => {
+                if (!image.getElement()) {
+                    reject();
+                } else {
+                    if (image.width === 0) {
+                        return reject();
+                    }
 
-                resolve(image);
-            }
-        });
+                    resolve(image);
+                }
+            },
+            imgOptions
+        );
     });
 };
 
@@ -93,6 +105,9 @@ export const buildDeckList = async (canvas, deck, language, translate) => {
     if (!cacheLoaded) {
         await cacheImages();
     }
+
+    canvas.renderOnAddRemove = false;
+    canvas.selection = false;
     canvas.setWidth(300);
     canvas.setHeight(420);
 
@@ -112,7 +127,11 @@ export const buildDeckList = async (canvas, deck, language, translate) => {
         fontSize: 10,
         enableRetinaScaling: true,
         objectCaching: false,
-        noScaleCache: false
+        noScaleCache: false,
+        selectable: false,
+        hasControls: false,
+        hasBorders: false,
+        hasRotatingPoint: false
     };
     const shadowProps = {
         color: 'DarkSlateGray',
@@ -135,10 +154,7 @@ export const buildDeckList = async (canvas, deck, language, translate) => {
         `https://www.keyforgegame.com/${deck.uuid ? 'deck-details/' + deck.uuid : ''}`,
         { margin: 0 }
     );
-    const QRCodeIcon = new fabric.Image(qrCode, {
-        objectCaching: false,
-        noScaleCache: false
-    });
+    const QRCodeIcon = new fabric.Image(qrCode, imgOptions);
     const expansion = SetIcons[deck.expansion];
     const Rarities = {
         Common: CommonIcon,
@@ -215,7 +231,7 @@ export const buildDeckList = async (canvas, deck, language, translate) => {
             y = y + 22;
         }
         if (Rarities[card.rarity]) {
-            const rarity = new fabric.Image(Rarities[card.rarity].getElement());
+            const rarity = new fabric.Image(Rarities[card.rarity].getElement(), imgOptions);
             rarity.set({ left: x, top: y }).scaleToWidth(cardData.size).setShadow(shadowProps);
             canvas.add(rarity);
         }
@@ -235,10 +251,7 @@ export const buildDeckList = async (canvas, deck, language, translate) => {
         let iconX = x + title.width + number.width + 17.5;
 
         if (card.is_maverick) {
-            const maverickImage = new fabric.Image(MaverickIcon.getElement(), {
-                objectCaching: false,
-                noScaleCache: false
-            });
+            const maverickImage = new fabric.Image(MaverickIcon.getElement(), imgOptions);
             maverickImage
                 .set({ left: iconX, top: y })
                 .setShadow(shadowProps)
@@ -248,10 +261,7 @@ export const buildDeckList = async (canvas, deck, language, translate) => {
         }
 
         if (card.is_anomaly) {
-            const anomalyImage = new fabric.Image(AnomalyIcon.getElement(), {
-                objectCaching: false,
-                noScaleCache: false
-            });
+            const anomalyImage = new fabric.Image(AnomalyIcon.getElement(), imgOptions);
             anomalyImage
                 .set({ left: iconX, top: y })
                 .setShadow(shadowProps)
@@ -274,6 +284,8 @@ export const buildCardBack = async (canvas, deck, showDeckName) => {
         await cacheImages();
     }
 
+    canvas.renderOnAddRemove = false;
+    canvas.selection = false;
     canvas.setWidth(300);
     canvas.setHeight(420);
 
@@ -351,6 +363,8 @@ export const buildCard = async (
     const width = 300;
     const height = 420;
 
+    canvas.renderOnAddRemove = false;
+    canvas.selection = false;
     canvas.setWidth(width);
     canvas.setHeight(height);
     if (!DeckCards[image]) {
@@ -388,7 +402,10 @@ export const buildCard = async (
         }
     }
     if (enhancements && enhancements.length > 0 && enhancements[0] !== '') {
-        const baseImage = new fabric.Image(EnhancementBaseImages[enhancements.length].getElement());
+        const baseImage = new fabric.Image(
+            EnhancementBaseImages[enhancements.length].getElement(),
+            imgOptions
+        );
         let top = 59 + (amber ? amber * 30 : 0);
 
         if (['deusillus2', 'ultra-gravitron2', 'niffle-kong2'].some((x) => x === card.id)) {
@@ -400,7 +417,7 @@ export const buildCard = async (
         canvas.add(baseImage);
 
         for (const [index, pip] of enhancements.entries()) {
-            const pipImage = new fabric.Image(EnhancementPipImages[pip].getElement());
+            const pipImage = new fabric.Image(EnhancementPipImages[pip].getElement(), imgOptions);
 
             if (['deusillus2', 'ultra-gravitron2', 'niffle-kong2'].some((x) => x === card.id)) {
                 pipImage.set({ left: width - top - 10 - index * 31, top: 21, angle: 90 });
@@ -474,8 +491,5 @@ const getCircularText = (
         ctx.fillText(text[j], 0, 0 - diameter / 2 + textHeight / 2);
         ctx.rotate((charWid / 2 / (diameter / 2 - textHeight)) * -1); // rotate half letter
     }
-    return new fabric.Image(canvas, {
-        objectCaching: false,
-        noScaleCache: false
-    });
+    return new fabric.Image(canvas, imgOptions);
 };

@@ -23,17 +23,25 @@ const CardImage = ({ card, cardBack }) => {
     const ref = useCallback(
         async (node) => {
             if (node) {
-                const canvas = new fabric.StaticCanvas(node, {
-                    enableRetinaScaling: true,
-                    objectCaching: false,
-                    noScaleCache: false
-                });
-                fabricRef.current = await buildCard(canvas, {
-                    ...card,
-                    url: `/img/cards/${i18n.language === 'en' ? '' : i18n.language + '/'}${
-                        card.image
-                    }.png`
-                });
+                let canvas;
+                try {
+                    canvas = new fabric.StaticCanvas(node, {
+                        enableRetinaScaling: true,
+                        objectCaching: false,
+                        noScaleCache: false
+                    });
+                } catch {
+                    fabricRef.current = null;
+                }
+
+                if (canvas) {
+                    fabricRef.current = await buildCard(canvas, {
+                        ...card,
+                        url: `/img/cards/${i18n.language === 'en' ? '' : i18n.language + '/'}${
+                            card.image
+                        }.png`
+                    });
+                }
             }
         },
         // eslint-disable-next-line react-hooks/exhaustive-deps

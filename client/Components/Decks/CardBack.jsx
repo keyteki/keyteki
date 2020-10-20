@@ -12,8 +12,16 @@ const CardBack = ({ deck, showDeckName = true, zoom = true }) => {
     const ref = useCallback(
         async (node) => {
             if (node) {
-                const canvas = new fabric.StaticCanvas(node);
-                fabricRef.current = await buildCardBack(canvas, deck, showDeckName);
+                let canvas;
+                try {
+                    canvas = new fabric.StaticCanvas(node);
+                } catch {
+                    fabricRef.current = null;
+                }
+
+                if (canvas) {
+                    fabricRef.current = await buildCardBack(canvas, deck, showDeckName);
+                }
             }
         },
         // eslint-disable-next-line react-hooks/exhaustive-deps
