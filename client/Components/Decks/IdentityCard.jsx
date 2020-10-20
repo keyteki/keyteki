@@ -22,8 +22,16 @@ const IdentityCard = ({ deck }) => {
     const ref = useCallback(
         async (node) => {
             if (node) {
-                const canvas = new fabric.StaticCanvas(node);
-                fabricRef.current = await buildDeckList(canvas, deck, i18n.language, t);
+                let canvas;
+                try {
+                    canvas = new fabric.StaticCanvas(node);
+                } catch {
+                    fabricRef.current = null;
+                }
+
+                if (canvas) {
+                    fabricRef.current = await buildDeckList(canvas, deck, i18n.language, t);
+                }
             }
         },
         // eslint-disable-next-line react-hooks/exhaustive-deps
