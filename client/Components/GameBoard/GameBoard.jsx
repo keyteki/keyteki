@@ -198,7 +198,7 @@ export class GameBoard extends React.Component {
         if (this.showDeckName(isMe)) {
             return (
                 <IdentityCard
-                    className='identity'
+                    className='identity vertical'
                     deck={deckData}
                     gameFormat={this.props.currentGame.gameFormat}
                     hideDeckLists={this.props.currentGame.hideDeckLists}
