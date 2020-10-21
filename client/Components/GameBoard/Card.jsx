@@ -265,7 +265,7 @@ const Card = ({
         });
         let image = card ? (
             <div className={imageClass}>
-                <CardImage card={card} cardBack={cardBack} size={getCardSizeMultiplier()} />
+                <CardImage card={card} cardBack={cardBack} size={size} />
             </div>
         ) : null;
         return (

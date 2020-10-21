@@ -196,7 +196,7 @@ const DeckList = ({ onDeckSelected, standaloneDecks = false }) => {
             // eslint-disable-next-line react/display-name
             formatter: (_, row) => (
                 <div className='deck-image'>
-                    <CardBack deck={row} />
+                    <CardBack deck={row} size={'normal'} />
                 </div>
             )
         },

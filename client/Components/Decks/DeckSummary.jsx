@@ -67,7 +67,7 @@ const DeckSummary = ({ deck }) => {
         <Col xs='12' className='deck-summary'>
             <Row>
                 <Col xs='2' sm='3'>
-                    <CardBack deck={deck} />
+                    <CardBack deck={deck} size={'x-large'} />
                 </Col>
                 <Col xs='2' sm='3'>
                     <IdentityCard deck={deck} />
