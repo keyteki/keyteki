@@ -32,7 +32,8 @@ const CardImage = ({ card, cardBack, size }) => {
 
                 if (canvas) {
                     fabricRef.current = await buildCard(canvas, {
-                        ...card, size,
+                        ...card,
+                        size,
                         url: `/img/cards/${i18n.language === 'en' ? '' : i18n.language + '/'}${
                             card.image
                         }.png`
