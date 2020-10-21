@@ -215,6 +215,7 @@ export class GameBoard extends React.Component {
                         <div className={`game-card vertical ${this.props.user.settings.cardSize}`}>
                             <CardBack
                                 deck={deckData}
+                                size={this.props.user.settings.cardSize}
                                 showDeckName={
                                     isMe
                                         ? !this.props.currentGame.hideDeckLists
@@ -242,6 +243,7 @@ export class GameBoard extends React.Component {
                         cardSize={this.props.user.settings.cardSize}
                         cardBack={
                             <CardBack
+                                size={this.props.user.settings.cardSize}
                                 deck={otherPlayer.deckData}
                                 showDeckName={this.showDeckName(false)}
                             />
@@ -269,6 +271,7 @@ export class GameBoard extends React.Component {
                         <PlayerBoard
                             cardBack={
                                 <CardBack
+                                    size={this.props.user.settings.cardSize}
                                     deck={otherPlayer.deckData}
                                     showDeckName={this.showDeckName(false)}
                                 />
@@ -289,6 +292,7 @@ export class GameBoard extends React.Component {
                             <PlayerBoard
                                 cardBack={
                                     <CardBack
+                                        size={this.props.user.settings.cardSize}
                                         deck={thisPlayer.deckData}
                                         showDeckName={this.showDeckName(!this.isSpectating())}
                                     />
@@ -312,6 +316,7 @@ export class GameBoard extends React.Component {
                         cardSize={this.props.user.settings.cardSize}
                         cardBack={
                             <CardBack
+                                size={this.props.user.settings.cardSize}
                                 deck={thisPlayer.deckData}
                                 showDeckName={this.showDeckName(!this.isSpectating())}
                             />

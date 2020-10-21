@@ -176,11 +176,12 @@ export const buildDeckList = async (canvas, deck, language, translate) => {
 
     let name;
     try {
-        name = getCircularText(deck.name, 850, 15);
+        name = getCircularText(deck.name, 300, 420, 1000);
     } catch (err) {
         name = false;
     }
     if (name) {
+        name.set({ top: 10 });
         canvas.add(name);
     }
 
@@ -283,20 +284,26 @@ export const buildDeckList = async (canvas, deck, language, translate) => {
 /**
  * @param canvas
  * @param {import('./Components/Decks/DeckList').Deck} deck
+ * @param size
  * @param showDeckName
  */
-export const buildCardBack = async (canvas, deck, showDeckName) => {
+export const buildCardBack = async (canvas, deck, size, showDeckName) => {
     if (!cacheLoaded) {
         await cacheImages();
     }
 
+    size = getCardSizeMultiplier(size);
+
+    const width = size ? defaultCardWidth * size : 300;
+    const height = size ? defaultCardHeight * size : 420;
+
     canvas.renderOnAddRemove = false;
     canvas.selection = false;
-    canvas.setWidth(300);
-    canvas.setHeight(420);
+    canvas.setWidth(width);
+    canvas.setHeight(height);
 
     if (!deck.houses) {
-        DefaultCard.scaleToWidth(300);
+        DefaultCard.scaleToWidth(width);
         canvas.add(DefaultCard);
         canvas.renderAll();
         return canvas;
@@ -316,19 +323,19 @@ export const buildCardBack = async (canvas, deck, showDeckName) => {
     const house3 = IdBackHouseIcons[deck.houses[2]];
 
     if (!cardback || !house1 || !house2 || !house3) {
-        DefaultCard.scaleToWidth(300);
+        DefaultCard.scaleToWidth(width);
         canvas.add(DefaultCard);
         canvas.renderAll();
         return canvas;
     }
 
-    cardback.scaleToWidth(300);
-    house1.scaleToWidth(75);
-    house2.scaleToWidth(75);
-    house3.scaleToWidth(75);
-    house1.set({ left: 22.5, top: 35 });
-    house2.set({ left: 112.5, top: 10 });
-    house3.set({ left: 202.5, top: 35 });
+    cardback.scaleToWidth(width);
+    house1.scaleToWidth(0.26 * width);
+    house2.scaleToWidth(0.26 * width);
+    house3.scaleToWidth(0.26 * width);
+    house1.set({ left: 0.075 * width, top: 0.08 * height });
+    house2.set({ left: 0.375 * width, top: 0.023 * height });
+    house3.set({ left: 0.675 * width, top: 0.08 * height });
     canvas.add(cardback);
     canvas.add(house1);
     canvas.add(house2);
@@ -337,11 +344,12 @@ export const buildCardBack = async (canvas, deck, showDeckName) => {
     if (showDeckName) {
         let text;
         try {
-            text = getCircularText(deck.name, 1250, 690);
+            text = getCircularText(deck.name, width, height, 4 * width);
         } catch (err) {
             text = undefined;
         }
         if (text) {
+            text.set({ top: 0.82 * height - (size ? height / 6.5 / size : 0) });
             canvas.add(text);
         }
     }
@@ -368,6 +376,7 @@ export const buildCard = async (
         await cacheImages();
     }
 
+    size = getCardSizeMultiplier(size);
     const width = size ? defaultCardWidth * size : 300;
     const height = size ? defaultCardHeight * size : 420;
 
@@ -375,6 +384,7 @@ export const buildCard = async (
     canvas.selection = false;
     canvas.setWidth(width);
     canvas.setHeight(height);
+
     if (!DeckCards[image]) {
         DeckCards[image] = await loadImage(url);
     }
@@ -454,20 +464,37 @@ export const buildCard = async (
     return canvas;
 };
 
+const getCardSizeMultiplier = (size) => {
+    if (!size) {
+        return;
+    }
+    switch (size) {
+        case 'small':
+            return 0.6;
+        case 'large':
+            return 1.4;
+        case 'x-large':
+            return 2;
+    }
+
+    return 1;
+};
+
 const getCurvedFontSize = (length) => {
     const size = (15 / length) * 30;
     if (size > 15) {
-        return 20;
+        return 0.045;
     }
 
-    return size;
+    return size / 300;
 };
 
 const getCircularText = (
     text = '',
+    width,
+    height,
     diameter,
-    yOffset = 0,
-    fontSize = getCurvedFontSize(text.length)
+    fontSize = getCurvedFontSize(text.length) * height
 ) => {
     let canvas, ctx;
     try {
@@ -486,8 +513,8 @@ const getCircularText = (
     let textHeight = 40,
         startAngle = 0;
 
-    canvas.width = 300;
-    canvas.height = 420;
+    canvas.width = width;
+    canvas.height = height;
     ctx.font = `${fontSize}px Keyforge`;
     ctx.fillStyle = 'white';
     ctx.strokeStyle = 'rgb(32,32,32)';
@@ -495,7 +522,7 @@ const getCircularText = (
 
     text = text.split('').reverse().join('');
 
-    ctx.translate(150, Math.max((diameter + yOffset) / 2, 210 + yOffset)); // Move to center
+    ctx.translate(width / 2, diameter / 2); // Move to center
     ctx.textBaseline = 'middle'; // Ensure we draw in exact center
     ctx.textAlign = 'center'; // Ensure we draw in exact center
 
@@ -513,5 +540,11 @@ const getCircularText = (
         ctx.fillText(text[j], 0, 0 - diameter / 2 + textHeight / 2);
         ctx.rotate((charWid / 2 / (diameter / 2 - textHeight)) * -1); // rotate half letter
     }
-    return new fabric.Image(canvas, imgOptions);
+    const final = new fabric.Image(canvas, imgOptions);
+    final.resizeFilter = new fabric.Image.filters.Resize({
+        resizeType: 'lanczos',
+        lanczosLobes: 3
+    });
+
+    return final;
 };

@@ -7,6 +7,7 @@ import AlertPanel from '../Site/AlertPanel';
 import { Constants } from '../../constants';
 import AmberImage from '../../assets/img/amber.png';
 import CardBackImage from '../../assets/img/idbacks/cardback.jpg';
+import CardImage from './CardImage';
 
 const keyImages = {};
 
@@ -146,7 +147,10 @@ const Messages = ({ messages, onCardMouseOver, onCardMouseOut }) => {
                     <span
                         key={index++}
                         className='card-link'
-                        onMouseOver={onCardMouseOver.bind(this, fragment)}
+                        onMouseOver={onCardMouseOver.bind(this, {
+                            image: <CardImage card={fragment} />,
+                            size: 'normal'
+                        })}
                         onMouseOut={onCardMouseOut.bind(this)}
                     >
                         {fragment.label}
