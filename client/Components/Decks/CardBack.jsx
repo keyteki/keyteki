@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import CardBackImage from './CardBackImage'
+import CardBackImage from './CardBackImage';
 
 import './Archon.scss';
 
@@ -10,21 +10,21 @@ const CardBack = ({ deck, showDeckName = true, zoom = true, size }) => {
     return (
         <div
             onMouseMove={(event) => {
-            let y = event.clientY;
-            let yPlusHeight = y + 364;
+                let y = event.clientY;
+                let yPlusHeight = y + 364;
 
-            if (yPlusHeight >= window.innerHeight) {
-                y -= yPlusHeight - window.innerHeight;
-            }
+                if (yPlusHeight >= window.innerHeight) {
+                    y -= yPlusHeight - window.innerHeight;
+                }
 
-            setMousePos({ x: event.clientX, y: y });
+                setMousePos({ x: event.clientX, y: y });
             }}
-
             onMouseOver={() => {
-                 setImageZoom(true);
+                setImageZoom(true);
             }}
-            onMouseOut={() => setImageZoom(false)}>
-            <CardBackImage deck={deck} showDeckName={showDeckName} size={size}/>
+            onMouseOut={() => setImageZoom(false)}
+        >
+            <CardBackImage deck={deck} showDeckName={showDeckName} size={size} />
             {imageZoom && zoom && (
                 <div
                     className='archon-zoom'

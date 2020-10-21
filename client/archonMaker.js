@@ -181,7 +181,7 @@ export const buildDeckList = async (canvas, deck, language, translate) => {
         name = false;
     }
     if (name) {
-        name.set({top: 10})
+        name.set({ top: 10 });
         canvas.add(name);
     }
 
@@ -344,12 +344,12 @@ export const buildCardBack = async (canvas, deck, size, showDeckName) => {
     if (showDeckName) {
         let text;
         try {
-            text = getCircularText(deck.name, width, height,4 * width );
+            text = getCircularText(deck.name, width, height, 4 * width);
         } catch (err) {
             text = undefined;
         }
         if (text) {
-            text.set({top: 0.82 * height - (size ? (height / 6.5 ) / size: 0) })
+            text.set({ top: 0.82 * height - (size ? height / 6.5 / size : 0) });
             canvas.add(text);
         }
     }
@@ -465,7 +465,7 @@ export const buildCard = async (
 };
 
 const getCardSizeMultiplier = (size) => {
-    if(!size) {
+    if (!size) {
         return;
     }
     switch (size) {
@@ -522,7 +522,7 @@ const getCircularText = (
 
     text = text.split('').reverse().join('');
 
-    ctx.translate(width / 2, diameter / 2 ); // Move to center
+    ctx.translate(width / 2, diameter / 2); // Move to center
     ctx.textBaseline = 'middle'; // Ensure we draw in exact center
     ctx.textAlign = 'center'; // Ensure we draw in exact center
 
