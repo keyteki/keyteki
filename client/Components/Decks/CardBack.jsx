@@ -31,7 +31,7 @@ const CardBack = ({ deck, showDeckName = true, zoom = true }) => {
     return (
         <div>
             <canvas
-                className='img-fluid h-100'
+                className='w-100 h-100'
                 ref={ref}
                 onMouseMove={(event) => {
                     let y = event.clientY;

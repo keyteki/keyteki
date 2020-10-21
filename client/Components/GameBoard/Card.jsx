@@ -265,7 +265,7 @@ const Card = ({
         });
         let image = card ? (
             <div className={imageClass}>
-                <CardImage card={card} cardBack={cardBack} />
+                <CardImage card={card} cardBack={cardBack} size={getCardSizeMultiplier()} />
             </div>
         ) : null;
         return (
@@ -278,7 +278,7 @@ const Card = ({
                         !disableMouseOver && !isFacedown() && onMouseOver
                             ? () =>
                                   onMouseOver({
-                                      image: <CardImage card={card} cardBack={cardBack} />,
+                                      image: <CardImage card={card} cardBack={cardBack}  />,
                                       size: 'normal'
                                   })
                             : undefined

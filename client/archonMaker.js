@@ -31,6 +31,8 @@ const imgOptions = {
     noScaleCache: false,
     objectCaching: false
 };
+const defaultCardWidth = 65;
+const defaultCardHeight = 91;
 
 export const loadImage = (url) => {
     return new Promise((resolve, reject) => {
@@ -43,6 +45,10 @@ export const loadImage = (url) => {
                     if (image.width === 0) {
                         return reject();
                     }
+                    image.resizeFilter = new fabric.Image.filters.Resize({
+                        resizeType: 'lanczos',
+                        lanczosLobes: 3
+                    })
 
                     resolve(image);
                 }
@@ -351,17 +357,19 @@ export const buildCardBack = async (canvas, deck, showDeckName) => {
  * @param enhancements
  * @param image
  * @param url
+ * @param size
  * @param card
  */
 export const buildCard = async (
     canvas,
-    { maverick, anomaly, enhancements, image, url, ...card }
+    { maverick, anomaly, enhancements, image, url, size, ...card }
 ) => {
     if (!cacheLoaded) {
         await cacheImages();
     }
-    const width = 300;
-    const height = 420;
+
+    const width = size ? defaultCardWidth * size : 300;
+    const height = size? defaultCardHeight * size : 420;
 
     canvas.renderOnAddRemove = false;
     canvas.selection = false;
@@ -370,7 +378,14 @@ export const buildCard = async (
     if (!DeckCards[image]) {
         DeckCards[image] = await loadImage(url);
     }
-    canvas.add(DeckCards[image]);
+
+    // const resizedCanvas = new fabric.Image(DeckCards[image].getElement(), imgOptions);
+    // resizedCanvas.resizeFilter = new fabric.Image.filters.Resize({
+    //     resizeType: 'lanczos',
+    //     lanczosLobes: 3
+    // });
+    DeckCards[image].scaleToWidth(width);
+    canvas.add(DeckCards[image])
     const amber = card.cardPrintedAmber ? card.cardPrintedAmber : card.amber;
     const bonusIcons = amber > 0 || (enhancements && enhancements.length > 0);
 
@@ -406,19 +421,21 @@ export const buildCard = async (
             EnhancementBaseImages[enhancements.length].getElement(),
             imgOptions
         );
-        let top = 59 + (amber ? amber * 30 : 0);
+        let top = height * 0.18  + (amber ? amber * height * 0.08 : 0);
 
         if (['deusillus2', 'ultra-gravitron2', 'niffle-kong2'].some((x) => x === card.id)) {
             baseImage.set({ left: width - top, top: 14, angle: 90 });
         } else {
-            baseImage.set({ left: 14, top });
+            baseImage.set({ left: width * 0.058 , top });
         }
+        if(size) (
+            baseImage.scaleToWidth(width*0.13)
+        )
 
         canvas.add(baseImage);
 
         for (const [index, pip] of enhancements.entries()) {
             const pipImage = new fabric.Image(EnhancementPipImages[pip].getElement(), imgOptions);
-
             if (['deusillus2', 'ultra-gravitron2', 'niffle-kong2'].some((x) => x === card.id)) {
                 pipImage.set({ left: width - top - 10 - index * 31, top: 21, angle: 90 });
             } else {
@@ -429,6 +446,7 @@ export const buildCard = async (
         }
     }
     canvas.renderAll();
+
     return canvas;
 };
 
