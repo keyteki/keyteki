@@ -33,7 +33,7 @@ const IdentityCard = ({ className, deck, size, onMouseOut, onMouseOver }) => {
         size: size !== 'normal'
     });
 
-    let image = <canvas className='card-image img-fluid h-100 w-100' ref={ref} />;
+    let image = <canvas className='card-image h-100 w-100' ref={ref} />;
 
     return (
         <div

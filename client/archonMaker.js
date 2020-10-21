@@ -31,6 +31,8 @@ const imgOptions = {
     noScaleCache: false,
     objectCaching: false
 };
+const defaultCardWidth = 65;
+const defaultCardHeight = 91;
 
 export const loadImage = (url) => {
     return new Promise((resolve, reject) => {
@@ -43,6 +45,10 @@ export const loadImage = (url) => {
                     if (image.width === 0) {
                         return reject();
                     }
+                    image.resizeFilter = new fabric.Image.filters.Resize({
+                        resizeType: 'lanczos',
+                        lanczosLobes: 3
+                    });
 
                     resolve(image);
                 }
@@ -351,17 +357,19 @@ export const buildCardBack = async (canvas, deck, showDeckName) => {
  * @param enhancements
  * @param image
  * @param url
+ * @param size
  * @param card
  */
 export const buildCard = async (
     canvas,
-    { maverick, anomaly, enhancements, image, url, ...card }
+    { maverick, anomaly, enhancements, image, url, size, ...card }
 ) => {
     if (!cacheLoaded) {
         await cacheImages();
     }
-    const width = 300;
-    const height = 420;
+
+    const width = size ? defaultCardWidth * size : 300;
+    const height = size ? defaultCardHeight * size : 420;
 
     canvas.renderOnAddRemove = false;
     canvas.selection = false;
@@ -370,6 +378,8 @@ export const buildCard = async (
     if (!DeckCards[image]) {
         DeckCards[image] = await loadImage(url);
     }
+
+    DeckCards[image].scaleToWidth(width);
     canvas.add(DeckCards[image]);
     const amber = card.cardPrintedAmber ? card.cardPrintedAmber : card.amber;
     const bonusIcons = amber > 0 || (enhancements && enhancements.length > 0);
@@ -380,7 +390,8 @@ export const buildCard = async (
             if (!MaverickCornerImage) {
                 MaverickCornerImage = await loadImage(Constants.MaverickCornerImage);
             }
-            MaverickCornerImage.set({ left: 210 });
+            MaverickCornerImage.scaleToWidth(0.375 * width);
+            MaverickCornerImage.set({ left: 0.65 * width, top: -height * 0.01 });
             canvas.add(MaverickCornerImage);
             house = maverick;
         } else {
@@ -393,11 +404,13 @@ export const buildCard = async (
                     Constants.MaverickHouseAmberImages[house]
                 );
             }
+            MaverickHouseAmberImages[house].scaleToWidth(0.375 * width);
             canvas.add(MaverickHouseAmberImages[house]);
         } else {
             if (!MaverickHouseImages[house]) {
                 MaverickHouseImages[house] = await loadImage(Constants.MaverickHouseImages[house]);
             }
+            MaverickHouseImages[house].scaleToWidth(0.375 * width);
             canvas.add(MaverickHouseImages[house]);
         }
     }
@@ -406,29 +419,38 @@ export const buildCard = async (
             EnhancementBaseImages[enhancements.length].getElement(),
             imgOptions
         );
-        let top = 59 + (amber ? amber * 30 : 0);
+        let top = height * 0.18 + (amber ? amber * height * 0.04 : 0);
 
         if (['deusillus2', 'ultra-gravitron2', 'niffle-kong2'].some((x) => x === card.id)) {
-            baseImage.set({ left: width - top, top: 14, angle: 90 });
+            baseImage.set({ left: width - top, top: 0.04 * height, angle: 90 });
         } else {
-            baseImage.set({ left: 14, top });
+            baseImage.set({ left: width * 0.055, top });
         }
 
+        baseImage.scaleToWidth(width * 0.13);
         canvas.add(baseImage);
 
         for (const [index, pip] of enhancements.entries()) {
             const pipImage = new fabric.Image(EnhancementPipImages[pip].getElement(), imgOptions);
-
+            pipImage.scaleToWidth(width * 0.13);
             if (['deusillus2', 'ultra-gravitron2', 'niffle-kong2'].some((x) => x === card.id)) {
-                pipImage.set({ left: width - top - 10 - index * 31, top: 21, angle: 90 });
+                pipImage.set({
+                    left: width - top - width * 0.01 - index * width * 0.13,
+                    top: height * 0.055,
+                    angle: 90
+                });
             } else {
-                pipImage.set({ left: 21, top: top + 10 + index * 31 });
+                pipImage.set({
+                    left: width * 0.071,
+                    top: top + height * 0.03 + index * height * 0.1
+                });
             }
 
             canvas.add(pipImage);
         }
     }
     canvas.renderAll();
+
     return canvas;
 };
 

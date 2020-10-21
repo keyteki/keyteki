@@ -15,7 +15,7 @@ import './CardImage.scss';
  *
  * @param {CardImageProps} props
  */
-const CardImage = ({ card, cardBack }) => {
+const CardImage = ({ card, cardBack, size }) => {
     let [cardImage, setCardImage] = useState(null);
     const { i18n } = useTranslation();
     const fabricRef = useRef();
@@ -25,11 +25,7 @@ const CardImage = ({ card, cardBack }) => {
             if (node) {
                 let canvas;
                 try {
-                    canvas = new fabric.StaticCanvas(node, {
-                        enableRetinaScaling: true,
-                        objectCaching: false,
-                        noScaleCache: false
-                    });
+                    canvas = new fabric.StaticCanvas(node);
                 } catch {
                     fabricRef.current = null;
                 }
@@ -37,6 +33,7 @@ const CardImage = ({ card, cardBack }) => {
                 if (canvas) {
                     fabricRef.current = await buildCard(canvas, {
                         ...card,
+                        size,
                         url: `/img/cards/${i18n.language === 'en' ? '' : i18n.language + '/'}${
                             card.image
                         }.png`
@@ -52,7 +49,7 @@ const CardImage = ({ card, cardBack }) => {
         if (card.facedown) {
             setCardImage(cardBack);
         } else {
-            setCardImage(<canvas className='img-fluid h-100 w-100' ref={ref} />);
+            setCardImage(<canvas className='h-100 w-100' ref={ref} />);
         }
     }, [card.facedown, card.id, ref, cardBack]);
     if (cardImage) {
