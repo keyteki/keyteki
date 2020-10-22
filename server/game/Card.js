@@ -1030,6 +1030,8 @@ class Card extends EffectSource {
             printedHouse: this.printedHouse,
             maverick: this.maverick,
             cardPrintedAmber: this.cardPrintedAmber,
+            printedPower: this.printedPower,
+            modifiedPower: this.getPower(),
             stunned: this.stunned,
             taunt: this.getType() === 'creature' && !!this.getKeywordValue('taunt'),
             tokens: this.tokens,

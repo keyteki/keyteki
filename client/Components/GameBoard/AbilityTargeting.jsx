@@ -24,7 +24,9 @@ class AbilityTargeting extends React.Component {
             <div
                 className='target-card vertical mb-2'
                 onMouseOut={(event) => this.onMouseOut(event, card)}
-                onMouseOver={(event) => this.onMouseOver(event, card)}
+                onMouseOver={(event) =>
+                    this.onMouseOver(event, { image: <CardImage card={card} />, size: 'normal' })
+                }
             >
                 <CardImage card={card} />
             </div>
