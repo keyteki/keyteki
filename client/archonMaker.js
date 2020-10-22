@@ -218,6 +218,10 @@ export const buildDeckList = async (canvas, deck, language, translate, size) => 
     let cardList = [];
 
     for (const { count, card } of deck.cards) {
+        if (!card) {
+            continue;
+        }
+
         for (let i = 0; i < count; i++) {
             cardList.push({
                 ...card,
