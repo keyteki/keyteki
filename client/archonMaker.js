@@ -513,9 +513,9 @@ export const buildCard = async (
         powerText.setShadow(shadowProps);
         powerText.set({
             left:
-                0.115 * width -
+                0.108 * width -
                 (totalPower.toString().length > 1
-                    ? totalPower.toString().length * 0.01 * width
+                    ? totalPower.toString().length * 0.005 * width
                     : 0),
             top: 0.598 * height
         });
