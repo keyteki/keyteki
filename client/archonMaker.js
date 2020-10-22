@@ -22,6 +22,7 @@ let TCOIcon;
 let UncommonIcon;
 let DefaultCard;
 let MaverickCornerImage;
+let ModifiedPower;
 let cacheLoaded = false;
 const imgOptions = {
     selectable: false,
@@ -101,9 +102,10 @@ async function cacheImages() {
     RareIcon = await loadImage(require('./assets/img/idbacks/Rare.png'));
     SpecialIcon = await loadImage(require('./assets/img/idbacks/Special.png'));
     UncommonIcon = await loadImage(require('./assets/img/idbacks/Uncommon.png'));
-    MaverickIcon = await loadImage(require('./assets/img/idbacks/Maverick.png'));
-    AnomalyIcon = await loadImage(require('./assets/img/idbacks/Anomaly.png'));
+    MaverickIcon = await loadImage(Constants.MaverickIcon);
+    AnomalyIcon = await loadImage(Constants.AnomalyIcon);
     DefaultCard = await loadImage(Constants.DefaultCard);
+    ModifiedPower = await loadImage(Constants.Tokens.ModifiedPower);
     cacheLoaded = true;
 }
 
@@ -376,11 +378,12 @@ export const buildCardBack = async (canvas, deck, size, showDeckName) => {
  * @param image
  * @param url
  * @param size
+ * @param modifiedPower
  * @param card
  */
 export const buildCard = async (
     canvas,
-    { maverick, anomaly, enhancements, image, url, size, ...card }
+    { maverick, anomaly, enhancements, image, url, size, modifiedPower, ...card }
 ) => {
     if (!cacheLoaded) {
         await cacheImages();
@@ -389,7 +392,24 @@ export const buildCard = async (
     size = getCardSizeMultiplier(size);
     const width = size ? defaultCardWidth * size : 300;
     const height = size ? defaultCardHeight * size : 420;
-
+    const fontProps = {
+        fontWeight: 600,
+        fontFamily: 'Keyforge',
+        textAlign: 'left',
+        fontSize: 0.0238 * height,
+        enableRetinaScaling: true,
+        objectCaching: false,
+        noScaleCache: false,
+        selectable: false,
+        hasControls: false,
+        hasBorders: false,
+        hasRotatingPoint: false
+    };
+    const shadowProps = {
+        color: 'Black',
+        offsetX: 0.003 * width,
+        offsetY: 0.003 * width
+    };
     canvas.renderOnAddRemove = false;
     canvas.selection = false;
     canvas.setWidth(width);
@@ -434,6 +454,7 @@ export const buildCard = async (
             canvas.add(MaverickHouseImages[house]);
         }
     }
+
     if (enhancements && enhancements.length > 0 && enhancements[0] !== '') {
         const baseImage = new fabric.Image(
             EnhancementBaseImages[enhancements.length].getElement(),
@@ -469,6 +490,38 @@ export const buildCard = async (
             canvas.add(pipImage);
         }
     }
+    let totalPower = modifiedPower - (card.tokens && card.tokens.power ? card.tokens.power : 0);
+
+    if (modifiedPower && totalPower !== card.printedPower && card.location === 'play area') {
+        if (!ModifiedPower) {
+            ModifiedPower = await loadImage(Constants.ModifiedPower);
+        }
+
+        ModifiedPower.scaleToWidth(0.19 * width);
+        ModifiedPower.set({ left: 0.047 * width, top: height * 0.53 });
+        canvas.add(ModifiedPower);
+        const powerText = new fabric.Text(totalPower.toString(), {
+            ...fontProps,
+            fill: '#fdfbfa',
+            fontSize: 0.083 * height,
+            fontFamily: 'Bombardier',
+            fontWeight: 500,
+            originX: 'left',
+            originY: 'center',
+            textAlign: 'center'
+        });
+        powerText.setShadow(shadowProps);
+        powerText.set({
+            left:
+                0.115 * width -
+                (totalPower.toString().length > 1
+                    ? totalPower.toString().length * 0.01 * width
+                    : 0),
+            top: 0.598 * height
+        });
+        canvas.add(powerText);
+    }
+
     canvas.renderAll();
 
     return canvas;
