@@ -128,7 +128,7 @@ export class PlayerStats extends React.Component {
     render() {
         let t = this.props.t;
         let playerAvatar = (
-            <div className='pr-1'>
+            <div className='pr-1 player-info'>
                 <Avatar imgPath={this.props.user?.avatar} />
                 <b>{this.props.user?.username || t('Noone')}</b>
             </div>

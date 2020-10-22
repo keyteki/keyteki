@@ -18,6 +18,14 @@
     align-items: center;
 }
 
+.player-info{
+    display: flex;
+}
+
+.player-info b{
+    margin-top: 1px;
+}
+
 .state {
     height: 27px;
     padding-left: 7px;
