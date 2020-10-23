@@ -55,7 +55,7 @@ export class PlayerStats extends React.Component {
 
     getButton(stat, name, statToSet = stat) {
         return (
-            <div className='state' title={name}>
+            <div className='state' title={this.props.t(name)}>
                 {this.props.showControls ? (
                     <a
                         href='#'
