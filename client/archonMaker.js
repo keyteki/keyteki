@@ -73,6 +73,18 @@ export const loadImage = (url) => {
 };
 
 async function cacheImages() {
+    fabric.initFilterBackend = () => {
+        if (
+            fabric.enableGLFiltering &&
+            fabric.isWebglSupported &&
+            fabric.isWebglSupported(fabric.textureSize)
+        ) {
+            return new fabric.WebglFilterBackend({ tileSize: fabric.textureSize });
+        } else if (fabric.Canvas2dFilterBackend) {
+            return new fabric.Canvas2dFilterBackend();
+        }
+    };
+
     for (let [house, path] of Object.entries(Constants.HouseIconPaths)) {
         await loadImage(path).then((image) => {
             HouseIcons[house] = image;
@@ -188,7 +200,7 @@ export const buildDeckList = async (CanvasFinal, deck, language, translate, size
         name = false;
     }
     if (name) {
-        name.set({top: 35})
+        name.set({ top: 35 });
         canvas.add(name);
     }
 
@@ -212,7 +224,7 @@ export const buildDeckList = async (CanvasFinal, deck, language, translate, size
     let cardList = [];
 
     for (const { count, card } of deck.cards) {
-        if(!card){
+        if (!card) {
             continue;
         }
 
@@ -249,10 +261,10 @@ export const buildDeckList = async (CanvasFinal, deck, language, translate, size
         }
 
         const rarity = new fabric.Image(Rarities[card.rarity].getElement(), imgOptions);
-            rarity
-                .set({ left: x, top: y })
-                .scaleToWidth(cardData.size)
-                .setShadow(new fabric.Shadow(shadowProps));
+        rarity
+            .set({ left: x, top: y })
+            .scaleToWidth(cardData.size)
+            .setShadow(new fabric.Shadow(shadowProps));
 
         const number = new fabric.Text(card.number.toString(), fontProps).set({
             left: x + 22,
@@ -291,7 +303,7 @@ export const buildDeckList = async (CanvasFinal, deck, language, translate, size
 
     canvas.renderAll();
 
-    return resizeCanvas(CanvasFinal, canvas, size, width, height)
+    return resizeCanvas(CanvasFinal, canvas, size, width, height);
 };
 
 /**
@@ -304,7 +316,7 @@ export const buildCardBack = async (CanvasFinal, deck, size, showDeckName) => {
     if (!cacheLoaded) {
         await cacheImages();
     }
-    const width =  300;
+    const width = 300;
     const height = 420;
 
     let canvas;
@@ -313,8 +325,8 @@ export const buildCardBack = async (CanvasFinal, deck, size, showDeckName) => {
     } catch {
         return buildFailImage(CanvasFinal, size, width, height);
     }
-    canvas.setWidth(width)
-    canvas.setHeight(height)
+    canvas.setWidth(width);
+    canvas.setHeight(height);
 
     if (!deck.houses) {
         return buildFailImage(CanvasFinal, size, width, height);
@@ -353,14 +365,15 @@ export const buildCardBack = async (CanvasFinal, deck, size, showDeckName) => {
             text = undefined;
         }
         if (text) {
-            text.set({top: 345})
+            text.set({ top: 345 });
             canvas.add(text);
         }
     }
 
     canvas.renderAll();
 
-    return resizeCanvas(CanvasFinal, canvas, size, width, height)};
+    return resizeCanvas(CanvasFinal, canvas, size, width, height);
+};
 
 /**
  * @param CanvasFinal
@@ -381,7 +394,7 @@ export const buildCard = async (
         await cacheImages();
     }
 
-    const width =  300;
+    const width = 300;
     const height = 420;
     let canvas;
     try {
@@ -389,8 +402,8 @@ export const buildCard = async (
     } catch {
         return buildFailImage(CanvasFinal, size, width, height);
     }
-    canvas.setWidth(width)
-    canvas.setHeight(height)
+    canvas.setWidth(width);
+    canvas.setHeight(height);
     if (!DeckCards[image]) {
         DeckCards[image] = await loadImage(url);
     }
@@ -477,11 +490,11 @@ export const buildCard = async (
 
     canvas.renderAll();
 
-    return resizeCanvas(CanvasFinal, canvas, size, width, height)
+    return resizeCanvas(CanvasFinal, canvas, size, width, height);
 };
 
 const buildFailImage = (CanvasFinal, size, width, height) => {
-    const defaultCardImage = new fabric.Image(DefaultCard.getElement(), imgOptions)
+    const defaultCardImage = new fabric.Image(DefaultCard.getElement(), imgOptions);
     defaultCardImage.scaleToWidth(width);
     defaultCardImage.resizeFilter = new fabric.Image.filters.Resize({
         resizeType: 'lanczos',
@@ -490,19 +503,19 @@ const buildFailImage = (CanvasFinal, size, width, height) => {
     CanvasFinal.add(defaultCardImage);
     CanvasFinal.renderAll();
     return resizeCanvas(CanvasFinal, null, size, width, height);
-}
+};
 
 const resizeCanvas = (CanvasFinal, canvas, size, width, height) => {
     CanvasFinal.renderOnAddRemove = false;
     CanvasFinal.selection = false;
-
-    if(canvas) {
+    if (canvas) {
         const finalImage = new fabric.Image(canvas.getElement(), imgOptions);
         finalImage.resizeFilter = new fabric.Image.filters.Resize({
             resizeType: 'lanczos',
             lanczosLobes: 3
         });
-        CanvasFinal.add(finalImage)
+        finalImage.scaleToWidth(width);
+        CanvasFinal.add(finalImage);
     }
 
     if (size) {
@@ -511,9 +524,10 @@ const resizeCanvas = (CanvasFinal, canvas, size, width, height) => {
 
     CanvasFinal.setWidth(width * CanvasFinal.getZoom());
     CanvasFinal.setHeight(height * CanvasFinal.getZoom());
+
     CanvasFinal.renderAll();
     return CanvasFinal;
-}
+};
 
 const getCardSizeMultiplier = (size) => {
     switch (size) {
