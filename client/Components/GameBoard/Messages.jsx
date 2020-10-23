@@ -161,7 +161,7 @@ const Messages = ({ messages, onCardMouseOver, onCardMouseOut }) => {
                     'username' + (fragment.role ? ` ${fragment.role.toLowerCase()}-role` : '');
 
                 messages.push(
-                    <div key={index++} className='message-chat mb-1'>
+                    <div key={index++} className='message-chat'>
                         <Avatar imgPath={fragment.avatar} float />
                         <span key={index++} className={userClass}>
                             {fragment.name}
