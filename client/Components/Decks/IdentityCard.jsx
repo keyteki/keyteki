@@ -38,7 +38,7 @@ const IdentityCard = ({ deck }) => {
                     className='archon-zoom'
                     style={{ left: mousePos.x + 5 + 'px', top: mousePos.y + 'px' }}
                 >
-                    <IdentityCardImage deck={deck} />
+                    <IdentityCardImage deck={deck} size={'xx-large'} />
                 </div>
             )}
         </div>
