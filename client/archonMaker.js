@@ -32,6 +32,25 @@ const imgOptions = {
     noScaleCache: false,
     objectCaching: false
 };
+const fontProps = {
+    fontWeight: 600,
+    fontFamily: 'Keyforge',
+    textAlign: 'left',
+    fontSize: 10,
+    enableRetinaScaling: true,
+    objectCaching: false,
+    noScaleCache: false,
+    selectable: false,
+    hasControls: false,
+    hasBorders: false,
+    hasRotatingPoint: false
+};
+const shadowProps = {
+    color: 'Black',
+    offsetX: 3,
+    offsetY: 3
+};
+const defaultCardWidth = 65;
 
 export const loadImage = (url) => {
     return new Promise((resolve, reject) => {
@@ -103,35 +122,20 @@ async function cacheImages() {
     cacheLoaded = true;
 }
 
-const fontProps = {
-    fontWeight: 600,
-    fontFamily: 'Keyforge',
-    textAlign: 'left',
-    fontSize: 10,
-    enableRetinaScaling: true,
-    objectCaching: false,
-    noScaleCache: false,
-    selectable: false,
-    hasControls: false,
-    hasBorders: false,
-    hasRotatingPoint: false
-};
-const shadowProps = {
-    color: 'Black',
-    offsetX: 3,
-    offsetY: 3
-};
-
 export const buildDeckList = async (CanvasFinal, deck, language, translate, size) => {
     if (!cacheLoaded) {
         await cacheImages();
     }
-
-    const order = ['action', 'artifact', 'creature', 'upgrade'];
-    const canvas = new fabric.StaticCanvas();
-
     const width = 600;
     const height = 840;
+    const order = ['action', 'artifact', 'creature', 'upgrade'];
+
+    let canvas;
+    try {
+        canvas = new fabric.StaticCanvas();
+    } catch {
+        return buildFailImage(CanvasFinal, size, width, height);
+    }
 
     const fontProps = {
         fontWeight: 800,
@@ -145,10 +149,7 @@ export const buildDeckList = async (CanvasFinal, deck, language, translate, size
     canvas.setHeight(height);
 
     if (!deck.houses) {
-        DefaultCard.scaleToWidth(width);
-        canvas.add(DefaultCard);
-        canvas.renderAll();
-        return buildFinalCanvas(canvas, CanvasFinal, size, width, height)
+        return buildFailImage(CanvasFinal, size, width, height);
     }
 
     const houseData = {
@@ -197,7 +198,7 @@ export const buildDeckList = async (CanvasFinal, deck, language, translate, size
             .set({ left: houseData[index].x, top: houseData[index].y })
             .scaleToWidth(30)
             .scaleToHeight(30)
-            .setShadow({ color: 'gray', offsetX: 10, offsetY: 10, blur: 3 });
+            .setShadow(shadowProps);
         const houseText = new fabric.Text(
             translate(house).replace(/^\w/, (c) => c.toUpperCase()),
             {
@@ -289,7 +290,8 @@ export const buildDeckList = async (CanvasFinal, deck, language, translate, size
     }
 
     canvas.renderAll();
-    return buildFinalCanvas(canvas, CanvasFinal, size, width, height)
+
+    return resizeCanvas(CanvasFinal, canvas, size, width, height)
 };
 
 /**
@@ -302,18 +304,20 @@ export const buildCardBack = async (CanvasFinal, deck, size, showDeckName) => {
     if (!cacheLoaded) {
         await cacheImages();
     }
-
-    const canvas = new fabric.StaticCanvas();
     const width =  300;
     const height = 420;
+
+    let canvas;
+    try {
+        canvas = new fabric.StaticCanvas();
+    } catch {
+        return buildFailImage(CanvasFinal, size, width, height);
+    }
     canvas.setWidth(width)
     canvas.setHeight(height)
 
     if (!deck.houses) {
-        DefaultCard.scaleToWidth(300);
-        canvas.add(DefaultCard);
-        canvas.renderAll();
-        return buildFinalCanvas(canvas, CanvasFinal, size, width, height)
+        return buildFailImage(CanvasFinal, size, width, height);
     }
 
     let number = btoa(deck.uuid)
@@ -328,13 +332,6 @@ export const buildCardBack = async (CanvasFinal, deck, size, showDeckName) => {
     const house1 = IdBackHouseIcons[deck.houses[0]];
     const house2 = IdBackHouseIcons[deck.houses[1]];
     const house3 = IdBackHouseIcons[deck.houses[2]];
-
-    if (!cardback || !house1 || !house2 || !house3) {
-        DefaultCard.scaleToWidth(300);
-        canvas.add(DefaultCard);
-        canvas.renderAll();
-        return canvas;
-    }
 
     cardback.scaleToWidth(300);
     house1.scaleToWidth(75);
@@ -362,8 +359,8 @@ export const buildCardBack = async (CanvasFinal, deck, size, showDeckName) => {
     }
 
     canvas.renderAll();
-    return buildFinalCanvas(canvas, CanvasFinal, size, width, height)
-};
+
+    return resizeCanvas(CanvasFinal, canvas, size, width, height)};
 
 /**
  * @param CanvasFinal
@@ -384,9 +381,14 @@ export const buildCard = async (
         await cacheImages();
     }
 
-    const canvas = new fabric.StaticCanvas();
     const width =  300;
     const height = 420;
+    let canvas;
+    try {
+        canvas = new fabric.StaticCanvas();
+    } catch {
+        return buildFailImage(CanvasFinal, size, width, height);
+    }
     canvas.setWidth(width)
     canvas.setHeight(height)
     if (!DeckCards[image]) {
@@ -440,7 +442,7 @@ export const buildCard = async (
             const pipImage = new fabric.Image(EnhancementPipImages[pip].getElement());
 
             if (['deusillus2', 'ultra-gravitron2', 'niffle-kong2'].some((x) => x === card.id)) {
-                pipImage.set({ left: width - top - 10 - index * 31, top: 21, angle: 90 });
+                pipImage.set({ left: width - top - 8 - index * 31, top: 21, angle: 90 });
             } else {
                 pipImage.set({ left: 21, top: top + 10 + index * 31 });
             }
@@ -455,48 +457,54 @@ export const buildCard = async (
             ModifiedPower = await loadImage(Constants.ModifiedPower);
         }
 
-        ModifiedPower.scaleToWidth(0.19 * width);
-        ModifiedPower.set({ left: 0.047 * width, top: height * 0.53 });
+        ModifiedPower.scaleToWidth(60);
+        ModifiedPower.set({ left: 10, top: 220 });
         canvas.add(ModifiedPower);
         const powerText = new fabric.Text(totalPower.toString(), {
             ...fontProps,
             fill: '#fdfbfa',
-            fontSize: 0.083 * height,
+            fontSize: 35,
             fontFamily: 'Bombardier',
             fontWeight: 500,
-            originX: 'left',
+            originX: 'center',
             originY: 'center',
             textAlign: 'center'
         });
         powerText.setShadow(shadowProps);
-        powerText.set({
-            left:
-                0.108 * width -
-                (totalPower.toString().length > 1
-                    ? totalPower.toString().length * 0.005 * width
-                    : 0),
-            top: 0.598 * height
-        });
+        powerText.set({ left: 40, top: 250 });
         canvas.add(powerText);
     }
 
     canvas.renderAll();
-    return buildFinalCanvas(canvas, CanvasFinal, size, width, height)
+
+    return resizeCanvas(CanvasFinal, canvas, size, width, height)
 };
 
-const buildFinalCanvas = (canvas, CanvasFinal, size, width, height) => {
-    const defaultCardWidth = 65;
-
-    const finalImage = new fabric.Image(canvas.getElement(), imgOptions);
-    finalImage.resizeFilter = new fabric.Image.filters.Resize({
+const buildFailImage = (CanvasFinal, size, width, height) => {
+    const defaultCardImage = new fabric.Image(DefaultCard.getElement(), imgOptions)
+    defaultCardImage.scaleToWidth(width);
+    defaultCardImage.resizeFilter = new fabric.Image.filters.Resize({
         resizeType: 'lanczos',
         lanczosLobes: 3
     });
+    CanvasFinal.add(defaultCardImage);
+    CanvasFinal.renderAll();
+    return resizeCanvas(CanvasFinal, null, size, width, height);
+}
 
+const resizeCanvas = (CanvasFinal, canvas, size, width, height) => {
     CanvasFinal.renderOnAddRemove = false;
     CanvasFinal.selection = false;
 
-    CanvasFinal.add(finalImage)
+    if(canvas) {
+        const finalImage = new fabric.Image(canvas.getElement(), imgOptions);
+        finalImage.resizeFilter = new fabric.Image.filters.Resize({
+            resizeType: 'lanczos',
+            lanczosLobes: 3
+        });
+        CanvasFinal.add(finalImage)
+    }
+
     if (size) {
         CanvasFinal.setZoom((defaultCardWidth * getCardSizeMultiplier(size)) / width);
     }
@@ -508,7 +516,6 @@ const buildFinalCanvas = (canvas, CanvasFinal, size, width, height) => {
 }
 
 const getCardSizeMultiplier = (size) => {
-    console.log(size)
     switch (size) {
         case 'small':
             return 0.6;
