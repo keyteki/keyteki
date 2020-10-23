@@ -32,8 +32,6 @@ const imgOptions = {
     noScaleCache: false,
     objectCaching: false
 };
-const defaultCardWidth = 65;
-const defaultCardHeight = 91;
 
 export const loadImage = (url) => {
     return new Promise((resolve, reject) => {
@@ -46,10 +44,6 @@ export const loadImage = (url) => {
                     if (image.width === 0) {
                         return reject();
                     }
-                    image.resizeFilter = new fabric.Image.filters.Resize({
-                        resizeType: 'lanczos',
-                        lanczosLobes: 3
-                    });
 
                     resolve(image);
                 }
@@ -109,18 +103,44 @@ async function cacheImages() {
     cacheLoaded = true;
 }
 
-export const buildDeckList = async (canvas, deck, language, translate, size) => {
+const fontProps = {
+    fontWeight: 600,
+    fontFamily: 'Keyforge',
+    textAlign: 'left',
+    fontSize: 10,
+    enableRetinaScaling: true,
+    objectCaching: false,
+    noScaleCache: false,
+    selectable: false,
+    hasControls: false,
+    hasBorders: false,
+    hasRotatingPoint: false
+};
+const shadowProps = {
+    color: 'Black',
+    offsetX: 3,
+    offsetY: 3
+};
+
+export const buildDeckList = async (CanvasFinal, deck, language, translate, size) => {
     if (!cacheLoaded) {
         await cacheImages();
     }
 
-    size = getCardSizeMultiplier(size);
+    const order = ['action', 'artifact', 'creature', 'upgrade'];
+    const canvas = new fabric.StaticCanvas();
 
-    const width = size ? defaultCardWidth * size : 600;
-    const height = size ? defaultCardHeight * size : 840;
+    const width = 600;
+    const height = 840;
 
-    canvas.renderOnAddRemove = false;
-    canvas.selection = false;
+    const fontProps = {
+        fontWeight: 800,
+        fontFamily: 'Keyforge',
+        textAlign: 'left',
+        fillStyle: 'black',
+        fontSize: 20
+    };
+
     canvas.setWidth(width);
     canvas.setHeight(height);
 
@@ -128,39 +148,18 @@ export const buildDeckList = async (canvas, deck, language, translate, size) => 
         DefaultCard.scaleToWidth(width);
         canvas.add(DefaultCard);
         canvas.renderAll();
-        return canvas;
+        return buildFinalCanvas(canvas, CanvasFinal, size, width, height)
     }
 
-    const order = ['action', 'artifact', 'creature', 'upgrade'];
-
-    const fontProps = {
-        fontWeight: 600,
-        fontFamily: 'Keyforge',
-        textAlign: 'left',
-        fontSize: 0.0238 * height,
-        enableRetinaScaling: true,
-        objectCaching: false,
-        noScaleCache: false,
-        selectable: false,
-        hasControls: false,
-        hasBorders: false,
-        hasRotatingPoint: false
-    };
-    const shadowProps = {
-        color: 'DarkSlateGray',
-        offsetX: 5,
-        offsetY: 5
-    };
-
     const houseData = {
-        size: 0.1 * width,
-        0: { x: 0.093 * width, y: 0.145 * height },
-        1: { x: 0.093 * width, y: 0.595 * height },
-        2: { x: 0.516 * width, y: 0.255 * height }
+        size: 35,
+        0: { x: 55, y: 124 },
+        1: { x: 55, y: 502 },
+        2: { x: 310, y: 219 }
     };
     const cardData = {
-        size: 0.0238 * height,
-        start: { x: 0.09 * width, y: 0.196 * height }
+        size: 20,
+        start: { x: 54, y: 165 }
     };
     const qrCode = await QRCode.toCanvas(
         null,
@@ -175,22 +174,20 @@ export const buildDeckList = async (canvas, deck, language, translate, size) => 
         Rare: RareIcon,
         Special: SpecialIcon
     };
-    DeckListIcon.scaleToWidth(width);
-    QRCodeIcon.set({ left: 0.56 * width, top: 0.735 * height }).scaleToWidth(0.24 * width);
-    expansion.set({ left: 0.39 * width, top: 0.109 * height }).scaleToWidth(0.033 * width);
-    TCOIcon.set({ left: 0.833 * width, top: 0.916 * height, angle: -90 }).scaleToWidth(
-        0.066 * width
-    );
+
+    QRCodeIcon.set({ left: 332, top: 612 }).scaleToWidth(150);
+    expansion.set({ left: 232, top: 92 }).scaleToWidth(20);
+    TCOIcon.set({ left: 505, top: 769, angle: -90 }).scaleToWidth(30);
     canvas.add(DeckListIcon).add(QRCodeIcon).add(expansion).add(TCOIcon);
 
     let name;
     try {
-        name = getCircularText(deck.name, width, height, width * 2.75);
+        name = getCircularText(deck.name, width, height, 1800);
     } catch (err) {
         name = false;
     }
     if (name) {
-        name.set({ top: 0.037 * height - (size ? height / 5.3 / size : 0) });
+        name.set({top: 35})
         canvas.add(name);
     }
 
@@ -198,26 +195,26 @@ export const buildDeckList = async (canvas, deck, language, translate, size) => 
         const houseImage = HouseIcons[house];
         houseImage
             .set({ left: houseData[index].x, top: houseData[index].y })
-            .scaleToWidth(0.05 * width)
-            .scaleToHeight(0.05 * width)
-            .setShadow({ color: 'gray', offsetX: 5, offsetY: 5, blur: 1 });
+            .scaleToWidth(30)
+            .scaleToHeight(30)
+            .setShadow({ color: 'gray', offsetX: 10, offsetY: 10, blur: 3 });
         const houseText = new fabric.Text(
             translate(house).replace(/^\w/, (c) => c.toUpperCase()),
             {
                 ...fontProps,
-                fontFamily: 'Keyforge',
-                textAlign: 'left',
-                fontSize: 0.03 * height
+                fontWeight: 800,
+                fontSize: 25
             }
-        ).set({
-            left: houseData[index].x + 0.058 * width,
-            top: houseData[index].y + 0.005 * height
-        });
+        ).set({ left: houseData[index].x + 35, top: houseData[index].y + 5 });
         canvas.add(houseText).add(houseImage);
     }
     let cardList = [];
 
     for (const { count, card } of deck.cards) {
+        if(!card){
+            continue;
+        }
+
         for (let i = 0; i < count; i++) {
             cardList.push({
                 ...card,
@@ -235,90 +232,88 @@ export const buildDeckList = async (canvas, deck, language, translate, size) => 
         .sort((a, b) => deck.houses.sort().indexOf(a.house) - deck.houses.sort().indexOf(b.house));
     for (const [index, card] of cardList.entries()) {
         let x = cardData.start.x,
-            y = cardData.start.y + index * 0.033 * height;
+            y = cardData.start.y + index * 28;
         const name = card.locale && card.locale[language] ? card.locale[language].name : card.name;
         if (index > 11) {
-            y = y + 0.054 * height;
+            y = y + 45;
         }
 
         if (index > 20) {
-            x = x + 0.4166 * width;
-            y = cardData.start.y + (index - 22.1) * 0.033 * height;
+            x = x + 255;
+            y = cardData.start.y + (index - 22.1) * 28;
         }
 
         if (index > 23) {
-            y = y + 0.052 * height;
-        }
-        if (Rarities[card.rarity]) {
-            const rarity = new fabric.Image(Rarities[card.rarity].getElement(), imgOptions);
-            rarity.set({ left: x, top: y }).scaleToWidth(cardData.size).setShadow(shadowProps);
-            canvas.add(rarity);
+            y = y + 44;
         }
 
+        const rarity = new fabric.Image(Rarities[card.rarity].getElement(), imgOptions);
+            rarity
+                .set({ left: x, top: y })
+                .scaleToWidth(cardData.size)
+                .setShadow(new fabric.Shadow(shadowProps));
+
         const number = new fabric.Text(card.number.toString(), fontProps).set({
-            left: x + 0.036 * width,
+            left: x + 22,
             top: y
         });
 
         const title = new fabric.Text(name, {
             ...fontProps,
-            fontWeight: 200,
+            fontWeight: 300,
             fill: card.enhancements ? '#0081ad' : 'black'
-        }).set({ left: x + 0.1 * width, top: y });
-        canvas.add(number).add(title);
+        }).set({ left: x + 60, top: y });
+        canvas.add(number).add(title).add(rarity);
 
-        let iconX = x + title.width + number.width + 0.0583 * width;
+        let iconX = x + title.width + number.width + 35;
 
         if (card.is_maverick) {
             const maverickImage = new fabric.Image(MaverickIcon.getElement(), imgOptions);
             maverickImage
                 .set({ left: iconX, top: y })
-                .setShadow(shadowProps)
+                .setShadow(new fabric.Shadow(shadowProps))
                 .scaleToHeight(cardData.size);
             canvas.add(maverickImage);
-            iconX = iconX + 0.033 * width;
+            iconX = iconX + 20;
         }
 
         if (card.is_anomaly) {
             const anomalyImage = new fabric.Image(AnomalyIcon.getElement(), imgOptions);
             anomalyImage
                 .set({ left: iconX, top: y })
-                .setShadow(shadowProps)
+                .setShadow(new fabric.Shadow(shadowProps))
                 .scaleToHeight(cardData.size);
             canvas.add(anomalyImage);
         }
         canvas.renderAll();
     }
+
     canvas.renderAll();
-    return canvas;
+    return buildFinalCanvas(canvas, CanvasFinal, size, width, height)
 };
 
 /**
- * @param canvas
+ * @param CanvasFinal
  * @param {import('./Components/Decks/DeckList').Deck} deck
  * @param size
  * @param showDeckName
  */
-export const buildCardBack = async (canvas, deck, size, showDeckName) => {
+export const buildCardBack = async (CanvasFinal, deck, size, showDeckName) => {
     if (!cacheLoaded) {
         await cacheImages();
     }
 
-    size = getCardSizeMultiplier(size);
-
-    const width = size ? defaultCardWidth * size : 300;
-    const height = size ? defaultCardHeight * size : 420;
-
-    canvas.renderOnAddRemove = false;
-    canvas.selection = false;
-    canvas.setWidth(width);
-    canvas.setHeight(height);
+    const canvas = new fabric.StaticCanvas();
+    const width =  300;
+    const height = 420;
+    canvas.setWidth(width)
+    canvas.setHeight(height)
 
     if (!deck.houses) {
-        DefaultCard.scaleToWidth(width);
+        DefaultCard.scaleToWidth(300);
         canvas.add(DefaultCard);
         canvas.renderAll();
-        return canvas;
+        return buildFinalCanvas(canvas, CanvasFinal, size, width, height)
     }
 
     let number = btoa(deck.uuid)
@@ -335,19 +330,19 @@ export const buildCardBack = async (canvas, deck, size, showDeckName) => {
     const house3 = IdBackHouseIcons[deck.houses[2]];
 
     if (!cardback || !house1 || !house2 || !house3) {
-        DefaultCard.scaleToWidth(width);
+        DefaultCard.scaleToWidth(300);
         canvas.add(DefaultCard);
         canvas.renderAll();
         return canvas;
     }
 
-    cardback.scaleToWidth(width);
-    house1.scaleToWidth(0.26 * width);
-    house2.scaleToWidth(0.26 * width);
-    house3.scaleToWidth(0.26 * width);
-    house1.set({ left: 0.075 * width, top: 0.08 * height });
-    house2.set({ left: 0.375 * width, top: 0.023 * height });
-    house3.set({ left: 0.675 * width, top: 0.08 * height });
+    cardback.scaleToWidth(300);
+    house1.scaleToWidth(75);
+    house2.scaleToWidth(75);
+    house3.scaleToWidth(75);
+    house1.set({ left: 22.5, top: 35 });
+    house2.set({ left: 112.5, top: 10 });
+    house3.set({ left: 202.5, top: 35 });
     canvas.add(cardback);
     canvas.add(house1);
     canvas.add(house2);
@@ -356,22 +351,22 @@ export const buildCardBack = async (canvas, deck, size, showDeckName) => {
     if (showDeckName) {
         let text;
         try {
-            text = getCircularText(deck.name, width, height, 4 * width);
+            text = getCircularText(deck.name, width, height, 1400);
         } catch (err) {
             text = undefined;
         }
         if (text) {
-            text.set({ top: 0.82 * height - (size ? height / 6.5 / size : 0) });
+            text.set({top: 345})
             canvas.add(text);
         }
     }
 
     canvas.renderAll();
-    return canvas;
+    return buildFinalCanvas(canvas, CanvasFinal, size, width, height)
 };
 
 /**
- * @param canvas
+ * @param CanvasFinal
  * @param maverick
  * @param anomaly
  * @param enhancements
@@ -382,44 +377,22 @@ export const buildCardBack = async (canvas, deck, size, showDeckName) => {
  * @param card
  */
 export const buildCard = async (
-    canvas,
+    CanvasFinal,
     { maverick, anomaly, enhancements, image, url, size, modifiedPower, ...card }
 ) => {
     if (!cacheLoaded) {
         await cacheImages();
     }
 
-    size = getCardSizeMultiplier(size);
-    const width = size ? defaultCardWidth * size : 300;
-    const height = size ? defaultCardHeight * size : 420;
-    const fontProps = {
-        fontWeight: 600,
-        fontFamily: 'Keyforge',
-        textAlign: 'left',
-        fontSize: 0.0238 * height,
-        enableRetinaScaling: true,
-        objectCaching: false,
-        noScaleCache: false,
-        selectable: false,
-        hasControls: false,
-        hasBorders: false,
-        hasRotatingPoint: false
-    };
-    const shadowProps = {
-        color: 'Black',
-        offsetX: 0.003 * width,
-        offsetY: 0.003 * width
-    };
-    canvas.renderOnAddRemove = false;
-    canvas.selection = false;
-    canvas.setWidth(width);
-    canvas.setHeight(height);
-
+    const canvas = new fabric.StaticCanvas();
+    const width =  300;
+    const height = 420;
+    canvas.setWidth(width)
+    canvas.setHeight(height)
     if (!DeckCards[image]) {
         DeckCards[image] = await loadImage(url);
     }
 
-    DeckCards[image].scaleToWidth(width);
     canvas.add(DeckCards[image]);
     const amber = card.cardPrintedAmber ? card.cardPrintedAmber : card.amber;
     const bonusIcons = amber > 0 || (enhancements && enhancements.length > 0);
@@ -430,8 +403,7 @@ export const buildCard = async (
             if (!MaverickCornerImage) {
                 MaverickCornerImage = await loadImage(Constants.MaverickCornerImage);
             }
-            MaverickCornerImage.scaleToWidth(0.375 * width);
-            MaverickCornerImage.set({ left: 0.65 * width, top: -height * 0.01 });
+            MaverickCornerImage.set({ left: 210 });
             canvas.add(MaverickCornerImage);
             house = maverick;
         } else {
@@ -444,47 +416,33 @@ export const buildCard = async (
                     Constants.MaverickHouseAmberImages[house]
                 );
             }
-            MaverickHouseAmberImages[house].scaleToWidth(0.375 * width);
             canvas.add(MaverickHouseAmberImages[house]);
         } else {
             if (!MaverickHouseImages[house]) {
                 MaverickHouseImages[house] = await loadImage(Constants.MaverickHouseImages[house]);
             }
-            MaverickHouseImages[house].scaleToWidth(0.375 * width);
             canvas.add(MaverickHouseImages[house]);
         }
     }
-
     if (enhancements && enhancements.length > 0 && enhancements[0] !== '') {
-        const baseImage = new fabric.Image(
-            EnhancementBaseImages[enhancements.length].getElement(),
-            imgOptions
-        );
-        let top = height * 0.18 + (amber ? amber * height * 0.04 : 0);
+        const baseImage = new fabric.Image(EnhancementBaseImages[enhancements.length].getElement());
+        let top = 59 + (amber ? amber * 30 : 0);
 
         if (['deusillus2', 'ultra-gravitron2', 'niffle-kong2'].some((x) => x === card.id)) {
-            baseImage.set({ left: width - top, top: 0.04 * height, angle: 90 });
+            baseImage.set({ left: width - top, top: 14, angle: 90 });
         } else {
-            baseImage.set({ left: width * 0.055, top });
+            baseImage.set({ left: 14, top });
         }
 
-        baseImage.scaleToWidth(width * 0.13);
         canvas.add(baseImage);
 
         for (const [index, pip] of enhancements.entries()) {
-            const pipImage = new fabric.Image(EnhancementPipImages[pip].getElement(), imgOptions);
-            pipImage.scaleToWidth(width * 0.13);
+            const pipImage = new fabric.Image(EnhancementPipImages[pip].getElement());
+
             if (['deusillus2', 'ultra-gravitron2', 'niffle-kong2'].some((x) => x === card.id)) {
-                pipImage.set({
-                    left: width - top - width * 0.01 - index * width * 0.13,
-                    top: height * 0.055,
-                    angle: 90
-                });
+                pipImage.set({ left: width - top - 10 - index * 31, top: 21, angle: 90 });
             } else {
-                pipImage.set({
-                    left: width * 0.071,
-                    top: top + height * 0.03 + index * height * 0.1
-                });
+                pipImage.set({ left: 21, top: top + 10 + index * 31 });
             }
 
             canvas.add(pipImage);
@@ -523,14 +481,34 @@ export const buildCard = async (
     }
 
     canvas.renderAll();
-
-    return canvas;
+    return buildFinalCanvas(canvas, CanvasFinal, size, width, height)
 };
 
-const getCardSizeMultiplier = (size) => {
-    if (!size) {
-        return;
+const buildFinalCanvas = (canvas, CanvasFinal, size, width, height) => {
+    const defaultCardWidth = 65;
+
+    const finalImage = new fabric.Image(canvas.getElement(), imgOptions);
+    finalImage.resizeFilter = new fabric.Image.filters.Resize({
+        resizeType: 'lanczos',
+        lanczosLobes: 3
+    });
+
+    CanvasFinal.renderOnAddRemove = false;
+    CanvasFinal.selection = false;
+
+    CanvasFinal.add(finalImage)
+    if (size) {
+        CanvasFinal.setZoom((defaultCardWidth * getCardSizeMultiplier(size)) / width);
     }
+
+    CanvasFinal.setWidth(width * CanvasFinal.getZoom());
+    CanvasFinal.setHeight(height * CanvasFinal.getZoom());
+    CanvasFinal.renderAll();
+    return CanvasFinal;
+}
+
+const getCardSizeMultiplier = (size) => {
+    console.log(size)
     switch (size) {
         case 'small':
             return 0.6;
@@ -538,6 +516,8 @@ const getCardSizeMultiplier = (size) => {
             return 1.4;
         case 'x-large':
             return 2;
+        case 'xx-large':
+            return 8;
     }
 
     return 1;
@@ -603,11 +583,5 @@ const getCircularText = (
         ctx.fillText(text[j], 0, 0 - diameter / 2 + textHeight / 2);
         ctx.rotate((charWid / 2 / (diameter / 2 - textHeight)) * -1); // rotate half letter
     }
-    const final = new fabric.Image(canvas, imgOptions);
-    final.resizeFilter = new fabric.Image.filters.Resize({
-        resizeType: 'lanczos',
-        lanczosLobes: 3
-    });
-
-    return final;
+    return new fabric.Image(canvas, imgOptions);
 };
