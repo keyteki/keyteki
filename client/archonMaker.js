@@ -332,13 +332,13 @@ export const buildCardBack = async (CanvasFinal, deck, size, showDeckName) => {
         return buildFailImage(CanvasFinal, size, width, height);
     }
 
-    let number = btoa(deck.uuid)
-        .replace(/[\D+089]/g, '')
-        .slice(-1);
-
-    if (!number) {
-        number = 1;
-    }
+    let number =
+        (deck.uuid
+            .replace(/[\D]/g, '')
+            .split()
+            .reduce((a, b) => a + +b, 0) %
+            7) +
+        1;
 
     const cardback = IdBackBlanksIcons[number];
     const house1 = IdBackHouseIcons[deck.houses[0]];
