@@ -10,6 +10,7 @@ import OptionsSelect from './OptionsSelect';
 import Panel from '../Site/Panel';
 
 import './ActivePlayerPrompt.scss';
+import CardImage from './CardImage';
 
 const MaxButtonTextLength = 28;
 
@@ -114,7 +115,12 @@ class ActivePlayerPrompt extends React.Component {
                             button.method
                         )
                     }
-                    onMouseOver={(event) => this.onMouseOver(event, button.card)}
+                    onMouseOver={(event) =>
+                        this.onMouseOver(event, {
+                            image: <CardImage card={button.card} />,
+                            size: 'normal'
+                        })
+                    }
                     onMouseOut={(event) => this.onMouseOut(event, button.card)}
                     disabled={button.disabled}
                 >
