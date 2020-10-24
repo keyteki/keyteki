@@ -117,7 +117,7 @@ class ActivePlayerPrompt extends React.Component {
                     }
                     onMouseOver={(event) =>
                         this.onMouseOver(event, {
-                            image: <CardImage card={button.card} />,
+                            image: button.card ? <CardImage card={button.card} /> : null,
                             size: 'normal'
                         })
                     }
