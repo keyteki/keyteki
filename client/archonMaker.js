@@ -23,6 +23,7 @@ let UncommonIcon;
 let DefaultCard;
 let MaverickCornerImage;
 let ModifiedPower;
+let Armor;
 let cacheLoaded = false;
 const imgOptions = {
     selectable: false,
@@ -131,6 +132,7 @@ async function cacheImages() {
     AnomalyIcon = await loadImage(Constants.AnomalyIcon);
     DefaultCard = await loadImage(Constants.DefaultCard);
     ModifiedPower = await loadImage(Constants.Tokens.ModifiedPower);
+    Armor = await loadImage(Constants.Tokens.Armor);
     cacheLoaded = true;
 }
 
@@ -384,15 +386,26 @@ export const buildCardBack = async (CanvasFinal, deck, size, showDeckName) => {
  * @param url
  * @param size
  * @param modifiedPower
+ * @param tokens
  * @param card
  */
 export const buildCard = async (
     CanvasFinal,
-    { maverick, anomaly, enhancements, image, url, size, modifiedPower, ...card }
+    { maverick, anomaly, enhancements, image, url, size, modifiedPower, tokens = {}, ...card }
 ) => {
     if (!cacheLoaded) {
         await cacheImages();
     }
+    const tokenFontProps = {
+        ...fontProps,
+        fill: '#fdfbfa',
+        fontSize: 35,
+        fontFamily: 'Bombardier',
+        fontWeight: 500,
+        originX: 'center',
+        originY: 'center',
+        textAlign: 'center'
+    };
 
     const width = 300;
     const height = 420;
@@ -412,6 +425,7 @@ export const buildCard = async (
     const amber = card.cardPrintedAmber ? card.cardPrintedAmber : card.amber;
     const bonusIcons = amber > 0 || (enhancements && enhancements.length > 0);
 
+    //house overlay
     if (maverick || anomaly) {
         let house;
         if (maverick) {
@@ -463,31 +477,29 @@ export const buildCard = async (
             canvas.add(pipImage);
         }
     }
+
+    //dynamic power overlay
     let totalPower = modifiedPower - (card.tokens && card.tokens.power ? card.tokens.power : 0);
-
     if (modifiedPower && totalPower !== card.printedPower && card.location === 'play area') {
-        if (!ModifiedPower) {
-            ModifiedPower = await loadImage(Constants.ModifiedPower);
-        }
-
         ModifiedPower.scaleToWidth(60);
         ModifiedPower.set({ left: 10, top: 220 });
         canvas.add(ModifiedPower);
-        const powerText = new fabric.Text(totalPower.toString(), {
-            ...fontProps,
-            fill: '#fdfbfa',
-            fontSize: 35,
-            fontFamily: 'Bombardier',
-            fontWeight: 500,
-            originX: 'center',
-            originY: 'center',
-            textAlign: 'center'
-        });
+        const powerText = new fabric.Text(totalPower.toString(), tokenFontProps);
         powerText.setShadow(shadowProps);
         powerText.set({ left: 40, top: 250 });
         canvas.add(powerText);
     }
 
+    //armor overlay
+    if (card.location === 'play area' && tokens.armor) {
+        Armor.scaleToWidth(60);
+        Armor.set({ left: 230, top: 220 });
+        canvas.add(Armor);
+        const armorText = new fabric.Text(tokens.armor.toString(), tokenFontProps);
+        armorText.setShadow(shadowProps);
+        armorText.set({ left: 260, top: 250 });
+        canvas.add(armorText);
+    }
     canvas.renderAll();
 
     return resizeCanvas(CanvasFinal, canvas, size, width, height);

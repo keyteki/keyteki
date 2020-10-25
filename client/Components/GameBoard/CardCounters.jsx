@@ -19,6 +19,9 @@ class CardCounters extends React.Component {
         let counterDivs = [];
 
         for (const [key, counter] of Object.entries(this.props.counters)) {
+            if (counter.name === 'armor') {
+                continue;
+            }
             counterDivs.push(
                 <Counter
                     key={key}

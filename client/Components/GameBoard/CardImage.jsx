@@ -42,7 +42,7 @@ const CardImage = ({ card, cardBack, size }) => {
             }
         },
         // eslint-disable-next-line react-hooks/exhaustive-deps
-        [card.id, card.modifiedPower, i18n.language]
+        [card.id, card.modifiedPower, card.tokens && card.tokens.armor, i18n.language]
     );
 
     useEffect(() => {
