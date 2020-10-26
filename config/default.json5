@@ -15,6 +15,7 @@
      */
 
     lobby: {
+        host: 'localhost',
         port: 4000,
         appName: 'The Crucible Online',
         emailFromAddress: 'noreply@thecrucible.online',

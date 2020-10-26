@@ -2,7 +2,6 @@ const redis = require('redis');
 const EventEmitter = require('events');
 
 const logger = require('./log');
-const GameService = require('./services/GameService');
 const { detectBinary } = require('./util');
 
 class GameRouter extends EventEmitter {
@@ -13,7 +12,6 @@ class GameRouter extends EventEmitter {
         super();
 
         this.workers = {};
-        this.gameService = new GameService();
 
         this.subscriber = redis.createClient(configService.getValue('redisUrl'));
         this.publisher = redis.createClient(configService.getValue('redisUrl'));
@@ -24,7 +22,7 @@ class GameRouter extends EventEmitter {
         this.subscriber.subscribe('nodemessage');
         this.subscriber.on('message', this.onMessage.bind(this));
         this.subscriber.on('subscribe', () => {
-            this.sendCommand('allnodes', 'LOBBYHELLO');
+            this.sendCommand('hub', 'LOBBYHELLO');
         });
 
         setInterval(this.checkTimeouts.bind(this), 1000 * 60);
@@ -41,8 +39,6 @@ class GameRouter extends EventEmitter {
 
             return undefined;
         }
-
-        this.gameService.create(game.getSaveState());
 
         node.numGames++;
 
@@ -243,12 +239,7 @@ class GameRouter extends EventEmitter {
                 }
 
                 break;
-            case 'GAMEWIN':
-                this.gameService.update(message.arg.game);
-                break;
             case 'REMATCH':
-                this.gameService.update(message.arg.game);
-
                 if (worker) {
                     worker.numGames--;
                 } else {
@@ -269,10 +260,6 @@ class GameRouter extends EventEmitter {
 
                 break;
             case 'PLAYERLEFT':
-                if (!message.arg.spectator) {
-                    this.gameService.update(message.arg.game);
-                }
-
                 this.emit('onPlayerLeft', message.arg.gameId, message.arg.player);
 
                 break;

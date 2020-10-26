@@ -3,17 +3,16 @@ const Socket = require('./socket.js');
 const jwt = require('jsonwebtoken');
 const _ = require('underscore');
 const moment = require('moment');
+const redis = require('redis');
 
 const logger = require('./log');
 const version = moment(require('../version').releaseDate);
 const PendingGame = require('./pendinggame');
 const GameRouter = require('./gamerouter');
-const ServiceFactory = require('./services/ServiceFactory');
-const DeckService = require('./services/DeckService');
-const UserService = require('./services/UserService');
 const ConfigService = require('./services/ConfigService');
 const User = require('./models/User');
 const { sortBy } = require('./Array');
+const { detectBinary } = require('./util');
 
 class Lobby {
     constructor(server, options = {}) {
@@ -21,10 +20,6 @@ class Lobby {
         this.users = {};
         this.games = {};
         this.configService = options.configService || new ConfigService();
-        this.messageService = options.messageService || ServiceFactory.messageService();
-        this.cardService = options.cardService || ServiceFactory.cardService(options.configService);
-        this.userService = options.userService || new UserService(options.configService);
-        this.deckService = options.deckService || new DeckService(this.configService);
         this.router = options.router || new GameRouter(this.configService);
 
         this.router.on('onGameClosed', this.onGameClosed.bind(this));
@@ -34,38 +29,56 @@ class Lobby {
         this.router.on('onNodeReconnected', this.onNodeReconnected.bind(this));
         this.router.on('onWorkerStarted', this.onWorkerStarted.bind(this));
 
-        this.userService.on('onBlocklistChanged', this.onBlocklistChanged.bind(this));
-
         this.io = options.io || socketio(server, { perMessageDeflate: false });
         this.io.set('heartbeat timeout', 30000);
         this.io.use(this.handshake.bind(this));
         this.io.on('connection', this.onConnection.bind(this));
 
-        this.messageService.on('messageDeleted', (messageId, user) => {
-            for (let socket of Object.values(this.sockets)) {
-                if (socket.user === user || (socket.user && socket.user.hasUserBlocked(user))) {
-                    continue;
-                }
+        let host = this.configService.getValueForSection('lobby', 'host');
 
-                if (
-                    socket.user &&
-                    socket.user.permissions &&
-                    socket.user.permissions.canModerateChat
-                ) {
-                    socket.send('removemessage', messageId, user.username);
-                } else {
-                    socket.send('removemessage', messageId);
-                }
-            }
+        this.subscriber = redis.createClient(this.configService.getValue('redisUrl'));
+        this.publisher = redis.createClient(this.configService.getValue('redisUrl'));
+
+        this.subscriber.on('error', this.onRedisError);
+        this.publisher.on('error', this.onRedisError);
+
+        this.subscriber.subscribe('nodemessage');
+        this.subscriber.on('message', this.onRedisMessage.bind(this));
+        this.subscriber.on('subscribe', () => {
+            this.sendRedisCommand('hub', 'LOBBYHELLO', {
+                version: version,
+                address: host,
+                port: process.env.PORT || this.configService.getValueForSection('lobby', 'port')
+            });
         });
 
+        // this.messageService.on('messageDeleted', (messageId, user) => {
+        //     for (let socket of Object.values(this.sockets)) {
+        //         if (socket.user === user || (socket.user && socket.user.hasUserBlocked(user))) {
+        //             continue;
+        //         }
+
+        //         if (
+        //             socket.user &&
+        //             socket.user.permissions &&
+        //             socket.user.permissions.canModerateChat
+        //         ) {
+        //             socket.send('removemessage', messageId, user.username);
+        //         } else {
+        //             socket.send('removemessage', messageId);
+        //         }
+        //     }
+        // });
+
         setInterval(() => this.clearStalePendingGames(), 60 * 1000); // every minute
-        setInterval(() => this.clearOldRefreshTokens(), 2 * 60 * 60 * 1000); // every 2 hours
     }
 
-    async init() {
-        // pre cache card list so the first user to the site doesn't have a slowdown
-        await this.cardService.getAllCards();
+    // Events
+    /**
+     * @param {Error} err
+     */
+    onRedisError(err) {
+        logger.error('Redis error: ', err);
     }
 
     // External methods
@@ -156,38 +169,38 @@ class Lobby {
             jwt.verify(
                 ioSocket.handshake.query.token,
                 this.configService.getValue('secret'),
-                (err, user) => {
+                (err) => {
                     if (err) {
                         ioSocket.emit('authfailed');
                         return;
                     }
 
-                    this.userService
-                        .getUserById(user.id)
-                        .then((dbUser) => {
-                            let socket = this.sockets[ioSocket.id];
-                            if (!socket) {
-                                logger.error(
-                                    'Tried to authenticate socket for %s but could not find it',
-                                    dbUser.username
-                                );
-                                return;
-                            }
+                    // this.userService
+                    //     .getUserById(user.id)
+                    //     .then((dbUser) => {
+                    //         let socket = this.sockets[ioSocket.id];
+                    //         if (!socket) {
+                    //             logger.error(
+                    //                 'Tried to authenticate socket for %s but could not find it',
+                    //                 dbUser.username
+                    //             );
+                    //             return;
+                    //         }
 
-                            if (dbUser.disabled) {
-                                ioSocket.disconnect();
-                                return;
-                            }
+                    //         if (dbUser.disabled) {
+                    //             ioSocket.disconnect();
+                    //             return;
+                    //         }
 
-                            ioSocket.request.user = dbUser.getWireSafeDetails();
-                            socket.user = dbUser;
-                            this.users[dbUser.username] = socket.user;
+                    //         ioSocket.request.user = dbUser.getWireSafeDetails();
+                    //         socket.user = dbUser;
+                    //         this.users[dbUser.username] = socket.user;
 
-                            this.doPostAuth(socket);
-                        })
-                        .catch((err) => {
-                            logger.error(err);
-                        });
+                    //         this.doPostAuth(socket);
+                    //     })
+                    //     .catch((err) => {
+                    //         logger.error(err);
+                    //     });
                 }
             );
         }
@@ -321,14 +334,6 @@ class Lobby {
         }
     }
 
-    clearOldRefreshTokens() {
-        logger.info('Starting refresh token cleanup...');
-
-        this.userService.cleanupRefreshTokens().then(() => {
-            logger.info('Refresh token cleanup completed.');
-        });
-    }
-
     sendFilteredMessages(socket) {
         this.messageService.getLastMessagesForUser(socket.user).then((messages) => {
             let messagesToSend = this.filterMessages(messages, socket);
@@ -422,22 +427,10 @@ class Lobby {
         }
     }
 
-    onAuthenticated(socket, user) {
+    onAuthenticated(socket) {
         if (socket.user) {
             return;
         }
-
-        this.userService
-            .getUserById(user.id)
-            .then((dbUser) => {
-                this.users[dbUser.username] = dbUser;
-                socket.user = dbUser;
-
-                this.doPostAuth(socket);
-            })
-            .catch((err) => {
-                logger.error(err);
-            });
     }
 
     onSocketDisconnected(socket, reason) {
@@ -1122,6 +1115,60 @@ class Lobby {
         }
 
         this.broadcastGameList();
+    }
+
+    /**
+     * @param {string} channel
+     * @param {string} msg
+     */
+    onRedisMessage(channel, msg) {
+        if (channel !== 'nodemessage') {
+            logger.warn(`Message '${msg}' received for unknown channel ${channel}`);
+            return;
+        }
+
+        // let message;
+        // try {
+        //     message = JSON.parse(msg);
+        // } catch (err) {
+        //     logger.info(
+        //         `Error decoding redis message. Channel ${channel}, message '${msg}' %o`,
+        //         err
+        //     );
+        //     return;
+        // }
+
+        // switch (message.command) {
+        // }
+    }
+
+    /**
+     * @param {string} channel
+     * @param {string} command
+     */
+    sendRedisCommand(channel, command, arg = {}) {
+        let object = {
+            command: command,
+            arg: arg
+        };
+
+        let objectStr = '';
+        try {
+            objectStr = JSON.stringify(object);
+        } catch (err) {
+            logger.error('Failed to stringify node data', err);
+            for (let obj of Object.values(detectBinary(arg))) {
+                logger.error(`Path: ${obj.path}, Type: ${obj.type}`);
+            }
+
+            return;
+        }
+
+        try {
+            this.publisher.publish(channel, objectStr);
+        } catch (err) {
+            logger.error(err);
+        }
     }
 }
 
