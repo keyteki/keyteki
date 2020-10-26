@@ -47,7 +47,8 @@ export const Constants = {
         damage: require('./assets/img/enhancements/damage.png')
     },
     Tokens: {
-        ModifiedPower: require('./assets/img/modifiedPower.png')
+        ModifiedPower: require('./assets/img/modifiedPower.png'),
+        Armor: require('./assets/img/armor.png')
     },
     MaverickIcon: require('./assets/img/maverick.png'),
     AnomalyIcon: require('./assets/img/anomaly.png'),
