@@ -302,7 +302,6 @@ class Card extends EffectSource {
     /**
      * @typedef PlayProperties
      * @property {CardLocation} location The location this effect can trigger from
-     * @property {TargetProperties} target The targetting specifier
      * @property {function(any): boolean} condition An expression that returns whether this effect is allowed to trigger
      * @property {string} effect The text added to the game log when this effect triggers
      * @property {function(any): [any]} effectArgs A function that returns the arguments to the effect string
@@ -1031,6 +1030,7 @@ class Card extends EffectSource {
             maverick: this.maverick,
             cardPrintedAmber: this.cardPrintedAmber,
             printedPower: this.printedPower,
+            printedArmor: this.printedArmor,
             modifiedPower: this.getPower(),
             stunned: this.stunned,
             taunt: this.getType() === 'creature' && !!this.getKeywordValue('taunt'),

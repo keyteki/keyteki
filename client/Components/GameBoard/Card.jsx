@@ -4,7 +4,6 @@ import 'jquery-migrate';
 import { useDrag } from 'react-dnd';
 
 import CardMenu from './CardMenu';
-import CardCounters from './CardCounters';
 import CardImage from './CardImage';
 import { ItemTypes } from '../../constants';
 import SquishableCardPanel from './SquishableCardPanel';
@@ -55,50 +54,6 @@ const Card = ({
 
         onClick && onClick(card);
     };
-
-    const getCountersForCard = (card) => {
-        const singleValueCounters = ['ward', 'enrage'];
-        let counters = [];
-        let needsFade = card.type === 'upgrade' && !['full deck'].includes(source);
-        if (card.type === 'creature' && card.baseStrength !== card.strength) {
-            counters.push({
-                name: 'strength',
-                count: card.strength,
-                fade: needsFade,
-                showValue: true
-            });
-        }
-
-        for (const [key, token] of Object.entries(card.tokens || {})) {
-            counters.push({
-                name: key,
-                count: token,
-                fade: needsFade,
-                showValue: token > 1 || !singleValueCounters.includes(key),
-                broken: key === 'ward' && card.wardBroken
-            });
-        }
-
-        if (card.pseudoDamage) {
-            counters.push({
-                name: 'damage',
-                count: card.pseudoDamage,
-                fade: true,
-                showValue: true
-            });
-        }
-
-        for (const upgrade of card.upgrades || []) {
-            counters = counters.concat(getCountersForCard(upgrade));
-        }
-
-        if (card.stunned) {
-            counters.push({ name: 'stun', count: 1, showValue: false });
-        }
-
-        return counters.filter((counter) => counter.count >= 0);
-    };
-
     const getCardSizeMultiplier = () => {
         switch (size) {
             case 'small':
@@ -184,22 +139,6 @@ const Card = ({
         }
 
         if (!card.menu || !showMenu) {
-            return false;
-        }
-
-        return true;
-    };
-
-    const showCounters = () => {
-        if (['full deck'].includes(source)) {
-            return true;
-        }
-
-        if (source !== 'play area' && source !== 'faction') {
-            return false;
-        }
-
-        if (card.facedown || card.type === 'upgrade') {
             return false;
         }
 
@@ -295,7 +234,6 @@ const Card = ({
                         <span className='card-name'>{card.name}</span>
                         {image}
                     </div>
-                    {showCounters() && <CardCounters counters={getCountersForCard(card)} />}
                 </div>
                 {shouldShowMenu() && (
                     <CardMenu

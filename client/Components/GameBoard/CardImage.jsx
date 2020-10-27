@@ -41,8 +41,29 @@ const CardImage = ({ card, cardBack, size }) => {
                 }
             }
         },
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        [card.id, card.modifiedPower, card.tokens && card.tokens.armor, i18n.language]
+        /* eslint-disable react-hooks/exhaustive-deps */
+        [
+            card.id,
+            card.modifiedPower,
+            card.tokens && card.tokens.amber,
+            card.tokens && card.tokens.armor,
+            card.tokens && card.tokens.damage,
+            card.tokens && card.tokens.disruption,
+            card.tokens && card.tokens.doom,
+            card.tokens && card.tokens.enrage,
+            card.tokens && card.tokens.fuse,
+            card.tokens && card.tokens.glory,
+            card.tokens && card.tokens.growth,
+            card.tokens && card.tokens.power,
+            card.tokens && card.tokens.scheme,
+            card.tokens && card.tokens.ward,
+            card.tokens && card.tokens.warrant,
+            card.stunned,
+            card.pseudoDamage,
+            card.wardBroken,
+            i18n.language
+        ]
+        /* eslint-enable react-hooks/exhaustive-deps */
     );
 
     useEffect(() => {
