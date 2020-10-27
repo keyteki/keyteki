@@ -34,9 +34,10 @@ const CardImage = ({ card, cardBack, size }) => {
                     fabricRef.current = await buildCard(canvas, {
                         ...card,
                         size,
-                        url: `/img/cards/${i18n.language === 'en' ? '' : i18n.language + '/'}${
-                            card.image
-                        }.png`
+                        halfpint: card.location === 'play area',
+                        url: `/img/${card.location === 'play area' ? 'halfpints' : 'cards'}/${
+                            i18n.language === 'en' ? '' : i18n.language
+                        }/${card.image}.${card.location === 'play area' ? 'jpg' : 'png'}`
                     });
                 }
             }
@@ -44,6 +45,7 @@ const CardImage = ({ card, cardBack, size }) => {
         /* eslint-disable react-hooks/exhaustive-deps */
         [
             card.id,
+            card.location,
             card.modifiedPower,
             card.tokens && card.tokens.amber,
             card.tokens && card.tokens.armor,
