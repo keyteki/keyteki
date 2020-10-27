@@ -22,8 +22,7 @@ let TCOIcon;
 let UncommonIcon;
 let DefaultCard;
 let MaverickCornerImage;
-let ModifiedPower;
-let Armor;
+let Tokens = {}
 let cacheLoaded = false;
 const imgOptions = {
     selectable: false,
@@ -74,18 +73,6 @@ export const loadImage = (url) => {
 };
 
 async function cacheImages() {
-    fabric.initFilterBackend = () => {
-        if (
-            fabric.enableGLFiltering &&
-            fabric.isWebglSupported &&
-            fabric.isWebglSupported(fabric.textureSize)
-        ) {
-            return new fabric.WebglFilterBackend({ tileSize: fabric.textureSize });
-        } else if (fabric.Canvas2dFilterBackend) {
-            return new fabric.Canvas2dFilterBackend();
-        }
-    };
-
     for (let [house, path] of Object.entries(Constants.HouseIconPaths)) {
         await loadImage(path).then((image) => {
             HouseIcons[house] = image;
@@ -131,8 +118,8 @@ async function cacheImages() {
     MaverickIcon = await loadImage(Constants.MaverickIcon);
     AnomalyIcon = await loadImage(Constants.AnomalyIcon);
     DefaultCard = await loadImage(Constants.DefaultCard);
-    ModifiedPower = await loadImage(Constants.Tokens.ModifiedPower);
-    Armor = await loadImage(Constants.Tokens.Armor);
+    Tokens.ModifiedPower = await loadImage(Constants.Tokens.ModifiedPower);
+    Tokens.armor = await loadImage(Constants.Tokens.Armor);
     cacheLoaded = true;
 }
 
@@ -479,11 +466,11 @@ export const buildCard = async (
     }
 
     //dynamic power overlay
-    let totalPower = modifiedPower - (card.tokens && card.tokens.power ? card.tokens.power : 0);
+    let totalPower = modifiedPower - (tokens.power ? tokens.power : 0);
     if (modifiedPower && totalPower !== card.printedPower && card.location === 'play area') {
-        ModifiedPower.scaleToWidth(60);
-        ModifiedPower.set({ left: 10, top: 220 });
-        canvas.add(ModifiedPower);
+        Tokens.ModifiedPower.scaleToWidth(60);
+        Tokens.ModifiedPower.set({ left: 10, top: 220 });
+        canvas.add(Token.ModifiedPower);
         const powerText = new fabric.Text(totalPower.toString(), tokenFontProps);
         powerText.setShadow(shadowProps);
         powerText.set({ left: 40, top: 250 });
@@ -492,26 +479,46 @@ export const buildCard = async (
 
     //armor overlay
     if (card.location === 'play area' && tokens.armor) {
-        Armor.scaleToWidth(60);
-        Armor.set({ left: 230, top: 220 });
-        canvas.add(Armor);
+        Tokens.armor.scaleToWidth(60);
+        Tokens.armor.set({ left: 230, top: 220 });
+        canvas.add(Tokens.armor);
         const armorText = new fabric.Text(tokens.armor.toString(), tokenFontProps);
         armorText.setShadow(shadowProps);
         armorText.set({ left: 260, top: 250 });
         canvas.add(armorText);
     }
+    //tokens
+    if (card.location === 'play area'){
+        if (card.stunned) {
+            tokens.stun = 1;
+        }
+        for(const [index, [type, value]] of Object.entries(Object.entries(tokens))) {
+            if (type === 'armor'){
+                continue;
+            }
+            if (!Tokens[type]) {
+                Tokens[type] = await loadImage(require(`./assets/img/${type}.png`));
+            }
+            console.log(index, type, value, !!Tokens[type])
+        }
+    }
+
     canvas.renderAll();
 
     return resizeCanvas(CanvasFinal, canvas, size, width, height);
 };
 
 const buildFailImage = (CanvasFinal, size, width, height) => {
+    const scale = size ? defaultCardWidth * getCardSizeMultiplier(size) / width : 1;
     const defaultCardImage = new fabric.Image(DefaultCard.getElement(), imgOptions);
-    defaultCardImage.scaleToWidth(width);
     defaultCardImage.resizeFilter = new fabric.Image.filters.Resize({
         resizeType: 'lanczos',
-        lanczosLobes: 3
+        lanczosLobes: 3,
+        scaleX: scale,
+        scaleY: scale
     });
+    defaultCardImage.applyFilters();
+    defaultCardImage.scaleToWidth(width);
     CanvasFinal.add(defaultCardImage);
     CanvasFinal.renderAll();
     return resizeCanvas(CanvasFinal, null, size, width, height);
@@ -520,18 +527,23 @@ const buildFailImage = (CanvasFinal, size, width, height) => {
 const resizeCanvas = (CanvasFinal, canvas, size, width, height) => {
     CanvasFinal.renderOnAddRemove = false;
     CanvasFinal.selection = false;
+    const scale = size ? defaultCardWidth * getCardSizeMultiplier(size) / width : 1;
+
     if (canvas) {
         const finalImage = new fabric.Image(canvas.getElement(), imgOptions);
-        finalImage.resizeFilter = new fabric.Image.filters.Resize({
+        finalImage.filters.push(new fabric.Image.filters.Resize({
             resizeType: 'lanczos',
-            lanczosLobes: 3
-        });
+            lanczosLobes: 3,
+            scaleX: scale,
+            scaleY: scale
+        }));
+        finalImage.applyFilters();
         finalImage.scaleToWidth(width);
         CanvasFinal.add(finalImage);
     }
 
     if (size) {
-        CanvasFinal.setZoom((defaultCardWidth * getCardSizeMultiplier(size)) / width);
+        CanvasFinal.setZoom(scale);
     }
 
     CanvasFinal.setWidth(width * CanvasFinal.getZoom());
