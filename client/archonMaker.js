@@ -490,7 +490,6 @@ export const buildCard = async (
             powerText.set({ left: 40, top: 250, shadow: new fabric.Shadow(shadowProps) });
             canvas.add(powerText);
         }
-
         //armor overlay
         if (tokens.armor || card.printedArmor) {
             Tokens.armor.scaleToWidth(60);
