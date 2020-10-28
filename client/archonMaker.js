@@ -75,18 +75,6 @@ export const loadImage = (url) => {
 };
 
 async function cacheImages() {
-    fabric.initFilterBackend = () => {
-        if (
-            fabric.enableGLFiltering &&
-            fabric.isWebglSupported &&
-            fabric.isWebglSupported(fabric.textureSize)
-        ) {
-            return new fabric.WebglFilterBackend({ tileSize: fabric.textureSize });
-        } else if (fabric.Canvas2dFilterBackend) {
-            return new fabric.Canvas2dFilterBackend();
-        }
-    };
-
     for (let [house, path] of Object.entries(Constants.HouseIconPaths)) {
         await loadImage(path).then((image) => {
             HouseIcons[house] = image;
