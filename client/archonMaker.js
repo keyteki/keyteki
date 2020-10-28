@@ -320,7 +320,7 @@ export const buildCardBack = async (CanvasFinal, deck, size, showDeckName) => {
     canvas.setWidth(width);
     canvas.setHeight(height);
 
-    if (!deck.houses) {
+    if (!deck.houses || !deck.uuid) {
         return buildFailImage(CanvasFinal, size, width, height);
     }
 
@@ -513,14 +513,15 @@ export const buildCard = async (
                 const TokenImage = new fabric.Image(Tokens[name].getElement());
 
                 TokenImage.set({ originX: 'center', originY: 'center', opacity: fade ? 0.6 : 1 });
-                TokenImage.scaleToWidth(80);
+                TokenImage.scaleToWidth(100);
                 let top, left;
+                const position = [50, 150, 250];
                 if (Object.keys(printTokens).length <= 2) {
-                    top = (index + 1) * 80;
+                    top = (index + 1) * 95;
                     left = 150;
                 } else {
-                    top = (Math.floor(index / 3) + 1) * 85;
-                    left = ((index % 3) + 1) * 75;
+                    top = (Math.floor(index / 3) + 1) * 95;
+                    left = position[index % 3];
                 }
                 TokenImage.set({ top, left });
                 canvas.add(TokenImage);
@@ -529,6 +530,7 @@ export const buildCard = async (
                     TokenText.set({
                         top,
                         left: left + (name === 'power' ? 4 : -1),
+                        fontSize: 50,
                         shadow: new fabric.Shadow(shadowProps)
                     });
                     canvas.add(TokenText);
