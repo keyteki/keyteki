@@ -74,6 +74,18 @@ export const loadImage = (url) => {
 };
 
 async function cacheImages() {
+    fabric.initFilterBackend = () => {
+        if (
+            fabric.enableGLFiltering &&
+            fabric.isWebglSupported &&
+            fabric.isWebglSupported(fabric.textureSize)
+        ) {
+            return new fabric.WebglFilterBackend({ tileSize: fabric.textureSize });
+        } else if (fabric.Canvas2dFilterBackend) {
+            return new fabric.Canvas2dFilterBackend();
+        }
+    };
+
     for (let [house, path] of Object.entries(Constants.HouseIconPaths)) {
         await loadImage(path).then((image) => {
             HouseIcons[house] = image;
@@ -548,7 +560,6 @@ export const buildCard = async (
             }
         }
     }
-
     canvas.renderAll();
 
     return resizeCanvas(CanvasFinal, canvas, size, width, height);
@@ -596,6 +607,7 @@ const resizeCanvas = (CanvasFinal, canvas, size, width, height) => {
 
     CanvasFinal.setWidth(width * CanvasFinal.getZoom());
     CanvasFinal.setHeight(height * CanvasFinal.getZoom());
+
     CanvasFinal.renderAll();
     return CanvasFinal;
 };
