@@ -41,8 +41,8 @@ $controlledBox: 0 0 1px 2px $controlled-border-color;
 $header-border: rgba(71, 58, 56, 0.95);
 
 //halfSize
-$keyteki-card-halfSize-width: 65px;
-$keyteki-card-halfSize-height: 56.875px;
+$keyteki-card-halfSize-width: 75px;
+$keyteki-card-halfSize-height: $keyteki-card-halfSize-width * 0.875;
 
 $keyteki-card-halfSize-lg-width: $keyteki-card-halfSize-width * 1.4;
 $keyteki-card-halfSize-lg-height: $keyteki-card-halfSize-height * 1.4;
