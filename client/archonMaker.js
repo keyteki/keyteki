@@ -52,6 +52,7 @@ const shadowProps = {
     blur: 4
 };
 const defaultCardWidth = 65;
+const specialCardBack = 'halloween';
 
 export const loadImage = (url) => {
     return new Promise((resolve, reject) => {
@@ -330,6 +331,14 @@ export const buildCardBack = async (CanvasFinal, deck, size, showDeckName) => {
             .reduce((a, b) => a + +b, 0) %
             7) +
         1;
+    if (specialCardBack) {
+        number = specialCardBack;
+    }
+    if (!IdBackBlanksIcons[number]) {
+        IdBackBlanksIcons[number] = await loadImage(
+            require(`./assets/img/idbacks/idback_blanks/cardback_${number}.png`)
+        );
+    }
 
     const cardback = IdBackBlanksIcons[number];
     const house1 = IdBackHouseIcons[deck.houses[0]];
