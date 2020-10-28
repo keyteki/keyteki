@@ -21,87 +21,136 @@
     top: 0;
     pointer-events: none;
 
-    &.small {
-        &.vertical {
-            height: $keyteki-card-sm-height;
-            width: $keyteki-card-sm-width;
-        }
-
-        &.horizontal {
-            height: $keyteki-card-sm-width;
-            width: $keyteki-card-sm-height;
-        }
-    }
-
-    &.large {
-        &.vertical {
-            height: $keyteki-card-lg-height;
-            width: $keyteki-card-lg-width;
-        }
-
-        &.horizontal {
-            height: $keyteki-card-lg-width;
-            width: $keyteki-card-lg-height;
-        }
-
-        &.exhausted {
-            left: 19px;
-            top: -20px;
-        }
-    }
-
-    &.x-large {
-        &.vertical {
-            height: $keyteki-card-xl-height;
-            width: $keyteki-card-xl-width;
-        }
-
-        &.horizontal {
-            height: $keyteki-card-xl-width;
-            width: $keyteki-card-xl-height;
-        }
-
-        &.exhausted {
-            left: 24px;
-            top: -26px;
-        }
-    }
-
+  &.small {
     &.vertical {
-        height: $keyteki-card-height;
-        width: $keyteki-card-width;
+      height: $keyteki-card-sm-height;
+      width: $keyteki-card-sm-width;
+
+      &.halfSize {
+        height: $keyteki-card-halfSize-sm-height;
+        width: $keyteki-card-halfSize-sm-width;
+      }
     }
 
     &.horizontal {
-        height: $keyteki-card-width;
-        width: $keyteki-card-height;
+      height: $keyteki-card-sm-width;
+      width: $keyteki-card-sm-height;
+
+      &.halfSize {
+        height: $keyteki-card-halfSize-sm-width;
+        width: $keyteki-card-halfSize-sm-height;
+      }
+    }
+  }
+
+  &.large {
+    &.vertical {
+      height: $keyteki-card-lg-height;
+      width: $keyteki-card-lg-width;
+
+      &.halfSize {
+        height: $keyteki-card-halfSize-lg-height;
+        width: $keyteki-card-halfSize-lg-width;
+      }
+    }
+
+    &.horizontal {
+      height: $keyteki-card-lg-width;
+      width: $keyteki-card-lg-height;
+
+      &.halfSize {
+        height: $keyteki-card-halfSize-lg-width;
+        width: $keyteki-card-halfSize-lg-height;
+      }
     }
 
     &.exhausted {
-        left: 11px;
-        top: -14px;
-        transform: rotate(90deg);
+      left: 19px;
+      top: -20px;
+      &.halfSize {
+        left: -7px;
+        top: 6px;
+      }
     }
+  }
+
+  &.x-large {
+    &.vertical {
+      height: $keyteki-card-xl-height;
+      width: $keyteki-card-xl-width;
+
+      &.halfSize {
+        height: $keyteki-card-halfSize-xl-height;
+        width: $keyteki-card-halfSize-xl-width;
+      }
+    }
+
+    &.horizontal {
+      height: $keyteki-card-xl-width;
+      width: $keyteki-card-xl-height;
+
+      &.halfSize {
+        height: $keyteki-card-halfSize-xl-width;
+        width: $keyteki-card-halfSize-xl-height;
+      }
+    }
+
+    &.exhausted {
+      left: 24px;
+      top: -26px;
+      &.halfSize {
+        left: -8px;
+        top: 8px;
+      }
+    }
+
+  }
+
+  &.vertical {
+    height: $keyteki-card-height;
+    width: $keyteki-card-width;
+
+    &.halfSize {
+      height: $keyteki-card-halfSize-height;
+      width: $keyteki-card-halfSize-width;
+    }
+  }
+
+  &.horizontal {
+    height: $keyteki-card-width;
+    width: $keyteki-card-height;
+
+    &.halfSize {
+      height: $keyteki-card-halfSize-width;
+      width: $keyteki-card-halfSize-height;
+    }
+  }
+
+  &.exhausted {
+    left: 11px;
+    top: -14px;
+    transform: rotate(90deg);
+  }
 }
 
 .card-name {
-    font-size: 10px;
-    line-height: 14px;
+  font-size: 10px;
+  line-height: 14px;
 }
 
 @keyframes glowing {
-    from {
-        background-color: #749a02;
-        box-shadow: 0 0 9px #333;
-    }
-    50% {
-        background-color: #91bd09;
-        box-shadow: 0 0 18px #91bd09;
-    }
-    to {
-        background-color: #749a02;
-        box-shadow: 0 0 9px #333;
-    }
+  from {
+    background-color: #749a02;
+    box-shadow: 0 0 9px #333;
+  }
+  50% {
+    background-color: #91bd09;
+    box-shadow: 0 0 18px #91bd09;
+  }
+  to {
+    background-color: #749a02;
+    box-shadow: 0 0 9px #333;
+  }
 }
 
 .game-card {
@@ -111,51 +160,89 @@
     overflow: hidden;
     z-index: $layer-cards;
 
-    &.small {
-        &.vertical {
-            height: $keyteki-card-sm-height;
-            width: $keyteki-card-sm-width;
-        }
-
-        &.horizontal {
-            height: $keyteki-card-sm-width;
-            width: $keyteki-card-sm-height;
-        }
-    }
-
-    &.large {
-        &.vertical {
-            height: $keyteki-card-lg-height;
-            width: $keyteki-card-lg-width;
-        }
-
-        &.horizontal {
-            height: $keyteki-card-lg-width;
-            width: $keyteki-card-lg-height;
-        }
-    }
-
-    &.x-large {
-        &.vertical {
-            height: $keyteki-card-xl-height;
-            width: $keyteki-card-xl-width;
-        }
-
-        &.horizontal {
-            height: $keyteki-card-xl-width;
-            width: $keyteki-card-xl-height;
-        }
-    }
-
+  &.small {
     &.vertical {
-        height: $keyteki-card-height;
-        width: $keyteki-card-width;
+      height: $keyteki-card-sm-height;
+      width: $keyteki-card-sm-width;
+      &.halfSize {
+        height: $keyteki-card-halfSize-sm-height;
+        width: $keyteki-card-halfSize-sm-width;
+      }
     }
 
     &.horizontal {
-        height: $keyteki-card-width;
-        width: $keyteki-card-height;
+      height: $keyteki-card-sm-width;
+      width: $keyteki-card-sm-height;
+      &.halfSize {
+        height: $keyteki-card-halfSize-sm-width;
+        width: $keyteki-card-halfSize-sm-height;
+      }
     }
+  }
+
+  &.large {
+    &.vertical {
+      height: $keyteki-card-lg-height;
+      width: $keyteki-card-lg-width;
+
+      &.halfSize {
+        height: $keyteki-card-halfSize-lg-height;
+        width: $keyteki-card-halfSize-lg-width;
+      }
+    }
+
+    &.horizontal {
+      height: $keyteki-card-lg-width;
+      width: $keyteki-card-lg-height;
+
+      &.halfSize {
+        height: $keyteki-card-halfSize-lg-width;
+        width: $keyteki-card-halfSize-lg-height;
+      }
+    }
+  }
+
+  &.x-large {
+    &.vertical {
+      height: $keyteki-card-xl-height;
+      width: $keyteki-card-xl-width;
+
+      &.halfSize {
+        height: $keyteki-card-halfSize-xl-height;
+        width: $keyteki-card-halfSize-xl-width;
+      }
+    }
+
+    &.horizontal {
+      height: $keyteki-card-xl-width;
+      width: $keyteki-card-xl-height;
+
+      &.halfSize {
+        height: $keyteki-card-halfSize-xl-width;
+        width: $keyteki-card-halfSize-xl-height;
+      }
+    }
+  }
+
+  &.vertical {
+    height: $keyteki-card-height;
+    width: $keyteki-card-width;
+
+    &.halfSize {
+      height: $keyteki-card-halfSize-height;
+      width: $keyteki-card-halfSize-width;
+    }
+  }
+
+  &.horizontal {
+    height: $keyteki-card-width;
+    width: $keyteki-card-height;
+
+    &.halfSize {
+      height: $keyteki-card-halfSize-width;
+      width: $keyteki-card-halfSize-height;
+    }
+  }
 
     &.selectable {
         box-shadow: 0 0 10px 1px fade-out(lighten(theme-color('primary'), 60%), 0.1);
@@ -213,61 +300,84 @@
 }
 
 .upgrade {
-    margin-top: -$upgrade-offset - $keyteki-card-height;
+  margin-top: -$upgrade-offset - $keyteki-card-height;
+  &.halfSize {
+    margin-top: -$upgrade-offset - $keyteki-card-halfSize-height;
+  }
 
-    &.small {
-        margin-top: -$upgrade-offset - $keyteki-card-sm-height;
+  &.small {
+    margin-top: -$upgrade-offset-sm - $keyteki-card-sm-height;
+    &.halfSize {
+      margin-top: -$upgrade-offset - $keyteki-card-halfSize-sm-height;
     }
+  }
 
-    &.large {
-        margin-top: -$upgrade-offset-lg - $keyteki-card-lg-height;
+  &.large {
+    margin-top: -$upgrade-offset-halfSize-lg - $keyteki-card-lg-height;
+    &.halfSize {
+      margin-top: -$upgrade-offset-halfSize-lg - $keyteki-card-halfSize-lg-height;
     }
+  }
 
-    &.x-large {
-        margin-top: -$upgrade-offset-xl - $keyteki-card-xl-height;
+  &.x-large {
+    margin-top: -$upgrade-offset-xl - $keyteki-card-xl-height;
+    &.halfSize {
+      margin-top: -$upgrade-offset-halfSize-xl - $keyteki-card-halfSize-xl-height;
     }
+  }
 }
-
 @for $i from 1 through 10 {
-    .upgrade-#{$i} {
-        z-index: $layer-cards - $i;
-    }
+  .upgrade-#{$i} {
+    z-index: $layer-cards - $i;
+  }
 }
 
 .card-ordering {
-    background: rgba(0, 0, 0, 0.8);
-    border: 1px solid rgba(0, 0, 0, 0.9);
-    border-radius: 4px;
-    color: white;
-    font-size: 16px;
-    font-weight: bold;
-    height: 26px;
-    left: 50%;
-    line-height: 24px;
-    margin: 0 0 0 -12px;
-    position: absolute;
-    text-align: center;
-    top: -28px;
-    width: 24px;
-    z-index: $layer-card-menu;
+  background: rgba(0, 0, 0, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.9);
+  border-radius: 4px;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  height: 26px;
+  left: 50%;
+  line-height: 24px;
+  margin: 0 0 0 -12px;
+  position: absolute;
+  text-align: center;
+  top: -28px;
+  width: 24px;
+  z-index: $layer-card-menu;
 }
 
 .underneath {
-    margin-left: 0;
-    position: relative;
-    z-index: $layer-cards - 1;
+  margin-left: 0;
+  position: relative;
+  z-index: $layer-cards - 1;
 
-    margin-top: $underneath-offset - $keyteki-card-height;
+  margin-top: $underneath-offset - $keyteki-card-height;
+  &.halfSize {
+    margin-top: $underneath-offset - $keyteki-card-halfSize-height;
+  }
 
-    &.small {
-        margin-top: $underneath-offset - $keyteki-card-sm-height;
+  &.small {
+    margin-top: $underneath-offset-sm - $keyteki-card-sm-height;
+    &.halfSize {
+      margin-top: $underneath-offset-halfSize-sm - $keyteki-card-halfSize-sm-height;
     }
+  }
 
-    &.large {
-        margin-top: $underneath-offset-lg - $keyteki-card-lg-height;
+  &.large {
+    margin-top: $underneath-offset-lg - $keyteki-card-lg-height;
+    &.halfSize {
+      margin-top: $underneath-offset-halfSize-lg - $keyteki-card-halfSize-lg-height;
     }
+  }
 
-    &.x-large {
-        margin-top: $underneath-offset-xl - $keyteki-card-xl-height;
+  &.x-large {
+    margin-top: $underneath-offset-xl - $keyteki-card-xl-height;
+    &.halfSize {
+      margin-top: $underneath-offset-halfSize-xl - $keyteki-card-halfSize-xl-height;
     }
+  }
 }

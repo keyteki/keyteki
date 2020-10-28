@@ -15,7 +15,7 @@ import './CardImage.scss';
  *
  * @param {CardImageProps} props
  */
-const CardImage = ({ card, cardBack, size }) => {
+const CardImage = ({ card, cardBack, size, halfSize }) => {
     let [cardImage, setCardImage] = useState(null);
     const { i18n } = useTranslation();
     const fabricRef = useRef();
@@ -34,10 +34,10 @@ const CardImage = ({ card, cardBack, size }) => {
                     fabricRef.current = await buildCard(canvas, {
                         ...card,
                         size,
-                        halfpint: card.location === 'play area',
-                        url: `/img/${card.location === 'play area' ? 'halfpints' : 'cards'}/${
+                        halfSize,
+                        url: `/img/${halfSize ? 'halfSize' : 'cards'}/${
                             i18n.language === 'en' ? '' : i18n.language
-                        }/${card.image}.${card.location === 'play area' ? 'jpg' : 'png'}`
+                        }/${card.image}.${halfSize ? 'jpg' : 'png'}`
                     });
                 }
             }

@@ -36,6 +36,7 @@ import './Profile.scss';
  * @typedef {Object} GameOptionsDetails
  * @property {boolean} orderForcedAbilities Whether or not to order forced abilities
  * @property {boolean} confirmOneClick Force a prompt for one click abilities
+ * @property {boolean} useHalfSizedCards Use halfSize card images
  */
 
 /**
@@ -70,7 +71,8 @@ const initialValues = {
     },
     gameOptions: {
         confirmOneClick: false,
-        orderForcedAbilities: false
+        orderForcedAbilities: false,
+        useHalfSizedCards: false
     }
 };
 

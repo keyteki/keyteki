@@ -27,10 +27,6 @@ $keyteki-card-xl-height: $keyteki-card-height * 2;
 $keyteki-card-sm-width: $keyteki-card-width * 0.6;
 $keyteki-card-sm-height: $keyteki-card-height * 0.6;
 
-$controlledBox: 0 0 1px 2px $controlled-border-color;
-
-$header-border: rgba(71, 58, 56, 0.95);
-
 $upgrade-offset: 15px;
 $upgrade-offset-sm: $upgrade-offset * 0.6;
 $upgrade-offset-lg: $upgrade-offset * 1.4;
@@ -40,3 +36,27 @@ $underneath-offset: 15px;
 $underneath-offset-sm: $underneath-offset * 0.6;
 $underneath-offset-lg: $underneath-offset * 1.4;
 $underneath-offset-xl: $underneath-offset * 2;
+$controlledBox: 0 0 1px 2px $controlled-border-color;
+
+$header-border: rgba(71, 58, 56, 0.95);
+
+//halfSize
+$keyteki-card-halfSize-width: 65px;
+$keyteki-card-halfSize-height: 56.875px;
+
+$keyteki-card-halfSize-lg-width: $keyteki-card-halfSize-width * 1.4;
+$keyteki-card-halfSize-lg-height: $keyteki-card-halfSize-height * 1.4;
+
+$keyteki-card-halfSize-xl-width: $keyteki-card-halfSize-width * 2;
+$keyteki-card-halfSize-xl-height: $keyteki-card-halfSize-height * 2;
+
+$keyteki-card-halfSize-sm-width: $keyteki-card-halfSize-width * 0.6;
+$keyteki-card-halfSize-sm-height: $keyteki-card-halfSize-height * 0.6;
+
+$upgrade-offset-halfSize-sm: $upgrade-offset * 0.6;
+$upgrade-offset-halfSize-lg: $upgrade-offset * 1.4;
+$upgrade-offset-halfSize-xl: $upgrade-offset * 2;
+
+$underneath-offset-halfSize-sm: $underneath-offset * 0.6;
+$underneath-offset-halfSize-lg: $underneath-offset * 1.4;
+$underneath-offset-halfSize-xl: $underneath-offset * 2;

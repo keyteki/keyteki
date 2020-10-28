@@ -8,7 +8,7 @@ const HouseIcons = {};
 const IdBackHouseIcons = {};
 const IdBackBlanksIcons = {};
 const SetIcons = {};
-const DeckCards = { halfpints: {}, cards: {} };
+const DeckCards = { halfSize: {}, cards: {} };
 const MaverickHouseImages = {};
 const MaverickHouseAmberImages = {};
 const EnhancementPipImages = {};
@@ -395,7 +395,7 @@ export const buildCardBack = async (CanvasFinal, deck, size, showDeckName) => {
  * @param image
  * @param url
  * @param size
- * @param halfpint
+ * @param halfSize
  * @param modifiedPower
  * @param tokens
  * @param card
@@ -409,7 +409,7 @@ export const buildCard = async (
         image,
         url,
         size,
-        halfpint,
+        halfSize,
         modifiedPower,
         tokens = {},
         ...card
@@ -432,11 +432,11 @@ export const buildCard = async (
         paintFirst: 'stroke'
     };
 
-    if (!DeckCards[halfpint ? 'halfpints' : 'cards'][image]) {
-        DeckCards[halfpint ? 'halfpints' : 'cards'][image] = await loadImage(url);
+    if (!DeckCards[halfSize ? 'halfSize' : 'cards'][image]) {
+        DeckCards[halfSize ? 'halfSize' : 'cards'][image] = await loadImage(url);
     }
     const width = 300;
-    const height = halfpint ? 262.5 : 420;
+    const height = halfSize ? 262.5 : 420;
 
     let canvas;
     try {
@@ -446,8 +446,8 @@ export const buildCard = async (
     }
     canvas.setWidth(width);
     canvas.setHeight(height);
-    DeckCards[halfpint ? 'halfpints' : 'cards'][image].scaleToWidth(width);
-    canvas.add(DeckCards[halfpint ? 'halfpints' : 'cards'][image]);
+    DeckCards[halfSize ? 'halfSize' : 'cards'][image].scaleToWidth(width);
+    canvas.add(DeckCards[halfSize ? 'halfSize' : 'cards'][image]);
     const amber = card.cardPrintedAmber ? card.cardPrintedAmber : card.amber;
     const bonusIcons = amber > 0 || (enhancements && enhancements.length > 0);
 
@@ -508,12 +508,12 @@ export const buildCard = async (
         let totalPower = modifiedPower - (tokens.power ? tokens.power : 0);
         if (modifiedPower && totalPower !== card.printedPower) {
             Tokens.ModifiedPower.scaleToWidth(60);
-            Tokens.ModifiedPower.set({ left: 10, top: 220 - (halfpint ? 25 : 0) });
+            Tokens.ModifiedPower.set({ left: 10, top: 220 - (halfSize ? 25 : 0) });
             canvas.add(Tokens.ModifiedPower);
             const powerText = new fabric.Text(totalPower.toString(), tokenFontProps);
             powerText.set({
                 left: 40,
-                top: 250 - (halfpint ? 25 : 0),
+                top: 250 - (halfSize ? 25 : 0),
                 shadow: new fabric.Shadow(shadowProps)
             });
             canvas.add(powerText);
@@ -521,7 +521,7 @@ export const buildCard = async (
         //armor overlay
         if (tokens.armor || card.printedArmor) {
             Tokens.armor.scaleToWidth(60);
-            Tokens.armor.set({ left: 230, top: 220 - (halfpint ? 25 : 0) });
+            Tokens.armor.set({ left: 230, top: 220 - (halfSize ? 25 : 0) });
             canvas.add(Tokens.armor);
             const armorText = new fabric.Text(
                 tokens.armor ? tokens.armor.toString() : '0',
@@ -529,7 +529,7 @@ export const buildCard = async (
             );
             armorText.set({
                 left: 260,
-                top: 250 - (halfpint ? 25 : 0),
+                top: 250 - (halfSize ? 25 : 0),
                 shadow: new fabric.Shadow(shadowProps)
             });
             canvas.add(armorText);
