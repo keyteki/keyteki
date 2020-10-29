@@ -22,7 +22,7 @@ const CardImage = ({ card, cardBack, size }) => {
 
     const ref = useCallback(
         async (node) => {
-            if (node) {
+            if (node && card) {
                 let canvas;
                 try {
                     canvas = new fabric.StaticCanvas(node);

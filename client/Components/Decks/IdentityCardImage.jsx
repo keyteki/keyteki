@@ -19,7 +19,7 @@ const IdentityCardImage = ({ deck, size }) => {
 
     const ref = useCallback(
         async (node) => {
-            if (node) {
+            if (node && deck) {
                 let canvas;
                 try {
                     canvas = new fabric.StaticCanvas(node);

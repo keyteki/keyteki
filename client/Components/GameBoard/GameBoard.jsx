@@ -81,13 +81,13 @@ export class GameBoard extends React.Component {
     }
 
     onMouseOver(card) {
-        if(card.image){
-            this.setState({cardToZoom: card});
+        if (card.image) {
+            this.setState({ cardToZoom: card });
         }
     }
 
     onMouseOut() {
-        this.setState({cardToZoom: null});
+        this.setState({ cardToZoom: null });
     }
 
     onCardClick(card) {
@@ -417,9 +417,7 @@ export class GameBoard extends React.Component {
                 </div>
                 <div className='main-window'>
                     {this.renderBoard(thisPlayer, otherPlayer)}
-                    {this.state.cardToZoom && (
-                        <CardZoom card={this.state.cardToZoom}/>
-                    )}
+                    {this.state.cardToZoom && <CardZoom card={this.state.cardToZoom} />}
                     <div className='right-side'>
                         <div className='prompt-area'>
                             <div className='inset-pane'>
@@ -492,7 +490,7 @@ GameBoard.propTypes = {
     sendGameMessage: PropTypes.func,
     socket: PropTypes.object,
     t: PropTypes.func,
-    user: PropTypes.object,
+    user: PropTypes.object
 };
 
 function mapStateToProps(state) {
