@@ -58,7 +58,7 @@ export class GameBoard extends React.Component {
         this.onMuteClick = this.onMuteClick.bind(this);
 
         this.state = {
-            cardToZoom: undefined,
+            cardToZoom: null,
             showActionWindowsMenu: false,
             showCardMenu: {},
             showMessages: true,
@@ -81,11 +81,13 @@ export class GameBoard extends React.Component {
     }
 
     onMouseOver(card) {
-        this.props.zoomCard(card);
+        if(card.image){
+            this.setState({cardToZoom: card});
+        }
     }
 
     onMouseOut() {
-        this.props.clearZoom();
+        this.setState({cardToZoom: null});
     }
 
     onCardClick(card) {
@@ -394,13 +396,6 @@ export class GameBoard extends React.Component {
         });
 
         let manualMode = this.props.currentGame.manualMode;
-        let cardToZoom;
-
-        if (this.props.cardToZoom && this.props.cards[this.props.cardToZoom.code]) {
-            cardToZoom = this.props.cards[this.props.cardToZoom.code];
-        } else if (this.props.cardToZoom) {
-            cardToZoom = this.props.cardToZoom;
-        }
 
         return (
             <div className={boardClass}>
@@ -422,11 +417,8 @@ export class GameBoard extends React.Component {
                 </div>
                 <div className='main-window'>
                     {this.renderBoard(thisPlayer, otherPlayer)}
-                    {cardToZoom && (
-                        <CardZoom
-                            cardName={cardToZoom ? cardToZoom.name : null}
-                            card={cardToZoom}
-                        />
+                    {this.state.cardToZoom && (
+                        <CardZoom card={this.state.cardToZoom}/>
                     )}
                     <div className='right-side'>
                         <div className='prompt-area'>
@@ -489,9 +481,7 @@ export class GameBoard extends React.Component {
 
 GameBoard.displayName = 'GameBoard';
 GameBoard.propTypes = {
-    cardToZoom: PropTypes.object,
     cards: PropTypes.object,
-    clearZoom: PropTypes.func,
     closeGameSocket: PropTypes.func,
     currentGame: PropTypes.object,
     dispatch: PropTypes.func,
@@ -503,12 +493,10 @@ GameBoard.propTypes = {
     socket: PropTypes.object,
     t: PropTypes.func,
     user: PropTypes.object,
-    zoomCard: PropTypes.func
 };
 
 function mapStateToProps(state) {
     return {
-        cardToZoom: state.cards.zoomCard,
         cards: state.cards.cards,
         currentGame: state.lobby.currentGame,
         packs: state.cards.packs,
