@@ -12,7 +12,7 @@ for (const colour of KeyColours) {
     };
 }
 
-const Keys = ({ cardSize, keys, manualMode }) => {
+const Keys = ({ keys, manualMode }) => {
     const { t } = useTranslation();
     const dispatch = useDispatch();
 
@@ -25,6 +25,7 @@ const Keys = ({ cardSize, keys, manualMode }) => {
     }).map((colour) => {
         return (
             <img
+                className={keys[colour] && KeyImages[colour].forged ? 'forged-key' : 'unforged-key'}
                 key={`key ${colour}`}
                 src={keys[colour] ? KeyImages[colour].forged : KeyImages[colour].unforged}
                 onClick={() => {
@@ -37,7 +38,7 @@ const Keys = ({ cardSize, keys, manualMode }) => {
         );
     });
 
-    return <div className={`keys ${cardSize}`}>{keysToRender}</div>;
+    return <div className={`state`}>{keysToRender}</div>;
 };
 
 export default Keys;

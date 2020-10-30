@@ -8,6 +8,9 @@
     display: flex;
     justify-content: flex-start;
     min-height: 0;
+    &.creatures {
+        justify-content: center;
+    }
 }
 
 .card-row .card.horizontal {
