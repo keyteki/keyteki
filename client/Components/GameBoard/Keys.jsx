@@ -25,7 +25,11 @@ const Keys = ({ keys, manualMode }) => {
     }).map((colour) => {
         return (
             <img
-                className={keys[colour] && KeyImages[colour].forged ? 'forged-key' : 'unforged-key'}
+                className={
+                    keys[colour] && KeyImages[colour].forged
+                        ? 'forged-key'
+                        : 'unforged-key' + ' img-fluid'
+                }
                 key={`key ${colour}`}
                 src={keys[colour] ? KeyImages[colour].forged : KeyImages[colour].unforged}
                 onClick={() => {
