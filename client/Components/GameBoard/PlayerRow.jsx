@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import CardPile from './CardPile';
 import DrawDeck from './DrawDeck';
 import Droppable from './Droppable';
-import Keys from './Keys';
 import SquishableCardPanel from './SquishableCardPanel';
 
 import './PlayerRow.scss';
@@ -18,7 +17,6 @@ const PlayerRow = ({
     drawDeck,
     isMe,
     hand,
-    keys,
     manualMode,
     numDeckCards,
     onCardClick,
@@ -133,7 +131,6 @@ const PlayerRow = ({
 
     return (
         <div className='player-home-row-container pt-1'>
-            {<Keys cardSize={cardSize} keys={keys} manualMode={manualMode} />}
             {renderDroppablePile('hand', handToRender)}
             {renderDroppablePile('archives', archivesToRender)}
             {deckList}

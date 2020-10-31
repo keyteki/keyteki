@@ -43,23 +43,24 @@ class MenuCommands {
                     game.addAlert('danger', '{0} stuns {1}', player, card);
                     card.stun();
                 }
-
                 break;
-            case 'addEnrage':
-                game.addAlert('danger', '{0} adds an enrage to {1}', player, card);
-                card.addToken('enrage', 1);
+            case 'enrage':
+                if (!card.tokens.enrage) {
+                    game.addAlert('danger', '{0} adds an enrage to {1}', player, card);
+                    card.addToken('enrage', 1);
+                } else {
+                    game.addAlert('danger', '{0} removes an enrage from {1}', player, card);
+                    card.removeToken('enrage', 1);
+                }
                 break;
-            case 'remEnrage':
-                game.addAlert('danger', '{0} removes an enrage from {1}', player, card);
-                card.removeToken('enrage', 1);
-                break;
-            case 'addWard':
-                game.addAlert('danger', '{0} adds a ward to {1}', player, card);
-                card.addToken('ward', 1);
-                break;
-            case 'remWard':
-                game.addAlert('danger', '{0} removes a ward from {1}', player, card);
-                card.removeToken('ward', 1);
+            case 'ward':
+                if (!card.tokens.ward) {
+                    game.addAlert('danger', '{0} adds a ward to {1}', player, card);
+                    card.addToken('ward', 1);
+                } else {
+                    game.addAlert('danger', '{0} removes a ward from {1}', player, card);
+                    card.removeToken('ward', 1);
+                }
                 break;
             case 'control':
                 if (player.opponent) {

@@ -15,8 +15,8 @@ class PlayerBoard extends React.Component {
         }, {});
 
         let rows = [];
-        let locations = groupedCards['artifact'] || [];
-        let characters = groupedCards['creature'] || [];
+        let artifacts = groupedCards['artifact'] || [];
+        let creatures = groupedCards['creature'] || [];
         let other = [];
 
         for (let key of Object.keys(groupedCards).filter(
@@ -27,16 +27,16 @@ class PlayerBoard extends React.Component {
 
         if (this.props.rowDirection === 'reverse') {
             if (other.length > 0) {
-                rows.push(other);
+                rows.push({ name: 'other', cards: other });
             }
 
-            rows.push(locations);
-            rows.push(characters);
+            rows.push({ name: 'artifacts', cards: artifacts });
+            rows.push({ name: 'creatures', cards: creatures });
         } else {
-            rows.push(characters);
-            rows.push(locations);
+            rows.push({ name: 'creatures', cards: creatures });
+            rows.push({ name: 'artifacts', cards: artifacts });
             if (other.length > 0) {
-                rows.push(other);
+                rows.push({ name: 'other', cards: other });
             }
         }
 
@@ -45,8 +45,8 @@ class PlayerBoard extends React.Component {
 
     renderRows(rows) {
         return rows.map((row, index) => (
-            <div className='card-row' key={`card-row-${index}`}>
-                {this.renderRow(row)}
+            <div className={`card-row ${row.name}`} key={`card-row-${index}`}>
+                {this.renderRow(row.cards)}
             </div>
         ));
     }
