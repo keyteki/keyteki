@@ -119,7 +119,7 @@ class User {
     }
 
     get avatar() {
-        return this.userData && this.userData.settings && this.userData.settings.avatar;
+        return this.userData && this.userData.avatar;
     }
 
     get patreon() {

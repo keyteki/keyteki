@@ -12,6 +12,8 @@ async function runServer() {
     let httpServer = server.init();
     let lobby = new Lobby(httpServer, options);
 
+    await lobby.init();
+
     pmx.action('status', (reply) => {
         var status = lobby.getStatus();
 

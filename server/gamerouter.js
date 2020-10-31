@@ -21,9 +21,6 @@ class GameRouter extends EventEmitter {
 
         this.subscriber.subscribe('nodemessage');
         this.subscriber.on('message', this.onMessage.bind(this));
-        this.subscriber.on('subscribe', () => {
-            this.sendCommand('hub', 'LOBBYHELLO');
-        });
 
         setInterval(this.checkTimeouts.bind(this), 1000 * 60);
     }

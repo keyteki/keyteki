@@ -4,15 +4,18 @@ const jwt = require('jsonwebtoken');
 const _ = require('underscore');
 const moment = require('moment');
 const redis = require('redis');
+const ECKey = require('ec-key');
+const { promisify } = require('util');
 
 const logger = require('./log');
 const version = moment(require('../version').releaseDate);
 const PendingGame = require('./pendinggame');
 const GameRouter = require('./gamerouter');
 const ConfigService = require('./services/ConfigService');
+const MessageService = require('./services/MessageService');
 const User = require('./models/User');
 const { sortBy } = require('./Array');
-const { detectBinary } = require('./util');
+const { detectBinary, httpRequest } = require('./util');
 
 class Lobby {
     constructor(server, options = {}) {
@@ -20,6 +23,7 @@ class Lobby {
         this.users = {};
         this.games = {};
         this.configService = options.configService || new ConfigService();
+        this.messageService = options.messageService || new MessageService(this.configService);
         this.router = options.router || new GameRouter(this.configService);
 
         this.router.on('onGameClosed', this.onGameClosed.bind(this));
@@ -34,20 +38,24 @@ class Lobby {
         this.io.use(this.handshake.bind(this));
         this.io.on('connection', this.onConnection.bind(this));
 
-        let host = this.configService.getValueForSection('lobby', 'host');
+        this.host = this.configService.getValueForSection('lobby', 'host');
 
         this.subscriber = redis.createClient(this.configService.getValue('redisUrl'));
         this.publisher = redis.createClient(this.configService.getValue('redisUrl'));
 
+        this.redis = this.subscriber.duplicate();
+
+        this.getAsync = promisify(this.redis.get).bind(this.redis);
+
         this.subscriber.on('error', this.onRedisError);
         this.publisher.on('error', this.onRedisError);
 
-        this.subscriber.subscribe('nodemessage');
+        this.subscriber.subscribe('hub');
         this.subscriber.on('message', this.onRedisMessage.bind(this));
         this.subscriber.on('subscribe', () => {
-            this.sendRedisCommand('hub', 'LOBBYHELLO', {
+            this.sendRedisCommand('lobby', 'LOBBYHELLO', {
                 version: version,
-                address: host,
+                address: this.host,
                 port: process.env.PORT || this.configService.getValueForSection('lobby', 'port')
             });
         });
@@ -71,6 +79,30 @@ class Lobby {
         // });
 
         setInterval(() => this.clearStalePendingGames(), 60 * 1000); // every minute
+    }
+
+    async init() {
+        let response = await httpRequest(
+            `https://identity.ipng.org.uk/.well-known/openid-configuration/jwks`,
+            { encoding: null }
+        );
+
+        let publicKeys = JSON.parse(response.toString());
+        const key = new ECKey(publicKeys.keys[0]);
+        this.signingKey = key.toString('pem');
+
+        let cardsStr = await this.getAsync('cards');
+        if (!cardsStr) {
+            logger.error('Unable to load card data from redis');
+            return;
+        }
+
+        let cards = JSON.parse(cardsStr).filter((c) => c.language === 'en');
+        this.cards = {};
+
+        for (let card of cards) {
+            this.cards[card.uuid.replace(/-/g, '')] = card;
+        }
     }
 
     // Events
@@ -164,45 +196,58 @@ class Lobby {
 
     handshake(ioSocket, next) {
         let versionInfo = undefined;
+        let token;
 
-        if (ioSocket.handshake.query.token && ioSocket.handshake.query.token !== 'undefined') {
-            jwt.verify(
-                ioSocket.handshake.query.token,
-                this.configService.getValue('secret'),
-                (err) => {
+        if (ioSocket.request.headers.authorization) {
+            let splitHeader = ioSocket.request.headers.authorization.split(' ');
+
+            if (splitHeader.length === 2 && splitHeader[0] === 'Bearer') {
+                token = splitHeader[1];
+            }
+        } else {
+            token = ioSocket.handshake.query.token;
+        }
+
+        if (token) {
+            jwt.verify(token, this.signingKey, (err, user) => {
+                if (err) {
+                    ioSocket.emit('authfailed');
+                    return;
+                }
+
+                this.redis.get(`user:${user.sub}`, (err, response) => {
                     if (err) {
-                        ioSocket.emit('authfailed');
+                        logger.error(err);
                         return;
                     }
 
-                    // this.userService
-                    //     .getUserById(user.id)
-                    //     .then((dbUser) => {
-                    //         let socket = this.sockets[ioSocket.id];
-                    //         if (!socket) {
-                    //             logger.error(
-                    //                 'Tried to authenticate socket for %s but could not find it',
-                    //                 dbUser.username
-                    //             );
-                    //             return;
-                    //         }
+                    if (!response) {
+                        logger.error(`Could not find user ${user.sub} in redis cache`);
+                        return;
+                    }
 
-                    //         if (dbUser.disabled) {
-                    //             ioSocket.disconnect();
-                    //             return;
-                    //         }
+                    let dbUser = new User(JSON.parse(response));
+                    let socket = this.sockets[ioSocket.id];
+                    if (!socket) {
+                        logger.error(
+                            'Tried to authenticate socket for %s but could not find it',
+                            dbUser.username
+                        );
+                        return;
+                    }
 
-                    //         ioSocket.request.user = dbUser.getWireSafeDetails();
-                    //         socket.user = dbUser;
-                    //         this.users[dbUser.username] = socket.user;
+                    if (dbUser.disabled) {
+                        ioSocket.disconnect();
+                        return;
+                    }
 
-                    //         this.doPostAuth(socket);
-                    //     })
-                    //     .catch((err) => {
-                    //         logger.error(err);
-                    //     });
-                }
-            );
+                    ioSocket.request.user = dbUser.getWireSafeDetails();
+                    socket.user = dbUser;
+                    this.users[dbUser.username] = socket.user;
+
+                    this.doPostAuth(socket);
+                });
+            });
         }
 
         if (ioSocket.handshake.query.version) {
@@ -337,7 +382,7 @@ class Lobby {
     sendFilteredMessages(socket) {
         this.messageService.getLastMessagesForUser(socket.user).then((messages) => {
             let messagesToSend = this.filterMessages(messages, socket);
-            socket.send('lobbymessages', messagesToSend.reverse());
+            socket.send('lobbymessages', messagesToSend);
         });
     }
 
@@ -387,16 +432,16 @@ class Lobby {
         this.sendFilteredMessages(socket);
         this.broadcastGameList(socket);
 
-        this.messageService
-            .getMotdMessage()
-            .then((message) => {
-                if (message) {
-                    socket.send('motd', message);
-                }
-            })
-            .catch((err) => {
-                logger.error(err);
-            });
+        // this.messageService
+        //     .getMotdMessage()
+        //     .then((message) => {
+        //         if (message) {
+        //             socket.send('motd', message);
+        //         }
+        //     })
+        //     .catch((err) => {
+        //         logger.error(err);
+        //     });
 
         if (!socket.user) {
             return;
@@ -717,82 +762,76 @@ class Lobby {
             return;
         }
 
-        return Promise.all([
-            this.cardService.getAllCards(),
-            isStandalone
-                ? this.deckService.getStandaloneDeckById(deckId)
-                : this.deckService.getById(deckId)
-        ])
-            .then((results) => {
-                let [cards, deck] = results;
-
-                for (let card of deck.cards) {
-                    let house = card.house;
-
-                    card.card = cards[card.id];
-                    if (house) {
-                        card.house = house;
-                    }
-                }
-
-                let deckUsageLevel = 0;
-                if (
-                    deck.usageCount >
-                    this.configService.getValueForSection('lobby', 'lowerDeckThreshold')
-                ) {
-                    deckUsageLevel = 1;
-                }
-
-                if (
-                    deck.usageCount >
-                    this.configService.getValueForSection('lobby', 'middleDeckThreshold')
-                ) {
-                    deckUsageLevel = 2;
-                }
-
-                if (
-                    deck.usageCount >
-                    this.configService.getValueForSection('lobby', 'upperDeckThreshold')
-                ) {
-                    deckUsageLevel = 3;
-                }
-
-                let hasEnhancementsSet = true;
-                let hasEnhancements = false;
-                if (deck.cards.some((c) => c.enhancements && c.enhancements[0] === '')) {
-                    hasEnhancementsSet = false;
-                }
-
-                if (deck.cards.some((c) => c.enhancements)) {
-                    hasEnhancements = true;
-                }
-
-                if (isStandalone) {
-                    deck.verified = true;
-                }
-
-                deck.status = {
-                    basicRules: hasEnhancementsSet,
-                    notVerified: hasEnhancements && !deck.verified,
-                    extendedStatus: [],
-                    noUnreleasedCards: true,
-                    officialRole: true,
-                    usageLevel: deckUsageLevel,
-                    verified: !!deck.verified,
-                    impossible: isStandalone && deck.id >= 5
-                };
-
-                deck.usageCount = 0;
-
-                game.selectDeck(socket.user.username, deck);
-
-                this.sendGameState(game);
-            })
-            .catch((err) => {
+        this.redis.get(`deck:${deckId}`, (err, response) => {
+            if (err) {
                 logger.info(err);
 
                 return;
-            });
+            }
+
+            let deck = JSON.parse(response);
+            for (let card of deck.cards) {
+                let house = card.house;
+
+                card.card = this.cards[card.id];
+                if (house) {
+                    card.house = house;
+                }
+            }
+
+            let deckUsageLevel = 0;
+            if (
+                deck.usageCount >
+                this.configService.getValueForSection('lobby', 'lowerDeckThreshold')
+            ) {
+                deckUsageLevel = 1;
+            }
+
+            if (
+                deck.usageCount >
+                this.configService.getValueForSection('lobby', 'middleDeckThreshold')
+            ) {
+                deckUsageLevel = 2;
+            }
+
+            if (
+                deck.usageCount >
+                this.configService.getValueForSection('lobby', 'upperDeckThreshold')
+            ) {
+                deckUsageLevel = 3;
+            }
+
+            let hasEnhancementsSet = true;
+            let hasEnhancements = false;
+            if (deck.cards.some((c) => c.enhancements && c.enhancements[0] === '')) {
+                hasEnhancementsSet = false;
+            }
+
+            if (deck.cards.some((c) => c.enhancements)) {
+                hasEnhancements = true;
+            }
+
+            if (isStandalone) {
+                deck.verified = true;
+            }
+
+            deck.status = {
+                basicRules: hasEnhancementsSet,
+                notVerified: hasEnhancements && !deck.verified,
+                extendedStatus: [],
+                noUnreleasedCards: true,
+                officialRole: true,
+                usageLevel: deckUsageLevel,
+                verified: !!deck.verified,
+                impossible: isStandalone && deck.id >= 5
+            };
+
+            deck.usageCount = 0;
+
+            game.selectDeck(socket.user.username, deck);
+
+            this.sendGameState(game);
+        });
     }
 
     onConnectFailed(socket) {
@@ -1122,24 +1161,31 @@ class Lobby {
      * @param {string} msg
      */
     onRedisMessage(channel, msg) {
-        if (channel !== 'nodemessage') {
+        if (channel !== 'hub') {
             logger.warn(`Message '${msg}' received for unknown channel ${channel}`);
             return;
         }
 
-        // let message;
-        // try {
-        //     message = JSON.parse(msg);
-        // } catch (err) {
-        //     logger.info(
-        //         `Error decoding redis message. Channel ${channel}, message '${msg}' %o`,
-        //         err
-        //     );
-        //     return;
-        // }
+        let message;
+        try {
+            message = JSON.parse(msg);
+        } catch (err) {
+            logger.info(
+                `Error decoding redis message. Channel ${channel}, message '${msg}' %o`,
+                err
+            );
+            return;
+        }
 
-        // switch (message.command) {
-        // }
+        switch (message.command) {
+            case 'HUBHELLO':
+                this.sendRedisCommand('lobby', 'LOBBYHELLO', {
+                    version: version,
+                    address: this.host,
+                    port: process.env.PORT || this.configService.getValueForSection('lobby', 'port')
+                });
+                break;
+        }
     }
 
     /**
