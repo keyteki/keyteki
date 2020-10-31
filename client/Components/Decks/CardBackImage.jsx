@@ -8,7 +8,7 @@ const CardBackImage = ({ deck, showDeckName = true, size }) => {
     const fabricRef = useRef();
     const ref = useCallback(
         async (node) => {
-            if (node) {
+            if (node && deck) {
                 let canvas;
                 try {
                     canvas = new fabric.StaticCanvas(node);
