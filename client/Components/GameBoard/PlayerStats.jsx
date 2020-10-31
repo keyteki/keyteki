@@ -197,7 +197,7 @@ export class PlayerStats extends React.Component {
                                 </span>
                             </a>
                         </div>
-                        <div>
+                        <div className='state'>
                             <a href='#' onClick={this.props.onMessagesClick} className='pl-1'>
                                 <FontAwesomeIcon icon={faComment}></FontAwesomeIcon>
                                 {this.props.numMessages > 0 && (
