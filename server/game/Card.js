@@ -25,7 +25,7 @@ class Card extends EffectSource {
         this.image = cardData.image;
         this.setDefaultController(owner);
 
-        this.printedType = cardData.type;
+        this.printedType = cardData.type.toLowerCase();
 
         this.tokens = {};
 
@@ -52,7 +52,7 @@ class Card extends EffectSource {
             });
         }
 
-        this.printedHouse = cardData.house;
+        this.printedHouse = cardData.house.code;
         this.cardPrintedAmber = cardData.amber;
         this.maverick = cardData.maverick;
         this.anomaly = cardData.anomaly;

@@ -1,5 +1,3 @@
-const _ = require('underscore');
-
 const cards = require('./cards');
 const Card = require('./Card.js');
 const logger = require('../log.js');
@@ -16,7 +14,7 @@ class Deck {
                 card: card.card
             };
             if (!result.card) {
-                logger.error(`Corrupt deck ${card.id} ${card}`);
+                logger.error(`Corrupt deck ${card.identity} ${card}`);
                 return result;
             }
 
@@ -46,7 +44,7 @@ class Deck {
     }
 
     prepare(player) {
-        var result = {
+        let result = {
             houses: [],
             cards: []
         };
@@ -66,31 +64,29 @@ class Deck {
     }
 
     eachRepeatedCard(cards, func) {
-        _.each(cards, (cardEntry) => {
-            for (var i = 0; i < cardEntry.count; i++) {
-                func(cardEntry.card);
-            }
-        });
+        for (let cardEntry of Object.values(cards)) {
+            func(cardEntry.card);
+        }
     }
 
     createCard(player, cardData) {
-        if (!cardData || !cardData.id) {
+        if (!cardData || !cardData.identity) {
             logger.error(`no cardData for ${JSON.stringify(this.data)}`);
             return;
         }
 
-        cardData.image = cardData.cardImage || cardData.id;
+        cardData.image = cardData.cardImage || cardData.uuid.replace(/-/g, '');
         if (cardData.maverick) {
             cardData.house = cardData.maverick;
         } else if (cardData.anomaly) {
             cardData.house = cardData.anomaly;
         }
 
-        if (!cards[cardData.id]) {
+        if (!cards[cardData.identity]) {
             return new Card(player, cardData);
         }
 
-        let cardClass = cards[cardData.id];
+        let cardClass = cards[cardData.identity];
         return new cardClass(player, cardData);
     }
 }
