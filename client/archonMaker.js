@@ -52,7 +52,7 @@ const shadowProps = {
     blur: 4
 };
 const defaultCardWidth = 65;
-const specialCardBack = 'halloween';
+const specialCardBack = null;
 
 export const loadImage = (url) => {
     return new Promise((resolve, reject) => {
