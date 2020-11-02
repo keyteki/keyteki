@@ -136,7 +136,7 @@ class User {
     }
 
     hasUserBlocked(otherUser) {
-        return this.blockList.includes(otherUser.username.toLowerCase());
+        return this.blockList.includes(otherUser.toLowerCase());
     }
 
     getWireSafeDetails() {

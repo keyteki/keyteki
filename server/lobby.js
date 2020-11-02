@@ -60,24 +60,6 @@ class Lobby {
             });
         });
 
-        // this.messageService.on('messageDeleted', (messageId, user) => {
-        //     for (let socket of Object.values(this.sockets)) {
-        //         if (socket.user === user || (socket.user && socket.user.hasUserBlocked(user))) {
-        //             continue;
-        //         }
-
-        //         if (
-        //             socket.user &&
-        //             socket.user.permissions &&
-        //             socket.user.permissions.canModerateChat
-        //         ) {
-        //             socket.send('removemessage', messageId, user.username);
-        //         } else {
-        //             socket.send('removemessage', messageId);
-        //         }
-        //     }
-        // });
-
         setInterval(() => this.clearStalePendingGames(), 60 * 1000); // every minute
     }
 
@@ -321,7 +303,7 @@ class Lobby {
 
         if (socket.user) {
             filteredUsers = userList.filter((user) => {
-                return !socket.user.hasUserBlocked(user);
+                return !socket.user.hasUserBlocked(user.username);
             });
         }
 
@@ -330,7 +312,10 @@ class Lobby {
 
     broadcastUserMessage(user, message) {
         for (let socket of Object.values(this.sockets)) {
-            if (socket.user === user || (socket.user && socket.user.hasUserBlocked(user))) {
+            if (
+                socket.user === user ||
+                (socket.user && socket.user.hasUserBlocked(user.username))
+            ) {
                 continue;
             }
 
@@ -392,7 +377,7 @@ class Lobby {
         }
 
         return messages.filter((message) => {
-            return !socket.user.hasUserBlocked(message.user);
+            return !socket.user.hasUserBlocked(message.user.username);
         });
     }
 
@@ -407,7 +392,6 @@ class Lobby {
         socket.registerEvent('getsealeddeck', this.onGetSealedDeck.bind(this));
         socket.registerEvent('joingame', this.onJoinGame.bind(this));
         socket.registerEvent('leavegame', this.onLeaveGame.bind(this));
-        socket.registerEvent('lobbychat', this.onLobbyChat.bind(this));
         socket.registerEvent('motd', this.onMotdChange.bind(this));
         socket.registerEvent('newgame', this.onNewGame.bind(this));
         socket.registerEvent('removegame', this.onRemoveGame.bind(this));
@@ -694,28 +678,6 @@ class Lobby {
 
         game.chat(socket.user.username, message);
         this.sendGameState(game);
-    }
-
-    async onLobbyChat(socket, message) {
-        if (
-            Date.now() - socket.user.registered <
-            this.configService.getValue('minLobbyChatTime') * 1000
-        ) {
-            socket.send('nochat');
-            return;
-        }
-
-        let chatMessage = { message: message, time: new Date() };
-        let newMessage = await this.messageService.addMessage(chatMessage, socket.user);
-        newMessage.user = socket.user.getShortSummary();
-
-        for (let s of Object.values(this.sockets)) {
-            if (s.user && s.user.hasUserBlocked(socket.user)) {
-                continue;
-            }
-
-            s.send('lobbychat', newMessage);
-        }
     }
 
     onGetSealedDeck(socket, gameId) {
@@ -1185,6 +1147,39 @@ class Lobby {
                     port: process.env.PORT || this.configService.getValueForSection('lobby', 'port')
                 });
                 break;
+            case 'LOBBYCHAT':
+                for (let socket of Object.values(this.sockets)) {
+                    if (socket.user && socket.user.hasUserBlocked(message.arg.user.username)) {
+                        continue;
+                    }
+
+                    socket.send('lobbychat', message.arg);
+                }
+                break;
+            case 'REMOVEMESSAGE':
+                var deletedMessage = message.arg;
+                for (let socket of Object.values(this.sockets)) {
+                    if (
+                        socket.user.usrename === deletedMessage.user.username ||
+                        (socket.user && socket.user.hasUserBlocked(deletedMessage.user.username))
+                    ) {
+                        continue;
+                    }
+
+                    if (
+                        socket.user &&
+                        socket.user.permissions &&
+                        socket.user.permissions.canModerateChat
+                    ) {
+                        socket.send(
+                            'removemessage',
+                            deletedMessage.id //,
+                            // deletedMessage.deletedBy.username
+                        );
+                    } else {
+                        socket.send('removemessage', deletedMessage.id);
+                    }
+                }
         }
     }
 
