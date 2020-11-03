@@ -197,38 +197,47 @@ class Lobby {
                     return;
                 }
 
-                this.redis.get(`user:${user.sub}`, (err, response) => {
-                    if (err) {
-                        logger.error(err);
+                Promise.all([
+                    this.getAsync(`user:${user.sub}`),
+                    this.getAsync(`userinfos:${user.sub}`)
+                ])
+                    .then(([userResponse, userInfoResponse]) => {
+                        if (!userResponse) {
+                            logger.error(`Could not find user ${user.sub} in redis cache`);
+                            return;
+                        }
+
+                        if (!userInfoResponse) {
+                            logger.error(`Could not find userinfo ${user.sub} in redis cache`);
+                            return;
+                        }
+
+                        let dbUser = new User(JSON.parse(userResponse));
+                        dbUser.mapPermissions(JSON.parse(userInfoResponse));
+                        let socket = this.sockets[ioSocket.id];
+                        if (!socket) {
+                            logger.error(
+                                'Tried to authenticate socket for %s but could not find it',
+                                dbUser.username
+                            );
+                            return;
+                        }
+
+                        if (dbUser.disabled) {
+                            ioSocket.disconnect();
+                            return;
+                        }
+
+                        ioSocket.request.user = dbUser.getWireSafeDetails();
+                        socket.user = dbUser;
+                        this.users[dbUser.username] = socket.user;
+
+                        this.doPostAuth(socket);
+                    })
+                    .catch((err) => {
+                        logger.error('Error fetching user or userinfo', err);
                         return;
-                    }
-
-                    if (!response) {
-                        logger.error(`Could not find user ${user.sub} in redis cache`);
-                        return;
-                    }
-
-                    let dbUser = new User(JSON.parse(response));
-                    let socket = this.sockets[ioSocket.id];
-                    if (!socket) {
-                        logger.error(
-                            'Tried to authenticate socket for %s but could not find it',
-                            dbUser.username
-                        );
-                        return;
-                    }
-
-                    if (dbUser.disabled) {
-                        ioSocket.disconnect();
-                        return;
-                    }
-
-                    ioSocket.request.user = dbUser.getWireSafeDetails();
-                    socket.user = dbUser;
-                    this.users[dbUser.username] = socket.user;
-
-                    this.doPostAuth(socket);
-                });
+                    });
             });
         }
 
@@ -1171,11 +1180,7 @@ class Lobby {
                         socket.user.permissions &&
                         socket.user.permissions.canModerateChat
                     ) {
-                        socket.send(
-                            'removemessage',
-                            deletedMessage.id //,
-                            // deletedMessage.deletedBy.username
-                        );
+                        socket.send('removemessage', deletedMessage.id, deletedMessage.deletedBy);
                     } else {
                         socket.send('removemessage', deletedMessage.id);
                     }

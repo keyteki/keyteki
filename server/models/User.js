@@ -188,6 +188,20 @@ class User {
 
         return user;
     }
+
+    mapPermissions(userInfo) {
+        if (!this.userData.permissions) {
+            this.userData.permissions = {};
+        }
+
+        for (let role of userInfo.role) {
+            switch (role) {
+                case 'ChatManager':
+                    this.userData.permissions.canModerateChat = true;
+                    break;
+            }
+        }
+    }
 }
 
 module.exports = User;
