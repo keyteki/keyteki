@@ -32,6 +32,7 @@ class GameSocket extends EventEmitter {
 
         this.subscriber.subscribe(this.nodeName);
         this.subscriber.subscribe('allnodes');
+        this.subscriber.subscribe('hub');
         this.subscriber.on('subscribe', this.onConnect.bind(this));
         this.subscriber.on('message', this.onMessage.bind(this));
 
@@ -99,7 +100,7 @@ class GameSocket extends EventEmitter {
      * @param {string} msg
      */
     onMessage(channel, msg) {
-        if (channel !== 'allnodes' && channel !== this.nodeName) {
+        if (!['allnodes', 'hub', this.nodeName].includes(channel)) {
             logger.warn(`Message '${msg}' received for unknown channel ${channel}`);
             return;
         }
@@ -135,8 +136,13 @@ class GameSocket extends EventEmitter {
                 logger.error('Got told to restart, executing pm2 restart..');
                 spawnSync('pm2', ['restart', this.nodeName]);
                 break;
-            case 'LOBBYHELLO':
+            case 'HUBHELLO':
                 this.emit('onGameSync', this.onGameSync.bind(this));
+                break;
+            default:
+                logger.warn(
+                    `Unknonwn message received on channel ${channel} - ${message.command} (${msg})`
+                );
                 break;
         }
     }

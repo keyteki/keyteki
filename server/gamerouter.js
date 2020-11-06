@@ -1,5 +1,6 @@
 const redis = require('redis');
 const EventEmitter = require('events');
+const { promisify } = require('util');
 
 const logger = require('./log');
 const { detectBinary } = require('./util');
@@ -12,9 +13,9 @@ class GameRouter extends EventEmitter {
         super();
 
         this.workers = {};
-
-        this.subscriber = redis.createClient(configService.getValue('redisUrl'));
-        this.publisher = redis.createClient(configService.getValue('redisUrl'));
+        this.redis = redis.createClient(configService.getValue('redisUrl'));
+        this.subscriber = this.redis.duplicate();
+        this.publisher = this.redis.duplicate();
 
         this.subscriber.on('error', this.onError);
         this.publisher.on('error', this.onError);
@@ -22,10 +23,14 @@ class GameRouter extends EventEmitter {
         this.subscriber.subscribe('nodemessage');
         this.subscriber.on('message', this.onMessage.bind(this));
 
-        setInterval(this.checkTimeouts.bind(this), 1000 * 60);
+        this.hGetAllAsync = promisify(this.redis.hgetall).bind(this.redis);
     }
 
     // External methods
+    addNode(node) {
+        this.workers[node] = node;
+    }
+
     /**
      * @param {import("./pendinggame.js")} game
      */
@@ -55,7 +60,17 @@ class GameRouter extends EventEmitter {
         });
     }
 
-    getNextAvailableGameNode() {
+    async getNextAvailableGameNode() {
+        let nodeNames = Object.values(this.workers);
+
+        let nodes = [];
+        let lowestNode;
+        let lowestCount;
+
+        for (let node of nodeNames) {
+            let nodeData = await this.hGetAllAsync(`node:${node}`);
+        }
+
         if (Object.values(this.workers).length === 0) {
             return undefined;
         }
@@ -297,27 +312,27 @@ class GameRouter extends EventEmitter {
         }
     }
 
-    checkTimeouts() {
-        const currentTime = Date.now();
-        const pingTimeout = 1 * 60 * 1000;
+    // checkTimeouts() {
+    //     const currentTime = Date.now();
+    //     const pingTimeout = 1 * 60 * 1000;
 
-        for (const worker of Object.values(this.workers)) {
-            if (worker.disconnected) {
-                continue;
-            }
+    //     for (const worker of Object.values(this.workers)) {
+    //         if (worker.disconnected) {
+    //             continue;
+    //         }
 
-            if (worker.pingSent && currentTime - worker.pingSent > pingTimeout) {
-                logger.info(`worker ${worker.identity} timed out`);
-                worker.disconnected = true;
-                this.emit('onWorkerTimedOut', worker.identity);
-            } else if (!worker.pingSent) {
-                if (currentTime - worker.lastMessage > pingTimeout) {
-                    worker.pingSent = currentTime;
-                    this.sendCommand(worker.identity, 'PING');
-                }
-            }
-        }
-    }
+    //         if (worker.pingSent && currentTime - worker.pingSent > pingTimeout) {
+    //             logger.info(`worker ${worker.identity} timed out`);
+    //             worker.disconnected = true;
+    //             this.emit('onWorkerTimedOut', worker.identity);
+    //         } else if (!worker.pingSent) {
+    //             if (currentTime - worker.lastMessage > pingTimeout) {
+    //                 worker.pingSent = currentTime;
+    //                 this.sendCommand(worker.identity, 'PING');
+    //             }
+    //         }
+    //     }
+    // }
 }
 
 module.exports = GameRouter;

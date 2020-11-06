@@ -51,6 +51,7 @@ class Lobby {
         this.publisher.on('error', this.onRedisError);
 
         this.subscriber.subscribe('hub');
+        this.subscriber.subscribe('hublobby');
         this.subscriber.on('message', this.onRedisMessage.bind(this));
         this.subscriber.on('subscribe', () => {
             this.sendRedisCommand('lobby', 'LOBBYHELLO', {
@@ -1132,7 +1133,7 @@ class Lobby {
      * @param {string} msg
      */
     onRedisMessage(channel, msg) {
-        if (channel !== 'hub') {
+        if (channel !== 'hub' && channel !== 'hublobby') {
             logger.warn(`Message '${msg}' received for unknown channel ${channel}`);
             return;
         }
@@ -1185,6 +1186,15 @@ class Lobby {
                         socket.send('removemessage', deletedMessage.id);
                     }
                 }
+                break;
+            case 'NEWNODE':
+                this.router.addNode(message.arg);
+                break;
+            default:
+                logger.warn(
+                    `Unknonwn message received on channel ${channel} - ${message.command} (${msg})`
+                );
+                break;
         }
     }
 
