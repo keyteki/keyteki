@@ -23,7 +23,7 @@ class GameRouter extends EventEmitter {
         this.subscriber.subscribe('nodemessage');
         this.subscriber.on('message', this.onMessage.bind(this));
 
-        this.hGetAllAsync = promisify(this.redis.hgetall).bind(this.redis);
+        this.getAsync = promisify(this.redis.get).bind(this.redis);
     }
 
     // External methods
@@ -34,8 +34,8 @@ class GameRouter extends EventEmitter {
     /**
      * @param {import("./pendinggame.js")} game
      */
-    startGame(game) {
-        let node = this.getNextAvailableGameNode();
+    async startGame(game) {
+        let node = await this.getNextAvailableGameNode();
         if (!node) {
             logger.error('Could not find new node for game');
 
@@ -44,6 +44,7 @@ class GameRouter extends EventEmitter {
 
         node.numGames++;
 
+        this.sendCommand('lobby', 'SAVEGAME', game.getSaveState());
         this.sendCommand(node.identity, 'STARTGAME', game.getStartGameDetails());
 
         return node;
@@ -61,23 +62,24 @@ class GameRouter extends EventEmitter {
     }
 
     async getNextAvailableGameNode() {
-        let nodeNames = Object.values(this.workers);
-
-        let nodes = [];
-        let lowestNode;
-        let lowestCount;
-
-        for (let node of nodeNames) {
-            let nodeData = await this.hGetAllAsync(`node:${node}`);
+        let workers = await this.getAsync('gamenodes');
+        if (!workers) {
+            return null;
         }
 
-        if (Object.values(this.workers).length === 0) {
-            return undefined;
+        workers = Object.values(JSON.parse(workers));
+
+        if (workers.length === 0) {
+            return null;
         }
 
         let returnedWorker;
-        for (const worker of Object.values(this.workers)) {
-            if (worker.disabled || worker.disconnected || worker.numGames >= worker.maxGames) {
+        for (const worker of workers) {
+            if (
+                worker.disabled ||
+                worker.disconnected ||
+                (worker.maxGames && worker.numGames >= worker.maxGames)
+            ) {
                 continue;
             }
 

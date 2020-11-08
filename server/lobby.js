@@ -576,7 +576,7 @@ class Lobby {
         this.broadcastGameMessage('updategame', game);
     }
 
-    onStartGame(socket, gameId) {
+    async onStartGame(socket, gameId) {
         let game = this.games[gameId];
 
         if (!game || game.started) {
@@ -595,7 +595,7 @@ class Lobby {
             return;
         }
 
-        let gameNode = this.router.startGame(game);
+        let gameNode = await this.router.startGame(game);
         if (!gameNode) {
             socket.send('gameerror', 'No game nodes available. Try again later.');
             return;

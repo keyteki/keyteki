@@ -60,7 +60,8 @@ class PendingGame {
             return {
                 houses: player.houses,
                 name: player.name,
-                wins: player.wins
+                wins: player.wins,
+                deckId: player.deck.id
             };
         });
 
@@ -304,9 +305,9 @@ class PendingGame {
 
         let players = Object.values(this.players);
         return (
-            !this.owner.hasUserBlocked(user) &&
-            !user.hasUserBlocked(this.owner) &&
-            players.every((player) => !player.user.hasUserBlocked(user))
+            !this.owner.hasUserBlocked(user.username) &&
+            !user.hasUserBlocked(this.owner.username) &&
+            players.every((player) => !player.user.hasUserBlocked(user.username))
         );
     }
 

@@ -27,10 +27,6 @@ class Socket extends EventEmitter {
         this.socket.on(event, this.onSocketEvent.bind(this, callback));
     }
 
-    registerAsyncEvent(event, callback) {
-        this.socket.on(event, this.onSocketEvent.bind(this, callback));
-    }
-
     joinChannel(channelName) {
         this.socket.join(channelName);
     }
