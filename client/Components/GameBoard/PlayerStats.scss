@@ -30,9 +30,17 @@
     height: 27px;
     padding-left: 7px;
     padding-right: 7px;
-    border-right: dotted 2px #1c3774;
+    border-right: dotted 2px #324e8e;
     display: flex;
     align-items: center;
+
+    a{
+        color: $body-color;
+    }
+
+    a:hover{
+        color: theme-color('secondary');
+    }
 
     span {
         padding-right: 3px;
@@ -105,4 +113,8 @@
 .inactive-house {
     opacity: 0.2;
     filter: alpha(opacity=20);
+}
+.unforged-key {
+    opacity: 0.6;
+    filter: alpha(opacity=60);
 }

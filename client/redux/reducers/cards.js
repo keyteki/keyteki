@@ -97,14 +97,6 @@ export default function (state = { decks: [], cards: {} }, action) {
             return Object.assign({}, state, {
                 factions: factions
             });
-        case 'ZOOM_CARD':
-            return Object.assign({}, state, {
-                zoomCard: action.card
-            });
-        case 'CLEAR_ZOOM':
-            return Object.assign({}, state, {
-                zoomCard: undefined
-            });
         case Decks.DecksReceived:
             processDecks(action.response.decks, state);
             newState = Object.assign({}, state, {
