@@ -51,8 +51,8 @@ SELECT pg_catalog.setval('public."Roles_Id_seq"', 12, true);
 
 -- Add default admin user (NOT FOR PRODUCTION)
 
-INSERT INTO public."Users" ("Id", "Password", "Registered", "Username", "Email", "Settings_Background", "Settings_CardSize", 
-    "Settings_OrderAbilities", "Settings_ConfirmOneClick", "Verified", "Disabled", "RegisterIp") VALUES 
+INSERT INTO public."Users" ("Id", "Password", "Registered", "Username", "Email", "Settings_Background", "Settings_CardSize",
+    "Settings_OrderAbilities", "Settings_ConfirmOneClick", "Settings_UseHalfSizedCards", "Verified", "Disabled", "RegisterIp") VALUES
     (1, '$2b$10$T7eqHoi26C3ADmTDbGOYseTbsrPdCoNFkMKmgh21T4Y6i9NVylgxG', NOW(), 'admin', 'admin@example.com', 'Brobnar', 'normal', False, True, True,
      False, '127.0.0.1');
 

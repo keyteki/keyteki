@@ -59,6 +59,7 @@ class PlayerBoard extends React.Component {
                 canDrag={this.props.manualMode}
                 card={card}
                 disableMouseOver={card.facedown && !card.code}
+                halfSize={this.props.user.settings.optionSettings.useHalfSizedCards}
                 onClick={this.props.onCardClick}
                 onMenuItemClick={this.props.onMenuItemClick}
                 onMouseOut={this.props.onMouseOut}

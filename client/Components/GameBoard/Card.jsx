@@ -16,6 +16,7 @@ const Card = ({
     cardBack,
     className,
     disableMouseOver,
+    halfSize = false,
     onClick,
     onMenuItemClick,
     onMouseOut,
@@ -29,6 +30,7 @@ const Card = ({
     const sizeClass = {
         [size]: size !== 'normal'
     };
+
     const [showMenu, setShowMenu] = useState(false);
 
     const [{ dragOffset, isDragging }, drag, preview] = useDrag({
@@ -72,14 +74,13 @@ const Card = ({
             return null;
         }
 
-        let index = 1;
-        let upgrades = card.upgrades.map((upgrade) => {
+        let upgrades = card.upgrades.map((upgrade, index) => {
             let returnedupgrade = (
                 <Card
                     key={upgrade.uuid}
                     source={source}
                     card={upgrade}
-                    className={classNames('upgrade', `upgrade-${index}`)}
+                    className={classNames('upgrade', `upgrade-${index + 1}`)}
                     wrapped={false}
                     onMouseOver={
                         !disableMouseOver && onMouseOver
@@ -90,10 +91,10 @@ const Card = ({
                     onClick={onClick}
                     onMenuItemClick={onMenuItemClick}
                     size={size}
+                    halfSize={halfSize}
                 />
             );
 
-            index += 1;
             return returnedupgrade;
         });
 
@@ -183,6 +184,7 @@ const Card = ({
             `card-type-${card.type}`,
             className,
             sizeClass,
+            halfSize ? 'halfSize' : '',
             statusClass,
             {
                 'custom-card': card.code && card.code.startsWith('custom'),
@@ -199,12 +201,12 @@ const Card = ({
                 taunt: card.taunt && source === 'play area'
             }
         );
-        let imageClass = classNames('card-image vertical', sizeClass, {
+        let imageClass = classNames('card-image vertical', sizeClass, halfSize ? 'halfSize' : '', {
             exhausted: orientation === 'exhausted' || card.exhausted || orientation === 'horizontal'
         });
         let image = card ? (
             <div className={imageClass}>
-                <CardImage card={card} cardBack={cardBack} size={size} />
+                <CardImage card={card} cardBack={cardBack} size={size} halfSize={halfSize} />
             </div>
         ) : null;
         return (

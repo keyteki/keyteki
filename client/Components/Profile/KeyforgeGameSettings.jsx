@@ -34,9 +34,18 @@ const KeyforgeGameSettings = ({ formProps }) => {
                 <Form.Check
                     id='confirmOneClick'
                     name='gameOptions.confirmOneClick'
-                    label={t('Show a prompt when initating 1-click abilities')}
+                    label={t('Show a prompt when initiating 1-click abilities')}
                     type='switch'
                     checked={formProps.values.gameOptions.confirmOneClick}
+                    onChange={formProps.handleChange}
+                    onBlur={formProps.handleBlur}
+                />
+                <Form.Check
+                    id='useHalfSizedCards'
+                    name='gameOptions.useHalfSizedCards'
+                    label={t('Use half sized card images')}
+                    type='switch'
+                    checked={formProps.values.gameOptions.useHalfSizedCards}
                     onChange={formProps.handleChange}
                     onBlur={formProps.handleBlur}
                 />
