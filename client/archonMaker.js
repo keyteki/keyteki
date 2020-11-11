@@ -471,7 +471,10 @@ export const buildCard = async (
         const baseImage = new fabric.Image(EnhancementBaseImages[enhancements.length].getElement());
         let top = 59 + (amber ? amber * 30 : 0);
 
-        if (['deusillus2', 'ultra-gravitron2', 'niffle-kong2'].some((x) => x === card.id)) {
+        if (
+            ['deusillus2', 'ultra-gravitron2', 'niffle-kong2'].some((x) => x === card.id) &&
+            !image.includes('complete')
+        ) {
             baseImage.set({ left: width - top, top: 14, angle: 90 });
         } else {
             baseImage.set({ left: 14, top });
@@ -482,7 +485,10 @@ export const buildCard = async (
         for (const [index, pip] of enhancements.entries()) {
             const pipImage = new fabric.Image(EnhancementPipImages[pip].getElement());
 
-            if (['deusillus2', 'ultra-gravitron2', 'niffle-kong2'].some((x) => x === card.id)) {
+            if (
+                ['deusillus2', 'ultra-gravitron2', 'niffle-kong2'].some((x) => x === card.id) &&
+                !image.includes('complete')
+            ) {
                 pipImage.set({ left: width - top - 8 - index * 31, top: 21, angle: 90 });
             } else {
                 pipImage.set({ left: 21, top: top + 10 + index * 31 });
