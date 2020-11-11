@@ -140,6 +140,11 @@
     left: 11px;
     top: -14px;
     transform: rotate(90deg);
+    &.halfSize {
+      left: -7px;
+      top: 6px;
+      border-radius: 6px;
+    }
   }
 }
 
