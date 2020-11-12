@@ -334,11 +334,11 @@ class GameServer {
     }
 
     /**
-     * @param {import("../pendinggame")} pendingGame
+     * @param {string} gameId
      * @param {any} user
      */
-    onSpectator(pendingGame, user) {
-        const game = this.games[pendingGame.gameId];
+    onSpectator(gameId, user) {
+        const game = this.games[gameId];
         if (!game) {
             return;
         }

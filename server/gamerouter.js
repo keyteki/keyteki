@@ -56,7 +56,7 @@ class GameRouter extends EventEmitter {
      */
     addSpectator(game, user) {
         this.sendCommand(game.node.identity, 'SPECTATOR', {
-            game: game.getSaveState(),
+            gameId: game.id,
             user: user
         });
     }

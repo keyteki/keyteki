@@ -506,7 +506,7 @@ class Lobby {
     }
 
     onNewGame(socket, gameDetails) {
-        if (!socket.user.permissions.canManageTournaments || !gameDetails.tournament) {
+        if (!gameDetails.tournament) {
             let existingGame = this.findGameForUser(socket.user.username);
             if (existingGame) {
                 return;

@@ -124,7 +124,7 @@ class GameSocket extends EventEmitter {
                 this.emit('onStartGame', message.arg);
                 break;
             case 'SPECTATOR':
-                this.emit('onSpectator', message.arg.game, message.arg.user);
+                this.emit('onSpectator', message.arg.gameId, message.arg.user);
                 break;
             case 'CONNECTFAILED':
                 this.emit('onFailedConnect', message.arg.gameId, message.arg.username);
