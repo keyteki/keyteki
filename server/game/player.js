@@ -7,12 +7,13 @@ const PlayableLocation = require('./playablelocation');
 const PlayerPromptState = require('./playerpromptstate');
 
 class Player extends GameObject {
-    constructor(id, user, owner, game, clockdetails) {
+    constructor(id, user, owner, deckId, game, clockdetails) {
         super(game);
         this.user = user;
         this.emailHash = this.user.emailHash;
         this.id = id;
         this.owner = owner;
+        this.deckId = deckId;
 
         this.hand = [];
         this.cardsInPlay = []; // This stores references to all creatures and artifacts in play.  Upgrades are not stored here.
@@ -338,6 +339,8 @@ class Player extends GameObject {
         this.deckData = deckData;
         this.deckData.selected = true;
         this.houses = deckData.houses;
+
+        this.deckId = deckData.id;
     }
 
     /**

@@ -268,22 +268,16 @@ class GameServer {
 
     /**
      * @param {import("../game/game")} game
-     * @param {string} reason
-     * @param {import("../game/player")} winner
      */
-    gameWon(game, reason, winner) {
-        this.gameSocket.send('GAMEWIN', {
-            game: game.getSaveState(),
-            winner: winner.name,
-            reason: reason
-        });
+    gameWon(game) {
+        this.gameSocket.send('SAVEGAME', game.getSaveState());
     }
 
     /**
      * @param {import("../game/game")} game
      */
     rematch(game) {
-        this.gameSocket.send('REMATCH', { game: game.getSaveState() });
+        this.gameSocket.send('REMATCH', game.getSaveState());
 
         for (let player of Object.values(game.getPlayersAndSpectators())) {
             if (player.left || player.disconnectedAt || !player.socket) {
@@ -474,7 +468,6 @@ class GameServer {
             } else if (isSpectator) {
                 this.gameSocket.send('PLAYERLEFT', {
                     gameId: game.id,
-                    game: game.getSaveState(),
                     player: socket.user.username,
                     spectator: true
                 });
@@ -495,9 +488,12 @@ class GameServer {
 
         game.leave(socket.user.username);
 
+        if (!isSpectator) {
+            this.gameSocket.send('SAVEGAME', game.getSaveState());
+        }
+
         this.gameSocket.send('PLAYERLEFT', {
             gameId: game.id,
-            game: game.getSaveState(),
             player: socket.user.username,
             spectator: isSpectator
         });

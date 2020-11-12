@@ -87,6 +87,7 @@ class Game extends EventEmitter {
                 player.id,
                 player.user,
                 this.owner === player.user.username,
+                player.deckId,
                 this
             );
         });
@@ -405,7 +406,7 @@ class Game extends EventEmitter {
         this.finishedAt = new Date();
         this.winReason = reason;
 
-        this.router.gameWon(this, reason, winner);
+        this.router.gameWon(this);
 
         this.queueStep(new GameWonPrompt(this, winner));
     }
@@ -1157,9 +1158,8 @@ class Game extends EventEmitter {
     getSaveState() {
         let players = this.getPlayers().map((player) => {
             return {
-                deck: player.deckData.identity,
-                houses: player.houses,
-                keys: player.keys,
+                deckId: player.deckData.id,
+                keys: player.getForgedKeys(),
                 name: player.name,
                 turn: player.turn,
                 wins: player.wins
