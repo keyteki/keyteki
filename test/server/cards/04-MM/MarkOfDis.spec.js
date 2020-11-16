@@ -4,12 +4,12 @@ describe('Mark of Dis', function () {
             this.setupTest({
                 player1: {
                     house: 'dis',
-                    inPlay: ['dodger', 'silvertooth'],
+                    inPlay: ['dodger', 'silvertooth', 'brammo', 'pitlord'],
                     hand: ['mark-of-dis']
                 },
                 player2: {
                     inPlay: ['urchin', 'sneklifter', 'shadow-self'],
-                    hand: ['shooler'],
+                    hand: ['shooler', 'hypnobeam'],
                     amber: 3
                 }
             });
@@ -72,6 +72,27 @@ describe('Mark of Dis', function () {
 
             this.player1.endTurn();
             expect(this.player2).not.toHavePromptButton('dis');
+            expect(this.player2).toHavePromptButton('shadows');
+        });
+
+        it('should not restrict house choice if not possible to choose that house', function () {
+            this.player1.endTurn();
+
+            this.player2.clickPrompt('mars');
+            this.player2.play(this.hypnobeam);
+
+            this.player2.clickCard(this.brammo);
+            this.player2.clickPrompt('left');
+            this.player2.endTurn();
+
+            this.player1.clickPrompt('dis');
+            this.player1.play(this.markOfDis);
+            this.player1.clickCard(this.brammo);
+            this.player1.fightWith(this.pitlord, this.brammo);
+            this.player1.endTurn();
+
+            expect(this.player2).toHavePromptButton('dis');
+            expect(this.player2).toHavePromptButton('mars');
             expect(this.player2).toHavePromptButton('shadows');
         });
     });
