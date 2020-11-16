@@ -4,7 +4,7 @@ describe('Mark of Dis', function () {
             this.setupTest({
                 player1: {
                     house: 'dis',
-                    inPlay: ['dodger', 'silvertooth', 'brammo', 'pitlord'],
+                    inPlay: ['dodger', 'silvertooth', 'brammo', 'angwish'],
                     hand: ['mark-of-dis']
                 },
                 player2: {
@@ -88,7 +88,7 @@ describe('Mark of Dis', function () {
             this.player1.clickPrompt('dis');
             this.player1.play(this.markOfDis);
             this.player1.clickCard(this.brammo);
-            this.player1.fightWith(this.pitlord, this.brammo);
+            this.player1.fightWith(this.angwish, this.brammo);
             this.player1.endTurn();
 
             expect(this.player2).toHavePromptButton('dis');
