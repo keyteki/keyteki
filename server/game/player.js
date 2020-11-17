@@ -536,7 +536,7 @@ class Player extends GameObject {
         }, this.houses);
         let stopHouseChoice = this.getEffects('stopHouseChoice');
         let restrictHouseChoice = _.flatten(this.getEffects('restrictHouseChoice')).filter(
-            (house) => !stopHouseChoice.includes(house)
+            (house) => !stopHouseChoice.includes(house) && availableHouses.includes(house)
         );
         if (restrictHouseChoice.length > 0) {
             availableHouses = restrictHouseChoice;
