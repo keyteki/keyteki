@@ -31,6 +31,15 @@ class GameRouter extends EventEmitter {
         this.workers[node] = node;
     }
 
+    async getNodes() {
+        let workers = await this.getAsync('gamenodes');
+        if (!workers) {
+            return null;
+        }
+
+        return JSON.parse(workers);
+    }
+
     /**
      * @param {import("./pendinggame.js")} game
      */

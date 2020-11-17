@@ -30,7 +30,6 @@ class Lobby {
         this.router.on('onGameRematch', this.onGameRematch.bind(this));
         this.router.on('onPlayerLeft', this.onPlayerLeft.bind(this));
         this.router.on('onWorkerTimedOut', this.onWorkerTimedOut.bind(this));
-        this.router.on('onNodeReconnected', this.onNodeReconnected.bind(this));
         this.router.on('onWorkerStarted', this.onWorkerStarted.bind(this));
 
         this.io = options.io || socketio(server, { perMessageDeflate: false });
@@ -1068,60 +1067,63 @@ class Lobby {
         });
     }
 
-    onNodeReconnected(nodeName, games) {
-        for (let game of Object.values(games)) {
-            let owner = game.players[game.owner];
+    async onNodeSync() {
+        let nodes = await this.router.getNodes();
+        for (let node of Object.values(nodes)) {
+            for (let game of Object.values(node.games)) {
+                let owner = game.players[game.owner];
 
-            if (!owner) {
-                logger.error("Got a game where the owner %s wasn't a player", game.owner);
-                continue;
+                if (!owner) {
+                    logger.error("Got a game where the owner %s wasn't a player", game.owner);
+                    continue;
+                }
+
+                let syncGame = new PendingGame(new User(owner.user), {
+                    spectators: game.allowSpectators,
+                    name: game.name
+                });
+                syncGame.adaptive = game.adaptive;
+                syncGame.createdAt = game.startedAt;
+                syncGame.gameFormat = game.gameFormat;
+                syncGame.gamePrivate = game.gamePrivate;
+                syncGame.gameType = game.gameType;
+                syncGame.id = game.id;
+                syncGame.node = this.router.workers[node.identity];
+                syncGame.password = game.password;
+                syncGame.started = game.started;
+
+                for (let player of Object.values(game.players)) {
+                    syncGame.players[player.name] = {
+                        id: player.id,
+                        name: player.name,
+                        owner: game.owner === player.name,
+                        user: new User(player.user)
+                    };
+                }
+
+                for (let player of Object.values(game.spectators)) {
+                    syncGame.spectators[player.name] = {
+                        id: player.id,
+                        name: player.name,
+                        user: new User(player.user)
+                    };
+                }
+
+                this.games[syncGame.id] = syncGame;
             }
 
-            let syncGame = new PendingGame(new User(owner.user), {
-                spectators: game.allowSpectators,
-                name: game.name
-            });
-            syncGame.adaptive = game.adaptive;
-            syncGame.createdAt = game.startedAt;
-            syncGame.gameFormat = game.gameFormat;
-            syncGame.gamePrivate = game.gamePrivate;
-            syncGame.gameType = game.gameType;
-            syncGame.id = game.id;
-            syncGame.node = this.router.workers[nodeName];
-            syncGame.password = game.password;
-            syncGame.started = game.started;
-
-            for (let player of Object.values(game.players)) {
-                syncGame.players[player.name] = {
-                    id: player.id,
-                    name: player.name,
-                    owner: game.owner === player.name,
-                    user: new User(player.user)
-                };
-            }
-
-            for (let player of Object.values(game.spectators)) {
-                syncGame.spectators[player.name] = {
-                    id: player.id,
-                    name: player.name,
-                    user: new User(player.user)
-                };
-            }
-
-            this.games[syncGame.id] = syncGame;
-        }
-
-        for (let game of Object.values(this.games)) {
-            if (
-                game.node &&
-                game.node.identity === nodeName &&
-                Object.values(games).find((nodeGame) => {
-                    return nodeGame.id === game.id;
-                })
-            ) {
-                this.games[game.id] = game;
-            } else if (game.node && game.node.identity === nodeName) {
-                delete this.games[game.id];
+            for (let game of Object.values(this.games)) {
+                if (
+                    game.node &&
+                    game.node.identity === node.identity &&
+                    Object.values(node.games).find((nodeGame) => {
+                        return nodeGame.id === game.id;
+                    })
+                ) {
+                    this.games[game.id] = game;
+                } else if (game.node && game.node.identity === node.identity) {
+                    delete this.games[game.id];
+                }
             }
         }
 
@@ -1189,6 +1191,9 @@ class Lobby {
                 break;
             case 'NEWNODE':
                 this.router.addNode(message.arg);
+                break;
+            case 'REFRESHNODES':
+                this.onNodeSync();
                 break;
             default:
                 logger.warn(
