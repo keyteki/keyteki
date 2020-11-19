@@ -58,6 +58,7 @@ class Lobby {
                 address: this.host,
                 port: process.env.PORT || this.configService.getValueForSection('lobby', 'port')
             });
+            this.onNodeSync();
         });
 
         setInterval(() => this.clearStalePendingGames(), 60 * 1000); // every minute
@@ -1071,7 +1072,7 @@ class Lobby {
         let nodes = await this.router.getNodes();
         for (let node of Object.values(nodes)) {
             for (let game of Object.values(node.games)) {
-                let owner = game.players[game.owner];
+                let owner = game.players.find((p) => p.name == game.owner);
 
                 if (!owner) {
                     logger.error("Got a game where the owner %s wasn't a player", game.owner);
@@ -1092,7 +1093,7 @@ class Lobby {
                 syncGame.password = game.password;
                 syncGame.started = game.started;
 
-                for (let player of Object.values(game.players)) {
+                for (let player of game.players) {
                     syncGame.players[player.name] = {
                         id: player.id,
                         name: player.name,
@@ -1101,11 +1102,11 @@ class Lobby {
                     };
                 }
 
-                for (let player of Object.values(game.spectators)) {
-                    syncGame.spectators[player.name] = {
-                        id: player.id,
-                        name: player.name,
-                        user: new User(player.user)
+                for (let spectator of game.spectators) {
+                    syncGame.spectators[spectator.name] = {
+                        id: spectator.id,
+                        name: spectator.name,
+                        user: new User(spectator.user)
                     };
                 }
 
@@ -1134,7 +1135,7 @@ class Lobby {
      * @param {string} channel
      * @param {string} msg
      */
-    onRedisMessage(channel, msg) {
+    async onRedisMessage(channel, msg) {
         if (channel !== 'hub' && channel !== 'hublobby') {
             logger.warn(`Message '${msg}' received for unknown channel ${channel}`);
             return;
@@ -1158,6 +1159,7 @@ class Lobby {
                     address: this.host,
                     port: process.env.PORT || this.configService.getValueForSection('lobby', 'port')
                 });
+                await this.onNodeSync();
                 break;
             case 'LOBBYCHAT':
                 for (let socket of Object.values(this.sockets)) {

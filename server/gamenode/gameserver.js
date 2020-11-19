@@ -325,6 +325,15 @@ class GameServer {
         if (pendingGame.rematch) {
             game.addAlert('info', 'The rematch is ready');
         }
+
+        const gameSummaries = Object.values(this.games).map((game) => {
+            let retGame = game.getSaveState();
+            retGame.password = game.password;
+
+            return retGame;
+        });
+
+        this.gameSocket.send('UPDATEGAMES', gameSummaries);
     }
 
     /**

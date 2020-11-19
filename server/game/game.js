@@ -1175,6 +1175,7 @@ class Game extends EventEmitter {
             gamePrivate: this.gamePrivate,
             gameType: this.gameType,
             id: this.savedGameId,
+            owner: this.owner,
             players: players,
             previousWinner: this.previousWinner,
             startedAt: this.startedAt,
