@@ -110,6 +110,7 @@ a {
 }
 
 .btn-secondary {
+    background-size: 100% 32px;
     &:not(.dropdown-toggle) {
         background-image: url('~assets/img/button-orange.png');
 
