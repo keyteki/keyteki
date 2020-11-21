@@ -94,6 +94,7 @@ class PendingGame {
 
         this.players[user.username] = {
             id: id,
+            externalId: user.externalId,
             name: user.username,
             owner: this.owner.username === user.username,
             user: user,

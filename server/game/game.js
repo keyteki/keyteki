@@ -55,16 +55,17 @@ class Game extends EventEmitter {
         this.gameType = details.gameType;
         this.hideDeckLists = details.hideDeckLists;
         this.id = details.id;
+        this.externalId = details.externalId;
         this.manualMode = false;
         this.muteSpectators = details.muteSpectators;
         this.name = details.name;
         this.owner = details.owner.username;
+        this.ownerId = details.owner.externalId;
         this.password = details.password;
         this.pipeline = new GamePipeline();
         this.playStarted = false;
         this.playersAndSpectators = {};
         this.previousWinner = details.previousWinner;
-        this.savedGameId = details.savedGameId;
         this.showHand = details.showHand;
         this.started = false;
         this.swap = details.swap;
@@ -1160,6 +1161,8 @@ class Game extends EventEmitter {
             return {
                 deckId: player.deckData.id,
                 keys: player.getForgedKeys(),
+                id: player.id,
+                externalId: player.user.externalId,
                 name: player.name,
                 turn: player.turn,
                 wins: player.wins
@@ -1169,15 +1172,22 @@ class Game extends EventEmitter {
         return {
             adaptive: this.adaptive,
             challonge: this.challonge,
+            externalId: this.externalId,
             finishedAt: this.finishedAt,
             gameFormat: this.gameFormat,
             gameId: this.id,
             gamePrivate: this.gamePrivate,
             gameType: this.gameType,
-            id: this.savedGameId,
+            id: this.id,
             owner: this.owner,
+            ownerId: this.ownerId,
             players: players,
             previousWinner: this.previousWinner,
+            spectators: this.getSpectators().map((spectator) => {
+                return {
+                    name: spectator.name
+                };
+            }),
             startedAt: this.startedAt,
             swap: this.swap,
             winReason: this.winReason,
@@ -1279,6 +1289,7 @@ class Game extends EventEmitter {
             muteSpectators: this.muteSpectators,
             name: this.name,
             owner: this.owner,
+            ownerId: this.ownerId,
             players: playerSummaries,
             showHand: this.showHand,
             spectators: this.getSpectators().map((spectator) => {

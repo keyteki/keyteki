@@ -1,9 +1,10 @@
 const Settings = require('../settings');
 
 class User {
-    constructor(userData) {
+    constructor(userData, externalId) {
         this.userData = userData;
         this.invalidDecks = undefined;
+        this.externalId = externalId;
     }
 
     get id() {
@@ -185,6 +186,7 @@ class User {
         user = Settings.getUserWithDefaultsSet(user);
         user.role = this.role;
         user.avatar = this.avatar;
+        user.externalId = this.externalId;
 
         return user;
     }

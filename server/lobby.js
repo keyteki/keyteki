@@ -213,7 +213,7 @@ class Lobby {
                             return;
                         }
 
-                        let dbUser = new User(JSON.parse(userResponse));
+                        let dbUser = new User(JSON.parse(userResponse), user.sub);
                         dbUser.mapPermissions(JSON.parse(userInfoResponse));
                         let socket = this.sockets[ioSocket.id];
                         if (!socket) {
@@ -1072,14 +1072,14 @@ class Lobby {
         let nodes = await this.router.getNodes();
         for (let node of Object.values(nodes)) {
             for (let game of Object.values(node.games)) {
-                let owner = game.players.find((p) => p.name == game.owner);
-
-                if (!owner) {
-                    logger.error("Got a game where the owner %s wasn't a player", game.owner);
+                let ownerString = await this.getAsync(`user:${game.ownerId}`);
+                if (!ownerString) {
+                    logger.error("Got a game where owner %s couldn't be looked up.", game.owner);
                     continue;
                 }
 
-                let syncGame = new PendingGame(new User(owner.user), {
+                let owner = JSON.parse(ownerString);
+                let syncGame = new PendingGame(new User(owner), {
                     spectators: game.allowSpectators,
                     name: game.name
                 });
@@ -1094,11 +1094,19 @@ class Lobby {
                 syncGame.started = game.started;
 
                 for (let player of game.players) {
+                    let playerStr = await this.getAsync(`user:${player.externalId}`);
+                    if (!playerStr) {
+                        logger.error(`Failed to lookup player ${player.name}`);
+                        continue;
+                    }
+
+                    let playerUser = JSON.parse(playerStr);
+
                     syncGame.players[player.name] = {
                         id: player.id,
                         name: player.name,
                         owner: game.owner === player.name,
-                        user: new User(player.user)
+                        user: new User(playerUser)
                     };
                 }
 
