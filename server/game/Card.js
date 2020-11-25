@@ -26,7 +26,7 @@ class Card extends EffectSource {
         this.setDefaultController(owner);
 
         this.printedType = cardData.type;
-
+        this.composedPart = null;
         this.tokens = {};
 
         this.abilities = {
@@ -180,10 +180,19 @@ class Card extends EffectSource {
             return this.mostRecentEffect('modifyBonusIcons');
         }
 
-        let result = this.cardPrintedAmber
-            ? Array.from(Array(this.cardPrintedAmber), () => 'amber')
-            : [];
-        return this.cardData.enhancements ? result.concat(this.cardData.enhancements) : result;
+        let printedAmber = this.cardPrintedAmber;
+        let enhancements = this.enhancements;
+        if (this.composedPart) {
+            if (this.composedPart.cardPrintedAmber) {
+                printedAmber = this.composedPart.cardPrintedAmber;
+            }
+            if (this.composedPart.enhancements) {
+                enhancements = this.composedPart.enhancements;
+            }
+        }
+
+        let result = printedAmber ? Array.from(Array(printedAmber), () => 'amber') : [];
+        return enhancements ? result.concat(enhancements) : result;
     }
 
     setupAbilities() {
@@ -433,7 +442,11 @@ class Card extends EffectSource {
 
     getTraits() {
         let copyEffect = this.mostRecentEffect('copyCard');
-        let traits = copyEffect ? copyEffect.traits : this.traits;
+        let traits = copyEffect
+            ? copyEffect.traits
+            : this.composedPart
+            ? this.composedPart.traits.concat(this.traits)
+            : this.traits;
         return _.uniq(traits.concat(this.getEffects('addTrait')));
     }
 
@@ -670,8 +683,13 @@ class Card extends EffectSource {
     }
 
     getPower(printed = false) {
+        const printedPower =
+            this.composedPart && this.composedPart.printedPower
+                ? this.composedPart.printedPower
+                : this.printedPower;
+
         if (printed) {
-            return this.printedPower;
+            return printedPower;
         }
 
         if (this.anyEffect('setPower')) {
@@ -679,9 +697,10 @@ class Card extends EffectSource {
         }
 
         const copyEffect = this.mostRecentEffect('copyCard');
-        const printedPower = copyEffect ? copyEffect.printedPower : this.printedPower;
+
+        const basePower = copyEffect ? copyEffect.printedPower : printedPower;
         return (
-            printedPower +
+            basePower +
             this.sumEffects('modifyPower') +
             (this.hasToken('power') ? this.tokens.power : 0)
         );
@@ -697,8 +716,13 @@ class Card extends EffectSource {
     }
 
     getArmor(printed = false) {
+        const printedArmor =
+            this.composedPart && this.composedPart.printedArmor
+                ? this.composedPart.printedArmor
+                : this.printedArmor;
+
         if (printed) {
-            return this.printedArmor;
+            return printedArmor;
         }
 
         if (this.anyEffect('setArmor')) {
@@ -706,8 +730,8 @@ class Card extends EffectSource {
         }
 
         const copyEffect = this.mostRecentEffect('copyCard');
-        const printedArmor = copyEffect ? copyEffect.printedArmor : this.printedArmor;
-        return printedArmor + this.sumEffects('modifyArmor');
+        const baseArmor = copyEffect ? copyEffect.printedArmor : printedArmor;
+        return baseArmor + this.sumEffects('modifyArmor');
     }
 
     get amber() {

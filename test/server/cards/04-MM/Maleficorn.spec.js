@@ -16,7 +16,7 @@ describe('Maleficorn', function () {
         });
 
         it('should not deal damage when card has no Damage bonus', function () {
-            this.bindingIrons.cardData.enhancements = ['damage', 'damage'];
+            this.bindingIrons.enhancements = ['damage', 'damage'];
 
             this.player1.play(this.guiltyHearts);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
@@ -24,7 +24,7 @@ describe('Maleficorn', function () {
         });
 
         it('should deal 1D + 1D when selecting an enemy creature', function () {
-            this.bindingIrons.cardData.enhancements = ['damage', 'damage'];
+            this.bindingIrons.enhancements = ['damage', 'damage'];
 
             this.player1.play(this.bindingIrons);
             expect(this.player1).toBeAbleToSelect(this.troll);
@@ -43,7 +43,7 @@ describe('Maleficorn', function () {
         });
 
         it('should not deal extra damage when selecting a friendly creature', function () {
-            this.bindingIrons.cardData.enhancements = ['damage', 'damage'];
+            this.bindingIrons.enhancements = ['damage', 'damage'];
 
             this.player1.play(this.bindingIrons);
             expect(this.player1).toBeAbleToSelect(this.troll);
@@ -73,7 +73,7 @@ describe('Maleficorn', function () {
         });
 
         it('should deal 1D + 1D when opponent target their own creature', function () {
-            this.burnTheStockpile.cardData.enhancements = ['damage'];
+            this.burnTheStockpile.enhancements = ['damage'];
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
             this.player2.play(this.burnTheStockpile);
@@ -87,7 +87,7 @@ describe('Maleficorn', function () {
         });
 
         it('should not deal 1D when opponent target my creature', function () {
-            this.burnTheStockpile.cardData.enhancements = ['damage'];
+            this.burnTheStockpile.enhancements = ['damage'];
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
             this.player2.play(this.burnTheStockpile);

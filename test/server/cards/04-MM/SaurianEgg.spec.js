@@ -157,7 +157,7 @@ describe('saurian-egg', function () {
             expect(this.saurianEgg.location).toBe('play area');
         });
 
-        it('when only 2 gigantic parts are discarded should be destroyed, and gigantic part put into play', function () {
+        it('when 2 gigantic parts are discarded should be destroyed, and gigantic part put into play', function () {
             this.player1.player.deck = [];
             this.player1.moveCard(this.deusillus, 'deck');
             this.player1.moveCard(this.deusillus2, 'deck');

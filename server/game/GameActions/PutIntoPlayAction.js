@@ -126,19 +126,22 @@ class PutIntoPlayAction extends CardGameAction {
             }
 
             if (card.gigantic) {
-                card.compositeParts.forEach((id) => {
-                    let part = card.controller
+                let part =
+                    card.composedPart ||
+                    card.controller
                         .getSourceList(card.location)
-                        .find((part) => id === part.id);
-                    if (!part && card.parent) {
-                        part = card.parent.childCards.find((part) => id === part.id);
-                    }
+                        .find((part) => card.compositeId === part.id);
 
-                    if (part) {
-                        card.controller.removeCardFromPile(part);
-                        card.playedParts.push(part);
-                    }
-                });
+                if (!part && card.parent) {
+                    // parts are placed togehter under another card and can be put into play together
+                    part = card.parent.childCards.find((part) => card.compositeId === part.id);
+                }
+
+                if (part) {
+                    card.controller.removeCardFromPile(part);
+                    card.composedPart = part;
+                }
+
                 card.image = card.compositeImageId || card.id;
             }
 

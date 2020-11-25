@@ -1,27 +1,12 @@
-const Card = require('../../Card.js');
+const GiganticCard = require('../../GiganticCard.js');
 
-class NiffleKong extends Card {
+class NiffleKong extends GiganticCard {
     constructor(owner, cardData) {
         super(owner, cardData);
-
-        this.gigantic = true;
-        this.playedParts = [];
-        this.compositeImageId = 'niffle-kong-complete';
-        this.compositeParts = ['niffle-kong2'];
     }
 
     setupCardAbilities(ability) {
-        this.persistentEffect({
-            location: 'any',
-            effect: ability.effects.cardCannot('play', (context) => {
-                return (
-                    context.source.location !== 'hand' ||
-                    this.compositeParts.some(
-                        (id) => !context.source.controller.hand.some((card) => id === card.id)
-                    )
-                );
-            })
-        });
+        super.setupCardAbilities(ability);
 
         this.play({
             effect: 'return Niffle creatures from deck and discard to hand',

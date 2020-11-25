@@ -37,17 +37,23 @@ describe('Ultra Gravitron', function () {
         });
 
         it('should play starting with part 1', function () {
+            expect(this.ultraGravitron.armor).toBe(3);
+            expect(this.ultraGravitron2.armor).toBe(0);
             this.player1.play(this.ultraGravitron);
+            expect(this.ultraGravitron.armor).toBe(3);
             expect(this.ultraGravitron.location).toBe('play area');
-            expect(this.ultraGravitron.playedParts).toContain(this.ultraGravitron2);
+            expect(this.ultraGravitron.composedPart).toBe(this.ultraGravitron2);
             expect(this.player1.player.hand).not.toContain(this.ultraGravitron);
             expect(this.player1.player.hand).not.toContain(this.ultraGravitron2);
         });
 
         it('should play starting with part 2', function () {
+            expect(this.ultraGravitron.armor).toBe(3);
+            expect(this.ultraGravitron2.armor).toBe(0);
             this.player1.play(this.ultraGravitron2);
+            expect(this.ultraGravitron2.armor).toBe(3);
             expect(this.ultraGravitron2.location).toBe('play area');
-            expect(this.ultraGravitron2.playedParts).toContain(this.ultraGravitron);
+            expect(this.ultraGravitron2.composedPart).toBe(this.ultraGravitron);
             expect(this.player1.player.hand).not.toContain(this.ultraGravitron);
             expect(this.player1.player.hand).not.toContain(this.ultraGravitron2);
         });
@@ -114,7 +120,7 @@ describe('Ultra Gravitron', function () {
             this.player1.clickCard(this.narp);
             expect(this.player1.player.archives.length).toBe(4);
             expect(this.narp.location).toBe('purged');
-            expect(this.ultraGravitron2.tokens.damage).toBe(7);
+            expect(this.ultraGravitron2.tokens.damage).toBe(4);
             expect(this.zorg.location).toBe('discard');
             expect(this.player1.amber).toBe(0);
         });
@@ -151,7 +157,7 @@ describe('Ultra Gravitron', function () {
             this.player1.clickCard(this.fuzzyGruen);
             expect(this.player1.player.archives.length).toBe(4);
             expect(this.fuzzyGruen.location).toBe('purged');
-            expect(this.ultraGravitron2.tokens.damage).toBe(7);
+            expect(this.ultraGravitron2.tokens.damage).toBe(4);
             expect(this.zorg.location).toBe('discard');
             expect(this.player1.amber).toBe(2);
         });

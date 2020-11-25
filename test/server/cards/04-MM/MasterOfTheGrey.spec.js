@@ -95,7 +95,7 @@ describe('Master of the Grey', function () {
         });
 
         it('should block enhancements and doubling effects', function () {
-            this.phaseShift.cardData.enhancements = ['amber', 'draw', 'capture', 'damage'];
+            this.phaseShift.enhancements = ['amber', 'draw', 'capture', 'damage'];
             this.player1.useAction(this.fissionBloom);
             this.player1.play(this.phaseShift);
 
@@ -108,7 +108,7 @@ describe('Master of the Grey', function () {
         });
 
         it('should not block enhancements or doubling effects after being destroyed', function () {
-            this.phaseShift.cardData.enhancements = ['amber', 'draw', 'capture', 'damage'];
+            this.phaseShift.enhancements = ['amber', 'draw', 'capture', 'damage'];
             this.player1.play(this.krrrzzzaaap);
             this.player1.useAction(this.fissionBloom);
             this.player1.play(this.phaseShift);

@@ -30,10 +30,7 @@ class SaurianEgg extends Card {
                         if (forEachCards[0].gigantic) {
                             if (!forEachCards[1].gigantic) {
                                 forEachCards = [forEachCards[1]];
-                            } else if (
-                                forEachCards[0].compositeParts.length === 1 &&
-                                forEachCards[1].id === forEachCards[0].compositeParts[0]
-                            ) {
+                            } else if (forEachCards[1].id === forEachCards[0].compositeId) {
                                 forEachCards = [forEachCards[0]];
                             } else {
                                 forEachCards = [];

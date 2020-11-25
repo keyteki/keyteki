@@ -81,7 +81,7 @@ describe('Infurnace', function () {
         });
 
         it('should consider enhanced icons after purging', function () {
-            this.banish.cardData.enhancements = ['amber', 'archive', 'amber'];
+            this.banish.enhancements = ['amber', 'archive', 'amber'];
 
             this.player1.play(this.infurnace);
             expect(this.player1).toHavePrompt('Infurnace');

@@ -37,7 +37,7 @@ describe('Ensign El-Samra', function () {
         });
 
         it('should reveal a card and apply enhanced bonus icons', function () {
-            this.virtuousWorks.cardData.enhancements = ['amber', 'draw', 'damage'];
+            this.virtuousWorks.enhancements = ['amber', 'draw', 'damage'];
             this.player1.useAction(this.ensignElSamra);
             expect(this.player1).toBeAbleToSelect(this.virtuousWorks);
             expect(this.player1).toBeAbleToSelect(this.tautauVapors);

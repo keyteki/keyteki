@@ -54,7 +54,7 @@ describe('Niffle Kong', function () {
             this.player1.play(this.niffleKong);
             this.player1.clickPrompt('Done');
             expect(this.niffleKong.location).toBe('play area');
-            expect(this.niffleKong.playedParts).toContain(this.niffleKong2);
+            expect(this.niffleKong.composedPart).toBe(this.niffleKong2);
             expect(this.player1.player.hand).not.toContain(this.niffleKong);
             expect(this.player1.player.hand).not.toContain(this.niffleKong2);
         });
@@ -63,7 +63,7 @@ describe('Niffle Kong', function () {
             this.player1.play(this.niffleKong2);
             this.player1.clickPrompt('Done');
             expect(this.niffleKong2.location).toBe('play area');
-            expect(this.niffleKong2.playedParts).toContain(this.niffleKong);
+            expect(this.niffleKong2.composedPart).toBe(this.niffleKong);
             expect(this.player1.player.hand).not.toContain(this.niffleKong);
             expect(this.player1.player.hand).not.toContain(this.niffleKong2);
         });

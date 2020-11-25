@@ -21,7 +21,7 @@ describe('Adaptoid', function () {
                 }
             });
 
-            this.archimedes.cardData.enhancements = ['draw'];
+            this.archimedes.enhancements = ['draw'];
         });
 
         it('after playing a card without bonus icon, should not prompt for effect', function () {
