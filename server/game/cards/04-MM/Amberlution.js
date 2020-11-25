@@ -11,7 +11,7 @@ class Amberlution extends Card {
                 context.player.opponent,
                 context.player.opponent ? context.player.opponent.hand : []
             ],
-            gameAction: [
+            gameAction: ability.actions.sequential([
                 ability.actions.destroy((context) => ({ target: context.game.creaturesInPlay })),
                 ability.actions.sequentialForEach((context) => ({
                     forEach: context.game.allCards.filter(
@@ -22,7 +22,7 @@ class Amberlution extends Card {
                         ability.actions.ready()
                     ])
                 }))
-            ]
+            ])
         });
     }
 }

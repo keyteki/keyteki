@@ -394,9 +394,7 @@ describe('Deusillus', function () {
             this.deusillusBottom1 = this.player1.hand[0];
             this.deusillusBottom2 = this.player1.hand[1];
             this.deusillusTop1 = this.player1.hand[2];
-            this.deusillusTop1.COOL = 'romano';
             this.deusillusTop2 = this.player1.hand[3];
-            this.deusillusTop2.COOL = 'JOSE';
 
             this.deusillusTop2.enhancements = ['amber', 'amber'];
         });

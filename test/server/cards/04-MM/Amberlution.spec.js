@@ -39,43 +39,19 @@ describe('Amberlution', function () {
                     this.player1.clickPrompt('left');
                 });
 
-                it("should prompt for the opponent's card", function () {
-                    expect(this.player1).toHavePrompt(
-                        'Which flank do you want to place this creature on?'
-                    );
+                it('should destroy all creatures except the ones just put into play', function () {
+                    expect(this.player1.player.creaturesInPlay.length).toBe(2);
+                    expect(this.player2.player.creaturesInPlay.length).toBe(2);
                 });
 
-                describe('and a flank is selected', function () {
-                    beforeEach(function () {
-                        this.player1.clickPrompt('left');
-                    });
+                it('should put the creatures that were in hand into play', function () {
+                    expect(this.senatorShrix.location).toBe('play area');
+                    expect(this.umbra.location).toBe('play area');
+                });
 
-                    it("should prompt for the next opponent's card", function () {
-                        expect(this.player1).toHavePrompt(
-                            'Which flank do you want to place this creature on?'
-                        );
-                    });
-
-                    describe('and another flank is selected', function () {
-                        beforeEach(function () {
-                            this.player1.clickPrompt('right');
-                        });
-
-                        it('should destroy all creatures except the ones just put into play', function () {
-                            expect(this.player1.player.creaturesInPlay.length).toBe(2);
-                            expect(this.player2.player.creaturesInPlay.length).toBe(2);
-                        });
-
-                        it('should put the creatures that were in hand into play', function () {
-                            expect(this.senatorShrix.location).toBe('play area');
-                            expect(this.umbra.location).toBe('play area');
-                        });
-
-                        it('should put the creatures into play ready', function () {
-                            expect(this.senatorShrix.exhausted).toBe(false);
-                            expect(this.umbra.exhausted).toBe(false);
-                        });
-                    });
+                it('should put the creatures into play ready', function () {
+                    expect(this.senatorShrix.exhausted).toBe(false);
+                    expect(this.umbra.exhausted).toBe(false);
                 });
             });
         });
