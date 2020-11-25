@@ -138,5 +138,19 @@ describe('Purify', function () {
             expect(this.deusillus2.location).toBe('discard');
             expect(this.nerotaurus.location).toBe('deck');
         });
+
+        it('if a mutant is a bottom half of a mutant gigantic, discard it', function () {
+            this.player1.moveCard(this.nerotaurus, 'deck');
+            this.player1.moveCard(this.sacroSaurus, 'deck');
+            this.player1.moveCard(this.deusillus, 'deck');
+
+            this.player1.play(this.purify);
+            this.player1.clickCard(this.lycoSaurus);
+
+            expect(this.lycoSaurus.location).toBe('purged');
+            expect(this.sacroSaurus.location).toBe('discard');
+            expect(this.deusillus.location).toBe('discard');
+            expect(this.nerotaurus.location).toBe('play area');
+        });
     });
 });
