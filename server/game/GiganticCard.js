@@ -6,12 +6,12 @@ class GiganticCard extends Card {
             owner,
             cardData.id.endsWith('2')
                 ? Object.assign(cardData, {
-                      power: null,
-                      armor: null,
+                      power: 0,
+                      armor: 0,
                       keywords: null,
                       traits: null
                   })
-                : Object.assign(cardData, { amber: null, enahancements: null })
+                : Object.assign(cardData, { amber: 0, enahancements: null })
         );
 
         this.gigantic = true;
