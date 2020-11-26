@@ -401,7 +401,7 @@ describe('Deusillus', function () {
 
         it('should ask for the top part to be played with', function () {
             this.player1.play(this.deusillusBottom1);
-            expect(this.player1).toHavePrompt('Select a top part to play');
+            expect(this.player1).toHavePrompt('Choose a top part to play');
             expect(this.player1).toBeAbleToSelect(this.deusillusTop1);
             expect(this.player1).toBeAbleToSelect(this.deusillusTop2);
             expect(this.player1).not.toBeAbleToSelect(this.deusillusBottom1);
@@ -423,7 +423,7 @@ describe('Deusillus', function () {
 
         it('should ask for the top part to be played with and select one with enhancements', function () {
             this.player1.play(this.deusillusBottom1);
-            expect(this.player1).toHavePrompt('Select a top part to play');
+            expect(this.player1).toHavePrompt('Choose a top part to play');
             expect(this.player1).toBeAbleToSelect(this.deusillusTop1);
             expect(this.player1).toBeAbleToSelect(this.deusillusTop2);
             expect(this.player1).not.toBeAbleToSelect(this.deusillusBottom1);
@@ -445,7 +445,7 @@ describe('Deusillus', function () {
 
         it('should not ask for the bottom part to be played with', function () {
             this.player1.play(this.deusillusTop1);
-            expect(this.player1).not.toHavePrompt('Select a top part to play');
+            expect(this.player1).not.toHavePrompt('Choose a top part to play');
             this.player1.clickCard(this.narp);
             expect(this.narp.tokens.damage).toBe(4);
             expect(this.deusillusTop1.amber).toBe(5);

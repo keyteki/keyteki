@@ -51,7 +51,7 @@ class PutIntoPlayAction extends CardGameAction {
                 // if they have different enhancements
                 context.game.promptForSelect(context.player, {
                     source: card,
-                    activePromptTitle: 'Select a top part to play',
+                    activePromptTitle: 'Choose a top part to play',
                     cardType: 'creature',
                     location: 'hand',
                     cardCondition: (card) => parts.includes(card),
