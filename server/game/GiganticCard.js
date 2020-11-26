@@ -2,7 +2,17 @@ const Card = require('./Card.js');
 
 class GiganticCard extends Card {
     constructor(owner, cardData) {
-        super(owner, cardData);
+        super(
+            owner,
+            cardData.id.endsWith('2')
+                ? Object.assign(cardData, {
+                      power: null,
+                      armor: null,
+                      keywords: null,
+                      traits: null
+                  })
+                : Object.assign(cardData, { amber: null, enahancements: null })
+        );
 
         this.gigantic = true;
         if (this.id.endsWith('2')) {
@@ -14,30 +24,6 @@ class GiganticCard extends Card {
             this.compositeId = this.id + '2';
             this.compositeImageId = this.id + '-complete';
         }
-    }
-
-    getTraits(context) {
-        if (this.location !== 'play area' && !this.giganticBottom) {
-            return [];
-        }
-
-        return super.getTraits(context);
-    }
-
-    get power() {
-        if (this.location !== 'play area' && !this.giganticBottom) {
-            return 0;
-        }
-
-        return super.power;
-    }
-
-    get armor() {
-        if (this.location !== 'play area' && !this.giganticBottom) {
-            return 0;
-        }
-
-        return super.armor;
     }
 
     setupCardAbilities(ability) {
