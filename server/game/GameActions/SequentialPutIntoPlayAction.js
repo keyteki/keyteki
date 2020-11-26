@@ -40,28 +40,28 @@ class SequentialPutIntoPlayAction extends GameAction {
     }
 
     filterAndApplyAction(context, forEach) {
-        if (forEach.length > 0) {
+        let filteredForEach = forEach.filter(
+            (card) => !card.gigantic || forEach.some((part) => part.id === card.compositeId)
+        );
+
+        if (filteredForEach.length > 0) {
             context.game.promptForSelect(context.player, {
                 activePromptTitle: 'Choose a creature to put into play',
                 cardType: 'creature',
                 controller: 'any',
                 location: 'any',
-                cardCondition: (card) => forEach.includes(card),
+                cardCondition: (card) => filteredForEach.includes(card),
                 source: context.source,
+                revealTargets: true,
                 onSelect: (player, card) => {
                     this.queueActionSteps(context, card);
                     context.game.queueSimpleStep(() => {
-                        let remainingCards = forEach.filter((c) => {
-                            return c !== card && c !== card.composedPart;
-                        });
-
-                        remainingCards = remainingCards.filter(
-                            (card) =>
-                                !card.gigantic ||
-                                remainingCards.some((part) => part.id === card.compositeId)
+                        this.filterAndApplyAction(
+                            context,
+                            filteredForEach.filter((c) => {
+                                return c !== card && c !== card.composedPart;
+                            })
                         );
-
-                        this.filterAndApplyAction(context, remainingCards);
                     });
                     return true;
                 }

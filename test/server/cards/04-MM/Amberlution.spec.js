@@ -156,6 +156,7 @@ describe('Amberlution', function () {
                         'deusillus',
                         'deusillus2',
                         'æmberlution',
+                        'niffle-kong',
                         'senator-shrix',
                         'gebuk'
                     ],
@@ -184,7 +185,8 @@ describe('Amberlution', function () {
             expect(this.player2).toBeAbleToSelect(this.gebuk);
             expect(this.player2).toBeAbleToSelect(this.dextre);
             expect(this.player2).not.toBeAbleToSelect(this.ultraGravitron);
-            expect(this.player2).not.toBeAbleToSelect(this.ultraGravitron2);
+            expect(this.player2).not.toBeAbleToSelect(this.ultraGravitron);
+            expect(this.player2).not.toBeAbleToSelect(this.niffleKong);
 
             expect(this.player2).toHavePrompt('Choose a creature to put into play');
             this.player2.clickCard(this.senatorShrix);
