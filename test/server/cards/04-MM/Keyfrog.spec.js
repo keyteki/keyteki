@@ -71,7 +71,7 @@ describe('Keyfrog', function () {
             expect(this.keyfrog.location).toBe('discard');
         });
 
-        it("should end the game when it is the last key and controller's turn", function () {
+        it("should end the game when it is the last key and not controller's turn", function () {
             this.player1.player.amber = 6;
             this.player1.player.keys = { red: true, blue: true, yellow: false };
             this.player1.endTurn();
