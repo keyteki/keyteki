@@ -11,7 +11,7 @@ class GiganticCard extends Card {
                       keywords: null,
                       traits: null
                   })
-                : Object.assign(cardData, { amber: 0, enahancements: null })
+                : Object.assign(cardData, { amber: 0, enhancements: null })
         );
 
         this.gigantic = true;
