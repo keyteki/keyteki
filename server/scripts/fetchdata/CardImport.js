@@ -9,11 +9,12 @@ const CardService = require('../../services/CardService');
 const ConfigService = require('../../services/ConfigService');
 
 class CardImport {
-    constructor(dataSource, imageSource, imageDir, language) {
+    constructor(dataSource, imageSource, imageDir, language, buildHalfSize) {
         this.dataSource = dataSource;
         this.imageSource = imageSource;
         this.imageDir = imageDir;
         this.language = language;
+        this.buildHalfSize = buildHalfSize;
         this.cardService = new CardService(new ConfigService());
     }
 
@@ -41,6 +42,7 @@ class CardImport {
 
     async fetchImages(cards) {
         let imageLangDir;
+        let halfSizeImageDir;
 
         if (this.language === 'en') {
             // Keep english images at the current folder
@@ -48,8 +50,9 @@ class CardImport {
         } else {
             imageLangDir = path.join(this.imageDir, this.language.replace('-', ''));
         }
-
+        halfSizeImageDir = imageLangDir.replace('/cards', '/halfSize');
         mkdirp(imageLangDir);
+        mkdirp(halfSizeImageDir);
 
         let specialCards = {
             479: { 'dark-æmber-vault': true, 'it-s-coming': true, 'orb-of-wonder': true }
@@ -59,6 +62,7 @@ class CardImport {
 
         for (let card of cards) {
             let imagePath = path.join(imageLangDir, card.id + '.png');
+            let halfSizePath;
 
             let imageUrl = card.image
                 .replace('/en/', '/' + this.language + '/')
@@ -71,12 +75,28 @@ class CardImport {
             if (!fs.existsSync(imagePath)) {
                 await this.imageSource.fetchImage(card, imageUrl, imagePath);
             }
+
+            halfSizePath = imagePath.replace('/cards', '/halfSize').replace('.png', '.jpg');
+            if (!fs.existsSync(halfSizePath) && !gigantic.some((x) => card.id.includes(x))) {
+                await this.buildHalfSize(card, card.image, halfSizePath, this.language);
+            }
         }
 
         for (const card of gigantic) {
             let imgPath = path.join(imageLangDir, card + '-complete.png');
+            let halfSizePath = imgPath.replace('/cards', '/halfSize').replace('.png', '.jpg');
             if (!fs.existsSync(imgPath)) {
                 await this.buildGigantics(card, imageLangDir, imgPath);
+                console.log('Built gigantic image for ' + card);
+            }
+            if (!fs.existsSync(halfSizePath)) {
+                let data = cards.find((x) => x.id === card);
+                await this.buildHalfSize(
+                    { ...data, type: 'creature1' },
+                    `file://${imgPath}`,
+                    halfSizePath,
+                    this.language
+                );
             }
         }
     }
@@ -91,10 +111,14 @@ class CardImport {
         canvas.add(top);
         canvas.add(bottom);
         canvas.renderAll();
-        let dataUrl = canvas.toDataURL();
-        let base64Data = dataUrl.replace(/^data:image\/png;base64,/, '');
-        await fs.writeFileSync(imgPath, base64Data, 'base64');
-        console.log('Built gigantic image for ' + card);
+        const stream = canvas.createPNGStream();
+        const out = fs.createWriteStream(imgPath);
+        stream.on('data', (chunk) => {
+            out.write(chunk);
+        });
+        stream.on('end', () => {
+            canvas.dispose();
+        });
     }
 
     loadImage(imgPath) {

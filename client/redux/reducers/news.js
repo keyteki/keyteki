@@ -1,3 +1,5 @@
+import { News } from '../types';
+
 function news(
     state = {
         news: []
@@ -7,28 +9,28 @@ function news(
     let news = state.news;
 
     switch (action.type) {
-        case 'REQUEST_NEWS':
+        case News.RequestNews:
             return Object.assign({}, state, {});
-        case 'RECEIVE_NEWS':
+        case News.NewsReceived:
             return Object.assign({}, state, {
                 news: action.response.news
             });
-        case 'ADD_NEWS':
+        case News.AddNews:
             return Object.assign({}, state, {
                 newsAdded: false
             });
-        case 'NEWS_ADDED':
+        case News.NewsAdded:
             news.unshift(action.response.newsItem);
 
             return Object.assign({}, state, {
                 newsAdded: true,
                 news: news
             });
-        case 'SAVE_NEWS':
+        case News.SaveNews:
             return Object.assign({}, state, {
                 newsSaved: false
             });
-        case 'NEWS_SAVED':
+        case News.NewsSaved:
             var matchingNews = news.find((n) => {
                 return n.id === parseInt(action.response.id);
             });
@@ -41,11 +43,11 @@ function news(
                 newsSaved: true,
                 news: news
             });
-        case 'DELETE_NEWS':
+        case News.DeleteNews:
             return Object.assign({}, state, {
                 newsDeleted: false
             });
-        case 'NEWS_DELETED':
+        case News.NewsDeleted:
             news = news.filter((n) => {
                 return n.id !== parseInt(action.response.id);
             });
@@ -53,12 +55,6 @@ function news(
             return Object.assign({}, state, {
                 newsDeleted: true,
                 news: news
-            });
-        case 'CLEAR_NEWS_STATUS':
-            return Object.assign({}, state, {
-                newsAdded: false,
-                newsSaved: false,
-                newsDeleted: false
             });
         default:
             return state;

@@ -50,3 +50,21 @@ export const Challonge = Object.freeze({
     ReceiveAttachments: 'RECEIVE_ATTACHMENTS',
     ClearMessage: 'CLEAR_CHALLONGE_MESSAGE'
 });
+
+export const Admin = Object.freeze({
+    FindUser: 'ADMIN_FINDUSER',
+    UserFound: 'ADMIN_USERFOUND',
+    SaveUser: 'SAVE_USER',
+    UserSaved: 'USER_SAVED'
+});
+
+export const News = Object.freeze({
+    RequestNews: 'REQUEST_NEWS',
+    NewsReceived: 'RECEIVE_NEWS',
+    AddNews: 'ADD_NEWS',
+    NewsAdded: 'NEWS_ADDED',
+    SaveNews: 'SAVE_NEWS',
+    NewsSaved: 'NEWS_SAVED',
+    DeleteNews: 'DELETE_NEWS',
+    NewsDeleted: 'NEWS_DELETED'
+});

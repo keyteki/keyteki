@@ -135,7 +135,8 @@ async function getRandomAvatar(user) {
 function processImage(image, width, height) {
     return new Promise((resolve, reject) => {
         const canvas = new fabric.StaticCanvas();
-        canvas.setDimensions({ width: width, height: height });
+        canvas.setWidth(width);
+        canvas.setHeight(height);
         fabric.Image.fromURL(
             'data:image/png;base64,' + image,
             (img) => {
@@ -152,10 +153,7 @@ function processImage(image, width, height) {
                         });
                     canvas.add(img);
                     canvas.renderAll();
-                    let dataUrl = canvas.toDataURL();
-                    let base64Data = dataUrl.replace(/^data:image\/png;base64,/, '');
-
-                    resolve(base64Data);
+                    resolve(canvas);
                 }
             },
             { crossOrigin: 'anonymous' }
@@ -170,16 +168,20 @@ async function processAvatar(newUser, user) {
         fs.unlinkSync(`public/img/avatar/${user.settings.avatar}.png`);
     }
 
-    let fileData;
+    let canvas;
     try {
-        fileData = await processImage(newUser.avatar, 24, 24);
+        canvas = await processImage(newUser.avatar, 24, 24);
     } catch (err) {
         logger.error(err);
         return null;
     }
 
     let fileName = `${user.username}-${hash}`;
-    fs.writeFileSync(`public/img/avatar/${fileName}.png`, fileData, 'base64');
+    const stream = canvas.createPNGStream();
+    const out = fs.createWriteStream(`public/img/avatar/${fileName}.png`);
+    stream.on('data', (chunk) => {
+        out.write(chunk);
+    });
 
     return fileName;
 }
@@ -195,16 +197,23 @@ async function processCustomBackground(newUser, user) {
         fs.mkdirSync('public/img/bgs/');
     }
 
-    let fileData;
+    let canvas;
     try {
-        fileData = await processImage(newUser.customBackground, 700, 410);
+        canvas = await processImage(newUser.customBackground, 700, 410);
     } catch (err) {
         logger.error(err);
         return null;
     }
 
     let fileName = `${user.username}-${hash}`;
-    fs.writeFileSync(`public/img/bgs/${fileName}.png`, fileData, 'base64');
+    const stream = canvas.createPNGStream();
+    const out = fs.createWriteStream(`public/img/bgs/${fileName}.png`);
+    stream.on('data', (chunk) => {
+        out.write(chunk);
+    });
+    stream.on('end', () => {
+        canvas.dispose();
+    });
 
     return fileName;
 }
@@ -524,8 +533,10 @@ module.exports.init = function (server, options) {
             }
 
             if (isSupporter !== req.user.permissions.isSupporter) {
-                userDetails.permissions.isSupporter = req.user.permissions.isSupporter = isSupporter;
-                await userService.setSupporterStatus(user.id, isSupporter);
+                if (!req.user.permissions.keepsSupporterWithNoPatreon) {
+                    userDetails.permissions.isSupporter = req.user.permissions.isSupporter = isSupporter;
+                    await userService.setSupporterStatus(user.id, isSupporter);
+                }
             }
 
             res.send({ success: true, user: userDetails });
@@ -826,7 +837,7 @@ module.exports.init = function (server, options) {
     server.put(
         '/api/account/:username',
         passport.authenticate('jwt', { session: false }),
-        wrapAsync(async (req, res) => {
+        wrapAsync(async (req, res, next) => {
             let userToSet = req.body.data;
 
             if (req.user.username !== req.params.username) {
@@ -836,6 +847,18 @@ module.exports.init = function (server, options) {
             let user = await userService.getFullUserByUsername(req.params.username);
             if (!user) {
                 return res.status(404).send({ message: 'Not found' });
+            }
+
+            if (user.username !== userToSet.username) {
+                let userTest = await userService.doesUserExist(userToSet.username);
+                if (userTest) {
+                    res.send({
+                        success: false,
+                        message: 'An account with that name already exists, please choose another'
+                    });
+
+                    return next();
+                }
             }
 
             if (userToSet.avatar && !isValidImage(userToSet.avatar)) {
@@ -850,6 +873,7 @@ module.exports.init = function (server, options) {
 
             user = user.getDetails();
 
+            user.username = userToSet.username;
             user.email = userToSet.email;
             let oldAvatar = user.settings.avatar;
             let oldCustomBg = user.settings.customBackground;

@@ -26,6 +26,7 @@ import './Profile.scss';
 /**
  * User profile
  * @typedef {Object} ProfileDetails
+ * @property {string} username The user new username
  * @property {string} email The user email address
  * @property {SettingsDetails} settings The user profile settings
  */
@@ -35,11 +36,13 @@ import './Profile.scss';
  * @typedef {Object} GameOptionsDetails
  * @property {boolean} orderForcedAbilities Whether or not to order forced abilities
  * @property {boolean} confirmOneClick Force a prompt for one click abilities
+ * @property {boolean} useHalfSizedCards Use halfSize card images
  */
 
 /**
  * Existing Profile Details
  * @typedef {Object} ExistingProfileDetails
+ * @property {string} username
  * @property {string} email The user email address
  * @property {SettingsDetails} settings The user profile settings
  * @property {GameOptionsDetails} gameOptions The user email address
@@ -59,6 +62,7 @@ import './Profile.scss';
 const initialValues = {
     avatar: undefined,
     email: '',
+    username: '',
     challongeApiKey: '',
     challongeApiSubdomain: '',
     settings: {
@@ -67,7 +71,8 @@ const initialValues = {
     },
     gameOptions: {
         confirmOneClick: false,
-        orderForcedAbilities: false
+        orderForcedAbilities: false,
+        useHalfSizedCards: false
     }
 };
 
@@ -109,6 +114,7 @@ const Profile = ({ onSubmit, isLoading }) => {
     }
 
     initialValues.email = user.email;
+    initialValues.username = user.username;
     if (user?.settings?.optionSettings) {
         initialValues.gameOptions = user.settings.optionSettings;
     }
@@ -132,6 +138,15 @@ const Profile = ({ onSubmit, isLoading }) => {
                 (value) =>
                     !value ||
                     ['image/jpg', 'image/jpeg', 'image/gif', 'image/png'].includes(value.type)
+            ),
+        username: yup
+            .string()
+            .required(t('You must specify a username'))
+            .min(3, t('Your username must be at least 3 characters long'))
+            .max(15, t('Your username cannot be more than 15 charcters'))
+            .matches(
+                /^[A-Za-z0-9_-]+$/,
+                t('Usernames must only use the characters a-z, 0-9, _ and -')
             ),
         email: yup
             .string()
@@ -157,6 +172,7 @@ const Profile = ({ onSubmit, isLoading }) => {
                         subdomain: values.challongeApiSubdomain
                     },
                     email: values.email,
+                    username: values.username,
                     password: values.password,
                     settings: { optionSettings: values.gameOptions }
                 };

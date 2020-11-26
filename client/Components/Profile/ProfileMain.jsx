@@ -1,11 +1,13 @@
 import React, { useRef, useState } from 'react';
 import { Col, Form, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
 
 import { PatreonStatus } from '../../types';
 import Panel from '../Site/Panel';
 import Avatar from '../Site/Avatar';
 import { PatreonClientId } from '../../constants';
+import { unlinkPatreon } from '../../redux/actions';
 import PatreonImage from '../../assets/img/Patreon_Mark_Coral.jpg';
 
 import './ProfileMain.scss';
@@ -16,7 +18,7 @@ import './ProfileMain.scss';
 
 /**
  * @typedef ProfileMainProps
- * @property {import('formik').FormikProps<ProfileDetails} formProps
+ * @property {import('formik').FormikProps<ProfileDetails>} formProps
  * @property {User} user
  */
 
@@ -27,6 +29,7 @@ const ProfileMain = ({ user, formProps }) => {
     const { t } = useTranslation();
     const inputFile = useRef(null);
     const [localAvatar, setAvatar] = useState(null);
+    const dispatch = useDispatch();
 
     const onAvatarUploadClick = () => {
         if (!inputFile.current) {
@@ -42,6 +45,21 @@ const ProfileMain = ({ user, formProps }) => {
     return (
         <Panel title={t('Profile')}>
             <Form.Row>
+                <Form.Group as={Col} md='6' controlId='formGridUsername'>
+                    <Form.Label>{t('Username')}</Form.Label>
+                    <Form.Control
+                        name='username'
+                        type='text'
+                        placeholder={t('Enter a username')}
+                        value={formProps.values.username}
+                        onChange={formProps.handleChange}
+                        onBlur={formProps.handleBlur}
+                        isInvalid={formProps.touched.username && !!formProps.errors.username}
+                    />
+                    <Form.Control.Feedback type='invalid'>
+                        {formProps.errors.username}
+                    </Form.Control.Feedback>
+                </Form.Group>
                 <Form.Group as={Col} md='6' controlId='formGridEmail'>
                     <Form.Label>{t('Email')}</Form.Label>
                     <Form.Control
@@ -107,12 +125,14 @@ const ProfileMain = ({ user, formProps }) => {
                             src={PatreonImage}
                             alt={t('Patreon Logo')}
                         />
-                        {user?.patreonStatus === PatreonStatus.Unlinked ? (
+                        {!user?.patreon || user?.patreon === PatreonStatus.Unlinked ? (
                             <Button variant='secondary' href={patreonUrl}>
                                 Link Account
                             </Button>
                         ) : (
-                            <Button variant='secondary'>Unlink Account</Button>
+                            <Button variant='secondary' onClick={() => dispatch(unlinkPatreon())}>
+                                Unlink Account
+                            </Button>
                         )}
                     </div>
                 </Form.Group>

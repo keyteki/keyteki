@@ -24,6 +24,18 @@ module.exports = {
 
         return res.rows;
     },
+    queryTran: async (client, text, params = []) => {
+        logger.debug(text, params);
+        let res = await client.query(text, params);
+
+        return res.rows;
+    },
+    startTransaction: async () => {
+        let client = await pool.connect();
+        await client.query('BEGIN');
+
+        return client;
+    },
     shutdown: async () => {
         await pool.end();
     }

@@ -1,10 +1,13 @@
 import React from 'react';
+import classNames from 'classnames';
+import { useSelector } from 'react-redux';
 
 import Avatar from '../Site/Avatar';
 import AlertPanel from '../Site/AlertPanel';
 import { Constants } from '../../constants';
 import AmberImage from '../../assets/img/amber.png';
 import CardBackImage from '../../assets/img/idbacks/cardback.jpg';
+import CardImage from './CardImage';
 
 const keyImages = {};
 
@@ -33,6 +36,10 @@ const Messages = ({ messages, onCardMouseOver, onCardMouseOut }) => {
         unforgedkeyred: { className: 'icon-forgedKey', imageSrc: keyImages['red'].unforged }
     };
 
+    const owner = useSelector(
+        (state) => state.lobby.currentGame.players[state.lobby.currentGame.owner]
+    );
+
     for (let house of Constants.Houses) {
         tokens[house] = {
             className: 'chat-house-icon',
@@ -41,11 +48,20 @@ const Messages = ({ messages, onCardMouseOver, onCardMouseOut }) => {
     }
 
     const getMessage = () => {
-        return messages.map((message, index) => (
-            <div key={index} className='message mb-1'>
-                {formatMessageText(message.message)}
-            </div>
-        ));
+        return messages.map((message, index) => {
+            let className = classNames('message', 'mb-1', {
+                'this-player': message.activePlayer && message.activePlayer == owner.name,
+                'other-player': message.activePlayer && message.activePlayer !== owner.name,
+                'chat-bubble': Object.values(message.message).some(
+                    (m) => m.name && m.argType === 'player'
+                )
+            });
+            return (
+                <div key={index} className={className}>
+                    {formatMessageText(message.message)}
+                </div>
+            );
+        });
     };
 
     const formatMessageText = (message) => {
@@ -65,7 +81,6 @@ const Messages = ({ messages, onCardMouseOver, onCardMouseOut }) => {
                 switch (fragment.type) {
                     case 'endofround':
                     case 'phasestart':
-                    case 'startofround':
                         messages.push(
                             <div
                                 className={'font-weight-bold text-white separator ' + fragment.type}
@@ -74,6 +89,16 @@ const Messages = ({ messages, onCardMouseOver, onCardMouseOut }) => {
                                 <hr className={'mt-2 mb-2' + fragment.type} />
                                 {message}
                                 {fragment.type === 'phasestart' && <hr />}
+                            </div>
+                        );
+                        break;
+                    case 'startofround':
+                        messages.push(
+                            <div
+                                className={'font-weight-bold text-white separator ' + fragment.type}
+                                key={index++}
+                            >
+                                {message}
                             </div>
                         );
                         break;
@@ -122,7 +147,10 @@ const Messages = ({ messages, onCardMouseOver, onCardMouseOut }) => {
                     <span
                         key={index++}
                         className='card-link'
-                        onMouseOver={onCardMouseOver.bind(this, fragment)}
+                        onMouseOver={onCardMouseOver.bind(this, {
+                            image: <CardImage card={fragment} />,
+                            size: 'normal'
+                        })}
                         onMouseOut={onCardMouseOut.bind(this)}
                     >
                         {fragment.label}
@@ -133,7 +161,7 @@ const Messages = ({ messages, onCardMouseOver, onCardMouseOut }) => {
                     'username' + (fragment.role ? ` ${fragment.role.toLowerCase()}-role` : '');
 
                 messages.push(
-                    <div key={index++} className='message-chat mb-1'>
+                    <div key={index++} className='message-chat'>
                         <Avatar imgPath={fragment.avatar} float />
                         <span key={index++} className={userClass}>
                             {fragment.name}

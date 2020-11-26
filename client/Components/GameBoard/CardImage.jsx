@@ -1,26 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import mergeImages from 'merge-images';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { fabric } from 'fabric';
+import { buildCard } from '../../archonMaker';
 
 import './CardImage.scss';
-
-const EnhancementBaseImages = {};
-
-import AmberImage from '../../assets/img/enhancements/amber.png';
-import CaptureImage from '../../assets/img/enhancements/capture.png';
-import DrawImage from '../../assets/img/enhancements/draw.png';
-import DamageImage from '../../assets/img/enhancements/damage.png';
-
-const EnhancementImages = {
-    amber: AmberImage,
-    capture: CaptureImage,
-    draw: DrawImage,
-    damage: DamageImage
-};
-
-for (let i = 1; i < 6; i++) {
-    EnhancementBaseImages[i] = require(`../../assets/img/enhancements/base-${i}.png`);
-}
 
 /**
  * @typedef CardImageProps
@@ -32,76 +15,70 @@ for (let i = 1; i < 6; i++) {
  *
  * @param {CardImageProps} props
  */
-const CardImage = ({ card, cardBack }) => {
+const CardImage = ({ card, cardBack, size, halfSize }) => {
+    let [cardImage, setCardImage] = useState(null);
     const { i18n } = useTranslation();
-    let [mergedImage, setMergedImage] = useState('');
-    let { maverick, anomaly, amber, enhancements, image } = card;
+    const fabricRef = useRef();
 
-    if (card.cardPrintedAmber) {
-        amber = card.cardPrintedAmber;
-    }
+    const ref = useCallback(
+        async (node) => {
+            if (node && card) {
+                let canvas;
+                try {
+                    canvas = new fabric.StaticCanvas(node);
+                } catch {
+                    fabricRef.current = null;
+                }
+
+                if (canvas) {
+                    fabricRef.current = await buildCard(canvas, {
+                        ...card,
+                        size,
+                        halfSize,
+                        url: `/img/${halfSize ? 'halfSize' : 'cards'}/${
+                            i18n.language === 'en' ? '' : i18n.language
+                        }/${card.image}.${halfSize ? 'jpg' : 'png'}`
+                    });
+                }
+            }
+        },
+        /* eslint-disable react-hooks/exhaustive-deps */
+        [
+            card.id,
+            card.location,
+            card.modifiedPower,
+            card.tokens && card.tokens.amber,
+            card.tokens && card.tokens.armor,
+            card.tokens && card.tokens.damage,
+            card.tokens && card.tokens.disruption,
+            card.tokens && card.tokens.doom,
+            card.tokens && card.tokens.enrage,
+            card.tokens && card.tokens.fuse,
+            card.tokens && card.tokens.glory,
+            card.tokens && card.tokens.growth,
+            card.tokens && card.tokens.power,
+            card.tokens && card.tokens.scheme,
+            card.tokens && card.tokens.ward,
+            card.tokens && card.tokens.warrant,
+            card.stunned,
+            card.pseudoDamage,
+            card.wardBroken,
+            i18n.language
+        ]
+        /* eslint-enable react-hooks/exhaustive-deps */
+    );
 
     useEffect(() => {
-        let imgPath = card.facedown
-            ? cardBack
-            : `/img/cards/${i18n.language === 'en' ? '' : i18n.language + '/'}${image}.png`;
-
-        let imagesToMerge = [];
-        if (maverick) {
-            let bonusIcons = amber > 0 || (enhancements && enhancements.length > 0);
-            let maverickHouseImg =
-                '/img/maverick/maverick-' + maverick + (bonusIcons ? '-amber' : '') + '.png';
-            imagesToMerge.push({ src: maverickHouseImg, x: 0, y: 0 });
-            imagesToMerge.push({ src: '/img/maverick/maverick-corner.png', x: 210, y: 0 });
-        }
-
-        if (anomaly) {
-            let maverickHouseImg =
-                '/img/maverick/maverick-' + anomaly + (amber > 0 ? '-amber' : '') + '.png';
-            imagesToMerge.push({ src: maverickHouseImg, x: 0, y: 0 });
-        }
-
-        if (enhancements && enhancements.length > 0 && enhancements[0] !== '') {
-            let y = 59 + (amber ? amber * 30 : 0);
-            imagesToMerge.push({
-                src: EnhancementBaseImages[enhancements.length],
-                x: 14,
-                y
-            });
-            enhancements.forEach((enhancement, index) => {
-                imagesToMerge.push({
-                    src: EnhancementImages[enhancement],
-                    x: 21,
-                    y: y + 10 + index * 31
-                });
-            });
-        }
-
-        if (imagesToMerge.length > 0) {
-            mergeImages([imgPath, ...imagesToMerge])
-                .then((src) => setMergedImage(src))
-                .catch(() => {});
+        if (card.facedown) {
+            setCardImage(cardBack);
         } else {
-            setMergedImage(imgPath);
+            setCardImage(<canvas className='h-100 w-100' ref={ref} />);
         }
-    }, [
-        amber,
-        anomaly,
-        i18n.language,
-        maverick,
-        enhancements,
-        setMergedImage,
-        image,
-        cardBack,
-        card.facedown,
-        card
-    ]);
-
-    return (
-        <>
-            <img className='img-fluid' src={mergedImage} />
-        </>
-    );
+    }, [card.facedown, card.id, ref, cardBack]);
+    if (cardImage) {
+        return cardImage;
+    }
+    return <div />;
 };
 
 export default CardImage;

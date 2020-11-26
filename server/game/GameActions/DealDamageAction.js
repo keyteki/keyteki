@@ -64,14 +64,33 @@ class DealDamageAction extends CardGameAction {
         };
 
         return super.createEvent('onDamageDealt', params, (damageDealtEvent) => {
-            if (card.warded) {
-                for (let event in damageDealtEvent
+            if (damageDealtEvent.card.warded) {
+                for (let event of damageDealtEvent
                     .getSimultaneousEvents()
-                    .filter((event) => event.name === 'onDamageDealt' && event.card === card)) {
+                    .filter(
+                        (event) =>
+                            event.name === 'onDamageDealt' && event.card === damageDealtEvent.card
+                    )) {
                     event.cancel();
                 }
 
-                card.unward();
+                let sourceArg;
+
+                if (
+                    damageDealtEvent.damageSource &&
+                    damageDealtEvent.damageSource.name === 'Framework effect'
+                ) {
+                    sourceArg = 'a bonus icon';
+                } else {
+                    sourceArg = damageDealtEvent.damageSource;
+                }
+
+                context.game.addMessage(
+                    "{0}'s ward token prevents the damage dealt by {1} and is discarded",
+                    damageDealtEvent.card,
+                    sourceArg
+                );
+                damageDealtEvent.card.unward();
                 return;
             }
 

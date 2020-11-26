@@ -25,7 +25,8 @@ const GameLobby = ({ gameId }) => {
         { name: 'competitive', label: t('Competitive') },
         { name: 'normal', label: t('Normal') },
         { name: 'sealed', label: t('Sealed') },
-        { name: 'reversal', label: t('Reversal') }
+        { name: 'reversal', label: t('Reversal') },
+        { name: 'adaptive-bo1', label: t('Adaptive (Bo1)') }
     ];
     const filterDefaults = {};
 
@@ -84,9 +85,8 @@ const GameLobby = ({ gameId }) => {
                         dispatch(sendSocketMessage('watchgame', game.id));
                     }
                 }
-
-                dispatch(setUrl('/play'));
             }
+            dispatch(setUrl('/play'));
         }
     }, [currentGame, dispatch, gameId, games]);
 

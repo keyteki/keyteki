@@ -774,6 +774,10 @@ class Lobby {
                     hasEnhancements = true;
                 }
 
+                if (isStandalone) {
+                    deck.verified = true;
+                }
+
                 deck.status = {
                     basicRules: hasEnhancementsSet,
                     notVerified: hasEnhancements && !deck.verified,
@@ -781,7 +785,8 @@ class Lobby {
                     noUnreleasedCards: true,
                     officialRole: true,
                     usageLevel: deckUsageLevel,
-                    verified: !!deck.verified
+                    verified: !!deck.verified,
+                    impossible: isStandalone && deck.id >= 5
                 };
 
                 deck.usageCount = 0;
@@ -909,7 +914,7 @@ class Lobby {
             gameFormat: game.gameFormat,
             gameTimeLimit: game.gameTimeLimit,
             gameType: game.gameType,
-            hideDecklists: game.hideDecklists,
+            hideDeckLists: game.hideDeckLists,
             showHand: game.showHand,
             spectators: game.allowSpectators,
             swap: oldGame.swap,
@@ -1087,7 +1092,6 @@ class Lobby {
                     id: player.id,
                     name: player.name,
                     owner: game.owner === player.name,
-                    faction: { cardData: { code: player.faction } },
                     user: new User(player.user)
                 };
             }

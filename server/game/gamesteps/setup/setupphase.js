@@ -27,12 +27,6 @@ class SetupPhase extends Phase {
         for (let step of this.steps) {
             this.game.queueStep(step);
         }
-    }
-
-    setupBegin() {
-        for (let card of this.game.allCards) {
-            card.applyAnyLocationPersistentEffects();
-        }
 
         for (const player of this.game.getPlayers()) {
             let link = {
@@ -40,14 +34,20 @@ class SetupPhase extends Phase {
                 argType: 'link',
                 label: player.deckData.name
             };
-            if (this.game.gameFormat !== 'sealed' && !this.game.hideDecklists) {
+            if (this.game.gameFormat !== 'sealed' && !this.game.hideDeckLists) {
                 this.game.addMessage(
-                    '{0} is playing as the Archon: {1}{2}',
+                    '{0} brings {1}{2} to The Crucible',
                     player,
                     link,
                     player.chains > 0 ? ` with ${player.chains} chains` : ''
                 );
             }
+        }
+    }
+
+    setupBegin() {
+        for (let card of this.game.allCards) {
+            card.applyAnyLocationPersistentEffects();
         }
     }
 

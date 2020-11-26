@@ -10,7 +10,7 @@ import Select from 'react-select';
 import debounce from 'lodash.debounce';
 import $ from 'jquery';
 
-import Archon from './Archon';
+import CardBack from './CardBack';
 import { loadDecks, selectDeck, loadStandaloneDecks } from '../../redux/actions';
 
 import './DeckList.scss';
@@ -196,7 +196,7 @@ const DeckList = ({ onDeckSelected, standaloneDecks = false }) => {
             // eslint-disable-next-line react/display-name
             formatter: (_, row) => (
                 <div className='deck-image'>
-                    <Archon deck={row} />
+                    <CardBack deck={row} size={'normal'} />
                 </div>
             )
         },
@@ -268,7 +268,7 @@ const DeckList = ({ onDeckSelected, standaloneDecks = false }) => {
     ];
 
     let onNameChange = debounce((event) => {
-        nameFilter.current(event.target.value);
+        nameFilter.current(event.target.value.toLowerCase());
     }, 500);
 
     return (

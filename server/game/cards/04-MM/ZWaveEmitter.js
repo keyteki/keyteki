@@ -2,10 +2,9 @@ const Card = require('../../Card.js');
 
 class ZWaveEmitter extends Card {
     setupCardAbilities(ability) {
-        this.interrupt({
+        this.reaction({
             when: {
-                onPhaseStarted: (event, context) =>
-                    event.phase === 'key' && context.player === this.game.activePlayer
+                onBeginRound: (_, context) => context.player === this.game.activePlayer
             },
             gameAction: ability.actions.ward((context) => ({
                 target: context.source.parent

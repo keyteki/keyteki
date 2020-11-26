@@ -4,7 +4,7 @@ import { sortBy } from 'underscore';
 import { useTranslation } from 'react-i18next';
 
 import { Constants } from '../../constants';
-import Archon from './Archon';
+import CardBack from './CardBack';
 import IdentityCard from './IdentityCard';
 import CardImage from '../GameBoard/CardImage';
 
@@ -27,7 +27,7 @@ const DeckSummary = ({ deck }) => {
             for (let i = 0; i < card.count; i++) {
                 let cardClass = 'deck-card-link';
 
-                if (card.enhancements) {
+                if (card.card.enhancements) {
                     cardClass += ' enhanced-card';
                 }
 
@@ -35,7 +35,7 @@ const DeckSummary = ({ deck }) => {
                     <div
                         key={`${card.dbId}${i}`}
                         className={cardClass}
-                        onMouseOver={() => setZoomCard(card)}
+                        onMouseOver={() => setZoomCard(card.card)}
                         onMouseMove={(event) => {
                             let y = event.clientY;
                             let yPlusHeight = y + 420;
@@ -51,10 +51,10 @@ const DeckSummary = ({ deck }) => {
                         {card.card.locale && card.card.locale[i18n.language]
                             ? card.card.locale[i18n.language].name
                             : card.card.name}
-                        {card.maverick && (
+                        {card.card.maverick && (
                             <img className='small-card-icon' src={Constants.MaverickIcon} />
                         )}
-                        {card.anomaly && (
+                        {card.card.anomaly && (
                             <img className='small-card-icon' src={Constants.AnomalyIcon} />
                         )}
                     </div>
@@ -67,7 +67,7 @@ const DeckSummary = ({ deck }) => {
         <Col xs='12' className='deck-summary'>
             <Row>
                 <Col xs='2' sm='3'>
-                    <Archon deck={deck} />
+                    <CardBack deck={deck} size={'x-large'} />
                 </Col>
                 <Col xs='2' sm='3'>
                     <IdentityCard deck={deck} />
@@ -120,9 +120,7 @@ const DeckSummary = ({ deck }) => {
                         className='decklist-card-zoom'
                         style={{ left: mousePos.x + 5 + 'px', top: mousePos.y + 'px' }}
                     >
-                        <CardImage
-                            card={Object.assign({}, zoomCard, zoomCard.card, zoomCard.cardData)}
-                        />
+                        <CardImage card={Object.assign({}, zoomCard)} />
                     </div>
                 )}
                 {deck.houses.map((house) => {

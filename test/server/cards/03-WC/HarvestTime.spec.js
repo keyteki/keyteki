@@ -42,6 +42,27 @@ describe('Harvest Time', function () {
                     expect(this.player2.amber).toBe(3);
                 });
             });
+
+            describe('when a trait is selected', function () {
+                beforeEach(function () {
+                    this.gamgee.ward();
+                    this.player1.selectTrait('thief');
+                });
+
+                it('should purge all creatures with that trait', function () {
+                    expect(this.gamgee.location).toBe('play area');
+                    expect(this.badPenny.location).toBe('purged');
+                    expect(this.knucklesBolton.location).toBe('purged');
+                    expect(this.troll.location).not.toBe('purged');
+                    expect(this.pipPip.location).not.toBe('purged');
+                });
+
+                it('should not give 1A for warded creatures', function () {
+                    expect(this.gamgee.tokens.ward).toBeUndefined();
+                    expect(this.player1.amber).toBe(3);
+                    expect(this.player2.amber).toBe(3);
+                });
+            });
         });
     });
 });
