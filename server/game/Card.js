@@ -186,7 +186,7 @@ class Card extends EffectSource {
             if (this.composedPart.cardPrintedAmber) {
                 printedAmber = this.composedPart.cardPrintedAmber;
             }
-            if (this.composedPart.enhancements) {
+            if (this.composedPart.enhancements && this.composedPart.enhancements.length > 0) {
                 enhancements = this.composedPart.enhancements;
             }
         }
