@@ -112,6 +112,11 @@ class CardService {
                 continue;
             }
 
+            // merge locales
+            if (cardsById[card.id]) {
+                card.locale = Object.assign(card.locale, cardsById[card.id].locale);
+            }
+
             cardsById[card.id] = card;
         }
 
@@ -158,7 +163,12 @@ class CardService {
                 logger.error(`Failed to get languages for card ${card.CardId}`, err);
             }
 
-            retCards[card.CardId] = this.mapCard(card, languages, options);
+            retCards[card.CardId] = this.mapCard(
+                card,
+                languages,
+                options,
+                retCards[card.CardId] ? retCards[card.CardId].locale : {}
+            );
         }
 
         logger.info('Cards loaded from database, sending to redis');
@@ -168,7 +178,11 @@ class CardService {
         return retCards;
     }
 
-    mapCard(card, languages, options) {
+    shutdown() {
+        this.redis.quit();
+    }
+
+    mapCard(card, languages, options, locale) {
         let retCard = {
             id: card.CardId,
             name: card.Name,
@@ -179,7 +193,7 @@ class CardService {
             image: card.Image,
             amber: card.Amber,
             traits: card.Traits.split(','),
-            locale: {}
+            locale: locale
         };
 
         for (let language of languages) {

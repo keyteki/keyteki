@@ -1,0 +1,26 @@
+@import '../../styles/variables';
+@import '../../styles/colours';
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+
+.selected {
+    box-shadow: 0 0 1px 4px theme-color(secondary);
+}
+
+.bg-label {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+}
+
+.custom-bg {
+    height: 155px;
+    width: 100%;
+}
+
+.bg-error {
+    width: 100%;
+    display: inline-block;
+    text-align: center;
+}

@@ -4,10 +4,11 @@ const ConfigService = require('../services/ConfigService');
 const DeckService = require('../services/DeckService.js');
 const { wrapAsync } = require('../util.js');
 const logger = require('../log.js');
-
+const ServiceFactory = require('../services/ServiceFactory');
 const configService = new ConfigService();
+const cardService = ServiceFactory.cardService(configService);
 
-let deckService = new DeckService(configService);
+const deckService = new DeckService(configService);
 
 module.exports.init = function (server) {
     server.get(
@@ -53,36 +54,41 @@ module.exports.init = function (server) {
         '/api/decks',
         passport.authenticate('jwt', { session: false }),
         wrapAsync(async function (req, res) {
-            let decks = (await deckService.findForUser(req.user)).map((deck) => {
-                let deckUsageLevel = 0;
-                if (
-                    deck.usageCount >
-                    configService.getValueForSection('lobby', 'lowerDeckThreshold')
-                ) {
-                    deckUsageLevel = 1;
-                }
+            let numDecks = await deckService.getNumDecksForUser(req.user, req.query);
+            let decks = [];
 
-                if (
-                    deck.usageCount >
-                    configService.getValueForSection('lobby', 'middleDeckThreshold')
-                ) {
-                    deckUsageLevel = 2;
-                }
+            if (numDecks > 0) {
+                decks = (await deckService.findForUser(req.user, req.query)).map((deck) => {
+                    let deckUsageLevel = 0;
+                    if (
+                        deck.usageCount >
+                        configService.getValueForSection('lobby', 'lowerDeckThreshold')
+                    ) {
+                        deckUsageLevel = 1;
+                    }
 
-                if (
-                    deck.usageCount >
-                    configService.getValueForSection('lobby', 'upperDeckThreshold')
-                ) {
-                    deckUsageLevel = 3;
-                }
+                    if (
+                        deck.usageCount >
+                        configService.getValueForSection('lobby', 'middleDeckThreshold')
+                    ) {
+                        deckUsageLevel = 2;
+                    }
 
-                deck.usageLevel = deckUsageLevel;
-                deck.usageCount = undefined;
+                    if (
+                        deck.usageCount >
+                        configService.getValueForSection('lobby', 'upperDeckThreshold')
+                    ) {
+                        deckUsageLevel = 3;
+                    }
 
-                return deck;
-            });
+                    deck.usageLevel = deckUsageLevel;
+                    deck.usageCount = undefined;
 
-            res.send({ success: true, decks: decks });
+                    return deck;
+                });
+            }
+
+            res.send({ success: true, numDecks: numDecks, decks: decks });
         })
     );
 
@@ -102,8 +108,7 @@ module.exports.init = function (server) {
             } catch (error) {
                 return res.send({
                     success: false,
-                    message:
-                        'An error occurred importing your deck.  Please check the Url or try again later.'
+                    message: error.message
                 });
             }
 
@@ -161,6 +166,77 @@ module.exports.init = function (server) {
 
             await deckService.update(deck);
             res.send({ success: true, message: 'Deck verified successfully', deckId: id });
+        })
+    );
+
+    server.post(
+        '/api/decks/:id/enhancements',
+        passport.authenticate('jwt', { session: false }),
+        wrapAsync(async function (req, res) {
+            let id = req.params.id;
+
+            let deck = await deckService.getById(id);
+            if (!deck) {
+                return res.status(404).send({ success: false, message: 'No such deck' });
+            }
+
+            if (deck.username !== req.user.username) {
+                return res.status(401).send({ message: 'Unauthorized' });
+            }
+
+            const enhancementRegex = /Enhance (.+?)\./;
+            let totalEnhancements = 0;
+            let totalUsed = 0;
+            const EnhancementLookup = {
+                P: 'capture',
+                D: 'damage',
+                R: 'draw',
+                A: 'amber'
+            };
+
+            let cards = await cardService.getAllCards();
+
+            let cardsWithEnhancements = deck.cards.filter((c) => c.enhancements).length;
+            let enhancedCards = Object.values(req.body.enhancements).length;
+            for (let deckCard of deck.cards.filter(
+                (c) => cards[c.id].text && cards[c.id].text.includes('Enhance')
+            )) {
+                let matches = cards[deckCard.id].text.match(enhancementRegex);
+                if (!matches || matches.length === 1) {
+                    continue;
+                }
+
+                let enhancementString = matches[1];
+                for (let char of enhancementString) {
+                    let enhancement = EnhancementLookup[char];
+                    if (enhancement) {
+                        for (let i = 0; i < deckCard.count; i++) {
+                            totalEnhancements++;
+                        }
+                    }
+                }
+            }
+
+            for (const [id, enhancements] of Object.entries(req.body.enhancements)) {
+                let card = deck.cards.find((c) => c.dbId == id);
+                let newEnhancements = [];
+
+                for (let [enhancement, count] of Object.entries(enhancements)) {
+                    for (let i = 0; i < count; i++) {
+                        newEnhancements.push(enhancement);
+                        totalUsed++;
+                    }
+                }
+
+                card.enhancements = newEnhancements;
+            }
+
+            if (totalUsed < totalEnhancements || enhancedCards < cardsWithEnhancements) {
+                return res.send({ success: false, message: 'Enhancements incorrectly assigned' });
+            }
+
+            await deckService.update(deck);
+            res.send({ success: true, message: 'Enhancements added successfully', deckId: id });
         })
     );
 };

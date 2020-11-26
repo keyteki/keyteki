@@ -1,98 +1,84 @@
-import React, { Component, Fragment } from 'react';
-import PropTypes from 'prop-types';
-import mergeImages from 'merge-images';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { fabric } from 'fabric';
+import { buildCard } from '../../archonMaker';
 
-import { withTranslation } from 'react-i18next';
+import './CardImage.scss';
 
-class CardImage extends Component {
-    constructor() {
-        super();
-        this.state = { src: '', err: '' };
-    }
+/**
+ * @typedef CardImageProps
+ * @property {object} card // The card data to render an image for
+ * @property {string} [cardBack] // The card back image to show if not showing the card image
+ */
 
-    componentDidMount() {
-        this.updateImage();
-    }
+/**
+ *
+ * @param {CardImageProps} props
+ */
+const CardImage = ({ card, cardBack, size, halfSize }) => {
+    let [cardImage, setCardImage] = useState(null);
+    const { i18n } = useTranslation();
+    const fabricRef = useRef();
 
-    componentDidUpdate(prevProps) {
-        if (this.props.img !== prevProps.img || this.props.language !== prevProps.language) {
-            this.updateImage();
-        }
-    }
+    const ref = useCallback(
+        async (node) => {
+            if (node && card) {
+                let canvas;
+                try {
+                    canvas = new fabric.StaticCanvas(node);
+                } catch {
+                    fabricRef.current = null;
+                }
 
-    updateImage() {
-        let { img, maverick, anomaly, amber, enhancements, i18n } = this.props;
+                if (canvas) {
+                    fabricRef.current = await buildCard(canvas, {
+                        ...card,
+                        size,
+                        halfSize,
+                        url: `/img/${halfSize ? 'halfSize' : 'cards'}/${
+                            i18n.language === 'en' ? '' : i18n.language
+                        }/${card.image}.${halfSize ? 'jpg' : 'png'}`
+                    });
+                }
+            }
+        },
+        /* eslint-disable react-hooks/exhaustive-deps */
+        [
+            card.id,
+            card.location,
+            card.modifiedPower,
+            card.tokens && card.tokens.amber,
+            card.tokens && card.tokens.armor,
+            card.tokens && card.tokens.damage,
+            card.tokens && card.tokens.disruption,
+            card.tokens && card.tokens.doom,
+            card.tokens && card.tokens.enrage,
+            card.tokens && card.tokens.fuse,
+            card.tokens && card.tokens.glory,
+            card.tokens && card.tokens.growth,
+            card.tokens && card.tokens.power,
+            card.tokens && card.tokens.scheme,
+            card.tokens && card.tokens.ward,
+            card.tokens && card.tokens.warrant,
+            card.stunned,
+            card.pseudoDamage,
+            card.wardBroken,
+            i18n.language
+        ]
+        /* eslint-enable react-hooks/exhaustive-deps */
+    );
 
-        if (!this.props.img) {
-            return;
-        }
-
-        let langToUse = this.props.language ? this.props.language : i18n.language;
-
-        let imgPath =
-            langToUse === 'en' ? img : img.replace('/cards/', '/cards/' + langToUse + '/');
-
-        let imagesToMerge = [];
-
-        if (maverick) {
-            let bonusIcons = amber > 0 || (enhancements && enhancements.length > 0);
-            let maverickHouseImg =
-                '/img/maverick/maverick-' + maverick + (bonusIcons ? '-amber' : '') + '.png';
-            imagesToMerge.push({ src: maverickHouseImg, x: 0, y: 0 });
-            imagesToMerge.push({ src: '/img/maverick/maverick-corner.png', x: 210, y: 0 });
-        }
-
-        if (anomaly) {
-            let maverickHouseImg =
-                '/img/maverick/maverick-' + anomaly + (amber > 0 ? '-amber' : '') + '.png';
-            imagesToMerge.push({ src: maverickHouseImg, x: 0, y: 0 });
-        }
-
-        if (enhancements && enhancements.length > 0) {
-            let y = 59 + amber * 30;
-            imagesToMerge.push({
-                src: `/img/enhancements/base-${enhancements.length}.png`,
-                x: 14,
-                y
-            });
-            enhancements.forEach((enhancement, index) => {
-                imagesToMerge.push({
-                    src: `/img/enhancements/${enhancement}.png`,
-                    x: 21,
-                    y: y + 10 + index * 31
-                });
-            });
-        }
-
-        if (imagesToMerge.length > 0) {
-            mergeImages([imgPath, ...imagesToMerge])
-                .then((src) => this.setState({ src }))
-                .catch((err) => this.setState({ err: err.toString() }));
+    useEffect(() => {
+        if (card.facedown) {
+            setCardImage(cardBack);
         } else {
-            this.setState({ src: imgPath });
+            setCardImage(<canvas className='h-100 w-100' ref={ref} />);
         }
+    }, [card.facedown, card.id, ref, cardBack]);
+    if (cardImage) {
+        return cardImage;
     }
-
-    render() {
-        return (
-            <Fragment>
-                <img src={this.state.src} alt={this.props.alt} className={this.props.className} />
-                {this.state.err && <p>{this.state.err} </p>}
-            </Fragment>
-        );
-    }
-}
-
-CardImage.propTypes = {
-    alt: PropTypes.string,
-    amber: PropTypes.number,
-    anomaly: PropTypes.string,
-    className: PropTypes.string,
-    enhancements: PropTypes.array,
-    i18n: PropTypes.object,
-    img: PropTypes.string.isRequired,
-    language: PropTypes.string,
-    maverick: PropTypes.string
+    return <div />;
 };
 
-export default withTranslation()(CardImage);
+export default CardImage;

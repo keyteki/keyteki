@@ -13,9 +13,9 @@ class BlastShielding extends Card {
                 numCards: 1,
                 optional: true,
                 cardType: ['creature'],
+                cardCondition: (card, context) => context.source.parent.neighbors.includes(card),
                 gameAction: ability.actions.attach((context) => ({
-                    upgrade: this,
-                    target: context.source.parent.neighbors
+                    upgrade: context.source
                 }))
             }
         });

@@ -28,12 +28,12 @@ class MessageService extends EventEmitter {
 
         try {
             messages = await db.query(
-                'SELECT m.*, u."Username" AS "Poster", r."Name" AS "Role", ud."Username" AS "DeletedBy" FROM "Messages" m ' +
+                'SELECT m.*, u."Username" AS "Poster", r."Name" AS "Role", ud."Username" AS "DeletedBy", u."Settings_Avatar" AS "Avatar" FROM "Messages" m ' +
                     'JOIN "Users" u ON u."Id" = m."PosterId" ' +
                     'LEFT JOIN "UserRoles" ur ON ur."UserId" = u."Id" ' +
                     'LEFT JOIN "Roles" r ON r."Id" = ur."RoleId" ' +
                     'LEFT JOIN "Users" ud ON ud."Id" = m."DeletedById" ' +
-                    "WHERE r.\"Name\" IS NULL OR r.\"Name\" IN ('Admin', 'Supporter', 'Contributor', 'TournamentWinner') " +
+                    "WHERE r.\"Name\" IS NULL OR r.\"Name\" IN ('Admin', 'Supporter', 'Contributor', 'TournamentWinner', 'PreviousTournamentWinner') " +
                     'ORDER BY "PostedTime" DESC ' +
                     'LIMIT 100'
             );
@@ -98,6 +98,8 @@ class MessageService extends EventEmitter {
                 return 'contributor';
             case 'TournamentWinner':
                 return 'winner';
+            case 'PreviousTournamentWinner':
+                return 'previouswinner';
         }
     }
 
@@ -111,6 +113,7 @@ class MessageService extends EventEmitter {
             deleted: !!message.Deleted,
             time: message.PostedTime,
             user: {
+                avatar: message.Avatar,
                 username: message.Poster,
                 name: message.Poster,
                 role: this.mapRole(message.Role)

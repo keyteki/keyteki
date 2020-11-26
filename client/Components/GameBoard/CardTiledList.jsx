@@ -3,13 +3,15 @@ import PropTypes from 'prop-types';
 
 import Card from './Card';
 
+import './CardTiledList.scss';
+
 function CardTiledList(props) {
     let cardList =
         props.cards &&
         props.cards.map((card, index) => {
             return (
                 <Card
-                    cardBackUrl={props.cardBackUrl}
+                    cardBack={props.cardBack}
                     canDrag={props.manualMode}
                     card={card}
                     disableMouseOver={props.disableMouseOver}
@@ -39,7 +41,6 @@ function CardTiledList(props) {
 }
 
 CardTiledList.propTypes = {
-    cardBackUrl: PropTypes.string,
     cards: PropTypes.array,
     disableMouseOver: PropTypes.bool,
     manualMode: PropTypes.bool,

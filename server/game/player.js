@@ -16,7 +16,6 @@ class Player extends GameObject {
 
         this.hand = [];
         this.cardsInPlay = []; // This stores references to all creatures and artifacts in play.  Upgrades are not stored here.
-        this.deckCards = [];
         this.discard = [];
         this.purged = [];
         this.archives = [];
@@ -34,6 +33,7 @@ class Player extends GameObject {
         this.clock = ClockSelector.for(this, clockdetails);
         this.showDeck = false;
         this.role = user.role;
+        this.avatar = user.avatar;
 
         this.playableLocations = [new PlayableLocation('play', this, 'hand')];
         this.optionSettings = user.settings.optionSettings;
@@ -211,7 +211,6 @@ class Player extends GameObject {
         this.houses = preparedDeck.houses;
         this.deck = preparedDeck.cards;
         this.allCards = preparedDeck.cards;
-        this.deckCards = this.getDeckCards(this.deckData.cards);
     }
 
     /**
@@ -485,19 +484,6 @@ class Player extends GameObject {
         });
     }
 
-    getDeckCards(list) {
-        let final = [];
-        list.forEach((card) => {
-            let arr = [];
-            while (arr.length < card.count) {
-                arr = arr.concat(card.card);
-            }
-
-            final = final.concat(arr);
-        });
-        return final;
-    }
-
     getCardSelectionState(card) {
         return this.promptState.getCardSelectionState(card);
     }
@@ -550,7 +536,7 @@ class Player extends GameObject {
         }, this.houses);
         let stopHouseChoice = this.getEffects('stopHouseChoice');
         let restrictHouseChoice = _.flatten(this.getEffects('restrictHouseChoice')).filter(
-            (house) => !stopHouseChoice.includes(house)
+            (house) => !stopHouseChoice.includes(house) && availableHouses.includes(house)
         );
         if (restrictHouseChoice.length > 0) {
             availableHouses = restrictHouseChoice;
@@ -761,7 +747,7 @@ class Player extends GameObject {
      * @param {Player} activePlayer
      */
 
-    getState(activePlayer, gameFormat) {
+    getState(activePlayer) {
         let isActivePlayer = activePlayer === this;
         let promptState = isActivePlayer ? this.promptState.getState() : {};
         let state = {
@@ -786,8 +772,13 @@ class Player extends GameObject {
             phase: this.game.currentPhase,
             stats: this.getStats(),
             timerSettings: {},
-            user: _.omit(this.user, ['password', 'email']),
-            deckCards: this.deckCards,
+            user: {
+                id: this.user.id,
+                username: this.user.username,
+                settings: this.user.settings,
+                role: this.user.role,
+                avatar: this.user.avatar
+            },
             deckData: this.deckData,
             wins: this.wins
         };
@@ -808,8 +799,6 @@ class Player extends GameObject {
                 return 0;
             });
             state.cardPiles.deck = this.getSummaryForCardList(sortedDeck, activePlayer, true);
-        } else if (gameFormat === 'sealed') {
-            state.deckCards = [];
         }
 
         if (this.isTopCardShown()) {

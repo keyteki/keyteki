@@ -26,6 +26,7 @@ class NiffleKong extends Card {
         this.play({
             effect: 'return Niffle creatures from deck and discard to hand',
             target: {
+                controller: 'self',
                 location: ['deck', 'discard'],
                 mode: 'unlimited',
                 cardType: 'creature',
@@ -42,6 +43,7 @@ class NiffleKong extends Card {
 
         this.fight({
             reap: true,
+            optional: true,
             target: {
                 controller: 'self',
                 cardType: 'creature',
@@ -51,7 +53,7 @@ class NiffleKong extends Card {
             then: {
                 targets: {
                     creature: {
-                        controller: 'opponent',
+                        controller: 'any',
                         cardType: 'creature',
                         gameAction: ability.actions.dealDamage({ amount: 3 })
                     },

@@ -8,16 +8,16 @@ const logger = require('./log');
 class PendingGame {
     constructor(owner, details) {
         this.adaptive = details.adaptive;
-        this.allowSpectators = details.spectators;
+        this.allowSpectators = details.allowSpectators;
         this.challonge = details.challonge;
         this.createdAt = new Date();
         this.expansions = details.expansions;
-        this.gameChat = new GameChat();
+        this.gameChat = new GameChat(this);
         this.gameFormat = details.gameFormat;
         this.gamePrivate = !!details.gamePrivate;
         this.gameTimeLimit = details.gameTimeLimit;
         this.gameType = details.gameType;
-        this.hideDecklists = details.hideDecklists;
+        this.hideDeckLists = details.hideDeckLists;
         this.id = uuid.v1();
         this.muteSpectators = details.muteSpectators;
         this.name = details.name;
@@ -65,6 +65,7 @@ class PendingGame {
         });
 
         return {
+            id: this.id,
             adaptive: this.adaptive,
             challonge: this.challonge,
             expansions: this.expansions,
@@ -77,12 +78,6 @@ class PendingGame {
             startedAt: this.createdAt,
             swap: this.swap
         };
-    }
-
-    // Helpers
-    setupFaction(player, faction) {
-        player.faction = {};
-        player.faction = faction;
     }
 
     // Actions
@@ -255,8 +250,6 @@ class PendingGame {
 
         player.deck = deck;
         player.deck.selected = true;
-
-        this.setupFaction(player, deck.faction);
     }
 
     // interrogators
@@ -338,6 +331,7 @@ class PendingGame {
             }
 
             playerSummaries[player.name] = {
+                avatar: player.user.avatar,
                 deck: activePlayer ? deck : {},
                 houses: this.started && player.deck ? player.deck.houses : [],
                 id: player.id,
@@ -369,11 +363,11 @@ class PendingGame {
             showHand: this.showHand,
             started: this.started,
             swap: this.swap,
-            spectators: _.map(this.spectators, (spectator) => {
+            spectators: Object.values(this.spectators).map((spectator) => {
                 return {
                     id: spectator.id,
                     name: spectator.name,
-                    settings: spectator.settings
+                    avatar: spectator.user.avatar
                 };
             }),
             useGameTimeLimit: this.useGameTimeLimit
@@ -411,7 +405,7 @@ class PendingGame {
             gamePrivate: this.gamePrivate,
             gameTimeLimit: this.gameTimeLimit,
             gameType: this.gameType,
-            hideDecklists: this.hideDecklists,
+            hideDeckLists: this.hideDeckLists,
             id: this.id,
             muteSpectators: this.muteSpectators,
             name: this.name,

@@ -7,8 +7,8 @@ describe('ProfressorTerato', function () {
                     inPlay: ['dextre', 'professor-terato']
                 },
                 player2: {
-                    inPlay: ['lamindra'],
-                    hand: ['relentless-whispers']
+                    inPlay: ['lamindra', 'research-smoko'],
+                    hand: []
                 }
             });
         });
@@ -19,6 +19,14 @@ describe('ProfressorTerato', function () {
 
             this.player1.reap(this.professorTerato);
             expect(this.player1.hand.length).toBe(1);
+        });
+
+        it('should give reap affects to enemy mutant creatures', function () {
+            this.player1.endTurn();
+            this.player2.clickPrompt('logos');
+
+            this.player2.reap(this.researchSmoko);
+            expect(this.player2.hand.length).toBe(1);
         });
     });
 });

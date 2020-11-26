@@ -1,19 +1,32 @@
 const Card = require('../../Card.js');
-const { sortBy } = require('../../../Array.js');
 
 class ForumOfGiants extends Card {
+    getMostPowerfulCreatureControllers(context) {
+        let controllers = [];
+        let max = -1;
+        for (let creature of context.game.creaturesInPlay) {
+            if (creature.power > max) {
+                max = creature.power;
+                controllers = [creature.controller];
+            } else if (
+                creature.power === max &&
+                controllers.length < 2 &&
+                !controllers.includes(creature.controller)
+            ) {
+                controllers.push(creature.controller);
+            }
+        }
+        return controllers;
+    }
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onPhaseStarted: (event, context) =>
-                    event.phase === 'key' && context.player === this.game.activePlayer
+                onBeginRound: (_, context) => context.player === this.game.activePlayer
             },
-            // TODO: Check whether the active player should choose in the case of a tie, also make it not be random who gets it
+            effect: 'make {1} gain 1 amber',
+            effectArgs: (context) => [this.getMostPowerfulCreatureControllers(context)],
             gameAction: ability.actions.gainAmber((context) => ({
-                target:
-                    context.game.creaturesInPlay.length > 1
-                        ? sortBy(context.game.creaturesInPlay, (c) => -c.power)[0].controller
-                        : context.source.controller
+                target: this.getMostPowerfulCreatureControllers(context)
             }))
         });
     }

@@ -6,6 +6,7 @@ class Munchling extends Card {
             optional: true,
             target: {
                 location: ['archives', 'hand'],
+                cardCondition: (card) => card.hasHouse('logos'),
                 controller: 'self',
                 gameAction: ability.actions.discard()
             },

@@ -10,6 +10,7 @@ class DealDamageAction extends CardGameAction {
         this.splash = 0;
         this.purge = false;
         this.ignoreArmor = false;
+        this.bonus = false;
     }
 
     setup() {
@@ -58,18 +59,38 @@ class DealDamageAction extends CardGameAction {
             damageType: this.damageType,
             destroyEvent: null,
             fightEvent: this.fightEvent,
-            ignoreArmor: this.ignoreArmor
+            ignoreArmor: this.ignoreArmor,
+            bonus: this.bonus
         };
 
         return super.createEvent('onDamageDealt', params, (damageDealtEvent) => {
-            if (card.warded) {
-                for (let event in damageDealtEvent
+            if (damageDealtEvent.card.warded) {
+                for (let event of damageDealtEvent
                     .getSimultaneousEvents()
-                    .filter((event) => event.name === 'onDamageDealt' && event.card === card)) {
+                    .filter(
+                        (event) =>
+                            event.name === 'onDamageDealt' && event.card === damageDealtEvent.card
+                    )) {
                     event.cancel();
                 }
 
-                card.unward();
+                let sourceArg;
+
+                if (
+                    damageDealtEvent.damageSource &&
+                    damageDealtEvent.damageSource.name === 'Framework effect'
+                ) {
+                    sourceArg = 'a bonus icon';
+                } else {
+                    sourceArg = damageDealtEvent.damageSource;
+                }
+
+                context.game.addMessage(
+                    "{0}'s ward token prevents the damage dealt by {1} and is discarded",
+                    damageDealtEvent.card,
+                    sourceArg
+                );
+                damageDealtEvent.card.unward();
                 return;
             }
 

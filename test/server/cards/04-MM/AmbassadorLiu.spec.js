@@ -66,25 +66,25 @@ describe('Ambassador Liu', function () {
             });
         });
 
-        it('should gain 1A if discarded Logos', function () {
+        it('should gain 2A if discarded Logos', function () {
             this.player1.useAction(this.ambassadorLiu);
             expect(this.player1).toBeAbleToSelect(this.dextre);
             expect(this.player1).toBeAbleToSelect(this.bumblebird);
             expect(this.player1).toBeAbleToSelect(this.medicIngram);
             this.player1.clickCard(this.dextre);
             expect(this.dextre.location).toBe('discard');
-            expect(this.player1.amber).toBe(3);
+            expect(this.player1.amber).toBe(4);
             expect(this.player2.amber).toBe(6);
         });
 
-        it('should gain 1A if discarded Untamed', function () {
+        it('should gain 2A if discarded Untamed', function () {
             this.player1.useAction(this.ambassadorLiu);
             expect(this.player1).toBeAbleToSelect(this.dextre);
             expect(this.player1).toBeAbleToSelect(this.bumblebird);
             expect(this.player1).toBeAbleToSelect(this.medicIngram);
             this.player1.clickCard(this.bumblebird);
             expect(this.bumblebird.location).toBe('discard');
-            expect(this.player1.amber).toBe(3);
+            expect(this.player1.amber).toBe(4);
             expect(this.player2.amber).toBe(6);
         });
     });

@@ -35,9 +35,8 @@ class Privacy extends React.Component {
                         </p>
                         <p>
                             When you play games on the site, we collect information about the games
-                            you play(what faction/agenda you&quot;re using, the deck you are using
-                            to play with - but not its contents, who you are playing against and the
-                            outcome of the game).
+                            you play(the deck you are using to play with, who you are playing
+                            against and the outcome of the game).
                         </p>
                         <p>If you chat in the lobby, your messages are stored.</p>
                     </Trans>
@@ -66,14 +65,6 @@ class Privacy extends React.Component {
                                 to enchance the security and general environment of the site by
                                 allowing us to restrict people to one account per email address, or
                                 to prevent a user using the site.
-                            </Trans>
-                        </li>
-                        <li>
-                            <Trans i18nKey='privacy.whyemail.3'>
-                                to provide your avatar picture via a service called Gravatar. Your
-                                email address is cryptographically hashed and sent to
-                                Gravatar&quot;s servers for them to provide your profile image or a
-                                default placeholder.
                             </Trans>
                         </li>
                         <li>

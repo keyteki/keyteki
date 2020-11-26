@@ -1,6 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import CardImage from './CardImage';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+
+import './AbilityTargetting.scss';
 
 class AbilityTargeting extends React.Component {
     onMouseOver(event, card) {
@@ -18,23 +22,16 @@ class AbilityTargeting extends React.Component {
     renderSimpleCard(card) {
         return (
             <div
-                className='target-card vertical'
+                className='target-card vertical mb-2'
                 onMouseOut={(event) => this.onMouseOut(event, card)}
-                onMouseOver={(event) => this.onMouseOver(event, card)}
+                onMouseOver={(event) =>
+                    this.onMouseOver(event, {
+                        image: <CardImage card={{ ...card, facedown: false }} />,
+                        size: 'normal'
+                    })
+                }
             >
-                <CardImage
-                    className='target-card-image vertical'
-                    alt={card.name}
-                    img={
-                        !card.facedown
-                            ? `/img/cards/${card.image}.png`
-                            : '/img/idbacks/cardback.jpg'
-                    }
-                    maverick={card.maverick}
-                    anomaly={card.anomaly}
-                    enhancements={card.enhancements}
-                    amber={card.cardPrintedAmber}
-                />
+                <CardImage card={{ ...card, facedown: false }} />
             </div>
         );
     }
@@ -44,9 +41,7 @@ class AbilityTargeting extends React.Component {
         return (
             <div className='prompt-control-targeting'>
                 {this.renderSimpleCard(this.props.source)}
-                {targetCards.length > 0 && (
-                    <span className='glyphicon glyphicon-arrow-right targeting-arrow' />
-                )}
+                {targetCards.length > 0 && <FontAwesomeIcon icon={faArrowRight} />}
                 {targetCards}
             </div>
         );

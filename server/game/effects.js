@@ -11,6 +11,8 @@ const GainAbility = require('./Effects/GainAbility');
 
 const Effects = {
     // Card effects
+    actionCardLocationAfterPlay: (location) =>
+        EffectBuilder.card.static('actionCardLocationAfterPlay', location),
     addHouse: (house) => EffectBuilder.card.static('addHouse', house),
     addKeyword: (keyword) => EffectBuilder.card.static('addKeyword', keyword),
     addTrait: (trait) => EffectBuilder.card.static('addTrait', trait),
@@ -28,6 +30,7 @@ const Effects = {
     entersPlayEnraged: () => EffectBuilder.card.static('entersPlayEnraged'),
     entersPlayReady: () => EffectBuilder.card.static('entersPlayReady'),
     entersPlayStunned: () => EffectBuilder.card.static('entersPlayStunned'),
+    visbileIn: (location) => EffectBuilder.card.static('visbileIn', location),
     gainAbility: (type, properties) =>
         EffectBuilder.card.static('gainAbility', new GainAbility(type, properties)),
     fightAbilitiesAddReap: () => EffectBuilder.card.static('fightAbilitiesAddReap'),
@@ -41,6 +44,8 @@ const Effects = {
     playAbilitiesAddReap: () => EffectBuilder.card.static('playAbilitiesAddReap'),
     reapAbilitiesAddFight: () => EffectBuilder.card.static('reapAbilitiesAddFight'),
     removeKeyword: (keyword) => EffectBuilder.card.static('removeKeyword', keyword),
+    setArmor: (amount) => EffectBuilder.card.flexible('setArmor', amount),
+    setPower: (amount) => EffectBuilder.card.flexible('setPower', amount),
     takeControl: (player) => EffectBuilder.card.static('takeControl', player),
     entersPlayUnderOpponentsControl: () =>
         EffectBuilder.card.static('entersPlayUnderOpponentsControl'),
@@ -91,6 +96,7 @@ const Effects = {
     canUse: (match) =>
         EffectBuilder.player.static('canUse', (context) => match(context.source, context)),
     canUseHouse: (house) => EffectBuilder.player.static('canUseHouse', house),
+    chooseCardsFromArchives: (card) => EffectBuilder.player.static('chooseCardsFromArchives', card),
     customDetachedPlayer: (properties) => EffectBuilder.player.detached('customEffect', properties),
     delayedEffect: (properties) =>
         EffectBuilder.player.detached('delayedEffect', {

@@ -2,14 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import $ from 'jquery';
 import { connect } from 'react-redux';
+import { Container } from 'react-bootstrap';
 
 import { Constants } from './constants';
 import ErrorBoundary from './Components/Site/ErrorBoundary';
-import NavBar from './Components/Site/NavBar';
+import Navigation from './Components/Navigation/Navigation';
 import Router from './Router';
 import { tryParseJSON } from './util';
 import AlertPanel from './Components/Site/AlertPanel';
-import * as actions from './actions';
+import * as actions from './redux/actions';
+
+import Background from './assets/img/bgs/keyforge.png';
+import BlankBg from './assets/img/bgs/blank.png';
+import MassMutationBg from './assets/img/bgs/massmutation.png';
 
 class Application extends React.Component {
     constructor(props) {
@@ -20,6 +25,16 @@ class Application extends React.Component {
         this.onFocusChange = this.onFocusChange.bind(this);
         this.blinkTab = this.blinkTab.bind(this);
         this.state = {};
+        this.bgRef = React.createRef();
+
+        this.backgrounds = { blank: BlankBg };
+
+        for (let i = 0; i < Constants.Houses.length; ++i) {
+            this.backgrounds[Constants.Houses[i]] = Constants.HouseBgPaths[Constants.Houses[i]];
+        }
+
+        this.backgrounds.massmutation = MassMutationBg;
+        this.backgrounds.keyforge = Background;
     }
 
     // eslint-disable-next-line react/no-deprecated
@@ -58,10 +73,6 @@ class Application extends React.Component {
     }
 
     componentDidUpdate(props) {
-        if (!this.props.currentGame) {
-            this.props.setContextMenu([]);
-        }
-
         if (!props.windowBlurred || this.props.windowBlurred) {
             this.blinkTab();
         }
@@ -134,22 +145,34 @@ class Application extends React.Component {
             );
         }
 
-        let backgroundClass = 'bg';
+        let background = 'keyforge';
 
         if (gameBoardVisible && this.props.user) {
             let houseIndex = Constants.HousesNames.indexOf(this.props.user.settings.background);
             if (houseIndex === -1) {
-                backgroundClass = '';
+                background = `${this.props.user?.settings?.background}`;
             } else {
-                backgroundClass += ` bg-board-${Constants.Houses[houseIndex]}`;
+                background = `${Constants.Houses[houseIndex]}`;
             }
+
+            if (
+                this.bgRef.current &&
+                background === 'custom' &&
+                this.props.user.settings.customBackground
+            ) {
+                this.bgRef.current.style.backgroundImage = `url('/img/bgs/${this.props.user.settings.customBackground}.png')`;
+            } else if (this.bgRef.current) {
+                this.bgRef.current.style.backgroundImage = `url('${this.backgrounds[background]}')`;
+            }
+        } else if (this.bgRef.current) {
+            this.bgRef.current.style.backgroundImage = `url('${Background}')`;
         }
 
         return (
-            <div className={backgroundClass}>
-                <NavBar title='The Crucible Online' />
+            <div className='bg' ref={this.bgRef}>
+                <Navigation appName='The Crucible Online' user={this.props.user} />
                 <div className='wrapper'>
-                    <div className='container content'>
+                    <Container className='content'>
                         <ErrorBoundary
                             navigate={this.props.navigate}
                             errorPath={this.props.path}
@@ -157,10 +180,10 @@ class Application extends React.Component {
                         >
                             {component}
                         </ErrorBoundary>
-                    </div>
+                    </Container>
                 </div>
                 <div className='keyforge-font' style={{ zIndex: -999 }}>
-                    .
+                    &nbsp;
                 </div>
             </div>
         );
@@ -180,7 +203,6 @@ Application.propTypes = {
     navigate: PropTypes.func,
     path: PropTypes.string,
     setAuthTokens: PropTypes.func,
-    setContextMenu: PropTypes.func,
     setWindowBlur: PropTypes.func,
     token: PropTypes.string,
     user: PropTypes.object,

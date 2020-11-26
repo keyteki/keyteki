@@ -5,7 +5,7 @@ class Fandangle extends Card {
         this.persistentEffect({
             targetLocation: 'any',
             condition: (context) => context.source.controller.amber >= 4,
-            match: (card) => !card.hasHouse('untamed'),
+            match: (card) => card.type === 'creature' && !card.hasHouse('untamed'),
             effect: ability.effects.entersPlayReady()
         });
     }

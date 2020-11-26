@@ -734,7 +734,12 @@ class Lobby {
                 let [cards, deck] = results;
 
                 for (let card of deck.cards) {
+                    let house = card.house;
+
                     card.card = cards[card.id];
+                    if (house) {
+                        card.house = house;
+                    }
                 }
 
                 let deckUsageLevel = 0;
@@ -759,13 +764,29 @@ class Lobby {
                     deckUsageLevel = 3;
                 }
 
+                let hasEnhancementsSet = true;
+                let hasEnhancements = false;
+                if (deck.cards.some((c) => c.enhancements && c.enhancements[0] === '')) {
+                    hasEnhancementsSet = false;
+                }
+
+                if (deck.cards.some((c) => c.enhancements)) {
+                    hasEnhancements = true;
+                }
+
+                if (isStandalone) {
+                    deck.verified = true;
+                }
+
                 deck.status = {
-                    basicRules: true,
+                    basicRules: hasEnhancementsSet,
+                    notVerified: hasEnhancements && !deck.verified,
                     extendedStatus: [],
                     noUnreleasedCards: true,
                     officialRole: true,
                     usageLevel: deckUsageLevel,
-                    verified: !!deck.verified
+                    verified: !!deck.verified,
+                    impossible: isStandalone && deck.id >= 5
                 };
 
                 deck.usageCount = 0;
@@ -792,7 +813,7 @@ class Lobby {
     }
 
     onRemoveGame(socket, gameId) {
-        if (!socket.user.permissions.canMangeGames) {
+        if (!socket.user.permissions.canManageGames) {
             return;
         }
 
@@ -808,6 +829,8 @@ class Lobby {
         } else {
             this.router.closeGame(game);
         }
+
+        this.broadcastGameMessage('removegame', game);
     }
 
     onGetNodeStatus(socket) {
@@ -891,7 +914,7 @@ class Lobby {
             gameFormat: game.gameFormat,
             gameTimeLimit: game.gameTimeLimit,
             gameType: game.gameType,
-            hideDecklists: game.hideDecklists,
+            hideDeckLists: game.hideDeckLists,
             showHand: game.showHand,
             spectators: game.allowSpectators,
             swap: oldGame.swap,
@@ -1069,7 +1092,6 @@ class Lobby {
                     id: player.id,
                     name: player.name,
                     owner: game.owner === player.name,
-                    faction: { cardData: { code: player.faction } },
                     user: new User(player.user)
                 };
             }

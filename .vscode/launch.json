@@ -33,6 +33,13 @@
             "remoteRoot": "/home/keyteki/keyteki-lobby"
         },
         {
+            "type": "edge",
+            "request": "attach",
+            "name": "Attach to Microsoft Edge",
+            "port": 2015,
+            "webRoot": "${workspaceFolder}"
+        }
+        {
             "name": "Launch (Lobby Server)",
             "type": "node",
             "request": "launch",
@@ -86,6 +93,17 @@
             "env": {
                 "JASMINE_CONFIG_PATH": "./jasmine.json"
             },
+            "cwd": "${workspaceRoot}"
+        },
+        {
+            "name": "Debug Current Spec",
+            "type": "node",
+            "request": "launch",
+            "program": "${workspaceRoot}/node_modules/jasmine/bin/jasmine.js",
+            "env": {
+                "JASMINE_CONFIG_PATH": "./jasmine.json"
+            },
+            "args": ["${relativeFile}"],
             "cwd": "${workspaceRoot}"
         }
     ]

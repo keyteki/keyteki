@@ -84,11 +84,9 @@ class Card extends EffectSource {
             { command: 'remPower', text: 'Remove 1 power token', menu: 'tokens' },
             { command: 'addAmber', text: 'Add 1 amber', menu: 'tokens' },
             { command: 'remAmber', text: 'Remove 1 amber', menu: 'tokens' },
-            { command: 'addEnrage', text: 'Add 1 enrage', menu: 'tokens' },
-            { command: 'remEnrage', text: 'Remove 1 enrage', menu: 'tokens' },
             { command: 'stun', text: 'Stun/Remove Stun', menu: 'tokens' },
-            { command: 'addWard', text: 'Add 1 ward', menu: 'tokens' },
-            { command: 'remWard', text: 'Remove 1 ward', menu: 'tokens' }
+            { command: 'ward', text: 'Ward/Remove Ward', menu: 'tokens' },
+            { command: 'enrage', text: 'Enrage/Remove Enrage', menu: 'tokens' }
         ];
 
         this.endRound();
@@ -124,7 +122,11 @@ class Card extends EffectSource {
     }
 
     get reactions() {
-        if (this.isBlank()) {
+        return this.getReactions();
+    }
+
+    getReactions(ignoreBlank = false) {
+        if (this.isBlank() && !ignoreBlank) {
             return this.abilities.keywordReactions;
         }
 
@@ -144,7 +146,11 @@ class Card extends EffectSource {
     }
 
     get persistentEffects() {
-        if (this.isBlank()) {
+        return this.getPersistentEffects();
+    }
+
+    getPersistentEffects(ignoreBlank = false) {
+        if (this.isBlank() && !ignoreBlank) {
             return this.abilities.keywordPersistentEffects;
         }
 
@@ -258,11 +264,7 @@ class Card extends EffectSource {
                     onCardPurged: (event, context) =>
                         event.card === context.source && context.source.warded,
                     onCardLeavesPlay: (event, context) =>
-                        event.card === context.source && context.source.warded,
-                    onDamageDealt: (event, context) =>
-                        event.card === context.source &&
-                        !context.event.noGameStateCheck &&
-                        context.source.warded
+                        event.card === context.source && context.source.warded
                 },
                 autoResolve: true,
                 effect: 'remove its ward token',
@@ -298,7 +300,6 @@ class Card extends EffectSource {
     /**
      * @typedef PlayProperties
      * @property {CardLocation} location The location this effect can trigger from
-     * @property {TargetProperties} target The targetting specifier
      * @property {function(any): boolean} condition An expression that returns whether this effect is allowed to trigger
      * @property {string} effect The text added to the game log when this effect triggers
      * @property {function(any): [any]} effectArgs A function that returns the arguments to the effect string
@@ -500,7 +501,7 @@ class Card extends EffectSource {
     }
 
     updateAbilityEvents(from, to) {
-        _.each(this.reactions, (reaction) => {
+        _.each(this.getReactions(true), (reaction) => {
             if (reaction.location.includes(to) && !reaction.location.includes(from)) {
                 reaction.registerEvents();
             } else if (!reaction.location.includes(to) && reaction.location.includes(from)) {
@@ -514,7 +515,7 @@ class Card extends EffectSource {
             this.removeLastingEffects();
         }
 
-        _.each(this.persistentEffects, (effect) => {
+        _.each(this.getPersistentEffects(true), (effect) => {
             if (effect.location !== 'any') {
                 if (to === 'play area' && from !== 'play area') {
                     effect.ref = this.addEffectToEngine(effect);
@@ -527,7 +528,7 @@ class Card extends EffectSource {
     }
 
     updateEffectContexts() {
-        for (const effect of this.persistentEffects) {
+        for (const effect of this.getPersistentEffects(true)) {
             if (effect.ref) {
                 for (let e of effect.ref) {
                     e.refreshContext();
@@ -673,6 +674,10 @@ class Card extends EffectSource {
             return this.printedPower;
         }
 
+        if (this.anyEffect('setPower')) {
+            return this.mostRecentEffect('setPower');
+        }
+
         const copyEffect = this.mostRecentEffect('copyCard');
         const printedPower = copyEffect ? copyEffect.printedPower : this.printedPower;
         return (
@@ -696,11 +701,13 @@ class Card extends EffectSource {
             return this.printedArmor;
         }
 
+        if (this.anyEffect('setArmor')) {
+            return this.mostRecentEffect('setArmor');
+        }
+
         const copyEffect = this.mostRecentEffect('copyCard');
-        return (
-            this.sumEffects('modifyArmor') +
-            (copyEffect ? copyEffect.printedArmor : this.printedArmor)
-        );
+        const printedArmor = copyEffect ? copyEffect.printedArmor : this.printedArmor;
+        return printedArmor + this.sumEffects('modifyArmor');
     }
 
     get amber() {
@@ -1000,11 +1007,12 @@ class Card extends EffectSource {
             enhancements: this.enhancements,
             id: this.id,
             image: this.image,
-            canPlay:
+            canPlay: !!(
                 activePlayer === this.game.activePlayer &&
                 this.game.activePlayer.activeHouse &&
                 isController &&
-                this.getLegalActions(activePlayer, false).length > 0,
+                this.getLegalActions(activePlayer, false).length > 0
+            ),
             cardback: this.owner.deckData.cardback,
             childCards: this.childCards.map((card) => {
                 return card.getSummary(activePlayer, hideWhenFaceup);
@@ -1019,6 +1027,9 @@ class Card extends EffectSource {
             printedHouse: this.printedHouse,
             maverick: this.maverick,
             cardPrintedAmber: this.cardPrintedAmber,
+            printedPower: this.printedPower,
+            printedArmor: this.printedArmor,
+            modifiedPower: this.getPower(),
             stunned: this.stunned,
             taunt: this.getType() === 'creature' && !!this.getKeywordValue('taunt'),
             tokens: this.tokens,

@@ -4,16 +4,25 @@ import classNames from 'classnames';
 import { connect } from 'react-redux';
 import { toastr } from 'react-redux-toastr';
 import moment from 'moment';
+import { withTranslation, Trans } from 'react-i18next';
+import { Col } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faLock } from '@fortawesome/free-solid-svg-icons';
 
 import Avatar from '../Site/Avatar';
 import AlertPanel from '../Site/AlertPanel';
-import * as actions from '../../actions';
+import * as actions from '../../redux/actions';
+import TimeLimitIcon from '../../assets/img/Timelimit.png';
+import ShowHandIcon from '../../assets/img/ShowHandIcon.png';
+import SealedIcon from '../../assets/img/sealed.png';
+import ReversalIcon from '../../assets/img/reversal.png';
+import AdaptiveIcon from '../../assets/img/adaptive.png';
 
-import { withTranslation, Trans } from 'react-i18next';
+import './GameList.scss';
 
 class GameList extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.joinGame = this.joinGame.bind(this);
     }
@@ -24,7 +33,7 @@ class GameList extends React.Component {
         event.preventDefault();
 
         if (!this.props.user) {
-            toastr.error(t('Please login before trying to join a game'));
+            toastr.error(t('Error'), t('Please login before trying to join a game'));
             return;
         }
 
@@ -33,10 +42,17 @@ class GameList extends React.Component {
         } else {
             this.props.socket.emit('joingame', game.id);
         }
+
+        if (this.props.onJoinOrWatchClick) {
+            this.props.onJoinOrWatchClick();
+        }
     }
 
     canWatch(game) {
-        return !this.props.currentGame && game.allowSpectators;
+        return (
+            !this.props.currentGame &&
+            (game.allowSpectators || this.props.user?.permissions?.canManageGames)
+        );
     }
 
     watchGame(event, game) {
@@ -45,7 +61,7 @@ class GameList extends React.Component {
         event.preventDefault();
 
         if (!this.props.user) {
-            toastr.error(t('Please login before trying to watch a game'));
+            toastr.error(t('Error'), t('Please login before trying to watch a game'));
             return;
         }
 
@@ -53,6 +69,10 @@ class GameList extends React.Component {
             this.props.joinPasswordGame(game, 'Watch');
         } else {
             this.props.socket.emit('watchgame', game.id);
+        }
+
+        if (this.props.onJoinOrWatchClick) {
+            this.props.onJoinOrWatchClick();
         }
     }
 
@@ -71,19 +91,10 @@ class GameList extends React.Component {
     }
 
     getPlayerCards(player, firstPlayer) {
-        let houses =
-            player.houses &&
-            player.houses.map((house) => {
-                return (
-                    <img key={house} className='img-responsive' src={`/img/house/${house}.png`} />
-                );
-            });
-
         if (firstPlayer) {
             return (
                 <div className='game-faction-row first-player'>
                     {this.getPlayerNameAndAvatar(player, firstPlayer)}
-                    <div className='house-icons'>{houses}</div>
                 </div>
             );
         }
@@ -91,28 +102,29 @@ class GameList extends React.Component {
         return (
             <div className='game-faction-row other-player'>
                 {this.getPlayerNameAndAvatar(player, firstPlayer)}
-                <div className='house-icons'>{houses}</div>
             </div>
         );
     }
 
     getPlayerNameAndAvatar(player, firstPlayer) {
+        let userClass = 'username' + (player.role ? ` ${player.role.toLowerCase()}-role` : '');
+
         if (firstPlayer) {
             return (
                 <div className='game-player-name'>
                     <span className='gamelist-avatar'>
-                        <Avatar username={player.name} />
+                        <Avatar imgPath={player.avatar} />
                     </span>
-                    <span className='bold'>{player.name}</span>
+                    <span className={userClass}>{player.name}</span>
                 </div>
             );
         }
 
         return (
             <div className='game-player-name'>
-                <span className='bold'>{player.name}</span>
+                <span className={userClass}>{player.name}</span>
                 <span className='gamelist-avatar'>
-                    <Avatar username={player.name} />
+                    <Avatar imgPath={player.avatar} />
                 </span>
             </div>
         );
@@ -143,7 +155,7 @@ class GameList extends React.Component {
                     <div key={players[0].name} className={'game-player-row other-player'}>
                         <div className='game-faction-row other-player'>
                             <button
-                                className='btn btn-success gamelist-button img-responsive'
+                                className='btn btn-success gamelist-button img-fluid'
                                 onClick={(event) => this.joinGame(event, game)}
                             >
                                 <Trans>Join</Trans>
@@ -166,7 +178,7 @@ class GameList extends React.Component {
         let t = this.props.t;
 
         for (const game of games) {
-            if (this.props.gameFilter.showOnlyNewGames && game.started) {
+            if (this.props.gameFilter.onlyShowNew && game.started) {
                 continue;
             }
 
@@ -201,25 +213,23 @@ class GameList extends React.Component {
                             <span className='game-icons'>
                                 {game.showHand && (
                                     <img
-                                        src='/img/ShowHandIcon.png'
+                                        src={ShowHandIcon}
                                         className='game-list-icon'
                                         alt={t('Show hands to spectators')}
                                         title={t('Show hands to spectators')}
                                     />
                                 )}
-                                {game.needsPassword && (
-                                    <span className='password-game glyphicon glyphicon-lock' />
-                                )}
+                                {game.needsPassword && <FontAwesomeIcon icon={faLock} />}
                                 {game.useGameTimeLimit && (
                                     <img
-                                        src='/img/timelimit.png'
+                                        src={TimeLimitIcon}
                                         className='game-list-icon'
                                         alt={t('Time limit used')}
                                     />
                                 )}
                                 {game.gameFormat === 'sealed' && (
                                     <img
-                                        src='/img/sealed.png'
+                                        src={SealedIcon}
                                         className='game-list-icon'
                                         alt={t('Sealed game format')}
                                         title={t('Sealed game format')}
@@ -227,7 +237,7 @@ class GameList extends React.Component {
                                 )}
                                 {game.gameFormat === 'reversal' && (
                                     <img
-                                        src='/img/reversal.png'
+                                        src={ReversalIcon}
                                         className='game-list-icon'
                                         alt={t('Reversal game format')}
                                         title={t('Reversal game format')}
@@ -235,7 +245,7 @@ class GameList extends React.Component {
                                 )}
                                 {game.gameFormat === 'adaptive-bo1' && (
                                     <img
-                                        src='/img/adaptive.png'
+                                        src={AdaptiveIcon}
                                         className='game-list-icon'
                                         alt={t('Adaptive (Best of 1) game format')}
                                         title={t('Adaptive (Best of 1) game format')}
@@ -270,13 +280,13 @@ class GameList extends React.Component {
         let gameHeaderClass = 'game-header';
         switch (gameType) {
             case 'beginner':
-                gameHeaderClass += ' label-success';
+                gameHeaderClass += ' badge-success';
                 break;
             case 'casual':
-                gameHeaderClass += ' label-warning';
+                gameHeaderClass += ' badge-warning';
                 break;
             case 'competitive':
-                gameHeaderClass += ' label-danger';
+                gameHeaderClass += ' badge-danger';
                 break;
         }
 
@@ -312,16 +322,20 @@ class GameList extends React.Component {
 
         if (gameList.length === 0) {
             return (
-                <div className='game-list col-xs-12'>
+                <Col className='game-list' xs='12'>
                     <AlertPanel
                         type='info'
                         message={t('There are no games matching the filters you have selected')}
                     />
-                </div>
+                </Col>
             );
         }
 
-        return <div className='game-list col-xs-12'>{gameList}</div>;
+        return (
+            <Col className='game-list' xs='12'>
+                {gameList}
+            </Col>
+        );
     }
 }
 
@@ -332,6 +346,7 @@ GameList.propTypes = {
     games: PropTypes.array,
     i18n: PropTypes.object,
     joinPasswordGame: PropTypes.func,
+    onJoinOrWatchClick: PropTypes.func,
     showNodes: PropTypes.bool,
     socket: PropTypes.object,
     t: PropTypes.func,

@@ -6,6 +6,34 @@ const { expand, flatten } = require('../Array');
 class DeckService {
     constructor(configService) {
         this.configService = configService;
+        this.houseCache = {};
+    }
+
+    async getHouseIdFromName(house) {
+        if (this.houseCache[house]) {
+            return this.houseCache[house];
+        }
+
+        let houses;
+        try {
+            houses = await db.query('SELECT "Id", "Code" FROM "Houses"', []);
+        } catch (err) {
+            logger.error('Failed to retrieve houses', err);
+
+            return undefined;
+        }
+
+        if (!houses || houses.length == 0) {
+            logger.error('Could not find any houses');
+
+            return undefined;
+        }
+
+        for (let house of houses) {
+            this.houseCache[house.Code] = house.Id;
+        }
+
+        return this.houseCache[house];
     }
 
     async getById(id) {
@@ -39,6 +67,22 @@ class DeckService {
         await this.getDeckCardsAndHouses(retDeck);
 
         return retDeck;
+    }
+
+    async deckExistsForUser(user, deckId) {
+        let deck;
+        try {
+            deck = await db.query(
+                'SELECT 1 FROM "Decks" d WHERE d."Identity" = $1 AND d."UserId" = $2',
+                [deckId, user.id]
+            );
+        } catch (err) {
+            logger.error(`Failed to check deck: ${deckId}`, err);
+
+            return false;
+        }
+
+        return deck && deck.length > 0;
     }
 
     async getStandaloneDeckById(standaloneId) {
@@ -96,6 +140,8 @@ class DeckService {
         for (const deck of decks) {
             let retDeck = this.mapDeck(deck);
 
+            retDeck.verified = true;
+
             await this.getDeckCardsAndHouses(retDeck, true);
 
             retDecks.push(retDeck);
@@ -123,6 +169,10 @@ class DeckService {
             dbExpansions.push(452);
         }
 
+        if (expansions.mm) {
+            dbExpansions.push(479);
+        }
+
         let deck;
         let expansionStr = dbExpansions.join(',');
         try {
@@ -146,21 +196,93 @@ class DeckService {
         return retDeck;
     }
 
-    async findForUser(user) {
+    async getNumDecksForUser(user, options) {
+        let ret;
+        let params = [user.id];
+        let index = 2;
+        const filter = this.processFilter(index, params, options.filter);
+
+        try {
+            ret = await db.query(
+                'SELECT COUNT(*) AS "NumDecks" FROM "Decks" d JOIN "Expansions" e ON e."Id" = d."ExpansionId" WHERE "UserId" = $1 ' +
+                    filter,
+                params
+            );
+        } catch (err) {
+            logger.error('Failed to count users decks');
+
+            throw new Error('Failed to count decks');
+        }
+
+        return ret && ret.length > 0 ? ret[0].NumDecks : 0;
+    }
+
+    mapColumn(column, isSort = false) {
+        switch (column) {
+            case 'lastUpdated':
+                return '"LastUpdated"';
+            case 'name':
+                return 'lower(d."Name")';
+            case 'expansion':
+                return isSort ? '"Expansion"' : 'e."ExpansionId"';
+            case 'winRate':
+                return '"WinRate"';
+            default:
+                return '"LastUpdated"';
+        }
+    }
+
+    processFilter(index, params, filterOptions) {
+        let filter = '';
+
+        for (let filterObject of filterOptions || []) {
+            if (filterObject.name === 'expansion') {
+                filter += `AND ${this.mapColumn(filterObject.name)} IN ${expand(
+                    1,
+                    filterObject.value.length,
+                    index
+                )} `;
+                params.push(...filterObject.value.map((v) => v.value));
+            } else {
+                filter += `AND ${this.mapColumn(filterObject.name)} LIKE $${index++} `;
+                params.push(`%${filterObject.value}%`);
+            }
+        }
+
+        return filter;
+    }
+
+    async findForUser(
+        user,
+        options = { page: 1, pageSize: 10, sort: 'lastUpdated', sortDir: 'desc', filter: [] }
+    ) {
         let retDecks = [];
         let decks;
+        let pageSize = options.pageSize;
+        let page = options.page;
+        let sortColumn = this.mapColumn(options.sort, true);
+        let sortDir = options.sortDir === 'desc' ? 'DESC' : 'ASC';
+        let params = [user.id, pageSize, (page - 1) * pageSize];
+
+        let index = 4;
+        const filter = this.processFilter(index, params, options.filter);
 
         try {
             decks = await db.query(
-                'SELECT d.*, u."Username", e."ExpansionId" as "Expansion", (SELECT COUNT(*) FROM "Decks" WHERE "Name" = d."Name") AS DeckCount, ' +
+                'SELECT *, CASE WHEN "WinCount" + "LoseCount" = 0 THEN 0 ELSE (CAST("WinCount" AS FLOAT) / ("WinCount" + "LoseCount")) * 100 END AS "WinRate" FROM ( ' +
+                    'SELECT d.*, u."Username", e."ExpansionId" as "Expansion", (SELECT COUNT(*) FROM "Decks" WHERE "Name" = d."Name") AS DeckCount, ' +
                     '(SELECT COUNT(*) FROM "Games" g JOIN "GamePlayers" gp ON gp."GameId" = g."Id" WHERE g."WinnerId" = $1 AND gp."DeckId" = d."Id") AS "WinCount", ' +
                     '(SELECT COUNT(*) FROM "Games" g JOIN "GamePlayers" gp ON gp."GameId" = g."Id" WHERE g."WinnerId" != $1 AND g."WinnerId" IS NOT NULL AND gp."PlayerId" = $1 AND gp."DeckId" = d."Id") AS "LoseCount" ' +
                     'FROM "Decks" d ' +
                     'JOIN "Users" u ON u."Id" = "UserId" ' +
                     'JOIN "Expansions" e on e."Id" = d."ExpansionId" ' +
                     'WHERE "UserId" = $1 ' +
-                    'ORDER BY "LastUpdated" DESC',
-                [user.id]
+                    filter +
+                    ') sq ' +
+                    `ORDER BY ${sortColumn} ${sortDir} ` +
+                    'LIMIT $2 ' +
+                    'OFFSET $3',
+                params
             );
         } catch (err) {
             logger.error('Failed to retrieve decks', err);
@@ -178,14 +300,25 @@ class DeckService {
     }
 
     async getDeckCardsAndHouses(deck, standalone = false) {
-        let cardTable = standalone ? 'StandaloneDeckCards' : 'DeckCards';
-        let cards = await db.query(`SELECT * FROM "${cardTable}" WHERE "DeckId" = $1`, [deck.id]);
+        let cardTableQuery;
+
+        if (standalone) {
+            cardTableQuery = 'SELECT * FROM "StandaloneDeckCards" WHERE "DeckId" = $1';
+        } else {
+            cardTableQuery =
+                'SELECT dc.*, h."Code" as "House" FROM "DeckCards" dc LEFT JOIN "Houses" h ON h."Id" = dc."HouseId" WHERE "DeckId" = $1';
+        }
+
+        let cards = await db.query(cardTableQuery, [deck.id]);
 
         deck.cards = cards.map((card) => ({
+            dbId: card.Id,
             id: card.CardId,
             count: card.Count,
             maverick: card.Maverick || undefined,
             anomaly: card.Anomaly || undefined,
+            image: card.ImageUrl || undefined,
+            house: card.House || undefined,
             enhancements: card.Enhancements
                 ? card.Enhancements.replace(/[[{}"\]]/gi, '').split(',')
                 : undefined
@@ -212,23 +345,50 @@ class DeckService {
             if (response[0] === '<') {
                 logger.error('Deck failed to import: %s %s', deck.uuid, response);
 
-                return;
+                throw new Error('Invalid response from Api. Please try again later.');
             }
 
             deckResponse = JSON.parse(response);
         } catch (error) {
             logger.error(`Unable to import deck ${deck.uuid}`, error);
 
-            return;
+            throw new Error('Invalid response from Api. Please try again later.');
         }
 
         if (!deckResponse || !deckResponse._linked || !deckResponse.data) {
-            return;
+            throw new Error('Invalid response from Api. Please try again later.');
         }
 
         let newDeck = this.parseDeckResponse(deck.username, deckResponse);
 
-        return this.insertDeck(newDeck, user);
+        let validExpansion = await this.checkValidDeckExpansion(newDeck);
+        if (!validExpansion) {
+            throw new Error('This deck is from a future expansion and not currently supported');
+        }
+
+        let deckExists = await this.deckExistsForUser(user, newDeck.identity);
+        if (deckExists) {
+            throw new Error('Deck already exists.');
+        }
+
+        let response = await this.insertDeck(newDeck, user);
+
+        return this.getById(response.id);
+    }
+
+    async checkValidDeckExpansion(deck) {
+        let ret;
+        try {
+            ret = await db.query('SELECT 1 FROM "Expansions" WHERE "ExpansionId" = $1', [
+                deck.expansion
+            ]);
+        } catch (err) {
+            logger.error('Failed to check expansion', err);
+
+            return false;
+        }
+
+        return ret && ret.length > 0;
     }
 
     async insertDeck(deck, user) {
@@ -274,6 +434,12 @@ class DeckService {
             params.push(card.count);
             params.push(card.maverick);
             params.push(card.anomaly);
+            if (user) {
+                params.push(card.image);
+                params.push(await this.getHouseIdFromName(card.house));
+                params.push(card.enhancements ? JSON.stringify(card.enhancements) : undefined);
+            }
+
             params.push(deck.id);
             if (!user) {
                 params.push(card.enhancements);
@@ -283,9 +449,9 @@ class DeckService {
         try {
             if (user) {
                 await db.query(
-                    `INSERT INTO "DeckCards" ("CardId", "Count", "Maverick", "Anomaly", "DeckId") VALUES ${expand(
+                    `INSERT INTO "DeckCards" ("CardId", "Count", "Maverick", "Anomaly", "ImageUrl", "HouseId", "Enhancements", "DeckId") VALUES ${expand(
                         deck.cards.length,
-                        5
+                        8
                     )}`,
                     params
                 );
@@ -327,15 +493,32 @@ class DeckService {
     }
 
     async update(deck) {
-        try {
-            await db.query(
-                'UPDATE "Decks" SET "Verified" = true, "LastUpdated" = $2 WHERE "Id" = $1',
-                [deck.id, new Date()]
-            );
-        } catch (err) {
-            logger.error('Failed to update deck', err);
+        if (deck.verified) {
+            try {
+                await db.query(
+                    'UPDATE "Decks" SET "Verified" = true, "LastUpdated" = $2 WHERE "Id" = $1',
+                    [deck.id, new Date()]
+                );
+            } catch (err) {
+                logger.error('Failed to update deck', err);
 
-            throw new Error('Failed to update deck');
+                throw new Error('Failed to update deck');
+            }
+        }
+
+        for (let card of deck.cards) {
+            if (card.enhancements) {
+                try {
+                    await db.query('UPDATE "DeckCards" SET "Enhancements" = $2 WHERE "Id" = $1', [
+                        card.dbId,
+                        card.enhancements
+                    ]);
+                } catch (err) {
+                    logger.error('Failed to update deck enhancements', err);
+
+                    throw new Error('Failed to update deck');
+                }
+            }
         }
     }
 
@@ -395,26 +578,71 @@ class DeckService {
     }
 
     parseDeckResponse(username, deckResponse) {
+        let specialCards = {
+            479: { 'dark-æmber-vault': true, 'it-s-coming': true, 'orb-of-wonder': true }
+        };
+
         let cards = deckResponse._linked.cards.map((card) => {
             let id = card.card_title
                 .toLowerCase()
                 .replace(/[,?.!"„“”]/gi, '')
                 .replace(/[ '’]/gi, '-');
+
+            let retCard;
+            let count = deckResponse.data._links.cards.filter((uuid) => uuid === card.id).length;
             if (card.is_maverick) {
-                return { id: id, count: 1, maverick: card.house.replace(' ', '').toLowerCase() };
+                retCard = {
+                    id: id,
+                    count: count,
+                    maverick: card.house.replace(' ', '').toLowerCase()
+                };
+            } else if (card.is_anomaly) {
+                retCard = {
+                    id: id,
+                    count: count,
+                    anomaly: card.house.replace(' ', '').toLowerCase()
+                };
+            } else {
+                retCard = {
+                    id: id,
+                    count: count
+                };
             }
 
-            if (card.is_anomaly) {
-                return { id: id, count: 1, anomaly: card.house.replace(' ', '').toLowerCase() };
+            if (card.is_enhanced) {
+                retCard.enhancements = [];
             }
 
-            return {
-                id: id,
-                count: deckResponse.data._links.cards.filter((uuid) => uuid === card.id).length
-            };
+            if (card.card_type === 'Creature2') {
+                retCard.id += '2';
+            }
+
+            // If this is one of the cards that has an entry for every house, get the correct house image
+            if (specialCards[card.expansion] && specialCards[card.expansion][id]) {
+                retCard.house = card.house.toLowerCase().replace(' ', '');
+                retCard.image = `${retCard.id}-${retCard.house}`;
+            }
+
+            return retCard;
         });
-        let uuid = deckResponse.data.id;
 
+        let toAdd = [];
+        for (let card of cards) {
+            if (card.enhancements && card.count > 1) {
+                for (let i = 0; i < card.count - 1; i++) {
+                    let cardToAdd = Object.assign({}, card);
+
+                    cardToAdd.count = 1;
+                    toAdd.push(cardToAdd);
+                }
+
+                card.count = 1;
+            }
+        }
+
+        cards = cards.concat(toAdd);
+
+        let uuid = deckResponse.data.id;
         let anyIllegalCards = cards.find(
             (card) =>
                 !card.id
@@ -451,17 +679,18 @@ class DeckService {
 
     mapDeck(deck) {
         return {
+            expansion: deck.Expansion,
             id: deck.Id,
-            username: deck.Username,
-            uuid: deck.Uuid,
             identity: deck.Identity,
             name: deck.Name,
             lastUpdated: deck.LastUpdated,
-            verified: deck.Verified,
-            expansion: deck.Expansion,
-            wins: deck.WinCount,
             losses: deck.LoseCount,
-            usageCount: deck.DeckCount
+            usageCount: deck.DeckCount,
+            username: deck.Username,
+            uuid: deck.Uuid,
+            verified: deck.Verified,
+            wins: deck.WinCount,
+            winRate: deck.WinRate
         };
     }
 }

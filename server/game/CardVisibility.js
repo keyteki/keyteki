@@ -5,6 +5,7 @@ class CardVisibility {
         this.game = game;
         this.rules = [
             (card) => this.isPublicRule(card),
+            (card) => this.isEffectRule(card),
             (card, player) => this.isControllerRule(card, player),
             (card, player) => this.isSpectatorRule(card, player)
         ];
@@ -24,6 +25,10 @@ class CardVisibility {
 
     isPublicRule(card) {
         return OpenInformationLocations.includes(card.location) && !card.facedown;
+    }
+
+    isEffectRule(card) {
+        return card.getEffects('visbileIn').some((effect) => effect === card.location);
     }
 
     isControllerRule(card, player) {

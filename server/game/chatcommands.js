@@ -4,6 +4,7 @@ const GameActions = require('./GameActions');
 const ManualModePrompt = require('./gamesteps/ManualModePrompt');
 const Deck = require('./deck');
 const RematchPrompt = require('./gamesteps/RematchPrompt');
+const ManualKeyForgePrompt = require('./gamesteps/ManualKeyForgePrompt.js');
 
 class ChatCommands {
     constructor(game) {
@@ -98,9 +99,9 @@ class ChatCommands {
         const color = args[1]
             ? args[1]
             : Object.keys(player.keys).filter((key) => !player.keys[key])[0];
-        this.game.addAlert('danger', '{0} forges the {1} ', player, `forgedkey${color}`);
-        player.keys[color] = true;
-        player.keysForgedThisRound.push(color);
+
+        this.game.addAlert('danger', '{0} is attempting to forge the {1} key', player, color);
+        this.game.queueStep(new ManualKeyForgePrompt(this.game, player, color));
     }
 
     unforge(player, args) {

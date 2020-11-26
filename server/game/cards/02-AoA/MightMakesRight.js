@@ -20,9 +20,9 @@ class MightMakesRight extends Card {
                     context.preThenEvents
                         .filter((event) => !event.cancelled)
                         .reduce((total, event) => total + event.clone.modifiedPower, 0) >= 25,
-                gameAction: ability.actions.forgeKey((context) => ({
-                    modifier: -context.player.getCurrentKeyCost()
-                }))
+                gameAction: ability.actions.forgeKey({
+                    atNoCost: true
+                })
             }
         });
     }

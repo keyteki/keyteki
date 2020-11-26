@@ -4,7 +4,7 @@ describe('Dark Queen Gloriana', function () {
             this.setupTest({
                 player1: {
                     house: 'untamed',
-                    inPlay: ['legatus-raptor', 'flaxia', 'lamindra'],
+                    inPlay: ['legatus-raptor', 'flaxia', 'lamindra', 'amphora-captura'],
                     hand: ['dark-queen-gloriana']
                 },
                 player2: {
@@ -21,6 +21,7 @@ describe('Dark Queen Gloriana', function () {
             expect(this.player1).not.toBeAbleToSelect(this.darkQueenGloriana);
             expect(this.player1).not.toBeAbleToSelect(this.troll);
             expect(this.player1).not.toBeAbleToSelect(this.bumblebird);
+            expect(this.player1).not.toBeAbleToSelect(this.amphoraCaptura);
             this.player1.clickCard(this.lamindra);
             expect(this.lamindra.location).toBe('hand');
         });

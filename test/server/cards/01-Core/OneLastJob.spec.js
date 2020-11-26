@@ -24,5 +24,18 @@ describe('One Last Job', function () {
             expect(this.nexus.location).toBe('play area');
             expect(this.troll.location).toBe('play area');
         });
+
+        it('should not steal amber for friendly warded creatures', function () {
+            this.urchin.ward();
+            this.noddyTheThief.ward();
+            this.player1.play(this.oneLastJob);
+            expect(this.player1.amber).toBe(2);
+            expect(this.player2.amber).toBe(4);
+            expect(this.urchin.location).toBe('play area');
+            expect(this.silvertooth.location).toBe('purged');
+            expect(this.noddyTheThief.location).toBe('play area');
+            expect(this.nexus.location).toBe('play area');
+            expect(this.troll.location).toBe('play area');
+        });
     });
 });

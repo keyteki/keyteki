@@ -16,7 +16,7 @@ const optionsDefinition = [
 let options = commandLineArgs(optionsDefinition);
 
 function addKey(localeDir, key, value) {
-    let languages = ['de', 'en', 'es', 'fr', 'it', 'pl', 'pt', 'th', 'zhhans', 'zhhant'];
+    let languages = ['de', 'en', 'es', 'fr', 'it', 'ko', 'pl', 'pt', 'th', 'zhhans', 'zhhant'];
     let locales = {};
 
     for (let language of languages) {

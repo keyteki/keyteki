@@ -45,7 +45,8 @@ class ResolveBonusIconsAction extends CardGameAction {
                                     'How do you wish to resolve this ' + icon + ' icon?',
                                 choices: choices,
                                 handlers: choices.map((choice) => () => (icon = choice)),
-                                context: context
+                                context: context,
+                                source: card
                             });
                         }
                     });
@@ -100,6 +101,7 @@ class ResolveBonusIconsAction extends CardGameAction {
                                         'Choose a creature to capture amber due to bonus icon',
                                     cardType: 'creature',
                                     controller: 'self',
+                                    source: card,
                                     onSelect: (player, card) => {
                                         context.game.actions
                                             .capture({ bonus: true })
@@ -118,22 +120,29 @@ class ResolveBonusIconsAction extends CardGameAction {
                                 });
                             }
                         } else if (icon === 'damage') {
-                            context.game.promptForSelect(context.player, {
-                                activePromptTitle: 'Choose a creature to damage due to bonus icon',
-                                cardType: 'creature',
-                                onSelect: (player, card) => {
-                                    context.game.actions
-                                        .dealDamage({ bonus: true })
-                                        .resolve(card, context.game.getFrameworkContext(player));
-                                    context.game.addMessage(
-                                        "{0} deals 1 damage to {1} due to {2}'s bonus icon",
-                                        player,
-                                        card,
-                                        event.card
-                                    );
-                                    return true;
-                                }
-                            });
+                            if (context.game.creaturesInPlay.length > 0) {
+                                context.game.promptForSelect(context.player, {
+                                    activePromptTitle:
+                                        'Choose a creature to damage due to bonus icon',
+                                    source: card,
+                                    cardType: 'creature',
+                                    onSelect: (player, card) => {
+                                        context.game.actions
+                                            .dealDamage({ bonus: true })
+                                            .resolve(
+                                                card,
+                                                context.game.getFrameworkContext(player)
+                                            );
+                                        context.game.addMessage(
+                                            "{0} deals 1 damage to {1} due to {2}'s bonus icon",
+                                            player,
+                                            card,
+                                            event.card
+                                        );
+                                        return true;
+                                    }
+                                });
+                            }
                         }
                     });
                 }

@@ -133,12 +133,22 @@ describe('Niffle Kong', function () {
             expect(this.player1.player.hand.length).toBe(5);
         });
 
+        it('should be able to reap with the creature and opt not to deal damage', function () {
+            this.player1.play(this.niffleKong);
+            this.player1.clickPrompt('Done');
+
+            this.niffleKong.exhausted = false;
+            this.player1.reap(this.niffleKong);
+            this.player1.clickPrompt('Done');
+        });
+
         it('should be able to reap with the creature then deal 3D, destroy an artifact and steal 1A', function () {
             this.player1.play(this.niffleKong);
             this.player1.clickPrompt('Done');
 
             this.niffleKong.exhausted = false;
             this.player1.reap(this.niffleKong);
+            this.player1.clickCard(this.niffleKong);
             expect(this.player1).not.toBeAbleToSelect(this.fuzzyGruen);
             expect(this.player1).toBeAbleToSelect(this.niffleKong);
             expect(this.player1).toBeAbleToSelect(this.niffleApe1);
@@ -146,8 +156,8 @@ describe('Niffle Kong', function () {
             expect(this.player1).not.toBeAbleToSelect(this.collectorWorm);
             this.player1.clickCard(this.niffleApe1);
             expect(this.niffleApe1.location).toBe('discard');
-            expect(this.player1).not.toBeAbleToSelect(this.niffleKong);
-            expect(this.player1).not.toBeAbleToSelect(this.fuzzyGruen);
+            expect(this.player1).toBeAbleToSelect(this.niffleKong);
+            expect(this.player1).toBeAbleToSelect(this.fuzzyGruen);
             expect(this.player1).toBeAbleToSelect(this.zorg);
             expect(this.player1).toBeAbleToSelect(this.collectorWorm);
             this.player1.clickCard(this.collectorWorm);
@@ -158,12 +168,22 @@ describe('Niffle Kong', function () {
             expect(this.player2.amber).toBe(4);
         });
 
+        it('should be able to fight with the creature and opt not to deal damage', function () {
+            this.player1.play(this.niffleKong2);
+            this.player1.clickPrompt('Done');
+
+            this.niffleKong2.exhausted = false;
+            this.player1.fightWith(this.niffleKong2, this.zorg);
+            this.player1.clickPrompt('Done');
+        });
+
         it('should be able to fight with the creature then deal 3D, destroy an artifact and steal 1A', function () {
             this.player1.play(this.niffleKong2);
             this.player1.clickPrompt('Done');
 
             this.niffleKong2.exhausted = false;
             this.player1.fightWith(this.niffleKong2, this.zorg);
+            this.player1.clickCard(this.niffleKong2);
             this.player1.clickCard(this.niffleApe1);
             this.player1.clickCard(this.collectorWorm);
             this.player1.clickCard(this.mothergun);
@@ -174,29 +194,35 @@ describe('Niffle Kong', function () {
             expect(this.player2.amber).toBe(4);
         });
 
-        it('should be able to reap with the creature and steal 1A if no enemy creature/artifact are in play', function () {
+        it('should be able to reap with the creature, hit itself and steal 1A if no enemy creature/artifact are in play', function () {
             this.player2.moveCard(this.zorg, 'discard');
             this.player2.moveCard(this.collectorWorm, 'discard');
             this.player2.moveCard(this.mothergun, 'discard');
+            this.player2.moveCard(this.fuzzyGruen, 'discard');
             this.player1.play(this.niffleKong);
             this.player1.clickPrompt('Done');
 
             this.niffleKong.exhausted = false;
             this.player1.reap(this.niffleKong);
+            this.player1.clickCard(this.niffleKong);
             this.player1.clickCard(this.niffleApe1);
+            this.player1.clickCard(this.niffleKong);
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(4);
         });
 
-        it('should be able to fight with the creature and steal 1A if no enemy creature/artifact are in play', function () {
+        it('should be able to fight with the creature, hit itself and steal 1A if no enemy creature/artifact are in play', function () {
             this.player2.moveCard(this.collectorWorm, 'discard');
             this.player2.moveCard(this.mothergun, 'discard');
+            this.player2.moveCard(this.fuzzyGruen, 'discard');
             this.player1.play(this.niffleKong2);
             this.player1.clickPrompt('Done');
 
             this.niffleKong2.exhausted = false;
             this.player1.fightWith(this.niffleKong2, this.zorg);
+            this.player1.clickCard(this.niffleKong2);
             this.player1.clickCard(this.niffleApe1);
+            this.player1.clickCard(this.niffleKong2);
             expect(this.player1.amber).toBe(1);
             expect(this.player2.amber).toBe(4);
         });

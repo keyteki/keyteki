@@ -139,7 +139,7 @@ class UserService extends EventEmitter {
     async addUser(user) {
         let ret = await db.query(
             'INSERT INTO "Users" ' +
-                '("Username", "Password", "Email", "Registered", "RegisterIp", "Settings_DisableGravatar", "Verified", "ActivationToken", "ActivationTokenExpiry") VALUES ' +
+                '("Username", "Password", "Email", "Registered", "RegisterIp", "Settings_Avatar", "Verified", "ActivationToken", "ActivationTokenExpiry") VALUES ' +
                 '($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "Id"',
             [
                 user.username,
@@ -147,7 +147,7 @@ class UserService extends EventEmitter {
                 user.email,
                 user.registered,
                 user.registerIp,
-                !user.enableGravatar,
+                user.avatar,
                 user.verified,
                 user.activationToken,
                 user.activationTokenExpiry
@@ -160,29 +160,33 @@ class UserService extends EventEmitter {
     }
 
     async update(user) {
-        await db.query('BEGIN');
+        let client = await db.startTransaction();
 
         let query =
-            'UPDATE "Users" SET "Email" = $1, "Verified" = $2, "Disabled" = $3, "Settings_DisableGravatar" = $4, ' +
-            '"Settings_CardSize" = $5, "Settings_Background" = $6, "Settings_OrderAbilities" = $7, "Settings_ConfirmOneClick" = $8, "PatreonToken" = $9 WHERE "Id" = $10';
+            'UPDATE "Users" SET "Username" = $1, "Email" = $2, "Verified" = $3, "Disabled" = $4, "Settings_Avatar" = $5, ' +
+            '"Settings_CardSize" = $6, "Settings_Background" = $7, "Settings_OrderAbilities" = $8, "Settings_ConfirmOneClick" = $9, "Settings_UseHalfSizedCards" = $10, ' +
+            '"PatreonToken" = $11, "Settings_CustomBackground" = $12 WHERE "Id" = $13';
 
         try {
-            await db.query(query, [
+            await db.queryTran(client, query, [
+                user.username,
                 user.email,
                 user.verified,
                 user.disabled,
-                !user.enableGravatar,
+                user.settings.avatar,
                 user.settings.cardSize,
                 user.settings.background,
                 user.settings.optionSettings.orderForcedAbilities,
                 user.settings.optionSettings.confirmOneClick,
-                JSON.stringify(user.patreon),
+                user.settings.optionSettings.useHalfSizedCards,
+                user.patreon ? JSON.stringify(user.patreon) : null,
+                user.settings.customBackground,
                 user.id
             ]);
         } catch (err) {
             logger.error('Failed to update user', err);
 
-            await db.query('ROLLBACK');
+            await db.queryTran(client, 'ROLLBACK');
         }
 
         if (user.challonge) {
@@ -191,11 +195,15 @@ class UserService extends EventEmitter {
                 'ON CONFLICT ("UserId") DO UPDATE SET "ApiKey" = $1, "SubDomain" = $2';
 
             try {
-                await db.query(query, [user.challonge.key, user.challonge.subdomain, user.id]);
+                await db.queryTran(client, query, [
+                    user.challonge.key,
+                    user.challonge.subdomain,
+                    user.id
+                ]);
             } catch (err) {
                 logger.error('Failed to update user', err);
 
-                await db.query('ROLLBACK');
+                await db.queryTran(client, 'ROLLBACK');
             }
         }
 
@@ -205,14 +213,15 @@ class UserService extends EventEmitter {
             } catch (err) {
                 logger.error('Failed to update user password', err);
 
-                await db.query('ROLLBACK');
+                await db.queryTran(client, 'ROLLBACK');
             }
         }
 
         let permissions;
         let existingPermissions;
         try {
-            permissions = await db.query(
+            permissions = await db.queryTran(
+                client,
                 'SELECT r."Name" FROM "UserRoles" ur JOIN "Roles" r ON r."Id" = ur."RoleId" WHERE ur."UserId" = $1',
                 [user.id]
             );
@@ -252,14 +261,15 @@ class UserService extends EventEmitter {
 
         if (toAdd.size > 0) {
             try {
-                await db.query(
+                await db.queryTran(
+                    client,
                     `INSERT INTO "UserRoles" ("UserId", "RoleId") VALUES ${expand(toAdd.size, 2)}`,
                     params
                 );
             } catch (err) {
                 logger.error('Failed to set permissions', err);
 
-                await db.query('ROLLBACK');
+                await db.queryTran(client, 'ROLLBACK');
 
                 throw new Error('Failed to set permissions');
             }
@@ -270,20 +280,22 @@ class UserService extends EventEmitter {
                 .map((perm) => this.permissionToRole(perm))
                 .join(', ');
             try {
-                await db.query(
+                await db.queryTran(
+                    client,
                     `DELETE FROM "UserRoles" WHERE "UserId" = $1 AND "RoleId" IN (${deleteStr})`,
                     [user.id]
                 );
             } catch (err) {
                 logger.error('Failed to set permissions', err);
 
-                await db.query('ROLLBACK');
+                await db.queryTran(client, 'ROLLBACK');
 
                 throw new Error('Failed to set permissions');
             }
         }
 
-        await db.query('COMMIT');
+        await db.queryTran(client, 'COMMIT');
+        await client.release();
     }
 
     async addBlocklistEntry(user, entry) {
@@ -573,12 +585,14 @@ class UserService extends EventEmitter {
             email: dbUser.Email,
             emailHash: dbUser.EmailHash,
             settings: {
+                avatar: dbUser.Settings_Avatar,
                 background: dbUser.Settings_Background,
                 cardSize: dbUser.Settings_CardSize,
-                disableGravatar: dbUser.Settings_DisableGravatar,
+                customBackground: dbUser.Settings_CustomBackground,
                 optionSettings: {
                     orderForcedAbilities: dbUser.Settings_OrderAbilities,
-                    confirmOneClick: dbUser.Settings_ConfirmOneClick
+                    confirmOneClick: dbUser.Settings_ConfirmOneClick,
+                    useHalfSizedCards: dbUser.Settings_UseHalfSizedCards
                 }
             },
             verified: dbUser.Verified,
@@ -627,14 +641,18 @@ class UserService extends EventEmitter {
                 return 9; // 'DeckVerifier';
             case 'isAdmin':
                 return 10; // 'Admin';
-            case 'isContributor':
-                return 11; // 'Contributor';
             case 'isSupporter':
-                return 12; // 'Supporter';
+                return 11; // 'Supporter';
+            case 'isContributor':
+                return 12; // 'Contributor';
             case 'canManageTournaments':
                 return 13; // 'TournamentManager'
             case 'isWinner':
                 return 14; // 'TournamentWinner'
+            case 'isPreviousWinner':
+                return 15; // 'TournamentPreviousWinner'
+            case 'keepsSupporterWithNoPatreon':
+                return 16; // 'KeepSupporterStatus'
         }
     }
 
@@ -653,7 +671,9 @@ class UserService extends EventEmitter {
             isAdmin: false,
             isContributor: false,
             isSupporter: false,
-            isWinner: false
+            isWinner: false,
+            isPreviousWinner: false,
+            keepsSupporterWithNoPatreon: false
         };
 
         for (let permission of permissions) {
@@ -699,6 +719,12 @@ class UserService extends EventEmitter {
                     break;
                 case 'TournamentWinner':
                     ret.isWinner = true;
+                    break;
+                case 'PreviousTournamentWinner':
+                    ret.isPreviousWinner = true;
+                    break;
+                case 'KeepSupporterStatus':
+                    ret.keepsSupporterWithNoPatreon = true;
                     break;
             }
         }

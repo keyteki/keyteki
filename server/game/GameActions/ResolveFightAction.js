@@ -38,6 +38,7 @@ class ResolveFightAction extends CardGameAction {
             condition: (event) =>
                 event.attacker.location === 'play area' && event.card.location === 'play area',
             attacker: this.attacker,
+            attackerClone: this.attacker.createSnapshot(),
             attackerTarget: card,
             defenderTarget: this.attacker,
             destroyed: []

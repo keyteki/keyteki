@@ -4,9 +4,11 @@ import $ from 'jquery';
 
 import Messages from './Messages';
 
+import './GameChat.scss';
+
 class GameChat extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.onChange = this.onChange.bind(this);
         this.onKeyPress = this.onKeyPress.bind(this);

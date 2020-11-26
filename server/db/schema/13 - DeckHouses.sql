@@ -6,6 +6,8 @@ CREATE TABLE public."DeckHouses"
 (
     "DeckId" integer NOT NULL,
     "HouseId" integer NOT NULL,
+    "ImageUrl" TEXT NULL,
+    "Enhancements" TEXT NULL,
     CONSTRAINT "PK_DeckHouses" PRIMARY KEY ("DeckId", "HouseId"),
     CONSTRAINT "FK_DeckHouses_Decks_DeckId" FOREIGN KEY ("DeckId")
         REFERENCES public."Decks" ("Id") MATCH SIMPLE

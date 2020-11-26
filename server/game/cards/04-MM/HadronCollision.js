@@ -12,7 +12,8 @@ class HadronCollision extends Card {
                         ignoreArmor: true
                     })
                 ])
-            }
+            },
+            effect: 'remove ward and deal 3 damage to {0}'
         });
     }
 }

@@ -1,10 +1,10 @@
 const defaultOptionSettings = {
     orderForcedAbilities: false,
-    confirmOneClick: true
+    confirmOneClick: true,
+    useHalfSizedCards: false
 };
 
 const defaultSettings = {
-    disableGravatar: false,
     cardSize: 'normal',
     background: 'Brobnar'
 };

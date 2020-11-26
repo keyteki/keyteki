@@ -21,11 +21,18 @@ class Deck {
             }
 
             if (card.maverick) {
-                result.card.house = card.maverick;
                 result.card.maverick = card.maverick;
-            } else if (card.anomaly) {
-                result.card.house = card.anomaly;
+            }
+            if (card.anomaly) {
                 result.card.anomaly = card.anomaly;
+            }
+
+            if (card.house) {
+                result.card.house = card.house;
+            }
+
+            if (card.image) {
+                result.card.cardImage = card.image;
             }
 
             if (card.enhancements) {
@@ -72,7 +79,7 @@ class Deck {
             return;
         }
 
-        cardData.image = cardData.id;
+        cardData.image = cardData.cardImage || cardData.id;
         if (cardData.maverick) {
             cardData.house = cardData.maverick;
         } else if (cardData.anomaly) {

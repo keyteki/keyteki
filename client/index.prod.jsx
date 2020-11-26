@@ -3,19 +3,21 @@ import { render } from 'react-dom';
 import Application from './Application';
 import { Provider } from 'react-redux';
 import configureStore from './configureStore';
-import { navigate } from './actions';
+import { navigate } from './redux/actions';
 import 'bootstrap/dist/js/bootstrap';
 import ReduxToastr from 'react-redux-toastr';
 import * as Sentry from '@sentry/browser';
-import { DragDropContext } from 'react-dnd';
-import { default as TouchBackend } from 'react-dnd-touch-backend';
+import { DndProvider } from 'react-dnd';
+import { TouchBackend } from 'react-dnd-touch-backend';
 
 import version from '../version';
 import ErrorBoundary from './Components/Site/ErrorBoundary';
 
+import './i18n';
+
 const sentryOptions = {
     dsn: 'https://8e2615acba9548ba8d83fa2735de2bd2@sentry.io/1515148',
-    blacklistUrls: [
+    denyUrls: [
         // Facebook flakiness
         /graph\.facebook\.com/i,
         // Facebook blocked
@@ -26,6 +28,7 @@ const sentryOptions = {
         // Chrome extensions
         /extensions\//i,
         /^chrome:\/\//i,
+        /chrome-extension:/i,
         // Other plugins
         /127\.0\.0\.1:4001\/isrunning/i, // Cacaoweb
         /webappstoolbarba\.texthelp\.com\//i,
@@ -60,27 +63,27 @@ window.onpopstate = function (e) {
     store.dispatch(navigate(e.target.location.pathname, null, true));
 };
 
-const DnDContainer = DragDropContext(TouchBackend({ enableMouseEvents: true }))(Application);
-
 render(
-    <Provider store={store}>
-        <div className='body'>
-            <ReduxToastr
-                timeOut={4000}
-                newestOnTop
-                preventDuplicates
-                position='top-right'
-                transitionIn='fadeIn'
-                transitionOut='fadeOut'
-            />
-            <ErrorBoundary
-                message={
-                    "We're sorry, a critical error has occured in the client and we're unable to show you anything.  Please try refreshing your browser after filling out a report."
-                }
-            >
-                <DnDContainer />
-            </ErrorBoundary>
-        </div>
-    </Provider>,
+    <DndProvider backend={TouchBackend} options={{ enableMouseEvents: true }}>
+        <Provider store={store}>
+            <div className='body'>
+                <ReduxToastr
+                    timeOut={4000}
+                    newestOnTop
+                    preventDuplicates
+                    position='top-right'
+                    transitionIn='fadeIn'
+                    transitionOut='fadeOut'
+                />
+                <ErrorBoundary
+                    message={
+                        "We're sorry, a critical error has occured in the client and we're unable to show you anything.  Please try refreshing your browser after filling out a report."
+                    }
+                >
+                    <Application />
+                </ErrorBoundary>
+            </div>
+        </Provider>
+    </DndProvider>,
     document.getElementById('component')
 );

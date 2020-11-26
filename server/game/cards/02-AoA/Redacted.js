@@ -20,9 +20,9 @@ class Redacted extends Card {
             effect: 'sacrifice {0} and forge a key at no cost',
             gameAction: [
                 ability.actions.sacrifice(),
-                ability.actions.forgeKey((context) => ({
-                    modifier: -context.player.getCurrentKeyCost()
-                }))
+                ability.actions.forgeKey({
+                    atNoCost: true
+                })
             ]
         });
     }
