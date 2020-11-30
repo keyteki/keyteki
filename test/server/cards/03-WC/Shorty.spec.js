@@ -13,15 +13,21 @@ describe('Shorty(WC)', function () {
         });
 
         it('shorty is enraged after reaping', function () {
-            this.player1.clickCard(this.shorty);
-            this.player1.clickPrompt('Reap with this creature');
+            this.player1.reap(this.shorty);
             expect(this.shorty.tokens.enrage).toBe(1);
-            expect(this).toHaveRecentChatMessage('player1 uses Shorty to enrage Shorty');
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
             this.player2.endTurn();
             this.player1.clickCard(this.shorty);
             expect(this.player1).not.toHavePromptButton('Reap with this creature');
+        });
+
+        it('should remove enrage after killing by assault', function () {
+            this.shorty.tokens.enrage = 1;
+            this.player1.fightWith(this.shorty, this.nexus);
+            expect(this.shorty.tokens.damage).toBeUndefined();
+            expect(this.shorty.tokens.enrage).toBeUndefined();
+            expect(this.nexus.location).toBe('discard');
         });
     });
 });

@@ -380,32 +380,12 @@ class Card extends EffectSource {
     }
 
     triggeredAbility(abilityType, properties) {
-        const ability = new TriggeredAbility(
-            this.game,
-            this,
-            abilityType,
-            this.expandOnUseCardEvent(properties)
-        );
+        const ability = new TriggeredAbility(this.game, this, abilityType, properties);
         if (ability.printedAbility) {
             this.abilities.reactions.push(ability);
         }
 
         return ability;
-    }
-
-    expandOnUseCardEvent(properties) {
-        if (properties.when && properties.when.onUseCard) {
-            properties.when.onFight = (event, context) => {
-                const card = event.card;
-                event.card = event.attacker;
-                const result = properties.when.onUseCard(event, context);
-                event.card = card;
-                return result;
-            };
-            properties.when.onReap = properties.when.onUseCard;
-            properties.when.onRemoveStun = properties.when.onUseCard;
-        }
-        return properties;
     }
 
     reaction(properties) {
@@ -918,7 +898,7 @@ class Card extends EffectSource {
     }
 
     getRemoveStunAction() {
-        return new RemoveStun(this);
+        return new RemoveStun(this, true);
     }
 
     getActions(location = this.location) {
