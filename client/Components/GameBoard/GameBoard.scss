@@ -97,7 +97,7 @@
 
     &.our-side {
         margin: 0;
-        z-index: $layer-our-player-board;
+        z-index: $layer-player-board-our-side;
 
         .taunt {
             margin-top: -15px;
