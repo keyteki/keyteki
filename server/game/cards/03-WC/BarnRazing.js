@@ -6,7 +6,7 @@ class BarnRazing extends Card {
             effect: 'cause their opponent to lose 1 amber each time a friendly creature fights',
             gameAction: ability.actions.forRemainderOfTurn((context) => ({
                 when: {
-                    onFight: (event) => event.attacker.controller === context.player
+                    onUseCard: (event) => event.fight && event.clone.controller === context.player
                 },
                 gameAction: ability.actions.loseAmber((context) => ({
                     target: context.player.opponent

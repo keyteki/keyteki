@@ -5,7 +5,7 @@ class Alaka extends Card {
     setupCardAbilities(ability) {
         this.creaturesFoughtByPlayer = {};
         this.tracker = new EventRegistrar(this.game, this);
-        this.tracker.register(['onRoundEnded', 'onUseCard']);
+        this.tracker.register(['onRoundEnded', 'onFight']);
 
         this.persistentEffect({
             location: 'any',
@@ -18,10 +18,8 @@ class Alaka extends Card {
         this.creaturesFoughtByPlayer = {};
     }
 
-    onUseCard(event) {
-        if (event.fight) {
-            this.creaturesFoughtByPlayer[event.context.player.uuid] = true;
-        }
+    onFight(event) {
+        this.creaturesFoughtByPlayer[event.context.player.uuid] = true;
     }
 }
 

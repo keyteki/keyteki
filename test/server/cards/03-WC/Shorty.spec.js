@@ -1,4 +1,4 @@
-describe('Shorty(WC)', function () {
+describe('Shorty', function () {
     describe('Shorty reap ability', function () {
         beforeEach(function () {
             this.setupTest({
@@ -23,10 +23,10 @@ describe('Shorty(WC)', function () {
         });
 
         it('should remove enrage after killing by assault', function () {
-            this.shorty.tokens.enrage = 1;
+            this.shorty.enrage();
             this.player1.fightWith(this.shorty, this.nexus);
             expect(this.shorty.tokens.damage).toBeUndefined();
-            expect(this.shorty.tokens.enrage).toBeUndefined();
+            expect(this.shorty.enraged).toBe(false);
             expect(this.nexus.location).toBe('discard');
         });
     });

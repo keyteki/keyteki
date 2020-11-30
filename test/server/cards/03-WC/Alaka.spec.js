@@ -1,14 +1,14 @@
-describe('Alaka(WC)', function () {
+describe('Alaka', function () {
     describe('Alaka constant ability', function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
                     house: 'brobnar',
                     hand: ['alaka'],
-                    inPlay: ['mugwump', 'shorty']
+                    inPlay: ['mugwump', 'brammo', 'shorty']
                 },
                 player2: {
-                    inPlay: ['nexus']
+                    inPlay: ['nexus', 'briar-grubbling']
                 }
             });
         });
@@ -21,6 +21,13 @@ describe('Alaka(WC)', function () {
 
         it('enters ready if a fight kills by assault', function () {
             this.player1.fightWith(this.shorty, this.nexus);
+            this.player1.play(this.alaka);
+            expect(this.alaka.exhausted).toBe(false);
+        });
+
+        it('enters ready if attacker dies by hazardous', function () {
+            this.player1.fightWith(this.brammo, this.briarGrubbling);
+            expect(this.brammo.location).toBe('discard');
             this.player1.play(this.alaka);
             expect(this.alaka.exhausted).toBe(false);
         });
