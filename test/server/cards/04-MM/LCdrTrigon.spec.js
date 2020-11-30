@@ -36,7 +36,7 @@ describe('LCdr. Trigon', function () {
         });
 
         it('should discard Mab the Mad and resolve its bonus icon (2A + 1D + 1C)', function () {
-            this.mabTheMad.cardData.enhancements = ['amber', 'draw', 'capture'];
+            this.mabTheMad.enhancements = ['amber', 'draw', 'capture'];
             this.player1.moveCard(this.mabTheMad, 'deck');
             this.player1.reap(this.lcdrTrigon);
             this.player1.clickCard(this.troll);

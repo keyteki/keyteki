@@ -30,7 +30,7 @@ describe('Mindfire', function () {
         });
 
         it("should steal 3A due to card's enhancements", function () {
-            this.lamindra.cardData.enhancements = ['amber', 'draw', 'draw'];
+            this.lamindra.enhancements = ['amber', 'draw', 'draw'];
             this.player2.moveCard(this.mabTheMad, 'discard');
             this.player1.play(this.mindfire);
             expect(this.lamindra.location).toBe('discard');

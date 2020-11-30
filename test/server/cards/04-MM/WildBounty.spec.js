@@ -44,7 +44,7 @@ describe('Wild Bounty', function () {
         });
 
         it('should reveal a card and apply enhanced bonus icons twice', function () {
-            this.dustPixie.cardData.enhancements = ['amber', 'draw', 'damage'];
+            this.dustPixie.enhancements = ['amber', 'draw', 'damage'];
             this.player1.play(this.wildBounty);
             expect(this.player1.amber).toBe(0);
             this.player1.play(this.dustPixie);
@@ -88,7 +88,7 @@ describe('Wild Bounty', function () {
             expect(this.player2.amber).toBe(2);
             expect(this.player1.player.hand.length).toBe(3);
 
-            this.wildBounty2.cardData.enhancements = ['amber', 'draw'];
+            this.wildBounty2.enhancements = ['amber', 'draw'];
             this.player1.play(this.wildBounty2);
             expect(this.player1).toHavePrompt('Triggered Abilities');
             this.player1.clickPrompt('Wild Bounty');

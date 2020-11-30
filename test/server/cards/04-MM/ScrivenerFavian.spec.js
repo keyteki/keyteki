@@ -27,7 +27,7 @@ describe('Scrivener Favian', function () {
         });
 
         it('should ask to replace capture with steal, and capture, if selected', function () {
-            this.dustPixie.cardData.enhancements = ['amber', 'capture', 'draw'];
+            this.dustPixie.enhancements = ['amber', 'capture', 'draw'];
             this.player1.play(this.dustPixie);
             expect(this.player1).toHavePrompt('How do you wish to resolve this capture icon?');
             expect(this.player1).toHavePromptButton('capture');
@@ -42,7 +42,7 @@ describe('Scrivener Favian', function () {
         });
 
         it('should ask to replace capture with steal, and steal, if selected', function () {
-            this.dustPixie.cardData.enhancements = ['amber', 'capture', 'draw'];
+            this.dustPixie.enhancements = ['amber', 'capture', 'draw'];
             this.player1.play(this.dustPixie);
             expect(this.player1).toHavePrompt('How do you wish to resolve this capture icon?');
             expect(this.player1).toHavePromptButton('capture');
@@ -71,7 +71,7 @@ describe('Scrivener Favian', function () {
         });
 
         it('should interact with Amphora Captura and convert every bonus to steal, when selected, but still keep original options', function () {
-            this.dustPixie.cardData.enhancements = ['amber', 'capture', 'draw'];
+            this.dustPixie.enhancements = ['amber', 'capture', 'draw'];
             this.player1.play(this.dustPixie);
             expect(this.player1).toHavePrompt('How do you wish to resolve this amber icon?');
             expect(this.player1).toHavePromptButton('amber');

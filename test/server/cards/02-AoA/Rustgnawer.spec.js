@@ -35,7 +35,7 @@ describe('Rustgnawer', function () {
         });
 
         it('should prompt to destroy an artifact when it fights, and return the amber value to the controller, considering enhancements. [0]', function () {
-            this.screechbomb.cardData.enhancements = ['amber', 'amber', 'amber', 'draw', 'capture'];
+            this.screechbomb.enhancements = ['amber', 'amber', 'amber', 'draw', 'capture'];
 
             this.player1.fightWith(this.rustgnawer, this.nexus);
             expect(this.player1).toHavePrompt('Rustgnawer');
