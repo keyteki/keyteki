@@ -96,7 +96,7 @@ class NodeAdmin extends React.Component {
                 <Panel title='Game Node Administration'>
                     {content}
 
-                    <button className='btn btn-default' onClick={this.onRefreshClick}>
+                    <button className='btn btn-default btn-short' onClick={this.onRefreshClick}>
                         Refresh
                     </button>
                 </Panel>
