@@ -41,28 +41,6 @@ class PutIntoPlayAction extends CardGameAction {
             player = this.myControl ? context.player : card.controller;
         }
 
-        if (card.giganticBottom && !card.composedPart) {
-            let parts = card.controller
-                .getSourceList(card.location)
-                .filter((part) => card.compositeId === part.id);
-
-            if (parts.length > 1) {
-                // if there are two gigantic top parts, it could be relevant to choose among them
-                // if they have different enhancements
-                context.game.promptForSelect(context.player, {
-                    source: card,
-                    activePromptTitle: 'Choose a top part to play',
-                    cardType: 'creature',
-                    location: 'hand',
-                    cardCondition: (card) => parts.includes(card),
-                    onSelect: (p, part) => {
-                        card.composedPart = part;
-                        return true;
-                    }
-                });
-            }
-        }
-
         if (player.cardsInPlay.some((card) => card.type === 'creature')) {
             let choices = ['Left', 'Right'];
 
