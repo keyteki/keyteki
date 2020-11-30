@@ -396,6 +396,7 @@ class Card extends EffectSource {
                 onReap: (event, context) => event.card === context.source
             };
         }
+
         return this.triggeredAbility('reaction', properties);
     }
 
