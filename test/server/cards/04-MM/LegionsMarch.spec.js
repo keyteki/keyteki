@@ -5,7 +5,12 @@ describe('Legions March', function () {
                 player1: {
                     house: 'saurian',
                     hand: ['legion-s-march'],
-                    inPlay: ['brend-the-fanatic', 'mack-the-knife', 'consul-primus']
+                    inPlay: [
+                        'brend-the-fanatic',
+                        'mack-the-knife',
+                        'consul-primus',
+                        'praefectus-ludo'
+                    ]
                 },
                 player2: {
                     house: 'untamed',
@@ -17,10 +22,9 @@ describe('Legions March', function () {
 
         it('should deal 1 damage to each non dinosaur creature when using a dinosaur creature', function () {
             this.player1.play(this.legionSMarch);
-            this.player1.reap(this.consulPrimus);
+            this.player1.reap(this.praefectusLudo);
 
-            this.player1.clickCard(this.consulPrimus);
-
+            expect(this.praefectusLudo.tokens.damage).toBe(undefined);
             expect(this.consulPrimus.tokens.damage).toBe(undefined);
             expect(this.brendTheFanatic.tokens.damage).toBe(1);
             expect(this.mackTheKnife.tokens.damage).toBe(1);

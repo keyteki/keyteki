@@ -380,12 +380,32 @@ class Card extends EffectSource {
     }
 
     triggeredAbility(abilityType, properties) {
-        const ability = new TriggeredAbility(this.game, this, abilityType, properties);
+        const ability = new TriggeredAbility(
+            this.game,
+            this,
+            abilityType,
+            this.expandOnUseCardEvent(properties)
+        );
         if (ability.printedAbility) {
             this.abilities.reactions.push(ability);
         }
 
         return ability;
+    }
+
+    expandOnUseCardEvent(properties) {
+        if (properties.when && properties.when.onUseCard) {
+            properties.when.onFight = (event, context) => {
+                const card = event.card;
+                event.card = event.attacker;
+                const result = properties.when.onUseCard(event, context);
+                event.card = card;
+                return result;
+            };
+            properties.when.onReap = properties.when.onUseCard;
+            properties.when.onRemoveStun = properties.when.onUseCard;
+        }
+        return properties;
     }
 
     reaction(properties) {
@@ -396,7 +416,6 @@ class Card extends EffectSource {
                 onReap: (event, context) => event.card === context.source
             };
         }
-
         return this.triggeredAbility('reaction', properties);
     }
 
@@ -874,6 +893,7 @@ class Card extends EffectSource {
     getFightAction() {
         return this.action({
             title: 'Fight with this creature',
+            fight: true,
             condition: (context) =>
                 this.checkRestrictions('fight', context) && this.type === 'creature',
             printedAbility: false,
@@ -889,6 +909,7 @@ class Card extends EffectSource {
     getReapAction() {
         return this.action({
             title: 'Reap with this creature',
+            reap: true,
             condition: (context) =>
                 this.checkRestrictions('reap', context) && this.type === 'creature',
             printedAbility: false,

@@ -33,7 +33,6 @@ class FightGameAction extends CardGameAction {
 
             newContext.canCancel = false;
             context.game.resolveAbility(newContext);
-            context.game.raiseEvent('onUseCard', { card: card, context: context });
         });
     }
 }

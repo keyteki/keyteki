@@ -37,6 +37,9 @@ class CardAction extends CardAbility {
             properties.title ||
             "Use this card's " + (properties.omni ? 'Omni' : 'Action') + ' ability';
         this.condition = properties.condition;
+        this.reap = properties.reap;
+        this.fight = properties.fight;
+        this.action = !this.reap && !this.fight;
         this.omni = !!properties.omni;
         this.cost = this.cost.concat(Costs.exhaust(), Costs.use());
     }
@@ -67,8 +70,23 @@ class CardAction extends CardAbility {
         return super.meetsRequirements(context);
     }
 
+    executeHandler(context) {
+        super.executeHandler(context);
+        if (this.isAction()) {
+            context.game.raiseEvent('onUseCard', { card: this.card, context: context }, () => {});
+        }
+    }
+
+    isReap() {
+        return this.reap;
+    }
+
+    isFight() {
+        return this.fight;
+    }
+
     isAction() {
-        return true;
+        return this.action;
     }
 }
 
