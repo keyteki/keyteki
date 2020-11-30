@@ -39,7 +39,6 @@ class CardAction extends CardAbility {
         this.condition = properties.condition;
         this.reap = properties.reap;
         this.fight = properties.fight;
-        this.action = !this.reap && !this.fight;
         this.omni = !!properties.omni;
         this.cost = this.cost.concat(Costs.exhaust(), Costs.use());
     }
@@ -72,21 +71,13 @@ class CardAction extends CardAbility {
 
     executeHandler(context) {
         super.executeHandler(context);
-        if (this.isAction()) {
+        if (!this.reap && !this.fight) {
             context.game.raiseEvent('onUseCard', { card: this.card, context: context }, () => {});
         }
     }
 
-    isReap() {
-        return this.reap;
-    }
-
-    isFight() {
-        return this.fight;
-    }
-
     isAction() {
-        return this.action;
+        return true;
     }
 }
 
