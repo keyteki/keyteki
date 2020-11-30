@@ -20,6 +20,9 @@ describe('Forum Of Giants', function () {
             this.player2.clickPrompt('brobnar');
             this.player2.endTurn();
 
+            expect(this.player1).toBeAbleToSelect(this.stealerOfSouls);
+            expect(this.player1).not.toBeAbleToSelect(this.batdrone);
+            this.player1.clickCard(this.stealerOfSouls);
             this.player1.clickPrompt('saurian');
             expect(this.player1.amber).toBe(1);
             expect(this.player2.amber).toBe(4);
@@ -33,6 +36,11 @@ describe('Forum Of Giants', function () {
             this.player2.play(this.earthshaker);
             this.player2.endTurn();
 
+            expect(this.player1).not.toBeAbleToSelect(this.stealerOfSouls);
+            expect(this.player1).not.toBeAbleToSelect(this.batdrone);
+            expect(this.player1).toBeAbleToSelect(this.troll);
+            expect(this.player1).not.toBeAbleToSelect(this.earthshaker);
+            this.player1.clickCard(this.troll);
             this.player1.clickPrompt('saurian');
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(5);
@@ -52,15 +60,35 @@ describe('Forum Of Giants', function () {
             expect(this.player2.amber).toBe(4);
         });
 
-        it('if there is a tie, both players get 1A', function () {
+        it('if there is a tie, should be able to choose own creature', function () {
             this.player1.endTurn();
 
             this.player2.clickPrompt('brobnar');
             this.player2.play(this.culfTheQuiet);
             this.player2.endTurn();
 
+            expect(this.player1).toBeAbleToSelect(this.stealerOfSouls);
+            expect(this.player1).toBeAbleToSelect(this.culfTheQuiet);
+            expect(this.player1).not.toBeAbleToSelect(this.batdrone);
+            this.player1.clickCard(this.stealerOfSouls);
             this.player1.clickPrompt('saurian');
             expect(this.player1.amber).toBe(1);
+            expect(this.player2.amber).toBe(4);
+        });
+
+        it("if there is a tie, should be able to choose opponent's creature", function () {
+            this.player1.endTurn();
+
+            this.player2.clickPrompt('brobnar');
+            this.player2.play(this.culfTheQuiet);
+            this.player2.endTurn();
+
+            expect(this.player1).toBeAbleToSelect(this.stealerOfSouls);
+            expect(this.player1).toBeAbleToSelect(this.culfTheQuiet);
+            expect(this.player1).not.toBeAbleToSelect(this.batdrone);
+            this.player1.clickCard(this.culfTheQuiet);
+            this.player1.clickPrompt('saurian');
+            expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(5);
         });
     });
