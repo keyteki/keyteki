@@ -58,6 +58,7 @@ module.exports = {
     SearchAction: require('./SearchAction'),
     SequentialAction: require('./SequentialAction'),
     SequentialForEachAction: require('./SequentialForEachAction'),
+    SequentialPutIntoPlayAction: require('./SequentialPutIntoPlayAction'),
     ShuffleDeckAction: require('./ShuffleDeckAction'),
     StealAction: require('./StealAction'),
     StunAction: require('./StunAction'),

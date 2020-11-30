@@ -46,6 +46,8 @@ a {
 
 .btn {
     font-size: 0.8rem;
+    text-shadow: 1px -1px 2px black, -1px 1px 2px black;
+    background-size:cover;
 
     .spinner-border {
         vertical-align: middle;
@@ -63,9 +65,9 @@ a {
         font-family: Keyforge, Helvetica, sans-serif;
 
         &:hover {
-            text-shadow: 0px 0px 6px theme-color('white');
             transition: all 0.4s ease 0s;
-
+            text-shadow: 1px -1px 2px black, -1px 1px 2px black;
+            color: white;
             background-color: transparent;
         }
 
@@ -108,6 +110,7 @@ a {
 }
 
 .btn-secondary {
+    background-size: 100% 32px;
     &:not(.dropdown-toggle) {
         background-image: url('~assets/img/button-orange.png');
 
@@ -150,6 +153,14 @@ a {
 .btn-stretch {
     background-size: 100% 32px;
 }
+
+
+#pageDropDown{
+    background-image: none;
+    text-shadow: none;
+}
+
+
 
 .alert {
     ul {

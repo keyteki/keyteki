@@ -26,9 +26,9 @@ class Purify extends Card {
                     let card = preThenContext.target.controller.deck.find(
                         (card) => card.type === 'creature' && !card.hasTrait('mutant')
                     );
-                    if (card) {
+                    if (card && !card.gigantic) {
                         return {
-                            message: '{0} takes {3} into their hand',
+                            message: '{0} puts {3} into play',
                             messageArgs: card,
                             gameAction: ability.actions.putIntoPlay({
                                 target: card

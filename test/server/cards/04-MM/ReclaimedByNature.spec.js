@@ -41,7 +41,7 @@ describe('Reclaimed by Nature', function () {
         });
 
         it('should reveal a card and apply enhanced bonus icons', function () {
-            this.evasionSigil.cardData.enhancements = ['amber', 'draw', 'damage'];
+            this.evasionSigil.enhancements = ['amber', 'draw', 'damage'];
             this.player1.play(this.reclaimedByNature);
             expect(this.player1).toBeAbleToSelect(this.vineappleTree);
             expect(this.player1).toBeAbleToSelect(this.customsOffice);
