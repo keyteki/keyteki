@@ -898,7 +898,7 @@ class Card extends EffectSource {
     }
 
     getRemoveStunAction() {
-        return new RemoveStun(this, true);
+        return new RemoveStun(this);
     }
 
     getActions(location = this.location) {
