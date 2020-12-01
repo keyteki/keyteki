@@ -78,6 +78,38 @@ class About extends React.Component {
                             care of it before I got involved!
                         </p>
                     </Trans>
+                    <Trans i18nKey='about.colors'>
+                        <h3>Meaning of Username Colors</h3>
+                        <p>
+                            Some usernames have different colors and the intent is to acknowledge
+                            the supporters of the platform:
+                        </p>
+                        <ul>
+                            <li>
+                                <span className='username admin-role'>admin</span> - site
+                                administrator
+                            </li>
+                            <li>
+                                <span className='username contributor-role'>contributor</span> -
+                                people who have made significant development contributions to the
+                                site
+                            </li>
+                            <li>
+                                <span className='username supporter-role'>supporter</span> - patreon
+                                supporters
+                            </li>
+                            <li>
+                                <span className='username winner-role'>winner</span> - current
+                                tournament winner
+                            </li>
+                            <li>
+                                <span className='username previouswinner-role'>
+                                    previous winner
+                                </span>{' '}
+                                - former tournament winner
+                            </li>
+                        </ul>
+                    </Trans>
                     <Trans i18nKey='about.addicons'>
                         <h3>Additional Icons</h3>
                         <p>
