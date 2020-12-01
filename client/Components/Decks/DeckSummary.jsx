@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next';
 
 import { Constants } from '../../constants';
 import CardBack from './CardBack';
-import IdentityCard from './IdentityCard';
 import CardImage from '../GameBoard/CardImage';
 
 import './DeckSummary.scss';
@@ -68,9 +67,6 @@ const DeckSummary = ({ deck }) => {
             <Row>
                 <Col xs='2' sm='3'>
                     <CardBack deck={deck} size={'x-large'} />
-                </Col>
-                <Col xs='2' sm='3'>
-                    <IdentityCard deck={deck} />
                 </Col>
                 <Col xs='8' sm='5'>
                     <Row>
