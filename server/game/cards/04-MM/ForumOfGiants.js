@@ -14,10 +14,17 @@ class ForumOfGiants extends Card {
                 cardStat: (card) => card.power
             },
             gameAction: ability.actions.gainAmber((context) => ({
-                target: context.target ? context.target[0].controller : null
+                target:
+                    context.target && context.target.length > 0
+                        ? context.target[0].controller
+                        : null
             })),
             effect: 'make {1} gain 1 amber',
-            effectArgs: (context) => [context.target ? context.target[0].controller : '']
+            effectArgs: (context) => [
+                context.target && context.target.length > 0
+                    ? context.target[0].controller
+                    : 'no player'
+            ]
         });
     }
 }
