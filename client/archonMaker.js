@@ -179,7 +179,6 @@ export const buildDeckList = async (canvas, deck, language, translate, size) => 
     TCO.set({ left: 505, top: 769, angle: -90 }).scaleToWidth(30);
     canvas.add(DeckListIcon).add(QRCodeIcon).add(expansion).add(TCO);
 
-
     let name;
     try {
         name = getCircularText(deck.name, width, height, 1800);
@@ -416,7 +415,10 @@ export const buildCard = async (
     canvas.setWidth(width);
     canvas.setHeight(height);
 
-    const cardImage = new fabric.Image(DeckCards[halfSize ? 'halfSize' : 'cards'][image].getElement(), imgOptions);
+    const cardImage = new fabric.Image(
+        DeckCards[halfSize ? 'halfSize' : 'cards'][image].getElement(),
+        imgOptions
+    );
     cardImage.scaleToWidth(width);
     canvas.add(cardImage);
 
@@ -452,7 +454,10 @@ export const buildCard = async (
         }
     }
     if (enhancements && enhancements.length > 0 && enhancements[0] !== '') {
-        const baseImage = new fabric.Image(EnhancementBaseImages[enhancements.length].getElement());
+        const baseImage = new fabric.Image(
+            EnhancementBaseImages[enhancements.length].getElement(),
+            imgOptions
+        );
         let top = 59 + (amber ? amber * 30 : 0);
 
         if (
@@ -485,7 +490,10 @@ export const buildCard = async (
         //dynamic power overlay
         let totalPower = modifiedPower - (tokens.power ? tokens.power : 0);
         if (modifiedPower && totalPower !== card.printedPower) {
-            const modifiedPowerToken = new fabric.Image(Tokens.ModifiedPower.getElement(), imgOptions)
+            const modifiedPowerToken = new fabric.Image(
+                Tokens.ModifiedPower.getElement(),
+                imgOptions
+            );
             modifiedPowerToken.scaleToWidth(60);
             modifiedPowerToken.set({ left: 10, top: 220 - (halfSize ? 25 : 0) });
             canvas.add(modifiedPowerToken);
@@ -499,7 +507,7 @@ export const buildCard = async (
         }
         //armor overlay
         if (tokens.armor || card.printedArmor) {
-            const modifiedArmorToken = new fabric.Image(Tokens.armor.getElement(), imgOptions)
+            const modifiedArmorToken = new fabric.Image(Tokens.armor.getElement(), imgOptions);
             modifiedArmorToken.scaleToWidth(60);
             modifiedArmorToken.set({ left: 230, top: 220 - (halfSize ? 25 : 0) });
             canvas.add(modifiedArmorToken);
@@ -549,7 +557,7 @@ export const buildCard = async (
             }
         }
     }
-   applyFilters(canvas, size, width, height);
+    applyFilters(canvas, size, width, height);
 };
 
 const buildFailImage = (canvas, size, width, height) => {
@@ -561,7 +569,7 @@ const buildFailImage = (canvas, size, width, height) => {
 
 const applyFilters = (canvas, size, width, height) => {
     canvas.renderAll();
-    const scale = size ? ((defaultCardWidth * getCardSizeMultiplier(size)) / width) : 1;
+    const scale = size ? (defaultCardWidth * getCardSizeMultiplier(size)) / width : 1;
     const finalImage = new fabric.Image(canvas.getElement(), imgOptions);
     finalImage.filters.push(
         new fabric.Image.filters.Resize({
