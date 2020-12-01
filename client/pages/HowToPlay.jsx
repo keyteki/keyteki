@@ -12,7 +12,7 @@ class HowToPlay extends React.Component {
         let t = this.props.t;
 
         return (
-            <div className='col-xs-12 full-height '>
+            <div className='col-xs-12 full-height'>
                 <Panel title={t('How To Play on The Crucible Online')}>
                     <a
                         className='btn btn-danger pull-right float-right'
