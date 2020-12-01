@@ -82,6 +82,10 @@ class User {
         return this.userData.permissions && this.userData.permissions.isPreviousWinner;
     }
 
+    get keepsSupporter() {
+        return this.userData.permissions && this.userData.permissions.keepsSupporterWithNoPatreon;
+    }
+
     get isContributor() {
         return this.userData.permissions && this.userData.permissions.isContributor;
     }

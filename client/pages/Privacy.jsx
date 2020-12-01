@@ -35,9 +35,8 @@ class Privacy extends React.Component {
                         </p>
                         <p>
                             When you play games on the site, we collect information about the games
-                            you play(what faction/agenda you&quot;re using, the deck you are using
-                            to play with - but not its contents, who you are playing against and the
-                            outcome of the game).
+                            you play(the deck you are using to play with, who you are playing
+                            against and the outcome of the game).
                         </p>
                         <p>If you chat in the lobby, your messages are stored.</p>
                     </Trans>

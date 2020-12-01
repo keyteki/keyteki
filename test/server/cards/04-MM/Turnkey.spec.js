@@ -4,7 +4,7 @@ describe('Turnkey', function () {
             this.setupTest({
                 player1: {
                     house: 'dis',
-                    hand: ['turnkey', 'gongoozle']
+                    hand: ['turnkey', 'gongoozle', 'the-evil-eye']
                 },
                 player2: {
                     inPlay: ['troll', 'bumpsy']
@@ -80,6 +80,32 @@ describe('Turnkey', function () {
             this.player1.endTurn();
 
             this.player2.clickPrompt('brobnar');
+            this.player2.fightWith(this.bumpsy, this.turnkey);
+
+            //Odd wording, because your opponent is the one who actually gets the key.
+            expect(this.player2).toHavePrompt('Which key would you like to forge?');
+            expect(this.player2).not.toHavePromptButton('Red');
+            expect(this.player2).toHavePromptButton('Blue');
+            expect(this.player2).toHavePromptButton('Yellow');
+            this.player2.clickPrompt('Yellow');
+
+            expect(this.player2.player.keys.red).toBe(true);
+            expect(this.player2.player.keys.blue).toBe(false);
+            expect(this.player2.player.keys.yellow).toBe(true);
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2.amber).toBe(0);
+        });
+
+        it("should reforge an opponent's key when leaving play during opponent's turn, disregarding increased cost", function () {
+            this.player2.player.keys = { red: true, blue: true, yellow: false };
+
+            this.player1.play(this.turnkey);
+            this.player1.clickPrompt('Blue');
+            this.player1.play(this.theEvilEye);
+            this.player1.endTurn();
+
+            this.player2.clickPrompt('brobnar');
+            expect(this.player2.player.getCurrentKeyCost, 9);
             this.player2.fightWith(this.bumpsy, this.turnkey);
 
             //Odd wording, because your opponent is the one who actually gets the key.

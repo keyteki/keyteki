@@ -41,6 +41,15 @@ describe('Auto-Legionary', function () {
                 expect(this.player1.amber).toBe(1);
             });
 
+            it('should not allow other saurian cards to reap', function () {
+                this.player1.endTurn();
+                this.player2.clickPrompt('brobnar');
+                this.player2.endTurn();
+                this.player1.clickPrompt('untamed');
+                this.player1.clickCard(this.legatusRaptor);
+                expect(this.player1).not.toHavePromptButton('Reap with this creature');
+            });
+
             describe('when action ability is a second time triggered', function () {
                 beforeEach(function () {
                     this.player1.endTurn();

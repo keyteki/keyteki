@@ -70,10 +70,6 @@ class GameObject {
         return this.type;
     }
 
-    getPrintedFaction() {
-        return null;
-    }
-
     getKeywordValue() {
         return false;
     }

@@ -40,7 +40,7 @@ describe('Mimicry', function () {
         });
 
         it('should consider enhancements on card', function () {
-            this.interdimensionalGraft.cardData.enhancements = ['amber', 'draw', 'draw', 'capture'];
+            this.interdimensionalGraft.enhancements = ['amber', 'draw', 'draw', 'capture'];
             this.player1.play(this.mimicry);
             expect(this.player1).toHavePrompt('Mimicry');
             expect(this.player1).toBeAbleToSelect(this.interdimensionalGraft);

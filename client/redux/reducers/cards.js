@@ -33,10 +33,20 @@ function processDecks(decks, state) {
             result.card.image = card.image || card.id;
             if (card.maverick) {
                 result.card.house = card.maverick;
+                result.card.maverick = card.maverick;
             } else if (card.anomaly) {
                 result.card.house = card.anomaly;
+                result.card.anomaly = card.anomaly;
             } else if (card.house) {
                 result.card.house = card.house;
+            }
+
+            if (card.image) {
+                result.card.image = card.image;
+            }
+
+            if (card.enhancements) {
+                result.card.enhancements = card.enhancements;
             }
 
             return result;
@@ -86,22 +96,6 @@ export default function (state = { decks: [], cards: {} }, action) {
 
             return Object.assign({}, state, {
                 factions: factions
-            });
-        case 'ZOOM_CARD':
-            return Object.assign({}, state, {
-                zoomCard: action.card
-            });
-        case 'CLEAR_ZOOM':
-            return Object.assign({}, state, {
-                zoomCard: undefined
-            });
-        case 'PLAYER1_CARDBACK':
-            return Object.assign({}, state, {
-                player1CardBack: action.url
-            });
-        case 'PLAYER2_CARDBACK':
-            return Object.assign({}, state, {
-                player2CardBack: action.url
             });
         case Decks.DecksReceived:
             processDecks(action.response.decks, state);

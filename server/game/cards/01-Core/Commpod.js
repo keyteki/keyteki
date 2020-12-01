@@ -13,8 +13,10 @@ class Commpod extends Card {
                     num: context.target.length,
                     action: ability.actions.ready({
                         promptForSelect: {
+                            optional: true,
                             activePromptTitle: 'Choose a creature to ready',
                             cardType: 'creature',
+                            cardCondition: (card) => card.hasHouse('mars'),
                             controller: 'self'
                         }
                     })

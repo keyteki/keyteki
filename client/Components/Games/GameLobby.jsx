@@ -14,6 +14,7 @@ import Panel from '../Site/Panel';
 import './GameLobby.scss';
 import { useEffect } from 'react';
 import { startNewGame, joinPasswordGame, sendSocketMessage, setUrl } from '../../redux/actions';
+import { useRef } from 'react';
 
 const GameLobby = ({ gameId }) => {
     const { t } = useTranslation();
@@ -24,7 +25,8 @@ const GameLobby = ({ gameId }) => {
         { name: 'competitive', label: t('Competitive') },
         { name: 'normal', label: t('Normal') },
         { name: 'sealed', label: t('Sealed') },
-        { name: 'reversal', label: t('Reversal') }
+        { name: 'reversal', label: t('Reversal') },
+        { name: 'adaptive-bo1', label: t('Adaptive (Bo1)') }
     ];
     const filterDefaults = {};
 
@@ -41,6 +43,7 @@ const GameLobby = ({ gameId }) => {
     const user = useSelector((state) => state.account.user);
     const [currentFilter, setCurrentFilter] = useState(filterDefaults);
     const [quickJoin, setQuickJoin] = useState(false);
+    const topRef = useRef(null);
 
     useEffect(() => {
         if ('Notification' in window) {
@@ -48,11 +51,18 @@ const GameLobby = ({ gameId }) => {
                 Notification.requestPermission(() => {});
             }
         }
+
+        let filter = localStorage.getItem('gameFilter');
+        if (filter) {
+            setCurrentFilter(JSON.parse(filter));
+        }
     }, []);
 
     const onFilterChecked = (name, checked) => {
         currentFilter[name] = checked;
         setCurrentFilter(Object.assign({}, currentFilter));
+
+        localStorage.setItem('gameFilter', JSON.stringify(currentFilter));
     };
 
     useEffect(() => {
@@ -75,17 +85,18 @@ const GameLobby = ({ gameId }) => {
                         dispatch(sendSocketMessage('watchgame', game.id));
                     }
                 }
-
-                dispatch(setUrl('/play'));
             }
+            dispatch(setUrl('/play'));
         }
     }, [currentGame, dispatch, gameId, games]);
 
     return (
         <Col md={{ offset: 2, span: 8 }}>
-            {newGame && <NewGame quickJoin={quickJoin} />}
-            {currentGame?.started === false && <PendingGame />}
-            {passwordGame && <PasswordGame />}
+            <div ref={topRef}>
+                {newGame && <NewGame quickJoin={quickJoin} />}
+                {currentGame?.started === false && <PendingGame />}
+                {passwordGame && <PasswordGame />}
+            </div>
             <Panel title={t('Current Games')}>
                 {!user && (
                     <div className='text-center'>
@@ -163,7 +174,11 @@ const GameLobby = ({ gameId }) => {
                                 )}
                             </AlertPanel>
                         ) : (
-                            <GameList games={games} gameFilter={currentFilter} />
+                            <GameList
+                                games={games}
+                                gameFilter={currentFilter}
+                                onJoinOrWatchClick={() => topRef.current.scrollIntoView(false)}
+                            />
                         )}
                     </Col>
                 </Row>

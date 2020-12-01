@@ -1,12 +1,14 @@
+import { News } from '../types';
+
 export function requestNews() {
     return {
-        type: 'REQUEST_NEWS'
+        type: News.RequestNews
     };
 }
 
 export function receiveNews(news) {
     return {
-        type: 'RECEIVE_NEWS',
+        type: News.NewsReceived,
         news: news
     };
 }
@@ -19,7 +21,7 @@ export function loadNews(options) {
     }
 
     return {
-        types: ['REQUEST_NEWS', 'RECEIVE_NEWS'],
+        types: [News.RequestNews, News.NewsReceived],
         shouldCallAPI: (state) => {
             return state.news.news.length === 0 || (options && !!options.forceLoad);
         },
@@ -29,7 +31,7 @@ export function loadNews(options) {
 
 export function addNews(newsText) {
     return {
-        types: ['ADD_NEWS', 'NEWS_ADDED'],
+        types: [News.AddNews, News.NewsAdded],
         shouldCallAPI: (state) => {
             return state.news.news;
         },
@@ -43,7 +45,7 @@ export function addNews(newsText) {
 
 export function saveNews(id, text) {
     return {
-        types: ['SAVE_NEWS', 'NEWS_SAVED'],
+        types: [News.SaveNews, News.NewsSaved],
         shouldCallAPI: () => true,
         APIParams: {
             url: `/api/news/${id}`,
@@ -56,17 +58,11 @@ export function saveNews(id, text) {
 
 export function deleteNews(id) {
     return {
-        types: ['DELETE_NEWS', 'NEWS_DELETED'],
+        types: [News.DeleteNews, News.NewsDeleted],
         shouldCallAPI: () => true,
         APIParams: {
             url: `/api/news/${id}`,
             type: 'DELETE'
         }
-    };
-}
-
-export function clearNewsStatus() {
-    return {
-        type: 'CLEAR_NEWS_STATUS'
     };
 }

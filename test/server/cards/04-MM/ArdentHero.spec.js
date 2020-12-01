@@ -21,7 +21,7 @@ describe('Ardent Hero', function () {
                 }
             });
 
-            this.sacroBeast.cardData.enhancements = ['damage'];
+            this.sacroBeast.enhancements = ['damage'];
         });
 
         it('should not take damage from creature with power equal to 5', function () {

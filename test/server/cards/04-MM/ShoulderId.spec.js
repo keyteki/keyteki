@@ -54,5 +54,18 @@ describe('Shoulder Id', function () {
             expect(this.player1.amber).toBe(3);
             expect(this.player2.amber).toBe(4);
         });
+
+        it('should steal when attacked by a warded creature, instead of removing the ward', function () {
+            this.fuzzyGruen.ward();
+            expect(this.fuzzyGruen.warded).toBe(true);
+            this.player1.fightWith(this.fuzzyGruen, this.shoulderId);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.fuzzyGruen.location).toBe('play area');
+            expect(this.fuzzyGruen.warded).toBe(true);
+            expect(this.fuzzyGruen.tokens.damage).toBeUndefined();
+            expect(this.shoulderId.tokens.damage).toBe(5);
+            expect(this.player1.amber).toBe(2);
+            expect(this.player2.amber).toBe(5);
+        });
     });
 });

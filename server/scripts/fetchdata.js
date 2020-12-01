@@ -6,6 +6,8 @@ const CardImport = require('./fetchdata/CardImport');
 const KeyforgeImageSource = require('./fetchdata/KeyforgeImageSource');
 const JsonCardSource = require('./fetchdata/JsonCardSource');
 const NoImageSource = require('./fetchdata/NoImageSource');
+const KeyForgeHalfSizeBuild = require('./fetchdata/KeyForgeHalfSizeBuild');
+const db = require('../db');
 
 const optionsDefinition = [
     { name: 'card-source', type: String, defaultValue: 'json' },
@@ -53,6 +55,19 @@ let options = commandLineArgs(optionsDefinition);
 let dataSource = createDataSource(options);
 let imageSource = createImageSource(options);
 
-let cardImport = new CardImport(dataSource, imageSource, options['image-dir'], options['language']);
+let cardImport = new CardImport(
+    dataSource,
+    imageSource,
+    options['image-dir'],
+    options['language'],
+    KeyForgeHalfSizeBuild
+);
 
-cardImport.import();
+const doImport = async () => {
+    await cardImport.import();
+    await db.shutdown();
+};
+
+doImport().then(() => {
+    console.info('Done importing and downloading images!');
+});

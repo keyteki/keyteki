@@ -24,9 +24,9 @@ class Turnkey extends Card {
                         when: { onCardLeavesPlay: (event) => event.card === context.source },
                         gameAction: ability.actions.forgeKey({
                             target: context.player.opponent,
-                            modifier: -context.player.opponent.getCurrentKeyCost()
+                            atNoCost: true
                         }),
-                        message: '{0} forges a key due to {1} leaving play'
+                        message: '{0} forges a key at no cost due to {1} leaving play'
                     })
                 }))
             ]

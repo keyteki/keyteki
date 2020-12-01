@@ -151,7 +151,7 @@ const Navigation = (props) => {
                             responseTime={lobbyResponse}
                         />
                     )}
-                    {currentGame && (
+                    {currentGame?.started && (
                         <ServerStatus
                             connected={gameConnected}
                             connecting={gameConnecting}

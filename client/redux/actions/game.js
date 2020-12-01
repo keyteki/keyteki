@@ -1,4 +1,11 @@
 import io from 'socket.io-client';
+import * as jsondiffpatch from 'jsondiffpatch';
+
+const patcher = jsondiffpatch.create({
+    objectHash: (obj, index) => {
+        return obj.uuid || obj.name || obj.id || obj._id || '$$index:' + index;
+    }
+});
 
 export function receiveGames(games) {
     return {
@@ -166,14 +173,30 @@ export function connectGameSocket(url, name) {
         gameSocket.on('gamestate', (game) => {
             state = getState();
 
+            let gameState;
+
+            if (state.lobby.rootState) {
+                gameState = patcher.patch(state.lobby.currentGame, game);
+            } else {
+                gameState = game;
+                dispatch(setRootState(game));
+            }
+
             dispatch(
-                receiveGameState(game, state.auth.user ? state.auth.user.username : undefined)
+                receiveGameState(gameState, state.auth.user ? state.auth.user.username : undefined)
             );
         });
 
         gameSocket.on('cleargamestate', () => {
             dispatch(clearGameState());
         });
+    };
+}
+
+export function setRootState(game) {
+    return {
+        type: 'SET_ROOT_STATE',
+        state: game
     };
 }
 

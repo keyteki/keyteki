@@ -26,7 +26,7 @@ class Card extends EffectSource {
         this.setDefaultController(owner);
 
         this.printedType = cardData.type;
-
+        this.composedPart = null;
         this.tokens = {};
 
         this.abilities = {
@@ -84,11 +84,9 @@ class Card extends EffectSource {
             { command: 'remPower', text: 'Remove 1 power token', menu: 'tokens' },
             { command: 'addAmber', text: 'Add 1 amber', menu: 'tokens' },
             { command: 'remAmber', text: 'Remove 1 amber', menu: 'tokens' },
-            { command: 'addEnrage', text: 'Add 1 enrage', menu: 'tokens' },
-            { command: 'remEnrage', text: 'Remove 1 enrage', menu: 'tokens' },
             { command: 'stun', text: 'Stun/Remove Stun', menu: 'tokens' },
-            { command: 'addWard', text: 'Add 1 ward', menu: 'tokens' },
-            { command: 'remWard', text: 'Remove 1 ward', menu: 'tokens' }
+            { command: 'ward', text: 'Ward/Remove Ward', menu: 'tokens' },
+            { command: 'enrage', text: 'Enrage/Remove Enrage', menu: 'tokens' }
         ];
 
         this.endRound();
@@ -124,7 +122,11 @@ class Card extends EffectSource {
     }
 
     get reactions() {
-        if (this.isBlank()) {
+        return this.getReactions();
+    }
+
+    getReactions(ignoreBlank = false) {
+        if (this.isBlank() && !ignoreBlank) {
             return this.abilities.keywordReactions;
         }
 
@@ -144,7 +146,11 @@ class Card extends EffectSource {
     }
 
     get persistentEffects() {
-        if (this.isBlank()) {
+        return this.getPersistentEffects();
+    }
+
+    getPersistentEffects(ignoreBlank = false) {
+        if (this.isBlank() && !ignoreBlank) {
             return this.abilities.keywordPersistentEffects;
         }
 
@@ -174,10 +180,19 @@ class Card extends EffectSource {
             return this.mostRecentEffect('modifyBonusIcons');
         }
 
-        let result = this.cardPrintedAmber
-            ? Array.from(Array(this.cardPrintedAmber), () => 'amber')
-            : [];
-        return this.cardData.enhancements ? result.concat(this.cardData.enhancements) : result;
+        let printedAmber = this.cardPrintedAmber;
+        let enhancements = this.enhancements;
+        if (this.composedPart) {
+            if (this.composedPart.cardPrintedAmber) {
+                printedAmber = this.composedPart.cardPrintedAmber;
+            }
+            if (this.composedPart.enhancements && this.composedPart.enhancements.length > 0) {
+                enhancements = this.composedPart.enhancements;
+            }
+        }
+
+        let result = printedAmber ? Array.from(Array(printedAmber), () => 'amber') : [];
+        return enhancements ? result.concat(enhancements) : result;
     }
 
     setupAbilities() {
@@ -258,11 +273,7 @@ class Card extends EffectSource {
                     onCardPurged: (event, context) =>
                         event.card === context.source && context.source.warded,
                     onCardLeavesPlay: (event, context) =>
-                        event.card === context.source && context.source.warded,
-                    onDamageDealt: (event, context) =>
-                        event.card === context.source &&
-                        !context.event.noGameStateCheck &&
-                        context.source.warded
+                        event.card === context.source && context.source.warded
                 },
                 autoResolve: true,
                 effect: 'remove its ward token',
@@ -298,7 +309,6 @@ class Card extends EffectSource {
     /**
      * @typedef PlayProperties
      * @property {CardLocation} location The location this effect can trigger from
-     * @property {TargetProperties} target The targetting specifier
      * @property {function(any): boolean} condition An expression that returns whether this effect is allowed to trigger
      * @property {string} effect The text added to the game log when this effect triggers
      * @property {function(any): [any]} effectArgs A function that returns the arguments to the effect string
@@ -432,7 +442,11 @@ class Card extends EffectSource {
 
     getTraits() {
         let copyEffect = this.mostRecentEffect('copyCard');
-        let traits = copyEffect ? copyEffect.traits : this.traits;
+        let traits = copyEffect
+            ? copyEffect.traits
+            : this.composedPart
+            ? this.composedPart.traits.concat(this.traits)
+            : this.traits;
         return _.uniq(traits.concat(this.getEffects('addTrait')));
     }
 
@@ -500,7 +514,7 @@ class Card extends EffectSource {
     }
 
     updateAbilityEvents(from, to) {
-        _.each(this.reactions, (reaction) => {
+        _.each(this.getReactions(true), (reaction) => {
             if (reaction.location.includes(to) && !reaction.location.includes(from)) {
                 reaction.registerEvents();
             } else if (!reaction.location.includes(to) && reaction.location.includes(from)) {
@@ -514,7 +528,7 @@ class Card extends EffectSource {
             this.removeLastingEffects();
         }
 
-        _.each(this.persistentEffects, (effect) => {
+        _.each(this.getPersistentEffects(true), (effect) => {
             if (effect.location !== 'any') {
                 if (to === 'play area' && from !== 'play area') {
                     effect.ref = this.addEffectToEngine(effect);
@@ -527,7 +541,7 @@ class Card extends EffectSource {
     }
 
     updateEffectContexts() {
-        for (const effect of this.persistentEffects) {
+        for (const effect of this.getPersistentEffects(true)) {
             if (effect.ref) {
                 for (let e of effect.ref) {
                     e.refreshContext();
@@ -669,8 +683,13 @@ class Card extends EffectSource {
     }
 
     getPower(printed = false) {
+        const printedPower =
+            this.composedPart && this.composedPart.printedPower
+                ? this.composedPart.printedPower
+                : this.printedPower;
+
         if (printed) {
-            return this.printedPower;
+            return printedPower;
         }
 
         if (this.anyEffect('setPower')) {
@@ -678,9 +697,10 @@ class Card extends EffectSource {
         }
 
         const copyEffect = this.mostRecentEffect('copyCard');
-        const printedPower = copyEffect ? copyEffect.printedPower : this.printedPower;
+
+        const basePower = copyEffect ? copyEffect.printedPower : printedPower;
         return (
-            printedPower +
+            basePower +
             this.sumEffects('modifyPower') +
             (this.hasToken('power') ? this.tokens.power : 0)
         );
@@ -696,8 +716,13 @@ class Card extends EffectSource {
     }
 
     getArmor(printed = false) {
+        const printedArmor =
+            this.composedPart && this.composedPart.printedArmor
+                ? this.composedPart.printedArmor
+                : this.printedArmor;
+
         if (printed) {
-            return this.printedArmor;
+            return printedArmor;
         }
 
         if (this.anyEffect('setArmor')) {
@@ -705,8 +730,8 @@ class Card extends EffectSource {
         }
 
         const copyEffect = this.mostRecentEffect('copyCard');
-        const printedArmor = copyEffect ? copyEffect.printedArmor : this.printedArmor;
-        return printedArmor + this.sumEffects('modifyArmor');
+        const baseArmor = copyEffect ? copyEffect.printedArmor : printedArmor;
+        return baseArmor + this.sumEffects('modifyArmor');
     }
 
     get amber() {
@@ -1006,11 +1031,12 @@ class Card extends EffectSource {
             enhancements: this.enhancements,
             id: this.id,
             image: this.image,
-            canPlay:
+            canPlay: !!(
                 activePlayer === this.game.activePlayer &&
                 this.game.activePlayer.activeHouse &&
                 isController &&
-                this.getLegalActions(activePlayer, false).length > 0,
+                this.getLegalActions(activePlayer, false).length > 0
+            ),
             cardback: this.owner.deckData.cardback,
             childCards: this.childCards.map((card) => {
                 return card.getSummary(activePlayer, hideWhenFaceup);
@@ -1025,6 +1051,9 @@ class Card extends EffectSource {
             printedHouse: this.printedHouse,
             maverick: this.maverick,
             cardPrintedAmber: this.cardPrintedAmber,
+            printedPower: this.printedPower,
+            printedArmor: this.printedArmor,
+            modifiedPower: this.getPower(),
             stunned: this.stunned,
             taunt: this.getType() === 'creature' && !!this.getKeywordValue('taunt'),
             tokens: this.tokens,

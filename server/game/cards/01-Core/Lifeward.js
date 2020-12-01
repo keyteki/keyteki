@@ -12,7 +12,7 @@ class Lifeward extends Card {
                     targetController: 'opponent',
                     effect: ability.effects.playerCannot(
                         'play',
-                        (context) => context.source.type === 'creature'
+                        (context) => context.ability.title === 'Play this creature'
                     )
                 })
             ]

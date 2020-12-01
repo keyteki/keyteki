@@ -1,10 +1,13 @@
+const uuid = require('uuid');
+
 const Card = require('./Card.js');
 const Spectator = require('./spectator.js');
 const Player = require('./player.js');
 
 class GameChat {
-    constructor() {
+    constructor(game) {
         this.messages = [];
+        this.game = game;
     }
 
     addChatMessage(format, player, message) {
@@ -19,7 +22,7 @@ class GameChat {
         ];
         let formattedMessage = this.formatMessage(format, args);
 
-        this.messages.push({ date: new Date(), message: formattedMessage });
+        this.messages.push({ id: uuid.v1(), date: new Date(), message: formattedMessage });
     }
 
     getFormattedMessage(message) {
@@ -49,15 +52,22 @@ class GameChat {
 
     addMessage(message, ...args) {
         let formattedMessage = this.getFormattedMessage(message, ...args);
-        this.messages.push({ date: new Date(), message: formattedMessage });
+        this.messages.push({
+            id: uuid.v1(),
+            date: new Date(),
+            message: formattedMessage,
+            activePlayer: this.game.activePlayer && this.game.activePlayer.name
+        });
     }
 
     addAlert(type, message, ...args) {
         let formattedMessage = this.getFormattedMessage(message, ...args);
 
         this.messages.push({
+            id: uuid.v1(),
             date: new Date(),
-            message: { alert: { type: type, message: formattedMessage } }
+            message: { alert: { type: type, message: formattedMessage } },
+            activePlayer: this.game.activePlayer && this.game.activePlayer.name
         });
     }
 

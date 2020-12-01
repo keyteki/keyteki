@@ -20,6 +20,7 @@ import Minus from '../../assets/img/Minus.png';
 import Plus from '../../assets/img/Plus.png';
 
 import './PlayerStats.scss';
+import Keys from './Keys';
 
 export class PlayerStats extends React.Component {
     constructor(props) {
@@ -54,7 +55,7 @@ export class PlayerStats extends React.Component {
 
     getButton(stat, name, statToSet = stat) {
         return (
-            <div className='state' title={name}>
+            <div className='state' title={this.props.t(name)}>
                 {this.props.showControls ? (
                     <a
                         href='#'
@@ -64,9 +65,8 @@ export class PlayerStats extends React.Component {
                         <img src={Minus} title='-' alt='-' />
                     </a>
                 ) : null}
-                <div className={`stat-image ${stat}`}>
-                    <div className='stat-value'>{this.getStatValueOrDefault(stat)}</div>
-                </div>
+                <div className='stat-value'>{this.getStatValueOrDefault(stat)}</div>
+                <div className={`stat-image ${stat}`} />
                 {this.props.showControls ? (
                     <a
                         href='#'
@@ -83,9 +83,8 @@ export class PlayerStats extends React.Component {
     getKeyCost() {
         return (
             <div className='state' title={this.props.t('Current Key Cost')}>
-                <div className='stat-image keyCost'>
-                    <div className='stat-value'>{this.getStatValueOrDefault('keyCost')}</div>
-                </div>
+                <div className='stat-value'>{this.getStatValueOrDefault('keyCost')}</div>
+                <div className='stat-image keyCost' />
             </div>
         );
     }
@@ -105,8 +104,10 @@ export class PlayerStats extends React.Component {
                     <img
                         key={house}
                         onClick={this.setActiveHouse.bind(this, house)}
-                        className='img-fluid'
-                        src={Constants.HouseIconPaths[house]}
+                        className={`img-fluid ${
+                            this.props.activeHouse === house ? 'active' : 'inactive'
+                        }-house`}
+                        src={Constants.IdBackHousePaths[house]}
                         title={this.getHouse(house)}
                     />
                 ))}
@@ -128,17 +129,9 @@ export class PlayerStats extends React.Component {
     render() {
         let t = this.props.t;
         let playerAvatar = (
-            <div className='pr-1'>
+            <div className='pr-1 player-info'>
                 <Avatar imgPath={this.props.user?.avatar} />
                 <b>{this.props.user?.username || t('Noone')}</b>
-            </div>
-        );
-        let matchRecord = this.props.matchRecord && (
-            <div
-                className='state'
-                title={`Matches: ${this.props.matchRecord.thisPlayer.name} ${this.props.matchRecord.thisPlayer.wins} - ${this.props.matchRecord.otherPlayer.name} ${this.props.matchRecord.otherPlayer.wins}`}
-            >
-                <span>{`${this.props.matchRecord.thisPlayer.wins} - ${this.props.matchRecord.otherPlayer.wins}`}</span>
             </div>
         );
         let statsClass = classNames('panel player-stats', {
@@ -148,28 +141,12 @@ export class PlayerStats extends React.Component {
         return (
             <div className={statsClass}>
                 {playerAvatar}
-
+                <Keys keys={this.props.stats.keys} manualMode={this.props.manualModeEnabled} />
                 {this.getButton('amber', t('Amber'))}
                 {this.getButton('chains', t('Chains'))}
                 {this.getKeyCost()}
 
                 {this.props.houses ? this.getHouses() : null}
-
-                {matchRecord}
-
-                {this.props.activeHouse && (
-                    <div className='state'>
-                        <div className='hand-size'>
-                            <Trans>Active House</Trans>:{' '}
-                        </div>
-                        <img
-                            className='house-image'
-                            src={Constants.HouseIconPaths[this.props.activeHouse]}
-                            title={this.getHouse(this.props.activeHouse)}
-                        />
-                    </div>
-                )}
-
                 {this.props.activePlayer && (
                     <div className='state first-player-state'>
                         <Trans>Active Player</Trans>
@@ -220,7 +197,7 @@ export class PlayerStats extends React.Component {
                                 </span>
                             </a>
                         </div>
-                        <div>
+                        <div className='state'>
                             <a href='#' onClick={this.props.onMessagesClick} className='pl-1'>
                                 <FontAwesomeIcon icon={faComment}></FontAwesomeIcon>
                                 {this.props.numMessages > 0 && (

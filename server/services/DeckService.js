@@ -140,6 +140,8 @@ class DeckService {
         for (const deck of decks) {
             let retDeck = this.mapDeck(deck);
 
+            retDeck.verified = true;
+
             await this.getDeckCardsAndHouses(retDeck, true);
 
             retDecks.push(retDeck);
@@ -165,6 +167,10 @@ class DeckService {
 
         if (expansions.wc) {
             dbExpansions.push(452);
+        }
+
+        if (expansions.mm) {
+            dbExpansions.push(479);
         }
 
         let deck;
@@ -216,7 +222,7 @@ class DeckService {
             case 'lastUpdated':
                 return '"LastUpdated"';
             case 'name':
-                return '"Identity"';
+                return 'lower(d."Name")';
             case 'expansion':
                 return isSort ? '"Expansion"' : 'e."ExpansionId"';
             case 'winRate':
@@ -453,7 +459,7 @@ class DeckService {
                 await db.query(
                     `INSERT INTO "StandaloneDeckCards" ("CardId", "Count", "Maverick", "Anomaly", "DeckId", "Enhancements") VALUES ${expand(
                         deck.cards.length,
-                        7
+                        6
                     )}`,
                     params
                 );

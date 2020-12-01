@@ -42,6 +42,10 @@ class GameList extends React.Component {
         } else {
             this.props.socket.emit('joingame', game.id);
         }
+
+        if (this.props.onJoinOrWatchClick) {
+            this.props.onJoinOrWatchClick();
+        }
     }
 
     canWatch(game) {
@@ -65,6 +69,10 @@ class GameList extends React.Component {
             this.props.joinPasswordGame(game, 'Watch');
         } else {
             this.props.socket.emit('watchgame', game.id);
+        }
+
+        if (this.props.onJoinOrWatchClick) {
+            this.props.onJoinOrWatchClick();
         }
     }
 
@@ -338,6 +346,7 @@ GameList.propTypes = {
     games: PropTypes.array,
     i18n: PropTypes.object,
     joinPasswordGame: PropTypes.func,
+    onJoinOrWatchClick: PropTypes.func,
     showNodes: PropTypes.bool,
     socket: PropTypes.object,
     t: PropTypes.func,

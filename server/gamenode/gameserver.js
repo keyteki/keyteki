@@ -4,6 +4,11 @@ const Sentry = require('@sentry/node');
 const http = require('http');
 const https = require('https');
 const fs = require('fs');
+const jsondiffpatch = require('jsondiffpatch').create({
+    objectHash: (obj, index) => {
+        return obj.uuid || obj.name || obj.id || obj._id || '$$index:' + index;
+    }
+});
 
 const { detectBinary } = require('../util');
 const logger = require('../log');
@@ -23,7 +28,6 @@ class GameServer {
         }
 
         this.games = {};
-
         this.protocol = 'https';
 
         try {
@@ -140,7 +144,7 @@ class GameServer {
             debugData.game.messages = undefined;
 
             for (const player of game.getPlayers()) {
-                debugData[player.name] = player.getState(player, game.gameFormat);
+                debugData[player.name] = player.getState(player);
             }
         }
 
@@ -226,7 +230,17 @@ class GameServer {
                 continue;
             }
 
-            player.socket.send('gamestate', game.getState(player.name));
+            let state = game.getState(player.name);
+
+            let stateToSend = state;
+
+            if (game.jsonForUsers[player.name]) {
+                stateToSend = jsondiffpatch.diff(game.jsonForUsers[player.name], state);
+            }
+
+            player.socket.send('gamestate', stateToSend);
+
+            game.jsonForUsers[player.name] = jsondiffpatch.clone(state);
         }
     }
 
@@ -324,7 +338,7 @@ class GameServer {
      * @param {any} user
      */
     onSpectator(pendingGame, user) {
-        const game = this.games[pendingGame.id];
+        const game = this.games[pendingGame.gameId];
         if (!game) {
             return;
         }

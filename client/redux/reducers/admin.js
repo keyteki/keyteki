@@ -1,6 +1,12 @@
+import { Admin } from '../types';
+
 export default function (state = { banlist: [] }, action) {
     switch (action.type) {
-        case 'RECEIVE_FINDUSER':
+        case Admin.FindUser:
+            return Object.assign({}, state, {
+                currentUser: undefined
+            });
+        case Admin.UserFound:
             var user = action.response.user;
             if (user) {
                 user.linkedAccounts = action.response.linkedAccounts;
@@ -9,11 +15,11 @@ export default function (state = { banlist: [] }, action) {
             return Object.assign({}, state, {
                 currentUser: user
             });
-        case 'SAVE_USER':
+        case Admin.SaveUser:
             return Object.assign({}, state, {
                 userSaved: false
             });
-        case 'USER_SAVED':
+        case Admin.UserSaved:
             return Object.assign({}, state, {
                 userSaved: true
             });

@@ -48,12 +48,12 @@ class Game extends EventEmitter {
         this.currentEventWindow = null;
         this.currentPhase = '';
         this.effectEngine = new EffectEngine(this);
-        this.gameChat = new GameChat();
+        this.gameChat = new GameChat(this);
         this.gameFormat = details.gameFormat;
         this.gamePrivate = details.gamePrivate;
         this.gameTimeLimit = details.gameTimeLimit;
         this.gameType = details.gameType;
-        this.hideDecklists = details.hideDecklists;
+        this.hideDeckLists = details.hideDeckLists;
         this.id = details.id;
         this.manualMode = false;
         this.muteSpectators = details.muteSpectators;
@@ -76,6 +76,7 @@ class Game extends EventEmitter {
         this.cardsDiscarded = [];
         this.effectsUsed = [];
         this.activePlayer = null;
+        this.jsonForUsers = {};
 
         this.cardData = options.cardData || [];
 
@@ -927,6 +928,8 @@ class Game extends EventEmitter {
 
         this.addAlert('info', '{0} has left the game', player);
 
+        this.jsonForUsers[player.name] = undefined;
+
         if (this.isSpectator(player) || !this.started) {
             delete this.playersAndSpectators[playerName];
         } else {
@@ -950,6 +953,8 @@ class Game extends EventEmitter {
             '{0} has disconnected.  The game will wait up to 30 seconds for them to reconnect',
             player
         );
+
+        this.jsonForUsers[player.name] = undefined;
 
         if (this.isSpectator(player)) {
             delete this.playersAndSpectators[playerName];
@@ -1002,6 +1007,8 @@ class Game extends EventEmitter {
         player.id = socket.id;
         player.socket = socket;
         player.disconnectedAt = undefined;
+
+        this.jsonForUsers[player.name] = undefined;
 
         this.addAlert('info', '{0} has reconnected', player);
     }
@@ -1093,7 +1100,7 @@ class Game extends EventEmitter {
         }
 
         this.addMessage(playerResources);
-        this.addAlert('startofround', `Turn ${this.round}`);
+        this.addAlert('startofround', `Turn ${this.round} - {0}`, this.activePlayer);
         this.checkForTimeExpired();
     }
 
@@ -1186,7 +1193,7 @@ class Game extends EventEmitter {
 
         if (this.started) {
             for (const player of this.getPlayers()) {
-                playerState[player.name] = player.getState(activePlayer, this.gameFormat);
+                playerState[player.name] = player.getState(activePlayer);
             }
 
             this.timeLimit.checkForTimeLimitReached();
@@ -1200,7 +1207,7 @@ class Game extends EventEmitter {
                 gameTimeLimitStarted: this.timeLimit.timeLimitStarted,
                 gameTimeLimitStartedAt: this.timeLimit.timeLimitStartedAt,
                 gameTimeLimitTime: this.timeLimit.timeLimitInMinutes,
-                hideDecklists: this.hideDecklists,
+                hideDeckLists: this.hideDeckLists,
                 id: this.id,
                 manualMode: this.manualMode,
                 messages: this.gameChat.messages,
@@ -1226,9 +1233,6 @@ class Game extends EventEmitter {
         return this.getSummary(activePlayerName);
     }
 
-    /*
-     * This is used for debugging?
-     */
     getSummary(activePlayerName, options = {}) {
         let playerSummaries = {};
 

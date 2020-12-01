@@ -5,6 +5,7 @@ class Sinder extends Card {
         this.reap({
             target: {
                 location: 'play area',
+                cardType: 'creature',
                 controller: 'self',
                 gameAction: ability.actions.destroy()
             }

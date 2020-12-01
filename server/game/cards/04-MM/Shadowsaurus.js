@@ -20,25 +20,17 @@ class Shadowsaurus extends Card {
                     })),
                     ability.actions.cardLastingEffect((context) => ({
                         duration: 'lastingEffect',
-                        target: context.target.tokens.amber ? context.target : undefined,
+                        target: context.target.tokens.amber ? context.target : [],
                         effect: ability.effects.takeControl(context.player)
+                    })),
+                    ability.actions.cardLastingEffect((context) => ({
+                        target: context.target.tokens.amber ? context.target : [],
+                        duration: 'lastingEffect',
+                        condition: () => context.target.controller === context.player,
+                        effect: ability.effects.changeHouse('shadows')
                     }))
                 ]
-            },
-            then: (context) => ({
-                condition: () =>
-                    context.player.houses.every((house) => !context.target.hasHouse(house)),
-                gameAction: ability.actions.cardLastingEffect({
-                    target: context.target,
-                    duration: 'lastingEffect',
-                    until: {
-                        onTakeControl: (event) =>
-                            event.card === context.target &&
-                            event.player === context.player.opponent
-                    },
-                    effect: ability.effects.changeHouse('shadows')
-                })
-            })
+            }
         });
     }
 }

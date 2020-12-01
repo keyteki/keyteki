@@ -14,33 +14,6 @@ export function setUrl(path) {
     };
 }
 
-export function zoomCard(card) {
-    return {
-        type: 'ZOOM_CARD',
-        card: card
-    };
-}
-
-export function clearZoom() {
-    return {
-        type: 'CLEAR_ZOOM'
-    };
-}
-
-export function setPlayer1CardBack(url) {
-    return {
-        type: 'PLAYER1_CARDBACK',
-        url: url
-    };
-}
-
-export function setPlayer2CardBack(url) {
-    return {
-        type: 'PLAYER2_CARDBACK',
-        url: url
-    };
-}
-
 export function receiveBannerNotice(notice) {
     return {
         type: 'RECEIVE_BANNER_NOTICE',

@@ -37,6 +37,35 @@ describe('novu-dynamo', function () {
                     expect(this.novuDynamo.location).toBe('play area');
                     expect(this.player1.amber).toBe(1);
                 });
+
+                describe('Trigger again', function () {
+                    beforeEach(function () {
+                        this.player1.clickPrompt('logos');
+                        this.player1.clickPrompt('no');
+                        this.player1.endTurn();
+                        this.player2.clickPrompt('logos');
+                        this.player2.endTurn();
+                    });
+
+                    it('selects a logos card from hand or archives', function () {
+                        expect(this.player1).not.toBeAbleToSelect(this.eyegor);
+                        expect(this.player1).toBeAbleToSelect(this.libraryAccess);
+                        expect(this.player1).toBeAbleToSelect(this.novuDynamo);
+                        expect(this.player1).not.toBeAbleToSelect(this.snufflegator);
+                        expect(this.player1).not.toBeAbleToSelect(this.anger);
+                    });
+
+                    describe('discard from archive', function () {
+                        beforeEach(function () {
+                            this.player1.clickCard(this.libraryAccess);
+                        });
+                        it('gives amber', function () {
+                            expect(this.libraryAccess.location).toBe('discard');
+                            expect(this.novuDynamo.location).toBe('play area');
+                            expect(this.player1.amber).toBe(2);
+                        });
+                    });
+                });
             });
 
             describe('discard from archive', function () {
@@ -60,6 +89,33 @@ describe('novu-dynamo', function () {
                     expect(this.eyegor.location).toBe('hand');
                     expect(this.player1.amber).toBe(0);
                     expect(this.novuDynamo.location).toBe('discard');
+                });
+            });
+        });
+
+        describe('and the ability is triggered and AP can forge key', function () {
+            beforeEach(function () {
+                this.player1.player.amber = 5;
+            });
+
+            it('selects a logos card from hand or archives', function () {
+                expect(this.player1).toBeAbleToSelect(this.eyegor);
+                expect(this.player1).toBeAbleToSelect(this.libraryAccess);
+                expect(this.player1).toBeAbleToSelect(this.novuDynamo);
+                expect(this.player1).not.toBeAbleToSelect(this.snufflegator);
+                expect(this.player1).not.toBeAbleToSelect(this.anger);
+            });
+
+            describe('discard from hand', function () {
+                beforeEach(function () {
+                    this.player1.clickCard(this.eyegor);
+                });
+
+                it('and gain amber and be able to forge', function () {
+                    expect(this.eyegor.location).toBe('discard');
+                    expect(this.novuDynamo.location).toBe('play area');
+                    expect(this.player1.amber).toBe(6);
+                    expect(this.player1).toHavePrompt('Which key would you like to forge?');
                 });
             });
         });
