@@ -4,7 +4,13 @@ describe('Bonerot Venom', function () {
             this.setupTest({
                 player1: {
                     house: 'shadows',
-                    hand: ['bonerot-venom', 'nocturnal-maneuver', 'ganger-chieftain', 'umbra'],
+                    hand: [
+                        'bonerot-venom',
+                        'ghosthawk',
+                        'nocturnal-maneuver',
+                        'ganger-chieftain',
+                        'umbra'
+                    ],
                     inPlay: ['brend-the-fanatic', 'mack-the-knife']
                 },
                 player2: {
@@ -166,6 +172,20 @@ describe('Bonerot Venom', function () {
             this.player1.clickCard(this.gangerChieftain);
             expect(this.player1).toHavePrompt('Ganger Chieftain');
             expect(this.player1).toBeAbleToSelect(this.umbra);
+            this.player1.clickCard(this.umbra);
+            expect(this.umbra.location).toBe('discard');
+        });
+
+        it('should destroy umbra if umbra is unstunned by effect of Ghosthawk', function () {
+            this.player1.play(this.umbra);
+            this.player1.playUpgrade(this.bonerotVenom, this.umbra);
+            this.umbra.stun();
+            expect(this.umbra.upgrades).toContain(this.bonerotVenom);
+            this.player1.endTurn();
+            this.player2.clickPrompt('untamed');
+            this.player2.endTurn();
+            this.player1.clickPrompt('untamed');
+            this.player1.play(this.ghosthawk);
             this.player1.clickCard(this.umbra);
             expect(this.umbra.location).toBe('discard');
         });
