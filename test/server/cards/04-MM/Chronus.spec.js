@@ -15,7 +15,7 @@ describe('Chronus', function () {
         });
 
         it('should have option to archive card and be able to decline', function () {
-            this.dextre.cardData.enhancements = ['amber', 'draw', 'amber'];
+            this.dextre.enhancements = ['amber', 'draw', 'amber'];
 
             this.player1.play(this.dextre);
             expect(this.player1).toBeAbleToSelect(this.chronus);
@@ -25,7 +25,7 @@ describe('Chronus', function () {
         });
 
         it('should have option to archive card and choose to archive a card', function () {
-            this.dextre.cardData.enhancements = ['amber', 'amber', 'draw'];
+            this.dextre.enhancements = ['amber', 'amber', 'draw'];
 
             this.player1.play(this.dextre);
             expect(this.player1).toBeAbleToSelect(this.chronus);
@@ -41,7 +41,7 @@ describe('Chronus', function () {
         });
 
         it("should interact before card's effect", function () {
-            this.tautauVapors.cardData.enhancements = ['draw', 'amber', 'amber'];
+            this.tautauVapors.enhancements = ['draw', 'amber', 'amber'];
 
             expect(this.player1.player.hand.length).toBe(4);
             this.player1.play(this.tautauVapors);
@@ -55,7 +55,7 @@ describe('Chronus', function () {
         });
 
         it('should work with multiple draw icons', function () {
-            this.dextre.cardData.enhancements = ['draw', 'draw', 'draw', 'draw'];
+            this.dextre.enhancements = ['draw', 'draw', 'draw', 'draw'];
 
             this.player1.play(this.dextre);
             this.player1.clickCard(this.chronus);
@@ -73,7 +73,7 @@ describe('Chronus', function () {
         });
 
         it('should work with cards that have default amber icon', function () {
-            this.poke.cardData.enhancements = ['draw'];
+            this.poke.enhancements = ['draw'];
 
             this.player1.play(this.poke);
             expect(this.player1).toBeAbleToSelect(this.chronus);
@@ -84,7 +84,7 @@ describe('Chronus', function () {
         });
 
         it('should work with Mimic Gel', function () {
-            this.dextre.cardData.enhancements = ['draw'];
+            this.dextre.enhancements = ['draw'];
 
             this.player1.play(this.mimicGel);
             this.player1.clickCard(this.chronus);
@@ -102,7 +102,7 @@ describe('Chronus', function () {
         });
 
         it('should not have an option to archive, if no D enhancement', function () {
-            this.dextre.cardData.enhancements = ['amber', 'amber'];
+            this.dextre.enhancements = ['amber', 'amber'];
 
             this.player1.play(this.dextre);
             expect(this.player1).not.toBeAbleToSelect(this.chronus);
@@ -111,7 +111,7 @@ describe('Chronus', function () {
         });
 
         it("should not be prompted to archive if opponent's play D card", function () {
-            this.mabTheMad.cardData.enhancements = ['draw', 'amber'];
+            this.mabTheMad.enhancements = ['draw', 'amber'];
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
             this.player2.play(this.mabTheMad);

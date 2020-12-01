@@ -16,7 +16,8 @@ class Gebuk extends Card {
                         },
                         gameAction: ability.actions.putIntoPlay((context) => ({
                             target:
-                                context.preThenEvent.card.type === 'creature'
+                                context.preThenEvent.card.type === 'creature' &&
+                                !context.preThenEvent.card.gigantic
                                     ? context.preThenEvent.card
                                     : [],
                             deployIndex: context.event.battlelineIndex

@@ -145,7 +145,7 @@ describe('saurian-egg', function () {
             expect(this.saurianEgg.location).toBe('discard');
         });
 
-        it('when only 1 gigantic part is discarded and other card is not saurian, should not be destroyed, and gigantic part should be discarded', function () {
+        it('when only 1 gigantic part is discarded and other card is not saurian, Egg should be destroyed and gigantic part discarded', function () {
             this.player1.player.deck = [];
             this.player1.moveCard(this.tantadlin, 'deck');
             this.player1.moveCard(this.deusillus, 'deck');
@@ -154,10 +154,10 @@ describe('saurian-egg', function () {
 
             expect(this.deusillus.location).toBe('discard');
             expect(this.tantadlin.location).toBe('discard');
-            expect(this.saurianEgg.location).toBe('play area');
+            expect(this.saurianEgg.location).toBe('discard');
         });
 
-        it('when only 2 gigantic parts are discarded should be destroyed, and gigantic part put into play', function () {
+        it('when 2 gigantic parts are discarded should be destroyed, and gigantic part put into play', function () {
             this.player1.player.deck = [];
             this.player1.moveCard(this.deusillus, 'deck');
             this.player1.moveCard(this.deusillus2, 'deck');

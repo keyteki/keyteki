@@ -14,7 +14,7 @@ describe('Ward', function () {
         });
 
         it('can be removed by a damage bonus icon', function () {
-            this.newFrontiers.cardData.enhancements = ['damage'];
+            this.newFrontiers.enhancements = ['damage'];
             this.player1.reap(this.medicIngram);
             this.player1.clickCard(this.medicIngram);
             expect(this.medicIngram.tokens.ward).toBe(1);

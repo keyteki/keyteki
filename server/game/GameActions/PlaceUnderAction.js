@@ -33,13 +33,11 @@ class PlaceUnderAction extends CardGameAction {
             { card, context },
             () => {
                 if (card.gigantic && this.moveGigantic) {
-                    card.compositeParts.forEach((id) => {
-                        let part = card.controller
-                            .getSourceList(card.location)
-                            .find((part) => id === part.id);
-                        card.controller.removeCardFromPile(part);
-                        card.playedParts.push(part);
-                    });
+                    let part = card.controller
+                        .getSourceList(card.location)
+                        .find((part) => card.compositeId === part.id);
+                    card.controller.removeCardFromPile(part);
+                    card.composedPart = part;
                     card.image = card.compositeImageId || card.id;
                 }
 

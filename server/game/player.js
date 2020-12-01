@@ -415,11 +415,11 @@ class Player extends GameObject {
 
         if (targetLocation !== 'play area' && card.gigantic) {
             let cardIndex = targetPile.indexOf(card);
-            card.playedParts.forEach((part) => {
-                part.location = targetLocation;
-                targetPile.splice(cardIndex, 0, part);
-            });
-            card.playedParts = [];
+            if (card.composedPart) {
+                card.composedPart.location = targetLocation;
+                targetPile.splice(cardIndex, 0, card.composedPart);
+                card.composedPart = null;
+            }
             card.image = card.id;
         }
 

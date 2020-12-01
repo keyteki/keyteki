@@ -14,8 +14,8 @@ describe('Wail of the Damned', function () {
             });
 
             // Add some enhancements
-            this.gub.cardData.enhancements = ['amber', 'draw'];
-            this.troll.cardData.enhancements = ['amber', 'amber'];
+            this.gub.enhancements = ['amber', 'draw'];
+            this.troll.enhancements = ['amber', 'amber'];
         });
 
         it('should destroy a creature with no bonus icon', function () {

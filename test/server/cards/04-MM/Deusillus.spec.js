@@ -55,7 +55,7 @@ describe('Deusillus', function () {
             expect(this.narp.tokens.damage).toBe(4);
             expect(this.deusillus.amber).toBe(5);
             expect(this.deusillus.location).toBe('play area');
-            expect(this.deusillus.playedParts).toContain(this.deusillus2);
+            expect(this.deusillus.composedPart).toBe(this.deusillus2);
             expect(this.player1.player.hand).not.toContain(this.deusillus);
             expect(this.player1.player.hand).not.toContain(this.deusillus2);
         });
@@ -70,7 +70,7 @@ describe('Deusillus', function () {
             expect(this.narp.tokens.damage).toBe(4);
             expect(this.deusillus2.amber).toBe(5);
             expect(this.deusillus2.location).toBe('play area');
-            expect(this.deusillus2.playedParts).toContain(this.deusillus);
+            expect(this.deusillus2.composedPart).toBe(this.deusillus);
             expect(this.player1.player.hand).not.toContain(this.deusillus);
             expect(this.player1.player.hand).not.toContain(this.deusillus2);
         });
@@ -342,7 +342,7 @@ describe('Deusillus', function () {
             expect(this.deusillus2.location).toBe('purged');
 
             expect(this.deusillus.parent).toBe(this.spanglerBox);
-            expect(this.deusillus.playedParts).toContain(this.deusillus2);
+            expect(this.deusillus.composedPart).toBe(this.deusillus2);
 
             expect(this.spanglerBox.childCards).toContain(this.deusillus);
             expect(this.spanglerBox.childCards).not.toContain(this.deusillus2);
@@ -370,10 +370,92 @@ describe('Deusillus', function () {
             expect(this.zorg.location).toBe('play area');
             expect(this.zorg.controller).toBe(this.player2.player);
             expect(this.deusillus.location).toBe('play area');
-            expect(this.deusillus.playedParts).toContain(this.deusillus2);
+            expect(this.deusillus.composedPart).toBe(this.deusillus2);
             expect(this.player1.player.hand).not.toContain(this.deusillus);
             expect(this.player1.player.hand).not.toContain(this.deusillus2);
             expect(this.deusillus.controller).toBe(this.player1.player);
+        });
+    });
+
+    describe('Playing a bottom gigantic part with two top parts', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 2,
+                    house: 'saurian',
+                    hand: ['deusillus', 'deusillus', 'deusillus2', 'deusillus2', 'senator-shrix']
+                },
+                player2: {
+                    amber: 5,
+                    inPlay: ['spangler-box', 'narp', 'zorg']
+                }
+            });
+
+            this.deusillusBottom1 = this.player1.hand[0];
+            this.deusillusBottom2 = this.player1.hand[1];
+            this.deusillusTop1 = this.player1.hand[2];
+            this.deusillusTop2 = this.player1.hand[3];
+
+            this.deusillusTop2.enhancements = ['amber', 'amber'];
+        });
+
+        it('should ask for the top part to be played with', function () {
+            this.player1.play(this.deusillusBottom1);
+            expect(this.player1).toHavePrompt('Choose a top part to play');
+            expect(this.player1).toBeAbleToSelect(this.deusillusTop1);
+            expect(this.player1).toBeAbleToSelect(this.deusillusTop2);
+            expect(this.player1).not.toBeAbleToSelect(this.deusillusBottom1);
+            expect(this.player1).not.toBeAbleToSelect(this.deusillusBottom2);
+            expect(this.player1).not.toBeAbleToSelect(this.senatorShrix);
+            this.player1.clickCard(this.deusillusTop1);
+            this.player1.clickCard(this.narp);
+            expect(this.narp.tokens.damage).toBe(4);
+            expect(this.deusillusBottom1.amber).toBe(5);
+            expect(this.player1.amber).toBe(2);
+            expect(this.deusillusBottom1.location).toBe('play area');
+            expect(this.deusillusBottom1.composedPart).toBe(this.deusillusTop1);
+            expect(this.player1.player.hand).not.toContain(this.deusillusTop1);
+            expect(this.player1.player.hand).not.toContain(this.deusillusBottom1);
+            expect(this.player1.player.hand).toContain(this.deusillusTop2);
+            expect(this.player1.player.hand).toContain(this.deusillusBottom2);
+            this.player1.endTurn();
+        });
+
+        it('should ask for the top part to be played with and select one with enhancements', function () {
+            this.player1.play(this.deusillusBottom1);
+            expect(this.player1).toHavePrompt('Choose a top part to play');
+            expect(this.player1).toBeAbleToSelect(this.deusillusTop1);
+            expect(this.player1).toBeAbleToSelect(this.deusillusTop2);
+            expect(this.player1).not.toBeAbleToSelect(this.deusillusBottom1);
+            expect(this.player1).not.toBeAbleToSelect(this.deusillusBottom2);
+            expect(this.player1).not.toBeAbleToSelect(this.senatorShrix);
+            this.player1.clickCard(this.deusillusTop2);
+            this.player1.clickCard(this.narp);
+            expect(this.narp.tokens.damage).toBe(4);
+            expect(this.deusillusBottom1.amber).toBe(5);
+            expect(this.player1.amber).toBe(4);
+            expect(this.deusillusBottom1.location).toBe('play area');
+            expect(this.deusillusBottom1.composedPart).toBe(this.deusillusTop2);
+            expect(this.player1.player.hand).not.toContain(this.deusillusTop2);
+            expect(this.player1.player.hand).not.toContain(this.deusillusBottom1);
+            expect(this.player1.player.hand).toContain(this.deusillusTop1);
+            expect(this.player1.player.hand).toContain(this.deusillusBottom2);
+            this.player1.endTurn();
+        });
+
+        it('should not ask for the bottom part to be played with', function () {
+            this.player1.play(this.deusillusTop1);
+            expect(this.player1).not.toHavePrompt('Choose a top part to play');
+            this.player1.clickCard(this.narp);
+            expect(this.narp.tokens.damage).toBe(4);
+            expect(this.deusillusTop1.amber).toBe(5);
+            expect(this.deusillusTop1.location).toBe('play area');
+            expect(this.deusillusTop1.composedPart).toBe(this.deusillusBottom1);
+            expect(this.player1.player.hand).not.toContain(this.deusillusTop1);
+            expect(this.player1.player.hand).not.toContain(this.deusillusBottom1);
+            expect(this.player1.player.hand).toContain(this.deusillusTop2);
+            expect(this.player1.player.hand).toContain(this.deusillusBottom2);
+            this.player1.endTurn();
         });
     });
 });
