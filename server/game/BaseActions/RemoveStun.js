@@ -45,7 +45,11 @@ class RemoveStun extends BaseAbility {
         );
         context.game.raiseEvent('onRemoveStun', { card: this.card, context: context }, () => {
             context.source.unstun();
-            context.game.raiseEvent('onUseCard', { card: this.card, context: context });
+            context.game.raiseEvent('onUseCard', {
+                card: this.card,
+                context: context,
+                unstun: true
+            });
         });
     }
 
