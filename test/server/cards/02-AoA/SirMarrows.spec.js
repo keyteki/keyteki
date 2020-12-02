@@ -56,7 +56,7 @@ describe('Sir Marrows', function () {
         });
     });
 
-    describe("Sir Marrows's ability", function () {
+    describe("Sir Marrows and Po's Pixies interaction", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
@@ -78,6 +78,8 @@ describe('Sir Marrows', function () {
             expect(this.player1).toBeAbleToSelect(this.sirMarrows1);
             expect(this.player1).toBeAbleToSelect(this.sirMarrows2);
             this.player1.clickCard(this.sirMarrows2);
+            expect(this.sirMarrows1.amber).toBe(1);
+            expect(this.sirMarrows2.amber).toBe(1);
             this.player1.reap(this.archimedes);
             expect(this.player1).toBeAbleToSelect(this.sirMarrows1);
             expect(this.player1).toBeAbleToSelect(this.sirMarrows2);
