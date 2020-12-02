@@ -10,7 +10,13 @@ describe('Mimicry', function () {
                 },
                 player2: {
                     amber: 5,
-                    discard: ['neuro-syphon', 'wild-wormhole', 'interdimensional-graft', 'binate-rupture', 'swindle']
+                    discard: [
+                        'neuro-syphon',
+                        'wild-wormhole',
+                        'interdimensional-graft',
+                        'binate-rupture',
+                        'swindle'
+                    ]
                 }
             });
             this.player1.moveCard(this.snufflegator, 'deck');
@@ -63,7 +69,7 @@ describe('Mimicry', function () {
             expect(this.mimicry.location).toBe('discard');
             expect(this.binateRupture.location).toBe('discard');
         });
-      
+
         it('should allow to select an alpha card and end turn on omega', function () {
             this.player1.play(this.mimicry);
             expect(this.player1).toBeAbleToSelect(this.swindle);
