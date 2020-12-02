@@ -4,12 +4,12 @@ describe('Ragnarok', function () {
             this.setupTest({
                 player1: {
                     house: 'brobnar',
-                    inPlay: ['troll', 'krump'],
+                    inPlay: ['troll', 'krump', 'shorty', 'brammo'],
                     hand: ['ragnarok']
                 },
                 player2: {
                     amber: 4,
-                    inPlay: ['lamindra', 'shooler', 'helper-bot'],
+                    inPlay: ['lamindra', 'helper-bot', 'briar-grubbling'],
                     hand: ['dextre']
                 }
             });
@@ -33,7 +33,31 @@ describe('Ragnarok', function () {
 
             expect(this.troll.location).toBe('discard');
             expect(this.krump.location).toBe('discard');
-            expect(this.shooler.location).toBe('discard');
+            expect(this.briarGrubbling.location).toBe('discard');
+            expect(this.helperBot.location).toBe('discard');
+        });
+
+        it('Killing by assault should gain 1 amber', function () {
+            this.player1.play(this.ragnarok);
+            this.player1.fightWith(this.shorty, this.helperBot);
+            expect(this.player1.amber).toBe(1);
+            this.player1.endTurn();
+
+            expect(this.troll.location).toBe('discard');
+            expect(this.krump.location).toBe('discard');
+            expect(this.briarGrubbling.location).toBe('discard');
+            expect(this.helperBot.location).toBe('discard');
+        });
+
+        it('Dying by hazardous should still grant 1 amber', function () {
+            this.player1.play(this.ragnarok);
+            this.player1.fightWith(this.brammo, this.briarGrubbling);
+            expect(this.player1.amber).toBe(1);
+            this.player1.endTurn();
+
+            expect(this.troll.location).toBe('discard');
+            expect(this.krump.location).toBe('discard');
+            expect(this.briarGrubbling.location).toBe('discard');
             expect(this.helperBot.location).toBe('discard');
         });
 
@@ -43,7 +67,7 @@ describe('Ragnarok', function () {
 
             expect(this.troll.location).toBe('discard');
             expect(this.krump.location).toBe('discard');
-            expect(this.shooler.location).toBe('discard');
+            expect(this.briarGrubbling.location).toBe('discard');
             expect(this.helperBot.location).toBe('discard');
 
             this.player2.clickPrompt('logos');
@@ -66,7 +90,7 @@ describe('Ragnarok', function () {
                 },
                 player2: {
                     amber: 4,
-                    inPlay: ['lamindra', 'shooler', 'helper-bot'],
+                    inPlay: ['lamindra', 'helper-bot', 'briar-grubbling'],
                     hand: ['dextre']
                 }
             });
