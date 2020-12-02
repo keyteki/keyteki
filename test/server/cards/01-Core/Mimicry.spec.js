@@ -10,7 +10,7 @@ describe('Mimicry', function () {
                 },
                 player2: {
                     amber: 5,
-                    discard: ['neuro-syphon', 'wild-wormhole', 'interdimensional-graft', 'swindle']
+                    discard: ['neuro-syphon', 'wild-wormhole', 'interdimensional-graft', 'binate-rupture', 'swindle']
                 }
             });
             this.player1.moveCard(this.snufflegator, 'deck');
@@ -21,6 +21,8 @@ describe('Mimicry', function () {
             expect(this.player1).toHavePrompt('Mimicry');
             expect(this.player1).toBeAbleToSelect(this.neuroSyphon);
             this.player1.clickCard(this.neuroSyphon);
+            expect(this.mimicry.location).toBe('discard');
+            expect(this.neuroSyphon.location).toBe('discard');
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(4);
             expect(this.player1.hand.length).toBe(1);
@@ -52,6 +54,16 @@ describe('Mimicry', function () {
             expect(this.player1.hand.length).toBe(2);
         });
 
+        it('should allow to select an alpha card', function () {
+            this.player1.play(this.mimicry);
+            expect(this.player1).toBeAbleToSelect(this.binateRupture);
+            this.player1.clickCard(this.binateRupture);
+            expect(this.player1.amber).toBe(0);
+            expect(this.player2.amber).toBe(10);
+            expect(this.mimicry.location).toBe('discard');
+            expect(this.binateRupture.location).toBe('discard');
+        });
+      
         it('should allow to select an alpha card and end turn on omega', function () {
             this.player1.play(this.mimicry);
             expect(this.player1).toBeAbleToSelect(this.swindle);
