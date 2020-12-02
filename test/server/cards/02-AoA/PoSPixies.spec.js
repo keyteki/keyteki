@@ -3,15 +3,15 @@ describe("Po's Pixies", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
-                    amber: 1,
                     house: 'shadows',
+                    amber: 1,
                     inPlay: ['skeleton-key', 'umbra'],
                     hand: ['camouflage']
                 },
                 player2: {
+                    amber: 1,
                     inPlay: ['po-s-pixies', 'batdrone'],
-                    hand: ['dextre'],
-                    amber: 1
+                    hand: ['dextre']
                 }
             });
         });
@@ -69,12 +69,13 @@ describe("Po's Pixies", function () {
             this.setupTest({
                 player1: {
                     house: 'shadows',
+                    amber: 1,
                     inPlay: ['skeleton-key', 'umbra', 'gargantodon'],
                     hand: ['camouflage']
                 },
                 player2: {
-                    inPlay: ['po-s-pixies'],
-                    amber: 1
+                    amber: 1,
+                    inPlay: ['po-s-pixies']
                 }
             });
         });
@@ -82,7 +83,7 @@ describe("Po's Pixies", function () {
         it('should capture from common supply instead of stealing', function () {
             this.player1.fightWith(this.umbra, this.poSPixies);
             this.player1.clickCard(this.gargantodon);
-            expect(this.player1.amber).toBe(0);
+            expect(this.player1.amber).toBe(1);
             expect(this.gargantodon.amber).toBe(1);
             expect(this.player2.amber).toBe(1);
         });
