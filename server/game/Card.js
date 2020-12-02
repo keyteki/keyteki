@@ -874,6 +874,7 @@ class Card extends EffectSource {
     getFightAction() {
         return this.action({
             title: 'Fight with this creature',
+            fight: true,
             condition: (context) =>
                 this.checkRestrictions('fight', context) && this.type === 'creature',
             printedAbility: false,
@@ -889,6 +890,7 @@ class Card extends EffectSource {
     getReapAction() {
         return this.action({
             title: 'Reap with this creature',
+            reap: true,
             condition: (context) =>
                 this.checkRestrictions('reap', context) && this.type === 'creature',
             printedAbility: false,

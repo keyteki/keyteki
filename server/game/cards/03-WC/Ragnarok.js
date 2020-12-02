@@ -9,7 +9,7 @@ class Ragnarok extends Card {
                 }),
                 ability.actions.forRemainderOfTurn((context) => ({
                     when: {
-                        onFight: () => true
+                        onUseCard: (event) => !!event.fight
                     },
                     gameAction: ability.actions.gainAmber({ target: context.player })
                 })),

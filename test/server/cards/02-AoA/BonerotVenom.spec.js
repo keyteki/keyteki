@@ -4,7 +4,13 @@ describe('Bonerot Venom', function () {
             this.setupTest({
                 player1: {
                     house: 'shadows',
-                    hand: ['bonerot-venom', 'nocturnal-maneuver', 'ganger-chieftain', 'umbra'],
+                    hand: [
+                        'bonerot-venom',
+                        'ghosthawk',
+                        'nocturnal-maneuver',
+                        'ganger-chieftain',
+                        'umbra'
+                    ],
                     inPlay: ['brend-the-fanatic', 'mack-the-knife']
                 },
                 player2: {
@@ -21,11 +27,21 @@ describe('Bonerot Venom', function () {
             expect(this.mackTheKnife.upgrades).toContain(this.bonerotVenom);
         });
 
+        it('should allow cancel without destroying the creature', function () {
+            this.player1.playUpgrade(this.bonerotVenom, this.mackTheKnife);
+            this.player1.clickCard(this.mackTheKnife);
+            expect(this.player1).toHavePromptButton('Cancel');
+            this.player1.clickPrompt('Cancel');
+            expect(this.mackTheKnife.location).toBe('play area');
+            expect(this.mackTheKnife.upgrades).toContain(this.bonerotVenom);
+        });
+
         it('should deal 2 damage to mack the knife when he reaps', function () {
             this.player1.playUpgrade(this.bonerotVenom, this.mackTheKnife);
             expect(this.mackTheKnife.location).toBe('play area');
             expect(this.mackTheKnife.upgrades).toContain(this.bonerotVenom);
             this.player1.reap(this.mackTheKnife);
+            expect(this.mackTheKnife.location).toBe('play area');
             expect(this.mackTheKnife.tokens.damage).toBe(2);
             expect(this.player1.amber).toBe(2);
         });
@@ -102,7 +118,7 @@ describe('Bonerot Venom', function () {
             expect(this.player2).toBeAbleToSelect(this.mackTheKnife);
             this.player2.clickCard(this.mackTheKnife);
             this.player2.clickPrompt('done');
-            expect(this.mackTheKnife.tokens.damage).not.toBe(2);
+            expect(this.mackTheKnife.tokens.damage).toBeUndefined();
         });
 
         it('should not trigger if exhausted by other means by its controller', function () {
@@ -118,7 +134,7 @@ describe('Bonerot Venom', function () {
             this.player1.clickCard(this.mackTheKnife);
             this.player1.clickPrompt('done');
             expect(this.mackTheKnife.exhausted).toBe(true);
-            expect(this.mackTheKnife.tokens.damage).not.toBe(2);
+            expect(this.mackTheKnife.tokens.damage).toBeUndefined();
         });
 
         it('should destroy umbra if umbra fights due to ganger chieftain', function () {
@@ -139,6 +155,38 @@ describe('Bonerot Venom', function () {
             expect(this.player1).toBeAbleToSelect(blypyp);
             this.player1.clickCard(blypyp);
             expect(blypyp.location).toBe('discard');
+            expect(this.umbra.location).toBe('discard');
+        });
+
+        it('should destroy umbra if umbra is unstunned by effect of GangerChief', function () {
+            this.player1.play(this.umbra);
+            this.player1.playUpgrade(this.bonerotVenom, this.umbra);
+            this.umbra.stun();
+            expect(this.umbra.upgrades).toContain(this.bonerotVenom);
+            this.player1.endTurn();
+            this.player2.clickPrompt('untamed');
+            this.player2.endTurn();
+            this.player1.clickPrompt('brobnar');
+            this.player1.play(this.gangerChieftain);
+            expect(this.player1).toBeAbleToSelect(this.gangerChieftain);
+            this.player1.clickCard(this.gangerChieftain);
+            expect(this.player1).toHavePrompt('Ganger Chieftain');
+            expect(this.player1).toBeAbleToSelect(this.umbra);
+            this.player1.clickCard(this.umbra);
+            expect(this.umbra.location).toBe('discard');
+        });
+
+        it('should destroy umbra if umbra is unstunned by effect of Ghosthawk', function () {
+            this.player1.play(this.umbra);
+            this.player1.playUpgrade(this.bonerotVenom, this.umbra);
+            this.umbra.stun();
+            expect(this.umbra.upgrades).toContain(this.bonerotVenom);
+            this.player1.endTurn();
+            this.player2.clickPrompt('untamed');
+            this.player2.endTurn();
+            this.player1.clickPrompt('untamed');
+            this.player1.play(this.ghosthawk);
+            this.player1.clickCard(this.umbra);
             expect(this.umbra.location).toBe('discard');
         });
 
