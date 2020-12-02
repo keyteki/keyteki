@@ -5,11 +5,17 @@ describe('Lieutenant Gorvenal', function () {
                 player1: {
                     amber: 3,
                     house: 'sanctum',
-                    inPlay: ['lieutenant-gorvenal', 'dis-ambassador', 'sequis', 'praefectus-ludo']
+                    inPlay: [
+                        'lieutenant-gorvenal',
+                        'dis-ambassador',
+                        'sequis',
+                        'praefectus-ludo',
+                        'bull-wark'
+                    ]
                 },
                 player2: {
                     amber: 3,
-                    inPlay: ['silvertooth', 'gamgee', 'krump', 'troll']
+                    inPlay: ['silvertooth', 'gamgee', 'krump', 'troll', 'briar-grubbling']
                 }
             });
         });
@@ -19,6 +25,24 @@ describe('Lieutenant Gorvenal', function () {
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             expect(this.lieutenantGorvenal.amber).toBe(1);
             expect(this.sequis.amber).toBe(0);
+            expect(this.player2.amber).toBe(2);
+        });
+
+        it('should capture an amber after killing by assault', function () {
+            this.player1.fightWith(this.bullWark, this.gamgee);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.lieutenantGorvenal.amber).toBe(1);
+            expect(this.bullWark.amber).toBe(0);
+            expect(this.bullWark.tokens.damage).toBeUndefined();
+            expect(this.player2.amber).toBe(2);
+        });
+
+        it('should capture an amber after dying by hazardous', function () {
+            this.player1.fightWith(this.disAmbassador, this.briarGrubbling);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.lieutenantGorvenal.amber).toBe(1);
+            expect(this.briarGrubbling.tokens.damage).toBeUndefined();
+            expect(this.disAmbassador.location).toBe('discard');
             expect(this.player2.amber).toBe(2);
         });
 
