@@ -4,13 +4,18 @@ describe('Mimicry', function () {
             this.setupTest({
                 player1: {
                     house: 'untamed',
-                    inPlay: ['batdrone'],
+                    inPlay: ['batdrone', 'ancient-bear'],
                     hand: ['mimicry'],
                     discard: ['snufflegator']
                 },
                 player2: {
                     amber: 5,
-                    discard: ['neuro-syphon', 'wild-wormhole', 'interdimensional-graft']
+                    discard: [
+                        'neuro-syphon',
+                        'wild-wormhole',
+                        'interdimensional-graft',
+                        'binate-rupture'
+                    ]
                 }
             });
             this.player1.moveCard(this.snufflegator, 'deck');
@@ -21,6 +26,8 @@ describe('Mimicry', function () {
             expect(this.player1).toHavePrompt('Mimicry');
             expect(this.player1).toBeAbleToSelect(this.neuroSyphon);
             this.player1.clickCard(this.neuroSyphon);
+            expect(this.mimicry.location).toBe('discard');
+            expect(this.neuroSyphon.location).toBe('discard');
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(4);
             expect(this.player1.hand.length).toBe(1);
@@ -50,6 +57,17 @@ describe('Mimicry', function () {
             expect(this.player2.amber).toBe(4);
             expect(this.batdrone.amber).toBe(1);
             expect(this.player1.hand.length).toBe(2);
+        });
+
+        it('should allow to select an alpha card', function () {
+            this.player1.play(this.mimicry);
+            expect(this.player1).toBeAbleToSelect(this.binateRupture);
+            this.player1.clickCard(this.binateRupture);
+            expect(this.player1.amber).toBe(0);
+            expect(this.player2.amber).toBe(10);
+            expect(this.mimicry.location).toBe('discard');
+            expect(this.binateRupture.location).toBe('discard');
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
     });
 
