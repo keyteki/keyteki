@@ -4,10 +4,24 @@ class SirMarrows extends Card {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onReap: (event) =>
-                    event.card.controller !== this.controller && event.card.type === 'creature'
+                onModifyAmber: (event, context) =>
+                    event.reap && event.player !== context.source.controller
             },
-            gameAction: ability.actions.capture()
+            gameAction: ability.actions.sequential([
+                ability.actions.capture((context) => ({
+                    amount: context.event.amount || 0
+                })),
+                ability.actions.changeEvent((context) => ({
+                    event: context.event,
+                    amount:
+                        context.source.controller.opponent &&
+                        context.source.controller.opponent.anyEffect('captureFromPool')
+                            ? 1
+                            : 0,
+                    cancel: false
+                }))
+            ]),
+            effect: 'capture 1 amber'
         });
     }
 }

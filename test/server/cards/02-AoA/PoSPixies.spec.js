@@ -88,4 +88,54 @@ describe("Po's Pixies", function () {
             expect(this.player2.amber).toBe(1);
         });
     });
+
+    describe("Po's Pixies and Ether Spider interaction", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'shadows',
+                    amber: 1,
+                    inPlay: ['skeleton-key', 'umbra'],
+                    hand: ['camouflage']
+                },
+                player2: {
+                    amber: 1,
+                    inPlay: ['po-s-pixies', 'ether-spider']
+                }
+            });
+        });
+
+        it('should place amber on ether spider', function () {
+            this.player1.fightWith(this.umbra, this.poSPixies);
+            expect(this.player1.amber).toBe(1);
+            expect(this.etherSpider.amber).toBe(1);
+            expect(this.player2.amber).toBe(1);
+        });
+    });
+
+    describe("Po's Pixies, Gargantodon and Ether Spider interaction", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'shadows',
+                    amber: 1,
+                    inPlay: ['skeleton-key', 'umbra', 'gargantodon'],
+                    hand: ['camouflage']
+                },
+                player2: {
+                    amber: 1,
+                    inPlay: ['po-s-pixies', 'ether-spider']
+                }
+            });
+        });
+
+        it('should capture from common supply instead of stealing', function () {
+            this.player1.fightWith(this.umbra, this.poSPixies);
+            this.player1.clickCard(this.gargantodon);
+            expect(this.player1.amber).toBe(1);
+            expect(this.gargantodon.amber).toBe(1);
+            expect(this.etherSpider.amber).toBe(0);
+            expect(this.player2.amber).toBe(1);
+        });
+    });
 });
