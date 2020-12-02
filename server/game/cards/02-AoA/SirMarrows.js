@@ -7,17 +7,7 @@ class SirMarrows extends Card {
                 onReap: (event) =>
                     event.card.controller !== this.controller && event.card.type === 'creature'
             },
-            gameAction: ability.actions.sequential([
-                ability.actions.placeAmber({
-                    amount: 1,
-                    target: this
-                }),
-                ability.actions.loseAmber((context) => ({
-                    target: context.player.opponent,
-                    amount: 1
-                }))
-            ]),
-            effect: 'capture 1 amber'
+            gameAction: ability.actions.capture()
         });
     }
 }
