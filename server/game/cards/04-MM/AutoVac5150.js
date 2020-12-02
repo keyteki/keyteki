@@ -9,7 +9,8 @@ class AutoVac5150 extends Card {
                 location: 'any',
                 cardCondition: (card) => card.location === 'archives' || card.location === 'hand',
                 gameAction: ability.actions.conditional({
-                    condition: (context) => context.target.location === 'archives',
+                    condition: (context) =>
+                        context.target && context.target.location === 'archives',
                     trueGameAction: ability.actions.sequential([
                         ability.actions.discard(),
                         ability.actions.lastingEffect({
