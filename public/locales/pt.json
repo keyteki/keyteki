@@ -141,7 +141,7 @@
     "Competitive": "Competitivo",
     "Normal": "Normal",
     "Sealed": "Selado",
-    "Adaptive (Bo1)": "Adaptive (Bo1)",
+    "Adaptive (Bo1)": "Adaptativo (Md1)",
     "Only show new games": "Apenas partidas recentes",
     "No games are currently in progress.": "Nenhuma partida em andamento no momento",
     "Game Format": "Formato de Partida",
@@ -358,6 +358,7 @@
     "about.thanks": "<0>Agradecimento Especial</0><p>Gostaria de agradecer à Jadiel por ter começado esse site e cuidado bem dele até eu me envolver!</p>",
     "about.addicons": "<0>Ícones Adicionais</0><1>Alguns ícones foram incluídos a partir de game-icons.net: Death Note por <1>lorc</1>. <3>CC-BY 3.0</3></1>",
     "about.addnotes": "<0>Observações Adicionais</0><p>O Keyforge Jogo de Decks Únicos, sua arte e muitas outras coisas são copyright de Fantasy Flight Games e eu não faço nenhuma afirmação de posse de conteúdo de imagens ou qualquer outro conteúdo.  Esse site existe para que fãs apaixonados pelo jogo possam jogar um jogo que eles gostam e aumentar, ao invés de substituir, o jogo LCG entre pessoas.  FFG não endorsa, suporta, e não está envolvida, nesse site de maneira alguma.</p>",
+    "about.colors": "<0>Significado das cores dos usuários</0><p>Alguns nomes de usuários possuem diferentes cores e o objetivo é reconhecer os colaboradores da plataforma:</p><2><0><0>admin</0> - administrador do site</0><1><0>contribuidores</0> - pessoas que fizeram alguma contribuição de desenvolvimento significativa para o site</1><2><0>apoiadores</0> - apoiadores patreon</2><3><0>vencedor</0> - vencedor do último campeonato</3><4><0>vencedor anterior</0> - vencedores dos campeonatos anteriores</4></2>",
     "What is this page?": "O que é essa página?",
     "community.whatisthis": "Essa página é de divulgação de outros trabalhos e recursos da comunidade de Keyforge.",
     "community.discord": "<0>Link: <1>Keyforge Discord</1></0><p>Discord é uma aplicação de comunicação em voz e texto. Criada por membros da comunidade Keyforge, é uma comunidade robusta de jogadores LCG/CCG/RPG.</p>",
@@ -538,5 +539,6 @@
     "Added": "Adic.",
     "Win %": "Vit %",
     "Filter by name": "Filtrar por nome",
-    "Choose a top part to play": "Eschola uma parte superior para jogar"
+    "Choose a top part to play": "Eschola uma parte superior para jogar",
+    "Introduction": "Introdução"
 }
