@@ -1,5 +1,3 @@
-const _ = require('underscore');
-
 const Card = require('../../Card.js');
 
 class Fidgit extends Card {
@@ -9,41 +7,27 @@ class Fidgit extends Card {
             target: {
                 mode: 'select',
                 choices: {
-                    'Top of deck': [
-                        ability.actions.discard((context) => {
-                            context.event.discardedCard = null;
-                            return {
-                                location: 'deck',
-                                chatMessage: true,
-                                target: context.player.opponent.deck[0]
-                            };
-                        })
-                    ],
-                    'Random card from archives': [
-                        ability.actions.discard((context) => {
-                            context.event.discardedCard = _.shuffle(
-                                context.player.opponent.archives
-                            )[0];
-                            return {
-                                target: context.event.discardedCard
-                            };
-                        })
-                    ]
+                    'Top of deck': ability.actions.discard((context) => ({
+                        target: context.player.opponent && context.player.opponent.deck[0]
+                    })),
+                    'Random card from archives': ability.actions.discardAtRandom((context) => ({
+                        target: context.player.opponent,
+                        location: 'archives'
+                    }))
                 }
             },
-            then: (preThenContext) => {
-                return {
-                    gameAction: ability.actions.playCard((context) => ({
-                        target:
-                            (preThenContext.event.discardedCard !== null &&
-                                preThenContext.event.discardedCard.controller !== context.player &&
-                                context.player.opponent.discard[0].type === 'action') ||
-                            (context.player.opponent.discard[0].type === 'action' &&
-                                preThenContext.event.discardedCard === null)
-                                ? context.player.opponent.discard[0]
-                                : []
-                    }))
-                };
+            then: {
+                gameAction: ability.actions.playCard((context) => {
+                    let card = context.preThenEvent.card;
+                    if (!card) {
+                        card = context.preThenEvent.cards && context.preThenEvent.cards[0];
+                    }
+                    return {
+                        revealOnIllegalTarget: true,
+                        revealOnIllegalTargetMessage: "{0} keeps {2} at their opponent's discard",
+                        target: card && card.type === 'action' ? card : []
+                    };
+                })
             }
         });
     }

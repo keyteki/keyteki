@@ -4,7 +4,7 @@ const _ = require('underscore');
 class RandomPlayCardAction extends PlayerAction {
     setDefaultProperties() {
         this.amount = 1;
-        this.location = 'deck'; // deck, discard, archives
+        this.location = 'deck'; // deck, discard, hand, archives
         this.revealOnIllegalTarget = false;
         this.revealOnIllegalTargetMessage = null;
     }
@@ -13,7 +13,10 @@ class RandomPlayCardAction extends PlayerAction {
         super.setup();
         this.name = 'play';
         this.effectMsg =
-            'play ' + (this.amount === 1 ? 'a card' : this.amount + ' cards') + ' at random';
+            'play ' +
+            (this.amount === 1 ? 'a card' : this.amount + ' cards') +
+            ' at random from their ' +
+            this.location;
     }
 
     canAffect(player, context) {
@@ -25,20 +28,21 @@ class RandomPlayCardAction extends PlayerAction {
             'unnamedEvent',
             { player, context, amount: this.amount },
             (event) => {
-                let cards;
                 if (this.location === 'archives') {
-                    cards = _.shuffle(player.archives).slice(0, event.amount);
+                    event.cards = _.shuffle(player.archives).slice(0, event.amount);
                 } else if (this.location === 'discard') {
-                    cards = _.shuffle(player.discard).slice(0, event.amount);
+                    event.cards = _.shuffle(player.discard).slice(0, event.amount);
+                } else if (this.location === 'deck') {
+                    event.cards = _.shuffle(player.deck).slice(0, event.amount);
                 } else {
-                    cards = _.shuffle(player.hand).slice(0, event.amount);
+                    event.cards = _.shuffle(player.hand).slice(0, event.amount);
                 }
                 context.game.actions
                     .playCard({
-                        revealOnIllegalTarget: this.revealOnIllegalTarget,
-                        revealOnIllegalTargetMessage: this.revealOnIllegalTargetMessage
+                        revealOnIllegalTarget: true,
+                        revealOnIllegalTargetMessage: "{0} keeps {2} at their opponent's discard"
                     })
-                    .resolve(cards, context);
+                    .resolve(event.cards, context);
             }
         );
     }
