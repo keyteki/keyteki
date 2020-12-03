@@ -4,7 +4,7 @@ describe('Little Niff', function () {
             this.setupTest({
                 player1: {
                     house: 'shadows',
-                    inPlay: ['gamgee', 'knuckles-bolton', 'little-niff']
+                    inPlay: ['gamgee', 'knuckles-bolton', 'little-niff', 'bad-penny']
                 },
                 player2: {
                     amber: 3,
@@ -29,6 +29,16 @@ describe('Little Niff', function () {
             this.player1.fightWith(this.knucklesBolton, this.lamindra);
             expect(this.knucklesBolton.tokens.damage).toBe(1);
             expect(this.gamgee.tokens.damage).toBe(1);
+            expect(this.littleNiff.tokens.damage).toBe(1);
+            expect(this.player1.amber).toBe(1);
+            expect(this.player2.amber).toBe(2);
+        });
+
+        it('should steal 1A if destroyed during fight', function () {
+            this.player1.fightWith(this.badPenny, this.ancientBear);
+            expect(this.badPenny.location).toBe('hand');
+            expect(this.ancientBear.tokens.damage).toBe(1);
+            expect(this.knucklesBolton.tokens.damage).toBe(1);
             expect(this.littleNiff.tokens.damage).toBe(1);
             expect(this.player1.amber).toBe(1);
             expect(this.player2.amber).toBe(2);
