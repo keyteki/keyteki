@@ -59,7 +59,7 @@ describe('Exhume', function () {
             expect(this.exploRover.parent).toBe(this.flaxia);
         });
 
-        xit('should allow selecting explo-rover and playing it as an upgrade, even when Quixxle Stone in play', function () {
+        it('should allow selecting explo-rover and playing it as an upgrade, even when Quixxle Stone in play', function () {
             this.player1.play(this.gub);
             this.player1.clickCard(this.spyyyder);
             expect(this.player1).not.toHavePromptButton('Play this creature');
@@ -68,8 +68,10 @@ describe('Exhume', function () {
             this.player1.play(this.exhume);
             this.player1.clickCard(this.exploRover);
             expect(this.player1).not.toHavePromptButton('Play this creature');
-            expect(this.player1).toHavePromptButton('Play this upgrade');
-            this.player1.clickPrompt('Play this upgrade');
+            expect(this.player1).toHavePrompt('Choose a creature to attach this upgrade to');
+            expect(this.player1).toBeAbleToSelect(this.flaxia);
+            expect(this.player1).toBeAbleToSelect(this.gub);
+            expect(this.player1).toBeAbleToSelect(this.bumpsy);
             this.player1.clickCard(this.flaxia);
             expect(this.exploRover.parent).toBe(this.flaxia);
         });
