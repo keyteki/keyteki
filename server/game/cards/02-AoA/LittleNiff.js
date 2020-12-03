@@ -2,9 +2,10 @@ const Card = require('../../Card.js');
 
 class LittleNiff extends Card {
     setupCardAbilities(ability) {
-        this.interrupt({
+        this.reaction({
             when: {
-                onFight: (event, context) => context.source.neighbors.includes(event.attacker)
+                onUseCard: (event, context) =>
+                    event.fight && event.clone.neighbors.includes(context.source)
             },
             gameAction: ability.actions.steal()
         });

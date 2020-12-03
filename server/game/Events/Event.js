@@ -18,7 +18,7 @@ class Event {
 
         _.extend(this, params);
 
-        if (this.card) {
+        if (this.card && !this.clone) {
             this.clone = this.card.createSnapshot();
         }
     }
@@ -92,10 +92,6 @@ class Event {
         ) {
             this.cancel();
             return;
-        }
-
-        if (this.card) {
-            this.clone = this.card.createSnapshot();
         }
     }
 
