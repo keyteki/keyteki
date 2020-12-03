@@ -1,5 +1,3 @@
-const _ = require('underscore');
-
 const Card = require('../../Card.js');
 
 class Murkens extends Card {
@@ -9,26 +7,18 @@ class Murkens extends Card {
             target: {
                 mode: 'select',
                 choices: {
-                    'Top of deck': [
-                        ability.actions.reveal((context) => ({
-                            location: 'deck',
-                            chatMessage: true,
-                            target: context.player.checkRestrictions(
-                                'play',
-                                context.game.getFrameworkContext()
-                            )
-                                ? context.player.opponent.deck[0]
-                                : []
-                        })),
-                        ability.actions.playCard((context) => ({
-                            target: context.player.opponent.deck[0]
-                        }))
-                    ],
-                    'Random card from archives': [
-                        ability.actions.playCard((context) => ({
-                            target: _.shuffle(context.player.opponent.archives)[0]
-                        }))
-                    ]
+                    'Top of deck': ability.actions.playCard((context) => ({
+                        target: context.player.opponent.deck[0],
+                        revealOnIllegalTarget: true,
+                        revealOnIllegalTargetMessage:
+                            "{0} keeps {2} at the top of their opponent's deck"
+                    })),
+                    'Random card from archives': ability.actions.playAtRandom((context) => ({
+                        location: 'archives',
+                        revealOnIllegalTarget: true,
+                        revealOnIllegalTargetMessage: "{0} keeps {2} at their opponent's archive",
+                        target: context.player.opponent
+                    }))
                 }
             }
         });

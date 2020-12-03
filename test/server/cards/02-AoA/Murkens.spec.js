@@ -13,7 +13,7 @@ describe('Murkens', function () {
                     inPlay: ['maruck-the-marked'],
                     hand: ['bulwark'],
                     archives: ['krump', 'grenade-snib'],
-                    discard: ['troll']
+                    discard: ['troll', 'first-blood']
                 }
             });
             this.player2.moveCard(this.troll, 'deck');
@@ -23,8 +23,8 @@ describe('Murkens', function () {
             this.player2.player.deck = [];
             this.player2.player.archives = [];
             this.player1.play(this.murkens);
-            expect(this.player1).not.toHavePrompt('Top of deck');
-            expect(this.player1).not.toHavePrompt('Random card from archives');
+            expect(this.player1).not.toHavePromptButton('Top of deck');
+            expect(this.player1).not.toHavePromptButton('Random card from archives');
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
 
@@ -32,8 +32,8 @@ describe('Murkens', function () {
             this.player2.player.deck = [];
             this.player1.play(this.murkens);
             this.player1.clickPrompt('Left');
-            expect(this.player1).not.toHavePrompt('Top of deck');
-            expect(this.player1).not.toHavePrompt('Random card from archives');
+            expect(this.player1).not.toHavePromptButton('Top of deck');
+            expect(this.player1).not.toHavePromptButton('Random card from archives');
 
             // Randomness
             if (this.krump.location === 'archives') {
@@ -45,17 +45,28 @@ describe('Murkens', function () {
             }
         });
 
-        it('when archive is empty, play top of deck card directly', function () {
+        it('when archive is empty, should still prompt for option', function () {
             this.player2.player.archives = [];
             this.player1.play(this.murkens);
+            expect(this.player1).toHavePromptButton('Top of deck');
+            expect(this.player1).toHavePromptButton('Random card from archives');
+            this.player1.clickPrompt('Top of deck');
             this.player1.clickPrompt('Left');
-            expect(this.player1).not.toHavePrompt('Top of deck');
-            expect(this.player1).not.toHavePrompt('Random card from archives');
             expect(this.troll.location).toBe('play area');
             expect(this.troll.controller).toBe(this.player1.player);
             this.player1.endTurn();
             expect(this.player2).toHavePrompt('House Choice');
             expect(this.troll.controller).toBe(this.player1.player);
+        });
+
+        it('when archive is empty, should still prompt for option and play nothing if select archives', function () {
+            this.player2.player.archives = [];
+            this.player1.play(this.murkens);
+            expect(this.player1).toHavePromptButton('Top of deck');
+            expect(this.player1).toHavePromptButton('Random card from archives');
+            this.player1.clickPrompt('Random card from archives');
+            this.player1.endTurn();
+            expect(this.player2).toHavePrompt('House Choice');
         });
 
         it('when top of deck is selected, top card is played', function () {
@@ -82,6 +93,27 @@ describe('Murkens', function () {
                 expect(this.krump.location).toBe('play area');
                 expect(this.krump.controller).toBe(this.player1.player);
             }
+        });
+
+        it('when deck is selected and alpha is the firt card, keep it there', function () {
+            this.player2.moveCard(this.firstBlood, 'deck');
+            this.player1.play(this.murkens);
+            expect(this.player1).toHavePromptButton('Top of deck');
+            expect(this.player1).toHavePromptButton('Random card from archives');
+            this.player1.clickPrompt('Top of deck');
+            expect(this.firstBlood.location).toBe('deck');
+            this.player1.endTurn();
+        });
+
+        it('when archives is selected and alpha is randomly selected, keep it there', function () {
+            this.player2.moveCard(this.krump, 'discard');
+            this.player2.moveCard(this.grenadeSnib, 'discard');
+            this.player2.moveCard(this.firstBlood, 'archives');
+            this.player1.play(this.murkens);
+            this.player1.clickPrompt('Random card from archives');
+
+            expect(this.firstBlood.location).toBe('archives');
+            this.player1.endTurn();
         });
     });
 });
