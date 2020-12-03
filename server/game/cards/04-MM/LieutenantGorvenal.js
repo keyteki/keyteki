@@ -5,7 +5,8 @@ class LieutenantGorvenal extends Card {
         this.reaction({
             when: {
                 onUseCard: (event, context) =>
-                    event.fight && event.attackerClone.controller === context.source.controller
+                    event.fightEvent &&
+                    event.fightEvent.attackerClone.controller === context.source.controller
             },
             gameAction: ability.actions.capture((context) => ({ target: context.source }))
         });

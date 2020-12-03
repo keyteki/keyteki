@@ -7,7 +7,8 @@ class BarnRazing extends Card {
             gameAction: ability.actions.forRemainderOfTurn((context) => ({
                 when: {
                     onUseCard: (event) =>
-                        event.fight && event.attackerClone.controller === context.player
+                        event.fightEvent &&
+                        event.fightEvent.attackerClone.controller === context.player
                 },
                 gameAction: ability.actions.loseAmber((context) => ({
                     target: context.player.opponent

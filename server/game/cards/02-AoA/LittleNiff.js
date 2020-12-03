@@ -5,7 +5,8 @@ class LittleNiff extends Card {
         this.reaction({
             when: {
                 onUseCard: (event, context) =>
-                    event.fight && event.attackerClone.neighbors.includes(context.source)
+                    event.fightEvent &&
+                    event.fightEvent.attackerClone.neighbors.includes(context.source)
             },
             gameAction: ability.actions.steal()
         });

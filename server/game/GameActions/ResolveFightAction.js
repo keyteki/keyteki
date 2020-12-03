@@ -136,7 +136,7 @@ class ResolveFightAction extends CardGameAction {
                 'onUseCard',
                 {
                     card: params.attacker,
-                    attackerClone: params.attackerClone,
+                    fightEvent: fightEvent,
                     context: context,
                     fight: true
                 },
