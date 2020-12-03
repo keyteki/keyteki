@@ -93,6 +93,10 @@ class Event {
             this.cancel();
             return;
         }
+
+        if (this.card) {
+            this.clone = this.card.createSnapshot();
+        }
     }
 
     executeHandler() {

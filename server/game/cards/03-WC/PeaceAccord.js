@@ -17,7 +17,7 @@ class PeaceAccord extends Card {
 
         this.reaction({
             when: {
-                onUseCard: (event) => event.fight && event.clone.type === 'creature'
+                onUseCard: (event) => event.fight && event.attackerClone.type === 'creature'
             },
             gameAction: [
                 ability.actions.loseAmber((context) => ({
