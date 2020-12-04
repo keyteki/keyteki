@@ -9,7 +9,7 @@ class SirMarrows extends Card {
             },
             gameAction: ability.actions.sequential([
                 ability.actions.capture((context) => ({
-                    amount: context.event.amount || 0
+                    amount: context.event.amount
                 })),
                 ability.actions.changeEvent((context) => ({
                     event: context.event,
