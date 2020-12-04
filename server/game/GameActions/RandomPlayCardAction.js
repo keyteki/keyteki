@@ -6,7 +6,6 @@ class RandomPlayCardAction extends PlayerAction {
         this.amount = 1;
         this.location = 'deck'; // deck, discard, hand, archives
         this.revealOnIllegalTarget = false;
-        this.revealOnIllegalTargetMessage = null;
     }
 
     setup() {
@@ -38,8 +37,7 @@ class RandomPlayCardAction extends PlayerAction {
                 }
                 context.game.actions
                     .playCard({
-                        revealOnIllegalTarget: true,
-                        revealOnIllegalTargetMessage: "{0} keeps {2} at their opponent's discard"
+                        revealOnIllegalTarget: this.revealOnIllegalTarget
                     })
                     .resolve(event.cards, context);
             }

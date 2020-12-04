@@ -4,7 +4,6 @@ class PlayCardAction extends CardGameAction {
     setDefaultProperties() {
         this.location = 'hand';
         this.revealOnIllegalTarget = false;
-        this.revealOnIllegalTargetMessage = null;
     }
 
     setup() {
@@ -68,10 +67,10 @@ class PlayCardAction extends CardGameAction {
         playEvent.addChildEvent(
             context.game.getEvent('unamedEvent', { card, context }, () => {
                 if (playActions.length === 0 && this.revealOnIllegalTarget) {
-                    const message =
-                        this.revealOnIllegalTargetMessage ||
-                        '{0} uses {1} to only reveal and not play {2}';
-                    context.game.addMessage(message, context.player, context.source, card);
+                    context.game.addMessage(
+                        '{0} was unable to be played so is returned to its original location',
+                        card
+                    );
                 }
             })
         );

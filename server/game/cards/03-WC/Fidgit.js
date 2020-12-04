@@ -24,7 +24,6 @@ class Fidgit extends Card {
                     }
                     return {
                         revealOnIllegalTarget: true,
-                        revealOnIllegalTargetMessage: "{0} keeps {2} at their opponent's discard",
                         target: card && card.type === 'action' ? card : []
                     };
                 })

@@ -20,7 +20,6 @@ class WormholeTechnician extends Card {
             gameAction: [
                 ability.actions.playCard((context) => ({
                     revealOnIllegalTarget: true,
-                    revealOnIllegalTargetMessage: '{0} keeps {2} at the top of their deck',
                     target:
                         context.player.deck[0] && context.player.deck[0].hasHouse('logos')
                             ? context.player.deck[0]

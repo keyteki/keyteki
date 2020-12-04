@@ -5,7 +5,6 @@ class BotBookton extends Card {
         this.reap({
             gameAction: ability.actions.playCard((context) => ({
                 revealOnIllegalTarget: true,
-                revealOnIllegalTargetMessage: '{0} keeps {2} at the top of their deck',
                 target: context.player.deck[0]
             }))
         });

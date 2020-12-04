@@ -6,12 +6,12 @@ describe('Murkens', function () {
                     house: 'shadows',
                     amber: 2,
                     inPlay: ['lamindra'],
-                    hand: ['murkens']
+                    hand: ['murkens', 'hypnobeam']
                 },
                 player2: {
                     amber: 0,
                     inPlay: ['maruck-the-marked'],
-                    hand: ['bulwark'],
+                    hand: ['bulwark', 'banish'],
                     archives: ['krump', 'grenade-snib'],
                     discard: ['troll', 'first-blood']
                 }
@@ -114,6 +114,37 @@ describe('Murkens', function () {
 
             expect(this.firstBlood.location).toBe('archives');
             this.player1.endTurn();
+        });
+    });
+
+    describe("Murkens's ability and owned card in archive", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'mars',
+                    amber: 2,
+                    inPlay: ['uxlyx-the-zookeeper']
+                },
+                player2: {
+                    amber: 0,
+                    inPlay: ['lamindra', 'bumblebird'],
+                    hand: ['murkens']
+                }
+            });
+        });
+
+        xit("when owner card is chosen from archive, it should go to owner's hand", function () {
+            this.player1.reap(this.uxlyxTheZookeeper);
+            this.player1.clickCard(this.lamindra);
+            expect(this.lamindra.controller).toBe(this.player1.player);
+            this.player1.endTurn();
+            this.player2.clickPrompt('shadows');
+            this.player2.play(this.murkens);
+            this.player2.clickPrompt('Random card from archives');
+
+            expect(this.uxlyxTheZookeeper.location).toBe('hand');
+            expect(this.lamindra.controller).toBe(this.player2.player);
+            this.player2.endTurn();
         });
     });
 });
