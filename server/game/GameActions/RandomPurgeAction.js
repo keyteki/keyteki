@@ -13,9 +13,8 @@ class RandomPurgeAction extends PlayerAction {
         this.name = 'purge';
         this.effectMsg =
             'purge ' +
-            (this.amount === 1 ? 'a card' : this.amount + ' cards') +
-            ' at random from their ' +
-            this.location;
+            (this.amount === 1 ? 'a card' : `${this.amount} cards`) +
+            ` at random from {0}'s ${this.location}`;
     }
 
     canAffect(player, context) {

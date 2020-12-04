@@ -13,9 +13,8 @@ class RandomDiscardAction extends PlayerAction {
         this.name = 'discard';
         this.effectMsg =
             'discard ' +
-            (this.amount === 1 ? 'a card' : this.amount + ' cards') +
-            ' at random from their ' +
-            this.location;
+            (this.amount === 1 ? 'a card' : `${this.amount} cards`) +
+            ` at random from {0}'s ${this.location}`;
     }
 
     canAffect(player, context) {

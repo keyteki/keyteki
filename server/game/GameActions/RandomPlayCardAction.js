@@ -14,9 +14,8 @@ class RandomPlayCardAction extends PlayerAction {
         this.name = 'play';
         this.effectMsg =
             'play ' +
-            (this.amount === 1 ? 'a card' : this.amount + ' cards') +
-            ' at random from their ' +
-            this.location;
+            (this.amount === 1 ? 'a card' : `${this.amount} cards`) +
+            ` at random from {0}'s ${this.location}`;
     }
 
     canAffect(player, context) {
