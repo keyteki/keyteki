@@ -11,7 +11,7 @@ class Memolith extends Card {
                     card.location === 'hand' ||
                     (card.parent === context.source && card.location === 'grafted'),
                 gameAction: ability.actions.conditional({
-                    condition: (context) => context.target && context.target.location === 'hand',
+                    condition: (context) => context.target.location === 'hand',
                     trueGameAction: ability.actions.graft((context) => ({
                         parent: context.source
                     })),
