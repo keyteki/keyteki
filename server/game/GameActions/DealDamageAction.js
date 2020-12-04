@@ -106,6 +106,7 @@ class DealDamageAction extends CardGameAction {
                 (event) => {
                     event.noGameStateCheck = true;
                     event.card.addToken('damage', event.amount);
+
                     if (
                         !event.card.moribund &&
                         (event.card.tokens.damage >= event.card.power ||
@@ -158,7 +159,7 @@ class DealDamageAction extends CardGameAction {
 
                         damageAppliedEvent.amount -= event.damagePrevented;
                         damageDealtEvent.amount -= event.damagePrevented;
-                        damageDealtEvent.addSubEvent(damageAppliedEvent);
+                        damageDealtEvent.addChildEvent(damageAppliedEvent);
                     }
                 );
                 damageDealtEvent.addSubEvent(armorPreventEvent);
