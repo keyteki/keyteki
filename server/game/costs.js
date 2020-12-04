@@ -39,7 +39,7 @@ const Costs = {
         },
         payEvent: (context) =>
             context.game.getEvent('unnamedEvent', {}, () => {
-                context.game.cardsUsed.push(context.source);
+                context.game.cardUsed(context.source);
                 if (
                     context.ignoreHouse ||
                     context.player.getEffects('canUse').some((match) => match(context))
@@ -64,7 +64,7 @@ const Costs = {
                 );
 
                 if (effect) {
-                    context.game.effectsUsed.push(effect);
+                    context.game.effectUsed(effect);
                     return true;
                 }
 
@@ -154,7 +154,7 @@ const Costs = {
                 });
 
                 if (effect) {
-                    context.game.effectsUsed.push(effect);
+                    context.game.effectUsed(effect);
                     return true;
                 }
 

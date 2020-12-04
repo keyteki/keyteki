@@ -66,7 +66,7 @@ class BasePlayAction extends BaseAbility {
                 card: context.source,
                 originalLocation: context.source.location
             },
-            () => context.game.cardsPlayed.push(context.source)
+            () => context.game.cardPlayed(context.source)
         );
         this.addBonusIconResolution(event, context);
         this.addSubEvent(event, context);

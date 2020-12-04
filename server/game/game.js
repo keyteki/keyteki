@@ -1151,10 +1151,30 @@ class Game extends EventEmitter {
     }
 
     resetThingsThisPhase() {
-        this.cardsDiscardedThisPhase = [];
-        this.cardsUsedThisPhase = [];
-        this.cardsPlayedThisPhase = [];
         this.effectsUsedThisPhase = [];
+        this.cardsDiscardedThisPhase = [];
+        this.cardsPlayedThisPhase = [];
+        this.cardsUsedThisPhase = [];
+    }
+
+    effectUsed(card) {
+        this.effectsUsed.push(card);
+        this.effectsUsedThisPhase.push(card);
+    }
+
+    cardDiscarded(card) {
+        this.cardsDiscarded.push(card);
+        this.cardsDiscardedThisPhase.push(card);
+    }
+
+    cardPlayed(card) {
+        this.cardsPlayed.push(card);
+        this.cardsPlayedThisPhase.push(card);
+    }
+
+    cardUsed(card) {
+        this.cardsUsed.push(card);
+        this.cardsUsedThisPhase.push(card);
     }
 
     continue() {
