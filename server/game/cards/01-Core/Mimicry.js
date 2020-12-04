@@ -14,7 +14,7 @@ class Mimicry extends Card {
                 controller: 'opponent',
                 location: 'discard',
                 cardCondition: (card, context) =>
-                    context.game.firstThingThisTurn() || !card.hasKeyword('alpha')
+                    context.game.firstThingThisPhase() || !card.hasKeyword('alpha')
             },
             effect: 'to copy {0}',
             gameAction: ability.actions.cardLastingEffect((context) => {

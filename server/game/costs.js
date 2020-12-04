@@ -73,7 +73,10 @@ const Costs = {
     }),
     play: () => ({
         canPay: (context) => {
-            if (context.source.getKeywordValue('alpha') > 0 && !context.game.firstThingThisTurn()) {
+            if (
+                context.source.getKeywordValue('alpha') > 0 &&
+                !context.game.firstThingThisPhase()
+            ) {
                 return false;
             } else if (
                 context.game.cardsUsed
