@@ -21,7 +21,11 @@ class ResolveReapAction extends CardGameAction {
         });
 
         reapEvent.addChildEvent(
-            context.game.getEvent('onUseCard', { card: card, context: context, reap: true })
+            context.game.getEvent('onUseCard', {
+                card: card,
+                context: context,
+                reapEvent: reapEvent
+            })
         );
 
         return reapEvent;
