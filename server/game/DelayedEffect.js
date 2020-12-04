@@ -50,7 +50,7 @@ class DelayedEffect {
 
         if (this.message) {
             this.game.addMessage(
-                this.message,
+                this.message + 'ROMANO JOSÉ',
                 this.context.player,
                 this.source,
                 this.target || event.card
