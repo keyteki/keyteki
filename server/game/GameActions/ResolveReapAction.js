@@ -17,11 +17,15 @@ class ResolveReapAction extends CardGameAction {
 
     getEvent(card, context) {
         let reapEvent = super.createEvent('onReap', { card: card, context: context }, () => {
-            context.game.actions.gainAmber().resolve(context.player, context);
+            context.game.actions.gainAmber({ reap: true }).resolve(context.player, context);
         });
 
         reapEvent.addChildEvent(
-            context.game.getEvent('onUseCard', { card: card, context: context, reap: true })
+            context.game.getEvent('onUseCard', {
+                card: card,
+                context: context,
+                reapEvent: reapEvent
+            })
         );
 
         return reapEvent;

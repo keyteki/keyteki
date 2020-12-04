@@ -134,7 +134,12 @@ class ResolveFightAction extends CardGameAction {
         fightEvent.addChildEvent(
             context.game.getEvent(
                 'onUseCard',
-                { card: params.attacker, context: context, fight: true },
+                {
+                    card: params.attacker,
+                    fightEvent: fightEvent,
+                    context: context,
+                    fight: true
+                },
                 (event) => event.card.unenrage()
             )
         );
