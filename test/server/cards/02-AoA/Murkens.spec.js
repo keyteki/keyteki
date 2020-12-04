@@ -6,12 +6,12 @@ describe('Murkens', function () {
                     house: 'shadows',
                     amber: 2,
                     inPlay: ['lamindra'],
-                    hand: ['murkens', 'hypnobeam']
+                    hand: ['murkens']
                 },
                 player2: {
                     amber: 0,
                     inPlay: ['maruck-the-marked'],
-                    hand: ['bulwark', 'banish'],
+                    hand: ['bulwark'],
                     archives: ['krump', 'grenade-snib'],
                     discard: ['troll', 'first-blood']
                 }
