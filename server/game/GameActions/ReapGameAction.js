@@ -8,6 +8,17 @@ class ReapGameAction extends CardGameAction {
     }
 
     canAffect(card, context) {
+        let reapActionAllowed = card
+            .getLegalActions(context.player, true)
+            .some(
+                (action) =>
+                    action.title === 'Reap with this creature' ||
+                    action.title === "Remove this creature's stun"
+            );
+        if (!reapActionAllowed) {
+            return false;
+        }
+
         let reapAction = card.getReapAction();
         let newContext = reapAction.createContext(context.player);
         newContext.ignoreHouse = true;
