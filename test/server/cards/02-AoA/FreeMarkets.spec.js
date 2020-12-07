@@ -20,14 +20,6 @@ describe('Free Markets', function () {
             this.player2.play(this.freeMarkets);
             expect(this.player2.amber).toBe(5);
         });
-
-        it('should gain 6 ambers with experimental therapy', function () {
-            this.player1.playUpgrade(this.experimentalTherapy, this.gub);
-            this.player1.endTurn();
-            this.player2.clickPrompt('sanctum');
-            this.player2.play(this.freeMarkets);
-            expect(this.player2.amber).toBe(6);
-        });
     });
 
     describe("Free Markets's play ability", function () {
