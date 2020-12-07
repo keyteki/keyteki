@@ -526,7 +526,7 @@ export const buildCard = async (
         if (tokens) {
             for (const [index, { name, count, fade, showValue }] of printTokens.entries()) {
                 if (!Tokens[name]) {
-                    tokens[name] = await loadImage(require(`./assets/img/${name}.png`));
+                    Tokens[name] = await loadImage(require(`./assets/img/${name}.png`));
                 }
 
                 const TokenImage = new fabric.Image(Tokens[name].getElement(), imgOptions);
