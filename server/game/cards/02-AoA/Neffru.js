@@ -4,8 +4,12 @@ class Neffru extends Card {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onCardDestroyed: (event) =>
-                    event.clone.type === 'creature' && !(this.tokens.damage >= this.getPower())
+                onCardDestroyed: (event) => {
+                    console.log(event.clone.name, this.tokens.damage);
+                    return (
+                        event.clone.type === 'creature' && !(this.tokens.damage >= this.getPower())
+                    );
+                }
             },
             gameAction: ability.actions.gainAmber((context) => ({
                 target: context.event.card.controller
