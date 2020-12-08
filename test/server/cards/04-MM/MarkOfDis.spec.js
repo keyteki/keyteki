@@ -96,4 +96,27 @@ describe('Mark of Dis', function () {
             expect(this.player2).toHavePromptButton('shadows');
         });
     });
+
+    describe("Mark of Dis's ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'dis',
+                    hand: ['mark-of-dis']
+                },
+                player2: {
+                    hand: ['shooler', 'hypnobeam', 'gamgee'],
+                    amber: 3
+                }
+            });
+        });
+
+        it('if no creature is in play, should not restrict house choice', function () {
+            this.player1.play(this.markOfDis);
+            this.player1.endTurn();
+            expect(this.player2).toHavePromptButton('dis');
+            expect(this.player2).toHavePromptButton('mars');
+            expect(this.player2).toHavePromptButton('shadows');
+        });
+    });
 });
