@@ -5,7 +5,7 @@ describe('Mini Groupthink Tank', function () {
                 player1: {
                     house: 'logos',
                     inPlay: ['lamindra', 'dextre', 'groupthink-tank'],
-                    hand: ['mini-groupthink-tank', 'experimental-therapy']
+                    hand: ['mini-groupthink-tank']
                 },
                 player2: {
                     amber: 3,
@@ -55,29 +55,6 @@ describe('Mini Groupthink Tank', function () {
             this.player1.clickCard(this.groupthinkTank);
 
             expect(this.groupthinkTank.location).toBe('discard');
-        });
-
-        it('should be affected by experimental therapy', function () {
-            this.player1.playUpgrade(this.experimentalTherapy, this.lamindra);
-            this.player1.playCreature(this.miniGroupthinkTank);
-
-            expect(this.player1).toHavePrompt('Mini Groupthink Tank');
-
-            expect(this.player1).toBeAbleToSelect(this.groupthinkTank);
-            expect(this.player1).toBeAbleToSelect(this.shooler);
-            expect(this.player1).toBeAbleToSelect(this.gub);
-            expect(this.player1).toBeAbleToSelect(this.dextre);
-
-            expect(this.player1).not.toBeAbleToSelect(this.miniGroupthinkTank);
-            expect(this.player1).not.toBeAbleToSelect(this.spyyyder);
-            expect(this.player1).not.toBeAbleToSelect(this.skullion);
-            expect(this.player1).not.toBeAbleToSelect(this.lamindra);
-            expect(this.player1).not.toBeAbleToSelect(this.archimedes);
-            expect(this.player1).not.toBeAbleToSelect(this.zorg);
-
-            this.player1.clickCard(this.dextre);
-
-            expect(this.dextre.location).toBe('deck');
         });
     });
 

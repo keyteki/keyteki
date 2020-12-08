@@ -690,6 +690,13 @@ class Player extends GameObject {
                 }
             });
         } else {
+            if (this.keys[choices[0].toLowerCase()]) {
+                this.game.addMessage(
+                    '{0} unforges the {1}',
+                    this.game.activePlayer,
+                    `forgedkey${choices[0].toLowerCase()}`
+                );
+            }
             this.keys[choices[0].toLowerCase()] = false;
             let forgedKeyIndex = this.keysForgedThisRound.findIndex(
                 (x) => x === choices[0].toLowerCase()
@@ -697,12 +704,6 @@ class Player extends GameObject {
             if (forgedKeyIndex !== -1) {
                 this.keysForgedThisRound.splice(forgedKeyIndex, 1);
             }
-
-            this.game.addMessage(
-                '{0} unforges the {1}',
-                this.game.activePlayer,
-                `forgedkey${choices[0]}`
-            );
         }
     }
 

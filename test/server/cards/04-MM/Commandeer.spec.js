@@ -13,6 +13,7 @@ describe('Commandeer', function () {
                 }
             });
         });
+
         it('should capture when you play a card', function () {
             this.player1.play(this.commandeer);
             expect(this.commandeer.location).toBe('discard');

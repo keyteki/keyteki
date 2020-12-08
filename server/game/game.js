@@ -72,9 +72,14 @@ class Game extends EventEmitter {
         this.useGameTimeLimit = details.useGameTimeLimit;
 
         this.cardsUsed = [];
+        this.omegaCard = null;
         this.cardsPlayed = [];
         this.cardsDiscarded = [];
         this.effectsUsed = [];
+        this.cardsDiscardedThisPhase = [];
+        this.cardsUsedThisPhase = [];
+        this.cardsPlayedThisPhase = [];
+        this.effectsUsedThisPhase = [];
         this.activePlayer = null;
         this.jsonForUsers = {};
 
@@ -837,10 +842,6 @@ class Game extends EventEmitter {
         return new AbilityContext({ game: this, player: player });
     }
 
-    checkAlpha() {
-        return this.cardsPlayed.length === 0;
-    }
-
     /**
      * Changes the controller of a card in play to the passed player, and cleans
      * all the related stuff up
@@ -1072,9 +1073,11 @@ class Game extends EventEmitter {
 
         this.activePlayer.endRound();
         this.cardsUsed = [];
+        this.omegaCard = null;
         this.cardsPlayed = [];
         this.cardsDiscarded = [];
         this.effectsUsed = [];
+        this.resetThingsThisPhase();
 
         for (let card of this.cardsInPlay) {
             card.endRound();
@@ -1138,13 +1141,40 @@ class Game extends EventEmitter {
         );
     }
 
-    firstThingThisTurn() {
+    firstThingThisPhase() {
         return (
-            this.cardsDiscarded.length === 0 &&
-            this.cardsUsed.length === 0 &&
-            this.cardsPlayed.length === 0 &&
-            this.effectsUsed.length === 0
+            this.cardsDiscardedThisPhase.length === 0 &&
+            this.cardsUsedThisPhase.length === 0 &&
+            this.cardsPlayedThisPhase.length === 0 &&
+            this.effectsUsedThisPhase.length === 0
         );
+    }
+
+    resetThingsThisPhase() {
+        this.effectsUsedThisPhase = [];
+        this.cardsDiscardedThisPhase = [];
+        this.cardsPlayedThisPhase = [];
+        this.cardsUsedThisPhase = [];
+    }
+
+    effectUsed(card) {
+        this.effectsUsed.push(card);
+        this.effectsUsedThisPhase.push(card);
+    }
+
+    cardDiscarded(card) {
+        this.cardsDiscarded.push(card);
+        this.cardsDiscardedThisPhase.push(card);
+    }
+
+    cardPlayed(card) {
+        this.cardsPlayed.push(card);
+        this.cardsPlayedThisPhase.push(card);
+    }
+
+    cardUsed(card) {
+        this.cardsUsed.push(card);
+        this.cardsUsedThisPhase.push(card);
     }
 
     continue() {

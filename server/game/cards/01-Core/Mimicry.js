@@ -13,15 +13,19 @@ class Mimicry extends Card {
                 cardType: 'action',
                 controller: 'opponent',
                 location: 'discard',
-                cardCondition: (card) =>
-                    this.game.cardsPlayed.length === 1 || !card.hasKeyword('alpha')
+                cardCondition: (card, context) =>
+                    context.game.firstThingThisPhase() || !card.hasKeyword('alpha')
             },
             effect: 'to copy {0}',
             gameAction: ability.actions.cardLastingEffect((context) => {
                 let card = context.target;
+
                 let effects = [];
                 if (card) {
                     effects.push(ability.effects.modifyBonusIcons(card.bonusIcons));
+                    if (card.hasKeyword('omega')) {
+                        effects.push(ability.effects.addKeyword({ omega: 1 }));
+                    }
                     if (
                         card.abilities.reactions.some(
                             (ability) => ability.properties.name === 'Play'

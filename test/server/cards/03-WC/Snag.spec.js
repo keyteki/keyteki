@@ -63,25 +63,5 @@ describe('Snag', function () {
                 expect(this.player2).not.toHavePromptButton('brobnar');
             });
         });
-
-        describe('when fighting a creature with added houses', function () {
-            beforeEach(function () {
-                this.player1.endTurn();
-
-                this.player2.clickPrompt('logos');
-                this.player2.playUpgrade(this.experimentalTherapy, this.urchin);
-                this.player2.endTurn();
-
-                this.player1.clickPrompt('dis');
-                this.player1.fightWith(this.snag, this.urchin);
-                this.player1.endTurn();
-            });
-
-            it('should allow all houses', function () {
-                expect(this.player2).toHavePromptButton('logos');
-                expect(this.player2).toHavePromptButton('shadows');
-                expect(this.player2).toHavePromptButton('brobnar');
-            });
-        });
     });
 });

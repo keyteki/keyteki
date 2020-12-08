@@ -288,7 +288,7 @@ export const buildDeckList = async (canvas, deck, language, translate, size) => 
         canvas.renderAll();
     }
 
-    applyFilters(canvas, size, width, height);
+    applyFilters(canvas, size, width);
 };
 
 /**
@@ -356,11 +356,10 @@ export const buildCardBack = async (canvas, deck, size, showDeckName) => {
         }
     }
 
-    applyFilters(canvas, size, width, height);
+    applyFilters(canvas, size, width);
 };
 
 /**
- * @param CanvasFinal
  * @param canvas
  * @param maverick
  * @param anomaly
@@ -557,17 +556,17 @@ export const buildCard = async (
             }
         }
     }
-    applyFilters(canvas, size, width, height);
+    applyFilters(canvas, size, width);
 };
 
-const buildFailImage = (canvas, size, width, height) => {
+const buildFailImage = (canvas, size, width) => {
     const defaultCardImage = new fabric.Image(DefaultCard.getElement(), imgOptions);
     defaultCardImage.scaleToWidth(width);
     canvas.add(defaultCardImage);
-    applyFilters(canvas, size, width, height);
+    applyFilters(canvas, size, width);
 };
 
-const applyFilters = (canvas, size, width, height) => {
+const applyFilters = (canvas, size, width) => {
     canvas.renderAll();
     const scale = size ? (defaultCardWidth * getCardSizeMultiplier(size)) / width : 1;
     const finalImage = new fabric.Image(canvas.getElement(), imgOptions);
@@ -582,9 +581,6 @@ const applyFilters = (canvas, size, width, height) => {
     finalImage.applyFilters();
     finalImage.scaleToWidth(width);
     canvas.add(finalImage);
-    canvas.setZoom(scale);
-    canvas.setWidth(width * canvas.getZoom());
-    canvas.setHeight(height * canvas.getZoom());
     canvas.renderAll();
 };
 
