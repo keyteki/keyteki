@@ -78,9 +78,10 @@ const Actions = {
     // player actions
     archiveAtRandom: (propertyFactory) => new GameActions.RandomArchiveAction(propertyFactory), // amount = 1
     chosenDiscard: (propertyFactory) => new GameActions.ChosenDiscardAction(propertyFactory), // amount = 1
-    discardAtRandom: (propertyFactory) => new GameActions.RandomDiscardAction(propertyFactory), // amount = 1
+    discardAtRandom: (propertyFactory) => new GameActions.RandomDiscardAction(propertyFactory), // amount = 1, location = hand
     discardTopOfDeck: (propertyFactory) => new GameActions.DiscardTopOfDeckAction(propertyFactory), // amount = 1
-    purgeAtRandom: (propertyFactory) => new GameActions.RandomPurgeAction(propertyFactory), // amount = 1
+    playAtRandom: (propertyFactory) => new GameActions.RandomPlayCardAction(propertyFactory), // amount = 1, location = deck
+    purgeAtRandom: (propertyFactory) => new GameActions.RandomPurgeAction(propertyFactory), // amount = 1, location = hand
     draw: (propertyFactory) => new GameActions.DrawAction(propertyFactory), // amount = 1
     forgeKey: (propertyFactory) => new GameActions.ForgeAction(propertyFactory), // modifier = 0
     forRemainderOfTurn: (propertyFactory) =>

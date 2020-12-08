@@ -1,18 +1,18 @@
 const PlayerAction = require('./PlayerAction');
 const _ = require('underscore');
 
-class RandomDiscardAction extends PlayerAction {
+class RandomPlayCardAction extends PlayerAction {
     setDefaultProperties() {
         this.amount = 1;
-        // hand, deck or archives
-        this.location = 'hand';
+        this.location = 'deck'; // deck, discard, hand, archives
+        this.revealOnIllegalTarget = false;
     }
 
     setup() {
         super.setup();
-        this.name = 'discard';
+        this.name = 'play';
         this.effectMsg =
-            'discard ' +
+            'play ' +
             (this.amount === 1 ? 'a card' : `${this.amount} cards`) +
             ` at random from {0}'s ${this.location}`;
     }
@@ -28,17 +28,21 @@ class RandomDiscardAction extends PlayerAction {
             (event) => {
                 if (this.location === 'archives') {
                     event.cards = _.shuffle(player.archives).slice(0, event.amount);
+                } else if (this.location === 'discard') {
+                    event.cards = _.shuffle(player.discard).slice(0, event.amount);
                 } else if (this.location === 'deck') {
                     event.cards = _.shuffle(player.deck).slice(0, event.amount);
                 } else {
                     event.cards = _.shuffle(player.hand).slice(0, event.amount);
                 }
-
-                context.game.addMessage('{0} discards {1} at random', player, event.cards);
-                context.game.actions.discard().resolve(event.cards, context);
+                context.game.actions
+                    .playCard({
+                        revealOnIllegalTarget: this.revealOnIllegalTarget
+                    })
+                    .resolve(event.cards, context);
             }
         );
     }
 }
 
-module.exports = RandomDiscardAction;
+module.exports = RandomPlayCardAction;

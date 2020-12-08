@@ -39,6 +39,7 @@ module.exports = {
     PutIntoPlayAction: require('./PutIntoPlayAction'),
     RandomArchiveAction: require('./RandomArchiveAction'),
     RandomDiscardAction: require('./RandomDiscardAction'),
+    RandomPlayCardAction: require('./RandomPlayCardAction'),
     RandomPurgeAction: require('./RandomPurgeAction'),
     ReadyAction: require('./ReadyAction'),
     ReapGameAction: require('./ReapGameAction'),
