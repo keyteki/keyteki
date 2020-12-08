@@ -112,33 +112,4 @@ describe('Trust No One', function () {
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
     });
-
-    describe("Trust No One's ability", function () {
-        beforeEach(function () {
-            this.setupTest({
-                player1: {
-                    amber: 4,
-                    house: 'shadows',
-                    hand: ['trust-no-one', 'virtuous-works', 'chuff-ape']
-                },
-                player2: {
-                    amber: 5,
-                    hand: ['experimental-therapy'],
-                    inPlay: ['mother', 'sequis', 'rustgnawer']
-                }
-            });
-        });
-
-        it('should max out at 3A stolen even if there are more houses in play [3]', function () {
-            this.player1.endTurn();
-            this.player2.clickPrompt('logos');
-            this.player2.playUpgrade(this.experimentalTherapy, this.mother);
-            this.player2.endTurn();
-            this.player1.clickPrompt('shadows');
-            this.player1.play(this.trustNoOne);
-            expect(this.player1.amber).toBe(7);
-            expect(this.player2.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
-        });
-    });
 });
