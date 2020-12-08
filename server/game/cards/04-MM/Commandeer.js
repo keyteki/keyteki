@@ -9,10 +9,14 @@ class Commandeer extends Card {
                     onCardPlayed: (event) =>
                         event.player === context.player && event.card !== context.source
                 },
+                preferActionPromptMessage: true,
                 gameAction: ability.actions.capture({
                     promptForSelect: {
                         cardType: 'creature',
-                        controller: 'self'
+                        controller: 'self',
+                        message:
+                            '{0} uses {1} to capture amber from their opponent and place on {2}',
+                        messageArgs: (card) => [context.player, context.source, card]
                     }
                 })
             }))
