@@ -162,7 +162,11 @@ const Costs = {
             })
     }),
     payAmber: (amount = 1) => ({
-        canPay: (context) => context.player.amber >= amount,
+        canPay: (context, aggregatedCost) => {
+            let aggregatedAmber = aggregatedCost.amber || 0;
+            aggregatedCost.amber = amount + aggregatedAmber;
+            return context.player.amber >= amount + aggregatedAmber;
+        },
         payEvent: (context) => {
             let action = context.game.actions.transferAmber({ amount: amount });
             action.name = 'pay';
@@ -170,7 +174,11 @@ const Costs = {
         }
     }),
     loseAmber: (amount = 1) => ({
-        canPay: (context) => context.player.amber >= amount,
+        canPay: (context, aggregatedCost) => {
+            let aggregatedAmber = aggregatedCost.amber || 0;
+            aggregatedCost.amber = amount + aggregatedAmber;
+            return context.player.amber >= amount + aggregatedAmber;
+        },
         payEvent: (context) =>
             context.game.actions.loseAmber({ amount: amount }).getEvent(context.player, context)
     })
