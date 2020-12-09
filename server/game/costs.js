@@ -165,7 +165,7 @@ const Costs = {
         canPay: (context, aggregatedCost) => {
             let aggregatedAmber = aggregatedCost.amber || 0;
             aggregatedCost.amber = amount + aggregatedAmber;
-            return context.player.amber >= amount + aggregatedAmber;
+            return context.player.amber >= aggregatedCost.amber;
         },
         payEvent: (context) => {
             let action = context.game.actions.transferAmber({ amount: amount });
