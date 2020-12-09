@@ -163,8 +163,7 @@ const Costs = {
     }),
     payAmber: (amount = 1) => ({
         canPay: (context, aggregatedCost) => {
-            let aggregatedAmber = aggregatedCost.amber || 0;
-            aggregatedCost.amber = amount + aggregatedAmber;
+            aggregatedCost.amber = amount + (aggregatedCost.amber || 0);
             return context.player.amber >= aggregatedCost.amber;
         },
         payEvent: (context) => {
