@@ -39,7 +39,7 @@ class EvasionSigil extends Card {
 
                     return {
                         event: context.event,
-                        condition: cancelFight ? () => false : context.event.condition
+                        cancelFight: cancelFight || context.event.cancelFight
                     };
                 }),
                 ability.actions.discard((context) => ({
