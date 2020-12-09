@@ -44,12 +44,8 @@ describe('Memolith', function () {
             expect(this.player1).not.toBeAbleToSelect(this.infomancer);
             expect(this.player1).not.toBeAbleToSelect(this.autocannon);
             this.player1.clickCard(this.pound);
-            expect(this.player1.player.game.isCardVisible(this.pound, this.player1.player)).toBe(
-                true
-            );
-            expect(this.player1.player.game.isCardVisible(this.pound, this.player2.player)).toBe(
-                true
-            );
+            expect(this.pound.game.isCardVisible(this.pound, this.player1.player)).toBe(true);
+            expect(this.pound.game.isCardVisible(this.pound, this.player2.player)).toBe(true);
             expect(this.pound.parent).toBe(this.memolith);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
@@ -57,12 +53,6 @@ describe('Memolith', function () {
         it('should activate the play effect of a grafted card', function () {
             this.player1.useAction(this.memolith);
             this.player1.clickCard(this.pound);
-            expect(this.player1.player.game.isCardVisible(this.pound, this.player1.player)).toBe(
-                true
-            );
-            expect(this.player1.player.game.isCardVisible(this.pound, this.player2.player)).toBe(
-                true
-            );
             expect(this.pound.parent).toBe(this.memolith);
             this.memolith.exhausted = false;
             this.player1.useAction(this.memolith);
@@ -82,12 +72,6 @@ describe('Memolith', function () {
             this.player1.moveCard(this.anger, 'discard');
             this.player1.useAction(this.memolith);
             this.player1.clickCard(this.pound);
-            expect(this.player1.player.game.isCardVisible(this.pound, this.player1.player)).toBe(
-                true
-            );
-            expect(this.player1.player.game.isCardVisible(this.pound, this.player2.player)).toBe(
-                true
-            );
             expect(this.pound.parent).toBe(this.memolith);
             this.memolith.exhausted = false;
             this.player1.useAction(this.memolith);
@@ -106,12 +90,6 @@ describe('Memolith', function () {
             this.player1.clickCard(this.anger);
             this.player1.useAction(this.memolith);
             this.player1.clickCard(this.pound);
-            expect(this.player1.player.game.isCardVisible(this.pound, this.player1.player)).toBe(
-                true
-            );
-            expect(this.player1.player.game.isCardVisible(this.pound, this.player2.player)).toBe(
-                true
-            );
             expect(this.pound.parent).toBe(this.memolith);
             this.memolith.exhausted = false;
             this.player1.useAction(this.memolith);
@@ -151,12 +129,6 @@ describe('Memolith', function () {
             expect(this.player1).not.toBeAbleToSelect(this.pound);
             expect(this.player1).not.toBeAbleToSelect(this.anger);
             this.player1.clickCard(this.labwork);
-            expect(this.player1.player.game.isCardVisible(this.labwork, this.player1.player)).toBe(
-                true
-            );
-            expect(this.player1.player.game.isCardVisible(this.labwork, this.player2.player)).toBe(
-                true
-            );
             expect(this.labwork.parent).toBe(this.memolith);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
@@ -175,18 +147,10 @@ describe('Memolith', function () {
             expect(this.player2).toBeAbleToSelect(this.pound);
             expect(this.player2).toBeAbleToSelect(this.anger);
             this.player2.clickCard(this.pound);
-            expect(this.player1.player.game.isCardVisible(this.labwork, this.player1.player)).toBe(
-                true
-            );
-            expect(this.player1.player.game.isCardVisible(this.labwork, this.player2.player)).toBe(
-                true
-            );
-            expect(this.player1.player.game.isCardVisible(this.pound, this.player1.player)).toBe(
-                true
-            );
-            expect(this.player1.player.game.isCardVisible(this.pound, this.player2.player)).toBe(
-                true
-            );
+            expect(this.labwork.game.isCardVisible(this.labwork, this.player1.player)).toBe(true);
+            expect(this.labwork.game.isCardVisible(this.labwork, this.player2.player)).toBe(true);
+            expect(this.pound.game.isCardVisible(this.pound, this.player1.player)).toBe(true);
+            expect(this.pound.game.isCardVisible(this.pound, this.player2.player)).toBe(true);
             expect(this.labwork.parent).toBe(this.memolith);
             expect(this.pound.parent).toBe(this.memolith);
             this.player2.endTurn();
