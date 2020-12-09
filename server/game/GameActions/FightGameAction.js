@@ -1,6 +1,11 @@
 const CardGameAction = require('./CardGameAction');
 
 class FightGameAction extends CardGameAction {
+    setDefaultProperties() {
+        this.fightCardCondition = null;
+        this.resolveFightPostHandler = null;
+    }
+
     setup() {
         this.name = 'fight';
         this.targetType = ['creature'];
@@ -8,7 +13,7 @@ class FightGameAction extends CardGameAction {
     }
 
     canAffect(card, context) {
-        let fightAction = card.getFightAction();
+        let fightAction = card.getFightAction(this.fightCardCondition);
         let newContext = fightAction.createContext(context.player);
         newContext.ignoreHouse = true;
         if (!fightAction || fightAction.meetsRequirements(newContext, ['stunned'])) {
@@ -27,7 +32,10 @@ class FightGameAction extends CardGameAction {
                     .find((action) => action.title === "Remove this creature's stun");
                 newContext = removeStunAction.createContext(context.player);
             } else {
-                let fightAction = card.getFightAction();
+                let fightAction = card.getFightAction(
+                    this.fightCardCondition,
+                    this.resolveFightPostHandler
+                );
                 newContext = fightAction.createContext(context.player);
             }
 
