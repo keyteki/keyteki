@@ -14,23 +14,29 @@ import { Button } from 'react-bootstrap';
  */
 const ConfirmButton = ({ children, onClick }) => {
     const [showConfirm, setShowConfirm] = useState(false);
+    const [btnText, setBtnText] = useState(children);
 
     const handleClick = (event) => {
         event.preventDefault();
         setShowConfirm(!showConfirm);
+        if (btnText === 'Cancel') {
+            setBtnText(children);
+        } else {
+            setBtnText('Cancel');
+        }
     };
 
     const handleConfirmClick = (event) => {
         event.preventDefault();
         onClick();
-
+        setBtnText(children);
         setShowConfirm(false);
     };
 
     return (
         <>
             <Button variant='primary' onClick={handleClick}>
-                {children}
+                {btnText}
             </Button>
             {showConfirm && (
                 <Button variant='danger' onClick={handleConfirmClick}>
