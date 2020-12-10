@@ -19,10 +19,11 @@ const ConfirmButton = ({ children, onClick }) => {
     const handleClick = (event) => {
         event.preventDefault();
         setShowConfirm(!showConfirm);
-        if (btnText === 'Cancel') {
+
+        if (showConfirm) {
             setBtnText(children);
         } else {
-            setBtnText('Cancel');
+            setBtnText(<Trans>Cancel</Trans>);
         }
     };
 
