@@ -14,8 +14,8 @@ describe('Customs Office', function () {
                 }
             });
             this.player1.moveCard(this.dominatorBauble, 'deck');
-            this.customsOffice1 = this.player2.player.cardsInPlay[0];
-            this.customsOffice2 = this.player2.player.hand[0];
+            this.customsOffice1 = this.player2.inPlay[0];
+            this.customsOffice2 = this.player2.hand[0];
         });
 
         it('should stop opponent from playing artifacts when they have no amber', function () {
