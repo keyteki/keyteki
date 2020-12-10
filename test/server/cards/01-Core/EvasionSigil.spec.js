@@ -151,8 +151,8 @@ describe('Evasion Sigil', function () {
                 }
             });
 
-            this.evasionSigil1 = this.player2.player.cardsInPlay[0];
-            this.evasionSigil2 = this.player2.player.cardsInPlay[1];
+            this.evasionSigil1 = this.player2.inPlay[0];
+            this.evasionSigil2 = this.player2.inPlay[1];
         });
 
         it('should not stop the fight if both discarded cards are from different houses', function () {
