@@ -4,12 +4,12 @@ describe('Ether Spider', function () {
             this.setupTest({
                 player1: {
                     house: 'sanctum',
-                    inPlay: ['sequis'],
+                    inPlay: ['sequis', 'customs-office'],
                     hand: ['virtuous-works', 'inspiration']
                 },
                 player2: {
                     amber: 1,
-                    inPlay: ['ether-spider']
+                    inPlay: ['ether-spider', 'crystal-hive']
                 }
             });
         });
@@ -27,6 +27,16 @@ describe('Ether Spider', function () {
             expect(this.etherSpider.tokens.amber).toBe(1);
             expect(this.player2.amber).toBe(0);
             expect(this.sequis.tokens.amber).toBe(1);
+        });
+
+        xit('should take the amber used to pay Customs Office', function () {
+            expect(this.player2.amber).toBe(1);
+            this.player1.endTurn();
+            this.player2.clickPrompt('mars');
+            this.player2.useAction(this.crystalHive);
+            expect(this.player1.amber).toBe(0);
+            expect(this.player2.amber).toBe(0);
+            expect(this.etherSpider.tokens.amber).toBe(1);
         });
 
         it('should return amber to opponent when it leaves play', function () {

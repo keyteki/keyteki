@@ -167,6 +167,8 @@ const Costs = {
             return context.player.amber >= aggregatedCost.amber;
         },
         payEvent: (context) => {
+            context.game.addMessage('{0} pays {1} to their opponent', context.player, amount);
+
             let action = context.game.actions.transferAmber({ amount: amount });
             action.name = 'pay';
             return action.getEvent(context.player, context);
