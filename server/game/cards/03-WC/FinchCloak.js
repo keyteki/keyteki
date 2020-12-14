@@ -18,7 +18,12 @@ class FinchCloak extends Card {
                         amount: 1
                     }))
                 ])
-            }))
+            })),
+            effect: '{1}',
+            effectArgs: (context) =>
+                context.player.amber < context.player.opponent.amber
+                    ? 'steal 1 amber'
+                    : 'gain both players 1 amber'
         });
     }
 }
