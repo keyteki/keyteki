@@ -12,8 +12,8 @@ describe('Key Hammer', function () {
                 }
             });
 
-            this.keyHammer1 = this.player1.player.hand[0];
-            this.keyHammer2 = this.player1.player.hand[1];
+            this.keyHammer1 = this.player1.hand[0];
+            this.keyHammer2 = this.player1.hand[1];
         });
 
         it('should unforge a key when one was forged', function () {
