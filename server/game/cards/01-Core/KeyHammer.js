@@ -11,18 +11,14 @@ class KeyHammer extends Card {
                 target: context.player.opponent
             })),
             then: {
-                gameAction: ability.actions.unforgeKey((context) => {
-                    let keysToUnforge = context.player.opponent.keysForgedThisRound.filter(
-                        (key) => !!context.player.opponent.keys[key]
-                    );
-                    return {
-                        target:
-                            context.player.opponent && keysToUnforge.length > 0
-                                ? context.player.opponent
-                                : [],
-                        choices: keysToUnforge || []
-                    };
-                })
+                gameAction: ability.actions.unforgeKey((context) => ({
+                    target: context.player.opponent,
+                    choices: context.player.opponent
+                        ? context.player.opponent.keysForgedThisRound.filter(
+                              (key) => !!context.player.opponent.keys[key]
+                          )
+                        : []
+                }))
             }
         });
     }
