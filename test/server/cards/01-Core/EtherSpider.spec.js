@@ -4,7 +4,7 @@ describe('Ether Spider', function () {
             this.setupTest({
                 player1: {
                     house: 'sanctum',
-                    inPlay: ['sequis', 'customs-office'],
+                    inPlay: ['sequis', 'tentacus'],
                     hand: ['virtuous-works', 'inspiration']
                 },
                 player2: {
@@ -29,7 +29,7 @@ describe('Ether Spider', function () {
             expect(this.sequis.tokens.amber).toBe(1);
         });
 
-        xit('should take the amber used to pay Customs Office', function () {
+        it('should take the amber used to pay Customs Office', function () {
             expect(this.player2.amber).toBe(1);
             this.player1.endTurn();
             this.player2.clickPrompt('mars');
