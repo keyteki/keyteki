@@ -4,14 +4,13 @@ describe('Zorg', function () {
             this.setupTest({
                 player1: {
                     house: 'mars',
-                    hand: ['zorg', 'exhume', 'three-fates']
+                    hand: ['zorg', 'exhume', 'three-fates', 'key-abduction']
                 },
                 player2: {
-                    inPlay: ['ancient-bear', 'niffle-ape', 'collector-worm'],
+                    inPlay: ['ancient-bear', 'niffle-ape'],
                     hand: ['gateway-to-dis', 'hypnobeam']
                 }
             });
-            this.collectorWorm.tokens.power = 10;
         });
 
         it('should enter play stunned', function () {
@@ -52,6 +51,23 @@ describe('Zorg', function () {
             expect(this.zorg.location).toBe('discard');
             this.player1.play(this.exhume);
             this.player1.clickCard(this.zorg);
+            expect(this.zorg.location).toBe('play area');
+            expect(this.zorg.stunned).toBe(true);
+        });
+
+        it('should enter play stunned after taken control, moved back to hand and played again', function () {
+            this.player1.play(this.zorg);
+            this.player1.endTurn();
+            this.player2.clickPrompt('mars');
+            this.player2.play(this.hypnobeam);
+            this.player2.clickCard(this.zorg);
+            this.player2.clickPrompt('Right');
+            this.player2.clickCard(this.zorg);
+            this.player2.clickPrompt("Remove this creature's stun");
+            this.player2.endTurn();
+            this.player1.clickPrompt('mars');
+            this.player1.play(this.keyAbduction);
+            this.player1.play(this.zorg);
             expect(this.zorg.location).toBe('play area');
             expect(this.zorg.stunned).toBe(true);
         });
