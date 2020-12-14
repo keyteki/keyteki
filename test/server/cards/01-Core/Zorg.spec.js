@@ -7,10 +7,11 @@ describe('Zorg', function () {
                     hand: ['zorg', 'exhume', 'three-fates']
                 },
                 player2: {
-                    inPlay: ['ancient-bear', 'niffle-ape'],
+                    inPlay: ['ancient-bear', 'niffle-ape', 'collector-worm'],
                     hand: ['gateway-to-dis', 'hypnobeam']
                 }
             });
+            this.collectorWorm.tokens.power = 10;
         });
 
         it('should enter play stunned', function () {
@@ -19,7 +20,7 @@ describe('Zorg', function () {
             expect(this.zorg.stunned).toBe(true);
         });
 
-        it('should enter play after being destroyed and played with Exhume', function () {
+        it('should enter play stunned after being destroyed and played with Exhume', function () {
             this.player1.play(this.zorg);
             this.player1.endTurn();
             this.player2.clickPrompt('dis');
@@ -32,7 +33,7 @@ describe('Zorg', function () {
             expect(this.zorg.stunned).toBe(true);
         });
 
-        it('should enter play after taken control, being destroyed and played with Exhume', function () {
+        it('should enter play stunned after taken control, being destroyed and played with Exhume', function () {
             this.player1.play(this.zorg);
             this.player1.endTurn();
             this.player2.clickPrompt('mars');
