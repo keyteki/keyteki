@@ -1,5 +1,6 @@
 const UiPrompt = require('../uiprompt.js');
 const DiscardAction = require('../../BaseActions/DiscardAction');
+const RaiseTideAction = require('../../GameActions/RaiseTideAction');
 const UseAction = require('../../GameActions/UseAction');
 
 class ActionWindow extends UiPrompt {
@@ -50,12 +51,15 @@ class ActionWindow extends UiPrompt {
 
     onTideClicked(player) {
         if (this.game.highTide !== player) {
-            // TODO Use GameAction here
-            this.game.changeTide(player, 'high');
-            player.modifyChains(3);
+            let raiseTideAction = new RaiseTideAction();
+            let context = this.game.getFrameworkContext(player);
+            if (raiseTideAction.canAffect(player, context)) {
+                raiseTideAction.resolve(player, context);
+                return true;
+            }
         }
 
-        return true;
+        return false;
     }
 
     checkForPhaseEnding() {

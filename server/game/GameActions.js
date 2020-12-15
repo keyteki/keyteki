@@ -97,6 +97,7 @@ const Actions = {
     search: (propertyFactory) => new GameActions.SearchAction(propertyFactory), // name
     shuffleDeck: (propertyFactory) => new GameActions.ShuffleDeckAction(propertyFactory), // name
     mulligan: (propertyFactory) => new GameActions.MulliganAction(propertyFactory), // name
+    raiseTide: (propertyFactory) => new GameActions.RaiseTideAction(propertyFactory),
     steal: (propertyFactory) => new GameActions.StealAction(propertyFactory), // amount = 1
     transferAmber: (propertyFactory) => new GameActions.TransferAmberAction(propertyFactory), // amount = 1
     unforgeKey: (propertyFactory) => new GameActions.UnforgeAction(propertyFactory),

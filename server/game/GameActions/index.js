@@ -37,6 +37,7 @@ module.exports = {
     PlayCardAction: require('./PlayCardAction'),
     PurgeAction: require('./PurgeAction'),
     PutIntoPlayAction: require('./PutIntoPlayAction'),
+    RaiseTideAction: require('./RaiseTideAction'),
     RandomArchiveAction: require('./RandomArchiveAction'),
     RandomDiscardAction: require('./RandomDiscardAction'),
     RandomPlayCardAction: require('./RandomPlayCardAction'),
