@@ -18,6 +18,7 @@ import Avatar from '../Site/Avatar';
 import { Constants } from '../../constants';
 import Minus from '../../assets/img/Minus.png';
 import Plus from '../../assets/img/Plus.png';
+import Tide from '../../assets/img/tide.png';
 
 import './PlayerStats.scss';
 import Keys from './Keys';
@@ -28,6 +29,7 @@ export class PlayerStats extends React.Component {
 
         this.sendUpdate = this.sendUpdate.bind(this);
         this.setActiveHouse = this.setActiveHouse.bind(this);
+        this.clickTide = this.clickTide.bind(this);
     }
 
     sendUpdate(type, direction) {
@@ -37,6 +39,15 @@ export class PlayerStats extends React.Component {
     setActiveHouse(house) {
         if (this.props.showControls) {
             this.props.sendGameMessage('changeActiveHouse', house);
+        }
+    }
+
+    clickTide() {
+        if (
+            (this.props.currentPhase === 'main' && !this.props.stats.tideHigh) ||
+            this.props.showControls
+        ) {
+            this.props.sendGameMessage('raiseTide');
         }
     }
 
@@ -115,6 +126,20 @@ export class PlayerStats extends React.Component {
         );
     }
 
+    getTide() {
+        return (
+            <div className='stat-image'>
+                <img
+                    key='tide'
+                    onClick={this.clickTide.bind(this)}
+                    className={`img-fluid ${!this.props.stats.tideHigh ? 'no-tide' : 'high-tide'}`}
+                    src={Tide}
+                    title={this.props.t('Tide')}
+                />
+            </div>
+        );
+    }
+
     writeChatToClipboard(event) {
         event.preventDefault();
         let messagePanel = document.getElementsByClassName('messages panel')[0];
@@ -147,6 +172,7 @@ export class PlayerStats extends React.Component {
                 {this.getKeyCost()}
 
                 {this.props.houses ? this.getHouses() : null}
+                {this.getTide()}
                 {this.props.activePlayer && (
                     <div className='state first-player-state'>
                         <Trans>Active Player</Trans>
@@ -216,6 +242,7 @@ PlayerStats.displayName = 'PlayerStats';
 PlayerStats.propTypes = {
     activeHouse: PropTypes.string,
     activePlayer: PropTypes.bool,
+    currentPhase: PropTypes.string,
     houses: PropTypes.array,
     i18n: PropTypes.object,
     manualModeEnabled: PropTypes.bool,

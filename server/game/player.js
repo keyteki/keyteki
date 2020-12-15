@@ -739,8 +739,17 @@ class Player extends GameObject {
             chains: this.chains,
             keys: this.keys,
             houses: this.houses,
-            keyCost: this.getCurrentKeyCost()
+            keyCost: this.getCurrentKeyCost(),
+            tideHigh: this.isTideHigh()
         };
+    }
+
+    isTideHigh() {
+        return this.game.highTide === this;
+    }
+
+    isTideLow() {
+        return this.game.highTide && this.game.highTide !== this;
     }
 
     /**

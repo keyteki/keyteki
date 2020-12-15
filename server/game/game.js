@@ -106,6 +106,7 @@ class Game extends EventEmitter {
         this.setMaxListeners(0);
 
         this.router = options.router;
+        this.highTide = null;
     }
 
     /*
@@ -452,6 +453,29 @@ class Game extends EventEmitter {
         }
 
         this.chatCommands.activeHouse(player, ['active-house', house]);
+    }
+
+    raiseTide(playerName) {
+        let player = this.getPlayerByName(playerName);
+        if (!player) {
+            return;
+        }
+
+        this.changeTide(player, 'high');
+        player.modifyChains(3);
+    }
+
+    changeTide(player, level) {
+        level = level[0].toUpperCase() + level.slice(1);
+        if (level === 'Low') {
+            this.highTide = player.opponent;
+        } else if (level === 'High') {
+            this.highTide = player;
+        } else {
+            level = 'Default';
+        }
+
+        this.addMessage('{0} changed tide to {1}', player, level);
     }
 
     modifyKey(playerName, color, forged) {
@@ -1232,6 +1256,7 @@ class Game extends EventEmitter {
                 adaptive: this.adaptive,
                 cancelPromptUsed: this.cancelPromptUsed,
                 challonge: this.challonge,
+                currentPhase: this.currentPhase,
                 gameFormat: this.gameFormat,
                 gamePrivate: this.gamePrivate,
                 gameTimeLimitStarted: this.timeLimit.timeLimitStarted,
@@ -1297,8 +1322,9 @@ class Game extends EventEmitter {
         return {
             adaptive: this.adaptive,
             allowSpectators: this.allowSpectators,
-            createdAt: this.createdAt,
             challonge: this.challonge,
+            createdAt: this.createdAt,
+            currentPhase: this.currentPhase,
             gameFormat: this.gameFormat,
             gamePrivate: this.gamePrivate,
             gameType: this.gameType,

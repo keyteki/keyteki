@@ -456,6 +456,7 @@ export class GameBoard extends React.Component {
                         {...boundActionCreators}
                         activeHouse={thisPlayer.activeHouse}
                         activePlayer={thisPlayer.activePlayer}
+                        currentPhase={this.props.currentGame.currentPhase}
                         houses={thisPlayer.houses}
                         manualModeEnabled={manualMode}
                         matchRecord={this.getMatchRecord(thisPlayer, otherPlayer)}

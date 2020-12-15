@@ -6,6 +6,7 @@ import Avatar from '../Site/Avatar';
 import AlertPanel from '../Site/AlertPanel';
 import { Constants } from '../../constants';
 import AmberImage from '../../assets/img/amber.png';
+import TideImage from '../../assets/img/tide.png';
 import CardBackImage from '../../assets/img/idbacks/cardback.jpg';
 import CardImage from './CardImage';
 
@@ -28,6 +29,7 @@ const Messages = ({ messages, onCardMouseOver, onCardMouseOut }) => {
         forgedkeyblue: { className: 'icon-forgedKey', imageSrc: keyImages['blue'].forged },
         forgedkeyyellow: { className: 'icon-forgedKey', imageSrc: keyImages['yellow'].forged },
         forgedkeyred: { className: 'icon-forgedKey', imageSrc: keyImages['red'].forged },
+        tide: { className: 'icon-tide', imageSrc: TideImage },
         unforgedkeyblue: { className: 'icon-forgedKey', imageSrc: keyImages['blue'].unforged },
         unforgedkeyyellow: {
             className: 'icon-forgedKey',
