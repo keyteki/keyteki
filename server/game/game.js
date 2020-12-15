@@ -455,14 +455,13 @@ class Game extends EventEmitter {
         this.chatCommands.activeHouse(player, ['active-house', house]);
     }
 
-    raiseTide(playerName) {
+    clickTide(playerName) {
         let player = this.getPlayerByName(playerName);
         if (!player) {
             return;
         }
 
-        this.changeTide(player, 'high');
-        player.modifyChains(3);
+        this.pipeline.handleTideClicked(player);
     }
 
     changeTide(player, level) {
@@ -472,6 +471,7 @@ class Game extends EventEmitter {
         } else if (level === 'High') {
             this.highTide = player;
         } else {
+            this.highTide = null;
             level = 'Default';
         }
 
@@ -1256,7 +1256,6 @@ class Game extends EventEmitter {
                 adaptive: this.adaptive,
                 cancelPromptUsed: this.cancelPromptUsed,
                 challonge: this.challonge,
-                currentPhase: this.currentPhase,
                 gameFormat: this.gameFormat,
                 gamePrivate: this.gamePrivate,
                 gameTimeLimitStarted: this.timeLimit.timeLimitStarted,
@@ -1324,7 +1323,6 @@ class Game extends EventEmitter {
             allowSpectators: this.allowSpectators,
             challonge: this.challonge,
             createdAt: this.createdAt,
-            currentPhase: this.currentPhase,
             gameFormat: this.gameFormat,
             gamePrivate: this.gamePrivate,
             gameType: this.gameType,

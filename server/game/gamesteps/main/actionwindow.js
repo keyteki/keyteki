@@ -48,6 +48,16 @@ class ActionWindow extends UiPrompt {
         return false;
     }
 
+    onTideClicked(player) {
+        if (this.game.highTide !== player) {
+            // TODO Use GameAction here
+            this.game.changeTide(player, 'high');
+            player.modifyChains(3);
+        }
+
+        return true;
+    }
+
     checkForPhaseEnding() {
         if (this.game.endPhaseRightNow) {
             this.game.endPhaseRightNow = false;

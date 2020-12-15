@@ -18,7 +18,7 @@ class ChatCommands {
             '/discard': this.discard,
             '/discardtopofdeck': this.discardtopofdeck,
             '/forge': this.forge,
-            '/tide': this.tide,
+            '/tide': this.changeTide,
             '/manual': this.manual,
             '/modify-clock': this.modifyClock,
             '/mulligan': this.mulligan,
@@ -92,11 +92,13 @@ class ChatCommands {
         return true;
     }
 
-    tide(player, args) {
+    changeTide(player, args) {
         const level = args[1];
         if (!level) {
             return;
         }
+
+        this.game.addAlert('danger', '{0} is changing the tide', player);
 
         this.game.changeTide(player, level);
     }

@@ -13,6 +13,10 @@ class BaseStep {
         return false;
     }
 
+    onTideClicked() {
+        return false;
+    }
+
     onMenuCommand() {
         return false;
     }

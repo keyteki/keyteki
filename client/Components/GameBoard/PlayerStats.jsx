@@ -43,12 +43,7 @@ export class PlayerStats extends React.Component {
     }
 
     clickTide() {
-        if (
-            (this.props.currentPhase === 'main' && !this.props.stats.tideHigh) ||
-            this.props.showControls
-        ) {
-            this.props.sendGameMessage('raiseTide');
-        }
+        this.props.sendGameMessage('clickTide');
     }
 
     getStatValueOrDefault(stat) {
@@ -242,7 +237,6 @@ PlayerStats.displayName = 'PlayerStats';
 PlayerStats.propTypes = {
     activeHouse: PropTypes.string,
     activePlayer: PropTypes.bool,
-    currentPhase: PropTypes.string,
     houses: PropTypes.array,
     i18n: PropTypes.object,
     manualModeEnabled: PropTypes.bool,
