@@ -54,12 +54,21 @@ class ActionWindow extends UiPrompt {
             let raiseTideAction = new RaiseTideAction();
             let context = this.game.getFrameworkContext(player);
             if (raiseTideAction.canAffect(player, context)) {
-                raiseTideAction.resolve(player, context);
-                return true;
+                this.game.promptWithHandlerMenu(player, {
+                    activePromptTitle: 'Raise the Tide?',
+                    choices: ['Yes', 'No'],
+                    handlers: [
+                        () => {
+                            raiseTideAction.resolve(player, context);
+                            return true;
+                        },
+                        () => true
+                    ]
+                });
             }
         }
 
-        return false;
+        return true;
     }
 
     checkForPhaseEnding() {
