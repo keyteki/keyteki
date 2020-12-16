@@ -134,3 +134,29 @@
     display: flex;
     flex-direction: column;
 }
+
+.tide-pane {
+    display: flex;
+    flex-direction: column;
+    width: 210px;
+    justify-content: space-between;
+    margin-right: 5px;
+}
+
+.tide-card {
+    margin-left: 75px;
+    width: 60px;
+    height: 84px;
+
+    &.tide-default {
+        transform: rotate(90deg);
+    }
+
+    &.tide-low  {
+        transform: rotate(180deg);
+    }
+
+    &.can-raise {
+        animation: glowing 2000ms infinite;
+    }
+}

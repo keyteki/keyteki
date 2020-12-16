@@ -46,10 +46,13 @@ export const Constants = {
         draw: require('./assets/img/enhancements/draw.png'),
         damage: require('./assets/img/enhancements/damage.png')
     },
-    TideToken: {
-        default: require('./assets/img/tide-default.png'),
-        low: require('./assets/img/tide-low.png'),
-        high: require('./assets/img/tide.png')
+    TideImages: {
+        default: require('./assets/img/tide/tide-default.png'),
+        low: require('./assets/img/tide/tide-low.png'),
+        high: require('./assets/img/tide/tide.png'),
+        card: {
+            en: require('./assets/img/tide/tide-card-en.png') // TODO DT handle locale dynamically
+        }
     },
     Tokens: {
         ModifiedPower: require('./assets/img/modifiedPower.png'),

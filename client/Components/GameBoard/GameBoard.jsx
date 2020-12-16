@@ -8,6 +8,7 @@ import { withTranslation, Trans } from 'react-i18next';
 import ActivePlayerPrompt from './ActivePlayerPrompt';
 import CardBack from '../Decks/CardBack';
 import CardZoom from './CardZoom';
+import { Constants } from '../../constants';
 import Droppable from './Droppable';
 import GameChat from './GameChat';
 import GameConfigurationModal from './GameConfigurationModal';
@@ -56,6 +57,7 @@ export class GameBoard extends React.Component {
         this.onMessagesClick = this.onMessagesClick.bind(this);
         this.onManualModeClick = this.onManualModeClick.bind(this);
         this.onMuteClick = this.onMuteClick.bind(this);
+        this.onClickTide = this.onClickTide.bind(this);
 
         this.state = {
             cardToZoom: null,
@@ -108,6 +110,10 @@ export class GameBoard extends React.Component {
 
     onDragDrop(card, source, target) {
         this.props.sendGameMessage('drop', card.uuid, source, target);
+    }
+
+    onClickTide() {
+        this.props.sendGameMessage('clickTide');
     }
 
     getTimer() {
@@ -420,6 +426,26 @@ export class GameBoard extends React.Component {
                     {this.state.cardToZoom && <CardZoom card={this.state.cardToZoom} />}
                     <div className='right-side'>
                         <div className='prompt-area'>
+                            <div className='tide-pane'>
+                                <img
+                                    key='tide-card'
+                                    onClick={this.onClickTide}
+                                    className={`img-fluid tide-card ${
+                                        thisPlayer.stats.tideLow
+                                            ? 'tide-low'
+                                            : !thisPlayer.stats.tideHigh
+                                            ? 'tide-default'
+                                            : 'tide-high'
+                                    }
+                                        ${
+                                            thisPlayer.activeHouse && !thisPlayer.stats.tideHigh
+                                                ? 'can-raise'
+                                                : ''
+                                        }`}
+                                    src={Constants.TideImages.card['en']}
+                                    title='Tide'
+                                />
+                            </div>
                             <div className='inset-pane'>
                                 <ActivePlayerPrompt
                                     cards={this.props.cards}
@@ -428,6 +454,7 @@ export class GameBoard extends React.Component {
                                     promptText={thisPlayer.menuTitle}
                                     promptTitle={thisPlayer.promptTitle}
                                     onButtonClick={this.onCommand}
+                                    onClickTide={this.onClickTide}
                                     onMouseOver={this.onMouseOver}
                                     onMouseOut={this.onMouseOut}
                                     user={this.props.user}

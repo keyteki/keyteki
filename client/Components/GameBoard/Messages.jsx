@@ -6,7 +6,7 @@ import Avatar from '../Site/Avatar';
 import AlertPanel from '../Site/AlertPanel';
 import { Constants } from '../../constants';
 import AmberImage from '../../assets/img/amber.png';
-import TideImage from '../../assets/img/tide.png';
+import TideImage from '../../assets/img/tide/tide.png';
 import CardBackImage from '../../assets/img/idbacks/cardback.jpg';
 import CardImage from './CardImage';
 

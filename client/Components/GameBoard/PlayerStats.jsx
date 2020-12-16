@@ -28,7 +28,6 @@ export class PlayerStats extends React.Component {
 
         this.sendUpdate = this.sendUpdate.bind(this);
         this.setActiveHouse = this.setActiveHouse.bind(this);
-        this.clickTide = this.clickTide.bind(this);
     }
 
     sendUpdate(type, direction) {
@@ -39,10 +38,6 @@ export class PlayerStats extends React.Component {
         if (this.props.showControls) {
             this.props.sendGameMessage('changeActiveHouse', house);
         }
-    }
-
-    clickTide() {
-        this.props.sendGameMessage('clickTide');
     }
 
     getStatValueOrDefault(stat) {
@@ -125,14 +120,14 @@ export class PlayerStats extends React.Component {
             <div className='stat-image'>
                 <img
                     key='tide'
-                    onClick={this.clickTide.bind(this)}
+                    onClick={this.props.onClickTide}
                     className='img-fluid tide-token'
                     src={
                         this.props.stats.tideLow
-                            ? Constants.TideToken.low
+                            ? Constants.TideImages.low
                             : this.props.stats.tideHigh
-                            ? Constants.TideToken.high
-                            : Constants.TideToken.default
+                            ? Constants.TideImages.high
+                            : Constants.TideImages.default
                     }
                     title={this.props.t('Tide')}
                 />
@@ -248,6 +243,7 @@ PlayerStats.propTypes = {
     matchRecord: PropTypes.object,
     muteSpectators: PropTypes.bool,
     numMessages: PropTypes.number,
+    onClickTide: PropTypes.func,
     onManualModeClick: PropTypes.func,
     onMessagesClick: PropTypes.func,
     onMuteClick: PropTypes.func,
