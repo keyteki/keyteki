@@ -133,6 +133,17 @@ class PlayerInteractionWrapper {
         return this.player.opponent;
     }
 
+    get tide() {
+        return this.player.isTideHigh() ? 'high' : this.player.isTideLow() ? 'low' : null;
+    }
+
+    raiseTide() {
+        this.game.clickTide(this.player.name);
+        this.game.continue();
+        this.checkUnserializableGameState();
+        this.clickPrompt('Yes');
+    }
+
     replaceLocalizedValues(title) {
         if (!title) {
             return null;

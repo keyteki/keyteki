@@ -465,7 +465,7 @@ class Game extends EventEmitter {
     }
 
     changeTide(player, level) {
-        level = level[0].toUpperCase() + level.slice(1);
+        level = level[0].toUpperCase() + level.slice(1).toLowerCase();
         if (level === 'Low') {
             this.highTide = player.opponent;
         } else if (level === 'High') {
