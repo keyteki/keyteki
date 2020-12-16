@@ -46,6 +46,11 @@ export const Constants = {
         draw: require('./assets/img/enhancements/draw.png'),
         damage: require('./assets/img/enhancements/damage.png')
     },
+    TideToken: {
+        default: require('./assets/img/tide-default.png'),
+        low: require('./assets/img/tide-low.png'),
+        high: require('./assets/img/tide.png')
+    },
     Tokens: {
         ModifiedPower: require('./assets/img/modifiedPower.png'),
         Armor: require('./assets/img/armor.png')

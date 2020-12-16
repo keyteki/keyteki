@@ -137,11 +137,23 @@ class PlayerInteractionWrapper {
         return this.player.isTideHigh() ? 'high' : this.player.isTideLow() ? 'low' : null;
     }
 
+    /**
+     * Raises the tide and gain 3 chains
+     */
     raiseTide() {
         this.game.clickTide(this.player.name);
         this.game.continue();
         this.checkUnserializableGameState();
         this.clickPrompt('Yes');
+    }
+
+    /**
+     * Changes the tide level without affect player's stats
+     *
+     * @param {String} level tide level
+     */
+    changeTide(level) {
+        this.game.changeTide(this.player, level);
     }
 
     replaceLocalizedValues(title) {

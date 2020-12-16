@@ -18,7 +18,6 @@ import Avatar from '../Site/Avatar';
 import { Constants } from '../../constants';
 import Minus from '../../assets/img/Minus.png';
 import Plus from '../../assets/img/Plus.png';
-import Tide from '../../assets/img/tide.png';
 
 import './PlayerStats.scss';
 import Keys from './Keys';
@@ -127,8 +126,14 @@ export class PlayerStats extends React.Component {
                 <img
                     key='tide'
                     onClick={this.clickTide.bind(this)}
-                    className={`img-fluid ${!this.props.stats.tideHigh ? 'no-tide' : 'high-tide'}`}
-                    src={Tide}
+                    className='img-fluid tide-token'
+                    src={
+                        this.props.stats.tideLow
+                            ? Constants.TideToken.low
+                            : this.props.stats.tideHigh
+                            ? Constants.TideToken.high
+                            : Constants.TideToken.default
+                    }
                     title={this.props.t('Tide')}
                 />
             </div>

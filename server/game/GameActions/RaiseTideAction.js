@@ -15,6 +15,10 @@ class RaiseTideAction extends PlayerAction {
         return context.player;
     }
 
+    canAffect(player, context) {
+        return !player.isTideHigh() && super.canAffect(player, context);
+    }
+
     getEvent(player, context) {
         let raiseTideEvent = super.createEvent(
             'onRaiseTide',

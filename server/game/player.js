@@ -740,7 +740,8 @@ class Player extends GameObject {
             keys: this.keys,
             houses: this.houses,
             keyCost: this.getCurrentKeyCost(),
-            tideHigh: this.isTideHigh()
+            tideHigh: this.isTideHigh(),
+            tideLow: this.isTideLow()
         };
     }
 
