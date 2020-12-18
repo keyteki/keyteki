@@ -17,6 +17,7 @@ class Ragnarok extends Card {
                     when: {
                         onRoundEnded: () => true
                     },
+                    triggeredAbilityType: 'interrupt',
                     gameAction: ability.actions.destroy((context) => ({
                         target: context.game.creaturesInPlay
                     }))

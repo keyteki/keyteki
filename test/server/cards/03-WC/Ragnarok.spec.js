@@ -99,6 +99,7 @@ describe('Ragnarok', function () {
         it('should gain amber from Redlock if no creature was played', function () {
             this.player1.play(this.ragnarok);
             this.player1.endTurn();
+            this.player1.clickCard(this.redlock);
             expect(this.player1.amber).toBe(1);
             expect(this.redlock.location).toBe('discard');
         });
