@@ -36,6 +36,7 @@ export const Constants = {
     HouseIconPaths: {},
     HouseBgPaths: {},
     IdBackBlanksPaths: {},
+    IdBackDecals: {},
     IdBackHousePaths: {},
     EnhancementBaseImages: {},
     MaverickHouseImages: {},
@@ -77,7 +78,8 @@ for (let x = 1; x < 8; x++) {
         x
     ] = require(`./assets/img/idbacks/idback_blanks/cardback_${x}.png`);
 }
-Constants.IdBackBlanksPaths.halloween = require(`./assets/img/idbacks/idback_blanks/cardback_halloween.png`);
+
+Constants.IdBackDecals.santa = require(`./assets/img/idbacks/decals/santa.png`);
 
 for (let x = 1; x < 6; x++) {
     Constants.EnhancementBaseImages[x] = require(`./assets/img/enhancements/base-${x}.png`);
