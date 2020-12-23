@@ -13,7 +13,7 @@ class Ragnarok extends Card {
                     },
                     gameAction: ability.actions.gainAmber({ target: context.player })
                 })),
-                ability.actions.untilNextTurn({
+                ability.actions.forRemainderOfTurn({
                     when: {
                         onRoundEnded: () => true
                     },
