@@ -14,7 +14,8 @@ describe('Neffru', function () {
                 },
                 player2: {
                     amber: 3,
-                    inPlay: ['doc-bookton', 'brain-eater', 'dysania', 'helper-bot']
+                    inPlay: ['doc-bookton', 'brain-eater', 'dysania', 'helper-bot', 'dodger'],
+                    hand: ['armageddon-cloak']
                 }
             });
         });
@@ -91,6 +92,30 @@ describe('Neffru', function () {
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(3);
+        });
+
+        it('should happen before a fight effect', function () {
+            this.player1.endTurn();
+            this.player2.clickPrompt('shadows');
+            this.player2.fightWith(this.dodger, this.emberImp);
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1.amber).toBe(0);
+            expect(this.player2.amber).toBe(4);
+        });
+
+        it('should not happen if creature is protected by armageddon cloak', function () {
+            this.player1.endTurn();
+            this.player2.clickPrompt('sanctum');
+            this.player2.playUpgrade(this.armageddonCloak, this.helperBot);
+            this.player2.endTurn();
+            this.player1.clickPrompt('dis');
+            this.player1.fightWith(this.ancientYurk, this.helperBot);
+            expect(this.ancientYurk.tokens.damage).toBe(3);
+            expect(this.helperBot.location).toBe('play area');
+            expect(this.armageddonCloak.location).toBe('discard');
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1.amber).toBe(0);
+            expect(this.player2.amber).toBe(4);
         });
     });
 });
