@@ -5,7 +5,7 @@ describe('Hapsis', function () {
                 player1: {
                     house: 'logos',
                     inPlay: ['hapsis', 'bull-wark'],
-                    hand: ['garcia-s-blaster']
+                    hand: ['garcia-s-blaster', 'armageddon-cloak']
                 },
                 player2: {
                     inPlay: [
@@ -14,7 +14,8 @@ describe('Hapsis', function () {
                         'harbinger-of-doom',
                         'dark-minion',
                         'zenzizenzizenzic'
-                    ]
+                    ],
+                    hand: ['bonerot-venom']
                 }
             });
         });
@@ -110,6 +111,44 @@ describe('Hapsis', function () {
             expect(this.harbingerOfDoom.location).toBe('discard');
             expect(this.hapsis.location).toBe('discard');
             expect(this.player1.hand.length).toBe(handSize);
+        });
+
+        it('should be warded before bonerot venom effect', function () {
+            this.player1.endTurn();
+            this.player2.clickPrompt('shadows');
+            this.player2.playUpgrade(this.bonerotVenom, this.hapsis);
+            this.player2.endTurn();
+            this.player1.clickPrompt('logos');
+
+            this.player1.moveCard(this.bullWark, 'discard');
+            let handSize = this.player1.hand.length;
+            this.player1.fightWith(this.hapsis, this.eyegor);
+            expect(this.eyegor.location).toBe('discard');
+            expect(this.hapsis.tokens.damage).toBe(2);
+            expect(this.player1.hand.length).toBe(handSize + 1);
+            expect(this.hapsis.hasToken('ward')).toBe(false);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+
+        it('should not draw a card when destroyed is replaced by Armageddon Cloak', function () {
+            this.player1.endTurn();
+            this.player2.clickPrompt('dis');
+            this.player2.endTurn();
+            this.player1.clickPrompt('sanctum');
+            this.player1.playUpgrade(this.armageddonCloak, this.eyegor);
+            this.player1.endTurn();
+            this.player2.clickPrompt('dis');
+            this.player2.endTurn();
+            this.player1.clickPrompt('logos');
+
+            this.player1.moveCard(this.bullWark, 'discard');
+            let handSize = this.player1.hand.length;
+            this.player1.fightWith(this.hapsis, this.eyegor);
+            expect(this.armageddonCloak.location).toBe('discard');
+            expect(this.eyegor.location).toBe('play area');
+            expect(this.hapsis.tokens.damage).toBe(4);
+            expect(this.player1.hand.length).toBe(handSize);
+            expect(this.hapsis.hasToken('ward')).toBe(false);
         });
     });
 });
