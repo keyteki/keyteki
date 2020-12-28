@@ -5,10 +5,9 @@ class Memolith extends Card {
         this.action({
             target: {
                 location: 'any',
-                controller: 'self',
                 cardType: 'action',
                 cardCondition: (card, context) =>
-                    card.location === 'hand' ||
+                    (card.location === 'hand' && card.controller == context.game.activePlayer) ||
                     (card.parent === context.source && card.location === 'grafted'),
                 gameAction: ability.actions.conditional({
                     condition: (context) => context.target.location === 'hand',

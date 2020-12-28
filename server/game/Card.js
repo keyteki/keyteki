@@ -505,6 +505,7 @@ class Card extends EffectSource {
         this.new = false;
         this.tokens = {};
         this.setDefaultController(this.owner);
+        this.updateEffectContexts();
         this.endRound();
     }
 
@@ -875,7 +876,7 @@ class Card extends EffectSource {
         return actions;
     }
 
-    getFightAction() {
+    getFightAction(cardCondition = null, postHandler = null) {
         return this.action({
             title: 'Fight with this creature',
             fight: true,
@@ -886,7 +887,11 @@ class Card extends EffectSource {
                 activePromptTitle: 'Choose a creature to attack',
                 cardType: 'creature',
                 controller: 'opponent',
-                gameAction: new ResolveFightAction({ attacker: this })
+                cardCondition: cardCondition,
+                gameAction: new ResolveFightAction({
+                    attacker: this,
+                    postHandler: postHandler
+                })
             }
         });
     }
