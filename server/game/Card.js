@@ -505,6 +505,7 @@ class Card extends EffectSource {
         this.new = false;
         this.tokens = {};
         this.setDefaultController(this.owner);
+        this.updateEffectContexts();
         this.endRound();
     }
 
