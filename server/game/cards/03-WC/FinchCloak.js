@@ -23,7 +23,7 @@ class FinchCloak extends Card {
             effectArgs: (context) =>
                 context.player.amber < context.player.opponent.amber
                     ? 'steal 1 amber'
-                    : 'gain both players 1 amber'
+                    : 'make both players gain 1 amber'
         });
     }
 }
