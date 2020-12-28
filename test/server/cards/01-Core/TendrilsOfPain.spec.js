@@ -5,7 +5,7 @@ describe('Tendrils of Pain', function () {
                 player1: {
                     house: 'dis',
                     inPlay: ['troll', 'chota-hazri'],
-                    hand: ['tendrils-of-pain']
+                    hand: ['tendrils-of-pain', 'key-hammer']
                 },
                 player2: {
                     inPlay: ['mighty-tiger', 'hunting-witch', 'helper-bot'],
@@ -34,11 +34,30 @@ describe('Tendrils of Pain', function () {
                 expect(this.chotaHazri.warded).toBe(true);
                 expect(this.mightyTiger.warded).toBe(true);
             });
+
             describe('play tendrils of pain', function () {
                 beforeEach(function () {
                     this.player1.clickPrompt('dis');
                     this.player1.play(this.tendrilsOfPain);
                 });
+
+                it('Tendrils deals 4 damage', function () {
+                    expect(this.helperBot.location).toBe('play area');
+                    expect(this.chotaHazri.location).toBe('play area');
+                    expect(this.huntingWitch.location).toBe('discard');
+                    expect(this.mightyTiger.warded).toBe(false);
+                    expect(this.mightyTiger.tokens.damage).toBe(undefined);
+                    expect(this.troll.tokens.damage).toBe(4);
+                });
+            });
+
+            describe('play key hammer and then tendrils of pain', function () {
+                beforeEach(function () {
+                    this.player1.clickPrompt('dis');
+                    this.player1.play(this.keyHammer);
+                    this.player1.play(this.tendrilsOfPain);
+                });
+
                 it('Tendrils deals 4 damage', function () {
                     expect(this.helperBot.location).toBe('play area');
                     expect(this.chotaHazri.location).toBe('play area');
@@ -60,10 +79,12 @@ describe('Tendrils of Pain', function () {
                 expect(this.chotaHazri.warded).toBe(true);
                 expect(this.mightyTiger.warded).toBe(true);
             });
+
             describe('play tendrils of pain', function () {
                 beforeEach(function () {
                     this.player1.play(this.tendrilsOfPain);
                 });
+
                 it('Tendrils deals 1 damage', function () {
                     expect(this.helperBot.location).toBe('play area');
                     expect(this.chotaHazri.location).toBe('play area');
