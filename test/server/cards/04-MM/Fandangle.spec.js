@@ -72,4 +72,71 @@ describe('Fandangle', function () {
             expect(this.dextre.exhausted).toBe(true);
         });
     });
+
+    describe("Fandangle's ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 5,
+                    house: 'staralliance',
+                    inPlay: ['explo-rover'],
+                    hand: ['fandangle', 'doctor-driscoll', 'kartanoo']
+                },
+                player2: {
+                    amber: 4,
+                    house: 'logos',
+                    hand: ['dextre']
+                }
+            });
+        });
+
+        it('should ready itself when maverick', function () {
+            this.fandangle.printedHouse = 'staralliance';
+            this.fandangle.maverick = 'staralliance';
+
+            this.player1.play(this.kartanoo);
+            expect(this.kartanoo.exhausted).toBe(true);
+            this.player1.play(this.fandangle);
+            expect(this.fandangle.exhausted).toBe(false);
+            this.player1.play(this.doctorDriscoll);
+            expect(this.doctorDriscoll.exhausted).toBe(false);
+        });
+
+        it('should NOT ready itself when maverick but not enough amber', function () {
+            this.player1.player.amber = 0;
+
+            this.fandangle.printedHouse = 'staralliance';
+            this.fandangle.maverick = 'staralliance';
+
+            this.player1.play(this.kartanoo);
+            expect(this.kartanoo.exhausted).toBe(true);
+            this.player1.play(this.fandangle);
+            expect(this.fandangle.exhausted).toBe(true);
+            this.player1.play(this.doctorDriscoll);
+            expect(this.doctorDriscoll.exhausted).toBe(true);
+        });
+    });
+
+    describe("Fandangle's ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 5,
+                    house: 'untamed',
+                    inPlay: ['explo-rover'],
+                    hand: ['fandangle', 'doctor-driscoll', 'kartanoo']
+                },
+                player2: {
+                    amber: 4,
+                    house: 'logos',
+                    hand: ['dextre']
+                }
+            });
+        });
+
+        it('should NOT ready itself when house is untamed', function () {
+            this.player1.play(this.fandangle);
+            expect(this.fandangle.exhausted).toBe(true);
+        });
+    });
 });
