@@ -53,7 +53,7 @@ const shadowProps = {
     blur: 4
 };
 const defaultCardWidth = 65;
-const cardBackDecal = 'santa';
+const cardBackDecal = undefined;
 
 export const loadImage = (url) => {
     return new Promise((resolve, reject) => {
