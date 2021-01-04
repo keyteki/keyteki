@@ -52,6 +52,7 @@ describe('Fidgit', function () {
         });
 
         it('when archive is empty, still provide option, and allow playing top of deck card', function () {
+            this.player2.moveCard(this.virtuousWorks, 'deck');
             this.player2.player.archives = [];
             this.player1.reap(this.fidgit);
             expect(this.player1).toHavePromptButton('Top of deck');
