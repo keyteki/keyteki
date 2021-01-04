@@ -31,7 +31,12 @@ class NovuDynamo extends Card {
                         })
                     ])
                 })
-            }
+            },
+            effect: '{1} {2}{3}',
+            effectArgs: (context) =>
+                context.target === context.source
+                    ? ['sacrifice', context.target, '']
+                    : ['discard', context.target, ' and gain 1 amber']
         });
     }
 }

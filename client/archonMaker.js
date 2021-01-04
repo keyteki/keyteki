@@ -6,6 +6,7 @@ import { Constants } from './constants';
 const EnhancementBaseImages = {};
 const HouseIcons = {};
 const IdBackHouseIcons = {};
+const IdBackDecals = {};
 const IdBackBlanksIcons = {};
 const SetIcons = {};
 const DeckCards = { halfSize: {}, cards: {} };
@@ -52,7 +53,7 @@ const shadowProps = {
     blur: 4
 };
 const defaultCardWidth = 65;
-const specialCardBack = null;
+const cardBackDecal = 'santa';
 
 export const loadImage = (url) => {
     return new Promise((resolve, reject) => {
@@ -109,6 +110,10 @@ async function cacheImages() {
         await loadImage(path).then((image) => {
             EnhancementPipImages[key] = image;
         });
+    }
+
+    if (cardBackDecal) {
+        IdBackDecals[cardBackDecal] = await loadImage(Constants.IdBackDecals[cardBackDecal]);
     }
 
     TCOIcon = await loadImage(require('./assets/img/idbacks/tco.png'));
@@ -319,9 +324,7 @@ export const buildCardBack = async (canvas, deck, size, showDeckName) => {
             .reduce((a, b) => a + +b, 0) %
             7) +
         1;
-    if (specialCardBack) {
-        number = specialCardBack;
-    }
+
     if (!IdBackBlanksIcons[number]) {
         number = 1;
     }
@@ -331,7 +334,7 @@ export const buildCardBack = async (canvas, deck, size, showDeckName) => {
     const house2 = new fabric.Image(IdBackHouseIcons[deck.houses[1]].getElement(), imgOptions);
     const house3 = new fabric.Image(IdBackHouseIcons[deck.houses[2]].getElement(), imgOptions);
 
-    cardback.scaleToWidth(300);
+    cardback.scaleToWidth(width);
     house1.scaleToWidth(75);
     house2.scaleToWidth(75);
     house3.scaleToWidth(75);
@@ -342,6 +345,12 @@ export const buildCardBack = async (canvas, deck, size, showDeckName) => {
     canvas.add(house1);
     canvas.add(house2);
     canvas.add(house3);
+
+    if (cardBackDecal) {
+        const decal = new fabric.Image(IdBackDecals[cardBackDecal].getElement(), imgOptions);
+        decal.scaleToWidth(width);
+        canvas.add(decal);
+    }
 
     if (showDeckName) {
         let text;

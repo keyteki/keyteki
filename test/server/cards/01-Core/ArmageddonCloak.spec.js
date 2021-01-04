@@ -31,7 +31,7 @@ describe('Armageddon Cloak', function () {
             expect(this.player1).toHavePrompt('One Stood Against Many');
             expect(this.player1).toBeAbleToSelect(this.sequis);
             this.player1.clickCard(this.sequis);
-            expect(this.player1).toHavePrompt('Choose a creature to fight');
+            expect(this.player1).toHavePrompt('Choose a creature to attack');
             expect(this.player1).toBeAbleToSelect(this.nexus);
             expect(this.player1).toBeAbleToSelect(this.troll);
             expect(this.player1).toBeAbleToSelect(this.dodger);
@@ -46,7 +46,7 @@ describe('Armageddon Cloak', function () {
             expect(this.troll.location).toBe('play area');
             expect(this.dodger.location).toBe('play area');
             this.player1.clickCard(this.dodger);
-            expect(this.player1).toHavePrompt('Choose a creature to fight');
+            expect(this.player1).toHavePrompt('Choose a creature to attack');
             expect(this.player1).not.toBeAbleToSelect(this.nexus);
             expect(this.player1).toBeAbleToSelect(this.troll);
             expect(this.player1).not.toBeAbleToSelect(this.dodger);

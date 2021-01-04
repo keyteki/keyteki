@@ -19,6 +19,7 @@ class LastingEffectAction extends GameAction {
         this.match = null;
         this.preferActionPromptMessage = false;
         this.multipleTrigger = true;
+        this.triggeredAbilityType = null;
     }
 
     setup() {
@@ -42,7 +43,8 @@ class LastingEffectAction extends GameAction {
                     messageArgs: this.messageArgs,
                     preferActionPromptMessage: this.preferActionPromptMessage,
                     multipleTrigger: this.multipleTrigger,
-                    context: context
+                    context: context,
+                    triggeredAbilityType: this.triggeredAbilityType
                 })
             ];
         }
