@@ -413,9 +413,11 @@ class Player extends GameObject {
             targetPile.push(card);
         }
 
+        let composedPart = null;
         if (targetLocation !== 'play area' && card.gigantic) {
             let cardIndex = targetPile.indexOf(card);
             if (card.composedPart) {
+                composedPart = card.composedPart;
                 card.composedPart.location = targetLocation;
                 targetPile.splice(cardIndex, 0, card.composedPart);
                 card.composedPart = null;
@@ -424,6 +426,13 @@ class Player extends GameObject {
         }
 
         this.game.raiseEvent('onCardPlaced', { card: card, from: location, to: targetLocation });
+        if (composedPart) {
+            this.game.raiseEvent('onCardPlaced', {
+                card: composedPart,
+                from: location,
+                to: targetLocation
+            });
+        }
     }
 
     /**
