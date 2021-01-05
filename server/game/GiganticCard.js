@@ -27,17 +27,11 @@ class GiganticCard extends Card {
     }
 
     getTopCard() {
-        if (this.composedPart) {
-            return this.composedPart.giganticBottom ? this : this.composedPart;
-        }
-        return this;
+        return this.composedPart && !this.composedPart.giganticBottom ? this.composedPart : this;
     }
 
     getBottomCard() {
-        if (this.composedPart) {
-            return this.composedPart.giganticBottom ? this.composedPart : this;
-        }
-        return this;
+        return this.composedPart && this.composedPart.giganticBottom ? this.composedPart : this;
     }
 
     setupCardAbilities(ability) {
