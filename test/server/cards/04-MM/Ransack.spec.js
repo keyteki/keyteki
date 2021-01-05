@@ -43,6 +43,17 @@ describe('Ransack', function () {
         expect(this.player1.player.discard.length).toBe(8);
     });
 
+    it('should not steal and stop if deck is empty', function () {
+        this.player2.amber = 0;
+        this.player1.player.deck = [];
+        this.player1.play(this.ransack);
+
+        expect(this.player1.amber).toBe(0);
+        expect(this.player2.amber).toBe(0);
+
+        expect(this.player1.player.discard.length).toBe(8);
+    });
+
     it('should steal and stop if top card is not shadows', function () {
         this.player1.moveCard(this.dextre, 'deck');
         this.player1.play(this.ransack);
