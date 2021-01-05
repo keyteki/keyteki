@@ -443,7 +443,7 @@ class Card extends EffectSource {
     getTraits() {
         let copyEffect = this.mostRecentEffect('copyCard');
         let traits = copyEffect
-            ? copyEffect.traits
+            ? copyEffect.getTraits()
             : this.composedPart
             ? this.composedPart.traits.concat(this.traits)
             : this.traits;
@@ -699,7 +699,7 @@ class Card extends EffectSource {
 
         const copyEffect = this.mostRecentEffect('copyCard');
 
-        const basePower = copyEffect ? copyEffect.printedPower : printedPower;
+        const basePower = copyEffect ? copyEffect.getPower(true) : printedPower;
         return (
             basePower +
             this.sumEffects('modifyPower') +
@@ -731,7 +731,7 @@ class Card extends EffectSource {
         }
 
         const copyEffect = this.mostRecentEffect('copyCard');
-        const baseArmor = copyEffect ? copyEffect.printedArmor : printedArmor;
+        const baseArmor = copyEffect ? copyEffect.getArmor(true) : printedArmor;
         return baseArmor + this.sumEffects('modifyArmor');
     }
 

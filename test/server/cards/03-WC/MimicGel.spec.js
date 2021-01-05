@@ -202,4 +202,47 @@ describe('Mimic Gel', function () {
             expect(this.player2.amber).toBe(2);
         });
     });
+
+    describe("Mimic Gel and Gigantic's ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'untamed',
+                    hand: ['niffle-kong', 'niffle-kong2']
+                },
+                player2: {
+                    inPlay: ['dust-pixie'],
+                    hand: ['mimic-gel']
+                }
+            });
+        });
+
+        it('should allow copying gigantic if played first part', function () {
+            this.player1.play(this.niffleKong);
+            this.player1.clickPrompt('Done');
+            this.player1.endTurn();
+            this.player2.clickPrompt('logos');
+            this.player2.play(this.mimicGel);
+            this.player2.clickCard(this.niffleKong);
+            expect(this.mimicGel.location).toBe('play area');
+            expect(this.mimicGel.power).toBe(12);
+            expect(this.mimicGel.armor).toBe(2);
+            expect(this.mimicGel.hasTrait('mutant')).toBe(true);
+            expect(this.mimicGel.hasTrait('niffle')).toBe(true);
+        });
+
+        it('should allow copying gigantic if played second part', function () {
+            this.player1.play(this.niffleKong2);
+            this.player1.clickPrompt('Done');
+            this.player1.endTurn();
+            this.player2.clickPrompt('logos');
+            this.player2.play(this.mimicGel);
+            this.player2.clickCard(this.niffleKong2);
+            expect(this.mimicGel.location).toBe('play area');
+            expect(this.mimicGel.power).toBe(12);
+            expect(this.mimicGel.armor).toBe(2);
+            expect(this.mimicGel.hasTrait('mutant')).toBe(true);
+            expect(this.mimicGel.hasTrait('niffle')).toBe(true);
+        });
+    });
 });
