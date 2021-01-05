@@ -275,7 +275,7 @@ describe('Mimic Gel', function () {
             expect(this.helperBot.location).toBe('discard');
         });
 
-        it('should continue to copy effect even after gigantic is destroyed (bottom part first)', function () {
+        it('should continue to copy effect even after gigantic is destroyed (top part first)', function () {
             this.player1.play(this.niffleKong2);
             this.player1.clickPrompt('Done');
             this.player1.endTurn();
