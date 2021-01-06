@@ -201,6 +201,27 @@ describe('Mimic Gel', function () {
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(2);
         });
+
+        it('should cascade the effects', function () {
+            this.player1.amber = 3;
+            this.player2.amber = 3;
+            this.player1.play(this.mimicGel1);
+            this.player1.clickCard(this.batdrone);
+            this.player1.endTurn();
+            this.player2.clickPrompt('logos');
+            this.player2.play(this.mimicGel3);
+            this.player2.clickCard(this.mimicGel1);
+            this.player2.endTurn();
+            this.player1.clickPrompt('logos');
+            this.player1.fightWith(this.mimicGel1, this.dustPixie);
+            expect(this.player1.amber).toBe(4);
+            expect(this.player2.amber).toBe(2);
+            this.player1.endTurn();
+            this.player2.clickPrompt('logos');
+            this.player2.fightWith(this.mimicGel3, this.tantadlin);
+            expect(this.player1.amber).toBe(3);
+            expect(this.player2.amber).toBe(3);
+        });
     });
 
     describe("Mimic Gel and Gigantic's ability", function () {
