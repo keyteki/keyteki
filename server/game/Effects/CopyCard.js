@@ -6,7 +6,7 @@ class CopyCard extends EffectValue {
         super(card);
         this.abilitiesForTargets = {};
         if (card.anyEffect('copyCard')) {
-            let prevCopyEffect = card.mostRecentEffectRaw('copyCard');
+            let prevCopyEffect = card.mostRecentEffectRaw('copyCard').value;
             this.value = prevCopyEffect.value;
             this.actions = prevCopyEffect.actions;
             this.reactions = prevCopyEffect.reactions;
