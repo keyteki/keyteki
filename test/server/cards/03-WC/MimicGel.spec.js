@@ -156,7 +156,8 @@ describe('Mimic Gel', function () {
                         'key-to-dis',
                         'tantadlin',
                         'titan-guardian',
-                        'xenos-bloodshadow'
+                        'xenos-bloodshadow',
+                        'tezmal'
                     ],
                     hand: ['mimic-gel', 'mimic-gel']
                 },
@@ -218,7 +219,7 @@ describe('Mimic Gel', function () {
             expect(this.player2.amber).toBe(2);
             this.player1.endTurn();
             this.player2.clickPrompt('logos');
-            this.player2.fightWith(this.mimicGel3, this.tantadlin);
+            this.player2.fightWith(this.mimicGel3, this.tezmal);
             expect(this.player1.amber).toBe(3);
             expect(this.player2.amber).toBe(3);
         });
