@@ -6,11 +6,16 @@ class CopyCard extends EffectValue {
         super(card);
         this.abilitiesForTargets = {};
         if (card.anyEffect('copyCard')) {
-            let prevCopyEffect = card.mostRecentEffectRaw('copyCard').value;
-            this.value = prevCopyEffect.value;
-            this.actions = prevCopyEffect.actions;
-            this.reactions = prevCopyEffect.reactions;
-            this.persistentEffects = prevCopyEffect.persistentEffects;
+            this.value = card.mostRecentEffect('copyCard');
+            this.actions = this.value.actions.map(
+                (action) => new GainAbility('action', action, true)
+            );
+            this.reactions = this.value.reactions.map(
+                (ability) => new GainAbility(ability.abilityType, ability, true)
+            );
+            this.persistentEffects = this.value.persistentEffects.map(
+                (properties) => new GainAbility('persistentEffect', properties)
+            );
         } else {
             this.actions = card.abilities.actions.map(
                 (action) => new GainAbility('action', action, true)
