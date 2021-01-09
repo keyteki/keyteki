@@ -672,38 +672,32 @@ class Player extends GameObject {
                 choices: this.getKeyOptions(choices),
                 choiceHandler: (key) => {
                     this.game.queueSimpleStep(() => {
-                        this.keys[key.value] = false;
-                        let forgedKeyIndex = this.keysForgedThisRound.findIndex(
-                            (x) => x === key.value
-                        );
-                        if (forgedKeyIndex !== -1) {
-                            this.keysForgedThisRound.splice(forgedKeyIndex, 1);
+                        if (this.keys[key.value]) {
+                            this.game.addMessage(
+                                '{0} unforges {1}{2}{3}',
+                                this.game.activePlayer,
+                                this.game.activePlayer === this ? 'their' : this,
+                                this.game.activePlayer === this ? ' ' : "'s ",
+                                `forgedkey${key.value}`
+                            );
                         }
 
-                        this.game.addMessage(
-                            "{0} unforges {1}'s {2}",
-                            this.game.activePlayer,
-                            this.game.activePlayer.opponent,
-                            `forgedkey${key.value}`
-                        );
+                        this.keys[key.value] = false;
                     });
                 }
             });
         } else {
             if (this.keys[choices[0].toLowerCase()]) {
                 this.game.addMessage(
-                    '{0} unforges the {1}',
+                    '{0} unforges {1}{2}{3}',
                     this.game.activePlayer,
+                    this.game.activePlayer === this ? 'their' : this,
+                    this.game.activePlayer === this ? ' ' : "'s ",
                     `forgedkey${choices[0].toLowerCase()}`
                 );
             }
+
             this.keys[choices[0].toLowerCase()] = false;
-            let forgedKeyIndex = this.keysForgedThisRound.findIndex(
-                (x) => x === choices[0].toLowerCase()
-            );
-            if (forgedKeyIndex !== -1) {
-                this.keysForgedThisRound.splice(forgedKeyIndex, 1);
-            }
         }
     }
 

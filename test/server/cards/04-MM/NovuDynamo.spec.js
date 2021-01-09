@@ -78,6 +78,7 @@ describe('novu-dynamo', function () {
                 beforeEach(function () {
                     this.player1.clickCard(this.libraryAccess);
                 });
+
                 it('gives amber', function () {
                     expect(this.libraryAccess.location).toBe('discard');
                     expect(this.novuDynamo.location).toBe('play area');

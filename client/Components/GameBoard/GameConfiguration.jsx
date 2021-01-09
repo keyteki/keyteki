@@ -25,7 +25,7 @@ const GameConfiguration = ({ optionSettings, onOptionSettingToggle }) => {
                         <Form.Check
                             id='confirmOneClick'
                             name='gameOptions.confirmOneClick'
-                            label={t('Show a prompt when initating 1-click abilities')}
+                            label={t('Show a prompt when initiating 1-click abilities')}
                             type='switch'
                             checked={optionSettings.confirmOneClick}
                             onChange={(event) =>

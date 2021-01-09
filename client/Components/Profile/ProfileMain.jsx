@@ -88,7 +88,7 @@ const ProfileMain = ({ user, formProps }) => {
                             <Avatar imgPath={user?.avatar}></Avatar>
                         )}
                         <Button variant='secondary' onClick={onAvatarUploadClick}>
-                            Change avatar
+                            {t('Change avatar')}
                         </Button>
                     </div>
                     <Form.Control
@@ -127,11 +127,11 @@ const ProfileMain = ({ user, formProps }) => {
                         />
                         {!user?.patreon || user?.patreon === PatreonStatus.Unlinked ? (
                             <Button variant='secondary' href={patreonUrl}>
-                                Link Account
+                                {t('Link Account')}
                             </Button>
                         ) : (
                             <Button variant='secondary' onClick={() => dispatch(unlinkPatreon())}>
-                                Unlink Account
+                                {t('Unlink Account')}
                             </Button>
                         )}
                     </div>

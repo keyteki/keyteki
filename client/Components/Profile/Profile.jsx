@@ -96,9 +96,10 @@ const Profile = ({ onSubmit, isLoading }) => {
     ];
 
     for (let i = 0; i < Constants.Houses.length; ++i) {
+        const label = t(Constants.Houses[i]);
         backgrounds.push({
             name: Constants.HousesNames[i],
-            label: t(Constants.Houses[i]),
+            label: label[0].toUpperCase() + label.slice(1),
             imageUrl: Constants.HouseBgPaths[Constants.Houses[i]]
         });
     }
