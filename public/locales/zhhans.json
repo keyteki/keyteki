@@ -227,7 +227,7 @@
     "register.disclosure": "<0>使用网站服务请输入下列资料.  需要的栏位与使用相关资讯可参考 <1>隐私政策</1> .  请特别注意有关头像部分规定.</0>",
     "Settings": "设定",
     "Prompt to order simultaneous abilities": "多个技能同时触发时提示触发顺序",
-    "Show a prompt when initating 1-click abilities": "快速结算技能启动时弹出提示",
+    "Show a prompt when initiating 1-click abilities": "快速结算技能启动时弹出提示",
     "Noone": "无",
     "Manual Mode": "手动模式",
     "Game Configuration": "游戏配置",

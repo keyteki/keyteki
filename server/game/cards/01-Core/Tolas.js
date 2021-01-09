@@ -9,7 +9,9 @@ class Tolas extends Card {
             },
             gameAction: ability.actions.gainAmber((context) => ({
                 target: context.event.card.controller.opponent
-            }))
+            })),
+            effect: 'make {1} gain 1 amber',
+            effectArgs: (context) => context.event.card.controller.opponent
         });
     }
 }

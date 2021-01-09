@@ -227,7 +227,7 @@
     "register.disclosure": "<0>We require information from you in order to service your access to the site.  Please see the <1>privacy policy</1> for details on why we need this information and what we do with it.  Please pay particular attention to the section on avatars.</0>",
     "Settings": "Settings",
     "Prompt to order simultaneous abilities": "Prompt to order simultaneous abilities",
-    "Show a prompt when initating 1-click abilities": "Show a prompt when initating 1-click abilities",
+    "Show a prompt when initiating 1-click abilities": "Show a prompt when initiating 1-click abilities",
     "Noone": "Noone",
     "Manual Mode": "Manual Mode",
     "Game Configuration": "Game Configuration",
@@ -542,5 +542,14 @@
     "Choose a top part to play": "Choose a top part to play",
     "Introduction": "Introduction",
     "Tide": "Tide",
-    "Raise the Tide?": "Raise the Tide?"
+    "Raise the Tide?": "Raise the Tide?",
+    "Use half sized card images": "Use half sized card images",
+    "Challonge API Subdomain": "Challonge API Subdomain",
+    "Challonge API Key": "Challonge API Key",
+    "Change avatar": "Change avatar",
+    "Link Account": "Link Account",
+    "Unlink Account": "Unlink Account",
+    "Enter the same password": "Enter the same password",
+    "Enter challonge API key": "Enter challonge API key",
+    "Options": "Options"
 }
