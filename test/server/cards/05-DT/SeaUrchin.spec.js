@@ -22,6 +22,7 @@ describe('Sea Urchin', function () {
         });
 
         it('should capture 1A when tide is low', function () {
+            this.player2.changeTide('high');
             this.player1.play(this.seaUrchin);
             expect(this.seaUrchin.amber).toBe(1);
             expect(this.player1.amber).toBe(4);

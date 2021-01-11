@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class TideWarp extends Card {
+    // At the start of your turn, if the tide is high, your opponent raises the tide. Otherwise, you raise the tide.
     setupCardAbilities(ability) {
         this.reaction({
             when: {
