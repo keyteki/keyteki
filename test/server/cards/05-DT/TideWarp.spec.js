@@ -13,7 +13,7 @@ describe('Tide Warp', function () {
             });
         });
 
-        it('should not raise any tide if not in play', function () {
+        it('should not raise any tide if tide is neutral', function () {
             expect(this.player1.tide).toBeNull();
             expect(this.player2.tide).toBeNull();
 

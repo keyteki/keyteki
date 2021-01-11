@@ -14,7 +14,7 @@ describe('Hookmaster', function () {
             });
         });
 
-        it('should not make opponent lose 2 amber if tide is not in play', function () {
+        it('should not make opponent lose 2 amber if tide is neutral', function () {
             this.player1.fightWith(this.hookmaster, this.murkens);
             expect(this.player1.amber).toBe(4);
             expect(this.player2.amber).toBe(4);
