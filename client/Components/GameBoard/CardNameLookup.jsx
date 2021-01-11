@@ -18,7 +18,7 @@ class CardNameLookup extends React.Component {
     }
 
     onDoneClick() {
-        if (this.props.onCardSelected) {
+        if (this.state.cardName && this.props.onCardSelected) {
             this.props.onCardSelected(this.state.cardName);
         }
     }
