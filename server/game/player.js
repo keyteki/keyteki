@@ -734,8 +734,7 @@ class Player extends GameObject {
             keys: this.keys,
             houses: this.houses,
             keyCost: this.getCurrentKeyCost(),
-            tideHigh: this.isTideHigh(),
-            tideLow: this.isTideLow()
+            tide: this.isTideHigh() ? 'high' : this.isTideLow() ? 'low' : 'neutral'
         };
     }
 
@@ -767,6 +766,9 @@ class Player extends GameObject {
             cardback: 'cardback',
             disconnected: !!this.disconnectedAt,
             activePlayer: this.game.activePlayer === this,
+            canRaiseTide:
+                !this.isTideHigh() &&
+                this.game.actions.raiseTide().canAffect(this, this.game.getFrameworkContext()),
             houses: this.houses,
             id: this.id,
             left: this.left,

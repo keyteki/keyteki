@@ -148,7 +148,7 @@
     width: 60px;
     height: 84px;
 
-    &.tide-default {
+    &.tide-neutral {
         transform: rotate(90deg);
     }
 
@@ -156,7 +156,7 @@
         transform: rotate(180deg);
     }
 
-    &.can-raise {
+    &.can-raise-tide {
         animation: glowing 2000ms infinite;
     }
 }

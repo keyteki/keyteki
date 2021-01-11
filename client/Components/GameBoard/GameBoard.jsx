@@ -430,16 +430,10 @@ export class GameBoard extends React.Component {
                                 <img
                                     key='tide-card'
                                     onClick={this.onClickTide}
-                                    className={`img-fluid tide-card ${
-                                        thisPlayer.stats.tideLow
-                                            ? 'tide-low'
-                                            : !thisPlayer.stats.tideHigh
-                                            ? 'tide-default'
-                                            : 'tide-high'
-                                    }
+                                    className={`img-fluid tide-card tide-${thisPlayer.stats.tide}
                                         ${
-                                            thisPlayer.activeHouse && !thisPlayer.stats.tideHigh
-                                                ? 'can-raise'
+                                            thisPlayer.activeHouse && thisPlayer.canRaiseTide
+                                                ? 'can-raise-tide'
                                                 : ''
                                         }`}
                                     src={Constants.TideImages.card['en']}
