@@ -9,31 +9,34 @@ describe('Hookmaster', function () {
                 },
                 player2: {
                     amber: 4,
-                    inPlay: ['lamindra']
+                    inPlay: ['murkens']
                 }
             });
         });
 
-        it('should not lose opponent 1 amber if tide is not in play', function () {
-            this.player1.fightWith(this.hookmaster, this.lamindra);
+        it('should not make opponent lose 2 amber if tide is not in play', function () {
+            this.player1.fightWith(this.hookmaster, this.murkens);
             expect(this.player1.amber).toBe(4);
             expect(this.player2.amber).toBe(4);
+            expect(this.murkens.location).toBe('discard');
         });
 
-        it('should not lose opponent 1 amber if tide is low', function () {
+        it('should not make opponent lose 2 amber if tide is low', function () {
             this.player2.changeTide('high');
             expect(this.player1.tide).toBe('low');
-            this.player1.fightWith(this.hookmaster, this.lamindra);
+            this.player1.fightWith(this.hookmaster, this.murkens);
             expect(this.player1.amber).toBe(4);
             expect(this.player2.amber).toBe(4);
+            expect(this.murkens.location).toBe('discard');
         });
 
-        it('should  lose opponent 1 amber if tide is high', function () {
+        it('should make opponent lose 2 amber if tide is high', function () {
             this.player1.raiseTide();
             expect(this.player1.tide).toBe('high');
-            this.player1.fightWith(this.hookmaster, this.lamindra);
+            this.player1.fightWith(this.hookmaster, this.murkens);
             expect(this.player1.amber).toBe(4);
             expect(this.player2.amber).toBe(2);
+            expect(this.murkens.location).toBe('discard');
         });
     });
 });
