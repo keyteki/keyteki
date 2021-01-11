@@ -28,7 +28,7 @@ class RaiseTideAction extends PlayerAction {
             'onRaiseTide',
             { player: player, context: context },
             () => {
-                context.game.changeTide(player, 'high');
+                context.game.raiseTide(player);
             }
         );
 
