@@ -156,6 +156,10 @@ class PlayerInteractionWrapper {
         this.game.changeTide(this.player, level);
     }
 
+    isTideHigh() {
+        return this.player.isTideHigh();
+    }
+
     replaceLocalizedValues(title) {
         if (!title) {
             return null;

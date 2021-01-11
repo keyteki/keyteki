@@ -1,11 +1,11 @@
 const Card = require('../../Card.js');
 
 class Hookmaster extends Card {
+    //Fight: If the tide is high, your opponent loses 2A.
     setupCardAbilities(ability) {
         this.fight({
-            gameAction: ability.actions.loseAmber((context) => ({
-                amount: context.player.isTideHigh() ? 2 : 0
-            }))
+            condition: (context) => context.player.isTideHigh(),
+            gameAction: ability.actions.loseAmber({ amount: 2 })
         });
     }
 }
