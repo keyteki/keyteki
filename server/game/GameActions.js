@@ -93,11 +93,12 @@ const Actions = {
     gainChains: (propertyFactory) => new GameActions.ModifyChainsActions(propertyFactory), // amount = 1
     lastingEffect: (propertyFactory) => new GameActions.LastingEffectAction(propertyFactory),
     loseAmber: (propertyFactory) => new GameActions.LoseAmberAction(propertyFactory),
+    mulligan: (propertyFactory) => new GameActions.MulliganAction(propertyFactory), // name
+    neutralizeTide: (propertyFactory) => new GameActions.NeutralizeTideAction(propertyFactory),
+    raiseTide: (propertyFactory) => new GameActions.RaiseTideAction(propertyFactory),
     rearrangeCards: (propertFactory) => new GameActions.RearrangeCardsAction(propertFactory),
     search: (propertyFactory) => new GameActions.SearchAction(propertyFactory), // name
     shuffleDeck: (propertyFactory) => new GameActions.ShuffleDeckAction(propertyFactory), // name
-    mulligan: (propertyFactory) => new GameActions.MulliganAction(propertyFactory), // name
-    raiseTide: (propertyFactory) => new GameActions.RaiseTideAction(propertyFactory),
     steal: (propertyFactory) => new GameActions.StealAction(propertyFactory), // amount = 1
     transferAmber: (propertyFactory) => new GameActions.TransferAmberAction(propertyFactory), // amount = 1
     unforgeKey: (propertyFactory) => new GameActions.UnforgeAction(propertyFactory),
