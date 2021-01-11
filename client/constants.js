@@ -48,7 +48,7 @@ export const Constants = {
         damage: require('./assets/img/enhancements/damage.png')
     },
     TideImages: {
-        default: require('./assets/img/tide/tide-default.png'),
+        neutral: require('./assets/img/tide/tide-neutral.png'),
         low: require('./assets/img/tide/tide-low.png'),
         high: require('./assets/img/tide/tide.png'),
         card: {
