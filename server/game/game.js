@@ -464,10 +464,6 @@ class Game extends EventEmitter {
         this.pipeline.handleTideClicked(player);
     }
 
-    raiseTide(player) {
-        this.highTide = player;
-    }
-
     changeTide(player, level) {
         level = level[0].toUpperCase() + level.slice(1).toLowerCase();
         if (level === 'Low') {
