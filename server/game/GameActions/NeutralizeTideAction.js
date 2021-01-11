@@ -7,8 +7,8 @@ class NeutralizeTideAction extends PlayerAction {
 
     setup() {
         super.setup();
-        this.name = 'raiseTide';
-        this.effectMsg = 'raise the tide';
+        this.name = 'neutralizeTide';
+        this.effectMsg = 'neutralize the tide';
     }
 
     defaultTargets(context) {
