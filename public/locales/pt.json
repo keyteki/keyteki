@@ -541,8 +541,6 @@
     "Filter by name": "Filtrar por nome",
     "Choose a top part to play": "Eschola uma parte superior para jogar",
     "Introduction": "Introdução",
-    "Tide": "Maré",
-    "Raise the Tide?": "Subir a Maré?",
     "Use half sized card images": "Usar cartas com metade do tamanho",
     "Challonge API Subdomain": "Subdomínio da API Challonge",
     "Challonge API Key": "Chave da API Challonge",
@@ -551,5 +549,7 @@
     "Unlink Account": "Desassociar Conta",
     "Enter the same password": "Entrar com a mesma senha",
     "Enter challonge API key": "Entrar com a chave da API challonge",
-    "Options": "Opções"
+    "Options": "Opções",
+    "Tide": "Maré",
+    "Raise the Tide?": "Subir a Maré?"
 }

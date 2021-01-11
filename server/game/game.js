@@ -472,7 +472,7 @@ class Game extends EventEmitter {
             this.highTide = player;
         } else {
             this.highTide = null;
-            level = 'Default';
+            level = 'Neutral';
         }
 
         this.addMessage('{0} changed tide to {1}', player, level);

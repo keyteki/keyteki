@@ -16,7 +16,11 @@ class RaiseTideAction extends PlayerAction {
     }
 
     canAffect(player, context) {
-        return !player.isTideHigh() && super.canAffect(player, context);
+        return (
+            player.checkRestrictions('raiseTide', context) &&
+            !player.isTideHigh() &&
+            super.canAffect(player, context)
+        );
     }
 
     getEvent(player, context) {
