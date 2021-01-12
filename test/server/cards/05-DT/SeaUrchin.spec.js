@@ -22,7 +22,7 @@ describe('Sea Urchin', function () {
         });
 
         it('should capture 1A when tide is low', function () {
-            this.player2.changeTide('high');
+            this.player1.lowerTide();
             this.player1.play(this.seaUrchin);
             expect(this.seaUrchin.amber).toBe(1);
             expect(this.player1.amber).toBe(4);
@@ -31,7 +31,7 @@ describe('Sea Urchin', function () {
 
         it('should steal 1A when tide is high', function () {
             this.player1.raiseTide();
-            expect(this.player1.tide).toBe('high');
+            expect(this.player1.isTideHigh()).toBe(true);
             this.player1.play(this.seaUrchin);
             expect(this.seaUrchin.amber).toBe(0);
             expect(this.player1.amber).toBe(5);

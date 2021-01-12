@@ -24,7 +24,7 @@ describe('Lieutenant Valmart', function () {
 
         it('should not increase key cost +3 if tide is low after play', function () {
             this.player1.moveCard(this.lieutenantValmart, 'hand');
-            this.player2.changeTide('high');
+            this.player1.lowerTide();
             this.player1.play(this.lieutenantValmart);
             this.player1.endTurn();
             this.player2.clickPrompt('red');
@@ -48,7 +48,7 @@ describe('Lieutenant Valmart', function () {
         });
 
         it('should not increase key cost +3 if tide is low after reap', function () {
-            this.player2.changeTide('high');
+            this.player1.lowerTide();
             this.player1.reap(this.lieutenantValmart);
             this.player1.endTurn();
             this.player2.clickPrompt('red');
@@ -71,7 +71,7 @@ describe('Lieutenant Valmart', function () {
         });
 
         it('should not increase key cost +3 if tide is low after fight', function () {
-            this.player2.changeTide('high');
+            this.player1.lowerTide();
             this.player1.fightWith(this.lieutenantValmart, this.murkens);
             this.player1.endTurn();
             this.player2.clickPrompt('red');

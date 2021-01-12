@@ -22,8 +22,8 @@ describe('Hookmaster', function () {
         });
 
         it('should not make opponent lose 2 amber if tide is low', function () {
-            this.player2.changeTide('high');
-            expect(this.player1.tide).toBe('low');
+            this.player1.lowerTide();
+            expect(this.player1.isTideLow()).toBe(true);
             this.player1.fightWith(this.hookmaster, this.murkens);
             expect(this.player1.amber).toBe(4);
             expect(this.player2.amber).toBe(4);
@@ -32,7 +32,7 @@ describe('Hookmaster', function () {
 
         it('should make opponent lose 2 amber if tide is high', function () {
             this.player1.raiseTide();
-            expect(this.player1.tide).toBe('high');
+            expect(this.player1.isTideHigh()).toBe(true);
             this.player1.fightWith(this.hookmaster, this.murkens);
             expect(this.player1.amber).toBe(4);
             expect(this.player2.amber).toBe(2);

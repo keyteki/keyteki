@@ -21,7 +21,7 @@ describe('Bury Riches', function () {
         });
 
         it('should raise the tide if it is neutral', function () {
-            expect(this.player1.tide).toBeNull();
+            expect(this.player1.isTideNeutral()).toBe(true);
             this.player1.play(this.buryRiches);
             expect(this.player1.amber).toBe(1);
             expect(this.player2.amber).toBe(1);
@@ -31,12 +31,12 @@ describe('Bury Riches', function () {
             expect(this.murkens.amber).toBe(1);
             expect(this.lamindra.amber).toBe(2);
             expect(this.urchin.amber).toBe(0);
-            expect(this.player1.tide).toBe('high');
+            expect(this.player1.isTideHigh()).toBe(true);
         });
 
         it('should raise the tide if it is low', function () {
-            this.player2.changeTide('high');
-            expect(this.player1.tide).toBe('low');
+            this.player1.lowerTide();
+            expect(this.player1.isTideLow()).toBe(true);
             this.player1.play(this.buryRiches);
             expect(this.player1.amber).toBe(1);
             expect(this.player2.amber).toBe(1);
@@ -46,12 +46,12 @@ describe('Bury Riches', function () {
             expect(this.murkens.amber).toBe(1);
             expect(this.lamindra.amber).toBe(2);
             expect(this.urchin.amber).toBe(0);
-            expect(this.player1.tide).toBe('high');
+            expect(this.player1.isTideHigh()).toBe(true);
         });
 
         it("should move amber from each creature to their controller's pool", function () {
             this.player1.raiseTide();
-            expect(this.player1.tide).toBe('high');
+            expect(this.player1.isTideHigh()).toBe(true);
             this.player1.play(this.buryRiches);
             expect(this.player1.amber).toBe(3);
             expect(this.player2.amber).toBe(3);
