@@ -351,6 +351,7 @@
     "howtoplay.cmd.rematch": "Começar um novo jogo com o mesmo oponente.",
     "howtoplay.cmd.token": "Escolha uma carta e modifique o número de tokens do tipo x para y",
     "howtoplay.cmd.unforge": "Desforjar uma chave",
+    "howtoplay.cmd.tide": "Mudar a maré para o nível x (high, low ou neutral)",
     "howtoplay.about": "The Crucible Online não mantém rank e/ou compara de maneira alguma jogadores por nível de habilidade. Existem três categorias (iniciante, casual and competitivo) para criar uma partida, o que dá uma indicação do que esperar, mas isso não força nada. Ainda que estatísticas pessoais não estejam sendo rastreadas, a maioria dos jogadores irá apreciar uma concessão formal através do botão `Conceder´ e o envio de um ‘gg’ (good game) antes de deixar a partida. A realidade dos jogos online rápidos e anônimos dita, no entanto, que isso não irá acontecer sempre, como evidenciado por reclamações contantes no lobby principal sobre pessoas desistindo sem conceder. Nosso conselho é seguir em frente para a próxima partida até o final. Conceder, ou não, não afeta o resultado. Bom jogo!",
     "about.whatisthis": "<0>O que é isso?</0><p>Esse site foi feito para permitir que você jogue Keyforge, o Jogo de Decks Únicos da Fantasy Flight Games (FFG) em seu browser.</p>",
     "about.cool": "<0>Isso é muito legal!  Mas como funciona?</0><1>Clique no link <1>Como Jogar</1> para uma explicação completa.</1>",

@@ -1,8 +1,10 @@
+const Constants = require('../../constants');
 const PlayerAction = require('./PlayerAction');
 
 class RaiseTideAction extends PlayerAction {
     setDefaultProperties() {
         this.chainCost = 0;
+        this.showMessage = false;
     }
 
     setup() {
@@ -28,7 +30,7 @@ class RaiseTideAction extends PlayerAction {
             'onRaiseTide',
             { player: player, context: context },
             () => {
-                context.game.changeTide(player, 'high');
+                context.game.changeTide(player, Constants.Tide.HIGH, this.showMessage);
             }
         );
 

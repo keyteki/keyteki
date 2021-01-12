@@ -464,18 +464,24 @@ class Game extends EventEmitter {
         this.pipeline.handleTideClicked(player);
     }
 
-    changeTide(player, level) {
-        level = level[0].toUpperCase() + level.slice(1).toLowerCase();
-        if (level === 'Low') {
-            this.highTide = player.opponent;
-        } else if (level === 'High') {
-            this.highTide = player;
-        } else {
-            this.highTide = null;
-            level = 'Neutral';
+    changeTide(player, level, showMessage = false) {
+        switch (level) {
+            case Constants.Tide.HIGH: {
+                this.highTide = player;
+                break;
+            }
+            case Constants.Tide.LOW: {
+                this.highTide = player.opponent;
+                break;
+            }
+            default: {
+                this.highTide = null;
+            }
         }
 
-        this.addMessage('{0} changed tide to {1}', player, level);
+        if (showMessage) {
+            this.addMessage('{0} changed tide to {1}', player, Constants.Tide.toString(level));
+        }
     }
 
     modifyKey(playerName, color, forged) {
