@@ -1,5 +1,6 @@
 const _ = require('underscore');
 
+const Constants = require('../constants');
 const GameObject = require('./GameObject');
 const Deck = require('./deck');
 const ClockSelector = require('./Clocks/ClockSelector');
@@ -734,7 +735,11 @@ class Player extends GameObject {
             keys: this.keys,
             houses: this.houses,
             keyCost: this.getCurrentKeyCost(),
-            tide: this.isTideHigh() ? 'high' : this.isTideLow() ? 'low' : 'neutral'
+            tide: this.isTideHigh()
+                ? Constants.Tide.HIGH
+                : this.isTideLow()
+                ? Constants.Tide.LOW
+                : Constants.Tide.NEUTRAL
         };
     }
 

@@ -51,6 +51,7 @@ class ActionWindow extends UiPrompt {
 
     onTideClicked(player) {
         let raiseTideAction = new RaiseTideAction({
+            showMessage: true,
             chainCost: 3 + player.sumEffects('modifyTideCost')
         });
         let context = this.game.getFrameworkContext(player);

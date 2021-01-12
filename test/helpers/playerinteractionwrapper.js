@@ -133,8 +133,16 @@ class PlayerInteractionWrapper {
         return this.player.opponent;
     }
 
-    get tide() {
-        return this.player.isTideHigh() ? 'high' : this.player.isTideLow() ? 'low' : null;
+    get isTideHigh() {
+        return this.player.isTideHigh();
+    }
+
+    get isTideLow() {
+        return this.player.isTideLow();
+    }
+
+    get isTideNeutral() {
+        return !this.isTideHigh() && !this.isTideLow();
     }
 
     /**

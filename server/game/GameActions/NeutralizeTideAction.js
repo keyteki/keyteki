@@ -1,3 +1,4 @@
+const Constants = require('../../constants');
 const PlayerAction = require('./PlayerAction');
 
 class NeutralizeTideAction extends PlayerAction {
@@ -21,7 +22,7 @@ class NeutralizeTideAction extends PlayerAction {
 
     getEvent(player, context) {
         return super.createEvent('onNeutralizeTide', { player: player, context: context }, () => {
-            context.game.changeTide(player, null);
+            context.game.changeTide(player, Constants.Tide.NEUTRAL);
         });
     }
 }
