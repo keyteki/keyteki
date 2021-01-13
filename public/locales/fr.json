@@ -351,6 +351,7 @@
     "howtoplay.cmd.rematch": "Recommencez une nouvelle partie avec l'adversaire actuel.",
     "howtoplay.cmd.token": "Choisissez une carte et changez le nombre de jetons de type x en y",
     "howtoplay.cmd.unforge": "Déforger une clé",
+    "howtoplay.cmd.tide": "Change the tide to level x (high, low or neutral)",
     "howtoplay.about": "The Crucible Online ne classe pas et/ou n'apparie pas les joueurs par niveau de compétence. Il y a trois catégories (débutant, décontractée et compétitive) à choisir lors de la création d'un jeu qui donne une indication mais cela n'implique rien. Même si les statistiques personnelles ne sont pas suivies, la plupart des joueurs apprécient encore beaucoup un concédé formel en cliquant sur le bouton 'Concèder' et en tapant 'gg' avant de quitter un jeu. La réalité des jeux en ligne rapides et anonymes montre que cela ne se produira pas toujours, comme en témoigne les plaintes régulières dans le chat room principal. Notre conseil est de passer au prochain match car finalement, concéder ou non n'a pas vraiment d'impact sur quoi que ce soit. Jouer heureux!",
     "about.whatisthis": "<0>Qu'est-ce que c est ?</0><p>Ce site a été créé pour vous permettre de jouer à Keyforge, un jeu de deck unique de Fantasy Flight Games (FFG) dans votre navigateur.</p>",
     "about.cool": "<0>C'est plutôt cool !  Mais comment tout cela fonctionne-t-il ?</0><1>Dirigez-vous vers le <1>guide Comment Jouer</1> pour une explication approfondie.</1>",
@@ -549,5 +550,7 @@
     "Unlink Account": "Unlink Account",
     "Enter the same password": "Enter the same password",
     "Enter challonge API key": "Enter challonge API key",
-    "Options": "Options"
+    "Options": "Options",
+    "Tide": "Tide",
+    "Raise the Tide?": "Raise the Tide?"
 }

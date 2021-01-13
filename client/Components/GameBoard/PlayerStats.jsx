@@ -115,6 +115,20 @@ export class PlayerStats extends React.Component {
         );
     }
 
+    getTide() {
+        return (
+            <div className='stat-image'>
+                <img
+                    key='tide'
+                    onClick={this.props.onClickTide}
+                    className='img-fluid tide-token'
+                    src={Constants.TideImages[this.props.stats.tide]}
+                    title={this.props.t('Tide')}
+                />
+            </div>
+        );
+    }
+
     writeChatToClipboard(event) {
         event.preventDefault();
         let messagePanel = document.getElementsByClassName('messages panel')[0];
@@ -147,6 +161,7 @@ export class PlayerStats extends React.Component {
                 {this.getKeyCost()}
 
                 {this.props.houses ? this.getHouses() : null}
+                {this.getTide()}
                 {this.props.activePlayer && (
                     <div className='state first-player-state'>
                         <Trans>Active Player</Trans>
@@ -222,6 +237,7 @@ PlayerStats.propTypes = {
     matchRecord: PropTypes.object,
     muteSpectators: PropTypes.bool,
     numMessages: PropTypes.number,
+    onClickTide: PropTypes.func,
     onManualModeClick: PropTypes.func,
     onMessagesClick: PropTypes.func,
     onMuteClick: PropTypes.func,
