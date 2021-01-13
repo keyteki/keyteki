@@ -22,6 +22,12 @@ Constants.HousesNames = [
     'Star Alliance',
     'Untamed'
 ];
+Constants.Tide = Object.freeze({
+    HIGH: 'high',
+    LOW: 'low',
+    NEUTRAL: 'neutral',
+    toString: (level) => level.charAt(0).toUpperCase() + level.slice(1)
+});
 
 Object.freeze(Constants);
 

@@ -351,6 +351,7 @@
     "howtoplay.cmd.rematch": "현재의 상대와 새로운 게임을 진행합니다.",
     "howtoplay.cmd.token": "카드를 고르고 토큰들의 타입을 x에서 y로 변경합니다",
     "howtoplay.cmd.unforge": "열쇠를 해제합니다",
+    "howtoplay.cmd.tide": "Change the tide to level x (high, low or neutral)",
     "howtoplay.about": "The Crucible Online does not rank and/or match players by skill level in any way. There are three categories (beginner, casual and competitive) to be chosen when creating a game which gives an indication of what to expect, but it doesn't enforce anything. Even though personal stats are not being tracked, most players still very much appreciate a formal concede by clicking the ‘Concede’ button and typing ‘gg’ before leaving a game. The reality of quick and anonymous online games dictates this won’t always happen though, as evidenced by regular complaining in the main lobby about people leaving without conceding. Our advice is to just move on to the next game since in the end, conceding or not doesn’t really impact anything. Happy gaming!",
     "about.whatisthis": "<0>What is this?</0><p>This site was setup to allow you to play Keyforge, a Unique Deck Game from Fantasy Flight Games (FFG) in your browser.</p>",
     "about.cool": "<0>That's pretty cool!  But how does any of this work?</0><1>Head on over to the <1>How To Play guide</1> for a thorough explanation.</1>",
@@ -549,5 +550,7 @@
     "Unlink Account": "Unlink Account",
     "Enter the same password": "Enter the same password",
     "Enter challonge API key": "Enter challonge API key",
-    "Options": "Options"
+    "Options": "Options",
+    "Tide": "Tide",
+    "Raise the Tide?": "Raise the Tide?"
 }

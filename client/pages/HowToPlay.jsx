@@ -224,6 +224,12 @@ class HowToPlay extends React.Component {
                         <li>
                             /unforge - <Trans i18nKey='howtoplay.cmd.unforge'>Unforge a key</Trans>
                         </li>
+                        <li>
+                            /tide x -{' '}
+                            <Trans i18nKey='howtoplay.cmd.tide'>
+                                Change the tide to level x (high, low or neutral)
+                            </Trans>
+                        </li>
                     </ul>
 
                     <h3 id='conceding'>
