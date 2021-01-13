@@ -93,6 +93,17 @@ class GamePipeline {
         return false;
     }
 
+    handleTideClicked(player) {
+        if (this.pipeline.length > 0) {
+            var step = this.getCurrentStep();
+            if (step.onTideClicked(player) !== false) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     continue() {
         if (this.queue.length > 0) {
             this.pipeline = this.queue.concat(this.pipeline);

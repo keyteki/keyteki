@@ -1,5 +1,6 @@
 const _ = require('underscore');
 
+const Constants = require('../constants');
 const GameObject = require('./GameObject');
 const Deck = require('./deck');
 const ClockSelector = require('./Clocks/ClockSelector');
@@ -733,8 +734,21 @@ class Player extends GameObject {
             chains: this.chains,
             keys: this.keys,
             houses: this.houses,
-            keyCost: this.getCurrentKeyCost()
+            keyCost: this.getCurrentKeyCost(),
+            tide: this.isTideHigh()
+                ? Constants.Tide.HIGH
+                : this.isTideLow()
+                ? Constants.Tide.LOW
+                : Constants.Tide.NEUTRAL
         };
+    }
+
+    isTideHigh() {
+        return this.game.highTide === this;
+    }
+
+    isTideLow() {
+        return this.game.highTide && this.game.highTide !== this;
     }
 
     /**
@@ -757,6 +771,9 @@ class Player extends GameObject {
             cardback: 'cardback',
             disconnected: !!this.disconnectedAt,
             activePlayer: this.game.activePlayer === this,
+            canRaiseTide:
+                !this.isTideHigh() &&
+                this.game.actions.raiseTide().canAffect(this, this.game.getFrameworkContext()),
             houses: this.houses,
             id: this.id,
             left: this.left,
