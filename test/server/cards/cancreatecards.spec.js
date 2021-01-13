@@ -22,7 +22,8 @@ const player = {
     creaturesInPlay: [card],
     cardsInPlay: [card],
     activeHouse: 'brobnar',
-    checkRestrictions: () => true
+    checkRestrictions: () => true,
+    isTideHigh: () => true
 };
 player.opponent = player;
 card.controller = player;
