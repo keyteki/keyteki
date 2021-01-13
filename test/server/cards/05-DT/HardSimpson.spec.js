@@ -10,7 +10,7 @@ describe("Hard Simpson's ability", function () {
                 },
                 player2: {
                     amber: 3,
-                    inPlay: ['murkens', 'shooler', 'mega-narp']
+                    inPlay: ['murkens', 'shooler', 'mega-narp', 'gub']
                 }
             });
 
@@ -27,6 +27,17 @@ describe("Hard Simpson's ability", function () {
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
 
+        it('should steal 1 amber when defending', function () {
+            this.player1.endTurn();
+            this.player2.clickPrompt('dis');
+            this.player2.fightWith(this.gub, this.hardSimpson);
+            this.player2.fightWith(this.shooler, this.hardSimpson);
+            expect(this.hardSimpson.tokens.damage).toBe(1);
+            expect(this.player1.amber).toBe(5);
+            expect(this.player2.amber).toBe(2);
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+        });
+
         it('should not steal 1 amber if destroyed', function () {
             this.player1.fightWith(this.hardSimpson, this.megaNarp);
             expect(this.hardSimpson.location).toBe('discard');
@@ -35,32 +46,30 @@ describe("Hard Simpson's ability", function () {
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
 
-        it('should steal 1 amber if damage prevented by armor', function () {
+        it('should not steal 1 amber if damage prevented by armor', function () {
             this.player1.fightWith(this.hardSimpson, this.murkens);
             expect(this.hardSimpson.location).toBe('play area');
-            expect(this.player1.amber).toBe(5);
-            expect(this.player2.amber).toBe(2);
+            expect(this.player1.amber).toBe(4);
+            expect(this.player2.amber).toBe(3);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
 
-        // TODO rule question
-        xit('should steal 1 amber if damage prevented by effect', function () {
+        it('should not steal 1 amber if damage prevented by effect', function () {
             this.player1.useAction(this.masterplan, true);
             this.player1.fightWith(this.hardSimpson, this.megaNarp);
             expect(this.hardSimpson.location).toBe('play area');
-            expect(this.player1.amber).toBe(6);
-            expect(this.player2.amber).toBe(2);
+            expect(this.player1.amber).toBe(5);
+            expect(this.player2.amber).toBe(3);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
 
-        // TODO rule question
-        xit('should steal 1 amber if warded', function () {
+        it('should not steal 1 amber if warded', function () {
             this.hardSimpson.ward();
             this.player1.fightWith(this.hardSimpson, this.megaNarp);
             expect(this.hardSimpson.location).toBe('play area');
             expect(this.hardSimpson.warded).toBe(false);
-            expect(this.player1.amber).toBe(5);
-            expect(this.player2.amber).toBe(2);
+            expect(this.player1.amber).toBe(4);
+            expect(this.player2.amber).toBe(3);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
 
@@ -89,6 +98,17 @@ describe("Hard Simpson's ability", function () {
                 expect(this.player1.amber).toBe(3);
                 expect(this.player2.amber).toBe(4);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            });
+
+            it('opponent should steal 1 amber when defending', function () {
+                this.player1.endTurn();
+                this.player2.clickPrompt('dis');
+                this.player2.fightWith(this.gub, this.hardSimpson);
+                this.player2.fightWith(this.shooler, this.hardSimpson);
+                expect(this.hardSimpson.tokens.damage).toBe(1);
+                expect(this.player1.amber).toBe(3);
+                expect(this.player2.amber).toBe(4);
+                expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
             });
         });
     });
