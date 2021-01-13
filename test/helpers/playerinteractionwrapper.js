@@ -161,6 +161,15 @@ class PlayerInteractionWrapper {
      */
     lowerTide() {
         this.game.changeTide(this.player, Constants.Tide.LOW);
+        this.game.checkGameState(true);
+    }
+
+    /**
+     * Neutralized the tide level without affect player's stats.
+     */
+    neutralizeTide() {
+        this.game.changeTide(this.player, Constants.Tide.NEUTRAL);
+        this.game.checkGameState(true);
     }
 
     replaceLocalizedValues(title) {
