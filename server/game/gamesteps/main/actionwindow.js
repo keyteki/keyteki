@@ -1,5 +1,6 @@
 const UiPrompt = require('../uiprompt.js');
 const DiscardAction = require('../../BaseActions/DiscardAction');
+const RaiseTideAction = require('../../GameActions/RaiseTideAction');
 const UseAction = require('../../GameActions/UseAction');
 
 class ActionWindow extends UiPrompt {
@@ -46,6 +47,29 @@ class ActionWindow extends UiPrompt {
         }
 
         return false;
+    }
+
+    onTideClicked(player) {
+        let raiseTideAction = new RaiseTideAction({
+            showMessage: true,
+            chainCost: 3 + player.sumEffects('modifyTideCost')
+        });
+        let context = this.game.getFrameworkContext(player);
+        if (raiseTideAction.canAffect(player, context)) {
+            this.game.promptWithHandlerMenu(player, {
+                activePromptTitle: 'Raise the Tide?',
+                choices: ['Yes', 'No'],
+                handlers: [
+                    () => {
+                        raiseTideAction.resolve(player, context);
+                        return true;
+                    },
+                    () => true
+                ]
+            });
+        }
+
+        return true;
     }
 
     checkForPhaseEnding() {
