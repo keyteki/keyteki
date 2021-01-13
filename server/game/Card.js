@@ -857,15 +857,11 @@ class Card extends EffectSource {
     }
 
     getLegalActions(player, ignoreHouse = false) {
-        return this.getActionsIgnoringRequirements(player, ignoreHouse ? ['house'] : []);
-    }
-
-    getActionsIgnoringRequirements(player, ignoredRequirements) {
         let actions = this.getActions();
         actions = actions.filter((action) => {
             let context = action.createContext(player);
-            context.ignoreHouse = ignoredRequirements.includes('house');
-            return !action.meetsRequirements(context, ignoredRequirements);
+            context.ignoreHouse = ignoreHouse;
+            return !action.meetsRequirements(context);
         });
         let canFight =
             actions.findIndex((action) => action.title === 'Fight with this creature') >= 0;
