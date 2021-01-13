@@ -161,6 +161,7 @@ class PlayerInteractionWrapper {
      */
     lowerTide() {
         this.game.changeTide(this.player, Constants.Tide.LOW);
+        this.game.checkGameState(true);
     }
 
     replaceLocalizedValues(title) {
