@@ -4,7 +4,8 @@ class GreaterOxtet extends Card {
     setupCardAbilities(ability) {
         this.interrupt({
             when: {
-                onCardsReadied: (event, context) => context.player === this.game.activePlayer
+                onPhaseEnded: (event, context) =>
+                    event.phase === 'ready' && context.source.controller === context.player
             },
             target: {
                 controller: 'self',
