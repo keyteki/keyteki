@@ -6,8 +6,7 @@ class TheChosenOne extends Card {
     setupCardAbilities(ability) {
         this.interrupt({
             when: {
-                onCardsReadied: (event, context) =>
-                    event.player === context.source.controller.opponent
+                onCardsReadied: (event, context) => event.player === context.player.opponent
             },
             gameAction: [
                 ability.actions.changeEvent((context) => ({
@@ -15,16 +14,14 @@ class TheChosenOne extends Card {
                     cancel: true
                 })),
                 ability.actions.dealDamage((context) => ({
-                    amount: context.source.controller.opponent.creaturesInPlay.filter(
-                        (card) => card.exhausted
-                    ).length
+                    amount: context.player.opponent.creaturesInPlay.filter((card) => card.exhausted)
+                        .length
                 }))
             ],
             effect: "skip {1}'s ready cards and deal {2} damage to {0}",
             effectArgs: (context) => [
-                context.source.controller.opponent,
-                context.source.controller.opponent.creaturesInPlay.filter((card) => card.exhausted)
-                    .length
+                context.player.opponent,
+                context.player.opponent.creaturesInPlay.filter((card) => card.exhausted).length
             ]
         });
     }
