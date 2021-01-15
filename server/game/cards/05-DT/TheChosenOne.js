@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class TheChosenOne extends Card {
+    //Instead of readying creatures they control during their "ready cards" step, your opponent deals 1D to
+    //The Chosen One for each exhausted creature they control.
     setupCardAbilities(ability) {
         this.interrupt({
             when: {
@@ -13,14 +15,16 @@ class TheChosenOne extends Card {
                     cancel: true
                 })),
                 ability.actions.dealDamage((context) => ({
-                    amount: context.event.player.creaturesInPlay.filter((card) => card.exhausted)
-                        .length
+                    amount: context.source.controller.opponent.creaturesInPlay.filter(
+                        (card) => card.exhausted
+                    ).length
                 }))
             ],
             effect: "skip {1}'s ready cards and deal {2} damage to {0}",
             effectArgs: (context) => [
-                context.event.player,
-                context.event.player.creaturesInPlay.filter((card) => card.exhausted).length
+                context.source.controller.opponent,
+                context.source.controller.opponent.creaturesInPlay.filter((card) => card.exhausted)
+                    .length
             ]
         });
     }
