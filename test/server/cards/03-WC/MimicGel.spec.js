@@ -217,7 +217,7 @@ describe('Mimic Gel', function () {
             });
         });
 
-        it('should not crash when returned to deck', function () {
+        it('MG should continue to work when Praefectur Ludo is returned to deck', function () {
             this.player1.play(this.mimicGel);
             this.player1.clickCard(this.praefectusLudo);
             this.player1.endTurn();
