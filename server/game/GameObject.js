@@ -48,6 +48,12 @@ class GameObject {
         return _.last(this.getEffects(type));
     }
 
+    mostRecentEffectRaw(type) {
+        let filteredEffects = this.effects.filter((effect) => effect.type === type);
+
+        return _.last(filteredEffects);
+    }
+
     allowGameAction(actionType, context = this.game.getFrameworkContext()) {
         if (GameActions[actionType]) {
             return GameActions[actionType]().canAffect(this, context);

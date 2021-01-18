@@ -5,28 +5,24 @@ class CopyCard extends EffectValue {
     constructor(card) {
         super(card);
         this.abilitiesForTargets = {};
+        let cloneCard;
         if (card.anyEffect('copyCard')) {
-            this.value = card.mostRecentEffect('copyCard');
-            this.actions = this.value.actions.map(
-                (action) => new GainAbility('action', action, true)
-            );
-            this.reactions = this.value.reactions.map(
-                (ability) => new GainAbility(ability.abilityType, ability, true)
-            );
-            this.persistentEffects = this.value.persistentEffects.map(
-                (properties) => new GainAbility('persistentEffect', properties)
-            );
+            let prevCopyEffect = card.mostRecentEffectRaw('copyCard').value;
+            this.value = prevCopyEffect.value;
+            cloneCard = this.value.cloneAbilitiesCard();
         } else {
-            this.actions = card.abilities.actions.map(
-                (action) => new GainAbility('action', action, true)
-            );
-            this.reactions = card.abilities.reactions.map(
-                (ability) => new GainAbility(ability.abilityType, ability, true)
-            );
-            this.persistentEffects = card.abilities.persistentEffects.map(
-                (properties) => new GainAbility('persistentEffect', properties)
-            );
+            cloneCard = card.cloneAbilitiesCard();
         }
+
+        this.actions = cloneCard.abilities.actions.map(
+            (action) => new GainAbility('action', action, true)
+        );
+        this.reactions = cloneCard.abilities.reactions.map(
+            (ability) => new GainAbility(ability.abilityType, ability, true)
+        );
+        this.persistentEffects = cloneCard.abilities.persistentEffects.map(
+            (properties) => new GainAbility('persistentEffect', properties)
+        );
     }
 
     apply(target) {

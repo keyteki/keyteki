@@ -202,4 +202,32 @@ describe('Mimic Gel', function () {
             expect(this.player2.amber).toBe(2);
         });
     });
+
+    describe('Mimic Gel and gained ability', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'logos',
+                    inPlay: ['praefectus-ludo', 'hapsis', 'mother'],
+                    hand: ['mimic-gel']
+                },
+                player2: {
+                    hand: ['lost-in-the-woods']
+                }
+            });
+        });
+
+        it('should not crash when returned to deck', function () {
+            this.player1.play(this.mimicGel);
+            this.player1.clickCard(this.praefectusLudo);
+            this.player1.endTurn();
+            this.player2.clickPrompt('untamed');
+            this.player2.play(this.lostInTheWoods);
+            this.player2.clickCard(this.praefectusLudo);
+            this.player2.clickCard(this.mother);
+            this.player2.clickPrompt('Done');
+            expect(this.praefectusLudo.location).toBe('deck');
+            expect(this.mother.location).toBe('deck');
+        });
+    });
 });
