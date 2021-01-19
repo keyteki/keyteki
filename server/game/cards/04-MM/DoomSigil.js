@@ -12,7 +12,6 @@ class DoomSigil extends Card {
             effect: ability.effects.terminalCondition({
                 condition: (context) => context.game.creaturesInPlay.length === 0,
                 message: '{0} is destroyed as there are no creatures in play',
-                target: this,
                 gameAction: ability.actions.destroy()
             })
         });

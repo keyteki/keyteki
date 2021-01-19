@@ -853,7 +853,7 @@ class Game extends EventEmitter {
             return;
         }
 
-        this.raiseEvent('onTakeControl', { player, card });
+        this.raiseEvent('onTakeControl', { noGameStateCheck: true, player, card });
         card.controller.removeCardFromPile(card);
         card.controller = player;
         if (card.type === 'creature' && player.creaturesInPlay.length > 0) {

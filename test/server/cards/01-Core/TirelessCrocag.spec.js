@@ -140,6 +140,7 @@ describe('Tireless Crocag', function () {
             this.player2.play(this.harlandMindlock);
             this.player2.clickCard(this.brammo);
             this.player2.clickPrompt('Left');
+            expect(this.brammo.controller).toBe(this.player2.player);
             this.player2.endTurn();
             this.player1.clickPrompt('brobnar');
             this.player1.play(this.tirelessCrocag);
@@ -177,10 +178,11 @@ describe('Tireless Crocag', function () {
             this.player1.clickPrompt('logos');
         });
 
-        it('should be destroyed when mindlock controlled creature return to owner', function () {
+        it('should be destroyed when mindlock controlled creature return to opponent', function () {
             this.player1.play(this.harlandMindlock);
             this.player1.clickCard(this.gamgee);
             this.player1.clickPrompt('Left');
+            expect(this.gamgee.controller).toBe(this.player1.player);
             this.player1.endTurn();
             this.player2.clickPrompt('shadows');
             this.player2.fightWith(this.lamindra, this.harlandMindlock);
@@ -191,6 +193,40 @@ describe('Tireless Crocag', function () {
             expect(this.gamgee.controller).toBe(this.player2.player);
             expect(this.brammo.location).toBe('play area');
             expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+        });
+    });
+
+    describe("Gebuk's ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'dis',
+                    inPlay: ['gebuk'],
+                    hand: ['gateway-to-dis', 'tireless-crocag']
+                },
+                player2: {
+                    inPlay: ['lamindra']
+                }
+            });
+
+            this.player1.moveCard(this.tirelessCrocag, 'deck');
+        });
+
+        it('should be destroyed after put in play', function () {
+            this.player1.play(this.gatewayToDis);
+            expect(this.lamindra.location).toBe('discard');
+            expect(this.gebuk.location).toBe('discard');
+            expect(this.tirelessCrocag.location).toBe('discard');
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+
+        it('should not be destroyed after put in play, if opponent has creature', function () {
+            this.lamindra.ward();
+            this.player1.play(this.gatewayToDis);
+            expect(this.lamindra.location).toBe('play area');
+            expect(this.gebuk.location).toBe('discard');
+            expect(this.tirelessCrocag.location).toBe('play area');
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
     });
 });
