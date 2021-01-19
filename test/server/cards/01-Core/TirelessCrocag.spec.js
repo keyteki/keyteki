@@ -119,4 +119,40 @@ describe('Tireless Crocag', function () {
             expect(this.armageddonCloak.location).toBe('discard');
         });
     });
+
+    describe("Harland Mindlock's ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'brobnar',
+                    hand: ['tireless-crocag', 'ganger-chieftain', 'brammo']
+                },
+                player2: {
+                    hand: ['harland-mindlock']
+                }
+            });
+        });
+
+        xit('should be destroyed when mindlock controlled creature return to owner', function () {
+            this.player1.play(this.brammo);
+            this.player1.endTurn();
+            this.player2.clickPrompt('logos');
+            this.player2.play(this.harlandMindlock);
+            this.player2.clickCard(this.brammo);
+            this.player2.clickPrompt('Left');
+            this.player2.endTurn();
+            this.player1.clickPrompt('brobnar');
+            this.player1.play(this.tirelessCrocag);
+            this.player1.play(this.gangerChieftain);
+            this.player1.clickCard(this.gangerChieftain);
+            this.player1.clickCard(this.tirelessCrocag);
+            this.player1.clickCard(this.harlandMindlock);
+            this.player1.clickPrompt('Left');
+            expect(this.harlandMindlock.location).toBe('discard');
+            expect(this.tirelessCrocag.location).toBe('discard');
+            expect(this.gangerChieftain.location).toBe('play area');
+            expect(this.brammo.location).toBe('play area');
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+    });
 });
