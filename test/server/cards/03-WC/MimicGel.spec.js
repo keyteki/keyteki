@@ -208,26 +208,46 @@ describe('Mimic Gel', function () {
             this.setupTest({
                 player1: {
                     house: 'logos',
-                    inPlay: ['praefectus-ludo', 'hapsis', 'mother'],
+                    inPlay: ['praefectus-ludo', 'hapsis', 'daughter'],
                     hand: ['mimic-gel']
                 },
                 player2: {
-                    hand: ['lost-in-the-woods']
+                    hand: ['lost-in-the-woods', 'perilous-wild']
                 }
             });
-        });
 
-        it('MG should continue to work when Praefectur Ludo is returned to deck', function () {
+            this.daughter.tokens.amber = 5;
+
             this.player1.play(this.mimicGel);
             this.player1.clickCard(this.praefectusLudo);
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
+        });
+
+        it('MG maintain the effect when Praefectus Ludo is returned to deck', function () {
             this.player2.play(this.lostInTheWoods);
             this.player2.clickCard(this.praefectusLudo);
-            this.player2.clickCard(this.mother);
+            this.player2.clickCard(this.hapsis);
             this.player2.clickPrompt('Done');
             expect(this.praefectusLudo.location).toBe('deck');
-            expect(this.mother.location).toBe('deck');
+            expect(this.hapsis.location).toBe('deck');
+            this.player2.play(this.perilousWild);
+            expect(this.mimicGel.location).toBe('play area');
+            expect(this.daughter.location).toBe('discard');
+            expect(this.player2.amber).toBe(2);
+        });
+
+        it('MG should stop effect when Praefectus Ludo and Mimic Gel are returned to deck', function () {
+            this.player2.play(this.lostInTheWoods);
+            this.player2.clickCard(this.praefectusLudo);
+            this.player2.clickCard(this.mimicGel);
+            this.player2.clickPrompt('Done');
+            expect(this.praefectusLudo.location).toBe('deck');
+            expect(this.mimicGel.location).toBe('deck');
+            this.player2.play(this.perilousWild);
+            expect(this.hapsis.location).toBe('play area');
+            expect(this.daughter.location).toBe('discard');
+            expect(this.player2.amber).toBe(7);
         });
     });
 });
