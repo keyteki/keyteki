@@ -679,12 +679,6 @@ class Card extends EffectSource {
         return clone;
     }
 
-    cloneAbilitiesCard() {
-        let clone = new this.constructor(this.owner, this.cardData);
-        clone.setupAbilities();
-        return clone;
-    }
-
     get power() {
         return this.getPower();
     }

@@ -3,7 +3,6 @@ const StaticEffect = require('./StaticEffect');
 class DynamicEffect extends StaticEffect {
     constructor(type, calculate) {
         super(type);
-        this.values = {};
         this.calculate = calculate;
     }
 
@@ -19,12 +18,12 @@ class DynamicEffect extends StaticEffect {
 
     getValue(target) {
         if (target) {
-            return this.values[target.uuid];
+            return this.state[target.uuid];
         }
     }
 
     setValue(target, value) {
-        this.values[target.uuid] = value;
+        this.state[target.uuid] = value;
         return value;
     }
 }

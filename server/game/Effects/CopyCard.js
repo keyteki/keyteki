@@ -5,39 +5,43 @@ class CopyCard extends EffectValue {
     constructor(card) {
         super(card);
         this.abilitiesForTargets = {};
-        let cloneCard;
         if (card.anyEffect('copyCard')) {
-            let prevCopyEffect = card.mostRecentEffectRaw('copyCard').value;
-            this.value = prevCopyEffect.value;
-            cloneCard = this.value.cloneAbilitiesCard();
+            this.value = card.mostRecentEffect('copyCard');
+            this.actions = this.value.actions.map(
+                (action) => new GainAbility('action', action, true)
+            );
+            this.reactions = this.value.reactions.map(
+                (ability) => new GainAbility(ability.abilityType, ability, true)
+            );
+            this.persistentEffects = this.value.persistentEffects.map(
+                (properties) => new GainAbility('persistentEffect', properties)
+            );
         } else {
-            cloneCard = card.cloneAbilitiesCard();
+            this.actions = card.abilities.actions.map(
+                (action) => new GainAbility('action', action, true)
+            );
+            this.reactions = card.abilities.reactions.map(
+                (ability) => new GainAbility(ability.abilityType, ability, true)
+            );
+            this.persistentEffects = card.abilities.persistentEffects.map(
+                (properties) => new GainAbility('persistentEffect', properties)
+            );
         }
-
-        this.actions = cloneCard.abilities.actions.map(
-            (action) => new GainAbility('action', action, true)
-        );
-        this.reactions = cloneCard.abilities.reactions.map(
-            (ability) => new GainAbility(ability.abilityType, ability, true)
-        );
-        this.persistentEffects = cloneCard.abilities.persistentEffects.map(
-            (properties) => new GainAbility('persistentEffect', properties)
-        );
     }
 
-    apply(target) {
+    apply(target, state) {
         this.abilitiesForTargets[target.uuid] = {
             actions: this.actions.map((value) => {
-                value.apply(target);
-                return value.getValue(target);
+                value.apply(target, state);
+                return value.getValue(target, state);
             }),
             reactions: this.reactions.map((value) => {
-                value.apply(target);
-                return value.getValue(target);
+                value.apply(target, state);
+                return value.getValue(target, state);
             }),
             persistentEffects: this.persistentEffects.map((value) => {
-                value.apply(target);
-                return value.getValue(target);
+                value.apply(target, state);
+                return value.getValue(target, state);
             })
         };
     }
