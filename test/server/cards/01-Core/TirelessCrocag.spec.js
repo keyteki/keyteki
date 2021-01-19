@@ -133,7 +133,7 @@ describe('Tireless Crocag', function () {
             });
         });
 
-        xit('should be destroyed when mindlock controlled creature return to owner', function () {
+        it('should be destroyed when mindlock controlled creature return to owner', function () {
             this.player1.play(this.brammo);
             this.player1.endTurn();
             this.player2.clickPrompt('logos');

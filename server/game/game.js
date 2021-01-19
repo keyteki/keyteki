@@ -1019,15 +1019,21 @@ class Game extends EventEmitter {
         if (this.effectEngine.checkEffects(hasChanged) || hasChanged) {
             this.checkWinCondition();
             // if the state has changed, check for:
+            let modifiedControl = false;
             for (const player of this.getPlayers()) {
                 _.each(player.cardsInPlay, (card) => {
                     if (card.getModifiedController() !== player) {
                         // any card being controlled by the wrong player
                         this.takeControl(card.getModifiedController(), card);
+                        modifiedControl = true;
                     }
                     // any upgrades which are illegally attached
                     // card.checkForIllegalAttachments();
                 });
+            }
+
+            if (modifiedControl) {
+                return;
             }
 
             // destroy any creatures who have damage greater than equal to their power
