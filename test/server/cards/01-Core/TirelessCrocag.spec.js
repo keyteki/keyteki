@@ -120,7 +120,7 @@ describe('Tireless Crocag', function () {
         });
     });
 
-    describe("Harland Mindlock's ability", function () {
+    describe("Opponent Harland Mindlock's ability", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
@@ -152,7 +152,45 @@ describe('Tireless Crocag', function () {
             expect(this.tirelessCrocag.location).toBe('discard');
             expect(this.gangerChieftain.location).toBe('play area');
             expect(this.brammo.location).toBe('play area');
+            expect(this.brammo.controller).toBe(this.player1.player);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+    });
+
+    describe("Own Harland Mindlock's ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'brobnar',
+                    inPlay: ['brammo'],
+                    hand: ['harland-mindlock', 'tireless-crocag']
+                },
+                player2: {
+                    inPlay: ['lamindra', 'gamgee']
+                }
+            });
+
+            this.player1.play(this.tirelessCrocag);
+            this.player1.endTurn();
+            this.player2.clickPrompt('shadows');
+            this.player2.endTurn();
+            this.player1.clickPrompt('logos');
+        });
+
+        it('should be destroyed when mindlock controlled creature return to owner', function () {
+            this.player1.play(this.harlandMindlock);
+            this.player1.clickCard(this.gamgee);
+            this.player1.clickPrompt('Left');
+            this.player1.endTurn();
+            this.player2.clickPrompt('shadows');
+            this.player2.fightWith(this.lamindra, this.harlandMindlock);
+            expect(this.lamindra.location).toBe('discard');
+            expect(this.harlandMindlock.location).toBe('discard');
+            expect(this.tirelessCrocag.location).toBe('play area');
+            expect(this.gamgee.location).toBe('play area');
+            expect(this.gamgee.controller).toBe(this.player2.player);
+            expect(this.brammo.location).toBe('play area');
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
         });
     });
 });
