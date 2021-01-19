@@ -250,4 +250,49 @@ describe('Mimic Gel', function () {
             expect(this.player2.amber).toBe(7);
         });
     });
+
+    describe('Two Mimic Gels and gained ability', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'logos',
+                    inPlay: ['johnny-longfingers', 'xeno-thief', 'lyco-thief'],
+                    hand: ['mimic-gel', 'mimic-gel']
+                },
+                player2: {
+                    amber: 5,
+                    hand: ['lost-in-the-woods', 'perilous-wild']
+                }
+            });
+
+            this.mimicGel1 = this.player1.hand[0];
+            this.mimicGel2 = this.player1.hand[1];
+
+            this.player1.play(this.mimicGel1);
+            this.player1.clickCard(this.johnnyLongfingers);
+
+            this.player1.play(this.mimicGel2);
+            this.player1.clickCard(this.mimicGel1);
+
+            this.player1.endTurn();
+            this.player2.clickPrompt('untamed');
+        });
+
+        it('MG maintain the effect when Long Fingers and MG1 are returned to deck', function () {
+            this.player2.play(this.lostInTheWoods);
+            this.player2.clickCard(this.mimicGel1);
+            this.player2.clickCard(this.johnnyLongfingers);
+            this.player2.clickPrompt('Done');
+            expect(this.mimicGel1.location).toBe('deck');
+            expect(this.johnnyLongfingers.location).toBe('deck');
+            this.player2.play(this.perilousWild);
+            expect(this.mimicGel2.location).toBe('play area');
+            this.player2.clickCard(this.xenoThief);
+            expect(this.xenoThief.location).toBe('discard');
+            expect(this.lycoThief.location).toBe('discard');
+            expect(this.player1.amber).toBe(2);
+            expect(this.player2.amber).toBe(5);
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+        });
+    });
 });
