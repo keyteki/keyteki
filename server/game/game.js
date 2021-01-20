@@ -853,13 +853,10 @@ class Game extends EventEmitter {
             return;
         }
 
-        this.raiseEvent('onTakeControl', { noGameStateCheck: true, player, card });
-        card.controller.removeCardFromPile(card);
-        card.controller = player;
         if (card.type === 'creature' && player.creaturesInPlay.length > 0) {
             let handlers = [
-                () => player.cardsInPlay.unshift(card),
-                () => player.cardsInPlay.push(card)
+                () => this.finalizeTakeControl(player, card, true),
+                () => this.finalizeTakeControl(player, card)
             ];
             this.promptWithHandlerMenu(this.activePlayer, {
                 activePromptTitle: {
@@ -871,11 +868,21 @@ class Game extends EventEmitter {
                 handlers: handlers
             });
         } else {
-            player.cardsInPlay.push(card);
+            this.finalizeTakeControl(player, card);
         }
+    }
 
-        card.updateEffectContexts();
-        this.queueSimpleStep(() => this.checkGameState(true));
+    finalizeTakeControl(player, card, left = false) {
+        this.raiseEvent('onTakeControl', { player, card }, () => {
+            card.controller.removeCardFromPile(card);
+            card.controller = player;
+            if (left) {
+                player.cardsInPlay.unshift(card);
+            } else {
+                player.cardsInPlay.push(card);
+            }
+            card.updateEffectContexts();
+        });
     }
 
     watch(socketId, user) {

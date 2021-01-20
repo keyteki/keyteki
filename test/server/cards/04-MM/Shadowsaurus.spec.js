@@ -28,6 +28,7 @@ describe('Shadowsaurus', function () {
 
         expect(this.player1).toBeAbleToSelect(this.krump);
         this.player1.clickCard(this.krump);
+        this.player1.clickPrompt('Left');
 
         expect(this.krump.controller).toBe(this.player1.player);
         expect(this.player2.amber).toBe(4);
