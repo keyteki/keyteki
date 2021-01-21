@@ -13,6 +13,7 @@ class BinaryMoray extends Card {
                 target: context.source
             }))
         });
+
         this.reaction({
             when: {
                 onRaiseTide: (event, context) => event.player !== context.player
@@ -21,6 +22,7 @@ class BinaryMoray extends Card {
                 target: context.source
             }))
         });
+
         this.reap({
             target: {
                 controller: 'self',
