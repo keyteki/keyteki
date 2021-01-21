@@ -6,7 +6,8 @@ class HardSimpson extends Card {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onDamageDealt: (event, context) => event.card === context.source && !event.card.destroyEvent
+                onDamageDealt: (event, context) =>
+                    event.card === context.source && !event.card.destroyEvent
             },
             gameAction: ability.actions.steal((context) => ({
                 target: context.player.isTideLow() ? context.player : context.player.opponent
