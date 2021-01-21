@@ -621,6 +621,13 @@ class Player extends GameObject {
                             modifiedCost -= choice;
                             totalAvailable -= choice;
                             source.removeToken('amber', choice);
+                            if (choice) {
+                                this.game.addMessage(
+                                    `{0} uses ${choice} amber from {1} to forge a key`,
+                                    this.game.activePlayer,
+                                    source
+                                );
+                            }
                         }
                     });
                 });
