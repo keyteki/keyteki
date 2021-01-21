@@ -5,7 +5,7 @@ describe('novu-dynamo', function () {
                 player1: {
                     house: 'logos',
                     archives: ['snufflegator', 'library-access'],
-                    hand: ['eyegor', 'anger'],
+                    hand: ['eyegor', 'anger', 'eureka'],
                     inPlay: ['novu-dynamo'],
                     amber: 0
                 },
@@ -30,6 +30,8 @@ describe('novu-dynamo', function () {
             describe('discard from hand', function () {
                 beforeEach(function () {
                     this.player1.clickCard(this.eyegor);
+                    this.player1.clickPrompt('logos');
+                    this.player1.clickPrompt('no');
                 });
 
                 it('and gain amber', function () {
@@ -38,10 +40,13 @@ describe('novu-dynamo', function () {
                     expect(this.player1.amber).toBe(1);
                 });
 
+                it('and allow playing an alpha card', function () {
+                    this.player1.play(this.eureka);
+                    expect(this.player1.amber).toBe(4);
+                });
+
                 describe('Trigger again', function () {
                     beforeEach(function () {
-                        this.player1.clickPrompt('logos');
-                        this.player1.clickPrompt('no');
                         this.player1.endTurn();
                         this.player2.clickPrompt('logos');
                         this.player2.endTurn();
@@ -59,6 +64,7 @@ describe('novu-dynamo', function () {
                         beforeEach(function () {
                             this.player1.clickCard(this.libraryAccess);
                         });
+
                         it('gives amber', function () {
                             expect(this.libraryAccess.location).toBe('discard');
                             expect(this.novuDynamo.location).toBe('play area');
@@ -72,6 +78,7 @@ describe('novu-dynamo', function () {
                 beforeEach(function () {
                     this.player1.clickCard(this.libraryAccess);
                 });
+
                 it('gives amber', function () {
                     expect(this.libraryAccess.location).toBe('discard');
                     expect(this.novuDynamo.location).toBe('play area');

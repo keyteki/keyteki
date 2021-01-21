@@ -1,10 +1,11 @@
-const Constants = require('../../../constants.js');
 const Card = require('../../Card.js');
 
 class ExperimentalTherapy extends Card {
     setupCardAbilities(ability) {
         this.whileAttached({
-            effect: Constants.Houses.map((house) => ability.effects.addHouse(house))
+            effect: ability.effects.gainAbility('persistentEffect', {
+                effect: ability.effects.canUse((card) => card === this.parent)
+            })
         });
         this.play({
             gameAction: [

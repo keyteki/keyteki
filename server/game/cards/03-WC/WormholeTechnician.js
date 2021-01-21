@@ -7,6 +7,9 @@ class WormholeTechnician extends Card {
             effect: 'reveal {1}{2}',
             effectArgs: (context) => {
                 let card = context.player.deck[0];
+                if (!card) {
+                    return [];
+                }
                 let args = [card];
                 if (card.hasHouse('logos')) {
                     return args.concat(', which is a Logos card, and play it');
@@ -16,10 +19,17 @@ class WormholeTechnician extends Card {
             },
             gameAction: [
                 ability.actions.playCard((context) => ({
-                    target: context.player.deck[0].hasHouse('logos') ? context.player.deck[0] : []
+                    revealOnIllegalTarget: true,
+                    target:
+                        context.player.deck[0] && context.player.deck[0].hasHouse('logos')
+                            ? context.player.deck[0]
+                            : []
                 })),
                 ability.actions.archive((context) => ({
-                    target: !context.player.deck[0].hasHouse('logos') ? context.player.deck[0] : []
+                    target:
+                        context.player.deck[0] && !context.player.deck[0].hasHouse('logos')
+                            ? context.player.deck[0]
+                            : []
                 }))
             ]
         });

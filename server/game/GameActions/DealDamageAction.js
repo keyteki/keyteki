@@ -131,11 +131,18 @@ class DealDamageAction extends CardGameAction {
                 }
             );
 
+            let armorEvent;
             if (
                 damageDealtEvent.ignoreArmor ||
                 damageDealtEvent.card.armor <= damageDealtEvent.card.armorUsed
             ) {
-                damageDealtEvent.addSubEvent(damageAppliedEvent);
+                armorEvent = super.createEvent(
+                    'unnamedEvent',
+                    { card: damageDealtEvent.card, context: damageDealtEvent.context },
+                    () => {
+                        damageDealtEvent.addSubEvent(damageAppliedEvent);
+                    }
+                );
             } else {
                 let armorPreventParams = {
                     card: damageDealtEvent.card,
@@ -143,12 +150,12 @@ class DealDamageAction extends CardGameAction {
                     amount: damageDealtEvent.amount,
                     noGameStateCheck: true
                 };
-                let armorPreventEvent = super.createEvent(
+                armorEvent = super.createEvent(
                     'onDamagePreventedByArmor',
                     armorPreventParams,
                     (event) => {
                         const currentArmor = event.card.armor - event.card.armorUsed;
-                        if (amount <= currentArmor) {
+                        if (event.amount <= currentArmor) {
                             card.armorUsed += event.amount;
                             event.damagePrevented = event.amount;
                         } else {
@@ -161,9 +168,9 @@ class DealDamageAction extends CardGameAction {
                         damageDealtEvent.addSubEvent(damageAppliedEvent);
                     }
                 );
-                damageDealtEvent.addSubEvent(armorPreventEvent);
-                armorPreventEvent.openReactionWindow = true;
             }
+            damageDealtEvent.addSubEvent(armorEvent);
+            armorEvent.openReactionWindow = true;
         });
     }
 }

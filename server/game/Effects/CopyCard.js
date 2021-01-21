@@ -29,19 +29,19 @@ class CopyCard extends EffectValue {
         }
     }
 
-    apply(target) {
+    apply(target, state) {
         this.abilitiesForTargets[target.uuid] = {
             actions: this.actions.map((value) => {
-                value.apply(target);
-                return value.getValue(target);
+                value.apply(target, state);
+                return value.getValue(target, state);
             }),
             reactions: this.reactions.map((value) => {
-                value.apply(target);
-                return value.getValue(target);
+                value.apply(target, state);
+                return value.getValue(target, state);
             }),
             persistentEffects: this.persistentEffects.map((value) => {
-                value.apply(target);
-                return value.getValue(target);
+                value.apply(target, state);
+                return value.getValue(target, state);
             })
         };
     }

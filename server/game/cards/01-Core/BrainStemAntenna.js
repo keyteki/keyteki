@@ -12,7 +12,9 @@ class BrainStemAntenna extends Card {
                 },
                 gameAction: [
                     ability.actions.ready(),
-                    ability.actions.cardLastingEffect({ effect: ability.effects.addHouse('mars') })
+                    ability.actions.cardLastingEffect({
+                        effect: ability.effects.changeHouse('mars')
+                    })
                 ]
             })
         });

@@ -5,41 +5,44 @@ class OneStoodAgainstMany extends Card {
         this.chosenTargets = [];
 
         this.play({
+            effect: 'make {0} fight against 3 different creatures',
             target: {
                 cardType: 'creature',
                 controller: 'self',
                 gameAction: ability.actions.sequential([
-                    ability.actions.resolveFight((context) => ({
-                        attacker: context.target,
-                        promptForSelect: {
-                            activePromptTitle: 'Choose a creature to fight',
-                            cardType: 'creature',
-                            controller: 'opponent'
-                        },
-                        postHandler: (context, action) => (this.chosenTargets = action.target)
-                    })),
-                    ability.actions.resolveFight((context) => ({
-                        attacker: context.target,
-                        promptForSelect: {
-                            activePromptTitle: 'Choose a creature to fight',
-                            cardType: 'creature',
-                            controller: 'opponent',
-                            cardCondition: (card) => !this.chosenTargets.includes(card)
-                        },
-                        postHandler: (context, action) =>
-                            (this.chosenTargets = this.chosenTargets.concat(action.target))
-                    })),
-                    ability.actions.resolveFight((context) => ({
-                        attacker: context.target,
-                        promptForSelect: {
-                            activePromptTitle: 'Choose a creature to fight',
-                            cardType: 'creature',
-                            controller: 'opponent',
-                            cardCondition: (card) => !this.chosenTargets.includes(card)
-                        }
-                    }))
+                    ability.actions.ready(),
+                    ability.actions.fight({
+                        resolveFightPostHandler: (_, action) =>
+                            (this.chosenTargets = [].concat(action.target))
+                    })
                 ])
-            }
+            },
+            then: (preThenContext) => ({
+                alwaysTriggers: true,
+                gameAction: ability.actions.sequential([
+                    ability.actions.ready({
+                        target: preThenContext.target
+                    }),
+                    ability.actions.fight({
+                        target: preThenContext.target,
+                        fightCardCondition: (card) => !this.chosenTargets.includes(card),
+                        resolveFightPostHandler: (_, action) =>
+                            (this.chosenTargets = this.chosenTargets.concat(action.target))
+                    })
+                ]),
+                then: {
+                    alwaysTriggers: true,
+                    gameAction: ability.actions.sequential([
+                        ability.actions.ready({
+                            target: preThenContext.target
+                        }),
+                        ability.actions.fight({
+                            target: preThenContext.target,
+                            fightCardCondition: (card) => !this.chosenTargets.includes(card)
+                        })
+                    ])
+                }
+            })
         });
     }
 }

@@ -413,9 +413,11 @@ class Player extends GameObject {
             targetPile.push(card);
         }
 
+        let composedPart = null;
         if (targetLocation !== 'play area' && card.gigantic) {
             let cardIndex = targetPile.indexOf(card);
             if (card.composedPart) {
+                composedPart = card.composedPart;
                 card.composedPart.location = targetLocation;
                 targetPile.splice(cardIndex, 0, card.composedPart);
                 card.composedPart = null;
@@ -424,6 +426,13 @@ class Player extends GameObject {
         }
 
         this.game.raiseEvent('onCardPlaced', { card: card, from: location, to: targetLocation });
+        if (composedPart) {
+            this.game.raiseEvent('onCardPlaced', {
+                card: composedPart,
+                from: location,
+                to: targetLocation
+            });
+        }
     }
 
     /**
@@ -621,6 +630,13 @@ class Player extends GameObject {
                             modifiedCost -= choice;
                             totalAvailable -= choice;
                             source.removeToken('amber', choice);
+                            if (choice) {
+                                this.game.addMessage(
+                                    `{0} uses ${choice} amber from {1} to forge a key`,
+                                    this.game.activePlayer,
+                                    source
+                                );
+                            }
                         }
                     });
                 });
@@ -672,37 +688,32 @@ class Player extends GameObject {
                 choices: this.getKeyOptions(choices),
                 choiceHandler: (key) => {
                     this.game.queueSimpleStep(() => {
-                        this.keys[key.value] = false;
-                        let forgedKeyIndex = this.keysForgedThisRound.findIndex(
-                            (x) => x === key.value
-                        );
-                        if (forgedKeyIndex !== -1) {
-                            this.keysForgedThisRound.splice(forgedKeyIndex, 1);
+                        if (this.keys[key.value]) {
+                            this.game.addMessage(
+                                '{0} unforges {1}{2}{3}',
+                                this.game.activePlayer,
+                                this.game.activePlayer === this ? 'their' : this,
+                                this.game.activePlayer === this ? ' ' : "'s ",
+                                `forgedkey${key.value}`
+                            );
                         }
 
-                        this.game.addMessage(
-                            "{0} unforges {1}'s {2}",
-                            this.game.activePlayer,
-                            this.game.activePlayer.opponent,
-                            `forgedkey${key.value}`
-                        );
+                        this.keys[key.value] = false;
                     });
                 }
             });
         } else {
-            this.keys[choices[0].toLowerCase()] = false;
-            let forgedKeyIndex = this.keysForgedThisRound.findIndex(
-                (x) => x === choices[0].toLowerCase()
-            );
-            if (forgedKeyIndex !== -1) {
-                this.keysForgedThisRound.splice(forgedKeyIndex, 1);
+            if (this.keys[choices[0].toLowerCase()]) {
+                this.game.addMessage(
+                    '{0} unforges {1}{2}{3}',
+                    this.game.activePlayer,
+                    this.game.activePlayer === this ? 'their' : this,
+                    this.game.activePlayer === this ? ' ' : "'s ",
+                    `forgedkey${choices[0].toLowerCase()}`
+                );
             }
 
-            this.game.addMessage(
-                '{0} unforges the {1}',
-                this.game.activePlayer,
-                `forgedkey${choices[0]}`
-            );
+            this.keys[choices[0].toLowerCase()] = false;
         }
     }
 

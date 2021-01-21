@@ -4,11 +4,10 @@ class Stunner extends Card {
     setupCardAbilities(ability) {
         this.whileAttached({
             effect: ability.effects.gainAbility('reap', {
-                may: 'stun a creature',
                 fight: true,
                 target: {
-                    numCards: 1,
                     optional: true,
+                    numCards: 1,
                     cardType: ['creature'],
                     gameAction: ability.actions.stun()
                 }

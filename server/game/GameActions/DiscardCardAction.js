@@ -12,7 +12,7 @@ class DiscardCardAction extends CardGameAction {
         let location = card.location;
         return super.createEvent('onCardDiscarded', { card, context, location }, () => {
             if (card.location === 'hand') {
-                context.game.cardsDiscarded.push(card);
+                context.game.cardDiscarded(card);
             }
 
             card.owner.moveCard(card, 'discard');

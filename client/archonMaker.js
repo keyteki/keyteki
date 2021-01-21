@@ -6,6 +6,7 @@ import { Constants } from './constants';
 const EnhancementBaseImages = {};
 const HouseIcons = {};
 const IdBackHouseIcons = {};
+const IdBackDecals = {};
 const IdBackBlanksIcons = {};
 const SetIcons = {};
 const DeckCards = { halfSize: {}, cards: {} };
@@ -52,7 +53,7 @@ const shadowProps = {
     blur: 4
 };
 const defaultCardWidth = 65;
-const specialCardBack = null;
+const cardBackDecal = undefined;
 
 export const loadImage = (url) => {
     return new Promise((resolve, reject) => {
@@ -109,6 +110,10 @@ async function cacheImages() {
         await loadImage(path).then((image) => {
             EnhancementPipImages[key] = image;
         });
+    }
+
+    if (cardBackDecal) {
+        IdBackDecals[cardBackDecal] = await loadImage(Constants.IdBackDecals[cardBackDecal]);
     }
 
     TCOIcon = await loadImage(require('./assets/img/idbacks/tco.png'));
@@ -288,7 +293,7 @@ export const buildDeckList = async (canvas, deck, language, translate, size) => 
         canvas.renderAll();
     }
 
-    applyFilters(canvas, size, width, height);
+    applyFilters(canvas, size, width);
 };
 
 /**
@@ -319,9 +324,7 @@ export const buildCardBack = async (canvas, deck, size, showDeckName) => {
             .reduce((a, b) => a + +b, 0) %
             7) +
         1;
-    if (specialCardBack) {
-        number = specialCardBack;
-    }
+
     if (!IdBackBlanksIcons[number]) {
         number = 1;
     }
@@ -331,7 +334,7 @@ export const buildCardBack = async (canvas, deck, size, showDeckName) => {
     const house2 = new fabric.Image(IdBackHouseIcons[deck.houses[1]].getElement(), imgOptions);
     const house3 = new fabric.Image(IdBackHouseIcons[deck.houses[2]].getElement(), imgOptions);
 
-    cardback.scaleToWidth(300);
+    cardback.scaleToWidth(width);
     house1.scaleToWidth(75);
     house2.scaleToWidth(75);
     house3.scaleToWidth(75);
@@ -342,6 +345,12 @@ export const buildCardBack = async (canvas, deck, size, showDeckName) => {
     canvas.add(house1);
     canvas.add(house2);
     canvas.add(house3);
+
+    if (cardBackDecal) {
+        const decal = new fabric.Image(IdBackDecals[cardBackDecal].getElement(), imgOptions);
+        decal.scaleToWidth(width);
+        canvas.add(decal);
+    }
 
     if (showDeckName) {
         let text;
@@ -356,11 +365,10 @@ export const buildCardBack = async (canvas, deck, size, showDeckName) => {
         }
     }
 
-    applyFilters(canvas, size, width, height);
+    applyFilters(canvas, size, width);
 };
 
 /**
- * @param CanvasFinal
  * @param canvas
  * @param maverick
  * @param anomaly
@@ -557,17 +565,17 @@ export const buildCard = async (
             }
         }
     }
-    applyFilters(canvas, size, width, height);
+    applyFilters(canvas, size, width);
 };
 
-const buildFailImage = (canvas, size, width, height) => {
+const buildFailImage = (canvas, size, width) => {
     const defaultCardImage = new fabric.Image(DefaultCard.getElement(), imgOptions);
     defaultCardImage.scaleToWidth(width);
     canvas.add(defaultCardImage);
-    applyFilters(canvas, size, width, height);
+    applyFilters(canvas, size, width);
 };
 
-const applyFilters = (canvas, size, width, height) => {
+const applyFilters = (canvas, size, width) => {
     canvas.renderAll();
     const scale = size ? (defaultCardWidth * getCardSizeMultiplier(size)) / width : 1;
     const finalImage = new fabric.Image(canvas.getElement(), imgOptions);
@@ -582,9 +590,6 @@ const applyFilters = (canvas, size, width, height) => {
     finalImage.applyFilters();
     finalImage.scaleToWidth(width);
     canvas.add(finalImage);
-    canvas.setZoom(scale);
-    canvas.setWidth(width * canvas.getZoom());
-    canvas.setHeight(height * canvas.getZoom());
     canvas.renderAll();
 };
 

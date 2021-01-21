@@ -3,6 +3,7 @@ const PlayerAction = require('./PlayerAction');
 class ModifyAmberAction extends PlayerAction {
     setDefaultProperties() {
         this.amount = 1;
+        this.reap = false;
     }
 
     setup() {
@@ -20,17 +21,17 @@ class ModifyAmberAction extends PlayerAction {
     }
 
     getEvent(player, context) {
-        return super.createEvent(
-            'onModifyAmber',
-            { player: player, amount: this.amount, context: context },
-            () => {
-                if (player.anyEffect('redirectAmber')) {
-                    player.mostRecentEffect('redirectAmber').addToken('amber', this.amount);
-                } else {
-                    player.modifyAmber(this.amount);
-                }
-            }
-        );
+        let params = { player: player, amount: this.amount, reap: this.reap, context: context };
+
+        if (player.anyEffect('redirectAmber')) {
+            return super.createEvent('onRedirectAmber', params, (event) => {
+                event.player.mostRecentEffect('redirectAmber').addToken('amber', event.amount);
+            });
+        } else {
+            return super.createEvent('onModifyAmber', params, (event) => {
+                event.player.modifyAmber(event.amount);
+            });
+        }
     }
 }
 

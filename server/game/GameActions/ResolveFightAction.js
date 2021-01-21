@@ -36,12 +36,15 @@ class ResolveFightAction extends CardGameAction {
             card: card,
             context: context,
             condition: (event) =>
-                event.attacker.location === 'play area' && event.card.location === 'play area',
+                !event.cancelFight &&
+                event.attacker.location === 'play area' &&
+                event.card.location === 'play area',
             attacker: this.attacker,
             attackerClone: this.attacker.createSnapshot(),
             attackerTarget: card,
             defenderTarget: this.attacker,
-            destroyed: []
+            destroyed: [],
+            cancelFight: false
         };
         let fightEvent = super.createEvent('onFight', params, (event) => {
             if (!this.canAffect(event.card, event.context)) {
@@ -134,7 +137,12 @@ class ResolveFightAction extends CardGameAction {
         fightEvent.addChildEvent(
             context.game.getEvent(
                 'onUseCard',
-                { card: params.attacker, context: context, fight: true },
+                {
+                    card: params.attacker,
+                    fightEvent: fightEvent,
+                    context: context,
+                    fight: true
+                },
                 (event) => event.card.unenrage()
             )
         );
