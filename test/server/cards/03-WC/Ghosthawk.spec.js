@@ -86,16 +86,16 @@ describe('Ghosthawk', function () {
                 this.player1.clickCard(this.dewFaerie);
             });
 
-            it('should not prompt to reap with enraged creatures', function () {
+            it('should allow reaping with enraged creatures', function () {
                 expect(this.player1).toBeAbleToSelect(this.troll);
-                expect(this.player1).not.toBeAbleToSelect(this.dewFaerie);
+                expect(this.player1).toBeAbleToSelect(this.dewFaerie);
                 expect(this.player1).not.toBeAbleToSelect(this.snufflegator);
                 expect(this.player1).not.toBeAbleToSelect(this.inkaTheSpider);
             });
 
             it('should unstun the stunned creatured', function () {
                 this.player1.clickCard(this.troll);
-                expect(this.player1.amber).toBe(0);
+                expect(this.player1.amber).toBe(2);
                 expect(this.troll.stunned).toBe(false);
                 expect(this.dewFaerie.enraged).toBe(true);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
@@ -166,8 +166,14 @@ describe('Ghosthawk', function () {
                 this.player1.clickCard(this.dewFaerie);
             });
 
-            it('should not prompt to reap with any creature', function () {
-                expect(this.player1.amber).toBe(0);
+            it('should allow reaping with creatures', function () {
+                expect(this.player1).toBeAbleToSelect(this.troll);
+                expect(this.player1).toBeAbleToSelect(this.dewFaerie);
+                expect(this.player1).not.toBeAbleToSelect(this.snufflegator);
+                expect(this.player1).not.toBeAbleToSelect(this.inkaTheSpider);
+                this.player1.clickCard(this.dewFaerie);
+                this.player1.clickCard(this.troll);
+                expect(this.player1.amber).toBe(3);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
         });
