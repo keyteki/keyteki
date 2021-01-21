@@ -10,7 +10,7 @@ class Taniwha extends Card {
                 controller: 'self',
                 gameAction: ability.actions.destroy()
             },
-            gameAction: ability.actions.gainAmber({ amount: 1 })
+            gameAction: ability.actions.gainAmber()
         });
     }
 }
