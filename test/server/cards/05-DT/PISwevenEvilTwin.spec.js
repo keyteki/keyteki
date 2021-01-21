@@ -1,5 +1,5 @@
 describe('PI Sweven Eveil Twin', function () {
-    describe('PI Sweven Eveil Twin', function () {
+    describe("PI Sweven Eveil Twin's ability", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {

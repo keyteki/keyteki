@@ -1,5 +1,5 @@
 describe('Captain No-Beard', function () {
-    describe('Captain No-Beard', function () {
+    describe("Captain No-Beard's ability", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {

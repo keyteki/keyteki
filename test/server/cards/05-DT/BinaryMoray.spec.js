@@ -1,5 +1,5 @@
 describe('Binary Moray', function () {
-    describe('when reaping', function () {
+    describe("Binary Moray's ability", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
@@ -32,17 +32,17 @@ describe('Binary Moray', function () {
             it('should ready it', function () {
                 expect(this.binaryMoray.exhausted).toBe(false);
             });
+        });
 
-            describe('when opponnent raise the tide', function () {
-                beforeEach(function () {
-                    this.player1.endTurn();
-                    this.player2.clickPrompt('shadows');
-                    this.player2.raiseTide();
-                });
+        describe('when opponnent raise the tide', function () {
+            beforeEach(function () {
+                this.player1.endTurn();
+                this.player2.clickPrompt('shadows');
+                this.player2.raiseTide();
+            });
 
-                it('should exhaust it', function () {
-                    expect(this.binaryMoray.exhausted).toBe(true);
-                });
+            it('should exhaust it', function () {
+                expect(this.binaryMoray.exhausted).toBe(true);
             });
         });
     });

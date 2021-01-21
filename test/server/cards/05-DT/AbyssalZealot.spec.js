@@ -1,5 +1,5 @@
 describe('Abyssal Zealot', function () {
-    describe('when owner raise the tide', function () {
+    describe("Abyssal Zealot's ability", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
@@ -12,27 +12,31 @@ describe('Abyssal Zealot', function () {
                     inPlay: ['murkens']
                 }
             });
-
-            this.player1.raiseTide();
         });
 
-        it('should capture 2A', function () {
-            expect(this.abyssalZealot.amber).toBe(2);
-            expect(this.player1.amber).toBe(4);
-            expect(this.player2.amber).toBe(2);
-        });
-
-        describe('when opponent raise the tide', function () {
+        describe('when owner raise the tide', function () {
             beforeEach(function () {
-                this.player1.endTurn();
-                this.player2.clickPrompt('shadows');
-                this.player2.raiseTide();
+                this.player1.raiseTide();
             });
 
-            it('should remove 2A from the creature', function () {
-                expect(this.abyssalZealot.amber).toBe(0);
+            it('should capture 2A', function () {
+                expect(this.abyssalZealot.amber).toBe(2);
                 expect(this.player1.amber).toBe(4);
                 expect(this.player2.amber).toBe(2);
+            });
+
+            describe('when opponent raise the tide', function () {
+                beforeEach(function () {
+                    this.player1.endTurn();
+                    this.player2.clickPrompt('shadows');
+                    this.player2.raiseTide();
+                });
+
+                it('should remove 2A from the creature', function () {
+                    expect(this.abyssalZealot.amber).toBe(0);
+                    expect(this.player1.amber).toBe(4);
+                    expect(this.player2.amber).toBe(2);
+                });
             });
         });
     });

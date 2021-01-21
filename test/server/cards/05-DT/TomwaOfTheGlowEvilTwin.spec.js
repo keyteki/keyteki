@@ -1,5 +1,5 @@
 describe('Tomwa of the Glow Evil Twin', function () {
-    describe('reap ability', function () {
+    describe("Tomwa of the Glow Evil Twin's ability", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
