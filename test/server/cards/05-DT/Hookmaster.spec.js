@@ -1,0 +1,42 @@
+describe('Hookmaster', function () {
+    describe("Hookmaster's ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 4,
+                    house: 'unfathomable',
+                    inPlay: ['hookmaster']
+                },
+                player2: {
+                    amber: 4,
+                    inPlay: ['murkens']
+                }
+            });
+        });
+
+        it('should not make opponent lose 2 amber if tide is neutral', function () {
+            this.player1.fightWith(this.hookmaster, this.murkens);
+            expect(this.player1.amber).toBe(4);
+            expect(this.player2.amber).toBe(4);
+            expect(this.murkens.location).toBe('discard');
+        });
+
+        it('should not make opponent lose 2 amber if tide is low', function () {
+            this.player1.lowerTide();
+            expect(this.player1.isTideLow()).toBe(true);
+            this.player1.fightWith(this.hookmaster, this.murkens);
+            expect(this.player1.amber).toBe(4);
+            expect(this.player2.amber).toBe(4);
+            expect(this.murkens.location).toBe('discard');
+        });
+
+        it('should make opponent lose 2 amber if tide is high', function () {
+            this.player1.raiseTide();
+            expect(this.player1.isTideHigh()).toBe(true);
+            this.player1.fightWith(this.hookmaster, this.murkens);
+            expect(this.player1.amber).toBe(4);
+            expect(this.player2.amber).toBe(2);
+            expect(this.murkens.location).toBe('discard');
+        });
+    });
+});

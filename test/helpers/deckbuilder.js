@@ -13,6 +13,7 @@ const defaultFiller = {
     mars: 'ammonia-clouds',
     sanctum: 'champion-anaphiel',
     shadows: 'macis-asp',
+    unfathomable: 'hookmaster',
     untamed: 'ancient-bear',
     staralliance: 'explo-rover',
     saurian: 'tricerian-legionary'
