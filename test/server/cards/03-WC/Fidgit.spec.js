@@ -9,7 +9,14 @@ describe('Fidgit', function () {
                 player2: {
                     inPlay: ['maruck-the-marked'],
                     hand: ['bulwark'],
-                    discard: ['the-warchest', 'troll', 'krump', 'virtuous-works', 'clear-mind']
+                    discard: [
+                        'the-warchest',
+                        'first-blood',
+                        'troll',
+                        'krump',
+                        'virtuous-works',
+                        'clear-mind'
+                    ]
                 }
             });
         });
@@ -45,13 +52,12 @@ describe('Fidgit', function () {
         });
 
         it('when archive is empty, still provide option, and allow playing top of deck card', function () {
-            this.player2.player.archives = [];
             this.player2.moveCard(this.virtuousWorks, 'deck');
+            this.player2.player.archives = [];
             this.player1.reap(this.fidgit);
             expect(this.player1).toHavePromptButton('Top of deck');
             expect(this.player1).toHavePromptButton('Random card from archives');
             this.player1.clickPrompt('Top of deck');
-
             expect(this.virtuousWorks.location).toBe('discard');
             expect(this.player1.amber).toBe(4);
             expect(this.player2.amber).toBe(0);
@@ -96,6 +102,7 @@ describe('Fidgit', function () {
             this.player1.clickPrompt('Top of deck');
 
             expect(this.theWarchest.location).toBe('discard');
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
 
         it('when archives is selected, discards a random creature card from archives', function () {
@@ -111,6 +118,25 @@ describe('Fidgit', function () {
             } else {
                 expect(this.krump.location).toBe('discard');
             }
+        });
+
+        it('when deck is selected and alpha is the firt card, keep it in discard', function () {
+            this.player2.moveCard(this.firstBlood, 'deck');
+            this.player1.reap(this.fidgit);
+            expect(this.player1).toHavePromptButton('Top of deck');
+            expect(this.player1).toHavePromptButton('Random card from archives');
+            this.player1.clickPrompt('Top of deck');
+            expect(this.firstBlood.location).toBe('discard');
+            this.player1.endTurn();
+        });
+
+        it('when archives is selected and alpha is randomly selected, keep it in discard', function () {
+            this.player2.moveCard(this.firstBlood, 'archives');
+            this.player1.reap(this.fidgit);
+            this.player1.clickPrompt('Random card from archives');
+
+            expect(this.firstBlood.location).toBe('discard');
+            this.player1.endTurn();
         });
     });
 
