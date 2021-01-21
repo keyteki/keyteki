@@ -10,22 +10,21 @@ class AmberfinShark extends Card {
                 amount: 3
             }))
         });
+
         this.interrupt({
             when: {
                 onRoundEnded: (event, context) => context.player === this.game.activePlayer
             },
             gameAction: ability.actions.removePowerCounter((context) => ({
-                target: context.source,
-                amount: 1
+                target: context.source
             })),
             then: {
-                gameAction: ability.actions.gainAmber({ amount: 1 }),
-                then: {
-                    gameAction: ability.actions.gainAmber((context) => ({
-                        amount: 1,
+                gameAction: [
+                    ability.actions.gainAmber(),
+                    ability.actions.gainAmber((context) => ({
                         target: context.player.opponent
                     }))
-                }
+                ]
             }
         });
     }
