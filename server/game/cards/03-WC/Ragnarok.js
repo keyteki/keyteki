@@ -9,14 +9,15 @@ class Ragnarok extends Card {
                 }),
                 ability.actions.forRemainderOfTurn((context) => ({
                     when: {
-                        onFight: () => true
+                        onUseCard: (event) => !!event.fight
                     },
                     gameAction: ability.actions.gainAmber({ target: context.player })
                 })),
-                ability.actions.untilNextTurn({
+                ability.actions.forRemainderOfTurn({
                     when: {
                         onRoundEnded: () => true
                     },
+                    triggeredAbilityType: 'interrupt',
                     gameAction: ability.actions.destroy((context) => ({
                         target: context.game.creaturesInPlay
                     }))

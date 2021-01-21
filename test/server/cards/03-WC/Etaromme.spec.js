@@ -117,23 +117,5 @@ describe('Etaromme', function () {
                 }
             });
         });
-
-        it('should consider house modifiers', function () {
-            this.player1.playUpgrade(this.experimentalTherapy, this.archimedes);
-            this.player1.endTurn();
-            this.player2.clickPrompt('dis');
-            this.player2.reap(this.etaromme);
-
-            expect(this.player2).toHavePrompt('Choose a creature');
-            expect(this.player2).toBeAbleToSelect(this.archimedes);
-            expect(this.player2).toBeAbleToSelect(this.troll);
-            expect(this.player2).toBeAbleToSelect(this.krump);
-            expect(this.player2).not.toBeAbleToSelect(this.etaromme);
-            expect(this.player2).not.toBeAbleToSelect(this.lamindra);
-
-            this.player2.clickCard(this.archimedes);
-
-            expect(this.archimedes.location).toBe('discard');
-        });
     });
 });

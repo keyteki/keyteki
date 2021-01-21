@@ -8,7 +8,8 @@ describe('Ghosthawk', function () {
                     hand: ['ghosthawk']
                 },
                 player2: {
-                    inPlay: ['inka-the-spider', 'seismo-entangler']
+                    inPlay: ['inka-the-spider', 'seismo-entangler'],
+                    hand: ['little-rapscal', 'foggify']
                 }
             });
 
@@ -53,7 +54,7 @@ describe('Ghosthawk', function () {
             });
         });
 
-        describe('when playing next to one ready and one exhausted ready creatures', function () {
+        describe('when playing next to one ready and one exhausted creature', function () {
             beforeEach(function () {
                 this.dewFaerie.exhaust();
 
@@ -72,6 +73,107 @@ describe('Ghosthawk', function () {
                 this.player1.clickCard(this.troll);
                 expect(this.player1.amber).toBe(1);
                 expect(this.troll.tokens.damage).toBe(1);
+                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            });
+        });
+
+        describe('when playing next to one enraged and one stunned ready creatures', function () {
+            beforeEach(function () {
+                this.troll.stun();
+                this.dewFaerie.enrage();
+
+                this.player1.play(this.ghosthawk, true, true);
+                this.player1.clickCard(this.dewFaerie);
+            });
+
+            it('should allow reaping with enraged creatures', function () {
+                expect(this.player1).toBeAbleToSelect(this.troll);
+                expect(this.player1).toBeAbleToSelect(this.dewFaerie);
+                expect(this.player1).not.toBeAbleToSelect(this.snufflegator);
+                expect(this.player1).not.toBeAbleToSelect(this.inkaTheSpider);
+            });
+
+            it('should unstun the stunned creatured', function () {
+                this.player1.clickCard(this.troll);
+                expect(this.player1.amber).toBe(2);
+                expect(this.troll.stunned).toBe(false);
+                expect(this.dewFaerie.enraged).toBe(true);
+                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            });
+        });
+
+        describe('when playing next to enraged creatures and no opponent creature in play', function () {
+            beforeEach(function () {
+                this.troll.enrage();
+                this.dewFaerie.enrage();
+                this.player2.moveCard(this.inkaTheSpider, 'discard');
+
+                this.player1.play(this.ghosthawk, true, true);
+                this.player1.clickCard(this.dewFaerie);
+            });
+
+            it('should reap with both creatures', function () {
+                expect(this.player1).toBeAbleToSelect(this.troll);
+                expect(this.player1).toBeAbleToSelect(this.dewFaerie);
+                expect(this.player1).not.toBeAbleToSelect(this.snufflegator);
+                expect(this.player1).not.toBeAbleToSelect(this.inkaTheSpider);
+                this.player1.clickCard(this.dewFaerie);
+                this.player1.clickCard(this.troll);
+                expect(this.player1.amber).toBe(3);
+                expect(this.troll.enraged).toBe(true);
+                expect(this.dewFaerie.enraged).toBe(true);
+                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            });
+        });
+
+        describe('when playing next to enraged creatures and creatures cannot fight', function () {
+            beforeEach(function () {
+                this.troll.enrage();
+                this.dewFaerie.enrage();
+                this.player1.endTurn();
+                this.player2.clickPrompt('logos');
+                this.player2.play(this.foggify);
+                this.player2.endTurn();
+                this.player1.clickPrompt('untamed');
+
+                this.player1.play(this.ghosthawk, true, true);
+                this.player1.clickCard(this.dewFaerie);
+            });
+
+            it('should reap with both creatures', function () {
+                expect(this.player1).toBeAbleToSelect(this.troll);
+                expect(this.player1).toBeAbleToSelect(this.dewFaerie);
+                expect(this.player1).not.toBeAbleToSelect(this.snufflegator);
+                expect(this.player1).not.toBeAbleToSelect(this.inkaTheSpider);
+                this.player1.clickCard(this.dewFaerie);
+                this.player1.clickCard(this.troll);
+                expect(this.player1.amber).toBe(3);
+                expect(this.troll.enraged).toBe(true);
+                expect(this.dewFaerie.enraged).toBe(true);
+                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            });
+        });
+
+        describe('when Little Rapscal is in play', function () {
+            beforeEach(function () {
+                this.player1.endTurn();
+                this.player2.clickPrompt('brobnar');
+                this.player2.play(this.littleRapscal);
+                this.player2.endTurn();
+                this.player1.clickPrompt('untamed');
+
+                this.player1.play(this.ghosthawk, true, true);
+                this.player1.clickCard(this.dewFaerie);
+            });
+
+            it('should allow reaping with creatures', function () {
+                expect(this.player1).toBeAbleToSelect(this.troll);
+                expect(this.player1).toBeAbleToSelect(this.dewFaerie);
+                expect(this.player1).not.toBeAbleToSelect(this.snufflegator);
+                expect(this.player1).not.toBeAbleToSelect(this.inkaTheSpider);
+                this.player1.clickCard(this.dewFaerie);
+                this.player1.clickCard(this.troll);
+                expect(this.player1.amber).toBe(3);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
         });

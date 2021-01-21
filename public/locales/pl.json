@@ -358,6 +358,7 @@
     "about.thanks": "<0>Special Thanks</0><p>I'd like to thank Jadiel for starting this site and taking good care of it before I got involved!</p>",
     "about.addicons": "<0>Dodatkowe ikony</0><1>Niektóe ikony zostały zaczerpnięte z game-icons.net: Death Note by <1>lorc</1>. <3>CC-BY 3.0</3></1>",
     "about.addnotes": "<0>Dodatkowe uwagi</0><p>Prawa autorskie do Keyforge'a, grafik i wielu innych elementów należą do Fantasy Flight Games i nie mam żadnych roszczeń co do własności czy innych co do grafik i znaków towarowych.  Ta strona istnieje dla fanów, by mogli grać w grę którą lubią i rozszerzyć, bardziej niż zastąpić, grę w rzeczywistości.  FFG nie uznaje, nie wspiera anie nie jest związana z tą stroną w żaden sposób.</p>",
+    "about.colors": "<0>Meaning of Username Colors</0><p>Some usernames have different colors and the intent is to acknowledge the supporters of the platform:</p><2><0><0>admin</0> - site administrator</0><1><0>contributor</0> - people who have made significant development contributions to the site</1><2><0>supporter</0> - patreon supporters</2><3><0>winner</0> - current tournament winner</3><4><0>previous winner</0> - former tournament winner</4></2>",
     "What is this page?": "Co to za miejsce?",
     "community.whatisthis": "Ta strona służy za miejsce do pokazania innych dzieł/zasobów w społeczności KeyForge'a.",
     "community.discord": "<0>Link: <1>Keyforge Discord</1></0><p>Ten discord to aplikacja do komunikacji tekstowej i głosowej. Stworzony przez członków społeczności KeyForge'a, to żywa społeczność graczy gier LCG/CCG/RPG.</p>",
@@ -538,5 +539,15 @@
     "Added": "Added",
     "Win %": "Win %",
     "Filter by name": "Filter by name",
-    "Choose a top part to play": "Choose a top part to play"
+    "Choose a top part to play": "Choose a top part to play",
+    "Introduction": "Introduction",
+    "Use half sized card images": "Use half sized card images",
+    "Challonge API Subdomain": "Challonge API Subdomain",
+    "Challonge API Key": "Challonge API Key",
+    "Change avatar": "Change avatar",
+    "Link Account": "Link Account",
+    "Unlink Account": "Unlink Account",
+    "Enter the same password": "Enter the same password",
+    "Enter challonge API key": "Enter challonge API key",
+    "Options": "Options"
 }

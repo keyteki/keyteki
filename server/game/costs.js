@@ -39,7 +39,7 @@ const Costs = {
         },
         payEvent: (context) =>
             context.game.getEvent('unnamedEvent', {}, () => {
-                context.game.cardsUsed.push(context.source);
+                context.game.cardUsed(context.source);
                 if (
                     context.ignoreHouse ||
                     context.player.getEffects('canUse').some((match) => match(context))
@@ -64,7 +64,7 @@ const Costs = {
                 );
 
                 if (effect) {
-                    context.game.effectsUsed.push(effect);
+                    context.game.effectUsed(effect);
                     return true;
                 }
 
@@ -73,7 +73,10 @@ const Costs = {
     }),
     play: () => ({
         canPay: (context) => {
-            if (context.source.getKeywordValue('alpha') > 0 && !context.game.firstThingThisTurn()) {
+            if (
+                context.source.getKeywordValue('alpha') > 0 &&
+                !context.game.firstThingThisPhase()
+            ) {
                 return false;
             } else if (
                 context.game.cardsUsed
@@ -151,7 +154,7 @@ const Costs = {
                 });
 
                 if (effect) {
-                    context.game.effectsUsed.push(effect);
+                    context.game.effectUsed(effect);
                     return true;
                 }
 
@@ -159,15 +162,23 @@ const Costs = {
             })
     }),
     payAmber: (amount = 1) => ({
-        canPay: (context) => context.player.amber >= amount,
+        canPay: (context, aggregatedCost) => {
+            aggregatedCost.amber = amount + (aggregatedCost.amber || 0);
+            return context.player.amber >= aggregatedCost.amber;
+        },
         payEvent: (context) => {
+            context.game.addMessage('{0} pays {1} to their opponent', context.player, amount);
+
             let action = context.game.actions.transferAmber({ amount: amount });
             action.name = 'pay';
             return action.getEvent(context.player, context);
         }
     }),
     loseAmber: (amount = 1) => ({
-        canPay: (context) => context.player.amber >= amount,
+        canPay: (context, aggregatedCost) => {
+            aggregatedCost.amber = amount + (aggregatedCost.amber || 0);
+            return context.player.amber >= aggregatedCost.amber;
+        },
         payEvent: (context) =>
             context.game.actions.loseAmber({ amount: amount }).getEvent(context.player, context)
     })

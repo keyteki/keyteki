@@ -12,7 +12,8 @@ class StiltKin extends Card {
             gameAction: ability.actions.sequential([
                 ability.actions.ready(),
                 ability.actions.fight()
-            ])
+            ]),
+            effect: 'ready and fight with {0}'
         });
     }
 }

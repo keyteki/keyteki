@@ -26,6 +26,14 @@ class GiganticCard extends Card {
         }
     }
 
+    getTopCard() {
+        return this.composedPart && !this.composedPart.giganticBottom ? this.composedPart : this;
+    }
+
+    getBottomCard() {
+        return this.composedPart && this.composedPart.giganticBottom ? this.composedPart : this;
+    }
+
     setupCardAbilities(ability) {
         this.persistentEffect({
             location: 'any',

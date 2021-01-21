@@ -227,7 +227,7 @@
     "register.disclosure": "<0>사이트 서비스의 허용을 위해 당신의 정보가 필요합니다. 자세한 사항은 <1>개인정보 보호 정책</1>을 읽어주세요.  아바타의 관련된 사항을 잘 읽어주시길 바랍니다.</0>",
     "Settings": "설정",
     "Prompt to order simultaneous abilities": "동시적 효과를 적용하기 위해 프롬프트를 꺼낸다",
-    "Show a prompt when initating 1-click abilities": "원 클릭 효과를 적용될 때의 프롬프트를 꺼낸다",
+    "Show a prompt when initiating 1-click abilities": "원 클릭 효과를 적용될 때의 프롬프트를 꺼낸다",
     "Noone": "아무도 없음",
     "Manual Mode": "수동 모드",
     "Game Configuration": "게임 모드 설정",
@@ -358,6 +358,7 @@
     "about.thanks": "<0>Special Thanks</0><p>I'd like to thank Jadiel for starting this site and taking good care of it before I got involved!</p>",
     "about.addicons": "<0>Additional Icons</0><1>Some icons were included from game-icons.net: Death Note by <1>lorc</1> <2>CC-BY 3.0</2>.</1><2>Time Limit icon made by <1>Minh Hoang</1> from <3>www.flaticon.com</3> is licensed by <5>CC 3.0 BY</5></2>.",
     "about.addnotes": "<0>Additional Notes</0><p>The Keyforge Unique Deck Game, the artwork and many other things are all copyright Fantasy Flight Games and I make no claims of ownership or otherwise of any of the artwork or trademarks.  This site exists for passionate fans to play a game they enjoy and augment, rather than replace, the in person LCG.  FFG does not endorse, support, and is not involved with, this site in any way.</p>",
+    "about.colors": "<0>Meaning of Username Colors</0><p>Some usernames have different colors and the intent is to acknowledge the supporters of the platform:</p><2><0><0>admin</0> - site administrator</0><1><0>contributor</0> - people who have made significant development contributions to the site</1><2><0>supporter</0> - patreon supporters</2><3><0>winner</0> - current tournament winner</3><4><0>previous winner</0> - former tournament winner</4></2>",
     "What is this page?": "이 페이지는 무엇인가요?",
     "community.whatisthis": "이 페이지는 키포지 커뮤니티의 다른 작업/리소드들에 대해 다루고 있습니다.",
     "community.discord": "<0>링크: <1>Keyforge Discord</1></0><p>Discord is a text and voice communicaton application. Created by members of the Keyforge community, it's a robust community of LCG/CCG/RPG players.</p>",
@@ -538,5 +539,15 @@
     "Added": "Added",
     "Win %": "Win %",
     "Filter by name": "Filter by name",
-    "Choose a top part to play": "Choose a top part to play"
+    "Choose a top part to play": "Choose a top part to play",
+    "Introduction": "Introduction",
+    "Use half sized card images": "Use half sized card images",
+    "Challonge API Subdomain": "Challonge API Subdomain",
+    "Challonge API Key": "Challonge API Key",
+    "Change avatar": "Change avatar",
+    "Link Account": "Link Account",
+    "Unlink Account": "Unlink Account",
+    "Enter the same password": "Enter the same password",
+    "Enter challonge API key": "Enter challonge API key",
+    "Options": "Options"
 }

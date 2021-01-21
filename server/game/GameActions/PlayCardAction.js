@@ -3,6 +3,7 @@ const CardGameAction = require('./CardGameAction');
 class PlayCardAction extends CardGameAction {
     setDefaultProperties() {
         this.location = 'hand';
+        this.revealOnIllegalTarget = false;
     }
 
     setup() {
@@ -16,10 +17,14 @@ class PlayCardAction extends CardGameAction {
             return false;
         }
 
+        if (this.revealOnIllegalTarget) {
+            return true;
+        }
+
         let actions = card
             .getActions(this.location)
             .filter((action) => action.title.includes('Play'));
-        return !!actions.find((action) => {
+        return actions.some((action) => {
             let actionContext = action.createContext(context.player);
             actionContext.ignoreHouse = true;
             return !action.meetsRequirements(actionContext, ['location']);
@@ -27,17 +32,17 @@ class PlayCardAction extends CardGameAction {
     }
 
     getEvent(card, context) {
-        return super.createEvent('unnamedEvent', { card: card, context: context }, () => {
-            let playActions = card.getActions(this.location).filter((action) => {
-                if (action.title.includes('Play')) {
-                    let newContext = action.createContext(context.player);
-                    newContext.ignoreHouse = true;
-                    return !action.meetsRequirements(newContext, ['location']);
-                } else {
-                    return false;
-                }
-            });
+        let playActions = card.getActions(this.location).filter((action) => {
+            if (action.title.includes('Play')) {
+                let newContext = action.createContext(context.player);
+                newContext.ignoreHouse = true;
+                return !action.meetsRequirements(newContext, ['location']);
+            } else {
+                return false;
+            }
+        });
 
+        let playEvent = super.createEvent('unnamedEvent', { card: card, context: context }, () => {
             let action;
             if (playActions.length > 1) {
                 context.game.promptWithHandlerMenu(context.player, {
@@ -58,6 +63,19 @@ class PlayCardAction extends CardGameAction {
                 context.game.resolveAbility(actionContext);
             });
         });
+
+        playEvent.addChildEvent(
+            context.game.getEvent('unamedEvent', { card, context }, () => {
+                if (playActions.length === 0 && this.revealOnIllegalTarget) {
+                    context.game.addMessage(
+                        '{0} was unable to be played so is returned to its original location',
+                        card
+                    );
+                }
+            })
+        );
+
+        return playEvent;
     }
 }
 

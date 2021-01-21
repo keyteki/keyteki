@@ -9,7 +9,7 @@ class CyberClone extends Card {
                 location: 'play area',
                 gameAction: ability.actions.sequential([
                     ability.actions.purge((context) => {
-                        context.event.targetClone = context.target.createSnapshot();
+                        context.event.targetClone = context.target.getBottomCard().createSnapshot();
                         return {
                             context: context.target
                         };

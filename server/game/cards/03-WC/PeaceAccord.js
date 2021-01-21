@@ -17,11 +17,12 @@ class PeaceAccord extends Card {
 
         this.reaction({
             when: {
-                onFight: (event) => event.card.type === 'creature'
+                onUseCard: (event) =>
+                    event.fightEvent && event.fightEvent.attackerClone.type === 'creature'
             },
             gameAction: [
                 ability.actions.loseAmber((context) => ({
-                    target: context.event.attacker.controller,
+                    target: context.event.clone.controller,
                     amount: 4
                 })),
                 ability.actions.destroy()

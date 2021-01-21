@@ -227,7 +227,7 @@
     "register.disclosure": "<0>使用网站服务请输入下列资料.  需要的栏位与使用相关资讯可参考 <1>隐私政策</1> .  请特别注意有关头像部分规定.</0>",
     "Settings": "设定",
     "Prompt to order simultaneous abilities": "多个技能同时触发时提示触发顺序",
-    "Show a prompt when initating 1-click abilities": "快速结算技能启动时弹出提示",
+    "Show a prompt when initiating 1-click abilities": "快速结算技能启动时弹出提示",
     "Noone": "无",
     "Manual Mode": "手动模式",
     "Game Configuration": "游戏配置",
@@ -358,6 +358,7 @@
     "about.thanks": "<0>特别感谢</0><p>我想感谢 gyffon, cryogen, 以及 the throneteki 与 ringteki 团队, 少了他们的帮助与支持, 这个网站将不可能实现.</p>",
     "about.addicons": "<0>额外图示</0><1>游戏中部份图示来自于 game-icons.net: Death Note by <1>lorc</1>. <3>CC-BY 3.0</3></1>",
     "about.addnotes": "<0>额外补充</0><p>熔钥秘境的插图与相关物件版权皆属于 Fantasy Flight Games 所有, 本人不对任何插图与商标做任何所有权或其他主张.  本网站存在是为了让热爱熔钥秘境的人可以享受游戏, 目的在于增强而不是取代个人 LCG 游戏.  FFG 并未以任何方式认可或支持且并不参与本网站.</p>",
+    "about.colors": "<0>Meaning of Username Colors</0><p>Some usernames have different colors and the intent is to acknowledge the supporters of the platform:</p><2><0><0>admin</0> - site administrator</0><1><0>contributor</0> - people who have made significant development contributions to the site</1><2><0>supporter</0> - patreon supporters</2><3><0>winner</0> - current tournament winner</3><4><0>previous winner</0> - former tournament winner</4></2>",
     "What is this page?": "这是什么页面?",
     "community.whatisthis": "这个页面提供熔钥秘境社群的其他作品与资源.",
     "community.discord": "<0>链接: <1>Keyforge Discord</1></0><p>Discord 是一个文字与语音沟通的应用程序. 由熔钥秘境社群玩家创建, 这是一个关于 LCG/CCG/RPG 玩家的强大社群.</p>",
@@ -538,5 +539,15 @@
     "Added": "已添加",
     "Win %": "胜率 %",
     "Filter by name": "使用牌组名称过滤",
-    "Choose a top part to play": "Choose a top part to play"
+    "Choose a top part to play": "Choose a top part to play",
+    "Introduction": "Introduction",
+    "Use half sized card images": "Use half sized card images",
+    "Challonge API Subdomain": "Challonge API Subdomain",
+    "Challonge API Key": "Challonge API Key",
+    "Change avatar": "Change avatar",
+    "Link Account": "Link Account",
+    "Unlink Account": "Unlink Account",
+    "Enter the same password": "Enter the same password",
+    "Enter challonge API key": "Enter challonge API key",
+    "Options": "Options"
 }

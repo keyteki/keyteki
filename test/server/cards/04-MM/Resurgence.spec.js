@@ -35,7 +35,7 @@ describe('Resurgence', function () {
             expect(this.flaxia.location).toBe('hand');
         });
 
-        it('should pick a single card if only one non-mutant is in discard', function () {
+        it('should pick a single card if only one mutant is in discard', function () {
             this.player1.moveCard(this.bullWark, 'discard');
             this.player1.moveCard(this.regrowth, 'discard');
             this.player1.play(this.resurgence);

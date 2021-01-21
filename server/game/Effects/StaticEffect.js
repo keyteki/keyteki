@@ -20,23 +20,23 @@ class StaticEffect {
         } else {
             this.value = new EffectValue(value);
         }
-
+        this.state = {};
         this.context = null;
         this.duration = '';
     }
 
     apply(target) {
         target.addEffect(this);
-        this.value.apply(target);
+        this.value.apply(target, this.state);
     }
 
     unapply(target) {
         target.removeEffect(this);
-        this.value.unapply(target);
+        this.value.unapply(target, this.state);
     }
 
     getValue(target) {
-        return this.value.getValue(target);
+        return this.value.getValue(target, this.state);
     }
 
     recalculate() {
@@ -45,7 +45,6 @@ class StaticEffect {
 
     setContext(context) {
         this.context = context;
-        this.value.setContext(context);
     }
 
     canBeApplied(target) {

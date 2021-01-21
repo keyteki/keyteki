@@ -29,6 +29,9 @@ class Overrun extends Card {
     onPhaseStarted(event) {
         if (event.phase === 'main') {
             this.creaturesDestroyed[this.game.activePlayer.uuid] = 0;
+            if (this.game.activePlayer.opponent) {
+                this.creaturesDestroyed[this.game.activePlayer.opponent.uuid] = 0;
+            }
         }
     }
 }

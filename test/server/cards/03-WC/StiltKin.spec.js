@@ -1,4 +1,4 @@
-describe('stilt-kin(WC)', function () {
+describe('stilt-kin', function () {
     describe('stilt-kin ability', function () {
         beforeEach(function () {
             this.setupTest({

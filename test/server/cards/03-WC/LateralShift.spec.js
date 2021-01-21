@@ -9,13 +9,15 @@ describe('Lateral Shift', function () {
                 },
                 player2: {
                     amber: 6,
+                    inPlay: ['spyyyder'],
                     hand: [
                         'bulwark',
                         'shooler',
                         'gorm-of-omm',
                         'gateway-to-dis',
                         'virtuous-works',
-                        'armageddon-cloak'
+                        'armageddon-cloak',
+                        'collar-of-subordination'
                     ]
                 }
             });
@@ -72,19 +74,32 @@ describe('Lateral Shift', function () {
         });
 
         it('should not be able to play an upgrade since there is no creature in play', function () {
+            this.player2.moveCard(this.spyyyder, 'discard');
             this.player1.play(this.lateralShift);
             expect(this.player1).toHavePrompt('Lateral Shift');
+            expect(this.player1).not.toBeAbleToSelect(this.collarOfSubordination);
             expect(this.player1).not.toBeAbleToSelect(this.armageddonCloak);
         });
 
-        it('should not be able to play an upgrade if there is a creature in play', function () {
+        it('should be able to play an upgrade if there is a creature in play', function () {
             this.player1.play(this.troll);
             this.player1.play(this.lateralShift);
             expect(this.player1).toHavePrompt('Lateral Shift');
+            expect(this.player1).toBeAbleToSelect(this.collarOfSubordination);
             expect(this.player1).toBeAbleToSelect(this.armageddonCloak);
             this.player1.clickCard(this.armageddonCloak);
             this.player1.clickCard(this.troll);
+            expect(this.armageddonCloak.controller).toBe(this.player1.player);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+
+        it('should not be able to play Collar on opponent creature and take control of it', function () {
+            this.player1.play(this.lateralShift);
+            expect(this.player1).toHavePrompt('Lateral Shift');
+            this.player1.clickCard(this.collarOfSubordination);
+            this.player1.clickCard(this.spyyyder);
+            expect(this.collarOfSubordination.controller).toBe(this.player1.player);
+            expect(this.spyyyder.controller).toBe(this.player1.player);
         });
     });
 });

@@ -38,7 +38,9 @@ class Phase extends BaseStepWithPipeline {
     }
 
     endPhase() {
-        this.game.raiseEvent('onPhaseEnded', { phase: this.name });
+        this.game.raiseEvent('onPhaseEnded', { phase: this.name }, () => {
+            this.game.resetThingsThisPhase();
+        });
         this.game.currentPhase = '';
     }
 }

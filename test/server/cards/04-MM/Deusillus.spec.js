@@ -151,7 +151,6 @@ describe('Deusillus', function () {
             expect(this.player2.player.cardsInPlay).toContain(this.deusillus);
             this.player2.reap(this.vezymaThinkdrone);
             this.player2.clickCard(this.deusillus);
-            this.player2.clickPrompt('Yes');
             expect(this.deusillus.location).toBe('archives');
             expect(this.deusillus2.location).toBe('archives');
             expect(this.player1.archives).toContain(this.deusillus);

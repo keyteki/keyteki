@@ -4,12 +4,19 @@ describe('Wild Wormhole', function () {
             this.setupTest({
                 player1: {
                     house: 'logos',
-                    hand: ['wild-wormhole', 'library-access'],
+                    hand: ['wild-wormhole', 'library-access', 'archimedes', 'brain-eater'],
                     inPlay: ['ganymede-archivist'],
-                    discard: ['dextre', 'way-of-the-bear', 'anger', 'gauntlet-of-command']
+                    discard: [
+                        'dextre',
+                        'way-of-the-bear',
+                        'anger',
+                        'gauntlet-of-command',
+                        'eureka',
+                        'kelifi-dragon'
+                    ]
                 },
                 player2: {
-                    inPlay: ['inka-the-spider']
+                    inPlay: ['inka-the-spider', 'ember-imp']
                 }
             });
         });
@@ -60,9 +67,9 @@ describe('Wild Wormhole', function () {
         });
 
         it('should leave an upgrade on top of the deck if there are no legal targets', function () {
-            this.player1.fightWith(this.ganymedeArchivist, this.inkaTheSpider);
-            expect(this.ganymedeArchivist.location).toBe('discard');
-            expect(this.inkaTheSpider.location).toBe('discard');
+            this.player1.moveCard(this.ganymedeArchivist, 'discard');
+            this.player1.moveCard(this.emberImp, 'discard');
+            this.player1.moveCard(this.inkaTheSpider, 'discard');
             this.player1.moveCard(this.wayOfTheBear, 'deck');
             expect(this.wayOfTheBear.location).toBe('deck');
             this.player1.play(this.wildWormhole);
@@ -71,7 +78,33 @@ describe('Wild Wormhole', function () {
             expect(this.wayOfTheBear.location).toBe('deck');
         });
 
+        it('should keep an alpha card on the top of the deck', function () {
+            this.player1.moveCard(this.eureka, 'deck');
+            this.player1.play(this.wildWormhole);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1.amber).toBe(1);
+            expect(this.eureka.location).toBe('deck');
+        });
+
+        it('should keep Kelifi Dragon on the top of the deck if not enough amber', function () {
+            this.player1.moveCard(this.kelifiDragon, 'deck');
+            this.player1.play(this.wildWormhole);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1.amber).toBe(1);
+            expect(this.kelifiDragon.location).toBe('deck');
+        });
+
+        it('should not allow playing the 3rd card due to Ember Imp', function () {
+            this.player1.moveCard(this.dextre, 'deck');
+            this.player1.play(this.archimedes);
+            this.player1.play(this.wildWormhole);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1.amber).toBe(1);
+            expect(this.dextre.location).toBe('deck');
+        });
+
         it('should interact correctly with Library Access when playing an upgrade', function () {
+            this.player1.moveCard(this.emberImp, 'discard');
             this.player1.moveCard(this.gauntletOfCommand, 'deck');
             this.player1.moveCard(this.wayOfTheBear, 'deck');
             this.player1.moveCard(this.dextre, 'deck');
@@ -85,12 +118,14 @@ describe('Wild Wormhole', function () {
             expect(this.dextre.location).toBe('hand');
             expect(this.gauntletOfCommand.location).toBe('deck');
             expect(this.player1).toHavePrompt('Way of the Bear');
+            this.player1.clickCard(this.ganymedeArchivist);
+            expect(this.gauntletOfCommand.location).toBe('hand');
         });
 
         it('should interact correctly with Library Access when the upgrade is unplayable', function () {
-            this.player1.fightWith(this.ganymedeArchivist, this.inkaTheSpider);
-            expect(this.ganymedeArchivist.location).toBe('discard');
-            expect(this.inkaTheSpider.location).toBe('discard');
+            this.player1.moveCard(this.ganymedeArchivist, 'discard');
+            this.player1.moveCard(this.emberImp, 'discard');
+            this.player1.moveCard(this.inkaTheSpider, 'discard');
             this.player1.moveCard(this.gauntletOfCommand, 'deck');
             this.player1.moveCard(this.wayOfTheBear, 'deck');
             this.player1.moveCard(this.dextre, 'deck');
@@ -106,6 +141,7 @@ describe('Wild Wormhole', function () {
         });
 
         it('should interact correctly with Library Access when playing an action', function () {
+            this.player1.moveCard(this.emberImp, 'discard');
             this.player1.moveCard(this.gauntletOfCommand, 'deck');
             this.player1.moveCard(this.anger, 'deck');
             this.player1.moveCard(this.dextre, 'deck');

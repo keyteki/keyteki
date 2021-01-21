@@ -227,7 +227,7 @@
     "register.disclosure": "<0>Requerimos información de ti para poder ofrecerte acceso al sitio.  Por favor mira la <1>política de privacidad</1> para mayor detalle sobre por qué necesitamos esta información y qué hacemos con ella.  Por favor presta atención especial a la sección de avatares.</0>",
     "Settings": "Ajustes",
     "Prompt to order simultaneous abilities": "Prompt para ordenar habilidades simultáneas",
-    "Show a prompt when initating 1-click abilities": "Mostrar un prompt al iniciar habilidades de 1 click",
+    "Show a prompt when initiating 1-click abilities": "Mostrar un prompt al iniciar habilidades de 1 click",
     "Noone": "Nadie",
     "Manual Mode": "Modo manual",
     "Game Configuration": "Configuración del Juego",
@@ -358,6 +358,7 @@
     "about.thanks": "<0>Agradecimientos Especiales</0><p>Me gustaría dar las gracias a Jadiel por comenzar este sitio y cuidarlo bien antes de involucrarme!</p>",
     "about.addicons": "<0>Iconos Adicionales</0><1>Algunos iconos fueron incluidos de game-icons.net: Death Note by <1>lorc</1>. <3>CC-BY 3.0</3></1>",
     "about.addnotes": "<0>Notas Adicionales</0><p>El Juego de Mazos Únicos Keyforge, el arte y muchas otras cosas son todas copyright de Fantasy Flight Games y no hago reclamaciones de propiedad o de algún otro tipo de ninguno de los artes o marcas registradas.  Este sitio existe para que jugadores apasionados jueguen a un juego que disfrutan y hacen crecer, en lugar de reemplazar, el LCG en persona.  FFG no promociona, apoya, y no está relacionado con este sitio en modo alguno.</p>",
+    "about.colors": "<0>Meaning of Username Colors</0><p>Some usernames have different colors and the intent is to acknowledge the supporters of the platform:</p><2><0><0>admin</0> - site administrator</0><1><0>contributor</0> - people who have made significant development contributions to the site</1><2><0>supporter</0> - patreon supporters</2><3><0>winner</0> - current tournament winner</3><4><0>previous winner</0> - former tournament winner</4></2>",
     "What is this page?": "¿Qué es esta página?",
     "community.whatisthis": "Esta página es un atajo a otras obras/recursos en la comunidad de KeyForge.",
     "community.discord": "<0>Link: <1>Discord de KeyForge</1></0><p>Discord es una aplicación de comunicación por texto y voz. Creado por miembros de la comunidad de KeyForge, es una comunidad robusta de jugadores de LCG/CCG/RPG.</p>",
@@ -538,5 +539,15 @@
     "Added": "Added",
     "Win %": "Win %",
     "Filter by name": "Filter by name",
-    "Choose a top part to play": "Choose a top part to play"
+    "Choose a top part to play": "Choose a top part to play",
+    "Introduction": "Introduction",
+    "Use half sized card images": "Use half sized card images",
+    "Challonge API Subdomain": "Challonge API Subdomain",
+    "Challonge API Key": "Challonge API Key",
+    "Change avatar": "Change avatar",
+    "Link Account": "Link Account",
+    "Unlink Account": "Unlink Account",
+    "Enter the same password": "Enter the same password",
+    "Enter challonge API key": "Enter challonge API key",
+    "Options": "Options"
 }
