@@ -26,7 +26,7 @@ class Shadowsaurus extends Card {
                     ability.actions.cardLastingEffect((context) => ({
                         target: context.target.tokens.amber ? context.target : [],
                         duration: 'lastingEffect',
-                        condition: () => context.target.controller === context.player,
+                        condition: (context) => context.target.controller === context.player,
                         effect: ability.effects.changeHouse('shadows')
                     }))
                 ]
