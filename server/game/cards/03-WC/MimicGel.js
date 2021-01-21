@@ -21,7 +21,7 @@ class MimicGel extends Card {
                     targetLocation: 'hand',
                     duration: 'lastingEffect',
                     effect: [
-                        ability.effects.copyCard(context.target),
+                        ability.effects.copyCard(context.target.getBottomCard()),
                         ability.effects.changeHouse('logos')
                     ]
                 }))

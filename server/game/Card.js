@@ -93,6 +93,14 @@ class Card extends EffectSource {
         this.modifiedPower = undefined;
     }
 
+    getTopCard() {
+        return this;
+    }
+
+    getBottomCard() {
+        return this;
+    }
+
     get name() {
         const copyEffect = this.mostRecentEffect('copyCard');
         return copyEffect ? copyEffect.printedName : this.printedName;
@@ -180,16 +188,8 @@ class Card extends EffectSource {
             return this.mostRecentEffect('modifyBonusIcons');
         }
 
-        let printedAmber = this.cardPrintedAmber;
-        let enhancements = this.enhancements;
-        if (this.composedPart) {
-            if (this.composedPart.cardPrintedAmber) {
-                printedAmber = this.composedPart.cardPrintedAmber;
-            }
-            if (this.composedPart.enhancements && this.composedPart.enhancements.length > 0) {
-                enhancements = this.composedPart.enhancements;
-            }
-        }
+        let printedAmber = this.getTopCard().cardPrintedAmber;
+        let enhancements = this.getTopCard().enhancements;
 
         let result = printedAmber ? Array.from(Array(printedAmber), () => 'amber') : [];
         return enhancements ? result.concat(enhancements) : result;
@@ -442,11 +442,7 @@ class Card extends EffectSource {
 
     getTraits() {
         let copyEffect = this.mostRecentEffect('copyCard');
-        let traits = copyEffect
-            ? copyEffect.traits
-            : this.composedPart
-            ? this.composedPart.traits.concat(this.traits)
-            : this.traits;
+        let traits = copyEffect ? copyEffect.traits : this.getBottomCard().traits;
         return _.uniq(traits.concat(this.getEffects('addTrait')));
     }
 
@@ -684,10 +680,7 @@ class Card extends EffectSource {
     }
 
     getPower(printed = false) {
-        const printedPower =
-            this.composedPart && this.composedPart.printedPower
-                ? this.composedPart.printedPower
-                : this.printedPower;
+        const printedPower = this.getBottomCard().printedPower;
 
         if (printed) {
             return printedPower;
@@ -717,10 +710,7 @@ class Card extends EffectSource {
     }
 
     getArmor(printed = false) {
-        const printedArmor =
-            this.composedPart && this.composedPart.printedArmor
-                ? this.composedPart.printedArmor
-                : this.printedArmor;
+        const printedArmor = this.getBottomCard().printedArmor;
 
         if (printed) {
             return printedArmor;

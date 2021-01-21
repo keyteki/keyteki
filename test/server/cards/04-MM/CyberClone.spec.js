@@ -134,4 +134,55 @@ describe('Cyber-Clone', function () {
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
     });
+
+    describe("Cyber Clone and Gigantic's ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'untamed',
+                    hand: ['niffle-kong', 'niffle-kong2']
+                },
+                player2: {
+                    inPlay: ['dust-pixie'],
+                    hand: ['cyber-clone', 'helper-bot', 'imp-losion']
+                }
+            });
+        });
+
+        it('should allow purging gigantic if played bottom part', function () {
+            this.player1.play(this.niffleKong);
+            this.player1.clickPrompt('Done');
+            this.player1.endTurn();
+            this.player2.clickPrompt('logos');
+            this.player2.play(this.cyberClone);
+            this.player2.clickCard(this.niffleKong);
+            expect(this.cyberClone.location).toBe('play area');
+            expect(this.cyberClone.power).toBe(12);
+            expect(this.cyberClone.armor).toBe(2);
+            expect(this.cyberClone.hasTrait('mutant')).toBe(true);
+            expect(this.cyberClone.hasTrait('niffle')).toBe(true);
+            expect(this.cyberClone.getEffects('addKeyword').length).toBe(0);
+            expect(this.cyberClone.getEffects('removeKeyword').length).toBe(0);
+            expect(this.niffleKong.location).toBe('purged');
+            expect(this.niffleKong2.location).toBe('purged');
+        });
+
+        it('should allow purging gigantic if played top part', function () {
+            this.player1.play(this.niffleKong2);
+            this.player1.clickPrompt('Done');
+            this.player1.endTurn();
+            this.player2.clickPrompt('logos');
+            this.player2.play(this.cyberClone);
+            this.player2.clickCard(this.niffleKong2);
+            expect(this.cyberClone.location).toBe('play area');
+            expect(this.cyberClone.power).toBe(12);
+            expect(this.cyberClone.armor).toBe(2);
+            expect(this.cyberClone.hasTrait('mutant')).toBe(true);
+            expect(this.cyberClone.hasTrait('niffle')).toBe(true);
+            expect(this.cyberClone.getEffects('addKeyword').length).toBe(0);
+            expect(this.cyberClone.getEffects('removeKeyword').length).toBe(0);
+            expect(this.niffleKong.location).toBe('purged');
+            expect(this.niffleKong2.location).toBe('purged');
+        });
+    });
 });
