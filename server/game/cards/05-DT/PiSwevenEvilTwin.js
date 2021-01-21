@@ -5,7 +5,7 @@ class PiSwevenEvilTwin extends Card {
     setupCardAbilities(ability) {
         this.reap({
             condition: (context) => context.player.isTideHigh(),
-            gameAction: ability.actions.discardAtRandom({ amount: 1 })
+            gameAction: ability.actions.discardAtRandom()
         });
     }
 }
