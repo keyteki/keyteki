@@ -5,11 +5,11 @@ class BringLow extends Card {
         this.play({
             effect: 'have friendly creatures capture {1} amber from {2}',
             effectArgs: (context) => [
-                Math.max(context.player.opponent.amber - 5, 0),
+                context.player.opponent ? Math.max(context.player.opponent.amber - 5, 0) : 0,
                 context.player.opponent
             ],
             gameAction: ability.actions.sequentialForEach((context) => ({
-                num: Math.max(context.player.opponent.amber - 5, 0),
+                num: context.player.opponent ? Math.max(context.player.opponent.amber - 5, 0) : 0,
                 action: ability.actions.capture({
                     promptForSelect: {
                         activePromptTitle: 'Choose a creature to capture 1 amber',
