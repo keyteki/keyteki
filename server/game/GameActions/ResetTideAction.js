@@ -1,15 +1,15 @@
 const Constants = require('../../constants');
 const PlayerAction = require('./PlayerAction');
 
-class NeutralizeTideAction extends PlayerAction {
+class ResetTideAction extends PlayerAction {
     setDefaultProperties() {
         this.chainCost = 0;
     }
 
     setup() {
         super.setup();
-        this.name = 'neutralizeTide';
-        this.effectMsg = 'neutralize the tide';
+        this.name = 'resetTide';
+        this.effectMsg = 'reset the tide';
     }
 
     defaultTargets(context) {
@@ -21,10 +21,10 @@ class NeutralizeTideAction extends PlayerAction {
     }
 
     getEvent(player, context) {
-        return super.createEvent('onNeutralizeTide', { player: player, context: context }, () => {
+        return super.createEvent('onResetTide', { player: player, context: context }, () => {
             context.game.changeTide(player, Constants.Tide.NEUTRAL);
         });
     }
 }
 
-module.exports = NeutralizeTideAction;
+module.exports = ResetTideAction;
