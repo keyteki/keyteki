@@ -25,7 +25,7 @@ class SpanglerBox extends Card {
         });
         this.leavesPlay({
             effect: 'returning to play all creatures purged by Spangler Box',
-            gameAction: ability.actions.sequentialForEach((context) => ({
+            gameAction: ability.actions.sequentialPutIntoPlay((context) => ({
                 forEach: context.source.childCards,
                 action: ability.actions.putIntoPlay()
             }))
