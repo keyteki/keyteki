@@ -8,7 +8,11 @@ class ReadyAction extends CardGameAction {
     }
 
     canAffect(card, context) {
-        return card.location === 'play area' && super.canAffect(card, context);
+        return (
+            card.location === 'play area' &&
+            card.checkRestrictions('ready', context) &&
+            super.canAffect(card, context)
+        );
     }
 
     getEvent(card, context) {
