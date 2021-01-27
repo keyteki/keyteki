@@ -1,21 +1,23 @@
 const Card = require('../../Card.js');
 
 class OlPaddyEvilTwin extends Card {
+    // Reap: Discard the bottom card of your opponent’s deck, or the bottom 3 cards instead if the tide is high.
+    // Destroy a creature that shares a house with 1 of the discarded cards.
     setupCardAbilities(ability) {
-        this.play({
+        this.reap({
             gameAction: ability.actions.discard((context) => ({
-                location: 'deck',
                 target: context.player.opponent
                     ? context.player.opponent.deck.slice(context.player.isTideHigh() ? -3 : -1)
                     : []
             })),
             then: {
-                alwaysTriggers: true,
                 target: {
                     cardType: 'creature',
                     controller: 'any',
                     cardCondition: (card, context) =>
-                        context.preThenEvent.cards.some((c) => card.hasHouse(c.printedHouse)),
+                        context.preThenEvents.some((event) =>
+                            card.hasHouse(event.card.printedHouse)
+                        ),
                     gameAction: ability.actions.destroy()
                 }
             }
@@ -23,6 +25,6 @@ class OlPaddyEvilTwin extends Card {
     }
 }
 
-OlPaddyEvilTwin.id = 'ol-paddy-evil-twin';
+OlPaddyEvilTwin.id = 'ol--paddy-evil-twin';
 
 module.exports = OlPaddyEvilTwin;

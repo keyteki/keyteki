@@ -1,22 +1,22 @@
 const Card = require('../../Card.js');
 
 class OlPaddy extends Card {
+    // Reap: Discard the bottom card of your deck, or the bottom 3 cards instead if the tide is high.
+    // Play each creature discarded this way, one at a time.
     setupCardAbilities(ability) {
-        this.play({
+        this.reap({
             gameAction: ability.actions.discard((context) => ({
-                location: 'deck',
                 target: context.player.deck.slice(context.player.isTideHigh() ? -3 : -1)
             })),
             then: {
-                alwaysTriggers: true,
                 gameAction: ability.actions.sequentialPutIntoPlay((context) => ({
-                    forEach: context.preThenEvent.cards.filter((card) => card.type === 'creature')
+                    forEach: context.preThenEvents.filter((event) => event.card.type === 'creature')
                 }))
             }
         });
     }
 }
 
-OlPaddy.id = 'ol-paddy';
+OlPaddy.id = 'ol--paddy';
 
 module.exports = OlPaddy;
