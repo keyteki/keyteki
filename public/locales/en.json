@@ -389,6 +389,8 @@
     "Choose {{amount}} cards": "Choose {{amount}} cards",
     "Choose {{amount}} creatures": "Choose {{amount}} creatures",
     "Choose {{amount}} artifacts": "Choose {{amount}} artifacts",
+    "Choose {{amount}} or more creatures": "Choose {{amount}} or more creatures",
+    "Choose {{amount}} or more artifacts": "Choose {{amount}} or more artifacts",
     "Wins": "Wins",
     "Losses": "Losses",
     "Date Desc": "Date Desc",
