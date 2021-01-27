@@ -13,7 +13,7 @@ class CaptainNoBeard extends Card {
             })
         });
         this.reap({
-            gameAction: ability.actions.capture({ amount: 1 })
+            gameAction: ability.actions.capture()
         });
     }
 }
