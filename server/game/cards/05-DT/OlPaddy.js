@@ -10,7 +10,10 @@ class OlPaddy extends Card {
             })),
             then: {
                 gameAction: ability.actions.sequentialPutIntoPlay((context) => ({
-                    forEach: context.preThenEvents.filter((event) => event.card.type === 'creature')
+                    forEach: context.preThenEvents
+                        .filter((event) => event.card.type === 'creature')
+                        .map((event) => event.card),
+                    action: ability.actions.putIntoPlay()
                 }))
             }
         });
