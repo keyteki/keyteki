@@ -12,7 +12,9 @@ class KiriGiltspine extends Card {
                 target: context.event.card,
                 effect: ability.effects.cardCannot(
                     'ready',
-                    () => context.game.currentPhase === 'ready'
+                    () =>
+                        context.source.controller !== context.game.activePlayer &&
+                        context.game.currentPhase === 'ready'
                 )
             }))
         });
