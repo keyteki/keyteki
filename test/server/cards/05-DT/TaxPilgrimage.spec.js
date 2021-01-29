@@ -17,12 +17,11 @@ describe('Tax Pilgrimage', function () {
         describe('when there are not creatures in play', function () {
             beforeEach(function () {
                 this.player1.moveCard(this.lamindra, 'discard');
-                this.player1.moveCard(this.barristerJoya, 'discard');
+                this.player1.moveCard(this.angryMob, 'discard');
+                this.player1.play(this.taxPilgrimage);
             });
 
             it('should not capture any amber', function () {
-                expect(this.angryMob.amber).toBe(0);
-                expect(this.angryMob.amber).toBe(0);
                 expect(this.player2.amber).toBe(0);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
@@ -36,7 +35,7 @@ describe('Tax Pilgrimage', function () {
 
             it('should not capture any amber', function () {
                 expect(this.angryMob.amber).toBe(0);
-                expect(this.angryMob.amber).toBe(0);
+                expect(this.barristerJoya.amber).toBe(0);
                 expect(this.player2.amber).toBe(0);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
@@ -161,6 +160,13 @@ describe('Tax Pilgrimage', function () {
                     this.player1.play(this.taxPilgrimage);
                 });
 
+                it('should allow selecting friendly creatures only', function () {
+                    expect(this.player1).toBeAbleToSelect(this.angryMob);
+                    expect(this.player1).toBeAbleToSelect(this.barristerJoya);
+                    expect(this.player1).toBeAbleToSelect(this.challeTheSafeguard);
+                    expect(this.player1).not.toBeAbleToSelect(this.murkens);
+                });
+
                 describe('and a friendly creature is selected', function () {
                     beforeEach(function () {
                         this.player1.clickCard(this.angryMob);
@@ -170,7 +176,7 @@ describe('Tax Pilgrimage', function () {
                         expect(this.angryMob.amber).toBe(1);
                     });
 
-                    it('should capture ambers on both  neighbors', function () {
+                    it('should capture ambers on both neighbors', function () {
                         expect(this.barristerJoya.amber).toBe(1);
                         expect(this.challeTheSafeguard.amber).toBe(1);
                         expect(this.player2.amber).toBe(0);
