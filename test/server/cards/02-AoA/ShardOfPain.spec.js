@@ -33,5 +33,18 @@ describe('Shard of Pain', function () {
             expect(this.mother.tokens.damage).toBe(2);
             expect(this.dextre.tokens.damage).toBe(1);
         });
+
+        describe('when there are no enemy creatures in play', function () {
+            beforeEach(function () {
+                this.player2.moveCard(this.dextre, 'discard');
+                this.player2.moveCard(this.mother, 'discard');
+                this.player2.moveCard(this.archimedes, 'discard');
+            });
+
+            it('should not prompt', function () {
+                this.player1.useAction(this.shardOfPain);
+                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            });
+        });
     });
 });
