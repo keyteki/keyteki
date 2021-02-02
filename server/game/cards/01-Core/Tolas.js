@@ -4,8 +4,7 @@ class Tolas extends Card {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onCardDestroyed: (event) =>
-                    event.card.type === 'creature' && event.card.controller.opponent
+                onCardDestroyed: (event) => event.clone.type === 'creature'
             },
             gameAction: ability.actions.gainAmber((context) => ({
                 target: context.event.card.controller.opponent

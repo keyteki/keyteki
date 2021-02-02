@@ -328,7 +328,7 @@ describe('Deusillus', function () {
             });
         });
 
-        it('should put Deusillus under Spangler Box as a single creature', function () {
+        it('should put both Deusillus parts under Spangler Box', function () {
             this.player1.play(this.deusillus);
             this.player1.clickCard(this.narp);
             this.player1.endTurn();
@@ -341,10 +341,10 @@ describe('Deusillus', function () {
             expect(this.deusillus2.location).toBe('purged');
 
             expect(this.deusillus.parent).toBe(this.spanglerBox);
-            expect(this.deusillus.composedPart).toBe(this.deusillus2);
+            expect(this.deusillus2.parent).toBe(this.spanglerBox);
 
             expect(this.spanglerBox.childCards).toContain(this.deusillus);
-            expect(this.spanglerBox.childCards).not.toContain(this.deusillus2);
+            expect(this.spanglerBox.childCards).toContain(this.deusillus2);
         });
 
         it('should put Deusillus in play after Spangler Box is destroyed', function () {
@@ -360,8 +360,11 @@ describe('Deusillus', function () {
             this.player1.clickPrompt('dis');
             this.player1.play(this.poltergeist);
             this.player1.clickCard(this.spanglerBox);
-            this.player1.clickCard(this.zorg);
 
+            expect(this.player1).toBeAbleToSelect(this.deusillus);
+            expect(this.player1).toBeAbleToSelect(this.deusillus2);
+
+            this.player1.clickCard(this.deusillus);
             expect(this.player1).toHavePrompt('Deusillus');
             this.player1.clickPrompt('Left');
 
@@ -373,6 +376,8 @@ describe('Deusillus', function () {
             expect(this.player1.player.hand).not.toContain(this.deusillus);
             expect(this.player1.player.hand).not.toContain(this.deusillus2);
             expect(this.deusillus.controller).toBe(this.player1.player);
+
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
     });
 

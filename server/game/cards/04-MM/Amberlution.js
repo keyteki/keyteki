@@ -18,8 +18,7 @@ class Amberlution extends Card {
                         (card) => card.location === 'hand' && card.type === 'creature'
                     ),
                     action: ability.actions.sequential([
-                        ability.actions.putIntoPlay(),
-                        ability.actions.ready()
+                        ability.actions.putIntoPlay({ ready: true })
                     ])
                 }))
             ])

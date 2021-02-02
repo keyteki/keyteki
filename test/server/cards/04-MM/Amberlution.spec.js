@@ -93,23 +93,7 @@ describe('Amberlution', function () {
                                 expect(this.player2.player.creaturesInPlay.length).toBe(2);
                             });
 
-                            it('should prompt player 1 to choose a fourth creature', function () {
-                                expect(this.player1).toHavePrompt(
-                                    'Choose a creature to put into play'
-                                );
-                                expect(this.player1).not.toBeAbleToSelect(this.senatorShrix);
-                                expect(this.player1).toBeAbleToSelect(this.bigtwig);
-                                expect(this.player1).not.toBeAbleToSelect(this.umbra);
-                                expect(this.player1).not.toBeAbleToSelect(this.bulleteye);
-                                expect(this.player1).not.toBeAbleToSelect(this.cityGates);
-                                expect(this.player1).not.toBeAbleToSelect(this.fogbank);
-                            });
-
-                            describe('and a fourth creature is selected', function () {
-                                beforeEach(function () {
-                                    this.player1.clickCard(this.bigtwig);
-                                });
-
+                            describe('and put the last creature in play without creature prompt', function () {
                                 it('should prompt player 1 to place the next creature on the flank', function () {
                                     expect(this.player1).toHavePrompt(
                                         'Which flank do you want to place this creature on?'
