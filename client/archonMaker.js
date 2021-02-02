@@ -680,12 +680,15 @@ const getCountersForCard = (card) => {
         'ward',
         'enrage',
         'stun',
+        'depth',
         'disruption',
         'doom',
         'fuse',
         'glory',
         'growth',
+        'ignorance',
         'scheme',
+        'time',
         'warrant'
     ];
     let counters = [];
