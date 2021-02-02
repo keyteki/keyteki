@@ -165,9 +165,9 @@ class PlayerInteractionWrapper {
     }
 
     /**
-     * Neutralized the tide level without affect player's stats.
+     * Reset the tide level without affect player's stats.
      */
-    neutralizeTide() {
+    resetTide() {
         this.game.changeTide(this.player, Constants.Tide.NEUTRAL);
         this.game.checkGameState(true);
     }

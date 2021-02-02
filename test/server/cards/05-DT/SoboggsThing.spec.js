@@ -1,0 +1,45 @@
+describe("Sobogg's Thing", function () {
+    describe("Sobogg's Thing's ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'staralliance',
+                    inPlay: ['armsmaster-molina', 'sobogg-s-thing-']
+                },
+                player2: {
+                    inPlay: ['lamindra', 'murkens']
+                }
+            });
+        });
+
+        describe('when opponent forges a key', function () {
+            beforeEach(function () {
+                this.player2.amber = 6;
+                this.player1.endTurn();
+                this.player2.clickPrompt('red');
+                this.player2.clickPrompt('shadows');
+            });
+
+            it('should exhaust each of their creatures', function () {
+                expect(this.murkens.exhausted).toBe(true);
+                expect(this.lamindra.exhausted).toBe(true);
+                expect(this.armsmasterMolina.exhausted).toBe(false);
+            });
+
+            describe('when owner forges a key', function () {
+                beforeEach(function () {
+                    this.player1.amber = 6;
+                    this.player2.endTurn();
+                    this.player1.clickPrompt('red');
+                    this.player1.clickPrompt('staralliance');
+                });
+
+                it('should not exhaust each of my creatures', function () {
+                    expect(this.lamindra.exhausted).toBe(false);
+                    expect(this.lamindra.exhausted).toBe(false);
+                    expect(this.armsmasterMolina.exhausted).toBe(false);
+                });
+            });
+        });
+    });
+});
