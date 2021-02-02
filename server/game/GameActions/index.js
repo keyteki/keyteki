@@ -33,7 +33,7 @@ module.exports = {
     MoveToBottomAction: require('./MoveToBottomAction'),
     MoveToFlankAction: require('./MoveToFlankAction'),
     MulliganAction: require('./MulliganAction'),
-    NeutralizeTideAction: require('./NeutralizeTideAction'),
+    ResetTideAction: require('./ResetTideAction'),
     PlaceUnderAction: require('./PlaceUnderAction'),
     PlayCardAction: require('./PlayCardAction'),
     PurgeAction: require('./PurgeAction'),
