@@ -15,10 +15,15 @@ class _5c077 extends Card {
                 ])
             },
             then: {
-                // TODO
                 alwaysTriggers: true,
                 optional: true,
-                gameAction: ability.actions.addPowerCounter()
+                target: {
+                    mode: 'select',
+                    choices: {
+                        'Add a power counter': ability.actions.addPowerCounter(),
+                        'Remove a power counter': ability.actions.removePowerCounter()
+                    }
+                }
             }
         });
     }
