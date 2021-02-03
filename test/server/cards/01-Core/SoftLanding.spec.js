@@ -9,6 +9,7 @@ describe('Soft Landing', function () {
                         'mindwarper',
                         'soft-landing',
                         'john-smyth',
+                        'skybooster-squadron',
                         'commpod',
                         'custom-virus'
                     ],
@@ -27,6 +28,26 @@ describe('Soft Landing', function () {
             expect(this.zorg.exhausted).toBe(false);
             this.player1.play(this.mindwarper);
             expect(this.mindwarper.exhausted).toBe(true);
+        });
+
+        it('should not ready twice if creature is returned to hand', function () {
+            this.player1.play(this.softLanding);
+            this.player1.play(this.skyboosterSquadron);
+            expect(this.skyboosterSquadron.exhausted).toBe(false);
+            this.player1.reap(this.skyboosterSquadron);
+            expect(this.skyboosterSquadron.location).toBe('hand');
+            this.player1.play(this.skyboosterSquadron);
+            expect(this.skyboosterSquadron.exhausted).toBe(true);
+        });
+
+        it('should apply only if creature is played this turn', function () {
+            this.player1.play(this.softLanding);
+            this.player1.endTurn();
+            this.player2.clickPrompt('logos');
+            this.player2.endTurn();
+            this.player1.clickPrompt('mars');
+            this.player1.play(this.skyboosterSquadron);
+            expect(this.skyboosterSquadron.exhausted).toBe(true);
         });
 
         it('should ready the next creature played even when there is another trigger to resolve', function () {
