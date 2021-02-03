@@ -12,6 +12,7 @@ class SequentialAction extends GameAction {
     }
 
     update(context) {
+        super.update(context);
         for (let gameAction of this.gameActions) {
             gameAction.update(context);
         }
