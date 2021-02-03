@@ -1,14 +1,15 @@
 const EffectValue = require('./EffectValue');
 
 class CannotRestriction extends EffectValue {
-    constructor(type, condition) {
+    constructor(type, condition, effectTarget = null) {
         super();
         this.type = type;
         this.condition = condition;
+        this.effectTarget = effectTarget;
     }
 
-    getValue() {
-        return this;
+    getValue(target) {
+        return new CannotRestriction(this.type, this.condition, target);
     }
 
     isMatch(type, abilityContext) {
@@ -22,7 +23,7 @@ class CannotRestriction extends EffectValue {
             return false;
         }
 
-        return this.condition(context);
+        return this.condition(context, this.effectTarget);
     }
 }
 
