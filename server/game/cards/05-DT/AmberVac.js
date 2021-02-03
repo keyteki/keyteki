@@ -23,6 +23,6 @@ class AmberVac extends Card {
     }
 }
 
-AmberVac.id = 'amber-vac';
+AmberVac.id = 'æmber-vac';
 
 module.exports = AmberVac;

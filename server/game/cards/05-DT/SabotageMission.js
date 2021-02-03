@@ -10,9 +10,10 @@ class SabotageMission extends Card {
             effectArgs: (context) => context.player.opponent,
             gameAction: ability.actions.lastingEffect({
                 targetController: 'opponent',
-                effect: ability.effects.modifyKeyCost(
-                    (context) =>
-                        _.uniq(context.player.creaturesInPlay.map((card) => card.power)).length
+                effect: ability.effects.modifyKeyCost((player) =>
+                    player.opponent
+                        ? _.uniq(player.opponent.creaturesInPlay.map((card) => card.power)).length
+                        : 0
                 )
             })
         });
