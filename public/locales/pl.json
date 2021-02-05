@@ -552,5 +552,7 @@
     "Enter challonge API key": "Enter challonge API key",
     "Options": "Options",
     "Tide": "Tide",
-    "Raise the Tide?": "Raise the Tide?"
+    "Raise the Tide?": "Raise the Tide?",
+    "Do you wish to exalt this creature?": "Do you wish to exalt this creature?",
+    "Choose a creature to put into play": "Choose a creature to put into play"
 }
