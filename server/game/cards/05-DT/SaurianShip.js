@@ -24,6 +24,6 @@ class SaurianShip extends Card {
     }
 }
 
-SaurianShip.id = 'saurian-ship-';
+SaurianShip.id = 'saurian-ship';
 
 module.exports = SaurianShip;
