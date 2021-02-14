@@ -86,12 +86,8 @@ const Lobby = () => {
             <div>
                 <Col sm={{ span: 10, offset: 1 }}>
                     <div className='banner'>
-                        <a
-                            target='_blank'
-                            rel='noreferrer'
-                            href='https://docs.google.com/forms/d/e/1FAIpQLSeeXvRGFJKT52n2uiGpPJ7ojMwU3iDombDg3tRmtsbtx15GGA/viewform'
-                        >
-                            <img width='100%' src='/banner/KOTE8-banner.png' />
+                        <a target='_blank' rel='noreferrer' href='https://www.thefinalswindle.com/'>
+                            <img width='100%' src='/banner/swindle-event-banner.png' />
                         </a>
                     </div>
                     <div className='main-header' />
