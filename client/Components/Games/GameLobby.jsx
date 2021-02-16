@@ -92,13 +92,6 @@ const GameLobby = ({ gameId }) => {
 
     return (
         <Col md={{ offset: 2, span: 8 }}>
-            <a
-                target='_blank'
-                rel='noreferrer'
-                href='https://docs.google.com/forms/d/e/1FAIpQLSeeXvRGFJKT52n2uiGpPJ7ojMwU3iDombDg3tRmtsbtx15GGA/viewform'
-            >
-                <img width='100%' src='/banner/KOTE8-banner.png' />
-            </a>
             <div ref={topRef}>
                 {newGame && <NewGame quickJoin={quickJoin} />}
                 {currentGame?.started === false && <PendingGame />}
