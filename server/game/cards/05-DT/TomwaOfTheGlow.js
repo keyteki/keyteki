@@ -10,13 +10,10 @@ class TomwaOfTheGlow extends Card {
             },
             then: {
                 alwaysTriggers: true,
+                condition: (context) => context.player.isTideHigh() && context.player.opponent,
                 gameAction: ability.actions.draw((context) => ({
-                    amount:
-                        context.player.isTideHigh() && context.player.opponent
-                            ? context.player.opponent.creaturesInPlay.filter(
-                                  (card) => card.exhausted
-                              ).length
-                            : 0
+                    amount: context.player.opponent.creaturesInPlay.filter((card) => card.exhausted)
+                        .length
                 }))
             }
         });
