@@ -5,7 +5,7 @@ describe('Yzphyz Knowdrone', function () {
                 player1: {
                     house: 'mars',
                     amber: 0,
-                    inPlay: ['wretched-doll', 'zorg'],
+                    inPlay: ['wretched-doll', 'zorg', 'collector-worm'],
                     archives: ['ember-imp'],
                     hand: ['yzphyz-knowdrone', 'harbinger-of-doom', 'key-to-dis']
                 },
@@ -74,6 +74,29 @@ describe('Yzphyz Knowdrone', function () {
 
                 it('should allow a creature to be stunned', function () {
                     expect(this.player1).toHavePrompt('Choose a creature to stun');
+                    expect(this.player1).toBeAbleToSelect(this.mightyTiger);
+                    expect(this.player1).toBeAbleToSelect(this.huntingWitch);
+                    expect(this.player1).toBeAbleToSelect(this.collectorWorm);
+                });
+
+                describe('and an opponent creature is selected', function () {
+                    beforeEach(function () {
+                        this.player1.clickCard(this.huntingWitch);
+                    });
+
+                    it('should stun that creature', function () {
+                        expect(this.huntingWitch.stunned).toBe(true);
+                    });
+                });
+
+                describe('and a friendly creature is selected', function () {
+                    beforeEach(function () {
+                        this.player1.clickCard(this.collectorWorm);
+                    });
+
+                    it('should stun that creature', function () {
+                        expect(this.collectorWorm.stunned).toBe(true);
+                    });
                 });
             });
 
@@ -82,7 +105,7 @@ describe('Yzphyz Knowdrone', function () {
                     this.player1.clickCard(this.zorg);
                 });
 
-                it('should return that card to our archives', function () {
+                it('should return that card to our hand', function () {
                     expect(this.zorg.location).toBe('hand');
                 });
 
