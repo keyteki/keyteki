@@ -418,6 +418,7 @@ class Player extends GameObject {
             let cardIndex = targetPile.indexOf(card);
             if (card.composedPart) {
                 composedPart = card.composedPart;
+                card.composedPart.controller = card.controller;
                 card.composedPart.location = targetLocation;
                 targetPile.splice(cardIndex, 0, card.composedPart);
                 card.composedPart = null;
