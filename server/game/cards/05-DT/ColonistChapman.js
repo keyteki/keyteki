@@ -2,7 +2,7 @@ const Card = require('../../Card.js');
 
 class ColonistChapman extends Card {
     //Taunt.
-    //Each of $this's non-Star Alliance neighbors gains, "Reap: Gain 1A."
+    //Each of $this's non-Star Alliance neighbors gains, "Reap: Gain 1A.".
     //This card has been translated from Polish and is subject to change.
     setupCardAbilities(ability) {
         //Keywords: taunt

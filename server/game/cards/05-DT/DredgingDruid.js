@@ -1,16 +1,20 @@
 const Card = require('../../Card.js');
 
-class Lex extends Card {
-    //Play/Fight: If the tide is high, you may exalt a creature.
+class DredgingDruid extends Card {
+    //Elusive.
+    //Reap: If the tide is high, put up to 3 creatures from your discard pile on top of your deck.
     //This card has been translated from Chinese and is subject to change.
     setupCardAbilities(ability) {
-        this.play({
-            fight: true,
+        //Keywords: elusive
+        this.reap({
             condition: (context) => context.player.isTideHigh(),
             target: {
-                optional: true,
+                mode: 'upTo',
+                numCards: '3',
                 cardType: 'creature',
-                gameAction: ability.actions.exalt({ amount: 1 })
+                controller: 'self',
+                location: 'discard',
+                gameAction: ability.actions.returnToDeck({ location: 'discard' })
             }
         });
         /*{
@@ -22,6 +26,6 @@ class Lex extends Card {
     }
 }
 
-Lex.id = 'lex-';
+DredgingDruid.id = 'dredging-druid-';
 
-module.exports = Lex;
+module.exports = DredgingDruid;

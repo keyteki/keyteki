@@ -1,15 +1,14 @@
 const Card = require('../../Card.js');
 
-class Lex extends Card {
-    //Play/Fight: If the tide is high, you may exalt a creature.
+class CarpeVinum extends Card {
+    //Play: Exalt two enemy creatures.
     //This card has been translated from Chinese and is subject to change.
     setupCardAbilities(ability) {
         this.play({
-            fight: true,
-            condition: (context) => context.player.isTideHigh(),
             target: {
-                optional: true,
+                numCards: '2',
                 cardType: 'creature',
+                controller: 'opponent',
                 gameAction: ability.actions.exalt({ amount: 1 })
             }
         });
@@ -22,6 +21,6 @@ class Lex extends Card {
     }
 }
 
-Lex.id = 'lex-';
+CarpeVinum.id = 'carpe-vinum';
 
-module.exports = Lex;
+module.exports = CarpeVinum;

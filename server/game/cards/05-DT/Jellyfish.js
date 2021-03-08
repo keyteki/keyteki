@@ -1,17 +1,16 @@
 const Card = require('../../Card.js');
 
-class MeccaBuoy extends Card {
-    //At the start of each player's turn, if the tide is high, they gain 1A.
+class Jellyfish extends Card {
+    //Hazardous 4.
+    //Destroyed: If the tide is high, archive $this.
     //This card has been translated from Chinese and is subject to change.
     setupCardAbilities(ability) {
-        this.reaction({
-            when: {
-                onBeginRound: () => true
-            },
+        //Keywords: hazardous 4
+        this.destroyed({
             condition: (context) => context.player.isTideHigh(),
-            gameAction: ability.actions.gainAmber((context) => ({
-                amount: 1,
-                target: context.player.opponent
+            gameAction: ability.actions.archive((context) => ({
+                target: context.source,
+                location: 'hand'
             }))
         });
         /*{
@@ -23,6 +22,6 @@ class MeccaBuoy extends Card {
     }
 }
 
-MeccaBuoy.id = 'mecca-buoy';
+Jellyfish.id = 'jellyfish-';
 
-module.exports = MeccaBuoy;
+module.exports = Jellyfish;

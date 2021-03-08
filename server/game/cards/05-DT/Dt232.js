@@ -1,16 +1,14 @@
 const Card = require('../../Card.js');
 
-class Lex extends Card {
-    //Play/Fight: If the tide is high, you may exalt a creature.
+class Dt232 extends Card {
+    //Play: Use an opponent's artifact as if it were yours.
     //This card has been translated from Chinese and is subject to change.
     setupCardAbilities(ability) {
         this.play({
-            fight: true,
-            condition: (context) => context.player.isTideHigh(),
             target: {
-                optional: true,
-                cardType: 'creature',
-                gameAction: ability.actions.exalt({ amount: 1 })
+                cardType: 'artifact',
+                controller: 'opponent',
+                gameAction: ability.actions.use()
             }
         });
         /*{
@@ -22,6 +20,6 @@ class Lex extends Card {
     }
 }
 
-Lex.id = 'lex-';
+Dt232.id = 'dt232';
 
-module.exports = Lex;
+module.exports = Dt232;

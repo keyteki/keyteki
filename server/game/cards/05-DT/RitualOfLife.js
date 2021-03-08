@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class RitualOfLife extends Card {
-    //Action: Destroy a friendly creature. If you do, return a different creature from your discard pile to your hand
+    //Action: Destroy a friendly creature. If you do, return a different creature from your discard pile to your hand.
     //This card is translated from Chinese and is subject to change.
     setupCardAbilities(ability) {
         this.action({

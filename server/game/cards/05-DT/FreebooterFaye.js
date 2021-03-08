@@ -1,17 +1,16 @@
 const Card = require('../../Card.js');
 
-class Lex extends Card {
-    //Play/Fight: If the tide is high, you may exalt a creature.
+class FreebooterFaye extends Card {
+    //Play: Raise the tide.
+    //Reap: Steal 1A if the tide is high.
     //This card has been translated from Chinese and is subject to change.
     setupCardAbilities(ability) {
         this.play({
-            fight: true,
+            gameAction: ability.actions.raiseTide()
+        });
+        this.reap({
             condition: (context) => context.player.isTideHigh(),
-            target: {
-                optional: true,
-                cardType: 'creature',
-                gameAction: ability.actions.exalt({ amount: 1 })
-            }
+            gameAction: ability.actions.steal({ amount: 1 })
         });
         /*{
           "name": "reminderText",
@@ -22,6 +21,6 @@ class Lex extends Card {
     }
 }
 
-Lex.id = 'lex-';
+FreebooterFaye.id = 'freebooter-faye';
 
-module.exports = Lex;
+module.exports = FreebooterFaye;

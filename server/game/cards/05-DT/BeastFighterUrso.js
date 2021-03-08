@@ -1,16 +1,15 @@
 const Card = require('../../Card.js');
 
-class Lex extends Card {
-    //Play/Fight: If the tide is high, you may exalt a creature.
+class BeastFighterUrso extends Card {
+    //Play/Reap: You may unstun a creature.
     //This card has been translated from Chinese and is subject to change.
     setupCardAbilities(ability) {
         this.play({
-            fight: true,
-            condition: (context) => context.player.isTideHigh(),
+            reap: true,
             target: {
                 optional: true,
                 cardType: 'creature',
-                gameAction: ability.actions.exalt({ amount: 1 })
+                gameAction: ability.actions.removeStun()
             }
         });
         /*{
@@ -22,6 +21,6 @@ class Lex extends Card {
     }
 }
 
-Lex.id = 'lex-';
+BeastFighterUrso.id = 'beast-fighter-urso';
 
-module.exports = Lex;
+module.exports = BeastFighterUrso;
