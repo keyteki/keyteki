@@ -1,10 +1,11 @@
 const _ = require('underscore');
 const SelectChoice = require('./SelectChoice.js');
+const AbilityTarget = require('./AbilityTarget.js');
 
-class AbilityTargetSelect {
+class AbilityTargetSelect extends AbilityTarget {
     constructor(name, properties, ability) {
-        this.name = name;
-        this.properties = properties;
+        super(name, properties, ability);
+
         for (const key of Object.keys(properties.choices)) {
             if (
                 typeof properties.choices[key] !== 'function' &&
@@ -12,25 +13,6 @@ class AbilityTargetSelect {
             ) {
                 properties.choices[key] = [properties.choices[key]];
             }
-        }
-
-        this.dependentTarget = null;
-        this.dependentCost = null;
-        if (this.properties.dependsOn) {
-            let dependsOnTarget = ability.targets.find(
-                (target) => target.name === this.properties.dependsOn
-            );
-            dependsOnTarget.dependentTarget = this;
-        }
-    }
-
-    canResolve(context) {
-        return !!this.properties.dependsOn || this.hasLegalTarget(context);
-    }
-
-    resetGameActions() {
-        for (let action of this.properties.gameAction) {
-            action.reset();
         }
     }
 
@@ -46,11 +28,7 @@ class AbilityTargetSelect {
             contextCopy.select = key;
         }
 
-        if (
-            context.stage === 'pretarget' &&
-            this.dependentCost &&
-            !this.dependentCost.canPay(contextCopy)
-        ) {
+        if (context.stage === 'pretarget') {
             return false;
         }
 
@@ -150,7 +128,7 @@ class AbilityTargetSelect {
         return (
             context.selects[this.name] &&
             this.isChoiceLegal(context.selects[this.name].choice, context) &&
-            (!this.dependentTarget || this.dependentTarget.checkTarget(context))
+            super.checkTarget(context)
         );
     }
 }

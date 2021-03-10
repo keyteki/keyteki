@@ -1,16 +1,9 @@
-class AbilityTargetOptions {
-    constructor(name, properties, ability) {
-        this.name = name;
-        this.properties = properties;
-        this.options = properties.options;
-        this.dependentTarget = null;
+const AbilityTarget = require('./AbilityTarget');
 
-        if (this.properties.dependsOn) {
-            let dependsOnTarget = ability.targets.find(
-                (target) => target.name === this.properties.dependsOn
-            );
-            dependsOnTarget.dependentTarget = this;
-        }
+class AbilityTargetOptions extends AbilityTarget {
+    constructor(name, properties, ability) {
+        super(name, properties, ability);
+        this.options = properties.options;
     }
 
     getOptions(context) {
@@ -27,18 +20,8 @@ class AbilityTargetOptions {
         return options;
     }
 
-    canResolve(context) {
-        return !!this.properties.dependsOn || this.hasLegalTarget(context);
-    }
-
-    resetGameActions() {}
-
     hasLegalTarget(context) {
         return !!this.getOptions(context).length;
-    }
-
-    getGameAction() {
-        return [];
     }
 
     getAllLegalTargets(context) {
