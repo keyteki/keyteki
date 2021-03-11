@@ -391,6 +391,11 @@ class Player extends GameObject {
             card.owner.moveCard(card, targetLocation, options);
             return;
         } else if (card.location === 'archives' && card.controller !== card.owner) {
+            this.game.addMessage(
+                `{0} leaves the archives and will be returned its owner hand`,
+                card
+            );
+
             card.controller = card.owner;
             targetLocation = 'hand';
             targetPile = this.getSourceList(targetLocation);
