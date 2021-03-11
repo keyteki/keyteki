@@ -395,8 +395,10 @@
     "Top of deck": "덱 맨 위",
     "Random card from archives": "보관 영역에서 무작위 카드",
     "Choose {{amount}} cards": "{{amount}} 장 선택하세요",
-    "Choose {{amount}} creatures": "{{amount}} 개의 생명체를 선택하세요 ",
+    "Choose {{amount}} creatures": "{{amount}} 개의 생명체를 선택하세요",
     "Choose {{amount}} artifacts": "{{amount}} 개의 유물을 선택하세요",
+    "Choose {{amount}} or more creatures": "Choose {{amount}} or more creatures",
+    "Choose {{amount}} or more artifacts": "Choose {{amount}} or more artifacts",
     "Wins": "승",
     "Losses": "패",
     "Date Desc": "날짜 내림차순",
@@ -554,5 +556,7 @@
     "Tide": "Tide",
     "Raise the Tide?": "Raise the Tide?",
     "Do you wish to exalt this creature?": "Do you wish to exalt this creature?",
-    "Choose a creature to put into play": "Choose a creature to put into play"
+    "Choose a creature to put into play": "Choose a creature to put into play",
+    "Add a power counter": "Add a power counter",
+    "Remove a power counter": "Remove a power counter"
 }

@@ -389,6 +389,8 @@
     "Choose {{amount}} cards": "Choose {{amount}} cards",
     "Choose {{amount}} creatures": "Choose {{amount}} creatures",
     "Choose {{amount}} artifacts": "Choose {{amount}} artifacts",
+    "Choose {{amount}} or more creatures": "Choose {{amount}} or more creatures",
+    "Choose {{amount}} or more artifacts": "Choose {{amount}} or more artifacts",
     "Wins": "Wins",
     "Losses": "Losses",
     "Date Desc": "Date Desc",
@@ -545,5 +547,7 @@
     "Tide": "Tide",
     "Raise the Tide?": "Raise the Tide?",
     "Do you wish to exalt this creature?": "Do you wish to exalt this creature?",
-    "Choose a creature to put into play": "Choose a creature to put into play"
+    "Choose a creature to put into play": "Choose a creature to put into play",
+    "Add a power counter": "Add a power counter",
+    "Remove a power counter": "Remove a power counter"
 }
