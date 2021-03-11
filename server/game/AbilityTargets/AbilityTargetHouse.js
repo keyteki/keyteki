@@ -22,7 +22,7 @@ class AbilityTargetHouse extends AbilityTarget {
     }
 
     hasLegalTarget(context) {
-        return !!this.getHouses(context).length;
+        return !!this.getHouses(context).length && super.hasLegalTarget(context);
     }
 
     getAllLegalTargets(context) {
@@ -59,6 +59,7 @@ class AbilityTargetHouse extends AbilityTarget {
                 if (this.name === 'target') {
                     context.house = choice;
                 }
+                context.game.addMessage('{0} chooses house {1}', player, choice);
             };
         });
         if (this.properties.player !== 'opponent' && context.stage === 'pretarget') {

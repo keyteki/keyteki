@@ -28,7 +28,7 @@ class AbilityTargetTrait extends AbilityTarget {
     }
 
     hasLegalTarget(context) {
-        return !!this.getTraits(context).length;
+        return !!this.getTraits(context).length && super.hasLegalTarget(context);
     }
 
     getAllLegalTargets(context) {
@@ -66,9 +66,9 @@ class AbilityTargetTrait extends AbilityTarget {
         });
     }
 
-    selectTraitName(context, _player, traitName) {
+    selectTraitName(context, player, traitName) {
         context.trait = traitName;
-
+        context.game.addMessage('{0} chooses trait {1}', player, traitName);
         return true;
     }
 }

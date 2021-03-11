@@ -2,18 +2,17 @@ class AbilityTarget {
     constructor(name, properties, ability) {
         this.name = name;
         this.properties = properties;
-        this.dependentTarget = null;
+        this.dependentTarget = [];
         if (this.properties.dependsOn) {
             let dependsOnTarget = ability.targets.find(
                 (target) => target.name === this.properties.dependsOn
             );
-            dependsOnTarget.dependentTarget = this;
+            dependsOnTarget.dependentTarget.push(this);
         }
     }
 
-    // eslint-disable-next-line no-unused-vars
     hasLegalTarget(context) {
-        return true;
+        return !this.properties.targetCondition || this.properties.targetCondition(context);
     }
 
     canResolve(context) {
@@ -33,7 +32,14 @@ class AbilityTarget {
     }
 
     getGameAction(context) {
-        return (this.properties.gameAction || []).filter((gameAction) =>
+        if (
+            !this.properties.gameAction ||
+            (this.properties.targetCondition && !this.properties.targetCondition(context))
+        ) {
+            return [];
+        }
+
+        return this.properties.gameAction.filter((gameAction) =>
             gameAction.hasLegalTarget(context)
         );
     }
@@ -42,7 +48,12 @@ class AbilityTarget {
     resolve(context, targetResults) {}
 
     checkTarget(context) {
-        return !this.dependentTarget || this.dependentTarget.checkTarget(context);
+        return this.dependentTarget.some((dependentTarget) => {
+            const condition =
+                !dependentTarget.targetCondition || dependentTarget.targetCondition(context);
+
+            return condition && dependentTarget.checkTarget(context);
+        });
     }
 }
 

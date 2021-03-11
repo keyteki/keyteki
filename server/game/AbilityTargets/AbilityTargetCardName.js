@@ -28,7 +28,7 @@ class AbilityTargetCardName extends AbilityTarget {
     }
 
     hasLegalTarget(context) {
-        return !!this.getCardNames(context).length;
+        return !!this.getCardNames(context).length && super.hasLegalTarget(context);
     }
 
     getAllLegalTargets(context) {

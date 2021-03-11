@@ -37,7 +37,7 @@ class AbilityTargetCard extends AbilityTarget {
     }
 
     hasLegalTarget(context) {
-        return this.selector.hasEnoughTargets(context);
+        return this.selector.hasEnoughTargets(context) && super.hasLegalTarget(context);
     }
 
     getAllLegalTargets(context) {

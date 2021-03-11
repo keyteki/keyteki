@@ -21,7 +21,7 @@ class AbilityTargetOptions extends AbilityTarget {
     }
 
     hasLegalTarget(context) {
-        return !!this.getOptions(context).length;
+        return !!this.getOptions(context).length && super.hasLegalTarget(context);
     }
 
     getAllLegalTargets(context) {

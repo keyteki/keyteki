@@ -18,7 +18,9 @@ class AbilityTargetSelect extends AbilityTarget {
 
     hasLegalTarget(context) {
         let keys = Object.keys(this.properties.choices);
-        return keys.some((key) => this.isChoiceLegal(key, context));
+        return (
+            keys.some((key) => this.isChoiceLegal(key, context)) && super.hasLegalTarget(context)
+        );
     }
 
     isChoiceLegal(key, context) {
@@ -89,6 +91,7 @@ class AbilityTargetSelect extends AbilityTarget {
                 if (this.name === 'target') {
                     context.select = choice;
                 }
+                context.game.addMessage("{0} chooses option '{1}'", player, choice);
             };
         });
         if (this.properties.player !== 'opponent' && context.stage === 'pretarget') {
