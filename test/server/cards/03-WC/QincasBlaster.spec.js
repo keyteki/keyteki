@@ -162,11 +162,15 @@ describe('Qincan’s Blaster', function () {
             });
         });
 
-        it('reap ability should default to deal damage when officer is not in play', function () {
+        it('reap ability should not default to deal damage when officer is not in play', function () {
             this.player1.playUpgrade(this.qincanSBlaster, this.techivorePulpate);
             this.player1.reap(this.techivorePulpate);
             this.player1.clickCard(this.techivorePulpate);
 
+            expect(this.player1).toHavePrompt('Select one');
+            expect(this.player1).toHavePromptButton('Deal 2 damage');
+            expect(this.player1).toHavePromptButton('Move Qincan’s Blaster');
+            this.player1.clickPrompt('Deal 2 damage');
             expect(this.player1).toHavePrompt('Choose a creature');
             expect(this.player1).toBeAbleToSelect(this.techivorePulpate);
             expect(this.player1).toBeAbleToSelect(this.lamindra);
@@ -175,11 +179,27 @@ describe('Qincan’s Blaster', function () {
             expect(this.krump.tokens.damage).toBe(2);
         });
 
+        it('reap ability should allow moving to associated officer even when it is not in play', function () {
+            this.player1.playUpgrade(this.qincanSBlaster, this.techivorePulpate);
+            this.player1.reap(this.techivorePulpate);
+            this.player1.clickCard(this.techivorePulpate);
+
+            expect(this.player1).toHavePrompt('Select one');
+            expect(this.player1).toHavePromptButton('Deal 2 damage');
+            expect(this.player1).toHavePromptButton('Move Qincan’s Blaster');
+            this.player1.clickPrompt('Move Qincan’s Blaster');
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+
         it('fight ability should default to deal damage when officer is not in play', function () {
             this.player1.playUpgrade(this.qincanSBlaster, this.techivorePulpate);
             this.player1.fightWith(this.techivorePulpate, this.lamindra);
             this.player1.clickCard(this.techivorePulpate);
 
+            expect(this.player1).toHavePrompt('Select one');
+            expect(this.player1).toHavePromptButton('Deal 2 damage');
+            expect(this.player1).toHavePromptButton('Move Qincan’s Blaster');
+            this.player1.clickPrompt('Deal 2 damage');
             expect(this.player1).toHavePrompt('Choose a creature');
             expect(this.player1).toBeAbleToSelect(this.techivorePulpate);
             expect(this.player1).toBeAbleToSelect(this.lamindra);

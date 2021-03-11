@@ -22,12 +22,12 @@ describe('Stunner', function () {
             expect(this.player1).toBeAbleToSelect(this.bulwark);
             expect(this.player1).toBeAbleToSelect(this.sequis);
             this.player1.clickCard(this.sequis);
-            this.player1.clickPrompt('Yes');
             expect(this.sequis.stunned).toBe(true);
             expect(this.commanderRemiel.stunned).toBe(false);
             expect(this.bulwark.stunned).toBe(false);
             expect(this.lieutenantKhrkhar.stunned).toBe(false);
         });
+
         it('should be an optional choice', function () {
             this.player1.playUpgrade(this.stunner, this.lieutenantKhrkhar);
             this.player1.reap(this.lieutenantKhrkhar);

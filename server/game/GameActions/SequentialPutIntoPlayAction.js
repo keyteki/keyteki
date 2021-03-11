@@ -17,7 +17,7 @@ class SequentialPutIntoPlayAction extends GameAction {
 
     hasLegalTarget(context) {
         this.update(context);
-        return (this.num > 0 || this.forEach.length > 0) && !!this.action;
+        return this.forEach.length > 0 && !!this.action;
     }
 
     canAffect() {
@@ -44,7 +44,7 @@ class SequentialPutIntoPlayAction extends GameAction {
             (card) => !card.gigantic || forEach.some((part) => part.id === card.compositeId)
         );
 
-        if (filteredForEach.length > 0) {
+        if (filteredForEach.length > 1) {
             context.game.promptForSelect(context.player, {
                 activePromptTitle: 'Choose a creature to put into play',
                 cardType: 'creature',
@@ -66,6 +66,8 @@ class SequentialPutIntoPlayAction extends GameAction {
                     return true;
                 }
             });
+        } else if (filteredForEach.length === 1) {
+            this.queueActionSteps(context, filteredForEach[0]);
         }
     }
 

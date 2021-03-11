@@ -156,7 +156,8 @@ describe('Mimic Gel', function () {
                         'key-to-dis',
                         'tantadlin',
                         'titan-guardian',
-                        'xenos-bloodshadow'
+                        'xenos-bloodshadow',
+                        'tezmal'
                     ],
                     hand: ['mimic-gel', 'mimic-gel']
                 },
@@ -200,6 +201,221 @@ describe('Mimic Gel', function () {
             this.player2.clickCard(this.mimicGel1);
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(2);
+        });
+
+        it('should cascade the effects', function () {
+            this.player1.amber = 3;
+            this.player2.amber = 3;
+            this.player1.play(this.mimicGel1);
+            this.player1.clickCard(this.batdrone);
+            this.player1.endTurn();
+            this.player2.clickPrompt('logos');
+            this.player2.play(this.mimicGel3);
+            this.player2.clickCard(this.mimicGel1);
+            this.player2.endTurn();
+            this.player1.clickPrompt('logos');
+            this.player1.fightWith(this.mimicGel1, this.dustPixie);
+            expect(this.player1.amber).toBe(4);
+            expect(this.player2.amber).toBe(2);
+            this.player1.endTurn();
+            this.player2.clickPrompt('logos');
+            this.player2.fightWith(this.mimicGel3, this.tezmal);
+            expect(this.player1.amber).toBe(3);
+            expect(this.player2.amber).toBe(3);
+        });
+    });
+
+    describe("Mimic Gel and Gigantic's ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'untamed',
+                    hand: ['niffle-kong', 'niffle-kong2']
+                },
+                player2: {
+                    inPlay: ['dust-pixie'],
+                    hand: ['mimic-gel', 'helper-bot', 'imp-losion']
+                }
+            });
+        });
+
+        it('should allow copying gigantic if played bottom part', function () {
+            this.player1.play(this.niffleKong);
+            this.player1.clickPrompt('Done');
+            this.player1.endTurn();
+            this.player2.clickPrompt('logos');
+            this.player2.play(this.mimicGel);
+            this.player2.clickCard(this.niffleKong);
+            this.player2.clickPrompt('Done');
+            expect(this.mimicGel.location).toBe('play area');
+            expect(this.mimicGel.power).toBe(12);
+            expect(this.mimicGel.armor).toBe(2);
+            expect(this.mimicGel.hasTrait('mutant')).toBe(true);
+            expect(this.mimicGel.hasTrait('niffle')).toBe(true);
+        });
+
+        it('should allow copying gigantic if played top part', function () {
+            this.player1.play(this.niffleKong2);
+            this.player1.clickPrompt('Done');
+            this.player1.endTurn();
+            this.player2.clickPrompt('logos');
+            this.player2.play(this.mimicGel);
+            this.player2.clickCard(this.niffleKong2);
+            this.player2.clickPrompt('Done');
+            expect(this.mimicGel.location).toBe('play area');
+            expect(this.mimicGel.power).toBe(12);
+            expect(this.mimicGel.armor).toBe(2);
+            expect(this.mimicGel.hasTrait('mutant')).toBe(true);
+            expect(this.mimicGel.hasTrait('niffle')).toBe(true);
+        });
+
+        it('should continue to copy effect even after gigantic is destroyed (bottom part first)', function () {
+            this.player1.play(this.niffleKong);
+            this.player1.clickPrompt('Done');
+            this.player1.endTurn();
+            this.player2.clickPrompt('logos');
+            this.player2.play(this.mimicGel);
+            this.player2.clickCard(this.niffleKong);
+            this.player2.clickPrompt('Done');
+            expect(this.mimicGel.location).toBe('play area');
+            expect(this.mimicGel.power).toBe(12);
+            expect(this.mimicGel.armor).toBe(2);
+            expect(this.mimicGel.hasTrait('mutant')).toBe(true);
+            expect(this.mimicGel.hasTrait('niffle')).toBe(true);
+            this.player2.play(this.helperBot);
+            this.player2.play(this.impLosion);
+            this.player2.clickCard(this.helperBot);
+            this.player2.clickCard(this.niffleKong);
+            expect(this.mimicGel.location).toBe('play area');
+            expect(this.mimicGel.power).toBe(12);
+            expect(this.mimicGel.armor).toBe(2);
+            expect(this.mimicGel.hasTrait('mutant')).toBe(true);
+            expect(this.mimicGel.hasTrait('niffle')).toBe(true);
+
+            expect(this.niffleKong.location).toBe('discard');
+            expect(this.niffleKong2.location).toBe('discard');
+            expect(this.helperBot.location).toBe('discard');
+        });
+
+        it('should continue to copy effect even after gigantic is destroyed (top part first)', function () {
+            this.player1.play(this.niffleKong2);
+            this.player1.clickPrompt('Done');
+            this.player1.endTurn();
+            this.player2.clickPrompt('logos');
+            this.player2.play(this.mimicGel);
+            this.player2.clickCard(this.niffleKong2);
+            this.player2.clickPrompt('Done');
+            expect(this.mimicGel.location).toBe('play area');
+            expect(this.mimicGel.power).toBe(12);
+            expect(this.mimicGel.armor).toBe(2);
+            expect(this.mimicGel.hasTrait('mutant')).toBe(true);
+            expect(this.mimicGel.hasTrait('niffle')).toBe(true);
+            this.player2.play(this.helperBot);
+            this.player2.play(this.impLosion);
+            this.player2.clickCard(this.helperBot);
+            this.player2.clickCard(this.niffleKong2);
+            expect(this.mimicGel.location).toBe('play area');
+            expect(this.mimicGel.power).toBe(12);
+            expect(this.mimicGel.armor).toBe(2);
+            expect(this.mimicGel.hasTrait('mutant')).toBe(true);
+            expect(this.mimicGel.hasTrait('niffle')).toBe(true);
+
+            expect(this.niffleKong.location).toBe('discard');
+            expect(this.niffleKong2.location).toBe('discard');
+            expect(this.helperBot.location).toBe('discard');
+        });
+    });
+
+    describe('Mimic Gel and gained ability', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'logos',
+                    inPlay: ['praefectus-ludo', 'hapsis', 'daughter'],
+                    hand: ['mimic-gel']
+                },
+                player2: {
+                    hand: ['lost-in-the-woods', 'perilous-wild']
+                }
+            });
+
+            this.daughter.tokens.amber = 5;
+
+            this.player1.play(this.mimicGel);
+            this.player1.clickCard(this.praefectusLudo);
+            this.player1.endTurn();
+            this.player2.clickPrompt('untamed');
+        });
+
+        it('MG maintain the effect when Praefectus Ludo is returned to deck', function () {
+            this.player2.play(this.lostInTheWoods);
+            this.player2.clickCard(this.praefectusLudo);
+            this.player2.clickCard(this.hapsis);
+            this.player2.clickPrompt('Done');
+            expect(this.praefectusLudo.location).toBe('deck');
+            expect(this.hapsis.location).toBe('deck');
+            this.player2.play(this.perilousWild);
+            expect(this.mimicGel.location).toBe('play area');
+            expect(this.daughter.location).toBe('discard');
+            expect(this.player2.amber).toBe(2);
+        });
+
+        it('MG should stop effect when Praefectus Ludo and Mimic Gel are returned to deck', function () {
+            this.player2.play(this.lostInTheWoods);
+            this.player2.clickCard(this.praefectusLudo);
+            this.player2.clickCard(this.mimicGel);
+            this.player2.clickPrompt('Done');
+            expect(this.praefectusLudo.location).toBe('deck');
+            expect(this.mimicGel.location).toBe('deck');
+            this.player2.play(this.perilousWild);
+            expect(this.hapsis.location).toBe('play area');
+            expect(this.daughter.location).toBe('discard');
+            expect(this.player2.amber).toBe(7);
+        });
+    });
+
+    describe('Two Mimic Gels and gained ability', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'logos',
+                    inPlay: ['johnny-longfingers', 'xeno-thief', 'lyco-thief'],
+                    hand: ['mimic-gel', 'mimic-gel']
+                },
+                player2: {
+                    amber: 5,
+                    hand: ['lost-in-the-woods', 'perilous-wild']
+                }
+            });
+
+            this.mimicGel1 = this.player1.hand[0];
+            this.mimicGel2 = this.player1.hand[1];
+
+            this.player1.play(this.mimicGel1);
+            this.player1.clickCard(this.johnnyLongfingers);
+
+            this.player1.play(this.mimicGel2);
+            this.player1.clickCard(this.mimicGel1);
+
+            this.player1.endTurn();
+            this.player2.clickPrompt('untamed');
+        });
+
+        it('MG maintain the effect when Long Fingers and MG1 are returned to deck', function () {
+            this.player2.play(this.lostInTheWoods);
+            this.player2.clickCard(this.mimicGel1);
+            this.player2.clickCard(this.johnnyLongfingers);
+            this.player2.clickPrompt('Done');
+            expect(this.mimicGel1.location).toBe('deck');
+            expect(this.johnnyLongfingers.location).toBe('deck');
+            this.player2.play(this.perilousWild);
+            expect(this.mimicGel2.location).toBe('play area');
+            this.player2.clickCard(this.xenoThief);
+            expect(this.xenoThief.location).toBe('discard');
+            expect(this.lycoThief.location).toBe('discard');
+            expect(this.player1.amber).toBe(2);
+            expect(this.player2.amber).toBe(5);
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
         });
     });
 

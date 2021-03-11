@@ -127,11 +127,13 @@ describe('Spangler Box', function () {
             this.player2.clickPrompt("Use this card's Omni ability");
             this.player2.clickCard(this.spanglerBox);
 
-            expect(this.player2).toHavePrompt('Silvertooth');
-            this.player2.clickPrompt('Left');
-            expect(this.silvertooth.location).toBe('play area');
-            expect(this.player2.player.cardsInPlay).toContain(this.silvertooth);
-            expect(this.silvertooth.exhausted).toBe(false);
+            // Start putting into play
+            expect(this.player2).toBeAbleToSelect(this.silvertooth);
+            expect(this.player2).toBeAbleToSelect(this.stealerOfSouls);
+            expect(this.player2).toBeAbleToSelect(this.lamindra);
+            expect(this.player2).not.toBeAbleToSelect(this.docBookton);
+
+            this.player2.clickCard(this.stealerOfSouls);
 
             expect(this.player2).toHavePrompt('Stealer of Souls');
             this.player2.clickPrompt('Left');
@@ -140,7 +142,19 @@ describe('Spangler Box', function () {
             expect(this.stealerOfSouls.exhausted).toBe(true);
             expect(this.stealerOfSouls.hasToken('damage')).toBe(false);
 
-            expect(this.player2).toHavePrompt('lamindra');
+            expect(this.player2).toBeAbleToSelect(this.silvertooth);
+            expect(this.player2).not.toBeAbleToSelect(this.stealerOfSouls);
+            expect(this.player2).toBeAbleToSelect(this.lamindra);
+            expect(this.player2).not.toBeAbleToSelect(this.docBookton);
+
+            this.player2.clickCard(this.silvertooth);
+            expect(this.player2).toHavePrompt('Silvertooth');
+            this.player2.clickPrompt('Left');
+            expect(this.silvertooth.location).toBe('play area');
+            expect(this.player2.player.cardsInPlay).toContain(this.silvertooth);
+            expect(this.silvertooth.exhausted).toBe(false);
+
+            expect(this.player2).toHavePrompt('Lamindra');
             expect(this.player2).toHavePromptButton('Left');
             expect(this.player2).toHavePromptButton('Right');
             expect(this.player2).not.toHavePromptButton('Deploy Left');

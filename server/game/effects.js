@@ -41,9 +41,12 @@ const Effects = {
     modifyArmor: (amount) => EffectBuilder.card.flexible('modifyArmor', amount),
     modifyBonusIcons: (icons) => EffectBuilder.card.flexible('modifyBonusIcons', icons),
     modifyPower: (amount) => EffectBuilder.card.flexible('modifyPower', amount),
+    mustFightIfAble: () => EffectBuilder.card.static('mustFightIfAble'),
     playAbilitiesAddReap: () => EffectBuilder.card.static('playAbilitiesAddReap'),
     reapAbilitiesAddFight: () => EffectBuilder.card.static('reapAbilitiesAddFight'),
     removeKeyword: (keyword) => EffectBuilder.card.static('removeKeyword', keyword),
+    resolveBonusIconsAdditionalTime: () =>
+        EffectBuilder.card.static('resolveBonusIconsAdditionalTime'),
     setArmor: (amount) => EffectBuilder.card.flexible('setArmor', amount),
     setPower: (amount) => EffectBuilder.card.flexible('setPower', amount),
     takeControl: (player) => EffectBuilder.card.flexible('takeControl', player),
@@ -82,7 +85,6 @@ const Effects = {
                     context.ability.title === "Remove this creature's stun") &&
                 match(context.source, context)
         ),
-    mustFightIfAble: () => EffectBuilder.card.static('mustFightIfAble'),
     canPlay: (match) => EffectBuilder.player.static('canPlay', match),
     canPlayFromOwn: (location) =>
         EffectBuilder.player.detached('canPlayFromOwn', {

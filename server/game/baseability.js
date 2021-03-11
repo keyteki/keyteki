@@ -136,7 +136,8 @@ class BaseAbility {
      */
     canPayCosts(context) {
         let cost = this.cost.concat(context.player.getAdditionalCosts(context));
-        return cost.every((cost) => cost.canPay(context));
+        let aggregatedCost = {};
+        return cost.every((cost) => cost.canPay(context, aggregatedCost));
     }
 
     /**

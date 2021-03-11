@@ -173,4 +173,59 @@ describe('Weasand', function () {
             expect(this.weasand.location).toBe('hand');
         });
     });
+
+    describe("Opponent Harland Mindlock's ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'shadows',
+                    inPlay: ['lamindra', 'redlock', 'brammo'],
+                    hand: ['weasand']
+                },
+                player2: {
+                    hand: ['harland-mindlock']
+                }
+            });
+        });
+
+        it('should be destroyed when mindlock controlled creature return to owner and leave Weasand on a flank', function () {
+            this.player1.playCreature(this.weasand, true, true);
+            this.player1.clickCard(this.redlock);
+            this.player1.endTurn();
+            this.player2.clickPrompt('logos');
+            this.player2.play(this.harlandMindlock);
+            this.player2.clickCard(this.brammo);
+            this.player2.clickPrompt('Left');
+            this.player2.endTurn();
+            this.player1.clickPrompt('shadows');
+            this.player1.fightWith(this.lamindra, this.harlandMindlock);
+            this.player1.clickPrompt('Right');
+            expect(this.weasand.location).toBe('discard');
+            expect(this.lamindra.location).toBe('discard');
+            expect(this.brammo.location).toBe('play area');
+            expect(this.redlock.location).toBe('play area');
+            expect(this.brammo.controller).toBe(this.player1.player);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+
+        it('should not be destroyed when mindlock controlled creature return to owner and leave Weasand on a flank', function () {
+            this.player1.playCreature(this.weasand, true, true);
+            this.player1.clickCard(this.redlock);
+            this.player1.endTurn();
+            this.player2.clickPrompt('logos');
+            this.player2.play(this.harlandMindlock);
+            this.player2.clickCard(this.brammo);
+            this.player2.clickPrompt('Left');
+            this.player2.endTurn();
+            this.player1.clickPrompt('shadows');
+            this.player1.fightWith(this.lamindra, this.harlandMindlock);
+            this.player1.clickPrompt('Left');
+            expect(this.weasand.location).toBe('play area');
+            expect(this.lamindra.location).toBe('discard');
+            expect(this.brammo.location).toBe('play area');
+            expect(this.redlock.location).toBe('play area');
+            expect(this.brammo.controller).toBe(this.player1.player);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+    });
 });

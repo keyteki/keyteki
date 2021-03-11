@@ -3,7 +3,6 @@ const Card = require('../../Card.js');
 class VezymaThinkdrone extends Card {
     setupCardAbilities(ability) {
         this.reap({
-            may: 'archive a friendly creature or artifact',
             target: {
                 optional: true,
                 cardType: ['creature', 'artifact'],

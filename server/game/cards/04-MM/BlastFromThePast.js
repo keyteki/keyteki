@@ -20,7 +20,7 @@ class BlastFromThePast extends Card {
                 },
                 then: (context) => ({
                     message: '{0} uses {1} to deal {3} damage to {2}',
-                    messageArgs: (context) => [context.target.power],
+                    messageArgs: () => [context.target.power],
                     target: {
                         cardType: 'creature',
                         controller: 'opponent',

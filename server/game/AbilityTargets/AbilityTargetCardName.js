@@ -1,18 +1,10 @@
 const flatMap = require('../../Array').flatMap;
+const AbilityTarget = require('./AbilityTarget.js');
 
-class AbilityTargetCardName {
+class AbilityTargetCardName extends AbilityTarget {
     constructor(name, properties, ability) {
-        this.name = name;
-        this.properties = properties;
+        super(name, properties, ability);
         this.cardNames = properties.cardNames;
-        this.dependentTarget = null;
-
-        if (this.properties.dependsOn) {
-            let dependsOnTarget = ability.targets.find(
-                (target) => target.name === this.properties.dependsOn
-            );
-            dependsOnTarget.dependentTarget = this;
-        }
     }
 
     getCardNames(context) {
@@ -35,18 +27,8 @@ class AbilityTargetCardName {
         return cardNames;
     }
 
-    canResolve(context) {
-        return !!this.properties.dependsOn || this.hasLegalTarget(context);
-    }
-
-    resetGameActions() {}
-
     hasLegalTarget(context) {
-        return !!this.getCardNames(context).length;
-    }
-
-    getGameAction() {
-        return [];
+        return !!this.getCardNames(context).length && super.hasLegalTarget(context);
     }
 
     getAllLegalTargets(context) {

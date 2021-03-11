@@ -392,6 +392,11 @@ class Player extends GameObject {
             card.owner.moveCard(card, targetLocation, options);
             return;
         } else if (card.location === 'archives' && card.controller !== card.owner) {
+            this.game.addMessage(
+                `{0} leaves the archives and will be returned its owner hand`,
+                card
+            );
+
             card.controller = card.owner;
             targetLocation = 'hand';
             targetPile = this.getSourceList(targetLocation);
@@ -414,9 +419,12 @@ class Player extends GameObject {
             targetPile.push(card);
         }
 
+        let composedPart = null;
         if (targetLocation !== 'play area' && card.gigantic) {
             let cardIndex = targetPile.indexOf(card);
             if (card.composedPart) {
+                composedPart = card.composedPart;
+                card.composedPart.controller = card.controller;
                 card.composedPart.location = targetLocation;
                 targetPile.splice(cardIndex, 0, card.composedPart);
                 card.composedPart = null;
@@ -425,6 +433,13 @@ class Player extends GameObject {
         }
 
         this.game.raiseEvent('onCardPlaced', { card: card, from: location, to: targetLocation });
+        if (composedPart) {
+            this.game.raiseEvent('onCardPlaced', {
+                card: composedPart,
+                from: location,
+                to: targetLocation
+            });
+        }
     }
 
     /**
@@ -622,6 +637,13 @@ class Player extends GameObject {
                             modifiedCost -= choice;
                             totalAvailable -= choice;
                             source.removeToken('amber', choice);
+                            if (choice) {
+                                this.game.addMessage(
+                                    `{0} uses ${choice} amber from {1} to forge a key`,
+                                    this.game.activePlayer,
+                                    source
+                                );
+                            }
                         }
                     });
                 });
@@ -659,7 +681,7 @@ class Player extends GameObject {
         this.keysForgedThisRound.push(key);
         this.game.addMessage(
             '{0} forges the {1}, paying {2} amber',
-            this.game.activePlayer,
+            this,
             `forgedkey${key}`,
             modifiedCost
         );

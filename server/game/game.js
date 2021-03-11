@@ -883,13 +883,10 @@ class Game extends EventEmitter {
             return;
         }
 
-        this.raiseEvent('onTakeControl', { player, card });
-        card.controller.removeCardFromPile(card);
-        card.controller = player;
         if (card.type === 'creature' && player.creaturesInPlay.length > 0) {
             let handlers = [
-                () => player.cardsInPlay.unshift(card),
-                () => player.cardsInPlay.push(card)
+                () => this.finalizeTakeControl(player, card, true),
+                () => this.finalizeTakeControl(player, card)
             ];
             this.promptWithHandlerMenu(this.activePlayer, {
                 activePromptTitle: {
@@ -901,11 +898,21 @@ class Game extends EventEmitter {
                 handlers: handlers
             });
         } else {
-            player.cardsInPlay.push(card);
+            this.finalizeTakeControl(player, card);
         }
+    }
 
-        card.updateEffectContexts();
-        this.queueSimpleStep(() => this.checkGameState(true));
+    finalizeTakeControl(player, card, left = false) {
+        this.raiseEvent('onTakeControl', { player, card }, () => {
+            card.controller.removeCardFromPile(card);
+            card.controller = player;
+            if (left) {
+                player.cardsInPlay.unshift(card);
+            } else {
+                player.cardsInPlay.push(card);
+            }
+            card.updateEffectContexts();
+        });
     }
 
     watch(socketId, user) {
@@ -1049,15 +1056,21 @@ class Game extends EventEmitter {
         if (this.effectEngine.checkEffects(hasChanged) || hasChanged) {
             this.checkWinCondition();
             // if the state has changed, check for:
+            let modifiedControl = false;
             for (const player of this.getPlayers()) {
                 _.each(player.cardsInPlay, (card) => {
                     if (card.getModifiedController() !== player) {
                         // any card being controlled by the wrong player
                         this.takeControl(card.getModifiedController(), card);
+                        modifiedControl = true;
                     }
                     // any upgrades which are illegally attached
                     // card.checkForIllegalAttachments();
                 });
+            }
+
+            if (modifiedControl) {
+                return;
             }
 
             // destroy any creatures who have damage greater than equal to their power

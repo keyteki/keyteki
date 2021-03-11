@@ -9,12 +9,21 @@ describe('Tolas', function () {
                         'tolas',
                         'ember-imp',
                         'harbinger-of-doom',
-                        'obsidian-forge'
-                    ]
+                        'obsidian-forge',
+                        'alaka'
+                    ],
+                    hand: ['barn-razing']
                 },
                 player2: {
                     amber: 3,
-                    inPlay: ['doc-bookton', 'brain-eater', 'niffle-ape', 'helper-bot']
+                    inPlay: [
+                        'doc-bookton',
+                        'brain-eater',
+                        'niffle-ape',
+                        'helper-bot',
+                        'brend-the-fanatic',
+                        'titan-mechanic'
+                    ]
                 }
             });
 
@@ -92,6 +101,37 @@ describe('Tolas', function () {
             this.player1.clickPrompt('Done');
             expect(this.tolas.location).toBe('discard');
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1.amber).toBe(0);
+            expect(this.player2.amber).toBe(3);
+        });
+
+        it('should happen before an after fight effect', function () {
+            this.player2.amber = 0;
+            this.player1.endTurn();
+            this.player2.clickPrompt('shadows');
+            this.player2.endTurn();
+            this.player1.clickPrompt('brobnar');
+            this.player1.play(this.barnRazing);
+            this.player1.fightWith(this.alaka, this.titanMechanic);
+            expect(this.titanMechanic.location).toBe('play area');
+            expect(this.alaka.location).toBe('discard');
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1.amber).toBe(0);
+            expect(this.player2.amber).toBe(0);
+        });
+
+        it('should happen after destroyed effects', function () {
+            this.player1.fightWith(this.ancientYurk, this.brendTheFanatic);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1.amber).toBe(1);
+            expect(this.player2.amber).toBe(3);
+        });
+
+        it('should not trigger if creature is warded', function () {
+            this.docBookton.ward();
+            this.player1.fightWith(this.ancientYurk, this.docBookton);
+            expect(this.docBookton.location).toBe('play area');
+            expect(this.ancientYurk.tokens.damage).toBe(5);
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(3);
         });
