@@ -13,8 +13,10 @@ class ReadyPhase extends Phase {
                         context: game.getFrameworkContext(game.activePlayer)
                     },
                     (event) => {
-                        game.addMessage('{0} readies all of their cards', event.player);
-                        game.actions.ready().resolve(event.player.cardsInPlay, event.player);
+                        if (event.player.checkRestrictions('ready', event.context)) {
+                            game.addMessage('{0} readies all of their cards', event.player);
+                            game.actions.ready().resolve(event.player.cardsInPlay, event.player);
+                        }
                     }
                 )
             )
