@@ -81,6 +81,7 @@ describe('Brain Eater', function () {
             let handSize = this.player1.hand.length;
             this.player1.fightWith(this.brainEater, this.groupthinkTank);
             this.player1.clickCard(this.brainEater);
+            this.player1.clickPrompt('Deal 2 damage');
             this.player1.clickCard(this.groupthinkTank);
             expect(this.groupthinkTank.location).toBe('discard');
             expect(this.brainEater.tokens.damage).toBe(4);

@@ -1,10 +1,11 @@
 const _ = require('underscore');
 const SelectChoice = require('./SelectChoice.js');
+const AbilityTarget = require('./AbilityTarget.js');
 
-class AbilityTargetSelect {
+class AbilityTargetSelect extends AbilityTarget {
     constructor(name, properties, ability) {
-        this.name = name;
-        this.properties = properties;
+        super(name, properties, ability);
+
         for (const key of Object.keys(properties.choices)) {
             if (
                 typeof properties.choices[key] !== 'function' &&
@@ -13,30 +14,13 @@ class AbilityTargetSelect {
                 properties.choices[key] = [properties.choices[key]];
             }
         }
-
-        this.dependentTarget = null;
-        this.dependentCost = null;
-        if (this.properties.dependsOn) {
-            let dependsOnTarget = ability.targets.find(
-                (target) => target.name === this.properties.dependsOn
-            );
-            dependsOnTarget.dependentTarget = this;
-        }
-    }
-
-    canResolve(context) {
-        return !!this.properties.dependsOn || this.hasLegalTarget(context);
-    }
-
-    resetGameActions() {
-        for (let action of this.properties.gameAction) {
-            action.reset();
-        }
     }
 
     hasLegalTarget(context) {
         let keys = Object.keys(this.properties.choices);
-        return keys.some((key) => this.isChoiceLegal(key, context));
+        return (
+            keys.some((key) => this.isChoiceLegal(key, context)) && super.hasLegalTarget(context)
+        );
     }
 
     isChoiceLegal(key, context) {
@@ -46,15 +30,7 @@ class AbilityTargetSelect {
             contextCopy.select = key;
         }
 
-        if (
-            context.stage === 'pretarget' &&
-            this.dependentCost &&
-            !this.dependentCost.canPay(contextCopy)
-        ) {
-            return false;
-        }
-
-        if (this.dependentTarget && !this.dependentTarget.hasLegalTarget(contextCopy)) {
+        if (context.stage === 'pretarget') {
             return false;
         }
 
@@ -63,7 +39,7 @@ class AbilityTargetSelect {
             return choice(contextCopy);
         }
 
-        return choice.some((gameAction) => gameAction.hasLegalTarget(contextCopy));
+        return true;
     }
 
     getGameAction(context) {
@@ -72,6 +48,7 @@ class AbilityTargetSelect {
         }
 
         let choice = this.properties.choices[context.selects[this.name].choice];
+
         if (typeof choice !== 'function') {
             return choice.filter((gameAction) => gameAction.hasLegalTarget(context));
         }
@@ -114,6 +91,7 @@ class AbilityTargetSelect {
                 if (this.name === 'target') {
                     context.select = choice;
                 }
+                context.game.addMessage("{0} chooses option '{1}'", player, choice);
             };
         });
         if (this.properties.player !== 'opponent' && context.stage === 'pretarget') {
@@ -153,7 +131,7 @@ class AbilityTargetSelect {
         return (
             context.selects[this.name] &&
             this.isChoiceLegal(context.selects[this.name].choice, context) &&
-            (!this.dependentTarget || this.dependentTarget.checkTarget(context))
+            super.checkTarget(context)
         );
     }
 }

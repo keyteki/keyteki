@@ -1,18 +1,10 @@
 const flatMap = require('../../Array').flatMap;
+const AbilityTarget = require('./AbilityTarget');
 
-class AbilityTargetTrait {
+class AbilityTargetTrait extends AbilityTarget {
     constructor(name, properties, ability) {
-        this.name = name;
-        this.properties = properties;
+        super(name, properties, ability);
         this.traits = properties.traits;
-        this.dependentTarget = null;
-
-        if (this.properties.dependsOn) {
-            let dependsOnTarget = ability.targets.find(
-                (target) => target.name === this.properties.dependsOn
-            );
-            dependsOnTarget.dependentTarget = this;
-        }
     }
 
     getTraits(context) {
@@ -35,18 +27,8 @@ class AbilityTargetTrait {
         return traits;
     }
 
-    canResolve(context) {
-        return !!this.properties.dependsOn || this.hasLegalTarget(context);
-    }
-
-    resetGameActions() {}
-
     hasLegalTarget(context) {
-        return !!this.getTraits(context).length;
-    }
-
-    getGameAction() {
-        return [];
+        return !!this.getTraits(context).length && super.hasLegalTarget(context);
     }
 
     getAllLegalTargets(context) {
@@ -84,9 +66,9 @@ class AbilityTargetTrait {
         });
     }
 
-    selectTraitName(context, _player, traitName) {
+    selectTraitName(context, player, traitName) {
         context.trait = traitName;
-
+        context.game.addMessage('{0} chooses trait {1}', player, traitName);
         return true;
     }
 }

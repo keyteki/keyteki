@@ -4,6 +4,8 @@ class OzmoMartianologist extends Card {
     setupCardAbilities(ability) {
         this.fight({
             reap: true,
+            condition: (context) =>
+                context.game.creaturesInPlay.some((card) => card.hasHouse('mars')),
             targets: {
                 action: {
                     mode: 'select',
@@ -12,25 +14,21 @@ class OzmoMartianologist extends Card {
                         'Stun a Mars creature': () => true
                     }
                 },
-                creature: {
+                heal: {
+                    targetCondition: (context) =>
+                        context.selects.action.choice === 'Heal a Mars creature',
                     dependsOn: 'action',
                     cardType: 'creature',
                     cardCondition: (card) => card.hasHouse('mars'),
-                    gameAction: [
-                        ability.actions.heal((context) => ({
-                            target:
-                                context.selects.action.choice === 'Heal a Mars creature'
-                                    ? context.targets.creature
-                                    : [],
-                            amount: 3
-                        })),
-                        ability.actions.stun((context) => ({
-                            target:
-                                context.selects.action.choice === 'Stun a Mars creature'
-                                    ? context.targets.creature
-                                    : []
-                        }))
-                    ]
+                    gameAction: ability.actions.heal({ amount: 3 })
+                },
+                stun: {
+                    targetCondition: (context) =>
+                        context.selects.action.choice === 'Stun a Mars creature',
+                    dependsOn: 'action',
+                    cardType: 'creature',
+                    cardCondition: (card) => card.hasHouse('mars'),
+                    gameAction: ability.actions.stun()
                 }
             }
         });

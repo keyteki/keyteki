@@ -16,8 +16,9 @@ describe('Hunter or Hunted?', function () {
         it('should allow warding a friendly creature', function () {
             this.player1.play(this.hunterOrHunted);
             expect(this.player1).toHavePrompt('Hunter or Hunted?');
-            expect(this.player1).not.toHavePromptButton('Ward a creature');
-            expect(this.player1).not.toHavePromptButton('Move a ward');
+            expect(this.player1).toHavePromptButton('Ward a creature');
+            expect(this.player1).toHavePromptButton('Move a ward');
+            this.player1.clickPrompt('Ward a creature');
             expect(this.player1).toBeAbleToSelect(this.lamindra);
             expect(this.player1).toBeAbleToSelect(this.troll);
             this.player1.clickCard(this.lamindra);
@@ -26,6 +27,10 @@ describe('Hunter or Hunted?', function () {
 
         it('should allow warding an enemy creature', function () {
             this.player1.play(this.hunterOrHunted);
+            expect(this.player1).toHavePrompt('Hunter or Hunted?');
+            expect(this.player1).toHavePromptButton('Ward a creature');
+            expect(this.player1).toHavePromptButton('Move a ward');
+            this.player1.clickPrompt('Ward a creature');
             expect(this.player1).toBeAbleToSelect(this.lamindra);
             expect(this.player1).toBeAbleToSelect(this.troll);
             this.player1.clickCard(this.troll);
@@ -52,8 +57,6 @@ describe('Hunter or Hunted?', function () {
         it('should allow warding a warded creature', function () {
             this.player1.play(this.hunterOrHunted);
             expect(this.player1).toHavePrompt('Hunter or Hunted?');
-            expect(this.player1).not.toHavePromptButton('Ward a creature');
-            expect(this.player1).not.toHavePromptButton('Move a ward');
             expect(this.player1).toBeAbleToSelect(this.lamindra);
             this.player1.clickCard(this.lamindra);
             expect(this.lamindra.tokens.ward).toBe(1);
@@ -86,7 +89,7 @@ describe('Hunter or Hunted?', function () {
             expect(this.redlock.tokens.ward).toBe(1);
         });
 
-        it('should allow moving a token', function () {
+        it('should allow moving a token from a warded creature to a non-warded creature', function () {
             this.player1.play(this.hunterOrHunted);
             expect(this.player1).toHavePrompt('Hunter or Hunted?');
             expect(this.player1).toHavePromptButton('Ward a creature');
@@ -94,8 +97,8 @@ describe('Hunter or Hunted?', function () {
             this.player1.clickPrompt('Move a ward');
             expect(this.player1).toBeAbleToSelect(this.lamindra);
             expect(this.player1).toBeAbleToSelect(this.troll);
-            expect(this.player1).not.toBeAbleToSelect(this.krump);
-            expect(this.player1).not.toBeAbleToSelect(this.redlock);
+            expect(this.player1).toBeAbleToSelect(this.krump);
+            expect(this.player1).toBeAbleToSelect(this.redlock);
             this.player1.clickCard(this.troll);
             expect(this.player1).toHavePrompt('Hunter or Hunted?');
             expect(this.player1).toBeAbleToSelect(this.lamindra);
@@ -105,6 +108,42 @@ describe('Hunter or Hunted?', function () {
             this.player1.clickCard(this.krump);
             expect(this.troll.tokens.ward).toBe(1);
             expect(this.krump.tokens.ward).toBe(1);
+        });
+
+        it('should allow moving a token from a warded creature to a warded creature', function () {
+            this.player1.play(this.hunterOrHunted);
+            expect(this.player1).toHavePrompt('Hunter or Hunted?');
+            expect(this.player1).toHavePromptButton('Ward a creature');
+            expect(this.player1).toHavePromptButton('Move a ward');
+            this.player1.clickPrompt('Move a ward');
+            expect(this.player1).toBeAbleToSelect(this.lamindra);
+            expect(this.player1).toBeAbleToSelect(this.troll);
+            expect(this.player1).toBeAbleToSelect(this.krump);
+            expect(this.player1).toBeAbleToSelect(this.redlock);
+            this.player1.clickCard(this.troll);
+            expect(this.player1).toHavePrompt('Hunter or Hunted?');
+            expect(this.player1).toBeAbleToSelect(this.lamindra);
+            expect(this.player1).toBeAbleToSelect(this.krump);
+            expect(this.player1).toBeAbleToSelect(this.redlock);
+            expect(this.player1).not.toBeAbleToSelect(this.troll);
+            this.player1.clickCard(this.lamindra);
+            expect(this.troll.tokens.ward).toBe(1);
+            expect(this.lamindra.tokens.ward).toBe(2);
+        });
+
+        it('should allow moving a token from a non-warded creature', function () {
+            this.player1.play(this.hunterOrHunted);
+            expect(this.player1).toHavePrompt('Hunter or Hunted?');
+            expect(this.player1).toHavePromptButton('Ward a creature');
+            expect(this.player1).toHavePromptButton('Move a ward');
+            this.player1.clickPrompt('Move a ward');
+            expect(this.player1).toBeAbleToSelect(this.lamindra);
+            expect(this.player1).toBeAbleToSelect(this.troll);
+            expect(this.player1).toBeAbleToSelect(this.krump);
+            expect(this.player1).toBeAbleToSelect(this.redlock);
+            this.player1.clickCard(this.redlock);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.redlock.tokens.ward).toBeUndefined();
         });
     });
 });

@@ -87,6 +87,7 @@ describe('Hapsis', function () {
             let handSize = this.player1.hand.length;
             this.player1.fightWith(this.hapsis, this.zenzizenzizenzic);
             this.player1.clickCard(this.hapsis);
+            this.player1.clickPrompt('Deal 2 damage');
             this.player1.clickCard(this.zenzizenzizenzic);
             expect(this.zenzizenzizenzic.location).toBe('discard');
             expect(this.hapsis.tokens.damage).toBe(4);

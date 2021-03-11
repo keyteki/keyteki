@@ -1,18 +1,11 @@
 const Constants = require('../../constants.js');
 const SelectChoice = require('./SelectChoice.js');
+const AbilityTarget = require('./AbilityTarget.js');
 
-class AbilityTargetHouse {
+class AbilityTargetHouse extends AbilityTarget {
     constructor(name, properties, ability) {
-        this.name = name;
-        this.properties = properties;
+        super(name, properties, ability);
         this.houses = properties.houses || Constants.Houses;
-        this.dependentTarget = null;
-        if (this.properties.dependsOn) {
-            let dependsOnTarget = ability.targets.find(
-                (target) => target.name === this.properties.dependsOn
-            );
-            dependsOnTarget.dependentTarget = this;
-        }
     }
 
     getHouses(context) {
@@ -28,18 +21,8 @@ class AbilityTargetHouse {
         return houses;
     }
 
-    canResolve(context) {
-        return !!this.properties.dependsOn || this.hasLegalTarget(context);
-    }
-
     hasLegalTarget(context) {
-        return !!this.getHouses(context).length;
-    }
-
-    resetGameActions() {}
-
-    getGameAction() {
-        return [];
+        return !!this.getHouses(context).length && super.hasLegalTarget(context);
     }
 
     getAllLegalTargets(context) {
@@ -76,6 +59,7 @@ class AbilityTargetHouse {
                 if (this.name === 'target') {
                     context.house = choice;
                 }
+                context.game.addMessage('{0} chooses house {1}', player, choice);
             };
         });
         if (this.properties.player !== 'opponent' && context.stage === 'pretarget') {
@@ -108,10 +92,7 @@ class AbilityTargetHouse {
     }
 
     checkTarget(context) {
-        return (
-            context.houses[this.name] &&
-            (!this.dependentTarget || this.dependentTarget.checkTarget(context))
-        );
+        return context.houses[this.name] && super.checkTarget(context);
     }
 }
 
