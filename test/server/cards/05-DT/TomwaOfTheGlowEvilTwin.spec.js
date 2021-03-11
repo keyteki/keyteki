@@ -16,10 +16,6 @@ describe('Tomwa of the Glow Evil Twin', function () {
         });
 
         describe('when the tide is neutral', function () {
-            beforeEach(function () {
-                this.player1.lowerTide();
-            });
-
             it('should do nothing', function () {
                 this.player1.reap(this.tomwaOfTheGlowEvilTwin);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
