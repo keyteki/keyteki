@@ -28,7 +28,9 @@ class LookWhatIFound extends Card {
                     controller: 'self',
                     gameAction: ability.actions.returnToHand({ location: 'discard' })
                 }
-            }
+            },
+            effect: 'return {1} to their hand',
+            effectArgs: (context) => [Object.values(context.targets)]
         });
     }
 }

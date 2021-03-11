@@ -8,13 +8,13 @@ describe('Shard of Greed', function () {
                     inPlay: ['shard-of-greed', 'seeker-needle', 'shard-of-hope']
                 },
                 player2: {
-                    hand: ['remote-access', 'shard-of-knowledge'],
+                    hand: ['remote-access', 'shard-of-knowledge', 'borrow'],
                     inPlay: ['dextre']
                 }
             });
         });
 
-        it('should grant the player an amber for each friendly shard', function () {
+        it('should grant the player an amber for each friendly shard, including itself', function () {
             this.player1.clickCard(this.shardOfGreed);
             expect(this.player1).toHavePrompt('Shard of Greed');
             this.player1.clickPrompt("Use this card's action ability");
@@ -29,7 +29,8 @@ describe('Shard of Greed', function () {
             this.player2.clickCard(this.shardOfGreed);
             expect(this.player2.amber).toBe(2);
         });
-        it('should work properly when Remote Accessed and theres another shard in play', function () {
+
+        it('should work properly when Remote Accessed and there is another friendly shard in play', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('logos');
             this.player2.play(this.shardOfKnowledge);
@@ -37,6 +38,15 @@ describe('Shard of Greed', function () {
             expect(this.player2).toHavePrompt('Remote Access');
             this.player2.clickCard(this.shardOfGreed);
             expect(this.player2.amber).toBe(3);
+        });
+
+        it('should work properly when Borrowed', function () {
+            this.player1.endTurn();
+            this.player2.clickPrompt('shadows');
+            this.player2.play(this.borrow);
+            this.player2.clickCard(this.shardOfGreed);
+            this.player2.useAction(this.shardOfGreed);
+            expect(this.player2.amber).toBe(2);
         });
     });
 });

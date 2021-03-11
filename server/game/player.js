@@ -391,6 +391,11 @@ class Player extends GameObject {
             card.owner.moveCard(card, targetLocation, options);
             return;
         } else if (card.location === 'archives' && card.controller !== card.owner) {
+            this.game.addMessage(
+                `{0} leaves the archives and will be returned its owner hand`,
+                card
+            );
+
             card.controller = card.owner;
             targetLocation = 'hand';
             targetPile = this.getSourceList(targetLocation);
@@ -418,6 +423,7 @@ class Player extends GameObject {
             let cardIndex = targetPile.indexOf(card);
             if (card.composedPart) {
                 composedPart = card.composedPart;
+                card.composedPart.controller = card.controller;
                 card.composedPart.location = targetLocation;
                 targetPile.splice(cardIndex, 0, card.composedPart);
                 card.composedPart = null;
@@ -674,7 +680,7 @@ class Player extends GameObject {
         this.keysForgedThisRound.push(key);
         this.game.addMessage(
             '{0} forges the {1}, paying {2} amber',
-            this.game.activePlayer,
+            this,
             `forgedkey${key}`,
             modifiedCost
         );

@@ -14,7 +14,7 @@ describe('Neffru', function () {
                 },
                 player2: {
                     amber: 3,
-                    inPlay: ['doc-bookton', 'brain-eater', 'dysania', 'helper-bot']
+                    inPlay: ['doc-bookton', 'brain-eater', 'dysania', 'helper-bot', 'dodger']
                 }
             });
         });
@@ -89,6 +89,25 @@ describe('Neffru', function () {
             this.player1.clickPrompt('Done');
             expect(this.neffru.location).toBe('discard');
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1.amber).toBe(0);
+            expect(this.player2.amber).toBe(3);
+        });
+
+        it('should happen before a fight effect', function () {
+            this.player1.endTurn();
+            this.player2.clickPrompt('shadows');
+            this.player2.fightWith(this.dodger, this.emberImp);
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1.amber).toBe(0);
+            expect(this.player2.amber).toBe(4);
+        });
+
+        it('should not trigger if creature is warded', function () {
+            this.helperBot.ward();
+            this.player1.fightWith(this.neffru, this.helperBot);
+            expect(this.neffru.location).toBe('play area');
+            expect(this.helperBot.location).toBe('play area');
+            expect(this.neffru.tokens.damage).toBe(1);
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(3);
         });
