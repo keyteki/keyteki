@@ -63,7 +63,7 @@ describe('Forgive or Forget', function () {
                 expect(this.player1).toHavePromptButton('Done');
             });
 
-            it("should be able to select oppontent's cards", function () {
+            it("should be able to select opponent's cards", function () {
                 expect(this.player1).toBeAbleToSelect(this.lamindra);
                 expect(this.player1).toBeAbleToSelect(this.fidgit);
                 expect(this.player1).toBeAbleToSelect(this.troll);
