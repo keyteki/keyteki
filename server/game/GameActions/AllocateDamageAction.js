@@ -14,14 +14,19 @@ class AllocateDamageAction extends GameAction {
     preEventHandler(context) {
         super.preEventHandler(context);
         this.events = [];
+        const selector = this.getSelector();
 
-        if (this.numSteps > 0 && this.damageStep > 0) {
+        if (
+            this.numSteps > 0 &&
+            this.damageStep > 0 &&
+            selector.getAllLegalTargets(context).length > 0
+        ) {
             context.game.queueStep(
                 new AllocateDamagePrompt(context.game, {
                     damageStep: this.damageStep,
                     numSteps: this.numSteps,
                     splash: this.splash,
-                    selector: this.getSelector(),
+                    selector: selector,
                     context: context,
                     onSelect: (cardDamage) => {
                         for (const uuid of Object.keys(cardDamage)) {

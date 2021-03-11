@@ -21,7 +21,7 @@ describe('Fidgit', function () {
             });
         });
 
-        it('when deck and archives are empty, should not prompt', function () {
+        it('when deck and archives are empty, should not have prompt', function () {
             this.player2.player.deck = [];
             this.player2.player.archives = [];
             this.player1.reap(this.fidgit);
@@ -30,16 +30,36 @@ describe('Fidgit', function () {
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
 
-        it('when archive is empty, should still opt to discard from it', function () {
+        it('when deck is empty, still provide option, and allow playing archived card', function () {
+            this.player2.player.deck = [];
+            this.player2.moveCard(this.clearMind, 'archives');
+            this.player2.moveCard(this.virtuousWorks, 'archives');
+            this.player1.reap(this.fidgit);
+            expect(this.player1).toHavePromptButton('Top of deck');
+            expect(this.player1).toHavePromptButton('Random card from archives');
+            this.player1.clickPrompt('Random card from archives');
+
+            // Randomness
+            if (this.virtuousWorks.location === 'archives') {
+                expect(this.clearMind.location).toBe('discard');
+                expect(this.player1.amber).toBe(2);
+                expect(this.player2.amber).toBe(0);
+            } else {
+                expect(this.virtuousWorks.location).toBe('discard');
+                expect(this.player1.amber).toBe(4);
+                expect(this.player2.amber).toBe(0);
+            }
+        });
+
+        it('when archive is empty, still provide option, and allow playing top of deck card', function () {
+            this.player2.moveCard(this.virtuousWorks, 'deck');
             this.player2.player.archives = [];
             this.player1.reap(this.fidgit);
             expect(this.player1).toHavePromptButton('Top of deck');
             expect(this.player1).toHavePromptButton('Random card from archives');
-
-            this.player1.clickPrompt('Random card from archives');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
-
-            expect(this.player1.amber).toBe(1);
+            this.player1.clickPrompt('Top of deck');
+            expect(this.virtuousWorks.location).toBe('discard');
+            expect(this.player1.amber).toBe(4);
             expect(this.player2.amber).toBe(0);
         });
 

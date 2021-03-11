@@ -123,11 +123,8 @@ class ResolveFightAction extends CardGameAction {
                 event.card.isFighting = true;
                 event.attacker.isFighting = true;
                 context.game.checkGameState(true);
-                damageEvent.openReactionWindow = false;
                 context.game.openEventWindow(damageEvent);
                 context.game.queueSimpleStep(() => {
-                    event.addChildEvent(damageEvent);
-                    damageEvent.openReactionWindow = true;
                     event.card.isFighting = false;
                     event.attacker.isFighting = false;
                 });

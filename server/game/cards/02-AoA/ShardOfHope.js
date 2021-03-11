@@ -3,20 +3,32 @@ const Card = require('../../Card.js');
 class ShardOfHope extends Card {
     setupCardAbilities(ability) {
         this.action({
-            condition: (context) => !!context.player.opponent && context.player.opponent.amber > 0,
-            target: {
-                mode: 'exactly',
-                controller: 'self',
-                numCards: (context) =>
-                    Math.min(
-                        context.player.opponent.amber,
-                        context.player.cardsInPlay.filter((card) => card.hasTrait('shard')).length
-                    ),
-                gameAction: ability.actions.capture()
-            },
-            effect: 'make {1} of their creatures capture an amber from {2}',
+            condition: (context) => !!context.player.opponent,
+            gameAction: ability.actions.sequentialForEach((context) => ({
+                num: Math.min(
+                    context.player.opponent.amber,
+                    1 +
+                        context.player.cardsInPlay.filter(
+                            (card) => card !== context.source && card.hasTrait('shard')
+                        ).length
+                ),
+                action: ability.actions.capture({
+                    promptForSelect: {
+                        activePromptTitle: 'Choose a creature to capture',
+                        cardType: 'creature',
+                        controller: 'self'
+                    }
+                })
+            })),
+            effect: 'capture {1} amber from {2}',
             effectArgs: (context) => [
-                context.player.cardsInPlay.filter((card) => card.hasTrait('shard')).length,
+                Math.min(
+                    context.player.opponent.amber,
+                    1 +
+                        context.player.cardsInPlay.filter(
+                            (card) => card !== context.source && card.hasTrait('shard')
+                        ).length
+                ),
                 context.player.opponent
             ]
         });

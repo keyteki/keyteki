@@ -5,6 +5,7 @@ class SearchAction extends PlayerAction {
         this.amount = null;
         this.location = ['deck', 'discard'];
         this.reveal = true;
+        this.cardName = null;
     }
 
     setup() {

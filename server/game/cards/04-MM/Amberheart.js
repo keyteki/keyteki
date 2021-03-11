@@ -12,7 +12,8 @@ class Amberheart extends Card {
                     ability.actions.heal({ fully: true })
                 ]
             },
-            effect: 'exalt, ward and fully heal {0}'
+            effect: 'exalt, ward and fully heal {1}',
+            effectArgs: (context) => context.target
         });
     }
 }

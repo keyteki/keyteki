@@ -20,7 +20,7 @@ class TypeaheadLookup extends React.Component {
     }
 
     handleDoneClick() {
-        if (this.props.onValueSelected) {
+        if (this.state.selectedValue && this.props.onValueSelected) {
             this.props.onValueSelected(this.state.selectedValue);
         }
     }
