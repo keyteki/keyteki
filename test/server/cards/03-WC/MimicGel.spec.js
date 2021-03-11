@@ -202,4 +202,40 @@ describe('Mimic Gel', function () {
             expect(this.player2.amber).toBe(2);
         });
     });
+
+    describe("Ardent Hero's effect and Mimic Gel", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'logos',
+                    amber: 1,
+                    hand: ['mimic-gel']
+                },
+                player2: {
+                    amber: 4,
+                    inPlay: ['ardent-hero', 'champion-anaphiel', 'shooler', 'borr-nit']
+                }
+            });
+
+            this.player1.play(this.mimicGel);
+            this.player1.clickCard(this.ardentHero);
+        });
+
+        it('should not take damage from other cards when defending >5 power creature', function () {
+            this.player1.endTurn();
+            this.player2.clickPrompt('sanctum');
+            this.player2.fightWith(this.championAnaphiel, this.mimicGel);
+            expect(this.mimicGel.location).toBe('play area');
+            expect(this.mimicGel.tokens.damage).toBeUndefined();
+            expect(this.championAnaphiel.tokens.damage).toBe(3);
+        });
+
+        it('should not take damage from other cards when attacking >5 power creature', function () {
+            this.mimicGel.exhausted = false;
+            this.player1.fightWith(this.mimicGel, this.championAnaphiel);
+            expect(this.mimicGel.location).toBe('play area');
+            expect(this.mimicGel.tokens.damage).toBeUndefined();
+            expect(this.championAnaphiel.tokens.damage).toBe(3);
+        });
+    });
 });
