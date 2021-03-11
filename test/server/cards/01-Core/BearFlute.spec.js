@@ -28,6 +28,19 @@ describe('Bear Flute', function () {
             expect(this.ancientBear2.location).toBe('hand');
         });
 
+        it("should search for a bear when there isn't one in play, but stop when there is one", function () {
+            this.player1.useAction(this.bearFlute);
+            this.player1.clickCard(this.ancientBear1);
+            this.player1.clickCard(this.ancientBear2);
+            this.player1.clickPrompt('Done');
+            this.player1.play(this.ancientBear1);
+            this.player1.moveCard(this.ancientBear2, 'discard');
+            this.bearFlute.exhausted = false;
+            this.player1.useAction(this.bearFlute);
+            this.player1.clickCard(this.ancientBear1);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+
         it("should search deck for a bear when there isn't one in play", function () {
             this.player1.moveCard(this.ancientBear2, 'deck');
             this.player1.useAction(this.bearFlute);
