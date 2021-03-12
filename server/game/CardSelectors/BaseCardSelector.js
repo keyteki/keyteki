@@ -2,7 +2,11 @@ class BaseCardSelector {
     constructor(properties) {
         this.cardCondition = properties.cardCondition;
         this.cardType = properties.cardType;
-        this.distinctCardTypes = properties.distinctCardTypes;
+        this.selectorCondition = properties.selectorCondition;
+        if (!this.selectorCondition) {
+            // eslint-disable-next-line no-unused-vars
+            this.selectorCondition = (selectedCards, context) => true;
+        }
         this.optional = properties.optional;
         this.location = this.buildLocation(properties.location);
         this.controller = properties.controller || 'any';
@@ -105,8 +109,11 @@ class BaseCardSelector {
         return this.findPossibleCards(context).filter((card) => this.canTarget(card, context));
     }
 
-    hasEnoughSelected(selectedCards) {
-        return this.optional || selectedCards.length > 0;
+    hasEnoughSelected(selectedCards, context) {
+        return (
+            (this.optional || selectedCards.length > 0) &&
+            this.selectorCondition(selectedCards, context)
+        );
     }
 
     hasEnoughTargets(context) {

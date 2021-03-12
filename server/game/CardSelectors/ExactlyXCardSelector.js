@@ -1,4 +1,3 @@
-const _ = require('underscore');
 const BaseCardSelector = require('./BaseCardSelector.js');
 
 class ExactlyXCardSelector extends BaseCardSelector {
@@ -29,16 +28,9 @@ class ExactlyXCardSelector extends BaseCardSelector {
             : { text: 'Choose {{amount}} cards', values: { amount: numCards } };
     }
 
-    hasEnoughDistinctSelected(selectedCards, numCards) {
-        return _.uniq(selectedCards.map((card) => card.type)).length === numCards;
-    }
-
     hasEnoughSelected(selectedCards, context) {
         const numCards = this.getNumCards(context);
-        return (
-            selectedCards.length === numCards &&
-            (!this.distinctCardTypes || this.hasEnoughDistinctSelected(selectedCards, numCards))
-        );
+        return selectedCards.length === numCards && this.selectorCondition(selectedCards, context);
     }
 
     hasReachedLimit(selectedCards, context) {

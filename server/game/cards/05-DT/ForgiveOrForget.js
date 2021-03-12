@@ -1,3 +1,4 @@
+const _ = require('underscore');
 const Card = require('../../Card.js');
 
 class ForgiveOrForget extends Card {
@@ -26,7 +27,8 @@ class ForgiveOrForget extends Card {
                     location: 'discard',
                     mode: 'exactly',
                     controller: 'self',
-                    distinctCardTypes: true,
+                    selectorCondition: (selectedCards) =>
+                        _.uniq(selectedCards.map((card) => card.type)).length === 2,
                     gameAction: ability.actions.archive()
                 },
                 purgeSelf: {
