@@ -2,6 +2,11 @@ class BaseCardSelector {
     constructor(properties) {
         this.cardCondition = properties.cardCondition;
         this.cardType = properties.cardType;
+        this.selectorCondition = properties.selectorCondition;
+        if (!this.selectorCondition) {
+            // eslint-disable-next-line no-unused-vars
+            this.selectorCondition = (selectedCards, context) => true;
+        }
         this.optional = properties.optional;
         this.location = this.buildLocation(properties.location);
         this.controller = properties.controller || 'any';
@@ -16,19 +21,6 @@ class BaseCardSelector {
         let location = property || ['play area'];
         if (!Array.isArray(location)) {
             location = [location];
-        }
-
-        let index = location.indexOf('province');
-        if (index > -1) {
-            location.splice(
-                index,
-                1,
-                'province 1',
-                'province 2',
-                'province 3',
-                'province 4',
-                'stronghold province'
-            );
         }
 
         return location;
@@ -117,8 +109,11 @@ class BaseCardSelector {
         return this.findPossibleCards(context).filter((card) => this.canTarget(card, context));
     }
 
-    hasEnoughSelected(selectedCards) {
-        return this.optional || selectedCards.length > 0;
+    hasEnoughSelected(selectedCards, context) {
+        return (
+            (this.optional || selectedCards.length > 0) &&
+            this.selectorCondition(selectedCards, context)
+        );
     }
 
     hasEnoughTargets(context) {

@@ -10,7 +10,8 @@ class ImperialTraitor extends Card {
                 mode: 'upTo',
                 numCards: 1,
                 location: 'hand',
-                cardCondition: (card) => card.hasHouse('sanctum'),
+                selectorCondition: (selectedCards) =>
+                    selectedCards.length === 0 || selectedCards[0].hasHouse('sanctum'),
                 gameAction: ability.actions.purge()
             }
         });
