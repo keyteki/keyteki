@@ -14,6 +14,6 @@ class SoboggsThing extends Card {
     }
 }
 
-SoboggsThing.id = 'sobogg-s-thing-';
+SoboggsThing.id = 'sobogg-s-thing';
 
 module.exports = SoboggsThing;

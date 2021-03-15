@@ -4,7 +4,7 @@ describe("Sobogg's Thing", function () {
             this.setupTest({
                 player1: {
                     house: 'staralliance',
-                    inPlay: ['armsmaster-molina', 'sobogg-s-thing-']
+                    inPlay: ['armsmaster-molina', 'sobogg-s-thing']
                 },
                 player2: {
                     inPlay: ['lamindra', 'murkens']
