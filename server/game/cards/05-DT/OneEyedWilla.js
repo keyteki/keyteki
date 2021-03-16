@@ -1,0 +1,20 @@
+const Card = require('../../Card.js');
+
+class OneEyedWilla extends Card {
+    //While the tide is high, One-eyed Willa gains elusive and skirmish.
+    //Fight: Steal 1A.
+    setupCardAbilities(ability) {
+        this.persistentEffect({
+            condition: (context) => context.source.controller.isTideHigh(),
+            effect: ability.effects.addKeyword({ elusive: 1 })
+        });
+
+        this.fight({
+            gameAction: ability.actions.steal()
+        });
+    }
+}
+
+OneEyedWilla.id = 'one-eyed-willa';
+
+module.exports = OneEyedWilla;

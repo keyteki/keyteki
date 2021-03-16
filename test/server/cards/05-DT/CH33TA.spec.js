@@ -1,10 +1,10 @@
-describe('Lamindra', function () {
-    describe("Lamindra's ability", function () {
+describe('CH-337A', function () {
+    describe('when the tide is neutral', function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
                     house: 'shadows',
-                    hand: ['bad-penny', 'lamindra', 'umbra', 'redlock']
+                    inPlay: ['bad-penny', 'ch-337a', 'redlock']
                 },
                 player2: {
                     inPlay: ['snufflegator', 'halacor']
@@ -12,41 +12,34 @@ describe('Lamindra', function () {
             });
         });
 
-        it('should give its neighbors elusive', function () {
-            this.player1.play(this.badPenny);
-            this.player1.play(this.lamindra);
-            this.player1.play(this.umbra);
-            this.player1.play(this.redlock);
-            expect(this.badPenny.getKeywordValue('elusive')).toBe(1);
-            expect(this.umbra.getKeywordValue('elusive')).toBe(1);
+        it('should not give its neighbors elusive', function () {
+            expect(this.badPenny.getKeywordValue('elusive')).toBe(0);
+            expect(this.ch337a.getKeywordValue('elusive')).toBe(1);
             expect(this.redlock.getKeywordValue('elusive')).toBe(0);
         });
-        it('should give its neighbors elusive when deployed', function () {
-            this.player1.play(this.badPenny);
-            this.player1.play(this.umbra);
-            this.player1.play(this.redlock);
-            this.player1.play(this.lamindra, true, true);
-            this.player1.clickCard(this.umbra);
-            expect(this.badPenny.getKeywordValue('elusive')).toBe(1);
-            expect(this.umbra.getKeywordValue('elusive')).toBe(1);
-            expect(this.redlock.getKeywordValue('elusive')).toBe(0);
+
+        describe('when the tide is low', function () {
+            beforeEach(function () {
+                this.player1.lowerTide();
+            });
+
+            it('should not give its neighbors elusive', function () {
+                expect(this.badPenny.getKeywordValue('elusive')).toBe(0);
+                expect(this.ch337a.getKeywordValue('elusive')).toBe(1);
+                expect(this.redlock.getKeywordValue('elusive')).toBe(0);
+            });
         });
-        it('should give its new neighbor elusive if an existing one is destroyed', function () {
-            this.player1.play(this.badPenny);
-            this.player1.play(this.lamindra);
-            this.player1.play(this.umbra);
-            this.player1.play(this.redlock);
-            expect(this.badPenny.getKeywordValue('elusive')).toBe(1);
-            expect(this.umbra.getKeywordValue('elusive')).toBe(1);
-            expect(this.redlock.getKeywordValue('elusive')).toBe(0);
-            this.player1.endTurn();
-            this.player2.clickPrompt('untamed');
-            this.player2.fightWith(this.halacor, this.umbra);
-            expect(this.umbra.location).toBe('play area');
-            expect(this.halacor.location).toBe('play area');
-            this.player2.fightWith(this.snufflegator, this.umbra);
-            expect(this.umbra.location).toBe('discard');
-            expect(this.redlock.getKeywordValue('elusive')).toBe(1);
+
+        describe('when the tide is high', function () {
+            beforeEach(function () {
+                this.player1.raiseTide();
+            });
+
+            it('should give its neighbors elusive', function () {
+                expect(this.badPenny.getKeywordValue('elusive')).toBe(1);
+                expect(this.ch337a.getKeywordValue('elusive')).toBe(1);
+                expect(this.redlock.getKeywordValue('elusive')).toBe(1);
+            });
         });
     });
 });
