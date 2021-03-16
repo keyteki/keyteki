@@ -17,5 +17,12 @@ describe('Lapisaurus Evil Twin', function () {
             expect(this.lapisaurusEvilTwin.amber).toBe(0);
             expect(this.lamindra.amber).toBe(1);
         });
+
+        it('exalt the defender creature, even if it is destroyed', function () {
+            this.player1.fightWith(this.lapisaurusEvilTwin, this.dustImp);
+            expect(this.lapisaurusEvilTwin.amber).toBe(0);
+            expect(this.player1.amber).toBe(0);
+            expect(this.dustImp.location).toBe('discard');
+        });
     });
 });
