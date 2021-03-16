@@ -46,7 +46,7 @@ class RemoveTokenAction extends CardGameAction {
                 type: this.type,
                 card: card,
                 context: context,
-                count: card.tokens[this.type] || 0,
+                tokenCount: card.tokens[this.type] || 0,
                 amount: this.getAmount(card)
             },
             (event) => {

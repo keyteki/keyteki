@@ -64,7 +64,7 @@ const Actions = {
     removeIgnoranceCounter: (propertyFactory) =>
         new GameActions.RemoveTokenAction(propertyFactory, 'ignorance'),
     removeKnowledgeCounter: (propertyFactory) =>
-        new GameActions.RemoveTokenAction(propertyFactory, 'ignorance'),
+        new GameActions.RemoveTokenAction(propertyFactory, 'knowledge'),
     removePowerCounter: (propertyFactory) => new GameActions.RemoveTokenAction(propertyFactory),
     removeSchemeCounter: (propertyFactory) =>
         new GameActions.RemoveTokenAction(propertyFactory, 'scheme'),
