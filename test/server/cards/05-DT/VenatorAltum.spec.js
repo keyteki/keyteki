@@ -40,11 +40,11 @@ describe('Venator Altum', function () {
                 expect(this.venatorAltum.amber).toBe(1);
             });
 
-            it('should exalt when damage is dealt to it and it is destroyed', function () {
+            it('should not exalt when damage is dealt to it and it is destroyed', function () {
                 this.player1.play(this.bewareTheIdes);
                 this.player1.clickCard(this.venatorAltum);
                 expect(this.venatorAltum.location).toBe('discard');
-                expect(this.player1.amber).toBe(2);
+                expect(this.player1.amber).toBe(1);
             });
         });
     });
