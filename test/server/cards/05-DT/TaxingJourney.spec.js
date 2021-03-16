@@ -1,5 +1,5 @@
-describe('Tax Pilgrimage', function () {
-    describe("Tax Pilgrimage's ability", function () {
+describe('Taxing Journey', function () {
+    describe("Taxing Journey's ability", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
