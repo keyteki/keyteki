@@ -100,8 +100,7 @@ describe("Ol' Paddy", function () {
                 });
 
                 it('should prompt to put the creature in play', function () {
-                    expect(this.player1).toBeAbleToSelect(this.dustPixie);
-                    this.player1.clickCard(this.dustPixie);
+                    // prompt is automatic
                     this.player1.clickPrompt('Left');
                     expect(this.dustPixie.location).toBe('play area');
                     expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
@@ -119,8 +118,7 @@ describe("Ol' Paddy", function () {
                 });
 
                 it('should prompt to put the creature in play', function () {
-                    expect(this.player1).toBeAbleToSelect(this.dustPixie);
-                    this.player1.clickCard(this.dustPixie);
+                    // prompt is automatic
                     this.player1.clickPrompt('Left');
                     expect(this.dustPixie.location).toBe('play area');
                     expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
@@ -176,10 +174,7 @@ describe("Ol' Paddy", function () {
                     expect(this.player1).not.toBeAbleToSelect(this.foggify);
                     this.player1.clickCard(this.dustPixie);
                     this.player1.clickPrompt('Left');
-                    expect(this.player1).toBeAbleToSelect(this.umbra);
-                    expect(this.player1).not.toBeAbleToSelect(this.dustPixie);
-                    expect(this.player1).not.toBeAbleToSelect(this.foggify);
-                    this.player1.clickCard(this.umbra);
+                    // last prompt is automatic
                     this.player1.clickPrompt('Left');
                     expect(this.umbra.location).toBe('play area');
                     expect(this.dustPixie.location).toBe('play area');

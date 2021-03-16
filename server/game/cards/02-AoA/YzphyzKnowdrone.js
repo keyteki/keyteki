@@ -16,13 +16,17 @@ class YzphyzKnowdrone extends Card {
                     location: 'archives',
                     gameAction: ability.actions.purge()
                 },
+                message: '{0} uses {1} to purge {2}',
+                messageArgs: (context) => [context.player, context.source, context.target],
                 then: {
-                    gameAction: ability.actions.stun({
-                        promptForSelect: {
-                            activePromptTitle: 'Choose a creature to stun',
-                            cardType: 'creature'
-                        }
-                    })
+                    target: {
+                        controller: 'any',
+                        cardType: 'creature',
+                        activePromptTitle: 'Choose a creature to stun',
+                        gameAction: ability.actions.stun()
+                    },
+                    message: '{0} uses {1} to stun {2}',
+                    messageArgs: (context) => [context.player, context.source, context.target]
                 }
             }
         });

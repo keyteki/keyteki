@@ -397,6 +397,8 @@
     "Choose {{amount}} cards": "Elige {{amount}} cartas",
     "Choose {{amount}} creatures": "Elige {{amount}} criaturas",
     "Choose {{amount}} artifacts": "Elige {{amount}} artefactos",
+    "Choose {{amount}} or more creatures": "Elige {{amount}} o más criaturas",
+    "Choose {{amount}} or more artifacts": "Elige {{amount}} o más artefactos",
     "Wins": "Victorias",
     "Losses": "Derrotas",
     "Date Desc": "Fecha Desc",
@@ -552,5 +554,9 @@
     "Enter challonge API key": "Enter challonge API key",
     "Options": "Options",
     "Tide": "Tide",
-    "Raise the Tide?": "Raise the Tide?"
+    "Raise the Tide?": "Raise the Tide?",
+    "Do you wish to exalt this creature?": "Do you wish to exalt this creature?",
+    "Choose a creature to put into play": "Choose a creature to put into play",
+    "Add a power counter": "Add a power counter",
+    "Remove a power counter": "Remove a power counter"
 }

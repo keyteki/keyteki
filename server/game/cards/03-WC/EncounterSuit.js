@@ -2,7 +2,7 @@ const Card = require('../../Card.js');
 
 class EncounterSuit extends Card {
     setupCardAbilities(ability) {
-        this.reaction({
+        this.interrupt({
             when: {
                 onCardPlayed: (event) => event.card.type === 'action'
             },

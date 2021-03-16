@@ -397,6 +397,8 @@
     "Choose {{amount}} cards": "选择 {{amount}} 张卡",
     "Choose {{amount}} creatures": "选择 {{amount}} 个生物",
     "Choose {{amount}} artifacts": "选择 {{amount}} 个神器",
+    "Choose {{amount}} or more creatures": "Choose {{amount}} or more creatures",
+    "Choose {{amount}} or more artifacts": "Choose {{amount}} or more artifacts",
     "Wins": "胜场",
     "Losses": "负场",
     "Date Desc": "日期（新导入优先）",
@@ -552,5 +554,9 @@
     "Enter challonge API key": "Enter challonge API key",
     "Options": "Options",
     "Tide": "Tide",
-    "Raise the Tide?": "Raise the Tide?"
+    "Raise the Tide?": "Raise the Tide?",
+    "Do you wish to exalt this creature?": "Do you wish to exalt this creature?",
+    "Choose a creature to put into play": "Choose a creature to put into play",
+    "Add a power counter": "Add a power counter",
+    "Remove a power counter": "Remove a power counter"
 }

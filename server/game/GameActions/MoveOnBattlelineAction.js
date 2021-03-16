@@ -4,6 +4,7 @@ class MoveOnBattlelineAction extends CardGameAction {
     setDefaultProperties() {
         this.left = false;
         this.deployIndex = undefined;
+        this.player = null;
     }
 
     setup() {
@@ -20,7 +21,7 @@ class MoveOnBattlelineAction extends CardGameAction {
         super.preEventHandler(context);
 
         let card = this.target.length > 0 ? this.target[0] : context.source;
-        let player = context.player.opponent;
+        let player = this.player || context.player.opponent;
 
         if (!player) {
             return;

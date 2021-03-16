@@ -27,6 +27,15 @@ class PlaceUnderAction extends CardGameAction {
         return this.parent && super.canAffect(card, context);
     }
 
+    placeUnder(card) {
+        card.controller.removeCardFromPile(card);
+        card.controller = card.owner;
+        card.parent = this.parent;
+        card.moveTo(this.isGraft ? 'grafted' : 'purged');
+        card.facedown = this.facedown;
+        this.parent.childCards.push(card);
+    }
+
     getEvent(card, context) {
         return super.createEvent(
             this.isGraft ? 'onCardGrafted' : 'onPlaceUnder',
@@ -36,17 +45,12 @@ class PlaceUnderAction extends CardGameAction {
                     let part = card.controller
                         .getSourceList(card.location)
                         .find((part) => card.compositeId === part.id);
-                    card.controller.removeCardFromPile(part);
-                    card.composedPart = part;
-                    card.image = card.compositeImageId || card.id;
+                    if (part) {
+                        this.placeUnder(part);
+                    }
                 }
 
-                card.controller.removeCardFromPile(card);
-                card.controller = card.owner;
-                card.parent = this.parent;
-                card.moveTo(this.isGraft ? 'grafted' : 'purged');
-                card.facedown = this.facedown;
-                this.parent.childCards.push(card);
+                this.placeUnder(card);
             }
         );
     }

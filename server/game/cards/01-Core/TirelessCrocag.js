@@ -6,11 +6,10 @@ class TirelessCrocag extends Card {
             effect: [
                 ability.effects.cardCannot('reap'),
                 ability.effects.terminalCondition({
-                    condition: () =>
-                        !this.controller.opponent ||
-                        this.controller.opponent.creaturesInPlay.length === 0,
+                    condition: (context) =>
+                        !context.player.opponent ||
+                        context.player.opponent.creaturesInPlay.length === 0,
                     message: '{0} is destroyed as there are no opposing creatures',
-                    target: this,
                     gameAction: ability.actions.destroy()
                 })
             ]

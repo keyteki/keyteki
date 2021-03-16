@@ -17,14 +17,15 @@ class HarvestTime extends Card {
                 gameAction: [
                     ability.actions.gainAmber((context) => ({
                         amount: context.preThenEvents.filter(
-                            (event) => !event.cancelled && event.clone.owner === context.player
+                            (event) => !event.cancelled && event.clone.controller === context.player
                         ).length
                     })),
                     ability.actions.gainAmber((context) => ({
                         target: context.player.opponent,
                         amount: context.preThenEvents.filter(
                             (event) =>
-                                !event.cancelled && event.clone.owner === context.player.opponent
+                                !event.cancelled &&
+                                event.clone.controller === context.player.opponent
                         ).length
                     }))
                 ]

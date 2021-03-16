@@ -6,7 +6,8 @@ class BlasterCard extends Card {
             'Deal 2 damage': () => true
         };
 
-        choices[`Move ${this.name}`] = () => true;
+        const moveChoice = `Move ${this.name}`;
+        choices[moveChoice] = () => true;
 
         return {
             optional: true,
@@ -15,29 +16,19 @@ class BlasterCard extends Card {
                     mode: 'select',
                     choices: choices
                 },
-                creature: {
+                dealDamage: {
                     dependsOn: 'action',
+                    targetCondition: (context) => context.selects.action.choice === 'Deal 2 damage',
                     cardType: 'creature',
-                    cardCondition: (card, context) =>
-                        context.selects.action.choice === 'Deal 2 damage'
-                            ? true
-                            : card.name === creatureName && !card.upgrades.includes(this),
-                    gameAction: [
-                        ability.actions.dealDamage((context) => ({
-                            amount: 2,
-                            target:
-                                context.selects.action.choice === 'Deal 2 damage'
-                                    ? context.targets.creature
-                                    : []
-                        })),
-                        ability.actions.attach((context) => ({
-                            upgrade: this,
-                            target:
-                                context.selects.action.choice === `Move ${this.name}`
-                                    ? context.targets.creature
-                                    : []
-                        }))
-                    ]
+                    gameAction: ability.actions.dealDamage({ amount: 2 })
+                },
+                moveBlaster: {
+                    dependsOn: 'action',
+                    targetCondition: (context) => context.selects.action.choice === moveChoice,
+                    cardType: 'creature',
+                    cardCondition: (card) =>
+                        card.name === creatureName && !card.upgrades.includes(this),
+                    gameAction: ability.actions.attach({ upgrade: this })
                 }
             }
         };

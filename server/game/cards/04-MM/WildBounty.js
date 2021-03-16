@@ -11,8 +11,11 @@ class WildBounty extends Card {
                 message: '{0} uses {1} to resolve the bonus icons of {2} an additional time',
                 messageArgs: (context) => [context.player, context.source, context.event.card],
                 multipleTrigger: false,
-                gameAction: ability.actions.resolveBonusIcons((context) => ({
-                    target: context.event.card
+                triggeredAbilityType: 'interrupt',
+                gameAction: ability.actions.cardLastingEffect((context) => ({
+                    target: context.event.card,
+                    targetLocation: 'any',
+                    effect: ability.effects.resolveBonusIconsAdditionalTime()
                 }))
             }))
         });

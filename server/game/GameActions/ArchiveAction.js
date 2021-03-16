@@ -8,7 +8,9 @@ class ArchiveAction extends CardGameAction {
     setup() {
         super.setup();
         this.name = 'archive';
-        if (this.target.every((card) => ['play area', 'discard'].includes(card.location))) {
+        if (
+            this.target.every((card) => ['play area', 'discard', 'purged'].includes(card.location))
+        ) {
             this.effectMsg = 'archive {0}';
         } else if (this.target.length === 1) {
             this.effectMsg = 'archive a card';

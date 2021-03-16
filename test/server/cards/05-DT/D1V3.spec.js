@@ -1,4 +1,4 @@
-describe('B4-TH05', function () {
+describe('D1-V3', function () {
     describe('when tide is neutral', function () {
         beforeEach(function () {
             this.setupTest({
@@ -6,7 +6,7 @@ describe('B4-TH05', function () {
                     amber: 4,
                     house: 'staralliance',
                     inPlay: ['armsmaster-molina'],
-                    hand: ['b4-th05']
+                    hand: ['d1-v3']
                 },
                 player2: {
                     amber: 3,
@@ -14,7 +14,7 @@ describe('B4-TH05', function () {
                 }
             });
 
-            this.player1.playUpgrade(this.b4Th05, this.armsmasterMolina);
+            this.player1.playUpgrade(this.d1V3, this.armsmasterMolina);
         });
 
         it('should not give any new keyword', function () {

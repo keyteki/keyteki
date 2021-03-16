@@ -18,19 +18,6 @@ class BaseCardSelector {
             location = [location];
         }
 
-        let index = location.indexOf('province');
-        if (index > -1) {
-            location.splice(
-                index,
-                1,
-                'province 1',
-                'province 2',
-                'province 3',
-                'province 4',
-                'stronghold province'
-            );
-        }
-
         return location;
     }
 

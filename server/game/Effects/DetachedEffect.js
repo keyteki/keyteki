@@ -5,7 +5,6 @@ class DetachedEffect extends StaticEffect {
         super(type);
         this.applyFunc = applyFunc;
         this.unapplyFunc = unapplyFunc;
-        this.state = {};
     }
 
     apply(target) {
