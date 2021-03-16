@@ -1,12 +1,12 @@
-describe('Tax Pilgrimage', function () {
-    describe("Tax Pilgrimage's ability", function () {
+describe('Taxing Journey', function () {
+    describe("Taxing Journey's ability", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
                     amber: 1,
                     house: 'sanctum',
                     inPlay: ['lamindra', 'angry-mob'],
-                    hand: ['tax-pilgrimage', 'barrister-joya', 'challe-the-safeguard']
+                    hand: ['taxing-journey', 'barrister-joya', 'challe-the-safeguard']
                 },
                 player2: {
                     inPlay: ['murkens']
@@ -18,7 +18,7 @@ describe('Tax Pilgrimage', function () {
             beforeEach(function () {
                 this.player1.moveCard(this.lamindra, 'discard');
                 this.player1.moveCard(this.angryMob, 'discard');
-                this.player1.play(this.taxPilgrimage);
+                this.player1.play(this.taxingJourney);
             });
 
             it('should not capture any amber', function () {
@@ -30,7 +30,7 @@ describe('Tax Pilgrimage', function () {
         describe('when opponent has no amber', function () {
             beforeEach(function () {
                 this.player1.play(this.barristerJoya);
-                this.player1.play(this.taxPilgrimage);
+                this.player1.play(this.taxingJourney);
             });
 
             it('should not capture any amber', function () {
@@ -45,7 +45,7 @@ describe('Tax Pilgrimage', function () {
             beforeEach(function () {
                 this.player2.amber = 1;
                 this.player1.play(this.barristerJoya);
-                this.player1.play(this.taxPilgrimage);
+                this.player1.play(this.taxingJourney);
             });
 
             describe('and a friendly creature is selected', function () {
@@ -73,7 +73,7 @@ describe('Tax Pilgrimage', function () {
             describe('and only 1 neighbor shares a house', function () {
                 beforeEach(function () {
                     this.player1.play(this.barristerJoya);
-                    this.player1.play(this.taxPilgrimage);
+                    this.player1.play(this.taxingJourney);
                 });
 
                 describe('and a friendly creature is selected', function () {
@@ -98,7 +98,7 @@ describe('Tax Pilgrimage', function () {
                     this.player1.play(this.barristerJoya);
                     this.player1.play(this.challeTheSafeguard, true, true);
                     this.player1.clickCard(this.angryMob);
-                    this.player1.play(this.taxPilgrimage);
+                    this.player1.play(this.taxingJourney);
                 });
 
                 describe('and a friendly creature is selected', function () {
@@ -132,7 +132,7 @@ describe('Tax Pilgrimage', function () {
             describe('and only 1 neighbor shares a house', function () {
                 beforeEach(function () {
                     this.player1.play(this.barristerJoya);
-                    this.player1.play(this.taxPilgrimage);
+                    this.player1.play(this.taxingJourney);
                 });
 
                 describe('and a friendly creature is selected', function () {
@@ -157,7 +157,7 @@ describe('Tax Pilgrimage', function () {
                     this.player1.play(this.barristerJoya);
                     this.player1.play(this.challeTheSafeguard, true, true);
                     this.player1.clickCard(this.angryMob);
-                    this.player1.play(this.taxPilgrimage);
+                    this.player1.play(this.taxingJourney);
                 });
 
                 it('should allow selecting friendly creatures only', function () {
