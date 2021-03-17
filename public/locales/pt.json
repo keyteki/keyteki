@@ -558,5 +558,6 @@
     "Do you wish to exalt this creature?": "Você quer exaltar essa criatura?",
     "Choose a creature to put into play": "Escolha uma criatura para colocar em jogo",
     "Add a power counter": "Adicionar um contador de poder",
-    "Remove a power counter": "Remover um contador de poder"
+    "Remove a power counter": "Remover um contador de poder",
+    "Select up to 3 cards (last selected goes to top of deck)": "Select up to 3 cards (last selected goes to top of deck)"
 }
