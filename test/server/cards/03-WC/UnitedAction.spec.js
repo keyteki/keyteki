@@ -4,7 +4,12 @@ describe('United Action', function () {
             this.setupTest({
                 player1: {
                     house: 'staralliance',
-                    inPlay: ['lieutenant-khrkhar', 'safe-place'],
+                    inPlay: [
+                        'lieutenant-khrkhar',
+                        'safe-place',
+                        'ambassador-liu',
+                        'deipno-spymaster'
+                    ],
                     hand: [
                         'united-action',
                         'phase-shift',
@@ -30,6 +35,8 @@ describe('United Action', function () {
 
         it('should not allow cards to use used', function () {
             expect(this.player1).not.toBeAbleToSelect(this.lieutenantKhrkhar);
+            expect(this.player1).not.toBeAbleToSelect(this.ambassadorLiu);
+            expect(this.player1).not.toBeAbleToSelect(this.deipnoSpymaster);
         });
 
         it('should allow an in-house card to be played', function () {

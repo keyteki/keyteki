@@ -15,6 +15,7 @@ describe('Soul Fiddle', function () {
                 }
             });
         });
+
         it('should enrage a targeted enemy creature when used', function () {
             this.player1.clickCard(this.soulFiddle);
             this.player1.clickPrompt("Use this card's Action Ability");
@@ -23,6 +24,7 @@ describe('Soul Fiddle', function () {
             this.player1.clickCard(this.mightyTiger);
             expect(this.mightyTiger.hasToken('enrage')).toBe(true);
         });
+
         it('should enrage a targeted friendly creature when used', function () {
             this.player1.clickCard(this.soulFiddle);
             this.player1.clickPrompt("Use this card's Action Ability");
@@ -31,10 +33,11 @@ describe('Soul Fiddle', function () {
             this.player1.clickCard(this.dextre);
             expect(this.dextre.hasToken('enrage')).toBe(true);
         });
+
         it("should fizzle if there's no creatures on the board", function () {
             this.player1.moveCard(this.dextre, 'discard');
             this.player2.moveCard(this.mightyTiger, 'discard');
-            this.player1.clickCard(this.soulFiddle);
+            this.player1.useAction(this.soulFiddle);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
     });

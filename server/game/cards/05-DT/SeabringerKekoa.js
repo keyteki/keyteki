@@ -4,7 +4,6 @@ class SeabringerKekoa extends Card {
     //Taunt. (This creature's neighbors cannot be attacked unless they have taunt.)
     //Destroyed: Raise the tide.
     setupCardAbilities(ability) {
-        //Keywords: taunt
         this.destroyed({
             gameAction: ability.actions.raiseTide()
         });

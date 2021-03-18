@@ -687,6 +687,7 @@ const getCountersForCard = (card) => {
         'glory',
         'growth',
         'ignorance',
+        'knowledge',
         'scheme',
         'time',
         'warrant'

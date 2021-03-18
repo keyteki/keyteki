@@ -7,10 +7,14 @@ const Costs = require('./costs.js');
  * Properties:
  * title        - string that is used within the card menu associated with this
  *                action.
- * condition    - optional function that should return true when the action is
+ * useCondition  - optional function that should return true when the action is
  *                allowed, false otherwise. It should generally be used to check
  *                if the action can modify game state (step #1 in ability
  *                resolution in the rules).
+ * condition    - optional function that returns true when the action has a valid
+ *                resolution condition. If it returns false, the abiity is
+ *                cancelled. Different from useCondition, it will not block the
+ *                use of the ability.
  * cost         - object or array of objects representing the cost required to
  *                be paid before the action will activate. See Costs.
  * phase        - string representing which phases the action may be executed.
@@ -36,7 +40,7 @@ class CardAction extends CardAbility {
         this.title =
             properties.title ||
             "Use this card's " + (properties.omni ? 'Omni' : 'Action') + ' ability';
-        this.condition = properties.condition;
+        this.useCondition = properties.useCondition || (() => true);
         this.reap = properties.reap;
         this.fight = properties.fight;
         this.omni = !!properties.omni;
@@ -56,17 +60,28 @@ class CardAction extends CardAbility {
             return 'cannotTrigger';
         } else if (!ignoredRequirements.includes('location') && !this.isInValidLocation(context)) {
             return 'location';
-        } else if (
-            !ignoredRequirements.includes('condition') &&
-            this.condition &&
-            !this.condition(context)
-        ) {
+        } else if (!ignoredRequirements.includes('condition') && !this.useCondition(context)) {
             return 'condition';
         } else if (!ignoredRequirements.includes('stunned') && this.card.stunned) {
             return 'stunned';
         }
 
         return super.meetsRequirements(context);
+    }
+
+    /**
+     * Check for ability condition before prompting the current player to choose each target defined for the ability.
+     */
+    resolveTargets(context) {
+        if (!this.condition(context)) {
+            return {
+                cancelled: true,
+                payCostsFirst: false,
+                delayTargeting: null
+            };
+        }
+
+        return super.resolveTargets(context);
     }
 
     executeHandler(context) {

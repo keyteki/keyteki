@@ -29,11 +29,18 @@ class ExactlyXCardSelector extends BaseCardSelector {
     }
 
     hasEnoughSelected(selectedCards, context) {
-        return selectedCards.length === this.getNumCards(context);
+        return (
+            selectedCards.length === this.getNumCards(context) &&
+            this.selectorCondition(selectedCards, context)
+        );
     }
 
     hasReachedLimit(selectedCards, context) {
         return selectedCards.length >= this.getNumCards(context);
+    }
+
+    hasExceededLimit(selectedCards, context) {
+        return selectedCards.length > this.getNumCards(context);
     }
 
     automaticFireOnSelect(context) {
