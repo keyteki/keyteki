@@ -2,7 +2,7 @@ const Card = require('../../Card.js');
 
 class AbyssalZealot extends Card {
     //After you raise the tide, capture 2A.
-    //After your opponent raises the tide, move 2A from $this to the common supply.
+    //After your opponent raises the tide, move 2A from Abyssal Zealot to the common supply.
     setupCardAbilities(ability) {
         this.reaction({
             when: {
