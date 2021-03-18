@@ -2,8 +2,8 @@ const Card = require('../../Card.js');
 
 class SinkOrSwim extends Card {
     //Play: Choose one:
-    // • Your opponent discards a random card from their hand.
-    // • Exhaust a creature and each of its neighbors.
+    // - Your opponent discards a random card from their hand.
+    // - Exhaust a creature and each of its neighbors.
     setupCardAbilities(ability) {
         this.play({
             condition: (context) =>
