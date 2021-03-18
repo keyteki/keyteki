@@ -24,7 +24,8 @@ class RemoveTokenAction extends CardGameAction {
     }
 
     getAmount(card) {
-        return this.all ? card.tokens[this.type] || 0 : this.amount;
+        let tokenCount = card.tokens[this.type] || 0;
+        return this.all ? tokenCount : Math.min(tokenCount, this.amount);
     }
 
     checkEventCondition(event) {
@@ -42,7 +43,12 @@ class RemoveTokenAction extends CardGameAction {
     getEvent(card, context) {
         return super.createEvent(
             'onRemoveToken',
-            { type: this.type, card: card, context: context, amount: this.getAmount(card) },
+            {
+                type: this.type,
+                card: card,
+                context: context,
+                amount: this.getAmount(card)
+            },
             (event) => {
                 card.removeToken(event.type, event.amount);
             }
