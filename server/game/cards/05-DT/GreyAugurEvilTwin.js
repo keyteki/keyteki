@@ -8,6 +8,7 @@ class GreyAugurEvilTwin extends Card {
             match: (card, context) =>
                 card.type === 'creature' && context.source.neighbors.includes(card),
             effect: ability.effects.gainAbility('reap', {
+                effect: 'gain 1 amber and exalt {0}',
                 gameAction: [ability.actions.gainAmber(), ability.actions.exalt()]
             })
         });
