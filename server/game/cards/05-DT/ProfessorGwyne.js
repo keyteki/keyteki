@@ -6,6 +6,7 @@ class ProfessorGwyne extends Card {
     setupCardAbilities(ability) {
         this.reap({
             target: {
+                optional: true,
                 location: 'archives',
                 controller: 'self',
                 gameAction: ability.actions.returnToHand({ location: 'archives' })

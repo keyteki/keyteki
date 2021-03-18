@@ -11,13 +11,7 @@ class TheoryOrConjecture extends Card {
                 choices: {
                     'Archive top 2 cards': ability.actions.archive((context) => ({
                         effect: 'archive the top two cards of their deck',
-                        target:
-                            context.player.deck.slice.length > 0
-                                ? context.player.deck.slice(
-                                      0,
-                                      Math.min(context.player.deck.length, 2)
-                                  )
-                                : []
+                        target: context.player.deck.slice(0, 2)
                     })),
                     'Play top card': ability.actions.playCard((context) => ({
                         revealOnIllegalTarget: true,

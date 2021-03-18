@@ -6,6 +6,7 @@ class ProfessorGwyneEvilTwin extends Card {
     setupCardAbilities(ability) {
         this.fight({
             target: {
+                optional: true,
                 location: 'archives',
                 controller: 'self',
                 gameAction: ability.actions.returnToHand({ location: 'archives' })
