@@ -15,6 +15,7 @@ describe('One-Eye Willa', function () {
 
         it('should not gain elusive', function () {
             expect(this.oneEyedWilla.getKeywordValue('elusive')).toBe(0);
+            expect(this.oneEyedWilla.getKeywordValue('skirmish')).toBe(0);
         });
 
         it('should steal one amber after fight', function () {
@@ -30,6 +31,7 @@ describe('One-Eye Willa', function () {
 
             it('should not gain elusive', function () {
                 expect(this.oneEyedWilla.getKeywordValue('elusive')).toBe(0);
+                expect(this.oneEyedWilla.getKeywordValue('skirmish')).toBe(0);
             });
         });
 
@@ -40,6 +42,7 @@ describe('One-Eye Willa', function () {
 
             it('should gain elusive', function () {
                 expect(this.oneEyedWilla.getKeywordValue('elusive')).toBe(1);
+                expect(this.oneEyedWilla.getKeywordValue('skirmish')).toBe(1);
             });
         });
     });
