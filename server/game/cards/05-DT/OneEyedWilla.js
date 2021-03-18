@@ -6,7 +6,10 @@ class OneEyedWilla extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
             condition: (context) => context.source.controller.isTideHigh(),
-            effect: ability.effects.addKeyword({ elusive: 1 })
+            effect: [
+                ability.effects.addKeyword({ elusive: 1 }),
+                ability.effects.addKeyword({ skirmish: 1 })
+            ]
         });
 
         this.fight({
