@@ -4,7 +4,6 @@ class Chelonia extends Card {
     //Elusive.
     //After you play another creature, if the tide is high, gain 1A.
     setupCardAbilities(ability) {
-        //Keywords: elusive
         this.reaction({
             when: {
                 onCardPlayed: (event, context) =>
@@ -13,7 +12,7 @@ class Chelonia extends Card {
                     event.card !== context.source
             },
             condition: (context) => context.player.isTideHigh(),
-            gameAction: ability.actions.gainAmber({ amount: 1 })
+            gameAction: ability.actions.gainAmber()
         });
     }
 }
