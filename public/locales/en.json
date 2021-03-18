@@ -550,5 +550,9 @@
     "Choose a creature to put into play": "Choose a creature to put into play",
     "Add a power counter": "Add a power counter",
     "Remove a power counter": "Remove a power counter",
-    "Select up to 3 cards (last selected goes to top of deck)": "Select up to 3 cards (last selected goes to top of deck)"
+    "Select up to 3 cards (last selected goes to top of deck)": "Select up to 3 cards (last selected goes to top of deck)",
+    "Archive 2 cards": "Archive 2 cards",
+    "Purge up to 2 cards": "Purge up to 2 cards",
+    "Exhaust": "Exhaust",
+    "Random discard": "Random discard"
 }
