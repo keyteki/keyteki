@@ -7,7 +7,7 @@ class MonumentToShrix extends Card {
         });
 
         this.action({
-            condition: (context) =>
+            useCondition: (context) =>
                 !context.player.discard.some((card) => card.name === 'Citizen Shrix'),
             effect: 'move one amber from your pool to Monument to Shrix',
             gameAction: ability.actions.loseAmber((context) => ({
@@ -19,7 +19,7 @@ class MonumentToShrix extends Card {
         });
 
         this.action({
-            condition: (context) =>
+            useCondition: (context) =>
                 context.player.discard.some((card) => card.name === 'Citizen Shrix'),
             target: {
                 mode: 'select',
