@@ -58,6 +58,7 @@ const CardImage = ({ card, cardBack, size, halfSize }) => {
             card.tokens && card.tokens.glory,
             card.tokens && card.tokens.growth,
             card.tokens && card.tokens.ignorance,
+            card.tokens && card.tokens.knowledge,
             card.tokens && card.tokens.power,
             card.tokens && card.tokens.scheme,
             card.tokens && card.tokens.time,
