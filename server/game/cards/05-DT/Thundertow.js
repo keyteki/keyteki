@@ -9,10 +9,14 @@ class Thundertow extends Card {
                 cardType: 'creature',
                 gameAction: ability.actions.exhaust()
             },
-            gameAction: ability.actions.dealDamage((context) => ({
-                target: context.game.creaturesInPlay.filter((card) => card.exhausted),
-                amount: 2
-            }))
+            then: {
+                alwaysTriggers: true,
+                gameAction: ability.actions.dealDamage((context) => ({
+                    target: context.game.creaturesInPlay.filter((card) => card.exhausted),
+                    amount: 2
+                })),
+                message: '{0} uses {1} to deal damage to each exhausted creature'
+            }
         });
     }
 }

@@ -5,6 +5,7 @@ class Pestergrove extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
             location: 'any',
+            targetController: 'any',
             match: (card) => card.type === 'creature',
             effect: ability.effects.entersPlayEnraged()
         });
