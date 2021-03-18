@@ -21,6 +21,7 @@ describe('Lamindra', function () {
             expect(this.umbra.getKeywordValue('elusive')).toBe(1);
             expect(this.redlock.getKeywordValue('elusive')).toBe(0);
         });
+
         it('should give its neighbors elusive when deployed', function () {
             this.player1.play(this.badPenny);
             this.player1.play(this.umbra);
@@ -31,6 +32,7 @@ describe('Lamindra', function () {
             expect(this.umbra.getKeywordValue('elusive')).toBe(1);
             expect(this.redlock.getKeywordValue('elusive')).toBe(0);
         });
+
         it('should give its new neighbor elusive if an existing one is destroyed', function () {
             this.player1.play(this.badPenny);
             this.player1.play(this.lamindra);
