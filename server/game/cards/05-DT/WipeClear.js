@@ -6,8 +6,7 @@ class WipeClear extends Card {
         this.play({
             gameAction: ability.actions.sequential([
                 ability.actions.dealDamage((context) => ({
-                    target: context.game.creaturesInPlay,
-                    amount: 1
+                    target: context.game.creaturesInPlay
                 })),
                 ability.actions.destroy((context) => ({
                     target: context.game.creaturesInPlay.flatMap((card) => card.upgrades || [])
