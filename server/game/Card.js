@@ -620,7 +620,11 @@ class Card extends EffectSource {
 
         this.tokens[type] -= number;
 
-        if (this.tokens[type] <= 0) {
+        if (this.tokens[type] < 0) {
+            this.tokens[type] = 0;
+        }
+
+        if (this.tokens[type] === 0) {
             delete this.tokens[type];
         }
     }
