@@ -7,7 +7,6 @@ class LlackGaboon extends Card {
         this.persistentEffect({
             effect: ability.effects.modifyPower(
                 (_, context) =>
-                    1 *
                     context.game.creaturesInPlay.filter(
                         (card) => card !== context.source && card.exhausted
                     ).length

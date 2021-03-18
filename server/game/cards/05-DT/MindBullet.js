@@ -1,8 +1,7 @@
 const Card = require('../../Card.js');
 
 class MindBullet extends Card {
-    //Play: Deal 1D to each creature for each card you played this turn (including this one.)
-    //This card has been translated from Chinese and is subject to change.
+    //Play: Deal 1D to each creature for each card you played this turn (including this one)
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.dealDamage((context) => ({
