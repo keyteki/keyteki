@@ -1,5 +1,5 @@
 describe('Censor Philo', function () {
-    describe("Censor Phio's effect", function () {
+    describe("Censor Philo's effect", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
