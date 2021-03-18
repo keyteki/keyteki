@@ -23,7 +23,7 @@ describe('Eclectic Ambrosius Evil Twin', function () {
             expect(this.dustImp.hasToken('ignorance')).toBe(false);
         });
 
-        describe('afpter placing ignorance counter', function () {
+        describe('after placing ignorance counter', function () {
             beforeEach(function () {
                 this.player1.reap(this.eclecticAmbrosiusEvilTwin);
                 this.player1.clickCard(this.dewFaerie);

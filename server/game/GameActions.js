@@ -14,6 +14,8 @@ const Actions = {
         new GameActions.AddTokenAction(propertyFactory, 'growth'),
     addIgnoranceCounter: (propertyFactory) =>
         new GameActions.AddTokenAction(propertyFactory, 'ignorance'),
+    addKnowledgeCounter: (propertyFactory) =>
+        new GameActions.AddTokenAction(propertyFactory, 'knowledge'),
     addSchemeCounter: (propertyFactory) =>
         new GameActions.AddTokenAction(propertyFactory, 'scheme'),
     addTimeCounter: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'time'),
@@ -61,6 +63,8 @@ const Actions = {
         new GameActions.RemoveTokenAction(propertyFactory, 'depth'),
     removeIgnoranceCounter: (propertyFactory) =>
         new GameActions.RemoveTokenAction(propertyFactory, 'ignorance'),
+    removeKnowledgeCounter: (propertyFactory) =>
+        new GameActions.RemoveTokenAction(propertyFactory, 'knowledge'),
     removePowerCounter: (propertyFactory) => new GameActions.RemoveTokenAction(propertyFactory),
     removeSchemeCounter: (propertyFactory) =>
         new GameActions.RemoveTokenAction(propertyFactory, 'scheme'),

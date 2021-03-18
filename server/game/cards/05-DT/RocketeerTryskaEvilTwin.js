@@ -2,9 +2,8 @@ const Card = require('../../Card.js');
 
 class RocketeerTryskaEvilTwin extends Card {
     //Skirmish.
-    //While the tide is high, $this enters play ready.
+    //While the tide is high, Rocketeer Tryska enters play ready.
     setupCardAbilities(ability) {
-        //Keywords: skirmish
         this.persistentEffect({
             location: 'any',
             condition: (context) => context.player.isTideHigh(),

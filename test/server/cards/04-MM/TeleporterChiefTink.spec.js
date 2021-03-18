@@ -40,8 +40,8 @@ describe('teleporter-chief-tink', function () {
         it('it should not prompt if there is only 1 creature in play', function () {
             this.player1.moveCard(this.troll, 'deck');
             this.player1.moveCard(this.umbra, 'deck');
-            this.player1.clickCard(this.teleporterChiefTink);
-            expect(this.player1).not.toHavePromptButton("Use this card's Action ability");
+            this.player1.useAction(this.teleporterChiefTink);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
     });
 });
