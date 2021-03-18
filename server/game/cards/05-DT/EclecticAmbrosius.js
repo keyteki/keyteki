@@ -14,7 +14,7 @@ class EclecticAmbrosius extends Card {
         this.action({
             gameAction: ability.actions.removeKnowledgeCounter({ amount: 3 }),
             then: {
-                condition: (context) => context.preThenEvent.tokenCount >= 3,
+                condition: (context) => context.preThenEvent.amount >= 3,
                 gameAction: ability.actions.gainAmber({ amount: 6 })
             }
         });
