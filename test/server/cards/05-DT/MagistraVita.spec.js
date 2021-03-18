@@ -17,7 +17,7 @@ describe('Magistra Vita', function () {
             this.player1.play(this.magistraVita);
         });
 
-        it('should be able to exalt and fight a non-saurian friendly creature', function () {
+        it('should be able to exalt and reap a non-saurian friendly creature', function () {
             expect(this.player1).toBeAbleToSelect(this.shooler);
             expect(this.player1).not.toBeAbleToSelect(this.magistraVita);
             expect(this.player1).not.toBeAbleToSelect(this.senatorShrix);
@@ -46,7 +46,7 @@ describe('Magistra Vita', function () {
             this.player1.reap(this.magistraVita);
         });
 
-        it('should be able to exalt and fight a non-saurian friendly creature', function () {
+        it('should be able to exalt and reap a non-saurian friendly creature', function () {
             expect(this.player1).toBeAbleToSelect(this.shooler);
             expect(this.player1).not.toBeAbleToSelect(this.magistraVita);
             expect(this.player1).not.toBeAbleToSelect(this.senatorShrix);
