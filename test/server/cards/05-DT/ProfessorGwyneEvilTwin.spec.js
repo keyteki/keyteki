@@ -15,6 +15,7 @@ describe('ProfessorGwyne EvilTwin', function () {
 
         it('should return a card from archives to hand when it fights', function () {
             this.player1.fightWith(this.professorGwyneEvilTwin, this.badPenny);
+            this.player1.clickCard(this.professorGwyneEvilTwin);
             this.player1.clickCard(this.niffleApe);
             expect(this.niffleApe.location).toBe('hand');
         });

@@ -13,8 +13,9 @@ describe('ProfessorGwyne', function () {
             });
         });
 
-        it('should return a card from archives to hand when it fights', function () {
+        it('should return a card from archives to hand when it reaps', function () {
             this.player1.reap(this.professorGwyne);
+            this.player1.clickCard(this.professorGwyne);
             this.player1.clickCard(this.niffleApe);
             expect(this.niffleApe.location).toBe('hand');
         });
