@@ -5,8 +5,8 @@ class ProfessorGwyne extends Card {
     //Fight: You may choose a card from your archives and put it in your hand.
     setupCardAbilities(ability) {
         this.reap({
-            optional: true,
             target: {
+                optional: true,
                 location: 'archives',
                 controller: 'self',
                 gameAction: ability.actions.returnToHand({ location: 'archives' })

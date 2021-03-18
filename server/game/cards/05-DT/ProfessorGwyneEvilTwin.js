@@ -5,8 +5,8 @@ class ProfessorGwyneEvilTwin extends Card {
     //Fight: You may choose a card from your archives and put it in your hand.
     setupCardAbilities(ability) {
         this.fight({
-            optional: true,
             target: {
+                optional: true,
                 location: 'archives',
                 controller: 'self',
                 gameAction: ability.actions.returnToHand({ location: 'archives' })

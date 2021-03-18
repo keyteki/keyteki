@@ -17,6 +17,10 @@ describe('Magistra Vita Evil Twin', function () {
             this.player1.play(this.magistraVitaEvilTwin);
         });
 
+        it('should be optional', function () {
+            expect(this.player1).toHavePromptButton('Done');
+        });
+
         it('should be able to exalt and fight a non-saurian friendly creature', function () {
             expect(this.player1).toBeAbleToSelect(this.shooler);
             expect(this.player1).not.toBeAbleToSelect(this.magistraVitaEvilTwin);
