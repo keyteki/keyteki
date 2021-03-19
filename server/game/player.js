@@ -621,6 +621,11 @@ class Player extends GameObject {
             let max = Math.min(modifiedCost, sourceAmber);
             let min = Math.max(0, modifiedCost - this.amber - totalAvailable + sourceAmber);
             if (max === min) {
+                this.game.addMessage(
+                    `{0} uses ${max} amber from {1} to forge a key`,
+                    this.game.activePlayer,
+                    source
+                );
                 source.removeToken('amber', max);
                 this.chooseAmberSource(
                     amberSources,
@@ -639,8 +644,8 @@ class Player extends GameObject {
                 source: source,
                 choices: _.range(min, max + 1),
                 choiceHandler: (choice) => {
-                    source.removeToken('amber', choice);
                     if (choice) {
+                        source.removeToken('amber', choice);
                         this.game.addMessage(
                             `{0} uses ${choice} amber from {1} to forge a key`,
                             this.game.activePlayer,
