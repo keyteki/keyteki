@@ -1,5 +1,5 @@
-xdescribe('Armadrone Evil Twin', function () {
-    describe("Armadrone Evil Twin's ability", function () {
+describe('Armadrone', function () {
+    describe("Armadrone's ability", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
