@@ -90,8 +90,10 @@ describe('EDAI Edie 4x4', function () {
             this.player2.play(this.harlandMindlock);
             this.player2.clickCard(this.edaiEdie4x4);
             this.player2.clickPrompt('Left');
-            this.player2.play(this.mimicGel);
+            this.player2.clickCard(this.mimicGel);
+            this.player2.clickPrompt('Play this creature');
             this.player2.clickCard(this.edaiEdie4x4);
+            this.player2.clickPrompt('Left');
             this.player2.clickCard(this.foggify);
             expect(this.player2.player.archives.length).toBe(2);
             this.player2.endTurn();
