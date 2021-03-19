@@ -16,7 +16,7 @@ class ComOfficerHings extends Card {
             reap: true,
             target: {
                 controller: 'self',
-                cardType: 'creatures',
+                cardType: 'creature',
                 cardCondition: (card) => card.name === 'Com. Officer Gross?',
                 gameAction: ability.actions.draw((context) => {
                     if (!context.target) {

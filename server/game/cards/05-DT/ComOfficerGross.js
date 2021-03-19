@@ -17,7 +17,7 @@ class ComOfficerGross extends Card {
             reap: true,
             target: {
                 controller: 'self',
-                cardType: 'creatures',
+                cardType: 'creature',
                 cardCondition: (card) => card.name === 'Com. Officer Hings?',
                 gameAction: ability.actions.addPowerCounter((context) => {
                     if (!context.target) {
