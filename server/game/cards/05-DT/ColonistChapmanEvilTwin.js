@@ -15,7 +15,7 @@ class ColonistChapmanEvilTwin extends Card {
                     amount: context.player.opponent ? context.player.opponent.amber : 0
                 }))
             ],
-            effect: 'capturel all amber from each player'
+            effect: 'capture all amber from each player'
         });
     }
 }

@@ -7,7 +7,9 @@ class ColonistChapman extends Card {
         this.persistentEffect({
             targetController: 'any',
             match: (card, context) =>
-                card.type === 'creature' && context.source.neighbors.includes(card),
+                card.type === 'creature' &&
+                context.source.neighbors.includes(card) &&
+                !card.hasHouse('staralliance'),
             effect: ability.effects.gainAbility('reap', {
                 gameAction: ability.actions.gainAmber()
             })
