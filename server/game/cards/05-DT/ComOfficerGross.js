@@ -19,7 +19,7 @@ class ComOfficerGross extends Card {
                 controller: 'self',
                 cardType: 'creatures',
                 cardCondition: (card) => card.name === 'Com. Officer Hings?',
-                gameAction: ability.actions.addPowerToken((context) => {
+                gameAction: ability.actions.addPowerCounter((context) => {
                     if (!context.target) {
                         return {
                             target: []

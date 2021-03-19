@@ -3,7 +3,6 @@ const Card = require('../../Card.js');
 class ComOfficerHings extends Card {
     //Play: You may search your deck for Com. Officer Gross (?), reveal it, and add it to your hand. Shuffle your deck.
     //Fight/Reap: Draw 1 card for each creature between Com. Officer Gross and Com. Officer Hings.
-    //This card has been translated from Polish and is subject to change.
     setupCardAbilities(ability) {
         this.play({
             optional: true,
