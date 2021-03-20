@@ -14,7 +14,7 @@ class UnityOrDiscord extends Card {
                         'Return creatures and upgrades': () => true
                     }
                 },
-                use: {
+                useNonSA: {
                     dependsOn: 'action',
                     targetCondition: (context) =>
                         context.player.creaturesInPlay.some(
@@ -25,7 +25,7 @@ class UnityOrDiscord extends Card {
                     cardCondition: (card) => !card.hasHouse('staralliance'),
                     gameAction: ability.actions.use()
                 },
-                return: {
+                returnToHand: {
                     dependsOn: 'action',
                     targetCondition: (context) =>
                         context.player.creaturesInPlay.length > 0 &&
@@ -35,7 +35,12 @@ class UnityOrDiscord extends Card {
                     cardType: 'creature',
                     controller: 'self',
                     gameAction: ability.actions.returnToHand((context) => ({
-                        target: context.target ? context.target.upgrades.concat(context.target) : []
+                        target: context.targets.returnToHand
+                            ? context.targets.returnToHand.reduce(
+                                  (all, card) => all.concat(card.upgrades).concat(card),
+                                  []
+                              )
+                            : []
                     }))
                 }
             }
