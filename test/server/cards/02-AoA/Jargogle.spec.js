@@ -117,7 +117,7 @@ describe('Jargogle', function () {
             this.player1.clickPrompt('untamed');
             expect(this.jargogle.location).toBe('discard');
             expect(this.duskwitch.location).toBe('play area');
-            expect(this.duskwitch.exhausted).toBe(false);
+            expect(this.duskwitch.exhausted).toBe(true);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
     });
