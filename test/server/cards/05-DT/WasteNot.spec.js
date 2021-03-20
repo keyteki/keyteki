@@ -39,7 +39,6 @@ describe('Waste Not', function () {
 
         it('should destroy 1 power creature and 1 draw cards', function () {
             this.player1.play(this.wasteNot);
-
             expect(this.player1.hand.length).toBe(0);
             this.player1.clickCard(this.urchin);
             expect(this.urchin.location).toBe('discard');
