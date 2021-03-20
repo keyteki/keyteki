@@ -557,6 +557,15 @@
     "Random discard": "Random discard",
     "Archive top 2 cards": "Archive top 2 cards",
     "Play top card": "Play top card",
+    "Do you wish to remove all power tokens?": "Do you wish to remove all power tokens?",
+    "Ready and reap": "Ready and reap",
+    "Add power counters": "Add power counters",
+    "Lowest": "Lowest",
+    "Highest": "Highest",
+    "Heal": "Heal",
+    "Harm": "Harm",
+    "Flank": "Flank",
+    "NonFlank": "NonFlank",
     "Use a non-Star Alliance creature": "Use a non-Star Alliance creature",
     "Return creatures and upgrades": "Return creatures and upgrades"
 }
