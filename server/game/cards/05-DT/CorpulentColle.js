@@ -6,7 +6,7 @@ class CorpulentColle extends Card {
         this.play({
             gameAction: ability.actions.sequential([
                 ability.actions.capture((context) => ({
-                    amount: context.player.opponent.amber
+                    amount: context.player.opponent ? context.player.opponent.amber : 0
                 })),
                 ability.actions.dealDamage((context) => ({
                     target: context.source,
