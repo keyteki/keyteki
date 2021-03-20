@@ -558,5 +558,11 @@
     "Archive top 2 cards": "Archive top 2 cards",
     "Play top card": "Play top card",
     "Ready and reap": "Ready and reap",
-    "Add power counters": "Add power counters"
+    "Add power counters": "Add power counters",
+    "Lowest": "Lowest",
+    "Highest": "Highest",
+    "Heal": "Heal",
+    "Harm": "Harm",
+    "Flank": "Flank",
+    "NonFlank": "NonFlank"
 }
