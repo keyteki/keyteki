@@ -26,7 +26,7 @@ class ReapOrSow extends Card {
                 readyAndReapCreature: {
                     dependsOn: 'action',
                     targetCondition: (context) =>
-                        context.game.creaturesInPlay.length > 0 &&
+                        context.player.creaturesInPlay.length > 0 &&
                         context.selects.action.choice === 'Ready and reap',
                     cardType: 'creature',
                     controller: 'self',
