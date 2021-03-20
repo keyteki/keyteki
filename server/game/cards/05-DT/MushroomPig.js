@@ -8,7 +8,7 @@ class MushroomPig extends Card {
                 context.source;
             }),
             then: {
-                may: 'Remove all power tokens',
+                may: 'remove all power tokens',
                 alwaysTriggers: true,
                 gameAction: ability.actions.removePowerCounter({ all: true }),
                 then: {

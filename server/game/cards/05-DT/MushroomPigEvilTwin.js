@@ -26,7 +26,7 @@ class MushroomPigEvilTwin extends Card {
         });
 
         this.reap({
-            may: 'Remove all power tokens',
+            may: 'remove all power tokens',
             gameAction: ability.actions.removePowerCounter({ all: true }),
             then: {
                 gameAction: ability.actions.dealDamage((context) => ({
