@@ -8,9 +8,7 @@ class AvengingAura extends Card {
             gameAction: ability.actions.forRemainderOfTurn((context) => ({
                 target: context.player.creaturesInPlay,
                 effect: ability.effects.addKeyword({
-                    assault: context.player.opponent
-                        ? 3 - context.player.opponent.getForgedKeys()
-                        : 0
+                    assault: context.player.opponent ? context.player.opponent.getForgedKeys() : 0
                 })
             }))
         });

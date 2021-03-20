@@ -19,9 +19,9 @@ describe('AvengingAura', function () {
             });
 
             it('all friendly creatures get assault 3', function () {
-                expect(this.badPenny.getKeywordValue('assault')).toBe(3);
-                expect(this.helperBot.getKeywordValue('assault')).toBe(3);
-                expect(this.urchin.getKeywordValue('assault')).toBe(3);
+                expect(this.badPenny.getKeywordValue('assault')).toBe(0);
+                expect(this.helperBot.getKeywordValue('assault')).toBe(0);
+                expect(this.urchin.getKeywordValue('assault')).toBe(0);
                 expect(this.gub.getKeywordValue('assault')).toBe(0);
             });
         });
@@ -33,9 +33,9 @@ describe('AvengingAura', function () {
             });
 
             it('all friendly creatures get assault 2', function () {
-                expect(this.badPenny.getKeywordValue('assault')).toBe(2);
-                expect(this.helperBot.getKeywordValue('assault')).toBe(2);
-                expect(this.urchin.getKeywordValue('assault')).toBe(2);
+                expect(this.badPenny.getKeywordValue('assault')).toBe(1);
+                expect(this.helperBot.getKeywordValue('assault')).toBe(1);
+                expect(this.urchin.getKeywordValue('assault')).toBe(1);
                 expect(this.gub.getKeywordValue('assault')).toBe(0);
             });
         });
