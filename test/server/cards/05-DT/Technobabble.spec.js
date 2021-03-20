@@ -16,7 +16,7 @@ describe('Technobabble', function () {
             });
         });
 
-        it('should  creature and each of its neighbors that shares a house with it', function () {
+        it('should stun a creature and each of its neighbors that shares a house with it', function () {
             this.player1.play(this.technobabble);
             expect(this.player1).toBeAbleToSelect(this.lamindra);
             expect(this.player1).toBeAbleToSelect(this.rocketeerTryska);

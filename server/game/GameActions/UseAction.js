@@ -3,6 +3,7 @@ const CardGameAction = require('./CardGameAction');
 class UseAction extends CardGameAction {
     setDefaultProperties() {
         this.ignoreHouse = true;
+        this.player = null;
     }
 
     setup() {
@@ -22,8 +23,13 @@ class UseAction extends CardGameAction {
     getEvent(card, context) {
         return super.createEvent(
             'unnamedEvent',
-            { card: card, context: context, ignoreHouse: this.ignoreHouse },
-            (event) => card.use(context.player, event.ignoreHouse)
+            {
+                card: card,
+                player: this.player || context.player,
+                context: context,
+                ignoreHouse: this.ignoreHouse
+            },
+            (event) => card.use(event.player, event.ignoreHouse)
         );
     }
 }
