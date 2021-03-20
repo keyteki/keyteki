@@ -4,7 +4,7 @@ describe('HealOrHarm', function () {
             this.setupTest({
                 player1: {
                     house: 'sanctum',
-                    inPlay: ['bad-penny', 'foozle'],
+                    inPlay: ['bad-penny', 'foozle', 'groke'],
                     hand: ['heal-or-harm']
                 },
                 player2: {
@@ -13,6 +13,8 @@ describe('HealOrHarm', function () {
                 }
             });
             this.foozle.tokens.damage = 3;
+            this.mother.tokens.damage = 3;
+            this.groke.tokens.damage = 3;
             this.player1.play(this.healOrHarm);
         });
 
@@ -27,6 +29,8 @@ describe('HealOrHarm', function () {
 
             it('Fully heal creature and gain 1A', function () {
                 expect(this.foozle.tokens.damage).toBeUndefined();
+                expect(this.mother.tokens.damage).toBe(3);
+                expect(this.groke.tokens.damage).toBe(3);
                 expect(this.player1.amber).toBe(1);
             });
         });
