@@ -556,5 +556,11 @@
     "Exhaust": "Exhaust",
     "Random discard": "Random discard",
     "Archive top 2 cards": "Archive top 2 cards",
-    "Play top card": "Play top card"
+    "Play top card": "Play top card",
+    "Lowest": "Lowest",
+    "Highest": "Highest",
+    "Heal": "Heal",
+    "Harm": "Harm",
+    "Flank": "Flank",
+    "NonFlank": "NonFlank"
 }
