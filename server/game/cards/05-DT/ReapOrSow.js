@@ -12,11 +12,11 @@ class ReapOrSow extends Card {
                     mode: 'select',
                     choices: {
                         'Ready and reap': () => true,
-                        'Give power counters': ability.actions.sequentialForEach(() => ({
+                        'Add power counters': ability.actions.sequentialForEach(() => ({
                             num: 3,
                             action: ability.actions.addPowerCounter({
                                 promptForSelect: {
-                                    activePromptTitle: 'Choose a creature to gain 1 power counter',
+                                    activePromptTitle: 'Add a power counter',
                                     cardType: 'creature'
                                 }
                             })

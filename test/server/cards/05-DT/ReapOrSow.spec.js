@@ -17,7 +17,7 @@ describe('Reap Or Sow', function () {
         it('should prompt with 2 choices', function () {
             this.player1.play(this.reapOrSow);
             expect(this.player1).toHavePromptButton('Ready and reap');
-            expect(this.player1).toHavePromptButton('Give power counters');
+            expect(this.player1).toHavePromptButton('Add power counters');
         });
 
         it('should allow any friendly creature to ready and reap', function () {
@@ -33,7 +33,7 @@ describe('Reap Or Sow', function () {
 
         it('should allow giving out 3 power counters', function () {
             this.player1.play(this.reapOrSow);
-            this.player1.clickPrompt('Give power counters');
+            this.player1.clickPrompt('Add power counters');
             expect(this.player1).toBeAbleToSelect(this.dustPixie);
             expect(this.player1).toBeAbleToSelect(this.sequis);
             expect(this.player1).toBeAbleToSelect(this.troll);
