@@ -50,7 +50,26 @@ class RemoveTokenAction extends CardGameAction {
                 amount: this.getAmount(card)
             },
             (event) => {
-                card.removeToken(event.type, event.amount);
+                if (this.upTo && event.amount > 0) {
+                    context.game.promptWithHandlerMenu(context.player, {
+                        activePromptTitle: 'Choose how many to remove',
+                        context: context,
+                        choices: Array.from(Array(event.amount + 1), (x, i) => i.toString()),
+                        choiceHandler: (choice) => {
+                            event.amount = parseInt(choice);
+                            context.game.addMessage(
+                                "{0} removes {1} tokens {2} using {3}'s ability",
+                                context.player,
+                                event.card,
+                                choice,
+                                context.source
+                            );
+                            card.removeToken(event.type, event.amount);
+                        }
+                    });
+                } else {
+                    card.removeToken(event.type, event.amount);
+                }
             }
         );
     }

@@ -564,7 +564,15 @@
     "Purge up to 2 cards": "Expurgar até 2 cartas",
     "Exhaust": "Exaustar",
     "Random discard": "Descartar aleatoriamente",
-    "Archive top 2 cards": "Archive top 2 cards",
-    "Play top card": "Play top card",
-    "Do you wish to remove all power tokens?": "Do you wish to remove all power tokens?"
+    "Archive top 2 cards": "Arquivar duas cartas do topo",
+    "Play top card": "Jogar a carta do topo",
+    "Do you wish to remove all power tokens?": "Remover todos os contadores de poder?",
+    "Ready and reap": "Preparar e coletar",
+    "Add power counters": "Adicionar contador de poder",
+    "Lowest": "Mais fraca",
+    "Highest": "Mais forte",
+    "Heal": "Curar",
+    "Harm": "Machucar",
+    "Flank": "Flano",
+    "NonFlank": "Não flanco"
 }
