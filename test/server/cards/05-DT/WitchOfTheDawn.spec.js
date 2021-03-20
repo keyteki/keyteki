@@ -1,4 +1,4 @@
-describe('Witch of the Dawm', function () {
+describe('Witch of the Dawn', function () {
     describe("Witch of the Dawn's reap ability", function () {
         beforeEach(function () {
             this.setupTest({
