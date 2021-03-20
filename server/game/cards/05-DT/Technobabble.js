@@ -6,14 +6,15 @@ class Technobabble extends Card {
         this.play({
             target: {
                 cardType: 'creature',
-                gameAction: ability.actions.stun((context) => ({
-                    target: context.target
-                        ? context.target.neighbors.filter((card) =>
-                              card.getHouses().some((house) => context.target.hasHouse(house))
-                          )
-                        : []
-                }))
-            }
+                gameAction: ability.actions.stun()
+            },
+            gameAction: ability.actions.stun((context) => ({
+                target: context.target
+                    ? context.target.neighbors.filter((card) =>
+                          card.getHouses().some((house) => context.target.hasHouse(house))
+                      )
+                    : []
+            }))
         });
     }
 }
