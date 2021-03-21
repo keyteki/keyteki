@@ -4,7 +4,13 @@ describe('Infighting', function () {
             this.setupTest({
                 player1: {
                     house: 'untamed',
-                    hand: ['infighting', 'the-common-cold'],
+                    hand: [
+                        'infighting',
+                        'the-common-cold',
+                        'gateway-to-dis',
+                        'dust-pixie',
+                        'dharna'
+                    ],
                     inPlay: ['nexus', 'urchin']
                 },
                 player2: {
@@ -43,6 +49,37 @@ describe('Infighting', function () {
             this.player1.play(this.infighting);
             expect(this.nexus.location).toBe('play area');
             expect(this.nexus.tokens.damage).toBe(1);
+        });
+
+        it('it should do nothing if there are no creatures in play', function () {
+            this.player1.endTurn();
+            this.player2.clickPrompt('logos');
+            this.player2.endTurn();
+            this.player1.clickPrompt('dis');
+            this.player1.play(this.gatewayToDis);
+            this.player1.endTurn();
+            this.player2.clickPrompt('logos');
+            this.player2.endTurn();
+            this.player1.clickPrompt('untamed');
+            this.player1.play(this.infighting);
+        });
+
+        it('it should work even when there are only creatures on one side', function () {
+            this.player1.endTurn();
+            this.player2.clickPrompt('logos');
+            this.player2.endTurn();
+            this.player1.clickPrompt('dis');
+            this.player1.play(this.gatewayToDis);
+            this.player1.endTurn();
+            this.player2.clickPrompt('logos');
+            this.player2.endTurn();
+            this.player1.clickPrompt('untamed');
+
+            this.player1.play(this.dustPixie);
+            this.player1.play(this.dharna);
+            this.player1.play(this.infighting);
+
+            expect(this.dharna.tokens.damage).toBe(1);
         });
     });
 });
