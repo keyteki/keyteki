@@ -2,26 +2,41 @@ const Card = require('../../Card.js');
 
 class MakeItSo extends Card {
     //Play: Choose a house. Reveal the top card of your deck. If it belongs to that house, draw that card and repeat this effect.
-    //This card has been translated from Chinese and is subject to change.
     setupCardAbilities(ability) {
-        this.action({
+        this.play({
             target: {
                 mode: 'house'
             },
             effect: 'choose {1} and reveal {2}',
             effectArgs: (context) => [context.house, context.player.deck[0]],
-            gameAction: ability.actions.draw((context) => ({
-                amount:
-                    context.player.deck.length && context.player.deck[0].hasHouse(context.house)
-                        ? 1
-                        : 0
+            gameAction: ability.actions.reveal((context) => ({
+                location: 'deck',
+                target: context.player.deck[0]
             })),
             then: (preThenContext) => ({
-                alwaysTriggers: true,
-                message: '{0} uses {1} to resolve its effect again',
-                gameAction: ability.actions.resolveAbility({
-                    ability: preThenContext.ability
-                })
+                condition: () => preThenContext.player.deck[0].hasHouse(preThenContext.house),
+                gameAction: ability.actions.draw(),
+                then: {
+                    // need to repeat reveal to avoid re-selecting a house in the resolve ability bellow
+                    condition: (context) => context.player.deck.length > 0,
+                    gameAction: ability.actions.reveal((context) => ({
+                        location: 'deck',
+                        target: context.player.deck[0]
+                    })),
+                    message: '{0} uses {1} to reveal {3}',
+                    messageArgs: (context) => [context.player.deck[0]],
+                    then: (preThenContext2) => ({
+                        condition: () =>
+                            preThenContext2.player.deck[0].hasHouse(preThenContext.house),
+                        gameAction: ability.actions.draw(),
+                        then: {
+                            message: '{0} uses {1} to resolve its effect again',
+                            gameAction: ability.actions.resolveAbility({
+                                ability: preThenContext2.ability
+                            })
+                        }
+                    })
+                }
             })
         });
     }
