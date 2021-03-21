@@ -670,6 +670,7 @@ class Player extends GameObject {
 
     finalizeForge(key, modifiedCost, cost) {
         this.modifyAmber(-modifiedCost);
+        this.game.raiseEvent('onAmberSpentOnForge', { player: this, amberSpent: cost });
 
         if (this.anyEffect('forgeAmberGainedByOpponent')) {
             this.game.actions
@@ -679,12 +680,7 @@ class Player extends GameObject {
 
         this.keys[key] = true;
         this.keysForgedThisRound.push(key);
-        this.game.addMessage(
-            '{0} forges the {1}, paying {2} amber',
-            this,
-            `forgedkey${key}`,
-            modifiedCost
-        );
+        this.game.addMessage('{0} forges the {1}, paying {2} amber', this, `forgedkey${key}`, cost);
     }
 
     unforgeKey(choices) {

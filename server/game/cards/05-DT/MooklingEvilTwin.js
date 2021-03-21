@@ -5,11 +5,14 @@ class MooklingEvilTwin extends Card {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onForgeKey: (event, context) => event.player === context.player.opponent
+                onAmberSpentOnForge: (event, context) => event.player === context.player.opponent
             },
             gameAction: ability.actions.addPowerCounter((event) => ({
                 //amount: event.modifier * -1
-                amount: event.player.getCurrentKeyCost()
+                //amount: event.player.getCurrentKeyCost()
+                //amount: event.player.getCurrentKeyCost()
+                amount: event.amberSpent
+                //amount: 6
             }))
         });
     }
