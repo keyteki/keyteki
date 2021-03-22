@@ -6,6 +6,10 @@ class Saurarium extends Card {
         this.persistentEffect({
             targetController: 'any',
             match: (card, context) => {
+                if (context.game.creaturesInPlay.length === 0) {
+                    return false;
+                }
+
                 let lowestPower = context.game.creaturesInPlay.sort((a, b) => a.power - b.power)[0]
                     .power;
                 return card.type === 'creature' && card.power === lowestPower;

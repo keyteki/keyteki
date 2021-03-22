@@ -5,9 +5,10 @@ class Infighting extends Card {
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.dealDamage((context) => ({
-                target: context.player.opponent.creaturesInPlay
-                    .slice(1)
-                    .concat(context.player.creaturesInPlay.slice(1)),
+                target: (context.player.opponent
+                    ? context.player.opponent.creaturesInPlay.slice(1)
+                    : []
+                ).concat(context.player.creaturesInPlay.slice(1)),
                 amountForCard: (card) => card.neighbors[0].power
             }))
         });
