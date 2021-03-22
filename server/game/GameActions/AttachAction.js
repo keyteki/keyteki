@@ -44,7 +44,9 @@ class AttachAction extends CardGameAction {
             { card: this.upgrade, parent: card, context: context },
             (event) => {
                 if (event.card.location === 'play area') {
-                    event.card.parent.removeAttachment(event.card);
+                    if (event.card.parent) {
+                        event.card.parent.removeAttachment(event.card);
+                    }
                 } else {
                     event.card.controller.removeCardFromPile(event.card);
                     event.card.new = true;
