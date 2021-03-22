@@ -6,6 +6,7 @@ class RecklessExperiment extends Card {
         this.whileAttached({
             effect: ability.effects.gainAbility('reap', {
                 gameAction: ability.actions.playCard((context) => ({
+                    revealOnIllegalTarget: true,
                     target: context.player.deck[0]
                 }))
             })
