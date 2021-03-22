@@ -9,7 +9,7 @@ class AmberfinSharkEvilTwin extends Card {
                 onRoundEnded: (event, context) => context.player === this.game.activePlayer
             },
 
-            gameAction: ability.actions.sequential([
+            gameAction: [
                 ability.actions.loseAmber((context) => ({
                     amount: 1,
                     target: context.player
@@ -18,52 +18,22 @@ class AmberfinSharkEvilTwin extends Card {
                     amount: 1,
                     target: context.player.opponent
                 }))
-            ]),
+            ],
 
             then: {
-                gameAction: ability.actions.addPowerCounter((context) => ({
-                    // works but is wrong ammount:
-                    //amount:1
-                    // amount: context.preThenEvents.filter( (event) => event.name === 'onModifyAmber' ).reduce((total, event) => total + event.amount, 0),
-                    //amount: context.preThenEvents.find( (event) => event.name === 'onModifyAmber' ).length
-                    amount: context.preThenEvents.filter((event) => event.name === 'onModifyAmber')
-                        .length
-                }))
+                gameAction: ability.actions.addPowerCounter((context) => {
+                    //console.log(context.preThenEvents);
+
+                    return {
+                        amount: context.preThenEvents
+                            .filter((event) => event.name === 'onModifyAmber')
+                            .reduce((total, event) => total + event.amount, 0)
+                        //amount: context.preThenEvents.find( (event) => event.name === 'onModifyAmber' ).length
+                        //amount: context.preThenEvents.filter((event) => event.name === 'onModifyAmber').length
+                    };
+                })
             }
         });
-
-        /*
-
-
-          condition: (context) => (context.preThenEvents && context.preThenEvents.find( (event) => event.name === 'onModifyAmber' ).length > 0),
-          gameAction: ability.actions.addPowerCounter( (context) => ({
-            amount: context.preThenEvents ? 0 : context.preThenEvents.find( (event) => event.name === 'onModifyAmber' ).reduce((total, event) => total + event.amount, 0),
-          }))
-
-        this.reaction({
-            when: {
-                onRoundEnded: (context) => context.player === this.game.activePlayer
-            },
-            gameAction: ability.actions.sequential([
-                ability.actions.loseAmber((context) => ({
-                    amount: 1,
-                    target: context.player
-                })),
-                ability.actions.loseAmber((context) => ({
-                  amount: 1,
-                  target: context.player.opponent
-              })),
-            ]),
-            then: (preThenContext) => ({
-              condition: preThenContext.preThenEvents && preThenContext.preThenEvents.find( (event) => event.name === 'onModifyAmber' ).length > 0,
-              gameAction: ability.actions.addPowerCounter({
-                amount: preThenContext.preThenEvents.find( (event) => event.name === 'onModifyAmber' ).reduce((total, event) => total + event.amount, 0),
-              })
-            })
-
-                    });
-
-*/
     }
 }
 
