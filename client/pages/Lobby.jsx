@@ -84,16 +84,6 @@ const Lobby = () => {
                 <UserList users={users} />
             </SideBar>
             <div>
-                <Col sm={{ span: 10, offset: 1 }}>
-                    <div className='banner'>
-                        <a target='_blank' rel='noreferrer' href='https://www.thefinalswindle.com/'>
-                            <img width='100%' src='/banner/swindle-event-banner.png' />
-                        </a>
-                    </div>
-                    <div className='main-header' />
-                </Col>
-            </div>
-            <div>
                 {/* <Col sm={{ span: 10, offset: 1 }}>
                     <a
                         href='https://challonge.com/tournaments/signup/T0ee0ljEUy'
