@@ -41,7 +41,7 @@ describe('Library Card', function () {
             });
         });
 
-        it('should purge library card and then draw a card for every card played', function () {
+        xit('should allow ordering of triggers when playing labwork as the last card in hand', function () {
             this.player1.moveCard(this.keyfrog, 'deck');
             this.player1.useAction(this.libraryCard);
             this.player1.play(this.labwork);

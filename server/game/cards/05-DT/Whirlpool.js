@@ -5,7 +5,9 @@ class Whirlpool extends Card {
     setupCardAbilities(ability) {
         this.interrupt({
             when: {
-                onRoundEnded: (event, context) => context.game.activePlayer.opponent
+                onRoundEnded: (event, context) =>
+                    !!context.game.activePlayer.opponent &&
+                    context.game.activePlayer.opponent == event.player
             },
             gameAction: ability.actions.cardLastingEffect((context) => ({
                 target: context.game.activePlayer.creaturesInPlay.slice(
