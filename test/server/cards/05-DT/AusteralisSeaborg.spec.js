@@ -1,11 +1,11 @@
-describe('Austeralis Sea Robot', function () {
-    describe("Austeralis Sea Robot's ability", function () {
+describe('Austeralis Seaborg', function () {
+    describe("Austeralis Seaborg's ability", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
                     amber: 1,
                     house: 'logos',
-                    inPlay: ['austeralis-sea-robot', 'snufflegator', 'bumblebird'],
+                    inPlay: ['austeralis-seaborg', 'snufflegator', 'bumblebird'],
                     hand: ['easy-marks']
                 },
                 player2: {
@@ -19,11 +19,11 @@ describe('Austeralis Sea Robot', function () {
 
         describe('when reap', function () {
             beforeEach(function () {
-                this.player1.reap(this.austeralisSeaRobot);
+                this.player1.reap(this.austeralisSeaborg);
             });
 
             it('should prompt to select a creature', function () {
-                expect(this.player1).toBeAbleToSelect(this.austeralisSeaRobot);
+                expect(this.player1).toBeAbleToSelect(this.austeralisSeaborg);
                 expect(this.player1).toBeAbleToSelect(this.bumblebird);
                 expect(this.player1).toBeAbleToSelect(this.snufflegator);
                 expect(this.player1).toBeAbleToSelect(this.murkens);

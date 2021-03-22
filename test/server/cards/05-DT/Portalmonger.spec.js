@@ -1,11 +1,11 @@
-describe('Portal Seller', function () {
-    describe("Portal Seller's ability", function () {
+describe('Portalmonger', function () {
+    describe("Portalmonger's ability", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
                     amber: 4,
                     house: 'unfathomable',
-                    inPlay: ['portal-seller']
+                    inPlay: ['portalmonger']
                 },
                 player2: {
                     amber: 4,
