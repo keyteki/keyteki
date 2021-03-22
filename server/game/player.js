@@ -666,11 +666,12 @@ class Player extends GameObject {
                 this.finalizeForge(unforgedKeys.shift().value, modifiedCost, cost)
             );
         }
+
+        return cost;
     }
 
     finalizeForge(key, modifiedCost, cost) {
         this.modifyAmber(-modifiedCost);
-        this.game.raiseEvent('onAmberSpentOnForge', { player: this, amberSpent: cost });
         this.keys[key] = true;
         this.keysForgedThisRound.push(key);
         this.game.addMessage('{0} forges the {1}, paying {2} amber', this, `forgedkey${key}`, cost);

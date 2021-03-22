@@ -8,7 +8,7 @@ class TheSting extends Card {
 
         this.reaction({
             when: {
-                onAmberSpentOnForge: (event, context) => event.player === context.player.opponent
+                onForgeKey: (event, context) => event.player === context.player.opponent
             },
             gameAction: ability.actions.gainAmber((context) => ({
                 amount: context.event.amberSpent
