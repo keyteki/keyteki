@@ -16,7 +16,7 @@ class SeaMonster extends Card {
                 alwaysTriggers: true,
                 condition: (context) =>
                     context.preThenEvents.filter((event) => !event.cancelled).length < 2,
-                gameAction: (context) => ability.actions.destroy({ target: context.source })
+                gameAction: ability.actions.destroy((context) => ({ target: context.source }))
             }
         });
         this.fight({

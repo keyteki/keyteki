@@ -26,7 +26,7 @@ class WrathOrRuin extends Card {
                 return: {
                     targetCondition: (context) =>
                         context.selects.action.choice === 'Return 2 enemy creatures to hand',
-                    activePromptTitle: 'Choose creatures to return',
+                    activePromptTitle: 'Choose which creatures to return',
                     mode: 'exactly',
                     numCards: 2,
                     controller: 'opponent',
