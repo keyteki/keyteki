@@ -21,17 +21,11 @@ class AmberfinSharkEvilTwin extends Card {
             ],
 
             then: {
-                gameAction: ability.actions.addPowerCounter((context) => {
-                    //console.log(context.preThenEvents);
-
-                    return {
-                        amount: context.preThenEvents
-                            .filter((event) => event.name === 'onModifyAmber')
-                            .reduce((total, event) => total + event.amount, 0)
-                        //amount: context.preThenEvents.find( (event) => event.name === 'onModifyAmber' ).length
-                        //amount: context.preThenEvents.filter((event) => event.name === 'onModifyAmber').length
-                    };
-                })
+                gameAction: ability.actions.addPowerCounter((context) => ({
+                    amount: context.preThenEvents
+                        .filter((event) => event.name === 'onModifyAmber')
+                        .reduce((total, event) => total + event.amount, 0)
+                }))
             }
         });
     }
