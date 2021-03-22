@@ -1,5 +1,5 @@
-describe('Grey Augur', function () {
-    describe("Grey Augur's effect", function () {
+describe('Badgemagus', function () {
+    describe("Badgemagus's effect", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {

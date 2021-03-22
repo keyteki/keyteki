@@ -1,5 +1,5 @@
-describe('CROfficerHawkins', function () {
-    describe("CROfficerHawkins's effect", function () {
+describe('C.R. Officer Hawkins', function () {
+    describe("C.R. Officer Hawkins's effect", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
