@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class AusteralisSeaborg extends Card {
-    //Reap: Deal 2 to a creature. If this damage destroys that creature, raise the tide.
+    //Reap: Deal 2D to a creature. If this damage destroys that creature, raise the tide.
     setupCardAbilities(ability) {
         this.reap({
             target: {
