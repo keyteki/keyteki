@@ -1,6 +1,6 @@
 const Card = require('../../Card.js');
 
-class PortalSeller extends Card {
+class Portalmonger extends Card {
     //While the tide is high, your opponent's keys cost +4A.
     setupCardAbilities(ability) {
         this.persistentEffect({
@@ -11,6 +11,6 @@ class PortalSeller extends Card {
     }
 }
 
-PortalSeller.id = 'portal-seller';
+Portalmonger.id = 'portalmonger';
 
-module.exports = PortalSeller;
+module.exports = Portalmonger;
