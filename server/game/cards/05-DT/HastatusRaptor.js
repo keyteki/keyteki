@@ -9,7 +9,7 @@ class HastatusRaptor extends Card {
             then: (preThenContext) => ({
                 gameAction: ability.actions.dealDamage((context) => {
                     let totalAmber = context.player.creaturesInPlay
-                        .filter((card) => card.id === 'hastatus-raptor')
+                        .filter((card) => card.name === 'Hastatus Raptor')
                         .reduce((a, b) => a + b.tokens.amber, 0);
                     return {
                         amount: totalAmber,
