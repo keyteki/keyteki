@@ -4,7 +4,7 @@ class Chronophage extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
             targetLocation: 'any',
-            targetController: 'oppnent',
+            targetController: 'opponent',
             match: (card) => card.type === 'creature' || card.type === 'artifact',
             effect: ability.effects.addKeyword({ omega: 1 })
         });
