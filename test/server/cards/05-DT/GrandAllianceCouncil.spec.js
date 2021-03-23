@@ -42,7 +42,7 @@ describe('Grand Alliance Council', function () {
             expect(this.player1).toBeAbleToSelect(this.stealthster);
             expect(this.player1).toBeAbleToSelect(this.scoutPete);
             expect(this.player1).toBeAbleToSelect(this.subjectKirby);
-            expect(this.player1).toHavePrompt('Choose a creature to not destroy');
+            expect(this.player1).toHavePrompt('Choose a Star Alliance creature to not destroy');
             this.player1.clickCard(this.scoutPete);
 
             this.player1.endTurn();
@@ -69,12 +69,12 @@ describe('Grand Alliance Council', function () {
             expect(this.player1).toBeAbleToSelect(this.stealthster);
             expect(this.player1).toBeAbleToSelect(this.scoutPete);
             expect(this.player1).toBeAbleToSelect(this.subjectKirby);
-            expect(this.player1).toHavePrompt('Choose a creature to not destroy');
+            expect(this.player1).toHavePrompt('Choose a Star Alliance creature to not destroy');
             this.player1.clickCard(this.scoutPete);
 
             expect(this.player1).toBeAbleToSelect(this.dharna);
             expect(this.player1).toBeAbleToSelect(this.dustPixie);
-            expect(this.player1).toHavePrompt('Choose a creature to not destroy');
+            expect(this.player1).toHavePrompt('Choose a Untamed creature to not destroy');
             this.player1.clickCard(this.dharna);
 
             this.player1.endTurn();
