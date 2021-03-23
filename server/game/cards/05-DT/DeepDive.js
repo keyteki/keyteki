@@ -6,7 +6,7 @@ class DeepDive extends Card {
         this.play({
             condition: (context) => context.player.opponent.deck.length > 0,
             gameAction: ability.actions.discard((context) => ({
-                target: context.player.opponent.deck.slice(0)
+                target: context.player.opponent.deck.slice(0, 1)
             })),
             then: {
                 target: {
