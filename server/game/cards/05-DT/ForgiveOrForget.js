@@ -14,8 +14,8 @@ class ForgiveOrForget extends Card {
                 action: {
                     mode: 'select',
                     choices: {
-                        'Archive 2 cards': ability.actions.addPowerCounter(),
-                        'Purge up to 2 cards': ability.actions.removePowerCounter()
+                        'Archive 2 cards': () => true,
+                        'Purge up to 2 cards': () => true
                     }
                 },
                 archive: {
