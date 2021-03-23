@@ -1,11 +1,11 @@
-describe('OperativeEspion', function () {
-    describe("OperativeEspion's ability", function () {
+describe('ReconAgentAspenEvilTwin', function () {
+    describe("ReconAgentAspenEvilTwin's ability", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
                     amber: 2,
                     house: 'staralliance',
-                    inPlay: ['rocketeer-tryska', 'operative-espion', 'lamindra'],
+                    inPlay: ['rocketeer-tryska', 'recon-agent-aspen-evil-twin', 'lamindra'],
                     hand: ['quintrino-flux']
                 },
                 player2: {
@@ -20,19 +20,18 @@ describe('OperativeEspion', function () {
                 this.player1.raiseTide();
             });
 
-            it('should opt not to use a creature', function () {
+            it('should opt not to deal damage to a creature', function () {
                 this.player1.clickPrompt('Done');
             });
 
-            it('should opt to use a creature they control', function () {
-                this.player1.clickCard(this.operativeEspion);
+            it('should opt to deal damage to a creature', function () {
+                this.player1.clickCard(this.reconAgentAspenEvilTwin);
                 expect(this.player1).toBeAbleToSelect(this.lamindra);
                 expect(this.player1).toBeAbleToSelect(this.rocketeerTryska);
-                expect(this.player1).not.toBeAbleToSelect(this.troll);
-                expect(this.player1).not.toBeAbleToSelect(this.groggins);
-                this.player1.clickCard(this.lamindra);
-                this.player1.clickPrompt('Reap with this creature');
-                expect(this.player1.amber).toBe(3);
+                expect(this.player1).toBeAbleToSelect(this.troll);
+                expect(this.player1).toBeAbleToSelect(this.groggins);
+                this.player1.clickCard(this.troll);
+                expect(this.troll.tokens.damage).toBe(3);
             });
         });
 
@@ -43,19 +42,18 @@ describe('OperativeEspion', function () {
                 this.player2.raiseTide();
             });
 
-            it('should opt not to use a creature', function () {
+            it('should opt not to deal damage to a creature', function () {
                 this.player2.clickPrompt('Done');
             });
 
-            it('should opt to use a creature they control', function () {
-                this.player2.clickCard(this.operativeEspion);
-                expect(this.player2).not.toBeAbleToSelect(this.lamindra);
-                expect(this.player2).not.toBeAbleToSelect(this.rocketeerTryska);
+            it('should opt to deal damage to a creature', function () {
+                this.player2.clickCard(this.reconAgentAspenEvilTwin);
+                expect(this.player2).toBeAbleToSelect(this.lamindra);
+                expect(this.player2).toBeAbleToSelect(this.rocketeerTryska);
                 expect(this.player2).toBeAbleToSelect(this.troll);
                 expect(this.player2).toBeAbleToSelect(this.groggins);
-                this.player2.clickCard(this.troll);
-                this.player2.clickPrompt('Reap with this creature');
-                expect(this.player2.amber).toBe(3);
+                this.player2.clickCard(this.rocketeerTryska);
+                expect(this.rocketeerTryska.tokens.damage).toBe(3);
             });
         });
 

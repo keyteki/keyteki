@@ -6,13 +6,11 @@ class TheUlfberhtDevice extends Card {
             when: {
                 onChooseActiveHouse: () => true
             },
-            effect: 'stop {1} from choosing {2} as their active house on their next turn',
-            effectArgs: (context) => [
-                context.player.opponent,
-                context.game.activePlayer.activeHouse
-            ],
+            effect: 'block {1} as their active house on their next turn',
+            effectArgs: (context) => [context.game.activePlayer.activeHouse],
             gameAction: ability.actions.lastingEffect((context) => ({
-                duration: 'untilNextTurn',
+                duration: 3,
+                targetController: 'any',
                 effect: ability.effects.stopHouseChoice(context.game.activePlayer.activeHouse)
             }))
         });
