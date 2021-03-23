@@ -10,8 +10,8 @@ class LootOrPillage extends Card {
                 action: {
                     mode: 'select',
                     choices: {
-                        Steal: ability.actions.steal(),
-                        Capture: () => true
+                        'Steal 1 amber': ability.actions.steal(),
+                        'Capture 3 amber': () => true
                     }
                 },
                 Capture: {
