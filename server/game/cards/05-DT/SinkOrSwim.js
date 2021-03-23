@@ -17,17 +17,14 @@ class SinkOrSwim extends Card {
                         Exhaust: () => true
                     }
                 },
-                exhaustCreature: {
+                Exhaust: {
                     dependsOn: 'action',
-                    targetCondition: (context) =>
-                        context.game.creaturesInPlay.length > 0 &&
-                        context.selects.action.choice === 'Exhaust',
                     cardType: 'creature',
                     gameAction: ability.actions.exhaust((context) => ({
                         target:
-                            context.targets && context.targets.exhaustCreature
-                                ? [context.targets.exhaustCreature].concat(
-                                      context.targets.exhaustCreature.neighbors
+                            context.targets && context.targets.Exhaust
+                                ? [context.targets.Exhaust].concat(
+                                      context.targets.Exhaust.neighbors
                                   )
                                 : []
                     }))

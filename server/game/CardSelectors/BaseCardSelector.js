@@ -109,11 +109,9 @@ class BaseCardSelector {
         return this.findPossibleCards(context).filter((card) => this.canTarget(card, context));
     }
 
+    // eslint-disable-next-line no-unused-vars
     hasEnoughSelected(selectedCards, context) {
-        return (
-            (this.optional || selectedCards.length > 0) &&
-            this.selectorCondition(selectedCards, context)
-        );
+        return this.optional || selectedCards.length > 0;
     }
 
     hasEnoughTargets(context) {
