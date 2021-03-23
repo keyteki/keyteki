@@ -6,7 +6,6 @@ class LootOrPillage extends Card {
     //- A friendly creature captures 3A.
     setupCardAbilities(ability) {
         this.play({
-            condition: (context) => context.game.creaturesInPlay.length > 0,
             targets: {
                 action: {
                     mode: 'select',
