@@ -5,7 +5,6 @@
  * mode             - selector mode 'select', 'house', 'ability', 'trait', card-name', 'options', or cards selector modes
  *                    ('exactly', 'leastStat', 'minStat', 'maxStat', 'mostHouse', 'mostStat', 'orMore', 'single', 'unlimited', 'upTo')
  * dependsOn        - target name this target depends on. A target can only be evaluated as a dependency for a single other target
- * targetCondition  - target condition when there is a dependency. Usually used with mode select
  * location         - location of valid targets
  * controller       - controller of valid targets
  * cardCondition    - (card, context) function to filter targets
@@ -21,16 +20,23 @@ class AbilityTarget {
         this.name = name;
         this.properties = properties;
         this.dependentTarget = [];
+        this.dependsOnCondition = () => true;
         if (this.properties.dependsOn) {
             let dependsOnTarget = ability.targets.find(
                 (target) => target.name === this.properties.dependsOn
             );
+            this.dependsOnCondition = dependsOnTarget.getDependsOnCondition(this);
             dependsOnTarget.dependentTarget.push(this);
         }
     }
 
+    // eslint-disable-next-line no-unused-vars
+    getDependsOnCondition(target) {
+        return () => true;
+    }
+
     hasLegalTarget(context) {
-        return !this.properties.targetCondition || this.properties.targetCondition(context);
+        return this.dependsOnCondition(context);
     }
 
     canResolve(context) {
@@ -50,10 +56,7 @@ class AbilityTarget {
     }
 
     getGameAction(context) {
-        if (
-            !this.properties.gameAction ||
-            (this.properties.targetCondition && !this.properties.targetCondition(context))
-        ) {
+        if (!this.properties.gameAction || !this.dependsOnCondition(context)) {
             return [];
         }
 
@@ -67,10 +70,9 @@ class AbilityTarget {
 
     checkTarget(context) {
         return this.dependentTarget.some((dependentTarget) => {
-            const condition =
-                !dependentTarget.targetCondition || dependentTarget.targetCondition(context);
-
-            return condition && dependentTarget.checkTarget(context);
+            return (
+                dependentTarget.dependsOnCondition(context) && dependentTarget.checkTarget(context)
+            );
         });
     }
 }

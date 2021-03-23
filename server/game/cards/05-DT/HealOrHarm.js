@@ -15,13 +15,10 @@ class HealOrHarm extends Card {
                         Harm: () => true
                     }
                 },
-                healCreature: {
+                Heal: {
                     dependsOn: 'action',
-                    targetCondition: (context) => context.selects.action.choice === 'Heal',
                     cardType: 'creature',
                     controller: 'any',
-                    mode: 'exactly',
-                    numCards: 1,
                     gameAction: ability.actions.sequential([
                         ability.actions.gainAmber((context) => ({
                             target: context.player
@@ -29,9 +26,8 @@ class HealOrHarm extends Card {
                         ability.actions.heal({ fully: true })
                     ])
                 },
-                harmCreature: {
+                Harm: {
                     dependsOn: 'action',
-                    targetCondition: (context) => context.selects.action.choice === 'Harm',
                     cardType: 'creature',
                     controller: 'self',
                     gameAction: ability.actions.sequential([

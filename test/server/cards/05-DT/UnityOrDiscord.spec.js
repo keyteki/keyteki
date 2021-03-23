@@ -40,7 +40,8 @@ describe('UnityOrDiscord', function () {
                 this.player1.clickPrompt('Return creatures and upgrades');
             });
 
-            it('should not do anything', function () {
+            it('should click Done and not do anything', function () {
+                this.player1.clickPrompt('Done');
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
         });
