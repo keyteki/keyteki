@@ -1,6 +1,6 @@
 const Card = require('../../Card.js');
 const Houses = require('../../../constants').Houses;
-const HousesNames = require('../../../constants').HousesNames;
+// const HousesNames = require('../../../constants').HousesNames;
 
 class GrandAllianceCouncil extends Card {
     //Play: Choose a creature of each house. Destroy each creature not chosen.
@@ -9,7 +9,8 @@ class GrandAllianceCouncil extends Card {
         for (const house of Houses) {
             targets[house] = {
                 activePromptTitle:
-                    'Choose a ' + HousesNames[Houses.indexOf(house)] + ' creature to not destroy',
+                    //'Choose a ' + HousesNames[Houses.indexOf(house)] + ' creature to not destroy',
+                    'Choose a creature to not destroy',
                 cardType: 'creature',
                 numCards: 1,
                 cardCondition: (card) => card.hasHouse(house),
