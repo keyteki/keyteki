@@ -14,7 +14,7 @@ class LootOrPillage extends Card {
                         'Capture 3 amber': () => true
                     }
                 },
-                Capture: {
+                'Capture 3 amber': {
                     dependsOn: 'action',
                     controller: 'self',
                     cardType: 'creature',

@@ -18,13 +18,13 @@ describe('Loot or Pillage', function () {
         });
 
         it('should prompt to steal or capture', function () {
-            expect(this.player1).toHavePromptButton('Steal');
-            expect(this.player1).toHavePromptButton('Capture');
+            expect(this.player1).toHavePromptButton('Steal 1 amber');
+            expect(this.player1).toHavePromptButton('Capture 3 amber');
         });
 
         describe('steal is selected', function () {
             beforeEach(function () {
-                this.player1.clickPrompt('Steal');
+                this.player1.clickPrompt('Steal 1 amber');
             });
 
             it('should steal 1A', function () {
@@ -36,7 +36,7 @@ describe('Loot or Pillage', function () {
 
         describe('capture is selected', function () {
             beforeEach(function () {
-                this.player1.clickPrompt('Capture');
+                this.player1.clickPrompt('Capture 3 amber');
             });
 
             it('should be able to select friendly creature', function () {
