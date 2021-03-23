@@ -666,25 +666,15 @@ class Player extends GameObject {
                 this.finalizeForge(unforgedKeys.shift().value, modifiedCost, cost)
             );
         }
+
+        return cost;
     }
 
     finalizeForge(key, modifiedCost, cost) {
         this.modifyAmber(-modifiedCost);
-
-        if (this.anyEffect('forgeAmberGainedByOpponent')) {
-            this.game.actions
-                .gainAmber({ amount: cost })
-                .resolve(this.opponent, this.game.getFrameworkContext());
-        }
-
         this.keys[key] = true;
         this.keysForgedThisRound.push(key);
-        this.game.addMessage(
-            '{0} forges the {1}, paying {2} amber',
-            this,
-            `forgedkey${key}`,
-            modifiedCost
-        );
+        this.game.addMessage('{0} forges the {1}, paying {2} amber', this, `forgedkey${key}`, cost);
     }
 
     unforgeKey(choices) {
