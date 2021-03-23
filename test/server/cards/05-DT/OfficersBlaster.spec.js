@@ -47,7 +47,7 @@ describe('Officers Blaster', function () {
             expect(this.stealthster.location).toBe('discard');
         });
 
-        xit('should go to creature on the right when destroyed, when a left and right neighor exist', function () {
+        it('should go to creature on the right when destroyed, when a left and right neighor exist', function () {
             expect(this.fanghouse.power).toBe(3);
             this.player1.playUpgrade(this.officerSBlaster, this.stealthster);
             this.player1.play(this.quintrinoFlux);

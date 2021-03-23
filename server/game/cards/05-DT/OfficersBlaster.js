@@ -11,9 +11,14 @@ class OfficersBlaster extends Card {
                     target: {
                         cardType: 'creature',
                         numCards: 1,
+                        // note, context.source here is the creature that was upgraded, not this upgrade
                         cardCondition: (card, context) => card === context.source.rightNeighbor,
                         gameAction: ability.actions.attach((context) => ({
-                            upgrade: context.source
+                            // note, the context here is from the context of the creature - not the upgrade
+                            // to avoid using "this" looking up the upgrade on the create
+                            upgrade: context.source.upgrades.find(
+                                (upgrade) => upgrade.name === "Officer's Blaster"
+                            )
                         }))
                     }
                 })
@@ -21,9 +26,6 @@ class OfficersBlaster extends Card {
         });
     }
 }
-
-// re- think this as the destroyed effect is on the upgrade?
-
 OfficersBlaster.id = 'officer-s-blaster';
 
 module.exports = OfficersBlaster;
