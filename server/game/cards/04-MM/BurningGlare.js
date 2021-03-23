@@ -17,10 +17,8 @@ class BurningGlare extends Card {
                         }))
                     }
                 },
-                creature: {
+                'Stun an enemy creature': {
                     dependsOn: 'action',
-                    targetCondition: (context) =>
-                        context.selects.action.choice === 'Stun an enemy creature',
                     activePromptTitle: 'Choose a creature to stun',
                     cardType: 'creature',
                     controller: 'opponent',

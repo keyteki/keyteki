@@ -14,17 +14,13 @@ class OzmoMartianologist extends Card {
                         'Stun a Mars creature': () => true
                     }
                 },
-                heal: {
-                    targetCondition: (context) =>
-                        context.selects.action.choice === 'Heal a Mars creature',
+                'Heal a Mars creature': {
                     dependsOn: 'action',
                     cardType: 'creature',
                     cardCondition: (card) => card.hasHouse('mars'),
                     gameAction: ability.actions.heal({ amount: 3 })
                 },
-                stun: {
-                    targetCondition: (context) =>
-                        context.selects.action.choice === 'Stun a Mars creature',
+                'Stun a Mars creature': {
                     dependsOn: 'action',
                     cardType: 'creature',
                     cardCondition: (card) => card.hasHouse('mars'),

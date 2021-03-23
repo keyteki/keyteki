@@ -49,7 +49,7 @@ describe('Forgive or Forget', function () {
                 this.player1.clickPrompt('Archive 2 cards');
             });
 
-            it('should not prompt to select creatures', function () {
+            it('should not prompt for anything', function () {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
         });
@@ -59,11 +59,8 @@ describe('Forgive or Forget', function () {
                 this.player1.clickPrompt('Purge up to 2 cards');
             });
 
-            it('should be optional', function () {
-                expect(this.player1).toHavePromptButton('Done');
-            });
-
             it("should be able to select opponent's cards", function () {
+                expect(this.player1).toHavePrompt('Select up to 2 cards from each discard');
                 expect(this.player1).toBeAbleToSelect(this.lamindra);
                 expect(this.player1).toBeAbleToSelect(this.fidgit);
                 expect(this.player1).toBeAbleToSelect(this.troll);
@@ -71,6 +68,7 @@ describe('Forgive or Forget', function () {
             });
 
             it('should be able to select no cards', function () {
+                expect(this.player1).toHavePrompt('Select up to 2 cards from each discard');
                 this.player1.clickPrompt('Done');
 
                 expect(this.lamindra.location).toBe('discard');
@@ -81,6 +79,7 @@ describe('Forgive or Forget', function () {
             });
 
             it('should be able to select 1', function () {
+                expect(this.player1).toHavePrompt('Select up to 2 cards from each discard');
                 this.player1.clickCard(this.lamindra);
                 this.player1.clickPrompt('Done');
 
@@ -92,9 +91,14 @@ describe('Forgive or Forget', function () {
             });
 
             it('should be able to select up to 2', function () {
+                expect(this.player1).toHavePrompt('Select up to 2 cards from each discard');
                 this.player1.clickCard(this.lamindra);
                 this.player1.clickCard(this.fidgit);
+                expect(this.player1).toHavePromptButton('Done');
                 this.player1.clickCard(this.troll);
+                expect(this.player1).not.toHavePromptButton('Done');
+                this.player1.clickCard(this.troll);
+                expect(this.player1).toHavePromptButton('Done');
                 this.player1.clickPrompt('Done');
 
                 expect(this.lamindra.location).toBe('purged');
@@ -134,11 +138,8 @@ describe('Forgive or Forget', function () {
                 this.player1.clickPrompt('Purge up to 2 cards');
             });
 
-            it('should be optional', function () {
-                expect(this.player1).toHavePromptButton('Done');
-            });
-
             it('should be able to select own cards', function () {
+                expect(this.player1).toHavePrompt('Select up to 2 cards from each discard');
                 expect(this.player1).toBeAbleToSelect(this.dextre);
                 expect(this.player1).toBeAbleToSelect(this.archimedes);
                 expect(this.player1).toBeAbleToSelect(this.detentionCoil);
@@ -147,6 +148,7 @@ describe('Forgive or Forget', function () {
             });
 
             it('should be able to select no cards', function () {
+                expect(this.player1).toHavePrompt('Select up to 2 cards from each discard');
                 this.player1.clickPrompt('Done');
 
                 expect(this.dextre.location).toBe('discard');
@@ -156,6 +158,7 @@ describe('Forgive or Forget', function () {
             });
 
             it('should be able to select 1', function () {
+                expect(this.player1).toHavePrompt('Select up to 2 cards from each discard');
                 this.player1.clickCard(this.dextre);
                 this.player1.clickPrompt('Done');
 
@@ -166,9 +169,13 @@ describe('Forgive or Forget', function () {
             });
 
             it('should be able to select up to 2', function () {
+                expect(this.player1).toHavePrompt('Select up to 2 cards from each discard');
                 this.player1.clickCard(this.dextre);
                 this.player1.clickCard(this.archimedes);
                 this.player1.clickCard(this.matterMaker);
+                expect(this.player1).not.toHavePromptButton('Done');
+                this.player1.clickCard(this.matterMaker);
+                expect(this.player1).toHavePromptButton('Done');
                 this.player1.clickPrompt('Done');
 
                 expect(this.dextre.location).toBe('purged');
@@ -264,28 +271,22 @@ describe('Forgive or Forget', function () {
 
             it('should be optional', function () {
                 this.player1.clickPrompt('Done');
-                this.player1.clickPrompt('Done');
+                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            describe('when own cards are selected', function () {
-                beforeEach(function () {
-                    this.player1.clickCard(this.dextre);
-                    this.player1.clickPrompt('Done');
-                });
-
-                describe("when opponent's cards are selected", function () {
-                    beforeEach(function () {
-                        this.player1.clickCard(this.lamindra);
-                        this.player1.clickCard(this.troll);
-                        this.player1.clickPrompt('Done');
-                    });
-
-                    it('they all should be purged', function () {
-                        expect(this.dextre.location).toBe('purged');
-                        expect(this.lamindra.location).toBe('purged');
-                        expect(this.troll.location).toBe('purged');
-                    });
-                });
+            it('they purge owner and opponent cards when selected', function () {
+                this.player1.clickCard(this.dextre);
+                this.player1.clickCard(this.lamindra);
+                this.player1.clickCard(this.troll);
+                expect(this.player1).toHavePromptButton('Done');
+                this.player1.clickCard(this.fidgit);
+                expect(this.player1).not.toHavePromptButton('Done');
+                this.player1.clickCard(this.fidgit);
+                expect(this.player1).toHavePromptButton('Done');
+                this.player1.clickPrompt('Done');
+                expect(this.dextre.location).toBe('purged');
+                expect(this.lamindra.location).toBe('purged');
+                expect(this.troll.location).toBe('purged');
             });
         });
     });
