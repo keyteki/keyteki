@@ -21,7 +21,7 @@ class WalkThePlank extends Card {
             effectArgs: (context) =>
                 context.player.opponent && !context.player.opponent.amber
                     ? ['deal 4 damage to ', context.target]
-                    : ['steal 1 amber']
+                    : ['steal 1 amber from ', context.player.opponent]
         });
     }
 }

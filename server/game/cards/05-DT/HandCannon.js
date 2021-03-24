@@ -7,12 +7,15 @@ class HandCannon extends Card {
             effect: [
                 ability.effects.addKeyword({ skirmish: 1 }),
                 ability.effects.gainAbility('fight', {
-                    gameAction: ability.actions.removeAmber((context) => ({
+                    condition: (context) => context.source.amber > 0,
+                    gameAction: ability.actions.placeAmber((context) => ({
                         target: context.event.card
                     })),
                     then: {
-                        gameAction: ability.actions.gainAmber()
-                    }
+                        gameAction: ability.actions.removeAmber()
+                    },
+                    effect: 'move 1 amber from {0} to {1}',
+                    effectArgs: (context) => context.event.card
                 })
             ]
         });
