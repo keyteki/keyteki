@@ -86,8 +86,10 @@ describe('Cyber-Clone', function () {
         });
 
         it('should purge and clone Mimic Gel', function () {
-            this.player1.play(this.mimicGel);
+            this.player1.clickCard(this.mimicGel);
+            this.player1.clickPrompt('Play this creature');
             this.player1.clickCard(this.groupthinkTank);
+            this.player1.clickPrompt('Left');
             this.player1.play(this.cyberClone);
             this.player1.clickCard(this.mimicGel);
             expect(this.mimicGel.location).toBe('purged');

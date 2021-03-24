@@ -13,20 +13,18 @@ class Ransack extends Card {
             then: (preThenContext) => ({
                 alwaysTriggers: true,
                 message: '{0} uses {1} to resolve its effect again',
-                gameAction: [
-                    ability.actions.resolveAbility((context) => {
-                        let event = context.preThenEvents.find((event) => !!event.card);
-                        return {
-                            target:
-                                context.source.location === 'being played' &&
-                                event &&
-                                event.card.hasHouse('shadows')
-                                    ? context.source
-                                    : [],
-                            ability: preThenContext.ability
-                        };
-                    })
-                ]
+                gameAction: ability.actions.resolveAbility((context) => {
+                    let event = context.preThenEvents.find((event) => !!event.card);
+                    return {
+                        target:
+                            context.source.location === 'being played' &&
+                            event &&
+                            event.card.hasHouse('shadows')
+                                ? context.source
+                                : [],
+                        ability: preThenContext.ability
+                    };
+                })
             })
         });
     }

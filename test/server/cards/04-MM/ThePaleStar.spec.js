@@ -85,8 +85,10 @@ describe('The Pale Star', function () {
         });
 
         it('should reduce power and armor of Mimic Gel and Cyber Clone', function () {
-            this.player1.play(this.mimicGel);
+            this.player1.clickCard(this.mimicGel);
+            this.player1.clickPrompt('Play this creature');
             this.player1.clickCard(this.wrath);
+            this.player1.clickPrompt('Right');
             this.player1.play(this.cyberClone);
             this.player1.clickCard(this.wrath);
             expect(this.wrath.location).toBe('purged');

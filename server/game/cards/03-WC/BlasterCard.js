@@ -9,29 +9,29 @@ class BlasterCard extends Card {
         const moveChoice = `Move ${this.name}`;
         choices[moveChoice] = () => true;
 
-        return {
+        let result = {
             optional: true,
             targets: {
                 action: {
                     mode: 'select',
                     choices: choices
                 },
-                dealDamage: {
+                'Deal 2 damage': {
                     dependsOn: 'action',
-                    targetCondition: (context) => context.selects.action.choice === 'Deal 2 damage',
                     cardType: 'creature',
                     gameAction: ability.actions.dealDamage({ amount: 2 })
-                },
-                moveBlaster: {
-                    dependsOn: 'action',
-                    targetCondition: (context) => context.selects.action.choice === moveChoice,
-                    cardType: 'creature',
-                    cardCondition: (card) =>
-                        card.name === creatureName && !card.upgrades.includes(this),
-                    gameAction: ability.actions.attach({ upgrade: this })
                 }
             }
         };
+
+        result.targets[moveChoice] = {
+            dependsOn: 'action',
+            cardType: 'creature',
+            cardCondition: (card) => card.name === creatureName && !card.upgrades.includes(this),
+            gameAction: ability.actions.attach({ upgrade: this })
+        };
+
+        return result;
     }
 
     setupBlasterCardAbilities(ability, creatureName) {

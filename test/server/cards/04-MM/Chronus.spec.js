@@ -85,9 +85,11 @@ describe('Chronus', function () {
 
         it('should work with Mimic Gel', function () {
             this.dextre.enhancements = ['draw'];
-
-            this.player1.play(this.mimicGel);
+            this.player1.clickCard(this.mimicGel);
+            this.player1.clickPrompt('Play this creature');
             this.player1.clickCard(this.chronus);
+            this.player1.clickPrompt('Left');
+
             this.player1.play(this.dextre);
             expect(this.player1).toBeAbleToSelect(this.chronus);
             expect(this.player1).toBeAbleToSelect(this.mimicGel);

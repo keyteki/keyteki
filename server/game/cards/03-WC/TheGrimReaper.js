@@ -2,13 +2,10 @@ const Card = require('../../Card.js');
 
 class TheGrimReaper extends Card {
     setupCardAbilities(ability) {
-        this.reaction({
-            when: {
-                onCardEntersPlay: (event, context) => {
-                    return event.card === context.source && context.player.isHaunted();
-                }
-            },
-            gameAction: ability.actions.ready()
+        this.persistentEffect({
+            location: 'any',
+            condition: (context) => context.player.isHaunted(),
+            effect: ability.effects.entersPlayReady()
         });
 
         this.reap({

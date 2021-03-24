@@ -109,7 +109,6 @@ const Effects = {
             unapply: (player, context, effect) =>
                 context.game.effectEngine.removeDelayedEffect(effect)
         }),
-    forgeAmberGainedByOpponent: () => EffectBuilder.player.static('forgeAmberGainedByOpponent'),
     mayResolveBonusIconsAs: (newIcon, icon = 'any') =>
         EffectBuilder.player.static('mayResolveBonusIconsAs', { newIcon: newIcon, icon: icon }),
     modifyKeyCost: (amount) => EffectBuilder.player.flexible('modifyKeyCost', amount),

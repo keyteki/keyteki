@@ -14,15 +14,12 @@ class ForgiveOrForget extends Card {
                 action: {
                     mode: 'select',
                     choices: {
-                        'Archive 2 cards': ability.actions.addPowerCounter(),
-                        'Purge up to 2 cards': ability.actions.removePowerCounter()
+                        'Archive 2 cards': () => true,
+                        'Purge up to 2 cards': () => true
                     }
                 },
-                archive: {
+                'Archive 2 cards': {
                     dependsOn: 'action',
-                    targetCondition: (context) =>
-                        context.player.discard.length > 0 &&
-                        context.selects.action.choice === 'Archive 2 cards',
                     numCards: 2,
                     location: 'discard',
                     mode: 'exactly',
@@ -31,27 +28,25 @@ class ForgiveOrForget extends Card {
                         _.uniq(selectedCards.map((card) => card.type)).length === 2,
                     gameAction: ability.actions.archive()
                 },
-                purgeSelf: {
+                'Purge up to 2 cards': {
                     dependsOn: 'action',
-                    targetCondition: (context) =>
-                        context.selects.action.choice === 'Purge up to 2 cards' &&
-                        context.player.discard.length > 0,
-                    numCards: 2,
+                    activePromptTitle: 'Select up to 2 cards from each discard',
+                    numCards: 4, // two from each discard
                     location: 'discard',
                     mode: 'upTo',
-                    controller: 'self',
-                    gameAction: ability.actions.purge()
-                },
-                purgeOpponent: {
-                    dependsOn: 'action',
-                    targetCondition: (context) =>
-                        context.selects.action.choice === 'Purge up to 2 cards' &&
-                        context.player.opponent &&
-                        context.player.opponent.discard.length > 0,
-                    numCards: 2,
-                    location: 'discard',
-                    mode: 'upTo',
-                    controller: 'opponent',
+                    selectorCondition: (selectedCards) => {
+                        // guarantee they're up to 2 from each owner
+                        const counts = {};
+                        for (let card of selectedCards) {
+                            counts[card.owner.uuid] = !counts[card.owner.uuid]
+                                ? 1
+                                : counts[card.owner.uuid] + 1;
+                            if (counts[card.owner.uuid] > 2) {
+                                return false;
+                            }
+                        }
+                        return true;
+                    },
                     gameAction: ability.actions.purge()
                 }
             }

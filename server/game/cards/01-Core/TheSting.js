@@ -6,9 +6,13 @@ class TheSting extends Card {
             effect: ability.effects.skipStep('key')
         });
 
-        this.persistentEffect({
-            targetController: 'opponent',
-            effect: ability.effects.forgeAmberGainedByOpponent()
+        this.reaction({
+            when: {
+                onForgeKey: (event, context) => event.player === context.player.opponent
+            },
+            gameAction: ability.actions.gainAmber((context) => ({
+                amount: context.event.amberSpent
+            }))
         });
 
         this.action({
