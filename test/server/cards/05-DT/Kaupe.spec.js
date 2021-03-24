@@ -18,7 +18,8 @@ describe('Kaupe', function () {
                     ]
                 },
                 player2: {
-                    inPlay: ['kaupe']
+                    inPlay: ['kaupe'],
+                    hand: ['animator', 'anomaly-exploiter', 'dextre', 'archimedes']
                 }
             });
         });
@@ -79,6 +80,15 @@ describe('Kaupe', function () {
             this.player1.playUpgrade(this.exploRover, this.armsmasterMolina);
             this.player1.play(this.transporterPlatform);
             this.player1.play(this.galacticCensus);
+        });
+
+        it('should not affect self', function () {
+            this.player1.endTurn();
+            this.player2.clickPrompt('logos');
+            this.player2.play(this.animator);
+            this.player2.play(this.archimedes);
+            this.player2.play(this.dextre);
+            this.player2.play(this.anomalyExploiter);
         });
     });
 });
