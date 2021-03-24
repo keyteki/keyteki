@@ -2,7 +2,7 @@ const Card = require('../../Card.js');
 
 class PublicTheft extends Card {
     setupCardAbilities(ability) {
-        this.reap({
+        this.play({
             target: {
                 cardType: 'creature',
                 controller: 'opponent',
@@ -10,7 +10,11 @@ class PublicTheft extends Card {
             },
             effect: 'enrage {1} and move all amber from it to their pool',
             then: {
-                gameAction: ability.actions.removeAmber(),
+                alwaysTriggers: true,
+                gameAction: ability.actions.removeAmber((context) => ({
+                    target: context.preThenEvent ? context.preThenEvent.card : null,
+                    all: true
+                })),
                 then: {
                     gameAction: ability.actions.gainAmber((context) => ({
                         amount: context.preThenEvent.amount
