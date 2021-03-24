@@ -1,10 +1,10 @@
-describe('SeaMonster', function () {
-    describe("SeaMonster's play ability", function () {
+describe('Te-Wheke Kraken', function () {
+    describe("Te-Wheke Kraken's play ability", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
                     house: 'unfathomable',
-                    hand: ['sea-monster'],
+                    hand: ['te-wheke-kraken'],
                     inPlay: ['horrid-synan', 'keyfrog', 'kaupe', 'llack-gaboon']
                 },
                 player2: {
@@ -14,7 +14,7 @@ describe('SeaMonster', function () {
         });
 
         it('should exhaust 2 creatures', function () {
-            this.player1.play(this.seaMonster);
+            this.player1.play(this.teWhekeKraken);
             expect(this.player1).toBeAbleToSelect(this.horridSynan);
             expect(this.player1).toBeAbleToSelect(this.kaupe);
             expect(this.player1).toBeAbleToSelect(this.llackGaboon);
@@ -25,11 +25,11 @@ describe('SeaMonster', function () {
 
             expect(this.kaupe.exhausted).toBe(true);
             expect(this.llackGaboon.exhausted).toBe(true);
-            expect(this.seaMonster.location).toBe('play area');
+            expect(this.teWhekeKraken.location).toBe('play area');
         });
 
         it('should die if not exhausting 2 creatures', function () {
-            this.player1.play(this.seaMonster);
+            this.player1.play(this.teWhekeKraken);
             this.kaupe.exhausted = true;
             expect(this.player1).toBeAbleToSelect(this.horridSynan);
             expect(this.player1).toBeAbleToSelect(this.kaupe);
@@ -41,17 +41,17 @@ describe('SeaMonster', function () {
 
             expect(this.kaupe.exhausted).toBe(true);
             expect(this.llackGaboon.exhausted).toBe(true);
-            expect(this.seaMonster.location).toBe('discard');
+            expect(this.teWhekeKraken.location).toBe('discard');
         });
     });
 
-    describe("SeaMonster's fight/reap ability", function () {
+    describe("Te-Wheke Kraken's fight/reap ability", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
                     house: 'unfathomable',
-                    hand: ['sea-monster'],
-                    inPlay: ['sea-monster', 'horrid-synan', 'keyfrog', 'kaupe', 'llack-gaboon']
+                    hand: [],
+                    inPlay: ['te-wheke-kraken', 'horrid-synan', 'keyfrog', 'kaupe', 'llack-gaboon']
                 },
                 player2: {
                     inPlay: ['bot-bookton', 'brain-eater', 'dextre', 'doc-bookton']
@@ -60,12 +60,12 @@ describe('SeaMonster', function () {
         });
 
         it('should deal damage when reaping', function () {
-            this.player1.reap(this.seaMonster);
+            this.player1.reap(this.teWhekeKraken);
             expect(this.player1).toBeAbleToSelect(this.horridSynan);
             expect(this.player1).toBeAbleToSelect(this.kaupe);
             expect(this.player1).toBeAbleToSelect(this.llackGaboon);
             expect(this.player1).toBeAbleToSelect(this.keyfrog);
-            expect(this.player1).toBeAbleToSelect(this.seaMonster);
+            expect(this.player1).toBeAbleToSelect(this.teWhekeKraken);
             expect(this.player1).toBeAbleToSelect(this.botBookton);
             expect(this.player1).toBeAbleToSelect(this.dextre);
             expect(this.player1).toBeAbleToSelect(this.brainEater);
@@ -79,12 +79,12 @@ describe('SeaMonster', function () {
         });
 
         it('should die if not exhausting 2 creatures', function () {
-            this.player1.fightWith(this.seaMonster, this.botBookton);
+            this.player1.fightWith(this.teWhekeKraken, this.botBookton);
             expect(this.player1).toBeAbleToSelect(this.horridSynan);
             expect(this.player1).toBeAbleToSelect(this.kaupe);
             expect(this.player1).toBeAbleToSelect(this.llackGaboon);
             expect(this.player1).toBeAbleToSelect(this.keyfrog);
-            expect(this.player1).toBeAbleToSelect(this.seaMonster);
+            expect(this.player1).toBeAbleToSelect(this.teWhekeKraken);
             expect(this.player1).toBeAbleToSelect(this.dextre);
             expect(this.player1).toBeAbleToSelect(this.brainEater);
             expect(this.player1).toBeAbleToSelect(this.docBookton);

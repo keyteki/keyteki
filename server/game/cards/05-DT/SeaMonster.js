@@ -1,6 +1,6 @@
 const Card = require('../../Card.js');
 
-class SeaMonster extends Card {
+class TeWhekeKraken extends Card {
     //Play: Exhaust 2 friendly Unfathomable creatures. If you do not, destroy Sea Monster.
     //Fight/Reap: Deal 2D to a creature with 2D splash.
     setupCardAbilities(ability) {
@@ -32,6 +32,6 @@ class SeaMonster extends Card {
     }
 }
 
-SeaMonster.id = 'sea-monster';
+TeWhekeKraken.id = 'te-wheke-kraken';
 
-module.exports = SeaMonster;
+module.exports = TeWhekeKraken;
