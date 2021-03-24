@@ -14,10 +14,13 @@ class Card323 extends Card {
                 target: context.game.creaturesInPlay.filter((card) => card !== context.source)
             })),
             then: {
+                alwaysTriggers: true,
                 gameAction: ability.actions.placeUnder((context) => ({
                     moveGigantic: true,
                     parent: context.source,
-                    targets: context.preThenEvents.map((event) => event.card)
+                    target: context.preThenEvents
+                        .filter((event) => !event.cancelled)
+                        .map((event) => event.card)
                 }))
             }
         });
