@@ -13,6 +13,7 @@ export const Constants = {
         'saurian',
         'shadows',
         'staralliance',
+        'unfathomable',
         'untamed'
     ],
     HousesNames: [
@@ -24,13 +25,15 @@ export const Constants = {
         'Saurian',
         'Shadows',
         'Star Alliance',
+        'Unfathomable',
         'Untamed'
     ],
     Expansions: [
         { value: '341', label: 'CotA' },
         { value: '435', label: 'AoA' },
         { value: '452', label: 'WC' },
-        { value: '479', label: 'MM' }
+        { value: '479', label: 'MM' },
+        { value: '496', label: 'DT' }
     ],
     SetIconPaths: {},
     HouseIconPaths: {},

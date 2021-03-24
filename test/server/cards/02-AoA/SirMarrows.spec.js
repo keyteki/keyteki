@@ -13,7 +13,7 @@ describe('Sir Marrows', function () {
             });
         });
 
-        it("should capture an amber when opponent's reap", function () {
+        it('should capture an amber when opponent reaps', function () {
             this.player1.reap(this.dextre);
             expect(this.sirMarrows.amber).toBe(1);
             expect(this.player1.amber).toBe(0);
