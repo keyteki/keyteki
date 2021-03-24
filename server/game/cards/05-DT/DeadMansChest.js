@@ -43,7 +43,7 @@ class DeadMansChest extends Card {
 
     onCardDestroyed(event) {
         if (event.clone.type === 'creature') {
-            this.creatureDestroyed.push(event.clone.uuid);
+            this.creatureDestroyed.push(event.card.uuid);
         }
     }
 }

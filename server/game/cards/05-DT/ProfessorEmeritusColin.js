@@ -5,10 +5,11 @@ class ProfessorEmeritusColin extends Card {
     // Play/Fight/Reap: Use one of this creature's neighbors. If the tide is high, use its other neighbor.
     setupCardAbilities(ability) {
         this.play({
-            fight: true,
             reap: true,
+            fight: true,
             effect: 'use its neighbors',
             target: {
+                cardType: 'creature',
                 cardCondition: (card, context) => context.source.neighbors.includes(card),
                 gameAction: ability.actions.use()
             },
