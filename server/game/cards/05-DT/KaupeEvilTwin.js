@@ -2,7 +2,7 @@ const Card = require('../../Card.js');
 
 class KaupeEvilTwin extends Card {
     //You cannot play more than 1 card of each card type each turn.
-    //Fight/Reap:You may discard any number of cards from your hand. Deal 2 to an enemy creature for each card discarded this way.
+    //Fight/Reap:You may discard any number of cards from your hand. Deal 2D to an enemy creature for each card discarded this way.
     setupCardAbilities(ability) {
         this.fight({
             reap: true,
