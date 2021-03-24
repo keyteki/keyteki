@@ -1,10 +1,14 @@
 const Card = require('../../Card.js');
 
 class SaurianTreasure extends Card {
-    // Play: Put 4 on Saurian Treasure ?.
+    // Play: Put 4 on Saurian Treasure ?. A friendly creature captures 1A.
     // At the start of a player's turn, if they control at least four creatures with on them, move all from Saurian Treasure ? to their pool.
     setupCardAbilities(ability) {
         this.play({
+            target: {
+                controller: 'self',
+                gameAction: ability.actions.capture()
+            },
             gameAction: ability.actions.placeAmber({
                 amount: 4,
                 target: this
@@ -14,9 +18,9 @@ class SaurianTreasure extends Card {
         this.reaction({
             when: {
                 onBeginRound: (_, context) =>
-                    context.player &&
                     context.game.activePlayer &&
-                    context.player.creaturesInPlay.filter((card) => card.amber).length >= 4
+                    context.game.activePlayer.creaturesInPlay.filter((card) => card.amber).length >=
+                        4
             },
             gameAction: ability.actions.removeAmber({ all: true }),
             then: {

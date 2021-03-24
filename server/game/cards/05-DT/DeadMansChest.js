@@ -5,7 +5,7 @@ class DeadMansChest extends Card {
     // Play: Put 4A on Dead Man’s Chest from the supply. Deal 2 to a creature.
     // If 6 or more creatures are destroyed during a turn and Dead Man’s Chest is ready, move all A from Dead Man’s Chest to the active player’s pool.
     setupCardAbilities(ability) {
-        this.creatureDestroyedControllerUuid = {};
+        this.creatureDestroyed = [];
         this.tracker = new EventRegistrar(this.game, this);
         this.tracker.register(['onRoundEnded', 'onCardDestroyed']);
 
@@ -22,9 +22,10 @@ class DeadMansChest extends Card {
 
         this.reaction({
             when: {
-                onCardDestroyed: (event) =>
-                    this.creatureDestroyedControllerUuid[event.player.uuid] &&
-                    this.creatureDestroyedControllerUuid[event.player.uuid].length > 6
+                onCardDestroyed: (event, context) =>
+                    !context.source.exhausted &&
+                    this.creatureDestroyed.length == 6 &&
+                    this.creatureDestroyed[5] === event.card.uuid
             },
             gameAction: ability.actions.removeAmber({ all: true }),
             then: {
@@ -37,12 +38,12 @@ class DeadMansChest extends Card {
     }
 
     onRoundEnded() {
-        this.creatureDestroyedControllerUuid = {};
+        this.creatureDestroyed = [];
     }
 
     onCardDestroyed(event) {
         if (event.clone.type === 'creature') {
-            this.creatureDestroyedControllerUuid[event.clone.controller.uuid] = true;
+            this.creatureDestroyed.push(event.clone.uuid);
         }
     }
 }
