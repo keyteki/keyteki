@@ -11,14 +11,31 @@ class OfficersBlaster extends Card {
                     target: {
                         cardType: 'creature',
                         numCards: 1,
-                        // note, context.source here is the creature that was upgraded, not this upgrade
-                        cardCondition: (card, context) => card === context.source.rightNeighbor,
-                        gameAction: ability.actions.attach((context) => ({
-                            // note, the context here is from the context of the creature - not the upgrade
-                            // to avoid using "this" looking up the upgrade on the create
-                            upgrade: context.source.upgrades.find(
-                                (upgrade) => upgrade.name === "Officer's Blaster"
-                            )
+                        cardCondition: (card, context) => {
+                            let neighbors = context.source.neighbors;
+
+                            if (neighbors.length == 0) {
+                                // no neighbors so card matches ever
+                                return false;
+                            } else if (neighbors.length == 1) {
+                                // if there is 1 neighbor, check if that neighor is on the left or right
+                                let creatures = context.source.controller.creaturesInPlay;
+                                if (
+                                    creatures.indexOf(neighbors[0]) >
+                                    creatures.indexOf(context.source)
+                                ) {
+                                    return card == neighbors[0];
+                                }
+                            } else if (neighbors.length == 2) {
+                                return card == neighbors[1];
+                            }
+
+                            return false;
+                        },
+
+                        gameAction: ability.actions.attach(() => ({
+                            // note, using "this" here to get a pointer to the blaster
+                            upgrade: this
                         }))
                     }
                 })
