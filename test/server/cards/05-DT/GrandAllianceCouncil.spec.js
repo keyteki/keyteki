@@ -22,10 +22,11 @@ describe('Grand Alliance Council', function () {
         });
 
         xit('should prompt to not kill a single creature to not kill and leave them alive', function () {
-            this.player1.play(this.stealthster);
+            this.player1.moveCard(this.stealthster, 'play area');
             this.player1.play(this.grandAllianceCouncil);
             expect(this.player1).toHavePrompt('Choose a Star Alliance creature to not destroy');
             this.player1.clickCard(this.stealthster);
+
             this.player1.endTurn();
             expect(this.stealthster.location).toBe('play area');
         });
