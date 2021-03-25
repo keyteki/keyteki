@@ -5,7 +5,13 @@ describe('Officers Blaster', function () {
                 player1: {
                     house: 'staralliance',
                     amber: 1,
-                    hand: ['officer-s-blaster', 'quintrino-flux'],
+                    hand: [
+                        'officer-s-blaster',
+                        'quintrino-flux',
+                        'chief-engineer-walls',
+                        'dew-faerie',
+                        'helmsman-spears'
+                    ],
                     inPlay: ['dust-pixie', 'stealthster', 'fanghouse']
                 },
                 player2: {
@@ -76,6 +82,24 @@ describe('Officers Blaster', function () {
             this.player1.endTurn();
             expect(this.stealthster.upgrades).not.toContain(this.officerSBlaster);
             expect(this.fanghouse.upgrades).toContain(this.officerSBlaster);
+            expect(this.fanghouse.location).toBe('play area');
+            expect(this.fanghouse.power).toBe(5);
+            expect(this.officerSBlaster.location).not.toBe('discard');
+            expect(this.stealthster.location).toBe('discard');
+        });
+
+        it('should go to creature on the right when there are more creatures on both sides of creature', function () {
+            this.player1.play(this.helmsmanSpears, true);
+            this.player1.play(this.chiefEngineerWalls, false);
+
+            expect(this.fanghouse.power).toBe(3);
+            this.player1.playUpgrade(this.officerSBlaster, this.stealthster);
+            this.player1.play(this.quintrinoFlux);
+            this.player1.clickCard(this.stealthster); // destroy for qf
+            this.player1.clickCard(this.krump); // destroy for qf
+            this.player1.clickCard(this.fanghouse); // select to take blaster
+
+            this.player1.endTurn();
             expect(this.fanghouse.location).toBe('play area');
             expect(this.fanghouse.power).toBe(5);
             expect(this.officerSBlaster.location).not.toBe('discard');
