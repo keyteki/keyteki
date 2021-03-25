@@ -5,6 +5,7 @@ class Ghosthawk extends Card {
         this.play({
             effect: 'reap with each of its neighbors in turn',
             target: {
+                cardType: 'creature',
                 cardCondition: (card, context) => context.source.neighbors.includes(card),
                 gameAction: ability.actions.reap()
             },

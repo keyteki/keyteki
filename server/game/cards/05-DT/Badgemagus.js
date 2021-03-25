@@ -7,6 +7,7 @@ class Badgemagus extends Card {
         this.fight({
             effect: 'fight with each of its neighbors one at a time',
             target: {
+                cardType: 'creature',
                 cardCondition: (card, context) => context.source.neighbors.includes(card),
                 gameAction: ability.actions.fight()
             },

@@ -9,8 +9,8 @@ Constants.Houses = [
     'saurian',
     'shadows',
     'staralliance',
-    'untamed',
-    'unfathomable'
+    'unfathomable',
+    'untamed'
 ];
 Constants.HousesNames = [
     'Brobnar',
@@ -21,8 +21,8 @@ Constants.HousesNames = [
     'Saurian',
     'Shadows',
     'Star Alliance',
-    'Untamed',
-    'Unfathomable'
+    'Unfathomable',
+    'Untamed'
 ];
 Constants.Tide = Object.freeze({
     HIGH: 'high',
