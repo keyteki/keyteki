@@ -1,26 +1,30 @@
 const Card = require('../../Card.js');
+const Houses = require('../../../constants').Houses;
+const HousesNames = require('../../../constants').HousesNames;
+
 class GrandAllianceCouncil extends Card {
     //Play: Choose a creature of each house. Destroy each creature not chosen.
     setupCardAbilities(ability) {
+        const targets = {};
+        for (const house of Houses) {
+            targets[house] = {
+                activePromptTitle: {
+                    text: 'Choose a {{house}} creature to not destroy',
+                    values: { house: HousesNames[Houses.indexOf(house)] }
+                },
+                cardType: 'creature',
+                numCards: 1,
+                cardCondition: (card) => card.hasHouse(house),
+                gameAction: ability.actions.destroy((context) => ({
+                    target: context.game.creaturesInPlay.filter(
+                        (card) => context.targets[house] !== card && card.hasHouse(house)
+                    )
+                }))
+            };
+        }
+
         this.play({
-            targets: {
-                savedCreatures: {
-                    activePromptTitle: 'Choose creatures from each house to not destroy',
-                    cardType: 'creature',
-                    mode: 'exactly',
-                    numCards: (context) =>
-                        context.game.getHousesInPlay(context.game.creaturesInPlay).length,
-                    condition: (context) =>
-                        context.game.getHousesInPlay(context.target).length ===
-                        context.game.getHousesInPlay(context.game.creaturesInPlay).length,
-                    gameAction: ability.actions.destroy((context) => ({
-                        target: context.game.creaturesInPlay.filter(
-                            (card) =>
-                                context.targets && !context.targets.savedCreatures.includes(card)
-                        )
-                    }))
-                }
-            }
+            targets: targets
         });
     }
 }
