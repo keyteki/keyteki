@@ -967,46 +967,6 @@ class Card extends EffectSource {
         return this === centerCreature;
     }
 
-    get leftNeighbor() {
-        if (this.type !== 'creature') {
-            return undefined;
-        }
-
-        let neighbors = this.neighbors;
-        if (neighbors.length == 0) {
-            return undefined;
-        } else if (neighbors.length == 2) {
-            return neighbors[0];
-        }
-
-        let creatures = this.controller.creaturesInPlay;
-        if (creatures.indexOf(neighbors[0]) < creatures.indexOf(this)) {
-            return neighbors[0];
-        }
-
-        return undefined;
-    }
-
-    get rightNeighbor() {
-        if (this.type !== 'creature') {
-            return undefined;
-        }
-
-        let neighbors = this.neighbors;
-        if (neighbors.length == 0) {
-            return undefined;
-        } else if (neighbors.length == 2) {
-            return neighbors[1];
-        }
-
-        let creatures = this.controller.creaturesInPlay;
-        if (creatures.indexOf(neighbors[0]) > creatures.indexOf(this)) {
-            return neighbors[0];
-        }
-
-        return undefined;
-    }
-
     get neighbors() {
         if (this.type !== 'creature') {
             return [];
