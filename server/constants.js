@@ -9,8 +9,8 @@ Constants.Houses = [
     'saurian',
     'shadows',
     'staralliance',
-    'untamed',
-    'unfathomable'
+    'unfathomable',
+    'untamed'
 ];
 Constants.HousesNames = [
     'Brobnar',
