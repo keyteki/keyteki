@@ -7,13 +7,10 @@ class Sparkfist extends Card {
     setupCardAbilities(ability) {
         //Keywords: skirmish
         this.fight({
-            target: {
-                cardType: 'creature',
-                gameAction: ability.actions.sequential([
-                    ability.actions.stun((context) => ({ target: context.event.card })),
-                    ability.actions.exhaust((context) => ({ target: context.event.card }))
-                ])
-            }
+            gameAction: [
+                ability.actions.stun((context) => ({ target: context.event.card })),
+                ability.actions.exhaust((context) => ({ target: context.event.card }))
+            ]
         });
     }
 }
