@@ -6,10 +6,10 @@ class GroundbreakingDiscovery extends Card {
     setupCardAbilities(ability) {
         this.play({
             condition: (context) =>
-                context.player.creaturesInPlay.some((card) => card.name === 'Doctor Verokter') &&
-                context.player.cardsInPlay.some((card) => card.name === 'Roof Laboratory') &&
+                context.player.creaturesInPlay.some((card) => card.name === 'Doctor Verokter?') &&
+                context.player.cardsInPlay.some((card) => card.name === 'Roof Laboratory?') &&
                 context.player.creaturesInPlay.some((card) =>
-                    card.upgrades.some((upgrade) => upgrade.name === 'Reckless Experiment')
+                    card.upgrades.some((upgrade) => upgrade.name === 'Reckless Experiment ?')
                 ),
             gameAction: ability.actions.sequential([
                 ability.actions.destroy((context) => ({
