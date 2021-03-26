@@ -7,7 +7,7 @@ class Engulf extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
             location: 'any',
-            effect: ability.effects.cardCannot('play', (context) => context.player.isTideHigh())
+            effect: ability.effects.cardCannot('play', (context) => !context.player.isTideHigh())
         });
 
         this.play({
@@ -30,8 +30,9 @@ class Engulf extends Card {
                 stronger: {
                     cardType: 'creature',
                     cardCondition: (card, context) =>
-                        card !== context.target.weaker && card.power >= context.target.weaker.power,
-                    gameAction: ability.actions.addPowerToken((context) => ({
+                        card !== context.targets.weaker &&
+                        card.power >= context.targets.weaker.power,
+                    gameAction: ability.actions.addPowerCounter((context) => ({
                         amount: context.targets.weaker.power
                     }))
                 }
