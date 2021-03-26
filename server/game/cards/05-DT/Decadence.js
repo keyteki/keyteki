@@ -27,22 +27,19 @@ class Decadence extends Card {
                 },
                 'Move 1 amber': {
                     dependsOn: 'action',
-                    controller: 'self',
                     cardType: 'creature',
                     gameAction: ability.actions.removeAmber()
                 }
             },
             then: (preThenContext) => ({
-                condition: (context) => context.selects.action.choice === 'Move 1 amber',
-                gameAction: ability.actions.placeAmber({
-                    promptForSelect: {
-                        message: '{0} uses {1} to place 1 amber on {2}',
-                        messageArgs: (card) => [preThenContext.player, preThenContext.source, card],
-                        cardType: 'creature',
-                        activePromptTitle: 'Choose another creature',
-                        cardCondition: (card, context) => card !== context.targets['Move 1 amber']
-                    }
-                })
+                condition: () => preThenContext.selects.action.choice === 'Move 1 amber',
+                target: {
+                    activePromptTitle: 'Choose another creature',
+                    cardType: 'creature',
+                    cardCondition: (card) => card !== preThenContext.targets['Move 1 amber'],
+                    gameAction: ability.actions.placeAmber()
+                },
+                message: '{0} uses {1} to place 1 amber on {2}'
             })
         });
     }
