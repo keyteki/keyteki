@@ -6,19 +6,19 @@ class DiplomatAgung extends Card {
         this.play({
             fight: true,
             reap: true,
-            targets: {
-                selectedHouse: {
-                    mode: 'house'
-                },
-                targetCreature: {
+            target: {
+                mode: 'house'
+            },
+            then: (preThenContext) => ({
+                alwaysTriggers: true,
+                target: {
                     cardType: 'creature',
                     controller: 'self',
-                    gameAction: ability.actions.cardLastingEffect((context) => ({
-                        effect: ability.effects.addHouse(context.targets.selectedHouse),
-                        target: context.targets.targetCreature
+                    gameAction: ability.actions.cardLastingEffect(() => ({
+                        effect: ability.effects.addHouse(preThenContext.house)
                     }))
                 }
-            }
+            })
         });
     }
 }
