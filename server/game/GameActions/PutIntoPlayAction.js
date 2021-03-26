@@ -6,6 +6,7 @@ class PutIntoPlayAction extends CardGameAction {
         this.deployIndex = undefined;
         this.myControl = false;
         this.ready = false;
+        this.deploy = false;
     }
 
     setup() {
@@ -47,7 +48,7 @@ class PutIntoPlayAction extends CardGameAction {
             if (
                 context.ability &&
                 context.ability.isCardPlayed() &&
-                card.hasKeyword('deploy') &&
+                (this.deploy || card.hasKeyword('deploy')) &&
                 player.creaturesInPlay.length > 1
             ) {
                 choices.push('Deploy Left');

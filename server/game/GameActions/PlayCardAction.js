@@ -3,6 +3,7 @@ const CardGameAction = require('./CardGameAction');
 class PlayCardAction extends CardGameAction {
     setDefaultProperties() {
         this.location = 'hand';
+        this.deploy = false;
         this.revealOnIllegalTarget = false;
     }
 
@@ -40,6 +41,12 @@ class PlayCardAction extends CardGameAction {
             } else {
                 return false;
             }
+        });
+
+        playActions.forEach((action) => {
+            action.update({
+                deploy: this.deploy
+            });
         });
 
         let playEvent = super.createEvent('unnamedEvent', { card: card, context: context }, () => {
