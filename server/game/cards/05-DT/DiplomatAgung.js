@@ -6,9 +6,12 @@ class DiplomatAgung extends Card {
         this.play({
             fight: true,
             reap: true,
+            // tried to use "targets:"" here, but targets[targetName].house does not get assigned
             target: {
                 mode: 'house'
             },
+            effect: 'selected {1} for creature to belong to',
+            effectArgs: (context) => [context.house],
             then: (preThenContext) => ({
                 alwaysTriggers: true,
                 target: {
