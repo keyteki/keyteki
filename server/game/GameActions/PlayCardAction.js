@@ -37,16 +37,12 @@ class PlayCardAction extends CardGameAction {
             if (action.title.includes('Play')) {
                 let newContext = action.createContext(context.player);
                 newContext.ignoreHouse = true;
+                action.deploy = this.deploy;
+
                 return !action.meetsRequirements(newContext, ['location']);
             } else {
                 return false;
             }
-        });
-
-        playActions.forEach((action) => {
-            action.update({
-                deploy: this.deploy
-            });
         });
 
         let playEvent = super.createEvent('unnamedEvent', { card: card, context: context }, () => {

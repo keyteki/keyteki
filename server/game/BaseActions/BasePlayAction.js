@@ -14,9 +14,6 @@ class BasePlayAction extends BaseAbility {
         this.abilityType = 'action';
     }
 
-    // eslint-disable-next-line no-unused-vars
-    update(properties) {}
-
     displayMessage(context) {
         context.game.addMessage('{0} plays {1}', context.player, context.source);
     }
