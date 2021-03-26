@@ -4,10 +4,11 @@ class PlayCreatureAction extends BasePlayAction {
     constructor(card) {
         super(card);
         this.title = 'Play this creature';
+        this.deploy = false;
     }
 
     addSubEvent(event, context) {
-        let action = context.game.actions.putIntoPlay({ myControl: true });
+        let action = context.game.actions.putIntoPlay({ myControl: true, deploy: this.deploy });
         action.preEventHandler(context);
         event.addChildEvent(action.getEvent(context.source, context));
     }

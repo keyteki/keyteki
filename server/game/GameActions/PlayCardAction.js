@@ -3,6 +3,7 @@ const CardGameAction = require('./CardGameAction');
 class PlayCardAction extends CardGameAction {
     setDefaultProperties() {
         this.location = 'hand';
+        this.deploy = false;
         this.revealOnIllegalTarget = false;
     }
 
@@ -36,6 +37,8 @@ class PlayCardAction extends CardGameAction {
             if (action.title.includes('Play')) {
                 let newContext = action.createContext(context.player);
                 newContext.ignoreHouse = true;
+                action.deploy = this.deploy;
+
                 return !action.meetsRequirements(newContext, ['location']);
             } else {
                 return false;
