@@ -10,7 +10,7 @@ class Lapisaurus extends Card {
                 onFight: (event, context) => event.attackerTarget === context.source
             },
 
-            gameAction: ability.actions.untilNextTurn((context) => ({
+            gameAction: ability.actions.cardLastingEffect((context) => ({
                 target: context.event.attacker,
                 targetController: 'any',
                 effect: ability.effects.gainAbility('beforeFight', {
