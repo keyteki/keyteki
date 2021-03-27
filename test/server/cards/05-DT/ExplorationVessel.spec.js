@@ -76,5 +76,26 @@ describe('Exploration Vessel', function () {
 
             expect(this.player1.hand.length).toBe(startingHandSize + 1);
         });
+
+        it('should not allow to select exhausted cards', function () {
+            let startingHandSize = this.player1.hand.length;
+
+            this.mother.exhausted = true;
+
+            this.player1.useAction(this.explorationVessel);
+
+            expect(this.player1).not.toBeAbleToSelect(this.mother);
+            expect(this.player1).toBeAbleToSelect(this.scoutPete);
+            expect(this.player1).toBeAbleToSelect(this.dustPixie);
+            this.player1.clickCard(this.dustPixie);
+
+            this.player1.clickPrompt('Done');
+
+            expect(this.mother.exhausted).toBe(true);
+            expect(this.scoutPete.exhausted).toBe(false);
+            expect(this.dustPixie.exhausted).toBe(true);
+
+            expect(this.player1.hand.length).toBe(startingHandSize + 1);
+        });
     });
 });

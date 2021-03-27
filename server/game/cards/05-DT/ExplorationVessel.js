@@ -10,6 +10,7 @@ class ExplorationVessel extends Card {
                 numCards: '3',
                 cardType: 'creature',
                 controller: 'self',
+                cardCondition: (card) => !card.exhausted,
                 gameAction: ability.actions.exhaust()
             },
             then: (preThenContext) => ({
