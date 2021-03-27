@@ -2,7 +2,6 @@ const Card = require('../../Card.js');
 
 class BiomeDiscovery extends Card {
     // If the tide is high, you may look at the top 2 cards of your deck and discard 1 of them. Otherwise, raise the tide.
-
     setupCardAbilities(ability) {
         this.play({
             gameAction: [
@@ -31,4 +30,5 @@ class BiomeDiscovery extends Card {
 }
 
 BiomeDiscovery.id = 'biome-discovery';
+
 module.exports = BiomeDiscovery;
