@@ -32,8 +32,7 @@ describe('Sink or Swim', function () {
                 },
                 player2: {
                     amber: 4,
-                    inPlay: ['murkens', 'lamindra', 'troll', 'fidgit'],
-                    hand: []
+                    inPlay: ['murkens', 'lamindra', 'troll', 'fidgit']
                 }
             });
 

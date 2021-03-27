@@ -8,17 +8,7 @@ class BreakKey extends Card {
                 context.player.opponent.getForgedKeys() > context.player.getForgedKeys(),
             effect: 'cause {1} to unforge a key and gain 6 amber',
             effectArgs: (context) => context.player.opponent,
-            gameAction: ability.actions.unforgeKey((context) => ({
-                target:
-                    context.player.opponent &&
-                    context.player.opponent.getForgedKeys() > context.player.getForgedKeys()
-                        ? context.player.opponent
-                        : [],
-                choices:
-                    Object.keys(context.player.opponent.keys).filter(
-                        (key) => context.player.opponent.keys[key]
-                    ) || []
-            })),
+            gameAction: ability.actions.unforgeKey(),
             then: {
                 gameAction: ability.actions.gainAmber((context) => ({
                     amount: 6,

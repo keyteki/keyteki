@@ -678,6 +678,8 @@ class Player extends GameObject {
     }
 
     unforgeKey(choices) {
+        choices = choices || Object.keys(this.keys).filter((key) => this.keys[key]);
+
         if (choices.length > 1) {
             this.game.promptWithHandlerMenu(this, {
                 activePromptTitle: { text: 'Which key would you like to unforge?' },
@@ -699,7 +701,7 @@ class Player extends GameObject {
                     });
                 }
             });
-        } else {
+        } else if (choices.length === 1) {
             if (this.keys[choices[0].toLowerCase()]) {
                 this.game.addMessage(
                     '{0} unforges {1}{2}{3}',
