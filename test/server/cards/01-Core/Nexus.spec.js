@@ -7,7 +7,7 @@ describe('Nexus', function () {
                     inPlay: ['nexus', 'gorm-of-omm', 'library-of-babble']
                 },
                 player2: {
-                    inPlay: ['gauntlet-of-command']
+                    inPlay: ['gauntlet-of-command', 'epic-quest']
                 }
             });
         });
@@ -16,6 +16,7 @@ describe('Nexus', function () {
             this.player1.reap(this.nexus);
             expect(this.player1).toHavePrompt('Nexus');
             expect(this.player1).toBeAbleToSelect(this.gauntletOfCommand);
+            expect(this.player1).toBeAbleToSelect(this.epicQuest);
             expect(this.player1).not.toBeAbleToSelect(this.gormOfOmm);
             expect(this.player1).not.toBeAbleToSelect(this.libraryOfBabble);
             this.player1.clickCard(this.gauntletOfCommand);
@@ -27,12 +28,24 @@ describe('Nexus', function () {
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
 
+        it("should trigger when reaping, and allow using an opponent's artifact even if it has no effect", function () {
+            this.player1.reap(this.nexus);
+            expect(this.player1).toHavePrompt('Nexus');
+            expect(this.player1).toBeAbleToSelect(this.gauntletOfCommand);
+            expect(this.player1).toBeAbleToSelect(this.epicQuest);
+            expect(this.player1).not.toBeAbleToSelect(this.gormOfOmm);
+            expect(this.player1).not.toBeAbleToSelect(this.libraryOfBabble);
+            this.player1.clickCard(this.epicQuest);
+            expect(this.epicQuest.exhausted).toBe(true);
+            expect(this.player1.player.keys.red).toBe(false);
+            expect(this.player1.player.keys.blue).toBe(false);
+            expect(this.player1.player.keys.yellow).toBe(false);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+
         it('should not trigger when there are no artifacts', function () {
-            this.player1.clickCard(this.gormOfOmm);
-            this.player1.clickPrompt("Use this card's Omni ability");
-            this.player1.clickCard(this.gauntletOfCommand);
-            expect(this.gormOfOmm.location).toBe('discard');
-            expect(this.gauntletOfCommand.location).toBe('discard');
+            this.player1.moveCard(this.gauntletOfCommand, 'discard');
+            this.player1.moveCard(this.epicQuest, 'discard');
             this.player1.reap(this.nexus);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
