@@ -15,7 +15,7 @@ describe('Lapisaurus', function () {
             });
         });
 
-        it('should not exault lapisaurus when attacking', function () {
+        it('should not exalt lapisaurus when attacking', function () {
             this.player1.amber = 1;
             this.player2.amber = 1;
 
@@ -28,7 +28,7 @@ describe('Lapisaurus', function () {
             expect(this.player2.amber).toBe(1);
         });
 
-        it('should not exault friendly creature when attacking', function () {
+        it('should not exalt friendly creature when attacking', function () {
             this.player1.amber = 1;
             this.player2.amber = 1;
 
@@ -44,7 +44,7 @@ describe('Lapisaurus', function () {
             expect(this.player2.amber).toBe(1);
         });
 
-        it('should not exault enemy creature when attacking other creatures', function () {
+        it('should not exalt enemy creature when attacking other creatures', function () {
             this.player1.amber = 1;
             this.player2.amber = 1;
 
@@ -67,7 +67,7 @@ describe('Lapisaurus', function () {
             expect(this.player2.amber).toBe(1);
         });
 
-        it('should exault enemy creatures attacking it', function () {
+        it('should exalt enemy creatures attacking it', function () {
             this.player1.amber = 1;
             this.player2.amber = 1;
 
