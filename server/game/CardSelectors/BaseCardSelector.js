@@ -2,11 +2,6 @@ class BaseCardSelector {
     constructor(properties) {
         this.cardCondition = properties.cardCondition;
         this.cardType = properties.cardType;
-        this.selectorCondition = properties.selectorCondition;
-        if (!this.selectorCondition) {
-            // eslint-disable-next-line no-unused-vars
-            this.selectorCondition = (selectedCards, context) => true;
-        }
         this.optional = properties.optional;
         this.location = this.buildLocation(properties.location);
         this.controller = properties.controller || 'any';

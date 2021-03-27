@@ -1,4 +1,3 @@
-const _ = require('underscore');
 const Card = require('../../Card.js');
 
 class ForgiveOrForget extends Card {
@@ -10,44 +9,57 @@ class ForgiveOrForget extends Card {
             condition: (context) =>
                 context.player.discard.length > 0 ||
                 (context.player.opponent && context.player.opponent.discard.length > 0),
-            targets: {
-                action: {
-                    mode: 'select',
-                    choices: {
-                        'Archive 2 cards': () => true,
-                        'Purge up to 2 cards': () => true
-                    }
-                },
-                'Archive 2 cards': {
-                    dependsOn: 'action',
-                    numCards: 2,
-                    location: 'discard',
-                    mode: 'exactly',
-                    controller: 'self',
-                    selectorCondition: (selectedCards) =>
-                        _.uniq(selectedCards.map((card) => card.type)).length === 2,
-                    gameAction: ability.actions.archive()
-                },
-                'Purge up to 2 cards': {
-                    dependsOn: 'action',
-                    activePromptTitle: 'Select up to 2 cards from each discard',
-                    numCards: 4, // two from each discard
-                    location: 'discard',
-                    mode: 'upTo',
-                    selectorCondition: (selectedCards) => {
-                        // guarantee they're up to 2 from each owner
-                        const counts = {};
-                        for (let card of selectedCards) {
-                            counts[card.owner.uuid] = !counts[card.owner.uuid]
-                                ? 1
-                                : counts[card.owner.uuid] + 1;
-                            if (counts[card.owner.uuid] > 2) {
-                                return false;
+            target: {
+                mode: 'select',
+                choices: {
+                    'Archive 2 cards': () => true,
+                    'Purge up to 2 cards': () => true
+                }
+            },
+            then: (preThenContext) => {
+                if (preThenContext.select === 'Archive 2 cards') {
+                    return {
+                        alwaysTriggers: true,
+                        targets: {
+                            first: {
+                                location: 'discard',
+                                controller: 'self',
+                                gameAction: ability.actions.archive()
+                            },
+                            second: {
+                                dependsOn: 'first',
+                                location: 'discard',
+                                controller: 'self',
+                                cardCondition: (card, context) =>
+                                    card !== context.targets.first &&
+                                    card.type !== context.targets.first.type,
+                                gameAction: ability.actions.archive()
                             }
                         }
-                        return true;
-                    },
-                    gameAction: ability.actions.purge()
+                    };
+                } else {
+                    return {
+                        alwaysTriggers: true,
+                        targets: {
+                            first: {
+                                activePromptTitle: 'Select up to 2 cards from your discard',
+                                location: 'discard',
+                                controller: 'self',
+                                numCards: 2,
+                                mode: 'upTo',
+                                gameAction: ability.actions.purge()
+                            },
+                            second: {
+                                activePromptTitle: "Select up to 2 cards from opponent's discard",
+                                dependsOn: 'first',
+                                location: 'discard',
+                                controller: 'opponent',
+                                numCards: 2,
+                                mode: 'upTo',
+                                gameAction: ability.actions.purge()
+                            }
+                        }
+                    };
                 }
             }
         });

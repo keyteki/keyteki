@@ -179,11 +179,10 @@ class SelectCardPrompt extends UiPrompt {
 
     hasEnoughSelected() {
         return (
-            this.selector.selectorCondition(this.selectedCards, this.context) &&
-            (this.selector.hasEnoughSelected(this.selectedCards, this.context) ||
-                this.selector
-                    .getAllLegalTargets(this.context)
-                    .every((card) => this.selectedCards.includes(card)))
+            this.selector.hasEnoughSelected(this.selectedCards, this.context) ||
+            this.selector
+                .getAllLegalTargets(this.context)
+                .every((card) => this.selectedCards.includes(card))
         );
     }
 

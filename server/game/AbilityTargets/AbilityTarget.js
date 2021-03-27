@@ -13,7 +13,6 @@
  *
  * Extra selector properties:
  * numCards         - amount or (card) function to define number of targets
- * selectorCondition    - extra selector condition to check for selection completeness, e.g., one card of each type.
  */
 class AbilityTarget {
     constructor(name, properties, ability) {
