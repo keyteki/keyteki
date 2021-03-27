@@ -18,7 +18,7 @@ class AbilityTargetSelect extends AbilityTarget {
 
     getDependsOnCondition(target) {
         let keys = Object.keys(this.properties.choices);
-        let key = keys.find((key) => key === target.name);
+        let key = keys.find((key) => target.name.startsWith(key));
         if (key) {
             return (context) => context.selects[this.name].choice === key;
         }

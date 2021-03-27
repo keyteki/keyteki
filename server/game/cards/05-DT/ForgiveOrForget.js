@@ -9,57 +9,47 @@ class ForgiveOrForget extends Card {
             condition: (context) =>
                 context.player.discard.length > 0 ||
                 (context.player.opponent && context.player.opponent.discard.length > 0),
-            target: {
-                mode: 'select',
-                choices: {
-                    'Archive 2 cards': () => true,
-                    'Purge up to 2 cards': () => true
-                }
-            },
-            then: (preThenContext) => {
-                if (preThenContext.select === 'Archive 2 cards') {
-                    return {
-                        alwaysTriggers: true,
-                        targets: {
-                            first: {
-                                location: 'discard',
-                                controller: 'self',
-                                gameAction: ability.actions.archive()
-                            },
-                            second: {
-                                dependsOn: 'first',
-                                location: 'discard',
-                                controller: 'self',
-                                cardCondition: (card, context) =>
-                                    card !== context.targets.first &&
-                                    card.type !== context.targets.first.type,
-                                gameAction: ability.actions.archive()
-                            }
-                        }
-                    };
-                } else {
-                    return {
-                        alwaysTriggers: true,
-                        targets: {
-                            first: {
-                                activePromptTitle: 'Select up to 2 cards from your discard',
-                                location: 'discard',
-                                controller: 'self',
-                                numCards: 2,
-                                mode: 'upTo',
-                                gameAction: ability.actions.purge()
-                            },
-                            second: {
-                                activePromptTitle: "Select up to 2 cards from opponent's discard",
-                                dependsOn: 'first',
-                                location: 'discard',
-                                controller: 'opponent',
-                                numCards: 2,
-                                mode: 'upTo',
-                                gameAction: ability.actions.purge()
-                            }
-                        }
-                    };
+            targets: {
+                action: {
+                    mode: 'select',
+                    choices: {
+                        'Archive 2 cards': () => true,
+                        'Purge up to 2 cards': () => true
+                    }
+                },
+                'Archive 2 cards.first': {
+                    dependsOn: 'action',
+                    location: 'discard',
+                    controller: 'self',
+                    gameAction: ability.actions.archive()
+                },
+                'Archive 2 cards.second': {
+                    dependsOn: 'action',
+                    location: 'discard',
+                    controller: 'self',
+                    cardCondition: (card, context) =>
+                        context.targets['Archive 2 cards.first'] &&
+                        card !== context.targets['Archive 2 cards.first'] &&
+                        card.type !== context.targets['Archive 2 cards.first'].type,
+                    gameAction: ability.actions.archive()
+                },
+                'Purge up to 2 cards.own': {
+                    dependsOn: 'action',
+                    activePromptTitle: 'Select up to 2 cards from your discard',
+                    location: 'discard',
+                    controller: 'self',
+                    numCards: 2,
+                    mode: 'upTo',
+                    gameAction: ability.actions.purge()
+                },
+                'Purge up to 2 cards.opponent': {
+                    activePromptTitle: "Select up to 2 cards from opponent's discard",
+                    dependsOn: 'action',
+                    location: 'discard',
+                    controller: 'opponent',
+                    numCards: 2,
+                    mode: 'upTo',
+                    gameAction: ability.actions.purge()
                 }
             }
         });
