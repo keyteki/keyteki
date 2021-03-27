@@ -25,27 +25,3 @@ class ExplorationVessel extends Card {
 ExplorationVessel.id = 'exploration-vessel';
 
 module.exports = ExplorationVessel;
-
-/*
-
-    setupCardAbilities(ability) {
-        this.action({
-            target: {
-                mode: 'upTo',
-                numCards: '3',
-                cardType: 'creature',
-                controller: 'self',
-                gameAction: ability.actions.exhaust()
-            },
-            then: (preThenContext) => ({
-              gameAction: ability.actions.draw( 
-                {
-                  amount: new Set( preThenContext.target.map( (card) => card.houses ).flat() ).size
-                }
-              )
-            })
-        });
-
-    }
-
-    */
