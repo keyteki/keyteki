@@ -4,13 +4,13 @@ class OratorHissaro extends Card {
     setupCardAbilities(ability) {
         this.play({
             gameAction: [
-                ability.actions.ready(context => ({
+                ability.actions.ready((context) => ({
                     target: context.source.neighbors
                 })),
-                ability.actions.exalt(context => ({
+                ability.actions.exalt((context) => ({
                     target: context.source.neighbors
                 })),
-                ability.actions.cardLastingEffect(context => ({
+                ability.actions.cardLastingEffect((context) => ({
                     effect: ability.effects.changeHouse('saurian'),
                     target: context.source.neighbors
                 }))

@@ -15,7 +15,10 @@ class ManualModePrompt extends AllPlayerPrompt {
 
     activePrompt() {
         return {
-            menuTitle: { text: '{{player}} requests to enable manual mode. Allow?', values: { player: this.requestingPlayer.name } },
+            menuTitle: {
+                text: '{{player}} requests to enable manual mode. Allow?',
+                values: { player: this.requestingPlayer.name }
+            },
             buttons: [
                 { arg: 'yes', text: 'Yes' },
                 { arg: 'no', text: 'No' }
@@ -30,7 +33,7 @@ class ManualModePrompt extends AllPlayerPrompt {
     }
 
     onMenuCommand(player, arg) {
-        if(arg === 'yes') {
+        if (arg === 'yes') {
             this.game.addAlert('info', '{0} allows enabling manual mode', player);
             this.completedPlayers.add(player);
         } else {
@@ -42,7 +45,7 @@ class ManualModePrompt extends AllPlayerPrompt {
     }
 
     onCompleted() {
-        if(this.cancelled) {
+        if (this.cancelled) {
             return;
         }
 

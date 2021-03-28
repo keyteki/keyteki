@@ -4,7 +4,7 @@ class ResearchSmoko extends Card {
     setupCardAbilities(ability) {
         this.destroyed({
             effect: 'archive the top card of their deck',
-            gameAction: ability.actions.archive(context => ({
+            gameAction: ability.actions.archive((context) => ({
                 target: context.player.deck.length > 0 ? context.player.deck[0] : []
             }))
         });

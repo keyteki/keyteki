@@ -3,11 +3,12 @@ const Card = require('../../Card.js');
 class BeastsBane extends Card {
     setupCardAbilities(ability) {
         this.play({
-            condition: context => context.game.creaturesInPlay.filter(card => card.hasTrait('beast')).length > 0,
+            condition: (context) =>
+                context.game.creaturesInPlay.filter((card) => card.hasTrait('beast')).length > 0,
             optional: false,
             target: {
                 cardType: 'creature',
-                cardCondition: card => card.hasTrait('beast'),
+                cardCondition: (card) => card.hasTrait('beast'),
                 gameAction: ability.actions.destroy()
             }
         });

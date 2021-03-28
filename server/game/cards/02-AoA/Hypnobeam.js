@@ -6,7 +6,7 @@ class Hypnobeam extends Card {
             target: {
                 cardType: 'creature',
                 controller: 'opponent',
-                gameAction: ability.actions.cardLastingEffect(context => ({
+                gameAction: ability.actions.cardLastingEffect((context) => ({
                     duration: 'lastingEffect',
                     effect: ability.effects.takeControl(context.player)
                 }))

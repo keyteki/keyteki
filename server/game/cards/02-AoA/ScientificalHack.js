@@ -6,7 +6,7 @@ class ScientificalHack extends Card {
             gameAction: [
                 ability.actions.sacrifice(),
                 ability.actions.forRemainderOfTurn({
-                    effect: ability.effects.canUse(card => card.type === 'artifact')
+                    effect: ability.effects.canUse((card) => card.type === 'artifact')
                 })
             ]
         });

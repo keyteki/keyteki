@@ -4,8 +4,8 @@ class CustomsOffice extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
             targetController: 'opponent',
-            effect: ability.effects.additionalCost(context => {
-                if(context.source.type === 'artifact' && context.ability.isCardPlayed()) {
+            effect: ability.effects.additionalCost((context) => {
+                if (context.source.type === 'artifact' && context.ability.isCardPlayed()) {
                     return ability.costs.payAmber();
                 }
             })

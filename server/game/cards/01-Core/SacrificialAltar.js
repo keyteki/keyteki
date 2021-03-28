@@ -6,7 +6,7 @@ class SacrificialAltar extends Card {
             target: {
                 cardType: 'creature',
                 controller: 'self',
-                cardCondition: card => card.hasTrait('human'),
+                cardCondition: (card) => card.hasTrait('human'),
                 gameAction: ability.actions.purge()
             },
             then: {
@@ -16,7 +16,7 @@ class SacrificialAltar extends Card {
                     location: 'discard',
                     gameAction: ability.actions.playCard()
                 },
-                message: '{0} plays {1} from their discard pile due to {1}\'s effect'
+                message: "{0} plays {1} from their discard pile due to {1}'s effect"
             }
         });
     }

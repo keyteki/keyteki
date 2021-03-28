@@ -6,7 +6,9 @@ class Mindwarper extends Card {
             target: {
                 cardType: 'creature',
                 controller: 'opponent',
-                gameAction: ability.actions.capture({ ownController: true })
+                gameAction: ability.actions.capture((context) => ({
+                    player: context.player.opponent
+                }))
             }
         });
     }

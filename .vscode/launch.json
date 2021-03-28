@@ -7,7 +7,7 @@
             "port": 9339,
             "localRoot": "${workspaceFolder}",
             "name": "Docker: Attach to Game",
-            "remoteRoot": "/usr/src/node"
+            "remoteRoot": "/usr/src/app"
         },
         {
             "type": "node",
@@ -15,7 +15,7 @@
             "port": 9229,
             "localRoot": "${workspaceFolder}",
             "name": "Docker: Attach to Lobby",
-            "remoteRoot": "/usr/src/lobby"
+            "remoteRoot": "/usr/src/app"
         },
         {
             "type": "node",
@@ -33,6 +33,13 @@
             "remoteRoot": "/home/keyteki/keyteki-lobby"
         },
         {
+            "type": "edge",
+            "request": "attach",
+            "name": "Attach to Microsoft Edge",
+            "port": 2015,
+            "webRoot": "${workspaceFolder}"
+        }
+        {
             "name": "Launch (Lobby Server)",
             "type": "node",
             "request": "launch",
@@ -42,9 +49,7 @@
             "cwd": "${workspaceRoot}",
             "preLaunchTask": null,
             "runtimeExecutable": null,
-            "runtimeArgs": [
-                "--nolazy"
-            ],
+            "runtimeArgs": ["--nolazy"],
             "env": {
                 "NODE_ENV": "development"
             },
@@ -61,9 +66,7 @@
             "cwd": "${workspaceRoot}",
             "preLaunchTask": null,
             "runtimeExecutable": null,
-            "runtimeArgs": [
-                "--nolazy"
-            ],
+            "runtimeArgs": ["--nolazy"],
             "env": {
                 "NODE_ENV": "development"
             },
@@ -90,6 +93,17 @@
             "env": {
                 "JASMINE_CONFIG_PATH": "./jasmine.json"
             },
+            "cwd": "${workspaceRoot}"
+        },
+        {
+            "name": "Debug Current Spec",
+            "type": "node",
+            "request": "launch",
+            "program": "${workspaceRoot}/node_modules/jasmine/bin/jasmine.js",
+            "env": {
+                "JASMINE_CONFIG_PATH": "./jasmine.json"
+            },
+            "args": ["${relativeFile}"],
             "cwd": "${workspaceRoot}"
         }
     ]

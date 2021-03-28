@@ -1,309 +1,276 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import React, { useRef, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import ReactClipboard from 'react-clipboardjs-copy';
+import { Button, Form } from 'react-bootstrap';
+import { Trans, useTranslation } from 'react-i18next';
 import $ from 'jquery';
 
 import Panel from '../Site/Panel';
 import Messages from '../GameBoard/Messages';
-import Avatar from '../Site/Avatar';
 import SelectDeckModal from './SelectDeckModal';
-import DeckStatus from '../Decks/DeckStatus';
-import * as actions from '../../actions';
+import { startGame, leaveGame, sendSocketMessage } from '../../redux/actions';
+import PendingGamePlayers from './PendingGamePlayers';
+import ChargeMp3 from '../../assets/sound/charge.mp3';
+import ChargeOgg from '../../assets/sound/charge.ogg';
 
-import { withTranslation, Trans } from 'react-i18next';
+import './PendingGame.scss';
+import { useEffect } from 'react';
 
-class PendingGame extends React.Component {
-    constructor() {
-        super();
+function showNotification(notification) {
+    if (window.Notification && Notification.permission === 'granted') {
+        let windowNotification = new Notification('The Crucible Online', notification);
 
-        this.isGameReady = this.isGameReady.bind(this);
-        this.onSelectDeckClick = this.onSelectDeckClick.bind(this);
-        this.onLeaveClick = this.onLeaveClick.bind(this);
-        this.onStartClick = this.onStartClick.bind(this);
-        this.onChange = this.onChange.bind(this);
-        this.onKeyPress = this.onKeyPress.bind(this);
-        this.onSendClick = this.onSendClick.bind(this);
-        this.onMouseOut = this.onMouseOver.bind(this);
-
-        this.state = {
-            playerCount: 1,
-            decks: [],
-            playSound: true,
-            message: '',
-            decksLoading: true,
-            waiting: false
-        };
-
-        this.notification = undefined;
+        setTimeout(() => windowNotification.close(), 5000);
     }
+}
 
-    componentDidMount() {
-        this.props.loadDecks();
+const PendingGame = () => {
+    const currentGame = useSelector((state) => state.lobby.currentGame);
+    const user = useSelector((state) => state.account.user);
+    const { connecting, gameError, gameHost } = useSelector((state) => ({
+        connecting: state.games.connecting,
+        gameError: state.games.gameError,
+        gameHost: state.games.gameHost
+    }));
+    const notification = useRef();
+    const [waiting, setWaiting] = useState(false);
+    const [showModal, setShowModal] = useState(false);
+    const [message, setMessage] = useState('');
+    const [canScroll, setCanScroll] = useState(true);
+    const [playerCount, setPlayerCount] = useState(0);
+    const dispatch = useDispatch();
+    const { t } = useTranslation();
+    const messageRef = useRef(null);
 
-        if(this.props.currentGame && this.props.currentGame.gameFormat === 'sealed') {
-            this.props.socket.emit('getsealeddeck', this.props.currentGame.id);
-        }
-    }
-
-    componentWillReceiveProps(props) {
-        if(!props.user) {
+    useEffect(() => {
+        if (!user) {
             return;
         }
 
-        let players = this.getNumberOfPlayers(props);
+        let players = Object.values(currentGame.players).length;
 
-        if(this.notification && this.state.playerCount === 1 && players === 2 && props.currentGame.owner === this.props.user.username) {
-            let promise = this.notification.play();
+        if (
+            notification.current &&
+            playerCount === 1 &&
+            players === 2 &&
+            currentGame.owner === user.username
+        ) {
+            let promise = notification.current?.play();
 
-            if(promise !== undefined) {
-                promise.catch(() => {
-                }).then(() => {
-                });
+            if (promise !== undefined) {
+                promise.catch(() => {}).then(() => {});
             }
 
-            if(window.Notification && Notification.permission === 'granted') {
-                let otherPlayer = Object.values(props.currentGame.players).find(p => p.name !== props.user.username);
-                let windowNotification = new Notification('The Crucible Online', { body: `${otherPlayer.name} has joined your game`, icon: `/img/avatar/${otherPlayer.username}.png` });
+            let otherPlayer = Object.values(currentGame.players).find(
+                (p) => p.name !== user.username
+            );
 
-                setTimeout(() => windowNotification.close(), 5000);
-            }
+            showNotification({
+                body: `${otherPlayer.name} has joined your game`,
+                icon: `/img/avatar/${otherPlayer.username}.png`
+            });
         }
 
-        if(props.connecting) {
-            this.setState({ waiting: false });
+        setPlayerCount(players);
+
+        if (canScroll && messageRef.current) {
+            $(messageRef.current)?.scrollTop(999999);
         }
 
-        this.setState({ playerCount: players });
+        if (connecting) {
+            setWaiting(false);
+        }
+    }, [
+        currentGame.owner,
+        currentGame.players,
+        user,
+        playerCount,
+        currentGame,
+        canScroll,
+        connecting
+    ]);
+
+    useEffect(() => {
+        if (currentGame && currentGame.gameFormat === 'sealed') {
+            dispatch(sendSocketMessage('getsealeddeck', currentGame.id));
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    if (!currentGame) {
+        return null;
     }
 
-    isGameReady() {
-        if(!this.props.user) {
+    const canClickStart = () => {
+        if (!user || !currentGame || currentGame.owner !== user.username || connecting) {
             return false;
         }
 
-        if(!Object.values(this.props.currentGame.players).every(player => {
-            return !!player.deck.selected;
-        })) {
+        if (
+            !Object.values(currentGame.players).every((player) => {
+                return !!player.deck.selected;
+            })
+        ) {
             return false;
         }
 
-        return this.props.currentGame.owner === this.props.user.username;
-    }
-
-    onSelectDeckClick() {
-        $('#decks-modal').modal('show');
-    }
-
-    selectDeck(deck) {
-        $('#decks-modal').modal('hide');
-
-        this.props.socket.emit('selectdeck', this.props.currentGame.id, deck._id);
-    }
-
-    getNumberOfPlayers(props) {
-        return Object.values(props.currentGame.players).length;
-    }
-
-    getPlayerStatus(player, username) {
-        let playerIsMe = player && player.name === username;
-
-        let deck = null;
-        let selectLink = null;
-        let status = null;
-        let isSealed = this.props.currentGame.gameFormat === 'sealed';
-
-        if(player && player.deck && player.deck.selected && isSealed) {
-            deck = <span className='deck-selection'>Sealed Deck Selected</span>;
-        } else if(player && player.deck && player.deck.selected) {
-            if(playerIsMe) {
-                deck = <span className='deck-selection clickable' onClick={ this.onSelectDeckClick }>{ player.deck.name }</span>;
-            } else {
-                deck = <span className='deck-selection'><Trans>Deck Selected</Trans></span>;
-            }
-
-            status = <DeckStatus status={ player.deck.status } />;
-        } else if(player && playerIsMe && !isSealed) {
-            selectLink = <span className='card-link' onClick={ this.onSelectDeckClick }><Trans>Select deck...</Trans></span>;
-        } else if(isSealed) {
-            selectLink = <span><Trans>Sealed deck loading...</Trans></span>;
+        if (waiting && !gameError) {
+            return false;
         }
 
-        return (
-            <div className='player-row' key={ player.name }>
-                <Avatar username={ player.name } /><span>{ player.name }</span>{ deck } { status } { selectLink }
-            </div>);
-    }
+        return true;
+    };
 
-    getGameStatus() {
-        let t = this.props.t;
-
-
-        if(this.props.connecting) {
-            return t('Connecting to game server {{host}}', { host: this.props.host });
+    const getGameStatus = () => {
+        if (gameError) {
+            return t(gameError);
         }
 
-        if(this.state.waiting) {
+        if (connecting) {
+            return t('Connecting to game server {{host}}', { host: gameHost });
+        }
+
+        if (waiting) {
             return t('Waiting for lobby server...');
         }
 
-        if(this.getNumberOfPlayers(this.props) < 2) {
+        if (Object.values(currentGame.players).length < 2) {
             return t('Waiting for players...');
         }
 
-        if(!Object.values(this.props.currentGame.players).every(player => {
-            return !!player.deck.selected;
-        })) {
+        if (
+            !Object.values(currentGame.players).every((player) => {
+                return !!player.deck.selected;
+            })
+        ) {
             return t('Waiting for players to select decks');
         }
 
-        if(this.props.currentGame.owner === this.props.user.username) {
+        if (currentGame.owner === user.username) {
             return t('Ready to begin, click start to begin the game');
         }
 
         return t('Ready to begin, waiting for opponent to start the game');
-    }
+    };
 
-    onLeaveClick(event) {
-        event.preventDefault();
-
-        this.props.leaveGame(this.props.currentGame.id);
-    }
-
-    onStartClick(event) {
-        event.preventDefault();
-
-        this.setState({ waiting: true });
-
-        this.props.startGame(this.props.currentGame.id);
-    }
-
-    sendMessage() {
-        if(this.state.message === '') {
+    const sendMessage = () => {
+        if (message === '') {
             return;
         }
 
-        this.props.sendSocketMessage('chat', this.state.message);
+        dispatch(sendSocketMessage('chat', message));
 
-        this.setState({ message: '' });
-    }
+        setMessage('');
+    };
 
-    onKeyPress(event) {
-        if(event.key === 'Enter') {
-            this.sendMessage();
-
-            event.preventDefault();
-        }
-    }
-
-    onSendClick(event) {
-        event.preventDefault();
-
-        this.sendMessage();
-    }
-
-    onChange(event) {
-        this.setState({ message: event.target.value });
-    }
-
-    onMouseOver(card) {
-        this.props.zoomCard(card);
-    }
-
-    render() {
-        let t = this.props.t;
-
-        if(this.props.currentGame && this.props.currentGame.started) {
-            return <div><Trans>Loading game in progress, please wait...</Trans></div>;
-        }
-
-        if(!this.props.user) {
-            this.props.navigate('/');
-
-            return <div><Trans>You must be logged in to play, redirecting...</Trans></div>;
-        }
-
-        return (
-            <div>
-                <audio ref={ ref => this.notification = ref }>
-                    <source src='/sound/charge.mp3' type='audio/mpeg' />
-                    <source src='/sound/charge.ogg' type='audio/ogg' />
-                </audio>
-                <Panel title={ this.props.currentGame.name }>
-                    <div className='btn-group'>
-                        <button className='btn btn-success' disabled={ !this.isGameReady() || this.props.connecting || this.state.waiting } onClick={ this.onStartClick }><Trans>Start</Trans></button>
-                        <button className='btn btn-primary' onClick={ this.onLeaveClick }><Trans>Leave</Trans></button>
-                    </div>
-                    <div className='game-status'>{ this.getGameStatus() }</div>
-                </Panel>
-                <Panel title={ t('Players') }>
-                    {
-                        Object.values(this.props.currentGame.players).map(player => {
-                            return this.getPlayerStatus(player, this.props.user.username);
-                        })
-                    }
-                </Panel>
-                <Panel title={ t('Spectators({{users}})', { users : this.props.currentGame.spectators.length }) }>
-                    { this.props.currentGame.spectators.map(spectator => {
-                        return <div key={ spectator.name }>{ spectator.name }</div>;
-                    }) }
-                </Panel>
-                <Panel title={ t('Chat') }>
-                    <div className='message-list'>
-                        <Messages messages={ this.props.currentGame.messages } onCardMouseOver={ this.onMouseOver } onCardMouseOut={ this.onMouseOut } />
-                    </div>
-                    <form className='form form-hozitontal'>
-                        <div className='form-group'>
-                            <input className='form-control' type='text' placeholder={ t('Enter a message...') } value={ this.state.message }
-                                onKeyPress={ this.onKeyPress } onChange={ this.onChange } />
-                        </div>
-                    </form>
-                </Panel>
+    return (
+        <>
+            <audio ref={notification}>
+                <source src={ChargeMp3} type='audio/mpeg' />
+                <source src={ChargeOgg} type='audio/ogg' />
+            </audio>
+            <Panel title={currentGame.name}>
+                <Button
+                    variant='success'
+                    disabled={!canClickStart()}
+                    onClick={() => {
+                        setWaiting(true);
+                        dispatch(startGame(currentGame.id));
+                    }}
+                >
+                    <Trans>Start</Trans>
+                </Button>
+                <Button
+                    variant='primary'
+                    onClick={() => {
+                        dispatch(leaveGame(currentGame.id));
+                    }}
+                >
+                    <Trans>Leave</Trans>
+                </Button>
+                <div className='float-right'>
+                    <ReactClipboard
+                        text={`${window.location.protocol}//${window.location.host}/play?gameId=${currentGame.id}`}
+                    >
+                        <Button variant='primary'>
+                            <Trans>Copy Game Link</Trans>
+                        </Button>
+                    </ReactClipboard>
+                </div>
+                <div className='game-status'>{getGameStatus()}</div>
+            </Panel>
+            <PendingGamePlayers
+                currentGame={currentGame}
+                user={user}
+                onSelectDeck={() => setShowModal(true)}
+            />
+            <Panel
+                title={t('Spectators({{users}})', {
+                    users: currentGame.spectators.length
+                })}
+            >
+                {currentGame.spectators.map((spectator) => {
+                    return <div key={spectator.name}>{spectator.name}</div>;
+                })}
+            </Panel>
+            <Panel title={t('Chat')}>
+                <div
+                    className='message-list'
+                    ref={messageRef}
+                    onScroll={() => {
+                        setTimeout(() => {
+                            if (
+                                messageRef.current.scrollTop >=
+                                messageRef.current.scrollHeight -
+                                    messageRef.current.offsetHeight -
+                                    20
+                            ) {
+                                setCanScroll(true);
+                            } else {
+                                setCanScroll(false);
+                            }
+                        }, 500);
+                    }}
+                >
+                    <Messages messages={currentGame.messages} />
+                </div>
+                <Form>
+                    <Form.Group>
+                        <Form.Control
+                            type='text'
+                            placeholder={t('Enter a message...')}
+                            value={message}
+                            onKeyPress={(event) => {
+                                if (event.key === 'Enter') {
+                                    sendMessage();
+                                    event.preventDefault();
+                                }
+                            }}
+                            onChange={(event) => setMessage(event.target.value)}
+                        ></Form.Control>
+                    </Form.Group>
+                </Form>
+            </Panel>
+            {showModal && (
                 <SelectDeckModal
-                    apiError={ this.props.apiError }
-                    decks={ this.props.decks }
-                    id='decks-modal'
-                    loading={ this.props.loading }
-                    onDeckSelected={ this.selectDeck.bind(this) }
-                    standaloneDecks={ this.props.standaloneDecks } />
-            </div >);
-    }
-}
-
-PendingGame.displayName = 'PendingGame';
-PendingGame.propTypes = {
-    apiError: PropTypes.string,
-    connecting: PropTypes.bool,
-    currentGame: PropTypes.object,
-    decks: PropTypes.array,
-    gameSocketClose: PropTypes.func,
-    host: PropTypes.string,
-    i18n: PropTypes.object,
-    leaveGame: PropTypes.func,
-    loadDecks: PropTypes.func,
-    loadStandaloneDecks: PropTypes.func,
-    loading: PropTypes.bool,
-    navigate: PropTypes.func,
-    sendSocketMessage: PropTypes.func,
-    socket: PropTypes.object,
-    standaloneDecks: PropTypes.array,
-    startGame: PropTypes.func,
-    t: PropTypes.func,
-    user: PropTypes.object,
-    zoomCard: PropTypes.func
+                    onClose={() => setShowModal(false)}
+                    onDeckSelected={(deck) => {
+                        setShowModal(false);
+                        dispatch(
+                            sendSocketMessage(
+                                'selectdeck',
+                                currentGame.id,
+                                deck.id,
+                                deck.isStandalone
+                            )
+                        );
+                    }}
+                />
+            )}
+        </>
+    );
 };
 
-function mapStateToProps(state) {
-    return {
-        apiError: state.api.message,
-        connecting: state.games.connecting,
-        currentGame: state.lobby.currentGame,
-        decks: state.cards.decks,
-        host: state.games.gameHost,
-        loading: state.api.loading,
-        socket: state.lobby.socket,
-        standaloneDecks: state.cards.standaloneDecks,
-        user: state.account.user
-    };
-}
+PendingGame.displayName = 'PendingGame';
 
-export default withTranslation()(connect(mapStateToProps, actions)(PendingGame));
+export default PendingGame;

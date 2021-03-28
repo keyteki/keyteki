@@ -5,7 +5,7 @@ class Snudge extends Card {
         this.fight({
             reap: true,
             target: {
-                cardCondition: card => card.type === 'artifact' || card.isOnFlank(),
+                cardCondition: (card) => card.type === 'artifact' || card.isOnFlank(),
                 gameAction: ability.actions.returnToHand()
             }
         });

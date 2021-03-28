@@ -5,7 +5,7 @@ class Tremor extends Card {
         this.play({
             target: {
                 cardType: 'creature',
-                gameAction: ability.actions.stun(context => ({
+                gameAction: ability.actions.stun((context) => ({
                     target: context.target.neighbors.concat(context.target)
                 }))
             }

@@ -1,44 +1,28 @@
 const Constants = require('../../constants.js');
 const SelectChoice = require('./SelectChoice.js');
+const AbilityTarget = require('./AbilityTarget.js');
 
-class AbilityTargetHouse {
+class AbilityTargetHouse extends AbilityTarget {
     constructor(name, properties, ability) {
-        this.name = name;
-        this.properties = properties;
+        super(name, properties, ability);
         this.houses = properties.houses || Constants.Houses;
-        this.dependentTarget = null;
-        if(this.properties.dependsOn) {
-            let dependsOnTarget = ability.targets.find(target => target.name === this.properties.dependsOn);
-            dependsOnTarget.dependentTarget = this;
-        }
     }
 
     getHouses(context) {
         let houses = this.houses;
-        if(typeof houses === 'function') {
+        if (typeof houses === 'function') {
             houses = houses(context);
         }
 
-        if(!Array.isArray(houses)) {
+        if (!Array.isArray(houses)) {
             return [houses];
         }
 
         return houses;
     }
 
-    canResolve(context) {
-        return !!this.properties.dependsOn || this.hasLegalTarget(context);
-    }
-
     hasLegalTarget(context) {
-        return !!this.getHouses(context).length;
-    }
-
-    resetGameActions() {
-    }
-
-    getGameAction() {
-        return [];
+        return !!this.getHouses(context).length && super.hasLegalTarget(context);
     }
 
     getAllLegalTargets(context) {
@@ -46,13 +30,17 @@ class AbilityTargetHouse {
     }
 
     resolve(context, targetResults) {
-        if(targetResults.cancelled || targetResults.payCostsFirst || targetResults.delayTargeting) {
+        if (
+            targetResults.cancelled ||
+            targetResults.payCostsFirst ||
+            targetResults.delayTargeting
+        ) {
             return;
         }
 
         let player = context.player;
-        if(this.properties.player && this.properties.player === 'opponent') {
-            if(context.stage === 'pretarget') {
+        if (this.properties.player && this.properties.player === 'opponent') {
+            if (context.stage === 'pretarget') {
                 targetResults.delayTargeting = this;
                 return;
             }
@@ -62,28 +50,29 @@ class AbilityTargetHouse {
 
         let promptTitle = this.properties.activePromptTitle || 'Choose a house';
         let houses = this.getHouses(context);
-        let choices = houses.map(house => {
+        let choices = houses.map((house) => {
             return { text: house };
         });
-        let handlers = houses.map(choice => {
-            return (() => {
+        let handlers = houses.map((choice) => {
+            return () => {
                 context.houses[this.name] = new SelectChoice(choice);
-                if(this.name === 'target') {
+                if (this.name === 'target') {
                     context.house = choice;
                 }
-            });
+                context.game.addMessage('{0} chooses house {1}', player, choice);
+            };
         });
-        if(this.properties.player !== 'opponent' && context.stage === 'pretarget') {
+        if (this.properties.player !== 'opponent' && context.stage === 'pretarget') {
             choices.push('Cancel');
-            handlers.push(() => targetResults.cancelled = true);
+            handlers.push(() => (targetResults.cancelled = true));
         }
 
-        if(handlers.length === 1) {
+        if (handlers.length === 1) {
             handlers[0]();
-        } else if(handlers.length > 1) {
+        } else if (handlers.length > 1) {
             let waitingPromptTitle = '';
-            if(context.stage === 'pretarget') {
-                if(context.ability.abilityType === 'action') {
+            if (context.stage === 'pretarget') {
+                if (context.ability.abilityType === 'action') {
                     waitingPromptTitle = 'Waiting for opponent to take an action or pass';
                 } else {
                     waitingPromptTitle = 'Waiting for opponent';
@@ -103,7 +92,7 @@ class AbilityTargetHouse {
     }
 
     checkTarget(context) {
-        return context.houses[this.name] && (!this.dependentTarget || this.dependentTarget.checkTarget(context));
+        return context.houses[this.name] && super.checkTarget(context);
     }
 }
 

@@ -8,7 +8,7 @@ class ResolveReapAction extends CardGameAction {
     }
 
     canAffect(card, context) {
-        if(card.location !== 'play area' || !card.checkRestrictions('reap')) {
+        if (card.location !== 'play area' || !card.checkRestrictions('reap')) {
             return false;
         }
 
@@ -16,9 +16,19 @@ class ResolveReapAction extends CardGameAction {
     }
 
     getEvent(card, context) {
-        return super.createEvent('onReap', { card: card, context: context }, () => {
-            context.game.actions.gainAmber().resolve(context.player, context);
+        let reapEvent = super.createEvent('onReap', { card: card, context: context }, () => {
+            context.game.actions.gainAmber({ reap: true }).resolve(context.player, context);
         });
+
+        reapEvent.addChildEvent(
+            context.game.getEvent('onUseCard', {
+                card: card,
+                context: context,
+                reapEvent: reapEvent
+            })
+        );
+
+        return reapEvent;
     }
 }
 

@@ -19,9 +19,12 @@ class UnnaturalSelection extends Card {
                     controller: 'opponent'
                 }
             },
-            gameAction: ability.actions.destroy(context => ({
-                target: context.game.creaturesInPlay.filter(card => (!context.targets.enemy || !context.targets.enemy.includes(card)) &&
-                           (!context.targets.friendly || !context.targets.friendly.includes(card)))
+            gameAction: ability.actions.destroy((context) => ({
+                target: context.game.creaturesInPlay.filter(
+                    (card) =>
+                        (!context.targets.enemy || !context.targets.enemy.includes(card)) &&
+                        (!context.targets.friendly || !context.targets.friendly.includes(card))
+                )
             }))
         });
     }

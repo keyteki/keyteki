@@ -9,7 +9,7 @@ class HelpFromFutureSelf extends Card {
                     cardName: 'Timetraveller',
                     amount: 1
                 }),
-                ability.actions.returnToDeck(context => ({
+                ability.actions.returnToDeck((context) => ({
                     shuffle: true,
                     target: context.player.discard
                 }))

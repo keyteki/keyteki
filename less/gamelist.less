@@ -1,359 +1,150 @@
 .button-row {
-  margin-right: 10px;
-  margin-top: 10px;
+    margin-right: 10px;
+    margin-top: 10px;
 }
 
 .button-row > button {
-  margin-right: 10px;
-}
-
-.game-list {
-  margin-top: 15px;
-
-  hr {
-    border-top-color: @brand-primary;
-    margin: 0;
-  }
-}
-
-.game-row {
-  min-height: 130px;
-  padding: 10px 5px;
-}
-
-.player-name {
-  margin-left: 5px;
-  padding-right: 0;
-  padding-left: 0;
-  text-overflow: ellipsis;
-  overflow: hidden;
-}
-
-.game-row:hover {
-  border-color: @brand-info;
-  background-color: fade(@brand-info, 20%);
-}
-
-.game-row.active {
-  border-color: @brand-danger;
-  color: @brand-danger;
+    margin-right: 10px;
 }
 
 .game-row > button {
-  margin-top: 12px;
+    margin-top: 12px;
 }
 
 .game-node {
-  padding-left: 5px;
+    padding-left: 5px;
 }
 
 .deck-link {
-  cursor: pointer;
-  cursor: hand;
-  color: @brand-primary;
-  margin-left: 10px;
+    cursor: pointer;
+    cursor: hand;
+    color: @brand-primary;
+    margin-left: 10px;
 }
 
 .deck-link:hover {
-  color: @brand-info;
-}
-
-.deck-selection {
-  margin-left: 10px;
-  padding: 6px 12px;
-  border: 1px solid black;
-  border-radius: 4px;
-  background: @brand-primary;
-  color: white;
+    color: @brand-info;
 }
 
 .players {
-  height: 100px;
-  clear: both;
+    height: 100px;
+    clear: both;
 }
 
 .spectators {
-  height: 55px;
-  clear: both;
+    height: 55px;
+    clear: both;
 }
 
 .game-name-char-limit {
-  float: right;
+    float: right;
 }
 
 .game-password {
-  margin-top: 10px;
-  margin-bottom: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .game-type {
-  margin-top: 10px;
-}
-
-.deck-status {
-  text-align: center;
-  padding: 6px 12px;
-  border: 1px solid black;
-  border-radius: 4px;
-  color: black;
-
-  &.valid {
-    background: @brand-success;
-  }
-
-  &.casual-play {
-    background: @brand-warning;
-  }
-
-  &.used {
-    background: @brand-warning;
-  }
-
-  &.popular {
-    background: @brand-warning;
-  }
-
-  &.notorious {
-    background: @brand-danger;
-  }
-}
-
-.deck-status-summary {
-  font-size: 12px;
-
-  .valid {
-    color: @brand-success;
-  }
-
-  .popular {
-    color: @brand-warning;
-  }
-
-  .used {
-    color: @brand-warning;
-  }
-
-  .notorious {
-    color: @brand-danger;
-  }
-
-  .invalid {
-    color: @brand-danger;
-  }
+    margin-top: 10px;
 }
 
 .deck-status-errors {
-  border-top: 1px solid @header-border;
-  font-size: 14px;
-  margin-top: 1em;
-  padding-top: 1em;
+    border-top: 1px solid @header-border;
+    font-size: 14px;
+    margin-top: 1em;
+    padding-top: 1em;
 }
 
 .gamelist-player-row {
-  margin-bottom: 10px;
-  display: flex;
-  vertical-align: middle;
-  line-height: 33px;
+    margin-bottom: 10px;
+    display: flex;
+    vertical-align: middle;
+    line-height: 33px;
 }
 
 .game-list-container {
-  position: absolute;
-  top: 33px;
-  bottom: 0px;
-  left: 15px;
-  right: 15px;
+    position: absolute;
+    top: 33px;
+    bottom: 0px;
+    left: 15px;
+    right: 15px;
 }
 
-.node1 {
-  background-color: fade(@brand-warning, 20%);
-}
-
-.node2 {
-  background-color: fade(@brand-danger, 20%);
+.private-game {
+    background-color: fade(@brand-primary, 20%);
 }
 
 .game-row-avatar {
-  padding-left: 0;
-  padding-right: 0;
-}
-
-.game-row-vs {
-  padding-left: 0;
-  padding-right: 0;
+    padding-left: 0;
+    padding-right: 0;
 }
 
 .game-title {
-  padding-left: 0;
-  margin-right: 5px;
-  padding-bottom: 5px;
-  color: white;
-}
-
-.game-list-icon {
-    height: 1.5em;
-    width: 1.5em;
-    filter: invert(90%);
+    padding-left: 0;
+    margin-right: 5px;
+    padding-bottom: 5px;
+    color: white;
 }
 
 .players-block {
-  margin-top: 5px;
+    margin-top: 5px;
 }
 
 .gamelist-avatar {
-  margin-left: 5px;
+    margin-left: 5px;
 }
 
 .game-icons {
-  margin-left: 5px;
+    margin-left: 5px;
 }
 
 .password-game {
-  line-height: 21px;
-  vertical-align: middle;
-  margin-left: 3px;
+    line-height: 21px;
+    vertical-align: middle;
+    margin-left: 3px;
 }
 
 .game-time {
-  margin-left: 5px;
-}
-
-.game-middle-row {
-  margin-top: 10px;
-  margin-bottom: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    margin-left: 5px;
 }
 
 .gamelist-button {
-  margin-left: 5px;
-  margin-top: 5px;
-}
-
-.first-player {
-  .game-player-name {
-    margin-right: 5px;
-  }
-
-  .faction-mini {
-    margin-left: 10px;
-  }
-}
-
-.other-player {
-  .faction-mini {
-    margin-right: 10px;
-  }
-
-  .game-player-name {
     margin-left: 5px;
-  }
+    margin-top: 5px;
 }
 
 .faction-mini {
-  width: 48px;
-  border-radius: 5px;
+    width: 48px;
+    border-radius: 5px;
 }
 
 .agenda-mini {
-  width: 32px;
+    width: 32px;
 
-  img {
-    border-radius: 5px;
-  }
-}
-
-.game-player-row {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-
-  &.first-player {
-    margin-right: 10px;
-    align-items: flex-end;
-  }
-
-  &.other-player {
-    margin-left: 10px;
-    align-items: flex-start;
-  }
-}
-
-.game-faction-row {
-  display: flex;
-  align-items: center;
-  flex: 1;
-  flex-direction: column;
-
-  .gamelist-button {
-    height: 34px;
-    width: 122px;
-  }
-
-  img {
-    height: 20px;
-  }
-}
-
-.game-header-row {
-  text-align: center;
-  font-size: 1em;
-}
-
-.game-row-buttons {
-  text-align: center;
-}
-
-.game-player-name {
-  font-size: 1.1em;
-}
-
-.game-header {
-  padding: 5px;
-  text-align: center;
-  text-transform: capitalize;
-  color: white;
+    img {
+        border-radius: 5px;
+    }
 }
 
 .game-filter {
-  .checkbox {
-    margin-top: 0;
-  }
+    .checkbox {
+        margin-top: 0;
+    }
 
-  .checkbox + .checkbox {
-    margin-top: 0;
-  }
-}
-
-.player-row {
-  min-height: 35px;
+    .checkbox + .checkbox {
+        margin-top: 0;
+    }
 }
 
 @media (min-width: @screen-md-min) {
-  .game-controls {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    .game-controls {
+        display: flex;
+        align-items: center;
+        justify-content: center;
 
-    button:first-of-type {
-      margin-bottom: 10px;
-    }
-  }
-}
-
-.join-buttons {
-  display: flex;
-  flex-direction: column;
-}
-
-.game-type {
-  margin-top: 5px;
-}
-
-.house-icons {
-    display: flex;
-    margin-top: 4px;
-    img {
-        height: 21px;
+        button:first-of-type {
+            margin-bottom: 10px;
+        }
     }
 }

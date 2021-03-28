@@ -1,809 +1,188 @@
 // GENERAL
-.game-board {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  top: @navbar-height;
-  display: flex;
-  justify-content: space-between;
-  flex-direction: column;
-
-  &.select-cursor {
-    cursor: url(/img/crosshairs.cur), default;
-  }
-
-  .panel {
-    position: relative;
-    margin: 5px;
-    border: 1px solid rgba(71, 58, 56, 0.65);
-  }
-
-  .menu {
-    position: absolute;
-    margin-left: 10px;
-  }
-
-  .panel-title {
-      background-color: @header-background;
-      color: white;
-      font-weight: bold;
-      margin: 5px;
-      margin-bottom: 0;
-      padding: 5px 0;
-      border: 1px solid @header-border;
-      border-radius: 4px 4px 0 0;
-      border-bottom: none;
-      text-align: center;
-      position: relative;
-    }
-}
-
-.main-window {
-  display: flex;
-  flex-direction: row;
-  flex: 1;
-  overflow: hidden;
-}
-
-.card-pile {
-  padding: 0px;
-  position: relative;
-  margin: 0px 5px;
-
-  &.small {
-    &.vertical {
-      height: @card-sm-height;
-      min-width: @card-sm-width;
-    }
-
-    &.horizontal {
-      height: @card-sm-width;
-      width: @card-sm-height;
-    }
-  }
-
-  &.large {
-    &.vertical {
-      height: @card-lg-height;
-      min-width: @card-lg-width;
-    }
-
-    &.horizontal {
-      height: @card-lg-width;
-      width: @card-lg-height;
-    }
-  }
-
-  &.x-large {
-    &.vertical {
-      height: @card-xl-height;
-      min-width: @card-xl-width;
-    }
-
-    &.horizontal {
-      height: @card-xl-width;
-      width: @card-xl-height;
-    }
-  }
-
-  &.vertical {
-    height: @card-height;
-    min-width: @card-width;
-  }
-
-  &.horizontal {
-    height: @card-width;
-    width: @card-height;
-  }
-
-  .card-placeholder {
-    height: @card-height;
-  }
-}
-
 .player-home-row .card-pile.horizontal {
     margin-bottom: auto;
     margin-top: auto;
 }
 
-.card-pile {
-  .panel {
-    z-index: @layer-card-menu;
-    background-color: rgba(0, 0, 0, 0.85);
-    position: fixed;
-
-    a {
-      display: inline-block;
-      margin: 0 10px 8px 0;
-      text-decoration: none;
-
-      &:hover {
-        color: @brand-info;
-        cursor: pointer;
-      }
-    }
-
-    .panel {
-      margin-bottom: 0;
-      padding: 5px;
-    }
-
-    .panel-title {
-      margin: 5px 5px;
-    }
-  }
-}
-
-.prompt-area {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-}
-
 .player-info {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
-
-.player-stats {
-  display: flex;
-
-  &.panel {
-    margin: 0;
-    border-radius: 0;
-    padding: 5px;
-    position: initial;
-  }
-
-  display: flex;
-  align-items: center;
-}
-
-
-.state {
-  height: 27px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-right: solid 2px;
-  display: flex;
-  align-items: center;
-
-  span {
-    padding-right: 3px;
-    padding-left: 3px;
-  }
-
-  &:last-of-type {
-    border-right: none;
-  }
-
-  .glyphicon {
-    color: @brand-primary;
-  }
-
-  img {
-    height: 100%;
-
-    &:not(:last-child) {
-      margin-right: 10px;
-    }
-  }
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 .btn-stat {
-  padding: 0;
-  font-size: 12px;
-  line-height: 18px;
-  height: 22px;
-  width: 22px;
-  background-color: transparent;
+    padding: 0;
+    font-size: 12px;
+    line-height: 18px;
+    height: 22px;
+    width: 22px;
+    background-color: transparent;
 }
 
 .btn-stat:hover {
-  background-color: @brand-info;
-  border-color: @brand-info;
+    background-color: @brand-info;
+    border-color: @brand-info;
 }
 
 .btn-stat:focus {
-  outline: 0px;
+    outline: 0px;
 }
 
 .deck-info {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 
 .player-info.our-side .deck-info {
-  justify-content: flex-end;
+    justify-content: flex-end;
 }
 
 .deck-type {
-  display: flex;
-  flex-direction: row;
-  height: 100px;
-}
-
-.state {
-  &.first-player {
-    margin: 0px 5px;
-    padding: 5px;
-    text-align: center;
-    background: @brand-tertiary;
-    border-radius: 0.25rem;
-    border: 1px solid rgba(128, 128, 128, 0.53);
-  }
+    display: flex;
+    flex-direction: row;
+    height: 100px;
 }
 
 .middle {
-  display: flex;
-  flex-direction: row;
-  flex: 1;
-}
-
-/**
-  * Generates the specified property based on the calculation of:
-  * property: numCards * (cardSize + cardSpacing) + additionalOffset
-  *
-  * for the various different card sizes. Example, mixing in
-  * .calculate-tiled-card-prop(min-height, 2, height, 3px) will generate CSS for:
-  * min-height: 2 * (@card-height + 5px) + 3px
-  * &.small {
-  *   min-height: 2 * (@card-sm-height + 5px) + 3px
-  * }
-  * ... etc ...
-  */
-  .calculate-tiled-card-prop(@property, @numCards, @cardMeasurement, @additionalOffset: 0px) {
-  @cardMeasurementNm: "card-@{cardMeasurement}";
-  @cardMeasurementSm: "card-sm-@{cardMeasurement}";
-  @cardMeasurementLg: "card-lg-@{cardMeasurement}";
-  @cardMeasurementXl: "card-xl-@{cardMeasurement}";
-
-
-  @{property}: @numCards * (@@cardMeasurementNm + 5px) + @additionalOffset;
-
-  &.small {
-    @{property}: @numCards * (@@cardMeasurementSm + 5px) + @additionalOffset;
-  }
-
-  &.large {
-    @{property}: @numCards * (@@cardMeasurementLg + 5px) + @additionalOffset;
-  };
-
-  &.x-large {
-    @{property}: @numCards * (@@cardMeasurementXl + 5px) + @additionalOffset;
-  };
-}
-
-.inner {
-  .calculate-tiled-card-prop(max-height, 4, height);
-  overflow-y: auto;
-}
-
-.card-list {
-  .card-wrapper {
-    margin: 0 5px 5px 0;
-  }
-}
-
-.card-list-title {
-  background-color: @brand-primary;
-  color: white;
-  margin-bottom: 5px;
-  text-align: center;
-}
-
-.card-list-cards {
-  align-items: center;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-}
-
-.additional-cards {
-  .panel {
-    .inner {
-      .calculate-tiled-card-prop(min-height, 2, width);
-      .calculate-tiled-card-prop(min-width, 2, height, @scrollbar-width);
-    }
-  }
-}
-
-.discard {
-  .panel {
-    min-height: 146px;
-
-    .inner {
-      .calculate-tiled-card-prop(min-height, 1, height);
-      .calculate-tiled-card-prop(width, 5, width, @scrollbar-width);
-      padding: 4px;
-    }
-  }
-}
-
-.archives {
-  .panel {
-    .inner {
-      .calculate-tiled-card-prop(min-height, 1, height);
-      .calculate-tiled-card-prop(width, 5, width, @scrollbar-width);
-      padding: 4px;
-    }
-  }
-}
-
-.purged {
-  .panel {
-    .inner {
-      .calculate-tiled-card-prop(min-height, 1, height);
-      .calculate-tiled-card-prop(width, 5, width, @scrollbar-width);
-    }
-  }
-}
-
-.draw {
-  .panel {
-    .inner {
-      .calculate-tiled-card-prop(min-height, 1, height);
-      .calculate-tiled-card-prop(width, 7, width, @scrollbar-width);
-    }
-  }
-}
-
-// Alliance agenda
-.agenda-06018 {
-  .inner {
-    .calculate-tiled-card-prop(width, 2, width);
-  }
-}
-
-// Conclave agenda
-.agenda-09045 {
-  .inner {
-    .calculate-tiled-card-prop(width, 7, width);
-  }
+    display: flex;
+    flex-direction: row;
+    flex: 1;
 }
 
 .middle-right {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-}
-
-.inset-pane {
-  display: flex;
-  flex-direction: column;
-  width: 210px;
-  justify-content: space-between;
-  margin-right: 5px;
-}
-
-.inset-pane > div {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-.menu-pane-source {
-    margin-top: -15px;
-    margin-left: -16px;
-    margin-right: -16px;
-    background: @brand-primary;
-    border: 1px solid @header-border;
-    font-size: 14px;
-    font-weight: normal;
-    padding: 4px;
-    text-align: center;
-    border-top: none;
-}
-
-.menu-pane {
-  text-align: center;
-  z-index: @layer-prompt;
-}
-
-.menu-pane .panel {
-  margin-top: 0;
-  padding-top: 0;
-  border-top-right-radius: 0;
-  border-top-left-radius: 0;
-}
-
-.menu-pane button {
-  width: 100%;
-  margin-bottom: 5px;
-  white-space: normal;
-}
-
-.prompt-control-targeting {
-  align-items: center;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
 }
 
 .targeting-arrow {
-  margin: 5px;
-}
-
-.target-card {
-  border-radius: 6.25%;
-  flex-shrink: 1;
-  margin: 0 2px;
-  max-height: @card-height;
-  max-width: @card-width;
+    margin: 5px;
 }
 
 .target-card-image {
-  max-height: @card-height;
-  object-fit: contain;
-  width: 100%;
-}
-
-.phase-indicator {
-  text-align: center;
-  text-transform: uppercase;
+    max-height: @card-height;
+    object-fit: contain;
+    width: 100%;
 }
 
 span.up-arrow {
-  content: '';
-  display: block;
-  width: 0;
-  height: 0;
-  position: absolute;
+    content: '';
+    display: block;
+    width: 0;
+    height: 0;
+    position: absolute;
 
-  border-right: 8px solid transparent;
-  border-left: 8px solid transparent;
-  border-bottom: 8px solid @brand-primary;
-  left: 90px;
+    border-right: 8px solid transparent;
+    border-left: 8px solid transparent;
+    border-bottom: 8px solid @brand-primary;
+    left: 90px;
 
-  top: -9px;
+    top: -9px;
 }
 
 span.down-arrow {
-  content: '';
-  display: block;
-  width: 0;
-  height: 0;
-  position: absolute;
+    content: '';
+    display: block;
+    width: 0;
+    height: 0;
+    position: absolute;
 
-  border-right: 8px solid transparent;
-  border-left: 8px solid transparent;
-  border-top: 8px solid @brand-primary;
-  left: 90px;
+    border-right: 8px solid transparent;
+    border-left: 8px solid transparent;
+    border-top: 8px solid @brand-primary;
+    left: 90px;
 
-  top: -9px;
+    top: -9px;
 }
 
 // CENTER
 .center {
-  flex-direction: column;
-  display: flex;
-}
-
-.play-area {
-  overflow-x: auto;
-}
-
-.play-area, .player-board {
-  .drop-target {
-    flex: 1;
-    display: flex;
     flex-direction: column;
-    justify-content: space-between;
-
-    margin: 10px;
-  }
-
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  justify-content: space-between;
-  min-height: 0;
-}
-
-.player-board {
-  margin: 10px;
-
-  .taunt {
-    margin-top: 15px;
-  }
-
-  &.our-side {
-    margin: 0;
-
-    .taunt {
-      margin-top: -15px;
-    }
-  }
-}
-
-.player-home-row {
-  display: flex;
-  overflow-x: auto;
-  overflow-y: hidden;
-}
-
-.player-home-row-container {
-  display: flex;
+    display: flex;
 }
 
 .deck-cards {
-  display: flex;
-}
-
-.squishable-card-panel {
-  display: flex;
-  justify-content: flex-start;
-  margin: 0px 5px;
-  min-height: 0;
-  padding: 0px;
-
-  .card-wrapper {
-    margin: 0 5px 0 0;
-  }
-}
-
-.squishable-card-panel.squish .card-wrapper {
-  position: absolute;
-}
-
-.card-row {
-  display: flex;
-  justify-content: flex-start;
-  min-height: 0;
-}
-
-.card-row .card.horizontal {
-  margin-bottom: @card-height - @card-width;
-
-  &.small {
-    margin-bottom: @card-sm-height - @card-sm-width;
-  }
-
-  &.large {
-    margin-bottom: @card-lg-height - @card-lg-width;
-  }
-
-  &.x-large {
-    margin-bottom: @card-xl-height - @card-xl-width;
-  }
-}
-
-.player-board .card-wrapper {
-  margin-right: 10px;
-  margin-bottom: 5px;
+    display: flex;
 }
 
 //RIGHT SIDE
-.right-side {
-  position: relative;
-  display: flex;
-  flex-direction: row;
-  overflow: hidden;
-}
-
-.game-status {
-  margin-top: 10px;
-}
-
-.player-avatar {
-  padding-right: 10px;
-}
-
-.board-middle {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  overflow-x: hidden;
-  width: 100%;
-}
-
-.board-inner {
-  flex: 1;
-  display: flex;
-  min-height: 0;
-  overflow-x: hidden;
-}
-
-.close-button {
-  color: @foreground-color;
-  margin-bottom: 0 !important;
-  vertical-align: middle !important;
-}
-
-.settings-popup {
-  background: @background-color;
-
-  .modal-header {
-    background: @brand-primary;
-    font-family: Keyforge;
-  }
-}
 
 .close {
-  color: @foreground-color;
+    color: @foreground-color;
 
-  :hover {
-    color: @brand-info;
-  }
+    :hover {
+        color: @brand-info;
+    }
 }
 
 .modal-title {
-  text-align: center;
+    text-align: center;
 }
 
 .message {
-  .alert {
-    padding: 5px;
-    margin-bottom: 0;
-  }
-
-  .alert-danger {
-    .username {
-      color: darken(@brand-danger, 20%);
+    .alert {
+        padding: 5px;
+        margin-bottom: 0;
     }
-  }
 
-  .alert-info {
-    .username {
-      color: darken(@brand-info, 20%);
+    .alert-danger {
+        .username {
+            color: darken(@brand-danger, 20%);
+        }
     }
-  }
 
-  .alert-success {
-    .username {
-      color: darken(@brand-success, 20%);
+    .alert-info {
+        .username {
+            color: darken(@brand-info, 20%);
+        }
     }
-  }
 
-  .alert-warning {
-    .username {
-      color: darken(@brand-warning, 20%);
+    .alert-success {
+        .username {
+            color: darken(@brand-success, 20%);
+        }
     }
-  }
-}
 
-.message-chat {
-  margin-bottom: 3px;
-  b {
-    color: white;
-  }
-}
-
-.seperator {
-  hr {
-    margin-top: 10px;
-    margin-bottom: 10px;
-  }
+    .alert-warning {
+        .username {
+            color: darken(@brand-warning, 20%);
+        }
+    }
 }
 
 .gamechat-enter {
-  top: 1500px;
+    top: 1500px;
 }
 
 .gamechat-enter.gamechat-enter-active {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 100%;
-  transition: top 500ms ease-in-out;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    transition: top 500ms ease-in-out;
 }
 
 .gamechat-leave {
-  top: 0px;
+    top: 0px;
 }
 
 .gamechat-leave.gamechat-leave-active {
-  position: absolute;
-  right: 0;
-  width: 100%;
-  top: 1500px;
-  transition: top 500ms ease-in-out;
+    position: absolute;
+    right: 0;
+    width: 100%;
+    top: 1500px;
+    transition: top 500ms ease-in-out;
 }
 
 hr.phasestart {
-  margin-top: 15px;
+    margin-top: 15px;
 }
 
 .phasestart {
-  font-size: 15px;
-  text-transform: capitalize;
-}
-
-.endofround {
-  font-size: 14px;
-}
-
-.startofround {
-  font-size: 16px;
-}
-
-.keys {
-  display: flex;
-  flex-direction: column;
-  max-height: @card-height;
-  max-width: @card-height / 3;
-  margin-left: 5px;
-  margin-top: 5px;
-
-  &.small {
-    max-height: @card-sm-height;
-    max-width: @card-sm-height / 3;
-  }
-
-  &.large {
-    max-height: @card-lg-height;
-    max-width: @card-lg-height / 3;
-  }
-
-  &.x-large {
-    max-height: @card-xl-height;
-    max-width: @card-xl-height / 3;
-  }
-
-  img {
-    max-height: 33%;
-  }
-}
-
-.stat-image {
-  background-repeat: no-repeat;
-  width: 28px;
-  height: 28px;
-  background-size: 28px 28px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: default;
-
-  &.amber {
-    background-image: url("/img/amber.png");
-  }
-
-  &.chains {
-    background-image: url("/img/chains.png");
-  }
-}
-
-.stat-value {
-  background: fade(black, 60%) center;
-  border-radius: 50%;
-  width: 15px;
-  height: 15px;
-  text-align: center;
-  line-height: 15px;
-}
-
-.prompt-button {
-  display: flex;
-  justify-content: center;
-  text-transform: capitalize;
+    font-size: 15px;
+    text-transform: capitalize;
 }
 
 .option-button {
-  margin-top: 10px;
-}
-
-.house-icon-row {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 5px;
-
-  div {
-    cursor: pointer;
-
-    &:hover {
-      background-color: @brand-primary;
-    }
-
-    &.disabled {
-      opacity: 0.4;
-
-      &:hover {
-        background-color: initial;
-      }  
-    }
-  }
+    margin-top: 10px;
 }

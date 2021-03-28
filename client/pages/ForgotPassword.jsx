@@ -1,78 +1,128 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import ReCAPTCHA from 'react-google-recaptcha';
 
 import AlertPanel from '../Components/Site/AlertPanel';
 import Panel from '../Components/Site/Panel';
-import Form from '../Components/Form/Form';
+import { useTranslation } from 'react-i18next';
+import { Account } from '../redux/types';
+import { clearApiStatus, forgotPassword } from '../redux/actions';
+import { Form, Col, Button } from 'react-bootstrap';
+import { Formik } from 'formik';
+import * as yup from 'yup';
+import ApiStatus from '../Components/Site/ApiStatus';
 
-import * as actions from '../actions';
+const ForgotPassword = () => {
+    const { t } = useTranslation();
+    const dispatch = useDispatch();
+    const apiState = useSelector((state) => {
+        const retState = state.api[Account.ForgotPasswordRequest];
 
-class ForgotPassword extends React.Component {
-    constructor() {
-        super();
+        if (retState && retState.success) {
+            retState.message = t(
+                'Your request was submitted.  If the username you entered is registered with the site, an email will be sent to the address registered on the account, detailing what to do next.'
+            );
 
-        this.state = {
-            captcha: ''
-        };
-
-        this.onSubmit = this.onSubmit.bind(this);
-    }
-
-    onCaptchaChange(value) {
-        this.setState({ captcha: value });
-    }
-
-    onSubmit(state) {
-        this.props.forgotPassword({ username: state.username, captcha: this.state.captcha });
-    }
-
-    render() {
-        let errorBar = this.props.apiSuccess === false ? <AlertPanel type='error' message={ this.props.apiMessage } /> : null;
-        let successBar = this.props.apiSuccess ? <AlertPanel type='success' message='Your request was submitted.  If the username you entered is registered with the site, an email will be sent to the address registered on the account, detailing what to do next.' /> : null;
-
-        if(this.props.apiSuccess) {
-            return <div className='col-sm-6 col-sm-offset-3'>{ successBar }</div>;
+            setTimeout(() => {
+                dispatch(clearApiStatus(Account.ForgotPasswordRequest));
+            }, 3000);
         }
 
-        return (
-            <div>
-                <div className='col-sm-6 col-sm-offset-3'>
-                    { errorBar }
-                    { this.props.apiSuccess === false ? null : <AlertPanel type='info' message='To start the password recovery process, please enter your username or email address and click the submit button.' /> }
-                    <Panel title='Forgot password'>
-                        <Form name='forgotpassword' buttonText='Submit' onSubmit={ this.onSubmit } apiLoading={ this.props.apiLoading }>
-                            <div className='form-group'>
-                                <div className='col-sm-offset-4 col-sm-3'>
-                                    <ReCAPTCHA sitekey='6Ldx1XsUAAAAAAEgOsjFgkwsJCRgtaj9ZXBBCLvJ' theme='dark' onChange={ this.onCaptchaChange.bind(this) } />
-                                </div>
+        return retState;
+    });
+
+    const initialValues = {
+        username: '',
+        captchaValue: ''
+    };
+
+    const schema = yup.object({
+        username: yup.string().required(t('You must enter your username or email address.')),
+        captchaValue: yup.string().required(t('You must complete the captcha.')).nullable()
+    });
+
+    return (
+        <Col sm={{ span: 6, offset: 3 }}>
+            <Panel title='Forgot password'>
+                {!apiState && (
+                    <AlertPanel
+                        type='info'
+                        message={t(
+                            'To start the password recovery process, please enter your username or email address and click the submit button.'
+                        )}
+                    />
+                )}
+                <ApiStatus
+                    state={apiState}
+                    onClose={() => dispatch(clearApiStatus(Account.ForgotPasswordRequest))}
+                />
+                <Formik
+                    validationSchema={schema}
+                    onSubmit={(values) => {
+                        dispatch(
+                            forgotPassword({
+                                username: values.username,
+                                captcha: values.captchaValue
+                            })
+                        );
+                    }}
+                    initialValues={initialValues}
+                >
+                    {(formProps) => (
+                        <Form
+                            onSubmit={(event) => {
+                                event.preventDefault();
+                                formProps.handleSubmit(event);
+                            }}
+                        >
+                            <Form.Row>
+                                <Form.Group as={Col} sm='8' controlId='formGridUsername'>
+                                    <Form.Label>{t('Username')}</Form.Label>
+                                    <Form.Control
+                                        name='username'
+                                        type='text'
+                                        placeholder={t('Enter your username or email address')}
+                                        value={formProps.values.username}
+                                        onChange={formProps.handleChange}
+                                        onBlur={formProps.handleBlur}
+                                        isInvalid={
+                                            formProps.touched.username &&
+                                            !!formProps.errors.username
+                                        }
+                                    />
+                                    <Form.Control.Feedback type='invalid'>
+                                        {formProps.errors.username}
+                                    </Form.Control.Feedback>
+                                </Form.Group>
+                            </Form.Row>
+                            <Form.Row>
+                                <Form.Group as={Col} sm={8}>
+                                    <ReCAPTCHA
+                                        className='is-invalid'
+                                        sitekey='6LdMGfYUAAAAAJN_sqZOBPn0URaFkWQ1QXvQqBbj'
+                                        theme='dark'
+                                        onChange={(value) =>
+                                            formProps.setFieldValue('captchaValue', value, true)
+                                        }
+                                    />
+                                    <Form.Control.Feedback type='invalid'>
+                                        {formProps.errors.captchaValue}
+                                    </Form.Control.Feedback>
+                                </Form.Group>
+                            </Form.Row>
+                            <div className='text-center'>
+                                <Button variant='primary' type='submit'>
+                                    {t('Submit')}
+                                </Button>
                             </div>
                         </Form>
-                    </Panel>
-                </div>
-            </div>);
-    }
-}
-
-ForgotPassword.displayName = 'ForgotPassword';
-ForgotPassword.propTypes = {
-    apiLoading: PropTypes.bool,
-    apiMessage: PropTypes.string,
-    apiSuccess: PropTypes.bool,
-    forgotPassword: PropTypes.func,
-    login: PropTypes.func,
-    navigate: PropTypes.func,
-    socket: PropTypes.object
+                    )}
+                </Formik>
+            </Panel>
+        </Col>
+    );
 };
 
-function mapStateToProps(state) {
-    return {
-        apiLoading: state.api.FORGOTPASSWORD_ACCOUNT ? state.api.FORGOTPASSWORD_ACCOUNT.loading : undefined,
-        apiMessage: state.api.FORGOTPASSWORD_ACCOUNT ? state.api.FORGOTPASSWORD_ACCOUNT.message : undefined,
-        apiSuccess: state.api.FORGOTPASSWORD_ACCOUNT ? state.api.FORGOTPASSWORD_ACCOUNT.success : undefined,
-        socket: state.lobby.socket
-    };
-}
+ForgotPassword.displayName = 'ForgotPassword';
 
-export default connect(mapStateToProps, actions)(ForgotPassword);
+export default ForgotPassword;

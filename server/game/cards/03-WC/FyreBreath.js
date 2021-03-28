@@ -6,7 +6,7 @@ class FyreBreath extends Card {
             effect: [
                 ability.effects.gainAbility('beforeFight', {
                     effect: 'deal 2 damage to the neighbors of {0}',
-                    gameAction: ability.actions.dealDamage(context => ({
+                    gameAction: ability.actions.dealDamage((context) => ({
                         amount: 2,
                         target: context.event.card.neighbors
                     }))

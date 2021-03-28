@@ -8,7 +8,7 @@ class GormOfOmm extends Card {
                 gameAction: ability.actions.destroy()
             },
             effect: 'sacrifice {1} and destroy {0}',
-            effectArgs: context => context.source,
+            effectArgs: (context) => context.source,
             gameAction: ability.actions.sacrifice()
         });
     }

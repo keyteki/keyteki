@@ -8,9 +8,12 @@ class CreateTokenAction extends CardGameAction {
     }
 
     canAffect(card, context) {
-        if(!card.facedown || !['province 1', 'province 2', 'province 3', 'province 4'].includes(card.location)) {
+        if (
+            !card.facedown ||
+            !['province 1', 'province 2', 'province 3', 'province 4'].includes(card.location)
+        ) {
             return false;
-        } else if(!context.game.isDuringConflict('military')) {
+        } else if (!context.game.isDuringConflict('military')) {
             return false;
         }
 
@@ -24,7 +27,7 @@ class CreateTokenAction extends CardGameAction {
             card.owner.replaceDynastyCard(card.location);
             card.moveTo('spirit of the river');
             card.owner.moveCard(token, 'play area');
-            if(context.player.isAttackingPlayer()) {
+            if (context.player.isAttackingPlayer()) {
                 context.game.currentConflict.addAttacker(token);
             } else {
                 context.game.currentConflict.addDefender(token);

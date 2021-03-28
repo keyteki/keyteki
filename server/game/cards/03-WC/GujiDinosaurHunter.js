@@ -6,12 +6,19 @@ class GujiDinosaurHunter extends Card {
             target: {
                 cardType: 'creature',
                 gameAction: [
-                    ability.actions.dealDamage(context => ({
-                        target: context.target.hasTrait('dinosaur') || context.target.hasToken('amber') ? context.target : [],
+                    ability.actions.dealDamage((context) => ({
+                        target:
+                            context.target.hasTrait('dinosaur') || context.target.hasToken('amber')
+                                ? context.target
+                                : [],
                         amount: 6
                     })),
-                    ability.actions.dealDamage(context => ({
-                        target: !context.target.hasTrait('dinosaur') && !context.target.hasToken('amber') ? context.target : [],
+                    ability.actions.dealDamage((context) => ({
+                        target:
+                            !context.target.hasTrait('dinosaur') &&
+                            !context.target.hasToken('amber')
+                                ? context.target
+                                : [],
                         amount: 2
                     }))
                 ]

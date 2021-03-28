@@ -14,7 +14,7 @@ class MoveCardAction extends CardGameAction {
     }
 
     canAffect(card, context) {
-        if(card.location === 'play area' || !card.controller.getSourceList(this.destination)) {
+        if (card.location === 'play area' || !card.controller.getSourceList(this.destination)) {
             return false;
         }
 
@@ -24,8 +24,11 @@ class MoveCardAction extends CardGameAction {
     getEvent(card, context) {
         return super.createEvent('onMoveCard', { card: card, context: context }, () => {
             context.player.moveCard(card, this.destination);
-            if(this.shuffle && (this.target.findIndex(c => c === card) === this.target.length - 1)) {
-                if(this.destination === 'deck') {
+            if (
+                this.shuffle &&
+                this.target.findIndex((c) => c === card) === this.target.length - 1
+            ) {
+                if (this.destination === 'deck') {
                     context.player.shuffleDeck();
                 }
             }

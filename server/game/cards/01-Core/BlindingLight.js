@@ -6,7 +6,9 @@ class BlindingLight extends Card {
             target: {
                 mode: 'house'
             },
-            gameAction: ability.actions.stun(context => ({ target: context.game.creaturesInPlay.filter(card => card.hasHouse(context.house)) }))
+            gameAction: ability.actions.stun((context) => ({
+                target: context.game.creaturesInPlay.filter((card) => card.hasHouse(context.house))
+            }))
         });
     }
 }

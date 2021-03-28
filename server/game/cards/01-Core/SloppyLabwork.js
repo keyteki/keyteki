@@ -20,7 +20,8 @@ class SloppyLabwork extends Card {
                 }
             },
             effect: 'archive a card{1}{2}',
-            effectArgs: context => context.targets.discard ? [' and discard ', context.targets.discard] : ['', '']
+            effectArgs: (context) =>
+                context.targets.discard ? [' and discard ', context.targets.discard] : ['', '']
         });
     }
 }

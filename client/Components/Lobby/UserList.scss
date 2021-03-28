@@ -1,0 +1,21 @@
+@import '../../styles/colours';
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+
+.userlist {
+    text-align: center;
+    padding-top: 5px;
+    padding-bottom: 20px;
+    font-weight: bold;
+}
+
+.user-row {
+    text-align: left;
+    font-weight: normal;
+    padding-top: 5px;
+    padding-left: 10px;
+
+    &:hover {
+        background-color: rgba(theme-color('primary'), 0.2);
+    }
+}

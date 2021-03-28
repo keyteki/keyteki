@@ -7,9 +7,12 @@ class SicSemperTyrannosaurus extends Card {
                 cardType: 'creature',
                 mode: 'mostStat',
                 numCards: 1,
-                cardStat: card => card.power,
+                cardStat: (card) => card.power,
                 gameAction: [
-                    ability.actions.returnAmber(context => ({ all: true, recipient: context.player })),
+                    ability.actions.returnAmber((context) => ({
+                        all: true,
+                        recipient: context.player
+                    })),
                     ability.actions.destroy()
                 ]
             },

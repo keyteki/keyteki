@@ -21,10 +21,9 @@ class DestroyThemAll extends Card {
                     controller: 'any',
                     gameAction: ability.actions.destroy()
                 }
-
             },
             effect: 'destroy {1}',
-            effectArgs: context => [Object.values(context.targets)]
+            effectArgs: (context) => [Object.values(context.targets)]
         });
     }
 }

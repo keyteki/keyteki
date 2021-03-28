@@ -4,7 +4,7 @@ class PoisonWave extends Card {
     setupCardAbilities(ability) {
         this.play({
             effect: 'deal 2 damage to all creatures',
-            gameAction: ability.actions.dealDamage(context => ({
+            gameAction: ability.actions.dealDamage((context) => ({
                 amount: 2,
                 target: context.game.creaturesInPlay
             }))

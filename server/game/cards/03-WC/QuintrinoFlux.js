@@ -7,21 +7,31 @@ class QuintrinoFlux extends Card {
                 friendly: {
                     cardType: 'creature',
                     controller: 'self',
-                    gameAction: ability.actions.destroy(context => ({
-                        target: context.targets.friendly ? context.game.creaturesInPlay.filter(card => card.power === context.targets.friendly.power) : []
-                    }))
+                    gameAction: ability.actions.destroy()
                 },
                 enemy: {
                     cardType: 'creature',
                     controller: 'opponent',
-                    gameAction: ability.actions.destroy(context => ({
-                        target: context.targets.enemy ? context.game.creaturesInPlay.filter(card => card.power === context.targets.enemy.power) : []
-                    }))
+                    gameAction: ability.actions.destroy()
                 }
             },
+            gameAction: ability.actions.destroy((context) => ({
+                target: context.game.creaturesInPlay.filter(
+                    (card) =>
+                        Object.values(context.targets).some(
+                            (target) => card.power === target.power
+                        ) && Object.values(context.targets).every((target) => target !== card)
+                )
+            })),
             effect: 'destroy {1}',
-            effectArgs: context => [context.game.creaturesInPlay.filter(card => (context.targets.friendly && (card.power === context.targets.friendly.power)) ||
-                (context.targets.enemy && (card.power === context.targets.enemy.power)))]
+            effectArgs: (context) => [
+                context.game.creaturesInPlay.filter(
+                    (card) =>
+                        (context.targets.friendly &&
+                            card.power === context.targets.friendly.power) ||
+                        (context.targets.enemy && card.power === context.targets.enemy.power)
+                )
+            ]
         });
     }
 }

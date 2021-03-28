@@ -1,55 +1,69 @@
 const logger = require('../log.js');
+const db = require('../db');
 
 class NewsService {
-    constructor(db) {
-        this.news = db.get('news');
-    }
+    async getRecentNewsItems(options) {
+        let news;
+        try {
+            news = await db.query(
+                'SELECT n.*, u."Username" AS "Poster" FROM "News" n JOIN "Users" u ON u."Id" = n."PosterId" ORDER BY "PostedDate" DESC LIMIT $1',
+                [options.limit]
+            );
+        } catch (err) {
+            logger.error('Failed to fetch news', err);
 
-    getRecentNewsItems(options) {
-        var params = {};
-
-        params.sort = { datePublished: -1 };
-        if(options.limit) {
-            params.limit = parseInt(options.limit);
+            throw new Error('Failed to fetch news');
         }
 
-        return this.news.find({}, params);
+        return news.map(this.mapNews);
     }
 
-    addNews(news) {
-        return this.news.insert(news)
-            .then(result => {
-                return result;
-            })
-            .catch(err => {
-                logger.error('Error adding news item', err);
+    async addNews(news) {
+        let ret;
 
-                throw new Error('Error occured adding news item');
-            });
+        try {
+            ret = await db.query(
+                'INSERT INTO "News" ("Text", "PosterId", "PostedDate") VALUES ($1, $2, $3) RETURNING "Id"',
+                [news.text, news.poster, new Date()]
+            );
+        } catch (err) {
+            logger.error('Error adding news item', err);
+
+            throw new Error('Error occured adding news item');
+        }
+
+        news.id = ret[0].Id;
+
+        return news;
     }
 
-    editNews(id, text) {
-        return this.news.update({ _id: id }, { '$set': { text: text } })
-            .then(() => {
-                return true;
-            })
-            .catch(err => {
-                logger.error('Error saving news item', err);
+    async editNews(id, text) {
+        try {
+            await db.query('UPDATE "News" SET "Text" = $1 WHERE "Id" = $2', [text, id]);
+        } catch (err) {
+            logger.error('Error saving news item', err);
 
-                throw new Error('Error occured saving news item');
-            });
+            throw new Error('Error occured saving news item');
+        }
     }
 
-    deleteNews(id) {
-        return this.news.remove({ _id: id })
-            .then(() => {
-                return true;
-            })
-            .catch(err => {
-                logger.error('Error deleting news item', err, id);
+    async deleteNews(id) {
+        try {
+            await db.query('DELETE FROM "News" WHERE "Id" = $1', [id]);
+        } catch (err) {
+            logger.error('Error deleting news item', err);
 
-                throw new Error('Error occured deleting news item');
-            });
+            throw new Error('Error occured deleting news item');
+        }
+    }
+
+    mapNews(news) {
+        return {
+            id: news.Id,
+            datePublished: news.PostedDate,
+            poster: news.Poster,
+            text: news.Text
+        };
     }
 }
 

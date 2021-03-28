@@ -26,16 +26,16 @@ class DelayedEffect {
     }
 
     checkEffect(events) {
-        let matchingEvents = events.filter(event => this.when[event.name]);
-        if(matchingEvents.length > 0) {
-            if(!this.multipleTrigger) {
-                let event = matchingEvents.find(event => this.when[event.name](event));
-                if(event) {
+        let matchingEvents = events.filter((event) => this.when[event.name]);
+        if (matchingEvents.length > 0) {
+            if (!this.multipleTrigger) {
+                let event = matchingEvents.find((event) => this.when[event.name](event));
+                if (event) {
                     this.game.effectEngine.removeDelayedEffect(this);
                     this.executeHandler(event);
                 }
             } else {
-                for(let event of matchingEvents.filter(event => this.when[event.name](event))) {
+                for (let event of matchingEvents.filter((event) => this.when[event.name](event))) {
                     this.executeHandler(event);
                 }
             }
@@ -43,18 +43,23 @@ class DelayedEffect {
     }
 
     executeHandler(event) {
-        if(this.handler) {
+        if (this.handler) {
             this.handler(event);
             return;
         }
 
-        if(this.message) {
-            this.game.addMessage(this.message, this.context.player, this.source, this.target || event.card);
+        if (this.message) {
+            this.game.addMessage(
+                this.message,
+                this.context.player,
+                this.source,
+                this.target || event.card
+            );
         }
 
         let context = this.context.copy();
         context.event = event;
-        if(this.gameAction) {
+        if (this.gameAction) {
             this.gameAction.resolve(this.target || event.card, context);
         }
     }

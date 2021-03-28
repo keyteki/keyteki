@@ -6,11 +6,12 @@ class Snaglet extends Card {
             target: {
                 mode: 'house'
             },
-            effect: 'steal an amber from {1} if they choose {2} as their active house next turn',
-            effectArgs: context => [context.player.opponent, context.house],
-            gameAction: ability.actions.lastingEffect(context => ({
+            effect: 'steal 2 amber from {1} if they choose {2} as their active house next turn',
+            effectArgs: (context) => [context.player.opponent, context.house],
+            gameAction: ability.actions.lastingEffect((context) => ({
                 when: {
-                    onChooseActiveHouse: event => event.player !== context.player && event.house === context.house
+                    onChooseActiveHouse: (event) =>
+                        event.player !== context.player && event.house === context.house
                 },
                 gameAction: ability.actions.steal({ amount: 2 })
             }))

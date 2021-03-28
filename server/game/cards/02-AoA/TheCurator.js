@@ -2,11 +2,10 @@ const Card = require('../../Card.js');
 
 class TheCurator extends Card {
     setupCardAbilities(ability) {
-        this.constantReaction({
-            when: {
-                onCardPlayed: (event, context) => event.card.type === 'artifact' && event.card.controller === context.player
-            },
-            gameAction: ability.actions.ready(context => ({ target: context.event.card }))
+        this.persistentEffect({
+            targetLocation: 'any',
+            match: (card) => card.type === 'artifact',
+            effect: ability.effects.entersPlayReady()
         });
     }
 }

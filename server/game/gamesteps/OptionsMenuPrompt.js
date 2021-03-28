@@ -22,23 +22,28 @@ class OptionsMenuPrompt extends UiPrompt {
         super(game);
 
         this.player = player;
-        if(properties.source) {
-            if(_.isString(properties.source)) {
+        if (properties.source) {
+            if (_.isString(properties.source)) {
                 this.promptTitle = properties.source;
             } else {
                 this.source = properties.source;
             }
         }
 
-        this.source = this.source || properties.context && properties.context.source || new EffectSource(game);
+        this.source =
+            this.source ||
+            (properties.context && properties.context.source) ||
+            new EffectSource(game);
         this.promptTitle = this.promptTitle || this.source.name;
 
-        if(!properties.waitingPromptTitle) {
+        if (!properties.waitingPromptTitle) {
             properties.waitingPromptTitle = 'Waiting for opponent';
         }
 
         this.properties = properties;
-        this.context = properties.context || new AbilityContext({ game: game, player: player, source: this.source });
+        this.context =
+            properties.context ||
+            new AbilityContext({ game: game, player: player, source: this.source });
     }
 
     activeCondition(player) {
@@ -47,16 +52,14 @@ class OptionsMenuPrompt extends UiPrompt {
 
     activePrompt() {
         let buttons = [];
-        buttons = this.properties.options.map(option => {
+        buttons = this.properties.options.map((option) => {
             return { text: option.name, arg: option.value };
         });
 
         return {
             menuTitle: this.properties.activePromptTitle || 'Select one',
             buttons: buttons,
-            controls: [
-                { type: 'options-select' }
-            ],
+            controls: [{ type: 'options-select' }],
             promptTitle: this.promptTitle
         };
     }
@@ -66,8 +69,8 @@ class OptionsMenuPrompt extends UiPrompt {
     }
 
     menuCommand(player, arg) {
-        let option = this.properties.options.find(option => option.value === arg);
-        if(option && this.properties.optionsHandler) {
+        let option = this.properties.options.find((option) => option.value === arg);
+        if (option && this.properties.optionsHandler) {
             this.properties.optionsHandler(option);
             this.complete();
             return true;

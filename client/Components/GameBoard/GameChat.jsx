@@ -4,9 +4,11 @@ import $ from 'jquery';
 
 import Messages from './Messages';
 
+import './GameChat.scss';
+
 class GameChat extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.onChange = this.onChange.bind(this);
         this.onKeyPress = this.onKeyPress.bind(this);
@@ -19,13 +21,13 @@ class GameChat extends React.Component {
     }
 
     componentDidMount() {
-        if(this.state.canScroll) {
+        if (this.state.canScroll) {
             $(this.messagePanel).scrollTop(999999);
         }
     }
 
     componentDidUpdate() {
-        if(this.state.canScroll) {
+        if (this.state.canScroll) {
             $(this.messagePanel).scrollTop(999999);
         }
     }
@@ -34,7 +36,7 @@ class GameChat extends React.Component {
         let messages = this.messagePanel;
 
         setTimeout(() => {
-            if(messages.scrollTop >= messages.scrollHeight - messages.offsetHeight - 20) {
+            if (messages.scrollTop >= messages.scrollHeight - messages.offsetHeight - 20) {
                 this.setState({ canScroll: true });
             } else {
                 this.setState({ canScroll: false });
@@ -47,7 +49,7 @@ class GameChat extends React.Component {
     }
 
     onKeyPress(event) {
-        if(event.key === 'Enter') {
+        if (event.key === 'Enter') {
             this.sendMessage();
 
             event.preventDefault();
@@ -55,7 +57,7 @@ class GameChat extends React.Component {
     }
 
     sendMessage() {
-        if(this.state.message === '') {
+        if (this.state.message === '') {
             return;
         }
 
@@ -69,14 +71,29 @@ class GameChat extends React.Component {
 
         return (
             <div className='chat'>
-                <div className='messages panel' ref={ m => this.messagePanel = m } onScroll={ this.onScroll }>
-                    <Messages messages={ this.props.messages } onCardMouseOver={ this.props.onCardMouseOver } onCardMouseOut={ this.props.onCardMouseOut } />
+                <div
+                    className='messages panel'
+                    ref={(m) => (this.messagePanel = m)}
+                    onScroll={this.onScroll}
+                >
+                    <Messages
+                        messages={this.props.messages}
+                        onCardMouseOver={this.props.onCardMouseOver}
+                        onCardMouseOut={this.props.onCardMouseOut}
+                    />
                 </div>
                 <form className='form chat-form'>
-                    <input className='form-control' placeholder={ placeholder } onKeyPress={ this.onKeyPress } onChange={ this.onChange }
-                        value={ this.state.message } disabled={ this.props.muted } />
+                    <input
+                        className='form-control'
+                        placeholder={placeholder}
+                        onKeyPress={this.onKeyPress}
+                        onChange={this.onChange}
+                        value={this.state.message}
+                        disabled={this.props.muted}
+                    />
                 </form>
-            </div>);
+            </div>
+        );
     }
 }
 

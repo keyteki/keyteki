@@ -3,7 +3,7 @@ const Card = require('../../Card.js');
 class WitchOfTheWilds extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
-            condition: () => this.controller.activeHouse !== 'untamed',
+            condition: (context) => context.player.activeHouse !== 'untamed',
             effect: ability.effects.canPlayHouse('untamed')
         });
     }

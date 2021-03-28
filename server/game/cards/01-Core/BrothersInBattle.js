@@ -7,9 +7,9 @@ class BrothersInBattle extends Card {
                 mode: 'house'
             },
             effect: 'allow creatures from {1} to fight this turn',
-            effectArgs: context => context.house,
-            gameAction: ability.actions.forRemainderOfTurn(context => ({
-                effect: ability.effects.canFight(card => card.hasHouse(context.house))
+            effectArgs: (context) => context.house,
+            gameAction: ability.actions.forRemainderOfTurn((context) => ({
+                effect: ability.effects.canFight((card) => card.hasHouse(context.house))
             }))
         });
     }

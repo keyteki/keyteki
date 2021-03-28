@@ -8,7 +8,7 @@ class SelectSelector extends BaseCardSelector {
     }
 
     hasEnoughTargets(context) {
-        return _.any(this.choices, condition => condition(context));
+        return _.any(this.choices, (condition) => condition(context));
     }
 
     defaultActivePromptTitle() {

@@ -1,12 +1,12 @@
 import { applyMiddleware, createStore, compose } from 'redux';
 import thunkMiddleware from 'redux-thunk';
-import rootReducer from './reducers';
+import rootReducer from './redux/reducers';
 import { addBreadcrumb } from '@sentry/browser';
 
-import callAPIMiddleware from './middleware/api-middleware.js';
+import callAPIMiddleware from './redux/middleware/api-middleware.js';
 
 // Sentry middleware
-const sentryReporter = () => next => action => {
+const sentryReporter = () => (next) => (action) => {
     addBreadcrumb({
         message: action.type,
         category: 'redux action',
@@ -18,8 +18,7 @@ const sentryReporter = () => next => action => {
     return next(action);
 };
 
-const enhancer = compose(
-    applyMiddleware(thunkMiddleware, callAPIMiddleware, sentryReporter));
+const enhancer = compose(applyMiddleware(thunkMiddleware, callAPIMiddleware, sentryReporter));
 
 export default function configureStore(initialState) {
     const store = createStore(rootReducer, initialState, enhancer);

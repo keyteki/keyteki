@@ -8,17 +8,23 @@ class HitAndRun extends Card {
                     cardType: 'creature',
                     cardCondition: () => true,
                     gameAction: ability.actions.dealDamage({ amount: 2 })
-                },
-                returnCreature: {
-                    cardType: 'creature',
-                    controller: 'self',
-                    cardCondition: () => true,
-                    gameAction: ability.actions.returnToHand()
+                }
+            },
+            then: {
+                alwaysTriggers: true,
+                targets: {
+                    returnCreature: {
+                        cardType: 'creature',
+                        controller: 'self',
+                        cardCondition: () => true,
+                        gameAction: ability.actions.returnToHand()
+                    }
                 }
             }
         });
     }
 }
+
 HitAndRun.id = 'hit-and-run';
 
 module.exports = HitAndRun;

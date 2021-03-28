@@ -12,7 +12,9 @@ class KnowledgeIsPower extends Card {
                             controller: 'self'
                         }
                     }),
-                    'Gain amber': ability.actions.gainAmber(context => ({ amount: context.player.archives.length }))
+                    'Gain amber': ability.actions.gainAmber((context) => ({
+                        amount: context.player.archives.length
+                    }))
                 }
             }
         });

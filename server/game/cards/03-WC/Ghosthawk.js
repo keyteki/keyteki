@@ -4,18 +4,18 @@ class Ghosthawk extends Card {
     setupCardAbilities(ability) {
         this.play({
             effect: 'reap with each of its neighbors in turn',
-            gameAction: ability.actions.sequentialForEach(context => ({
-                forEach: context.source.neighbors,
-                action: () => ability.actions.reap({
-                    promptForSelect: {
-                        activePromptTitle: 'Choose a creature to reap with',
-                        optional: true,
-                        cardType: 'creature',
-                        cardCondition: c => context.source.neighbors.includes(c),
-                        context: context
-                    }
-                })
-            }))
+            target: {
+                cardCondition: (card, context) => context.source.neighbors.includes(card),
+                gameAction: ability.actions.reap()
+            },
+            then: (preThenContext) => ({
+                alwaysTrigger: true,
+                gameAction: ability.actions.reap((context) => ({
+                    target: preThenContext.cardStateWhenInitiated.clonedNeighbors.filter(
+                        (c) => c !== context.preThenEvent.card
+                    )
+                }))
+            })
         });
     }
 }

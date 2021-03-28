@@ -4,9 +4,9 @@ class MaruckTheMarked extends Card {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onDamageDealt: (event, context) => event.card === context.source && event.damagePrevented > 0
+                onDamagePreventedByArmor: (event, context) => event.card === context.source
             },
-            gameAction: ability.actions.capture(context => ({
+            gameAction: ability.actions.capture((context) => ({
                 amount: context.event.damagePrevented
             }))
         });

@@ -4,28 +4,32 @@ import { connect } from 'react-redux';
 
 import AlertPanel from '../Components/Site/AlertPanel';
 
-import * as actions from '../actions';
+import * as actions from '../redux/actions';
 
 class Logout extends React.Component {
-    componentWillMount() {
+    componentDidMount() {
         this.props.logout();
     }
 
-    componentWillReceiveProps(props) {
-        if(props.loggedOut) {
+    // eslint-disable-next-line camelcase
+    UNSAFE_componentWillReceiveProps(props) {
+        if (props.loggedOut) {
             this.props.navigate('/');
         }
     }
 
     render() {
-        let errorBar = this.props.apiSuccess === false ? <AlertPanel type='error' message={ this.props.apiMessage } /> : null;
+        let errorBar =
+            this.props.apiSuccess === false ? (
+                <AlertPanel type='error' message={this.props.apiMessage} />
+            ) : null;
 
         return (
             <div className='col-sm-6 col-sm-offset-3'>
-                { errorBar }
-
+                {errorBar}
                 Logging you out of your account, please wait..
-            </div>);
+            </div>
+        );
     }
 }
 

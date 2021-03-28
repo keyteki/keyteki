@@ -5,7 +5,9 @@ class HuggerMugger extends Card {
         this.play({
             gameAction: ability.actions.capture({ amount: 1 }),
             then: {
-                condition: context => context.player.opponent && context.player.opponent.getForgedKeys() > context.player.getForgedKeys(),
+                condition: (context) =>
+                    context.player.opponent &&
+                    context.player.opponent.getForgedKeys() > context.player.getForgedKeys(),
                 effect: 'steal 1 amber',
                 gameAction: ability.actions.steal()
             }

@@ -11,73 +11,112 @@ const GainAbility = require('./Effects/GainAbility');
 
 const Effects = {
     // Card effects
+    actionCardLocationAfterPlay: (location) =>
+        EffectBuilder.card.static('actionCardLocationAfterPlay', location),
     addHouse: (house) => EffectBuilder.card.static('addHouse', house),
     addKeyword: (keyword) => EffectBuilder.card.static('addKeyword', keyword),
     addTrait: (trait) => EffectBuilder.card.static('addTrait', trait),
     blank: () => EffectBuilder.card.static('blank'),
     bonusDamage: (match) => EffectBuilder.card.static('bonusDamage', match),
     canPlayAsUpgrade: () => EffectBuilder.card.static('canPlayAsUpgrade'),
-    cardCannot: (type, condition) => EffectBuilder.card.static('abilityRestrictions', new CannotRestriction(type, condition)),
+    cardCannot: (type, condition) =>
+        EffectBuilder.card.static('abilityRestrictions', new CannotRestriction(type, condition)),
     changeHouse: (house) => EffectBuilder.card.static('changeHouse', house),
     changeType: (type) => EffectBuilder.card.static('changeType', type),
     consideredAsFlank: () => EffectBuilder.card.static('consideredAsFlank'),
     copyCard: (card) => EffectBuilder.card.static('copyCard', new CopyCard(card)),
     customDetachedCard: (properties) => EffectBuilder.card.detached('customEffect', properties),
     doesNotReady: () => EffectBuilder.card.static('doesNotReady'),
-    gainAbility: (type, properties) => EffectBuilder.card.static('gainAbility', new GainAbility(type, properties)),
+    entersPlayEnraged: () => EffectBuilder.card.static('entersPlayEnraged'),
+    entersPlayReady: () => EffectBuilder.card.static('entersPlayReady'),
+    entersPlayStunned: () => EffectBuilder.card.static('entersPlayStunned'),
+    visbileIn: (location) => EffectBuilder.card.static('visbileIn', location),
+    gainAbility: (type, properties) =>
+        EffectBuilder.card.static('gainAbility', new GainAbility(type, properties)),
     fightAbilitiesAddReap: () => EffectBuilder.card.static('fightAbilitiesAddReap'),
     ignores: (trait) => EffectBuilder.card.static('ignores', trait),
     keyAmber: () => EffectBuilder.card.static('keyAmber'),
+    keyAmberOpponent: () => EffectBuilder.card.static('keyAmberOpponent'),
     limitFightDamage: (amount) => EffectBuilder.card.flexible('limitFightDamage', amount),
-    modifyAmberValue: (amount) => EffectBuilder.card.flexible('modifyAmberValue', amount),
     modifyArmor: (amount) => EffectBuilder.card.flexible('modifyArmor', amount),
+    modifyBonusIcons: (icons) => EffectBuilder.card.flexible('modifyBonusIcons', icons),
     modifyPower: (amount) => EffectBuilder.card.flexible('modifyPower', amount),
+    mustFightIfAble: () => EffectBuilder.card.static('mustFightIfAble'),
     playAbilitiesAddReap: () => EffectBuilder.card.static('playAbilitiesAddReap'),
     reapAbilitiesAddFight: () => EffectBuilder.card.static('reapAbilitiesAddFight'),
     removeKeyword: (keyword) => EffectBuilder.card.static('removeKeyword', keyword),
-    takeControl: (player) => EffectBuilder.card.static('takeControl', player),
-    entersPlayUnderOpponentsControl: () => EffectBuilder.card.static('entersPlayUnderOpponentsControl'),
-    terminalCondition: (properties) => EffectBuilder.card.detached('terminalCondition', {
-        apply: (card, context) => {
-            properties.target = card;
-            properties.context = properties.context || context;
-            return context.source.terminalCondition(() => properties);
-        },
-        unapply: (card, context, effect) => context.game.effectEngine.removeTerminalCondition(effect)
-    }),
+    resolveBonusIconsAdditionalTime: () =>
+        EffectBuilder.card.static('resolveBonusIconsAdditionalTime'),
+    setArmor: (amount) => EffectBuilder.card.flexible('setArmor', amount),
+    setPower: (amount) => EffectBuilder.card.flexible('setPower', amount),
+    takeControl: (player) => EffectBuilder.card.flexible('takeControl', player),
+    entersPlayUnderOpponentsControl: () =>
+        EffectBuilder.card.static('entersPlayUnderOpponentsControl'),
+    terminalCondition: (properties) =>
+        EffectBuilder.card.detached('terminalCondition', {
+            apply: (card, context) => {
+                properties.target = card;
+                properties.context = properties.context || context;
+                return context.source.terminalCondition(() => properties);
+            },
+            unapply: (card, context, effect) =>
+                context.game.effectEngine.removeTerminalCondition(effect)
+        }),
     transferDamage: (card) => EffectBuilder.card.static('transferDamage', card),
     // Player effects
+    lastingAbilityTrigger: (properties) =>
+        EffectBuilder.player.detached('abilityTrigger', {
+            apply: (player, context) => {
+                let ability = context.source.triggeredAbility(
+                    properties.triggeredAbilityType || 'reaction',
+                    Object.assign({ printedAbility: false, player: player }, properties)
+                );
+                ability.registerEvents();
+                return ability;
+            },
+            unapply: (player, context, ability) => ability.unregisterEvents()
+        }),
     additionalCost: (costFactory) => EffectBuilder.player.static('additionalCost', costFactory),
-    canFight: (match) => EffectBuilder.player.static('canUse', context => (
-        (context.ability.title === 'Fight with this creature' ||
-            context.ability.title === 'Remove this creature\'s stun') &&
-        match(context.source, context)
-    )),
-    mustFightIfAble: () => EffectBuilder.card.static('mustFightIfAble'),
+    canFight: (match) =>
+        EffectBuilder.player.static(
+            'canUse',
+            (context) =>
+                (context.ability.title === 'Fight with this creature' ||
+                    context.ability.title === "Remove this creature's stun") &&
+                match(context.source, context)
+        ),
     canPlay: (match) => EffectBuilder.player.static('canPlay', match),
-    canPlayFromOwn: (location) => EffectBuilder.player.detached('canPlayFromOwn', {
-        apply: (player) => player.addPlayableLocation('play', player, location),
-        unapply: (player, context, location) => player.removePlayableLocation(location)
-    }),
+    canPlayFromOwn: (location) =>
+        EffectBuilder.player.detached('canPlayFromOwn', {
+            apply: (player) => player.addPlayableLocation('play', player, location),
+            unapply: (player, context, location) => player.removePlayableLocation(location)
+        }),
     canPlayHouse: (house) => EffectBuilder.player.static('canPlayHouse', house),
     canPlayNonHouse: (house) => EffectBuilder.player.flexible('canPlayNonHouse', house),
     canPlayOrUseHouse: (house) => EffectBuilder.player.static('canPlayOrUseHouse', house),
     canPlayOrUseNonHouse: (house) => EffectBuilder.player.static('canPlayOrUseNonHouse', house),
-    canUse: (match) => EffectBuilder.player.static('canUse', context => match(context.source, context)),
+    canUse: (match) =>
+        EffectBuilder.player.static('canUse', (context) => match(context.source, context)),
     canUseHouse: (house) => EffectBuilder.player.static('canUseHouse', house),
+    chooseCardsFromArchives: (card) => EffectBuilder.player.static('chooseCardsFromArchives', card),
     customDetachedPlayer: (properties) => EffectBuilder.player.detached('customEffect', properties),
-    delayedEffect: (properties) => EffectBuilder.player.detached('delayedEffect', {
-        apply: (player, context) => {
-            properties.context = properties.context || context;
-            return context.source.delayedEffect(() => properties);
-        },
-        unapply: (player, context, effect) => context.game.effectEngine.removeDelayedEffect(effect)
-    }),
+    delayedEffect: (properties) =>
+        EffectBuilder.player.detached('delayedEffect', {
+            apply: (player, context) => {
+                properties.context = properties.context || context;
+                return context.source.delayedEffect(() => properties);
+            },
+            unapply: (player, context, effect) =>
+                context.game.effectEngine.removeDelayedEffect(effect)
+        }),
     forgeAmberGainedByOpponent: () => EffectBuilder.player.static('forgeAmberGainedByOpponent'),
+    mayResolveBonusIconsAs: (newIcon, icon = 'any') =>
+        EffectBuilder.player.static('mayResolveBonusIconsAs', { newIcon: newIcon, icon: icon }),
     modifyKeyCost: (amount) => EffectBuilder.player.flexible('modifyKeyCost', amount),
     modifyHandSize: (amount) => EffectBuilder.player.flexible('modifyHandSize', amount),
     noActiveHouseForPlay: () => EffectBuilder.player.static('noActiveHouseForPlay'),
-    playerCannot: (type, condition) => EffectBuilder.player.static('abilityRestrictions', new CannotRestriction(type, condition)),
+    playerCannot: (type, condition) =>
+        EffectBuilder.player.static('abilityRestrictions', new CannotRestriction(type, condition)),
     redirectAmber: (recepient) => EffectBuilder.player.static('redirectAmber', recepient),
     restrictHouseChoice: (house) => EffectBuilder.player.static('restrictHouseChoice', house),
     stealFromPool: () => EffectBuilder.player.static('stealFromPool'),

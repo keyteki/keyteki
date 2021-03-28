@@ -5,7 +5,7 @@ class Mogghunter extends Card {
         this.fight({
             target: {
                 cardType: 'creature',
-                cardCondition: card => card.isOnFlank(),
+                cardCondition: (card) => card.isOnFlank(),
                 gameAction: ability.actions.dealDamage({ amount: 2 })
             }
         });

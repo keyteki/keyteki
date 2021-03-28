@@ -16,8 +16,9 @@ class ErrorBoundary extends React.Component {
         this.onReturnClick = this.onReturnClick.bind(this);
     }
 
-    componentWillReceiveProps(props) {
-        if(props.errorPath !== this.state.errorPath) {
+    // eslint-disable-next-line camelcase
+    UNSAFE_componentWillReceiveProps(props) {
+        if (props.errorPath !== this.state.errorPath) {
             this.setState({ error: null, errorPath: props.errorPath });
         }
     }
@@ -25,7 +26,7 @@ class ErrorBoundary extends React.Component {
     componentDidCatch(error, errorInfo) {
         this.setState({ error });
 
-        Sentry.withScope(scope => {
+        Sentry.withScope((scope) => {
             scope.setExtras(errorInfo);
             const eventId = Sentry.captureException(error);
             this.setState({ eventId });
@@ -41,16 +42,33 @@ class ErrorBoundary extends React.Component {
     }
 
     render() {
-        if(this.state.error) {
-            return (<div
-                className='alert alert-danger'
-                onClick={ () => Sentry.showReportDialog({ eventId: this.state.eventId }) }>
-                <p>{ this.props.t(this.props.message) }</p>
-                <p><Trans>There error has been logged, please click anywhere in this red box to fill out a more detailed report.</Trans></p>
+        if (this.state.error) {
+            return (
+                <div
+                    className='alert alert-danger'
+                    onClick={() => Sentry.showReportDialog({ eventId: this.state.eventId })}
+                >
+                    <p>{this.props.t(this.props.message)}</p>
+                    <p>
+                        <Trans>
+                            There error has been logged, please click anywhere in this red box to
+                            fill out a more detailed report.
+                        </Trans>
+                    </p>
 
-                { this.props.navigate &&
-                    <p><Trans i18nKey='errorboundary.clearerror'>Click <a href='#' onClick={ this.onReturnClick }>here</a> to clear the error and return to the home page</Trans></p> }
-            </div>);
+                    {this.props.navigate && (
+                        <p>
+                            <Trans i18nKey='errorboundary.clearerror'>
+                                Click{' '}
+                                <a href='#' onClick={this.onReturnClick}>
+                                    here
+                                </a>{' '}
+                                to clear the error and return to the home page
+                            </Trans>
+                        </p>
+                    )}
+                </div>
+            );
         }
 
         return this.props.children;

@@ -52,8 +52,8 @@ class SelectCardPrompt extends UiPrompt {
 
         this.choosingPlayer = choosingPlayer;
 
-        if(properties.source) {
-            if(_.isString(properties.source)) {
+        if (properties.source) {
+            if (_.isString(properties.source)) {
                 this.promptTitle = properties.source;
             } else {
                 this.source = properties.source;
@@ -61,20 +61,28 @@ class SelectCardPrompt extends UiPrompt {
             }
         }
 
-        this.source = this.source || properties.context && properties.context.source || new EffectSource(game);
+        this.source =
+            this.source ||
+            (properties.context && properties.context.source) ||
+            new EffectSource(game);
         this.promptTitle = this.promptTitle || this.source.name;
 
         this.properties = properties;
-        this.context = properties.context || new AbilityContext({ game: game, player: choosingPlayer, source: this.source });
+        this.context =
+            properties.context ||
+            new AbilityContext({ game: game, player: choosingPlayer, source: this.source });
         _.defaults(this.properties, this.defaultProperties());
-        if(properties.gameAction) {
-            if(!Array.isArray(properties.gameAction)) {
+        if (properties.gameAction) {
+            if (!Array.isArray(properties.gameAction)) {
                 this.properties.gameAction = [properties.gameAction];
             }
 
             let cardCondition = this.properties.cardCondition;
             this.properties.cardCondition = (card, context) =>
-                cardCondition(card, context) && this.properties.gameAction.some(gameAction => gameAction.canAffect(card, context));
+                cardCondition(card, context) &&
+                this.properties.gameAction.some((gameAction) =>
+                    gameAction.canAffect(card, context)
+                );
         }
 
         this.selector = properties.selector || CardSelector.for(this.properties);
@@ -100,15 +108,17 @@ class SelectCardPrompt extends UiPrompt {
     getDefaultControls() {
         let targets = this.context.targets ? Object.values(this.context.targets) : [];
         targets = targets.reduce((array, target) => array.concat(target), []);
-        if(targets.length === 0 && this.context.event && this.context.event.card) {
+        if (targets.length === 0 && this.context.event && this.context.event.card) {
             this.targets = [this.context.event.card];
         }
 
-        return [{
-            type: 'targeting',
-            source: this.source.getShortSummary(),
-            targets: targets.map(target => target.getShortSummary())
-        }];
+        return [
+            {
+                type: 'targeting',
+                source: this.source.getShortSummary(),
+                targets: targets.map((target) => target.getShortSummary())
+            }
+        ];
     }
 
     savePreviouslySelectedCards() {
@@ -117,7 +127,7 @@ class SelectCardPrompt extends UiPrompt {
     }
 
     continue() {
-        if(!this.isComplete()) {
+        if (!this.isComplete()) {
             this.highlightSelectableCards();
         }
 
@@ -128,8 +138,9 @@ class SelectCardPrompt extends UiPrompt {
         let allCards = this.selector.findPossibleCards(this.context);
         this.choosingPlayer.setSelectableCards(this.selector.getAllLegalTargets(this.context));
 
-        if(this.revealTargets && !this.revealFunc) {
-            this.revealFunc = (card, player) => player === this.choosingPlayer && allCards.includes(card);
+        if (this.revealTargets && !this.revealFunc) {
+            this.revealFunc = (card, player) =>
+                player === this.choosingPlayer && allCards.includes(card);
             this.game.cardVisibility.addRule(this.revealFunc);
         }
     }
@@ -140,13 +151,16 @@ class SelectCardPrompt extends UiPrompt {
 
     activePrompt() {
         let buttons = this.properties.buttons;
-        if(this.properties.optional || !this.selector.automaticFireOnSelect(this.context) && this.hasEnoughSelected()) {
-            if(buttons.every(button => button.text !== 'Done')) {
+        if (
+            this.properties.optional ||
+            (!this.selector.automaticFireOnSelect(this.context) && this.hasEnoughSelected())
+        ) {
+            if (buttons.every((button) => button.text !== 'Done')) {
                 buttons = [{ text: 'Done', arg: 'done' }].concat(buttons);
             }
         }
 
-        if(this.game.manualMode && !_.any(buttons, button => button.arg === 'cancel')) {
+        if (this.game.manualMode && !_.any(buttons, (button) => button.arg === 'cancel')) {
             buttons = buttons.concat({ text: 'Cancel Prompt', arg: 'cancel' });
         }
 
@@ -154,7 +168,9 @@ class SelectCardPrompt extends UiPrompt {
             selectCard: this.properties.selectCard,
             selectRing: true,
             selectOrder: this.properties.ordered,
-            menuTitle: this.properties.activePromptTitle || this.selector.defaultActivePromptTitle(this.context),
+            menuTitle:
+                this.properties.activePromptTitle ||
+                this.selector.defaultActivePromptTitle(this.context),
             buttons: buttons,
             promptTitle: this.promptTitle,
             controls: this.properties.controls
@@ -162,8 +178,12 @@ class SelectCardPrompt extends UiPrompt {
     }
 
     hasEnoughSelected() {
-        return this.selector.hasEnoughSelected(this.selectedCards, this.context) ||
-           this.selector.getAllLegalTargets(this.context).every(card => this.selectedCards.includes(card));
+        return (
+            this.selector.hasEnoughSelected(this.selectedCards, this.context) ||
+            this.selector
+                .getAllLegalTargets(this.context)
+                .every((card) => this.selectedCards.includes(card))
+        );
     }
 
     waitingPrompt() {
@@ -171,26 +191,29 @@ class SelectCardPrompt extends UiPrompt {
     }
 
     onCardClicked(player, card) {
-        if(player !== this.choosingPlayer) {
+        if (player !== this.choosingPlayer) {
             return false;
         }
 
-        if(!this.checkCardCondition(card)) {
+        if (!this.checkCardCondition(card)) {
             return false;
         }
 
-        if(!this.selectCard(card)) {
+        if (!this.selectCard(card)) {
             return false;
         }
 
-        if(this.selector.automaticFireOnSelect(this.context) && this.selector.hasReachedLimit(this.selectedCards, this.context)) {
+        if (
+            this.selector.automaticFireOnSelect(this.context) &&
+            this.selector.hasReachedLimit(this.selectedCards, this.context)
+        ) {
             this.fireOnSelect();
         }
     }
 
     checkCardCondition(card) {
         // Always allow a card to be unselected
-        if(this.selectedCards.includes(card)) {
+        if (this.selectedCards.includes(card)) {
             return true;
         }
 
@@ -201,19 +224,22 @@ class SelectCardPrompt extends UiPrompt {
     }
 
     selectCard(card) {
-        if(this.selector.hasReachedLimit(this.selectedCards, this.context) && !this.selectedCards.includes(card)) {
+        if (
+            this.selector.hasReachedLimit(this.selectedCards, this.context) &&
+            !this.selectedCards.includes(card)
+        ) {
             return false;
         }
 
-        if(!this.selectedCards.includes(card)) {
+        if (!this.selectedCards.includes(card)) {
             this.selectedCards.push(card);
         } else {
-            this.selectedCards = _.reject(this.selectedCards, c => c === card);
+            this.selectedCards = _.reject(this.selectedCards, (c) => c === card);
         }
 
         this.choosingPlayer.setSelectedCards(this.selectedCards);
 
-        if(this.properties.onCardToggle) {
+        if (this.properties.onCardToggle) {
             this.properties.onCardToggle(this.choosingPlayer, card);
         }
 
@@ -222,7 +248,7 @@ class SelectCardPrompt extends UiPrompt {
 
     fireOnSelect() {
         let cardParam = this.selector.formatSelectParam(this.selectedCards);
-        if(this.properties.onSelect(this.choosingPlayer, cardParam)) {
+        if (this.properties.onSelect(this.choosingPlayer, cardParam)) {
             this.complete();
             return true;
         }
@@ -232,13 +258,16 @@ class SelectCardPrompt extends UiPrompt {
     }
 
     menuCommand(player, arg) {
-        if(arg === 'cancel' || (arg === 'done' && this.properties.optional && this.selectedCards.length === 0)) {
+        if (
+            arg === 'cancel' ||
+            (arg === 'done' && this.properties.optional && this.selectedCards.length === 0)
+        ) {
             this.properties.onCancel(player);
             this.complete();
             return true;
-        } else if(arg === 'done' && this.hasEnoughSelected()) {
+        } else if (arg === 'done' && this.hasEnoughSelected()) {
             return this.fireOnSelect();
-        } else if(this.properties.onMenuCommand(player, arg)) {
+        } else if (this.properties.onMenuCommand(player, arg)) {
             this.complete();
             return true;
         }
@@ -259,7 +288,7 @@ class SelectCardPrompt extends UiPrompt {
         // Restore previous selections.
         this.choosingPlayer.setSelectedCards(this.previouslySelectedCards);
 
-        if(this.revealTargets && this.revealFunc) {
+        if (this.revealTargets && this.revealFunc) {
             this.game.cardVisibility.removeRule(this.revealFunc);
             this.revealFunc = null;
         }

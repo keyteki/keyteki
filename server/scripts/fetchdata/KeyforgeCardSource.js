@@ -14,15 +14,15 @@ const ValidKeywords = [
 
 class JsonCardSource {
     sleep(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
+        return new Promise((resolve) => setTimeout(resolve, ms));
     }
 
     parseKeywords(text) {
         let firstLine = text.split('\n')[0] || '';
-        let potentialKeywords = firstLine.split('.').map(k => k.toLowerCase().trim());
+        let potentialKeywords = firstLine.split('.').map((k) => k.toLowerCase().trim());
 
-        let printedKeywords = potentialKeywords.filter(potentialKeyword => {
-            return ValidKeywords.some(keyword => potentialKeyword.indexOf(keyword) === 0);
+        let printedKeywords = potentialKeywords.filter((potentialKeyword) => {
+            return ValidKeywords.some((keyword) => potentialKeyword.indexOf(keyword) === 0);
         });
 
         return printedKeywords;
@@ -41,7 +41,7 @@ class JsonCardSource {
 
         try {
             response = await util.httpRequest(apiUrl, { json: true });
-        } catch(err) {
+        } catch (err) {
             console.info(err);
 
             return;
@@ -52,11 +52,14 @@ class JsonCardSource {
 
         console.info(`Fetching all ${deckCount} decks, which is ${totalPages} pages`);
 
-        for(let i = 1; i < totalPages; i++) {
+        for (let i = 1; i < totalPages; i++) {
             try {
-                response = await util.httpRequest(`${apiUrl}/?page=${i}&links=cards&page_size=${pageSize}&ordering=-date`, { json: true });
-            } catch(err) {
-                if(err.statusCode === 429) {
+                response = await util.httpRequest(
+                    `${apiUrl}/?page=${i}&links=cards&page_size=${pageSize}&ordering=-date`,
+                    { json: true }
+                );
+            } catch (err) {
+                if (err.statusCode === 429) {
                     await this.sleep(100);
                     i--;
                     continue;
@@ -68,15 +71,15 @@ class JsonCardSource {
                 continue;
             }
 
-            if(!response) {
+            if (!response) {
                 pageErrors.push(i);
 
                 console.info(`Page ${i} failed, will try it later`);
                 continue;
             }
 
-            for(let card of response._linked.cards) {
-                if(!cards[card.expansion][card.card_number]) {
+            for (let card of response._linked.cards) {
+                if (!cards[card.expansion][card.card_number]) {
                     let newCard = {
                         name: card.card_title,
                         number: card.card_number,
@@ -97,14 +100,21 @@ class JsonCardSource {
                 }
             }
 
-            if(Object.values(cards[341]).length === expectedCardCount && Object.values(cards[435]).length === expectedCardCount) {
+            if (
+                Object.values(cards[341]).length === expectedCardCount &&
+                Object.values(cards[435]).length === expectedCardCount
+            ) {
                 console.info('Got all the cards we were expecting');
 
                 break;
             }
 
-            if(i % 10 === 0) {
-                console.info(`Processed ${i} pages, ${totalPages - i} to go.  Have ${Object.values(cards[341]).length} CoTA cards and ${Object.values(cards[435]).length} AoA cards so far..`);
+            if (i % 10 === 0) {
+                console.info(
+                    `Processed ${i} pages, ${totalPages - i} to go.  Have ${
+                        Object.values(cards[341]).length
+                    } CoTA cards and ${Object.values(cards[435]).length} AoA cards so far..`
+                );
             }
         }
 

@@ -9,10 +9,10 @@ class Malison extends Card {
                 gameAction: ability.actions.moveOnBattleline()
             },
             effect: 'move {1} in its battleline',
-            effectArgs: context => context.target,
-            then: context => ({
+            effectArgs: (context) => context.target,
+            then: (context) => ({
                 condition: () => context.target.isOnFlank(),
-                gameAction: ability.actions.capture({ target: context.target, ownController: true })
+                gameAction: ability.actions.capture({ target: context.target })
             })
         });
     }

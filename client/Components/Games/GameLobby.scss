@@ -1,0 +1,21 @@
+@import '../../styles/variables';
+@import '../../styles/colours';
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins/_breakpoints';
+
+@include media-breakpoint-up(sm) {
+    .game-buttons {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        button:first-of-type {
+            margin-bottom: 10px;
+        }
+    }
+}
+
+.form-check-inline {
+    margin-bottom: 0.25rem;
+}

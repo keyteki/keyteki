@@ -18,7 +18,7 @@ class LastingEffectCardAction extends CardGameAction {
     update(context) {
         super.update(context);
         let effect = this.effect;
-        if(!Array.isArray(effect)) {
+        if (!Array.isArray(effect)) {
             effect = [effect];
         }
 
@@ -30,11 +30,13 @@ class LastingEffectCardAction extends CardGameAction {
             until: this.until,
             roundDuration: this.roundDuration
         };
-        this.effect = effect.map(factory => factory(context.game, context.source, effectProperties));
+        this.effect = effect.map((factory) =>
+            factory(context.game, context.source, effectProperties)
+        );
     }
 
     canAffect(card, context) {
-        if(card.location !== 'play area' && this.targetLocation !== 'hand') {
+        if (card.location !== 'play area' && !this.targetLocation) {
             return false;
         }
 
@@ -51,7 +53,10 @@ class LastingEffectCardAction extends CardGameAction {
             targetLocation: this.targetLocation,
             until: this.until
         };
-        return super.createEvent('onEffectApplied', { card: card, context: context }, event => event.context.source[this.duration](() => properties));
+        let duration = this.until ? 'lastingEffect' : this.duration;
+        return super.createEvent('onEffectApplied', { card: card, context: context }, (event) =>
+            event.context.source[duration](() => properties)
+        );
     }
 }
 

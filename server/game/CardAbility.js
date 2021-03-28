@@ -9,25 +9,46 @@ class CardAbility extends ThenAbility {
     }
 
     isInValidLocation(context) {
-        return this.card.type === 'event' ? context.player.isCardInPlayableLocation(context.source, 'play') : this.location.includes(this.card.location);
+        return this.card.type === 'event'
+            ? context.player.isCardInPlayableLocation(context.source, 'play')
+            : this.location.includes(this.card.location);
+    }
+
+    meetsRequirements(context) {
+        if (!this.card.checkRestrictions('triggerAbilities', context)) {
+            return 'cannotTrigger';
+        }
+
+        return super.meetsRequirements(context);
     }
 
     addMessage(messageArgs) {
         let message = '';
-        for(let i = 0; i < messageArgs.length; ++i) {
+        for (let i = 0; i < messageArgs.length; ++i) {
             message += `{${i}}`;
         }
 
         this.game.addMessage(message, ...messageArgs);
     }
 
-    getMessageArgs(context, effectMessage = null, effectArgs = [], extraArgs = null, previousMessageArgs = null, last = false) {
-        let messageArgs = previousMessageArgs || [context.player, context.source.type === 'event' ? ' plays ' : ' uses ', context.source];
+    getMessageArgs(
+        context,
+        effectMessage = null,
+        effectArgs = [],
+        extraArgs = null,
+        previousMessageArgs = null,
+        last = false
+    ) {
+        let messageArgs = previousMessageArgs || [
+            context.player,
+            context.source.type === 'event' ? ' plays ' : ' uses ',
+            context.source
+        ];
 
         // effectMessage: Player1 plays Assassination
-        if(effectMessage) {
-            if(extraArgs) {
-                if(typeof extraArgs === 'function') {
+        if (effectMessage) {
+            if (extraArgs) {
+                if (typeof extraArgs === 'function') {
                     extraArgs = extraArgs(context);
                 }
 
@@ -35,7 +56,7 @@ class CardAbility extends ThenAbility {
             }
 
             // to
-            if(messageArgs.indexOf(' to ') === -1) {
+            if (messageArgs.indexOf(' to ') === -1) {
                 messageArgs.push(' to ');
             } else {
                 // appending a message
@@ -43,24 +64,26 @@ class CardAbility extends ThenAbility {
             }
 
             // discard Stoic Gunso
-            messageArgs.push({ message: this.game.gameChat.getFormattedMessage(effectMessage, ...effectArgs) });
+            messageArgs.push({
+                message: this.game.gameChat.getFormattedMessage(effectMessage, ...effectArgs)
+            });
         }
 
         return messageArgs;
     }
 
     displayMessage(context) {
-        if(this.properties.preferActionPromptMessage) {
+        if (this.properties.preferActionPromptMessage) {
             return;
         }
 
-        if(this.properties.message) {
+        if (this.properties.message) {
             let messageArgs = this.properties.messageArgs;
-            if(typeof messageArgs === 'function') {
+            if (typeof messageArgs === 'function') {
                 messageArgs = messageArgs(context);
             }
 
-            if(!Array.isArray(messageArgs)) {
+            if (!Array.isArray(messageArgs)) {
                 messageArgs = [messageArgs];
             }
 
@@ -68,31 +91,70 @@ class CardAbility extends ThenAbility {
             return;
         }
 
-        if(!this.properties.effect) {
-            let gameActions = this.getGameActions(context).filter(gameAction => gameAction.hasLegalTarget(context));
-            if(!gameActions || gameActions.length === 0) {
+        if (!this.properties.effect) {
+            let gameActions = this.getGameActions(context).filter((gameAction) =>
+                gameAction.hasLegalTarget(context)
+            );
+            if (!gameActions || gameActions.length === 0) {
                 this.addMessage(this.getMessageArgs(context));
             } else {
-                let messageArgs = this.getMessageArgs(context, gameActions[0].effectMsg, [gameActions[0].target], gameActions[0].effectArgs);
-                if(this.properties.effectStyle === 'append') {
-                    for(let i = 1; i < gameActions.length; ++i) {
+                let messageArgs = this.getMessageArgs(
+                    context,
+                    gameActions[0].effectMsg,
+                    [gameActions[0].target],
+                    gameActions[0].effectArgs
+                );
+                if (this.properties.effectStyle === 'append') {
+                    for (let i = 1; i < gameActions.length; ++i) {
                         let gameAction = gameActions[i];
-                        messageArgs = this.getMessageArgs(context, gameAction.effectMsg, [gameAction.target], gameAction.effectArgs,
-                            messageArgs, i === gameActions.length - 1);
+                        messageArgs = this.getMessageArgs(
+                            context,
+                            gameAction.effectMsg,
+                            [gameAction.target],
+                            gameAction.effectArgs,
+                            messageArgs,
+                            i === gameActions.length - 1
+                        );
                     }
 
                     this.addMessage(messageArgs);
-                } else if(this.properties.effectStyle === 'all') {
-                    gameActions.forEach(gameAction => {
-                        this.addMessage(this.getMessageArgs(context, gameAction.effectMsg, [gameAction.target], gameAction.effectArgs));
+                } else if (this.properties.effectStyle === 'all') {
+                    gameActions.forEach((gameAction) => {
+                        this.addMessage(
+                            this.getMessageArgs(
+                                context,
+                                gameAction.effectMsg,
+                                [gameAction.target],
+                                gameAction.effectArgs
+                            )
+                        );
                     });
                 } else {
                     this.addMessage(messageArgs);
                 }
             }
         } else {
-            this.addMessage(this.getMessageArgs(context, this.properties.effect, [context.target || context.source], this.properties.effectArgs));
+            this.addMessage(
+                this.getMessageArgs(
+                    context,
+                    this.properties.effect,
+                    [context.target || context.source],
+                    this.properties.effectArgs
+                )
+            );
         }
+    }
+
+    isPlay() {
+        return false;
+    }
+
+    isReap() {
+        return false;
+    }
+
+    isFight() {
+        return false;
     }
 
     isTriggeredAbility() {

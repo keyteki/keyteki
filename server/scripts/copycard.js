@@ -15,15 +15,15 @@ let options = commandLineArgs(optionsDefinition);
 
 function findFile(dirPath, targetFile) {
     var files = fs.readdirSync(dirPath);
-    for(var i = 0; i < files.length; ++i) {
+    for (var i = 0; i < files.length; ++i) {
         var filename = path.join(dirPath, files[i]);
         var stat = fs.lstatSync(filename);
-        if(stat.isDirectory()) {
+        if (stat.isDirectory()) {
             let foundFile = findFile(filename, targetFile);
-            if(foundFile) {
+            if (foundFile) {
                 return foundFile;
             }
-        } else if(filename.endsWith(targetFile)) {
+        } else if (filename.endsWith(targetFile)) {
             return fs.readFileSync(filename, 'utf8');
         }
     }
@@ -35,13 +35,13 @@ function copyCard(cardsDir, source, target, tid, tpack) {
     let sourceName = source + '.js';
     let card = findFile(cardsDir, sourceName);
 
-    if(!card) {
+    if (!card) {
         console.log('Unable to find card: ' + sourceName);
         return -1;
     }
 
     card = card.replace(new RegExp(source, 'g'), target);
-    card = card.replace(new RegExp(target + '\\.id = \'.*\';', 'g'), target + '.id = \'' + tid + '\';');
+    card = card.replace(new RegExp(target + "\\.id = '.*';", 'g'), target + ".id = '" + tid + "';");
 
     let targetFile = path.join(cardsDir, tpack, target + '.js');
 
@@ -53,4 +53,10 @@ function copyCard(cardsDir, source, target, tid, tpack) {
 
 // example usage
 // node server/scripts/copycard.js --source=Rustgnawer --target=Hock --tid=hock
-copyCard(options['cards-dir'], options['source'], options['target'], options['tid'], options['tpack']);
+copyCard(
+    options['cards-dir'],
+    options['source'],
+    options['target'],
+    options['tid'],
+    options['tpack']
+);

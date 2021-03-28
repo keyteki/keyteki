@@ -1,29 +1,30 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { Modal } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 
 import GameConfiguration from './GameConfiguration';
-import Modal from '../Site/Modal';
+import './GameConfigurationModal.scss';
 
-import { withTranslation } from 'react-i18next';
+const GameConfigurationModal = ({ optionSettings, onClose, onOptionSettingToggle }) => {
+    const { t } = useTranslation();
 
-export class GameConfigurationModal extends React.Component {
-    render() {
-        return (
-            <Modal id={ this.props.id } className='settings-popup row' bodyClassName='col-xs-12' title={ this.props.t('Game Configuration') }>
-                <GameConfiguration
-                    optionSettings={ this.props.optionSettings }
-                    onOptionSettingToggle={ this.props.onOptionSettingToggle } />
-            </Modal>);
-    }
-}
-
-GameConfigurationModal.displayName = 'GameConfigurationModal';
-GameConfigurationModal.propTypes = {
-    i18n: PropTypes.object,
-    id: PropTypes.string,
-    onOptionSettingToggle: PropTypes.func,
-    optionSettings: PropTypes.object,
-    t: PropTypes.func
+    return (
+        <>
+            <Modal show={true} onHide={onClose}>
+                <Modal.Header closeButton>
+                    <Modal.Title>{t('Game Configuration')}</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <GameConfiguration
+                        optionSettings={optionSettings}
+                        onOptionSettingToggle={onOptionSettingToggle}
+                    />
+                </Modal.Body>
+            </Modal>
+        </>
+    );
 };
 
-export default withTranslation()(GameConfigurationModal);
+GameConfigurationModal.displayName = 'GameConfigurationModal';
+
+export default GameConfigurationModal;

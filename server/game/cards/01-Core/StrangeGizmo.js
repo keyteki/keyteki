@@ -7,7 +7,9 @@ class StrangeGizmo extends Card {
                 onForgeKey: (event, context) => event.player === context.player
             },
             effect: 'destroy each creature and artifact',
-            gameAction: ability.actions.destroy(context => ({ target: context.game.cardsInPlay }))
+            gameAction: ability.actions.destroy((context) => ({
+                target: context.game.cardsInPlay
+            }))
         });
     }
 }

@@ -5,7 +5,7 @@ class BoobyTrap extends Card {
         this.play({
             target: {
                 cardType: 'creature',
-                cardCondition: card => !card.isOnFlank(),
+                cardCondition: (card) => !card.isOnFlank(),
                 gameAction: ability.actions.dealDamage({ amount: 4, splash: 2 })
             }
         });

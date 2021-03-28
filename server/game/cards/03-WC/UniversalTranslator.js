@@ -8,7 +8,7 @@ class UniversalTranslator extends Card {
                     target: {
                         numCards: 1,
                         optional: false,
-                        cardCondition: card => !card.hasHouse('staralliance'),
+                        cardCondition: (card) => !card.hasHouse('staralliance'),
                         cardType: 'creature',
                         controller: 'self',
                         gameAction: ability.actions.use()
@@ -18,7 +18,7 @@ class UniversalTranslator extends Card {
                     target: {
                         numCards: 1,
                         optional: false,
-                        cardCondition: card => !card.hasHouse('staralliance'),
+                        cardCondition: (card) => !card.hasHouse('staralliance'),
                         cardType: 'creature',
                         controller: 'self',
                         gameAction: ability.actions.use()

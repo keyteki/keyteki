@@ -1,56 +1,43 @@
 const _ = require('underscore');
 
 const CardSelector = require('../CardSelector.js');
+const AbilityTarget = require('./AbilityTarget.js');
 
-class AbilityTargetCard {
+class AbilityTargetCard extends AbilityTarget {
     constructor(name, properties, ability) {
-        this.name = name;
-        this.properties = properties;
-        for(let gameAction of this.properties.gameAction) {
-            gameAction.setDefaultTarget(context => context.targets[name]);
+        super(name, properties, ability);
+        for (let gameAction of this.properties.gameAction) {
+            gameAction.setDefaultTarget((context) => context.targets[name]);
         }
 
         this.selector = this.getSelector(properties);
-        this.dependentTarget = null;
-        this.dependentCost = null;
-        if(this.properties.dependsOn) {
-            let dependsOnTarget = ability.targets.find(target => target.name === this.properties.dependsOn);
-            dependsOnTarget.dependentTarget = this;
-        }
     }
 
     getSelector(properties) {
         let cardCondition = (card, context) => {
             let contextCopy = context.copy();
             contextCopy.targets[this.name] = this.selector.formatSelectParam([card]);
-            if(this.name === 'target') {
+            if (this.name === 'target') {
                 contextCopy.target = contextCopy.targets[this.name];
             }
 
-            return (!properties.cardCondition || properties.cardCondition(card, contextCopy)) &&
-                   (properties.gameAction.length === 0 || properties.gameAction.some(gameAction => gameAction.hasLegalTarget(contextCopy)));
+            this.resetGameActions();
+            return (
+                (!properties.cardCondition || properties.cardCondition(card, contextCopy)) &&
+                (properties.gameAction.length === 0 ||
+                    properties.gameAction.some((gameAction) =>
+                        gameAction.hasLegalTarget(contextCopy)
+                    ))
+            );
         };
 
-        return CardSelector.for(Object.assign({}, properties, { cardCondition: cardCondition, targets: true }));
-    }
-
-    canResolve(context) {
-        // if this depends on another target, that will check hasLegalTarget already
-        return !!this.properties.dependsOn || this.hasLegalTarget(context);
-    }
-
-    resetGameActions() {
-        for(let action of this.properties.gameAction) {
-            action.reset();
-        }
+        return CardSelector.for(
+            Object.assign({}, properties, { cardCondition: cardCondition, targets: true })
+        );
     }
 
     hasLegalTarget(context) {
-        return this.selector.hasEnoughTargets(context);
-    }
-
-    getGameAction(context) {
-        return this.properties.gameAction.filter(gameAction => gameAction.hasLegalTarget(context));
+        return this.selector.hasEnoughTargets(context) && super.hasLegalTarget(context);
     }
 
     getAllLegalTargets(context) {
@@ -58,7 +45,7 @@ class AbilityTargetCard {
     }
 
     resolve(context, targetResults) {
-        if(targetResults.cancelled || targetResults.payCostsFirst) {
+        if (targetResults.cancelled || targetResults.payCostsFirst) {
             return;
         }
 
@@ -66,13 +53,13 @@ class AbilityTargetCard {
 
         let buttons = [];
         let waitingPromptTitle = '';
-        if(context.stage === 'pretarget') {
-            if(!targetResults.noCostsFirstButton) {
+        if (context.stage === 'pretarget') {
+            if (!targetResults.noCostsFirstButton) {
                 buttons.push({ text: 'Pay costs first', arg: 'costsFirst' });
             }
 
             buttons.push({ text: 'Cancel', arg: 'cancel' });
-            if(context.ability.abilityType === 'action') {
+            if (context.ability.abilityType === 'action') {
                 waitingPromptTitle = 'Waiting for opponent to take an action or pass';
             } else {
                 waitingPromptTitle = 'Waiting for opponent';
@@ -86,7 +73,7 @@ class AbilityTargetCard {
             buttons: buttons,
             onSelect: (player, card) => {
                 context.targets[this.name] = card;
-                if(this.name === 'target') {
+                if (this.name === 'target') {
                     context.target = card;
                 }
 
@@ -97,7 +84,7 @@ class AbilityTargetCard {
                 return true;
             },
             onMenuCommand: (player, arg) => {
-                if(arg === 'costsFirst') {
+                if (arg === 'costsFirst') {
                     targetResults.costsFirst = true;
                     return true;
                 }
@@ -105,25 +92,30 @@ class AbilityTargetCard {
                 return true;
             }
         };
-        context.game.promptForSelect(context.player, Object.assign(promptProperties, otherProperties));
+        context.game.promptForSelect(
+            context.player,
+            Object.assign(promptProperties, otherProperties)
+        );
     }
 
     checkTarget(context) {
-        if(this.properties.optional) {
-            return (!this.dependentTarget || this.dependentTarget.checkTarget(context));
-        } else if(!context.targets[this.name]) {
+        if (this.properties.optional) {
+            return super.checkTarget(context);
+        } else if (!context.targets[this.name]) {
             return false;
         }
 
         let cards = context.targets[this.name];
-        if(!Array.isArray(cards)) {
+        if (!Array.isArray(cards)) {
             cards = [cards];
         }
 
-        return (cards.every(card => this.selector.canTarget(card, context)) &&
-                this.selector.hasEnoughSelected(cards, context) &&
-                !this.selector.hasExceededLimit(cards)) &&
-                (!this.dependentTarget || this.dependentTarget.checkTarget(context));
+        return (
+            cards.every((card) => this.selector.canTarget(card, context)) &&
+            this.selector.hasEnoughSelected(cards, context) &&
+            !this.selector.hasExceededLimit(cards) &&
+            super.checkTarget(context)
+        );
     }
 }
 

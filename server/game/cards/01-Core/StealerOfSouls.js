@@ -4,14 +4,19 @@ class StealerOfSouls extends Card {
     setupCardAbilities(ability) {
         this.reaction({
             message: '{0} uses {1} to purge {2} and gain 1 amber',
-            messageArgs: context => {
+            messageArgs: (context) => {
                 return [context.player, context.source, context.target];
             },
             when: {
-                onDamageDealt: (event, context) => event.damageSource === context.source && event.destroyed
+                onDamageDealt: (event, context) =>
+                    event.damageSource === context.source &&
+                    event.destroyEvent &&
+                    event.destroyEvent.resolved
             },
             gameAction: [
-                ability.actions.purge(context => ({ target: context.event.card.location === 'discard' ? context.event.card : [] })),
+                ability.actions.purge((context) => ({
+                    target: context.event.card.location === 'discard' ? context.event.card : []
+                })),
                 ability.actions.gainAmber()
             ]
         });

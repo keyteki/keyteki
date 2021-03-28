@@ -1,0 +1,17 @@
+@import '../../styles/variables';
+@import '../../styles/colours';
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+
+.deck-selection {
+    margin-left: 10px;
+    padding: 6px 12px;
+    border: 1px solid black;
+    border-radius: 4px;
+    background: theme-color('primary');
+    color: white;
+}
+
+.player-row {
+    min-height: 35px;
+}

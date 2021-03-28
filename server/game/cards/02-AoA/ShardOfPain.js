@@ -4,9 +4,13 @@ class ShardOfPain extends Card {
     setupCardAbilities(ability) {
         this.action({
             effect: 'deal 1 damage to a creature for each friendly shard',
-            gameAction: ability.actions.allocateDamage(context => ({
+            gameAction: ability.actions.allocateDamage((context) => ({
                 controller: 'opponent',
-                numSteps: context.player.cardsInPlay.filter(card => card.hasTrait('shard')).length
+                numSteps:
+                    1 +
+                    context.player.cardsInPlay.filter(
+                        (card) => card !== context.source && card.hasTrait('shard')
+                    ).length
             }))
         });
     }

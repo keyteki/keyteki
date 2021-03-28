@@ -5,7 +5,7 @@ class GatewayToDis extends Card {
         this.play({
             effect: 'destroy all creatures and gain 3 chains',
             gameAction: [
-                ability.actions.destroy(context => ({ target: context.game.creaturesInPlay })),
+                ability.actions.destroy((context) => ({ target: context.game.creaturesInPlay })),
                 ability.actions.gainChains({ amount: 3 })
             ]
         });

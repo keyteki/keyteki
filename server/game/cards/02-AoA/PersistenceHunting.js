@@ -6,7 +6,11 @@ class PersistenceHunting extends Card {
             target: {
                 mode: 'house'
             },
-            gameAction: ability.actions.exhaust(context => ({ target: context.game.creaturesInPlay.filter(card => card.controller !== this.controller && card.hasHouse(context.house)) }))
+            gameAction: ability.actions.exhaust((context) => ({
+                target: context.game.creaturesInPlay.filter(
+                    (card) => card.controller !== this.controller && card.hasHouse(context.house)
+                )
+            }))
         });
     }
 }

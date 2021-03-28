@@ -6,22 +6,14 @@ class ConditionalAction extends GameAction {
         this.effectMsg = 'conditionally do something';
     }
 
-    getGameAction(context) {
-        if(this.trueGameAction) {
-            this.trueGameAction.setDefaultTarget(() => context.target);
-        }
-
-        if(this.falseGameAction) {
-            this.falseGameAction.setDefaultTarget(() => context.target);
-        }
-
+    evaluateGameAction(context) {
         let condition = this.condition;
-        if(typeof(condition) === 'function') {
+        if (typeof condition === 'function') {
             condition = condition(context);
         }
 
         let gameAction = condition ? this.trueGameAction : this.falseGameAction;
-        if(gameAction) {
+        if (gameAction) {
             this.effectMsg = gameAction.effectMsg;
             this.effectArgs = gameAction.effectArgs;
         }
@@ -29,35 +21,55 @@ class ConditionalAction extends GameAction {
         return gameAction;
     }
 
+    setDefaultTarget(func) {
+        if (this.trueGameAction) {
+            this.trueGameAction.setDefaultTarget(func);
+        }
+        if (this.falseGameAction) {
+            this.falseGameAction.setDefaultTarget(func);
+        }
+    }
+
+    setTarget(target) {
+        if (this.trueGameAction) {
+            this.trueGameAction.setTarget(target);
+        }
+
+        if (this.falseGameAction) {
+            this.falseGameAction.setTarget(target);
+        }
+    }
+
     update(context) {
         super.update(context);
 
-        if(this.trueGameAction) {
+        if (this.trueGameAction) {
             this.trueGameAction.update(context);
         }
 
-        if(this.falseGameAction) {
+        if (this.falseGameAction) {
             this.falseGameAction.update(context);
         }
     }
 
     hasLegalTarget(context) {
         this.update(context);
-        if(this.target.length === 0) {
-            return false;
-        }
 
-        let gameAction = this.getGameAction(context);
-        return gameAction && gameAction.hasLegalTarget(context);
+        return (
+            (this.trueGameAction && this.trueGameAction.hasLegalTarget(context)) ||
+            (this.falseGameAction && this.falseGameAction.hasLegalTarget(context))
+        );
     }
 
     canAffect(target, context) {
-        let gameAction = this.getGameAction(context);
-        return gameAction && gameAction.canAffect(target, context);
+        return (
+            (this.trueGameAction && this.trueGameAction.canAffect(context)) ||
+            (this.falseGameAction && this.falseGameAction.canAffect(context))
+        );
     }
 
     getEventArray(context) {
-        let gameAction = this.getGameAction(context);
+        let gameAction = this.evaluateGameAction(context);
         return gameAction ? gameAction.getEventArray(context) : [];
     }
 }

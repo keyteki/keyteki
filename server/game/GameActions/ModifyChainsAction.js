@@ -12,7 +12,7 @@ class ModifyChainsAction extends PlayerAction {
     }
 
     canAffect(player, context) {
-        if(this.amount === 0) {
+        if (this.amount === 0) {
             return false;
         }
 
@@ -29,7 +29,7 @@ class ModifyChainsAction extends PlayerAction {
             amount: this.amount,
             context: context
         };
-        return super.createEvent('onModifyBid', params, event => {
+        return super.createEvent('onModifyBid', params, (event) => {
             player.chains = Math.max(player.chains + event.amount, 0);
         });
     }

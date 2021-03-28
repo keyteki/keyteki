@@ -3,19 +3,18 @@ const Card = require('../../Card.js');
 class ScowlyCaper extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
-            effect: ability.effects.canUse(card => card === this)
+            effect: ability.effects.canUse((card) => card === this)
         });
 
         this.persistentEffect({
             location: 'any',
-            match: this,
+            targetController: 'any',
             effect: ability.effects.entersPlayUnderOpponentsControl()
         });
 
         this.interrupt({
             when: {
-                onRoundEnded: (event, context) =>
-                    context.player === this.game.activePlayer
+                onRoundEnded: (event, context) => context.player === this.game.activePlayer
             },
             target: {
                 cardType: 'creature',

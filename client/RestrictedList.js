@@ -14,12 +14,16 @@ const restrictedList = {
 
 class RestrictedList {
     validate(cards) {
-        let cardsOnRestrictedList = cards.filter(card => restrictedList.cards.includes(card.id));
+        let cardsOnRestrictedList = cards.filter((card) => restrictedList.cards.includes(card.id));
 
         let errors = [];
 
-        if(cardsOnRestrictedList.length > 1) {
-            errors.push(`Contains more than 1 card on the FAQ v${restrictedList.version} restricted list: ${cardsOnRestrictedList.map(card => card.name).join(', ')}`);
+        if (cardsOnRestrictedList.length > 1) {
+            errors.push(
+                `Contains more than 1 card on the FAQ v${
+                    restrictedList.version
+                } restricted list: ${cardsOnRestrictedList.map((card) => card.name).join(', ')}`
+            );
         }
 
         return {

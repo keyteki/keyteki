@@ -4,10 +4,10 @@ class QyxxlyxPlagueMaster extends Card {
     setupCardAbilities(ability) {
         this.fight({
             reap: true,
-            gameAction: ability.actions.dealDamage(context => ({
+            gameAction: ability.actions.dealDamage((context) => ({
                 amount: 3,
                 ignoreArmor: true,
-                target: context.game.creaturesInPlay.filter(card => card.hasTrait('human'))
+                target: context.game.creaturesInPlay.filter((card) => card.hasTrait('human'))
             }))
         });
     }

@@ -1,45 +1,40 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { Trans } from 'react-i18next';
+import { ButtonGroup, Col } from 'react-bootstrap';
 
-import ConfirmedButton from '../Form/ConfirmedButton';
+import ConfirmButton from '../Form/ConfirmButton';
 import DeckSummary from './DeckSummary';
 import Panel from '../Site/Panel';
+import { deleteDeck } from '../../redux/actions';
+import { useDispatch } from 'react-redux';
 
-import { withTranslation, Trans } from 'react-i18next';
+/**
+ * @typedef ViewDeckProps
+ * @property {import('./DeckList').Deck} deck The currently selected deck
+ */
 
-class ViewDeck extends React.Component {
-    constructor() {
-        super();
+/**
+ * @param {ViewDeckProps} props
+ */
+const ViewDeck = ({ deck }) => {
+    const dispatch = useDispatch();
 
-        this.handleDeleteClick = this.handleDeleteClick.bind(this);
-    }
+    const handleDeleteClick = () => {
+        dispatch(deleteDeck(deck));
+    };
 
-    handleDeleteClick(event) {
-        event.preventDefault();
-        this.props.onDeleteDeck(this.props.deck);
-    }
-
-    render() {
-        let { deck, cards } = this.props;
-
-        return (
-            <div className='col-md-6'>
-                <Panel title={ deck.name }>
-                    <div className='btn-group col-xs-12'>
-                        <ConfirmedButton onClick={ this.handleDeleteClick }><Trans>Delete</Trans></ConfirmedButton>
-                    </div>
-                    <DeckSummary deck={ deck } cards={ cards } />
-                </Panel>
-            </div>);
-    }
-}
-
-ViewDeck.propTypes = {
-    cards: PropTypes.object,
-    deck: PropTypes.object.isRequired,
-    i18n: PropTypes.object,
-    onDeleteDeck: PropTypes.func.isRequired,
-    t: PropTypes.func
+    return (
+        <Panel title={deck.name}>
+            <Col xs={12} className='text-center'>
+                <ButtonGroup>
+                    <ConfirmButton onClick={handleDeleteClick}>
+                        <Trans>Delete</Trans>
+                    </ConfirmButton>
+                </ButtonGroup>
+            </Col>
+            <DeckSummary deck={deck} />
+        </Panel>
+    );
 };
 
-export default withTranslation()(ViewDeck);
+export default ViewDeck;

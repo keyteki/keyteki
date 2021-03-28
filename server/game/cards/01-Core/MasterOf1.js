@@ -6,7 +6,7 @@ class MasterOf1 extends Card {
             optional: true,
             target: {
                 cardType: 'creature',
-                cardCondition: card => card.power === 1,
+                cardCondition: (card) => card.power === 1,
                 gameAction: ability.actions.destroy()
             }
         });

@@ -19,8 +19,8 @@ class LostInTheWoods extends Card {
                     gameAction: ability.actions.returnToDeck({ shuffle: true })
                 }
             },
-            effects: 'shuffle {1} into their owner\'s deck',
-            effectsArg: context => [Object.values(context.targets)]
+            effect: "shuffle {1} into their owner's deck",
+            effectArgs: (context) => [Object.values(context.targets)]
         });
     }
 }

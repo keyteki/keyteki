@@ -3,17 +3,22 @@ const PlayerAction = require('./PlayerAction');
 class ForgeAction extends PlayerAction {
     setDefaultProperties() {
         this.modifier = 0;
+        this.atNoCost = false;
     }
 
     setup() {
         super.setup();
         this.name = 'forgeKey';
-        this.effectMsg = `forge a key at ${this.modifier ? '{1} amber' : ''} current cost`;
+        this.effectMsg = 'forge a key';
         this.effectArgs = this.modifier;
     }
 
+    getModifier(player) {
+        return this.atNoCost ? -player.getCurrentKeyCost() : this.modifier;
+    }
+
     canAffect(player, context) {
-        return player.canForgeKey(this.modifier) && super.canAffect(player, context);
+        return player.canForgeKey(this.getModifier(player)) && super.canAffect(player, context);
     }
 
     defaultTargets(context) {
@@ -21,7 +26,11 @@ class ForgeAction extends PlayerAction {
     }
 
     getEvent(player, context) {
-        return super.createEvent('onForgeKey', { player: player, modifier: this.modifier, context: context }, event => event.player.forgeKey(event.modifier));
+        return super.createEvent(
+            'onForgeKey',
+            { player: player, modifier: this.getModifier(player), context: context },
+            (event) => event.player.forgeKey(event.modifier)
+        );
     }
 }
 

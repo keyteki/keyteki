@@ -8,7 +8,7 @@ class AgentHooman extends Card {
                     mode: 'exactly',
                     numCards: 1,
                     cardType: 'creature',
-                    cardCondition: card => !card.hasHouse('mars'),
+                    cardCondition: (card) => !card.hasHouse('mars'),
                     controller: 'self',
                     gameAction: ability.actions.stun()
                 },
@@ -16,7 +16,7 @@ class AgentHooman extends Card {
                     mode: 'exactly',
                     numCards: 1,
                     cardType: 'creature',
-                    cardCondition: card => !card.hasHouse('mars'),
+                    cardCondition: (card) => !card.hasHouse('mars'),
                     controller: 'opponent',
                     gameAction: ability.actions.stun()
                 }

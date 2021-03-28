@@ -6,7 +6,8 @@ import moment from 'moment';
 import Form from '../Components/Form/Form';
 import Panel from '../Components/Site/Panel';
 import ApiStatus from '../Components/Site/ApiStatus';
-import * as actions from '../actions';
+import * as actions from '../redux/actions';
+import { Col } from 'react-bootstrap';
 
 class BanlistAdmin extends React.Component {
     constructor(props) {
@@ -20,23 +21,24 @@ class BanlistAdmin extends React.Component {
         this.onAddBanlistClick = this.onAddBanlistClick.bind(this);
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.props.loadBanlist();
     }
 
-    componentWillReceiveProps(props) {
+    // eslint-disable-next-line camelcase
+    UNSAFE_componentWillReceiveProps(props) {
         let clearStatus = false;
-        if(props.banListAdded) {
+        if (props.banListAdded) {
             clearStatus = true;
             this.setState({ successMessage: 'Banlist item added successfully.' });
         }
 
-        if(props.banListDeleted) {
+        if (props.banListDeleted) {
             clearStatus = true;
             this.setState({ successMessage: 'Banlist item deleted successfully.' });
         }
 
-        if(clearStatus) {
+        if (clearStatus) {
             setTimeout(() => {
                 this.props.clearBanlistStatus();
                 this.setState({ successMessage: undefined });
@@ -59,39 +61,64 @@ class BanlistAdmin extends React.Component {
     }
 
     render() {
-        if(this.props.apiState && this.props.apiState.loading) {
+        if (this.props.apiState && this.props.apiState.loading) {
             return 'Loading banlist, please wait...';
         }
 
         let statusBar;
 
-        switch(this.state.currentRequest) {
+        switch (this.state.currentRequest) {
             case 'REQUEST_BANLIST':
-                statusBar = <ApiStatus apiState={ this.props.apiState } successMessage={ this.state.successMessage } />;
+                statusBar = (
+                    <ApiStatus
+                        apiState={this.props.apiState}
+                        successMessage={this.state.successMessage}
+                    />
+                );
                 break;
             case 'ADD_BANLIST':
-                statusBar = <ApiStatus apiState={ this.props.apiAddState } successMessage={ this.state.successMessage } />;
+                statusBar = (
+                    <ApiStatus
+                        apiState={this.props.apiAddState}
+                        successMessage={this.state.successMessage}
+                    />
+                );
                 break;
             case 'DELETE_BANLIST':
-                statusBar = <ApiStatus apiState={ this.props.apiDeleteState } successMessage={ this.state.successMessage } />;
+                statusBar = (
+                    <ApiStatus
+                        apiState={this.props.apiDeleteState}
+                        successMessage={this.state.successMessage}
+                    />
+                );
                 break;
         }
 
-        let renderedBanlist = this.props.banlist.map(entry => {
-            return (<tr key={ entry._id }>
-                <td>{ entry.ip }</td>
-                <td>{ moment(entry.added).format('YYYY-MM-DD') }</td>
-                <td>{ entry.user }</td>
-                <td>
-                    <button type='button' className='btn btn-danger' onClick={ this.onDeleteClick.bind(this, entry._id) }>Delete { this.props.apiDeleteState &&
-                        this.props.apiDeleteState.loading && <span className='spinner button-spinner' /> }</button>
-                </td>
-            </tr>);
+        let renderedBanlist = this.props.banlist.map((entry) => {
+            return (
+                <tr key={entry.id}>
+                    <td>{entry.ip}</td>
+                    <td>{moment(entry.added).format('YYYY-MM-DD')}</td>
+                    <td>{entry.user}</td>
+                    <td>
+                        <button
+                            type='button'
+                            className='btn btn-danger'
+                            onClick={this.onDeleteClick.bind(this, entry.id)}
+                        >
+                            Delete{' '}
+                            {this.props.apiDeleteState && this.props.apiDeleteState.loading && (
+                                <span className='spinner button-spinner' />
+                            )}
+                        </button>
+                    </td>
+                </tr>
+            );
         });
 
         return (
-            <div className='col-xs-12'>
-                { statusBar }
+            <Col>
+                {statusBar}
                 <Panel title='Banlist administration'>
                     <table className='table table-striped'>
                         <thead>
@@ -102,15 +129,20 @@ class BanlistAdmin extends React.Component {
                                 <th className='col-sm-2'>Action</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            { renderedBanlist }
-                        </tbody>
+                        <tbody>{renderedBanlist}</tbody>
                     </table>
                 </Panel>
                 <Panel title='Add new ip'>
-                    <Form name='banlistAdmin' apiLoading={ this.props.apiAddState && this.props.apiAddState.loading } buttonClass='col-sm-offset-2 col-sm-4' buttonText='Add' onSubmit={ this.onAddBanlistClick } />
+                    <Form
+                        name='banlistAdmin'
+                        apiLoading={this.props.apiAddState && this.props.apiAddState.loading}
+                        buttonClass='col-sm-offset-2 col-sm-4'
+                        buttonText='Add'
+                        onSubmit={this.onAddBanlistClick}
+                    />
                 </Panel>
-            </div>);
+            </Col>
+        );
     }
 }
 

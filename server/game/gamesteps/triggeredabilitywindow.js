@@ -12,15 +12,25 @@ class TriggeredAbilityWindow extends ForcedTriggeredAbilityWindow {
 
     showBluffPrompt(player) {
         // Show a bluff prompt if the player has an event which could trigger (but isn't in their hand) and that setting
-        if(player.timerSettings.eventsInDeck && this.choices.some(context => context.player === player)) {
+        if (
+            player.timerSettings.eventsInDeck &&
+            this.choices.some((context) => context.player === player)
+        ) {
             return true;
         }
 
         // Show a bluff prompt if we're in Step 6, the player has the approriate setting, and there's an event for the other player
-        return this.abilityType === 'cancelinterrupt' && player.timerSettings.events && _.any(this.events, event => (
-            event.name === 'onCardAbilityInitiated' &&
-            event.card.type === 'event' && event.context.player !== player
-        ));
+        return (
+            this.abilityType === 'cancelinterrupt' &&
+            player.timerSettings.events &&
+            _.any(
+                this.events,
+                (event) =>
+                    event.name === 'onCardAbilityInitiated' &&
+                    event.card.type === 'event' &&
+                    event.context.player !== player
+            )
+        );
     }
 
     promptWithBluffPrompt(player) {
@@ -33,7 +43,12 @@ class TriggeredAbilityWindow extends ForcedTriggeredAbilityWindow {
                 buttons: [
                     { timer: true, method: 'pass' },
                     { text: 'I need more time', timerCancel: true },
-                    { text: 'Don\'t ask again until end of round', timerCancel: true, method: 'pass', arg: 'pauseRound' },
+                    {
+                        text: "Don't ask again until end of round",
+                        timerCancel: true,
+                        method: 'pass',
+                        arg: 'pauseRound'
+                    },
                     { text: 'Pass', method: 'pass' }
                 ]
             }
@@ -41,12 +56,12 @@ class TriggeredAbilityWindow extends ForcedTriggeredAbilityWindow {
     }
 
     pass(player, arg) {
-        if(arg === 'pauseRound') {
+        if (arg === 'pauseRound') {
             player.noTimer = true;
             player.resetTimerAtEndOfRound = true;
         }
 
-        if(this.prevPlayerPassed || !this.currentPlayer.opponent) {
+        if (this.prevPlayerPassed || !this.currentPlayer.opponent) {
             this.complete = true;
         } else {
             this.currentPlayer = this.currentPlayer.opponent;
@@ -58,22 +73,32 @@ class TriggeredAbilityWindow extends ForcedTriggeredAbilityWindow {
 
     filterChoices() {
         // If both players have passed, close the window
-        if(this.complete) {
+        if (this.complete) {
             return true;
         }
 
         // remove any choices which involve the current player canceling their own abilities
-        if(this.abilityType === 'cancelinterrupt' && !this.currentPlayer.optionSettings.cancelOwnAbilities) {
-            this.choices = this.choices.filter(context => !(
-                context.player === this.currentPlayer &&
-                context.event.name === 'onCardAbilityInitiated' &&
-                context.event.context.player === this.currentPlayer
-            ));
+        if (this.abilityType === 'cancelinterrupt') {
+            this.choices = this.choices.filter(
+                (context) =>
+                    !(
+                        context.player === this.currentPlayer &&
+                        context.event.name === 'onCardAbilityInitiated' &&
+                        context.event.context.player === this.currentPlayer
+                    )
+            );
         }
 
         // if the current player has no available choices in this window, check to see if they should get a bluff prompt
-        if(!_.any(this.choices, context => context.player === this.currentPlayer && context.ability.isInValidLocation(context))) {
-            if(this.showBluffPrompt(this.currentPlayer)) {
+        if (
+            !_.any(
+                this.choices,
+                (context) =>
+                    context.player === this.currentPlayer &&
+                    context.ability.isInValidLocation(context)
+            )
+        ) {
+            if (this.showBluffPrompt(this.currentPlayer)) {
                 this.promptWithBluffPrompt(this.currentPlayer);
                 return false;
             }
@@ -84,7 +109,11 @@ class TriggeredAbilityWindow extends ForcedTriggeredAbilityWindow {
         }
 
         // Filter choices for current player, and prompt
-        this.choices = _.filter(this.choices, context => context.player === this.currentPlayer && context.ability.isInValidLocation(context));
+        this.choices = _.filter(
+            this.choices,
+            (context) =>
+                context.player === this.currentPlayer && context.ability.isInValidLocation(context)
+        );
         this.promptBetweenSources(this.choices);
         return false;
     }
@@ -97,7 +126,7 @@ class TriggeredAbilityWindow extends ForcedTriggeredAbilityWindow {
 
     getPromptForSelectProperties() {
         return _.extend(super.getPromptForSelectProperties(), {
-            selectCard: this.currentPlayer.optionSettings.markCardsUnselectable,
+            selectCard: true,
             buttons: [{ text: 'Pass', arg: 'pass' }],
             onMenuCommand: (player, arg) => {
                 this.pass(player, arg);

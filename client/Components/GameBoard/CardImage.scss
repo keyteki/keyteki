@@ -1,0 +1,12 @@
+@import '../../styles/variables';
+@import '../../styles/colours';
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+
+.hover-image {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: $keyteki-card-width * 4;
+    z-index: 999;
+}

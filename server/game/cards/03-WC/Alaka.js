@@ -1,15 +1,25 @@
 const Card = require('../../Card.js');
+const EventRegistrar = require('../../eventregistrar.js');
 
 class Alaka extends Card {
     setupCardAbilities(ability) {
-        this.constantReaction({
-            when: {
-                onCardEntersPlay: (event, context) => {
-                    return event.card === context.source && context.player.creatureFought;
-                }
-            },
-            gameAction: ability.actions.ready()
+        this.creaturesFoughtByPlayer = {};
+        this.tracker = new EventRegistrar(this.game, this);
+        this.tracker.register(['onRoundEnded', 'onFight']);
+
+        this.persistentEffect({
+            location: 'any',
+            condition: (context) => this.creaturesFoughtByPlayer[context.source.controller.uuid],
+            effect: ability.effects.entersPlayReady()
         });
+    }
+
+    onRoundEnded() {
+        this.creaturesFoughtByPlayer = {};
+    }
+
+    onFight(event) {
+        this.creaturesFoughtByPlayer[event.context.player.uuid] = true;
     }
 }
 

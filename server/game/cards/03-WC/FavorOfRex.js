@@ -6,8 +6,8 @@ class FavorOfRex extends Card {
             target: {
                 controller: 'any',
                 cardType: 'creature',
-                gameAction: ability.actions.resolveAbility(context => {
-                    return { ability: context.target ? context.target.abilities.reactions.find(ability => ability.properties.name === 'Play') : null };
+                gameAction: ability.actions.resolveAbility({
+                    ability: (ability) => ability.isPlay()
                 })
             },
             effect: 'trigger play effect of {0}'

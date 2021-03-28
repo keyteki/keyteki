@@ -6,7 +6,7 @@ class Masterplan extends Card {
             target: {
                 controller: 'self',
                 location: 'hand',
-                gameAction: ability.actions.placeUnder(context => ({
+                gameAction: ability.actions.placeUnder((context) => ({
                     parent: context.source,
                     facedown: true
                 }))
@@ -15,9 +15,9 @@ class Masterplan extends Card {
 
         this.omni({
             effect: 'play {1} and sacrifice {0}',
-            effectArgs: context => context.source.childCards,
+            effectArgs: (context) => context.source.childCards,
             gameAction: [
-                ability.actions.playCard(context => ({ target: context.source.childCards })),
+                ability.actions.playCard((context) => ({ target: context.source.childCards })),
                 ability.actions.sacrifice()
             ]
         });

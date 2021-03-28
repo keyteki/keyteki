@@ -15,7 +15,11 @@ class LastingEffectAction extends GameAction {
         this.when = null;
         this.gameAction = null;
         this.message = null;
+        this.messageArgs = [];
+        this.match = null;
+        this.preferActionPromptMessage = false;
         this.multipleTrigger = true;
+        this.triggeredAbilityType = null;
     }
 
     setup() {
@@ -26,29 +30,46 @@ class LastingEffectAction extends GameAction {
 
     hasLegalTarget(context) {
         this.update(context);
-        return !!this.effect.length || this.when && !!this.gameAction;
+        return !!this.effect.length || (this.when && !!this.gameAction);
     }
 
     getEventArray(context) {
-        if(this.when && this.gameAction) {
-            this.effect = [Effects.delayedEffect({
-                when: this.when,
-                gameAction: this.gameAction,
-                message: this.message,
-                multipleTrigger: this.multipleTrigger,
-                context: context
-            })];
+        if (this.when && this.gameAction) {
+            this.effect = [
+                Effects.lastingAbilityTrigger({
+                    when: this.when,
+                    gameAction: this.gameAction,
+                    message: this.message,
+                    messageArgs: this.messageArgs,
+                    preferActionPromptMessage: this.preferActionPromptMessage,
+                    multipleTrigger: this.multipleTrigger,
+                    context: context,
+                    triggeredAbilityType: this.triggeredAbilityType
+                })
+            ];
         }
 
         let properties = {
             condition: this.condition,
             context: context,
             effect: this.effect,
-            roundDuration: this.duration,
-            targetController: this.targetController,
-            until: this.until
+            match: this.match,
+            targetController: this.when ? 'current' : this.targetController
         };
-        return [super.createEvent('applyLastingEffect', { context: context }, event => event.context.source.roundDurationEffect(properties))];
+        if (this.until) {
+            properties.until = this.until;
+            return [
+                super.createEvent('applyLastingEffect', { context: context }, (event) =>
+                    event.context.source.lastingEffect(() => properties)
+                )
+            ];
+        }
+        properties.roundDuration = this.duration;
+        return [
+            super.createEvent('applyLastingEffect', { context: context }, (event) =>
+                event.context.source.roundDurationEffect(properties)
+            )
+        ];
     }
 }
 

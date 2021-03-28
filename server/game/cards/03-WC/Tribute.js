@@ -8,10 +8,14 @@ class Tribute extends Card {
                 cardType: 'creature',
                 controller: 'self',
                 numCards: 1,
-                cardStat: card => card.power,
-                gameAction: ability.actions.capture({ amount: 2 })
+                cardStat: (card) => card.power
             },
-            then: context => ({
+            gameAction: ability.actions.capture((context) => ({
+                target: context.target,
+                amount: 2
+            })),
+            then: (context) => ({
+                alwaysTriggers: true,
                 condition: () => !context.secondResolution,
                 may: 'exalt the creature',
                 gameAction: ability.actions.exalt({ target: context.target }),

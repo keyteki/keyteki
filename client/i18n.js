@@ -7,6 +7,7 @@ import localeEn from '../public/locales/en.json';
 import localeEs from '../public/locales/es.json';
 import localeFr from '../public/locales/fr.json';
 import localeIt from '../public/locales/it.json';
+import localeKo from '../public/locales/ko.json';
 import localePt from '../public/locales/pt.json';
 import localePl from '../public/locales/pl.json';
 import localeTh from '../public/locales/th.json';
@@ -28,6 +29,9 @@ const resources = {
     },
     it: {
         translation: localeIt
+    },
+    ko: {
+        translation: localeKo
     },
     pt: {
         translation: localePt
@@ -57,7 +61,7 @@ i18n
     .init({
         resources,
         fallbackLng: 'en',
-        debug: false,//(process.env.NODE_ENV !== 'production'),
+        debug: false, //(process.env.NODE_ENV !== 'production'),
         //lng: 'en',
         interpolation: {
             escapeValue: false

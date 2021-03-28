@@ -6,7 +6,7 @@ class LibraryOfPolliasaurus extends Card {
             target: {
                 cardType: 'creature',
                 controller: 'self',
-                cardCondition: card => card.hasToken('amber'),
+                cardCondition: (card) => card.hasToken('amber'),
                 gameAction: ability.actions.removeAmber()
             },
             then: {

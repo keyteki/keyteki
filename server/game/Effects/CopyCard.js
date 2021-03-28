@@ -1,5 +1,3 @@
-const _ = require('underscore');
-
 const EffectValue = require('./EffectValue');
 const GainAbility = require('./GainAbility');
 
@@ -7,43 +5,54 @@ class CopyCard extends EffectValue {
     constructor(card) {
         super(card);
         this.abilitiesForTargets = {};
-        if(card.anyEffect('copyCard')) {
+        if (card.anyEffect('copyCard')) {
             this.value = card.mostRecentEffect('copyCard');
-            const copyEffect = _.last(card.effects.filter(effect => effect.type === 'copyCard'));
-            this.actions = copyEffect.actions.map(action => new GainAbility('action', action, true));
-            this.reactions = copyEffect.reactions.map(ability => new GainAbility(ability.abilityType, ability, true));
-            this.persistentEffects = copyEffect.persistentEffects.map(properties => new GainAbility('persistentEffect', properties));
+            this.actions = this.value.actions.map(
+                (action) => new GainAbility('action', action, true)
+            );
+            this.reactions = this.value.reactions.map(
+                (ability) => new GainAbility(ability.abilityType, ability, true)
+            );
+            this.persistentEffects = this.value.persistentEffects.map(
+                (properties) => new GainAbility('persistentEffect', properties)
+            );
         } else {
-            this.actions = card.abilities.actions.map(action => new GainAbility('action', action, true));
-            this.reactions = card.abilities.reactions.map(ability => new GainAbility(ability.abilityType, ability, true));
-            this.persistentEffects = card.abilities.persistentEffects.map(properties => new GainAbility('persistentEffect', properties));
+            this.actions = card.abilities.actions.map(
+                (action) => new GainAbility('action', action, true)
+            );
+            this.reactions = card.abilities.reactions.map(
+                (ability) => new GainAbility(ability.abilityType, ability, true)
+            );
+            this.persistentEffects = card.abilities.persistentEffects.map(
+                (properties) => new GainAbility('persistentEffect', properties)
+            );
         }
     }
 
-    apply(target) {
+    apply(target, state) {
         this.abilitiesForTargets[target.uuid] = {
-            actions: this.actions.map(value => {
-                value.apply(target);
-                return value.getValue(target);
+            actions: this.actions.map((value) => {
+                value.apply(target, state);
+                return value.getValue(target, state);
             }),
-            reactions: this.reactions.map(value => {
-                value.apply(target);
-                return value.getValue(target);
+            reactions: this.reactions.map((value) => {
+                value.apply(target, state);
+                return value.getValue(target, state);
             }),
-            persistentEffects: this.persistentEffects.map(value => {
-                value.apply(target);
-                return value.getValue(target);
+            persistentEffects: this.persistentEffects.map((value) => {
+                value.apply(target, state);
+                return value.getValue(target, state);
             })
         };
     }
 
     unapply(target) {
-        for(const value of this.abilitiesForTargets[target.uuid].reactions) {
+        for (const value of this.abilitiesForTargets[target.uuid].reactions) {
             value.unregisterEvents();
         }
 
-        for(const effect of this.persistentEffects) {
-            if(effect.ref) {
+        for (const effect of this.persistentEffects) {
+            if (effect.ref) {
                 target.removeEffectFromEngine(effect.ref);
                 effect.ref = [];
             }
@@ -53,7 +62,7 @@ class CopyCard extends EffectValue {
     }
 
     getActions(target) {
-        if(this.abilitiesForTargets[target.uuid]) {
+        if (this.abilitiesForTargets[target.uuid]) {
             return this.abilitiesForTargets[target.uuid].actions;
         }
 
@@ -61,7 +70,7 @@ class CopyCard extends EffectValue {
     }
 
     getReactions(target) {
-        if(this.abilitiesForTargets[target.uuid]) {
+        if (this.abilitiesForTargets[target.uuid]) {
             return this.abilitiesForTargets[target.uuid].reactions;
         }
 
@@ -69,7 +78,7 @@ class CopyCard extends EffectValue {
     }
 
     getPersistentEffects(target) {
-        if(this.abilitiesForTargets[target.uuid]) {
+        if (this.abilitiesForTargets[target.uuid]) {
             return this.abilitiesForTargets[target.uuid].persistentEffects;
         }
 

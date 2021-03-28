@@ -7,7 +7,12 @@ class DestroyedTriggeredAbilityWindow extends ForcedTriggeredAbilityWindow {
     }
 
     addChoice(context) {
-        if(this.previousChoices.length === 0 || this.previousChoices.some(c => c.ability === context.ability && c.event === context.event)) {
+        if (
+            this.previousChoices.length === 0 ||
+            this.previousChoices.some(
+                (c) => c.ability === context.ability && c.event === context.event
+            )
+        ) {
             super.addChoice(context);
         }
     }

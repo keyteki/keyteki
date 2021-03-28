@@ -4,28 +4,28 @@ class PeaceAccord extends Card {
     setupCardAbilities(ability) {
         this.play({
             gameAction: [
-                ability.actions.gainAmber(context => ({
+                ability.actions.gainAmber((context) => ({
                     target: context.player.opponent,
                     amount: 2
                 })),
-                ability.actions.gainAmber(context => ({
+                ability.actions.gainAmber((context) => ({
                     target: context.player,
                     amount: 2
                 }))
             ]
         });
+
         this.reaction({
             when: {
-                onFight: (event => event.card.type === 'creature')
+                onUseCard: (event) =>
+                    event.fightEvent && event.fightEvent.attackerClone.type === 'creature'
             },
             gameAction: [
-                ability.actions.loseAmber(context => ({
-                    target: context.event.attacker.controller,
+                ability.actions.loseAmber((context) => ({
+                    target: context.event.clone.controller,
                     amount: 4
                 })),
-                ability.actions.destroy({
-                    target: this
-                })
+                ability.actions.destroy()
             ]
         });
     }

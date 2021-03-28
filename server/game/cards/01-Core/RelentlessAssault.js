@@ -8,7 +8,7 @@ class RelentlessAssault extends Card {
                 controller: 'self',
                 mode: 'upTo',
                 numCards: 3,
-                gameAction: ability.actions.sequentialForEach(context => ({
+                gameAction: ability.actions.sequentialForEach((context) => ({
                     forEach: context.target,
                     action: ability.actions.sequential([
                         ability.actions.ready(),

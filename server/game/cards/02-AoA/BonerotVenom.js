@@ -6,7 +6,10 @@ class BonerotVenom extends Card {
             when: {
                 onUseCard: (event, context) => event.card === context.source.parent
             },
-            gameAction: ability.actions.dealDamage(context => ({ amount: 2, target: context.source.parent }))
+            gameAction: ability.actions.dealDamage((context) => ({
+                amount: 2,
+                target: context.source.parent
+            }))
         });
     }
 }

@@ -18,15 +18,24 @@ class BlasterCard extends Card {
                 creature: {
                     dependsOn: 'action',
                     cardType: 'creature',
-                    cardCondition: (card, context) => (context.selects.action.choice === 'Deal 2 damage') ? true : card.name === creatureName && !card.upgrades.includes(this),
+                    cardCondition: (card, context) =>
+                        context.selects.action.choice === 'Deal 2 damage'
+                            ? true
+                            : card.name === creatureName && !card.upgrades.includes(this),
                     gameAction: [
-                        ability.actions.dealDamage(context => ({
+                        ability.actions.dealDamage((context) => ({
                             amount: 2,
-                            target: context.selects.action.choice === 'Deal 2 damage' ? context.targets.creature : []
+                            target:
+                                context.selects.action.choice === 'Deal 2 damage'
+                                    ? context.targets.creature
+                                    : []
                         })),
-                        ability.actions.attach(context => ({
+                        ability.actions.attach((context) => ({
                             upgrade: this,
-                            target: context.selects.action.choice === `Move ${this.name}` ? context.targets.creature : []
+                            target:
+                                context.selects.action.choice === `Move ${this.name}`
+                                    ? context.targets.creature
+                                    : []
                         }))
                     ]
                 }

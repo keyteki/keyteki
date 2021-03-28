@@ -5,7 +5,7 @@ class DataForge extends Card {
         this.play({
             may: 'forge a key',
             alwaysTriggers: true,
-            gameAction: ability.actions.forgeKey(context => ({
+            gameAction: ability.actions.forgeKey((context) => ({
                 modifier: 10 - context.player.hand.length
             }))
         });

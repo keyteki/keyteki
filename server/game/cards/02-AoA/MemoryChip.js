@@ -2,9 +2,10 @@ const Card = require('../../Card.js');
 
 class MemoryChip extends Card {
     setupCardAbilities(ability) {
-        this.constantReaction({
+        this.reaction({
             when: {
-                onChooseActiveHouse: (event, context) => event.player === context.player && event.house === 'logos'
+                onChooseActiveHouse: (event, context) =>
+                    event.player === context.player && event.house === 'logos'
             },
             target: {
                 location: 'hand',

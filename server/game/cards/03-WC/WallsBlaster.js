@@ -5,13 +5,17 @@ class WallsBlaster extends BlasterCard {
         this.reaction({
             when: {
                 onCardAttached: (event, context) =>
-                    event.card === context.source && event.parent.name === 'Chief Engineer Walls' &&
+                    event.card === context.source &&
+                    event.parent.name === 'Chief Engineer Walls' &&
                     event.context.player === event.card.controller
             },
             target: {
                 cardType: 'creature',
                 mode: 'exactly',
-                numCards: context => context.source && context.source.parent ? context.source.parent.upgrades.length : 0,
+                numCards: (context) =>
+                    context.source && context.source.parent
+                        ? context.source.parent.upgrades.length
+                        : 0,
                 gameAction: ability.actions.stun()
             }
         });

@@ -6,7 +6,7 @@ class SilentDagger extends Card {
             effect: ability.effects.gainAbility('reap', {
                 target: {
                     cardType: 'creature',
-                    cardCondition: card => card.isOnFlank(),
+                    cardCondition: (card) => card.isOnFlank(),
                     gameAction: ability.actions.dealDamage({ amount: 4 })
                 }
             })

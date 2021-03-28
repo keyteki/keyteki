@@ -1,102 +1,61 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { Trans, useTranslation } from 'react-i18next';
+import { Col, Row } from 'react-bootstrap';
 
-import AlertPanel from '../Components/Site/AlertPanel';
 import Panel from '../Components/Site/Panel';
-import Link from '../Components/Site/Link';
+import Link from '../Components/Navigation/Link';
 import DeckList from '../Components/Decks/DeckList';
 import ViewDeck from '../Components/Decks/ViewDeck';
-import * as actions from '../actions';
+import ApiStatus from '../Components/Site/ApiStatus';
+import { Decks } from '../redux/types';
+import { clearApiStatus } from '../redux/actions';
 
-import { withTranslation, Trans } from 'react-i18next';
+const DecksComponent = () => {
+    const { t } = useTranslation();
+    const dispatch = useDispatch();
+    const apiState = useSelector((state) => {
+        const retState = state.api[Decks.DeleteDeck];
 
-class Decks extends React.Component {
-    constructor() {
-        super();
+        if (retState && retState.success) {
+            retState.message = t('Deck deleted successfully');
 
-        this.handleDeleteDeck = this.handleDeleteDeck.bind(this);
-    }
-
-    componentWillMount() {
-        this.props.loadDecks();
-    }
-
-    handleDeleteDeck(deck) {
-        this.props.deleteDeck(deck);
-    }
-
-    render() {
-        let t = this.props.t;
-        let content = null;
-
-        let successPanel = null;
-
-        if(this.props.deckDeleted) {
             setTimeout(() => {
-                this.props.clearDeckStatus();
-            }, 5000);
-            successPanel = (
-                <AlertPanel message={ t('Deck deleted successfully') } type={ 'success' } />
-            );
+                dispatch(clearApiStatus(Decks.DeleteDeck));
+            }, 1000);
         }
 
-        if(this.props.apiLoading) {
-            content = <div><Trans>Loading decks from the server...</Trans></div>;
-        } else if(!this.props.apiSuccess) {
-            content = <AlertPanel type='error' message={ this.props.apiMessage } />;
-        } else {
-            content = (
-                <div className='full-height'>
-                    <div className='col-xs-12'>
-                        { successPanel }
-                    </div>
-                    <div className='col-md-6 full-height'>
-                        <Panel title={ t('Your decks') }>
-                            <Link className='btn btn-primary' href='/decks/import'><Trans>Import Deck</Trans></Link>
-                            <DeckList className='deck-list' activeDeck={ this.props.selectedDeck } decks={ this.props.decks } onSelectDeck={ this.props.selectDeck } />
-                        </Panel>
-                    </div>
-                    { !!this.props.selectedDeck &&
-                        <ViewDeck deck={ this.props.selectedDeck } cards={ this.props.cards } onDeleteDeck={ this.handleDeleteDeck } />
-                    }
-                </div>);
-        }
+        return retState;
+    });
+    const { selectedDeck } = useSelector((state) => ({
+        selectedDeck: state.cards.selectedDeck
+    }));
 
-        return content;
-    }
-}
-
-Decks.displayName = 'Decks';
-Decks.propTypes = {
-    apiLoading: PropTypes.bool,
-    apiMessage: PropTypes.string,
-    apiSuccess: PropTypes.bool,
-    cards: PropTypes.object,
-    clearDeckStatus: PropTypes.func,
-    deckDeleted: PropTypes.bool,
-    decks: PropTypes.array,
-    deleteDeck: PropTypes.func,
-    i18n: PropTypes.object,
-    loadDecks: PropTypes.func,
-    loading: PropTypes.bool,
-    navigate: PropTypes.func,
-    selectDeck: PropTypes.func,
-    selectedDeck: PropTypes.object,
-    t: PropTypes.func
+    return (
+        <div className='full-height'>
+            <Col sm={12}>
+                <ApiStatus
+                    state={apiState}
+                    onClose={() => dispatch(clearApiStatus(Decks.DeleteDeck))}
+                />
+            </Col>
+            <Row>
+                <Col lg={6} className='full-height'>
+                    <Panel title={t('Your decks')}>
+                        <Col className='text-center'>
+                            <Link className='btn btn-primary' href='/decks/import'>
+                                <Trans>Import Deck</Trans>
+                            </Link>
+                        </Col>
+                        <DeckList />
+                    </Panel>
+                </Col>
+                <Col lg={6}>{selectedDeck && <ViewDeck deck={selectedDeck} />}</Col>
+            </Row>
+        </div>
+    );
 };
 
-function mapStateToProps(state) {
-    return {
-        apiLoading: state.api.REQUEST_DECKS ? state.api.REQUEST_DECKS.loading : undefined,
-        apiMessage: state.api.REQUEST_DECKS ? state.api.REQUEST_DECKS.message : undefined,
-        apiSuccess: state.api.REQUEST_DECKS ? state.api.REQUEST_DECKS.success : undefined,
-        cards: state.cards.cards,
-        deckDeleted: state.cards.deckDeleted,
-        decks: state.cards.decks,
-        loading: state.api.loading,
-        selectedDeck: state.cards.selectedDeck
-    };
-}
+DecksComponent.displayName = 'Decks';
 
-export default withTranslation()(connect(mapStateToProps, actions)(Decks));
+export default DecksComponent;

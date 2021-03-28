@@ -6,8 +6,8 @@ class User {
         this.invalidDecks = undefined;
     }
 
-    get _id() {
-        return this.userData._id;
+    get id() {
+        return this.userData.id;
     }
 
     get disabled() {
@@ -58,8 +58,8 @@ class User {
         return this.userData.email;
     }
 
-    get enableGravatar() {
-        return this.userData.enableGravatar;
+    get challonge() {
+        return this.userData.challonge;
     }
 
     get verified() {
@@ -74,6 +74,18 @@ class User {
         return this.userData.permissions && this.userData.permissions.isAdmin;
     }
 
+    get isWinner() {
+        return this.userData.permissions && this.userData.permissions.isWinner;
+    }
+
+    get isPreviousWinner() {
+        return this.userData.permissions && this.userData.permissions.isPreviousWinner;
+    }
+
+    get keepsSupporter() {
+        return this.userData.permissions && this.userData.permissions.keepsSupporterWithNoPatreon;
+    }
+
     get isContributor() {
         return this.userData.permissions && this.userData.permissions.isContributor;
     }
@@ -83,19 +95,31 @@ class User {
     }
 
     get role() {
-        if(this.isAdmin) {
+        if (this.isAdmin) {
             return 'admin';
         }
 
-        if(this.isContributor) {
+        if (this.isWinner) {
+            return 'winner';
+        }
+
+        if (this.isPreviousWinner) {
+            return 'previouswinner';
+        }
+
+        if (this.isContributor) {
             return 'contributor';
         }
 
-        if(this.isSupporter) {
+        if (this.isSupporter) {
             return 'supporter';
         }
 
         return 'user';
+    }
+
+    get avatar() {
+        return this.userData && this.userData.settings && this.userData.settings.avatar;
     }
 
     get patreon() {
@@ -117,14 +141,14 @@ class User {
 
     getWireSafeDetails() {
         let user = {
-            _id: this.userData._id,
+            id: this.userData.id,
+            avatar: this.userData.settings && this.userData.settings.avatar,
             username: this.userData.username,
             email: this.userData.email,
             settings: this.userData.settings,
-            promptedActionWindows: this.userData.promptedActionWindows,
             permissions: this.userData.permissions,
             verified: this.userData.verified,
-            enableGravatar: this.userData.enableGravatar
+            challonge: this.userData.challonge
         };
 
         user = Settings.getUserWithDefaultsSet(user);
@@ -135,6 +159,7 @@ class User {
     getShortSummary() {
         return {
             username: this.username,
+            avatar: this.avatar,
             name: this.username,
             role: this.role
         };
@@ -146,6 +171,7 @@ class User {
         delete user.password;
 
         user = Settings.getUserWithDefaultsSet(user);
+        user.avatar = this.avatar;
 
         return user;
     }
@@ -158,6 +184,7 @@ class User {
 
         user = Settings.getUserWithDefaultsSet(user);
         user.role = this.role;
+        user.avatar = this.avatar;
 
         return user;
     }

@@ -17,9 +17,11 @@ class AddEventToWindowAction extends GameAction {
     }
 
     getEventArray(context) {
-        return [super.createEvent('unnamedEvent', { house: this.house }, () => {
-            context.player.activeHouse = this.house;
-        })];
+        return [
+            super.createEvent('unnamedEvent', { house: this.house }, () => {
+                context.player.activeHouse = this.house;
+            })
+        ];
     }
 }
 

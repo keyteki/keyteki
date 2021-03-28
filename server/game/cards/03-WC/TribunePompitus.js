@@ -4,7 +4,8 @@ class TribunePompitus extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
             targetController: 'current',
-            effect: ability.effects.modifyPower(target => 2 * target.amber)
+            match: () => true,
+            effect: ability.effects.modifyPower((target) => 2 * target.amber)
         });
 
         this.beforeFight({

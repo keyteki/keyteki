@@ -2,11 +2,17 @@ const Card = require('../../Card.js');
 
 class SciOfficerQincan extends Card {
     setupCardAbilities(ability) {
-        this.constantReaction({
+        this.reaction({
             when: {
-                onChooseActiveHouse: (event, context) => event.player.opponent && !context.game.getHousesInPlay(context.game.cardsInPlay, true).includes(event.house)
+                onChooseActiveHouse: (event, context) =>
+                    event.player.opponent &&
+                    !context.game
+                        .getHousesInPlay(context.game.cardsInPlay, true)
+                        .includes(event.house)
             },
-            gameAction: ability.actions.steal(context => ({ target: context.source.controller.opponent }))
+            gameAction: ability.actions.steal((context) => ({
+                target: context.source.controller.opponent
+            }))
         });
     }
 }

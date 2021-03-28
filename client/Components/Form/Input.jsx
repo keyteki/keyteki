@@ -5,27 +5,40 @@ class Input extends React.Component {
     render() {
         const inputControl = (
             <div>
-                <label htmlFor={ this.props.name } className={ this.props.labelClass + ' control-label' }>{ this.props.label }</label>
-                <div className={ this.props.fieldClass }>
-                    <input name={ this.props.name } type={ this.props.type } className='form-control' id={ this.props.name }
-                        placeholder={ this.props.placeholder } value={ this.props.value } onChange={ this.props.onChange } onBlur={ this.props.onBlur }
-                        autoFocus={ this.props.autoFocus }
-                        { ...this.props.validationAttributes } />
-                    <span className='text-danger' data-valmsg-replace='true' data-valmsg-for={ this.props.name } />
+                <label
+                    htmlFor={this.props.name}
+                    className={this.props.labelClass + ' control-label'}
+                >
+                    {this.props.label}
+                </label>
+                <div className={this.props.fieldClass}>
+                    <input
+                        name={this.props.name}
+                        type={this.props.type}
+                        className='form-control'
+                        id={this.props.name}
+                        placeholder={this.props.placeholder}
+                        value={this.props.value}
+                        onChange={this.props.onChange}
+                        onBlur={this.props.onBlur}
+                        autoFocus={this.props.autoFocus}
+                        {...this.props.validationAttributes}
+                    />
+                    <span
+                        className='text-danger'
+                        data-valmsg-replace='true'
+                        data-valmsg-for={this.props.name}
+                    />
                 </div>
-                { this.props.children }
+                {this.props.children}
             </div>
         );
 
-        if(this.props.noGroup) {
+        if (this.props.noGroup) {
             return inputControl;
         }
 
-        return (
-            <div className='form-group'>
-                { inputControl }
-            </div>
-        );
+        return <div className='form-group'>{inputControl}</div>;
     }
 }
 

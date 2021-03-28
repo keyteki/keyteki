@@ -8,8 +8,8 @@ class Protectrix extends Card {
                 cardType: 'creature',
                 gameAction: ability.actions.heal({ fully: true })
             },
-            then: context => ({
-                condition: context => context.preThenEvent.amount >= 1,
+            then: (context) => ({
+                condition: (context) => context.preThenEvent.amount >= 1,
                 gameAction: ability.actions.cardLastingEffect({
                     target: context.target,
                     effect: ability.effects.cardCannot('damage')

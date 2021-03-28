@@ -8,7 +8,7 @@ class MightyJavelin extends Card {
                 gameAction: ability.actions.dealDamage({ amount: 4 })
             },
             effect: 'sacrifice {1} and deal 4 damage to {0}',
-            effectArgs: context => context.source,
+            effectArgs: (context) => context.source,
             gameAction: ability.actions.sacrifice()
         });
     }

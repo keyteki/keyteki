@@ -4,6 +4,6 @@ const GameServer = require('./gameserver.js');
 
 var server = new GameServer();
 
-pmx.action('debug', reply => {
+pmx.action('debug', (reply) => {
     reply(server.debugDump());
 });

@@ -12,7 +12,7 @@ class AllocateDamagePrompt extends UiPrompt {
     }
 
     continue() {
-        if(!this.isComplete()) {
+        if (!this.isComplete()) {
             this.highlightSelectableCards();
         }
 
@@ -29,22 +29,27 @@ class AllocateDamagePrompt extends UiPrompt {
 
     activePrompt() {
         let buttons = [];
-        if(this.game.manualMode) {
+        if (this.game.manualMode) {
             buttons = buttons.concat({ text: 'Cancel Prompt', arg: 'cancel' });
         }
 
         return {
             selectCard: true,
             selectOrder: false,
-            menuTitle: { text: 'Choose a creature to deal {{damageStep}} damage to', values: { damageStep: this.properties.damageStep.toString() } },
+            menuTitle: {
+                text: 'Choose a creature to deal {{damageStep}} damage to',
+                values: { damageStep: this.properties.damageStep.toString() }
+            },
             buttons: buttons,
             promptTitle: { text: '{{card}}', values: { card: this.context.source.name } },
             cardDamage: this.cardDamage,
-            controls: [{
-                type: 'targeting',
-                source: this.context.source.getShortSummary(),
-                targets: []
-            }]
+            controls: [
+                {
+                    type: 'targeting',
+                    source: this.context.source.getShortSummary(),
+                    targets: []
+                }
+            ]
         };
     }
 
@@ -53,36 +58,55 @@ class AllocateDamagePrompt extends UiPrompt {
     }
 
     onCardClicked(player, card) {
-        if(player !== this.choosingPlayer) {
+        if (player !== this.choosingPlayer) {
             return false;
         }
 
-        if(!this.selector.canTarget(card, this.context)) {
+        if (!this.selector.canTarget(card, this.context)) {
             return false;
         }
 
-        if(!this.selectCard(card)) {
+        if (!this.selectCard(card)) {
             return false;
         }
 
-        if(Object.values(this.cardDamage).reduce((total, damage) => total + damage) >= this.properties.damageStep * this.properties.numSteps) {
+        const totalDamage = Object.values(this.cardDamage).reduce(
+            (total, card) => total + card.damage,
+            0
+        );
+        if (totalDamage >= this.properties.damageStep * this.properties.numSteps) {
             this.properties.onSelect(this.cardDamage);
             this.complete();
         }
     }
 
     selectCard(card) {
-        if(this.cardDamage[card.uuid]) {
-            this.cardDamage[card.uuid] += this.properties.damageStep;
-            return true;
+        if (!this.cardDamage[card.uuid]) {
+            this.cardDamage[card.uuid] = {
+                damage: this.properties.damageStep,
+                splash: 0
+            };
+        } else {
+            this.cardDamage[card.uuid].damage += this.properties.damageStep;
         }
 
-        this.cardDamage[card.uuid] = this.properties.damageStep;
+        if (this.properties.splash) {
+            for (let neighbor of card.neighbors) {
+                if (!this.cardDamage[neighbor.uuid]) {
+                    this.cardDamage[neighbor.uuid] = {
+                        damage: 0,
+                        splash: this.properties.splash
+                    };
+                } else {
+                    this.cardDamage[neighbor.uuid].splash += this.properties.splash;
+                }
+            }
+        }
         return true;
     }
 
     menuCommand(player, arg) {
-        if(arg === 'cancel') {
+        if (arg === 'cancel') {
             this.complete();
             return true;
         }

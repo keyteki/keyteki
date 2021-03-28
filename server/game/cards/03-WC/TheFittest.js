@@ -3,7 +3,7 @@ const Card = require('../../Card.js');
 class TheFittest extends Card {
     setupCardAbilities(ability) {
         this.play({
-            gameAction: ability.actions.addPowerCounter(context => ({
+            gameAction: ability.actions.addPowerCounter((context) => ({
                 target: context.player.creaturesInPlay,
                 amount: 1
             }))

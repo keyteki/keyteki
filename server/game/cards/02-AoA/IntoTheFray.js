@@ -5,7 +5,7 @@ class IntoTheFray extends Card {
         this.play({
             target: {
                 cardType: 'creature',
-                cardCondition: card => card.hasHouse('brobnar'),
+                cardCondition: (card) => card.hasHouse('brobnar'),
                 gameAction: ability.actions.cardLastingEffect({
                     effect: ability.effects.gainAbility('fight', {
                         gameAction: ability.actions.ready()

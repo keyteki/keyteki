@@ -3,7 +3,6 @@ import $ from 'jquery';
 import PropTypes from 'prop-types';
 
 import Input from './Input.jsx';
-import Checkbox from './Checkbox.jsx';
 
 import formFields from './formFields.json';
 
@@ -35,21 +34,14 @@ class Form extends React.Component {
         this.setState(newState);
     }
 
-    onCheckboxChange(field, event) {
-        var newState = {};
-
-        newState[field] = event.target.checked;
-        this.setState(newState);
-    }
-
     onSubmit(event) {
         event.preventDefault();
 
-        if(!$('form').valid()) {
+        if (!$('form').valid()) {
             return;
         }
 
-        if(this.props.onSubmit) {
+        if (this.props.onSubmit) {
             this.props.onSubmit(this.state);
         }
     }
@@ -58,9 +50,14 @@ class Form extends React.Component {
         let t = this.props.t;
         let validationAttributes = {};
 
-        if(field.validationProperties) {
-            for(let key of Object.keys(field.validationProperties)) {
-                if((key === 'data-val-required') || (key === 'data-val-length') || (key === 'data-val-equalto') || (key === 'data-val-regex')) {
+        if (field.validationProperties) {
+            for (let key of Object.keys(field.validationProperties)) {
+                if (
+                    key === 'data-val-required' ||
+                    key === 'data-val-length' ||
+                    key === 'data-val-equalto' ||
+                    key === 'data-val-regex'
+                ) {
                     validationAttributes[key] = t(field.validationProperties[key]);
                 } else {
                     validationAttributes[key] = field.validationProperties[key];
@@ -74,29 +71,43 @@ class Form extends React.Component {
     render() {
         let t = this.props.t;
 
-        const fieldsToRender = formFields[this.props.name].map(field => {
-            switch(field.inputType) {
-                case 'checkbox':
-                    return (<Checkbox key={ field.name } name={ field.name } label={ t(field.label) } fieldClass={ field.fieldClass }
-                        onChange={ this.onCheckboxChange.bind(this, field.name) } checked={ this.state[field.name] } />);
-                default:
-                    return (<Input key={ field.name } name={ field.name } label={ t(field.label) } placeholder={ t(field.placeholder) }
-                        validationAttributes={ this.translateValidationProps(field) } fieldClass={ field.fieldClass } labelClass={ field.labelClass }
-                        type={ field.inputType } onChange={ this.onChange.bind(this, field.name) } value={ this.state[field.name] } />);
-            }
+        const fieldsToRender = formFields[this.props.name].map((field) => {
+            return (
+                <Input
+                    key={field.name}
+                    name={field.name}
+                    label={t(field.label)}
+                    placeholder={t(field.placeholder)}
+                    validationAttributes={this.translateValidationProps(field)}
+                    fieldClass={field.fieldClass}
+                    labelClass={field.labelClass}
+                    type={field.inputType}
+                    onChange={this.onChange.bind(this, field.name)}
+                    value={this.state[field.name]}
+                />
+            );
         });
 
-        return (<form className='form form-horizontal' onSubmit={ this.onSubmit }>
-            { fieldsToRender }
-            { this.props.children }
-            <div className='form-group'>
-                <div className={ this.props.buttonClass || 'col-sm-offset-4 col-sm-3' }>
-                    <button type='submit' className='btn btn-primary' disabled={ this.props.apiLoading }>
-                        { t(this.props.buttonText) || t('Submit') } { this.props.apiLoading ? <span className='spinner button-spinner' /> : null }
-                    </button>
+        return (
+            <form className='form form-horizontal' onSubmit={this.onSubmit}>
+                {fieldsToRender}
+                {this.props.children}
+                <div className='form-group'>
+                    <div className={this.props.buttonClass || 'col-sm-offset-4 col-sm-3'}>
+                        <button
+                            type='submit'
+                            className='btn btn-primary'
+                            disabled={this.props.apiLoading}
+                        >
+                            {t(this.props.buttonText) || t('Submit')}{' '}
+                            {this.props.apiLoading ? (
+                                <span className='spinner button-spinner' />
+                            ) : null}
+                        </button>
+                    </div>
                 </div>
-            </div>
-        </form>);
+            </form>
+        );
     }
 }
 

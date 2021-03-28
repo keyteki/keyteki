@@ -1,43 +1,27 @@
-class AbilityTargetOptions {
-    constructor(name, properties, ability) {
-        this.name = name;
-        this.properties = properties;
-        this.options = properties.options;
-        this.dependentTarget = null;
+const AbilityTarget = require('./AbilityTarget');
 
-        if(this.properties.dependsOn) {
-            let dependsOnTarget = ability.targets.find(target => target.name === this.properties.dependsOn);
-            dependsOnTarget.dependentTarget = this;
-        }
+class AbilityTargetOptions extends AbilityTarget {
+    constructor(name, properties, ability) {
+        super(name, properties, ability);
+        this.options = properties.options;
     }
 
     getOptions(context) {
         let options = this.options;
 
-        if(typeof options === 'function') {
+        if (typeof options === 'function') {
             options = options(context);
         }
 
-        if(!Array.isArray(options)) {
+        if (!Array.isArray(options)) {
             return [options];
         }
 
         return options;
     }
 
-    canResolve(context) {
-        return !!this.properties.dependsOn || this.hasLegalTarget(context);
-    }
-
-    resetGameActions() {
-    }
-
     hasLegalTarget(context) {
-        return !!this.getOptions(context).length;
-    }
-
-    getGameAction() {
-        return [];
+        return !!this.getOptions(context).length && super.hasLegalTarget(context);
     }
 
     getAllLegalTargets(context) {
@@ -45,13 +29,17 @@ class AbilityTargetOptions {
     }
 
     resolve(context, targetResults) {
-        if(targetResults.cancelled || targetResults.payCostsFirst || targetResults.delayTargeting) {
+        if (
+            targetResults.cancelled ||
+            targetResults.payCostsFirst ||
+            targetResults.delayTargeting
+        ) {
             return;
         }
 
         let player = context.player;
-        if(this.properties.player && this.properties.player === 'opponent') {
-            if(context.stage === 'pretarget') {
+        if (this.properties.player && this.properties.player === 'opponent') {
+            if (context.stage === 'pretarget') {
                 targetResults.delayTargeting = this;
                 return;
             }
@@ -66,7 +54,7 @@ class AbilityTargetOptions {
             waitingPromptTitle: 'Waiting for opponent',
             source: this.properties.source || context.source,
             options: this.getOptions(context),
-            optionsHandler: option => context.option = option
+            optionsHandler: (option) => (context.option = option)
         });
     }
 }

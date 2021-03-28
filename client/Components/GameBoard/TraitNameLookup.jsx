@@ -10,7 +10,7 @@ function TraitNameLookup(props) {
 
     uniqueTraits.sort();
 
-    return <TypeaheadLookup values={ uniqueTraits } onValueSelected={ props.onValueSelected } />;
+    return <TypeaheadLookup values={uniqueTraits} onValueSelected={props.onValueSelected} />;
 }
 
 TraitNameLookup.displayName = 'TraitNameLookup';

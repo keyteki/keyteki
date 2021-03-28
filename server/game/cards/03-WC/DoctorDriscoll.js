@@ -9,8 +9,10 @@ class DoctorDriscoll extends Card {
             },
             then: {
                 message: '{0} gains {3} amber due to {1} healing {3} damage',
-                messageArgs: context => context.preThenEvent.amount,
-                gameAction: ability.actions.gainAmber(context => ({ amount: context.preThenEvent.amount }))
+                messageArgs: (context) => context.preThenEvent.amount,
+                gameAction: ability.actions.gainAmber((context) => ({
+                    amount: context.preThenEvent.amount
+                }))
             }
         });
     }
@@ -19,4 +21,3 @@ class DoctorDriscoll extends Card {
 DoctorDriscoll.id = 'doctor-driscoll';
 
 module.exports = DoctorDriscoll;
-

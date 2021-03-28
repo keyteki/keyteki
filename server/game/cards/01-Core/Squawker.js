@@ -6,8 +6,12 @@ class Squawker extends Card {
             target: {
                 cardType: 'creature',
                 gameAction: [
-                    ability.actions.ready(context => ({ target: context.target.hasHouse('mars') ? context.target : [] })),
-                    ability.actions.stun(context => ({ target: !context.target.hasHouse('mars') ? context.target : [] }))
+                    ability.actions.ready((context) => ({
+                        target: context.target.hasHouse('mars') ? context.target : []
+                    })),
+                    ability.actions.stun((context) => ({
+                        target: !context.target.hasHouse('mars') ? context.target : []
+                    }))
                 ]
             }
         });

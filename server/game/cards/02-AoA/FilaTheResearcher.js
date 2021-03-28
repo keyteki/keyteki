@@ -2,9 +2,9 @@ const Card = require('../../Card.js');
 
 class FilaTheResearcher extends Card {
     setupCardAbilities(ability) {
-        this.constantReaction({
+        this.reaction({
             when: {
-                onCardPlayed: event => event.card.neighbors.includes(this)
+                onCardPlayed: (event) => event.card.neighbors.includes(this)
             },
             gameAction: ability.actions.draw()
         });

@@ -16,12 +16,16 @@ class BouncingDeathquark extends Card {
                 }
             },
             effect: 'destroy {1}',
-            effectArgs: context => [Object.values(context.targets)],
-            then: context => ({
+            effectArgs: (context) => [Object.values(context.targets)],
+            then: (context) => ({
                 condition: () =>
-                    context.player.cardsInPlay.some(card => card.type === 'creature' && card.allowGameAction('destroy')) &&
+                    context.player.cardsInPlay.some(
+                        (card) => card.type === 'creature' && card.allowGameAction('destroy')
+                    ) &&
                     context.player.opponent &&
-                    context.player.opponent.cardsInPlay.some(card => card.type === 'creature' && card.allowGameAction('destroy')),
+                    context.player.opponent.cardsInPlay.some(
+                        (card) => card.type === 'creature' && card.allowGameAction('destroy')
+                    ),
                 alwaysTriggers: true,
                 may: 'repeat this effect',
                 gameAction: ability.actions.resolveAbility({ ability: context.ability })

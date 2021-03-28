@@ -20,11 +20,19 @@ class PatreonService {
         try {
             response = await patreonApiClient('/current_user', {
                 fields: {
-                    pledge: [...pledgeSchema.default_attributes, pledgeSchema.attributes.declined_since, pledgeSchema.attributes.created_at]
+                    pledge: [
+                        ...pledgeSchema.default_attributes,
+                        pledgeSchema.attributes.declined_since,
+                        pledgeSchema.attributes.created_at
+                    ]
                 }
             });
-        } catch(err) {
-            logger.error(err);
+        } catch (err) {
+            logger.error(
+                'Error getting patreon status for %s: %s',
+                user.username,
+                await this.errorStreamToString(err)
+            );
 
             return 'none';
         }
@@ -32,7 +40,7 @@ class PatreonService {
         let { id } = response.rawJson.data;
         let pUser = response.store.find('user', id);
 
-        if(!pUser || !pUser.pledges || pUser.pledges.length === 0) {
+        if (!pUser || !pUser.pledges || pUser.pledges.length === 0) {
             return 'linked';
         }
 
@@ -43,8 +51,11 @@ class PatreonService {
         let response;
         try {
             response = await this.patreonOAuthClient.refreshToken(user.patreon.refresh_token);
-        } catch(err) {
-            logger.error('Error refreshing patreon account', err);
+        } catch (err) {
+            logger.error(
+                'Error refreshing patreon account %s',
+                await this.errorStreamToString(err)
+            );
             return undefined;
         }
 
@@ -54,7 +65,7 @@ class PatreonService {
 
         try {
             await this.userService.update(userDetails);
-        } catch(err) {
+        } catch (err) {
             logger.error(err);
             return undefined;
         }
@@ -62,29 +73,53 @@ class PatreonService {
         return response;
     }
 
+    errorStreamToString(err) {
+        const stream = err.response ? err.response.body : err.body;
+
+        return new Promise((resolve, reject) => {
+            let str = '';
+
+            stream.on('data', (chunk) => {
+                str += chunk;
+            });
+
+            stream.on('end', () => {
+                resolve(str);
+            });
+
+            stream.on('error', () => {
+                reject();
+            });
+        });
+    }
+
     async linkAccount(username, code) {
         let response;
         try {
             response = await this.patreonOAuthClient.getTokens(code, this.callbackUrl);
-        } catch(err) {
-            logger.error('Error linking patreon account', err);
+        } catch (err) {
+            logger.error('Error linking patreon account %s', await this.errorStreamToString(err));
             return false;
         }
 
         response.date = new Date();
 
-        let dbUser = await this.userService.getUserByUsername(username);
-        if(!dbUser) {
+        let user = await this.userService.getUserByUsername(username);
+        if (!user) {
             logger.error('Error linking patreon account, user not found');
             return false;
         }
 
-        let user = dbUser.getDetails();
         user.patreon = response;
 
         try {
+            let password = user.password;
+
+            user.password = undefined;
             await this.userService.update(user);
-        } catch(err) {
+
+            user.password = password;
+        } catch (err) {
             logger.error(err);
             return false;
         }
@@ -93,18 +128,17 @@ class PatreonService {
     }
 
     async unlinkAccount(username) {
-        let dbUser = await this.userService.getUserByUsername(username);
-        if(!dbUser) {
+        let user = await this.userService.getUserByUsername(username);
+        if (!user) {
             logger.error('Error unlinking patreon account, user not found');
             return false;
         }
 
-        let user = dbUser.getDetails();
         user.patreon = undefined;
 
         try {
             await this.userService.update(user);
-        } catch(err) {
+        } catch (err) {
             logger.error(err);
             return false;
         }

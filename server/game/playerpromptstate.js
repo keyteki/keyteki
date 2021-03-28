@@ -37,11 +37,14 @@ class PlayerPromptState {
         this.cardDamage = prompt.cardDamage || {};
         this.menuTitle = prompt.menuTitle || '';
         this.promptTitle = prompt.promptTitle;
-        this.buttons = _.map(prompt.buttons || [], button => {
-            if(button.card) {
+        this.buttons = _.map(prompt.buttons || [], (button) => {
+            if (button.card) {
                 let card = button.card;
                 let properties = _.omit(button, 'card');
-                return _.extend({ text: card.name, arg: card.uuid, card: card.getShortSummary() }, properties);
+                return _.extend(
+                    { text: card.name, arg: card.uuid, card: card.getShortSummary() },
+                    properties
+                );
             }
 
             return button;
@@ -59,13 +62,17 @@ class PlayerPromptState {
 
     getCardSelectionState(card) {
         let selectable = this.selectableCards.includes(card);
-        let damage = this.cardDamage[card.uuid] || 0;
+        let pseudoDamage = 0;
+        if (this.cardDamage[card.uuid]) {
+            pseudoDamage += this.cardDamage[card.uuid].damage || 0;
+            pseudoDamage += this.cardDamage[card.uuid].splash || 0;
+        }
         return {
             selected: this.selectedCards && this.selectedCards.includes(card),
             selectable: selectable,
             unselectable: !selectable && this.selectCard,
-            pseudoDamage: card.warded ? 0 : damage,
-            wardBroken: damage > 0 && card.warded
+            pseudoDamage: card.warded ? 0 : pseudoDamage,
+            wardBroken: pseudoDamage > 0 && card.warded
         };
     }
 

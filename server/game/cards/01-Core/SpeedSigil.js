@@ -2,11 +2,17 @@ const Card = require('../../Card.js');
 
 class SpeedSigil extends Card {
     setupCardAbilities(ability) {
-        this.constantReaction({
+        this.interrupt({
             when: {
-                onCardPlayed: (event, context) => event.card.type === 'creature' && context.game.cardsPlayed.filter(card => card.type === 'creature').length === 1
+                onCardPlayed: (event, context) =>
+                    event.card.type === 'creature' &&
+                    context.game.cardsPlayed.filter((card) => card.type === 'creature').length === 0
             },
-            gameAction: ability.actions.ready(context => ({ target: context.event.card }))
+            gameAction: ability.actions.cardLastingEffect((context) => ({
+                target: context.event.card,
+                targetLocation: 'any',
+                effect: ability.effects.entersPlayReady()
+            }))
         });
     }
 }

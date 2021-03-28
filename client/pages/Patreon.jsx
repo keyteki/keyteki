@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import * as actions from '../actions';
+import * as actions from '../redux/actions';
 import AlertPanel from '../Components/Site/AlertPanel';
 import ApiStatus from '../Components/Site/ApiStatus';
 
@@ -14,16 +14,20 @@ class Patreon extends React.Component {
     }
 
     componentDidMount() {
-        if(!this.props.code) {
+        if (!this.props.code) {
             return;
         }
 
         this.props.linkPatreon(this.props.code);
     }
 
-    componentWillReceiveProps(props) {
-        if(props.accountLinked) {
-            this.setState({ successMessage: 'Your account was linked successfully.  Sending you back to the profile page.' });
+    // eslint-disable-next-line camelcase
+    UNSAFE_componentWillReceiveProps(props) {
+        if (props.accountLinked) {
+            this.setState({
+                successMessage:
+                    'Your account was linked successfully.  Sending you back to the profile page.'
+            });
 
             setTimeout(() => {
                 this.props.clearLinkStatus();
@@ -33,14 +37,26 @@ class Patreon extends React.Component {
     }
 
     render() {
-        if(!this.props.code) {
-            return <AlertPanel type='error' message='This page is not intended to be viewed directly.  Please click on one of the links at the top of the page or your browser back button to return to the site.' />;
+        if (!this.props.code) {
+            return (
+                <AlertPanel
+                    type='error'
+                    message='This page is not intended to be viewed directly.  Please click on one of the links at the top of the page or your browser back button to return to the site.'
+                />
+            );
         }
 
-        return (<div>
-            <ApiStatus apiState={ this.props.apiState } successMessage={ this.state.successMessage } />
-            { this.props.apiState.loading && <div>Please wait while we verify your details..</div> }
-        </div>);
+        return (
+            <div>
+                <ApiStatus
+                    apiState={this.props.apiState}
+                    successMessage={this.state.successMessage}
+                />
+                {this.props.apiState.loading && (
+                    <div>Please wait while we verify your details..</div>
+                )}
+            </div>
+        );
     }
 }
 

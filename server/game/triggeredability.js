@@ -41,27 +41,39 @@ class TriggeredAbility extends CardAbility {
         this.autoResolve = !!properties.autoResolve;
         this.abilityType = abilityType;
         this.optional = !!properties.optional;
-        if(properties.location === 'any') {
+        this.hasTriggered = false;
+        this.isLastingAbilityTrigger = !!properties.player;
+        if (properties.location === 'any') {
             this.registerEvents();
         }
     }
 
     eventHandler(event, window) {
-        let player = this.card.controller;
-        if(event.name === 'onCardPlayed' && this.card.type === 'action') {
+        let player = this.properties.player || this.card.controller;
+        if (
+            !this.isLastingAbilityTrigger &&
+            event.name === 'onCardPlayed' &&
+            this.card.type === 'action'
+        ) {
             player = event.player;
-        } else if(this.triggeredByOpponent) {
+        } else if (this.triggeredByOpponent) {
             player = player.opponent;
         }
 
-        if(!player) {
+        if (!player) {
             return;
         }
 
         let context = this.createContext(player, event);
         //  console.log(event.name, this.card.name, this.card.reactions.includes(this), this.isTriggeredByEvent(event, context), this.meetsRequirements(context));
-        if(this.card.reactions.includes(this) && this.isTriggeredByEvent(event, context) && this.meetsRequirements(context) === '') {
-            window.addChoice(context);
+        if (
+            this.card.reactions.includes(this) ||
+            (this.isLastingAbilityTrigger &&
+                (!this.hasTriggered || this.properties.multipleTrigger))
+        ) {
+            if (this.isTriggeredByEvent(event, context) && this.meetsRequirements(context) === '') {
+                window.addChoice(context);
+            }
         }
     }
 
@@ -76,16 +88,16 @@ class TriggeredAbility extends CardAbility {
     }
 
     isTriggeredByEvent(event, context) {
-        if(this.properties.condition && !this.properties.condition(context)) {
+        if (this.properties.condition && !this.properties.condition(context)) {
             return false;
-        } else if(!this.when[event.name] || !this.when[event.name](event, context)) {
+        } else if (!this.when[event.name] || !this.when[event.name](event, context)) {
             return false;
-        } else if(this.properties.play || this.properties.fight || this.properties.reap) {
-            let { play, fight, reap } = this.properties;
-            reap = reap || (play && this.card.anyEffect('playAbilitiesAddReap'));
-            fight = fight || (reap && this.card.anyEffect('reapAbilitiesAddFight'));
-            reap = reap || (fight && this.card.anyEffect('fightAbilitiesAddReap'));
-            if(event.name === 'onCardPlayed' && !play || event.name === 'onFight' && !fight || event.name === 'onReap' && !reap) {
+        } else if (this.properties.play || this.properties.fight || this.properties.reap) {
+            if (
+                (event.name === 'onCardPlayed' && !this.isPlay()) ||
+                (event.name === 'onFight' && !this.isFight()) ||
+                (event.name === 'onReap' && !this.isReap())
+            ) {
                 return false;
             }
         }
@@ -93,14 +105,33 @@ class TriggeredAbility extends CardAbility {
         return true;
     }
 
+    isPlay() {
+        return this.properties.play;
+    }
+
+    isFight() {
+        let { play, fight, reap } = this.properties;
+        reap = reap || (play && this.card.anyEffect('playAbilitiesAddReap'));
+        return fight || (reap && this.card.anyEffect('reapAbilitiesAddFight'));
+    }
+
+    isReap() {
+        let { play, fight, reap } = this.properties;
+        return (
+            reap ||
+            (play && this.card.anyEffect('playAbilitiesAddReap')) ||
+            (fight && this.card.anyEffect('fightAbilitiesAddReap'))
+        );
+    }
+
     registerEvents() {
-        if(this.events) {
+        if (this.events) {
             return;
         }
 
         var eventNames = _.keys(this.when);
         this.events = [];
-        _.each(eventNames, eventName => {
+        _.each(eventNames, (eventName) => {
             var event = {
                 name: eventName + ':' + this.abilityType,
                 handler: (event, window) => this.eventHandler(event, window)
@@ -111,8 +142,8 @@ class TriggeredAbility extends CardAbility {
     }
 
     unregisterEvents() {
-        if(this.events) {
-            _.each(this.events, event => {
+        if (this.events) {
+            _.each(this.events, (event) => {
                 this.game.removeListener(event.name, event.handler);
             });
             this.events = null;

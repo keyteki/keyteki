@@ -8,7 +8,8 @@ class AVinda extends Card {
                 gameAction: ability.actions.dealDamage({ amount: 1 })
             },
             then: {
-                condition: context => context.preThenEvent.destroyed,
+                condition: (context) =>
+                    context.preThenEvent.destroyEvent && context.preThenEvent.destroyEvent.resolved,
                 gameAction: ability.actions.discardAtRandom()
             }
         });

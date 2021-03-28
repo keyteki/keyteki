@@ -15,7 +15,7 @@ class DelayedEffectAction extends CardGameAction {
     }
 
     canAffect(card, context) {
-        if(card.location !== 'play area') {
+        if (card.location !== 'play area') {
             return false;
         }
 
@@ -31,7 +31,9 @@ class DelayedEffectAction extends CardGameAction {
             target: card,
             context: context
         };
-        return super.createEvent('onEffectApplied', { card: card, context: context }, event => event.context.source.delayedEffect(() => properties));
+        return super.createEvent('onEffectApplied', { card: card, context: context }, (event) =>
+            event.context.source.delayedEffect(() => properties)
+        );
     }
 }
 

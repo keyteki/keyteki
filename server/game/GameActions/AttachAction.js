@@ -16,13 +16,13 @@ class AttachAction extends CardGameAction {
     }
 
     canAffect(card, context) {
-        if(!context || !context.player || !card || card.location !== 'play area') {
+        if (!context || !context.player || !card || card.location !== 'play area') {
             return false;
-        } else if(this.upgradeChosenOnResolution) {
+        } else if (this.upgradeChosenOnResolution) {
             return super.canAffect(card, context);
         }
 
-        if(!this.upgrade || !this.upgrade.canAttach(card, context)) {
+        if (!this.upgrade || !this.upgrade.canAttach(card, context)) {
             return false;
         }
 
@@ -39,22 +39,26 @@ class AttachAction extends CardGameAction {
     }
 
     getEvent(card, context) {
-        return super.createEvent('onCardAttached', { card: this.upgrade, parent: card, context: context }, event => {
-            if(event.card.location === 'play area') {
-                event.card.parent.removeAttachment(event.card);
-            } else {
-                event.card.controller.removeCardFromPile(event.card);
-                event.card.new = true;
-                event.card.moveTo('play area');
-            }
+        return super.createEvent(
+            'onCardAttached',
+            { card: this.upgrade, parent: card, context: context },
+            (event) => {
+                if (event.card.location === 'play area') {
+                    event.card.parent.removeAttachment(event.card);
+                } else {
+                    event.card.controller.removeCardFromPile(event.card);
+                    event.card.new = true;
+                    event.card.moveTo('play area');
+                }
 
-            event.parent.upgrades.push(event.card);
-            event.card.parent = event.parent;
-            if(event.card.controller !== event.context.player) {
-                event.card.controller = event.context.player;
-                event.card.updateEffectContexts();
+                event.parent.upgrades.push(event.card);
+                event.card.parent = event.parent;
+                if (event.card.controller !== event.context.player) {
+                    event.card.controller = event.context.player;
+                    event.card.updateEffectContexts();
+                }
             }
-        });
+        );
     }
 }
 

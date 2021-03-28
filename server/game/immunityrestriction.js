@@ -4,11 +4,7 @@ class ImmunityRestriction {
     }
 
     isMatch(type, abilityContext) {
-        return (
-            abilityContext &&
-            abilityContext.stage !== 'cost' &&
-            this.condition(abilityContext)
-        );
+        return abilityContext && abilityContext.stage !== 'cost' && this.condition(abilityContext);
     }
 }
 

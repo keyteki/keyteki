@@ -5,10 +5,7 @@ class PesteringBlow extends Card {
         this.play({
             target: {
                 cardType: 'creature',
-                gameAction: [
-                    ability.actions.dealDamage({ amount: 1 }),
-                    ability.actions.enrage()
-                ]
+                gameAction: [ability.actions.dealDamage({ amount: 1 }), ability.actions.enrage()]
             },
             effect: 'deal 1 damage and enrage {0}'
         });

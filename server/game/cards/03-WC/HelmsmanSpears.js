@@ -10,7 +10,7 @@ class HelmsmanSpears extends Card {
                 location: 'hand',
                 gameAction: ability.actions.discard()
             },
-            then: preThenContext => ({
+            then: (preThenContext) => ({
                 gameAction: ability.actions.draw({
                     amount: preThenContext.target.length
                 })

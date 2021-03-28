@@ -6,9 +6,9 @@ class IgonTheGreen extends Card {
             effectStyle: 'append',
             gameAction: [
                 ability.actions.purge(),
-                ability.actions.returnToHand(context => ({
+                ability.actions.returnToHand((context) => ({
                     location: 'discard',
-                    target: context.player.discard.find(card => card.name === 'Igon the Terrible')
+                    target: context.player.discard.find((card) => card.name === 'Igon the Terrible')
                 }))
             ]
         });

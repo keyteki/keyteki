@@ -8,6 +8,7 @@ class PlaceUnderAction extends CardGameAction {
 
     setDefaultProperties() {
         this.facedown = false;
+        this.moveGigantic = false;
         this.parent = null;
     }
 
@@ -15,7 +16,7 @@ class PlaceUnderAction extends CardGameAction {
         super.setup();
         this.name = this.isGraft ? 'graft' : 'placeUnder';
         this.effectArgs = this.parent;
-        if(this.isGraft) {
+        if (this.isGraft) {
             this.effectMsg = 'graft {0} onto {1}';
         } else {
             this.effectMsg = 'place ' + (this.facedown ? 'a card' : '{0}') + ' under {1}';
@@ -26,15 +27,32 @@ class PlaceUnderAction extends CardGameAction {
         return this.parent && super.canAffect(card, context);
     }
 
+    placeUnder(card) {
+        card.controller.removeCardFromPile(card);
+        card.controller = card.owner;
+        card.parent = this.parent;
+        card.moveTo(this.isGraft ? 'grafted' : 'purged');
+        card.facedown = this.facedown;
+        this.parent.childCards.push(card);
+    }
+
     getEvent(card, context) {
-        return super.createEvent(this.isGraft ? 'onCardGrafted' : 'onPlaceUnder', { card, context }, () => {
-            card.controller.removeCardFromPile(card);
-            card.controller = card.owner;
-            card.parent = this.parent;
-            card.moveTo(this.isGraft ? 'grafted' : 'purged');
-            card.facedown = this.facedown;
-            this.parent.childCards.push(card);
-        });
+        return super.createEvent(
+            this.isGraft ? 'onCardGrafted' : 'onPlaceUnder',
+            { card, context },
+            () => {
+                if (card.gigantic && this.moveGigantic) {
+                    let part = card.controller
+                        .getSourceList(card.location)
+                        .find((part) => card.compositeId === part.id);
+                    if (part) {
+                        this.placeUnder(part);
+                    }
+                }
+
+                this.placeUnder(card);
+            }
+        );
     }
 }
 

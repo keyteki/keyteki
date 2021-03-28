@@ -5,11 +5,11 @@ class TachyonPulse extends Card {
         this.play({
             effectStyle: 'all',
             gameAction: [
-                ability.actions.destroy(context => ({
-                    target: context.game.cardsInPlay.filter(card => card.type === 'artifact')
+                ability.actions.destroy((context) => ({
+                    target: context.game.cardsInPlay.filter((card) => card.type === 'artifact')
                 })),
-                ability.actions.exhaust(context => ({
-                    target: context.game.creaturesInPlay.filter(card => card.upgrades.length > 0)
+                ability.actions.exhaust((context) => ({
+                    target: context.game.creaturesInPlay.filter((card) => card.upgrades.length > 0)
                 }))
             ]
         });

@@ -6,7 +6,9 @@ class SigilOfBrotherhood extends Card {
             gameAction: [
                 ability.actions.sacrifice(),
                 ability.actions.forRemainderOfTurn({
-                    effect: ability.effects.canUse(card => card.hasHouse('sanctum') && card.type === 'creature')
+                    effect: ability.effects.canUse(
+                        (card) => card.hasHouse('sanctum') && card.type === 'creature'
+                    )
                 })
             ]
         });

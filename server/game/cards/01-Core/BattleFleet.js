@@ -8,14 +8,14 @@ class BattleFleet extends Card {
                 mode: 'unlimited',
                 controller: 'self',
                 location: 'hand',
-                cardCondition: card => card.hasHouse('mars'),
-                gameAction: ability.actions.draw(context => ({
+                cardCondition: (card) => card.hasHouse('mars'),
+                gameAction: ability.actions.draw((context) => ({
                     target: context.player,
                     amount: context.target.length
                 }))
             },
             effect: 'reveal {0} from their hand, and draw {1} cards',
-            effectArgs: context => context.target.length ? context.target.length : 1
+            effectArgs: (context) => (context.target.length ? context.target.length : 1)
         });
     }
 }

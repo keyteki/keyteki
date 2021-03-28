@@ -8,7 +8,7 @@ class Vigor extends Card {
                 gameAction: ability.actions.heal({ amount: 3, upTo: true })
             },
             then: {
-                condition: context => context.preThenEvent.amount === 3,
+                condition: (context) => context.preThenEvent.amount === 3,
                 message: '{0} gains an additional amber due to {1} healing 3 damage',
                 gameAction: ability.actions.gainAmber()
             }

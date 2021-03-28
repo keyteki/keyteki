@@ -2,11 +2,18 @@ const Card = require('../../Card.js');
 
 class StiltKin extends Card {
     setupCardAbilities(ability) {
-        this.constantReaction({
+        this.reaction({
             when: {
-                onCardPlayed: (event) => event.card.type === 'creature' && this.neighbors.includes(event.card) && event.card.hasTrait('giant')
+                onCardPlayed: (event) =>
+                    event.card.type === 'creature' &&
+                    this.neighbors.includes(event.card) &&
+                    event.card.hasTrait('giant')
             },
-            gameAction: ability.actions.sequential([ability.actions.ready(),ability.actions.fight()])
+            gameAction: ability.actions.sequential([
+                ability.actions.ready(),
+                ability.actions.fight()
+            ]),
+            effect: 'ready and fight with {0}'
         });
     }
 }

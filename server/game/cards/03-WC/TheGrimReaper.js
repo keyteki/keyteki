@@ -1,9 +1,8 @@
-
 const Card = require('../../Card.js');
 
 class TheGrimReaper extends Card {
     setupCardAbilities(ability) {
-        this.constantReaction({
+        this.reaction({
             when: {
                 onCardEntersPlay: (event, context) => {
                     return event.card === context.source && context.player.isHaunted();

@@ -6,23 +6,22 @@ class ThenEventWindow extends EventWindow {
         this.checkState = checkState;
     }
 
-    triggerConstantReactions() {
-    }
+    triggerConstantReactions() {}
 
     openWindow(abilityType) {
-        if(!abilityType.includes('reaction')) {
+        if (!abilityType.includes('reaction')) {
             super.openWindow(abilityType);
         }
     }
 
     checkGameState() {
-        if(this.checkState) {
+        if (this.checkState) {
             super.checkGameState();
         }
     }
 
     resetCurrentEventWindow() {
-        for(let event of this.events) {
+        for (let event of this.events) {
             this.previousEventWindow.addEvent(event);
         }
 

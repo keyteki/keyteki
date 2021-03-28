@@ -6,14 +6,16 @@ const CardUtil = {
         differentiated by what pack they came from
         */
         var match = labelOrName.match(/^(.*)\s\((.*)\)$/);
-        if(match) {
+        if (match) {
             name = match[1];
             pack = match[2];
         }
 
-        return function(cardData) {
-            return (cardData.name === name && (!pack || cardData.pack_code === pack)) ||
-                cardData.id === name;
+        return function (cardData) {
+            return (
+                (cardData.name === name && (!pack || cardData.pack_code === pack)) ||
+                cardData.id === name
+            );
         };
     }
 };

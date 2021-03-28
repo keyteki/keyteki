@@ -1,42 +1,90 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-
-import Avatar from '../Site/Avatar';
-
 import { withTranslation, Trans } from 'react-i18next';
 import { toastr } from 'react-redux-toastr';
+import classNames from 'classnames';
+import PropTypes from 'prop-types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+    faEye,
+    faEyeSlash,
+    faCopy,
+    faWrench,
+    faCogs,
+    faComment
+} from '@fortawesome/free-solid-svg-icons';
+import { Badge } from 'react-bootstrap';
+
+import Avatar from '../Site/Avatar';
+import { Constants } from '../../constants';
+import Minus from '../../assets/img/Minus.png';
+import Plus from '../../assets/img/Plus.png';
+
+import './PlayerStats.scss';
+import Keys from './Keys';
 
 export class PlayerStats extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.sendUpdate = this.sendUpdate.bind(this);
+        this.setActiveHouse = this.setActiveHouse.bind(this);
     }
 
     sendUpdate(type, direction) {
         this.props.sendGameMessage('changeStat', type, direction === 'up' ? 1 : -1);
     }
 
+    setActiveHouse(house) {
+        if (this.props.showControls) {
+            this.props.sendGameMessage('changeActiveHouse', house);
+        }
+    }
+
     getStatValueOrDefault(stat) {
-        if(!this.props.stats) {
+        if (!this.props.stats) {
             return 0;
         }
 
         return this.props.stats[stat] || 0;
     }
 
+    getHouse(house) {
+        let houseTitle = this.props.t(house);
+        return houseTitle[0].toUpperCase() + houseTitle.slice(1);
+    }
+
     getButton(stat, name, statToSet = stat) {
         return (
-            <div className='state'>
-                { this.props.showControls ? <button className='btn btn-stat' onClick={ this.sendUpdate.bind(this, statToSet, 'down') }>
-                    <img src='/img/Minus.png' title='-' alt='-' />
-                </button> : null }
-                <div className={ `stat-image ${stat}` }>
-                    <div className='stat-value'>{ this.getStatValueOrDefault(stat) }</div>
-                </div>
-                { this.props.showControls ? <button className='btn btn-stat' onClick={ this.sendUpdate.bind(this, statToSet, 'up') }>
-                    <img src='/img/Plus.png' title='+' alt='+' />
-                </button> : null }
+            <div className='state' title={this.props.t(name)}>
+                {this.props.showControls ? (
+                    <a
+                        href='#'
+                        className='btn-stat'
+                        onClick={this.sendUpdate.bind(this, statToSet, 'down')}
+                    >
+                        <img src={Minus} title='-' alt='-' />
+                    </a>
+                ) : null}
+                <div className='stat-value'>{this.getStatValueOrDefault(stat)}</div>
+                <div className={`stat-image ${stat}`} />
+                {this.props.showControls ? (
+                    <a
+                        href='#'
+                        className='btn-stat'
+                        onClick={this.sendUpdate.bind(this, statToSet, 'up')}
+                    >
+                        <img src={Plus} title='+' alt='+' />
+                    </a>
+                ) : null}
+            </div>
+        );
+    }
+
+    getKeyCost() {
+        return (
+            <div className='state' title={this.props.t('Current Key Cost')}>
+                <div className='stat-value'>{this.getStatValueOrDefault('keyCost')}</div>
+                <div className='stat-image keyCost' />
             </div>
         );
     }
@@ -44,7 +92,7 @@ export class PlayerStats extends React.Component {
     onSettingsClick(event) {
         event.preventDefault();
 
-        if(this.props.onSettingsClick) {
+        if (this.props.onSettingsClick) {
             this.props.onSettingsClick();
         }
     }
@@ -52,7 +100,17 @@ export class PlayerStats extends React.Component {
     getHouses() {
         return (
             <div className='state'>
-                { this.props.houses.map(house => (<img key={ house } className='img-responsive' src={ `/img/house/${house}.png` } title={ this.props.t(house) } />)) }
+                {this.props.houses.map((house) => (
+                    <img
+                        key={house}
+                        onClick={this.setActiveHouse.bind(this, house)}
+                        className={`img-fluid ${
+                            this.props.activeHouse === house ? 'active' : 'inactive'
+                        }-house`}
+                        src={Constants.IdBackHousePaths[house]}
+                        title={this.getHouse(house)}
+                    />
+                ))}
             </div>
         );
     }
@@ -60,8 +118,9 @@ export class PlayerStats extends React.Component {
     writeChatToClipboard(event) {
         event.preventDefault();
         let messagePanel = document.getElementsByClassName('messages panel')[0];
-        if(messagePanel) {
-            navigator.clipboard.writeText(messagePanel.innerText)
+        if (messagePanel) {
+            navigator.clipboard
+                .writeText(messagePanel.innerText)
                 .then(() => toastr.success('Copied game chat to clipboard'))
                 .catch((err) => toastr.error(`Could not copy game chat: ${err}`));
         }
@@ -70,68 +129,84 @@ export class PlayerStats extends React.Component {
     render() {
         let t = this.props.t;
         let playerAvatar = (
-            <div className='player-avatar'>
-                <Avatar username={ this.props.user ? this.props.user.username : undefined } />
-                <b>{ this.props.user ? this.props.user.username : t('Noone') }</b>
-            </div>);
-        let muteClass = this.props.muteSpectators ? 'glyphicon-eye-close' : 'glyphicon-eye-open';
+            <div className='pr-1 player-info'>
+                <Avatar imgPath={this.props.user?.avatar} />
+                <b>{this.props.user?.username || t('Noone')}</b>
+            </div>
+        );
+        let statsClass = classNames('panel player-stats', {
+            'active-player': this.props.activePlayer
+        });
 
         return (
-            <div className='panel player-stats'>
-                { playerAvatar }
+            <div className={statsClass}>
+                {playerAvatar}
+                <Keys keys={this.props.stats.keys} manualMode={this.props.manualModeEnabled} />
+                {this.getButton('amber', t('Amber'))}
+                {this.getButton('chains', t('Chains'))}
+                {this.getKeyCost()}
 
-                { this.getButton('amber', 'Amber') }
-                { this.getButton('chains', 'Chains') }
-
-                { this.props.houses ? this.getHouses() : null }
-
-                { this.props.activeHouse &&
-                    <div className='state'>
-                        <div className='hand-size'><Trans>Active House</Trans>: </div>
-                        <img className='house-image' src={ `/img/house/${this.props.activeHouse}.png` } title={ this.props.activeHouse } />
-                    </div>
-                }
-
-                { this.props.activePlayer &&
+                {this.props.houses ? this.getHouses() : null}
+                {this.props.activePlayer && (
                     <div className='state first-player-state'>
                         <Trans>Active Player</Trans>
                     </div>
-                }
+                )}
 
-                { this.props.showMessages &&
+                {this.props.showMessages && (
                     <div className='state chat-status'>
                         <div className='state'>
-                            <button className='btn btn-transparent btn-noimg' onClick={ this.props.onMuteClick }>
-                                <span className={ `glyphicon ${muteClass}` } />
-                            </button>
+                            <a href='#' className='pr-1 pl-1'>
+                                <FontAwesomeIcon
+                                    icon={this.props.muteSpectators ? faEyeSlash : faEye}
+                                    onClick={this.props.onMuteClick}
+                                ></FontAwesomeIcon>
+                            </a>
                         </div>
                         <div className='state'>
-                            <button className='btn btn-transparent btn-noimg' onClick={ this.writeChatToClipboard.bind(this) }>
-                                <span className='glyphicon glyphicon-copy' />
-                            </button>
+                            <a href='#' className='pr-1 pl-1'>
+                                <FontAwesomeIcon
+                                    icon={faCopy}
+                                    onClick={this.writeChatToClipboard.bind(this)}
+                                ></FontAwesomeIcon>
+                            </a>
                         </div>
-                        {
-                            this.props.showManualMode &&
+                        {this.props.showManualMode && (
                             <div className='state'>
-                                <button
-                                    className={ 'btn btn-transparent btn-noimg ' + (this.props.manualModeEnabled ? 'manual' : 'auto') }
-                                    onClick={ this.props.onManualModeClick } >
-                                    <span className='glyphicon glyphicon-wrench' />
-                                    <span><Trans>Manual Mode</Trans></span>
-                                </button>
+                                <a
+                                    href='#'
+                                    className={this.props.manualModeEnabled ? 'text-danger' : ''}
+                                    onClick={this.props.onManualModeClick}
+                                >
+                                    <FontAwesomeIcon icon={faWrench}></FontAwesomeIcon>
+                                    <span className='ml-1'>
+                                        <Trans>Manual Mode</Trans>
+                                    </span>
+                                </a>
                             </div>
-                        }
+                        )}
                         <div className='state'>
-                            <button className='btn btn-transparent btn-noimg' onClick={ this.onSettingsClick.bind(this) }><span className='glyphicon glyphicon-cog' /><Trans>Settings</Trans></button>
+                            <a
+                                href='#'
+                                onClick={this.onSettingsClick.bind(this)}
+                                className='pr-1 pl-1'
+                            >
+                                <FontAwesomeIcon icon={faCogs}></FontAwesomeIcon>
+                                <span className='ml-1'>
+                                    <Trans>Settings</Trans>
+                                </span>
+                            </a>
                         </div>
-                        <div>
-                            <button className='btn btn-transparent btn-noimg' onClick={ this.props.onMessagesClick } >
-                                <span className='glyphicon glyphicon-envelope' />
-                                <span className='chat-badge badge progress-bar-danger'>{ this.props.numMessages || null }</span>
-                            </button>
+                        <div className='state'>
+                            <a href='#' onClick={this.props.onMessagesClick} className='pl-1'>
+                                <FontAwesomeIcon icon={faComment}></FontAwesomeIcon>
+                                {this.props.numMessages > 0 && (
+                                    <Badge variant='danger'>{this.props.numMessages}</Badge>
+                                )}
+                            </a>
                         </div>
                     </div>
-                }
+                )}
             </div>
         );
     }
@@ -144,6 +219,7 @@ PlayerStats.propTypes = {
     houses: PropTypes.array,
     i18n: PropTypes.object,
     manualModeEnabled: PropTypes.bool,
+    matchRecord: PropTypes.object,
     muteSpectators: PropTypes.bool,
     numMessages: PropTypes.number,
     onManualModeClick: PropTypes.func,

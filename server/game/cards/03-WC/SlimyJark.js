@@ -3,7 +3,7 @@ const Card = require('../../Card.js');
 class SlimyJark extends Card {
     setupCardAbilities(ability) {
         this.fight({
-            gameAction: ability.actions.enrage(context => ({
+            gameAction: ability.actions.enrage((context) => ({
                 target: context.event.attackerTarget
             }))
         });

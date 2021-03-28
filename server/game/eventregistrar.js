@@ -29,8 +29,8 @@ class EventRegistrar {
      * event-to-method mappings.
      */
     register(events) {
-        _.each(events, event => {
-            if(_.isString(event)) {
+        _.each(events, (event) => {
+            if (_.isString(event)) {
                 this.registerEvent(event);
             } else {
                 _.each(event, (methodName, eventName) => {
@@ -50,7 +50,7 @@ class EventRegistrar {
     registerEvent(eventName, methodName) {
         let method = this.context[methodName || eventName];
 
-        if(!method) {
+        if (!method) {
             throw new Error(`Cannot bind event handler for ${eventName}`);
         }
 
@@ -63,7 +63,7 @@ class EventRegistrar {
      * Unbinds all registered handlers from the event emitter.
      */
     unregisterAll() {
-        _.each(this.events, event => {
+        _.each(this.events, (event) => {
             this.game.removeListener(event.name, event.handler);
         });
         this.events = [];

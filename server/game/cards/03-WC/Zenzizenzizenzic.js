@@ -3,7 +3,7 @@ const Card = require('../../Card.js');
 class Zenzizenzizenzic extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
-            condition: () => this.isInCenter(),
+            condition: (context) => context.source.isInCenter(),
             effect: ability.effects.modifyHandSize(2)
         });
     }

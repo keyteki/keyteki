@@ -22,15 +22,18 @@ class MoveOnBattlelineAction extends CardGameAction {
         let card = this.target.length > 0 ? this.target[0] : context.source;
         let player = context.player.opponent;
 
-        if(!player) {
+        if (!player) {
             return;
         }
 
-        if(player.cardsInPlay.some(card => card.type === 'creature')) {
+        if (player.cardsInPlay.some((card) => card.type === 'creature')) {
             context.game.promptForSelect(player, {
                 source: card,
                 activePromptTitle: 'Select a card to move this card next to',
-                cardCondition: card => (card.location === 'play area') && card.controller === player && card.type === 'creature',
+                cardCondition: (card) =>
+                    card.location === 'play area' &&
+                    card.controller === player &&
+                    card.type === 'creature',
                 onSelect: (p, card) => {
                     let choices = ['Left', 'Right'];
 
@@ -41,8 +44,8 @@ class MoveOnBattlelineAction extends CardGameAction {
                         context: context,
                         source: this.target.length > 0 ? this.target[0] : context.source,
                         choices: choices,
-                        choiceHandler: choice => {
-                            if(choice === 'Right') {
+                        choiceHandler: (choice) => {
+                            if (choice === 'Right') {
                                 this.moveIndex++;
                             }
 
@@ -56,14 +59,19 @@ class MoveOnBattlelineAction extends CardGameAction {
     }
 
     getEvent(card, context) {
-        return super.createEvent('onCardMovedInBattleline', { card: card, context: context }, () => {
-            let player = card.controller;
-            let cardIndex = player.cardsInPlay.indexOf(card);
-            let cardInsertionIndex = this.moveIndex > cardIndex ? this.moveIndex - 1 : this.moveIndex;
+        return super.createEvent(
+            'onCardMovedInBattleline',
+            { card: card, context: context },
+            () => {
+                let player = card.controller;
+                let cardIndex = player.cardsInPlay.indexOf(card);
+                let cardInsertionIndex =
+                    this.moveIndex > cardIndex ? this.moveIndex - 1 : this.moveIndex;
 
-            player.cardsInPlay.splice(cardIndex, 1);
-            player.cardsInPlay.splice(cardInsertionIndex, 0, card);
-        });
+                player.cardsInPlay.splice(cardIndex, 1);
+                player.cardsInPlay.splice(cardInsertionIndex, 0, card);
+            }
+        );
     }
 }
 

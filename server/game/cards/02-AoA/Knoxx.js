@@ -3,8 +3,7 @@ const Card = require('../../Card.js');
 class Knoxx extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
-            match: this,
-            effect: ability.effects.modifyPower(() => this.neighbors.length * 3)
+            effect: ability.effects.modifyPower((card) => card.neighbors.length * 3)
         });
     }
 }

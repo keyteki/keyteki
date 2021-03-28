@@ -5,7 +5,7 @@ class Oubliette extends Card {
         this.play({
             target: {
                 cardType: 'creature',
-                cardCondition: card => card.power <= 3,
+                cardCondition: (card) => card.power <= 3,
                 gameAction: ability.actions.purge()
             }
         });

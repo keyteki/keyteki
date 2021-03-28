@@ -9,7 +9,7 @@ class HorsemanOfFamine extends Card {
                 mode: 'mostStat',
                 cardType: 'creature',
                 numCards: 1,
-                cardStat: card => -card.power,
+                cardStat: (card) => -card.power,
                 gameAction: ability.actions.destroy()
             }
         });

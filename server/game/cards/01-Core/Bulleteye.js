@@ -5,7 +5,7 @@ class Bulleteye extends Card {
         this.reap({
             target: {
                 cardType: 'creature',
-                cardCondition: card => card.isOnFlank(),
+                cardCondition: (card) => card.isOnFlank(),
                 gameAction: ability.actions.destroy()
             }
         });
