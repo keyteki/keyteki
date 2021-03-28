@@ -140,6 +140,14 @@ const DeckList = ({ onDeckSelected, standaloneDecks = false }) => {
     const rowEvents = {
         onClick: (event, deck) => {
             onDeckSelected && onDeckSelected(deck);
+
+            // reset the form, so the next time it is
+            // loaded it is in the starting postiion
+            nameFilter.current('');
+            expansionFilter.current([]);
+            let newPageData = Object.assign({}, pagingDetails);
+            newPageData.page = 1;
+            setPagingDetails(newPageData);
         }
     };
 
