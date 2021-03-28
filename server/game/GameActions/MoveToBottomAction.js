@@ -15,7 +15,7 @@ class MoveToBottomAction extends CardGameAction {
     }
 
     getEvent(card, context) {
-        let targetPlayerForEffect = this.targetPlayer;
+        const targetPlayerForEffect = this.targetPlayer;
 
         return super.createEvent('unnamedEvent', { card: card, context: context }, () => {
             let targetPlayer =
