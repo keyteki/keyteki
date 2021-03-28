@@ -70,7 +70,7 @@ describe('Dog', function () {
 
             expect(this.dog.exhausted).toBe(true);
             this.player2.play(this.poke);
-            this.player2.clickCard(this.scrivenerFavian);
+            this.player2.clickCard(this.qMechs);
             expect(this.dog.exhausted).toBe(false);
             this.player2.endTurn();
         });
