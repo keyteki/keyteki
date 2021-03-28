@@ -1,0 +1,86 @@
+const Card = require('../../Card.js');
+
+class DarkDiscovery extends Card {
+    //Play: Name 2 cards. Discard the bottom 2 cards of your opponent’s deck. If they are the named cards, purge $this and forge a key at no cost.
+    //This card is incomplete and subject to change.
+    setupCardAbilities(ability) {
+        this.play({
+            targets: {
+                firstCard: {
+                    mode: 'card-name'
+                },
+                secondCard: {
+                    mode: 'card-name'
+                }
+            },
+            gameAction: ability.actions.discard((preThenContext) => ({
+                target: preThenContext.player.opponent.deck.slice(
+                    Math.max(preThenContext.player.opponent.deck.length - 2, 0)
+                )
+            })),
+            then: (preThenContext) => ({
+                alwaysTriggers: true,
+                condition: (context) => {
+                    let discardedCardNames = context.preThenEvents
+                        .filter((event) => event.name === 'onCardDiscarded')
+                        .map((event) => event.card.name);
+
+                    if (discardedCardNames.length != 2) {
+                        return false;
+                    }
+
+                    if (
+                        discardedCardNames[0] === preThenContext.targets.firstCard &&
+                        discardedCardNames[1] === preThenContext.targets.secondCard
+                    ) {
+                        return true;
+                    } else if (
+                        discardedCardNames[1] === preThenContext.targets.firstCard &&
+                        discardedCardNames[0] === preThenContext.targets.secondCard
+                    ) {
+                        return true;
+                    }
+
+                    return false;
+                },
+                gameAction: ability.actions.forgeKey({
+                    atNoCost: true
+                })
+            })
+        });
+    }
+}
+
+/*
+
+class CleansingWave extends Card {
+    setupCardAbilities(ability) {
+        this.play({
+            effect: 'heal 1 damage from all creatures',
+            gameAction: ability.actions.heal((context) => ({
+                amount: 1,
+                target: context.game.creaturesInPlay.filter((card) => card.hasToken('damage'))
+            })),
+            then: {
+                message: '{1} heals {3}, gaining {0} {4} amber',
+                messageArgs: (context) => {
+                    let successfulEvents = context.preThenEvents.filter(
+                        (event) => !event.cancelled && event.amount > 0
+                    );
+                    return [successfulEvents.map((event) => event.card), successfulEvents.length];
+                },
+                gameAction: ability.actions.gainAmber((context) => ({
+                    amount: context.preThenEvents.filter(
+                        (event) => !event.cancelled && event.amount > 0
+                    ).length
+                }))
+            }
+        });
+    }
+}
+
+*/
+
+DarkDiscovery.id = 'dark-discovery';
+
+module.exports = DarkDiscovery;
