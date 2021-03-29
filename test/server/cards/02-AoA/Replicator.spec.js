@@ -36,6 +36,7 @@ describe('Replicator', function () {
             expect(this.player2.player.amber).toBe(5);
         });
     });
+
     describe("Replicator's ability", function () {
         beforeEach(function () {
             this.setupTest({
@@ -52,7 +53,7 @@ describe('Replicator', function () {
             });
         });
 
-        it('Copy reap effects including upgrades', function () {
+        xit('Copy reap effects including upgrades', function () {
             // This test specifically addresses multiple reap effects and
             // Is xit'd until we re-factor the base replicator card code
             this.player1.playUpgrade(this.redPlanetRayGun, this.ulyqMegamouth);
@@ -67,8 +68,37 @@ describe('Replicator', function () {
             this.player1.clickPrompt('Reap with this creature');
             expect(this.player1).toBeAbleToSelect(this.ulyqMegamouth);
             this.player1.clickCard(this.ulyqMegamouth);
+            // TODO should have a prompt here
             expect(this.player1).toHavePrompt('Ulyq Megamouth');
             expect(this.player1).toBeAbleToSelect(this.dextre);
+        });
+    });
+
+    describe("Replicator's ability and opponnent's use a friendly creature", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'logos',
+                    amber: 2,
+                    inPlay: ['replicator', 'dew-faerie', 'dextre']
+                },
+                player2: {
+                    amber: 5,
+                    inPlay: ['foozle', 'ulyq-megamouth']
+                }
+            });
+        });
+
+        it('use Ulyq Megamouth to use Dew Faerie', function () {
+            this.player1.reap(this.replicator);
+            this.player1.clickCard(this.ulyqMegamouth);
+            expect(this.player1).toBeAbleToSelect(this.dewFaerie);
+            expect(this.player1).toBeAbleToSelect(this.dextre);
+            expect(this.player1).not.toBeAbleToSelect(this.foozle);
+            expect(this.player1).not.toBeAbleToSelect(this.ulyqMegamouth);
+            this.player1.clickCard(this.dewFaerie);
+            this.player1.clickPrompt('Reap with this creature');
+            expect(this.player1.amber).toBe(5);
         });
     });
 });
