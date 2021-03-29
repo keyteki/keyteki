@@ -65,7 +65,10 @@ class AbilityTargetCardName extends AbilityTarget {
     }
 
     selectCardName(context, _player, cardName) {
-        context.cardName = cardName;
+        context.targets[this.name] = cardName;
+        if (this.name === 'target') {
+            context.cardName = cardName;
+        }
 
         return true;
     }

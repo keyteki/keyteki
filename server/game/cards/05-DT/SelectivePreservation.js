@@ -3,20 +3,38 @@ const Card = require('../../Card.js');
 class SelectivePreservation extends Card {
     setupCardAbilities(ability) {
         this.play({
-            target: {
-                activePromptTitle: 'Choose a creature of each power value to not destroy',
-                cardType: 'creature',
-                mode: 'exactly',
-                numCards: (context) =>
-                    new Set(context.game.creaturesInPlay.map((card) => card.power)).size,
-                selectorCondition: (selectedCards, context) =>
-                    new Set(context.game.creaturesInPlay.map((card) => card.power)).size ===
-                    new Set(selectedCards.map((card) => card.power)).size,
-                gameAction: ability.actions.destroy((context) => ({
-                    target: context.game.creaturesInPlay.filter(
-                        (card) => context.target && !context.target.includes(card)
+            effect: 'select creatures for each power to not destroy',
+            then: (preThenContext) => {
+                let uniquePowers = [
+                    ...new Set(
+                        preThenContext.game.creaturesInPlay.map((creature) => creature.power)
                     )
-                }))
+                ].sort();
+
+                let targets = [];
+                for (let i = 0; i < uniquePowers.length; i++) {
+                    let power = uniquePowers[i];
+                    let targetKey = 'power' + power;
+                    targets[targetKey] = {
+                        activePromptTitle: {
+                            text: 'Choose a {{power}} creature to not destroy',
+                            values: { power: power }
+                        },
+                        cardType: 'creature',
+                        numCards: 1,
+                        cardCondition: (card) => card.power === power
+                    };
+                }
+
+                return {
+                    alwaysTriggers: true,
+                    targets: targets,
+                    gameAction: ability.actions.destroy((context) => ({
+                        target: context.game.creaturesInPlay.filter(
+                            (card) => !Object.values(context.targets).includes(card)
+                        )
+                    }))
+                };
             }
         });
     }
