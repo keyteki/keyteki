@@ -23,6 +23,8 @@ class ModifyAmberAction extends PlayerAction {
     getEvent(player, context) {
         let params = { player: player, amount: this.amount, reap: this.reap, context: context };
 
+        console.log(player.name, this.reap);
+
         if (player.anyEffect('redirectAmber')) {
             return super.createEvent('onRedirectAmber', params, (event) => {
                 event.player.mostRecentEffect('redirectAmber').addToken('amber', event.amount);
