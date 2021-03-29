@@ -1,6 +1,10 @@
 const CardGameAction = require('./CardGameAction');
 
 class MoveToBottomAction extends CardGameAction {
+    constructor(propertyFactory) {
+        super(propertyFactory);
+    }
+
     setDefaultProperties() {}
 
     setup() {

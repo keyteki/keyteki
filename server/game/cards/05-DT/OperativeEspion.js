@@ -12,7 +12,9 @@ class OperativeEspion extends Card {
             target: {
                 cardType: 'creature',
                 cardCondition: (card, context) => card.controller === context.event.player,
-                gameAction: ability.actions.use()
+                gameAction: ability.actions.use((context) => ({
+                    player: context.event.player
+                }))
             }
         });
     }
