@@ -27,9 +27,9 @@ describe('Card 321', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('dis');
 
-            expect(this.card321.tokens.melerukh).toBeUndefined();
+            expect(this.card321.tokens.awakening).toBeUndefined();
             this.player2.reap(this.gub);
-            expect(this.card321.tokens.melerukh).toBe(1);
+            expect(this.card321.tokens.awakening).toBe(1);
 
             this.player2.endTurn();
         });
@@ -74,9 +74,9 @@ describe('Card 321', function () {
         });
 
         it('should not gain counters when friendly creatures reap', function () {
-            expect(this.card321.tokens.melerukh).toBeUndefined();
+            expect(this.card321.tokens.awakening).toBeUndefined();
             this.player1.reap(this.deepPriestGlebe);
-            expect(this.card321.tokens.melerukh).toBeUndefined();
+            expect(this.card321.tokens.awakening).toBeUndefined();
         });
     });
 });

@@ -11,10 +11,10 @@ class Card321 extends Card {
                     event.card.type === 'creature' &&
                     context.source.type === 'artifact'
             },
-            gameAction: ability.actions.addMelerukhCounter(),
+            gameAction: ability.actions.addAwakeningCounter(),
             then: {
                 condition: (context) =>
-                    context.source.hasToken('melerukh') && context.source.tokens.melerukh >= 6,
+                    context.source.hasToken('awakening') && context.source.tokens.awakening >= 6,
                 message: '{1} has 6 counters and moves to flank.',
                 messageArgs: (context) => [context.source],
                 gameAction: ability.actions.sequential([

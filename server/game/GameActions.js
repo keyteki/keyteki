@@ -8,8 +8,8 @@ const Actions = {
     addDisruptionCounter: (propertyFactory) =>
         new GameActions.AddTokenAction(propertyFactory, 'disruption'),
     addDoomCounter: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'doom'),
-    addMelerukhCounter: (propertyFactory) =>
-        new GameActions.AddTokenAction(propertyFactory, 'melerukh'),
+    addAwakeningCounter: (propertyFactory) =>
+        new GameActions.AddTokenAction(propertyFactory, 'awakening'),
     addFuseCounter: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'fuse'),
     addGloryCounter: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'glory'),
     addGrowthCounter: (propertyFactory) =>
