@@ -572,7 +572,6 @@
     "Return creatures and upgrades": "Return creatures and upgrades",
     "Choose how many to remove": "Choose how many to remove",
     "Choose a {{house}} creature to not destroy": "Choose a {{house}} creature to not destroy",
-    "Select up to 2 cards from each discard": "Select up to 2 cards from each discard",
     "Archive friendly creatures": "Archive friendly creatures",
     "Deal damage": "Deal damage",
     "Steal 1 amber": "Steal 1 amber",
@@ -580,9 +579,10 @@
     "Exalt once": "Exalt once",
     "Exalt twice": "Exalt twice",
     "unfathomable": "unfathomable",
-    "Choose a creature of each power value to not destroy": "Choose a creature of each power value to not destroy",
     "Choose a creature to purge": "Choose a creature to purge",
     "Exalt, ready and use": "Exalt, ready and use",
     "Move 1 amber": "Move 1 amber",
-    "Select creatures for each power to not destroy.": "Select creatures for each power to not destroy."
+    "Select up to 2 cards from your discard": "Select up to 2 cards from your discard",
+    "Select up to 2 cards from opponent's discard": "Select up to 2 cards from opponent's discard",
+    "Choose a {{power}} creature to not destroy": "Choose a {{power}} creature to not destroy"
 }

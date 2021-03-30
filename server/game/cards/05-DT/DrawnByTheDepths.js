@@ -4,6 +4,7 @@ class DrawnByTheDepths extends Card {
     //Play: Look at the top 3 cards of your opponent's deck. Discard one, put one on the bottom, and put one on the top.
     setupCardAbilities(ability) {
         this.play({
+            condition: (context) => !!context.player.opponent,
             effect: 'to look at the top 3 cards of their deck',
             gameAction: ability.actions.sequential([
                 ability.actions.discard((context) => ({

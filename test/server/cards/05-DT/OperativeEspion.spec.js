@@ -5,12 +5,12 @@ describe('OperativeEspion', function () {
                 player1: {
                     amber: 2,
                     house: 'staralliance',
-                    inPlay: ['rocketeer-tryska', 'operative-espion', 'lamindra'],
+                    inPlay: ['rocketeer-tryska', 'operative-espion', 'dew-faerie', 'lamindra'],
                     hand: ['quintrino-flux']
                 },
                 player2: {
                     amber: 2,
-                    inPlay: ['murkens', 'troll', 'groggins', 'seabringer-kekoa']
+                    inPlay: ['replicator', 'troll', 'groggins', 'seabringer-kekoa']
                 }
             });
         });
@@ -39,7 +39,7 @@ describe('OperativeEspion', function () {
         describe('when opponent raises the tide', function () {
             beforeEach(function () {
                 this.player1.endTurn();
-                this.player2.clickPrompt('shadows');
+                this.player2.clickPrompt('logos');
                 this.player2.raiseTide();
             });
 
@@ -53,9 +53,12 @@ describe('OperativeEspion', function () {
                 expect(this.player2).not.toBeAbleToSelect(this.rocketeerTryska);
                 expect(this.player2).toBeAbleToSelect(this.troll);
                 expect(this.player2).toBeAbleToSelect(this.groggins);
-                this.player2.clickCard(this.troll);
+                expect(this.player2).toBeAbleToSelect(this.replicator);
+                this.player2.clickCard(this.replicator);
                 this.player2.clickPrompt('Reap with this creature');
-                expect(this.player2.amber).toBe(3);
+                this.player2.clickCard(this.dewFaerie);
+                expect(this.player2.amber).toBe(4);
+                expect(this.player1.amber).toBe(2);
             });
         });
 

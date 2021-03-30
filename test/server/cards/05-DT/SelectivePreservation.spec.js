@@ -25,7 +25,6 @@ describe('Selective Preservation', function () {
             this.player1.moveCard(this.scoutPete, 'play area');
             expect(this.scoutPete.location).toBe('play area');
             this.player1.play(this.selectivePreservation);
-
             this.player1.endTurn();
             expect(this.scoutPete.location).toBe('play area');
         });

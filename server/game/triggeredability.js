@@ -38,6 +38,7 @@ class TriggeredAbility extends CardAbility {
         this.when = properties.when;
         this.title = properties.title;
         this.triggeredByOpponent = !!properties.triggeredByOpponent;
+        this.useEventPlayer = !!properties.useEventPlayer;
         this.autoResolve = !!properties.autoResolve;
         this.abilityType = abilityType;
         this.optional = !!properties.optional;
@@ -51,9 +52,10 @@ class TriggeredAbility extends CardAbility {
     eventHandler(event, window) {
         let player = this.properties.player || this.card.controller;
         if (
-            !this.isLastingAbilityTrigger &&
-            event.name === 'onCardPlayed' &&
-            this.card.type === 'action'
+            this.useEventPlayer ||
+            (!this.isLastingAbilityTrigger &&
+                event.name === 'onCardPlayed' &&
+                this.card.type === 'action')
         ) {
             player = event.player;
         } else if (this.triggeredByOpponent) {

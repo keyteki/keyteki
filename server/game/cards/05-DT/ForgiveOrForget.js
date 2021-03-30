@@ -1,4 +1,3 @@
-const _ = require('underscore');
 const Card = require('../../Card.js');
 
 class ForgiveOrForget extends Card {
@@ -18,35 +17,38 @@ class ForgiveOrForget extends Card {
                         'Purge up to 2 cards': () => true
                     }
                 },
-                'Archive 2 cards': {
+                'Archive 2 cards.first': {
                     dependsOn: 'action',
-                    numCards: 2,
                     location: 'discard',
-                    mode: 'exactly',
                     controller: 'self',
-                    selectorCondition: (selectedCards) =>
-                        _.uniq(selectedCards.map((card) => card.type)).length === 2,
                     gameAction: ability.actions.archive()
                 },
-                'Purge up to 2 cards': {
+                'Archive 2 cards.second': {
                     dependsOn: 'action',
-                    activePromptTitle: 'Select up to 2 cards from each discard',
-                    numCards: 4, // two from each discard
                     location: 'discard',
+                    controller: 'self',
+                    cardCondition: (card, context) =>
+                        context.targets['Archive 2 cards.first'] &&
+                        card !== context.targets['Archive 2 cards.first'] &&
+                        card.type !== context.targets['Archive 2 cards.first'].type,
+                    gameAction: ability.actions.archive()
+                },
+                'Purge up to 2 cards.own': {
+                    dependsOn: 'action',
+                    activePromptTitle: 'Select up to 2 cards from your discard',
+                    location: 'discard',
+                    controller: 'self',
+                    numCards: 2,
                     mode: 'upTo',
-                    selectorCondition: (selectedCards) => {
-                        // guarantee they're up to 2 from each owner
-                        const counts = {};
-                        for (let card of selectedCards) {
-                            counts[card.owner.uuid] = !counts[card.owner.uuid]
-                                ? 1
-                                : counts[card.owner.uuid] + 1;
-                            if (counts[card.owner.uuid] > 2) {
-                                return false;
-                            }
-                        }
-                        return true;
-                    },
+                    gameAction: ability.actions.purge()
+                },
+                'Purge up to 2 cards.opponent': {
+                    activePromptTitle: "Select up to 2 cards from opponent's discard",
+                    dependsOn: 'action',
+                    location: 'discard',
+                    controller: 'opponent',
+                    numCards: 2,
+                    mode: 'upTo',
                     gameAction: ability.actions.purge()
                 }
             }

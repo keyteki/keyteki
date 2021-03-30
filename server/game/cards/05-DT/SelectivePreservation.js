@@ -3,21 +3,17 @@ const Card = require('../../Card.js');
 class SelectivePreservation extends Card {
     setupCardAbilities(ability) {
         this.play({
-            effect: 'Select creatures for each power to not destroy.',
+            effect: 'select creatures for each power to not destroy',
 
             then: (preThenContext) => {
-                let unqiuePowers = Array.from(
-                    new Set(
-                        preThenContext.game.creaturesInPlay.map((creature) =>
-                            creature.getPower(false)
-                        )
-                    )
+                let uniquePowers = Array.from(
+                    new Set(preThenContext.game.creaturesInPlay.map((creature) => creature.power))
                 );
-                unqiuePowers.sort((a, b) => (a > b ? 1 : -1));
+                uniquePowers.sort((a, b) => (a > b ? 1 : -1));
 
                 let targets = [];
-                for (let i = 0; i < unqiuePowers.length; i++) {
-                    let power = unqiuePowers[i];
+                for (let i = 0; i < uniquePowers.length; i++) {
+                    let power = uniquePowers[i];
                     let targetKey = 'power' + power;
                     targets[targetKey] = {
                         activePromptTitle: {
@@ -26,12 +22,11 @@ class SelectivePreservation extends Card {
                         },
                         cardType: 'creature',
                         numCards: 1,
-                        cardCondition: (card) => card.getPower(false) === power,
+                        cardCondition: (card) => card.power === power,
                         gameAction: ability.actions.destroy((context) => ({
                             target: context.game.creaturesInPlay.filter(
                                 (card) =>
-                                    context.targets[targetKey] !== card &&
-                                    card.getPower(false) === power
+                                    context.targets[targetKey] !== card && card.power === power
                             )
                         }))
                     };

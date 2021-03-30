@@ -7,15 +7,13 @@ class WalkThePlank extends Card {
             target: {
                 cardCondition: (_, context) =>
                     context.player.opponent && !context.player.opponent.amber,
-                cardType: 'creature'
+                cardType: 'creature',
+                gameAction: ability.actions.dealDamage({ amount: 4 })
             },
             gameAction: ability.actions.conditional({
-                condition: (context) => context.player.opponent && !context.player.opponent.amber,
-                trueGameAction: ability.actions.dealDamage((context) => ({
-                    amount: 4,
-                    target: context.target
-                })),
-                falseGameAction: ability.actions.steal()
+                condition: (context) =>
+                    context.player.opponent && context.player.opponent.amber > 0,
+                trueGameAction: ability.actions.steal()
             }),
             effect: '{1}{2}',
             effectArgs: (context) =>

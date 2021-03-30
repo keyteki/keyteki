@@ -7,18 +7,18 @@ class ReachAdvantage extends Card {
             target: {
                 cardCondition: (_, context) => context.player.isTideHigh(),
                 cardType: 'creature',
-                controller: 'self'
+                controller: 'self',
+                gameAction: ability.actions.capture({ amount: 3 })
             },
             gameAction: ability.actions.conditional({
-                condition: (context) => context.player.isTideHigh(),
-                trueGameAction: ability.actions.capture((context) => ({
-                    amount: 3,
-                    target: context.target
-                })),
-                falseGameAction: ability.actions.raiseTide()
+                condition: (context) => !context.player.isTideHigh(),
+                trueGameAction: ability.actions.raiseTide()
             }),
-            effect: '{1}',
-            effectArgs: (context) => (context.player.isTideHigh() ? 'capture 3A' : 'raise the tide')
+            effect: '{1}{2}',
+            effectArgs: (context) =>
+                context.player.isTideHigh()
+                    ? ['capture 3 amber on ', context.target]
+                    : ['raise the tide']
         });
     }
 }
