@@ -13,7 +13,6 @@ class DrawnByTheDepths extends Card {
                     }
                 })),
                 ability.actions.moveToBottom((context) => ({
-                    targetPlayer: (context) => context.player.opponent,
                     promptWithHandlerMenu: {
                         activePromptTitle: 'Choose a card to move to bottom of deck',
                         cards: context.player.opponent.deck.slice(0, 2),
