@@ -3,7 +3,6 @@ const CardGameAction = require('./CardGameAction');
 class MoveToBottomAction extends CardGameAction {
     constructor(propertyFactory) {
         super(propertyFactory);
-        this.targetPlayer = 'current';
     }
 
     setDefaultProperties() {}
@@ -15,13 +14,9 @@ class MoveToBottomAction extends CardGameAction {
     }
 
     getEvent(card, context) {
-        const targetPlayerForEffect = this.targetPlayer;
-
         return super.createEvent('unnamedEvent', { card: card, context: context }, () => {
-            let targetPlayer =
-                targetPlayerForEffect === 'current' ? context.player : context.player.opponent;
-            targetPlayer.deck = targetPlayer.deck.filter((c) => c !== card);
-            targetPlayer.deck.push(card);
+            card.owner.deck = card.owner.deck.filter((c) => c !== card);
+            card.owner.deck.push(card);
         });
     }
 }
