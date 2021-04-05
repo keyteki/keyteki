@@ -115,59 +115,69 @@ class PutIntoPlayAction extends CardGameAction {
     }
 
     getEvent(card, context) {
-        return super.createEvent('onCardEntersPlay', { card: card, context: context }, () => {
-            let player;
-            let control;
-            if (card.anyEffect('entersPlayUnderOpponentsControl') && card.owner.opponent) {
-                player = card.owner.opponent;
-                control = true;
-            } else {
-                player = this.myControl ? context.player : card.controller;
-                control = this.myControl;
-            }
-
-            if (card.gigantic) {
-                let part =
-                    card.composedPart ||
-                    card.controller
-                        .getSourceList(card.location)
-                        .find((part) => card.compositeId === part.id);
-
-                if (!part && card.parent) {
-                    // parts are placed togehter under another card and can be put into play together
-                    part = card.parent.childCards.find((part) => card.compositeId === part.id);
+        let positionEvent = super.createEvent(
+            'onCardPositioned',
+            { card: card, context: context },
+            () => {
+                let player;
+                let control;
+                if (card.anyEffect('entersPlayUnderOpponentsControl') && card.owner.opponent) {
+                    player = card.owner.opponent;
+                    control = true;
+                } else {
+                    player = this.myControl ? context.player : card.controller;
+                    control = this.myControl;
                 }
 
-                if (part) {
-                    card.controller.removeCardFromPile(part);
-                    card.composedPart = part;
+                if (card.gigantic) {
+                    let part =
+                        card.composedPart ||
+                        card.controller
+                            .getSourceList(card.location)
+                            .find((part) => card.compositeId === part.id);
+
+                    if (!part && card.parent) {
+                        // parts are placed togehter under another card and can be put into play together
+                        part = card.parent.childCards.find((part) => card.compositeId === part.id);
+                    }
+
+                    if (part) {
+                        card.controller.removeCardFromPile(part);
+                        card.composedPart = part;
+                    }
+
+                    card.image = card.compositeImageId || card.id;
                 }
 
-                card.image = card.compositeImageId || card.id;
-            }
+                player.moveCard(card, 'play area', {
+                    left: this.left,
+                    deployIndex: this.deployIndex,
+                    myControl: control
+                });
 
-            player.moveCard(card, 'play area', {
-                left: this.left,
-                deployIndex: this.deployIndex,
-                myControl: control
-            });
-
-            if (this.myControl) {
-                card.updateEffectContexts();
+                if (this.myControl) {
+                    card.updateEffectContexts();
+                }
             }
+        );
 
-            if (!this.ready && !card.anyEffect('entersPlayReady')) {
-                card.exhaust();
-            }
+        positionEvent.addSubEvent(
+            super.createEvent('onCardEntersPlay', { card: card, context: context }, () => {
+                if (!this.ready && !card.anyEffect('entersPlayReady')) {
+                    card.exhaust();
+                }
 
-            if (card.anyEffect('entersPlayStunned')) {
-                card.stun();
-            }
+                if (card.anyEffect('entersPlayStunned')) {
+                    card.stun();
+                }
 
-            if (card.anyEffect('entersPlayEnraged')) {
-                card.enrage();
-            }
-        });
+                if (card.anyEffect('entersPlayEnraged')) {
+                    card.enrage();
+                }
+            })
+        );
+
+        return positionEvent;
     }
 }
 
