@@ -162,7 +162,7 @@ class PutIntoPlayAction extends CardGameAction {
         );
 
         positionEvent.addSubEvent(
-            super.createEvent('onCardEntersPlay', { card: card, context: context }, () => {
+            context.game.getEvent('onCardEntersPlay', { card: card, context: context }, () => {
                 if (!this.ready && !card.anyEffect('entersPlayReady')) {
                     card.exhaust();
                 }
