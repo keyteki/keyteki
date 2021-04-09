@@ -14,18 +14,15 @@ class WrathOrRuin extends Card {
                         'Return 2 enemy creatures to hand': () => true
                     }
                 },
-                destroy: {
+                'Destroy a flank creature': {
                     dependsOn: 'action',
-                    targetCondition: (context) =>
-                        context.selects.action.choice === 'Destroy a flank creature',
                     activePromptTitle: 'Choose a creature to destroy',
                     cardType: 'creature',
                     cardCondition: (card) => card.isOnFlank(),
                     gameAction: ability.actions.destroy()
                 },
-                return: {
-                    targetCondition: (context) =>
-                        context.selects.action.choice === 'Return 2 enemy creatures to hand',
+                'Return 2 enemy creatures to hand': {
+                    dependsOn: 'action',
                     activePromptTitle: 'Choose which creatures to return',
                     mode: 'exactly',
                     numCards: 2,
