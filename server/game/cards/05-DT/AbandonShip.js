@@ -1,6 +1,6 @@
 const Card = require('../../Card.js');
 
-class Card336 extends Card {
+class AbandonShip extends Card {
     //Play: Return a creature to its owner's hand. If the tide is high, return 4 creatures to their owner's hands instead.
     setupCardAbilities(ability) {
         this.play({
@@ -13,6 +13,6 @@ class Card336 extends Card {
     }
 }
 
-Card336.id = 'card-336';
+AbandonShip.id = 'abandon-ship';
 
-module.exports = Card336;
+module.exports = AbandonShip;

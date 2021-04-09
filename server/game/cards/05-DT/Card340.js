@@ -7,7 +7,7 @@ class Card340 extends Card {
         //Keywords: poison
         this.persistentEffect({
             targetController: 'opponent',
-            effect: ability.effects.modifyHandSize(() => -1)
+            effect: ability.effects.modifyHandSize(-1)
         });
     }
 }
