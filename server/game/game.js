@@ -883,7 +883,9 @@ class Game extends EventEmitter {
             return;
         }
 
-        if (card.type === 'creature' && player.creaturesInPlay.length > 0) {
+        if (card.anyEffect('takeControlOnLeft')) {
+            this.finalizeTakeControl(player, card, true);
+        } else if (card.type === 'creature' && player.creaturesInPlay.length > 0) {
             let handlers = [
                 () => this.finalizeTakeControl(player, card, true),
                 () => this.finalizeTakeControl(player, card)

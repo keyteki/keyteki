@@ -5,17 +5,23 @@ class Whirlpool extends Card {
     setupCardAbilities(ability) {
         this.interrupt({
             when: {
-                onRoundEnded: (event, context) =>
-                    !!context.game.activePlayer.opponent &&
-                    context.game.activePlayer.opponent == event.player
+                onRoundEnded: (event, context) => !!context.game.activePlayer.opponent
             },
-            gameAction: ability.actions.cardLastingEffect((context) => ({
-                target: context.game.activePlayer.creaturesInPlay.slice(
-                    -Math.min(context.game.activePlayer.creaturesInPlay.length, 1)
-                ),
-                duration: 'lastingEffect',
-                effect: ability.effects.takeControl(context.game.activePlayer.opponent)
-            }))
+            gameAction: [
+                ability.actions.cardLastingEffect((context) => ({
+                    target: context.game.activePlayer.creaturesInPlay.slice(
+                        -Math.min(context.game.activePlayer.creaturesInPlay.length, 1)
+                    ),
+                    duration: 'lastingEffect',
+                    effect: ability.effects.takeControl(context.game.activePlayer.opponent)
+                })),
+                ability.actions.cardLastingEffect((context) => ({
+                    target: context.game.activePlayer.creaturesInPlay.slice(
+                        -Math.min(context.game.activePlayer.creaturesInPlay.length, 1)
+                    ),
+                    effect: ability.effects.takeControlOnLeft()
+                }))
+            ]
         });
     }
 }
