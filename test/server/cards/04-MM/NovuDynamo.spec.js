@@ -10,7 +10,8 @@ describe('novu-dynamo', function () {
                     amber: 0
                 },
                 player2: {
-                    inPlay: ['helper-bot']
+                    inPlay: ['helper-bot'],
+                    hand: ['earthbind']
                 }
             });
             this.player1.endTurn();
@@ -48,13 +49,15 @@ describe('novu-dynamo', function () {
                 describe('Trigger again', function () {
                     beforeEach(function () {
                         this.player1.endTurn();
-                        this.player2.clickPrompt('logos');
+                        this.player2.clickPrompt('untamed');
+                        this.player2.playUpgrade(this.earthbind, this.novuDynamo);
                         this.player2.endTurn();
                     });
 
                     it('selects a logos card from hand or archives', function () {
                         expect(this.player1).not.toBeAbleToSelect(this.eyegor);
                         expect(this.player1).toBeAbleToSelect(this.libraryAccess);
+                        expect(this.player1).toBeAbleToSelect(this.eureka);
                         expect(this.player1).toBeAbleToSelect(this.novuDynamo);
                         expect(this.player1).not.toBeAbleToSelect(this.snufflegator);
                         expect(this.player1).not.toBeAbleToSelect(this.anger);
@@ -63,12 +66,38 @@ describe('novu-dynamo', function () {
                     describe('discard from archive', function () {
                         beforeEach(function () {
                             this.player1.clickCard(this.libraryAccess);
+                            this.player1.clickPrompt('logos');
+                            this.player1.clickPrompt('No');
                         });
 
                         it('gives amber', function () {
                             expect(this.libraryAccess.location).toBe('discard');
                             expect(this.novuDynamo.location).toBe('play area');
                             expect(this.player1.amber).toBe(2);
+                        });
+
+                        it('should not allow using Novu Dynamo due to Earthbind', function () {
+                            this.player1.clickCard(this.novuDynamo);
+                            expect(this.player1).not.toHavePromptButton('Reap with this creature');
+                        });
+                    });
+
+                    describe('discard from hand', function () {
+                        beforeEach(function () {
+                            this.player1.clickCard(this.eureka);
+                            this.player1.clickPrompt('logos');
+                            this.player1.clickPrompt('No');
+                        });
+
+                        it('gives amber', function () {
+                            expect(this.eureka.location).toBe('discard');
+                            expect(this.novuDynamo.location).toBe('play area');
+                            expect(this.player1.amber).toBe(2);
+                        });
+
+                        it('should allow using Novu Dynamo due to Earthbind', function () {
+                            this.player1.clickCard(this.novuDynamo);
+                            expect(this.player1).toHavePromptButton('Reap with this creature');
                         });
                     });
                 });
