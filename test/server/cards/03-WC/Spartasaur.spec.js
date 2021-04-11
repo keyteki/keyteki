@@ -36,4 +36,42 @@ describe('Spartasaur', function () {
             });
         });
     });
+
+    describe('and multiple friendly creatures destroyed', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'logos',
+                    hand: ['diametric-charge']
+                },
+                player2: {
+                    inPlay: [
+                        'spartasaur',
+                        'senator-shrix',
+                        'medic-ingram',
+                        'charette',
+                        'drumble',
+                        'gub'
+                    ]
+                }
+            });
+
+            this.medicIngram.ward();
+        });
+
+        it('should trigger once', function () {
+            this.player1.play(this.diametricCharge);
+            this.player1.clickCard(this.gub);
+            // Reaction
+            this.player1.clickCard(this.spartasaur);
+            this.player1.clickCard(this.drumble);
+            this.player1.endTurn();
+            expect(this.charette.location).toBe('discard');
+            expect(this.drumble.location).toBe('discard');
+            expect(this.gub.location).toBe('discard');
+            expect(this.medicIngram.location).toBe('play area');
+            expect(this.senatorShrix.location).toBe('play area');
+            expect(this.spartasaur.location).toBe('play area');
+        });
+    });
 });

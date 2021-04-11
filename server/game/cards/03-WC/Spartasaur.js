@@ -7,6 +7,7 @@ class Spartasaur extends Card {
                 onCardDestroyed: (event, context) =>
                     event.clone.type === 'creature' && event.clone.controller === context.player
             },
+            multipleTrigger: false,
             gameAction: ability.actions.destroy((context) => ({
                 target: context.game.creaturesInPlay.filter((card) => !card.hasTrait('dinosaur'))
             }))
