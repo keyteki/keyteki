@@ -104,7 +104,8 @@
                 "JASMINE_CONFIG_PATH": "./jasmine.json"
             },
             "args": ["${relativeFile}"],
-            "cwd": "${workspaceRoot}"
+            "cwd": "${workspaceRoot}",
+            "outFiles": []
         }
     ]
 }
