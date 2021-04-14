@@ -7,7 +7,7 @@ class ComOfficerHings extends Card {
         this.play({
             effect: 'search for Com. Officer Hings and add it to their hand',
             gameAction: ability.actions.search({
-                cardName: 'Com. Officer Gross?',
+                cardName: 'Com. Officer Gross',
                 location: ['deck'],
                 amount: 1
             })
@@ -18,7 +18,7 @@ class ComOfficerHings extends Card {
             target: {
                 controller: 'self',
                 cardType: 'creature',
-                cardCondition: (card) => card.name === 'Com. Officer Gross?'
+                cardCondition: (card) => card.name === 'Com. Officer Gross'
             },
             gameAction: ability.actions.draw((context) => {
                 if (!context.target) {
