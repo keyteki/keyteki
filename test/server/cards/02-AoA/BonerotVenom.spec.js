@@ -186,6 +186,7 @@ describe('Bonerot Venom', function () {
             this.player2.endTurn();
             this.player1.clickPrompt('untamed');
             this.player1.play(this.ghosthawk);
+            this.player1.clickCard(this.ghosthawk);
             this.player1.clickCard(this.umbra);
             expect(this.umbra.location).toBe('discard');
         });

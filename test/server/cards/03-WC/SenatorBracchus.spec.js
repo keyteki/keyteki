@@ -90,4 +90,38 @@ describe('Senator Bracchus', function () {
             });
         });
     });
+
+    describe('when on the board', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'shadows',
+                    inPlay: ['lamindra']
+                },
+                player2: {
+                    amber: 2,
+                    inPlay: ['senator-bracchus', 'senator-shrix', 'champion-anaphiel']
+                }
+            });
+        });
+
+        it('should always use amber on creatures', function () {
+            this.senatorBracchus.tokens.amber = 4;
+            this.senatorShrix.tokens.amber = 2;
+            this.championAnaphiel.tokens.amber = 2;
+            this.player1.endTurn();
+
+            expect(this.player2).toHavePrompt(
+                'How much amber do you want to use from Senator Bracchus?'
+            );
+            expect(this.player2).toHavePromptButton(0);
+            expect(this.player2).toHavePromptButton(1);
+            expect(this.player2).toHavePromptButton(2);
+            expect(this.player2).toHavePromptButton(3);
+            expect(this.player2).toHavePromptButton(4);
+            this.player2.clickPrompt(0);
+            expect(this.player2).toHavePrompt('Which key would you like to forge?');
+            this.player2.clickPrompt('red');
+        });
+    });
 });

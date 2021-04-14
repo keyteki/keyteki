@@ -3,6 +3,7 @@ const Card = require('../../Card.js');
 class Ghosthawk extends Card {
     setupCardAbilities(ability) {
         this.play({
+            optional: true,
             effect: 'reap with each of its neighbors in turn',
             target: {
                 cardType: 'creature',
