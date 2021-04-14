@@ -1,6 +1,6 @@
 const Card = require('../../Card.js');
 
-class ProfessorEmeritusColin extends Card {
+class ProfEmeritusKering extends Card {
     // Deploy.
     // Play/Fight/Reap: Use one of this creature's neighbors. If the tide is high, use its other neighbor.
     setupCardAbilities(ability) {
@@ -26,6 +26,6 @@ class ProfessorEmeritusColin extends Card {
     }
 }
 
-ProfessorEmeritusColin.id = 'professor-emeritus-colin';
+ProfEmeritusKering.id = 'prof-emeritus-kering';
 
-module.exports = ProfessorEmeritusColin;
+module.exports = ProfEmeritusKering;

@@ -1,6 +1,6 @@
 const Card = require('../../Card.js');
 
-class SGSLuminiferous extends Card {
+class SGSIlluminator extends Card {
     setupCardAbilities(ability) {
         // Action: Exhaust up to 4 friendly Sanctum creatures. Stun and exalt a creature for each creature exhausted this way.
         this.action({
@@ -27,6 +27,6 @@ class SGSLuminiferous extends Card {
     }
 }
 
-SGSLuminiferous.id = 'sgs-luminiferous';
+SGSIlluminator.id = 'sgs-illuminator';
 
-module.exports = SGSLuminiferous;
+module.exports = SGSIlluminator;

@@ -1,11 +1,11 @@
-describe('ReconAgentAspenEvilTwin', function () {
-    describe("ReconAgentAspenEvilTwin's ability", function () {
+describe('Operative Espion Evil Twin', function () {
+    describe("Operative Espion Evil Twin's ability", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
                     amber: 2,
                     house: 'staralliance',
-                    inPlay: ['rocketeer-tryska', 'recon-agent-aspen-evil-twin', 'lamindra'],
+                    inPlay: ['rocketeer-tryska', 'operative-espion-evil-twin', 'lamindra'],
                     hand: ['quintrino-flux']
                 },
                 player2: {
@@ -25,7 +25,7 @@ describe('ReconAgentAspenEvilTwin', function () {
             });
 
             it('should opt to deal damage to a creature', function () {
-                this.player1.clickCard(this.reconAgentAspenEvilTwin);
+                this.player1.clickCard(this.operativeEspionEvilTwin);
                 expect(this.player1).toBeAbleToSelect(this.lamindra);
                 expect(this.player1).toBeAbleToSelect(this.rocketeerTryska);
                 expect(this.player1).toBeAbleToSelect(this.troll);
@@ -47,7 +47,7 @@ describe('ReconAgentAspenEvilTwin', function () {
             });
 
             it('should opt to deal damage to a creature', function () {
-                this.player2.clickCard(this.reconAgentAspenEvilTwin);
+                this.player2.clickCard(this.operativeEspionEvilTwin);
                 expect(this.player2).toBeAbleToSelect(this.lamindra);
                 expect(this.player2).toBeAbleToSelect(this.rocketeerTryska);
                 expect(this.player2).toBeAbleToSelect(this.troll);

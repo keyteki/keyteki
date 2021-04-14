@@ -1,11 +1,11 @@
-describe('SGS Luminiferous', function () {
-    describe("SGS Luminiferous's ability", function () {
+describe('SGS Illuminator', function () {
+    describe("SGS Illuminator's ability", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
                     house: 'sanctum',
                     inPlay: [
-                        'sgs-luminiferous',
+                        'sgs-illuminator',
                         'bulwark',
                         'ardent-hero',
                         'champion-anaphiel',
@@ -21,13 +21,13 @@ describe('SGS Luminiferous', function () {
         });
 
         it('should be optional', function () {
-            this.player1.useAction(this.sgsLuminiferous);
+            this.player1.useAction(this.sgsIlluminator);
             this.player1.clickPrompt('Done');
             this.player1.endTurn();
         });
 
         it('should prompt to exalt and stun creatures', function () {
-            this.player1.useAction(this.sgsLuminiferous);
+            this.player1.useAction(this.sgsIlluminator);
 
             expect(this.player1).toBeAbleToSelect(this.bulwark);
             expect(this.player1).toBeAbleToSelect(this.ardentHero);
@@ -95,7 +95,7 @@ describe('SGS Luminiferous', function () {
             this.ardentHero.exhaust();
             this.greyMonk.exhaust();
 
-            this.player1.useAction(this.sgsLuminiferous);
+            this.player1.useAction(this.sgsIlluminator);
 
             this.player1.clickCard(this.bulwark);
             this.player1.clickCard(this.ardentHero);

@@ -1,12 +1,12 @@
-describe('Professor Emeritus Colin', function () {
-    describe("Professor Emeritus Colin's play ability", function () {
+describe('Prof. Emeritus Kering', function () {
+    describe("Prof. Emeritus Kering's play ability", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
                     house: 'staralliance',
                     amber: 1,
                     inPlay: ['dextre', 'archimedes'],
-                    hand: ['professor-emeritus-colin']
+                    hand: ['prof-emeritus-kering']
                 },
                 player2: {
                     amber: 1,
@@ -18,11 +18,11 @@ describe('Professor Emeritus Colin', function () {
         describe('when tide is not high', function () {
             describe('when played next to a single creature', function () {
                 beforeEach(function () {
-                    this.player1.play(this.professorEmeritusColin);
+                    this.player1.play(this.profEmeritusKering);
                 });
 
                 it('should be able to choose any of the neighbors', function () {
-                    expect(this.player1).not.toBeAbleToSelect(this.professorEmeritusColin);
+                    expect(this.player1).not.toBeAbleToSelect(this.profEmeritusKering);
                     expect(this.player1).not.toBeAbleToSelect(this.dextre);
                     expect(this.player1).toBeAbleToSelect(this.archimedes);
                 });
@@ -46,12 +46,12 @@ describe('Professor Emeritus Colin', function () {
 
             describe('when played next to two creatures', function () {
                 beforeEach(function () {
-                    this.player1.play(this.professorEmeritusColin, true, true);
+                    this.player1.play(this.profEmeritusKering, true, true);
                     this.player1.clickCard(this.archimedes);
                 });
 
                 it('should be able to choose any of the neighbors', function () {
-                    expect(this.player1).not.toBeAbleToSelect(this.professorEmeritusColin);
+                    expect(this.player1).not.toBeAbleToSelect(this.profEmeritusKering);
                     expect(this.player1).toBeAbleToSelect(this.dextre);
                     expect(this.player1).toBeAbleToSelect(this.archimedes);
                 });
@@ -81,11 +81,11 @@ describe('Professor Emeritus Colin', function () {
 
             describe('when played next to a single creature', function () {
                 beforeEach(function () {
-                    this.player1.play(this.professorEmeritusColin);
+                    this.player1.play(this.profEmeritusKering);
                 });
 
                 it('should be able to choose any of the neighbors', function () {
-                    expect(this.player1).not.toBeAbleToSelect(this.professorEmeritusColin);
+                    expect(this.player1).not.toBeAbleToSelect(this.profEmeritusKering);
                     expect(this.player1).not.toBeAbleToSelect(this.dextre);
                     expect(this.player1).toBeAbleToSelect(this.archimedes);
                 });
@@ -109,12 +109,12 @@ describe('Professor Emeritus Colin', function () {
 
             describe('when played next to two creatures', function () {
                 beforeEach(function () {
-                    this.player1.play(this.professorEmeritusColin, true, true);
+                    this.player1.play(this.profEmeritusKering, true, true);
                     this.player1.clickCard(this.archimedes);
                 });
 
                 it('should be able to choose any of the neighbors', function () {
-                    expect(this.player1).not.toBeAbleToSelect(this.professorEmeritusColin);
+                    expect(this.player1).not.toBeAbleToSelect(this.profEmeritusKering);
                     expect(this.player1).toBeAbleToSelect(this.dextre);
                     expect(this.player1).toBeAbleToSelect(this.archimedes);
                 });
@@ -144,13 +144,13 @@ describe('Professor Emeritus Colin', function () {
         });
     });
 
-    describe("Professor Emeritus Colin's reap ability", function () {
+    describe("Prof. Emeritus Kering's reap ability", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
                     house: 'staralliance',
                     amber: 1,
-                    inPlay: ['dextre', 'professor-emeritus-colin', 'archimedes']
+                    inPlay: ['dextre', 'prof-emeritus-kering', 'archimedes']
                 },
                 player2: {
                     amber: 1,
@@ -163,11 +163,11 @@ describe('Professor Emeritus Colin', function () {
             describe('when next to a single creature', function () {
                 beforeEach(function () {
                     this.player1.moveCard(this.dextre, 'discard');
-                    this.player1.reap(this.professorEmeritusColin);
+                    this.player1.reap(this.profEmeritusKering);
                 });
 
                 it('should be able to choose any of the neighbors', function () {
-                    expect(this.player1).not.toBeAbleToSelect(this.professorEmeritusColin);
+                    expect(this.player1).not.toBeAbleToSelect(this.profEmeritusKering);
                     expect(this.player1).not.toBeAbleToSelect(this.dextre);
                     expect(this.player1).toBeAbleToSelect(this.archimedes);
                 });
@@ -191,11 +191,11 @@ describe('Professor Emeritus Colin', function () {
 
             describe('when next to two creatures', function () {
                 beforeEach(function () {
-                    this.player1.reap(this.professorEmeritusColin);
+                    this.player1.reap(this.profEmeritusKering);
                 });
 
                 it('should be able to choose any of the neighbors', function () {
-                    expect(this.player1).not.toBeAbleToSelect(this.professorEmeritusColin);
+                    expect(this.player1).not.toBeAbleToSelect(this.profEmeritusKering);
                     expect(this.player1).toBeAbleToSelect(this.dextre);
                     expect(this.player1).toBeAbleToSelect(this.archimedes);
                 });
@@ -226,11 +226,11 @@ describe('Professor Emeritus Colin', function () {
             describe('when next to a single creature', function () {
                 beforeEach(function () {
                     this.player1.moveCard(this.dextre, 'discard');
-                    this.player1.reap(this.professorEmeritusColin);
+                    this.player1.reap(this.profEmeritusKering);
                 });
 
                 it('should be able to choose any of the neighbors', function () {
-                    expect(this.player1).not.toBeAbleToSelect(this.professorEmeritusColin);
+                    expect(this.player1).not.toBeAbleToSelect(this.profEmeritusKering);
                     expect(this.player1).not.toBeAbleToSelect(this.dextre);
                     expect(this.player1).toBeAbleToSelect(this.archimedes);
                 });
@@ -254,11 +254,11 @@ describe('Professor Emeritus Colin', function () {
 
             describe('when next to two creatures', function () {
                 beforeEach(function () {
-                    this.player1.reap(this.professorEmeritusColin);
+                    this.player1.reap(this.profEmeritusKering);
                 });
 
                 it('should be able to choose any of the neighbors', function () {
-                    expect(this.player1).not.toBeAbleToSelect(this.professorEmeritusColin);
+                    expect(this.player1).not.toBeAbleToSelect(this.profEmeritusKering);
                     expect(this.player1).toBeAbleToSelect(this.dextre);
                     expect(this.player1).toBeAbleToSelect(this.archimedes);
                 });
@@ -288,13 +288,13 @@ describe('Professor Emeritus Colin', function () {
         });
     });
 
-    describe("Professor Emeritus Colin's fight ability", function () {
+    describe("Prof. Emeritus Kering's fight ability", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
                     house: 'staralliance',
                     amber: 1,
-                    inPlay: ['dextre', 'professor-emeritus-colin', 'archimedes']
+                    inPlay: ['dextre', 'prof-emeritus-kering', 'archimedes']
                 },
                 player2: {
                     amber: 1,
@@ -307,11 +307,11 @@ describe('Professor Emeritus Colin', function () {
             describe('when next to a single creature', function () {
                 beforeEach(function () {
                     this.player1.moveCard(this.dextre, 'discard');
-                    this.player1.fightWith(this.professorEmeritusColin, this.lamindra);
+                    this.player1.fightWith(this.profEmeritusKering, this.lamindra);
                 });
 
                 it('should be able to choose any of the neighbors', function () {
-                    expect(this.player1).not.toBeAbleToSelect(this.professorEmeritusColin);
+                    expect(this.player1).not.toBeAbleToSelect(this.profEmeritusKering);
                     expect(this.player1).not.toBeAbleToSelect(this.dextre);
                     expect(this.player1).toBeAbleToSelect(this.archimedes);
                 });
@@ -335,11 +335,11 @@ describe('Professor Emeritus Colin', function () {
 
             describe('when next to two creatures', function () {
                 beforeEach(function () {
-                    this.player1.fightWith(this.professorEmeritusColin, this.lamindra);
+                    this.player1.fightWith(this.profEmeritusKering, this.lamindra);
                 });
 
                 it('should be able to choose any of the neighbors', function () {
-                    expect(this.player1).not.toBeAbleToSelect(this.professorEmeritusColin);
+                    expect(this.player1).not.toBeAbleToSelect(this.profEmeritusKering);
                     expect(this.player1).toBeAbleToSelect(this.dextre);
                     expect(this.player1).toBeAbleToSelect(this.archimedes);
                 });
@@ -370,11 +370,11 @@ describe('Professor Emeritus Colin', function () {
             describe('when next to a single creature', function () {
                 beforeEach(function () {
                     this.player1.moveCard(this.dextre, 'discard');
-                    this.player1.fightWith(this.professorEmeritusColin, this.lamindra);
+                    this.player1.fightWith(this.profEmeritusKering, this.lamindra);
                 });
 
                 it('should be able to choose any of the neighbors', function () {
-                    expect(this.player1).not.toBeAbleToSelect(this.professorEmeritusColin);
+                    expect(this.player1).not.toBeAbleToSelect(this.profEmeritusKering);
                     expect(this.player1).not.toBeAbleToSelect(this.dextre);
                     expect(this.player1).toBeAbleToSelect(this.archimedes);
                 });
@@ -398,11 +398,11 @@ describe('Professor Emeritus Colin', function () {
 
             describe('when next to two creatures', function () {
                 beforeEach(function () {
-                    this.player1.fightWith(this.professorEmeritusColin, this.lamindra);
+                    this.player1.fightWith(this.profEmeritusKering, this.lamindra);
                 });
 
                 it('should be able to choose any of the neighbors', function () {
-                    expect(this.player1).not.toBeAbleToSelect(this.professorEmeritusColin);
+                    expect(this.player1).not.toBeAbleToSelect(this.profEmeritusKering);
                     expect(this.player1).toBeAbleToSelect(this.dextre);
                     expect(this.player1).toBeAbleToSelect(this.archimedes);
                 });

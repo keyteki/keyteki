@@ -1,11 +1,11 @@
-describe('Public Theft', function () {
-    describe("Public Theft's ability", function () {
+describe('Blatant Thievery', function () {
+    describe("Blatant Thievery's ability", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
                     house: 'shadows',
                     amber: 1,
-                    hand: ['public-theft'],
+                    hand: ['blatant-thievery'],
                     inPlay: ['flaxia']
                 },
                 player2: {
@@ -21,7 +21,7 @@ describe('Public Theft', function () {
 
         describe('when played', function () {
             beforeEach(function () {
-                this.player1.play(this.publicTheft);
+                this.player1.play(this.blatantThievery);
             });
 
             it('should be able to select enemy creature', function () {

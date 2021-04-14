@@ -1,6 +1,6 @@
 const Card = require('../../Card.js');
 
-class PublicTheft extends Card {
+class BlatantThievery extends Card {
     setupCardAbilities(ability) {
         this.play({
             target: {
@@ -25,6 +25,6 @@ class PublicTheft extends Card {
     }
 }
 
-PublicTheft.id = 'public-theft';
+BlatantThievery.id = 'blatant-thievery';
 
-module.exports = PublicTheft;
+module.exports = BlatantThievery;

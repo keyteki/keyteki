@@ -1,6 +1,6 @@
 const Card = require('../../Card.js');
 
-class ReconAgentAspenEvilTwin extends Card {
+class OperativeEspionEvilTwin extends Card {
     // Elusive.
     // After a player raises the tide during their turn, they may deal 3D to a creature.
     setupCardAbilities(ability) {
@@ -17,6 +17,6 @@ class ReconAgentAspenEvilTwin extends Card {
     }
 }
 
-ReconAgentAspenEvilTwin.id = 'recon-agent-aspen-evil-twin';
+OperativeEspionEvilTwin.id = 'operative-espion-evil-twin';
 
-module.exports = ReconAgentAspenEvilTwin;
+module.exports = OperativeEspionEvilTwin;
