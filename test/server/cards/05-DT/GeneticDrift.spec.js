@@ -1,11 +1,11 @@
-describe('Card403', function () {
-    describe("Card403's ability", function () {
+describe('Genetic Drift', function () {
+    describe("Genetic Drift's ability", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
                     house: 'untamed',
                     amber: 1,
-                    hand: ['card-403'],
+                    hand: ['genetic-drift'],
                     inPlay: ['flaxia', 'bumblebird']
                 },
                 player2: {

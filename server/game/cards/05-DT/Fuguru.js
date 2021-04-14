@@ -1,10 +1,9 @@
 const Card = require('../../Card.js');
 
-class Card340 extends Card {
+class Fuguru extends Card {
     //Poison.
     //Your opponent draws one fewer card during their draw card phase.
     setupCardAbilities(ability) {
-        //Keywords: poison
         this.persistentEffect({
             targetController: 'opponent',
             effect: ability.effects.modifyHandSize(-1)
@@ -12,6 +11,6 @@ class Card340 extends Card {
     }
 }
 
-Card340.id = 'card-340';
+Fuguru.id = 'fuguru';
 
-module.exports = Card340;
+module.exports = Fuguru;

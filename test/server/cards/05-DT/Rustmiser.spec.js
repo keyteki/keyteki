@@ -1,12 +1,12 @@
-describe('Card 327', function () {
-    describe("Card 327's ability", function () {
+describe('Rustmiser', function () {
+    describe("Rustmiser's ability", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
                     house: 'unfathomable',
                     amber: 1,
                     hand: [],
-                    inPlay: ['card-327']
+                    inPlay: ['rustmiser']
                 },
                 player2: {
                     amber: 1,
@@ -19,7 +19,7 @@ describe('Card 327', function () {
             expect(this.thePaleStar.exhausted).toBe(false);
             expect(this.libraryOfTheDamned.exhausted).toBe(false);
 
-            this.player1.reap(this.card327);
+            this.player1.reap(this.rustmiser);
 
             expect(this.thePaleStar.exhausted).toBe(true);
             expect(this.libraryOfTheDamned.exhausted).toBe(true);

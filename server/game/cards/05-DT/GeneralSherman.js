@@ -1,6 +1,6 @@
 const Card = require('../../Card.js');
 
-class Card323 extends Card {
+class GeneralSherman extends Card {
     //This creature deals no damage when fighting.
     //Play: Purge each other creature. If this creature leaves play, return to play all creatures purged this way.
     setupCardAbilities(ability) {
@@ -35,6 +35,6 @@ class Card323 extends Card {
     }
 }
 
-Card323.id = 'card-323';
+GeneralSherman.id = 'general-sherman';
 
-module.exports = Card323;
+module.exports = GeneralSherman;

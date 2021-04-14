@@ -1,6 +1,6 @@
 const Card = require('../../Card.js');
 
-class Card322 extends Card {
+class FlashFreeze extends Card {
     //Play: For the remainder of the turn, after you play another card, exhaust a creature.
     setupCardAbilities(ability) {
         this.play({
@@ -22,6 +22,6 @@ class Card322 extends Card {
     }
 }
 
-Card322.id = 'card-322';
+FlashFreeze.id = 'flash-freeze';
 
-module.exports = Card322;
+module.exports = FlashFreeze;

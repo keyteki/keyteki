@@ -1,6 +1,6 @@
 const Card = require('../../Card.js');
 
-class Card321 extends Card {
+class EffigyOfMelerukh extends Card {
     //After an enemy creature reaps, put a counter on (this artifact). When there are 6 or more counters, move this card to a flank of your battleline. While in the battleline, it is a creature with 100 power and 100 armor.
     //This card has been translated from Chinese and is subject to change.
     setupCardAbilities(ability) {
@@ -35,6 +35,6 @@ class Card321 extends Card {
     }
 }
 
-Card321.id = 'card-321';
+EffigyOfMelerukh.id = 'effigy-of-melerukh';
 
-module.exports = Card321;
+module.exports = EffigyOfMelerukh;

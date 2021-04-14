@@ -1,10 +1,10 @@
-describe('Card 331', function () {
-    describe("Card 331's ability", function () {
+describe('Thalassophobia', function () {
+    describe("Thalassophobia's ability", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
                     house: 'unfathomable',
-                    hand: ['card-331']
+                    hand: ['thalassophobia']
                 },
                 player2: {
                     inPlay: ['narp'],
@@ -14,13 +14,13 @@ describe('Card 331', function () {
         });
 
         it('should discard 10 cards', function () {
-            this.player1.play(this.card331);
+            this.player1.play(this.thalassophobia);
             expect(this.player2.discard.length).toBe(10);
         });
 
         it('should discard cards from the top', function () {
             this.player2.moveCard(this.narp, 'deck');
-            this.player1.play(this.card331);
+            this.player1.play(this.thalassophobia);
             expect(this.narp.location).toBe('discard');
         });
 
@@ -29,7 +29,7 @@ describe('Card 331', function () {
                 this.player2.moveCard(this.player2.deck[0], 'hand');
 
             expect(this.player2.deck.length).toBe(5);
-            this.player1.play(this.card331);
+            this.player1.play(this.thalassophobia);
             expect(this.player2.deck.length).toBe(0);
             expect(this.player2.discard.length).toBe(5);
         });

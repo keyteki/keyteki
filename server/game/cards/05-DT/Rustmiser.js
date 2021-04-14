@@ -1,6 +1,6 @@
 const Card = require('../../Card.js');
 
-class Card327 extends Card {
+class Rustmiser extends Card {
     //Reap: Exhaust each enemy artifact.
     setupCardAbilities(ability) {
         this.reap({
@@ -13,6 +13,6 @@ class Card327 extends Card {
     }
 }
 
-Card327.id = 'card-327';
+Rustmiser.id = 'rustmiser';
 
-module.exports = Card327;
+module.exports = Rustmiser;
