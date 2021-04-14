@@ -21,6 +21,6 @@ class EclecticAmbrosius extends Card {
     }
 }
 
-EclecticAmbrosius.id = 'ecletic-ambrosius';
+EclecticAmbrosius.id = 'eclectic-ambrosius';
 
 module.exports = EclecticAmbrosius;

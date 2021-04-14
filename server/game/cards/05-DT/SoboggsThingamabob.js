@@ -14,6 +14,6 @@ class SoboggsThingamabob extends Card {
     }
 }
 
-SoboggsThingamabob.id = 'sobogg-s-thing';
+SoboggsThingamabob.id = 'sobogg-s-thingamabob';
 
 module.exports = SoboggsThingamabob;

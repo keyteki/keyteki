@@ -1,6 +1,6 @@
 const Card = require('../../Card.js');
 
-class MushroomPigEvilTwin extends Card {
+class SporegorgerEvilTwin extends Card {
     //Play: Move all +1 power counters in play onto Mushroom Pig (?).
     //Reap: You may remove all +1 power counters from Mushroom Pig (?). For each counter removed this way deal 1D to each other creature.
     //This card has been translated from Polish and is subject to change.
@@ -38,6 +38,6 @@ class MushroomPigEvilTwin extends Card {
     }
 }
 
-MushroomPigEvilTwin.id = 'mushroom-pig-evil-twin';
+SporegorgerEvilTwin.id = 'sporegorger-evil-twin';
 
-module.exports = MushroomPigEvilTwin;
+module.exports = SporegorgerEvilTwin;

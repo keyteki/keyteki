@@ -48,7 +48,7 @@ describe('Trojan Sauropod', function () {
                 });
 
                 it('should gain 3 amber', function () {
-                    expect(this.player1.amber).toBe(0);
+                    expect(this.player1.amber).toBe(1);
                     expect(this.player2.amber).toBe(3);
                 });
 
