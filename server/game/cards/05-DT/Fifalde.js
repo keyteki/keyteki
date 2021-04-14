@@ -1,6 +1,6 @@
 const Card = require('../../Card.js');
 
-class Butterfly extends Card {
+class Fifalde extends Card {
     //Play: Destroy a friendly Cocoon. If you do not, destroy Butterfly.
     //Fight/Reap: Fully heal Butterfly. Gain 1A.
     //This card has been translated from Polish and is subject to change.
@@ -10,7 +10,7 @@ class Butterfly extends Card {
                 activePromptTitle: 'Choose a Cocoon to destroy',
                 cardType: 'creature',
                 controller: 'self',
-                cardCondition: (card) => card.name === 'Cocoon?', // TODO replace this with final name for Cocoon
+                cardCondition: (card) => card.name === 'Bombyx',
                 gameAction: ability.actions.destroy()
             },
             then: {
@@ -32,6 +32,6 @@ class Butterfly extends Card {
     }
 }
 
-Butterfly.id = 'butterfly';
+Fifalde.id = 'fifalde';
 
-module.exports = Butterfly;
+module.exports = Fifalde;

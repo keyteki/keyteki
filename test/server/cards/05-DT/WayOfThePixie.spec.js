@@ -16,7 +16,7 @@ describe('Way Of The Pixie', function () {
         });
 
         it('should have tests', function () {
-            this.player1.playUpgrade(this.wayOfThPixie, this.flaxia);
+            this.player1.playUpgrade(this.wayOfThePixie, this.flaxia);
             expect(this.player1.amber).toBe(1);
             this.player1.reap(this.flaxia);
             expect(this.player1.amber).toBe(3);

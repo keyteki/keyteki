@@ -1,8 +1,8 @@
 const Card = require('../../Card.js');
 
-class Tentacle extends Card {
+class Tentaclid extends Card {
     //Taunt. Skirmish.
-    //Tentacle cannot reap.
+    //Tentaclid cannot reap.
     setupCardAbilities(ability) {
         this.persistentEffect({
             targetController: 'any',
@@ -11,6 +11,6 @@ class Tentacle extends Card {
     }
 }
 
-Tentacle.id = 'tentacle';
+Tentaclid.id = 'tentaclid';
 
-module.exports = Tentacle;
+module.exports = Tentaclid;

@@ -1,11 +1,11 @@
-describe('Deep Dive', function () {
+describe('Dive Deep', function () {
     describe('Play Ability with creatures in play', function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
                     house: 'unfathomable',
                     amber: 1,
-                    hand: ['deep-dive'],
+                    hand: ['dive-deep'],
                     inPlay: ['flaxia', 'groke']
                 },
                 player2: {
@@ -15,7 +15,7 @@ describe('Deep Dive', function () {
                 }
             });
             this.player2.moveCard(this.troll, 'deck');
-            this.player1.play(this.deepDive);
+            this.player1.play(this.diveDeep);
         });
 
         it('discard from opponents deck and target same house creatures', function () {
@@ -49,7 +49,7 @@ describe('Deep Dive', function () {
                 player1: {
                     house: 'unfathomable',
                     amber: 1,
-                    hand: ['deep-dive'],
+                    hand: ['dive-deep'],
                     inPlay: ['flaxia']
                 },
                 player2: {
@@ -59,7 +59,7 @@ describe('Deep Dive', function () {
                 }
             });
             this.player2.moveCard(this.troll, 'deck');
-            this.player1.play(this.deepDive);
+            this.player1.play(this.diveDeep);
         });
 
         it('should fizzle after discard', function () {
@@ -74,7 +74,7 @@ describe('Deep Dive', function () {
                 player1: {
                     house: 'unfathomable',
                     amber: 1,
-                    hand: ['deep-dive'],
+                    hand: ['dive-deep'],
                     inPlay: ['flaxia']
                 },
                 player2: {
@@ -84,7 +84,7 @@ describe('Deep Dive', function () {
                 }
             });
             this.player2.player.deck = [];
-            this.player1.play(this.deepDive);
+            this.player1.play(this.diveDeep);
         });
 
         it('should fizzle', function () {

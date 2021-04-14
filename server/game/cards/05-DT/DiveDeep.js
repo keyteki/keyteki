@@ -1,6 +1,6 @@
 const Card = require('../../Card.js');
 
-class DeepDive extends Card {
+class DiveDeep extends Card {
     //Play: Discard the top card of your opponent's deck. Put a creature that shares a house with the discarded card on the bottom of its owner's deck.
     setupCardAbilities(ability) {
         this.play({
@@ -20,6 +20,6 @@ class DeepDive extends Card {
     }
 }
 
-DeepDive.id = 'deep-dive';
+DiveDeep.id = 'dive-deep';
 
-module.exports = DeepDive;
+module.exports = DiveDeep;

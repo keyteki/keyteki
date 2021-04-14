@@ -1,6 +1,6 @@
 const Card = require('../../Card.js');
 
-class MushroomPig extends Card {
+class Sporegorger extends Card {
     //Reap: Give this creature a +1 power counter. You may remove all +1 power counters from this creature. If you do, deal 1D to each other creature for each +1 power counter removed this way.
     setupCardAbilities(ability) {
         this.reap({
@@ -24,6 +24,6 @@ class MushroomPig extends Card {
     }
 }
 
-MushroomPig.id = 'mushroom-pig';
+Sporegorger.id = 'sporegorger';
 
-module.exports = MushroomPig;
+module.exports = Sporegorger;
