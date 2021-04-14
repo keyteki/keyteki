@@ -30,8 +30,12 @@ class RandomPurgeAction extends PlayerAction {
                 cards = _.shuffle(player.archives).slice(0, amount);
             }
 
-            context.game.addMessage('{0} purges {1} at random', player, cards);
-            context.game.actions.purge().resolve(cards, context);
+            if (cards.length > 0) {
+                context.game.addMessage('{0} purges {1} at random', player, cards);
+                context.game.actions.purge().resolve(cards, context);
+            } else {
+                context.game.addMessage('{0} purges no cards', player);
+            }
         });
     }
 }
