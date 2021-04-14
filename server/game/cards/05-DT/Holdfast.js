@@ -1,6 +1,6 @@
 const Card = require('../../Card.js');
 
-class Dog extends Card {
+class Holdfast extends Card {
     //After one of Dog's neighbors is dealt damage, ready Dog.
     //This card has been translated from Polish and is subject to change.
     setupCardAbilities(ability) {
@@ -15,6 +15,6 @@ class Dog extends Card {
     }
 }
 
-Dog.id = 'dog';
+Holdfast.id = 'holdfast';
 
-module.exports = Dog;
+module.exports = Holdfast;

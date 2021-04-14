@@ -1,6 +1,6 @@
 const Card = require('../../Card.js');
 
-class DrawnByTheDepths extends Card {
+class DrawnDown extends Card {
     //Play: Look at the top 3 cards of your opponent's deck. Discard one, put one on the bottom, and put one on the top.
     setupCardAbilities(ability) {
         this.play({
@@ -25,8 +25,6 @@ class DrawnByTheDepths extends Card {
     }
 }
 
-//  Look at the top 3 cards of your deck. Put 1 into your hand and 1 on the bottom of your deck.
+DrawnDown.id = 'drawn-down';
 
-DrawnByTheDepths.id = 'drawn-by-the-depths';
-
-module.exports = DrawnByTheDepths;
+module.exports = DrawnDown;

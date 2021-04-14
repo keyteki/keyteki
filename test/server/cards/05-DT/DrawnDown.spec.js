@@ -1,11 +1,11 @@
-describe('Drawn By The Depths', function () {
-    describe("Drawn By The Depths's ability", function () {
+describe('Drawn Down', function () {
+    describe("Drawn Down's ability", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
                     house: 'unfathomable',
                     amber: 1,
-                    hand: ['drawn-by-the-depths', 'timetraveller', 'bot-bookton'],
+                    hand: ['drawn-down', 'timetraveller', 'bot-bookton'],
                     inPlay: []
                 },
                 player2: {

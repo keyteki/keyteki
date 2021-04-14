@@ -1,6 +1,6 @@
 const Card = require('../../Card.js');
 
-class BeastFighterUrsoEvilTwin extends Card {
+class BestiariiUrsoEvilTwin extends Card {
     //Play/Fight: Stun a creature.
     setupCardAbilities(ability) {
         this.play({
@@ -13,6 +13,6 @@ class BeastFighterUrsoEvilTwin extends Card {
     }
 }
 
-BeastFighterUrsoEvilTwin.id = 'beast-fighter-urso-evil-twin';
+BestiariiUrsoEvilTwin.id = 'bestiarii-urso-evil-twin';
 
-module.exports = BeastFighterUrsoEvilTwin;
+module.exports = BestiariiUrsoEvilTwin;
