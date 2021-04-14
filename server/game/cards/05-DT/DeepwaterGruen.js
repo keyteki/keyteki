@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class DeepwaterGruen extends Card {
-    //Play/Reap: If the tide is low, your opponent gains 1A.
+    // (T) Play/Reap: If the tide is low, your opponent gains 1A.
     setupCardAbilities(ability) {
         this.play({
             reap: true,

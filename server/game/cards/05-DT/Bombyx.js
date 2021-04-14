@@ -1,9 +1,8 @@
 const Card = require('../../Card.js');
 
 class Bombyx extends Card {
-    //Play: Destroy a friendly Larva. If you do not, destroy Cocoon.
-    //Action: Return a Butterfly from your discard pile to your hand.
-    //This card has been translated from Polish and is subject to change.
+    // Play: Destroy a friendly Chenille. If you do not, destroy Bombyx.
+    // Action: Return a Fifalde from your discard pile to your hand.
     setupCardAbilities(ability) {
         this.play({
             target: {

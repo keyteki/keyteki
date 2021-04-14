@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class TalmageSteelheartEvilTwin extends Card {
-    //Play: Deal damage to an enemy creature equal to the number of cards you have played this turn (including this one).
+    // Play: Deal damage to an enemy creature equal to the number of cards you have played this turn (including this one).
     setupCardAbilities(ability) {
         this.play({
             target: {

@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class Kaupe extends Card {
-    //Your opponent cannot play more than 1 card of each card type (action, artifact, creature, upgrade) each turn.
+    // Your opponent cannot play more than 1 card of each card type (action, artifact, creature, upgrade) each turn.
     setupCardAbilities(ability) {
         this.persistentEffect({
             condition: () =>

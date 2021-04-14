@@ -1,8 +1,8 @@
 const Card = require('../../Card.js');
 
 class ComOfficerHings extends Card {
-    //Play: You may search your deck for Com. Officer Gross (?), reveal it, and add it to your hand. Shuffle your deck.
-    //Fight/Reap: Draw 1 card for each creature between Com. Officer Gross and Com. Officer Hings.
+    // Play: You may search your deck for Com. Officer Gross, reveal it, and put it into your hand. Shuffle your deck.
+    // Fight/Reap: Draw 1 card for each creature between Com. Officer Hings and Com. Officer Gross.
     setupCardAbilities(ability) {
         this.play({
             effect: 'search for Com. Officer Hings and add it to their hand',

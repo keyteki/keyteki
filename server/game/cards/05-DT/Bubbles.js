@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class Bubbles extends Card {
-    //Play: Put an enemy creature on top of its owner's deck.
+    // Play: Put an enemy creature on top of its owner's deck.
     setupCardAbilities(ability) {
         this.play({
             target: {

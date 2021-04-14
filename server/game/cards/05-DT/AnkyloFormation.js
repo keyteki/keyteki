@@ -1,9 +1,9 @@
 const Card = require('../../Card.js');
 
 class AnkyloFormation extends Card {
-    //Play: Choose one:
-    //• A friendly creature gains skirmish for the rest of your turn.
-    //• Exalt a friendly creature. Each friendly creature gains skirmish for the rest of your turn.
+    // Play: Choose one:
+    // • For the remainder of the turn, a friendly creature gains skirmish.
+    // • Exalt a friendly creature. For the remainder of the turn, each friendly creature gains skirmish.
     setupCardAbilities(ability) {
         this.play({
             target: {

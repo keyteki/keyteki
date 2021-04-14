@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class StaticCollectionArray extends Card {
-    //Your keys cost -1A while the tide is high and +1A while the tide is low.
+    // (T) Your keys cost –1A while the tide is high and +1A while the tide is low.
     setupCardAbilities(ability) {
         this.persistentEffect({
             effect: ability.effects.modifyKeyCost((player) =>

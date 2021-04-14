@@ -1,9 +1,9 @@
 const Card = require('../../Card.js');
 
 class FirstOrLast extends Card {
-    //Play: Choose one:
-    //• Purge each creature with the highest power.
-    //• Purge each creature with the lowest power.
+    // Play: Choose one:
+    // • Purge each creature with the highest power.
+    // • Purge each creature with the lowest power.
     setupCardAbilities(ability) {
         this.play({
             condition: (context) => context.game.creaturesInPlay.length > 0,

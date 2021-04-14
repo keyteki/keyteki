@@ -1,9 +1,9 @@
 const Card = require('../../Card.js');
 
 class BinaryMorayEvilTwin extends Card {
-    //Skirmish.
-    //When you raise the tide, ready Binary Moray.
-    //When your opponent raises the tide, exhaust Binary Moray.
+    // Skirmish.
+    // (T) After you raise the tide, ready Binary Moray.
+    // (T) After your opponent raises the tide, exhaust Binary Moray.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class WidespreadCorruption extends Card {
-    // After a player gains A by reaping, their opponent captures that A onto a creature they control.
+    // After a player gains A by reaping, a creature they do not control captures that A.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

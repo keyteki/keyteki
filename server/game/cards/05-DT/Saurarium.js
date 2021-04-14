@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class Saurarium extends Card {
-    //Each creature with the lowest power cannot reap.
+    // Each creature with the lowest power cannot reap.
     setupCardAbilities(ability) {
         this.persistentEffect({
             targetController: 'any',

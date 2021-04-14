@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class StirUpTrouble extends Card {
-    // Play: Choose a creature and one of its neighbors. Each chosen creature deals damage to the other creature equal to its power.
+    // Play: Choose a creature and 1 of its neighbors. Each chosen creature deals damage equal to its power to the other.
     setupCardAbilities(ability) {
         this.play({
             targets: {

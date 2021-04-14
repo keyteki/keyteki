@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class AltruistsRostrum extends Card {
-    //Action: Move 1A from a creature to another creature.
+    // Action: Move 1A from a creature to another creature.
     setupCardAbilities(ability) {
         this.action({
             condition: (context) => context.game.creaturesInPlay.length > 1,

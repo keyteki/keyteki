@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class Technobabble extends Card {
-    //Play: Stun a creature and each of its neighbors that shares a house with it.
+    // Play: Stun a creature and each of its neighbors that shares a house with it.
     setupCardAbilities(ability) {
         this.play({
             target: {

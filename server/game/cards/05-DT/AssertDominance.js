@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class AssertDominance extends Card {
-    //Play: For the remainder of the turn, a friendly creature gains Skirmish. Ready and fight with that creature.
+    // Play: For the remainder of the turn, a friendly creature gains skirmish. Ready and fight with that creature.
     setupCardAbilities(ability) {
         this.play({
             target: {

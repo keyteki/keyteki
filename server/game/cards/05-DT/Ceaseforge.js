@@ -1,8 +1,9 @@
 const Card = require('../../Card.js');
 
 class Ceaseforge extends Card {
-    //Reap: Put an ignorance counter on an enemy creature.
-    //As long as that creature has an ignorance counter, its text box is considered blank (except for traits).
+    // Play: Put 2 time counters on Ceaseforge.
+    // Players cannot forge keys.
+    // At the start of your turn, remove a time counter from Ceaseforge, then destroy it if there are no time counters on it.
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.addTimeCounter((context) => ({

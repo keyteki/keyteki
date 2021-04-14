@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class ShieldULaterEvilTwin extends Card {
-    //This creature may be played as an upgrade instead of a creature, with the text: “This creature loses all armor and gets -2 power”.
+    // Shield-U-Later may be played as an upgrade instead of a creature, with the text: “This creature loses all armor and gets –2 power.”
     setupCardAbilities(ability) {
         this.persistentEffect({
             location: 'any',

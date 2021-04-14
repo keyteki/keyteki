@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class Ostracize extends Card {
-    //Play: Lose 1A. If you do, purge a creature.
+    // Play: Lose 1A. If you do, purge a creature.
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.loseAmber((context) => ({

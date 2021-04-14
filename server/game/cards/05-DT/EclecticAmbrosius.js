@@ -1,8 +1,8 @@
 const Card = require('../../Card.js');
 
 class EclecticAmbrosius extends Card {
-    //At the end of your turn, put a knowledge counter on Ecletic Ambrosius.
-    //Action: Remove 3 knowledge counters from Ecletic Ambrosius. If you do, gain 6.
+    // At the end of your turn, put a knowledge counter on Eclectic Ambrosius.
+    // Action: Remove 3 knowledge counters from Eclectic Ambrosius. If you do, gain 6A.
     setupCardAbilities(ability) {
         this.interrupt({
             when: {

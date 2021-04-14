@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class UrienTheCircumspectEvilTwin extends Card {
-    //Reap: Your opponent loses A equal to $this's armor.
+    // Reap: Your opponent loses A equal to Urien the Circumspect's armor.
     setupCardAbilities(ability) {
         this.reap({
             gameAction: ability.actions.loseAmber((context) => ({

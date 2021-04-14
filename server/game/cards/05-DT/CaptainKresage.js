@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class CaptainKresage extends Card {
-    //While you control another creature with elusive, taunt, poison, or skirmish, Captain Kresage gains that keyword.
+    // While you control another creature with elusive, taunt, poison, or skirmish, Captain Kresage gains that keyword.
     setupCardAbilities(ability) {
         this.persistentEffect({
             condition: (context) =>

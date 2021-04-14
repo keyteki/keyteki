@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class Submersible extends Card {
-    //While the tide is high, each friendly Thief creature gains elusive.
+    // (T) While the tide is high, each friendly Thief creature gains elusive.
     setupCardAbilities(ability) {
         this.persistentEffect({
             condition: (context) => context.player.isTideHigh(),

@@ -1,8 +1,7 @@
 const Card = require('../../Card.js');
 
 class AmberfinSharkEvilTwin extends Card {
-    //At the end of your turn, each player loses 1A. For each A lost this way, give $this a +1 power counter.
-    //This card has been translated from Chinese and is subject to change.
+    // At the end of your turn, each player loses 1A. Give Æmberfin Shark a +1 power counter for each A lost this way.
     setupCardAbilities(ability) {
         this.interrupt({
             when: {

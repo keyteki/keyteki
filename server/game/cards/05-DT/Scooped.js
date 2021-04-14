@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class Scooped extends Card {
-    //Play: Deal 2D to a creature. If it is not destroyed, it captures 1A from its own side.
+    // Play: Deal 2D to a creature. If it is not destroyed, it captures 1A from its own side.
     setupCardAbilities(ability) {
         this.play({
             target: {

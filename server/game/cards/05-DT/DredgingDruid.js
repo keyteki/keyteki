@@ -1,8 +1,8 @@
 const Card = require('../../Card.js');
 
 class DredgingDruid extends Card {
-    //Elusive.
-    //Reap: If the tide is high, put up to 3 creatures from your discard pile on top of your deck.
+    // Elusive.
+    // (T) Reap: If the tide is high, put up to 3 creatures from your discard pile on top of your deck.
     setupCardAbilities(ability) {
         this.reap({
             condition: (context) => context.player.isTideHigh(),

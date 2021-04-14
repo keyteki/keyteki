@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class SelectivePreservation extends Card {
+    // Play: Choose a creature of each power value. Destroy each creature not chosen.
     setupCardAbilities(ability) {
         this.play({
             effect: 'select creatures for each power to not destroy',

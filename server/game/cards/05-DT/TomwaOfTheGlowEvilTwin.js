@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class TomwaOfTheGlowEvilTwin extends Card {
-    //Reap: If the tide is high, exhaust an enemy creature and your opponent discards a random card from their hand.
+    // (T) Reap: If the tide is high, exhaust an enemy creature and your opponent discards a random card from their hand.
     setupCardAbilities(ability) {
         this.reap({
             condition: (context) => context.player.isTideHigh(),

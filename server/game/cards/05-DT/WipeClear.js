@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class WipeClear extends Card {
-    //Play: Deal 1D to each creature. Destroy each upgrade.
+    // Play: Deal 1D to each creature. Destroy each upgrade.
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.sequential([

@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class StaticCharge extends Card {
-    //This creature gains, "At the start of your turn, deal 2D to each of this creature's neighbors."
+    // This creature gains, "At the start of your turn, deal 2D to each of this creature's neighbors."
     setupCardAbilities(ability) {
         this.whileAttached({
             effect: ability.effects.gainAbility('reaction', {

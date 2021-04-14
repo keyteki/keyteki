@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class TidalWave extends Card {
-    //Play: If the tide is high, destroy a creature and each of its neighbors. Your opponent raises the tide.
+    // (T) Play: If the tide is high, destroy a creature and each of its neighbors. Your opponent raises the tide.
     setupCardAbilities(ability) {
         this.play({
             condition: (context) => !!context.player.opponent,

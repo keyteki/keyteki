@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class MagistraVitaEvilTwin extends Card {
-    //Play/Fight: You may exalt a friendly non-Saurian creature. If you do, fight with it.
+    // Play/Fight: You may exalt a friendly non-Saurian creature. If you do, fight with it.
     setupCardAbilities(ability) {
         this.play({
             fight: true,

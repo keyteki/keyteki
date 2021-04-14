@@ -1,8 +1,7 @@
 const Card = require('../../Card.js');
 
 class HarmonicRitual extends Card {
-    //Play: Choose a friendly creature.
-    //If its left neighbor shares a house with it, gain 1A and repeat this effect on that creature.
+    // Play: Choose a friendly creature. If its left neighbor shares a house with it, gain 1A and repeat this effect on that creature.
     setupCardAbilities(ability) {
         this.play({
             target: {

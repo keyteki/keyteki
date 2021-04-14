@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class PhysicusFelixEvilTwin extends Card {
-    //Play/Fight: If the tide is low, you may exalt a creature.
+    // (T) Play/Fight: If the tide is low, you may exalt a creature.
     setupCardAbilities(ability) {
         this.play({
             fight: true,

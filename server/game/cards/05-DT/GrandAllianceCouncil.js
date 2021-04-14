@@ -3,7 +3,7 @@ const Houses = require('../../../constants').Houses;
 const HousesNames = require('../../../constants').HousesNames;
 
 class GrandAllianceCouncil extends Card {
-    //Play: Choose a creature of each house. Destroy each creature not chosen.
+    // Play: Choose a creature of each house. Destroy each creature not chosen.
     setupCardAbilities(ability) {
         const targets = {};
         for (const house of Houses) {

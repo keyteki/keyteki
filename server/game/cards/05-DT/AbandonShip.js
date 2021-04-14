@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class AbandonShip extends Card {
-    //Play: Return a creature to its owner's hand. If the tide is high, return 4 creatures to their owner's hands instead.
+    // (T) Play: Return a creature to its owner’s hand. If the tide is high, return 4 creatures to their owners’ hands instead.
     setupCardAbilities(ability) {
         this.play({
             target: {

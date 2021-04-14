@@ -1,8 +1,7 @@
 const Card = require('../../Card.js');
 
 class TheSusurrus extends Card {
-    //Action: Exhaust a friendly Unfathomable creature. If you do exhaust up to 3 creatures or artifacts.
-    //This card has been translated from Chinese and is subject to change.
+    // Action: Exhaust a friendly Unfathomable creature. If you do, exhaust up to 3 creatures and/or artifacts.
     setupCardAbilities(ability) {
         this.action({
             target: {

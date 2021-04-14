@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class OrphielSeasChosen extends Card {
-    //While the tide is high, $this gains skirmish and, "Fight: Gain 2A."
+    // (T) While the tide is high, Orphiel, Sea’s Chosen gains skirmish and, “Fight: Gain 2A.”
     setupCardAbilities(ability) {
         this.persistentEffect({
             targetController: 'any',

@@ -1,8 +1,8 @@
 const Card = require('../../Card.js');
 
 class EffigyOfMelerukh extends Card {
-    //After an enemy creature reaps, put a counter on (this artifact). When there are 6 or more counters, move this card to a flank of your battleline. While in the battleline, it is a creature with 100 power and 100 armor.
-    //This card has been translated from Chinese and is subject to change.
+    // After an enemy creature reaps, put an awakening counter on Effigy of Melerukh.
+    // If there are 6 or more awakening counters on Effigy of Melerukh, move it to a flank of your battleline as a creature with 100 power and 100 armor. Its text box is considered blank.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

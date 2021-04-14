@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class MooklingEvilTwin extends Card {
-    //After your opponent forges a key, for each A spent to forge the key, give $this a +1 power counter.
+    // After your opponent forges a key, give Mookling a +1 power counter for each A spent to forge that key.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

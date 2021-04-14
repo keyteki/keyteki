@@ -1,8 +1,8 @@
 const Card = require('../../Card.js');
 
 class CROfficerHawkins extends Card {
-    // Deploy.
-    // Play: Gain 1 for each of C.R. Officer Hawkins' non-Star Alliance neighbor.
+    // Deploy. (This creature can enter play anywhere in your battleline.)
+    // Play: Gain 1A for each of C.R. Officer Hawkins's non-Star Alliance neighbors.
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.gainAmber((context) => ({

@@ -1,9 +1,8 @@
 const Card = require('../../Card.js');
 
 class SporegorgerEvilTwin extends Card {
-    //Play: Move all +1 power counters in play onto Mushroom Pig (?).
-    //Reap: You may remove all +1 power counters from Mushroom Pig (?). For each counter removed this way deal 1D to each other creature.
-    //This card has been translated from Polish and is subject to change.
+    // Play: Move each +1 power counter in play to Sporegorger.
+    // Reap: You may remove each +1 power counter from Sporegorger. For each counter removed this way, deal 1D to each other creature.
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.removePowerCounter((context) => ({

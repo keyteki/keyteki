@@ -1,8 +1,8 @@
 const Card = require('../../Card.js');
 
 class VoiceOfRakuzel extends Card {
-    //While the tide is high, friendly creatures gain +1 power and +1 armor.
-    //While the tide is low, enemy creatures gain +1 power and +1 armor.
+    // (T) While the tide is high, each friendly creature gets +1 power and +1 armor.
+    // (T) While the tide is low, each enemy creature gets +1 power and +1 armor.
     setupCardAbilities(ability) {
         this.persistentEffect({
             condition: (context) => context.player.isTideHigh(),

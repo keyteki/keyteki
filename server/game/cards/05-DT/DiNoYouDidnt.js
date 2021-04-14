@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class DiNoYouDidnt extends Card {
-    //Play: Destroy an enemy creature with A on it.
+    // Play: Destroy an enemy creature with A on it.
     setupCardAbilities(ability) {
         this.play({
             target: {

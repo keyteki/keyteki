@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class EasyMarks extends Card {
-    //Play: Exalt each damaged enemy creature.
+    // Play: Exalt each damaged enemy creature.
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.exalt((context) => ({

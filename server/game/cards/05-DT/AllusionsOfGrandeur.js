@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class AllusionsOfGrandeur extends Card {
-    //Play: Choose a house on your opponent's identity card. If your opponent does not choose that house as their active house on their next turn, gain 3A.
+    // Play: Choose a house on your opponent's identity card. If your opponent does not choose that house as their active house on their next turn, gain 3A.
     setupCardAbilities(ability) {
         this.play({
             condition: (context) => !!context.player.opponent,

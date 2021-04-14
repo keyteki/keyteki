@@ -1,8 +1,8 @@
 const Card = require('../../Card.js');
 
 class D1V3Pod extends Card {
-    //While the tide is high, this creature gains skirmish.
-    //While the tide is low, this creature gains elusive.
+    // (T) While the tide is high, this creature gains skirmish.
+    // (T) While the tide is low, this creature gains elusive.
     setupCardAbilities(ability) {
         this.whileAttached({
             condition: (context) => context.player.isTideHigh(),

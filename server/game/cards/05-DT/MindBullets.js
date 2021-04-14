@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class MindBullets extends Card {
-    //Play: Deal 1D to each creature for each card you played this turn (including this one)
+    // Play: Deal 1D to each creature for each card you have played this turn (including this one).
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.dealDamage((context) => ({

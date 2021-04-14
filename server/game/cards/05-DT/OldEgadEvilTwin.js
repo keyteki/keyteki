@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class OldEgadEvilTwin extends Card {
-    //Destroyed: Enrage each enemy creature.
+    // Destroyed: Enrage each enemy creature.
     setupCardAbilities(ability) {
         this.destroyed({
             gameAction: ability.actions.enrage((context) => ({

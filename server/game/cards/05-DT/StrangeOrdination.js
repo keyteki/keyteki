@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class StrangeOrdination extends Card {
-    //Play only if the tide is high.
+    // (T) Play only if the tide is high.
     setupCardAbilities(ability) {
         this.persistentEffect({
             location: 'any',

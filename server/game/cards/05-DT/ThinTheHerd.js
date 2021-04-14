@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class ThinTheHerd extends Card {
-    //Play: Shuffle the 4 least powerful creatures into their owners' decks.
+    // Play: Shuffle the 4 least powerful creatures into their owners’ decks.
     setupCardAbilities(ability) {
         this.play({
             target: {

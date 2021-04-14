@@ -1,10 +1,10 @@
 const Card = require('../../Card.js');
 
 class Corrode extends Card {
-    //Play: Choose one:
-    //• Destroy an artifact.
-    //• Destroy an upgrade.
-    //• Destroy a creature with armor.
+    // Play: Choose one:
+    // • Destroy an artifact.
+    // • Destroy an upgrade.
+    // • Destroy a creature with armor.
     setupCardAbilities(ability) {
         this.play({
             target: {

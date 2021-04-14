@@ -1,9 +1,8 @@
 const Card = require('../../Card.js');
 
 class SwallowWhole extends Card {
-    // Can only be played if the tide is high.
-    // Play: Choose two creatures. Purge the creature with lower power, then put a number of +1 power tokens equal to that creature's
-    // power on the other chosen creature.
+    // (T) Play only if the tide is high.
+    // Play: Choose 2 creatures. Purge the chosen creature with the lowest power and give +1 power counters equal to its power to the other chosen creature.
     setupCardAbilities(ability) {
         this.persistentEffect({
             location: 'any',

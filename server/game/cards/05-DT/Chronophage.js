@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class Chronophage extends Card {
-    // Your opponent's artifacts and creatures gain Omega.
+    // Your opponent's creatures and artifacts gain omega. (After they play that card, end the current step.)
     setupCardAbilities(ability) {
         this.persistentEffect({
             targetLocation: 'any',

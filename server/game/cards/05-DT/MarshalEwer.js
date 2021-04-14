@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class MarshalEwer extends Card {
-    //Play/Fight: Raise the tide.
+    // (T) Play/Fight: Raise the tide.
     setupCardAbilities(ability) {
         this.play({
             fight: true,

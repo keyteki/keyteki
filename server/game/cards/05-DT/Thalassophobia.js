@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class Thalassophobia extends Card {
-    //Play: Discard the top 10 cards of your opponent's deck.
+    // Play: Discard the top 10 cards of your opponent's deck.
     setupCardAbilities(ability) {
         this.play({
             condition: (context) => !!context.player.opponent,

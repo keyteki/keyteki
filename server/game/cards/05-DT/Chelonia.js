@@ -1,8 +1,8 @@
 const Card = require('../../Card.js');
 
 class Chelonia extends Card {
-    //Elusive.
-    //After you play another creature, if the tide is high, gain 1A.
+    // Elusive. (The first time this creature is attacked each turn, no damage is dealt.)
+    // (T) After you play another creature, if the tide is high, gain 1A.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

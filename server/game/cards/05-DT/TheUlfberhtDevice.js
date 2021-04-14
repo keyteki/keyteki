@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class TheUlfberhtDevice extends Card {
+    // Each player cannot choose the same active house they chose on their previous turn.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

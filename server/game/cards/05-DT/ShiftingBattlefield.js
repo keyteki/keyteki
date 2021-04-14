@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class ShiftingBattlefield extends Card {
-    //Play: Move a friendly creature anywhere in your battleline. That creature captures 1A.
+    // Play: Move a friendly creature anywhere in your battleline. That creature captures 1A.
     setupCardAbilities(ability) {
         this.play({
             target: {

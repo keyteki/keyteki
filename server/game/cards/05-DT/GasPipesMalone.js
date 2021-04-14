@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class GasPipesMalone extends Card {
-    //Before Fight: The creature Gas-Pipes Malone fights captures 1A from its own side.
+    // Before Fight: The creature Gas-Pipes Malone fights captures 1A from its own side.
     setupCardAbilities(ability) {
         this.beforeFight({
             gameAction: ability.actions.capture((context) => ({

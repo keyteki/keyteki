@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class AgentSepdia extends Card {
-    //Fight/Reap: Deal 1D to a creature. If the tide is high, stun it.
+    // (T) Fight/Reap: Deal 1D to a creature. If the tide is high, stun that creature.
     setupCardAbilities(ability) {
         this.fight({
             reap: true,

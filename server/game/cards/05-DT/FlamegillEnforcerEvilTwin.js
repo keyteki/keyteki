@@ -1,8 +1,8 @@
 const Card = require('../../Card.js');
 
 class FlamegillEnforcerEvilTwin extends Card {
-    //After your opponent raises the tide, enrage Flamegill Enforcer.
-    //Action: Steal 1A.
+    // (T) After your opponent raises the tide, enrage Flamegill Enforcer.
+    // Action: Steal 1A.
     setupCardAbilities(ability) {
         this.reaction({
             when: {
