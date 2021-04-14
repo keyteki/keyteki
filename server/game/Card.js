@@ -898,7 +898,10 @@ class Card extends EffectSource {
     }
 
     getRemoveStunAction() {
-        return new RemoveStun(this);
+        let removeStun = new RemoveStun(this);
+        // if card has an omni ability, it should allow to stun, so stun becomes omni
+        removeStun.omni = this.actions.some((action) => !!action.omni);
+        return removeStun;
     }
 
     getActions(location = this.location) {

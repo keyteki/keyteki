@@ -8,9 +8,8 @@ class IncubationChamber extends Card {
                 controller: 'self',
                 location: 'hand',
                 cardCondition: (card) => card.hasHouse('mars'),
-                gameAction: ability.actions.archive()
-            },
-            effect: 'reveal {0} and archive it'
+                gameAction: ability.actions.archive({ reveal: true })
+            }
         });
     }
 }

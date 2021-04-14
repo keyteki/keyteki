@@ -4,7 +4,7 @@ describe('Eclectic Ambrosius', function () {
             this.setupTest({
                 player1: {
                     house: 'saurian',
-                    inPlay: ['ecletic-ambrosius', 'senator-shrix']
+                    inPlay: ['eclectic-ambrosius', 'senator-shrix']
                 },
                 player2: {
                     inPlay: ['dust-imp', 'dew-faerie', 'ancient-bear']
@@ -18,17 +18,17 @@ describe('Eclectic Ambrosius', function () {
             });
 
             it('should place a knowledge counter at end of turn', function () {
-                expect(this.ecleticAmbrosius.tokens.knowledge).toBe(1);
+                expect(this.eclecticAmbrosius.tokens.knowledge).toBe(1);
             });
         });
 
         describe('when used and it has no knowledge counters', function () {
             beforeEach(function () {
-                this.player1.useAction(this.ecleticAmbrosius);
+                this.player1.useAction(this.eclecticAmbrosius);
             });
 
             it('should continue without counters', function () {
-                expect(this.ecleticAmbrosius.tokens.knowledge).toBeUndefined();
+                expect(this.eclecticAmbrosius.tokens.knowledge).toBeUndefined();
             });
 
             it('should not gain amber', function () {
@@ -38,12 +38,12 @@ describe('Eclectic Ambrosius', function () {
 
         describe('when used and it has less than 3 knowledge counters', function () {
             beforeEach(function () {
-                this.ecleticAmbrosius.tokens.knowledge = 2;
-                this.player1.useAction(this.ecleticAmbrosius);
+                this.eclecticAmbrosius.tokens.knowledge = 2;
+                this.player1.useAction(this.eclecticAmbrosius);
             });
 
             it('should remove those counters', function () {
-                expect(this.ecleticAmbrosius.tokens.knowledge).toBeUndefined();
+                expect(this.eclecticAmbrosius.tokens.knowledge).toBeUndefined();
             });
 
             it('should not gain amber', function () {
@@ -53,12 +53,12 @@ describe('Eclectic Ambrosius', function () {
 
         describe('when used and it has more than 3 knowledge counters', function () {
             beforeEach(function () {
-                this.ecleticAmbrosius.tokens.knowledge = 4;
-                this.player1.useAction(this.ecleticAmbrosius);
+                this.eclecticAmbrosius.tokens.knowledge = 4;
+                this.player1.useAction(this.eclecticAmbrosius);
             });
 
             it('should remove 3 counters', function () {
-                expect(this.ecleticAmbrosius.tokens.knowledge).toBe(1);
+                expect(this.eclecticAmbrosius.tokens.knowledge).toBe(1);
             });
 
             it('should gain 6 amber', function () {

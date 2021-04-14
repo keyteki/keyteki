@@ -3,12 +3,14 @@ const CardGameAction = require('./CardGameAction');
 class ArchiveAction extends CardGameAction {
     setDefaultProperties() {
         this.owner = true;
+        this.reveal = false;
     }
 
     setup() {
         super.setup();
         this.name = 'archive';
         if (
+            this.reveal ||
             this.target.every((card) => ['play area', 'discard', 'purged'].includes(card.location))
         ) {
             this.effectMsg = 'archive {0}';

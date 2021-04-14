@@ -22,34 +22,46 @@ describe('Ghosthawk', function () {
                 this.player1.clickCard(this.dewFaerie);
             });
 
-            it('should prompt to reap with both cards', function () {
-                expect(this.player1).toBeAbleToSelect(this.troll);
-                expect(this.player1).toBeAbleToSelect(this.dewFaerie);
-                expect(this.player1).not.toBeAbleToSelect(this.snufflegator);
-                expect(this.player1).not.toBeAbleToSelect(this.inkaTheSpider);
+            it('should be optional', function () {
+                this.player1.clickPrompt('Done');
+                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.player1.amber).toBe(0);
             });
 
-            describe('when clicking the left side', function () {
+            describe('when using the abilty', function () {
                 beforeEach(function () {
-                    this.player1.clickCard(this.troll);
+                    this.player1.clickCard(this.ghosthawk);
                 });
 
-                it('should reap with both creatures the card and trigger the reap effect', function () {
-                    expect(this.player1.amber).toBe(3);
-                    expect(this.troll.tokens.damage).toBe(1);
-                    expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
-                });
-            });
-
-            describe('when clicking the right side', function () {
-                beforeEach(function () {
-                    this.player1.clickCard(this.dewFaerie);
+                it('should prompt to reap with both cards', function () {
+                    expect(this.player1).toBeAbleToSelect(this.troll);
+                    expect(this.player1).toBeAbleToSelect(this.dewFaerie);
+                    expect(this.player1).not.toBeAbleToSelect(this.snufflegator);
+                    expect(this.player1).not.toBeAbleToSelect(this.inkaTheSpider);
                 });
 
-                it('should reap with both creatures the card and trigger the reap effect', function () {
-                    expect(this.player1.amber).toBe(3);
-                    expect(this.troll.tokens.damage).toBe(1);
-                    expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                describe('when clicking the left side', function () {
+                    beforeEach(function () {
+                        this.player1.clickCard(this.troll);
+                    });
+
+                    it('should reap with both creatures the card and trigger the reap effect', function () {
+                        expect(this.player1.amber).toBe(3);
+                        expect(this.troll.tokens.damage).toBe(1);
+                        expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                    });
+                });
+
+                describe('when clicking the right side', function () {
+                    beforeEach(function () {
+                        this.player1.clickCard(this.dewFaerie);
+                    });
+
+                    it('should reap with both creatures the card and trigger the reap effect', function () {
+                        expect(this.player1.amber).toBe(3);
+                        expect(this.troll.tokens.damage).toBe(1);
+                        expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                    });
                 });
             });
         });
@@ -60,6 +72,7 @@ describe('Ghosthawk', function () {
 
                 this.player1.play(this.ghosthawk, true, true);
                 this.player1.clickCard(this.dewFaerie);
+                this.player1.clickCard(this.ghosthawk);
             });
 
             it('should not prompt to reap with exhausted creatures', function () {
@@ -84,6 +97,7 @@ describe('Ghosthawk', function () {
 
                 this.player1.play(this.ghosthawk, true, true);
                 this.player1.clickCard(this.dewFaerie);
+                this.player1.clickCard(this.ghosthawk);
             });
 
             it('should allow reaping with enraged creatures', function () {
@@ -110,6 +124,7 @@ describe('Ghosthawk', function () {
 
                 this.player1.play(this.ghosthawk, true, true);
                 this.player1.clickCard(this.dewFaerie);
+                this.player1.clickCard(this.ghosthawk);
             });
 
             it('should reap with both creatures', function () {
@@ -138,6 +153,7 @@ describe('Ghosthawk', function () {
 
                 this.player1.play(this.ghosthawk, true, true);
                 this.player1.clickCard(this.dewFaerie);
+                this.player1.clickCard(this.ghosthawk);
             });
 
             it('should reap with both creatures', function () {
@@ -164,6 +180,7 @@ describe('Ghosthawk', function () {
 
                 this.player1.play(this.ghosthawk, true, true);
                 this.player1.clickCard(this.dewFaerie);
+                this.player1.clickCard(this.ghosthawk);
             });
 
             it('should allow reaping with creatures', function () {
@@ -192,6 +209,7 @@ describe('Ghosthawk', function () {
                 beforeEach(function () {
                     this.player1.play(this.ghosthawk, false, true);
                     this.player1.clickCard(this.dewFaerie);
+                    this.player1.clickCard(this.ghosthawk);
                 });
 
                 it('should not have any prompt to reap', function () {
@@ -208,6 +226,7 @@ describe('Ghosthawk', function () {
                 beforeEach(function () {
                     this.player1.play(this.ghosthawk, true, true);
                     this.player1.clickCard(this.dewFaerie);
+                    this.player1.clickCard(this.ghosthawk);
                 });
 
                 it('should have a prompt to reap and only non-untamed neighbor is selectable', function () {
@@ -230,6 +249,7 @@ describe('Ghosthawk', function () {
             beforeEach(function () {
                 this.player1.play(this.ghosthawk, true, true);
                 this.player1.clickCard(this.etaromme);
+                this.player1.clickCard(this.ghosthawk);
             });
 
             it('should prompt to reap with both cards', function () {

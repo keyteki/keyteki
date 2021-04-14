@@ -1,0 +1,20 @@
+const Card = require('../../Card.js');
+
+class PhysicusFelix extends Card {
+    //Play/Fight: If the tide is high, you may exalt a creature.
+    setupCardAbilities(ability) {
+        this.play({
+            fight: true,
+            condition: (context) => context.player.isTideHigh(),
+            target: {
+                optional: true,
+                cardType: 'creature',
+                gameAction: ability.actions.exalt()
+            }
+        });
+    }
+}
+
+PhysicusFelix.id = 'physicus-felix';
+
+module.exports = PhysicusFelix;

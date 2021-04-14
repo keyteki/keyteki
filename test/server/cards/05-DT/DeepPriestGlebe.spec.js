@@ -5,7 +5,7 @@ describe('Deep Priest Glebe', function () {
                 player1: {
                     house: 'unfathomable',
                     amber: 1,
-                    hand: ['portalmonger', 'portalmonger', 'tentacle'],
+                    hand: ['portalmonger', 'portalmonger', 'tentaclid'],
                     inPlay: ['deep-priest-glebe']
                 },
                 player2: {
@@ -35,7 +35,7 @@ describe('Deep Priest Glebe', function () {
         });
 
         it('should not trigger on nonaquan creature', function () {
-            this.player1.play(this.tentacle);
+            this.player1.play(this.tentaclid);
             expect(this.player1).not.toBeAbleToSelect(this.gub);
             expect(this.player1).not.toBeAbleToSelect(this.krump);
             expect(this.player1).not.toBeAbleToSelect(this.deepPriestGlebe);
