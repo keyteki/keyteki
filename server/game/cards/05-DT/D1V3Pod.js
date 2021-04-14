@@ -1,6 +1,6 @@
 const Card = require('../../Card.js');
 
-class D1V3 extends Card {
+class D1V3Pod extends Card {
     //While the tide is high, this creature gains skirmish.
     //While the tide is low, this creature gains elusive.
     setupCardAbilities(ability) {
@@ -16,6 +16,6 @@ class D1V3 extends Card {
     }
 }
 
-D1V3.id = 'd1-v3';
+D1V3Pod.id = 'd1-v3-pod';
 
-module.exports = D1V3;
+module.exports = D1V3Pod;

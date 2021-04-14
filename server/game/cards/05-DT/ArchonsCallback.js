@@ -1,6 +1,6 @@
 const Card = require('../../Card.js');
 
-class ArchonsRecall extends Card {
+class ArchonsCallback extends Card {
     //Omega.
     //Play: Draw 5 cards.
     setupCardAbilities(ability) {
@@ -10,6 +10,6 @@ class ArchonsRecall extends Card {
     }
 }
 
-ArchonsRecall.id = 'archon-s-recall';
+ArchonsCallback.id = 'archon-s-callback';
 
-module.exports = ArchonsRecall;
+module.exports = ArchonsCallback;

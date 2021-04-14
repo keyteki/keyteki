@@ -1,10 +1,10 @@
-describe('Brachiosaurus', function () {
+describe('Brachiaditus', function () {
     describe('When played', function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
                     house: 'saurian',
-                    hand: ['brachiosaurus'],
+                    hand: ['brachiaditus'],
                     inPlay: ['helper-bot', 'titan-mechanic', 'bad-penny', 'urchin']
                 }
             });
@@ -15,7 +15,7 @@ describe('Brachiosaurus', function () {
 
         describe('next to two creatures', function () {
             beforeEach(function () {
-                this.player1.playCreature(this.brachiosaurus, true, true);
+                this.player1.playCreature(this.brachiaditus, true, true);
                 this.player1.clickCard(this.titanMechanic);
             });
 

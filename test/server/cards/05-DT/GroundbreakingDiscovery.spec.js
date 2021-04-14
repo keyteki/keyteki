@@ -7,9 +7,9 @@ describe('Groundbreaking Discovery', function () {
                     inPlay: ['lamindra', 'anomaly-exploiter'],
                     hand: [
                         'groundbreaking-discovery',
-                        'doctor-verokter',
-                        'roof-laboratory',
-                        'reckless-experiment'
+                        'dr-verokter',
+                        'rooftop-laboratory',
+                        'reckless-experimentation'
                     ]
                 },
                 player2: {
@@ -39,11 +39,11 @@ describe('Groundbreaking Discovery', function () {
             expect(this.groundbreakingDiscovery.location).toBe('discard');
         });
 
-        it('when just Doctor Verokter is in play, should do nothing', function () {
-            this.player1.play(this.doctorVerokter);
+        it('when just Dr. Verokter is in play, should do nothing', function () {
+            this.player1.play(this.drVerokter);
             this.player1.play(this.groundbreakingDiscovery);
             this.player1.endTurn();
-            expect(this.doctorVerokter.location).toBe('play area');
+            expect(this.drVerokter.location).toBe('play area');
             expect(this.lamindra.location).toBe('play area');
             expect(this.anomalyExploiter.location).toBe('play area');
             expect(this.snufflegator.location).toBe('play area');
@@ -51,11 +51,11 @@ describe('Groundbreaking Discovery', function () {
             expect(this.groundbreakingDiscovery.location).toBe('discard');
         });
 
-        it('when just Roof Laborary is in play, should do nothing', function () {
-            this.player1.play(this.roofLaboratory);
+        it('when just Rooftop Laborary is in play, should do nothing', function () {
+            this.player1.play(this.rooftopLaboratory);
             this.player1.play(this.groundbreakingDiscovery);
             this.player1.endTurn();
-            expect(this.roofLaboratory.location).toBe('play area');
+            expect(this.rooftopLaboratory.location).toBe('play area');
             expect(this.lamindra.location).toBe('play area');
             expect(this.anomalyExploiter.location).toBe('play area');
             expect(this.snufflegator.location).toBe('play area');
@@ -63,8 +63,8 @@ describe('Groundbreaking Discovery', function () {
             expect(this.groundbreakingDiscovery.location).toBe('discard');
         });
 
-        it('when just Reckless Experiment is in play, should do nothing', function () {
-            this.player1.playUpgrade(this.recklessExperiment, this.lamindra);
+        it('when just Reckless Experimentationation is in play, should do nothing', function () {
+            this.player1.playUpgrade(this.recklessExperimentation, this.lamindra);
             this.player1.play(this.groundbreakingDiscovery);
             this.player1.endTurn();
             expect(this.lamindra.location).toBe('play area');
@@ -74,13 +74,13 @@ describe('Groundbreaking Discovery', function () {
             expect(this.groundbreakingDiscovery.location).toBe('discard');
         });
 
-        it('when just Doctor Verokter and Roof Laboratory are in play, should do nothing', function () {
-            this.player1.play(this.doctorVerokter);
-            this.player1.play(this.roofLaboratory);
+        it('when just Dr. Verokter and Rooftop Laboratory are in play, should do nothing', function () {
+            this.player1.play(this.drVerokter);
+            this.player1.play(this.rooftopLaboratory);
             this.player1.play(this.groundbreakingDiscovery);
             this.player1.endTurn();
-            expect(this.doctorVerokter.location).toBe('play area');
-            expect(this.roofLaboratory.location).toBe('play area');
+            expect(this.drVerokter.location).toBe('play area');
+            expect(this.rooftopLaboratory.location).toBe('play area');
             expect(this.lamindra.location).toBe('play area');
             expect(this.anomalyExploiter.location).toBe('play area');
             expect(this.snufflegator.location).toBe('play area');
@@ -88,14 +88,14 @@ describe('Groundbreaking Discovery', function () {
             expect(this.groundbreakingDiscovery.location).toBe('discard');
         });
 
-        it('when just Doctor Verokter, Roof Laboratory are in play, and Reckless Experiment is on an enemy creature, should do nothing', function () {
-            this.player1.play(this.doctorVerokter);
-            this.player1.play(this.roofLaboratory);
-            this.player1.playUpgrade(this.recklessExperiment, this.snufflegator);
+        it('when just Dr. Verokter, Rooftop Laboratory are in play, and Reckless Experimentation is on an enemy creature, should do nothing', function () {
+            this.player1.play(this.drVerokter);
+            this.player1.play(this.rooftopLaboratory);
+            this.player1.playUpgrade(this.recklessExperimentation, this.snufflegator);
             this.player1.play(this.groundbreakingDiscovery);
             this.player1.endTurn();
-            expect(this.doctorVerokter.location).toBe('play area');
-            expect(this.roofLaboratory.location).toBe('play area');
+            expect(this.drVerokter.location).toBe('play area');
+            expect(this.rooftopLaboratory.location).toBe('play area');
             expect(this.lamindra.location).toBe('play area');
             expect(this.anomalyExploiter.location).toBe('play area');
             expect(this.snufflegator.location).toBe('play area');
@@ -103,22 +103,22 @@ describe('Groundbreaking Discovery', function () {
             expect(this.groundbreakingDiscovery.location).toBe('discard');
         });
 
-        it('when just Doctor Verokter, Roof Laboratory and Reckless Experiment are in play, KABUMMMM', function () {
-            this.player1.play(this.doctorVerokter);
-            this.player1.play(this.roofLaboratory);
-            this.player1.playUpgrade(this.recklessExperiment, this.lamindra);
+        it('when just Dr. Verokter, Rooftop Laboratory and Reckless Experimentation are in play, KABUMMMM', function () {
+            this.player1.play(this.drVerokter);
+            this.player1.play(this.rooftopLaboratory);
+            this.player1.playUpgrade(this.recklessExperimentation, this.lamindra);
             this.player1.play(this.groundbreakingDiscovery);
             expect(this.player2.player.keys.red).toBe(false);
             expect(this.player2.player.keys.blue).toBe(false);
             expect(this.player2.player.keys.yellow).toBe(false);
             expect(this.player1.amber).toBe(2);
-            expect(this.doctorVerokter.location).toBe('discard');
-            expect(this.roofLaboratory.location).toBe('discard');
+            expect(this.drVerokter.location).toBe('discard');
+            expect(this.rooftopLaboratory.location).toBe('discard');
             expect(this.lamindra.location).toBe('discard');
             expect(this.anomalyExploiter.location).toBe('discard');
             expect(this.snufflegator.location).toBe('discard');
             expect(this.animator.location).toBe('discard');
-            expect(this.recklessExperiment.location).toBe('discard');
+            expect(this.recklessExperimentation.location).toBe('discard');
             expect(this.groundbreakingDiscovery.location).toBe('purged');
             expect(this.player2.amber).toBe(0);
             this.player1.endTurn();

@@ -22,13 +22,13 @@ describe('Drawn Down', function () {
 
         it('should not prompt for cards is deck is empty', function () {
             this.player2.player.deck = [];
-            this.player1.play(this.drawnByTheDepths);
+            this.player1.play(this.drawnDown);
             this.player1.endTurn();
         });
 
         it('should prompt for a single card if deck has only 1 card', function () {
             this.player2.player.deck = [this.gub];
-            this.player1.play(this.drawnByTheDepths);
+            this.player1.play(this.drawnDown);
             expect(this.player1).toHavePromptCardButton(this.gub);
             this.player1.clickPrompt('gub');
             expect(this.gub.location).toBe('discard');
@@ -36,7 +36,7 @@ describe('Drawn Down', function () {
         });
 
         it('should prompt to discard one and move one to the bottom', function () {
-            this.player1.play(this.drawnByTheDepths);
+            this.player1.play(this.drawnDown);
 
             // the discard prompt
             expect(this.player1).toHavePromptCardButton(this.gub);

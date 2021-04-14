@@ -4,7 +4,7 @@ describe('Bracchanalia', function () {
             this.setupTest({
                 player1: {
                     house: 'saurian',
-                    amber: 1,
+                    amber: 0,
                     hand: ['bracchanalia'],
                     inPlay: ['toad', 'flaxia', 'halacor', 'niffle-ape']
                 },

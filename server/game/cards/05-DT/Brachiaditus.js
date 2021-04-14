@@ -1,6 +1,6 @@
 const Card = require('../../Card.js');
 
-class Brachiosaurus extends Card {
+class Brachiaditus extends Card {
     //Deploy.
     //Play: Stun each neighboring creature. Move 1A from each of those creatures to the common supply.
     setupCardAbilities(ability) {
@@ -18,6 +18,6 @@ class Brachiosaurus extends Card {
     }
 }
 
-Brachiosaurus.id = 'brachiosaurus';
+Brachiaditus.id = 'brachiaditus';
 
-module.exports = Brachiosaurus;
+module.exports = Brachiaditus;

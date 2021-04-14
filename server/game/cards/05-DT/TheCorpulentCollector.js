@@ -1,6 +1,6 @@
 const Card = require('../../Card.js');
 
-class CorpulentColle extends Card {
+class TheCorpulentCollector extends Card {
     //Play: Capture all your opponent's A. Deal 1D to Corpulent Colle (?) for each A on it.
     setupCardAbilities(ability) {
         this.play({
@@ -17,6 +17,6 @@ class CorpulentColle extends Card {
     }
 }
 
-CorpulentColle.id = 'corpulent-colle';
+TheCorpulentCollector.id = 'the-corpulent-collector';
 
-module.exports = CorpulentColle;
+module.exports = TheCorpulentCollector;
