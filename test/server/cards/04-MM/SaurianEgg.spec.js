@@ -37,6 +37,28 @@ describe('saurian-egg', function () {
             expect(this.player1).toHavePromptButton("Use this card's Omni ability");
         });
 
+        it('should have a menu to remove stun on a saurian turn', function () {
+            this.saurianEgg.stun();
+            this.player1.clickCard(this.saurianEgg);
+            expect(this.player1).not.toHavePromptButton('Fight with this creature');
+            expect(this.player1).not.toHavePromptButton('Reap with this creature');
+            expect(this.player1).not.toHavePromptButton("Use this card's Omni ability");
+            expect(this.player1).toHavePromptButton("Remove this creature's stun");
+        });
+
+        it('should have a menu to remove stun on a non-saurian turn', function () {
+            this.saurianEgg.stun();
+            this.player1.endTurn();
+            this.player2.clickPrompt('dis');
+            this.player2.endTurn();
+            this.player1.clickPrompt('untamed');
+            this.player1.clickCard(this.saurianEgg);
+            expect(this.player1).not.toHavePromptButton('Fight with this creature');
+            expect(this.player1).not.toHavePromptButton('Reap with this creature');
+            expect(this.player1).not.toHavePromptButton("Use this card's Omni ability");
+            expect(this.player1).toHavePromptButton("Remove this creature's stun");
+        });
+
         it('should discard 2 cards that are not saurian creatures and not be destoryed.', function () {
             this.player1.player.deck = [];
             this.player1.moveCard(this.troll, 'deck');

@@ -4,7 +4,6 @@ class ObsidianForge extends Card {
     setupCardAbilities(ability) {
         this.action({
             target: {
-                optional: true,
                 mode: 'unlimited',
                 controller: 'self',
                 cardType: 'creature',
