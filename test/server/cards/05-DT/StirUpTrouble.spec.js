@@ -1,12 +1,12 @@
-describe('Stir Trouble', function () {
-    describe("Stir Trouble's ability", function () {
+describe('Stir Up Trouble', function () {
+    describe("Stir Up Trouble's ability", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
                     house: 'shadows',
                     amber: 1,
                     inPlay: ['sacro-thief'],
-                    hand: ['dodger', 'stir-trouble']
+                    hand: ['dodger', 'stir-up-trouble']
                 },
                 player2: {
                     amber: 5,
@@ -21,7 +21,7 @@ describe('Stir Trouble', function () {
                 this.player2.moveCard(this.collectorWorm, 'hand');
                 this.player2.moveCard(this.eunoia, 'hand');
                 this.player2.moveCard(this.zorg, 'hand');
-                this.player1.play(this.stirTrouble);
+                this.player1.play(this.stirUpTrouble);
             });
 
             it('should not prompt', function () {
@@ -31,7 +31,7 @@ describe('Stir Trouble', function () {
 
         describe('when played and select a creature without neighbor', function () {
             beforeEach(function () {
-                this.player1.play(this.stirTrouble);
+                this.player1.play(this.stirUpTrouble);
                 this.player1.clickCard(this.sacroThief);
             });
 
@@ -44,7 +44,7 @@ describe('Stir Trouble', function () {
         describe('when played and select a creature with a single neighbor', function () {
             beforeEach(function () {
                 this.player1.play(this.dodger);
-                this.player1.play(this.stirTrouble);
+                this.player1.play(this.stirUpTrouble);
                 this.player1.clickCard(this.sacroThief);
             });
 
@@ -66,7 +66,7 @@ describe('Stir Trouble', function () {
 
         describe('when played and select a creature with two neighbors', function () {
             beforeEach(function () {
-                this.player1.play(this.stirTrouble);
+                this.player1.play(this.stirUpTrouble);
                 this.player1.clickCard(this.eunoia);
             });
 

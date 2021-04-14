@@ -1,6 +1,6 @@
 const Card = require('../../Card.js');
 
-class SoboggsThing extends Card {
+class SoboggsThingamabob extends Card {
     // After your opponent forges a key, exhaust each creature they control.
     setupCardAbilities(ability) {
         this.reaction({
@@ -14,6 +14,6 @@ class SoboggsThing extends Card {
     }
 }
 
-SoboggsThing.id = 'sobogg-s-thing';
+SoboggsThingamabob.id = 'sobogg-s-thing';
 
-module.exports = SoboggsThing;
+module.exports = SoboggsThingamabob;

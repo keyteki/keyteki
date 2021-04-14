@@ -1,10 +1,10 @@
-describe('ForeignLegion', function () {
+describe('Enlist Numeri', function () {
     beforeEach(function () {
         this.setupTest({
             player1: {
                 house: 'saurian',
                 inPlay: ['troll', 'shooler'],
-                hand: ['foreign-legion']
+                hand: ['enlist-numeri']
             },
             player2: {
                 inPlay: ['urchin', 'bad-penny', 'knoxx']
@@ -15,7 +15,7 @@ describe('ForeignLegion', function () {
     describe('Playing it', function () {
         beforeEach(function () {
             this.urchin.tokens.amber = 1;
-            this.player1.play(this.foreignLegion);
+            this.player1.play(this.enlistNumeri);
         });
 
         it('should be able to select enemy creature with amber on it', function () {

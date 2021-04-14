@@ -1,6 +1,6 @@
 const Card = require('../../Card.js');
 
-class StirTrouble extends Card {
+class StirUpTrouble extends Card {
     // Play: Choose a creature and one of its neighbors. Each chosen creature deals damage to the other creature equal to its power.
     setupCardAbilities(ability) {
         this.play({
@@ -29,6 +29,6 @@ class StirTrouble extends Card {
     }
 }
 
-StirTrouble.id = 'stir-trouble';
+StirUpTrouble.id = 'stir-up-trouble';
 
-module.exports = StirTrouble;
+module.exports = StirUpTrouble;

@@ -1,6 +1,6 @@
 const Card = require('../../Card.js');
 
-class SaurianTreasure extends Card {
+class Bracchanalia extends Card {
     // Play: Put 4 on Saurian Treasure ?. A friendly creature captures 1A.
     // At the start of a player's turn, if they control at least four creatures with on them, move all from Saurian Treasure ? to their pool.
     setupCardAbilities(ability) {
@@ -33,6 +33,6 @@ class SaurianTreasure extends Card {
     }
 }
 
-SaurianTreasure.id = 'saurian-treasure';
+Bracchanalia.id = 'bracchanalia';
 
-module.exports = SaurianTreasure;
+module.exports = Bracchanalia;

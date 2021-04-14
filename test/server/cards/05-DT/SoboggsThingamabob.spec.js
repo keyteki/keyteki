@@ -1,10 +1,10 @@
-describe("Sobogg's Thing", function () {
-    describe("Sobogg's Thing's ability", function () {
+describe("Sobogg's Thingamabob", function () {
+    describe("Sobogg's Thingamabob's ability", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
                     house: 'staralliance',
-                    inPlay: ['armsmaster-molina', 'sobogg-s-thing']
+                    inPlay: ['armsmaster-molina', 'sobogg-s-thingamabob']
                 },
                 player2: {
                     inPlay: ['lamindra', 'murkens']

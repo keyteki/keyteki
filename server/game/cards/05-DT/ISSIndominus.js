@@ -1,6 +1,6 @@
 const Card = require('../../Card.js');
 
-class SaurianShip extends Card {
+class ISSIndominus extends Card {
     // Action: Exhaust up to 5 friendly Saurian creatures. For each creature exhausted this way, deal 1D to each enemy creature.
     setupCardAbilities(ability) {
         this.action({
@@ -24,6 +24,6 @@ class SaurianShip extends Card {
     }
 }
 
-SaurianShip.id = 'saurian-ship';
+ISSIndominus.id = 'iss-indominus';
 
-module.exports = SaurianShip;
+module.exports = ISSIndominus;

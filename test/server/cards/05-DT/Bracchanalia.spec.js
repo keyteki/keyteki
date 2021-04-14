@@ -1,11 +1,11 @@
-describe('Saurian Treasure', function () {
-    describe("Saurian Treasure's ability", function () {
+describe('Bracchanalia', function () {
+    describe("Bracchanalia's ability", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
                     house: 'saurian',
                     amber: 1,
-                    hand: ['saurian-treasure'],
+                    hand: ['bracchanalia'],
                     inPlay: ['toad', 'flaxia', 'halacor', 'niffle-ape']
                 },
                 player2: {
@@ -14,7 +14,7 @@ describe('Saurian Treasure', function () {
                 }
             });
 
-            this.player1.play(this.saurianTreasure);
+            this.player1.play(this.bracchanalia);
         });
 
         it('should be able to select a creature to capture 1 amber', function () {
@@ -37,7 +37,7 @@ describe('Saurian Treasure', function () {
                 expect(this.flaxia.amber).toBe(1);
                 expect(this.player1.amber).toBe(1);
                 expect(this.player2.amber).toBe(1);
-                expect(this.saurianTreasure.amber).toBe(4);
+                expect(this.bracchanalia.amber).toBe(4);
             });
 
             describe('when controller has less than 4 creatures with amber', function () {
@@ -52,7 +52,7 @@ describe('Saurian Treasure', function () {
                 });
 
                 it('should not gain the 4A', function () {
-                    expect(this.saurianTreasure.amber).toBe(4);
+                    expect(this.bracchanalia.amber).toBe(4);
                     expect(this.player1.amber).toBe(1);
                     expect(this.player2.amber).toBe(1);
                     this.player1.endTurn();
@@ -69,7 +69,7 @@ describe('Saurian Treasure', function () {
                 });
 
                 it('should not gain the 4A', function () {
-                    expect(this.saurianTreasure.amber).toBe(4);
+                    expect(this.bracchanalia.amber).toBe(4);
                     expect(this.player1.amber).toBe(1);
                     expect(this.player2.amber).toBe(1);
                     this.player2.endTurn();
@@ -89,7 +89,7 @@ describe('Saurian Treasure', function () {
                 });
 
                 it('should gain the 4A', function () {
-                    expect(this.saurianTreasure.amber).toBe(0);
+                    expect(this.bracchanalia.amber).toBe(0);
                     expect(this.player1.amber).toBe(5);
                     expect(this.player2.amber).toBe(1);
                     this.player1.endTurn();
@@ -107,7 +107,7 @@ describe('Saurian Treasure', function () {
                 });
 
                 it('should gain the 4A', function () {
-                    expect(this.saurianTreasure.amber).toBe(0);
+                    expect(this.bracchanalia.amber).toBe(0);
                     expect(this.player1.amber).toBe(1);
                     expect(this.player2.amber).toBe(5);
                     this.player2.endTurn();

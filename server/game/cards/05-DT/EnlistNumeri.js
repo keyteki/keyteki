@@ -1,6 +1,6 @@
 const Card = require('../../Card.js');
 
-class ForeignLegion extends Card {
+class EnlistNumeri extends Card {
     //Play: Take control of an enemy creature with A on it. While under your control, it belongs to house Saurian.
     setupCardAbilities(ability) {
         this.play({
@@ -32,6 +32,6 @@ class ForeignLegion extends Card {
     }
 }
 
-ForeignLegion.id = 'foreign-legion';
+EnlistNumeri.id = 'enlist-numeri';
 
-module.exports = ForeignLegion;
+module.exports = EnlistNumeri;

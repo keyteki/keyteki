@@ -1,12 +1,12 @@
-describe('Saurian Ship', function () {
-    describe("Saurian Ship's ability", function () {
+describe('ISS Indominus', function () {
+    describe("ISS Indominus's ability", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
                     amber: 1,
                     house: 'saurian',
                     inPlay: [
-                        'saurian-ship',
+                        'iss-indominus',
                         'senator-shrix',
                         'citizen-shrix',
                         'flaxia',
@@ -21,7 +21,7 @@ describe('Saurian Ship', function () {
         });
 
         it('should exhaust up to 5 creatures and deal damage to enemy creatures', function () {
-            this.player1.useAction(this.saurianShip);
+            this.player1.useAction(this.issIndominus);
             expect(this.player1).toBeAbleToSelect(this.senatorShrix);
             expect(this.player1).toBeAbleToSelect(this.citizenShrix);
             expect(this.player1).toBeAbleToSelect(this.saurianEgg);

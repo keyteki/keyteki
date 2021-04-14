@@ -1,6 +1,6 @@
 const Card = require('../../Card.js');
 
-class SaurianDeny extends Card {
+class DiNoYouDidnt extends Card {
     //Play: Destroy an enemy creature with A on it.
     setupCardAbilities(ability) {
         this.play({
@@ -14,6 +14,6 @@ class SaurianDeny extends Card {
     }
 }
 
-SaurianDeny.id = 'saurian-deny';
+DiNoYouDidnt.id = 'di-no-you-didn-t';
 
-module.exports = SaurianDeny;
+module.exports = DiNoYouDidnt;

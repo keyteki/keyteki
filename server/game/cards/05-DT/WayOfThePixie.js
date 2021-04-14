@@ -1,6 +1,6 @@
 const Card = require('../../Card.js');
 
-class WayOfTheFairy extends Card {
+class WayOfThePixie extends Card {
     //This creature gains, "Reap: Gain 1A."
     setupCardAbilities(ability) {
         this.whileAttached({
@@ -11,6 +11,6 @@ class WayOfTheFairy extends Card {
     }
 }
 
-WayOfTheFairy.id = 'way-of-the-fairy';
+WayOfThePixie.id = 'way-of-the-pixie';
 
-module.exports = WayOfTheFairy;
+module.exports = WayOfThePixie;
