@@ -602,53 +602,69 @@ class Player extends GameObject {
     }
 
     forgeKey(modifier) {
-        let cost = Math.max(0, this.getCurrentKeyCost() + modifier);
-        let modifiedCost = cost;
-        let unforgedKeys = this.getUnforgedKeys();
+        let initialCost = Math.max(0, this.getCurrentKeyCost() + modifier);
         let amberSources = this.getAmberSources();
-        if (amberSources.length > 0) {
-            let totalAvailable = amberSources.reduce(
-                (total, source) => total + source.tokens.amber,
-                0
-            );
-            for (let source of amberSources) {
-                this.game.queueSimpleStep(() => {
-                    let max = Math.min(modifiedCost, source.tokens.amber);
-                    let min = Math.max(
-                        0,
-                        modifiedCost - this.amber - totalAvailable + source.tokens.amber
-                    );
-                    if (max === min) {
-                        modifiedCost -= max;
-                        totalAvailable -= max;
-                        source.removeToken('amber', max);
-                        return;
-                    }
+        let totalAvailable = amberSources.reduce((total, source) => total + source.tokens.amber, 0);
+        this.chooseAmberSource(amberSources, totalAvailable, initialCost, initialCost);
+    }
 
-                    this.game.promptWithHandlerMenu(this, {
-                        activePromptTitle: {
-                            text: 'How much amber do you want to use from {{card}}?',
-                            values: { card: source.name }
-                        },
-                        source: source,
-                        choices: _.range(min, max + 1),
-                        choiceHandler: (choice) => {
-                            modifiedCost -= choice;
-                            totalAvailable -= choice;
-                            source.removeToken('amber', choice);
-                            if (choice) {
-                                this.game.addMessage(
-                                    `{0} uses ${choice} amber from {1} to forge a key`,
-                                    this.game.activePlayer,
-                                    source
-                                );
-                            }
-                        }
-                    });
-                });
-            }
+    chooseAmberSource(amberSources, totalAvailable, modifiedCost, initialCost) {
+        if (amberSources.length === 0) {
+            this.chooseKeyToForge(modifiedCost, initialCost);
+            return;
         }
 
+        let source = amberSources[0];
+        amberSources.shift();
+        this.game.queueSimpleStep(() => {
+            let sourceAmber = source.tokens.amber;
+            let max = Math.min(modifiedCost, sourceAmber);
+            let min = Math.max(0, modifiedCost - this.amber - totalAvailable + sourceAmber);
+            if (max === min) {
+                this.game.addMessage(
+                    `{0} uses ${max} amber from {1} to forge a key`,
+                    this.game.activePlayer,
+                    source
+                );
+                source.removeToken('amber', max);
+                this.chooseAmberSource(
+                    amberSources,
+                    totalAvailable - max,
+                    modifiedCost - max,
+                    initialCost
+                );
+                return;
+            }
+
+            this.game.promptWithHandlerMenu(this, {
+                activePromptTitle: {
+                    text: 'How much amber do you want to use from {{card}}?',
+                    values: { card: source.name }
+                },
+                source: source,
+                choices: _.range(min, max + 1),
+                choiceHandler: (choice) => {
+                    if (choice) {
+                        source.removeToken('amber', choice);
+                        this.game.addMessage(
+                            `{0} uses ${choice} amber from {1} to forge a key`,
+                            this.game.activePlayer,
+                            source
+                        );
+                    }
+                    this.chooseAmberSource(
+                        amberSources,
+                        totalAvailable - sourceAmber,
+                        modifiedCost - choice,
+                        initialCost
+                    );
+                }
+            });
+        });
+    }
+
+    chooseKeyToForge(modifiedCost, initialCost) {
+        let unforgedKeys = this.getUnforgedKeys();
         if (unforgedKeys.length > 1) {
             this.game.promptWithHandlerMenu(this, {
                 activePromptTitle: { text: 'Which key would you like to forge?' },
@@ -656,13 +672,13 @@ class Player extends GameObject {
                 choices: unforgedKeys,
                 choiceHandler: (key) => {
                     this.game.queueSimpleStep(() => {
-                        this.finalizeForge(key.value, modifiedCost, cost);
+                        this.finalizeForge(key.value, modifiedCost, initialCost);
                     });
                 }
             });
         } else {
             this.game.queueSimpleStep(() =>
-                this.finalizeForge(unforgedKeys.shift().value, modifiedCost, cost)
+                this.finalizeForge(unforgedKeys.shift().value, modifiedCost, initialCost)
             );
         }
     }
