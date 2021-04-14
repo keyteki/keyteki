@@ -1,11 +1,11 @@
-describe('Cautious or Reckless', function () {
-    describe("Cautious or Reckless's ability", function () {
+describe('Safe or Sorry', function () {
+    describe("Safe or Sorry's ability", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
                     amber: 1,
                     house: 'shadows',
-                    hand: ['cautious-or-reckless'],
+                    hand: ['safe-or-sorry'],
                     inPlay: ['hookmaster', 'fidgit', 'lamindra']
                 },
                 player2: {
@@ -15,7 +15,7 @@ describe('Cautious or Reckless', function () {
             });
 
             this.troll.tokens.amber = 4;
-            this.player1.play(this.cautiousOrReckless);
+            this.player1.play(this.safeOrSorry);
         });
 
         it('should prompt to archive or deal damage', function () {
@@ -41,7 +41,7 @@ describe('Cautious or Reckless', function () {
                 expect(this.fidgit.location).toBe('play area');
                 expect(this.hookmaster.location).toBe('play area');
                 expect(this.lamindra.location).toBe('play area');
-                expect(this.cautiousOrReckless.location).toBe('discard');
+                expect(this.safeOrSorry.location).toBe('discard');
                 this.player1.endTurn();
             });
 
@@ -56,7 +56,7 @@ describe('Cautious or Reckless', function () {
                     expect(this.fidgit.location).toBe('play area');
                     expect(this.hookmaster.location).toBe('archives');
                     expect(this.lamindra.location).toBe('archives');
-                    expect(this.cautiousOrReckless.location).toBe('discard');
+                    expect(this.safeOrSorry.location).toBe('discard');
                     this.player1.endTurn();
                 });
             });

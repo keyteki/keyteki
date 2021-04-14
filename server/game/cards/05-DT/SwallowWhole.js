@@ -1,6 +1,6 @@
 const Card = require('../../Card.js');
 
-class Engulf extends Card {
+class SwallowWhole extends Card {
     // Can only be played if the tide is high.
     // Play: Choose two creatures. Purge the creature with lower power, then put a number of +1 power tokens equal to that creature's
     // power on the other chosen creature.
@@ -41,6 +41,6 @@ class Engulf extends Card {
     }
 }
 
-Engulf.id = 'engulf';
+SwallowWhole.id = 'swallow-whole';
 
-module.exports = Engulf;
+module.exports = SwallowWhole;

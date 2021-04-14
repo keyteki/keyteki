@@ -1,12 +1,12 @@
-describe('Rofftop Laboratory', function () {
-    describe("Rofftop Laboratory's ability", function () {
+describe('Rooftop Laboratory', function () {
+    describe("Rooftop Laboratory's ability", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
                     house: 'logos',
                     amber: 1,
                     hand: ['dextre', 'hapsis', 'chronus'],
-                    inPlay: ['rofftop-laboratory']
+                    inPlay: ['rooftop-laboratory']
                 },
                 player2: {
                     amber: 4,

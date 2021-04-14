@@ -1,6 +1,6 @@
 const Card = require('../../Card.js');
 
-class RecklessExperiment extends Card {
+class RecklessExperimentation extends Card {
     //This creature gains: "Reap: Play the top card of your deck."
     setupCardAbilities(ability) {
         this.whileAttached({
@@ -14,6 +14,6 @@ class RecklessExperiment extends Card {
     }
 }
 
-RecklessExperiment.id = 'reckless-experiment';
+RecklessExperimentation.id = 'reckless-experimentation';
 
-module.exports = RecklessExperiment;
+module.exports = RecklessExperimentation;

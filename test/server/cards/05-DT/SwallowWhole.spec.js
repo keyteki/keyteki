@@ -1,11 +1,11 @@
-describe('Engulf', function () {
-    describe("Engulf's ability", function () {
+describe('Swallow Whole', function () {
+    describe("Swallow Whole's ability", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
                     house: 'saurian',
                     amber: 1,
-                    hand: ['engulf'],
+                    hand: ['swallow-whole'],
                     inPlay: ['senator-shrix', 'shooler']
                 },
                 player2: {
@@ -16,7 +16,7 @@ describe('Engulf', function () {
         });
 
         it('cannot be played when tide is not high', function () {
-            this.player1.clickCard(this.engulf);
+            this.player1.clickCard(this.swallowWhole);
             expect(this.player1).not.toHavePromptButton('Play this action');
         });
 
@@ -26,7 +26,7 @@ describe('Engulf', function () {
             });
 
             it('should purge a creature with lower power and give the other creature +1 power tokens', function () {
-                this.player1.play(this.engulf);
+                this.player1.play(this.swallowWhole);
 
                 expect(this.player1).toBeAbleToSelect(this.gub);
                 expect(this.player1).toBeAbleToSelect(this.senatorShrix);
@@ -54,7 +54,7 @@ describe('Engulf', function () {
                 });
 
                 it('should purge a creature with lower power and give the other creature +1 power tokens', function () {
-                    this.player1.play(this.engulf);
+                    this.player1.play(this.swallowWhole);
 
                     expect(this.player1).toBeAbleToSelect(this.gub);
                     expect(this.player1).toBeAbleToSelect(this.senatorShrix);

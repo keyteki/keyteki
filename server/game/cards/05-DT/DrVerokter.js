@@ -1,6 +1,6 @@
 const Card = require('../../Card.js');
 
-class DoctorVerokter extends Card {
+class DrVerokter extends Card {
     //Elusive.
     //Reap: Put an upgrade or action card from your discard pile on top of your deck.
     setupCardAbilities(ability) {
@@ -15,6 +15,6 @@ class DoctorVerokter extends Card {
     }
 }
 
-DoctorVerokter.id = 'doctor-verokter';
+DrVerokter.id = 'dr-verokter';
 
-module.exports = DoctorVerokter;
+module.exports = DrVerokter;

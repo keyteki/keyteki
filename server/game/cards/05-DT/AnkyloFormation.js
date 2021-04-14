@@ -1,6 +1,6 @@
 const Card = require('../../Card.js');
 
-class AnkylosaurusFormation extends Card {
+class AnkyloFormation extends Card {
     //Play: Choose one:
     //• A friendly creature gains skirmish for the rest of your turn.
     //• Exalt a friendly creature. Each friendly creature gains skirmish for the rest of your turn.
@@ -33,6 +33,6 @@ class AnkylosaurusFormation extends Card {
     }
 }
 
-AnkylosaurusFormation.id = 'ankylosaurus-formation';
+AnkyloFormation.id = 'ankylo-formation';
 
-module.exports = AnkylosaurusFormation;
+module.exports = AnkyloFormation;

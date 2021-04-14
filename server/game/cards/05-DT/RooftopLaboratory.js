@@ -1,6 +1,6 @@
 const Card = require('../../Card.js');
 
-class RofftopLaboratory extends Card {
+class RooftopLaboratory extends Card {
     //Each friendly Scientist creature enters play ready.
     setupCardAbilities(ability) {
         this.persistentEffect({
@@ -11,6 +11,6 @@ class RofftopLaboratory extends Card {
     }
 }
 
-RofftopLaboratory.id = 'rofftop-laboratory';
+RooftopLaboratory.id = 'rooftop-laboratory';
 
-module.exports = RofftopLaboratory;
+module.exports = RooftopLaboratory;

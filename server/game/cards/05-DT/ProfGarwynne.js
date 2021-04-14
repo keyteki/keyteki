@@ -1,10 +1,10 @@
 const Card = require('../../Card.js');
 
-class ProfessorGwyneEvilTwin extends Card {
-    //Skrimish.
+class ProfGarwynne extends Card {
+    //elusive.
     //Fight: You may choose a card from your archives and put it in your hand.
     setupCardAbilities(ability) {
-        this.fight({
+        this.reap({
             target: {
                 optional: true,
                 location: 'archives',
@@ -15,6 +15,6 @@ class ProfessorGwyneEvilTwin extends Card {
     }
 }
 
-ProfessorGwyneEvilTwin.id = 'professor-gwyne-evil-twin';
+ProfGarwynne.id = 'prof-garwynne';
 
-module.exports = ProfessorGwyneEvilTwin;
+module.exports = ProfGarwynne;

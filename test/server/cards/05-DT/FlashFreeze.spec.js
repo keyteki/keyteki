@@ -18,7 +18,6 @@ describe('Flash Freeze', function () {
 
             this.player1.play(this.sleepWithTheFishes);
             //This prompt doesn't appear because sleep with the fishes is has no targets at this point and isn't considered a valid trigger to choose.
-            //this.player1.clickPrompt('??');
             expect(this.player1).not.toBeAbleToSelect(this.horridSynan);
             expect(this.player1).toBeAbleToSelect(this.keyfrog);
             expect(this.player1).toBeAbleToSelect(this.professorTerato);
@@ -27,7 +26,7 @@ describe('Flash Freeze', function () {
             expect(this.troll.location).toBe('discard');
 
             this.player1.play(this.horridSynan);
-            expect(this.player1).toHavePrompt('??');
+            expect(this.player1).toHavePrompt('Flash Freeze');
             expect(this.player1).toBeAbleToSelect(this.horridSynan);
             expect(this.player1).toBeAbleToSelect(this.keyfrog);
             expect(this.player1).toBeAbleToSelect(this.professorTerato);

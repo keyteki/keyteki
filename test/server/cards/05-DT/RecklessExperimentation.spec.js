@@ -1,12 +1,12 @@
-describe('Reckless Experiment', function () {
-    describe("Reckless Experiment's ability", function () {
+describe('Reckless Experimentation', function () {
+    describe("Reckless Experimentation's ability", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
                     amber: 1,
                     house: 'logos',
                     inPlay: ['dextre', 'archimedes', 'hapsis'],
-                    hand: ['reckless-experiment'],
+                    hand: ['reckless-experimentation'],
                     discard: ['troll', 'groggins', 'alaka']
                 },
                 player2: {
@@ -18,7 +18,7 @@ describe('Reckless Experiment', function () {
             this.player1.moveCard(this.alaka, 'deck');
             this.player1.moveCard(this.troll, 'deck');
             this.player1.moveCard(this.groggins, 'deck');
-            this.player1.playUpgrade(this.recklessExperiment, this.archimedes);
+            this.player1.playUpgrade(this.recklessExperimentation, this.archimedes);
         });
 
         it('when reap, should play the top card of the deck', function () {

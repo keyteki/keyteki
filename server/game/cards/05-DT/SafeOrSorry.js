@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
-class CautiousOrReckless extends Card {
-    //Play(TODO): Choose one:
+class SafeOrSorry extends Card {
+    //Play: Choose one:
     //- Archive any number of friendly creatures from play.
     //- Choose a creature. Deal 1 to that creature for each A your opponent has in their pool.
     setupCardAbilities(ability) {
@@ -34,6 +34,6 @@ class CautiousOrReckless extends Card {
     }
 }
 
-CautiousOrReckless.id = 'cautious-or-reckless';
+SafeOrSorry.id = 'safe-or-sorry';
 
-module.exports = CautiousOrReckless;
+module.exports = SafeOrSorry;

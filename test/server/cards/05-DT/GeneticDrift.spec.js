@@ -16,7 +16,7 @@ describe('Genetic Drift', function () {
 
             this.flaxia.tokens.power = 2;
             this.gub.tokens.power = 1;
-            this.player1.play(this.card403);
+            this.player1.play(this.genericDrift);
         });
 
         it('should be able to choose any creature', function () {

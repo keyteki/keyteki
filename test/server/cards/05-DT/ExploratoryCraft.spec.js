@@ -1,12 +1,12 @@
-describe('Exploration Vessel', function () {
-    describe("Exploration Vessel's ability", function () {
+describe('Exploratory Craft', function () {
+    describe("Exploratory Craft's ability", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
                     house: 'staralliance',
                     amber: 1,
                     hand: [],
-                    inPlay: ['exploration-vessel', 'mother', 'scout-pete', 'dust-pixie', 'dharna']
+                    inPlay: ['exploratory-craft', 'mother', 'scout-pete', 'dust-pixie', 'dharna']
                 },
                 player2: {
                     amber: 1,
@@ -18,7 +18,7 @@ describe('Exploration Vessel', function () {
         it('should allow to use and select no cards and draw nothing', function () {
             let startingHandSize = this.player1.hand.length;
 
-            this.player1.useAction(this.explorationVessel);
+            this.player1.useAction(this.exploratoryCraft);
             expect(this.player1).toHavePromptButton('Done');
             this.player1.clickPrompt('Done');
 
@@ -32,7 +32,7 @@ describe('Exploration Vessel', function () {
         it('should allow to use and select 2 cards to exhaust and draw', function () {
             let startingHandSize = this.player1.hand.length;
 
-            this.player1.useAction(this.explorationVessel);
+            this.player1.useAction(this.exploratoryCraft);
             expect(this.player1).toHavePromptButton('Done');
             this.player1.clickCard(this.mother);
             this.player1.clickCard(this.scoutPete);
@@ -48,7 +48,7 @@ describe('Exploration Vessel', function () {
         it('should allow to use and select 3 cards to exhaust and draw', function () {
             let startingHandSize = this.player1.hand.length;
 
-            this.player1.useAction(this.explorationVessel);
+            this.player1.useAction(this.exploratoryCraft);
             expect(this.player1).toHavePromptButton('Done');
             this.player1.clickCard(this.mother);
             this.player1.clickCard(this.scoutPete);
@@ -65,7 +65,7 @@ describe('Exploration Vessel', function () {
         it('should not grant extra cards when those cards share a house', function () {
             let startingHandSize = this.player1.hand.length;
 
-            this.player1.useAction(this.explorationVessel);
+            this.player1.useAction(this.exploratoryCraft);
             expect(this.player1).toHavePromptButton('Done');
             this.player1.clickCard(this.dharna);
             this.player1.clickCard(this.dustPixie);
@@ -82,7 +82,7 @@ describe('Exploration Vessel', function () {
 
             this.mother.exhausted = true;
 
-            this.player1.useAction(this.explorationVessel);
+            this.player1.useAction(this.exploratoryCraft);
 
             expect(this.player1).not.toBeAbleToSelect(this.mother);
             expect(this.player1).toBeAbleToSelect(this.scoutPete);

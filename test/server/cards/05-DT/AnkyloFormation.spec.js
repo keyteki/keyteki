@@ -1,9 +1,9 @@
-describe('AnkylosaurusFormation test', function () {
+describe('AnkyloFormation test', function () {
     beforeEach(function () {
         this.setupTest({
             player1: {
                 house: 'saurian',
-                hand: ['ankylosaurus-formation'],
+                hand: ['ankylo-formation'],
                 inPlay: ['helper-bot', 'titan-mechanic', 'troll']
             },
             player2: {
@@ -15,7 +15,7 @@ describe('AnkylosaurusFormation test', function () {
 
     describe('when played', function () {
         beforeEach(function () {
-            this.player1.play(this.ankylosaurusFormation);
+            this.player1.play(this.ankyloFormation);
             this.player1.clickCard(this.titanMechanic);
         });
 

@@ -1,6 +1,6 @@
 const Card = require('../../Card.js');
 
-class LexEvilTwin extends Card {
+class PhysicusFelixEvilTwin extends Card {
     //Play/Fight: If the tide is low, you may exalt a creature.
     setupCardAbilities(ability) {
         this.play({
@@ -15,6 +15,6 @@ class LexEvilTwin extends Card {
     }
 }
 
-LexEvilTwin.id = 'lex-evil-twin';
+PhysicusFelixEvilTwin.id = 'physicus-felix-evil-twin';
 
-module.exports = LexEvilTwin;
+module.exports = PhysicusFelixEvilTwin;

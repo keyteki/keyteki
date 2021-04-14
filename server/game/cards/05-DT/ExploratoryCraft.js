@@ -1,6 +1,6 @@
 const Card = require('../../Card.js');
 
-class ExplorationVessel extends Card {
+class ExploratoryCraft extends Card {
     //Action: Exhaust up to 3 friendly creatures. Draw 1 card for each house represented among these creatures.
     //This card has been translated from Chinese and is subject to change.
     setupCardAbilities(ability) {
@@ -23,6 +23,6 @@ class ExplorationVessel extends Card {
     }
 }
 
-ExplorationVessel.id = 'exploration-vessel';
+ExploratoryCraft.id = 'exploratory-craft';
 
-module.exports = ExplorationVessel;
+module.exports = ExploratoryCraft;
