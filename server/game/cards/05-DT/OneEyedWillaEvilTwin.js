@@ -1,8 +1,8 @@
 const Card = require('../../Card.js');
 
 class OneEyedWillaEvilTwin extends Card {
-    //Elusive. Skirmish.
-    //Fight: If the tide is high, your opponent loses 2A.
+    // Elusive. Skirmish.
+    // (T) Fight: If the tide is high, your opponent loses 2A.
     setupCardAbilities(ability) {
         this.fight({
             condition: (context) => context.player.isTideHigh(),

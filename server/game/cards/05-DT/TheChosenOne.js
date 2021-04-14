@@ -1,8 +1,7 @@
 const Card = require('../../Card.js');
 
 class TheChosenOne extends Card {
-    //Instead of readying creatures they control during their "ready cards" step, your opponent deals 1D to
-    //The Chosen One for each exhausted creature they control.
+    // Instead of readying creatures they control during their “ready cards” step, your opponent deals 1D to The Chosen One for each exhausted creature they control.
     setupCardAbilities(ability) {
         this.interrupt({
             when: {

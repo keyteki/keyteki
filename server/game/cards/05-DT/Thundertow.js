@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class Thundertow extends Card {
-    //Play: Exhaust 2 creatures. Deal 2D to each exhausted creature.
+    // Play: Exhaust 2 creatures. Deal 2D to each exhausted creature.
     setupCardAbilities(ability) {
         this.play({
             target: {

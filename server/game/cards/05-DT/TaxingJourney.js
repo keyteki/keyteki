@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class TaxingJourney extends Card {
-    //Play: A friendly creature captures 1A. Each of its neighbors that shares a house with it also captures 1A.
+    // Play: A friendly creature captures 1A. Each of its neighbors that shares a house with it also captures 1A.
     setupCardAbilities(ability) {
         this.play({
             target: {

@@ -1,8 +1,8 @@
 const Card = require('../../Card.js');
 
 class OneEyedWilla extends Card {
-    //While the tide is high, One-eyed Willa gains elusive and skirmish.
-    //Fight: Steal 1A.
+    // (T) While the tide is high, One-Eyed Willa gains elusive and skirmish.
+    // Fight: Steal 1A.
     setupCardAbilities(ability) {
         this.persistentEffect({
             condition: (context) => context.source.controller.isTideHigh(),

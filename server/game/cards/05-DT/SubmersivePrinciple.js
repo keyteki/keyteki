@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class SubmersivePrinciple extends Card {
-    //Play: Each player loses 1A. If the tide is high, each player loses half their A instead (rounding down the loss).
+    // (T) Play: Each player loses 1A. If the tide is high, each player loses half their A instead (rounding down the loss).
     setupCardAbilities(ability) {
         this.play({
             gameAction: [

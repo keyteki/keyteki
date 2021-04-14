@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class PourTal extends Card {
-    //Play: If the tide is high, archive $this. Otherwise, raise the tide.
+    // (T) Play: If the tide is high, archive Pour-tal. Otherwise, raise the tide.
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.conditional({

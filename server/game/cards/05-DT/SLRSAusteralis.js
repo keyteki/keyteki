@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class SLRSAusteralis extends Card {
+    // Action: Exhaust up to 3 friendly Logos creatures. For each creature exhausted this way, play the top card of your deck, one at a time.
     setupCardAbilities(ability) {
         // Action: Exhaust up to 3 friendly Logos creatures. For each creature exhausted this way, play the top card of your deck, one at a time.
         this.action({

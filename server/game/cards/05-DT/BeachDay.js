@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class BeachDay extends Card {
-    //Play: Return a creature to its owner's hand. If the tide is high, gain 1A.
+    // (T) Play: Return a creature to its owner's hand. If the tide is high, gain 1A.
     setupCardAbilities(ability) {
         this.play({
             target: {

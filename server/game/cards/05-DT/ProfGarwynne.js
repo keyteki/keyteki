@@ -1,8 +1,8 @@
 const Card = require('../../Card.js');
 
 class ProfGarwynne extends Card {
-    //elusive.
-    //Fight: You may choose a card from your archives and put it in your hand.
+    // Elusive.
+    // Reap: You may choose a card in your archives and put it into your hand.
     setupCardAbilities(ability) {
         this.reap({
             target: {

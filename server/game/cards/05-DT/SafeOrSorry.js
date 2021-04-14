@@ -1,9 +1,9 @@
 const Card = require('../../Card.js');
 
 class SafeOrSorry extends Card {
-    //Play: Choose one:
-    //- Archive any number of friendly creatures from play.
-    //- Choose a creature. Deal 1 to that creature for each A your opponent has in their pool.
+    // Play: Choose one:
+    // • Archive any number of friendly creatures from play.
+    // • Choose a creature. Deal 1D to it for each A your opponent has.
     setupCardAbilities(ability) {
         this.play({
             condition: (context) => context.game.creaturesInPlay.length > 0,

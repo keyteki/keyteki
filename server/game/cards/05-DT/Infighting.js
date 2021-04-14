@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class Infighting extends Card {
-    //Play: Each creature deals damage equal to its power to its right neighbor.
+    // Play: Each creature deals damage equal to its power to its right neighbor.
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.dealDamage((context) => ({

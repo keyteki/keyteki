@@ -1,8 +1,8 @@
 const Card = require('../../Card.js');
 
 class Fuguru extends Card {
-    //Poison.
-    //Your opponent draws one fewer card during their draw card phase.
+    // Poison.
+    // Your opponent refills their hand to 1 less card during their “draw cards” step.
     setupCardAbilities(ability) {
         this.persistentEffect({
             targetController: 'opponent',

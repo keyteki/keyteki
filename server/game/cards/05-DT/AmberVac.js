@@ -1,8 +1,8 @@
 const Card = require('../../Card.js');
 
 class AmberVac extends Card {
-    //Play: Raise the tide.
-    //This creature gains, "At the start of your turn, if the tide is high, capture 2A."
+    // (T) Play: Raise the tide.
+    // (T) This creature gains, "At the start of your turn, if the tide is high, capture 2A."
     setupCardAbilities(ability) {
         this.interrupt({
             when: {

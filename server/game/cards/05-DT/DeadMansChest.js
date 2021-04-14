@@ -2,8 +2,8 @@ const Card = require('../../Card.js');
 const EventRegistrar = require('../../eventregistrar.js');
 
 class DeadMansChest extends Card {
-    // Play: Put 4A on Dead Man’s Chest from the supply. Deal 2 to a creature.
-    // If 6 or more creatures are destroyed during a turn and Dead Man’s Chest is ready, move all A from Dead Man’s Chest to the active player’s pool.
+    // Play: Put 4A on Dead Man’s Chest from the common supply. Deal 2D to a creature.
+    // After 6 or more creatures are destroyed in a turn, if Dead Man’s Chest is ready, move each A from Dead Man’s Chest to the active player's pool.
     setupCardAbilities(ability) {
         this.creatureDestroyed = [];
         this.tracker = new EventRegistrar(this.game, this);

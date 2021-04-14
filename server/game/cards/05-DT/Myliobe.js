@@ -1,8 +1,8 @@
 const Card = require('../../Card.js');
 
 class Myliobe extends Card {
-    //While the tide is high, $this gains skirmish.
-    //Before Fight: Enrage the attacked creature and its neighbors.
+    // (T) While the tide is high, Myliobe gains skirmish. (When you use this creature to fight, it is dealt no damage in return.)
+    // Before Fight: Enrage the creature Myliobe fights and each of that creature’s neighbors.
     setupCardAbilities(ability) {
         this.persistentEffect({
             targetController: 'any',

@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class RocketeerTryska extends Card {
-    //While the tide is high, Rocketeer Tryska's neighbors enter play ready.
+    // (T) While the tide is high, Rocketeer Tryska’s neighbors enter play ready.
     setupCardAbilities(ability) {
         this.persistentEffect({
             location: 'any',

@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class OrphionLandsChosen extends Card {
-    //While the tide is low, $this gains +3 armor and, "Reap: Capture 2A."
+    // (T) While the tide is low, Orphion, Land’s Chosen gets +3 armor and gains, “Reap: Capture 2A.”
     setupCardAbilities(ability) {
         this.persistentEffect({
             targetController: 'any',

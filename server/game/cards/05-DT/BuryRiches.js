@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class BuryRiches extends Card {
-    //Play: If the tide is high, move 1A from each creature to its controller's pool. Otherwise, raise the tide.
+    // (T) Play: If the tide is high, move 1A from each creature to its controller's pool. Otherwise, raise the tide.
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.conditional({

@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class Rustmiser extends Card {
-    //Reap: Exhaust each enemy artifact.
+    // Reap: Exhaust each enemy artifact.
     setupCardAbilities(ability) {
         this.reap({
             gameAction: ability.actions.exhaust((context) => ({

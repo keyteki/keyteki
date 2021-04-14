@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class TheFirstScroll extends Card {
-    //After a player forges a key, each creature controlled by that player captures 1A from their own side.
+    // After a player forges a key, each creature they control captures 1A from its own side.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

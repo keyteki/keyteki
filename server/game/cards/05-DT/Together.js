@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class Together extends Card {
-    //Play: You may play a non-Star Alliance card. If the tide is high, you may play another non-Star Alliance card.
+    // (T) Play: You may play a non-Star Alliance card. If the tide is high, you may play another non-Star Alliance card.
     setupCardAbilities(ability) {
         this.play({
             target: {

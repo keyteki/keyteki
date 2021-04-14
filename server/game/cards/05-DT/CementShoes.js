@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class CementShoes extends Card {
-    //Play: Deal 2D to a creature. If this damage destroys that creature, raise the tide.
+    // (T) Play: Deal 2D to a creature. If this damage destroys that creature, raise the tide.
     setupCardAbilities(ability) {
         this.play({
             target: {

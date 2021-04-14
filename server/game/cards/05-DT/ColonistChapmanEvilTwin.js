@@ -1,8 +1,8 @@
 const Card = require('../../Card.js');
 
 class ColonistChapmanEvilTwin extends Card {
-    //Elusive.
-    //Play: Capture all A from each player.
+    // Elusive. (The first time this creature is attacked each turn, no damage is dealt.)
+    // Play: Capture all A from each player.
     setupCardAbilities(ability) {
         this.play({
             gameAction: [

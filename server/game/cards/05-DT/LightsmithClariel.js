@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class LightsmithClariel extends Card {
-    //Before Fight: You may swap the power and armor values of Lightsmith Clariel for the remainder of the turn.
+    // Before Fight: You may switch Lightsmith Clariel's power and armor for the remainder of the turn.
     setupCardAbilities(ability) {
         this.beforeFight({
             optional: true,

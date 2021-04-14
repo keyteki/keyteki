@@ -2,8 +2,8 @@ const Card = require('../../Card.js');
 
 class Omnipus extends Card {
     // Omnipus cannot fight.
-    // Play: Discard the top 8 cards of your deck. Play each Tentacle from your discard pile, one at a time.
-    // Reap: Gain 1A for each friendly Tentacle.
+    // Play: Discard the top 8 cards of your deck. Play each Tentaclid from your discard pile, one at a time.
+    // Reap: Gain 1A for each friendly Tentaclid.
     setupCardAbilities(ability) {
         this.persistentEffect({
             effect: ability.effects.cardCannot('fight')

@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class LarieOfTheLakeEvilTwin extends Card {
-    //While the tide is high, Larie of the Lake gets +5 armor.
+    // (T) While the tide is high, Lærie of the Lake gets +5 armor.
     setupCardAbilities(ability) {
         this.persistentEffect({
             targetController: 'any',

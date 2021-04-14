@@ -1,9 +1,9 @@
 const Card = require('../../Card.js');
 
 class HonorOrGlory extends Card {
-    //Play: Choose one:
-    //• Deal 3D to each flank creature.
-    //• Deal 3D to each creature not on a flank.
+    // Play: Choose one:
+    // • Deal 3D to each flank creature.
+    // • Deal 3D to each creature not on a flank.
     setupCardAbilities(ability) {
         this.play({
             condition: (context) => context.game.creaturesInPlay.length > 0,

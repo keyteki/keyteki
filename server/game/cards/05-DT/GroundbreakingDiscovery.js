@@ -1,8 +1,7 @@
 const Card = require('../../Card.js');
 
 class GroundbreakingDiscovery extends Card {
-    // Play: If you control "Doctor Verokter", "Roof Laboratory", and "Reckless Experiment",
-    // destroy each card in play, unforge an opponent's key and purge Groundbreaking Discovery.
+    // Play: If you control Dr. Verokter, Rooftop Laboratory, and Reckless Experimentation, destroy each card in play, unforge an opponent’s key, and purge Groundbreaking Discovery.
     setupCardAbilities(ability) {
         this.play({
             condition: (context) =>

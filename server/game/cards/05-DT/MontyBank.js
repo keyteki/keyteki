@@ -1,8 +1,8 @@
 const Card = require('../../Card.js');
 
 class MontyBank extends Card {
-    // Play: You may exalt Monty Bank once or twice.
-    // Action: Steal 1 for each on Monty Bank.
+    // Play: You may exalt Monty Bank up to 2 times.
+    // Action: Steal 1A for each A on Monty Bank.
     setupCardAbilities(ability) {
         this.play({
             target: {

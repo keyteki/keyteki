@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class Ransom extends Card {
-    // This creature cannot be used, and it gains, “At the start of your turn, you may give your opponent 2A. If you do, destroy Ransom.”
+    // This creature cannot be used and gains, "At the start of your turn, you may give your opponent 2A. If you do, destroy Ransom."
     setupCardAbilities(ability) {
         this.whileAttached({
             effect: [

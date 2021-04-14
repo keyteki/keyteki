@@ -1,8 +1,7 @@
 const Card = require('../../Card.js');
 
 class KiligogSTrench extends Card {
-    //At the end of your turn, place 1 depth counter on Kiligog's Trench, then
-    //destroy each creature with power equal to the number of depth counters on Kiligog's Trench.
+    // At the end of your turn, place 1 depth counter on Kiligog’s Trench, then destroy each creature with power equal to the number of depth counters on Kiligog’s Trench.
     setupCardAbilities(ability) {
         this.interrupt({
             when: {

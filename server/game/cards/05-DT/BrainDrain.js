@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class BrainDrain extends Card {
-    //Play: Look at your opponent's hand. Choose a card from it and put it on top of their deck.
+    // Play: Look at your opponent's hand. Choose a card from it and put it on top of their deck.
     setupCardAbilities(ability) {
         this.play({
             condition: (context) => !!context.player.opponent,

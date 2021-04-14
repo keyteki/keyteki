@@ -1,8 +1,8 @@
 const Card = require('../../Card.js');
 
 class OperativeEspionEvilTwin extends Card {
-    // Elusive.
-    // After a player raises the tide during their turn, they may deal 3D to a creature.
+    // Elusive. (The first time this creature is attacked each turn, no damage is dealt.)
+    // (T) After a player raises the tide during their turn, they may deal 3D to a creature.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

@@ -1,8 +1,8 @@
 const Card = require('../../Card.js');
 
 class TrickleDownTheory extends Card {
-    //Play: Raise the tide.
-    //Omni: Gain 1A if your opponent has 6A or more.
+    // (T) Play: Raise the tide.
+    // Omni: Gain 1A if your opponent has 6A or more.
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.raiseTide()

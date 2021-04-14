@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class FrigorificRod extends Card {
-    //Action: Exhaust a creature or artifact.
+    // Action: Exhaust a creature or artifact.
     setupCardAbilities(ability) {
         this.action({
             target: {

@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class VenatorAltum extends Card {
-    // After Venator Altum is dealt damage, if the tide is low, exalt Venator Altum.
+    // (T) After Venator Altum is dealt damage, if the tide is low, exalt Venator Altum.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

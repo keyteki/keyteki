@@ -1,8 +1,7 @@
 const Card = require('../../Card.js');
 
 class LlackGaboon extends Card {
-    //Llack Gaboon gets +1 power for each other exhausted creature.
-    //If there are 3 or more other exhausted creatures, Llack Gaboon gains skirmish and hazardous 5.
+    // Llack Gaboon gets +1 power for each other exhausted creature. If there are 3 or more other exhausted creatures, Llack Gaboon gains skirmish and hazardous 5.
     setupCardAbilities(ability) {
         this.persistentEffect({
             effect: ability.effects.modifyPower(

@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class Mollymawk extends Card {
-    //Play: Destroy an artifact.
+    // Play: Destroy an artifact.
     setupCardAbilities(ability) {
         this.play({
             target: {

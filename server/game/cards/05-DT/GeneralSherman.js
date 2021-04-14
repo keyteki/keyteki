@@ -1,8 +1,8 @@
 const Card = require('../../Card.js');
 
 class GeneralSherman extends Card {
-    //This creature deals no damage when fighting.
-    //Play: Purge each other creature. If this creature leaves play, return to play all creatures purged this way.
+    // General Sherman deals no damage when fighting.
+    // Play: Purge each other creature. If General Sherman leaves play, return to play each creature purged this way (exhausted and under its owner’s control).
     setupCardAbilities(ability) {
         this.persistentEffect({
             effect: ability.effects.cardCannot('dealFightDamage')

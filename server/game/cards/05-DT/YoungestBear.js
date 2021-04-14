@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class YoungestBear extends Card {
+    // Reap: You may reap with 1 of Youngest Bear's neighbors.
     setupCardAbilities(ability) {
         this.reap({
             target: {

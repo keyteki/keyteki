@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class BackupPlan extends Card {
-    // Play: Archive the top deck card of your deck for each creature your opponent controls in excess of you.
+    // Play: For each creature your opponent controls in excess of you, archive the top card of your deck.
     setupCardAbilities(ability) {
         this.play({
             condition: (context) =>

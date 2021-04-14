@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class CupOfWater extends Card {
-    //Play: Stun each cyborg creature and each robot creature.
+    // Play: Stun each Cyborg creature and each Robot creature.
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.stun((context) => ({

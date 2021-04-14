@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class StormSurge extends Card {
-    //Play: Your opponent cannot ready cards during the “ready cards” step of their next turn.
+    // Play: Your opponent cannot ready cards during the "ready cards" step of their next turn.
     setupCardAbilities(ability) {
         this.play({
             effect:

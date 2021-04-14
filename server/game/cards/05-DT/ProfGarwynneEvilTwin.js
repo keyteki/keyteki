@@ -1,8 +1,8 @@
 const Card = require('../../Card.js');
 
 class ProfGarwynneEvilTwin extends Card {
-    //Skrimish.
-    //Fight: You may choose a card from your archives and put it in your hand.
+    // Skirmish.
+    // Fight: You may choose a card in your archives and put it into your hand.
     setupCardAbilities(ability) {
         this.fight({
             target: {

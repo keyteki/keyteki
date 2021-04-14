@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class Portalmonger extends Card {
-    //While the tide is high, your opponent's keys cost +4A.
+    // (T) While the tide is high, your opponent’s keys cost +4A.
     setupCardAbilities(ability) {
         this.persistentEffect({
             targetController: 'opponent',

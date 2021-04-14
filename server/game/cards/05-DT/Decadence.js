@@ -1,9 +1,9 @@
 const Card = require('../../Card.js');
 
 class Decadence extends Card {
-    //Play: Choose one:
-    //• Exalt, ready and use a friendly creature.
-    //• Move 1A from one creature to another.
+    // Play: Choose one:
+    // • Exalt, ready, and use a friendly creature.
+    // • Move 1A from a creature to another creature.
     setupCardAbilities(ability) {
         this.play({
             condition: (context) => context.game.creaturesInPlay.length > 0,

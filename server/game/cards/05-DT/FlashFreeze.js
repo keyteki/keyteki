@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class FlashFreeze extends Card {
-    //Play: For the remainder of the turn, after you play another card, exhaust a creature.
+    // Play: For the remainder of the turn, after you play another card, exhaust a creature.
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.forRemainderOfTurn((context) => ({

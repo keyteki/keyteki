@@ -1,8 +1,7 @@
 const Card = require('../../Card.js');
 
 class EclecticAmbrosiusEvilTwin extends Card {
-    //Reap: Put an ignorance counter on an enemy creature.
-    //As long as that creature has an ignorance counter, its text box is considered blank (except for traits).
+    // Reap: Put an ignorance counter on an enemy creature. As long as that creature has an ignorance counter, its text box is considered blank (except for traits).
     setupCardAbilities(ability) {
         this.reap({
             target: {

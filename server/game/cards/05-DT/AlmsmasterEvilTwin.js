@@ -1,9 +1,8 @@
 const Card = require('../../Card.js');
 
 class AlmsmasterEvilTwin extends Card {
-    //Deploy.
-    //Each of $this's neighbors gains, "Destroyed: Steal 1A."
-    //This card has been translated from Polish and is subject to change.
+    // Deploy.
+    // Each of Almsmaster's neighbors gains, "Destroyed: Steal 1A."
     setupCardAbilities(ability) {
         this.persistentEffect({
             match: (card) => this.neighbors.includes(card),

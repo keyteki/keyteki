@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class CarpeVinum extends Card {
-    //Play: Exalt two enemy creatures.
+    // Play: Exalt 2 enemy creatures.
     setupCardAbilities(ability) {
         this.play({
             target: {

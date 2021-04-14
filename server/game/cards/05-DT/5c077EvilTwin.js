@@ -1,8 +1,7 @@
 const Card = require('../../Card.js');
 
 class FiveC077EvilTwin extends Card {
-    //Reap: Destroy another creature with the same power as 5C077.
-    //You may give 5C077 a +1 power counter or remove a +1 power counter from it.
+    // Reap: Destroy another creature with the same power as 5C077. You may give 5C077 a +1 power counter or remove a +1 power counter from 5C077.
     setupCardAbilities(ability) {
         this.reap({
             target: {

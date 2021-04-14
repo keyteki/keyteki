@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class TheCorpulentCollector extends Card {
-    //Play: Capture all your opponent's A. Deal 1D to Corpulent Colle (?) for each A on it.
+    // Play: Capture all of your opponent's A. Deal 1D to The Corpulent Collector for each A on it.
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.sequential([

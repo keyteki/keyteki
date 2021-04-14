@@ -1,8 +1,7 @@
 const Card = require('../../Card.js');
 
 class WashedAway extends Card {
-    //Play: If the tide is high, destroy each artifact. Otherwise, raise the tide.
-    //This card has been translated from Polish and is subject to change.
+    // (T) Play: If the tide is high, destroy each artifact. Otherwise, raise the tide.
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.conditional({

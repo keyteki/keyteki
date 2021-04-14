@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class Taniwha extends Card {
-    //Fight/Reap: Destroy a friendly creature and gain 1A.
+    // Fight/Reap: Destroy a friendly creature and gain 1A.
     setupCardAbilities(ability) {
         this.fight({
             reap: true,

@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class UndagnathusEvilTwin extends Card {
-    // While the tide is low, double all damage dealt to Undagnathus.
+    // (T) While the tide is low, double all damage dealt to Undagnathus.
     setupCardAbilities(ability) {
         this.interrupt({
             when: {

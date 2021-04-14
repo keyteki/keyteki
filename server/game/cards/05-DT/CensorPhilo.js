@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class CensorPhilo extends Card {
-    // Censor Philo cannot be damaged by creatures with amber on them.
+    // Censor Philo cannot be dealt damage by creatures with A on them.
     setupCardAbilities(ability) {
         this.persistentEffect({
             effect: ability.effects.cardCannot('damage', (context, effectTarget) => {
