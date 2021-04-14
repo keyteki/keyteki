@@ -603,10 +603,11 @@ class Player extends GameObject {
     }
 
     forgeKey(modifier) {
-        let initialCost = Math.max(0, this.getCurrentKeyCost() + modifier);
+        let cost = Math.max(0, this.getCurrentKeyCost() + modifier);
         let amberSources = this.getAmberSources();
         let totalAvailable = amberSources.reduce((total, source) => total + source.tokens.amber, 0);
-        this.chooseAmberSource(amberSources, totalAvailable, initialCost, initialCost);
+        this.chooseAmberSource(amberSources, totalAvailable, cost, cost);
+        return cost;
     }
 
     chooseAmberSource(amberSources, totalAvailable, modifiedCost, initialCost) {
@@ -682,8 +683,6 @@ class Player extends GameObject {
                 this.finalizeForge(unforgedKeys.shift().value, modifiedCost, initialCost)
             );
         }
-
-        return cost;
     }
 
     finalizeForge(key, modifiedCost, cost) {
