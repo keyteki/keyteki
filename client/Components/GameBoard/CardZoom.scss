@@ -28,13 +28,18 @@
     }
 
     &.tide-neutral {
-        right: 80px;
-        top: 0px;
+        top: 300px;
+        right: 0;
         transform: rotate(90deg);
     }
 
     &.tide-low {
+        top: 5px;
         transform: rotate(180deg);
+    }
+
+    &.tide-high {
+        top: 5px;
     }
 }
 
