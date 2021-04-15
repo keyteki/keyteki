@@ -260,6 +260,13 @@ export class GameBoard extends React.Component {
                                     : ''
                             }`}
                         src={img}
+                        onMouseOver={() => {
+                            this.onMouseOver({
+                                image: <img src={img} />,
+                                size: `tide-${thisPlayer.stats.tide}`
+                            });
+                        }}
+                        onMouseOut={this.onMouseOut}
                         title={this.props.t(`${thisPlayer.stats.tide}-tide`)}
                     />
                 </div>

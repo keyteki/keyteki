@@ -26,6 +26,16 @@
         width: $keyteki-card-width * 6;
         height: $keyteki-card-height * 6;
     }
+
+    &.tide-neutral {
+        right: 80px;
+        top: 0px;
+        transform: rotate(90deg);
+    }
+
+    &.tide-low {
+        transform: rotate(180deg);
+    }
 }
 
 .card-zoomed {
