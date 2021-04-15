@@ -74,7 +74,9 @@ class PlayerBoard extends React.Component {
         let rows = this.getCardRows();
 
         let className = classNames('player-board', {
-            'our-side': this.props.rowDirection === 'default'
+            'our-side': this.props.rowDirection === 'default',
+            'board-high-tide': this.props.tide === 'high',
+            'board-low-tide': this.props.tide === 'low'
         });
 
         return <div className={className}>{this.renderRows(rows)}</div>;
@@ -90,6 +92,7 @@ PlayerBoard.propTypes = {
     onMouseOut: PropTypes.func,
     onMouseOver: PropTypes.func,
     rowDirection: PropTypes.oneOf(['default', 'reverse']),
+    tide: PropTypes.string,
     user: PropTypes.object
 };
 
