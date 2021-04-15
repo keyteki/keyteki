@@ -428,6 +428,7 @@ export class GameBoard extends React.Component {
                     {this.state.cardToZoom && <CardZoom card={this.state.cardToZoom} />}
                     <div className='right-side'>
                         <div className='prompt-area'>
+                            <div className='right-side-top'></div>
                             <div className='tide-pane'>
                                 <img
                                     key='tide-card'
