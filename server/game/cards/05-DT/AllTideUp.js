@@ -9,7 +9,7 @@ class AllTideUp extends Card {
                 trueGameAction: ability.actions.gainAmber({ amount: 1 }),
                 falseGameAction: ability.actions.raiseTide()
             }),
-            effect: '{0}',
+            effect: '{1}',
             effectArgs: (context) =>
                 context.player.isTideHigh() ? 'gain 1 amber' : 'raise the tide'
         });

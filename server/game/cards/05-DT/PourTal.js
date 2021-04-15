@@ -10,7 +10,10 @@ class PourTal extends Card {
                     target: context.source
                 })),
                 falseGameAction: ability.actions.raiseTide()
-            })
+            }),
+            effect: '{1}',
+            effectArgs: (context) =>
+                context.player.isTideHigh() ? 'archive itself' : 'raise the tide'
         });
     }
 }
