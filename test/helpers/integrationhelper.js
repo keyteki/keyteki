@@ -82,6 +82,31 @@ var customMatchers = {
             }
         };
     },
+    toBeAbleToRaiseTide: function (util, customEqualityMatchers) {
+        return {
+            compare: function (player) {
+                let result = {};
+
+                player.game.clickTide(player.name);
+                player.game.continue();
+                player.checkUnserializableGameState();
+
+                var buttons = player.currentPrompt().buttons;
+                result.pass = _.any(buttons, (button) =>
+                    util.equals(button.text, 'No', customEqualityMatchers)
+                );
+
+                if (result.pass) {
+                    player.clickPrompt('No');
+                    result.message = `Expected ${player.name} not to be able to raise the tide, but it was.`;
+                } else {
+                    result.message = `Expected ${player.name} to be able to raise the tide, but it wasn't.`;
+                }
+
+                return result;
+            }
+        };
+    },
     toBeAbleToSelect: function () {
         return {
             compare: function (player, card) {

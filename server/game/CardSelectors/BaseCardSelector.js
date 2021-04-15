@@ -18,19 +18,6 @@ class BaseCardSelector {
             location = [location];
         }
 
-        let index = location.indexOf('province');
-        if (index > -1) {
-            location.splice(
-                index,
-                1,
-                'province 1',
-                'province 2',
-                'province 3',
-                'province 4',
-                'stronghold province'
-            );
-        }
-
         return location;
     }
 
@@ -117,7 +104,8 @@ class BaseCardSelector {
         return this.findPossibleCards(context).filter((card) => this.canTarget(card, context));
     }
 
-    hasEnoughSelected(selectedCards) {
+    // eslint-disable-next-line no-unused-vars
+    hasEnoughSelected(selectedCards, context) {
         return this.optional || selectedCards.length > 0;
     }
 

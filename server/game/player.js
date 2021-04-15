@@ -1,5 +1,6 @@
 const _ = require('underscore');
 
+const Constants = require('../constants');
 const GameObject = require('./GameObject');
 const Deck = require('./deck');
 const ClockSelector = require('./Clocks/ClockSelector');
@@ -602,10 +603,11 @@ class Player extends GameObject {
     }
 
     forgeKey(modifier) {
-        let initialCost = Math.max(0, this.getCurrentKeyCost() + modifier);
+        let cost = Math.max(0, this.getCurrentKeyCost() + modifier);
         let amberSources = this.getAmberSources();
         let totalAvailable = amberSources.reduce((total, source) => total + source.tokens.amber, 0);
-        this.chooseAmberSource(amberSources, totalAvailable, initialCost, initialCost);
+        this.chooseAmberSource(amberSources, totalAvailable, cost, cost);
+        return cost;
     }
 
     chooseAmberSource(amberSources, totalAvailable, modifiedCost, initialCost) {
@@ -685,24 +687,14 @@ class Player extends GameObject {
 
     finalizeForge(key, modifiedCost, cost) {
         this.modifyAmber(-modifiedCost);
-
-        if (this.anyEffect('forgeAmberGainedByOpponent')) {
-            this.game.actions
-                .gainAmber({ amount: cost })
-                .resolve(this.opponent, this.game.getFrameworkContext());
-        }
-
         this.keys[key] = true;
         this.keysForgedThisRound.push(key);
-        this.game.addMessage(
-            '{0} forges the {1}, paying {2} amber',
-            this,
-            `forgedkey${key}`,
-            modifiedCost
-        );
+        this.game.addMessage('{0} forges the {1}, paying {2} amber', this, `forgedkey${key}`, cost);
     }
 
     unforgeKey(choices) {
+        choices = choices || Object.keys(this.keys).filter((key) => this.keys[key]);
+
         if (choices.length > 1) {
             this.game.promptWithHandlerMenu(this, {
                 activePromptTitle: { text: 'Which key would you like to unforge?' },
@@ -724,7 +716,7 @@ class Player extends GameObject {
                     });
                 }
             });
-        } else {
+        } else if (choices.length === 1) {
             if (this.keys[choices[0].toLowerCase()]) {
                 this.game.addMessage(
                     '{0} unforges {1}{2}{3}',
@@ -771,8 +763,21 @@ class Player extends GameObject {
             chains: this.chains,
             keys: this.keys,
             houses: this.houses,
-            keyCost: this.getCurrentKeyCost()
+            keyCost: this.getCurrentKeyCost(),
+            tide: this.isTideHigh()
+                ? Constants.Tide.HIGH
+                : this.isTideLow()
+                ? Constants.Tide.LOW
+                : Constants.Tide.NEUTRAL
         };
+    }
+
+    isTideHigh() {
+        return this.game.highTide === this;
+    }
+
+    isTideLow() {
+        return this.game.highTide && this.game.highTide !== this;
     }
 
     /**
@@ -795,6 +800,9 @@ class Player extends GameObject {
             cardback: 'cardback',
             disconnected: !!this.disconnectedAt,
             activePlayer: this.game.activePlayer === this,
+            canRaiseTide:
+                !this.isTideHigh() &&
+                this.game.actions.raiseTide().canAffect(this, this.game.getFrameworkContext()),
             houses: this.houses,
             id: this.id,
             left: this.left,

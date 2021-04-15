@@ -61,7 +61,7 @@
 .prompt-area {
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
+    justify-content: space-around;
 }
 
 .play-area {
@@ -125,7 +125,8 @@
     display: flex;
     flex-direction: column;
     width: 210px;
-    justify-content: space-between;
+    height: 50%;
+    justify-content: flex-end;
     margin-right: 5px;
 }
 
@@ -133,4 +134,34 @@
     width: 100%;
     display: flex;
     flex-direction: column;
+}
+
+.tide-pane {
+    display: flex;
+    flex-direction: column;
+    width: 210px;
+    justify-content: space-between;
+    margin-right: 5px;
+}
+
+.tide-card {
+    margin-left: 75px;
+    width: 60px;
+    height: 84px;
+
+    &.tide-neutral {
+        transform: rotate(90deg);
+    }
+
+    &.tide-low {
+        transform: rotate(180deg);
+    }
+
+    &.can-raise-tide {
+        animation: glowing 2000ms infinite;
+    }
+}
+
+.right-side-top {
+    height: 50%;
 }

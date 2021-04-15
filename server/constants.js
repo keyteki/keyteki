@@ -9,6 +9,7 @@ Constants.Houses = [
     'saurian',
     'shadows',
     'staralliance',
+    'unfathomable',
     'untamed'
 ];
 Constants.HousesNames = [
@@ -20,8 +21,15 @@ Constants.HousesNames = [
     'Saurian',
     'Shadows',
     'Star Alliance',
+    'Unfathomable',
     'Untamed'
 ];
+Constants.Tide = Object.freeze({
+    HIGH: 'high',
+    LOW: 'low',
+    NEUTRAL: 'neutral',
+    toString: (level) => level.charAt(0).toUpperCase() + level.slice(1)
+});
 
 Object.freeze(Constants);
 

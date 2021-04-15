@@ -24,7 +24,8 @@ class RemoveTokenAction extends CardGameAction {
     }
 
     getAmount(card) {
-        return this.all ? card.tokens[this.type] || 0 : this.amount;
+        let tokenCount = card.tokens[this.type] || 0;
+        return this.all ? tokenCount : Math.min(tokenCount, this.amount);
     }
 
     checkEventCondition(event) {
@@ -42,9 +43,33 @@ class RemoveTokenAction extends CardGameAction {
     getEvent(card, context) {
         return super.createEvent(
             'onRemoveToken',
-            { type: this.type, card: card, context: context, amount: this.getAmount(card) },
+            {
+                type: this.type,
+                card: card,
+                context: context,
+                amount: this.getAmount(card)
+            },
             (event) => {
-                card.removeToken(event.type, event.amount);
+                if (this.upTo && event.amount > 0) {
+                    context.game.promptWithHandlerMenu(context.player, {
+                        activePromptTitle: 'Choose how many to remove',
+                        context: context,
+                        choices: Array.from(Array(event.amount + 1), (x, i) => i.toString()),
+                        choiceHandler: (choice) => {
+                            event.amount = parseInt(choice);
+                            context.game.addMessage(
+                                "{0} removes {1} tokens {2} using {3}'s ability",
+                                context.player,
+                                event.card,
+                                choice,
+                                context.source
+                            );
+                            card.removeToken(event.type, event.amount);
+                        }
+                    });
+                } else {
+                    card.removeToken(event.type, event.amount);
+                }
             }
         );
     }

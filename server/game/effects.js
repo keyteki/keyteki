@@ -50,6 +50,7 @@ const Effects = {
     setArmor: (amount) => EffectBuilder.card.flexible('setArmor', amount),
     setPower: (amount) => EffectBuilder.card.flexible('setPower', amount),
     takeControl: (player) => EffectBuilder.card.flexible('takeControl', player),
+    takeControlOnLeft: () => EffectBuilder.card.flexible('takeControlOnLeft'),
     entersPlayUnderOpponentsControl: () =>
         EffectBuilder.card.static('entersPlayUnderOpponentsControl'),
     terminalCondition: (properties) =>
@@ -109,11 +110,11 @@ const Effects = {
             unapply: (player, context, effect) =>
                 context.game.effectEngine.removeDelayedEffect(effect)
         }),
-    forgeAmberGainedByOpponent: () => EffectBuilder.player.static('forgeAmberGainedByOpponent'),
     mayResolveBonusIconsAs: (newIcon, icon = 'any') =>
         EffectBuilder.player.static('mayResolveBonusIconsAs', { newIcon: newIcon, icon: icon }),
     modifyKeyCost: (amount) => EffectBuilder.player.flexible('modifyKeyCost', amount),
     modifyHandSize: (amount) => EffectBuilder.player.flexible('modifyHandSize', amount),
+    modifyTideCost: (amount) => EffectBuilder.player.flexible('modifyTideCost', amount),
     noActiveHouseForPlay: () => EffectBuilder.player.static('noActiveHouseForPlay'),
     playerCannot: (type, condition) =>
         EffectBuilder.player.static('abilityRestrictions', new CannotRestriction(type, condition)),

@@ -106,6 +106,7 @@ class Game extends EventEmitter {
         this.setMaxListeners(0);
 
         this.router = options.router;
+        this.highTide = null;
     }
 
     /*
@@ -452,6 +453,35 @@ class Game extends EventEmitter {
         }
 
         this.chatCommands.activeHouse(player, ['active-house', house]);
+    }
+
+    clickTide(playerName) {
+        let player = this.getPlayerByName(playerName);
+        if (!player) {
+            return;
+        }
+
+        this.pipeline.handleTideClicked(player);
+    }
+
+    changeTide(player, level, showMessage = false) {
+        switch (level) {
+            case Constants.Tide.HIGH: {
+                this.highTide = player;
+                break;
+            }
+            case Constants.Tide.LOW: {
+                this.highTide = player.opponent;
+                break;
+            }
+            default: {
+                this.highTide = null;
+            }
+        }
+
+        if (showMessage) {
+            this.addMessage('{0} changed tide to {1}', player, Constants.Tide.toString(level));
+        }
     }
 
     modifyKey(playerName, color, forged) {
@@ -853,7 +883,9 @@ class Game extends EventEmitter {
             return;
         }
 
-        if (card.type === 'creature' && player.creaturesInPlay.length > 0) {
+        if (card.anyEffect('takeControlOnLeft')) {
+            this.finalizeTakeControl(player, card, true);
+        } else if (card.type === 'creature' && player.creaturesInPlay.length > 0) {
             let handlers = [
                 () => this.finalizeTakeControl(player, card, true),
                 () => this.finalizeTakeControl(player, card)
@@ -1310,8 +1342,8 @@ class Game extends EventEmitter {
         return {
             adaptive: this.adaptive,
             allowSpectators: this.allowSpectators,
-            createdAt: this.createdAt,
             challonge: this.challonge,
+            createdAt: this.createdAt,
             gameFormat: this.gameFormat,
             gamePrivate: this.gamePrivate,
             gameType: this.gameType,

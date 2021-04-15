@@ -729,6 +729,10 @@ class Card extends EffectSource {
         return this.hasToken('amber') ? this.tokens.amber : 0;
     }
 
+    set amber(amber) {
+        this.tokens.amber = amber;
+    }
+
     get enraged() {
         return this.hasToken('enrage');
     }
@@ -866,7 +870,7 @@ class Card extends EffectSource {
         return this.action({
             title: 'Fight with this creature',
             fight: true,
-            condition: (context) =>
+            useCondition: (context) =>
                 this.checkRestrictions('fight', context) && this.type === 'creature',
             printedAbility: false,
             target: {
@@ -886,7 +890,7 @@ class Card extends EffectSource {
         return this.action({
             title: 'Reap with this creature',
             reap: true,
-            condition: (context) =>
+            useCondition: (context) =>
                 this.checkRestrictions('reap', context) && this.type === 'creature',
             printedAbility: false,
             gameAction: new ResolveReapAction({})

@@ -16,6 +16,15 @@ class AbilityTargetSelect extends AbilityTarget {
         }
     }
 
+    getDependsOnCondition(target) {
+        let keys = Object.keys(this.properties.choices);
+        let key = keys.find((key) => target.name.startsWith(key));
+        if (key) {
+            return (context) => context.selects[this.name].choice === key;
+        }
+        return super.getDependsOnCondition(target);
+    }
+
     hasLegalTarget(context) {
         let keys = Object.keys(this.properties.choices);
         return (
@@ -94,6 +103,12 @@ class AbilityTargetSelect extends AbilityTarget {
                 context.game.addMessage("{0} chooses option '{1}'", player, choice);
             };
         });
+
+        if (this.properties.optional) {
+            choices.push('Done');
+            handlers.push(() => (targetResults.cancelled = true));
+        }
+
         if (this.properties.player !== 'opponent' && context.stage === 'pretarget') {
             if (!targetResults.noCostsFirstButton) {
                 choices.push('Pay costs first');

@@ -4,15 +4,23 @@ const Actions = {
     // card actions
     addPowerCounter: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'power'),
     addDamageToken: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'damage'),
+    addDepthCounter: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'depth'),
     addDisruptionCounter: (propertyFactory) =>
         new GameActions.AddTokenAction(propertyFactory, 'disruption'),
     addDoomCounter: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'doom'),
+    addAwakeningCounter: (propertyFactory) =>
+        new GameActions.AddTokenAction(propertyFactory, 'awakening'),
     addFuseCounter: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'fuse'),
     addGloryCounter: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'glory'),
     addGrowthCounter: (propertyFactory) =>
         new GameActions.AddTokenAction(propertyFactory, 'growth'),
+    addIgnoranceCounter: (propertyFactory) =>
+        new GameActions.AddTokenAction(propertyFactory, 'ignorance'),
+    addKnowledgeCounter: (propertyFactory) =>
+        new GameActions.AddTokenAction(propertyFactory, 'knowledge'),
     addSchemeCounter: (propertyFactory) =>
         new GameActions.AddTokenAction(propertyFactory, 'scheme'),
+    addTimeCounter: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'time'),
     addWardToken: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'ward'),
     addWarrantCounter: (propertyFactory) =>
         new GameActions.AddTokenAction(propertyFactory, 'warrant'),
@@ -53,10 +61,18 @@ const Actions = {
     reduceArmor: (propertyFactory) => new GameActions.ReduceArmorAction(propertyFactory),
     removeAmber: (propertyFactory) => new GameActions.RemoveTokenAction(propertyFactory, 'amber'),
     removeDamage: (propertyFactory) => new GameActions.RemoveTokenAction(propertyFactory, 'damage'),
+    removeDepthCounter: (propertyFactory) =>
+        new GameActions.RemoveTokenAction(propertyFactory, 'depth'),
+    removeIgnoranceCounter: (propertyFactory) =>
+        new GameActions.RemoveTokenAction(propertyFactory, 'ignorance'),
+    removeKnowledgeCounter: (propertyFactory) =>
+        new GameActions.RemoveTokenAction(propertyFactory, 'knowledge'),
     removePowerCounter: (propertyFactory) => new GameActions.RemoveTokenAction(propertyFactory),
     removeSchemeCounter: (propertyFactory) =>
         new GameActions.RemoveTokenAction(propertyFactory, 'scheme'),
     removeStun: (propertyFactory) => new GameActions.RemoveStunAction(propertyFactory),
+    removeTimeCounter: (propertyFactory) =>
+        new GameActions.RemoveTokenAction(propertyFactory, 'time'),
     removeWard: (propertyFactory) => new GameActions.RemoveWardAction(propertyFactory),
     removeWardToken: (propertyFactory) =>
         new GameActions.RemoveTokenAction(propertyFactory, 'ward'),
@@ -93,10 +109,12 @@ const Actions = {
     gainChains: (propertyFactory) => new GameActions.ModifyChainsActions(propertyFactory), // amount = 1
     lastingEffect: (propertyFactory) => new GameActions.LastingEffectAction(propertyFactory),
     loseAmber: (propertyFactory) => new GameActions.LoseAmberAction(propertyFactory),
+    mulligan: (propertyFactory) => new GameActions.MulliganAction(propertyFactory), // name
+    raiseTide: (propertyFactory) => new GameActions.RaiseTideAction(propertyFactory),
     rearrangeCards: (propertFactory) => new GameActions.RearrangeCardsAction(propertFactory),
+    resetTide: (propertyFactory) => new GameActions.ResetTideAction(propertyFactory),
     search: (propertyFactory) => new GameActions.SearchAction(propertyFactory), // name
     shuffleDeck: (propertyFactory) => new GameActions.ShuffleDeckAction(propertyFactory), // name
-    mulligan: (propertyFactory) => new GameActions.MulliganAction(propertyFactory), // name
     steal: (propertyFactory) => new GameActions.StealAction(propertyFactory), // amount = 1
     transferAmber: (propertyFactory) => new GameActions.TransferAmberAction(propertyFactory), // amount = 1
     unforgeKey: (propertyFactory) => new GameActions.UnforgeAction(propertyFactory),

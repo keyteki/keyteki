@@ -1,6 +1,7 @@
 /*eslint no-console:0 */
 const _ = require('underscore');
 
+const Constants = require('../../server/constants');
 const { matchCardByNameAndPack } = require('./cardutil.js');
 const { detectBinary } = require('../../server/util');
 
@@ -131,6 +132,44 @@ class PlayerInteractionWrapper {
 
     get opponent() {
         return this.player.opponent;
+    }
+
+    isTideHigh() {
+        return this.player.isTideHigh();
+    }
+
+    isTideLow() {
+        return this.player.isTideLow();
+    }
+
+    isTideNeutral() {
+        return !this.isTideHigh() && !this.isTideLow();
+    }
+
+    /**
+     * Raises the tide and gain 3 chains
+     */
+    raiseTide() {
+        this.game.clickTide(this.player.name);
+        this.game.continue();
+        this.checkUnserializableGameState();
+        this.clickPrompt('Yes');
+    }
+
+    /**
+     * Lowers the tide level without affect player's stats.
+     */
+    lowerTide() {
+        this.game.changeTide(this.player, Constants.Tide.LOW);
+        this.game.checkGameState(true);
+    }
+
+    /**
+     * Reset the tide level without affect player's stats.
+     */
+    resetTide() {
+        this.game.changeTide(this.player, Constants.Tide.NEUTRAL);
+        this.game.checkGameState(true);
     }
 
     replaceLocalizedValues(title) {

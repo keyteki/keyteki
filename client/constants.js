@@ -13,6 +13,7 @@ export const Constants = {
         'saurian',
         'shadows',
         'staralliance',
+        'unfathomable',
         'untamed'
     ],
     HousesNames: [
@@ -24,20 +25,24 @@ export const Constants = {
         'Saurian',
         'Shadows',
         'Star Alliance',
+        'Unfathomable',
         'Untamed'
     ],
     Expansions: [
         { value: '341', label: 'CotA' },
         { value: '435', label: 'AoA' },
         { value: '452', label: 'WC' },
-        { value: '479', label: 'MM' }
+        { value: '479', label: 'MM' },
+        { value: '496', label: 'DT' }
     ],
+    CardTypes: ['action', 'artifact', 'creature', 'upgrade'],
     SetIconPaths: {},
     HouseIconPaths: {},
     HouseBgPaths: {},
     IdBackBlanksPaths: {},
     IdBackDecals: {},
     IdBackHousePaths: {},
+    CardTypesPaths: {},
     EnhancementBaseImages: {},
     MaverickHouseImages: {},
     MaverickHouseAmberImages: {},
@@ -46,6 +51,14 @@ export const Constants = {
         capture: require('./assets/img/enhancements/capture.png'),
         draw: require('./assets/img/enhancements/draw.png'),
         damage: require('./assets/img/enhancements/damage.png')
+    },
+    TideImages: {
+        neutral: require('./assets/img/tide/tide-neutral.png'),
+        low: require('./assets/img/tide/tide-low.png'),
+        high: require('./assets/img/tide/tide.png'),
+        card: {
+            en: require('./assets/img/tide/tide-card-en.png') // TODO DT handle locale dynamically
+        }
     },
     Tokens: {
         ModifiedPower: require('./assets/img/modifiedPower.png'),
@@ -61,6 +74,10 @@ for (let expansion of Constants.Expansions) {
     Constants.SetIconPaths[
         expansion.value
     ] = require(`./assets/img/idbacks/${expansion.value}.png`);
+}
+
+for (let type of Constants.CardTypes) {
+    Constants.CardTypesPaths[type] = require(`./assets/img/idbacks/${type}.png`);
 }
 
 for (let house of Constants.Houses) {

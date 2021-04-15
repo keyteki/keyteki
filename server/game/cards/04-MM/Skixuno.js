@@ -9,8 +9,8 @@ class Skixuno extends Card {
             })),
             then: {
                 alwaysTriggers: true,
-                gameAction: ability.actions.addPowerCounter((thenContext) => ({
-                    amount: thenContext.preThenEvents.filter(
+                gameAction: ability.actions.addPowerCounter((context) => ({
+                    amount: context.preThenEvents.filter(
                         (event) => event.name === 'onCardDestroyed' && !event.cancelled
                     ).length
                 }))

@@ -199,7 +199,7 @@ module.exports.init = function (server) {
             let cardsWithEnhancements = deck.cards.filter((c) => c.enhancements).length;
             let enhancedCards = Object.values(req.body.enhancements).length;
             for (let deckCard of deck.cards.filter(
-                (c) => cards[c.id].text && cards[c.id].text.includes('Enhance')
+                (c) => cards[c.id] && cards[c.id].text && cards[c.id].text.includes('Enhance')
             )) {
                 let matches = cards[deckCard.id].text.match(enhancementRegex);
                 if (!matches || matches.length === 1) {

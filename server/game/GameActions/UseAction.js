@@ -22,8 +22,13 @@ class UseAction extends CardGameAction {
     getEvent(card, context) {
         return super.createEvent(
             'unnamedEvent',
-            { card: card, context: context, ignoreHouse: this.ignoreHouse },
-            (event) => card.use(context.player, event.ignoreHouse)
+            {
+                card: card,
+                player: context.player,
+                context: context,
+                ignoreHouse: this.ignoreHouse
+            },
+            (event) => card.use(event.player, event.ignoreHouse)
         );
     }
 }

@@ -77,7 +77,11 @@ class CardImport {
             }
 
             halfSizePath = imagePath.replace('/cards', '/halfSize').replace('.png', '.jpg');
-            if (!fs.existsSync(halfSizePath) && !gigantic.some((x) => card.id.includes(x))) {
+            if (
+                !fs.existsSync(halfSizePath) &&
+                !gigantic.some((x) => card.id.includes(x)) &&
+                +card.number > 0
+            ) {
                 await this.buildHalfSize(card, card.image, halfSizePath, this.language);
             }
         }

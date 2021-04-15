@@ -5,21 +5,22 @@ class ReadyPhase extends Phase {
     constructor(game) {
         super(game, 'ready');
         this.initialise([
-            new SimpleStep(game, () => this.readyCards()),
-            new SimpleStep(game, () => this.endReadyCardsStep())
+            new SimpleStep(game, () =>
+                game.raiseEvent(
+                    'onCardsReadied',
+                    {
+                        player: game.activePlayer,
+                        context: game.getFrameworkContext(game.activePlayer)
+                    },
+                    (event) => {
+                        if (event.player.checkRestrictions('ready', event.context)) {
+                            game.addMessage('{0} readies all of their cards', event.player);
+                            game.actions.ready().resolve(event.player.cardsInPlay, event.player);
+                        }
+                    }
+                )
+            )
         ]);
-    }
-
-    readyCards() {
-        this.game.addMessage('{0} readies all of their cards', this.game.activePlayer);
-
-        this.game.actions
-            .ready()
-            .resolve(this.game.activePlayer.cardsInPlay, this.game.getFrameworkContext());
-    }
-
-    endReadyCardsStep() {
-        this.game.raiseEvent('onCardsReadied');
     }
 }
 

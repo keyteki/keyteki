@@ -526,4 +526,27 @@ describe('Mimic Gel', function () {
             expect(this.championAnaphiel.tokens.damage).toBe(3);
         });
     });
+
+    describe("Silvertooth's effect and Mimic Gel", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'logos',
+                    amber: 1,
+                    hand: ['mimic-gel']
+                },
+                player2: {
+                    amber: 4,
+                    inPlay: ['silvertooth']
+                }
+            });
+
+            this.player1.play(this.mimicGel);
+            this.player1.clickCard(this.silvertooth);
+        });
+
+        it('should enter play ready', function () {
+            expect(this.mimicGel.exhausted).toBe(false);
+        });
+    });
 });

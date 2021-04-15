@@ -7,18 +7,9 @@ class Turnkey extends Card {
                 context.player.opponent && context.player.opponent.getForgedKeys() > 0,
             effect: 'cause {1} to unforge a key',
             effectArgs: (context) => context.player.opponent,
-            gameAction: [
-                ability.actions.unforgeKey((context) => ({
-                    target:
-                        context.player.opponent && context.player.opponent.getForgedKeys() > 0
-                            ? context.player.opponent
-                            : [],
-                    choices:
-                        Object.keys(context.player.opponent.keys).filter(
-                            (key) => context.player.opponent.keys[key]
-                        ) || []
-                })),
-                ability.actions.cardLastingEffect((context) => ({
+            gameAction: ability.actions.unforgeKey(),
+            then: {
+                gameAction: ability.actions.cardLastingEffect((context) => ({
                     duration: 'lastingEffect',
                     effect: ability.effects.delayedEffect({
                         when: { onCardLeavesPlay: (event) => event.card === context.source },
@@ -29,7 +20,7 @@ class Turnkey extends Card {
                         message: '{0} forges a key at no cost due to {1} leaving play'
                     })
                 }))
-            ]
+            }
         });
     }
 }
