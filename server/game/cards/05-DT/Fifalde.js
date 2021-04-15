@@ -1,9 +1,8 @@
 const Card = require('../../Card.js');
 
 class Fifalde extends Card {
-    //Play: Destroy a friendly Cocoon. If you do not, destroy Butterfly.
-    //Fight/Reap: Fully heal Butterfly. Gain 1A.
-    //This card has been translated from Polish and is subject to change.
+    // Play: Destroy a friendly Bombyx. If you do not, destroy Fifalde.
+    // Fight/Reap: Fully heal Fifalde and gain 1A.
     setupCardAbilities(ability) {
         this.play({
             target: {

@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class BestiariiUrsoEvilTwin extends Card {
-    //Play/Fight: Stun a creature.
+    // Play/Fight: Stun a creature.
     setupCardAbilities(ability) {
         this.play({
             fight: true,

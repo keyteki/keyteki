@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class MakeItSo extends Card {
-    //Play: Choose a house. Reveal the top card of your deck. If it belongs to that house, draw that card and repeat this effect.
+    // Play: Choose a house. Reveal the top card of your deck. If that card belongs to the chosen house, draw it and trigger this effect again.
     setupCardAbilities(ability) {
         this.play({
             target: {

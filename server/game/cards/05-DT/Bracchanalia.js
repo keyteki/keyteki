@@ -1,8 +1,8 @@
 const Card = require('../../Card.js');
 
 class Bracchanalia extends Card {
-    // Play: Put 4 on Saurian Treasure ?. A friendly creature captures 1A.
-    // At the start of a player's turn, if they control at least four creatures with on them, move all from Saurian Treasure ? to their pool.
+    // Play: Put 4A on Bracchanalia from the common supply. A friendly creature captures 1A.
+    // At the start of each player’s turn, if that player controls 4 or more creatures with A on them, move each A from Bracchanalia to that player’s pool.
     setupCardAbilities(ability) {
         this.play({
             target: {

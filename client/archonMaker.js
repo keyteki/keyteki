@@ -22,6 +22,7 @@ let RareIcon;
 let SpecialIcon;
 let TCOIcon;
 let UncommonIcon;
+let EvilTwinIcon;
 let DefaultCard;
 let MaverickCornerImage;
 let Tokens = {};
@@ -129,6 +130,7 @@ async function cacheImages() {
     RareIcon = await loadImage(require('./assets/img/idbacks/Rare.png'));
     SpecialIcon = await loadImage(require('./assets/img/idbacks/Special.png'));
     UncommonIcon = await loadImage(require('./assets/img/idbacks/Uncommon.png'));
+    EvilTwinIcon = await loadImage(require('./assets/img/idbacks/evil-twin.png'));
     MaverickIcon = await loadImage(Constants.MaverickIcon);
     AnomalyIcon = await loadImage(Constants.AnomalyIcon);
     DefaultCard = await loadImage(Constants.DefaultCard);
@@ -185,7 +187,8 @@ export const buildDeckList = async (canvas, deck, language, translate, size) => 
         Common: CommonIcon,
         Uncommon: UncommonIcon,
         Rare: RareIcon,
-        Special: SpecialIcon
+        Special: SpecialIcon,
+        'Evil Twin': EvilTwinIcon
     };
     const line1 = new fabric.Line([55, 157, 295, 157], lineStyle);
     const line2 = new fabric.Line([55, 535, 295, 535], lineStyle);
@@ -307,8 +310,8 @@ export const buildDeckList = async (canvas, deck, language, translate, size) => 
             top: y
         });
         canvas.add(number, title, rarity, typeIcon);
-
         let iconX =
+            x +
             rarity.getScaledWidth() +
             number.getScaledWidth() +
             typeIcon.getScaledWidth() +

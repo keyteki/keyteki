@@ -1,8 +1,8 @@
 const Card = require('../../Card.js');
 
 class FlamegillEnforcer extends Card {
-    //After your opponent raises the tide, enrage Flamegill Enforcer.
-    //Action: Capture 3A.
+    // (T) After your opponent raises the tide, enrage Flamegill Enforcer.
+    // Action: Capture 3A.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

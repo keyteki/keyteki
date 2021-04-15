@@ -1,9 +1,9 @@
 const Card = require('../../Card.js');
 
 class WrathOrRuin extends Card {
-    //Play: Choose one:
-    //&amp;middot; Destroy a flank creature.
-    //&amp;middot; Return 2 enemy creatures to their owners' hands.
+    // Play: Choose one:
+    // • Destroy a flank creature.
+    // • Return 2 enemy creatures to their owners’ hands.
     setupCardAbilities(ability) {
         this.play({
             targets: {

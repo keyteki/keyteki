@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class Hydrocataloguer extends Card {
-    //After a player raises the tide, they archive the top card of their deck.
+    // (T) After a player raises the tide, they archive the top card of their deck.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

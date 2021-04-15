@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class SleepWithTheFishes extends Card {
-    //Play: Destroy each exhausted creature.
+    // Play: Destroy each exhausted creature.
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.destroy((context) => ({

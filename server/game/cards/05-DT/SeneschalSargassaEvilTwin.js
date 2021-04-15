@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class SeneschalSargassaEvilTwin extends Card {
-    //After a player raises the tide, this captures 2A.
+    // (T) After a player raises the tide, Seneschal Sargassa captures 2A from your opponent.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

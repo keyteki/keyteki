@@ -1,8 +1,8 @@
 const Card = require('../../Card.js');
 
 class ColonistChapman extends Card {
-    //Taunt.
-    //Each of Colonist Chapman's non-Star Alliance neighbors gains, "Reap: Gain 1A."
+    // Taunt.
+    // Each of Colonist Chapman's non-Star Alliance neighbors gains, "Reap: Gain 1A."
     setupCardAbilities(ability) {
         this.persistentEffect({
             targetController: 'any',

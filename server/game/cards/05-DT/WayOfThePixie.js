@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class WayOfThePixie extends Card {
-    //This creature gains, "Reap: Gain 1A."
+    // This creature gains, "Reap: Gain 1A."
     setupCardAbilities(ability) {
         this.whileAttached({
             effect: ability.effects.gainAbility('reap', {

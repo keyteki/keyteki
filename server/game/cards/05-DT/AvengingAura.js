@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class AvengingAura extends Card {
-    //Play: Each friendly creature gains Assault X for the rest of this turn, where X is the number of keys your opponent has forged.
+    // For the remainder of the turn, each friendly creature gains assault X, where X is the number of forged keys your opponent has.
     setupCardAbilities(ability) {
         this.play({
             effect: 'All friendly creature ',

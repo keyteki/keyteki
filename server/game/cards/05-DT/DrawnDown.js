@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class DrawnDown extends Card {
-    //Play: Look at the top 3 cards of your opponent's deck. Discard one, put one on the bottom, and put one on the top.
+    // Play: Look at the top 3 cards of your opponent’s deck. Discard 1, put 1 on the bottom of their deck, and put 1 on top of their deck.
     setupCardAbilities(ability) {
         this.play({
             condition: (context) => !!context.player.opponent,

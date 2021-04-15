@@ -1,8 +1,8 @@
 const Card = require('../../Card.js');
 
 class CH337A extends Card {
-    //Elusive.
-    //While the tide is high, each of CH-337A's neighbors gains elusive.
+    // Elusive.
+    // (T) While the tide is high, each of CH-337A's neighbors gains elusive.
     setupCardAbilities(ability) {
         this.persistentEffect({
             condition: (context) => context.source.controller.isTideHigh(),

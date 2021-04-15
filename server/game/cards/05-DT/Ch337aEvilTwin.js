@@ -1,10 +1,9 @@
 const Card = require('../../Card.js');
 
 class Ch337aEvilTwin extends Card {
-    //Skirmish.
-    //If the tide is high, $this (Evil Twin)'s neighbors gain Skirmish.
+    // Skirmish. (When you use this creature to fight, it is dealt no damage in return.)
+    // (T) While the tide is high, each of CH-337A's neighbors gains skirmish.
     setupCardAbilities(ability) {
-        //Keywords: skirmish
         this.persistentEffect({
             targetController: 'any',
             condition: (context) => context.player.isTideHigh(),

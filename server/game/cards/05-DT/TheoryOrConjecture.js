@@ -1,9 +1,9 @@
 const Card = require('../../Card.js');
 
 class TheoryOrConjecture extends Card {
-    //Play: Choose one:
-    //• Archive the top 2 cards of your deck.
-    //•Play the top card of your deck.
+    // Play: Choose one:
+    // • Archive the top 2 cards of your deck.
+    // • Play the top card of your deck.
     setupCardAbilities(ability) {
         this.play({
             target: {

@@ -1,10 +1,9 @@
 const Card = require('../../Card.js');
 
 class Scyphos extends Card {
-    //Hazardous 4.
-    //Destroyed: If the tide is high, archive $this.
+    // Hazardous 4.
+    // (T) Destroyed: If the tide is high, archive Scyphos.
     setupCardAbilities(ability) {
-        //Keywords: hazardous 4
         this.destroyed({
             condition: (context) => context.player.isTideHigh(),
             gameAction: ability.actions.archive((context) => ({

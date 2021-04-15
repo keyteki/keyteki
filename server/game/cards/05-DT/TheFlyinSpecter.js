@@ -1,8 +1,8 @@
 const Card = require('../../Card.js');
 
 class TheFlyinSpecter extends Card {
-    //After your opponent raises the tide, destroy $this.
-    //Action: Steal 1A if the tide is high.
+    // (T) After your opponent raises the tide, destroy The Flyin’ Specter.
+    // (T) Action: Steal 1A if the tide is high.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

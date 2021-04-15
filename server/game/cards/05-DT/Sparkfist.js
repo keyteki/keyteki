@@ -1,11 +1,9 @@
 const Card = require('../../Card.js');
 
 class Sparkfist extends Card {
-    //Skirmish.
-    //Fight: Stun and exhaust the creature $this attacks.
-    //This card has been translated from Chinese and is subject to change.
+    // Skirmish. (When you use this creature to fight, it is dealt no damage in return.)
+    // Fight: Stun and exhaust the creature Sparkfist fights.
     setupCardAbilities(ability) {
-        //Keywords: skirmish
         this.fight({
             gameAction: [
                 ability.actions.stun((context) => ({ target: context.event.card })),

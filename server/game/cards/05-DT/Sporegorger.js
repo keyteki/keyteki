@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class Sporegorger extends Card {
-    //Reap: Give this creature a +1 power counter. You may remove all +1 power counters from this creature. If you do, deal 1D to each other creature for each +1 power counter removed this way.
+    // Reap: Give Sporegorger a +1 power counter. You may remove each +1 power counter from Sporegorger. For each counter removed this way, deal 1D to each other creature.
     setupCardAbilities(ability) {
         this.reap({
             gameAction: ability.actions.addPowerCounter((context) => {

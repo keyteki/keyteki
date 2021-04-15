@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class TrialByWater extends Card {
-    //Play: Reset the tide. Players cannot raise the tide until the start of your next turn.
+    // (T) Play: Reset the tide. Until the start of your next turn, players cannot raise the tide.
     setupCardAbilities(ability) {
         this.play({
             gameAction: [

@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class CrossPorpoises extends Card {
-    //Play: Raise the tide. Enrage 2 enemy creatures.
+    // (T) Play: Raise the tide. Enrage 2 enemy creatures.
     setupCardAbilities(ability) {
         this.play({
             target: {

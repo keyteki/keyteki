@@ -1,8 +1,8 @@
 const Card = require('../../Card.js');
 
 class CaptainNoBeard extends Card {
-    //Each of Captain No-Beard neighbors gains taunt.
-    //Reap: Capture 1A.
+    // Each of Captain No-Beard’s neighbors gains taunt.
+    // Reap: Capture 1A.
     setupCardAbilities(ability) {
         this.persistentEffect({
             targetController: 'any',

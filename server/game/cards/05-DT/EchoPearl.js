@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class EchoPearl extends Card {
-    //Omni: Destroy Echo Pearl. Exhaust, stun, and enrage a creature.
+    // Omni: Destroy Echo Pearl. Exhaust, stun, and enrage a creature.
     setupCardAbilities(ability) {
         this.omni({
             gameAction: ability.actions.destroy((context) => ({

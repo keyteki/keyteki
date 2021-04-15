@@ -1,8 +1,7 @@
 const Card = require('../../Card.js');
 
 class YoungestBearEvilTwin extends Card {
-    //Reap: Use a neighboring creature to fight.
-    //This card has been translated from Chinese and is subject to change.
+    // Reap: You may fight with 1 of Youngest Bear's neighbors.
     setupCardAbilities(ability) {
         this.reap({
             target: {

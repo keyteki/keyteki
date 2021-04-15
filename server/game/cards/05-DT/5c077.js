@@ -1,8 +1,7 @@
 const Card = require('../../Card.js');
 
 class FiveC077 extends Card {
-    //Reap: Ready and use a friendly creature with the same power as 5C077.
-    //You may give 5C077 a +1 power counter or remove a +1 power counter from 5C077.
+    // Reap: Ready and use another friendly creature with the same power as 5C077. You may give 5C077 a +1 power counter or remove a +1 power counter from 5C077.
     setupCardAbilities(ability) {
         this.reap({
             target: {

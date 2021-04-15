@@ -1,8 +1,7 @@
 const Card = require('../../Card.js');
 
 class WitchOfTheDawnEvilTwin extends Card {
-    //Play: Destroy another friendly creature. If you do, play a different creature from your discard pile. Ready and use that creature.
-    //This card has been translated from Chinese and is subject to change.
+    // Play: Destroy another friendly creature. If you do, play a different creature from your discard pile. Ready and use that creature.
     setupCardAbilities(ability) {
         this.play({
             target: {

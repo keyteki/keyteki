@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class Pestergrove extends Card {
-    //Each creature enters play enraged.
+    // Each creature enters play enraged.
     setupCardAbilities(ability) {
         this.persistentEffect({
             location: 'any',

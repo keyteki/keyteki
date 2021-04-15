@@ -1,9 +1,8 @@
 const Card = require('../../Card.js');
 
 class T3r35a extends Card {
-    //This creature can be used as if it belongs to the same house as its neighbor.
-    //This creature may be played as an upgrade with the text, "This creature can be used as if it belongs to the same house as its neighbor."
-    //This card has been translated from Chinese and is subject to change.
+    // T3R-35A may be used as if it belonged to either of its neighbor's houses.
+    // T3R-35A may be played as an upgrade instead of a creature, with the text: “This creature may be used as if it belonged to either of its neighbor's houses.”
     setupCardAbilities(ability) {
         this.persistentEffect({
             location: 'any',

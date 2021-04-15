@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class Bilgewarden extends Card {
-    //Play/Reap: If the tide is high, your opponent raises the tide. Otherwise, raise the tide.>
+    // (T) Play/Reap: If the tide is high, your opponent raises the tide. Otherwise, you raise the tide.
     setupCardAbilities(ability) {
         this.play({
             reap: true,

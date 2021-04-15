@@ -1,9 +1,8 @@
 const Card = require('../../Card.js');
 
 class Chenille extends Card {
-    //Hazardous 6.
-    //Action: Return a Cocoon from your discard pile to your hand.
-    //This card has been translated from Polish and is subject to change.
+    // Hazardous 6.
+    // Action: Return a Bombyx from your discard pile to your hand.
     setupCardAbilities(ability) {
         this.action({
             target: {

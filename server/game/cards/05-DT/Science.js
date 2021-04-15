@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class Science extends Card {
-    //Play: For the remainder of the turn, gain 1A each time you play another action card.
+    // Play: For the remainder of the turn, after you play another action card, gain 1A .
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.forRemainderOfTurn({

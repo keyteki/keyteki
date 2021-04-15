@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class Ambermancy extends Card {
-    //Play: Remove up to 3 +1 power counters from a creature. Gain 1A for each power counter removed this way.
+    // Play: Remove up to three +1 power counters from a creature. Gain 1A for each counter removed this way.
     setupCardAbilities(ability) {
         this.play({
             target: {

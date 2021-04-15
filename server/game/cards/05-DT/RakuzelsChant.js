@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class RakuzelsChant extends Card {
-    //Play: Exhaust a creature. If the tide is high, exhaust each creature instead.
+    // (T) Play: Exhaust a creature. If the tide is high, exhaust each creature instead.
     setupCardAbilities(ability) {
         this.play({
             condition: (context) => !context.player.isTideHigh(),

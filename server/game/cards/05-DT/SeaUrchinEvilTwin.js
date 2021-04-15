@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class SeaUrchinEvilTwin extends Card {
-    //Play: Capture 2A. If the tide is high, steal 2A instead.
+    // (T) Play: Capture 2A. If the tide is high, steal 2A instead.
     setupCardAbilities(ability) {
         this.play({
             condition: (context) => !context.player.isTideHigh(),

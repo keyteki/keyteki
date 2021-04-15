@@ -1,9 +1,9 @@
 const Card = require('../../Card.js');
 
 class LootOrPillage extends Card {
-    //- Play: Choose one:
-    //- Steal 1A.
-    //- A friendly creature captures 3A.
+    // Play: Choose one:
+    // • Steal 1A.
+    // • A friendly creature captures 3A.
     setupCardAbilities(ability) {
         this.play({
             targets: {

@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class WikoliaEvilTwin extends Card {
-    //Reap: Exalt $this. Your opponent’s keys cost +4A during their next turn.
+    // Reap: Exalt Wikolia. Keys cost +4A during your opponent's next turn.
     setupCardAbilities(ability) {
         this.reap({
             gameAction: ability.actions.exalt(),

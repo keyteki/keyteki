@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class GreyAugur extends Card {
-    //Each of Grey Augur's neighbors gains, "Fight: Gain 1A."
+    // Each of Grey Augur's neighbors gains, "Fight: Gain 1A."
     setupCardAbilities(ability) {
         this.persistentEffect({
             targetController: 'any',

@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class CensorPhiloEvilTwin extends Card {
-    //Play: Deal 5D to a creature with A on it.
+    // Play: Deal 5D to a creature with A on it.
     setupCardAbilities(ability) {
         this.play({
             target: {

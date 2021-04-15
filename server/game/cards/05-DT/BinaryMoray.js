@@ -1,9 +1,9 @@
 const Card = require('../../Card.js');
 
 class BinaryMoray extends Card {
-    //After you raise the tide, ready Binary Moray.
-    //After your opponent raises the tide, exhaust Binary Moray.
-    //Reap: Archive a card.
+    // (T) After you raise the tide, ready Binary Moray.
+    // (T) After your opponent raises the tide, exhaust Binary Moray.
+    // Reap: Archive a card.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

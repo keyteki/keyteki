@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class RecklessExperimentation extends Card {
-    //This creature gains: "Reap: Play the top card of your deck."
+    // This creature gains, "Reap: Play the top card of your deck."
     setupCardAbilities(ability) {
         this.whileAttached({
             effect: ability.effects.gainAbility('reap', {

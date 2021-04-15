@@ -1,8 +1,8 @@
 const Card = require('../../Card.js');
 
 class JackieTar extends Card {
-    //Elusive. The first time this creature is attacked each turn, no damage is dealt.)
-    //Reap: Deal 1 to a creature. If the tide is high, deal 6 to a creature instead.
+    // Elusive. (The first time this creature is attacked each turn, no damage is dealt.)
+    // (T) Reap: Deal 1D to a creature. If the tide is high, deal 6D to a creature instead.
     setupCardAbilities(ability) {
         this.reap({
             target: {

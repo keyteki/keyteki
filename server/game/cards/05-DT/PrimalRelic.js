@@ -1,8 +1,8 @@
 const Card = require('../../Card.js');
 
 class PrimalRelic extends Card {
-    //Play: Put 4A from the common supply onto Primal Relic (?). Put a +1 power counter on 3 creatures.
-    //At the start of each turn, if a player controls creatures with combined power greater than or equal to 20, move all A on Primal Relic to that player's pool.
+    // Play: Put  4A on Primal Relic from the common supply. Give 3 creatures a +1 power counter.
+    // At the start of each player’s turn, if they control creatures with total power 20 or higher, move each A from Primal Relic to that player's pool.
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.placeAmber({

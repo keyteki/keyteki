@@ -1,7 +1,8 @@
 const Card = require('../../Card.js');
 
 class GiltspineNetcaster extends Card {
-    //Reap: Exhaust a creature.
+    // Enhance (PTPT). (These icons have already been added to cards in your deck.)
+    // Reap: Exhaust a creature.
     setupCardAbilities(ability) {
         this.reap({
             target: {

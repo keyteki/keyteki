@@ -1,9 +1,9 @@
 const Card = require('../../Card.js');
 
 class HealOrHarm extends Card {
-    //Play: Choose one:
-    //• Fully heal a creature and gain 1A.
-    //• Ready and fight with a friendly creature.
+    // Play: Choose one:
+    // • Fully heal a creature and gain 1A.
+    // • Ready and fight with a friendly creature.
     setupCardAbilities(ability) {
         this.play({
             condition: (context) => context.game.creaturesInPlay.length > 0,

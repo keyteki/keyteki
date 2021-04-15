@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class WasteNot extends Card {
-    //Play: Destroy a friendly creature. Draw cards equal to half its power rounded up.
+    // Play: Destroy a friendly creature. Draw cards equal to half that creature's power (rounding up).
     setupCardAbilities(ability) {
         this.play({
             target: {

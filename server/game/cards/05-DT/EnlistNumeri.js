@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class EnlistNumeri extends Card {
-    //Play: Take control of an enemy creature with A on it. While under your control, it belongs to house Saurian.
+    // Play: Take control of an enemy creature with A on it. While under your control, it belongs to house Saurian. (Instead of its original house.)
     setupCardAbilities(ability) {
         this.play({
             target: {

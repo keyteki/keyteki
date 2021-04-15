@@ -1,7 +1,8 @@
 const Card = require('../../Card.js');
 
 class GiltspineNetcasterEvilTwin extends Card {
-    //Reap: Ready and use a non-Aquan friendly creature.
+    // Enhance (PTPT). (These icons have already been added to cards in your deck.)
+    // Reap: Ready and use a friendly non-Aquan creature.
     setupCardAbilities(ability) {
         this.reap({
             target: {

@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class AllTideUp extends Card {
-    //Play: If the tide is high, gain 1A. Otherwise, raise the tide.
+    // (T) Play: If the tide is high, gain 1A. Otherwise, raise the tide.
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.conditional({

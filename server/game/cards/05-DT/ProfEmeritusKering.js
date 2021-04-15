@@ -2,7 +2,7 @@ const Card = require('../../Card.js');
 
 class ProfEmeritusKering extends Card {
     // Deploy.
-    // Play/Fight/Reap: Use one of this creature's neighbors. If the tide is high, use its other neighbor.
+    // (T) Play/Fight/Reap: Use 1 of Prof. Emeritus Kering's neighbors. If the tide is high, also use Prof. Emeritus Kering's other neighbor.
     setupCardAbilities(ability) {
         this.play({
             reap: true,

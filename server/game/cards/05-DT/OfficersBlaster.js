@@ -1,8 +1,8 @@
 const Card = require('../../Card.js');
 
 class OfficersBlaster extends Card {
-    //This creature gains +2 power.
-    //This creature gains, “Destroyed: Attach $this to this creature's right neighbor.”
+    // This creature gets +2 power.
+    // This creature gains, “Destroyed: Attach Officer’s Blaster to this creature's right neighbor.”
     setupCardAbilities(ability) {
         this.whileAttached({
             effect: [

@@ -1,8 +1,8 @@
 const Card = require('../../Card.js');
 
 class Tentaclid extends Card {
-    //Taunt. Skirmish.
-    //Tentaclid cannot reap.
+    // Skirmish. Taunt.
+    // Tentaclid cannot reap.
     setupCardAbilities(ability) {
         this.persistentEffect({
             targetController: 'any',

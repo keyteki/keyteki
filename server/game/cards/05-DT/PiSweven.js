@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class PiSweven extends Card {
-    //Reap: If the tide is high, draw 3 cards.
+    // (T) Reap: If the tide is high, draw 3 cards.
     setupCardAbilities(ability) {
         this.reap({
             condition: (context) => context.player.isTideHigh(),

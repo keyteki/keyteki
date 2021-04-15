@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class ReachAdvantage extends Card {
-    //Play: If the tide is high, a friendly creature captures 3A. Otherwise, raise the tide.
+    // (T) Play: If the tide is high, a friendly creature captures 3A. Otherwise, raise the tide.
     setupCardAbilities(ability) {
         this.play({
             target: {

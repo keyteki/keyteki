@@ -1,8 +1,8 @@
 const Card = require('../../Card.js');
 
 class TeWhekeKraken extends Card {
-    //Play: Exhaust 2 friendly Unfathomable creatures. If you do not, destroy Sea Monster.
-    //Fight/Reap: Deal 2D to a creature with 2D splash.
+    // Play: Exhaust 2 friendly Unfathomable creatures. If you do not, destroy Te-wheke Kraken.
+    // Fight/Reap: Deal 2D to a creature, with 2D splash.
     setupCardAbilities(ability) {
         this.play({
             target: {

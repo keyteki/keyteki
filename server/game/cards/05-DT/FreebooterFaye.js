@@ -1,8 +1,8 @@
 const Card = require('../../Card.js');
 
 class FreebooterFaye extends Card {
-    //Play: Raise the tide.
-    //Reap: Steal 1A if the tide is high.
+    // (T) Play: Raise the tide.
+    // (T) Reap: If the tide is high, steal 1A.
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.raiseTide()

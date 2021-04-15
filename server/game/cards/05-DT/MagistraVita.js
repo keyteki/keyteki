@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class MagistraVita extends Card {
-    //Play/Reap: You may exalt a friendly non-Saurian creature. If you do, reap with it.
+    // Play/Reap: You may exalt a friendly non-Saurian creature. If you do, reap with it.
     setupCardAbilities(ability) {
         this.play({
             reap: true,

@@ -1,8 +1,7 @@
 const Card = require('../../Card.js');
 
 class Holdfast extends Card {
-    //After one of Dog's neighbors is dealt damage, ready Dog.
-    //This card has been translated from Polish and is subject to change.
+    // After 1 of Holdfast's neighbors is dealt damage, ready Holdfast.
     setupCardAbilities(ability) {
         this.interrupt({
             when: {

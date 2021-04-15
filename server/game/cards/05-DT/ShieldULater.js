@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class ShieldULater extends Card {
-    //This creature may be played as an upgrade instead of a creature, with the text: “This creature gains +2 armor”.
+    // Shield-U-Later may be played as an upgrade instead of a creature, with the text: “This creature gets +2 armor.”
     setupCardAbilities(ability) {
         this.persistentEffect({
             location: 'any',

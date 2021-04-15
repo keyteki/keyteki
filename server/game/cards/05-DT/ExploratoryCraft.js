@@ -1,8 +1,7 @@
 const Card = require('../../Card.js');
 
 class ExploratoryCraft extends Card {
-    //Action: Exhaust up to 3 friendly creatures. Draw 1 card for each house represented among these creatures.
-    //This card has been translated from Chinese and is subject to change.
+    // Action: Exhaust up to 3 friendly creatures. For each house represented among creatures exhausted this way, draw a card.
     setupCardAbilities(ability) {
         this.action({
             target: {

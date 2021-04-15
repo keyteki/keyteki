@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class HastatusRaptor extends Card {
-    //Before Fight: You may exalt $this. If you do, deal 1D to the creature $this fights for each A on friendly $thiss.
+    // Before Fight: You may exalt Hastatus Raptor. If you do, deal 1D to the creature Hastatus Raptor fights for each A on friendly Hastatus Raptors.
     setupCardAbilities(ability) {
         this.beforeFight({
             optional: true,

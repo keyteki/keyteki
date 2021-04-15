@@ -1,9 +1,10 @@
 const Card = require('../../Card.js');
 
 class UnityOrDiscord extends Card {
-    //Play: Choose one:
-    // - Use a friendly non-Star Alliance creature.
-    // - Return up to 2 friendly creatures and each upgrade attached to them to their owners' hands.
+    // Play: Choose one:
+    // • Use a friendly non-Star Alliance creature.
+    // • Return up to 2 friendly creatures and each upgrade attached to them to their owners’ hands.
+    //
     setupCardAbilities(ability) {
         this.play({
             targets: {

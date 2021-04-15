@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class CaptainKresageEvilTwin extends Card {
-    //All creatures lose elusive, taunt, poison and skirmish.
+    // Each creature loses elusive, taunt, poison, and skirmish.
     setupCardAbilities(ability) {
         this.persistentEffect({
             targetController: 'any',

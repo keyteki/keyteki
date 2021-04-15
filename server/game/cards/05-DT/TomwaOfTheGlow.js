@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class TomwaOfTheGlow extends Card {
-    //Reap: Exhaust a creature. If the tide is high, draw a card for each exhausted enemy creature.
+    // (T) Reap: Exhaust a creature. If the tide is high, draw a card for each exhausted enemy creature.
     setupCardAbilities(ability) {
         this.reap({
             target: {

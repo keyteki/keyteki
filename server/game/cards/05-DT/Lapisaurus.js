@@ -1,8 +1,8 @@
 const Card = require('../../Card.js');
 
 class Lapisaurus extends Card {
-    //Taunt. (This creature's neighbors cannot be attacked unless they have taunt.)
-    //While attacking $this, enemy creatures gain, "Before Fight: Exalt this creature."
+    // Taunt. (This creature’s neighbors cannot be attacked unless they have taunt.)
+    // While attacking Lapisaurus, enemy creatures gain, “Before Fight: Exalt this creature.”
     setupCardAbilities(ability) {
         this.interrupt({
             when: {

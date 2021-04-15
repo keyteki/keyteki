@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class RuinsOfArchonis extends Card {
-    // Play: Put 4A on Ruins of Archonis from the common supply. Archive a card.
+    // Play: Put  4A on Ruins of Archonis from the common supply. Archive a card.
     // After a player plays their 6th card in a turn, if Ruins of Archonis is ready, move each A from Ruins of Archonis to that player's pool.
     setupCardAbilities(ability) {
         this.play({

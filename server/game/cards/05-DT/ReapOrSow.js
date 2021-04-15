@@ -1,9 +1,9 @@
 const Card = require('../../Card.js');
 
 class ReapOrSow extends Card {
-    //Play: Choose one:
-    //• Ready and reap with a friendly creature.
-    //• Give three +1 power counters to creatures, distributed as you choose.
+    // Play: Choose one:
+    // • Ready and reap with a friendly creature.
+    // • Give three +1 power counters to creatures, distributed as you choose.
     setupCardAbilities(ability) {
         this.play({
             condition: (context) => context.game.creaturesInPlay.length > 0,

@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class DryTheRiver extends Card {
-    //Each creature gains, "While the tide is low, this creature cannot reap."
+    // (T) Each creature gains, “While the tide is low, this creature cannot reap.”
     setupCardAbilities(ability) {
         this.persistentEffect({
             targetController: 'any',

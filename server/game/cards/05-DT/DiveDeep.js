@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class DiveDeep extends Card {
-    //Play: Discard the top card of your opponent's deck. Put a creature that shares a house with the discarded card on the bottom of its owner's deck.
+    // Play: Discard the top card of your opponent's deck. Put a creature that shares a house with that card on the bottom of its owner's deck.
     setupCardAbilities(ability) {
         this.play({
             condition: (context) => context.player.opponent.deck.length > 0,

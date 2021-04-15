@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class BlatantThievery extends Card {
+    // Play: Enrage an enemy creature. Move all A from that creature to your pool.
     setupCardAbilities(ability) {
         this.play({
             target: {
