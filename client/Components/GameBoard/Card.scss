@@ -29,7 +29,7 @@
       &.halfSize {
         height: $keyteki-card-halfSize-sm-height;
         width: $keyteki-card-halfSize-sm-width;
-        border-radius: 6px;
+        border-radius: 12px;
       }
     }
 
@@ -40,7 +40,7 @@
       &.halfSize {
         height: $keyteki-card-halfSize-sm-width;
         width: $keyteki-card-halfSize-sm-height;
-        border-radius: 6px;
+        border-radius: 12px;
       }
     }
   }
@@ -53,7 +53,7 @@
       &.halfSize {
         height: $keyteki-card-halfSize-lg-height;
         width: $keyteki-card-halfSize-lg-width;
-        border-radius: 6px;
+        border-radius: 12px;
       }
     }
 
@@ -64,7 +64,7 @@
       &.halfSize {
         height: $keyteki-card-halfSize-lg-width;
         width: $keyteki-card-halfSize-lg-height;
-        border-radius: 6px;
+        border-radius: 12px;
       }
     }
 
@@ -74,7 +74,7 @@
       &.halfSize {
         left: -7px;
         top: 6px;
-        border-radius: 6px;
+        border-radius: 12px;
       }
     }
   }
@@ -87,7 +87,7 @@
       &.halfSize {
         height: $keyteki-card-halfSize-xl-height;
         width: $keyteki-card-halfSize-xl-width;
-        border-radius: 6px;
+        border-radius: 12px;
       }
     }
 
@@ -98,7 +98,7 @@
       &.halfSize {
         height: $keyteki-card-halfSize-xl-width;
         width: $keyteki-card-halfSize-xl-height;
-        border-radius: 6px;
+        border-radius: 12px;
       }
     }
 
@@ -108,7 +108,7 @@
       &.halfSize {
         left: -8px;
         top: 8px;
-        border-radius: 6px;
+        border-radius: 12px;
       }
     }
 
@@ -121,7 +121,7 @@
     &.halfSize {
       height: $keyteki-card-halfSize-height;
       width: $keyteki-card-halfSize-width;
-      border-radius: 6px;
+      border-radius: 12px;
     }
   }
 
@@ -132,7 +132,7 @@
     &.halfSize {
       height: $keyteki-card-halfSize-width;
       width: $keyteki-card-halfSize-height;
-      border-radius: 6px;
+      border-radius: 12px;
     }
   }
 
@@ -143,7 +143,7 @@
     &.halfSize {
       left: -7px;
       top: 6px;
-      border-radius: 6px;
+      border-radius: 12px;
     }
   }
 }
@@ -182,7 +182,7 @@
       &.halfSize {
         height: $keyteki-card-halfSize-sm-height;
         width: $keyteki-card-halfSize-sm-width;
-        border-radius: 6px;
+        border-radius: 12px;
       }
     }
 
@@ -192,7 +192,7 @@
       &.halfSize {
         height: $keyteki-card-halfSize-sm-width;
         width: $keyteki-card-halfSize-sm-height;
-        border-radius: 6px;
+        border-radius: 12px;
       }
     }
   }
@@ -205,7 +205,7 @@
       &.halfSize {
         height: $keyteki-card-halfSize-lg-height;
         width: $keyteki-card-halfSize-lg-width;
-        border-radius: 6px;
+        border-radius: 12px;
       }
     }
 
@@ -216,7 +216,7 @@
       &.halfSize {
         height: $keyteki-card-halfSize-lg-width;
         width: $keyteki-card-halfSize-lg-height;
-        border-radius: 6px;
+        border-radius: 12px;
       }
     }
   }
@@ -229,7 +229,7 @@
       &.halfSize {
         height: $keyteki-card-halfSize-xl-height;
         width: $keyteki-card-halfSize-xl-width;
-        border-radius: 6px;
+        border-radius: 12px;
       }
     }
 
@@ -240,7 +240,7 @@
       &.halfSize {
         height: $keyteki-card-halfSize-xl-width;
         width: $keyteki-card-halfSize-xl-height;
-        border-radius: 6px;
+        border-radius: 12px;
       }
     }
   }
@@ -252,7 +252,7 @@
     &.halfSize {
       height: $keyteki-card-halfSize-height;
       width: $keyteki-card-halfSize-width;
-      border-radius: 6px;
+      border-radius: 12px;
     }
   }
 
@@ -263,7 +263,7 @@
     &.halfSize {
       height: $keyteki-card-halfSize-width;
       width: $keyteki-card-halfSize-height;
-      border-radius: 6px;
+      border-radius: 12px;
     }
   }
 
@@ -326,14 +326,14 @@
   margin-top: -$upgrade-offset - $keyteki-card-height;
   &.halfSize {
     margin-top: -$upgrade-offset - $keyteki-card-halfSize-height;
-    border-radius: 6px;
+    border-radius: 12px;
   }
 
   &.small {
     margin-top: -$upgrade-offset-sm - $keyteki-card-sm-height;
     &.halfSize {
       margin-top: -$upgrade-offset - $keyteki-card-halfSize-sm-height;
-      border-radius: 6px;
+      border-radius: 12px;
     }
   }
 
@@ -341,7 +341,7 @@
     margin-top: -$upgrade-offset-halfSize-lg - $keyteki-card-lg-height;
     &.halfSize {
       margin-top: -$upgrade-offset-halfSize-lg - $keyteki-card-halfSize-lg-height;
-      border-radius: 6px;
+      border-radius: 12px;
     }
   }
 
@@ -349,7 +349,7 @@
     margin-top: -$upgrade-offset-xl - $keyteki-card-xl-height;
     &.halfSize {
       margin-top: -$upgrade-offset-halfSize-xl - $keyteki-card-halfSize-xl-height;
-      border-radius: 6px;
+      border-radius: 12px;
     }
   }
 }
@@ -385,14 +385,14 @@
   margin-top: $underneath-offset - $keyteki-card-height;
   &.halfSize {
     margin-top: $underneath-offset - $keyteki-card-halfSize-height;
-    border-radius: 6px;
+    border-radius: 12px;
   }
 
   &.small {
     margin-top: $underneath-offset-sm - $keyteki-card-sm-height;
     &.halfSize {
       margin-top: $underneath-offset-halfSize-sm - $keyteki-card-halfSize-sm-height;
-      border-radius: 6px;
+      border-radius: 12px;
     }
   }
 
@@ -400,7 +400,7 @@
     margin-top: $underneath-offset-lg - $keyteki-card-lg-height;
     &.halfSize {
       margin-top: $underneath-offset-halfSize-lg - $keyteki-card-halfSize-lg-height;
-      border-radius: 6px;
+      border-radius: 12px;
     }
   }
 
@@ -408,7 +408,7 @@
     margin-top: $underneath-offset-xl - $keyteki-card-xl-height;
     &.halfSize {
       margin-top: $underneath-offset-halfSize-xl - $keyteki-card-halfSize-xl-height;
-      border-radius: 6px;
+      border-radius: 12px;
     }
   }
 }
