@@ -242,6 +242,31 @@ export class GameBoard extends React.Component {
         return !this.props.currentGame.players[this.props.user.username];
     }
 
+    renderTide(thisPlayer, otherPlayer) {
+        if (thisPlayer.stats.tideRequired || otherPlayer.stats.tideRequired) {
+            let locale = this.props.i18n.language;
+            let img = Constants.TideImages.card[locale]
+                ? Constants.TideImages.card[locale]
+                : Constants.TideImages.card['en'];
+            return (
+                <div className='tide-pane'>
+                    <img
+                        key='tide-card'
+                        onClick={this.onClickTide}
+                        className={`img-fluid tide-card tide-${thisPlayer.stats.tide}
+                            ${
+                                thisPlayer.activeHouse && thisPlayer.canRaiseTide
+                                    ? 'can-raise-tide'
+                                    : ''
+                            }`}
+                        src={img}
+                        title='Tide'
+                    />
+                </div>
+            );
+        }
+    }
+
     renderBoard(thisPlayer, otherPlayer) {
         return [
             <div key='board-middle' className='board-middle'>
@@ -418,6 +443,9 @@ export class GameBoard extends React.Component {
                         houses={otherPlayer.houses}
                         activeHouse={otherPlayer.activeHouse}
                         user={otherPlayer.user}
+                        tideRequired={
+                            thisPlayer.stats.tideRequired || otherPlayer.stats.tideRequired
+                        }
                         activePlayer={otherPlayer.activePlayer}
                     />
                 </div>
@@ -426,20 +454,7 @@ export class GameBoard extends React.Component {
                     {this.state.cardToZoom && <CardZoom card={this.state.cardToZoom} />}
                     <div className='right-side'>
                         <div className='prompt-area'>
-                            <div className='tide-pane'>
-                                <img
-                                    key='tide-card'
-                                    onClick={this.onClickTide}
-                                    className={`img-fluid tide-card tide-${thisPlayer.stats.tide}
-                                        ${
-                                            thisPlayer.activeHouse && thisPlayer.canRaiseTide
-                                                ? 'can-raise-tide'
-                                                : ''
-                                        }`}
-                                    src={Constants.TideImages.card['en']}
-                                    title='Tide'
-                                />
-                            </div>
+                            {this.renderTide(thisPlayer, otherPlayer)}
                             <div className='inset-pane'>
                                 <ActivePlayerPrompt
                                     cards={this.props.cards}
@@ -490,6 +505,9 @@ export class GameBoard extends React.Component {
                         showManualMode={!this.isSpectating()}
                         showMessages
                         stats={thisPlayer.stats}
+                        tideRequired={
+                            thisPlayer.stats.tideRequired || otherPlayer.stats.tideRequired
+                        }
                         user={thisPlayer.user}
                     />
                 </div>

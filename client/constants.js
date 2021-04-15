@@ -28,6 +28,7 @@ export const Constants = {
         'Unfathomable',
         'Untamed'
     ],
+    Locales: ['de', 'en', 'es', 'fr', 'it', 'ko', 'pt', 'pl', 'th', 'zhhans', 'zhhant'],
     Expansions: [
         { value: '341', label: 'CotA' },
         { value: '435', label: 'AoA' },
@@ -56,9 +57,7 @@ export const Constants = {
         neutral: require('./assets/img/tide/tide-neutral.png'),
         low: require('./assets/img/tide/tide-low.png'),
         high: require('./assets/img/tide/tide.png'),
-        card: {
-            en: require('./assets/img/tide/tide-card-en.png') // TODO DT handle locale dynamically
-        }
+        card: {}
     },
     Tokens: {
         ModifiedPower: require('./assets/img/modifiedPower.png'),
@@ -69,6 +68,10 @@ export const Constants = {
     DefaultCard: require('./assets/img/idbacks/identity.jpg'),
     MaverickCornerImage: require('./assets/img/maverick/maverick-corner.png')
 };
+
+for (let locale of Constants.Locales) {
+    Constants.TideImages.card[locale] = require(`./assets/img/tide/tide-card-${locale}.png`);
+}
 
 for (let expansion of Constants.Expansions) {
     Constants.SetIconPaths[
