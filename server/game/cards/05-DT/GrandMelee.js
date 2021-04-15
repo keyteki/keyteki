@@ -8,7 +8,7 @@ class GrandMelee extends Card {
             gameAction: ability.actions.destroy((context) => ({
                 target: context.game.creaturesInPlay.filter(
                     (card) =>
-                        card.neighbors.length > 0 &&
+                        card.neighbors.length === 0 ||
                         Constants.Houses.some(
                             (house) =>
                                 card.hasHouse(house) &&

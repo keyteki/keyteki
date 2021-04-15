@@ -4,15 +4,13 @@ class AmberfinShark extends Card {
     // Play: Give Æmberfin Shark three +1 power counters.
     // At the end of your turn, remove a +1 power counter from Æmberfin Shark. If you do, each player gains 1A.
     setupCardAbilities(ability) {
-        // Play: Give Æmberfin Shark three +1 power counters.
-        // At the end of your turn, remove a +1 power counter from Æmberfin Shark. If you do, each player gains 1A.
         this.play({
             gameAction: ability.actions.addPowerCounter({ amount: 3 })
         });
 
         this.interrupt({
             when: {
-                onRoundEnded: (event, context) => context.player === this.game.activePlayer
+                onRoundEnded: (_, context) => context.player === this.game.activePlayer
             },
             gameAction: ability.actions.removePowerCounter(),
             then: {

@@ -8,7 +8,7 @@ class Bilgewarden extends Card {
             gameAction: ability.actions.raiseTide((context) => ({
                 target: context.player.isTideHigh() ? context.player.opponent : context.player
             })),
-            effect: "raise {1}'s tide",
+            effect: 'raise tide for {1}',
             effectArgs: (context) =>
                 context.player.isTideHigh() ? context.player.opponent : context.player
         });

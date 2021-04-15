@@ -5,9 +5,8 @@ class AmberfinSharkEvilTwin extends Card {
     setupCardAbilities(ability) {
         this.interrupt({
             when: {
-                onRoundEnded: (event, context) => context.player === this.game.activePlayer
+                onRoundEnded: (_, context) => context.player === this.game.activePlayer
             },
-
             gameAction: [
                 ability.actions.loseAmber((context) => ({
                     amount: 1,
@@ -18,7 +17,6 @@ class AmberfinSharkEvilTwin extends Card {
                     target: context.player.opponent
                 }))
             ],
-
             then: {
                 gameAction: ability.actions.addPowerCounter((context) => ({
                     amount: context.preThenEvents

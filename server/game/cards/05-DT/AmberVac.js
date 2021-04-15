@@ -6,7 +6,7 @@ class AmberVac extends Card {
     setupCardAbilities(ability) {
         this.interrupt({
             when: {
-                onBeginRound: (event, context) =>
+                onBeginRound: (_, context) =>
                     context.player === context.game.activePlayer &&
                     context.source.parent &&
                     context.source.parent.controller.isTideHigh()
