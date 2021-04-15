@@ -11,7 +11,10 @@ class AgentSepdia extends Card {
             },
             then: (preThenContext) => ({
                 alwaysTriggers: true,
-                condition: (context) => context.player.isTideHigh(),
+                condition: (context) =>
+                    preThenContext.target &&
+                    preThenContext.target.location === 'play area' &&
+                    context.player.isTideHigh(),
                 gameAction: ability.actions.stun({ target: preThenContext.target }),
                 message: '{0} uses {1} to stun {3}',
                 messageArgs: () => preThenContext.target
