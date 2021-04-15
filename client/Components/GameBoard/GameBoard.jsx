@@ -243,7 +243,7 @@ export class GameBoard extends React.Component {
     }
 
     renderTide(thisPlayer, otherPlayer) {
-        if (thisPlayer.stats.tideRequired || otherPlayer.stats.tideRequired) {
+        if (thisPlayer.stats.tideRequired || (otherPlayer && otherPlayer.stats.tideRequired)) {
             let locale = this.props.i18n.language;
             let img = Constants.TideImages.card[locale]
                 ? Constants.TideImages.card[locale]
@@ -446,7 +446,7 @@ export class GameBoard extends React.Component {
                         activeHouse={otherPlayer.activeHouse}
                         user={otherPlayer.user}
                         tideRequired={
-                            thisPlayer.stats.tideRequired || otherPlayer.stats.tideRequired
+                            thisPlayer.stats.tideRequired || otherPlayer?.stats?.tideRequired
                         }
                         activePlayer={otherPlayer.activePlayer}
                     />
@@ -456,6 +456,7 @@ export class GameBoard extends React.Component {
                     {this.state.cardToZoom && <CardZoom card={this.state.cardToZoom} />}
                     <div className='right-side'>
                         <div className='prompt-area'>
+                            <div className='right-side-top'></div>
                             {this.renderTide(thisPlayer, otherPlayer)}
                             <div className='inset-pane'>
                                 <ActivePlayerPrompt
@@ -508,7 +509,7 @@ export class GameBoard extends React.Component {
                         showMessages
                         stats={thisPlayer.stats}
                         tideRequired={
-                            thisPlayer.stats.tideRequired || otherPlayer.stats.tideRequired
+                            thisPlayer.stats.tideRequired || otherPlayer?.stats?.tideRequired
                         }
                         user={thisPlayer.user}
                     />
