@@ -290,6 +290,7 @@ export class GameBoard extends React.Component {
                             onMouseOut={this.onMouseOut}
                             onMouseOver={this.onMouseOver}
                             rowDirection='reverse'
+                            tide={otherPlayer?.stats?.tide}
                             user={this.props.user}
                         />
                         <Droppable
@@ -312,6 +313,7 @@ export class GameBoard extends React.Component {
                                 onMouseOut={this.onMouseOut}
                                 onMouseOver={this.onMouseOver}
                                 rowDirection='default'
+                                tide={thisPlayer.stats.tide}
                                 user={this.props.user}
                             />
                         </Droppable>
