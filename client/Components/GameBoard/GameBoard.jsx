@@ -253,7 +253,7 @@ export class GameBoard extends React.Component {
                     <img
                         key='tide-card'
                         onClick={this.onClickTide}
-                        className={`img-fluid tide-card tide-${thisPlayer.stats.tide}
+                        className={`img-fluid normal tide-card tide-${thisPlayer.stats.tide}
                             ${
                                 thisPlayer.activeHouse && thisPlayer.canRaiseTide
                                     ? 'can-raise-tide'
@@ -262,7 +262,7 @@ export class GameBoard extends React.Component {
                         src={img}
                         onMouseOver={() => {
                             this.onMouseOver({
-                                image: <img src={img} />,
+                                image: <img src={img} className='card-zoom normal' />,
                                 size: `tide-${thisPlayer.stats.tide}`
                             });
                         }}
