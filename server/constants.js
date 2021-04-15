@@ -24,6 +24,13 @@ Constants.HousesNames = [
     'Unfathomable',
     'Untamed'
 ];
+Constants.Expansions = [
+    { id: 341, label: 'CotA', tideRequired: false },
+    { id: 435, label: 'AoA', tideRequired: false },
+    { id: 452, label: 'WC', tideRequired: false },
+    { id: 479, label: 'MM', tideRequired: false },
+    { id: 496, label: 'DT', tideRequired: true }
+];
 Constants.Tide = Object.freeze({
     HIGH: 'high',
     LOW: 'low',

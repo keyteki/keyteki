@@ -757,6 +757,13 @@ class Player extends GameObject {
         this.wins = wins;
     }
 
+    isTideRequired() {
+        let expansion = Constants.Expansions.find(
+            (expansion) => expansion.id === this.deckData.expansion
+        );
+        return expansion && expansion.tideRequired;
+    }
+
     getStats() {
         return {
             amber: this.amber,
@@ -764,6 +771,7 @@ class Player extends GameObject {
             keys: this.keys,
             houses: this.houses,
             keyCost: this.getCurrentKeyCost(),
+            tideRequired: this.isTideRequired(),
             tide: this.isTideHigh()
                 ? Constants.Tide.HIGH
                 : this.isTideLow()

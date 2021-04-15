@@ -116,17 +116,19 @@ export class PlayerStats extends React.Component {
     }
 
     getTide() {
-        return (
-            <div className='stat-image'>
-                <img
-                    key='tide'
-                    onClick={this.props.onClickTide}
-                    className='img-fluid tide-token'
-                    src={Constants.TideImages[this.props.stats.tide]}
-                    title={this.props.t('Tide')}
-                />
-            </div>
-        );
+        if (this.props.tideRequired) {
+            return (
+                <div className='stat-image'>
+                    <img
+                        key='tide'
+                        onClick={this.props.onClickTide}
+                        className='img-fluid tide-token'
+                        src={Constants.TideImages[this.props.stats.tide]}
+                        title={this.props.t(`${this.props.stats.tide}-tide`)}
+                    />
+                </div>
+            );
+        }
     }
 
     writeChatToClipboard(event) {
@@ -249,6 +251,7 @@ PlayerStats.propTypes = {
     showMessages: PropTypes.bool,
     stats: PropTypes.object,
     t: PropTypes.func,
+    tideRequired: PropTypes.bool,
     user: PropTypes.object
 };
 
