@@ -22,7 +22,6 @@ const player = {
     creaturesInPlay: [card],
     cardsInPlay: [card],
     activeHouse: 'brobnar',
-    getForgedKeys: () => 0,
     checkRestrictions: () => true,
     isTideHigh: () => true,
     isTideLow: () => false
