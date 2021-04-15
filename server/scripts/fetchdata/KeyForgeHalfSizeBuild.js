@@ -140,7 +140,7 @@ const buildHalfSize = async (card, imgPath, filename, language) => {
                 left: 150
             });
             barCanvas.scaleToWidth(270);
-            Name = getCircularText(card.name, 1200);
+            Name = getCircularText(card.locale[language].name, 1200);
             cardType.set({ originX: 'center', originY: 'center', left: 150, top: 242.5 });
             Power = new fabric.Text(card.power ? card.power.toString() : '0', {
                 fill: '#fdfbfa',
@@ -184,7 +184,7 @@ const buildHalfSize = async (card, imgPath, filename, language) => {
             }
             break;
         case 'artifact':
-            Name = getCircularText(card.name, 1200);
+            Name = getCircularText(card.locale[language].name, 1200);
             bar = await loadImage(`file://${assetsPath + `/${card.house}_Upgrade.png`}`);
             if (card.house === 'untamed') {
                 barCanvas = new fabric.Image(bar.getElement()).set({
@@ -212,7 +212,7 @@ const buildHalfSize = async (card, imgPath, filename, language) => {
             canvasFinal.add(cardType);
             break;
         case 'upgrade':
-            Name = getCircularText(card.name, 1200);
+            Name = getCircularText(card.locale[language].name, 1200);
             bar = await loadImage(`file://${assetsPath + `/${card.house}_Upgrade.png`}`);
             if (card.house === 'untamed') {
                 barCanvas = new fabric.Image(bar.getElement()).set({
@@ -257,7 +257,7 @@ const buildHalfSize = async (card, imgPath, filename, language) => {
         out.write(chunk);
     });
     stream.on('end', () => {
-        console.log('Built Half Sized image for ' + card.name);
+        console.log('Built Half Sized image for ' + card.name + ': ' + card.locale[language].name);
         canvasFinal.dispose();
     });
 };

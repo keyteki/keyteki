@@ -59,6 +59,8 @@ class CardImport {
             496: { valoocanth: true }
         };
 
+        let ignoreCards = ['the-tide'];
+
         const gigantic = ['deusillus', 'ultra-gravitron', 'niffle-kong'];
 
         for (let card of cards) {
@@ -77,11 +79,13 @@ class CardImport {
                 await this.imageSource.fetchImage(card, imageUrl, imagePath);
             }
 
-            halfSizePath = imagePath.replace('/cards', '/halfSize').replace('.png', '.jpg');
+            halfSizePath = imagePath
+                .replace(`${path.sep}cards`, `${path.sep}halfSize`)
+                .replace('.png', '.jpg');
             if (
                 !fs.existsSync(halfSizePath) &&
                 !gigantic.some((x) => card.id.includes(x)) &&
-                +card.number > 0
+                !ignoreCards.includes(card.id)
             ) {
                 await this.buildHalfSize(card, card.image, halfSizePath, this.language);
             }
