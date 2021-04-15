@@ -23,6 +23,7 @@ const player = {
     cardsInPlay: [card],
     activeHouse: 'brobnar',
     checkRestrictions: () => true,
+    getForgedKeys: () => 0,
     isTideHigh: () => true,
     isTideLow: () => false
 };
