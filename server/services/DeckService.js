@@ -583,56 +583,54 @@ class DeckService {
             496: { valoocanth: true }
         };
 
-        let cards = deckResponse._linked.cards
-            .filter((c) => !c.is_non_deck)
-            .map((card) => {
-                let id = card.card_title
-                    .toLowerCase()
-                    .replace(/[,?.!"„“”]/gi, '')
-                    .replace(/[ '’]/gi, '-');
+        let deckCards = deckResponse._linked.cards.filter((c) => !c.is_non_deck);
+        let cards = deckCards.map((card) => {
+            let id = card.card_title
+                .toLowerCase()
+                .replace(/[,?.!"„“”]/gi, '')
+                .replace(/[ '’]/gi, '-');
 
-                if (card.rarity === 'Evil Twin') {
-                    id += '-evil-twin';
-                }
+            if (card.rarity === 'Evil Twin') {
+                id += '-evil-twin';
+            }
 
-                let retCard;
-                let count = deckResponse.data._links.cards.filter((uuid) => uuid === card.id)
-                    .length;
-                if (card.is_maverick) {
-                    retCard = {
-                        id: id,
-                        count: count,
-                        maverick: card.house.replace(' ', '').toLowerCase()
-                    };
-                } else if (card.is_anomaly) {
-                    retCard = {
-                        id: id,
-                        count: count,
-                        anomaly: card.house.replace(' ', '').toLowerCase()
-                    };
-                } else {
-                    retCard = {
-                        id: id,
-                        count: count
-                    };
-                }
+            let retCard;
+            let count = deckResponse.data._links.cards.filter((uuid) => uuid === card.id).length;
+            if (card.is_maverick) {
+                retCard = {
+                    id: id,
+                    count: count,
+                    maverick: card.house.replace(' ', '').toLowerCase()
+                };
+            } else if (card.is_anomaly) {
+                retCard = {
+                    id: id,
+                    count: count,
+                    anomaly: card.house.replace(' ', '').toLowerCase()
+                };
+            } else {
+                retCard = {
+                    id: id,
+                    count: count
+                };
+            }
 
-                if (card.is_enhanced) {
-                    retCard.enhancements = [];
-                }
+            if (card.is_enhanced) {
+                retCard.enhancements = [];
+            }
 
-                if (card.card_type === 'Creature2') {
-                    retCard.id += '2';
-                }
+            if (card.card_type === 'Creature2') {
+                retCard.id += '2';
+            }
 
-                // If this is one of the cards that has an entry for every house, get the correct house image
-                if (specialCards[card.expansion] && specialCards[card.expansion][id]) {
-                    retCard.house = card.house.toLowerCase().replace(' ', '');
-                    retCard.image = `${retCard.id}-${retCard.house}`;
-                }
+            // If this is one of the cards that has an entry for every house, get the correct house image
+            if (specialCards[card.expansion] && specialCards[card.expansion][id]) {
+                retCard.house = card.house.toLowerCase().replace(' ', '');
+                retCard.image = `${retCard.id}-${retCard.house}`;
+            }
 
-                return retCard;
-            });
+            return retCard;
+        });
 
         let toAdd = [];
         for (let card of cards) {
