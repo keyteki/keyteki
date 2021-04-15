@@ -28,7 +28,11 @@ const EnhancementLookup = {
     P: 'capture',
     D: 'damage',
     R: 'draw',
-    A: 'amber'
+    A: 'amber',
+    '\uf565': 'capture',
+    '\uf361': 'damage',
+    '\uf36e': 'draw',
+    '\uf360': 'amber'
 };
 
 const Enhancements = () => {
