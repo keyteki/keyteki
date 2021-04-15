@@ -157,4 +157,3 @@ describe('novu-dynamo', function () {
         });
     });
 });
-
