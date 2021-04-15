@@ -596,5 +596,8 @@
     "Select up to 2 cards from your discard": "Selecione até 2 cartas do seu descarte",
     "Select up to 2 cards from opponent's discard": "Selecione até 2 cartas do descarte do seu oponente",
     "Choose a {{power}} creature to not destroy": "Selecione uma criatura de poder {{power}} para não destruir",
-    "Dark Tidings": "Mar de Trevas"
+    "Dark Tidings": "Mar de Trevas",
+    "neutral-tide": "Maré Neutra",
+    "low-tide": "Maré Baixa",
+    "high-tide": "Maré Alta"
 }

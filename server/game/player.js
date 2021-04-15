@@ -759,7 +759,7 @@ class Player extends GameObject {
 
     isTideRequired() {
         let expansion = Constants.Expansions.find(
-            (expansion) => expansion === this.deckData.expansion
+            (expansion) => expansion.id === this.deckData.expansion
         );
         return expansion && expansion.tideRequired;
     }

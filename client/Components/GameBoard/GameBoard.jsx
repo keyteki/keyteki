@@ -260,7 +260,7 @@ export class GameBoard extends React.Component {
                                     : ''
                             }`}
                         src={img}
-                        title='Tide'
+                        title={this.props.t(`${thisPlayer.stats.tide}-tide`)}
                     />
                 </div>
             );

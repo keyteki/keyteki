@@ -124,7 +124,7 @@ export class PlayerStats extends React.Component {
                         onClick={this.props.onClickTide}
                         className='img-fluid tide-token'
                         src={Constants.TideImages[this.props.stats.tide]}
-                        title={this.props.t('Tide')}
+                        title={this.props.t(`${this.props.stats.tide}-tide`)}
                     />
                 </div>
             );
