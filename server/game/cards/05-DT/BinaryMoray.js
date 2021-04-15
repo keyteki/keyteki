@@ -9,25 +9,21 @@ class BinaryMoray extends Card {
             when: {
                 onRaiseTide: (event, context) => event.player === context.player
             },
-            gameAction: ability.actions.ready((context) => ({
-                target: context.source
-            }))
+            gameAction: ability.actions.ready()
         });
 
         this.reaction({
             when: {
                 onRaiseTide: (event, context) => event.player !== context.player
             },
-            gameAction: ability.actions.exhaust((context) => ({
-                target: context.source
-            }))
+            gameAction: ability.actions.exhaust()
         });
 
         this.reap({
             target: {
                 controller: 'self',
                 location: 'hand',
-                gameAction: ability.actions.archive({ location: 'hand' })
+                gameAction: ability.actions.archive()
             }
         });
     }
