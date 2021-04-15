@@ -127,11 +127,16 @@ const buildHalfSize = async (card, imgPath, filename, language) => {
             break;
         case 'creature':
         case 'creature1':
-            bar = await loadImage(`file://${assetsPath + `/${card.house}_Creature.png`}`);
+            bar = await loadImage(
+                `file://${
+                    assetsPath +
+                    `/${card.house}_${card.rarity === 'Evil Twin' ? 'eviltwin' : 'Creature'}.png`
+                }`
+            );
             barCanvas = new fabric.Image(bar.getElement()).set({
                 originX: 'center',
                 originY: 'center',
-                top: 230,
+                top: card.rarity === 'Evil Twin' ? 224 : 230,
                 left: 150
             });
             barCanvas.scaleToWidth(270);
@@ -165,11 +170,18 @@ const buildHalfSize = async (card, imgPath, filename, language) => {
                 left: 262,
                 top: card.armor > 0 ? 231.25 : 241.25
             });
-            canvasFinal.add(barCanvas);
-            canvasFinal.add(Name);
-            canvasFinal.add(Power);
-            canvasFinal.add(Armor);
-            canvasFinal.add(cardType);
+            canvasFinal.add(barCanvas, Name, Power, Armor, cardType);
+            if (card.rarity === 'Evil Twin') {
+                let EvilTwin = new fabric.Text('EVIL TWIN', {
+                    fill: '#fdfbfa',
+                    shadow: new fabric.Shadow({ ...shadowProps, offsetX: 1, offsetY: 1, blur: 1 }),
+                    fontFamily: 'TeutonFett',
+                    textAlign: 'center',
+                    fontSize: 8
+                });
+                EvilTwin.set({ originX: 'center', left: 150, top: 196 });
+                canvasFinal.add(EvilTwin);
+            }
             break;
         case 'artifact':
             Name = getCircularText(card.name, 1200);
