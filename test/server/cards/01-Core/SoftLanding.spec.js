@@ -91,4 +91,40 @@ describe('Soft Landing', function () {
             expect(this.lamindra.exhausted).toBe(false);
         });
     });
+
+    describe("Two Soft Landing's ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'mars',
+                    hand: ['ether-spider', 'skybooster-squadron', 'soft-landing', 'soft-landing']
+                },
+                player2: {
+                    hand: ['troll']
+                }
+            });
+
+            this.softLanding1 = this.player1.hand[2];
+            this.softLanding2 = this.player1.hand[3];
+        });
+
+        it('should ready a single creature if played sequentially', function () {
+            this.player1.play(this.softLanding1);
+            this.player1.play(this.softLanding2);
+            this.player1.play(this.skyboosterSquadron);
+            this.player1.clickPrompt('Soft Landing');
+            expect(this.skyboosterSquadron.exhausted).toBe(false);
+            this.player1.play(this.etherSpider);
+            expect(this.etherSpider.exhausted).toBe(true);
+        });
+
+        it('should ready two creatures if played after the first creature', function () {
+            this.player1.play(this.softLanding1);
+            this.player1.play(this.skyboosterSquadron);
+            expect(this.skyboosterSquadron.exhausted).toBe(false);
+            this.player1.play(this.softLanding2);
+            this.player1.play(this.etherSpider);
+            expect(this.etherSpider.exhausted).toBe(false);
+        });
+    });
 });

@@ -8,11 +8,16 @@ class Blypyp extends Card {
                 when: {
                     onCardPlayed: (event) =>
                         event.card.type === 'creature' &&
-                        context.player === event.player &&
-                        event.card.hasHouse('mars')
+                        event.card.hasHouse('mars') &&
+                        context.player === event.player
                 },
                 multipleTrigger: false,
-                gameAction: ability.actions.ready((context) => ({ target: context.event.card }))
+                triggeredAbilityType: 'interrupt',
+                gameAction: ability.actions.cardLastingEffect((context) => ({
+                    target: context.event.card,
+                    targetLocation: 'any',
+                    effect: ability.effects.entersPlayReady()
+                }))
             }))
         });
     }
