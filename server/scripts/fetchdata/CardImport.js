@@ -55,7 +55,8 @@ class CardImport {
         mkdirp(halfSizeImageDir);
 
         let specialCards = {
-            479: { 'dark-æmber-vault': true, 'it-s-coming': true, 'orb-of-wonder': true }
+            479: { 'dark-æmber-vault': true, 'it-s-coming': true, 'orb-of-wonder': true },
+            496: { valoocanth: true }
         };
 
         const gigantic = ['deusillus', 'ultra-gravitron', 'niffle-kong'];
