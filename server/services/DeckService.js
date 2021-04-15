@@ -588,6 +588,10 @@ class DeckService {
                 .replace(/[,?.!"„“”]/gi, '')
                 .replace(/[ '’]/gi, '-');
 
+            if (card.rarity === 'Evil Twin') {
+                id += '-evil-twin';
+            }
+
             let retCard;
             let count = deckResponse.data._links.cards.filter((uuid) => uuid === card.id).length;
             if (card.is_maverick) {
