@@ -6,7 +6,10 @@ class TheChosenOne extends Card {
         this.persistentEffect({
             targetController: 'opponent',
             match: (card) => card.type === 'creature',
-            effect: ability.effects.cardCannot('ready')
+            effect: ability.effects.cardCannot(
+                'ready',
+                (context) => context.game.currentPhase === 'ready'
+            )
         });
 
         this.interrupt({

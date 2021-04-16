@@ -16,7 +16,8 @@ describe('The Chosen One', function () {
                         'daughter',
                         'groggins',
                         'hologrammophone'
-                    ]
+                    ],
+                    hand: ['helper-bot', 'ganger-chieftain']
                 }
             });
         });
@@ -37,7 +38,7 @@ describe('The Chosen One', function () {
                 expect(this.valdr.exhausted).toBe(false);
             });
 
-            describe('when opponent is about to ready cards', function () {
+            describe('and opponent passes their ready phase', function () {
                 beforeEach(function () {
                     this.player2.clickPrompt('logos');
                     this.player2.reap(this.batdrone);
@@ -59,6 +60,25 @@ describe('The Chosen One', function () {
                     expect(this.dextre.exhausted).toBe(true);
                     expect(this.daughter.exhausted).toBe(true);
                     expect(this.hologrammophone.exhausted).toBe(false);
+                });
+            });
+
+            describe('should not affect readying out of ready phase', function () {
+                beforeEach(function () {
+                    this.player2.clickPrompt('logos');
+                    this.player2.reap(this.batdrone);
+                    this.player2.play(this.helperBot);
+                    this.player2.play(this.gangerChieftain, true);
+                    expect(this.player2).toBeAbleToSelect(this.gangerChieftain);
+                    console.log(this.gangerChieftain.neighbors[0].id);
+                    this.player2.clickCard(this.gangerChieftain);
+                });
+
+                it('should be able to ready out of ready phase', function () {
+                    this.player2.clickCard(this.batdrone);
+                    expect(this.player2).toBeAbleToSelect(this.troll);
+                    expect(this.player2).toBeAbleToSelect(this.valdr);
+                    this.player2.clickCard(this.troll);
                 });
             });
 
