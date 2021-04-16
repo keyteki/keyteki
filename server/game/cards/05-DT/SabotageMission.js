@@ -4,7 +4,6 @@ const Card = require('../../Card.js');
 class SabotageMission extends Card {
     // Play: Keys cost +1A for each different power value among friendly creatures during your opponent’s next turn.
     setupCardAbilities(ability) {
-        // Play: During your opponent's next turn, keys cost +1 for each different power value of friendly creatures.
         this.play({
             effect:
                 "increase {1}'s key cost by 1 for each different power value of friendly creatures",

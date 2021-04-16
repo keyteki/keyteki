@@ -5,7 +5,6 @@ class SelectivePreservation extends Card {
     setupCardAbilities(ability) {
         this.play({
             effect: 'select creatures for each power to not destroy',
-
             then: (preThenContext) => {
                 let uniquePowers = Array.from(
                     new Set(preThenContext.game.creaturesInPlay.map((creature) => creature.power))
