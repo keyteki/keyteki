@@ -25,7 +25,7 @@ class T3r35a extends Card {
             })
         });
 
-        // give the creature this card is attached to this effect:
+        // give the creature this card is attached to this effect
         this.whileAttached({
             effect: ability.effects.canUse((card) => {
                 let possibleHouses = [];

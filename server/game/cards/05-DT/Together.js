@@ -5,9 +5,9 @@ class Together extends Card {
     setupCardAbilities(ability) {
         this.play({
             target: {
+                optional: true,
                 controller: 'self',
                 location: 'hand',
-                optional: true,
                 cardCondition: (card) => !card.hasHouse('staralliance'),
                 gameAction: ability.actions.playCard()
             },
@@ -15,9 +15,9 @@ class Together extends Card {
                 alwaysTriggers: true,
                 condition: (context) => context.player.isTideHigh(),
                 target: {
+                    optional: true,
                     controller: 'self',
                     location: 'hand',
-                    optional: true,
                     cardCondition: (card) => !card.hasHouse('staralliance'),
                     gameAction: ability.actions.playCard()
                 }

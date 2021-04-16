@@ -28,7 +28,7 @@ describe('Together!', function () {
             expect(this.flaxia.location).toBe('play area');
         });
 
-        it('should prompt to play a non-star alliance card when tide is low', function () {
+        it('should prompt to play a non-star alliance card when tide is low and cancel', function () {
             expect(this.flaxia.location).not.toBe('play area');
 
             this.player1.play(this.together);
@@ -38,7 +38,7 @@ describe('Together!', function () {
             expect(this.flaxia.location).not.toBe('play area');
         });
 
-        it('should prompt to play two a non-star alliance cards when tide is high', function () {
+        it('should prompt to play two non-star alliance cards when tide is high', function () {
             this.player1.raiseTide();
 
             expect(this.flaxia.location).not.toBe('play area');
@@ -52,20 +52,6 @@ describe('Together!', function () {
             this.player1.endTurn();
             expect(this.flaxia.location).toBe('play area');
             expect(this.quant.location).toBe('play area');
-        });
-
-        it('should prompt to play two a non-star alliance cards when tide is high', function () {
-            this.player1.raiseTide();
-
-            expect(this.flaxia.location).not.toBe('play area');
-            expect(this.quant.location).not.toBe('play area');
-
-            this.player1.play(this.together);
-            this.player1.clickCard(this.flaxia);
-            this.player1.clickPrompt('Done');
-
-            this.player1.endTurn();
-            expect(this.flaxia.location).toBe('play area');
         });
 
         it('should allow canceling second card when tide is high', function () {
@@ -76,12 +62,10 @@ describe('Together!', function () {
 
             this.player1.play(this.together);
             this.player1.clickCard(this.flaxia);
-            this.player1.clickCard(this.quant);
-            this.player1.clickPrompt('Left');
+            this.player1.clickPrompt('Done');
 
             this.player1.endTurn();
             expect(this.flaxia.location).toBe('play area');
-            expect(this.quant.location).toBe('play area');
         });
 
         it('should prompt to play two a non-star alliance cards when first card raised the tide', function () {

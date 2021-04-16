@@ -5,8 +5,7 @@ class Ch337aEvilTwin extends Card {
     // (T) While the tide is high, each of CH-337A's neighbors gains skirmish.
     setupCardAbilities(ability) {
         this.persistentEffect({
-            targetController: 'any',
-            condition: (context) => context.player.isTideHigh(),
+            condition: (context) => context.source.controller.isTideHigh(),
             match: (card, context) => context.source.neighbors.includes(card),
             effect: ability.effects.addKeyword({
                 skirmish: 1
