@@ -42,9 +42,12 @@ class DarkDiscovery extends Card {
 
                     return false;
                 },
-                gameAction: ability.actions.forgeKey({
-                    atNoCost: true
-                })
+                gameAction: [
+                    ability.actions.forgeKey({
+                        atNoCost: true
+                    }),
+                    ability.actions.purge()
+                ]
             })
         });
     }
