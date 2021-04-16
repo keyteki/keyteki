@@ -8,7 +8,7 @@ class LieutenantValmart extends Card {
             reap: true,
             condition: (context) => context.player.isTideHigh(),
             gameAction: ability.actions.lastingEffect({
-                targetController: 'any',
+                targetController: 'opponent',
                 effect: ability.effects.modifyKeyCost(3)
             })
         });
