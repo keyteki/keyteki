@@ -11,14 +11,22 @@ class HarmonicRitual extends Card {
             gameAction: ability.actions.gainAmber((context) => {
                 let amount = 0;
                 let creature = context.target;
-                while (
-                    creature &&
-                    creature.neighbors[0] &&
-                    creature.getHouses().some((house) => creature.neighbors[0].hasHouse(house))
-                ) {
-                    amount += 1;
-                    creature = creature.neighbors[0];
+                if (creature) {
+                    let creatures = creature.controller.creaturesInPlay;
+                    let index = creatures.indexOf(creature);
+
+                    while (index > 0) {
+                        let leftNeighbor = creatures[index - 1];
+                        if (creature.getHouses().some((house) => leftNeighbor.hasHouse(house))) {
+                            amount += 1;
+                        } else {
+                            break;
+                        }
+                        creature = leftNeighbor;
+                        --index;
+                    }
                 }
+
                 return {
                     amount: amount
                 };
