@@ -28,10 +28,13 @@ class TrojanSauropod extends Card {
                 })),
                 then: {
                     alwaysTriggers: true,
-                    gameAction: ability.actions.draw((context) => ({
-                        refill: true,
-                        target: context.player.opponent
-                    }))
+                    gameAction: [
+                        ability.actions.draw((context) => ({
+                            refill: true,
+                            target: context.player.opponent
+                        })),
+                        ability.actions.destroy()
+                    ]
                 }
             }
         });

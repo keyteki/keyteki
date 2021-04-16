@@ -73,6 +73,7 @@ describe('Trojan Sauropod', function () {
                     expect(this.player1.player.hand.length).toBe(6);
                     expect(this.gub.location).toBe('hand');
                     expect(this.gatewayToDis.location).toBe('hand');
+                    expect(this.trojanSauropod.location).toBe('discard');
                 });
             });
         });
