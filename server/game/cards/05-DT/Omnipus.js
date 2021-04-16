@@ -11,7 +11,7 @@ class Omnipus extends Card {
 
         this.play({
             gameAction: ability.actions.discard((context) => ({
-                target: context.player.deck.slice(8)
+                target: context.player.deck.slice(0, 8)
             })),
             then: {
                 alwaysTriggers: true,
