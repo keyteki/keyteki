@@ -11,7 +11,10 @@ class TheUlfberhtDevice extends Card {
             effectArgs: (context) => [context.game.activePlayer.activeHouse],
             gameAction: ability.actions.lastingEffect((context) => ({
                 duration: 3,
-                targetController: 'any',
+                targetController:
+                    context.source.controller === context.game.activePlayer
+                        ? 'current'
+                        : 'opponent',
                 effect: ability.effects.stopHouseChoice(context.game.activePlayer.activeHouse)
             }))
         });
