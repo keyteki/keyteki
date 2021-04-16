@@ -123,5 +123,17 @@ describe('Together!', function () {
             this.player1.endTurn();
             expect(this.flaxia.location).toBe('play area');
         });
+
+        it('should interact with Kaupe when tide is high', function () {
+            this.player1.raiseTide();
+            this.player1.play(this.together);
+            expect(this.player1).toBeAbleToSelect(this.flaxia);
+            expect(this.player1).toBeAbleToSelect(this.flamegillEnforcer);
+            expect(this.player1).not.toBeAbleToSelect(this.sensorChiefGarcia);
+            this.player1.clickCard(this.flaxia);
+
+            this.player1.endTurn();
+            expect(this.flaxia.location).toBe('play area');
+        });
     });
 });
