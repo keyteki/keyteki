@@ -35,7 +35,6 @@ describe('Officers Blaster', function () {
             this.player1.play(this.quintrinoFlux);
             this.player1.clickCard(this.stealthster); // destroy for qf
             this.player1.clickCard(this.krump); // destroy for qf
-
             this.player1.endTurn();
             expect(this.officerSBlaster.location).toBe('discard');
             expect(this.stealthster.location).toBe('discard');
