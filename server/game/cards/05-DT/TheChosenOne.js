@@ -4,12 +4,10 @@ class TheChosenOne extends Card {
     // Instead of readying creatures they control during their “ready cards” step, your opponent deals 1D to The Chosen One for each exhausted creature they control.
     setupCardAbilities(ability) {
         this.persistentEffect({
+            condition: (context) => context.game.currentPhase === 'ready',
             targetController: 'opponent',
             match: (card) => card.type === 'creature',
-            effect: ability.effects.cardCannot(
-                'ready',
-                (context) => context.game.currentPhase === 'ready'
-            )
+            effect: ability.effects.cardCannot('ready')
         });
 
         this.interrupt({

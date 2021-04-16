@@ -70,7 +70,6 @@ describe('The Chosen One', function () {
                     this.player2.play(this.helperBot);
                     this.player2.play(this.gangerChieftain, true);
                     expect(this.player2).toBeAbleToSelect(this.gangerChieftain);
-                    console.log(this.gangerChieftain.neighbors[0].id);
                     this.player2.clickCard(this.gangerChieftain);
                 });
 
