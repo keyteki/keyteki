@@ -4,7 +4,7 @@ class Pestergrove extends Card {
     // Each creature enters play enraged.
     setupCardAbilities(ability) {
         this.persistentEffect({
-            location: 'any',
+            targetLocation: 'any',
             targetController: 'any',
             match: (card) => card.type === 'creature',
             effect: ability.effects.entersPlayEnraged()
