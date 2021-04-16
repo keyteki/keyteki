@@ -4,8 +4,6 @@ class KiriGiltspine extends Card {
     // Elusive.
     // After an enemy creature reaps, it does not ready during its controller's next "ready cards" step.
     setupCardAbilities(ability) {
-        // Elusive.
-        // After an enemy creature reaps, it does not ready during its controller's next "ready card" step.
         this.reaction({
             when: {
                 onReap: (event, context) =>

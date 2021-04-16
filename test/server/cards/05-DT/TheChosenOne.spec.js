@@ -9,7 +9,14 @@ describe('The Chosen One', function () {
                 },
                 player2: {
                     amber: 1,
-                    inPlay: ['batdrone', 'dextre', 'lollop-the-titanic', 'daughter', 'groggins']
+                    inPlay: [
+                        'batdrone',
+                        'dextre',
+                        'lollop-the-titanic',
+                        'daughter',
+                        'groggins',
+                        'hologrammophone'
+                    ]
                 }
             });
         });
@@ -36,6 +43,8 @@ describe('The Chosen One', function () {
                     this.player2.reap(this.batdrone);
                     this.player2.reap(this.dextre);
                     this.player2.reap(this.daughter);
+                    this.player2.useAction(this.hologrammophone);
+                    this.player2.clickCard(this.daughter);
                     this.player2.endTurn();
                 });
 
@@ -49,6 +58,7 @@ describe('The Chosen One', function () {
                     expect(this.batdrone.exhausted).toBe(true);
                     expect(this.dextre.exhausted).toBe(true);
                     expect(this.daughter.exhausted).toBe(true);
+                    expect(this.hologrammophone.exhausted).toBe(false);
                 });
             });
 

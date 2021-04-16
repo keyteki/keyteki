@@ -4,7 +4,7 @@ class AbondTheArmorsmith extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
             targetController: 'current',
-            match: (card) => card !== this,
+            match: (card, context) => card !== context.source,
             effect: ability.effects.modifyArmor(1)
         });
         this.action({
