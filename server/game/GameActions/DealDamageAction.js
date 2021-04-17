@@ -50,12 +50,22 @@ class DealDamageAction extends CardGameAction {
         return super.getEventArray(context);
     }
 
+    getDamageSource(card, context) {
+        if (this.damageSource) {
+            return typeof this.damageSource === 'function'
+                ? this.damageSource(card, context)
+                : this.damageSource;
+        } else {
+            return context.source;
+        }
+    }
+
     getEvent(card, context, amount = this.amount || this.amountForCard(card, context)) {
         const params = {
             card: card,
             context: context,
             amount: amount,
-            damageSource: this.damageSource || context.source,
+            damageSource: this.getDamageSource(card, context),
             damageType: this.damageType,
             destroyEvent: null,
             fightEvent: this.fightEvent,
