@@ -49,6 +49,7 @@ const CardImage = ({ card, cardBack, size, halfSize }) => {
             card.modifiedPower,
             card.tokens && card.tokens.amber,
             card.tokens && card.tokens.armor,
+            card.tokens && card.tokens.awakening,
             card.tokens && card.tokens.damage,
             card.tokens && card.tokens.depth,
             card.tokens && card.tokens.disruption,

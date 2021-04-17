@@ -34,43 +34,42 @@ describe('Effigy of Melerukh', function () {
             this.player2.endTurn();
         });
 
-        it('should become 100/100 creature when opponent reaps 6 times', function () {
-            this.player1.endTurn();
-            this.player2.clickPrompt('dis');
-            this.player2.reap(this.gub);
-            this.player2.reap(this.dexus);
-            this.player2.reap(this.streke);
-            this.player2.reap(this.malison);
-            this.player2.reap(this.sinestra);
-            this.player2.reap(this.bonesaw);
+        describe('after opponent reaps 6 times', function () {
+            beforeEach(function () {
+                this.player1.endTurn();
+                this.player2.clickPrompt('dis');
+                this.player2.reap(this.gub);
+                expect(this.effigyOfMelerukh.tokens.awakening).toBe(1);
+                this.player2.reap(this.dexus);
+                expect(this.effigyOfMelerukh.tokens.awakening).toBe(2);
+                this.player2.reap(this.streke);
+                expect(this.effigyOfMelerukh.tokens.awakening).toBe(3);
+                this.player2.reap(this.malison);
+                expect(this.effigyOfMelerukh.tokens.awakening).toBe(4);
+                this.player2.reap(this.sinestra);
+                expect(this.effigyOfMelerukh.tokens.awakening).toBe(5);
+                this.player2.reap(this.bonesaw);
+                expect(this.effigyOfMelerukh.tokens.awakening).toBe(6);
+                this.player2.clickPrompt('Left');
+            });
 
-            this.player2.clickPrompt('Left');
-            this.player2.endTurn();
+            it('should become 100/100 creature', function () {
+                expect(this.effigyOfMelerukh.location).toBe('play area');
+                expect(this.effigyOfMelerukh.power).toBe(100);
+                expect(this.effigyOfMelerukh.armor).toBe(100);
+                this.player2.endTurn();
+                this.player1.amber = 1;
+                this.player1.clickPrompt('unfathomable');
+                this.player1.reap(this.effigyOfMelerukh);
+                expect(this.player1.amber).toBe(2);
+            });
 
-            expect(this.effigyOfMelerukh.location).toBe('play area');
-            expect(this.effigyOfMelerukh.power).toBe(100);
-            expect(this.effigyOfMelerukh.armor).toBe(100);
-
-            this.player1.amber = 1;
-            this.player1.clickPrompt('unfathomable');
-            this.player1.reap(this.effigyOfMelerukh);
-            expect(this.player1.amber).toBe(2);
-        });
-
-        it('should not get created twice', function () {
-            this.player1.endTurn();
-            this.player2.clickPrompt('dis');
-            this.player2.reap(this.gub);
-            this.player2.reap(this.dexus);
-            this.player2.reap(this.streke);
-            this.player2.reap(this.malison);
-            this.player2.reap(this.sinestra);
-            this.player2.reap(this.bonesaw);
-
-            this.player2.clickPrompt('Left');
-            this.player2.reap(this.impspector);
-            expect(this.player2).not.toHavePromptButton('Left');
-            this.player2.endTurn();
+            it('should not get created twice', function () {
+                this.player2.reap(this.impspector);
+                expect(this.effigyOfMelerukh.tokens.awakening).toBe(6);
+                expect(this.player2).not.toHavePromptButton('Left');
+                this.player2.endTurn();
+            });
         });
 
         it('should not gain counters when friendly creatures reap', function () {

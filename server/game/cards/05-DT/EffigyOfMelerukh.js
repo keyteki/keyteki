@@ -23,9 +23,9 @@ class EffigyOfMelerukh extends Card {
                         duration: 'lastingEffect',
                         effect: [
                             ability.effects.changeType('creature'),
-                            ability.effects.canUse((card) => card === context.source),
                             ability.effects.modifyPower(100),
-                            ability.effects.modifyArmor(100)
+                            ability.effects.modifyArmor(100),
+                            ability.effects.blank()
                         ]
                     })),
                     ability.actions.moveToFlank()
