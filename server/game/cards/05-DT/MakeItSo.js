@@ -20,7 +20,8 @@ class MakeItSo extends Card {
                     ability.actions.resolveAbility({
                         ability: preThenContext.ability
                     })
-                ]
+                ],
+                message: '{0} uses {1} to draw the card and resolve its effect again'
             })
         });
     }
