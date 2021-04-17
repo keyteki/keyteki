@@ -6,7 +6,6 @@ class HealOrHarm extends Card {
     // • Ready and fight with a friendly creature.
     setupCardAbilities(ability) {
         this.play({
-            condition: (context) => context.game.creaturesInPlay.length > 0,
             targets: {
                 action: {
                     mode: 'select',
