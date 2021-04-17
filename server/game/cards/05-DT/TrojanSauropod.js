@@ -24,7 +24,7 @@ class TrojanSauropod extends Card {
                     forEach: context.player.opponent.hand.filter(
                         (card) => card.type === 'creature'
                     ),
-                    action: ability.actions.putIntoPlay()
+                    action: ability.actions.putIntoPlay({ ready: true })
                 })),
                 then: {
                     alwaysTriggers: true,
