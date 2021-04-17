@@ -3,7 +3,6 @@ const CardGameAction = require('./CardGameAction');
 class UseAction extends CardGameAction {
     setDefaultProperties() {
         this.ignoreHouse = true;
-        this.ignoreSource = false;
     }
 
     setup() {
@@ -13,11 +12,7 @@ class UseAction extends CardGameAction {
     }
 
     canAffect(card, context) {
-        return (
-            (this.ignoreSource || card !== context.source) &&
-            card.location === 'play area' &&
-            super.canAffect(card, context)
-        );
+        return card.location === 'play area' && super.canAffect(card, context);
     }
 
     getEvent(card, context) {
