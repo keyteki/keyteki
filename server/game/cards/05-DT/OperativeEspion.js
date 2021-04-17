@@ -9,8 +9,8 @@ class OperativeEspion extends Card {
                 onRaiseTide: (event) => event.player === this.game.activePlayer
             },
             useEventPlayer: true,
-            optional: true,
             target: {
+                optional: true,
                 cardType: 'creature',
                 cardCondition: (card, context) => card.controller === context.event.player,
                 gameAction: ability.actions.use()

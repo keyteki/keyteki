@@ -25,7 +25,7 @@ describe('OperativeEspion', function () {
             });
 
             it('should opt to use a creature they control', function () {
-                this.player1.clickCard(this.operativeEspion);
+                expect(this.player1).toBeAbleToSelect(this.operativeEspion);
                 expect(this.player1).toBeAbleToSelect(this.lamindra);
                 expect(this.player1).toBeAbleToSelect(this.rocketeerTryska);
                 expect(this.player1).not.toBeAbleToSelect(this.troll);
@@ -48,7 +48,7 @@ describe('OperativeEspion', function () {
             });
 
             it('should opt to use a creature they control', function () {
-                this.player2.clickCard(this.operativeEspion);
+                expect(this.player2).not.toBeAbleToSelect(this.operativeEspion);
                 expect(this.player2).not.toBeAbleToSelect(this.lamindra);
                 expect(this.player2).not.toBeAbleToSelect(this.rocketeerTryska);
                 expect(this.player2).toBeAbleToSelect(this.troll);

@@ -12,11 +12,7 @@ class UseAction extends CardGameAction {
     }
 
     canAffect(card, context) {
-        return (
-            card !== context.source &&
-            card.location === 'play area' &&
-            super.canAffect(card, context)
-        );
+        return card.location === 'play area' && super.canAffect(card, context);
     }
 
     getEvent(card, context) {
