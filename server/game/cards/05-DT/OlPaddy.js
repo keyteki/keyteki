@@ -8,11 +8,11 @@ class OlPaddy extends Card {
                 target: context.player.deck.slice(context.player.isTideHigh() ? -3 : -1)
             })),
             then: {
-                gameAction: ability.actions.sequentialPutIntoPlay((context) => ({
+                gameAction: ability.actions.sequentialForEach((context) => ({
                     forEach: context.preThenEvents
                         .filter((event) => event.card.type === 'creature')
                         .map((event) => event.card),
-                    action: ability.actions.putIntoPlay()
+                    action: ability.actions.playCard()
                 }))
             }
         });
