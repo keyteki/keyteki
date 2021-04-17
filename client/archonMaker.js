@@ -724,6 +724,7 @@ const getCountersForCard = (card) => {
         'ward',
         'enrage',
         'stun',
+        'awakening',
         'depth',
         'disruption',
         'doom',
