@@ -3,7 +3,7 @@ const Card = require('../../Card.js');
 class WitchOfTheDawn extends Card {
     // Play: Return a creature from your discard pile to your hand.
     setupCardAbilities(ability) {
-        this.reap({
+        this.play({
             target: {
                 location: 'discard',
                 cardType: 'creature',

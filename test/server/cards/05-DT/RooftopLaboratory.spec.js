@@ -15,6 +15,14 @@ describe('Rooftop Laboratory', function () {
             });
         });
 
+        it('friendly scientists should not enter play ready when Rooftop Laboratory is not in play.', function () {
+            this.player1.moveCard(this.rooftopLaboratory, 'deck');
+            this.player1.play(this.dextre);
+            this.player1.play(this.hapsis);
+            expect(this.dextre.exhausted).toBe(true);
+            expect(this.hapsis.exhausted).toBe(true);
+        });
+
         it('friendly scientists should enter play ready.', function () {
             this.player1.play(this.dextre);
             this.player1.play(this.hapsis);

@@ -28,6 +28,7 @@ describe('Dark Discovery', function () {
 
             expect(this.krump.location).toBe('discard');
             expect(this.gub.location).toBe('discard');
+            expect(this.darkDiscovery.location).toBe('discard');
 
             this.player1.endTurn();
         });
@@ -42,6 +43,7 @@ describe('Dark Discovery', function () {
             this.player1.selectCardName('Krump');
 
             expect(this.gub.location).toBe('discard');
+            expect(this.darkDiscovery.location).toBe('discard');
 
             this.player1.endTurn();
         });
@@ -62,6 +64,7 @@ describe('Dark Discovery', function () {
             expect(this.gub.location).toBe('discard');
 
             this.player1.forgeKey('Red');
+            expect(this.darkDiscovery.location).toBe('purged');
 
             this.player1.endTurn();
         });
