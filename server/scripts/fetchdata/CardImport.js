@@ -56,7 +56,7 @@ class CardImport {
 
         let specialCards = {
             479: { 'dark-æmber-vault': true, 'it-s-coming': true, 'orb-of-wonder': true },
-            496: { valoocanth: true }
+            496: { 'orb-of-wonder': true, valoocanth: true }
         };
 
         let ignoreCards = ['the-tide'];
