@@ -80,5 +80,23 @@ describe('Make It So', function () {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
         });
+
+        describe('when different houses are selected', function () {
+            beforeEach(function () {
+                this.player1.moveCard(this.lamindra, 'deck');
+                this.player1.moveCard(this.stealthMode, 'deck');
+                this.player1.moveCard(this.transporterPlatform, 'deck');
+                this.player1.moveCard(this.sensorChiefGarcia, 'deck');
+                this.player1.play(this.makeItSo);
+                this.player1.clickPrompt('staralliance');
+            });
+
+            it('should draw all cards, and keep the last in the deck', function () {
+                expect(this.sensorChiefGarcia.location).toBe('hand');
+                this.player1.clickPrompt('shadows');
+                expect(this.player1.player.deck[0]).toBe(this.transporterPlatform);
+                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            });
+        });
     });
 });
