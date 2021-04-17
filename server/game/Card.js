@@ -998,6 +998,30 @@ class Card extends EffectSource {
         return neighbors;
     }
 
+    leftNeighbor() {
+        let neighbor;
+        if (this.type === 'creature') {
+            let creatures = this.controller.creaturesInPlay;
+            let index = creatures.indexOf(this);
+            if (index > 0) {
+                neighbor = creatures[index - 1];
+            }
+        }
+        return neighbor;
+    }
+
+    rightNeighbor() {
+        let neighbor;
+        if (this.type === 'creature') {
+            let creatures = this.controller.creaturesInPlay;
+            let index = creatures.indexOf(this);
+            if (index < creatures.length - 1) {
+                neighbor = creatures[index + 1];
+            }
+        }
+        return neighbor;
+    }
+
     ignores(trait) {
         return this.getEffects('ignores').includes(trait);
     }
