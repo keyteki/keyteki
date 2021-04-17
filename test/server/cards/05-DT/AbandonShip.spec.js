@@ -22,7 +22,6 @@ describe('Abandon Ship', function () {
             expect(this.player1).toBeAbleToSelect(this.wikolia);
             expect(this.player1).toBeAbleToSelect(this.krump);
             this.player1.clickCard(this.wikolia);
-            this.player1.clickPrompt('Done');
             expect(this.wikolia.location).toBe('hand');
         });
 
@@ -35,10 +34,13 @@ describe('Abandon Ship', function () {
             expect(this.player1).toBeAbleToSelect(this.kaupe);
             expect(this.player1).toBeAbleToSelect(this.wikolia);
             expect(this.player1).toBeAbleToSelect(this.krump);
-            expect(this.player1.currentButtons).toContain('Done');
+            expect(this.player1.currentButtons).not.toContain('Done');
             this.player1.clickCard(this.wikolia);
+            expect(this.player1.currentButtons).not.toContain('Done');
             this.player1.clickCard(this.batdrone);
+            expect(this.player1.currentButtons).not.toContain('Done');
             this.player1.clickCard(this.mother);
+            expect(this.player1.currentButtons).not.toContain('Done');
             this.player1.clickCard(this.krump);
             this.player1.clickPrompt('Done');
             expect(this.wikolia.location).toBe('hand');

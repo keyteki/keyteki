@@ -9,35 +9,22 @@ class T3r35a extends Card {
             effect: ability.effects.canPlayAsUpgrade()
         });
 
-        // give the card as creature this effect
         this.persistentEffect({
-            effect: ability.effects.canUse((card) => {
-                let possibleHouses = [];
-                if (card.neighbors.length > 0) {
-                    possibleHouses = possibleHouses.concat(card.neighbors[0].getHouses());
-                }
-
-                if (card.neighbors.length > 1) {
-                    possibleHouses = possibleHouses.concat(card.neighbors[1].getHouses());
-                }
-
-                return possibleHouses.includes(card.game.activePlayer.activeHouse);
-            })
+            condition: (context) => context.source.type === 'creature',
+            effect: ability.effects.canUse((card, context) =>
+                card.neighbors.some((n) => n.hasHouse(context.game.activePlayer.activeHouse))
+            )
         });
 
-        // give the creature this card is attached to this effect
         this.whileAttached({
-            effect: ability.effects.canUse((card) => {
-                let possibleHouses = [];
-                if (card.neighbors.length > 0) {
-                    possibleHouses = possibleHouses.concat(card.neighbors[0].getHouses());
-                }
-
-                if (card.neighbors.length > 1) {
-                    possibleHouses = possibleHouses.concat(card.neighbors[1].getHouses());
-                }
-
-                return possibleHouses.includes(card.game.activePlayer.activeHouse);
+            effect: ability.effects.gainAbility('persistentEffect', {
+                effect: ability.effects.canUse(
+                    (card, context) =>
+                        card === this.parent &&
+                        card.neighbors.some((n) =>
+                            n.hasHouse(context.game.activePlayer.activeHouse)
+                        )
+                )
             })
         });
     }

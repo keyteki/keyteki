@@ -1,5 +1,5 @@
 describe('T3r 35a', function () {
-    describe("T3r 35a's ability", function () {
+    describe("T3r 35a's as a creature ability", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
@@ -13,12 +13,6 @@ describe('T3r 35a', function () {
                     inPlay: ['gub', 'krump']
                 }
             });
-        });
-
-        it('should play as an upgrade without issue', function () {
-            this.player1.moveCard(this.chronus, 'play area');
-            this.player1.playUpgrade(this.t3r35a, this.chronus);
-            this.player1.endTurn();
         });
 
         it('should play as a creature without issue', function () {
@@ -101,6 +95,35 @@ describe('T3r 35a', function () {
             this.player1.reap(this.t3r35a);
             expect(this.player1.amber).toBe(2);
         });
+    });
+
+    describe("T3r 35a's as an upgrade ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'staralliance',
+                    amber: 1,
+                    hand: [
+                        'armsmaster-molina',
+                        'dust-pixie',
+                        'sensor-chief-garcia',
+                        't3r-35a',
+                        'chronus'
+                    ],
+                    inPlay: []
+                },
+                player2: {
+                    amber: 1,
+                    inPlay: ['gub', 'krump']
+                }
+            });
+        });
+
+        it('should play as an upgrade without issue', function () {
+            this.player1.moveCard(this.chronus, 'play area');
+            this.player1.playUpgrade(this.t3r35a, this.chronus);
+            this.player1.endTurn();
+        });
 
         it('upgraded creature should be able to be used when it is the turn of the creature on the left', function () {
             this.player1.moveCard(this.dustPixie, 'play area');
@@ -121,6 +144,7 @@ describe('T3r 35a', function () {
 
         it('upgraded creature should be able to be used when it is the turn of the creature on the right', function () {
             this.player1.moveCard(this.dustPixie, 'play area');
+            expect(this.dustPixie.exhausted).toBe(false);
             this.player1.playCreature(this.armsmasterMolina, true);
             this.player1.playUpgrade(this.t3r35a, this.armsmasterMolina);
 
@@ -179,6 +203,17 @@ describe('T3r 35a', function () {
             this.player1.amber = 1;
             this.player1.reap(this.armsmasterMolina);
             expect(this.player1.amber).toBe(2);
+        });
+
+        it('upgraded creature should not apply effect to neighbor', function () {
+            this.player1.moveCard(this.dustPixie, 'play area');
+            expect(this.dustPixie.exhausted).toBe(false);
+            this.player1.playCreature(this.armsmasterMolina, true);
+            this.player1.playUpgrade(this.t3r35a, this.armsmasterMolina);
+            expect(this.player1).not.toBeAbleToSelect(this.dustPixie);
+            this.player1.clickCard(this.dustPixie);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.player1.endTurn();
         });
     });
 });

@@ -6,6 +6,7 @@ class AbandonShip extends Card {
         this.play({
             target: {
                 cardType: 'creature',
+                mode: 'exactly',
                 numCards: (context) => (context.player.isTideHigh() ? 4 : 1),
                 gameAction: ability.actions.returnToHand()
             }
