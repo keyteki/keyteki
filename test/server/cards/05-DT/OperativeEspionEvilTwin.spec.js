@@ -25,7 +25,6 @@ describe('Operative Espion Evil Twin', function () {
             });
 
             it('should opt to deal damage to a creature', function () {
-                this.player1.clickCard(this.operativeEspionEvilTwin);
                 expect(this.player1).toBeAbleToSelect(this.lamindra);
                 expect(this.player1).toBeAbleToSelect(this.rocketeerTryska);
                 expect(this.player1).toBeAbleToSelect(this.troll);
@@ -47,7 +46,6 @@ describe('Operative Espion Evil Twin', function () {
             });
 
             it('should opt to deal damage to a creature', function () {
-                this.player2.clickCard(this.operativeEspionEvilTwin);
                 expect(this.player2).toBeAbleToSelect(this.lamindra);
                 expect(this.player2).toBeAbleToSelect(this.rocketeerTryska);
                 expect(this.player2).toBeAbleToSelect(this.troll);

@@ -8,8 +8,8 @@ class OperativeEspionEvilTwin extends Card {
             when: {
                 onRaiseTide: (event) => event.player === this.game.activePlayer
             },
-            optional: true,
             target: {
+                optional: true,
                 cardType: 'creature',
                 gameAction: ability.actions.dealDamage({ amount: 3 })
             }
