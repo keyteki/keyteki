@@ -82,4 +82,37 @@ describe('Infighting', function () {
             expect(this.dharna.tokens.damage).toBe(1);
         });
     });
+
+    describe('Infighting and Should Id', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'untamed',
+                    hand: [
+                        'infighting',
+                        'the-common-cold',
+                        'gateway-to-dis',
+                        'dust-pixie',
+                        'dharna'
+                    ],
+                    inPlay: ['lamindra', 'shoulder-id', 'urchin']
+                },
+                player2: {
+                    amber: 5,
+                    inPlay: ['mother', 'zorg', 'batdrone']
+                }
+            });
+        });
+
+        it('should steal when shoulder id would deal damage', function () {
+            this.player1.play(this.infighting);
+            expect(this.lamindra.tokens.damage).toBeUndefined();
+            expect(this.shoulderId.tokens.damage).toBe(1);
+
+            // should steal instead of dealing damage to urchin
+            expect(this.urchin.tokens.damage).toBeUndefined();
+            expect(this.player1.amber).toBe(1);
+            expect(this.player2.amber).toBe(4);
+        });
+    });
 });
