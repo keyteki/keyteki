@@ -25,6 +25,7 @@ describe('Selective Preservation', function () {
             this.player1.moveCard(this.scoutPete, 'play area');
             expect(this.scoutPete.location).toBe('play area');
             this.player1.play(this.selectivePreservation);
+            this.player1.clickCard(this.scoutPete);
             this.player1.endTurn();
             expect(this.scoutPete.location).toBe('play area');
         });
@@ -91,6 +92,52 @@ describe('Selective Preservation', function () {
             this.player1.endTurn();
             expect(this.scoutPete.location).toBe('play area');
             expect(this.bingleBangbang.location).toBe('discard');
+        });
+    });
+
+    describe("Selective Preservation's ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'staralliance',
+                    amber: 1,
+                    hand: ['selective-preservation', 'armsmaster-molina'],
+                    inPlay: ['flaxia']
+                },
+                player2: {
+                    amber: 1,
+                    hand: ['flamewake-shaman'],
+                    inPlay: ['lamindra', 'bingle-bangbang', 'sensor-chief-garcia']
+                }
+            });
+        });
+
+        it('should play with one creature of each power (1, 2, 3, 4) and leave all of them alive', function () {
+            this.player1.play(this.selectivePreservation);
+            this.player1.clickCard(this.lamindra);
+            this.player1.clickCard(this.bingleBangbang);
+            this.player1.clickCard(this.sensorChiefGarcia);
+            this.player1.clickCard(this.flaxia);
+            this.player1.endTurn();
+            expect(this.lamindra.location).toBe('play area');
+            expect(this.bingleBangbang.location).toBe('play area');
+            expect(this.sensorChiefGarcia.location).toBe('play area');
+            expect(this.flaxia.location).toBe('play area');
+        });
+
+        it('should play with one creature of each power (1, 2, 3, 4) and a an extra of 4-power, kill only 1 creature', function () {
+            this.player1.play(this.armsmasterMolina);
+            this.player1.play(this.selectivePreservation);
+            this.player1.clickCard(this.lamindra);
+            this.player1.clickCard(this.bingleBangbang);
+            this.player1.clickCard(this.sensorChiefGarcia);
+            this.player1.clickCard(this.flaxia);
+            this.player1.endTurn();
+            expect(this.lamindra.location).toBe('play area');
+            expect(this.bingleBangbang.location).toBe('play area');
+            expect(this.sensorChiefGarcia.location).toBe('play area');
+            expect(this.flaxia.location).toBe('play area');
+            expect(this.armsmasterMolina.location).toBe('discard');
         });
     });
 });

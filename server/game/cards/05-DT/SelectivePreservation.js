@@ -22,19 +22,18 @@ class SelectivePreservation extends Card {
                         },
                         cardType: 'creature',
                         numCards: 1,
-                        cardCondition: (card) => card.power === power,
-                        gameAction: ability.actions.destroy((context) => ({
-                            target: context.game.creaturesInPlay.filter(
-                                (card) =>
-                                    context.targets[targetKey] !== card && card.power === power
-                            )
-                        }))
+                        cardCondition: (card) => card.power === power
                     };
                 }
 
                 return {
                     alwaysTriggers: true,
-                    targets: targets
+                    targets: targets,
+                    gameAction: ability.actions.destroy((context) => ({
+                        target: context.game.creaturesInPlay.filter(
+                            (card) => !Object.values(context.targets).includes(card)
+                        )
+                    }))
                 };
             }
         });
