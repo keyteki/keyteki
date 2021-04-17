@@ -2,6 +2,10 @@ const Card = require('../../Card.js');
 
 class Valoocanth extends Card {
     setupCardAbilities(ability) {
+        this.persistentEffect({
+            condition: (context) => context.player.isTideLow(),
+            effect: ability.effects.cardCannot('use')
+        });
         this.fight({
             reap: true,
             target: {

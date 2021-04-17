@@ -11,14 +11,14 @@ class Omnipus extends Card {
 
         this.play({
             gameAction: ability.actions.discard((context) => ({
-                target: context.player.deck.slice(8)
+                target: context.player.deck.slice(0, 8)
             })),
             then: {
                 alwaysTriggers: true,
                 condition: (context) =>
-                    context.player.discard.some((card) => card.hasTrait('tentacle')),
+                    context.player.discard.some((card) => card.id === 'tentaclid'),
                 gameAction: ability.actions.sequentialPutIntoPlay((context) => ({
-                    forEach: context.player.discard.filter((card) => card.hasTrait('tentacle')),
+                    forEach: context.player.discard.filter((card) => card.id === 'tentaclid'),
                     action: ability.actions.putIntoPlay()
                 }))
             }
@@ -26,7 +26,7 @@ class Omnipus extends Card {
 
         this.reap({
             gameAction: ability.actions.gainAmber((context) => ({
-                amount: context.player.creaturesInPlay.filter((card) => card.hasTrait('tentacle'))
+                amount: context.player.creaturesInPlay.filter((card) => card.id === 'tentaclid')
             }))
         });
     }

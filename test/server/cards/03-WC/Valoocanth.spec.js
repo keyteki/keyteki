@@ -97,4 +97,39 @@ describe('Valoocanth', function () {
             expect(this.redlock.exhausted).toBe(true);
         });
     });
+
+    describe("Valoocanth's use with Tide", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'brobnar',
+                    inPlay: ['valoocanth'],
+                    hand: ['troll', 'autocannon']
+                },
+                player2: {
+                    inPlay: ['redlock']
+                }
+            });
+            this.player1.lowerTide();
+        });
+
+        it('cannot be used when tide is low', function () {
+            this.player1.lowerTide();
+            this.player1.clickCard(this.valoocanth);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+
+        it('can be used if tide is high', function () {
+            this.player1.raiseTide();
+            this.player1.reap(this.valoocanth);
+            expect(this.player1.amber).toBe(1);
+        });
+
+        it('can be used if tide is high', function () {
+            this.player1.raiseTide();
+            this.player1.lowerTide();
+            this.player1.clickCard(this.valoocanth);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+    });
 });
