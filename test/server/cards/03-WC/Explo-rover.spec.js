@@ -82,10 +82,15 @@ describe('Explo-rover', function () {
         });
 
         it('is played as an upgrade to grant skirmish', function () {
+            expect(this.dustPixie.getKeywordValue('skirmish')).toBe(0);
+            expect(this.commanderChan.getKeywordValue('skirmish')).toBe(0);
+            this.player1.play(this.commanderChan);
             this.player1.playUpgrade(this.exploRover, this.dustPixie);
             expect(this.exploRover.type).toBe('upgrade');
             expect(this.exploRover.location).toBe('play area');
             expect(this.exploRover.parent).toBe(this.dustPixie);
+            expect(this.dustPixie.getKeywordValue('skirmish')).toBe(1);
+            expect(this.commanderChan.getKeywordValue('skirmish')).toBe(0);
             this.player1.endTurn();
             this.player2.clickPrompt('shadows');
             this.player2.endTurn();
