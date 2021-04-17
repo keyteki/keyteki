@@ -74,6 +74,9 @@ describe('Trojan Sauropod', function () {
                     expect(this.gub.location).toBe('hand');
                     expect(this.gatewayToDis.location).toBe('hand');
                     expect(this.trojanSauropod.location).toBe('discard');
+
+                    expect(this.citizenShrix.exhausted).toBe(false);
+                    expect(this.senatorShrix.exhausted).toBe(false);
                 });
             });
         });
