@@ -1,5 +1,5 @@
-describe('MakeItSo', function () {
-    describe("MakeItSo's ability", function () {
+describe('Make It So', function () {
+    describe("Make It So's ability", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
@@ -44,8 +44,18 @@ describe('MakeItSo', function () {
 
             it('should draw one card, and keep the second in the deck', function () {
                 expect(this.stealthMode.location).toBe('hand');
-                expect(this.player1.player.deck[0]).toBe(this.lamindra);
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            });
+
+            describe('when the effect is repeated and same house is selected', function () {
+                beforeEach(function () {
+                    this.player1.clickPrompt('staralliance');
+                });
+
+                it('should keep the next card in the deck', function () {
+                    expect(this.stealthMode.location).toBe('hand');
+                    expect(this.player1.player.deck[0]).toBe(this.lamindra);
+                    expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                });
             });
         });
 
@@ -60,10 +70,31 @@ describe('MakeItSo', function () {
             });
 
             it('should draw all cards, and keep the last in the deck', function () {
-                expect(this.stealthMode.location).toBe('hand');
                 expect(this.sensorChiefGarcia.location).toBe('hand');
+                this.player1.clickPrompt('staralliance');
                 expect(this.transporterPlatform.location).toBe('hand');
+                this.player1.clickPrompt('staralliance');
+                expect(this.stealthMode.location).toBe('hand');
+                this.player1.clickPrompt('staralliance');
                 expect(this.player1.player.deck[0]).toBe(this.lamindra);
+                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            });
+        });
+
+        describe('when different houses are selected', function () {
+            beforeEach(function () {
+                this.player1.moveCard(this.lamindra, 'deck');
+                this.player1.moveCard(this.stealthMode, 'deck');
+                this.player1.moveCard(this.transporterPlatform, 'deck');
+                this.player1.moveCard(this.sensorChiefGarcia, 'deck');
+                this.player1.play(this.makeItSo);
+                this.player1.clickPrompt('staralliance');
+            });
+
+            it('should draw all cards, and keep the last in the deck', function () {
+                expect(this.sensorChiefGarcia.location).toBe('hand');
+                this.player1.clickPrompt('shadows');
+                expect(this.player1.player.deck[0]).toBe(this.transporterPlatform);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
         });

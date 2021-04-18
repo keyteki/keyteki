@@ -49,4 +49,29 @@ describe('HealOrHarm', function () {
             });
         });
     });
+
+    describe('Action test', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'sanctum',
+                    hand: ['heal-or-harm']
+                },
+                player2: {
+                    amber: 2
+                }
+            });
+            this.player1.play(this.healOrHarm);
+        });
+
+        describe('select heal', function () {
+            beforeEach(function () {
+                this.player1.clickPrompt('Heal');
+            });
+
+            it('and gain 1A if not creatures are in play', function () {
+                expect(this.player1.amber).toBe(1);
+            });
+        });
+    });
 });

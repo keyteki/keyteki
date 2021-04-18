@@ -15,28 +15,13 @@ class MakeItSo extends Card {
             })),
             then: (preThenContext) => ({
                 condition: () => preThenContext.player.deck[0].hasHouse(preThenContext.house),
-                gameAction: ability.actions.draw(),
-                then: {
-                    // need to repeat reveal to avoid re-selecting a house in the resolve ability bellow
-                    condition: (context) => context.player.deck.length > 0,
-                    gameAction: ability.actions.reveal((context) => ({
-                        location: 'deck',
-                        target: context.player.deck[0]
-                    })),
-                    message: '{0} uses {1} to reveal {3}',
-                    messageArgs: (context) => [context.player.deck[0]],
-                    then: (preThenContext2) => ({
-                        condition: () =>
-                            preThenContext2.player.deck[0].hasHouse(preThenContext.house),
-                        gameAction: ability.actions.draw(),
-                        then: {
-                            message: '{0} uses {1} to resolve its effect again',
-                            gameAction: ability.actions.resolveAbility({
-                                ability: preThenContext2.ability
-                            })
-                        }
+                gameAction: [
+                    ability.actions.draw(),
+                    ability.actions.resolveAbility({
+                        ability: preThenContext.ability
                     })
-                }
+                ],
+                message: '{0} uses {1} to draw the card and resolve its effect again'
             })
         });
     }
