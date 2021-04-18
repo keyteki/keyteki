@@ -97,6 +97,29 @@ describe('T3r 35a', function () {
         });
     });
 
+    describe("T3r 35a's as a creature ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'untamed',
+                    amber: 1,
+                    inPlay: ['armsmaster-molina', 'dust-pixie', 't3r-35a', 'chronus']
+                },
+                player2: {
+                    amber: 1,
+                    inPlay: ['gub', 'krump']
+                }
+            });
+        });
+
+        it('should apply the effect only to itself', function () {
+            this.player1.reap(this.t3r35a);
+            this.player1.clickCard(this.armsmasterMolina);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.player1.endTurn();
+        });
+    });
+
     describe("T3r 35a's as an upgrade ability", function () {
         beforeEach(function () {
             this.setupTest({
