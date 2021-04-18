@@ -119,4 +119,42 @@ describe("Dead Man's Chest", function () {
             });
         });
     });
+
+    describe("Dead Man's Chest's ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'shadows',
+                    amber: 1,
+                    hand: ['dead-man-s-chest'],
+                    inPlay: [
+                        'mastermindy',
+                        'shoulder-id',
+                        'hookmaster',
+                        'horrid-synan',
+                        'giltspine-netcaster',
+                        'gas-pipes-malone'
+                    ]
+                },
+                player2: {
+                    amber: 1,
+                    hand: ['final-analysis'],
+                    inPlay: ['infomorph', 'edai-edie-4x4', 'bilgewarden']
+                }
+            });
+
+            this.player1.play(this.deadManSChest);
+            this.player1.clickCard(this.infomorph);
+            this.player1.endTurn();
+            this.player2.clickPrompt('logos');
+        });
+
+        it('should gain the 4A after a board wipe', function () {
+            this.player2.play(this.finalAnalysis);
+            expect(this.deadManSChest.amber).toBe(0);
+            expect(this.player1.amber).toBe(2);
+            expect(this.player2.amber).toBe(5);
+            this.player2.endTurn();
+        });
+    });
 });
