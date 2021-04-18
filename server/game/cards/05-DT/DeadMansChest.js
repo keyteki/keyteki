@@ -24,7 +24,7 @@ class DeadMansChest extends Card {
             when: {
                 onCardDestroyed: (event, context) =>
                     !context.source.exhausted &&
-                    this.creatureDestroyed.length == 6 &&
+                    this.creatureDestroyed.length >= 6 &&
                     this.creatureDestroyed[5] === event.card.uuid
             },
             gameAction: ability.actions.removeAmber({ all: true }),
