@@ -21,16 +21,6 @@ describe('Grand Alliance Council', function () {
             this.player1.endTurn();
         });
 
-        xit('should prompt to not kill a single creature to not kill and leave them alive', function () {
-            this.player1.moveCard(this.stealthster, 'play area');
-            this.player1.play(this.grandAllianceCouncil);
-            expect(this.player1).toHavePrompt('Choose a Star Alliance creature to not destroy');
-            this.player1.clickCard(this.stealthster);
-
-            this.player1.endTurn();
-            expect(this.stealthster.location).toBe('play area');
-        });
-
         it('should prompt to not kill a single creature and kill the rest', function () {
             this.player1.moveCard(this.stealthster, 'play area');
             this.player2.moveCard(this.scoutPete, 'play area');
@@ -86,6 +76,28 @@ describe('Grand Alliance Council', function () {
             expect(this.stealthster.location).toBe('discard');
             expect(this.scoutPete.location).toBe('play area');
             expect(this.subjectKirby.location).toBe('discard');
+        });
+
+        it('should should not kill creatures who are the only ones from their house', function () {
+            this.player1.moveCard(this.dharna, 'play area');
+            this.player1.moveCard(this.stealthster, 'play area');
+            this.player2.moveCard(this.scoutPete, 'play area');
+
+            expect(this.dharna.location).toBe('play area');
+            expect(this.stealthster.location).toBe('play area');
+            expect(this.scoutPete.location).toBe('play area');
+
+            this.player1.play(this.grandAllianceCouncil);
+
+            expect(this.player1).toBeAbleToSelect(this.stealthster);
+            expect(this.player1).toBeAbleToSelect(this.scoutPete);
+            expect(this.player1).toHavePrompt('Choose a Star Alliance creature to not destroy');
+            this.player1.clickCard(this.scoutPete);
+
+            this.player1.endTurn();
+            expect(this.dharna.location).toBe('play area');
+            expect(this.stealthster.location).toBe('discard');
+            expect(this.scoutPete.location).toBe('play area');
         });
     });
 });
