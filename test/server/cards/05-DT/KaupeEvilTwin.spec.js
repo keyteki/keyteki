@@ -144,7 +144,7 @@ describe('Kaupe Evil Twin', function () {
                 expect(this.player1).not.toBeAbleToSelect(this.kaupeEvilTwin);
             });
 
-            describe('and enemy creatures are selected is selected', function () {
+            describe('and enemy creatures are selected', function () {
                 beforeEach(function () {
                     this.player1.clickCard(this.gladiodontus);
                     this.player1.clickCard(this.gladiodontus);
@@ -227,7 +227,7 @@ describe('Kaupe Evil Twin', function () {
                 expect(this.player1).not.toBeAbleToSelect(this.kaupeEvilTwin);
             });
 
-            describe('and enemy creatures are selected is selected', function () {
+            describe('and enemy creatures are selected', function () {
                 beforeEach(function () {
                     this.player1.clickCard(this.gladiodontus);
                     this.player1.clickCard(this.gladiodontus);
