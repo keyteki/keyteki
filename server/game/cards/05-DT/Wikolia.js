@@ -5,7 +5,7 @@ class Wikolia extends Card {
     setupCardAbilities(ability) {
         this.reap({
             gameAction: ability.actions.lastingEffect({
-                targetController: 'any',
+                targetController: 'opponent',
                 effect: ability.effects.modifyKeyCost(() => 2)
             })
         });
