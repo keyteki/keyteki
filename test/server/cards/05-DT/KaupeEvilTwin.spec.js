@@ -110,7 +110,7 @@ describe('Kaupe Evil Twin', function () {
                     ]
                 },
                 player2: {
-                    inPlay: ['lamindra', 'gladiodontus']
+                    inPlay: ['troll', 'gladiodontus']
                 }
             });
         });
@@ -139,18 +139,22 @@ describe('Kaupe Evil Twin', function () {
             });
 
             it('should be able to select enemy creatures', function () {
-                expect(this.player1).toBeAbleToSelect(this.lamindra);
+                expect(this.player1).toBeAbleToSelect(this.troll);
                 expect(this.player1).toBeAbleToSelect(this.gladiodontus);
                 expect(this.player1).not.toBeAbleToSelect(this.kaupeEvilTwin);
             });
 
-            describe('and an enemy creature is selected', function () {
+            describe('and enemy creatures are selected', function () {
                 beforeEach(function () {
                     this.player1.clickCard(this.gladiodontus);
+                    this.player1.clickCard(this.gladiodontus);
+                    this.player1.clickCard(this.gladiodontus);
+                    this.player1.clickCard(this.troll);
                 });
 
                 it('should deal 2 * number of discard cards', function () {
-                    expect(this.gladiodontus.tokens.damage).toBe(8);
+                    expect(this.gladiodontus.tokens.damage).toBe(6);
+                    expect(this.troll.tokens.damage).toBe(2);
                     this.player1.endTurn();
                 });
             });
@@ -159,10 +163,12 @@ describe('Kaupe Evil Twin', function () {
         it('should be able to discard even when no enemy creatures are in play', function () {
             this.player2.moveCard(this.lamindra, 'discard');
             this.player2.moveCard(this.gladiodontus, 'discard');
+            this.player2.moveCard(this.troll, 'discard');
             this.player1.reap(this.kaupeEvilTwin);
             this.player1.clickCard(this.doctorDriscoll);
             this.player1.clickPrompt('Done');
             expect(this.doctorDriscoll.location).toBe('discard');
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             this.player1.endTurn();
         });
     });
@@ -186,7 +192,7 @@ describe('Kaupe Evil Twin', function () {
                     ]
                 },
                 player2: {
-                    inPlay: ['lamindra', 'gladiodontus']
+                    inPlay: ['lamindra', 'troll', 'gladiodontus']
                 }
             });
         });
@@ -216,17 +222,23 @@ describe('Kaupe Evil Twin', function () {
 
             it('should be able to select enemy creatures', function () {
                 expect(this.player1).toBeAbleToSelect(this.lamindra);
+                expect(this.player1).toBeAbleToSelect(this.troll);
                 expect(this.player1).toBeAbleToSelect(this.gladiodontus);
                 expect(this.player1).not.toBeAbleToSelect(this.kaupeEvilTwin);
             });
 
-            describe('and an enemy creature is selected', function () {
+            describe('and enemy creatures are selected', function () {
                 beforeEach(function () {
                     this.player1.clickCard(this.gladiodontus);
+                    this.player1.clickCard(this.gladiodontus);
+                    this.player1.clickCard(this.lamindra);
+                    this.player1.clickCard(this.troll);
                 });
 
                 it('should deal 2 * number of discard cards', function () {
-                    expect(this.gladiodontus.tokens.damage).toBe(8);
+                    expect(this.gladiodontus.tokens.damage).toBe(4);
+                    expect(this.troll.tokens.damage).toBe(2);
+                    expect(this.lamindra.location).toBe('discard');
                     this.player1.endTurn();
                 });
             });

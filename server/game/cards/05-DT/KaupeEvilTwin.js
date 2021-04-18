@@ -13,13 +13,11 @@ class KaupeEvilTwin extends Card {
                 gameAction: ability.actions.discard()
             },
             then: {
-                target: {
+                gameAction: ability.actions.allocateDamage((context) => ({
                     controller: 'opponent',
-                    cardType: 'creature',
-                    gameAction: ability.actions.dealDamage((context) => ({
-                        amount: 2 * context.preThenEvents.length
-                    }))
-                }
+                    numSteps: context.preThenEvents.length || 0,
+                    damageStep: 2
+                }))
             }
         });
 
