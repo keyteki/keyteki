@@ -27,6 +27,7 @@ class Omnipus extends Card {
         this.reap({
             gameAction: ability.actions.gainAmber((context) => ({
                 amount: context.player.creaturesInPlay.filter((card) => card.id === 'tentaclid')
+                    .length
             }))
         });
     }
