@@ -7,11 +7,16 @@ class WasteNot extends Card {
             target: {
                 cardType: 'creature',
                 controller: 'self',
-                gameAction: ability.actions.destroy()
+                gameAction: [
+                    ability.actions.destroy(),
+                    ability.actions.draw((context) => ({
+                        target: context.player,
+                        amount: context.target ? Math.ceil(context.target.power * 0.5) : 0
+                    }))
+                ]
             },
-            then: (context) => ({
-                gameAction: ability.actions.draw({ amount: Math.ceil(context.target.power * 0.5) })
-            })
+            effect: 'destroy {0} and draw {1} cards',
+            effectArgs: (context) => (context.target ? Math.ceil(context.target.power * 0.5) : 0)
         });
     }
 }
