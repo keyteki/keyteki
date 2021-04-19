@@ -14,7 +14,7 @@ class HandCannon extends Card {
                             target: context.event.card
                         })
                     }),
-                    effect: 'move 1 amber from {0} to {1}',
+                    effect: 'move 1 amber from {1} to their pool',
                     effectArgs: (context) => context.event.card
                 })
             ]
