@@ -21,7 +21,7 @@ class CallOfTheVoid extends Card {
             effect: '{1}{0}{2}',
             effectArgs: (context) =>
                 !context.target.exhausted
-                    ? ['exhaust ']
+                    ? ['exhaust ', '']
                     : ['destroy ', ' and make its controller lose 1 amber']
         });
     }
