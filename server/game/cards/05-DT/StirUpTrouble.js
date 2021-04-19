@@ -16,6 +16,8 @@ class StirUpTrouble extends Card {
             },
             gameAction: ability.actions.dealDamage((context) => ({
                 target: Object.values(context.targets),
+                damageSource: (card) =>
+                    card === context.targets.c1 ? context.targets.c2 : context.targets.c1,
                 amountForCard: (card, context) => {
                     if (context.targets && context.targets.c1 && context.targets.c2) {
                         return card === context.targets.c1
