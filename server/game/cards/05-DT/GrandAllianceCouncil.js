@@ -14,17 +14,17 @@ class GrandAllianceCouncil extends Card {
                 },
                 cardType: 'creature',
                 numCards: 1,
-                cardCondition: (card) => card.hasHouse(house),
-                gameAction: ability.actions.destroy((context) => ({
-                    target: context.game.creaturesInPlay.filter(
-                        (card) => context.targets[house] !== card && card.hasHouse(house)
-                    )
-                }))
+                cardCondition: (card) => card.hasHouse(house)
             };
         }
 
         this.play({
-            targets: targets
+            targets: targets,
+            gameAction: ability.actions.destroy((context) => ({
+                target: context.game.creaturesInPlay.filter(
+                    (creatureToKill) => !Object.values(context.targets).includes(creatureToKill)
+                )
+            }))
         });
     }
 }
