@@ -28,6 +28,7 @@ class Card extends EffectSource {
         this.printedType = cardData.type;
         this.composedPart = null;
         this.tokens = {};
+        this.gigantic = false;
 
         this.abilities = {
             actions: [],
@@ -1086,6 +1087,7 @@ class Card extends EffectSource {
             taunt: this.getType() === 'creature' && !!this.getKeywordValue('taunt'),
             tokens: this.tokens,
             type: this.getType(),
+            gigantic: this.gigantic,
             upgrades: this.upgrades.map((upgrade) => {
                 return upgrade.getSummary(activePlayer, hideWhenFaceup);
             }),
