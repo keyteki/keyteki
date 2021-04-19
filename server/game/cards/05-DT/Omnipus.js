@@ -17,9 +17,9 @@ class Omnipus extends Card {
                 alwaysTriggers: true,
                 condition: (context) =>
                     context.player.discard.some((card) => card.id === 'tentaclid'),
-                gameAction: ability.actions.sequentialPutIntoPlay((context) => ({
+                gameAction: ability.actions.sequentialForEach((context) => ({
                     forEach: context.player.discard.filter((card) => card.id === 'tentaclid'),
-                    action: ability.actions.putIntoPlay()
+                    action: ability.actions.playCard()
                 }))
             }
         });
