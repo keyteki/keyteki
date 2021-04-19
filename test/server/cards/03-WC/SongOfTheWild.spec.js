@@ -5,13 +5,14 @@ describe('Song Of The Wild', function () {
                 player1: {
                     house: 'untamed',
                     inPlay: ['dust-pixie', 'rustgnawer', 'snufflegator', 'duskwitch'],
-                    hand: ['song-of-the-wild', 'dew-faerie']
+                    hand: ['song-of-the-wild', 'bramble-lynx']
                 },
                 player2: {
                     inPlay: ['mighty-tiger', 'grabber-jammer']
                 }
             });
         });
+
         it("should give all friendly creatures 'Reap: Gain 1A' until the end of the turn", function () {
             this.player1.play(this.songOfTheWild);
             this.player1.reap(this.dustPixie);
@@ -19,16 +20,18 @@ describe('Song Of The Wild', function () {
             this.player1.reap(this.snufflegator);
             expect(this.player1.amber).toBe(6);
         });
-        it("should not give newly played friendly creatures 'Reap: Gain 1A' until the end of the turn", function () {
+
+        it("should give newly played friendly creatures 'Reap: Gain 1A' until the end of the turn", function () {
             this.player1.play(this.songOfTheWild);
             this.player1.reap(this.dustPixie);
             this.player1.reap(this.rustgnawer);
             this.player1.reap(this.snufflegator);
             expect(this.player1.amber).toBe(6);
-            this.player1.play(this.dewFaerie);
-            this.player1.reap(this.dewFaerie);
+            this.player1.play(this.brambleLynx);
+            this.player1.reap(this.brambleLynx);
             expect(this.player1.amber).toBe(8);
         });
+
         it("should not carry over to the opponent's turn", function () {
             this.player1.play(this.songOfTheWild);
             this.player1.endTurn();

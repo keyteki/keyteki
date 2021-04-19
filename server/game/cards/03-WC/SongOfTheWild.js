@@ -5,11 +5,11 @@ class SongOfTheWild extends Card {
         this.play({
             effect:
                 "give each friendly creature 'Reap: Gain 1 amber' for the remainder of the turn",
-            gameAction: ability.actions.cardLastingEffect((context) => ({
-                target: context.player.creaturesInPlay,
-                effect: ability.effects.gainAbility('reap', {
-                    gameAction: ability.actions.gainAmber()
-                })
+            gameAction: ability.actions.forRemainderOfTurn((context) => ({
+                when: {
+                    onReap: () => true
+                },
+                gameAction: ability.actions.gainAmber({ target: context.player })
             }))
         });
     }
