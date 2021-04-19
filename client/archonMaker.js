@@ -539,40 +539,42 @@ export const buildCard = async (
         }
     }
     if (card.location === 'play area') {
-        //dynamic power overlay
-        let totalPower = modifiedPower - (tokens.power ? tokens.power : 0);
-        if (modifiedPower && totalPower !== card.printedPower) {
-            const modifiedPowerToken = new fabric.Image(
-                Tokens.ModifiedPower.getElement(),
-                imgOptions
-            );
-            modifiedPowerToken.scaleToWidth(60);
-            modifiedPowerToken.set({ left: 10, top: 220 - (halfSize ? 25 : 0) });
-            canvas.add(modifiedPowerToken);
-            const powerText = new fabric.Text(totalPower.toString(), tokenFontProps);
-            powerText.set({
-                left: 40,
-                top: 250 - (halfSize ? 25 : 0),
-                shadow: new fabric.Shadow(shadowProps)
-            });
-            canvas.add(powerText);
-        }
-        //armor overlay
-        if (tokens.armor || card.printedArmor) {
-            const modifiedArmorToken = new fabric.Image(Tokens.armor.getElement(), imgOptions);
-            modifiedArmorToken.scaleToWidth(60);
-            modifiedArmorToken.set({ left: 230, top: 220 - (halfSize ? 25 : 0) });
-            canvas.add(modifiedArmorToken);
-            const armorText = new fabric.Text(
-                tokens.armor ? tokens.armor.toString() : '0',
-                tokenFontProps
-            );
-            armorText.set({
-                left: 260,
-                top: 250 - (halfSize ? 25 : 0),
-                shadow: new fabric.Shadow(shadowProps)
-            });
-            canvas.add(armorText);
+        if (card.type === 'creature') {
+            //dynamic power overlay
+            let totalPower = modifiedPower - (tokens.power ? tokens.power : 0);
+            if (modifiedPower && totalPower !== card.printedPower) {
+                const modifiedPowerToken = new fabric.Image(
+                    Tokens.ModifiedPower.getElement(),
+                    imgOptions
+                );
+                modifiedPowerToken.scaleToWidth(60);
+                modifiedPowerToken.set({ left: 10, top: 220 - (halfSize ? 25 : 0) });
+                canvas.add(modifiedPowerToken);
+                const powerText = new fabric.Text(totalPower.toString(), tokenFontProps);
+                powerText.set({
+                    left: 40,
+                    top: 250 - (halfSize ? 25 : 0),
+                    shadow: new fabric.Shadow(shadowProps)
+                });
+                canvas.add(powerText);
+            }
+            //armor overlay
+            if (tokens.armor || card.printedArmor) {
+                const modifiedArmorToken = new fabric.Image(Tokens.armor.getElement(), imgOptions);
+                modifiedArmorToken.scaleToWidth(60);
+                modifiedArmorToken.set({ left: 230, top: 220 - (halfSize ? 25 : 0) });
+                canvas.add(modifiedArmorToken);
+                const armorText = new fabric.Text(
+                    tokens.armor ? tokens.armor.toString() : '0',
+                    tokenFontProps
+                );
+                armorText.set({
+                    left: 260,
+                    top: 250 - (halfSize ? 25 : 0),
+                    shadow: new fabric.Shadow(shadowProps)
+                });
+                canvas.add(armorText);
+            }
         }
         //tokens
         const printTokens = getCountersForCard({ ...card, tokens });
