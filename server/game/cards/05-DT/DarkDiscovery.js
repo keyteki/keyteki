@@ -4,6 +4,7 @@ class DarkDiscovery extends Card {
     // Play: Name 2 cards. Discard the bottom 2 cards of your opponent's deck. If they are the named cards, purge Dark Discovery and forge a key at no cost.
     setupCardAbilities(ability) {
         this.play({
+            condition: (context) => !!context.player.opponent,
             targets: {
                 firstCard: {
                     mode: 'card-name'
@@ -12,10 +13,14 @@ class DarkDiscovery extends Card {
                     mode: 'card-name'
                 }
             },
-            gameAction: ability.actions.discard((preThenContext) => ({
-                target: preThenContext.player.opponent.deck.slice(
-                    Math.max(preThenContext.player.opponent.deck.length - 2, 0)
-                )
+            effect: 'to name {1} and {2} and discard {3}',
+            effectArgs: (context) => [
+                context.targets.firstCard,
+                context.targets.secondCard,
+                context.player.opponent.deck.slice(context.player.opponent.deck.length - 2)
+            ],
+            gameAction: ability.actions.discard((context) => ({
+                target: context.player.opponent.deck.slice(context.player.opponent.deck.length - 2)
             })),
             then: (preThenContext) => ({
                 alwaysTriggers: true,
@@ -28,20 +33,14 @@ class DarkDiscovery extends Card {
                         return false;
                     }
 
-                    if (
-                        discardedCardNames[0] === preThenContext.targets.firstCard &&
-                        discardedCardNames[1] === preThenContext.targets.secondCard
-                    ) {
-                        return true;
-                    } else if (
-                        discardedCardNames[1] === preThenContext.targets.firstCard &&
-                        discardedCardNames[0] === preThenContext.targets.secondCard
-                    ) {
-                        return true;
-                    }
-
-                    return false;
+                    return (
+                        (discardedCardNames[0] === preThenContext.targets.firstCard &&
+                            discardedCardNames[1] === preThenContext.targets.secondCard) ||
+                        (discardedCardNames[1] === preThenContext.targets.firstCard &&
+                            discardedCardNames[0] === preThenContext.targets.secondCard)
+                    );
                 },
+                message: '{0} purges {1} and forges a key at no cost',
                 gameAction: [
                     ability.actions.forgeKey({
                         atNoCost: true

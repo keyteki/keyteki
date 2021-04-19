@@ -9,7 +9,8 @@ class CrushingCharge extends Card {
                     target: context.game.creaturesInPlay.filter((card) => card.power <= 4)
                 })),
                 ability.actions.gainChains()
-            ]
+            ],
+            effect: 'destroy each creature with power 4 or lower and gain 1 chain'
         });
     }
 }

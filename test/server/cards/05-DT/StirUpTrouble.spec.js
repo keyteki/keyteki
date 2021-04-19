@@ -5,7 +5,7 @@ describe('Stir Up Trouble', function () {
                 player1: {
                     house: 'shadows',
                     amber: 1,
-                    inPlay: ['sacro-thief'],
+                    inPlay: ['sacro-thief', 'shoulder-id'],
                     hand: ['dodger', 'stir-up-trouble']
                 },
                 player2: {
@@ -18,6 +18,7 @@ describe('Stir Up Trouble', function () {
         describe('when played and no creatures in play', function () {
             beforeEach(function () {
                 this.player1.moveCard(this.sacroThief, 'hand');
+                this.player2.moveCard(this.shoulderId, 'hand');
                 this.player2.moveCard(this.collectorWorm, 'hand');
                 this.player2.moveCard(this.eunoia, 'hand');
                 this.player2.moveCard(this.zorg, 'hand');
@@ -31,6 +32,7 @@ describe('Stir Up Trouble', function () {
 
         describe('when played and select a creature without neighbor', function () {
             beforeEach(function () {
+                this.player2.moveCard(this.shoulderId, 'hand');
                 this.player1.play(this.stirUpTrouble);
                 this.player1.clickCard(this.sacroThief);
             });
@@ -43,6 +45,7 @@ describe('Stir Up Trouble', function () {
 
         describe('when played and select a creature with a single neighbor', function () {
             beforeEach(function () {
+                this.player2.moveCard(this.shoulderId, 'hand');
                 this.player1.play(this.dodger);
                 this.player1.play(this.stirUpTrouble);
                 this.player1.clickCard(this.sacroThief);
@@ -85,6 +88,30 @@ describe('Stir Up Trouble', function () {
                 it('should cause damage to each other', function () {
                     expect(this.collectorWorm.tokens.damage).toBe(1);
                     expect(this.eunoia.tokens.damage).toBe(2);
+                });
+            });
+        });
+
+        describe('when played and select Shoulder Id', function () {
+            beforeEach(function () {
+                this.player1.play(this.stirUpTrouble);
+                this.player1.clickCard(this.shoulderId);
+            });
+
+            it('should prompt to select a neighbor', function () {
+                expect(this.player1).toBeAbleToSelect(this.sacroThief);
+            });
+
+            describe('and a neighbor is selected', function () {
+                beforeEach(function () {
+                    this.player1.clickCard(this.sacroThief);
+                });
+
+                it('shoulder Id should not deal damage', function () {
+                    expect(this.sacroThief.tokens.damage).toBeUndefined();
+                    expect(this.shoulderId.tokens.damage).toBe(4);
+                    expect(this.player1.amber).toBe(2);
+                    expect(this.player2.amber).toBe(4);
                 });
             });
         });
