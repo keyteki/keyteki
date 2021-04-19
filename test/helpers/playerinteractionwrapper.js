@@ -447,7 +447,7 @@ class PlayerInteractionWrapper {
 
     endTurn() {
         if (this.currentPrompt().menuTitle !== 'Choose a card to play, discard or use') {
-            throw new Error('Cannot end turn now');
+            throw new Error(`Cannot end turn now. Current prompt is:\n${this.formatPrompt()}`);
         }
 
         this.clickPrompt('End Turn');

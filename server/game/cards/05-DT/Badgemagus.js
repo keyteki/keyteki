@@ -5,19 +5,29 @@ class Badgemagus extends Card {
     // Fight: Ready and fight with each of Badgemagus's neighbors, one at a time.
     setupCardAbilities(ability) {
         this.fight({
-            effect: 'fight with each of its neighbors one at a time',
+            effect: 'ready and fight with each of its neighbors one at a time',
             target: {
                 cardType: 'creature',
                 cardCondition: (card, context) => context.source.neighbors.includes(card),
-                gameAction: ability.actions.fight()
+                gameAction: ability.actions.sequential([
+                    ability.actions.ready(),
+                    ability.actions.fight()
+                ])
             },
             then: (preThenContext) => ({
                 alwaysTrigger: true,
-                gameAction: ability.actions.fight((context) => ({
-                    target: preThenContext.cardStateWhenInitiated.clonedNeighbors.filter(
-                        (c) => c !== context.preThenEvent.card
-                    )
-                }))
+                gameAction: ability.actions.sequential([
+                    ability.actions.ready((context) => ({
+                        target: preThenContext.cardStateWhenInitiated.clonedNeighbors.filter(
+                            (c) => c !== context.preThenEvent.sequentialEvents[0].card
+                        )
+                    })),
+                    ability.actions.fight((context) => ({
+                        target: preThenContext.cardStateWhenInitiated.clonedNeighbors.filter(
+                            (c) => c !== context.preThenEvent.sequentialEvents[0].card
+                        )
+                    }))
+                ])
             })
         });
     }
