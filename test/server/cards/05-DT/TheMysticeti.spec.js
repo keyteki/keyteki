@@ -5,7 +5,14 @@ describe('The Mysticeti', function () {
                 player1: {
                     amber: 1,
                     house: 'untamed',
-                    inPlay: ['ancient-bear', 'the-mysticeti', 'dust-pixie', 'bumblebird', 'teliga']
+                    inPlay: [
+                        'ancient-bear',
+                        'the-mysticeti',
+                        'dust-pixie',
+                        'bumblebird',
+                        'teliga',
+                        'lamindra'
+                    ]
                 },
                 player2: {
                     amber: 1,
@@ -20,6 +27,7 @@ describe('The Mysticeti', function () {
                 this.player1.moveCard(this.dustPixie, 'discard');
                 this.player1.moveCard(this.bumblebird, 'discard');
                 this.player1.moveCard(this.teliga, 'discard');
+                this.player1.moveCard(this.lamindra, 'discard');
             });
 
             it('should not exhaust any creature and continue to be an artifact', function () {
@@ -49,6 +57,7 @@ describe('The Mysticeti', function () {
                 expect(this.player1).toBeAbleToSelect(this.dustPixie);
                 expect(this.player1).toBeAbleToSelect(this.bumblebird);
                 expect(this.player1).toBeAbleToSelect(this.teliga);
+                expect(this.player1).not.toBeAbleToSelect(this.lamindra);
                 expect(this.player1).not.toBeAbleToSelect(this.theMysticeti);
                 expect(this.player1).not.toBeAbleToSelect(this.murkens);
 
