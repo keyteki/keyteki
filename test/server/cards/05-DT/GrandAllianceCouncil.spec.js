@@ -5,7 +5,13 @@ describe('Grand Alliance Council', function () {
                 player1: {
                     house: 'staralliance',
                     amber: 1,
-                    hand: ['grand-alliance-council', 'stealthster', 'dust-pixie', 'dharna'],
+                    hand: [
+                        'grand-alliance-council',
+                        'stealthster',
+                        'dust-pixie',
+                        'dharna',
+                        'dextre'
+                    ],
                     inPlay: []
                 },
                 player2: {
@@ -82,22 +88,33 @@ describe('Grand Alliance Council', function () {
             this.player1.moveCard(this.dharna, 'play area');
             this.player1.moveCard(this.stealthster, 'play area');
             this.player2.moveCard(this.scoutPete, 'play area');
+            this.player1.moveCard(this.dextre, 'play area');
 
             expect(this.dharna.location).toBe('play area');
             expect(this.stealthster.location).toBe('play area');
             expect(this.scoutPete.location).toBe('play area');
+            expect(this.dextre.location).toBe('play area');
 
             this.player1.play(this.grandAllianceCouncil);
 
+            expect(this.player1).toHavePrompt('Choose a Logos creature to not destroy');
+            expect(this.player1).toBeAbleToSelect(this.dextre);
+            this.player1.clickCard(this.dextre);
+
+            expect(this.player1).toHavePrompt('Choose a Star Alliance creature to not destroy');
             expect(this.player1).toBeAbleToSelect(this.stealthster);
             expect(this.player1).toBeAbleToSelect(this.scoutPete);
-            expect(this.player1).toHavePrompt('Choose a Star Alliance creature to not destroy');
             this.player1.clickCard(this.scoutPete);
+
+            expect(this.player1).toHavePrompt('Choose a Untamed creature to not destroy');
+            expect(this.player1).toBeAbleToSelect(this.dharna);
+            this.player1.clickCard(this.dharna);
 
             this.player1.endTurn();
             expect(this.dharna.location).toBe('play area');
             expect(this.stealthster.location).toBe('discard');
             expect(this.scoutPete.location).toBe('play area');
+            expect(this.dextre.location).toBe('play area');
         });
     });
 });
