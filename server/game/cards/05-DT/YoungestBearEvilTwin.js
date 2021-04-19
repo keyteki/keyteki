@@ -6,6 +6,8 @@ class YoungestBearEvilTwin extends Card {
         this.reap({
             target: {
                 cardType: 'creature',
+                controller: 'self',
+                optional: true,
                 cardCondition: (card, context) => context.source.neighbors.includes(card),
                 gameAction: ability.actions.fight()
             }
