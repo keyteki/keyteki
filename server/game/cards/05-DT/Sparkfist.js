@@ -5,6 +5,8 @@ class Sparkfist extends Card {
     // Fight: Stun and exhaust the creature Sparkfist fights.
     setupCardAbilities(ability) {
         this.fight({
+            effect: 'stun and exhaust {1}',
+            effectArgs: (context) => [context.event.card],
             gameAction: [
                 ability.actions.stun((context) => ({ target: context.event.card })),
                 ability.actions.exhaust((context) => ({ target: context.event.card }))
