@@ -97,6 +97,9 @@ for (let x = 1; x < 8; x++) {
     Constants.IdBackBlanksPaths[
         x
     ] = require(`./assets/img/idbacks/idback_blanks/cardback_${x}.png`);
+    Constants.IdBackBlanksPaths[
+        `${x}_evil`
+    ] = require(`./assets/img/idbacks/idback_blanks/cardback_${x}_evil.png`);
 }
 
 Constants.IdBackDecals.santa = require(`./assets/img/idbacks/decals/santa.png`);
