@@ -352,6 +352,7 @@ export const buildCardBack = async (canvas, deck, size, showDeckName) => {
     }
     const width = 300;
     const height = 420;
+    const evil = deck.cards.some((card) => card.card && card.card.rarity === 'Evil Twin');
 
     canvas.setWidth(width);
     canvas.setHeight(height);
@@ -373,7 +374,10 @@ export const buildCardBack = async (canvas, deck, size, showDeckName) => {
         number = 1;
     }
 
-    const cardback = new fabric.Image(IdBackBlanksIcons[number].getElement(), imgOptions);
+    const cardback = new fabric.Image(
+        IdBackBlanksIcons[`${number}${evil ? '_evil' : ''}`].getElement(),
+        imgOptions
+    );
     const house1 = new fabric.Image(IdBackHouseIcons[deck.houses[0]].getElement(), imgOptions);
     const house2 = new fabric.Image(IdBackHouseIcons[deck.houses[1]].getElement(), imgOptions);
     const house3 = new fabric.Image(IdBackHouseIcons[deck.houses[2]].getElement(), imgOptions);
