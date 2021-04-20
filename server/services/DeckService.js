@@ -320,7 +320,9 @@ class DeckService {
             image: card.ImageUrl || undefined,
             house: card.House || undefined,
             enhancements: card.Enhancements
-                ? card.Enhancements.replace(/[[{}"\]]/gi, '').split(',')
+                ? card.Enhancements.replace(/[[{}"\]]/gi, '')
+                      .split(',')
+                      .sort()
                 : undefined
         }));
 

@@ -43,6 +43,13 @@
         border-radius: 12px;
       }
     }
+    &.exhausted {
+      &.halfSize {
+        left: -3px;
+        top: 3px;
+        border-radius: 12px;
+      }
+    }
   }
 
   &.large {
@@ -72,7 +79,7 @@
       left: 19px;
       top: -20px;
       &.halfSize {
-        left: -7px;
+        left: -6px;
         top: 6px;
         border-radius: 12px;
       }
@@ -106,8 +113,8 @@
       left: 24px;
       top: -26px;
       &.halfSize {
-        left: -8px;
-        top: 8px;
+        left: -9px;
+        top: 10px;
         border-radius: 12px;
       }
     }
@@ -141,8 +148,8 @@
     top: -14px;
     transform: rotate(90deg);
     &.halfSize {
-      left: -7px;
-      top: 6px;
+      left: -5px;
+      top: 4px;
       border-radius: 12px;
     }
   }
