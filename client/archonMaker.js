@@ -551,13 +551,22 @@ export const buildCard = async (
                     Tokens.ModifiedPower.getElement(),
                     imgOptions
                 );
+                let left = 10;
+                let top = 220;
+
+                if (halfSize) {
+                    top -= 25;
+                } else if (image.includes('-complete')) {
+                    top += 30;
+                    left -= 5;
+                }
                 modifiedPowerToken.scaleToWidth(60);
-                modifiedPowerToken.set({ left: 10, top: 220 - (halfSize ? 25 : 0) });
+                modifiedPowerToken.set({ left, top: top });
                 canvas.add(modifiedPowerToken);
                 const powerText = new fabric.Text(totalPower.toString(), tokenFontProps);
                 powerText.set({
-                    left: 40,
-                    top: 250 - (halfSize ? 25 : 0),
+                    left: left + 30,
+                    top: top + 30,
                     shadow: new fabric.Shadow(shadowProps)
                 });
                 canvas.add(powerText);
@@ -565,16 +574,25 @@ export const buildCard = async (
             //armor overlay
             if (tokens.armor || card.printedArmor) {
                 const modifiedArmorToken = new fabric.Image(Tokens.armor.getElement(), imgOptions);
+                let left = 230;
+                let top = 220;
+
+                if (halfSize) {
+                    top -= 25;
+                } else if (image.includes('-complete')) {
+                    top += 30;
+                    left += 5;
+                }
                 modifiedArmorToken.scaleToWidth(60);
-                modifiedArmorToken.set({ left: 230, top: 220 - (halfSize ? 25 : 0) });
+                modifiedArmorToken.set({ left, top });
                 canvas.add(modifiedArmorToken);
                 const armorText = new fabric.Text(
                     tokens.armor ? tokens.armor.toString() : '0',
                     tokenFontProps
                 );
                 armorText.set({
-                    left: 260,
-                    top: 250 - (halfSize ? 25 : 0),
+                    left: left + 30,
+                    top: top + 30,
                     shadow: new fabric.Shadow(shadowProps)
                 });
                 canvas.add(armorText);
