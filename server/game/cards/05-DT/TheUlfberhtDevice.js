@@ -1,23 +1,21 @@
 const Card = require('../../Card.js');
+const EventRegistrar = require('../../eventregistrar.js');
 
 class TheUlfberhtDevice extends Card {
     // Each player cannot choose the same active house they chose on their previous turn.
     setupCardAbilities(ability) {
-        this.reaction({
-            when: {
-                onChooseActiveHouse: () => true
-            },
-            effect: 'block {1} as their active house on their next turn',
-            effectArgs: (context) => [context.game.activePlayer.activeHouse],
-            gameAction: ability.actions.lastingEffect((context) => ({
-                duration: 3,
-                targetController:
-                    context.source.controller === context.game.activePlayer
-                        ? 'current'
-                        : 'opponent',
-                effect: ability.effects.stopHouseChoice(context.game.activePlayer.activeHouse)
-            }))
+        this.houseSelected = {};
+        this.tracker = new EventRegistrar(this.game, this);
+        this.tracker.register(['onChooseActiveHouse']);
+
+        this.persistentEffect({
+            targetController: 'any',
+            effect: ability.effects.stopHouseChoice((player) => this.houseSelected[player.uuid])
         });
+    }
+
+    onChooseActiveHouse(event) {
+        this.houseSelected[event.player.uuid] = event.house;
     }
 }
 
