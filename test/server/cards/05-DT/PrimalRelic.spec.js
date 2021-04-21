@@ -35,6 +35,8 @@ describe('Primal Relic', function () {
             expect(this.dustPixie.tokens.power).toBe(1);
             expect(this.krump.tokens.power).toBe(1);
             expect(this.flaxia.tokens.power).toBe(1);
+
+            this.player1.endTurn();
         });
 
         describe('when in play', function () {
@@ -81,7 +83,7 @@ describe('Primal Relic', function () {
                 expect(this.player2.amber).toBe(1);
             });
 
-            it('should keep giving out aember each turn when there is more on the artifact', function () {
+            it('should continue to move amber each turn when there is still amber on the artifact', function () {
                 for (let i = 0; i < 20; i++) {
                     this.krump.addToken('power');
                 }

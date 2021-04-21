@@ -10,7 +10,10 @@ class WashedAway extends Card {
                     target: context.game.cardsInPlay.filter((card) => card.type === 'artifact')
                 })),
                 falseGameAction: ability.actions.raiseTide()
-            })
+            }),
+            effect: '{1}',
+            effectArgs: (context) =>
+                context.player.isTideHigh() ? 'destroy each artifact' : 'raise the tide'
         });
     }
 }
