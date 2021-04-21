@@ -15,211 +15,233 @@ describe('Monument to Primus', function () {
             });
         });
 
-        it('should not prompt for any creature, since no other creature to place amber', function () {
+        it('should not prompt for any creature, since no other creatures in play', function () {
             this.player1.useAction(this.monumentToPrimus);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
     });
-});
 
-describe("Monument to Primus's action ability", function () {
-    beforeEach(function () {
-        this.setupTest({
-            player1: {
-                house: 'saurian',
-                amber: 1,
-                inPlay: ['archimedes', 'dextre', 'consul-primus', 'monument-to-primus'],
-                hand: ['chant-of-hubris']
-            },
-            player2: {
-                amber: 4,
-                inPlay: ['gub', 'shooler'],
-                hand: ['poltergeist']
-            }
+    describe("Monument to Primus's action ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'saurian',
+                    amber: 1,
+                    inPlay: ['monument-to-primus', 'senator-shrix'],
+                    hand: ['chant-of-hubris']
+                },
+                player2: {
+                    amber: 4,
+                    inPlay: ['gub']
+                }
+            });
         });
 
-        this.archimedes.tokens.amber = 9;
-        this.shooler.tokens.amber = 1;
+        it('should not prompt for any creature, since no other friendly creature in play and Consul Primus is not on discard', function () {
+            this.player1.useAction(this.monumentToPrimus);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
     });
 
-    it('should allow picking from friendly and placing on friendly creature only, when CP is not in discard', function () {
-        this.player1.useAction(this.monumentToPrimus);
+    describe("Monument to Primus's action ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'saurian',
+                    amber: 1,
+                    inPlay: ['archimedes', 'dextre', 'consul-primus', 'monument-to-primus'],
+                    hand: ['chant-of-hubris']
+                },
+                player2: {
+                    amber: 4,
+                    inPlay: ['gub', 'shooler'],
+                    hand: ['poltergeist']
+                }
+            });
 
-        expect(this.player1).toHavePrompt('Choose a creature');
-        expect(this.player1).toBeAbleToSelect(this.archimedes);
-        expect(this.player1).toBeAbleToSelect(this.dextre);
-        expect(this.player1).not.toBeAbleToSelect(this.gub);
-        expect(this.player1).not.toBeAbleToSelect(this.shooler);
+            this.archimedes.tokens.amber = 9;
+            this.shooler.tokens.amber = 1;
+        });
 
-        this.player1.clickCard(this.archimedes);
+        it('should allow picking from friendly and placing on friendly creature only, when CP is not in discard', function () {
+            this.player1.useAction(this.monumentToPrimus);
 
-        expect(this.player1).toHavePrompt('Choose another creature');
+            expect(this.player1).toHavePrompt('Choose a creature');
+            expect(this.player1).toBeAbleToSelect(this.archimedes);
+            expect(this.player1).toBeAbleToSelect(this.dextre);
+            expect(this.player1).not.toBeAbleToSelect(this.gub);
+            expect(this.player1).not.toBeAbleToSelect(this.shooler);
 
-        expect(this.player1).toBeAbleToSelect(this.dextre);
-        expect(this.player1).not.toBeAbleToSelect(this.archimedes);
-        expect(this.player1).not.toBeAbleToSelect(this.gub);
-        expect(this.player1).not.toBeAbleToSelect(this.shooler);
+            this.player1.clickCard(this.archimedes);
 
-        this.player1.clickCard(this.dextre);
+            expect(this.player1).toHavePrompt('Choose another creature');
 
-        expect(this.archimedes.tokens.amber).toBe(8);
-        expect(this.dextre.tokens.amber).toBe(1);
-    });
+            expect(this.player1).toBeAbleToSelect(this.dextre);
+            expect(this.player1).not.toBeAbleToSelect(this.archimedes);
+            expect(this.player1).not.toBeAbleToSelect(this.gub);
+            expect(this.player1).not.toBeAbleToSelect(this.shooler);
 
-    it('should allow picking from friendly and placing on friendly creature only, when CP is in discard', function () {
-        this.player1.moveCard(this.consulPrimus, 'discard');
-        this.player1.useAction(this.monumentToPrimus);
+            this.player1.clickCard(this.dextre);
 
-        expect(this.player1).toHavePrompt('Choose a creature');
-        expect(this.player1).toBeAbleToSelect(this.archimedes);
-        expect(this.player1).toBeAbleToSelect(this.dextre);
-        expect(this.player1).toBeAbleToSelect(this.gub);
-        expect(this.player1).toBeAbleToSelect(this.shooler);
+            expect(this.archimedes.tokens.amber).toBe(8);
+            expect(this.dextre.tokens.amber).toBe(1);
+        });
 
-        this.player1.clickCard(this.archimedes);
+        it('should allow picking from friendly and placing on friendly creature only, when CP is in discard', function () {
+            this.player1.moveCard(this.consulPrimus, 'discard');
+            this.player1.useAction(this.monumentToPrimus);
 
-        expect(this.player1).toHavePrompt('Choose another creature');
+            expect(this.player1).toHavePrompt('Choose a creature');
+            expect(this.player1).toBeAbleToSelect(this.archimedes);
+            expect(this.player1).toBeAbleToSelect(this.dextre);
+            expect(this.player1).toBeAbleToSelect(this.gub);
+            expect(this.player1).toBeAbleToSelect(this.shooler);
 
-        expect(this.player1).not.toBeAbleToSelect(this.archimedes);
-        expect(this.player1).toBeAbleToSelect(this.dextre);
-        expect(this.player1).toBeAbleToSelect(this.gub);
-        expect(this.player1).toBeAbleToSelect(this.shooler);
+            this.player1.clickCard(this.archimedes);
 
-        this.player1.clickCard(this.dextre);
+            expect(this.player1).toHavePrompt('Choose another creature');
 
-        expect(this.archimedes.tokens.amber).toBe(8);
-        expect(this.dextre.tokens.amber).toBe(1);
-    });
+            expect(this.player1).not.toBeAbleToSelect(this.archimedes);
+            expect(this.player1).toBeAbleToSelect(this.dextre);
+            expect(this.player1).toBeAbleToSelect(this.gub);
+            expect(this.player1).toBeAbleToSelect(this.shooler);
 
-    it('should allow picking from friendly and placing on enemy creature, when CP is in discard', function () {
-        this.player1.moveCard(this.consulPrimus, 'discard');
-        this.player1.useAction(this.monumentToPrimus);
+            this.player1.clickCard(this.dextre);
 
-        expect(this.player1).toHavePrompt('Choose a creature');
-        expect(this.player1).toBeAbleToSelect(this.archimedes);
-        expect(this.player1).toBeAbleToSelect(this.shooler);
+            expect(this.archimedes.tokens.amber).toBe(8);
+            expect(this.dextre.tokens.amber).toBe(1);
+        });
 
-        this.player1.clickCard(this.archimedes);
+        it('should allow picking from friendly and placing on enemy creature, when CP is in discard', function () {
+            this.player1.moveCard(this.consulPrimus, 'discard');
+            this.player1.useAction(this.monumentToPrimus);
 
-        expect(this.player1).toHavePrompt('Choose another creature');
+            expect(this.player1).toHavePrompt('Choose a creature');
+            expect(this.player1).toBeAbleToSelect(this.archimedes);
+            expect(this.player1).toBeAbleToSelect(this.shooler);
 
-        expect(this.player1).not.toBeAbleToSelect(this.archimedes);
-        expect(this.player1).toBeAbleToSelect(this.dextre);
-        expect(this.player1).toBeAbleToSelect(this.gub);
-        expect(this.player1).toBeAbleToSelect(this.shooler);
+            this.player1.clickCard(this.archimedes);
 
-        this.player1.clickCard(this.shooler);
+            expect(this.player1).toHavePrompt('Choose another creature');
 
-        expect(this.archimedes.tokens.amber).toBe(8);
-        expect(this.shooler.tokens.amber).toBe(2);
-    });
+            expect(this.player1).not.toBeAbleToSelect(this.archimedes);
+            expect(this.player1).toBeAbleToSelect(this.dextre);
+            expect(this.player1).toBeAbleToSelect(this.gub);
+            expect(this.player1).toBeAbleToSelect(this.shooler);
 
-    it('should allow picking from enemy and placing on friendly creature, when CP is in discard', function () {
-        this.player1.moveCard(this.consulPrimus, 'discard');
-        this.player1.useAction(this.monumentToPrimus);
+            this.player1.clickCard(this.shooler);
 
-        expect(this.player1).toHavePrompt('Choose a creature');
-        expect(this.player1).toBeAbleToSelect(this.archimedes);
-        expect(this.player1).toBeAbleToSelect(this.shooler);
+            expect(this.archimedes.tokens.amber).toBe(8);
+            expect(this.shooler.tokens.amber).toBe(2);
+        });
 
-        this.player1.clickCard(this.shooler);
+        it('should allow picking from enemy and placing on friendly creature, when CP is in discard', function () {
+            this.player1.moveCard(this.consulPrimus, 'discard');
+            this.player1.useAction(this.monumentToPrimus);
 
-        expect(this.player1).toHavePrompt('Choose another creature');
+            expect(this.player1).toHavePrompt('Choose a creature');
+            expect(this.player1).toBeAbleToSelect(this.archimedes);
+            expect(this.player1).toBeAbleToSelect(this.shooler);
 
-        expect(this.player1).toBeAbleToSelect(this.dextre);
-        expect(this.player1).toBeAbleToSelect(this.gub);
-        expect(this.player1).toBeAbleToSelect(this.archimedes);
-        expect(this.player1).not.toBeAbleToSelect(this.shooler);
+            this.player1.clickCard(this.shooler);
 
-        this.player1.clickCard(this.archimedes);
+            expect(this.player1).toHavePrompt('Choose another creature');
 
-        expect(this.archimedes.tokens.amber).toBe(10);
-        expect(this.shooler.hasToken('amber')).toBe(false);
-    });
+            expect(this.player1).toBeAbleToSelect(this.dextre);
+            expect(this.player1).toBeAbleToSelect(this.gub);
+            expect(this.player1).toBeAbleToSelect(this.archimedes);
+            expect(this.player1).not.toBeAbleToSelect(this.shooler);
 
-    it('should allow picking from enemy and placing on enemy creature, when CP is in discard', function () {
-        this.player1.moveCard(this.consulPrimus, 'discard');
-        this.player1.useAction(this.monumentToPrimus);
+            this.player1.clickCard(this.archimedes);
 
-        expect(this.player1).toHavePrompt('Choose a creature');
-        expect(this.player1).toBeAbleToSelect(this.archimedes);
-        expect(this.player1).toBeAbleToSelect(this.shooler);
+            expect(this.archimedes.tokens.amber).toBe(10);
+            expect(this.shooler.hasToken('amber')).toBe(false);
+        });
 
-        this.player1.clickCard(this.shooler);
+        it('should allow picking from enemy and placing on enemy creature, when CP is in discard', function () {
+            this.player1.moveCard(this.consulPrimus, 'discard');
+            this.player1.useAction(this.monumentToPrimus);
 
-        expect(this.player1).toHavePrompt('Choose another creature');
+            expect(this.player1).toHavePrompt('Choose a creature');
+            expect(this.player1).toBeAbleToSelect(this.archimedes);
+            expect(this.player1).toBeAbleToSelect(this.shooler);
 
-        expect(this.player1).toBeAbleToSelect(this.dextre);
-        expect(this.player1).toBeAbleToSelect(this.gub);
-        expect(this.player1).toBeAbleToSelect(this.archimedes);
-        expect(this.player1).not.toBeAbleToSelect(this.shooler);
+            this.player1.clickCard(this.shooler);
 
-        this.player1.clickCard(this.gub);
+            expect(this.player1).toHavePrompt('Choose another creature');
 
-        expect(this.gub.tokens.amber).toBe(1);
-        expect(this.shooler.hasToken('amber')).toBe(false);
-    });
+            expect(this.player1).toBeAbleToSelect(this.dextre);
+            expect(this.player1).toBeAbleToSelect(this.gub);
+            expect(this.player1).toBeAbleToSelect(this.archimedes);
+            expect(this.player1).not.toBeAbleToSelect(this.shooler);
 
-    it('should allow picking a creature without amber, when CP is not in discard', function () {
-        this.player1.useAction(this.monumentToPrimus);
+            this.player1.clickCard(this.gub);
 
-        expect(this.player1).toHavePrompt('Choose a creature');
-        expect(this.player1).toBeAbleToSelect(this.archimedes);
-        expect(this.player1).toBeAbleToSelect(this.dextre);
-        expect(this.player1).not.toBeAbleToSelect(this.shooler);
-        expect(this.player1).not.toBeAbleToSelect(this.gub);
+            expect(this.gub.tokens.amber).toBe(1);
+            expect(this.shooler.hasToken('amber')).toBe(false);
+        });
 
-        this.player1.clickCard(this.dextre);
+        it('should allow picking a creature without amber, when CP is not in discard', function () {
+            this.player1.useAction(this.monumentToPrimus);
 
-        expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).toHavePrompt('Choose a creature');
+            expect(this.player1).toBeAbleToSelect(this.archimedes);
+            expect(this.player1).toBeAbleToSelect(this.dextre);
+            expect(this.player1).not.toBeAbleToSelect(this.shooler);
+            expect(this.player1).not.toBeAbleToSelect(this.gub);
 
-        expect(this.dextre.tokens.amber).toBeUndefined();
-    });
+            this.player1.clickCard(this.dextre);
 
-    it('should allow picking a creature without amber, when CP is in discard', function () {
-        this.player1.moveCard(this.consulPrimus, 'discard');
-        this.player1.useAction(this.monumentToPrimus);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
 
-        expect(this.player1).toHavePrompt('Choose a creature');
-        expect(this.player1).toBeAbleToSelect(this.archimedes);
-        expect(this.player1).toBeAbleToSelect(this.dextre);
-        expect(this.player1).toBeAbleToSelect(this.shooler);
-        expect(this.player1).toBeAbleToSelect(this.gub);
+            expect(this.dextre.tokens.amber).toBeUndefined();
+        });
 
-        this.player1.clickCard(this.gub);
+        it('should allow picking a creature without amber, when CP is in discard', function () {
+            this.player1.moveCard(this.consulPrimus, 'discard');
+            this.player1.useAction(this.monumentToPrimus);
 
-        expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).toHavePrompt('Choose a creature');
+            expect(this.player1).toBeAbleToSelect(this.archimedes);
+            expect(this.player1).toBeAbleToSelect(this.dextre);
+            expect(this.player1).toBeAbleToSelect(this.shooler);
+            expect(this.player1).toBeAbleToSelect(this.gub);
 
-        expect(this.gub.tokens.amber).toBeUndefined();
-    });
+            this.player1.clickCard(this.gub);
 
-    it("should work with Poltergeist and not consider opponent's discard", function () {
-        this.player1.moveCard(this.consulPrimus, 'discard');
-        this.player1.endTurn();
-        this.player2.clickPrompt('dis');
-        this.player2.play(this.poltergeist);
-        this.player2.clickCard(this.monumentToPrimus);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
 
-        expect(this.player2).toHavePrompt('Choose a creature');
-        expect(this.player2).not.toBeAbleToSelect(this.archimedes);
-        expect(this.player2).not.toBeAbleToSelect(this.dextre);
-        expect(this.player2).not.toBeAbleToSelect(this.consulPrimus);
-        expect(this.player2).toBeAbleToSelect(this.shooler);
-        expect(this.player2).toBeAbleToSelect(this.gub);
+            expect(this.gub.tokens.amber).toBeUndefined();
+        });
 
-        this.player2.clickCard(this.shooler);
+        it("should work with Poltergeist and not consider opponent's discard", function () {
+            this.player1.moveCard(this.consulPrimus, 'discard');
+            this.player1.endTurn();
+            this.player2.clickPrompt('dis');
+            this.player2.play(this.poltergeist);
+            this.player2.clickCard(this.monumentToPrimus);
 
-        expect(this.player2).toHavePrompt('Choose another creature');
+            expect(this.player2).toHavePrompt('Choose a creature');
+            expect(this.player2).not.toBeAbleToSelect(this.archimedes);
+            expect(this.player2).not.toBeAbleToSelect(this.dextre);
+            expect(this.player2).not.toBeAbleToSelect(this.consulPrimus);
+            expect(this.player2).toBeAbleToSelect(this.shooler);
+            expect(this.player2).toBeAbleToSelect(this.gub);
 
-        expect(this.player2).not.toBeAbleToSelect(this.archimedes);
-        expect(this.player2).not.toBeAbleToSelect(this.dextre);
-        expect(this.player2).not.toBeAbleToSelect(this.consulPrimus);
-        expect(this.player2).not.toBeAbleToSelect(this.shooler);
-        expect(this.player2).toBeAbleToSelect(this.gub);
+            this.player2.clickCard(this.shooler);
 
-        this.player2.clickCard(this.gub);
+            expect(this.player2).toHavePrompt('Choose another creature');
 
-        expect(this.gub.tokens.amber).toBe(1);
-        expect(this.shooler.tokens.amber).toBeUndefined();
+            expect(this.player2).not.toBeAbleToSelect(this.archimedes);
+            expect(this.player2).not.toBeAbleToSelect(this.dextre);
+            expect(this.player2).not.toBeAbleToSelect(this.consulPrimus);
+            expect(this.player2).not.toBeAbleToSelect(this.shooler);
+            expect(this.player2).toBeAbleToSelect(this.gub);
+
+            this.player2.clickCard(this.gub);
+
+            expect(this.gub.tokens.amber).toBe(1);
+            expect(this.shooler.tokens.amber).toBeUndefined();
+        });
     });
 });

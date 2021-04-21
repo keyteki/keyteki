@@ -1,8 +1,14 @@
 const Card = require('../../Card.js');
 
 class MonumentToPrimus extends Card {
+    // Action: Move 1A from a friendly creature to another friendly creature. If Consul Primus is in your discard pile, move 1A from a creature to another creature instead.
     setupCardAbilities(ability) {
         this.action({
+            condition: (context) =>
+                (context.player.discard.some((discardCard) => discardCard.id === 'consul-primus')
+                    ? context.game.creaturesInPlay
+                    : context.player.creaturesInPlay
+                ).length > 1,
             target: {
                 cardType: 'creature',
                 cardCondition: (card, context) =>
