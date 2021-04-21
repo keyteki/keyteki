@@ -36,11 +36,11 @@ describe('The Ulfberht Device', function () {
 
                 expect(this.player2).toHavePromptButton('untamed');
                 expect(this.player2).toHavePromptButton('logos');
-                expect(this.player2).toHavePromptButton('staralliance');
+                expect(this.player2).not.toHavePromptButton('staralliance');
                 this.player2.clickPrompt('logos');
                 this.player2.endTurn();
 
-                expect(this.player1).toHavePromptButton('staralliance');
+                expect(this.player1).not.toHavePromptButton('staralliance');
                 expect(this.player1).toHavePromptButton('logos');
                 expect(this.player1).toHavePromptButton('untamed');
                 this.player1.clickPrompt('untamed');
@@ -80,6 +80,34 @@ describe('The Ulfberht Device', function () {
                 expect(this.player1).not.toHavePromptButton('logos');
                 expect(this.player1).toHavePromptButton('untamed');
                 this.player1.clickPrompt('staralliance');
+                this.player1.endTurn();
+            });
+        });
+
+        describe('after a player chooses a house and TUD leaves play', function () {
+            beforeEach(function () {
+                this.player1.play(this.theUlfberhtDevice);
+                this.player1.endTurn();
+                this.player2.clickPrompt('logos');
+                this.player2.endTurn();
+                this.player1.clickPrompt('untamed');
+                this.player1.moveCard(this.theUlfberhtDevice, 'discard');
+                this.player1.endTurn();
+            });
+
+            it('should allow the same house to be chosen', function () {
+                expect(this.player2).toHavePromptButton('untamed');
+                expect(this.player2).toHavePromptButton('logos');
+                expect(this.player2).toHavePromptButton('staralliance');
+
+                this.player2.clickPrompt('logos');
+                this.player2.endTurn();
+
+                expect(this.player1).toHavePromptButton('staralliance');
+                expect(this.player1).toHavePromptButton('logos');
+                expect(this.player1).toHavePromptButton('untamed');
+
+                this.player1.clickPrompt('untamed');
                 this.player1.endTurn();
             });
         });

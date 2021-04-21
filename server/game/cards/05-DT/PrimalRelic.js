@@ -6,15 +6,15 @@ class PrimalRelic extends Card {
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.placeAmber({
-                amount: 4,
-                target: this
+                amount: 4
             }),
             then: {
                 alwaysTriggers: true,
                 target: {
-                    numCards: '3',
+                    numCards: 3,
+                    mode: 'exactly',
                     cardType: 'creature',
-                    gameAction: ability.actions.addPowerCounter({ amount: 1 })
+                    gameAction: ability.actions.addPowerCounter()
                 }
             }
         });
