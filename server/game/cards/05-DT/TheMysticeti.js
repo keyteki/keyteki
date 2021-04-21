@@ -17,7 +17,7 @@ class TheMysticeti extends Card {
                 condition: (context) => context.preThenEvents.some((event) => !event.cancelled),
                 gameAction: ability.actions.sequential([
                     ability.actions.addPowerCounter((context) => ({
-                        amount: context.preThenEvents.filter((event) => !event.cancelled).length
+                        amount: 3 * context.preThenEvents.filter((event) => !event.cancelled).length
                     })),
                     ability.actions.cardLastingEffect((context) => ({
                         target: context.source,

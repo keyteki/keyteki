@@ -114,7 +114,7 @@ describe('The Mysticeti', function () {
 
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
                 expect(this.theMysticeti.type).toBe('creature');
-                expect(this.theMysticeti.tokens.power).toBe(2);
+                expect(this.theMysticeti.tokens.power).toBe(6);
                 expect(this.theMysticeti.hasKeyword('taunt')).toBe(true);
             });
         });
@@ -140,7 +140,7 @@ describe('The Mysticeti', function () {
 
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
                 expect(this.theMysticeti.type).toBe('creature');
-                expect(this.theMysticeti.tokens.power).toBe(4);
+                expect(this.theMysticeti.tokens.power).toBe(12);
                 expect(this.theMysticeti.hasKeyword('taunt')).toBe(true);
             });
         });
