@@ -14,6 +14,7 @@ class FiveC077 extends Card {
                     ability.actions.use()
                 ])
             },
+            effect: 'ready and use {0}',
             then: {
                 alwaysTriggers: true,
                 target: {
@@ -21,7 +22,7 @@ class FiveC077 extends Card {
                     choices: {
                         'Add a power counter': ability.actions.addPowerCounter(),
                         'Remove a power counter': ability.actions.removePowerCounter(),
-                        Cancel: () => true
+                        Done: () => true
                     }
                 }
             }

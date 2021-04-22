@@ -17,7 +17,7 @@ class FiveC077EvilTwin extends Card {
                     choices: {
                         'Add a power counter': ability.actions.addPowerCounter(),
                         'Remove a power counter': ability.actions.removePowerCounter(),
-                        Cancel: () => true
+                        Done: () => true
                     }
                 }
             }
