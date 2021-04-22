@@ -46,6 +46,9 @@ const mockContext = {
         two: [card],
         flank: { hasHouse: () => true, neighbors: [], childCards: [], hasTrait: () => false }
     },
+    houses: {
+        select: 'brobnar'
+    },
     option: {},
     player: player
 };
