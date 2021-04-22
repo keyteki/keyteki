@@ -24,7 +24,7 @@ describe('5C077 Evil Twin', function () {
             it('should prompt to add or remove power counter', function () {
                 expect(this.player1).toHavePromptButton('Add a power counter');
                 expect(this.player1).toHavePromptButton('Remove a power counter');
-                expect(this.player1).toHavePromptButton('Cancel');
+                expect(this.player1).toHavePromptButton('Done');
             });
 
             describe('and choose to add a power counter', function () {
@@ -49,9 +49,9 @@ describe('5C077 Evil Twin', function () {
                 });
             });
 
-            describe('and choose to cancel', function () {
+            describe('and choose to Done', function () {
                 beforeEach(function () {
-                    this.player1.clickPrompt('Cancel');
+                    this.player1.clickPrompt('Done');
                 });
 
                 it('should descrease power counters', function () {
@@ -103,16 +103,16 @@ describe('5C077 Evil Twin', function () {
                 it('should have a prompt to change power counters', function () {
                     expect(this.player1).toHavePromptButton('Add a power counter');
                     expect(this.player1).toHavePromptButton('Remove a power counter');
-                    expect(this.player1).toHavePromptButton('Cancel');
+                    expect(this.player1).toHavePromptButton('Done');
                 });
 
-                it('shoul be able to choose to remove even if no counter is on it', function () {
+                it('should be able to choose to remove even if no counter is on it', function () {
                     this.player1.clickPrompt('Remove a power counter');
                     expect(this['5c077EvilTwin'].power).toBe(2);
                 });
 
-                it('shoul be able to cancel the prompt', function () {
-                    this.player1.clickPrompt('Cancel');
+                it('should be able to Done the prompt', function () {
+                    this.player1.clickPrompt('Done');
                     expect(this['5c077EvilTwin'].power).toBe(2);
                 });
 

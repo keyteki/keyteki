@@ -116,7 +116,7 @@ export class PlayerStats extends React.Component {
     }
 
     getTide() {
-        if (this.props.tideRequired) {
+        if (this.props.stats && this.props.stats.tide && this.props.tideRequired) {
             return (
                 <div className='stat-image'>
                     <img
