@@ -751,7 +751,7 @@ class Game extends EventEmitter {
      * @returns {undefined}
      */
     beginRound() {
-        this.raiseEvent('onBeginRound');
+        this.raiseEvent('onBeginRound', { player: this.activePlayer });
         this.activePlayer.beginRound();
         this.queueStep(new KeyPhase(this));
         this.queueStep(new HousePhase(this));

@@ -109,7 +109,7 @@ describe('Gambling Den', function () {
             expect(this.player1.amber).toBe(3);
         });
 
-        it('should not ask for gamble if empty deck', function () {
+        it('should not ask to gamble if empty deck', function () {
             this.player2.player.deck = [];
             this.player1.endTurn();
             expect(this.player2).not.toHavePrompt('Any reactions to key phase starting?');
