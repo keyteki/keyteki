@@ -6,22 +6,21 @@ class DiplomatAgung extends Card {
         this.play({
             fight: true,
             reap: true,
-            // tried to use "targets:"" here, but targets[targetName].house does not get assigned
-            target: {
-                mode: 'house'
-            },
-            effect: 'selected {1} for creature to belong to',
-            effectArgs: (context) => [context.house],
-            then: (preThenContext) => ({
-                alwaysTriggers: true,
-                target: {
+            targets: {
+                select: {
+                    mode: 'house'
+                },
+                card: {
+                    dependsOn: 'select',
                     cardType: 'creature',
                     controller: 'self',
-                    gameAction: ability.actions.cardLastingEffect(() => ({
-                        effect: ability.effects.addHouse(preThenContext.house)
+                    gameAction: ability.actions.cardLastingEffect((context) => ({
+                        effect: ability.effects.addHouse(context.houses.select.choice)
                     }))
                 }
-            })
+            },
+            effect: 'make {1} belong to house {2} in addition to its other houses',
+            effectArgs: (context) => [context.targets.card, context.houses.select.choice]
         });
     }
 }
