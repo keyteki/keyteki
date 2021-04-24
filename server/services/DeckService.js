@@ -322,6 +322,7 @@ class DeckService {
             enhancements: card.Enhancements
                 ? card.Enhancements.replace(/[[{}"\]]/gi, '')
                       .split(',')
+                      .filter((c) => c.length > 0)
                       .sort()
                 : undefined
         }));
@@ -579,6 +580,53 @@ class DeckService {
         }
     }
 
+    solveEnhancements(deckCards) {
+        const enhancementRegex = /Enhance (.+?)\./;
+        const EnhancementLookup = {
+            P: 'capture',
+            D: 'damage',
+            R: 'draw',
+            A: 'amber',
+            '\uf565': 'capture',
+            '\uf361': 'damage',
+            '\uf36e': 'draw',
+            '\uf360': 'amber'
+        };
+
+        let enhancements = { aember: 0, capture: 0, damage: 0, draw: 0 };
+
+        for (let deckCard of deckCards.filter((c) => c.card_text.includes('Enhance'))) {
+            let matches = deckCard.card_text.match(enhancementRegex);
+            if (!matches || matches.length === 1) {
+                continue;
+            }
+
+            let enhancementString = matches[1];
+            for (let char of enhancementString) {
+                let enhancement = EnhancementLookup[char];
+                if (enhancement) {
+                    enhancements[enhancement]++;
+                }
+            }
+        }
+
+        let totalEnhancements = Object.keys(enhancements).reduce((a, b) => a + enhancements[b], 0);
+        let types = Object.keys(enhancements).filter((type) => enhancements[type] > 0);
+
+        if (
+            totalEnhancements === deckCards.filter((c) => c.is_enhanced).length &&
+            types.length === 1
+        ) {
+            for (const [index, card] of deckCards.entries()) {
+                if (card.is_enhanced) {
+                    deckCards[index].enhancements = types;
+                }
+            }
+        }
+
+        return deckCards;
+    }
+
     parseDeckResponse(username, deckResponse) {
         let specialCards = {
             479: { 'dark-æmber-vault': true, 'it-s-coming': true, 'orb-of-wonder': true },
@@ -586,6 +634,11 @@ class DeckService {
         };
 
         let deckCards = deckResponse._linked.cards.filter((c) => !c.is_non_deck);
+
+        if (deckCards.some((card) => card.is_enhanced)) {
+            deckCards = this.solveEnhancements(deckCards);
+        }
+
         let cards = deckCards.map((card) => {
             let id = card.card_title
                 .toLowerCase()
@@ -618,7 +671,7 @@ class DeckService {
             }
 
             if (card.is_enhanced) {
-                retCard.enhancements = [];
+                retCard.enhancements = card.enhancements ? card.enhancements : [];
             }
 
             if (card.card_type === 'Creature2') {
