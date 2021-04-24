@@ -445,7 +445,7 @@ class DeckService {
 
             params.push(deck.id);
             if (!user) {
-                params.push(JSON.stringify(card.enhancements));
+                params.push(card.enhancements);
             }
         }
 
@@ -514,7 +514,7 @@ class DeckService {
                 try {
                     await db.query('UPDATE "DeckCards" SET "Enhancements" = $2 WHERE "Id" = $1', [
                         card.dbId,
-                        JSON.stringify(card.enhancements)
+                        card.enhancements
                     ]);
                 } catch (err) {
                     logger.error('Failed to update deck enhancements', err);
