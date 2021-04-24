@@ -22,7 +22,7 @@ const ImportDeck = () => {
         if (retState && retState.success) {
             retState.message = t('Deck added successfully');
             const enhancedCards = selectedDeck.cards.filter(
-                (c) => c.enhancements && c.enhancements.length === 0
+                (c) => c.enhancements && c.enhancements.length > 0
             );
             if (selectedDeck.cards.some((c) => c.enhancements) && enhancedCards.length === 0) {
                 retState.message = t(
