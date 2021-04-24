@@ -21,8 +21,10 @@ const ImportDeck = () => {
 
         if (retState && retState.success) {
             retState.message = t('Deck added successfully');
-
-            if (selectedDeck.cards.some((c) => c.enhancements)) {
+            const enhancedCards = selectedDeck.cards.filter(
+                (c) => c.enhancements && c.enhancements.length === 0
+            );
+            if (selectedDeck.cards.some((c) => c.enhancements) && enhancedCards.length === 0) {
                 retState.message = t(
                     'Deck added successfully but the deck has enhancements. It is not possible for us to determine which cards are enhanced. You will be redirected to a page that allows you to assign them.'
                 );
