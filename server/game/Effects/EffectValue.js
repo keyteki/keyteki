@@ -13,9 +13,6 @@ class EffectValue {
 
     // eslint-disable-next-line no-unused-vars
     getValue(target, state) {
-        if (typeof this.value === 'function') {
-            return (...args) => this.value.apply(null, [...args, this.effectContext]);
-        }
         return this.value;
     }
 

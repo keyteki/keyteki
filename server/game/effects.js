@@ -1,5 +1,5 @@
 const CannotRestriction = require('./Effects/cannotrestriction.js');
-const CanUse = require('./Effects/canuseto.js');
+const CanUse = require('./Effects/canuse.js');
 const CopyCard = require('./Effects/CopyCard');
 const EffectBuilder = require('./Effects/EffectBuilder');
 const GainAbility = require('./Effects/GainAbility');
