@@ -79,14 +79,7 @@ const Effects = {
             unapply: (player, context, ability) => ability.unregisterEvents()
         }),
     additionalCost: (costFactory) => EffectBuilder.player.static('additionalCost', costFactory),
-    canFight: (match) =>
-        EffectBuilder.player.static(
-            'canUse',
-            new CanUse(
-                (context, effectContext) => match(context.source, context, effectContext),
-                true
-            )
-        ),
+    canFight: (match) => EffectBuilder.player.static('canUse', new CanUse(match, true)),
     canPlay: (match) => EffectBuilder.player.static('canPlay', match),
     canPlayFromOwn: (location) =>
         EffectBuilder.player.detached('canPlayFromOwn', {
@@ -97,11 +90,7 @@ const Effects = {
     canPlayNonHouse: (house) => EffectBuilder.player.flexible('canPlayNonHouse', house),
     canPlayOrUseHouse: (house) => EffectBuilder.player.static('canPlayOrUseHouse', house),
     canPlayOrUseNonHouse: (house) => EffectBuilder.player.static('canPlayOrUseNonHouse', house),
-    canUse: (match) =>
-        EffectBuilder.player.static(
-            'canUse',
-            new CanUse((context, effectContext) => match(context.source, context, effectContext))
-        ),
+    canUse: (match) => EffectBuilder.player.static('canUse', new CanUse(match)),
     canUseHouse: (house) => EffectBuilder.player.static('canUseHouse', house),
     chooseCardsFromArchives: (card) => EffectBuilder.player.static('chooseCardsFromArchives', card),
     customDetachedPlayer: (properties) => EffectBuilder.player.detached('customEffect', properties),

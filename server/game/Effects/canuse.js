@@ -24,7 +24,7 @@ class CanUse extends EffectValue {
             return (
                 (abilityContext.ability.title === 'Fight with this creature' ||
                     abilityContext.ability.title === "Remove this creature's stun") &&
-                this.condition(abilityContext, this.effectContext)
+                this.condition(abilityContext.source, abilityContext, this.effectContext)
             );
         }
 
@@ -32,11 +32,11 @@ class CanUse extends EffectValue {
             return (
                 (abilityContext.ability.title === 'Reap with this creature' ||
                     abilityContext.ability.title === "Remove this creature's stun") &&
-                this.condition(abilityContext, this.effectContext)
+                this.condition(abilityContext.source, abilityContext, this.effectContext)
             );
         }
 
-        return this.condition(abilityContext, this.effectContext);
+        return this.condition(abilityContext.source, abilityContext, this.effectContext);
     }
 }
 
