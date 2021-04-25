@@ -85,11 +85,18 @@ describe('Tireless Crocag', function () {
             this.player2.clickPrompt('brobnar');
             this.player2.endTurn();
             this.player1.clickPrompt('logos');
-            this.player1.play(this.mother);
-            this.player1.clickCard(this.tirelessCrocag);
-            expect(this.player1).not.toHavePromptButton('Reap with this creature');
-            this.player1.clickPrompt('Cancel');
             this.player1.fightWith(this.tirelessCrocag, this.bingleBangbang);
+        });
+
+        it('should not apply effects to other creatures', function () {
+            this.player1.play(this.tirelessCrocag);
+            expect(this.tirelessCrocag.location).toBe('play area');
+            this.player1.endTurn();
+            this.player2.clickPrompt('brobnar');
+            this.player2.endTurn();
+            this.player1.clickPrompt('logos');
+            this.player1.clickCard(this.ancientBear);
+            this.player1.endTurn();
         });
     });
 

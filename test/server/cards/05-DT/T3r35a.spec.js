@@ -183,7 +183,7 @@ describe('T3r 35a', function () {
             this.player1.endTurn();
         });
 
-        it('upgraded creature should be able to be used when it is the turn of the creature on left right', function () {
+        it('upgraded creature should be able to be used when it is the turn of the creature on the left and right', function () {
             this.player1.playCreature(this.armsmasterMolina, true);
             this.player1.playUpgrade(this.t3r35a, this.armsmasterMolina);
 

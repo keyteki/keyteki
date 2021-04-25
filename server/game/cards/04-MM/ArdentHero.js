@@ -3,8 +3,8 @@ const Card = require('../../Card.js');
 class ArdentHero extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
-            effect: ability.effects.cardCannot('damage', (context, effectTarget) => {
-                if (context.source === effectTarget) {
+            effect: ability.effects.cardCannot('damage', (context, effectContext) => {
+                if (context.source === effectContext.source) {
                     return (
                         context.target &&
                         (context.target.power >= 5 || context.target.hasTrait('mutant'))

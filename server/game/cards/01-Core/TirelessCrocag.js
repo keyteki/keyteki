@@ -16,7 +16,9 @@ class TirelessCrocag extends Card {
         });
 
         this.persistentEffect({
-            effect: ability.effects.canUse((card) => card === this)
+            effect: ability.effects.canUse(
+                (card, context, effectContext) => card === effectContext.source
+            )
         });
     }
 }
