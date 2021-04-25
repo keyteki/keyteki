@@ -1,4 +1,5 @@
 const CannotRestriction = require('./Effects/cannotrestriction.js');
+const CanUse = require('./Effects/canuseto.js');
 const CopyCard = require('./Effects/CopyCard');
 const EffectBuilder = require('./Effects/EffectBuilder');
 const GainAbility = require('./Effects/GainAbility');
@@ -81,10 +82,10 @@ const Effects = {
     canFight: (match) =>
         EffectBuilder.player.static(
             'canUse',
-            (context, effectContext) =>
-                (context.ability.title === 'Fight with this creature' ||
-                    context.ability.title === "Remove this creature's stun") &&
-                match(context.source, context, effectContext)
+            new CanUse(
+                (context, effectContext) => match(context.source, context, effectContext),
+                true
+            )
         ),
     canPlay: (match) => EffectBuilder.player.static('canPlay', match),
     canPlayFromOwn: (location) =>
@@ -97,8 +98,9 @@ const Effects = {
     canPlayOrUseHouse: (house) => EffectBuilder.player.static('canPlayOrUseHouse', house),
     canPlayOrUseNonHouse: (house) => EffectBuilder.player.static('canPlayOrUseNonHouse', house),
     canUse: (match) =>
-        EffectBuilder.player.static('canUse', (context, effectContext) =>
-            match(context.source, context, effectContext)
+        EffectBuilder.player.static(
+            'canUse',
+            new CanUse((context, effectContext) => match(context.source, context, effectContext))
         ),
     canUseHouse: (house) => EffectBuilder.player.static('canUseHouse', house),
     chooseCardsFromArchives: (card) => EffectBuilder.player.static('chooseCardsFromArchives', card),

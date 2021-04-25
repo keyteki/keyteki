@@ -562,10 +562,6 @@ class Player extends GameObject {
         return availableHouses;
     }
 
-    canIgnoreHouseRestrictions(card, context) {
-        return this.getEffects('canUse').some((match) => match(card, context));
-    }
-
     getAmberSources() {
         return this.cardsInPlay
             .filter((card) => card.anyEffect('keyAmber') && card.hasToken('amber'))
