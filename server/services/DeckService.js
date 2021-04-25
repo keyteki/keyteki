@@ -580,8 +580,8 @@ class DeckService {
         }
     }
 
-    solveEnhancements(list, deckCards) {
-        const cards = list.map((c) => deckCards.find((x) => x.id === c));
+    countEnhancements(list, deckCards) {
+        const cards = list.map((c) => deckCards.find((x) => x.id === c)).filter(Boolean);
         const enhancementRegex = /Enhance (.+?)\./;
         const EnhancementLookup = {
             P: 'capture',
@@ -596,8 +596,8 @@ class DeckService {
 
         let enhancements = {};
 
-        for (let deckCard of cards.filter((c) => c.card_text.includes('Enhance'))) {
-            let matches = deckCard.card_text.match(enhancementRegex);
+        for (let card of cards.filter((c) => c.card_text.includes('Enhance'))) {
+            let matches = card.card_text.match(enhancementRegex);
             if (!matches || matches.length === 1) {
                 continue;
             }
@@ -613,13 +613,17 @@ class DeckService {
             }
         }
 
+        return enhancements;
+    }
+
+    assignEnhancements(cards, enhancements) {
         let totalEnhancements = Object.keys(enhancements).reduce((a, b) => a + enhancements[b], 0);
-        let totalEnhancedCards = cards.filter((x) => x.is_enhanced).length;
+        let totalEnhancedCards = cards.filter((x) => x.enhancements).length;
         let types = Object.keys(enhancements);
 
         if (totalEnhancements === totalEnhancedCards && types.length === 1) {
             for (const [index, card] of cards.entries()) {
-                if (card.is_enhanced) cards[index] = { ...card, enhancements: types };
+                if (card.enhancements) cards[index] = { ...card, enhancements: types };
             }
         } else if (totalEnhancedCards === 1) {
             let pips = [];
@@ -629,7 +633,7 @@ class DeckService {
                 }
             }
             for (const [index, card] of cards.entries()) {
-                if (card.is_enhanced) cards[index] = { ...card, enhancements: pips.sort() };
+                if (card.enhancements) cards[index] = { ...card, enhancements: pips.sort() };
             }
         }
 
@@ -644,10 +648,11 @@ class DeckService {
 
         let deckCards = deckResponse._linked.cards.filter((c) => !c.is_non_deck);
 
-        if (deckCards.some((card) => card.is_enhanced)) {
-            deckCards = this.solveEnhancements(deckResponse.data._links.cards, deckCards);
-        }
+        let enhancements = {};
 
+        if (deckCards.some((card) => card.is_enhanced)) {
+            enhancements = this.countEnhancements(deckResponse.data._links.cards, deckCards);
+        }
         let cards = deckCards.map((card) => {
             let id = card.card_title
                 .toLowerCase()
@@ -680,7 +685,7 @@ class DeckService {
             }
 
             if (card.is_enhanced) {
-                retCard.enhancements = card.enhancements ? card.enhancements : [];
+                retCard.enhancements = [];
             }
 
             if (card.card_type === 'Creature2') {
@@ -711,6 +716,10 @@ class DeckService {
         }
 
         cards = cards.concat(toAdd);
+
+        if (cards.some((card) => card.enhancements)) {
+            cards = this.assignEnhancements(cards, enhancements);
+        }
 
         let uuid = deckResponse.data.id;
         let anyIllegalCards = cards.find(
