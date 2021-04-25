@@ -580,7 +580,8 @@ class DeckService {
         }
     }
 
-    solveEnhancements(deckCards) {
+    solveEnhancements(list, deckCards) {
+        const cards = list.map((c) => deckCards.find((x) => x.id === c));
         const enhancementRegex = /Enhance (.+?)\./;
         const EnhancementLookup = {
             P: 'capture',
@@ -593,9 +594,9 @@ class DeckService {
             '\uf360': 'amber'
         };
 
-        let enhancements = { aember: 0, capture: 0, damage: 0, draw: 0 };
+        let enhancements = {};
 
-        for (let deckCard of deckCards.filter((c) => c.card_text.includes('Enhance'))) {
+        for (let deckCard of cards.filter((c) => c.card_text.includes('Enhance'))) {
             let matches = deckCard.card_text.match(enhancementRegex);
             if (!matches || matches.length === 1) {
                 continue;
@@ -605,26 +606,36 @@ class DeckService {
             for (let char of enhancementString) {
                 let enhancement = EnhancementLookup[char];
                 if (enhancement) {
-                    enhancements[enhancement]++;
+                    enhancements[enhancement] = enhancements[enhancement]
+                        ? enhancements[enhancement] + 1
+                        : 1;
                 }
             }
         }
 
         let totalEnhancements = Object.keys(enhancements).reduce((a, b) => a + enhancements[b], 0);
-        let types = Object.keys(enhancements).filter((type) => enhancements[type] > 0);
+        let totalEnhancedCards = cards.filter((x) => x.is_enhanced).length;
+        let types = Object.keys(enhancements);
 
-        if (
-            totalEnhancements === deckCards.filter((c) => c.is_enhanced).length &&
-            types.length === 1
-        ) {
-            for (const [index, card] of deckCards.entries()) {
-                if (card.is_enhanced) {
-                    deckCards[index].enhancements = types;
-                }
+        if (totalEnhancements === totalEnhancedCards && types.length === 1) {
+            for (const [index, card] of cards.entries()) {
+                if (card.is_enhanced) cards[index] = { ...card, enhancements: types };
             }
         }
 
-        return deckCards;
+        if (totalEnhancedCards === 1) {
+            let pips = [];
+            for (const type in enhancements) {
+                for (let i = 0; i < enhancements[type]; i++) {
+                    pips.push(type);
+                }
+            }
+            for (const [index, card] of cards.entries()) {
+                if (card.is_enhanced) cards[index] = { ...card, enhancements: pips.sort() };
+            }
+        }
+
+        return cards;
     }
 
     parseDeckResponse(username, deckResponse) {
@@ -636,7 +647,7 @@ class DeckService {
         let deckCards = deckResponse._linked.cards.filter((c) => !c.is_non_deck);
 
         if (deckCards.some((card) => card.is_enhanced)) {
-            deckCards = this.solveEnhancements(deckCards);
+            deckCards = this.solveEnhancements(deckResponse.data._links.cards, deckCards);
         }
 
         let cards = deckCards.map((card) => {
