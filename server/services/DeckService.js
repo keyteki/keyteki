@@ -621,9 +621,7 @@ class DeckService {
             for (const [index, card] of cards.entries()) {
                 if (card.is_enhanced) cards[index] = { ...card, enhancements: types };
             }
-        }
-
-        if (totalEnhancedCards === 1) {
+        } else if (totalEnhancedCards === 1) {
             let pips = [];
             for (const type in enhancements) {
                 for (let i = 0; i < enhancements[type]; i++) {
