@@ -115,6 +115,8 @@ describe('The Chosen One', function () {
                     expect(this.batdrone.exhausted).toBe(false);
                     expect(this.dextre.exhausted).toBe(false);
                     expect(this.daughter.exhausted).toBe(false);
+                    this.player1.clickPrompt('brobnar');
+                    this.player1.endTurn();
                 });
             });
         });
