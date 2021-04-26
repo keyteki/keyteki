@@ -29,7 +29,7 @@ describe('The Chosen One', function () {
                 this.player1.endTurn();
             });
 
-            it('should not 3 damages to TCO due to exhausted creatures', function () {
+            it('should not deal 3 damages to TCO due to exhausted creatures', function () {
                 expect(this.theChosenOne.tokens.damage).toBeUndefined();
             });
 
@@ -53,7 +53,7 @@ describe('The Chosen One', function () {
                     expect(this.theChosenOne.tokens.damage).toBe(3);
                 });
 
-                it('should not ready cards', function () {
+                it('should not ready creatures', function () {
                     expect(this.groggins.exhausted).toBe(false);
                     expect(this.lollopTheTitanic.exhausted).toBe(false);
                     expect(this.batdrone.exhausted).toBe(true);
@@ -90,9 +90,28 @@ describe('The Chosen One', function () {
                     this.player2.endTurn();
                 });
 
-                it('should ready cards', function () {
+                it('should ready creatures', function () {
                     expect(this.lollopTheTitanic.exhausted).toBe(false);
                     expect(this.groggins.exhausted).toBe(false);
+                    expect(this.batdrone.exhausted).toBe(false);
+                    expect(this.dextre.exhausted).toBe(false);
+                    expect(this.daughter.exhausted).toBe(false);
+                });
+            });
+
+            describe('when TCO is destroyed during ready phase', function () {
+                beforeEach(function () {
+                    this.theChosenOne.tokens.damage = 8;
+                    this.player2.clickPrompt('brobnar');
+                    this.player2.reap(this.lollopTheTitanic);
+                    this.player2.reap(this.groggins);
+                    this.player2.endTurn();
+                });
+
+                it('should still not ready creatures', function () {
+                    expect(this.theChosenOne.location).toBe('discard');
+                    expect(this.lollopTheTitanic.exhausted).toBe(true);
+                    expect(this.groggins.exhausted).toBe(true);
                     expect(this.batdrone.exhausted).toBe(false);
                     expect(this.dextre.exhausted).toBe(false);
                     expect(this.daughter.exhausted).toBe(false);
