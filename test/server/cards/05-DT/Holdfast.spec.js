@@ -10,7 +10,7 @@ describe('Holdfast', function () {
                 },
                 player2: {
                     amber: 1,
-                    inPlay: ['drummernaut', 'stilt-kin'],
+                    inPlay: ['drummernaut', 'stilt-kin', 'shoulder-id'],
                     hand: ['poke']
                 }
             });
@@ -73,6 +73,18 @@ describe('Holdfast', function () {
             this.player2.clickCard(this.qMechs);
             expect(this.holdfast.exhausted).toBe(false);
             this.player2.endTurn();
+        });
+
+        it('should NOT ready holdfast if damage is not taken by Shoulder Id', function () {
+            expect(this.holdfast.exhausted).toBe(false);
+            this.player1.reap(this.holdfast);
+            expect(this.holdfast.exhausted).toBe(true);
+
+            this.player1.fightWith(this.opalKnight, this.shoulderId);
+            expect(this.holdfast.exhausted).toBe(true);
+            expect(this.player1.amber).toBe(1);
+            expect(this.player2.amber).toBe(2);
+            this.player1.endTurn();
         });
     });
 });
