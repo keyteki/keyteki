@@ -10,7 +10,7 @@ describe('Holdfast', function () {
                 },
                 player2: {
                     amber: 1,
-                    inPlay: ['drummernaut', 'stilt-kin', 'shoulder-id'],
+                    inPlay: ['drummernaut', 'stilt-kin', 'urchin', 'shoulder-id'],
                     hand: ['poke']
                 }
             });
