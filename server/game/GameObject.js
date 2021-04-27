@@ -56,9 +56,9 @@ class GameObject {
         return this.checkRestrictions(actionType, context);
     }
 
-    checkRestrictions(actionType, context) {
+    checkRestrictions(actionType, context, event) {
         return !this.getEffects('abilityRestrictions').some((restriction) =>
-            restriction.match(actionType, context)
+            restriction.match(actionType, context, event)
         );
     }
 

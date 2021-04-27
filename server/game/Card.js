@@ -591,9 +591,9 @@ class Card extends EffectSource {
         return menu;
     }
 
-    checkRestrictions(actionType, context = null) {
+    checkRestrictions(actionType, context = null, event = null) {
         return (
-            super.checkRestrictions(actionType, context) &&
+            super.checkRestrictions(actionType, context, event) &&
             (!context || !context.player || context.player.checkRestrictions(actionType, context))
         );
     }
