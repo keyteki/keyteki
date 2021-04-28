@@ -9,7 +9,9 @@ class Stomp extends Card {
             },
             then: {
                 condition: (context) =>
-                    context.preThenEvent.destroyEvent && context.preThenEvent.destroyEvent.resolved,
+                    context.preThenEvent.destroyEvent &&
+                    context.preThenEvent.card === context.preThenEvent.destroyEvent.card &&
+                    context.preThenEvent.destroyEvent.resolved,
                 target: {
                     cardType: 'creature',
                     controller: 'self',

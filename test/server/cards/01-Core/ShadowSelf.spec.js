@@ -59,7 +59,7 @@ describe('Shadow Self', function () {
             expect(this.shadowSelf1.armorUsed).toBe(1);
         });
 
-        it('should reduce its armor before taking the damage of neighbors', function () {
+        it('should bypass its armor when taking the damage of neighbors', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('shadows');
             this.player2.endTurn();
@@ -74,9 +74,8 @@ describe('Shadow Self', function () {
             expect(this.badPenny.hasToken('armor')).toBe(false);
             expect(this.badPenny.armorUsed).toBe(1);
             expect(this.badPenny.hasToken('damage')).toBe(false);
-            expect(this.badPenny.hasToken('damage')).toBe(false);
-            expect(this.shadowSelf1.hasToken('armor')).toBe(false);
-            expect(this.shadowSelf1.armorUsed).toBe(1);
+            expect(this.shadowSelf1.armor).toBe(1);
+            expect(this.shadowSelf1.tokens.damage).toBe(1);
         });
 
         it('should prompt the active player to choose which Shadow Self gets the damage if two can receive it', function () {

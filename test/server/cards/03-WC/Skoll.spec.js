@@ -1,5 +1,5 @@
-describe('Skoll(WC)', function () {
-    describe('Skoll assault destroy trigger', function () {
+describe('Sköll', function () {
+    describe('Sköll assault destroy trigger', function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
@@ -17,16 +17,15 @@ describe('Skoll(WC)', function () {
             this.player1.clickCard(this.troll);
             expect(this.nexus.location).toBe('discard');
             expect(this.troll.tokens.power).toBe(1);
-            expect(this).toHaveRecentChatMessage(
-                'player1 uses Sköll to place 1 +1 power counter on Troll'
-            );
+            this.player1.endTurn();
         });
 
-        it("doesn't place power on troll after killing valdr with power", function () {
+        it("doesn't place power on troll after killing Valdr with power", function () {
             this.player1.fightWith(this.sköll, this.valdr);
-            this.player1.clickCard(this.troll);
             expect(this.valdr.location).toBe('discard');
+            expect(this.sköll.location).toBe('discard');
             expect(this.troll.tokens.power).toBe(undefined);
+            this.player1.endTurn();
         });
     });
 });
