@@ -3,13 +3,13 @@ const Card = require('../../Card.js');
 class Holdfast extends Card {
     // After 1 of Holdfast's neighbors is dealt damage, ready Holdfast.
     setupCardAbilities(ability) {
-        this.interrupt({
+        this.reaction({
             when: {
-                onDamageDealt: (event, context) => context.source.neighbors.includes(event.card)
+                onDamageDealt: (event, context) => {
+                    return event.clone.clonedNeighbors.includes(context.source);
+                }
             },
-            gameAction: ability.actions.ready((context) => ({
-                target: context.source
-            }))
+            gameAction: ability.actions.ready()
         });
     }
 }

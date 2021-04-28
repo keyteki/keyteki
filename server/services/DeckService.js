@@ -322,6 +322,7 @@ class DeckService {
             enhancements: card.Enhancements
                 ? card.Enhancements.replace(/[[{}"\]]/gi, '')
                       .split(',')
+                      .filter((c) => c.length > 0)
                       .sort()
                 : undefined
         }));
@@ -579,6 +580,66 @@ class DeckService {
         }
     }
 
+    countEnhancements(list, deckCards) {
+        const cards = list.map((c) => deckCards.find((x) => x.id === c)).filter(Boolean);
+        const enhancementRegex = /Enhance (.+?)\./;
+        const EnhancementLookup = {
+            P: 'capture',
+            D: 'damage',
+            R: 'draw',
+            A: 'amber',
+            '\uf565': 'capture',
+            '\uf361': 'damage',
+            '\uf36e': 'draw',
+            '\uf360': 'amber'
+        };
+
+        let enhancements = {};
+
+        for (let card of cards.filter((c) => c.card_text.includes('Enhance'))) {
+            let matches = card.card_text.match(enhancementRegex);
+            if (!matches || matches.length === 1) {
+                continue;
+            }
+
+            let enhancementString = matches[1];
+            for (let char of enhancementString) {
+                let enhancement = EnhancementLookup[char];
+                if (enhancement) {
+                    enhancements[enhancement] = enhancements[enhancement]
+                        ? enhancements[enhancement] + 1
+                        : 1;
+                }
+            }
+        }
+
+        return enhancements;
+    }
+
+    assignEnhancements(cards, enhancements) {
+        let totalEnhancements = Object.keys(enhancements).reduce((a, b) => a + enhancements[b], 0);
+        let totalEnhancedCards = cards.filter((x) => x.enhancements).length;
+        let types = Object.keys(enhancements);
+
+        if (totalEnhancements === totalEnhancedCards && types.length === 1) {
+            for (const [index, card] of cards.entries()) {
+                if (card.enhancements) cards[index] = { ...card, enhancements: types };
+            }
+        } else if (totalEnhancedCards === 1) {
+            let pips = [];
+            for (const type in enhancements) {
+                for (let i = 0; i < enhancements[type]; i++) {
+                    pips.push(type);
+                }
+            }
+            for (const [index, card] of cards.entries()) {
+                if (card.enhancements) cards[index] = { ...card, enhancements: pips.sort() };
+            }
+        }
+
+        return cards;
+    }
+
     parseDeckResponse(username, deckResponse) {
         let specialCards = {
             479: { 'dark-æmber-vault': true, 'it-s-coming': true, 'orb-of-wonder': true },
@@ -586,6 +647,12 @@ class DeckService {
         };
 
         let deckCards = deckResponse._linked.cards.filter((c) => !c.is_non_deck);
+
+        let enhancements = {};
+
+        if (deckCards.some((card) => card.is_enhanced)) {
+            enhancements = this.countEnhancements(deckResponse.data._links.cards, deckCards);
+        }
         let cards = deckCards.map((card) => {
             let id = card.card_title
                 .toLowerCase()
@@ -649,6 +716,10 @@ class DeckService {
         }
 
         cards = cards.concat(toAdd);
+
+        if (cards.some((card) => card.enhancements)) {
+            cards = this.assignEnhancements(cards, enhancements);
+        }
 
         let uuid = deckResponse.data.id;
         let anyIllegalCards = cards.find(

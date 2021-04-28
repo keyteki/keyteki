@@ -352,7 +352,6 @@ export const buildCardBack = async (canvas, deck, size, showDeckName) => {
     }
     const width = 300;
     const height = 420;
-    const evil = deck.cards.some((card) => card.card && card.card.rarity === 'Evil Twin');
 
     canvas.setWidth(width);
     canvas.setHeight(height);
@@ -361,6 +360,8 @@ export const buildCardBack = async (canvas, deck, size, showDeckName) => {
         buildFailImage(canvas, size, width, height);
         return;
     }
+
+    const evil = deck.cards.some((card) => card.card && card.card.rarity === 'Evil Twin');
 
     let number =
         (deck.uuid

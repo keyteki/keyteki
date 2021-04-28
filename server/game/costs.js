@@ -23,7 +23,7 @@ const Costs = {
                 return true;
             } else if (
                 context.ignoreHouse ||
-                context.player.getEffects('canUse').some((match) => match(context))
+                context.player.getEffects('canUse').some((effect) => effect.match(context))
             ) {
                 return true;
             }
@@ -42,7 +42,7 @@ const Costs = {
                 context.game.cardUsed(context.source);
                 if (
                     context.ignoreHouse ||
-                    context.player.getEffects('canUse').some((match) => match(context))
+                    context.player.getEffects('canUse').some((effect) => effect.match(context))
                 ) {
                     return true;
                 } else if (context.source.hasHouse(context.player.activeHouse)) {

@@ -1,17 +1,5 @@
 const EffectValue = require('./EffectValue');
 
-const binaryCardEffects = [
-    'blank',
-    'canBeSeenWhenFacedown',
-    'cannotParticipateAsAttacker',
-    'cannotParticipateAsDefender',
-    'canPlayFromOwn',
-    'abilityRestrictions',
-    'doesNotBow',
-    'doesNotReady',
-    'showTopConflictCard'
-];
-
 class StaticEffect {
     constructor(type = '', value) {
         this.type = type;
@@ -21,7 +9,6 @@ class StaticEffect {
             this.value = new EffectValue(value);
         }
         this.state = {};
-        this.context = null;
         this.duration = '';
     }
 
@@ -44,33 +31,14 @@ class StaticEffect {
     }
 
     setContext(context) {
-        this.context = context;
-    }
-
-    canBeApplied(target) {
-        return this.checkConflictingEffects(this.type, target);
-    }
-
-    checkConflictingEffects(type, target) {
-        if (binaryCardEffects.includes(type)) {
-            let matchingEffects = target.effects.filter((effect) => effect.type === type);
-            return matchingEffects.every(
-                (effect) => this.hasLongerDuration(effect) || effect.isConditional
-            );
-        }
-
-        return true;
-    }
-
-    hasLongerDuration(effect) {
-        let durations = ['untilEndOfPhase', 'untilEndOfRound'];
-        return durations.indexOf(this.duration) > durations.indexOf(effect.duration);
+        this.value.setContext(context);
     }
 
     getDebugInfo() {
         return {
             type: this.type,
-            value: this.value
+            value: this.value,
+            state: this.state
         };
     }
 }

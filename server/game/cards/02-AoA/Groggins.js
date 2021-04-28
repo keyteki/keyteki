@@ -5,7 +5,10 @@ class Groggins extends Card {
         this.persistentEffect({
             targetController: 'opponent',
             match: (card) => card.type === 'creature' && !card.isOnFlank(),
-            effect: ability.effects.cardCannot('attack', (context) => context.source === this)
+            effect: ability.effects.cardCannot(
+                'attack',
+                (context, effectContext) => context.source === effectContext.source
+            )
         });
     }
 }

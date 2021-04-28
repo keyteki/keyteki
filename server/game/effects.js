@@ -1,4 +1,5 @@
 const CannotRestriction = require('./Effects/cannotrestriction.js');
+const CanUse = require('./Effects/canuse.js');
 const CopyCard = require('./Effects/CopyCard');
 const EffectBuilder = require('./Effects/EffectBuilder');
 const GainAbility = require('./Effects/GainAbility');
@@ -78,14 +79,7 @@ const Effects = {
             unapply: (player, context, ability) => ability.unregisterEvents()
         }),
     additionalCost: (costFactory) => EffectBuilder.player.static('additionalCost', costFactory),
-    canFight: (match) =>
-        EffectBuilder.player.static(
-            'canUse',
-            (context) =>
-                (context.ability.title === 'Fight with this creature' ||
-                    context.ability.title === "Remove this creature's stun") &&
-                match(context.source, context)
-        ),
+    canFight: (match) => EffectBuilder.player.static('canUse', new CanUse(match, true)),
     canPlay: (match) => EffectBuilder.player.static('canPlay', match),
     canPlayFromOwn: (location) =>
         EffectBuilder.player.detached('canPlayFromOwn', {
@@ -96,8 +90,7 @@ const Effects = {
     canPlayNonHouse: (house) => EffectBuilder.player.flexible('canPlayNonHouse', house),
     canPlayOrUseHouse: (house) => EffectBuilder.player.static('canPlayOrUseHouse', house),
     canPlayOrUseNonHouse: (house) => EffectBuilder.player.static('canPlayOrUseNonHouse', house),
-    canUse: (match) =>
-        EffectBuilder.player.static('canUse', (context) => match(context.source, context)),
+    canUse: (match) => EffectBuilder.player.static('canUse', new CanUse(match)),
     canUseHouse: (house) => EffectBuilder.player.static('canUseHouse', house),
     chooseCardsFromArchives: (card) => EffectBuilder.player.static('chooseCardsFromArchives', card),
     customDetachedPlayer: (properties) => EffectBuilder.player.detached('customEffect', properties),
