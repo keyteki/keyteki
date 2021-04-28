@@ -3,7 +3,7 @@ const CardGameAction = require('./CardGameAction');
 class DealDamageAction extends CardGameAction {
     setDefaultProperties() {
         this.amount = null;
-        this.amountForCard = () => 1;
+        this.amountForCard = (card, context) => 1; // eslint-disable-line no-unused-vars
         this.fightEvent = null;
         this.damageSource = null;
         this.damageType = 'card effect';
@@ -125,10 +125,14 @@ class DealDamageAction extends CardGameAction {
 
                 damageDealtEvent.destroyEvent = event.destroyEvent;
 
-                event.addSubEvent(event.destroyEvent);
                 if (event.fightEvent) {
+                    event.destroyEvent.destroyedFighting =
+                        event.fightEvent.card === event.card ||
+                        event.fightEvent.attacker === event.card;
                     event.fightEvent.destroyed.push(event.card);
                 }
+
+                event.addSubEvent(event.destroyEvent);
             }
         });
     }

@@ -11,10 +11,8 @@ class Grommid extends Card {
 
         this.reaction({
             when: {
-                onDamageDealt: (event, context) =>
-                    event.damageSource === context.source &&
-                    event.destroyEvent &&
-                    event.destroyEvent.resolved
+                onCardDestroyed: (event, context) =>
+                    event.destroyedFighting && event.damageEvent.damageSource === context.source
             },
             gameAction: ability.actions.loseAmber()
         });

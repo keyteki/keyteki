@@ -5,7 +5,7 @@ describe('Venator Altum', function () {
                 player1: {
                     house: 'saurian',
                     inPlay: ['galeatops'],
-                    hand: ['stomp', 'beware-the-ides']
+                    hand: ['stomp', 'beware-the-ides', 'phalanx-strike']
                 },
                 player2: {
                     inPlay: ['venator-altum']
@@ -36,6 +36,14 @@ describe('Venator Altum', function () {
             });
 
             it('should exalt when damage is dealt to it', function () {
+                this.player1.play(this.phalanxStrike);
+                this.player1.clickCard(this.venatorAltum);
+                this.player1.clickPrompt('Done');
+                expect(this.venatorAltum.armorUsed).toBe(1);
+                expect(this.venatorAltum.amber).toBe(0);
+            });
+
+            it('should not exalt when damage does not passes armor', function () {
                 this.player1.fightWith(this.galeatops, this.venatorAltum);
                 expect(this.venatorAltum.amber).toBe(1);
             });

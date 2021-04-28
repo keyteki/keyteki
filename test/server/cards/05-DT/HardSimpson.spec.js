@@ -35,11 +35,11 @@ describe("Hard Simpson's ability", function () {
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
 
-        it('should steal 1 amber if damage prevented by armor', function () {
+        it('should not steal 1 amber if damage prevented by armor', function () {
             this.player1.fightWith(this.hardSimpson, this.murkens);
             expect(this.hardSimpson.location).toBe('play area');
-            expect(this.player1.amber).toBe(5);
-            expect(this.player2.amber).toBe(2);
+            expect(this.player1.amber).toBe(4);
+            expect(this.player2.amber).toBe(3);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
 

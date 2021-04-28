@@ -1,6 +1,10 @@
 const CardGameAction = require('./CardGameAction');
 
 class ResolveFightAction extends CardGameAction {
+    setDefaultProperties() {
+        this.attacker = null;
+    }
+
     setup() {
         this.name = 'attack';
         this.targetType = ['creature'];

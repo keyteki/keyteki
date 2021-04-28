@@ -5,8 +5,7 @@ class NizakTheForgotten extends Card {
         this.reaction({
             when: {
                 onCardDestroyed: (event, context) =>
-                    event.damageEvent &&
-                    event.damageEvent.fightEvent &&
+                    event.destroyedFighting &&
                     event.damageEvent.damageSource === context.source &&
                     event.card.location === 'discard'
             },

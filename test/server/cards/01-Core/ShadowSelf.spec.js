@@ -8,7 +8,7 @@ describe('Shadow Self', function () {
                     hand: ['shadow-self', 'abond-the-armorsmith']
                 },
                 player2: {
-                    inPlay: ['silvertooth']
+                    inPlay: ['silvertooth', 'spyyyder', 'macis-asp']
                 }
             });
             this.shadowSelf1 = this.player1.findCardByName('shadow-self', 'play area');
@@ -116,6 +116,28 @@ describe('Shadow Self', function () {
             expect(this.badPenny.hasToken('armor')).toBe(false);
             expect(this.badPenny.armorUsed).toBe(1);
             expect(this.badPenny.hasToken('damage')).toBe(false);
+            expect(this.shadowSelf1.location).toBe('discard');
+        });
+
+        it('should be killed by transfered Poison effect', function () {
+            this.player1.endTurn();
+            this.player2.clickPrompt('shadows');
+            this.player2.fightWith(this.macisAsp, this.badPenny);
+            expect(this.macisAsp.tokens.damage).toBeUndefined();
+            expect(this.badPenny.tokens.damage).toBeUndefined();
+            expect(this.macisAsp.location).toBe('play area');
+            expect(this.badPenny.location).toBe('play area');
+            expect(this.shadowSelf1.location).toBe('discard');
+        });
+
+        it('should be killed by transfered Poison from a flank creature effect', function () {
+            this.player1.endTurn();
+            this.player2.clickPrompt('dis');
+            this.player2.fightWith(this.spyyyder, this.badPenny);
+            expect(this.spyyyder.tokens.damage).toBeUndefined();
+            expect(this.badPenny.tokens.damage).toBeUndefined();
+            expect(this.spyyyder.location).toBe('play area');
+            expect(this.badPenny.location).toBe('play area');
             expect(this.shadowSelf1.location).toBe('discard');
         });
 
