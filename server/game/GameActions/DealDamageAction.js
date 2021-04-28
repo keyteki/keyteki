@@ -38,7 +38,7 @@ class DealDamageAction extends CardGameAction {
         return (
             event.card.location === 'play area' &&
             super.canAffect(event.card, event.context) &&
-            event.card.checkRestrictions(this.name, event.context)
+            event.card.checkRestrictions(this.name, event.context, event)
         );
     }
 
