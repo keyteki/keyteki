@@ -7,13 +7,12 @@ class JVinda extends Card {
                 cardType: 'creature',
                 gameAction: ability.actions.dealDamage({ amount: 1 })
             },
-            then: {
-                condition: (context) =>
-                    context.preThenEvent.destroyEvent && context.preThenEvent.destroyEvent.resolved,
+            then: (context) => ({
+                condition: () => context.target.location !== 'play area',
                 message: '{0} uses {1} to steal 1 amber from {3}',
                 messageArgs: (context) => [context.player.opponent],
                 gameAction: ability.actions.steal()
-            }
+            })
         });
     }
 }

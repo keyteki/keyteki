@@ -11,12 +11,9 @@ class SpecialDelivery extends Card {
                 gameAction: ability.actions.dealDamage({ amount: 3 })
             },
             gameAction: ability.actions.sacrifice(),
-            then: (preThenContext) => ({
-                condition: (context) =>
-                    context.preThenEvent.destroyEvent &&
-                    context.preThenEvent.card === context.preThenEvent.destroyEvent.card &&
-                    context.preThenEvent.destroyEvent.resolved,
-                gameAction: ability.actions.purge({ target: preThenContext.target })
+            then: (context) => ({
+                condition: () => context.target.location !== 'play area',
+                gameAction: ability.actions.purge({ target: context.target })
             })
         });
     }

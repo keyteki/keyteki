@@ -7,11 +7,12 @@ class AVinda extends Card {
                 cardType: 'creature',
                 gameAction: ability.actions.dealDamage({ amount: 1 })
             },
-            then: {
-                condition: (context) =>
-                    context.preThenEvent.destroyEvent && context.preThenEvent.destroyEvent.resolved,
+            then: (context) => ({
+                condition: () => context.target.location !== 'play area',
+                message: '{0} uses {1} to make {3} discard a card at random',
+                messageArgs: (context) => context.player.opponent,
                 gameAction: ability.actions.discardAtRandom()
-            }
+            })
         });
     }
 }

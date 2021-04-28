@@ -8,14 +8,13 @@ class PainReaction extends Card {
                 controller: 'opponent',
                 gameAction: ability.actions.dealDamage({ amount: 2 })
             },
-            then: {
-                condition: (context) =>
-                    context.preThenEvent.destroyEvent && context.preThenEvent.destroyEvent.resolved,
+            then: (context) => ({
+                condition: () => context.target.location !== 'play area',
                 gameAction: ability.actions.dealDamage((context) => ({
                     amount: 2,
                     target: context.preThenEvent.clone.neighbors
                 }))
-            }
+            })
         });
     }
 }

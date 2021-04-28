@@ -9,10 +9,7 @@ class CementShoes extends Card {
                 gameAction: ability.actions.dealDamage({ amount: 2 })
             },
             then: (preThenContext) => ({
-                condition: (context) =>
-                    context.preThenEvent.destroyEvent &&
-                    context.preThenEvent.destroyEvent.resolved &&
-                    context.preThenEvent.card === preThenContext.target,
+                condition: () => preThenContext.target.location !== 'play area',
                 gameAction: ability.actions.raiseTide()
             })
         });
