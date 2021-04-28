@@ -12,8 +12,8 @@ class T3r35a extends Card {
         this.persistentEffect({
             condition: (context) => context.source.type === 'creature',
             effect: ability.effects.canUse(
-                (card, context) =>
-                    card === this &&
+                (card, context, effectContext) =>
+                    card === effectContext.source &&
                     card.neighbors.some((n) => n.hasHouse(context.game.activePlayer.activeHouse))
             )
         });
@@ -21,8 +21,8 @@ class T3r35a extends Card {
         this.whileAttached({
             effect: ability.effects.gainAbility('persistentEffect', {
                 effect: ability.effects.canUse(
-                    (card, context) =>
-                        card === this.parent &&
+                    (card, context, effectContext) =>
+                        card === effectContext.source &&
                         card.neighbors.some((n) =>
                             n.hasHouse(context.game.activePlayer.activeHouse)
                         )
