@@ -47,6 +47,8 @@ const Effects = {
     playAbilitiesAddReap: () => EffectBuilder.card.static('playAbilitiesAddReap'),
     reapAbilitiesAddFight: () => EffectBuilder.card.static('reapAbilitiesAddFight'),
     removeKeyword: (keyword) => EffectBuilder.card.static('removeKeyword', keyword),
+    replaceDamage: (action, targetFunc) =>
+        EffectBuilder.card.static('replaceDamage', { action, targetFunc }),
     resolveBonusIconsAdditionalTime: () =>
         EffectBuilder.card.static('resolveBonusIconsAdditionalTime'),
     setArmor: (amount) => EffectBuilder.card.flexible('setArmor', amount),

@@ -43,22 +43,34 @@ class DealDamageAction extends CardGameAction {
     }
 
     getEventArray(context) {
-        if (this.splash) {
-            return this.target
-                .filter((card) => this.canAffect(card, context))
-                .reduce(
-                    (array, card) =>
-                        array.concat(
-                            this.getEvent(card, context),
-                            card.neighbors.map((neighbor) =>
-                                this.getEvent(neighbor, context, this.splash)
-                            )
-                        ),
-                    []
-                );
+        let card = this.target.find(
+            (card) =>
+                this.canAffect(card, context) &&
+                this.getDamageSource(card, context).anyEffect('replaceDamage')
+        );
+        if (card) {
+            let damageSource = this.getDamageSource(card, context);
+            let replaceDamage = damageSource.mostRecentEffect('replaceDamage');
+            replaceDamage.action.resolve(replaceDamage.targetFunc(damageSource), context);
         }
 
-        return super.getEventArray(context);
+        let validTargets = this.target.filter(
+            (card) =>
+                this.canAffect(card, context) &&
+                !this.getDamageSource(card, context).anyEffect('replaceDamage')
+        );
+        return validTargets.reduce(
+            (array, card) =>
+                this.splash
+                    ? array.concat(
+                          this.getEvent(card, context),
+                          card.neighbors.map((neighbor) =>
+                              this.getEvent(neighbor, context, this.splash)
+                          )
+                      )
+                    : array.concat(this.getEvent(card, context)),
+            []
+        );
     }
 
     getDamageSource(card, context) {
