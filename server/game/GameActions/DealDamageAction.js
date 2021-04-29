@@ -140,8 +140,7 @@ class DealDamageAction extends CardGameAction {
                 damageType: this.damageType,
                 destroyEvent: null,
                 damageDealtEvent: damageDealtEvent,
-                bonus: this.bonus,
-                condition: (event) => event.amount > 0
+                bonus: this.bonus
             };
 
             let damageAppliedEvent = context.game.actions

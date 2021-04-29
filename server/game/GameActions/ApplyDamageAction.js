@@ -24,6 +24,8 @@ class ApplyDamageAction extends CardGameAction {
             card: card,
             context: context,
             amount: this.amount,
+            damageType: this.damageType,
+            bonus: this.bonus,
             damageSource: this.damageSource,
             damageDealtEvent: this.damageDealtEvent,
             fightEvent: this.damageDealtEvent ? this.damageDealtEvent.fightEvent : null,
