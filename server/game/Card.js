@@ -701,11 +701,6 @@ class Card extends EffectSource {
         );
     }
 
-    getBonusDamage(target) {
-        let effects = this.getEffects('bonusDamage');
-        return effects.reduce((total, match) => total + match(target), 0);
-    }
-
     get armor() {
         return this.getArmor();
     }

@@ -104,7 +104,8 @@ class DealDamageAction extends CardGameAction {
         const params = {
             card: card,
             context: context,
-            amount: amount,
+            amount:
+                amount + card.getEffects('bonusDamage').reduce((total, bonus) => total + bonus, 0),
             damageSource: this.getDamageSource(card, context),
             fightEvent: this.fightEvent,
             destroyEvent: null,

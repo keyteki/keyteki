@@ -14,7 +14,7 @@ class DynamicEffect extends StaticEffect {
 
     recalculate(target) {
         let oldValue = this.getValue(target);
-        this.values[target.uuid] = this.calculate(target, this.context);
+        this.values[target.uuid] = this.calculate(target, this.value.effectContext);
         return oldValue !== this.values[target.uuid];
     }
 

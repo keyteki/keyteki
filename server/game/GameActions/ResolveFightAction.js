@@ -71,7 +71,10 @@ class ResolveFightAction extends CardGameAction {
                 damageSource: event.card
             };
             let attackerAmount =
-                event.attacker.power + event.attacker.getBonusDamage(event.attackerTarget);
+                event.attacker.power +
+                event.attacker
+                    .getEffects('bonusFightDamage')
+                    .reduce((total, match) => total + match(event.attackerTarget), 0);
             if (event.attacker.anyEffect('limitFightDamage')) {
                 attackerAmount = Math.min(
                     attackerAmount,
