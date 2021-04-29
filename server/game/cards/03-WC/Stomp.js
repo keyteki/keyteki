@@ -7,14 +7,18 @@ class Stomp extends Card {
                 cardType: 'creature',
                 gameAction: ability.actions.dealDamage({ amount: 5 })
             },
-            then: (context) => ({
-                condition: () => context.target.location !== 'play area',
+            then: {
+                condition: (context) =>
+                    context.preThenEvent.destroyEvent &&
+                    context.preThenEvent.destroyEvent.destroyedByDamageDealt &&
+                    context.preThenEvent.destroyEvent.resolved,
                 target: {
                     cardType: 'creature',
                     controller: 'self',
                     gameAction: ability.actions.exalt()
-                }
-            })
+                },
+                message: '{0} uses {1} to exalt {2}'
+            }
         });
     }
 }

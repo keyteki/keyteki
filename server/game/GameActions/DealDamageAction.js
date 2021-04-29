@@ -125,6 +125,8 @@ class DealDamageAction extends CardGameAction {
 
                 damageDealtEvent.destroyEvent = event.destroyEvent;
 
+                event.destroyEvent.destroyedByDamageDealt = damageDealtEvent.card === event.card;
+
                 if (event.fightEvent) {
                     event.destroyEvent.destroyedFighting =
                         event.fightEvent.card === event.card ||

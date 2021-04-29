@@ -11,11 +11,14 @@ class MackTheKnife extends Card {
                 cardType: 'creature',
                 gameAction: ability.actions.dealDamage()
             },
-            then: (context) => ({
-                condition: () => context.target.location !== 'play area',
+            then: {
+                condition: (context) =>
+                    context.preThenEvent.destroyEvent &&
+                    context.preThenEvent.destroyEvent.destroyedByDamageDealt &&
+                    context.preThenEvent.destroyEvent.resolved,
                 message: '{0} uses {1} to gain 1 amber',
                 gameAction: ability.actions.gainAmber()
-            })
+            }
         });
     }
 }

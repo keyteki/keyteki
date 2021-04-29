@@ -25,9 +25,7 @@ class DarkDiscovery extends Card {
             then: (preThenContext) => ({
                 alwaysTriggers: true,
                 condition: (context) => {
-                    let discardedCardNames = context.preThenEvents
-                        .filter((event) => event.name === 'onCardDiscarded')
-                        .map((event) => event.card.name);
+                    let discardedCardNames = context.preThenEvents.map((event) => event.card.name);
 
                     if (discardedCardNames.length != 2) {
                         return false;

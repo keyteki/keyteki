@@ -13,17 +13,13 @@ class FinalAnalysis extends Card {
                     ability.actions.draw((context) => ({
                         target: context.player,
                         amount: context.preThenEvents.filter(
-                            (event) =>
-                                event.name === 'onCardDestroyed' &&
-                                !event.cancelled &&
-                                event.clone.controller === context.player
+                            (event) => !event.cancelled && event.clone.controller === context.player
                         ).length
                     })),
                     ability.actions.draw((context) => ({
                         target: context.player.opponent,
                         amount: context.preThenEvents.filter(
                             (event) =>
-                                event.name === 'onCardDestroyed' &&
                                 !event.cancelled &&
                                 event.clone.controller === context.player.opponent
                         ).length

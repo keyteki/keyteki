@@ -8,10 +8,14 @@ class CementShoes extends Card {
                 cardType: 'creature',
                 gameAction: ability.actions.dealDamage({ amount: 2 })
             },
-            then: (preThenContext) => ({
-                condition: () => preThenContext.target.location !== 'play area',
-                gameAction: ability.actions.raiseTide()
-            })
+            then: {
+                condition: (context) =>
+                    context.preThenEvent.destroyEvent &&
+                    context.preThenEvent.destroyEvent.destroyedByDamageDealt &&
+                    context.preThenEvent.destroyEvent.resolved,
+                gameAction: ability.actions.raiseTide(),
+                message: '{0} uses {1} to raise the tide'
+            }
         });
     }
 }
