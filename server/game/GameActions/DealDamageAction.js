@@ -100,45 +100,6 @@ class DealDamageAction extends CardGameAction {
         damageDealtEvent.card.unward();
     }
 
-    createDamageAppliedEvent(context, damageDealtEvent, params) {
-        let damageAppliedParams = Object.assign(
-            {
-                condition: (event) => event.amount > 0
-            },
-            params
-        );
-
-        return super.createEvent('onDamageApplied', damageAppliedParams, (event) => {
-            event.noGameStateCheck = true;
-
-            event.card.addToken('damage', event.amount);
-            if (
-                !event.card.moribund &&
-                (event.card.tokens.damage >= event.card.power ||
-                    (event.fightEvent &&
-                        event.damageSource &&
-                        event.damageSource.getKeywordValue('poison')))
-            ) {
-                event.destroyEvent = context.game.actions
-                    .destroy({ damageEvent: event })
-                    .getEvent(event.card, context.game.getFrameworkContext());
-
-                damageDealtEvent.destroyEvent = event.destroyEvent;
-
-                event.destroyEvent.destroyedByDamageDealt = damageDealtEvent.card === event.card;
-
-                if (event.fightEvent) {
-                    event.destroyEvent.destroyedFighting =
-                        event.fightEvent.card === event.card ||
-                        event.fightEvent.attacker === event.card;
-                    event.fightEvent.destroyed.push(event.card);
-                }
-
-                event.addSubEvent(event.destroyEvent);
-            }
-        });
-    }
-
     getEvent(card, context, amount = this.amount || this.amountForCard(card, context)) {
         const params = {
             card: card,
@@ -171,16 +132,21 @@ class DealDamageAction extends CardGameAction {
                 }
             }
 
-            let damageAppliedEvent = this.createDamageAppliedEvent(context, damageDealtEvent, {
+            let damageAppliedParams = {
                 card: damageDealtEvent.card,
                 context: damageDealtEvent.context,
                 amount: damageDealtEvent.amount - armorUsed,
                 damageSource: damageDealtEvent.damageSource,
                 damageType: this.damageType,
                 destroyEvent: null,
-                fightEvent: damageDealtEvent.fightEvent,
-                bonus: this.bonus
-            });
+                damageDealtEvent: damageDealtEvent,
+                bonus: this.bonus,
+                condition: (event) => event.amount > 0
+            };
+
+            let damageAppliedEvent = context.game.actions
+                .applyDamage(damageAppliedParams)
+                .getEvent(damageDealtEvent.card, context.game.getFrameworkContext());
 
             let armorEvent;
 
