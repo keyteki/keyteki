@@ -28,8 +28,7 @@ class GeneralSherman extends Card {
         this.leavesPlay({
             effect: 'return all creatures purged by {0} to play',
             gameAction: ability.actions.sequentialPutIntoPlay((context) => ({
-                forEach: context.source.childCards,
-                action: ability.actions.putIntoPlay()
+                forEach: context.source.childCards
             }))
         });
     }
