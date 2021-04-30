@@ -356,20 +356,18 @@ export const buildCardBack = async (canvas, deck, size, showDeckName) => {
     canvas.setWidth(width);
     canvas.setHeight(height);
 
-    if (!deck.houses || !deck.uuid) {
+    if (!deck.houses) {
         buildFailImage(canvas, size, width, height);
         return;
     }
 
     const evil = deck.cards.some((card) => card.card && card.card.rarity === 'Evil Twin');
 
-    let number =
-        (deck.uuid
-            .replace(/[\D]/g, '')
-            .split()
-            .reduce((a, b) => a + +b, 0) %
-            7) +
-        1;
+    let hash = (deck.uuid || deck.name).split('').reduce(function (a, b) {
+        a = (a << 5) - a + b.charCodeAt(0);
+        return a & a;
+    }, 0);
+    let number = ((hash < 0 ? -hash : hash) % 7) + 1;
 
     if (!IdBackBlanksIcons[number]) {
         number = 1;
