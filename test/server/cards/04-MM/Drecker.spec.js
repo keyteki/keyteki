@@ -166,4 +166,51 @@ describe('Drecker', function () {
             this.player2.endTurn();
         });
     });
+
+    describe('Drecker with Soulkeeper', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 2,
+                    house: 'dis',
+                    inPlay: ['charette', 'drecker'],
+                    hand: ['soulkeeper']
+                },
+                player2: {
+                    inPlay: ['dodger']
+                }
+            });
+
+            this.player1.playUpgrade(this.soulkeeper, this.drecker);
+            this.player1.endTurn();
+            this.player2.clickPrompt('shadows');
+        });
+
+        it('if destroyed due to applied damage, SK should destroy the attacker', function () {
+            this.player2.fightWith(this.dodger, this.charette);
+            expect(this.player2).toBeAbleToSelect(this.dodger);
+            this.player2.clickCard(this.dodger);
+            expect(this.charette.location).toBe('discard');
+            expect(this.drecker.location).toBe('discard');
+            expect(this.soulkeeper.location).toBe('discard');
+            expect(this.dodger.location).toBe('discard');
+            expect(this.player1.amber).toBe(3);
+            expect(this.player2.amber).toBe(0);
+            this.player2.endTurn();
+        });
+
+        it('if warded, but destroyed due to applied damage, SK should destroy the attacker', function () {
+            this.drecker.ward();
+            this.player2.fightWith(this.dodger, this.charette);
+            expect(this.player2).toBeAbleToSelect(this.dodger);
+            this.player2.clickCard(this.dodger);
+            expect(this.charette.location).toBe('discard');
+            expect(this.drecker.location).toBe('discard');
+            expect(this.soulkeeper.location).toBe('discard');
+            expect(this.dodger.location).toBe('discard');
+            expect(this.player1.amber).toBe(3);
+            expect(this.player2.amber).toBe(0);
+            this.player2.endTurn();
+        });
+    });
 });
