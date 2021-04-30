@@ -42,45 +42,45 @@ class DealDamageAction extends CardGameAction {
         );
     }
 
-    getEventArray(context) {
-        let card = this.target.find(
-            (card) =>
-                this.canAffect(card, context) &&
-                this.getDamageSource(card, context).anyEffect('replaceDamage')
-        );
-        if (card) {
-            let damageSource = this.getDamageSource(card, context);
-            let replaceDamage = damageSource.mostRecentEffect('replaceDamage');
-            replaceDamage.action.resolve(replaceDamage.targetFunc(damageSource), context);
-        }
-
-        let validTargets = this.target.filter(
-            (card) =>
-                this.canAffect(card, context) &&
-                !this.getDamageSource(card, context).anyEffect('replaceDamage')
-        );
-        return validTargets.reduce(
-            (array, card) =>
-                this.splash
-                    ? array.concat(
-                          this.getEvent(card, context),
-                          card.neighbors.map((neighbor) =>
-                              this.getEvent(neighbor, context, this.splash)
-                          )
-                      )
-                    : array.concat(this.getEvent(card, context)),
-            []
+    getReplacementEvent(card, context, amount = this.amount || this.amountForCard(card, context)) {
+        return super.createEvent(
+            'unnamedEvent',
+            {
+                card: card,
+                context: context,
+                amount: amount,
+                armorUsed: 0
+            },
+            () => {
+                let replaceDamage = card.mostRecentEffect('replaceDamage');
+                replaceDamage.action.resolve(replaceDamage.targetFunc(card), context);
+            }
         );
     }
 
-    getDamageSource(card, context) {
-        if (this.damageSource) {
-            return typeof this.damageSource === 'function'
-                ? this.damageSource(card, context)
-                : this.damageSource;
-        } else {
-            return context.source;
+    getEventArray(context) {
+        const damageSource = this.damageSource || context.source;
+
+        if (damageSource.anyEffect('replaceDamage')) {
+            return [this.getReplacementEvent(damageSource, context)];
         }
+
+        if (this.splash) {
+            return this.target
+                .filter((card) => this.canAffect(card, context))
+                .reduce(
+                    (array, card) =>
+                        array.concat(
+                            this.getEvent(card, context),
+                            card.neighbors.map((neighbor) =>
+                                this.getEvent(neighbor, context, this.splash)
+                            )
+                        ),
+                    []
+                );
+        }
+
+        return super.getEventArray(context);
     }
 
     unwardAndCancel(context, damageDealtEvent) {
@@ -113,12 +113,17 @@ class DealDamageAction extends CardGameAction {
     }
 
     getEvent(card, context, amount = this.amount || this.amountForCard(card, context)) {
+        const damageSource = this.damageSource || context.source;
+
+        if (damageSource.anyEffect('replaceDamage')) {
+            return this.getReplacementEvent(damageSource, context, amount);
+        }
+
         const params = {
             card: card,
             context: context,
-            amount:
-                amount + card.getEffects('bonusDamage').reduce((total, bonus) => total + bonus, 0),
-            damageSource: this.getDamageSource(card, context),
+            amount: amount + card.getEffects('bonusDamage').reduce((acc, b) => acc + b, 0),
+            damageSource: damageSource,
             fightEvent: this.fightEvent,
             destroyEvent: null,
             ignoreArmor: this.ignoreArmor
