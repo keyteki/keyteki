@@ -14,12 +14,11 @@ class Amberlution extends Card {
             gameAction: ability.actions.sequential([
                 ability.actions.destroy((context) => ({ target: context.game.creaturesInPlay })),
                 ability.actions.sequentialPutIntoPlay((context) => ({
+                    revealList: context.game.allCards.filter((card) => card.location === 'hand'),
                     forEach: context.game.allCards.filter(
                         (card) => card.location === 'hand' && card.type === 'creature'
                     ),
-                    action: ability.actions.sequential([
-                        ability.actions.putIntoPlay({ ready: true })
-                    ])
+                    ready: true
                 }))
             ])
         });

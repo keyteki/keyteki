@@ -5,7 +5,7 @@ class DrawnDown extends Card {
     setupCardAbilities(ability) {
         this.play({
             condition: (context) => !!context.player.opponent,
-            effect: 'to look at the top 3 cards of their deck',
+            effect: "look at the top 3 cards of their opponent's deck",
             gameAction: ability.actions.sequential([
                 ability.actions.discard((context) => ({
                     promptWithHandlerMenu: {

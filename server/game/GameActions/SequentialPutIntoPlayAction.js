@@ -1,8 +1,34 @@
+const SingleCardSelector = require('../CardSelectors/SingleCardSelector');
 const GameAction = require('./GameAction');
+
+class CardListSelector extends SingleCardSelector {
+    constructor(cardList, revealList = []) {
+        super({
+            cardType: [...new Set(cardList.map((c) => c.type))]
+        });
+        this.cardList = cardList;
+        this.revealList = revealList && revealList.length > 0 ? revealList : cardList;
+    }
+
+    // eslint-disable-next-line no-unused-vars
+    findPossibleCards(context) {
+        return this.revealList;
+    }
+
+    // eslint-disable-next-line no-unused-vars
+    canTarget(card, context) {
+        if (!card) {
+            return false;
+        }
+
+        return this.cardList.includes(card);
+    }
+}
 
 class SequentialPutIntoPlayAction extends GameAction {
     setDefaultProperties() {
-        this.action = null;
+        this.revealList = [];
+        this.ready = false;
         this.forEach = [];
     }
 
@@ -17,7 +43,7 @@ class SequentialPutIntoPlayAction extends GameAction {
 
     hasLegalTarget(context) {
         this.update(context);
-        return this.forEach.length > 0 && !!this.action;
+        return this.forEach.length > 0;
     }
 
     canAffect() {
@@ -25,15 +51,13 @@ class SequentialPutIntoPlayAction extends GameAction {
     }
 
     queueActionSteps(context, element) {
-        let action = this.action;
-        if (typeof action === 'function') {
-            action = action(element);
-        }
+        let action = context.game.actions.putIntoPlay({ ready: this.ready });
 
         context.game.queueSimpleStep(() => {
             action.setDefaultTarget(() => element);
             action.preEventHandler(context);
         });
+
         context.game.queueSimpleStep(() =>
             context.game.openEventWindow(action.getEventArray(context))
         );
@@ -47,12 +71,9 @@ class SequentialPutIntoPlayAction extends GameAction {
         if (filteredForEach.length > 1) {
             context.game.promptForSelect(context.player, {
                 activePromptTitle: 'Choose a creature to put into play',
-                cardType: 'creature',
-                controller: 'any',
-                location: 'any',
-                cardCondition: (card) => filteredForEach.includes(card),
+                selector: new CardListSelector(filteredForEach, this.revealList),
                 source: context.source,
-                revealTargets: true,
+                revealTargets: this.revealList.length > 0,
                 onSelect: (player, card) => {
                     this.queueActionSteps(context, card);
                     context.game.queueSimpleStep(() => {
