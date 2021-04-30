@@ -363,7 +363,7 @@ export const buildCardBack = async (canvas, deck, size, showDeckName) => {
 
     const evil = deck.cards.some((card) => card.card && card.card.rarity === 'Evil Twin');
 
-    let hash = (deck.uuid || deck.name).split('').reduce(function (a, b) {
+    let hash = deck.name.split('').reduce(function (a, b) {
         a = (a << 5) - a + b.charCodeAt(0);
         return a & a;
     }, 0);
