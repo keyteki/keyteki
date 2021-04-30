@@ -54,6 +54,7 @@ class ApplyDamageAction extends CardGameAction {
                 }
 
                 if (event.fightEvent) {
+                    event.destroyEvent.fightEvent = event.fightEvent;
                     event.destroyEvent.destroyedFighting =
                         event.fightEvent.card === event.card ||
                         event.fightEvent.attacker === event.card;

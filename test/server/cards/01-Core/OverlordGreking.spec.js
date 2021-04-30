@@ -74,7 +74,7 @@ describe('Overlord Greking', function () {
             expect(this.dextre.controller).toBe(this.player2.player);
         });
 
-        xit('should not trigger fight effects of attacker (Groke)', function () {
+        it('should not trigger fight effects of attacker (Groke)', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
             this.player2.fightWith(this.groke, this.overlordGreking);

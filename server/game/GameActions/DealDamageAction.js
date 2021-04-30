@@ -125,7 +125,8 @@ class DealDamageAction extends CardGameAction {
             amount: amount + card.getEffects('bonusDamage').reduce((acc, b) => acc + b, 0),
             damageSource: damageSource,
             fightEvent: this.fightEvent,
-            destroyEvent: null,
+            bonus: this.bonus,
+            damageType: this.damageType,
             ignoreArmor: this.ignoreArmor
         };
 
@@ -150,15 +151,16 @@ class DealDamageAction extends CardGameAction {
                 }
             }
 
+            let amountApplied = damageDealtEvent.amount - armorUsed;
+
             let damageAppliedParams = {
                 card: damageDealtEvent.card,
                 context: damageDealtEvent.context,
-                amount: damageDealtEvent.amount - armorUsed,
+                amount: amountApplied,
                 damageSource: damageDealtEvent.damageSource,
-                damageType: this.damageType,
-                destroyEvent: null,
+                damageType: damageDealtEvent.damageType,
                 damageDealtEvent: damageDealtEvent,
-                bonus: this.bonus
+                bonus: damageDealtEvent.bonus
             };
 
             let damageAppliedEvent = context.game.actions
@@ -166,35 +168,23 @@ class DealDamageAction extends CardGameAction {
                 .getEvent(damageDealtEvent.card, context.game.getFrameworkContext());
 
             let armorEvent;
+            let armorParams = {
+                card: damageDealtEvent.card,
+                context: damageDealtEvent.context,
+                amount: amountApplied,
+                armorUsed: armorUsed,
+                noGameStateCheck: true
+            };
 
             if (!armorUsed) {
-                armorEvent = super.createEvent(
-                    'unnamedEvent',
-                    {
-                        card: damageDealtEvent.card,
-                        context: damageDealtEvent.context,
-                        amount: damageDealtEvent.amount,
-                        armorUsed: 0
-                    },
-                    (event) => {
-                        event.addSubEvent(damageAppliedEvent);
-                    }
-                );
+                armorEvent = super.createEvent('unnamedEvent', armorParams, (event) => {
+                    event.addSubEvent(damageAppliedEvent);
+                });
             } else {
-                armorEvent = super.createEvent(
-                    'onDamagePreventedByArmor',
-                    {
-                        card: damageDealtEvent.card,
-                        context: damageDealtEvent.context,
-                        armorUsed: armorUsed,
-                        amount: damageDealtEvent.amount - armorUsed,
-                        noGameStateCheck: true
-                    },
-                    (event) => {
-                        event.card.armorUsed += event.armorUsed;
-                        event.addSubEvent(damageAppliedEvent);
-                    }
-                );
+                armorEvent = super.createEvent('onDamagePreventedByArmor', armorParams, (event) => {
+                    event.card.armorUsed += event.armorUsed;
+                    event.addSubEvent(damageAppliedEvent);
+                });
             }
 
             damageDealtEvent.addSubEvent(armorEvent);
