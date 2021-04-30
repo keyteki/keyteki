@@ -10,7 +10,8 @@ describe('Storm Surge', function () {
                 },
                 player2: {
                     amber: 2,
-                    inPlay: ['troll', 'krump', 'gub']
+                    inPlay: ['troll', 'krump', 'gub'],
+                    hand: ['ganger-chieftain']
                 }
             });
 
@@ -30,6 +31,23 @@ describe('Storm Surge', function () {
             beforeEach(function () {
                 this.player1.endTurn();
                 this.player2.clickPrompt('brobnar');
+            });
+
+            it('should not prevent readying out of ready phase', function () {
+                this.player2.reap(this.troll);
+                this.player2.reap(this.krump);
+                this.player2.play(this.gangerChieftain, true);
+                this.player2.clickCard(this.gangerChieftain);
+                this.player2.clickCard(this.troll);
+                this.player2.clickCard(this.hookmaster);
+                expect(this.player2.amber).toBe(4);
+                expect(this.hookmaster.location).toBe('discard');
+                this.player2.endTurn();
+
+                expect(this.troll.exhausted).toBe(true);
+                expect(this.krump.exhausted).toBe(true);
+                expect(this.gangerChieftain.exhausted).toBe(true);
+                expect(this.gub.exhausted).toBe(false);
             });
 
             it('should prevent readying their cards', function () {
