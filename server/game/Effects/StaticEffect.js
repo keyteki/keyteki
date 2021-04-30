@@ -10,6 +10,7 @@ class StaticEffect {
         }
         this.state = {};
         this.duration = '';
+        this.context = null;
     }
 
     apply(target) {
@@ -31,6 +32,7 @@ class StaticEffect {
     }
 
     setContext(context) {
+        this.context = context;
         this.value.setContext(context);
     }
 
