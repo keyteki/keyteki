@@ -5,12 +5,19 @@ class FirstPlayerSelection extends AllPlayerPrompt {
     constructor(game) {
         super(game);
         this.previousWinner = game.previousWinner;
+        this.chooseFirst = game.chooseFirst;
+        this.owner = game.owner;
         this.clickedButton = false;
         this.players = game.getPlayers();
     }
 
     completionCondition(player) {
-        return this.previousWinner === player.name || !this.previousWinner || this.clickedButton;
+        return (
+            this.previousWinner === player.name ||
+            (!this.previousWinner && !this.chooseFirst) ||
+            this.clickedButton ||
+            (this.chooseFirst && this.owner === player.name)
+        );
     }
 
     activePrompt() {

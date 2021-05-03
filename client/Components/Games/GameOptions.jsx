@@ -12,7 +12,8 @@ const GameOptions = ({ formProps }) => {
         { name: 'muteSpectators', label: t('Mute spectators') },
         { name: 'useGameTimeLimit', label: t('Use a time limit (in minutes)') },
         { name: 'gamePrivate', label: t('Private (requires game link)') },
-        { name: 'hideDeckLists', label: t('Hide deck lists') }
+        { name: 'hideDeckLists', label: t('Hide deck lists') },
+        { name: 'chooseFirst', label: t('Opponent chooses first player') }
     ];
 
     return (

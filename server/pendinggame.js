@@ -32,6 +32,7 @@ class PendingGame {
         this.useGameTimeLimit = details.useGameTimeLimit;
         this.rematch = false;
         this.tournament = details.tournament;
+        this.chooseFirst = details.chooseFirst;
     }
 
     // Getters
@@ -370,7 +371,8 @@ class PendingGame {
                     avatar: spectator.user.avatar
                 };
             }),
-            useGameTimeLimit: this.useGameTimeLimit
+            useGameTimeLimit: this.useGameTimeLimit,
+            chooseFirst: this.chooseFirst
         };
     }
 
@@ -417,7 +419,8 @@ class PendingGame {
             spectators,
             started: this.started,
             swap: this.swap,
-            useGameTimeLimit: this.useGameTimeLimit
+            useGameTimeLimit: this.useGameTimeLimit,
+            chooseFirst: this.chooseFirst
         };
     }
 }
