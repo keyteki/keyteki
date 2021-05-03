@@ -5,7 +5,9 @@ class Harmonia extends Card {
         this.reaction({
             when: {
                 onCardPlayed: (event, context) =>
-                    event.card.type === 'creature' && event.player === context.player
+                    event.card.type === 'creature' &&
+                    event.player === context.player &&
+                    context.player.opponent
             },
             gameAction: ability.actions.gainAmber((context) => ({
                 amount:

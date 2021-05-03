@@ -549,4 +549,45 @@ describe('Mimic Gel', function () {
             expect(this.mimicGel.exhausted).toBe(false);
         });
     });
+
+    describe("Ether Spider's effect and Mimic Gel", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'logos',
+                    amber: 1,
+                    inPlay: ['dextre'],
+                    hand: ['mimic-gel', 'data-forge']
+                },
+                player2: {
+                    amber: 4,
+                    inPlay: ['ether-spider'],
+                    hand: ['phloxem-spike']
+                }
+            });
+
+            this.player1.clickCard(this.mimicGel);
+            this.player1.clickPrompt('Play this creature');
+            this.player1.clickCard(this.etherSpider);
+            this.player1.clickPrompt('Left');
+        });
+
+        it('should redirect amber to correct Ether Spider', function () {
+            this.player1.reap(this.dextre);
+            this.player1.play(this.dataForge);
+            expect(this.mimicGel.amber).toBe(0);
+            expect(this.etherSpider.amber).toBe(2);
+            expect(this.player1.amber).toBe(1);
+            expect(this.player2.amber).toBe(4);
+
+            this.player1.endTurn();
+            this.player2.clickPrompt('mars');
+            this.player2.reap(this.etherSpider);
+            this.player2.play(this.phloxemSpike);
+            expect(this.mimicGel.amber).toBe(2);
+            expect(this.etherSpider.amber).toBe(2);
+            expect(this.player1.amber).toBe(1);
+            expect(this.player2.amber).toBe(4);
+        });
+    });
 });

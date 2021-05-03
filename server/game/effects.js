@@ -114,7 +114,7 @@ const Effects = {
     noActiveHouseForPlay: () => EffectBuilder.player.static('noActiveHouseForPlay'),
     playerCannot: (type, condition) =>
         EffectBuilder.player.static('abilityRestrictions', new CannotRestriction(type, condition)),
-    redirectAmber: (recepient) => EffectBuilder.player.static('redirectAmber', recepient),
+    redirectAmber: (recepient) => EffectBuilder.player.flexible('redirectAmber', recepient),
     restrictHouseChoice: (house) => EffectBuilder.player.static('restrictHouseChoice', house),
     stealFromPool: () => EffectBuilder.player.static('stealFromPool'),
     captureFromPool: () => EffectBuilder.player.static('captureFromPool'),

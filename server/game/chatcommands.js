@@ -200,7 +200,7 @@ class ChatCommands {
         let num = this.getNumberOrDefault(args[1], 1);
         this.game.addAlert(
             'danger',
-            '{0} discards {1} card{2} from top of deck',
+            '{0} discards {1} card{2} from top of their deck',
             player,
             num,
             num > 1 ? 's' : ''
