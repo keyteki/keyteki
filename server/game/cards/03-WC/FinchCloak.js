@@ -4,6 +4,7 @@ class FinchCloak extends Card {
     setupCardAbilities(ability) {
         this.fight({
             reap: true,
+            condition: (context) => context.player.opponent,
             gameAction: ability.actions.conditional((context) => ({
                 target: context.player,
                 condition: (context) =>

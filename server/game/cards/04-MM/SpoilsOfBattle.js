@@ -17,9 +17,11 @@ class SpoilsOfBattle extends Card {
                 })),
                 ability.actions.capture((context) => ({
                     player: context.player,
-                    target: context.player.opponent.creaturesInPlay.filter((card) =>
-                        card.hasToken('amber')
-                    )
+                    target: context.player.opponent
+                        ? context.player.opponent.creaturesInPlay.filter((card) =>
+                              card.hasToken('amber')
+                          )
+                        : []
                 }))
             ])
         });
