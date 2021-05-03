@@ -70,6 +70,7 @@ class Game extends EventEmitter {
         this.swap = details.swap;
         this.timeLimit = new TimeLimit(this);
         this.useGameTimeLimit = details.useGameTimeLimit;
+        this.startingHandsDrawn = false;
 
         this.cardsUsed = [];
         this.omegaCard = null;

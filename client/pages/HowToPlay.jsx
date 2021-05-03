@@ -230,6 +230,10 @@ class HowToPlay extends React.Component {
                                 Change the tide to level x (high, low or neutral)
                             </Trans>
                         </li>
+                        <li>
+                            /first-player x -{' '}
+                            <Trans i18nKey='howtoplay.cmd.firstplayer'>Change first player</Trans>
+                        </li>
                     </ul>
 
                     <h3 id='conceding'>
