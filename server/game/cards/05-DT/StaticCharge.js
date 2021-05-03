@@ -4,9 +4,9 @@ class StaticCharge extends Card {
     // This creature gains, "At the start of your turn, deal 2D to each of this creature's neighbors."
     setupCardAbilities(ability) {
         this.whileAttached({
-            effect: ability.effects.gainAbility('reaction', {
+            effect: ability.effects.gainAbility('interrupt', {
                 when: {
-                    onBeginRound: (_, context) => context.player === this.game.activePlayer
+                    onBeginRound: (_event, context) => context.player === context.game.activePlayer
                 },
                 gameAction: ability.actions.dealDamage((context) => ({
                     amount: 2,

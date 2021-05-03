@@ -24,6 +24,12 @@ describe('Z-Wave Emitter', function () {
             expect(this.zForceAgent14.tokens.ward).toBe(1);
         });
 
+        it('should ward enemy creature at the start of their turn', function () {
+            this.player1.playUpgrade(this.zWaveEmitter, this.lamindra);
+            this.player1.endTurn();
+            expect(this.lamindra.tokens.ward).toBe(1);
+        });
+
         it('should last for several turns', function () {
             this.player1.playUpgrade(this.zWaveEmitter, this.zForceAgent14);
             this.player1.endTurn();

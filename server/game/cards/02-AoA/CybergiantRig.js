@@ -2,16 +2,15 @@ const Card = require('../../Card.js');
 
 class CybergiantRig extends Card {
     setupCardAbilities(ability) {
-        this.interrupt({
-            when: {
-                onRoundEnded: (event, context) =>
-                    context.player === this.game.activePlayer &&
-                    this.parent &&
-                    this.parent.hasToken('power')
-            },
-            gameAction: ability.actions.removePowerCounter(() => ({
-                target: this.parent
-            }))
+        this.whileAttached({
+            effect: ability.effects.gainAbility('interrupt', {
+                when: {
+                    onRoundEnded: (_event, context) =>
+                        context.player === context.game.activePlayer &&
+                        context.source.hasToken('power')
+                },
+                gameAction: ability.actions.removePowerCounter()
+            })
         });
 
         this.play({
