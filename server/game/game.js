@@ -1242,11 +1242,11 @@ class Game extends EventEmitter {
         });
 
         let spectators = this.getSpectators().map((spectator) => {
-                return {
-                    id: spectator.id,
-                    lobbyId: spectator.lobbyId,
-                    name: spectator.name
-                };
+            return {
+                id: spectator.id,
+                lobbyId: spectator.lobbyId,
+                name: spectator.name
+            };
         });
 
         return {
