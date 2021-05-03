@@ -403,7 +403,7 @@ class DeckService {
             if (user) {
                 ret = await db.query(
                     'INSERT INTO "Decks" ("UserId", "Uuid", "Identity", "Name", "IncludeInSealed", "LastUpdated", "Verified", "ExpansionId", "Flagged", "Banned") ' +
-                        'VALUES ($1, $2, $3, $4, $5, $6, false, (SELECT "Id" FROM "Expansions" WHERE "ExpansionId" = $7), false, false) RETURNING "Id"',
+                        'VALUES ($1, $2, $3, $4, $5, $6, $7, (SELECT "Id" FROM "Expansions" WHERE "ExpansionId" = $8), false, false) RETURNING "Id"',
                     [
                         user.id,
                         deck.uuid,
@@ -411,6 +411,7 @@ class DeckService {
                         deck.name,
                         false,
                         deck.lastUpdated,
+                        deck.verified,
                         deck.expansion
                     ]
                 );
@@ -620,12 +621,15 @@ class DeckService {
         let totalEnhancements = Object.keys(enhancements).reduce((a, b) => a + enhancements[b], 0);
         let totalEnhancedCards = cards.filter((x) => x.enhancements).length;
         let types = Object.keys(enhancements);
+        let verified = false;
 
         if (totalEnhancements === totalEnhancedCards && types.length === 1) {
+            verified = true;
             for (const [index, card] of cards.entries()) {
                 if (card.enhancements) cards[index] = { ...card, enhancements: types };
             }
         } else if (totalEnhancedCards === 1) {
+            verified = true;
             let pips = [];
             for (const type in enhancements) {
                 for (let i = 0; i < enhancements[type]; i++) {
@@ -637,7 +641,7 @@ class DeckService {
             }
         }
 
-        return cards;
+        return [cards, verified];
     }
 
     parseDeckResponse(username, deckResponse) {
@@ -645,6 +649,7 @@ class DeckService {
             479: { 'dark-æmber-vault': true, 'it-s-coming': true, 'orb-of-wonder': true },
             496: { 'orb-of-wonder': true, valoocanth: true }
         };
+        let verified = false;
 
         let deckCards = deckResponse._linked.cards.filter((c) => !c.is_non_deck);
 
@@ -718,7 +723,7 @@ class DeckService {
         cards = cards.concat(toAdd);
 
         if (cards.some((card) => card.enhancements)) {
-            cards = this.assignEnhancements(cards, enhancements);
+            [cards, verified] = this.assignEnhancements(cards, enhancements);
         }
 
         let uuid = deckResponse.data.id;
@@ -752,6 +757,7 @@ class DeckService {
                 house.replace(' ', '').toLowerCase()
             ),
             cards: cards,
+            verified: verified,
             lastUpdated: new Date()
         };
     }
