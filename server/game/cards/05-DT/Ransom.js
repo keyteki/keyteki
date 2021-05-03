@@ -6,9 +6,10 @@ class Ransom extends Card {
         this.whileAttached({
             effect: [
                 ability.effects.cardCannot('use'),
-                ability.effects.gainAbility('reaction', {
+                ability.effects.gainAbility('interrupt', {
                     when: {
-                        onBeginRound: (_, context) => context.player === this.game.activePlayer
+                        onBeginRound: (_event, context) =>
+                            context.player === context.game.activePlayer
                     },
                     condition: (context) => context.player.amber >= 2,
                     optional: true,

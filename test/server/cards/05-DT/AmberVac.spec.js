@@ -15,7 +15,7 @@ describe('Æmber-vac', function () {
             });
         });
 
-        describe('when played', function () {
+        describe('when played on own creatures', function () {
             beforeEach(function () {
                 this.player1.playUpgrade(this.æmberVac, this.armsmasterMolina);
             });
@@ -51,35 +51,105 @@ describe('Æmber-vac', function () {
                     });
                 });
             });
-        });
 
-        describe('when the tide is not high', function () {
-            beforeEach(function () {
-                this.player1.lowerTide();
-            });
-
-            describe("at the start of opponent's turn", function () {
+            describe('when the tide is not high', function () {
                 beforeEach(function () {
-                    this.player1.endTurn();
-                    this.player2.clickPrompt('shadows');
+                    this.player1.lowerTide();
                 });
 
-                it('should not capture 2A', function () {
-                    expect(this.armsmasterMolina.amber).toBe(0);
-                    expect(this.player1.amber).toBe(4);
-                    expect(this.player2.amber).toBe(4);
-                });
-
-                describe("at the start of owner's turn", function () {
+                describe("at the start of opponent's turn", function () {
                     beforeEach(function () {
-                        this.player2.endTurn();
-                        this.player1.clickPrompt('staralliance');
+                        this.player1.endTurn();
+                        this.player2.clickPrompt('shadows');
                     });
 
                     it('should not capture 2A', function () {
                         expect(this.armsmasterMolina.amber).toBe(0);
                         expect(this.player1.amber).toBe(4);
                         expect(this.player2.amber).toBe(4);
+                    });
+
+                    describe("at the start of owner's turn", function () {
+                        beforeEach(function () {
+                            this.player2.endTurn();
+                            this.player1.clickPrompt('staralliance');
+                        });
+
+                        it('should not capture 2A', function () {
+                            expect(this.armsmasterMolina.amber).toBe(0);
+                            expect(this.player1.amber).toBe(4);
+                            expect(this.player2.amber).toBe(4);
+                        });
+                    });
+                });
+            });
+        });
+
+        describe('when played on enemy creatures', function () {
+            beforeEach(function () {
+                this.player1.playUpgrade(this.æmberVac, this.murkens);
+            });
+
+            it('should raise the tide', function () {
+                expect(this.player1.isTideHigh()).toBe(true);
+            });
+
+            describe('when the tide is not high', function () {
+                describe("at the start of opponent's turn", function () {
+                    beforeEach(function () {
+                        this.player1.endTurn();
+                        this.player2.clickPrompt('shadows');
+                    });
+
+                    it('should not capture 2A', function () {
+                        expect(this.murkens.amber).toBe(0);
+                        expect(this.player1.amber).toBe(4);
+                        expect(this.player2.amber).toBe(4);
+                    });
+
+                    describe("at the start of owner's turn", function () {
+                        beforeEach(function () {
+                            this.player2.endTurn();
+                            this.player1.clickPrompt('staralliance');
+                        });
+
+                        it('should not capture 2A', function () {
+                            expect(this.murkens.amber).toBe(0);
+                            expect(this.player1.amber).toBe(4);
+                            expect(this.player2.amber).toBe(4);
+                        });
+                    });
+                });
+            });
+
+            describe('when the tide is high', function () {
+                beforeEach(function () {
+                    this.player1.lowerTide();
+                });
+
+                describe("at the start of opponent's turn", function () {
+                    beforeEach(function () {
+                        this.player1.endTurn();
+                        this.player2.clickPrompt('shadows');
+                    });
+
+                    it('should capture 2A', function () {
+                        expect(this.murkens.amber).toBe(2);
+                        expect(this.player1.amber).toBe(2);
+                        expect(this.player2.amber).toBe(4);
+                    });
+
+                    describe("at the start of owner's turn", function () {
+                        beforeEach(function () {
+                            this.player2.endTurn();
+                            this.player1.clickPrompt('staralliance');
+                        });
+
+                        it('should not capture 2A', function () {
+                            expect(this.murkens.amber).toBe(2);
+                            expect(this.player1.amber).toBe(2);
+                            expect(this.player2.amber).toBe(4);
+                        });
                     });
                 });
             });
