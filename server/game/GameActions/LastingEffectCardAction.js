@@ -7,6 +7,7 @@ class LastingEffectCardAction extends CardGameAction {
         this.until = null;
         this.effect = [];
         this.targetLocation = null;
+        this.roundDuration = 1;
     }
 
     setup() {

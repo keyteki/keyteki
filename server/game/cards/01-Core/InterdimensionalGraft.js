@@ -11,7 +11,8 @@ class InterdimensionalGraft extends Card {
                     onForgeKey: (event) => event.player === context.player.opponent
                 },
                 gameAction: ability.actions.transferAmber((context) => ({
-                    amount: context.player.opponent.amber
+                    target: context.event.player,
+                    amount: context.event.player.amber
                 }))
             }))
         });

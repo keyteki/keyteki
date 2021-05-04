@@ -102,12 +102,11 @@ const Actions = {
     forgeKey: (propertyFactory) => new GameActions.ForgeAction(propertyFactory), // modifier = 0
     forRemainderOfTurn: (propertyFactory) =>
         new GameActions.LastingEffectAction(propertyFactory, 1),
-    untilNextTurn: (propertyFactory) => new GameActions.LastingEffectAction(propertyFactory, 2),
     untilEndOfMyNextTurn: (propertyFactory) =>
         new GameActions.LastingEffectAction(propertyFactory, 3),
     gainAmber: (propertyFactory) => new GameActions.ModifyAmberAction(propertyFactory), // amount = 1
     gainChains: (propertyFactory) => new GameActions.ModifyChainsActions(propertyFactory), // amount = 1
-    lastingEffect: (propertyFactory) => new GameActions.LastingEffectAction(propertyFactory),
+    lastingEffect: (propertyFactory) => new GameActions.LastingEffectAction(propertyFactory, 2),
     loseAmber: (propertyFactory) => new GameActions.LoseAmberAction(propertyFactory),
     mulligan: (propertyFactory) => new GameActions.MulliganAction(propertyFactory), // name
     raiseTide: (propertyFactory) => new GameActions.RaiseTideAction(propertyFactory),

@@ -21,6 +21,7 @@ describe('Shadow of Dis', function () {
                 }
             });
         });
+
         it('should not blank artifacts', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('dis');
@@ -80,6 +81,15 @@ describe('Shadow of Dis', function () {
             this.player2.fightWith(this.tezmal, this.kindrithLongshot);
             expect(this.tezmal.location).toBe('discard');
             expect(this.kindrithLongshot.tokens.damage).toBe(2); // 2 from tezmal ignoring kindrith's elusive
+        });
+
+        it('should not blank own cards', function () {
+            this.player1.moveCard(this.autocannon, 'discard');
+            this.player1.endTurn();
+            this.player2.clickPrompt('dis');
+            this.player2.play(this.shadowOfDis);
+            this.player2.reap(this.tezmal);
+            this.player2.clickPrompt('untamed');
         });
 
         it("test hideway-hole artifact's elusive still works", function () {

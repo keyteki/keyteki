@@ -13,7 +13,10 @@ class Snaglet extends Card {
                     onChooseActiveHouse: (event) =>
                         event.player !== context.player && event.house === context.house
                 },
-                gameAction: ability.actions.steal({ amount: 2 })
+                gameAction: ability.actions.steal({
+                    target: context.player.opponent,
+                    amount: 2
+                })
             }))
         });
     }

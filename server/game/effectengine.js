@@ -8,19 +8,29 @@ class EffectEngine {
         this.events = new EventRegistrar(game, this);
         this.events.register(['onPhaseEnded', 'onRoundEnded']);
         this.effects = [];
+        this.nextRoundEffects = [];
         this.delayedEffects = [];
         this.terminalConditions = [];
         this.customDurationEvents = [];
         this.newEffect = false;
     }
 
-    add(effect) {
-        this.effects.push(effect);
-        if (effect.duration === 'custom') {
-            this.registerCustomDurationEvents(effect);
+    add(effect, forceNow = false) {
+        if (
+            (effect.forceNextRound && !forceNow) ||
+            (!effect.until.when &&
+                (effect.duration === 'untilEndOfRound' || effect.roundDuration === 2) &&
+                effect.targetController === 'opponent')
+        ) {
+            this.nextRoundEffects.push(effect);
+        } else {
+            this.effects.push(effect);
+            if (effect.duration === 'custom') {
+                this.registerCustomDurationEvents(effect);
+            }
+            this.newEffect = true;
         }
 
-        this.newEffect = true;
         return effect;
     }
 
@@ -105,6 +115,14 @@ class EffectEngine {
                 effect.roundDuration -= 1;
             }
         });
+
+        _.each(this.nextRoundEffects, (effect) => {
+            if (effect.roundDuration > 1) {
+                effect.roundDuration -= 1;
+                this.add(effect, true);
+            }
+        });
+        this.nextRoundEffects = [];
     }
 
     registerCustomDurationEvents(effect) {

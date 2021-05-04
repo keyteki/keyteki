@@ -16,7 +16,10 @@ class AllusionsOfGrandeur extends Card {
                     onChooseActiveHouse: (event) =>
                         event.player !== context.player && event.house !== context.house
                 },
-                gameAction: ability.actions.gainAmber({ amount: 3 })
+                gameAction: ability.actions.gainAmber({
+                    target: context.player,
+                    amount: 3
+                })
             }))
         });
     }

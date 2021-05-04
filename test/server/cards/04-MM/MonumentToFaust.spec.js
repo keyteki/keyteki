@@ -45,10 +45,10 @@ describe('Monument to Faust', function () {
             this.player2.clickPrompt('dis');
             this.player2.play(this.poltergeist);
             this.player2.clickCard(this.monumentToFaust);
-            expect(this.player1.player.getCurrentKeyCost()).toBe(7);
-            expect(this.player2.player.getCurrentKeyCost()).toBe(6);
             expect(this.monumentToFaust.location).toBe('discard');
             this.player2.endTurn();
+            expect(this.player1.player.getCurrentKeyCost()).toBe(7);
+            expect(this.player2.player.getCurrentKeyCost()).toBe(6);
             this.player1.clickPrompt('saurian');
             this.player1.endTurn();
             expect(this.player1.player.getCurrentKeyCost()).toBe(6);
