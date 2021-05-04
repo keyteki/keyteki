@@ -4,15 +4,15 @@ class WikoliaEvilTwin extends Card {
     // Reap: Exalt Wikolia. Keys cost +4A during your opponent's next turn.
     setupCardAbilities(ability) {
         this.reap({
-            gameAction: ability.actions.exalt(),
-            then: {
-                gameAction: ability.actions.lastingEffect({
-                    targetController: 'opponent',
+            gameAction: [
+                ability.actions.exalt(),
+                ability.actions.nextRoundEffect({
+                    targetController: 'any',
                     effect: ability.effects.modifyKeyCost(4)
-                }),
-                message: "{1} increases {3}'s key cost by 4 until the end of their next turn",
-                messageArgs: (context) => context.player.opponent
-            }
+                })
+            ],
+            effect: "exalt {0} and increase key cost by 4 during {1}'s next turn",
+            effectArgs: (context) => context.player.opponent
         });
     }
 }

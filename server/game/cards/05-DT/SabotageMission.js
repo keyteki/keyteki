@@ -5,17 +5,14 @@ class SabotageMission extends Card {
     // Play: Keys cost +1A for each different power value among friendly creatures during your opponent’s next turn.
     setupCardAbilities(ability) {
         this.play({
-            effect:
-                "increase {1}'s key cost by 1 for each different power value of friendly creatures",
-            effectArgs: (context) => context.player.opponent,
-            gameAction: ability.actions.lastingEffect({
-                targetController: 'opponent',
-                effect: ability.effects.modifyKeyCost((player) =>
-                    player.opponent
-                        ? _.uniq(player.opponent.creaturesInPlay.map((card) => card.power)).length
-                        : 0
+            effect: "increase key cost by 1 for each friendly creature during {1}'s next turn",
+            effectArgs: (context) => [context.player.opponent],
+            gameAction: ability.actions.nextRoundEffect((context) => ({
+                targetController: 'any',
+                effect: ability.effects.modifyKeyCost(
+                    () => _.uniq(context.player.creaturesInPlay.map((card) => card.power)).length
                 )
-            })
+            }))
         });
     }
 }

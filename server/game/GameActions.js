@@ -106,9 +106,12 @@ const Actions = {
         new GameActions.LastingEffectAction(propertyFactory, 3),
     gainAmber: (propertyFactory) => new GameActions.ModifyAmberAction(propertyFactory), // amount = 1
     gainChains: (propertyFactory) => new GameActions.ModifyChainsActions(propertyFactory), // amount = 1
-    lastingEffect: (propertyFactory) => new GameActions.LastingEffectAction(propertyFactory, 2),
+    untilNextTurn: (propertyFactory) => new GameActions.LastingEffectAction(propertyFactory, 2),
     loseAmber: (propertyFactory) => new GameActions.LoseAmberAction(propertyFactory),
     mulligan: (propertyFactory) => new GameActions.MulliganAction(propertyFactory), // name
+    nextRoundEffect: (propertyFactory) =>
+        new GameActions.LastingEffectAction(propertyFactory, 2, true),
+    lastingEffect: (propertyFactory) => new GameActions.LastingEffectAction(propertyFactory),
     raiseTide: (propertyFactory) => new GameActions.RaiseTideAction(propertyFactory),
     rearrangeCards: (propertFactory) => new GameActions.RearrangeCardsAction(propertFactory),
     resetTide: (propertyFactory) => new GameActions.ResetTideAction(propertyFactory),

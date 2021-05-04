@@ -8,7 +8,7 @@ class Lifeward extends Card {
             effectArgs: (context) => context.player.opponent,
             gameAction: [
                 ability.actions.sacrifice(),
-                ability.actions.lastingEffect({
+                ability.actions.nextRoundEffect({
                     targetController: 'opponent',
                     effect: ability.effects.playerCannot(
                         'play',

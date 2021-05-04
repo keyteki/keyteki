@@ -7,11 +7,12 @@ class LuckyDice extends Card {
                 "destroy {0} and prevent their creatures from taking damage during opponent's next turn",
             gameAction: ability.actions.sequential([
                 ability.actions.destroy(),
-                ability.actions.lastingEffect({
-                    forceNextRound: true,
-                    targetController: 'current',
+                ability.actions.cardLastingEffect((context) => ({
+                    nextRound: true,
+                    duration: 'untilNextTurn',
+                    target: context.player.creaturesInPlay,
                     effect: ability.effects.cardCannot('damage')
-                })
+                }))
             ])
         });
     }

@@ -37,7 +37,7 @@ class Effect {
         this.condition = properties.condition || (() => true);
         this.location = properties.location || 'play area';
         this.printedAbility = properties.printedAbility !== false;
-        this.forceNextRound = !!properties.forceNextRound;
+        this.nextRound = !!properties.nextRound;
         this.effect = effect;
         this.refreshContext();
         this.targets = [];

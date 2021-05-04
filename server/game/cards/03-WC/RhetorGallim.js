@@ -5,7 +5,7 @@ class RhetorGallim extends Card {
         this.play({
             effect: "increase {1}'s key cost by 3 until the end of their next turn",
             effectArgs: (context) => context.player.opponent,
-            gameAction: ability.actions.lastingEffect({
+            gameAction: ability.actions.nextRoundEffect({
                 targetController: 'opponent',
                 effect: ability.effects.modifyKeyCost(3)
             })
@@ -15,7 +15,7 @@ class RhetorGallim extends Card {
             optional: true,
             gameAction: ability.actions.exalt(),
             then: {
-                gameAction: ability.actions.lastingEffect({
+                gameAction: ability.actions.nextRoundEffect({
                     targetController: 'opponent',
                     effect: ability.effects.modifyKeyCost(3)
                 }),

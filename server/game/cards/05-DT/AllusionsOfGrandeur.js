@@ -11,7 +11,8 @@ class AllusionsOfGrandeur extends Card {
             },
             effect: 'gain 3 amber if {1} does not choose {2} as their active house next turn',
             effectArgs: (context) => [context.player.opponent, context.house],
-            gameAction: ability.actions.lastingEffect((context) => ({
+            gameAction: ability.actions.nextRoundEffect((context) => ({
+                targetController: 'opponent',
                 when: {
                     onChooseActiveHouse: (event) =>
                         event.player !== context.player && event.house !== context.house

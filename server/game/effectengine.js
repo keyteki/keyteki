@@ -16,12 +16,7 @@ class EffectEngine {
     }
 
     add(effect, forceNow = false) {
-        if (
-            (effect.forceNextRound && !forceNow) ||
-            (!effect.until.when &&
-                (effect.duration === 'untilEndOfRound' || effect.roundDuration === 2) &&
-                effect.targetController === 'opponent')
-        ) {
+        if (effect.nextRound && !forceNow) {
             this.nextRoundEffects.push(effect);
         } else {
             this.effects.push(effect);

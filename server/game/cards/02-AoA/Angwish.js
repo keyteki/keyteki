@@ -4,7 +4,9 @@ class Angwish extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
             targetController: 'opponent',
-            effect: ability.effects.modifyKeyCost(() => this.tokens.damage || 0)
+            effect: ability.effects.modifyKeyCost(
+                (player, context) => context.source.tokens.damage || 0
+            )
         });
     }
 }
