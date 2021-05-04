@@ -349,7 +349,7 @@ class ChatCommands {
         }
         this.game.addAlert(
             'danger',
-            'Cannot change first player: player {0} not exists',
+            'Cannot change first player: player {0} does not exist',
             firstPlayerName
         );
     }
