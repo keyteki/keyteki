@@ -73,6 +73,7 @@ class SetupPhase extends Phase {
                 .draw({ refill: true })
                 .resolve(player, this.game.getFrameworkContext());
         });
+        this.game.startingHandsDrawn = true;
     }
 
     startGame() {

@@ -28,7 +28,8 @@ class ChatCommands {
             '/stop-clocks': this.stopClocks,
             '/start-clocks': this.startClocks,
             '/token': this.setToken,
-            '/unforge': this.unforge
+            '/unforge': this.unforge,
+            '/first-player': this.firstPlayer
         };
         this.tokens = ['amber', 'damage', 'enrage', 'power', 'stun', 'ward'];
         this.houses = [...Constants.Houses, 'none'];
@@ -328,6 +329,29 @@ class ChatCommands {
         }
 
         this.game.queueStep(new RematchPrompt(this.game, player));
+    }
+
+    firstPlayer(player, args) {
+        const firstPlayerName = args[1];
+        if (this.game.startingHandsDrawn) {
+            this.game.addAlert('danger', 'Cannot change first player at this stage of the game');
+            return;
+        }
+
+        const players = this.game.getPlayers();
+
+        for (const p of players) {
+            if (p.name === firstPlayerName) {
+                this.game.activePlayer = p;
+                this.game.addAlert('info', '{0} changed first player to {1}', player, p);
+                return;
+            }
+        }
+        this.game.addAlert(
+            'danger',
+            'Cannot change first player: player {0} does not exist',
+            firstPlayerName
+        );
     }
 }
 
