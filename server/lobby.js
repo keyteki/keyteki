@@ -916,7 +916,8 @@ class Lobby {
             gameType: game.gameType,
             hideDeckLists: game.hideDeckLists,
             showHand: game.showHand,
-            spectators: game.allowSpectators,
+            allowSpectators: game.allowSpectators,
+            spectators: game.spectators,
             swap: oldGame.swap,
             useGameTimeLimit: game.useGameTimeLimit
         });

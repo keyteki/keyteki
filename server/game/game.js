@@ -70,6 +70,7 @@ class Game extends EventEmitter {
         this.swap = details.swap;
         this.timeLimit = new TimeLimit(this);
         this.useGameTimeLimit = details.useGameTimeLimit;
+        this.startingHandsDrawn = false;
 
         this.cardsUsed = [];
         this.omegaCard = null;
@@ -1241,6 +1242,14 @@ class Game extends EventEmitter {
             };
         });
 
+        let spectators = this.getSpectators().map((spectator) => {
+            return {
+                id: spectator.id,
+                lobbyId: spectator.lobbyId,
+                name: spectator.name
+            };
+        });
+
         return {
             adaptive: this.adaptive,
             challonge: this.challonge,
@@ -1255,7 +1264,8 @@ class Game extends EventEmitter {
             startedAt: this.startedAt,
             swap: this.swap,
             winReason: this.winReason,
-            winner: this.winner ? this.winner.name : undefined
+            winner: this.winner ? this.winner.name : undefined,
+            spectators: spectators
         };
     }
 
