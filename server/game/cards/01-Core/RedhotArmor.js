@@ -15,12 +15,10 @@ class RedhotArmor extends Card {
             then: {
                 gameAction: ability.actions.dealDamage((context) => ({
                     target: context.preThenEvents
-                        .filter((event) => event.name === 'onReduceArmor' && event.amount > 0)
+                        .filter((event) => event.amount > 0)
                         .map((event) => event.card),
                     amountForCard: (card) =>
-                        context.preThenEvents.find(
-                            (event) => event.name === 'onReduceArmor' && event.card === card
-                        ).amount
+                        context.preThenEvents.find((event) => event.card === card).amount
                 }))
             }
         });

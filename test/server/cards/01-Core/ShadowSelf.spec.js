@@ -8,7 +8,7 @@ describe('Shadow Self', function () {
                     hand: ['shadow-self', 'abond-the-armorsmith']
                 },
                 player2: {
-                    inPlay: ['silvertooth']
+                    inPlay: ['silvertooth', 'spyyyder', 'macis-asp']
                 }
             });
             this.shadowSelf1 = this.player1.findCardByName('shadow-self', 'play area');
@@ -59,7 +59,7 @@ describe('Shadow Self', function () {
             expect(this.shadowSelf1.armorUsed).toBe(1);
         });
 
-        it('should reduce its armor before taking the damage of neighbors', function () {
+        it('should bypass its armor when taking the damage of neighbors', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('shadows');
             this.player2.endTurn();
@@ -74,9 +74,71 @@ describe('Shadow Self', function () {
             expect(this.badPenny.hasToken('armor')).toBe(false);
             expect(this.badPenny.armorUsed).toBe(1);
             expect(this.badPenny.hasToken('damage')).toBe(false);
+            expect(this.shadowSelf1.armor).toBe(1);
+            expect(this.shadowSelf1.tokens.damage).toBe(1);
+        });
+
+        it('should bypass its ward and armor when taking the damage of neighbors', function () {
+            this.player1.endTurn();
+            this.player2.clickPrompt('shadows');
+            this.player2.endTurn();
+            this.player1.clickPrompt('sanctum');
+            this.player1.playCreature(this.abondTheArmorsmith);
+            this.player1.endTurn();
+            this.shadowSelf1.ward();
+            expect(this.shadowSelf1.tokens.armor).toBe(1);
+            expect(this.badPenny.tokens.armor).toBe(1);
+            this.player2.clickPrompt('shadows');
+            this.player2.fightWith(this.silvertooth, this.badPenny);
+            expect(this.silvertooth.tokens.damage).toBe(1);
+            expect(this.badPenny.hasToken('armor')).toBe(false);
+            expect(this.badPenny.armorUsed).toBe(1);
             expect(this.badPenny.hasToken('damage')).toBe(false);
-            expect(this.shadowSelf1.hasToken('armor')).toBe(false);
-            expect(this.shadowSelf1.armorUsed).toBe(1);
+            expect(this.shadowSelf1.armor).toBe(1);
+            expect(this.shadowSelf1.warded).toBe(true);
+            expect(this.shadowSelf1.tokens.damage).toBe(1);
+        });
+
+        it('should bypass its ward and be destroyed when taking the damage of neighbors', function () {
+            this.player1.endTurn();
+            this.player2.clickPrompt('shadows');
+            this.player2.endTurn();
+            this.player1.clickPrompt('sanctum');
+            this.player1.playCreature(this.abondTheArmorsmith);
+            this.player1.endTurn();
+            this.shadowSelf1.ward();
+            this.shadowSelf1.tokens.damage = 8;
+            expect(this.shadowSelf1.tokens.armor).toBe(1);
+            expect(this.badPenny.tokens.armor).toBe(1);
+            this.player2.clickPrompt('shadows');
+            this.player2.fightWith(this.silvertooth, this.badPenny);
+            expect(this.silvertooth.tokens.damage).toBe(1);
+            expect(this.badPenny.hasToken('armor')).toBe(false);
+            expect(this.badPenny.armorUsed).toBe(1);
+            expect(this.badPenny.hasToken('damage')).toBe(false);
+            expect(this.shadowSelf1.location).toBe('discard');
+        });
+
+        it('should be killed by transfered Poison effect', function () {
+            this.player1.endTurn();
+            this.player2.clickPrompt('shadows');
+            this.player2.fightWith(this.macisAsp, this.badPenny);
+            expect(this.macisAsp.tokens.damage).toBeUndefined();
+            expect(this.badPenny.tokens.damage).toBeUndefined();
+            expect(this.macisAsp.location).toBe('play area');
+            expect(this.badPenny.location).toBe('play area');
+            expect(this.shadowSelf1.location).toBe('discard');
+        });
+
+        it('should be killed by transfered Poison from a flank creature effect', function () {
+            this.player1.endTurn();
+            this.player2.clickPrompt('dis');
+            this.player2.fightWith(this.spyyyder, this.badPenny);
+            expect(this.spyyyder.tokens.damage).toBeUndefined();
+            expect(this.badPenny.tokens.damage).toBeUndefined();
+            expect(this.spyyyder.location).toBe('play area');
+            expect(this.badPenny.location).toBe('play area');
+            expect(this.shadowSelf1.location).toBe('discard');
         });
 
         it('should prompt the active player to choose which Shadow Self gets the damage if two can receive it', function () {

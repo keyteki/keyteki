@@ -13,12 +13,7 @@ class SporegorgerEvilTwin extends Card {
                 alwaysTriggers: true,
                 gameAction: ability.actions.addPowerCounter((thenContext) => ({
                     amount: thenContext.preThenEvents
-                        .filter(
-                            (event) =>
-                                event.name === 'onRemoveToken' &&
-                                !event.cancelled &&
-                                event.amount > 0
-                        )
+                        .filter((event) => !event.cancelled && event.amount > 0)
                         .reduce((total, event) => total + event.amount, 0)
                 }))
             }

@@ -5,9 +5,7 @@ class BrainEater extends Card {
         this.reaction({
             when: {
                 onCardDestroyed: (event, context) =>
-                    event.damageEvent &&
-                    event.damageEvent.fightEvent &&
-                    event.damageEvent.damageSource === context.source
+                    event.destroyedFighting && event.damageEvent.damageSource === context.source
             },
             gameAction: ability.actions.draw()
         });

@@ -10,7 +10,10 @@ class Poke extends Card {
             },
             then: {
                 condition: (context) =>
-                    context.preThenEvent.destroyEvent && context.preThenEvent.destroyEvent.resolved,
+                    context.preThenEvent.destroyEvent &&
+                    context.preThenEvent.destroyEvent.destroyedByDamageDealt &&
+                    context.preThenEvent.destroyEvent.resolved,
+                message: '{0} uses {1} to draw a card',
                 gameAction: ability.actions.draw()
             }
         });

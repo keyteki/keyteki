@@ -19,9 +19,7 @@ class AmberfinSharkEvilTwin extends Card {
             ],
             then: {
                 gameAction: ability.actions.addPowerCounter((context) => ({
-                    amount: context.preThenEvents
-                        .filter((event) => event.name === 'onModifyAmber')
-                        .reduce((total, event) => total + event.amount, 0)
+                    amount: context.preThenEvents.reduce((total, event) => total + event.amount, 0)
                 }))
             }
         });

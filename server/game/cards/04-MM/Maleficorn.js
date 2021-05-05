@@ -4,7 +4,7 @@ class Maleficorn extends Card {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onDamageDealt: (event, context) =>
+                onDamageApplied: (event, context) =>
                     !!event.bonus && event.card.controller !== context.player
             },
             gameAction: ability.actions.dealDamage((context) => ({

@@ -14,19 +14,18 @@ class StirUpTrouble extends Card {
                     cardCondition: (card, context) => card.neighbors.includes(context.targets.c1)
                 }
             },
-            gameAction: ability.actions.dealDamage((context) => ({
-                target: Object.values(context.targets),
-                damageSource: (card) =>
-                    card === context.targets.c1 ? context.targets.c2 : context.targets.c1,
-                amountForCard: (card, context) => {
-                    if (context.targets && context.targets.c1 && context.targets.c2) {
-                        return card === context.targets.c1
-                            ? context.targets.c2.power
-                            : context.targets.c1.power;
-                    }
-                    return 0;
-                }
-            }))
+            gameAction: [
+                ability.actions.dealDamage((context) => ({
+                    target: context.targets.c1,
+                    damageSource: context.targets.c2,
+                    amount: context.targets && context.targets.c2 ? context.targets.c2.power : 0
+                })),
+                ability.actions.dealDamage((context) => ({
+                    target: context.targets.c2,
+                    damageSource: context.targets.c1,
+                    amount: context.targets && context.targets.c1 ? context.targets.c1.power : 0
+                }))
+            ]
         });
     }
 }

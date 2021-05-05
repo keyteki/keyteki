@@ -5,7 +5,7 @@ class VenatorAltum extends Card {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onDamageDealt: (event, context) => event.card === context.source
+                onDamageApplied: (event, context) => event.card === context.source
             },
             condition: (context) => context.source.controller.isTideLow(),
             gameAction: ability.actions.exalt()

@@ -10,7 +10,8 @@ class StaticCharge extends Card {
                 },
                 gameAction: ability.actions.dealDamage((context) => ({
                     amount: 2,
-                    target: context.source.neighbors
+                    target: context.source.neighbors,
+                    damageSource: context.source
                 }))
             })
         });

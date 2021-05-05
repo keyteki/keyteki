@@ -4,10 +4,8 @@ class Francus extends Card {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onDamageDealt: (event, context) =>
-                    event.damageSource === context.source &&
-                    event.destroyEvent &&
-                    event.destroyEvent.resolved
+                onCardDestroyed: (event, context) =>
+                    event.destroyedFighting && event.damageEvent.damageSource === context.source
             },
             gameAction: ability.actions.capture()
         });

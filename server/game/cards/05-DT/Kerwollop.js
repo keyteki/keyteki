@@ -11,7 +11,10 @@ class Kerwollop extends Card {
                 alwaysTriggers: true,
                 gameAction: ability.actions.gainAmber((context) => ({
                     amount: context.preThenEvents.filter(
-                        (event) => event.card.location !== 'play area'
+                        (event) =>
+                            event.destroyEvent &&
+                            event.destroyEvent.destroyedByDamageDealt &&
+                            event.destroyEvent.resolved
                     ).length
                 })),
                 message: '{0} gains amber for each creature destroyed this way'

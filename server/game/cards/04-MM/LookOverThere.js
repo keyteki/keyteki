@@ -5,15 +5,17 @@ class LookOverThere extends Card {
         this.play({
             target: {
                 cardType: 'creature',
-                gameAction: ability.actions.sequential([
-                    ability.actions.dealDamage({ amount: 2 }),
-                    ability.actions.conditional((context) => ({
-                        condition: () => context.target.location === 'play area',
-                        trueGameAction: ability.actions.steal()
-                    }))
-                ])
+                gameAction: ability.actions.dealDamage({ amount: 2 })
             },
-            effect: 'deal 2 damage to {0}'
+            then: {
+                alwaysTriggers: true,
+                condition: (context) =>
+                    context.preThenEvent &&
+                    (!context.preThenEvent.destroyEvent ||
+                        context.preThenEvent.destroyEvent.cancelled),
+                gameAction: ability.actions.steal(),
+                message: '{0} uses {1} to steal 1 amber'
+            }
         });
     }
 }
