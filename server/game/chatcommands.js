@@ -334,7 +334,7 @@ class ChatCommands {
     firstPlayer(player, args) {
         const firstPlayerName = args[1];
         if (this.game.startingHandsDrawn) {
-            this.game.addAlert('danger', 'Cannot change first player on this stage of game');
+            this.game.addAlert('danger', 'Cannot change first player at this stage of the game');
             return;
         }
 
