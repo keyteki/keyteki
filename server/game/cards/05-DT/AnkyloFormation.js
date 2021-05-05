@@ -6,29 +6,44 @@ class AnkyloFormation extends Card {
     // • Exalt a friendly creature. For the remainder of the turn, each friendly creature gains skirmish.
     setupCardAbilities(ability) {
         this.play({
-            target: {
-                mode: 'exactly',
-                numCards: 1,
-                cardType: 'creature',
-                gameAction: ability.actions.cardLastingEffect({
-                    effect: ability.effects.addKeyword({ skirmish: 1 })
-                })
-            },
-            then: (preThenContext) => ({
-                may: 'exalt this creature',
-                gameAction: ability.actions.exalt({
-                    target: preThenContext.target
-                }),
-                then: {
-                    effect: 'give each friendly creature skirmish for the remainder of the turn',
-                    gameAction: ability.actions.cardLastingEffect({
-                        target: preThenContext.player.creaturesInPlay,
-                        effect: ability.effects.addKeyword({
-                            skirmish: 1
-                        })
-                    })
+            targets: {
+                action: {
+                    mode: 'select',
+                    choices: {
+                        Skirmish: () => true,
+                        Exalt: () => true
+                    }
+                },
+                Skirmish: {
+                    dependsOn: 'action',
+                    controller: 'self',
+                    mode: 'exactly',
+                    numCards: 1,
+                    cardType: 'creature',
+                    gameAction: ability.actions.cardLastingEffect((context) => ({
+                        target: context.targets ? context.targets.Skirmish : [],
+                        effect: ability.effects.addKeyword({ skirmish: 1 })
+                    }))
+                },
+                Exalt: {
+                    dependsOn: 'action',
+                    controller: 'self',
+                    mode: 'exactly',
+                    numCards: 1,
+                    cardType: 'creature',
+                    gameAction: [
+                        ability.actions.exalt((context) => ({
+                            target: context.targets ? context.targets.Exalt : []
+                        })),
+                        ability.actions.cardLastingEffect((context) => ({
+                            target: context.player.creaturesInPlay,
+                            effect: ability.effects.addKeyword({
+                                skirmish: 1
+                            })
+                        }))
+                    ]
                 }
-            })
+            }
         });
     }
 }
