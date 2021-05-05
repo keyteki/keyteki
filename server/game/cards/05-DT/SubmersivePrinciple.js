@@ -16,7 +16,7 @@ class SubmersivePrinciple extends Card {
                             : 1
                 }))
             ],
-            effect: 'make each player lose {0}',
+            effect: 'make each player lose {1}',
             effectArgs: (context) =>
                 context.player.isTideHigh() ? 'half of their amber' : '1 amber'
         });
