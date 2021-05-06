@@ -12,17 +12,19 @@ describe('Shadow of Dis', function () {
                         'halacor',
                         'snufflegator',
                         'inka-the-spider',
-                        'tantadlin'
+                        'tantadlin',
+                        'duskwitch',
+                        'mighty-tiger'
                     ]
                 },
                 player2: {
-                    inPlay: ['tezmal'],
+                    inPlay: ['tezmal', 'lash-of-broken-dreams'],
                     hand: ['shadow-of-dis', 'dust-imp', 'shooler', 'spyyyder']
                 }
             });
         });
 
-        it('should not blank artifacts', function () {
+        it('should not blank artifacts - autocannon should work', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('dis');
             this.player2.play(this.shadowOfDis);
@@ -42,6 +44,28 @@ describe('Shadow of Dis', function () {
             this.player1.play(this.valdr); // should not gain amber due to Hunting witch
             expect(this.valdr.tokens.damage).toBe(1);
             expect(this.player1.amber).toBe(1);
+        });
+
+        it('test omega is blanked', function () {
+            this.player1.endTurn();
+            this.player2.clickPrompt('dis');
+            this.player2.play(this.shadowOfDis);
+            this.player2.endTurn();
+            this.player1.clickPrompt('untamed');
+            this.player1.play(this.duskwitch);
+            this.player1.reap(this.huntingWitch);
+            this.player1.endTurn();
+        });
+
+        it('test play effects are blanked - mighty tiger will not prompt', function () {
+            this.player1.endTurn();
+            this.player2.clickPrompt('dis');
+            this.player2.play(this.shadowOfDis);
+            this.player2.endTurn();
+            this.player1.clickPrompt('untamed');
+            this.player1.play(this.mightyTiger);
+            this.player1.reap(this.huntingWitch);
+            this.player1.endTurn();
         });
 
         it('test printed skirmish is ignored', function () {

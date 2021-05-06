@@ -52,6 +52,29 @@ describe('bot-bookton', function () {
             expect(this.player1.amber).toBe(2);
         });
 
+        it('should play an action from the top of the deck that has enhancements', function () {
+            this.anger.enhancements = ['draw', 'damage'];
+            this.player1.moveCard(this.wayOfTheBear, 'deck');
+            this.player1.moveCard(this.anger, 'deck');
+            expect(this.anger.location).toBe('deck');
+            this.player1.reap(this.botBookton);
+
+            expect(this.player1.player.hand.length).toBe(2);
+            expect(this.wayOfTheBear.location).toBe('hand');
+
+            expect(this.player1).toHavePrompt('Choose a creature to damage due to bonus icon');
+
+            this.player1.clickCard(this.inkaTheSpider);
+            expect(this.inkaTheSpider.location).toBe('discard');
+
+            expect(this.player1).toHavePrompt('Choose a creature');
+            this.player1.clickCard(this.botBookton);
+            expect(this.player1).not.toHavePrompt('Choose a creature to attack');
+            expect(this.botBookton.exhausted).toBe(false);
+            expect(this.anger.location).toBe('discard');
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+
         it('should play an action from the top of the deck', function () {
             this.player1.moveCard(this.anger, 'deck');
             expect(this.anger.location).toBe('deck');
