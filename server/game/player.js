@@ -386,6 +386,7 @@ class Player extends GameObject {
             card.controller = this;
         } else if (targetLocation === 'play area') {
             if (options.myControl) {
+                card.controller = this;
                 card.setDefaultController(this);
             }
         } else if (card.owner !== this) {
