@@ -16,39 +16,39 @@ describe('AnkyloFormation test', function () {
     describe('when played', function () {
         beforeEach(function () {
             this.player1.play(this.ankyloFormation);
-            this.player1.clickCard(this.titanMechanic);
         });
 
-        it('should give skirmish', function () {
-            expect(this.titanMechanic.getKeywordValue('skirmish')).toBe(1);
-            expect(this.helperBot.getKeywordValue('skirmish')).toBe(0);
-            expect(this.troll.getKeywordValue('skirmish')).toBe(0);
-            expect(this.badPenny.getKeywordValue('skirmish')).toBe(0);
-            expect(this.player1).toHavePrompt('Do you wish to exalt this creature?');
+        it('should ask for options', function () {
+            expect(this.player1).toHavePromptButton('Skirmish');
+            expect(this.player1).toHavePromptButton('Exalt');
         });
 
-        describe('exalts creature', function () {
+        describe('and opt to skirmish', function () {
             beforeEach(function () {
-                this.player1.clickPrompt('yes');
+                this.player1.clickPrompt('Skirmish');
+                this.player1.clickCard(this.titanMechanic);
             });
 
             it('should give skirmish', function () {
-                expect(this.titanMechanic.getKeywordValue('skirmish')).toBe(2);
-                expect(this.helperBot.getKeywordValue('skirmish')).toBe(1);
-                expect(this.troll.getKeywordValue('skirmish')).toBe(1);
+                expect(this.titanMechanic.amber).toBe(0);
+                expect(this.titanMechanic.getKeywordValue('skirmish')).toBe(1);
+                expect(this.helperBot.getKeywordValue('skirmish')).toBe(0);
+                expect(this.troll.getKeywordValue('skirmish')).toBe(0);
                 expect(this.badPenny.getKeywordValue('skirmish')).toBe(0);
             });
         });
 
-        describe('do not exalt creature', function () {
+        describe('and opt to exalt', function () {
             beforeEach(function () {
-                this.player1.clickPrompt('no');
+                this.player1.clickPrompt('Exalt');
+                this.player1.clickCard(this.titanMechanic);
             });
 
             it('should give skirmish', function () {
+                expect(this.titanMechanic.amber).toBe(1);
                 expect(this.titanMechanic.getKeywordValue('skirmish')).toBe(1);
-                expect(this.helperBot.getKeywordValue('skirmish')).toBe(0);
-                expect(this.troll.getKeywordValue('skirmish')).toBe(0);
+                expect(this.helperBot.getKeywordValue('skirmish')).toBe(1);
+                expect(this.troll.getKeywordValue('skirmish')).toBe(1);
                 expect(this.badPenny.getKeywordValue('skirmish')).toBe(0);
             });
         });

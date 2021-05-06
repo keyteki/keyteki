@@ -22,63 +22,60 @@ class PlayCardAction extends CardGameAction {
             return true;
         }
 
-        let actions = card
+        return card
             .getActions(this.location)
-            .filter((action) => action.title.includes('Play'));
-        return actions.some((action) => {
-            let actionContext = action.createContext(context.player);
-            actionContext.ignoreHouse = true;
-            return !action.meetsRequirements(actionContext, ['location']);
-        });
+            .some(
+                (action) =>
+                    action.title.includes('Play') && this.actionMeetsRequirement(context, action)
+            );
+    }
+
+    actionMeetsRequirement(context, action) {
+        let actionContext = action.createContext(context.player);
+        actionContext.ignoreHouse = true;
+        return !action.meetsRequirements(actionContext, ['location']);
+    }
+
+    resolveAction(context, action) {
+        action.deploy = this.deploy;
+        let actionContext = action.createContext(context.player);
+        actionContext.ignoreHouse = true;
+        context.game.resolveAbility(actionContext);
     }
 
     getEvent(card, context) {
-        let playActions = card.getActions(this.location).filter((action) => {
-            if (action.title.includes('Play')) {
-                let newContext = action.createContext(context.player);
-                newContext.ignoreHouse = true;
-                action.deploy = this.deploy;
+        let playActions = card
+            .getActions(this.location)
+            .filter(
+                (action) =>
+                    action.title.includes('Play') && this.actionMeetsRequirement(context, action)
+            );
 
-                return !action.meetsRequirements(newContext, ['location']);
-            } else {
-                return false;
-            }
-        });
-
-        let playEvent = super.createEvent('unnamedEvent', { card: card, context: context }, () => {
-            let action;
-            if (playActions.length > 1) {
-                context.game.promptWithHandlerMenu(context.player, {
-                    activePromptTitle: 'Play ' + card.name + ':',
-                    choices: playActions.map((ability) => ability.title),
-                    handlers: playActions.map((ability) => () => (action = ability)),
-                    source: card
-                });
-            } else if (playActions.length === 1) {
-                action = playActions[0];
-            } else {
-                return;
-            }
-
-            context.game.queueSimpleStep(() => {
-                let actionContext = action.createContext(context.player);
-                actionContext.ignoreHouse = true;
-                context.game.resolveAbility(actionContext);
-            });
-        });
-
-        playEvent.addChildEvent(
-            context.game.getEvent('unamedEvent', { card, context }, () => {
-                if (playActions.length === 0 && this.revealOnIllegalTarget) {
-                    context.game.addMessage(
-                        '{0} was unable to be played so is returned to its original location',
-                        card
-                    );
+        return super.createEvent(
+            'unnamedEvent',
+            { card: card, context: context, player: context.player },
+            () => {
+                if (playActions.length > 1) {
+                    context.game.promptWithHandlerMenu(context.player, {
+                        activePromptTitle: 'Play ' + card.name + ':',
+                        choices: playActions.map((ability) => ability.title),
+                        handlers: playActions.map((ability) => () =>
+                            this.resolveAction(context, ability)
+                        ),
+                        source: card
+                    });
+                } else if (playActions.length === 1) {
+                    this.resolveAction(context, playActions[0]);
+                } else {
+                    if (this.revealOnIllegalTarget) {
+                        context.game.addMessage(
+                            '{0} was unable to be played so is returned to its original location',
+                            card
+                        );
+                    }
                 }
-            })
+            }
         );
-
-        return playEvent;
     }
 }
 
