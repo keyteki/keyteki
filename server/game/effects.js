@@ -1,8 +1,9 @@
-const CannotRestriction = require('./Effects/cannotrestriction.js');
-const CanUse = require('./Effects/canuse.js');
-const CopyCard = require('./Effects/CopyCard');
+const CannotRestriction = require('./Effects/Values/CannotRestriction');
+const CanUse = require('./Effects/Values/CanUse');
+const ConditionValue = require('./Effects/Values/ConditionValue');
+const CopyCard = require('./Effects/Values/CopyCard');
 const EffectBuilder = require('./Effects/EffectBuilder');
-const GainAbility = require('./Effects/GainAbility');
+const GainAbility = require('./Effects/Values/GainAbility');
 
 /* Types of effect
     1. Static effects - do something for a period
@@ -29,9 +30,12 @@ const Effects = {
     copyCard: (card) => EffectBuilder.card.static('copyCard', new CopyCard(card)),
     customDetachedCard: (properties) => EffectBuilder.card.detached('customEffect', properties),
     doesNotReady: () => EffectBuilder.card.static('doesNotReady'),
-    entersPlayEnraged: () => EffectBuilder.card.static('entersPlayEnraged'),
-    entersPlayReady: () => EffectBuilder.card.static('entersPlayReady'),
-    entersPlayStunned: () => EffectBuilder.card.static('entersPlayStunned'),
+    entersPlayEnraged: (condition) =>
+        EffectBuilder.card.static('entersPlayEnraged', new ConditionValue(condition)),
+    entersPlayReady: (condition) =>
+        EffectBuilder.card.static('entersPlayReady', new ConditionValue(condition)),
+    entersPlayStunned: (condition) =>
+        EffectBuilder.card.static('entersPlayStunned', new ConditionValue(condition)),
     visbileIn: (location) => EffectBuilder.card.static('visbileIn', location),
     gainAbility: (type, properties) =>
         EffectBuilder.card.static('gainAbility', new GainAbility(type, properties)),

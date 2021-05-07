@@ -1,9 +1,8 @@
-const EffectValue = require('./EffectValue');
+const ConditionValue = require('./ConditionValue');
 
-class CanUse extends EffectValue {
+class CanUse extends ConditionValue {
     constructor(condition, toFight = false, toReap = false) {
-        super();
-        this.condition = condition;
+        super(condition);
         this.toFight = toFight;
         this.toReap = toReap;
     }

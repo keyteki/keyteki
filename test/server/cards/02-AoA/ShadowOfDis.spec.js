@@ -219,7 +219,14 @@ describe('Shadow of Dis', function () {
                 },
                 player2: {
                     inPlay: ['hunting-witch'],
-                    hand: ['zorg', 'gizelhart-s-zealot', 'duskwitch', 'mighty-tiger']
+                    hand: [
+                        'zorg',
+                        'gizelhart-s-zealot',
+                        'duskwitch',
+                        'mighty-tiger',
+                        'bumblebird',
+                        'ancient-bear'
+                    ]
                 }
             });
 
@@ -243,17 +250,66 @@ describe('Shadow of Dis', function () {
             this.player2.endTurn();
         });
 
-        xit('test omega is blanked', function () {
+        it('test alpha is not blanked', function () {
+            this.player2.clickPrompt('untamed');
+            this.player2.play(this.ancientBear);
+            this.player2.clickCard(this.bumblebird);
+            expect(this.player2).not.toHavePromptButton('Play this creature');
+            expect(this.player2).toHavePromptButton('Discard this card');
+        });
+
+        it('test omega is blanked', function () {
             this.player2.clickPrompt('untamed');
             this.player2.play(this.duskwitch);
+            expect(this.duskwitch.exhausted).toBe(false);
+            this.player2.play(this.ancientBear);
+            expect(this.ancientBear.exhausted).toBe(true);
             this.player2.reap(this.huntingWitch);
             this.player2.endTurn();
         });
 
-        xit('test play effects are blanked - mighty tiger will not prompt', function () {
+        it('test play effects are blanked - mighty tiger will not prompt', function () {
             this.player2.clickPrompt('untamed');
             this.player2.play(this.mightyTiger);
             this.player2.reap(this.huntingWitch);
+            this.player2.endTurn();
+        });
+    });
+
+    describe('Shadow of Dis and interrupts', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 3,
+                    house: 'dis',
+                    hand: ['shadow-of-dis'],
+                    inPlay: ['shooler', 'dodger']
+                },
+                player2: {
+                    inPlay: ['urchin', 'shadow-self'],
+                    hand: ['duskrunner']
+                }
+            });
+
+            this.player1.play(this.shadowOfDis);
+            this.player1.endTurn();
+        });
+
+        it('shadow self should not redirect damage', function () {
+            this.player2.clickPrompt('shadows');
+            this.player2.fightWith(this.urchin, this.dodger);
+            expect(this.urchin.location).toBe('discard');
+            expect(this.dodger.tokens.damage).toBe(1);
+            expect(this.shadowSelf.tokens.damage).toBeUndefined();
+            this.player2.endTurn();
+        });
+
+        it('should blank gained abilities', function () {
+            this.player2.clickPrompt('shadows');
+            this.player2.playUpgrade(this.duskrunner, this.shadowSelf);
+            this.player2.reap(this.shadowSelf);
+            expect(this.player1.amber).toBe(4);
+            expect(this.player2.amber).toBe(1);
             this.player2.endTurn();
         });
     });
