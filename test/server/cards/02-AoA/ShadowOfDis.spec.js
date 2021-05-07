@@ -12,9 +12,7 @@ describe('Shadow of Dis', function () {
                         'halacor',
                         'snufflegator',
                         'inka-the-spider',
-                        'tantadlin',
-                        'duskwitch',
-                        'mighty-tiger'
+                        'tantadlin'
                     ]
                 },
                 player2: {
@@ -44,28 +42,6 @@ describe('Shadow of Dis', function () {
             this.player1.play(this.valdr); // should not gain amber due to Hunting witch
             expect(this.valdr.tokens.damage).toBe(1);
             expect(this.player1.amber).toBe(1);
-        });
-
-        it('test omega is blanked', function () {
-            this.player1.endTurn();
-            this.player2.clickPrompt('dis');
-            this.player2.play(this.shadowOfDis);
-            this.player2.endTurn();
-            this.player1.clickPrompt('untamed');
-            this.player1.play(this.duskwitch);
-            this.player1.reap(this.huntingWitch);
-            this.player1.endTurn();
-        });
-
-        it('test play effects are blanked - mighty tiger will not prompt', function () {
-            this.player1.endTurn();
-            this.player2.clickPrompt('dis');
-            this.player2.play(this.shadowOfDis);
-            this.player2.endTurn();
-            this.player1.clickPrompt('untamed');
-            this.player1.play(this.mightyTiger);
-            this.player1.reap(this.huntingWitch);
-            this.player1.endTurn();
         });
 
         it('test printed skirmish is ignored', function () {
@@ -230,6 +206,55 @@ describe('Shadow of Dis', function () {
             this.player2.play(this.snufflegator);
             expect(this.snufflegator.tokens.damage).toBe(1);
             expect(this.snufflegator.location).toBe('play area');
+        });
+    });
+
+    describe('Shadow of Dis and enter ready / enraged / stunned', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'dis',
+                    hand: ['shadow-of-dis'],
+                    inPlay: ['shooler', 'dodger']
+                },
+                player2: {
+                    inPlay: ['hunting-witch'],
+                    hand: ['zorg', 'gizelhart-s-zealot', 'duskwitch', 'mighty-tiger']
+                }
+            });
+
+            this.player1.play(this.shadowOfDis);
+            this.player1.endTurn();
+        });
+
+        it('Zorg should enter play stunned', function () {
+            this.player2.clickPrompt('mars');
+            this.player2.play(this.zorg);
+            expect(this.zorg.stunned).toBe(true);
+            this.player2.endTurn();
+        });
+
+        it("Gizelhart's Zealot should enter play enraged and ready", function () {
+            this.player2.clickPrompt('sanctum');
+            this.player2.play(this.gizelhartSZealot);
+            expect(this.gizelhartSZealot.enraged).toBe(true);
+            expect(this.gizelhartSZealot.exhausted).toBe(false);
+            this.player2.fightWith(this.gizelhartSZealot, this.dodger);
+            this.player2.endTurn();
+        });
+
+        xit('test omega is blanked', function () {
+            this.player2.clickPrompt('untamed');
+            this.player2.play(this.duskwitch);
+            this.player2.reap(this.huntingWitch);
+            this.player2.endTurn();
+        });
+
+        xit('test play effects are blanked - mighty tiger will not prompt', function () {
+            this.player2.clickPrompt('untamed');
+            this.player2.play(this.mightyTiger);
+            this.player2.reap(this.huntingWitch);
+            this.player2.endTurn();
         });
     });
 });
