@@ -39,6 +39,9 @@ class Player extends GameObject {
         this.playableLocations = [new PlayableLocation('play', this, 'hand')];
         this.optionSettings = user.settings.optionSettings;
 
+        this.left = false;
+        this.disconnectedAt = null;
+
         this.promptState = new PlayerPromptState(this);
     }
 
@@ -91,7 +94,7 @@ class Player extends GameObject {
      * Checks whether any cards in play are currently marked as selected
      */
     areCardsSelected() {
-        return this.cardsInPlay.any((card) => {
+        return this.cardsInPlay.some((card) => {
             return card.selected;
         });
     }
@@ -386,8 +389,7 @@ class Player extends GameObject {
             card.controller = this;
         } else if (targetLocation === 'play area') {
             if (options.myControl) {
-                card.controller = this;
-                card.setDefaultController(this);
+                card.controller = card.defaultController = this;
             }
         } else if (card.owner !== this) {
             card.owner.moveCard(card, targetLocation, options);

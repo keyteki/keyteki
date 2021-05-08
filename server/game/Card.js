@@ -17,13 +17,13 @@ const RemoveStun = require('./BaseActions/RemoveStun');
 class Card extends EffectSource {
     constructor(owner, cardData) {
         super(owner.game);
-        this.owner = this.controller = owner;
+        this.owner = owner;
+        this.controller = this.defaultController = owner;
         this.cardData = cardData;
 
         this.id = cardData.id;
         this.printedName = cardData.name;
         this.image = cardData.image;
-        this.setDefaultController(owner);
 
         this.printedType = cardData.type;
         this.composedPart = null;
@@ -501,7 +501,7 @@ class Card extends EffectSource {
         this.moribund = false;
         this.new = false;
         this.tokens = {};
-        this.setDefaultController(this.owner);
+        this.controller = this.defaultController = this.owner;
         this.updateEffectContexts();
         this.endRound();
     }
@@ -923,10 +923,6 @@ class Card extends EffectSource {
         }
 
         return actions.concat(this.actions.slice());
-    }
-
-    setDefaultController(player) {
-        this.defaultController = player;
     }
 
     getModifiedController() {

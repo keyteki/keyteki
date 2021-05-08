@@ -71,7 +71,7 @@ class MenuCommands {
                         player.opponent,
                         card
                     );
-                    card.setDefaultController(player.opponent);
+                    card.defaultController = player.opponent;
                 }
 
                 break;
