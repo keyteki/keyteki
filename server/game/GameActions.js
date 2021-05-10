@@ -103,8 +103,6 @@ const Actions = {
     forgeKey: (propertyFactory) => new GameActions.ForgeAction(propertyFactory), // modifier = 0
     forRemainderOfTurn: (propertyFactory) =>
         new GameActions.LastingEffectAction(propertyFactory, 1),
-    untilEndOfMyNextTurn: (propertyFactory) =>
-        new GameActions.LastingEffectAction(propertyFactory, 3),
     gainAmber: (propertyFactory) => new GameActions.ModifyAmberAction(propertyFactory), // amount = 1
     gainChains: (propertyFactory) => new GameActions.ModifyChainsActions(propertyFactory), // amount = 1
     lastingEffect: (propertyFactory) => new GameActions.LastingEffectAction(propertyFactory, 2),
@@ -120,6 +118,8 @@ const Actions = {
     steal: (propertyFactory) => new GameActions.StealAction(propertyFactory), // amount = 1
     transferAmber: (propertyFactory) => new GameActions.TransferAmberAction(propertyFactory), // amount = 1
     unforgeKey: (propertyFactory) => new GameActions.UnforgeAction(propertyFactory),
+    untilEndOfMyNextTurn: (propertyFactory) =>
+        new GameActions.LastingEffectAction(propertyFactory, 3),
     // meta actions
     addEventToWindow: (propertyFactory) => new GameActions.AddEventToWindowAction(propertyFactory),
     allocateDamage: (propertyFactory) => new GameActions.AllocateDamageAction(propertyFactory),
