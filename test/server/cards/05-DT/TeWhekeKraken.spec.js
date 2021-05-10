@@ -20,6 +20,7 @@ describe('Te-Wheke Kraken', function () {
             expect(this.player1).toBeAbleToSelect(this.llackGaboon);
             expect(this.player1).not.toBeAbleToSelect(this.keyfrog);
             this.player1.clickCard(this.kaupe);
+            expect(this.player1).not.toHavePromptButton('Done');
             this.player1.clickCard(this.llackGaboon);
             this.player1.clickPrompt('Done');
 

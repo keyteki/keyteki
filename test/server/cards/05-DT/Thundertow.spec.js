@@ -30,6 +30,7 @@ describe('Thundertow', function () {
         describe('when two creatures are selected', function () {
             beforeEach(function () {
                 this.player1.clickCard(this.troll);
+                expect(this.player1).not.toHavePromptButton('Done');
                 this.player1.clickCard(this.narp);
                 this.player1.clickPrompt('Done');
             });

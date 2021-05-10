@@ -9,7 +9,7 @@ class DredgingDruid extends Card {
             target: {
                 activePromptTitle: 'Select up to 3 cards (last selected goes to top of deck)',
                 mode: 'upTo',
-                numCards: '3',
+                numCards: 3,
                 cardType: 'creature',
                 controller: 'self',
                 location: 'discard',
