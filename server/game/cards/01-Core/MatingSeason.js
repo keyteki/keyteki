@@ -12,9 +12,11 @@ class MatingSeason extends Card {
                 })),
                 ability.actions.gainAmber((context) => ({
                     target: context.player.opponent,
-                    amount: context.player.opponent.creaturesInPlay.filter((card) =>
-                        card.hasHouse('mars')
-                    ).length
+                    amount: context.player.opponent
+                        ? context.player.opponent.creaturesInPlay.filter((card) =>
+                              card.hasHouse('mars')
+                          ).length
+                        : 0
                 })),
                 ability.actions.returnToDeck((context) => ({
                     shuffle: true,
