@@ -6,7 +6,7 @@ class ExploratoryCraft extends Card {
         this.action({
             target: {
                 mode: 'upTo',
-                numCards: '3',
+                numCards: 3,
                 cardType: 'creature',
                 controller: 'self',
                 cardCondition: (card) => !card.exhausted,
