@@ -114,7 +114,7 @@ class PutIntoPlayAction extends CardGameAction {
         }
     }
 
-    validateEntersPlayEffects(card, context, effect) {
+    matchEntersPlayEffects(card, context, effect) {
         return card.getEffects(effect).some((condition) => condition.match(context));
     }
 
@@ -160,15 +160,15 @@ class PutIntoPlayAction extends CardGameAction {
                 card.updateEffectContexts();
             }
 
-            if (!this.ready && !this.validateEntersPlayEffects(card, context, 'entersPlayReady')) {
+            if (!this.ready && !this.matchEntersPlayEffects(card, context, 'entersPlayReady')) {
                 card.exhaust();
             }
 
-            if (this.validateEntersPlayEffects(card, context, 'entersPlayStunned')) {
+            if (this.matchEntersPlayEffects(card, context, 'entersPlayStunned')) {
                 card.stun();
             }
 
-            if (this.validateEntersPlayEffects(card, context, 'entersPlayEnraged')) {
+            if (this.matchEntersPlayEffects(card, context, 'entersPlayEnraged')) {
                 card.enrage();
             }
         });

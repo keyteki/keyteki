@@ -3,7 +3,7 @@ const Card = require('../../Card.js');
 class RhetorGallim extends Card {
     setupCardAbilities(ability) {
         this.play({
-            effect: "increase {1}'s key cost by 3 until the end of their next turn",
+            effect: "increase {1}'s key cost by 3 during their next turn",
             effectArgs: (context) => context.player.opponent,
             gameAction: ability.actions.nextRoundEffect({
                 targetController: 'opponent',
@@ -19,7 +19,7 @@ class RhetorGallim extends Card {
                     targetController: 'opponent',
                     effect: ability.effects.modifyKeyCost(3)
                 }),
-                message: "{1} increases {3}'s key cost by 3 until the end of their next turn",
+                message: "{0} uses {1} to increase {3}'s key cost by 3 during their next turn",
                 messageArgs: (context) => context.player.opponent
             }
         });
