@@ -39,20 +39,15 @@ class Effect {
         this.printedAbility = properties.printedAbility !== false;
         this.nextRound = !!properties.nextRound;
         this.effect = effect;
-        this.refreshContext();
+        this.refreshContext(properties.context);
         this.targets = [];
-        this.effect.context = this.context = properties.context || {
-            game: game,
-            player: source.controller,
-            source: source
-        };
         this.effect.duration = this.duration;
         this.effect.effect = this;
         this.effect.isConditional = !!properties.condition;
     }
 
-    refreshContext() {
-        this.context = this.game.getFrameworkContext(this.source.controller);
+    refreshContext(context) {
+        this.context = context || this.game.getFrameworkContext(this.source.controller);
         this.context.source = this.source;
         this.effect.setContext(this.context);
     }
