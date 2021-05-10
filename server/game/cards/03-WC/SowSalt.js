@@ -4,7 +4,7 @@ class SowSalt extends Card {
     setupCardAbilities(ability) {
         this.play({
             effect: 'stop creatures from reaping until their next turn',
-            gameAction: ability.actions.untilNextTurn({
+            gameAction: ability.actions.lastingEffect({
                 targetController: 'any',
                 effect: ability.effects.cardCannot('reap')
             })

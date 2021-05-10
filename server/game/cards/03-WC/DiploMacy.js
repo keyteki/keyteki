@@ -3,7 +3,7 @@ const Card = require('../../Card.js');
 class DiploMacy extends Card {
     setupCardAbilities(ability) {
         this.play({
-            gameAction: ability.actions.untilNextTurn({
+            gameAction: ability.actions.lastingEffect({
                 targetController: 'any',
                 effect: ability.effects.gainAbility('beforeFight', {
                     gameAction: ability.actions.exalt()

@@ -6,7 +6,7 @@ class TrialByWater extends Card {
         this.play({
             gameAction: [
                 ability.actions.resetTide(),
-                ability.actions.untilNextTurn({
+                ability.actions.lastingEffect({
                     targetController: 'any',
                     effect: ability.effects.playerCannot('raiseTide')
                 })
