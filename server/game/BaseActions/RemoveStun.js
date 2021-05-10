@@ -8,6 +8,7 @@ class RemoveStun extends BaseAbility {
         this.card = card;
         this.title = "Remove this creature's stun";
         this.printedAbility = false;
+        this.omni = false;
     }
 
     meetsRequirements(context = this.createContext(), ignoredRequirements = []) {

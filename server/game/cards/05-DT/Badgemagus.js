@@ -17,16 +17,16 @@ class Badgemagus extends Card {
             then: (preThenContext) => ({
                 alwaysTrigger: true,
                 gameAction: ability.actions.sequential([
-                    ability.actions.ready((context) => ({
+                    ability.actions.ready({
                         target: preThenContext.cardStateWhenInitiated.clonedNeighbors.filter(
-                            (c) => c !== context.preThenEvent.sequentialEvents[0].card
+                            (c) => c !== preThenContext.target
                         )
-                    })),
-                    ability.actions.fight((context) => ({
+                    }),
+                    ability.actions.fight({
                         target: preThenContext.cardStateWhenInitiated.clonedNeighbors.filter(
-                            (c) => c !== context.preThenEvent.sequentialEvents[0].card
+                            (c) => c !== preThenContext.target
                         )
-                    }))
+                    })
                 ])
             })
         });

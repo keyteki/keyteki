@@ -9,7 +9,7 @@ describe('Maleficorn', function () {
                 },
                 player2: {
                     amber: 2,
-                    inPlay: ['alaka', 'brammo'],
+                    inPlay: ['alaka', 'brammo', 'groggins'],
                     hand: ['burn-the-stockpile']
                 }
             });
@@ -31,14 +31,60 @@ describe('Maleficorn', function () {
             expect(this.player1).toBeAbleToSelect(this.maleficorn);
             expect(this.player1).toBeAbleToSelect(this.brammo);
             expect(this.player1).toBeAbleToSelect(this.alaka);
+            expect(this.player1).toBeAbleToSelect(this.groggins);
             this.player1.clickCard(this.alaka);
             expect(this.alaka.tokens.damage).toBe(2);
             expect(this.player1).toBeAbleToSelect(this.troll);
             expect(this.player1).toBeAbleToSelect(this.maleficorn);
             expect(this.player1).toBeAbleToSelect(this.brammo);
             expect(this.player1).toBeAbleToSelect(this.alaka);
+            expect(this.player1).toBeAbleToSelect(this.groggins);
+            this.player1.clickCard(this.groggins);
+            expect(this.groggins.tokens.damage).toBe(2);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+
+        it('should not deal extra damage is prevented by armor', function () {
+            this.bindingIrons.enhancements = ['damage', 'damage'];
+
+            this.player1.play(this.bindingIrons);
+            expect(this.player1).toBeAbleToSelect(this.troll);
+            expect(this.player1).toBeAbleToSelect(this.maleficorn);
+            expect(this.player1).toBeAbleToSelect(this.brammo);
+            expect(this.player1).toBeAbleToSelect(this.alaka);
+            expect(this.player1).toBeAbleToSelect(this.groggins);
+            this.player1.clickCard(this.alaka);
+            expect(this.alaka.tokens.damage).toBe(2);
+            expect(this.player1).toBeAbleToSelect(this.troll);
+            expect(this.player1).toBeAbleToSelect(this.maleficorn);
+            expect(this.player1).toBeAbleToSelect(this.brammo);
+            expect(this.player1).toBeAbleToSelect(this.alaka);
+            expect(this.player1).toBeAbleToSelect(this.groggins);
             this.player1.clickCard(this.brammo);
-            expect(this.brammo.tokens.damage).toBe(1);
+            expect(this.brammo.tokens.damage).toBeUndefined();
+            expect(this.brammo.armorUsed).toBe(1);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+
+        it('should not deal extra damage it passes armor', function () {
+            this.bindingIrons.enhancements = ['damage', 'damage'];
+
+            this.player1.play(this.bindingIrons);
+            expect(this.player1).toBeAbleToSelect(this.troll);
+            expect(this.player1).toBeAbleToSelect(this.maleficorn);
+            expect(this.player1).toBeAbleToSelect(this.brammo);
+            expect(this.player1).toBeAbleToSelect(this.alaka);
+            expect(this.player1).toBeAbleToSelect(this.groggins);
+            this.player1.clickCard(this.brammo);
+            expect(this.brammo.tokens.damage).toBeUndefined();
+            expect(this.brammo.armorUsed).toBe(1);
+            expect(this.player1).toBeAbleToSelect(this.troll);
+            expect(this.player1).toBeAbleToSelect(this.maleficorn);
+            expect(this.player1).toBeAbleToSelect(this.brammo);
+            expect(this.player1).toBeAbleToSelect(this.alaka);
+            expect(this.player1).toBeAbleToSelect(this.groggins);
+            this.player1.clickCard(this.brammo);
+            expect(this.brammo.tokens.damage).toBe(2);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
 
@@ -50,12 +96,14 @@ describe('Maleficorn', function () {
             expect(this.player1).toBeAbleToSelect(this.maleficorn);
             expect(this.player1).toBeAbleToSelect(this.brammo);
             expect(this.player1).toBeAbleToSelect(this.alaka);
+            expect(this.player1).toBeAbleToSelect(this.groggins);
             this.player1.clickCard(this.troll);
             expect(this.troll.tokens.damage).toBe(1);
             expect(this.player1).toBeAbleToSelect(this.troll);
             expect(this.player1).toBeAbleToSelect(this.maleficorn);
             expect(this.player1).toBeAbleToSelect(this.brammo);
             expect(this.player1).toBeAbleToSelect(this.alaka);
+            expect(this.player1).toBeAbleToSelect(this.groggins);
             this.player1.clickCard(this.troll);
             expect(this.troll.tokens.damage).toBe(2);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
@@ -67,6 +115,7 @@ describe('Maleficorn', function () {
             expect(this.player1).toBeAbleToSelect(this.maleficorn);
             expect(this.player1).toBeAbleToSelect(this.brammo);
             expect(this.player1).toBeAbleToSelect(this.alaka);
+            expect(this.player1).toBeAbleToSelect(this.groggins);
             this.player1.clickCard(this.brammo);
             expect(this.brammo.tokens.damage).toBe(2);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
@@ -81,6 +130,7 @@ describe('Maleficorn', function () {
             expect(this.player2).toBeAbleToSelect(this.maleficorn);
             expect(this.player2).toBeAbleToSelect(this.brammo);
             expect(this.player2).toBeAbleToSelect(this.alaka);
+            expect(this.player2).toBeAbleToSelect(this.groggins);
             this.player2.clickCard(this.alaka);
             expect(this.alaka.tokens.damage).toBe(2);
             expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
@@ -95,6 +145,7 @@ describe('Maleficorn', function () {
             expect(this.player2).toBeAbleToSelect(this.maleficorn);
             expect(this.player2).toBeAbleToSelect(this.brammo);
             expect(this.player2).toBeAbleToSelect(this.alaka);
+            expect(this.player2).toBeAbleToSelect(this.groggins);
             this.player2.clickCard(this.troll);
             expect(this.troll.tokens.damage).toBe(1);
             expect(this.player2).toHavePrompt('Choose a card to play, discard or use');

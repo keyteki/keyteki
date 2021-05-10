@@ -168,7 +168,7 @@ describe('Infighting', function () {
             });
         });
 
-        xit('should steal when shoulder id would deal damage to Ardent Hero', function () {
+        it('should steal when shoulder id would deal damage to Ardent Hero', function () {
             this.player1.play(this.infighting);
             expect(this.lamindra.tokens.damage).toBeUndefined();
             expect(this.shoulderId.tokens.damage).toBe(1);

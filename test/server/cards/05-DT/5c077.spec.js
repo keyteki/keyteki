@@ -16,8 +16,9 @@ describe('5C077', function () {
             this['5c077'].tokens.power = 3;
         });
 
-        describe('when it reaps and no other friendly creature in play with same power', function () {
+        describe('when it reaps and no other friendly creature in play', function () {
             beforeEach(function () {
+                this.player1.moveCard(this.armsmasterMolina, 'discard');
                 this.player1.reap(this['5c077']);
             });
 
@@ -25,6 +26,7 @@ describe('5C077', function () {
                 expect(this.player1).toHavePromptButton('Add a power counter');
                 expect(this.player1).toHavePromptButton('Remove a power counter');
                 expect(this.player1).toHavePromptButton('Done');
+                expect(this.player1).not.toBeAbleToSelect(this['5c077']);
             });
 
             describe('and choose to add a power counter', function () {
@@ -33,8 +35,11 @@ describe('5C077', function () {
                 });
 
                 it('should add +1 power counter', function () {
+                    expect(this.player1.amber).toBe(2);
+                    expect(this['5c077'].exhausted).toBe(true);
                     expect(this['5c077'].tokens.power).toBe(4);
                     expect(this['5c077'].power).toBe(6);
+                    this.player1.endTurn();
                 });
             });
 
@@ -44,19 +49,80 @@ describe('5C077', function () {
                 });
 
                 it('should descrease power counters', function () {
+                    expect(this.player1.amber).toBe(2);
+                    expect(this['5c077'].exhausted).toBe(true);
                     expect(this['5c077'].tokens.power).toBe(2);
                     expect(this['5c077'].power).toBe(4);
+                    this.player1.endTurn();
                 });
             });
 
-            describe('and choose to Done', function () {
+            describe('and choose Done', function () {
                 beforeEach(function () {
                     this.player1.clickPrompt('Done');
                 });
 
                 it('should descrease power counters', function () {
+                    expect(this.player1.amber).toBe(2);
+                    expect(this['5c077'].exhausted).toBe(true);
                     expect(this['5c077'].tokens.power).toBe(3);
                     expect(this['5c077'].power).toBe(5);
+                    this.player1.endTurn();
+                });
+            });
+        });
+
+        describe('when it reaps and no other friendly creature in play with same power', function () {
+            beforeEach(function () {
+                this.player1.reap(this['5c077']);
+            });
+
+            it('should prompt to add or remove power counter', function () {
+                expect(this.player1).toHavePromptButton('Add a power counter');
+                expect(this.player1).toHavePromptButton('Remove a power counter');
+                expect(this.player1).toHavePromptButton('Done');
+                expect(this.player1).not.toBeAbleToSelect(this['5c077']);
+            });
+
+            describe('and choose to add a power counter', function () {
+                beforeEach(function () {
+                    this.player1.clickPrompt('Add a power counter');
+                });
+
+                it('should add +1 power counter', function () {
+                    expect(this.player1.amber).toBe(2);
+                    expect(this['5c077'].exhausted).toBe(true);
+                    expect(this['5c077'].tokens.power).toBe(4);
+                    expect(this['5c077'].power).toBe(6);
+                    this.player1.endTurn();
+                });
+            });
+
+            describe('and choose to remove a power counter', function () {
+                beforeEach(function () {
+                    this.player1.clickPrompt('Remove a power counter');
+                });
+
+                it('should descrease power counters', function () {
+                    expect(this.player1.amber).toBe(2);
+                    expect(this['5c077'].exhausted).toBe(true);
+                    expect(this['5c077'].tokens.power).toBe(2);
+                    expect(this['5c077'].power).toBe(4);
+                    this.player1.endTurn();
+                });
+            });
+
+            describe('and choose Done', function () {
+                beforeEach(function () {
+                    this.player1.clickPrompt('Done');
+                });
+
+                it('should descrease power counters', function () {
+                    expect(this.player1.amber).toBe(2);
+                    expect(this['5c077'].exhausted).toBe(true);
+                    expect(this['5c077'].tokens.power).toBe(3);
+                    expect(this['5c077'].power).toBe(5);
+                    this.player1.endTurn();
                 });
             });
         });

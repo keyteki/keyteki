@@ -12,9 +12,11 @@ class Pandemonium extends Card {
                 })),
                 ability.actions.capture((context) => ({
                     player: context.player,
-                    target: context.player.opponent.creaturesInPlay.filter(
-                        (card) => !card.hasToken('damage')
-                    )
+                    target: context.player.opponent
+                        ? context.player.opponent.creaturesInPlay.filter(
+                              (card) => !card.hasToken('damage')
+                          )
+                        : []
                 }))
             ]
         });

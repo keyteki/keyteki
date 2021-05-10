@@ -4,7 +4,7 @@ class Drecker extends Card {
     setupCardAbilities(ability) {
         this.interrupt({
             when: {
-                onDamageDealt: (event, context) =>
+                onDamageApplied: (event, context) =>
                     event.fightEvent && context.source.neighbors.includes(event.card)
             },
             effect: 'duplicate the damage dealt to {1}',
@@ -12,10 +12,9 @@ class Drecker extends Card {
             gameAction: ability.actions.addEventToWindow((context) => ({
                 targetEvent: context.event,
                 eventToAdd: ability.actions
-                    .dealDamage({
+                    .applyDamage({
                         amount: context.event.amount,
-                        damageSource: context.event.damageSource,
-                        ignoreArmor: context.event.ignoreArmor
+                        damageSource: context.event.damageSource
                     })
                     .getEvent(context.source, context.event.context)
             }))

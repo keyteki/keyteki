@@ -9,8 +9,12 @@ class AVinda extends Card {
             },
             then: {
                 condition: (context) =>
-                    context.preThenEvent.destroyEvent && context.preThenEvent.destroyEvent.resolved,
-                gameAction: ability.actions.discardAtRandom()
+                    context.preThenEvent.destroyEvent &&
+                    context.preThenEvent.destroyEvent.destroyedByDamageDealt &&
+                    context.preThenEvent.destroyEvent.resolved,
+                gameAction: ability.actions.discardAtRandom(),
+                message: '{0} uses {1} to make {3} discard a card at random',
+                messageArgs: (context) => context.player.opponent
             }
         });
     }

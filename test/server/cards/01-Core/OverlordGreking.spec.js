@@ -3,11 +3,13 @@ describe('Overlord Greking', function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
+                    amber: 2,
                     house: 'dis',
                     inPlay: ['overlord-greking', 'dominator-bauble']
                 },
                 player2: {
-                    inPlay: ['mother', 'troll', 'batdrone', 'dextre']
+                    amber: 3,
+                    inPlay: ['mother', 'troll', 'batdrone', 'dextre', 'groke']
                 }
             });
         });
@@ -70,6 +72,18 @@ describe('Overlord Greking', function () {
             expect(this.dextre.location).toBe('deck');
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             expect(this.dextre.controller).toBe(this.player2.player);
+        });
+
+        it('should not trigger fight effects of attacker (Groke)', function () {
+            this.player1.endTurn();
+            this.player2.clickPrompt('brobnar');
+            this.player2.fightWith(this.groke, this.overlordGreking);
+            this.player2.clickPrompt('Left');
+            expect(this.player1.player.cardsInPlay).toContain(this.groke);
+            expect(this.player2.player.discard).not.toContain(this.groke);
+            expect(this.groke.tokens.damage).toBeUndefined();
+            expect(this.player1.amber).toBe(2);
+            expect(this.player2.amber).toBe(3);
         });
     });
 });

@@ -5,17 +5,13 @@ class UndagnathusEvilTwin extends Card {
     setupCardAbilities(ability) {
         this.interrupt({
             when: {
-                onDamageDealt: (event, context) =>
-                    context.source.controller.isTideLow() &&
-                    event.card === context.source &&
-                    event.amount > ((!event.ignoreArmor && event.card.tokens.armor) || 0)
+                onDamageApplied: (event, context) =>
+                    context.source.controller.isTideLow() && event.card === context.source
             },
             effect: 'double the damage dealt to it',
             gameAction: ability.actions.changeEvent((context) => ({
                 event: context.event,
-                amount:
-                    2 * context.event.amount -
-                    ((!context.event.ignoreArmor && context.event.card.tokens.armor) || 0)
+                amount: 2 * context.event.amount
             }))
         });
     }

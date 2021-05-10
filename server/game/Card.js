@@ -17,7 +17,7 @@ const RemoveStun = require('./BaseActions/RemoveStun');
 class Card extends EffectSource {
     constructor(owner, cardData) {
         super(owner.game);
-        this.owner = this.controller = owner;
+        this.owner = owner;
         this.cardData = cardData;
 
         this.id = cardData.id;
@@ -701,11 +701,6 @@ class Card extends EffectSource {
         );
     }
 
-    getBonusDamage(target) {
-        let effects = this.getEffects('bonusDamage');
-        return effects.reduce((total, match) => total + match(target), 0);
-    }
-
     get armor() {
         return this.getArmor();
     }
@@ -932,6 +927,7 @@ class Card extends EffectSource {
 
     setDefaultController(player) {
         this.defaultController = player;
+        this.controller = player;
     }
 
     getModifiedController() {

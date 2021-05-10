@@ -3,12 +3,11 @@ const CardGameAction = require('./CardGameAction');
 class DealDamageAction extends CardGameAction {
     setDefaultProperties() {
         this.amount = null;
-        this.amountForCard = () => 1;
+        this.amountForCard = (card, context) => 1; // eslint-disable-line no-unused-vars
         this.fightEvent = null;
         this.damageSource = null;
         this.damageType = 'card effect';
         this.splash = 0;
-        this.purge = false;
         this.ignoreArmor = false;
         this.bonus = false;
     }
@@ -31,7 +30,41 @@ class DealDamageAction extends CardGameAction {
         return card.location === 'play area' && super.canAffect(card, context);
     }
 
+    checkEventCondition(event) {
+        if (!event.amount && !event.armorUsed) {
+            return false;
+        }
+
+        return (
+            event.card.location === 'play area' &&
+            super.canAffect(event.card, event.context) &&
+            event.card.checkRestrictions(this.name, event.context, event)
+        );
+    }
+
+    getReplacementEvent(card, context, amount = this.amount || this.amountForCard(card, context)) {
+        return super.createEvent(
+            'unnamedEvent',
+            {
+                card: card,
+                context: context,
+                amount: amount,
+                armorUsed: 0
+            },
+            () => {
+                let replaceDamage = card.mostRecentEffect('replaceDamage');
+                replaceDamage.action.resolve(replaceDamage.targetFunc(card), context);
+            }
+        );
+    }
+
     getEventArray(context) {
+        const damageSource = this.damageSource || context.source;
+
+        if (damageSource.anyEffect('replaceDamage')) {
+            return [this.getReplacementEvent(damageSource, context)];
+        }
+
         if (this.splash) {
             return this.target
                 .filter((card) => this.canAffect(card, context))
@@ -50,135 +83,110 @@ class DealDamageAction extends CardGameAction {
         return super.getEventArray(context);
     }
 
-    getDamageSource(card, context) {
-        if (this.damageSource) {
-            return typeof this.damageSource === 'function'
-                ? this.damageSource(card, context)
-                : this.damageSource;
-        } else {
-            return context.source;
+    unwardAndCancel(context, damageDealtEvent) {
+        for (let event of damageDealtEvent
+            .getSimultaneousEvents()
+            .filter(
+                (event) => event.name === 'onDamageDealt' && event.card === damageDealtEvent.card
+            )) {
+            event.cancel();
         }
+
+        let sourceArg;
+
+        if (
+            damageDealtEvent.damageSource &&
+            damageDealtEvent.damageSource.name === 'Framework effect'
+        ) {
+            sourceArg = 'a bonus icon';
+        } else {
+            sourceArg = damageDealtEvent.damageSource;
+        }
+
+        context.game.addMessage(
+            "{0}'s ward token prevents the damage dealt by {1} and is discarded",
+            damageDealtEvent.card,
+            sourceArg
+        );
+
+        damageDealtEvent.card.unward();
     }
 
     getEvent(card, context, amount = this.amount || this.amountForCard(card, context)) {
+        const damageSource = this.damageSource || context.source;
+
+        if (damageSource.anyEffect('replaceDamage')) {
+            return this.getReplacementEvent(damageSource, context, amount);
+        }
+
         const params = {
             card: card,
             context: context,
-            amount: amount,
-            damageSource: this.getDamageSource(card, context),
-            damageType: this.damageType,
-            destroyEvent: null,
+            amount: amount + card.getEffects('bonusDamage').reduce((acc, b) => acc + b, 0),
+            damageSource: damageSource,
             fightEvent: this.fightEvent,
-            ignoreArmor: this.ignoreArmor,
-            bonus: this.bonus
+            bonus: this.bonus,
+            damageType: this.damageType,
+            ignoreArmor: this.ignoreArmor
         };
 
         return super.createEvent('onDamageDealt', params, (damageDealtEvent) => {
             if (damageDealtEvent.card.warded) {
-                for (let event of damageDealtEvent
-                    .getSimultaneousEvents()
-                    .filter(
-                        (event) =>
-                            event.name === 'onDamageDealt' && event.card === damageDealtEvent.card
-                    )) {
-                    event.cancel();
-                }
-
-                let sourceArg;
-
-                if (
-                    damageDealtEvent.damageSource &&
-                    damageDealtEvent.damageSource.name === 'Framework effect'
-                ) {
-                    sourceArg = 'a bonus icon';
-                } else {
-                    sourceArg = damageDealtEvent.damageSource;
-                }
-
-                context.game.addMessage(
-                    "{0}'s ward token prevents the damage dealt by {1} and is discarded",
-                    damageDealtEvent.card,
-                    sourceArg
-                );
-                damageDealtEvent.card.unward();
+                this.unwardAndCancel(context, damageDealtEvent);
                 return;
             }
 
+            let armorUsed = 0;
+
+            if (
+                !damageDealtEvent.ignoreArmor &&
+                damageDealtEvent.card.armor > damageDealtEvent.card.armorUsed
+            ) {
+                let currentArmor = damageDealtEvent.card.armor - damageDealtEvent.card.armorUsed;
+
+                if (damageDealtEvent.amount <= currentArmor) {
+                    armorUsed = damageDealtEvent.amount;
+                } else {
+                    armorUsed = currentArmor;
+                }
+            }
+
+            let amountApplied = damageDealtEvent.amount - armorUsed;
+
             let damageAppliedParams = {
-                amount: damageDealtEvent.amount,
                 card: damageDealtEvent.card,
                 context: damageDealtEvent.context,
-                condition: (event) => event.amount > 0
+                amount: amountApplied,
+                damageSource: damageDealtEvent.damageSource,
+                damageType: damageDealtEvent.damageType,
+                damageDealtEvent: damageDealtEvent,
+                bonus: damageDealtEvent.bonus
             };
-            let damageAppliedEvent = super.createEvent(
-                'onDamageApplied',
-                damageAppliedParams,
-                (event) => {
-                    event.noGameStateCheck = true;
-                    event.card.addToken('damage', event.amount);
-                    if (
-                        !event.card.moribund &&
-                        (event.card.tokens.damage >= event.card.power ||
-                            (damageDealtEvent.fightEvent &&
-                                damageDealtEvent.damageSource &&
-                                damageDealtEvent.damageSource.getKeywordValue('poison')))
-                    ) {
-                        if (this.purge) {
-                            damageDealtEvent.destroyEvent = context.game.actions
-                                .purge({ damageEvent: damageDealtEvent })
-                                .getEvent(event.card, context.game.getFrameworkContext());
-                        } else {
-                            damageDealtEvent.destroyEvent = context.game.actions
-                                .destroy({ damageEvent: damageDealtEvent })
-                                .getEvent(event.card, context.game.getFrameworkContext());
-                        }
 
-                        event.addSubEvent(damageDealtEvent.destroyEvent);
-                        if (damageDealtEvent.fightEvent) {
-                            damageDealtEvent.fightEvent.destroyed.push(event.card);
-                        }
-                    }
-                }
-            );
+            let damageAppliedEvent = context.game.actions
+                .applyDamage(damageAppliedParams)
+                .getEvent(damageDealtEvent.card, context.game.getFrameworkContext());
 
             let armorEvent;
-            if (
-                damageDealtEvent.ignoreArmor ||
-                damageDealtEvent.card.armor <= damageDealtEvent.card.armorUsed
-            ) {
-                armorEvent = super.createEvent(
-                    'unnamedEvent',
-                    { card: damageDealtEvent.card, context: damageDealtEvent.context },
-                    () => {
-                        damageDealtEvent.addSubEvent(damageAppliedEvent);
-                    }
-                );
-            } else {
-                let armorPreventParams = {
-                    card: damageDealtEvent.card,
-                    context: damageDealtEvent.context,
-                    amount: damageDealtEvent.amount,
-                    noGameStateCheck: true
-                };
-                armorEvent = super.createEvent(
-                    'onDamagePreventedByArmor',
-                    armorPreventParams,
-                    (event) => {
-                        const currentArmor = event.card.armor - event.card.armorUsed;
-                        if (event.amount <= currentArmor) {
-                            card.armorUsed += event.amount;
-                            event.damagePrevented = event.amount;
-                        } else {
-                            card.armorUsed += currentArmor;
-                            event.damagePrevented = currentArmor;
-                        }
+            let armorParams = {
+                card: damageDealtEvent.card,
+                context: damageDealtEvent.context,
+                amount: amountApplied,
+                armorUsed: armorUsed,
+                noGameStateCheck: true
+            };
 
-                        damageAppliedEvent.amount -= event.damagePrevented;
-                        damageDealtEvent.amount -= event.damagePrevented;
-                        damageDealtEvent.addSubEvent(damageAppliedEvent);
-                    }
-                );
+            if (!armorUsed) {
+                armorEvent = super.createEvent('unnamedEvent', armorParams, (event) => {
+                    event.addSubEvent(damageAppliedEvent);
+                });
+            } else {
+                armorEvent = super.createEvent('onDamagePreventedByArmor', armorParams, (event) => {
+                    event.card.armorUsed += event.armorUsed;
+                    event.addSubEvent(damageAppliedEvent);
+                });
             }
+
             damageDealtEvent.addSubEvent(armorEvent);
             armorEvent.openReactionWindow = true;
         });

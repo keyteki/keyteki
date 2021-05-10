@@ -6,7 +6,7 @@ class PileOfSkulls extends Card {
             when: {
                 onCardDestroyed: (event, context) =>
                     event.clone.controller !== context.player &&
-                    context.player === this.game.activePlayer &&
+                    context.player === context.game.activePlayer &&
                     event.clone.type === 'creature'
             },
             target: {

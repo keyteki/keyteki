@@ -43,4 +43,33 @@ describe('Throwing Stars', function () {
             });
         });
     });
+
+    describe('on a target with armageddon cloak', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'sanctum',
+                    inPlay: ['lamindra'],
+                    hand: ['armageddon-cloak']
+                },
+                player2: {
+                    hand: ['throwing-stars'],
+                    inPlay: ['ancient-bear', 'odoac-the-patrician']
+                }
+            });
+
+            this.player1.playUpgrade(this.armageddonCloak, this.lamindra);
+            this.player1.endTurn();
+            this.player2.clickPrompt('shadows');
+        });
+
+        it('should destroy the cloak and not gain 1 amber', function () {
+            this.player2.play(this.throwingStars);
+            this.player2.clickCard(this.lamindra);
+            this.player2.clickPrompt('done');
+            expect(this.lamindra.location).toBe('play area');
+            expect(this.armageddonCloak.location).toBe('discard');
+            expect(this.player2.amber).toBe(0);
+        });
+    });
 });

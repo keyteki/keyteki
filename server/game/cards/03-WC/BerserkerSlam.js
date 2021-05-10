@@ -8,18 +8,18 @@ class BerserkerSlam extends Card {
                 cardCondition: (card) => card.isOnFlank(),
                 gameAction: ability.actions.dealDamage({ amount: 4 })
             },
-            then: (preThenContext) => ({
+            then: {
                 condition: (context) =>
                     context.preThenEvent.destroyEvent &&
-                    context.preThenEvent.destroyEvent.resolved &&
-                    context.preThenEvent.card === preThenContext.target,
-                message: '{0} uses {1} to cause {3} to lose 1 amber',
-                messageArgs: (context) => [context.preThenEvent.clone.controller],
+                    context.preThenEvent.destroyEvent.destroyedByDamageDealt &&
+                    context.preThenEvent.destroyEvent.resolved,
                 gameAction: ability.actions.loseAmber((context) => ({
                     amount: 1,
                     target: context.preThenEvent.clone.controller
-                }))
-            })
+                })),
+                message: '{0} uses {1} to cause {3} to lose 1 amber',
+                messageArgs: (context) => [context.preThenEvent.clone.controller]
+            }
         });
     }
 }

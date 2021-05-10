@@ -1,4 +1,4 @@
-describe('look-over-there', function () {
+describe('Look Over There', function () {
     describe("Look Over There's ability", function () {
         beforeEach(function () {
             this.setupTest({

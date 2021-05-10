@@ -10,8 +10,11 @@ class AusteralisSeaborg extends Card {
             },
             then: {
                 condition: (context) =>
-                    context.preThenEvent.card && context.preThenEvent.card.location !== 'play area',
-                gameAction: ability.actions.raiseTide()
+                    context.preThenEvent.destroyEvent &&
+                    context.preThenEvent.destroyEvent.destroyedByDamageDealt &&
+                    context.preThenEvent.destroyEvent.resolved,
+                gameAction: ability.actions.raiseTide(),
+                message: '{0} uses {1} to raise the tide'
             }
         });
     }

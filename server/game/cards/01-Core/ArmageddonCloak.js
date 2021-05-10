@@ -17,6 +17,8 @@ class ArmageddonCloak extends Card {
                         })),
                         ability.actions.changeEvent((context) => ({
                             event: context.event.triggeringEvent,
+                            destroyedByDamageDealt: false,
+                            destroyedFighting: false,
                             card: this
                         }))
                     ]

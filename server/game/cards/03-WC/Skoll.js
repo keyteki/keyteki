@@ -4,11 +4,10 @@ class Skoll extends Card {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onDamageDealt: (event, context) =>
-                    event.damageSource === context.source &&
-                    event.damageType === 'assault' &&
-                    event.destroyEvent &&
-                    event.destroyEvent.resolved
+                onCardDestroyed: (event, context) =>
+                    event.damageEvent &&
+                    event.damageEvent.damageType === 'assault' &&
+                    event.damageEvent.damageSource === context.source
             },
             target: {
                 cardType: 'creature',

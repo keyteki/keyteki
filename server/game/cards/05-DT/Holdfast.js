@@ -5,9 +5,8 @@ class Holdfast extends Card {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onDamageDealt: (event, context) => {
-                    return event.clone.clonedNeighbors.includes(context.source);
-                }
+                onDamageApplied: (event, context) =>
+                    event.clone.clonedNeighbors.includes(context.source)
             },
             gameAction: ability.actions.ready()
         });

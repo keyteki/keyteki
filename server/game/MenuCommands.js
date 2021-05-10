@@ -71,7 +71,8 @@ class MenuCommands {
                         player.opponent,
                         card
                     );
-                    card.setDefaultController(player.opponent);
+                    // sets only the default controller, the engine will auto-adjust the controller
+                    card.defaultController = player.opponent;
                 }
 
                 break;

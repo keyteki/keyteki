@@ -4,16 +4,23 @@ class OverlordGreking extends Card {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onDamageDealt: (event, context) =>
-                    event.damageSource === context.source &&
+                onCardDestroyed: (event, context) =>
+                    event.destroyedFighting &&
                     event.card.location === 'discard' &&
-                    event.destroyEvent &&
-                    event.destroyEvent.resolved
+                    event.damageEvent.damageSource === context.source
             },
-            gameAction: ability.actions.putIntoPlay((context) => ({
-                target: context.event.card,
-                myControl: true
-            }))
+            gameAction: [
+                ability.actions.changeEvent((context) => ({
+                    event: context.event.fightEvent,
+                    cancel: context.event.fightEvent.attacker !== context.source
+                })),
+                ability.actions.putIntoPlay((context) => ({
+                    target: context.event.card,
+                    myControl: true
+                }))
+            ],
+            effect: "put {1} into play under {2}'s control",
+            effectArgs: (context) => [context.event.card, context.source.controller]
         });
     }
 }
