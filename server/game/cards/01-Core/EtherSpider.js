@@ -4,9 +4,7 @@ class EtherSpider extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
             targetController: 'opponent',
-            effect: ability.effects.redirectAmber(
-                (_target, _context, effectContext) => effectContext.source
-            )
+            effect: ability.effects.redirectAmber((_, context) => context.source)
         });
 
         this.persistentEffect({

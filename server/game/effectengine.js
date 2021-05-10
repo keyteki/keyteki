@@ -15,8 +15,8 @@ class EffectEngine {
         this.newEffect = false;
     }
 
-    add(effect, forceNow = false) {
-        if (effect.nextRound && !forceNow) {
+    add(effect) {
+        if (effect.nextRound) {
             this.nextRoundEffects.push(effect);
         } else {
             this.effects.push(effect);
@@ -113,8 +113,9 @@ class EffectEngine {
 
         _.each(this.nextRoundEffects, (effect) => {
             if (effect.roundDuration > 1) {
+                effect.nextRound = false;
                 effect.roundDuration -= 1;
-                this.add(effect, true);
+                this.add(effect);
             }
         });
         this.nextRoundEffects = [];

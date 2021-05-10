@@ -38,12 +38,9 @@ class Effect {
         this.location = properties.location || 'play area';
         this.printedAbility = properties.printedAbility !== false;
         this.nextRound = !!properties.nextRound;
+        this.targets = [];
         this.effect = effect;
         this.refreshContext(properties.context);
-        this.targets = [];
-        this.effect.duration = this.duration;
-        this.effect.effect = this;
-        this.effect.isConditional = !!properties.condition;
     }
 
     refreshContext(context) {

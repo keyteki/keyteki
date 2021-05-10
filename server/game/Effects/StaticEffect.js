@@ -9,7 +9,6 @@ class StaticEffect {
             this.value = new EffectValue(value);
         }
         this.state = {};
-        this.duration = '';
         this.context = null;
     }
 
