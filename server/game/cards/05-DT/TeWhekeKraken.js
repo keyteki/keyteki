@@ -6,7 +6,8 @@ class TeWhekeKraken extends Card {
     setupCardAbilities(ability) {
         this.play({
             target: {
-                numCards: '2',
+                mode: 'exactly',
+                numCards: 2,
                 cardType: 'creature',
                 controller: 'self',
                 cardCondition: (card) => card.hasHouse('unfathomable'),

@@ -5,7 +5,8 @@ class Thundertow extends Card {
     setupCardAbilities(ability) {
         this.play({
             target: {
-                numCards: '2',
+                mode: 'exactly',
+                numCards: 2,
                 cardType: 'creature',
                 gameAction: ability.actions.exhaust()
             },
