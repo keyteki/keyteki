@@ -3,7 +3,7 @@ const Card = require('../../Card.js');
 class LashOfBrokenDreams extends Card {
     setupCardAbilities(ability) {
         this.action({
-            effect: "increase {1}'s key cost by 3 until the end of their next turn",
+            effect: "increase key cost by 3 during {1}'s next turn",
             effectArgs: (context) => context.player.opponent,
             gameAction: ability.actions.nextRoundEffect({
                 targetController: 'any',
