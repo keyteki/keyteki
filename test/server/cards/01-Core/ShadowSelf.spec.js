@@ -8,7 +8,7 @@ describe('Shadow Self', function () {
                     hand: ['shadow-self', 'abond-the-armorsmith']
                 },
                 player2: {
-                    inPlay: ['silvertooth', 'spyyyder', 'macis-asp']
+                    inPlay: ['silvertooth', 'spyyyder', 'macis-asp', 'hapsis']
                 }
             });
             this.shadowSelf1 = this.player1.findCardByName('shadow-self', 'play area');
@@ -152,6 +152,17 @@ describe('Shadow Self', function () {
             this.player1.clickCard(this.shadowSelf1);
             expect(this.shadowSelf1.tokens.damage).toBe(2);
             expect(this.shadowSelf2.hasToken('damage')).toBe(false);
+        });
+
+        it('should not be considered to be an enemy creature destroyed in a fight, if damage was redirected', function () {
+            this.shadowSelf1.tokens.damage = 6;
+            this.player1.endTurn();
+            this.player2.clickPrompt('logos');
+            this.player2.fightWith(this.hapsis, this.badPenny);
+            expect(this.hapsis.tokens.damage).toBe(1);
+            expect(this.hapsis.warded).toBe(false);
+            expect(this.shadowSelf1.location).toBe('discard');
+            expect(this.badPenny.location).toBe('play area');
         });
     });
 });

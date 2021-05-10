@@ -4,7 +4,7 @@ class Infighting extends Card {
     // Play: Each creature deals damage equal to its power to its right neighbor.
     setupCardAbilities(ability) {
         this.play({
-            effect: 'make each creature deal damage to its right neighbor',
+            effect: 'make each creature deal damage to its right neighbor equal to its power',
             then: (context) => {
                 let actions = context.player.creaturesInPlay.slice(1).map((creature) =>
                     ability.actions.dealDamage({
