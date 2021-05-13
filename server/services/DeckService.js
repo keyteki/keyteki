@@ -642,8 +642,12 @@ class DeckService {
 
     parseDeckResponse(username, deckResponse) {
         let specialCards = {
-            479: { 'dark-æmber-vault': true, 'it-s-coming': true, 'orb-of-wonder': true },
-            496: { 'orb-of-wonder': true, valoocanth: true }
+            479: { 'dark-æmber-vault': true, 'it-s-coming': true }
+        };
+
+        let anomalies = {
+            'orb-of-wonder': { anomalySet: 453, house: 'sanctum' },
+            valoocanth: { anomalySet: 453, house: 'unfathomable' }
         };
 
         let deckCards = deckResponse._linked.cards.filter((c) => !c.is_non_deck);
@@ -696,6 +700,11 @@ class DeckService {
             if (specialCards[card.expansion] && specialCards[card.expansion][id]) {
                 retCard.house = card.house.toLowerCase().replace(' ', '');
                 retCard.image = `${retCard.id}-${retCard.house}`;
+            }
+
+            if (anomalies[id] && anomalies[id].anomalySet !== card.expansion) {
+                // anomaly cards' real house
+                retCard.image = `${retCard.id}-${anomalies[id].house}`;
             }
 
             return retCard;
