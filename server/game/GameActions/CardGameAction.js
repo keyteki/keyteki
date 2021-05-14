@@ -6,7 +6,6 @@ class CardGameAction extends GameAction {
         super(propertyFactory);
         this.promptForSelect = null;
         this.promptWithHandlerMenu = null;
-        this.promptWithOptionsMenu = null;
     }
 
     setup() {
