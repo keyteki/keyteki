@@ -6,7 +6,7 @@ class ScramblerStorm extends Card {
             condition: (context) => !!context.player.opponent,
             effect: 'stop {1} from playing any actions on their next turn',
             effectArgs: (context) => context.player.opponent,
-            gameAction: ability.actions.lastingEffect({
+            gameAction: ability.actions.nextRoundEffect({
                 targetController: 'opponent',
                 effect: ability.effects.playerCannot(
                     'play',

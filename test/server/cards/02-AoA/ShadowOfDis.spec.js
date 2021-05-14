@@ -12,9 +12,7 @@ describe('Shadow of Dis', function () {
                         'halacor',
                         'snufflegator',
                         'inka-the-spider',
-                        'tantadlin',
-                        'duskwitch',
-                        'mighty-tiger'
+                        'tantadlin'
                     ]
                 },
                 player2: {
@@ -44,28 +42,6 @@ describe('Shadow of Dis', function () {
             this.player1.play(this.valdr); // should not gain amber due to Hunting witch
             expect(this.valdr.tokens.damage).toBe(1);
             expect(this.player1.amber).toBe(1);
-        });
-
-        it('test omega is blanked', function () {
-            this.player1.endTurn();
-            this.player2.clickPrompt('dis');
-            this.player2.play(this.shadowOfDis);
-            this.player2.endTurn();
-            this.player1.clickPrompt('untamed');
-            this.player1.play(this.duskwitch);
-            this.player1.reap(this.huntingWitch);
-            this.player1.endTurn();
-        });
-
-        it('test play effects are blanked - mighty tiger will not prompt', function () {
-            this.player1.endTurn();
-            this.player2.clickPrompt('dis');
-            this.player2.play(this.shadowOfDis);
-            this.player2.endTurn();
-            this.player1.clickPrompt('untamed');
-            this.player1.play(this.mightyTiger);
-            this.player1.reap(this.huntingWitch);
-            this.player1.endTurn();
         });
 
         it('test printed skirmish is ignored', function () {
@@ -105,6 +81,15 @@ describe('Shadow of Dis', function () {
             this.player2.fightWith(this.tezmal, this.kindrithLongshot);
             expect(this.tezmal.location).toBe('discard');
             expect(this.kindrithLongshot.tokens.damage).toBe(2); // 2 from tezmal ignoring kindrith's elusive
+        });
+
+        it('should not blank own cards', function () {
+            this.player1.moveCard(this.autocannon, 'discard');
+            this.player1.endTurn();
+            this.player2.clickPrompt('dis');
+            this.player2.play(this.shadowOfDis);
+            this.player2.reap(this.tezmal);
+            this.player2.clickPrompt('untamed');
         });
 
         it("test hideway-hole artifact's elusive still works", function () {
@@ -221,6 +206,111 @@ describe('Shadow of Dis', function () {
             this.player2.play(this.snufflegator);
             expect(this.snufflegator.tokens.damage).toBe(1);
             expect(this.snufflegator.location).toBe('play area');
+        });
+    });
+
+    describe('Shadow of Dis and enter ready / enraged / stunned', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'dis',
+                    hand: ['shadow-of-dis'],
+                    inPlay: ['shooler', 'dodger']
+                },
+                player2: {
+                    inPlay: ['hunting-witch'],
+                    hand: [
+                        'zorg',
+                        'gizelhart-s-zealot',
+                        'duskwitch',
+                        'mighty-tiger',
+                        'bumblebird',
+                        'ancient-bear'
+                    ]
+                }
+            });
+
+            this.player1.play(this.shadowOfDis);
+            this.player1.endTurn();
+        });
+
+        it('Zorg should enter play stunned', function () {
+            this.player2.clickPrompt('mars');
+            this.player2.play(this.zorg);
+            expect(this.zorg.stunned).toBe(true);
+            this.player2.endTurn();
+        });
+
+        it("Gizelhart's Zealot should enter play enraged and ready", function () {
+            this.player2.clickPrompt('sanctum');
+            this.player2.play(this.gizelhartSZealot);
+            expect(this.gizelhartSZealot.enraged).toBe(true);
+            expect(this.gizelhartSZealot.exhausted).toBe(false);
+            this.player2.fightWith(this.gizelhartSZealot, this.dodger);
+            this.player2.endTurn();
+        });
+
+        it('test alpha is not blanked', function () {
+            this.player2.clickPrompt('untamed');
+            this.player2.play(this.ancientBear);
+            this.player2.clickCard(this.bumblebird);
+            expect(this.player2).not.toHavePromptButton('Play this creature');
+            expect(this.player2).toHavePromptButton('Discard this card');
+        });
+
+        it('test omega is blanked', function () {
+            this.player2.clickPrompt('untamed');
+            this.player2.play(this.duskwitch);
+            expect(this.duskwitch.exhausted).toBe(false);
+            this.player2.play(this.ancientBear);
+            expect(this.ancientBear.exhausted).toBe(true);
+            this.player2.reap(this.huntingWitch);
+            this.player2.endTurn();
+        });
+
+        it('test play effects are blanked - mighty tiger will not prompt', function () {
+            this.player2.clickPrompt('untamed');
+            this.player2.play(this.mightyTiger);
+            this.player2.reap(this.huntingWitch);
+            this.player2.endTurn();
+        });
+    });
+
+    describe('Shadow of Dis and interrupts', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 3,
+                    house: 'dis',
+                    hand: ['shadow-of-dis'],
+                    inPlay: ['shooler', 'dodger']
+                },
+                player2: {
+                    inPlay: ['urchin', 'shadow-self'],
+                    hand: ['duskrunner']
+                }
+            });
+
+            this.player1.play(this.shadowOfDis);
+            this.player1.endTurn();
+        });
+
+        it('shadow self should not redirect damage', function () {
+            this.player2.clickPrompt('shadows');
+            this.player2.fightWith(this.urchin, this.dodger);
+            expect(this.urchin.location).toBe('discard');
+            expect(this.dodger.tokens.damage).toBe(1);
+            expect(this.shadowSelf.tokens.damage).toBeUndefined();
+            this.player2.endTurn();
+        });
+
+        it('should blank gained abilities', function () {
+            this.player2.clickPrompt('shadows');
+            this.player2.playUpgrade(this.duskrunner, this.shadowSelf);
+            this.player2.reap(this.shadowSelf);
+            expect(this.player1.amber).toBe(4);
+            expect(this.player2.amber).toBe(1);
+            this.player2.endTurn();
         });
     });
 });

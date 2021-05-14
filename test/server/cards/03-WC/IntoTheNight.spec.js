@@ -4,15 +4,8 @@ describe('Into the Night', function () {
             this.setupTest({
                 player1: {
                     house: 'shadows',
-                    inPlay: ['a-vinda', 'mooncurser', 'tantadlin'],
-                    hand: [
-                        'into-the-night',
-                        'lamindra',
-                        'lamindra',
-                        'lamindra',
-                        'lamindra',
-                        'lamindra'
-                    ]
+                    inPlay: ['a-vinda', 'mooncurser', 't3r-35a', 'tantadlin'],
+                    hand: ['into-the-night']
                 },
                 player2: {
                     inPlay: ['krump'],
@@ -20,7 +13,14 @@ describe('Into the Night', function () {
                 }
             });
         });
-        it('Prevent non-shadows creatures from fighting until the start of their next turn', function () {
+
+        it('prevent own non-shadows creatures from fighting until the start of their next turn', function () {
+            this.player1.play(this.intoTheNight);
+            this.player1.clickCard(this.t3r35a);
+            expect(this.player1).not.toHavePromptButton('Fight with this creature');
+        });
+
+        it('prevent enemy non-shadows creatures from fighting until the start of their next turn', function () {
             this.player1.play(this.intoTheNight);
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
@@ -28,20 +28,14 @@ describe('Into the Night', function () {
             expect(this.player2).not.toHavePromptButton('Fight with this creature');
         });
     });
+
     describe("Into the Night's play ability", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
                     house: 'shadows',
                     inPlay: ['a-vinda', 'mooncurser', 'tantadlin'],
-                    hand: [
-                        'into-the-night',
-                        'lamindra',
-                        'lamindra',
-                        'lamindra',
-                        'lamindra',
-                        'lamindra'
-                    ]
+                    hand: ['into-the-night']
                 },
                 player2: {
                     inPlay: ['krump', 'bad-penny'],
@@ -49,43 +43,19 @@ describe('Into the Night', function () {
                 }
             });
         });
-        it('Allow opponent shadows creatures to fight', function () {
+
+        it('allow own shadows creatures to fight', function () {
+            this.player1.play(this.intoTheNight);
+            this.player1.fightWith(this.aVinda, this.badPenny);
+            expect(this.aVinda.tokens.damage).toBe(1);
+        });
+
+        it('allow opponent shadows creatures to fight', function () {
             this.player1.play(this.intoTheNight);
             this.player1.endTurn();
             this.player2.clickPrompt('shadows');
-            this.player2.clickCard(this.badPenny);
-            expect(this.player2).toHavePromptButton('Fight with this creature');
-        });
-    });
-    describe("Into the Night's play ability", function () {
-        beforeEach(function () {
-            this.setupTest({
-                player1: {
-                    house: 'shadows',
-                    inPlay: ['a-vinda', 'mooncurser', 'tantadlin'],
-                    hand: [
-                        'into-the-night',
-                        'lamindra',
-                        'lamindra',
-                        'lamindra',
-                        'lamindra',
-                        'lamindra'
-                    ]
-                },
-                player2: {
-                    inPlay: ['krump'],
-                    hand: ['buzzle', 'groggins', 'groggins', 'groggins', 'groggins', 'groggins']
-                }
-            });
-        });
-        it('Prevent non-shadows creatures from fighting until the start of their next turn', function () {
-            this.player1.play(this.intoTheNight);
-            this.player1.endTurn();
-            this.player2.clickPrompt('dis');
-            this.player2.play(this.buzzle);
-            this.player2.clickCard(this.krump);
-            this.player2.clickCard(this.buzzle);
-            expect(this.player2).not.toHavePromptButton('Fight with this creature');
+            this.player2.fightWith(this.badPenny, this.aVinda);
+            expect(this.aVinda.tokens.damage).toBe(1);
         });
     });
 });

@@ -6,6 +6,7 @@ class UniversalKeylock extends Card {
             targetController: 'any',
             effect: ability.effects.modifyKeyCost(3)
         });
+
         this.reaction({
             when: {
                 onForgeKey: () => true

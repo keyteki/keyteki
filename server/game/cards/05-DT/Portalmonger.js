@@ -6,7 +6,7 @@ class Portalmonger extends Card {
         this.persistentEffect({
             targetController: 'opponent',
             condition: (context) => context.player.isTideHigh(),
-            effect: ability.effects.modifyKeyCost(() => 4)
+            effect: ability.effects.modifyKeyCost(4)
         });
     }
 }

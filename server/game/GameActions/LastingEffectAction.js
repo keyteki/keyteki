@@ -2,16 +2,19 @@ const GameAction = require('./GameAction');
 const Effects = require('../effects.js');
 
 class LastingEffectAction extends GameAction {
-    constructor(propertyFactory, duration = 2) {
+    constructor(propertyFactory, roundDuration, nextRound = false) {
         super(propertyFactory);
-        this.duration = this.duration || duration;
+        this.roundDuration = roundDuration;
+        this.nextRound = nextRound;
     }
 
     setDefaultProperties() {
         this.condition = null;
         this.effect = [];
-        this.targetController = this.duration === 1 ? 'current' : 'opponent';
+        this.targetController = this.roundDuration === 1 ? 'current' : 'opponent';
         this.until = null;
+
+        // lasting ability trigger properties
         this.when = null;
         this.gameAction = null;
         this.message = null;
@@ -54,20 +57,15 @@ class LastingEffectAction extends GameAction {
             context: context,
             effect: this.effect,
             match: this.match,
-            targetController: this.when ? 'current' : this.targetController
+            targetController: this.targetController,
+            until: this.until,
+            roundDuration: this.roundDuration,
+            nextRound: this.nextRound
         };
-        if (this.until) {
-            properties.until = this.until;
-            return [
-                super.createEvent('applyLastingEffect', { context: context }, (event) =>
-                    event.context.source.lastingEffect(() => properties)
-                )
-            ];
-        }
-        properties.roundDuration = this.duration;
+
         return [
             super.createEvent('applyLastingEffect', { context: context }, (event) =>
-                event.context.source.roundDurationEffect(properties)
+                event.context.source.lastingEffect(() => properties)
             )
         ];
     }

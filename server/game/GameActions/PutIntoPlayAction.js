@@ -114,70 +114,64 @@ class PutIntoPlayAction extends CardGameAction {
         }
     }
 
+    matchEntersPlayEffects(card, context, effect) {
+        return card.getEffects(effect).some((condition) => condition.match(context));
+    }
+
     getEvent(card, context) {
-        let positionEvent = super.createEvent(
-            'onCardPositioned',
-            { card: card, context: context },
-            () => {
-                let player;
-                let control;
-                if (card.anyEffect('entersPlayUnderOpponentsControl') && card.owner.opponent) {
-                    player = card.owner.opponent;
-                    control = true;
-                } else {
-                    player = this.myControl ? context.player : card.controller;
-                    control = this.myControl;
-                }
-
-                if (card.gigantic) {
-                    let part =
-                        card.composedPart ||
-                        card.controller
-                            .getSourceList(card.location)
-                            .find((part) => card.compositeId === part.id);
-
-                    if (!part && card.parent) {
-                        // parts are placed togehter under another card and can be put into play together
-                        part = card.parent.childCards.find((part) => card.compositeId === part.id);
-                    }
-
-                    if (part) {
-                        card.controller.removeCardFromPile(part);
-                        card.composedPart = part;
-                    }
-
-                    card.image = card.compositeImageId || card.id;
-                }
-
-                player.moveCard(card, 'play area', {
-                    left: this.left,
-                    deployIndex: this.deployIndex,
-                    myControl: control
-                });
-
-                if (this.myControl) {
-                    card.updateEffectContexts();
-                }
+        return super.createEvent('onCardEntersPlay', { card: card, context: context }, () => {
+            let player;
+            let control;
+            if (card.anyEffect('entersPlayUnderOpponentsControl') && card.owner.opponent) {
+                player = card.owner.opponent;
+                control = true;
+            } else {
+                player = this.myControl ? context.player : card.controller;
+                control = this.myControl;
             }
-        );
 
-        positionEvent.addSubEvent(
-            context.game.getEvent('onCardEntersPlay', { card: card, context: context }, () => {
-                if (!this.ready && !card.anyEffect('entersPlayReady')) {
-                    card.exhaust();
+            if (card.gigantic) {
+                let part =
+                    card.composedPart ||
+                    card.controller
+                        .getSourceList(card.location)
+                        .find((part) => card.compositeId === part.id);
+
+                if (!part && card.parent) {
+                    // parts are placed togehter under another card and can be put into play together
+                    part = card.parent.childCards.find((part) => card.compositeId === part.id);
                 }
 
-                if (card.anyEffect('entersPlayStunned')) {
-                    card.stun();
+                if (part) {
+                    card.controller.removeCardFromPile(part);
+                    card.composedPart = part;
                 }
 
-                if (card.anyEffect('entersPlayEnraged')) {
-                    card.enrage();
-                }
-            })
-        );
+                card.image = card.compositeImageId || card.id;
+            }
 
-        return positionEvent;
+            player.moveCard(card, 'play area', {
+                left: this.left,
+                deployIndex: this.deployIndex,
+                myControl: control
+            });
+
+            if (this.myControl) {
+                card.updateEffectContexts();
+            }
+
+            if (!this.ready && !this.matchEntersPlayEffects(card, context, 'entersPlayReady')) {
+                card.exhaust();
+            }
+
+            if (this.matchEntersPlayEffects(card, context, 'entersPlayStunned')) {
+                card.stun();
+            }
+
+            if (this.matchEntersPlayEffects(card, context, 'entersPlayEnraged')) {
+                card.enrage();
+            }
+        });
     }
 }
 

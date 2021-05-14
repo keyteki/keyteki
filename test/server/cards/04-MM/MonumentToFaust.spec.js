@@ -18,8 +18,10 @@ describe('Monument to Faust', function () {
 
         it('should increase key cost when Faust The Great is not in discard', function () {
             this.player1.useAction(this.monumentToFaust);
-            this.player1.endTurn();
             expect(this.player1.player.getCurrentKeyCost()).toBe(6);
+            expect(this.player2.player.getCurrentKeyCost()).toBe(6);
+            this.player1.endTurn();
+            expect(this.player1.player.getCurrentKeyCost()).toBe(7);
             expect(this.player2.player.getCurrentKeyCost()).toBe(7);
             this.player2.clickPrompt('brobnar');
             this.player2.endTurn();
@@ -30,8 +32,10 @@ describe('Monument to Faust', function () {
         it('should capture 2 amber from selected creature when octavia is in discard', function () {
             this.player1.player.moveCard(this.faustTheGreat, 'discard');
             this.player1.useAction(this.monumentToFaust);
-            this.player1.endTurn();
             expect(this.player1.player.getCurrentKeyCost()).toBe(6);
+            expect(this.player2.player.getCurrentKeyCost()).toBe(6);
+            this.player1.endTurn();
+            expect(this.player1.player.getCurrentKeyCost()).toBe(8);
             expect(this.player2.player.getCurrentKeyCost()).toBe(8);
             this.player2.clickPrompt('brobnar');
             this.player2.endTurn();
@@ -45,10 +49,12 @@ describe('Monument to Faust', function () {
             this.player2.clickPrompt('dis');
             this.player2.play(this.poltergeist);
             this.player2.clickCard(this.monumentToFaust);
-            expect(this.player1.player.getCurrentKeyCost()).toBe(7);
-            expect(this.player2.player.getCurrentKeyCost()).toBe(6);
             expect(this.monumentToFaust.location).toBe('discard');
+            expect(this.player1.player.getCurrentKeyCost()).toBe(6);
+            expect(this.player2.player.getCurrentKeyCost()).toBe(6);
             this.player2.endTurn();
+            expect(this.player1.player.getCurrentKeyCost()).toBe(7);
+            expect(this.player2.player.getCurrentKeyCost()).toBe(7);
             this.player1.clickPrompt('saurian');
             this.player1.endTurn();
             expect(this.player1.player.getCurrentKeyCost()).toBe(6);

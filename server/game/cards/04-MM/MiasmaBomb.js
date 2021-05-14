@@ -8,7 +8,7 @@ class MiasmaBomb extends Card {
             effectArgs: (context) => context.player.opponent,
             gameAction: ability.actions.sequential([
                 ability.actions.sacrifice(),
-                ability.actions.lastingEffect({
+                ability.actions.nextRoundEffect({
                     targetController: 'opponent',
                     effect: ability.effects.skipStep('key')
                 })

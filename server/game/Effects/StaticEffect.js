@@ -1,4 +1,4 @@
-const EffectValue = require('./EffectValue');
+const EffectValue = require('./Values/EffectValue');
 
 class StaticEffect {
     constructor(type = '', value) {
@@ -9,7 +9,6 @@ class StaticEffect {
             this.value = new EffectValue(value);
         }
         this.state = {};
-        this.duration = '';
         this.context = null;
     }
 

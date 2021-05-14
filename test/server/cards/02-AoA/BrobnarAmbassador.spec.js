@@ -4,7 +4,14 @@ describe('Brobnar Ambassador', function () {
             this.setupTest({
                 player1: {
                     house: 'sanctum',
-                    hand: ['brammo', 'smith', 'screechbomb', 'virtuous-works', 'barrister-joya'],
+                    hand: [
+                        'brammo',
+                        'smith',
+                        'screechbomb',
+                        'virtuous-works',
+                        'barrister-joya',
+                        'cybergiant-rig'
+                    ],
                     inPlay: [
                         'brobnar-ambassador',
                         'bulwark',
@@ -18,6 +25,12 @@ describe('Brobnar Ambassador', function () {
                     inPlay: ['lamindra', 'urchin', 'redlock']
                 }
             });
+        });
+
+        it('should let play a brobnar upgrade after reap', function () {
+            this.player1.reap(this.brobnarAmbassador);
+            this.player1.playUpgrade(this.cybergiantRig, this.bulwark);
+            expect(this.cybergiantRig.parent).toBe(this.bulwark);
         });
 
         it('should let play a brobnar action after reap', function () {
@@ -63,6 +76,12 @@ describe('Brobnar Ambassador', function () {
             this.player1.play(this.smith);
             this.player1.play(this.virtuousWorks);
             expect(this.player1.amber).toBe(7);
+        });
+
+        it('should let play a brobnar upgrade after fight', function () {
+            this.player1.fightWith(this.brobnarAmbassador, this.lamindra);
+            this.player1.playUpgrade(this.cybergiantRig, this.bulwark);
+            expect(this.cybergiantRig.parent).toBe(this.bulwark);
         });
 
         it('should let play a brobnar artifact after fight', function () {

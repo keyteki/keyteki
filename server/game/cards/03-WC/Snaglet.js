@@ -8,12 +8,16 @@ class Snaglet extends Card {
             },
             effect: 'steal 2 amber from {1} if they choose {2} as their active house next turn',
             effectArgs: (context) => [context.player.opponent, context.house],
-            gameAction: ability.actions.lastingEffect((context) => ({
+            gameAction: ability.actions.nextRoundEffect((context) => ({
+                targetController: 'opponent',
                 when: {
                     onChooseActiveHouse: (event) =>
                         event.player !== context.player && event.house === context.house
                 },
-                gameAction: ability.actions.steal({ amount: 2 })
+                gameAction: ability.actions.steal({
+                    target: context.player.opponent,
+                    amount: 2
+                })
             }))
         });
     }

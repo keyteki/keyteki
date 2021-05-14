@@ -12,7 +12,11 @@ describe('Universal Keylock', function () {
                     hand: ['mother']
                 }
             });
+
+            expect(this.player1.player.getCurrentKeyCost()).toBe(9);
+            expect(this.player2.player.getCurrentKeyCost()).toBe(9);
         });
+
         it('should increase key cost by 3 for either player and destroy itself when a key is forged.', function () {
             this.player1.endTurn();
             expect(this.player2.player.keys.red).toBe(false);
@@ -27,8 +31,12 @@ describe('Universal Keylock', function () {
             expect(this.player1.player.keys.yellow).toBe(false);
             expect(this.player1.amber).toBe(0);
             expect(this.universalKeylock.location).toBe('discard');
+
+            expect(this.player1.player.getCurrentKeyCost()).toBe(6);
+            expect(this.player2.player.getCurrentKeyCost()).toBe(6);
         });
     });
+
     describe("Universal Keylock's ability", function () {
         beforeEach(function () {
             this.setupTest({
@@ -43,6 +51,7 @@ describe('Universal Keylock', function () {
                 }
             });
         });
+
         it('should increase key cost by 3 for either player and destroy itself when a key is forged.', function () {
             this.player1.endTurn();
             this.player2.forgeKey('Red');
@@ -52,6 +61,9 @@ describe('Universal Keylock', function () {
             expect(this.player2.amber).toBe(0);
             this.player2.clickPrompt('logos');
             expect(this.universalKeylock.location).toBe('discard');
+
+            expect(this.player1.player.getCurrentKeyCost()).toBe(6);
+            expect(this.player2.player.getCurrentKeyCost()).toBe(6);
         });
     });
 });

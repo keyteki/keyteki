@@ -7,8 +7,8 @@ class ShadowOfDis extends Card {
             effect: "blank {1}'s creatures text boxes",
             effectArgs: (context) => context.player.opponent,
             gameAction: ability.actions.lastingEffect({
-                match: (card) => card.type === 'creature',
                 targetController: 'opponent',
+                match: (card) => card.location === 'play area' && card.type === 'creature',
                 effect: ability.effects.blank()
             })
         });

@@ -1,12 +1,12 @@
-describe('Sensor Chief Garcia', function () {
-    describe("Sensor Chief Garcia's ability", function () {
+describe('Rhetor Gallim', function () {
+    describe("Rhetor Gallim's ability", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
                     amber: 6,
-                    house: 'staralliance',
-                    hand: ['sensor-chief-garcia'],
-                    inPlay: ['armsmaster-molina']
+                    house: 'saurian',
+                    hand: ['rhetor-gallim'],
+                    inPlay: ['senator-shrix']
                 },
                 player2: {
                     amber: 6,
@@ -17,14 +17,14 @@ describe('Sensor Chief Garcia', function () {
         });
 
         it('should stop a key being forged when played', function () {
-            this.player1.play(this.sensorChiefGarcia);
+            this.player1.play(this.rhetorGallim);
             this.player1.endTurn();
             expect(this.player2.player.getForgedKeys()).toBe(0);
             expect(this.player2.player.amber).toBe(6);
         });
 
         it('should not stop forging a key in the same round it was played', function () {
-            this.player1.fightWith(this.armsmasterMolina, this.keyfrog);
+            this.player1.fightWith(this.senatorShrix, this.keyfrog);
             this.player1.forgeKey('Red');
             expect(this.player2.player.keys.red).toBe(true);
             expect(this.player2.player.keys.blue).toBe(false);
@@ -38,8 +38,8 @@ describe('Sensor Chief Garcia', function () {
             this.setupTest({
                 player1: {
                     amber: 6,
-                    house: 'staralliance',
-                    inPlay: ['sensor-chief-garcia']
+                    house: 'saurian',
+                    inPlay: ['rhetor-gallim']
                 },
                 player2: {
                     amber: 6,
@@ -49,16 +49,20 @@ describe('Sensor Chief Garcia', function () {
             });
         });
 
-        it('should stop a key being forged when reaping', function () {
-            this.player1.reap(this.sensorChiefGarcia);
-            expect(this.player1.amber).toBe(7);
+        it('should be optional to trigger after reap', function () {
+            this.player1.reap(this.rhetorGallim);
+            this.player1.clickPrompt('Done');
+            expect(this.rhetorGallim.amber).toBe(0);
             this.player1.endTurn();
-            expect(this.player2.player.getForgedKeys()).toBe(0);
-            expect(this.player2.player.amber).toBe(6);
+            this.player2.forgeKey('Red');
+            expect(this.player2.player.getForgedKeys()).toBe(1);
+            expect(this.player2.player.amber).toBe(0);
         });
 
-        it('should stop a key being forged when fighting', function () {
-            this.player1.fightWith(this.sensorChiefGarcia, this.dustPixie);
+        it('should stop a key being forged after reap and exalt', function () {
+            this.player1.reap(this.rhetorGallim);
+            this.player1.clickCard(this.rhetorGallim);
+            expect(this.player1.amber).toBe(7);
             this.player1.endTurn();
             expect(this.player2.player.getForgedKeys()).toBe(0);
             expect(this.player2.player.amber).toBe(6);

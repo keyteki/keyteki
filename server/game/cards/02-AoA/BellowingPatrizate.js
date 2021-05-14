@@ -4,7 +4,8 @@ class BellowingPatrizate extends Card {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onCardEntersPlay: (event) => event.card.type === 'creature' && !this.exhausted
+                onCardEntersPlay: (event, context) =>
+                    event.card.type === 'creature' && !context.source.exhausted
             },
             gameAction: ability.actions.dealDamage((context) => ({
                 amount: 1,

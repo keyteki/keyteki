@@ -6,9 +6,10 @@ class RocketeerTryska extends Card {
         this.persistentEffect({
             location: 'any',
             condition: (context) => context.player.isTideHigh(),
-            match: (card, context) =>
-                card.type === 'creature' && context.source.neighbors.includes(card),
-            effect: ability.effects.entersPlayReady()
+            match: () => true,
+            effect: ability.effects.entersPlayReady((card, _context, effectContext) =>
+                effectContext.source.neighbors.includes(card)
+            )
         });
     }
 }

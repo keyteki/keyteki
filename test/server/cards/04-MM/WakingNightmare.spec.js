@@ -42,5 +42,18 @@ describe('waking-nightmare', function () {
             // shooler and sinder make key cost 8
             expect(this.player2.player.amber).toBe(0);
         });
+
+        it('should change value dynamically', function () {
+            this.player1.play(this.wakingNightmare);
+            expect(this.player1.player.getCurrentKeyCost()).toBe(6);
+            expect(this.player2.player.getCurrentKeyCost()).toBe(6);
+            this.player1.endTurn();
+            expect(this.player1.player.getCurrentKeyCost()).toBe(10);
+            expect(this.player2.player.getCurrentKeyCost()).toBe(10);
+            this.player2.clickPrompt('dis');
+            this.player2.fightWith(this.dustImp, this.emberImp);
+            expect(this.player1.player.getCurrentKeyCost()).toBe(8);
+            expect(this.player2.player.getCurrentKeyCost()).toBe(8);
+        });
     });
 });

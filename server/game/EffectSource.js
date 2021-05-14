@@ -35,26 +35,21 @@ class EffectSource extends GameObject {
     untilNextTurn(propertyFactory) {
         let properties = propertyFactory(AbilityDsl);
         return this.addEffectToEngine(
-            Object.assign(
-                { duration: 'untilNextTurn', location: 'any', roundDuration: 2 },
-                properties
-            )
+            Object.assign({ duration: 'untilNextTurn', location: 'any' }, properties, {
+                roundDuration: 2
+            })
         );
     }
 
     /**
      * Applies a lasting effect which lasts until an event contained in the
-     * `until` property for the effect has occurred.
+     * `until` property for the effect has occurred or during `roundDuration` rounds.
      */
     lastingEffect(propertyFactory) {
         let properties = propertyFactory(AbilityDsl);
         return this.addEffectToEngine(
             Object.assign({ duration: 'custom', location: 'any' }, properties)
         );
-    }
-
-    roundDurationEffect(properties) {
-        return this.addEffectToEngine(properties);
     }
 
     /**

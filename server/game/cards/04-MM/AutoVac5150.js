@@ -13,8 +13,8 @@ class AutoVac5150 extends Card {
                         context.target && context.target.location === 'archives',
                     trueGameAction: ability.actions.sequential([
                         ability.actions.discard(),
-                        ability.actions.lastingEffect({
-                            targetController: 'opponent',
+                        ability.actions.nextRoundEffect({
+                            targetController: 'any',
                             effect: ability.effects.modifyKeyCost(3)
                         })
                     ]),

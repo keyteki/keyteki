@@ -37,22 +37,14 @@ class Effect {
         this.condition = properties.condition || (() => true);
         this.location = properties.location || 'play area';
         this.printedAbility = properties.printedAbility !== false;
-        this.canChangeZoneOnce = !!properties.canChangeZoneOnce;
-        this.effect = effect;
-        this.refreshContext();
+        this.nextRound = !!properties.nextRound;
         this.targets = [];
-        this.effect.context = this.context = properties.context || {
-            game: game,
-            player: source.controller,
-            source: source
-        };
-        this.effect.duration = this.duration;
-        this.effect.effect = this;
-        this.effect.isConditional = !!properties.condition;
+        this.effect = effect;
+        this.refreshContext(properties.context);
     }
 
-    refreshContext() {
-        this.context = this.game.getFrameworkContext(this.source.controller);
+    refreshContext(context) {
+        this.context = context || this.game.getFrameworkContext(this.source.controller);
         this.context.source = this.source;
         this.effect.setContext(this.context);
     }

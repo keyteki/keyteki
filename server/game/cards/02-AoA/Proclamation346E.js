@@ -5,7 +5,7 @@ class Proclamation346E extends Card {
         this.persistentEffect({
             condition: (context) =>
                 context.player.opponent &&
-                this.game.getHousesInPlay(context.player.opponent.creaturesInPlay).length < 3,
+                context.game.getHousesInPlay(context.player.opponent.creaturesInPlay).length < 3,
             targetController: 'opponent',
             effect: ability.effects.modifyKeyCost(2)
         });
