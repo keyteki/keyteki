@@ -3,7 +3,7 @@ const Card = require('../../Card.js');
 class Humble extends Card {
     setupCardAbilities(ability) {
         this.play({
-            effect: 'exhaust {1} and move 3 amber from it to common supply',
+            effect: 'exhaust {0} and move 3 amber from it to common supply',
             target: {
                 controller: 'any',
                 cardType: 'creature',
