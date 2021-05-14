@@ -7,6 +7,11 @@ import { Constants } from '../../constants';
 import CardBack from './CardBack';
 import CardImage from '../GameBoard/CardImage';
 
+import AmberImage from '../../assets/img/enhancements/amberui.png';
+import CaptureImage from '../../assets/img/enhancements/captureui.png';
+import DrawImage from '../../assets/img/enhancements/drawui.png';
+import DamageImage from '../../assets/img/enhancements/damageui.png';
+
 import './DeckSummary.scss';
 
 const DeckSummary = ({ deck }) => {
@@ -14,6 +19,7 @@ const DeckSummary = ({ deck }) => {
     let [zoomCard, setZoomCard] = useState(null);
     let [mousePos, setMousePosition] = useState({ x: 0, y: 0 });
     const cardsByHouse = {};
+    const enhancements = {};
 
     for (const house of deck.houses.sort()) {
         cardsByHouse[house] = [];
@@ -28,6 +34,9 @@ const DeckSummary = ({ deck }) => {
 
                 if (card.card.enhancements) {
                     cardClass += ' enhanced-card';
+                    for (const e of card.card.enhancements) {
+                        enhancements[e] = 1 + (enhancements[e] || 0);
+                    }
                 }
 
                 cardsByHouse[house].push(
@@ -93,6 +102,34 @@ const DeckSummary = ({ deck }) => {
                         </Col>
                         <Col xs='5'>{deck.winRate?.toFixed(2)}%</Col>
                     </Row>
+                    {Object.keys(enhancements).length > 0 ? (
+                        <Row className='deck-enhancements'>
+                            <Col xs='3' className='deck-enhancement'>
+                                <img src={AmberImage} className='deck-img-enhancement' />
+                                <span className='deck-text-enhancement'>
+                                    {enhancements.amber || 0}
+                                </span>
+                            </Col>
+                            <Col xs='3' className='deck-enhancement'>
+                                <img src={CaptureImage} className='deck-img-enhancement' />
+                                <span className='deck-text-enhancement'>
+                                    {enhancements.capture || 0}
+                                </span>
+                            </Col>
+                            <Col xs='3' className='deck-enhancement'>
+                                <img src={DrawImage} className='deck-img-enhancement' />
+                                <span className='deck-text-enhancement'>
+                                    {enhancements.draw || 0}
+                                </span>
+                            </Col>
+                            <Col xs='3' className='deck-enhancement'>
+                                <img src={DamageImage} className='deck-img-enhancement' />
+                                <span className='deck-text-enhancement'>
+                                    {enhancements.damage || 0}
+                                </span>
+                            </Col>
+                        </Row>
+                    ) : null}
                 </Col>
             </Row>
             <Row className='deck-houses'>
