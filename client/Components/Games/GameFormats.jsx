@@ -18,7 +18,8 @@ const GameFormats = ({ formProps }) => {
         { name: 'cota', label: t('Call of the Archons') },
         { name: 'aoa', label: t('Age of Ascension') },
         { name: 'wc', label: t('Worlds Collide') },
-        { name: 'mm', label: t('Mass Mutation') }
+        { name: 'mm', label: t('Mass Mutation') },
+        { name: 'dt', label: t('Dark Tidings') }
     ];
 
     return (
