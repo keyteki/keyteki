@@ -704,7 +704,8 @@ class DeckService {
 
             if (anomalies[id] && anomalies[id].anomalySet !== card.expansion) {
                 // anomaly cards' real house
-                retCard.image = `${retCard.id}-${anomalies[id].house}`;
+                retCard.house = anomalies[id].house;
+                retCard.image = `${retCard.id}-${retCard.house}`;
             }
 
             return retCard;
