@@ -28,26 +28,31 @@ describe("Etan's Jar", function () {
             describe('when a card name is selected', function () {
                 beforeEach(function () {
                     this.player1.selectCardName('Bad Penny');
-
                     this.player1.endTurn();
-
                     this.player2.clickPrompt('shadows');
-                    this.player2.clickCard(this.badPenny);
                 });
 
                 it('should not allow cards of that name to be played', function () {
+                    this.player2.clickCard(this.badPenny);
+                    expect(this.player2).not.toHavePromptButton('Play this creature');
+                });
+
+                it('should last for multiple rounds', function () {
+                    this.player2.endTurn();
+                    this.player1.clickPrompt('dis');
+                    this.player1.endTurn();
+                    this.player2.clickPrompt('shadows');
+                    this.player2.clickCard(this.badPenny);
                     expect(this.player2).not.toHavePromptButton('Play this creature');
                 });
 
                 describe('when etans jar leaves play', function () {
                     beforeEach(function () {
                         this.player1.player.moveCard(this.etanSJar, 'discard');
-
-                        this.player2.clickPrompt('cancel');
-                        this.player2.clickCard(this.badPenny);
                     });
 
                     it('should be able to play cards of that name again', function () {
+                        this.player2.clickCard(this.badPenny);
                         expect(this.player2).toHavePromptButton('Play this creature');
                     });
                 });
