@@ -59,7 +59,7 @@ class LastingEffectAction extends GameAction {
             match: this.match,
             targetController: this.targetController,
             until: this.until,
-            roundDuration: this.roundDuration,
+            roundDuration: !this.until ? this.roundDuration : undefined,
             nextRound: this.nextRound
         };
 
