@@ -16,7 +16,7 @@ import { clearChatStatus, loadNews, removeLobbyMessage, sendSocketMessage } from
 import { News } from '../redux/types';
 
 import './Lobby.scss';
-import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
 
 const Lobby = () => {
     const dispatch = useDispatch();
