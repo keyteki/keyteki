@@ -94,6 +94,7 @@ const Lobby = () => {
                         showThumbs={false}
                         showIndicators={false}
                         showStatus={false}
+                        interval={5000}
                     >
                         <a
                             target='_blank'
