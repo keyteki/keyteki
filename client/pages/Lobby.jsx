@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toastr } from 'react-redux-toastr';
 import { Trans, useTranslation } from 'react-i18next';
 import { Col } from 'react-bootstrap';
+import { Carousel } from 'react-responsive-carousel';
 
 import NewsComponent from '../Components/News/News';
 import AlertPanel from '../Components/Site/AlertPanel';
@@ -15,7 +16,7 @@ import { clearChatStatus, loadNews, removeLobbyMessage, sendSocketMessage } from
 import { News } from '../redux/types';
 
 import './Lobby.scss';
-import { useRef } from 'react';
+import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
 
 const Lobby = () => {
     const dispatch = useDispatch();
@@ -86,15 +87,33 @@ const Lobby = () => {
             <div>
                 <Col sm={{ span: 10, offset: 1 }}>
                     <div className='main-header' />
-                    <div className='banner'>
+                    <Carousel
+                        autoPlay={true}
+                        infiniteLoop={true}
+                        showArrows={false}
+                        showThumbs={false}
+                        showIndicators={false}
+                        showStatus={false}
+                    >
                         <a
                             target='_blank'
                             rel='noreferrer'
                             href='https://australiankeyforgeleague.com/'
                         >
-                            <img width='100%' src='/banner/AKL_TCO_Banner.png' />
+                            <div className='banner'>
+                                <img width='100%' src='/banner/AKL_TCO_Banner.png' />
+                            </div>
                         </a>
-                    </div>
+                        <a
+                            target='_blank'
+                            rel='noreferrer'
+                            href='https://forms.gle/jgDWP7Wz4QkwFZLq8'
+                        >
+                            <div className='banner'>
+                                <img src='/banner/kote.png' />
+                            </div>
+                        </a>
+                    </Carousel>
                 </Col>
             </div>
 
