@@ -31,13 +31,12 @@ class Mimicry extends Card {
                             (ability) => ability.properties.name === 'Play'
                         )
                     ) {
-                        effects.push(
-                            ability.effects.gainAbility(
-                                'play',
-                                card.abilities.reactions.find(
-                                    (ability) => ability.properties.name === 'Play'
-                                ).properties
-                            )
+                        effects = effects.concat(
+                            card.abilities.reactions
+                                .filter((ability) => ability.properties.name === 'Play')
+                                .map((playAbility) =>
+                                    ability.effects.gainAbility('play', playAbility.properties)
+                                )
                         );
                     }
                 }
