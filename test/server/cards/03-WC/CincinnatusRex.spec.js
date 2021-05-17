@@ -63,6 +63,28 @@ describe('Cincinnatus Rex', function () {
             this.setupTest({
                 player1: {
                     house: 'saurian',
+                    hand: ['cincinnatus-rex', 'exile']
+                },
+                player2: {
+                    inPlay: ['troll']
+                }
+            });
+        });
+
+        it('should be destroyed when exiled', function () {
+            this.player1.play(this.cincinnatusRex);
+            this.player1.play(this.exile);
+            this.player1.clickCard(this.cincinnatusRex);
+            this.player1.clickPrompt('left');
+            expect(this.cincinnatusRex.location).toBe('discard');
+        });
+    });
+
+    describe("Cincinnatus Rex's ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'saurian',
                     inPlay: ['paraguardian', 'duskwitch'],
                     hand: ['cincinnatus-rex']
                 },

@@ -5,9 +5,9 @@ class CincinnatusRex extends Card {
         this.persistentEffect({
             effect: ability.effects.terminalCondition({
                 condition: (context) =>
-                    !context.player.opponent ||
-                    context.player.opponent.creaturesInPlay.length === 0,
-                message: '{0} is destroyed as there are no opposing creatures',
+                    !context.source.controller.opponent ||
+                    context.source.controller.opponent.creaturesInPlay.length === 0,
+                message: '{0} is destroyed as there are no enemy creatures',
                 gameAction: ability.actions.destroy()
             })
         });
