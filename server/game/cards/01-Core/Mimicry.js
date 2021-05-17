@@ -26,19 +26,13 @@ class Mimicry extends Card {
                     if (card.hasKeyword('omega')) {
                         effects.push(ability.effects.addKeyword({ omega: 1 }));
                     }
-                    if (
-                        card.abilities.reactions.some(
-                            (ability) => ability.properties.name === 'Play'
-                        )
-                    ) {
-                        effects = effects.concat(
-                            card.abilities.reactions
-                                .filter((ability) => ability.properties.name === 'Play')
-                                .map((playAbility) =>
-                                    ability.effects.gainAbility('play', playAbility.properties)
-                                )
-                        );
-                    }
+                    effects = effects.concat(
+                        card.abilities.reactions
+                            .filter((ability) => ability.properties.name === 'Play')
+                            .map((playAbility) =>
+                                ability.effects.gainAbility('play', playAbility.properties)
+                            )
+                    );
                 }
 
                 return {
