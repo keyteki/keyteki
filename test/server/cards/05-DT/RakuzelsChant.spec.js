@@ -67,7 +67,7 @@ describe("Rakuzel's Chant", function () {
             });
         });
 
-        describe("on opponent's turn, if their tide if high", function () {
+        describe("on opponent's turn, if their tide is high", function () {
             beforeEach(function () {
                 this.player1.lowerTide();
                 this.player1.moveCard(this.rakuzelSChant, 'discard');
@@ -75,7 +75,7 @@ describe("Rakuzel's Chant", function () {
                 this.player2.clickPrompt('untamed');
             });
 
-            it('should exhaust all creatures when mimicked by Mimicy', function () {
+            it('should exhaust all creatures when mimicked by Mimicry', function () {
                 this.player2.play(this.mimicry);
                 this.player2.clickCard(this.rakuzelSChant);
 
