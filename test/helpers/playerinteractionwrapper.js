@@ -172,6 +172,24 @@ class PlayerInteractionWrapper {
         this.game.checkGameState(true);
     }
 
+    executeCommand(command) {
+        let args = command.split(' ');
+        if (this.game.chatCommands.executeCommand(this.player, args[0], args)) {
+            this.game.checkGameState(true);
+            this.game.continue();
+            this.checkUnserializableGameState();
+            return true;
+        }
+        return false;
+    }
+
+    drop(card, target) {
+        this.player.drop(card.uuid, card.location, target);
+        this.game.checkGameState(true);
+        this.game.continue();
+        this.checkUnserializableGameState();
+    }
+
     replaceLocalizedValues(title) {
         if (!title) {
             return null;

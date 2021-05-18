@@ -71,11 +71,11 @@ class ChatCommands {
 
         let deck = new Deck();
         let preparedCard = deck.createCard(player, card);
-        if (preparedCard) {
-            preparedCard.setupAbilities();
-            preparedCard.location = 'deck';
+        if (!preparedCard) {
+            return false;
         }
 
+        preparedCard.setupAbilities();
         preparedCard.applyAnyLocationPersistentEffects();
 
         player.moveCard(preparedCard, location);
@@ -106,58 +106,74 @@ class ChatCommands {
 
     forge(player, args) {
         if (Object.values(player.keys).every((key) => key)) {
-            return;
+            return false;
         }
 
         const color = args[1]
             ? args[1]
             : Object.keys(player.keys).filter((key) => !player.keys[key])[0];
 
+        if (player.keys[color] !== false) {
+            return false;
+        }
+
         this.game.addAlert('danger', '{0} is attempting to forge the {1} key', player, color);
         this.game.queueStep(new ManualKeyForgePrompt(this.game, player, color));
+
+        return true;
     }
 
     unforge(player, args) {
         if (Object.values(player.keys).every((key) => !key)) {
-            return;
+            return false;
         }
 
         const color = args[1]
             ? args[1]
             : Object.keys(player.keys).filter((key) => player.keys[key])[0];
+
+        if (player.keys[color] !== true) {
+            return false;
+        }
+
         this.game.addAlert('danger', '{0} unforges the {1}', player, `unforgedkey${color}`);
         player.keys[color] = false;
         let forgedKeyIndex = player.keysForgedThisRound.findIndex((key) => key === color);
         if (forgedKeyIndex !== -1) {
             player.keysForgedThisRound.splice(forgedKeyIndex, 1);
         }
+
+        return true;
     }
 
     activeHouse(player, args) {
         let house = args[1];
         if (!house) {
-            return;
+            return false;
         } else if (!player.activeHouse) {
             this.game.addMessage(
                 '{0} attempted to change their active house with /active-house, but they cannot have an active house currently',
                 player,
                 house
             );
+            return false;
         } else if (!this.houses.includes(house.toLowerCase())) {
             this.game.addMessage(
                 '{0} attempted to change their active house with /active-house, but {1} is not a valid house',
                 player,
                 house
             );
-        } else {
-            this.game.addAlert(
-                'danger',
-                '{0} manually changed their active house to {1}',
-                player,
-                house
-            );
-            player.activeHouse = house.toLowerCase();
+            return false;
         }
+
+        this.game.addAlert(
+            'danger',
+            '{0} manually changed their active house to {1}',
+            player,
+            house
+        );
+        player.activeHouse = house.toLowerCase();
+        return true;
     }
 
     startClocks(player) {
@@ -178,8 +194,12 @@ class ChatCommands {
 
     draw(player, args) {
         let num = this.getNumberOrDefault(args[1], 1);
+        if (num === 0) {
+            return false;
+        }
         this.game.addAlert('danger', '{0} draws {1} cards to their hand', player, num);
         player.drawCardsToHand(num);
+        return true;
     }
 
     discard(player, args) {

@@ -37,7 +37,7 @@ class AbilityTargetOptions extends AbilityTarget {
             return;
         }
 
-        let player = context.player;
+        let player = context.game.activePlayer;
         if (this.properties.player && this.properties.player === 'opponent') {
             if (context.stage === 'pretarget') {
                 targetResults.delayTargeting = this;

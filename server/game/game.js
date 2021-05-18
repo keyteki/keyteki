@@ -583,9 +583,13 @@ class Game extends EventEmitter {
      * Prompts a player with a multiple choice menu
      * @param {Player} player
      * @param {Object} properties - see handlermenuprompt
+     * @param {Object} forcedPlayer - TODO remove this hack when player properly defines the player (active player, instead of context.player)
+     *                                all callers need to be reviewed
      */
-    promptWithHandlerMenu(player, properties) {
-        this.queueStep(new HandlerMenuPrompt(this, this.activePlayer || player, properties));
+    promptWithHandlerMenu(player, properties, forcedPlayer) {
+        this.queueStep(
+            new HandlerMenuPrompt(this, forcedPlayer || this.activePlayer || player, properties)
+        );
     }
 
     /**
@@ -594,16 +598,18 @@ class Game extends EventEmitter {
      * @param {Object} properties - see handlermenuprompt
      */
     promptWithOptionsMenu(player, properties) {
-        this.queueStep(new OptionsMenuPrompt(this, this.activePlayer || player, properties));
+        this.queueStep(new OptionsMenuPrompt(this, player, properties));
     }
 
     /**
      * Prompts a player to click a card
      * @param {Player} player
      * @param {Object} properties - see selectcardprompt
+     * @param {Object} forcedPlayer - TODO remove this hack when player properly defines the player (active player, instead of context.player)
+     *                                all callers need to be reviewed
      */
-    promptForSelect(player, properties) {
-        this.queueStep(new SelectCardPrompt(this, this.activePlayer, properties));
+    promptForSelect(player, properties, forcedPlayer) {
+        this.queueStep(new SelectCardPrompt(this, forcedPlayer || this.activePlayer, properties));
     }
 
     /**
@@ -825,7 +831,7 @@ class Game extends EventEmitter {
     /**
      * Creates an EventWindow which will open windows for each kind of triggered
      * ability which can respond any passed events, and execute their handlers.
-     * @param events
+     * @param event
      * @returns {EventWindow}
      */
     openEventWindow(event) {
@@ -1171,7 +1177,7 @@ class Game extends EventEmitter {
      *
      * @param {Array} cards - which cards to consider. Default are all cards.
      * @param {boolean} upgrade - if upgrades should be counted. Default is false.
-     * @param {filter} filter - an extra filter to apply to the card.
+     * @param {function} filter - an extra filter to apply to the card.
      */
     getHousesInPlay(cards = this.cardsInPlay, upgrade = false, filter = null) {
         return Constants.Houses.filter((house) =>

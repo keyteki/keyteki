@@ -4,7 +4,7 @@ const UiPrompt = require('./uiprompt.js');
 /**
  * General purpose menu prompt. By specifying a context object, the buttons in
  * the active prompt can call the corresponding method on the context object.
- * Methods on the contact object should return true in order to complete the
+ * Methods on the context object should return true in order to complete the
  * prompt.
  *
  * The properties option object may contain the following:
