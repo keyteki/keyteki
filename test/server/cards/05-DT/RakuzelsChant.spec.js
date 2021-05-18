@@ -10,7 +10,8 @@ describe("Rakuzel's Chant", function () {
                 },
                 player2: {
                     amber: 4,
-                    inPlay: ['gub', 'krump']
+                    inPlay: ['gub', 'krump'],
+                    hand: ['mimicry']
                 }
             });
         });
@@ -63,6 +64,27 @@ describe("Rakuzel's Chant", function () {
                 expect(this.gub.exhausted).toBe(true);
                 expect(this.krump.exhausted).toBe(true);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            });
+        });
+
+        describe("on opponent's turn, if their tide is high", function () {
+            beforeEach(function () {
+                this.player1.lowerTide();
+                this.player1.moveCard(this.rakuzelSChant, 'discard');
+                this.player1.endTurn();
+                this.player2.clickPrompt('untamed');
+            });
+
+            it('should exhaust all creatures when mimicked by Mimicry', function () {
+                this.player2.play(this.mimicry);
+                this.player2.clickCard(this.rakuzelSChant);
+
+                expect(this.giltspineNetcaster.exhausted).toBe(true);
+                expect(this.flaxia.exhausted).toBe(true);
+                expect(this.gub.exhausted).toBe(true);
+                expect(this.krump.exhausted).toBe(true);
+
+                this.player2.endTurn();
             });
         });
     });
