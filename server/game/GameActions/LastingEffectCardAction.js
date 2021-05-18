@@ -7,8 +7,6 @@ class LastingEffectCardAction extends CardGameAction {
         this.until = null;
         this.effect = [];
         this.targetLocation = null;
-        this.roundDuration = 1;
-        this.nextRound = false;
     }
 
     setup() {
@@ -29,8 +27,7 @@ class LastingEffectCardAction extends CardGameAction {
             context: context,
             duration: this.duration,
             targetLocation: this.targetLocation,
-            until: this.until,
-            roundDuration: this.roundDuration
+            until: this.until
         };
         this.effect = effect.map((factory) =>
             factory(context.game, context.source, effectProperties)
@@ -53,8 +50,7 @@ class LastingEffectCardAction extends CardGameAction {
             effect: effect,
             match: card,
             targetLocation: this.targetLocation,
-            until: this.until,
-            nextRound: this.nextRound
+            until: this.until
         };
         let duration = this.until ? 'lastingEffect' : this.duration;
         return super.createEvent('onEffectApplied', { card: card, context: context }, (event) =>

@@ -11,7 +11,7 @@ class Turnkey extends Card {
             then: {
                 gameAction: ability.actions.cardLastingEffect((context) => ({
                     duration: 'lastingEffect',
-                    effect: ability.effects.delayedEffect({
+                    effect: ability.effects.lastingAbilityTrigger({
                         when: { onCardLeavesPlay: (event) => event.card === context.source },
                         gameAction: ability.actions.forgeKey({
                             target: context.player.opponent,
