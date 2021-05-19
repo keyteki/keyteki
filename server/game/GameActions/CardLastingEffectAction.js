@@ -1,6 +1,6 @@
 const CardGameAction = require('./CardGameAction');
 
-class LastingEffectCardAction extends CardGameAction {
+class CardLastingEffectAction extends CardGameAction {
     setDefaultProperties() {
         this.duration = 'untilEndOfRound';
         this.condition = null;
@@ -59,4 +59,4 @@ class LastingEffectCardAction extends CardGameAction {
     }
 }
 
-module.exports = LastingEffectCardAction;
+module.exports = CardLastingEffectAction;
