@@ -33,6 +33,29 @@ describe('Restringuntus', function () {
             expect(this.player2).not.toHavePromptButton('brobnar');
         });
 
+        it('should not allow the other player to pick the house picked for many rounds, until it leaves play', function () {
+            this.player1.clickPrompt('brobnar');
+            for (let i = 0; i < 3; ++i) {
+                this.player1.endTurn();
+                expect(this.player2).toHavePromptButton('sanctum');
+                expect(this.player2).toHavePromptButton('dis');
+                expect(this.player2).not.toHavePromptButton('brobnar');
+                this.player2.clickPrompt('dis');
+                this.player2.endTurn();
+                this.player1.clickPrompt('dis');
+            }
+            this.player1.endTurn();
+            this.player2.clickPrompt('dis');
+            this.player2.fightWith(this.tocsin, this.restringuntus);
+            expect(this.restringuntus.location).toBe('discard');
+            this.player2.endTurn();
+            this.player1.clickPrompt('dis');
+            this.player1.endTurn();
+            expect(this.player2).toHavePromptButton('sanctum');
+            expect(this.player2).toHavePromptButton('dis');
+            expect(this.player2).toHavePromptButton('brobnar');
+        });
+
         it('should not cause an issue if an off-house is chosen', function () {
             this.player1.clickPrompt('logos');
             this.player1.endTurn();
