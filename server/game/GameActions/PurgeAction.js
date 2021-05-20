@@ -7,14 +7,32 @@ class PurgeAction extends CardGameAction {
         this.effectMsg = 'purge {0}';
     }
 
+    setDefaultProperties() {
+        this.purgedBy = null;
+    }
+
+    purge(card) {
+        let composedPart = card.gigantic ? card.composedPart : null;
+        card.owner.moveCard(card, 'purged');
+
+        if (this.purgedBy) {
+            this.purgedBy.purgedCards.push(card);
+            card.purgedBy = this.purgedBy;
+            if (composedPart) {
+                this.purgedBy.purgedCards.push(composedPart);
+                composedPart.purgedBy = this.purgedBy;
+            }
+        }
+    }
+
     getEvent(card, context) {
         return super.createEvent('onCardPurged', { card: card, context: context }, () => {
             if (card.location === 'play area') {
                 context.game.raiseEvent('onCardLeavesPlay', { card, context }, () =>
-                    card.owner.moveCard(card, 'purged')
+                    this.purge(card)
                 );
             } else {
-                card.owner.moveCard(card, 'purged');
+                this.purge(card);
             }
         });
     }

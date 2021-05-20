@@ -2,32 +2,35 @@ const Card = require('../../Card.js');
 
 class SpanglerBox extends Card {
     setupCardAbilities(ability) {
+        this.play({
+            gameAction: ability.actions.lastingEffect({
+                multipleTrigger: false,
+                when: {
+                    onCardLeavesPlay: (event, context) => event.card === context.source
+                },
+                gameAction: ability.actions.sequentialPutIntoPlay((context) => ({
+                    forEach: context.event.clone.clonedPurgedCards
+                })),
+                message: '{0} put into play all creatures purged by {1}',
+                messageArgs: (context) => [context.game.activePlayer, context.source]
+            })
+        });
+
         this.action({
             target: {
                 cardType: 'creature',
-                gameAction: ability.actions.purge()
+                gameAction: ability.actions.purge((context) => ({
+                    purgedBy: context.source
+                }))
             },
             effect: 'purge a creature and give control to the other player',
             then: {
-                gameAction: ability.actions.placeUnder((context) => ({
-                    moveGigantic: true,
-                    parent: context.source,
-                    target: context.preThenEvent.card
-                })),
-                then: {
-                    condition: (context) => !!context.player.opponent,
-                    gameAction: ability.actions.cardLastingEffect((context) => ({
-                        duration: 'lastingEffect',
-                        effect: ability.effects.takeControl(context.player.opponent)
-                    }))
-                }
+                condition: (context) => !!context.player.opponent,
+                gameAction: ability.actions.cardLastingEffect((context) => ({
+                    duration: 'lastingEffect',
+                    effect: ability.effects.takeControl(context.player.opponent)
+                }))
             }
-        });
-        this.leavesPlay({
-            effect: 'returning to play all creatures purged by Spangler Box',
-            gameAction: ability.actions.sequentialPutIntoPlay((context) => ({
-                forEach: context.source.childCards
-            }))
         });
     }
 }
