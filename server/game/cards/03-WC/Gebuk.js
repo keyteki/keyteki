@@ -12,7 +12,7 @@ class Gebuk extends Card {
                     duration: 'lastingEffect',
                     effect: ability.effects.lastingAbilityTrigger({
                         when: {
-                            onCardLeavesPlay: (event) => event.card === thenContext.source
+                            onCardLeavesPlay: (event, context) => event.card === context.source
                         },
                         gameAction: ability.actions.putIntoPlay({
                             target:

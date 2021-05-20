@@ -9,7 +9,9 @@ class MagdaTheRat extends Card {
                 ability.actions.cardLastingEffect((context) => ({
                     duration: 'lastingEffect',
                     effect: ability.effects.lastingAbilityTrigger({
-                        when: { onCardLeavesPlay: (event) => event.card === context.source },
+                        when: {
+                            onCardLeavesPlay: (event, context) => event.card === context.source
+                        },
                         gameAction: ability.actions.steal({ target: context.player, amount: 2 }),
                         message: '{0} steals 2 amber due to {1} leaving play'
                     })
