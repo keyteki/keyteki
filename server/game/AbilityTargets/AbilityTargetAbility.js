@@ -88,7 +88,7 @@ class AbilityTargetAbility extends AbilityTarget {
             }
         };
         context.game.promptForSelect(
-            context.player,
+            context.game.activePlayer,
             Object.assign(promptProperties, this.properties)
         );
     }

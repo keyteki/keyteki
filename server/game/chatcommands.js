@@ -274,6 +274,8 @@ class ChatCommands {
                 return true;
             }
         });
+
+        return true;
     }
 
     reveal(player) {

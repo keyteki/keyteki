@@ -163,4 +163,25 @@ describe('Chat Commands', function () {
             expect(this.player1.getForgedKeys()).toBe(1);
         });
     });
+
+    describe('/token', function () {
+        it('cannot set an invalid token', function () {
+            expect(this.player1.executeCommand('/token invalid')).toBe(false);
+        });
+
+        it('set 1 (default) damage to a creature', function () {
+            expect(this.player2.executeCommand('/token damage')).toBe(true);
+            expect(this.player2).toBeAbleToSelect(this.batdrone);
+            this.player2.clickCard(this.batdrone);
+            expect(this.batdrone.tokens.damage).toBe(1);
+        });
+
+        it('set 5 power token to a creature', function () {
+            this.niffleApe.tokens.power = 2;
+            expect(this.player1.executeCommand('/token power 5')).toBe(true);
+            expect(this.player1).toBeAbleToSelect(this.niffleApe);
+            this.player1.clickCard(this.niffleApe);
+            expect(this.niffleApe.tokens.power).toBe(5);
+        });
+    });
 });

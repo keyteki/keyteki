@@ -50,7 +50,7 @@ class ResolveBonusIconsAction extends CardGameAction {
                     context.player.opponent.amber > 0 &&
                     context.player.creaturesInPlay.length > 0
                 ) {
-                    context.game.promptForSelect(context.player, {
+                    context.game.promptForSelect(context.game.activePlayer, {
                         activePromptTitle: 'Choose a creature to capture amber due to bonus icon',
                         cardType: 'creature',
                         controller: 'self',
@@ -72,7 +72,7 @@ class ResolveBonusIconsAction extends CardGameAction {
                 break;
             case 'damage':
                 if (context.game.creaturesInPlay.length > 0) {
-                    context.game.promptForSelect(context.player, {
+                    context.game.promptForSelect(context.game.activePlayer, {
                         activePromptTitle: 'Choose a creature to damage due to bonus icon',
                         source: event.card,
                         cardType: 'creature',

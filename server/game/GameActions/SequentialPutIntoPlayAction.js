@@ -69,7 +69,7 @@ class SequentialPutIntoPlayAction extends GameAction {
         );
 
         if (filteredForEach.length > 1) {
-            context.game.promptForSelect(context.player, {
+            context.game.promptForSelect(context.game.activePlayer, {
                 activePromptTitle: 'Choose a creature to put into play',
                 selector: new CardListSelector(filteredForEach, this.revealList),
                 source: context.source,

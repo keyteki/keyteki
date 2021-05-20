@@ -28,7 +28,7 @@ class MoveOnBattlelineAction extends CardGameAction {
         }
 
         if (player.cardsInPlay.some((card) => card.type === 'creature')) {
-            context.game.promptForSelect(player, {
+            context.game.promptForSelect(context.game.activePlayer, {
                 source: card,
                 activePromptTitle: 'Select a card to move this card next to',
                 cardCondition: (card) =>

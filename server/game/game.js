@@ -605,11 +605,9 @@ class Game extends EventEmitter {
      * Prompts a player to click a card
      * @param {Player} player
      * @param {Object} properties - see selectcardprompt
-     * @param {Object} forcedPlayer - TODO remove this hack when player properly defines the player (active player, instead of context.player)
-     *                                all callers need to be reviewed
      */
-    promptForSelect(player, properties, forcedPlayer) {
-        this.queueStep(new SelectCardPrompt(this, forcedPlayer || this.activePlayer, properties));
+    promptForSelect(player, properties) {
+        this.queueStep(new SelectCardPrompt(this, player, properties));
     }
 
     /**
