@@ -339,7 +339,7 @@ class Game extends EventEmitter {
         }
 
         MenuCommands.cardMenuClick(menuItem, this, player, card);
-        this.checkGameState(true);
+        this.checkGameState(true, player);
     }
 
     /**
@@ -513,7 +513,7 @@ class Game extends EventEmitter {
 
         if (!this.isSpectator(player) && this.manualMode) {
             if (this.chatCommands.executeCommand(player, args[0], args)) {
-                this.checkGameState(true);
+                this.checkGameState(true, player);
                 return;
             }
         }
@@ -883,10 +883,13 @@ class Game extends EventEmitter {
      * @param {Player} player
      * @param card
      */
-    takeControl(player, card) {
+    takeControl(player, card, modifiedByPlayer) {
         if (card.controller === player || !card.allowGameAction('takeControl')) {
             return;
         }
+
+        card.controller.removeCardFromPile(card);
+        card.controller = player;
 
         if (card.anyEffect('takeControlOnLeft')) {
             this.finalizeTakeControl(player, card, true);
@@ -895,31 +898,32 @@ class Game extends EventEmitter {
                 () => this.finalizeTakeControl(player, card, true),
                 () => this.finalizeTakeControl(player, card)
             ];
-            this.promptWithHandlerMenu(this.activePlayer, {
-                activePromptTitle: {
-                    text: 'Choose which flank {{card}} should be placed on',
-                    values: { card: card.name }
+            this.promptWithHandlerMenu(
+                modifiedByPlayer || this.activePlayer,
+                {
+                    activePromptTitle: {
+                        text: 'Choose which flank {{card}} should be placed on',
+                        values: { card: card.name }
+                    },
+                    source: card,
+                    choices: ['Left', 'Right'],
+                    handlers: handlers
                 },
-                source: card,
-                choices: ['Left', 'Right'],
-                handlers: handlers
-            });
+                modifiedByPlayer
+            );
         } else {
             this.finalizeTakeControl(player, card);
         }
     }
 
     finalizeTakeControl(player, card, left = false) {
-        this.raiseEvent('onTakeControl', { player, card }, () => {
-            card.controller.removeCardFromPile(card);
-            card.controller = player;
-            if (left) {
-                player.cardsInPlay.unshift(card);
-            } else {
-                player.cardsInPlay.push(card);
-            }
-            card.updateEffectContexts();
-        });
+        if (left) {
+            player.cardsInPlay.unshift(card);
+        } else {
+            player.cardsInPlay.push(card);
+        }
+        card.updateEffectContexts();
+        this.emitEvent('onTakeControl', { player, card });
     }
 
     watch(socketId, user) {
@@ -1058,7 +1062,7 @@ class Game extends EventEmitter {
         this.addAlert('info', '{0} has reconnected', player);
     }
 
-    checkGameState(hasChanged = false) {
+    checkGameState(hasChanged = false, modifiedByPlayer) {
         // check for a game state change (recalculating conflict skill if necessary)
         if (this.effectEngine.checkEffects(hasChanged) || hasChanged) {
             this.checkWinCondition();
@@ -1068,7 +1072,7 @@ class Game extends EventEmitter {
                 _.each(player.cardsInPlay, (card) => {
                     if (card.getModifiedController() !== player) {
                         // any card being controlled by the wrong player
-                        this.takeControl(card.getModifiedController(), card);
+                        this.takeControl(card.getModifiedController(), card, modifiedByPlayer);
                         modifiedControl = true;
                     }
                     // any upgrades which are illegally attached

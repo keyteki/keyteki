@@ -888,7 +888,7 @@ class Player extends GameObject {
     }
 
     isTideLow() {
-        return this.game.highTide && this.game.highTide !== this;
+        return this.game.highTide ? this.game.highTide !== this : false;
     }
 
     /**

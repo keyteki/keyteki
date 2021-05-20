@@ -128,6 +128,8 @@ describe('Chat Commands', function () {
         it("to forge a key with opponent's authorization", function () {
             expect(this.player1.getForgedKeys()).toBe(0);
             expect(this.player1.executeCommand('/forge red')).toBe(true);
+            expect(this.player1).toHavePrompt('Waiting for opponent to approve forging the key');
+            expect(this.player2).toHavePrompt('player1 requests to forge the red key. Allow?');
             this.player2.clickPrompt('Yes');
             expect(this.player1.getForgedKeys()).toBe(1);
         });
@@ -142,6 +144,8 @@ describe('Chat Commands', function () {
         it("player 2 to forge a key with opponent's authorization", function () {
             expect(this.player2.getForgedKeys()).toBe(0);
             expect(this.player2.executeCommand('/forge yellow')).toBe(true);
+            expect(this.player2).toHavePrompt('Waiting for opponent to approve forging the key');
+            expect(this.player1).toHavePrompt('player2 requests to forge the yellow key. Allow?');
             this.player1.clickPrompt('Yes');
             expect(this.player2.getForgedKeys()).toBe(1);
         });
@@ -149,8 +153,12 @@ describe('Chat Commands', function () {
         it('to not forge two keys', function () {
             expect(this.player1.getForgedKeys()).toBe(0);
             expect(this.player1.executeCommand('/forge red')).toBe(true);
+            expect(this.player1).toHavePrompt('Waiting for opponent to approve forging the key');
+            expect(this.player2).toHavePrompt('player1 requests to forge the red key. Allow?');
             this.player2.clickPrompt('Yes');
             expect(this.player1.executeCommand('/forge blue')).toBe(true);
+            expect(this.player1).toHavePrompt('Waiting for opponent to approve forging the key');
+            expect(this.player2).toHavePrompt('player1 requests to forge the blue key. Allow?');
             this.player2.clickPrompt('Yes');
             expect(this.player1.getForgedKeys()).toBe(2);
         });
@@ -158,6 +166,8 @@ describe('Chat Commands', function () {
         it('to not forge same key twice', function () {
             expect(this.player1.getForgedKeys()).toBe(0);
             expect(this.player1.executeCommand('/forge red')).toBe(true);
+            expect(this.player1).toHavePrompt('Waiting for opponent to approve forging the key');
+            expect(this.player2).toHavePrompt('player1 requests to forge the red key. Allow?');
             this.player2.clickPrompt('Yes');
             expect(this.player1.executeCommand('/forge red')).toBe(false);
             expect(this.player1.getForgedKeys()).toBe(1);
@@ -182,6 +192,52 @@ describe('Chat Commands', function () {
             expect(this.player1).toBeAbleToSelect(this.niffleApe);
             this.player1.clickCard(this.niffleApe);
             expect(this.niffleApe.tokens.power).toBe(5);
+        });
+    });
+
+    describe('/tide', function () {
+        it('must accept 1 argument', function () {
+            expect(this.player1.executeCommand('/tide')).toBe(false);
+        });
+
+        it('must not accept an invalid level', function () {
+            expect(this.player1.executeCommand('/tide invalid')).toBe(false);
+        });
+
+        it('player 1 can change tide to low, high or neutral', function () {
+            expect(this.player1.isTideHigh()).toBe(false);
+            expect(this.player2.isTideHigh()).toBe(false);
+            expect(this.player1.isTideLow()).toBe(false);
+            expect(this.player2.isTideLow()).toBe(false);
+            expect(this.player1.executeCommand('/tide low')).toBe(true);
+            expect(this.player1.isTideLow()).toBe(true);
+            expect(this.player2.isTideHigh()).toBe(true);
+            expect(this.player1.executeCommand('/tide high')).toBe(true);
+            expect(this.player1.isTideHigh()).toBe(true);
+            expect(this.player2.isTideLow()).toBe(true);
+            expect(this.player1.executeCommand('/tide neutral')).toBe(true);
+            expect(this.player1.isTideHigh()).toBe(false);
+            expect(this.player2.isTideHigh()).toBe(false);
+            expect(this.player1.isTideLow()).toBe(false);
+            expect(this.player2.isTideLow()).toBe(false);
+        });
+
+        it('player 2 can change tide to low, high or neutral', function () {
+            expect(this.player1.isTideHigh()).toBe(false);
+            expect(this.player2.isTideHigh()).toBe(false);
+            expect(this.player1.isTideLow()).toBe(false);
+            expect(this.player2.isTideLow()).toBe(false);
+            expect(this.player2.executeCommand('/tide low')).toBe(true);
+            expect(this.player1.isTideHigh()).toBe(true);
+            expect(this.player2.isTideLow()).toBe(true);
+            expect(this.player2.executeCommand('/tide high')).toBe(true);
+            expect(this.player1.isTideLow()).toBe(true);
+            expect(this.player2.isTideHigh()).toBe(true);
+            expect(this.player1.executeCommand('/tide neutral')).toBe(true);
+            expect(this.player1.isTideHigh()).toBe(false);
+            expect(this.player2.isTideHigh()).toBe(false);
+            expect(this.player1.isTideLow()).toBe(false);
+            expect(this.player2.isTideLow()).toBe(false);
         });
     });
 });
