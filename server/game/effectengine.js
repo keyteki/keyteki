@@ -16,8 +16,7 @@ class EffectEngine {
     }
 
     add(effect) {
-        // console.log('add', effect.source.name, effect.effect.type, effect.targets.map(t => t.name), effect.match.name);
-
+        //console.log('add', effect.source.name, effect.effect.type, effect.targets.map(t => t.name), effect.match.name);
         if (effect.nextRound) {
             this.nextRoundEffects.push(effect);
         } else {
@@ -144,6 +143,7 @@ class EffectEngine {
         let eventsForEffect = this.customDurationEvents.filter((event) => event.effect === effect);
 
         _.each(eventsForEffect, (event) => {
+            //console.log('unregisterCustomDurationEvents', effect.source.name, effect.effect.type, effect.targets.map(t => t.name), effect.match.name);
             this.game.removeListener(event.name, event.handler);
         });
 
@@ -167,7 +167,7 @@ class EffectEngine {
     unapplyAndRemove(match) {
         let matchingEffects = this.effects.filter(match);
         _.each(matchingEffects, (effect) => {
-            // console.log('unapplyAndRemove', effect.source.name, effect.effect.type, effect.targets.map(t => t.name), effect.match.name);
+            //console.log('unapplyAndRemove', effect.source.name, effect.effect.type, effect.targets.map(t => t.name), effect.match.name);
             effect.cancel();
             if (effect.duration === 'custom') {
                 this.unregisterCustomDurationEvents(effect);
