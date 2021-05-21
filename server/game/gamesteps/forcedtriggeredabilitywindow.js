@@ -14,10 +14,20 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
         this.currentPlayer = this.game.activePlayer;
         this.resolvedAbilities = [];
         this.pressedDone = false;
+        this.cancelled = false;
+    }
+
+    onCancel() {
+        this.cancelled = true;
     }
 
     continue() {
+        if (this.cancelled) {
+            return true;
+        }
+
         this.game.currentAbilityWindow = this;
+
         if (this.eventWindow) {
             this.emitEvents();
         }
@@ -112,6 +122,9 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
                 ? [{ text: 'Done', arg: 'done' }]
                 : [],
             location: 'any',
+            onCancel: () => {
+                this.onCancel();
+            },
             onMenuCommand: (player, arg) => {
                 if (arg === 'done') {
                     this.pressedDone = true;

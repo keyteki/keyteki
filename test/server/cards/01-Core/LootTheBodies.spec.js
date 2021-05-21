@@ -74,4 +74,75 @@ describe('Loot the Bodies', function () {
             expect(this.player1.amber).toBe(4);
         });
     });
+
+    describe("Loot the Bodies's multiple prompts and card locations", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'brobnar',
+                    inPlay: ['troll'],
+                    hand: ['loot-the-bodies', 'loot-the-bodies', 'ballcano']
+                },
+                player2: {
+                    inPlay: ['bad-penny', 'dextre', 'rad-penny', 'boss-zarek']
+                }
+            });
+
+            this.lootTheBodies2 = this.player1.player.hand[1];
+            this.game.manualMode = true;
+        });
+
+        it("should be able to cancel card's detroyed reaction prompt", function () {
+            this.player1.play(this.lootTheBodies);
+            this.player1.play(this.lootTheBodies2);
+            this.player1.play(this.ballcano);
+
+            expect(this.player1).toBeAbleToSelect(this.badPenny);
+            expect(this.player1).toBeAbleToSelect(this.dextre);
+            expect(this.player1).toBeAbleToSelect(this.radPenny);
+            expect(this.player1).not.toBeAbleToSelect(this.bossZarek);
+            expect(this.player1).toHavePromptButton('Cancel Prompt');
+            this.player1.clickPrompt('Cancel Prompt');
+
+            expect(this.player1.amber).toBe(0);
+            expect(this.badPenny.location).toBe('discard');
+            expect(this.dextre.location).toBe('discard');
+            expect(this.radPenny.location).toBe('discard');
+            expect(this.bossZarek.location).toBe('discard');
+
+            expect(this.player1).toHavePromptButton('Loot the Bodies');
+            expect(this.player1).toHavePromptButton('Loot the Bodies');
+            expect(this.player1).toHavePromptButton('Cancel Prompt');
+            this.player1.clickPrompt('Cancel Prompt');
+
+            this.player1.endTurn();
+        });
+
+        it('should be able to cancel second prompt', function () {
+            this.player1.play(this.lootTheBodies);
+            this.player1.play(this.lootTheBodies2);
+            this.player1.play(this.ballcano);
+
+            expect(this.player1).toBeAbleToSelect(this.badPenny);
+            expect(this.player1).toBeAbleToSelect(this.dextre);
+            expect(this.player1).toBeAbleToSelect(this.radPenny);
+            expect(this.player1).not.toBeAbleToSelect(this.bossZarek);
+            expect(this.player1).toHavePromptButton('Cancel Prompt');
+            this.player1.clickCard(this.badPenny);
+            this.player1.clickCard(this.radPenny);
+
+            expect(this.player1.amber).toBe(0);
+            expect(this.badPenny.location).toBe('hand');
+            expect(this.dextre.location).toBe('deck');
+            expect(this.radPenny.location).toBe('deck');
+            expect(this.bossZarek.location).toBe('discard');
+
+            expect(this.player1).toHavePromptButton('Loot the Bodies');
+            expect(this.player1).toHavePromptButton('Loot the Bodies');
+            expect(this.player1).toHavePromptButton('Cancel Prompt');
+            this.player1.clickPrompt('Cancel Prompt');
+
+            this.player1.endTurn();
+        });
+    });
 });
