@@ -64,6 +64,7 @@ class HousePhase extends Phase {
                             for (let card of this.game.activePlayer.archives) {
                                 this.game.activePlayer.moveCard(card, 'hand');
                             }
+                            return true;
                         }
                     },
                     onSelect: (player, cardParam) => {
