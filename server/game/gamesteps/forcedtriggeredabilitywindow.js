@@ -135,9 +135,15 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
                 return this.onCancel();
             },
             onMenuCommand: (player, arg) => {
-                this.pressedDone = arg === 'done';
-                this.autoResolve = arg === 'autoresolve';
-                return true;
+                if (arg === 'done') {
+                    this.pressedDone = true;
+                    return true;
+                }
+                if (arg === 'autoresolve') {
+                    this.autoResolve = true;
+                    return true;
+                }
+                return false;
             }
         };
         return Object.assign(properties, this.getPromptProperties());

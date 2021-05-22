@@ -72,6 +72,7 @@ describe('Loot the Bodies', function () {
             this.player1.clickPrompt('Loot the Bodies');
             this.player1.clickCard(this.inkaTheSpider);
             expect(this.player1.amber).toBe(4);
+            this.player1.endTurn();
         });
     });
 });
