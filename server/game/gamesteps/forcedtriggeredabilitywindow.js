@@ -15,10 +15,12 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
         this.resolvedAbilities = [];
         this.pressedDone = false;
         this.cancelled = false;
+        this.autoResolve = false;
     }
 
     onCancel() {
         this.cancelled = true;
+        return true;
     }
 
     continue() {
@@ -65,7 +67,9 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
         this.noOptionalChoices = this.choices.every((context) => !context.ability.optional);
         if (
             this.noOptionalChoices &&
-            (this.choices.length === 1 || !this.currentPlayer.optionSettings.orderForcedAbilities)
+            (this.autoResolve ||
+                this.choices.length === 1 ||
+                !this.currentPlayer.optionSettings.orderForcedAbilities)
         ) {
             this.resolveAbility(this.choices[0]);
             return false;
@@ -117,19 +121,23 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
     }
 
     getPromptForSelectProperties() {
+        let buttons = [];
+        if (this.choices.every((context) => context.ability.optional)) {
+            buttons.push({ text: 'Done', arg: 'done' });
+        } else if (!this.choices.some((context) => context.ability.optional)) {
+            buttons.push({ text: 'Autoresolve', arg: 'autoresolve' });
+        }
+
         let properties = {
-            buttons: this.choices.every((context) => context.ability.optional)
-                ? [{ text: 'Done', arg: 'done' }]
-                : [],
+            buttons: buttons,
             location: 'any',
             onCancel: () => {
-                this.onCancel();
+                return this.onCancel();
             },
             onMenuCommand: (player, arg) => {
-                if (arg === 'done') {
-                    this.pressedDone = true;
-                    return true;
-                }
+                this.pressedDone = arg === 'done';
+                this.autoResolve = arg === 'autoresolve';
+                return true;
             }
         };
         return Object.assign(properties, this.getPromptProperties());
@@ -203,6 +211,13 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
                 choices.filter((context) => getSourceName(context) === name)
             )
         );
+
+        menuChoices.push('Autoresolve');
+        handlers.push(() => {
+            this.autoResolve = true;
+            return true;
+        });
+
         if (addBackButton) {
             menuChoices.push('Back');
             handlers.push(() => this.promptBetweenSources(this.choices));
