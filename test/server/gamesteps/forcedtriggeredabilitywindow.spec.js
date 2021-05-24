@@ -326,7 +326,7 @@ describe('Triggered Ability Window', function () {
             it('should be able to cancel Ardent Hero first prompt', function () {
                 expect(this.player1).toBeAbleToSelect(this.filaTheResearcher);
                 expect(this.player1).toBeAbleToSelect(this.autocannon);
-                expect(this.player1).toHavePromptButton('Charge!');
+                expect(this.player1).toBeAbleToSelect(this.ardentHero);
                 expect(this.player1).toHavePromptButton('Autoresolve');
                 expect(this.player1).toHavePromptButton('Cancel Prompt');
                 this.player1.clickPrompt('Cancel Prompt');
@@ -341,24 +341,8 @@ describe('Triggered Ability Window', function () {
                 this.player1.clickCard(this.autocannon);
 
                 expect(this.player1).toBeAbleToSelect(this.filaTheResearcher);
-                expect(this.player1).toHavePromptButton('Charge!');
-                expect(this.player1).toHavePromptButton('Autoresolve');
-                expect(this.player1).toHavePromptButton('Cancel Prompt');
-                this.player1.clickPrompt('Cancel Prompt');
-
-                expect(this.ardentHero.tokens.damage).toBe(1);
-                expect(this.player1.hand.length).toBe(2);
-
-                this.player1.endTurn();
-            });
-
-            it('should be able to cancel after chosing Charge!', function () {
-                this.player1.clickCard(this.autocannon);
-                this.player1.clickPrompt('Charge!');
-
                 expect(this.player1).toBeAbleToSelect(this.ardentHero);
-                expect(this.player1).toBeAbleToSelect(this.filaTheResearcher);
-                expect(this.player1).not.toBeAbleToSelect(this.autocannon);
+                expect(this.player1).toHavePromptButton('Autoresolve');
                 expect(this.player1).toHavePromptButton('Cancel Prompt');
                 this.player1.clickPrompt('Cancel Prompt');
 
@@ -370,7 +354,6 @@ describe('Triggered Ability Window', function () {
 
             it('should be able to cancel Charge! target and finish prompting', function () {
                 this.player1.clickCard(this.autocannon);
-                this.player1.clickPrompt('Charge!');
                 this.player1.clickCard(this.ardentHero);
 
                 expect(this.player1).toBeAbleToSelect(this.troll);
@@ -387,7 +370,6 @@ describe('Triggered Ability Window', function () {
 
             it('should finish after choosing Charge! target', function () {
                 this.player1.clickCard(this.autocannon);
-                this.player1.clickPrompt('Charge!');
                 this.player1.clickCard(this.ardentHero);
                 this.player1.clickCard(this.troll);
 
@@ -408,7 +390,6 @@ describe('Triggered Ability Window', function () {
                 expect(this.player1).toBeAbleToSelect(this.almsmaster);
                 expect(this.player1).toBeAbleToSelect(this.filaTheResearcher);
                 expect(this.player1).toBeAbleToSelect(this.autocannon);
-                expect(this.player1).toHavePromptButton('Charge!');
                 expect(this.player1).toHavePromptButton('Autoresolve');
                 expect(this.player1).toHavePromptButton('Cancel Prompt');
                 this.player1.clickPrompt('Cancel Prompt');
@@ -425,7 +406,6 @@ describe('Triggered Ability Window', function () {
 
                 expect(this.player1).toBeAbleToSelect(this.almsmaster);
                 expect(this.player1).toBeAbleToSelect(this.filaTheResearcher);
-                expect(this.player1).toHavePromptButton('Charge!');
                 expect(this.player1).toHavePromptButton('Autoresolve');
                 expect(this.player1).toHavePromptButton('Cancel Prompt');
                 this.player1.clickPrompt('Cancel Prompt');
@@ -437,46 +417,30 @@ describe('Triggered Ability Window', function () {
                 this.player1.endTurn();
             });
 
-            it('should be able to cancel after resolving Almsmaster', function () {
+            it('should be able to choose Almsmaster, go back and cancel prompt', function () {
                 this.player1.clickCard(this.autocannon);
                 this.player1.clickCard(this.almsmaster);
 
-                expect(this.player1).toBeAbleToSelect(this.filaTheResearcher);
+                expect(this.player1).not.toBeAbleToSelect(this.filaTheResearcher);
                 expect(this.player1).toHavePromptButton('Charge!');
+                expect(this.player1).toHavePromptButton('Almsmaster');
                 expect(this.player1).toHavePromptButton('Autoresolve');
-                expect(this.player1).toHavePromptButton('Cancel Prompt');
+                expect(this.player1).toHavePromptButton('Back');
+                expect(this.player1).not.toHavePromptButton('Cancel Prompt');
+                this.player1.clickPrompt('Back');
                 this.player1.clickPrompt('Cancel Prompt');
 
                 expect(this.almsmaster.armorUsed).toBe(1);
-                expect(this.filaTheResearcher.amber).toBe(1);
+                expect(this.filaTheResearcher.amber).toBe(0);
                 expect(this.player1.hand.length).toBe(2);
 
                 this.player1.endTurn();
             });
 
-            it('should be able to cancel after chosing Charge!', function () {
+            it('should be able to cancel Charge! target', function () {
                 this.player1.clickCard(this.autocannon);
                 this.player1.clickCard(this.almsmaster);
                 this.player1.clickPrompt('Charge!');
-
-                expect(this.player1).toBeAbleToSelect(this.almsmaster);
-                expect(this.player1).toBeAbleToSelect(this.filaTheResearcher);
-                expect(this.player1).not.toBeAbleToSelect(this.autocannon);
-                expect(this.player1).toHavePromptButton('Cancel Prompt');
-                this.player1.clickPrompt('Cancel Prompt');
-
-                expect(this.almsmaster.armorUsed).toBe(1);
-                expect(this.filaTheResearcher.amber).toBe(1);
-                expect(this.player1.hand.length).toBe(2);
-
-                this.player1.endTurn();
-            });
-
-            it('should be able to cancel Charge! target and finish prompting', function () {
-                this.player1.clickCard(this.autocannon);
-                this.player1.clickCard(this.almsmaster);
-                this.player1.clickPrompt('Charge!');
-                this.player1.clickCard(this.almsmaster);
 
                 expect(this.player1).toBeAbleToSelect(this.troll);
                 expect(this.player1).toBeAbleToSelect(this.bossZarek);
@@ -485,16 +449,17 @@ describe('Triggered Ability Window', function () {
                 this.player1.clickPrompt('Cancel Prompt');
 
                 expect(this.almsmaster.armorUsed).toBe(1);
-                expect(this.filaTheResearcher.amber).toBe(1);
-                expect(this.player1.hand.length).toBe(3);
+                expect(this.filaTheResearcher.amber).toBe(0);
+                expect(this.player1.hand.length).toBe(2);
 
-                this.player1.endTurn();
+                expect(this.player1).toBeAbleToSelect(this.filaTheResearcher);
+                expect(this.player1).toBeAbleToSelect(this.almsmaster);
             });
 
             it('should finish after choosing Charge! target', function () {
                 this.player1.clickCard(this.autocannon);
                 this.player1.clickCard(this.almsmaster);
-                this.player1.clickPrompt('Charge!');
+                this.player1.clickPrompt('Almsmaster');
                 this.player1.clickCard(this.almsmaster);
                 this.player1.clickCard(this.troll);
 
@@ -516,7 +481,6 @@ describe('Triggered Ability Window', function () {
                 expect(this.player1).toBeAbleToSelect(this.dinoKnight);
                 expect(this.player1).toBeAbleToSelect(this.filaTheResearcher);
                 expect(this.player1).toBeAbleToSelect(this.autocannon);
-                expect(this.player1).toHavePromptButton('Charge!');
                 expect(this.player1).not.toHavePromptButton('Autoresolve');
                 expect(this.player1).toHavePromptButton('Cancel Prompt');
                 this.player1.clickPrompt('Cancel Prompt');
@@ -532,24 +496,7 @@ describe('Triggered Ability Window', function () {
 
                 expect(this.player1).toBeAbleToSelect(this.dinoKnight);
                 expect(this.player1).toBeAbleToSelect(this.filaTheResearcher);
-                expect(this.player1).toHavePromptButton('Charge!');
                 expect(this.player1).not.toHavePromptButton('Autoresolve');
-                expect(this.player1).toHavePromptButton('Cancel Prompt');
-                this.player1.clickPrompt('Cancel Prompt');
-
-                expect(this.dinoKnight.armorUsed).toBe(1);
-                expect(this.player1.hand.length).toBe(2);
-
-                this.player1.endTurn();
-            });
-
-            it('should be able to cancel after chosing Charge!', function () {
-                this.player1.clickCard(this.autocannon);
-                this.player1.clickPrompt('Charge!');
-
-                expect(this.player1).toBeAbleToSelect(this.dinoKnight);
-                expect(this.player1).toBeAbleToSelect(this.filaTheResearcher);
-                expect(this.player1).not.toBeAbleToSelect(this.autocannon);
                 expect(this.player1).toHavePromptButton('Cancel Prompt');
                 this.player1.clickPrompt('Cancel Prompt');
 
@@ -561,7 +508,6 @@ describe('Triggered Ability Window', function () {
 
             it('should be able to cancel Charge! target', function () {
                 this.player1.clickCard(this.autocannon);
-                this.player1.clickPrompt('Charge!');
                 this.player1.clickCard(this.dinoKnight);
                 this.player1.clickPrompt('Charge!');
 
@@ -583,7 +529,6 @@ describe('Triggered Ability Window', function () {
 
             it('should opt to out optional ability', function () {
                 this.player1.clickCard(this.autocannon);
-                this.player1.clickPrompt('Charge!');
                 this.player1.clickCard(this.dinoKnight);
                 this.player1.clickPrompt('Charge!');
                 this.player1.clickCard(this.troll);
@@ -602,7 +547,6 @@ describe('Triggered Ability Window', function () {
 
             it('should be able to trigger optional ability and Cancel target prompt', function () {
                 this.player1.clickCard(this.autocannon);
-                this.player1.clickPrompt('Charge!');
                 this.player1.clickCard(this.dinoKnight);
                 this.player1.clickPrompt('Charge!');
                 this.player1.clickCard(this.troll);
@@ -628,7 +572,6 @@ describe('Triggered Ability Window', function () {
 
             it('should be able to trigger optional ability and select a target', function () {
                 this.player1.clickCard(this.autocannon);
-                this.player1.clickPrompt('Charge!');
                 this.player1.clickCard(this.dinoKnight);
                 this.player1.clickPrompt('Charge!');
                 this.player1.clickCard(this.troll);
@@ -654,6 +597,7 @@ describe('Triggered Ability Window', function () {
 
             it('should be able to autoresolve after finishing optional ability', function () {
                 this.player1.clickCard(this.dinoKnight);
+                this.player1.clickPrompt('Dino-Knight');
                 expect(this.player1).toBeAbleToSelect(this.troll);
                 expect(this.player1).toBeAbleToSelect(this.bossZarek);
                 expect(this.player1).toBeAbleToSelect(this.brammo);
