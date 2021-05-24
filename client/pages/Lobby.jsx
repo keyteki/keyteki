@@ -99,24 +99,6 @@ const Lobby = () => {
                         <a
                             target='_blank'
                             rel='noreferrer'
-                            href='https://australiankeyforgeleague.com/'
-                        >
-                            <div className='banner'>
-                                <img width='100%' src='/banner/AKL_TCO_Banner.png' />
-                            </div>
-                        </a>
-                        <a
-                            target='_blank'
-                            rel='noreferrer'
-                            href='https://forms.gle/jgDWP7Wz4QkwFZLq8'
-                        >
-                            <div className='banner'>
-                                <img src='/banner/kote.png' />
-                            </div>
-                        </a>
-                        <a
-                            target='_blank'
-                            rel='noreferrer'
                             href='https://www.thefinalswindle.com/the-big-one'
                         >
                             <div className='banner'>
