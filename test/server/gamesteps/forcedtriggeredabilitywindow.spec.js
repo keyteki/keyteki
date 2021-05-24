@@ -651,6 +651,24 @@ describe('Triggered Ability Window', function () {
 
                 this.player1.endTurn();
             });
+
+            it('should be able to autoresolve after finishing optional ability', function () {
+                this.player1.clickCard(this.dinoKnight);
+                expect(this.player1).toBeAbleToSelect(this.troll);
+                expect(this.player1).toBeAbleToSelect(this.bossZarek);
+                expect(this.player1).toBeAbleToSelect(this.brammo);
+                expect(this.player1).toHavePromptButton('Cancel Prompt');
+                this.player1.clickCard(this.troll);
+                this.player1.clickPrompt('Autoresolve');
+                this.player1.clickCard(this.troll); // Charge! targetting
+
+                expect(this.dinoKnight.amber).toBe(1);
+                expect(this.dinoKnight.armorUsed).toBe(1);
+                expect(this.troll.tokens.damage).toBe(5);
+                expect(this.player1.hand.length).toBe(3);
+
+                this.player1.endTurn();
+            });
         });
     });
 });
