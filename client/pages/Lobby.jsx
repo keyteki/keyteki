@@ -114,6 +114,15 @@ const Lobby = () => {
                                 <img src='/banner/kote.png' />
                             </div>
                         </a>
+                        <a
+                            target='_blank'
+                            rel='noreferrer'
+                            href='https://www.thefinalswindle.com/the-big-one'
+                        >
+                            <div className='banner'>
+                                <img src='/banner/swindle-event-banner.png' />
+                            </div>
+                        </a>
                     </Carousel>
                 </Col>
             </div>
