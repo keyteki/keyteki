@@ -563,6 +563,7 @@ describe('Triggered Ability Window', function () {
                 this.player1.clickCard(this.autocannon);
                 this.player1.clickPrompt('Charge!');
                 this.player1.clickCard(this.dinoKnight);
+                this.player1.clickPrompt('Charge!');
 
                 expect(this.player1).toBeAbleToSelect(this.troll);
                 expect(this.player1).toBeAbleToSelect(this.bossZarek);
@@ -573,12 +574,19 @@ describe('Triggered Ability Window', function () {
                 expect(this.dinoKnight.armorUsed).toBe(1);
                 expect(this.player1.hand.length).toBe(2);
 
-                this.player1.endTurn();
+                expect(this.player1).toBeAbleToSelect(this.dinoKnight);
+                expect(this.player1).toBeAbleToSelect(this.filaTheResearcher);
+                expect(this.player1).not.toHavePromptButton('Charge!');
+                expect(this.player1).not.toHavePromptButton('Autoresolve');
+                expect(this.player1).toHavePromptButton('Cancel Prompt');
             });
 
             it('should opt to out optional ability', function () {
                 this.player1.clickCard(this.autocannon);
                 this.player1.clickPrompt('Charge!');
+                this.player1.clickCard(this.dinoKnight);
+                this.player1.clickPrompt('Charge!');
+                this.player1.clickCard(this.troll);
                 this.player1.clickCard(this.filaTheResearcher);
 
                 expect(this.player1).toBeAbleToSelect(this.dinoKnight);
@@ -587,6 +595,58 @@ describe('Triggered Ability Window', function () {
 
                 expect(this.dinoKnight.armorUsed).toBe(1);
                 expect(this.troll.tokens.damage).toBe(2);
+                expect(this.player1.hand.length).toBe(3);
+
+                this.player1.endTurn();
+            });
+
+            it('should be able to trigger optional ability and Cancel target prompt', function () {
+                this.player1.clickCard(this.autocannon);
+                this.player1.clickPrompt('Charge!');
+                this.player1.clickCard(this.dinoKnight);
+                this.player1.clickPrompt('Charge!');
+                this.player1.clickCard(this.troll);
+                this.player1.clickCard(this.filaTheResearcher);
+
+                expect(this.player1).toBeAbleToSelect(this.dinoKnight);
+                expect(this.player1).toHavePromptButton('Done');
+                this.player1.clickCard(this.dinoKnight);
+
+                expect(this.player1).toBeAbleToSelect(this.troll);
+                expect(this.player1).toBeAbleToSelect(this.bossZarek);
+                expect(this.player1).toBeAbleToSelect(this.brammo);
+                expect(this.player1).toHavePromptButton('Cancel Prompt');
+                this.player1.clickPrompt('Cancel Prompt');
+
+                expect(this.dinoKnight.amber).toBe(1);
+                expect(this.dinoKnight.armorUsed).toBe(1);
+                expect(this.troll.tokens.damage).toBe(2);
+                expect(this.player1.hand.length).toBe(3);
+
+                this.player1.endTurn();
+            });
+
+            it('should be able to trigger optional ability and select a target', function () {
+                this.player1.clickCard(this.autocannon);
+                this.player1.clickPrompt('Charge!');
+                this.player1.clickCard(this.dinoKnight);
+                this.player1.clickPrompt('Charge!');
+                this.player1.clickCard(this.troll);
+                this.player1.clickCard(this.filaTheResearcher);
+
+                expect(this.player1).toBeAbleToSelect(this.dinoKnight);
+                expect(this.player1).toHavePromptButton('Done');
+                this.player1.clickCard(this.dinoKnight);
+
+                expect(this.player1).toBeAbleToSelect(this.troll);
+                expect(this.player1).toBeAbleToSelect(this.bossZarek);
+                expect(this.player1).toBeAbleToSelect(this.brammo);
+                expect(this.player1).toHavePromptButton('Cancel Prompt');
+                this.player1.clickCard(this.troll);
+
+                expect(this.dinoKnight.amber).toBe(1);
+                expect(this.dinoKnight.armorUsed).toBe(1);
+                expect(this.troll.tokens.damage).toBe(5);
                 expect(this.player1.hand.length).toBe(3);
 
                 this.player1.endTurn();
