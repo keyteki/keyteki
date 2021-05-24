@@ -299,4 +299,298 @@ describe('Triggered Ability Window', function () {
             expect(this.player2.player.getCurrentKeyCost()).toBe(9); // Garcia + Disruption Field
         });
     });
+
+    describe('Multiply play abilities', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'sanctum',
+                    inPlay: ['fila-the-researcher'],
+                    hand: ['charge', 'ardent-hero', 'almsmaster', 'dino-knight']
+                },
+                player2: {
+                    amber: 3,
+                    inPlay: ['troll', 'brammo', 'boss-zarek', 'autocannon']
+                }
+            });
+
+            this.game.manualMode = true;
+            this.player1.play(this.charge);
+        });
+
+        describe('when played a creature without a play ability, Ardent Hero', function () {
+            beforeEach(function () {
+                this.player1.play(this.ardentHero);
+            });
+
+            it('should be able to cancel Ardent Hero first prompt', function () {
+                expect(this.player1).toBeAbleToSelect(this.filaTheResearcher);
+                expect(this.player1).toBeAbleToSelect(this.autocannon);
+                expect(this.player1).toHavePromptButton('Charge!');
+                expect(this.player1).toHavePromptButton('Autoresolve');
+                expect(this.player1).toHavePromptButton('Cancel Prompt');
+                this.player1.clickPrompt('Cancel Prompt');
+
+                expect(this.ardentHero.tokens.damage).toBeUndefined();
+                expect(this.player1.hand.length).toBe(2);
+
+                this.player1.endTurn();
+            });
+
+            it('should be able to cancel after resolving Autocannon', function () {
+                this.player1.clickCard(this.autocannon);
+
+                expect(this.player1).toBeAbleToSelect(this.filaTheResearcher);
+                expect(this.player1).toHavePromptButton('Charge!');
+                expect(this.player1).toHavePromptButton('Autoresolve');
+                expect(this.player1).toHavePromptButton('Cancel Prompt');
+                this.player1.clickPrompt('Cancel Prompt');
+
+                expect(this.ardentHero.tokens.damage).toBe(1);
+                expect(this.player1.hand.length).toBe(2);
+
+                this.player1.endTurn();
+            });
+
+            it('should be able to cancel after chosing Charge!', function () {
+                this.player1.clickCard(this.autocannon);
+                this.player1.clickPrompt('Charge!');
+
+                expect(this.player1).toBeAbleToSelect(this.ardentHero);
+                expect(this.player1).toBeAbleToSelect(this.filaTheResearcher);
+                expect(this.player1).not.toBeAbleToSelect(this.autocannon);
+                expect(this.player1).toHavePromptButton('Cancel Prompt');
+                this.player1.clickPrompt('Cancel Prompt');
+
+                expect(this.ardentHero.tokens.damage).toBe(1);
+                expect(this.player1.hand.length).toBe(2);
+
+                this.player1.endTurn();
+            });
+
+            it('should be able to cancel Charge! target and finish prompting', function () {
+                this.player1.clickCard(this.autocannon);
+                this.player1.clickPrompt('Charge!');
+                this.player1.clickCard(this.ardentHero);
+
+                expect(this.player1).toBeAbleToSelect(this.troll);
+                expect(this.player1).toBeAbleToSelect(this.bossZarek);
+                expect(this.player1).toBeAbleToSelect(this.brammo);
+                expect(this.player1).toHavePromptButton('Cancel Prompt');
+                this.player1.clickPrompt('Cancel Prompt');
+
+                expect(this.ardentHero.tokens.damage).toBe(1);
+                expect(this.player1.hand.length).toBe(3);
+
+                this.player1.endTurn();
+            });
+
+            it('should finish after choosing Charge! target', function () {
+                this.player1.clickCard(this.autocannon);
+                this.player1.clickPrompt('Charge!');
+                this.player1.clickCard(this.ardentHero);
+                this.player1.clickCard(this.troll);
+
+                expect(this.ardentHero.tokens.damage).toBe(1);
+                expect(this.troll.tokens.damage).toBe(2);
+                expect(this.player1.hand.length).toBe(3);
+
+                this.player1.endTurn();
+            });
+        });
+
+        describe('when played a creature with a play ability, Almsmaster', function () {
+            beforeEach(function () {
+                this.player1.play(this.almsmaster);
+            });
+
+            it('should be able to cancel Almsmaster first prompt', function () {
+                expect(this.player1).toBeAbleToSelect(this.almsmaster);
+                expect(this.player1).toBeAbleToSelect(this.filaTheResearcher);
+                expect(this.player1).toBeAbleToSelect(this.autocannon);
+                expect(this.player1).toHavePromptButton('Charge!');
+                expect(this.player1).toHavePromptButton('Autoresolve');
+                expect(this.player1).toHavePromptButton('Cancel Prompt');
+                this.player1.clickPrompt('Cancel Prompt');
+
+                expect(this.almsmaster.armorUsed).toBe(0);
+                expect(this.filaTheResearcher.amber).toBe(0);
+                expect(this.player1.hand.length).toBe(2);
+
+                this.player1.endTurn();
+            });
+
+            it('should be able to cancel after resolving Autocannon', function () {
+                this.player1.clickCard(this.autocannon);
+
+                expect(this.player1).toBeAbleToSelect(this.almsmaster);
+                expect(this.player1).toBeAbleToSelect(this.filaTheResearcher);
+                expect(this.player1).toHavePromptButton('Charge!');
+                expect(this.player1).toHavePromptButton('Autoresolve');
+                expect(this.player1).toHavePromptButton('Cancel Prompt');
+                this.player1.clickPrompt('Cancel Prompt');
+
+                expect(this.almsmaster.armorUsed).toBe(1);
+                expect(this.filaTheResearcher.amber).toBe(0);
+                expect(this.player1.hand.length).toBe(2);
+
+                this.player1.endTurn();
+            });
+
+            it('should be able to cancel after resolving Almsmaster', function () {
+                this.player1.clickCard(this.autocannon);
+                this.player1.clickCard(this.almsmaster);
+
+                expect(this.player1).toBeAbleToSelect(this.filaTheResearcher);
+                expect(this.player1).toHavePromptButton('Charge!');
+                expect(this.player1).toHavePromptButton('Autoresolve');
+                expect(this.player1).toHavePromptButton('Cancel Prompt');
+                this.player1.clickPrompt('Cancel Prompt');
+
+                expect(this.almsmaster.armorUsed).toBe(1);
+                expect(this.filaTheResearcher.amber).toBe(1);
+                expect(this.player1.hand.length).toBe(2);
+
+                this.player1.endTurn();
+            });
+
+            it('should be able to cancel after chosing Charge!', function () {
+                this.player1.clickCard(this.autocannon);
+                this.player1.clickCard(this.almsmaster);
+                this.player1.clickPrompt('Charge!');
+
+                expect(this.player1).toBeAbleToSelect(this.almsmaster);
+                expect(this.player1).toBeAbleToSelect(this.filaTheResearcher);
+                expect(this.player1).not.toBeAbleToSelect(this.autocannon);
+                expect(this.player1).toHavePromptButton('Cancel Prompt');
+                this.player1.clickPrompt('Cancel Prompt');
+
+                expect(this.almsmaster.armorUsed).toBe(1);
+                expect(this.filaTheResearcher.amber).toBe(1);
+                expect(this.player1.hand.length).toBe(2);
+
+                this.player1.endTurn();
+            });
+
+            it('should be able to cancel Charge! target and finish prompting', function () {
+                this.player1.clickCard(this.autocannon);
+                this.player1.clickCard(this.almsmaster);
+                this.player1.clickPrompt('Charge!');
+                this.player1.clickCard(this.almsmaster);
+
+                expect(this.player1).toBeAbleToSelect(this.troll);
+                expect(this.player1).toBeAbleToSelect(this.bossZarek);
+                expect(this.player1).toBeAbleToSelect(this.brammo);
+                expect(this.player1).toHavePromptButton('Cancel Prompt');
+                this.player1.clickPrompt('Cancel Prompt');
+
+                expect(this.almsmaster.armorUsed).toBe(1);
+                expect(this.filaTheResearcher.amber).toBe(1);
+                expect(this.player1.hand.length).toBe(3);
+
+                this.player1.endTurn();
+            });
+
+            it('should finish after choosing Charge! target', function () {
+                this.player1.clickCard(this.autocannon);
+                this.player1.clickCard(this.almsmaster);
+                this.player1.clickPrompt('Charge!');
+                this.player1.clickCard(this.almsmaster);
+                this.player1.clickCard(this.troll);
+
+                expect(this.almsmaster.armorUsed).toBe(1);
+                expect(this.filaTheResearcher.amber).toBe(1);
+                expect(this.troll.tokens.damage).toBe(2);
+                expect(this.player1.hand.length).toBe(3);
+
+                this.player1.endTurn();
+            });
+        });
+
+        describe('when played a creature with an optional play ability, Dino-Knight', function () {
+            beforeEach(function () {
+                this.player1.play(this.dinoKnight);
+            });
+
+            it('should be able to cancel Dino-Knight first prompt', function () {
+                expect(this.player1).toBeAbleToSelect(this.dinoKnight);
+                expect(this.player1).toBeAbleToSelect(this.filaTheResearcher);
+                expect(this.player1).toBeAbleToSelect(this.autocannon);
+                expect(this.player1).toHavePromptButton('Charge!');
+                expect(this.player1).not.toHavePromptButton('Autoresolve');
+                expect(this.player1).toHavePromptButton('Cancel Prompt');
+                this.player1.clickPrompt('Cancel Prompt');
+
+                expect(this.dinoKnight.armorUsed).toBe(0);
+                expect(this.player1.hand.length).toBe(2);
+
+                this.player1.endTurn();
+            });
+
+            it('should be able to cancel after resolving Autocannon', function () {
+                this.player1.clickCard(this.autocannon);
+
+                expect(this.player1).toBeAbleToSelect(this.dinoKnight);
+                expect(this.player1).toBeAbleToSelect(this.filaTheResearcher);
+                expect(this.player1).toHavePromptButton('Charge!');
+                expect(this.player1).not.toHavePromptButton('Autoresolve');
+                expect(this.player1).toHavePromptButton('Cancel Prompt');
+                this.player1.clickPrompt('Cancel Prompt');
+
+                expect(this.dinoKnight.armorUsed).toBe(1);
+                expect(this.player1.hand.length).toBe(2);
+
+                this.player1.endTurn();
+            });
+
+            it('should be able to cancel after chosing Charge!', function () {
+                this.player1.clickCard(this.autocannon);
+                this.player1.clickPrompt('Charge!');
+
+                expect(this.player1).toBeAbleToSelect(this.dinoKnight);
+                expect(this.player1).toBeAbleToSelect(this.filaTheResearcher);
+                expect(this.player1).not.toBeAbleToSelect(this.autocannon);
+                expect(this.player1).toHavePromptButton('Cancel Prompt');
+                this.player1.clickPrompt('Cancel Prompt');
+
+                expect(this.dinoKnight.armorUsed).toBe(1);
+                expect(this.player1.hand.length).toBe(2);
+
+                this.player1.endTurn();
+            });
+
+            it('should be able to cancel Charge! target', function () {
+                this.player1.clickCard(this.autocannon);
+                this.player1.clickPrompt('Charge!');
+                this.player1.clickCard(this.dinoKnight);
+
+                expect(this.player1).toBeAbleToSelect(this.troll);
+                expect(this.player1).toBeAbleToSelect(this.bossZarek);
+                expect(this.player1).toBeAbleToSelect(this.brammo);
+                expect(this.player1).toHavePromptButton('Cancel Prompt');
+                this.player1.clickPrompt('Cancel Prompt');
+
+                expect(this.dinoKnight.armorUsed).toBe(1);
+                expect(this.player1.hand.length).toBe(2);
+
+                this.player1.endTurn();
+            });
+
+            it('should opt to out optional ability', function () {
+                this.player1.clickCard(this.autocannon);
+                this.player1.clickPrompt('Charge!');
+                this.player1.clickCard(this.filaTheResearcher);
+
+                expect(this.player1).toBeAbleToSelect(this.dinoKnight);
+                expect(this.player1).toHavePromptButton('Done');
+                this.player1.clickPrompt('Done');
+
+                expect(this.dinoKnight.armorUsed).toBe(1);
+                expect(this.troll.tokens.damage).toBe(2);
+                expect(this.player1.hand.length).toBe(3);
+
+                this.player1.endTurn();
+            });
+        });
+    });
 });
