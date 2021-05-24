@@ -15,7 +15,7 @@ describe('Universal Translator', function () {
         it('should let you use a non-sa creature on reap', function () {
             this.player1.playUpgrade(this.universalTranslator, this.lieutenantKhrkhar);
             this.player1.reap(this.lieutenantKhrkhar);
-            expect(this.player1).toHavePrompt('Lieutenant Khrkhar');
+            expect(this.player1).toHavePrompt('Universal Translator');
             expect(this.player1).toBeAbleToSelect(this.mother);
             expect(this.player1).not.toBeAbleToSelect(this.tacticalOfficerMoon);
             expect(this.player1).not.toBeAbleToSelect(this.bulwark);
@@ -28,7 +28,7 @@ describe('Universal Translator', function () {
         it('should let you use a non-sa creature on fight', function () {
             this.player1.playUpgrade(this.universalTranslator, this.lieutenantKhrkhar);
             this.player1.fightWith(this.lieutenantKhrkhar, this.nexus);
-            expect(this.player1).toHavePrompt('Lieutenant Khrkhar');
+            expect(this.player1).toHavePrompt('Universal Translator');
             expect(this.player1).toBeAbleToSelect(this.mother);
             expect(this.player1).not.toBeAbleToSelect(this.tacticalOfficerMoon);
             expect(this.player1).not.toBeAbleToSelect(this.bulwark);

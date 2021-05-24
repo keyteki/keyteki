@@ -124,7 +124,7 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
         let buttons = [];
         if (this.choices.every((context) => context.ability.optional)) {
             buttons.push({ text: 'Done', arg: 'done' });
-        } else if (!this.choices.some((context) => context.ability.optional)) {
+        } else if (this.noOptionalChoices) {
             buttons.push({ text: 'Autoresolve', arg: 'autoresolve' });
         }
 
@@ -194,11 +194,9 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
                 return context.source.name;
             }
 
-            const generatingEffect = this.game.effectEngine.effects.find(
-                (effect) => effect.effect.getValue(context.source) === context.ability
-            );
-            if (generatingEffect) {
-                return generatingEffect.source.name;
+            let generatingEffectSource = this.game.getEffectSource(context);
+            if (generatingEffectSource) {
+                return generatingEffectSource.name;
             }
 
             return context.source.name;
@@ -218,11 +216,13 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
             )
         );
 
-        menuChoices.push('Autoresolve');
-        handlers.push(() => {
-            this.autoResolve = true;
-            return true;
-        });
+        if (this.noOptionalChoices) {
+            menuChoices.push('Autoresolve');
+            handlers.push(() => {
+                this.autoResolve = true;
+                return true;
+            });
+        }
 
         if (addBackButton) {
             menuChoices.push('Back');

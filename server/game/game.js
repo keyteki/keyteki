@@ -1105,6 +1105,16 @@ class Game extends EventEmitter {
         }
     }
 
+    getEffectSource(context) {
+        if (!context || !context.source) {
+            return null;
+        }
+        let generatingEffect = this.effectEngine.effects.find(
+            (effect) => effect.effect.getValue(context.source) === context.ability
+        );
+        return generatingEffect ? generatingEffect.source : null;
+    }
+
     checkDelayedEffects(events) {
         if (events.length > 0) {
             // check for any delayed effects which need to fire
