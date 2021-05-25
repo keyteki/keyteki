@@ -8,16 +8,10 @@ class HarlandMindlock extends Card {
                 controller: 'opponent',
                 cardCondition: (card) => card.isOnFlank(),
                 gameAction: ability.actions.cardLastingEffect((context) => ({
-                    target: context.source,
-                    duration: 'lastingEffect',
-                    effect: ability.effects.customDetachedCard({
-                        apply: (card) =>
-                            card.lastingEffect((ability) => ({
-                                match: context.target,
-                                effect: ability.effects.takeControl(context.player)
-                            })),
-                        unapply: (card, context, effect) => card.removeEffectFromEngine(effect)
-                    })
+                    until: {
+                        onCardLeavesPlay: (event) => event.card === context.source
+                    },
+                    effect: ability.effects.takeControl(context.player)
                 }))
             },
             effect: 'take control of {0}'

@@ -61,8 +61,11 @@ class Card extends EffectSource {
 
         this.upgrades = [];
         this.parent = null;
+        this.purgedBy = null;
         this.childCards = [];
+        this.purgedCards = [];
         this.clonedNeighbors = null;
+        this.clonedPurgedCards = null;
 
         this.printedPower = cardData.power;
         this.printedArmor = cardData.armor;
@@ -343,15 +346,6 @@ class Card extends EffectSource {
                     },
                     destroyed: true
                 },
-                properties
-            )
-        );
-    }
-
-    leavesPlay(properties) {
-        return this.interrupt(
-            Object.assign(
-                { when: { onCardLeavesPlay: (event, context) => event.card === context.source } },
                 properties
             )
         );
@@ -667,6 +661,7 @@ class Card extends EffectSource {
         clone.effects = _.clone(this.effects);
         clone.tokens = _.clone(this.tokens);
         clone.controller = this.controller;
+        clone.clonedPurgedCards = this.purgedCards;
         clone.exhausted = this.exhausted;
         clone.location = this.location;
         clone.parent = this.parent;
@@ -1050,6 +1045,10 @@ class Card extends EffectSource {
             };
         }
 
+        let childCards = this.childCards
+            .map((card) => card.getSummary(activePlayer, hideWhenFaceup))
+            .concat(this.purgedCards.map((card) => card.getSummary(activePlayer, hideWhenFaceup)));
+
         let state = {
             anomaly: this.anomaly,
             enhancements: this.enhancements,
@@ -1062,9 +1061,7 @@ class Card extends EffectSource {
                 this.getLegalActions(activePlayer, false).length > 0
             ),
             cardback: this.owner.deckData.cardback,
-            childCards: this.childCards.map((card) => {
-                return card.getSummary(activePlayer, hideWhenFaceup);
-            }),
+            childCards: childCards,
             controlled: this.owner !== this.controller,
             exhausted: this.exhausted,
             facedown: this.facedown,

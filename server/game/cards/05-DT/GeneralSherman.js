@@ -10,26 +10,23 @@ class GeneralSherman extends Card {
 
         this.play({
             effect: 'purge each other creature',
-            gameAction: ability.actions.purge((context) => ({
-                target: context.game.creaturesInPlay.filter((card) => card !== context.source)
-            })),
-            then: {
-                alwaysTriggers: true,
-                gameAction: ability.actions.placeUnder((context) => ({
-                    moveGigantic: true,
-                    parent: context.source,
-                    target: context.preThenEvents
-                        .filter((event) => !event.cancelled)
-                        .map((event) => event.card)
-                }))
-            }
-        });
-
-        this.leavesPlay({
-            effect: 'return all creatures purged by {0} to play',
-            gameAction: ability.actions.sequentialPutIntoPlay((context) => ({
-                forEach: context.source.childCards
-            }))
+            gameAction: [
+                ability.actions.purge((context) => ({
+                    purgedBy: context.source,
+                    target: context.game.creaturesInPlay.filter((card) => card !== context.source)
+                })),
+                ability.actions.lastingEffect({
+                    multipleTrigger: false,
+                    when: {
+                        onCardLeavesPlay: (event, context) => event.card === context.source
+                    },
+                    gameAction: ability.actions.sequentialPutIntoPlay((context) => ({
+                        forEach: context.event.clone.clonedPurgedCards
+                    })),
+                    message: '{0} put into play all creatures purged by {1}',
+                    messageArgs: (context) => [context.game.activePlayer, context.source]
+                })
+            ]
         });
     }
 }

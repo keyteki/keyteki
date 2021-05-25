@@ -6,7 +6,6 @@ class Fifalde extends Card {
     setupCardAbilities(ability) {
         this.play({
             target: {
-                activePromptTitle: 'Choose a Cocoon to destroy',
                 cardType: 'creature',
                 controller: 'self',
                 cardCondition: (card) => card.name === 'Bombyx',

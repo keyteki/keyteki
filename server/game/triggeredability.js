@@ -42,8 +42,8 @@ class TriggeredAbility extends CardAbility {
         this.autoResolve = !!properties.autoResolve;
         this.abilityType = abilityType;
         this.optional = !!properties.optional;
-        this.hasTriggered = false;
         this.isLastingAbilityTrigger = !!properties.player;
+        this.multipleTrigger = !!properties.multipleTrigger;
         if (properties.location === 'any') {
             this.registerEvents();
         }
@@ -67,12 +67,9 @@ class TriggeredAbility extends CardAbility {
         }
 
         let context = this.createContext(player, event);
-        //  console.log(event.name, this.card.name, this.card.reactions.includes(this), this.isTriggeredByEvent(event, context), this.meetsRequirements(context));
-        if (
-            this.card.reactions.includes(this) ||
-            (this.isLastingAbilityTrigger &&
-                (!this.hasTriggered || this.properties.multipleTrigger))
-        ) {
+        // console.log(event.name, this.card.name, this.card.reactions.includes(this), this.isLastingAbilityTrigger,
+        //     this.isTriggeredByEvent(event, context), this.meetsRequirements(context));
+        if (this.card.reactions.includes(this) || this.isLastingAbilityTrigger) {
             if (this.isTriggeredByEvent(event, context) && this.meetsRequirements(context) === '') {
                 window.addChoice(context);
             }

@@ -7,23 +7,23 @@ class Gebuk extends Card {
                 target: context.player.deck[0]
             })),
             then: (thenContext) => ({
-                gameAction: ability.actions.cardLastingEffect({
+                gameAction: ability.actions.cardLastingEffect((context) => ({
                     target: thenContext.event.card,
                     duration: 'lastingEffect',
-                    effect: ability.effects.delayedEffect({
+                    effect: ability.effects.lastingAbilityTrigger({
                         when: {
-                            onCardLeavesPlay: (event) => event.card === thenContext.source
+                            onCardLeavesPlay: (event, context) => event.card === context.source
                         },
-                        gameAction: ability.actions.putIntoPlay((context) => ({
+                        gameAction: ability.actions.putIntoPlay({
                             target:
                                 context.preThenEvent.card.type === 'creature' &&
                                 !context.preThenEvent.card.gigantic
                                     ? context.preThenEvent.card
                                     : [],
-                            deployIndex: context.event.battlelineIndex
-                        }))
+                            deployIndex: thenContext.event.battlelineIndex
+                        })
                     })
-                })
+                }))
             })
         });
     }

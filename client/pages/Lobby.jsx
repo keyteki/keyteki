@@ -99,19 +99,10 @@ const Lobby = () => {
                         <a
                             target='_blank'
                             rel='noreferrer'
-                            href='https://australiankeyforgeleague.com/'
+                            href='https://www.thefinalswindle.com/the-big-one'
                         >
                             <div className='banner'>
-                                <img width='100%' src='/banner/AKL_TCO_Banner.png' />
-                            </div>
-                        </a>
-                        <a
-                            target='_blank'
-                            rel='noreferrer'
-                            href='https://forms.gle/jgDWP7Wz4QkwFZLq8'
-                        >
-                            <div className='banner'>
-                                <img src='/banner/kote.png' />
+                                <img src='/banner/swindle-event-banner.png' />
                             </div>
                         </a>
                     </Carousel>
