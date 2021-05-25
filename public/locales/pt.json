@@ -564,12 +564,10 @@
     "Purge up to 2 cards": "Expurgar até 2 cartas",
     "Exhaust": "Exaustar",
     "Random discard": "Descartar aleatoriamente",
-    "Destroy a flank creature": "Destroy a flank creature",
-    "Return 2 enemy creatures to hand": "Return 2 enemy creatures to hand",
+    "Destroy a flank creature": "Destruir uma criatura no flanco",
+    "Return 2 enemy creatures to hand": "Returnar 2 criaturas inimigas para mão",
     "Archive top 2 cards": "Arquivar duas cartas do topo",
     "Play top card": "Jogar a carta do topo",
-    "Choose a Larva to destroy": "Escolha uma Larva para destruir",
-    "Choose a Cocoon to destroy": "Escolha um Casulo para destruir",
     "Do you wish to remove all power tokens?": "Remover todos os contadores de poder?",
     "Ready and reap": "Preparar e coletar",
     "Add power counters": "Adicionar contador de poder",
@@ -603,5 +601,6 @@
     "Enrage/Remove Enrage": "Enufurecer/Remover Fúria",
     "Ward/Remove Ward": "Proteger/Remover Proteção",
     "Skirmish": "Combativo",
-    "Exalt": "Exaltar"
+    "Exalt": "Exaltar",
+    "Do you wish to look at the top 2 deck cards?": "Você deseja olhar as 2 cartas do topo do seu deck?"
 }

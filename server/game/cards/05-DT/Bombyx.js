@@ -6,7 +6,6 @@ class Bombyx extends Card {
     setupCardAbilities(ability) {
         this.play({
             target: {
-                activePromptTitle: 'Choose a Larva to destroy',
                 cardType: 'creature',
                 controller: 'self',
                 cardCondition: (card) => card.name === 'Chenille',

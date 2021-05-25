@@ -568,8 +568,6 @@
     "Play top card": "Play top card",
     "Destroy a flank creature": "Destroy a flank creature",
     "Return 2 enemy creatures to hand": "Return 2 enemy creatures to hand",
-    "Choose a Larva to destroy": "Choose a Larva to destroy",
-    "Choose a Cocoon to destroy": "Choose a Cocoon to destroy",
     "Do you wish to remove all power tokens?": "Do you wish to remove all power tokens?",
     "Ready and reap": "Ready and reap",
     "Add power counters": "Add power counters",
@@ -603,5 +601,6 @@
     "Enrage/Remove Enrage": "Enrage/Remove Enrage",
     "Ward/Remove Ward": "Ward/Remove Ward",
     "Skirmish": "Skirmish",
-    "Exalt": "Exalt"
+    "Exalt": "Exalt",
+    "Do you wish to look at the top 2 deck cards?": "Do you wish to look at the top 2 deck cards?"
 }
