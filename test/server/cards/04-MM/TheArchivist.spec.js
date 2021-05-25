@@ -135,6 +135,8 @@ describe('The Archivist', function () {
                 expect(this.borrow.location).toBe('hand');
                 expect(this.archimedes.location).toBe('hand');
                 expect(this.ancientBear.location).toBe('play area');
+
+                this.player1.endTurn();
             });
 
             it('should be able to select a few cards', function () {
