@@ -353,33 +353,27 @@ class Player extends GameObject {
                             }
 
                             if (deploy) {
-                                this.game.promptForSelect(
-                                    this,
-                                    {
-                                        source: card,
-                                        activePromptTitle: `Select a card to deploy to the ${flank} of`,
-                                        cardCondition: (card) =>
-                                            card.location === 'play area' &&
-                                            card.controller === this &&
-                                            card.type === 'creature',
-                                        onSelect: (p, c) => {
-                                            let deployIndex = card.controller.cardsInPlay.indexOf(
-                                                c
-                                            );
-                                            if (flank === 'left' && deployIndex >= 0) {
-                                                deployIndex--;
-                                            }
-
-                                            this.moveCard(card, 'play area', {
-                                                left: flank === 'left',
-                                                deployIndex: deployIndex
-                                            });
-
-                                            return true;
+                                this.game.promptForSelect(this, {
+                                    source: card,
+                                    activePromptTitle: `Select a card to deploy to the ${flank} of`,
+                                    cardCondition: (card) =>
+                                        card.location === 'play area' &&
+                                        card.controller === this &&
+                                        card.type === 'creature',
+                                    onSelect: (p, c) => {
+                                        let deployIndex = card.controller.cardsInPlay.indexOf(c);
+                                        if (flank === 'left' && deployIndex >= 0) {
+                                            deployIndex--;
                                         }
-                                    },
-                                    this
-                                );
+
+                                        this.moveCard(card, 'play area', {
+                                            left: flank === 'left',
+                                            deployIndex: deployIndex
+                                        });
+
+                                        return true;
+                                    }
+                                });
                             } else {
                                 this.moveCard(card, 'play area', {
                                     left: flank === 'left'
@@ -392,29 +386,25 @@ class Player extends GameObject {
                 );
             } else if (card.type === 'upgrade') {
                 if (this.game.creaturesInPlay.length > 0) {
-                    this.game.promptForSelect(
-                        this,
-                        {
-                            source: card,
-                            activePromptTitle: `Select a creature`,
-                            cardCondition: (card) =>
-                                card.location === 'play area' && card.type === 'creature',
-                            onSelect: (p, parent) => {
-                                this.removeCardFromPile(card);
-                                card.new = true;
-                                card.moveTo('play area');
+                    this.game.promptForSelect(this, {
+                        source: card,
+                        activePromptTitle: `Select a creature`,
+                        cardCondition: (card) =>
+                            card.location === 'play area' && card.type === 'creature',
+                        onSelect: (p, parent) => {
+                            this.removeCardFromPile(card);
+                            card.new = true;
+                            card.moveTo('play area');
 
-                                parent.upgrades.push(card);
-                                card.parent = parent;
+                            parent.upgrades.push(card);
+                            card.parent = parent;
 
-                                card.updateEffectContexts();
+                            card.updateEffectContexts();
 
-                                this.game.checkGameState(true);
-                                return true;
-                            }
-                        },
-                        this
-                    );
+                            this.game.checkGameState(true);
+                            return true;
+                        }
+                    });
                 }
             } else {
                 this.moveCard(card, target);
@@ -906,7 +896,7 @@ class Player extends GameObject {
     }
 
     isTideLow() {
-        return this.game.highTide && this.game.highTide !== this;
+        return this.game.highTide ? this.game.highTide !== this : false;
     }
 
     /**

@@ -183,6 +183,13 @@ class PlayerInteractionWrapper {
         return false;
     }
 
+    menuClick(card, command) {
+        this.game.menuItemClick(this.player.name, card.uuid, { command });
+        this.game.checkGameState(true);
+        this.game.continue();
+        this.checkUnserializableGameState();
+    }
+
     drop(card, target) {
         this.player.drop(card.uuid, card.location, target);
         this.game.checkGameState(true);

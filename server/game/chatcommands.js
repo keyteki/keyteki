@@ -95,12 +95,11 @@ class ChatCommands {
 
     changeTide(player, args) {
         const level = args[1];
-        if (!level) {
-            return;
+        if (!level || !Constants.Tide[level.toUpperCase()]) {
+            return false;
         }
 
         this.game.addAlert('danger', '{0} is changing the tide', player);
-
         this.game.changeTide(player, Constants.Tide[level.toUpperCase()], true);
     }
 
@@ -274,6 +273,8 @@ class ChatCommands {
                 return true;
             }
         });
+
+        return true;
     }
 
     reveal(player) {

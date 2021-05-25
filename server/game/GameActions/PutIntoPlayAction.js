@@ -88,7 +88,7 @@ class PutIntoPlayAction extends CardGameAction {
                     }
 
                     if (deploy) {
-                        context.game.promptForSelect(player, {
+                        context.game.promptForSelect(context.game.activePlayer, {
                             source: card,
                             activePromptTitle: `Select a card to deploy to the ${flank} of`,
                             cardCondition: (card) =>

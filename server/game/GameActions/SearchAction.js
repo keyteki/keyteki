@@ -28,7 +28,7 @@ class SearchAction extends PlayerAction {
             'onSearch',
             { player: player, context: context, location: this.location },
             () => {
-                context.game.promptForSelect(player, {
+                context.game.promptForSelect(context.game.activePlayer, {
                     location: this.location,
                     controller: 'self',
                     context: context,
