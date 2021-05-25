@@ -1,5 +1,6 @@
 import React from 'react';
 import { Alert } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 
 /**
  * @typedef ApiStatusProps
@@ -11,6 +12,8 @@ import { Alert } from 'react-bootstrap';
  * @param {ApiStatusProps} props
  */
 const ApiStatus = (props) => {
+    const { t } = useTranslation();
+
     if (!props.state || props.state.loading) {
         return null;
     }
@@ -21,12 +24,12 @@ const ApiStatus = (props) => {
         error = (
             <ul>
                 {Object.values(props.state.message).map((message) => {
-                    return <li key={index++}>{message}</li>;
+                    return <li key={index++}>{t(message)}</li>;
                 })}
             </ul>
         );
     } else {
-        error = props.state.message;
+        error = t(props.state.message);
     }
 
     return (

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-
+import { Trans } from 'react-i18next';
 import AlertPanel from '../Components/Site/AlertPanel';
 
 import * as actions from '../redux/actions';
@@ -27,7 +27,7 @@ class Logout extends React.Component {
         return (
             <div className='col-sm-6 col-sm-offset-3'>
                 {errorBar}
-                Logging you out of your account, please wait..
+                <Trans>Logging you out of your account, please wait...</Trans>
             </div>
         );
     }

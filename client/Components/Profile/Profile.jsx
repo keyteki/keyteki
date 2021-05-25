@@ -111,7 +111,7 @@ const Profile = ({ onSubmit, isLoading }) => {
     });
 
     if (!user) {
-        return <Alert variant='danger'>You need to be logged in to view your profile.</Alert>;
+        return <Alert variant='danger'>{t('You need to be logged in to view your profile')}</Alert>;
     }
 
     initialValues.email = user.email;
