@@ -1,6 +1,6 @@
 const BasePlayAction = require('./BasePlayAction');
 const AttachAction = require('../GameActions/AttachAction');
-const LastingEffectCardAction = require('../GameActions/LastingEffectCardAction');
+const CardLastingEffectAction = require('../GameActions/CardLastingEffectAction');
 const Effects = require('../effects');
 
 class PlayUpgradeAction extends BasePlayAction {
@@ -46,7 +46,7 @@ class PlayUpgradeAction extends BasePlayAction {
             new AttachAction({ upgrade: context.source }).getEvent(context.target, context)
         );
         if (context.source.type === 'creature') {
-            const changeTypeEvent = new LastingEffectCardAction({
+            const changeTypeEvent = new CardLastingEffectAction({
                 duration: 'lastingEffect',
                 effect: Effects.changeType('upgrade')
             }).getEvent(context.source, context);

@@ -473,6 +473,11 @@ class Player extends GameObject {
         this.removeCardFromPile(card);
         let location = card.location;
 
+        if (location === 'purged' && card.purgedBy) {
+            card.purgedBy.purgedCards = card.purgedBy.purgedCards.filter((c) => c !== card);
+            card.purgedBy = null;
+        }
+
         if (location === 'play area') {
             if (targetLocation !== 'archives' && card.owner !== this) {
                 card.owner.moveCard(card, targetLocation, options);
@@ -488,6 +493,9 @@ class Player extends GameObject {
                 child.onLeavesPlay();
                 child.owner.moveCard(child, 'discard');
             }
+
+            card.purgedCards.forEach((c) => (c.purgedBy = null));
+            card.purgedCards = [];
 
             card.onLeavesPlay();
             card.controller = this;

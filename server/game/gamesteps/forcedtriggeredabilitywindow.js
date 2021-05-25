@@ -265,8 +265,8 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
 
     resolveAbility(context) {
         this.game.resolveAbility(context);
-        if (context.ability.isLastingAbilityTrigger) {
-            context.ability.hasTriggered = true;
+        if (context.ability.isLastingAbilityTrigger && !context.ability.multipleTrigger) {
+            context.ability.unregisterEvents();
         }
         this.resolvedAbilities.push({ ability: context.ability, event: context.event });
     }

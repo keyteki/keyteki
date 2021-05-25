@@ -5,7 +5,6 @@ describe('Spangler Box', function () {
                 player1: {
                     house: 'logos',
                     inPlay: [
-                        'spangler-box',
                         'doc-bookton',
                         'dextre',
                         'lamindra',
@@ -13,7 +12,7 @@ describe('Spangler Box', function () {
                         'timetraveller',
                         'dysania'
                     ],
-                    hand: ['remote-access']
+                    hand: ['spangler-box', 'remote-access']
                 },
                 player2: {
                     amber: 1,
@@ -28,19 +27,20 @@ describe('Spangler Box', function () {
                     ]
                 }
             });
+
+            this.player1.play(this.spanglerBox);
+            this.spanglerBox.ready();
         });
 
         it('should purge a creature and transfer control', function () {
-            this.player1.clickCard(this.spanglerBox);
-            this.player1.clickPrompt("Use this card's Action ability");
+            this.player1.useAction(this.spanglerBox);
             expect(this.player1).toHavePrompt('Spangler Box');
             expect(this.player1).toBeAbleToSelect(this.docBookton);
             expect(this.player1).toBeAbleToSelect(this.silvertooth);
             expect(this.player1).toBeAbleToSelect(this.stealerOfSouls);
             this.player1.clickCard(this.silvertooth);
             expect(this.silvertooth.location).toBe('purged');
-            expect(this.silvertooth.parent).toBe(this.spanglerBox);
-            expect(this.spanglerBox.childCards).toContain(this.silvertooth);
+            expect(this.spanglerBox.purgedCards).toContain(this.silvertooth);
             expect(this.spanglerBox.controller).toBe(this.player2.player);
             expect(this.player2.player.cardsInPlay).toContain(this.spanglerBox);
             expect(this.spanglerBox.exhausted).toBe(true);
@@ -48,8 +48,7 @@ describe('Spangler Box', function () {
 
         it('should not purge warded creatures and remain under owner control', function () {
             this.silvertooth.tokens.ward = 1;
-            this.player1.clickCard(this.spanglerBox);
-            this.player1.clickPrompt("Use this card's Action ability");
+            this.player1.useAction(this.spanglerBox);
             expect(this.player1).toHavePrompt('Spangler Box');
             expect(this.player1).toBeAbleToSelect(this.docBookton);
             expect(this.player1).toBeAbleToSelect(this.silvertooth);
@@ -63,16 +62,12 @@ describe('Spangler Box', function () {
         });
 
         it('should allow opponent to choose logos, and use it', function () {
-            this.player1.clickCard(this.spanglerBox);
-            this.player1.clickPrompt("Use this card's Action ability");
+            this.player1.useAction(this.spanglerBox);
             this.player1.clickCard(this.silvertooth);
             this.player1.endTurn();
-            expect(this.player2).toHavePromptButton('logos');
             this.player2.clickPrompt('logos');
             this.spanglerBox.ready();
-            this.player2.clickCard(this.spanglerBox);
-            this.player2.clickPrompt("Use this card's Action ability");
-            expect(this.player2).toHavePrompt('Spangler Box');
+            this.player2.useAction(this.spanglerBox);
             expect(this.player2).toBeAbleToSelect(this.docBookton);
             expect(this.player2).not.toBeAbleToSelect(this.silvertooth);
             this.player2.clickCard(this.docBookton);
@@ -83,8 +78,7 @@ describe('Spangler Box', function () {
         });
 
         it("should remain under opponent's control even if used by me", function () {
-            this.player1.clickCard(this.spanglerBox);
-            this.player1.clickPrompt("Use this card's Action ability");
+            this.player1.useAction(this.spanglerBox);
             this.player1.clickCard(this.silvertooth);
             this.spanglerBox.ready();
             this.player1.play(this.remoteAccess);
@@ -106,26 +100,23 @@ describe('Spangler Box', function () {
         it('should return purged creatures to play, but not other purged cards', function () {
             this.player1.fightWith(this.docBookton, this.stealerOfSouls);
             expect(this.docBookton.location).toBe('purged');
-            this.player1.clickCard(this.spanglerBox);
-            this.player1.clickPrompt("Use this card's Action ability");
+            this.player1.useAction(this.spanglerBox);
             this.player1.clickCard(this.silvertooth);
             this.spanglerBox.ready();
             this.player1.play(this.remoteAccess);
             this.player1.clickCard(this.spanglerBox);
             this.player1.clickCard(this.stealerOfSouls);
             this.player1.endTurn();
-            expect(this.player2).toHavePromptButton('logos');
             this.player2.clickPrompt('logos');
             this.spanglerBox.ready();
-            this.player2.clickCard(this.spanglerBox);
-            this.player2.clickPrompt("Use this card's Action ability");
+            this.player2.useAction(this.spanglerBox);
             this.player2.clickCard(this.lamindra);
             expect(this.silvertooth.location).toBe('purged');
             expect(this.stealerOfSouls.location).toBe('purged');
             expect(this.lamindra.location).toBe('purged');
-            this.player2.clickCard(this.gormOfOmm);
-            this.player2.clickPrompt("Use this card's Omni ability");
+            this.player2.useAction(this.gormOfOmm, true);
             this.player2.clickCard(this.spanglerBox);
+            expect(this.spanglerBox.location).toBe('discard');
 
             // Start putting into play
             expect(this.player2).toBeAbleToSelect(this.silvertooth);
@@ -164,7 +155,6 @@ describe('Spangler Box', function () {
             expect(this.player1.player.cardsInPlay).toContain(this.lamindra);
             expect(this.lamindra.hasToken('amber')).toBe(false);
             expect(this.lamindra.exhausted).toBe(true);
-            expect(this.spanglerBox.location).toBe('discard');
             expect(this.docBookton.location).toBe('purged');
         });
     });
