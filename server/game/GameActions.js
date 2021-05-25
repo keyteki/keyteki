@@ -29,7 +29,7 @@ const Actions = {
     attach: (propertyFactory) => new GameActions.AttachAction(propertyFactory), // upgrade
     capture: (propertyFactory) => new GameActions.CaptureAction(propertyFactory),
     cardLastingEffect: (propertyFactory) =>
-        new GameActions.LastingEffectCardAction(propertyFactory), // duration = 'untilEndOfRound', effect, targetLocation, condition, until
+        new GameActions.CardLastingEffectAction(propertyFactory), // duration = 'untilEndOfRound', effect, targetLocation, condition, until
     clearGrowthTokens: (propertyFactory) =>
         new GameActions.RemoveTokenAction(propertyFactory, 'growth'),
     clearGloryCounters: (propertyFactory) =>
@@ -105,7 +105,7 @@ const Actions = {
         new GameActions.LastingEffectAction(propertyFactory, 1),
     gainAmber: (propertyFactory) => new GameActions.ModifyAmberAction(propertyFactory), // amount = 1
     gainChains: (propertyFactory) => new GameActions.ModifyChainsActions(propertyFactory), // amount = 1
-    lastingEffect: (propertyFactory) => new GameActions.LastingEffectAction(propertyFactory, 2),
+    lastingEffect: (propertyFactory) => new GameActions.LastingEffectAction(propertyFactory),
     loseAmber: (propertyFactory) => new GameActions.LoseAmberAction(propertyFactory),
     mulligan: (propertyFactory) => new GameActions.MulliganAction(propertyFactory), // name
     nextRoundEffect: (propertyFactory) =>
@@ -120,6 +120,7 @@ const Actions = {
     unforgeKey: (propertyFactory) => new GameActions.UnforgeAction(propertyFactory),
     untilEndOfMyNextTurn: (propertyFactory) =>
         new GameActions.LastingEffectAction(propertyFactory, 3),
+    untilNextTurn: (propertyFactory) => new GameActions.LastingEffectAction(propertyFactory, 2),
     // meta actions
     addEventToWindow: (propertyFactory) => new GameActions.AddEventToWindowAction(propertyFactory),
     allocateDamage: (propertyFactory) => new GameActions.AllocateDamageAction(propertyFactory),

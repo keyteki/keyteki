@@ -59,7 +59,6 @@ describe('General Sherman', function () {
             expect(this.player1).toBeAbleToSelect(this.alaka);
 
             this.player1.clickCard(this.kaupe);
-            this.player1.clickPrompt('Left');
             this.player1.clickCard(this.deepwaterGruen);
             this.player1.clickPrompt('Left');
 

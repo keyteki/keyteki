@@ -8,7 +8,6 @@ class PlaceUnderAction extends CardGameAction {
 
     setDefaultProperties() {
         this.facedown = false;
-        this.moveGigantic = false;
         this.parent = null;
     }
 
@@ -27,30 +26,17 @@ class PlaceUnderAction extends CardGameAction {
         return this.parent && super.canAffect(card, context);
     }
 
-    placeUnder(card) {
-        card.controller.removeCardFromPile(card);
-        card.controller = card.owner;
-        card.parent = this.parent;
-        card.moveTo(this.isGraft ? 'grafted' : 'purged');
-        card.facedown = this.facedown;
-        this.parent.childCards.push(card);
-    }
-
     getEvent(card, context) {
         return super.createEvent(
             this.isGraft ? 'onCardGrafted' : 'onPlaceUnder',
             { card, context },
             () => {
-                if (card.gigantic && this.moveGigantic) {
-                    let part = card.controller
-                        .getSourceList(card.location)
-                        .find((part) => card.compositeId === part.id);
-                    if (part) {
-                        this.placeUnder(part);
-                    }
-                }
-
-                this.placeUnder(card);
+                card.controller.removeCardFromPile(card);
+                card.controller = card.owner;
+                card.parent = this.parent;
+                card.moveTo(this.isGraft ? 'grafted' : 'purged');
+                card.facedown = this.facedown;
+                this.parent.childCards.push(card);
             }
         );
     }

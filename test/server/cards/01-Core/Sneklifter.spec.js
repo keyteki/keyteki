@@ -5,7 +5,7 @@ describe('Sneklifter', function () {
                 player1: {
                     amber: 3,
                     house: 'shadows',
-                    hand: ['sneklifter', 'troll', 'dominator-bauble']
+                    hand: ['sneklifter', 'troll', 'dominator-bauble', 'hock', 'relentless-whispers']
                 },
                 player2: {
                     amber: 12,
@@ -20,7 +20,7 @@ describe('Sneklifter', function () {
             });
         });
 
-        it('should take control of an artifact', function () {
+        it('should take control of a shadows artifact', function () {
             this.player1.play(this.sneklifter);
             expect(this.player1).toHavePrompt('Sneklifter');
             expect(this.player1).toBeAbleToSelect(this.seekerNeedle);
@@ -31,9 +31,7 @@ describe('Sneklifter', function () {
             this.player1.clickCard(this.seekerNeedle);
             expect(this.player1.player.cardsInPlay).toContain(this.seekerNeedle);
             expect(this.seekerNeedle.controller).toBe(this.player1.player);
-            this.player1.clickCard(this.seekerNeedle);
-            expect(this.player1).toHavePrompt('Seeker Needle');
-            this.player1.clickPrompt("Use this card's Action ability");
+            this.player1.useAction(this.seekerNeedle);
             this.player1.clickCard(this.urchin);
             expect(this.urchin.location).toBe('discard');
             expect(this.player1.amber).toBe(4);
@@ -55,9 +53,33 @@ describe('Sneklifter', function () {
             expect(this.libraryOfBabble.controller).toBe(this.player1.player);
             expect(this.libraryOfBabble.hasHouse('shadows')).toBe(true);
             expect(this.libraryOfBabble.hasHouse('logos')).toBe(false);
+            this.player1.useAction(this.libraryOfBabble);
+            expect(this.player1.hand.length).toBe(5);
+        });
+
+        it('should change the house back to original when leaves play', function () {
+            this.player1.play(this.sneklifter);
             this.player1.clickCard(this.libraryOfBabble);
-            this.player1.clickPrompt("Use this card's Action ability");
-            expect(this.player1.hand.length).toBe(3);
+            expect(this.libraryOfBabble.hasHouse('shadows')).toBe(true);
+            expect(this.libraryOfBabble.hasHouse('logos')).toBe(false);
+            this.player1.play(this.hock);
+            this.player1.clickCard(this.libraryOfBabble);
+            expect(this.libraryOfBabble.location).toBe('discard');
+            expect(this.libraryOfBabble.hasHouse('shadows')).toBe(false);
+            expect(this.libraryOfBabble.hasHouse('logos')).toBe(true);
+        });
+
+        it('should not change the house back to original when Sneklifter leaves play', function () {
+            this.player1.play(this.sneklifter);
+            this.player1.clickCard(this.libraryOfBabble);
+            expect(this.libraryOfBabble.hasHouse('shadows')).toBe(true);
+            expect(this.libraryOfBabble.hasHouse('logos')).toBe(false);
+            this.player1.play(this.relentlessWhispers);
+            this.player1.clickCard(this.sneklifter);
+            expect(this.sneklifter.location).toBe('discard');
+            expect(this.libraryOfBabble.location).toBe('play area');
+            expect(this.libraryOfBabble.hasHouse('shadows')).toBe(true);
+            expect(this.libraryOfBabble.hasHouse('logos')).toBe(false);
         });
 
         it('should cause The Sting to work correctly', function () {

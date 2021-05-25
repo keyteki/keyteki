@@ -371,12 +371,19 @@ describe('Deusillus', function () {
                 },
                 player2: {
                     amber: 5,
-                    inPlay: ['spangler-box', 'narp', 'zorg']
+                    inPlay: ['narp', 'zorg'],
+                    hand: ['spangler-box']
                 }
             });
+
+            this.player1.endTurn();
+            this.player2.clickPrompt('logos');
+            this.player2.play(this.spanglerBox);
+            this.player2.endTurn();
+            this.player1.clickPrompt('saurian');
         });
 
-        it('should put both Deusillus parts under Spangler Box', function () {
+        it('should purge both Deusillus parts', function () {
             this.player1.play(this.deusillus);
             this.player1.clickCard(this.narp);
             this.player1.endTurn();
@@ -388,11 +395,11 @@ describe('Deusillus', function () {
             expect(this.deusillus.location).toBe('purged');
             expect(this.deusillus2.location).toBe('purged');
 
-            expect(this.deusillus.parent).toBe(this.spanglerBox);
-            expect(this.deusillus2.parent).toBe(this.spanglerBox);
+            expect(this.deusillus.purgedBy).toBe(this.spanglerBox);
+            expect(this.deusillus2.purgedBy).toBe(this.spanglerBox);
 
-            expect(this.spanglerBox.childCards).toContain(this.deusillus);
-            expect(this.spanglerBox.childCards).toContain(this.deusillus2);
+            expect(this.spanglerBox.purgedCards).toContain(this.deusillus);
+            expect(this.spanglerBox.purgedCards).toContain(this.deusillus2);
         });
 
         it('should put Deusillus in play after Spangler Box is destroyed', function () {

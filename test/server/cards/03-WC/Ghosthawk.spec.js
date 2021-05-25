@@ -29,10 +29,6 @@ describe('Ghosthawk', function () {
             });
 
             describe('when using the abilty', function () {
-                beforeEach(function () {
-                    this.player1.clickCard(this.ghosthawk);
-                });
-
                 it('should prompt to reap with both cards', function () {
                     expect(this.player1).toBeAbleToSelect(this.troll);
                     expect(this.player1).toBeAbleToSelect(this.dewFaerie);
@@ -72,7 +68,6 @@ describe('Ghosthawk', function () {
 
                 this.player1.play(this.ghosthawk, true, true);
                 this.player1.clickCard(this.dewFaerie);
-                this.player1.clickCard(this.ghosthawk);
             });
 
             it('should not prompt to reap with exhausted creatures', function () {
@@ -97,7 +92,6 @@ describe('Ghosthawk', function () {
 
                 this.player1.play(this.ghosthawk, true, true);
                 this.player1.clickCard(this.dewFaerie);
-                this.player1.clickCard(this.ghosthawk);
             });
 
             it('should allow reaping with enraged creatures', function () {
@@ -124,7 +118,6 @@ describe('Ghosthawk', function () {
 
                 this.player1.play(this.ghosthawk, true, true);
                 this.player1.clickCard(this.dewFaerie);
-                this.player1.clickCard(this.ghosthawk);
             });
 
             it('should reap with both creatures', function () {
@@ -153,7 +146,6 @@ describe('Ghosthawk', function () {
 
                 this.player1.play(this.ghosthawk, true, true);
                 this.player1.clickCard(this.dewFaerie);
-                this.player1.clickCard(this.ghosthawk);
             });
 
             it('should reap with both creatures', function () {
@@ -180,7 +172,6 @@ describe('Ghosthawk', function () {
 
                 this.player1.play(this.ghosthawk, true, true);
                 this.player1.clickCard(this.dewFaerie);
-                this.player1.clickCard(this.ghosthawk);
             });
 
             it('should allow reaping with creatures', function () {
@@ -209,7 +200,6 @@ describe('Ghosthawk', function () {
                 beforeEach(function () {
                     this.player1.play(this.ghosthawk, false, true);
                     this.player1.clickCard(this.dewFaerie);
-                    this.player1.clickCard(this.ghosthawk);
                 });
 
                 it('should not have any prompt to reap', function () {
@@ -226,7 +216,6 @@ describe('Ghosthawk', function () {
                 beforeEach(function () {
                     this.player1.play(this.ghosthawk, true, true);
                     this.player1.clickCard(this.dewFaerie);
-                    this.player1.clickCard(this.ghosthawk);
                 });
 
                 it('should have a prompt to reap and only non-untamed neighbor is selectable', function () {
@@ -249,7 +238,6 @@ describe('Ghosthawk', function () {
             beforeEach(function () {
                 this.player1.play(this.ghosthawk, true, true);
                 this.player1.clickCard(this.etaromme);
-                this.player1.clickCard(this.ghosthawk);
             });
 
             it('should prompt to reap with both cards', function () {

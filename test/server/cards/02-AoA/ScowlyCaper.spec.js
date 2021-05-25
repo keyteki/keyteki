@@ -3,15 +3,21 @@ describe('Scowly Caper', function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
-                    house: 'shadows',
-                    inPlay: ['lamindra', 'nexus', 'yantzee-gang', 'spangler-box'],
-                    hand: ['scowly-caper']
+                    house: 'logos',
+                    inPlay: ['lamindra', 'nexus', 'yantzee-gang'],
+                    hand: ['scowly-caper', 'spangler-box']
                 },
                 player2: {
                     inPlay: ['archimedes', 'dextre', 'faygin', 'gorm-of-omm'],
                     hand: ['relentless-whispers']
                 }
             });
+
+            this.player1.play(this.spanglerBox);
+            this.player1.endTurn();
+            this.player2.clickPrompt('logos');
+            this.player2.endTurn();
+            this.player1.clickPrompt('shadows');
         });
 
         it("should start at opponent's play area", function () {
@@ -101,16 +107,14 @@ describe('Scowly Caper', function () {
             expect(this.player1).toHavePromptButton('logos');
             this.player1.clickPrompt('logos');
 
-            this.player1.clickCard(this.spanglerBox);
-            this.player1.clickPrompt("Use this card's Action ability");
+            this.player1.useAction(this.spanglerBox);
             this.player1.clickCard(this.scowlyCaper);
             expect(this.scowlyCaper.location).toBe('purged');
             this.player1.endTurn();
 
             expect(this.player2).toHavePromptButton('sanctum');
             this.player2.clickPrompt('sanctum');
-            this.player2.clickCard(this.gormOfOmm);
-            this.player2.clickPrompt("Use this card's Omni ability");
+            this.player2.useAction(this.gormOfOmm, true);
             this.player2.clickCard(this.spanglerBox);
 
             expect(this.player2).toHavePrompt('Scowly Caper');
