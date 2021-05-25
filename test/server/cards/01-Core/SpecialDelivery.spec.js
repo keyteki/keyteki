@@ -4,7 +4,13 @@ describe('Special Delivery', function () {
             this.setupTest({
                 player1: {
                     house: 'sanctum',
-                    inPlay: ['special-delivery', 'the-grey-rider', 'lamindra', 'bulwark']
+                    inPlay: [
+                        'special-delivery',
+                        'the-grey-rider',
+                        'lamindra',
+                        'bulwark',
+                        'rad-penny'
+                    ]
                 },
                 player2: {
                     inPlay: ['troll', 'urchin', 'shadow-self', 'nexus']
@@ -16,7 +22,8 @@ describe('Special Delivery', function () {
             this.player2.moveCard(this.shadowSelf, 'discard');
             this.player1.useAction(this.specialDelivery, true);
             expect(this.player1).toBeAbleToSelect(this.theGreyRider);
-            expect(this.player1).toBeAbleToSelect(this.bulwark);
+            expect(this.player1).toBeAbleToSelect(this.radPenny);
+            expect(this.player1).not.toBeAbleToSelect(this.bulwark);
             expect(this.player1).not.toBeAbleToSelect(this.lamindra);
             expect(this.player1).toBeAbleToSelect(this.nexus);
             expect(this.player1).toBeAbleToSelect(this.troll);
@@ -44,6 +51,24 @@ describe('Special Delivery', function () {
             expect(this.nexus.tokens.damage).toBeUndefined();
             expect(this.nexus.location).toBe('play area');
             expect(this.shadowSelf.location).toBe('discard');
+            expect(this.specialDelivery.location).toBe('discard');
+            this.player1.endTurn();
+        });
+
+        it('should not purge rad penny when she goes back to deck', function () {
+            this.player1.useAction(this.specialDelivery, true);
+            this.player1.clickCard(this.radPenny);
+            expect(this.radPenny.location).toBe('deck');
+            expect(this.specialDelivery.location).toBe('discard');
+            this.player1.endTurn();
+        });
+
+        it('should not purge warded creatures', function () {
+            this.radPenny.ward();
+            this.player1.useAction(this.specialDelivery, true);
+            this.player1.clickCard(this.radPenny);
+            expect(this.radPenny.warded).toBe(false);
+            expect(this.radPenny.location).toBe('play area');
             expect(this.specialDelivery.location).toBe('discard');
             this.player1.endTurn();
         });
