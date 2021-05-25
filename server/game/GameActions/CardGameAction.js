@@ -69,7 +69,7 @@ class CardGameAction extends GameAction {
                 }
             };
             let properties = Object.assign(defaultProperties, this.promptForSelect);
-            context.game.promptForSelect(properties.player, properties);
+            context.game.promptForSelect(context.game.activePlayer, properties);
         } else if (this.promptWithHandlerMenu) {
             let properties = this.promptWithHandlerMenu;
             if (!properties.customHandler) {

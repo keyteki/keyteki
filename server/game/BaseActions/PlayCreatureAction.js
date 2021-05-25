@@ -22,7 +22,7 @@ class PlayCreatureAction extends BasePlayAction {
             if (parts.length > 1) {
                 // if there are two gigantic top parts, it could be relevant to choose among them
                 // if they have different enhancements
-                context.game.promptForSelect(context.player, {
+                context.game.promptForSelect(context.game.activePlayer, {
                     source: context.source,
                     activePromptTitle: 'Choose a top part to play',
                     cardType: 'creature',

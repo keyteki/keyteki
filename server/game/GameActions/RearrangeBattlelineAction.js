@@ -10,7 +10,7 @@ class RearrangeBattlelineAction extends CardGameAction {
     }
 
     promptForNextSwap(context) {
-        context.game.promptForSelect(context.player, {
+        context.game.promptForSelect(context.game.activePlayer, {
             activePromptTitle: 'Select two creatures to swap',
             context: context,
             mode: 'upTo',
