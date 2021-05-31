@@ -58,22 +58,26 @@ const defaultCardWidth = 65;
 const cardBackDecal = undefined;
 
 export const loadImage = (url) => {
-    return new Promise((resolve, reject) => {
-        fabric.Image.fromURL(
-            url,
-            (image) => {
-                if (!image.getElement()) {
-                    reject();
-                } else {
-                    if (image.width === 0) {
-                        return reject();
-                    }
+    return new Promise((resolve) => {
+        fabric.util.loadImage(url, async (image) => {
+            if (image) {
+                resolve(new fabric.Image(image, imgOptions));
+                return;
+            }
 
-                    resolve(image);
-                }
-            },
-            imgOptions
-        );
+            const locale = Constants.Locales.find((x) => url.includes(`/${x}/`));
+            if (locale) {
+                fabric.util.loadImage(url.replace(`/${locale}/`, '/'), (image) => {
+                    if (image) {
+                        resolve(new fabric.Image(image, imgOptions));
+                        return;
+                    }
+                    resolve(new fabric.Image());
+                });
+                return;
+            }
+            resolve(new fabric.Image());
+        });
     });
 };
 
@@ -265,7 +269,7 @@ export const buildDeckList = async (canvas, deck, language, translate, size) => 
         }
 
         if (index > 20) {
-            x = x + 255;
+            x = 300;
             y = cardData.start.y + (index - 22.1) * 28;
         }
 
@@ -282,7 +286,7 @@ export const buildDeckList = async (canvas, deck, language, translate, size) => 
             })
             .scaleToWidth(cardData.size);
 
-        const number = new fabric.Text(card.number.toString(), fontProps).scaleToWidth(30).set({
+        const number = new fabric.Text(card.number.toString(), fontProps).set({
             left: x + rarity.getScaledWidth() + 2,
             top: y
         });
@@ -301,19 +305,14 @@ export const buildDeckList = async (canvas, deck, language, translate, size) => 
             fontWeight: 300,
             fill: card.enhancements ? '#0081ad' : 'black'
         }).set({
-            left:
-                x +
-                rarity.getScaledWidth() +
-                number.getScaledWidth() +
-                typeIcon.getScaledWidth() +
-                2,
+            left: x + rarity.getScaledWidth() + 32 + typeIcon.getScaledWidth() + 2,
             top: y
         });
         canvas.add(number, title, rarity, typeIcon);
         let iconX =
             x +
             rarity.getScaledWidth() +
-            number.getScaledWidth() +
+            32 +
             typeIcon.getScaledWidth() +
             title.getScaledWidth() +
             2;
