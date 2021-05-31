@@ -10,7 +10,8 @@ class PlayCreatureAction extends BasePlayAction {
     addSubEvent(event, context) {
         let action = context.game.actions.putIntoPlay({ myControl: true, deploy: this.deploy });
         action.preEventHandler(context);
-        event.addChildEvent(action.getEvent(context.source, context));
+        event.putIntoPlayEvent = action.getEvent(context.source, context);
+        event.addChildEvent(event.putIntoPlayEvent);
     }
 
     executeHandler(context) {
