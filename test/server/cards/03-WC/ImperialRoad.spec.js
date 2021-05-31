@@ -69,4 +69,31 @@ describe('Imperial Road', function () {
             expect(this.imperialRoad.exhausted).toBe(true);
         });
     });
+
+    describe("Imperial Road's ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'untamed',
+                    inPlay: ['imperial-road'],
+                    hand: ['bestiarii-urso', 'tribune-pompitus']
+                },
+                player2: {
+                    amber: 1,
+                    inPlay: ['krump']
+                }
+            });
+        });
+
+        it('should be able to unstun creatures that enter play stunned', function () {
+            this.player1.useAction(this.imperialRoad, true);
+            this.player1.clickCard(this.bestiariiUrso);
+            expect(this.bestiariiUrso.location).toBe('play area');
+            expect(this.bestiariiUrso.stunned).toBe(true);
+            expect(this.player1).toHavePrompt('Choose a creature');
+            expect(this.player1).toBeAbleToSelect(this.bestiariiUrso);
+            this.player1.clickCard(this.bestiariiUrso);
+            expect(this.bestiariiUrso.stunned).toBe(false);
+        });
+    });
 });
