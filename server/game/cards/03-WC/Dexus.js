@@ -6,7 +6,8 @@ class Dexus extends Card {
             when: {
                 onCardPlayed: (event, context) =>
                     event.card.controller !== context.source.controller &&
-                    event.card.isOnFlank('right')
+                    context.event.putIntoPlayEvent &&
+                    context.event.putIntoPlayEvent.playedOnRightFlank
             },
             gameAction: ability.actions.loseAmber()
         });

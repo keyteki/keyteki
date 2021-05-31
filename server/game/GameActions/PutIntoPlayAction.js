@@ -7,6 +7,8 @@ class PutIntoPlayAction extends CardGameAction {
         this.myControl = false;
         this.ready = false;
         this.deploy = false;
+        this.playedOnLeftFlank = false;
+        this.playedOnRightFlank = false;
     }
 
     setup() {
@@ -68,11 +70,13 @@ class PutIntoPlayAction extends CardGameAction {
                         case 'Left':
                             flank = 'left';
                             deploy = false;
+                            this.playedOnLeftFlank = true;
 
                             break;
                         case 'Right':
                             flank = 'right';
                             deploy = false;
+                            this.playedOnRightFlank = true;
 
                             break;
                         case 'Deploy Left':
@@ -103,6 +107,19 @@ class PutIntoPlayAction extends CardGameAction {
 
                                 this.left = flank === 'left';
 
+                                let creaturesInPlay = card.controller.creaturesInPlay;
+
+                                if (flank === 'left' && card === creaturesInPlay[0]) {
+                                    this.playedOnLeftFlank = true;
+                                }
+
+                                if (
+                                    flank === 'right' &&
+                                    card === creaturesInPlay[creaturesInPlay.length - 1]
+                                ) {
+                                    this.playedOnRightFlank = true;
+                                }
+
                                 return true;
                             }
                         });
@@ -111,6 +128,9 @@ class PutIntoPlayAction extends CardGameAction {
                     }
                 }
             });
+        } else {
+            this.playedOnLeftFlank = true;
+            this.playedOnRightFlank = true;
         }
     }
 
@@ -119,59 +139,69 @@ class PutIntoPlayAction extends CardGameAction {
     }
 
     getEvent(card, context) {
-        return super.createEvent('onCardEntersPlay', { card: card, context: context }, () => {
-            let player;
-            let control;
-            if (card.anyEffect('entersPlayUnderOpponentsControl') && card.owner.opponent) {
-                player = card.owner.opponent;
-                control = true;
-            } else {
-                player = this.myControl ? context.player : card.controller;
-                control = this.myControl;
-            }
+        return super.createEvent(
+            'onCardEntersPlay',
+            {
+                card: card,
+                context: context
+            },
+            (event) => {
+                event.playedOnLeftFlank = this.playedOnLeftFlank;
+                event.playedOnRightFlank = this.playedOnRightFlank;
 
-            if (card.gigantic) {
-                let part =
-                    card.composedPart ||
-                    card.controller
-                        .getSourceList(card.location)
-                        .find((part) => card.compositeId === part.id);
-
-                if (!part && card.parent) {
-                    // parts are placed togehter under another card and can be put into play together
-                    part = card.parent.childCards.find((part) => card.compositeId === part.id);
+                let player;
+                let control;
+                if (card.anyEffect('entersPlayUnderOpponentsControl') && card.owner.opponent) {
+                    player = card.owner.opponent;
+                    control = true;
+                } else {
+                    player = this.myControl ? context.player : card.controller;
+                    control = this.myControl;
                 }
 
-                if (part) {
-                    card.controller.removeCardFromPile(part);
-                    card.composedPart = part;
+                if (card.gigantic) {
+                    let part =
+                        card.composedPart ||
+                        card.controller
+                            .getSourceList(card.location)
+                            .find((part) => card.compositeId === part.id);
+
+                    if (!part && card.parent) {
+                        // parts are placed togehter under another card and can be put into play together
+                        part = card.parent.childCards.find((part) => card.compositeId === part.id);
+                    }
+
+                    if (part) {
+                        card.controller.removeCardFromPile(part);
+                        card.composedPart = part;
+                    }
+
+                    card.image = card.compositeImageId || card.id;
                 }
 
-                card.image = card.compositeImageId || card.id;
-            }
+                player.moveCard(card, 'play area', {
+                    left: this.left,
+                    deployIndex: this.deployIndex,
+                    myControl: control
+                });
 
-            player.moveCard(card, 'play area', {
-                left: this.left,
-                deployIndex: this.deployIndex,
-                myControl: control
-            });
+                if (this.myControl) {
+                    card.updateEffectContexts();
+                }
 
-            if (this.myControl) {
-                card.updateEffectContexts();
-            }
+                if (!this.ready && !this.matchEntersPlayEffects(card, context, 'entersPlayReady')) {
+                    card.exhaust();
+                }
 
-            if (!this.ready && !this.matchEntersPlayEffects(card, context, 'entersPlayReady')) {
-                card.exhaust();
-            }
+                if (this.matchEntersPlayEffects(card, context, 'entersPlayStunned')) {
+                    card.stun();
+                }
 
-            if (this.matchEntersPlayEffects(card, context, 'entersPlayStunned')) {
-                card.stun();
+                if (this.matchEntersPlayEffects(card, context, 'entersPlayEnraged')) {
+                    card.enrage();
+                }
             }
-
-            if (this.matchEntersPlayEffects(card, context, 'entersPlayEnraged')) {
-                card.enrage();
-            }
-        });
+        );
     }
 }
 
