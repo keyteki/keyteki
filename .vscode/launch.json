@@ -2,18 +2,6 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "type": "firefox",
-            "request": "attach",
-            "name": "Launch localhost",
-            "url": "http://localhost:4000/",
-            "pathMappings": [
-                {
-                    "url": "webpack:///client/",
-                    "path": "${workspaceFolder}/client/"
-                }
-            ]
-        },
-        {
             "type": "node",
             "request": "attach",
             "port": 9339,
@@ -43,6 +31,25 @@
             "port": 9229,
             "localRoot": "${workspaceFolder}",
             "remoteRoot": "/home/keyteki/keyteki-lobby"
+        },
+        {
+            "type": "firefox",
+            "request": "attach",
+            "name": "Launch localhost",
+            "url": "http://localhost:4000/",
+            "pathMappings": [
+                {
+                    "url": "webpack:///client/",
+                    "path": "${workspaceFolder}/client/"
+                }
+            ]
+        },
+        {
+            "type": "edge",
+            "request": "attach",
+            "name": "Attach to Microsoft Edge",
+            "port": 2015,
+            "webRoot": "${workspaceFolder}"
         },
         {
             "name": "Launch (Lobby Server)",
