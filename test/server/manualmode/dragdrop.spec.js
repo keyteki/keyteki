@@ -119,7 +119,8 @@ describe('Drag and drop card', function () {
                     discard: ['ancient-bear']
                 },
                 player2: {
-                    hand: ['dextre']
+                    hand: ['dextre'],
+                    inPlay: ['universal-keylock']
                 }
             });
 
@@ -131,6 +132,15 @@ describe('Drag and drop card', function () {
             this.player1.clickPrompt('Left');
             expect(this.lamindra.location).toBe('play area');
             expect(this.niffleApe.getKeywordValue('elusive')).toBe(1);
+        });
+
+        it('should unapply persistent effects', function () {
+            expect(this.player1.player.getCurrentKeyCost()).toBe(9);
+            expect(this.player2.player.getCurrentKeyCost()).toBe(9);
+            this.player2.drop(this.universalKeylock, 'discard');
+            expect(this.universalKeylock.location).toBe('discard');
+            expect(this.player1.player.getCurrentKeyCost()).toBe(6);
+            expect(this.player2.player.getCurrentKeyCost()).toBe(6);
         });
 
         it('should apply terminal condition', function () {
