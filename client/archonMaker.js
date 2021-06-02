@@ -185,8 +185,8 @@ export const buildDeckList = async (canvas, deck, language, translate, size) => 
     );
 
     const QRCodeIcon = new fabric.Image(qrCode, imgOptions);
-    const expansion = new fabric.Image(SetIcons[deck.expansion].getElement(), imgOptions);
-    const TCO = new fabric.Image(TCOIcon.getElement(), imgOptions);
+    const expansion = new fabric.Image(SetIcons[deck.expansion].toCanvasElement(), imgOptions);
+    const TCO = new fabric.Image(TCOIcon.toCanvasElement(), imgOptions);
     const Rarities = {
         Common: CommonIcon,
         Uncommon: UncommonIcon,
@@ -217,7 +217,7 @@ export const buildDeckList = async (canvas, deck, language, translate, size) => 
     }
 
     for (const [index, house] of deck.houses.sort().entries()) {
-        const houseImage = new fabric.Image(HouseIcons[house].getElement(), imgOptions);
+        const houseImage = new fabric.Image(HouseIcons[house].toCanvasElement(), imgOptions);
         houseImage
             .set({
                 left: houseData[index].x,
@@ -277,7 +277,7 @@ export const buildDeckList = async (canvas, deck, language, translate, size) => 
             y = y + 44;
         }
 
-        const rarity = new fabric.Image(Rarities[card.rarity].getElement(), imgOptions);
+        const rarity = new fabric.Image(Rarities[card.rarity].toCanvasElement(), imgOptions);
         rarity
             .set({
                 left: x,
@@ -291,7 +291,7 @@ export const buildDeckList = async (canvas, deck, language, translate, size) => 
             top: y
         });
 
-        const typeIcon = new fabric.Image(CardTypesIcons[card.type].getElement(), imgOptions);
+        const typeIcon = new fabric.Image(CardTypesIcons[card.type].toCanvasElement(), imgOptions);
         typeIcon
             .set({
                 left: x + rarity.getScaledWidth() + number.getScaledWidth() + 2,
@@ -318,7 +318,7 @@ export const buildDeckList = async (canvas, deck, language, translate, size) => 
             2;
 
         if (card.is_maverick) {
-            const maverickImage = new fabric.Image(MaverickIcon.getElement(), imgOptions);
+            const maverickImage = new fabric.Image(MaverickIcon.toCanvasElement(), imgOptions);
             maverickImage
                 .set({ left: iconX, top: y, shadow: new fabric.Shadow(shadowProps) })
                 .scaleToHeight(cardData.size);
@@ -327,7 +327,7 @@ export const buildDeckList = async (canvas, deck, language, translate, size) => 
         }
 
         if (card.is_anomaly) {
-            const anomalyImage = new fabric.Image(AnomalyIcon.getElement(), imgOptions);
+            const anomalyImage = new fabric.Image(AnomalyIcon.toCanvasElement(), imgOptions);
             anomalyImage
                 .set({ left: iconX, top: y, shadow: new fabric.Shadow(shadowProps) })
                 .scaleToHeight(cardData.size);
@@ -373,12 +373,12 @@ export const buildCardBack = async (canvas, deck, size, showDeckName) => {
     }
 
     const cardback = new fabric.Image(
-        IdBackBlanksIcons[`${number}${evil ? '_evil' : ''}`].getElement(),
+        IdBackBlanksIcons[`${number}${evil ? '_evil' : ''}`].toCanvasElement(),
         imgOptions
     );
-    const house1 = new fabric.Image(IdBackHouseIcons[deck.houses[0]].getElement(), imgOptions);
-    const house2 = new fabric.Image(IdBackHouseIcons[deck.houses[1]].getElement(), imgOptions);
-    const house3 = new fabric.Image(IdBackHouseIcons[deck.houses[2]].getElement(), imgOptions);
+    const house1 = new fabric.Image(IdBackHouseIcons[deck.houses[0]].toCanvasElement(), imgOptions);
+    const house2 = new fabric.Image(IdBackHouseIcons[deck.houses[1]].toCanvasElement(), imgOptions);
+    const house3 = new fabric.Image(IdBackHouseIcons[deck.houses[2]].toCanvasElement(), imgOptions);
 
     cardback.scaleToWidth(width);
     house1.scaleToWidth(75);
@@ -393,7 +393,7 @@ export const buildCardBack = async (canvas, deck, size, showDeckName) => {
     canvas.add(house3);
 
     if (cardBackDecal) {
-        const decal = new fabric.Image(IdBackDecals[cardBackDecal].getElement(), imgOptions);
+        const decal = new fabric.Image(IdBackDecals[cardBackDecal].toCanvasElement(), imgOptions);
         decal.scaleToWidth(width);
         canvas.add(decal);
     }
@@ -470,7 +470,7 @@ export const buildCard = async (
     canvas.setHeight(height);
 
     const cardImage = new fabric.Image(
-        DeckCards[halfSize ? 'halfSize' : 'cards'][image].getElement(),
+        DeckCards[halfSize ? 'halfSize' : 'cards'][image].toCanvasElement(),
         imgOptions
     );
     cardImage.scaleToWidth(width);
@@ -509,7 +509,7 @@ export const buildCard = async (
     }
     if (enhancements && enhancements.length > 0 && enhancements[0] !== '') {
         const baseImage = new fabric.Image(
-            EnhancementBaseImages[enhancements.length].getElement(),
+            EnhancementBaseImages[enhancements.length].toCanvasElement(),
             imgOptions
         );
         let top = 59 + (amber ? amber * 30 : 0);
@@ -526,7 +526,10 @@ export const buildCard = async (
         canvas.add(baseImage);
 
         for (const [index, pip] of enhancements.entries()) {
-            const pipImage = new fabric.Image(EnhancementPipImages[pip].getElement(), imgOptions);
+            const pipImage = new fabric.Image(
+                EnhancementPipImages[pip].toCanvasElement(),
+                imgOptions
+            );
 
             if (
                 ['deusillus2', 'ultra-gravitron2', 'niffle-kong2'].some((x) => x === card.id) &&
@@ -546,7 +549,7 @@ export const buildCard = async (
             let totalPower = modifiedPower - (tokens.power ? tokens.power : 0);
             if (modifiedPower && totalPower !== card.printedPower) {
                 const modifiedPowerToken = new fabric.Image(
-                    Tokens.ModifiedPower.getElement(),
+                    Tokens.ModifiedPower.toCanvasElement(),
                     imgOptions
                 );
                 let left = 10;
@@ -571,7 +574,10 @@ export const buildCard = async (
             }
             //armor overlay
             if (tokens.armor || card.printedArmor) {
-                const modifiedArmorToken = new fabric.Image(Tokens.armor.getElement(), imgOptions);
+                const modifiedArmorToken = new fabric.Image(
+                    Tokens.armor.toCanvasElement(),
+                    imgOptions
+                );
                 let left = 230;
                 let top = 220;
 
@@ -604,7 +610,7 @@ export const buildCard = async (
                     Tokens[name] = await loadImage(require(`./assets/img/${name}.png`));
                 }
 
-                const TokenImage = new fabric.Image(Tokens[name].getElement(), imgOptions);
+                const TokenImage = new fabric.Image(Tokens[name].toCanvasElement(), imgOptions);
                 TokenImage.set({ originX: 'center', originY: 'center', opacity: fade ? 0.6 : 1 });
                 TokenImage.scaleToWidth(100);
                 let top, left;
@@ -635,7 +641,7 @@ export const buildCard = async (
 };
 
 const buildFailImage = (canvas, size, width) => {
-    const defaultCardImage = new fabric.Image(DefaultCard.getElement(), imgOptions);
+    const defaultCardImage = new fabric.Image(DefaultCard.toCanvasElement(), imgOptions);
     defaultCardImage.scaleToWidth(width);
     canvas.add(defaultCardImage);
     applyFilters(canvas, size, width);
@@ -644,7 +650,7 @@ const buildFailImage = (canvas, size, width) => {
 const applyFilters = (canvas, size, width) => {
     canvas.renderAll();
     const scale = size ? (defaultCardWidth * getCardSizeMultiplier(size)) / width : 1;
-    const finalImage = new fabric.Image(canvas.getElement(), imgOptions);
+    const finalImage = new fabric.Image(canvas.toCanvasElement(), imgOptions);
     finalImage.filters.push(
         new fabric.Image.filters.Resize({
             resizeType: 'lanczos',
@@ -653,6 +659,7 @@ const applyFilters = (canvas, size, width) => {
             scaleY: scale
         })
     );
+    canvas.clear();
     finalImage.applyFilters();
     finalImage.scaleToWidth(width);
     canvas.add(finalImage);
