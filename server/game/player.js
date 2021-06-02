@@ -379,7 +379,6 @@ class Player extends GameObject {
                                     left: flank === 'left'
                                 });
                             }
-                            this.game.checkGameState(true);
                         }
                     },
                     this
@@ -400,19 +399,15 @@ class Player extends GameObject {
                             card.parent = parent;
 
                             card.updateEffectContexts();
-
-                            this.game.checkGameState(true);
                             return true;
                         }
                     });
                 }
             } else {
                 this.moveCard(card, target);
-                this.game.checkGameState(true);
             }
         } else {
             this.moveCard(card, target);
-            this.game.checkGameState(true);
         }
     }
 
