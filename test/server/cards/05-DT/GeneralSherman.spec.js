@@ -48,6 +48,49 @@ describe('General Sherman', function () {
             expect(this.alaka.location).toBe('purged');
         });
 
+        it('should return other creatures to play when destroyed and only friendly creatures are in play', function () {
+            this.player1.moveCard(this.narp, 'discard');
+            this.player1.moveCard(this.groke, 'discard');
+            this.player1.moveCard(this.alaka, 'discard');
+            this.player1.play(this.generalSherman);
+            this.player1.play(this.sleepWithTheFishes);
+
+            expect(this.player1).toBeAbleToSelect(this.kaupe);
+            expect(this.player1).toBeAbleToSelect(this.deepwaterGruen);
+
+            this.player1.clickCard(this.kaupe);
+            this.player1.clickCard(this.deepwaterGruen);
+            this.player1.clickPrompt('Left');
+
+            expect(this.kaupe.location).toBe('play area');
+            expect(this.deepwaterGruen.location).toBe('play area');
+        });
+
+        it('should return other creatures to play when destroyed when only enemy creatures are in play', function () {
+            this.player1.moveCard(this.kaupe, 'discard');
+            this.player1.moveCard(this.deepwaterGruen, 'discard');
+            this.player1.play(this.generalSherman);
+            this.player1.play(this.sleepWithTheFishes);
+
+            expect(this.player1).toBeAbleToSelect(this.narp);
+            expect(this.player1).toBeAbleToSelect(this.groke);
+            expect(this.player1).toBeAbleToSelect(this.alaka);
+
+            this.player1.clickCard(this.narp);
+            this.player1.clickCard(this.groke);
+            this.player1.clickPrompt('Left');
+            this.player1.clickCard(this.alaka);
+            this.player1.clickPrompt('Left');
+
+            expect(this.narp.location).toBe('play area');
+            expect(this.groke.location).toBe('play area');
+            expect(this.alaka.location).toBe('play area');
+
+            //gruen effects shouldn't occur
+            expect(this.player1.amber).toBe(4);
+            expect(this.player2.amber).toBe(3);
+        });
+
         it('should return other creatures to play when destroyed', function () {
             this.player1.play(this.generalSherman);
             this.player1.play(this.sleepWithTheFishes);
