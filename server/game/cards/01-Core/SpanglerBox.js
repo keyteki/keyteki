@@ -4,6 +4,7 @@ class SpanglerBox extends Card {
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.lastingEffect({
+                targetController: 'current',
                 multipleTrigger: false,
                 when: {
                     onCardLeavesPlay: (event, context) => event.card === context.source
