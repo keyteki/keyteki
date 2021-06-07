@@ -82,4 +82,38 @@ describe('Sci. Officer Morpheus', function () {
             expect(this.player1).toHavePrompt('Harland Mindlock');
         });
     });
+
+    describe('Morpheus/Sea Urchin interaction', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'shadows',
+                    hand: ['sea-urchin', 'sea-urchin-evil-twin'],
+                    inPlay: ['sci-officer-morpheus']
+                },
+                player2: {
+                    amber: 7,
+                    inPlay: ['lamindra']
+                }
+            });
+        });
+
+        it('should properly consider conditions of play actions', function () {
+            this.player1.playCreature(this.seaUrchin);
+            this.player1.clickCard(this.seaUrchin);
+            expect(this.seaUrchin.amber).toBe(2);
+            expect(this.player1.amber).toBe(0);
+            expect(this.player2.amber).toBe(5);
+
+            this.player1.raiseTide();
+            this.player1.playCreature(this.seaUrchinEvilTwin);
+            this.player1.clickCard(this.seaUrchinEvilTwin);
+            expect(this.seaUrchin.amber).toBe(2);
+            expect(this.seaUrchinEvilTwin.amber).toBe(0);
+            expect(this.player1.amber).toBe(4);
+            expect(this.player2.amber).toBe(1);
+
+            this.player1.endTurn();
+        });
+    });
 });

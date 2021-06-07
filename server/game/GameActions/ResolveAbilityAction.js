@@ -36,7 +36,9 @@ class ResolveAbilityAction extends CardAction {
             let ability = this.ability;
             if (typeof ability === 'function') {
                 let cardAbilites = card.abilities.actions.concat(card.abilities.reactions);
-                let filteredAbilities = cardAbilites.filter((a) => ability(a));
+                let filteredAbilities = cardAbilites.filter(
+                    (a) => ability(a) && a.condition(context)
+                );
                 if (filteredAbilities.length > 1) {
                     let choices = [];
                     let handlers = [];
