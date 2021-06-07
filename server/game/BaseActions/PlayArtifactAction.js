@@ -7,6 +7,7 @@ class PlayAction extends BasePlayAction {
     }
 
     addSubEvent(event, context) {
+        super.addSubEvent(event, context);
         event.addChildEvent(
             context.game.actions.putIntoPlay({ myControl: true }).getEvent(context.source, context)
         );

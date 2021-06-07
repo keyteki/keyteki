@@ -79,13 +79,11 @@ class ActionWindow extends UiPrompt {
             return;
         }
 
-        let omegaCard =
-            this.game.omegaCard || this.game.cardsPlayed.find((card) => card.hasKeyword('omega'));
-        if (omegaCard) {
+        if (this.game.omegaCard) {
             this.game.addMessage(
                 '{0} played {1} which has Omega, ending this step',
                 this.game.activePlayer,
-                omegaCard
+                this.game.omegaCard
             );
             this.complete();
         }

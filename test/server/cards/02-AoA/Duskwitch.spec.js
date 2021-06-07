@@ -42,7 +42,6 @@ describe('Duskwitch', function () {
                 },
                 player2: {
                     amber: 1,
-                    house: 'untamed',
                     hand: ['hunting-witch', 'dust-pixie']
                 }
             });
@@ -55,6 +54,30 @@ describe('Duskwitch', function () {
             this.player2.play(this.dustPixie);
             expect(this.huntingWitch.exhausted).toBe(true);
             expect(this.dustPixie.exhausted).toBe(true);
+        });
+    });
+
+    describe("Duskwitch's ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 2,
+                    house: 'untamed',
+                    hand: ['duskwitch', 'witch-of-the-eye']
+                },
+                player2: {
+                    amber: 1,
+                    inPlay: ['autocannon']
+                }
+            });
+        });
+
+        it('should end turn even if killed by autocannon', function () {
+            this.player1.play(this.witchOfTheEye);
+            expect(this.witchOfTheEye.tokens.damage).toBe(1);
+            this.player1.play(this.duskwitch);
+            this.player2.clickPrompt('brobnar');
+            expect(this.duskwitch.location).toBe('discard');
         });
     });
 });
