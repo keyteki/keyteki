@@ -82,6 +82,7 @@ class Game extends EventEmitter {
         this.cardsPlayedThisPhase = [];
         this.effectsUsedThisPhase = [];
         this.activePlayer = null;
+        this.playedRoundsAfterTime = [];
         this.jsonForUsers = {};
 
         this.cardData = options.cardData || [];
@@ -743,10 +744,53 @@ class Game extends EventEmitter {
 
     checkForTimeExpired() {
         if (this.timeLimit.isTimeLimitReached && !this.finishedAt) {
+            this.playedRoundsAfterTime.push(this.activePlayer);
+            if (this.playedRoundsAfterTime.length < this.getPlayers().length) {
+                return;
+            }
+
+            // Each player who has 6 or more Æmber forges 1 Key (removing the 6 Æmber from their pool as usual).
+            let forgedKeys = 0;
+            let remainingAmber = 0;
+            let potentialWinnersByKey = [];
+            let potentialWinnersByAmber = [];
+            for (const player of this.getPlayers()) {
+                if (player.amber >= 6) {
+                    player.amber -= 6;
+                    player.keys[Object.keys(player.keys).find((key) => !player.keys[key])] = true;
+                    if (player.getForgedKeys() > forgedKeys) {
+                        forgedKeys = player.getForgedKeys();
+                        potentialWinnersByKey = [player];
+                    } else if (player.getForgedKeys() === forgedKeys) {
+                        potentialWinnersByKey.push(player);
+                    }
+                }
+
+                if (player.amber > remainingAmber) {
+                    remainingAmber = player.amber;
+                    potentialWinnersByAmber = [player];
+                } else if (player.getForgedKeys() === remainingAmber) {
+                    potentialWinnersByAmber.push(player);
+                }
+            }
+
+            // The player with the most Keys forged is the winner.
+            if (potentialWinnersByKey.length === 1) {
+                this.recordWinner(potentialWinnersByKey[0], 'keys after time');
+                return;
+            }
+
+            // The player with the most remaining Æmber in their pool is the winner.
+            if (potentialWinnersByAmber.length === 1) {
+                this.recordWinner(potentialWinnersByAmber[0], 'amber after time');
+                return;
+            }
+
             this.addAlert(
                 'success',
-                'The game has ended because the timer has expired.  Timed wins are not currently implemented'
+                'The game has ended because the timer has expired.  House selection wins are not currently implemented'
             );
+
             this.finishedAt = new Date();
         }
     }
