@@ -70,12 +70,14 @@ i18n
         nsSeparator: false,
         detection: {
             // order and from where user language should be detected
-            order: ['cookie', 'localStorage', 'navigator'],
+            order: ['localStorage', 'cookie', 'navigator'],
             lookupCookie: 'i18next',
             lookupLocalStorage: 'i18nextLng',
 
             // cache user language on
             caches: ['localStorage', 'cookie'],
+
+            cookieSecure: true,
 
             // optional expire and domain for set cookie
             cookieMinutes: 1000000
