@@ -95,7 +95,17 @@ const Lobby = () => {
                         showIndicators={false}
                         showStatus={false}
                         interval={5000}
-                    ></Carousel>
+                    >
+                        <a
+                            target='_blank'
+                            rel='noreferrer'
+                            href='http://keyforgelive.archonscorner.com'
+                        >
+                            <div className='banner'>
+                                <img src='/banner/KFL_TCO-Banner.png' alt='KEYFORGE LIVE is an in-person, multi-day event July 23rd through July 25th in Milwaukee, WI.' />
+                            </div>
+                        </a>
+                    </Carousel>
                 </Col>
             </div>
 
