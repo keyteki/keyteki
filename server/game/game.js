@@ -932,8 +932,6 @@ class Game extends EventEmitter {
         }
 
         this.playersAndSpectators[user.username] = new Spectator(socketId, user);
-        this.addAlert('info', '{0} has joined the game as a spectator', user.username);
-
         return true;
     }
 
