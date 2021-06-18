@@ -95,17 +95,7 @@ const Lobby = () => {
                         showIndicators={false}
                         showStatus={false}
                         interval={5000}
-                    >
-                        <a
-                            target='_blank'
-                            rel='noreferrer'
-                            href='https://www.thefinalswindle.com/the-big-one'
-                        >
-                            <div className='banner'>
-                                <img src='/banner/swindle-event-banner.png' />
-                            </div>
-                        </a>
-                    </Carousel>
+                    ></Carousel>
                 </Col>
             </div>
 

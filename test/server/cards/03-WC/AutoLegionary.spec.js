@@ -50,7 +50,7 @@ describe('Auto-Legionary', function () {
                 expect(this.player1).not.toHavePromptButton('Reap with this creature');
             });
 
-            describe('when action ability is a second time triggered', function () {
+            describe('when action ability is triggered as a creature', function () {
                 beforeEach(function () {
                     this.player1.endTurn();
                     this.player2.clickPrompt('brobnar');
@@ -78,6 +78,60 @@ describe('Auto-Legionary', function () {
                     });
                 });
             });
+        });
+    });
+
+    describe('when action ability is triggered by nexus', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'shadows',
+                    inPlay: ['nexus']
+                },
+                player2: {
+                    inPlay: ['legatus-raptor', 'mooncurser', 'tantadlin', 'auto-legionary']
+                }
+            });
+        });
+
+        it('should exhaust and not move to battleline', function () {
+            this.player1.reap(this.nexus);
+            this.player1.clickCard(this.autoLegionary);
+            expect(this.autoLegionary.exhausted).toBe(true);
+            this.player1.endTurn();
+        });
+    });
+
+    describe('when action ability is triggered by nexus', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'saurian',
+                    inPlay: ['legatus-raptor', 'mooncurser', 'tantadlin', 'auto-legionary']
+                },
+                player2: {
+                    inPlay: ['troll']
+                }
+            });
+        });
+
+        it('should not be usable in any house after destroyed and played again', function () {
+            this.player1.useAction(this.autoLegionary);
+            this.player1.clickPrompt('Left');
+            this.player1.endTurn();
+            this.player2.clickPrompt('brobnar');
+            this.player2.fightWith(this.troll, this.autoLegionary);
+            expect(this.autoLegionary.location).toBe('discard');
+            this.player2.endTurn();
+            this.player1.clickPrompt('saurian');
+            this.player1.moveCard(this.autoLegionary, 'hand');
+            this.player1.play(this.autoLegionary);
+            this.player1.endTurn();
+            this.player2.clickPrompt('brobnar');
+            this.player2.endTurn();
+            this.player1.clickPrompt('untamed');
+            this.player1.clickCard(this.autoLegionary);
+            this.player1.endTurn();
         });
     });
 });
