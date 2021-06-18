@@ -43,7 +43,7 @@ const ForgotPassword = () => {
 
     return (
         <Col sm={{ span: 6, offset: 3 }}>
-            <Panel title='Forgot password'>
+            <Panel title={t('Forgot password')}>
                 {!apiState && (
                     <AlertPanel
                         type='info'

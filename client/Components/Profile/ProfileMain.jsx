@@ -194,7 +194,7 @@ const ProfileMain = ({ user, formProps }) => {
                     <Form.Control
                         name='challongeApiSubdomain'
                         type='password'
-                        placeholder={t('Challonge API subdomain')}
+                        placeholder={t('Enter challonge API subdomain')}
                         value={formProps.values.challongeApiSubdomain}
                         onChange={formProps.handleChange}
                         onBlur={formProps.handleBlur}

@@ -6,7 +6,8 @@ class Sinestra extends Card {
             when: {
                 onCardPlayed: (event, context) =>
                     event.card.controller !== context.source.controller &&
-                    event.card.isOnFlank('left')
+                    context.event.putIntoPlayEvent &&
+                    context.event.putIntoPlayEvent.playedOnLeftFlank
             },
             gameAction: ability.actions.loseAmber()
         });

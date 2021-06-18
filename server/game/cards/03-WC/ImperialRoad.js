@@ -8,11 +8,15 @@ class ImperialRoad extends Card {
                 location: 'hand',
                 controller: 'self',
                 cardCondition: (card) => card.hasHouse('saurian'),
-                gameAction: ability.actions.playCard()
+                gameAction: ability.actions.sequential([
+                    ability.actions.cardLastingEffect({
+                        targetLocation: 'any',
+                        effect: ability.effects.entersPlayStunned()
+                    }),
+                    ability.actions.playCard()
+                ])
             },
-            then: (preThenContext) => ({
-                gameAction: ability.actions.stun({ target: preThenContext.target })
-            })
+            effect: 'play {0}'
         });
     }
 }
