@@ -4,15 +4,18 @@ class CustomVirus extends Card {
     setupCardAbilities(ability) {
         this.omni({
             target: {
+                optional: true,
                 cardType: 'creature',
                 controller: 'self',
                 location: 'hand',
                 gameAction: [
                     ability.actions.purge(),
                     ability.actions.destroy((context) => ({
-                        target: context.game.creaturesInPlay.filter((card) =>
-                            card.getTraits().some((trait) => context.target.hasTrait(trait))
-                        )
+                        target: context.target
+                            ? context.game.creaturesInPlay.filter((card) =>
+                                  card.getTraits().some((trait) => context.target.hasTrait(trait))
+                              )
+                            : []
                     }))
                 ]
             },
