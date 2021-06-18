@@ -3,7 +3,9 @@ const Card = require('../../Card.js');
 class ScowlyCaper extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
-            effect: ability.effects.canUse((card) => card === this)
+            effect: ability.effects.canUse(
+                (card, context, effectContext) => card === effectContext.source
+            )
         });
 
         this.persistentEffect({
