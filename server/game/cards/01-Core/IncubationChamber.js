@@ -4,6 +4,7 @@ class IncubationChamber extends Card {
     setupCardAbilities(ability) {
         this.omni({
             target: {
+                optional: true,
                 cardType: 'creature',
                 controller: 'self',
                 location: 'hand',

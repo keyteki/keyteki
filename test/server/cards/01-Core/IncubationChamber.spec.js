@@ -21,10 +21,16 @@ describe('Incubation Chamber', function () {
             });
         });
 
+        it('should be optional', function () {
+            this.player1.useAction(this.incubationChamber, true);
+            this.player1.clickPrompt('Done');
+            this.player1.endTurn();
+        });
+
         it('should be able to archive a mars creature from hand', function () {
             this.player1.useAction(this.incubationChamber, true);
             expect(this.player1).toBeAbleToSelect(this.etherSpider);
-            expect(this.player1).toBeAbleToSelect(this.etherSpider);
+            expect(this.player1).toBeAbleToSelect(this.collectorWorm);
             expect(this.player1).not.toBeAbleToSelect(this.zorg);
             expect(this.player1).not.toBeAbleToSelect(this.groggins);
             expect(this.player1).not.toBeAbleToSelect(this.phloxemSpike);

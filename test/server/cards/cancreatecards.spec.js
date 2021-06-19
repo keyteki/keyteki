@@ -46,6 +46,11 @@ const mockContext = {
         two: [card],
         flank: { hasHouse: () => true, neighbors: [], childCards: [], hasTrait: () => false }
     },
+    selects: {
+        action: {
+            choice: 'any'
+        }
+    },
     houses: {
         select: 'brobnar'
     },
