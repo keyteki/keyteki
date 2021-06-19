@@ -50,7 +50,7 @@ class CardImport {
         } else {
             imageLangDir = path.join(this.imageDir, this.language.replace('-', ''));
         }
-        halfSizeImageDir = imageLangDir.replace('/cards', '/halfSize');
+        halfSizeImageDir = imageLangDir.replace(`${path.sep}cards`, `${path.sep}/halfSize`);
         mkdirp(imageLangDir);
         mkdirp(halfSizeImageDir);
 
@@ -93,7 +93,9 @@ class CardImport {
 
         for (const card of gigantic) {
             let imgPath = path.join(imageLangDir, card + '-complete.png');
-            let halfSizePath = imgPath.replace('/cards', '/halfSize').replace('.png', '.jpg');
+            let halfSizePath = imgPath
+                .replace(`${path.sep}cards`, `${path.sep}halfSize`)
+                .replace('.png', '.jpg');
             if (!fs.existsSync(imgPath)) {
                 await this.buildGigantics(card, imageLangDir, imgPath);
                 console.log('Built gigantic image for ' + card);
