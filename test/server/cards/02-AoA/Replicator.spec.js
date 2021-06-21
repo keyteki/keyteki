@@ -44,7 +44,7 @@ describe('Replicator', function () {
                     house: 'mars',
                     amber: 2,
                     hand: ['red-planet-ray-gun'],
-                    inPlay: ['replicator', 'ulyq-megamouth', 'dextre']
+                    inPlay: ['replicator', 'ulyq-megamouth', 'dextre', 'zorg', 'archimedes']
                 },
                 player2: {
                     amber: 5,
@@ -53,9 +53,7 @@ describe('Replicator', function () {
             });
         });
 
-        xit('Copy reap effects including upgrades', function () {
-            // This test specifically addresses multiple reap effects and
-            // Is xit'd until we re-factor the base replicator card code
+        it('Copy reap effects including upgrades', function () {
             this.player1.playUpgrade(this.redPlanetRayGun, this.ulyqMegamouth);
             this.player1.reap(this.ulyqMegamouth);
             expect(this.player1).toBeAbleToSelect(this.ulyqMegamouth);
@@ -68,9 +66,13 @@ describe('Replicator', function () {
             this.player1.clickPrompt('Reap with this creature');
             expect(this.player1).toBeAbleToSelect(this.ulyqMegamouth);
             this.player1.clickCard(this.ulyqMegamouth);
-            // TODO should have a prompt here
-            expect(this.player1).toHavePrompt('Ulyq Megamouth');
+            expect(this.player1).toHavePrompt('Resolve ability from:');
+            expect(this.player1).toHavePromptButton('Ulyq Megamouth');
+            expect(this.player1).toHavePromptButton('Red Planet Ray Gun');
+            this.player1.clickPrompt('Ulyq Megamouth');
+            expect(this.player1).toBeAbleToSelect(this.archimedes);
             expect(this.player1).toBeAbleToSelect(this.dextre);
+            expect(this.player1).not.toBeAbleToSelect(this.zorg);
         });
     });
 
