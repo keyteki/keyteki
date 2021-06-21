@@ -50,7 +50,7 @@ class CardImport {
         } else {
             imageLangDir = path.join(this.imageDir, this.language.replace('-', ''));
         }
-        halfSizeImageDir = imageLangDir.replace(`${path.sep}cards`, `${path.sep}/halfSize`);
+        halfSizeImageDir = imageLangDir.replace(`${path.sep}cards`, `${path.sep}halfSize`);
         mkdirp(imageLangDir);
         mkdirp(halfSizeImageDir);
 
