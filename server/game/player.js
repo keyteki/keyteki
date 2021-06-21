@@ -656,7 +656,7 @@ class Player extends GameObject {
             let cardHouse = card.printedHouse;
 
             if (card.anyEffect('changeHouse')) {
-                cardHouse = this.getEffects('changeHouse');
+                cardHouse = card.getEffects('changeHouse');
             }
 
             if (!houses.includes(cardHouse)) {

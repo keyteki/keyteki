@@ -5,11 +5,12 @@ describe('Hypnobeam', function () {
                 player1: {
                     amber: 3,
                     house: 'mars',
-                    inPlay: ['zorg'],
+                    inPlay: ['zorg', 'flaxia', 'lamindra'],
                     hand: ['hypnobeam']
                 },
                 player2: {
-                    inPlay: ['urchin', 'ether-spider']
+                    inPlay: ['urchin', 'ether-spider'],
+                    hand: ['mimic-gel']
                 }
             });
         });
@@ -35,6 +36,27 @@ describe('Hypnobeam', function () {
             expect(this.etherSpider.hasHouse('mars')).toBe(true);
             this.player1.reap(this.etherSpider);
             expect(this.player1.amber).toBe(4);
+        });
+
+        it('should be able to select Logos after taking control of Mimic Gel on a Mars creature', function () {
+            this.player1.endTurn();
+            this.player2.clickPrompt('logos');
+            this.player2.clickCard(this.mimicGel);
+            this.player2.clickPrompt('Play this creature');
+            this.player2.clickCard(this.zorg);
+            this.player2.clickPrompt('Left');
+            this.player2.endTurn();
+            this.player1.clickPrompt('mars');
+            this.player1.play(this.hypnobeam);
+            this.player1.clickCard(this.mimicGel);
+            this.player1.clickPrompt('Left');
+            this.player1.endTurn();
+            this.player2.clickPrompt('logos');
+            this.player2.endTurn();
+            expect(this.player1).toHavePromptButton('mars');
+            expect(this.player1).toHavePromptButton('untamed');
+            expect(this.player1).toHavePromptButton('shadows');
+            expect(this.player1).toHavePromptButton('logos');
         });
     });
 });
