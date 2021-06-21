@@ -33,12 +33,24 @@
             "remoteRoot": "/home/keyteki/keyteki-lobby"
         },
         {
+            "type": "firefox",
+            "request": "attach",
+            "name": "Launch localhost",
+            "url": "http://localhost:4000/",
+            "pathMappings": [
+                {
+                    "url": "webpack:///client/",
+                    "path": "${workspaceFolder}/client/"
+                }
+            ]
+        },
+        {
             "type": "edge",
             "request": "attach",
             "name": "Attach to Microsoft Edge",
             "port": 2015,
             "webRoot": "${workspaceFolder}"
-        }
+        },
         {
             "name": "Launch (Lobby Server)",
             "type": "node",
@@ -49,7 +61,9 @@
             "cwd": "${workspaceRoot}",
             "preLaunchTask": null,
             "runtimeExecutable": null,
-            "runtimeArgs": ["--nolazy"],
+            "runtimeArgs": [
+                "--nolazy"
+            ],
             "env": {
                 "NODE_ENV": "development"
             },
@@ -66,7 +80,9 @@
             "cwd": "${workspaceRoot}",
             "preLaunchTask": null,
             "runtimeExecutable": null,
-            "runtimeArgs": ["--nolazy"],
+            "runtimeArgs": [
+                "--nolazy"
+            ],
             "env": {
                 "NODE_ENV": "development"
             },
@@ -84,7 +100,6 @@
             "localRoot": "${workspaceRoot}",
             "remoteRoot": null
         },
-
         {
             "name": "Debug Tests",
             "type": "node",
@@ -103,7 +118,9 @@
             "env": {
                 "JASMINE_CONFIG_PATH": "./jasmine.json"
             },
-            "args": ["${relativeFile}"],
+            "args": [
+                "${relativeFile}"
+            ],
             "cwd": "${workspaceRoot}",
             "outFiles": []
         }
