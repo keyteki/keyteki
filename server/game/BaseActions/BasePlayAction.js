@@ -44,18 +44,17 @@ class BasePlayAction extends BaseAbility {
         });
     }
 
-    addBonusIconResolution(event, context) {
+    addSubEvent(event, context) {
         event.addSubEvent(
             context.game.getEvent('unnamedEvent', {}, () => {
                 context.game.checkGameState(true);
-                context.game.actions.resolveBonusIcons().resolve(this.card, context);
+                // update game state to consider effects
+                if (context.source.hasKeyword('omega')) {
+                    context.game.omegaCard = context.source;
+                }
+                context.game.actions.resolveBonusIcons().resolve(context.source, context);
             })
         );
-    }
-
-    // eslint-disable-next-line no-unused-vars
-    addSubEvent(event, context) {
-        return;
     }
 
     executeHandler(context) {
@@ -68,7 +67,6 @@ class BasePlayAction extends BaseAbility {
             },
             () => context.game.cardPlayed(context.source)
         );
-        this.addBonusIconResolution(event, context);
         this.addSubEvent(event, context);
         context.game.openEventWindow(event);
     }

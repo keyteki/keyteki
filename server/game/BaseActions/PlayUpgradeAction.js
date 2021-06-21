@@ -42,6 +42,7 @@ class PlayUpgradeAction extends BasePlayAction {
     }
 
     addSubEvent(event, context) {
+        super.addSubEvent(event, context);
         event.addChildEvent(
             new AttachAction({ upgrade: context.source }).getEvent(context.target, context)
         );
