@@ -108,42 +108,6 @@ const Lobby = () => {
                                 />
                             </div>
                         </a>
-                        <a
-                            target='_blank'
-                            rel='noreferrer'
-                            href='http://keyforgelive.archonscorner.com'
-                        >
-                            <div className='banner'>
-                                <img
-                                    src='/banner/KFL_TCO-Banner_v2.png'
-                                    alt='KEYFORGE LIVE is sponsored by Luxury Playstyle.'
-                                />
-                            </div>
-                        </a>
-                        <a
-                            target='_blank'
-                            rel='noreferrer'
-                            href='http://keyforgelive.archonscorner.com'
-                        >
-                            <div className='banner'>
-                                <img
-                                    src='/banner/KFL_TCO-Banner_v3.png'
-                                    alt='KEYFORGE LIVE is organized and made possible by Archons Corner'
-                                />
-                            </div>
-                        </a>
-                        <a
-                            target='_blank'
-                            rel='noreferrer'
-                            href='https://www.gofundme.com/f/keyforge-live'
-                        >
-                            <div className='banner'>
-                                <img
-                                    src='/banner/KFL_TCO-Banner_v4.png'
-                                    alt='If you cannot attend KEYFORGE LIVE you can still support the event through goFundMe.'
-                                />
-                            </div>
-                        </a>
                     </Carousel>
                 </Col>
             </div>
