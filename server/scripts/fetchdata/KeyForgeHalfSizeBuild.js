@@ -60,7 +60,7 @@ const buildHalfSize = async (card, imgPath, filename, language) => {
     const frame = await loadImage(`file://${framePath}`);
     frame.scaleToWidth(300);
     const art = await loadImage(imgPath);
-    const artCanvas = new fabric.Image(art.getElement());
+    const artCanvas = new fabric.Image(art.toCanvasElement());
     artCanvas.set({ top: parameters[card.type].top, left: 150, originX: 'center' });
 
     if (card.type === 'creature1' || card.type === 'creature2') {
@@ -69,7 +69,7 @@ const buildHalfSize = async (card, imgPath, filename, language) => {
     }
     canvas.add(artCanvas);
     canvas.renderAll();
-    const finalArt = new fabric.Image(canvas.getElement(), { left: 150, originX: 'center' });
+    const finalArt = new fabric.Image(canvas.toCanvasElement(), { left: 150, originX: 'center' });
     if (card.type === 'upgrade') finalArt.set({ top: 19 });
     canvasFinal.add(finalArt);
     canvasFinal.add(frame);
@@ -114,7 +114,7 @@ const buildHalfSize = async (card, imgPath, filename, language) => {
             });
 
             bar = await loadImage(`file://${assetsPath + `/${card.house}_Action.png`}`);
-            barCanvas = new fabric.Image(bar.getElement()).set({
+            barCanvas = new fabric.Image(bar.toCanvasElement()).set({
                 originX: 'center',
                 originY: 'center',
                 top: 230,
@@ -133,7 +133,7 @@ const buildHalfSize = async (card, imgPath, filename, language) => {
                     `/${card.house}_${card.rarity === 'Evil Twin' ? 'eviltwin' : 'Creature'}.png`
                 }`
             );
-            barCanvas = new fabric.Image(bar.getElement()).set({
+            barCanvas = new fabric.Image(bar.toCanvasElement()).set({
                 originX: 'center',
                 originY: 'center',
                 top: card.rarity === 'Evil Twin' ? 224 : 230,
@@ -187,7 +187,7 @@ const buildHalfSize = async (card, imgPath, filename, language) => {
             Name = getCircularText(card.locale[language].name, 1200);
             bar = await loadImage(`file://${assetsPath + `/${card.house}_Upgrade.png`}`);
             if (card.house === 'untamed') {
-                barCanvas = new fabric.Image(bar.getElement()).set({
+                barCanvas = new fabric.Image(bar.toCanvasElement()).set({
                     originX: 'center',
                     originY: 'center',
                     top: 40,
@@ -197,7 +197,7 @@ const buildHalfSize = async (card, imgPath, filename, language) => {
                 Name.set({ originX: 'center', left: 153, top: 13 });
                 cardType.set({ originX: 'center', originY: 'center', left: 153, top: 55 });
             } else {
-                barCanvas = new fabric.Image(bar.getElement()).set({
+                barCanvas = new fabric.Image(bar.toCanvasElement()).set({
                     originX: 'center',
                     originY: 'center',
                     top: 40,
@@ -215,7 +215,7 @@ const buildHalfSize = async (card, imgPath, filename, language) => {
             Name = getCircularText(card.locale[language].name, 1200);
             bar = await loadImage(`file://${assetsPath + `/${card.house}_Upgrade.png`}`);
             if (card.house === 'untamed') {
-                barCanvas = new fabric.Image(bar.getElement()).set({
+                barCanvas = new fabric.Image(bar.toCanvasElement()).set({
                     originX: 'center',
                     originY: 'center',
                     top: 39,
@@ -225,7 +225,7 @@ const buildHalfSize = async (card, imgPath, filename, language) => {
                 Name.set({ originX: 'center', left: 153, top: 13 });
                 cardType.set({ originX: 'center', originY: 'center', left: 153, top: 54 });
             } else {
-                barCanvas = new fabric.Image(bar.getElement()).set({
+                barCanvas = new fabric.Image(bar.toCanvasElement()).set({
                     originX: 'center',
                     originY: 'center',
                     top: 41,
