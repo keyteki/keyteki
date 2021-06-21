@@ -61,8 +61,11 @@ class SelectCardPrompt extends UiPrompt {
             }
         }
 
+        const generatingEffectSource = this.game.getEffectSource(properties.context);
+
         this.source =
             this.source ||
+            generatingEffectSource ||
             (properties.context && properties.context.source) ||
             new EffectSource(game);
         this.promptTitle = this.promptTitle || this.source.name;

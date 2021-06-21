@@ -16,7 +16,7 @@ describe('Soulkeeper', function () {
         it('should destroy the most powerful enemy creature when the creature it is attached to dies', function () {
             this.player1.playUpgrade(this.soulkeeper, this.oldYurk);
             this.player1.fightWith(this.oldYurk, this.troll);
-            expect(this.player1).toHavePrompt('Old Yurk');
+            expect(this.player1).toHavePrompt('Soulkeeper');
             expect(this.player1).toBeAbleToSelect(this.troll);
             expect(this.player1).not.toBeAbleToSelect(this.nexus);
             expect(this.player1).not.toBeAbleToSelect(this.dodger);
@@ -43,7 +43,7 @@ describe('Soulkeeper', function () {
         it('should allow the choice between enemy creatures when two or more have the highest power', function () {
             this.player1.playUpgrade(this.soulkeeper, this.oldYurk);
             this.player1.fightWith(this.oldYurk, this.bilgumAvalanche);
-            expect(this.player1).toHavePrompt('Old Yurk');
+            expect(this.player1).toHavePrompt('Soulkeeper');
             expect(this.player1).not.toBeAbleToSelect(this.nexus);
             expect(this.player1).toBeAbleToSelect(this.yantzeeGang);
             expect(this.player1).toBeAbleToSelect(this.dodger);
@@ -81,7 +81,7 @@ describe('Soulkeeper', function () {
             expect(this.player1).toBeAbleToSelect(this.shooler);
             expect(this.player1).toBeAbleToSelect(this.oldYurk);
             this.player1.clickCard(this.oldYurk);
-            expect(this.player1).toHavePrompt('Old Yurk');
+            expect(this.player1).toHavePrompt('Soulkeeper');
             expect(this.player1).not.toBeAbleToSelect(this.nexus);
             expect(this.player1).toBeAbleToSelect(this.yantzeeGang);
             expect(this.player1).toBeAbleToSelect(this.bilgumAvalanche);

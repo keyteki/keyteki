@@ -16,7 +16,7 @@ describe('Stunner', function () {
         it('should prompt for a target to stun on play', function () {
             this.player1.playUpgrade(this.stunner, this.lieutenantKhrkhar);
             this.player1.reap(this.lieutenantKhrkhar);
-            expect(this.player1).toHavePrompt('Lieutenant Khrkhar');
+            expect(this.player1).toHavePrompt('Stunner');
             expect(this.player1).toBeAbleToSelect(this.lieutenantKhrkhar);
             expect(this.player1).toBeAbleToSelect(this.commanderRemiel);
             expect(this.player1).toBeAbleToSelect(this.bulwark);
@@ -31,7 +31,7 @@ describe('Stunner', function () {
         it('should be an optional choice', function () {
             this.player1.playUpgrade(this.stunner, this.lieutenantKhrkhar);
             this.player1.reap(this.lieutenantKhrkhar);
-            expect(this.player1).toHavePrompt('Lieutenant Khrkhar');
+            expect(this.player1).toHavePrompt('Stunner');
             expect(this.player1).toBeAbleToSelect(this.lieutenantKhrkhar);
             expect(this.player1).toBeAbleToSelect(this.commanderRemiel);
             expect(this.player1).toBeAbleToSelect(this.bulwark);
