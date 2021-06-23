@@ -441,8 +441,8 @@ class GameServer {
 
         if (!game.isSpectator(player) && !player.disconnectedAt) {
             game.addAlert('info', '{0} has connected to the game server', player);
-        } else if (game.isSpectator(player)) {
-            game.addAlert('info', '{0} has joined the game as a spectator', player);
+        } else if (game.isSpectator(player) && player.disconnectedAt) {
+            game.addAlert('info', '{0} reconnected to the game as a spectator', player);
         }
 
         this.sendGameState(game);

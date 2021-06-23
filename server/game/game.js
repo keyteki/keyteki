@@ -932,7 +932,11 @@ class Game extends EventEmitter {
         }
 
         this.playersAndSpectators[user.username] = new Spectator(socketId, user);
-        this.addAlert('info', '{0} has joined the game as a spectator', user.username);
+        this.addAlert(
+            'info',
+            '{0} has joined the game as a spectator',
+            this.playersAndSpectators[user.username]
+        );
 
         return true;
     }
@@ -997,17 +1001,19 @@ class Game extends EventEmitter {
             return;
         }
 
-        this.addAlert(
-            'info',
-            '{0} has disconnected.  The game will wait up to 30 seconds for them to reconnect',
-            player
-        );
-
         this.jsonForUsers[player.name] = undefined;
 
         if (this.isSpectator(player)) {
+            this.addAlert('info', '{0} has disconnected.', player);
+
             delete this.playersAndSpectators[playerName];
         } else {
+            this.addAlert(
+                'info',
+                '{0} has disconnected.  The game will wait up to 30 seconds for them to reconnect',
+                player
+            );
+
             player.disconnectedAt = new Date();
         }
 
