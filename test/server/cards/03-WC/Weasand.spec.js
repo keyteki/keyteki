@@ -174,7 +174,7 @@ describe('Weasand', function () {
         });
     });
 
-    describe("Opponent Harland Mindlock's ability", function () {
+    describe('Opponent taking control of weasand', function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
@@ -183,7 +183,7 @@ describe('Weasand', function () {
                     hand: ['weasand']
                 },
                 player2: {
-                    hand: ['harland-mindlock']
+                    hand: ['harland-mindlock', 'shooler', 'collar-of-subordination']
                 }
             });
         });
@@ -208,7 +208,7 @@ describe('Weasand', function () {
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
 
-        it('should not be destroyed when mindlock controlled creature return to owner and leave Weasand on a flank', function () {
+        it('should not be destroyed when mindlock controlled creature return to owner and does leave Weasand on a flank', function () {
             this.player1.playCreature(this.weasand, true, true);
             this.player1.clickCard(this.redlock);
             this.player1.endTurn();
@@ -226,6 +226,18 @@ describe('Weasand', function () {
             expect(this.redlock.location).toBe('play area');
             expect(this.brammo.controller).toBe(this.player1.player);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+
+        it('should be destroyed when taken control and put on a flank', function () {
+            this.player1.playCreature(this.weasand, true, true);
+            this.player1.clickCard(this.redlock);
+            this.player1.endTurn();
+            this.player2.clickPrompt('dis');
+            this.player2.play(this.shooler);
+            this.player2.playUpgrade(this.collarOfSubordination, this.weasand);
+            this.player2.clickPrompt('Left');
+            expect(this.weasand.location).toBe('discard');
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
         });
     });
 });
