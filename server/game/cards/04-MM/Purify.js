@@ -11,32 +11,31 @@ class Purify extends Card {
                 cardCondition: (card) => card.hasTrait('mutant'),
                 gameAction: ability.actions.purge()
             },
-            then: (preThenContext) => ({
-                gameAction: ability.actions.discard(() => {
-                    let deck = preThenContext.target.controller.deck;
-                    let index = deck.findIndex(
-                        (card) => card.type === 'creature' && !card.hasTrait('mutant')
-                    );
-                    if (index > -1) {
-                        return { target: deck.slice(0, index + 1) };
-                    }
-                    return { target: deck };
-                }),
-                then: () => {
-                    let card = preThenContext.target.controller.deck.find(
-                        (card) => card.type === 'creature' && !card.hasTrait('mutant')
-                    );
-                    if (card && !card.gigantic) {
-                        return {
-                            message: '{0} puts {3} into play',
-                            messageArgs: card,
-                            gameAction: ability.actions.putIntoPlay({
-                                target: card
-                            })
-                        };
-                    }
+            then: (preThenContext) => {
+                let deck = preThenContext.target.controller.deck;
+                let index = deck.findIndex(
+                    (card) => card.type === 'creature' && !card.hasTrait('mutant')
+                );
+                let discardedCards = index > -1 ? deck.slice(0, index + 1) : deck;
+                let card = index > -1 ? deck[index] : null;
+                let result = {
+                    message: '{0} uses {1} to discard {3}',
+                    messageArgs: [discardedCards],
+                    gameAction: ability.actions.discard({
+                        target: discardedCards
+                    })
+                };
+                if (card && !card.gigantic) {
+                    result.then = {
+                        message: '{0} uses {1} to put {3} into play',
+                        messageArgs: card,
+                        gameAction: ability.actions.putIntoPlay({
+                            target: card
+                        })
+                    };
                 }
-            })
+                return result;
+            }
         });
     }
 }
