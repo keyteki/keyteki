@@ -9,6 +9,7 @@ import { ItemTypes } from '../../constants';
 import SquishableCardPanel from './SquishableCardPanel';
 
 import './Card.scss';
+import { useTranslation } from 'react-i18next';
 
 const Card = ({
     canDrag,
@@ -27,6 +28,8 @@ const Card = ({
     style,
     wrapped = true
 }) => {
+    const { i18n } = useTranslation();
+
     const sizeClass = {
         [size]: size !== 'normal'
     };
@@ -172,6 +175,15 @@ const Card = ({
         );
     };
 
+    const getCardName = (card) => {
+        if (i18n.language === 'en') {
+            return card.name;
+        }
+        return card.locale && card.locale[i18n.language]
+            ? card.locale[i18n.language].name
+            : card.name;
+    };
+
     const getCard = () => {
         if (!card) {
             return <div />;
@@ -233,7 +245,7 @@ const Card = ({
                     onClick={(event) => onCardClicked(event, card)}
                 >
                     <div>
-                        <span className='card-name'>{card.name}</span>
+                        <span className='card-name'>{getCardName(card)}</span>
                         {image}
                     </div>
                 </div>
