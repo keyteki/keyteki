@@ -1,7 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { withTranslation } from 'react-i18next';
-
+import { useTranslation } from 'react-i18next';
 import AbilityTargeting from './AbilityTargeting';
 import CardNameLookup from './CardNameLookup';
 import TraitNameLookup from './TraitNameLookup';
@@ -12,39 +10,47 @@ import Panel from '../Site/Panel';
 import './ActivePlayerPrompt.scss';
 import CardImage from './CardImage';
 
-const MaxButtonTextLength = 28;
+/**
+ * @typedef ActivePlayerPromptProps
+ * @property {string} phase current game phase displayed as the prompt header
+ * @property {string|Object} promptTitle a string or a localization object to show as prompt title
+ * @property {string|Object} promptText a string or a localization object to show as prompt text
+ * @property {Object[]} buttons array of buttons
+ * @property {Object[]} cards array of cards
+ * @property {Object[]} controls array of controls
+ * @property {function(Object): void} onButtonClick Called when a button is pressed
+ * @property {function(Object): void} onMouseOut Called when mouse is moved out of a card image
+ * @property {function(Object): void} onMouseOver Called when mouse is moved over of a card image
+ */
 
-class ActivePlayerPrompt extends React.Component {
-    constructor(props) {
-        super(props);
+/**
+ * @param {ActivePlayerPromptProps} props
+ */
+const ActivePlayerPrompt = (props) => {
+    const MaxButtonTextLength = 28;
+    const { t, i18n } = useTranslation();
 
-        this.onHouseSelected = this.onHouseSelected.bind(this);
-        this.onOptionSelected = this.onOptionSelected.bind(this);
-    }
-
-    onButtonClick(event, command, arg, uuid, method) {
+    const onButtonClick = (event, command, arg, uuid, method) => {
         event.preventDefault();
 
-        if (this.props.onButtonClick) {
-            this.props.onButtonClick(command, arg, uuid, method);
+        if (props.onButtonClick) {
+            props.onButtonClick(command, arg, uuid, method);
         }
-    }
+    };
 
-    onMouseOver(event, card) {
-        if (card && this.props.onMouseOver) {
-            this.props.onMouseOver(card);
+    const onMouseOver = (card) => {
+        if (card && props.onMouseOver) {
+            props.onMouseOver(card);
         }
-    }
+    };
 
-    onMouseOut(event, card) {
-        if (card && this.props.onMouseOut) {
-            this.props.onMouseOut(card);
+    const onMouseOut = (card) => {
+        if (card && props.onMouseOut) {
+            props.onMouseOut(card);
         }
-    }
+    };
 
-    localizedText(source, text, values) {
-        let { t, i18n } = this.props;
-
+    const localizedText = (source, text, values) => {
         if (!isNaN(text)) {
             // text is just a plain number, avoid translation
             return text;
@@ -56,6 +62,19 @@ class ActivePlayerPrompt extends React.Component {
 
         if (i18n.language !== 'en') {
             // Avoid locale replacement if language is English
+
+            if (!source) {
+                // as a last resource, search for card in card list
+                // it should happen in very rare cases
+                if (props.cards) {
+                    for (let id in props.cards) {
+                        if (props.cards[id].name === text) {
+                            source = props.cards[id];
+                            break;
+                        }
+                    }
+                }
+            }
 
             if (!source || !source.locale || !source.locale[i18n.language]) {
                 // If no source or source does not have locale, simply do the translation
@@ -79,22 +98,22 @@ class ActivePlayerPrompt extends React.Component {
         }
 
         return t(text, values);
-    }
+    };
 
-    getButtons() {
+    const getButtons = () => {
         let buttonIndex = 0;
 
         let buttons = [];
 
         if (
-            !this.props.buttons ||
-            this.props.controls.some((c) => ['house-select', 'options-select'].includes(c.type))
+            !props.buttons ||
+            props.controls.some((c) => ['house-select', 'options-select'].includes(c.type))
         ) {
             return null;
         }
 
-        for (const button of this.props.buttons) {
-            const originalButtonText = this.localizedText(button.card, button.text, button.values);
+        for (const button of props.buttons) {
+            const originalButtonText = localizedText(button.card, button.text, button.values);
             let buttonText = originalButtonText;
 
             if (buttonText.length > MaxButtonTextLength) {
@@ -107,21 +126,15 @@ class ActivePlayerPrompt extends React.Component {
                     className='btn btn-default prompt-button btn-stretch'
                     title={originalButtonText}
                     onClick={(event) =>
-                        this.onButtonClick(
-                            event,
-                            button.command,
-                            button.arg,
-                            button.uuid,
-                            button.method
-                        )
+                        onButtonClick(event, button.command, button.arg, button.uuid, button.method)
                     }
                     onMouseOver={(event) =>
-                        this.onMouseOver(event, {
+                        onMouseOver(event, {
                             image: button.card ? <CardImage card={button.card} /> : null,
                             size: 'normal'
                         })
                     }
-                    onMouseOut={(event) => this.onMouseOut(event, button.card)}
+                    onMouseOut={(event) => onMouseOut(event, button.card)}
                     disabled={button.disabled}
                 >
                     {buttonText}{' '}
@@ -135,45 +148,45 @@ class ActivePlayerPrompt extends React.Component {
         }
 
         return buttons;
-    }
+    };
 
-    handleLookupValueSelected(command, uuid, method, cardName) {
-        if (this.props.onButtonClick) {
-            this.props.onButtonClick(command, cardName, uuid, method);
+    const handleLookupValueSelected = (command, uuid, method, cardName) => {
+        if (props.onButtonClick) {
+            props.onButtonClick(command, cardName, uuid, method);
         }
-    }
+    };
 
-    onCardNameSelected(command, uuid, method, cardName) {
-        if (this.props.onButtonClick) {
-            this.props.onButtonClick(command, cardName, uuid, method);
+    const onCardNameSelected = (command, uuid, method, cardName) => {
+        if (props.onButtonClick) {
+            props.onButtonClick(command, cardName, uuid, method);
         }
-    }
+    };
 
-    onHouseSelected(command, uuid, method, house) {
-        if (this.props.onButtonClick) {
-            this.props.onButtonClick(command, house, uuid, method);
+    const onHouseSelected = (command, uuid, method, house) => {
+        if (props.onButtonClick) {
+            props.onButtonClick(command, house, uuid, method);
         }
-    }
+    };
 
-    onOptionSelected(option) {
-        if (this.props.onButtonClick) {
-            let button = this.props.buttons.find((button) => '' + button.arg === option);
-            this.props.onButtonClick(button.command, button.arg, button.uuid, button.method);
+    const onOptionSelected = (option) => {
+        if (props.onButtonClick) {
+            let button = props.buttons.find((button) => '' + button.arg === option);
+            props.onButtonClick(button.command, button.arg, button.uuid, button.method);
         }
-    }
+    };
 
-    getControls() {
-        if (!this.props.controls) {
+    const getControls = () => {
+        if (!props.controls) {
             return null;
         }
 
-        return this.props.controls.map((control) => {
+        return props.controls.map((control) => {
             switch (control.type) {
                 case 'targeting':
                     return (
                         <AbilityTargeting
-                            onMouseOut={this.props.onMouseOut}
-                            onMouseOver={this.props.onMouseOver}
+                            onMouseOut={props.onMouseOut}
+                            onMouseOver={props.onMouseOver}
                             source={control.source}
                             targets={control.targets}
                         />
@@ -181,129 +194,98 @@ class ActivePlayerPrompt extends React.Component {
                 case 'card-name':
                     return (
                         <CardNameLookup
-                            cards={this.props.cards}
-                            onCardSelected={this.onCardNameSelected.bind(
-                                this,
-                                control.command,
-                                control.uuid,
-                                control.method
-                            )}
+                            cards={props.cards}
+                            onCardSelected={(cardName) =>
+                                onCardNameSelected(
+                                    control.command,
+                                    control.uuid,
+                                    control.method,
+                                    cardName
+                                )
+                            }
                         />
                     );
                 case 'trait-name':
                     return (
                         <TraitNameLookup
-                            cards={this.props.cards}
-                            onValueSelected={this.handleLookupValueSelected.bind(
-                                this,
-                                control.command,
-                                control.uuid,
-                                control.method
-                            )}
+                            cards={props.cards}
+                            onValueSelected={(cardName) =>
+                                handleLookupValueSelected(
+                                    control.command,
+                                    control.uuid,
+                                    control.method,
+                                    cardName
+                                )
+                            }
                         />
                     );
                 case 'house-select':
                     return (
-                        <HouseSelect
-                            buttons={this.props.buttons}
-                            onHouseSelected={this.onHouseSelected}
-                        />
+                        <HouseSelect buttons={props.buttons} onHouseSelected={onHouseSelected} />
                     );
                 case 'options-select':
                     return (
                         <OptionsSelect
-                            options={this.props.buttons}
-                            onOptionSelected={this.onOptionSelected}
+                            options={props.buttons}
+                            onOptionSelected={onOptionSelected}
                         />
                     );
             }
         });
-    }
+    };
 
-    safePromptText(promptObject) {
+    const safePromptText = (promptObject) => {
         if (promptObject) {
             return typeof promptObject === 'string' ? promptObject : promptObject.text;
         }
 
         return null;
+    };
+
+    let controlSource = null;
+    if (props.controls && props.controls.length > 0 && props.controls[0].source) {
+        controlSource = props.controls[0].source;
     }
 
-    render() {
-        let controlSource = null;
-        if (
-            this.props.controls &&
-            this.props.controls.length > 0 &&
-            this.props.controls[0].source
-        ) {
-            controlSource = this.props.controls[0].source;
-        }
+    let promptTitle;
 
-        let promptTitle;
+    if (props.promptTitle) {
+        let promptTitleText = safePromptText(props.promptTitle);
 
-        if (this.props.promptTitle) {
-            let promptTitleText = this.safePromptText(this.props.promptTitle);
-
-            promptTitle = (
-                <div className='menu-pane-source'>
-                    {this.localizedText(
-                        controlSource,
-                        promptTitleText,
-                        this.props.promptTitle.values
-                    )}
-                </div>
-            );
-        }
-
-        let timer = null;
-        let promptText = this.safePromptText(this.props.promptText);
-        let promptTexts = [];
-
-        if (promptText) {
-            if (promptText.includes('\n')) {
-                let split = promptText.split('\n');
-                for (let token of split) {
-                    promptTexts.push(
-                        this.localizedText(controlSource, token, this.props.promptText.values)
-                    );
-                    promptTexts.push(<br />);
-                }
-            } else {
-                promptTexts.push(
-                    this.localizedText(controlSource, promptText, this.props.promptText.values)
-                );
-            }
-        }
-
-        return (
-            <Panel title={this.props.t(this.props.phase + ' phase')} titleClass='phase-indicator'>
-                {timer}
-                {promptTitle}
-                <div className='menu-pane'>
-                    <h4>{promptTexts}</h4>
-                    {this.getControls()}
-                    {this.getButtons()}
-                </div>
-            </Panel>
+        promptTitle = (
+            <div className='menu-pane-source'>
+                {localizedText(controlSource, promptTitleText, props.promptTitle.values)}
+            </div>
         );
     }
-}
 
-ActivePlayerPrompt.displayName = 'ActivePlayerPrompt';
-ActivePlayerPrompt.propTypes = {
-    buttons: PropTypes.array,
-    cards: PropTypes.object,
-    controls: PropTypes.array,
-    i18n: PropTypes.object,
-    onButtonClick: PropTypes.func,
-    onMouseOut: PropTypes.func,
-    onMouseOver: PropTypes.func,
-    onTitleClick: PropTypes.func,
-    phase: PropTypes.string,
-    promptText: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-    promptTitle: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-    socket: PropTypes.object,
-    t: PropTypes.func,
-    user: PropTypes.object
+    let timer = null;
+    let promptText = safePromptText(props.promptText);
+    let promptTexts = [];
+
+    if (promptText) {
+        if (promptText.includes('\n')) {
+            let split = promptText.split('\n');
+            for (let token of split) {
+                promptTexts.push(localizedText(controlSource, token, props.promptText.values));
+                promptTexts.push(<br />);
+            }
+        } else {
+            promptTexts.push(localizedText(controlSource, promptText, props.promptText.values));
+        }
+    }
+
+    return (
+        <Panel title={t(props.phase + ' phase')} titleClass='phase-indicator'>
+            {timer}
+            {promptTitle}
+            <div className='menu-pane'>
+                <h4>{promptTexts}</h4>
+                {getControls()}
+                {getButtons()}
+            </div>
+        </Panel>
+    );
 };
 
-export default withTranslation()(ActivePlayerPrompt);
+export default ActivePlayerPrompt;
