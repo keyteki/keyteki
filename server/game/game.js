@@ -1076,7 +1076,7 @@ class Game extends EventEmitter {
                         modifiedControl = true;
                     }
                     // any upgrades which are illegally attached
-                    // card.checkForIllegalAttachments();
+                    card.checkForIllegalAttachments();
                 });
             }
 

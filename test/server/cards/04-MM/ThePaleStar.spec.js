@@ -99,7 +99,7 @@ describe('The Pale Star', function () {
             expect(this.gub.power).toBe(8); // base: 1, +5 tokens, +2 from Lion
             expect(this.lionBautrem.power).toBe(4); // base: 4
             expect(this.mimicGel.power).toBe(5); // base: 3, +2 from Lion
-            expect(this.cyberClone.power).toBe(5); // base: 5
+            expect(this.cyberClone.power).toBe(3); // base: 3
 
             expect(this.spyyyder.armor).toBe(0); // base: 0
             expect(this.gub.armor).toBe(0); // base: 0

@@ -18,21 +18,18 @@ class CyberClone extends Card {
                         let clone = context.event.targetClone;
 
                         let effects = [
-                            ability.effects.modifyPower(clone.power - 1),
-                            ability.effects.modifyArmor(clone.armor)
+                            ability.effects.modifyPower(clone.getPower(true) - 1),
+                            ability.effects.modifyArmor(clone.getArmor(true))
                         ];
                         effects = effects.concat(
-                            clone.traits.map((trait) => ability.effects.addTrait(trait))
+                            clone.getTraits(true).map((trait) => ability.effects.addTrait(trait))
                         );
                         effects = effects.concat(
-                            clone
-                                .getEffects('addKeyword')
-                                .map((keyword) => ability.effects.addKeyword(keyword))
-                        );
-                        effects = effects.concat(
-                            clone
-                                .getEffects('removeKeyword')
-                                .map((keyword) => ability.effects.removeKeyword(keyword))
+                            Object.keys(clone.printedKeywords).map((keyword) =>
+                                ability.effects.addKeyword({
+                                    [keyword]: clone.printedKeywords[keyword]
+                                })
+                            )
                         );
 
                         return {

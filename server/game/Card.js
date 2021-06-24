@@ -435,7 +435,10 @@ class Card extends EffectSource {
         return this.getTraits().includes(trait);
     }
 
-    getTraits() {
+    getTraits(printed = false) {
+        if (printed) {
+            return this.getBottomCard().traits;
+        }
         let copyEffect = this.mostRecentEffect('copyCard');
         let traits = copyEffect ? copyEffect.traits : this.getBottomCard().traits;
         return _.uniq(traits.concat(this.getEffects('addTrait')));
@@ -951,6 +954,14 @@ class Card extends EffectSource {
         }
 
         return this.anyEffect('consideredAsFlank') || this.neighbors.length < 2;
+    }
+
+    checkForIllegalAttachments() {
+        if (this.type === 'artifact' && this.upgrades.length > 0) {
+            this.upgrades.forEach((upgrade) => {
+                upgrade.owner.moveCard(upgrade, 'discard');
+            });
+        }
     }
 
     isInCenter() {
