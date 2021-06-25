@@ -91,7 +91,11 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
         );
         let lastingTriggerCards = lastingTriggers.map((context) => context.source);
         if (lastingTriggerCards.length === 0) {
-            if (this.choices.some((context) => !context.ability.optional)) {
+            if (
+                this.choices.some(
+                    (context) => !context.ability.optional && !context.ability.optionalTarget
+                )
+            ) {
                 let cards = this.game.cardsInPlay.filter((card) =>
                     choices.some((context) => context.source === card)
                 );
@@ -137,7 +141,11 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
 
     getPromptForSelectProperties() {
         let buttons = [];
-        if (this.choices.every((context) => context.ability.optional)) {
+        if (
+            this.choices.every(
+                (context) => context.ability.optional || context.ability.optionalTarget
+            )
+        ) {
             buttons.push({ text: 'Done', arg: 'done' });
         } else if (this.noOptionalChoices) {
             buttons.push({ text: 'Autoresolve', arg: 'autoresolve' });

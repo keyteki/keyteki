@@ -123,8 +123,14 @@ describe('Triggered Ability Window', function () {
             this.setupTest({
                 player1: {
                     house: 'staralliance',
-                    inPlay: ['sensor-chief-garcia'],
-                    hand: ['force-field', 'observ-u-max', 'disruption-field', 'ingram-s-blaster']
+                    inPlay: ['sensor-chief-garcia', 'armsmaster-molina'],
+                    hand: [
+                        'force-field',
+                        'observ-u-max',
+                        'disruption-field',
+                        'ingram-s-blaster',
+                        'stunner'
+                    ]
                 },
                 player2: {
                     amber: 3,
@@ -274,6 +280,67 @@ describe('Triggered Ability Window', function () {
 
             expect(this.player1.player.getCurrentKeyCost()).toBe(8); // Garcia
             expect(this.player2.player.getCurrentKeyCost()).toBe(9); // Garcia + Disruption Field
+        });
+
+        it('should be able to opt out two optional abilities on first prompt', function () {
+            this.player1.playUpgrade(this.ingramSBlaster, this.armsmasterMolina);
+            this.player1.playUpgrade(this.stunner, this.armsmasterMolina);
+            this.player1.reap(this.armsmasterMolina);
+
+            expect(this.player1).toBeAbleToSelect(this.armsmasterMolina);
+            expect(this.player1).toHavePromptButton('Done');
+            expect(this.player1).not.toHavePromptButton('Autoresolve');
+
+            this.player1.clickPrompt('Done');
+            this.player1.endTurn();
+        });
+
+        it('should be able to opt in first optional ability and opt out second', function () {
+            this.player1.playUpgrade(this.ingramSBlaster, this.armsmasterMolina);
+            this.player1.playUpgrade(this.stunner, this.armsmasterMolina);
+            this.player1.reap(this.armsmasterMolina);
+
+            this.player1.clickCard(this.armsmasterMolina);
+
+            expect(this.player1).toHavePromptButton('Stunner');
+            expect(this.player1).toHavePromptButton('Ingram’s Blaster');
+
+            this.player1.clickPrompt('Stunner');
+            this.player1.clickCard(this.bossZarek);
+            expect(this.bossZarek.stunned).toBe(true);
+
+            expect(this.player1).toBeAbleToSelect(this.armsmasterMolina);
+            expect(this.player1).toHavePromptButton('Done');
+            expect(this.player1).not.toHavePromptButton('Autoresolve');
+
+            this.player1.clickPrompt('Done');
+            this.player1.endTurn();
+        });
+
+        it('should be able to opt in both optional abilities', function () {
+            this.player1.playUpgrade(this.ingramSBlaster, this.armsmasterMolina);
+            this.player1.playUpgrade(this.stunner, this.armsmasterMolina);
+            this.player1.reap(this.armsmasterMolina);
+
+            this.player1.clickCard(this.armsmasterMolina);
+
+            expect(this.player1).toHavePromptButton('Stunner');
+            expect(this.player1).toHavePromptButton('Ingram’s Blaster');
+
+            this.player1.clickPrompt('Stunner');
+            this.player1.clickCard(this.bossZarek);
+            expect(this.bossZarek.stunned).toBe(true);
+
+            expect(this.player1).toBeAbleToSelect(this.armsmasterMolina);
+            expect(this.player1).toHavePromptButton('Done');
+            expect(this.player1).not.toHavePromptButton('Autoresolve');
+
+            this.player1.clickCard(this.armsmasterMolina);
+            this.player1.clickPrompt('Deal 2 damage');
+            this.player1.clickCard(this.bossZarek);
+            expect(this.bossZarek.tokens.damage).toBe(2);
+
+            this.player1.endTurn();
         });
     });
 
