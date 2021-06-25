@@ -90,10 +90,25 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
             (context) => context.ability
         );
         let lastingTriggerCards = lastingTriggers.map((context) => context.source);
-        let buttons = [];
-        for (let i = 0; i < lastingTriggerCards.length; i++) {
-            buttons.push({ text: lastingTriggerCards[i].name, arg: i.toString() });
+        if (lastingTriggerCards.length === 0) {
+            if (this.choices.some((context) => !context.ability.optional)) {
+                let cards = this.game.cardsInPlay.filter((card) =>
+                    choices.some((context) => context.source === card)
+                );
+                if (cards.length === 1) {
+                    this.promptBetweenAbilities(
+                        choices.filter((context) => context.source === cards[0]),
+                        false
+                    );
+                    return;
+                }
+            }
         }
+
+        let buttons = lastingTriggerCards.map((card, i) => ({
+            text: card.name,
+            arg: i.toString()
+        }));
 
         let defaultProperties = this.getPromptForSelectProperties();
         let properties = Object.assign({}, defaultProperties);
@@ -227,6 +242,9 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
         if (addBackButton) {
             menuChoices.push('Back');
             handlers.push(() => this.promptBetweenSources(this.choices));
+        } else if (this.game.manualMode) {
+            menuChoices.push('Cancel Prompt');
+            handlers.push(() => this.onCancel());
         }
 
         this.game.promptWithHandlerMenu(

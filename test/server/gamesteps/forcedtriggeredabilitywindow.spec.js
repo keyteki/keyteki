@@ -142,15 +142,13 @@ describe('Triggered Ability Window', function () {
             this.player1.playUpgrade(this.ingramSBlaster, this.sensorChiefGarcia);
             this.player1.reap(this.sensorChiefGarcia);
 
-            expect(this.player1).toBeAbleToSelect(this.sensorChiefGarcia);
             expect(this.player1).not.toHavePromptButton('Autoresolve');
             expect(this.player1).toHavePromptButton('Cancel Prompt');
         });
 
-        it('should be able to cancel first Garcia prompt', function () {
+        it('should be able to cancel Garcia ability prompt', function () {
             this.player1.reap(this.sensorChiefGarcia); // +1A
 
-            expect(this.player1).toBeAbleToSelect(this.sensorChiefGarcia);
             expect(this.player1).toHavePromptButton('Autoresolve');
             expect(this.player1).toHavePromptButton('Cancel Prompt');
             this.player1.clickPrompt('Cancel Prompt');
@@ -166,54 +164,15 @@ describe('Triggered Ability Window', function () {
             expect(this.player2.player.getCurrentKeyCost()).toBe(6);
         });
 
-        it('should be able to go Back and cancel Garcia prompt', function () {
+        it('should not be able to go Back from ability', function () {
             this.player1.reap(this.sensorChiefGarcia); // +1A
-            this.player1.clickCard(this.sensorChiefGarcia);
-
-            expect(this.player1).toHavePromptButton('Sensor Chief Garcia');
-            expect(this.player1).toHavePromptButton('Observ-u-Max');
-            expect(this.player1).toHavePromptButton('Disruption Field');
-            expect(this.player1).toHavePromptButton('Force Field');
-            expect(this.player1).toHavePromptButton('Autoresolve');
-            expect(this.player1).toHavePromptButton('Back');
-            this.player1.clickPrompt('Back');
-            this.player1.clickPrompt('Cancel Prompt');
-
-            expect(this.player1.amber).toBe(4);
-            expect(this.player2.amber).toBe(3);
-            expect(this.sensorChiefGarcia.amber).toBe(0);
-            expect(this.sensorChiefGarcia.warded).toBe(false);
-
-            this.player1.endTurn();
-
-            expect(this.player1.player.getCurrentKeyCost()).toBe(6);
-            expect(this.player2.player.getCurrentKeyCost()).toBe(6);
+            expect(this.player1).not.toHavePromptButton('Back');
         });
 
-        it('should be able to auto resolve on first Garcia prompt', function () {
+        it('should be able to auto resolve on Garcia ability prompt', function () {
             this.player1.reap(this.sensorChiefGarcia); // +1A
-
-            expect(this.player1).toBeAbleToSelect(this.sensorChiefGarcia);
             expect(this.player1).toHavePromptButton('Autoresolve');
             expect(this.player1).toHavePromptButton('Cancel Prompt');
-            this.player1.clickPrompt('Autoresolve');
-
-            expect(this.player1.amber).toBe(4);
-            expect(this.player2.amber).toBe(2);
-            expect(this.sensorChiefGarcia.amber).toBe(1);
-            expect(this.sensorChiefGarcia.warded).toBe(true);
-
-            this.player1.endTurn();
-
-            expect(this.player1.player.getCurrentKeyCost()).toBe(8); // Garcia
-            expect(this.player2.player.getCurrentKeyCost()).toBe(9); // Garcia + Disruption Field
-        });
-
-        it('should be able to auto resolve on second Garcia prompt', function () {
-            this.player1.reap(this.sensorChiefGarcia); // +1A
-
-            expect(this.player1).toBeAbleToSelect(this.sensorChiefGarcia);
-            this.player1.clickCard(this.sensorChiefGarcia);
             this.player1.clickPrompt('Autoresolve');
 
             expect(this.player1.amber).toBe(4);
@@ -230,11 +189,8 @@ describe('Triggered Ability Window', function () {
         it('should be able to resolve abilities one by one', function () {
             this.player1.reap(this.sensorChiefGarcia); // +1A
 
-            this.player1.clickCard(this.sensorChiefGarcia);
             this.player1.clickPrompt('Sensor Chief Garcia');
-            this.player1.clickCard(this.sensorChiefGarcia);
             this.player1.clickPrompt('Observ-u-Max');
-            this.player1.clickCard(this.sensorChiefGarcia);
             this.player1.clickPrompt('Disruption Field');
 
             expect(this.player1.amber).toBe(4);
@@ -270,19 +226,40 @@ describe('Triggered Ability Window', function () {
             expect(this.player2.player.getCurrentKeyCost()).toBe(9); // Garcia + Disruption Field
         });
 
-        it('should be able to resolve abilities one by one and opt out optional at the end', function () {
+        it('should be able to resolve abilities one by one after resolving optional ability', function () {
             this.player1.playUpgrade(this.ingramSBlaster, this.sensorChiefGarcia); // +1A
             this.player1.reap(this.sensorChiefGarcia); // +1A
 
             this.player1.clickCard(this.sensorChiefGarcia);
+            this.player1.clickPrompt('Ingram’s Blaster');
+            this.player1.clickPrompt('Deal 2 damage');
+            this.player1.clickCard(this.bossZarek);
+            expect(this.bossZarek.tokens.damage).toBe(2);
             this.player1.clickPrompt('Sensor Chief Garcia');
-            this.player1.clickCard(this.sensorChiefGarcia);
             this.player1.clickPrompt('Observ-u-Max');
-            this.player1.clickCard(this.sensorChiefGarcia);
             this.player1.clickPrompt('Disruption Field');
-            this.player1.clickCard(this.sensorChiefGarcia);
+
+            expect(this.player1.amber).toBe(5);
+            expect(this.player2.amber).toBe(2);
+            expect(this.sensorChiefGarcia.amber).toBe(1);
+            expect(this.sensorChiefGarcia.warded).toBe(true);
+
+            this.player1.endTurn();
+
+            expect(this.player1.player.getCurrentKeyCost()).toBe(8); // Garcia
+            expect(this.player2.player.getCurrentKeyCost()).toBe(9); // Garcia + Disruption Field
+        });
+
+        it('should be able to resolve abilities one by one and opt out optional at the end', function () {
+            this.player1.playUpgrade(this.ingramSBlaster, this.sensorChiefGarcia); // +1A
+            this.player1.reap(this.sensorChiefGarcia); // +1A
+
+            this.player1.clickPrompt('Sensor Chief Garcia');
+            this.player1.clickPrompt('Observ-u-Max');
+            this.player1.clickPrompt('Disruption Field');
             this.player1.clickPrompt('Force Field');
 
+            expect(this.player1).toBeAbleToSelect(this.sensorChiefGarcia);
             expect(this.player1).toHavePromptButton('Done');
             expect(this.player1).not.toHavePromptButton('Autoresolve');
 
