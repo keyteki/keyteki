@@ -62,7 +62,7 @@ class AbilityTargetTrait extends AbilityTarget {
                 ],
                 context: context
             },
-            source: this
+            source: this.properties.source || context.source
         });
     }
 
