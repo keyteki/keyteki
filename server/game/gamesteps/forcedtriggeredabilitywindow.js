@@ -110,7 +110,9 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
         }
 
         let buttons = lastingTriggerCards.map((card, i) => ({
-            text: card.name,
+            text: '{{card}}',
+            card: card,
+            values: { card: card.name },
             arg: i.toString()
         }));
 
@@ -207,25 +209,40 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
         }));
     }
 
-    promptBetweenAbilities(choices, addBackButton = true) {
-        const getSourceName = (context) => {
-            if (context.ability.title) {
-                return context.ability.title;
-            }
+    getAbilitiesButtons(context) {
+        if (context.ability.title) {
+            return { text: context.ability.title };
+        }
 
-            if (context.ability.printedAbility) {
-                return context.source.name;
-            }
+        if (context.ability.printedAbility) {
+            return {
+                text: '{{card}}',
+                card: context.source,
+                values: { card: context.source.name }
+            };
+        }
 
-            let generatingEffectSource = this.game.getEffectSource(context);
-            if (generatingEffectSource) {
-                return generatingEffectSource.name;
-            }
+        let generatingEffectSource = this.game.getEffectSource(context);
+        if (generatingEffectSource) {
+            return {
+                text: '{{card}}',
+                card: generatingEffectSource,
+                values: { card: generatingEffectSource.name }
+            };
+        }
 
-            return context.source.name;
+        return {
+            text: '{{card}}',
+            card: context.source,
+            values: { card: context.source.name }
         };
+    }
 
-        let menuChoices = _.uniq(choices.map((context) => getSourceName(context)));
+    promptBetweenAbilities(choices, addBackButton = true) {
+        let menuChoices = _.uniq(
+            choices.map((context) => this.getAbilitiesButtons(context)),
+            (button) => (button.values ? button.values.card : button.text)
+        );
         if (menuChoices.length === 1) {
             // this card has only one ability which can be triggered
             this.promptBetweenEventCards(choices, addBackButton);
@@ -233,9 +250,12 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
         }
 
         // This card has multiple abilities which can be used in this window - prompt the player to pick one
-        let handlers = menuChoices.map((name) => () =>
+        let handlers = menuChoices.map((button) => () =>
             this.promptBetweenEventCards(
-                choices.filter((context) => getSourceName(context) === name)
+                choices.filter((context) => {
+                    const b = this.getAbilitiesButtons(context);
+                    return b.card ? b.card === button.card : b.text === button.text;
+                })
             )
         );
 

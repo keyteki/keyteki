@@ -63,19 +63,6 @@ const ActivePlayerPrompt = (props) => {
         if (i18n.language !== 'en') {
             // Avoid locale replacement if language is English
 
-            if (!source) {
-                // as a last resource, search for card in card list
-                // it should happen in very rare cases
-                if (props.cards) {
-                    for (let id in props.cards) {
-                        if (props.cards[id].name === text) {
-                            source = props.cards[id];
-                            break;
-                        }
-                    }
-                }
-            }
-
             if (!source || !source.locale || !source.locale[i18n.language]) {
                 // If no source or source does not have locale, simply do the translation
                 return t(text, values);

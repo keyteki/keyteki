@@ -198,11 +198,11 @@ class PlayerInteractionWrapper {
     }
 
     replaceLocalizedValues(title) {
-        if (!title) {
+        if (title === null || title === undefined) {
             return null;
         }
 
-        if (!title.text) {
+        if (title.text === null || title.text === undefined) {
             return title;
         }
 
@@ -225,12 +225,11 @@ class PlayerInteractionWrapper {
 
         currentPrompt.menuTitle = menuTitle;
         currentPrompt.promptTitle = promptTitle;
-
         return currentPrompt;
     }
 
     get currentButtons() {
-        var buttons = this.currentPrompt().buttons;
+        let buttons = this.currentPrompt().buttons;
         return _.map(buttons, (button) => this.replaceLocalizedValues(button));
     }
 
@@ -366,7 +365,7 @@ class PlayerInteractionWrapper {
         var promptButton = _.find(currentPrompt.buttons, (button) => {
             return (
                 (button.card && button.card.name.toLowerCase() === text.toLowerCase()) ||
-                button.text.toString().toLowerCase() === text.toLowerCase()
+                this.replaceLocalizedValues(button).toString().toLowerCase() === text.toLowerCase()
             );
         });
 
