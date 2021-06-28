@@ -309,7 +309,7 @@
     "Waiting for selected deck...": "Warten auf das ausgewählte Deck…",
     "Waiting for server...": "Warten auf den Server…",
     "You are not logged in, redirecting...": "Du bist nicht angemeldet und wirst weitergeleitet…",
-    "Waiting for game to have players or close...": "TODO Waiting for game to have players or close...",
+    "Waiting for game to have players or close...": "Warten darauf, dass das Spiel Spieler hat oder geschlossen wird...",
     "Loading block list from the server...": "Laden der Sperrliste vom Server…",
     "Loading session details from the server...": "Laden der Session-Details vom Server…",
     "Purged": "Verbannt",
@@ -335,9 +335,9 @@
     "Password Required": "Passwort erforderlich",
     "Incorrect game password": "Ungültiges Spielpassword",
     "Select Deck": "Wähle ein Deck",
-    "Or choose a standalone deck": "TODO Or choose a standalone deck",
-    "Mine": "Mine",
-    "Opponent's": "Opponent's",
+    "Or choose a standalone deck": "Oder wähle ein eigenständiges Deck",
+    "Mine": "Bergwerk",
+    "Opponent's": "des Gegners",
     "Topics": "Topics",
     "Profile Options": "Profile Options",
     "Bugs and Automation": "Bugs and Automation",
@@ -614,5 +614,7 @@
     "Skirmish": "Skirmish",
     "Exalt": "Exalt",
     "Do you wish to look at the top 2 deck cards?": "Do you wish to look at the top 2 deck cards?",
-    "Autoresolve": "Autoresolve"
+    "Autoresolve": "Autoresolve",
+    "Assault": "Assault",
+    "Hazardous": "Hazardous"
 }

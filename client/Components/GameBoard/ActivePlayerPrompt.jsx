@@ -150,21 +150,9 @@ const ActivePlayerPrompt = (props) => {
         return buttons;
     };
 
-    const handleLookupValueSelected = (command, uuid, method, cardName) => {
+    const onControlSelected = (command, uuid, method, value) => {
         if (props.onButtonClick) {
-            props.onButtonClick(command, cardName, uuid, method);
-        }
-    };
-
-    const onCardNameSelected = (command, uuid, method, cardName) => {
-        if (props.onButtonClick) {
-            props.onButtonClick(command, cardName, uuid, method);
-        }
-    };
-
-    const onHouseSelected = (command, uuid, method, house) => {
-        if (props.onButtonClick) {
-            props.onButtonClick(command, house, uuid, method);
+            props.onButtonClick(command, value, uuid, method);
         }
     };
 
@@ -196,7 +184,7 @@ const ActivePlayerPrompt = (props) => {
                         <CardNameLookup
                             cards={props.cards}
                             onCardSelected={(cardName) =>
-                                onCardNameSelected(
+                                onControlSelected(
                                     control.command,
                                     control.uuid,
                                     control.method,
@@ -209,19 +197,19 @@ const ActivePlayerPrompt = (props) => {
                     return (
                         <TraitNameLookup
                             cards={props.cards}
-                            onValueSelected={(cardName) =>
-                                handleLookupValueSelected(
+                            onValueSelected={(trait) =>
+                                onControlSelected(
                                     control.command,
                                     control.uuid,
                                     control.method,
-                                    cardName
+                                    trait
                                 )
                             }
                         />
                     );
                 case 'house-select':
                     return (
-                        <HouseSelect buttons={props.buttons} onHouseSelected={onHouseSelected} />
+                        <HouseSelect buttons={props.buttons} onHouseSelected={onControlSelected} />
                     );
                 case 'options-select':
                     return (
