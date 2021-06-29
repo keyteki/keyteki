@@ -263,4 +263,5 @@ const ActivePlayerPrompt = (props) => {
     );
 };
 
+ActivePlayerPrompt.displayName = 'ActivePlayerPrompt';
 export default ActivePlayerPrompt;
