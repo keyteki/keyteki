@@ -133,8 +133,7 @@ SquishableCardPanel.propTypes = {
     onMouseOver: PropTypes.func,
     source: PropTypes.string,
     t: PropTypes.func,
-    title: PropTypes.string,
-    username: PropTypes.string
+    title: PropTypes.string
 };
 
 export default withTranslation()(SquishableCardPanel);

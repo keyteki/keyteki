@@ -18,6 +18,10 @@
     align-items: center;
 }
 
+.inactive-player{
+    opacity: 0.2;
+}
+
 .player-info {
     display: flex;
 }
@@ -33,6 +37,10 @@
     border-right: dotted 2px #324e8e;
     display: flex;
     align-items: center;
+
+    &.on{
+        opacity: 1;
+    }
 
     a{
         color: $body-color;
@@ -87,8 +95,13 @@
     &.chains {
         background-image: url('~assets/img/chains.png');
     }
+
     &.keyCost {
         background-image: url('~assets/img/keyCost.png');
+    }
+
+    &.tide {
+        height: 100%;
     }
 }
 

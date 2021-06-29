@@ -1,18 +1,15 @@
 import React from 'react';
-import classNames from 'classnames';
 import './IdentityCard.scss';
 import IdentityCardImage from '../Decks/IdentityCardImage';
 
-const IdentityCard = ({ className, deck, size, onMouseOut, onMouseOver }) => {
-    let fullClass = classNames('panel', 'card-pile', className, {
-        size: size !== 'normal'
-    });
-
-    let image = <IdentityCardImage deck={deck} size={size} />;
+const IdentityCard = ({ deck, showDeckName, onMouseOut, onMouseOver }) => {
+    if (!deck.name || !showDeckName) {
+        return <div />;
+    }
 
     return (
         <div
-            className={fullClass}
+            className='state'
             onMouseOver={() =>
                 onMouseOver({
                     image: <IdentityCardImage deck={deck} />,
@@ -21,11 +18,14 @@ const IdentityCard = ({ className, deck, size, onMouseOut, onMouseOver }) => {
             }
             onMouseOut={onMouseOut}
         >
-            <div className='card-wrapper'>
-                <div className='card-frame'>
-                    <div className={`game-card vertical ${size}`}>{image}</div>
-                </div>
-            </div>
+            <a
+                className='link'
+                href={'https://www.keyforgegame.com/deck-details/' + deck.uuid}
+                target='_blank'
+                rel='noopener noreferrer'
+            >
+                {deck.name}
+            </a>
         </div>
     );
 };

@@ -145,6 +145,7 @@
 
 .draw {
     .panel {
+        z-index: $layer-pile-header;
         .inner {
             @include calculate-tiled-card-prop(min-height, 1, height);
             @include calculate-tiled-card-prop(width, 7, width, $scrollbar-width);
@@ -164,6 +165,7 @@
 .discard {
     .panel {
         min-height: 146px;
+        z-index: $layer-pile-header;
 
         .inner {
             @include calculate-tiled-card-prop(min-height, 1, height);
@@ -175,6 +177,8 @@
 
 .archives {
     .panel {
+        z-index: $layer-pile-header;
+
         .inner {
             @include calculate-tiled-card-prop(min-height, 1, height);
             @include calculate-tiled-card-prop(width, 5, width, $scrollbar-width);
@@ -185,6 +189,8 @@
 
 .purged {
     .panel {
+        z-index: $layer-card-menu;
+
         .inner {
             @include calculate-tiled-card-prop(min-height, 1, height);
             @include calculate-tiled-card-prop(width, 5, width, $scrollbar-width);

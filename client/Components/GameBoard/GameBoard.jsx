@@ -12,7 +12,6 @@ import { Constants } from '../../constants';
 import Droppable from './Droppable';
 import GameChat from './GameChat';
 import GameConfigurationModal from './GameConfigurationModal';
-import IdentityCard from './IdentityCard';
 import PlayerBoard from './PlayerBoard';
 import PlayerRow from './PlayerRow';
 import PlayerStats from './PlayerStats';
@@ -202,42 +201,6 @@ export class GameBoard extends React.Component {
         );
     }
 
-    getDeckListCard(deckData, isMe) {
-        if (this.showDeckName(isMe)) {
-            return (
-                <IdentityCard
-                    className={`identity vertical ${this.props.user.settings.cardSize}`}
-                    deck={deckData}
-                    gameFormat={this.props.currentGame.gameFormat}
-                    hideDeckLists={this.props.currentGame.hideDeckLists}
-                    isMe={isMe}
-                    size={this.props.user.settings.cardSize}
-                    onMouseOut={this.onMouseOut}
-                    onMouseOver={this.onMouseOver}
-                />
-            );
-        } else {
-            return (
-                <div className='card-wrapper'>
-                    <div className='card-frame'>
-                        <div className={`game-card vertical ${this.props.user.settings.cardSize}`}>
-                            <CardBack
-                                deck={deckData}
-                                size={this.props.user.settings.cardSize}
-                                showDeckName={
-                                    isMe
-                                        ? !this.props.currentGame.hideDeckLists
-                                        : this.showDeckName(isMe)
-                                }
-                                zoom={false}
-                            />
-                        </div>
-                    </div>
-                </div>
-            );
-        }
-    }
-
     isSpectating() {
         return !this.props.currentGame.players[this.props.user.username];
     }
@@ -277,35 +240,6 @@ export class GameBoard extends React.Component {
     renderBoard(thisPlayer, otherPlayer) {
         return [
             <div key='board-middle' className='board-middle'>
-                <div className='player-home-row'>
-                    <PlayerRow
-                        archives={otherPlayer.cardPiles.archives}
-                        cardSize={this.props.user.settings.cardSize}
-                        cardBack={
-                            <CardBack
-                                size={this.props.user.settings.cardSize}
-                                deck={otherPlayer.deckData}
-                                showDeckName={this.showDeckName(false)}
-                            />
-                        }
-                        deckList={this.getDeckListCard(otherPlayer.deckData, false)}
-                        discard={otherPlayer.cardPiles.discard}
-                        drawDeck={otherPlayer.cardPiles.deck}
-                        hand={otherPlayer.cardPiles.hand}
-                        houses={otherPlayer.houses}
-                        isMe={false}
-                        keys={otherPlayer.stats.keys}
-                        numDeckCards={otherPlayer.numDeckCards}
-                        onCardClick={this.onCardClick}
-                        onMouseOut={this.onMouseOut}
-                        onMouseOver={this.onMouseOver}
-                        purgedPile={otherPlayer.cardPiles.purged}
-                        side='top'
-                        spectating={this.isSpectating()}
-                        title={otherPlayer.title}
-                        username={this.props.user.username}
-                    />
-                </div>
                 <div className='board-inner'>
                     <div className='play-area'>
                         <PlayerBoard
@@ -354,8 +288,6 @@ export class GameBoard extends React.Component {
                 {this.getTimer()}
                 <div className='player-home-row our-side'>
                     <PlayerRow
-                        archives={thisPlayer.cardPiles.archives}
-                        cardSize={this.props.user.settings.cardSize}
                         cardBack={
                             <CardBack
                                 size={this.props.user.settings.cardSize}
@@ -363,27 +295,14 @@ export class GameBoard extends React.Component {
                                 showDeckName={this.showDeckName(!this.isSpectating())}
                             />
                         }
-                        deckList={this.getDeckListCard(thisPlayer.deckData, !this.isSpectating())}
-                        discard={thisPlayer.cardPiles.discard}
-                        drawDeck={thisPlayer.cardPiles.deck}
+                        cardSize={this.props.user.settings.cardSize}
                         hand={thisPlayer.cardPiles.hand}
-                        houses={thisPlayer.houses}
                         isMe={!this.isSpectating()}
-                        keys={thisPlayer.stats.keys}
                         manualMode={this.props.currentGame.manualMode}
-                        numDeckCards={thisPlayer.numDeckCards}
                         onCardClick={this.onCardClick}
                         onDragDrop={this.onDragDrop}
-                        onDrawPopupChange={this.handleDrawPopupChange}
-                        onMenuItemClick={this.onMenuItemClick}
                         onMouseOut={this.onMouseOut}
                         onMouseOver={this.onMouseOver}
-                        onShuffleClick={this.onShuffleClick}
-                        purgedPile={thisPlayer.cardPiles.purged}
-                        showDeck={thisPlayer.showDeck}
-                        side='bottom'
-                        spectating={this.isSpectating()}
-                        title={thisPlayer.title}
                     />
                 </div>
             </div>
@@ -448,14 +367,36 @@ export class GameBoard extends React.Component {
                 )}
                 <div className='stats-top'>
                     <PlayerStats
-                        stats={otherPlayer.stats}
-                        houses={otherPlayer.houses}
                         activeHouse={otherPlayer.activeHouse}
-                        user={otherPlayer.user}
+                        activePlayer={otherPlayer.activePlayer}
+                        cardBack={
+                            <CardBack
+                                size={this.props.user.settings.cardSize}
+                                deck={otherPlayer.deckData}
+                                showDeckName={this.showDeckName(false)}
+                            />
+                        }
+                        cardPiles={otherPlayer.cardPiles}
+                        deck={otherPlayer.deckData}
+                        houses={otherPlayer.houses}
+                        isMe={false}
+                        numDeckCards={otherPlayer.numDeckCards}
+                        onCardClick={this.onCardClick}
+                        onDragDrop={this.onDragDrop}
+                        onDrawPopupChange={this.handleDrawPopupChange}
+                        onMenuItemClick={this.onMenuItemClick}
+                        onMouseOut={this.onMouseOut}
+                        onMouseOver={this.onMouseOver}
+                        onShuffleClick={this.onShuffleClick}
+                        showDeckName={this.showDeckName(false)}
+                        side='top'
+                        size={this.props.user.settings.cardSize}
+                        spectating={this.isSpectating()}
+                        stats={otherPlayer.stats}
                         tideRequired={
                             thisPlayer.stats.tideRequired || otherPlayer?.stats?.tideRequired
                         }
-                        activePlayer={otherPlayer.activePlayer}
+                        user={otherPlayer.user}
                     />
                 </div>
                 <div className='main-window'>
@@ -502,18 +443,40 @@ export class GameBoard extends React.Component {
                         {...boundActionCreators}
                         activeHouse={thisPlayer.activeHouse}
                         activePlayer={thisPlayer.activePlayer}
+                        cardBack={
+                            <CardBack
+                                size={this.props.user.settings.cardSize}
+                                deck={thisPlayer.deckData}
+                                showDeckName={this.showDeckName(!this.isSpectating())}
+                            />
+                        }
+                        cardPiles={thisPlayer.cardPiles}
+                        deck={thisPlayer.deckData}
                         houses={thisPlayer.houses}
-                        manualModeEnabled={manualMode}
+                        isMe={!this.isSpectating()}
+                        manualMode={manualMode}
                         matchRecord={this.getMatchRecord(thisPlayer, otherPlayer)}
                         muteSpectators={this.props.currentGame.muteSpectators}
+                        numDeckCards={thisPlayer.numDeckCards}
                         numMessages={this.state.newMessages}
                         onManualModeClick={this.onManualModeClick}
                         onMessagesClick={this.onMessagesClick}
+                        onCardClick={this.onCardClick}
+                        onDragDrop={this.onDragDrop}
+                        onDrawPopupChange={this.handleDrawPopupChange}
+                        onMenuItemClick={this.onMenuItemClick}
+                        onShuffleClick={this.onShuffleClick}
+                        onMouseOut={this.onMouseOut}
+                        onMouseOver={this.onMouseOver}
                         onMuteClick={this.onMuteClick}
                         onSettingsClick={this.onSettingsClick}
                         showControls={!this.isSpectating() && manualMode}
+                        showDeckName={this.showDeckName(!this.isSpectating())}
                         showManualMode={!this.isSpectating()}
                         showMessages
+                        side='bottom'
+                        size={this.props.user.settings.cardSize}
+                        spectating={this.isSpectating()}
                         stats={thisPlayer.stats}
                         tideRequired={
                             thisPlayer.stats.tideRequired || otherPlayer?.stats?.tideRequired
