@@ -362,12 +362,11 @@ class PlayerInteractionWrapper {
     clickPrompt(text) {
         text = text.toString();
         var currentPrompt = this.player.currentPrompt();
-        var promptButton = _.find(currentPrompt.buttons, (button) => {
-            return (
-                (button.card && button.card.name.toLowerCase() === text.toLowerCase()) ||
+        var promptButton = _.find(
+            currentPrompt.buttons,
+            (button) =>
                 this.replaceLocalizedValues(button).toString().toLowerCase() === text.toLowerCase()
-            );
-        });
+        );
 
         if (!promptButton) {
             throw new Error(

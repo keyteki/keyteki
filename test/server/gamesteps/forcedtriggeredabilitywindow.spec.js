@@ -773,4 +773,62 @@ describe('Triggered Ability Window', function () {
             });
         });
     });
+
+    describe('Same source for reap abilities', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'dis',
+                    inPlay: ['rotgrub', 'dino-bot', 'kompsos-haruspex'],
+                    hand: ['dust-imp']
+                },
+                player2: {
+                    amber: 3,
+                    inPlay: ['troll', 'brammo', 'boss-zarek', 'autocannon']
+                }
+            });
+
+            this.game.manualMode = true;
+        });
+
+        it('should prompt for the play or reap abilities', function () {
+            this.player1.reap(this.rotgrub);
+            expect(this.player1).toHavePromptButton('Rotgrub');
+            expect(this.player1).toHavePromptButton('Rotgrub (play)');
+            expect(this.player1).toHavePromptButton('Autoresolve');
+        });
+
+        it('should be able to use play as reap first', function () {
+            this.player1.reap(this.rotgrub);
+            this.player1.clickPrompt('Rotgrub (play)');
+            expect(this.player2.amber).toBe(2);
+            expect(this.rotgrub.location).toBe('archives');
+            this.player1.endTurn();
+        });
+
+        it('should be able to use native reap first', function () {
+            this.player1.reap(this.rotgrub);
+            this.player1.clickPrompt('Rotgrub');
+            expect(this.player2.amber).toBe(3);
+            expect(this.rotgrub.location).toBe('archives');
+            this.player1.endTurn();
+        });
+
+        it('should be able to opt out an optional play ability', function () {
+            this.player1.endTurn();
+            this.player2.clickPrompt('brobnar');
+            this.player2.endTurn();
+            this.player1.clickPrompt('logos');
+            this.player1.reap(this.dinoBot);
+            expect(this.player1).toHavePromptButton('Dino-Bot');
+            expect(this.player1).toHavePromptButton('Dino-Bot (play)');
+            expect(this.player1).not.toHavePromptButton('Autoresolve');
+            this.player1.clickPrompt('Dino-Bot');
+            this.player1.clickCard(this.dustImp);
+            expect(this.player1.hand.length).toBe(6);
+            expect(this.player1).toBeAbleToSelect(this.dinoBot);
+            this.player1.clickPrompt('Done');
+            this.player1.endTurn();
+        });
+    });
 });

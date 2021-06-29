@@ -209,14 +209,46 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
         }));
     }
 
-    getAbilitiesButtons(context) {
-        if (context.ability.title) {
-            return { text: context.ability.title };
+    getEventName(context) {
+        const event = context.event;
+        const ability = context.ability;
+        if (event) {
+            if (event.name === 'onCardPlayed' && !ability.properties.play) {
+                return ability.properties.reap
+                    ? ' (reap)'
+                    : ability.properties.fight
+                    ? ' (fight)'
+                    : '';
+            }
+            if (event.name === 'onFight' && !ability.properties.fight) {
+                return ability.properties.reap
+                    ? ' (reap)'
+                    : ability.properties.play
+                    ? ' (play)'
+                    : '';
+            }
+            if (event.name === 'onReap' && !ability.properties.reap) {
+                return ability.properties.fight
+                    ? ' (fight)'
+                    : ability.properties.play
+                    ? ' (play)'
+                    : '';
+            }
         }
 
+        return '';
+    }
+
+    getAbilityButton(context) {
+        if (context.ability.title) {
+            return { key: context.ability.title, text: context.ability.title };
+        }
+
+        const eventToAppend = this.getEventName(context);
         if (context.ability.printedAbility) {
             return {
-                text: '{{card}}',
+                key: context.source.name + eventToAppend,
+                text: '{{card}}' + eventToAppend,
                 card: context.source,
                 values: { card: context.source.name }
             };
@@ -225,14 +257,16 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
         let generatingEffectSource = this.game.getEffectSource(context);
         if (generatingEffectSource) {
             return {
-                text: '{{card}}',
+                key: generatingEffectSource.name + eventToAppend,
+                text: '{{card}}' + eventToAppend,
                 card: generatingEffectSource,
                 values: { card: generatingEffectSource.name }
             };
         }
 
         return {
-            text: '{{card}}',
+            key: context.source.name + eventToAppend,
+            text: '{{card}}' + eventToAppend,
             card: context.source,
             values: { card: context.source.name }
         };
@@ -240,8 +274,8 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
 
     promptBetweenAbilities(choices, addBackButton = true) {
         let menuChoices = _.uniq(
-            choices.map((context) => this.getAbilitiesButtons(context)),
-            (button) => (button.values ? button.values.card : button.text)
+            choices.map((context) => this.getAbilityButton(context)),
+            (button) => button.key
         );
         if (menuChoices.length === 1) {
             // this card has only one ability which can be triggered
@@ -252,10 +286,7 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
         // This card has multiple abilities which can be used in this window - prompt the player to pick one
         let handlers = menuChoices.map((button) => () =>
             this.promptBetweenEventCards(
-                choices.filter((context) => {
-                    const b = this.getAbilitiesButtons(context);
-                    return b.card ? b.card === button.card : b.text === button.text;
-                })
+                choices.filter((context) => this.getAbilityButton(context).key === button.key)
             )
         );
 
