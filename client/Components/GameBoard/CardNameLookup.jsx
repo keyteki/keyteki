@@ -1,49 +1,42 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-
+import React, { useState } from 'react';
+import { Trans } from 'react-i18next';
 import Typeahead from '../Form/Typeahead';
 
-class CardNameLookup extends React.Component {
-    constructor(props) {
-        super(props);
+/**
+ * @typedef TypeaheadLookupProps
+ * @property {object[]} cards map of card id to cards
+ * @property {function(Object): void} useState Called when a card name is selected
+ */
 
-        this.state = {};
+/**
+ * @param {CardNameLookupProps} props
+ */
+const CardNameLookup = (props) => {
+    const [cardName, setCardName] = useState();
 
-        this.onCardNameChange = this.onCardNameChange.bind(this);
-        this.onDoneClick = this.onDoneClick.bind(this);
-    }
+    let cardNames = [...new Set(Object.values(props.cards).map((card) => card.name))];
+    cardNames.sort();
 
-    onCardNameChange(card) {
-        this.setState({ cardName: card[0] });
-    }
-
-    onDoneClick() {
-        if (this.state.cardName && this.props.onCardSelected) {
-            this.props.onCardSelected(this.state.cardName);
+    const onDoneClick = () => {
+        if (cardName) {
+            props.onCardSelected(cardName);
         }
-    }
+    };
 
-    render() {
-        return (
-            <div>
-                <Typeahead
-                    labelKey={'label'}
-                    options={[...new Set(Object.values(this.props.cards).map((card) => card.name))]}
-                    dropup
-                    onChange={this.onCardNameChange}
-                />
-                <button type='button' onClick={this.onDoneClick} className='btn btn-primary'>
-                    Done
-                </button>
-            </div>
-        );
-    }
-}
-
-CardNameLookup.displayName = 'CardNameLookup';
-CardNameLookup.propTypes = {
-    cards: PropTypes.object,
-    onCardSelected: PropTypes.object
+    return (
+        <div>
+            <Typeahead
+                labelKey={'label'}
+                options={cardNames}
+                dropup
+                onChange={(cards) => setCardName(cards[0])}
+            />
+            <button type='button' onClick={onDoneClick} className='btn btn-primary'>
+                <Trans>Done</Trans>
+            </button>
+        </div>
+    );
 };
 
+CardNameLookup.displayName = 'CardNameLookup';
 export default CardNameLookup;
