@@ -463,7 +463,7 @@
     "Format": "赛制",
     "Started At": "开始时间",
     "Duration": "比赛时长",
-    "{{player}} will go first.": "{{player}}先手.",
+    "{{player}} will go first": "{{player}}先手",
     "Who will go first?": "哪位玩家先手?",
     "Use a time limit (in minutes)": "使用计时器(分钟)",
     "Hide deck lists": "隐藏牌表",

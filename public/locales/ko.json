@@ -463,7 +463,7 @@
     "Format": "형식",
     "Started At": "시작",
     "Duration": "걸린 시간",
-    "{{player}} will go first.": "{{player}} 가 먼저 시작합니다.",
+    "{{player}} will go first": "{{player}} 가 먼저 시작합니다",
     "Who will go first?": "누가 먼저 시작할까요?",
     "Filter By Expansion": "확장 별로 필터",
     "Use a time limit (in minutes)": "시간 제한 사용 (분 단위)",

@@ -463,7 +463,7 @@
     "Format": "Formato",
     "Started At": "Comenzado a",
     "Duration": "Duración",
-    "{{player}} will go first.": "{{player}} jugará primero.",
+    "{{player}} will go first": "{{player}} jugará primero",
     "Who will go first?": "¿Quién jugará primero?",
     "Filter By Expansion": "Filtrar por expansión",
     "Use a time limit (in minutes)": "Usar un límite de tiempo (en minutos)",

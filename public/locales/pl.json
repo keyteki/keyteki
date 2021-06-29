@@ -463,7 +463,7 @@
     "Format": "Format",
     "Started At": "Wystartowany o",
     "Duration": "Czas trwania",
-    "{{player}} will go first.": "{{player}} will go first.",
+    "{{player}} will go first": "{{player}} will go first",
     "Who will go first?": "Who will go first?",
     "Filter By Expansion": "Filter By Expansion",
     "Use a time limit (in minutes)": "Use a time limit (in minutes)",
