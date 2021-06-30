@@ -173,10 +173,6 @@ class DeckService {
             dbExpansions.push(479);
         }
 
-        if (expansions.dt) {
-            dbExpansions.push(496);
-        }
-
         let deck;
         let expansionStr = dbExpansions.join(',');
         try {
@@ -584,8 +580,8 @@ class DeckService {
         }
     }
 
-    countEnhancements(list, deckCards) {
-        const cards = list.map((c) => deckCards.find((x) => x.id === c)).filter(Boolean);
+    solveEnhancements(list, deckCards) {
+        const cards = list.map((c) => deckCards.find((x) => x.id === c));
         const enhancementRegex = /Enhance (.+?)\./;
         const EnhancementLookup = {
             P: 'capture',
@@ -600,8 +596,8 @@ class DeckService {
 
         let enhancements = {};
 
-        for (let card of cards.filter((c) => c.card_text.includes('Enhance'))) {
-            let matches = card.card_text.match(enhancementRegex);
+        for (let deckCard of cards.filter((c) => c.card_text.includes('Enhance'))) {
+            let matches = deckCard.card_text.match(enhancementRegex);
             if (!matches || matches.length === 1) {
                 continue;
             }
@@ -617,17 +613,13 @@ class DeckService {
             }
         }
 
-        return enhancements;
-    }
-
-    assignEnhancements(cards, enhancements) {
         let totalEnhancements = Object.keys(enhancements).reduce((a, b) => a + enhancements[b], 0);
-        let totalEnhancedCards = cards.filter((x) => x.enhancements).length;
+        let totalEnhancedCards = cards.filter((x) => x.is_enhanced).length;
         let types = Object.keys(enhancements);
 
         if (totalEnhancements === totalEnhancedCards && types.length === 1) {
             for (const [index, card] of cards.entries()) {
-                if (card.enhancements) cards[index] = { ...card, enhancements: types };
+                if (card.is_enhanced) cards[index] = { ...card, enhancements: types };
             }
         } else if (totalEnhancedCards === 1) {
             let pips = [];
@@ -637,7 +629,7 @@ class DeckService {
                 }
             }
             for (const [index, card] of cards.entries()) {
-                if (card.enhancements) cards[index] = { ...card, enhancements: pips.sort() };
+                if (card.is_enhanced) cards[index] = { ...card, enhancements: pips.sort() };
             }
         }
 
@@ -646,21 +638,16 @@ class DeckService {
 
     parseDeckResponse(username, deckResponse) {
         let specialCards = {
-            479: { 'dark-æmber-vault': true, 'it-s-coming': true }
-        };
-
-        let anomalies = {
-            'orb-of-wonder': { anomalySet: 453, house: 'sanctum' },
-            valoocanth: { anomalySet: 453, house: 'unfathomable' }
+            479: { 'dark-æmber-vault': true, 'it-s-coming': true, 'orb-of-wonder': true },
+            496: { 'orb-of-wonder': true, valoocanth: true }
         };
 
         let deckCards = deckResponse._linked.cards.filter((c) => !c.is_non_deck);
 
-        let enhancements = {};
-
         if (deckCards.some((card) => card.is_enhanced)) {
-            enhancements = this.countEnhancements(deckResponse.data._links.cards, deckCards);
+            deckCards = this.solveEnhancements(deckResponse.data._links.cards, deckCards);
         }
+
         let cards = deckCards.map((card) => {
             let id = card.card_title
                 .toLowerCase()
@@ -693,7 +680,7 @@ class DeckService {
             }
 
             if (card.is_enhanced) {
-                retCard.enhancements = [];
+                retCard.enhancements = card.enhancements ? card.enhancements : [];
             }
 
             if (card.card_type === 'Creature2') {
@@ -703,12 +690,6 @@ class DeckService {
             // If this is one of the cards that has an entry for every house, get the correct house image
             if (specialCards[card.expansion] && specialCards[card.expansion][id]) {
                 retCard.house = card.house.toLowerCase().replace(' ', '');
-                retCard.image = `${retCard.id}-${retCard.house}`;
-            }
-
-            if (anomalies[id] && anomalies[id].anomalySet !== card.expansion) {
-                // anomaly cards' real house
-                retCard.house = anomalies[id].house;
                 retCard.image = `${retCard.id}-${retCard.house}`;
             }
 
@@ -730,10 +711,6 @@ class DeckService {
         }
 
         cards = cards.concat(toAdd);
-
-        if (cards.some((card) => card.enhancements)) {
-            cards = this.assignEnhancements(cards, enhancements);
-        }
 
         let uuid = deckResponse.data.id;
         let anyIllegalCards = cards.find(
