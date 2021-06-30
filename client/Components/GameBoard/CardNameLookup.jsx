@@ -3,7 +3,7 @@ import { Trans } from 'react-i18next';
 import Typeahead from '../Form/Typeahead';
 
 /**
- * @typedef TypeaheadLookupProps
+ * @typedef CardNameLookupProps
  * @property {object[]} cards map of card id to cards
  * @property {function(Object): void} useState Called when a card name is selected
  */
