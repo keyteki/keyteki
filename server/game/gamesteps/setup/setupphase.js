@@ -63,7 +63,7 @@ class SetupPhase extends Phase {
                     !!this.game.cardsDiscarded.length,
                 effect: Effects.noActiveHouseForPlay()
             })
-            .resolve(this.game.activePlayer, this.game.getFrameworkContext());
+            .resolve(this.game.activePlayer, this.game.getFrameworkContext(this.game.activePlayer));
     }
 
     drawStartingHands() {
