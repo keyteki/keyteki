@@ -438,52 +438,48 @@ export class GameBoard extends React.Component {
                         )}
                     </div>
                 </div>
-                <div>
-                    <PlayerStats
-                        {...boundActionCreators}
-                        activeHouse={thisPlayer.activeHouse}
-                        activePlayer={thisPlayer.activePlayer}
-                        cardBack={
-                            <CardBack
-                                size={this.props.user.settings.cardSize}
-                                deck={thisPlayer.deckData}
-                                showDeckName={this.showDeckName(!this.isSpectating())}
-                            />
-                        }
-                        cardPiles={thisPlayer.cardPiles}
-                        deck={thisPlayer.deckData}
-                        houses={thisPlayer.houses}
-                        isMe={!this.isSpectating()}
-                        manualMode={manualMode}
-                        matchRecord={this.getMatchRecord(thisPlayer, otherPlayer)}
-                        muteSpectators={this.props.currentGame.muteSpectators}
-                        numDeckCards={thisPlayer.numDeckCards}
-                        numMessages={this.state.newMessages}
-                        onManualModeClick={this.onManualModeClick}
-                        onMessagesClick={this.onMessagesClick}
-                        onCardClick={this.onCardClick}
-                        onDragDrop={this.onDragDrop}
-                        onDrawPopupChange={this.handleDrawPopupChange}
-                        onMenuItemClick={this.onMenuItemClick}
-                        onShuffleClick={this.onShuffleClick}
-                        onMouseOut={this.onMouseOut}
-                        onMouseOver={this.onMouseOver}
-                        onMuteClick={this.onMuteClick}
-                        onSettingsClick={this.onSettingsClick}
-                        showControls={!this.isSpectating() && manualMode}
-                        showDeckName={this.showDeckName(!this.isSpectating())}
-                        showManualMode={!this.isSpectating()}
-                        showMessages
-                        side='bottom'
-                        size={this.props.user.settings.cardSize}
-                        spectating={this.isSpectating()}
-                        stats={thisPlayer.stats}
-                        tideRequired={
-                            thisPlayer.stats.tideRequired || otherPlayer?.stats?.tideRequired
-                        }
-                        user={thisPlayer.user}
-                    />
-                </div>
+                <PlayerStats
+                    {...boundActionCreators}
+                    activeHouse={thisPlayer.activeHouse}
+                    activePlayer={thisPlayer.activePlayer}
+                    cardBack={
+                        <CardBack
+                            size={this.props.user.settings.cardSize}
+                            deck={thisPlayer.deckData}
+                            showDeckName={this.showDeckName(!this.isSpectating())}
+                        />
+                    }
+                    cardPiles={thisPlayer.cardPiles}
+                    deck={thisPlayer.deckData}
+                    houses={thisPlayer.houses}
+                    isMe={!this.isSpectating()}
+                    manualMode={manualMode}
+                    matchRecord={this.getMatchRecord(thisPlayer, otherPlayer)}
+                    muteSpectators={this.props.currentGame.muteSpectators}
+                    numDeckCards={thisPlayer.numDeckCards}
+                    numMessages={this.state.newMessages}
+                    onManualModeClick={this.onManualModeClick}
+                    onMessagesClick={this.onMessagesClick}
+                    onCardClick={this.onCardClick}
+                    onDragDrop={this.onDragDrop}
+                    onDrawPopupChange={this.handleDrawPopupChange}
+                    onMenuItemClick={this.onMenuItemClick}
+                    onShuffleClick={this.onShuffleClick}
+                    onMouseOut={this.onMouseOut}
+                    onMouseOver={this.onMouseOver}
+                    onMuteClick={this.onMuteClick}
+                    onSettingsClick={this.onSettingsClick}
+                    showControls={!this.isSpectating() && manualMode}
+                    showDeckName={this.showDeckName(!this.isSpectating())}
+                    showManualMode={!this.isSpectating()}
+                    showMessages
+                    side='bottom'
+                    size={this.props.user.settings.cardSize}
+                    spectating={this.isSpectating()}
+                    stats={thisPlayer.stats}
+                    tideRequired={thisPlayer.stats.tideRequired || otherPlayer?.stats?.tideRequired}
+                    user={thisPlayer.user}
+                />
             </div>
         );
     }

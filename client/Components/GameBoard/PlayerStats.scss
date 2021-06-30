@@ -6,6 +6,10 @@
 
 .player-stats {
     display: flex;
+    justify-content: space-between;
+    align-items: center;
+    overflow-x: auto;
+    overflow-y: hidden;
 
     &.panel {
         margin: 0;
@@ -13,9 +17,6 @@
         padding: 5px;
         position: initial;
     }
-
-    display: flex;
-    align-items: center;
 }
 
 .inactive-player{
@@ -37,6 +38,7 @@
     border-right: dotted 2px #324e8e;
     display: flex;
     align-items: center;
+    min-width: fit-content;
 
     &.on{
         opacity: 1;
@@ -60,7 +62,7 @@
     }
 
     img {
-        height: 125%;
+        height: 100%;
 
         &:not(:last-child) {
             margin-right: 2px;
@@ -101,6 +103,10 @@
     }
 
     &.tide {
+        height: 100%;
+    }
+
+    &.expansion {
         height: 100%;
     }
 }

@@ -45,15 +45,13 @@ const PlayerRow = ({
         />
     );
 
-    return (
+    return isMe ? (
         <div className='player-home-row-container pt-1'>
-            {isMe ? (
-                <Droppable onDragDrop={onDragDrop} source={hand} manualMode={manualMode}>
-                    {handToRender}
-                </Droppable>
-            ) : null}
+            <Droppable onDragDrop={onDragDrop} source='hand' manualMode={manualMode}>
+                {handToRender}
+            </Droppable>
         </div>
-    );
+    ) : null;
 };
 
 PlayerRow.displayName = 'PlayerRow';

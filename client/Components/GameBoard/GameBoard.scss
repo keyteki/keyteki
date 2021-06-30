@@ -116,7 +116,7 @@
 .player-home-row {
     display: flex;
     overflow-x: auto;
-    overflow-y: hidden;
+    justify-content: space-around;
 }
 
 .inset-pane {

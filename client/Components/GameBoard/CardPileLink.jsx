@@ -23,8 +23,8 @@ const CardPileLink = ({
     onMouseOver,
     onPopupChange,
     onTouchMove,
-    orientation = 'vertical',
-    popupLocation = 'bottom',
+    orientation,
+    popupLocation,
     popupMenu,
     size,
     source,
@@ -52,12 +52,12 @@ const CardPileLink = ({
             updatePopupVisibility(false);
         }
     }, [cards, manualPopup, updatePopupVisibility]);
-
-    let classNameStr = classNames(className, {
+    let classNameStr = classNames('card-pile-link', size, className, {
         [size]: size !== 'normal',
         horizontal: orientation === 'horizontal' || orientation === 'exhausted',
         vertical: orientation === 'vertical'
     });
+    let headerText = `${title}: ${title === 'Draw' ? numDeckCards : cards.length}`;
 
     return (
         <div
@@ -69,7 +69,7 @@ const CardPileLink = ({
                 }
             }}
         >
-            {title}: {title === 'Draw' ? numDeckCards : cards.length}
+            <div>{headerText}</div>
             {!disablePopup && showPopup && (
                 <CardPilePopup
                     cardBack={cardBack}

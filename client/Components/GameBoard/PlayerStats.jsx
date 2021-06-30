@@ -185,14 +185,14 @@ const PlayerStats = ({
         onMenuItemClick,
         onPopupChange,
         onTouchMove,
-        cardBack: cardBack,
-        manualMode: manualMode,
-        onCardClick: onCardClick,
-        onDragDrop: onDragDrop,
-        onMouseOut: onMouseOut,
-        onMouseOver: onMouseOver,
+        cardBack,
+        manualMode,
+        onCardClick,
+        onDragDrop,
+        onMouseOut,
+        onMouseOver,
         popupLocation: side,
-        size: size
+        size
     };
 
     const renderDroppableList = (source, child) => {
@@ -208,10 +208,10 @@ const PlayerStats = ({
     let draw = (
         <DrawDeck
             {...pileProps}
+            className='draw'
             cardCount={numDeckCards}
             cards={cardPiles.deck}
             isMe={isMe}
-            manualMode={manualMode}
             numDeckCards={numDeckCards}
             onPopupChange={onDrawPopupChange}
             onShuffleClick={onShuffleClick}
@@ -247,41 +247,48 @@ const PlayerStats = ({
             source='purged'
         />
     );
+    const hand = (
+        <CardPileLink
+            {...pileProps}
+            cards={cardPiles.hand}
+            className='hand'
+            title={t('Hand')}
+            source='hand'
+        />
+    );
 
     return (
         <div className={statsClass}>
-            {playerAvatar}
-            <Keys keys={stats.keys} manualMode={manualMode} />
-            {getButton('amber', t('Amber'))}
-            {getButton('chains', t('Chains'))}
-            {getKeyCost()}
+            <div className='state'>
+                {playerAvatar}
+                <Keys keys={stats.keys} manualMode={manualMode} />
+                {getButton('amber', t('Amber'))}
+                {getButton('chains', t('Chains'))}
+                {getKeyCost()}
 
-            {houses ? getHouses() : null}
-            {getTide()}
-            <IdentityCard
-                deck={deck}
-                showDeckName={showDeckName}
-                onMouseOut={onMouseOut}
-                onMouseOver={onMouseOver}
-            />
+                {houses ? getHouses() : null}
+                {getTide()}
+                <IdentityCard
+                    deck={deck}
+                    showDeckName={showDeckName}
+                    onMouseOut={onMouseOut}
+                    onMouseOver={onMouseOver}
+                />
 
-            {!isMe && (
-                <div className='state'>
-                    {t('Hand')}: {cardPiles.hand ? cardPiles.hand.length : 0}
-                </div>
-            )}
+                {!isMe && <div className='state'>{renderDroppableList('hand', hand)}</div>}
 
-            <div className='state'>{renderDroppableList('draw', draw)}</div>
-            <div className='state'>{renderDroppableList('discard', discard)}</div>
-            {((cardPiles.archives && cardPiles.archives.length > 0) || manualMode) && (
-                <div className='state'>{renderDroppableList('archives', archives)}</div>
-            )}
-            {((cardPiles.purged && cardPiles.purged.length > 0) || manualMode) && (
-                <div className='state'>{renderDroppableList('purged', purged)}</div>
-            )}
+                <div className='state'>{renderDroppableList('draw', draw)}</div>
+                <div className='state'>{renderDroppableList('discard', discard)}</div>
+                {((cardPiles.archives && cardPiles.archives.length > 0) || manualMode) && (
+                    <div className='state'>{renderDroppableList('archives', archives)}</div>
+                )}
+                {((cardPiles.purged && cardPiles.purged.length > 0) || manualMode) && (
+                    <div className='state'>{renderDroppableList('purged', purged)}</div>
+                )}
+            </div>
 
             {showMessages && (
-                <div className='state chat-status'>
+                <div className='state'>
                     <div className='state'>
                         <a href='#' className='pr-1 pl-1'>
                             <FontAwesomeIcon

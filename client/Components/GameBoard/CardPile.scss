@@ -143,6 +143,37 @@
     }
 }
 
+.card-pile-link {
+    padding: 0px;
+    position: relative;
+    margin: 0px 5px;
+
+    .panel {
+        z-index: $layer-card-menu;
+        background-color: rgba(0, 0, 0, 0.85);
+        position: fixed;
+        a {
+            display: inline-block;
+            margin: 0 10px 8px 0;
+            text-decoration: none;
+
+            &:hover {
+                color: theme-color(info);
+                cursor: pointer;
+            }
+        }
+
+        .panel {
+            margin-bottom: 0;
+            padding: 5px;
+        }
+
+        .panel-title {
+            margin: 5px 5px;
+        }
+    }
+}
+
 .draw {
     .panel {
         z-index: $layer-pile-header;
@@ -188,6 +219,17 @@
 }
 
 .purged {
+    .panel {
+        z-index: $layer-card-menu;
+
+        .inner {
+            @include calculate-tiled-card-prop(min-height, 1, height);
+            @include calculate-tiled-card-prop(width, 5, width, $scrollbar-width);
+        }
+    }
+}
+
+.hand {
     .panel {
         z-index: $layer-card-menu;
 
