@@ -87,7 +87,9 @@ class SquishableCardPanel extends React.Component {
     getOverallDimensions() {
         let cardDimensions = this.getCardDimensions();
         return {
-            width: (cardDimensions.width + 5) * this.props.maxCards,
+            width:
+                (cardDimensions.width + 7) *
+                Math.min(this.props.maxCards, this.props.cards ? this.props.cards.length : 5),
             height: cardDimensions.height
         };
     }

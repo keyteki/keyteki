@@ -9,11 +9,9 @@ import ActivePlayerPrompt from './ActivePlayerPrompt';
 import CardBack from '../Decks/CardBack';
 import CardZoom from './CardZoom';
 import { Constants } from '../../constants';
-import Droppable from './Droppable';
 import GameChat from './GameChat';
 import GameConfigurationModal from './GameConfigurationModal';
 import PlayerBoard from './PlayerBoard';
-import PlayerRow from './PlayerRow';
 import PlayerStats from './PlayerStats';
 import TimeLimitClock from './TimeLimitClock';
 import * as actions from '../../redux/actions';
@@ -259,52 +257,31 @@ export class GameBoard extends React.Component {
                             tide={otherPlayer?.stats?.tide}
                             user={this.props.user}
                         />
-                        <Droppable
-                            onDragDrop={this.onDragDrop}
-                            source='play area'
+                        <PlayerBoard
+                            cardBack={
+                                <CardBack
+                                    size={this.props.user.settings.cardSize}
+                                    deck={thisPlayer.deckData}
+                                    showDeckName={this.showDeckName(!this.isSpectating())}
+                                />
+                            }
+                            cardsInPlay={thisPlayer.cardPiles.cardsInPlay}
+                            cardSize={this.props.user.settings.cardSize}
+                            hand={thisPlayer.cardPiles.hand}
+                            isMe={!this.isSpectating()}
                             manualMode={this.props.currentGame.manualMode}
-                        >
-                            <PlayerBoard
-                                cardBack={
-                                    <CardBack
-                                        size={this.props.user.settings.cardSize}
-                                        deck={thisPlayer.deckData}
-                                        showDeckName={this.showDeckName(!this.isSpectating())}
-                                    />
-                                }
-                                cardsInPlay={thisPlayer.cardPiles.cardsInPlay}
-                                manualMode={this.props.currentGame.manualMode}
-                                onCardClick={this.onCardClick}
-                                onMenuItemClick={this.onMenuItemClick}
-                                onMouseOut={this.onMouseOut}
-                                onMouseOver={this.onMouseOver}
-                                rowDirection='default'
-                                tide={thisPlayer.stats.tide}
-                                user={this.props.user}
-                            />
-                        </Droppable>
+                            onCardClick={this.onCardClick}
+                            onDragDrop={this.onDragDrop}
+                            onMenuItemClick={this.onMenuItemClick}
+                            onMouseOut={this.onMouseOut}
+                            onMouseOver={this.onMouseOver}
+                            rowDirection='default'
+                            tide={thisPlayer.stats.tide}
+                            user={this.props.user}
+                        />
                     </div>
                 </div>
                 {this.getTimer()}
-                <div className='player-home-row our-side'>
-                    <PlayerRow
-                        cardBack={
-                            <CardBack
-                                size={this.props.user.settings.cardSize}
-                                deck={thisPlayer.deckData}
-                                showDeckName={this.showDeckName(!this.isSpectating())}
-                            />
-                        }
-                        cardSize={this.props.user.settings.cardSize}
-                        hand={thisPlayer.cardPiles.hand}
-                        isMe={!this.isSpectating()}
-                        manualMode={this.props.currentGame.manualMode}
-                        onCardClick={this.onCardClick}
-                        onDragDrop={this.onDragDrop}
-                        onMouseOut={this.onMouseOut}
-                        onMouseOver={this.onMouseOver}
-                    />
-                </div>
             </div>
         ];
     }

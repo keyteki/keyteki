@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import Card from './Card';
+import PlayerRow from './PlayerRow';
+import Droppable from './Droppable';
 
 import './PlayerBoard.scss';
 
@@ -79,7 +81,30 @@ class PlayerBoard extends React.Component {
             'board-low-tide': this.props.tide === 'low'
         });
 
-        return <div className={className}>{this.renderRows(rows)}</div>;
+        return (
+            <div className={className}>
+                <Droppable
+                    onDragDrop={this.props.onDragDrop}
+                    source='play area'
+                    manualMode={this.props.manualMode}
+                >
+                    {this.renderRows(rows)}
+                </Droppable>
+                {this.props.isMe && (
+                    <PlayerRow
+                        cardBack={this.props.cardBack}
+                        cardSize={this.props.cardSize}
+                        hand={this.props.hand}
+                        isMe={this.props.isMe}
+                        manualMode={this.props.manualMode}
+                        onCardClick={this.props.onCardClick}
+                        onDragDrop={this.props.onDragDrop}
+                        onMouseOut={this.props.onMouseOut}
+                        onMouseOver={this.props.onMouseOver}
+                    />
+                )}
+            </div>
+        );
     }
 }
 

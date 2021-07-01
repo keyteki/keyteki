@@ -20,12 +20,12 @@ import { Constants } from '../../constants';
 import Minus from '../../assets/img/Minus.png';
 import Plus from '../../assets/img/Plus.png';
 
-import './PlayerStats.scss';
 import Keys from './Keys';
 import IdentityCard from './IdentityCard';
 import CardPileLink from './CardPileLink';
 import Droppable from './Droppable';
 import DrawDeck from './DrawDeck';
+import './PlayerStats.scss';
 
 const PlayerStats = ({
     activeHouse,

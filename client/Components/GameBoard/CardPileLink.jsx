@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 import CardPilePopup from './CardPilePopup';
 
-import './CardPile.scss';
+import './CardPileLink.scss';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { useCallback } from 'react';
