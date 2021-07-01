@@ -249,6 +249,7 @@ export class GameBoard extends React.Component {
                                 />
                             }
                             cardsInPlay={otherPlayer.cardPiles.cardsInPlay}
+                            isSpectating={this.isSpectating()}
                             onCardClick={this.onCardClick}
                             onMenuItemClick={this.onMenuItemClick}
                             onMouseOut={this.onMouseOut}
@@ -269,6 +270,7 @@ export class GameBoard extends React.Component {
                             cardSize={this.props.user.settings.cardSize}
                             hand={thisPlayer.cardPiles.hand}
                             isMe={!this.isSpectating()}
+                            isSpectating={this.isSpectating()}
                             manualMode={this.props.currentGame.manualMode}
                             onCardClick={this.onCardClick}
                             onDragDrop={this.onDragDrop}
