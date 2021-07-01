@@ -179,6 +179,21 @@
     }
 }
 
+.discard, .archives, .purged {
+     .panel {
+         min-height: 146px;
+         z-index: $layer-pile-header;
+         @include calculate-tiled-card-prop(width, 5, width, $scrollbar-width + 10);
+         @include calculate-tiled-card-prop(height, 3, height);
+
+         .inner {
+             @include calculate-tiled-card-prop(min-height, 1, height);
+             @include calculate-tiled-card-prop(width, 5, width, $scrollbar-width);
+             padding: 4px;
+         }
+     }
+ }
+
 .draw {
     .panel {
         z-index: $layer-pile-header;
@@ -192,57 +207,6 @@
     }
 }
 
-.additional-cards {
-    .panel {
-        .inner {
-            @include calculate-tiled-card-prop(min-height, 2, width);
-            @include calculate-tiled-card-prop(min-width, 2, height, $scrollbar-width);
-        }
-    }
-}
-
-.discard {
-    .panel {
-        min-height: 146px;
-        z-index: $layer-pile-header;
-        @include calculate-tiled-card-prop(width, 5, width, $scrollbar-width + 10);
-        @include calculate-tiled-card-prop(height, 3, height);
-
-        .inner {
-            @include calculate-tiled-card-prop(min-height, 1, height);
-            @include calculate-tiled-card-prop(width, 5, width, $scrollbar-width);
-            padding: 4px;
-        }
-    }
-}
-
-.archives {
-    .panel {
-        z-index: $layer-pile-header;
-        @include calculate-tiled-card-prop(width, 5, width, $scrollbar-width + 10);
-        @include calculate-tiled-card-prop(height, 3, height);
-
-        .inner {
-            @include calculate-tiled-card-prop(min-height, 1, height);
-            @include calculate-tiled-card-prop(width, 5, width, $scrollbar-width);
-            padding: 4px;
-        }
-    }
-}
-
-.purged {
-    .panel {
-        z-index: $layer-card-menu;
-        @include calculate-tiled-card-prop(width, 5, width, $scrollbar-width + 10);
-        @include calculate-tiled-card-prop(height, 3, height);
-
-        .inner {
-            @include calculate-tiled-card-prop(min-height, 1, height);
-            @include calculate-tiled-card-prop(width, 5, width, $scrollbar-width);
-        }
-    }
-}
-
 .hand {
     .panel {
         z-index: $layer-card-menu;
@@ -252,6 +216,15 @@
         .inner {
             @include calculate-tiled-card-prop(min-height, 1, height);
             @include calculate-tiled-card-prop(width, 6, width, $scrollbar-width);
+        }
+    }
+}
+
+.additional-cards {
+    .panel {
+        .inner {
+            @include calculate-tiled-card-prop(min-height, 2, width);
+            @include calculate-tiled-card-prop(min-width, 2, height, $scrollbar-width);
         }
     }
 }
