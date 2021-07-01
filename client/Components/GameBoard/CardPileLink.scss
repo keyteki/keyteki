@@ -63,7 +63,12 @@
 
 .inner {
     @include calculate-tiled-card-prop(max-height, 4, height);
+    @include calculate-tiled-card-prop(height, 3, height, -5);
     overflow-y: auto;
+
+    &.hand {
+        @include calculate-tiled-card-prop(height, 1, height);
+    }
 }
 
 .card-pile-link {
@@ -105,7 +110,6 @@
          @include calculate-tiled-card-prop(height, 3, height);
 
          .inner {
-             @include calculate-tiled-card-prop(min-height, 1, height);
              @include calculate-tiled-card-prop(width, 5, width, $scrollbar-width);
              padding: 4px;
          }
@@ -119,7 +123,6 @@
         @include calculate-tiled-card-prop(height, 3, height);
 
         .inner {
-            @include calculate-tiled-card-prop(min-height, 1, height);
             @include calculate-tiled-card-prop(width, 7, width, $scrollbar-width);
         }
     }
@@ -129,10 +132,9 @@
     .panel {
         z-index: $layer-card-menu;
         @include calculate-tiled-card-prop(width, 6, width, $scrollbar-width + 10);
-        @include calculate-tiled-card-prop(height, 3, height);
+        @include calculate-tiled-card-prop(height, 1, height);
 
         .inner {
-            @include calculate-tiled-card-prop(min-height, 1, height);
             @include calculate-tiled-card-prop(width, 6, width, $scrollbar-width);
         }
     }
@@ -141,32 +143,7 @@
 .additional-cards {
     .panel {
         .inner {
-            @include calculate-tiled-card-prop(min-height, 2, width);
             @include calculate-tiled-card-prop(min-width, 2, height, $scrollbar-width);
         }
-    }
-}
-
-.small {
-    .inner {
-        @include calculate-tiled-card-prop(height, 3, height, -5);
-    }
-}
-
-.normal {
-    .inner {
-        @include calculate-tiled-card-prop(height, 3, height, -5);
-    }
-}
-
-.large {
-    .inner {
-        @include calculate-tiled-card-prop(height, 3, height, -5);
-    }
-}
-
-.x-large {
-    .inner {
-        @include calculate-tiled-card-prop(height, 3, height, -5);
     }
 }

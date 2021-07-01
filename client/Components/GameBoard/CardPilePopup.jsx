@@ -58,7 +58,10 @@ const CardPilePopup = ({
         [size]: true
     });
 
-    let innerClass = classNames('inner', size);
+    let innerClass = classNames('inner', {
+        [size]: true,
+        [source]: true
+    });
     let linkIndex = 0;
 
     let popupMenuToRender = popupMenu && (
