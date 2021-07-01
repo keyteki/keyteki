@@ -26,4 +26,8 @@
     &.no-drop {
         background-color: theme-color(danger);
     }
+
+    &.play.area {
+        z-index: $layer-player-board-overlay;
+    }
 }

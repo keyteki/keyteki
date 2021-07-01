@@ -1,6 +1,6 @@
 import React from 'react';
 
-import CardPile from './CardPile';
+import CardPileLink from './CardPileLink';
 import Droppable from './Droppable';
 import { useTranslation } from 'react-i18next';
 
@@ -25,7 +25,7 @@ const DrawDeck = (props) => {
     let hasCards = cards?.length !== 0;
 
     let drawDeck = (
-        <CardPile
+        <CardPileLink
             {...props}
             className='draw'
             disablePopup={!hasCards && (spectating || !isMe)}
@@ -35,6 +35,7 @@ const DrawDeck = (props) => {
             }
             popupMenu={drawDeckPopupMenu}
             source='deck'
+            cards={cards}
             title={t('Draw')}
         />
     );

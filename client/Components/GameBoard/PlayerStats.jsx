@@ -1,8 +1,9 @@
 import React from 'react';
-import { withTranslation, Trans } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
+import { sendGameMessage } from '../../redux/actions';
 import { toastr } from 'react-redux-toastr';
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faEye,
@@ -19,119 +20,147 @@ import { Constants } from '../../constants';
 import Minus from '../../assets/img/Minus.png';
 import Plus from '../../assets/img/Plus.png';
 
-import './PlayerStats.scss';
 import Keys from './Keys';
+import IdentityCard from './IdentityCard';
+import CardPileLink from './CardPileLink';
+import Droppable from './Droppable';
+import DrawDeck from './DrawDeck';
+import './PlayerStats.scss';
 
-export class PlayerStats extends React.Component {
-    constructor(props) {
-        super(props);
+const PlayerStats = ({
+    activeHouse,
+    activePlayer,
+    cardPiles,
+    cardBack,
+    deck,
+    houses,
+    isMe,
+    manualMode,
+    muteSpectators,
+    numDeckCards,
+    numMessages,
+    onCardClick,
+    onDragDrop,
+    onDrawPopupChange,
+    onMenuItemClick,
+    onPopupChange,
+    onTouchMove,
+    onClickTide,
+    onManualModeClick,
+    onMessagesClick,
+    onMuteClick,
+    onSettingsClick,
+    showControls,
+    onMouseOut,
+    onMouseOver,
+    onShuffleClick,
+    showDeckName,
+    showManualMode,
+    showMessages,
+    side,
+    size,
+    spectating,
+    stats,
+    tideRequired,
+    user
+}) => {
+    const { t } = useTranslation();
+    const dispatch = useDispatch();
 
-        this.sendUpdate = this.sendUpdate.bind(this);
-        this.setActiveHouse = this.setActiveHouse.bind(this);
-    }
-
-    sendUpdate(type, direction) {
-        this.props.sendGameMessage('changeStat', type, direction === 'up' ? 1 : -1);
-    }
-
-    setActiveHouse(house) {
-        if (this.props.showControls) {
-            this.props.sendGameMessage('changeActiveHouse', house);
-        }
-    }
-
-    getStatValueOrDefault(stat) {
-        if (!this.props.stats) {
+    const getStatValueOrDefault = (stat) => {
+        if (!stats) {
             return 0;
         }
 
-        return this.props.stats[stat] || 0;
-    }
+        return stats[stat] || 0;
+    };
 
-    getHouse(house) {
-        let houseTitle = this.props.t(house);
+    const getHouse = (house) => {
+        let houseTitle = t(house);
         return houseTitle[0].toUpperCase() + houseTitle.slice(1);
-    }
+    };
 
-    getButton(stat, name, statToSet = stat) {
+    const getButton = (stat, name, statToSet = stat) => {
         return (
-            <div className='state' title={this.props.t(name)}>
-                {this.props.showControls ? (
+            <div className='state' title={t(name)}>
+                {showControls ? (
                     <a
                         href='#'
                         className='btn-stat'
-                        onClick={this.sendUpdate.bind(this, statToSet, 'down')}
+                        onClick={() => {
+                            dispatch(sendGameMessage('changeStat', statToSet, -1));
+                        }}
                     >
                         <img src={Minus} title='-' alt='-' />
                     </a>
                 ) : null}
-                <div className='stat-value'>{this.getStatValueOrDefault(stat)}</div>
+                <div className='stat-value'>{getStatValueOrDefault(stat)}</div>
                 <div className={`stat-image ${stat}`} />
-                {this.props.showControls ? (
+                {showControls ? (
                     <a
                         href='#'
                         className='btn-stat'
-                        onClick={this.sendUpdate.bind(this, statToSet, 'up')}
+                        onClick={() => {
+                            dispatch(sendGameMessage('changeStat', statToSet, 1));
+                        }}
                     >
                         <img src={Plus} title='+' alt='+' />
                     </a>
                 ) : null}
             </div>
         );
-    }
+    };
 
-    getKeyCost() {
+    const getKeyCost = () => {
         return (
-            <div className='state' title={this.props.t('Current Key Cost')}>
-                <div className='stat-value'>{this.getStatValueOrDefault('keyCost')}</div>
+            <div className='state' title={t('Current Key Cost')}>
+                <div className='stat-value'>{getStatValueOrDefault('keyCost')}</div>
                 <div className='stat-image keyCost' />
             </div>
         );
-    }
+    };
 
-    onSettingsClick(event) {
-        event.preventDefault();
-
-        if (this.props.onSettingsClick) {
-            this.props.onSettingsClick();
-        }
-    }
-
-    getHouses() {
-        return (
-            <div className='state'>
-                {this.props.houses.map((house) => (
-                    <img
-                        key={house}
-                        onClick={this.setActiveHouse.bind(this, house)}
-                        className={`img-fluid ${
-                            this.props.activeHouse === house ? 'active' : 'inactive'
-                        }-house`}
-                        src={Constants.IdBackHousePaths[house]}
-                        title={this.getHouse(house)}
-                    />
-                ))}
-            </div>
-        );
-    }
-
-    getTide() {
-        if (this.props.stats && this.props.stats.tide && this.props.tideRequired) {
+    const getHouses = () => {
+        if (deck.uuid) {
             return (
-                <div className='stat-image'>
+                <div className='state'>
+                    {houses.map((house) => (
+                        <img
+                            key={house}
+                            onClick={() => {
+                                if (showControls) {
+                                    dispatch(sendGameMessage('changeActiveHouse', house));
+                                }
+                            }}
+                            className={`img-fluid ${
+                                activeHouse === house ? 'active' : 'inactive'
+                            }-house`}
+                            src={Constants.IdBackHousePaths[house]}
+                            title={getHouse(house)}
+                        />
+                    ))}
+                </div>
+            );
+        }
+    };
+
+    const getTide = () => {
+        if (stats && stats.tide && tideRequired) {
+            return (
+                <div className='state'>
                     <img
                         key='tide'
-                        onClick={this.props.onClickTide}
-                        className='img-fluid tide-token'
-                        src={Constants.TideImages[this.props.stats.tide]}
-                        title={this.props.t(`${this.props.stats.tide}-tide`)}
+                        onClick={onClickTide}
+                        className='img-fluid stat-image tide'
+                        src={Constants.TideImages[stats.tide]}
+                        title={t(`${stats.tide}-tide`)}
                     />
                 </div>
             );
         }
-    }
+    };
 
-    writeChatToClipboard(event) {
+    const writeChatToClipboard = (event) => {
         event.preventDefault();
         let messagePanel = document.getElementsByClassName('messages panel')[0];
         if (messagePanel) {
@@ -140,119 +169,172 @@ export class PlayerStats extends React.Component {
                 .then(() => toastr.success('Copied game chat to clipboard'))
                 .catch((err) => toastr.error(`Could not copy game chat: ${err}`));
         }
-    }
+    };
 
-    render() {
-        let t = this.props.t;
-        let playerAvatar = (
-            <div className='pr-1 player-info'>
-                <Avatar imgPath={this.props.user?.avatar} />
-                <b>{this.props.user?.username || t('Noone')}</b>
-            </div>
+    let playerAvatar = (
+        <div className={`pr-1 player-info ${activePlayer ? 'active-player' : 'inactive-player'}`}>
+            <Avatar imgPath={user?.avatar} />
+            <b>{user?.username || t('Noone')}</b>
+        </div>
+    );
+
+    let statsClass = classNames('panel player-stats');
+
+    const pileProps = {
+        isMe,
+        onMenuItemClick,
+        onPopupChange,
+        onTouchMove,
+        cardBack,
+        manualMode,
+        onCardClick,
+        onDragDrop,
+        onMouseOut,
+        onMouseOver,
+        popupLocation: side,
+        size
+    };
+
+    const renderDroppableList = (source, child) => {
+        return isMe ? (
+            <Droppable onDragDrop={onDragDrop} source={source} manualMode={manualMode}>
+                {child}
+            </Droppable>
+        ) : (
+            child
         );
-        let statsClass = classNames('panel player-stats', {
-            'active-player': this.props.activePlayer
-        });
+    };
 
-        return (
-            <div className={statsClass}>
+    let draw = (
+        <DrawDeck
+            {...pileProps}
+            className='draw'
+            cardCount={numDeckCards}
+            cards={cardPiles.deck}
+            isMe={isMe}
+            numDeckCards={numDeckCards}
+            onPopupChange={onDrawPopupChange}
+            onShuffleClick={onShuffleClick}
+            showDeckName={showDeckName}
+            spectating={spectating}
+        />
+    );
+
+    const discard = (
+        <CardPileLink
+            {...pileProps}
+            cards={cardPiles.discard}
+            className='discard'
+            title={t('Discard')}
+            source='discard'
+        />
+    );
+    const archives = (
+        <CardPileLink
+            {...pileProps}
+            cards={cardPiles.archives}
+            className='archives'
+            title={t('Archives')}
+            source='archives'
+        />
+    );
+    const purged = (
+        <CardPileLink
+            {...pileProps}
+            cards={cardPiles.purged}
+            className='purged'
+            title={t('Purged')}
+            source='purged'
+        />
+    );
+    const hand = (
+        <CardPileLink
+            {...pileProps}
+            cards={cardPiles.hand}
+            className='hand'
+            title={t('Hand')}
+            source='hand'
+        />
+    );
+
+    return (
+        <div className={statsClass}>
+            <div className='state'>
                 {playerAvatar}
-                <Keys keys={this.props.stats.keys} manualMode={this.props.manualModeEnabled} />
-                {this.getButton('amber', t('Amber'))}
-                {this.getButton('chains', t('Chains'))}
-                {this.getKeyCost()}
+                <Keys keys={stats.keys} manualMode={manualMode} />
+                {getButton('amber', t('Amber'))}
+                {getButton('chains', t('Chains'))}
+                {getKeyCost()}
 
-                {this.props.houses ? this.getHouses() : null}
-                {this.getTide()}
-                {this.props.activePlayer && (
-                    <div className='state first-player-state'>
-                        <Trans>Active Player</Trans>
-                    </div>
+                {houses ? getHouses() : null}
+                {getTide()}
+                <IdentityCard
+                    deck={deck}
+                    showDeckName={showDeckName}
+                    onMouseOut={onMouseOut}
+                    onMouseOver={onMouseOver}
+                />
+
+                {!isMe && <div className='state'>{renderDroppableList('hand', hand)}</div>}
+
+                <div className='state'>{renderDroppableList('draw', draw)}</div>
+                <div className='state'>{renderDroppableList('discard', discard)}</div>
+                {((cardPiles.archives && cardPiles.archives.length > 0) || manualMode) && (
+                    <div className='state'>{renderDroppableList('archives', archives)}</div>
                 )}
+                {((cardPiles.purged && cardPiles.purged.length > 0) || manualMode) && (
+                    <div className='state'>{renderDroppableList('purged', purged)}</div>
+                )}
+            </div>
 
-                {this.props.showMessages && (
-                    <div className='state chat-status'>
-                        <div className='state'>
-                            <a href='#' className='pr-1 pl-1'>
-                                <FontAwesomeIcon
-                                    icon={this.props.muteSpectators ? faEyeSlash : faEye}
-                                    onClick={this.props.onMuteClick}
-                                ></FontAwesomeIcon>
-                            </a>
-                        </div>
-                        <div className='state'>
-                            <a href='#' className='pr-1 pl-1'>
-                                <FontAwesomeIcon
-                                    icon={faCopy}
-                                    onClick={this.writeChatToClipboard.bind(this)}
-                                ></FontAwesomeIcon>
-                            </a>
-                        </div>
-                        {this.props.showManualMode && (
-                            <div className='state'>
-                                <a
-                                    href='#'
-                                    className={this.props.manualModeEnabled ? 'text-danger' : ''}
-                                    onClick={this.props.onManualModeClick}
-                                >
-                                    <FontAwesomeIcon icon={faWrench}></FontAwesomeIcon>
-                                    <span className='ml-1'>
-                                        <Trans>Manual Mode</Trans>
-                                    </span>
-                                </a>
-                            </div>
-                        )}
+            {showMessages && (
+                <div className='state'>
+                    <div className='state'>
+                        <a href='#' className='pr-1 pl-1'>
+                            <FontAwesomeIcon
+                                icon={muteSpectators ? faEyeSlash : faEye}
+                                onClick={onMuteClick}
+                            ></FontAwesomeIcon>
+                        </a>
+                    </div>
+                    <div className='state'>
+                        <a href='#' className='pr-1 pl-1'>
+                            <FontAwesomeIcon
+                                icon={faCopy}
+                                onClick={writeChatToClipboard}
+                            ></FontAwesomeIcon>
+                        </a>
+                    </div>
+                    {showManualMode && (
                         <div className='state'>
                             <a
                                 href='#'
-                                onClick={this.onSettingsClick.bind(this)}
-                                className='pr-1 pl-1'
+                                className={manualMode ? 'text-danger' : ''}
+                                onClick={onManualModeClick}
                             >
-                                <FontAwesomeIcon icon={faCogs}></FontAwesomeIcon>
-                                <span className='ml-1'>
-                                    <Trans>Settings</Trans>
-                                </span>
+                                <FontAwesomeIcon icon={faWrench}></FontAwesomeIcon>
+                                {t('Manual Mode')}
                             </a>
                         </div>
-                        <div className='state'>
-                            <a href='#' onClick={this.props.onMessagesClick} className='pl-1'>
-                                <FontAwesomeIcon icon={faComment}></FontAwesomeIcon>
-                                {this.props.numMessages > 0 && (
-                                    <Badge variant='danger'>{this.props.numMessages}</Badge>
-                                )}
-                            </a>
-                        </div>
+                    )}
+                    <div className='state'>
+                        <a href='#' onClick={onSettingsClick} className='pr-1 pl-1'>
+                            <FontAwesomeIcon icon={faCogs}></FontAwesomeIcon>
+                            <span className='ml-1'>{t('Settings')}</span>
+                        </a>
                     </div>
-                )}
-            </div>
-        );
-    }
-}
-
-PlayerStats.displayName = 'PlayerStats';
-PlayerStats.propTypes = {
-    activeHouse: PropTypes.string,
-    activePlayer: PropTypes.bool,
-    houses: PropTypes.array,
-    i18n: PropTypes.object,
-    manualModeEnabled: PropTypes.bool,
-    matchRecord: PropTypes.object,
-    muteSpectators: PropTypes.bool,
-    numMessages: PropTypes.number,
-    onClickTide: PropTypes.func,
-    onManualModeClick: PropTypes.func,
-    onMessagesClick: PropTypes.func,
-    onMuteClick: PropTypes.func,
-    onSettingsClick: PropTypes.func,
-    playerName: PropTypes.string,
-    sendGameMessage: PropTypes.func,
-    showControls: PropTypes.bool,
-    showManualMode: PropTypes.bool,
-    showMessages: PropTypes.bool,
-    stats: PropTypes.object,
-    t: PropTypes.func,
-    tideRequired: PropTypes.bool,
-    user: PropTypes.object
+                    <div className='state'>
+                        <a href='#' onClick={onMessagesClick} className='pl-1'>
+                            <FontAwesomeIcon icon={faComment}></FontAwesomeIcon>
+                            {numMessages > 0 && <Badge variant='danger'>{numMessages}</Badge>}
+                        </a>
+                    </div>
+                </div>
+            )}
+        </div>
+    );
 };
 
-export default withTranslation()(PlayerStats);
+PlayerStats.displayName = 'PlayerStats';
+
+export default PlayerStats;

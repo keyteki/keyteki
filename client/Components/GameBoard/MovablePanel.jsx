@@ -9,7 +9,7 @@ import PopupDefaults from './PopupDefaults';
 
 import './MovablePanel.scss';
 
-const MovablePanel = ({ children, name, onCloseClick, side, title }) => {
+const MovablePanel = ({ children, name, onCloseClick, side, title, size }) => {
     const key = `${name}-${side}`;
     const savedStyle = localStorage.getItem(key);
     const style = (savedStyle && JSON.parse(savedStyle)) || PopupDefaults[key];
@@ -76,7 +76,7 @@ const MovablePanel = ({ children, name, onCloseClick, side, title }) => {
 
     let content = (
         <div ref={popupRef}>
-            <div ref={drag} className='panel panel-primary' style={position}>
+            <div ref={drag} className={`panel panel-primary ${size}`} style={position}>
                 <div className='panel-heading' onClick={(event) => event.stopPropagation()}>
                     <span className='text-center'>{title}</span>
                     <span className='float-right'>

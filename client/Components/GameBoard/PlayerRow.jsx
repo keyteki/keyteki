@@ -1,58 +1,22 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-
-import CardPile from './CardPile';
-import DrawDeck from './DrawDeck';
 import Droppable from './Droppable';
 import SquishableCardPanel from './SquishableCardPanel';
 
 import './PlayerRow.scss';
 
 const PlayerRow = ({
-    archives,
-    cardSize,
     cardBack,
-    deckList,
-    discard,
-    drawDeck,
-    isMe,
+    cardSize,
     hand,
+    isMe,
     manualMode,
-    numDeckCards,
     onCardClick,
     onDragDrop,
-    onDrawPopupChange,
     onMouseOut,
-    onMouseOver,
-    onShuffleClick,
-    purgedPile,
-    showDeck,
-    side,
-    spectating,
-    username
+    onMouseOver
 }) => {
     const { t } = useTranslation();
-
-    const renderDroppablePile = (source, child) => {
-        return isMe ? (
-            <Droppable onDragDrop={onDragDrop} source={source} manualMode={manualMode}>
-                {child}
-            </Droppable>
-        ) : (
-            child
-        );
-    };
-
-    let cardPileProps = {
-        cardBack: cardBack,
-        manualMode: manualMode,
-        onCardClick: onCardClick,
-        onDragDrop: onDragDrop,
-        onMouseOut: onMouseOut,
-        onMouseOver: onMouseOver,
-        popupLocation: side,
-        size: cardSize
-    };
 
     let sortedHand = [].concat(hand).sort((a, b) => {
         if (a.printedHouse < b.printedHouse) {
@@ -70,7 +34,6 @@ const PlayerRow = ({
             className='panel hand'
             groupVisibleCards
             cardBack={cardBack}
-            username={username}
             manualMode={manualMode}
             maxCards={5}
             onCardClick={onCardClick}
@@ -82,63 +45,13 @@ const PlayerRow = ({
         />
     );
 
-    let drawDeckToRender = (
-        <DrawDeck
-            cardCount={numDeckCards}
-            cards={drawDeck}
-            isMe={isMe}
-            manualMode={manualMode}
-            numDeckCards={numDeckCards}
-            onPopupChange={onDrawPopupChange}
-            onShuffleClick={onShuffleClick}
-            showDeck={showDeck}
-            spectating={spectating}
-            {...cardPileProps}
-        />
-    );
-
-    let hasArchivedCards = archives?.length > 0;
-    let archivesToRender = (
-        <CardPile
-            className='archives'
-            title={t('Archives')}
-            source='archives'
-            cards={archives}
-            hiddenTopCard={hasArchivedCards && !isMe}
-            {...cardPileProps}
-        />
-    );
-
-    let discardToRender = (
-        <CardPile
-            className='discard'
-            title={t('Discard')}
-            source='discard'
-            cards={discard}
-            {...cardPileProps}
-        />
-    );
-
-    let purged = (
-        <CardPile
-            className='purged'
-            title={t('Purged')}
-            source='purged'
-            cards={purgedPile}
-            {...cardPileProps}
-        />
-    );
-
-    return (
+    return isMe ? (
         <div className='player-home-row-container pt-1'>
-            {renderDroppablePile('hand', handToRender)}
-            {renderDroppablePile('archives', archivesToRender)}
-            {deckList}
-            {renderDroppablePile('deck', drawDeckToRender)}
-            {renderDroppablePile('discard', discardToRender)}
-            {(purgedPile.length > 0 || manualMode) && renderDroppablePile('purged', purged)}
+            <Droppable onDragDrop={onDragDrop} source='hand' manualMode={manualMode}>
+                {handToRender}
+            </Droppable>
         </div>
-    );
+    ) : null;
 };
 
 PlayerRow.displayName = 'PlayerRow';

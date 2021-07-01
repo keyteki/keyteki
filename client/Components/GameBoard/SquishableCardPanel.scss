@@ -9,6 +9,10 @@
     .card-wrapper {
         margin: 0 5px 0 0;
     }
+
+    &.hand {
+        background-color: rgba(0, 0, 0, 0.1);
+    }
 }
 
 .squishable-card-panel.squish .card-wrapper {
