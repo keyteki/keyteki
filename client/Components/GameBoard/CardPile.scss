@@ -37,21 +37,26 @@
 }
 
 @mixin calculate-tiled-card-prop($property, $numCards, $cardMeasurement, $additionalOffset: 0px) {
-    #{$property}: $numCards * (card-var('keyteki-card-#{$cardMeasurement}') + 5px) +
+    #{$property}: $numCards * (card-var('keyteki-card-#{$cardMeasurement}') + 10px) +
         $additionalOffset;
 
     &.small {
-        #{$property}: $numCards * (card-var('keyteki-card-sm-#{$cardMeasurement}') + 5px) +
+        #{$property}: $numCards * (card-var('keyteki-card-sm-#{$cardMeasurement}') + 10px) +
+            $additionalOffset;
+    }
+
+    &.normal {
+        #{$property}: $numCards * (card-var('keyteki-card-#{$cardMeasurement}') + 10px) +
             $additionalOffset;
     }
 
     &.large {
-        #{$property}: $numCards * (card-var('keyteki-card-lg-#{$cardMeasurement}') + 5px) +
+        #{$property}: $numCards * (card-var('keyteki-card-lg-#{$cardMeasurement}') + 10px) +
             $additionalOffset;
     }
 
     &.x-large {
-        #{$property}: $numCards * (card-var('keyteki-card-xl-#{$cardMeasurement}') + 5px) +
+        #{$property}: $numCards * (card-var('keyteki-card-xl-#{$cardMeasurement}') + 10px) +
             $additionalOffset;
     }
 }
@@ -177,6 +182,9 @@
 .draw {
     .panel {
         z-index: $layer-pile-header;
+        @include calculate-tiled-card-prop(width, 7, width, $scrollbar-width + 10);
+        @include calculate-tiled-card-prop(height, 3, height);
+
         .inner {
             @include calculate-tiled-card-prop(min-height, 1, height);
             @include calculate-tiled-card-prop(width, 7, width, $scrollbar-width);
@@ -197,6 +205,8 @@
     .panel {
         min-height: 146px;
         z-index: $layer-pile-header;
+        @include calculate-tiled-card-prop(width, 5, width, $scrollbar-width + 10);
+        @include calculate-tiled-card-prop(height, 3, height);
 
         .inner {
             @include calculate-tiled-card-prop(min-height, 1, height);
@@ -209,6 +219,8 @@
 .archives {
     .panel {
         z-index: $layer-pile-header;
+        @include calculate-tiled-card-prop(width, 5, width, $scrollbar-width + 10);
+        @include calculate-tiled-card-prop(height, 3, height);
 
         .inner {
             @include calculate-tiled-card-prop(min-height, 1, height);
@@ -221,6 +233,8 @@
 .purged {
     .panel {
         z-index: $layer-card-menu;
+        @include calculate-tiled-card-prop(width, 5, width, $scrollbar-width + 10);
+        @include calculate-tiled-card-prop(height, 3, height);
 
         .inner {
             @include calculate-tiled-card-prop(min-height, 1, height);
@@ -232,34 +246,36 @@
 .hand {
     .panel {
         z-index: $layer-card-menu;
+        @include calculate-tiled-card-prop(width, 6, width, $scrollbar-width + 10);
+        @include calculate-tiled-card-prop(height, 3, height);
 
         .inner {
             @include calculate-tiled-card-prop(min-height, 1, height);
-            @include calculate-tiled-card-prop(width, 5, width, $scrollbar-width);
+            @include calculate-tiled-card-prop(width, 6, width, $scrollbar-width);
         }
     }
 }
 
 .small {
     .inner {
-        height: $keyteki-card-height * 3;
+        @include calculate-tiled-card-prop(height, 3, height, -5);
     }
 }
 
 .normal {
     .inner {
-        height: $keyteki-card-height * 4;
+        @include calculate-tiled-card-prop(height, 3, height, -5);
     }
 }
 
 .large {
     .inner {
-        height: $keyteki-card-height * 5;
+        @include calculate-tiled-card-prop(height, 3, height, -5);
     }
 }
 
 .x-large {
     .inner {
-        height: $keyteki-card-height * 6;
+        @include calculate-tiled-card-prop(height, 3, height, -5);
     }
 }

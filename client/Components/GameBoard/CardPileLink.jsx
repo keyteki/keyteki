@@ -52,8 +52,8 @@ const CardPileLink = ({
             updatePopupVisibility(false);
         }
     }, [cards, manualPopup, updatePopupVisibility]);
-    let classNameStr = classNames('card-pile-link', size, className, {
-        [size]: size !== 'normal',
+    let classNameStr = classNames('card-pile-link', className, {
+        [size]: true,
         horizontal: orientation === 'horizontal' || orientation === 'exhausted',
         vertical: orientation === 'vertical'
     });

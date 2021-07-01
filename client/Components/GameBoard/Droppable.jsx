@@ -57,11 +57,16 @@ const Droppable = ({ children, manualMode, onDragDrop, source }) => {
     let className = classNames('overlay', {
         'drop-ok': isOver && canDrop,
         'no-drop': isOver && !canDrop && source !== itemSource,
-        'can-drop': !isOver && canDrop
+        'can-drop': !isOver && canDrop,
+        [source]: true
+    });
+
+    let dropClass = classNames('drop-target', {
+        [source]: source !== 'play area'
     });
 
     return (
-        <div className='drop-target' ref={drop}>
+        <div className={dropClass} ref={drop}>
             <div className={className} />
             {children}
         </div>
