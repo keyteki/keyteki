@@ -113,6 +113,7 @@ PlayerBoard.displayName = 'PlayerBoard';
 PlayerBoard.propTypes = {
     cardsInPlay: PropTypes.array,
     manualMode: PropTypes.bool,
+    isSpectating: PropTypes.bool,
     onCardClick: PropTypes.func,
     onMenuItemClick: PropTypes.func,
     onMouseOut: PropTypes.func,
