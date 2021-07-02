@@ -5,6 +5,7 @@ class LuckyDice extends Card {
         this.omni({
             effect:
                 "destroy {0} and prevent their creatures from taking damage during opponent's next turn",
+            effectAlert: true,
             gameAction: ability.actions.sequential([
                 ability.actions.destroy(),
                 ability.actions.nextRoundEffect({

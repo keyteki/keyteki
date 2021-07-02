@@ -28,7 +28,11 @@ class CardAbility extends ThenAbility {
             message += `{${i}}`;
         }
 
-        this.game.addMessage(message, ...messageArgs);
+        if (this.properties.effectAlert) {
+            this.game.addAlert('bell', message, ...messageArgs);
+        } else {
+            this.game.addMessage(message, ...messageArgs);
+        }
     }
 
     getMessageArgs(
@@ -87,7 +91,11 @@ class CardAbility extends ThenAbility {
                 messageArgs = [messageArgs];
             }
 
-            this.game.addMessage(this.properties.message, ...messageArgs);
+            if (this.properties.effectAlert) {
+                this.game.addAlert('bell', this.properties.message, ...messageArgs);
+            } else {
+                this.game.addMessage(this.properties.message, ...messageArgs);
+            }
             return;
         }
 

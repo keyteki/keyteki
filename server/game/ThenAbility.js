@@ -38,7 +38,11 @@ class ThenAbility extends BaseAbility {
                 messageArgs = messageArgs.concat(args);
             }
 
-            this.game.addMessage(this.properties.message, ...messageArgs);
+            if (this.properties.effectAlert) {
+                this.game.addAlert('bell', this.properties.message, ...messageArgs);
+            } else {
+                this.game.addMessage(this.properties.message, ...messageArgs);
+            }
         }
     }
 
