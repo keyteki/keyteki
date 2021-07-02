@@ -74,12 +74,12 @@ describe('Win Condition', function () {
             this.setupTest({
                 player1: {
                     house: 'untamed',
-                    inPlay: ['flaxia'],
+                    inPlay: ['flaxia', 'dew-faerie', 'troll', 'groggins', 'zorg'],
                     hand: ['key-charge']
                 },
                 player2: {
-                    inPlay: ['lamindra'],
-                    hand: ['data-forge']
+                    inPlay: ['lamindra', 'keyfrog', 'keyfrog', 'keyfrog', 'dextre'],
+                    hand: ['data-forge', 'eureka']
                 }
             });
 
@@ -104,8 +104,63 @@ describe('Win Condition', function () {
                     this.player2.endTurn();
                 });
 
-                it('Winner cannot be determined', function () {
-                    expect(this.game.winner).toBeUndefined();
+                it('players should be prompted to select house', function () {
+                    expect(this.player1).toHavePrompt('Choose a house');
+                    expect(this.player1).toHavePromptButton('brobnar');
+                    expect(this.player1).toHavePromptButton('untamed');
+                    expect(this.player1).toHavePromptButton('mars');
+                    expect(this.player2).toHavePrompt('Choose a house');
+                    expect(this.player2).toHavePromptButton('logos');
+                    expect(this.player2).toHavePromptButton('untamed');
+                    expect(this.player2).toHavePromptButton('shadows');
+                });
+
+                describe('and p1 creatures in play > p2 creatures in play and no bonus amber in hand', function () {
+                    beforeEach(function () {
+                        this.player1.clickPrompt('untamed');
+                        this.player2.clickPrompt('shadows');
+                    });
+
+                    it('P1 should win', function () {
+                        expect(this.game.winner).toBe(this.player1.player);
+                        expect(this.game.winReason).toBe('house after time');
+                    });
+                });
+
+                describe('and p2 creatures in play > p1 creatures in play and no bonus amber in hand', function () {
+                    beforeEach(function () {
+                        this.player1.clickPrompt('mars');
+                        this.player2.clickPrompt('untamed');
+                    });
+
+                    it('P2 should win', function () {
+                        expect(this.game.winner).toBe(this.player2.player);
+                        expect(this.game.winReason).toBe('house after time');
+                    });
+                });
+
+                describe('and p1 creatures in play === p2 creatures in play and p2 bonus amber in hand > p1', function () {
+                    beforeEach(function () {
+                        this.player1.clickPrompt('mars');
+                        this.player2.clickPrompt('logos');
+                    });
+
+                    it('P2 should win', function () {
+                        expect(this.game.winner).toBe(this.player2.player);
+                        expect(this.game.winReason).toBe('house after time');
+                    });
+                });
+
+                describe('and p1 creatures in play === p2 creatures in play and no bonus amber', function () {
+                    beforeEach(function () {
+                        this.player1.clickPrompt('mars');
+                        this.player2.clickPrompt('shadows');
+                    });
+
+                    it('Winner is first player', function () {
+                        expect(this.game.winner).toBe(this.game.firstPlayer);
+                        expect(this.game.winReason).toBe('first player after time');
+                    });
                 });
             });
 

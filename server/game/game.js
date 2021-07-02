@@ -22,6 +22,7 @@ const HandlerMenuPrompt = require('./gamesteps/handlermenuprompt');
 const SelectCardPrompt = require('./gamesteps/selectcardprompt');
 const OptionsMenuPrompt = require('./gamesteps/OptionsMenuPrompt');
 const GameWonPrompt = require('./gamesteps/GameWonPrompt');
+const HouseTieBreakPrompt = require('./gamesteps/housetiebreakprompt');
 const GameActions = require('./GameActions');
 const Event = require('./Events/Event');
 const EventWindow = require('./Events/EventWindow');
@@ -82,9 +83,10 @@ class Game extends EventEmitter {
         this.cardsPlayedThisPhase = [];
         this.effectsUsedThisPhase = [];
         this.activePlayer = null;
+        this.firstPlayer = null;
         this.playedRoundsAfterTime = [];
         this.jsonForUsers = {};
-
+        this.houseTieBreak = false;
         this.cardData = options.cardData || [];
 
         this.cardVisibility = new CardVisibility(this);
@@ -429,10 +431,47 @@ class Game extends EventEmitter {
             return;
         }
 
-        this.addAlert(
-            'success',
-            'The game has ended because the timer has expired.  House selection wins are not currently implemented'
-        );
+        if (!this.houseTieBreak) {
+            this.houseTieBreak = true;
+            this.queueStep(new HouseTieBreakPrompt(this));
+        }
+
+        if (this.getPlayers().every((player) => !!player.tieBreakHouse)) {
+            let potentialWinnersByHouse = [];
+            let potentialAmber = -1;
+            for (const player of this.getPlayers()) {
+                let inPlay = player.creaturesInPlay.filter(
+                    (card) => card.printedHouse === player.tieBreakHouse
+                );
+                let hand = player.hand.filter(
+                    (card) =>
+                        card.printedHouse === player.tieBreakHouse && card.cardPrintedAmber > 0
+                );
+                let amber = hand.reduce((tot, card) => tot + card.cardPrintedAmber, inPlay.length);
+
+                this.addMessage(
+                    '{0} chooses house {1} to break tie and collects {2} amber' +
+                        ' with cards: {3}',
+                    player,
+                    player.tieBreakHouse,
+                    amber,
+                    inPlay.concat(hand)
+                );
+
+                if (amber > potentialAmber) {
+                    potentialAmber = amber;
+                    potentialWinnersByHouse = [player];
+                } else if (amber === potentialAmber) {
+                    potentialWinnersByHouse.push(player);
+                }
+            }
+            if (potentialWinnersByHouse.length === 1) {
+                this.recordWinner(potentialWinnersByHouse[0], 'house after time');
+            } else {
+                this.addMessage('tie break condition not fulfilled, winner is the first player');
+                this.recordWinner(this.firstPlayer, 'first player after time');
+            }
+        }
     }
 
     /**
@@ -763,6 +802,7 @@ class Game extends EventEmitter {
             new SimpleStep(this, () => this.beginRound())
         ]);
 
+        this.houseTieBreak = false;
         this.playStarted = true;
         this.startedAt = new Date();
         this.round = 1;
