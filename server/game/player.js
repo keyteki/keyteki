@@ -24,6 +24,7 @@ class Player extends GameObject {
 
         this.houses = [];
         this.activeHouse = null;
+        this.tieBreakHouse = null;
 
         this.deckData = {};
         this.takenMulligan = false;
@@ -66,6 +67,10 @@ class Player extends GameObject {
 
     stopClock() {
         this.clock.stop();
+    }
+
+    setTieBreakHouse(house) {
+        this.tieBreakHouse = house;
     }
 
     /**
@@ -226,6 +231,7 @@ class Player extends GameObject {
         this.amber = 0;
         this.turn = 1;
         this.readyToStart = false;
+        this.tieBreakHouse = null;
         this.opponent = this.game.getOtherPlayer(this);
     }
 
