@@ -450,8 +450,7 @@ class Game extends EventEmitter {
                 let amber = hand.reduce((tot, card) => tot + card.cardPrintedAmber, inPlay.length);
 
                 this.addMessage(
-                    '{0} chooses house {1} to break tie and collects {2} amber' +
-                        ' with cards: {3}',
+                    '{0} chooses house {1} to break tie and collects {2} amber with cards: {3}',
                     player,
                     player.tieBreakHouse,
                     amber,
@@ -468,7 +467,7 @@ class Game extends EventEmitter {
             if (potentialWinnersByHouse.length === 1) {
                 this.recordWinner(potentialWinnersByHouse[0], 'house after time');
             } else {
-                this.addMessage('tie break condition not fulfilled, winner is the first player');
+                this.addMessage('tie-break condition not fulfilled, winner is the first player');
                 this.recordWinner(this.firstPlayer, 'first player after time');
             }
         }
