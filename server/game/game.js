@@ -445,9 +445,13 @@ class Game extends EventEmitter {
                 );
                 let hand = player.hand.filter(
                     (card) =>
-                        card.printedHouse === player.tieBreakHouse && card.cardPrintedAmber > 0
+                        card.printedHouse === player.tieBreakHouse &&
+                        card.bonusIcons.some((b) => b === 'amber')
                 );
-                let amber = hand.reduce((tot, card) => tot + card.cardPrintedAmber, inPlay.length);
+                let amber = hand.reduce(
+                    (tot, card) => tot + card.bonusIcons.filter((b) => b === 'amber').length,
+                    inPlay.length
+                );
 
                 this.addMessage(
                     '{0} chooses house {1} to break tie and collects {2} amber with cards: {3}',
