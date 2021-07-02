@@ -4,11 +4,12 @@ import {
     faExclamationCircle,
     faExclamationTriangle,
     faInfoCircle,
-    faCheckCircle
+    faCheckCircle,
+    faBell
 } from '@fortawesome/free-solid-svg-icons';
 import { Alert } from 'react-bootstrap';
 
-/** 
+/**
  * @typedef {'primary'
  | 'secondary'
  | 'success'
@@ -25,7 +26,8 @@ const AlertType = Object.freeze({
     Info: 'info',
     Warning: 'warning',
     Danger: 'danger',
-    Success: 'success'
+    Success: 'success',
+    Bell: 'bell'
 });
 
 /**
@@ -97,6 +99,10 @@ const AlertPanel = ({ type = AlertType.Info, title, message, noIcon = false, chi
         case AlertType.Success:
             icon = faCheckCircle;
             alertType = 'success';
+            break;
+        case AlertType.Bell:
+            icon = faBell;
+            alertType = 'primary';
             break;
     }
 
