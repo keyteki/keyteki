@@ -13,6 +13,7 @@ import { Alert } from 'react-bootstrap';
  * @typedef {'primary'
  | 'secondary'
  | 'success'
+ | 'bell'
  | 'danger'
  | 'warning'
  | 'info'
