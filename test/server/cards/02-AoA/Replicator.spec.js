@@ -103,4 +103,41 @@ describe('Replicator', function () {
             expect(this.player1.amber).toBe(5);
         });
     });
+
+    xdescribe("Replicator's ability and a creature with two reap abilities", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'logos',
+                    amber: 2,
+                    inPlay: ['replicator', 'kompsos-haruspex', 'rhetor-gallim']
+                },
+                player2: {
+                    amber: 5,
+                    inPlay: ['rhetor-gallim']
+                }
+            });
+
+            this.rhetorGhallim1 = this.player1.inPlay[2];
+            this.rhetorGhallim2 = this.player2.inPlay[0];
+        });
+
+        it("should be able to choose Rethor Gallim's reap ability", function () {
+            this.player1.reap(this.replicator);
+            this.player1.clickCard(this.rhetorGhallim1);
+            this.player1.endTurn();
+        });
+
+        it("should be able to choose Rethor Gallim's play ability", function () {
+            this.player1.reap(this.replicator);
+            this.player1.clickCard(this.rhetorGhallim1);
+            this.player1.endTurn();
+        });
+
+        it("should be able to choose opponent's Rethor Gallim's reap ability", function () {
+            this.player1.reap(this.replicator);
+            this.player1.clickCard(this.rhetorGhallim2);
+            this.player1.endTurn();
+        });
+    });
 });
