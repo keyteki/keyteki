@@ -4,6 +4,7 @@ class HideawayHole extends Card {
     setupCardAbilities(ability) {
         this.omni({
             effect: 'give each creature they control elusive',
+            effectAlert: true,
             gameAction: [
                 ability.actions.sacrifice(),
                 ability.actions.untilNextTurn({

@@ -79,7 +79,6 @@ const Messages = ({ messages, onCardMouseOver, onCardMouseOut }) => {
 
             if (key === 'alert') {
                 let message = formatMessageText(fragment.message);
-
                 switch (fragment.type) {
                     case 'endofround':
                     case 'phasestart':
@@ -121,6 +120,13 @@ const Messages = ({ messages, onCardMouseOver, onCardMouseOut }) => {
                     case 'danger':
                         messages.push(
                             <AlertPanel type='danger' key={index++}>
+                                {message}
+                            </AlertPanel>
+                        );
+                        break;
+                    case 'bell':
+                        messages.push(
+                            <AlertPanel type='bell' key={index++}>
                                 {message}
                             </AlertPanel>
                         );
