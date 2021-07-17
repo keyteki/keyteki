@@ -108,6 +108,15 @@ const Lobby = () => {
                                 />
                             </div>
                         </a>
+                        <a
+                            target='_blank'
+                            rel='noreferrer'
+                            href='https://www.keyforgenetwork.com/2021/06/18/superlega-ite/'
+                        >
+                            <div className='banner'>
+                                <img src='/banner/banner-keyforge-superlega.jpg' />
+                            </div>
+                        </a>
                     </Carousel>
                 </Col>
             </div>
