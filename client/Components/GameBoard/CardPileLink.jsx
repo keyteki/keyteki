@@ -1,33 +1,30 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import Card from './Card';
 import CardPilePopup from './CardPilePopup';
 
-import './CardPile.scss';
+import './CardPileLink.scss';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { useCallback } from 'react';
 
-const CardPile = ({
+const CardPileLink = ({
     cardBack,
     cards,
-    cardCount,
     className,
     closeOnClick,
     disableMouseOver,
     disablePopup,
-    hiddenTopCard,
     manualMode,
+    numDeckCards,
     onCardClick,
     onDragDrop,
-    onMenuItemClick,
     onMouseOut,
     onMouseOver,
     onPopupChange,
     onTouchMove,
-    orientation = 'vertical',
-    popupLocation = 'bottom',
+    orientation,
+    popupLocation,
     popupMenu,
     size,
     source,
@@ -55,22 +52,12 @@ const CardPile = ({
             updatePopupVisibility(false);
         }
     }, [cards, manualPopup, updatePopupVisibility]);
-
-    let classNameStr = classNames('panel', 'card-pile', className, {
-        [size]: size !== 'normal',
+    let classNameStr = classNames('card-pile-link', className, {
+        [size]: true,
         horizontal: orientation === 'horizontal' || orientation === 'exhausted',
         vertical: orientation === 'vertical'
     });
-
-    let cardCountStr = cardCount || (cards ? cards.length : '0');
-    let headerText = title ? `${title} (${cardCountStr})` : '';
-    let topCard = cards ? cards[0] : null;
-    let cardOrientation =
-        orientation === 'horizontal' && topCard && topCard.facedown ? 'exhausted' : orientation;
-
-    if (hiddenTopCard || !topCard) {
-        topCard = { facedown: true };
-    }
+    let headerText = `${title}: ${title === 'Draw' ? numDeckCards : cards.length}`;
 
     return (
         <div
@@ -82,27 +69,7 @@ const CardPile = ({
                 }
             }}
         >
-            <div className='panel-header'>{headerText}</div>
-            {topCard ? (
-                <Card
-                    cardBack={cardBack}
-                    canDrag={manualMode}
-                    card={topCard}
-                    source={source}
-                    onMouseOver={onMouseOver}
-                    onMouseOut={onMouseOut}
-                    disableMouseOver={hiddenTopCard}
-                    onClick={() => {
-                        updatePopupVisibility(!showPopup);
-                        setManualPopup(!showPopup);
-                    }}
-                    onMenuItemClick={onMenuItemClick}
-                    orientation={cardOrientation}
-                    size={size}
-                />
-            ) : (
-                <div className='card-placeholder' />
-            )}
+            <div>{headerText}</div>
             {!disablePopup && showPopup && (
                 <CardPilePopup
                     cardBack={cardBack}
@@ -136,10 +103,10 @@ const CardPile = ({
     );
 };
 
-CardPile.displayName = 'CardPile';
-CardPile.defaultProps = {
+CardPileLink.displayName = 'CardPileLink';
+CardPileLink.defaultProps = {
     popupLocation: 'bottom',
     orientation: 'vertical'
 };
 
-export default CardPile;
+export default CardPileLink;
