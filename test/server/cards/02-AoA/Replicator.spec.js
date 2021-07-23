@@ -65,8 +65,8 @@ describe('Replicator', function () {
         it('Copy reap effects including upgrades', function () {
             this.player1.playUpgrade(this.redPlanetRayGun, this.ulyqMegamouth);
             this.player1.reap(this.ulyqMegamouth);
-            expect(this.player1).toBeAbleToSelect(this.ulyqMegamouth);
-            this.player1.clickCard(this.ulyqMegamouth);
+            expect(this.player1).toHavePromptButton('Ulyq Megamouth');
+            expect(this.player1).toHavePromptButton('Red Planet Ray Gun');
             this.player1.clickPrompt('Red Planet Ray Gun');
             this.player1.clickCard(this.foozle);
             expect(this.player1).toBeAbleToSelect(this.dextre);
