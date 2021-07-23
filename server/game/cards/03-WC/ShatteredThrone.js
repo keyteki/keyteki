@@ -4,14 +4,14 @@ class ShatteredThrone extends Card {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onFight: () => true
+                onUseCard: (event) => !!event.fight
             },
             gameAction: ability.actions.capture((context) => ({
                 target:
-                    context.game.creaturesInPlay.indexOf(context.event.attacker) !== -1
-                        ? context.event.attacker
+                    context.game.creaturesInPlay.indexOf(context.event.card) !== -1
+                        ? context.event.card
                         : [],
-                player: context.event.attacker.controller.opponent
+                player: context.event.card.controller.opponent
             }))
         });
     }
