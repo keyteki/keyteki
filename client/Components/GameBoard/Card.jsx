@@ -17,16 +17,17 @@ const Card = ({
     cardBack,
     className,
     disableMouseOver,
-    halfSize = false,
+    halfSize,
+    isSpectating,
     onClick,
     onMenuItemClick,
     onMouseOut,
     onMouseOver,
-    orientation = 'vertical',
+    orientation,
     size,
     source,
     style,
-    wrapped = true
+    wrapped
 }) => {
     const { i18n } = useTranslation();
 
@@ -46,7 +47,7 @@ const Card = ({
     });
 
     const isAllowedMenuSource = () => {
-        return source === 'play area';
+        return source === 'play area' && !isSpectating;
     };
 
     const onCardClicked = (event, card) => {
@@ -296,5 +297,12 @@ const Card = ({
 };
 
 Card.displayName = 'Card';
+
+Card.defaultProps = {
+    halfSize: false,
+    isSpectating: true,
+    orientation: 'vertical',
+    wrapped: true
+};
 
 export default Card;

@@ -1,0 +1,149 @@
+@import '../../styles/variables';
+@import '../../styles/colours';
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+
+/**
+  * Generates the specified property based on the calculation of:
+  * property: numCards * (cardSize + cardSpacing) + additionalOffset
+  *
+  * for the various different card sizes. Example, mixing in
+  * @include calculate-tiled-card-prop(min-height, 2, height, 3px) will generate CSS for:
+  * min-height: 2 * (@card-height + 5px) + 3px
+  * &.small {
+  *   min-height: 2 * (@card-sm-height + 5px) + 3px
+  * }
+  * ... etc ...
+  */
+
+@function card-var($value) {
+    @if $value == 'keyteki-card-height' {
+        @return $keyteki-card-height;
+    } @else if $value == 'keyteki-card-width' {
+        @return $keyteki-card-width;
+    } @else if $value == 'keyteki-card-lg-height' {
+        @return $keyteki-card-lg-height;
+    } @else if $value == 'keyteki-card-lg-width' {
+        @return $keyteki-card-lg-width;
+    } @else if $value == 'keyteki-card-sm-height' {
+        @return $keyteki-card-sm-height;
+    } @else if $value == 'keyteki-card-sm-width' {
+        @return $keyteki-card-sm-width;
+    } @else if $value == 'keyteki-card-xl-height' {
+        @return $keyteki-card-xl-height;
+    } @else if $value == 'keyteki-card-xl-width' {
+        @return $keyteki-card-xl-width;
+    }
+}
+
+@mixin calculate-tiled-card-prop($property, $numCards, $cardMeasurement, $additionalOffset: 0px) {
+    #{$property}: $numCards * (card-var('keyteki-card-#{$cardMeasurement}') + 10px) +
+        $additionalOffset;
+
+    &.small {
+        #{$property}: $numCards * (card-var('keyteki-card-sm-#{$cardMeasurement}') + 10px) +
+            $additionalOffset;
+    }
+
+    &.normal {
+        #{$property}: $numCards * (card-var('keyteki-card-#{$cardMeasurement}') + 10px) +
+            $additionalOffset;
+    }
+
+    &.large {
+        #{$property}: $numCards * (card-var('keyteki-card-lg-#{$cardMeasurement}') + 10px) +
+            $additionalOffset;
+    }
+
+    &.x-large {
+        #{$property}: $numCards * (card-var('keyteki-card-xl-#{$cardMeasurement}') + 10px) +
+            $additionalOffset;
+    }
+}
+
+.inner {
+    @include calculate-tiled-card-prop(max-height, 4, height);
+    @include calculate-tiled-card-prop(height, 3, height, -5);
+    overflow-y: auto;
+
+    &.hand {
+        @include calculate-tiled-card-prop(height, 1, height);
+    }
+}
+
+.card-pile-link {
+    padding: 0px;
+    position: relative;
+    margin: 0px 5px;
+
+    .panel {
+        z-index: $layer-card-menu;
+        background-color: rgba(0, 0, 0, 0.85);
+        position: fixed;
+        a {
+            display: inline-block;
+            margin: 0 10px 8px 0;
+            text-decoration: none;
+
+            &:hover {
+                color: theme-color(info);
+                cursor: pointer;
+            }
+        }
+
+        .panel {
+            margin-bottom: 0;
+            padding: 5px;
+        }
+
+        .panel-title {
+            margin: 5px 5px;
+        }
+    }
+}
+
+.discard, .archives, .purged {
+     .panel {
+         min-height: 146px;
+         z-index: $layer-pile-header;
+         @include calculate-tiled-card-prop(width, 5, width, $scrollbar-width + 10);
+         @include calculate-tiled-card-prop(height, 3, height);
+
+         .inner {
+             @include calculate-tiled-card-prop(width, 5, width, $scrollbar-width);
+             padding: 4px;
+         }
+     }
+ }
+
+.draw {
+    .panel {
+        z-index: $layer-pile-header;
+        @include calculate-tiled-card-prop(width, 7, width, $scrollbar-width + 10);
+        @include calculate-tiled-card-prop(height, 3, height);
+
+        .inner {
+            @include calculate-tiled-card-prop(width, 7, width, $scrollbar-width);
+        }
+    }
+}
+
+.hand {
+    .panel {
+        z-index: $layer-card-menu;
+        @include calculate-tiled-card-prop(width, 6, width, $scrollbar-width + 10);
+        @include calculate-tiled-card-prop(height, 1, height);
+
+        .inner {
+            @include calculate-tiled-card-prop(width, 6, width, $scrollbar-width);
+        }
+    }
+}
+
+.additional-cards {
+    .panel {
+        .inner {
+            @include calculate-tiled-card-prop(min-width, 2, height, $scrollbar-width);
+        }
+    }
+}

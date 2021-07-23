@@ -619,5 +619,10 @@
     "Do you wish to look at the top 2 deck cards?": "Você deseja olhar as 2 cartas do topo do seu deck?",
     "Autoresolve": "Auto-resolver",
     "Assault": "Emboscada",
-    "Hazardous": "Perigo"
+    "Hazardous": "Perigo",
+    "Time Limit": "Limite de Tempo",
+    "Enter time limit": "Entre com o limite de tempo",
+    "Games must be at least 10 minutes long": "Partidas devem durar pelo menos 10 minutos",
+    "Games must be less than 2 hours": "Partidas devem durar menos de 2 horas",
+    "House tie-break": "Desempate por casa"
 }

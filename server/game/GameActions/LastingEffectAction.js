@@ -11,7 +11,7 @@ class LastingEffectAction extends GameAction {
     setDefaultProperties() {
         this.condition = null;
         this.effect = [];
-        this.targetController = this.roundDuration === 1 ? 'current' : 'opponent';
+        this.targetController = null;
         this.until = null;
 
         // lasting ability trigger properties
@@ -57,7 +57,8 @@ class LastingEffectAction extends GameAction {
             context: context,
             effect: this.effect,
             match: this.match,
-            targetController: this.targetController,
+            targetController:
+                this.targetController || (this.roundDuration === 1 ? 'current' : 'opponent'),
             until: this.until,
             roundDuration: !this.until ? this.roundDuration : undefined,
             nextRound: this.nextRound

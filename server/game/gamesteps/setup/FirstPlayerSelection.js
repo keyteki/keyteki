@@ -57,6 +57,8 @@ class FirstPlayerSelection extends AllPlayerPrompt {
             this.game.activePlayer = allPlayersShuffled.shift();
             this.game.addMessage('{0} won the flip and is first player', this.game.activePlayer);
         }
+
+        this.game.firstPlayer = this.game.activePlayer;
     }
 }
 

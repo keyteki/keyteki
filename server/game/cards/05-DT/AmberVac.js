@@ -5,14 +5,13 @@ class AmberVac extends Card {
     // (T) This creature gains, "At the start of your turn, if the tide is high, capture 2A."
     setupCardAbilities(ability) {
         this.whileAttached({
-            effect: ability.effects.gainAbility('interrupt', {
+            effect: ability.effects.gainAbility('reaction', {
                 when: {
-                    onBeginRound: (_event, context) =>
-                        context.player === context.game.activePlayer && context.player.isTideHigh()
+                    onBeginRound: (_event, context) => context.player === context.game.activePlayer
                 },
                 gameAction: ability.actions.capture((context) => ({
                     target: context.source,
-                    amount: 2
+                    amount: context.player.isTideHigh() ? 2 : 0
                 }))
             })
         });

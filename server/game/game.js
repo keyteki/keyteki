@@ -22,6 +22,7 @@ const HandlerMenuPrompt = require('./gamesteps/handlermenuprompt');
 const SelectCardPrompt = require('./gamesteps/selectcardprompt');
 const OptionsMenuPrompt = require('./gamesteps/OptionsMenuPrompt');
 const GameWonPrompt = require('./gamesteps/GameWonPrompt');
+const HouseTieBreakPrompt = require('./gamesteps/housetiebreakprompt');
 const GameActions = require('./GameActions');
 const Event = require('./Events/Event');
 const EventWindow = require('./Events/EventWindow');
@@ -82,8 +83,10 @@ class Game extends EventEmitter {
         this.cardsPlayedThisPhase = [];
         this.effectsUsedThisPhase = [];
         this.activePlayer = null;
+        this.firstPlayer = null;
+        this.playedRoundsAfterTime = [];
         this.jsonForUsers = {};
-
+        this.houseTieBreak = false;
         this.cardData = options.cardData || [];
 
         this.cardVisibility = new CardVisibility(this);
@@ -384,13 +387,112 @@ class Game extends EventEmitter {
     }
 
     /**
-     * Check to see if either player has won/lost the game due to honor (NB: this
-     * function doesn't check to see if a conquest victory has been achieved)
+     * Check to see if any player won the game after going to time.
+     */
+    checkTimeWinCondition() {
+        // Each player who has 6 or more Æmber forges 1 Key (removing the 6 Æmber from their pool as usual).
+        let forgedKeys = -1;
+        let remainingAmber = -1;
+        let potentialWinnersByKey = [];
+        let potentialWinnersByAmber = [];
+
+        for (const player of this.getPlayers()) {
+            if (player.amber >= 6) {
+                this.addAlert('success', '{0} forges a key after time', player);
+
+                player.amber -= 6;
+                player.keys[Object.keys(player.keys).find((key) => !player.keys[key])] = true;
+            }
+
+            if (player.getForgedKeys() > forgedKeys) {
+                forgedKeys = player.getForgedKeys();
+                potentialWinnersByKey = [player];
+            } else if (player.getForgedKeys() === forgedKeys) {
+                potentialWinnersByKey.push(player);
+            }
+
+            if (player.amber > remainingAmber) {
+                remainingAmber = player.amber;
+                potentialWinnersByAmber = [player];
+            } else if (player.amber === remainingAmber) {
+                potentialWinnersByAmber.push(player);
+            }
+        }
+
+        // The player with the most Keys forged is the winner.
+        if (potentialWinnersByKey.length === 1) {
+            this.recordWinner(potentialWinnersByKey[0], 'keys after time');
+            return;
+        }
+
+        // The player with the most remaining Æmber in their pool is the winner.
+        if (potentialWinnersByAmber.length === 1) {
+            this.recordWinner(potentialWinnersByAmber[0], 'amber after time');
+            return;
+        }
+
+        if (!this.houseTieBreak) {
+            this.houseTieBreak = true;
+            this.queueStep(new HouseTieBreakPrompt(this));
+        }
+
+        if (this.getPlayers().every((player) => !!player.tieBreakHouse)) {
+            let potentialWinnersByHouse = [];
+            let potentialAmber = -1;
+            for (const player of this.getPlayers()) {
+                let inPlay = player.creaturesInPlay.filter(
+                    (card) => card.printedHouse === player.tieBreakHouse
+                );
+                let hand = player.hand.filter(
+                    (card) =>
+                        card.printedHouse === player.tieBreakHouse &&
+                        card.bonusIcons.some((b) => b === 'amber')
+                );
+                let amber = hand.reduce(
+                    (tot, card) => tot + card.bonusIcons.filter((b) => b === 'amber').length,
+                    inPlay.length
+                );
+
+                this.addMessage(
+                    '{0} chooses house {1} to break tie and collects {2} amber with cards: {3}',
+                    player,
+                    player.tieBreakHouse,
+                    amber,
+                    inPlay.concat(hand)
+                );
+
+                if (amber > potentialAmber) {
+                    potentialAmber = amber;
+                    potentialWinnersByHouse = [player];
+                } else if (amber === potentialAmber) {
+                    potentialWinnersByHouse.push(player);
+                }
+            }
+            if (potentialWinnersByHouse.length === 1) {
+                this.recordWinner(potentialWinnersByHouse[0], 'house after time');
+            } else {
+                this.addMessage('tie-break condition not fulfilled, winner is the first player');
+                this.recordWinner(this.firstPlayer, 'first player after time');
+            }
+        }
+    }
+
+    /**
+     * Check to see if either player has won/lost the game due to keys or time
      */
     checkWinCondition() {
         for (const player of this.getPlayers()) {
             if (Object.values(player.keys).every((key) => key)) {
                 this.recordWinner(player, 'keys');
+            }
+
+            if (
+                this.useGameTimeLimit &&
+                this.timeLimit.isTimeLimitReached &&
+                this.playedRoundsAfterTime.length === this.getPlayers().length &&
+                !this.finishedAt
+            ) {
+                this.checkTimeWinCondition();
             }
         }
     }
@@ -703,6 +805,7 @@ class Game extends EventEmitter {
             new SimpleStep(this, () => this.beginRound())
         ]);
 
+        this.houseTieBreak = false;
         this.playStarted = true;
         this.startedAt = new Date();
         this.round = 1;
@@ -743,11 +846,10 @@ class Game extends EventEmitter {
 
     checkForTimeExpired() {
         if (this.timeLimit.isTimeLimitReached && !this.finishedAt) {
-            this.addAlert(
-                'success',
-                'The game has ended because the timer has expired.  Timed wins are not currently implemented'
-            );
-            this.finishedAt = new Date();
+            this.playedRoundsAfterTime.push(this.activePlayer);
+            if (this.playedRoundsAfterTime.length < this.getPlayers().length) {
+                return;
+            }
         }
     }
 
@@ -932,7 +1034,11 @@ class Game extends EventEmitter {
         }
 
         this.playersAndSpectators[user.username] = new Spectator(socketId, user);
-        this.addAlert('info', '{0} has joined the game as a spectator', user.username);
+        this.addAlert(
+            'info',
+            '{0} has joined the game as a spectator',
+            this.playersAndSpectators[user.username]
+        );
 
         return true;
     }
@@ -997,17 +1103,19 @@ class Game extends EventEmitter {
             return;
         }
 
-        this.addAlert(
-            'info',
-            '{0} has disconnected.  The game will wait up to 30 seconds for them to reconnect',
-            player
-        );
-
         this.jsonForUsers[player.name] = undefined;
 
         if (this.isSpectator(player)) {
+            this.addAlert('info', '{0} has disconnected.', player);
+
             delete this.playersAndSpectators[playerName];
         } else {
+            this.addAlert(
+                'info',
+                '{0} has disconnected.  The game will wait up to 30 seconds for them to reconnect',
+                player
+            );
+
             player.disconnectedAt = new Date();
         }
 
@@ -1076,7 +1184,7 @@ class Game extends EventEmitter {
                         modifiedControl = true;
                     }
                     // any upgrades which are illegally attached
-                    // card.checkForIllegalAttachments();
+                    card.checkForIllegalAttachments();
                 });
             }
 

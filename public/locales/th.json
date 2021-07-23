@@ -620,4 +620,9 @@
     "Autoresolve": "Autoresolve",
     "Assault": "Assault",
     "Hazardous": "Hazardous"
+    "Time Limit": "Time Limit",
+    "Enter time limit": "Enter time limit",
+    "Games must be at least 10 minutes long": "Games must be at least 10 minutes long",
+    "Games must be less than 2 hours": "Games must be less than 2 hours",
+    "House tie-break": "House tie-break"
 }

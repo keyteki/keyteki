@@ -26,15 +26,15 @@ const CardPilePopup = ({
     let cardList = [];
 
     let listProps = {
-        cardBack: cardBack,
-        disableMouseOver: disableMouseOver,
-        manualMode: manualMode,
-        onCardClick: onCardClick,
+        cardBack,
+        disableMouseOver,
+        manualMode,
+        onCardClick,
         onCardMouseOut: onMouseOut,
         onCardMouseOver: onMouseOver,
-        onTouchMove: onTouchMove,
-        size: size,
-        source: source
+        onTouchMove,
+        size,
+        source
     };
 
     if (cards && cards.some((card) => card.group)) {
@@ -53,11 +53,15 @@ const CardPilePopup = ({
         cardList = <CardTiledList cards={cards} {...listProps} />;
     }
 
-    let popupClass = classNames('panel-body', {
-        'our-side': popupLocation === 'bottom'
+    let popupClass = classNames('panel', 'panel-body', {
+        'our-side': popupLocation === 'bottom',
+        [size]: true
     });
 
-    let innerClass = classNames('inner', size);
+    let innerClass = classNames('inner', {
+        [size]: true,
+        [source]: true
+    });
     let linkIndex = 0;
 
     let popupMenuToRender = popupMenu && (
@@ -81,7 +85,13 @@ const CardPilePopup = ({
     );
 
     popup = (
-        <MovablePanel title={title} name={source} onCloseClick={onCloseClick} side={popupLocation}>
+        <MovablePanel
+            size={size}
+            title={title}
+            name={source}
+            onCloseClick={onCloseClick}
+            side={popupLocation}
+        >
             <Droppable onDragDrop={onDragDrop} source={source} manualMode={manualMode}>
                 <div className={popupClass} onClick={(event) => event.stopPropagation()}>
                     {popupMenuToRender}
