@@ -613,5 +613,10 @@
     "Ward/Remove Ward": "Ward/Remove Ward",
     "Skirmish": "Skirmish",
     "Exalt": "Exalt",
-    "Do you wish to look at the top 2 deck cards?": "Do you wish to look at the top 2 deck cards?"
+    "Do you wish to look at the top 2 deck cards?": "Do you wish to look at the top 2 deck cards?",
+    "Time Limit": "Time Limit",
+    "Enter time limit": "Enter time limit",
+    "Games must be at least 10 minutes long": "Games must be at least 10 minutes long",
+    "Games must be less than 2 hours": "Games must be less than 2 hours",
+    "House tie-break": "House tie-break"
 }
