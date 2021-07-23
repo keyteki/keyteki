@@ -1,51 +1,39 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-
+import React, { useState } from 'react';
+import { Trans } from 'react-i18next';
 import Typeahead from '../Form/Typeahead';
 
-class TypeaheadLookup extends React.Component {
-    constructor(props) {
-        super(props);
+/**
+ * @typedef TypeaheadLookupProps
+ * @property {string[]} values typeahead values
+ * @property {function(Object): void} onValueSelected Called when a value is selected
+ */
 
-        this.state = {
-            selectedValue: ''
-        };
+/**
+ * @param {TypeaheadLookupProps} props
+ */
+const TypeaheadLookup = (props) => {
+    let [selectedValue, setSelectedValue] = useState();
 
-        this.handleChange = this.handleChange.bind(this);
-        this.handleDoneClick = this.handleDoneClick.bind(this);
-    }
-
-    handleChange(value) {
-        this.setState({ selectedValue: value[0] });
-    }
-
-    handleDoneClick() {
-        if (this.state.selectedValue && this.props.onValueSelected) {
-            this.props.onValueSelected(this.state.selectedValue);
+    const handleDoneClick = () => {
+        if (selectedValue) {
+            props.onValueSelected(selectedValue);
         }
-    }
+    };
 
-    render() {
-        return (
-            <div>
-                <Typeahead
-                    labelKey={'label'}
-                    options={this.props.values}
-                    dropup
-                    onChange={this.handleChange}
-                />
-                <button type='button' onClick={this.handleDoneClick} className='btn btn-primary'>
-                    Done
-                </button>
-            </div>
-        );
-    }
-}
-
-TypeaheadLookup.displayName = 'TypeaheadLookup';
-TypeaheadLookup.propTypes = {
-    onValueSelected: PropTypes.func,
-    values: PropTypes.array
+    return (
+        <div>
+            <Typeahead
+                labelKey={'label'}
+                options={props.values}
+                dropup
+                onChange={(selectedValues) => setSelectedValue(selectedValues[0])}
+            />
+            <button type='button' onClick={handleDoneClick} className='btn btn-primary'>
+                <Trans>Done</Trans>
+            </button>
+        </div>
+    );
 };
 
+TypeaheadLookup.displayName = 'TypeaheadLookup';
 export default TypeaheadLookup;

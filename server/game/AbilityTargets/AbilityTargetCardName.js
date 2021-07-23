@@ -60,7 +60,7 @@ class AbilityTargetCardName extends AbilityTarget {
                 controls: [{ type: 'card-name', command: 'menuButton', method: 'selectCardName' }],
                 context: context
             },
-            source: this
+            source: this.properties.source || context.source
         });
     }
 

@@ -1077,6 +1077,7 @@ class Card extends EffectSource {
             exhausted: this.exhausted,
             facedown: this.facedown,
             location: this.location,
+            locale: this.locale,
             menu: this.getMenu(),
             name: this.name,
             new: this.new,
