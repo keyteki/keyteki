@@ -6,6 +6,7 @@ class Lifeward extends Card {
             condition: (context) => !!context.player.opponent,
             effect: 'make {1} unable to play creatures on their next turn',
             effectArgs: (context) => context.player.opponent,
+            effectAlert: true,
             gameAction: [
                 ability.actions.sacrifice(),
                 ability.actions.nextRoundEffect({

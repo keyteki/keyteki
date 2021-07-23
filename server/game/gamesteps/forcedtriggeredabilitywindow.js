@@ -90,10 +90,31 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
             (context) => context.ability
         );
         let lastingTriggerCards = lastingTriggers.map((context) => context.source);
-        let buttons = [];
-        for (let i = 0; i < lastingTriggerCards.length; i++) {
-            buttons.push({ text: lastingTriggerCards[i].name, arg: i.toString() });
+        if (lastingTriggerCards.length === 0) {
+            if (
+                this.choices.some(
+                    (context) => !context.ability.optional && !context.ability.optionalTarget
+                )
+            ) {
+                let cards = this.game.cardsInPlay.filter((card) =>
+                    choices.some((context) => context.source === card)
+                );
+                if (cards.length === 1) {
+                    this.promptBetweenAbilities(
+                        choices.filter((context) => context.source === cards[0]),
+                        false
+                    );
+                    return;
+                }
+            }
         }
+
+        let buttons = lastingTriggerCards.map((card, i) => ({
+            text: '{{card}}',
+            card: card,
+            values: { card: card.name },
+            arg: i.toString()
+        }));
 
         let defaultProperties = this.getPromptForSelectProperties();
         let properties = Object.assign({}, defaultProperties);
@@ -122,7 +143,11 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
 
     getPromptForSelectProperties() {
         let buttons = [];
-        if (this.choices.every((context) => context.ability.optional)) {
+        if (
+            this.choices.every(
+                (context) => context.ability.optional || context.ability.optionalTarget
+            )
+        ) {
             buttons.push({ text: 'Done', arg: 'done' });
         } else if (this.noOptionalChoices) {
             buttons.push({ text: 'Autoresolve', arg: 'autoresolve' });
@@ -184,25 +209,74 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
         }));
     }
 
-    promptBetweenAbilities(choices, addBackButton = true) {
-        const getSourceName = (context) => {
-            if (context.ability.title) {
-                return context.ability.title;
+    getEventName(context) {
+        const event = context.event;
+        const ability = context.ability;
+        if (event) {
+            if (event.name === 'onCardPlayed' && !ability.properties.play) {
+                return ability.properties.reap
+                    ? ' (reap)'
+                    : ability.properties.fight
+                    ? ' (fight)'
+                    : '';
             }
-
-            if (context.ability.printedAbility) {
-                return context.source.name;
+            if (event.name === 'onFight' && !ability.properties.fight) {
+                return ability.properties.reap
+                    ? ' (reap)'
+                    : ability.properties.play
+                    ? ' (play)'
+                    : '';
             }
-
-            let generatingEffectSource = this.game.getEffectSource(context);
-            if (generatingEffectSource) {
-                return generatingEffectSource.name;
+            if (event.name === 'onReap' && !ability.properties.reap) {
+                return ability.properties.fight
+                    ? ' (fight)'
+                    : ability.properties.play
+                    ? ' (play)'
+                    : '';
             }
+        }
 
-            return context.source.name;
+        return '';
+    }
+
+    getAbilityButton(context) {
+        if (context.ability.title) {
+            return { key: context.ability.title, text: context.ability.title };
+        }
+
+        const eventToAppend = this.getEventName(context);
+        if (context.ability.printedAbility) {
+            return {
+                key: context.source.name + eventToAppend,
+                text: '{{card}}' + eventToAppend,
+                card: context.source,
+                values: { card: context.source.name }
+            };
+        }
+
+        let generatingEffectSource = this.game.getEffectSource(context);
+        if (generatingEffectSource) {
+            return {
+                key: generatingEffectSource.name + eventToAppend,
+                text: '{{card}}' + eventToAppend,
+                card: generatingEffectSource,
+                values: { card: generatingEffectSource.name }
+            };
+        }
+
+        return {
+            key: context.source.name + eventToAppend,
+            text: '{{card}}' + eventToAppend,
+            card: context.source,
+            values: { card: context.source.name }
         };
+    }
 
-        let menuChoices = _.uniq(choices.map((context) => getSourceName(context)));
+    promptBetweenAbilities(choices, addBackButton = true) {
+        let menuChoices = _.uniq(
+            choices.map((context) => this.getAbilityButton(context)),
+            (button) => button.key
+        );
         if (menuChoices.length === 1) {
             // this card has only one ability which can be triggered
             this.promptBetweenEventCards(choices, addBackButton);
@@ -210,9 +284,9 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
         }
 
         // This card has multiple abilities which can be used in this window - prompt the player to pick one
-        let handlers = menuChoices.map((name) => () =>
+        let handlers = menuChoices.map((button) => () =>
             this.promptBetweenEventCards(
-                choices.filter((context) => getSourceName(context) === name)
+                choices.filter((context) => this.getAbilityButton(context).key === button.key)
             )
         );
 
@@ -227,6 +301,9 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
         if (addBackButton) {
             menuChoices.push('Back');
             handlers.push(() => this.promptBetweenSources(this.choices));
+        } else if (this.game.manualMode) {
+            menuChoices.push('Cancel Prompt');
+            handlers.push(() => this.onCancel());
         }
 
         this.game.promptWithHandlerMenu(

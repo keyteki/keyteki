@@ -6,6 +6,7 @@ class ShadowOfDis extends Card {
             condition: (context) => !!context.player.opponent,
             effect: "blank {1}'s creatures text boxes",
             effectArgs: (context) => context.player.opponent,
+            effectAlert: true,
             gameAction: ability.actions.untilNextTurn({
                 targetController: 'opponent',
                 match: (card) => card.location === 'play area' && card.type === 'creature',

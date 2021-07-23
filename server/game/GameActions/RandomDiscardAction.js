@@ -18,7 +18,20 @@ class RandomDiscardAction extends PlayerAction {
     }
 
     canAffect(player, context) {
-        return this.amount === 0 ? false : super.canAffect(player, context);
+        return (
+            this.amount > 0 && this.getCards(player).length > 0 && super.canAffect(player, context)
+        );
+    }
+
+    getCards(player) {
+        switch (this.location) {
+            case 'archives':
+                return player.archives;
+            case 'deck':
+                return player.deck;
+            default:
+                return player.hand;
+        }
     }
 
     getEvent(player, context) {
@@ -26,14 +39,7 @@ class RandomDiscardAction extends PlayerAction {
             'unnamedEvent',
             { player, context, amount: this.amount },
             (event) => {
-                if (this.location === 'archives') {
-                    event.cards = _.shuffle(player.archives).slice(0, event.amount);
-                } else if (this.location === 'deck') {
-                    event.cards = _.shuffle(player.deck).slice(0, event.amount);
-                } else {
-                    event.cards = _.shuffle(player.hand).slice(0, event.amount);
-                }
-
+                event.cards = _.shuffle(this.getCards(player)).slice(0, event.amount);
                 context.game.addMessage('{0} discards {1} at random', player, event.cards);
                 context.game.actions.discard().resolve(event.cards, context);
             }
