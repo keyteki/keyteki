@@ -18,6 +18,7 @@ const { sortBy } = require('./Array');
 class Lobby {
     constructor(server, options = {}) {
         this.sockets = {};
+        this.socketsByName = {};
         this.users = {};
         this.games = {};
         this.configService = options.configService || new ConfigService();
@@ -182,6 +183,7 @@ class Lobby {
                             ioSocket.request.user = dbUser.getWireSafeDetails();
                             socket.user = dbUser;
                             this.users[dbUser.username] = socket.user;
+                            this.socketsByName[dbUser.username] = socket;
 
                             this.doPostAuth(socket);
                         })
@@ -374,6 +376,7 @@ class Lobby {
 
         if (socket.user) {
             this.users[socket.user.username] = socket.user;
+            this.socketsByName[socket.user.username] = socket;
 
             this.broadcastUserMessage(socket.user, 'newuser');
         }
@@ -454,6 +457,7 @@ class Lobby {
         this.broadcastUserMessage(socket.user, 'userleft');
 
         delete this.users[socket.user.username];
+        delete this.socketsByName[socket.user.username];
 
         logger.info(`user '${socket.user.username}' disconnected from the lobby: ${reason}`);
 
@@ -930,7 +934,7 @@ class Lobby {
             return;
         }
 
-        let socket = this.sockets[owner.id];
+        let socket = this.socketsByName[owner.name];
         if (!socket) {
             logger.error("Tried to rematch but the owner's socket has gone away");
             return;
@@ -950,7 +954,7 @@ class Lobby {
         for (let player of Object.values(game.getPlayers()).filter(
             (player) => player.name !== owner.username
         )) {
-            let socket = this.sockets[player.id];
+            let socket = this.socketsByName[player.name];
 
             if (!socket) {
                 logger.warn(
@@ -981,7 +985,7 @@ class Lobby {
         }
 
         for (let spectator of game.getSpectators()) {
-            let socket = this.sockets[spectator.id];
+            let socket = this.socketsByName[spectator.name];
 
             if (!socket) {
                 logger.warn(
