@@ -35,7 +35,7 @@ class ResolveAbilityAction extends CardAction {
         return super.createEvent('onAction', { card: card, context: context }, () => {
             let ability = this.ability;
             if (typeof ability === 'function') {
-                let cardAbilites = card.abilities.actions.concat(card.abilities.reactions);
+                let cardAbilites = card.actions.concat(card.reactions);
                 let filteredAbilities = cardAbilites.filter(
                     (a) => ability(a) && a.condition(context)
                 );
@@ -44,22 +44,14 @@ class ResolveAbilityAction extends CardAction {
                     let handlers = [];
                     for (let a of filteredAbilities) {
                         const generatingEffect = context.game.effectEngine.effects.find(
-                            (effect) => effect.effect.getValue(context.source) === a
+                            (effect) => effect.effect.getValue(card) === a
                         );
                         if (generatingEffect) {
                             choices.push(generatingEffect.source.name);
-                            handlers.push(
-                                () => (ability = generatingEffect.effect.getValue(context.source))
-                            );
                         } else {
-                            let ownAbility = filteredAbilities.find(
-                                (a) => a.card === context.source
-                            );
-                            if (ownAbility) {
-                                choices.push(context.source.name);
-                                handlers.push(() => (ability = ownAbility));
-                            }
+                            choices.push(card.name);
                         }
+                        handlers.push(() => (ability = a));
                     }
 
                     if (choices.length === 0) {
@@ -67,7 +59,7 @@ class ResolveAbilityAction extends CardAction {
                     } else if (choices.length === 1) {
                         handlers[0]();
                     } else {
-                        context.game.promptWithHandlerMenu({
+                        context.game.promptWithHandlerMenu(context.game.activePlayer, {
                             activePromptTitle: 'Resolve ability from:',
                             context: context,
                             choices: choices,
