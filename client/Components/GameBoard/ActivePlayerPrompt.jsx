@@ -40,7 +40,10 @@ const ActivePlayerPrompt = (props) => {
 
     const onMouseOver = (card) => {
         if (card && props.onMouseOver) {
-            props.onMouseOver(card);
+            props.onMouseOver({
+                image: card ? <CardImage card={card} /> : null,
+                size: 'normal'
+            });
         }
     };
 
@@ -115,13 +118,8 @@ const ActivePlayerPrompt = (props) => {
                     onClick={(event) =>
                         onButtonClick(event, button.command, button.arg, button.uuid, button.method)
                     }
-                    onMouseOver={(event) =>
-                        onMouseOver(event, {
-                            image: button.card ? <CardImage card={button.card} /> : null,
-                            size: 'normal'
-                        })
-                    }
-                    onMouseOut={(event) => onMouseOut(event, button.card)}
+                    onMouseOver={() => onMouseOver(button.card)}
+                    onMouseOut={() => onMouseOut(button.card)}
                     disabled={button.disabled}
                 >
                     {buttonText}{' '}

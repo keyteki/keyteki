@@ -85,6 +85,7 @@
 
 .player-board {
     padding: 10px;
+    flex: 2;
 
     .taunt {
         margin-top: 15px;
@@ -96,6 +97,9 @@
         margin-top: 30px;
         z-index: $layer-player-board-our-side;
 
+        &.player {
+            flex: 3;
+        }
         .taunt {
             margin-top: -15px;
         }
