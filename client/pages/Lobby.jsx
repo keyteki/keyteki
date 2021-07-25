@@ -99,18 +99,6 @@ const Lobby = () => {
                         <a
                             target='_blank'
                             rel='noreferrer'
-                            href='http://keyforgelive.archonscorner.com'
-                        >
-                            <div className='banner'>
-                                <img
-                                    src='/banner/KFL_TCO-Banner_v1.png'
-                                    alt='KEYFORGE LIVE is an in-person, multi-day event July 23rd through July 25th in Milwaukee, WI.'
-                                />
-                            </div>
-                        </a>
-                        <a
-                            target='_blank'
-                            rel='noreferrer'
                             href='https://www.keyforgenetwork.com/2021/06/18/superlega-ite/'
                         >
                             <div className='banner'>
