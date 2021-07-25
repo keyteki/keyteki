@@ -1,13 +1,10 @@
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import classNames from 'classnames';
 
 import CardPilePopup from './CardPilePopup';
 import CardImage from './CardImage';
 
 import './CardPileLink.scss';
-import { useState } from 'react';
-import { useEffect } from 'react';
-import { useCallback } from 'react';
 
 const CardPileLink = ({
     cardBack,
@@ -55,7 +52,6 @@ const CardPileLink = ({
     }, [cards, manualPopup, updatePopupVisibility]);
 
     let classNameStr = classNames('card-pile-link', className, {
-        [size]: true,
         horizontal: orientation === 'horizontal' || orientation === 'exhausted',
         vertical: orientation === 'vertical'
     });
@@ -85,7 +81,8 @@ const CardPileLink = ({
             }}
         >
             {card && (
-                <CardImage
+                <div
+                    className='icon'
                     onMouseOver={() =>
                         onMouseOver({
                             image: (
@@ -98,9 +95,9 @@ const CardPileLink = ({
                         })
                     }
                     onMouseOut={onMouseOut}
-                    card={card}
-                    orientation='vertical'
-                />
+                >
+                    <CardImage card={card} orientation='vertical' size='icon' />
+                </div>
             )}
 
             <div className='text'>{headerText}</div>

@@ -668,6 +668,8 @@ const applyFilters = (canvas, size, width) => {
 
 const getCardSizeMultiplier = (size) => {
     switch (size) {
+        case 'icon':
+            return 0.3;
         case 'small':
             return 0.6;
         case 'large':
