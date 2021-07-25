@@ -386,19 +386,23 @@ export class GameBoard extends React.Component {
                             <div className='right-side-top'></div>
                             {this.renderTide(thisPlayer, otherPlayer)}
                             <div className='inset-pane'>
-                                <ActivePlayerPrompt
-                                    cards={this.props.cards}
-                                    buttons={thisPlayer.buttons}
-                                    controls={thisPlayer.controls}
-                                    promptText={thisPlayer.menuTitle}
-                                    promptTitle={thisPlayer.promptTitle}
-                                    onButtonClick={this.onCommand}
-                                    onClickTide={this.onClickTide}
-                                    onMouseOver={this.onMouseOver}
-                                    onMouseOut={this.onMouseOut}
-                                    user={this.props.user}
-                                    phase={thisPlayer.phase}
-                                />
+                                {this.isSpectating() ? (
+                                    <div />
+                                ) : (
+                                    <ActivePlayerPrompt
+                                        cards={this.props.cards}
+                                        buttons={thisPlayer.buttons}
+                                        controls={thisPlayer.controls}
+                                        promptText={thisPlayer.menuTitle}
+                                        promptTitle={thisPlayer.promptTitle}
+                                        onButtonClick={this.onCommand}
+                                        onClickTide={this.onClickTide}
+                                        onMouseOver={this.onMouseOver}
+                                        onMouseOut={this.onMouseOut}
+                                        user={this.props.user}
+                                        phase={thisPlayer.phase}
+                                    />
+                                )}
                             </div>
                         </div>
                         {this.state.showMessages && (

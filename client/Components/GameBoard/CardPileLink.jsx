@@ -2,6 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 
 import CardPilePopup from './CardPilePopup';
+import CardImage from './CardImage';
 
 import './CardPileLink.scss';
 import { useState } from 'react';
@@ -52,12 +53,26 @@ const CardPileLink = ({
             updatePopupVisibility(false);
         }
     }, [cards, manualPopup, updatePopupVisibility]);
+
     let classNameStr = classNames('card-pile-link', className, {
         [size]: true,
         horizontal: orientation === 'horizontal' || orientation === 'exhausted',
         vertical: orientation === 'vertical'
     });
-    let headerText = `${title}: ${title === 'Draw' ? numDeckCards : cards.length}`;
+
+    let headerText = `${title}: ${source === 'deck' ? numDeckCards : cards.length}`;
+
+    const topCard = () => {
+        if (cards.length === 0) {
+            return;
+        }
+        let card = cards[0];
+        if (!card.facedown && card.location !== 'deck') {
+            return card;
+        }
+    };
+
+    const card = topCard();
 
     return (
         <div
@@ -69,7 +84,26 @@ const CardPileLink = ({
                 }
             }}
         >
-            <div>{headerText}</div>
+            {card && (
+                <CardImage
+                    onMouseOver={() =>
+                        onMouseOver({
+                            image: (
+                                <CardImage
+                                    card={{ ...card, location: 'zoom' }}
+                                    cardBack={cardBack}
+                                />
+                            ),
+                            size: 'normal'
+                        })
+                    }
+                    onMouseOut={onMouseOut}
+                    card={card}
+                    orientation='vertical'
+                />
+            )}
+
+            <div className='text'>{headerText}</div>
             {!disablePopup && showPopup && (
                 <CardPilePopup
                     cardBack={cardBack}

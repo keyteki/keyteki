@@ -61,6 +61,14 @@
     }
 }
 
+.text {
+    min-width: max-content;
+    margin-left: 2px;
+    margin-right: 2px;
+    font-family: Bombardier, serif;
+    font-size: 1.2rem;
+}
+
 .inner {
     @include calculate-tiled-card-prop(max-height, 4, height);
     @include calculate-tiled-card-prop(height, 3, height, -5);
@@ -72,6 +80,7 @@
 }
 
 .card-pile-link {
+    display: contents;
     padding: 0px;
     position: relative;
     margin: 0px 5px;

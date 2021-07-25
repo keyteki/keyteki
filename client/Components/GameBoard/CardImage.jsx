@@ -15,7 +15,7 @@ import './CardImage.scss';
  *
  * @param {CardImageProps} props
  */
-const CardImage = ({ card, cardBack, size, halfSize }) => {
+const CardImage = ({ card, cardBack, size, halfSize, onMouseOver, onMouseOut }) => {
     let [cardImage, setCardImage] = useState(null);
     const { i18n } = useTranslation();
     const fabricRef = useRef();
@@ -77,9 +77,31 @@ const CardImage = ({ card, cardBack, size, halfSize }) => {
         if (card.facedown) {
             setCardImage(cardBack);
         } else {
-            setCardImage(<canvas className='h-100 w-100' ref={ref} />);
+            setCardImage(
+                <canvas
+                    onMouseOver={
+                        onMouseOver
+                            ? () =>
+                                  onMouseOver({
+                                      image: (
+                                          <CardImage
+                                              card={{ ...card, location: 'zoom' }}
+                                              cardBack={cardBack}
+                                          />
+                                      ),
+                                      size: 'normal'
+                                  })
+                            : null
+                    }
+                    onMouseOut={onMouseOut}
+                    className='h-100 w-100'
+                    ref={ref}
+                />
+            );
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [card.facedown, card.id, ref, cardBack]);
+
     if (cardImage) {
         return cardImage;
     }

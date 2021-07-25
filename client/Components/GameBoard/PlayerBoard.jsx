@@ -78,6 +78,7 @@ class PlayerBoard extends React.Component {
 
         let className = classNames('player-board', {
             'our-side': this.props.rowDirection === 'default',
+            player: this.props.isMe,
             'board-high-tide': this.props.tide === 'high',
             'board-low-tide': this.props.tide === 'low'
         });
