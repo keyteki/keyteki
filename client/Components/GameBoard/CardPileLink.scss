@@ -65,6 +65,14 @@
     min-width: max-content;
     margin-left: 2px;
     margin-right: 2px;
+    font-family: Keyforge, serif;
+    font-size: 0.9rem;
+}
+
+.counter {
+    min-width: max-content;
+    margin-left: 2px;
+    margin-right: 2px;
     font-family: Bombardier, serif;
     font-size: 1.6rem;
 }
@@ -116,19 +124,21 @@
     }
 }
 
-.discard, .archives, .purged {
-     .panel {
-         min-height: 146px;
-         z-index: $layer-pile-header;
-         @include calculate-tiled-card-prop(width, 5, width, $scrollbar-width + 10);
-         @include calculate-tiled-card-prop(height, 3, height);
+.discard,
+.archives,
+.purged {
+    .panel {
+        min-height: 146px;
+        z-index: $layer-pile-header;
+        @include calculate-tiled-card-prop(width, 5, width, $scrollbar-width + 10);
+        @include calculate-tiled-card-prop(height, 3, height);
 
-         .inner {
-             @include calculate-tiled-card-prop(width, 5, width, $scrollbar-width);
-             padding: 4px;
-         }
-     }
- }
+        .inner {
+            @include calculate-tiled-card-prop(width, 5, width, $scrollbar-width);
+            padding: 4px;
+        }
+    }
+}
 
 .draw {
     .panel {
