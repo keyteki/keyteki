@@ -56,8 +56,6 @@ const CardPileLink = ({
         vertical: orientation === 'vertical'
     });
 
-    let headerText = `${title}: ${source === 'deck' ? numDeckCards : cards.length}`;
-
     const topCard = () => {
         if (cards.length === 0) {
             return;
@@ -99,8 +97,10 @@ const CardPileLink = ({
                     <CardImage card={card} orientation='vertical' size='icon' />
                 </div>
             )}
-
-            <div className='text'>{headerText}</div>
+            <div className={'text ' + title.toLowerCase()}>{title}:</div>&nbsp;
+            <div className={'counter ' + title.toLowerCase()}>
+                {source === 'deck' ? numDeckCards : cards.length}
+            </div>
             {!disablePopup && showPopup && (
                 <CardPilePopup
                     cardBack={cardBack}
