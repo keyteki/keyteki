@@ -14,7 +14,7 @@ describe('Fuzzy Gruen', function () {
             });
         });
 
-        it('should not make opponent gain 1 amber', function () {
+        it('should make opponent gain 1 amber', function () {
             this.player1.play(this.fuzzyGruen);
             expect(this.player1.amber).toBe(4);
             expect(this.player2.amber).toBe(3);
