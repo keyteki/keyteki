@@ -92,7 +92,7 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
         let lastingTriggerCards = lastingTriggers.map((context) => context.source);
         if (lastingTriggerCards.length === 0) {
             if (
-                this.choices.some(
+                choices.some(
                     (context) => !context.ability.optional && !context.ability.optionalTarget
                 )
             ) {
@@ -185,20 +185,19 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
 
     getPromptControls() {
         let map = new Map();
-        for (let event of this.events) {
-            if (event.context && event.context.source) {
-                let targets = map.get(event.context.source) || [];
-                if (event.context.target) {
-                    targets = targets.concat(event.context.target);
-                } else if (event.card && event.card !== event.context.source) {
+        for (let context of this.choices) {
+            if (context && context.source) {
+                let targets = map.get(context.source) || [];
+                let event = context.event;
+                if (context.target) {
+                    targets = targets.concat(context.target);
+                } else if (event && event.card && event.card !== context.source) {
                     targets = targets.concat(event.card);
-                } else if (event.context.event && event.context.event.card) {
-                    targets = targets.concat(event.context.event.card);
                 } else if (event.card) {
                     targets = targets.concat(event.card);
                 }
 
-                map.set(event.context.source, _.uniq(targets));
+                map.set(context.source, _.uniq(targets));
             }
         }
 
