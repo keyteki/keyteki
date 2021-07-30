@@ -2,6 +2,7 @@ const _ = require('underscore');
 
 const EventToTitleFunc = {
     onCardAbilityInitiated: (event) => 'the effects of ' + event.card.name,
+    onCardDestroyed: (event) => event.card.name + ' being destroyed',
     onCardLeavesPlay: (event) =>
         event.card.name +
         (event.triggeringEvent && event.triggeringEvent.name === 'onCardDestroyed'
@@ -28,7 +29,7 @@ function FormatTitles(titles) {
         (string, title, index) => {
             if (index === 0) {
                 return title;
-            } else if (index === 1) {
+            } else if (index === titles.length - 1) {
                 return title + ' or ' + string;
             }
 

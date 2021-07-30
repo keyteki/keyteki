@@ -7,7 +7,6 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
     constructor(game, abilityType, window, eventsToExclude = []) {
         super(game);
         this.choices = [];
-        this.events = [];
         this.eventWindow = window;
         this.eventsToExclude = eventsToExclude;
         this.abilityType = abilityType;
@@ -178,7 +177,10 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
         return {
             source: 'Triggered Abilities',
             controls: this.getPromptControls(),
-            activePromptTitle: TriggeredAbilityWindowTitles.getTitle(this.abilityType, this.events),
+            activePromptTitle: TriggeredAbilityWindowTitles.getTitle(
+                this.abilityType,
+                this.choices.map((context) => context.event)
+            ),
             waitingPromptTitle: 'Waiting for opponent'
         };
     }
@@ -191,7 +193,7 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
                 let event = context.event;
                 if (context.target) {
                     targets = targets.concat(context.target);
-                } else if (event && event.card && event.card !== context.source) {
+                } else if (event.card && event.card !== context.source) {
                     targets = targets.concat(event.card);
                 } else if (event.card) {
                     targets = targets.concat(event.card);
@@ -328,7 +330,9 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
             _.extend(this.getPromptForSelectProperties(), {
                 activePromptTitle: 'Select a card to affect',
                 cardCondition: (card) => _.any(choices, (context) => context.event.card === card),
-                buttons: addBackButton ? [{ text: 'Back', arg: 'back' }] : [],
+                buttons: addBackButton
+                    ? [{ text: 'Back', arg: 'back' }]
+                    : [{ text: 'Autoresolve', arg: 'autoresolve' }],
                 onSelect: (player, card) => {
                     this.promptBetweenEvents(
                         choices.filter((context) => context.event.card === card)
@@ -338,6 +342,10 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
                 onMenuCommand: (player, arg) => {
                     if (arg === 'back') {
                         this.promptBetweenSources(this.choices);
+                        return true;
+                    }
+                    if (arg === 'autoresolve') {
+                        this.autoResolve = true;
                         return true;
                     }
                 }
@@ -383,10 +391,11 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
 
     emitEvents() {
         this.choices = [];
-        let events = this.eventWindow.event.getSimultaneousEvents();
-
-        this.events = _.difference(events, this.eventsToExclude);
-        _.each(this.events, (event) => {
+        let events = _.difference(
+            this.eventWindow.event.getSimultaneousEvents(),
+            this.eventsToExclude
+        );
+        _.each(events, (event) => {
             this.game.emit(event.name + ':' + this.abilityType, event, this);
         });
     }

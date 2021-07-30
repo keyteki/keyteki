@@ -5,6 +5,7 @@ describe('Soul Snatcher', function () {
                 player1: {
                     house: 'dis',
                     amber: 0,
+                    hand: ['gateway-to-dis'],
                     inPlay: ['soul-snatcher', 'dust-imp', 'ember-imp']
                 },
                 player2: {
@@ -32,6 +33,15 @@ describe('Soul Snatcher', function () {
             this.player1.clickCard(this.emberImp);
             expect(this.player1.player.amber).toBe(1);
             expect(this.player2.player.amber).toBe(1);
+        });
+
+        it('should award amber after a board wipe', function () {
+            this.player1.play(this.gatewayToDis);
+            this.player1.clickCard(this.soulSnatcher);
+            this.player1.clickCard(this.soulSnatcher);
+            this.player1.clickPrompt('Autoresolve');
+            expect(this.player1.player.amber).toBe(4);
+            expect(this.player2.player.amber).toBe(3);
         });
     });
 });
