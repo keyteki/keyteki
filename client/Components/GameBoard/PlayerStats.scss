@@ -19,7 +19,7 @@
     }
 }
 
-.inactive-player{
+.inactive-player {
     opacity: 0.2;
 }
 
@@ -40,15 +40,15 @@
     align-items: center;
     min-width: fit-content;
 
-    &.on{
+    &.on {
         opacity: 1;
     }
 
-    a{
+    a {
         color: $body-color;
     }
 
-    a:hover{
+    a:hover {
         color: theme-color('secondary');
     }
 
@@ -76,6 +76,10 @@
         background: theme-color('primary');
         border-radius: 0.25rem;
         border: 1px solid rgba(128, 128, 128, 0.53);
+    }
+
+    .gravatar {
+        margin-left: 3px;
     }
 }
 
@@ -117,11 +121,14 @@
 }
 
 .active-player {
-    background-color: rgba(theme-color('primary'), 0.4);
-
     .state svg {
         color: white;
     }
+}
+
+.active-player:before {
+    content: '\25B6';
+    color: theme-color('secondary');
 }
 
 .chat-status {
