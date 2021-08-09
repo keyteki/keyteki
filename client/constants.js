@@ -38,6 +38,7 @@ export const Constants = {
     ],
     CardTypes: ['action', 'artifact', 'creature', 'upgrade'],
     SetIconPaths: {},
+    DeckIconPaths: {},
     HouseIconPaths: {},
     HouseBgPaths: {},
     IdBackBlanksPaths: {},
@@ -77,6 +78,7 @@ for (let expansion of Constants.Expansions) {
     Constants.SetIconPaths[
         expansion.value
     ] = require(`./assets/img/idbacks/${expansion.value}.png`);
+    Constants.DeckIconPaths[expansion.value] = require(`./assets/img/${expansion.value}.png`);
 }
 
 for (let type of Constants.CardTypes) {
