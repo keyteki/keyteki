@@ -151,7 +151,7 @@ const PlayerStats = ({
                     <img
                         key='tide'
                         onClick={onClickTide}
-                        className='img-fluid stat-image tide'
+                        className='img-fluid tide'
                         src={Constants.TideImages[stats.tide]}
                         title={t(`${stats.tide}-tide`)}
                     />

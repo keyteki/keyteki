@@ -22,8 +22,9 @@ const IdentityCard = ({ deck, showDeckName, onMouseOut, onMouseOver }) => {
         >
             <img
                 key='expansion'
-                className='img-fluid stat-image expansion'
-                src={Constants.SetIconPaths[deck.expansion]}
+                className='img-fluid expansion'
+                title={deck.name}
+                src={Constants.DeckIconPaths[deck.expansion]}
             />
             {/*<a
                 className='link'

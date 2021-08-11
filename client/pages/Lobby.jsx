@@ -95,17 +95,7 @@ const Lobby = () => {
                         showIndicators={false}
                         showStatus={false}
                         interval={5000}
-                    >
-                        <a
-                            target='_blank'
-                            rel='noreferrer'
-                            href='https://www.keyforgenetwork.com/2021/06/18/superlega-ite/'
-                        >
-                            <div className='banner'>
-                                <img src='/banner/banner-keyforge-superlega.jpg' />
-                            </div>
-                        </a>
-                    </Carousel>
+                    ></Carousel>
                 </Col>
             </div>
 
