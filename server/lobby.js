@@ -434,6 +434,8 @@ class Lobby {
             .getUserById(user.id)
             .then((dbUser) => {
                 this.users[dbUser.username] = dbUser;
+                this.socketsByName[dbUser.username] = socket;
+
                 socket.user = dbUser;
 
                 this.doPostAuth(socket);
