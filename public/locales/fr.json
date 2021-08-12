@@ -625,5 +625,8 @@
     "Enter time limit": "Enter time limit",
     "Games must be at least 10 minutes long": "Games must be at least 10 minutes long",
     "Games must be less than 2 hours": "Games must be less than 2 hours",
-    "House tie-break": "House tie-break"
+    "House tie-break": "House tie-break",
+    "Name the first card": "Name the first card",
+    "Name the second card": "Name the second card",
+    "Name a card": "Name a card"
 }
