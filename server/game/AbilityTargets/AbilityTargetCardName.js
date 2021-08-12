@@ -56,7 +56,7 @@ class AbilityTargetCardName extends AbilityTarget {
 
         context.game.promptWithMenu(player, this, {
             activePrompt: {
-                menuTitle: 'Name a card',
+                menuTitle: this.properties.activePromptTitle || 'Name a card',
                 controls: [{ type: 'card-name', command: 'menuButton', method: 'selectCardName' }],
                 context: context
             },

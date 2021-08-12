@@ -7,13 +7,15 @@ class DarkDiscovery extends Card {
             condition: (context) => !!context.player.opponent,
             targets: {
                 firstCard: {
-                    mode: 'card-name'
+                    mode: 'card-name',
+                    activePromptTitle: 'Name the first card'
                 },
                 secondCard: {
-                    mode: 'card-name'
+                    mode: 'card-name',
+                    activePromptTitle: 'Name the second card'
                 }
             },
-            effect: 'to name {1} and {2} and discard {3}',
+            effect: 'name {1} and {2} and discard {3}',
             effectArgs: (context) => [
                 context.targets.firstCard,
                 context.targets.secondCard,

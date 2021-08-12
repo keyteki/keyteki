@@ -625,5 +625,8 @@
     "Enter time limit": "Entre com o limite de tempo",
     "Games must be at least 10 minutes long": "Partidas devem durar pelo menos 10 minutos",
     "Games must be less than 2 hours": "Partidas devem durar menos de 2 horas",
-    "House tie-break": "Desempate por casa"
+    "House tie-break": "Desempate por casa",
+    "Name the first card": "Nome da primeira carta",
+    "Name the second card": "Nome da segunda carta",
+    "Name a card": "Nome da carta"
 }

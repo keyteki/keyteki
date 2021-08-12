@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Trans } from 'react-i18next';
 import Typeahead from '../Form/Typeahead';
 
@@ -13,6 +13,7 @@ import Typeahead from '../Form/Typeahead';
  */
 const CardNameLookup = (props) => {
     const [cardName, setCardName] = useState();
+    const typeheadRef = useRef(null);
 
     let cardNames = [...new Set(Object.values(props.cards).map((card) => card.name))];
     cardNames.sort();
@@ -20,6 +21,7 @@ const CardNameLookup = (props) => {
     const onDoneClick = () => {
         if (cardName) {
             props.onCardSelected(cardName);
+            typeheadRef.current?.clear();
         }
     };
 
@@ -27,6 +29,7 @@ const CardNameLookup = (props) => {
         <div>
             <Typeahead
                 labelKey={'label'}
+                ref={typeheadRef}
                 options={cardNames}
                 dropup
                 onChange={(cards) => setCardName(cards[0])}
