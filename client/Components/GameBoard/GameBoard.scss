@@ -6,7 +6,7 @@
 
 .game-board {
     position: absolute;
-    bottom: 3px;
+    bottom: 0;
     left: 0;
     right: 0;
     top: $navbar-height;
@@ -80,7 +80,8 @@
     display: flex;
     flex: 1;
     flex-direction: column;
-    justify-content: space-between;    min-height: 0;
+    justify-content: space-between;
+    min-height: 0;
 }
 
 .player-board {
