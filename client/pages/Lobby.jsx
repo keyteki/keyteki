@@ -95,7 +95,17 @@ const Lobby = () => {
                         showIndicators={false}
                         showStatus={false}
                         interval={5000}
-                    ></Carousel>
+                    >
+                        <a
+                            target='_blank'
+                            rel='noreferrer'
+                            href='https://www.thefinalswindle.com/the-big-one-chapter-3'
+                        >
+                            <div className='banner'>
+                                <img src='/banner/big-one-three.png' />
+                            </div>
+                        </a>
+                    </Carousel>
                 </Col>
             </div>
 
