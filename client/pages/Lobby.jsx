@@ -105,6 +105,15 @@ const Lobby = () => {
                                 <img src='/banner/big-one-three.png' />
                             </div>
                         </a>
+                        <a
+                            target='_blank'
+                            rel='noreferrer'
+                            href='https://www.kickstarter.com/projects/kfr/kf-rank?ref=bt9p6p&amp;token=2e25e093'
+                        >
+                            <div className='banner'>
+                                <img src='/banner/lxM470r2.jpg' />
+                            </div>
+                        </a>
                     </Carousel>
                 </Col>
             </div>
