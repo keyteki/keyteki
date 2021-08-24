@@ -94,15 +94,11 @@ const Lobby = () => {
                         showThumbs={false}
                         showIndicators={false}
                         showStatus={false}
-                        interval={5000}
+                        interval={7500}
                     >
-                        <a
-                            target='_blank'
-                            rel='noreferrer'
-                            href='https://www.thefinalswindle.com/the-big-one-chapter-3'
-                        >
+                        <a target='_blank' rel='noreferrer' href='https://keyforgelive.com'>
                             <div className='banner'>
-                                <img src='/banner/big-one-three.png' />
+                                <img src='/banner/KFL-live-firenze.gif' />
                             </div>
                         </a>
                         <a
