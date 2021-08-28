@@ -79,6 +79,22 @@ const Lobby = () => {
         ? 'Enter a message...'
         : 'You must be logged in to send lobby chat messages';
 
+    const banners = [
+        {
+            img: '/banner/KFL-live-firenze.gif',
+            link: 'https://keyforgelive.com'
+        },
+        {
+            img: '/banner/lxM470r2.jpg',
+            link: 'https://www.kickstarter.com/projects/kfr/kf-rank?ref=bt9p6p&amp;token=2e25e093'
+        },
+        {
+            img: '/banner/TCO-Banner_MWM.png',
+            link:
+                'https://www.tickettailor.com/events/midwestmaverickskeyforgeclub/561209?fbclid=IwAR1FyyDVOZGmgLeMLjiAICbFllZhEj02MlbD-xRMifaqhUoNYmJOwwJC2-c'
+        }
+    ];
+
     return (
         <div className='flex-container'>
             <SideBar>
@@ -96,20 +112,20 @@ const Lobby = () => {
                         showStatus={false}
                         interval={7500}
                     >
-                        <a target='_blank' rel='noreferrer' href='https://keyforgelive.com'>
-                            <div className='banner'>
-                                <img src='/banner/KFL-live-firenze.gif' />
-                            </div>
-                        </a>
-                        <a
-                            target='_blank'
-                            rel='noreferrer'
-                            href='https://www.kickstarter.com/projects/kfr/kf-rank?ref=bt9p6p&amp;token=2e25e093'
-                        >
-                            <div className='banner'>
-                                <img src='/banner/lxM470r2.jpg' />
-                            </div>
-                        </a>
+                        {banners.map((banner) => {
+                            return (
+                                <a
+                                    key={banner.img}
+                                    target='_blank'
+                                    rel='noreferrer'
+                                    href={banner.link}
+                                >
+                                    <div className='banner'>
+                                        <img src={banner.img} />
+                                    </div>
+                                </a>
+                            );
+                        })}
                     </Carousel>
                 </Col>
             </div>
