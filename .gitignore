@@ -1,6 +1,7 @@
 bower_components
 node_modules
-public
+public/*
+!public/banner
 dist
 typings
 coverage
