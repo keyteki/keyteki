@@ -1,0 +1,19 @@
+@import '../../styles/variables';
+@import '../../styles/colours';
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
+
+.time-limit-clock {
+    margin-top: -6px !important;
+    padding-top: 4px;
+    color: theme-color('secondary');
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 500;
+
+    h1 {
+        font-size: 2rem;
+        width: 117px;
+        margin-left: 23%;
+    }
+}
