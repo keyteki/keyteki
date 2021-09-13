@@ -15,6 +15,8 @@ class Scooped extends Card {
                         context.preThenEvent.destroyEvent &&
                         context.preThenEvent.destroyEvent.resolved
                     ),
+                message: '{0} uses {1} to capture 1 amber from {3} on {4}',
+                messageArgs: () => [preThenContext.target.controller, preThenContext.target],
                 gameAction: ability.actions.capture(() => ({
                     target: preThenContext.target,
                     amount: 1,

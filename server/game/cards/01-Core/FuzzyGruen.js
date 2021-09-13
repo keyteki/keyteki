@@ -5,6 +5,7 @@ class FuzzyGruen extends Card {
         this.play({
             condition: (context) => !!context.player.opponent,
             effect: 'make {1} gain 1 amber',
+            effectArgs: (context) => [context.player.opponent],
             gameAction: ability.actions.gainAmber((context) => ({
                 target: context.player.opponent
             }))
