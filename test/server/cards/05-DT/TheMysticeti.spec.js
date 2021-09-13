@@ -16,7 +16,7 @@ describe('The Mysticeti', function () {
                 },
                 player2: {
                     amber: 1,
-                    inPlay: ['murkens']
+                    inPlay: ['murkens', 'nexus', 'tantadlin']
                 }
             });
         });
@@ -142,6 +142,27 @@ describe('The Mysticeti', function () {
                 expect(this.theMysticeti.type).toBe('creature');
                 expect(this.theMysticeti.tokens.power).toBe(12);
                 expect(this.theMysticeti.hasKeyword('taunt')).toBe(true);
+            });
+        });
+
+        describe('when used by opponent', function () {
+            beforeEach(function () {
+                this.player1.endTurn();
+                this.player2.clickPrompt('shadows');
+                this.player2.reap(this.nexus);
+                this.player2.clickCard(this.theMysticeti);
+            });
+
+            it('should add 3 power counters and keep it as an artifact', function () {
+                expect(this.player2).toBeAbleToSelect(this.tantadlin);
+                this.player2.clickCard(this.tantadlin);
+                this.player2.clickPrompt('Done');
+                expect(this.tantadlin.exhausted).toBe(true);
+                expect(this.theMysticeti.tokens.power).toBe(3);
+                expect(this.theMysticeti.controller).toBe(this.player1.player);
+                expect(this.theMysticeti.exhausted).toBe(true);
+                expect(this.theMysticeti.type).toBe('artifact');
+                this.player2.endTurn();
             });
         });
     });
