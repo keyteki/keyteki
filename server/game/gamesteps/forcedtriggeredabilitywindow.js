@@ -7,7 +7,6 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
     constructor(game, abilityType, window, eventsToExclude = []) {
         super(game);
         this.choices = [];
-        this.events = [];
         this.eventWindow = window;
         this.eventsToExclude = eventsToExclude;
         this.abilityType = abilityType;
@@ -92,7 +91,7 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
         let lastingTriggerCards = lastingTriggers.map((context) => context.source);
         if (lastingTriggerCards.length === 0) {
             if (
-                this.choices.some(
+                choices.some(
                     (context) => !context.ability.optional && !context.ability.optionalTarget
                 )
             ) {
@@ -178,27 +177,29 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
         return {
             source: 'Triggered Abilities',
             controls: this.getPromptControls(),
-            activePromptTitle: TriggeredAbilityWindowTitles.getTitle(this.abilityType, this.events),
+            activePromptTitle: TriggeredAbilityWindowTitles.getTitle(
+                this.abilityType,
+                this.choices.map((context) => context.event)
+            ),
             waitingPromptTitle: 'Waiting for opponent'
         };
     }
 
     getPromptControls() {
         let map = new Map();
-        for (let event of this.events) {
-            if (event.context && event.context.source) {
-                let targets = map.get(event.context.source) || [];
-                if (event.context.target) {
-                    targets = targets.concat(event.context.target);
-                } else if (event.card && event.card !== event.context.source) {
+        for (let context of this.choices) {
+            if (context && context.source) {
+                let targets = map.get(context.source) || [];
+                let event = context.event;
+                if (context.target) {
+                    targets = targets.concat(context.target);
+                } else if (event.card && event.card !== context.source) {
                     targets = targets.concat(event.card);
-                } else if (event.context.event && event.context.event.card) {
-                    targets = targets.concat(event.context.event.card);
                 } else if (event.card) {
                     targets = targets.concat(event.card);
                 }
 
-                map.set(event.context.source, _.uniq(targets));
+                map.set(context.source, _.uniq(targets));
             }
         }
 
@@ -329,7 +330,9 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
             _.extend(this.getPromptForSelectProperties(), {
                 activePromptTitle: 'Select a card to affect',
                 cardCondition: (card) => _.any(choices, (context) => context.event.card === card),
-                buttons: addBackButton ? [{ text: 'Back', arg: 'back' }] : [],
+                buttons: addBackButton
+                    ? [{ text: 'Back', arg: 'back' }]
+                    : [{ text: 'Autoresolve', arg: 'autoresolve' }],
                 onSelect: (player, card) => {
                     this.promptBetweenEvents(
                         choices.filter((context) => context.event.card === card)
@@ -339,6 +342,10 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
                 onMenuCommand: (player, arg) => {
                     if (arg === 'back') {
                         this.promptBetweenSources(this.choices);
+                        return true;
+                    }
+                    if (arg === 'autoresolve') {
+                        this.autoResolve = true;
                         return true;
                     }
                 }
@@ -384,10 +391,11 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
 
     emitEvents() {
         this.choices = [];
-        let events = this.eventWindow.event.getSimultaneousEvents();
-
-        this.events = _.difference(events, this.eventsToExclude);
-        _.each(this.events, (event) => {
+        let events = _.difference(
+            this.eventWindow.event.getSimultaneousEvents(),
+            this.eventsToExclude
+        );
+        _.each(events, (event) => {
             this.game.emit(event.name + ':' + this.abilityType, event, this);
         });
     }
