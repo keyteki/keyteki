@@ -283,7 +283,6 @@ export class GameBoard extends React.Component {
                         />
                     </div>
                 </div>
-                {this.getTimer()}
             </div>
         ];
     }
@@ -403,6 +402,7 @@ export class GameBoard extends React.Component {
                                         phase={thisPlayer.phase}
                                     />
                                 )}
+                                {this.getTimer()}
                             </div>
                         </div>
                         {this.state.showMessages && (
