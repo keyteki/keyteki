@@ -85,17 +85,9 @@ const Lobby = () => {
             link: 'https://keyforgelive.com'
         },
         {
-            img: '/banner/lxM470r2.jpg',
-            link: 'https://www.kickstarter.com/projects/kfr/kf-rank?ref=bt9p6p&amp;token=2e25e093'
-        },
-        {
             img: '/banner/TCO-Banner_MWM.png',
             link:
                 'https://www.tickettailor.com/events/midwestmaverickskeyforgeclub/561209?fbclid=IwAR1FyyDVOZGmgLeMLjiAICbFllZhEj02MlbD-xRMifaqhUoNYmJOwwJC2-c'
-        },
-        {
-            img: '/banner/akl-s6-tco-banner.png',
-            link: 'https://australiankeyforgeleague.com/?ref=heartTCO'
         }
     ];
 
