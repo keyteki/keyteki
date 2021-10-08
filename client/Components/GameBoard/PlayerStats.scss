@@ -23,6 +23,11 @@
     opacity: 0.2;
 }
 
+.inactive-player:before {
+    content: '\25B6';
+    color: rgba(0, 0, 0, 0.85);
+}
+
 .player-info {
     display: flex;
 }

@@ -13,14 +13,28 @@ class FightGameAction extends CardGameAction {
     }
 
     canAffect(card, context) {
-        let fightAction = card.getFightAction(this.fightCardCondition);
+        let fightAction = card.stunned
+            ? card.getRemoveStunAction()
+            : card.getFightAction(this.fightCardCondition);
         let newContext = fightAction.createContext(context.player);
         newContext.ignoreHouse = true;
-        if (!fightAction || fightAction.meetsRequirements(newContext, ['stunned'])) {
+        if (fightAction.meetsRequirements(newContext, ['stunned'])) {
             return false;
         }
-
         return card.checkRestrictions('use', context) && super.canAffect(card, context);
+    }
+
+    checkEventCondition(event) {
+        if (event.card.stunned) {
+            return true;
+        }
+        let fightAction = event.card.getFightAction();
+        let newContext = fightAction.createContext(event.context.player);
+        newContext.ignoreHouse = true;
+        return (
+            this.canAffect(event.card, event.context) &&
+            event.card.checkRestrictions(this.name, newContext)
+        );
     }
 
     getEvent(card, context) {

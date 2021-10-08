@@ -3,6 +3,7 @@ const Card = require('../../Card.js');
 class Infurnace extends Card {
     setupCardAbilities(ability) {
         this.play({
+            effectStyle: 'all',
             targets: {
                 select: {
                     mode: 'select',

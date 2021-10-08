@@ -2,19 +2,16 @@ const _ = require('underscore');
 
 const EventToTitleFunc = {
     onCardAbilityInitiated: (event) => 'the effects of ' + event.card.name,
-    onCardBowed: (event) => event.card.name + ' being bowed',
-    onClaimRing: (event) => 'to the ' + event.conflict.conflictRing + ' ring being claimed',
-    onCardLeavesPlay: (event) => event.card.name + ' leaving play',
+    onCardDestroyed: (event) => event.card.name + ' being destroyed',
+    onCardLeavesPlay: (event) =>
+        event.card.name +
+        (event.triggeringEvent && event.triggeringEvent.name === 'onCardDestroyed'
+            ? ' being destroyed'
+            : ' leaving play'),
     onCharacterEntersPlay: (event) => event.card.name + ' entering play',
     onCardPlayed: (event) => event.card.name + ' being played',
-    onCardHonored: (event) => event.card.name + ' being honored',
-    onCardDishonored: (event) => event.card.name + ' being dishonored',
-    onMoveCharactersToConflict: () => 'characters moving to the conflict',
     onPhaseEnded: (event) => event.phase + ' phase ending',
-    onPhaseStarted: (event) => event.phase + ' phase starting',
-    onReturnRing: (event) => 'returning the ' + event.ring.element + ' ring',
-    onSacrificed: (event) => event.card.name + ' being sacrificed',
-    onRemovedFromChallenge: (event) => event.card.name + ' being removed from the challenge'
+    onPhaseStarted: (event) => event.phase + ' phase starting'
 };
 
 const AbilityTypeToWord = {
@@ -32,7 +29,7 @@ function FormatTitles(titles) {
         (string, title, index) => {
             if (index === 0) {
                 return title;
-            } else if (index === 1) {
+            } else if (index === titles.length - 1) {
                 return title + ' or ' + string;
             }
 

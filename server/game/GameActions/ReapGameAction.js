@@ -8,21 +8,22 @@ class ReapGameAction extends CardGameAction {
     }
 
     canAffect(card, context) {
-        let reapAction = card.getReapAction();
+        let reapAction = card.stunned ? card.getRemoveStunAction() : card.getReapAction();
         let newContext = reapAction.createContext(context.player);
         newContext.ignoreHouse = true;
         if (reapAction.meetsRequirements(newContext, ['stunned'])) {
             return false;
         }
-
         return card.checkRestrictions('use', context) && super.canAffect(card, context);
     }
 
     checkEventCondition(event) {
+        if (event.card.stunned) {
+            return true;
+        }
         let reapAction = event.card.getReapAction();
         let newContext = reapAction.createContext(event.context.player);
         newContext.ignoreHouse = true;
-
         return (
             this.canAffect(event.card, event.context) &&
             event.card.checkRestrictions(this.name, newContext)

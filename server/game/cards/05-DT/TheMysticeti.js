@@ -15,22 +15,26 @@ class TheMysticeti extends Card {
             then: {
                 alwaysTriggers: true,
                 condition: (context) => context.preThenEvents.some((event) => !event.cancelled),
-                gameAction: ability.actions.sequential([
-                    ability.actions.addPowerCounter((context) => ({
-                        amount: 3 * context.preThenEvents.filter((event) => !event.cancelled).length
-                    })),
-                    ability.actions.cardLastingEffect((context) => ({
-                        target: context.source,
-                        duration: 'lastingEffect',
-                        effect: [
-                            ability.effects.changeType('creature'),
-                            ability.effects.addKeyword({ taunt: 1 })
-                        ]
-                    })),
-                    ability.actions.moveOnBattleline((context) => ({
-                        player: context.player
-                    }))
-                ])
+                gameAction: ability.actions.addPowerCounter((context) => ({
+                    amount: 3 * context.preThenEvents.filter((event) => !event.cancelled).length
+                })),
+                then: {
+                    alwaysTriggers: true,
+                    condition: (context) => context.source.controller === context.game.activePlayer,
+                    gameAction: ability.actions.sequential([
+                        ability.actions.cardLastingEffect((context) => ({
+                            target: context.source,
+                            duration: 'lastingEffect',
+                            effect: [
+                                ability.effects.changeType('creature'),
+                                ability.effects.addKeyword({ taunt: 1 })
+                            ]
+                        })),
+                        ability.actions.moveOnBattleline((context) => ({
+                            player: context.player
+                        }))
+                    ])
+                }
             }
         });
     }

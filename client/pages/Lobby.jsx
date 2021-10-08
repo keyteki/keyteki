@@ -79,6 +79,18 @@ const Lobby = () => {
         ? 'Enter a message...'
         : 'You must be logged in to send lobby chat messages';
 
+    const banners = [
+        {
+            img: '/banner/KFL-live-firenze.gif',
+            link: 'https://keyforgelive.com'
+        },
+        {
+            img: '/banner/TCO-Banner_MWM.png',
+            link:
+                'https://www.tickettailor.com/events/midwestmaverickskeyforgeclub/561209?fbclid=IwAR1FyyDVOZGmgLeMLjiAICbFllZhEj02MlbD-xRMifaqhUoNYmJOwwJC2-c'
+        }
+    ];
+
     return (
         <div className='flex-container'>
             <SideBar>
@@ -94,8 +106,23 @@ const Lobby = () => {
                         showThumbs={false}
                         showIndicators={false}
                         showStatus={false}
-                        interval={5000}
-                    ></Carousel>
+                        interval={7500}
+                    >
+                        {banners.map((banner) => {
+                            return (
+                                <a
+                                    key={banner.img}
+                                    target='_blank'
+                                    rel='noreferrer'
+                                    href={banner.link}
+                                >
+                                    <div className='banner'>
+                                        <img src={banner.img} />
+                                    </div>
+                                </a>
+                            );
+                        })}
+                    </Carousel>
                 </Col>
             </div>
 

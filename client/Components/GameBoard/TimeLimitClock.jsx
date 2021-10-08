@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
+import './TimeLimitClock.scss';
+
 class TimeLimitClock extends React.Component {
     constructor(props) {
         super(props);
@@ -37,7 +39,7 @@ class TimeLimitClock extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className='time-limit-clock card bg-dark border-primary'>
                 <h1>{this.state.timeLeft}</h1>
             </div>
         );

@@ -831,4 +831,43 @@ describe('Triggered Ability Window', function () {
             this.player1.endTurn();
         });
     });
+
+    describe('Two "on leaves play" abilities', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'unfathomable',
+                    hand: ['general-sherman', 'nature-s-call'],
+                    inPlay: ['troll', 'brammo']
+                },
+                player2: {
+                    amber: 3,
+                    inPlay: ['umbra', 'lamindra'],
+                    hand: ['magda-the-rat']
+                }
+            });
+
+            this.game.manualMode = true;
+            this.player1.play(this.generalSherman);
+            this.player1.endTurn();
+            this.player2.clickPrompt('shadows');
+            this.player2.play(this.magdaTheRat);
+            this.player2.endTurn();
+            this.player1.clickPrompt('untamed');
+        });
+
+        it('should prompt for ability order', function () {
+            this.player1.play(this.natureSCall);
+            this.player1.clickCard(this.generalSherman);
+            this.player1.clickCard(this.magdaTheRat);
+            this.player1.clickPrompt('Done');
+            expect(this.player1).toHavePrompt(
+                'Any reactions to Magda the Rat leaving play or General Sherman leaving play?'
+            );
+            expect(this.player1).toHavePromptCardButton(this.generalSherman);
+            expect(this.player1).toHavePromptCardButton(this.magdaTheRat);
+            expect(this.player1).toHavePromptButton('Autoresolve');
+            this.player1.clickPrompt('General Sherman');
+        });
+    });
 });

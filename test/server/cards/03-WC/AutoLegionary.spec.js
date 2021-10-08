@@ -98,6 +98,7 @@ describe('Auto-Legionary', function () {
             this.player1.reap(this.nexus);
             this.player1.clickCard(this.autoLegionary);
             expect(this.autoLegionary.exhausted).toBe(true);
+            expect(this.autoLegionary.type).toBe('artifact');
             this.player1.endTurn();
         });
     });

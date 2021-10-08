@@ -4,7 +4,7 @@ describe('Anger', function () {
             this.setupTest({
                 player1: {
                     house: 'brobnar',
-                    inPlay: ['ancient-bear', 'troll'],
+                    inPlay: ['ancient-bear', 'troll', 'giant-sloth'],
                     hand: ['anger']
                 },
                 player2: {
@@ -20,7 +20,6 @@ describe('Anger', function () {
             expect(this.player1).toHavePrompt('Anger');
             this.player1.clickCard(this.troll);
             expect(this.player1).toHavePrompt('Choose a creature to attack');
-            //expect(this.troll.exhausted).toBe(false);
             this.player1.clickCard(this.huntingWitch);
             expect(this.troll.exhausted).toBe(true);
             expect(this.troll.location).toBe('play area');
@@ -65,6 +64,69 @@ describe('Anger', function () {
             this.player1.clickCard(this.troll);
             expect(this.troll.exhausted).toBe(true);
             expect(this.troll.stunned).toBe(false);
+        });
+
+        it('should remove the stun from a stunned target when it cannot fight', function () {
+            this.player1.endTurn();
+            this.player2.clickPrompt('logos');
+            this.player2.play(this.foggify);
+            this.player2.endTurn();
+            this.player1.clickPrompt('brobnar');
+            this.troll.stun();
+            this.player1.play(this.anger);
+            expect(this.player1).toHavePrompt('Anger');
+            this.player1.clickCard(this.troll);
+            expect(this.troll.exhausted).toBe(true);
+            expect(this.troll.stunned).toBe(false);
+        });
+
+        it('should not remove the stun from a target that cannot be used', function () {
+            this.player1.endTurn();
+            this.player2.clickPrompt('logos');
+            this.player2.play(this.foggify);
+            this.player2.endTurn();
+            this.player1.clickPrompt('brobnar');
+            this.giantSloth.exhausted = true;
+            this.giantSloth.stun();
+            this.player1.play(this.anger);
+            expect(this.player1).toHavePrompt('Anger');
+            this.player1.clickCard(this.giantSloth);
+            expect(this.giantSloth.exhausted).toBe(false);
+            expect(this.giantSloth.stunned).toBe(true);
+        });
+    });
+
+    describe("Anger's ability when no opponent's creatures in play", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'brobnar',
+                    inPlay: ['ancient-bear', 'troll'],
+                    hand: ['anger']
+                },
+                player2: {
+                    hand: ['foggify']
+                }
+            });
+        });
+
+        it('should ready a target', function () {
+            this.player1.reap(this.troll);
+            this.player1.play(this.anger);
+            expect(this.player1).toHavePrompt('Anger');
+            this.player1.clickCard(this.troll);
+            expect(this.troll.exhausted).toBe(false);
+            this.player1.reap(this.troll);
+            this.player1.endTurn();
+        });
+
+        it('should remove the stun from a stunned target', function () {
+            this.ancientBear.stun();
+            this.player1.play(this.anger);
+            expect(this.player1).toHavePrompt('Anger');
+            this.player1.clickCard(this.ancientBear);
+            expect(this.ancientBear.exhausted).toBe(true);
+            expect(this.ancientBear.stunned).toBe(false);
         });
     });
 });

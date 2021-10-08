@@ -126,7 +126,6 @@ describe('Ghosthawk', function () {
                 expect(this.player1).not.toBeAbleToSelect(this.snufflegator);
                 expect(this.player1).not.toBeAbleToSelect(this.inkaTheSpider);
                 this.player1.clickCard(this.dewFaerie);
-                this.player1.clickCard(this.troll);
                 expect(this.player1.amber).toBe(3);
                 expect(this.troll.enraged).toBe(true);
                 expect(this.dewFaerie.enraged).toBe(true);
@@ -154,7 +153,6 @@ describe('Ghosthawk', function () {
                 expect(this.player1).not.toBeAbleToSelect(this.snufflegator);
                 expect(this.player1).not.toBeAbleToSelect(this.inkaTheSpider);
                 this.player1.clickCard(this.dewFaerie);
-                this.player1.clickCard(this.troll);
                 expect(this.player1.amber).toBe(3);
                 expect(this.troll.enraged).toBe(true);
                 expect(this.dewFaerie.enraged).toBe(true);
@@ -180,7 +178,6 @@ describe('Ghosthawk', function () {
                 expect(this.player1).not.toBeAbleToSelect(this.snufflegator);
                 expect(this.player1).not.toBeAbleToSelect(this.inkaTheSpider);
                 this.player1.clickCard(this.dewFaerie);
-                this.player1.clickCard(this.troll);
                 expect(this.player1.amber).toBe(3);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
