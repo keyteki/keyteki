@@ -590,4 +590,47 @@ describe('Mimic Gel', function () {
             expect(this.player2.amber).toBe(4);
         });
     });
+
+    describe("Stilt Kin's effect and Mimic Gel", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'logos',
+                    amber: 1,
+                    inPlay: ['stilt-kin', 'groggins'],
+                    hand: ['mimic-gel', 'foozle']
+                },
+                player2: {
+                    amber: 4,
+                    inPlay: ['hunting-witch'],
+                    hand: ['phloxem-spike']
+                }
+            });
+        });
+
+        it('should ready and fight with Stilt-kin when copying a giant', function () {
+            this.player1.clickCard(this.mimicGel);
+            this.player1.clickPrompt('Play this creature');
+            this.player1.clickCard(this.groggins);
+            this.player1.clickPrompt('Left');
+            this.player1.clickCard(this.huntingWitch);
+            expect(this.stiltKin.exhausted).toBe(true);
+            expect(this.huntingWitch.location).toBe('discard');
+        });
+
+        it('should ready and fight when copying Stilt and a giant is played next to him', function () {
+            this.player1.clickCard(this.mimicGel);
+            this.player1.clickPrompt('Play this creature');
+            this.player1.clickCard(this.stiltKin);
+            this.player1.clickPrompt('Left');
+            this.player1.endTurn();
+            this.player2.clickPrompt('untamed');
+            this.player2.endTurn();
+            this.player1.clickPrompt('brobnar');
+            this.player1.play(this.foozle, true);
+            this.player1.clickCard(this.huntingWitch);
+            expect(this.mimicGel.exhausted).toBe(true);
+            expect(this.huntingWitch.location).toBe('discard');
+        });
+    });
 });

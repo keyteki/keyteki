@@ -4,9 +4,9 @@ class StiltKin extends Card {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onCardPlayed: (event) =>
+                onCardPlayed: (event, context) =>
                     event.card.type === 'creature' &&
-                    this.neighbors.includes(event.card) &&
+                    context.source.neighbors.includes(event.card) &&
                     event.card.hasTrait('giant')
             },
             gameAction: ability.actions.sequential([

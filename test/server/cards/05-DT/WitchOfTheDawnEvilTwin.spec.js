@@ -35,7 +35,7 @@ describe('Witch Of The Dawn Evil Twin', function () {
             expect(this.flaxia.location).toBe('discard');
         });
 
-        it('should allow destruction of a friendly creature, and ability to bring back a differnt creature than was destroyed', function () {
+        it('should allow destruction of a friendly creature, and ability to bring back a different creature than was destroyed', function () {
             this.player1.play(this.witchOfTheDawnEvilTwin);
             this.player1.clickCard(this.flaxia);
             expect(this.witchOfTheDawnEvilTwin.location).toBe('play area');
@@ -46,7 +46,7 @@ describe('Witch Of The Dawn Evil Twin', function () {
             this.player1.endTurn();
         });
 
-        it('should allow destruction of a friendly creature, and ability to bring back a differnt creature than was destroyed', function () {
+        it('should allow destruction of a friendly creature, and ability to bring back a different creature than was destroyed and use it', function () {
             this.player1.moveCard(this.musthicMurmook, 'discard');
             expect(this.musthicMurmook.location).toBe('discard');
 
