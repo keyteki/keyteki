@@ -85,11 +85,6 @@ const Costs = {
             ) {
                 return false;
             } else if (
-                context.source.hasHouse(context.player.activeHouse) &&
-                !context.player.anyEffect('noActiveHouseForPlay')
-            ) {
-                return true;
-            } else if (
                 context.ignoreHouse ||
                 context.player.getEffects('canPlay').some((match) => match(context.source, context))
             ) {
@@ -103,19 +98,34 @@ const Costs = {
                     !context.game.effectsUsed.includes(effect)
             );
 
-            return effects.some((effect) => {
-                let value = effect.getValue(context.player);
-                if (value.condition && !value.condition(context.source)) {
-                    return false;
-                } else if (value.house) {
-                    value = value.house;
-                }
+            if (
+                effects.some((effect) => {
+                    let value = effect.getValue(context.player);
+                    if (value.condition && !value.condition(context.source)) {
+                        return false;
+                    } else if (value.house) {
+                        value = value.house;
+                    }
 
-                return (
-                    (HousePlayEffects.includes(effect.type) && context.source.hasHouse(value)) ||
-                    (NonHousePlayEffects.includes(effect.type) && !context.source.hasHouse(value))
-                );
-            });
+                    return (
+                        (HousePlayEffects.includes(effect.type) &&
+                            context.source.hasHouse(value)) ||
+                        (NonHousePlayEffects.includes(effect.type) &&
+                            !context.source.hasHouse(value))
+                    );
+                })
+            ) {
+                return true;
+            }
+
+            if (
+                context.source.hasHouse(context.player.activeHouse) &&
+                !context.player.anyEffect('noActiveHouseForPlay')
+            ) {
+                return true;
+            }
+
+            return false;
         },
         payEvent: (context) =>
             context.game.getEvent('unnamedEvent', {}, () => {
@@ -125,8 +135,6 @@ const Costs = {
                         .getEffects('canPlay')
                         .some((match) => match(context.source, context))
                 ) {
-                    return true;
-                } else if (context.source.hasHouse(context.player.activeHouse)) {
                     return true;
                 }
 
@@ -155,6 +163,10 @@ const Costs = {
 
                 if (effect) {
                     context.game.effectUsed(effect);
+                    return true;
+                }
+
+                if (context.source.hasHouse(context.player.activeHouse)) {
                     return true;
                 }
 

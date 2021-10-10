@@ -53,4 +53,23 @@ describe('Captain Val Jericho', function () {
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
     });
+
+    describe("Captain Val Jericho's ability on a non-Star Alliance turn", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'dis',
+                    hand: ['exhume', 'soulkeeper', 'alaka-s-brew'],
+                    discard: ['captain-val-jericho']
+                }
+            });
+        });
+
+        it('should not be used up by playing non-Star Alliance card of the active house', function () {
+            this.player1.play(this.exhume);
+            this.player1.clickCard(this.captainValJericho);
+            this.player1.playUpgrade(this.soulkeeper, this.captainValJericho);
+            expect(this.player1).toBeAbleToPlay(this.alakaSBrew);
+        });
+    });
 });
