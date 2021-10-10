@@ -93,14 +93,14 @@ describe('Com. Officer Kirby', function () {
             });
         });
 
-        it('should be used up by playing non-Star Alliance upgrade of the active house', function () {
+        it('should be used up by playing a non-Star Alliance upgrade of the active house', function () {
             this.player1.play(this.exhume);
             this.player1.clickCard(this.comOfficerKirby);
             this.player1.playUpgrade(this.soulkeeper, this.comOfficerKirby);
             expect(this.player1).not.toBeAbleToPlay(this.alakaSBrew);
         });
 
-        it('should not be used up by playing non-Star Alliance creature of the active house', function () {
+        it('should not be used up by playing a non-Star Alliance creature of the active house', function () {
             this.player1.play(this.exhume);
             this.player1.clickCard(this.comOfficerKirby);
             this.player1.play(this.shooler);
