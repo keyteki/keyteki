@@ -81,10 +81,6 @@ const Lobby = () => {
 
     const banners = [
         {
-            img: '/banner/KFL-live-firenze.gif',
-            link: 'https://keyforgelive.com'
-        },
-        {
             img: '/banner/TCO-Banner_MWM.png',
             link:
                 'https://www.tickettailor.com/events/midwestmaverickskeyforgeclub/561209?fbclid=IwAR1FyyDVOZGmgLeMLjiAICbFllZhEj02MlbD-xRMifaqhUoNYmJOwwJC2-c'
