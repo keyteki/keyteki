@@ -59,4 +59,87 @@ describe('The Sting', function () {
             expect(this.player2.amber).toBe(6);
         });
     });
+
+    describe("Double The Sting's ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'untamed',
+                    amber: 8,
+                    hand: ['key-charge'],
+                    inPlay: ['nexus']
+                },
+                player2: {
+                    amber: 6,
+                    inPlay: ['the-sting', 'the-sting']
+                }
+            });
+        });
+
+        it("should cause the controller to receive oppponent's forging amber just once", function () {
+            this.player1.play(this.keyCharge);
+            this.player1.clickPrompt('Yes');
+            this.player1.forgeKey('Red');
+            this.player1.clickPrompt('Autoresolve');
+            expect(this.player1.amber).toBe(1);
+            expect(this.player2.amber).toBe(12);
+            expect(this.player1.player.keys.red).toBe(true);
+            expect(this.player1.player.keys.blue).toBe(false);
+            expect(this.player1.player.keys.yellow).toBe(false);
+        });
+    });
+
+    describe("The Sting's ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'logos',
+                    amber: 4,
+                    hand: [
+                        'data-forge',
+                        'lamindra',
+                        'lamindra',
+                        'lamindra',
+                        'lamindra',
+                        'lamindra',
+                        'lamindra',
+                        'dextre',
+                        'dextre',
+                        'dextre',
+                        'dextre',
+                        'dextre',
+                        'dextre',
+                        'archimedes',
+                        'archimedes',
+                        'archimedes',
+                        'archimedes',
+                        'archimedes',
+                        'archimedes',
+                        'murkens',
+                        'murkens',
+                        'murkens',
+                        'murkens',
+                        'murkens',
+                        'murkens',
+                        'murkens'
+                    ]
+                },
+                player2: {
+                    amber: 6,
+                    inPlay: ['the-sting']
+                }
+            });
+        });
+
+        it('should not receive any amber if no amber was spent', function () {
+            this.player1.play(this.dataForge);
+            this.player1.clickPrompt('Yes');
+            this.player1.forgeKey('Red');
+            expect(this.player1.amber).toBe(5);
+            expect(this.player2.amber).toBe(6);
+            expect(this.player1.player.keys.red).toBe(true);
+            expect(this.player1.player.keys.blue).toBe(false);
+            expect(this.player1.player.keys.yellow).toBe(false);
+        });
+    });
 });
