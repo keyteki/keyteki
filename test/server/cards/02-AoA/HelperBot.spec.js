@@ -57,7 +57,14 @@ describe('Helper Bot', function () {
             this.setupTest({
                 player1: {
                     house: 'dis',
-                    hand: ['exhume', 'shooler', 'abond-the-armorsmith'],
+                    inPlay: ['matter-maker'],
+                    hand: [
+                        'exhume',
+                        'shooler',
+                        'armsmaster-molina',
+                        'soulkeeper',
+                        'light-of-the-archons'
+                    ],
                     discard: ['helper-bot']
                 }
             });
@@ -67,7 +74,21 @@ describe('Helper Bot', function () {
             this.player1.play(this.exhume);
             this.player1.clickCard(this.helperBot);
             this.player1.play(this.shooler);
-            expect(this.player1).not.toBeAbleToPlay(this.abondTheArmorsmith);
+            expect(this.player1).not.toBeAbleToPlay(this.armsmasterMolina);
+        });
+
+        it('should be used up even if the card played is permitted by another effect and of the active house', function () {
+            this.player1.play(this.exhume);
+            this.player1.clickCard(this.helperBot);
+            this.player1.playUpgrade(this.soulkeeper, this.helperBot);
+            expect(this.player1).not.toBeAbleToPlay(this.armsmasterMolina);
+        });
+
+        it('should be used up even if the card played is permitted by another effect', function () {
+            this.player1.play(this.exhume);
+            this.player1.clickCard(this.helperBot);
+            this.player1.playUpgrade(this.lightOfTheArchons, this.helperBot);
+            expect(this.player1).not.toBeAbleToPlay(this.armsmasterMolina);
         });
     });
 });

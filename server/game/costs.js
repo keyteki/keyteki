@@ -84,10 +84,7 @@ const Costs = {
                     .filter((card) => card.name === context.source.name).length >= 6
             ) {
                 return false;
-            } else if (
-                context.ignoreHouse ||
-                context.player.getEffects('canPlay').some((match) => match(context.source, context))
-            ) {
+            } else if (context.ignoreHouse) {
                 return true;
             }
 
@@ -116,11 +113,12 @@ const Costs = {
                 })
             ) {
                 return true;
-            }
-
-            if (
-                context.source.hasHouse(context.player.activeHouse) &&
-                !context.player.anyEffect('noActiveHouseForPlay')
+            } else if (
+                context.player
+                    .getEffects('canPlay')
+                    .some((match) => match(context.source, context)) ||
+                (context.source.hasHouse(context.player.activeHouse) &&
+                    !context.player.anyEffect('noActiveHouseForPlay'))
             ) {
                 return true;
             }
@@ -129,12 +127,7 @@ const Costs = {
         },
         payEvent: (context) =>
             context.game.getEvent('unnamedEvent', {}, () => {
-                if (
-                    context.ignoreHouse ||
-                    context.player
-                        .getEffects('canPlay')
-                        .some((match) => match(context.source, context))
-                ) {
+                if (context.ignoreHouse) {
                     return true;
                 }
 
@@ -164,9 +157,12 @@ const Costs = {
                 if (effect) {
                     context.game.effectUsed(effect);
                     return true;
-                }
-
-                if (context.source.hasHouse(context.player.activeHouse)) {
+                } else if (
+                    context.player
+                        .getEffects('canPlay')
+                        .some((match) => match(context.source, context)) ||
+                    context.source.hasHouse(context.player.activeHouse)
+                ) {
                     return true;
                 }
 
