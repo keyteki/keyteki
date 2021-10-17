@@ -154,7 +154,14 @@ const Costs = {
                     );
                 });
 
-                if (matchedEffects.length === 1) {
+                if (
+                    matchedEffects.length === 1 ||
+                    (matchedEffects.length > 0 &&
+                        matchedEffects.every(
+                            (effect) =>
+                                effect.context.source.id === matchedEffects[0].context.source.id
+                        ))
+                ) {
                     context.game.effectUsed(matchedEffects[0]);
                     return true;
                 } else if (matchedEffects.length > 1) {
