@@ -138,7 +138,7 @@ const Costs = {
                         !context.game.effectsUsed.includes(effect)
                 );
 
-                let effect = effects.find((effect) => {
+                let matchedEffects = effects.filter((effect) => {
                     let value = effect.getValue(context.player);
                     if (value.condition && !value.condition(context.source)) {
                         return false;
@@ -154,8 +154,22 @@ const Costs = {
                     );
                 });
 
-                if (effect) {
-                    context.game.effectUsed(effect);
+                if (matchedEffects.length === 1) {
+                    context.game.effectUsed(matchedEffects[0]);
+                    return true;
+                } else if (matchedEffects.length > 1) {
+                    const choices = matchedEffects.map(
+                        (effect) => effect.context.source.cardData.name
+                    );
+                    const handlers = matchedEffects.map((effect) => () => {
+                        context.game.effectUsed(effect);
+                    });
+                    context.game.promptWithHandlerMenu(context.player, {
+                        activePromptTitle: 'Choose an ability:',
+                        source: context.source,
+                        choices,
+                        handlers
+                    });
                     return true;
                 } else if (
                     context.player
