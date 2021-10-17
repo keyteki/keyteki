@@ -72,4 +72,26 @@ describe('Captain Val Jericho', function () {
             expect(this.player1).toBeAbleToPlay(this.alakaSBrew);
         });
     });
+
+    describe("Captain Val Jericho's and Com. Officer Kirby's abilities stacking", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'staralliance',
+                    inPlay: ['chief-engineer-walls', 'captain-val-jericho', 'com-officer-kirby'],
+                    hand: ['alaka', 'alaka-s-brew']
+                }
+            });
+        });
+
+        it('should be prompted to choose between abilities when both apply', function () {
+            this.player1.reap(this.comOfficerKirby);
+            this.player1.clickCard(this.alakaSBrew);
+            expect(this.player1).toHavePrompt('Play Alaka’s Brew:');
+            this.player1.clickPrompt('Play this action');
+            expect(this.player1).toHavePrompt('Choose an ability:');
+            this.player1.clickPrompt('Com. Officer Kirby');
+            expect(this.player1).toBeAbleToPlay(this.alaka);
+        });
+    });
 });
