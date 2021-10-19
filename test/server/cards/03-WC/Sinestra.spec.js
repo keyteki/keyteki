@@ -60,4 +60,29 @@ describe('Sinestra', function () {
             expect(this.player1.amber).toBe(2);
         });
     });
+
+    describe('card ability', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'shadows',
+                    hand: ['urchin'],
+                    inPlay: ['hunting-witch']
+                },
+                player2: {
+                    amber: 3,
+                    inPlay: ['sinestra', 'brain-eater']
+                }
+            });
+        });
+
+        it('should interact with other card play effects', function () {
+            this.player1.play(this.urchin, true);
+            this.player1.clickCard(this.sinestra);
+            this.player1.clickCard(this.huntingWitch);
+            expect(this.player1.amber).toBe(2);
+            expect(this.player2.amber).toBe(2);
+            this.player1.endTurn();
+        });
+    });
 });

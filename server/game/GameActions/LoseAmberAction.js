@@ -12,7 +12,11 @@ class LoseAmberAction extends PlayerAction {
     }
 
     canAffect(player, context) {
-        return this.amount && player.amber && super.canAffect(player, context);
+        return this.amount && super.canAffect(player, context);
+    }
+
+    checkEventCondition(event) {
+        return super.checkEventCondition(event) && event.player.amber > 0;
     }
 
     getEvent(player, context) {
