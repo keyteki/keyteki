@@ -6,11 +6,13 @@ class BaitAndSwitch extends Card {
             condition: (context) =>
                 context.player.opponent && context.player.amber < context.player.opponent.amber,
             gameAction: ability.actions.steal(),
-            then: (context) => ({
-                condition: () => context.player.amber < context.player.opponent.amber,
+            then: {
+                alwaysTriggers: true,
+                condition: (context) =>
+                    context.player.opponent && context.player.amber < context.player.opponent.amber,
                 gameAction: ability.actions.steal(),
                 message: '{0} uses {1} to steal an additional amber'
-            })
+            }
         });
     }
 }

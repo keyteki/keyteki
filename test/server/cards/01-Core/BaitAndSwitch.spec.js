@@ -42,4 +42,31 @@ describe('Bait and Switch', function () {
             expect(this.player2.amber).toBe(5);
         });
     });
+
+    describe('Bait and Switch and Gargantodon', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'shadows',
+                    amber: 0,
+                    inPlay: ['shooler', 'gub'],
+                    hand: ['bait-and-switch']
+                },
+                player2: {
+                    amber: 2,
+                    inPlay: ['gargantodon']
+                }
+            });
+        });
+
+        it('should steal twice, placing on creatures', function () {
+            this.player1.play(this.baitAndSwitch);
+            this.player1.clickCard(this.shooler);
+            this.player1.clickCard(this.gub);
+            expect(this.player1.amber).toBe(0);
+            expect(this.player2.amber).toBe(0);
+            expect(this.gub.amber).toBe(1);
+            expect(this.shooler.amber).toBe(1);
+        });
+    });
 });
