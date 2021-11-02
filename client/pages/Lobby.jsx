@@ -84,6 +84,10 @@ const Lobby = () => {
             img: '/banner/TCO-Banner_MWM.png',
             link:
                 'https://www.tickettailor.com/events/midwestmaverickskeyforgeclub/561209?fbclid=IwAR1FyyDVOZGmgLeMLjiAICbFllZhEj02MlbD-xRMifaqhUoNYmJOwwJC2-c'
+        },
+        {
+            img: '/banner/STE-3.png',
+            link: 'https://forms.gle/NoAFPqBasRg89dmC8'
         }
     ];
 
