@@ -81,13 +81,12 @@ const Lobby = () => {
 
     const banners = [
         {
-            img: '/banner/TCO-Banner_MWM.png',
-            link:
-                'https://www.tickettailor.com/events/midwestmaverickskeyforgeclub/561209?fbclid=IwAR1FyyDVOZGmgLeMLjiAICbFllZhEj02MlbD-xRMifaqhUoNYmJOwwJC2-c'
-        },
-        {
             img: '/banner/STE-3.png',
             link: 'https://forms.gle/NoAFPqBasRg89dmC8'
+        },
+        {
+            img: '/banner/banner-keyforge-copia.jpg',
+            link: 'https://www.keyforgenetwork.com/championship-live/'
         }
     ];
 
