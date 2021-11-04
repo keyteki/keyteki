@@ -110,7 +110,10 @@ const GameLobby = ({ gameId }) => {
                         <Button
                             disabled={!user}
                             variant='primary'
-                            onClick={() => dispatch(startNewGame())}
+                            onClick={() => {
+                                setQuickJoin(false);
+                                dispatch(startNewGame());
+                            }}
                         >
                             <Trans>New Game</Trans>
                         </Button>

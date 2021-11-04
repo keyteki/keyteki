@@ -304,7 +304,13 @@ class GameList extends React.Component {
         let groupedGames = {};
         let t = this.props.t;
 
+        let isAdmin = this.props.user && this.props.user.permissions.canManageGames;
+
         for (const game of this.props.games) {
+            if (!game.started && game.gamePrivate && !isAdmin) {
+                continue;
+            }
+
             if (!groupedGames[game.gameType]) {
                 groupedGames[game.gameType] = [game];
             } else {

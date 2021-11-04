@@ -298,10 +298,6 @@ class PendingGame {
             return true;
         }
 
-        if (this.gamePrivate && !this.started) {
-            return user.permissions && user.permissions.canManageTournaments && this.tournament;
-        }
-
         let players = Object.values(this.players);
         return (
             !this.owner.hasUserBlocked(user) &&
