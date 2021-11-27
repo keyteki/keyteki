@@ -131,14 +131,18 @@ const Costs = {
                     return true;
                 }
 
-                let effects = context.player.effects.filter(
-                    (effect) =>
-                        (HousePlayEffects.includes(effect.type) ||
-                            NonHousePlayEffects.includes(effect.type)) &&
-                        !context.game.effectsUsed.includes(effect)
-                );
-
-                let matchedEffects = effects.filter((effect) => {
+                let playAllowanceEffects = context.player.effects.filter((effect) => {
+                    if (
+                        !(
+                            HousePlayEffects.includes(effect.type) ||
+                            NonHousePlayEffects.includes(effect.type)
+                        )
+                    ) {
+                        return false;
+                    }
+                    if (context.game.effectsUsed.includes(effect)) {
+                        return false;
+                    }
                     let value = effect.getValue(context.player);
                     if (value.condition && !value.condition(context.source)) {
                         return false;
@@ -154,36 +158,54 @@ const Costs = {
                     );
                 });
 
-                if (
-                    matchedEffects.length === 1 ||
-                    (matchedEffects.length > 0 &&
-                        matchedEffects.every(
-                            (effect) =>
-                                effect.context.source.id === matchedEffects[0].context.source.id
-                        ))
-                ) {
-                    context.game.effectUsed(matchedEffects[0]);
+                playAllowanceEffects = playAllowanceEffects.concat(
+                    context.player.effects.filter(
+                        (e) =>
+                            e.type === 'canPlay' &&
+                            e.getValue(context.player)(context.source, context)
+                    )
+                );
+
+                const playAllowanceChoices = [];
+                // Create non-duplicate play allowance effect handlers.
+                playAllowanceEffects.forEach((effect) => {
+                    if (
+                        !playAllowanceChoices.find(
+                            (choice) => choice.sourceId === effect.context.source.id
+                        )
+                    ) {
+                        playAllowanceChoices.push({
+                            sourceId: effect.context.source.id,
+                            sourceName: effect.context.source.cardData.name,
+                            handler: () => {
+                                // All 'canPlay' effects refresh after use.
+                                if (
+                                    HousePlayEffects.includes(effect.type) ||
+                                    NonHousePlayEffects.includes(effect.type)
+                                ) {
+                                    context.game.effectUsed(effect);
+                                }
+                            }
+                        });
+                    }
+                });
+
+                if (playAllowanceChoices.length === 1) {
+                    playAllowanceChoices[0].handler();
                     return true;
-                } else if (matchedEffects.length > 1) {
-                    const choices = matchedEffects.map(
-                        (effect) => effect.context.source.cardData.name
-                    );
-                    const handlers = matchedEffects.map((effect) => () => {
-                        context.game.effectUsed(effect);
-                    });
+                } else if (playAllowanceChoices.length > 1) {
                     context.game.promptWithHandlerMenu(context.player, {
-                        activePromptTitle: 'Choose an ability:',
+                        activePromptTitle: 'Choose a play allowance ability:',
                         source: context.source,
-                        choices,
-                        handlers
+                        choices: playAllowanceChoices.map(
+                            (playAllowanceChoice) => playAllowanceChoice.sourceName
+                        ),
+                        handlers: playAllowanceChoices.map(
+                            (playAllowanceChoice) => playAllowanceChoice.handler
+                        )
                     });
                     return true;
-                } else if (
-                    context.player
-                        .getEffects('canPlay')
-                        .some((match) => match(context.source, context)) ||
-                    context.source.hasHouse(context.player.activeHouse)
-                ) {
+                } else if (context.source.hasHouse(context.player.activeHouse)) {
                     return true;
                 }
 

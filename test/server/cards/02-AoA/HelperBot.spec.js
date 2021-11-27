@@ -52,12 +52,12 @@ describe('Helper Bot', function () {
             expect(this.player1).toHavePrompt('Punch');
         });
     });
+
     describe("Helper Bot's ability in a non-Logos turn", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
                     house: 'dis',
-                    inPlay: ['matter-maker'],
                     hand: [
                         'exhume',
                         'shooler',
@@ -74,20 +74,6 @@ describe('Helper Bot', function () {
             this.player1.play(this.exhume);
             this.player1.clickCard(this.helperBot);
             this.player1.play(this.shooler);
-            expect(this.player1).not.toBeAbleToPlay(this.armsmasterMolina);
-        });
-
-        it('should be used up even if the card played is permitted by another effect and of the active house', function () {
-            this.player1.play(this.exhume);
-            this.player1.clickCard(this.helperBot);
-            this.player1.playUpgrade(this.soulkeeper, this.helperBot);
-            expect(this.player1).not.toBeAbleToPlay(this.armsmasterMolina);
-        });
-
-        it('should be used up even if the card played is permitted by another effect', function () {
-            this.player1.play(this.exhume);
-            this.player1.clickCard(this.helperBot);
-            this.player1.playUpgrade(this.lightOfTheArchons, this.helperBot);
             expect(this.player1).not.toBeAbleToPlay(this.armsmasterMolina);
         });
     });

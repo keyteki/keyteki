@@ -89,7 +89,7 @@ describe('Captain Val Jericho', function () {
             this.player1.clickCard(this.alakaSBrew);
             expect(this.player1).toHavePrompt('Play Alaka’s Brew:');
             this.player1.clickPrompt('Play this action');
-            expect(this.player1).toHavePrompt('Choose an ability:');
+            expect(this.player1).toHavePrompt('Choose a play allowance ability:');
             this.player1.clickPrompt('Com. Officer Kirby');
             expect(this.player1).toBeAbleToPlay(this.alaka);
         });
