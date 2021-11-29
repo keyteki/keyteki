@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import ReactClipboard from 'react-clipboardjs-copy';
 import { Button, Form } from 'react-bootstrap';
@@ -14,7 +14,7 @@ import ChargeMp3 from '../../assets/sound/charge.mp3';
 import ChargeOgg from '../../assets/sound/charge.ogg';
 
 import './PendingGame.scss';
-import { useEffect } from 'react';
+import GameTypeInfo from './GameTypeInfo';
 
 function showNotification(notification) {
     if (window.Notification && Notification.permission === 'granted') {
@@ -196,6 +196,9 @@ const PendingGame = () => {
                             <Trans>Copy Game Link</Trans>
                         </Button>
                     </ReactClipboard>
+                </div>
+                <div className='mt-3'>
+                    <GameTypeInfo gameType={currentGame.gameType} />
                 </div>
                 <div className='game-status'>{getGameStatus()}</div>
             </Panel>
