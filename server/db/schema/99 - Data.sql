@@ -7,6 +7,7 @@ INSERT INTO public."Houses" ("Id", "Code", "Name") VALUES (6, 'mars', 'Mars');
 INSERT INTO public."Houses" ("Id", "Code", "Name") VALUES (7, 'logos', 'Logos');
 INSERT INTO public."Houses" ("Id", "Code", "Name") VALUES (8, 'dis', 'Dis');
 INSERT INTO public."Houses" ("Id", "Code", "Name") VALUES (9, 'brobnar', 'Brobnar');
+INSERT INTO public."Houses" ("Id", "Code", "Name") VALUES (10, 'unfathomable', 'Unfathomable');
 
 --
 -- Name: Houses_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: keyteki
@@ -19,6 +20,7 @@ INSERT INTO public."Expansions" ("Id", "ExpansionId", "Code", "Name") VALUES (2,
 INSERT INTO public."Expansions" ("Id", "ExpansionId", "Code", "Name") VALUES (3, 435, 'AoA', 'Age of Ascension');
 INSERT INTO public."Expansions" ("Id", "ExpansionId", "Code", "Name") VALUES (4, 341, 'CotA', 'Call of the Archons');
 INSERT INTO public."Expansions" ("Id", "ExpansionId", "Code", "Name") VALUES (5, 479, 'MM', 'Mass Mutation');
+INSERT INTO public."Expansions" ("Id", "ExpansionId", "Code", "Name") VALUES (6, 496, 'DT', 'Dark Tidings');
 
 --
 -- Name: Expansions_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: keyteki
