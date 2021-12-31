@@ -14,8 +14,7 @@ class MontyBank extends Card {
                 }
             },
             effect: 'exalt {0}{1}',
-            effectArgs: (context) =>
-                context.target && context.target.choice === 'Exalt once' ? ' once' : ' twice'
+            effectArgs: (context) => (context.select === 'Exalt once' ? ' once' : ' twice')
         });
 
         this.action({
