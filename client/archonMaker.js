@@ -180,7 +180,7 @@ export const buildDeckList = async (canvas, deck, language, translate, size) => 
     };
     const qrCode = await QRCode.toCanvas(
         fabric.util.createCanvasElement(),
-        `https://www.keyforgegame.com/deck-details/${deck.id}`,
+        `https://www.keyforgegame.com/deck-details/${deck.uuid}`,
         { margin: 3 }
     );
 
