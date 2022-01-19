@@ -81,7 +81,7 @@ const Lobby = () => {
 
     const banners = [
         {
-            img: '/banner/banner-keyforge-copia.jpg',
+            img: '/banner/banner-keyforge-copia1.jpg',
             link: 'https://www.keyforgenetwork.com/championship-live/'
         }
     ];
