@@ -83,6 +83,11 @@ const Lobby = () => {
         {
             img: '/banner/banner-keyforge-copia1.jpg',
             link: 'https://www.keyforgenetwork.com/championship-live/'
+        },
+        {
+            img: '/banner/STE-2 TCO.jpg',
+            link:
+                'https://docs.google.com/forms/d/e/1FAIpQLSe9Q5Ilw8UCEo9f_FFfNGfyQSc5hunOgmvwtdvaNTJRH6-n5Q/viewform'
         }
     ];
 
