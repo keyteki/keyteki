@@ -80,10 +80,10 @@ const Lobby = () => {
         : 'You must be logged in to send lobby chat messages';
 
     const banners = [
-        {
+        /* Disable for now, ennable towards the end of feb {
             img: '/banner/banner-keyforge-copia1.jpg',
             link: 'https://www.keyforgenetwork.com/championship-live/'
-        },
+        },*/
         {
             img: '/banner/STE-2-TCO.jpg',
             link:
