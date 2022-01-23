@@ -85,9 +85,13 @@ const Lobby = () => {
             link: 'https://www.keyforgenetwork.com/championship-live/'
         },
         {
-            img: '/banner/STE-2 TCO.jpg',
+            img: '/banner/STE-2-TCO.jpg',
             link:
                 'https://docs.google.com/forms/d/e/1FAIpQLSe9Q5Ilw8UCEo9f_FFfNGfyQSc5hunOgmvwtdvaNTJRH6-n5Q/viewform'
+        },
+        {
+            img: '/banner/joelker-poster.png',
+            link: 'https://discord.gg/8gMeN282D2'
         }
     ];
 
