@@ -84,15 +84,7 @@ const Costs = {
                     .filter((card) => card.name === context.source.name).length >= 6
             ) {
                 return false;
-            } else if (
-                context.source.hasHouse(context.player.activeHouse) &&
-                !context.player.anyEffect('noActiveHouseForPlay')
-            ) {
-                return true;
-            } else if (
-                context.ignoreHouse ||
-                context.player.getEffects('canPlay').some((match) => match(context.source, context))
-            ) {
+            } else if (context.ignoreHouse) {
                 return true;
             }
 
@@ -103,41 +95,54 @@ const Costs = {
                     !context.game.effectsUsed.includes(effect)
             );
 
-            return effects.some((effect) => {
-                let value = effect.getValue(context.player);
-                if (value.condition && !value.condition(context.source)) {
-                    return false;
-                } else if (value.house) {
-                    value = value.house;
-                }
+            if (
+                effects.some((effect) => {
+                    let value = effect.getValue(context.player);
+                    if (value.condition && !value.condition(context.source)) {
+                        return false;
+                    } else if (value.house) {
+                        value = value.house;
+                    }
 
-                return (
-                    (HousePlayEffects.includes(effect.type) && context.source.hasHouse(value)) ||
-                    (NonHousePlayEffects.includes(effect.type) && !context.source.hasHouse(value))
-                );
-            });
+                    return (
+                        (HousePlayEffects.includes(effect.type) &&
+                            context.source.hasHouse(value)) ||
+                        (NonHousePlayEffects.includes(effect.type) &&
+                            !context.source.hasHouse(value))
+                    );
+                })
+            ) {
+                return true;
+            } else if (
+                context.player
+                    .getEffects('canPlay')
+                    .some((match) => match(context.source, context)) ||
+                (context.source.hasHouse(context.player.activeHouse) &&
+                    !context.player.anyEffect('noActiveHouseForPlay'))
+            ) {
+                return true;
+            }
+
+            return false;
         },
         payEvent: (context) =>
             context.game.getEvent('unnamedEvent', {}, () => {
-                if (
-                    context.ignoreHouse ||
-                    context.player
-                        .getEffects('canPlay')
-                        .some((match) => match(context.source, context))
-                ) {
-                    return true;
-                } else if (context.source.hasHouse(context.player.activeHouse)) {
+                if (context.ignoreHouse) {
                     return true;
                 }
 
-                let effects = context.player.effects.filter(
-                    (effect) =>
-                        (HousePlayEffects.includes(effect.type) ||
-                            NonHousePlayEffects.includes(effect.type)) &&
-                        !context.game.effectsUsed.includes(effect)
-                );
-
-                let effect = effects.find((effect) => {
+                let playAllowanceEffects = context.player.effects.filter((effect) => {
+                    if (
+                        !(
+                            HousePlayEffects.includes(effect.type) ||
+                            NonHousePlayEffects.includes(effect.type)
+                        )
+                    ) {
+                        return false;
+                    }
+                    if (context.game.effectsUsed.includes(effect)) {
+                        return false;
+                    }
                     let value = effect.getValue(context.player);
                     if (value.condition && !value.condition(context.source)) {
                         return false;
@@ -153,8 +158,54 @@ const Costs = {
                     );
                 });
 
-                if (effect) {
-                    context.game.effectUsed(effect);
+                playAllowanceEffects = playAllowanceEffects.concat(
+                    context.player.effects.filter(
+                        (e) =>
+                            e.type === 'canPlay' &&
+                            e.getValue(context.player)(context.source, context)
+                    )
+                );
+
+                const playAllowanceChoices = [];
+                // Create non-duplicate play allowance effect handlers.
+                playAllowanceEffects.forEach((effect) => {
+                    if (
+                        !playAllowanceChoices.find(
+                            (choice) => choice.sourceId === effect.context.source.id
+                        )
+                    ) {
+                        playAllowanceChoices.push({
+                            sourceId: effect.context.source.id,
+                            sourceName: effect.context.source.cardData.name,
+                            handler: () => {
+                                // All 'canPlay' effects refresh after use.
+                                if (
+                                    HousePlayEffects.includes(effect.type) ||
+                                    NonHousePlayEffects.includes(effect.type)
+                                ) {
+                                    context.game.effectUsed(effect);
+                                }
+                            }
+                        });
+                    }
+                });
+
+                if (playAllowanceChoices.length === 1) {
+                    playAllowanceChoices[0].handler();
+                    return true;
+                } else if (playAllowanceChoices.length > 1) {
+                    context.game.promptWithHandlerMenu(context.player, {
+                        activePromptTitle: 'Choose a play allowance ability:',
+                        source: context.source,
+                        choices: playAllowanceChoices.map(
+                            (playAllowanceChoice) => playAllowanceChoice.sourceName
+                        ),
+                        handlers: playAllowanceChoices.map(
+                            (playAllowanceChoice) => playAllowanceChoice.handler
+                        )
+                    });
+                    return true;
+                } else if (context.source.hasHouse(context.player.activeHouse)) {
                     return true;
                 }
 

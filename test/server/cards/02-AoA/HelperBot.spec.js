@@ -52,4 +52,29 @@ describe('Helper Bot', function () {
             expect(this.player1).toHavePrompt('Punch');
         });
     });
+
+    describe("Helper Bot's ability in a non-Logos turn", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'dis',
+                    hand: [
+                        'exhume',
+                        'shooler',
+                        'armsmaster-molina',
+                        'soulkeeper',
+                        'light-of-the-archons'
+                    ],
+                    discard: ['helper-bot']
+                }
+            });
+        });
+
+        it('should be used up by playing a non-Logos card of the active house', function () {
+            this.player1.play(this.exhume);
+            this.player1.clickCard(this.helperBot);
+            this.player1.play(this.shooler);
+            expect(this.player1).not.toBeAbleToPlay(this.armsmasterMolina);
+        });
+    });
 });

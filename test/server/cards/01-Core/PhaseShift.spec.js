@@ -27,6 +27,8 @@ describe('Phase Shift', function () {
             expect(this.player1.amber).toBe(0);
             expect(this.player1).toBeAbleToPlay(this.virtuousWorks);
             this.player1.play(this.virtuousWorks);
+            // Should not prompt to choose between duplicate play allowance effects.
+            expect(this.player1).not.toHavePrompt('Choose a play allowance ability:');
             expect(this.player1.amber).toBe(3);
             this.player1.play(this.punch);
             expect(this.player1).toHavePrompt('Punch');

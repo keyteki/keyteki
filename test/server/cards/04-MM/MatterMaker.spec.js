@@ -66,4 +66,29 @@ describe('matter-maker', function () {
             expect(this.troll.upgrades).toContain(this.securiDroid);
         });
     });
+
+    describe("Matter Makers's and Captain Val Jericho's abilities stacking", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'brobnar',
+                    inPlay: ['matter-maker', 'captain-val-jericho'],
+                    hand: ['camouflage', 'stunner', 'alaka', 'ballcano', 'securi-droid']
+                }
+            });
+        });
+
+        it("should not use up Matter Maker's ability", function () {
+            this.player1.clickCard('camouflage');
+            this.player1.clickPrompt('Play this upgrade');
+            expect(this.player1).toHavePrompt('Choose a play allowance ability:');
+            this.player1.clickPrompt('Matter Maker');
+            this.player1.clickCard(this.captainValJericho);
+            this.player1.clickCard('stunner');
+            this.player1.clickPrompt('Play this upgrade');
+            expect(this.player1).toHavePrompt('Choose a play allowance ability:');
+            this.player1.clickPrompt('Matter Maker');
+            this.player1.clickCard(this.captainValJericho);
+        });
+    });
 });

@@ -53,4 +53,45 @@ describe('Captain Val Jericho', function () {
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
     });
+
+    describe("Captain Val Jericho's ability on a non-Star Alliance turn", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'dis',
+                    hand: ['exhume', 'soulkeeper', 'alaka-s-brew'],
+                    discard: ['captain-val-jericho']
+                }
+            });
+        });
+
+        it('should not be used up by playing a card of the active house', function () {
+            this.player1.play(this.exhume);
+            this.player1.clickCard(this.captainValJericho);
+            this.player1.playUpgrade(this.soulkeeper, this.captainValJericho);
+            expect(this.player1).toBeAbleToPlay(this.alakaSBrew);
+        });
+    });
+
+    describe("Captain Val Jericho's and Com. Officer Kirby's abilities stacking", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'staralliance',
+                    inPlay: ['chief-engineer-walls', 'captain-val-jericho', 'com-officer-kirby'],
+                    hand: ['alaka', 'alaka-s-brew']
+                }
+            });
+        });
+
+        it('should be prompted to choose between abilities when both apply', function () {
+            this.player1.reap(this.comOfficerKirby);
+            this.player1.clickCard(this.alakaSBrew);
+            expect(this.player1).toHavePrompt('Play Alaka’s Brew:');
+            this.player1.clickPrompt('Play this action');
+            expect(this.player1).toHavePrompt('Choose a play allowance ability:');
+            this.player1.clickPrompt('Com. Officer Kirby');
+            expect(this.player1).toBeAbleToPlay(this.alaka);
+        });
+    });
 });

@@ -81,4 +81,30 @@ describe('Com. Officer Kirby', function () {
             expect(this.player1).toBeAbleToPlay(this.safePlace);
         });
     });
+
+    describe("Com. Officer Kirby's ability on a non-Star Alliance turn", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'dis',
+                    hand: ['exhume', 'shooler', 'soulkeeper', 'alaka-s-brew'],
+                    discard: ['com-officer-kirby']
+                }
+            });
+        });
+
+        it('should be used up by playing a non-Star Alliance upgrade of the active house', function () {
+            this.player1.play(this.exhume);
+            this.player1.clickCard(this.comOfficerKirby);
+            this.player1.playUpgrade(this.soulkeeper, this.comOfficerKirby);
+            expect(this.player1).not.toBeAbleToPlay(this.alakaSBrew);
+        });
+
+        it('should not be used up by playing a non-Star Alliance creature of the active house', function () {
+            this.player1.play(this.exhume);
+            this.player1.clickCard(this.comOfficerKirby);
+            this.player1.play(this.shooler);
+            expect(this.player1).toBeAbleToPlay(this.alakaSBrew);
+        });
+    });
 });
