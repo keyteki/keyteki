@@ -111,4 +111,36 @@ describe('Lifeweb', function () {
             expect(this.player2.amber).toBe(5);
         });
     });
+
+    describe("Lifeweb's ability and upgrade-creatures", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'staralliance',
+                    inPlay: ['teleporter-chief-tink'],
+                    hand: ['securi-droid', 'securi-droid', 'securi-droid'],
+                    amber: 3
+                },
+                player2: {
+                    hand: ['lifeweb'],
+                    amber: 0
+                }
+            });
+
+            this.securiDroid1 = this.player1.player.hand[0];
+            this.securiDroid2 = this.player1.player.hand[1];
+            this.securiDroid2 = this.player1.player.hand[2];
+        });
+
+        xit('should not count creatures played as upgrades as creatures for the requirement', function () {
+            this.player1.playUpgrade(this.securiDroid1, this.teleporterChiefTink);
+            this.player1.playUpgrade(this.securiDroid2, this.teleporterChiefTink);
+            this.player1.playUpgrade(this.securiDroid3, this.teleporterChiefTink);
+            this.player1.endTurn();
+            this.player2.clickPrompt('untamed');
+            this.player2.play(this.lifeweb);
+            expect(this.player1.amber).toBe(3);
+            expect(this.player2.amber).toBe(1);
+        });
+    });
 });

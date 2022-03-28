@@ -65,4 +65,31 @@ describe('TheBigOne(WC)', function () {
             expect(this.urchin.location).toBe('discard');
         });
     });
+
+    describe('The Big One and upgrade-creatures', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'staralliance',
+                    hand: ['explo-rover', 'explo-rover', 'explo-rover', 'explo-rover']
+                },
+                player2: {
+                    inPlay: ['the-big-one']
+                }
+            });
+
+            this.exploRover1 = this.player1.player.hand[0];
+            this.exploRover2 = this.player1.player.hand[1];
+            this.exploRover3 = this.player1.player.hand[2];
+            this.exploRover4 = this.player1.player.hand[3];
+        });
+
+        it('should not add fuse counters for creatures played as upgrades', function () {
+            this.player1.playCreature(this.exploRover1);
+            this.player1.playUpgrade(this.exploRover2, this.exploRover1);
+            this.player1.playUpgrade(this.exploRover3, this.exploRover1);
+            this.player1.playUpgrade(this.exploRover4, this.exploRover1);
+            expect(this.theBigOne.tokens.fuse).toBe(1);
+        });
+    });
 });
