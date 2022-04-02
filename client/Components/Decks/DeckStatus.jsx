@@ -28,8 +28,6 @@ const DeckStatus = ({ status }) => {
 
     if (!status.basicRules) {
         statusName = t('Invalid');
-    } else if (status.notVerified) {
-        statusName = t('Enhancements Not Verified');
     } else if (status.usageLevel === 1 && !status.verified) {
         statusName = t('Used');
     } else if (status.usageLevel === 2 && !status.verified) {
