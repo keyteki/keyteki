@@ -61,7 +61,6 @@ const PlayerStats = ({
     size,
     spectating,
     stats,
-    tideRequired,
     user
 }) => {
     const { t } = useTranslation();
@@ -145,19 +144,17 @@ const PlayerStats = ({
     };
 
     const getTide = () => {
-        if (stats && stats.tide && tideRequired) {
-            return (
-                <div className='state'>
-                    <img
-                        key='tide'
-                        onClick={onClickTide}
-                        className='img-fluid tide'
-                        src={Constants.TideImages[stats.tide]}
-                        title={t(`${stats.tide}-tide`)}
-                    />
-                </div>
-            );
-        }
+        return (
+            <div className='state'>
+                <img
+                    key='tide'
+                    onClick={onClickTide}
+                    className='img-fluid tide'
+                    src={Constants.TideImages[stats.tide]}
+                    title={t(`${stats.tide}-tide`)}
+                />
+            </div>
+        );
     };
 
     const writeChatToClipboard = (event) => {
