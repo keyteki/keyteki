@@ -203,36 +203,29 @@ export class GameBoard extends React.Component {
         return !this.props.currentGame.players[this.props.user.username];
     }
 
-    renderTide(thisPlayer, otherPlayer) {
-        if (thisPlayer.stats.tideRequired || (otherPlayer && otherPlayer.stats.tideRequired)) {
-            let locale = this.props.i18n.language;
-            let img = Constants.TideImages.card[locale]
-                ? Constants.TideImages.card[locale]
-                : Constants.TideImages.card['en'];
-            return (
-                <div className='tide-pane'>
-                    <img
-                        key='tide-card'
-                        onClick={this.onClickTide}
-                        className={`img-fluid normal tide-card tide-${thisPlayer.stats.tide}
-                            ${
-                                thisPlayer.activeHouse && thisPlayer.canRaiseTide
-                                    ? 'can-raise-tide'
-                                    : ''
-                            }`}
-                        src={img}
-                        onMouseOver={() => {
-                            this.onMouseOver({
-                                image: <img src={img} className='card-zoom normal' />,
-                                size: `tide-${thisPlayer.stats.tide}`
-                            });
-                        }}
-                        onMouseOut={this.onMouseOut}
-                        title={this.props.t(`${thisPlayer.stats.tide}-tide`)}
-                    />
-                </div>
-            );
-        }
+    renderTide(thisPlayer) {
+        let locale = this.props.i18n.language;
+        let img = Constants.TideImages.card[locale]
+            ? Constants.TideImages.card[locale]
+            : Constants.TideImages.card['en'];
+        return (
+            <div className='tide-pane'>
+                <img
+                    key='tide-card'
+                    onClick={this.onClickTide}
+                    className={`img-fluid normal tide-card tide-${thisPlayer.stats.tide}`}
+                    src={img}
+                    onMouseOver={() => {
+                        this.onMouseOver({
+                            image: <img src={img} className='card-zoom normal' />,
+                            size: `tide-${thisPlayer.stats.tide}`
+                        });
+                    }}
+                    onMouseOut={this.onMouseOut}
+                    title={this.props.t(`${thisPlayer.stats.tide}-tide`)}
+                />
+            </div>
+        );
     }
 
     renderBoard(thisPlayer, otherPlayer) {
@@ -371,9 +364,6 @@ export class GameBoard extends React.Component {
                         size={this.props.user.settings.cardSize}
                         spectating={this.isSpectating()}
                         stats={otherPlayer.stats}
-                        tideRequired={
-                            thisPlayer.stats.tideRequired || otherPlayer?.stats?.tideRequired
-                        }
                         user={otherPlayer.user}
                     />
                 </div>
@@ -383,7 +373,7 @@ export class GameBoard extends React.Component {
                     <div className='right-side'>
                         <div className='prompt-area'>
                             <div className='right-side-top'></div>
-                            {this.renderTide(thisPlayer, otherPlayer)}
+                            {this.renderTide(thisPlayer)}
                             <div className='inset-pane'>
                                 {this.isSpectating() ? (
                                     <div />
@@ -460,7 +450,6 @@ export class GameBoard extends React.Component {
                     size={this.props.user.settings.cardSize}
                     spectating={this.isSpectating()}
                     stats={thisPlayer.stats}
-                    tideRequired={thisPlayer.stats.tideRequired || otherPlayer?.stats?.tideRequired}
                     user={thisPlayer.user}
                 />
             </div>

@@ -159,10 +159,6 @@
     &.tide-low {
         transform: rotate(180deg);
     }
-
-    &.can-raise-tide {
-        animation: glowing 2000ms infinite;
-    }
 }
 
 .right-side-top {
