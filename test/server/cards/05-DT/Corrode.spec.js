@@ -1,5 +1,56 @@
 describe('Corrode', function () {
-    describe("Corrode's ability", function () {
+    describe('when no card in play is affected by Corrode', function () {
+        it('should not prompt', function () {
+            this.setupTest({
+                player1: {
+                    house: 'unfathomable',
+                    hand: ['corrode']
+                },
+                player2: {
+                    inPlay: ['abyssal-zealot']
+                }
+            });
+            this.player1.play(this.corrode);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+    });
+
+    describe('when a card in play is affected by Corrode', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'unfathomable',
+                    hand: ['corrode']
+                },
+                player2: {
+                    inPlay: ['agent-sepdia', 'almsmaster']
+                }
+            });
+            this.player1.play(this.corrode);
+        });
+
+        it('should prompt the options', function () {
+            expect(this.player1).toHavePromptButton('Destroy an artifact');
+            expect(this.player1).toHavePromptButton('Destroy an upgrade');
+            expect(this.player1).toHavePromptButton('Destroy a creature with armor');
+        });
+
+        it('does not force you to destroy something', function () {
+            this.player1.clickPrompt('Destroy an artifact');
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.agentSepdia.location).toBe('play area');
+            expect(this.almsmaster.location).toBe('play area');
+        });
+
+        it('destroys only one card if multiple qualify for the chosen mode', function () {
+            this.player1.clickPrompt('Destroy a creature with armor');
+            this.player1.clickCard(this.agentSepdia);
+            expect(this.agentSepdia.location).toBe('discard');
+            expect(this.almsmaster.location).toBe('play area');
+        });
+    });
+
+    describe('choosing targets', function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
@@ -10,7 +61,7 @@ describe('Corrode', function () {
                 },
                 player2: {
                     amber: 1,
-                    inPlay: ['francus', 'krump', 'lifeward']
+                    inPlay: ['francus', 'krump', 'lifeward', 'soulkeeper']
                 }
             });
             this.player1.playUpgrade(this.wayOfTheWolf, this.flaxia);
@@ -21,17 +72,15 @@ describe('Corrode', function () {
             this.player1.play(this.corrode);
         });
 
-        it('be able to select all upgrades, artifacts, and creatures with armor', function () {
-            expect(this.player1).toBeAbleToSelect(this.lifeward);
-            expect(this.player1).toBeAbleToSelect(this.ritualOfBalance);
-            expect(this.player1).not.toBeAbleToSelect(this.flaxia);
-            expect(this.player1).toBeAbleToSelect(this.francus);
-            expect(this.player1).not.toBeAbleToSelect(this.krump);
-            expect(this.player1).toBeAbleToSelect(this.wayOfTheWolf);
-        });
-
-        describe('select artifact', function () {
-            it('destroy selected artifact', function () {
+        describe('choosing an artifact', function () {
+            beforeEach(function () {
+                this.player1.clickPrompt('Destroy an artifact');
+            });
+            it('lets you choose any artifact', function () {
+                expect(this.player1).toBeAbleToSelect(this.lifeward);
+                expect(this.player1).toBeAbleToSelect(this.ritualOfBalance);
+            });
+            it('destroys the chosen artifact', function () {
                 this.player1.clickCard(this.lifeward);
                 expect(this.lifeward.location).toBe('discard');
                 expect(this.ritualOfBalance.location).toBe('play area');
@@ -39,11 +88,19 @@ describe('Corrode', function () {
                 expect(this.francus.location).toBe('play area');
                 expect(this.krump.location).toBe('play area');
                 expect(this.wayOfTheWolf.location).toBe('play area');
+                expect(this.soulkeeper.location).toBe('play area');
             });
         });
 
-        describe('select upgrade', function () {
-            it('destroy selected upgrade', function () {
+        describe('choosing an upgrade', function () {
+            beforeEach(function () {
+                this.player1.clickPrompt('Destroy an upgrade');
+            });
+            it('lets you choose any upgrade', function () {
+                expect(this.player1).toBeAbleToSelect(this.wayOfTheWolf);
+                expect(this.player1).toBeAbleToSelect(this.soulkeeper);
+            });
+            it('destroys the chosen upgrade', function () {
                 this.player1.clickCard(this.wayOfTheWolf);
                 expect(this.lifeward.location).toBe('play area');
                 expect(this.ritualOfBalance.location).toBe('play area');
@@ -51,11 +108,19 @@ describe('Corrode', function () {
                 expect(this.francus.location).toBe('play area');
                 expect(this.krump.location).toBe('play area');
                 expect(this.wayOfTheWolf.location).toBe('discard');
+                expect(this.soulkeeper.location).toBe('play area');
             });
         });
 
-        describe('select creature', function () {
-            it('destroy selected creature', function () {
+        describe('choosing an armored creature', function () {
+            beforeEach(function () {
+                this.player1.clickPrompt('Destroy a creature with armor');
+            });
+            it('lets you choose any armored creature', function () {
+                expect(this.player1).toBeAbleToSelect(this.francus);
+                expect(this.player1).not.toBeAbleToSelect(this.krump);
+            });
+            it('destroys the chosen creature', function () {
                 this.player1.clickCard(this.francus);
                 expect(this.lifeward.location).toBe('play area');
                 expect(this.ritualOfBalance.location).toBe('play area');
@@ -63,6 +128,7 @@ describe('Corrode', function () {
                 expect(this.francus.location).toBe('discard');
                 expect(this.krump.location).toBe('play area');
                 expect(this.wayOfTheWolf.location).toBe('play area');
+                expect(this.soulkeeper.location).toBe('play area');
             });
         });
     });
