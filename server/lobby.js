@@ -673,7 +673,10 @@ class Lobby {
             return;
         }
 
-        let chatMessage = { message: message, time: new Date() };
+        let chatMessage = {
+            message: message.substring(0, Math.min(512, message.length)),
+            time: new Date()
+        };
         let newMessage = await this.messageService.addMessage(chatMessage, socket.user);
         newMessage.user = socket.user.getShortSummary();
 

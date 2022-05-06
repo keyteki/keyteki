@@ -18,7 +18,7 @@ class GameChat {
                 role: player.user && player.user.role,
                 avatar: player.user && player.user.avatar
             },
-            message
+            message.substring(0, Math.min(512, message.length))
         ];
         let formattedMessage = this.formatMessage(format, args);
 

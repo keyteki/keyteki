@@ -180,7 +180,9 @@ const Lobby = () => {
                                 labelKey={'name'}
                                 onKeyDown={onKeyPress}
                                 options={users}
-                                onInputChange={(value) => setMessage(value)}
+                                onInputChange={(value) =>
+                                    setMessage(value.substring(0, Math.min(512, value.length)))
+                                }
                                 autoFocus
                                 dropup
                                 emptyLabel={''}

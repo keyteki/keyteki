@@ -45,7 +45,9 @@ class GameChat extends React.Component {
     }
 
     onChange(event) {
-        this.setState({ message: event.target.value });
+        this.setState({
+            message: event.target.value.substring(0, Math.min(512, event.target.value.length))
+        });
     }
 
     onKeyPress(event) {
