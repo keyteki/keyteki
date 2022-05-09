@@ -1,0 +1,1 @@
+ALTER TABLE "Users" ALTER COLUMN "Settings_OrderAbilities" SET DEFAULT true;
