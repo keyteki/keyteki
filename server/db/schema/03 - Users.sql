@@ -11,7 +11,7 @@ CREATE TABLE public."Users"
     "Email" text COLLATE pg_catalog."default",
     "Settings_Background" text COLLATE pg_catalog."default" DEFAULT 'Brobnar'::text,
     "Settings_CardSize" text COLLATE pg_catalog."default" DEFAULT 'normal'::text,
-    "Settings_OrderAbilities" boolean DEFAULT false,
+    "Settings_OrderAbilities" boolean DEFAULT true,
     "Settings_ConfirmOneClick" boolean DEFAULT true,
     "Settings_UseHalfSizedCards" boolean DEFAULT false,
     "Settings_Avatar" text COLLATE pg_catalog."default",
