@@ -25,7 +25,7 @@ class RaiseTideAction extends PlayerAction {
         let raiseTideEvent = super.createEvent(
             'onRaiseTide',
             { player: player, context: context },
-            event => {
+            (event) => {
                 if(event.player.isTideHigh()) {
                    event.name = 'unnamedEvent';
                 }
