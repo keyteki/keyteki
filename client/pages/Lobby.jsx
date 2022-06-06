@@ -87,6 +87,10 @@ const Lobby = () => {
         {
             img: '/banner/keyforge-alive.png',
             link: 'https://youtu.be/V2KwkE000Uk'
+        },
+        {
+            img: '/banner/CLKF-invitational.png',
+            link: 'https://youtu.be/euJ22UqLD5Y'
         }
     ];
 
