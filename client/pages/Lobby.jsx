@@ -81,8 +81,8 @@ const Lobby = () => {
 
     const banners = [
         {
-            img: '/banner/swindle-ste3.png',
-            link: 'https://forms.gle/SQSbcxEDATbYkSU8A'
+            img: '/banner/average-joes.png',
+            link: 'https://discord.gg/bxSGTcSH5W'
         }
     ];
 
