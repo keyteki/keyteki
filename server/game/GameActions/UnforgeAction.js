@@ -17,6 +17,7 @@ class UnforgeAction extends PlayerAction {
 
     getEvent(player, context) {
         return super.createEvent('onUnforgeKey', { player, choices: this.choices, context }, () =>
+            // TODO: add animation to game
             player.unforgeKey(this.choices)
         );
     }

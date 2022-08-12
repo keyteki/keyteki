@@ -192,6 +192,8 @@ const Card = ({
 
         let statusClass = getStatusClass();
 
+        console.log('the card', card, 'did it reap?', card.justReaped);
+
         let cardClass = classNames(
             'game-card',
             `card-type-${card.type}`,

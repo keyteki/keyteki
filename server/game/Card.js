@@ -76,6 +76,7 @@ class Card extends EffectSource {
         this.stunned = false;
         this.moribund = false;
         this.isFighting = false;
+        this.justReaped = false;
 
         this.locale = cardData.locale;
 
@@ -1242,6 +1243,7 @@ class Card extends EffectSource {
             tokens: this.tokens,
             type: this.getType(),
             gigantic: this.gigantic,
+            justReaped: this.justReaped,
             upgrades: this.upgrades.map((upgrade) => {
                 return upgrade.getSummary(activePlayer, hideWhenFaceup);
             }),

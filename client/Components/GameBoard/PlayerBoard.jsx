@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
+import Amber from './Amber';
 import Card from './Card';
 import PlayerRow from './PlayerRow';
 import Droppable from './Droppable';
@@ -33,9 +34,11 @@ class PlayerBoard extends React.Component {
             }
 
             rows.push({ name: 'artifacts', cards: artifacts });
+            rows.push({ name: 'generated-amber', elements: [] });
             rows.push({ name: 'creatures', cards: creatures });
         } else {
             rows.push({ name: 'creatures', cards: creatures });
+            rows.push({ name: 'generated-amber', elements: creatures });
             rows.push({ name: 'artifacts', cards: artifacts });
             if (other.length > 0) {
                 rows.push({ name: 'other', cards: other });
@@ -46,11 +49,21 @@ class PlayerBoard extends React.Component {
     }
 
     renderRows(rows) {
-        return rows.map((row, index) => (
-            <div className={`card-row ${row.name}`} key={`card-row-${index}`}>
-                {this.renderRow(row.cards)}
-            </div>
-        ));
+        return rows.map((row, index) => {
+            if (row.cards) {
+                return (
+                    <div className={`card-row ${row.name}`} key={`card-row-${index}`}>
+                        {this.renderRow(row.cards)}
+                    </div>
+                );
+            } else if (row.elements) {
+                return (
+                    <div className='card-row creatures' key={`card-row-${index}`}>
+                        {this.renderAmberRow(row.elements)}
+                    </div>
+                );
+            }
+        });
     }
 
     renderRow(row) {
@@ -71,6 +84,10 @@ class PlayerBoard extends React.Component {
                 source='play area'
             />
         ));
+    }
+
+    renderAmberRow(cards) {
+        return cards.map((card) => <Amber key={`a-${card.uuid}`} card={card} />);
     }
 
     render() {

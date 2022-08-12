@@ -4,6 +4,7 @@ class ModifyAmberAction extends PlayerAction {
     setDefaultProperties() {
         this.amount = 1;
         this.reap = false;
+        this.card = null;
     }
 
     setup() {
@@ -21,7 +22,13 @@ class ModifyAmberAction extends PlayerAction {
     }
 
     getEvent(player, context) {
-        let params = { player: player, amount: this.amount, reap: this.reap, context: context };
+        let params = {
+            player: player,
+            amount: this.amount,
+            reap: this.reap,
+            card: this.card,
+            context: context
+        };
 
         return super.createEvent('onModifyAmber', params, (event) => {
             event.player.modifyAmber(event.amount);

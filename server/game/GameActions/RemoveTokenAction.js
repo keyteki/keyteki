@@ -64,11 +64,11 @@ class RemoveTokenAction extends CardGameAction {
                                 choice,
                                 context.source
                             );
-                            card.removeToken(event.type, event.amount);
+                            card.removeToken(event.type, event.amount); // TODO: add animation to game
                         }
                     });
                 } else {
-                    card.removeToken(event.type, event.amount);
+                    card.removeToken(event.type, event.amount); // TODO: add animation to game
                 }
             }
         );
