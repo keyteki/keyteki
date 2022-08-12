@@ -23,7 +23,7 @@ class LoseAmberAction extends PlayerAction {
         return super.createEvent(
             'onModifyAmber',
             { player: player, amount: this.amount, context: context },
-            (event) => event.player.modifyAmber(-event.amount)
+            (event) => event.player.modifyAmber(-event.amount) // TODO: add animation to game
         );
     }
 }

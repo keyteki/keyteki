@@ -1,0 +1,37 @@
+@import '../../styles/variables';
+@import '../../styles/colours';
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+
+.amber-wrapper {
+    height: 60px;
+    width: 60px;
+}
+
+.gained-amber {
+    height: 36px;
+    width: 36px;
+    position: absolute;
+    opacity: 0;
+}
+
+.collect-gained-amber {
+    animation-name: rotate;
+    animation-duration: 1.5s;
+    // animation-iteration-count: infinite;
+}
+  
+@keyframes rotate {
+    0% {
+        transform: rotate(0);
+        opacity: 1.0;
+    }
+    100% {
+        transform: rotate(720deg);
+        // margin-left: 90%;
+        margin-top: $keyteki-card-lg-height;
+        opacity: 0.1;
+        // top: 50px;
+    }
+}

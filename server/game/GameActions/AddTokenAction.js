@@ -30,7 +30,7 @@ class AddTokenAction extends CardGameAction {
         return super.createEvent(
             'onAddToken',
             { card: card, context: context, amount: this.amount },
-            () => card.addToken(this.type, this.amount)
+            () => card.addToken(this.type, this.amount) // TODO: add animation to game
         );
     }
 }

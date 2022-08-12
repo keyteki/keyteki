@@ -63,6 +63,7 @@ class CaptureAction extends CardAction {
             }
 
             event.card.addToken('amber', event.amount);
+            // TODO: add animation to game
         });
     }
 }

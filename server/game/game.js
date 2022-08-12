@@ -73,6 +73,8 @@ class Game extends EventEmitter {
         this.useGameTimeLimit = details.useGameTimeLimit;
         this.startingHandsDrawn = false;
 
+        this.animations = [];
+
         this.cardsUsed = [];
         this.omegaCard = null;
         this.cardsPlayed = [];
@@ -866,6 +868,7 @@ class Game extends EventEmitter {
         this.queueStep(new ReadyPhase(this));
         this.queueStep(new DrawPhase(this));
         this.queueStep(new SimpleStep(this, () => this.raiseEndRoundEvent()));
+        // TODO: clear animation queue
         this.queueStep(new SimpleStep(this, () => this.beginRound()));
     }
 
