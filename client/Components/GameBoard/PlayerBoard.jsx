@@ -34,11 +34,11 @@ class PlayerBoard extends React.Component {
             }
 
             rows.push({ name: 'artifacts', cards: artifacts });
-            rows.push({ name: 'generated-amber', elements: [] });
+            // rows.push({ name: 'generated-amber', elements: [] });
             rows.push({ name: 'creatures', cards: creatures });
         } else {
             rows.push({ name: 'creatures', cards: creatures });
-            rows.push({ name: 'generated-amber', elements: creatures });
+            // rows.push({ name: 'generated-amber', elements: creatures });
             rows.push({ name: 'artifacts', cards: artifacts });
             if (other.length > 0) {
                 rows.push({ name: 'other', cards: other });

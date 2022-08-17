@@ -64,11 +64,17 @@ class RemoveTokenAction extends CardGameAction {
                                 choice,
                                 context.source
                             );
-                            card.removeToken(event.type, event.amount); // TODO: add animation to game
+                            card.removeToken(event.type, event.amount);
+                            if (event.type == 'amber') {
+                                context.game.addAnimation('center-to-supply', event.amount);
+                            }
                         }
                     });
                 } else {
-                    card.removeToken(event.type, event.amount); // TODO: add animation to game
+                    card.removeToken(event.type, event.amount);
+                    if (event.type == 'amber') {
+                        context.game.addAnimation('center-to-supply', event.amount);
+                    }
                 }
             }
         );
