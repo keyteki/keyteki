@@ -891,13 +891,15 @@ class Player extends GameObject {
                 choiceHandler: (key) => {
                     this.game.queueSimpleStep(() => {
                         this.finalizeForge(key.value, modifiedCost, initialCost);
+                        this.game.addAnimation('player-to-supply', modifiedCost);
                     });
                 }
             });
         } else {
-            this.game.queueSimpleStep(() =>
-                this.finalizeForge(unforgedKeys.shift().value, modifiedCost, initialCost)
-            );
+            this.game.queueSimpleStep(() => {
+                this.finalizeForge(unforgedKeys.shift().value, modifiedCost, initialCost);
+                this.game.addAnimation('player-to-supply', modifiedCost);
+            });
         }
     }
 
