@@ -35,6 +35,7 @@ class ModifyAmberAction extends PlayerAction {
             stolen: this.stolen,
             transferred: this.transferred,
             bonus: this.bonus,
+            target: this.target,
             context: context
         };
 
