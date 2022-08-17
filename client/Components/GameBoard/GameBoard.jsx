@@ -11,6 +11,7 @@ import CardZoom from './CardZoom';
 import { Constants } from '../../constants';
 import GameChat from './GameChat';
 import GameConfigurationModal from './GameConfigurationModal';
+import Animations from './Animations';
 import PlayerBoard from './PlayerBoard';
 import PlayerStats from './PlayerStats';
 import TimeLimitClock from './TimeLimitClock';
@@ -294,6 +295,10 @@ export class GameBoard extends React.Component {
                             rowDirection='reverse'
                             tide={otherPlayer?.stats?.tide}
                             user={this.props.user}
+                        />
+                        <Animations
+                            animations={this.props.currentGame.animations}
+                            activePlayer={thisPlayer.activePlayer}
                         />
                         <PlayerBoard
                             cardBack={

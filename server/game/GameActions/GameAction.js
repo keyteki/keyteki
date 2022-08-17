@@ -75,6 +75,7 @@ class GameAction {
         this.update(context);
     }
 
+    /** My comment about resolve. */
     resolve(targets, context) {
         if (targets) {
             this.setDefaultTarget(() => targets);

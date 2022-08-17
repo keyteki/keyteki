@@ -121,6 +121,7 @@ class ResolveBonusIconsAction extends CardGameAction {
             'onResolveBonusIcons',
             { card: card, context: context },
             (event) => {
+                let resolvedAmberBonuses = 0;
                 for (let icon of event.card.bonusIcons) {
                     const resolveCount = card.sumEffects('resolveBonusIconsAdditionalTime') + 1;
 
@@ -155,19 +156,28 @@ class ResolveBonusIconsAction extends CardGameAction {
                                 activePromptTitle:
                                     'How do you wish to resolve this ' + icon + ' icon?',
                                 choices: choices,
-                                handlers: choices.map((choice) => () =>
-                                    this.resolveIcon(context, event, choice)
-                                ),
+                                handlers: choices.map((choice) => () => {
+                                    this.resolveIcon(context, event, choice);
+                                    resolvedAmberBonuses += choice == 'amber' ? 1 : 0;
+                                }),
                                 context: context,
                                 source: card
                             });
                         } else {
                             context.game.queueSimpleStep(() => {
                                 this.resolveIcon(context, event, icon);
+                                resolvedAmberBonuses += icon == 'amber' ? 1 : 0;
                             });
                         }
                     }
                 }
+                context.game.queueSimpleStep(() => {
+                    if (context.player.anyEffect('redirectAmber')) {
+                        context.game.addAnimation('supply-to-center', resolvedAmberBonuses);
+                    } else {
+                        context.game.addAnimation('supply-to-player', resolvedAmberBonuses);
+                    }
+                });
             }
         );
     }

@@ -4,7 +4,10 @@ class ModifyAmberAction extends PlayerAction {
     setDefaultProperties() {
         this.amount = 1;
         this.reap = false;
-        this.card = null;
+        this.returned = false; // the amber was on an enemy creature
+        this.stolen = false;
+        this.transferred = false;
+        this.bonus = false;
     }
 
     setup() {
@@ -21,12 +24,17 @@ class ModifyAmberAction extends PlayerAction {
         return context.player;
     }
 
+    /* In addition to modifying amber values, adds animations when appropriate,
+    except for amber gained when the "bonus" option is set to true. */
     getEvent(player, context) {
         let params = {
             player: player,
             amount: this.amount,
             reap: this.reap,
-            card: this.card,
+            returned: this.returned,
+            stolen: this.stolen,
+            transferred: this.transferred,
+            bonus: this.bonus,
             context: context
         };
 

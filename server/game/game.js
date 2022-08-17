@@ -119,6 +119,17 @@ class Game extends EventEmitter {
         this.lastManualMode = null;
     }
 
+    addAnimation(name, amount = 1) {
+        if (amount < 1) return;
+        if (amount == 1) {
+            this.animations.push(name);
+        } else {
+            for (let i = 0; i < amount; i++) {
+                this.animations.push({ name, delay: i });
+            }
+        }
+    }
+
     /*
      * Reports errors from the game engine back to the router
      * @param {type} e
@@ -877,7 +888,7 @@ class Game extends EventEmitter {
         this.queueStep(new ReadyPhase(this));
         this.queueStep(new DrawPhase(this));
         this.queueStep(new SimpleStep(this, () => this.raiseEndRoundEvent()));
-        // TODO: clear animation queue
+        this.queueStep(new SimpleStep(this, () => (this.animations = [])));
         this.queueStep(new SimpleStep(this, () => this.beginRound()));
     }
 
@@ -1487,7 +1498,8 @@ class Game extends EventEmitter {
                 started: this.started,
                 swap: this.swap,
                 useGameTimeLimit: this.useGameTimeLimit,
-                winner: this.winner ? this.winner.name : undefined
+                winner: this.winner ? this.winner.name : undefined,
+                animations: this.animations
             };
         }
 
