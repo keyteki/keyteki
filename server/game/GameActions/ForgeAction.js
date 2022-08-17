@@ -32,6 +32,7 @@ class ForgeAction extends PlayerAction {
             (event) => {
                 // TODO: add animation to game (could do it here or in the player method)
                 event.amberSpent = event.player.forgeKey(event.modifier);
+                event.context.game.addAnimation('player-to-supply', event.amberSpent);
             }
         );
     }

@@ -33,9 +33,7 @@ class AddTokenAction extends CardGameAction {
             () => {
                 card.addToken(this.type, this.amount);
                 if (this.type == 'amber') {
-                    for (let i = 0; i < this.amount; i++) {
-                        context.game.animations.push('supply-to-center');
-                    }
+                    context.game.addAnimation('supply-to-center', this.amount);
                 }
             }
         );

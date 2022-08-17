@@ -16,15 +16,10 @@ const Animations = ({ animations, activePlayer }) => {
                     }
                 }
                 if (!activePlayer) {
-                    if (animationName == 'player-to-opponent') {
-                        animationName = 'opponent-to-player';
-                    } else if (animationName == 'opponent-to-player') {
-                        animationName = 'player-to-opponent';
-                    } else if (animationName.includes('player')) {
-                        animationName = animationName.replace('player', 'opponent');
-                    } else if (animationName.includes('opponent')) {
-                        animationName = animationName.replace('opponent', 'player');
-                    }
+                    animationName = animationName
+                        .split('-')
+                        .map((s) => (s == 'player' ? 'opponent' : s == 'opponent' ? 'player' : s))
+                        .join('-');
                 }
                 return (
                     <Amber key={`a-${index}`} animation={animationName} delay={animationDelay} />
