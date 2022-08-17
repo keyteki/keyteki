@@ -26,7 +26,7 @@ class LoseAmberAction extends PlayerAction {
             (event) => {
                 event.player.modifyAmber(-event.amount);
                 event.context.game.addAnimation(
-                    event.player == event.context.player
+                    event.player.id == event.context.game.activePlayer.id
                         ? 'player-to-supply'
                         : 'opponent-to-supply',
                     event.amount

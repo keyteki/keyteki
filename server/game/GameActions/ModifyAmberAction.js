@@ -35,15 +35,16 @@ class ModifyAmberAction extends PlayerAction {
             stolen: this.stolen,
             transferred: this.transferred,
             bonus: this.bonus,
+            target: this.target,
             context: context
         };
 
         if (player.anyEffect('redirectAmber')) {
             return super.createEvent('onRedirectAmber', params, (event) => {
                 event.player.mostRecentEffect('redirectAmber').addToken('amber', event.amount);
-                // add animations
+                // animations
                 if (event.stolen || event.transferred) {
-                    if (event.player && event.player == context.player.opponent) {
+                    if (event.player.id != context.game.activePlayer.id) {
                         event.context.game.addAnimation('player-to-center', event.amount);
                     } else {
                         event.context.game.addAnimation('opponent-to-center', event.amount);
@@ -55,9 +56,9 @@ class ModifyAmberAction extends PlayerAction {
         } else {
             return super.createEvent('onModifyAmber', params, (event) => {
                 event.player.modifyAmber(event.amount);
-                // add animations
+                // animations
                 if (event.amount < 0) {
-                    if (event.player && event.player == context.player.opponent) {
+                    if (event.player.id != context.game.activePlayer.id) {
                         event.context.game.addAnimation('opponent-to-supply', event.amount);
                     } else {
                         event.context.game.addAnimation('player-to-supply', event.amount);
@@ -65,19 +66,19 @@ class ModifyAmberAction extends PlayerAction {
                 } else if (event.reap) {
                     event.context.game.addAnimation('supply-to-player-bounce', event.amount);
                 } else if (event.returned) {
-                    if (this.target == context.player) {
+                    if (event.target[0].id != context.game.activePlayer.id) {
                         event.context.game.addAnimation('center-to-opponent', event.amount);
                     } else {
                         event.context.game.addAnimation('center-to-player', event.amount);
                     }
                 } else if (event.stolen || event.transferred) {
-                    if (event.player && event.player == context.player.opponent) {
+                    if (event.player.id != context.game.activePlayer.id) {
                         event.context.game.addAnimation('player-to-opponent', event.amount);
                     } else {
                         event.context.game.addAnimation('opponent-to-player', event.amount);
                     }
-                } else if (!this.bonus) {
-                    if (event.player && event.player == context.player.opponent) {
+                } else if (!event.bonus) {
+                    if (event.player.id != context.game.activePlayer.id) {
                         event.context.game.addAnimation('supply-to-opponent', event.amount);
                     } else {
                         event.context.game.addAnimation('supply-to-player', event.amount);
