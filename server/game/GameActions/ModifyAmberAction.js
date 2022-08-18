@@ -49,6 +49,8 @@ class ModifyAmberAction extends PlayerAction {
                     } else {
                         event.context.game.addAnimation('opponent-to-center', event.amount);
                     }
+                    // - aember bonus animations are handled by ResolveBonusIconsAction
+                    // - returned aember in this case is center-to-center, which has no animation
                 } else if (!event.bonus && !event.returned) {
                     event.context.game.addAnimation('supply-to-center', event.amount);
                 }
@@ -77,6 +79,7 @@ class ModifyAmberAction extends PlayerAction {
                     } else {
                         event.context.game.addAnimation('opponent-to-player', event.amount);
                     }
+                    // aember bonus animations are handled by ResolveBonusIconsAction
                 } else if (!event.bonus) {
                     if (event.player.id != context.game.activePlayer.id) {
                         event.context.game.addAnimation('supply-to-opponent', event.amount);

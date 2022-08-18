@@ -15,6 +15,8 @@ const Animations = ({ animations, activePlayer }) => {
                         animationDelay = animation.delay;
                     }
                 }
+                // Flip the perspective of the animation if this isn't the
+                // active player.
                 if (!activePlayer) {
                     animationName = animationName
                         .split('-')
