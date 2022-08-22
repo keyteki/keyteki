@@ -96,8 +96,8 @@ describe('Hecatomb', function () {
                 player1: {
                     house: 'dis',
                     hand: ['hecatomb'],
-                    amber: 3,
-                    inPlay: ['rotgrub', 'ember-imp']
+                    amber: 1,
+                    inPlay: ['rotgrub', 'ember-imp', 'pit-demon', 'streke', 'sinder']
                 },
                 player2: {
                     amber: 0,
@@ -106,8 +106,8 @@ describe('Hecatomb', function () {
             });
         });
         it('destroyed abilities should trigger before the aember gain', function () {
-            this.player1.play(this.hecatomb); // gain 1 from aember bonus > lose 3 from Brabble > gain 2 from friendly destroyed Dis creatures
-            expect(this.player1.player.amber).toBe(3);
+            this.player1.play(this.hecatomb); // gain 1 from aember bonus > lose 3 from Brabble > gain 5 from friendly destroyed Dis creatures
+            expect(this.player1.player.amber).toBe(5);
             expect(this.player2.player.amber).toBe(1);
             expect(this.emberImp.location).toBe('discard');
             expect(this.rotgrub.location).toBe('discard');
