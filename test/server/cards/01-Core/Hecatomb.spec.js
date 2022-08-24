@@ -114,4 +114,36 @@ describe('Hecatomb', function () {
             expect(this.brabble.location).toBe('discard');
         });
     });
+    describe('Hecatomb & creatures that changed controllers', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'dis',
+                    hand: ['hecatomb'],
+                    amber: 0,
+                    inPlay: ['rotgrub', 'ember-imp']
+                },
+                player2: {
+                    amber: 0,
+                    hand: ['collar-of-subordination'],
+                    inPlay: ['pit-demon']
+                }
+            });
+        });
+        it('destroyed abilities should trigger before the aember gain', function () {
+            this.player1.endTurn();
+            this.player2.clickPrompt('dis');
+            this.player2.playUpgrade(this.collarOfSubordination, this.rotgrub);
+            this.player2.clickPrompt('Left');
+            expect(this.rotgrub.controller).toBe(this.player2.player);
+            this.player2.endTurn();
+            this.player1.clickPrompt('dis');
+            this.player1.play(this.hecatomb); // gain 1 from aember bonus > gain 1 from ember imp
+            expect(this.player1.player.amber).toBe(2);
+            expect(this.player2.player.amber).toBe(2); // 1 from pit demon, 1 from stolen rotgrub
+            expect(this.emberImp.location).toBe('discard');
+            expect(this.rotgrub.location).toBe('discard');
+            expect(this.pitDemon.location).toBe('discard');
+        });
+    });
 });

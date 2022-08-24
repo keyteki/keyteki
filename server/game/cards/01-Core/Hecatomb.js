@@ -13,8 +13,7 @@ class Hecatomb extends Card {
                 gameAction: [
                     ability.actions.gainAmber((context) => ({
                         amount: context.preThenEvents.filter(
-                            (event) =>
-                                !event.cancelled && event.card.owner.uuid == context.player.uuid
+                            (event) => !event.cancelled && event.clone.controller == context.player
                         ).length
                     })),
                     ability.actions.gainAmber((context) => ({
@@ -22,7 +21,7 @@ class Hecatomb extends Card {
                         amount: context.preThenEvents.filter(
                             (event) =>
                                 !event.cancelled &&
-                                event.card.owner.uuid == context.player.opponent.uuid
+                                event.clone.controller == context.player.opponent
                         ).length
                     }))
                 ]
