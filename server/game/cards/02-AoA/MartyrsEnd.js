@@ -4,7 +4,7 @@ class MartyrsEnd extends Card {
     setupCardAbilities(ability) {
         this.play({
             effect:
-                'destroy any number of friendly creatures. gain 1 amber for each creature destroyed this way.',
+                'destroy any number of friendly creatures. Gain 1 amber for each creature destroyed this way.',
             target: {
                 mode: 'unlimited',
                 controller: 'self',

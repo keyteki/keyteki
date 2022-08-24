@@ -4,9 +4,13 @@ class Hecatomb extends Card {
     setupCardAbilities(ability) {
         this.play({
             effect:
-                'destroy all dis creatures and each player gains amber equal to the number of their creatures destroyed',
+                'destroy each Dis creature (including {1}). Each player gains 1 amber for each creature they controlled that was destroyed this way.',
+            effectArgs: (context) => {
+                const creatures = getDisCreatures(context);
+                return [creatures.length > 0 ? creatures : 'nothing'];
+            },
             gameAction: ability.actions.destroy((context) => ({
-                target: context.game.creaturesInPlay.filter((card) => card.hasHouse('dis'))
+                target: getDisCreatures(context)
             })),
             then: {
                 alwaysTriggers: true,
@@ -28,6 +32,10 @@ class Hecatomb extends Card {
             }
         });
     }
+}
+
+function getDisCreatures(context) {
+    return context.game.creaturesInPlay.filter((card) => card.hasHouse('dis'));
 }
 
 Hecatomb.id = 'hecatomb';
