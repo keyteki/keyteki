@@ -111,6 +111,8 @@ class Game extends EventEmitter {
 
         this.router = options.router;
         this.highTide = null;
+
+        this.lastManualMode = null;
     }
 
     /*

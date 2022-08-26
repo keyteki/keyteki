@@ -41,6 +41,8 @@ class ManualModePrompt extends AllPlayerPrompt {
             this.cancelled = true;
         }
 
+        this.game.lastManualMode = this.requestingPlayer;
+
         return true;
     }
 
@@ -51,6 +53,7 @@ class ManualModePrompt extends AllPlayerPrompt {
 
         this.game.addAlert('danger', '{0} switches manual mode on', this.requestingPlayer);
         this.game.manualMode = true;
+        this.game.lastManualMode = null;
     }
 }
 
