@@ -297,7 +297,7 @@ class ChatCommands {
         if (this.game.manualMode) {
             this.game.manualMode = false;
             this.game.addAlert('danger', '{0} switches manual mode off', player);
-        } else {
+        } else if (this.game.lastManualMode !== player) {
             this.game.addAlert('danger', '{0} is attempting to switch manual mode on', player);
             this.game.queueStep(new ManualModePrompt(this.game, player));
         }
