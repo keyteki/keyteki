@@ -81,7 +81,7 @@ const Lobby = () => {
 
     const banners = [
         {
-            img: '/banner/STE-4-TCO.png',
+            img: '/banner/STE-4-TCO-banner-ny.png',
             link: 'https://forms.gle/ryeT8ooZTakmB7jr5'
         },
         {
