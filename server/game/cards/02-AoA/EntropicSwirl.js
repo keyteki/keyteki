@@ -7,10 +7,10 @@ class EntropicSwirl extends Card {
                 cardType: 'creature',
                 gameAction: [
                     ability.actions.dealDamage((context) => ({
-                        amount: context.target.traits.length * 2
+                        amount: context.target.getTraits().length * 2
                     })),
                     ability.actions.gainAmber((context) => ({
-                        amount: context.target.traits.length,
+                        amount: context.target.getTraits().length,
                         target: context.player
                     }))
                 ]
