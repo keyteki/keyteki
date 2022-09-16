@@ -15,6 +15,7 @@ class Lifeweb extends Card {
         this.play({
             condition: (context) =>
                 context.player.opponent &&
+                this.creaturesPlayed[context.player.opponent.uuid] &&
                 this.creaturesPlayed[context.player.opponent.uuid].length >= 3,
             gameAction: ability.actions.steal({ amount: 2 })
         });
