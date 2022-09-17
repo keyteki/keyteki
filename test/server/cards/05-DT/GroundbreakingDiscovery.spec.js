@@ -14,7 +14,8 @@ describe('Groundbreaking Discovery', function () {
                 },
                 player2: {
                     amber: 6,
-                    inPlay: ['snufflegator', 'animator']
+                    inPlay: ['snufflegator', 'animator'],
+                    hand: ['encounter-suit']
                 }
             });
 
@@ -122,6 +123,20 @@ describe('Groundbreaking Discovery', function () {
             expect(this.groundbreakingDiscovery.location).toBe('purged');
             expect(this.player2.amber).toBe(0);
             this.player1.endTurn();
+        });
+
+        it('when Dr. Verokter, Rooftop Lab, Reckless Experimentation and a warded creature with upgrades are in play, should destroy upgrades, ', function () {
+            this.player1.endTurn();
+            this.player2.clickPrompt('staralliance');
+            this.player2.playUpgrade(this.encounterSuit, this.snufflegator);
+            this.player2.endTurn();
+            this.player1.clickPrompt('logos');
+            this.player1.play(this.drVerokter);
+            this.player1.play(this.rooftopLaboratory);
+            this.player1.playUpgrade(this.recklessExperimentation, this.lamindra);
+            this.player1.play(this.groundbreakingDiscovery);
+            expect(this.snufflegator.location).toBe('play area');
+            expect(this.encounterSuit.location).toBe('discard');
         });
     });
 });
