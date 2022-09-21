@@ -10,6 +10,7 @@ describe('Shattered Throne', function () {
                         'shorty',
                         'ganger-chieftain',
                         'foozle',
+                        'groke',
                         'culf-the-quiet',
                         'shattered-throne'
                     ]
@@ -49,6 +50,27 @@ describe('Shattered Throne', function () {
             expect(this.gamgee.amber).toBe(1);
             expect(this.culfTheQuiet.amber).toBe(0);
             expect(this.player1.amber).toBe(2);
+        });
+
+        describe('when there is a fight ability, it should be simultaneous', function () {
+            beforeEach(function () {
+                this.player2.amber = 1;
+                this.player1.fightWith(this.groke, this.gamgee);
+                expect(this.player1).toBeAbleToSelect(this.shatteredThrone);
+                expect(this.player1).toBeAbleToSelect(this.groke);
+            });
+
+            it('should allow selecting Shattered Throne first', function () {
+                this.player1.clickCard(this.shatteredThrone);
+                expect(this.groke.amber).toBe(1);
+                expect(this.player2.amber).toBe(0);
+            });
+
+            it('should allow selecting Shattered Throne second', function () {
+                this.player1.clickCard(this.groke);
+                expect(this.groke.amber).toBe(0);
+                expect(this.player2.amber).toBe(0);
+            });
         });
     });
 
