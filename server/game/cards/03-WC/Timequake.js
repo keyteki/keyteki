@@ -5,8 +5,8 @@ class Timequake extends Card {
         this.play({
             gameAction: ability.actions.returnToDeck((context) => ({
                 shuffle: true,
-                target: context.player.cardsInPlay
-                    .map((card) => card.upgrades)
+                target: context.game.cardsInPlay
+                    .map((card) => card.upgrades.filter((c) => c.controller === context.player))
                     .reduce((a, b) => a.concat(b), [])
                     .concat(context.player.cardsInPlay)
             })),
