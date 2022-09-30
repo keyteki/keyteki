@@ -7,13 +7,13 @@ class TyxlBeambuckler extends Card {
             effectArgs: (context) => context.target,
             target: {
                 cardType: 'creature',
-                gameAction: [
-                    ability.actions.dealDamage({
-                        amount: 2
-                    }),
-                    ability.actions.moveToFlank()
-                ]
-            }
+                gameAction: ability.actions.dealDamage({
+                    amount: 2
+                })
+            },
+            then: (context) => ({
+                gameAction: ability.actions.moveToFlank({ target: context.target })
+            })
         });
     }
 }
