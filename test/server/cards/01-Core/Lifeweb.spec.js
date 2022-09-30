@@ -129,10 +129,10 @@ describe('Lifeweb', function () {
 
             this.securiDroid1 = this.player1.player.hand[0];
             this.securiDroid2 = this.player1.player.hand[1];
-            this.securiDroid2 = this.player1.player.hand[2];
+            this.securiDroid3 = this.player1.player.hand[2];
         });
 
-        xit('should not count creatures played as upgrades as creatures for the requirement', function () {
+        it('should not count creatures played as upgrades as creatures for the requirement', function () {
             this.player1.playUpgrade(this.securiDroid1, this.teleporterChiefTink);
             this.player1.playUpgrade(this.securiDroid2, this.teleporterChiefTink);
             this.player1.playUpgrade(this.securiDroid3, this.teleporterChiefTink);
