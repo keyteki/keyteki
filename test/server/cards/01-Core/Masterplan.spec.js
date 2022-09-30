@@ -18,7 +18,7 @@ describe('Masterplan', function () {
             this.player1.play(this.masterplan);
             expect(this.player1).toHavePrompt('Masterplan');
             this.player1.clickCard(this.virtuousWorks);
-            expect(this.virtuousWorks.location).toBe('purged');
+            expect(this.virtuousWorks.location).toBe('under');
             expect(this.masterplan.childCards).toContain(this.virtuousWorks);
         });
 

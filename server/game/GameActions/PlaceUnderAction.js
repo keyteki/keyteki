@@ -34,7 +34,7 @@ class PlaceUnderAction extends CardGameAction {
                 card.controller.removeCardFromPile(card);
                 card.controller = card.owner;
                 card.parent = this.parent;
-                card.moveTo(this.isGraft ? 'grafted' : 'purged');
+                card.moveTo(this.isGraft ? 'grafted' : 'under');
                 card.facedown = this.facedown;
                 this.parent.childCards.push(card);
             }

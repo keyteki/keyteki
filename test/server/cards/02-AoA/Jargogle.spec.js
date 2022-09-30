@@ -32,6 +32,7 @@ describe('Jargogle', function () {
             expect(this.player1).not.toBeAbleToSelect(this.shorty);
             this.player1.clickCard(this.bindingIrons);
             expect(this.jargogle.childCards).toContain(this.bindingIrons);
+            expect(this.bindingIrons.location).toBe('under');
         });
 
         it("should player after destroyed during player's turn", function () {
