@@ -86,10 +86,6 @@ const Lobby = () => {
                 'https://docs.google.com/forms/d/e/1FAIpQLScdV0qp2V81XMbyw_ore6IyiN1nNRlpf4rpRyCpDNujFLOSZw/viewform'
         },
         {
-            img: '/banner/STE-4-TCO-banner-ny.png',
-            link: 'https://forms.gle/ryeT8ooZTakmB7jr5'
-        },
-        {
             img: '/banner/average-joes.png',
             link: 'https://discord.gg/bxSGTcSH5W'
         }
