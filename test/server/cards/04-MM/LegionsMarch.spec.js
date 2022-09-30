@@ -32,7 +32,7 @@ describe('Legions March', function () {
             expect(this.mindwarper.tokens.damage).toBe(1);
         });
 
-        it('if kangaphant is in play, and gets destroyed, creatured which reaped should survive', function () {
+        it('if kangaphant is in play, and gets destroyed, creature which reaped should survive', function () {
             this.kangaphant.tokens.damage = 4;
             this.player1.play(this.legionSMarch);
             this.player1.reap(this.praefectusLudo);

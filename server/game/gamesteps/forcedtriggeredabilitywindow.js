@@ -95,14 +95,23 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
                     (context) => !context.ability.optional && !context.ability.optionalTarget
                 )
             ) {
-                let cards = this.game.cardsInPlay.filter((card) =>
-                    choices.some((context) => context.source === card)
-                );
-                if (cards.length === 1) {
-                    this.promptBetweenAbilities(
-                        choices.filter((context) => context.source === cards[0]),
-                        false
-                    );
+                let sourceCount = 0;
+                for (const card of this.game.cardsInPlay) {
+                    if (choices.some((context) => context.source === card)) {
+                        sourceCount++;
+                    }
+                    for (const upgrade of card.upgrades) {
+                        if (choices.some((context) => context.source === upgrade)) {
+                            sourceCount++;
+                        }
+                    }
+                    if (sourceCount > 1) {
+                        break;
+                    }
+                }
+
+                if (sourceCount === 1) {
+                    this.promptBetweenAbilities(choices, false);
                     return;
                 }
             }
