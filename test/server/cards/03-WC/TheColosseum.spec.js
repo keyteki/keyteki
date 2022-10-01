@@ -151,4 +151,40 @@ describe('The Colosseum', function () {
             expect(this.theColosseum.tokens.glory).toBe(2);
         });
     });
+
+    describe('The Colosseum Functionality', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'sanctum',
+                    hand: ['armageddon-cloak'],
+                    inPlay: ['bingle-bangbang', 'alaka']
+                },
+                player2: {
+                    inPlay: ['the-colosseum', 'gladiodontus']
+                }
+            });
+
+            this.alaka.tokens.ward = 1;
+            this.player1.playUpgrade(this.armageddonCloak, this.bingleBangbang);
+            this.player1.endTurn();
+            this.player2.clickPrompt('saurian');
+        });
+
+        it('should not place a glory counter on itself when enemy creature is warded', function () {
+            this.player2.fightWith(this.gladiodontus, this.alaka);
+            expect(this.theColosseum.tokens.glory).toBeUndefined();
+            expect(this.alaka.warded).toBe(false);
+            this.player2.fightWith(this.gladiodontus, this.alaka);
+            expect(this.alaka.location).toBe('discard');
+            expect(this.theColosseum.tokens.glory).toBe(1);
+        });
+
+        it('should not place a glory counter on itself when destruction is replaced by armageddon cloak', function () {
+            this.player2.fightWith(this.gladiodontus, this.bingleBangbang);
+            expect(this.bingleBangbang.location).toBe('play area');
+            expect(this.armageddonCloak.location).toBe('discard');
+            expect(this.theColosseum.tokens.glory).toBeUndefined();
+        });
+    });
 });
