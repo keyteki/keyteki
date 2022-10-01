@@ -12,7 +12,10 @@ class GroundbreakingDiscovery extends Card {
                 ),
             gameAction: ability.actions.sequential([
                 ability.actions.destroy((context) => ({
-                    target: context.game.cardsInPlay
+                    target: context.game.cardsInPlay.reduce(
+                        (cardsAndUpgrades, card) => [card, ...card.upgrades, ...cardsAndUpgrades],
+                        []
+                    )
                 })),
                 ability.actions.unforgeKey(),
                 ability.actions.purge()
