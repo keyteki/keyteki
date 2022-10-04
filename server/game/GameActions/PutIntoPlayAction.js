@@ -185,7 +185,7 @@ class PutIntoPlayAction extends CardGameAction {
                     myControl: control
                 });
 
-                if (this.myControl) {
+                if (control) {
                     card.updateEffectContexts();
                 }
 
