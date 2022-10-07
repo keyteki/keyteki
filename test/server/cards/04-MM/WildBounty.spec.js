@@ -77,7 +77,7 @@ describe('Wild Bounty', function () {
             expect(this.player2.amber).toBe(2);
         });
 
-        xit('should not trigger twice if resolving the same card bonus icons due to another effect', function () {
+        it('should not trigger twice if resolving the same card bonus icons due to another effect', function () {
             this.player1.play(this.wildBounty);
             expect(this.player1.amber).toBe(0);
             this.player1.play(this.niffleGrounds);
