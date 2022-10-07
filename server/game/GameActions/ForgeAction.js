@@ -4,6 +4,8 @@ class ForgeAction extends PlayerAction {
     setDefaultProperties() {
         this.modifier = 0;
         this.atNoCost = false;
+        this.may = false;
+        this.cancelled = false;
     }
 
     setup() {
@@ -17,8 +19,28 @@ class ForgeAction extends PlayerAction {
         return this.atNoCost ? -player.getCurrentKeyCost() : this.modifier;
     }
 
-    canAffect(player, context) {
-        return player.canForgeKey(this.getModifier(player)) && super.canAffect(player, context);
+    preEventHandler(context) {
+        super.preEventHandler(context);
+
+        if (this.may) {
+            this.cancelled = !context.player.canForgeKey(this.getModifier(context.player));
+            if (!this.cancelled) {
+                context.game.promptWithHandlerMenu(context.player, {
+                    activePromptTitle: 'Do you wish to forge a key?',
+                    context: context,
+                    choices: ['Yes', 'No'],
+                    handlers: [() => (this.cancelled = false), () => (this.cancelled = true)]
+                });
+            }
+        }
+    }
+
+    checkEventCondition(event) {
+        return (
+            !this.cancelled &&
+            event.player.canForgeKey(this.getModifier(event.player)) &&
+            super.checkEventCondition(event)
+        );
     }
 
     defaultTargets(context) {

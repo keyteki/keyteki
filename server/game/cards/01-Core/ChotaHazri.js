@@ -5,8 +5,7 @@ class ChotaHazri extends Card {
         this.play({
             gameAction: ability.actions.loseAmber((context) => ({ target: context.player })),
             then: {
-                may: 'forge a key',
-                gameAction: ability.actions.forgeKey()
+                gameAction: ability.actions.forgeKey({ may: true })
             }
         });
     }
