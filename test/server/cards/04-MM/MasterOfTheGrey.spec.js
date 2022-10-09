@@ -117,11 +117,11 @@ describe('Master of the Grey', function () {
                 'Choose a creature to capture amber due to bonus icon'
             );
             this.player1.clickCard(this.pismire);
-            expect(this.player1).toHavePrompt('Choose a creature to damage due to bonus icon');
-            this.player1.clickCard(this.pismire);
             expect(this.player1).toHavePrompt(
                 'Choose a creature to capture amber due to bonus icon'
             );
+            this.player1.clickCard(this.pismire);
+            expect(this.player1).toHavePrompt('Choose a creature to damage due to bonus icon');
             this.player1.clickCard(this.pismire);
             expect(this.player1).toHavePrompt('Choose a creature to damage due to bonus icon');
             this.player1.clickCard(this.pismire);
