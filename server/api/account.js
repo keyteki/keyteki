@@ -384,7 +384,7 @@ module.exports.init = function (server, options) {
                         newUser.username
                     } to be created on ${appName} (${req.protocol}://${req.get(
                         'host'
-                    )}). If this was you, click this link ${url} to complete the process.\n\n` +
+                    )}).  If this was you, click this link ${url} to complete the process.\n\n` +
                     'If you did not request this please disregard this email.\n' +
                     'Kind regards,\n\n' +
                     `${appName} team`;
