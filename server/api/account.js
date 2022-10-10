@@ -380,11 +380,11 @@ module.exports.init = function (server, options) {
                     newUser.activationToken
                 }`;
                 let emailText =
-                    `Hi,\n\nSomeone, hopefully you, has requested an account to be created on ${appName} (${
-                        req.protocol
-                    }://${req.get(
+                    `Hi,\n\nSomeone, hopefully you, has requested an account named ${
+                        newUser.username
+                    } to be created on ${appName} (${req.protocol}://${req.get(
                         'host'
-                    )}).  If this was you, click this link ${url} to complete the process.\n\n` +
+                    )}). If this was you, click this link ${url} to complete the process.\n\n` +
                     'If you did not request this please disregard this email.\n' +
                     'Kind regards,\n\n' +
                     `${appName} team`;
@@ -821,9 +821,9 @@ module.exports.init = function (server, options) {
                 user.id
             }&token=${resetToken}`;
             let emailText =
-                `Hi,\n\nSomeone, hopefully you, has requested their password on ${appName} (${
-                    req.protocol
-                }://${req.get(
+                `Hi,\n\nSomeone, hopefully you, has requested the password for ${
+                    user.username
+                } on ${appName} (${req.protocol}://${req.get(
                     'host'
                 )}) to be reset.  If this was you, click this link ${url} to complete the process.\n\n` +
                 'If you did not request this reset, do not worry, your account has not been affected and your password has not been changed, just ignore this email.\n' +
