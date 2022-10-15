@@ -56,9 +56,19 @@ class GameObject {
         return this.checkRestrictions(actionType, context);
     }
 
+    checkConditions(type, context) {
+        return this.effects.some(
+            (effect) =>
+                effect.type === type &&
+                effect.getValue(this).checkCondition(context, effect.context)
+        );
+    }
+
     checkRestrictions(actionType, context, event) {
-        return !this.getEffects('abilityRestrictions').some((restriction) =>
-            restriction.match(actionType, context, event)
+        return !this.effects.some(
+            (effect) =>
+                effect.type === 'abilityRestrictions' &&
+                effect.getValue(this).checkRestriction(actionType, context, event, effect.context)
         );
     }
 

@@ -673,6 +673,11 @@ describe('Mimic Gel', function () {
             this.player1.fightWith(this.mimicGel, this.scowlyCaper);
             expect(this.mimicGel.location).toBe('play area');
             expect(this.scowlyCaper.location).toBe('discard');
+            this.mimicGel.ready();
+            this.player1.reap(this.mimicGel);
+            expect(this.player1.amber).toBe(2);
+            this.player1.endTurn();
+            this.player1.clickCard(this.stiltKin);
         });
     });
 });
