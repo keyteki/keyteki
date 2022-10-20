@@ -11,6 +11,8 @@ export const Api = Object.freeze({
 });
 
 export const Decks = Object.freeze({
+    SaveAllianceDeck: 'SAVE_ALLIANCE_DECK',
+    AllianceDeckSaved: 'ALLIANCE_DECK_SAVED',
     SaveDeck: 'SAVE_DECK',
     DeckSaved: 'DECK_SAVED',
     DeleteDeck: 'DELETE_DECK',

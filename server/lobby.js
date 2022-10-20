@@ -25,7 +25,8 @@ class Lobby {
         this.messageService = options.messageService || ServiceFactory.messageService();
         this.cardService = options.cardService || ServiceFactory.cardService(options.configService);
         this.userService = options.userService || new UserService(options.configService);
-        this.deckService = options.deckService || new DeckService(this.configService);
+        this.deckService =
+            options.deckService || new DeckService(this.configService, this.cardService);
         this.router = options.router || new GameRouter(this.configService);
 
         this.router.on('onGameClosed', this.onGameClosed.bind(this));
@@ -799,6 +800,10 @@ class Lobby {
                 };
 
                 deck.usageCount = 0;
+
+                if (game.gameFormat === 'alliance') {
+                    deck.name = 'Alliance Deck';
+                }
 
                 game.selectDeck(socket.user.username, deck);
 

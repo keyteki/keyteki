@@ -15,6 +15,7 @@ CREATE TABLE public."Decks"
     "Verified" boolean,
     "ExpansionId" integer NOT NULL,
     "Flagged" boolean,
+    "IsAlliance" boolean NOT NULL DEFAULT false,
     CONSTRAINT "PK_Decks" PRIMARY KEY ("Id"),
     CONSTRAINT "FK_Decks_Expansions_ExpansionId" FOREIGN KEY ("ExpansionId")
         REFERENCES public."Expansions" ("Id") MATCH SIMPLE
