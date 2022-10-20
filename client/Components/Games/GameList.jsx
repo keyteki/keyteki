@@ -17,6 +17,7 @@ import ShowHandIcon from '../../assets/img/ShowHandIcon.png';
 import SealedIcon from '../../assets/img/sealed.png';
 import ReversalIcon from '../../assets/img/reversal.png';
 import AdaptiveIcon from '../../assets/img/adaptive.png';
+import AllianceIcon from '../../assets/img/alliance.png';
 
 import './GameList.scss';
 
@@ -233,6 +234,14 @@ class GameList extends React.Component {
                                         className='game-list-icon'
                                         alt={t('Sealed game format')}
                                         title={t('Sealed game format')}
+                                    />
+                                )}
+                                {game.gameFormat === 'alliance' && (
+                                    <img
+                                        src={AllianceIcon}
+                                        className='game-list-icon-no-invert'
+                                        alt={t('Alliance game format')}
+                                        title={t('Alliance game format')}
                                     />
                                 )}
                                 {game.gameFormat === 'reversal' && (
