@@ -15,6 +15,8 @@ import { loadDecks, selectDeck, loadStandaloneDecks } from '../../redux/actions'
 
 import './DeckList.scss';
 import { Constants } from '../../constants';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
 
 /**
  * @typedef CardLanguage
@@ -83,14 +85,18 @@ import { Constants } from '../../constants';
 /**
  * @param {DeckListProps} props
  */
-const DeckList = ({ onDeckSelected, standaloneDecks = false }) => {
+const DeckList = ({ deckFilter, onDeckSelected, standaloneDecks = false }) => {
     const { t } = useTranslation();
     const [pagingDetails, setPagingDetails] = useState({
         pageSize: 10,
         page: 1,
         sort: 'lastUpdated',
         sortDir: 'desc',
-        filter: []
+        filter: deckFilter
+            ? Object.entries(deckFilter).map(([k, v]) => {
+                  return { name: k, value: v };
+              })
+            : []
     });
     const nameFilter = useRef(null);
     const expansionFilter = useRef(null);
@@ -217,7 +223,7 @@ const DeckList = ({ onDeckSelected, standaloneDecks = false }) => {
             dataField: 'expansion',
             text: t('Set'),
             headerStyle: {
-                width: '14%'
+                width: '13%'
             },
             align: 'center',
             sort: !standaloneDecks,
@@ -235,7 +241,7 @@ const DeckList = ({ onDeckSelected, standaloneDecks = false }) => {
         {
             dataField: 'lastUpdated',
             headerStyle: {
-                width: '20%'
+                width: '18%'
             },
             style: {
                 fontSize: '0.7rem'
@@ -264,6 +270,25 @@ const DeckList = ({ onDeckSelected, standaloneDecks = false }) => {
              * @param {number} cell
              */
             formatter: (cell) => `${cell?.toFixed(2)}%`
+        },
+        {
+            dataField: 'isAlliance',
+            align: 'center',
+            text: t('A'),
+            headerStyle: {
+                width: '11%'
+            },
+            style: {
+                fontSize: '0.8rem'
+            },
+            sort: true,
+            // eslint-disable-next-line react/display-name
+            formatter: (_, row) =>
+                row.isAlliance ? (
+                    <div>
+                        <FontAwesomeIcon icon={faCheck} />
+                    </div>
+                ) : null
         }
     ];
 
