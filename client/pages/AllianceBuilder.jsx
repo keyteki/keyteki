@@ -24,7 +24,7 @@ const AllianceBuilderPage = () => {
             retState.message = t('Deck added successfully');
 
             setTimeout(() => {
-                dispatch(clearApiStatus(Decks.SaveAllianceDeck1));
+                dispatch(clearApiStatus(Decks.SaveAllianceDeck));
                 dispatch(navigate('/decks'));
             }, 1000);
         }
@@ -49,7 +49,7 @@ const AllianceBuilderPage = () => {
                 filter: [{ name: 'isAlliance', value: false }]
             })
         );
-        dispatch(clearApiStatus(Decks.SaveAllianceDeck1));
+        dispatch(clearApiStatus(Decks.SaveAllianceDeck));
     }, [dispatch]);
 
     let decks = useMemo(() => {
