@@ -139,4 +139,46 @@ describe('Ruins of Archonis', function () {
             });
         });
     });
+
+    describe('when using cards that allows playing another card', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'logos',
+                    hand: ['ruins-of-archonis']
+                },
+                player2: {
+                    discard: ['all-tide-up', 'fertility-chant'],
+                    hand: [
+                        'theory-or-conjecture',
+                        'phase-shift',
+                        'photic-raider',
+                        'hyde',
+                        'brain-eater',
+                        'think-twice'
+                    ]
+                }
+            });
+
+            this.player1.play(this.ruinsOfArchonis);
+            this.player1.endTurn();
+            this.player2.clickPrompt('logos');
+            this.player2.raiseTide();
+            this.player2.moveCard(this.thinkTwice, 'deck');
+        });
+
+        it('should gain the 4A', function () {
+            expect(this.ruinsOfArchonis.amber).toBe(4);
+            this.player2.play(this.phaseShift);
+            this.player2.play(this.photicRaider);
+            this.player2.play(this.hyde);
+            this.player2.play(this.brainEater);
+            this.player2.play(this.theoryOrConjecture);
+            this.player2.clickPrompt('Play top card');
+            this.player2.clickPrompt('Think Twice');
+            this.player2.clickCard(this.fertilityChant);
+            expect(this.ruinsOfArchonis.amber).toBe(0);
+            this.player2.endTurn();
+        });
+    });
 });

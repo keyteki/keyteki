@@ -5,11 +5,13 @@ const DeckService = require('../services/DeckService.js');
 const ConfigService = require('../services/ConfigService.js');
 const { wrapAsync } = require('../util.js');
 const logger = require('../log.js');
+const CardService = require('../services/CardService.js');
 
 let configService = new ConfigService();
 
 let userService = new UserService(configService);
-let deckService = new DeckService(configService);
+let cardService = new CardService(configService);
+let deckService = new DeckService(configService, cardService);
 
 module.exports.init = function (server) {
     server.get(
