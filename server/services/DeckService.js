@@ -449,7 +449,9 @@ class DeckService {
             expansionDeck[0] != expansionDeck[2] ||
             expansionDeck[1] != expansionDeck[2]
         ) {
-            throw new Error('Failed to create Deck. Only Alliance from the same expansion is allowed');
+            throw new Error(
+                'Failed to create Deck. Only Alliance from the same expansion is allowed'
+            );
         }
 
         deck.houses = [];
