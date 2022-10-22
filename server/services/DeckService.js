@@ -432,7 +432,7 @@ class DeckService {
         let expansionId;
 
         for (let dbDeck of await Promise.all(deckPromises)) {
-            if (!expansionId){
+            if (!expansionId) {
                 expansionId = dbDeck.expansion;
             } else if (expansionId != dbDeck.expansion) {
                 throw new Error(
