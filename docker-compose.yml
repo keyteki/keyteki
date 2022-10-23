@@ -12,6 +12,7 @@ services:
             - './server:/usr/src/app/server'
             - './public:/usr/src/app/public'
             - './less:/usr/src/app/less'
+            - './keyteki-json-data:/usr/src/app/keyteki-json-data'
         links:
             - postgres
         depends_on:
