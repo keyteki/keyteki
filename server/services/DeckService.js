@@ -429,8 +429,16 @@ class DeckService {
         let cardsById;
 
         let allCardsById = await this.cardService.getAllCards();
+        let expansionId;
 
         for (let dbDeck of await Promise.all(deckPromises)) {
+            if (!expansionId) {
+                expansionId = dbDeck.expansion;
+            } else if (expansionId != dbDeck.expansion) {
+                throw new Error(
+                    'Failed to create Deck. Only Alliance from the same expansion is allowed'
+                );
+            }
             if (!cardsById) {
                 cardsById = await this.cardService.getCardsForExpansionById(
                     undefined,
