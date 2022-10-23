@@ -102,8 +102,8 @@ const PendingGame = () => {
     }
 
     let allianceFilter = {};
-    if ( currentGame.gameFormat !== 'alliance' ){
-        allianceFilter = { isAlliance: false }
+    if (currentGame.gameFormat !== 'alliance') {
+        allianceFilter = { isAlliance: false };
     }
 
     const canClickStart = () => {
