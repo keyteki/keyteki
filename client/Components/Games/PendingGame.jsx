@@ -256,7 +256,7 @@ const PendingGame = () => {
             </Panel>
             {showModal && (
                 <SelectDeckModal
-                    deckFilter={{ isAlliance: currentGame.gameFormat === 'alliance' }}
+                    deckFilter={{ showAllDecks: currentGame.gameFormat === 'alliance'  }}
                     onClose={() => setShowModal(false)}
                     onDeckSelected={(deck) => {
                         setShowModal(false);

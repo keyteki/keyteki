@@ -284,6 +284,9 @@ class DeckService {
             } else if (filterObject.name === 'isAlliance') {
                 filter += `AND ${this.mapColumn(filterObject.name)} = $${index++} `;
                 params.push(filterObject.value);
+            } else if (filterObject.name === 'showAllDecks' && !filterObject.value) {
+                filter += `AND ${this.mapColumn('isAlliance')} = $${index++} `;
+                params.push(false);
             } else {
                 filter += `AND ${this.mapColumn(filterObject.name)} LIKE $${index++} `;
                 params.push(`%${filterObject.value}%`);
