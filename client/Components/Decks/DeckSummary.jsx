@@ -114,7 +114,7 @@ const DeckSummary = ({ deck }) => {
                         <Col xs='2'>{parseInt(deck.wins) + parseInt(deck.losses)}</Col>
                         <Col xs='2'>
                             {parseInt(deck.beginnerWins) + parseInt(deck.beginnerLosses)}
-                            </Col>
+                        </Col>
                         <Col xs='2'>{parseInt(deck.casualWins) + parseInt(deck.casualLosses)}</Col>
                         <Col xs='3'>
                             {parseInt(deck.competitiveWins) + parseInt(deck.competitiveLosses)}
