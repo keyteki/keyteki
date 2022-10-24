@@ -112,9 +112,13 @@ const DeckSummary = ({ deck }) => {
                             <span>{t('Total')}</span>
                         </Col>
                         <Col xs='2'>{parseInt(deck.wins) + parseInt(deck.losses)}</Col>
-                        <Col xs='2'>{parseInt(deck.beginnerWins) + parseInt(deck.beginnerLosses)}</Col>
+                        <Col xs='2'>
+                            {parseInt(deck.beginnerWins) + parseInt(deck.beginnerLosses)}
+                            </Col>
                         <Col xs='2'>{parseInt(deck.casualWins) + parseInt(deck.casualLosses)}</Col>
-                        <Col xs='3'>{parseInt(deck.competitiveWins) + parseInt(deck.competitiveLosses)}</Col>
+                        <Col xs='3'>
+                            {parseInt(deck.competitiveWins) + parseInt(deck.competitiveLosses)}
+                        </Col>
                     </Row>
                     <Row>
                         <Col xs='2'>
