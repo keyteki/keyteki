@@ -310,10 +310,21 @@ class DeckService {
 
         try {
             decks = await db.query(
-                'SELECT *, CASE WHEN "WinCount" + "LoseCount" = 0 THEN 0 ELSE (CAST("WinCount" AS FLOAT) / ("WinCount" + "LoseCount")) * 100 END AS "WinRate" FROM ( ' +
+                'SELECT *, '+
+                'CASE WHEN "WinCount" + "LoseCount" = 0 THEN 0 ELSE (CAST("WinCount" AS FLOAT) / ("WinCount" + "LoseCount")) * 100 END AS "WinRate", '+
+                'CASE WHEN "BeginnerWinCount" + "BeginnerLoseCount" = 0 THEN 0 ELSE (CAST("BeginnerWinCount" AS FLOAT) / ("BeginnerWinCount" + "BeginnerLoseCount")) * 100 END AS "BeginnerWinRate", '+
+                'CASE WHEN "CasualWinCount" + "CasualLoseCount" = 0 THEN 0 ELSE (CAST("CasualWinCount" AS FLOAT) / ("CasualWinCount" + "CasualLoseCount")) * 100 END AS "CasualWinRate", '+
+                'CASE WHEN "CompetitiveWinCount" + "CompetitiveLoseCount" = 0 THEN 0 ELSE (CAST("CompetitiveWinCount" AS FLOAT) / ("CompetitiveWinCount" + "CompetitiveLoseCount")) * 100 END AS "CompetitiveWinRate" '+
+                'FROM ( ' +
                     'SELECT d.*, u."Username", e."ExpansionId" as "Expansion", (SELECT COUNT(*) FROM "Decks" WHERE "Name" = d."Name") AS DeckCount, ' +
                     '(SELECT COUNT(*) FROM "Games" g JOIN "GamePlayers" gp ON gp."GameId" = g."Id" WHERE g."WinnerId" = $1 AND gp."DeckId" = d."Id") AS "WinCount", ' +
-                    '(SELECT COUNT(*) FROM "Games" g JOIN "GamePlayers" gp ON gp."GameId" = g."Id" WHERE g."WinnerId" != $1 AND g."WinnerId" IS NOT NULL AND gp."PlayerId" = $1 AND gp."DeckId" = d."Id") AS "LoseCount" ' +
+                    '(SELECT COUNT(*) FROM "Games" g JOIN "GamePlayers" gp ON gp."GameId" = g."Id" WHERE g."WinnerId" != $1 AND g."WinnerId" IS NOT NULL AND gp."PlayerId" = $1 AND gp."DeckId" = d."Id") AS "LoseCount", ' +
+                    '(SELECT COUNT(*) FROM "Games" g JOIN "GamePlayers" gp ON gp."GameId" = g."Id" WHERE g."WinnerId" = $1 AND gp."DeckId" = d."Id" and g."GameType" = \'beginner\') AS "BeginnerWinCount", ' +
+                    '(SELECT COUNT(*) FROM "Games" g JOIN "GamePlayers" gp ON gp."GameId" = g."Id" WHERE g."WinnerId" != $1 AND g."WinnerId" IS NOT NULL AND gp."PlayerId" = $1 AND gp."DeckId" = d."Id" and g."GameType" = \'beginner\') AS "BeginnerLoseCount", ' +
+                    '(SELECT COUNT(*) FROM "Games" g JOIN "GamePlayers" gp ON gp."GameId" = g."Id" WHERE g."WinnerId" = $1 AND gp."DeckId" = d."Id" and g."GameType" = \'casual\') AS "CasualWinCount", ' +
+                    '(SELECT COUNT(*) FROM "Games" g JOIN "GamePlayers" gp ON gp."GameId" = g."Id" WHERE g."WinnerId" != $1 AND g."WinnerId" IS NOT NULL AND gp."PlayerId" = $1 AND gp."DeckId" = d."Id" and g."GameType" = \'casual\') AS "CasualLoseCount", ' +
+                    '(SELECT COUNT(*) FROM "Games" g JOIN "GamePlayers" gp ON gp."GameId" = g."Id" WHERE g."WinnerId" = $1 AND gp."DeckId" = d."Id" and g."GameType" = \'competitive\') AS "CompetitiveWinCount", ' +
+                    '(SELECT COUNT(*) FROM "Games" g JOIN "GamePlayers" gp ON gp."GameId" = g."Id" WHERE g."WinnerId" != $1 AND g."WinnerId" IS NOT NULL AND gp."PlayerId" = $1 AND gp."DeckId" = d."Id" and g."GameType" = \'competitive\') AS "CompetitiveLoseCount" ' +
                     'FROM "Decks" d ' +
                     'JOIN "Users" u ON u."Id" = "UserId" ' +
                     'JOIN "Expansions" e on e."Id" = d."ExpansionId" ' +
@@ -877,12 +888,21 @@ class DeckService {
             name: deck.Name,
             lastUpdated: deck.LastUpdated,
             losses: deck.LoseCount,
+            beginnerLosses: deck.BeginnerLoseCount,
+            casualLosses: deck.CasualLoseCount,
+            competitiveLosses: deck.CompetitiveLoseCount,
             usageCount: deck.DeckCount,
             username: deck.Username,
             uuid: deck.Uuid,
             verified: deck.Verified,
             wins: deck.WinCount,
-            winRate: deck.WinRate
+            winRate: deck.WinRate,
+            competitiveWins: deck.CompetitiveWinCount,
+            competitiveWinRate: deck.CompetitiveWinRate,
+            casualWins: deck.CasualWinCount,
+            casualWinRate: deck.CasualWinRate,
+            beginnerWins: deck.BeginnerWinCount,
+            beginnerWinRate: deck.BeginnerWinRate
         };
     }
 }
