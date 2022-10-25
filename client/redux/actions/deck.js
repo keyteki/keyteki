@@ -76,6 +76,20 @@ export function saveDeck(deck) {
     };
 }
 
+export function saveAllianceDeck(deck) {
+    let str = JSON.stringify(deck);
+
+    return {
+        types: [Decks.SaveAllianceDeck, Decks.AllianceDeckSaved],
+        shouldCallAPI: () => true,
+        APIParams: {
+            url: '/api/decks/alliance',
+            type: 'POST',
+            data: str
+        }
+    };
+}
+
 export function clearDeckStatus() {
     return {
         type: 'CLEAR_DECK_STATUS'

@@ -7,7 +7,7 @@ import DeckList from '../Decks/DeckList.jsx';
 
 import './SelectDeckModal.scss';
 
-const SelectDeckModal = ({ onClose, onDeckSelected }) => {
+const SelectDeckModal = ({ deckFilter, onClose, onDeckSelected }) => {
     const standaloneDecks = useSelector((state) => state.cards.standaloneDecks);
     const { t } = useTranslation();
 
@@ -19,7 +19,7 @@ const SelectDeckModal = ({ onClose, onDeckSelected }) => {
                 </Modal.Header>
                 <Modal.Body>
                     <div>
-                        <DeckList onDeckSelected={onDeckSelected} />
+                        <DeckList deckFilter={deckFilter} onDeckSelected={onDeckSelected} />
                         {standaloneDecks && standaloneDecks.length !== 0 && (
                             <div>
                                 <h4 className='deck-list-header'>

@@ -11,7 +11,8 @@ const GameFormats = ({ formProps }) => {
         { name: 'normal', label: t('Normal') },
         { name: 'sealed', label: t('Sealed') },
         { name: 'reversal', label: t('Reversal') },
-        { name: 'adaptive-bo1', label: t('Adaptive - Best of 1') }
+        { name: 'adaptive-bo1', label: t('Adaptive - Best of 1') },
+        { name: 'alliance', label: t('Alliance') }
     ];
 
     let expansions = [

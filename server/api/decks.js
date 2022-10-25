@@ -1,4 +1,5 @@
 const passport = require('passport');
+const uuid = require('uuid');
 
 const ConfigService = require('../services/ConfigService');
 const DeckService = require('../services/DeckService.js');
@@ -8,7 +9,7 @@ const ServiceFactory = require('../services/ServiceFactory');
 const configService = new ConfigService();
 const cardService = ServiceFactory.cardService(configService);
 
-const deckService = new DeckService(configService);
+const deckService = new DeckService(configService, cardService);
 
 module.exports.init = function (server) {
     server.get(
@@ -105,6 +106,50 @@ module.exports.init = function (server) {
 
             try {
                 savedDeck = await deckService.create(req.user, deck);
+            } catch (error) {
+                return res.send({
+                    success: false,
+                    message: error.message
+                });
+            }
+
+            if (!savedDeck) {
+                return res.send({
+                    success: false,
+                    message:
+                        'An error occurred importing your deck.  Please check the Url or try again later.'
+                });
+            }
+
+            res.send({ success: true, deck: savedDeck });
+        })
+    );
+
+    server.post(
+        '/api/decks/alliance',
+        passport.authenticate('jwt', { session: false }),
+        wrapAsync(async function (req, res) {
+            if (!req.body.name) {
+                return res.send({ success: false, message: 'name must be specified' });
+            }
+
+            if (!req.body.pods) {
+                return res.send({ success: false, message: 'pods must be specified' });
+            }
+
+            let deck = Object.assign(
+                {},
+                {
+                    name: req.body.name,
+                    uuid: uuid.v1(),
+                    username: req.user.username,
+                    pods: req.body.pods
+                }
+            );
+            let savedDeck;
+
+            try {
+                savedDeck = await deckService.createAlliance(req.user, deck);
             } catch (error) {
                 return res.send({
                     success: false,

@@ -10,6 +10,8 @@ class CardService {
 
         this.getAsync = promisify(this.redis.get).bind(this.redis);
         this.setAsync = promisify(this.redis.set).bind(this.redis);
+
+        this.cardExpansionCache = {};
     }
 
     async replaceCards(cards) {
@@ -174,6 +176,61 @@ class CardService {
         logger.info('Cards loaded from database, sending to redis');
         await this.setAsync('cards', JSON.stringify(retCards));
         this.cardCache = retCards;
+
+        return retCards;
+    }
+
+    async getCardsForExpansionById(options, expansionId) {
+        if (this.cardExpansionCache[expansionId]) {
+            return this.cardExpansionCache[expansionId];
+        }
+
+        let redisCards = await this.getAsync(`cards:${expansionId}`);
+        if (redisCards) {
+            logger.info(`Found cached cards for ${expansionId} in redis`);
+
+            this.cardExpansionCache[expansionId] = JSON.parse(redisCards);
+
+            return this.cardExpansionCache[expansionId];
+        }
+
+        let cards;
+
+        try {
+            cards = await db.query(
+                'SELECT c.*, e."ExpansionId", e."Code" AS "ExpansionCode", h."Code" AS "House" FROM "Cards" c ' +
+                    'JOIN "Expansions" e ON e."Id" = c."ExpansionId" JOIN "Houses" h ON h."Id" = c."HouseId" WHERE e."ExpansionId" = $1',
+                [expansionId]
+            );
+        } catch (err) {
+            logger.error('Failed to lookup cards', err);
+
+            return [];
+        }
+
+        let retCards = {};
+
+        for (let card of cards) {
+            let languages = [];
+            try {
+                languages = await db.query('SELECT * FROM "CardLocaleNames" WHERE "CardId" = $1', [
+                    card.Id
+                ]);
+            } catch (err) {
+                logger.error(`Failed to get languages for card ${card.CardId}`, err);
+            }
+
+            retCards[card.CardId] = this.mapCard(
+                card,
+                languages,
+                options,
+                retCards[card.CardId] ? retCards[card.CardId].locale : {}
+            );
+        }
+
+        logger.info('Cards loaded from database, sending to redis');
+        await this.setAsync(`cards:${expansionId}`, JSON.stringify(retCards));
+        this.cardExpansionCache[expansionId] = retCards;
 
         return retCards;
     }

@@ -4,8 +4,9 @@ const db = require('../db');
 const { expand, flatten } = require('../Array');
 
 class DeckService {
-    constructor(configService) {
+    constructor(configService, cardService) {
         this.configService = configService;
+        this.cardService = cardService;
         this.houseCache = {};
     }
 
@@ -34,6 +35,37 @@ class DeckService {
         }
 
         return this.houseCache[house];
+    }
+
+    async getByUuid(id) {
+        let deck;
+
+        try {
+            deck = await db.query(
+                'SELECT d.*, u."Username", e."ExpansionId" as "Expansion"' +
+                    'FROM "Decks" d ' +
+                    'JOIN "Users" u ON u."Id" = "UserId" ' +
+                    'JOIN "Expansions" e on e."Id" = d."ExpansionId" ' +
+                    'WHERE d."Uuid" = $1',
+                [id]
+            );
+        } catch (err) {
+            logger.error(`Failed to retrieve deck: ${id}`, err);
+
+            throw new Error('Unable to fetch deck: ' + id);
+        }
+
+        if (!deck || deck.length === 0) {
+            logger.warn(`Failed to retrieve deck: ${id} as it was not found`);
+
+            return undefined;
+        }
+
+        let retDeck = this.mapDeck(deck[0]);
+
+        await this.getDeckCardsAndHouses(retDeck);
+
+        return retDeck;
     }
 
     async getById(id) {
@@ -231,6 +263,8 @@ class DeckService {
                 return isSort ? '"Expansion"' : 'e."ExpansionId"';
             case 'winRate':
                 return '"WinRate"';
+            case 'isAlliance':
+                return '"IsAlliance"';
             default:
                 return '"LastUpdated"';
         }
@@ -247,6 +281,9 @@ class DeckService {
                     index
                 )} `;
                 params.push(...filterObject.value.map((v) => v.value));
+            } else if (filterObject.name === 'isAlliance') {
+                filter += `AND ${this.mapColumn(filterObject.name)} = $${index++} `;
+                params.push(filterObject.value);
             } else {
                 filter += `AND ${this.mapColumn(filterObject.name)} LIKE $${index++} `;
                 params.push(`%${filterObject.value}%`);
@@ -378,9 +415,69 @@ class DeckService {
             throw new Error('Deck already exists.');
         }
 
+        newDeck.isAlliance = false;
+
         let response = await this.insertDeck(newDeck, user);
 
         return this.getById(response.id);
+    }
+
+    async createAlliance(user, deck) {
+        let deckIds = deck.pods.map((p) => p.split(':')[0]);
+        let deckPromises = deckIds.map((d) => this.getByUuid(d));
+        let decksByUuid = {};
+        let cardsById;
+
+        let allCardsById = await this.cardService.getAllCards();
+        let expansionId;
+
+        for (let dbDeck of await Promise.all(deckPromises)) {
+            if (!expansionId) {
+                expansionId = dbDeck.expansion;
+            } else if (expansionId != dbDeck.expansion) {
+                throw new Error(
+                    'Failed to create Deck. Only Alliance from the same expansion is allowed'
+                );
+            }
+            if (!cardsById) {
+                cardsById = await this.cardService.getCardsForExpansionById(
+                    undefined,
+                    dbDeck.expansion
+                );
+                deck.expansion = dbDeck.expansion;
+            }
+
+            decksByUuid[dbDeck.uuid] = dbDeck;
+        }
+
+        deck.houses = [];
+
+        let podCards = [];
+        for (let pod of deck.pods) {
+            let [deckId, house] = pod.split(':');
+
+            let dbDeck = decksByUuid[deckId];
+
+            deck.houses.push(house);
+
+            for (let card of dbDeck.cards) {
+                if (card.house === house || card.maverick === house || card.anomaly === house) {
+                    podCards.push(card);
+                } else if (cardsById[card.id] && cardsById[card.id].house === house) {
+                    podCards.push(card);
+                } else if (allCardsById[card.id].house === house) {
+                    podCards.push(card);
+                }
+            }
+        }
+
+        deck.lastUpdated = new Date();
+        deck.identity = deck.name;
+        deck.cards = podCards;
+
+        deck.isAlliance = true;
+
+        return this.insertDeck(deck, user);
     }
 
     async checkValidDeckExpansion(deck) {
@@ -406,8 +503,8 @@ class DeckService {
 
             if (user) {
                 ret = await db.query(
-                    'INSERT INTO "Decks" ("UserId", "Uuid", "Identity", "Name", "IncludeInSealed", "LastUpdated", "Verified", "ExpansionId", "Flagged", "Banned") ' +
-                        'VALUES ($1, $2, $3, $4, $5, $6, false, (SELECT "Id" FROM "Expansions" WHERE "ExpansionId" = $7), false, false) RETURNING "Id"',
+                    'INSERT INTO "Decks" ("UserId", "Uuid", "Identity", "Name", "IncludeInSealed", "LastUpdated", "Verified", "ExpansionId", "Flagged", "Banned", "IsAlliance") ' +
+                        'VALUES ($1, $2, $3, $4, $5, $6, false, (SELECT "Id" FROM "Expansions" WHERE "ExpansionId" = $7), false, false, $8) RETURNING "Id"',
                     [
                         user.id,
                         deck.uuid,
@@ -415,7 +512,8 @@ class DeckService {
                         deck.name,
                         false,
                         deck.lastUpdated,
-                        deck.expansion
+                        deck.expansion,
+                        deck.isAlliance
                     ]
                 );
             } else {
@@ -775,6 +873,7 @@ class DeckService {
             expansion: deck.Expansion,
             id: deck.Id,
             identity: deck.Identity,
+            isAlliance: !!deck.IsAlliance,
             name: deck.Name,
             lastUpdated: deck.LastUpdated,
             losses: deck.LoseCount,
