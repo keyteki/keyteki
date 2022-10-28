@@ -74,60 +74,33 @@ const DeckSummary = ({ deck }) => {
     return (
         <Col xs='12' className='deck-summary'>
             <Row>
-                <Col xs='5' sm='4'></Col>
-                <Col xs='2' sm='4'>
+                <Col xs='2' sm='3'>
                     <CardBack deck={deck} size={'x-large'} />
                 </Col>
-                <Col xs='5' sm='4'></Col>
-            </Row>
-            <Row>
-                <Col sm='12'>
+                <Col xs='8' sm='5'>
                     <Row>
-                        <Col xs='2'></Col>
-                        <Col xs='2'>{t('All')}</Col>
-                        <Col xs='2'>{t('Beginner')}</Col>
-                        <Col xs='2'>{t('Casual')}</Col>
-                        <Col xs='3'>{t('Competitive')}</Col>
-                    </Row>
-                    <Row>
-                        <Col xs='2'>
+                        <Col xs='7'>
                             <span>{t('Wins')}</span>
                         </Col>
-                        <Col xs='2'>{deck.wins}</Col>
-                        <Col xs='2'>{deck.beginnerWins}</Col>
-                        <Col xs='2'>{deck.casualWins}</Col>
-                        <Col xs='3'>{deck.competitiveWins}</Col>
+                        <Col xs='5'>{deck.wins}</Col>
                     </Row>
                     <Row>
-                        <Col xs='2'>
+                        <Col xs='7'>
                             <span>{t('Losses')}</span>
                         </Col>
-                        <Col xs='2'>{deck.losses}</Col>
-                        <Col xs='2'>{deck.beginnerLosses}</Col>
-                        <Col xs='2'>{deck.casualLosses}</Col>
-                        <Col xs='3'>{deck.competitiveLosses}</Col>
+                        <Col xs='5'>{deck.losses}</Col>
                     </Row>
                     <Row>
-                        <Col xs='2'>
+                        <Col xs='7'>
                             <span>{t('Total')}</span>
                         </Col>
-                        <Col xs='2'>{parseInt(deck.wins) + parseInt(deck.losses)}</Col>
-                        <Col xs='2'>
-                            {parseInt(deck.beginnerWins) + parseInt(deck.beginnerLosses)}
-                        </Col>
-                        <Col xs='2'>{parseInt(deck.casualWins) + parseInt(deck.casualLosses)}</Col>
-                        <Col xs='3'>
-                            {parseInt(deck.competitiveWins) + parseInt(deck.competitiveLosses)}
-                        </Col>
+                        <Col xs='5'>{parseInt(deck.wins) + parseInt(deck.losses)}</Col>
                     </Row>
                     <Row>
-                        <Col xs='2'>
+                        <Col xs='7'>
                             <span>{t('Win Rate')}</span>
                         </Col>
-                        <Col xs='2'>{deck.winRate?.toFixed(2)}%</Col>
-                        <Col xs='2'>{deck.beginnerWinRate?.toFixed(2)}%</Col>
-                        <Col xs='2'>{deck.casualWinRate?.toFixed(2)}%</Col>
-                        <Col xs='3'>{deck.competitiveWinRate?.toFixed(2)}%</Col>
+                        <Col xs='5'>{deck.winRate?.toFixed(2)}%</Col>
                     </Row>
                     {Object.keys(enhancements).length > 0 ? (
                         <Row className='deck-enhancements'>
