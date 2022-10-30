@@ -42,11 +42,11 @@ class DealDamageAction extends CardGameAction {
         );
     }
 
-    computeDefaultAmount(card, context) {
+    computeAmount(card, context) {
         return this.amount === null ? this.amountForCard(card, context) : this.amount;
     }
 
-    getReplacementEvent(card, context, amount = this.computeDefaultAmount(card, context)) {
+    getReplacementEvent(card, context, amount = this.computeAmount(card, context)) {
         return super.createEvent(
             'unnamedEvent',
             {
@@ -116,7 +116,7 @@ class DealDamageAction extends CardGameAction {
         damageDealtEvent.card.unward();
     }
 
-    getEvent(card, context, amount = this.computeDefaultAmount(card, context)) {
+    getEvent(card, context, amount = this.computeAmount(card, context)) {
         const damageSource = this.damageSource || context.source;
 
         if (damageSource.anyEffect('replaceDamage')) {
