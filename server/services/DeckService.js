@@ -310,21 +310,10 @@ class DeckService {
 
         try {
             decks = await db.query(
-                'SELECT *, ' +
-                    'CASE WHEN "WinCount" + "LoseCount" = 0 THEN 0 ELSE (CAST("WinCount" AS FLOAT) / ("WinCount" + "LoseCount")) * 100 END AS "WinRate", ' +
-                    'CASE WHEN "BeginnerWinCount" + "BeginnerLoseCount" = 0 THEN 0 ELSE (CAST("BeginnerWinCount" AS FLOAT) / ("BeginnerWinCount" + "BeginnerLoseCount")) * 100 END AS "BeginnerWinRate", ' +
-                    'CASE WHEN "CasualWinCount" + "CasualLoseCount" = 0 THEN 0 ELSE (CAST("CasualWinCount" AS FLOAT) / ("CasualWinCount" + "CasualLoseCount")) * 100 END AS "CasualWinRate", ' +
-                    'CASE WHEN "CompetitiveWinCount" + "CompetitiveLoseCount" = 0 THEN 0 ELSE (CAST("CompetitiveWinCount" AS FLOAT) / ("CompetitiveWinCount" + "CompetitiveLoseCount")) * 100 END AS "CompetitiveWinRate" ' +
-                    'FROM ( ' +
+                'SELECT *, CASE WHEN "WinCount" + "LoseCount" = 0 THEN 0 ELSE (CAST("WinCount" AS FLOAT) / ("WinCount" + "LoseCount")) * 100 END AS "WinRate" FROM ( ' +
                     'SELECT d.*, u."Username", e."ExpansionId" as "Expansion", (SELECT COUNT(*) FROM "Decks" WHERE "Name" = d."Name") AS DeckCount, ' +
                     '(SELECT COUNT(*) FROM "Games" g JOIN "GamePlayers" gp ON gp."GameId" = g."Id" WHERE g."WinnerId" = $1 AND gp."DeckId" = d."Id") AS "WinCount", ' +
-                    '(SELECT COUNT(*) FROM "Games" g JOIN "GamePlayers" gp ON gp."GameId" = g."Id" WHERE g."WinnerId" != $1 AND g."WinnerId" IS NOT NULL AND gp."PlayerId" = $1 AND gp."DeckId" = d."Id") AS "LoseCount", ' +
-                    '(SELECT COUNT(*) FROM "Games" g JOIN "GamePlayers" gp ON gp."GameId" = g."Id" WHERE g."WinnerId" = $1 AND gp."DeckId" = d."Id" and g."GameType" = \'beginner\') AS "BeginnerWinCount", ' +
-                    '(SELECT COUNT(*) FROM "Games" g JOIN "GamePlayers" gp ON gp."GameId" = g."Id" WHERE g."WinnerId" != $1 AND g."WinnerId" IS NOT NULL AND gp."PlayerId" = $1 AND gp."DeckId" = d."Id" and g."GameType" = \'beginner\') AS "BeginnerLoseCount", ' +
-                    '(SELECT COUNT(*) FROM "Games" g JOIN "GamePlayers" gp ON gp."GameId" = g."Id" WHERE g."WinnerId" = $1 AND gp."DeckId" = d."Id" and g."GameType" = \'casual\') AS "CasualWinCount", ' +
-                    '(SELECT COUNT(*) FROM "Games" g JOIN "GamePlayers" gp ON gp."GameId" = g."Id" WHERE g."WinnerId" != $1 AND g."WinnerId" IS NOT NULL AND gp."PlayerId" = $1 AND gp."DeckId" = d."Id" and g."GameType" = \'casual\') AS "CasualLoseCount", ' +
-                    '(SELECT COUNT(*) FROM "Games" g JOIN "GamePlayers" gp ON gp."GameId" = g."Id" WHERE g."WinnerId" = $1 AND gp."DeckId" = d."Id" and g."GameType" = \'competitive\') AS "CompetitiveWinCount", ' +
-                    '(SELECT COUNT(*) FROM "Games" g JOIN "GamePlayers" gp ON gp."GameId" = g."Id" WHERE g."WinnerId" != $1 AND g."WinnerId" IS NOT NULL AND gp."PlayerId" = $1 AND gp."DeckId" = d."Id" and g."GameType" = \'competitive\') AS "CompetitiveLoseCount" ' +
+                    '(SELECT COUNT(*) FROM "Games" g JOIN "GamePlayers" gp ON gp."GameId" = g."Id" WHERE g."WinnerId" != $1 AND g."WinnerId" IS NOT NULL AND gp."PlayerId" = $1 AND gp."DeckId" = d."Id") AS "LoseCount" ' +
                     'FROM "Decks" d ' +
                     'JOIN "Users" u ON u."Id" = "UserId" ' +
                     'JOIN "Expansions" e on e."Id" = d."ExpansionId" ' +
@@ -349,6 +338,54 @@ class DeckService {
         }
 
         return retDecks;
+    }
+    async findStatsForUserDeck(userId, deckId) {
+        logger.error('findStatsForUserDeck ' + userId +' '+ deckId);
+        let retStats = {};
+        let params = [userId];
+        if (deckId != null) {
+            params.push(deckId);
+        }
+        let dbstats;
+        let deckQuery = deckId != null ? '	and gp."DeckId"=$2 ' : '';
+        const query =
+            'Select q_win."GameType", q_win."DeckId", q_win."PlayerId", q_win."WinCount", q_loose."LooseCount" ,' +
+            'CASE ' +
+            'WHEN q_win."WinCount" + q_loose."LooseCount" = 0 THEN ' +
+            '0 ' +
+            'ELSE (CAST(q_win."WinCount" AS FLOAT) / (q_win."WinCount" + q_loose."LooseCount")) * 100 ' +
+            'END AS "WinRate"' +
+            'From' +
+            '(SELECT g."GameType", gp."DeckId" ,gp."PlayerId", count(*) as "WinCount" ' +
+            'FROM "Games" g ' +
+            'JOIN "GamePlayers" gp on gp."GameId" = g."Id"' +
+            '	where gp."PlayerId" =$1' +
+            '	and g."WinnerId" =$1' +
+            deckQuery +
+            '	group by g."GameType", gp."DeckId",gp."PlayerId") q_win' +
+            '	JOIN (' +
+            '	SELECT g."GameType", gp."DeckId" ,gp."PlayerId", count(*) as "LooseCount"' +
+            '	FROM "Games" g' +
+            '	JOIN "GamePlayers" gp on gp."GameId" = g."Id"' +
+            '	where gp."PlayerId" =$1' +
+            '	and g."WinnerId" IS NULL' +
+            deckQuery +
+            '	group by g."GameType", gp."DeckId",gp."PlayerId") q_loose' +
+            '	ON q_win."GameType" = q_loose."GameType"';
+        try {
+            dbstats = await db.query(query, params);
+        } catch (err) {
+            logger.error('Failed to retrieve stats', err);
+        }
+        let statTable = [];
+
+        for (let stat of dbstats) {
+            let retStat = this.mapStat(stat);
+            statTable.push(retStat);
+        }
+        retStats.statTable = statTable;
+
+        return retStats;
     }
 
     async getDeckCardsAndHouses(deck, standalone = false) {
@@ -879,6 +916,16 @@ class DeckService {
         };
     }
 
+    mapStat(stat) {
+        return {
+            deckId: stat.DeckId,
+            userId: stat.UserId,
+            gameType: stat.GameType,
+            winCount: stat.WinCount,
+            looseCount: stat.LooseCount,
+            winRate: stat.WinRate
+        };
+    }
     mapDeck(deck) {
         return {
             expansion: deck.Expansion,

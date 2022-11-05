@@ -13,6 +13,18 @@ const deckService = new DeckService(configService, cardService);
 
 module.exports.init = function (server) {
     server.get(
+        '/api/stats',
+        passport.authenticate('jwt', { session: false }),
+        wrapAsync(async function (req, res) {
+            const stats = await deckService.findStatsForUserDeck(
+                req.query.userId,
+                req.query.deckId
+            );
+
+            res.send({ success: true, stats: stats });
+        })
+    );
+    server.get(
         '/api/standalone-decks',
         wrapAsync(async function (req, res) {
             let decks;

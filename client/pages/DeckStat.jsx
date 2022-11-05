@@ -1,30 +1,33 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Col, Row } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import Panel from '../Components/Site/Panel';
 import CardBack from '../Components/Decks/CardBack';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
-const data = [
-    {
-        name: 'Beginner',
-        win: 40,
-        loss: 2,
-        ratio: 89
-    },
-    {
-        name: 'Casual',
-        win: 40,
-        loss: 40,
-        ratio: 50
-    },
-    {
-        name: 'Competitive',
-        win: 20,
-        loss: 80,
-        ratio: 20
-    }
-];
+import { loadStats } from '../redux/actions';
+import { clearApiStatus } from '../redux/actions';
+
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Scatter,Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, } from 'recharts';
+// const data = [
+//     {
+//         level: 'Beginner',
+//         win: 40,
+//         loss: 2,
+//         ratio: 89
+//     },
+//     {
+//         level: 'Casual',
+//         win: 40,
+//         loss: 40,
+//         ratio: 50
+//     },
+//     {
+//         level: 'Competitive',
+//         win: 20,
+//         loss: 80,
+//         ratio: 20
+//     }
+// ];
 
 // const renderCustomizedLabel = (props) => {
 //     const { x, y, width, value } = props;
@@ -39,14 +42,40 @@ const data = [
 //     );
 //   };
 const DecksComponent = () => {
-    const { t } = useTranslation();
-
+    const { user } = useSelector((state) => ({
+        user: state.account.user
+    }));
     const { deck } = useSelector((state) => ({
         deck: state.cards.selectedDeck
     }));
+    let { stats } = useSelector((state) => ({
+        stats: state.stats
+    }));
+    const dispatch = useDispatch();
+    const { t } = useTranslation();
+
+    useEffect(() => {
+            // if (user != null && deck != null) {
+            dispatch(
+                loadStats({
+                    userId: 1,
+                    deckId: 5
+                })
+        );
+            // }
+        },
+        [dispatch, stats]
+    );
+    
+
+    console.log(JSON.stringify(stats));
+
+    console.log(JSON.stringify(deck.id));
+    console.log(JSON.stringify(user.id));
 
     return (
         <div className='text-center'>
+            
             <Col md='2'></Col>
             <Col md='8'>
                 <Panel title={deck.name}>
@@ -61,10 +90,10 @@ const DecksComponent = () => {
                         <Row>
                             <Col sm='12'>
                                 <Row>
-                                    <BarChart
+                                    {/* <BarChart
                                         width={500}
                                         height={300}
-                                        data={data}
+                                        data={stats.statTable}
                                         margin={{
                                             top: 5,
                                             right: 30,
@@ -73,18 +102,21 @@ const DecksComponent = () => {
                                         }}
                                     >
                                         <CartesianGrid strokeDasharray='3 3' />
-                                        <XAxis dataKey='name' />
-                                        <YAxis />
-                                        <Tooltip />
+                                        <XAxis dataKey='level' />
+                                        <YAxis yAxisId={0} />
+                                        <YAxis yAxisId={1} orientation='right' />
+                                        <Tooltip /> 
                                         <Legend />
-                                        <Bar dataKey='loss' stackId='a' fill='#8884d8' />
-                                        <Bar dataKey='win' stackId='a' fill='#2299d8'>
-                                            {/* <LabelList
-                                                dataKey='name'
-                                                content={renderCustomizedLabel}
-                                            /> */}
-                                        </Bar>
-                                    </BarChart>
+                                        <Bar
+                                            dataKey='loss'
+                                            stackId='a'
+                                            fill='#FF0000'
+                                            yAxisId={0}
+                                        />
+                                        <Bar dataKey='win' stackId='a' fill='#00FF00' yAxisId={0} /> */}
+                                        {/* <Bar dataKey='ratio' fill='#0000AA' yAxisId={1} /> */}
+                                        {/* <Scatter dataKey='ratio' fill='blue' yAxisId={1} /> */}
+                                    {/* </BarChart> */}
                                 </Row>
                             </Col>
                             <Col sm='12'>
