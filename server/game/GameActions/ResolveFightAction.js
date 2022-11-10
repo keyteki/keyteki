@@ -51,6 +51,10 @@ class ResolveFightAction extends CardGameAction {
             cancelFight: false
         };
         let fightEvent = super.createEvent('onFight', params, (event) => {
+            if (!this.canAffect(event.card, event.context)) {
+                return;
+            }
+
             let damageEvent;
             let defenderAmount = event.card.power;
             if (event.card.anyEffect('limitFightDamage')) {
