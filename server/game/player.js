@@ -6,6 +6,7 @@ const Deck = require('./deck');
 const ClockSelector = require('./Clocks/ClockSelector');
 const PlayableLocation = require('./playablelocation');
 const PlayerPromptState = require('./playerpromptstate');
+const cards = require('./cards');
 
 class Player extends GameObject {
     constructor(id, user, owner, game, clockdetails) {
@@ -471,8 +472,15 @@ class Player extends GameObject {
             return;
         }
 
-        this.removeCardFromPile(card);
         let location = card.location;
+        if (location === 'play area') {
+            this.removeCardFromPile(card);
+            if (card.isToken()) {
+                this.game.removeTokenCard(card);
+            }
+        } else {
+            this.removeCardFromPile(card.isToken() ? card.versusCard : card);
+        }
 
         if (location === 'purged' && card.purgedBy) {
             card.purgedBy.purgedCards = card.purgedBy.purgedCards.filter((c) => c !== card);
@@ -499,7 +507,7 @@ class Player extends GameObject {
             card.purgedCards = [];
 
             card.onLeavesPlay();
-            card.controller = this;
+            (card.isToken() ? card.versusCard : card).controller = this;
         } else if (targetLocation === 'play area') {
             if (options.myControl) {
                 card.setDefaultController(this);
@@ -520,19 +528,33 @@ class Player extends GameObject {
             card.controller = card.owner;
         }
 
-        card.moveTo(targetLocation);
+        if (targetLocation === 'play area') {
+            card.moveTo(targetLocation);
+            if (card.isToken()) {
+                this.game.addTokenCard(card);
+            }
+        } else {
+            if (card.isToken()) {
+                card.versusCard.moveTo(targetLocation);
+                card.moveTo('deck');
+            } else {
+                card.moveTo(targetLocation);
+            }
+        }
 
         if (targetLocation === 'deck' && !options.bottom) {
-            targetPile.unshift(card);
+            targetPile.unshift(card.isToken() ? card.versusCard : card);
         } else if (['discard', 'purged'].includes(targetLocation)) {
             // new cards go on the top of the discard pile
-            targetPile.unshift(card);
+            targetPile.unshift(card.isToken() ? card.versusCard : card);
         } else if (targetLocation === 'play area' && options.deployIndex !== undefined) {
             targetPile.splice(options.deployIndex + 1, 0, card);
         } else if (targetLocation === 'play area' && options.left) {
             targetPile.unshift(card);
-        } else if (targetPile) {
+        } else if (targetLocation === 'play area') {
             targetPile.push(card);
+        } else if (targetPile) {
+            targetPile.push(card.isToken() ? card.versusCard : card);
         }
 
         let composedPart = null;
@@ -890,6 +912,19 @@ class Player extends GameObject {
 
     isTideLow() {
         return this.game.highTide ? this.game.highTide !== this : false;
+    }
+
+    hasTokenCard() {
+        return !!this.deckData.tokenCard;
+    }
+
+    makeTokenCard(card) {
+        if (this.deckData.tokenCard) {
+            let cardClass = cards[this.deckData.tokenCard.id];
+            let token = new cardClass(this, this.deckData.tokenCard, card);
+            return token;
+        }
+        return null;
     }
 
     /**

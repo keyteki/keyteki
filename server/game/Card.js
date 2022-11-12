@@ -114,6 +114,10 @@ class Card extends EffectSource {
         return this.mostRecentEffect('changeType') || this.printedType;
     }
 
+    isToken() {
+        return false;
+    }
+
     get actions() {
         if (this.isBlank()) {
             return [];
