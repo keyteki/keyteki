@@ -7,6 +7,7 @@ const ClockSelector = require('./Clocks/ClockSelector');
 const PlayableLocation = require('./playablelocation');
 const PlayerPromptState = require('./playerpromptstate');
 const cards = require('./cards');
+const TokenCard = require('./TokenCard');
 
 class Player extends GameObject {
     constructor(id, user, owner, game, clockdetails) {
@@ -921,9 +922,10 @@ class Player extends GameObject {
     makeTokenCard(card) {
         if (this.deckData.tokenCard) {
             let cardClass = cards[this.deckData.tokenCard.id];
-            let token = new cardClass(this, this.deckData.tokenCard.card, card);
-
-            return token;
+            if (cardClass === null) {
+                return new TokenCard(this, this.deckData.tokenCard.card, card);
+            }
+            return new cardClass(this, this.deckData.tokenCard.card, card);
         }
         return null;
     }

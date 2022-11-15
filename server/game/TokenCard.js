@@ -5,8 +5,12 @@ class TokenCard extends Card {
         super(owner, cardData);
         this.versusCard = versusCard;
         this.setupAbilities();
-        this.location = versusCard.location;
+        this.location = versusCard ? versusCard.location : 'deck';
         this.applyAnyLocationPersistentEffects();
+
+        if (this.printedType === 'token creature') {
+            this.printedType = 'creature';
+        }
     }
 
     isToken() {
