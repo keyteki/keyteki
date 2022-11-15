@@ -92,9 +92,22 @@ class DeckBuilder {
             }
         });
 
+        var tokenCard = null;
+        if (token) {
+            var cardData = this.getCard(token);
+            if (cardData.type === 'token creature') {
+                cardData.type = 'creature';
+            }
+            tokenCard = {
+                count: 1,
+                card: cardData,
+                id: cardData.id
+            };
+        }
+
         return {
             houses: houses,
-            tokenCard: token ? this.getCard(token) : null,
+            tokenCard: tokenCard,
             cards: Object.values(cardCounts)
         };
     }

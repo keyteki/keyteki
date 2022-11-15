@@ -3,7 +3,7 @@ const PlayerAction = require('./PlayerAction');
 class MakeTokenCreatureAction extends PlayerAction {
     setDefaultProperties() {
         this.amount = 1;
-        this.cards = null;
+        this.deployAt = null;
     }
 
     setup() {
@@ -26,13 +26,20 @@ class MakeTokenCreatureAction extends PlayerAction {
     getEvent(player, context) {
         return super.createEvent(
             'onMakeToken',
-            { player, context, amount: this.amount, cards: this.cards },
+            { player, context, amount: this.amount },
             (event) => {
-                let cards = event.cards === null ? player.deck.slice(0, event.amount) : event.cards;
-                let tokenCards = cards.map((card) => player.makeTokenCard(card));
-
+                let tokenCards = player.deck
+                    .slice(0, event.amount)
+                    .map((card) => player.makeTokenCard(card));
                 event.cards = tokenCards;
-                context.game.actions.putIntoPlay().resolve(event.cards, context);
+
+                if (!this.deployAt) {
+                    event.cards.forEach((card) =>
+                        context.game.actions.putIntoPlay().resolve(card, context)
+                    );
+                } else {
+                    // TODO
+                }
             }
         );
     }

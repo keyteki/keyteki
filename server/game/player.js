@@ -921,7 +921,8 @@ class Player extends GameObject {
     makeTokenCard(card) {
         if (this.deckData.tokenCard) {
             let cardClass = cards[this.deckData.tokenCard.id];
-            let token = new cardClass(this, this.deckData.tokenCard, card);
+            let token = new cardClass(this, this.deckData.tokenCard.card, card);
+
             return token;
         }
         return null;
