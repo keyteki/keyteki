@@ -74,10 +74,10 @@ class DeckBuilder {
             deck = deck.concat(defaultFiller[houses[0]]);
         }
 
-        return this.buildDeck(houses, deck);
+        return this.buildDeck(houses, player.token, deck);
     }
 
-    buildDeck(houses, cardLabels) {
+    buildDeck(houses, token, cardLabels) {
         var cardCounts = {};
         _.each(cardLabels, (label) => {
             var cardData = this.getCard(label);
@@ -92,8 +92,22 @@ class DeckBuilder {
             }
         });
 
+        var tokenCard = null;
+        if (token) {
+            var cardData = this.getCard(token);
+            if (cardData.type === 'token creature') {
+                cardData.type = 'creature';
+            }
+            tokenCard = {
+                count: 1,
+                card: cardData,
+                id: cardData.id
+            };
+        }
+
         return {
             houses: houses,
+            tokenCard: tokenCard,
             cards: Object.values(cardCounts)
         };
     }

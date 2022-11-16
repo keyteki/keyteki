@@ -1172,6 +1172,18 @@ class Game extends EventEmitter {
         this.addAlert('info', '{0} has reconnected', player);
     }
 
+    addTokenCard(tokenCard) {
+        this.allCards = this.allCards.filter((c) => c !== tokenCard.versusCard);
+        this.allCards.push(tokenCard);
+        this.effectEngine.checkEffects(false);
+    }
+
+    removeTokenCard(tokenCard) {
+        this.allCards = this.allCards.filter((c) => c !== tokenCard);
+        this.allCards.push(tokenCard.versusCard);
+        this.effectEngine.checkEffects(false);
+    }
+
     checkGameState(hasChanged = false, modifiedByPlayer) {
         // check for a game state change (recalculating conflict skill if necessary)
         if (this.effectEngine.checkEffects(hasChanged) || hasChanged) {

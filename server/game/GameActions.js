@@ -98,6 +98,8 @@ const Actions = {
     discardAtRandom: (propertyFactory) => new GameActions.RandomDiscardAction(propertyFactory), // amount = 1, location = hand
     discardTopOfDeck: (propertyFactory) => new GameActions.DiscardTopOfDeckAction(propertyFactory), // amount = 1
     playAtRandom: (propertyFactory) => new GameActions.RandomPlayCardAction(propertyFactory), // amount = 1, location = deck
+    makeTokenCreature: (propertyFactory) =>
+        new GameActions.MakeTokenCreatureAction(propertyFactory), // amount = 1, cards = null
     purgeAtRandom: (propertyFactory) => new GameActions.RandomPurgeAction(propertyFactory), // amount = 1, location = hand
     draw: (propertyFactory) => new GameActions.DrawAction(propertyFactory), // amount = 1
     forgeKey: (propertyFactory) => new GameActions.ForgeAction(propertyFactory), // modifier = 0
