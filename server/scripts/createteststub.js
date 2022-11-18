@@ -41,7 +41,7 @@ function buildTestTemplate(cardName) {
         });
 
         it('should have tests', function () {
-            // TODO write your code here    
+            // TODO write your code here
         });
 
         // examples repo (clean bellow after use)
