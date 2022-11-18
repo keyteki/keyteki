@@ -1,5 +1,5 @@
-describe('Airlock', function () {
-    describe("Airlock's ability", function () {
+describe('ShiSnyasiBuggy', function () {
+    describe("ShiSnyasiBuggy's ability", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
