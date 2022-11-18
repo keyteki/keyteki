@@ -1,30 +1,5 @@
-/*eslint no-console:0 */
-const commandLineArgs = require('command-line-args');
-const path = require('path');
-const fs = require('fs');
-
-const optionsDefinition = [
-    { name: 'name', type: String },
-    { name: 'set', type: String, defaultValue: '06-WoE' },
-    { name: 'verbose', type: String, defaultValue: '1' }
-];
-
-let options = commandLineArgs(optionsDefinition);
-
-function createStub(name, setName, verbose) {
-    let testFileName = name.replace(/[^a-zA-Z0-9]/g, '') + '.spec.js';
-    let outputFile = path.join('.', 'test', 'server', 'cards', setName, testFileName);
-
-    if (verbose) {
-        console.log('output file: ' + outputFile);
-    }
-
-    fs.writeFileSync(outputFile, buildTestTemplate(name));
-}
-
-function buildTestTemplate(cardName) {
-    return `describe('${cardName}', function () {
-    describe("${cardName}'s ability", function () {
+describe('Braindart', function () {
+    describe("Braindart's ability", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
@@ -113,7 +88,4 @@ function buildTestTemplate(cardName) {
         });
         */
     });
-});`;
-}
-
-createStub(options['name'], options['set'], options['verbose']);
+});
