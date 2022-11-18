@@ -1,6 +1,6 @@
-const Card = require('../../Card.js');
+const TokenCard = require('../../TokenCard.js');
 
-class B0T extends Card {
+class B0T extends TokenCard {
     //Action: Use a friendly non-Star Alliance creature.
     setupCardAbilities(ability) {
         this.action({
