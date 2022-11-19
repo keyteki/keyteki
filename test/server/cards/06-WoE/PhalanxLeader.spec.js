@@ -6,7 +6,7 @@ describe('Phalanx Leader', function () {
                     amber: 4,
                     house: 'saurian',
                     token: 'senator',
-                    inPlay: ['helper-bot', 'daughter'],
+                    inPlay: ['daughter'],
                     hand: ['phalanx-leader']
                 },
                 player2: {
@@ -15,14 +15,14 @@ describe('Phalanx Leader', function () {
                 }
             });
 
-            this.player1.moveCard(this.helperBot, 'deck');
+            this.versusCard = this.player1.deck[0];
         });
 
         it('when played on left flank, should make a token creature and place it on its left side', function () {
             this.player1.play(this.phalanxLeader, true);
             let senator = this.player1.inPlay[0];
             expect(senator.id).toBe('senator');
-            expect(senator.versusCard).toBe(this.helperBot);
+            expect(senator.versusCard).toBe(this.versusCard);
             expect(senator.exhausted).toBe(true);
             expect(this.player1.inPlay[1]).toBe(this.phalanxLeader);
             expect(this.player1.inPlay[2]).toBe(this.daughter);
@@ -33,7 +33,7 @@ describe('Phalanx Leader', function () {
             this.player1.play(this.phalanxLeader, false);
             let senator = this.player1.inPlay[1];
             expect(senator.id).toBe('senator');
-            expect(senator.versusCard).toBe(this.helperBot);
+            expect(senator.versusCard).toBe(this.versusCard);
             expect(senator.exhausted).toBe(true);
             expect(this.player1.inPlay[2]).toBe(this.phalanxLeader);
             expect(this.player1.inPlay[0]).toBe(this.daughter);

@@ -51,7 +51,9 @@ class DeckBuilder {
 
         for (let zone of ['deck', 'hand', 'inPlay', 'discard', 'archives']) {
             if (Array.isArray(player[zone])) {
-                deck = deck.concat(player[zone]);
+                if (player[zone]) {
+                    deck = deck.concat(player[zone].filter((c) => c !== player.token));
+                }
             }
         }
 

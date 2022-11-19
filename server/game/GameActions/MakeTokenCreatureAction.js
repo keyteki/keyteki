@@ -18,7 +18,7 @@ class MakeTokenCreatureAction extends PlayerAction {
     }
 
     canAffect(player, context) {
-        return this.amount === 0 || !player.hasTokenCard()
+        return this.amount === 0 || !player.hasTokenCard() || player.deck.length === 0
             ? false
             : super.canAffect(player, context);
     }

@@ -234,6 +234,9 @@ beforeEach(function () {
         this.player2.keys = options.player2.keys;
         this.player1.chains = options.player1.chains;
         this.player2.chains = options.player2.chains;
+        //Token card
+        this.player1.token = options.player1.token;
+        this.player2.token = options.player2.token;
         //Field
         this.player1.hand = [];
         this.player2.hand = [];

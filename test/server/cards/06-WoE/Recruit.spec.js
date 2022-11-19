@@ -6,7 +6,7 @@ describe('Recruit', function () {
                     amber: 4,
                     house: 'saurian',
                     token: 'senator',
-                    inPlay: ['helper-bot', 'daughter'],
+                    inPlay: ['daughter'],
                     hand: ['recruit']
                 },
                 player2: {
@@ -15,7 +15,7 @@ describe('Recruit', function () {
                 }
             });
 
-            this.player1.moveCard(this.helperBot, 'deck');
+            this.versusCard = this.player1.deck[0];
         });
 
         it('should make a token creature when played and go to discard if no exalt happened this turn', function () {
@@ -23,7 +23,7 @@ describe('Recruit', function () {
             this.player1.clickPrompt('Left');
             let senator = this.player1.inPlay[0];
             expect(senator.id).toBe('senator');
-            expect(senator.versusCard).toBe(this.helperBot);
+            expect(senator.versusCard).toBe(this.versusCard);
             expect(senator.exhausted).toBe(true);
             expect(this.recruit.location).toBe('discard');
             this.player1.endTurn();
