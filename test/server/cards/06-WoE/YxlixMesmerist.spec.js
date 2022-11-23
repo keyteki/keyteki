@@ -22,7 +22,7 @@ describe('YxlixMesmerist', function () {
             expect(this.flaxia.amber).toBe(1);
         });
 
-        it('should be able to select enemy creature and capture from self', function () {
+        it('should be able to select enemy creature and capture from opponent', function () {
             this.player1.useAction(this.yxlixMesmerist);
             this.player1.clickCard(this.gub);
             expect(this.player1.amber).toBe(1);
