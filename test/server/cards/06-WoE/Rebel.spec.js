@@ -3,89 +3,37 @@ describe('Rebel', function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
-                    house: 'untamed',
+                    house: 'mars',
                     amber: 1,
-                    hand: ['bubbles'],
-                    inPlay: ['flaxia']
+                    token: 'rebel',
+                    inPlay: ['flaxia', 'rebel', 'ether-spider']
                 },
                 player2: {
                     amber: 1,
-                    inPlay: ['gub', 'krump']
+                    inPlay: ['shooler', 'gub', 'krump']
                 }
             });
+
+            this.player1.reap(this.rebel);
         });
 
-        it('should have tests', function () {
-            // TODO write your code here
-        });
-
-        // examples repo (clean bellow after use)
-        /*
-        it('turn ending test', function () {
-            this.player1.endTurn();
-            this.player2.clickPrompt('untamed');
-            this.player2.endTurn();
-            this.player1.forgeKey('Red');
-            this.player1.clickPrompt('untamed');
-        });
-
-        it('creature token', function () {
-            expect(this.mookling.tokens.power).toBeUndefined();
-            this.mookling.addToken('power');
-            expect(this.mookling.tokens.power).toBe(1);
-            
-            expect(this.mookling.tokens.damage).toBeUndefined();
-            this.mookling.addToken('damage');
-            expect(this.mookling.tokens.damage).toBe(1);
-            
-            expect(this.mookling.tokens.amber).toBeUndefined();
-            this.mookling.addToken('amber');
-            expect(this.mookling.tokens.amber).toBe(1);
-        });
-
-        it('creature amber test', function () {
-            this.urchin.tokens.amber = 1;
-        });
-
-        it('location tests', function () {
-            expect(this.mother.location).toBe('discard');
-            expect(this.mother.location).toBe('hand');
-            expect(this.mother.location).toBe('deck');
-            expect(this.mother.location).toBe('play area');
-        });
-
-        it('game interation selection', function () {
-            expect(this.player1).not.toBeAbleToSelect(this.gub);
+        it('should be able to select enemy and friendly creatures to deal 1D', function () {
             expect(this.player1).toBeAbleToSelect(this.flaxia);
-            this.player1.clickPrompt('Done');
-            this.player1.clickCard(this.larva);
-            expect(this.player1).toHavePromptButton('Done');
-            expect(this.player1).not.toHavePromptButton('Done');
+            expect(this.player1).toBeAbleToSelect(this.rebel);
+            expect(this.player1).toBeAbleToSelect(this.etherSpider);
+            expect(this.player1).toBeAbleToSelect(this.gub);
+            expect(this.player1).toBeAbleToSelect(this.krump);
+            expect(this.player1).toBeAbleToSelect(this.shooler);
         });
 
-        it('basic actions tests', function () {
-            this.player1.play(this.cocoon);
-            this.player1.useAction(this.cocoon);
-            this.player1.reap(this.cocoon);
-            this.player1.fight(this.cocoon);
+        it('should be to deal 1D to friendly creature', function () {
+            this.player1.clickCard(this.flaxia);
+            expect(this.flaxia.tokens.damage).toBe(1);
         });
 
-        it('player amber test', function () {
-            this.player1.amber = 2
-            expect(this.player1.amber).toBe(2);
+        it('should be to deal 1D to enemy creature', function () {
+            this.player1.clickCard(this.gub);
+            expect(this.gub.tokens.damage).toBe(1);
         });
-
-        it('tide test', function () {
-            this.player1.lowerTide();
-            expect(this.player1.isTideHigh()).toBe(false);
-            this.player1.raiseTide();
-        });
-
-        it('moving cards test', function () {
-            this.player1.moveCard(this.butterfly, 'play area');
-            this.player1.moveCard(this.butterfly, 'discard');
-            this.player1.moveCard(this.butterfly, 'hand');
-        });
-        */
     });
 });

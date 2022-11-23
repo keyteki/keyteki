@@ -8,7 +8,7 @@ class Airlock extends Card {
                 controller: 'self',
                 location: 'hand',
                 cardCondition: (card) => !card.hasHouse('mars'),
-                gameAction: ability.actions.discard({ location: 'hand' })
+                gameAction: ability.actions.discard()
             },
             then: {
                 gameAction: ability.actions.draw({ amount: 1 })

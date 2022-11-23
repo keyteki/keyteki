@@ -1,7 +1,7 @@
-const Card = require('../../Card.js');
+const TokenCard = require('../../TokenCard.js');
 
-class Rebel extends Card {
-    //Reap: Deal 1 D to a creature.
+class Rebel extends TokenCard {
+    //Reap: Deal 1D to a creature.
     setupCardAbilities(ability) {
         this.reap({
             target: {

@@ -8,7 +8,7 @@ class YxlixMesmerist extends Card {
                 cardType: 'creature',
                 gameAction: ability.actions.capture((context) => ({
                     amount: 1,
-                    player: context.player.opponent
+                    player: context.target.controller
                 }))
             }
         });
