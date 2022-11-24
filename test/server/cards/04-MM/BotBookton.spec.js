@@ -140,4 +140,48 @@ describe('bot-bookton', function () {
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
     });
+
+    describe('Bot Bookton and Quixxle Stone interation', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'logos',
+                    hand: ['library-access'],
+                    inPlay: ['bot-bookton', 'helper-bot'],
+                    discard: [
+                        'dextre',
+                        'way-of-the-bear',
+                        'foggify',
+                        'gauntlet-of-command',
+                        'eureka',
+                        'kelifi-dragon'
+                    ]
+                },
+                player2: {
+                    inPlay: ['inka-the-spider', 'quixxle-stone']
+                }
+            });
+        });
+
+        it('should not allow playing a creature from deck', function () {
+            this.player1.moveCard(this.dextre, 'deck');
+            this.player1.reap(this.botBookton);
+            expect(this.dextre.location).toBe('deck');
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+
+        it('should allow playing an artifact from deck', function () {
+            this.player1.moveCard(this.gauntletOfCommand, 'deck');
+            this.player1.reap(this.botBookton);
+            expect(this.gauntletOfCommand.location).toBe('play area');
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+
+        it('should allow playing an action from deck', function () {
+            this.player1.moveCard(this.foggify, 'deck');
+            this.player1.reap(this.botBookton);
+            expect(this.foggify.location).toBe('discard');
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+    });
 });
