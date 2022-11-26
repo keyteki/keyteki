@@ -1,0 +1,242 @@
+{# card condition checks #}
+{# Card condition requires context if something checks it #}
+{# Card filter already has context #}
+{%- macro cardFilter(target, refs) -%}
+{%- set c = cardConditionInternal(target, refs, null) -%}
+{%- if c.length > 0 -%}
+.filter(
+    (card) => {{c | indent(4)}}
+) 
+{%- endif -%}
+{%- endmacro -%}
+
+{%- macro cardConditionInternal(target, refs, effect=null) -%}
+{% set j = joiner(' && ') -%}
+{%- if effect != null and effect.name == 'use' -%}
+{{j()}}{{refs.check}}.exhausted === false{# Is this required, or inbuilt anyway? #}
+{%- endif -%}
+{%- if target.controller != null and not refs.filteredController -%}
+{{j()}}{{controllerCondition(target, refs)}}
+{%- endif -%}
+{%- if target.type != null and refs.filteredType != target.type -%}
+{{j()}}{{refs.check}}.type === '{{target.type}}'
+{%- endif -%}
+{%- for c in target.conditions -%}
+{{j()}}{{singleCondition(c, refs)}}
+{%- endfor -%}
+{%- endmacro -%}
+
+{# Individual conditions: #}
+{%- macro singleCondition(condition, refs) -%}
+    {%- if condition.name == "not" -%}
+!({{singleCondition(condition.condition, refs)}})
+    {%- elif condition.name == "or" -%}
+(
+{%- for c in condition.conditions -%}
+{{singleCondition(c, refs)}}{{ ' || ' if not loop.last }}
+{%- endfor -%}
+)
+    {%- elif condition.name == "and" -%}
+(
+{%- for c in condition.conditions -%}
+{{singleCondition(c, refs)}}{{ ' && ' if not loop.last }}
+{%- endfor -%}
+)
+    {%- elif condition.name == "comparison" -%}
+({{formatQuantity(condition.a, refs)}} {{condition.operator}} {{formatQuantity(condition.b, refs)}})
+    {%- elif condition.name == "trait" -%}
+{{refs.check}}.hasTrait('{{condition.trait}}')
+    {%- elif condition.name == "house" -%}
+{{refs.check}}.hasHouse('{{condition.house}}')
+    {%- elif condition.name == "type" -%}
+{{refs.check}}.type === '{{condition.type}}'
+    {%- elif condition.name == "flank" -%}
+{{refs.check}}.isOnFlank()
+    {%- elif condition.name == "hasAmber" -%}
+{{refs.check}}.hasToken('amber')
+    {%- elif condition.name == "damaged" -%}
+{{refs.check}}.hasToken('damage')
+    {%- elif condition.name == "neighboring" -%}
+context.source.neighbors.includes({{refs.check}})
+    {%- elif condition.name == "other" -%}
+{{refs.check}} !== context.source
+    {%- elif condition.name == "different" -%}
+{{refs.check}} !== {{refs.thenContext}}.target
+    {%- elif condition.name == "chosenHouse" -%}
+{{refs.check}}.hasHouse(context.house)
+    {%- elif condition.name == "center" -%}
+{{refs.check}}.isInCenter()
+    {%- elif condition.name == "check" -%}
+{{singleCondition(condition.condition, refs | check(formatAutomaticTarget(condition.card, refs)))}}
+    {%- elif condition.name == "exhausted" -%}
+{{refs.check}}.exhausted
+    {%- elif condition.name == "location" -%}
+event.location === '{{condition.location}}'
+    {%- elif condition.name == "controller" -%}
+{{controllerCondition(condition, refs)}}
+    {%- elif condition.name == "turn" -%}
+        {%- if condition.player != "any" -%}
+{{formatPlayer(condition.player, refs)}} === this.game.activePlayer
+        {%- endif -%}
+    {%- elif condition.name == "isTideHigh" -%}
+context.player.isTideHigh()
+    {%- elif condition.name == "isTideLow" -%}
+context.player.isTideLow()
+    {%- elif condition.name == "attached" -%}
+{{formatAutomaticTarget(condition.target, refs)}}.upgrades.includes({{refs.check}}){# Not an elegant way to get a list of upgrades on a card #}
+    {%- elif condition.name == "destroysTarget" -%}
+context.preThenEvent.destroyEvent && context.preThenEvent.destroyEvent.resolved
+        {%- if false %} && {{refs.it}}.location == 'discard'{% endif -%}
+    {%- else -%}
+/*{{ condition | dump(2)}}*/
+    {%- endif -%}
+{%- endmacro -%}
+
+{%- macro controllerCondition(target, refs) -%}
+{{refs.check}}.controller {{'===' if target.controller === 'self' else '!==' }} context.player
+{%- endmacro -%}
+
+{%- macro formatCondition(condition, refs)-%}
+condition: {{provideParameters(['context'], singleCondition(condition, refs))}}
+{%- endmacro -%}
+
+{%- macro eventCondition(trigger, refs, eventCheck=null) -%}
+{{provideParameters(["event", "context"], eventConditionInternal(trigger, refs, eventCheck)+ "" or "true")}}
+{%- endmacro -%}
+
+{%- macro eventConditionInternal(trigger, refs, eventCheck) -%}
+{%- set j = joiner(' && ') -%}
+{%- if eventCheck -%}
+{{j()}}{{eventCheck}}
+{%- endif -%}
+{%- if trigger.trigger == "use" -%}
+{{j()}}event.context.ability.isAction() &&
+    !event.context.ability.isCardPlayed()
+{%- endif -%}
+{%- if trigger.trigger == "destroyedFightingThis" -%}
+{{j()}}event.damageSource === context.source &&
+    event.destroyEvent &&
+    event.destroyEvent.resolved
+{%- endif -%}
+{%- if trigger.eventPlayer != null and trigger.eventPlayer != "any" -%}
+{{j()}}{{refs.eventPlayer}} {{ '===' if trigger.eventPlayer === 'self' else '!==' }} context.player
+{%- endif -%}
+{%- if trigger.conditions -%}
+    {%- for c in trigger.conditions -%}
+{{j()}}{{singleCondition(c, refs)}}
+    {%- endfor -%}
+{%- endif -%}
+{%- set cardCondition = cardConditionInternal(trigger.card, refs, null) -%}
+{%- if cardCondition.length > 0 -%}
+{{j()}}{{cardCondition}}
+{%- endif -%}
+{%- endmacro -%}
+
+
+{# Utilities? #}
+{%- macro formatQuantity(quantity, refs) -%}
+{%- if quantity.name == "amber" -%}
+{{formatPlayer(quantity.player)}}.amber
+{%- elif quantity.name == "constant" -%}
+{{quantity.amount}}
+{%- elif quantity.name == "operator" -%}
+({{formatQuantity(quantity.a, refs)}} {{quantity.operator}} {{formatQuantity(quantity.b, refs)}})
+{%- elif quantity.name == "power" -%}
+{{refs.check}}.power
+{%- elif quantity.name == "eventCount" -%}
+this.{{quantity.action}}Tracker.events.filter(
+    (event) => {{eventConditionInternal(quantity, refs | check('event.card') | filteredController(false)) + "" or "true"}}
+).length
+{%- elif quantity.name == "negative" -%}
+-{{formatQuantity(quantity.quantity, refs)}}
+{%- elif quantity.name == "keyCount" -%}
+{{formatPlayer(quantity.player)}}.getForgedKeys()
+{%- elif quantity.name == "amberCount" -%}
+{{formatPlayer(quantity.player)}}.amber
+{%- elif quantity.name == "cards" -%}
+{{cardsInPlay(quantity, refs)}}.length
+{%- elif quantity.name == "healedThisWay" -%}
+context.preThenEvents.filter(
+    (event) => !event.cancelled && event.amount > 0
+).length
+{%- elif quantity.name == "destroyedThisWay" -%}
+context.preThenEvents.filter(
+    (event) => event.name === 'onCardDestroyed' && !event.cancelled
+).length
+{%- elif quantity.name == "exhaustedThisWay" -%}
+context.preThenEvents.filter((event) => !event.cancelled).length
+{%- else -%}
+/* {{ quantity | dump(2)}} */
+{%- endif -%}
+{%- endmacro -%}
+
+{% macro formatPlayer(targetPlayer, refs) %}
+{%- if targetPlayer === 'self' -%}
+context.player
+{%- elif targetPlayer === 'opponent' -%}
+context.player.opponent
+{%- elif targetPlayer === 'owner' -%}
+{{refs.it}}.owner
+{%- elif targetPlayer === 'ownerOpponent' -%}
+{{refs.it}}.owner.opponent
+{%- elif targetPlayer === 'controller' -%}
+{{refs.it}}.controller
+{%- elif targetPlayer === 'controllerOpponent' -%}
+{{refs.it}}.controller.opponent
+{%- elif targetPlayer === 'they' -%}
+context.event.player{# TODO: make this refer to something in refs. #}
+{%- else -%}
+/* {{targetPlayer | dump}} */
+{%- endif -%}
+{% endmacro %}
+
+{%- macro formatAutomaticTarget(target, refs) -%}
+{%- if target.mode == "all" -%}
+    {%- if target.location == null or target.location == "play area" -%}
+{{cardsInPlay(target, refs)}}
+    {%- elif target.location == "deck" -%}
+{{formatPlayer(target.controller, refs)}}.deck.slice(0, Math.min({{formatPlayer(target.controller, refs)}}.deck.length, {{target.numCards}}))
+    {%- elif target.location == "discard" -%}
+{{formatPlayer(target.controller, refs)}}.discard{{cardFilter(target, refs)}}
+    {%- else -%}
+/*{{target.location}}*/{{cardFilter(target, refs)}}
+    {%- endif -%}
+{%- elif target.mode == "self" -%}
+{{refs.this}}
+{%- elif target.mode == "this" -%}
+{{refs.attached}}
+{%- elif target.mode == "it" -%}
+{{refs.it}}
+{%- else -%}
+/* {{target | dump}} */
+{%- endif -%}
+{%- endmacro -%}
+
+{%- macro cardsInPlay(target, refs) -%}
+{%- if target.type == "creature" -%}
+    {%- if target.controller == "self" -%}
+{{refs.player}}.creaturesInPlay{{cardFilter(target, refs | filteredType('creature') | filteredController)}}
+    {%- elif target.controller == "opponent" -%}
+{{refs.player}}.opponent.creaturesInPlay{{cardFilter(target, refs | filteredType('creature') | filteredController)}}
+    {%- else -%}
+context.game.creaturesInPlay{{cardFilter(target, refs | filteredType('creature'))}}
+    {%- endif -%}
+{%- elif target.type == "upgrade" -%}
+{#- TODO: Could use a shortcut when finding upgrades on a specific card! -#}
+context.game.creaturesInPlay.flatMap((card) => card.upgrades || []){{cardFilter(target, refs | filteredType('upgrade'))}}
+{%- else -%}
+context.game.cardsInPlay{{cardFilter(target, refs)}}
+{%- endif -%}
+{%- endmacro -%}
+
+{%- macro provideParameters(parameters, text) -%}
+{%- set j = joiner(', ') -%}
+(
+{%- for parameter in parameters %}
+    {%- if text.includes(parameter) or 
+        parameters.slice(loop.index).some(text.includes) -%}
+{{j()}}{{parameter}}
+    {%- endif -%}
+{%- endfor -%}
+) => {{text}}
+{%- endmacro -%}

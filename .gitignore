@@ -17,3 +17,5 @@ data
 mongodb
 
 /.idea/
+server/game/partialcards
+server/game/generatedcards
