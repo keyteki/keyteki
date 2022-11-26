@@ -40,8 +40,6 @@ class CardGenerator {
 
     async generateCards() {
         console.log('Clearing out previously generated cards');
-        fs.rmdirSync(this.fullOutputDir, { recursive: true });
-        fs.rmdirSync(this.partialOutputDir, { recursive: true });
         console.log('Loading card information');
         let cards = await this.dataSource.getCards();
         cards = cards.sort((a, b) => ((a.expansion || 999) > (b.expansion || 999) ? -1 : 1));
