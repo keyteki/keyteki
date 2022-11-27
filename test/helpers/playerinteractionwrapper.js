@@ -84,7 +84,11 @@ class PlayerInteractionWrapper {
         // Set up each of the cards
         _.each(newState, (card) => {
             if (_.isString(card)) {
-                card = this.findCardByName(card, 'deck');
+                if (card === this.token) {
+                    card = this.player.makeTokenCard(this.player.deck[0]);
+                } else {
+                    card = this.findCardByName(card, 'deck');
+                }
             }
 
             this.moveCard(card, 'play area');

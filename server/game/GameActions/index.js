@@ -37,6 +37,7 @@ module.exports = {
     ResetTideAction: require('./ResetTideAction'),
     PlaceUnderAction: require('./PlaceUnderAction'),
     PlayCardAction: require('./PlayCardAction'),
+    MakeTokenCreatureAction: require('./MakeTokenCreatureAction'),
     PurgeAction: require('./PurgeAction'),
     PutIntoPlayAction: require('./PutIntoPlayAction'),
     RaiseTideAction: require('./RaiseTideAction'),
