@@ -5,10 +5,9 @@ class GemcoatVendor extends Card {
     setupCardAbilities(ability) {
         this.action({
             gameAction: ability.actions.sequential([
-                ability.actions.steal({ amount: 1 }),
+                ability.actions.steal(),
                 ability.actions.dealDamage((context) => ({
-                    target: context.source,
-                    amount: 1
+                    target: context.source
                 }))
             ])
         });

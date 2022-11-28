@@ -3,6 +3,7 @@ class Constants {}
 Constants.Houses = [
     'brobnar',
     'dis',
+    'ekwidon',
     'logos',
     'mars',
     'sanctum',
@@ -15,6 +16,7 @@ Constants.Houses = [
 Constants.HousesNames = [
     'Brobnar',
     'Dis',
+    'Ekwidon',
     'Logos',
     'Mars',
     'Sanctum',
@@ -29,7 +31,8 @@ Constants.Expansions = [
     { id: 435, label: 'AoA' },
     { id: 452, label: 'WC' },
     { id: 479, label: 'MM' },
-    { id: 496, label: 'DT' }
+    { id: 496, label: 'DT' },
+    { id: 460, label: 'WoE' } // TODO WoE
 ];
 Constants.Tide = Object.freeze({
     HIGH: 'high',
