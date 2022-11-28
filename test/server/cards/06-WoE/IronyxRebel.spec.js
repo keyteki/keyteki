@@ -1,5 +1,5 @@
-describe('Ironyx Banner', function () {
-    describe("Ironyx Banner's play ability", function () {
+describe('Ironyx Rebel', function () {
+    describe("Ironyx Rebel's play ability", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
