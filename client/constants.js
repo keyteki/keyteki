@@ -7,6 +7,7 @@ export const Constants = {
     Houses: [
         'brobnar',
         'dis',
+        'ekwidon',
         'logos',
         'mars',
         'sanctum',
@@ -19,6 +20,7 @@ export const Constants = {
     HousesNames: [
         'Brobnar',
         'Dis',
+        'Ekwidon',
         'Logos',
         'Mars',
         'Sanctum',
@@ -34,7 +36,8 @@ export const Constants = {
         { value: '435', label: 'AoA' },
         { value: '452', label: 'WC' },
         { value: '479', label: 'MM' },
-        { value: '496', label: 'DT' }
+        { value: '496', label: 'DT' },
+        { value: '460', label: 'WoE' } // TODO WoE
     ],
     CardTypes: ['action', 'artifact', 'creature', 'upgrade'],
     SetIconPaths: {},

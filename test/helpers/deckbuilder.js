@@ -9,6 +9,7 @@ const PathToSubModulePacks = path.join(__dirname, '../../keyteki-json-data/packs
 const defaultFiller = {
     brobnar: 'anger',
     dis: 'hand-of-dis',
+    ekwidon: 'corner-the-market',
     logos: 'foggify',
     mars: 'ammonia-clouds',
     sanctum: 'champion-anaphiel',
