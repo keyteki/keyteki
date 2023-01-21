@@ -185,6 +185,11 @@ const DeckList = ({ deckFilter, onDeckSelected, standaloneDecks = false }) => {
                     value: data.filters[k].filterVal
                 }));
 
+                //filter comming from elsewhere than the table change
+                if (deckFilter) {
+                    newPageData.filter.push({ name: 'isAlliance', value: deckFilter.isAlliance });
+                }
+
                 break;
         }
 

@@ -281,6 +281,7 @@ class DeckService {
                     index
                 )} `;
                 params.push(...filterObject.value.map((v) => v.value));
+                index += filterObject.value.length;
             } else if (filterObject.name === 'isAlliance') {
                 filter += `AND ${this.mapColumn(filterObject.name)} = $${index++} `;
                 params.push(filterObject.value);
