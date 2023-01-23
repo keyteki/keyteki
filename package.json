@@ -104,7 +104,7 @@
         "moment": "^2.29.4",
         "monk": "^7.1.2",
         "node-noop": "^1.0.0",
-        "passport": "^0.3.2",
+        "passport": "^0.6.0",
         "passport-jwt": "^4.0.0",
         "passport-local": "^1.0.0",
         "path-to-regexp": "^2.4.0",
