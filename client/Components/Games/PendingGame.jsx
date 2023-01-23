@@ -101,6 +101,11 @@ const PendingGame = () => {
         return null;
     }
 
+    let allianceFilter = {};
+    if (currentGame.gameFormat !== 'alliance') {
+        allianceFilter = { isAlliance: false };
+    }
+
     const canClickStart = () => {
         if (!user || !currentGame || currentGame.owner !== user.username || connecting) {
             return false;
@@ -256,7 +261,7 @@ const PendingGame = () => {
             </Panel>
             {showModal && (
                 <SelectDeckModal
-                    deckFilter={{ isAlliance: currentGame.gameFormat === 'alliance' }}
+                    deckFilter={allianceFilter}
                     onClose={() => setShowModal(false)}
                     onDeckSelected={(deck) => {
                         setShowModal(false);
