@@ -12,6 +12,7 @@ class LookOverThere extends Card {
                 condition: (context) =>
                     context.preThenEvent &&
                     (!context.preThenEvent.destroyEvent ||
+                        !context.preThenEvent.destroyEvent.destroyedByDamageDealt ||
                         context.preThenEvent.destroyEvent.cancelled),
                 gameAction: ability.actions.steal(),
                 message: '{0} uses {1} to steal 1 amber'

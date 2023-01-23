@@ -73,4 +73,32 @@ describe('Special Delivery', function () {
             this.player1.endTurn();
         });
     });
+
+    describe("Special Delivery's ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'sanctum',
+                    hand: ['armageddon-cloak'],
+                    inPlay: ['bingle-bangbang', 'alaka']
+                },
+                player2: {
+                    inPlay: ['special-delivery']
+                }
+            });
+
+            this.player1.playUpgrade(this.armageddonCloak, this.bingleBangbang);
+            this.player1.endTurn();
+            this.player2.clickPrompt('shadows');
+        });
+
+        it('should not purge armageddon cloak', function () {
+            this.player2.useAction(this.specialDelivery, true);
+            this.player2.clickCard(this.bingleBangbang);
+            expect(this.bingleBangbang.location).toBe('play area');
+            expect(this.armageddonCloak.location).toBe('discard');
+            expect(this.specialDelivery.location).toBe('discard');
+            this.player2.endTurn();
+        });
+    });
 });
