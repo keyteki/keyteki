@@ -101,7 +101,7 @@
         "lodash.debounce": "^4.0.8",
         "merge-images": "^1.2.0",
         "mini-css-extract-plugin": "^0.8.2",
-        "moment": "^2.18.1",
+        "moment": "^2.29.4",
         "monk": "^7.1.2",
         "node-noop": "^1.0.0",
         "passport": "^0.3.2",
