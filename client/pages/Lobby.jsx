@@ -81,8 +81,8 @@ const Lobby = () => {
 
     const banners = [
         {
-            img: '/banner/tco-ad-ep-180.png',
-            link: 'https://www.spreaker.com/user/thewookie/keyforge-rulebook-and-spoilers-on-the-wa'
+            img: '/banner/tco-ad-sks.png',
+            link: 'https://discord.gg/4MDV2vdctg'
         }
     ];
 
