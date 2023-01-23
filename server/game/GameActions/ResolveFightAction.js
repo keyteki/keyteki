@@ -52,7 +52,6 @@ class ResolveFightAction extends CardGameAction {
         };
         let fightEvent = super.createEvent('onFight', params, (event) => {
             if (!this.canAffect(event.card, event.context)) {
-                event.card.elusiveUsed = true;
                 return;
             }
 
@@ -125,7 +124,6 @@ class ResolveFightAction extends CardGameAction {
                     .getEvent(event.attackerTarget, context);
             }
 
-            event.card.elusiveUsed = true;
             if (damageEvent) {
                 event.card.isFighting = true;
                 event.attacker.isFighting = true;
@@ -147,7 +145,10 @@ class ResolveFightAction extends CardGameAction {
                     context: context,
                     fight: true
                 },
-                (event) => event.card.unenrage()
+                (event) => {
+                    event.fightEvent.card.elusiveUsed = true;
+                    event.card.unenrage();
+                }
             )
         );
 
