@@ -13,6 +13,9 @@ class WildBounty extends Card {
                 multipleTrigger: false,
                 triggeredAbilityType: 'interrupt',
                 gameAction: ability.actions.cardLastingEffect((context) => ({
+                    until: {
+                        onResolveBonusIcons: () => true
+                    },
                     target: context.event.card,
                     targetLocation: 'any',
                     effect: ability.effects.resolveBonusIconsAdditionalTime()
