@@ -10,14 +10,14 @@ class ConditionValue extends EffectValue {
         return this;
     }
 
-    match(abilityContext) {
+    checkCondition(abilityContext, effectContext) {
         if (!this.condition) {
             return true;
         }
         if (!abilityContext) {
             return false;
         }
-        return this.condition(abilityContext.source, abilityContext, this.effectContext);
+        return this.condition(abilityContext.source, abilityContext, effectContext);
     }
 }
 

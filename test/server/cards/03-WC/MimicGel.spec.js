@@ -633,4 +633,51 @@ describe('Mimic Gel', function () {
             expect(this.huntingWitch.location).toBe('discard');
         });
     });
+
+    describe("Scowly Caper's effect and Mimic Gel", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'shadows',
+                    amber: 1,
+                    hand: ['scowly-caper'],
+                    inPlay: ['stilt-kin', 'groggins']
+                },
+                player2: {
+                    amber: 2,
+                    hand: ['mimic-gel']
+                }
+            });
+
+            this.player1.play(this.scowlyCaper);
+            this.player1.endTurn();
+            this.player2.clickPrompt('logos');
+        });
+
+        it('should enter play under opponent control', function () {
+            this.player2.clickCard(this.mimicGel);
+            this.player2.clickPrompt('Play this creature');
+            this.player2.clickCard(this.scowlyCaper);
+            this.player2.clickPrompt('Left');
+            expect(this.mimicGel.controller).toBe(this.player1.player);
+        });
+
+        it('should be used as belonging to any house', function () {
+            this.player2.clickCard(this.mimicGel);
+            this.player2.clickPrompt('Play this creature');
+            this.player2.clickCard(this.scowlyCaper);
+            this.player2.clickPrompt('Left');
+            this.player2.endTurn();
+            this.player1.clickPrompt('shadows');
+            this.mimicGel.ready();
+            this.player1.fightWith(this.mimicGel, this.scowlyCaper);
+            expect(this.mimicGel.location).toBe('play area');
+            expect(this.scowlyCaper.location).toBe('discard');
+            this.mimicGel.ready();
+            this.player1.reap(this.mimicGel);
+            expect(this.player1.amber).toBe(2);
+            this.player1.endTurn();
+            this.player1.clickCard(this.stiltKin);
+        });
+    });
 });
