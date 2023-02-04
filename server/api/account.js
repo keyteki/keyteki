@@ -501,10 +501,13 @@ module.exports.init = function (server, options) {
         })
     );
 
-    server.post('/api/account/logout', function (req, res) {
-        req.logout();
-
-        res.send({ success: true });
+    server.post('/api/account/logout', function (req, res, next) {
+        req.logout(function (err) {
+            if (err) {
+                return next(err);
+            }
+            res.send({ success: true });
+        });
     });
 
     server.post(
