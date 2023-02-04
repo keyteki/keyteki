@@ -83,6 +83,10 @@ const Lobby = () => {
         {
             img: '/banner/tco-ad-sks.png',
             link: 'https://discord.gg/4MDV2vdctg'
+        },
+        {
+            img: '/banner/tfs-ste-5-banner.png',
+            link: 'https://forms.gle/X633CBrp7J4oqt2d9'
         }
     ];
 
