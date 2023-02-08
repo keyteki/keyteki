@@ -26,7 +26,6 @@ import NodesAdmin from './pages/NodesAdmin';
 import Privacy from './pages/Privacy';
 import BanlistAdmin from './pages/BanlistAdmin';
 import Patreon from './pages/Patreon';
-import Enhancements from './pages/Enhancements';
 import AllianceBuilderPage from './pages/AllianceBuilder';
 
 const routes = [
@@ -41,7 +40,6 @@ const routes = [
     { path: '/blocklist', action: () => <BlockList key='blocklist' /> },
     { path: '/decks', action: () => <Decks key='decks' /> },
     { path: '/decks/import', action: () => <ImportDeck key='importDecks' /> },
-    { path: '/decks/enhancements', action: () => <Enhancements key='enhancements' /> },
     { path: '/decks/alliance', action: () => <AllianceBuilderPage key='alliancebuilder' /> },
     { path: '/forgot', action: () => <ForgotPassword key='forgotpassword' /> },
     { path: '/how-to-play', action: () => <HowToPlay key='howtoplay' /> },
