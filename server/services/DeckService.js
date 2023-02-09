@@ -699,7 +699,11 @@ class DeckService {
 
         if (deckResponse.data.bonus_icons) {
             for (let icon of deckResponse.data.bonus_icons) {
-                enhancementsByCardId[icon.card_id] = icon.bonus_icons;
+                if (!enhancementsByCardId[icon.card_id]) {
+                    enhancementsByCardId[icon.card_id] = [];
+                }
+
+                enhancementsByCardId[icon.card_id].push(icon.bonus_icons);
             }
         }
 
@@ -735,7 +739,8 @@ class DeckService {
             }
 
             if (card.is_enhanced) {
-                retCard.enhancements = enhancementsByCardId[card.id];
+                retCard.enhancements = [];
+                retCard.uuid = card.id;
             }
 
             if (card.card_type === 'Creature2') {
@@ -759,14 +764,17 @@ class DeckService {
 
         let toAdd = [];
         for (let card of cards) {
-            if (card.enhancements && card.count > 1) {
+            if (card.enhancements) {
                 for (let i = 0; i < card.count - 1; i++) {
                     let cardToAdd = Object.assign({}, card);
+
+                    cardToAdd.enhancements = enhancementsByCardId[card.uuid][i + 1];
 
                     cardToAdd.count = 1;
                     toAdd.push(cardToAdd);
                 }
 
+                card.enhancements = enhancementsByCardId[card.uuid][0];
                 card.count = 1;
             }
         }
