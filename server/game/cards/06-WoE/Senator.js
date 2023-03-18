@@ -1,6 +1,6 @@
-const TokenCard = require('../../TokenCard.js');
+const Card = require('../../Card.js');
 
-class Senator extends TokenCard {
+class Senator extends Card {
     // Action: Keys cost +1A during your opponent's next turn.
     setupCardAbilities(ability) {
         this.action({

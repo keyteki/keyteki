@@ -46,7 +46,7 @@ class Deck {
     }
 
     prepare(player) {
-        var result = {
+        const result = {
             houses: [],
             cards: []
         };
@@ -62,12 +62,17 @@ class Deck {
             }
         });
 
+        if (this.data.tokenCard) {
+            result.tokenCard = this.createCard(player, this.data.tokenCard.card);
+            result.tokenCard.setupAbilities();
+        }
+
         return result;
     }
 
     eachRepeatedCard(cards, func) {
         _.each(cards, (cardEntry) => {
-            for (var i = 0; i < cardEntry.count; i++) {
+            for (let i = 0; i < cardEntry.count; i++) {
                 func(cardEntry.card);
             }
         });

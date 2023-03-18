@@ -84,14 +84,27 @@ class PlayerInteractionWrapper {
         // Set up each of the cards
         _.each(newState, (card) => {
             if (_.isString(card)) {
-                if (card === this.token) {
-                    card = this.player.makeTokenCard(this.player.deck[0]);
+                if (card.startsWith(this.token)) {
+                    if (!card.includes(':')) {
+                        throw new Error(
+                            `Token "${card}" missing its version card as "token:versus"`
+                        );
+                    }
+                    const versusCard = this.deck.find((c) => c.id === card.split(':')[1]);
+                    this.player.deck = [versusCard].concat(
+                        this.deck.filter((c) => c !== versusCard)
+                    );
+                    card = this.game.makeTokenCreature(this.player, this.inPlay.length);
+                    this.game.continue();
+                    this.checkUnserializableGameState();
+                    if (!card.isToken()) {
+                        throw new Error(`Card "${card.id}" did not become a token`);
+                    }
                 } else {
                     card = this.findCardByName(card, 'deck');
+                    this.moveCard(card, 'play area');
                 }
             }
-
-            this.moveCard(card, 'play area');
             card.exhausted = false;
         });
     }

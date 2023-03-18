@@ -194,6 +194,18 @@ beforeEach(function () {
         return deckBuilder.buildDeck(faction, cards);
     };
 
+    this.cardCamel = function (card) {
+        let split = card.id.split('-');
+        for (let i = 1; i < split.length; i++) {
+            split[i] = split[i].slice(0, 1).toUpperCase() + split[i].slice(1);
+            // TODO Enable this and fix the tests it breaks
+            // if (split[i].length === 1) {
+            //     split[i] = split[i].toLowerCase();
+            // }
+        }
+        return split.join('');
+    };
+
     /**
      * Factory method. Creates a new simulation of a game.
      * @param {Object} [options = {}] - specifies the state of the game
@@ -256,16 +268,8 @@ beforeEach(function () {
                 []
             );
             for (let card of cards) {
-                let split = card.id.split('-');
-                for (let i = 1; i < split.length; i++) {
-                    split[i] = split[i].slice(0, 1).toUpperCase() + split[i].slice(1);
-                    // TODO Enable this and fix the tests it breaks
-                    // if (split[i].length === 1) {
-                    //     split[i] = split[i].toLowerCase();
-                    // }
-                }
-
-                let camel = split.join('');
+                // still allow access by token card name
+                let camel = this.cardCamel(card.isToken() ? player.player.tokenCard : card);
                 if (!this[camel]) {
                     this[camel] = card;
                 }

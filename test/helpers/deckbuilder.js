@@ -53,7 +53,10 @@ class DeckBuilder {
         for (let zone of ['deck', 'hand', 'inPlay', 'discard', 'archives']) {
             if (Array.isArray(player[zone])) {
                 if (player[zone]) {
-                    deck = deck.concat(player[zone].filter((c) => c !== player.token));
+                    // Token cards are defined as 'token name:card name'
+                    deck = deck.concat(
+                        player[zone].map((c) => (c.includes(':') ? c.split(':')[1] : c))
+                    );
                 }
             }
         }
@@ -81,9 +84,9 @@ class DeckBuilder {
     }
 
     buildDeck(houses, token, cardLabels) {
-        var cardCounts = {};
+        let cardCounts = {};
         _.each(cardLabels, (label) => {
-            var cardData = this.getCard(label);
+            let cardData = this.getCard(label);
             if (cardCounts[cardData.id]) {
                 cardCounts[cardData.id].count++;
             } else {
@@ -95,9 +98,9 @@ class DeckBuilder {
             }
         });
 
-        var tokenCard = null;
+        let tokenCard = null;
         if (token) {
-            var cardData = this.getCard(token);
+            let cardData = this.getCard(token);
             if (cardData.type === 'token creature') {
                 cardData.type = 'creature';
             }
@@ -120,14 +123,14 @@ class DeckBuilder {
             return this.cards[idOrLabelOrName];
         }
 
-        var cardsByName = _.filter(this.cards, matchCardByNameAndPack(idOrLabelOrName));
+        let cardsByName = _.filter(this.cards, matchCardByNameAndPack(idOrLabelOrName));
 
         if (cardsByName.length === 0) {
             throw new Error(`Unable to find any card matching ${idOrLabelOrName}`);
         }
 
         if (cardsByName.length > 1) {
-            var matchingLabels = _.map(
+            let matchingLabels = _.map(
                 cardsByName,
                 (card) => `${card.name} (${card.pack_code})`
             ).join('\n');

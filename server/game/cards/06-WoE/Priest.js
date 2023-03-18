@@ -1,6 +1,6 @@
-const TokenCard = require('../../TokenCard.js');
+const Card = require('../../Card.js');
 
-class Priest extends TokenCard {
+class Priest extends Card {
     // Action: Exhaust an enemy creature.
     setupCardAbilities(ability) {
         this.action({

@@ -16,7 +16,7 @@ describe('Ironyx Banner', function () {
                 }
             });
 
-            this.versusCard = this.player1.deck[0];
+            this.deckCard = this.player1.deck[0];
         });
 
         it('should make a token creature after play', function () {
@@ -24,8 +24,8 @@ describe('Ironyx Banner', function () {
             this.player1.clickPrompt('Left');
             expect(this.ironyxBanner.location).toBe('play area');
             let rebel = this.player1.inPlay[0];
-            expect(rebel.id).toBe('rebel');
-            expect(rebel.versusCard).toBe(this.versusCard);
+            expect(rebel).toBe(this.deckCard);
+            expect(rebel.name).toBe('Rebel');
             expect(rebel.armor).toBe(1);
             expect(rebel.power).toBe(2);
             this.player1.endTurn();
