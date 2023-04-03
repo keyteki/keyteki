@@ -204,22 +204,19 @@ describe('Garcia’s Blaster', function () {
             this.sensorChiefGarcia2 = this.player1.player.creaturesInPlay[2];
         });
 
-        it('should allow moving upgrade between officers of same name', function () {
+        it('should not allow moving upgrade between officers of same name', function () {
             this.player1.playUpgrade(this.garciaSBlaster, this.sensorChiefGarcia1);
             this.player1.reap(this.sensorChiefGarcia1);
             this.player1.clickCard(this.sensorChiefGarcia1);
 
             this.player1.clickPrompt('Garcia’s Blaster');
             this.player1.clickPrompt('Move Garcia’s Blaster');
-            expect(this.player1).not.toBeAbleToSelect(this.sensorChiefGarcia1);
-            expect(this.player1).toBeAbleToSelect(this.sensorChiefGarcia2);
-            this.player1.clickCard(this.sensorChiefGarcia2);
+            // There are no valid targets.
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.sensorChiefGarcia1.upgrades).toContain(this.garciaSBlaster);
 
-            expect(this.sensorChiefGarcia1.upgrades).not.toContain(this.garciaSBlaster);
-            expect(this.sensorChiefGarcia2.upgrades).toContain(this.garciaSBlaster);
-
-            expect(this.player1.amber).toBe(4);
-            expect(this.player2.amber).toBe(0);
+            expect(this.player1.amber).toBe(3);
+            expect(this.player2.amber).toBe(1);
         });
     });
 });
