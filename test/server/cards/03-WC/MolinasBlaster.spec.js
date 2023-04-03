@@ -214,7 +214,7 @@ describe('Molina’s Blaster', function () {
             this.armsmasterMolina2 = this.player1.player.creaturesInPlay[2];
         });
 
-        it('should allow moving upgrade between officers of same name', function () {
+        it('should not allow moving upgrade between officers of same name', function () {
             this.player1.playUpgrade(this.molinaSBlaster, this.armsmasterMolina1);
             this.player1.clickCard(this.krump);
             expect(this.krump.tokens.damage).toBe(3);
@@ -222,14 +222,9 @@ describe('Molina’s Blaster', function () {
             this.player1.clickCard(this.armsmasterMolina1);
 
             this.player1.clickPrompt('Move Molina’s Blaster');
-            expect(this.player1).not.toBeAbleToSelect(this.armsmasterMolina1);
-            expect(this.player1).toBeAbleToSelect(this.armsmasterMolina2);
-            this.player1.clickCard(this.armsmasterMolina2);
-            this.player1.clickCard(this.krump);
-            expect(this.krump.location).toBe('discard');
-
-            expect(this.armsmasterMolina1.upgrades).not.toContain(this.molinaSBlaster);
-            expect(this.armsmasterMolina2.upgrades).toContain(this.molinaSBlaster);
+            // There are no valid targets.
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.armsmasterMolina1.upgrades).toContain(this.molinaSBlaster);
         });
     });
 });
