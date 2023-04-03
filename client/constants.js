@@ -30,11 +30,11 @@ export const Constants = {
     ],
     Locales: ['de', 'en', 'es', 'fr', 'it', 'ko', 'pt', 'pl', 'th', 'zhhans', 'zhhant'],
     Expansions: [
-        { value: '341', label: 'CotA' },
-        { value: '435', label: 'AoA' },
-        { value: '452', label: 'WC' },
-        { value: '479', label: 'MM' },
-        { value: '496', label: 'DT' }
+        { value: '341', label: 'CotA', tideRequired: false },
+        { value: '435', label: 'AoA', tideRequired: false },
+        { value: '452', label: 'WC', tideRequired: false },
+        { value: '479', label: 'MM', tideRequired: false },
+        { value: '496', label: 'DT', tideRequired: true }
     ],
     CardTypes: ['action', 'artifact', 'creature', 'upgrade'],
     SetIconPaths: {},
