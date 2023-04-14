@@ -199,21 +199,16 @@ describe('Kirby’s Blaster', function () {
             this.comOfficerKirby2 = this.player1.player.creaturesInPlay[2];
         });
 
-        it('should allow moving upgrade between officers of same name', function () {
+        it('should not allow moving upgrade between officers of same name', function () {
             this.player1.playUpgrade(this.kirbySBlaster, this.comOfficerKirby1);
             this.player1.reap(this.comOfficerKirby1);
             this.player1.clickCard(this.comOfficerKirby1);
 
             this.player1.clickPrompt('Kirby’s Blaster');
             this.player1.clickPrompt('Move Kirby’s Blaster');
-            expect(this.player1).not.toBeAbleToSelect(this.comOfficerKirby1);
-            expect(this.player1).toBeAbleToSelect(this.comOfficerKirby2);
-            this.player1.clickCard(this.comOfficerKirby2);
-
-            expect(this.comOfficerKirby1.upgrades).not.toContain(this.kirbySBlaster);
-            expect(this.comOfficerKirby2.upgrades).toContain(this.kirbySBlaster);
-
-            expect(this.player1.hand.length).toBe(4);
+            // There are no valid targets.
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.comOfficerKirby1.upgrades).toContain(this.kirbySBlaster);
         });
     });
 });

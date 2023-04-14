@@ -27,7 +27,10 @@ class BlasterCard extends Card {
         result.targets[moveChoice] = {
             dependsOn: 'action',
             cardType: 'creature',
-            cardCondition: (card) => card.name === creatureName && !card.upgrades.includes(this),
+            cardCondition: (card) =>
+                this.parent.name != creatureName &&
+                card.name === creatureName &&
+                !card.upgrades.includes(this),
             gameAction: ability.actions.attach({ upgrade: this })
         };
 

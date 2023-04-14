@@ -18,9 +18,7 @@ export const Decks = Object.freeze({
     DeleteDeck: 'DELETE_DECK',
     DeckDeleted: 'DECK_DELETED',
     RequestDecks: 'REQUEST_DECKS',
-    DecksReceived: 'DECKS_RECEIVED',
-    SaveEnhancements: 'DECK_SAVE_ENHANCEMENTS',
-    EnhancementsSaved: 'DECK_ENHANCEMENTS_SAV'
+    DecksReceived: 'DECKS_RECEIVED'
 });
 
 export const UserAction = Object.freeze({

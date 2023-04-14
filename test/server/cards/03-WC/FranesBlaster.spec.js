@@ -200,7 +200,6 @@ describe('Frane’s Blaster', function () {
                     inPlay: ['techivore-pulpate', 'first-officer-frane', 'first-officer-frane']
                 },
                 player2: {
-                    amber: 2,
                     inPlay: ['lamindra', 'krump']
                 }
             });
@@ -209,26 +208,15 @@ describe('Frane’s Blaster', function () {
             this.firstOfficerFrane2 = this.player1.player.creaturesInPlay[2];
         });
 
-        it('should allow moving upgrade between officers of same name', function () {
-            this.firstOfficerFrane1.tokens.amber = 3;
-            this.firstOfficerFrane2.tokens.amber = 5;
-
+        it('should not allow moving upgrade between officers of same name', function () {
             this.player1.playUpgrade(this.franeSBlaster, this.firstOfficerFrane1);
             this.player1.reap(this.firstOfficerFrane1);
             this.player1.clickCard(this.firstOfficerFrane1);
 
-            this.player1.clickPrompt('Frane’s Blaster');
             this.player1.clickPrompt('Move Frane’s Blaster');
-            expect(this.player1).not.toBeAbleToSelect(this.firstOfficerFrane1);
-            expect(this.player1).toBeAbleToSelect(this.firstOfficerFrane2);
-            this.player1.clickCard(this.firstOfficerFrane2);
-
-            expect(this.firstOfficerFrane1.upgrades).not.toContain(this.franeSBlaster);
-            expect(this.firstOfficerFrane2.upgrades).toContain(this.franeSBlaster);
-
-            expect(this.firstOfficerFrane1.hasToken('amber')).toBe(false);
-            expect(this.firstOfficerFrane2.hasToken('amber')).toBe(false);
-            expect(this.player1.amber).toBe(10);
+            // There are no valid targets.
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.firstOfficerFrane1.upgrades).toContain(this.franeSBlaster);
         });
     });
 });
