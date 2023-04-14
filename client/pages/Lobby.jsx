@@ -81,8 +81,8 @@ const Lobby = () => {
 
     const banners = [
         {
-            img: '/banner/tco-ad-sks.png',
-            link: 'https://discord.gg/4MDV2vdctg'
+            img: '/banner/happygee-v3.png',
+            link: 'https://geeb.us/bpptco'
         }
     ];
 
