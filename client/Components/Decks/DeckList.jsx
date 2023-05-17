@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Col, Form } from 'react-bootstrap';
+import { Button, Col, Form } from 'react-bootstrap';
 import moment from 'moment';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
@@ -297,6 +297,59 @@ const DeckList = ({ deckFilter, onDeckSelected, standaloneDecks = false }) => {
         }
     ];
 
+    const decksToCsv = (decks) => {
+        if (decks.length === 0) {
+            return '';
+        }
+
+        const expansionMapping = {
+            496: 'Dark Tidings',
+            479: 'Mass Mutation',
+            452: 'Worlds Collide',
+            435: 'Age of Ascension',
+            341: 'Call of the Archons'
+        };
+
+        const headers = ['expansion', 'name', 'losses', 'wins', 'winRate'];
+
+        const csvRows = decks
+            .filter((deck) => deck.isAlliance !== true)
+            .map((deck) => {
+                return headers.map((header) => {
+                    let value = deck[header];
+
+                    if (header === 'expansion') {
+                        value = expansionMapping[value] || value;
+                    }
+
+                    if (typeof value === 'string') {
+                        const escapedValue = value.replace(/"/g, '""');
+                        return `"${escapedValue}"`;
+                    }
+
+                    return value;
+                });
+            });
+
+        const csvContent = [headers, ...csvRows].map((row) => row.join(',')).join('\n');
+
+        return csvContent;
+    };
+
+    const downloadCsv = (csvContent, fileName) => {
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement('a');
+        const url = URL.createObjectURL(blob);
+
+        link.setAttribute('href', url);
+        link.setAttribute('download', fileName);
+        link.style.visibility = 'hidden';
+
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
     let onNameChange = debounce((event) => {
         nameFilter.current(event.target.value.toLowerCase());
     }, 500);
@@ -318,6 +371,16 @@ const DeckList = ({ deckFilter, onDeckSelected, standaloneDecks = false }) => {
                                     }}
                                     placeholder={t('Filter by name')}
                                 />
+                                <Button
+                                    className='mt-2'
+                                    onClick={() => {
+                                        const csvContent = decksToCsv(decks);
+                                        const fileName = 'decks.csv'; // You can change the file name if desired
+                                        downloadCsv(csvContent, fileName);
+                                    }}
+                                >
+                                    {t('Download Deck Data CSV')}
+                                </Button>
                             </Form.Group>
                             <Form.Group as={Col} lg='6' controlId='formGridExpansion'>
                                 <Form.Label>{t('Expansion')}</Form.Label>
