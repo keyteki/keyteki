@@ -375,7 +375,7 @@ const DeckList = ({ deckFilter, onDeckSelected, standaloneDecks = false }) => {
                                     className='mt-2'
                                     onClick={() => {
                                         const csvContent = decksToCsv(decks);
-                                        const fileName = 'decks.csv'; // You can change the file name if desired
+                                        const fileName = 'decks-win-loss.csv';
                                         downloadCsv(csvContent, fileName);
                                     }}
                                 >
