@@ -299,40 +299,59 @@ const DeckList = ({ deckFilter, onDeckSelected, standaloneDecks = false }) => {
 
     const decksToCsv = (decks) => {
         if (decks.length === 0) {
-            return '';
+          return '';
         }
-
+      
         const expansionMapping = {
-            496: 'Dark Tidings',
-            479: 'Mass Mutation',
-            452: 'Worlds Collide',
-            435: 'Age of Ascension',
-            341: 'Call of the Archons'
+          496: 'Dark Tidings',
+          479: 'Mass Mutation',
+          452: 'Worlds Collide',
+          435: 'Age of Ascension',
+          341: 'Call of the Archons',
         };
-
-        const headers = ['expansion', 'name', 'losses', 'wins', 'winRate'];
-
-        const csvRows = decks
-            .filter((deck) => deck.isAlliance !== true)
-            .map((deck) => {
-                return headers.map((header) => {
-                    let value = deck[header];
-
-                    if (header === 'expansion') {
-                        value = expansionMapping[value] || value;
-                    }
-
-                    if (typeof value === 'string') {
-                        const escapedValue = value.replace(/"/g, '""');
-                        return `"${escapedValue}"`;
-                    }
-
-                    return value;
-                });
+      
+        const headers = ['expansion', 'name', 'losses', 'wins', 'winRate', 'games'];
+      
+        const filteredDecks = decks.filter((deck) => deck.isAlliance !== true);
+      
+        const csvRows = filteredDecks.map((deck) => {
+          return headers
+            .map((header) => {
+              let value;
+      
+              if (header === 'expansion') {
+                value = expansionMapping[deck.expansion] || deck.expansion;
+              } else if (header === 'games') {
+                value = parseInt(deck.wins, 10) + parseInt(deck.losses, 10);
+              } else {
+                value = deck[header];
+              }
+      
+              if (typeof value === 'string') {
+                const escapedValue = value.replace(/"/g, '""');
+                return `"${escapedValue}"`;
+              }
+      
+              return value;
             });
-
-        const csvContent = [headers, ...csvRows].map((row) => row.join(',')).join('\n');
-
+        });
+      
+        const totalWins = filteredDecks.reduce((acc, deck) => acc + parseInt(deck.wins, 10), 0);
+        const totalLosses = filteredDecks.reduce((acc, deck) => acc + parseInt(deck.losses, 10), 0);
+        const totalGames = totalWins + totalLosses;
+        const winRate = totalGames > 0 ? (totalWins / totalGames) * 100 : 0;
+      
+        const summaryRow = [
+          'NA', // Expansion
+          'NA', // Name
+          totalLosses,
+          totalWins,
+          `${winRate.toFixed(2)}%`, // WinRate with a '%' symbol
+          totalGames,
+        ];
+      
+        const csvContent = [headers, ...csvRows, summaryRow].map((row) => row.join(',')).join('\n');
+      
         return csvContent;
     };
 
