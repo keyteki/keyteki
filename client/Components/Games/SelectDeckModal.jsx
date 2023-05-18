@@ -19,7 +19,11 @@ const SelectDeckModal = ({ deckFilter, onClose, onDeckSelected }) => {
                 </Modal.Header>
                 <Modal.Body>
                     <div>
-                        <DeckList deckFilter={deckFilter} onDeckSelected={onDeckSelected} />
+                        <DeckList
+                            deckFilter={deckFilter}
+                            onDeckSelected={onDeckSelected}
+                            showDownloadButton={false}
+                        />
                         {standaloneDecks && standaloneDecks.length !== 0 && (
                             <div>
                                 <h4 className='deck-list-header'>

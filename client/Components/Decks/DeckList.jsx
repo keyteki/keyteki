@@ -85,7 +85,12 @@ import { faCheck } from '@fortawesome/free-solid-svg-icons';
 /**
  * @param {DeckListProps} props
  */
-const DeckList = ({ deckFilter, onDeckSelected, standaloneDecks = false }) => {
+const DeckList = ({
+    deckFilter,
+    onDeckSelected,
+    standaloneDecks = false,
+    showDownloadButton = true
+}) => {
     const { t } = useTranslation();
     const [pagingDetails, setPagingDetails] = useState({
         pageSize: 10,
@@ -299,59 +304,58 @@ const DeckList = ({ deckFilter, onDeckSelected, standaloneDecks = false }) => {
 
     const decksToCsv = (decks) => {
         if (decks.length === 0) {
-          return '';
+            return '';
         }
-      
+
         const expansionMapping = {
-          496: 'Dark Tidings',
-          479: 'Mass Mutation',
-          452: 'Worlds Collide',
-          435: 'Age of Ascension',
-          341: 'Call of the Archons',
+            496: 'Dark Tidings',
+            479: 'Mass Mutation',
+            452: 'Worlds Collide',
+            435: 'Age of Ascension',
+            341: 'Call of the Archons'
         };
-      
+
         const headers = ['expansion', 'name', 'losses', 'wins', 'winRate', 'games'];
-      
+
         const filteredDecks = decks.filter((deck) => deck.isAlliance !== true);
-      
+
         const csvRows = filteredDecks.map((deck) => {
-          return headers
-            .map((header) => {
-              let value;
-      
-              if (header === 'expansion') {
-                value = expansionMapping[deck.expansion] || deck.expansion;
-              } else if (header === 'games') {
-                value = parseInt(deck.wins, 10) + parseInt(deck.losses, 10);
-              } else {
-                value = deck[header];
-              }
-      
-              if (typeof value === 'string') {
-                const escapedValue = value.replace(/"/g, '""');
-                return `"${escapedValue}"`;
-              }
-      
-              return value;
+            return headers.map((header) => {
+                let value;
+
+                if (header === 'expansion') {
+                    value = expansionMapping[deck.expansion] || deck.expansion;
+                } else if (header === 'games') {
+                    value = parseInt(deck.wins, 10) + parseInt(deck.losses, 10);
+                } else {
+                    value = deck[header];
+                }
+
+                if (typeof value === 'string') {
+                    const escapedValue = value.replace(/"/g, '""');
+                    return `"${escapedValue}"`;
+                }
+
+                return value;
             });
         });
-      
+
         const totalWins = filteredDecks.reduce((acc, deck) => acc + parseInt(deck.wins, 10), 0);
         const totalLosses = filteredDecks.reduce((acc, deck) => acc + parseInt(deck.losses, 10), 0);
         const totalGames = totalWins + totalLosses;
         const winRate = totalGames > 0 ? (totalWins / totalGames) * 100 : 0;
-      
+
         const summaryRow = [
-          'NA', // Expansion
-          'NA', // Name
-          totalLosses,
-          totalWins,
-          `${winRate.toFixed(2)}%`, // WinRate with a '%' symbol
-          totalGames,
+            'NA', // Expansion
+            'NA', // Name
+            totalLosses,
+            totalWins,
+            `${winRate.toFixed(2)}%`, // WinRate with a '%' symbol
+            totalGames
         ];
-      
+
         const csvContent = [headers, ...csvRows, summaryRow].map((row) => row.join(',')).join('\n');
-      
+
         return csvContent;
     };
 
@@ -390,16 +394,18 @@ const DeckList = ({ deckFilter, onDeckSelected, standaloneDecks = false }) => {
                                     }}
                                     placeholder={t('Filter by name')}
                                 />
-                                <Button
-                                    className='mt-2'
-                                    onClick={() => {
-                                        const csvContent = decksToCsv(decks);
-                                        const fileName = 'decks-win-loss.csv';
-                                        downloadCsv(csvContent, fileName);
-                                    }}
-                                >
-                                    {t('Download Deck Data CSV')}
-                                </Button>
+                                {showDownloadButton && decks.length > 0 && (
+                                    <Button
+                                        className='mt-2'
+                                        onClick={() => {
+                                            const csvContent = decksToCsv(decks);
+                                            const fileName = 'decks-win-loss.csv';
+                                            downloadCsv(csvContent, fileName);
+                                        }}
+                                    >
+                                        {t('Download Deck Data CSV')}
+                                    </Button>
+                                )}
                             </Form.Group>
                             <Form.Group as={Col} lg='6' controlId='formGridExpansion'>
                                 <Form.Label>{t('Expansion')}</Form.Label>
