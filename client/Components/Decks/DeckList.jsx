@@ -346,8 +346,8 @@ const DeckList = ({
         const winRate = totalGames > 0 ? (totalWins / totalGames) * 100 : 0;
 
         const summaryRow = [
-            'NA', // Expansion
-            'NA', // Name
+            'Totals', // Expansion
+            'Totals', // Name
             totalLosses,
             totalWins,
             `${winRate.toFixed(2)}%`, // WinRate with a '%' symbol
@@ -399,8 +399,10 @@ const DeckList = ({
                                         className='mt-2'
                                         onClick={() => {
                                             const csvContent = decksToCsv(decks);
-                                            const fileName = 'decks-win-loss.csv';
-                                            downloadCsv(csvContent, fileName);
+                                            if (csvContent != '') {
+                                                const fileName = 'decks-win-loss.csv';
+                                                downloadCsv(csvContent, fileName);
+                                            }
                                         }}
                                     >
                                         {t('Download Deck Data CSV')}
