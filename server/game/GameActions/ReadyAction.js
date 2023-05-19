@@ -8,6 +8,9 @@ class ReadyAction extends CardGameAction {
     }
 
     canAffect(card, context) {
+        if (card.game.currentPhase === 'ready' && !card.readiesDuringReadyPhase()) {
+            return false;
+        }
         return (
             card.location === 'play area' &&
             card.checkRestrictions('ready', context) &&
@@ -16,12 +19,9 @@ class ReadyAction extends CardGameAction {
     }
 
     getEvent(card, context) {
-        return super.createEvent('onCardReadied', { card: card, context: context }, () => {
-            if (card.game.currentPhase === 'ready' && !card.readiesDuringReadyPhase()) {
-                return;
-            }
-            card.ready();
-        });
+        return super.createEvent('onCardReadied', { card: card, context: context }, () =>
+            card.ready()
+        );
     }
 }
 
