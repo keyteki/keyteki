@@ -123,6 +123,14 @@
             ],
             "cwd": "${workspaceRoot}",
             "outFiles": []
+        },
+        {
+            "name": "Generate Code",
+            "type": "node",
+            "request": "launch",
+            "program": "${workspaceRoot}/server/scripts/generatecards.js",
+            "cwd": "${workspaceRoot}",
+            "outFiles": []
         }
     ]
 }
