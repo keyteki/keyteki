@@ -32,6 +32,8 @@ services:
             - node
             - '--inspect=0.0.0.0:9339'
             - 'server/gamenode'
+        environment:
+            - NODE_ENV=development
     postgres:
         image: postgres
         environment:
