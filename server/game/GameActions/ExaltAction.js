@@ -16,10 +16,18 @@ class ExaltAction extends AddTokenAction {
     }
 
     getEvent(card, context) {
+        let player = this.player || context.player.opponent;
         return super.createEvent(
             'onExalt',
             { card: card, context: context, amount: this.amount },
-            () => card.addToken('amber', this.amount)
+            () => {
+                let extra = 0;
+                if (this.amount > 0 && player.anyEffect('exaltOneMoreFromPool')) {
+                    extra = 1;
+                }
+
+                card.addToken('amber', this.amount + extra);
+            }
         );
     }
 }
