@@ -16,9 +16,12 @@ class ReadyAction extends CardGameAction {
     }
 
     getEvent(card, context) {
-        return super.createEvent('onCardReadied', { card: card, context: context }, () =>
-            card.ready()
-        );
+        return super.createEvent('onCardReadied', { card: card, context: context }, () => {
+            if (card.game.currentPhase === 'ready' && !card.readiesDuringReadyPhase()) {
+                return;
+            }
+            card.ready();
+        });
     }
 }
 
