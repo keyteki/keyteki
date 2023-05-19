@@ -319,42 +319,83 @@ const DeckList = ({
 
         const filteredDecks = decks.filter((deck) => deck.isAlliance !== true);
 
-        const csvRows = filteredDecks.map((deck) => {
-            return headers.map((header) => {
-                let value;
+        const subtotalsByExpansion = new Map();
 
-                if (header === 'expansion') {
-                    value = expansionMapping[deck.expansion] || deck.expansion;
-                } else if (header === 'games') {
-                    value = parseInt(deck.wins, 10) + parseInt(deck.losses, 10);
-                } else {
-                    value = deck[header];
-                }
+        let csvRows = [];
 
-                if (typeof value === 'string') {
-                    const escapedValue = value.replace(/"/g, '""');
-                    return `"${escapedValue}"`;
-                }
+        filteredDecks.forEach((deck) => {
+            const expansion = expansionMapping[deck.expansion] || deck.expansion;
 
-                return value;
-            });
+            if (!subtotalsByExpansion.has(expansion)) {
+                subtotalsByExpansion.set(expansion, { wins: 0, losses: 0 });
+            }
+
+            const stats = subtotalsByExpansion.get(expansion);
+            const wins = parseInt(deck.wins, 10);
+            const losses = parseInt(deck.losses, 10);
+
+            stats.wins += wins;
+            stats.losses += losses;
+
+            csvRows.push(
+                headers.map((header) => {
+                    let value;
+
+                    if (header === 'expansion') {
+                        value = expansion;
+                    } else if (header === 'games') {
+                        value = wins + losses;
+                    } else {
+                        value = deck[header];
+                    }
+
+                    if (typeof value === 'string') {
+                        const escapedValue = value.replace(/"/g, '""');
+                        return `"${escapedValue}"`;
+                    }
+
+                    return value;
+                })
+            );
         });
 
-        const totalWins = filteredDecks.reduce((acc, deck) => acc + parseInt(deck.wins, 10), 0);
-        const totalLosses = filteredDecks.reduce((acc, deck) => acc + parseInt(deck.losses, 10), 0);
+        let totalWins = 0;
+        let totalLosses = 0;
+
+        let subtotalRows = [];
+
+        for (let [expansion, stats] of subtotalsByExpansion.entries()) {
+            const games = stats.wins + stats.losses;
+            const winRate = games > 0 ? (stats.wins / games) * 100 : 0;
+
+            subtotalRows.push([
+                expansion,
+                'Subtotals',
+                stats.losses,
+                stats.wins,
+                `${winRate.toFixed(2)}%`,
+                games
+            ]);
+
+            totalWins += stats.wins;
+            totalLosses += stats.losses;
+        }
+
         const totalGames = totalWins + totalLosses;
-        const winRate = totalGames > 0 ? (totalWins / totalGames) * 100 : 0;
+        const totalWinRate = totalGames > 0 ? (totalWins / totalGames) * 100 : 0;
 
         const summaryRow = [
             'Totals', // Expansion
             'Totals', // Name
             totalLosses,
             totalWins,
-            `${winRate.toFixed(2)}%`, // WinRate with a '%' symbol
+            `${totalWinRate.toFixed(2)}%`,
             totalGames
         ];
 
-        const csvContent = [headers, ...csvRows, summaryRow].map((row) => row.join(',')).join('\n');
+        csvRows = [...csvRows, ...subtotalRows, summaryRow];
+
+        const csvContent = [headers, ...csvRows].map((row) => row.join(',')).join('\n');
 
         return csvContent;
     };
