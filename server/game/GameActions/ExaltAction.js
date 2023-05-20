@@ -22,8 +22,8 @@ class ExaltAction extends AddTokenAction {
             { card: card, context: context, amount: this.amount },
             () => {
                 let extra = 0;
-                if (this.amount > 0 && player.anyEffect('exaltOneMoreFromPool')) {
-                    extra = 1;
+                if (this.amount > 0) {
+                    extra = player.sumEffects('exaltMoreFromPool');
                 }
 
                 card.addToken('amber', this.amount + extra);

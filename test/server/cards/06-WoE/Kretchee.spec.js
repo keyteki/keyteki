@@ -33,4 +33,29 @@ describe('Kretchee', function () {
             expect(this.player1.amber).toBe(2);
         });
     });
+
+    describe("Kretchee's ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 6,
+                    house: 'brobnar',
+                    inPlay: ['kretchee', 'alaka', 'senator-quintina'],
+                    hand: ['kretchee']
+                },
+                player2: {
+                    amber: 3
+                }
+            });
+        });
+
+        it('should stack', function () {
+            this.kretchee2 = this.player1.player.hand[0];
+            this.player1.play(this.kretchee2);
+            this.player1.reap(this.alaka);
+            expect(this.alaka.tokens.amber).toBe(3);
+            expect(this.player1.amber).toBe(7);
+            expect(this.player2.amber).toBe(3);
+        });
+    });
 });

@@ -4,10 +4,7 @@ class Kretchee extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
             targetController: 'any',
-            effect: [
-                ability.effects.captureOneMoreFromPool(),
-                ability.effects.exaltOneMoreFromPool()
-            ]
+            effect: [ability.effects.captureMoreFromPool(1), ability.effects.exaltMoreFromPool(1)]
         });
     }
 }
