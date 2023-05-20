@@ -32,5 +32,14 @@ describe('Harmal Atoon', function () {
             expect(this.alaka.location).toBe('hand');
             this.player2.endTurn();
         });
+
+        it('should not give enemy Brobnar creatures any effects', function () {
+            this.player1.fightWith(this.alaka, this.megaAlaka);
+            this.player1.play(this.pound);
+            expect(this.player1).toBeAbleToSelect(this.megaAlaka);
+            this.player1.clickCard(this.megaAlaka);
+            expect(this.megaAlaka.location).toBe('discard');
+            this.player1.endTurn();
+        });
     });
 });
