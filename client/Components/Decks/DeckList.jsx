@@ -7,11 +7,11 @@ import filterFactory, { textFilter, multiSelectFilter } from 'react-bootstrap-ta
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import Select from 'react-select';
-import debounce from 'lodash.debounce';
+// import debounce from 'lodash.debounce';
 import $ from 'jquery';
 
 import CardBack from './CardBack';
-import { loadDecks, selectDeck, loadStandaloneDecks } from '../../redux/actions';
+import { loadDecks, selectDeck, loadStandaloneDecks, fetchAllDecks } from '../../redux/actions';
 
 import './DeckList.scss';
 import { Constants } from '../../constants';
@@ -146,6 +146,10 @@ const DeckList = ({
                 dispatch(selectDeck(deck));
             }
         }
+    };
+
+    const handleButtonClick = () => {
+        dispatch(fetchAllDecks());
     };
 
     const rowEvents = {
@@ -302,7 +306,7 @@ const DeckList = ({
         }
     ];
 
-    const decksToCsv = (decks) => {
+    /*     const decksToCsv = (decks) => {
         if (decks.length === 0) {
             return '';
         }
@@ -416,7 +420,7 @@ const DeckList = ({
 
     let onNameChange = debounce((event) => {
         nameFilter.current(event.target.value.toLowerCase());
-    }, 500);
+    }, 500); */
 
     return (
         <div className='deck-list'>
@@ -431,12 +435,15 @@ const DeckList = ({
                                     type='text'
                                     onChange={(event) => {
                                         event.persist();
-                                        onNameChange(event);
+                                        // onNameChange(event);
                                     }}
                                     placeholder={t('Filter by name')}
                                 />
                                 {showDownloadButton && decks.length > 0 && (
-                                    <Button
+                                    <Button onClick={handleButtonClick}>
+                                        Download Deck Data CSV
+                                    </Button>
+                                    /*  <Button
                                         className='mt-2'
                                         onClick={() => {
                                             const csvContent = decksToCsv(decks);
@@ -447,7 +454,7 @@ const DeckList = ({
                                         }}
                                     >
                                         {t('Download Deck Data CSV')}
-                                    </Button>
+                                    </Button> */
                                 )}
                             </Form.Group>
                             <Form.Group as={Col} lg='6' controlId='formGridExpansion'>

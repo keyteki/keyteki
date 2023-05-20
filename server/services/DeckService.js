@@ -341,6 +341,34 @@ class DeckService {
         return retDecks;
     }
 
+    async findAllForUser(user) {
+        let retDecks = [];
+        let decks;
+        let params = [user.id];
+
+        try {
+            decks = await db.query(
+                'SELECT d."Name", e."ExpansionId" as "Expansion", ' +
+                    '(SELECT COUNT(*) FROM "Games" g JOIN "GamePlayers" gp ON gp."GameId" = g."Id" WHERE g."WinnerId" = $1 AND gp."DeckId" = d."Id") AS "WinCount", ' +
+                    '(SELECT COUNT(*) FROM "Games" g JOIN "GamePlayers" gp ON gp."GameId" = g."Id" WHERE g."WinnerId" != $1 AND g."WinnerId" IS NOT NULL AND gp."PlayerId" = $1 AND gp."DeckId" = d."Id") AS "LoseCount" ' +
+                    'FROM "Decks" d ' +
+                    'JOIN "Users" u ON u."Id" = "UserId" ' +
+                    'JOIN "Expansions" e on e."Id" = d."ExpansionId" ' +
+                    'WHERE "UserId" = $1 ',
+                params
+            );
+        } catch (err) {
+            logger.error('Failed to retrieve decks', err);
+        }
+
+        for (let deck of decks) {
+            let retDeck = this.mapAllDeck(deck);
+            retDecks.push(retDeck);
+        }
+
+        return retDecks;
+    }
+
     async getDeckCardsAndHouses(deck, standalone = false) {
         let cardTableQuery;
 
@@ -829,6 +857,17 @@ class DeckService {
             username: deck.Username,
             uuid: deck.Uuid,
             verified: deck.Verified,
+            wins: deck.WinCount,
+            winRate: deck.WinRate
+        };
+    }
+
+    mapAllDeck(deck) {
+        return {
+            expansion: deck.Expansion,
+            name: deck.Name,
+            losses: deck.LoseCount,
+            usageCount: deck.DeckCount,
             wins: deck.WinCount,
             winRate: deck.WinRate
         };

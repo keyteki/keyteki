@@ -26,6 +26,14 @@ export function loadDecks(options = {}) {
     };
 }
 
+export function fetchAllDecks(options = {}) {
+    return {
+        types: ['REQUEST_DECKS', 'DECKS_RECEIVED'],
+        shouldCallAPI: () => true,
+        APIParams: { url: '/api/decks/all', cache: false, data: options }
+    };
+}
+
 export function loadDeck(deckId) {
     return {
         types: ['REQUEST_DECK', 'RECEIVE_DECK'],
