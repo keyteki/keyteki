@@ -227,7 +227,7 @@ describe('Qincan’s Blaster', function () {
             this.sciOfficerQincan2 = this.player1.player.creaturesInPlay[2];
         });
 
-        it('should allow moving upgrade between officers of same name', function () {
+        it('should not allow moving upgrade between officers of same name', function () {
             this.player1.playUpgrade(this.qincanSBlaster, this.sciOfficerQincan1);
             this.player1.clickCard(this.techivorePulpate);
             expect(this.techivorePulpate.location).toBe('archives');
@@ -235,14 +235,9 @@ describe('Qincan’s Blaster', function () {
             this.player1.clickCard(this.sciOfficerQincan1);
 
             this.player1.clickPrompt('Move Qincan’s Blaster');
-            expect(this.player1).not.toBeAbleToSelect(this.sciOfficerQincan1);
-            expect(this.player1).toBeAbleToSelect(this.sciOfficerQincan2);
-            this.player1.clickCard(this.sciOfficerQincan2);
-            this.player1.clickCard(this.gub);
-            expect(this.gub.location).toBe('archives');
-
-            expect(this.sciOfficerQincan1.upgrades).not.toContain(this.qincanSBlaster);
-            expect(this.sciOfficerQincan2.upgrades).toContain(this.qincanSBlaster);
+            // There are no valid targets.
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.sciOfficerQincan1.upgrades).toContain(this.qincanSBlaster);
         });
     });
 });
