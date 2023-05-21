@@ -122,6 +122,8 @@ const Effects = {
     restrictHouseChoice: (house) => EffectBuilder.player.static('restrictHouseChoice', house),
     stealFromPool: () => EffectBuilder.player.static('stealFromPool'),
     captureFromPool: () => EffectBuilder.player.static('captureFromPool'),
+    captureMoreFromPool: (amount) => EffectBuilder.player.static('captureMoreFromPool', amount),
+    exaltMoreFromPool: (amount) => EffectBuilder.player.static('exaltMoreFromPool', amount),
     stopHouseChoice: (house) => EffectBuilder.player.flexible('stopHouseChoice', house),
     skipStep: (step) => EffectBuilder.player.static('skipStep', step)
 };
