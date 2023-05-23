@@ -21,6 +21,7 @@ const Actions = {
     addSchemeCounter: (propertyFactory) =>
         new GameActions.AddTokenAction(propertyFactory, 'scheme'),
     addTimeCounter: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'time'),
+    addTradeCounter: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'trade'),
     addWardToken: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'ward'),
     addWarrantCounter: (propertyFactory) =>
         new GameActions.AddTokenAction(propertyFactory, 'warrant'),
