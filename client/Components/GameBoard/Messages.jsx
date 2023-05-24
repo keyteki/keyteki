@@ -87,7 +87,7 @@ const Messages = ({ messages, onCardMouseOver, onCardMouseOut }) => {
                                 className={'font-weight-bold text-white separator ' + fragment.type}
                                 key={index++}
                             >
-                                <hr className={'mt-2 mb-2' + fragment.type} />
+                                <hr className={'mt-2 mb-2 ' + fragment.type} />
                                 {message}
                                 {fragment.type === 'phasestart' && <hr />}
                             </div>
