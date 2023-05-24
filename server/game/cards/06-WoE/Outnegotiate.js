@@ -3,6 +3,7 @@ const Card = require('../../Card.js');
 class Outnegotiate extends Card {
     setupCardAbilities(ability) {
         this.play({
+            effectStyle: `all`,
             target: {
                 controller: 'opponent',
                 location: 'discard',
