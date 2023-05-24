@@ -91,6 +91,8 @@ const Actions = {
     sacrifice: (propertyFactory) => new GameActions.DestroyAction(propertyFactory, true),
     stun: (propertyFactory) => new GameActions.StunAction(propertyFactory),
     swap: (propertyFactory) => new GameActions.SwapAction(propertyFactory), // origin
+    swapDiscardWithHand: (propertyFactory) =>
+        new GameActions.SwapDiscardWithHandAction(propertyFactory), // discardCard
     use: (propertyFactory) => new GameActions.UseAction(propertyFactory),
     ward: (propertyFactory) => new GameActions.WardAction(propertyFactory),
     // player actions
