@@ -27,6 +27,10 @@ class SwapAction extends CardGameAction {
 
     getEvent(card, context) {
         return super.createEvent('onSwap', { card: card, context: context }, () => {
+            if (this.origin === null || this.origin.location !== 'play area') {
+                return;
+            }
+
             let originIndex = this.origin.controller.cardsInPlay.indexOf(this.origin);
             let cardIndex = card.controller.cardsInPlay.indexOf(card);
             if (originIndex >= 0 && cardIndex >= 0) {
