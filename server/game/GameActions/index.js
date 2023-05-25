@@ -68,6 +68,7 @@ module.exports = {
     StealAction: require('./StealAction'),
     StunAction: require('./StunAction'),
     SwapAction: require('./SwapAction'),
+    SwapDiscardWithHandAction: require('./SwapDiscardWithHandAction'),
     TransferAmberAction: require('./TransferAmberAction'),
     UnforgeAction: require('./UnforgeAction'),
     UseAction: require('./UseAction'),
