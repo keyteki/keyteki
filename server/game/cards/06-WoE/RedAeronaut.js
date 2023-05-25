@@ -24,7 +24,7 @@ class RedAeronaut extends Card {
             effect: 'a friendly Nautilixian gets +5 power for the remainder of the turn',
             target: {
                 controller: 'self',
-                cardCondition: (card) => card.name == 'Nautilixian',
+                cardCondition: (card) => card.name === 'Nautilixian',
                 gameAction: ability.actions.cardLastingEffect({
                     duration: 'untilEndOfRound',
                     effect: ability.effects.modifyPower(5)

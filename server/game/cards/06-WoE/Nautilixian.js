@@ -21,7 +21,7 @@ class Nautilixian extends Card {
         this.persistentEffect({
             targetController: 'current',
             match: (card) => card.type === 'creature' && card.hasTrait('pilot'),
-            effect: ability.effects.addKeyword({ invulnerable: 1 })
+            effect: [ability.effects.cardCannot('damage'), ability.effects.cardCannot('destroy')]
         });
     }
 }

@@ -7,7 +7,7 @@ class WhiteAeronaut extends Card {
             effect: 'ward and heal a friendly Nautilixian',
             target: {
                 controller: 'self',
-                cardCondition: (card) => card.name == 'Nautilixian',
+                cardCondition: (card) => card.name === 'Nautilixian',
                 gameAction: ability.actions.sequential([
                     ability.actions.heal({ fully: true }),
                     ability.actions.ward()
