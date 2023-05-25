@@ -4,7 +4,7 @@ class AuctionOff extends Card {
     // Play: Purge an artifact. Its controller gains 1Aember.
     setupCardAbilities(ability) {
         this.play({
-            effect: 'purge {0} and have {1} gaining 1 amber',
+            effect: 'purge {0} and have {1} gain 1 amber',
             effectArgs: (context) => [context.target.controller],
             target: {
                 cardType: 'artifact',
