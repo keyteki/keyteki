@@ -1,6 +1,6 @@
 const Card = require('../../Card.js');
 
-class ShrewInvestor extends Card {
+class ShrewdInvestor extends Card {
     // Play: You may have your opponent gain 1Aember. If you do,
     // capture 4Aember.
     setupCardAbilities(ability) {
@@ -18,6 +18,6 @@ class ShrewInvestor extends Card {
     }
 }
 
-ShrewInvestor.id = 'shrewd-investor';
+ShrewdInvestor.id = 'shrewd-investor';
 
-module.exports = ShrewInvestor;
+module.exports = ShrewdInvestor;
