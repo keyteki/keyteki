@@ -31,6 +31,22 @@ class MassBuyout extends Card {
                             ).length * 0.5
                         )
                     }))
+                ],
+                message: '{0} uses {1} to gain {3} amber, and {4} gains {5} amber',
+                messageArgs: (context) => [
+                    Math.ceil(
+                        context.preThenEvents.filter(
+                            (event) => !event.cancelled && event.clone.controller === context.player
+                        ).length * 0.5
+                    ),
+                    context.player.opponent,
+                    Math.ceil(
+                        context.preThenEvents.filter(
+                            (event) =>
+                                !event.cancelled &&
+                                event.clone.controller === context.player.opponent
+                        ).length * 0.5
+                    )
                 ]
             }
         });
