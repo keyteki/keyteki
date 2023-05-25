@@ -6,6 +6,7 @@ class ClosedDoorNegotiation extends Card {
     // trigger this effect again.
     setupCardAbilities(ability) {
         this.play({
+            effectStyle: 'all',
             gameAction: [
                 ability.actions.draw((context) => ({
                     target: context.player.opponent
