@@ -6,8 +6,11 @@ class ReclaimedByNature extends Card {
             target: {
                 cardType: 'artifact',
                 location: 'play area',
-                gameAction: [ability.actions.purge(), ability.actions.resolveBonusIcons()]
+                gameAction: ability.actions.purge()
             },
+            then: (preThenContext) => ({
+                gameAction: ability.actions.resolveBonusIcons({ target: preThenContext.target })
+            }),
             effect: 'purge {1} and resolve its bonus icons',
             effectArgs: (context) => [context.target]
         });

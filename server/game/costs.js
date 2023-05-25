@@ -21,10 +21,7 @@ const Costs = {
                 context.ability.omni
             ) {
                 return true;
-            } else if (
-                context.ignoreHouse ||
-                context.player.getEffects('canUse').some((effect) => effect.match(context))
-            ) {
+            } else if (context.ignoreHouse || context.player.checkConditions('canUse', context)) {
                 return true;
             }
 
@@ -40,10 +37,7 @@ const Costs = {
         payEvent: (context) =>
             context.game.getEvent('unnamedEvent', {}, () => {
                 context.game.cardUsed(context.source);
-                if (
-                    context.ignoreHouse ||
-                    context.player.getEffects('canUse').some((effect) => effect.match(context))
-                ) {
+                if (context.ignoreHouse || context.player.checkConditions('canUse', context)) {
                     return true;
                 } else if (context.source.hasHouse(context.player.activeHouse)) {
                     return true;

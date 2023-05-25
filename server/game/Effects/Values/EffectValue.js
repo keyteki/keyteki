@@ -4,11 +4,6 @@ class EffectValue {
         if (this.value === undefined) {
             this.value = true;
         }
-        this.effectContext = {};
-    }
-
-    setContext(context) {
-        this.effectContext = context;
     }
 
     // eslint-disable-next-line no-unused-vars

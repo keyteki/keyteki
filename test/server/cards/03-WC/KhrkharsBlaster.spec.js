@@ -204,22 +204,16 @@ describe('Khrkhar’s Blaster', function () {
             this.lieutenantKhrkhar2 = this.player1.findCardByName('lieutenant-khrkhar', 'hand');
         });
 
-        it('should allow moving upgrade between officers of same name', function () {
+        it('should not allow moving upgrade between officers of same name', function () {
             this.player1.playUpgrade(this.khrkharSBlaster, this.lieutenantKhrkhar1);
             this.player1.playCreature(this.lieutenantKhrkhar2);
             this.player1.reap(this.lieutenantKhrkhar1);
             this.player1.clickCard(this.lieutenantKhrkhar1);
 
             this.player1.clickPrompt('Move Khrkhar’s Blaster');
-            expect(this.player1).not.toBeAbleToSelect(this.lieutenantKhrkhar1);
-            expect(this.player1).toBeAbleToSelect(this.lieutenantKhrkhar2);
-            this.player1.clickCard(this.lieutenantKhrkhar2);
-
-            expect(this.lieutenantKhrkhar1.upgrades).not.toContain(this.khrkharSBlaster);
-            expect(this.lieutenantKhrkhar2.upgrades).toContain(this.khrkharSBlaster);
-
-            expect(this.lieutenantKhrkhar1.warded).toBe(true);
-            expect(this.lieutenantKhrkhar2.warded).toBe(true);
+            // There are no valid targets.
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.lieutenantKhrkhar1.upgrades).toContain(this.khrkharSBlaster);
         });
     });
 });

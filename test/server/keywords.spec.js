@@ -100,6 +100,36 @@ describe('keywords', function () {
         });
     });
 
+    describe('Elusive/Hazardous', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'mars',
+                    inPlay: ['bulwark', 'chuff-ape', 'bulwark', 'blypyp']
+                },
+                player2: {
+                    inPlay: ['xenos-bloodshadow']
+                }
+            });
+            this.chuffApe.ward();
+        });
+
+        it('Hazardous kill should remove elusive', function () {
+            this.player1.fightWith(this.blypyp, this.xenosBloodshadow);
+            expect(this.blypyp.location).toBe('discard');
+            expect(this.xenosBloodshadow.location).toBe('play area');
+            expect(this.xenosBloodshadow.tokens.damage).toBeUndefined();
+            expect(this.xenosBloodshadow.elusiveUsed).toBe(true);
+            this.player1.fightWith(this.chuffApe, this.xenosBloodshadow);
+            expect(this.chuffApe.tokens.armor).toBeUndefined();
+            expect(this.chuffApe.warded).toBe(false);
+            expect(this.chuffApe.location).toBe('play area');
+            expect(this.xenosBloodshadow.location).toBe('discard');
+            this.player1.clickPrompt('Done');
+            this.player1.endTurn();
+        });
+    });
+
     describe('Skirmish/Elusive/Poison', function () {
         beforeEach(function () {
             this.setupTest({

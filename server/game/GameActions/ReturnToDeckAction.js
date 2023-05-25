@@ -10,10 +10,10 @@ class ReturnToDeckAction extends CardGameAction {
         super.setup();
         this.name = 'returnToDeck';
         if (this.shuffle) {
-            this.effectMsg = 'return {0} to their deck';
+            this.effectMsg = "return {0} to their owner's deck";
         } else {
             this.effectMsg =
-                'return {0} to the ' + (this.bottom ? 'bottom' : 'top') + ' of their deck';
+                'return {0} to the ' + (this.bottom ? 'bottom' : 'top') + " of their owner's deck";
         }
     }
 
