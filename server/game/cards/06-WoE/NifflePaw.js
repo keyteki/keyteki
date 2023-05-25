@@ -9,7 +9,7 @@ class NifflePaw extends Card {
             gameAction: ability.actions.destroy((context) => ({ target: context.source.parent })),
             then: {
                 alwaysTriggers: true,
-                message: '{0} moves {1} to {2}',
+                message: '{0} uses {1} to move {1} to {2}',
                 target: {
                     numCards: 1,
                     cardType: ['creature'],
