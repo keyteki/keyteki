@@ -12,7 +12,7 @@ class ShrewdInvestor extends Card {
                 })),
                 ability.actions.capture({ amount: 4 })
             ]),
-            message: '{0} uses {1} to cause {2} to gain 1 amber, and then capture 4 amber onto {0}',
+            message: '{0} uses {1} to cause {2} to gain 1 amber, and then capture 4 amber',
             messageArgs: (context) => [context.player, this, context.player.opponent]
         });
     }
