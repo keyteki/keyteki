@@ -20,6 +20,7 @@ const Actions = {
         new GameActions.AddTokenAction(propertyFactory, 'knowledge'),
     addSchemeCounter: (propertyFactory) =>
         new GameActions.AddTokenAction(propertyFactory, 'scheme'),
+    addPaintCounter: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'paint'),
     addTimeCounter: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'time'),
     addTradeCounter: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'trade'),
     addWardToken: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'ward'),
