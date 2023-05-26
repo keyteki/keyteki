@@ -1,5 +1,5 @@
-describe('Green Aeronaut', function () {
-    describe("Green Aeronaut's ability", function () {
+describe('Red Aeronaut', function () {
+    describe("Red Aeronaut's ability", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
