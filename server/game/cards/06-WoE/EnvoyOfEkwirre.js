@@ -7,7 +7,10 @@ class EnvoyOfEkwirre extends Card {
             target: {
                 cardType: 'creature',
                 cardCondition: (card, context) => context.source.neighbors.includes(card),
-                gameAction: ability.actions.swapEverything()
+                gameAction: ability.actions.swap({
+                    swapTokens: true,
+                    swapUpgrades: true
+                })
             },
             effect: 'swap its position, amber, damage, counters, and upgrades with {0}'
         });
