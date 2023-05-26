@@ -75,5 +75,23 @@ describe('Revo Hooligans', function () {
             this.player1.clickCard(this.shardOfKnowledge);
             expect(this.player1).not.toHavePromptButton("Use this card's Action ability");
         });
+
+        it('should grant the effect even after it dies', function () {
+            this.player1.reap(this.revoHooligans);
+            this.player1.clickCard(this.shardOfKnowledge);
+            expect(this.shardOfKnowledge.tokens.paint).toBe(1);
+            let handSize = this.player1.hand.length;
+            this.player1.useAction(this.shardOfKnowledge);
+            expect(this.player1.hand.length).toBe(handSize + 1);
+            this.player1.endTurn();
+            this.player2.clickPrompt('shadows');
+            this.player2.endTurn();
+            this.player1.clickPrompt('mars');
+            this.player1.fightWith(this.revoHooligans, this.bumpsy);
+            expect(this.revoHooligans.location).toBe('discard');
+            handSize = this.player1.hand.length;
+            this.player1.useAction(this.shardOfKnowledge);
+            expect(this.player1.hand.length).toBe(handSize + 1);
+        });
     });
 });
