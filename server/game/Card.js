@@ -532,7 +532,9 @@ class Card extends EffectSource {
                 if (to === 'play area' && from !== 'play area') {
                     effect.ref = this.addEffectToEngine(effect);
                 } else if (to !== 'play area' && from === 'play area') {
-                    this.removeEffectFromEngine(effect.ref);
+                    if (effect.ref) {
+                        this.removeEffectFromEngine(effect.ref);
+                    }
                     effect.ref = [];
                 }
             }

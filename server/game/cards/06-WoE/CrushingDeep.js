@@ -4,17 +4,14 @@ class CrushingDeep extends Card {
     //Play: During your opponent's next turn, keys cost +3A for each forged key they have.
     setupCardAbilities(ability) {
         this.play({
-            target: {
-                cardType: 'creature',
-                controller: 'opponent',
-                gameAction: ability.actions.sequential([
-                    ability.actions.enrage(),
-                    ability.actions.capture((context) => ({
-                        amount: 1,
-                        player: context.player.opponent
-                    }))
-                ])
-            }
+            effect: "increase key cost by 3 for each forged key they have during {1}'s next turn",
+            effectArgs: (context) => context.player.opponent,
+            gameAction: ability.actions.nextRoundEffect({
+                targetController: 'any',
+                effect: ability.effects.modifyKeyCost((player, context) =>
+                    context.player.opponent ? context.player.opponent.getForgedKeys() : 0
+                )
+            })
         });
     }
 }

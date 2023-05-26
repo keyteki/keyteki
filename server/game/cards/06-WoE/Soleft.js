@@ -4,17 +4,9 @@ class Soleft extends Card {
     //Destroyed: Destroy the creature on your opponent's left flank.
     setupCardAbilities(ability) {
         this.play({
-            target: {
-                cardType: 'creature',
-                controller: 'opponent',
-                gameAction: ability.actions.sequential([
-                    ability.actions.enrage(),
-                    ability.actions.capture((context) => ({
-                        amount: 1,
-                        player: context.player.opponent
-                    }))
-                ])
-            }
+            gameAction: ability.actions.destroy((context) => ({
+                target: context.player.opponent ? context.player.opponent.creaturesInPlay[0] : []
+            }))
         });
     }
 }
