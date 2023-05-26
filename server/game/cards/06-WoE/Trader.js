@@ -1,6 +1,6 @@
-const TokenCard = require('../../TokenCard.js');
+const Card = require('../../Card.js');
 
-class Trader extends TokenCard {
+class Trader extends Card {
     //Action: Steal 1A icon. Destroy Trader.
     setupCardAbilities(ability) {
         this.action({

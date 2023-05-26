@@ -87,7 +87,7 @@ class PlayerInteractionWrapper {
                 if (card.startsWith(this.token)) {
                     if (!card.includes(':')) {
                         throw new Error(
-                            `Token "${card}" missing its version card as "token:versus"`
+                            `Token "${card}" missing its versus card id as "token:versus"`
                         );
                     }
                     const versusCard = this.deck.find((c) => c.id === card.split(':')[1]);
