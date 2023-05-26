@@ -15,7 +15,7 @@ describe('Mk.2 Generator', function () {
                 }
             });
 
-            this.versusCard = this.player1.deck[0];
+            this.deckCard = this.player1.deck[0];
             this.player1.play(this.mk2Generator);
         });
 
@@ -28,8 +28,8 @@ describe('Mk.2 Generator', function () {
             this.player1.useAction(this.mk2Generator);
             this.player1.clickPrompt('Left');
             let rebel = this.player1.inPlay[0];
-            expect(rebel.id).toBe('rebel');
-            expect(rebel.versusCard).toBe(this.versusCard);
+            expect(rebel.name).toBe('Rebel');
+            expect(rebel).toBe(this.deckCard);
             expect(rebel.exhausted).toBe(true);
             this.player1.endTurn();
         });

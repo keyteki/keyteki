@@ -6,7 +6,7 @@ describe('Rebel', function () {
                     house: 'mars',
                     amber: 1,
                     token: 'rebel',
-                    inPlay: ['flaxia', 'rebel', 'ether-spider']
+                    inPlay: ['flaxia', 'rebel:world-tree', 'ether-spider']
                 },
                 player2: {
                     amber: 1,

@@ -27,7 +27,8 @@ const Effects = {
     changeHouse: (house) => EffectBuilder.card.static('changeHouse', house),
     changeType: (type) => EffectBuilder.card.static('changeType', type),
     consideredAsFlank: () => EffectBuilder.card.static('consideredAsFlank'),
-    copyCard: (card) => EffectBuilder.card.static('copyCard', new CopyCard(card)),
+    copyCard: (card, cascadeEffects = true) =>
+        EffectBuilder.card.static('copyCard', new CopyCard(card, cascadeEffects)),
     customDetachedCard: (properties) => EffectBuilder.card.detached('customEffect', properties),
     doesNotReady: () => EffectBuilder.card.static('doesNotReady'),
     entersPlayEnraged: (condition) =>
@@ -36,6 +37,7 @@ const Effects = {
         EffectBuilder.card.static('entersPlayReady', new ConditionValue(condition)),
     entersPlayStunned: (condition) =>
         EffectBuilder.card.static('entersPlayStunned', new ConditionValue(condition)),
+    flipToken: () => EffectBuilder.card.static('flipToken'),
     visbileIn: (location) => EffectBuilder.card.static('visbileIn', location),
     gainAbility: (type, properties) =>
         EffectBuilder.card.static('gainAbility', new GainAbility(type, properties)),

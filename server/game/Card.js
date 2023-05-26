@@ -115,7 +115,7 @@ class Card extends EffectSource {
     }
 
     isToken() {
-        return false;
+        return this.sumEffects('flipToken') % 2 === 1;
     }
 
     get actions() {

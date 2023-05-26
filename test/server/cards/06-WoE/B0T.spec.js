@@ -6,7 +6,12 @@ describe('B0-T', function () {
                     house: 'staralliance',
                     token: 'b0-t',
                     amber: 1,
-                    inPlay: ['b0-t', 'helper-bot', 'armsmaster-molina', 'senator-shrix']
+                    inPlay: [
+                        'b0-t:curia-saurus',
+                        'helper-bot',
+                        'armsmaster-molina',
+                        'senator-shrix'
+                    ]
                 },
                 player2: {
                     amber: 1,

@@ -2,10 +2,10 @@ const EffectValue = require('./EffectValue');
 const GainAbility = require('./GainAbility');
 
 class CopyCard extends EffectValue {
-    constructor(card) {
+    constructor(card, cascadeEffects = true) {
         super(card);
         this.abilitiesForTargets = {};
-        if (card.anyEffect('copyCard')) {
+        if (cascadeEffects && card.anyEffect('copyCard')) {
             this.value = card.mostRecentEffect('copyCard');
             this.actions = this.value.actions.map(
                 (action) => new GainAbility('action', action, true)

@@ -15,7 +15,7 @@ describe('Ironyx Propaganda', function () {
                 }
             });
 
-            this.versusCard = this.player1.deck[0];
+            this.deckCard = this.player1.deck[0];
             this.player1.playUpgrade(this.ironyxPropaganda, this.tunk);
         });
 
@@ -23,8 +23,8 @@ describe('Ironyx Propaganda', function () {
             this.player1.reap(this.tunk);
             this.player1.clickPrompt('Left');
             let grunt = this.player1.inPlay[0];
-            expect(grunt.id).toBe('grunt');
-            expect(grunt.versusCard).toBe(this.versusCard);
+            expect(grunt.name).toBe('Grunt');
+            expect(grunt).toBe(this.deckCard);
             this.player1.endTurn();
         });
 
@@ -32,8 +32,8 @@ describe('Ironyx Propaganda', function () {
             this.player1.fightWith(this.tunk, this.lamindra);
             this.player1.clickPrompt('Left');
             let grunt = this.player1.inPlay[0];
-            expect(grunt.id).toBe('grunt');
-            expect(grunt.versusCard).toBe(this.versusCard);
+            expect(grunt).toBe(this.deckCard);
+            expect(grunt.name).toBe('Grunt');
             this.player1.endTurn();
         });
     });

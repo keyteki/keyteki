@@ -15,14 +15,14 @@ describe('Phalanx Leader', function () {
                 }
             });
 
-            this.versusCard = this.player1.deck[0];
+            this.deckCard = this.player1.deck[0];
         });
 
         it('when played on left flank, should make a token creature and place it on its left side', function () {
             this.player1.play(this.phalanxLeader, true);
             let senator = this.player1.inPlay[0];
-            expect(senator.id).toBe('senator');
-            expect(senator.versusCard).toBe(this.versusCard);
+            expect(senator.name).toBe('Senator');
+            expect(senator).toBe(this.deckCard);
             expect(senator.exhausted).toBe(true);
             expect(this.player1.inPlay[1]).toBe(this.phalanxLeader);
             expect(this.player1.inPlay[2]).toBe(this.daughter);
@@ -32,8 +32,8 @@ describe('Phalanx Leader', function () {
         it('when played on right flank, should make a token creature and place it on its left side', function () {
             this.player1.play(this.phalanxLeader, false);
             let senator = this.player1.inPlay[1];
-            expect(senator.id).toBe('senator');
-            expect(senator.versusCard).toBe(this.versusCard);
+            expect(senator.name).toBe('Senator');
+            expect(senator).toBe(this.deckCard);
             expect(senator.exhausted).toBe(true);
             expect(this.player1.inPlay[2]).toBe(this.phalanxLeader);
             expect(this.player1.inPlay[0]).toBe(this.daughter);

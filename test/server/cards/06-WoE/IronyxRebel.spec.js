@@ -15,8 +15,6 @@ describe('Ironyx Rebel', function () {
                     hand: ['berserker-slam']
                 }
             });
-
-            this.versusCard = this.player1.deck[0];
         });
 
         it('should ready both neighbors', function () {

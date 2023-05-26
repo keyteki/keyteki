@@ -6,7 +6,7 @@ describe('Arm the Plebeians', function () {
                     house: 'saurian',
                     amber: 1,
                     token: 'scholar',
-                    hand: ['arm-the-plebeians'],
+                    hand: ['arm-the-plebeians', 'full-moon', 'archimedes'],
                     inPlay: ['flaxia', 'helper-bot']
                 },
                 player2: {
@@ -14,15 +14,26 @@ describe('Arm the Plebeians', function () {
                     inPlay: ['gub', 'krump']
                 }
             });
-            this.versusCard = this.player1.deck[0];
         });
 
-        it('should make a single token and ward it', function () {
+        it('should make a single token out of a creature and ward it', function () {
+            this.player1.moveCard(this.archimedes, 'deck');
             this.player1.play(this.armThePlebeians);
             this.player1.clickPrompt('Left');
             let scholar = this.player1.inPlay[0];
-            expect(scholar.id).toBe('scholar');
-            expect(scholar.versusCard).toBe(this.versusCard);
+            expect(scholar.id).toBe('archimedes');
+            expect(scholar.name).toBe('Scholar');
+            expect(scholar.exhausted).toBe(true);
+            expect(scholar.warded).toBe(true);
+        });
+
+        it('should make a single token out of an action card and ward it', function () {
+            this.player1.moveCard(this.fullMoon, 'deck');
+            this.player1.play(this.armThePlebeians);
+            this.player1.clickPrompt('Left');
+            let scholar = this.player1.inPlay[0];
+            expect(scholar.id).toBe('full-moon');
+            expect(scholar.name).toBe('Scholar');
             expect(scholar.exhausted).toBe(true);
             expect(scholar.warded).toBe(true);
         });

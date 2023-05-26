@@ -24,6 +24,7 @@ const OptionsMenuPrompt = require('./gamesteps/OptionsMenuPrompt');
 const GameWonPrompt = require('./gamesteps/GameWonPrompt');
 const HouseTieBreakPrompt = require('./gamesteps/HouseTieBreakPrompt');
 const GameActions = require('./GameActions');
+const Effects = require('./effects.js');
 const Event = require('./Events/Event');
 const EventWindow = require('./Events/EventWindow');
 const AbilityResolver = require('./gamesteps/abilityresolver');
@@ -279,6 +280,10 @@ class Game extends EventEmitter {
 
     get actions() {
         return GameActions;
+    }
+
+    get effects() {
+        return Effects;
     }
 
     stopClocks() {
@@ -1172,16 +1177,16 @@ class Game extends EventEmitter {
         this.addAlert('info', '{0} has reconnected', player);
     }
 
-    addTokenCard(tokenCard) {
-        this.allCards = this.allCards.filter((c) => c !== tokenCard.versusCard);
-        this.allCards.push(tokenCard);
-        this.effectEngine.checkEffects(false);
-    }
-
-    removeTokenCard(tokenCard) {
-        this.allCards = this.allCards.filter((c) => c !== tokenCard);
-        this.allCards.push(tokenCard.versusCard);
-        this.effectEngine.checkEffects(false);
+    makeTokenCreature(player, deployIndex = null) {
+        let card = player.deck[0];
+        this.actions
+            .makeTokenCreature({
+                amount: 1,
+                deployIndex: deployIndex
+            })
+            .resolve(player, this.getFrameworkContext(player));
+        this.continue();
+        return card;
     }
 
     checkGameState(hasChanged = false, modifiedByPlayer) {

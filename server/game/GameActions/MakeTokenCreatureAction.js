@@ -18,7 +18,7 @@ class MakeTokenCreatureAction extends PlayerAction {
     }
 
     canAffect(player, context) {
-        return this.amount === 0 || !player.hasTokenCard() || player.deck.length === 0
+        return this.amount === 0 || !player.tokenCard || player.deck.length === 0
             ? false
             : super.canAffect(player, context);
     }
@@ -28,15 +28,28 @@ class MakeTokenCreatureAction extends PlayerAction {
             'onMakeToken',
             { player, context, amount: this.amount },
             (event) => {
-                event.cards = player.deck
-                    .slice(0, event.amount)
-                    .map((card) => player.makeTokenCard(card));
-
-                event.cards.forEach((card) =>
+                event.cards = player.deck.slice(0, event.amount);
+                event.cards.forEach((card) => {
                     context.game.actions
-                        .putIntoPlay({ deployIndex: this.deployIndex })
-                        .resolve(card, context)
-                );
+                        .cardLastingEffect({
+                            target: card,
+                            targetLocation: 'deck',
+                            duration: 'lastingEffect',
+                            effect: [
+                                context.game.effects.flipToken(),
+                                context.game.effects.changeType('creature'),
+                                context.game.effects.copyCard(player.tokenCard, false)
+                            ]
+                        })
+                        .resolve(card, context);
+
+                    context.game.actions
+                        .putIntoPlay({
+                            target: card,
+                            deployIndex: this.deployIndex
+                        })
+                        .resolve(card, context);
+                });
             }
         );
     }
