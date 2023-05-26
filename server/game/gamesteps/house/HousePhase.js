@@ -43,6 +43,13 @@ class HousePhase extends Phase {
 
     takeCardsFromArchives() {
         if (this.game.activePlayer.archives.length) {
+            let oppCannotLeave = this.game.activePlayer.anyEffect(
+                'opponentCardsCannotLeaveArchives'
+            );
+            let theyOwn = '';
+            if (oppCannotLeave) {
+                theyOwn = ' they own';
+            }
             if (this.game.activePlayer.anyEffect('chooseCardsFromArchives')) {
                 this.game.promptForSelect(this.game.activePlayer, {
                     optional: true,
@@ -53,15 +60,21 @@ class HousePhase extends Phase {
                     controller: 'self',
                     buttons: [{ text: 'All Cards', arg: 'all' }],
                     cardCondition: (card) =>
-                        card.location === 'archives' && card.controller === this.game.activePlayer,
+                        card.location === 'archives' &&
+                        card.controller === this.game.activePlayer &&
+                        (!oppCannotLeave || card.owner === this.game.activePlayer),
                     source: this.game.activePlayer.mostRecentEffect('chooseCardsFromArchives'),
                     onMenuCommand: (player, arg) => {
                         if (arg === 'all') {
                             this.game.addMessage(
-                                '{0} moves all the cards in their archives to their hand',
-                                this.game.activePlayer
+                                '{0} moves all the cards{1} in their archives to their hand',
+                                this.game.activePlayer,
+                                theyOwn
                             );
                             for (let card of this.game.activePlayer.archives) {
+                                if (oppCannotLeave && card.owner !== this.game.activeplayer) {
+                                    continue;
+                                }
                                 this.game.activePlayer.moveCard(card, 'hand');
                             }
                             return true;
@@ -70,10 +83,14 @@ class HousePhase extends Phase {
                     onSelect: (player, cardParam) => {
                         if (cardParam) {
                             this.game.addMessage(
-                                '{0} moves cards in their archives to their hand',
-                                this.game.activePlayer
+                                '{0} moves cards{1} in their archives to their hand',
+                                this.game.activePlayer,
+                                theyOwn
                             );
                             for (let card of cardParam) {
+                                if (oppCannotLeave && card.owner !== this.game.activeplayer) {
+                                    continue;
+                                }
                                 this.game.activePlayer.moveCard(card, 'hand');
                             }
                         }
@@ -89,10 +106,14 @@ class HousePhase extends Phase {
                     handlers: [
                         () => {
                             this.game.addMessage(
-                                '{0} moves all the cards in their archives to their hand',
-                                this.game.activePlayer
+                                '{0} moves all the cards{1} in their archives to their hand',
+                                this.game.activePlayer,
+                                theyOwn
                             );
                             for (let card of this.game.activePlayer.archives) {
+                                if (oppCannotLeave && card.owner !== this.game.activePlayer) {
+                                    continue;
+                                }
                                 this.game.activePlayer.moveCard(card, 'hand');
                             }
                         },
