@@ -1,6 +1,12 @@
 const CardGameAction = require('./CardGameAction');
 
 class SwapAction extends CardGameAction {
+    constructor(propertyFactory, swapTokens = false, swapUpgrades = false) {
+        super(propertyFactory);
+        this.swapTokens = swapTokens;
+        this.swapUpgrades = swapUpgrades;
+    }
+
     setDefaultProperties() {
         this.origin = null;
     }
@@ -32,6 +38,21 @@ class SwapAction extends CardGameAction {
             if (originIndex >= 0 && cardIndex >= 0) {
                 this.origin.controller.cardsInPlay.splice(originIndex, 1, card);
                 card.controller.cardsInPlay.splice(cardIndex, 1, this.origin);
+            }
+
+            if (this.swapTokens) {
+                let originTokens = this.origin.tokens;
+                this.origin.tokens = card.tokens;
+                card.tokens = originTokens;
+            }
+
+            if (this.swapUpgrades) {
+                let originUpgrades = this.origin.upgrades;
+                this.origin.upgrades = card.upgrades;
+                card.upgrades = originUpgrades;
+
+                this.origin.upgrades.map((up) => (up.parent = this.origin));
+                card.upgrades.map((up) => (up.parent = card));
             }
         });
     }
