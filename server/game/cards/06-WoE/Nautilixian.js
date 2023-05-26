@@ -13,7 +13,7 @@ class Nautilixian extends Card {
                     (card) =>
                         card.hasHouse('mars') &&
                         card.type === 'creature' &&
-                        card.controller == context.player
+                        card.controller === context.player
                 ),
             effect: ability.effects.cardCannot('use')
         });
