@@ -9,7 +9,8 @@ describe('Myx the Tallminded', function () {
                 },
                 player2: {
                     amber: 10,
-                    inPlay: ['john-smyth']
+                    inPlay: ['john-smyth'],
+                    hand: ['hypnobeam']
                 }
             });
         });
@@ -19,6 +20,19 @@ describe('Myx the Tallminded', function () {
             this.player2.forgeKey('red');
             expect(this.player2.player.amber).toBe(2);
             this.player2.clickPrompt('mars');
+            this.player2.endTurn();
+            this.player1.forgeKey('red');
+            expect(this.player1.player.amber).toBe(0);
+        });
+
+        it('should work against owner when stolen', function () {
+            this.player2.amber = 5;
+            this.player1.amber = 8;
+            this.player1.endTurn();
+            this.player2.clickPrompt('mars');
+            this.player2.play(this.hypnobeam);
+            this.player2.clickCard(this.myxTheTallminded);
+            this.player2.clickPrompt('Left');
             this.player2.endTurn();
             this.player1.forgeKey('red');
             expect(this.player1.player.amber).toBe(0);
