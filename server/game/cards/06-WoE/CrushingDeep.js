@@ -9,7 +9,7 @@ class CrushingDeep extends Card {
             gameAction: ability.actions.nextRoundEffect({
                 targetController: 'any',
                 effect: ability.effects.modifyKeyCost((player, context) =>
-                    context.player.opponent ? context.player.opponent.getForgedKeys().length * 3 : 0
+                    context.player.opponent ? context.player.opponent.getForgedKeys() * 3 : 0
                 )
             })
         });
