@@ -58,8 +58,12 @@ class CaptureAction extends CardAction {
             amount: Math.min(this.amount, player.amber)
         };
         return super.createEvent('onCapture', params, (event) => {
+            let amount = event.amount;
             if (!player.anyEffect('captureFromPool')) {
-                player.modifyAmber(-event.amount);
+                if (amount > player.amber) {
+                    amount = player.amber;
+                }
+                player.modifyAmber(-amount);
             }
 
             let extra = 0;
@@ -67,7 +71,7 @@ class CaptureAction extends CardAction {
                 extra = player.sumEffects('captureMoreFromPool');
             }
 
-            event.card.addToken('amber', event.amount + extra);
+            event.card.addToken('amber', amount + extra);
         });
     }
 }
