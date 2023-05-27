@@ -23,7 +23,7 @@ describe('Temporal Purge', function () {
             });
         });
 
-        it('should draw a card after reap', function () {
+        it('should flip all token creatures', function () {
             let p1c0 = this.player1.inPlay[0];
             let p1c1 = this.player1.inPlay[1];
             let p1c2 = this.player1.inPlay[2];
@@ -59,6 +59,43 @@ describe('Temporal Purge', function () {
             expect(p2c1.location).toBe('play area');
             expect(p2c2.name).toBe('Malison');
             expect(p2c2.location).toBe('play area');
+        });
+    });
+
+    describe('and persistent effects', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'staralliance',
+                    token: 'trader',
+                    amber: 1,
+                    inPlay: ['trader:trimble', 'shisnyasi-buggy', 'pismire'],
+                    hand: ['temporal-purge']
+                },
+                player2: {
+                    amber: 1,
+                    token: 'scholar',
+                    inPlay: ['scholar:tentaclid', 'seabringer-kekoa']
+                }
+            });
+        });
+
+        it('should apply persistent effects after flip', function () {
+            expect(this.scholar.name).toBe('Scholar');
+            expect(this.trader.name).toBe('Trader');
+            expect(this.pismire.hasKeyword('skirmish')).toBe(false);
+            expect(this.trader.hasKeyword('skirmish')).toBe(false);
+            expect(this.scholar.hasKeyword('skirmish')).toBe(false);
+            expect(this.scholar.hasKeyword('taunt')).toBe(false);
+
+            this.player1.play(this.temporalPurge);
+
+            expect(this.scholar.name).toBe('Tentaclid');
+            expect(this.trader.name).toBe('Trimble');
+            expect(this.pismire.hasKeyword('skirmish')).toBe(true);
+            expect(this.trader.hasKeyword('skirmish')).toBe(true);
+            expect(this.scholar.hasKeyword('skirmish')).toBe(true);
+            expect(this.scholar.hasKeyword('taunt')).toBe(true);
         });
     });
 });

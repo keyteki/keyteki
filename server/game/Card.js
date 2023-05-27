@@ -181,10 +181,13 @@ class Card extends EffectSource {
         let gainedPersistentEffects = this.getEffects('gainAbility').filter(
             (ability) => ability.abilityType === 'persistentEffect'
         );
-        return persistentEffects.concat(
+
+        let result = persistentEffects.concat(
             this.abilities.keywordPersistentEffects,
             gainedPersistentEffects
         );
+
+        return result;
     }
 
     get bonusIcons() {
@@ -532,7 +535,9 @@ class Card extends EffectSource {
                 if (to === 'play area' && from !== 'play area') {
                     effect.ref = this.addEffectToEngine(effect);
                 } else if (to !== 'play area' && from === 'play area') {
-                    this.removeEffectFromEngine(effect.ref);
+                    if (effect.ref) {
+                        this.removeEffectFromEngine(effect.ref);
+                    }
                     effect.ref = [];
                 }
             }

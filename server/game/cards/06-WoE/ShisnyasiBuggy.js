@@ -1,6 +1,6 @@
 const Card = require('../../Card.js');
 
-class ShĭSnyasĭBuggy extends Card {
+class ShisnyasiBuggy extends Card {
     //Action: Lose 1A. If you do, draw 3 cards.
     setupCardAbilities(ability) {
         this.action({
@@ -15,6 +15,6 @@ class ShĭSnyasĭBuggy extends Card {
     }
 }
 
-ShĭSnyasĭBuggy.id = 'shisnyasi-buggy';
+ShisnyasiBuggy.id = 'shisnyasi-buggy';
 
-module.exports = ShĭSnyasĭBuggy;
+module.exports = ShisnyasiBuggy;
