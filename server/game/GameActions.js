@@ -14,13 +14,14 @@ const Actions = {
     addGloryCounter: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'glory'),
     addGrowthCounter: (propertyFactory) =>
         new GameActions.AddTokenAction(propertyFactory, 'growth'),
+    addHatchCounter: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'hatch'),
     addIgnoranceCounter: (propertyFactory) =>
         new GameActions.AddTokenAction(propertyFactory, 'ignorance'),
     addKnowledgeCounter: (propertyFactory) =>
         new GameActions.AddTokenAction(propertyFactory, 'knowledge'),
+    addPaintCounter: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'paint'),
     addSchemeCounter: (propertyFactory) =>
         new GameActions.AddTokenAction(propertyFactory, 'scheme'),
-    addPaintCounter: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'paint'),
     addTimeCounter: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'time'),
     addTradeCounter: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'trade'),
     addWardToken: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'ward'),
@@ -69,6 +70,8 @@ const Actions = {
         new GameActions.RemoveTokenAction(propertyFactory, 'depth'),
     removeIgnoranceCounter: (propertyFactory) =>
         new GameActions.RemoveTokenAction(propertyFactory, 'ignorance'),
+    removeHatchCounter: (propertyFactory) =>
+        new GameActions.RemoveTokenAction(propertyFactory, 'hatch'),
     removeKnowledgeCounter: (propertyFactory) =>
         new GameActions.RemoveTokenAction(propertyFactory, 'knowledge'),
     removePowerCounter: (propertyFactory) => new GameActions.RemoveTokenAction(propertyFactory),
