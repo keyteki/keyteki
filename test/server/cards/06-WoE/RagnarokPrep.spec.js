@@ -1,5 +1,5 @@
 describe('Ragnarok Prep', function () {
-    describe("RagnarokP rep's ability", function () {
+    describe("Ragnarok Prep's ability", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
