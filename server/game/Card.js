@@ -1053,7 +1053,12 @@ class Card extends EffectSource {
     }
 
     ignores(trait) {
-        return this.getEffects('ignores').includes(trait);
+        let ignoreEffects = this.getEffects('ignores').filter((t) => t == trait).length;
+        if (ignoreEffects === 0) {
+            return false;
+        }
+        let cancelIgnoreEffects = this.getEffects('cancelIgnores').filter((t) => t == trait).length;
+        return ignoreEffects > cancelIgnoreEffects;
     }
 
     getShortSummary() {
