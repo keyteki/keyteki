@@ -22,7 +22,7 @@ describe('Skullback Crab', function () {
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(3);
             this.player1.endTurn();
-            this.player2.clickPrompt('brobnar')
+            this.player2.clickPrompt('brobnar');
             this.player2.fightWith(this.troll, this.skullbackCrab);
             expect(this.troll.location).toBe('discard');
         });
