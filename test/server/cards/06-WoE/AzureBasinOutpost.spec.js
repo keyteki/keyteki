@@ -1,12 +1,11 @@
-fdescribe('Azure Basin Outpost', function () {
+describe('Azure Basin Outpost', function () {
     describe("Azure Basin Outpost's effect", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
                     house: 'unfathomable',
                     inPlay: ['azure-basin-outpost', 'kaupe', 'hookmaster'],
-                    hand: ['abyssal-sight', 'murkens', 'troll'],
-                   
+                    hand: ['abyssal-sight', 'murkens', 'troll']
                 },
                 player2: {
                     inPlay: ['almsmaster', 'shooler', 'dust-imp', 'gatekeeper'],

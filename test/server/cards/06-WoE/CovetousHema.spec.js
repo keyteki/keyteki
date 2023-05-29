@@ -1,4 +1,4 @@
-fdescribe('Covetous Hema', function () {
+describe('Covetous Hema', function () {
     describe("Covetous Hema's ability", function () {
         beforeEach(function () {
             this.setupTest({
@@ -22,7 +22,7 @@ fdescribe('Covetous Hema', function () {
             this.player1.play(this.kaupe, true);
             expect(this.covetousHema.getKeywordValue('elusive')).toBe(1);
             this.player1.endTurn();
-            this.player2.clickPrompt('brobnar')
+            this.player2.clickPrompt('brobnar');
             this.player2.fightWith(this.troll, this.flaxia);
             expect(this.covetousHema.getKeywordValue('elusive')).toBe(0);
         });

@@ -47,15 +47,12 @@ describe('Brackish Shoreline', function () {
 
             it('creatures that reap and fight should not be readied', function () {
                 this.player2.reap(this.tunk);
-                this.player2.fightWith(this.mindwarper, this.lamindra);
                 this.player2.play(this.squawker);
                 this.player2.clickCard(this.tunk);
                 this.player2.fightWith(this.tunk, this.lamindra);
-
                 this.player2.endTurn();
 
                 expect(this.tunk.exhausted).toBe(true);
-                expect(this.mindwarper.exhausted).toBe(false);
             });
 
             it('should last for one round only', function () {

@@ -8,7 +8,7 @@ describe('Dragnet', function () {
                     hand: ['dragnet']
                 },
                 player2: {
-                    inPlay: ['bad-penny', 'troll', 'groggins'],
+                    inPlay: ['bad-penny', 'troll', 'groggins']
                 }
             });
         });

@@ -20,7 +20,7 @@ describe('Abyssal Sight', function () {
             }
 
             this.player1.play(this.abyssalSight);
-            this.player1.clickCard(this.kaupe)
+            this.player1.clickCard(this.kaupe);
             expect(this.kaupe.location).toBe('discard');
             expect(this.player1).toHavePrompt('Abyssal Sight');
 
@@ -31,7 +31,7 @@ describe('Abyssal Sight', function () {
 
         it("should be able to discard card from opponent's hand", function () {
             this.player1.play(this.abyssalSight);
-            this.player1.clickCard(this.kaupe)
+            this.player1.clickCard(this.kaupe);
             expect(this.player1).toBeAbleToSelect(this.bulwark);
             expect(this.player1).toBeAbleToSelect(this.shooler);
             expect(this.player1).toBeAbleToSelect(this.gormOfOmm);
@@ -48,6 +48,6 @@ describe('Abyssal Sight', function () {
             for (let card of this.player2.player.hand) {
                 expect(this.player1.game.isCardVisible(card, this.player1.player)).toBe(false);
             }
-        })
+        });
     });
 });

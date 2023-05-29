@@ -1,4 +1,4 @@
-fdescribe('Skullback Crab', function () {
+describe('Skullback Crab', function () {
     describe("Skullback Crab's ability", function () {
         beforeEach(function () {
             this.setupTest({
