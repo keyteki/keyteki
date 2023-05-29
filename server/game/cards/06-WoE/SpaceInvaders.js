@@ -7,7 +7,7 @@ class SpaceInvaders extends Card {
     setupCardAbilities(ability) {
         this.play({
             target: {
-                activePromptTitle: 'Choose which creatures to make into tokens',
+                activePromptTitle: 'Choose which cards to reveal',
                 mode: 'unlimited',
                 controller: 'self',
                 location: 'hand',
