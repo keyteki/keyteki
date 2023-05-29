@@ -1,4 +1,3 @@
-const Constants = require('../../../constants.js');
 const Card = require('../../Card.js');
 
 class Dragnet extends Card {

@@ -18,8 +18,8 @@ class AzureBasinOutpost extends Card {
                     gameAction: ability.actions.exhaust()
                 }
             }
-        })
-    };
+        });
+    }
 }
 
 AzureBasinOutpost.id = 'azure-basin-outpost';
