@@ -158,7 +158,12 @@ class Card extends EffectSource {
         let effectReactions = this.getEffects('gainAbility').filter((ability) =>
             TriggeredAbilityTypes.includes(ability.abilityType)
         );
-        return reactions.concat(this.abilities.keywordReactions, effectReactions);
+        reactions = reactions.concat(this.abilities.keywordReactions, effectReactions);
+
+        if (this.isBlankFight() && !ignoreBlank) {
+            reactions = reactions.filter((reaction) => !reaction.properties.fight);
+        }
+        return reactions;
     }
 
     get persistentEffects() {
@@ -650,6 +655,10 @@ class Card extends EffectSource {
 
     isBlank() {
         return this.anyEffect('blank');
+    }
+
+    isBlankFight() {
+        return this.anyEffect('blankFight');
     }
 
     hasKeyword(keyword) {
