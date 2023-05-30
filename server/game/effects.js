@@ -19,6 +19,7 @@ const Effects = {
     addKeyword: (keyword) => EffectBuilder.card.static('addKeyword', keyword),
     addTrait: (trait) => EffectBuilder.card.static('addTrait', trait),
     blank: () => EffectBuilder.card.static('blank'),
+    blankFight: () => EffectBuilder.card.static('blankFight'),
     bonusDamage: (bonus) => EffectBuilder.card.static('bonusDamage', bonus),
     bonusFightDamage: (match) => EffectBuilder.card.static('bonusFightDamage', match),
     canPlayAsUpgrade: () => EffectBuilder.card.static('canPlayAsUpgrade'),
