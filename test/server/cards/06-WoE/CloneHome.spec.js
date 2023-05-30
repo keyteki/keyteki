@@ -5,7 +5,7 @@ describe('Clone Home', function () {
                 player1: {
                     house: 'mars',
                     token: 'grumpus',
-                    hand: ['clone-home', 'blypyp'],
+                    hand: ['clone-home', 'blypyp', 'zizok'],
                     deck: ['pelf', 'pelf', 'pelf', 'pelf', 'pelf']
                 },
                 player2: {
@@ -19,11 +19,19 @@ describe('Clone Home', function () {
             expect(this.cloneHome.location).toBe('discard');
         });
 
-        it('should archive if there are not more friendly creatures', function () {
+        it('should not archive if there are equal creatures', function () {
             this.player1.playCreature(this.blypyp, true);
             this.player1.play(this.cloneHome);
             this.player1.clickPrompt('Right');
             expect(this.cloneHome.location).toBe('discard');
+        });
+
+        it('should archive if there are more friendly creatures', function () {
+            this.player1.playCreature(this.blypyp, true);
+            this.player1.playCreature(this.zizok, true);
+            this.player1.play(this.cloneHome);
+            this.player1.clickPrompt('Right');
+            expect(this.cloneHome.location).toBe('archives');
         });
     });
 });
