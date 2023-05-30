@@ -9,7 +9,8 @@ describe('Jarl Svend', function () {
                     inPlay: ['jarl-svend']
                 },
                 player2: {
-                    inPlay: ['mother', 'earthshaker']
+                    token: 'grunt',
+                    inPlay: ['mother', 'earthshaker', 'grunt:labwork']
                 }
             });
         });
@@ -37,6 +38,15 @@ describe('Jarl Svend', function () {
             expect(this.earthshaker.location).toBe('discard');
             expect(this.player1.player.creaturesInPlay.length).toBe(0);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+
+        it('should make a token creature when destroying a token creature', function () {
+            this.player1.fightWith(this.jarlSvend, this.grunt);
+            expect(this.jarlSvend.tokens.damage).toBe(3);
+            expect(this.grunt.location).toBe('discard');
+            expect(this.grunt.name).toBe('Labwork');
+            this.player1.clickPrompt('Left');
+            expect(this.player1.player.creaturesInPlay.length).toBe(2);
         });
     });
 });
