@@ -84,7 +84,7 @@ class PlayerInteractionWrapper {
         // Set up each of the cards
         _.each(newState, (card) => {
             if (_.isString(card)) {
-                if (card.startsWith(this.token)) {
+                if (card === this.token || card.startsWith(this.token + ':')) {
                     if (!card.includes(':')) {
                         throw new Error(
                             `Token "${card}" missing its versus card id as "token:versus"`
@@ -669,6 +669,10 @@ class PlayerInteractionWrapper {
 
     getForgedKeys() {
         return this.player.getForgedKeys();
+    }
+
+    makeTokenCreature() {
+        this.game.makeTokenCreature(this.player, this.inPlay.length);
     }
 }
 
