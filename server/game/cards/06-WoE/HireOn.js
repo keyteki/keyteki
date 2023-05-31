@@ -1,31 +1,30 @@
 const Card = require('../../Card.js');
 
-class CloneHome extends Card {
-    // Play: Make a token creature. If there are more friendly
-    // creatures than enemy creatures, archive Clone Home.
+class HireOn extends Card {
+    // Play: Make a token creature. If there is a combined total of 6
+    // Aember or more between both players' pools, archive Hire On.
     setupCardAbilities(ability) {
         this.play({
             gameAction: [
                 ability.actions.makeTokenCreature(),
                 ability.actions.conditional({
                     condition: (context) =>
-                        context.player.creaturesInPlay.length >
-                        context.player.opponent.creaturesInPlay.length,
+                        context.player.amber + context.player.opponent.amber >= 6,
                     trueGameAction: ability.actions.archive((context) => ({
+                        effect: 'archive {1}',
                         target: context.source
                     }))
                 })
             ],
             effect: 'make a token creature{1}{2}',
             effectArgs: (context) =>
-                context.player.creaturesInPlay.length >
-                context.player.opponent.creaturesInPlay.length
+                context.player.amber + context.player.opponent.amber >= 6
                     ? [' and archive ', context.source]
                     : ['', '']
         });
     }
 }
 
-CloneHome.id = 'clone-home';
+HireOn.id = 'hire-on';
 
-module.exports = CloneHome;
+module.exports = HireOn;

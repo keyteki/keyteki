@@ -25,7 +25,13 @@ class PressGang extends Card {
                         target: context.source
                     }))
                 })
-            ]
+            ],
+            effect: 'make a token creature{1}{2}',
+            effectArgs: (context) =>
+                context.player.opponent &&
+                this.creaturesDestroyed[context.player.opponent.uuid] >= 1
+                    ? [' and archive ', context.source]
+                    : ['', '']
         });
     }
 
