@@ -23,7 +23,7 @@ describe('Space Invaders', function () {
 
         it('should prompt the player to reveal cards', function () {
             this.player1.play(this.spaceInvaders);
-            expect(this.player1).toHavePrompt('Choose which creatures to make into tokens');
+            expect(this.player1).toHavePrompt('Choose which cards to reveal');
             expect(this.player1).toBeAbleToSelect(this.zorg);
             expect(this.player1).toBeAbleToSelect(this.pelf);
             expect(this.player1).toBeAbleToSelect(this.bumpsy);
