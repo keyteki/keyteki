@@ -25,7 +25,7 @@ class SpaceInvaders extends Card {
                 context.target.length > 0
                     ? context.target.length > 1
                         ? ' creatures:'
-                        : 'creature:'
+                        : ' creature:'
                     : ''
             ]
         });

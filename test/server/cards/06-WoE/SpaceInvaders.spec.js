@@ -49,5 +49,15 @@ describe('Space Invaders', function () {
             expect(this.pelf.location).toBe('play area');
             expect(this.pelf.name).toBe('Grumpus');
         });
+
+        it('should make a single token', function () {
+            this.player1.play(this.spaceInvaders);
+            this.player1.clickCard(this.zorg);
+            this.player1.clickPrompt('Done');
+            expect(this.player1.player.creaturesInPlay.length).toBe(1);
+            expect(this.zorg.location).toBe('play area');
+            expect(this.zorg.name).toBe('Grumpus');
+            expect(this.pelf.location).toBe('hand');
+        });
     });
 });
