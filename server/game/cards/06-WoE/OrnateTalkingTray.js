@@ -6,7 +6,10 @@ class OrnateTalkingTray extends Card {
         this.omni({
             effect: 'destroy {1} and make a token creature',
             effectArgs: (context) => context.source,
-            gameAction: [ability.actions.destroy(), ability.actions.makeTokenCreature()]
+            gameAction: ability.actions.sequential([
+                ability.actions.destroy(),
+                ability.actions.makeTokenCreature()
+            ])
         });
     }
 }
