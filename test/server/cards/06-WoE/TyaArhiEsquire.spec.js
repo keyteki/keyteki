@@ -5,7 +5,7 @@ describe('TyaArhiEsquire', function () {
                 player1: {
                     house: 'ekwidon',
                     token: 'grunt',
-                    inPlay: ['antiquities-dealer', 'grunt:mass-buyout', 'tya-arhi-esquire'],
+                    inPlay: ['antiquities-dealer', 'grunt:sandhopper', 'tya-arhi-esquire'],
                     hand: ['mass-buyout']
                 },
                 player2: {
