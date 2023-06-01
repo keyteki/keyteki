@@ -9,7 +9,9 @@ class HireOn extends Card {
                 ability.actions.makeTokenCreature(),
                 ability.actions.conditional({
                     condition: (context) =>
-                        context.player.amber + context.player.opponent.amber >= 6,
+                        context.player.amber +
+                            (context.player.opponent ? context.player.opponent.amber : 0) >=
+                        6,
                     trueGameAction: ability.actions.archive((context) => ({
                         effect: 'archive {1}',
                         target: context.source
@@ -18,7 +20,9 @@ class HireOn extends Card {
             ],
             effect: 'make a token creature{1}{2}',
             effectArgs: (context) =>
-                context.player.amber + context.player.opponent.amber >= 6
+                context.player.amber +
+                    (context.player.opponent ? context.player.opponent.amber : 0) >=
+                6
                     ? [' and archive ', context.source]
                     : ['', '']
         });
