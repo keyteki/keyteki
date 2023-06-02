@@ -23,7 +23,7 @@ describe('General Za Orha', function () {
         it('makes one token creature after playing', function () {
             this.player2.player.keys['blue'] = true;
             this.player1.play(this.generalZaOrha);
-            //this.player1.clickPrompt('Right');
+            this.player1.clickPrompt('Right');
             expect(this.player1.player.creaturesInPlay.length).toBe(2);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
@@ -33,7 +33,7 @@ describe('General Za Orha', function () {
             this.player2.player.keys['red'] = true;
             this.player1.play(this.generalZaOrha);
             this.player1.clickPrompt('Right');
-            //this.player1.clickPrompt('Right');
+            this.player1.clickPrompt('Right');
             expect(this.player1.player.creaturesInPlay.length).toBe(3);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
