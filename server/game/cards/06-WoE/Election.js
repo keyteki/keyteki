@@ -32,21 +32,12 @@ class Election extends Card {
             when: {
                 onAddToken: () => this.tokens.yea === 6 || this.tokens.nay === 6
             },
-            effect: '{1}',
-            effectArgs: () => [
-                this.tokens.yea === 6
-                    ? 'destroy each creature and Election'
-                    : 'destroy each artifact'
-            ],
-            gameAction: ability.actions.conditional({
-                condition: () => this.tokens.yea === 6,
-                trueGameAction: ability.actions.destroy((context) => ({
-                    target: context.game.creaturesInPlay.concat(this)
-                })),
-                falseGameAction: ability.actions.destroy((context) => ({
-                    target: context.game.cardsInPlay.filter((card) => card.type === 'artifact')
-                }))
-            })
+            gameAction: ability.actions.destroy((context) => ({
+                target:
+                    this.tokens.yea === 6
+                        ? context.game.creaturesInPlay.concat(this)
+                        : context.game.cardsInPlay.filter((card) => card.type === 'artifact')
+            }))
         });
     }
 }
