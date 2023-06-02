@@ -4,15 +4,136 @@
 @import '~bootstrap/scss/variables';
 @import '~bootstrap/scss/mixins';
 
-a.navbar-brand {
-    color: gray('500');
+.top-navbar {
+    padding: 12px;
+    position: fixed;
+    display: flex;
+    width: 100%;
+    height: $navbar-height;
+    top: 0;
+    left: 0;
+    background-color: rgb(0, 0, 0, 0.9);
+    z-index: 3333;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+}
 
+.navbar-right {
+    display: flex;
+    justify-content: flex-end;
+    flex-basis: 100%;
+    flex-grow: 1;
+    align-items: center;
+}
+
+.navbar-item {
+    margin: 0.5rem;
+    width: auto;
+    font-family: 'PoppinsMedium', serif;
+    font-size: 16px;
+    transition: all 0.4s ease-in-out;
+    text-decoration: none;
+    color: #ffffff;
+    background-image: linear-gradient(#d44887, #d44887);
+    background-size: 0 0.1em;
+    background-position-y: 100%;
+    background-position-x: 0;
+    background-repeat: no-repeat;
+
+    &:hover {
+        cursor: default;
+        /* the only thing worse than this is JavaScript transitions */
+        .navbar-dropdown.link-1 {
+            height: 38px;
+        }
+        .navbar-dropdown.link-2 {
+            height: 62px;
+        }
+        .navbar-dropdown.link-3 {
+            height: 86px;
+        }
+        .navbar-dropdown.link-4 {
+            height: 110px;
+        }
+        .navbar-dropdown.link-5 {
+            height: 134px;
+        }
+        .navbar-dropdown.link-6 {
+            height: 158px;
+        }
+        .navbar-dropdown.link-7 {
+            height: 182px;
+        }
+        .navbar-dropdown.link-8 {
+            height: 206px;
+        }
+        .navbar-dropdown.link-9 {
+            height: 230px;
+        }
+        .navbar-dropdown.link-10 {
+            height: 254px;
+        }
+        .navbar-dropdown.link-11 {
+            height: 278px;
+        }
+    }
+}
+
+.navbar-item.navbar-link {
+    color: #d44887;
+    &:hover {
+        color: #ffffff;
+        cursor: pointer;
+        background-size: 100% 0.1em;
+    }
+}
+
+.navbar-dropdown {
+    height: 0;
+    background-color: rgb(0, 0, 0, 0.9);
+    border-bottom-left-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+    overflow: hidden;
+    position: absolute;
+    top: $navbar-height - 13;
+    transition: all 0.4s ease-in-out;
+}
+
+.navbar-dropdown-right {
+    right: 0;
+}
+
+.navbar-dropdown-padding {
+    height: 10px;
+}
+
+.navbar-brand {
+    color: gray('500');
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
     background-image: url('~assets/img/header_icon.png');
     background-repeat: no-repeat;
     background-position: center;
     background-origin: content-box;
+    margin: 0;
     width: 72px;
     height: 100%;
+}
+
+@media (min-width:1200px) {
+    .navbar-brand {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        background-image: url('~assets/img/main_header_logo.png');
+        background-repeat: no-repeat;
+        background-position: center;
+        background-origin: content-box;
+        height: 100%;
+        width: 503px;
+    }
 }
 
 .navbar-sm {

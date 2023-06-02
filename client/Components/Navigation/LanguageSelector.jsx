@@ -1,5 +1,4 @@
 import React from 'react';
-import { NavDropdown } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useEffect } from 'react';
 
@@ -53,13 +52,6 @@ const languages = [
 const LanguageSelector = () => {
     const { i18n } = useTranslation();
 
-    /**
-     * @param {string} language
-     */
-    const onLanguageSelect = (language) => {
-        i18n.changeLanguage(language);
-    };
-
     useEffect(() => {
         let currentLanguage = languages.find((l) => l.value === i18n.language);
 
@@ -69,18 +61,26 @@ const LanguageSelector = () => {
     }, [i18n]);
 
     return (
-        <NavDropdown
-            title={i18n.language}
-            id='nav-dropdown'
-            drop='left'
-            onSelect={onLanguageSelect}
-        >
-            {languages.map((language) => (
-                <NavDropdown.Item key={language.value} eventKey={language.value}>
-                    {language.name}
-                </NavDropdown.Item>
-            ))}
-        </NavDropdown>
+        <div className={'navbar-item navbar-link'}>
+            {i18n.language}
+            <div className={`navbar-dropdown navbar-dropdown-right link-${languages.length}`}>
+                <div className={'navbar-dropdown-padding'} />
+                {languages.map((lang) => (
+                    <div key={lang.name}>
+                        <a
+                            className={'navbar-item navbar-link'}
+                            key={lang.name}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                i18n.changeLanguage(lang.value);
+                            }}
+                        >
+                            {lang.name}
+                        </a>
+                    </div>
+                ))}
+            </div>
+        </div>
     );
 };
 

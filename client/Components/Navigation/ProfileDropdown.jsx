@@ -1,9 +1,7 @@
 import React from 'react';
-import { NavDropdown } from 'react-bootstrap';
-import { useTranslation } from 'react-i18next';
 
-import Link from './Link';
 import Avatar from '../Site/Avatar';
+import NavbarItem from './NavbarItem';
 
 /**
  * @typedef ProfileMenuProps
@@ -14,35 +12,19 @@ import Avatar from '../Site/Avatar';
 /**
  * @param {ProfileMenuProps} props
  */
-const ProfileMenu = (props) => {
-    const { t } = useTranslation();
-
-    if (!props.user) {
+const ProfileMenu = ({ menu, user }) => {
+    if (!user) {
         return null;
     }
 
     const title = (
         <span>
-            <Avatar imgPath={props.user.avatar}></Avatar>
-            {props.user.username}
+            <Avatar imgPath={user.avatar} />
+            {user.username}
         </span>
     );
 
-    return (
-        <NavDropdown title={title} id='nav-dropdown'>
-            {props.menu.map((menuItem) => {
-                if (!menuItem.path) {
-                    return null;
-                }
-
-                return (
-                    <Link key={menuItem.path} href={menuItem.path}>
-                        <NavDropdown.Item>{t(menuItem.title)}</NavDropdown.Item>
-                    </Link>
-                );
-            })}
-        </NavDropdown>
-    );
+    return <NavbarItem title={title} childLinks={menu} />;
 };
 
 export default ProfileMenu;

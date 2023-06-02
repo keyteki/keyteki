@@ -1,3 +1,19 @@
+.ping-good {
+    color: #009648;
+}
+
+.ping-mid {
+    color: darkorange;
+}
+
+.ping-bad {
+    color: #e74c3b;
+}
+
+.ping-neutral {
+    color: #ffffff;
+}
+
 .server-status {
     display: flex !important;
 

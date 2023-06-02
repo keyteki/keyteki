@@ -138,7 +138,7 @@ class Application extends React.Component {
             component = (
                 <AlertPanel
                     type='error'
-                    message='Your browser does not provide the required functionality for this site to work.  Please upgrade your browser.  The site works best with a recet version of Chrome, Safari or Firefox'
+                    message='Your browser does not provide the required functionality for this site to work.  Please upgrade your browser.  The site works best with a recent version of Chrome, Safari or Firefox.'
                 />
             );
         } else if (this.state.cannotLoad) {
