@@ -1,5 +1,5 @@
-describe('Embrosia Outpost', function () {
-    describe("Embrosia Outpost's ability", function () {
+describe('Ambrosia Outpost', function () {
+    describe("Ambrosia Outpost's ability", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
