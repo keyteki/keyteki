@@ -6,29 +6,15 @@ class Conscription extends Card {
     // difference.
     setupCardAbilities(ability) {
         this.play({
-            gameAction: ability.actions.conditional({
-                condition: (context) =>
+            gameAction: ability.actions.makeTokenCreature((context) => ({
+                amount:
                     !!context.player.opponent &&
                     context.player.opponent.creaturesInPlay.length >
-                        context.player.creaturesInPlay.length,
-                trueGameAction: ability.actions.makeTokenCreature((context) => ({
-                    amount:
-                        context.player.opponent.creaturesInPlay.length -
                         context.player.creaturesInPlay.length
-                }))
-            }),
-            effect: 'make {1} token creature{2}',
-            effectArgs: (context) => [
-                context.player.opponent.creaturesInPlay.length >
-                context.player.creaturesInPlay.length
-                    ? context.player.opponent.creaturesInPlay.length -
-                      context.player.creaturesInPlay.length
-                    : 'no',
-                context.player.opponent.creaturesInPlay.length !==
-                context.player.creaturesInPlay.length
-                    ? 's'
-                    : ''
-            ]
+                        ? context.player.opponent.creaturesInPlay.length -
+                          context.player.creaturesInPlay.length
+                        : 0
+            }))
         });
     }
 }
