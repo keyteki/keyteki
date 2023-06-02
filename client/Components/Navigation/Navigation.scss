@@ -44,6 +44,7 @@
     &:hover {
         cursor: default;
         /* the only thing worse than this is JavaScript transitions */
+        /* add 24px to the previous level to get the next */
         .navbar-dropdown.link-1 {
             height: 38px;
         }
