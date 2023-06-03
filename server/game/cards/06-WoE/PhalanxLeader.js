@@ -9,7 +9,18 @@ class PhalanxLeader extends Card {
                 deployIndex: context.source.controller.cardsInPlay.indexOf(context.source) - 1
             }))
         });
-        // TODO After Fight/After Reap: Each creature to Phalanx Leader's left gets +2 power for the remainder of the turn.
+
+        this.fight({
+            reap: true,
+            gameAction: ability.actions.forRemainderOfTurn((context) => ({
+                controller: 'self',
+                cardType: 'creature',
+                match: (card) =>
+                    context.player.creaturesInPlay.indexOf(card) <
+                    context.player.creaturesInPlay.indexOf(context.source),
+                effect: ability.effects.modifyPower(2)
+            }))
+        });
     }
 }
 
