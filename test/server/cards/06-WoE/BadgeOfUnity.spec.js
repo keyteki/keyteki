@@ -1,4 +1,4 @@
-fdescribe('Badge of Unity', function () {
+describe('Badge of Unity', function () {
     describe("Badge of Unity's ability", function () {
         beforeEach(function () {
             this.setupTest({
