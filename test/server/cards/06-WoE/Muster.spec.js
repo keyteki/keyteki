@@ -1,5 +1,5 @@
-describe('Initiation', function () {
-    describe("Initiation's ability", function () {
+describe('Muster', function () {
+    describe("Muster's ability", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
