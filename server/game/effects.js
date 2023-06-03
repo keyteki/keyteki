@@ -46,6 +46,7 @@ const Effects = {
     ignores: (trait) => EffectBuilder.card.static('ignores', trait),
     keyAmber: () => EffectBuilder.card.static('keyAmber'),
     keyAmberOpponent: () => EffectBuilder.card.static('keyAmberOpponent'),
+    isAmberInPool: () => EffectBuilder.card.static('isAmberInPool'),
     limitFightDamage: (amount) => EffectBuilder.card.flexible('limitFightDamage', amount),
     modifyArmor: (amount) => EffectBuilder.card.flexible('modifyArmor', amount),
     modifyBonusIcons: (icons) => EffectBuilder.card.flexible('modifyBonusIcons', icons),

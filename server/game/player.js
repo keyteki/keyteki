@@ -692,6 +692,10 @@ class Player extends GameObject {
             );
     }
 
+    getCardAmberInPoolSources() {
+        return this.cardsInPlay.filter((card) => card.anyEffect('isAmberInPool'));
+    }
+
     canForgeKey(modifier = 0) {
         if (!this.checkRestrictions('forge', this.game.getFrameworkContext(this))) {
             return false;
@@ -701,10 +705,9 @@ class Player extends GameObject {
             return false;
         }
 
-        let alternativeSources = this.getAmberSources().reduce(
-            (total, source) => total + source.tokens.amber,
-            0
-        );
+        let alternativeSources =
+            this.getAmberSources().reduce((total, source) => total + source.tokens.amber, 0) +
+            this.getCardAmberInPoolSources().length;
         return this.amber + alternativeSources >= this.getCurrentKeyCost() + modifier;
     }
 
@@ -719,32 +722,91 @@ class Player extends GameObject {
     forgeKey(modifier) {
         let cost = Math.max(0, this.getCurrentKeyCost() + modifier);
         let amberSources = this.getAmberSources();
-        let totalAvailable = amberSources.reduce((total, source) => total + source.tokens.amber, 0);
-        this.chooseAmberSource(amberSources, totalAvailable, cost, cost);
+        let selfAmberSources = this.getCardAmberInPoolSources();
+        let totalAvailable =
+            amberSources.reduce((total, source) => total + source.tokens.amber, 0) +
+            selfAmberSources.length;
+        this.chooseAmberSource(amberSources, selfAmberSources, totalAvailable, cost, cost);
         return cost;
     }
 
-    chooseAmberSource(amberSources, totalAvailable, modifiedCost, initialCost) {
-        if (amberSources.length === 0) {
+    chooseAmberSource(amberSources, selfAmberSources, totalAvailable, modifiedCost, initialCost) {
+        if (amberSources.length === 0 && selfAmberSources.length === 0) {
             this.chooseKeyToForge(modifiedCost, initialCost);
             return;
         }
 
-        let source = amberSources[0];
-        amberSources.shift();
+        if (amberSources.length > 0) {
+            // Spending amber on cards for a key.
+            let source = amberSources[0];
+            amberSources.shift();
+            this.game.queueSimpleStep(() => {
+                let sourceAmber = source.tokens.amber;
+                let max = Math.min(modifiedCost, sourceAmber);
+                let min = Math.max(0, modifiedCost - this.amber - totalAvailable + sourceAmber);
+                if (max === min) {
+                    this.game.addMessage(
+                        `{0} uses ${max} amber from {1} to forge a key`,
+                        this.game.activePlayer,
+                        source
+                    );
+                    source.removeToken('amber', max);
+                    this.chooseAmberSource(
+                        amberSources,
+                        selfAmberSources,
+                        totalAvailable - max,
+                        modifiedCost - max,
+                        initialCost
+                    );
+                    return;
+                }
+
+                this.game.promptWithHandlerMenu(this, {
+                    activePromptTitle: {
+                        text: 'How much amber do you want to use from {{card}}?',
+                        values: { card: source.name }
+                    },
+                    source: source,
+                    choices: _.range(min, max + 1),
+                    choiceHandler: (choice) => {
+                        if (choice) {
+                            source.removeToken('amber', choice);
+                            this.game.addMessage(
+                                `{0} uses ${choice} amber from {1} to forge a key`,
+                                this.game.activePlayer,
+                                source
+                            );
+                        }
+                        this.chooseAmberSource(
+                            amberSources,
+                            selfAmberSources,
+                            totalAvailable - sourceAmber,
+                            modifiedCost - choice,
+                            initialCost
+                        );
+                    }
+                });
+            });
+            return;
+        }
+
+        // Spending a card itself as one amber towards a key.
+        let source = selfAmberSources[0];
+        selfAmberSources.shift();
         this.game.queueSimpleStep(() => {
-            let sourceAmber = source.tokens.amber;
-            let max = Math.min(modifiedCost, sourceAmber);
-            let min = Math.max(0, modifiedCost - this.amber - totalAvailable + sourceAmber);
+            let max = 1;
+            let min = Math.max(0, modifiedCost - this.amber - totalAvailable + 1);
             if (max === min) {
                 this.game.addMessage(
-                    `{0} uses ${max} amber from {1} to forge a key`,
+                    `{0} spends {1} to forge a key`,
                     this.game.activePlayer,
                     source
                 );
-                source.removeToken('amber', max);
+                source.removeToken('ward', source.tokens.ward);
+                this.moveCard(source, 'discard');
                 this.chooseAmberSource(
                     amberSources,
+                    selfAmberSources,
                     totalAvailable - max,
                     modifiedCost - max,
                     initialCost
@@ -754,27 +816,40 @@ class Player extends GameObject {
 
             this.game.promptWithHandlerMenu(this, {
                 activePromptTitle: {
-                    text: 'How much amber do you want to use from {{card}}?',
+                    text: 'Do you want to spend {{card}} to forge a key?',
                     values: { card: source.name }
                 },
                 source: source,
-                choices: _.range(min, max + 1),
-                choiceHandler: (choice) => {
-                    if (choice) {
-                        source.removeToken('amber', choice);
+                choices: ['Yes', 'No'],
+                handlers: [
+                    () => {
+                        source.removeToken('ward', source.tokens.ward);
+                        this.moveCard(source, 'discard');
                         this.game.addMessage(
-                            `{0} uses ${choice} amber from {1} to forge a key`,
+                            `{0} spends {1} to forge a key`,
                             this.game.activePlayer,
                             source
                         );
+                        this.chooseAmberSource(
+                            amberSources,
+                            selfAmberSources,
+                            totalAvailable - 1,
+                            modifiedCost - 1,
+                            initialCost
+                        );
+                        return true;
+                    },
+                    () => {
+                        this.chooseAmberSource(
+                            amberSources,
+                            selfAmberSources,
+                            totalAvailable,
+                            modifiedCost,
+                            initialCost
+                        );
+                        return true;
                     }
-                    this.chooseAmberSource(
-                        amberSources,
-                        totalAvailable - sourceAmber,
-                        modifiedCost - choice,
-                        initialCost
-                    );
-                }
+                ]
             });
         });
     }

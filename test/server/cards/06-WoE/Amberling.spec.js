@@ -1,0 +1,88 @@
+describe('Amberling', function () {
+    describe("Amberling's ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 5,
+                    house: 'staralliance',
+                    token: 'æmberling',
+                    inPlay: ['æmberling:pelf', 'first-officer-frane'],
+                    hand: ['the-callipygian-ideal', 'senator-shrix']
+                },
+                player2: {
+                    amber: 1
+                }
+            });
+        });
+
+        it('cannot reap', function () {
+            this.player1.clickCard(this.æmberling);
+            expect(this.player1).not.toHavePrompt('Reap with this Creature');
+        });
+
+        it('counts towards key cost', function () {
+            this.player1.endTurn();
+            this.player2.clickPrompt('untamed');
+            this.player2.endTurn();
+            expect(this.player1).toHavePrompt('Which key would you like to forge?');
+            this.player1.clickPrompt('Blue');
+            expect(this.æmberling.location).toBe('discard');
+        });
+
+        it('does not have to count towards key cost', function () {
+            this.player1.amber = 6;
+            this.player1.endTurn();
+            this.player2.clickPrompt('untamed');
+            this.player2.endTurn();
+            this.player1.clickPrompt('No');
+            expect(this.player1).toHavePrompt('Which key would you like to forge?');
+            this.player1.clickPrompt('Blue');
+            expect(this.æmberling.location).toBe('play area');
+        });
+
+        it('discards wards', function () {
+            this.æmberling.tokens.wards = 1;
+            this.player1.endTurn();
+            this.player2.clickPrompt('untamed');
+            this.player2.endTurn();
+            expect(this.player1).toHavePrompt('Which key would you like to forge?');
+            this.player1.clickPrompt('Blue');
+            expect(this.æmberling.location).toBe('discard');
+        });
+
+        it('can use other sources of amber instead', function () {
+            this.player1.amber = 4;
+            this.player1.endTurn();
+            this.player2.clickPrompt('untamed');
+            this.player2.endTurn();
+            this.player1.clickPrompt('saurian');
+            this.player1.playCreature(this.senatorShrix);
+            this.player1.clickCard(this.senatorShrix);
+            this.player1.amber = 5;
+            this.player1.endTurn();
+            this.player2.clickPrompt('untamed');
+            this.player2.endTurn();
+            this.player1.clickPrompt('1');
+            this.player1.clickPrompt('No');
+            expect(this.player1).toHavePrompt('Which key would you like to forge?');
+            this.player1.clickPrompt('Blue');
+            expect(this.senatorShrix.amber).toBe(0);
+            expect(this.æmberling.location).toBe('play area');
+        });
+
+        it('can also spend amber on itself if enabled', function () {
+            this.player1.amber = 4;
+            this.player1.endTurn();
+            this.player2.clickPrompt('untamed');
+            this.player2.endTurn();
+            this.player1.clickPrompt('saurian');
+            this.player1.playUpgrade(this.theCallipygianIdeal, this.æmberling);
+            this.player1.endTurn();
+            this.player2.clickPrompt('untamed');
+            this.player2.endTurn();
+            expect(this.player1).toHavePrompt('Which key would you like to forge?');
+            this.player1.clickPrompt('Blue');
+            expect(this.æmberling.location).toBe('discard');
+        });
+    });
+});
