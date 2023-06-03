@@ -3,30 +3,38 @@ describe('Recruit', function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
-                    amber: 4,
                     house: 'saurian',
-                    token: 'senator',
-                    inPlay: ['daughter'],
-                    hand: ['recruit']
+                    token: 'grumpus',
+                    inPlay: ['questor-jarta'],
+                    hand: ['recruit', 'curse-of-vanity']
                 },
                 player2: {
-                    amber: 4,
-                    inPlay: ['lamindra']
+                    inPlay: ['troll']
                 }
             });
-
-            this.deckCard = this.player1.deck[0];
         });
 
-        it('should make a token creature when played and go to discard if no exalt happened this turn', function () {
+        it('should not archive if no friendly creatures have been exalted', function () {
             this.player1.play(this.recruit);
-            this.player1.clickPrompt('Left');
-            let senator = this.player1.inPlay[0];
-            expect(senator.name).toBe('Senator');
-            expect(senator).toBe(this.deckCard);
-            expect(senator.exhausted).toBe(true);
+            this.player1.clickPrompt('Right');
             expect(this.recruit.location).toBe('discard');
-            this.player1.endTurn();
+        });
+
+        it('should archive if there was a friendly creature exalted', function () {
+            this.player1.reap(this.questorJarta);
+            this.player1.clickCard(this.questorJarta);
+            this.player1.play(this.recruit);
+            this.player1.clickPrompt('Right');
+            expect(this.recruit.location).toBe('archives');
+        });
+
+        it('should not archive if there was only an enemy creature exalted', function () {
+            this.player1.fightWith(this.questorJarta, this.troll);
+            this.player1.play(this.curseOfVanity);
+            this.player1.clickCard(this.troll);
+            this.player1.play(this.recruit);
+            expect(this.player1.player.creaturesInPlay.length).toBe(1);
+            expect(this.recruit.location).toBe('discard');
         });
     });
 });
