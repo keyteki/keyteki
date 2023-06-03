@@ -5,7 +5,7 @@ describe('Epic Poem', function () {
                 player1: {
                     house: 'saurian',
                     amber: 1,
-                    hand: ['bubbles', 'epic-poem'],
+                    hand: ['bubbles', 'epic-poem', 'axiom-of-grisk'],
                     inPlay: ['flaxia']
                 },
                 player2: {
@@ -29,6 +29,18 @@ describe('Epic Poem', function () {
 
             expect(this.flaxia.tokens.amber).toBe(3);
             expect(this.player1.amber).toBe(4);
+        });
+
+        it('should have no effect with no friendly creatures', function () {
+            expect(this.player1.amber).toBe(1);
+
+            this.player1.play(this.axiomOfGrisk);
+            this.player1.clickCard(this.gub);
+            expect(this.player1.player.creaturesInPlay.length).toBe(0);
+
+            this.player1.play(this.epicPoem);
+
+            expect(this.player1.amber).toBe(1);
         });
     });
 });
