@@ -10,7 +10,7 @@ class ImperatorDrusilla extends Card {
             target: {
                 cardType: 'creature',
                 controller: 'self',
-                cardCondition: (card) => card !== this,
+                cardCondition: (card, context) => card !== context.source,
                 gameAction: ability.actions.destroy()
             }
         });
