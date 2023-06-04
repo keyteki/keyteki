@@ -9,11 +9,16 @@ class PutIntoPlayAction extends CardGameAction {
         this.deploy = false;
         this.playedOnLeftFlank = false;
         this.playedOnRightFlank = false;
+        this.upgradeAllowed = false;
     }
 
     setup() {
         this.name = 'putIntoPlay';
         this.targetType = ['creature', 'artifact'];
+        if (this.upgradeAllowed) {
+            this.targetType = this.targetType.concat('upgrade');
+        }
+
         this.effectMsg = 'put {0} into play';
     }
 
@@ -22,7 +27,10 @@ class PutIntoPlayAction extends CardGameAction {
             return false;
         } else if (!context.player) {
             return false;
-        } else if (card.location === 'play area') {
+        } else if (
+            card.location === 'play area' &&
+            (!this.upgradeAllowed || card.type != 'upgrade')
+        ) {
             return false;
         }
 
