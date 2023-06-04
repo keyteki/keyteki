@@ -361,6 +361,17 @@ class PlayerInteractionWrapper {
         return card;
     }
 
+    hasPlayCreaturePrompt(menuTitle, creatureName) {
+        var currentPrompt = this.currentPrompt();
+        return (
+            !!currentPrompt &&
+            currentPrompt.menuTitle &&
+            currentPrompt.menuTitle.toLowerCase() === menuTitle.toLowerCase() &&
+            currentPrompt.promptTitle &&
+            currentPrompt.promptTitle.toLowerCase() === creatureName.toLowerCase()
+        );
+    }
+
     hasPrompt(title) {
         var currentPrompt = this.currentPrompt();
         return (
@@ -596,7 +607,12 @@ class PlayerInteractionWrapper {
 
         this.clickCard(card, 'hand');
         this.clickPrompt('Play this creature');
-        if (this.hasPrompt('Which flank do you want to place this creature on?')) {
+        if (
+            this.hasPlayCreaturePrompt(
+                'Which flank do you want to place this creature on?',
+                card.name
+            )
+        ) {
             if (left && deploy) {
                 this.clickPrompt('Deploy Left');
             } else if (left && !deploy) {

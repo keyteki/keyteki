@@ -37,7 +37,7 @@ class PressGang extends Card {
 
     onCardDestroyed(event) {
         if (event.card.type === 'creature') {
-            this.creaturesDestroyed[event.card.owner.uuid] += 1;
+            this.creaturesDestroyed[event.card.controller.uuid] += 1;
         }
     }
 

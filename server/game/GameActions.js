@@ -19,6 +19,7 @@ const Actions = {
         new GameActions.AddTokenAction(propertyFactory, 'ignorance'),
     addKnowledgeCounter: (propertyFactory) =>
         new GameActions.AddTokenAction(propertyFactory, 'knowledge'),
+    addNayCounter: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'nay'),
     addPaintCounter: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'paint'),
     addSchemeCounter: (propertyFactory) =>
         new GameActions.AddTokenAction(propertyFactory, 'scheme'),
@@ -29,6 +30,7 @@ const Actions = {
         new GameActions.AddTokenAction(propertyFactory, 'warrant'),
     addWisdomCounter: (propertyFactory) =>
         new GameActions.AddTokenAction(propertyFactory, 'wisdom'),
+    addYeaCounter: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'yea'),
     applyDamage: (propertyFactory) => new GameActions.ApplyDamageAction(propertyFactory),
     archive: (propertyFactory) => new GameActions.ArchiveAction(propertyFactory),
     attach: (propertyFactory) => new GameActions.AttachAction(propertyFactory), // upgrade
@@ -108,7 +110,7 @@ const Actions = {
     discardAtRandom: (propertyFactory) => new GameActions.RandomDiscardAction(propertyFactory), // amount = 1, location = hand
     discardTopOfDeck: (propertyFactory) => new GameActions.DiscardTopOfDeckAction(propertyFactory), // amount = 1
     makeTokenCreature: (propertyFactory) =>
-        new GameActions.MakeTokenCreatureAction(propertyFactory), // amount = 1, cards = null
+        new GameActions.MakeTokenCreatureAction(propertyFactory), // amount = 1, cards = null, cardLocation = 'deck'
     playAtRandom: (propertyFactory) => new GameActions.RandomPlayCardAction(propertyFactory), // amount = 1, location = deck
     purgeAtRandom: (propertyFactory) => new GameActions.RandomPurgeAction(propertyFactory), // amount = 1, location = hand
     draw: (propertyFactory) => new GameActions.DrawAction(propertyFactory), // amount = 1

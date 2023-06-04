@@ -4,6 +4,8 @@ class MakeTokenCreatureAction extends PlayerAction {
     setDefaultProperties() {
         this.amount = 1;
         this.deployIndex = undefined;
+        this.cards = null;
+        this.cardLocation = 'deck';
     }
 
     setup() {
@@ -28,12 +30,16 @@ class MakeTokenCreatureAction extends PlayerAction {
             'onMakeToken',
             { player, context, amount: this.amount },
             (event) => {
-                event.cards = player.deck.slice(0, event.amount);
+                if (this.cards && this.cards.length > 0) {
+                    event.cards = this.cards;
+                } else {
+                    event.cards = player.deck.slice(0, event.amount);
+                }
                 event.cards.forEach((card) => {
                     context.game.actions
                         .cardLastingEffect({
                             target: card,
-                            targetLocation: 'deck',
+                            targetLocation: this.cardLocation,
                             duration: 'lastingEffect',
                             effect: [
                                 context.game.effects.flipToken(),
