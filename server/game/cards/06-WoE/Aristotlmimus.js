@@ -7,11 +7,10 @@ class Aristotlmimus extends Card {
     setupCardAbilities(ability) {
         this.reap({
             effect: '{1}',
-            effectArgs: (context) => [
+            effectArgs: (context) =>
                 context.source.hasToken('wisdom')
                     ? 'draw a card, archive a card, and play a card from archives'
-                    : 'optionally play a card from archives'
-            ],
+                    : 'optionally play a card from archives',
             gameAction: ability.actions.conditional((context) => ({
                 condition: context.source.hasToken('wisdom'),
                 trueGameAction: ability.actions.draw()

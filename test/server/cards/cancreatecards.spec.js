@@ -9,7 +9,8 @@ const card = {
     neighbors: [],
     childCards: [],
     hasTrait: () => false,
-    tokens: {}
+    tokens: {},
+    hasToken: () => false
 };
 card.neighbors.push(card);
 card.neighbors.push(card);
