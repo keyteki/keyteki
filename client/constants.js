@@ -37,7 +37,7 @@ export const Constants = {
         { value: '452', label: 'WC', tideRequired: false },
         { value: '479', label: 'MM', tideRequired: false },
         { value: '496', label: 'DT', tideRequired: true },
-        { value: '460', label: 'WoE', tideRequired: true } // TODO WoE
+        { value: '600', label: 'WoE', tideRequired: false }
     ],
     CardTypes: ['action', 'artifact', 'creature', 'upgrade'],
     SetIconPaths: {},
