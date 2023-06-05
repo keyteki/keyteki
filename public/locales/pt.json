@@ -628,5 +628,9 @@
     "House tie-break": "Desempate por casa",
     "Name the first card": "Nome da primeira carta",
     "Name the second card": "Nome da segunda carta",
-    "Name a card": "Nome da carta"
+    "Name a card": "Nome da carta",
+    "Choose a half for the middle enemy creature": "Choose a half for the middle enemy creature",
+    "Choose a half for the middle friendly creature": "Choose a half for the middle friendly creature",
+    "Choose an enemy half to destroy": "Choose an enemy half to destroy",
+    "Choose a friendly half to destroy": "Choose a friendly half to destroy"
 }
