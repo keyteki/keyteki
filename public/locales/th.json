@@ -628,5 +628,9 @@
     "House tie-break": "House tie-break",
     "Name the first card": "Name the first card",
     "Name the second card": "Name the second card",
-    "Name a card": "Name a card"
+    "Name a card": "Name a card",
+    "Choose a half for the middle enemy creature": "Choose a half for the middle enemy creature",
+    "Choose a half for the middle friendly creature": "Choose a half for the middle friendly creature",
+    "Choose an enemy half to destroy": "Choose an enemy half to destroy",
+    "Choose a friendly half to destroy": "Choose a friendly half to destroy"
 }
