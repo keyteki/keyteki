@@ -19,6 +19,7 @@ const Actions = {
         new GameActions.AddTokenAction(propertyFactory, 'ignorance'),
     addKnowledgeCounter: (propertyFactory) =>
         new GameActions.AddTokenAction(propertyFactory, 'knowledge'),
+    addNayCounter: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'nay'),
     addPaintCounter: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'paint'),
     addSchemeCounter: (propertyFactory) =>
         new GameActions.AddTokenAction(propertyFactory, 'scheme'),
@@ -27,8 +28,9 @@ const Actions = {
     addWardToken: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'ward'),
     addWarrantCounter: (propertyFactory) =>
         new GameActions.AddTokenAction(propertyFactory, 'warrant'),
+    addWisdomCounter: (propertyFactory) =>
+        new GameActions.AddTokenAction(propertyFactory, 'wisdom'),
     addYeaCounter: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'yea'),
-    addNayCounter: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'nay'),
     applyDamage: (propertyFactory) => new GameActions.ApplyDamageAction(propertyFactory),
     archive: (propertyFactory) => new GameActions.ArchiveAction(propertyFactory),
     attach: (propertyFactory) => new GameActions.AttachAction(propertyFactory), // upgrade
