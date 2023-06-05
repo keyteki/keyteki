@@ -468,7 +468,10 @@ class Player extends GameObject {
 
         if (
             !this.isLegalLocationForCard(card, targetLocation) ||
-            (targetPile && targetPile.includes(card))
+            (targetPile && targetPile.includes(card)) ||
+            (card.controller.anyEffect('opponentCardsCannotLeaveArchives') &&
+                card.location === 'archives' &&
+                card.owner != card.controller)
         ) {
             return;
         }
