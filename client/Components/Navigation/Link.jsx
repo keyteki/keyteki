@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { navigate } from '../../redux/actions';
 
-const NavbarLink = ({ children, classname, href }) => {
+const Link = ({ children, classname, href }) => {
     const dispatch = useDispatch();
 
     const onClick = (event) => {
@@ -18,10 +18,10 @@ const NavbarLink = ({ children, classname, href }) => {
     );
 };
 
-NavbarLink.propTypes = {
+Link.propTypes = {
     children: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
     classname: PropTypes.string,
     href: PropTypes.string
 };
 
-export default NavbarLink;
+export default Link;
