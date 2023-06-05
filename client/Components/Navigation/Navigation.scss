@@ -43,40 +43,10 @@
 
     &:hover {
         cursor: default;
-        /* the only thing worse than this is JavaScript transitions */
-        /* add 24px to the previous level to get the next */
-        .navbar-dropdown.link-1 {
-            height: 38px;
-        }
-        .navbar-dropdown.link-2 {
-            height: 62px;
-        }
-        .navbar-dropdown.link-3 {
-            height: 86px;
-        }
-        .navbar-dropdown.link-4 {
-            height: 110px;
-        }
-        .navbar-dropdown.link-5 {
-            height: 134px;
-        }
-        .navbar-dropdown.link-6 {
-            height: 158px;
-        }
-        .navbar-dropdown.link-7 {
-            height: 182px;
-        }
-        .navbar-dropdown.link-8 {
-            height: 206px;
-        }
-        .navbar-dropdown.link-9 {
-            height: 230px;
-        }
-        .navbar-dropdown.link-10 {
-            height: 254px;
-        }
-        .navbar-dropdown.link-11 {
-            height: 278px;
+        @for $i from 1 through 10 {
+            .navbar-dropdown.link-#{$i} {
+                height: $i * 24 + 14px;
+            }
         }
     }
 }
