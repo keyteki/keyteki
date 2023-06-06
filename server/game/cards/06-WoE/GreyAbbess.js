@@ -13,6 +13,6 @@ class GreyAbess extends Card {
     }
 }
 
-GreyAbess.id = 'grey-abess';
+GreyAbess.id = 'grey-abbess';
 
 module.exports = GreyAbess;

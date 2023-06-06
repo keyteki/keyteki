@@ -5,7 +5,7 @@ describe('Yxl the Iron Captain', function () {
                 player1: {
                     amber: 2,
                     house: 'mars',
-                    inPlay: ['ironyx-rebel', 'ironyx-vatminder', 'pelf', 'blypyp'],
+                    inPlay: ['ironyx-rebel', 'borka-rikk', 'pelf', 'blypyp'],
                     hand: ['yxl-the-iron-captain']
                 },
                 player2: {
@@ -20,7 +20,7 @@ describe('Yxl the Iron Captain', function () {
             this.player1.play(this.yxlTheIronCaptain);
             expect(this.player2.amber).toBe(4);
             expect(this.ironyxRebel.amber).toBe(2);
-            expect(this.ironyxVatminder.amber).toBe(2);
+            expect(this.borkaRikk.amber).toBe(2);
             expect(this.yxlTheIronCaptain.amber).toBe(2);
             expect(this.pelf.amber).toBe(0);
             expect(this.blypyp.amber).toBe(0);
@@ -32,17 +32,17 @@ describe('Yxl the Iron Captain', function () {
             this.player2.amber = 3;
             this.player1.play(this.yxlTheIronCaptain);
             expect(this.player1).toBeAbleToSelect(this.ironyxRebel);
-            expect(this.player1).toBeAbleToSelect(this.ironyxVatminder);
+            expect(this.player1).toBeAbleToSelect(this.borkaRikk);
             expect(this.player1).toBeAbleToSelect(this.yxlTheIronCaptain);
             expect(this.player1).not.toBeAbleToSelect(this.pelf);
             expect(this.player1).not.toBeAbleToSelect(this.blypyp);
             expect(this.player1).not.toBeAbleToSelect(this.ironyxRebel2);
-            this.player1.clickCard(this.ironyxVatminder);
+            this.player1.clickCard(this.borkaRikk);
             this.player1.clickCard(this.yxlTheIronCaptain);
             this.player1.clickPrompt('Done');
             expect(this.player2.amber).toBe(0);
             expect(this.ironyxRebel.amber).toBe(0);
-            expect(this.ironyxVatminder.amber).toBe(2);
+            expect(this.borkaRikk.amber).toBe(2);
             expect(this.yxlTheIronCaptain.amber).toBe(1);
             expect(this.pelf.amber).toBe(0);
             expect(this.blypyp.amber).toBe(0);
@@ -53,17 +53,17 @@ describe('Yxl the Iron Captain', function () {
             this.player2.amber = 3;
             this.player1.play(this.yxlTheIronCaptain);
             expect(this.player1).toBeAbleToSelect(this.ironyxRebel);
-            expect(this.player1).toBeAbleToSelect(this.ironyxVatminder);
+            expect(this.player1).toBeAbleToSelect(this.borkaRikk);
             expect(this.player1).toBeAbleToSelect(this.yxlTheIronCaptain);
             expect(this.player1).not.toBeAbleToSelect(this.pelf);
             expect(this.player1).not.toBeAbleToSelect(this.blypyp);
             expect(this.player1).not.toBeAbleToSelect(this.ironyxRebel2);
             this.player1.clickCard(this.yxlTheIronCaptain);
-            this.player1.clickCard(this.ironyxVatminder);
+            this.player1.clickCard(this.borkaRikk);
             this.player1.clickPrompt('Done');
             expect(this.player2.amber).toBe(0);
             expect(this.ironyxRebel.amber).toBe(0);
-            expect(this.ironyxVatminder.amber).toBe(1);
+            expect(this.borkaRikk.amber).toBe(1);
             expect(this.yxlTheIronCaptain.amber).toBe(2);
             expect(this.pelf.amber).toBe(0);
             expect(this.blypyp.amber).toBe(0);

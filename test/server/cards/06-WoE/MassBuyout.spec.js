@@ -6,7 +6,7 @@ describe('Mass Buyout', function () {
                     house: 'ekwidon',
                     amber: 1,
                     hand: ['mass-buyout'],
-                    inPlay: ['pelf', 'bumpsy', 'antiquities-dealer', 'ikwiki-outpost']
+                    inPlay: ['pelf', 'bumpsy', 'antiquities-dealer', 'ikwijĭ-outpost']
                 },
                 player2: {
                     amber: 1,
@@ -25,7 +25,7 @@ describe('Mass Buyout', function () {
             expect(this.gub.location).toBe('play area');
             expect(this.murkens.location).toBe('discard');
             expect(this.umbra.location).toBe('discard');
-            expect(this.ikwikiOutpost.location).toBe('play area');
+            expect(this.ikwijĭOutpost.location).toBe('play area');
             expect(this.anomalyExploiter.location).toBe('play area');
         });
 

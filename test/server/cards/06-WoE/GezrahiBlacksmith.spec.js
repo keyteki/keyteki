@@ -1,11 +1,11 @@
-describe('Gezrahi Blacksmith', function () {
-    describe("Gezrahi Blacksmith's ability", function () {
+describe('Gezrăhi Blacksmith', function () {
+    describe("Gezrăhi Blacksmith's ability", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
                     house: 'ekwidon',
                     token: 'grunt',
-                    inPlay: ['gezrahi-blacksmith']
+                    inPlay: ['gezrăhi-blacksmith']
                 },
                 player2: {}
             });

@@ -22,6 +22,6 @@ class GezrahiBlacksmith extends Card {
     }
 }
 
-GezrahiBlacksmith.id = 'gezrahi-blacksmith';
+GezrahiBlacksmith.id = 'gezrăhi-blacksmith';
 
 module.exports = GezrahiBlacksmith;

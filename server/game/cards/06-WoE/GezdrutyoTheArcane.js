@@ -12,6 +12,6 @@ class GezdrutyoTheArcane extends Card {
     }
 }
 
-GezdrutyoTheArcane.id = 'gezdrutyo-the-arcane';
+GezdrutyoTheArcane.id = 'gĕzdrutyŏ-the-arcane';
 
 module.exports = GezdrutyoTheArcane;

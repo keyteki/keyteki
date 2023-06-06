@@ -4,7 +4,7 @@ describe('Revo Hooligans', function () {
             this.setupTest({
                 player1: {
                     house: 'mars',
-                    inPlay: ['revo-hooligans', 'shard-of-knowledge', 'envoy-of-ekwirre', 'animator']
+                    inPlay: ['revo-hooligans', 'shard-of-knowledge', 'envoy-of-ekwirrĕ', 'animator']
                 },
                 player2: {
                     hand: ['sneklifter'],
@@ -65,9 +65,9 @@ describe('Revo Hooligans', function () {
             this.player1.useAction(this.animator);
             this.player1.clickCard(this.shardOfKnowledge);
             this.player1.clickPrompt('Right');
-            this.player1.reap(this.envoyOfEkwirre);
+            this.player1.reap(this.envoyOfEkwirrĕ);
             this.player1.clickCard(this.shardOfKnowledge);
-            expect(this.envoyOfEkwirre.tokens.paint).toBe(1);
+            expect(this.envoyOfEkwirrĕ.tokens.paint).toBe(1);
             this.player1.endTurn();
             this.player2.clickPrompt('shadows');
             this.player2.endTurn();
