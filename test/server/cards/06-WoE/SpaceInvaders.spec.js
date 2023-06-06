@@ -43,6 +43,7 @@ describe('Space Invaders', function () {
             this.player1.clickCard(this.zorg);
             this.player1.clickCard(this.pelf);
             this.player1.clickPrompt('Done');
+            this.player1.clickPrompt('Right');
             expect(this.player1.player.creaturesInPlay.length).toBe(2);
             expect(this.zorg.location).toBe('play area');
             expect(this.zorg.name).toBe('Grumpus');
