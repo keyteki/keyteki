@@ -6,16 +6,18 @@ class Teamwork extends Card {
         this.play({
             effect: 'make a token creature{1}',
             effectArgs: (context) =>
+                context.player.opponent &&
                 context.player.opponent.creaturesInPlay.length >
-                context.player.creaturesInPlay.length
+                    context.player.creaturesInPlay.length
                     ? ' and archive this card'
                     : '',
             gameAction: ability.actions.sequential([
                 ability.actions.makeTokenCreature(),
                 ability.actions.conditional({
                     condition: (context) =>
+                        context.player.opponent &&
                         context.player.opponent.creaturesInPlay.length >
-                        context.player.creaturesInPlay.length,
+                            context.player.creaturesInPlay.length,
                     trueGameAction: ability.actions.archive()
                 })
             ])
