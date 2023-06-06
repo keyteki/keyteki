@@ -387,16 +387,16 @@ class PlayerInteractionWrapper {
         this.game.selectDeck(this.player.name, deck);
     }
 
-    clickPrompt(text) {
+    clickPrompt(text, num = 0) {
         text = text.toString();
         var currentPrompt = this.player.currentPrompt();
-        var promptButton = _.find(
+        var promptButtons = _.filter(
             currentPrompt.buttons,
             (button) =>
                 this.replaceLocalizedValues(button).toString().toLowerCase() === text.toLowerCase()
         );
 
-        if (!promptButton) {
+        if (!promptButtons || promptButtons.length <= num || !promptButtons[num]) {
             throw new Error(
                 `Couldn't click on "${text}" for ${
                     this.player.name
@@ -406,9 +406,9 @@ class PlayerInteractionWrapper {
 
         this.game.menuButton(
             this.player.name,
-            promptButton.arg,
-            promptButton.uuid,
-            promptButton.method
+            promptButtons[num].arg,
+            promptButtons[num].uuid,
+            promptButtons[num].method
         );
         this.game.continue();
         this.checkUnserializableGameState();
