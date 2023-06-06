@@ -32,6 +32,7 @@ describe('Squire Recruitment', function () {
             this.player1.clickPrompt('Left');
             this.player1.clickPrompt('Left');
 
+            expect(this.player1.amber).toBe(3);
             expect(this.shorty.location).toBe('play area');
             expect(this.chelonia.location).toBe('play area');
             expect(this.shorty.name).toBe('Cleric');
@@ -41,6 +42,7 @@ describe('Squire Recruitment', function () {
         it('should not make a token for each friendly knight if there are none', function () {
             this.player1.play(this.squireRecruitment);
 
+            expect(this.player1.amber).toBe(3);
             expect(this.shorty.location).toBe('deck');
             expect(this.chelonia.location).toBe('deck');
         });
