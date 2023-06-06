@@ -5,10 +5,9 @@ class SquireRecruitment extends Card {
     setupCardAbilities(ability) {
         this.play({
             effect: 'make a token creature for each friendly Knight creature',
-            gameAction: ability.actions.sequentialForEach((context) => ({
-                num: context.player.creaturesInPlay.filter((card) => card.hasTrait('knight'))
-                    .length,
-                action: ability.actions.makeTokenCreature()
+            action: ability.actions.makeTokenCreature((context) => ({
+                amount: context.player.creaturesInPlay.filter((card) => card.hasTrait('knight'))
+                    .length
             }))
         });
     }
