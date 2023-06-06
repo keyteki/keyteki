@@ -16,6 +16,8 @@ describe('Curse Of Forgetfulness', function () {
         describe('when played', function () {
             beforeEach(function () {
                 this.player1.play(this.curseOfForgetfulness);
+                this.player1.endTurn();
+                this.player2.clickPrompt('mars');
             });
 
             it('should enter play under opponents control', function () {
@@ -24,20 +26,20 @@ describe('Curse Of Forgetfulness', function () {
                 expect(this.player2.player.cardsInPlay).toContain(this.curseOfForgetfulness);
             });
 
-            describe("at the beginning of owner's turn", function () {
+            describe("at the end of owner's turn", function () {
                 beforeEach(function () {
-                    this.player1.endTurn();
-                    this.player2.clickPrompt('mars');
+                    expect(this.johnSmyth.location).toBe('discard');
+                    this.player2.endTurn();
                 });
 
                 it('should purge the top card of discard', function () {
                     expect(this.johnSmyth.location).toBe('purged');
                 });
 
-                describe("at the beginning of opponent's turn", function () {
+                describe("at the end of opponent's turn", function () {
                     beforeEach(function () {
-                        this.player2.endTurn();
                         this.player1.clickPrompt('brobnar');
+                        this.player1.endTurn();
                     });
 
                     it('should not purge the top card of discard', function () {
