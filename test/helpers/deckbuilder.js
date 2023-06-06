@@ -98,22 +98,22 @@ class DeckBuilder {
             }
         });
 
-        let tokenCard = null;
         if (token) {
             let cardData = this.getCard(token);
             if (cardData.type === 'token creature') {
-                cardData.type = 'creature';
+                cardCounts[cardData.id] = {
+                    count: 1,
+                    card: cardData,
+                    id: cardData.id,
+                    isNonDeck: true
+                };
+            } else {
+                throw `Not a token creature: ${cardData.id}`;
             }
-            tokenCard = {
-                count: 1,
-                card: cardData,
-                id: cardData.id
-            };
         }
 
         return {
             houses: houses,
-            tokenCard: tokenCard,
             cards: Object.values(cardCounts)
         };
     }
