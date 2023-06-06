@@ -361,6 +361,7 @@ class DeckService {
             anomaly: card.Anomaly || undefined,
             image: card.ImageUrl || undefined,
             house: card.House || undefined,
+            isNonDeck: card.IsNonDeck,
             enhancements: card.Enhancements
                 ? card.Enhancements.replace(/[[{}"\]]/gi, '')
                       .split(',')
@@ -547,6 +548,7 @@ class DeckService {
                 params.push(card.image);
                 params.push(await this.getHouseIdFromName(card.house));
                 params.push(card.enhancements ? JSON.stringify(card.enhancements) : undefined);
+                params.push(card.isNonDeck);
             }
 
             params.push(deck.id);
@@ -558,9 +560,9 @@ class DeckService {
         try {
             if (user) {
                 await db.query(
-                    `INSERT INTO "DeckCards" ("CardId", "Count", "Maverick", "Anomaly", "ImageUrl", "HouseId", "Enhancements", "DeckId") VALUES ${expand(
+                    `INSERT INTO "DeckCards" ("CardId", "Count", "Maverick", "Anomaly", "ImageUrl", "HouseId", "Enhancements", "IsNonDeck", "DeckId") VALUES ${expand(
                         deck.cards.length,
-                        8
+                        9
                     )}`,
                     params
                 );
@@ -696,7 +698,7 @@ class DeckService {
             valoocanth: { anomalySet: 453, house: 'unfathomable' }
         };
 
-        let deckCards = deckResponse._linked.cards.filter((c) => !c.is_non_deck);
+        let deckCards = deckResponse._linked.cards;
 
         let enhancementsByCardId = {};
 
@@ -761,6 +763,8 @@ class DeckService {
                 retCard.house = anomalies[id].house;
                 retCard.image = `${retCard.id}-${retCard.house}`;
             }
+
+            retCard.isNonDeck = card.is_non_deck;
 
             return retCard;
         });
