@@ -766,7 +766,13 @@ const getCountersForCard = (card) => {
         'knowledge',
         'scheme',
         'time',
-        'warrant'
+        'warrant',
+        'yea',
+        'nay',
+        'wisdom',
+        'hatch',
+        'paint',
+        'trade'
     ];
     let counters = [];
 
