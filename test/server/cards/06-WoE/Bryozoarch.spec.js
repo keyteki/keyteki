@@ -5,7 +5,7 @@ describe('Bryozoarch', function () {
                 player1: {
                     amber: 1,
                     house: 'logos',
-                    hand: ['labwork']
+                    hand: ['labwork', 'batdrone']
                 },
                 player2: {
                     token: 'grumpus',

@@ -4,11 +4,10 @@ class Bryozoarch extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
             targetController: 'opponent',
-            match: (card) => card.type === 'action',
-            effect: ability.effects.blank()
+            effect: ability.effects.playerCannot('resolveActionPlayEffects')
         });
 
-        this.reaction({
+        this.interrupt({
             when: {
                 onCardPlayed: (event, context) =>
                     event.card.type === 'action' && event.player === context.player.opponent
