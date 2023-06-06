@@ -27,10 +27,7 @@ describe('Squire Recruitment', function () {
 
         it('should make a token for each friendly knight', function () {
             this.player1.play(this.barristerJoya);
-            this.player1.clickPrompt('Left');
             this.player1.play(this.sirBevor);
-            this.player1.clickPrompt('Left');
-
             this.player1.play(this.squireRecruitment);
             this.player1.clickPrompt('Left');
             this.player1.clickPrompt('Left');
